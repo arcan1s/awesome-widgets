@@ -243,7 +243,7 @@ class pyTextWidget(plasmascript.Applet):
             self.down_speed = "%4s" % (value)
         elif (sourceName == self.tempdev):
             value = str(round(float(data[QString(u'value')]), 1))
-            self.tempText = "%s4" % (value)
+            self.tempText = "%s" % (value)
         elif (sourceName == "mem/physical/free"):
             self.mem_free = float(data[QString(u'value')])
         elif (sourceName == "mem/physical/used"):
