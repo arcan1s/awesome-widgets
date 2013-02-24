@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>372</width>
+    <width>519</width>
     <height>382</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>372</width>
+    <width>519</width>
     <height>382</height>
    </size>
   </property>
@@ -42,7 +42,7 @@
      </property>
      <property name="minimumSize">
       <size>
-       <width>364</width>
+       <width>511</width>
        <height>378</height>
       </size>
      </property>
@@ -95,7 +95,7 @@
             </size>
            </property>
            <property name="text">
-            <string>CPU</string>
+            <string notr="true">CPU</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -118,6 +118,43 @@
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSlider" name="slider_cpu">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>111</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>111</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>6</number>
+           </property>
+           <property name="pageStep">
+            <number>1</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="tickPosition">
+            <enum>QSlider::TicksAbove</enum>
            </property>
           </widget>
          </item>
@@ -166,7 +203,7 @@
             </size>
            </property>
            <property name="text">
-            <string>Temperature</string>
+            <string notr="true">Temperature</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -189,6 +226,46 @@
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSlider" name="slider_temp">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>111</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>111</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>7</number>
+           </property>
+           <property name="singleStep">
+            <number>6</number>
+           </property>
+           <property name="pageStep">
+            <number>1</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="tickPosition">
+            <enum>QSlider::TicksAbove</enum>
            </property>
           </widget>
          </item>
@@ -237,7 +314,7 @@
             </size>
            </property>
            <property name="text">
-            <string>Memory</string>
+            <string notr="true">Memory</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -260,6 +337,43 @@
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSlider" name="slider_mem">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>111</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>111</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>6</number>
+           </property>
+           <property name="pageStep">
+            <number>1</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="tickPosition">
+            <enum>QSlider::TicksAbove</enum>
            </property>
           </widget>
          </item>
@@ -308,7 +422,7 @@
             </size>
            </property>
            <property name="text">
-            <string>Swap</string>
+            <string notr="true">Swap</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -331,6 +445,43 @@
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSlider" name="slider_swap">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>111</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>111</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>6</number>
+           </property>
+           <property name="pageStep">
+            <number>1</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="tickPosition">
+            <enum>QSlider::TicksAbove</enum>
            </property>
           </widget>
          </item>
@@ -379,7 +530,7 @@
             </size>
            </property>
            <property name="text">
-            <string>Network</string>
+            <string notr="true">Network</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -437,6 +588,43 @@
            </property>
           </widget>
          </item>
+         <item>
+          <widget class="QSlider" name="slider_net">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>111</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>111</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>6</number>
+           </property>
+           <property name="pageStep">
+            <number>1</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="tickPosition">
+            <enum>QSlider::TicksAbove</enum>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>
@@ -482,7 +670,7 @@
             </size>
            </property>
            <property name="text">
-            <string>Battery</string>
+            <string notr="true">Battery</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -505,6 +693,43 @@
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSlider" name="slider_bat">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>111</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>111</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>6</number>
+           </property>
+           <property name="pageStep">
+            <number>1</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="tickPosition">
+            <enum>QSlider::TicksAbove</enum>
            </property>
           </widget>
          </item>
@@ -553,7 +778,7 @@
             </size>
            </property>
            <property name="text">
-            <string>Time interval</string>
+            <string notr="true">Time interval</string>
            </property>
           </widget>
          </item>
@@ -649,7 +874,7 @@
             </size>
            </property>
            <property name="text">
-            <string>Font</string>
+            <string notr="true">Font</string>
            </property>
           </widget>
          </item>
@@ -743,7 +968,7 @@
             </size>
            </property>
            <property name="text">
-            <string>Font size</string>
+            <string notr="true">Font size</string>
            </property>
           </widget>
          </item>
@@ -836,7 +1061,7 @@
             </size>
            </property>
            <property name="text">
-            <string>Font color</string>
+            <string notr="true">Font color</string>
            </property>
           </widget>
          </item>
@@ -920,7 +1145,7 @@
             </size>
            </property>
            <property name="text">
-            <string>Font style</string>
+            <string notr="true">Font style</string>
            </property>
           </widget>
          </item>
@@ -1006,17 +1231,23 @@
  <tabstops>
   <tabstop>checkBox_cpu</tabstop>
   <tabstop>lineEdit_cpu</tabstop>
+  <tabstop>slider_cpu</tabstop>
   <tabstop>checkBox_temp</tabstop>
   <tabstop>lineEdit_temp</tabstop>
+  <tabstop>slider_temp</tabstop>
   <tabstop>checkBox_mem</tabstop>
   <tabstop>lineEdit_mem</tabstop>
+  <tabstop>slider_mem</tabstop>
   <tabstop>checkBox_swap</tabstop>
   <tabstop>lineEdit_swap</tabstop>
+  <tabstop>slider_swap</tabstop>
   <tabstop>checkBox_net</tabstop>
   <tabstop>comboBox_numNet</tabstop>
   <tabstop>lineEdit_net</tabstop>
+  <tabstop>slider_net</tabstop>
   <tabstop>checkBox_bat</tabstop>
   <tabstop>lineEdit_bat</tabstop>
+  <tabstop>slider_bat</tabstop>
   <tabstop>spinBox_interval</tabstop>
   <tabstop>fontComboBox</tabstop>
   <tabstop>spinBox_fontSize</tabstop>

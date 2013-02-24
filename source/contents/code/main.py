@@ -16,7 +16,7 @@ import commands, os, time
 
 
 class pyTextWidget(plasmascript.Applet):
-    def __init__(self,parent, args=None):
+    def __init__(self, parent, args=None):
         """widget definition"""
         plasmascript.Applet.__init__(self,parent)
 
@@ -25,108 +25,8 @@ class pyTextWidget(plasmascript.Applet):
         self._name = str(self.package().metadata().pluginName())
         self.layout = QGraphicsLinearLayout(Qt.Horizontal, self.applet)
         self.setHasConfigurationInterface(True)
-        self.resize(10,10)
         
-        # initial configuration
-        self.settings = Config(self)
-        self.interval = int(self.settings.get('interval', '2000'))
-        self.font_family = str(self.settings.get('font_family', 'Terminus'))
-        self.font_size = int(self.settings.get('font_size', 12))
-        self.font_color = str(self.settings.get('font_color', '#000000'))
-        self.font_style = str(self.settings.get('font_style', 'normal'))
-        self.formatLine = "<html><head/><body style=\" font-family:\'" + self.font_family + "\'; font-size:" + str(self.font_size)
-        self.formatLine = self.formatLine +"pt; font-style:" + self.font_style +";\">"
-        self.formatLine = self.formatLine + "<p align=\"center\"><span style=\" color:" + self.font_color + ";\"><pre>$LINE"
-        self.formatLine = self.formatLine + "</pre></span></p></body></html>"
-        
-        self.cpuBool = self.settings.get('cpuBool', True)
-        if (self.cpuBool):
-            self.cpuFormat = str(self.settings.get('cpuFormat', '[cpu: $cpu%]'))
-            self.label_cpu = Plasma.Label(self.applet)
-            text = self.formatLine.split('$LINE')[0] + self.cpuFormat.split('$cpu')[0] + '-----' + self.cpuFormat.split('$cpu')[1] + self.formatLine.split('$LINE')[1]
-            self.label_cpu.setText(text)
-            self.layout.addItem(self.label_cpu)
-        
-        self.tempBool = self.settings.get('tempBool', True)
-        if (self.tempBool):
-            self.tempFormat = str(self.settings.get('tempFormat', '[temp: $temp&deg;C]'))
-            self.setupTemp()
-            self.label_temp = Plasma.Label(self.applet)
-            text = self.formatLine.split('$LINE')[0] + self.tempFormat.split('$temp')[0] + '----' + self.tempFormat.split('$temp')[1] + self.formatLine.split('$LINE')[1]
-            self.label_temp.setText(text)
-            self.layout.addItem(self.label_temp)
-        
-        self.memBool = self.settings.get('memBool', True)
-        if (self.memBool):
-            self.memFormat = str(self.settings.get('memFormat', '[mem: $mem%]'))
-            if (self.memFormat.split('$memmb')[0] != self.memFormat):
-                self.memInMb = True
-                text = self.formatLine.split('$LINE')[0] + self.memFormat.split('$memmb')[0] + '-----' + self.memFormat.split('$memmb')[1] + self.formatLine.split('$LINE')[1]
-            else:
-                self.memInMb = False
-                self.mem_used = 0.0
-                self.mem_free = 1.0
-                self.mem_uf = 0.0
-                text = self.formatLine.split('$LINE')[0] + self.memFormat.split('$mem')[0] + '-----' + self.memFormat.split('$mem')[1] + self.formatLine.split('$LINE')[1]
-            self.label_mem = Plasma.Label(self.applet)
-            self.label_mem.setText(text)
-            self.layout.addItem(self.label_mem)
-        
-        self.swapBool = self.settings.get('swapBool', True)
-        if (self.swapBool):
-            self.swapFormat = str(self.settings.get('swapFormat', '[swap: $swap%]'))
-            if (self.swapFormat.split('$swapmb')[0] != self.swapFormat):
-                self.swapInMb = True
-                text = self.formatLine.split('$LINE')[0] + self.swapFormat.split('$swapmb')[0] + '-----' + self.swapFormat.split('$swapmb')[1] + self.formatLine.split('$LINE')[1]
-            else:
-                self.swapInMb = False
-                text = self.formatLine.split('$LINE')[0] + self.swapFormat.split('$swap')[0] + '-----' + self.swapFormat.split('$swap')[1] + self.formatLine.split('$LINE')[1]
-                self.swap_free = 1.0
-                self.swap_used = 0.0
-            self.label_swap = Plasma.Label(self.applet)
-            self.label_swap.setText(text)
-            self.layout.addItem(self.label_swap)
-            
-        self.netBool = self.settings.get('netBool', True)
-        if (self.netBool):
-            self.netNonFormat = str(self.settings.get('netNonFormat', '[net: $netKB/s]'))
-            if (self.netNonFormat.split('@@netdev=')[0] != self.netNonFormat):
-                self.netdev = self.netNonFormat.split('@@')[1].split('netdev=')[1]
-                self.netNonFormat = self.netNonFormat.split('@@')[0] + self.netNonFormat.split('@@')[2]
-            else:
-                self.num_dev = int(self.settings.get('num_dev', 0))
-                self.setupNetdev()
-            if (self.netNonFormat.split('$netdev')[0] != self.netNonFormat):
-                self.netFormat = self.netNonFormat.split('$netdev')[0] + self.netdev + self.netNonFormat.split('$netdev')[1]
-            else:
-                self.netFormat = self.netNonFormat
-            self.label_netDown = Plasma.Label(self.applet)
-            text = self.formatLine.split('$LINE')[0] + self.netFormat.split('$net')[0] + '----' + self.formatLine.split('$LINE')[1]
-            self.label_netDown.setText(text)
-            self.layout.addItem(self.label_netDown)
-            self.label_netUp = Plasma.Label(self.applet)
-            text = self.formatLine.split('$LINE')[0] + '/----' + self.netFormat.split('$net')[1] + self.formatLine.split('$LINE')[1]
-            self.label_netUp.setText(text)
-            self.layout.addItem(self.label_netUp)
-            
-        self.batBool = self.settings.get('batBool', True)
-        if (self.batBool):
-            self.batFormat = str(self.settings.get('batFormat', '[bat: $bat%]'))
-            self.label_bat = Plasma.Label(self.applet)
-            text = self.formatLine.split('$LINE')[0] + self.batFormat.split('$bat')[0] + '---' + self.batFormat.split('$bat')[1] + self.formatLine.split('$LINE')[1]
-            self.label_bat.setText(text)
-            self.layout.addItem(self.label_bat)
-        
-        self.applet.setLayout(self.layout)        
-        self.theme = Plasma.Svg(self)
-        self.theme.setImagePath("widgets/background")
-        self.setBackgroundHints(Plasma.Applet.DefaultBackground)
-        
-        # start timer
-        self.connectToEngine()
-        self.timer = QtCore.QTimer()
-        self.timer.setInterval(self.interval)
-        self.startPolling()
+        self.reinit()
      
     def configAccepted(self):
         """function to accept settings"""
@@ -141,70 +41,119 @@ class pyTextWidget(plasmascript.Applet):
         self.settings.set('font_color', self.font_color)
         self.font_style = str(self.configpage.ui.lineEdit_style.text())
         self.settings.set('font_style', self.font_style)
-        self.formatLine = "<html><head/><body style=\" font-family:\'" + self.font_family + "\'; font-size:" + str(self.font_size)
-        self.formatLine = self.formatLine +"pt; font-style:" + self.font_style +";\">"
-        self.formatLine = self.formatLine + "<p align=\"center\"><span style=\" color:" + self.font_color + ";\"><pre>$LINE"
-        self.formatLine = self.formatLine + "</pre></span></p></body></html>"
         
+        # disconnecting from source and clear layout
+        if (self.cpuBool):
+            self.systemmonitor.disconnectSource("cpu/system/TotalLoad", self)
+            self.label_cpu.setText('')
+            self.layout.removeItem(self.label_cpu)
+        if (self.tempBool):
+            self.systemmonitor.disconnectSource(self.tempdev, self)
+            self.label_temp.setText('')
+            self.layout.removeItem(self.label_temp)
+        if (self.memBool):
+            if (self.memInMb):
+                self.systemmonitor.disconnectSource("mem/physical/application", self)
+            else:
+                self.systemmonitor.disconnectSource("mem/physical/free", self)
+                self.systemmonitor.disconnectSource("mem/physical/used", self)
+                self.systemmonitor.disconnectSource("mem/physical/application", self)
+            self.label_mem.setText('')
+            self.layout.removeItem(self.label_mem)
+        if (self.swapBool):
+            if (self.swapInMb):
+                self.systemmonitor.disconnectSource("mem/swap/used", self)
+            else:
+                self.systemmonitor.disconnectSource("mem/swap/free", self)
+                self.systemmonitor.disconnectSource("mem/swap/used", self)
+            self.label_swap.setText('')
+            self.layout.removeItem(self.label_swap)
+        if (self.netBool):
+            self.systemmonitor.disconnectSource("network/interfaces/", self)
+            self.systemmonitor.disconnectSource("network/interfaces/", self)
+            self.label_netDown.setText('')
+            self.label_netUp.setText('')
+            self.layout.removeItem(self.label_netUp)
+            self.layout.removeItem(self.label_netDown)
+        if (self.batBool):
+            self.label_bat.setText('')
+            self.layout. removeItem(self.label_bat)
+        
+        self.label_order = "------"
         if (self.configpage.ui.checkBox_cpu.checkState() == 2):
             self.cpuBool = True
-            self.cpuFormat = str(self.configpage.ui.lineEdit_cpu.text())
-            self.settings.set('cpuFormat', self.cpuFormat)
+            pos = self.configpage.ui.slider_cpu.value() - 1
+            self.label_order = self.label_order[:pos] + "1" + self.label_order[pos+1:]
         else:
             self.cpuBool = False
+        self.cpuFormat = str(self.configpage.ui.lineEdit_cpu.text())
         self.settings.set('cpuBool', self.cpuBool)
+        self.settings.set('cpuFormat', self.cpuFormat)
         
         if (self.configpage.ui.checkBox_temp.checkState() == 2):
             self.tempBool = True
-            self.tempFormat = str(self.configpage.ui.lineEdit_temp.text())
-            self.settings.set('tempFormat', self.tempFormat)
+            pos = self.configpage.ui.slider_temp.value() - 1
+            self.label_order = self.label_order[:pos] + "2" + self.label_order[pos+1:]
         else:
             self.tempBool = False
+        self.tempFormat = str(self.configpage.ui.lineEdit_temp.text())
         self.settings.set('tempBool', self.tempBool)
+        self.settings.set('tempFormat', self.tempFormat)
         
         if (self.configpage.ui.checkBox_mem.checkState() == 2):
             self.memBool = True
-            self.memFormat = str(self.configpage.ui.lineEdit_mem.text())
-            self.settings.set('memFormat', self.memFormat)
+            pos = self.configpage.ui.slider_mem.value() - 1
+            self.label_order = self.label_order[:pos] + "3" + self.label_order[pos+1:]
         else:
             self.memBool = False
+        self.memFormat = str(self.configpage.ui.lineEdit_mem.text())
         self.settings.set('memBool', self.memBool)
+        self.settings.set('memFormat', self.memFormat)
         
         if (self.configpage.ui.checkBox_swap.checkState() == 2):
             self.swapBool = True
-            self.swapFormat = str(self.configpage.ui.lineEdit_swap.text())
-            self.settings.set('swapFormat', self.swapFormat)
+            pos = self.configpage.ui.slider_swap.value() - 1
+            self.label_order = self.label_order[:pos] + "4" + self.label_order[pos+1:]
         else:
             self.swapBool = False
+        self.swapFormat = str(self.configpage.ui.lineEdit_swap.text())
         self.settings.set('swapBool', self.swapBool)
+        self.settings.set('swapFormat', self.swapFormat)
         
         if (self.configpage.ui.checkBox_net.checkState() == 2):
             self.netBool = True
-            self.netFormat = str(self.configpage.ui.lineEdit_net.text())
-            self.num_dev = int(self.configpage.ui.comboBox_numNet.currentIndex())
-            self.settings.set('netFormat', self.netFormat)
-            self.settings.set('num_dev', self.num_dev)
+            pos = self.configpage.ui.slider_net.value() - 1
+            self.label_order = self.label_order[:pos] + "5" + self.label_order[pos+1:]
+            
         else:
             self.netBool = False
+        self.netNonFormat = str(self.configpage.ui.lineEdit_net.text())
+        self.num_dev = int(self.configpage.ui.comboBox_numNet.currentIndex())
         self.settings.set('netBool', self.netBool)
+        self.settings.set('netNonFormat', self.netNonFormat)
+        self.settings.set('num_dev', self.num_dev)
         
         if (self.configpage.ui.checkBox_bat.checkState() == 2):
             self.batBool = True
-            self.batFormat = str(self.configpage.ui.lineEdit_bat.text())
-            self.settings.set('batFormat', self.batFormat)
+            pos = self.configpage.ui.slider_bat.value() - 1
+            self.label_order = self.label_order[:pos] + "6" + self.label_order[pos+1:]
         else:
             self.batBool = False
-        self.settings.set('batBool', self.batBool)        
+        self.batFormat = str(self.configpage.ui.lineEdit_bat.text())
+        self.settings.set('batBool', self.batBool)
         
-        # update timer
-        self.timer.setInterval(self.interval)
-        self.startPolling()
+        self.label_order = self.label_order.split('-')[0]
+        self.settings.set('label_order', self.label_order)
+        self.settings.set('batFormat', self.batFormat)
+        
+        # reinitializate
+        self.reinit()
     
     def createConfigurationInterface(self, parent):
         """function to setup configuration window"""
         self.configpage = ConfigWindow(self, self.settings)
         
-        font = QFont(str(self.settings.get('font_family', 'Terminus')), int(self.settings.get('font_size', 12)), int(int(self.settings.get('font_weight', 50))))
+        font = QFont(str(self.settings.get('font_family', 'Terminus')), int(self.settings.get('font_size', 12)), 50)
         self.configpage.ui.spinBox_interval.setValue(int(self.settings.get('interval', '2000')))
         self.configpage.ui.fontComboBox.setCurrentFont(font)
         self.configpage.ui.spinBox_fontSize.setValue(int(self.settings.get('font_size', 12)))
@@ -213,53 +162,77 @@ class pyTextWidget(plasmascript.Applet):
         
         if (self.cpuBool):
             self.configpage.ui.checkBox_cpu.setCheckState(2)
+            self.configpage.ui.slider_cpu.setMaximum(len(self.label_order))
+            self.configpage.ui.slider_cpu.setValue(self.label_order.find("1")+1)
+            self.configpage.ui.slider_cpu.setEnabled(True)
             self.configpage.ui.lineEdit_cpu.setEnabled(True)
             self.configpage.ui.lineEdit_cpu.setText(str(self.settings.get('cpuFormat', '[cpu: $cpu%]')))
         else:
             self.configpage.ui.checkBox_cpu.setCheckState(0)
+            self.configpage.ui.slider_cpu.setDisabled(True)
             self.configpage.ui.lineEdit_cpu.setDisabled(True)
         
         if (self.tempBool):
             self.configpage.ui.checkBox_temp.setCheckState(2)
+            self.configpage.ui.slider_temp.setMaximum(len(self.label_order))
+            self.configpage.ui.slider_temp.setValue(self.label_order.find("2")+1)
+            self.configpage.ui.slider_temp.setEnabled(True)
             self.configpage.ui.lineEdit_temp.setEnabled(True)
             self.configpage.ui.lineEdit_temp.setText(str(self.settings.get('tempFormat', '[temp: $temp&deg;C]')))
         else:
             self.configpage.ui.checkBox_temp.setCheckState(0)
+            self.configpage.ui.slider_temp.setDisabled(True)
             self.configpage.ui.lineEdit_temp.setDisabled(True)
         
         if (self.memBool):
             self.configpage.ui.checkBox_mem.setCheckState(2)
+            self.configpage.ui.slider_mem.setMaximum(len(self.label_order))
+            self.configpage.ui.slider_mem.setValue(self.label_order.find("3")+1)
+            self.configpage.ui.slider_mem.setEnabled(True)
             self.configpage.ui.lineEdit_mem.setEnabled(True)
             self.configpage.ui.lineEdit_mem.setText(str(self.settings.get('memFormat', '[mem: $mem%]')))
         else:
             self.configpage.ui.checkBox_mem.setCheckState(0)
+            self.configpage.ui.slider_mem.setDisabled(True)
             self.configpage.ui.lineEdit_mem.setDisabled(True)
         
         if (self.swapBool):
             self.configpage.ui.checkBox_swap.setCheckState(2)
+            self.configpage.ui.slider_swap.setMaximum(len(self.label_order))
+            self.configpage.ui.slider_swap.setValue(self.label_order.find("4")+1)
+            self.configpage.ui.slider_swap.setEnabled(True)
             self.configpage.ui.lineEdit_swap.setEnabled(True)
             self.configpage.ui.lineEdit_swap.setText(str(self.settings.get('swapFormat', '[swap: $swap%]')))
         else:
             self.configpage.ui.checkBox_swap.setCheckState(0)
+            self.configpage.ui.slider_swap.setDisabled(True)
             self.configpage.ui.lineEdit_swap.setDisabled(True)
         
         if (self.netBool):
             self.configpage.ui.checkBox_net.setCheckState(2)
+            self.configpage.ui.slider_net.setMaximum(len(self.label_order))
+            self.configpage.ui.slider_net.setValue(self.label_order.find("5")+1)
+            self.configpage.ui.slider_net.setEnabled(True)
             self.configpage.ui.lineEdit_net.setEnabled(True)
             self.configpage.ui.comboBox_numNet.setEnabled(True)
             self.configpage.ui.comboBox_numNet.setCurrentIndex(int(self.settings.get('num_dev', 0)))
             self.configpage.ui.lineEdit_net.setText(str(self.settings.get('netNonFormat', '[net: $net%]')))
         else:
             self.configpage.ui.checkBox_swap.setCheckState(0)
+            self.configpage.ui.slider_net.setDisabled(True)
             self.configpage.ui.comboBox_numNet.setDisabled(True)
             self.configpage.ui.lineEdit_swap.setDisabled(True)
         
         if (self.batBool):
             self.configpage.ui.checkBox_bat.setCheckState(2)
+            self.configpage.ui.slider_bat.setMaximum(len(self.label_order))
+            self.configpage.ui.slider_bat.setValue(self.label_order.find("6")+1)
+            self.configpage.ui.slider_bat.setEnabled(True)
             self.configpage.ui.lineEdit_bat.setEnabled(True)
             self.configpage.ui.lineEdit_bat.setText(str(self.settings.get('batFormat', '[bat: $bat%]')))
         else:
             self.configpage.ui.checkBox_bat.setCheckState(0)
+            self.configpage.ui.slider_bat.setDisabled(True)
             self.configpage.ui.lineEdit_bat.setDisabled(True)
         
         # add config page
@@ -267,6 +240,112 @@ class pyTextWidget(plasmascript.Applet):
         page.setIcon(KIcon(self.icon()))
         
         parent.okClicked.connect(self.configAccepted)
+    
+    def reinit(self):
+        """function to reinitializate widget"""
+        self.settings = Config(self)
+        self.interval = int(self.settings.get('interval', 2000))
+        self.font_family = str(self.settings.get('font_family', 'Terminus'))
+        self.font_size = int(self.settings.get('font_size', 12))
+        self.font_color = str(self.settings.get('font_color', '#000000'))
+        self.font_style = str(self.settings.get('font_style', 'normal'))
+        self.formatLine = "<html><head/><body style=\" font-family:\'" + self.font_family + "\'; font-size:" + str(self.font_size)
+        self.formatLine = self.formatLine +"pt; font-style:" + self.font_style +";\">"
+        self.formatLine = self.formatLine + "<p align=\"center\"><span style=\" color:" + self.font_color + ";\"><pre>$LINE"
+        self.formatLine = self.formatLine + "</pre></span></p></body></html>"
+        self.label_order = str(self.settings.get('label_order', '123456'))
+        
+        for order in self.label_order:
+            if (order == "1"):
+                self.cpuBool = self.settings.get('cpuBool', True)
+                if (self.cpuBool):
+                    self.cpuFormat = str(self.settings.get('cpuFormat', '[cpu: $cpu%]'))
+                    self.label_cpu = Plasma.Label(self.applet)
+                    text = self.formatLine.split('$LINE')[0] + self.cpuFormat.split('$cpu')[0] + '-----' + self.cpuFormat.split('$cpu')[1] + self.formatLine.split('$LINE')[1]
+                    self.label_cpu.setText(text)
+                    self.layout.addItem(self.label_cpu)
+            elif (order == "2"):
+                self.tempBool = self.settings.get('tempBool', True)
+                if (self.tempBool):
+                    self.tempFormat = str(self.settings.get('tempFormat', '[temp: $temp&deg;C]'))
+                    self.setupTemp()
+                    self.label_temp = Plasma.Label(self.applet)
+                    text = self.formatLine.split('$LINE')[0] + self.tempFormat.split('$temp')[0] + '----' + self.tempFormat.split('$temp')[1] + self.formatLine.split('$LINE')[1]
+                    self.label_temp.setText(text)
+                    self.layout.addItem(self.label_temp)
+            elif (order == "3"):
+                self.memBool = self.settings.get('memBool', True)
+                if (self.memBool):
+                    self.memFormat = str(self.settings.get('memFormat', '[mem: $mem%]'))
+                    if (self.memFormat.split('$memmb')[0] != self.memFormat):
+                        self.memInMb = True
+                        text = self.formatLine.split('$LINE')[0] + self.memFormat.split('$memmb')[0] + '-----' + self.memFormat.split('$memmb')[1] + self.formatLine.split('$LINE')[1]
+                    else:
+                        self.memInMb = False
+                        self.mem_used = 0.0
+                        self.mem_free = 1.0
+                        self.mem_uf = 0.0
+                        text = self.formatLine.split('$LINE')[0] + self.memFormat.split('$mem')[0] + '-----' + self.memFormat.split('$mem')[1] + self.formatLine.split('$LINE')[1]
+                    self.label_mem = Plasma.Label(self.applet)
+                    self.label_mem.setText(text)
+                    self.layout.addItem(self.label_mem)
+            elif (order == "4"):
+                self.swapBool = self.settings.get('swapBool', True)
+                if (self.swapBool):
+                    self.swapFormat = str(self.settings.get('swapFormat', '[swap: $swap%]'))
+                    if (self.swapFormat.split('$swapmb')[0] != self.swapFormat):
+                        self.swapInMb = True
+                        text = self.formatLine.split('$LINE')[0] + self.swapFormat.split('$swapmb')[0] + '-----' + self.swapFormat.split('$swapmb')[1] + self.formatLine.split('$LINE')[1]
+                    else:
+                        self.swapInMb = False
+                        text = self.formatLine.split('$LINE')[0] + self.swapFormat.split('$swap')[0] + '-----' + self.swapFormat.split('$swap')[1] + self.formatLine.split('$LINE')[1]
+                        self.swap_free = 1.0
+                        self.swap_used = 0.0
+                    self.label_swap = Plasma.Label(self.applet)
+                    self.label_swap.setText(text)
+                    self.layout.addItem(self.label_swap)
+            elif (order == "5"):
+                self.netBool = self.settings.get('netBool', True)
+                if (self.netBool):
+                    self.netNonFormat = str(self.settings.get('netNonFormat', '[net: $netKB/s]'))
+                if (self.netNonFormat.split('@@netdev=')[0] != self.netNonFormat):
+                    self.netdev = self.netNonFormat.split('@@')[1].split('netdev=')[1]
+                    self.netNonFormat = self.netNonFormat.split('@@')[0] + self.netNonFormat.split('@@')[2]
+                else:
+                    self.num_dev = int(self.settings.get('num_dev', 0))
+                    self.setupNetdev()
+                if (self.netNonFormat.split('$netdev')[0] != self.netNonFormat):
+                    self.netFormat = self.netNonFormat.split('$netdev')[0] + self.netdev + self.netNonFormat.split('$netdev')[1]
+                else:
+                    self.netFormat = self.netNonFormat
+                self.label_netDown = Plasma.Label(self.applet)
+                text = self.formatLine.split('$LINE')[0] + self.netFormat.split('$net')[0] + '----' + self.formatLine.split('$LINE')[1]
+                self.label_netDown.setText(text)
+                self.layout.addItem(self.label_netDown)
+                self.label_netUp = Plasma.Label(self.applet)
+                text = self.formatLine.split('$LINE')[0] + '/----' + self.netFormat.split('$net')[1] + self.formatLine.split('$LINE')[1]
+                self.label_netUp.setText(text)
+                self.layout.addItem(self.label_netUp)
+            elif (order == "6"):
+                self.batBool = self.settings.get('batBool', True)
+                if (self.batBool):
+                    self.batFormat = str(self.settings.get('batFormat', '[bat: $bat%]'))
+                    self.label_bat = Plasma.Label(self.applet)
+                    text = self.formatLine.split('$LINE')[0] + self.batFormat.split('$bat')[0] + '---' + self.batFormat.split('$bat')[1] + self.formatLine.split('$LINE')[1]
+                    self.label_bat.setText(text)
+                    self.layout.addItem(self.label_bat)
+        
+        self.applet.setLayout(self.layout)        
+        self.theme = Plasma.Svg(self)
+        self.theme.setImagePath("widgets/background")
+        self.setBackgroundHints(Plasma.Applet.DefaultBackground)
+        self.resize(10,10)
+        
+        # start timer
+        self.connectToEngine()
+        self.timer = QtCore.QTimer()
+        self.timer.setInterval(self.interval)
+        self.startPolling()
     
     def setupNetdev(self):
         """function to setup network device"""
