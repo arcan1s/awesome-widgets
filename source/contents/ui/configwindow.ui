@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>519</width>
-    <height>382</height>
+    <height>383</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,7 +19,7 @@
   <property name="minimumSize">
    <size>
     <width>519</width>
-    <height>382</height>
+    <height>383</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -145,6 +145,117 @@
             <number>1</number>
            </property>
            <property name="maximum">
+            <number>6</number>
+           </property>
+           <property name="pageStep">
+            <number>1</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="tickPosition">
+            <enum>QSlider::TicksAbove</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="widget_cpuclock" native="true">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>30</height>
+         </size>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_12">
+         <item>
+          <widget class="QCheckBox" name="checkBox_cpuclock">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>111</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>111</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="text">
+            <string notr="true">CPU Clock</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_cpuclock">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSlider" name="slider_cpuclock">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>111</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>111</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>7</number>
+           </property>
+           <property name="singleStep">
             <number>6</number>
            </property>
            <property name="pageStep">
@@ -1202,6 +1313,7 @@
      <zorder>widget_swap</zorder>
      <zorder>widget_net</zorder>
      <zorder>widget_bat</zorder>
+     <zorder>widget_cpuclock</zorder>
     </widget>
    </item>
    <item row="1" column="0">
@@ -1232,6 +1344,9 @@
   <tabstop>checkBox_cpu</tabstop>
   <tabstop>lineEdit_cpu</tabstop>
   <tabstop>slider_cpu</tabstop>
+  <tabstop>checkBox_cpuclock</tabstop>
+  <tabstop>lineEdit_cpuclock</tabstop>
+  <tabstop>slider_cpuclock</tabstop>
   <tabstop>checkBox_temp</tabstop>
   <tabstop>lineEdit_temp</tabstop>
   <tabstop>slider_temp</tabstop>
