@@ -503,7 +503,7 @@ class pyTextWidget(plasmascript.Applet):
                 self.systemmonitor.connectSource("mem/swap/used", self, self.interval)
             else:
                 self.systemmonitor.connectSource("mem/swap/free", self, 200)
-                self.systemmonitor.connectSource("mem/swap/used", self, 200)
+                self.systemmonitor.connectSource("mem/swap/used", self, 200)        
     
     @pyqtSignature("dataUpdated(const QString &, const Plasma::DataEngine::Data &)")
     def dataUpdated(self, sourceName, data):
