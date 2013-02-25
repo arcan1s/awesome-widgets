@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>519</width>
-    <height>383</height>
+    <height>455</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,7 +19,7 @@
   <property name="minimumSize">
    <size>
     <width>519</width>
-    <height>383</height>
+    <height>455</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -43,13 +43,13 @@
      <property name="minimumSize">
       <size>
        <width>511</width>
-       <height>378</height>
+       <height>450</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
        <width>16777215</width>
-       <height>378</height>
+       <height>450</height>
       </size>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
@@ -670,12 +670,12 @@
            </property>
            <item>
             <property name="text">
-             <string>One device</string>
+             <string notr="true">One device</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Two devices</string>
+             <string notr="true">Two devices</string>
             </property>
            </item>
           </widget>
@@ -1274,7 +1274,101 @@
           </spacer>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_style">
+          <widget class="QComboBox" name="comboBox_style">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>150</width>
+             <height>25</height>
+            </size>
+           </property>
+           <item>
+            <property name="text">
+             <string notr="true">normal</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">italic</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="widget_weight" native="true">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>30</height>
+         </size>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <item>
+          <widget class="QLabel" name="label_weight">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>100</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="text">
+            <string notr="true">Font weight</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer07">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>19</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spinBox_weight">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -1296,6 +1390,18 @@
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>1000</number>
+           </property>
+           <property name="singleStep">
+            <number>50</number>
+           </property>
+           <property name="value">
+            <number>400</number>
+           </property>
           </widget>
          </item>
         </layout>
@@ -1314,6 +1420,7 @@
      <zorder>widget_net</zorder>
      <zorder>widget_bat</zorder>
      <zorder>widget_cpuclock</zorder>
+     <zorder>widget_weight</zorder>
     </widget>
    </item>
    <item row="1" column="0">
@@ -1367,7 +1474,8 @@
   <tabstop>fontComboBox</tabstop>
   <tabstop>spinBox_fontSize</tabstop>
   <tabstop>kcolorcombo</tabstop>
-  <tabstop>lineEdit_style</tabstop>
+  <tabstop>comboBox_style</tabstop>
+  <tabstop>spinBox_weight</tabstop>
  </tabstops>
  <resources/>
  <connections/>

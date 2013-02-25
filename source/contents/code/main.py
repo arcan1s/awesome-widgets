@@ -38,8 +38,13 @@ class pyTextWidget(plasmascript.Applet):
         self.settings.set('font_size', self.font_size)
         self.font_color = str(self.configpage.ui.kcolorcombo.color().name())
         self.settings.set('font_color', self.font_color)
-        self.font_style = str(self.configpage.ui.lineEdit_style.text())
+        if (self.configpage.ui.comboBox_style.currentIndex() == 0):
+            self.font_style = 'normal'
+        else:
+            self.font_style = 'italic'
         self.settings.set('font_style', self.font_style)
+        self.font_weight = int(self.configpage.ui.spinBox_weight.value())
+        self.settings.set('font_weight', self.font_weight)
         
         # disconnecting from source and clear layout
         if (self.cpuBool == 1):
@@ -162,11 +167,16 @@ class pyTextWidget(plasmascript.Applet):
         self.configpage = ConfigWindow(self, self.settings)
         
         font = QFont(str(self.settings.get('font_family', 'Terminus')), int(self.settings.get('font_size', 12)), 50)
-        self.configpage.ui.spinBox_interval.setValue(int(self.settings.get('interval', '2000')))
+        self.configpage.ui.spinBox_interval.setValue(int(self.settings.get('interval', 2000)))
         self.configpage.ui.fontComboBox.setCurrentFont(font)
         self.configpage.ui.spinBox_fontSize.setValue(int(self.settings.get('font_size', 12)))
         self.configpage.ui.kcolorcombo.setColor(QColor(str(self.settings.get('font_color', '#000000'))))
-        self.configpage.ui.lineEdit_style.setText(str(self.settings.get('font_style', 'normal')))
+        font = str(self.settings.get('font_style', 'normal'))
+        if (font == 'normal'):
+            self.configpage.ui.comboBox_style.setCurrentIndex(0)
+        else:
+            self.configpage.ui.comboBox_style.setCurrentIndex(1)
+        self.configpage.ui.spinBox_weight.setValue(int(self.settings.get('font_weight', 400)))
         
         if (self.cpuBool == 1):
             self.configpage.ui.checkBox_cpu.setCheckState(2)
@@ -236,10 +246,10 @@ class pyTextWidget(plasmascript.Applet):
             self.configpage.ui.lineEdit_net.setEnabled(True)
             self.configpage.ui.comboBox_numNet.setEnabled(True)
         else:
-            self.configpage.ui.checkBox_swap.setCheckState(0)
+            self.configpage.ui.checkBox_net.setCheckState(0)
             self.configpage.ui.slider_net.setDisabled(True)
             self.configpage.ui.comboBox_numNet.setDisabled(True)
-            self.configpage.ui.lineEdit_swap.setDisabled(True)
+            self.configpage.ui.lineEdit_net.setDisabled(True)
         self.configpage.ui.comboBox_numNet.setCurrentIndex(int(self.settings.get('num_dev', 0)))
         self.configpage.ui.lineEdit_net.setText(str(self.settings.get('netNonFormat', '[net: $netKB/s]')))
         
@@ -269,10 +279,10 @@ class pyTextWidget(plasmascript.Applet):
         self.font_size = int(self.settings.get('font_size', 12))
         self.font_color = str(self.settings.get('font_color', '#000000'))
         self.font_style = str(self.settings.get('font_style', 'normal'))
-        self.formatLine = "<html><head/><body style=\" font-family:\'" + self.font_family + "\'; font-size:" + str(self.font_size)
-        self.formatLine = self.formatLine +"pt; font-style:" + self.font_style +";\">"
-        self.formatLine = self.formatLine + "<p align=\"center\"><span style=\" color:" + self.font_color + ";\"><pre>$LINE"
-        self.formatLine = self.formatLine + "</pre></span></p></body></html>"
+        self.font_weight = int(self.settings.get('font_weight', 400))
+        self.formatLine = "<pre><p align=\"center\"><span style=\" font-family:'" + self.font_family + "'; font-style:" + self.font_style
+        self.formatLine = self.formatLine + "; font-size:" + str(self.font_size) + "pt; font-weight:" + str(self.font_weight)
+        self.formatLine = self.formatLine + "; color:" + self.font_color + ";\">$LINE</span></p></pre>"
         self.label_order = str(self.settings.get('label_order', '1723456'))
         self.cpuBool = int(self.settings.get('cpuBool', 1))
         self.cpuclockBool = int(self.settings.get('cpuclockBool', 1))
