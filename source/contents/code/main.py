@@ -465,7 +465,7 @@ class pyTextWidget(plasmascript.Applet):
     def batText(self):
         """function to set battery text"""
         commandOut = commands.getoutput("acpi")
-        bat = "%3s" % (commandOut.split()[3].split("%")[0])
+        bat = "%3s" % (commandOut.split(':')[1].split()[1].split('%')[0])
         line = self.batFormat.split('$bat')[0] + bat + self.batFormat.split('$bat')[1]
         text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
         self.label_bat.setText(text)
