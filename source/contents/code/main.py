@@ -511,17 +511,23 @@ class pyTextWidget(plasmascript.Applet):
         """function to set battery text"""
         line = self.batFormat
         if (line.split('$bat')[0] != line):
-            with open (self.battery_device, 'r') as bat_file:
-                bat = bat_file.readline().split('\n')[0]
+            if os.path.exists(self.battery_device):
+                with open (self.battery_device, 'r') as bat_file:
+                    bat = bat_file.readline().split('\n')[0]
+            else:
+                bat = 'off'
             bat = "%3s" % (bat)
             line = line.split('$bat')[0] + bat + line.split('$bat')[1]
         if (line.split('$ac')[0] != line):
-            with open (self.ac_device, 'r') as bat_file:
-                bat = bat_file.readline().split('\n')[0]
-            if (bat == '1'):
-                bat = '(*)'
+            if os.path.exists(self.ac_device):
+                with open (self.ac_device, 'r') as bat_file:
+                    bat = bat_file.readline().split('\n')[0]
+                if (bat == '1'):
+                    bat = '(*)'
+                else:
+                    bat = '( )'
             else:
-                bat = '( )'
+                bat = '(?)'
             line = line.split('$ac')[0] + bat + line.split('$ac')[1]
         text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
         self.label_bat.setText(text)
