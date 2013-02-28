@@ -153,8 +153,12 @@ class pyTextWidget(plasmascript.Applet):
         else:
             self.batBool = 0
         self.batFormat = str(self.configpage.ui.lineEdit_bat.text())
+        self.battery_device = str(self.configpage.ui.lineEdit_batdev.text())
+        self.ac_device = str(self.configpage.ui.lineEdit_acdev.text())
         self.settings.set('batBool', self.batBool)
         self.settings.set('batFormat', self.batFormat)
+        self.settings.set('battery_device', self.battery_device)
+        self.settings.set('ac_device', self.ac_device)
         
         self.label_order = ''.join(self.label_order.split('-'))
         self.settings.set('label_order', self.label_order)
@@ -259,11 +263,17 @@ class pyTextWidget(plasmascript.Applet):
             self.configpage.ui.slider_bat.setValue(self.label_order.find("6")+1)
             self.configpage.ui.slider_bat.setEnabled(True)
             self.configpage.ui.lineEdit_bat.setEnabled(True)
+            self.configpage.ui.lineEdit_acdev.setEnabled(True)
+            self.configpage.ui.lineEdit_batdev.setEnabled(True)
         else:
             self.configpage.ui.checkBox_bat.setCheckState(0)
             self.configpage.ui.slider_bat.setDisabled(True)
             self.configpage.ui.lineEdit_bat.setDisabled(True)
-        self.configpage.ui.lineEdit_bat.setText(str(self.settings.get('batFormat', '[bat: $bat%]')))
+            self.configpage.ui.lineEdit_acdev.setDisabled(True)
+            self.configpage.ui.lineEdit_batdev.setDisabled(True)
+        self.configpage.ui.lineEdit_bat.setText(str(self.settings.get('batFormat', '[bat: $bat%$ac]')))
+        self.configpage.ui.lineEdit_batdev.setText(str(self.settings.get('battery_device', '/sys/class/power_supply/BAT0/capacity')))
+        self.configpage.ui.lineEdit_acdev.setText(str(self.settings.get('ac_device', '/sys/class/power_supply/AC/online')))
         
         # add config page
         page = parent.addPage(self.configpage, i18n(self.name()))
@@ -315,7 +325,11 @@ class pyTextWidget(plasmascript.Applet):
                 if (self.cpuBool == 1):
                     self.cpuFormat = str(self.settings.get('cpuFormat', '[cpu: $cpu%]'))
                     self.label_cpu = Plasma.Label(self.applet)
-                    text = self.formatLine.split('$LINE')[0] + self.cpuFormat.split('$cpu')[0] + '-----' + self.cpuFormat.split('$cpu')[1] + self.formatLine.split('$LINE')[1]
+                    if (self.cpuFormat.split('$cpu')[0] != self.cpuFormat):
+                        line = self.cpuFormat.split('$cpu')[0] + '-----' + self.cpuFormat.split('$cpu')[1]
+                    else:
+                        line = self.cpuFormat
+                    text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
                     self.label_cpu.setText(text)
                     self.layout.addItem(self.label_cpu)
             elif (order == "2"):
@@ -323,7 +337,11 @@ class pyTextWidget(plasmascript.Applet):
                     self.tempFormat = str(self.settings.get('tempFormat', '[temp: $temp&deg;C]'))
                     self.setupTemp()
                     self.label_temp = Plasma.Label(self.applet)
-                    text = self.formatLine.split('$LINE')[0] + self.tempFormat.split('$temp')[0] + '----' + self.tempFormat.split('$temp')[1] + self.formatLine.split('$LINE')[1]
+                    if (self.tempFormat.split('$temp')[0] != self.tempFormat):
+                        line = self.tempFormat.split('$temp')[0] + '----' + self.tempFormat.split('$temp')[1]
+                    else:
+                        line = self.tempFormat
+                    text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
                     self.label_temp.setText(text)
                     self.layout.addItem(self.label_temp)
             elif (order == "3"):
@@ -337,7 +355,11 @@ class pyTextWidget(plasmascript.Applet):
                         self.mem_used = 0.0
                         self.mem_free = 1.0
                         self.mem_uf = 0.0
-                        text = self.formatLine.split('$LINE')[0] + self.memFormat.split('$mem')[0] + '-----' + self.memFormat.split('$mem')[1] + self.formatLine.split('$LINE')[1]
+                        if (self.memFormat.split('$mem')[0] != self.memFormat):
+                            line = self.memFormat.split('$mem')[0] + '-----' + self.memFormat.split('$mem')[1]
+                        else:
+                            line = self.memFormat
+                        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
                     self.label_mem = Plasma.Label(self.applet)
                     self.label_mem.setText(text)
                     self.layout.addItem(self.label_mem)
@@ -349,9 +371,13 @@ class pyTextWidget(plasmascript.Applet):
                         text = self.formatLine.split('$LINE')[0] + self.swapFormat.split('$swapmb')[0] + '-----' + self.swapFormat.split('$swapmb')[1] + self.formatLine.split('$LINE')[1]
                     else:
                         self.swapInMb = False
-                        text = self.formatLine.split('$LINE')[0] + self.swapFormat.split('$swap')[0] + '-----' + self.swapFormat.split('$swap')[1] + self.formatLine.split('$LINE')[1]
                         self.swap_free = 1.0
                         self.swap_used = 0.0
+                        if (self.swapFormat.split('$swap')[0] != self.swapFormat):
+                            line = self.swapFormat.split('$swap')[0] + '-----' + self.swapFormat.split('$swap')[1]
+                        else:
+                            line = self.swapFormat
+                        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
                     self.label_swap = Plasma.Label(self.applet)
                     self.label_swap.setText(text)
                     self.layout.addItem(self.label_swap)
@@ -369,25 +395,44 @@ class pyTextWidget(plasmascript.Applet):
                     else:
                         self.netFormat = self.netNonFormat
                     self.label_netDown = Plasma.Label(self.applet)
-                    text = self.formatLine.split('$LINE')[0] + self.netFormat.split('$net')[0] + '----' + self.formatLine.split('$LINE')[1]
+                    if (self.netFormat.split('$net')[0] != self.netFormat):
+                        line = self.netFormat.split('$net')[0] + '----'
+                    else:
+                        line = self.netFormat
+                    text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
                     self.label_netDown.setText(text)
                     self.layout.addItem(self.label_netDown)
                     self.label_netUp = Plasma.Label(self.applet)
-                    text = self.formatLine.split('$LINE')[0] + '/----' + self.netFormat.split('$net')[1] + self.formatLine.split('$LINE')[1]
+                    if (self.netFormat.split('$net')[0] != self.netFormat):
+                        line = '/----' + self.netFormat.split('$net')[1]
+                    else:
+                        line = ''
+                    text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
                     self.label_netUp.setText(text)
                     self.layout.addItem(self.label_netUp)
             elif (order == "6"):
                 if (self.batBool == 1):
-                    self.batFormat = str(self.settings.get('batFormat', '[bat: $bat%]'))
+                    self.batFormat = str(self.settings.get('batFormat', '[bat: $bat%$ac]'))
+                    self.battery_device= str(self.settings.get('battery_device', '/sys/class/power_supply/BAT0/capacity'))
+                    self.ac_device = str(self.settings.get('ac_device', '/sys/class/power_supply/AC/online'))
                     self.label_bat = Plasma.Label(self.applet)
-                    text = self.formatLine.split('$LINE')[0] + self.batFormat.split('$bat')[0] + '---' + self.batFormat.split('$bat')[1] + self.formatLine.split('$LINE')[1]
+                    line = self.batFormat
+                    if (line.split('$ac')[0] != line):
+                        line = line.split('$ac')[0] + '(-)' + line.split('$ac')[1]
+                    if (line.split('$bat')[0] != line):
+                        line = line.split('$bat')[0] + '---' + line.split('$bat')[1]
+                    text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
                     self.label_bat.setText(text)
                     self.layout.addItem(self.label_bat)
             elif (order == "7"):
                 if (self.cpuclockBool == 1):
                     self.cpuclockFormat = str(self.settings.get('cpuclockFormat', '[MHz: $cpucl]'))
                     self.label_cpuclock = Plasma.Label(self.applet)
-                    text = self.formatLine.split('$LINE')[0] + self.cpuclockFormat.split('$cpucl')[0] + '----' + self.cpuclockFormat.split('$cpucl')[1] + self.formatLine.split('$LINE')[1]
+                    if (self.cpuclockFormat.split('$cpucl')[0] != self.cpuclockFormat):
+                        line = self.cpuclockFormat.split('$cpucl')[0] + '----' + self.cpuclockFormat.split('$cpucl')[1]
+                    else:
+                        line = self.cpuclockFormat
+                    text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
                     self.label_cpuclock.setText(text)
                     self.layout.addItem(self.label_cpuclock)
         self.applet.setLayout(self.layout)        
@@ -464,9 +509,20 @@ class pyTextWidget(plasmascript.Applet):
     
     def batText(self):
         """function to set battery text"""
-        commandOut = commands.getoutput("acpi")
-        bat = "%3s" % (commandOut.split(':')[1].split()[1].split('%')[0])
-        line = self.batFormat.split('$bat')[0] + bat + self.batFormat.split('$bat')[1]
+        line = self.batFormat
+        if (line.split('$bat')[0] != line):
+            with open (self.battery_device, 'r') as bat_file:
+                bat = bat_file.readline().split('\n')[0]
+            bat = "%3s" % (bat)
+            line = line.split('$bat')[0] + bat + line.split('$bat')[1]
+        if (line.split('$ac')[0] != line):
+            with open (self.ac_device, 'r') as bat_file:
+                bat = bat_file.readline().split('\n')[0]
+            if (bat == '1'):
+                bat = '(*)'
+            else:
+                bat = '( )'
+            line = line.split('$ac')[0] + bat + line.split('$ac')[1]
         text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
         self.label_bat.setText(text)
     
@@ -475,7 +531,10 @@ class pyTextWidget(plasmascript.Applet):
         full = self.mem_uf + self.mem_free
         mem = 100 * self.mem_used / full
         mem = "%5s" % (str(round(mem, 1)))
-        line = self.memFormat.split('$mem')[0] + mem + self.memFormat.split('$mem')[1]
+        if (self.memFormat.split('$mem')[0] != self.memFormat):
+            line = self.memFormat.split('$mem')[0] + mem + self.memFormat.split('$mem')[1]
+        else:
+            line = self.memFormat
         text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
         self.label_mem.setText(text)
     
@@ -484,7 +543,10 @@ class pyTextWidget(plasmascript.Applet):
         full = self.swap_used + self.swap_free
         mem = 100 * self.swap_used / full
         mem = "%5s" % (str(round(mem, 1)))
-        line = self.swapFormat.split('$swap')[0] + mem + self.swapFormat.split('$swap')[1]
+        if (self.swapFormat.split('$swap')[0] != self.swapFormat):
+            line = self.swapFormat.split('$swap')[0] + mem + self.swapFormat.split('$swap')[1]
+        else:
+            line = self.swapFormat
         text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
         self.label_swap.setText(text)
     
@@ -521,25 +583,37 @@ class pyTextWidget(plasmascript.Applet):
         if (sourceName == "cpu/system/TotalLoad"):
             value = str(round(float(data[QString(u'value')]), 1))
             cpuText = "%5s" % (value)
-            line = self.cpuFormat.split('$cpu')[0] + cpuText + self.cpuFormat.split('$cpu')[1]
+            if (self.cpuFormat.split('$cpu')[0] != self.cpuFormat):
+                line = self.cpuFormat.split('$cpu')[0] + cpuText + self.cpuFormat.split('$cpu')[1]
+            else:
+                line = self.cpuFormat
             text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
             self.label_cpu.setText(text)
         elif (sourceName == "cpu/system/AverageClock"):
             value = str(data[QString(u'value')]).split('.')[0]
             cpuclockText = "%4s" % (value)
-            line = self.cpuclockFormat.split('$cpucl')[0] + cpuclockText + self.cpuclockFormat.split('$cpucl')[1]
+            if (self.cpuclockFormat.split('$cpucl')[0] != self.cpuclockFormat):
+                line = self.cpuclockFormat.split('$cpucl')[0] + cpuclockText + self.cpuclockFormat.split('$cpucl')[1]
+            else:
+                line = self.cpuclockFormat
             text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
             self.label_cpuclock.setText(text)
         elif (sourceName == "network/interfaces/"+self.netdev+"/transmitter/data"):
             value = str(data[QString(u'value')]).split('.')[0]
             up_speed = "%4s" % (value)
-            line = '/' + up_speed + self.netFormat.split('$net')[1]
+            if (self.netFormat.split('$net')[0] != self.netFormat):
+                line = '/' + up_speed + self.netFormat.split('$net')[1]
+            else:
+                line = ''
             text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
             self.label_netUp.setText(text)
         elif (sourceName == "network/interfaces/"+self.netdev+"/receiver/data"):
             value = str(data[QString(u'value')]).split('.')[0]
             down_speed = "%4s" % (value)
-            line = self.netFormat.split('$net')[0] + down_speed
+            if (self.netFormat.split('$net')[0] != self.netFormat):
+                line = self.netFormat.split('$net')[0] + down_speed
+            else:
+                line = self.netFormat
             text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
             self.label_netDown.setText(text)
             # update network device
@@ -559,7 +633,10 @@ class pyTextWidget(plasmascript.Applet):
         elif (sourceName == self.tempdev):
             value = str(round(float(data[QString(u'value')]), 1))
             tempText = "%4s" % (value)
-            line = self.tempFormat.split('$temp')[0] + tempText + self.tempFormat.split('$temp')[1]
+            if (self.tempFormat.split('$temp')[0] != self.tempFormat):
+                line = self.tempFormat.split('$temp')[0] + tempText + self.tempFormat.split('$temp')[1]
+            else:
+                line = self.tempFormat
             text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
             self.label_temp.setText(text)
         elif (sourceName == "mem/physical/free"):
@@ -570,7 +647,10 @@ class pyTextWidget(plasmascript.Applet):
             if (self.memInMb):
                 mem = str(round(float(data[QString(u'value')]) / 1024, 0)).split('.')[0]
                 mem = "%5s" % (mem)
-                line = self.memFormat.split('$memmb')[0] + mem + self.memFormat.split('$memmb')[1]
+                if (self.memFormat.split('$memmb')[0] != self.memFormat):
+                    line = self.memFormat.split('$memmb')[0] + mem + self.memFormat.split('$memmb')[1]
+                else:
+                    line = self.memFormat
                 text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
                 self.label_mem.setText(text)
             else:
@@ -581,7 +661,10 @@ class pyTextWidget(plasmascript.Applet):
             if (self.swapInMb):
                 mem = str(round(float(data[QString(u'value')]) / 1024, 0)).split('.')[0]
                 mem = "%5s" % (mem)
-                line = self.swapFormat.split('$swapmb')[0] + mem + self.swapFormat.split('$swapmb')[1]
+                if (self.swapFormat.split('$swapmb')[0] != self.swapFormat):
+                    line = self.swapFormat.split('$swapmb')[0] + mem + self.swapFormat.split('$swapmb')[1]
+                else:
+                    line = self.swapFormat
                 text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
                 self.label_swap.setText(text)
             else:

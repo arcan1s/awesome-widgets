@@ -36,10 +36,14 @@ class ConfigWindow(QWidget):
         if (self.ui.checkBox_bat.checkState() == 2):
             self.ui.lineEdit_bat.setEnabled(True)
             self.ui.slider_bat.setEnabled(True)
+            self.ui.lineEdit_acdev.setEnabled(True)
+            self.ui.lineEdit_batdev.setEnabled(True)
             self.setSlider()
         else:
             self.ui.lineEdit_bat.setDisabled(True)
             self.ui.slider_bat.setDisabled(True)
+            self.ui.lineEdit_acdev.setDisabled(True)
+            self.ui.lineEdit_batdev.setDisabled(True)
             self.setSlider()
     
     def cpuStatus(self):
