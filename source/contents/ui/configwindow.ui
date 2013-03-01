@@ -116,6 +116,9 @@
              <height>25</height>
             </size>
            </property>
+           <property name="toolTip">
+            <string notr="true">$cpu - total load CPU, %</string>
+           </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
@@ -223,6 +226,9 @@
              <width>16777215</width>
              <height>25</height>
             </size>
+           </property>
+           <property name="toolTip">
+            <string notr="true">$cpucl - average CPU clock, MHz</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -335,6 +341,9 @@
              <height>25</height>
             </size>
            </property>
+           <property name="toolTip">
+            <string notr="true">$temp - physical temperature on CPU</string>
+           </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
@@ -446,6 +455,10 @@
              <height>25</height>
             </size>
            </property>
+           <property name="toolTip">
+            <string notr="true">$mem - RAM usage, %
+$memmb - RAM usage, MB</string>
+           </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
@@ -553,6 +566,10 @@
              <width>16777215</width>
              <height>25</height>
             </size>
+           </property>
+           <property name="toolTip">
+            <string notr="true">$swap - swap usage, %
+$swapmb - swap usage, MB</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -694,6 +711,11 @@
              <height>25</height>
             </size>
            </property>
+           <property name="toolTip">
+            <string notr="true">$net - network speed, down/up, KB/s
+$netdev - current network device
+@@netdev=eth0@@ - disable auto select device and set specified device</string>
+           </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
@@ -801,6 +823,13 @@
              <width>16777215</width>
              <height>25</height>
             </size>
+           </property>
+           <property name="toolTip">
+            <string notr="true">$bat - battery charge, %
+$ac - AC status</string>
+           </property>
+           <property name="whatsThis">
+            <string/>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1567,8 +1596,6 @@
      <zorder>widget_bat</zorder>
      <zorder>widget_cpuclock</zorder>
      <zorder>widget_weight</zorder>
-     <zorder>horizontalLayoutWidget</zorder>
-     <zorder>horizontalLayoutWidget_2</zorder>
     </widget>
    </item>
    <item row="1" column="0">
