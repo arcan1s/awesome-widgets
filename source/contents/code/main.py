@@ -615,6 +615,7 @@ class pyTextWidget(plasmascript.Applet):
             self.label_netUp.setText(text)
         elif (sourceName == "network/interfaces/"+self.netdev+"/receiver/data"):
             value = str(data[QString(u'value')]).split('.')[0]
+            print data[QString(u'value')]
             down_speed = "%4s" % (value)
             if (self.netFormat.split('$net')[0] != self.netFormat):
                 line = self.netFormat.split('$net')[0] + down_speed
