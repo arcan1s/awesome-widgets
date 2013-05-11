@@ -47,6 +47,10 @@ class pyTextWidget(plasmascript.Applet):
         self.settings.set('font_weight', self.font_weight)
         
         # disconnecting from source and clear layout
+        if (self.uptimeBool == 1):
+            self.systemmonitor.disconnectSource("system/uptime",  self)
+            self.label_uptime.setText('')
+            self.layout.removeItem(self.label_uptime)
         if (self.cpuBool == 1):
             self.systemmonitor.disconnectSource("cpu/system/TotalLoad", self)
             self.label_cpu.setText('')
@@ -83,7 +87,18 @@ class pyTextWidget(plasmascript.Applet):
             self.label_bat.setText('')
             self.layout.removeItem(self.label_bat)
         
-        self.label_order = "-------"
+        self.label_order = "------------"
+        
+        if (self.configpage.ui.checkBox_uptime.checkState() == 2):
+            self.uptimeBool = 1
+            pos = self.configpage.ui.slider_uptime.value() - 1
+            self.label_order = self.label_order[:pos] + "8" + self.label_order[pos+1:]
+        else:
+            self.uptimeBool = 0
+        self.uptimeFormat = str(self.configpage.ui.lineEdit_uptime.text())
+        self.settings.set('uptimeBool', self.uptimeBool)
+        self.settings.set('uptimeFormat', self.uptimeFormat)
+        
         if (self.configpage.ui.checkBox_cpu.checkState() == 2):
             self.cpuBool = 1
             pos = self.configpage.ui.slider_cpu.value() - 1
@@ -114,6 +129,26 @@ class pyTextWidget(plasmascript.Applet):
         self.settings.set('tempBool', self.tempBool)
         self.settings.set('tempFormat', self.tempFormat)
         
+        if (self.configpage.ui.checkBox_gpuMem.checkState() == 2):
+            self.gpuMemBool = 1
+            pos = self.configpage.ui.slider_gpuMem.value() - 1
+            self.label_order = self.label_order[:pos] + "9" + self.label_order[pos+1:]
+        else:
+            self.gpuMemBool = 0
+        self.gpuMemFormat = str(self.configpage.ui.lineEdit_gpuMem.text())
+        self.settings.set('gpuMemBool', self.gpuMemBool)
+        self.settings.set('gpuMemFormat', self.gpuMemFormat)
+        
+        if (self.configpage.ui.checkBox_gpuTemp.checkState() == 2):
+            self.gpuTempBool = 1
+            pos = self.configpage.ui.slider_gpuTemp.value() - 1
+            self.label_order = self.label_order[:pos] + "a" + self.label_order[pos+1:]
+        else:
+            self.gpuTempBool = 0
+        self.gpuTempFormat = str(self.configpage.ui.lineEdit_gpuTemp.text())
+        self.settings.set('gpuTempBool', self.gpuTempBool)
+        self.settings.set('gpuTempFormat', self.gpuTempFormat)
+        
         if (self.configpage.ui.checkBox_mem.checkState() == 2):
             self.memBool = 1
             pos = self.configpage.ui.slider_mem.value() - 1
@@ -133,6 +168,26 @@ class pyTextWidget(plasmascript.Applet):
         self.swapFormat = str(self.configpage.ui.lineEdit_swap.text())
         self.settings.set('swapBool', self.swapBool)
         self.settings.set('swapFormat', self.swapFormat)
+        
+        if (self.configpage.ui.checkBox_hdd.checkState() == 2):
+            self.hddBool = 1
+            pos = self.configpage.ui.slider_hdd.value() - 1
+            self.label_order = self.label_order[:pos] + "b" + self.label_order[pos+1:]
+        else:
+            self.hddBool = 0
+        self.hddFormat = str(self.configpage.ui.lineEdit_hdd.text())
+        self.settings.set('hddBool', self.hddBool)
+        self.settings.set('hddFormat', self.hddFormat)
+        
+        if (self.configpage.ui.checkBox_hddTemp.checkState() == 2):
+            self.hddTempBool = 1
+            pos = self.configpage.ui.slider_hddTemp.value() - 1
+            self.label_order = self.label_order[:pos] + "c" + self.label_order[pos+1:]
+        else:
+            self.hddTempBool = 0
+        self.hddTempFormat = str(self.configpage.ui.lineEdit_hddTemp.text())
+        self.settings.set('hddTempBool', self.hddTempBool)
+        self.settings.set('hddTempFormat', self.hddTempFormat)
         
         if (self.configpage.ui.checkBox_net.checkState() == 2):
             self.netBool = 1
@@ -182,6 +237,18 @@ class pyTextWidget(plasmascript.Applet):
             self.configpage.ui.comboBox_style.setCurrentIndex(1)
         self.configpage.ui.spinBox_weight.setValue(int(self.settings.get('font_weight', 400)))
         
+        if (self.uptimeBool == 1):
+            self.configpage.ui.checkBox_uptime.setCheckState(2)
+            self.configpage.ui.slider_uptime.setMaximum(len(self.label_order))
+            self.configpage.ui.slider_uptime.setValue(self.label_order.find("8")+1)
+            self.configpage.ui.slider_uptime.setEnabled(True)
+            self.configpage.ui.lineEdit_uptime.setEnabled(True)
+        else:
+            self.configpage.ui.checkBox_uptime.setCheckState(0)
+            self.configpage.ui.slider_uptime.setDisabled(True)
+            self.configpage.ui.lineEdit_uptime.setDisabled(True)
+        self.configpage.ui.lineEdit_uptime.setText(str(self.settings.get('uptimeFormat', '[uptime: $uptime]')))
+        
         if (self.cpuBool == 1):
             self.configpage.ui.checkBox_cpu.setCheckState(2)
             self.configpage.ui.slider_cpu.setMaximum(len(self.label_order))
@@ -204,7 +271,7 @@ class pyTextWidget(plasmascript.Applet):
             self.configpage.ui.checkBox_cpuclock.setCheckState(0)
             self.configpage.ui.slider_cpuclock.setDisabled(True)
             self.configpage.ui.lineEdit_cpuclock.setDisabled(True)
-        self.configpage.ui.lineEdit_cpuclock.setText(str(self.settings.get('cpuclockFormat', '[MHz: $cpucl]')))
+        self.configpage.ui.lineEdit_cpuclock.setText(str(self.settings.get('cpuclockFormat', '[mhz: $cpucl]')))
         
         if (self.tempBool == 1):
             self.configpage.ui.checkBox_temp.setCheckState(2)
@@ -217,6 +284,30 @@ class pyTextWidget(plasmascript.Applet):
             self.configpage.ui.slider_temp.setDisabled(True)
             self.configpage.ui.lineEdit_temp.setDisabled(True)
         self.configpage.ui.lineEdit_temp.setText(str(self.settings.get('tempFormat', '[temp: $temp&deg;C]')))
+        
+        if (self.gpuMemBool == 1):
+            self.configpage.ui.checkBox_gpuMem.setCheckState(2)
+            self.configpage.ui.slider_gpuMem.setMaximum(len(self.label_order))
+            self.configpage.ui.slider_gpuMem.setValue(self.label_order.find("9")+1)
+            self.configpage.ui.slider_gpuMem.setEnabled(True)
+            self.configpage.ui.lineEdit_gpuMem.setEnabled(True)
+        else:
+            self.configpage.ui.checkBox_gpuMem.setCheckState(0)
+            self.configpage.ui.slider_gpuMem.setDisabled(True)
+            self.configpage.ui.lineEdit_gpuMem.setDisabled(True)
+        self.configpage.ui.lineEdit_gpuMem.setText(str(self.settings.get('gpuMemFormat', '[gpu mem: $gpumem%]')))
+        
+        if (self.gpuTempBool == 1):
+            self.configpage.ui.checkBox_gpuTemp.setCheckState(2)
+            self.configpage.ui.slider_gpuTemp.setMaximum(len(self.label_order))
+            self.configpage.ui.slider_gpuTemp.setValue(self.label_order.find("a")+1)
+            self.configpage.ui.slider_gpuTemp.setEnabled(True)
+            self.configpage.ui.lineEdit_gpuTemp.setEnabled(True)
+        else:
+            self.configpage.ui.checkBox_gpuTemp.setCheckState(0)
+            self.configpage.ui.slider_gpuTemp.setDisabled(True)
+            self.configpage.ui.lineEdit_gpuTemp.setDisabled(True)
+        self.configpage.ui.lineEdit_gpuTemp.setText(str(self.settings.get('gpuTempFormat', '[gpu temp: $gputemp&deg;C]')))
         
         if (self.memBool == 1):
             self.configpage.ui.checkBox_mem.setCheckState(2)
@@ -241,6 +332,30 @@ class pyTextWidget(plasmascript.Applet):
             self.configpage.ui.slider_swap.setDisabled(True)
             self.configpage.ui.lineEdit_swap.setDisabled(True)
         self.configpage.ui.lineEdit_swap.setText(str(self.settings.get('swapFormat', '[swap: $swap%]')))
+        
+        if (self.hddBool == 1):
+            self.configpage.ui.checkBox_hdd.setCheckState(2)
+            self.configpage.ui.slider_hdd.setMaximum(len(self.label_order))
+            self.configpage.ui.slider_hdd.setValue(self.label_order.find("b")+1)
+            self.configpage.ui.slider_hdd.setEnabled(True)
+            self.configpage.ui.lineEdit_hdd.setEnabled(True)
+        else:
+            self.configpage.ui.checkBox_hdd.setCheckState(0)
+            self.configpage.ui.slider_hdd.setDisabled(True)
+            self.configpage.ui.lineEdit_hdd.setDisabled(True)
+        self.configpage.ui.lineEdit_hdd.setText(str(self.settings.get('hddFormat', '[hdd: @@/;@@%]')))
+        
+        if (self.hddTempBool == 1):
+            self.configpage.ui.checkBox_hddTemp.setCheckState(2)
+            self.configpage.ui.slider_hddTemp.setMaximum(len(self.label_order))
+            self.configpage.ui.slider_hddTemp.setValue(self.label_order.find("c")+1)
+            self.configpage.ui.slider_hddTemp.setEnabled(True)
+            self.configpage.ui.lineEdit_hddTemp.setEnabled(True)
+        else:
+            self.configpage.ui.checkBox_hddTemp.setCheckState(0)
+            self.configpage.ui.slider_hddTemp.setDisabled(True)
+            self.configpage.ui.lineEdit_hddTemp.setDisabled(True)
+        self.configpage.ui.lineEdit_hddTemp.setText(str(self.settings.get('hddTempFormat', '[hdd temp: @@/dev/sda@@&deg;C]')))
         
         if (self.netBool == 1):
             self.configpage.ui.checkBox_net.setCheckState(2)
@@ -293,31 +408,46 @@ class pyTextWidget(plasmascript.Applet):
         self.formatLine = "<pre><p align=\"center\"><span style=\" font-family:'" + self.font_family + "'; font-style:" + self.font_style
         self.formatLine = self.formatLine + "; font-size:" + str(self.font_size) + "pt; font-weight:" + str(self.font_weight)
         self.formatLine = self.formatLine + "; color:" + self.font_color + ";\">$LINE</span></p></pre>"
-        self.label_order = str(self.settings.get('label_order', '1723456'))
+        self.label_order = str(self.settings.get('label_order', '81729a34bc56'))
+        self.uptimeBool = int(self.settings.get('uptimeBool',  1))
         self.cpuBool = int(self.settings.get('cpuBool', 1))
         self.cpuclockBool = int(self.settings.get('cpuclockBool', 1))
         self.tempBool = int(self.settings.get('tempBool', 1))
+        self.gpuMemBool = int(self.settings.get('gpuMemBool', 1))
+        self.gpuTempBool = int(self.settings.get('gpuTempBool', 1))
         self.memBool = int(self.settings.get('memBool', 1))
         self.swapBool = int(self.settings.get('swapBool', 1))
+        self.hddBool = int(self.settings.get('hddBool', 1))
+        self.hddTempBool = int(self.settings.get('hddTempBool', 1))
         self.netBool = int(self.settings.get('netBool', 1))
         self.batBool = int(self.settings.get('batBool', 1))
         # small function for update if errors exists
-        if (len(self.label_order) != sum([self.cpuBool, self.cpuclockBool, self.tempBool, self.memBool, self.swapBool, self.netBool, self.batBool])):
+        if (len(self.label_order) != sum([self.uptimeBool,  self.cpuBool, self.cpuclockBool, self.tempBool, self.gpuMemBool,  self.gpuTempBool,  self.memBool, self.swapBool, self.hddBool, self.hddTempBool, self.netBool, self.batBool])):
+            self.uptimeBool = 1
+            self.settings.set('uptimeBool', self.uptimeBool)
             self.cpuBool = 1
             self.settings.set('cpuBool', self.cpuBool)
             self.cpuclockBool = 1
             self.settings.set('cpuclockBool', self.cpuclockBool)
             self.tempBool = 1
             self.settings.set('tempBool', self.tempBool)
+            self.gpuMemBool = 1
+            self.settings.set('gpuMemBool', self.gpuMemBool)
+            self.gpuTempBool = 1
+            self.settings.set('gpuTempBool', self.gpuTempBool)
             self.memBool = 1
             self.settings.set('memBool', self.memBool)
             self.swapBool = 1
             self.settings.set('swapBool', self.swapBool)
+            self.hddBool = 1
+            self.settings.set('hddBool', self.hddBool)
+            self.hddTempBool = 1
+            self.settings.set('hddTempBool', self.hddTempBool)
             self.netBool = 1
             self.settings.set('netBool', self.netBool)
             self.batBool = 1
             self.settings.set('batBool', self.batBool)
-            self.label_order = '1723456'
+            self.label_order = '81729a34bc56'
             self.settings.set('label_order', self.label_order)
         
         for order in self.label_order:
@@ -350,16 +480,15 @@ class pyTextWidget(plasmascript.Applet):
                     if (self.memFormat.split('$memmb')[0] != self.memFormat):
                         self.memInMb = True
                         text = self.formatLine.split('$LINE')[0] + self.memFormat.split('$memmb')[0] + '-----' + self.memFormat.split('$memmb')[1] + self.formatLine.split('$LINE')[1]
-                    else:
+                    elif (self.memFormat.split('$mem')[0] != self.memFormat):
                         self.memInMb = False
                         self.mem_used = 0.0
                         self.mem_free = 1.0
                         self.mem_uf = 0.0
-                        if (self.memFormat.split('$mem')[0] != self.memFormat):
-                            line = self.memFormat.split('$mem')[0] + '-----' + self.memFormat.split('$mem')[1]
-                        else:
-                            line = self.memFormat
-                        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+                        line = self.memFormat.split('$mem')[0] + '-----' + self.memFormat.split('$mem')[1]
+                    else:
+                        line = self.memFormat
+                    text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
                     self.label_mem = Plasma.Label(self.applet)
                     self.label_mem.setText(text)
                     self.layout.addItem(self.label_mem)
@@ -369,15 +498,14 @@ class pyTextWidget(plasmascript.Applet):
                     if (self.swapFormat.split('$swapmb')[0] != self.swapFormat):
                         self.swapInMb = True
                         text = self.formatLine.split('$LINE')[0] + self.swapFormat.split('$swapmb')[0] + '-----' + self.swapFormat.split('$swapmb')[1] + self.formatLine.split('$LINE')[1]
-                    else:
+                    elif (self.swapFormat.split('$swap')[0] != self.swapFormat):
                         self.swapInMb = False
                         self.swap_free = 1.0
                         self.swap_used = 0.0
-                        if (self.swapFormat.split('$swap')[0] != self.swapFormat):
-                            line = self.swapFormat.split('$swap')[0] + '-----' + self.swapFormat.split('$swap')[1]
-                        else:
-                            line = self.swapFormat
-                        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+                        line = self.swapFormat.split('$swap')[0] + '-----' + self.swapFormat.split('$swap')[1]
+                    else:
+                        line = self.swapFormat
+                    text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
                     self.label_swap = Plasma.Label(self.applet)
                     self.label_swap.setText(text)
                     self.layout.addItem(self.label_swap)
@@ -426,7 +554,7 @@ class pyTextWidget(plasmascript.Applet):
                     self.layout.addItem(self.label_bat)
             elif (order == "7"):
                 if (self.cpuclockBool == 1):
-                    self.cpuclockFormat = str(self.settings.get('cpuclockFormat', '[MHz: $cpucl]'))
+                    self.cpuclockFormat = str(self.settings.get('cpuclockFormat', '[mhz: $cpucl]'))
                     self.label_cpuclock = Plasma.Label(self.applet)
                     if (self.cpuclockFormat.split('$cpucl')[0] != self.cpuclockFormat):
                         line = self.cpuclockFormat.split('$cpucl')[0] + '----' + self.cpuclockFormat.split('$cpucl')[1]
@@ -435,6 +563,67 @@ class pyTextWidget(plasmascript.Applet):
                     text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
                     self.label_cpuclock.setText(text)
                     self.layout.addItem(self.label_cpuclock)
+            elif (order == "8"):
+                if (self.uptimeBool == 1):
+                    self.uptimeFormat = str(self.settings.get('uptimeFormat', '[uptime: $uptime]'))
+                    self.label_uptime = Plasma.Label(self.applet)
+                    if (self.uptimeFormat.split('$uptime')[0] != self.uptimeFormat):
+                        line = self.uptimeFormat.split('$uptime')[0] + '---d--h--m' + self.uptimeFormat.split('$uptime')[1]
+                    else:
+                        line = self.uptimeFormat
+                    text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+                    self.label_uptime.setText(text)
+                    self.layout.addItem(self.label_uptime)
+            elif (order == "9"):
+                if (self.gpuMemBool == 1):
+                    self.gpuMemFormat = str(self.settings.get('gpuMemFormat', '[gpu mem: $gpumem%]'))
+                    if (self.gpuMemFormat.split('$gpumemmb')[0] != self.gpuMemFormat):
+                        text = self.formatLine.split('$LINE')[0] + self.gpuMemFormat.split('$gpumemmb')[0] + '-----' + self.gpuMemFormat.split('$gpumemmb')[1] + self.formatLine.split('$LINE')[1]
+                    elif (self.gpuMemFormat.split('$gpumem')[0] != self.gpuMemFormat):
+                        line = self.gpuMemFormat.split('$gpumem')[0] + '-----' + self.gpuMemFormat.split('$gpumem')[1]
+                    else:
+                        line = self.gpuMemFormat
+                    text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+                    self.label_gpuMem = Plasma.Label(self.applet)
+                    self.label_gpuMem.setText(text)
+                    self.layout.addItem(self.label_gpuMem)
+            elif (order == "a"):
+                if (self.gpuTempBool == 1):
+                    self.gpuTempFormat = str(self.settings.get('gpuTempFormat', '[gpu temp: $gputemp&deg;C]'))
+                    self.label_gpuTemp = Plasma.Label(self.applet)
+                    if (self.gpuTempFormat.split('$gputemp')[0] != self.gpuTempFormat):
+                        line = self.gpuTempFormat.split('$gputemp')[0] + '----' + self.gpuTempFormat.split('$gputemp')[1]
+                    else:
+                        line = self.gpuTempFormat
+                    text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+                    self.label_gpuTemp.setText(text)
+                    self.layout.addItem(self.label_gpuTemp)
+            elif (order == "b"):
+                if (self.hddBool == 1):
+                    self.hddFormat = str(self.settings.get('hddFormat', '[hdd: @@/@@%]'))
+                    self.label_hdd = Plasma.Label(self.applet)
+                    if (self.hddFormat.split('@@')[0] != self.hddFormat):
+                        self.mountPoints = self.hddFormat.split('@@')[1].split(';')
+                        line = self.hddFormat.split('@@')[0]
+                        for items in self.mountPoints:
+                            line = line + '-----'
+                        line = line + self.hddFormat.split('@@')[2]
+                    else:
+                        line = self.hddFormat
+                    text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+                    self.label_hdd.setText(text)
+                    self.layout.addItem(self.label_hdd)
+            elif (order == "c"):
+                if (self.hddTempBool == 1):
+                    self.hddTempFormat = str(self.settings.get('hddTempFormat', '[hdd temp: @@/dev/sda@@&deg;C]'))
+                    self.label_hddTemp = Plasma.Label(self.applet)
+                    if (self.hddTempFormat.split('@@')[0] != self.hddTempFormat):
+                        line = self.hddTempFormat.split('@@')[0] + '----' + self.hddTempFormat.split('@@')[2]
+                    else:
+                        line = self.hddTempFormat
+                    text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+                    self.label_hddTemp.setText(text)
+                    self.layout.addItem(self.label_hddTemp)
         self.applet.setLayout(self.layout)        
         self.theme = Plasma.Svg(self)
         self.theme.setImagePath("widgets/background")
@@ -500,10 +689,18 @@ class pyTextWidget(plasmascript.Applet):
    
     def updateLabel(self):
         """function to update label"""
+        if (self.gpuMemBool == 1):
+            self.gpuMemText()
+        if (self.gpuTempBool == 1):
+            self.gpuTempText()
         if ((self.memBool == 1) and (self.memInMb == False)):
             self.memText()
         if ((self.swapBool == 1) and (self.swapInMb == False)):
             self.swapText()
+        if (self.hddBool == 1):
+            self.hddText()
+        if (self.hddTempBool == 1):
+            self.hddTempText()
         if (self.batBool == 1):
             self.batText()
     
@@ -532,6 +729,58 @@ class pyTextWidget(plasmascript.Applet):
         text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
         self.label_bat.setText(text)
     
+    def gpuMemText(self):
+        """function to set gpu memory text"""
+        if (self.gpuMemFormat.split('$gpumem')[0] != self.gpuMemFormat):
+            commandOut = commands.getoutput("nvidia-smi -q -d MEMORY | grep Total -A 2")
+            gpumem = "%5s" % (str(round(float(commandOut.split()[6]) / float(commandOut.split()[2]), 1)))
+            line = self.gpuMemFormat.split('$gpumem')[0] + gpumem + self.gpuMemFormat.split('$gpumem')[1]
+        elif (self.gpuMemFormat.split('$gpumemmb')[0] != self.gpuMemFormat):
+            commandOut = commands.getoutput("nvidia-smi -q -d MEMORY | grep Used")
+            gpumem = "%5s" % (str(round(float(commandOut.split()[2])), 1))
+            line = self.gpuMemFormat.split('$gpumem')[0] + gpumem + self.gpuMemFormat.split('$gpumem')[1]
+        else:
+            line = self.gpuMemFormat
+        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+        self.label_gpuMem.setText(text)
+    
+    def gpuTempText(self):
+        """function to set gpu temperature text"""
+        commandOut = commands.getoutput("nvidia-smi -q -d TEMPERATURE | grep Gpu")
+        gputemp = "%4s" % (str(round(float(commandOut.split()[2]), 1)))
+        if (self.gpuTempFormat.split('$gputemp')[0] != self.gpuTempFormat):
+            line = self.gpuTempFormat.split('$gputemp')[0] + gputemp + self.gpuTempFormat.split('$gputemp')[1]
+        else:
+            line = self.gpuTempFormat
+        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+        self.label_gpuTemp.setText(text)
+    
+    def hddTempText(self):
+        """function to set hdd temperature text"""
+        commandOut = commands.getoutput("hddtemp "+self.hddTempFormat.split('@@')[1])
+        hddtemp = "%4s" % (str(round(float(commandOut.split(':')[2][:-3]), 1)))
+        if (self.hddTempFormat.split('@@')[0] != self.hddTempFormat):
+            line = self.hddTempFormat.split('@@')[0] + hddtemp + self.hddTempFormat.split('@@')[2]
+        else:
+            line = self.hddTempFormat
+        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+        self.label_hddTemp.setText(text)
+    
+    def hddText(self):
+        """function to set hdd usage text"""
+        commandOut = commands.getoutput("df -h --output='target,pcent'")
+        hdd = ''
+        for mounts in self.mountPoints:
+            for items in commandOut.split('\n')[1:]:
+                if (mounts == items.split()[0]):
+                    hdd = hdd + "%5s" % (str(round(float(items.split()[1][:-1]), 1)))
+        if (self.hddFormat.split('@@')[0] != self.hddFormat):
+            line = self.hddFormat.split('@@')[0] + hdd + self.hddFormat.split('@@')[2]
+        else:
+            line = self.hddFormat
+        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+        self.label_hdd.setText(text)
+    
     def memText(self):
         """function to set mem text"""
         full = self.mem_uf + self.mem_free
@@ -543,7 +792,7 @@ class pyTextWidget(plasmascript.Applet):
             line = self.memFormat
         text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
         self.label_mem.setText(text)
-    
+
     def swapText(self):
         """function to set swap text"""
         full = self.swap_used + self.swap_free
@@ -559,6 +808,8 @@ class pyTextWidget(plasmascript.Applet):
     def connectToEngine(self):
         """function to initializate engine"""
         self.systemmonitor = self.dataEngine("systemmonitor")
+        if (self.uptimeBool == 1):
+            self.systemmonitor.connectSource("system/uptime", self, self.interval)
         if (self.cpuBool == 1):
             self.systemmonitor.connectSource("cpu/system/TotalLoad", self, self.interval)
         if (self.cpuclockBool == 1):
@@ -586,6 +837,15 @@ class pyTextWidget(plasmascript.Applet):
     @pyqtSignature("dataUpdated(const QString &, const Plasma::DataEngine::Data &)")
     def dataUpdated(self, sourceName, data):
         """function to refresh data"""
+        if (sourceName == "system/uptime"):
+            value = int(round(float(data[QString(u'value')]), 1))
+            uptimeText = '%3sd%2sh%2sm' % (str(int(value/(24*60*60))), int(value/60/60)-int(value/24/60/60)*24, (value-value%60)/60%60)
+            if (self.uptimeFormat.split('$uptime')[0] != self.uptimeFormat):
+                line = self.uptimeFormat.split('$uptime')[0] + uptimeText + self.uptimeFormat.split('$uptime')[1]
+            else:
+                line = self.uptimeFormat
+            text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+            self.label_uptime.setText(text)
         if (sourceName == "cpu/system/TotalLoad"):
             value = str(round(float(data[QString(u'value')]), 1))
             cpuText = "%5s" % (value)
