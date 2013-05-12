@@ -68,8 +68,18 @@ class pyTextWidget(plasmascript.Applet):
                 self.layout.removeItem(self.label_cpu)
         if (self.cpuclockBool == 1):
             self.systemmonitor.disconnectSource("cpu/system/AverageClock", self)
-            self.label_cpuclock.setText('')
-            self.layout.removeItem(self.label_cpuclock)
+            if (self.cpuclockFormat.split('$ccpu')[0] != self.cpuclockFormat):
+                self.label_cpuclock0.setText('')
+                self.layout.removeItem(self.label_cpuclock0)
+                self.label_cpuclock1.setText('')
+                self.layout.removeItem(self.label_cpuclock1)
+                for core in range(self.numCores):
+                    self.systemmonitor.disconnectSource("cpu/cpu"+str(core)+"/clock", self)
+                    exec ("self.label_coreCpuclock" + str(core) + ".setText('')")
+                    exec ("self.layout.removeItem(self.label_coreCpuclock" + str(core) + ")")
+            else:
+                self.label_cpuclock.setText('')
+                self.layout.removeItem(self.label_cpuclock)
         if (self.tempBool == 1):
             self.systemmonitor.disconnectSource(self.tempdev, self)
             self.label_temp.setText('')
@@ -475,8 +485,9 @@ class pyTextWidget(plasmascript.Applet):
                         text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
                         self.label_cpu0.setText(text)
                         self.layout.addItem(self.label_cpu0)
-                        text = self.formatLine.split('$LINE')[0] + "----- " + self.formatLine.split('$LINE')[1]
+                        #text = self.formatLine.split('$LINE')[0] + "----- " + self.formatLine.split('$LINE')[1]
                         for core in range(self.numCores):
+                            text = self.formatLine.split('$LINE')[0] + "Core" + str(core) + "\n-----" + self.formatLine.split('$LINE')[1]
                             exec ('self.label_coreCpu' + str(core) + ' = Plasma.Label(self.applet)')
                             exec ('self.label_coreCpu' + str(core) + '.setText(text)')
                             exec ('self.layout.addItem(self.label_coreCpu' + str(core) + ')')
@@ -589,14 +600,37 @@ class pyTextWidget(plasmascript.Applet):
             elif (order == "7"):
                 if (self.cpuclockBool == 1):
                     self.cpuclockFormat = str(self.settings.get('cpuclockFormat', '[mhz: $cpucl]'))
-                    self.label_cpuclock = Plasma.Label(self.applet)
-                    if (self.cpuclockFormat.split('$cpucl')[0] != self.cpuclockFormat):
-                        line = self.cpuclockFormat.split('$cpucl')[0] + '----' + self.cpuclockFormat.split('$cpucl')[1]
+                    if (self.cpuclockFormat.split('$ccpucl')[0] != self.cpuclockFormat):
+                        self.label_cpuclock0 = Plasma.Label(self.applet)
+                        self.label_cpuclock1 = Plasma.Label(self.applet)
+                        if (self.cpuclockFormat.split('$ccpucl')[0].split('$cpucl')[0] != self.cpuclockFormat.split('$ccpucl')[0]):
+                            line = self.cpuclockFormat.split('$ccpucl')[0].split('$cpucl')[0] + '----' + self.cpuclockFormat.split('$ccpucl')[0].split('$cpucl')[1]
+                        else:
+                            line = self.cpuclockFormat.split('$ccpucl')[0]
+                        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+                        self.label_cpuclock0.setText(text)
+                        self.layout.addItem(self.label_cpuclock0)
+                        text = self.formatLine.split('$LINE')[0] + "---- " + self.formatLine.split('$LINE')[1]
+                        for core in range(self.numCores):
+                            exec ('self.label_coreCpuclock' + str(core) + ' = Plasma.Label(self.applet)')
+                            exec ('self.label_coreCpuclock' + str(core) + '.setText(text)')
+                            exec ('self.layout.addItem(self.label_coreCpuclock' + str(core) + ')')
+                        if (self.cpuclockFormat.split('$ccpucl')[1].split('$cpucl')[0] != self.cpuclockFormat.split('$ccpucl')[1]):
+                            line = self.cpuclockFormat.split('$ccpucl')[1].split('$cpucl')[0] + '----' + self.cpuclockFormat.split('$ccpucl')[1].split('$cpucl')[1]
+                        else:
+                            line = self.cpuclockFormat.split('$ccpucl')[1]
+                        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+                        self.label_cpuclock1.setText(text)
+                        self.layout.addItem(self.label_cpuclock1)
                     else:
-                        line = self.cpuclockFormat
-                    text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
-                    self.label_cpuclock.setText(text)
-                    self.layout.addItem(self.label_cpuclock)
+                        self.label_cpuclock = Plasma.Label(self.applet)
+                        if (self.cpuclockFormat.split('$cpucl')[0] != self.cpuclockFormat):
+                            line = self.cpuclockFormat.split('$cpucl')[0] + '----' + self.cpuclockFormat.split('$cpucl')[1]
+                        else:
+                            line = self.cpuclockFormat
+                        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+                        self.label_cpuclock.setText(text)
+                        self.layout.addItem(self.label_cpuclock)
             elif (order == "8"):
                 if (self.uptimeBool == 1):
                     self.uptimeFormat = str(self.settings.get('uptimeFormat', '[uptime: $uptime]'))
@@ -856,6 +890,9 @@ class pyTextWidget(plasmascript.Applet):
                     self.systemmonitor.connectSource("cpu/cpu"+str(core)+"/TotalLoad", self, self.interval)
         if (self.cpuclockBool == 1):
             self.systemmonitor.connectSource("cpu/system/AverageClock", self, self.interval)
+            if (self.cpuclockFormat.split('$ccpucl')[0] != self.cpuclockFormat):
+                for core in range(self.numCores):
+                    self.systemmonitor.connectSource("cpu/cpu"+str(core)+"/clock", self, self.interval)
         if (self.netBool == 1):
             self.updateNetdev = 0
             self.systemmonitor.connectSource("network/interfaces/"+self.netdev+"/transmitter/data", self, self.interval)
@@ -911,20 +948,40 @@ class pyTextWidget(plasmascript.Applet):
                     line = self.cpuFormat
                 text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
                 self.label_cpu.setText(text)
-        elif (str(sourceName)[:7] == "cpu/cpu"):
+        elif ((str(sourceName)[:7] == "cpu/cpu") and (str(sourceName).split('/')[2] == "TotalLoad")):
             value = str(round(float(data[QString(u'value')]), 1))
             cpuText = "%5s" % (value)
-            text = self.formatLine.split('$LINE')[0] + cpuText + self.formatLine.split('$LINE')[1]
+            #text = self.formatLine.split('$LINE')[0] + cpuText + self.formatLine.split('$LINE')[1]
+            text = self.formatLine.split('$LINE')[0] + "Core" + str(sourceName)[7] + "\n" + cpuText + self.formatLine.split('$LINE')[1]
             exec ('self.label_coreCpu' + str(sourceName)[7] + '.setText(text)')
         elif (sourceName == "cpu/system/AverageClock"):
             value = str(data[QString(u'value')]).split('.')[0]
             cpuclockText = "%4s" % (value)
-            if (self.cpuclockFormat.split('$cpucl')[0] != self.cpuclockFormat):
-                line = self.cpuclockFormat.split('$cpucl')[0] + cpuclockText + self.cpuclockFormat.split('$cpucl')[1]
+            if (self.cpuclockFormat.split('$ccpucl')[0] != self.cpuclockFormat):
+                if (self.cpuclockFormat.split('$ccpucl')[0].split('$cpucl')[0] != self.cpuclockFormat.split('$ccpucl')[0]):
+                    line = self.cpuclockFormat.split('$ccpucl')[0].split('$cpucl')[0] + cpuclockText + self.cpuclockFormat.split('$ccpucl')[0].split('$cpucl')[1]
+                else:
+                    line = self.cpuclockFormat.split('$ccpucl')[0]
+                text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+                self.label_cpuclock0.setText(text)
+                if (self.cpuclockFormat.split('$ccpucl')[1].split('$cpucl')[0] != self.cpuclockFormat.split('$ccpucl')[1]):
+                    line = self.cpuclockFormat.split('$ccpucl')[1].split('$cpucl')[0] + cpuclockText + self.cpuclockFormat.split('$ccpucl')[1].split('$cpucl')[1]
+                else:
+                    line = self.cpuclockFormat.split('$ccpucl')[1]
+                text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+                self.label_cpuclock1.setText(text)
             else:
-                line = self.cpuclockFormat
-            text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
-            self.label_cpuclock.setText(text)
+                if (self.cpuclockFormat.split('$cpucl')[0] != self.cpuclockFormat):
+                    line = self.cpuclockFormat.split('$cpucl')[0] + cpuclockText + self.cpuclockFormat.split('$cpucl')[1]
+                else:
+                    line = self.cpuclockFormat
+                text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+                self.label_cpuclock.setText(text)
+        elif ((str(sourceName)[:7] == "cpu/cpu") and (str(sourceName).split('/')[2] == "clock")):
+            value = str(data[QString(u'value')]).split('.')[0]
+            cpuclockText = "%4s" % (value)
+            text = self.formatLine.split('$LINE')[0] + cpuclockText + self.formatLine.split('$LINE')[1]
+            exec ('self.label_coreCpuclock' + str(sourceName)[7] + '.setText(text)')
         elif (sourceName == "network/interfaces/"+self.netdev+"/transmitter/data"):
             value = str(data[QString(u'value')]).split('.')[0]
             up_speed = "%4s" % (value)
