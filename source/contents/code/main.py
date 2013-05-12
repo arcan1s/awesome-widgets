@@ -24,6 +24,7 @@ class pyTextWidget(plasmascript.Applet):
         """function to initializate widget"""
         self._name = str(self.package().metadata().pluginName())
         self.layout = QGraphicsLinearLayout(Qt.Horizontal, self.applet)
+        self.setupCores()
         self.reinit()
         self.setHasConfigurationInterface(True)
      
@@ -53,8 +54,18 @@ class pyTextWidget(plasmascript.Applet):
             self.layout.removeItem(self.label_uptime)
         if (self.cpuBool == 1):
             self.systemmonitor.disconnectSource("cpu/system/TotalLoad", self)
-            self.label_cpu.setText('')
-            self.layout.removeItem(self.label_cpu)
+            if (self.cpuFormat.split('$ccpu')[0] != self.cpuFormat):
+                self.label_cpu0.setText('')
+                self.layout.removeItem(self.label_cpu0)
+                self.label_cpu1.setText('')
+                self.layout.removeItem(self.label_cpu1)
+                for core in range(self.numCores):
+                    self.systemmonitor.disconnectSource("cpu/cpu"+str(core)+"/TotalLoad", self)
+                    exec ("self.label_coreCpu" + str(core) + ".setText('')")
+                    exec ("self.layout.removeItem(self.label_coreCpu" + str(core) + ")")
+            else:
+                self.label_cpu.setText('')
+                self.layout.removeItem(self.label_cpu)
         if (self.cpuclockBool == 1):
             self.systemmonitor.disconnectSource("cpu/system/AverageClock", self)
             self.label_cpuclock.setText('')
@@ -454,14 +465,37 @@ class pyTextWidget(plasmascript.Applet):
             if (order == "1"):
                 if (self.cpuBool == 1):
                     self.cpuFormat = str(self.settings.get('cpuFormat', '[cpu: $cpu%]'))
-                    self.label_cpu = Plasma.Label(self.applet)
-                    if (self.cpuFormat.split('$cpu')[0] != self.cpuFormat):
-                        line = self.cpuFormat.split('$cpu')[0] + '-----' + self.cpuFormat.split('$cpu')[1]
+                    if (self.cpuFormat.split('$ccpu')[0] != self.cpuFormat):
+                        self.label_cpu0 = Plasma.Label(self.applet)
+                        self.label_cpu1 = Plasma.Label(self.applet)
+                        if (self.cpuFormat.split('$ccpu')[0].split('$cpu')[0] != self.cpuFormat.split('$ccpu')[0]):
+                            line = self.cpuFormat.split('$ccpu')[0].split('$cpu')[0] + '-----' + self.cpuFormat.split('$ccpu')[0].split('$cpu')[1]
+                        else:
+                            line = self.cpuFormat.split('$ccpu')[0]
+                        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+                        self.label_cpu0.setText(text)
+                        self.layout.addItem(self.label_cpu0)
+                        text = self.formatLine.split('$LINE')[0] + "----- " + self.formatLine.split('$LINE')[1]
+                        for core in range(self.numCores):
+                            exec ('self.label_coreCpu' + str(core) + ' = Plasma.Label(self.applet)')
+                            exec ('self.label_coreCpu' + str(core) + '.setText(text)')
+                            exec ('self.layout.addItem(self.label_coreCpu' + str(core) + ')')
+                        if (self.cpuFormat.split('$ccpu')[1].split('$cpu')[0] != self.cpuFormat.split('$ccpu')[1]):
+                            line = self.cpuFormat.split('$ccpu')[1].split('$cpu')[0] + '-----' + self.cpuFormat.split('$ccpu')[1].split('$cpu')[1]
+                        else:
+                            line = self.cpuFormat.split('$ccpu')[1]
+                        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+                        self.label_cpu1.setText(text)
+                        self.layout.addItem(self.label_cpu1)
                     else:
-                        line = self.cpuFormat
-                    text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
-                    self.label_cpu.setText(text)
-                    self.layout.addItem(self.label_cpu)
+                        self.label_cpu = Plasma.Label(self.applet)
+                        if (self.cpuFormat.split('$cpu')[0] != self.cpuFormat):
+                            line = self.cpuFormat.split('$cpu')[0] + '-----' + self.cpuFormat.split('$cpu')[1]
+                        else:
+                            line = self.cpuFormat
+                        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+                        self.label_cpu.setText(text)
+                        self.layout.addItem(self.label_cpu)
             elif (order == "2"):
                 if (self.tempBool == 1):
                     self.tempFormat = str(self.settings.get('tempFormat', '[temp: $temp&deg;C]'))
@@ -635,6 +669,11 @@ class pyTextWidget(plasmascript.Applet):
         self.timer = QtCore.QTimer()
         self.timer.setInterval(self.interval)
         self.startPolling()
+    
+    def setupCores(self):
+        """function tp setup number of cores"""
+        commandOut = commands.getoutput("grep -c '^processor' /proc/cpuinfo")
+        self.numCores = int(commandOut)
     
     def setupNetdev(self):
         """function to setup network device"""
@@ -812,6 +851,9 @@ class pyTextWidget(plasmascript.Applet):
             self.systemmonitor.connectSource("system/uptime", self, self.interval)
         if (self.cpuBool == 1):
             self.systemmonitor.connectSource("cpu/system/TotalLoad", self, self.interval)
+            if (self.cpuFormat.split('$ccpu')[0] != self.cpuFormat):
+                for core in range(self.numCores):
+                    self.systemmonitor.connectSource("cpu/cpu"+str(core)+"/TotalLoad", self, self.interval)
         if (self.cpuclockBool == 1):
             self.systemmonitor.connectSource("cpu/system/AverageClock", self, self.interval)
         if (self.netBool == 1):
@@ -846,15 +888,34 @@ class pyTextWidget(plasmascript.Applet):
                 line = self.uptimeFormat
             text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
             self.label_uptime.setText(text)
-        if (sourceName == "cpu/system/TotalLoad"):
+        elif (sourceName == "cpu/system/TotalLoad"):
             value = str(round(float(data[QString(u'value')]), 1))
             cpuText = "%5s" % (value)
-            if (self.cpuFormat.split('$cpu')[0] != self.cpuFormat):
-                line = self.cpuFormat.split('$cpu')[0] + cpuText + self.cpuFormat.split('$cpu')[1]
+            if (self.cpuFormat.split('$ccpu')[0] != self.cpuFormat):
+                if (self.cpuFormat.split('$ccpu')[0].split('$cpu')[0] != self.cpuFormat.split('$ccpu')[0]):
+                    line = self.cpuFormat.split('$ccpu')[0].split('$cpu')[0] + cpuText + self.cpuFormat.split('$ccpu')[0].split('$cpu')[1]
+                else:
+                    line = self.cpuFormat.split('$ccpu')[0]
+                text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+                self.label_cpu0.setText(text)
+                if (self.cpuFormat.split('$ccpu')[1].split('$cpu')[0] != self.cpuFormat.split('$ccpu')[1]):
+                    line = self.cpuFormat.split('$ccpu')[1].split('$cpu')[0] + cpuText + self.cpuFormat.split('$ccpu')[1].split('$cpu')[1]
+                else:
+                    line = self.cpuFormat.split('$ccpu')[1]
+                text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+                self.label_cpu1.setText(text)
             else:
-                line = self.cpuFormat
-            text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
-            self.label_cpu.setText(text)
+                if (self.cpuFormat.split('$cpu')[0] != self.cpuFormat):
+                    line = self.cpuFormat.split('$cpu')[0] + cpuText + self.cpuFormat.split('$cpu')[1]
+                else:
+                    line = self.cpuFormat
+                text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+                self.label_cpu.setText(text)
+        elif (str(sourceName)[:7] == "cpu/cpu"):
+            value = str(round(float(data[QString(u'value')]), 1))
+            cpuText = "%5s" % (value)
+            text = self.formatLine.split('$LINE')[0] + cpuText + self.formatLine.split('$LINE')[1]
+            exec ('self.label_coreCpu' + str(sourceName)[7] + '.setText(text)')
         elif (sourceName == "cpu/system/AverageClock"):
             value = str(data[QString(u'value')]).split('.')[0]
             cpuclockText = "%4s" % (value)
