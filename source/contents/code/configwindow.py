@@ -701,8 +701,7 @@ class ConfigWindow(QWidget):
             order.append(self.ui.slider_temp.value())
         if (self.ui.checkBox_uptime.checkState() == 2):
             order.append(self.ui.slider_uptime.value())
-        print order
+        
         for value in range(len(order)+1)[1:]:
             if (order.count(value) == 0):
-                print value
                 return int(value)

@@ -1292,7 +1292,7 @@ $swapmb - swap usage, MB</string>
            <property name="toolTip">
             <string notr="true">$net - network speed, down/up, KB/s
 $netdev - current network device
-@@netdev=eth0@@ - disable auto select device and set specified device</string>
+@@eth0@@ - disable auto select device and set specified device</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

@@ -421,7 +421,7 @@ class pyTextWidget(plasmascript.Applet):
         self.hddTempBool = int(self.settings.get('hddTempBool', 1))
         self.netBool = int(self.settings.get('netBool', 1))
         self.batBool = int(self.settings.get('batBool', 1))
-        # small function for update if errors exists
+        # small function for update if errors exist
         if (len(self.label_order) != sum([self.uptimeBool,  self.cpuBool, self.cpuclockBool, self.tempBool, self.gpuMemBool,  self.gpuTempBool,  self.memBool, self.swapBool, self.hddBool, self.hddTempBool, self.netBool, self.batBool])):
             self.uptimeBool = 1
             self.settings.set('uptimeBool', self.uptimeBool)
@@ -512,8 +512,8 @@ class pyTextWidget(plasmascript.Applet):
             elif (order == "5"):
                 if (self.netBool == 1):
                     self.netNonFormat = str(self.settings.get('netNonFormat', '[net: $netKB/s]'))
-                    if (self.netNonFormat.split('@@netdev=')[0] != self.netNonFormat):
-                        self.netdev = self.netNonFormat.split('@@')[1].split('netdev=')[1]
+                    if (self.netNonFormat.split('@@')[0] != self.netNonFormat):
+                        self.netdev = self.netNonFormat.split('@@')[1]
                         self.netNonFormat = self.netNonFormat.split('@@')[0] + self.netNonFormat.split('@@')[2]
                     else:
                         self.num_dev = int(self.settings.get('num_dev', 0))
@@ -886,7 +886,7 @@ class pyTextWidget(plasmascript.Applet):
             self.updateNetdev = self.updateNetdev + 1
             if (self.updateNetdev == 100):
                 self.updateNetdev = 0
-                if (self.netNonFormat.split('@@netdev=')[0] == self.netNonFormat):
+                if (self.netNonFormat.split('@@')[0] == self.netNonFormat):
                     self.systemmonitor.disconnectSource("network/interfaces/"+self.netdev+"/transmitter/data", self)
                     self.systemmonitor.disconnectSource("network/interfaces/"+self.netdev+"/receiver/data", self)
                     self.setupNetdev()
