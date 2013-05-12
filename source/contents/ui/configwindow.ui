@@ -244,7 +244,8 @@
             </size>
            </property>
            <property name="toolTip">
-            <string notr="true">$cpu - total load CPU, %</string>
+            <string notr="true">$cpu - total load CPU, %
+$ccpu - load CPU for each core, %</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -355,7 +356,8 @@
             </size>
            </property>
            <property name="toolTip">
-            <string notr="true">$cpucl - average CPU clock, MHz</string>
+            <string notr="true">$cpucl - average CPU clock, MHz
+$ccpucl - CPU clock for each core, MHz</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1520,6 +1522,9 @@ $ac - AC status</string>
             <height>25</height>
            </size>
           </property>
+          <property name="toolTip">
+           <string>&quot;/sys/class/power_supply/BAT0/capacity&quot; by default</string>
+          </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
@@ -1592,6 +1597,9 @@ $ac - AC status</string>
             <width>16777215</width>
             <height>25</height>
            </size>
+          </property>
+          <property name="toolTip">
+           <string>&quot;/sys/class/power_supply/AC/online&quot; by default</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
