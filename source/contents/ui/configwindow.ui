@@ -161,10 +161,10 @@
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>7</number>
+            <number>12</number>
            </property>
            <property name="singleStep">
-            <number>6</number>
+            <number>1</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -276,10 +276,13 @@ $ccpu - load CPU for each core, %</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>6</number>
+            <number>12</number>
            </property>
            <property name="pageStep">
             <number>1</number>
+           </property>
+           <property name="value">
+            <number>2</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -388,13 +391,16 @@ $ccpucl - CPU clock for each core, MHz</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>7</number>
+            <number>12</number>
            </property>
            <property name="singleStep">
-            <number>6</number>
+            <number>1</number>
            </property>
            <property name="pageStep">
             <number>1</number>
+           </property>
+           <property name="value">
+            <number>3</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -502,13 +508,16 @@ $ccpucl - CPU clock for each core, MHz</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>7</number>
+            <number>12</number>
            </property>
            <property name="singleStep">
-            <number>6</number>
+            <number>1</number>
            </property>
            <property name="pageStep">
             <number>1</number>
+           </property>
+           <property name="value">
+            <number>4</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -522,7 +531,7 @@ $ccpucl - CPU clock for each core, MHz</string>
        </widget>
       </item>
       <item>
-       <widget class="QWidget" name="widget_gpuMem" native="true">
+       <widget class="QWidget" name="widget_gpu" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -543,7 +552,7 @@ $ccpucl - CPU clock for each core, MHz</string>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_15">
          <item>
-          <widget class="QCheckBox" name="checkBox_gpuMem">
+          <widget class="QCheckBox" name="checkBox_gpu">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -563,7 +572,7 @@ $ccpucl - CPU clock for each core, MHz</string>
             </size>
            </property>
            <property name="text">
-            <string notr="true">GPU Memory</string>
+            <string notr="true">GPU</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -571,7 +580,7 @@ $ccpucl - CPU clock for each core, MHz</string>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_gpuMem">
+          <widget class="QLineEdit" name="lineEdit_gpu">
            <property name="minimumSize">
             <size>
              <width>0</width>
@@ -585,8 +594,7 @@ $ccpucl - CPU clock for each core, MHz</string>
             </size>
            </property>
            <property name="toolTip">
-            <string notr="true">$gpumem - video memory usage, %
-$gpumemmb - video memory usage, MB</string>
+            <string notr="true">$gpu - gpu usage, %</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -594,7 +602,7 @@ $gpumemmb - video memory usage, MB</string>
           </widget>
          </item>
          <item>
-          <widget class="QSlider" name="slider_gpuMem">
+          <widget class="QSlider" name="slider_gpu">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -617,13 +625,16 @@ $gpumemmb - video memory usage, MB</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>7</number>
+            <number>12</number>
            </property>
            <property name="singleStep">
-            <number>6</number>
+            <number>1</number>
            </property>
            <property name="pageStep">
             <number>1</number>
+           </property>
+           <property name="value">
+            <number>5</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -731,13 +742,16 @@ $gpumemmb - video memory usage, MB</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>7</number>
+            <number>12</number>
            </property>
            <property name="singleStep">
-            <number>6</number>
+            <number>1</number>
            </property>
            <property name="pageStep">
             <number>1</number>
+           </property>
+           <property name="value">
+            <number>6</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -846,10 +860,13 @@ $memmb - RAM usage, MB</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>6</number>
+            <number>12</number>
            </property>
            <property name="pageStep">
             <number>1</number>
+           </property>
+           <property name="value">
+            <number>7</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -958,10 +975,13 @@ $swapmb - swap usage, MB</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>6</number>
+            <number>12</number>
            </property>
            <property name="pageStep">
             <number>1</number>
+           </property>
+           <property name="value">
+            <number>8</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -1069,10 +1089,13 @@ $swapmb - swap usage, MB</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>6</number>
+            <number>12</number>
            </property>
            <property name="pageStep">
             <number>1</number>
+           </property>
+           <property name="value">
+            <number>9</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -1180,10 +1203,13 @@ $swapmb - swap usage, MB</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>6</number>
+            <number>12</number>
            </property>
            <property name="pageStep">
             <number>1</number>
+           </property>
+           <property name="value">
+            <number>10</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -1325,10 +1351,13 @@ $netdev - current network device
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>6</number>
+            <number>12</number>
            </property>
            <property name="pageStep">
             <number>1</number>
+           </property>
+           <property name="value">
+            <number>11</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -1440,10 +1469,16 @@ $ac - AC status</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>6</number>
+            <number>12</number>
            </property>
            <property name="pageStep">
             <number>1</number>
+           </property>
+           <property name="value">
+            <number>12</number>
+           </property>
+           <property name="sliderPosition">
+            <number>12</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -2183,7 +2218,7 @@ $ac - AC status</string>
      <zorder>widget_cpuclock</zorder>
      <zorder>widget_weight</zorder>
      <zorder>widget_gpuTemp</zorder>
-     <zorder>widget_gpuMem</zorder>
+     <zorder>widget_gpu</zorder>
      <zorder>widget_uptime</zorder>
      <zorder>widget_hdd</zorder>
      <zorder>widget_hddTemp</zorder>
@@ -2211,9 +2246,9 @@ $ac - AC status</string>
   <tabstop>checkBox_temp</tabstop>
   <tabstop>lineEdit_temp</tabstop>
   <tabstop>slider_temp</tabstop>
-  <tabstop>checkBox_gpuMem</tabstop>
-  <tabstop>lineEdit_gpuMem</tabstop>
-  <tabstop>slider_gpuMem</tabstop>
+  <tabstop>checkBox_gpu</tabstop>
+  <tabstop>lineEdit_gpu</tabstop>
+  <tabstop>slider_gpu</tabstop>
   <tabstop>checkBox_gpuTemp</tabstop>
   <tabstop>lineEdit_gpuTemp</tabstop>
   <tabstop>slider_gpuTemp</tabstop>
