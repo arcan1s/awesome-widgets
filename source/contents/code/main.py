@@ -178,27 +178,10 @@ class pyTextWidget(plasmascript.Applet):
         for label in self.dict_orders.keys():
             exec ('bool = self.' + self.dict_orders[label] + 'Bool')
             if (bool == 1):
-                self.configpage.sliders[self.dict_orders[label]].setMaximum(len(self.label_order))
-                self.configpage.sliders[self.dict_orders[label]].setValue(self.label_order.find(label)+1)
-                self.configpage.sliders[self.dict_orders[label]].setEnabled(True)
-                self.configpage.lineedits[self.dict_orders[label]].setEnabled(True)
                 self.configpage.checkboxes[self.dict_orders[label]].setCheckState(2)
-                if (self.dict_orders[label] == 'net'):
-                    self.configpage.ui.comboBox_numNet.setEnabled(True)
-                elif (self.dict_orders[label] == 'bat'):
-                    self.configpage.ui.lineEdit_acdev.setEnabled(True)
-                    self.configpage.ui.lineEdit_batdev.setEnabled(True)
+                self.configpage.sliders[self.dict_orders[label]].setValue(self.label_order.find(label)+1)
             else:
-                self.configpage.sliders[self.dict_orders[label]].setMaximum(len(self.label_order))
-                self.configpage.sliders[self.dict_orders[label]].setValue(1)
-                self.configpage.sliders[self.dict_orders[label]].setDisabled(True)
-                self.configpage.lineedits[self.dict_orders[label]].setDisabled(True)
                 self.configpage.checkboxes[self.dict_orders[label]].setCheckState(0)
-                if (self.dict_orders[label] == 'net'):
-                    self.configpage.ui.comboBox_numNet.setDisabled(True)
-                elif (self.dict_orders[label] == 'bat'):
-                    self.configpage.ui.lineEdit_acdev.setDisabled(True)
-                    self.configpage.ui.lineEdit_batdev.setDisabled(True)
             if (self.dict_orders[label] == 'net'):
                 self.configpage.ui.comboBox_numNet.setCurrentIndex(int(self.settings.get('num_dev', 0)))
                 self.configpage.lineedits[self.dict_orders[label]].setText(str(self.settings.get(self.dict_orders[label] + 'NonFormat', self.dict_defFormat[self.dict_orders[label]])))
@@ -553,7 +536,6 @@ class pyTextWidget(plasmascript.Applet):
         try:
             self.timer.start()
             QtCore.QObject.connect(self.timer, QtCore.SIGNAL("timeout()"), self.updateLabel)
-            
             self.updateLabel()
             self.showTooltip('')
         except Exception as (strerror):
