@@ -7,7 +7,7 @@ from util import *
 class Config():
     def __init__(self, applet):
         self.applet = applet
-        self.config = self.applet.globalConfig()
+        self.config = self.applet.config()
     
     def get(self, key, default = ''):
         return self.config.readEntry(key, default).toString()
