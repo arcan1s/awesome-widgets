@@ -26,3 +26,4 @@ For edited output you must open Settings window and setup output format in lines
 
 Label order will changed if you change slider position. HTML tags in label work normally.
 Attention: you don't may set to show $cpu in swap label for example. $cpu will work only in cpu label.
+Attention: gpu, gputemp and hddtemp labels require extsysmon dataengine!

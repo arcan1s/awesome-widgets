@@ -9,7 +9,7 @@ from PyKDE4 import plasmascript
 
 
 class ConfigWindow(QWidget):
-    def __init__(self, parent, settings):
+    def __init__(self, parent):
         """settings window definition"""
         QWidget.__init__(self)
         self.ui = uic.loadUi(parent.package().filePath('ui', 'configwindow.ui'), self)

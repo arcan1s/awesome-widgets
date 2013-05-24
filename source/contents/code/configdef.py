@@ -1,27 +1,39 @@
-class ConfigAccepted:
-    def __init__(self, parent):
+# -*- coding: utf-8 -*-
+
+from PyQt4.QtGui import *
+from PyKDE4.kdecore import *
+from PyKDE4.kdeui import *
+import config
+
+
+
+class ConfigDefinition:
+    def __init__(self, parent, configpage):
         """class definition"""
         self.parent = parent
+        self.configpage = configpage
     
     
     def configAccepted(self):
         """function to accept settings"""
+        settings = config.Config(self.parent)
+        
         # update local variables
-        self.parent.interval = int(self.parent.configpage.ui.spinBox_interval.value())
-        self.parent.settings.set('interval', self.parent.interval)
-        self.parent.font_family = str(self.parent.configpage.ui.fontComboBox.currentFont().family())
-        self.parent.settings.set('font_family', self.parent.font_family)
-        self.parent.font_size = int(self.parent.configpage.ui.spinBox_fontSize.value())
-        self.parent.settings.set('font_size', self.parent.font_size)
-        self.parent.font_color = str(self.parent.configpage.ui.kcolorcombo.color().name())
-        self.parent.settings.set('font_color', self.parent.font_color)
-        if (self.parent.configpage.ui.comboBox_style.currentIndex() == 0):
+        self.parent.interval = self.configpage.ui.spinBox_interval.value()
+        settings.set('interval', self.parent.interval)
+        self.parent.font_family = str(self.configpage.ui.fontComboBox.currentFont().family())
+        settings.set('font_family', self.parent.font_family)
+        self.parent.font_size = self.configpage.ui.spinBox_fontSize.value()
+        settings.set('font_size', self.parent.font_size)
+        self.parent.font_color = str(self.configpage.ui.kcolorcombo.color().name())
+        settings.set('font_color', self.parent.font_color)
+        if (self.configpage.ui.comboBox_style.currentIndex() == 0):
             self.parent.font_style = 'normal'
         else:
             self.parent.font_style = 'italic'
-        self.parent.settings.set('font_style', self.parent.font_style)
-        self.parent.font_weight = int(self.parent.configpage.ui.spinBox_weight.value())
-        self.parent.settings.set('font_weight', self.parent.font_weight)
+        settings.set('font_style', self.parent.font_style)
+        self.parent.font_weight = self.configpage.ui.spinBox_weight.value()
+        settings.set('font_weight', self.parent.font_weight)
         
         # disconnecting from source and clear layout
         if (self.parent.uptimeBool == 1):
@@ -61,11 +73,11 @@ class ConfigAccepted:
             self.parent.label_temp.setText('')
             self.parent.layout.removeItem(self.parent.label_temp)
         if (self.parent.gpuBool == 1):
-            self.parent.gpuChecker.stop()
+            self.parent.extsysmon.disconnectSource("gpu", self.parent)
             self.parent.label_gpu.setText('')
             self.parent.layout.removeItem(self.parent.label_gpu)
         if (self.parent.gputempBool == 1):
-            self.parent.gpuTempChecker.stop()
+            self.parent.extsysmon.disconnectSource("gputemp", self.parent)
             self.parent.label_gputemp.setText('')
             self.parent.layout.removeItem(self.parent.label_gputemp)
         if (self.parent.memBool == 1):
@@ -91,7 +103,7 @@ class ConfigAccepted:
             self.parent.layout.removeItem(self.parent.label_hdd0)
             self.parent.layout.removeItem(self.parent.label_hdd1)
         if (self.parent.hddtempBool == 1):
-            self.parent.hddTempChecker.stop()
+            self.parent.extsysmon.disconnectSource("hddtemp", self.parent)
             self.parent.label_hddtemp.setText('')
             self.parent.layout.removeItem(self.parent.label_hddtemp)
         if (self.parent.netBool == 1):
@@ -108,30 +120,68 @@ class ConfigAccepted:
         self.parent.label_order = "------------"
         
         for label in self.parent.dict_orders.keys():
-            if (self.parent.configpage.checkboxes[self.parent.dict_orders[label]].checkState() == 2):
+            if (self.configpage.checkboxes[self.parent.dict_orders[label]].checkState() == 2):
                 exec ('self.parent.' + self.parent.dict_orders[label] + 'Bool = 1')
-                pos = self.parent.configpage.sliders[self.parent.dict_orders[label]].value() - 1
+                pos = self.configpage.sliders[self.parent.dict_orders[label]].value() - 1
                 self.parent.label_order = self.parent.label_order[:pos] + label + self.parent.label_order[pos+1:]
             else:
                 exec ('self.parent.' + self.parent.dict_orders[label] + 'Bool = 0')
             if (self.parent.dict_orders[label] == 'net'):
-                exec ('self.parent.' + self.parent.dict_orders[label] + 'NonFormat = str(self.parent.configpage.lineedits[self.parent.dict_orders[label]].text())')
-                exec ('self.parent.settings.set("' + self.parent.dict_orders[label] + 'NonFormat", self.parent.' + self.parent.dict_orders[label] + 'NonFormat)')
+                exec ('self.parent.' + self.parent.dict_orders[label] + 'NonFormat = str(self.configpage.lineedits[self.parent.dict_orders[label]].text())')
+                exec ('settings.set("' + self.parent.dict_orders[label] + 'NonFormat", self.parent.' + self.parent.dict_orders[label] + 'NonFormat)')
             else:
-                exec ('self.parent.' + self.parent.dict_orders[label] + 'Format = str(self.parent.configpage.lineedits[self.parent.dict_orders[label]].text())')
-                exec ('self.parent.settings.set("' + self.parent.dict_orders[label] + 'Format", self.parent.' + self.parent.dict_orders[label] + 'Format)')
-            exec ('self.parent.settings.set("' + self.parent.dict_orders[label] + 'Bool", self.parent.' + self.parent.dict_orders[label] + 'Bool)')
+                exec ('self.parent.' + self.parent.dict_orders[label] + 'Format = str(self.configpage.lineedits[self.parent.dict_orders[label]].text())')
+                exec ('settings.set("' + self.parent.dict_orders[label] + 'Format", self.parent.' + self.parent.dict_orders[label] + 'Format)')
+            exec ('settings.set("' + self.parent.dict_orders[label] + 'Bool", self.parent.' + self.parent.dict_orders[label] + 'Bool)')
             if (self.parent.dict_orders[label] == 'net'):
-                self.parent.num_dev = int(self.parent.configpage.ui.comboBox_numNet.currentIndex())
-                self.parent.settings.set('num_dev', self.parent.num_dev)
+                self.parent.num_dev = self.configpage.ui.comboBox_numNet.currentIndex()
+                settings.set('num_dev', self.parent.num_dev)
             elif (self.parent.dict_orders[label] == 'bat'):
-                self.parent.battery_device = str(self.parent.configpage.ui.lineEdit_batdev.text())
-                self.parent.ac_device = str(self.parent.configpage.ui.lineEdit_acdev.text())
-                self.parent.settings.set('battery_device', self.parent.battery_device)
-                self.parent.settings.set('ac_device', self.parent.ac_device)
+                self.parent.battery_device = str(self.configpage.ui.lineEdit_batdev.text())
+                self.parent.ac_device = str(self.configpage.ui.lineEdit_acdev.text())
+                settings.set('battery_device', self.parent.battery_device)
+                settings.set('ac_device', self.parent.ac_device)
         
         self.parent.label_order = ''.join(self.parent.label_order.split('-'))
-        self.parent.settings.set('label_order', self.parent.label_order)
+        settings.set('label_order', self.parent.label_order)
         
         # reinitializate
         self.parent.reinit.reinit()
+    
+    
+    def createConfigurationInterface(self, parent):
+        """function to setup configuration window"""
+        settings = config.Config(self.parent)
+        
+        font = QFont(str(settings.get('font_family', 'Terminus')), settings.get('font_size', 12).toInt()[0], 400, False)
+        self.configpage.ui.spinBox_interval.setValue(settings.get('interval', 2000).toInt()[0])
+        self.configpage.ui.fontComboBox.setCurrentFont(font)
+        self.configpage.ui.spinBox_fontSize.setValue(settings.get('font_size', 12).toInt()[0])
+        self.configpage.ui.kcolorcombo.setColor(QColor(str(settings.get('font_color', '#000000'))))
+        font = str(settings.get('font_style', 'normal'))
+        if (font == 'normal'):
+            self.configpage.ui.comboBox_style.setCurrentIndex(0)
+        else:
+            self.configpage.ui.comboBox_style.setCurrentIndex(1)
+        self.configpage.ui.spinBox_weight.setValue(settings.get('font_weight', 400).toInt()[0])
+        for label in self.parent.dict_orders.keys():
+            exec ('bool = self.parent.' + self.parent.dict_orders[label] + 'Bool')
+            if (bool == 1):
+                self.configpage.checkboxes[self.parent.dict_orders[label]].setCheckState(2)
+                self.configpage.sliders[self.parent.dict_orders[label]].setValue(self.parent.label_order.find(label)+1)
+            else:
+                self.configpage.checkboxes[self.parent.dict_orders[label]].setCheckState(0)
+            if (self.parent.dict_orders[label] == 'net'):
+                self.configpage.ui.comboBox_numNet.setCurrentIndex(settings.get('num_dev', 0).toInt()[0])
+                self.configpage.lineedits[self.parent.dict_orders[label]].setText(str(settings.get(self.parent.dict_orders[label] + 'NonFormat', self.parent.dict_defFormat[self.parent.dict_orders[label]])))
+            else:
+                self.configpage.lineedits[self.parent.dict_orders[label]].setText(str(settings.get(self.parent.dict_orders[label] + 'Format', self.parent.dict_defFormat[self.parent.dict_orders[label]])))
+            if (self.parent.dict_orders[label] == 'bat'):
+                self.configpage.ui.lineEdit_batdev.setText(str(settings.get('battery_device', '/sys/class/power_supply/BAT0/capacity')))
+                self.configpage.ui.lineEdit_acdev.setText(str(settings.get('ac_device', '/sys/class/power_supply/AC/online')))
+        
+        # add config page
+        page = parent.addPage(self.configpage, i18n(self.parent.name()))
+        page.setIcon(KIcon(self.parent.icon()))
+        
+        parent.okClicked.connect(self.configAccepted)
