@@ -80,6 +80,7 @@ class Reinit():
                         self.parent.layout.addItem(self.parent.label_cpu)
             elif (order == "2"):
                 if (self.parent.tempBool == 1):
+                    self.parent.tempdev = str(settings.get('temp_device', '<select device>'))
                     self.parent.tempFormat = str(settings.get('tempFormat', '[temp: $temp&deg;C]'))
                     self.parent.label_temp = Plasma.Label(self.parent.applet)
                     if (self.parent.tempFormat.split('$temp')[0] != self.parent.tempFormat):

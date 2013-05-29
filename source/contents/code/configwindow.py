@@ -51,6 +51,8 @@ class ConfigWindow(QWidget):
                     self.ui.lineEdit_batdev.setEnabled(True)
                 elif (label == 'net'):
                     self.ui.comboBox_numNet.setEnabled(True)
+                elif (label == 'temp'):
+                    self.ui.comboBox_temp.setEnabled(True)
                 slider_label = 0
                 for slider in self.sliders.values():
                     if (slider.isEnabled() == True):
@@ -69,6 +71,8 @@ class ConfigWindow(QWidget):
                     self.ui.lineEdit_batdev.setDisabled(True)
                 elif (label == 'net'):
                     self.ui.comboBox_numNet.setDisabled(True)
+                elif (label == 'temp'):
+                    self.ui.comboBox_temp.setDisabled(True)
                 for slider in self.sliders.values():
                     if ((slider.value() == slider.maximum()) and (slider != self.sliders[label])):
                         slider.setValue(self.sliders[label].value())

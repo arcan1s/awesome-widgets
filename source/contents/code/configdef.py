@@ -3,6 +3,7 @@
 from PyQt4.QtGui import *
 from PyKDE4.kdecore import *
 from PyKDE4.kdeui import *
+import commands
 import config
 
 
@@ -141,6 +142,9 @@ class ConfigDefinition:
                 self.parent.ac_device = str(self.configpage.ui.lineEdit_acdev.text())
                 settings.set('battery_device', self.parent.battery_device)
                 settings.set('ac_device', self.parent.ac_device)
+            elif (self.parent.dict_orders[label] == 'temp'):
+                self.parent.tempdev = str(self.configpage.ui.comboBox_temp.currentText())
+                settings.set('temp_device', self.parent.tempdev)
         
         self.parent.label_order = ''.join(self.parent.label_order.split('-'))
         settings.set('label_order', self.parent.label_order)
@@ -179,6 +183,17 @@ class ConfigDefinition:
             if (self.parent.dict_orders[label] == 'bat'):
                 self.configpage.ui.lineEdit_batdev.setText(str(settings.get('battery_device', '/sys/class/power_supply/BAT0/capacity')))
                 self.configpage.ui.lineEdit_acdev.setText(str(settings.get('ac_device', '/sys/class/power_supply/AC/online')))
+            elif (self.parent.dict_orders[label] == 'temp'):
+                self.configpage.ui.comboBox_temp.addItem(str(settings.get('temp_device', '<select device>')))
+                commandOut = commands.getoutput("sensors")
+                for adapter in commandOut.split("\n\n"):
+                    for device in adapter.split("\n"):
+                        if (device.find('\xc2\xb0C') > -1):
+                            try:
+                                tempdev = 'lmsensors/' + adapter.split('\n')[0] + '/' + '_'.join(device.split(":")[0].split())
+                                self.configpage.ui.comboBox_temp.addItem(tempdev)
+                            except:
+                                pass
         
         # add config page
         page = parent.addPage(self.configpage, i18n(self.parent.name()))
