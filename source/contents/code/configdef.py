@@ -134,10 +134,7 @@ class ConfigDefinition:
                 exec ('self.parent.' + self.parent.dict_orders[label] + 'Format = str(self.configpage.lineedits[self.parent.dict_orders[label]].text())')
                 exec ('settings.set("' + self.parent.dict_orders[label] + 'Format", self.parent.' + self.parent.dict_orders[label] + 'Format)')
             exec ('settings.set("' + self.parent.dict_orders[label] + 'Bool", self.parent.' + self.parent.dict_orders[label] + 'Bool)')
-            if (self.parent.dict_orders[label] == 'net'):
-                self.parent.num_dev = self.configpage.ui.comboBox_numNet.currentIndex()
-                settings.set('num_dev', self.parent.num_dev)
-            elif (self.parent.dict_orders[label] == 'bat'):
+            if (self.parent.dict_orders[label] == 'bat'):
                 self.parent.battery_device = str(self.configpage.ui.lineEdit_batdev.text())
                 self.parent.ac_device = str(self.configpage.ui.lineEdit_acdev.text())
                 settings.set('battery_device', self.parent.battery_device)
@@ -176,7 +173,6 @@ class ConfigDefinition:
             else:
                 self.configpage.checkboxes[self.parent.dict_orders[label]].setCheckState(0)
             if (self.parent.dict_orders[label] == 'net'):
-                self.configpage.ui.comboBox_numNet.setCurrentIndex(settings.get('num_dev', 0).toInt()[0])
                 self.configpage.lineedits[self.parent.dict_orders[label]].setText(str(settings.get(self.parent.dict_orders[label] + 'NonFormat', self.parent.dict_defFormat[self.parent.dict_orders[label]])))
             else:
                 self.configpage.lineedits[self.parent.dict_orders[label]].setText(str(settings.get(self.parent.dict_orders[label] + 'Format', self.parent.dict_defFormat[self.parent.dict_orders[label]])))

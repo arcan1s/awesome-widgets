@@ -60,22 +60,19 @@ class pyTextWidget(plasmascript.Applet):
 
     def setupNetdev(self):
         """function to setup network device"""
-        if (self.num_dev == 0):
-            for line in commands.getoutput("ifconfig -a").split("\n"):
-                if (line != ''):
-                    if ((line[0] != ' ') and (line[0:3] != "lo:")):
-                        self.netdev = line.split()[0][:-1]
-        else:
+        self.netdev = "lo"
+        try:
             interfaces = []
             for line in commands.getoutput("ifconfig -a").split("\n"):
-                if (line != ''):
-                    if ((line[0] != ' ') and (line[0:3] != "lo:")):
-                        interfaces.append(line.split()[0][:-1])
-                    
-            command_line = "if ! (ifconfig "+ interfaces[1] + " | grep 'inet ' > /dev/null); then "
-            command_line = command_line + "if ! (ifconfig "+ interfaces[0] + " | grep 'inet ' > /dev/null); then echo lo; "
-            command_line = command_line + "else echo "+ interfaces[0] + "; fi; else echo "+ interfaces[1] + "; fi"
-            self.netdev = commands.getoutput(command_line)
+                if ((line != '') and (line[0] != ' ') and (line[0:3] != 'lo:')):
+                    interfaces.append(line.split(":")[0])
+            
+            for device in interfaces:
+                if (commands.getoutput("ifconfig " + device + " | grep 'inet '") != ''):
+                    self.netdev = device
+                    break
+        except:
+            pass
 
 
     def setupVar(self):
@@ -126,23 +123,23 @@ class pyTextWidget(plasmascript.Applet):
         """function to set battery text"""
         line = self.batFormat
         if (line.split('$bat')[0] != line):
-            if os.path.exists(self.battery_device):
+            try:
                 with open (self.battery_device, 'r') as bat_file:
                     bat = bat_file.readline().split('\n')[0]
-            else:
+            except:
                 bat = 'off'
             bat = "%3s" % (bat)
             line = line.split('$bat')[0] + bat + line.split('$bat')[1]
         
         if (line.split('$ac')[0] != line):
-            if os.path.exists(self.ac_device):
+            try:
                 with open (self.ac_device, 'r') as bat_file:
                     bat = bat_file.readline().split('\n')[0]
                 if (bat == '1'):
                     bat = '(*)'
                 else:
                     bat = '( )'
-            else:
+            except:
                 bat = '(?)'
             line = line.split('$ac')[0] + bat + line.split('$ac')[1]
         text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]

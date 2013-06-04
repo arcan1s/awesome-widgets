@@ -132,7 +132,6 @@ class Reinit():
                         self.parent.netdev = self.parent.netNonFormat.split('@@')[1]
                         self.parent.netNonFormat = self.parent.netNonFormat.split('@@')[0] + self.parent.netNonFormat.split('@@')[2]
                     else:
-                        self.parent.num_dev = int(settings.get('num_dev', 0))
                         self.parent.setupNetdev()
                     if (self.parent.netNonFormat.split('$netdev')[0] != self.parent.netNonFormat):
                         self.parent.netFormat = self.parent.netNonFormat.split('$netdev')[0] + self.parent.netdev + self.parent.netNonFormat.split('$netdev')[1]

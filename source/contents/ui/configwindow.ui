@@ -1303,38 +1303,6 @@ $swapmb - swap usage, MB</string>
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="comboBox_numNet">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>100</width>
-             <height>25</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>100</width>
-             <height>25</height>
-            </size>
-           </property>
-           <item>
-            <property name="text">
-             <string notr="true">One device</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">Two devices</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item>
           <widget class="QLineEdit" name="lineEdit_net">
            <property name="minimumSize">
             <size>
@@ -2296,7 +2264,6 @@ $ac - AC status</string>
   <tabstop>lineEdit_hddTemp</tabstop>
   <tabstop>slider_hddTemp</tabstop>
   <tabstop>checkBox_net</tabstop>
-  <tabstop>comboBox_numNet</tabstop>
   <tabstop>lineEdit_net</tabstop>
   <tabstop>slider_net</tabstop>
   <tabstop>checkBox_bat</tabstop>
