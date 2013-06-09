@@ -51,12 +51,17 @@ class pyTextWidget(plasmascript.Applet):
     def initTooltip(self):
         """function to create tooltip"""
         self.tooltip = Plasma.ToolTipContent()
-        self.tooltip.setMainText("PyTetMonitor")
+        self.tooltip.setMainText("PyTextMonitor")
         self.tooltip.setSubText('')
         Plasma.ToolTipManager.self().registerWidget(self.applet)
         # show tooltip
         #Plasma.ToolTipManager.self().setContent(self.applet, self.tooltip)
+    
 
+    def mouseDoubleClickEvent(self, event):
+        """function to doubleclick event"""
+        os.system("ksysguard")
+    
 
     def setupNetdev(self):
         """function to setup network device"""
@@ -102,7 +107,7 @@ class pyTextWidget(plasmascript.Applet):
             self.timer.start()
             self.updateLabel()
             self.tooltip.setSubText('')
-        except Exception as (strerror):
+        except Exception as strerror:
             self.tooltip.setSubText(str(strerror))
             self.label_error = Plasma.Label(self.applet)
             self.label_error.setText('<font color="red">ERROR</font>')

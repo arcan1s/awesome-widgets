@@ -7,7 +7,7 @@ Icon=utilities-system-monitor
 
 X-Plasma-API=python
 X-Plasma-MainScript=code/main.py
-X-Plasma-RequiredExtensions=FileDialog,LaunchApp,LocalIO
+X-Plasma-RequiredExtensions=LaunchApp,LocalIO,FileDialog
 
 X-KDE-PluginInfo-Author=Evgeniy Alexeev aka arcanis
 X-KDE-PluginInfo-Email=esalexeev@gmail.com

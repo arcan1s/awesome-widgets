@@ -61,7 +61,7 @@ class DataEngine:
             self.parent.systemmonitor.connectSource("network/interfaces/"+self.parent.netdev+"/receiver/data", self.parent, self.parent.interval)
     
     def dataUpdated(self, sourceName, data):
-        """function to refresh data"""
+        """function to update data"""
         try:
             if (sourceName == "system/uptime"):
                 value = int(round(float(data[QString(u'value')]), 1))
@@ -231,5 +231,7 @@ class DataEngine:
                     line = self.parent.hddtempFormat
                 text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                 self.parent.label_hddtemp.setText(text)
+                
+            self.parent.update()
         except:
             pass
