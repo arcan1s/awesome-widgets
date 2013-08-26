@@ -4,7 +4,7 @@
 pkgname=kdeplasma-applets-pytextmonitor
 _pkgname=py-text-monitor
 pkgver=1.3.4
-pkgrel=1
+pkgrel=2
 _dtengine=ext-sysmon
 _dtver=1.1
 pkgdesc="Minimalistic Plasmoid script written on Python2. It looks like widgets in awesome-wm"
@@ -14,7 +14,7 @@ license=('GPL')
 depends=('kdebindings-python2' 'lm_sensors' 'net-tools')
 optdepends=('catalyst: for GPU monitor'
             'nvidia-utils: for GPU monitor')
-makedepends=('unzip')
+makedepends=('unzip' 'cmake')
 source=(https://github.com/arcan1s/pytextmonitor/releases/download/V.1.3.4/${_pkgname}-${pkgver}.plasmoid
         https://github.com/arcan1s/pytextmonitor/releases/download/V.1.3.4/${_dtengine}-${_dtver}.zip)
 md5sums=('cdc55960177a07b52ab0a2713f5df212'
