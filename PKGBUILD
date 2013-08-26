@@ -18,7 +18,7 @@ makedepends=('unzip')
 source=(https://github.com/arcan1s/pytextmonitor/releases/download/V.1.3.4/${_pkgname}-${pkgver}.plasmoid
         https://github.com/arcan1s/pytextmonitor/releases/download/V.1.3.4/${_dtengine}-${_dtver}.zip)
 md5sums=('cdc55960177a07b52ab0a2713f5df212'
-         '84fde352850f4d46309e5077a7db22a6')
+         'a744d27336348893e22042a7439fa0b8')
 
 build ()
 {
