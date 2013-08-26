@@ -1,11 +1,17 @@
 #include "extsysmon.h"
-#include <stdio.h>
+
 #include <Plasma/DataContainer>
+
+#include <locale.h>
+#include <stdio.h>
 
 ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList& args)
   : Plasma::DataEngine(parent, args)
 {
   Q_UNUSED(args)
+  
+  QLocale::setDefault(QLocale::C);
+  setlocale (LC_ALL, "C");
 
   setMinimumPollingInterval(333);
 
@@ -49,8 +55,6 @@ bool ExtendedSysMon::sourceRequestEvent(const QString &name)
 
 bool ExtendedSysMon::updateSourceEvent(const QString &source)
 {
-  QLocale::setDefault(QLocale::C);
-
   FILE *f_out;
   QString key, out, tmp_out, value;
   bool ok = false;

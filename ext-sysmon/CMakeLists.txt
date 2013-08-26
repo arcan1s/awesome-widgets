@@ -9,7 +9,6 @@ include_directories (${CMAKE_SOURCE_DIR}
                      ${CMAKE_BINARY_DIR}
                      ${KDE4_INCLUDES})
 
-set (CMAKE_CXX_FLAGS "-fexceptions")
 set (extsysmon_engine_SRCS extsysmon.cpp)
  
 # Now make sure all files get to the right place
