@@ -60,40 +60,33 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     key = QString("GPU");
     if (gpudev == QString("nvidia"))
     {
-      try
+      f_out = popen("nvidia-smi -q -d UTILIZATION | grep Gpu | tail -n1 2>&1", "r");
+      fgets (output, 256, f_out);
+      if ((output[0] == '\0') ||
+          (QString(output).split(QString(" "), QString::SkipEmptyParts).count() < 2))
+        value = QString("  N\\A");
+      else
       {
-        f_out = popen("nvidia-smi -q -d UTILIZATION | grep Gpu | tail -n1 2>&1", "r");
-        fgets (output, 256, f_out);
-        if (output[0] == '\0')
-          throw;
         out = QString(output).split(QString(" "), QString::SkipEmptyParts)[2];
         sprintf (val, "%5.1f", out.left(out.count()-2).toFloat(&ok));
         value = QString(val);
-        pclose(f_out);
       }
-      catch(std::exception &e)
-      {
-        value = QString("  N\\A");
-      }
+      pclose(f_out);
     }
     else if (gpudev == QString("ati"))
     {
-      try
+      f_out = popen("aticonfig --od-getclocks | grep load | tail -n1 2>&1", "r");
+      fgets (output, 256, f_out);
+      if ((output[0] == '\0') ||
+          (QString(output).split(QString(" "), QString::SkipEmptyParts).count() < 3))
+        value = QString("  N\\A");
+      else
       {
-        f_out = popen("aticonfig --od-getclocks | grep load | tail -n1 2>&1", "r");
-        fgets (output, 256, f_out);
-        if (output[0] == '\0')
-          throw;
-        printf ("lol?");
         out = QString(output).split(QString(" "), QString::SkipEmptyParts)[3];
         sprintf (val, "%5.1f", out.left(out.count()-2).toFloat(&ok));
         value = QString(val);
-        pclose(f_out);
       }
-      catch(std::exception &e)
-      {
-        value = QString("  N\\A");
-      }
+      pclose(f_out);
     }
     else
     {
@@ -108,37 +101,31 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     key = QString("GPUTemp");
     if (gpudev == QString("nvidia"))
     {
-      try
+      f_out = popen("nvidia-smi -q -d TEMPERATURE | grep Gpu | tail -n1 2>&1", "r");
+      fgets (output, 256, f_out);
+      if ((output[0] == '\0') ||
+          (QString(output).split(QString(" "), QString::SkipEmptyParts).count() < 2))
+        value = QString(" N\\A");
+      else
       {
-        f_out = popen("nvidia-smi -q -d TEMPERATURE | grep Gpu | tail -n1 2>&1", "r");
-        fgets (output, 256, f_out);
-        if (output[0] == '\0')
-          throw;
         out = QString(output).split(QString(" "), QString::SkipEmptyParts)[2];
         sprintf (val, "%4.1f", out.toFloat(&ok));
         value = QString(val);
-        pclose(f_out);
       }
-      catch(std::exception &e)
-      {
-        value = QString(" N\\A");
-      }
+      pclose(f_out);
     }
     else if (gpudev == QString("ati"))
     {
-      try
+      f_out = popen("aticonfig --od-gettemperature | grep Temperature | tail -n1 2>&1", "r");
+      fgets (output, 256, f_out);
+      if ((output[0] == '\0') ||
+          (QString(output).split(QString(" "), QString::SkipEmptyParts).count() < 4))
+        value = QString(" N\\A");
+      else
       {
-        f_out = popen("aticonfig --od-gettemperature | grep Temperature | tail -n1 2>&1", "r");
-        fgets (output, 256, f_out);
-        if (output[0] == '\0')
-          throw;
         out = QString(output).split(QString(" "), QString::SkipEmptyParts)[4];
         sprintf (val, "%4.1f", out.toFloat(&ok));
         value = QString(val);
-      }
-      catch(std::exception &e)
-      {
-        value = QString(" N\\A");
       }
       pclose(f_out);
     }
@@ -158,22 +145,19 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     {
       qb = hdddev[i].toUtf8();
       dev = qb.data();
-      sprintf(command, "sudo hddtemp %s 2>&1", dev);
-      try
+      sprintf(command, "hddtemp %s", dev);
+      f_out = popen(command, "r");
+      fgets(output, 256, f_out);
+      if ((output[0] == '\0') ||
+          (QString(output).split(QString(":"), QString::SkipEmptyParts).count() < 3))
+        value = QString(" N\\A");
+      else
       {
-        f_out = popen(command, "r");
-        fgets(output, 256, f_out);
-        if (output[0] == '\0')
-          throw;
         out = QString(output).split(QString(":"), QString::SkipEmptyParts)[2];
         sprintf (val, "%4.1f", out.left(out.count()-4).toFloat(&ok));
         value = QString(val);
-        pclose(f_out);
       }
-      catch(std::exception &e)
-      {
-        value = QString(" N\\A");
-      }
+      pclose(f_out);
       if (ok == false)
         value = QString(" N\\A");
       setData(source, hdddev[i], value);
