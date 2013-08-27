@@ -12,7 +12,8 @@ arch=(any)
 url="https://github.com/arcan1s/pytextmonitor"
 license=('GPL')
 depends=('kdebindings-python2' 'lm_sensors' 'net-tools')
-optdepends=('catalyst: for GPU monitor'
+optdepends=('hddtemp: for HDD temperature monitor'
+            'catalyst: for GPU monitor'
             'nvidia-utils: for GPU monitor')
 makedepends=('unzip' 'cmake' 'automoc4')
 source=(https://github.com/arcan1s/pytextmonitor/releases/download/V.1.3.4/${_pkgname}-${pkgver}.plasmoid
