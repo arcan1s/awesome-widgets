@@ -26,7 +26,7 @@ build ()
 # build dataengine
   unzip -o -q ${srcdir}/${_dtengine}-${_dtver}.zip -d ${srcdir}/${_dtengine}
   if [ -d ${srcdir}/${_dtengine}/build ]; then
-    rm -r build
+    rm -r ${srcdir}/${_dtengine}/build
   fi
   mkdir ${srcdir}/${_dtengine}/build && cd ${srcdir}/${_dtengine}/build
   cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release ../
