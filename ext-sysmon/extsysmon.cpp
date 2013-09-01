@@ -2,16 +2,12 @@
 
 #include <Plasma/DataContainer>
 
-#include <locale.h>
 #include <stdio.h>
 
 ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList& args)
   : Plasma::DataEngine(parent, args)
 {
   Q_UNUSED(args)
-  
-//   QLocale::setDefault(QLocale::C);
-  setlocale (LC_ALL, "C");
 
   setMinimumPollingInterval(333);
 
@@ -98,6 +94,7 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     }
     if (ok == false)
       value = QString("  N\\A");
+    value = value.split(QString(","), QString::SkipEmptyParts).join(QString("."));
     setData(source, key, value);
   }
   else if (source == QString("gputemp"))
@@ -139,6 +136,7 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     }
     if (ok == false)
       value = QString(" N\\A");
+    value = value.split(QString(","), QString::SkipEmptyParts).join(QString("."));
     setData(source, key, value);
   }
   else if (source == QString("hddtemp"))
@@ -164,6 +162,7 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
       pclose(f_out);
       if (ok == false)
         value = QString(" N\\A");
+      value = value.split(QString(","), QString::SkipEmptyParts).join(QString("."));
       setData(source, hdddev[i], value);
     }
   }

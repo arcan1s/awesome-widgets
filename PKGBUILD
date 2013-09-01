@@ -4,7 +4,7 @@
 pkgname=kdeplasma-applets-pytextmonitor
 _pkgname=py-text-monitor
 pkgver=1.3.4
-pkgrel=4
+pkgrel=5
 _dtengine=ext-sysmon
 _dtver=1.2
 pkgdesc="Minimalistic Plasmoid script written on Python2. It looks like widgets in awesome-wm"
@@ -20,7 +20,7 @@ source=(https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/$
         https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/${_dtengine}-${_dtver}.zip)
 install=${pkgname}.install
 md5sums=('cdc55960177a07b52ab0a2713f5df212'
-         'eab8d084bad5bd6791005ccc93a46676')
+         '9dfc23f75d330fcb3b8a9cfa20b7717a')
 
 build ()
 {
