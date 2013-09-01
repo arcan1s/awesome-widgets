@@ -10,7 +10,7 @@ ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList& args)
 {
   Q_UNUSED(args)
   
-  QLocale::setDefault(QLocale::C);
+//   QLocale::setDefault(QLocale::C);
   setlocale (LC_ALL, "C");
 
   setMinimumPollingInterval(333);

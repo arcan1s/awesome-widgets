@@ -4,9 +4,9 @@
 pkgname=kdeplasma-applets-pytextmonitor
 _pkgname=py-text-monitor
 pkgver=1.3.4
-pkgrel=3
+pkgrel=4
 _dtengine=ext-sysmon
-_dtver=1.1
+_dtver=1.2
 pkgdesc="Minimalistic Plasmoid script written on Python2. It looks like widgets in awesome-wm"
 arch=(any)
 url="https://github.com/arcan1s/pytextmonitor"
@@ -16,10 +16,11 @@ optdepends=('hddtemp: for HDD temperature monitor'
             'catalyst: for GPU monitor'
             'nvidia-utils: for GPU monitor')
 makedepends=('unzip' 'cmake' 'automoc4')
-source=(https://github.com/arcan1s/pytextmonitor/releases/download/V.1.3.4/${_pkgname}-${pkgver}.plasmoid
-        https://github.com/arcan1s/pytextmonitor/releases/download/V.1.3.4/${_dtengine}-${_dtver}.zip)
+source=(https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/${_pkgname}-${pkgver}.plasmoid
+        https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/${_dtengine}-${_dtver}.zip)
+install=${pkgname}.install
 md5sums=('cdc55960177a07b52ab0a2713f5df212'
-         '0c5580c99d70221cf58d600e0a0db5de')
+         'eab8d084bad5bd6791005ccc93a46676')
 
 build ()
 {
