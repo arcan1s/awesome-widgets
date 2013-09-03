@@ -277,13 +277,8 @@ class Reinit():
         self.parent.resize(10,10)
         
         # create dataengines
-        label_start = True
-        while label_start:
-            try:
-                self.parent.dataengine.connectToEngine()
-                label_start = False
-            except:
-                pass
+        self.parent.thread().wait(60000)
+        self.parent.dataengine.connectToEngine()
         
         self.parent.timer.setInterval(self.parent.interval)
         self.parent.startPolling()
