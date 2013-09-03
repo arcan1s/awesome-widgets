@@ -4,6 +4,9 @@ post_install()
 Update plasmoids...
 EOF
   kbuildsycoca4 > /dev/null 2>&1
+  cat << EOF
+Make sure that `hddtemp` can be run as non-root
+EOF
 }
 
 post_upgrade()

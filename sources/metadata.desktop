@@ -9,7 +9,7 @@ X-Plasma-API=python
 X-Plasma-MainScript=code/main.py
 X-Plasma-RequiredExtensions=LaunchApp,LocalIO,FileDialog
 
-X-KDE-PluginInfo-Author=Evgeniy Alexeev aka arcanis
+X-KDE-PluginInfo-Author=Evgeniy Alekseev aka arcanis
 X-KDE-PluginInfo-Email=esalexeev@gmail.com
 X-KDE-PluginInfo-Name=py-text-monitor
 X-KDE-PluginInfo-Version=1.3.4
