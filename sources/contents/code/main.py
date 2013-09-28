@@ -69,8 +69,8 @@ class pyTextWidget(plasmascript.Applet):
         try:
             interfaces = []
             for line in commands.getoutput("ifconfig -a").split("\n"):
-                if ((line != '') and (line[0] != ' ') and (line[0:3] != 'lo:')):
-                    interfaces.append(line.split(":")[0])
+                if ((line != '') and (line[0] != ' ') and (line.split(":")[0].split()[0] != 'lo')):
+                    interfaces.append(line.split(":")[0].split()[0])
             
             for device in interfaces:
                 if (commands.getoutput("ifconfig " + device + " | grep 'inet '") != ''):
