@@ -20,7 +20,7 @@ source=(https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/$
         https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/${_dtengine}-${_dtver}.zip)
 install=${pkgname}.install
 md5sums=('d99c8a152693b6b10ebe8fb1a076a333'
-         '775bc3a6057f2dc1696f09b8d315a3e9')
+         '9b547781732ab19ad103710b7bd07d8d')
 
 build ()
 {
