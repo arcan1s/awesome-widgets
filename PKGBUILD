@@ -12,9 +12,9 @@ arch=('i686' 'x86_64')
 url="https://github.com/arcan1s/pytextmonitor"
 license=('GPL')
 depends=('kdebase-workspace' 'kdebindings-python2' 'lm_sensors' 'net-tools')
-optdepends=('hddtemp: for HDD temperature monitor'
-         '775bc3a6057f2dc1696f09b8d315a3e9'
-         '775bc3a6057f2dc1696f09b8d315a3e9')
+optdepends=("hddtemp: for HDD temperature monitor" 
+            "catalyst: for GPU monitor" 
+            "nvidia-utils: for GPU monitor")
 makedepends=('automoc4' 'cmake')
 source=(https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/${_pkgname}-${pkgver}.plasmoid
         https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/${_dtengine}-${_dtver}.zip)
