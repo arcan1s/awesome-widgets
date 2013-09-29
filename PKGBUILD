@@ -19,7 +19,7 @@ makedepends=('automoc4' 'cmake')
 source=(https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/${_pkgname}-${pkgver}.plasmoid
         https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/${_dtengine}-${_dtver}.zip)
 install=${pkgname}.install
-md5sums=('5f619e6770bec8dbf7d18907d3a2143e'
+md5sums=('de54ece6545d28888a60d33f09ce69a1'
          '775bc3a6057f2dc1696f09b8d315a3e9')
 
 build ()

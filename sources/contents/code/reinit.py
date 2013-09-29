@@ -272,9 +272,9 @@ class Reinit():
                     self.parent.layout.addItem(self.parent.label_hddtemp)
         if not confAccept:
             self.parent.applet.setLayout(self.parent.layout)
-        self.parent.theme = Plasma.Svg(self.parent)
-        self.parent.theme.setImagePath("widgets/background")
-        self.parent.setBackgroundHints(Plasma.Applet.DefaultBackground)
+            self.parent.theme = Plasma.Svg(self.parent)
+            self.parent.theme.setImagePath("widgets/background")
+            self.parent.setBackgroundHints(Plasma.Applet.DefaultBackground)
         self.parent.resize(10,10)
         
         # create dataengines
