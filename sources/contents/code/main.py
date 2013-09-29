@@ -36,7 +36,7 @@ class pyTextWidget(plasmascript.Applet):
         QObject.connect(self.timer, SIGNAL("timeout()"), self.updateLabel)
         
         self.setupVar()
-        self.reinit.reinit()
+        self.reinit.reinit(confAccept=False)
         
         self.setHasConfigurationInterface(True)
     
@@ -60,24 +60,25 @@ class pyTextWidget(plasmascript.Applet):
 
     def mouseDoubleClickEvent(self, event):
         """function to doubleclick event"""
-        os.system("ksysguard")
+        os.system("ksysguard &")
     
 
     def setupNetdev(self):
         """function to setup network device"""
-        self.netdev = "lo"
+        netdev = "lo"
         try:
             interfaces = []
-            for line in commands.getoutput("ifconfig -a").split("\n"):
-                if ((line != '') and (line[0] != ' ') and (line.split(":")[0].split()[0] != 'lo')):
-                    interfaces.append(line.split(":")[0].split()[0])
+            for line in commands.getoutput("ifconfig -a -s").split("\n"):
+                if ((line.split()[0] != 'Iface') and (line.split()[0] != 'lo')):
+                    interfaces.append(line.split()[0])
             
             for device in interfaces:
                 if (commands.getoutput("ifconfig " + device + " | grep 'inet '") != ''):
-                    self.netdev = device
+                    netdev = device
                     break
         except:
             pass
+        return netdev
 
 
     def setupVar(self):

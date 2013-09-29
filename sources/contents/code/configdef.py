@@ -147,7 +147,7 @@ class ConfigDefinition:
         settings.set('label_order', self.parent.label_order)
         
         # reinitializate
-        self.parent.reinit.reinit()
+        self.parent.reinit.reinit(confAccept=True)
     
     
     def createConfigurationInterface(self, parent):

@@ -11,7 +11,7 @@ class Reinit():
         """class definition"""
         self.parent = parent
 
-    def reinit(self):
+    def reinit(self, confAccept=False):
         """function to reinitializate widget"""
         settings = config.Config(self.parent)
         self.parent.interval = settings.get('interval', 2000).toInt()[0]
@@ -132,7 +132,7 @@ class Reinit():
                         self.parent.netdev = self.parent.netNonFormat.split('@@')[1]
                         self.parent.netNonFormat = self.parent.netNonFormat.split('@@')[0] + self.parent.netNonFormat.split('@@')[2]
                     else:
-                        self.parent.setupNetdev()
+                        self.parent.netdev = self.parent.setupNetdev()
                     if (self.parent.netNonFormat.split('$netdev')[0] != self.parent.netNonFormat):
                         self.parent.netFormat = self.parent.netNonFormat.split('$netdev')[0] + self.parent.netdev + self.parent.netNonFormat.split('$netdev')[1]
                     else:
@@ -270,7 +270,8 @@ class Reinit():
                     text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                     self.parent.label_hddtemp.setText(text)
                     self.parent.layout.addItem(self.parent.label_hddtemp)
-        self.parent.applet.setLayout(self.parent.layout)        
+        if not confAccept:
+            self.parent.applet.setLayout(self.parent.layout)
         self.parent.theme = Plasma.Svg(self.parent)
         self.parent.theme.setImagePath("widgets/background")
         self.parent.setBackgroundHints(Plasma.Applet.DefaultBackground)

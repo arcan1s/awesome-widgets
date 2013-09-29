@@ -153,7 +153,7 @@ class DataEngine:
                     if (self.parent.netNonFormat.split('@@')[0] == self.parent.netNonFormat):
                         self.parent.systemmonitor.disconnectSource("network/interfaces/"+self.parent.netdev+"/transmitter/data", self.parent)
                         self.parent.systemmonitor.disconnectSource("network/interfaces/"+self.parent.netdev+"/receiver/data", self.parent)
-                        self.parent.setupNetdev()
+                        self.parent.netdev = self.parent.setupNetdev()
                         self.parent.systemmonitor.connectSource("network/interfaces/"+self.parent.netdev+"/transmitter/data", self.parent, self.parent.interval)
                         self.parent.systemmonitor.connectSource("network/interfaces/"+self.parent.netdev+"/receiver/data", self.parent, self.parent.interval)
                     if (self.parent.netNonFormat.split('$netdev')[0] != self.parent.netNonFormat):
