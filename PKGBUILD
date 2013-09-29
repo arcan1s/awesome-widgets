@@ -25,10 +25,10 @@ md5sums=('de54ece6545d28888a60d33f09ce69a1'
 build ()
 {
   # build dataengine
-  if [ -d ${srcdir}/${_dtengine}/build ]; then
-    rm -r ${srcdir}/${_dtengine}/build
+  if [[ -d ${srcdir}/${_dtengine}/build ]]; then
+    rm -rf "${srcdir}/${_dtengine}/build"
   fi
-  mkdir ${srcdir}/${_dtengine}/build && cd ${srcdir}/${_dtengine}/build
+  mkdir "${srcdir}/${_dtengine}/build"; cd "${srcdir}/${_dtengine}/build"
   cmake -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=`kde4-config --prefix` \
         ../
@@ -38,17 +38,17 @@ build ()
 package()
 {
   # install dataengine
-  cd ${srcdir}/${_dtengine}/build
-  make DESTDIR=${pkgdir} install
+  cd "${srcdir}/${_dtengine}/build"
+  make DESTDIR="${pkgdir}" install
 
   # install plasmoid
-  install -D -m644 ${srcdir}/metadata.desktop \
-                   ${pkgdir}/`kde4-config --prefix`/share/kde4/services/${_pkgname}.desktop
-  install -D -m644 ${srcdir}/metadata.desktop \
-                   ${pkgdir}/`kde4-config --prefix`/share/apps/plasma/plasmoids/${_pkgname}/metadata.desktop
-  mkdir -p ${pkgdir}/`kde4-config --prefix`/share/apps/plasma/plasmoids/${_pkgname}/contents/{code,ui}
-  install -m644 ${srcdir}/contents/code/* \
-                -t ${pkgdir}/`kde4-config --prefix`/share/apps/plasma/plasmoids/${_pkgname}/contents/code
-  install -m644 ${srcdir}/contents/ui/* \
-                -t ${pkgdir}/`kde4-config --prefix`/share/apps/plasma/plasmoids/${_pkgname}/contents/ui
+  install -D -m644 "${srcdir}/metadata.desktop" \
+                   "${pkgdir}/`kde4-config --prefix`/share/kde4/services/${_pkgname}.desktop"
+  install -D -m644 "${srcdir}/metadata.desktop" \
+                   "${pkgdir}/`kde4-config --prefix`/share/apps/plasma/plasmoids/${_pkgname}/metadata.desktop"
+  mkdir -p "${pkgdir}/`kde4-config --prefix`/share/apps/plasma/plasmoids/${_pkgname}/contents/"{code,ui}
+  install -m644 "${srcdir}/contents/code/"* \
+                -t "${pkgdir}/`kde4-config --prefix`/share/apps/plasma/plasmoids/${_pkgname}/contents/code"
+  install -m644 "${srcdir}/contents/ui/"* \
+                -t "${pkgdir}/`kde4-config --prefix`/share/apps/plasma/plasmoids/${_pkgname}/contents/ui"
 }
