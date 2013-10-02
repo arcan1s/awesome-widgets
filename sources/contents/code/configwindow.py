@@ -43,7 +43,7 @@ class ConfigWindow(QWidget):
         """function to enable label"""
         count = self.sliders['bat'].maximum()
         for label in self.checkboxes.keys():
-            if ((self.checkboxes[label].checkState() == 2) and (self.sliders[label].isEnabled() == False)):
+            if ((self.checkboxes[label].checkState() > 0) and (self.sliders[label].isEnabled() == False)):
                 self.lineedits[label].setEnabled(True)
                 self.sliders[label].setEnabled(True)
                 if (label == 'bat'):

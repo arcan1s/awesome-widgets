@@ -16,46 +16,46 @@ class DataEngine:
     def connectToEngine(self):
         """function to initializate engine"""
         self.parent.systemmonitor = self.parent.dataEngine("systemmonitor")
-        if ((self.parent.gputempBool == 1) or (self.parent.gpuBool == 1) or (self.parent.hddtempBool == 1)):
+        if ((self.parent.gputempBool > 0) or (self.parent.gpuBool > 0) or (self.parent.hddtempBool > 0)):
             self.parent.extsysmon = self.parent.dataEngine("ext-sysmon")
         
-        if (self.parent.uptimeBool == 1):
+        if (self.parent.uptimeBool > 0):
             self.parent.systemmonitor.connectSource("system/uptime", self.parent, self.parent.interval)
-        if (self.parent.cpuBool == 1):
+        if (self.parent.cpuBool > 0):
             self.parent.systemmonitor.connectSource("cpu/system/TotalLoad", self.parent, self.parent.interval)
             if (self.parent.cpuFormat.split('$ccpu')[0] != self.parent.cpuFormat):
                 for core in range(self.parent.numCores):
                     self.parent.systemmonitor.connectSource("cpu/cpu"+str(core)+"/TotalLoad", self.parent, self.parent.interval)
-        if (self.parent.cpuclockBool == 1):
+        if (self.parent.cpuclockBool > 0):
             self.parent.systemmonitor.connectSource("cpu/system/AverageClock", self.parent, self.parent.interval)
             if (self.parent.cpuclockFormat.split('$ccpucl')[0] != self.parent.cpuclockFormat):
                 for core in range(self.parent.numCores):
                     self.parent.systemmonitor.connectSource("cpu/cpu"+str(core)+"/clock", self.parent, self.parent.interval)
-        if (self.parent.tempBool == 1):
+        if (self.parent.tempBool > 0):
             self.parent.systemmonitor.connectSource(self.parent.tempdev, self.parent, self.parent.interval)
-        if (self.parent.gpuBool == 1):
+        if (self.parent.gpuBool > 0):
             self.parent.extsysmon.connectSource("gpu", self.parent, self.parent.interval)
-        if (self.parent.gputempBool == 1):
+        if (self.parent.gputempBool > 0):
             self.parent.extsysmon.connectSource("gputemp", self.parent, self.parent.interval)
-        if (self.parent.memBool == 1):
+        if (self.parent.memBool > 0):
             if (self.parent.memInMb):
                 self.parent.systemmonitor.connectSource("mem/physical/application", self.parent, self.parent.interval)
             else:
                 self.parent.systemmonitor.connectSource("mem/physical/free", self.parent, int(self.parent.interval*0.5))
                 self.parent.systemmonitor.connectSource("mem/physical/used", self.parent, int(self.parent.interval*0.5))
                 self.parent.systemmonitor.connectSource("mem/physical/application", self.parent, int(self.parent.interval*0.5))
-        if (self.parent.swapBool == 1):
+        if (self.parent.swapBool > 0):
             if (self.parent.swapInMb):
                 self.parent.systemmonitor.connectSource("mem/swap/used", self.parent, self.parent.interval)
             else:
                 self.parent.systemmonitor.connectSource("mem/swap/free", self.parent, int(self.parent.interval*0.5))
                 self.parent.systemmonitor.connectSource("mem/swap/used", self.parent, int(self.parent.interval*0.5))
-        if (self.parent.hddBool == 1):
+        if (self.parent.hddBool > 0):
             for mount in self.parent.mountPoints:
                 self.parent.systemmonitor.connectSource("partitions" + mount + "/filllevel", self.parent, self.parent.interval)
-        if (self.parent.hddtempBool == 1):
+        if (self.parent.hddtempBool > 0):
             self.parent.extsysmon.connectSource("hddtemp", self.parent, self.parent.interval)
-        if (self.parent.netBool == 1):
+        if (self.parent.netBool > 0):
             self.parent.updateNetdev = 0
             self.parent.systemmonitor.connectSource("network/interfaces/"+self.parent.netdev+"/transmitter/data", self.parent, self.parent.interval)
             self.parent.systemmonitor.connectSource("network/interfaces/"+self.parent.netdev+"/receiver/data", self.parent, self.parent.interval)

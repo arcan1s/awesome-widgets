@@ -30,22 +30,22 @@ class Reinit():
             else:
                 exec ('self.parent.' + label + 'Bool = int(settings.get("' + label + 'Bool",  0))')
         # small function for update if errors exist
-        summ = 0
-        for label in self.parent.dict_orders.values():
-            exec ('summ += self.parent.' + label + 'Bool')
-        if (len(self.parent.label_order) != summ):
-            for label in self.parent.dict_orders.values():
-                if ((label == 'cpu') or (label == 'mem') or (label == 'swap') or (label == 'net')):
-                    exec ('self.parent.' + label + 'Bool = 1')
-                else:
-                    exec ('self.parent.' + label + 'Bool = 0')
-                exec ('settings.set("' + label + 'Bool", self.parent.' + label + 'Bool)')
-            self.parent.label_order = '1345'
-            settings.set('label_order', self.parent.label_order)
+#        summ = 0
+#        for label in self.parent.dict_orders.values():
+#            exec ('summ += self.parent.' + label + 'Bool')
+#        if (len(self.parent.label_order) != summ):
+#            for label in self.parent.dict_orders.values():
+#                if ((label == 'cpu') or (label == 'mem') or (label == 'swap') or (label == 'net')):
+#                    exec ('self.parent.' + label + 'Bool = 1')
+#                else:
+#                    exec ('self.parent.' + label + 'Bool = 0')
+#                exec ('settings.set("' + label + 'Bool", self.parent.' + label + 'Bool)')
+#            self.parent.label_order = '1345'
+#            settings.set('label_order', self.parent.label_order)
         
         for order in self.parent.label_order:
             if (order == "1"):
-                if (self.parent.cpuBool == 1):
+                if (self.parent.cpuBool > 0):
                     self.parent.cpuFormat = str(settings.get('cpuFormat', '[cpu: $cpu%]'))
                     if (self.parent.cpuFormat.split('$ccpu')[0] != self.parent.cpuFormat):
                         self.parent.label_cpu0 = Plasma.Label(self.parent.applet)
@@ -79,7 +79,7 @@ class Reinit():
                         self.parent.label_cpu.setText(text)
                         self.parent.layout.addItem(self.parent.label_cpu)
             elif (order == "2"):
-                if (self.parent.tempBool == 1):
+                if (self.parent.tempBool > 0):
                     self.parent.tempdev = str(settings.get('temp_device', '<select device>'))
                     self.parent.tempFormat = str(settings.get('tempFormat', '[temp: $temp&deg;C]'))
                     self.parent.label_temp = Plasma.Label(self.parent.applet)
@@ -91,7 +91,7 @@ class Reinit():
                     self.parent.label_temp.setText(text)
                     self.parent.layout.addItem(self.parent.label_temp)
             elif (order == "3"):
-                if (self.parent.memBool == 1):
+                if (self.parent.memBool > 0):
                     self.parent.memFormat = str(settings.get('memFormat', '[mem: $mem%]'))
                     if (self.parent.memFormat.split('$memmb')[0] != self.parent.memFormat):
                         self.parent.memInMb = True
@@ -109,7 +109,7 @@ class Reinit():
                     self.parent.label_mem.setText(text)
                     self.parent.layout.addItem(self.parent.label_mem)
             elif (order == "4"):
-                if (self.parent.swapBool == 1):
+                if (self.parent.swapBool > 0):
                     self.parent.swapFormat = str(settings.get('swapFormat', '[swap: $swap%]'))
                     if (self.parent.swapFormat.split('$swapmb')[0] != self.parent.swapFormat):
                         self.parent.swapInMb = True
@@ -126,7 +126,7 @@ class Reinit():
                     self.parent.label_swap.setText(text)
                     self.parent.layout.addItem(self.parent.label_swap)
             elif (order == "5"):
-                if (self.parent.netBool == 1):
+                if (self.parent.netBool > 0):
                     self.parent.netNonFormat = str(settings.get('netNonFormat', '[net: $netKB/s]'))
                     if (self.parent.netNonFormat.split('@@')[0] != self.parent.netNonFormat):
                         self.parent.netdev = self.parent.netNonFormat.split('@@')[1]
@@ -154,7 +154,7 @@ class Reinit():
                     self.parent.label_netUp.setText(text)
                     self.parent.layout.addItem(self.parent.label_netUp)
             elif (order == "6"):
-                if (self.parent.batBool == 1):
+                if (self.parent.batBool > 0):
                     self.parent.batFormat = str(settings.get('batFormat', '[bat: $bat%$ac]'))
                     self.parent.battery_device= str(settings.get('battery_device', '/sys/class/power_supply/BAT0/capacity'))
                     self.parent.ac_device = str(settings.get('ac_device', '/sys/class/power_supply/AC/online'))
@@ -168,7 +168,7 @@ class Reinit():
                     self.parent.label_bat.setText(text)
                     self.parent.layout.addItem(self.parent.label_bat)
             elif (order == "7"):
-                if (self.parent.cpuclockBool == 1):
+                if (self.parent.cpuclockBoo> 0):
                     self.parent.cpuclockFormat = str(settings.get('cpuclockFormat', '[mhz: $cpucl]'))
                     if (self.parent.cpuclockFormat.split('$ccpucl')[0] != self.parent.cpuclockFormat):
                         self.parent.label_cpuclock0 = Plasma.Label(self.parent.applet)
@@ -202,7 +202,7 @@ class Reinit():
                         self.parent.label_cpuclock.setText(text)
                         self.parent.layout.addItem(self.parent.label_cpuclock)
             elif (order == "8"):
-                if (self.parent.uptimeBool == 1):
+                if (self.parent.uptimeBool > 0):
                     self.parent.uptimeFormat = str(settings.get('uptimeFormat', '[uptime: $uptime]'))
                     self.parent.label_uptime = Plasma.Label(self.parent.applet)
                     if (self.parent.uptimeFormat.split('$uptime')[0] != self.parent.uptimeFormat):
@@ -213,7 +213,7 @@ class Reinit():
                     self.parent.label_uptime.setText(text)
                     self.parent.layout.addItem(self.parent.label_uptime)
             elif (order == "9"):
-                if (self.parent.gpuBool == 1):
+                if (self.parent.gpuBool > 0):
                     self.parent.gpuFormat = str(settings.get('gpuFormat', '[gpu: $gpu%]'))
                     self.parent.label_gpu = Plasma.Label(self.parent.applet)
                     if (self.parent.gpuFormat.split('$gpu')[0] != self.parent.gpuFormat):
@@ -224,7 +224,7 @@ class Reinit():
                     self.parent.label_gpu.setText(text)
                     self.parent.layout.addItem(self.parent.label_gpu)
             elif (order == "a"):
-                if (self.parent.gputempBool == 1):
+                if (self.parent.gputempBool > 0):
                     self.parent.gputempFormat = str(settings.get('gputempFormat', '[gpu temp: $gputemp&deg;C]'))
                     self.parent.label_gputemp = Plasma.Label(self.parent.applet)
                     if (self.parent.gputempFormat.split('$gputemp')[0] != self.parent.gputempFormat):
@@ -235,7 +235,7 @@ class Reinit():
                     self.parent.label_gputemp.setText(text)
                     self.parent.layout.addItem(self.parent.label_gputemp)
             elif (order == "b"):
-                if (self.parent.hddBool == 1):
+                if (self.parent.hddBool > 0):
                     self.parent.hddFormat = str(settings.get('hddFormat', '[hdd: @@/@@%]'))
                     if (self.parent.hddFormat.split('@@')[0] != self.parent.hddFormat):
                         self.parent.mountPoints = self.parent.hddFormat.split('@@')[1].split(';')
@@ -260,7 +260,7 @@ class Reinit():
                         self.parent.label_hdd0.setText(text)
                         self.parent.layout.addItem(self.parent.label_hdd0)
             elif (order == "c"):
-                if (self.parent.hddtempBool == 1):
+                if (self.parent.hddtempBool > 0):
                     self.parent.hddtempFormat = str(settings.get('hddtempFormat', '[hdd temp: @@/dev/sda@@&deg;C]'))
                     self.parent.label_hddtemp = Plasma.Label(self.parent.applet)
                     if (self.parent.hddtempFormat.split('@@')[0] != self.parent.hddtempFormat):

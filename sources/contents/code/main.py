@@ -117,11 +117,11 @@ class pyTextWidget(plasmascript.Applet):
    
     def updateLabel(self):
         """function to update label"""
-        if ((self.memBool == 1) and (self.memInMb == False)):
+        if ((self.memBool > 0) and (self.memInMb == False)):
             self.memText()
-        if ((self.swapBool == 1) and (self.swapInMb == False)):
+        if ((self.swapBool > 0) and (self.swapInMb == False)):
             self.swapText()
-        if (self.batBool == 1):
+        if (self.batBool > 0):
             self.batText()
 
 

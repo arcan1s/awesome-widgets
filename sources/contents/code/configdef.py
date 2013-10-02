@@ -37,11 +37,11 @@ class ConfigDefinition:
         settings.set('font_weight', self.parent.font_weight)
         
         # disconnecting from source and clear layout
-        if (self.parent.uptimeBool == 1):
+        if (self.parent.uptimeBool > 0):
             self.parent.systemmonitor.disconnectSource("system/uptime",  self.parent)
             self.parent.label_uptime.setText('')
             self.parent.layout.removeItem(self.parent.label_uptime)
-        if (self.parent.cpuBool == 1):
+        if (self.parent.cpuBool > 0):
             self.parent.systemmonitor.disconnectSource("cpu/system/TotalLoad", self.parent)
             if (self.parent.cpuFormat.split('$ccpu')[0] != self.parent.cpuFormat):
                 self.parent.label_cpu0.setText('')
@@ -55,7 +55,7 @@ class ConfigDefinition:
             else:
                 self.parent.label_cpu.setText('')
                 self.parent.layout.removeItem(self.parent.label_cpu)
-        if (self.parent.cpuclockBool == 1):
+        if (self.parent.cpuclockBool > 0):
             self.parent.systemmonitor.disconnectSource("cpu/system/AverageClock", self.parent)
             if (self.parent.cpuclockFormat.split('$ccpu')[0] != self.parent.cpuclockFormat):
                 self.parent.label_cpuclock0.setText('')
@@ -69,32 +69,32 @@ class ConfigDefinition:
             else:
                 self.parent.label_cpuclock.setText('')
                 self.parent.layout.removeItem(self.parent.label_cpuclock)
-        if (self.parent.tempBool == 1):
+        if (self.parent.tempBool > 0):
             self.parent.systemmonitor.disconnectSource(self.parent.tempdev, self.parent)
             self.parent.label_temp.setText('')
             self.parent.layout.removeItem(self.parent.label_temp)
-        if (self.parent.gpuBool == 1):
+        if (self.parent.gpuBool > 0):
             self.parent.extsysmon.disconnectSource("gpu", self.parent)
             self.parent.label_gpu.setText('')
             self.parent.layout.removeItem(self.parent.label_gpu)
-        if (self.parent.gputempBool == 1):
+        if (self.parent.gputempBool > 0):
             self.parent.extsysmon.disconnectSource("gputemp", self.parent)
             self.parent.label_gputemp.setText('')
             self.parent.layout.removeItem(self.parent.label_gputemp)
-        if (self.parent.memBool == 1):
+        if (self.parent.memBool > 0):
             self.parent.systemmonitor.disconnectSource("mem/physical/application", self.parent)
             if (self.parent.memInMb == False):
                 self.parent.systemmonitor.disconnectSource("mem/physical/free", self.parent)
                 self.parent.systemmonitor.disconnectSource("mem/physical/used", self.parent)
             self.parent.label_mem.setText('')
             self.parent.layout.removeItem(self.parent.label_mem)
-        if (self.parent.swapBool == 1):
+        if (self.parent.swapBool > 0):
             self.parent.systemmonitor.disconnectSource("mem/swap/used", self.parent)
             if (self.parent.swapInMb == False):
                 self.parent.systemmonitor.disconnectSource("mem/swap/free", self.parent)
             self.parent.label_swap.setText('')
             self.parent.layout.removeItem(self.parent.label_swap)
-        if (self.parent.hddBool == 1):
+        if (self.parent.hddBool > 0):
             for mount in self.parent.mountPoints:
                 self.parent.systemmonitor.disconnectSource("partitions" + mount + "/filllevel", self.parent)
                 exec ('self.parent.label_hdd_' + ''.join(mount.split('/')) + '.setText("")')
@@ -103,30 +103,28 @@ class ConfigDefinition:
             self.parent.label_hdd1.setText('')
             self.parent.layout.removeItem(self.parent.label_hdd0)
             self.parent.layout.removeItem(self.parent.label_hdd1)
-        if (self.parent.hddtempBool == 1):
+        if (self.parent.hddtempBool > 0):
             self.parent.extsysmon.disconnectSource("hddtemp", self.parent)
             self.parent.label_hddtemp.setText('')
             self.parent.layout.removeItem(self.parent.label_hddtemp)
-        if (self.parent.netBool == 1):
+        if (self.parent.netBool > 0):
             self.parent.systemmonitor.disconnectSource("network/interfaces/"+self.parent.netdev+"/transmitter/data", self.parent)
             self.parent.systemmonitor.disconnectSource("network/interfaces/"+self.parent.netdev+"/receiver/data", self.parent)
             self.parent.label_netDown.setText('')
             self.parent.label_netUp.setText('')
             self.parent.layout.removeItem(self.parent.label_netUp)
             self.parent.layout.removeItem(self.parent.label_netDown)
-        if (self.parent.batBool == 1):
+        if (self.parent.batBool > 0):
             self.parent.label_bat.setText('')
             self.parent.layout.removeItem(self.parent.label_bat)
         
         self.parent.label_order = "------------"
         
         for label in self.parent.dict_orders.keys():
-            if (self.configpage.checkboxes[self.parent.dict_orders[label]].checkState() == 2):
-                exec ('self.parent.' + self.parent.dict_orders[label] + 'Bool = 1')
+            exec ('self.parent.' + self.parent.dict_orders[label] + 'Bool = ' + str(self.configpage.checkboxes[self.parent.dict_orders[label]].checkState()))
+            if (self.configpage.checkboxes[self.parent.dict_orders[label]].checkState() > 0):
                 pos = self.configpage.sliders[self.parent.dict_orders[label]].value() - 1
                 self.parent.label_order = self.parent.label_order[:pos] + label + self.parent.label_order[pos+1:]
-            else:
-                exec ('self.parent.' + self.parent.dict_orders[label] + 'Bool = 0')
             if (self.parent.dict_orders[label] == 'net'):
                 exec ('self.parent.' + self.parent.dict_orders[label] + 'NonFormat = str(self.configpage.lineedits[self.parent.dict_orders[label]].text())')
                 exec ('settings.set("' + self.parent.dict_orders[label] + 'NonFormat", self.parent.' + self.parent.dict_orders[label] + 'NonFormat)')
@@ -167,11 +165,9 @@ class ConfigDefinition:
         self.configpage.ui.spinBox_weight.setValue(settings.get('font_weight', 400).toInt()[0])
         for label in self.parent.dict_orders.keys():
             exec ('bool = self.parent.' + self.parent.dict_orders[label] + 'Bool')
-            if (bool == 1):
-                self.configpage.checkboxes[self.parent.dict_orders[label]].setCheckState(2)
+            self.configpage.checkboxes[self.parent.dict_orders[label]].setCheckState(bool)
+            if (bool > 0):
                 self.configpage.sliders[self.parent.dict_orders[label]].setValue(self.parent.label_order.find(label)+1)
-            else:
-                self.configpage.checkboxes[self.parent.dict_orders[label]].setCheckState(0)
             if (self.parent.dict_orders[label] == 'net'):
                 self.configpage.lineedits[self.parent.dict_orders[label]].setText(str(settings.get(self.parent.dict_orders[label] + 'NonFormat', self.parent.dict_defFormat[self.parent.dict_orders[label]])))
             else:
