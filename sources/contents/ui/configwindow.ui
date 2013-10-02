@@ -58,9 +58,6 @@
            <property name="checked">
             <bool>true</bool>
            </property>
-           <property name="tristate">
-            <bool>true</bool>
-           </property>
           </widget>
          </item>
          <item>
@@ -111,9 +108,6 @@
             <string notr="true">CPU</string>
            </property>
            <property name="checked">
-            <bool>true</bool>
-           </property>
-           <property name="tristate">
             <bool>true</bool>
            </property>
           </widget>
@@ -172,9 +166,6 @@ $ccpu - load CPU for each core, %</string>
            <property name="checked">
             <bool>true</bool>
            </property>
-           <property name="tristate">
-            <bool>true</bool>
-           </property>
           </widget>
          </item>
          <item>
@@ -229,9 +220,6 @@ $ccpucl - CPU clock for each core, MHz</string>
             <string notr="true">Temperature</string>
            </property>
            <property name="checked">
-            <bool>true</bool>
-           </property>
-           <property name="tristate">
             <bool>true</bool>
            </property>
           </widget>
@@ -302,9 +290,6 @@ $ccpucl - CPU clock for each core, MHz</string>
            <property name="checked">
             <bool>true</bool>
            </property>
-           <property name="tristate">
-            <bool>true</bool>
-           </property>
           </widget>
          </item>
          <item>
@@ -360,9 +345,6 @@ $ccpucl - CPU clock for each core, MHz</string>
            <property name="checked">
             <bool>true</bool>
            </property>
-           <property name="tristate">
-            <bool>true</bool>
-           </property>
           </widget>
          </item>
          <item>
@@ -416,9 +398,6 @@ $ccpucl - CPU clock for each core, MHz</string>
             <string notr="true">Memory</string>
            </property>
            <property name="checked">
-            <bool>true</bool>
-           </property>
-           <property name="tristate">
             <bool>true</bool>
            </property>
           </widget>
@@ -477,9 +456,6 @@ $memmb - RAM usage, MB</string>
            <property name="checked">
             <bool>true</bool>
            </property>
-           <property name="tristate">
-            <bool>true</bool>
-           </property>
           </widget>
          </item>
          <item>
@@ -534,9 +510,6 @@ $swapmb - swap usage, MB</string>
             <string notr="true">HDD</string>
            </property>
            <property name="checked">
-            <bool>true</bool>
-           </property>
-           <property name="tristate">
             <bool>true</bool>
            </property>
           </widget>
@@ -594,9 +567,6 @@ $swapmb - swap usage, MB</string>
            <property name="checked">
             <bool>true</bool>
            </property>
-           <property name="tristate">
-            <bool>true</bool>
-           </property>
           </widget>
          </item>
          <item>
@@ -650,9 +620,6 @@ $swapmb - swap usage, MB</string>
             <string notr="true">Network</string>
            </property>
            <property name="checked">
-            <bool>true</bool>
-           </property>
-           <property name="tristate">
             <bool>true</bool>
            </property>
           </widget>
@@ -710,9 +677,6 @@ $netdev - current network device
             <string notr="true">Battery</string>
            </property>
            <property name="checked">
-            <bool>true</bool>
-           </property>
-           <property name="tristate">
             <bool>true</bool>
            </property>
           </widget>

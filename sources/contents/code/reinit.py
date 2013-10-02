@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from PyQt4.QtCore import *
+from PyQt4.QtGui import *
 from PyKDE4.plasma import Plasma
 import config
 
@@ -26,22 +27,9 @@ class Reinit():
         self.parent.label_order = str(settings.get('label_order', '1345'))
         for label in self.parent.dict_orders.values():
             if ((label == 'cpu') or (label == 'mem') or (label == 'swap') or (label == 'net')):
-                exec ('self.parent.' + label + 'Bool = int(settings.get("' + label + 'Bool",  1))')
+                exec ('self.parent.' + label + 'Bool = int(settings.get("' + label + 'Bool",  2))')
             else:
                 exec ('self.parent.' + label + 'Bool = int(settings.get("' + label + 'Bool",  0))')
-        # small function for update if errors exist
-#        summ = 0
-#        for label in self.parent.dict_orders.values():
-#            exec ('summ += self.parent.' + label + 'Bool')
-#        if (len(self.parent.label_order) != summ):
-#            for label in self.parent.dict_orders.values():
-#                if ((label == 'cpu') or (label == 'mem') or (label == 'swap') or (label == 'net')):
-#                    exec ('self.parent.' + label + 'Bool = 1')
-#                else:
-#                    exec ('self.parent.' + label + 'Bool = 0')
-#                exec ('settings.set("' + label + 'Bool", self.parent.' + label + 'Bool)')
-#            self.parent.label_order = '1345'
-#            settings.set('label_order', self.parent.label_order)
         
         for order in self.parent.label_order:
             if (order == "1"):
