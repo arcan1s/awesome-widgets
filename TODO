@@ -1,5 +1,4 @@
 1. Notification on left click (system information):
-  a) uptime                - uptime, kernel information
   b) cpu, cpuclock, temp   - cpu, cpuclock, temp, processor information
   c) gpu, gputemp          - gpu, gpu temp, gpu information
   d) memory, swap          - memory, swap, memory information

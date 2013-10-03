@@ -4,6 +4,22 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyKDE4.plasma import Plasma
 import config
+import ptmnotify
+
+
+
+class NewPlasmaLabel(Plasma.Label):
+    """new Label with defined clicked() event"""
+    def __init__(self, applet, parent):
+        """class definition"""
+        Plasma.Label.__init__(self, applet)
+        self.parent = parent
+        self.notify = ptmnotify.PTMNotify(self)
+    
+
+    def mousePressEvent(self, event):
+        """mouse click event"""
+        self.notify.init()
 
 
 
@@ -11,7 +27,8 @@ class Reinit():
     def __init__(self, parent):
         """class definition"""
         self.parent = parent
-
+    
+    
     def reinit(self, confAccept=False):
         """function to reinitializate widget"""
         settings = config.Config(self.parent)
@@ -192,7 +209,7 @@ class Reinit():
             elif (order == "8"):
                 if (self.parent.uptimeBool > 0):
                     self.parent.uptimeFormat = str(settings.get('uptimeFormat', '[uptime: $uptime]'))
-                    self.parent.label_uptime = Plasma.Label(self.parent.applet)
+                    self.parent.label_uptime = NewPlasmaLabel(self.parent.applet, self.parent)
                     if (self.parent.uptimeFormat.split('$uptime')[0] != self.parent.uptimeFormat):
                         line = self.parent.uptimeFormat.split('$uptime')[0] + '---d--h--m' + self.parent.uptimeFormat.split('$uptime')[1]
                     else:
