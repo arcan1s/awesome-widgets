@@ -44,8 +44,8 @@ class ConfigDefinition:
         if (self.parent.cpuBool > 0):
             self.parent.systemmonitor.disconnectSource("cpu/system/TotalLoad", self.parent)
             if (self.parent.cpuFormat.split('$ccpu')[0] != self.parent.cpuFormat):
-                self.parent.label_cpu0.setText('')
-                self.parent.layout.removeItem(self.parent.label_cpu0)
+                self.parent.label_cpu.setText('')
+                self.parent.layout.removeItem(self.parent.label_cpu)
                 self.parent.label_cpu1.setText('')
                 self.parent.layout.removeItem(self.parent.label_cpu1)
                 for core in range(self.parent.numCores):
@@ -58,8 +58,8 @@ class ConfigDefinition:
         if (self.parent.cpuclockBool > 0):
             self.parent.systemmonitor.disconnectSource("cpu/system/AverageClock", self.parent)
             if (self.parent.cpuclockFormat.split('$ccpu')[0] != self.parent.cpuclockFormat):
-                self.parent.label_cpuclock0.setText('')
-                self.parent.layout.removeItem(self.parent.label_cpuclock0)
+                self.parent.label_cpuclock.setText('')
+                self.parent.layout.removeItem(self.parent.label_cpuclock)
                 self.parent.label_cpuclock1.setText('')
                 self.parent.layout.removeItem(self.parent.label_cpuclock1)
                 for core in range(self.parent.numCores):

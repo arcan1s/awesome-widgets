@@ -53,15 +53,15 @@ class Reinit():
                 if (self.parent.cpuBool > 0):
                     self.parent.cpuFormat = str(settings.get('cpuFormat', '[cpu: $cpu%]'))
                     if (self.parent.cpuFormat.split('$ccpu')[0] != self.parent.cpuFormat):
-                        self.parent.label_cpu0 = Plasma.Label(self.parent.applet)
+                        self.parent.label_cpu = NewPlasmaLabel(self.parent.applet, self.parent)
                         self.parent.label_cpu1 = Plasma.Label(self.parent.applet)
                         if (self.parent.cpuFormat.split('$ccpu')[0].split('$cpu')[0] != self.parent.cpuFormat.split('$ccpu')[0]):
                             line = self.parent.cpuFormat.split('$ccpu')[0].split('$cpu')[0] + '-----' + self.parent.cpuFormat.split('$ccpu')[0].split('$cpu')[1]
                         else:
                             line = self.parent.cpuFormat.split('$ccpu')[0]
                         text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
-                        self.parent.label_cpu0.setText(text)
-                        self.parent.layout.addItem(self.parent.label_cpu0)
+                        self.parent.label_cpu.setText(text)
+                        self.parent.layout.addItem(self.parent.label_cpu)
                         text = self.parent.formatLine.split('$LINE')[0] + "-----" + self.parent.formatLine.split('$LINE')[1]
                         for core in range(self.parent.numCores):
                             exec ('self.parent.label_coreCpu' + str(core) + ' = Plasma.Label(self.parent.applet)')
@@ -75,7 +75,7 @@ class Reinit():
                         self.parent.label_cpu1.setText(text)
                         self.parent.layout.addItem(self.parent.label_cpu1)
                     else:
-                        self.parent.label_cpu = Plasma.Label(self.parent.applet)
+                        self.parent.label_cpu = NewPlasmaLabel(self.parent.applet, self.parent)
                         if (self.parent.cpuFormat.split('$cpu')[0] != self.parent.cpuFormat):
                             line = self.parent.cpuFormat.split('$cpu')[0] + '-----' + self.parent.cpuFormat.split('$cpu')[1]
                         else:
@@ -87,7 +87,7 @@ class Reinit():
                 if (self.parent.tempBool > 0):
                     self.parent.tempdev = str(settings.get('temp_device', '<select device>'))
                     self.parent.tempFormat = str(settings.get('tempFormat', '[temp: $temp&deg;C]'))
-                    self.parent.label_temp = Plasma.Label(self.parent.applet)
+                    self.parent.label_temp = NewPlasmaLabel(self.parent.applet, self.parent)
                     if (self.parent.tempFormat.split('$temp')[0] != self.parent.tempFormat):
                         line = self.parent.tempFormat.split('$temp')[0] + '----' + self.parent.tempFormat.split('$temp')[1]
                     else:
@@ -110,7 +110,7 @@ class Reinit():
                     else:
                         line = self.parent.memFormat
                     text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
-                    self.parent.label_mem = Plasma.Label(self.parent.applet)
+                    self.parent.label_mem = NewPlasmaLabel(self.parent.applet, self.parent)
                     self.parent.label_mem.setText(text)
                     self.parent.layout.addItem(self.parent.label_mem)
             elif (order == "4"):
@@ -127,7 +127,7 @@ class Reinit():
                     else:
                         line = self.parent.swapFormat
                     text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
-                    self.parent.label_swap = Plasma.Label(self.parent.applet)
+                    self.parent.label_swap = NewPlasmaLabel(self.parent.applet, self.parent)
                     self.parent.label_swap.setText(text)
                     self.parent.layout.addItem(self.parent.label_swap)
             elif (order == "5"):
@@ -142,7 +142,7 @@ class Reinit():
                         self.parent.netFormat = self.parent.netNonFormat.split('$netdev')[0] + self.parent.netdev + self.parent.netNonFormat.split('$netdev')[1]
                     else:
                         self.parent.netFormat = self.parent.netNonFormat
-                    self.parent.label_netDown = Plasma.Label(self.parent.applet)
+                    self.parent.label_netDown = NewPlasmaLabel(self.parent.applet, self.parent)
                     if (self.parent.netFormat.split('$net')[0] != self.parent.netFormat):
                         line = self.parent.netFormat.split('$net')[0] + '----'
                     else:
@@ -163,7 +163,7 @@ class Reinit():
                     self.parent.batFormat = str(settings.get('batFormat', '[bat: $bat%$ac]'))
                     self.parent.battery_device= str(settings.get('battery_device', '/sys/class/power_supply/BAT0/capacity'))
                     self.parent.ac_device = str(settings.get('ac_device', '/sys/class/power_supply/AC/online'))
-                    self.parent.label_bat = Plasma.Label(self.parent.applet)
+                    self.parent.label_bat = NewPlasmaLabel(self.parent.applet, self.parent)
                     line = self.parent.batFormat
                     if (line.split('$ac')[0] != line):
                         line = line.split('$ac')[0] + '(-)' + line.split('$ac')[1]
@@ -173,18 +173,18 @@ class Reinit():
                     self.parent.label_bat.setText(text)
                     self.parent.layout.addItem(self.parent.label_bat)
             elif (order == "7"):
-                if (self.parent.cpuclockBoo> 0):
+                if (self.parent.cpuclockBool > 0):
                     self.parent.cpuclockFormat = str(settings.get('cpuclockFormat', '[mhz: $cpucl]'))
                     if (self.parent.cpuclockFormat.split('$ccpucl')[0] != self.parent.cpuclockFormat):
-                        self.parent.label_cpuclock0 = Plasma.Label(self.parent.applet)
+                        self.parent.label_cpuclock = NewPlasmaLabel(self.parent.applet, self.parent)
                         self.parent.label_cpuclock1 = Plasma.Label(self.parent.applet)
                         if (self.parent.cpuclockFormat.split('$ccpucl')[0].split('$cpucl')[0] != self.parent.cpuclockFormat.split('$ccpucl')[0]):
                             line = self.parent.cpuclockFormat.split('$ccpucl')[0].split('$cpucl')[0] + '----' + self.parent.cpuclockFormat.split('$ccpucl')[0].split('$cpucl')[1]
                         else:
                             line = self.parent.cpuclockFormat.split('$ccpucl')[0]
                         text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
-                        self.parent.label_cpuclock0.setText(text)
-                        self.parent.layout.addItem(self.parent.label_cpuclock0)
+                        self.parent.label_cpuclock.setText(text)
+                        self.parent.layout.addItem(self.parent.label_cpuclock)
                         text = self.parent.formatLine.split('$LINE')[0] + "----" + self.parent.formatLine.split('$LINE')[1]
                         for core in range(self.parent.numCores):
                             exec ('self.parent.label_coreCpuclock' + str(core) + ' = Plasma.Label(self.parent.applet)')
@@ -198,7 +198,7 @@ class Reinit():
                         self.parent.label_cpuclock1.setText(text)
                         self.parent.layout.addItem(self.parent.label_cpuclock1)
                     else:
-                        self.parent.label_cpuclock = Plasma.Label(self.parent.applet)
+                        self.parent.label_cpuclock = NewPlasmaLabel(self.parent.applet, self.parent)
                         if (self.parent.cpuclockFormat.split('$cpucl')[0] != self.parent.cpuclockFormat):
                             line = self.parent.cpuclockFormat.split('$cpucl')[0] + '----' + self.parent.cpuclockFormat.split('$cpucl')[1]
                         else:
@@ -246,7 +246,7 @@ class Reinit():
                         self.parent.mountPoints = self.parent.hddFormat.split('@@')[1].split(';')
                         line = self.parent.hddFormat.split('@@')[0]
                         text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
-                        self.parent.label_hdd0 = Plasma.Label(self.parent.applet)
+                        self.parent.label_hdd0 = NewPlasmaLabel(self.parent.applet, self.parent)
                         self.parent.label_hdd0.setText(text)
                         self.parent.layout.addItem(self.parent.label_hdd0)
                         text = self.parent.formatLine.split('$LINE')[0] + "-----" + self.parent.formatLine.split('$LINE')[1]
@@ -267,7 +267,7 @@ class Reinit():
             elif (order == "c"):
                 if (self.parent.hddtempBool > 0):
                     self.parent.hddtempFormat = str(settings.get('hddtempFormat', '[hdd temp: @@/dev/sda@@&deg;C]'))
-                    self.parent.label_hddtemp = Plasma.Label(self.parent.applet)
+                    self.parent.label_hddtemp = NewPlasmaLabel(self.parent.applet, self.parent)
                     if (self.parent.hddtempFormat.split('@@')[0] != self.parent.hddtempFormat):
                         line = self.parent.hddtempFormat.split('@@')[0] + '----' + self.parent.hddtempFormat.split('@@')[2]
                     else:

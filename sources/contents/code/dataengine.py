@@ -81,7 +81,7 @@ class DataEngine:
                     else:
                         line = self.parent.cpuFormat.split('$ccpu')[0]
                     text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
-                    self.parent.label_cpu0.setText(text)
+                    self.parent.label_cpu.setText(text)
                     if (self.parent.cpuFormat.split('$ccpu')[1].split('$cpu')[0] != self.parent.cpuFormat.split('$ccpu')[1]):
                         line = self.parent.cpuFormat.split('$ccpu')[1].split('$cpu')[0] + cpuText + self.parent.cpuFormat.split('$ccpu')[1].split('$cpu')[1]
                     else:
@@ -109,7 +109,7 @@ class DataEngine:
                     else:
                         line = self.parent.cpuclockFormat.split('$ccpucl')[0]
                     text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
-                    self.parent.label_cpuclock0.setText(text)
+                    self.parent.label_cpuclock.setText(text)
                     if (self.parent.cpuclockFormat.split('$ccpucl')[1].split('$cpucl')[0] != self.parent.cpuclockFormat.split('$ccpucl')[1]):
                         line = self.parent.cpuclockFormat.split('$ccpucl')[1].split('$cpucl')[0] + cpuclockText + self.parent.cpuclockFormat.split('$ccpucl')[1].split('$cpucl')[1]
                     else:
