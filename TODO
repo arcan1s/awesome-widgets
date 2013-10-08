@@ -1,8 +1,4 @@
-1. Notification on left click (system information):
-  e) hdd, hddtemp          - hdd, hddtemp, disk information
-  f) network               - speed, network information
-  g) battery               - battery, ac, acpi information
-2. Tooltip (graphical information):
+1. Tooltip (graphical information):
   a) cpu, %
   b) cpuclock, mhz
   c) memory, %
