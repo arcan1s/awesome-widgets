@@ -2,6 +2,7 @@
 
 from PyKDE4.kdecore import KComponentData
 from PyKDE4.kdeui import KNotification
+from PyKDE4.plasma import Plasma
 import commands
 
 
@@ -29,10 +30,8 @@ class PTMNotify:
     
     def createText(self, type):
         """function to create text"""
-        content = []
+        text = ""
         if (type == "system"):
-            content.append("system")
-            text = ""
             try:
                 text = text + "Kernel: " + commands.getoutput("uname -rsm") + "\n"
                 text = text + "Hostname: " + commands.getoutput("uname -n") + "\n"
@@ -40,10 +39,7 @@ class PTMNotify:
                 text = text + "Uptime: " + commands.getoutput("uptime")
             except:
                 pass
-            content.append(text)
         elif (type == "processor"):
-            content.append("processor")
-            text = ""
             try:
                 output = commands.getoutput("grep 'model name' /proc/cpuinfo | head -1")
                 text = text + "Model: " + ' '.join(output.split()[3:]) + "\n"
@@ -58,8 +54,60 @@ class PTMNotify:
                         text = text + " " + str(round(float(line.split()[-1]), 0)) + "\xb0C"
             except:
                 pass
-            content.append(text)
+        elif (type == "graphical"):
+            try:
+                output = commands.getoutput("lspci -m | grep 'VGA\|3D'")
+                if (output.lower().find('nvidia') > -1):
+                    gpudev = "nvidia"
+                elif (output.lower().find('radeon') > -1):
+                    gpudev = "ati"
+                for line in output.split("\n"):
+                    text = text + line.split('"')[0] + " "
+                    text = text + line.split('"')[5] + "\n"
+                if (gpudev == 'nvidia'):
+                    output = commands.getoutput("nvidia-smi -q -d UTILIZATION | grep Gpu | tail -n1")
+                    try:
+                        value = "%5s" % (str(round(float(output.split()[2][:-1]), 1)))
+                    except:
+                        value = "  N\A"
+                elif (gpudev == 'ati'):
+                    output = commands.getoutput("aticonfig --od-getclocks | grep load | tail -n1")
+                    try:
+                        value = "%5s" % (str(round(float(output.split()[3][:-1]), 1)))
+                    except:
+                        value = "  N\A"
+                else:
+                    value = "  N\A"
+                text = text + "Load: " + value + "%\n"
+                if (gpudev == 'nvidia'):
+                    output = commands.getoutput("nvidia-smi -q -d TEMPERATURE | grep Gpu | tail -n1")
+                    try:
+                        value = "%5s" % (str(round(float(output.split()[2][:-1]), 1)))
+                    except:
+                        value = "  N\A"
+                elif (gpudev == 'ati'):
+                    output = commands.getoutput("aticonfig --od-gettemperature | grep Temperature | tail -n1")
+                    try:
+                        value = "%5s" % (str(round(float(output.split()[3][:-1]), 1)))
+                    except:
+                        value = "  N\A"
+                else:
+                    value = "  N\A"
+                text = text + "Temp: " + value + "\xb0C"
+            except:
+                pass
+        elif (type == "memory"):
+            try:
+                output = commands.getoutput("free -mo").split("\n")
+                memusage = int(output[1].split()[1]) - (int(output[1].split()[3]) + int(output[1].split()[5]) + int(output[1].split()[6]))
+                text = text + "Memory: " + str(memusage) + " of " + output[1].split()[1] + " (" + str(int(100*memusage/int(output[1].split()[1]))) + "%)\n"
+                text = text + "Swap: " + output[2].split()[2] + " of " + output[2].split()[1] + " (" + str(int(100*int(output[2].split()[2])/int(output[2].split()[1]))) + "%)\n"
+                output = commands.getoutput("swapon --show").split("\n")
+                text = text + "Swap Device: " + output[1].split()[0] + " (" + output[1].split()[1] + ")"
+            except:
+                pass
         
+        content = [type, text]
         return content
     
     
@@ -115,13 +163,13 @@ class PTMNotify:
             pass
         try:
             if (sender == self.parent.parent.label_hdd0):
-                content = self.createText("hdd")
+                content = self.createText("disk")
                 return content
         except:
             pass
         try:
             if (sender == self.parent.parent.label_hddtemp):
-                content = self.createText("hdd")
+                content = self.createText("disk")
                 return content
         except:
             pass
@@ -133,7 +181,7 @@ class PTMNotify:
             pass
         try:
             if (sender == self.parent.parent.label_bat):
-                content = self.createText("acpi")
+                content = self.createText("battery")
                 return content
         except:
             pass

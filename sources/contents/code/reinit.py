@@ -19,7 +19,8 @@ class NewPlasmaLabel(Plasma.Label):
 
     def mousePressEvent(self, event):
         """mouse click event"""
-        self.notify.init()
+        if (event.button() == Qt.LeftButton):
+            self.notify.init()
 
 
 
@@ -220,7 +221,7 @@ class Reinit():
             elif (order == "9"):
                 if (self.parent.gpuBool > 0):
                     self.parent.gpuFormat = str(settings.get('gpuFormat', '[gpu: $gpu%]'))
-                    self.parent.label_gpu = Plasma.Label(self.parent.applet)
+                    self.parent.label_gpu = NewPlasmaLabel(self.parent.applet, self.parent)
                     if (self.parent.gpuFormat.split('$gpu')[0] != self.parent.gpuFormat):
                         line = self.parent.gpuFormat.split('$gpu')[0] + '-----' + self.parent.gpuFormat.split('$gpu')[1]
                     else:
@@ -231,7 +232,7 @@ class Reinit():
             elif (order == "a"):
                 if (self.parent.gputempBool > 0):
                     self.parent.gputempFormat = str(settings.get('gputempFormat', '[gpu temp: $gputemp&deg;C]'))
-                    self.parent.label_gputemp = Plasma.Label(self.parent.applet)
+                    self.parent.label_gputemp = NewPlasmaLabel(self.parent.applet, self.parent)
                     if (self.parent.gputempFormat.split('$gputemp')[0] != self.parent.gputempFormat):
                         line = self.parent.gputempFormat.split('$gputemp')[0] + '----' + self.parent.gputempFormat.split('$gputemp')[1]
                     else:

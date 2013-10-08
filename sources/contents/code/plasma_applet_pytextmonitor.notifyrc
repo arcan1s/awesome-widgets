@@ -13,6 +13,11 @@ Name=Processor information
 Comment=Processor information
 Action=Popup
 
+[Event/graphical]
+Name=GPU information
+Comment=GPU information
+Action=Popup
+
 [Event/memory]
 Name=Memory information
 Comment=Memory information

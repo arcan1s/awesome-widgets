@@ -1,7 +1,4 @@
 1. Notification on left click (system information):
-  b) cpu, cpuclock, temp   - cpu, cpuclock, temp, processor information
-  c) gpu, gputemp          - gpu, gpu temp, gpu information
-  d) memory, swap          - memory, swap, memory information
   e) hdd, hddtemp          - hdd, hddtemp, disk information
   f) network               - speed, network information
   g) battery               - battery, ac, acpi information
