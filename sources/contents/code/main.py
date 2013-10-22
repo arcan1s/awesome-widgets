@@ -41,7 +41,7 @@ class pyTextWidget(plasmascript.Applet):
         self.setHasConfigurationInterface(True)
         # Create notifyrc file if required
         kdehome = unicode(KGlobal.dirs().localkdedir())
-        if ((not os.path.exists(kdehome + "/share/apps/plasma_applet_pytextmonitor/plasma_applet_pytextmonitor.notifyrc")) or
+        if ((not os.path.exists(kdehome + "/share/apps/plasma_applet_pytextmonitor/plasma_applet_pytextmonitor.notifyrc")) and
             (not os.path.exists("/usr" + "/share/apps/plasma_applet_pytextmonitor/plasma_applet_pytextmonitor.notifyrc"))):
             self.createNotifyrc(kdehome)
     
