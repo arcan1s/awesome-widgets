@@ -37,3 +37,8 @@ Action=Popup
 Name=Battery information
 Comment=Battery information
 Action=Popup
+
+[Event/graphinfo]
+Name=Graphical Information
+Comment=Graphical Information
+Action=Popup

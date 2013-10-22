@@ -16,7 +16,7 @@ class NewPlasmaLabel(Plasma.Label):
         self.parent = parent
         self.notify = ptmnotify.PTMNotify(self)
     
-
+    
     def mousePressEvent(self, event):
         """mouse click event"""
         if (event.button() == Qt.LeftButton):
@@ -49,6 +49,7 @@ class Reinit():
             else:
                 exec ('self.parent.' + label + 'Bool = int(settings.get("' + label + 'Bool",  0))')
         
+        # labels
         for order in self.parent.label_order:
             if (order == "1"):
                 if (self.parent.cpuBool > 0):
@@ -101,7 +102,7 @@ class Reinit():
                     self.parent.memFormat = str(settings.get('memFormat', '[mem: $mem%]'))
                     if (self.parent.memFormat.split('$memmb')[0] != self.parent.memFormat):
                         self.parent.memInMb = True
-                        text = self.parent.formatLine.split('$LINE')[0] + self.parent.memFormat.split('$memmb')[0] + '-----' + self.parent.memFormat.split('$memmb')[1] + self.parent.formatLine.split('$LINE')[1]
+                        line = self.parent.memFormat.split('$memmb')[0] + '-----' + self.parent.memFormat.split('$memmb')[1]
                     elif (self.parent.memFormat.split('$mem')[0] != self.parent.memFormat):
                         self.parent.memInMb = False
                         self.parent.mem_used = 0.0
@@ -119,7 +120,7 @@ class Reinit():
                     self.parent.swapFormat = str(settings.get('swapFormat', '[swap: $swap%]'))
                     if (self.parent.swapFormat.split('$swapmb')[0] != self.parent.swapFormat):
                         self.parent.swapInMb = True
-                        text = self.parent.formatLine.split('$LINE')[0] + self.parent.swapFormat.split('$swapmb')[0] + '-----' + self.parent.swapFormat.split('$swapmb')[1] + self.parent.formatLine.split('$LINE')[1]
+                        line = self.parent.swapFormat.split('$swapmb')[0] + '-----' + self.parent.swapFormat.split('$swapmb')[1]
                     elif (self.parent.swapFormat.split('$swap')[0] != self.parent.swapFormat):
                         self.parent.swapInMb = False
                         self.parent.swap_free = 1.0
@@ -281,7 +282,7 @@ class Reinit():
             self.parent.theme = Plasma.Svg(self.parent)
             self.parent.theme.setImagePath("widgets/background")
             self.parent.setBackgroundHints(Plasma.Applet.DefaultBackground)
-        self.parent.resize(10,10)
+        self.parent.resize(10, 10)
         
         # create dataengines
         self.parent.thread().wait(60000)

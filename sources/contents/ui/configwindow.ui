@@ -65,6 +65,9 @@
            <property name="toolTip">
             <string notr="true">$uptime - uptime</string>
            </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
           </widget>
          </item>
          <item>
@@ -117,6 +120,9 @@
            <property name="toolTip">
             <string notr="true">$cpu - total load CPU, %
 $ccpu - load CPU for each core, %</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
@@ -173,6 +179,9 @@ $ccpu - load CPU for each core, %</string>
            <property name="toolTip">
             <string notr="true">$cpucl - average CPU clock, MHz
 $ccpucl - CPU clock for each core, MHz</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
@@ -242,6 +251,9 @@ $ccpucl - CPU clock for each core, MHz</string>
            <property name="toolTip">
             <string notr="true">$temp - physical temperature on CPU</string>
            </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
           </widget>
          </item>
          <item>
@@ -297,6 +309,9 @@ $ccpucl - CPU clock for each core, MHz</string>
            <property name="toolTip">
             <string notr="true">$gpu - gpu usage, %</string>
            </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
           </widget>
          </item>
          <item>
@@ -351,6 +366,9 @@ $ccpucl - CPU clock for each core, MHz</string>
           <widget class="QLineEdit" name="lineEdit_gpuTemp">
            <property name="toolTip">
             <string notr="true">$gputemp - physical temperature on GPU</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
@@ -408,6 +426,9 @@ $ccpucl - CPU clock for each core, MHz</string>
             <string notr="true">$mem - RAM usage, %
 $memmb - RAM usage, MB</string>
            </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
           </widget>
          </item>
          <item>
@@ -464,6 +485,9 @@ $memmb - RAM usage, MB</string>
             <string notr="true">$swap - swap usage, %
 $swapmb - swap usage, MB</string>
            </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
           </widget>
          </item>
          <item>
@@ -519,6 +543,9 @@ $swapmb - swap usage, MB</string>
            <property name="toolTip">
             <string notr="true">@@/;@@ - mount point usage, %</string>
            </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
           </widget>
          </item>
          <item>
@@ -573,6 +600,9 @@ $swapmb - swap usage, MB</string>
           <widget class="QLineEdit" name="lineEdit_hddTemp">
            <property name="toolTip">
             <string notr="true">@@/dev/sda@@ - physical temperature on /dev/sda</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
@@ -631,6 +661,9 @@ $swapmb - swap usage, MB</string>
 $netdev - current network device
 @@eth0@@ - disable auto select device and set specified device</string>
            </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
           </widget>
          </item>
          <item>
@@ -686,6 +719,9 @@ $netdev - current network device
            <property name="toolTip">
             <string notr="true">$bat - battery charge, %
 $ac - AC status</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
@@ -755,6 +791,9 @@ $ac - AC status</string>
            <property name="toolTip">
             <string notr="true">&quot;/sys/class/power_supply/BAT0/capacity&quot; by default</string>
            </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
           </widget>
          </item>
         </layout>
@@ -794,6 +833,9 @@ $ac - AC status</string>
           <widget class="QLineEdit" name="lineEdit_acdev">
            <property name="toolTip">
             <string notr="true">&quot;/sys/class/power_supply/AC/online&quot; by default</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>

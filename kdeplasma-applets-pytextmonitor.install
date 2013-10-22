@@ -1,9 +1,14 @@
-post_install()
+func_update()
 {
   cat << EOF
 Update plasmoids...
 EOF
   kbuildsycoca4 > /dev/null 2>&1
+}
+
+post_install()
+{
+  func_update
   cat << EOF
 Make sure that \`hddtemp\` can be run as non-root
 EOF
@@ -11,10 +16,10 @@ EOF
 
 post_upgrade()
 {
-  post_install
+  func_update
 }
 
 post_remove()
 {
-  post_install
+  func_update
 }

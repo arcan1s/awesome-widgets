@@ -3,7 +3,7 @@
 
 pkgname=kdeplasma-applets-pytextmonitor
 _pkgname=py-text-monitor
-pkgver=1.3.6
+pkgver=1.4.0
 pkgrel=1
 _dtengine=ext-sysmon
 _dtver=1.2
@@ -19,8 +19,8 @@ makedepends=('automoc4' 'cmake')
 source=(https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/${_pkgname}-${pkgver}.plasmoid
         https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/${_dtengine}-${_dtver}.zip)
 install=${pkgname}.install
-md5sums=('de54ece6545d28888a60d33f09ce69a1'
-         '775bc3a6057f2dc1696f09b8d315a3e9')
+md5sums=('988704016573b215bb36b62762075fee'
+         '3182acdadb3b498be929b3cadad92206')
 
 build ()
 {
@@ -42,6 +42,8 @@ package()
   make DESTDIR="${pkgdir}" install
 
   # install plasmoid
+  install -D -m644 "${srcdir}/contents/code/plasma_applet_pytextmonitor.notifyrc" \
+                   "${pkgdir}/`kde4-config --prefix`/share/apps/plasma_applet_pytextmonitor/plasma_applet_pytextmonitor.notifyrc"
   install -D -m644 "${srcdir}/metadata.desktop" \
                    "${pkgdir}/`kde4-config --prefix`/share/kde4/services/${_pkgname}.desktop"
   install -D -m644 "${srcdir}/metadata.desktop" \

@@ -15,7 +15,7 @@ sed -i "s/_dtver=[0-9.]*/_dtver=${VERSION}/" PKGBUILD
 
 # build widget
 cd sources
-FILES="contents metadata.desktop"
+FILES="contents metadata.desktop plasma_applet_pytextmonitor"
 ARCHIVE="py-text-monitor"
 VERSION=`grep Version metadata.desktop | awk -F "=" '{print $2}'`
 # create archive

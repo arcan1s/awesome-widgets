@@ -37,12 +37,13 @@ class PTMNotify:
                 text = text + "Whoami: %s\n" %(commands.getoutput("whoami"))
                 text = text + "Uptime: %s\n" %(commands.getoutput("uptime"))
             except:
-                pass
+                text = "Something wrong"
         elif (type == "processor"):
             try:
                 output = commands.getoutput("grep 'model name' /proc/cpuinfo | head -1")
                 text = text + "Model: %s\n" %(' '.join(output.split()[3:]))
                 output = commands.getoutput("sar -u | tail -1")
+                print "1"
                 text = text + "CPU Usage: %s%%\n" %(str(100-float(output.split()[-1])))
                 output = commands.getoutput("grep MHz /proc/cpuinfo | head -1")
                 text = text + "CPU Freq: %s MHz\n" %(str(int(float(output.split()[-1]))))
@@ -52,7 +53,7 @@ class PTMNotify:
                     if (line.find("_input") > -1):
                         text = text + " %s\xb0C" %(str(round(float(line.split()[-1]), 0)))
             except:
-                pass
+                text = "Something wrong"
         elif (type == "graphical"):
             try:
                 output = commands.getoutput("lspci -m | grep 'VGA\|3D'")
@@ -93,7 +94,7 @@ class PTMNotify:
                     value = "  N\A"
                 text = text + "Temp: %s\xb0C\n" %(value)
             except:
-                pass
+                text = "Something wrong"
         elif (type == "memory"):
             try:
                 output = commands.getoutput("free -m -o").split("\n")
@@ -103,14 +104,14 @@ class PTMNotify:
                 output = commands.getoutput("swapon --show").split("\n")
                 text = text + "Swap Device: %s (%s)" %(output[1].split()[0], output[1].split()[1])
             except:
-                pass
+                text = "Something wrong"
         elif (type == "disk"):
             try:
                 output = commands.getoutput("df -h --output='source,target,used,size,pcent' --exclude-type=fuseblk --exclude-type=tmpfs --exclude-type=devtmpfs").split("\n")[1:]
                 for line in output:
                     text = text + "%s (to %s): %s of %s (%s)\n" %(line.split()[0], line.split()[1], line.split()[2], line.split()[3], line.split()[4])
             except:
-                pass
+                text = "Something wrong"
         elif (type == "network"):
             try:
                 output = commands.getoutput("ifconfig -a -s").split("\n")[1:]
@@ -126,12 +127,12 @@ class PTMNotify:
                 output = commands.getoutput("wget http://checkip.dyndns.org/ -q -O - | awk '{print $6}' | sed 's/<.*>//g'")
                 text = text + "External IP: %s" %(output[:-1])
             except:
-                pass
+                text = "Something wrong"
         elif (type == "battery"):
             try:
                 text = text + "%s" %(commands.getoutput("acpi -abi"))
             except:
-                pass
+                text = "Something wrong"
         
         content = [type, text]
         return content

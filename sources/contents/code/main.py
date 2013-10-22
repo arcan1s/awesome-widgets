@@ -7,7 +7,7 @@ from PyKDE4.kdeui import *
 from PyKDE4.kio import *
 from PyKDE4 import plasmascript
 from PyKDE4.plasma import Plasma
-import commands, os, time
+import commands, os, shutil, time
 
 import configdef
 import configwindow
@@ -21,8 +21,8 @@ class pyTextWidget(plasmascript.Applet):
     def __init__(self, parent, args=None):
         """widget definition"""
         plasmascript.Applet.__init__(self, parent)
-
-
+    
+    
     def init(self):
         """function to initializate widget"""
         self._name = str(self.package().metadata().pluginName())
@@ -39,6 +39,11 @@ class pyTextWidget(plasmascript.Applet):
         self.reinit.reinit(confAccept=False)
         
         self.setHasConfigurationInterface(True)
+        # Create notifyrc file if required
+        kdehome = unicode(KGlobal.dirs().localkdedir())
+        if ((not os.path.exists(kdehome + "/share/apps/plasma_applet_pytextmonitor/plasma_applet_pytextmonitor.notifyrc")) or
+            (not os.path.exists("/usr" + "/share/apps/plasma_applet_pytextmonitor/plasma_applet_pytextmonitor.notifyrc"))):
+            self.createNotifyrc(kdehome)
     
     
     def createConfigurationInterface(self, parent):
@@ -46,6 +51,14 @@ class pyTextWidget(plasmascript.Applet):
         self.configpage = configwindow.ConfigWindow(self)
         self.configdef = configdef.ConfigDefinition(self, self.configpage)
         self.configdef.createConfigurationInterface(parent)
+    
+    
+    def createNotifyrc(self, kdehome):
+        """function to create *.notifyrc"""
+        if (not os.path.isdir(kdehome + "/share/apps/plasma_applet_pytextmonitor")):
+            os.mkdir(kdehome + "/share/apps/plasma_applet_pytextmonitor")
+        shutil.copy(kdehome + "/share/apps/plasma/plasmoids/py-text-monitor/contents/code/plasma_applet_pytextmonitor.notifyrc",
+                    kdehome + "/share/apps/plasma_applet_pytextmonitor/")
     
     
     def initTooltip(self):
@@ -57,12 +70,12 @@ class pyTextWidget(plasmascript.Applet):
         # show tooltip
         #Plasma.ToolTipManager.self().setContent(self.applet, self.tooltip)
     
-
+    
     def mouseDoubleClickEvent(self, event):
         """function to doubleclick event"""
         os.system("ksysguard &")
     
-
+    
     def setupNetdev(self):
         """function to setup network device"""
         netdev = "lo"
@@ -79,8 +92,8 @@ class pyTextWidget(plasmascript.Applet):
         except:
             pass
         return netdev
-
-
+    
+    
     def setupVar(self):
         """function to setup variables"""
         self.netdev = ''
@@ -101,8 +114,8 @@ class pyTextWidget(plasmascript.Applet):
     def showConfigurationInterface(self):
         """function to show configuration window"""
         plasmascript.Applet.showConfigurationInterface(self)
-
-
+    
+    
     def startPolling(self):
         try:
             self.timer.start()
@@ -114,7 +127,7 @@ class pyTextWidget(plasmascript.Applet):
             self.label_error.setText('<font color="red">ERROR</font>')
             self.layout.addItem(self.label_error)
             return
-   
+    
     def updateLabel(self):
         """function to update label"""
         if ((self.memBool > 0) and (self.memInMb == False)):
@@ -123,8 +136,8 @@ class pyTextWidget(plasmascript.Applet):
             self.swapText()
         if (self.batBool > 0):
             self.batText()
-
-
+    
+    
     def batText(self):
         """function to set battery text"""
         line = self.batFormat
@@ -150,8 +163,8 @@ class pyTextWidget(plasmascript.Applet):
             line = line.split('$ac')[0] + bat + line.split('$ac')[1]
         text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
         self.label_bat.setText(text)
-
-
+    
+    
     def memText(self):
         """function to set mem text"""
         full = self.mem_uf + self.mem_free
@@ -163,8 +176,8 @@ class pyTextWidget(plasmascript.Applet):
             line = self.memFormat
         text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
         self.label_mem.setText(text)
-
-
+    
+    
     def swapText(self):
         """function to set swap text"""
         full = self.swap_used + self.swap_free
@@ -186,4 +199,4 @@ class pyTextWidget(plasmascript.Applet):
 
 
 def CreateApplet(parent):
-	return pyTextWidget(parent)
+    return pyTextWidget(parent)
