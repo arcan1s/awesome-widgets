@@ -42,3 +42,8 @@ Action=Popup
 Name=Graphical Information
 Comment=Graphical Information
 Action=Popup
+
+[Event/musicplayer]
+Name=Now playing
+Comment=Now playing
+Action=Popup

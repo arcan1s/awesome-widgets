@@ -1,5 +1,21 @@
 # -*- coding: utf-8 -*-
 
+# Copyright 2013 Evgeniy Alekseev <esalexeev@gmail.com>
+# 
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyKDE4.plasma import Plasma
@@ -16,7 +32,7 @@ class DataEngine:
     def connectToEngine(self):
         """function to initializate engine"""
         self.parent.systemmonitor = self.parent.dataEngine("systemmonitor")
-        if ((self.parent.gputempBool > 0) or (self.parent.gpuBool > 0) or (self.parent.hddtempBool > 0)):
+        if ((self.parent.gputempBool > 0) or (self.parent.gpuBool > 0) or (self.parent.hddtempBool > 0) or (self.parent.playerBool > 0)):
             self.parent.extsysmon = self.parent.dataEngine("ext-sysmon")
         
         if (self.parent.uptimeBool > 0):
@@ -59,6 +75,8 @@ class DataEngine:
             self.parent.updateNetdev = 0
             self.parent.systemmonitor.connectSource("network/interfaces/"+self.parent.netdev+"/transmitter/data", self.parent, self.parent.interval)
             self.parent.systemmonitor.connectSource("network/interfaces/"+self.parent.netdev+"/receiver/data", self.parent, self.parent.interval)
+        if (self.parent.playerBool > 0):
+            self.parent.extsysmon.connectSource("player", self.parent, self.parent.interval)
     
     def dataUpdated(self, sourceName, data):
         """function to update data"""
@@ -231,6 +249,28 @@ class DataEngine:
                     line = self.parent.hddtempFormat
                 text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                 self.parent.label_hddtemp.setText(text)
+            elif (sourceName == "player"):
+                if (self.parent.player_name == 0):
+                    title = str(data[QString(u'amarok_title')])
+                    artist = str(data[QString(u'amarok_artist')])
+                elif (self.parent.player_name == 1):
+                    title = str(data[QString(u'mpd_title')])
+                    artist = str(data[QString(u'mpd_artist')])
+                elif (self.parent.player_name == 2):
+                    title = str(data[QString(u'qmmp_title')])
+                    artist = str(data[QString(u'qmmp_artist')])
+                if (self.parent.playerFormat.split('$artist')[0] != self.parent.playerFormat):
+                    if ((len(artist) + len(title)) > 10):
+                        line = self.parent.playerFormat.split('$artist')[0] + artist[:5] + u"…" + self.parent.playerFormat.split('$artist')[1]
+                    else:
+                        line = self.parent.playerFormat.split('$artist')[0] + artist + self.parent.playerFormat.split('$artist')[1]
+                else:
+                    line = self.parent.playerFormat
+                if (line.split('$title') != line):
+                    line = line.split('$title')[0] + title + line.split('$title')[1]
+                text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
+                self.parent.label_player.setText(text)
+                
                 
             self.parent.update()
         except:

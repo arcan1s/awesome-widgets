@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>575</width>
-    <height>500</height>
+    <height>530</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -82,7 +82,7 @@
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>12</number>
+            <number>13</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -138,7 +138,7 @@ $ccpu - load CPU for each core, %</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>12</number>
+            <number>13</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -197,7 +197,7 @@ $ccpucl - CPU clock for each core, MHz</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>12</number>
+            <number>13</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -268,7 +268,7 @@ $ccpucl - CPU clock for each core, MHz</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>12</number>
+            <number>13</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -326,7 +326,7 @@ $ccpucl - CPU clock for each core, MHz</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>12</number>
+            <number>13</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -384,7 +384,7 @@ $ccpucl - CPU clock for each core, MHz</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>12</number>
+            <number>13</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -443,7 +443,7 @@ $memmb - RAM usage, MB</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>12</number>
+            <number>13</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -502,7 +502,7 @@ $swapmb - swap usage, MB</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>12</number>
+            <number>13</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -560,7 +560,7 @@ $swapmb - swap usage, MB</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>12</number>
+            <number>13</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -618,7 +618,7 @@ $swapmb - swap usage, MB</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>12</number>
+            <number>13</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -678,7 +678,7 @@ $netdev - current network device
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>12</number>
+            <number>13</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -737,7 +737,7 @@ $ac - AC status</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>12</number>
+            <number>13</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -836,6 +836,90 @@ $ac - AC status</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="layout_player">
+         <item>
+          <widget class="QCheckBox" name="checkBox_player">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string notr="true">Music player</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_player">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
+           <item>
+            <property name="text">
+             <string>amarok</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>mpd</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>qmmp</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_player">
+           <property name="toolTip">
+            <string notr="true">$title - song title
+$artist - song artist</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSlider" name="slider_player">
+           <property name="maximumSize">
+            <size>
+             <width>120</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>13</number>
+           </property>
+           <property name="pageStep">
+            <number>1</number>
+           </property>
+           <property name="value">
+            <number>13</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="tickPosition">
+            <enum>QSlider::TicksAbove</enum>
            </property>
           </widget>
          </item>
@@ -1223,6 +1307,10 @@ $ac - AC status</string>
   <tabstop>slider_bat</tabstop>
   <tabstop>lineEdit_batdev</tabstop>
   <tabstop>lineEdit_acdev</tabstop>
+  <tabstop>checkBox_player</tabstop>
+  <tabstop>comboBox_player</tabstop>
+  <tabstop>lineEdit_player</tabstop>
+  <tabstop>slider_player</tabstop>
   <tabstop>spinBox_interval</tabstop>
   <tabstop>fontComboBox</tabstop>
   <tabstop>spinBox_fontSize</tabstop>

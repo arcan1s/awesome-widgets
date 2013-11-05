@@ -1,5 +1,21 @@
 # -*- coding: utf-8 -*-
 
+# Copyright 2013 Evgeniy Alekseev <esalexeev@gmail.com>
+# 
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 from PyKDE4.kdecore import KComponentData
 from PyKDE4.kdeui import KNotification
 import commands
@@ -132,6 +148,31 @@ class PTMNotify:
                 text = text + "%s" %(commands.getoutput("acpi -abi"))
             except:
                 text = "Something wrong"
+        elif (type == "musicplayer"):
+            try:
+                artist = "N\\A"
+                album = "N\\A"
+                title = "N\\A"
+                if (self.parent.parent.player_name == 0):
+                    artist = commands.getoutput("qdbus org.kde.amarok /Player GetMetadata 2> /dev/null | grep albumartist: | cut -c14-")
+                    album = commands.getoutput("qdbus org.kde.amarok /Player GetMetadata 2> /dev/null | grep album: | cut -c8-")
+                    title = commands.getoutput("qdbus org.kde.amarok /Player GetMetadata 2> /dev/null | grep title: | cut -c8-")
+                elif (self.parent.parent.player_name == 1):
+                    output = commands.getoutput("echo 'currentsong\nclose' | curl --connect-timeout 1 -fsm 3 telnet://localhost:6600 2> /dev/null")
+                    for line in output.split("\n"):
+                        if (line.split(": ")[0] == "Artist"):
+                            artist = line.split(": ")[1]
+                        elif (line.split(": ")[0] == "Album"):
+                            album = line.split(": ")[1]
+                        elif (line.split(": ")[0] == "Title"):
+                            title = line.split(": ")[1]
+                elif (self.parent.parent.player_name == 2):
+                    artist = commands.getoutput("qmmp --nowplaying '%if(%p,%p,Unknown)' 2> /dev/null")
+                    album = commands.getoutput("qmmp --nowplaying '%if(%a,%a,Unknown)' 2> /dev/null")
+                    title = commands.getoutput("qmmp --nowplaying '%if(%t,%t,Unknown)' 2> /dev/null")
+                text = text + "Artist: %s\nAlbum: %s\nTitle: %s" %(artist, album, title)
+            except:
+                text = "Something wrong"
         
         content = [type, text]
         return content
@@ -208,6 +249,12 @@ class PTMNotify:
         try:
             if (sender == self.parent.parent.label_bat):
                 content = self.createText("battery")
+                return content
+        except:
+            pass
+        try:
+            if (sender == self.parent.parent.label_player):
+                content = self.createText("musicplayer")
                 return content
         except:
             pass

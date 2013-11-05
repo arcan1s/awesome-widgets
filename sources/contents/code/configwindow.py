@@ -1,5 +1,21 @@
 # -*- coding: utf-8 -*-
 
+# Copyright 2013 Evgeniy Alekseev <esalexeev@gmail.com>
+# 
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyKDE4.plasma import *
@@ -19,19 +35,22 @@ class ConfigWindow(QWidget):
         'gputemp':self.ui.checkBox_gpuTemp, 'hdd':self.ui.checkBox_hdd, 
         'hddtemp':self.ui.checkBox_hddTemp, 'mem':self.ui.checkBox_mem, 
         'net':self.ui.checkBox_net, 'swap':self.ui.checkBox_swap, 
-        'temp':self.ui.checkBox_temp, 'uptime':self.ui.checkBox_uptime}
+        'temp':self.ui.checkBox_temp, 'uptime':self.ui.checkBox_uptime, 
+        'player':self.ui.checkBox_player}
         self.sliders = {'bat':self.ui.slider_bat, 'cpu':self.ui.slider_cpu, 
         'cpuclock':self.ui.slider_cpuclock, 'gpu':self.ui.slider_gpu, 
         'gputemp':self.ui.slider_gpuTemp, 'hdd':self.ui.slider_hdd, 
         'hddtemp':self.ui.slider_hddTemp, 'mem':self.ui.slider_mem, 
         'net':self.ui.slider_net, 'swap':self.ui.slider_swap, 
-        'temp':self.ui.slider_temp, 'uptime':self.ui.slider_uptime}
+        'temp':self.ui.slider_temp, 'uptime':self.ui.slider_uptime, 
+        'player':self.ui.slider_player}
         self.lineedits = {'bat':self.ui.lineEdit_bat, 'cpu':self.ui.lineEdit_cpu, 
         'cpuclock':self.ui.lineEdit_cpuclock, 'gpu':self.ui.lineEdit_gpu, 
         'gputemp':self.ui.lineEdit_gpuTemp, 'hdd':self.ui.lineEdit_hdd, 
         'hddtemp':self.ui.lineEdit_hddTemp, 'mem':self.ui.lineEdit_mem, 
         'net':self.ui.lineEdit_net, 'swap':self.ui.lineEdit_swap, 
-        'temp':self.ui.lineEdit_temp, 'uptime':self.ui.lineEdit_uptime}
+        'temp':self.ui.lineEdit_temp, 'uptime':self.ui.lineEdit_uptime, 
+        'player':self.ui.lineEdit_player}
         
         for item in self.checkboxes.values():
             QObject.connect(item, SIGNAL("stateChanged(int)"), self.setStatus)
@@ -51,6 +70,8 @@ class ConfigWindow(QWidget):
                     self.ui.lineEdit_batdev.setEnabled(True)
                 elif (label == 'temp'):
                     self.ui.comboBox_temp.setEnabled(True)
+                elif (label == 'player'):
+                    self.ui.comboBox_player.setEnabled(True)
                 slider_label = 0
                 for slider in self.sliders.values():
                     if (slider.isEnabled() == True):
@@ -69,6 +90,8 @@ class ConfigWindow(QWidget):
                     self.ui.lineEdit_batdev.setDisabled(True)
                 elif (label == 'temp'):
                     self.ui.comboBox_temp.setDisabled(True)
+                elif (label == 'player'):
+                    self.ui.comboBox_player.setDisabled(True)
                 for slider in self.sliders.values():
                     if ((slider.value() == slider.maximum()) and (slider != self.sliders[label])):
                         slider.setValue(self.sliders[label].value())

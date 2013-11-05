@@ -1,5 +1,21 @@
 # -*- coding: utf-8 -*-
 
+# Copyright 2013 Evgeniy Alekseev <esalexeev@gmail.com>
+# 
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyKDE4.plasma import Plasma
@@ -277,6 +293,20 @@ class Reinit():
                     text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                     self.parent.label_hddtemp.setText(text)
                     self.parent.layout.addItem(self.parent.label_hddtemp)
+            elif (order == "d"):
+                if (self.parent.playerBool > 0):
+                    self.parent.playerFormat = str(settings.get('playerFormat', '[$artist - $title]'))
+                    self.parent.player_name = settings.get('player_name', 0).toInt()[0]
+                    self.parent.label_player = NewPlasmaLabel(self.parent.applet, self.parent)
+                    if (self.parent.playerFormat.split('$artist')[0] != self.parent.playerFormat):
+                        line = self.parent.playerFormat.split('$artist')[0] + '----------' + self.parent.playerFormat.split('$artist')[1]
+                    else:
+                        line = self.parent.playerFormat
+                    if (line.split('$title') != line):
+                        line = line.split('$title')[0] + '----------' + line.split('$title')[1]
+                    text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
+                    self.parent.label_player.setText(text)
+                    self.parent.layout.addItem(self.parent.label_player)
         if not confAccept:
             self.parent.applet.setLayout(self.parent.layout)
             self.parent.theme = Plasma.Svg(self.parent)

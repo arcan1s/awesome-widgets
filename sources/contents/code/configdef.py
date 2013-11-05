@@ -1,5 +1,21 @@
 # -*- coding: utf-8 -*-
 
+# Copyright 2013 Evgeniy Alekseev <esalexeev@gmail.com>
+# 
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 from PyQt4.QtGui import *
 from PyKDE4.kdecore import *
 from PyKDE4.kdeui import *
@@ -117,8 +133,11 @@ class ConfigDefinition:
         if (self.parent.batBool > 0):
             self.parent.label_bat.setText('')
             self.parent.layout.removeItem(self.parent.label_bat)
+        if (self.parent.playerBool > 0):
+            self.parent.label_player.setText('')
+            self.parent.layout.removeItem(self.parent.label_player)
         
-        self.parent.label_order = "------------"
+        self.parent.label_order = "-------------"
         
         for label in self.parent.dict_orders.keys():
             exec ('self.parent.' + self.parent.dict_orders[label] + 'Bool = ' + str(self.configpage.checkboxes[self.parent.dict_orders[label]].checkState()))
@@ -140,6 +159,9 @@ class ConfigDefinition:
             elif (self.parent.dict_orders[label] == 'temp'):
                 self.parent.tempdev = str(self.configpage.ui.comboBox_temp.currentText())
                 settings.set('temp_device', self.parent.tempdev)
+            elif (self.parent.dict_orders[label] == 'player'):
+                self.parent.player_name = self.configpage.ui.comboBox_player.currentIndex()
+                settings.set('player_name', self.parent.player_name)
         
         self.parent.label_order = ''.join(self.parent.label_order.split('-'))
         settings.set('label_order', self.parent.label_order)
@@ -186,6 +208,8 @@ class ConfigDefinition:
                                 self.configpage.ui.comboBox_temp.addItem(tempdev)
                             except:
                                 pass
+            elif (self.parent.dict_orders[label] == 'player'):
+                self.configpage.ui.comboBox_player.setCurrentIndex(int(settings.get('player_name', 0)))
         
         # add config page
         page = parent.addPage(self.configpage, i18n(self.parent.name()))
