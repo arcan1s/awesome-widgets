@@ -43,7 +43,6 @@ class PTMNotify:
                 output = commands.getoutput("grep 'model name' /proc/cpuinfo | head -1")
                 text = text + "Model: %s\n" %(' '.join(output.split()[3:]))
                 output = commands.getoutput("sar -u | tail -1")
-                print "1"
                 text = text + "CPU Usage: %s%%\n" %(str(100-float(output.split()[-1])))
                 output = commands.getoutput("grep MHz /proc/cpuinfo | head -1")
                 text = text + "CPU Freq: %s MHz\n" %(str(int(float(output.split()[-1]))))
