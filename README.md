@@ -30,16 +30,17 @@ For edited output you must open Settings window and setup output format in lines
 * label "$title" - current song title. One of supported music players must be installed
 
 Label order will changed if you change slider position. HTML tags in label work normally.
+
 **NOTE** you don't may set to show $cpu in swap label for example. $cpu will work only in cpu label.
 
 TODO (wish) list
 ----------------
-* Tooltip (graphical information):
-* * cpu, %
-* * cpuclock, mhz
-* * memory, %
-* * swap, %
-* * network, %
+Tooltip (graphical information):
+* cpu, %
+* cpuclock, mhz
+* memory, %
+* swap, %
+* network, %
 
 Instruction
 ===========
@@ -54,10 +55,10 @@ Dependencies
 
 Optional dependencies
 ---------------------
-* ext-sysmon (for GPU, GPU temp, HDD temp and player labels)
-* * proprietary video driver
-* * hddtemp
-* * music player (amarok, mpd or qmmp)
+ext-sysmon (for GPU, GPU temp, HDD temp and player labels):
+* proprietary video driver
+* hddtemp
+* music player (amarok, mpd or qmmp)
 
 Make dependencies
 -----------------
@@ -68,15 +69,24 @@ Installation
 ------------
 * download sources
 * install dataengine
+
     mkdir build && cd build
+
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=`kde4-config --localprefix` ../
+
     make && make install
+
 Also you may install it to "/":
+
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=`kde4-config --prefix` ../
+
     make && sudo make install
 * install plasmoid
+
     plasmapkg -i py-text-monitor-1.5.0.plasmoid
+
 Also you may install it to "/" too:
+
     plasmapkg -g -i py-text-monitor-1.5.0.plasmoid
 
 Additional information
