@@ -4,7 +4,7 @@
 pkgname=kdeplasma-applets-pytextmonitor
 _pkgname=py-text-monitor
 pkgver=1.5.1
-pkgrel=1
+pkgrel=2
 _dtengine=ext-sysmon
 _dtver=1.4
 pkgdesc="Minimalistic Plasmoid script written on Python2. It looks like widgets in awesome-wm"
