@@ -35,6 +35,10 @@ class DataEngine:
         if ((self.parent.gputempBool > 0) or (self.parent.gpuBool > 0) or (self.parent.hddtempBool > 0) or (self.parent.playerBool > 0)):
             self.parent.extsysmon = self.parent.dataEngine("ext-sysmon")
         
+        if (self.parent.timeBool > 0):
+            self.parent.timemon = self.parent.dataEngine("time")
+            self.parent.timemon.connectSource("Local", self.parent, 1000)
+        
         if (self.parent.uptimeBool > 0):
             self.parent.systemmonitor.connectSource("system/uptime", self.parent, self.parent.interval)
         if (self.parent.cpuBool > 0):
@@ -270,8 +274,15 @@ class DataEngine:
                     line = line.split('$title')[0] + title + line.split('$title')[1]
                 text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                 self.parent.label_player.setText(text)
-                
-                
+            elif (sourceName == "Local"):
+                value = str(data[QString(u'DateTime')].toString().toUtf8())
+                if (self.parent.timeFormat.split('$time')[0] != self.parent.timeFormat):
+                    line = self.parent.timeFormat.split('$time')[0] + value.decode("utf-8") + self.parent.timeFormat.split('$time')[1]
+                else:
+                    line = self.parent.timeFormat
+                text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
+                self.parent.label_time.setText(text)
+            
             self.parent.update()
         except:
             pass

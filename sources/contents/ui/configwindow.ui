@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>575</width>
-    <height>530</height>
+    <height>561</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -42,6 +42,61 @@
        <string>Widget settings</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QHBoxLayout" name="layout_time">
+         <item>
+          <widget class="QCheckBox" name="checkBox_time">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string notr="true">Time</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_time">
+           <property name="toolTip">
+            <string notr="true">$time - time</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSlider" name="slider_time">
+           <property name="maximumSize">
+            <size>
+             <width>120</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>14</number>
+           </property>
+           <property name="pageStep">
+            <number>1</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="tickPosition">
+            <enum>QSlider::TicksAbove</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
        <item>
         <layout class="QHBoxLayout" name="layout_uptime">
          <item>
@@ -82,10 +137,13 @@
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>13</number>
+            <number>14</number>
            </property>
            <property name="pageStep">
             <number>1</number>
+           </property>
+           <property name="value">
+            <number>2</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -138,13 +196,13 @@ $ccpu - load CPU for each core, %</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>13</number>
+            <number>14</number>
            </property>
            <property name="pageStep">
             <number>1</number>
            </property>
            <property name="value">
-            <number>2</number>
+            <number>3</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -197,13 +255,13 @@ $ccpucl - CPU clock for each core, MHz</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>13</number>
+            <number>14</number>
            </property>
            <property name="pageStep">
             <number>1</number>
            </property>
            <property name="value">
-            <number>3</number>
+            <number>4</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -268,13 +326,13 @@ $ccpucl - CPU clock for each core, MHz</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>13</number>
+            <number>14</number>
            </property>
            <property name="pageStep">
             <number>1</number>
            </property>
            <property name="value">
-            <number>4</number>
+            <number>5</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -326,13 +384,13 @@ $ccpucl - CPU clock for each core, MHz</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>13</number>
+            <number>14</number>
            </property>
            <property name="pageStep">
             <number>1</number>
            </property>
            <property name="value">
-            <number>5</number>
+            <number>6</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -384,13 +442,13 @@ $ccpucl - CPU clock for each core, MHz</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>13</number>
+            <number>14</number>
            </property>
            <property name="pageStep">
             <number>1</number>
            </property>
            <property name="value">
-            <number>6</number>
+            <number>7</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -443,13 +501,13 @@ $memmb - RAM usage, MB</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>13</number>
+            <number>14</number>
            </property>
            <property name="pageStep">
             <number>1</number>
            </property>
            <property name="value">
-            <number>7</number>
+            <number>8</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -502,13 +560,13 @@ $swapmb - swap usage, MB</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>13</number>
+            <number>14</number>
            </property>
            <property name="pageStep">
             <number>1</number>
            </property>
            <property name="value">
-            <number>8</number>
+            <number>9</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -560,13 +618,13 @@ $swapmb - swap usage, MB</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>13</number>
+            <number>14</number>
            </property>
            <property name="pageStep">
             <number>1</number>
            </property>
            <property name="value">
-            <number>9</number>
+            <number>10</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -618,13 +676,13 @@ $swapmb - swap usage, MB</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>13</number>
+            <number>14</number>
            </property>
            <property name="pageStep">
             <number>1</number>
            </property>
            <property name="value">
-            <number>10</number>
+            <number>11</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -678,13 +736,13 @@ $netdev - current network device
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>13</number>
+            <number>14</number>
            </property>
            <property name="pageStep">
             <number>1</number>
            </property>
            <property name="value">
-            <number>11</number>
+            <number>12</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -737,13 +795,13 @@ $ac - AC status</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>13</number>
+            <number>14</number>
            </property>
            <property name="pageStep">
             <number>1</number>
            </property>
            <property name="value">
-            <number>12</number>
+            <number>13</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -907,13 +965,13 @@ $artist - song artist</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>13</number>
+            <number>14</number>
            </property>
            <property name="pageStep">
             <number>1</number>
            </property>
            <property name="value">
-            <number>13</number>
+            <number>14</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -1268,6 +1326,9 @@ $artist - song artist</string>
  </customwidgets>
  <tabstops>
   <tabstop>tabWidget</tabstop>
+  <tabstop>checkBox_time</tabstop>
+  <tabstop>lineEdit_time</tabstop>
+  <tabstop>slider_time</tabstop>
   <tabstop>checkBox_uptime</tabstop>
   <tabstop>lineEdit_uptime</tabstop>
   <tabstop>slider_uptime</tabstop>

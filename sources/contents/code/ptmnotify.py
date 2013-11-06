@@ -181,6 +181,12 @@ class PTMNotify:
     def initText(self, sender):
         """function to send text"""
         try:
+            if (sender == self.parent.parent.label_time):
+                content = self.createText("system")
+                return content
+        except:
+            pass
+        try:
             if (sender == self.parent.parent.label_uptime):
                 content = self.createText("system")
                 return content

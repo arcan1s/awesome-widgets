@@ -134,10 +134,15 @@ class ConfigDefinition:
             self.parent.label_bat.setText('')
             self.parent.layout.removeItem(self.parent.label_bat)
         if (self.parent.playerBool > 0):
+            self.parent.extsysmon.disconnectSource("player", self.parent)
             self.parent.label_player.setText('')
             self.parent.layout.removeItem(self.parent.label_player)
+        if (self.parent.timeBool > 0):
+            self.parent.timemon.disconnectSource("Local", self.parent)
+            self.parent.label_time.setText('')
+            self.parent.layout.removeItem(self.parent.label_time)
         
-        self.parent.label_order = "-------------"
+        self.parent.label_order = "--------------"
         
         for label in self.parent.dict_orders.keys():
             exec ('self.parent.' + self.parent.dict_orders[label] + 'Bool = ' + str(self.configpage.checkboxes[self.parent.dict_orders[label]].checkState()))

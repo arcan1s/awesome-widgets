@@ -307,6 +307,17 @@ class Reinit():
                     text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                     self.parent.label_player.setText(text)
                     self.parent.layout.addItem(self.parent.label_player)
+            elif (order == "e"):
+                if (self.parent.timeBool > 0):
+                    self.parent.timeFormat = str(settings.get('timeFormat', '[$time]'))
+                    self.parent.label_time = NewPlasmaLabel(self.parent.applet, self.parent)
+                    if (self.parent.timeFormat.split('$time')[0] != self.parent.timeFormat):
+                        line = self.parent.timeFormat.split('$time')[0] + '----------------------' + self.parent.timeFormat.split('$time')[1]
+                    else:
+                        line = self.parent.timeFormat
+                    text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
+                    self.parent.label_time.setText(text)
+                    self.parent.layout.addItem(self.parent.label_time)
         if not confAccept:
             self.parent.applet.setLayout(self.parent.layout)
             self.parent.theme = Plasma.Svg(self.parent)

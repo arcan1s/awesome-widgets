@@ -36,21 +36,21 @@ class ConfigWindow(QWidget):
         'hddtemp':self.ui.checkBox_hddTemp, 'mem':self.ui.checkBox_mem, 
         'net':self.ui.checkBox_net, 'swap':self.ui.checkBox_swap, 
         'temp':self.ui.checkBox_temp, 'uptime':self.ui.checkBox_uptime, 
-        'player':self.ui.checkBox_player}
+        'player':self.ui.checkBox_player, 'time':self.ui.checkBox_time}
         self.sliders = {'bat':self.ui.slider_bat, 'cpu':self.ui.slider_cpu, 
         'cpuclock':self.ui.slider_cpuclock, 'gpu':self.ui.slider_gpu, 
         'gputemp':self.ui.slider_gpuTemp, 'hdd':self.ui.slider_hdd, 
         'hddtemp':self.ui.slider_hddTemp, 'mem':self.ui.slider_mem, 
         'net':self.ui.slider_net, 'swap':self.ui.slider_swap, 
         'temp':self.ui.slider_temp, 'uptime':self.ui.slider_uptime, 
-        'player':self.ui.slider_player}
+        'player':self.ui.slider_player, 'time':self.ui.slider_time}
         self.lineedits = {'bat':self.ui.lineEdit_bat, 'cpu':self.ui.lineEdit_cpu, 
         'cpuclock':self.ui.lineEdit_cpuclock, 'gpu':self.ui.lineEdit_gpu, 
         'gputemp':self.ui.lineEdit_gpuTemp, 'hdd':self.ui.lineEdit_hdd, 
         'hddtemp':self.ui.lineEdit_hddTemp, 'mem':self.ui.lineEdit_mem, 
         'net':self.ui.lineEdit_net, 'swap':self.ui.lineEdit_swap, 
         'temp':self.ui.lineEdit_temp, 'uptime':self.ui.lineEdit_uptime, 
-        'player':self.ui.lineEdit_player}
+        'player':self.ui.lineEdit_player, 'time':self.ui.lineEdit_time}
         
         for item in self.checkboxes.values():
             QObject.connect(item, SIGNAL("stateChanged(int)"), self.setStatus)

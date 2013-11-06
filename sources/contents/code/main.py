@@ -120,14 +120,14 @@ class pyTextWidget(plasmascript.Applet):
         # create dictionaries
         self.dict_orders = {'6':'bat', '1':'cpu', '7':'cpuclock', '9':'gpu', 'a':'gputemp', 
         'b':'hdd', 'c':'hddtemp', '3':'mem', '5':'net', '4':'swap', '2':'temp', '8':'uptime', 
-        'd':'player'}
+        'd':'player', 'e':'time'}
         self.dict_defFormat = {'bat':'[bat: $bat%$ac]', 'cpu':'[cpu: $cpu%]', 
         'cpuclock':'[mhz: $cpucl]', 'gpu':'[gpu: $gpu%]', 
         'gputemp':'[gpu temp: $gputemp&deg;C]', 'hdd':'[hdd: @@/@@%]', 
         'hddtemp':'[hdd temp: @@/dev/sda@@&deg;C]', 'mem':'[mem: $mem%]', 
         'net':'[$netdev: $netKB/s]', 'swap':'[swap: $swap%]', 
         'temp':'[temp: $temp&deg;C]', 'uptime':'[uptime: $uptime]', 
-        'player':'[$artist - $title]'}
+        'player':'[$artist - $title]', 'time':'[$time]'}
     
     def showConfigurationInterface(self):
         """function to show configuration window"""
