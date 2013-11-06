@@ -8,9 +8,10 @@ PyTextMonitor is a minimalistic Plasmoid script written on Python2. It looks lik
 Configuration
 -------------
 For edited output you must open Settings window and setup output format in lines:
-* label `$uptime` means uptime, <i>---d--h--m</i>
-* label `$cpu` means total load cpu, <i>%</i>
-* label `$ccpu` means load CPU for each core, <i>%</i>
+* label `$time` - time in long format. For example, `fri Nov 6 04:48:01 2013`
+* label `$uptime` - uptime, <i>---d--h--m</i>
+* label `$cpu` - total load cpu, <i>%</i>
+* label `$ccpu` - load CPU for each core, <i>%</i>
 * label `$cpucl` - average cpu clock, <i>MHz</i>
 * label `$ccpucl` - cpu clock for each core, <i>MHz</i>
 * label `$temp` - average temperature in system
