@@ -6,7 +6,7 @@ _pkgname=py-text-monitor
 pkgver=1.5.1
 pkgrel=1
 _dtengine=ext-sysmon
-_dtver=1.3
+_dtver=1.4
 pkgdesc="Minimalistic Plasmoid script written on Python2. It looks like widgets in awesome-wm"
 arch=('i686' 'x86_64')
 url="https://github.com/arcan1s/pytextmonitor"
@@ -22,8 +22,8 @@ makedepends=('automoc4' 'cmake')
 source=(https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/${_pkgname}-${pkgver}.plasmoid
         https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/${_dtengine}-${_dtver}.zip)
 install=${pkgname}.install
-md5sums=('3ef9536493e48cd460ee3f37faa8cf58'
-         'f7fce53d5f616891b30beac1afd99728')
+md5sums=('3b384690720bb8315b82c962728f0c5c'
+         '0d01b624981fdf7b2f69e7f34e942e67')
 
 build ()
 {

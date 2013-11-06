@@ -32,7 +32,7 @@ ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList& args)
   setMinimumPollingInterval(333);
 
   FILE *f_out;
-  f_out = popen("lspci 2>&1", "r");
+  f_out = popen("lspci 2> /dev/null", "r");
   char device[256];
   QString dev;
   while (fgets(device, 256, f_out) != NULL)
@@ -45,10 +45,10 @@ ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList& args)
   }
   pclose(f_out);
 
-  f_out = popen("ls -1 /dev/sd[a-z] && ls -1 /dev/hd[a-z] 2>&1", "r");
+  f_out = popen("ls -1 /dev/sd[a-z] 2> /dev/null ; ls -1 /dev/hd[a-z] 2> /dev/null", "r");
   while (fgets(device, 256, f_out) != NULL)
   {
-    dev = QString(device);
+    dev = QString(device).split("\n")[0];
     if (dev[0] == '/')
       hdddev.append(dev);
   }
