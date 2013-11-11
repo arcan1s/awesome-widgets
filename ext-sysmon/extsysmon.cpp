@@ -241,9 +241,9 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
       fgets(output, 256, f_out);
       if (feof (f_out))
         break;
-      if (QString(output).split(QString(": "), QString::SkipEmptyParts)[0] == QString("Artist"))
+      if (QString(output).split(QString(": "), QString::SkipEmptyParts)[0] == QString(" Artist"))
         value_artist = QString(output).split(QString(": "), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
-      else if (QString(output).split(QString(": "), QString::SkipEmptyParts)[0] == QString("Title"))
+      else if (QString(output).split(QString(": "), QString::SkipEmptyParts)[0] == QString(" Title"))
         value = QString(output).split(QString(": "), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
     }
     pclose(f_out);
