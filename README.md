@@ -8,7 +8,10 @@ PyTextMonitor is a minimalistic Plasmoid script written on Python2. It looks lik
 Configuration
 -------------
 For edited output you must open Settings window and setup output format in lines:
-* label `$time` - time in long format. For example, `fri Nov 6 04:48:01 2013`
+* label `$time` - time in default format. For example, `fri Nov 6 04:48:01 2013`
+* label `$isotime` - time in iso format
+* label `$shorttime` - time in short locale format
+* label `$longtime` - time in long locale format
 * label `$uptime` - uptime, <i>---d--h--m</i>
 * label `$cpu` - total load cpu, <i>%</i>
 * label `$ccpu` - load CPU for each core, <i>%</i>
@@ -33,6 +36,10 @@ For edited output you must open Settings window and setup output format in lines
 Label order will changed if you change slider position. HTML tags in label work normally.
 
 **NOTE** you don't may set to show $cpu in swap label for example. <b>$cpu will work only in cpu label</b>.
+
+DataEngine configuration
+------------------------
+You may edit DataEngine configuration. It is `/usr/share/config/extsysmon.conf` or `$HOME/share/config/extsysmon.conf` depending on the type of installation. Uncomment needed line and edit it.
 
 TODO (wish) list
 ----------------
