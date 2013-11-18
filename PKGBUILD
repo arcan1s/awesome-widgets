@@ -22,8 +22,9 @@ makedepends=('automoc4' 'cmake')
 source=(https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/${_pkgname}-${pkgver}.plasmoid
         https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/${_dtengine}-${_dtver}.zip)
 install=${pkgname}.install
-md5sums=('9872eedca313768f18de0facc2fc135d'
-         '29a0fbc2014b0b7cacfab8186a56a1b6')
+md5sums=('3e128738a0fcb90f41c57bd6cc4a249c'
+         'ff3144a9f0d74f80a5ab6bf2f3bdf9a1')
+backup=('usr/share/config/extsysmon.conf')
 
 build ()
 {

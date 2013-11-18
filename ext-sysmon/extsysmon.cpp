@@ -31,7 +31,7 @@ ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList& args)
   Q_UNUSED(args)
 
   setMinimumPollingInterval(333);
-  readConfiguration(QString("/etc/extsysmon.conf"));
+  readConfiguration(QString("/usr/share/config/extsysmon.conf"));
 }
 
 QStringList ExtendedSysMon::sources() const
@@ -86,30 +86,32 @@ bool ExtendedSysMon::readConfiguration(const QString confFileName)
       break;
     else if (fileStr[0] != '#')
     {
-      if (fileStr.split(QString("="), QString::SkipEmptyParts).count() == 1)
+      if (fileStr.split(QString("="), QString::SkipEmptyParts).count() == 2)
       {
         if (fileStr.split(QString("="), QString::SkipEmptyParts)[0] == QString("GPUDEV"))
         {
-          if (fileStr.split(QString("="), QString::SkipEmptyParts)[1] == QString("ati"))
-            gpudev = fileStr.split(QString("="), QString::SkipEmptyParts)[1];
-          else if (fileStr.split(QString("="), QString::SkipEmptyParts)[1] == QString("nvidia"))
-            gpudev = fileStr.split(QString("="), QString::SkipEmptyParts)[1];
-          else if (fileStr.split(QString("="), QString::SkipEmptyParts)[1] == QString("ignore"))
+          if (fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0] == QString("ati"))
+            gpudev = fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
+          else if (fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0] == QString("nvidia"))
+            gpudev = fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
+          else if (fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0] != QString("auto"))
             gpudev = QString("ignore");
         }
         else if (fileStr.split(QString("="), QString::SkipEmptyParts)[0] == QString("HDDDEV"))
         {
-          if (fileStr.split(QString("="), QString::SkipEmptyParts)[1] != QString("all"))
+          if (fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0] != QString("all"))
           {
             hdddev.clear();
-            for (int i=0; i<fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString(","), QString::SkipEmptyParts).count(); i++)
-              hdddev.append(fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString(","), QString::SkipEmptyParts)[i]);
+            for (int i=0; i<fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), \
+                            QString::SkipEmptyParts)[0].split(QString(","), QString::SkipEmptyParts).count(); i++)
+              hdddev.append(fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), \
+                            QString::SkipEmptyParts)[0].split(QString(","), QString::SkipEmptyParts)[i]);
           }
         }
         else if (fileStr.split(QString("="), QString::SkipEmptyParts)[0] == QString("MPDADDRESS"))
-          mpdAddress = fileStr.split(QString("="), QString::SkipEmptyParts)[1];
+          mpdAddress = fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
         else if (fileStr.split(QString("="), QString::SkipEmptyParts)[0] == QString("MPDPORT"))
-          mpdPort = fileStr.split(QString("="), QString::SkipEmptyParts)[1];
+          mpdPort = fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
       }
     }
   }
@@ -288,7 +290,10 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     QString value_artist;
     value = QString("N\\A");
     value_artist = QString("N\\A");
-    f_out = popen("echo 'currentsong\nclose' | curl --connect-timeout 1 -fsm 3 telnet://localhost:6600 2> /dev/null", "r");
+    char commandStr[512];
+    sprintf (commandStr, "echo 'currentsong\nclose' | curl --connect-timeout 1 -fsm 3 telnet://%s:%s 2> /dev/null", \
+             mpdAddress.toUtf8().data(), mpdPort.toUtf8().data());
+    f_out = popen(commandStr, "r");
     while (true)
     {
       fgets(output, 256, f_out);
