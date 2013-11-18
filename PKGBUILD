@@ -3,7 +3,7 @@
 
 pkgname=kdeplasma-applets-pytextmonitor
 _pkgname=py-text-monitor
-pkgver=1.5.1
+pkgver=1.5.2
 pkgrel=2
 _dtengine=ext-sysmon
 _dtver=1.5
@@ -22,8 +22,8 @@ makedepends=('automoc4' 'cmake')
 source=(https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/${_pkgname}-${pkgver}.plasmoid
         https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/${_dtengine}-${_dtver}.zip)
 install=${pkgname}.install
-md5sums=('3e128738a0fcb90f41c57bd6cc4a249c'
-         'ff3144a9f0d74f80a5ab6bf2f3bdf9a1')
+md5sums=('62a83e665d5a60e40891357a237cea1c'
+         'e8c0e40298facf6f515f3c72c66b2aa0')
 backup=('usr/share/config/extsysmon.conf')
 
 build ()

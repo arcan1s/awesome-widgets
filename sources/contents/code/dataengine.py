@@ -275,9 +275,18 @@ class DataEngine:
                 text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                 self.parent.label_player.setText(text)
             elif (sourceName == "Local"):
-                value = str(data[QString(u'DateTime')].toString().toUtf8())
                 if (self.parent.timeFormat.split('$time')[0] != self.parent.timeFormat):
+                    value = str(data[QString(u'DateTime')].toString(Qt.TextDate).toUtf8())
                     line = self.parent.timeFormat.split('$time')[0] + value.decode("utf-8") + self.parent.timeFormat.split('$time')[1]
+                elif (self.parent.timeFormat.split('$isotime')[0] != self.parent.timeFormat):
+                    value = str(data[QString(u'DateTime')].toString(Qt.ISODate).toUtf8())
+                    line = self.parent.timeFormat.split('$isotime')[0] + value.decode("utf-8") + self.parent.timeFormat.split('$isotime')[1]
+                elif (self.parent.timeFormat.split('$shorttime')[0] != self.parent.timeFormat):
+                    value = str(data[QString(u'DateTime')].toString(Qt.SystemLocaleShortDate).toUtf8())
+                    line = self.parent.timeFormat.split('$shorttime')[0] + value.decode("utf-8") + self.parent.timeFormat.split('$shorttime')[1]
+                elif (self.parent.timeFormat.split('$longtime')[0] != self.parent.timeFormat):
+                    value = str(data[QString(u'DateTime')].toString(Qt.SystemLocaleLongDate).toUtf8())
+                    line = self.parent.timeFormat.split('$longtime')[0] + value.decode("utf-8") + self.parent.timeFormat.split('$longtime')[1]
                 else:
                     line = self.parent.timeFormat
                 text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]

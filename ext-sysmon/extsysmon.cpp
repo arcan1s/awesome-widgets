@@ -23,6 +23,7 @@
 #include <QFile>
 
 #include <stdio.h>
+#include <stdlib.h>
 
 
 ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList& args)
@@ -31,7 +32,7 @@ ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList& args)
   Q_UNUSED(args)
 
   setMinimumPollingInterval(333);
-  readConfiguration(QString("/usr/share/config/extsysmon.conf"));
+  readConfiguration();
 }
 
 QStringList ExtendedSysMon::sources() const
@@ -44,7 +45,7 @@ QStringList ExtendedSysMon::sources() const
   return source;
 }
 
-bool ExtendedSysMon::readConfiguration(const QString confFileName)
+bool ExtendedSysMon::readConfiguration()
 {
   // pre-setup
   FILE *f_out;
@@ -74,10 +75,18 @@ bool ExtendedSysMon::readConfiguration(const QString confFileName)
   mpdPort = QString("6600");
   
   QString fileStr;
+  // FIXME: define configuration file
+  QString confFileName = QString(getenv("HOME")) + QString("/.kde4/share/config/extsysmon.conf");
   QFile confFile(confFileName);
   bool exists = confFile.open(QIODevice::ReadOnly);
   if (!exists)
-    return false;
+  {
+    confFileName = QString("/usr/share/config/extsysmon.conf");
+    confFile.setFileName(confFileName);
+    exists = confFile.open(QIODevice::ReadOnly);
+    if (!exists)
+      return false;
+  }
   
   while (true)
   {

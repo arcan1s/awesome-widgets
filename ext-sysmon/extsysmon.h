@@ -32,7 +32,7 @@ public:
 protected:
   bool sourceRequestEvent(const QString &name);
   bool updateSourceEvent(const QString &source);
-  bool readConfiguration(const QString confFileName);
+  bool readConfiguration();
   QStringList sources() const;
 // main configuration
   QStringList hdddev;

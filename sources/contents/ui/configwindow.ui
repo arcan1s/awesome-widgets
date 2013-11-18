@@ -63,7 +63,10 @@
          <item>
           <widget class="QLineEdit" name="lineEdit_time">
            <property name="toolTip">
-            <string notr="true">$time - time</string>
+            <string notr="true">$time - time in default format
+$isotime - time in ISO format
+$shorttime - time in short format
+$longtime - time in log format</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
