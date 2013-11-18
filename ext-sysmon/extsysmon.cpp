@@ -20,6 +20,7 @@
 #include "extsysmon.h"
 
 #include <Plasma/DataContainer>
+#include <QFile>
 
 #include <stdio.h>
 
@@ -30,29 +31,7 @@ ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList& args)
   Q_UNUSED(args)
 
   setMinimumPollingInterval(333);
-
-  FILE *f_out;
-  f_out = popen("lspci 2> /dev/null", "r");
-  char device[256];
-  QString dev;
-  while (fgets(device, 256, f_out) != NULL)
-  {
-    dev = QString(device);
-    if (dev.toLower().contains("nvidia"))
-      gpudev = QString("nvidia");
-    else if (dev.toLower().contains("radeon"))
-      gpudev = QString("ati");
-  }
-  pclose(f_out);
-
-  f_out = popen("ls -1 /dev/sd[a-z] 2> /dev/null ; ls -1 /dev/hd[a-z] 2> /dev/null", "r");
-  while (fgets(device, 256, f_out) != NULL)
-  {
-    dev = QString(device).split("\n")[0];
-    if (dev[0] == '/')
-      hdddev.append(dev);
-  }
-  pclose(f_out);
+  readConfiguration(QString("/etc/extsysmon.conf"));
 }
 
 QStringList ExtendedSysMon::sources() const
@@ -63,6 +42,80 @@ QStringList ExtendedSysMon::sources() const
   source.append(QString("hddtemp"));
   source.append(QString("player"));
   return source;
+}
+
+bool ExtendedSysMon::readConfiguration(const QString confFileName)
+{
+  // pre-setup
+  FILE *f_out;
+  f_out = popen("lspci 2> /dev/null", "r");
+  char device[256];
+  QString dev;
+  while (fgets(device, 256, f_out) != NULL)
+  {
+    dev = QString(device);
+  if (dev.toLower().contains("nvidia"))
+    gpudev = QString("nvidia");
+  else if (dev.toLower().contains("radeon"))
+    gpudev = QString("ati");
+  }
+  pclose(f_out);
+  
+  f_out = popen("ls -1 /dev/sd[a-z] 2> /dev/null ; ls -1 /dev/hd[a-z] 2> /dev/null", "r");
+  while (fgets(device, 256, f_out) != NULL)
+  {
+    dev = QString(device).split("\n")[0];
+    if (dev[0] == '/')
+      hdddev.append(dev);
+  }
+  pclose(f_out);
+  
+  mpdAddress = QString("localhost");
+  mpdPort = QString("6600");
+  
+  QString fileStr;
+  QFile confFile(confFileName);
+  bool exists = confFile.open(QIODevice::ReadOnly);
+  if (!exists)
+    return false;
+  
+  while (true)
+  {
+    fileStr = QString(confFile.readLine());
+    if (confFile.atEnd())
+      break;
+    else if (fileStr[0] != '#')
+    {
+      if (fileStr.split(QString("="), QString::SkipEmptyParts).count() == 1)
+      {
+        if (fileStr.split(QString("="), QString::SkipEmptyParts)[0] == QString("GPUDEV"))
+        {
+          if (fileStr.split(QString("="), QString::SkipEmptyParts)[1] == QString("ati"))
+            gpudev = fileStr.split(QString("="), QString::SkipEmptyParts)[1];
+          else if (fileStr.split(QString("="), QString::SkipEmptyParts)[1] == QString("nvidia"))
+            gpudev = fileStr.split(QString("="), QString::SkipEmptyParts)[1];
+          else if (fileStr.split(QString("="), QString::SkipEmptyParts)[1] == QString("ignore"))
+            gpudev = QString("ignore");
+        }
+        else if (fileStr.split(QString("="), QString::SkipEmptyParts)[0] == QString("HDDDEV"))
+        {
+          if (fileStr.split(QString("="), QString::SkipEmptyParts)[1] != QString("all"))
+          {
+            hdddev.clear();
+            for (int i=0; i<fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString(","), QString::SkipEmptyParts).count(); i++)
+              hdddev.append(fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString(","), QString::SkipEmptyParts)[i]);
+          }
+        }
+        else if (fileStr.split(QString("="), QString::SkipEmptyParts)[0] == QString("MPDADDRESS"))
+          mpdAddress = fileStr.split(QString("="), QString::SkipEmptyParts)[1];
+        else if (fileStr.split(QString("="), QString::SkipEmptyParts)[0] == QString("MPDPORT"))
+          mpdPort = fileStr.split(QString("="), QString::SkipEmptyParts)[1];
+      }
+    }
+  }
+  
+  confFile.close();
+  return true;
 }
 
 bool ExtendedSysMon::sourceRequestEvent(const QString &name)
@@ -241,9 +294,9 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
       fgets(output, 256, f_out);
       if (feof (f_out))
         break;
-      if (QString(output).split(QString(": "), QString::SkipEmptyParts)[0] == QString(" Artist"))
+      if (QString(output).split(QString(": "), QString::SkipEmptyParts)[0] == QString("Artist"))
         value_artist = QString(output).split(QString(": "), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
-      else if (QString(output).split(QString(": "), QString::SkipEmptyParts)[0] == QString(" Title"))
+      else if (QString(output).split(QString(": "), QString::SkipEmptyParts)[0] == QString("Title"))
         value = QString(output).split(QString(": "), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
     }
     pclose(f_out);

@@ -32,9 +32,14 @@ public:
 protected:
   bool sourceRequestEvent(const QString &name);
   bool updateSourceEvent(const QString &source);
+  bool readConfiguration(const QString confFileName);
+  QStringList sources() const;
+// main configuration
   QStringList hdddev;
   QString gpudev;
-  QStringList sources() const;
+// configuration
+  QString mpdAddress;
+  QString mpdPort;
 };
 
 #endif // EXTSYSMON_H 
