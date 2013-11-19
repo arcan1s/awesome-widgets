@@ -186,8 +186,11 @@ class pyTextWidget(plasmascript.Applet):
     def memText(self):
         """function to set mem text"""
         full = self.mem_uf + self.mem_free
-        mem = 100 * self.mem_used / full
-        mem = "%5s" % (str(round(mem, 1)))
+        try:
+            mem = 100 * self.mem_used / full
+            mem = "%5s" % (str(round(mem, 1)))
+        except:
+            mem = "  N\\A"
         if (self.memFormat.split('$mem')[0] != self.memFormat):
             line = self.memFormat.split('$mem')[0] + mem + self.memFormat.split('$mem')[1]
         else:
@@ -199,8 +202,11 @@ class pyTextWidget(plasmascript.Applet):
     def swapText(self):
         """function to set swap text"""
         full = self.swap_used + self.swap_free
-        mem = 100 * self.swap_used / full
-        mem = "%5s" % (str(round(mem, 1)))
+        try:
+            mem = 100 * self.swap_used / full
+            mem = "%5s" % (str(round(mem, 1)))
+        except:
+            mem = "  N\\A"
         if (self.swapFormat.split('$swap')[0] != self.swapFormat):
             line = self.swapFormat.split('$swap')[0] + mem + self.swapFormat.split('$swap')[1]
         else:
