@@ -948,8 +948,11 @@ $ac - AC status</string>
          <item>
           <widget class="QLineEdit" name="lineEdit_player">
            <property name="toolTip">
-            <string notr="true">$title - song title
-$artist - song artist</string>
+            <string notr="true">$album - song album
+$artist - song artist
+$progress - song progress
+$time - song duration
+$title - song title</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

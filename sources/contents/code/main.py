@@ -116,6 +116,7 @@ class pyTextWidget(plasmascript.Applet):
         # setup number of cores
         commandOut = commands.getoutput("grep -c '^processor' /proc/cpuinfo")
         self.numCores = int(commandOut)
+        self.tempdev = "tempdevice"
         
         # create dictionaries
         self.dict_orders = {'6':'bat', '1':'cpu', '7':'cpuclock', '9':'gpu', 'a':'gputemp', 

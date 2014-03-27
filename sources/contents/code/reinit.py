@@ -298,12 +298,17 @@ class Reinit():
                     self.parent.playerFormat = str(settings.get('playerFormat', '[$artist - $title]'))
                     self.parent.player_name = settings.get('player_name', 0).toInt()[0]
                     self.parent.label_player = NewPlasmaLabel(self.parent.applet, self.parent)
-                    if (self.parent.playerFormat.split('$artist')[0] != self.parent.playerFormat):
-                        line = self.parent.playerFormat.split('$artist')[0] + '----------' + self.parent.playerFormat.split('$artist')[1]
-                    else:
-                        line = self.parent.playerFormat
+                    line = self.parent.playerFormat
+                    if (line.split('$album')[0] != line):
+                        line = line.split('$album')[0] + 'N\\A' + line.split('$album')[1]
+                    if (line.split('$artist')[0] != line):
+                        line = line.split('$artist')[0] + 'N\\A' + line.split('$artist')[1]
+                    if (line.split('$progress')[0] != line):
+                        line = line.split('$progress')[0] + '00:00' + line.split('$progress')[1]
                     if (line.split('$title') != line):
-                        line = line.split('$title')[0] + '----------' + line.split('$title')[1]
+                        line = line.split('$title')[0] + 'N\\A' + line.split('$title')[1]
+                    if (line.split('$time') != line):
+                        line = line.split('$time')[0] + '00:00' + line.split('$time')[1]
                     text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                     self.parent.label_player.setText(text)
                     self.parent.layout.addItem(self.parent.label_player)

@@ -21,6 +21,7 @@ from PyQt4.QtGui import *
 from PyKDE4.plasma import Plasma
 from PyKDE4 import plasmascript
 
+import datetime
 
 
 class DataEngine:
@@ -255,21 +256,34 @@ class DataEngine:
                 self.parent.label_hddtemp.setText(text)
             elif (sourceName == "player"):
                 if (self.parent.player_name == 0):
-                    title = str(data[QString(u'amarok_title')])
+                    album = str(data[QString(u'amarok_album')])
                     artist = str(data[QString(u'amarok_artist')])
+                    progress = str(data[QString(u'amarok_progress')])
+                    time = str(data[QString(u'amarok_duration')])
+                    title = str(data[QString(u'amarok_title')])
                 elif (self.parent.player_name == 1):
-                    title = str(data[QString(u'mpd_title')])
+                    album = str(data[QString(u'mpd_album')])
                     artist = str(data[QString(u'mpd_artist')])
+                    progress = str(data[QString(u'mpd_progress')])
+                    time = str(data[QString(u'mpd_duration')])
+                    title = str(data[QString(u'mpd_title')])
                 elif (self.parent.player_name == 2):
-                    title = str(data[QString(u'qmmp_title')])
+                    album = str(data[QString(u'qmmp_album')])
                     artist = str(data[QString(u'qmmp_artist')])
-                if (self.parent.playerFormat.split('$artist')[0] != self.parent.playerFormat):
-                    if ((len(artist) + len(title)) > 10):
-                        line = self.parent.playerFormat.split('$artist')[0] + artist[:5] + u"…" + self.parent.playerFormat.split('$artist')[1]
-                    else:
-                        line = self.parent.playerFormat.split('$artist')[0] + artist + self.parent.playerFormat.split('$artist')[1]
-                else:
-                    line = self.parent.playerFormat
+                    progress = str(data[QString(u'qmmp_progress')])
+                    time = str(data[QString(u'qmmp_duration')])
+                    title = str(data[QString(u'qmmp_title')])
+                line = self.parent.playerFormat
+                if (line.split('$album')[0] != line):
+                    line = line.split('$album')[0] + album + line.split('$album')[1]
+                if (line.split('$artist')[0] != line):
+                    line = line.split('$artist')[0] + artist + line.split('$artist')[1]
+                if (line.split('$progress')[0] != line):
+                    timeText = '%02i:%02i' % (int(time)/60, int(time)%60)
+                    line = line.split('$progress')[0] + timeText + line.split('$progress')[1]
+                if (line.split('$time')[0] != line):
+                    timeText = '%02i:%02i' % (int(time)/60, int(time)%60)
+                    line = line.split('$time')[0] + timeText + line.split('$time')[1]
                 if (line.split('$title') != line):
                     line = line.split('$title')[0] + title + line.split('$title')[1]
                 text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]

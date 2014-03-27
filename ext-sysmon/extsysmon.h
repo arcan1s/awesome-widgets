@@ -35,8 +35,8 @@ protected:
   bool readConfiguration();
   QStringList sources() const;
 // main configuration
-  QStringList hdddev;
-  QString gpudev;
+  QStringList hddDev;
+  QString gpuDev;
 // configuration
   QString mpdAddress;
   QString mpdPort;
