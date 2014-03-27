@@ -31,6 +31,7 @@ For edited output you must open Settings window and setup output format in lines
 * label `$bat` - battery charge, <i>%</i>. Battery device may be set below. File (`/sys/class/power_supply/BAT0/capacity` by default) must contain only battery charge in percent
 * label `$ac` - status AC device. Return <i>(*)</i> if AC device is online or <i>( )</i> if offline. AC device may be set below. FIle (`/sys/class/power_supply/AC/online` by default) must contain `1` if AC is online
 * label `$artist` - current song artist. One of supported music players must be installed
+* label `$album` - current song album. One of supported music players must be installed
 * label `$progress` - current song progress. One of supported music players must be installed (mpd does not support yet)
 * label `$time` - current song duration. One of supported music players must be installed
 * label `$title` - current song title. One of supported music players must be installed
