@@ -301,6 +301,16 @@ class DataEngine:
                 elif (self.parent.timeFormat.split('$longtime')[0] != self.parent.timeFormat):
                     value = str(data[QString(u'DateTime')].toString(Qt.SystemLocaleLongDate).toUtf8())
                     line = self.parent.timeFormat.split('$longtime')[0] + value.decode("utf-8") + self.parent.timeFormat.split('$longtime')[1]
+                elif (self.parent.timeFormat.split('$snsntime')[0] != self.parent.timeFormat):
+                    rawDate = str(data[QString(u'DateTime')].toString(Qt.TextDate).toUtf8())
+                    value = rawDate.split()[0] + " " + rawDate.split()[2] + " " + \
+                        rawDate.split()[1] + " " + ':'.join(rawDate.split()[3].split(':')[0:2])
+                    line = self.parent.timeFormat.split('$snsntime')[0] + value.decode("utf-8") + self.parent.timeFormat.split('$snsntime')[1]
+                elif (self.parent.timeFormat.split('$nsnstime')[0] != self.parent.timeFormat):
+                    rawDate = str(data[QString(u'DateTime')].toString(Qt.TextDate).toUtf8())
+                    value = ':'.join(rawDate.split()[3].split(':')[0:2]) + " " + rawDate.split()[0] + " " + \
+                        rawDate.split()[2] + " " + rawDate.split()[1]
+                    line = self.parent.timeFormat.split('$nsnstime')[0] + value.decode("utf-8") + self.parent.timeFormat.split('$nsnstime')[1]
                 else:
                     line = self.parent.timeFormat
                 text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]

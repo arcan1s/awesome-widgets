@@ -66,7 +66,9 @@
             <string notr="true">$time - time in default format
 $isotime - time in ISO format
 $shorttime - time in short format
-$longtime - time in log format</string>
+$longtime - time in log format
+$snsntime - time in format 'string number string number'
+$nsnstime - time in format 'number string number string'</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
