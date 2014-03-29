@@ -23,6 +23,9 @@ from PyKDE4 import plasmascript
 
 import datetime
 
+timeLetters = ['dddd', 'ddd', 'dd', 'd', 'MMMM', 'MMM', 'MM', 'M', 'yyyy', 'yy', \
+    'hh', 'h', 'mm', 'm', 'ss', 's']
+
 
 class DataEngine:
     def __init__(self, parent):
@@ -85,14 +88,25 @@ class DataEngine:
     
     def dataUpdated(self, sourceName, data):
         """function to update data"""
-        try:
+        #try:
+        if True:
             if (sourceName == "system/uptime"):
-                value = int(round(float(data[QString(u'value')]), 1))
-                uptimeText = '%3sd%2sh%2sm' % (str(int(value/(24*60*60))), int(value/60/60)-int(value/24/60/60)*24, (value-value%60)/60%60)
-                if (self.parent.uptimeFormat.split('$uptime')[0] != self.parent.uptimeFormat):
-                    line = self.parent.uptimeFormat.split('$uptime')[0] + uptimeText + self.parent.uptimeFormat.split('$uptime')[1]
-                else:
-                    line = self.parent.uptimeFormat
+                value = datetime.timedelta(0, int(round(float(data[QString(u'value')]), 1)))
+                days = value.days
+                hours = int(value.seconds / 60 / 60)
+                minutes = int(value.seconds / 60 % 60)
+                line = self.parent.uptimeFormat
+                if (line.split('$uptime')[0] != line):
+                    uptimeText = "%3id%2ih%2im" % (days, hours, minutes)
+                    line = line.split('$uptime')[0] + uptimeText + line.split('$uptime')[1]
+                elif (line.split('$custom')[0] != line):
+                    line = ''.join(line.split('$custom'))
+                    if (line.split('$ds')[0] != line):
+                        line = line.split('$ds')[0] + str(days) + line.split('$ds')[1]
+                    if (line.split('$hs')[0] != line):
+                        line = line.split('$hs')[0] + str(hours) + line.split('$hs')[1]
+                    if (line.split('$ms')[0] != line):
+                        line = line.split('$ms')[0] + str(minutes) + line.split('$ms')[1]
                 text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                 self.parent.label_uptime.setText(text)
             elif (sourceName == "cpu/system/TotalLoad"):
@@ -284,7 +298,7 @@ class DataEngine:
                 if (line.split('$time')[0] != line):
                     timeText = '%02i:%02i' % (int(time)/60, int(time)%60)
                     line = line.split('$time')[0] + timeText + line.split('$time')[1]
-                if (line.split('$title') != line):
+                if (line.split('$title')[0] != line):
                     line = line.split('$title')[0] + title + line.split('$title')[1]
                 text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                 self.parent.label_player.setText(text)
@@ -311,11 +325,19 @@ class DataEngine:
                     value = ':'.join(rawDate.split()[3].split(':')[0:2]) + " " + rawDate.split()[0] + " " + \
                         rawDate.split()[2] + " " + rawDate.split()[1]
                     line = self.parent.timeFormat.split('$nsnstime')[0] + value.decode("utf-8") + self.parent.timeFormat.split('$nsnstime')[1]
+                elif (self.parent.timeFormat.split('$custom')[0] != self.parent.timeFormat):
+                    rawDate = data[QString(u'DateTime')]
+                    line = ''.join(self.parent.timeFormat.split('$custom'))
+                    for letters in timeLetters:
+                        if (line.split('$'+letters)[0] != line):
+                            line = line.split('$'+letters)[0] + \
+                                str(data[QString(u'DateTime')].toString(letters).toUtf8()).decode("utf-8") + \
+                                line.split('$'+letters)[1]
                 else:
                     line = self.parent.timeFormat
                 text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                 self.parent.label_time.setText(text)
             
             self.parent.update()
-        except:
-            pass
+        #except:
+            #pass

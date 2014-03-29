@@ -67,8 +67,12 @@
 $isotime - time in ISO format
 $shorttime - time in short format
 $longtime - time in log format
-$snsntime - time in format 'string number string number'
-$nsnstime - time in format 'number string number string'</string>
+$custom: $dddd - long weekday; $ddd - short weekday; $dd - day; $d day w\o zero; 
+	$MMMM - long month; $MMM - short month; $MM - month; $M - month w\o zero; 
+	$yyyy - year; $yy short year; 
+	$hh - hours (24 only); $h - hours w\o zero (24 only); 
+	$mm - minutes; $m - minutes w\o zero;
+	s$ss - seconds; $s - seconds w\o zero</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -123,7 +127,8 @@ $nsnstime - time in format 'number string number string'</string>
          <item>
           <widget class="QLineEdit" name="lineEdit_uptime">
            <property name="toolTip">
-            <string notr="true">$uptime - uptime</string>
+            <string notr="true">$uptime - system uptime
+$custom: $ds - uptime days; $hs - uptime hours; $ms - uptime minutes</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
