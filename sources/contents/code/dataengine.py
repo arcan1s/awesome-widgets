@@ -23,7 +23,8 @@ from PyKDE4 import plasmascript
 
 import datetime
 
-timeLetters = ['dddd', 'ddd', 'dd', 'd', 'MMMM', 'MMM', 'MM', 'M', 'yyyy', 'yy', \
+timeLetters = ['dddd', 'ddd', 'dd', 'd', \
+    'MMMM', 'MMM', 'MM', 'M', 'yyyy', 'yy', \
     'hh', 'h', 'mm', 'm', 'ss', 's']
 
 
@@ -102,11 +103,11 @@ class DataEngine:
                 elif (line.split('$custom')[0] != line):
                     line = ''.join(line.split('$custom'))
                     if (line.split('$ds')[0] != line):
-                        line = line.split('$ds')[0] + str(days) + line.split('$ds')[1]
+                        line = "%s%3i%s" % (line.split('$ds')[0], days, line.split('$ds')[1])
                     if (line.split('$hs')[0] != line):
-                        line = line.split('$hs')[0] + str(hours) + line.split('$hs')[1]
+                        line = "%s%2i%s" % (line.split('$hs')[0], hours, line.split('$hs')[1])
                     if (line.split('$ms')[0] != line):
-                        line = line.split('$ms')[0] + str(minutes) + line.split('$ms')[1]
+                        line = "%s%2i%s" % (line.split('$ms')[0], minutes, line.split('$ms')[1])
                 text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                 self.parent.label_uptime.setText(text)
             elif (sourceName == "cpu/system/TotalLoad"):

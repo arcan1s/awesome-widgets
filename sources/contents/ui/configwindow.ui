@@ -72,7 +72,7 @@ $custom: $dddd - long weekday; $ddd - short weekday; $dd - day; $d day w\o zero;
 	$yyyy - year; $yy short year; 
 	$hh - hours (24 only); $h - hours w\o zero (24 only); 
 	$mm - minutes; $m - minutes w\o zero;
-	s$ss - seconds; $s - seconds w\o zero</string>
+	$ss - seconds; $s - seconds w\o zero</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
