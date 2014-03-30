@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=157124\n"
 "POT-Creation-Date: 2014-03-31 00:58+0400\n"
-"PO-Revision-Date: 2014-03-31 01:01+0400\n"
+"PO-Revision-Date: 2014-03-31 01:22+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -81,7 +81,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_uptime)
 #: rc.cpp:27
 msgid "Uptime"
-msgstr "Аптайм"
+msgstr "Время работы"
 
 #. i18n: file: ui/configwindow.ui:141
 #. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_uptime)
@@ -90,8 +90,8 @@ msgid ""
 "$uptime - system uptime\n"
 "$custom: $ds - uptime days; $hs - uptime hours; $ms - uptime minutes"
 msgstr ""
-"$uptime - аптайм системы\n"
-"$custom: $ds - дни аптайма; $hs - часы аптайма; $ms - минуты аптайма"
+"$uptime - время работы\n"
+"$custom: $ds - дни работы; $hs - часы; $ms - минуты"
 
 #. i18n: file: ui/configwindow.ui:189
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_cpu)
@@ -208,7 +208,7 @@ msgstr "HDD"
 #: rc.cpp:88
 #, no-c-format
 msgid "@@/;@@ - mount point usage, %"
-msgstr "@@/;@@ - использование точки монтирование, %"
+msgstr "@@/;@@ - использование точки монтирования, %"
 
 #. i18n: file: ui/configwindow.ui:670
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_hddTemp)
@@ -372,4 +372,5 @@ msgstr "Evgeniy Alekseev"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "esalexeev@gmail.com"
+
 
