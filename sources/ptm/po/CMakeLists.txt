@@ -20,7 +20,7 @@ foreach (_current_PO_FILE ${_po_files})
          WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
          DEPENDS ${_current_PO_FILE})
 
-  install (FILES ${CMAKE_CURRENT_BINARY_DIR}/${_lang}.gmo DESTINATION "share/apps/plasma/plasmoids/${SUBPROJECT}/locale/${_lang}/LC_MESSAGES" RENAME ${SUBPROJECT}.mo)
+  install (FILES ${CMAKE_CURRENT_BINARY_DIR}/${_lang}.gmo DESTINATION "share/apps/plasma/plasmoids/${SUBPROJECT}/contents/locale/${_lang}/LC_MESSAGES" RENAME ${SUBPROJECT}.mo)
   list (APPEND _gmoFiles ${_gmoFile})
 endforeach (_current_PO_FILE)
 add_custom_target (pofiles ALL DEPENDS ${_gmoFiles})

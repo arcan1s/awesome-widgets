@@ -305,9 +305,9 @@ class Reinit():
                         line = line.split('$artist')[0] + 'N\\A' + line.split('$artist')[1]
                     if (line.split('$progress')[0] != line):
                         line = line.split('$progress')[0] + '00:00' + line.split('$progress')[1]
-                    if (line.split('$title') != line):
+                    if (line.split('$title')[0] != line):
                         line = line.split('$title')[0] + 'N\\A' + line.split('$title')[1]
-                    if (line.split('$time') != line):
+                    if (line.split('$time')[0] != line):
                         line = line.split('$time')[0] + '00:00' + line.split('$time')[1]
                     text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                     self.parent.label_player.setText(text)

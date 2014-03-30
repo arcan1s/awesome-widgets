@@ -37,8 +37,7 @@ class DataEngine:
     def connectToEngine(self):
         """function to initializate engine"""
         self.parent.systemmonitor = self.parent.dataEngine("systemmonitor")
-        if ((self.parent.gputempBool > 0) or (self.parent.gpuBool > 0) or (self.parent.hddtempBool > 0) or (self.parent.playerBool > 0)):
-            self.parent.extsysmon = self.parent.dataEngine("ext-sysmon")
+        self.parent.extsysmon = self.parent.dataEngine("ext-sysmon")
         
         if (self.parent.timeBool > 0):
             self.parent.timemon = self.parent.dataEngine("time")
@@ -271,23 +270,23 @@ class DataEngine:
                 self.parent.label_hddtemp.setText(text)
             elif (sourceName == "player"):
                 if (self.parent.player_name == 0):
-                    album = str(data[QString(u'amarok_album')])
-                    artist = str(data[QString(u'amarok_artist')])
-                    progress = str(data[QString(u'amarok_progress')])
-                    time = str(data[QString(u'amarok_duration')])
-                    title = str(data[QString(u'amarok_title')])
+                    album = str(data[QString(u'amarok_album')].toUtf8()).decode("utf-8")
+                    artist = str(data[QString(u'amarok_artist')].toUtf8()).decode("utf-8")
+                    progress = str(data[QString(u'amarok_progress')].toUtf8()).decode("utf-8")
+                    time = str(data[QString(u'amarok_duration')].toUtf8()).decode("utf-8")
+                    title = str(data[QString(u'amarok_title')].toUtf8()).decode("utf-8")
                 elif (self.parent.player_name == 1):
-                    album = str(data[QString(u'mpd_album')])
-                    artist = str(data[QString(u'mpd_artist')])
-                    progress = str(data[QString(u'mpd_progress')])
-                    time = str(data[QString(u'mpd_duration')])
-                    title = str(data[QString(u'mpd_title')])
+                    album = str(data[QString(u'mpd_album')].toUtf8()).decode("utf-8")
+                    artist = str(data[QString(u'mpd_artist')].toUtf8()).decode("utf-8")
+                    progress = str(data[QString(u'mpd_progress')].toUtf8()).decode("utf-8")
+                    time = str(data[QString(u'mpd_duration')].toUtf8()).decode("utf-8")
+                    title = str(data[QString(u'mpd_title')].toUtf8()).decode("utf-8")
                 elif (self.parent.player_name == 2):
-                    album = str(data[QString(u'qmmp_album')])
-                    artist = str(data[QString(u'qmmp_artist')])
-                    progress = str(data[QString(u'qmmp_progress')])
-                    time = str(data[QString(u'qmmp_duration')])
-                    title = str(data[QString(u'qmmp_title')])
+                    album = str(data[QString(u'qmmp_album')].toUtf8()).decode("utf-8")
+                    artist = str(data[QString(u'qmmp_artist')].toUtf8()).decode("utf-8")
+                    progress = str(data[QString(u'qmmp_progress')].toUtf8()).decode("utf-8")
+                    time = str(data[QString(u'qmmp_duration')].toUtf8()).decode("utf-8")
+                    title = str(data[QString(u'qmmp_title')].toUtf8()).decode("utf-8")
                 line = self.parent.playerFormat
                 if (line.split('$album')[0] != line):
                     line = line.split('$album')[0] + album + line.split('$album')[1]

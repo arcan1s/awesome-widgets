@@ -22,6 +22,7 @@
 #include <Plasma/DataContainer>
 #include <QFile>
 #include <QProcess>
+#include <QTextCodec>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -91,15 +92,15 @@ bool ExtendedSysMon::readConfiguration()
     if (fileStr[0] != '#') {
       if (fileStr.split(QString("="), QString::SkipEmptyParts).count() == 2) {
         if (fileStr.split(QString("="), QString::SkipEmptyParts)[0] == QString("GPUDEV")) {
-          if (fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0] == QString("ati"))
-            gpuDev = fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
-          else if (fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0] == QString("nvidia"))
-            gpuDev = fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
-          else if (fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0] != QString("auto"))
+          if (fileStr.split(QString("="), QString::SkipEmptyParts)[1].trimmed() == QString("ati"))
+            gpuDev = fileStr.split(QString("="), QString::SkipEmptyParts)[1].trimmed();
+          else if (fileStr.split(QString("="), QString::SkipEmptyParts)[1].trimmed() == QString("nvidia"))
+            gpuDev = fileStr.split(QString("="), QString::SkipEmptyParts)[1].trimmed();
+          else if (fileStr.split(QString("="), QString::SkipEmptyParts)[1].trimmed() != QString("auto"))
             gpuDev = QString("ignore");
         }
         else if (fileStr.split(QString("="), QString::SkipEmptyParts)[0] == QString("HDDDEV")) {
-          if (fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0] != QString("all")) {
+          if (fileStr.split(QString("="), QString::SkipEmptyParts)[1].trimmed() != QString("all")) {
             hddDev.clear();
             for (int i=0; i<fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), \
                             QString::SkipEmptyParts)[0].split(QString(","), QString::SkipEmptyParts).count(); i++)
@@ -108,9 +109,9 @@ bool ExtendedSysMon::readConfiguration()
           }
         }
         else if (fileStr.split(QString("="), QString::SkipEmptyParts)[0] == QString("MPDADDRESS"))
-          mpdAddress = fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
+          mpdAddress = fileStr.split(QString("="), QString::SkipEmptyParts)[1].trimmed();
         else if (fileStr.split(QString("="), QString::SkipEmptyParts)[0] == QString("MPDPORT"))
-          mpdPort = fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
+          mpdPort = fileStr.split(QString("="), QString::SkipEmptyParts)[1].trimmed();
       }
     }
     if (confFile.atEnd())
@@ -241,22 +242,22 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     value_duration = QString("0");
     player.start("qmmp --status");
     player.waitForFinished(-1);
-    qoutput = player.readAllStandardOutput();
+    qoutput = QTextCodec::codecForMib(106)->toUnicode(player.readAllStandardOutput());
     for (int i=0; i<qoutput.split(QString("\n"), QString::SkipEmptyParts).count(); i++) {
       qstr = qoutput.split(QString("\n"), QString::SkipEmptyParts)[i];
       if (qstr.split(QString(" = "), QString::SkipEmptyParts)[0] == QString("ALBUM"))
-        value_album = qstr.split(QString(" = "), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
+        value_album = qstr.split(QString(" = "), QString::SkipEmptyParts)[1].trimmed();
       else if (qstr.split(QString(" = "), QString::SkipEmptyParts)[0] == QString("ARTIST"))
-        value_artist = qstr.split(QString(" = "), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
+        value_artist = qstr.split(QString(" = "), QString::SkipEmptyParts)[1].trimmed();
       else if (qstr.at(0) == QChar('[')) {
-        QString time = qstr.split(QString(" "), QString::SkipEmptyParts)[2].split(QString("\n"), QString::SkipEmptyParts)[0];
+        QString time = qstr.split(QString(" "), QString::SkipEmptyParts)[2].trimmed();
         value_progress = QString::number(time.split(QString("/"), QString::SkipEmptyParts)[0].split(QString(":"), QString::SkipEmptyParts)[0].toInt() * 60 +
                                          time.split(QString("/"), QString::SkipEmptyParts)[0].split(QString(":"), QString::SkipEmptyParts)[1].toInt());
         value_duration = QString::number(time.split(QString("/"), QString::SkipEmptyParts)[1].split(QString(":"), QString::SkipEmptyParts)[0].toInt() * 60 +
                                          time.split(QString("/"), QString::SkipEmptyParts)[1].split(QString(":"), QString::SkipEmptyParts)[1].toInt());
       }
       else if (qstr.split(QString(" = "), QString::SkipEmptyParts)[0] == QString("TITLE"))
-        value = qstr.split(QString(" = "), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
+        value = qstr.split(QString(" = "), QString::SkipEmptyParts)[1].trimmed();
     }
     key = QString("qmmp_album");
     setData(source, key, value_album);
@@ -277,17 +278,17 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     value_duration = QString("0");
     player.start("qdbus org.kde.amarok /Player GetMetadata");
     player.waitForFinished(-1);
-    qoutput = player.readAllStandardOutput();
+    qoutput = QTextCodec::codecForMib(106)->toUnicode(player.readAllStandardOutput());
     for (int i=0; i<qoutput.split(QString("\n"), QString::SkipEmptyParts).count(); i++) {
       qstr = qoutput.split(QString("\n"), QString::SkipEmptyParts)[i];
       if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("album"))
-        value_album = qstr.split(QString(": "), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
+        value_album = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
       else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("artist"))
-        value_artist = qstr.split(QString(": "), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
+        value_artist = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
       else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("time"))
-        value_duration = qstr.split(QString(": "), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
+        value_duration = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
       else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("title"))
-        value = qstr.split(QString(": "), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
+        value = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
     }
     player.start("qdbus org.kde.amarok /Player PositionGet");
     player.waitForFinished(-1);
@@ -319,17 +320,17 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     qoutput = QString("");
     player.start(QString(commandStr));
     player.waitForFinished(-1);
-    qoutput = player.readAllStandardOutput();
+    qoutput = QTextCodec::codecForMib(106)->toUnicode(player.readAllStandardOutput());
     for (int i=0; i<qoutput.split(QString("\n"), QString::SkipEmptyParts).count(); i++) {
       qstr = qoutput.split(QString("\n"), QString::SkipEmptyParts)[i];
       if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("Album"))
-        value_album = qstr.split(QString(": "), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
+        value_album = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
       else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("Artist"))
-        value_artist = qstr.split(QString(": "), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
+        value_artist = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
       else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("Time"))
-        value_duration = qstr.split(QString(": "), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
+        value_duration = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
       else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("Title"))
-        value = qstr.split(QString(": "), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
+        value = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
     }
     key = QString("mpd_album");
     setData(source, key, value_album);
