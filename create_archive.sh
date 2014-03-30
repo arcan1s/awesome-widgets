@@ -15,7 +15,7 @@ tar cJf "${ARCHIVE}-${VERSION}-src.tar.xz" "${ARCHIVE}"
 rm -rf "${ARCHIVE}"
 
 # build widget
-ARCHIVE="py-text-monitor"
+ARCHIVE="pytextmonitor"
 FILES="README.md"
 IGNORELIST="build usr"
 # create archive

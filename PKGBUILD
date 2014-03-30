@@ -2,7 +2,7 @@
 # Maintainer: Evgeniy "arcanis" Alexeev <esalexeev@gmail.com>
 
 pkgname=kdeplasma-applets-pytextmonitor
-_pkgname=py-text-monitor
+_pkgname=pytextmonitor
 pkgver=1.6.0
 pkgrel=1
 pkgdesc="Minimalistic Plasmoid script written on Python2. It looks like widgets in awesome-wm"
@@ -17,9 +17,9 @@ optdepends=("hddtemp: for HDD temperature monitor"
             "mpd: for music player monitor" 
             "qmmp: for music player monitor")
 makedepends=('automoc4' 'cmake')
-source=(https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/${_pkgname}-${pkgver}.tar.xz)
+source=(https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/${_pkgname}-${pkgver}-src.tar.xz)
 install=${pkgname}.install
-md5sums=('335940e39c41ed7d81a251d1d04c18c4')
+md5sums=('5941cde214f5f93c3ec8963622ef1fdf')
 backup=('usr/share/config/extsysmon.conf')
 
 build () {

@@ -324,7 +324,7 @@ class Reinit():
                     self.parent.label_time.setText(text)
                     self.parent.layout.addItem(self.parent.label_time)
         if not confAccept:
-            self.parent.layout.setContentsMargins(0, 0, 0, 0)
+            self.parent.layout.setContentsMargins(1, 1, 1, 1)
             self.parent.applet.setLayout(self.parent.layout)
             self.parent.theme = Plasma.Svg(self.parent)
             self.parent.theme.setImagePath("widgets/background")

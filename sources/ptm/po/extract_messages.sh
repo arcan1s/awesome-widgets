@@ -1,6 +1,6 @@
 #!/bin/sh
 BASEDIR="../contents" # root of translatable sources
-PROJECT="py-text-monitor" # project name
+PROJECT="pytextmonitor" # project name
 BUGADDR="http://kde-look.org/content/show.php?content=157124" # MSGID-Bugs
 WDIR=`pwd` # working dir
 SATELLITE_LIST=satellite.list

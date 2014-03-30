@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>575</width>
-    <height>561</height>
+    <height>588</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -42,6 +42,16 @@
        <string>Widget settings</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Detailed information may be found on &lt;a href=&quot;http://arcanis.name/projects/pytextmonitor/&quot;&gt;project homepage&lt;/a&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
        <item>
         <layout class="QHBoxLayout" name="layout_time">
          <item>

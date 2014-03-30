@@ -1,5 +1,5 @@
 # set project name
-set (SUBPROJECT py-text-monitor)
+set (SUBPROJECT pytextmonitor)
 # for notifications
 set (PLUGIN_NAME plasma_applet_pytextmonitor)
 message (STATUS "Subproject ${SUBPROJECT}")
@@ -28,6 +28,6 @@ configure_file (${SUBPROJECT_DESKTOP_IN} ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJEC
 # install
 install (FILES ${SUBPROJECT_SOURCE} DESTINATION "share/apps/plasma/plasmoids/${SUBPROJECT}/${SUBPROJECT_CODE_DIR}")
 install (FILES ${SUBPROJECT_UI} DESTINATION "share/apps/plasma/plasmoids/${SUBPROJECT}/${SUBPROJECT_UI_DIR}")
-install (FILES ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT_DESKTOP} DESTINATION ${SERVICES_INSTALL_DIR} RENAME ${SUBPROJECT}.desktop)
+install (FILES ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT_DESKTOP} DESTINATION ${SERVICES_INSTALL_DIR} RENAME "plasma-applet-${SUBPROJECT}.desktop")
 install (FILES ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT_DESKTOP} DESTINATION "share/apps/plasma/plasmoids/${SUBPROJECT}")
 install (FILES ${SUBPROJECT_NOTIFY} DESTINATION ${DATA_INSTALL_DIR}/${PLUGIN_NAME})
