@@ -53,7 +53,7 @@
             </size>
            </property>
            <property name="text">
-            <string notr="true">Time</string>
+            <string>Time</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -63,7 +63,7 @@
          <item>
           <widget class="QLineEdit" name="lineEdit_time">
            <property name="toolTip">
-            <string notr="true">$time - time in default format
+            <string>$time - time in default format
 $isotime - time in ISO format
 $shorttime - time in short format
 $longtime - time in log format
@@ -117,7 +117,7 @@ $custom: $dddd - long weekday; $ddd - short weekday; $dd - day; $d day w\o zero;
             </size>
            </property>
            <property name="text">
-            <string notr="true">Uptime</string>
+            <string>Uptime</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -127,7 +127,7 @@ $custom: $dddd - long weekday; $ddd - short weekday; $dd - day; $d day w\o zero;
          <item>
           <widget class="QLineEdit" name="lineEdit_uptime">
            <property name="toolTip">
-            <string notr="true">$uptime - system uptime
+            <string>$uptime - system uptime
 $custom: $ds - uptime days; $hs - uptime hours; $ms - uptime minutes</string>
            </property>
            <property name="alignment">
@@ -176,7 +176,7 @@ $custom: $ds - uptime days; $hs - uptime hours; $ms - uptime minutes</string>
             </size>
            </property>
            <property name="text">
-            <string notr="true">CPU</string>
+            <string>CPU</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -186,7 +186,7 @@ $custom: $ds - uptime days; $hs - uptime hours; $ms - uptime minutes</string>
          <item>
           <widget class="QLineEdit" name="lineEdit_cpu">
            <property name="toolTip">
-            <string notr="true">$cpu - total load CPU, %
+            <string>$cpu - total load CPU, %
 $ccpu - load CPU for each core, %</string>
            </property>
            <property name="alignment">
@@ -235,7 +235,7 @@ $ccpu - load CPU for each core, %</string>
             </size>
            </property>
            <property name="text">
-            <string notr="true">CPU Clock</string>
+            <string>CPU Clock</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -245,7 +245,7 @@ $ccpu - load CPU for each core, %</string>
          <item>
           <widget class="QLineEdit" name="lineEdit_cpuclock">
            <property name="toolTip">
-            <string notr="true">$cpucl - average CPU clock, MHz
+            <string>$cpucl - average CPU clock, MHz
 $ccpucl - CPU clock for each core, MHz</string>
            </property>
            <property name="alignment">
@@ -294,7 +294,7 @@ $ccpucl - CPU clock for each core, MHz</string>
             </size>
            </property>
            <property name="text">
-            <string notr="true">Temperature</string>
+            <string>Temperature</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -317,7 +317,7 @@ $ccpucl - CPU clock for each core, MHz</string>
          <item>
           <widget class="QLineEdit" name="lineEdit_temp">
            <property name="toolTip">
-            <string notr="true">$temp - physical temperature on CPU</string>
+            <string>$temp - physical temperature on CPU</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -365,7 +365,7 @@ $ccpucl - CPU clock for each core, MHz</string>
             </size>
            </property>
            <property name="text">
-            <string notr="true">GPU</string>
+            <string>GPU</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -375,7 +375,7 @@ $ccpucl - CPU clock for each core, MHz</string>
          <item>
           <widget class="QLineEdit" name="lineEdit_gpu">
            <property name="toolTip">
-            <string notr="true">$gpu - gpu usage, %</string>
+            <string>$gpu - gpu usage, %</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -423,7 +423,7 @@ $ccpucl - CPU clock for each core, MHz</string>
             </size>
            </property>
            <property name="text">
-            <string notr="true">GPU Temp</string>
+            <string>GPU Temp</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -433,7 +433,7 @@ $ccpucl - CPU clock for each core, MHz</string>
          <item>
           <widget class="QLineEdit" name="lineEdit_gpuTemp">
            <property name="toolTip">
-            <string notr="true">$gputemp - physical temperature on GPU</string>
+            <string>$gputemp - physical temperature on GPU</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -481,7 +481,7 @@ $ccpucl - CPU clock for each core, MHz</string>
             </size>
            </property>
            <property name="text">
-            <string notr="true">Memory</string>
+            <string>Memory</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -491,7 +491,7 @@ $ccpucl - CPU clock for each core, MHz</string>
          <item>
           <widget class="QLineEdit" name="lineEdit_mem">
            <property name="toolTip">
-            <string notr="true">$mem - RAM usage, %
+            <string>$mem - RAM usage, %
 $memmb - RAM usage, MB</string>
            </property>
            <property name="alignment">
@@ -540,7 +540,7 @@ $memmb - RAM usage, MB</string>
             </size>
            </property>
            <property name="text">
-            <string notr="true">Swap</string>
+            <string>Swap</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -550,7 +550,7 @@ $memmb - RAM usage, MB</string>
          <item>
           <widget class="QLineEdit" name="lineEdit_swap">
            <property name="toolTip">
-            <string notr="true">$swap - swap usage, %
+            <string>$swap - swap usage, %
 $swapmb - swap usage, MB</string>
            </property>
            <property name="alignment">
@@ -599,7 +599,7 @@ $swapmb - swap usage, MB</string>
             </size>
            </property>
            <property name="text">
-            <string notr="true">HDD</string>
+            <string>HDD</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -609,7 +609,7 @@ $swapmb - swap usage, MB</string>
          <item>
           <widget class="QLineEdit" name="lineEdit_hdd">
            <property name="toolTip">
-            <string notr="true">@@/;@@ - mount point usage, %</string>
+            <string>@@/;@@ - mount point usage, %</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -657,7 +657,7 @@ $swapmb - swap usage, MB</string>
             </size>
            </property>
            <property name="text">
-            <string notr="true">HDD Temp</string>
+            <string>HDD Temp</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -667,7 +667,7 @@ $swapmb - swap usage, MB</string>
          <item>
           <widget class="QLineEdit" name="lineEdit_hddTemp">
            <property name="toolTip">
-            <string notr="true">@@/dev/sda@@ - physical temperature on /dev/sda</string>
+            <string>@@/dev/sda@@ - physical temperature on /dev/sda</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -715,7 +715,7 @@ $swapmb - swap usage, MB</string>
             </size>
            </property>
            <property name="text">
-            <string notr="true">Network</string>
+            <string>Network</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -725,7 +725,7 @@ $swapmb - swap usage, MB</string>
          <item>
           <widget class="QLineEdit" name="lineEdit_net">
            <property name="toolTip">
-            <string notr="true">$net - network speed, down/up, KB/s
+            <string>$net - network speed, down/up, KB/s
 $netdev - current network device
 @@eth0@@ - disable auto select device and set specified device</string>
            </property>
@@ -775,7 +775,7 @@ $netdev - current network device
             </size>
            </property>
            <property name="text">
-            <string notr="true">Battery</string>
+            <string>Battery</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -785,7 +785,7 @@ $netdev - current network device
          <item>
           <widget class="QLineEdit" name="lineEdit_bat">
            <property name="toolTip">
-            <string notr="true">$bat - battery charge, %
+            <string>$bat - battery charge, %
 $ac - AC status</string>
            </property>
            <property name="alignment">
@@ -857,7 +857,7 @@ $ac - AC status</string>
          <item>
           <widget class="QLineEdit" name="lineEdit_batdev">
            <property name="toolTip">
-            <string notr="true">&quot;/sys/class/power_supply/BAT0/capacity&quot; by default</string>
+            <string>&quot;/sys/class/power_supply/BAT0/capacity&quot; by default</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -900,7 +900,7 @@ $ac - AC status</string>
          <item>
           <widget class="QLineEdit" name="lineEdit_acdev">
            <property name="toolTip">
-            <string notr="true">&quot;/sys/class/power_supply/AC/online&quot; by default</string>
+            <string>&quot;/sys/class/power_supply/AC/online&quot; by default</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -920,7 +920,7 @@ $ac - AC status</string>
             </size>
            </property>
            <property name="text">
-            <string notr="true">Music player</string>
+            <string>Music player</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -955,7 +955,7 @@ $ac - AC status</string>
          <item>
           <widget class="QLineEdit" name="lineEdit_player">
            <property name="toolTip">
-            <string notr="true">$album - song album
+            <string>$album - song album
 $artist - song artist
 $progress - song progress
 $time - song duration
@@ -1027,7 +1027,7 @@ $title - song title</string>
             </size>
            </property>
            <property name="text">
-            <string notr="true">Time interval</string>
+            <string>Time interval</string>
            </property>
           </widget>
          </item>
@@ -1082,7 +1082,7 @@ $title - song title</string>
             </size>
            </property>
            <property name="text">
-            <string notr="true">Font</string>
+            <string>Font</string>
            </property>
           </widget>
          </item>
@@ -1122,7 +1122,7 @@ $title - song title</string>
             </size>
            </property>
            <property name="text">
-            <string notr="true">Font size</string>
+            <string>Font size</string>
            </property>
           </widget>
          </item>
@@ -1177,7 +1177,7 @@ $title - song title</string>
             </size>
            </property>
            <property name="text">
-            <string notr="true">Font color</string>
+            <string>Font color</string>
            </property>
           </widget>
          </item>
@@ -1217,7 +1217,7 @@ $title - song title</string>
             </size>
            </property>
            <property name="text">
-            <string notr="true">Font style</string>
+            <string>Font style</string>
            </property>
           </widget>
          </item>
@@ -1267,7 +1267,7 @@ $title - song title</string>
             </size>
            </property>
            <property name="text">
-            <string notr="true">Font weight</string>
+            <string>Font weight</string>
            </property>
           </widget>
          </item>

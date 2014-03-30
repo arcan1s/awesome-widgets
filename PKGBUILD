@@ -3,10 +3,8 @@
 
 pkgname=kdeplasma-applets-pytextmonitor
 _pkgname=py-text-monitor
-pkgver=1.5.3
+pkgver=1.6.0
 pkgrel=1
-_dtengine=ext-sysmon
-_dtver=1.6
 pkgdesc="Minimalistic Plasmoid script written on Python2. It looks like widgets in awesome-wm"
 arch=('i686' 'x86_64')
 url="http://arcanis.name/projects/pytextmonitor"
@@ -19,41 +17,24 @@ optdepends=("hddtemp: for HDD temperature monitor"
             "mpd: for music player monitor" 
             "qmmp: for music player monitor")
 makedepends=('automoc4' 'cmake')
-source=(https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/${_pkgname}-${pkgver}.plasmoid
-        https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/${_dtengine}-${_dtver}.zip)
+source=(https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/${_pkgname}-${pkgver}.tar.xz)
 install=${pkgname}.install
-md5sums=('7fef048a8e000ccf9a1e5f0924f59cc2'
-         '74f42444a2bddce898d462045c3dbd44')
+md5sums=('335940e39c41ed7d81a251d1d04c18c4')
 backup=('usr/share/config/extsysmon.conf')
 
 build () {
-  # build dataengine
-  if [[ -d ${srcdir}/${_dtengine}/build ]]; then
-    rm -rf "${srcdir}/${_dtengine}/build"
+  if [[ -d ${srcdir}/build ]]; then
+    rm -rf "${srcdir}/build"
   fi
-  mkdir "${srcdir}/${_dtengine}/build"
-  cd "${srcdir}/${_dtengine}/build"
+  mkdir "${srcdir}/build"
+  cd "${srcdir}/build"
   cmake -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=`kde4-config --prefix` \
-        ../
+        "../${_pkgname}"
   make
 }
 
 package() {
-  # install dataengine
-  cd "${srcdir}/${_dtengine}/build"
+  cd "${srcdir}/build"
   make DESTDIR="${pkgdir}" install
-
-  # install plasmoid
-  install -D -m644 "${srcdir}/contents/code/plasma_applet_pytextmonitor.notifyrc" \
-                   "${pkgdir}/`kde4-config --prefix`/share/apps/plasma_applet_pytextmonitor/plasma_applet_pytextmonitor.notifyrc"
-  install -D -m644 "${srcdir}/metadata.desktop" \
-                   "${pkgdir}/`kde4-config --prefix`/share/kde4/services/${_pkgname}.desktop"
-  install -D -m644 "${srcdir}/metadata.desktop" \
-                   "${pkgdir}/`kde4-config --prefix`/share/apps/plasma/plasmoids/${_pkgname}/metadata.desktop"
-  mkdir -p "${pkgdir}/`kde4-config --prefix`/share/apps/plasma/plasmoids/${_pkgname}/contents/"{code,ui}
-  install -m644 "${srcdir}/contents/code/"* \
-                -t "${pkgdir}/`kde4-config --prefix`/share/apps/plasma/plasmoids/${_pkgname}/contents/code"
-  install -m644 "${srcdir}/contents/ui/"* \
-                -t "${pkgdir}/`kde4-config --prefix`/share/apps/plasma/plasmoids/${_pkgname}/contents/ui"
 }

@@ -1,0 +1,365 @@
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Evgeniy Alekseev <esalexeev@gmail.com>, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=157124\n"
+"POT-Creation-Date: 2014-03-30 13:27+0400\n"
+"PO-Revision-Date: 2014-03-30 13:40+0400\n"
+"Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
+"Language-Team: Russian <kde-russian@lists.kde.ru>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
+"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Lokalize 1.5\n"
+
+#. i18n: file: ui/configwindow.ui:32
+#. i18n: ectx: property (windowTitle), widget (QWidget, ConfigWindow)
+#: rc.cpp:3
+msgid "Form"
+msgstr "Form"
+
+#. i18n: file: ui/configwindow.ui:42
+#. i18n: ectx: attribute (title), widget (QWidget, settings)
+#: rc.cpp:6
+msgid "Widget settings"
+msgstr "Настройки виджета"
+
+#. i18n: file: ui/configwindow.ui:56
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_time)
+#: rc.cpp:9
+msgid "Time"
+msgstr "Время"
+
+#. i18n: file: ui/configwindow.ui:75
+#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_time)
+#: rc.cpp:12
+msgid ""
+"$time - time in default format\n"
+"$isotime - time in ISO format\n"
+"$shorttime - time in short format\n"
+"$longtime - time in log format\n"
+"$custom: $dddd - long weekday; $ddd - short weekday; $dd - day; $d day w\\o "
+"zero; \n"
+"\t$MMMM - long month; $MMM - short month; $MM - month; $M - month w\\o "
+"zero; \n"
+"\t$yyyy - year; $yy short year; \n"
+"\t$hh - hours (24 only); $h - hours w\\o zero (24 only); \n"
+"\t$mm - minutes; $m - minutes w\\o zero;\n"
+"\t$ss - seconds; $s - seconds w\\o zero"
+msgstr ""
+"$time - время в стандартном формате\n"
+"$isotime - время ISO формате\n"
+"$shorttime - время в коротком формате\n"
+"$longtime - время в длинном формате\n"
+"$custom: $dddd - день недели (длинный); $ddd - день недели (короткий); $dd - "
+"день; $d - день без 0; \n"
+"\t$MMMM - месяц (длинный); $MMM - месяц (короткий); $MM - месяц; $M - месяц "
+"без 0; \n"
+"\t$yyyy - год; $yy - год (короткий); \n"
+"\t$hh - часы (24); $h - часы без 0 (24); \n"
+"\t$mm - минуты; $m - минуты без 0;\n"
+"\t$ss - секунды; $s - секунды без 0"
+
+#. i18n: file: ui/configwindow.ui:120
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_uptime)
+#: rc.cpp:24
+msgid "Uptime"
+msgstr "Аптайм"
+
+#. i18n: file: ui/configwindow.ui:131
+#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_uptime)
+#: rc.cpp:27
+msgid ""
+"$uptime - system uptime\n"
+"$custom: $ds - uptime days; $hs - uptime hours; $ms - uptime minutes"
+msgstr ""
+"$uptime - аптайм системы\n"
+"$custom: $ds - дни аптайма; $hs - часы аптайма; $ms - минуты аптайма"
+
+#. i18n: file: ui/configwindow.ui:179
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_cpu)
+#: rc.cpp:31
+msgid "CPU"
+msgstr "CPU"
+
+#. i18n: file: ui/configwindow.ui:190
+#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_cpu)
+#: rc.cpp:35
+#, no-c-format
+msgid ""
+"$cpu - total load CPU, %\n"
+"$ccpu - load CPU for each core, %"
+msgstr ""
+"$cpu - общая загрузка CPU, %\n"
+"$ccpu - загрузка CPU для каждого ядра, %"
+
+#. i18n: file: ui/configwindow.ui:238
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_cpuclock)
+#: rc.cpp:39
+msgid "CPU Clock"
+msgstr "Частота CPU"
+
+#. i18n: file: ui/configwindow.ui:249
+#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_cpuclock)
+#: rc.cpp:42
+msgid ""
+"$cpucl - average CPU clock, MHz\n"
+"$ccpucl - CPU clock for each core, MHz"
+msgstr ""
+"$cpucl - средняя частота CPU, MHz\n"
+"$ccpucl - частота CPU для каждого ядра, MHz"
+
+#. i18n: file: ui/configwindow.ui:297
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_temp)
+#: rc.cpp:46
+msgid "Temperature"
+msgstr "Температура"
+
+#. i18n: file: ui/configwindow.ui:320
+#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_temp)
+#: rc.cpp:49
+msgid "$temp - physical temperature on CPU"
+msgstr "$temp - физическая температура на CPU"
+
+#. i18n: file: ui/configwindow.ui:368
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_gpu)
+#: rc.cpp:52
+msgid "GPU"
+msgstr "GPU"
+
+#. i18n: file: ui/configwindow.ui:378
+#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_gpu)
+#: rc.cpp:56
+#, no-c-format
+msgid "$gpu - gpu usage, %"
+msgstr "$gpu - использование GPU, %"
+
+#. i18n: file: ui/configwindow.ui:426
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_gpuTemp)
+#: rc.cpp:59
+msgid "GPU Temp"
+msgstr "Температура GPU"
+
+#. i18n: file: ui/configwindow.ui:436
+#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_gpuTemp)
+#: rc.cpp:62
+msgid "$gputemp - physical temperature on GPU"
+msgstr "$gputemp - физическая температура на GPU"
+
+#. i18n: file: ui/configwindow.ui:484
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_mem)
+#: rc.cpp:65
+msgid "Memory"
+msgstr "Память"
+
+#. i18n: file: ui/configwindow.ui:495
+#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_mem)
+#: rc.cpp:69
+#, no-c-format
+msgid ""
+"$mem - RAM usage, %\n"
+"$memmb - RAM usage, MB"
+msgstr ""
+"$mem - использование RAM, %\n"
+"$memmb - использование RAM, MB"
+
+#. i18n: file: ui/configwindow.ui:543
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_swap)
+#: rc.cpp:73
+msgid "Swap"
+msgstr "Swap"
+
+#. i18n: file: ui/configwindow.ui:554
+#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_swap)
+#: rc.cpp:77
+#, no-c-format
+msgid ""
+"$swap - swap usage, %\n"
+"$swapmb - swap usage, MB"
+msgstr ""
+"$swap - использование swap, %\n"
+"$swapmb - использование swap, MB"
+
+#. i18n: file: ui/configwindow.ui:602
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_hdd)
+#: rc.cpp:81
+msgid "HDD"
+msgstr "HDD"
+
+#. i18n: file: ui/configwindow.ui:612
+#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_hdd)
+#: rc.cpp:85
+#, no-c-format
+msgid "@@/;@@ - mount point usage, %"
+msgstr "@@/;@@ - использование точки монтирование, %"
+
+#. i18n: file: ui/configwindow.ui:660
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_hddTemp)
+#: rc.cpp:88
+msgid "HDD Temp"
+msgstr "Температура HDD"
+
+#. i18n: file: ui/configwindow.ui:670
+#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_hddTemp)
+#: rc.cpp:91
+msgid "@@/dev/sda@@ - physical temperature on /dev/sda"
+msgstr "@@/dev/sda@@ - физическая температура /dev/sda"
+
+#. i18n: file: ui/configwindow.ui:718
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_net)
+#: rc.cpp:94
+msgid "Network"
+msgstr "Сеть"
+
+#. i18n: file: ui/configwindow.ui:730
+#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_net)
+#: rc.cpp:97
+msgid ""
+"$net - network speed, down/up, KB/s\n"
+"$netdev - current network device\n"
+"@@eth0@@ - disable auto select device and set specified device"
+msgstr ""
+"$net - скорость передачи данных, down/up, KB/s\n"
+"$netdev - используемое устройство\n"
+"@@eth0@@ - отключить автовыбор устройства и установить указанное"
+
+#. i18n: file: ui/configwindow.ui:778
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_bat)
+#: rc.cpp:102
+msgid "Battery"
+msgstr "Батарея"
+
+#. i18n: file: ui/configwindow.ui:789
+#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_bat)
+#: rc.cpp:106
+#, no-c-format
+msgid ""
+"$bat - battery charge, %\n"
+"$ac - AC status"
+msgstr ""
+"$bat - заряд батареи, %\n"
+"$ac - статус адаптора питания"
+
+#. i18n: file: ui/configwindow.ui:853
+#. i18n: ectx: property (text), widget (QLabel, label_batdev)
+#: rc.cpp:110
+msgid "Battery device"
+msgstr "Устройство батареи"
+
+#. i18n: file: ui/configwindow.ui:860
+#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_batdev)
+#: rc.cpp:113
+msgid "\"/sys/class/power_supply/BAT0/capacity\" by default"
+msgstr "\"/sys/class/power_supply/BAT0/capacity\" по умолчанию"
+
+#. i18n: file: ui/configwindow.ui:896
+#. i18n: ectx: property (text), widget (QLabel, label_acdev)
+#: rc.cpp:116
+msgid "AC device"
+msgstr "Устройство AC"
+
+#. i18n: file: ui/configwindow.ui:903
+#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_acdev)
+#: rc.cpp:119
+msgid "\"/sys/class/power_supply/AC/online\" by default"
+msgstr "\"/sys/class/power_supply/AC/online\" по умолчанию"
+
+#. i18n: file: ui/configwindow.ui:923
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_player)
+#: rc.cpp:122
+msgid "Music player"
+msgstr "Музыкальный плеер"
+
+#. i18n: file: ui/configwindow.ui:940
+#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_player)
+#: rc.cpp:125
+msgid "amarok"
+msgstr "amarok"
+
+#. i18n: file: ui/configwindow.ui:945
+#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_player)
+#: rc.cpp:128
+msgid "mpd"
+msgstr "mpd"
+
+#. i18n: file: ui/configwindow.ui:950
+#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_player)
+#: rc.cpp:131
+msgid "qmmp"
+msgstr "qmmp"
+
+#. i18n: file: ui/configwindow.ui:962
+#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_player)
+#: rc.cpp:134
+msgid ""
+"$album - song album\n"
+"$artist - song artist\n"
+"$progress - song progress\n"
+"$time - song duration\n"
+"$title - song title"
+msgstr ""
+"$album - альбом\n"
+"$artist - исполнитель\n"
+"$progress - прогресс\n"
+"$time - продолжительность\n"
+"$title - название"
+
+#. i18n: file: ui/configwindow.ui:1016
+#. i18n: ectx: attribute (title), widget (QWidget, appearance)
+#: rc.cpp:141
+msgid "Appearance"
+msgstr "Внешний вид"
+
+#. i18n: file: ui/configwindow.ui:1030
+#. i18n: ectx: property (text), widget (QLabel, label_interval)
+#: rc.cpp:144
+msgid "Time interval"
+msgstr "Интервал обновления"
+
+#. i18n: file: ui/configwindow.ui:1085
+#. i18n: ectx: property (text), widget (QLabel, label_font)
+#: rc.cpp:147
+msgid "Font"
+msgstr "Шрифт"
+
+#. i18n: file: ui/configwindow.ui:1125
+#. i18n: ectx: property (text), widget (QLabel, label_fontSize)
+#: rc.cpp:150
+msgid "Font size"
+msgstr "Размер шрифта"
+
+#. i18n: file: ui/configwindow.ui:1180
+#. i18n: ectx: property (text), widget (QLabel, label_color)
+#: rc.cpp:153
+msgid "Font color"
+msgstr "Цвет шрифта"
+
+#. i18n: file: ui/configwindow.ui:1220
+#. i18n: ectx: property (text), widget (QLabel, label_style)
+#: rc.cpp:156
+msgid "Font style"
+msgstr "Стиль шрифта"
+
+#. i18n: file: ui/configwindow.ui:1270
+#. i18n: ectx: property (text), widget (QLabel, label_weight)
+#: rc.cpp:159
+msgid "Font weight"
+msgstr "Ширина шрифта"
+
+#: rc.cpp:160
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Evgeniy Alekseev"
+
+#: rc.cpp:161
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "esalexeev@gmail.com"
+
+
