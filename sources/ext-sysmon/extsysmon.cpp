@@ -249,7 +249,7 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
           value_album = qstr.split(QString(" = "), QString::SkipEmptyParts)[1].trimmed();
         else if (qstr.split(QString(" = "), QString::SkipEmptyParts)[0] == QString("ARTIST"))
           value_artist = qstr.split(QString(" = "), QString::SkipEmptyParts)[1].trimmed();
-        else if (qstr.at(0) == QChar('[')) {
+        else if ((qstr.at(0) == QChar('[')) && (!qstr.contains("[stopped]"))) {
           QString time = qstr.split(QString(" "), QString::SkipEmptyParts)[2].trimmed();
           value_progress = QString::number(time.split(QString("/"), QString::SkipEmptyParts)[0].split(QString(":"), QString::SkipEmptyParts)[0].toInt() * 60 +
                                           time.split(QString("/"), QString::SkipEmptyParts)[0].split(QString(":"), QString::SkipEmptyParts)[1].toInt());
@@ -318,7 +318,7 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     value_progress = QString("0");
     value_duration = QString("0");
     char commandStr[512];
-    sprintf (commandStr, "echo 'currentsong\nclose' | curl --connect-timeout 1 -fsm 3 telnet://%s:%s 2> /dev/null", \
+    sprintf(commandStr, "bash -c \"echo 'currentsong\nstatus\nclose' | curl --connect-timeout 1 -fsm 3 telnet://%s:%s 2> /dev/null\"", \
             mpdAddress.toUtf8().data(), mpdPort.toUtf8().data());
     qoutput = QString("");
     player.start(QString(commandStr));
@@ -331,8 +331,10 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
           value_album = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
         else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("Artist"))
           value_artist = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
-        else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("Time"))
-          value_duration = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
+        else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("time")) {
+          value_duration = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed().split(QString(":"))[0];
+          value_progress = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed().split(QString(":"))[1];
+        }
         else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("Title"))
           value = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
       }
