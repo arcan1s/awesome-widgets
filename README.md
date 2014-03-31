@@ -1,4 +1,4 @@
-py-text-monitor
+pytextmonitor
 =============
 
 Information
@@ -12,7 +12,28 @@ For edited output you must open Settings window and setup output format in lines
 * label `$isotime` - time in iso format
 * label `$shorttime` - time in short locale format
 * label `$longtime` - time in long locale format
+* label `$custom` - will enable custom time format
+* label `$dddd` - weekday in long format (required `$custom` flag)
+* label `$ddd` - weekday in short format (required `$custom` flag)
+* label `$dd` - day (required `$custom` flag)
+* label `$d` - day without zero (required `$custom` flag)
+* label `$MMMM` - month in long format (required `$custom` flag)
+* label `$MMM` - month in short format (required `$custom` flag)
+* label `$MM` - month (required `$custom` flag)
+* label `$M` - month without zero (required `$custom` flag)
+* label `$yyyy` - year (required `$custom` flag)
+* label `$yy` - year in short format (required `$custom` flag)
+* label `$hh` - hours (required `$custom` flag)
+* label `$h` - hours without zero (required `$custom` flag)
+* label `$mm` - minutes (required `$custom` flag)
+* label `$m` - minutes without zero (required `$custom` flag)
+* label `$ss` - seconds (required `$custom` flag)
+* label `$s` - seconds without zero (required `$custom` flag)
 * label `$uptime` - uptime, <i>---d--h--m</i>
+* label `$custom` - will enable custom uptime format
+* label `$ds` - uptime days (required `$custom` flag)
+* label `$hs` - uptime hours (required `$custom` flag)
+* label `$ms` - uptime minutes (required `$custom` flag)
 * label `$cpu` - total load cpu, <i>%</i>
 * label `$ccpu` - load CPU for each core, <i>%</i>
 * label `$cpucl` - average cpu clock, <i>MHz</i>
@@ -79,7 +100,7 @@ Make dependencies
 Installation
 ------------
 * download sources
-* install dataengine
+* install
 
         mkdir build && cd build
         cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=`kde4-config --localprefix` ../
@@ -87,22 +108,16 @@ Installation
 
   Also you may install it to "/":
 
+        mkdir build && cd build
         cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=`kde4-config --prefix` ../
         make && sudo make install
-
-* install plasmoid
-
-        plasmapkg -i py-text-monitor-1.5.0.plasmoid
-
-  Also you may install it to "/" too:
-
-        plasmapkg -g -i py-text-monitor-1.5.0.plasmoid
 
 Additional information
 ======================
 
 Links
 -----
+* [Homepage](http://arcanis.name/projects/pytextmonitor/)
 * Plasmoid on [kde-look](http://kde-look.org/content/show.php/Py+Text+Monitor?content=157124)
 * DataEngine on [kde-look](http://kde-look.org/content/show.php/Extended+Systemmonitor+DataEngine?content=158773)
 * Archlinux [AUR](https://aur.archlinux.org/packages/kdeplasma-applets-pytextmonitor/) package
