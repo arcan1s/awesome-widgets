@@ -260,10 +260,13 @@ class DataEngine:
                 text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                 self.parent.label_gputemp.setText(text)
             elif (sourceName == "hddtemp"):
-                value = str(data[QString(self.parent.hddtempFormat.split('@@')[1])])
-                hddtempText = "%4s" % (value)
+                hddtempText = []
+                for device in self.parent.hddtempFormat.split('@@')[1].split(';'):
+                    if (len(device) > 0):
+                        value = str(data[QString(device)])
+                        hddtempText.append("%4s" % (value))
                 if (self.parent.hddtempFormat.split('@@')[0] != self.parent.hddtempFormat):
-                    line = self.parent.hddtempFormat.split('@@')[0] + hddtempText + self.parent.hddtempFormat.split('@@')[2]
+                    line = self.parent.hddtempFormat.split('@@')[0] + ' '.join(hddtempText) + self.parent.hddtempFormat.split('@@')[2]
                 else:
                     line = self.parent.hddtempFormat
                 text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
