@@ -8,7 +8,7 @@ pkgrel=1
 pkgdesc="Minimalistic Plasmoid script written on Python2. It looks like widgets in awesome-wm"
 arch=('i686' 'x86_64')
 url="http://arcanis.name/projects/pytextmonitor"
-license=('GPL')
+license=('GPLv3')
 depends=('kdebase-workspace' 'kdebindings-python2' 'lm_sensors' 'net-tools' 'sysstat')
 optdepends=("hddtemp: for HDD temperature monitor" 
             "catalyst: for GPU monitor" 
@@ -19,7 +19,7 @@ optdepends=("hddtemp: for HDD temperature monitor"
 makedepends=('automoc4' 'cmake')
 source=(https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/${_pkgname}-${pkgver}-src.tar.xz)
 install=${pkgname}.install
-md5sums=('c6a411dc069aedeb628fdf243983869e')
+md5sums=('cfc11d5b776142a436e32c5a70fa7e98')
 backup=('usr/share/config/extsysmon.conf')
 
 build () {

@@ -16,7 +16,7 @@ rm -rf "${ARCHIVE}"
 
 # build widget
 ARCHIVE="pytextmonitor"
-FILES="README.md"
+FILES="AUTHORS COPYING README.md"
 IGNORELIST="build usr"
 # create archive
 [[ -e ${ARCHIVE}-${VERSION}-src.tar.xz ]] && rm -f "${ARCHIVE}-${VERSION}-src.tar.xz"

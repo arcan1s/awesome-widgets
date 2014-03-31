@@ -5,7 +5,7 @@ cmake_policy (SET CMP0002 OLD)
 cmake_policy (SET CMP0011 NEW)
 cmake_policy (SET CMP0015 NEW)
 
-project (py-text-monitor)
+project (pytextmonitor)
 set (PROJECT_VERSION_MAJOR 1)
 set (PROJECT_VERSION_MINOR 6)
 set (PROJECT_VERSION_PATCH 0)

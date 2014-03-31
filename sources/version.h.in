@@ -1,9 +1,0 @@
-#ifndef VERSION_H
-#define VERSION_H
-
-#define AUTHOR "Evgeniy Alekseev"
-#define DATE "2013-2014"
-#define NAME "py-text-monitor"
-#define VERSION "@PROJECT_VERSION@"
-
-#endif /* VERSION_H */
