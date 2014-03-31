@@ -19,7 +19,7 @@ optdepends=("hddtemp: for HDD temperature monitor"
 makedepends=('automoc4' 'cmake')
 source=(https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/${_pkgname}-${pkgver}-src.tar.xz)
 install=${pkgname}.install
-md5sums=('742fcc3c6910d3f80ac74bc0fb224b3d')
+md5sums=('dddb53dd20708ddfe6ec0343005cf424')
 backup=('usr/share/config/extsysmon.conf')
 
 build () {
