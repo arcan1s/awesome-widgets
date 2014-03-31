@@ -48,7 +48,7 @@ For edited output you must open Settings window and setup output format in lines
 * label `$swap` - swap, <i>%</i>
 * label `$swapmb` - swap, <i>MB</i>
 * label `@@/@@` (in hdd label) - mount point (`/` in example) usage, <i>%</i>. Separator for mount points list is `;`, for example `@@/;/home;/mnt/global@@`
-* label `@@/dev/sda@@` (in hddtemp label) - HDD (`/dev/sda` in example) temperature. `hddtemp` must be installed
+* label `@@/dev/sda@@` (in hddtemp label) - HDD (`/dev/sda` in example) temperature. Separator for device list is `;`, for example `@@/dev/sda;/dev/sdb@@`. `hddtemp` must be installed
 * label `$net` - download and upload speed, <i>KB/s</i>. You may specify network device: something like `@@eth0@@`
 * label `$netdev` - current network device
 * label `$bat` - battery charge, <i>%</i>. Battery device may be set below. File (`/sys/class/power_supply/BAT0/capacity` by default) must contain only battery charge in percent
