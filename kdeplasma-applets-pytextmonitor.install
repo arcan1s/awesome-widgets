@@ -1,28 +1,24 @@
-func_update()
-{
+func_update() {
   cat << EOF
 Update plasmoids...
 EOF
   kbuildsycoca4 > /dev/null 2>&1
 }
 
-post_install()
-{
+post_install() {
   func_update
   cat << EOF
 Make sure that \`hddtemp\` can be run with sudo without password
 EOF
 }
 
-post_upgrade()
-{
+post_upgrade() {
   func_update
   cat << EOF
 Make sure that \`hddtemp\` can be run with sudo without password
 EOF
 }
 
-post_remove()
-{
+post_remove() {
   func_update
 }
