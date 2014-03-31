@@ -88,8 +88,7 @@ class DataEngine:
     
     def dataUpdated(self, sourceName, data):
         """function to update data"""
-        #try:
-        if True:
+        try:
             if (sourceName == "system/uptime"):
                 value = datetime.timedelta(0, int(round(float(data[QString(u'value')]), 1)))
                 days = value.days
@@ -339,5 +338,5 @@ class DataEngine:
                 self.parent.label_time.setText(text)
             
             self.parent.update()
-        #except:
-            #pass
+        except:
+            pass
