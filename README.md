@@ -49,6 +49,7 @@ Label order will changed if you change slider position. HTML tags in label work 
 Advanced settings
 -----------------
 **Custom time**
+
 * label `$dddd` - weekday in long format
 * label `$ddd` - weekday in short format
 * label `$dd` - day
@@ -67,37 +68,46 @@ Advanced settings
 * label `$s` - seconds without zero
 
 **Custom uptime**
+
 * label `$ds` - uptime days
 * label `$hs` - uptime hours
 * label `$ms` - uptime minutes
 
 **Temperature devices**
+
 List of devices, which will be observed in temp label (combo box items come from `sensors`). List widget is editable, delete key will remove current item.
 
 **Mount points**
+
 List of mount points, which will be observed in hdd label (combo box items come from `mount`). List widget is editable, delete key will remove current item.
 
 **HDD**
+
 List of hard disk devices, which will be observed in hddtem label (combo box items come from `find`). List widget is editable, delete key will remove current item.
 
 **Network directory**
+
 Path to directory, which contains network devices information. Default is `/sys/class/net`. Required for auto select network device.
 
 **Network device**
+
 Use specified device as active. Combo box items come from **network directory**. Will disable auto select network device.
 
 **Battery device**
+
 File with battery information. File (`/sys/class/power_supply/BAT0/capacity` by default) should contain only battery charge in percent.
 
 **AC device**
+
 File with AC information. File (`/sys/class/power_supply/AC/online` by default) must contain `1` if AC is online.
 
 **Music player**
+
 Select one of supported music playes for player label.
 
 **Custom command**
 
-**NOTE** This can cause the computer freeze.
+*NOTE* This can cause the computer freeze.
 
 A command, which will be run for custom label.
 
