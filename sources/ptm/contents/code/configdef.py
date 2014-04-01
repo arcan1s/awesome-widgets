@@ -61,9 +61,10 @@ class ConfigDefinition:
         # temp and mount below
         self.parent.hddNames = []
         self.parent.hdd = {}
-        for item in self.configpage.ui.listWidget_hddDevice.items(QMimeData()):
-            self.parent.hddNames.append(str(item.text()))
-            self.parent.hdd[str(item.text())] =" 0.0"
+        for i in range(self.configpage.ui.listWidget_hddDevice.count()):
+            item = self.configpage.ui.listWidget_hddDevice.item(i).text()
+            self.parent.hddNames.append(str(item))
+            self.parent.hdd[str(item)] =" 0.0"
         settings.set('hdd', '@@'.join(self.parent.hddNames))
         self.parent.netdir = str(self.configpage.ui.lineEdit_netdir.text())
         settings.set('netdir', self.parent.netdir)
@@ -99,14 +100,15 @@ class ConfigDefinition:
             self.parent.layout.removeItem(self.parent.label_cpuclock)
         if (self.parent.tempBool > 0):
             for item in self.parent.temp:
-                self.parent.systemmonitor.disconnectSource(item[0], self.parent)
+                self.parent.systemmonitor.disconnectSource(item, self.parent)
             self.parent.label_temp.setText('')
             self.parent.layout.removeItem(self.parent.label_temp)
         self.parent.tempNames = []
         self.parent.temp = {}
-        for item in self.configpage.ui.listWidget_tempDevice.items(QMimeData()):
-            self.parent.tempNames.append(str(item.text()))
-            self.parent.temp[str(item.text())] =" 0.0"
+        for i in range(self.configpage.ui.listWidget_tempDevice.count()):
+            item = self.configpage.ui.listWidget_tempDevice.item(i).text()
+            self.parent.tempNames.append(str(item))
+            self.parent.temp[str(item)] =" 0.0"
         settings.set('temp_device', '@@'.join(self.parent.tempNames))
         if (self.parent.gpuBool > 0):
             self.parent.extsysmon.disconnectSource("gpu", self.parent)
@@ -131,14 +133,15 @@ class ConfigDefinition:
             self.parent.layout.removeItem(self.parent.label_swap)
         if (self.parent.hddBool > 0):
             for item in self.parent.mount:
-                self.parent.systemmonitor.disconnectSource("partitions" + item[0] + "/filllevel", self.parent)
+                self.parent.systemmonitor.disconnectSource("partitions" + item + "/filllevel", self.parent)
             self.parent.label_hdd.setText('')
             self.parent.layout.removeItem(self.parent.label_hdd)
         self.parent.mountNames = []
         self.parent.mount = {}
-        for item in self.configpage.ui.listWidget_mount.items(QMimeData()):
-            self.parent.mountNames.append(str(item.text()))
-            self.parent.mount[str(item.text())] ="  0.0"
+        for i in range(self.configpage.ui.listWidget_mount.count()):
+            item = self.configpage.ui.listWidget_mount.item(i).text()
+            self.parent.mountNames.append(str(item))
+            self.parent.mount[str(item)] ="  0.0"
         settings.set('mount', '@@'.join(self.parent.mountNames))
         if (self.parent.hddtempBool > 0):
             self.parent.extsysmon.disconnectSource("hddtemp", self.parent)

@@ -104,7 +104,7 @@ class Reinit():
                     self.parent.layout.addItem(self.parent.label_cpu)
             elif (order == "2"):
                 if (self.parent.tempBool > 0):
-                    self.parent.tempFormat = str(settings.get('tempFormat', '[temp: $temp&deg;C]'))
+                    self.parent.tempFormat = str(settings.get('tempFormat', '[temp: $temp0&deg;C]'))
                     self.parent.label_temp = NewPlasmaLabel(self.parent.applet, self.parent)
                     line = self.parent.tempFormat
                     text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
@@ -141,7 +141,7 @@ class Reinit():
                     self.parent.layout.addItem(self.parent.label_swap)
             elif (order == "5"):
                 if (self.parent.netBool > 0):
-                    self.parent.netNonFormat = str(settings.get('netNonFormat', '[net: $netKB/s]'))
+                    self.parent.netNonFormat = str(settings.get('netNonFormat', '[net: $down/$upKB/s]'))
                     self.parent.label_net = NewPlasmaLabel(self.parent.applet, self.parent)
                     if (self.parent.netdevBool > 0):
                         self.parent.netdev = self.parent.custom_netdev

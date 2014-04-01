@@ -133,8 +133,8 @@ class pyTextWidget(plasmascript.Applet):
         'cpuclock':'[mhz: $cpucl]', 'custom':'[$custom]', 'gpu':'[gpu: $gpu%]', 
         'gputemp':'[gpu temp: $gputemp&deg;C]', 'hdd':'[hdd: $hdd0%]', 
         'hddtemp':'[hdd temp: $hddtemp0&deg;C]', 'mem':'[mem: $mem%]', 
-        'net':'[$netdev: $netKB/s]', 'swap':'[swap: $swap%]', 
-        'temp':'[temp: $temp&deg;C]', 'uptime':'[uptime: $uptime]', 
+        'net':'[$netdev: $down/$upKB/s]', 'swap':'[swap: $swap%]', 
+        'temp':'[temp: $temp0&deg;C]', 'uptime':'[uptime: $uptime]', 
         'player':'[$artist - $title]', 'time':'[$time]'}
 
 
@@ -164,6 +164,8 @@ class pyTextWidget(plasmascript.Applet):
             self.cpuText()
         if (self.cpuclockBool > 0):
             self.cpuclockText()
+        if (self.customBool > 0):
+            self.getCustom()
         if (self.hddBool > 0):
             self.mountText()
         if ((self.memBool > 0) and (self.memInMb == False)):
@@ -218,12 +220,12 @@ class pyTextWidget(plasmascript.Applet):
     def cpuclockText(self):
         """function to set cpu clock text"""
         line = self.cpuclockFormat
-        for core in self.cpuclockCore.keys():
+        for core in self.cpuClockCore.keys():
             if (core > -1):
                 if (line.split('$cpucl'+str(core))[0] != line):
-                    line = line.split('$cpucl'+str(core))[0] + self.cpuclockCore[core] + line.split('$cpucl'+str(core))[1]
+                    line = line.split('$cpucl'+str(core))[0] + self.cpuClockCore[core] + line.split('$cpucl'+str(core))[1]
         if (line.split('$cpucl')[0] != line):
-            line = line.split('$cpucl')[0] + self.cpuclockCore[-1] + line.split('$cpucl')[1]
+            line = line.split('$cpucl')[0] + self.cpuClockCore[-1] + line.split('$cpucl')[1]
         text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
         self.label_cpuclock.setText(text)
     
@@ -247,7 +249,7 @@ class pyTextWidget(plasmascript.Applet):
     def mountText(self):
         """function to set mount text"""
         line = self.hddFormat
-        for i in self.mountNames:
+        for i in range(len(self.mountNames)):
             if (line.split('$hdd'+str(i))[0] != line):
                 line = line.split('$hdd'+str(i))[0] + self.mount[self.mountNames[i]] + line.split('$hdd'+str(i))[1]
         text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
@@ -284,11 +286,20 @@ class pyTextWidget(plasmascript.Applet):
     def tempText(self):
         """function to set temperature text"""
         line = self.tempFormat
-        for i in self.tempNames:
+        for i in range(len(self.tempNames)):
             if (line.split('$temp'+str(i))[0] != line):
                 line = line.split('$temp'+str(i))[0] + self.temp[self.tempNames[i]] + line.split('$temp'+str(i))[1]
         text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
         self.label_temp.setText(text)
+    
+    
+    def getCustom(self):
+        """function to get output from custom command"""
+        commandOut = commands.getoutput(self.custom_command)
+        line = self.customFormat
+        line = line.split('$custom')[0] + commandOut + line.split('$custom')[1]
+        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+        self.label_custom.setText(text)
     
     
     @pyqtSignature("dataUpdated(const QString &, const Plasma::DataEngine::Data &)")

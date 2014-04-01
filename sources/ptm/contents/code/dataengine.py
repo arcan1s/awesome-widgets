@@ -147,7 +147,7 @@ class DataEngine:
                         self.parent.netFormat = self.parent.netNonFormat
             elif (str(sourceName).split('/')[0] == "lmsensors"):
                 value = str(round(float(data[QString(u'value')]), 1))
-                self.parent.temp[sourceName] = "%4s" % (value)
+                self.parent.temp[str(sourceName)] = "%4s" % (value)
             elif (str(sourceName).split('/')[0] == "partitions"):
                 value = str(round(float(data[QString(u'value')]), 1))
                 self.parent.mount['/'+'/'.join(str(sourceName).split('/')[1:-1])] = "%5s" % (value)
