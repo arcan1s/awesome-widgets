@@ -29,6 +29,7 @@ timeLetters = ['dddd', 'ddd', 'dd', 'd', \
     'hh', 'h', 'mm', 'm', 'ss', 's']
 
 
+
 class DataEngine:
     def __init__(self, parent):
         """class definition"""
@@ -48,16 +49,17 @@ class DataEngine:
             self.parent.systemmonitor.connectSource("system/uptime", self.parent, self.parent.interval)
         if (self.parent.cpuBool > 0):
             self.parent.systemmonitor.connectSource("cpu/system/TotalLoad", self.parent, self.parent.interval)
-            if (self.parent.cpuFormat.split('$ccpu')[0] != self.parent.cpuFormat):
-                for core in range(self.parent.numCores):
+            for core in self.parent.cpuCore.keys():
+                if (core > -1):
                     self.parent.systemmonitor.connectSource("cpu/cpu"+str(core)+"/TotalLoad", self.parent, self.parent.interval)
         if (self.parent.cpuclockBool > 0):
             self.parent.systemmonitor.connectSource("cpu/system/AverageClock", self.parent, self.parent.interval)
-            if (self.parent.cpuclockFormat.split('$ccpucl')[0] != self.parent.cpuclockFormat):
-                for core in range(self.parent.numCores):
+            for core in self.parent.cpuClockCore.keys():
+                if (core > -1):
                     self.parent.systemmonitor.connectSource("cpu/cpu"+str(core)+"/clock", self.parent, self.parent.interval)
         if (self.parent.tempBool > 0):
-            self.parent.systemmonitor.connectSource(self.parent.tempdev, self.parent, self.parent.interval)
+            for item in self.parent.tempNames:
+                self.parent.systemmonitor.connectSource(item, self.parent, self.parent.interval)
         if (self.parent.gpuBool > 0):
             self.parent.extsysmon.connectSource("gpu", self.parent, self.parent.interval)
         if (self.parent.gputempBool > 0):
@@ -76,8 +78,8 @@ class DataEngine:
                 self.parent.systemmonitor.connectSource("mem/swap/free", self.parent, int(self.parent.interval*0.5))
                 self.parent.systemmonitor.connectSource("mem/swap/used", self.parent, int(self.parent.interval*0.5))
         if (self.parent.hddBool > 0):
-            for mount in self.parent.mountPoints:
-                self.parent.systemmonitor.connectSource("partitions" + mount + "/filllevel", self.parent, self.parent.interval)
+            for item in self.parent.mountNames:
+                self.parent.systemmonitor.connectSource("partitions" + item + "/filllevel", self.parent, self.parent.interval)
         if (self.parent.hddtempBool > 0):
             self.parent.extsysmon.connectSource("hddtemp", self.parent, self.parent.interval)
         if (self.parent.netBool > 0):
@@ -89,7 +91,8 @@ class DataEngine:
     
     def dataUpdated(self, sourceName, data):
         """function to update data"""
-        try:
+        if True:
+        #try:
             if (sourceName == "system/uptime"):
                 value = datetime.timedelta(0, int(round(float(data[QString(u'value')]), 1)))
                 days = value.days
@@ -100,89 +103,34 @@ class DataEngine:
                     uptimeText = "%3id%2ih%2im" % (days, hours, minutes)
                     line = line.split('$uptime')[0] + uptimeText + line.split('$uptime')[1]
                 elif (line.split('$custom')[0] != line):
-                    line = ''.join(line.split('$custom'))
-                    if (line.split('$ds')[0] != line):
-                        line = "%s%3i%s" % (line.split('$ds')[0], days, line.split('$ds')[1])
-                    if (line.split('$hs')[0] != line):
-                        line = "%s%2i%s" % (line.split('$hs')[0], hours, line.split('$hs')[1])
-                    if (line.split('$ms')[0] != line):
-                        line = "%s%2i%s" % (line.split('$ms')[0], minutes, line.split('$ms')[1])
+                    uptimeText = self.parent.custom_uptime
+                    if (uptimeText.split('$ds')[0] != uptimeText):
+                        uptimeText = "%s%3i%s" % (uptimeText.split('$ds')[0], days, uptimeText.split('$ds')[1])
+                    if (uptimeText.split('$hs')[0] != uptimeText):
+                        uptimeText = "%s%2i%s" % (uptimeText.split('$hs')[0], hours, uptimeText.split('$hs')[1])
+                    if (uptimeText.split('$ms')[0] != uptimeText):
+                        uptimeText = "%s%2i%s" % (uptimeText.split('$ms')[0], minutes, uptimeText.split('$ms')[1])
+                    line = line.split('$custom')[0] + uptimeText + line.split('$custom')[1]
                 text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                 self.parent.label_uptime.setText(text)
             elif (sourceName == "cpu/system/TotalLoad"):
                 value = str(round(float(data[QString(u'value')]), 1))
-                cpuText = "%5s" % (value)
-                if (self.parent.cpuFormat.split('$ccpu')[0] != self.parent.cpuFormat):
-                    if (self.parent.cpuFormat.split('$ccpu')[0].split('$cpu')[0] != self.parent.cpuFormat.split('$ccpu')[0]):
-                        line = self.parent.cpuFormat.split('$ccpu')[0].split('$cpu')[0] + cpuText + self.parent.cpuFormat.split('$ccpu')[0].split('$cpu')[1]
-                    else:
-                        line = self.parent.cpuFormat.split('$ccpu')[0]
-                    text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
-                    self.parent.label_cpu.setText(text)
-                    if (self.parent.cpuFormat.split('$ccpu')[1].split('$cpu')[0] != self.parent.cpuFormat.split('$ccpu')[1]):
-                        line = self.parent.cpuFormat.split('$ccpu')[1].split('$cpu')[0] + cpuText + self.parent.cpuFormat.split('$ccpu')[1].split('$cpu')[1]
-                    else:
-                        line = self.parent.cpuFormat.split('$ccpu')[1]
-                    text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
-                    self.parent.label_cpu1.setText(text)
-                else:
-                    if (self.parent.cpuFormat.split('$cpu')[0] != self.parent.cpuFormat):
-                        line = self.parent.cpuFormat.split('$cpu')[0] + cpuText + self.parent.cpuFormat.split('$cpu')[1]
-                    else:
-                        line = self.parent.cpuFormat
-                    text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
-                    self.parent.label_cpu.setText(text)
+                self.parent.cpuCore[-1] = "%5s" % (value)
             elif ((str(sourceName)[:7] == "cpu/cpu") and (str(sourceName).split('/')[2] == "TotalLoad")):
                 value = str(round(float(data[QString(u'value')]), 1))
-                cpuText = "%5s" % (value)
-                text = self.parent.formatLine.split('$LINE')[0] + cpuText + self.parent.formatLine.split('$LINE')[1]
-                exec ('self.parent.label_coreCpu' + str(sourceName)[7] + '.setText(text)')
+                self.parent.cpuCore[int(str(sourceName)[7])] = "%5s" % (value)
             elif (sourceName == "cpu/system/AverageClock"):
                 value = str(data[QString(u'value')]).split('.')[0]
-                cpuclockText = "%4s" % (value)
-                if (self.parent.cpuclockFormat.split('$ccpucl')[0] != self.parent.cpuclockFormat):
-                    if (self.parent.cpuclockFormat.split('$ccpucl')[0].split('$cpucl')[0] != self.parent.cpuclockFormat.split('$ccpucl')[0]):
-                        line = self.parent.cpuclockFormat.split('$ccpucl')[0].split('$cpucl')[0] + cpuclockText + self.parent.cpuclockFormat.split('$ccpucl')[0].split('$cpucl')[1]
-                    else:
-                        line = self.parent.cpuclockFormat.split('$ccpucl')[0]
-                    text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
-                    self.parent.label_cpuclock.setText(text)
-                    if (self.parent.cpuclockFormat.split('$ccpucl')[1].split('$cpucl')[0] != self.parent.cpuclockFormat.split('$ccpucl')[1]):
-                        line = self.parent.cpuclockFormat.split('$ccpucl')[1].split('$cpucl')[0] + cpuclockText + self.parent.cpuclockFormat.split('$ccpucl')[1].split('$cpucl')[1]
-                    else:
-                        line = self.parent.cpuclockFormat.split('$ccpucl')[1]
-                    text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
-                    self.parent.label_cpuclock1.setText(text)
-                else:
-                    if (self.parent.cpuclockFormat.split('$cpucl')[0] != self.parent.cpuclockFormat):
-                        line = self.parent.cpuclockFormat.split('$cpucl')[0] + cpuclockText + self.parent.cpuclockFormat.split('$cpucl')[1]
-                    else:
-                        line = self.parent.cpuclockFormat
-                    text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
-                    self.parent.label_cpuclock.setText(text)
+                self.parent.cpuClockCore[-1] = "%4s" % (value)
             elif ((str(sourceName)[:7] == "cpu/cpu") and (str(sourceName).split('/')[2] == "clock")):
                 value = str(data[QString(u'value')]).split('.')[0]
-                cpuclockText = "%4s" % (value)
-                text = self.parent.formatLine.split('$LINE')[0] + cpuclockText + self.parent.formatLine.split('$LINE')[1]
-                exec ('self.parent.label_coreCpuclock' + str(sourceName)[7] + '.setText(text)')
+                self.parent.cpuClockCore[int(str(sourceName)[7])] = "%4s" % (value)
             elif (sourceName == "network/interfaces/"+self.parent.netdev+"/transmitter/data"):
                 value = str(data[QString(u'value')]).split('.')[0]
-                up_speed = "%4s" % (value)
-                if (self.parent.netFormat.split('$net')[0] != self.parent.netFormat):
-                    line = '/' + up_speed + self.parent.netFormat.split('$net')[1]
-                else:
-                    line = ''
-                text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
-                self.parent.label_netUp.setText(text)
+                self.parent.netSpeed["up"] = "%4s" % (value)
             elif (sourceName == "network/interfaces/"+self.parent.netdev+"/receiver/data"):
                 value = str(data[QString(u'value')]).split('.')[0]
-                down_speed = "%4s" % (value)
-                if (self.parent.netFormat.split('$net')[0] != self.parent.netFormat):
-                    line = self.parent.netFormat.split('$net')[0] + down_speed
-                else:
-                    line = self.parent.netFormat
-                text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
-                self.parent.label_netDown.setText(text)
+                self.parent.netSpeed["down"] = "%4s" % (value)
                 # update network device
                 self.parent.updateNetdev = self.parent.updateNetdev + 1
                 if (self.parent.updateNetdev == 100):
@@ -197,20 +145,12 @@ class DataEngine:
                         self.parent.netFormat = self.parent.netNonFormat.split('$netdev')[0] + self.parent.netdev + self.parent.netNonFormat.split('$netdev')[1]
                     else:
                         self.parent.netFormat = self.parent.netNonFormat
-            elif (sourceName == self.parent.tempdev):
+            elif (str(sourceName).split('/')[0] == "lmsensors"):
                 value = str(round(float(data[QString(u'value')]), 1))
-                tempText = "%4s" % (value)
-                if (self.parent.tempFormat.split('$temp')[0] != self.parent.tempFormat):
-                    line = self.parent.tempFormat.split('$temp')[0] + tempText + self.parent.tempFormat.split('$temp')[1]
-                else:
-                    line = self.parent.tempFormat
-                text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
-                self.parent.label_temp.setText(text)
+                self.parent.temp[sourceName] = "%4s" % (value)
             elif (str(sourceName).split('/')[0] == "partitions"):
                 value = str(round(float(data[QString(u'value')]), 1))
-                hddText = "%5s" % (value)
-                text = self.parent.formatLine.split('$LINE')[0] + hddText + self.parent.formatLine.split('$LINE')[1]
-                exec ('self.parent.label_hdd_' + ''.join(str(sourceName).split('/')[1:-1]) + '.setText(text)')
+                self.parent.mount['/'+'/'.join(str(sourceName).split('/')[1:-1])] = "%5s" % (value)
             elif (sourceName == "mem/physical/free"):
                 self.parent.mem_free = float(data[QString(u'value')])
             elif (sourceName == "mem/physical/used"):
@@ -260,15 +200,13 @@ class DataEngine:
                 text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                 self.parent.label_gputemp.setText(text)
             elif (sourceName == "hddtemp"):
-                hddtempText = []
-                for device in self.parent.hddtempFormat.split('@@')[1].split(';'):
-                    if (len(device) > 0):
-                        value = str(data[QString(device)])
-                        hddtempText.append("%4s" % (value))
-                if (self.parent.hddtempFormat.split('@@')[0] != self.parent.hddtempFormat):
-                    line = self.parent.hddtempFormat.split('@@')[0] + ' '.join(hddtempText) + self.parent.hddtempFormat.split('@@')[2]
-                else:
-                    line = self.parent.hddtempFormat
+                for item in self.parent.hddNames:
+                    value = str(data[QString(item)])
+                    self.parent.hdd[item] = "%4s" % (value)
+                line = self.parent.hddtempFormat
+                for i in range(len(self.parent.hddNames)):
+                    if (line.split('$hddtemp'+str(i))[0] != line):
+                        line = line.split('$hddtemp'+str(i))[0] + self.parent.hdd[self.parent.hddNames[i]] + line.split('$hddtemp'+str(i))[1]
                 text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                 self.parent.label_hddtemp.setText(text)
             elif (sourceName == "player"):
@@ -318,29 +256,20 @@ class DataEngine:
                 elif (self.parent.timeFormat.split('$longtime')[0] != self.parent.timeFormat):
                     value = str(data[QString(u'DateTime')].toString(Qt.SystemLocaleLongDate).toUtf8())
                     line = self.parent.timeFormat.split('$longtime')[0] + value.decode("utf-8") + self.parent.timeFormat.split('$longtime')[1]
-                elif (self.parent.timeFormat.split('$snsntime')[0] != self.parent.timeFormat):
-                    rawDate = str(data[QString(u'DateTime')].toString(Qt.TextDate).toUtf8())
-                    value = rawDate.split()[0] + " " + rawDate.split()[2] + " " + \
-                        rawDate.split()[1] + " " + ':'.join(rawDate.split()[3].split(':')[0:2])
-                    line = self.parent.timeFormat.split('$snsntime')[0] + value.decode("utf-8") + self.parent.timeFormat.split('$snsntime')[1]
-                elif (self.parent.timeFormat.split('$nsnstime')[0] != self.parent.timeFormat):
-                    rawDate = str(data[QString(u'DateTime')].toString(Qt.TextDate).toUtf8())
-                    value = ':'.join(rawDate.split()[3].split(':')[0:2]) + " " + rawDate.split()[0] + " " + \
-                        rawDate.split()[2] + " " + rawDate.split()[1]
-                    line = self.parent.timeFormat.split('$nsnstime')[0] + value.decode("utf-8") + self.parent.timeFormat.split('$nsnstime')[1]
                 elif (self.parent.timeFormat.split('$custom')[0] != self.parent.timeFormat):
                     rawDate = data[QString(u'DateTime')]
-                    line = ''.join(self.parent.timeFormat.split('$custom'))
+                    value = self.parent.custom_time
                     for letters in timeLetters:
-                        if (line.split('$'+letters)[0] != line):
-                            line = line.split('$'+letters)[0] + \
+                        if (value.split('$'+letters)[0] != value):
+                            value = value.split('$'+letters)[0] + \
                                 str(data[QString(u'DateTime')].toString(letters).toUtf8()).decode("utf-8") + \
-                                line.split('$'+letters)[1]
+                                value.split('$'+letters)[1]
+                    line = self.parent.timeFormat.split('$custom')[0] + value + self.parent.timeFormat.split('$custom')[1]
                 else:
                     line = self.parent.timeFormat
                 text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                 self.parent.label_time.setText(text)
             
             self.parent.update()
-        except:
-            pass
+        #except:
+            #pass

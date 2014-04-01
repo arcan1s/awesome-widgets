@@ -96,41 +96,48 @@ class pyTextWidget(plasmascript.Applet):
     def setupNetdev(self):
         """function to setup network device"""
         netdev = "lo"
-        try:
-            interfaces = []
-            for line in commands.getoutput("ifconfig -a -s").split("\n"):
-                if ((line.split()[0] != 'Iface') and (line.split()[0] != 'lo')):
-                    interfaces.append(line.split()[0])
-            
-            for device in interfaces:
-                if (commands.getoutput("ifconfig " + device + " | grep 'inet '") != ''):
-                    netdev = device
-                    break
-        except:
-            pass
+        interfaces = QDir.entryList(QDir(self.netdir), QDir.Dirs | QDir.NoDotAndDotDot)
+        for device in interfaces:
+            if (str(device) != "lo"):
+                try:
+                    with open(self.netdir+"/"+str(device)+"/operstate", "r") as stateFile:
+                        if (stateFile.readline() == "up\n"):
+                            netdev = str(device)
+                except:
+                    pass
         return netdev
     
     
     def setupVar(self):
         """function to setup variables"""
         self.netdev = ''
-        # setup number of cores
-        commandOut = commands.getoutput("grep -c '^processor' /proc/cpuinfo")
-        self.numCores = int(commandOut)
-        self.tempdev = "tempdevice"
+        self.cpuCore = {-1:"  0.0"}
+        self.cpuClockCore = {-1:"   0"}
+        numCores = int(commands.getoutput("grep -c '^processor' /proc/cpuinfo"))
+        for i in range(numCores):
+            self.cpuCore[i] = str("  0.0")
+            self.cpuClockCore[i] = str("   0")
+        self.netSpeed = {"up":"   0", "down":"   0"}
+        self.tempNames = []
+        self.temp = {}
+        self.mountNames = []
+        self.mount = {}
+        self.hddNames = []
+        self.hdd = {}
         
         # create dictionaries
-        self.dict_orders = {'6':'bat', '1':'cpu', '7':'cpuclock', '9':'gpu', 'a':'gputemp', 
-        'b':'hdd', 'c':'hddtemp', '3':'mem', '5':'net', '4':'swap', '2':'temp', '8':'uptime', 
-        'd':'player', 'e':'time'}
+        self.dict_orders = {'6':'bat', '1':'cpu', '7':'cpuclock', 'f':'custom', '9':'gpu', 
+        'a':'gputemp', 'b':'hdd', 'c':'hddtemp', '3':'mem', '5':'net', '4':'swap', '2':'temp', 
+        '8':'uptime', 'd':'player', 'e':'time'}
         self.dict_defFormat = {'bat':'[bat: $bat%$ac]', 'cpu':'[cpu: $cpu%]', 
-        'cpuclock':'[mhz: $cpucl]', 'gpu':'[gpu: $gpu%]', 
-        'gputemp':'[gpu temp: $gputemp&deg;C]', 'hdd':'[hdd: @@/@@%]', 
-        'hddtemp':'[hdd temp: @@/dev/sda@@&deg;C]', 'mem':'[mem: $mem%]', 
+        'cpuclock':'[mhz: $cpucl]', 'custom':'[$custom]', 'gpu':'[gpu: $gpu%]', 
+        'gputemp':'[gpu temp: $gputemp&deg;C]', 'hdd':'[hdd: $hdd0%]', 
+        'hddtemp':'[hdd temp: $hddtemp0&deg;C]', 'mem':'[mem: $mem%]', 
         'net':'[$netdev: $netKB/s]', 'swap':'[swap: $swap%]', 
         'temp':'[temp: $temp&deg;C]', 'uptime':'[uptime: $uptime]', 
         'player':'[$artist - $title]', 'time':'[$time]'}
-    
+
+
     def showConfigurationInterface(self):
         """function to show configuration window"""
         plasmascript.Applet.showConfigurationInterface(self)
@@ -147,15 +154,26 @@ class pyTextWidget(plasmascript.Applet):
             self.label_error.setText('<font color="red">ERROR</font>')
             self.layout.addItem(self.label_error)
             return
-    
+
+
     def updateLabel(self):
         """function to update label"""
-        if ((self.memBool > 0) and (self.memInMb == False)):
-            self.memText()
-        if ((self.swapBool > 0) and (self.swapInMb == False)):
-            self.swapText()
         if (self.batBool > 0):
             self.batText()
+        if (self.cpuBool > 0):
+            self.cpuText()
+        if (self.cpuclockBool > 0):
+            self.cpuclockText()
+        if (self.hddBool > 0):
+            self.mountText()
+        if ((self.memBool > 0) and (self.memInMb == False)):
+            self.memText()
+        if (self.netBool > 0):
+            self.netText()
+        if ((self.swapBool > 0) and (self.swapInMb == False)):
+            self.swapText()
+        if (self.tempBool > 0):
+            self.tempText()
     
     
     def batText(self):
@@ -169,7 +187,6 @@ class pyTextWidget(plasmascript.Applet):
                 bat = 'off'
             bat = "%3s" % (bat)
             line = line.split('$bat')[0] + bat + line.split('$bat')[1]
-        
         if (line.split('$ac')[0] != line):
             try:
                 with open (self.ac_device, 'r') as bat_file:
@@ -183,6 +200,32 @@ class pyTextWidget(plasmascript.Applet):
             line = line.split('$ac')[0] + bat + line.split('$ac')[1]
         text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
         self.label_bat.setText(text)
+    
+    
+    def cpuText(self):
+        """function to set cpu text"""
+        line = self.cpuFormat
+        for core in self.cpuCore.keys():
+            if (core > -1):
+                if (line.split('$cpu'+str(core))[0] != line):
+                    line = line.split('$cpu'+str(core))[0] + self.cpuCore[core] + line.split('$cpu'+str(core))[1]
+        if (line.split('$cpu')[0] != line):
+            line = line.split('$cpu')[0] + self.cpuCore[-1] + line.split('$cpu')[1]
+        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+        self.label_cpu.setText(text)
+    
+    
+    def cpuclockText(self):
+        """function to set cpu clock text"""
+        line = self.cpuclockFormat
+        for core in self.cpuclockCore.keys():
+            if (core > -1):
+                if (line.split('$cpucl'+str(core))[0] != line):
+                    line = line.split('$cpucl'+str(core))[0] + self.cpuclockCore[core] + line.split('$cpucl'+str(core))[1]
+        if (line.split('$cpucl')[0] != line):
+            line = line.split('$cpucl')[0] + self.cpuclockCore[-1] + line.split('$cpucl')[1]
+        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+        self.label_cpuclock.setText(text)
     
     
     def memText(self):
@@ -201,6 +244,27 @@ class pyTextWidget(plasmascript.Applet):
         self.label_mem.setText(text)
     
     
+    def mountText(self):
+        """function to set mount text"""
+        line = self.hddFormat
+        for i in self.mountNames:
+            if (line.split('$hdd'+str(i))[0] != line):
+                line = line.split('$hdd'+str(i))[0] + self.mount[self.mountNames[i]] + line.split('$hdd'+str(i))[1]
+        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+        self.label_hdd.setText(text)
+    
+    
+    def netText(self):
+        """function to set network text"""
+        line = self.netFormat
+        if (line.split('$up')[0] != line):
+            line = line.split('$up')[0] + self.netSpeed['up'] + line.split('$up')[1]
+        if (line.split('$down')[0] != line):
+            line = line.split('$down')[0] + self.netSpeed['down'] + line.split('$down')[1]
+        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+        self.label_net.setText(text)
+    
+    
     def swapText(self):
         """function to set swap text"""
         full = self.swap_used + self.swap_free
@@ -215,6 +279,16 @@ class pyTextWidget(plasmascript.Applet):
             line = self.swapFormat
         text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
         self.label_swap.setText(text)
+    
+    
+    def tempText(self):
+        """function to set temperature text"""
+        line = self.tempFormat
+        for i in self.tempNames:
+            if (line.split('$temp'+str(i))[0] != line):
+                line = line.split('$temp'+str(i))[0] + self.temp[self.tempNames[i]] + line.split('$temp'+str(i))[1]
+        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
+        self.label_temp.setText(text)
     
     
     @pyqtSignature("dataUpdated(const QString &, const Plasma::DataEngine::Data &)")

@@ -236,7 +236,7 @@ class PTMNotify:
         except:
             pass
         try:
-            if (sender == self.parent.parent.label_hdd0):
+            if (sender == self.parent.parent.label_hdd):
                 content = self.createText("disk")
                 return content
         except:
@@ -248,7 +248,7 @@ class PTMNotify:
         except:
             pass
         try:
-            if (sender == self.parent.parent.label_netDown):
+            if (sender == self.parent.parent.label_net):
                 content = self.createText("network")
                 return content
         except:
@@ -262,6 +262,12 @@ class PTMNotify:
         try:
             if (sender == self.parent.parent.label_player):
                 content = self.createText("musicplayer")
+                return content
+        except:
+            pass
+        try:
+            if (sender == self.parent.parent.label_custom):
+                content = self.createText("system")
                 return content
         except:
             pass

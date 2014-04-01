@@ -313,7 +313,7 @@ $cpucl7 - CPU clock for core 7, MHz</string>
          <item>
           <widget class="QLineEdit" name="lineEdit_temp">
            <property name="toolTip">
-            <string>$temp - physical temperature on CPU</string>
+            <string>$tempN - physical temperature on device N (from 0). Example: $temp0</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -605,7 +605,7 @@ $swapmb - swap usage, MB</string>
          <item>
           <widget class="QLineEdit" name="lineEdit_hdd">
            <property name="toolTip">
-            <string>$hddN - usage for mount point N, %. Example: $hdd0</string>
+            <string>$hddN - usage for mount point N (from 0), %. Example: $hdd0</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -663,7 +663,7 @@ $swapmb - swap usage, MB</string>
          <item>
           <widget class="QLineEdit" name="lineEdit_hddTemp">
            <property name="toolTip">
-            <string>$hddtempN - physical temperature on device N. Example: $hddtemp0</string>
+            <string>$hddtempN - physical temperature on device N (from 0). Example: $hddtemp0</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -721,7 +721,8 @@ $swapmb - swap usage, MB</string>
          <item>
           <widget class="QLineEdit" name="lineEdit_net">
            <property name="toolTip">
-            <string>$net - network speed, down/up, KB/s
+            <string>$down - download speed, KB/s
+$up - upload speed, KB/s
 $netdev - current network device</string>
            </property>
            <property name="alignment">
@@ -1223,6 +1224,9 @@ del - remove item</string>
            <property name="toolTip">
             <string>&quot;/sys/class/net&quot; by default</string>
            </property>
+           <property name="text">
+            <string/>
+           </property>
           </widget>
          </item>
         </layout>
@@ -1247,6 +1251,9 @@ del - remove item</string>
          </item>
          <item>
           <widget class="QComboBox" name="comboBox_netdev">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
              <horstretch>0</horstretch>

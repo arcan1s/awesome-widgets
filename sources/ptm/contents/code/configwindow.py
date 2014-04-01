@@ -37,42 +37,99 @@ class ConfigWindow(QWidget):
         'hddtemp':self.ui.checkBox_hddTemp, 'mem':self.ui.checkBox_mem, 
         'net':self.ui.checkBox_net, 'swap':self.ui.checkBox_swap, 
         'temp':self.ui.checkBox_temp, 'uptime':self.ui.checkBox_uptime, 
-        'player':self.ui.checkBox_player, 'time':self.ui.checkBox_time}
-        self.sliders = {'bat':self.ui.slider_bat, 'cpu':self.ui.slider_cpu, 
-        'cpuclock':self.ui.slider_cpuclock, 'gpu':self.ui.slider_gpu, 
-        'gputemp':self.ui.slider_gpuTemp, 'hdd':self.ui.slider_hdd, 
-        'hddtemp':self.ui.slider_hddTemp, 'mem':self.ui.slider_mem, 
-        'net':self.ui.slider_net, 'swap':self.ui.slider_swap, 
-        'temp':self.ui.slider_temp, 'uptime':self.ui.slider_uptime, 
-        'player':self.ui.slider_player, 'time':self.ui.slider_time}
+        'player':self.ui.checkBox_player, 'time':self.ui.checkBox_time,
+        'custom':self.ui.checkBox_custom}
         self.lineedits = {'bat':self.ui.lineEdit_bat, 'cpu':self.ui.lineEdit_cpu, 
         'cpuclock':self.ui.lineEdit_cpuclock, 'gpu':self.ui.lineEdit_gpu, 
         'gputemp':self.ui.lineEdit_gpuTemp, 'hdd':self.ui.lineEdit_hdd, 
         'hddtemp':self.ui.lineEdit_hddTemp, 'mem':self.ui.lineEdit_mem, 
         'net':self.ui.lineEdit_net, 'swap':self.ui.lineEdit_swap, 
         'temp':self.ui.lineEdit_temp, 'uptime':self.ui.lineEdit_uptime, 
-        'player':self.ui.lineEdit_player, 'time':self.ui.lineEdit_time}
+        'player':self.ui.lineEdit_player, 'time':self.ui.lineEdit_time,
+        'custom':self.ui.lineEdit_custom}
+        self.sliders = {'bat':self.ui.slider_bat, 'cpu':self.ui.slider_cpu, 
+        'cpuclock':self.ui.slider_cpuclock, 'gpu':self.ui.slider_gpu, 
+        'gputemp':self.ui.slider_gpuTemp, 'hdd':self.ui.slider_hdd, 
+        'hddtemp':self.ui.slider_hddTemp, 'mem':self.ui.slider_mem, 
+        'net':self.ui.slider_net, 'swap':self.ui.slider_swap, 
+        'temp':self.ui.slider_temp, 'uptime':self.ui.slider_uptime, 
+        'player':self.ui.slider_player, 'time':self.ui.slider_time, 
+        'custom':self.ui.slider_custom}
         
-        for item in self.checkboxes.values():
-            QObject.connect(item, SIGNAL("stateChanged(int)"), self.setStatus)
+        QObject.connect(self.ui.checkBox_netdev, SIGNAL("stateChanged(int)"), self.setNetdevEnabled)
+        QObject.connect(self.ui.pushButton_hddDevice, SIGNAL("clicked()"), self.addHddDevice)
+        QObject.connect(self.ui.pushButton_mount, SIGNAL("clicked()"), self.addMount)
+        QObject.connect(self.ui.pushButton_tempDevice, SIGNAL("clicked()"), self.addTempDevice)
+        QObject.connect(self.ui.listWidget_hddDevice, SIGNAL("itemActivated(QListWidgetItem*)"), self.ui.listWidget_hddDevice.openPersistentEditor)
+        QObject.connect(self.ui.listWidget_mount, SIGNAL("itemActivated(QListWidgetItem*)"), self.ui.listWidget_mount.openPersistentEditor)
+        QObject.connect(self.ui.listWidget_tempDevice, SIGNAL("itemActivated(QListWidgetItem*)"), self.ui.listWidget_tempDevice.openPersistentEditor)
         for item in self.sliders.values():
             QObject.connect(item, SIGNAL("valueChanged(int)"), self.setSlider)
+        for item in self.checkboxes.values():
+            QObject.connect(item, SIGNAL("stateChanged(int)"), self.setStatus)
+    
+    
+    def keyPressEvent(self, event):
+        """delete events"""
+        if (event.key() == Qt.Key_Delete):
+            if (self.ui.listWidget_hddDevice.hasFocus() and
+                (self.ui.listWidget_hddDevice.currentRow() > -1)):
+                self.ui.listWidget_hddDevice.takeItem(self.ui.listWidget_hddDevice.currentRow())
+            elif (self.ui.listWidget_mount.hasFocus() and
+                (self.ui.listWidget_mount.currentRow() > -1)):
+                self.ui.listWidget_mount.takeItem(self.ui.listWidget_mount.currentRow())
+            elif (self.ui.listWidget_tempDevice.hasFocus() and
+                (self.ui.listWidget_tempDevice.currentRow() > -1)):
+                self.ui.listWidget_tempDevice.takeItem(self.ui.listWidget_tempDevice.currentRow())
+
+
+    def addHddDevice(self):
+        """function to add mount points"""
+        self.ui.listWidget_hddDevice.addItem(self.ui.comboBox_hddDevice.currentText())
+
+
+    def addMount(self):
+        """function to add mount points"""
+        self.ui.listWidget_mount.addItem(self.ui.comboBox_mount.currentText())
+
+
+    def addTempDevice(self):
+        """function to add temperature device"""
+        self.ui.listWidget_tempDevice.addItem(self.ui.comboBox_tempDevice.currentText())
+    
+    
+    def setNetdevEnabled(self):
+        """function to set enabled netdev"""
+        if (self.ui.checkBox_netdev.checkState() == 0):
+            self.ui.comboBox_netdev.setDisabled(True)
+        else:
+            self.ui.comboBox_netdev.setEnabled(True)
+
+
+    def setSlider(self):
+        """function to set sliders"""
+        if (self.sender().isEnabled() == True):
+            second_slider = self.sender()
+            order = []
+            for slider in self.sliders.values():
+                if (slider.isEnabled() == True):
+                    order.append(slider.value())
+                    if ((slider.value() == self.sender().value()) and (slider != self.sender())):
+                        second_slider = slider
+            if (second_slider == self.sender()):
+                return
+            for value in range(len(order)):
+                if (order.count(value+1) == 0):
+                    new_value = value + 1
+            second_slider.setValue(new_value)
 
     
     def setStatus(self):
         """function to enable label"""
-        count = self.sliders['bat'].maximum()
         for label in self.checkboxes.keys():
             if ((self.checkboxes[label].checkState() > 0) and (self.sliders[label].isEnabled() == False)):
                 self.lineedits[label].setEnabled(True)
                 self.sliders[label].setEnabled(True)
-                if (label == 'bat'):
-                    self.ui.lineEdit_acdev.setEnabled(True)
-                    self.ui.lineEdit_batdev.setEnabled(True)
-                elif (label == 'temp'):
-                    self.ui.comboBox_temp.setEnabled(True)
-                elif (label == 'player'):
-                    self.ui.comboBox_player.setEnabled(True)
                 slider_label = 0
                 for slider in self.sliders.values():
                     if (slider.isEnabled() == True):
@@ -86,13 +143,6 @@ class ConfigWindow(QWidget):
             elif ((self.checkboxes[label].checkState() == 0) and (self.sliders[label].isEnabled() == True)):
                 self.lineedits[label].setDisabled(True)
                 self.sliders[label].setDisabled(True)
-                if (label == 'bat'):
-                    self.ui.lineEdit_acdev.setDisabled(True)
-                    self.ui.lineEdit_batdev.setDisabled(True)
-                elif (label == 'temp'):
-                    self.ui.comboBox_temp.setDisabled(True)
-                elif (label == 'player'):
-                    self.ui.comboBox_player.setDisabled(True)
                 for slider in self.sliders.values():
                     if ((slider.value() == slider.maximum()) and (slider != self.sliders[label])):
                         slider.setValue(self.sliders[label].value())
@@ -106,23 +156,3 @@ class ConfigWindow(QWidget):
                     else:
                         slider.setMaximum(1)
                 self.sliders[label].setValue(1)
-    
-    def setSlider(self):
-        """function to set sliders"""
-        if (self.sender().isEnabled() == True):
-            second_slider = self.sender()
-            order = []
-            for slider in self.sliders.values():
-                if (slider.isEnabled() == True):
-                    order.append(slider.value())
-                    if ((slider.value() == self.sender().value()) and (slider != self.sender())):
-                        second_slider = slider
-            
-            if (second_slider == self.sender()):
-                return
-            
-            for value in range(len(order)):
-                if (order.count(value+1) == 0):
-                    new_value = value + 1
-            
-            second_slider.setValue(new_value)
