@@ -9,7 +9,7 @@ pkgdesc="Minimalistic Plasmoid script written on Python2. It looks like widgets 
 arch=('i686' 'x86_64')
 url="http://arcanis.name/projects/pytextmonitor"
 license=('GPLv3')
-depends=('kdebase-workspace' 'kdebindings-python2' 'lm_sensors' 'net-tools' 'sysstat')
+depends=('kdebase-workspace' 'kdebindings-python2' 'lm_sensors' 'sysstat')
 optdepends=("hddtemp: for HDD temperature monitor" 
             "catalyst: for GPU monitor" 
             "nvidia-utils: for GPU monitor" 
