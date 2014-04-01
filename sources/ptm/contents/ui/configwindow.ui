@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>575</width>
-    <height>588</height>
+    <height>538</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -77,12 +77,7 @@
 $isotime - time in ISO format
 $shorttime - time in short format
 $longtime - time in log format
-$custom: $dddd - long weekday; $ddd - short weekday; $dd - day; $d day w\o zero; 
-	$MMMM - long month; $MMM - short month; $MM - month; $M - month w\o zero; 
-	$yyyy - year; $yy short year; 
-	$hh - hours (24 only); $h - hours w\o zero (24 only); 
-	$mm - minutes; $m - minutes w\o zero;
-	$ss - seconds; $s - seconds w\o zero</string>
+$custom - custom time format</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -101,7 +96,7 @@ $custom: $dddd - long weekday; $ddd - short weekday; $dd - day; $d day w\o zero;
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>14</number>
+            <number>15</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -138,7 +133,7 @@ $custom: $dddd - long weekday; $ddd - short weekday; $dd - day; $d day w\o zero;
           <widget class="QLineEdit" name="lineEdit_uptime">
            <property name="toolTip">
             <string>$uptime - system uptime
-$custom: $ds - uptime days; $hs - uptime hours; $ms - uptime minutes</string>
+$custom - custom format</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -157,7 +152,7 @@ $custom: $ds - uptime days; $hs - uptime hours; $ms - uptime minutes</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>14</number>
+            <number>15</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -197,7 +192,9 @@ $custom: $ds - uptime days; $hs - uptime hours; $ms - uptime minutes</string>
           <widget class="QLineEdit" name="lineEdit_cpu">
            <property name="toolTip">
             <string>$cpu - total load CPU, %
-$ccpu - load CPU for each core, %</string>
+$cpu0 - load CPU for core 0, %
+...
+$cpu7 - load CPU for core 7, %</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -216,7 +213,7 @@ $ccpu - load CPU for each core, %</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>14</number>
+            <number>15</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -256,7 +253,9 @@ $ccpu - load CPU for each core, %</string>
           <widget class="QLineEdit" name="lineEdit_cpuclock">
            <property name="toolTip">
             <string>$cpucl - average CPU clock, MHz
-$ccpucl - CPU clock for each core, MHz</string>
+$cpucl0 - CPU clock for core 0, MHz
+...
+$cpucl7 - CPU clock for core 7, MHz</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -275,7 +274,7 @@ $ccpucl - CPU clock for each core, MHz</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>14</number>
+            <number>15</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -312,19 +311,6 @@ $ccpucl - CPU clock for each core, MHz</string>
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="comboBox_temp">
-           <property name="maximumSize">
-            <size>
-             <width>150</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="editable">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QLineEdit" name="lineEdit_temp">
            <property name="toolTip">
             <string>$temp - physical temperature on CPU</string>
@@ -346,7 +332,7 @@ $ccpucl - CPU clock for each core, MHz</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>14</number>
+            <number>15</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -404,7 +390,7 @@ $ccpucl - CPU clock for each core, MHz</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>14</number>
+            <number>15</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -462,7 +448,7 @@ $ccpucl - CPU clock for each core, MHz</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>14</number>
+            <number>15</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -521,7 +507,7 @@ $memmb - RAM usage, MB</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>14</number>
+            <number>15</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -580,7 +566,7 @@ $swapmb - swap usage, MB</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>14</number>
+            <number>15</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -619,7 +605,7 @@ $swapmb - swap usage, MB</string>
          <item>
           <widget class="QLineEdit" name="lineEdit_hdd">
            <property name="toolTip">
-            <string>@@/;@@ - mount point usage, %</string>
+            <string>$hddN - usage for mount point N, %. Example: $hdd0</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -638,7 +624,7 @@ $swapmb - swap usage, MB</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>14</number>
+            <number>15</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -677,7 +663,7 @@ $swapmb - swap usage, MB</string>
          <item>
           <widget class="QLineEdit" name="lineEdit_hddTemp">
            <property name="toolTip">
-            <string>@@/dev/sda@@ - physical temperature on /dev/sda</string>
+            <string>$hddtempN - physical temperature on device N. Example: $hddtemp0</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -696,7 +682,7 @@ $swapmb - swap usage, MB</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>14</number>
+            <number>15</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -736,8 +722,7 @@ $swapmb - swap usage, MB</string>
           <widget class="QLineEdit" name="lineEdit_net">
            <property name="toolTip">
             <string>$net - network speed, down/up, KB/s
-$netdev - current network device
-@@eth0@@ - disable auto select device and set specified device</string>
+$netdev - current network device</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -756,7 +741,7 @@ $netdev - current network device
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>14</number>
+            <number>15</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -815,7 +800,7 @@ $ac - AC status</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>14</number>
+            <number>15</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -828,92 +813,6 @@ $ac - AC status</string>
            </property>
            <property name="tickPosition">
             <enum>QSlider::TicksAbove</enum>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="layout_batdev">
-         <item>
-          <spacer name="spacer_batdev">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Preferred</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>120</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_batdev">
-           <property name="minimumSize">
-            <size>
-             <width>120</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Battery device</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_batdev">
-           <property name="toolTip">
-            <string>&quot;/sys/class/power_supply/BAT0/capacity&quot; by default</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="layout_acdev">
-         <item>
-          <spacer name="spacer_acdev">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Preferred</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>120</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_acdev">
-           <property name="minimumSize">
-            <size>
-             <width>120</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>AC device</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_acdev">
-           <property name="toolTip">
-            <string>&quot;/sys/class/power_supply/AC/online&quot; by default</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
@@ -935,31 +834,6 @@ $ac - AC status</string>
            <property name="checked">
             <bool>true</bool>
            </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="comboBox_player">
-           <property name="minimumSize">
-            <size>
-             <width>100</width>
-             <height>0</height>
-            </size>
-           </property>
-           <item>
-            <property name="text">
-             <string>amarok</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>mpd</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>qmmp</string>
-            </property>
-           </item>
           </widget>
          </item>
          <item>
@@ -988,13 +862,71 @@ $title - song title</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>14</number>
+            <number>15</number>
            </property>
            <property name="pageStep">
             <number>1</number>
            </property>
            <property name="value">
             <number>14</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="tickPosition">
+            <enum>QSlider::TicksAbove</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="layout_custom">
+         <item>
+          <widget class="QCheckBox" name="checkBox_custom">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Custom</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_custom">
+           <property name="toolTip">
+            <string>$custom - get output from custom command</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSlider" name="slider_custom">
+           <property name="maximumSize">
+            <size>
+             <width>120</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>15</number>
+           </property>
+           <property name="pageStep">
+            <number>1</number>
+           </property>
+           <property name="value">
+            <number>15</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -1015,6 +947,449 @@ $title - song title</string>
           <size>
            <width>20</width>
            <height>0</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="advanced">
+      <attribute name="title">
+       <string>Advanced</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <layout class="QHBoxLayout" name="layout_timeFormat">
+         <item>
+          <widget class="QLabel" name="label_timeFormat">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Custom time format</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_timeFormat">
+           <property name="toolTip">
+            <string>$dddd - long weekday
+$ddd - short weekday
+$dd - day
+$d - day w\o zero
+$MMMM - long month
+$MMM - short month
+$MM - month
+$M - month w\o zero
+$yyyy - year
+$yy - short year
+$hh - hours (24 only)
+$h - hours w\o zero (24 only)
+$mm - minutes
+$m - minutes w\o zero
+$ss - seconds
+$s - seconds w\o zero</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="layout_uptimeFormat">
+         <item>
+          <widget class="QLabel" name="label_uptimeFormat">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Custom uptime format</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_uptimeFormat">
+           <property name="toolTip">
+            <string>$ds - uptime days
+$hs - uptime hours
+$ms - uptime minutes</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="layout_tempDevice">
+         <item>
+          <layout class="QHBoxLayout" name="layout_tempDeviceSelect">
+           <item>
+            <widget class="QLabel" name="label_tempDevice">
+             <property name="minimumSize">
+              <size>
+               <width>120</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Temperature devices</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="comboBox_tempDevice">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="editable">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_tempDevice">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Add</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QListWidget" name="listWidget_tempDevice">
+           <property name="toolTip">
+            <string>Editable
+del - remove item</string>
+           </property>
+           <property name="sortingEnabled">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="layout_mount">
+         <item>
+          <layout class="QHBoxLayout" name="layout_mountSelect">
+           <item>
+            <widget class="QLabel" name="label_mount">
+             <property name="minimumSize">
+              <size>
+               <width>120</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Mount points</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="comboBox_mount">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="editable">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_mount">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Add</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QListWidget" name="listWidget_mount">
+           <property name="toolTip">
+            <string>Editable
+del - remove item</string>
+           </property>
+           <property name="sortingEnabled">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="layout_hddDevice">
+         <item>
+          <layout class="QHBoxLayout" name="layout_hddDeviceSelect">
+           <item>
+            <widget class="QLabel" name="label_hddDevice">
+             <property name="minimumSize">
+              <size>
+               <width>120</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>HDD devices</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="comboBox_hddDevice">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="editable">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_hddDevice">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Add</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QListWidget" name="listWidget_hddDevice">
+           <property name="toolTip">
+            <string>Editable
+del - remove item</string>
+           </property>
+           <property name="sortingEnabled">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="layout_netdir">
+         <item>
+          <widget class="QLabel" name="label_netdir">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Network directory</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_netdir">
+           <property name="toolTip">
+            <string>&quot;/sys/class/net&quot; by default</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="layout_netdev">
+         <item>
+          <widget class="QCheckBox" name="checkBox_netdev">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>Disable auto select device and set specified device</string>
+           </property>
+           <property name="text">
+            <string>Set network device</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_netdev">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="editable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="layout_batdev">
+         <item>
+          <widget class="QLabel" name="label_batdev">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Battery device</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_batdev">
+           <property name="toolTip">
+            <string>&quot;/sys/class/power_supply/BAT0/capacity&quot; by default</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="layout_acdev">
+         <item>
+          <widget class="QLabel" name="label_acdev">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>AC device</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_acdev">
+           <property name="toolTip">
+            <string>&quot;/sys/class/power_supply/AC/online&quot; by default</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="layout_playerSelect">
+         <item>
+          <widget class="QLabel" name="label_playerSelect">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Music player</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_playerSelect">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
+           <item>
+            <property name="text">
+             <string>amarok</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>mpd</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>qmmp</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="layout_customCommand">
+         <item>
+          <widget class="QLabel" name="label_customCommand">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Custom command</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_customCommand">
+           <property name="toolTip">
+            <string>Command to run, example:
+wget -qO- http://ifconfig.me/ip - get external IP</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="spacer_advenced">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
           </size>
          </property>
         </spacer>
@@ -1362,7 +1737,6 @@ $title - song title</string>
   <tabstop>lineEdit_cpuclock</tabstop>
   <tabstop>slider_cpuclock</tabstop>
   <tabstop>checkBox_temp</tabstop>
-  <tabstop>comboBox_temp</tabstop>
   <tabstop>lineEdit_temp</tabstop>
   <tabstop>slider_temp</tabstop>
   <tabstop>checkBox_gpu</tabstop>
@@ -1389,12 +1763,30 @@ $title - song title</string>
   <tabstop>checkBox_bat</tabstop>
   <tabstop>lineEdit_bat</tabstop>
   <tabstop>slider_bat</tabstop>
-  <tabstop>lineEdit_batdev</tabstop>
-  <tabstop>lineEdit_acdev</tabstop>
   <tabstop>checkBox_player</tabstop>
-  <tabstop>comboBox_player</tabstop>
   <tabstop>lineEdit_player</tabstop>
   <tabstop>slider_player</tabstop>
+  <tabstop>checkBox_custom</tabstop>
+  <tabstop>lineEdit_custom</tabstop>
+  <tabstop>slider_custom</tabstop>
+  <tabstop>lineEdit_timeFormat</tabstop>
+  <tabstop>lineEdit_uptimeFormat</tabstop>
+  <tabstop>comboBox_tempDevice</tabstop>
+  <tabstop>pushButton_tempDevice</tabstop>
+  <tabstop>listWidget_tempDevice</tabstop>
+  <tabstop>comboBox_mount</tabstop>
+  <tabstop>pushButton_mount</tabstop>
+  <tabstop>listWidget_mount</tabstop>
+  <tabstop>comboBox_hddDevice</tabstop>
+  <tabstop>pushButton_hddDevice</tabstop>
+  <tabstop>listWidget_hddDevice</tabstop>
+  <tabstop>lineEdit_netdir</tabstop>
+  <tabstop>checkBox_netdev</tabstop>
+  <tabstop>comboBox_netdev</tabstop>
+  <tabstop>lineEdit_batdev</tabstop>
+  <tabstop>lineEdit_acdev</tabstop>
+  <tabstop>comboBox_playerSelect</tabstop>
+  <tabstop>lineEdit_customCommand</tabstop>
   <tabstop>spinBox_interval</tabstop>
   <tabstop>fontComboBox</tabstop>
   <tabstop>spinBox_fontSize</tabstop>
