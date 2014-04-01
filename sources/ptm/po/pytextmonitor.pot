@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=157124\n"
-"POT-Creation-Date: 2014-03-31 00:58+0400\n"
+"POT-Creation-Date: 2014-04-01 23:36+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,7 +43,7 @@ msgstr ""
 msgid "Time"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:85
+#. i18n: file: ui/configwindow.ui:80
 #. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_time)
 #: rc.cpp:15
 msgid ""
@@ -51,232 +51,190 @@ msgid ""
 "$isotime - time in ISO format\n"
 "$shorttime - time in short format\n"
 "$longtime - time in log format\n"
-"$custom: $dddd - long weekday; $ddd - short weekday; $dd - day; $d day w\\o "
-"zero; \n"
-"\t$MMMM - long month; $MMM - short month; $MM - month; $M - month w\\o "
-"zero; \n"
-"\t$yyyy - year; $yy short year; \n"
-"\t$hh - hours (24 only); $h - hours w\\o zero (24 only); \n"
-"\t$mm - minutes; $m - minutes w\\o zero;\n"
-"\t$ss - seconds; $s - seconds w\\o zero"
+"$custom - custom time format"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:130
+#. i18n: file: ui/configwindow.ui:125
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_uptime)
-#: rc.cpp:27
+#: rc.cpp:22
 msgid "Uptime"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:141
+#. i18n: file: ui/configwindow.ui:136
 #. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_uptime)
-#: rc.cpp:30
+#: rc.cpp:25
 msgid ""
 "$uptime - system uptime\n"
-"$custom: $ds - uptime days; $hs - uptime hours; $ms - uptime minutes"
+"$custom - custom format"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:189
+#. i18n: file: ui/configwindow.ui:184
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_cpu)
-#: rc.cpp:34
+#: rc.cpp:29
 msgid "CPU"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:200
+#. i18n: file: ui/configwindow.ui:197
 #. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_cpu)
-#: rc.cpp:38
+#: rc.cpp:33
 #, no-c-format
 msgid ""
 "$cpu - total load CPU, %\n"
-"$ccpu - load CPU for each core, %"
+"$cpu0 - load CPU for core 0, %\n"
+"...\n"
+"$cpu7 - load CPU for core 7, %"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:248
+#. i18n: file: ui/configwindow.ui:245
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_cpuclock)
-#: rc.cpp:42
+#: rc.cpp:39
 msgid "CPU Clock"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:259
+#. i18n: file: ui/configwindow.ui:258
 #. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_cpuclock)
-#: rc.cpp:45
+#: rc.cpp:42
 msgid ""
 "$cpucl - average CPU clock, MHz\n"
-"$ccpucl - CPU clock for each core, MHz"
+"$cpucl0 - CPU clock for core 0, MHz\n"
+"...\n"
+"$cpucl7 - CPU clock for core 7, MHz"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:307
+#. i18n: file: ui/configwindow.ui:306
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_temp)
-#: rc.cpp:49
+#: rc.cpp:48
 msgid "Temperature"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:330
+#. i18n: file: ui/configwindow.ui:316
 #. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_temp)
-#: rc.cpp:52
-msgid "$temp - physical temperature on CPU"
+#: rc.cpp:51
+msgid "$tempN - physical temperature on device N (from 0). Example: $temp0"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:378
+#. i18n: file: ui/configwindow.ui:364
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_gpu)
-#: rc.cpp:55
+#: rc.cpp:54
 msgid "GPU"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:388
+#. i18n: file: ui/configwindow.ui:374
 #. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_gpu)
-#: rc.cpp:59
+#: rc.cpp:58
 #, no-c-format
 msgid "$gpu - gpu usage, %"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:436
+#. i18n: file: ui/configwindow.ui:422
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_gpuTemp)
-#: rc.cpp:62
+#: rc.cpp:61
 msgid "GPU Temp"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:446
+#. i18n: file: ui/configwindow.ui:432
 #. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_gpuTemp)
-#: rc.cpp:65
+#: rc.cpp:64
 msgid "$gputemp - physical temperature on GPU"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:494
+#. i18n: file: ui/configwindow.ui:480
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_mem)
-#: rc.cpp:68
+#: rc.cpp:67
 msgid "Memory"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:505
+#. i18n: file: ui/configwindow.ui:491
 #. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_mem)
-#: rc.cpp:72
+#: rc.cpp:71
 #, no-c-format
 msgid ""
 "$mem - RAM usage, %\n"
 "$memmb - RAM usage, MB"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:553
+#. i18n: file: ui/configwindow.ui:539
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_swap)
-#: rc.cpp:76
+#: rc.cpp:75
 msgid "Swap"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:564
+#. i18n: file: ui/configwindow.ui:550
 #. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_swap)
-#: rc.cpp:80
+#: rc.cpp:79
 #, no-c-format
 msgid ""
 "$swap - swap usage, %\n"
 "$swapmb - swap usage, MB"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:612
+#. i18n: file: ui/configwindow.ui:598
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_hdd)
-#: rc.cpp:84
+#: rc.cpp:83
 msgid "HDD"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:622
+#. i18n: file: ui/configwindow.ui:608
 #. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_hdd)
-#: rc.cpp:88
+#: rc.cpp:87
 #, no-c-format
-msgid "@@/;@@ - mount point usage, %"
+msgid "$hddN - usage for mount point N (from 0), %. Example: $hdd0"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:670
+#. i18n: file: ui/configwindow.ui:656
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_hddTemp)
-#: rc.cpp:91
+#: rc.cpp:90
 msgid "HDD Temp"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:680
+#. i18n: file: ui/configwindow.ui:666
 #. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_hddTemp)
-#: rc.cpp:94
-msgid "@@/dev/sda@@ - physical temperature on /dev/sda"
+#: rc.cpp:93
+msgid ""
+"$hddtempN - physical temperature on device N (from 0). Example: $hddtemp0"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:728
+#. i18n: file: ui/configwindow.ui:714
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_net)
-#: rc.cpp:97
+#: rc.cpp:96
 msgid "Network"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:740
+#. i18n: file: ui/configwindow.ui:726
 #. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_net)
-#: rc.cpp:100
+#: rc.cpp:99
 msgid ""
-"$net - network speed, down/up, KB/s\n"
-"$netdev - current network device\n"
-"@@eth0@@ - disable auto select device and set specified device"
+"$down - download speed, KB/s\n"
+"$up - upload speed, KB/s\n"
+"$netdev - current network device"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:788
+#. i18n: file: ui/configwindow.ui:774
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_bat)
-#: rc.cpp:105
+#: rc.cpp:104
 msgid "Battery"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:799
+#. i18n: file: ui/configwindow.ui:785
 #. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_bat)
-#: rc.cpp:109
+#: rc.cpp:108
 #, no-c-format
 msgid ""
 "$bat - battery charge, %\n"
 "$ac - AC status"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:863
-#. i18n: ectx: property (text), widget (QLabel, label_batdev)
-#: rc.cpp:113
-msgid "Battery device"
-msgstr ""
-
-#. i18n: file: ui/configwindow.ui:870
-#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_batdev)
-#: rc.cpp:116
-msgid "\"/sys/class/power_supply/BAT0/capacity\" by default"
-msgstr ""
-
-#. i18n: file: ui/configwindow.ui:906
-#. i18n: ectx: property (text), widget (QLabel, label_acdev)
-#: rc.cpp:119
-msgid "AC device"
-msgstr ""
-
-#. i18n: file: ui/configwindow.ui:913
-#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_acdev)
-#: rc.cpp:122
-msgid "\"/sys/class/power_supply/AC/online\" by default"
-msgstr ""
-
-#. i18n: file: ui/configwindow.ui:933
+#. i18n: file: ui/configwindow.ui:833
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_player)
-#: rc.cpp:125
+#. i18n: file: ui/configwindow.ui:1329
+#. i18n: ectx: property (text), widget (QLabel, label_playerSelect)
+#: rc.cpp:112 rc.cpp:214
 msgid "Music player"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:950
-#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_player)
-#: rc.cpp:128
-msgid "amarok"
-msgstr ""
-
-#. i18n: file: ui/configwindow.ui:955
-#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_player)
-#: rc.cpp:131
-msgid "mpd"
-msgstr ""
-
-#. i18n: file: ui/configwindow.ui:960
-#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_player)
-#: rc.cpp:134
-msgid "qmmp"
-msgstr ""
-
-#. i18n: file: ui/configwindow.ui:972
+#. i18n: file: ui/configwindow.ui:847
 #. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_player)
-#: rc.cpp:137
+#: rc.cpp:115
 msgid ""
 "$album - song album\n"
 "$artist - song artist\n"
@@ -285,54 +243,235 @@ msgid ""
 "$title - song title"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:1026
+#. i18n: file: ui/configwindow.ui:895
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_custom)
+#: rc.cpp:122
+msgid "Custom"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:905
+#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_custom)
+#: rc.cpp:125
+msgid "$custom - get output from custom command"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:959
+#. i18n: ectx: attribute (title), widget (QWidget, advanced)
+#: rc.cpp:128
+msgid "Advanced"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:973
+#. i18n: ectx: property (text), widget (QLabel, label_timeFormat)
+#: rc.cpp:131
+msgid "Custom time format"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:995
+#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_timeFormat)
+#: rc.cpp:134
+msgid ""
+"$dddd - long weekday\n"
+"$ddd - short weekday\n"
+"$dd - day\n"
+"$d - day w\\o zero\n"
+"$MMMM - long month\n"
+"$MMM - short month\n"
+"$MM - month\n"
+"$M - month w\\o zero\n"
+"$yyyy - year\n"
+"$yy - short year\n"
+"$hh - hours (24 only)\n"
+"$h - hours w\\o zero (24 only)\n"
+"$mm - minutes\n"
+"$m - minutes w\\o zero\n"
+"$ss - seconds\n"
+"$s - seconds w\\o zero"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:1015
+#. i18n: ectx: property (text), widget (QLabel, label_uptimeFormat)
+#: rc.cpp:152
+msgid "Custom uptime format"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:1024
+#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_uptimeFormat)
+#: rc.cpp:155
+msgid ""
+"$ds - uptime days\n"
+"$hs - uptime hours\n"
+"$ms - uptime minutes"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:1046
+#. i18n: ectx: property (text), widget (QLabel, label_tempDevice)
+#: rc.cpp:160
+msgid "Temperature devices"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:1072
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_tempDevice)
+#. i18n: file: ui/configwindow.ui:1130
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_mount)
+#. i18n: file: ui/configwindow.ui:1188
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_hddDevice)
+#: rc.cpp:163 rc.cpp:173 rc.cpp:183
+msgid "Add"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:1082
+#. i18n: ectx: property (toolTip), widget (QListWidget, listWidget_tempDevice)
+#. i18n: file: ui/configwindow.ui:1140
+#. i18n: ectx: property (toolTip), widget (QListWidget, listWidget_mount)
+#. i18n: file: ui/configwindow.ui:1198
+#. i18n: ectx: property (toolTip), widget (QListWidget, listWidget_hddDevice)
+#: rc.cpp:166 rc.cpp:176 rc.cpp:186
+msgid ""
+"Editable\n"
+"del - remove item"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:1104
+#. i18n: ectx: property (text), widget (QLabel, label_mount)
+#: rc.cpp:170
+msgid "Mount points"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:1162
+#. i18n: ectx: property (text), widget (QLabel, label_hddDevice)
+#: rc.cpp:180
+msgid "HDD devices"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:1218
+#. i18n: ectx: property (text), widget (QLabel, label_netdir)
+#: rc.cpp:190
+msgid "Network directory"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:1225
+#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_netdir)
+#: rc.cpp:193
+msgid "\"/sys/class/net\" by default"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:1245
+#. i18n: ectx: property (toolTip), widget (QCheckBox, checkBox_netdev)
+#: rc.cpp:196
+msgid "Disable auto select device and set specified device"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:1248
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_netdev)
+#: rc.cpp:199
+msgid "Set network device"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:1281
+#. i18n: ectx: property (text), widget (QLabel, label_batdev)
+#: rc.cpp:202
+msgid "Battery device"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:1288
+#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_batdev)
+#: rc.cpp:205
+msgid "\"/sys/class/power_supply/BAT0/capacity\" by default"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:1305
+#. i18n: ectx: property (text), widget (QLabel, label_acdev)
+#: rc.cpp:208
+msgid "AC device"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:1312
+#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_acdev)
+#: rc.cpp:211
+msgid "\"/sys/class/power_supply/AC/online\" by default"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:1349
+#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_playerSelect)
+#: rc.cpp:217
+msgid "amarok"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:1354
+#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_playerSelect)
+#: rc.cpp:220
+msgid "mpd"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:1359
+#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_playerSelect)
+#: rc.cpp:223
+msgid "qmmp"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:1377
+#. i18n: ectx: property (text), widget (QLabel, label_customCommand)
+#: rc.cpp:226
+msgid "Custom command"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:1385
+#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_customCommand)
+#: rc.cpp:229
+msgid ""
+"Command to run, example:\n"
+"wget -qO- http://ifconfig.me/ip - get external IP"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:1408
 #. i18n: ectx: attribute (title), widget (QWidget, appearance)
-#: rc.cpp:144
+#: rc.cpp:233
 msgid "Appearance"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:1040
+#. i18n: file: ui/configwindow.ui:1422
 #. i18n: ectx: property (text), widget (QLabel, label_interval)
-#: rc.cpp:147
+#: rc.cpp:236
 msgid "Time interval"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:1095
+#. i18n: file: ui/configwindow.ui:1477
 #. i18n: ectx: property (text), widget (QLabel, label_font)
-#: rc.cpp:150
+#: rc.cpp:239
 msgid "Font"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:1135
+#. i18n: file: ui/configwindow.ui:1517
 #. i18n: ectx: property (text), widget (QLabel, label_fontSize)
-#: rc.cpp:153
+#: rc.cpp:242
 msgid "Font size"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:1190
+#. i18n: file: ui/configwindow.ui:1572
 #. i18n: ectx: property (text), widget (QLabel, label_color)
-#: rc.cpp:156
+#: rc.cpp:245
 msgid "Font color"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:1230
+#. i18n: file: ui/configwindow.ui:1612
 #. i18n: ectx: property (text), widget (QLabel, label_style)
-#: rc.cpp:159
+#: rc.cpp:248
 msgid "Font style"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:1280
+#. i18n: file: ui/configwindow.ui:1662
 #. i18n: ectx: property (text), widget (QLabel, label_weight)
-#: rc.cpp:162
+#: rc.cpp:251
 msgid "Font weight"
 msgstr ""
 
-#: rc.cpp:163
+#: rc.cpp:252
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
 
-#: rc.cpp:164
+#: rc.cpp:253
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
