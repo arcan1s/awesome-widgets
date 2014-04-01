@@ -17,6 +17,7 @@
 #   along with pytextmonitor. If not, see http://www.gnu.org/licenses/     #
 ############################################################################
 
+from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyKDE4.kdecore import *
 from PyKDE4.kdeui import *
@@ -53,6 +54,33 @@ class ConfigDefinition:
         self.parent.font_weight = self.configpage.ui.spinBox_weight.value()
         settings.set('font_weight', self.parent.font_weight)
         
+        self.parent.custom_time = str(self.configpage.ui.lineEdit_timeFormat.text())
+        settings.set('custom_time', self.parent.custom_time)
+        self.parent.custom_uptime = str(self.configpage.ui.lineEdit_uptimeFormat.text())
+        settings.set('custom_uptime', self.parent.custom_uptime)
+        # temp and mount below
+        self.parent.hddNames = []
+        self.parent.hdd = {}
+        for i in range(self.configpage.ui.listWidget_hddDevice.count()):
+            item = self.configpage.ui.listWidget_hddDevice.item(i).text()
+            self.parent.hddNames.append(str(item))
+            self.parent.hdd[str(item)] =" 0.0"
+        settings.set('hdd', '@@'.join(self.parent.hddNames))
+        self.parent.netdir = str(self.configpage.ui.lineEdit_netdir.text())
+        settings.set('netdir', self.parent.netdir)
+        self.parent.netdevBool = str(self.configpage.ui.checkBox_netdev.checkState())
+        settings.set('netdevBool', self.parent.netdevBool)
+        self.parent.custom_netdev = str(self.configpage.ui.comboBox_netdev.currentText())
+        settings.set('custom_netdev', self.parent.custom_netdev)
+        self.parent.battery_device = str(self.configpage.ui.lineEdit_batdev.text())
+        settings.set('battery_device', self.parent.battery_device)
+        self.parent.ac_device = str(self.configpage.ui.lineEdit_acdev.text())
+        settings.set('ac_device', self.parent.ac_device)
+        self.parent.player_name = self.configpage.ui.comboBox_playerSelect.currentIndex()
+        settings.set('player_name', self.parent.player_name)
+        self.parent.custom_command = str(self.configpage.ui.lineEdit_customCommand.text())
+        settings.set('custom_command', self.parent.custom_command)
+        
         # disconnecting from source and clear layout
         if (self.parent.uptimeBool > 0):
             self.parent.systemmonitor.disconnectSource("system/uptime",  self.parent)
@@ -60,36 +88,28 @@ class ConfigDefinition:
             self.parent.layout.removeItem(self.parent.label_uptime)
         if (self.parent.cpuBool > 0):
             self.parent.systemmonitor.disconnectSource("cpu/system/TotalLoad", self.parent)
-            if (self.parent.cpuFormat.split('$ccpu')[0] != self.parent.cpuFormat):
-                self.parent.label_cpu.setText('')
-                self.parent.layout.removeItem(self.parent.label_cpu)
-                self.parent.label_cpu1.setText('')
-                self.parent.layout.removeItem(self.parent.label_cpu1)
-                for core in range(self.parent.numCores):
-                    self.parent.systemmonitor.disconnectSource("cpu/cpu"+str(core)+"/TotalLoad", self.parent)
-                    exec ("self.parent.label_coreCpu" + str(core) + ".setText('')")
-                    exec ("self.parent.layout.removeItem(self.parent.label_coreCpu" + str(core) + ")")
-            else:
-                self.parent.label_cpu.setText('')
-                self.parent.layout.removeItem(self.parent.label_cpu)
+            for core in self.parent.cpuCore.keys():
+                self.parent.systemmonitor.disconnectSource("cpu/cpu"+str(core)+"/TotalLoad", self.parent)
+            self.parent.label_cpu.setText('')
+            self.parent.layout.removeItem(self.parent.label_cpu)
         if (self.parent.cpuclockBool > 0):
             self.parent.systemmonitor.disconnectSource("cpu/system/AverageClock", self.parent)
-            if (self.parent.cpuclockFormat.split('$ccpu')[0] != self.parent.cpuclockFormat):
-                self.parent.label_cpuclock.setText('')
-                self.parent.layout.removeItem(self.parent.label_cpuclock)
-                self.parent.label_cpuclock1.setText('')
-                self.parent.layout.removeItem(self.parent.label_cpuclock1)
-                for core in range(self.parent.numCores):
-                    self.parent.systemmonitor.disconnectSource("cpu/cpu"+str(core)+"/clock", self.parent)
-                    exec ("self.parent.label_coreCpuclock" + str(core) + ".setText('')")
-                    exec ("self.parent.layout.removeItem(self.parent.label_coreCpuclock" + str(core) + ")")
-            else:
-                self.parent.label_cpuclock.setText('')
-                self.parent.layout.removeItem(self.parent.label_cpuclock)
+            for core in self.parent.cpuClockCore.keys():
+                self.parent.systemmonitor.disconnectSource("cpu/cpu"+str(core)+"/clock", self.parent)
+            self.parent.label_cpuclock.setText('')
+            self.parent.layout.removeItem(self.parent.label_cpuclock)
         if (self.parent.tempBool > 0):
-            self.parent.systemmonitor.disconnectSource(self.parent.tempdev, self.parent)
+            for item in self.parent.temp:
+                self.parent.systemmonitor.disconnectSource(item, self.parent)
             self.parent.label_temp.setText('')
             self.parent.layout.removeItem(self.parent.label_temp)
+        self.parent.tempNames = []
+        self.parent.temp = {}
+        for i in range(self.configpage.ui.listWidget_tempDevice.count()):
+            item = self.configpage.ui.listWidget_tempDevice.item(i).text()
+            self.parent.tempNames.append(str(item))
+            self.parent.temp[str(item)] =" 0.0"
+        settings.set('temp_device', '@@'.join(self.parent.tempNames))
         if (self.parent.gpuBool > 0):
             self.parent.extsysmon.disconnectSource("gpu", self.parent)
             self.parent.label_gpu.setText('')
@@ -112,14 +132,17 @@ class ConfigDefinition:
             self.parent.label_swap.setText('')
             self.parent.layout.removeItem(self.parent.label_swap)
         if (self.parent.hddBool > 0):
-            for mount in self.parent.mountPoints:
-                self.parent.systemmonitor.disconnectSource("partitions" + mount + "/filllevel", self.parent)
-                exec ('self.parent.label_hdd_' + ''.join(mount.split('/')) + '.setText("")')
-                exec ("self.parent.layout.removeItem(self.parent.label_hdd_" + ''.join(mount.split('/')) + ")")
-            self.parent.label_hdd0.setText('')
-            self.parent.label_hdd1.setText('')
-            self.parent.layout.removeItem(self.parent.label_hdd0)
-            self.parent.layout.removeItem(self.parent.label_hdd1)
+            for item in self.parent.mount:
+                self.parent.systemmonitor.disconnectSource("partitions" + item + "/filllevel", self.parent)
+            self.parent.label_hdd.setText('')
+            self.parent.layout.removeItem(self.parent.label_hdd)
+        self.parent.mountNames = []
+        self.parent.mount = {}
+        for i in range(self.configpage.ui.listWidget_mount.count()):
+            item = self.configpage.ui.listWidget_mount.item(i).text()
+            self.parent.mountNames.append(str(item))
+            self.parent.mount[str(item)] ="  0.0"
+        settings.set('mount', '@@'.join(self.parent.mountNames))
         if (self.parent.hddtempBool > 0):
             self.parent.extsysmon.disconnectSource("hddtemp", self.parent)
             self.parent.label_hddtemp.setText('')
@@ -127,10 +150,8 @@ class ConfigDefinition:
         if (self.parent.netBool > 0):
             self.parent.systemmonitor.disconnectSource("network/interfaces/"+self.parent.netdev+"/transmitter/data", self.parent)
             self.parent.systemmonitor.disconnectSource("network/interfaces/"+self.parent.netdev+"/receiver/data", self.parent)
-            self.parent.label_netDown.setText('')
-            self.parent.label_netUp.setText('')
-            self.parent.layout.removeItem(self.parent.label_netUp)
-            self.parent.layout.removeItem(self.parent.label_netDown)
+            self.parent.label_net.setText('')
+            self.parent.layout.removeItem(self.parent.label_net)
         if (self.parent.batBool > 0):
             self.parent.label_bat.setText('')
             self.parent.layout.removeItem(self.parent.label_bat)
@@ -142,8 +163,11 @@ class ConfigDefinition:
             self.parent.timemon.disconnectSource("Local", self.parent)
             self.parent.label_time.setText('')
             self.parent.layout.removeItem(self.parent.label_time)
+        if (self.parent.customBool > 0):
+            self.parent.label_custom.setText('')
+            self.parent.layout.removeItem(self.parent.label_custom)
         
-        self.parent.label_order = "--------------"
+        self.parent.label_order = "---------------"
         
         for label in self.parent.dict_orders.keys():
             exec ('self.parent.' + self.parent.dict_orders[label] + 'Bool = ' + str(self.configpage.checkboxes[self.parent.dict_orders[label]].checkState()))
@@ -156,19 +180,7 @@ class ConfigDefinition:
             else:
                 exec ('self.parent.' + self.parent.dict_orders[label] + 'Format = str(self.configpage.lineedits[self.parent.dict_orders[label]].text())')
                 exec ('settings.set("' + self.parent.dict_orders[label] + 'Format", self.parent.' + self.parent.dict_orders[label] + 'Format)')
-            exec ('settings.set("' + self.parent.dict_orders[label] + 'Bool", self.parent.' + self.parent.dict_orders[label] + 'Bool)')
-            if (self.parent.dict_orders[label] == 'bat'):
-                self.parent.battery_device = str(self.configpage.ui.lineEdit_batdev.text())
-                self.parent.ac_device = str(self.configpage.ui.lineEdit_acdev.text())
-                settings.set('battery_device', self.parent.battery_device)
-                settings.set('ac_device', self.parent.ac_device)
-            elif (self.parent.dict_orders[label] == 'temp'):
-                self.parent.tempdev = str(self.configpage.ui.comboBox_temp.currentText())
-                settings.set('temp_device', self.parent.tempdev)
-            elif (self.parent.dict_orders[label] == 'player'):
-                self.parent.player_name = self.configpage.ui.comboBox_player.currentIndex()
-                settings.set('player_name', self.parent.player_name)
-        
+            exec ('settings.set("' + self.parent.dict_orders[label] + 'Bool", self.parent.' + self.parent.dict_orders[label] + 'Bool)')        
         self.parent.label_order = ''.join(self.parent.label_order.split('-'))
         settings.set('label_order', self.parent.label_order)
         
@@ -191,6 +203,52 @@ class ConfigDefinition:
         else:
             self.configpage.ui.comboBox_style.setCurrentIndex(1)
         self.configpage.ui.spinBox_weight.setValue(settings.get('font_weight', 400).toInt()[0])
+        
+        self.configpage.ui.lineEdit_timeFormat.setText(str(settings.get('custom_time', '$hh:$mm')))
+        self.configpage.ui.lineEdit_uptimeFormat.setText(str(settings.get('custom_uptime', '$ds,$hs,$ms')))
+        commandOut = commands.getoutput("sensors")
+        for item in commandOut.split("\n\n"):
+            for device in item.split("\n"):
+                if (device.find('\xc2\xb0C') > -1):
+                    try:
+                        tempdev = 'lmsensors/' + item.split("\n")[0] + '/' + '_'.join(device.split(":")[0].split())
+                        self.configpage.ui.comboBox_tempDevice.addItem(tempdev)
+                    except:
+                        pass
+        self.configpage.ui.listWidget_tempDevice.clear()
+        for item in str(settings.get('temp_device', '')).split('@@'):
+            if (len(item) > 0):
+                self.configpage.ui.listWidget_tempDevice.addItem(item)
+        commandOut = commands.getoutput("mount")
+        for item in commandOut.split("\n"):
+            try:
+                mount = item.split(' on ')[1].split(' type ')[0]
+                self.configpage.ui.comboBox_mount.addItem(mount)
+            except:
+                pass
+        self.configpage.ui.listWidget_mount.clear()
+        for item in str(settings.get('mount', '/')).split('@@'):
+            self.configpage.ui.listWidget_mount.addItem(item)
+        commandOut = commands.getoutput("find /dev -name '[hs]d[a-z]'")
+        for item in commandOut.split("\n"):
+            try:
+                self.configpage.ui.comboBox_hddDevice.addItem(item)
+            except:
+                pass
+        self.configpage.ui.listWidget_hddDevice.clear()
+        for item in str(settings.get('hdd', '/dev/sda')).split('@@'):
+            self.configpage.ui.listWidget_hddDevice.addItem(item)
+        self.configpage.ui.lineEdit_netdir.setText(str(settings.get('netdir', '/sys/class/net')))
+        self.configpage.ui.checkBox_netdev.setCheckState(settings.get('netdevBool', 0).toInt()[0])
+        for item in QDir.entryList(QDir(str(settings.get('netdir', '/sys/class/net'))), QDir.Dirs | QDir.NoDotAndDotDot):
+            self.configpage.ui.comboBox_netdev.addItem(item)
+        index = self.configpage.ui.comboBox_netdev.findText(str(settings.get('custom_netdev', 'lo')))
+        self.configpage.ui.comboBox_netdev.setCurrentIndex(index)
+        self.configpage.ui.lineEdit_batdev.setText(str(settings.get('battery_device', '/sys/class/power_supply/BAT0/capacity')))
+        self.configpage.ui.lineEdit_acdev.setText(str(settings.get('ac_device', '/sys/class/power_supply/AC/online')))
+        self.configpage.ui.comboBox_playerSelect.setCurrentIndex(settings.get('player_name', 0).toInt()[0])
+        self.configpage.ui.lineEdit_customCommand.setText(str(settings.get('custom_command', 'wget -qO- http://ifconfig.me/ip')))
+        
         for label in self.parent.dict_orders.keys():
             exec ('bool = self.parent.' + self.parent.dict_orders[label] + 'Bool')
             self.configpage.checkboxes[self.parent.dict_orders[label]].setCheckState(bool)
@@ -200,22 +258,6 @@ class ConfigDefinition:
                 self.configpage.lineedits[self.parent.dict_orders[label]].setText(str(settings.get(self.parent.dict_orders[label] + 'NonFormat', self.parent.dict_defFormat[self.parent.dict_orders[label]])))
             else:
                 self.configpage.lineedits[self.parent.dict_orders[label]].setText(str(settings.get(self.parent.dict_orders[label] + 'Format', self.parent.dict_defFormat[self.parent.dict_orders[label]])))
-            if (self.parent.dict_orders[label] == 'bat'):
-                self.configpage.ui.lineEdit_batdev.setText(str(settings.get('battery_device', '/sys/class/power_supply/BAT0/capacity')))
-                self.configpage.ui.lineEdit_acdev.setText(str(settings.get('ac_device', '/sys/class/power_supply/AC/online')))
-            elif (self.parent.dict_orders[label] == 'temp'):
-                self.configpage.ui.comboBox_temp.addItem(str(settings.get('temp_device', '<select device>')))
-                commandOut = commands.getoutput("sensors")
-                for adapter in commandOut.split("\n\n"):
-                    for device in adapter.split("\n"):
-                        if (device.find('\xc2\xb0C') > -1):
-                            try:
-                                tempdev = 'lmsensors/' + adapter.split('\n')[0] + '/' + '_'.join(device.split(":")[0].split())
-                                self.configpage.ui.comboBox_temp.addItem(tempdev)
-                            except:
-                                pass
-            elif (self.parent.dict_orders[label] == 'player'):
-                self.configpage.ui.comboBox_player.setCurrentIndex(int(settings.get('player_name', 0)))
         
         # add config page
         page = parent.addPage(self.configpage, i18n(self.parent.name()))

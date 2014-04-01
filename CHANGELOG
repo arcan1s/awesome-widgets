@@ -1,3 +1,12 @@
+Ver.1.7.0:
++ added support of several tags in temperature label
++ added tags $cpuN, $cpuclN, $hddN, $tempN, $hddtempN, $up, $down
++ added label with custom command
+- removed tags @@...@@, $temp, $ccpu, $ccpucl, $net
+* changes in settings
+* ptm now does not require net-tools
+* refactoring
+
 Ver.1.6.1:
 + added support of several devices in hddtemp label
 - fixed #6
