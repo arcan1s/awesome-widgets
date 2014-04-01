@@ -14,54 +14,80 @@ For edited output you must open Settings window and setup output format in lines
 * label `$isotime` - time in iso format
 * label `$shorttime` - time in short locale format
 * label `$longtime` - time in long locale format
-* label `$custom` - will enable custom time format
-* label `$dddd` - weekday in long format (required `$custom` flag)
-* label `$ddd` - weekday in short format (required `$custom` flag)
-* label `$dd` - day (required `$custom` flag)
-* label `$d` - day without zero (required `$custom` flag)
-* label `$MMMM` - month in long format (required `$custom` flag)
-* label `$MMM` - month in short format (required `$custom` flag)
-* label `$MM` - month (required `$custom` flag)
-* label `$M` - month without zero (required `$custom` flag)
-* label `$yyyy` - year (required `$custom` flag)
-* label `$yy` - year in short format (required `$custom` flag)
-* label `$hh` - hours (required `$custom` flag)
-* label `$h` - hours without zero (required `$custom` flag)
-* label `$mm` - minutes (required `$custom` flag)
-* label `$m` - minutes without zero (required `$custom` flag)
-* label `$ss` - seconds (required `$custom` flag)
-* label `$s` - seconds without zero (required `$custom` flag)
+* label `$custom` - custom time format
 * label `$uptime` - uptime, <i>---d--h--m</i>
-* label `$custom` - will enable custom uptime format
-* label `$ds` - uptime days (required `$custom` flag)
-* label `$hs` - uptime hours (required `$custom` flag)
-* label `$ms` - uptime minutes (required `$custom` flag)
+* label `$custom` - custom uptime format
 * label `$cpu` - total load cpu, <i>%</i>
-* label `$ccpu` - load CPU for each core, <i>%</i>
+* label `$cpuN` - load CPU for core N, <i>%</i>. N should be in range 0 to 8
 * label `$cpucl` - average cpu clock, <i>MHz</i>
-* label `$ccpucl` - cpu clock for each core, <i>MHz</i>
-* label `$temp` - average temperature in system
+* label `$cpuclN` - cpu clock for core N, <i>MHz</i>. N should be in range 0 to 8
+* label `$tempN` - temperature for device N. For example, `$temp0`
 * label `$gpu` - GPU usage, <i>%</i>. `aticonfig` or `nvidia-smi` must be installed
 * label `$gputemp` - GPU temperature. `aticonfig` or `nvidia-smi` must be installed
 * label `$mem` - usage memory, <i>%</i>
 * label `$memmb` - usage memory, <i>MB</i>
 * label `$swap` - swap, <i>%</i>
 * label `$swapmb` - swap, <i>MB</i>
-* label `@@/@@` (in hdd label) - mount point (`/` in example) usage, <i>%</i>. Separator for mount points list is `;`, for example `@@/;/home;/mnt/global@@`
-* label `@@/dev/sda@@` (in hddtemp label) - HDD (`/dev/sda` in example) temperature. Separator for device list is `;`, for example `@@/dev/sda;/dev/sdb@@`. `hddtemp` must be installed
-* label `$net` - download and upload speed, <i>KB/s</i>. You may specify network device: something like `@@eth0@@`
+* label `$hddN` - usage for mount point N, <i>%</i>. For example, `$hdd0`
+* label `$hddtempN` - temperature for HDD N. For example, `$hddtemp0`
+* label `$down` - download speed, <i>KB/s</i>
+* label `$up` - upload speed, <i>KB/s</i>
 * label `$netdev` - current network device
-* label `$bat` - battery charge, <i>%</i>. Battery device may be set below. File (`/sys/class/power_supply/BAT0/capacity` by default) must contain only battery charge in percent
-* label `$ac` - status AC device. Return <i>(*)</i> if AC device is online or <i>( )</i> if offline. AC device may be set below. FIle (`/sys/class/power_supply/AC/online` by default) must contain `1` if AC is online
-* label `$artist` - current song artist. One of supported music players must be installed
+* label `$bat` - battery charge, <i>%</i>
+* label `$ac` - status AC device. Return <i>(*)</i> if AC device is online or <i>( )</i> if offline
 * label `$album` - current song album. One of supported music players must be installed
+* label `$artist` - current song artist. One of supported music players must be installed
 * label `$progress` - current song progress. One of supported music players must be installed (mpd does not support yet)
 * label `$time` - current song duration. One of supported music players must be installed
 * label `$title` - current song title. One of supported music players must be installed
+* label `$custom` - returns output for custom command
 
 Label order will changed if you change slider position. HTML tags in label work normally.
 
 **NOTE** you don't may set to show $cpu in swap label for example. <b>$cpu will work only in cpu label</b>.
+
+Advanced settings
+-----------------
+**Custom time**
+* label `$dddd` - weekday in long format
+* label `$ddd` - weekday in short format
+* label `$dd` - day
+* label `$d` - day without zero
+* label `$MMMM` - month in long format
+* label `$MMM` - month in short format
+* label `$MM` - month
+* label `$M` - month without zero
+* label `$yyyy` - year
+* label `$yy` - year in short format
+* label `$hh` - hours
+* label `$h` - hours without zero
+* label `$mm` - minutes
+* label `$m` - minutes without zero
+* label `$ss` - seconds
+* label `$s` - seconds without zero
+**Custom uptime**
+* label `$ds` - uptime days
+* label `$hs` - uptime hours
+* label `$ms` - uptime minutes
+**Temperature devices**
+List of devices, which will be observed in temp label (combo box items come from `sensors`). List widget is editable, delete key will remove current item.
+**Mount points**
+List of mount points, which will be observed in hdd label (combo box items come from `mount`). List widget is editable, delete key will remove current item.
+**HDD**
+List of hard disk devices, which will be observed in hddtem label (combo box items come from `find`). List widget is editable, delete key will remove current item.
+**Network directory**
+Path to directory, which contains network devices information. Default is `/sys/class/net`. Required for auto select network device.
+**Network device**
+Use specified device as active. Combo box items come from **network directory**. Will disable auto select network device.
+**Battery device**
+File with battery information. File (`/sys/class/power_supply/BAT0/capacity` by default) should contain only battery charge in percent.
+**AC device**
+File with AC information. File (`/sys/class/power_supply/AC/online` by default) must contain `1` if AC is online.
+**Music player**
+Select one of supported music playes for player label.
+**Custom command**
+**NOTE** This can cause the computer freeze.
+A command, which will be run for custom label.
 
 DataEngine configuration
 ------------------------
@@ -84,7 +110,6 @@ Dependencies
 * kdebase-workspace
 * kdebindings-python2
 * lm_sensors (for definition temperature device)
-* net-tools (for definition network device)
 * sysstat (for notification)
 
 Optional dependencies

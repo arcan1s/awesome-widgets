@@ -1081,9 +1081,6 @@ $ms - uptime minutes</string>
             <string>Editable
 del - remove item</string>
            </property>
-           <property name="sortingEnabled">
-            <bool>true</bool>
-           </property>
           </widget>
          </item>
         </layout>
@@ -1139,9 +1136,6 @@ del - remove item</string>
             <string>Editable
 del - remove item</string>
            </property>
-           <property name="sortingEnabled">
-            <bool>true</bool>
-           </property>
           </widget>
          </item>
         </layout>
@@ -1196,9 +1190,6 @@ del - remove item</string>
            <property name="toolTip">
             <string>Editable
 del - remove item</string>
-           </property>
-           <property name="sortingEnabled">
-            <bool>true</bool>
            </property>
           </widget>
          </item>

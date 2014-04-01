@@ -85,16 +85,25 @@ class ConfigWindow(QWidget):
 
     def addHddDevice(self):
         """function to add mount points"""
+        self.ui.listWidget_hddDevice.clearSelection()
+        if (self.ui.listWidget_hddDevice.count() > 9):
+            self.ui.listWidget_hddDevice.takeItem(0)
         self.ui.listWidget_hddDevice.addItem(self.ui.comboBox_hddDevice.currentText())
 
 
     def addMount(self):
         """function to add mount points"""
+        self.ui.listWidget_mount.clearSelection()
+        if (self.ui.listWidget_mount.count() > 9):
+            self.ui.listWidget_mount.takeItem(0)
         self.ui.listWidget_mount.addItem(self.ui.comboBox_mount.currentText())
 
 
     def addTempDevice(self):
         """function to add temperature device"""
+        self.ui.listWidget_tempDevice.clearSelection()
+        if (self.ui.listWidget_tempDevice.count() > 9):
+            self.ui.listWidget_tempDevice.takeItem(0)
         self.ui.listWidget_tempDevice.addItem(self.ui.comboBox_tempDevice.currentText())
     
     
