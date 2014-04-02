@@ -171,9 +171,6 @@ class pyTextWidget(plasmascript.Applet):
             self.tooltip.setSubText('')
         except Exception as strerror:
             self.tooltip.setSubText(str(strerror))
-            self.label_error = Plasma.Label(self.applet)
-            self.label_error.setText('<font color="red">ERROR</font>')
-            self.layout.addItem(self.label_error)
             return
 
 

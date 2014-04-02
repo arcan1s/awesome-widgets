@@ -48,7 +48,10 @@ class Tooltip():
                     bound[0] = value
                 elif (value > bound[1]):
                     bound[1] = value
-            norm = [maxOne[0] / len(values[type]), maxOne[1] / (1.5*(bound[1] - bound[0]))]
+            if ((bound[0] == 0.0) and (bound[0] == 0.0)):
+                norm = [maxOne[0] / len(values[type]), maxOne[1] / 1.5]
+            else:
+                norm = [maxOne[0] / len(values[type]), maxOne[1] / (1.5*(bound[1] - bound[0]))]
             pen.setColor(QColor(colors[type]))
             if (down):
                 shift = (types.index(type) - 1) * maxOne[0]
