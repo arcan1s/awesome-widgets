@@ -85,6 +85,15 @@ class Reinit():
         self.parent.player_name = settings.get('player_name', 0).toInt()[0]
         self.parent.custom_command = str(settings.get('custom_command', 'wget -qO- http://ifconfig.me/ip'))
         
+        self.parent.tooltipNum = settings.get('tooltip_num', 100).toInt()[0]
+        self.parent.tooltipColors['cpu'] = str(settings.get('cpu_color', '#ff0000'))
+        self.parent.tooltipColors['cpuclock'] = str(settings.get('cpuclock_color', '#00ff00'))
+        self.parent.tooltipColors['mem'] = str(settings.get('mem_color', '#0000ff'))
+        self.parent.tooltipColors['swap'] = str(settings.get('swap_color', '#ffff00'))
+        self.parent.tooltipColors['down'] = str(settings.get('down_color', '#00ffff'))
+        self.parent.tooltipColors['up'] = str(settings.get('up_color', '#ff00ff'))
+        
+        self.parent.tooltipReq = []
         self.parent.label_order = str(settings.get('label_order', '1345'))
         for label in self.parent.dict_orders.values():
             if ((label == 'cpu') or (label == 'mem') or (label == 'swap') or (label == 'net')):
@@ -102,6 +111,8 @@ class Reinit():
                     text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                     self.parent.label_cpu.setText(text)
                     self.parent.layout.addItem(self.parent.label_cpu)
+                    if (self.parent.cpuBool == 2):
+                        self.parent.tooltipReq.append('cpu')
             elif (order == "2"):
                 if (self.parent.tempBool > 0):
                     self.parent.tempFormat = str(settings.get('tempFormat', '[temp: $temp0&deg;C]'))
@@ -125,6 +136,8 @@ class Reinit():
                     text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                     self.parent.label_mem.setText(text)
                     self.parent.layout.addItem(self.parent.label_mem)
+                    if (self.parent.memBool == 2):
+                        self.parent.tooltipReq.append('mem')
             elif (order == "4"):
                 if (self.parent.swapBool > 0):
                     self.parent.swapFormat = str(settings.get('swapFormat', '[swap: $swap%]'))
@@ -139,6 +152,8 @@ class Reinit():
                     text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                     self.parent.label_swap.setText(text)
                     self.parent.layout.addItem(self.parent.label_swap)
+                    if (self.parent.swapBool == 2):
+                        self.parent.tooltipReq.append('swap')
             elif (order == "5"):
                 if (self.parent.netBool > 0):
                     self.parent.netNonFormat = str(settings.get('netNonFormat', '[net: $down/$upKB/s]'))
@@ -155,6 +170,9 @@ class Reinit():
                     text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                     self.parent.label_net.setText(text)
                     self.parent.layout.addItem(self.parent.label_net)
+                    if (self.parent.netBool == 2):
+                        self.parent.tooltipReq.append('down')
+                        self.parent.tooltipReq.append('up')
             elif (order == "6"):
                 if (self.parent.batBool > 0):
                     self.parent.batFormat = str(settings.get('batFormat', '[bat: $bat%$ac]'))
@@ -171,6 +189,8 @@ class Reinit():
                     text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                     self.parent.label_cpuclock.setText(text)
                     self.parent.layout.addItem(self.parent.label_cpuclock)
+                    if (self.parent.cpuclockBool == 2):
+                        self.parent.tooltipReq.append('cpuclock')
             elif (order == "8"):
                 if (self.parent.uptimeBool > 0):
                     self.parent.uptimeFormat = str(settings.get('uptimeFormat', '[uptime: $uptime]'))

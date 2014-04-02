@@ -30,6 +30,7 @@ import configdef
 import configwindow
 import dataengine
 import reinit
+import tooltip
 from util import *
 
 
@@ -43,16 +44,17 @@ class pyTextWidget(plasmascript.Applet):
     def init(self):
         """function to initializate widget"""
         self._name = str(self.package().metadata().pluginName())
-        self.initTooltip()
         self.layout = QGraphicsLinearLayout(Qt.Horizontal, self.applet)
         
         self.dataengine = dataengine.DataEngine(self)
         self.reinit = reinit.Reinit(self)
+        self.tooltipAgent = tooltip.Tooltip(self)
         
         self.timer = QTimer()
         QObject.connect(self.timer, SIGNAL("timeout()"), self.updateLabel)
         
         self.setupVar()
+        self.initTooltip()
         self.reinit.reinit(confAccept=False)
         
         self.setHasConfigurationInterface(True)
@@ -84,8 +86,22 @@ class pyTextWidget(plasmascript.Applet):
         self.tooltip.setMainText("PyTextMonitor")
         self.tooltip.setSubText('')
         Plasma.ToolTipManager.self().registerWidget(self.applet)
+        # graphical tooltip
+        self.tooltip_pixmap = QPixmap()
+        self.tooltip_scene = QGraphicsScene()
+        self.tooltip_view = QGraphicsView(self.tooltip_scene)
+        self.tooltip_view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.tooltip_view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         # show tooltip
-        #Plasma.ToolTipManager.self().setContent(self.applet, self.tooltip)
+        Plasma.ToolTipManager.self().setContent(self.applet, self.tooltip)
+    
+    
+    def updateTooltip(self):
+        """function to update tooltip"""
+        self.tooltip_view.resize(100.0*(len(self.tooltipReq)-self.tooltipReq.count('up')), 100.0)
+        self.tooltipAgent.createGraphic(self.tooltipReq, self.tooltipColors, self.tooltipValues, self.tooltip_scene)
+        self.tooltip.setImage(QPixmap.grabWidget(self.tooltip_view))
+        Plasma.ToolTipManager.self().setContent(self.applet, self.tooltip)
     
     
     def mouseDoubleClickEvent(self, event):
@@ -124,6 +140,11 @@ class pyTextWidget(plasmascript.Applet):
         self.mount = {}
         self.hddNames = []
         self.hdd = {}
+        self.tooltipColors = {}
+        self.tooltipNum = 100
+        self.tooltipReq = []
+        self.tooltipValues = {'cpu':[0.0, 0.01], 'cpuclock':[0.0, 0.01], 'mem':[0.0, 0.01], 
+            'swap':[0.0, 0.01], 'up':[0.0, 0.01], 'down':[0.0, 0.01]}
         
         # create dictionaries
         self.dict_orders = {'6':'bat', '1':'cpu', '7':'cpuclock', 'f':'custom', '9':'gpu', 
@@ -176,6 +197,7 @@ class pyTextWidget(plasmascript.Applet):
             self.swapText()
         if (self.tempBool > 0):
             self.tempText()
+        self.updateTooltip()
     
     
     def batText(self):

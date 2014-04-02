@@ -111,18 +111,13 @@ Select one of supported music playes for player label.
 
 A command, which will be run for custom label.
 
+Tooltip settings
+----------------
+Since version 1.7.0 CPU, CPU clock, memory, swap and network labels support graphical tooltip. To enable them just make the needed checkboxes a fully checked. The number of stored values can be set in the tab. Colors of graphs are configurable too.
+
 DataEngine configuration
 ------------------------
 You may edit DataEngine configuration. It is `/usr/share/config/extsysmon.conf` or `$HOME/share/config/extsysmon.conf` depending on the type of installation. Uncomment needed line and edit it.
-
-TODO (wish) list
-----------------
-Tooltip (graphical information):
-* cpu, %
-* cpuclock, mhz
-* memory, %
-* swap, %
-* network, %
 
 Instruction
 ===========

@@ -80,6 +80,12 @@ class ConfigDefinition:
         settings.set('player_name', self.parent.player_name)
         self.parent.custom_command = str(self.configpage.ui.lineEdit_customCommand.text())
         settings.set('custom_command', self.parent.custom_command)
+
+        self.parent.tooltipNum = self.configpage.ui.spinBox_tooltipNum.value()
+        settings.set('tooltip_num', self.parent.tooltipNum)
+        for label in ['cpu', 'cpuclock', 'mem', 'swap', 'down', 'up']:
+            exec ('self.parent.tooltipColors["' + label + '"] = str(self.configpage.kcolorcombo_' + label + '.color().name())')
+            exec ('settings.set("' + label + '_color", self.parent.tooltipColors["' + label + '"])')
         
         # disconnecting from source and clear layout
         if (self.parent.uptimeBool > 0):
@@ -248,6 +254,14 @@ class ConfigDefinition:
         self.configpage.ui.lineEdit_acdev.setText(str(settings.get('ac_device', '/sys/class/power_supply/AC/online')))
         self.configpage.ui.comboBox_playerSelect.setCurrentIndex(settings.get('player_name', 0).toInt()[0])
         self.configpage.ui.lineEdit_customCommand.setText(str(settings.get('custom_command', 'wget -qO- http://ifconfig.me/ip')))
+        
+        self.configpage.ui.spinBox_tooltipNum.setValue(settings.get('tooltip_num', 100).toInt()[0])
+        self.configpage.ui.kcolorcombo_cpu.setColor(QColor(str(settings.get('cpu_color', '#ff0000'))))
+        self.configpage.ui.kcolorcombo_cpuclock.setColor(QColor(str(settings.get('cpuclock_color', '#00ff00'))))
+        self.configpage.ui.kcolorcombo_mem.setColor(QColor(str(settings.get('mem_color', '#0000ff'))))
+        self.configpage.ui.kcolorcombo_swap.setColor(QColor(str(settings.get('swap_color', '#ffff00'))))
+        self.configpage.ui.kcolorcombo_down.setColor(QColor(str(settings.get('down_color', '#00ffff'))))
+        self.configpage.ui.kcolorcombo_up.setColor(QColor(str(settings.get('up_color', '#ff00ff'))))
         
         for label in self.parent.dict_orders.keys():
             exec ('bool = self.parent.' + self.parent.dict_orders[label] + 'Bool')

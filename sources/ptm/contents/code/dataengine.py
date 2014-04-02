@@ -115,21 +115,29 @@ class DataEngine:
             elif (sourceName == "cpu/system/TotalLoad"):
                 value = str(round(float(data[QString(u'value')]), 1))
                 self.parent.cpuCore[-1] = "%5s" % (value)
+                if (self.parent.cpuBool == 2):
+                    self.parent.tooltipAgent.addValue('cpu', float(value), self.parent.tooltipNum)
             elif ((str(sourceName)[:7] == "cpu/cpu") and (str(sourceName).split('/')[2] == "TotalLoad")):
                 value = str(round(float(data[QString(u'value')]), 1))
                 self.parent.cpuCore[int(str(sourceName)[7])] = "%5s" % (value)
             elif (sourceName == "cpu/system/AverageClock"):
                 value = str(data[QString(u'value')]).split('.')[0]
                 self.parent.cpuClockCore[-1] = "%4s" % (value)
+                if (self.parent.cpuclockBool == 2):
+                    self.parent.tooltipAgent.addValue('cpuclock', float(value), self.parent.tooltipNum)
             elif ((str(sourceName)[:7] == "cpu/cpu") and (str(sourceName).split('/')[2] == "clock")):
                 value = str(data[QString(u'value')]).split('.')[0]
                 self.parent.cpuClockCore[int(str(sourceName)[7])] = "%4s" % (value)
             elif (sourceName == "network/interfaces/"+self.parent.netdev+"/transmitter/data"):
                 value = str(data[QString(u'value')]).split('.')[0]
                 self.parent.netSpeed["up"] = "%4s" % (value)
+                if (self.parent.netBool == 2):
+                    self.parent.tooltipAgent.addValue('up', float(value), self.parent.tooltipNum)
             elif (sourceName == "network/interfaces/"+self.parent.netdev+"/receiver/data"):
                 value = str(data[QString(u'value')]).split('.')[0]
                 self.parent.netSpeed["down"] = "%4s" % (value)
+                if (self.parent.netBool == 2):
+                    self.parent.tooltipAgent.addValue('down', float(value), self.parent.tooltipNum)
                 # update network device
                 self.parent.updateNetdev = self.parent.updateNetdev + 1
                 if (self.parent.updateNetdev == 100):
@@ -166,6 +174,8 @@ class DataEngine:
                     self.parent.label_mem.setText(text)
                 else:
                     self.parent.mem_used = float(data[QString(u'value')])
+                if (self.parent.memBool == 2):
+                    self.parent.tooltipAgent.addValue('mem', float(data[QString(u'value')]), self.parent.tooltipNum)
             elif (sourceName == "mem/swap/free"):
                 self.parent.swap_free = float(data[QString(u'value')])
             elif (sourceName == "mem/swap/used"):
@@ -180,6 +190,8 @@ class DataEngine:
                     self.parent.label_swap.setText(text)
                 else:
                     self.parent.swap_used = float(data[QString(u'value')])
+                if (self.parent.swapBool == 2):
+                    self.parent.tooltipAgent.addValue('swap', float(data[QString(u'value')]), self.parent.tooltipNum)
             elif (sourceName == "gpu"):
                 value = str(data[QString(u'GPU')])
                 gpuText = "%4s" % (value)

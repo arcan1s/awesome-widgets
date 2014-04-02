@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>575</width>
-    <height>538</height>
+    <height>593</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -49,6 +49,9 @@
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -186,6 +189,9 @@ $custom - custom format</string>
            <property name="checked">
             <bool>true</bool>
            </property>
+           <property name="tristate">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
          <item>
@@ -245,6 +251,9 @@ $cpu7 - load CPU for core 7, %</string>
             <string>CPU Clock</string>
            </property>
            <property name="checked">
+            <bool>true</bool>
+           </property>
+           <property name="tristate">
             <bool>true</bool>
            </property>
           </widget>
@@ -482,6 +491,9 @@ $cpucl7 - CPU clock for core 7, MHz</string>
            <property name="checked">
             <bool>true</bool>
            </property>
+           <property name="tristate">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
          <item>
@@ -539,6 +551,9 @@ $memmb - RAM usage, MB</string>
             <string>Swap</string>
            </property>
            <property name="checked">
+            <bool>true</bool>
+           </property>
+           <property name="tristate">
             <bool>true</bool>
            </property>
           </widget>
@@ -714,6 +729,9 @@ $swapmb - swap usage, MB</string>
             <string>Network</string>
            </property>
            <property name="checked">
+            <bool>true</bool>
+           </property>
+           <property name="tristate">
             <bool>true</bool>
            </property>
           </widget>
@@ -1380,7 +1398,7 @@ wget -qO- http://ifconfig.me/ip - get external IP</string>
         </layout>
        </item>
        <item>
-        <spacer name="spacer_advenced">
+        <spacer name="spacer_advanced">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
@@ -1388,6 +1406,334 @@ wget -qO- http://ifconfig.me/ip - get external IP</string>
           <size>
            <width>20</width>
            <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>Tooltip</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QLabel" name="label_tooltip">
+         <property name="text">
+          <string>CPU, CPU clock, memory, swap and network labels support graphical tooltip. To enable them just make needed checkbox fully checked.</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="layout_tooltipNum">
+         <item>
+          <widget class="QLabel" name="label_tooltipNum">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Number of values for tooltips</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="spacer_tooltipNum">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>19</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spinBox_tooltipNum">
+           <property name="minimumSize">
+            <size>
+             <width>180</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="minimum">
+            <number>50</number>
+           </property>
+           <property name="maximum">
+            <number>1000</number>
+           </property>
+           <property name="singleStep">
+            <number>25</number>
+           </property>
+           <property name="value">
+            <number>100</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="layout_cpuColor">
+         <item>
+          <widget class="QLabel" name="label_cpuColor">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>CPU color</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="spacer_cpuColor">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="KColorCombo" name="kcolorcombo_cpu">
+           <property name="minimumSize">
+            <size>
+             <width>180</width>
+             <height>0</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="layout_cpuclockColor">
+         <item>
+          <widget class="QLabel" name="label_cpuclockColor">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>CPU clock color</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="spacer_cpuclockColor">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="KColorCombo" name="kcolorcombo_cpuclock">
+           <property name="minimumSize">
+            <size>
+             <width>180</width>
+             <height>0</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="layout_memColor">
+         <item>
+          <widget class="QLabel" name="label_memColor">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Memory color</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="spacer_memColor">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="KColorCombo" name="kcolorcombo_mem">
+           <property name="minimumSize">
+            <size>
+             <width>180</width>
+             <height>0</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="layout_swapColor">
+         <item>
+          <widget class="QLabel" name="label_swapColor">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Swap color</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="spacer_swapColor">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="KColorCombo" name="kcolorcombo_swap">
+           <property name="minimumSize">
+            <size>
+             <width>180</width>
+             <height>0</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="layout_downColor">
+         <item>
+          <widget class="QLabel" name="label_downColor">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Download speed color</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="spacer_downColor">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="KColorCombo" name="kcolorcombo_down">
+           <property name="minimumSize">
+            <size>
+             <width>180</width>
+             <height>0</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="layout_upColor">
+         <item>
+          <widget class="QLabel" name="label_upColor">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Upload speed color</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="spacer_upColor">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="KColorCombo" name="kcolorcombo_up">
+           <property name="minimumSize">
+            <size>
+             <width>180</width>
+             <height>0</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="spacer_tooltip">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>289</height>
           </size>
          </property>
         </spacer>
@@ -1785,6 +2131,13 @@ wget -qO- http://ifconfig.me/ip - get external IP</string>
   <tabstop>lineEdit_acdev</tabstop>
   <tabstop>comboBox_playerSelect</tabstop>
   <tabstop>lineEdit_customCommand</tabstop>
+  <tabstop>spinBox_tooltipNum</tabstop>
+  <tabstop>kcolorcombo_cpu</tabstop>
+  <tabstop>kcolorcombo_cpuclock</tabstop>
+  <tabstop>kcolorcombo_mem</tabstop>
+  <tabstop>kcolorcombo_swap</tabstop>
+  <tabstop>kcolorcombo_down</tabstop>
+  <tabstop>kcolorcombo_up</tabstop>
   <tabstop>spinBox_interval</tabstop>
   <tabstop>fontComboBox</tabstop>
   <tabstop>spinBox_fontSize</tabstop>

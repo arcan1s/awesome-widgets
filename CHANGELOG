@@ -2,6 +2,7 @@ Ver.1.7.0:
 + added support of several tags in temperature label
 + added tags $cpuN, $cpuclN, $hddN, $tempN, $hddtempN, $up, $down
 + added label with custom command
++ added tooltips for CPU, CPU clock, memory, swap and network labels
 - removed tags @@...@@, $temp, $ccpu, $ccpucl, $net
 * changes in settings
 * ptm now does not require net-tools
