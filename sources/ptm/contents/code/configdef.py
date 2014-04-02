@@ -21,7 +21,7 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyKDE4.kdecore import *
 from PyKDE4.kdeui import *
-import commands
+import commands, os
 import config
 
 
@@ -78,14 +78,23 @@ class ConfigDefinition:
         settings.set('ac_device', self.parent.ac_device)
         self.parent.player_name = self.configpage.ui.comboBox_playerSelect.currentIndex()
         settings.set('player_name', self.parent.player_name)
-        self.parent.custom_command = str(self.configpage.ui.lineEdit_customCommand.text())
-        settings.set('custom_command', self.parent.custom_command)
 
         self.parent.tooltipNum = self.configpage.ui.spinBox_tooltipNum.value()
         settings.set('tooltip_num', self.parent.tooltipNum)
         for label in ['cpu', 'cpuclock', 'mem', 'swap', 'down', 'up']:
             exec ('self.parent.tooltipColors["' + label + '"] = str(self.configpage.kcolorcombo_' + label + '.color().name())')
             exec ('settings.set("' + label + '_color", self.parent.tooltipColors["' + label + '"])')
+        
+        dataengineConfig = unicode(KGlobal.dirs().localkdedir()) + "/share/config/extsysmon.conf"
+        try:
+            with open(dataengineConfig, 'w') as deConfigFile:
+                deConfigFile.write("GPUDEV=" + str(self.configpage.ui.comboBox_gpudev.currentText()) + "\n")
+                deConfigFile.write("HDDDEV=" + str(self.configpage.ui.comboBox_hdddev.currentText()) + "\n")
+                deConfigFile.write("MPDADDRESS=" + str(self.configpage.ui.lineEdit_mpdaddress.text()) + "\n")
+                deConfigFile.write("MPDPORT=" + str(self.configpage.ui.spinBox_mpdport.value()) + "\n")
+                deConfigFile.write("CUSTOM=" + str(self.configpage.ui.lineEdit_customCommand.text()) + "\n")
+        except:
+            pass
         
         # disconnecting from source and clear layout
         if (self.parent.uptimeBool > 0):
@@ -253,7 +262,6 @@ class ConfigDefinition:
         self.configpage.ui.lineEdit_batdev.setText(str(settings.get('battery_device', '/sys/class/power_supply/BAT0/capacity')))
         self.configpage.ui.lineEdit_acdev.setText(str(settings.get('ac_device', '/sys/class/power_supply/AC/online')))
         self.configpage.ui.comboBox_playerSelect.setCurrentIndex(settings.get('player_name', 0).toInt()[0])
-        self.configpage.ui.lineEdit_customCommand.setText(str(settings.get('custom_command', 'wget -qO- http://ifconfig.me/ip')))
         
         self.configpage.ui.spinBox_tooltipNum.setValue(settings.get('tooltip_num', 100).toInt()[0])
         self.configpage.ui.kcolorcombo_cpu.setColor(QColor(str(settings.get('cpu_color', '#ff0000'))))
@@ -262,6 +270,32 @@ class ConfigDefinition:
         self.configpage.ui.kcolorcombo_swap.setColor(QColor(str(settings.get('swap_color', '#ffff00'))))
         self.configpage.ui.kcolorcombo_down.setColor(QColor(str(settings.get('down_color', '#00ffff'))))
         self.configpage.ui.kcolorcombo_up.setColor(QColor(str(settings.get('up_color', '#ff00ff'))))
+        
+        deSettings = {'GPUDEV':'auto', 'HDDDEV':'all', 'MPDADDRESS':'localhost', 
+            'MPDPORT':'6600', 'CUSTOM':'wget -qO- http://ifconfig.me/ip'}
+        dataengineConfig = unicode(KGlobal.dirs().localkdedir()) + "/share/config/extsysmon.conf"
+        try:
+            with open(dataengineConfig, 'r') as deConfigFile:
+                for line in deConfigFile:
+                    if ((line[0] != '#') and (line.split('=')[0] != line)):
+                        deSettings[line.split('=')[0]] = line.split('=')[1][:-1]
+        except:
+            pass
+        index = self.configpage.ui.comboBox_gpudev.findText(deSettings['GPUDEV'])
+        self.configpage.ui.comboBox_gpudev.setCurrentIndex(index)
+        self.configpage.ui.comboBox_hdddev.addItem("all")
+        commandOut = commands.getoutput("find /dev -name '[hs]d[a-z]'")
+        for item in commandOut.split("\n"):
+            try:
+                self.configpage.ui.comboBox_hdddev.addItem(item)
+            except:
+                pass
+        index = self.configpage.ui.comboBox_hdddev.findText(deSettings['HDDDEV'])
+        self.configpage.ui.comboBox_hdddev.setCurrentIndex(index)
+        self.configpage.ui.lineEdit_mpdaddress.setText(deSettings['MPDADDRESS'])
+        self.configpage.ui.spinBox_mpdport.setValue(int(deSettings['MPDPORT']))
+        self.configpage.ui.spinBox_mpdport.setValue(int(deSettings['MPDPORT']))
+        self.configpage.ui.lineEdit_customCommand.setText(deSettings['CUSTOM'])
         
         for label in self.parent.dict_orders.keys():
             exec ('bool = self.parent.' + self.parent.dict_orders[label] + 'Bool')

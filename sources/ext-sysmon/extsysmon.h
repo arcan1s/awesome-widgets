@@ -35,9 +35,9 @@ protected:
 // main configuration
   QStringList hddDev;
   QString gpuDev;
-// configuration
   QString mpdAddress;
   QString mpdPort;
+  QString customCommand;
 };
 
 #endif /* EXTSYSMON_H */

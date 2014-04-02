@@ -1,3 +1,8 @@
+Ver.1.7.2:
++ added dataengine configuration from ptm
++ added custom command to dataengine
+- removed custom command from ptm
+
 Ver.1.7.1:
 - removed error label
 * fix bug with zero values in tooltip

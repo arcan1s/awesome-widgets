@@ -88,6 +88,8 @@ class DataEngine:
             self.parent.systemmonitor.connectSource("network/interfaces/"+self.parent.netdev+"/receiver/data", self.parent, self.parent.interval)
         if (self.parent.playerBool > 0):
             self.parent.extsysmon.connectSource("player", self.parent, self.parent.interval)
+        if (self.parent.customBool > 0):
+            self.parent.extsysmon.connectSource("custom", self.parent, self.parent.interval)
     
     def dataUpdated(self, sourceName, data):
         """function to update data"""
@@ -103,12 +105,18 @@ class DataEngine:
                     line = line.split('$uptime')[0] + uptimeText + line.split('$uptime')[1]
                 elif (line.split('$custom')[0] != line):
                     uptimeText = self.parent.custom_uptime
-                    if (uptimeText.split('$ds')[0] != uptimeText):
-                        uptimeText = "%s%3i%s" % (uptimeText.split('$ds')[0], days, uptimeText.split('$ds')[1])
-                    if (uptimeText.split('$hs')[0] != uptimeText):
-                        uptimeText = "%s%2i%s" % (uptimeText.split('$hs')[0], hours, uptimeText.split('$hs')[1])
-                    if (uptimeText.split('$ms')[0] != uptimeText):
-                        uptimeText = "%s%2i%s" % (uptimeText.split('$ms')[0], minutes, uptimeText.split('$ms')[1])
+                    if (uptimeText.split('$dd')[0] != uptimeText):
+                        uptimeText = "%s%03i%s" % (uptimeText.split('$dd')[0], days, uptimeText.split('$dd')[1])
+                    if (uptimeText.split('$d')[0] != uptimeText):
+                        uptimeText = "%s%3i%s" % (uptimeText.split('$d')[0], days, uptimeText.split('$d')[1])
+                    if (uptimeText.split('$hh')[0] != uptimeText):
+                        uptimeText = "%s%02i%s" % (uptimeText.split('$hh')[0], hours, uptimeText.split('$hh')[1])
+                    if (uptimeText.split('$h')[0] != uptimeText):
+                        uptimeText = "%s%2i%s" % (uptimeText.split('$h')[0], hours, uptimeText.split('$h')[1])
+                    if (uptimeText.split('$mm')[0] != uptimeText):
+                        uptimeText = "%s%02i%s" % (uptimeText.split('$mm')[0], minutes, uptimeText.split('$mm')[1])
+                    if (uptimeText.split('$m')[0] != uptimeText):
+                        uptimeText = "%s%2i%s" % (uptimeText.split('$m')[0], minutes, uptimeText.split('$m')[1])
                     line = line.split('$custom')[0] + uptimeText + line.split('$custom')[1]
                 text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                 self.parent.label_uptime.setText(text)
@@ -280,6 +288,14 @@ class DataEngine:
                     line = self.parent.timeFormat
                 text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                 self.parent.label_time.setText(text)
+            elif (sourceName == "custom"):
+                value = str(data[QString(u'custom')].toUtf8()).decode("utf-8")
+                if (self.parent.customFormat.split('$custom')[0] != self.parent.customFormat):
+                    line = self.parent.customFormat.split('$custom')[0] + value + self.parent.customFormat.split('$custom')[1]
+                else:
+                    line = self.parent.customFormat
+                text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
+                self.parent.label_custom.setText(text)
             
             self.parent.update()
         except:

@@ -43,6 +43,7 @@ QStringList ExtendedSysMon::sources() const
   source.append(QString("gputemp"));
   source.append(QString("hddtemp"));
   source.append(QString("player"));
+  source.append(QString("custom"));
   return source;
 }
 
@@ -72,6 +73,8 @@ bool ExtendedSysMon::readConfiguration()
   
   mpdAddress = QString("localhost");
   mpdPort = QString("6600");
+  
+  customCommand = QString("wget -qO- http://ifconfig.me/ip");
   
   QString fileStr;
   // FIXME: define configuration file
@@ -111,6 +114,8 @@ bool ExtendedSysMon::readConfiguration()
           mpdAddress = fileStr.split(QString("="), QString::SkipEmptyParts)[1].trimmed();
         else if (fileStr.split(QString("="), QString::SkipEmptyParts)[0] == QString("MPDPORT"))
           mpdPort = fileStr.split(QString("="), QString::SkipEmptyParts)[1].trimmed();
+       else if (fileStr.split(QString("="), QString::SkipEmptyParts)[0] == QString("CUSTOM"))
+          customCommand = fileStr.split(QString("="), QString::SkipEmptyParts)[1].trimmed();
       }
     }
     if (confFile.atEnd())
@@ -348,6 +353,14 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     key = QString("mpd_duration");
     setData(source, key, value_duration);
     key = QString("mpd_title");
+    setData(source, key, value);
+  }
+  else if (source == QString("custom")) {
+    QProcess custom;
+    custom.start(QString("bash -c \"") + QString(customCommand) + QString("\""));
+    custom.waitForFinished(-1);
+    value = QTextCodec::codecForMib(106)->toUnicode(custom.readAllStandardOutput()).trimmed();
+    key = QString("custom");
     setData(source, key, value);
   }
 

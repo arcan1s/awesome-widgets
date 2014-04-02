@@ -182,8 +182,6 @@ class pyTextWidget(plasmascript.Applet):
             self.cpuText()
         if (self.cpuclockBool > 0):
             self.cpuclockText()
-        if (self.customBool > 0):
-            self.getCustom()
         if (self.hddBool > 0):
             self.mountText()
         if ((self.memBool > 0) and (self.memInMb == False)):
@@ -310,15 +308,6 @@ class pyTextWidget(plasmascript.Applet):
                 line = line.split('$temp'+str(i))[0] + self.temp[self.tempNames[i]] + line.split('$temp'+str(i))[1]
         text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
         self.label_temp.setText(text)
-    
-    
-    def getCustom(self):
-        """function to get output from custom command"""
-        commandOut = commands.getoutput(self.custom_command)
-        line = self.customFormat
-        line = line.split('$custom')[0] + commandOut + line.split('$custom')[1]
-        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
-        self.label_custom.setText(text)
     
     
     @pyqtSignature("dataUpdated(const QString &, const Plasma::DataEngine::Data &)")

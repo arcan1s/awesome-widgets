@@ -83,7 +83,6 @@ class Reinit():
         self.parent.battery_device = str(settings.get('battery_device', '/sys/class/power_supply/BAT0/capacity'))
         self.parent.ac_device = str(settings.get('ac_device', '/sys/class/power_supply/AC/online'))
         self.parent.player_name = settings.get('player_name', 0).toInt()[0]
-        self.parent.custom_command = str(settings.get('custom_command', 'wget -qO- http://ifconfig.me/ip'))
         
         self.parent.tooltipNum = settings.get('tooltip_num', 100).toInt()[0]
         self.parent.tooltipColors['cpu'] = str(settings.get('cpu_color', '#ff0000'))

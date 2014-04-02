@@ -105,15 +105,33 @@ File with AC information. File (`/sys/class/power_supply/AC/online` by default) 
 
 Select one of supported music playes for player label.
 
+Tooltip settings
+----------------
+Since version 1.7.0 CPU, CPU clock, memory, swap and network labels support graphical tooltip. To enable them just make the needed checkboxes a fully checked. The number of stored values can be set in the tab. Colors of graphs are configurable too.
+
+DataEngine settings
+-------------------
+**GPU device**
+
+Select one of supported GPU devices. `auto` will enable auto selection. Default is `auto`.
+
+**HDD**
+
+Select one of HDDs for HDD temperature monitor. `all` will enable monitor for all devices. Default is `all`.
+
+**MPD address**
+
+Address of MPD server. Default is `localhost`.
+
+**MPD port**
+
+Port of MPD server. Default is `6600`.
+
 **Custom command**
 
 *NOTE* This can cause the computer freeze.
 
 A command, which will be run for custom label.
-
-Tooltip settings
-----------------
-Since version 1.7.0 CPU, CPU clock, memory, swap and network labels support graphical tooltip. To enable them just make the needed checkboxes a fully checked. The number of stored values can be set in the tab. Colors of graphs are configurable too.
 
 DataEngine configuration
 ------------------------

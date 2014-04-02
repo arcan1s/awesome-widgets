@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=157124\n"
-"POT-Creation-Date: 2014-04-02 20:48+0400\n"
+"POT-Creation-Date: 2014-04-03 02:22+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -170,7 +170,9 @@ msgstr ""
 
 #. i18n: file: ui/configwindow.ui:613
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_hdd)
-#: rc.cpp:83
+#. i18n: file: ui/configwindow.ui:2097
+#. i18n: ectx: property (text), widget (QLabel, label_hdddev)
+#: rc.cpp:83 rc.cpp:289
 msgid "HDD"
 msgstr ""
 
@@ -410,124 +412,164 @@ msgstr ""
 msgid "qmmp"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:1386
-#. i18n: ectx: property (text), widget (QLabel, label_customCommand)
+#. i18n: file: ui/configwindow.ui:1392
+#. i18n: ectx: attribute (title), widget (QWidget, tooltip)
 #: rc.cpp:226
-msgid "Custom command"
-msgstr ""
-
-#. i18n: file: ui/configwindow.ui:1394
-#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_customCommand)
-#: rc.cpp:229
-msgid ""
-"Command to run, example:\n"
-"wget -qO- http://ifconfig.me/ip - get external IP"
-msgstr ""
-
-#. i18n: file: ui/configwindow.ui:1417
-#. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: rc.cpp:233
 msgid "Tooltip"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:1423
+#. i18n: file: ui/configwindow.ui:1398
 #. i18n: ectx: property (text), widget (QLabel, label_tooltip)
-#: rc.cpp:236
+#: rc.cpp:229
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
 "To enable them just make needed checkbox fully checked."
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:1444
+#. i18n: file: ui/configwindow.ui:1419
 #. i18n: ectx: property (text), widget (QLabel, label_tooltipNum)
-#: rc.cpp:239
+#: rc.cpp:232
 msgid "Number of values for tooltips"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:1499
+#. i18n: file: ui/configwindow.ui:1474
 #. i18n: ectx: property (text), widget (QLabel, label_cpuColor)
-#: rc.cpp:242
+#: rc.cpp:235
 msgid "CPU color"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:1539
+#. i18n: file: ui/configwindow.ui:1514
 #. i18n: ectx: property (text), widget (QLabel, label_cpuclockColor)
-#: rc.cpp:245
+#: rc.cpp:238
 msgid "CPU clock color"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:1579
+#. i18n: file: ui/configwindow.ui:1554
 #. i18n: ectx: property (text), widget (QLabel, label_memColor)
-#: rc.cpp:248
+#: rc.cpp:241
 msgid "Memory color"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:1619
+#. i18n: file: ui/configwindow.ui:1594
 #. i18n: ectx: property (text), widget (QLabel, label_swapColor)
-#: rc.cpp:251
+#: rc.cpp:244
 msgid "Swap color"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:1659
+#. i18n: file: ui/configwindow.ui:1634
 #. i18n: ectx: property (text), widget (QLabel, label_downColor)
-#: rc.cpp:254
+#: rc.cpp:247
 msgid "Download speed color"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:1699
+#. i18n: file: ui/configwindow.ui:1674
 #. i18n: ectx: property (text), widget (QLabel, label_upColor)
-#: rc.cpp:257
+#: rc.cpp:250
 msgid "Upload speed color"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:1745
+#. i18n: file: ui/configwindow.ui:1720
 #. i18n: ectx: attribute (title), widget (QWidget, appearance)
-#: rc.cpp:260
+#: rc.cpp:253
 msgid "Appearance"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:1759
+#. i18n: file: ui/configwindow.ui:1734
 #. i18n: ectx: property (text), widget (QLabel, label_interval)
-#: rc.cpp:263
+#: rc.cpp:256
 msgid "Time interval"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:1814
+#. i18n: file: ui/configwindow.ui:1789
 #. i18n: ectx: property (text), widget (QLabel, label_font)
-#: rc.cpp:266
+#: rc.cpp:259
 msgid "Font"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:1854
+#. i18n: file: ui/configwindow.ui:1829
 #. i18n: ectx: property (text), widget (QLabel, label_fontSize)
-#: rc.cpp:269
+#: rc.cpp:262
 msgid "Font size"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:1909
+#. i18n: file: ui/configwindow.ui:1884
 #. i18n: ectx: property (text), widget (QLabel, label_color)
-#: rc.cpp:272
+#: rc.cpp:265
 msgid "Font color"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:1949
+#. i18n: file: ui/configwindow.ui:1924
 #. i18n: ectx: property (text), widget (QLabel, label_style)
-#: rc.cpp:275
+#: rc.cpp:268
 msgid "Font style"
 msgstr ""
 
-#. i18n: file: ui/configwindow.ui:1999
+#. i18n: file: ui/configwindow.ui:1974
 #. i18n: ectx: property (text), widget (QLabel, label_weight)
-#: rc.cpp:278
+#: rc.cpp:271
 msgid "Font weight"
 msgstr ""
 
-#: rc.cpp:279
+#. i18n: file: ui/configwindow.ui:2035
+#. i18n: ectx: attribute (title), widget (QWidget, dataengine)
+#: rc.cpp:274
+msgid "DataEngine"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:2049
+#. i18n: ectx: property (text), widget (QLabel, label_gpudev)
+#: rc.cpp:277
+msgid "GPU device"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:2069
+#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_gpudev)
+#: rc.cpp:280
+msgid "auto"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:2074
+#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_gpudev)
+#: rc.cpp:283
+msgid "nvidia"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:2079
+#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_gpudev)
+#: rc.cpp:286
+msgid "ati"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:2130
+#. i18n: ectx: property (text), widget (QLabel, label_mpdaddress)
+#: rc.cpp:292
+msgid "MPD address"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:2154
+#. i18n: ectx: property (text), widget (QLabel, label_mpdport)
+#: rc.cpp:295
+msgid "MPD port"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:2209
+#. i18n: ectx: property (text), widget (QLabel, label_customCommand)
+#: rc.cpp:298
+msgid "Custom command"
+msgstr ""
+
+#. i18n: file: ui/configwindow.ui:2216
+#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_customCommand)
+#: rc.cpp:301
+msgid "Custom command to run"
+msgstr ""
+
+#: rc.cpp:302
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
 
-#: rc.cpp:280
+#: rc.cpp:303
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
