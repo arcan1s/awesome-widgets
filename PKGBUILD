@@ -1,11 +1,10 @@
-# Author: Evgeniy "arcanis" Alexeev <esalexeev@gmail.com>
-# Maintainer: Evgeniy "arcanis" Alexeev <esalexeev@gmail.com>
+# Maintainer: Evgeniy "arcanis" Alexeev <arcanis.arch at gmail dot com>
 
 pkgname=kdeplasma-applets-pytextmonitor
 _pkgname=pytextmonitor
-pkgver=1.7.2
+pkgver=1.7.3
 pkgrel=1
-pkgdesc="Minimalistic Plasmoid script written on Python2. It looks like widgets in awesome-wm"
+pkgdesc="Minimalistic Plasmoid script written on Python2. It looks like widgets in Awesome WM"
 arch=('i686' 'x86_64')
 url="http://arcanis.name/projects/pytextmonitor"
 license=('GPLv3')
@@ -19,17 +18,18 @@ optdepends=("hddtemp: for HDD temperature monitor"
 makedepends=('automoc4' 'cmake')
 source=(https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/${_pkgname}-${pkgver}-src.tar.xz)
 install=${pkgname}.install
-md5sums=('b1a23c5d38d196297235b5acd5f099ca')
+md5sums=('74175a65186daa6d4a68772a3bcdd368')
 backup=('usr/share/config/extsysmon.conf')
 
-build () {
-  if [[ -d ${srcdir}/build ]]; then
-    rm -rf "${srcdir}/build"
-  fi
+prepare() {
+  [[ -d ${srcdir}/build ]] && rm -rf "${srcdir}/build"
   mkdir "${srcdir}/build"
+}
+
+build () {
   cd "${srcdir}/build"
   cmake -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_INSTALL_PREFIX=`kde4-config --prefix` \
+        -DCMAKE_INSTALL_PREFIX=$(kde4-config --prefix) \
         "../${_pkgname}"
   make
 }
