@@ -1,3 +1,6 @@
+Ver.1.7.3:
+- fix tooltip for custom uptime format
+
 Ver.1.7.2:
 + added tags $dd, $d, $hh, $h, $mm, $m to custom uptime format
 + added scalling to tooltips

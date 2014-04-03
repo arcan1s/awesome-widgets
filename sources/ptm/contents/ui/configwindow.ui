@@ -1037,9 +1037,12 @@ $s - seconds w\o zero</string>
          <item>
           <widget class="QLineEdit" name="lineEdit_uptimeFormat">
            <property name="toolTip">
-            <string>$ds - uptime days
-$hs - uptime hours
-$ms - uptime minutes</string>
+            <string>$dd - uptime days
+$d - uptime days without zero
+$hh - uptime hours
+$h - uptime hours without zero
+$mm - uptime minutes
+$m - uptime minutes without zero</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
