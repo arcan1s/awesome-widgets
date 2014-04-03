@@ -98,8 +98,11 @@ class pyTextWidget(plasmascript.Applet):
     
     def updateTooltip(self):
         """function to update tooltip"""
+        self.tooltipBound['mem'] = self.memValues['total']
+        self.tooltipBound['swap'] = self.swapValues['total']
         self.tooltip_view.resize(100.0*(len(self.tooltipReq)-self.tooltipReq.count('up')), 100.0)
-        self.tooltipAgent.createGraphic(self.tooltipReq, self.tooltipColors, self.tooltipValues, self.tooltip_scene)
+        self.tooltipAgent.createGraphic(self.tooltipReq, self.tooltipColors, 
+            self.tooltipBound, self.tooltipValues, self.tooltip_scene)
         self.tooltip.setImage(QPixmap.grabWidget(self.tooltip_view))
         Plasma.ToolTipManager.self().setContent(self.applet, self.tooltip)
     
@@ -126,25 +129,29 @@ class pyTextWidget(plasmascript.Applet):
     
     def setupVar(self):
         """function to setup variables"""
-        self.netdev = ''
         self.cpuCore = {-1:"  0.0"}
         self.cpuClockCore = {-1:"   0"}
         numCores = int(commands.getoutput("grep -c '^processor' /proc/cpuinfo"))
         for i in range(numCores):
             self.cpuCore[i] = str("  0.0")
             self.cpuClockCore[i] = str("   0")
-        self.netSpeed = {"up":"   0", "down":"   0"}
-        self.tempNames = []
-        self.temp = {}
-        self.mountNames = []
-        self.mount = {}
         self.hddNames = []
         self.hdd = {}
+        self.mountNames = []
+        self.mount = {}
+        self.memValues = {'used':0.0, 'free':0.0, 'total':1.0}
+        self.netdev = ''
+        self.netSpeed = {"up":"   0", "down":"   0"}
+        self.swapValues = {'used':0.0, 'free':0.0, 'total':1.0}
+        self.tempNames = []
+        self.temp = {}
+        self.tooltipBound = {'cpu':100.0, 'cpuclock':4000.0, 'mem':16000.0, 
+            'swap':16000, 'down':10000.0, 'up':10000.0}
         self.tooltipColors = {}
         self.tooltipNum = 100
         self.tooltipReq = []
         self.tooltipValues = {'cpu':[0.0, 0.01], 'cpuclock':[0.0, 0.01], 'mem':[0.0, 0.01], 
-            'swap':[0.0, 0.01], 'up':[0.0, 0.01], 'down':[0.0, 0.01]}
+            'swap':[0.0, 0.01], 'down':[0.0, 0.01], 'up':[0.0, 0.01]}
         
         # create dictionaries
         self.dict_orders = {'6':'bat', '1':'cpu', '7':'cpuclock', 'f':'custom', '9':'gpu', 
@@ -249,9 +256,8 @@ class pyTextWidget(plasmascript.Applet):
     
     def memText(self):
         """function to set mem text"""
-        full = self.mem_uf + self.mem_free
         try:
-            mem = 100 * self.mem_used / full
+            mem = 100 * self.memValues['used'] / self.memValues['total']
             mem = "%5s" % (str(round(mem, 1)))
         except:
             mem = "  N\\A"
@@ -286,9 +292,8 @@ class pyTextWidget(plasmascript.Applet):
     
     def swapText(self):
         """function to set swap text"""
-        full = self.swap_used + self.swap_free
         try:
-            mem = 100 * self.swap_used / full
+            mem = 100 * self.swapValues['used'] / self.swapValues['total']
             mem = "%5s" % (str(round(mem, 1)))
         except:
             mem = "  N\\A"

@@ -128,9 +128,6 @@ class Reinit():
                         self.parent.memInMb = True
                     elif (self.parent.memFormat.split('$mem')[0] != self.parent.memFormat):
                         self.parent.memInMb = False
-                        self.parent.mem_used = 0.0
-                        self.parent.mem_free = 1.0
-                        self.parent.mem_uf = 0.0
                     line = self.parent.memFormat
                     text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                     self.parent.label_mem.setText(text)
@@ -145,8 +142,6 @@ class Reinit():
                         self.parent.swapInMb = True
                     elif (self.parent.swapFormat.split('$swap')[0] != self.parent.swapFormat):
                         self.parent.swapInMb = False
-                        self.parent.swap_free = 1.0
-                        self.parent.swap_used = 0.0
                     line = self.parent.swapFormat
                     text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                     self.parent.label_swap.setText(text)

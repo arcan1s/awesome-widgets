@@ -35,23 +35,22 @@ class Tooltip():
         self.parent.tooltipValues[type].append(value)
     
     
-    def createGraphic(self, types, colors, values, widget):
+    def createGraphic(self, types, colors, bounds, values, widget):
         """function to create graph"""
         widget.clear()
         maxOne = [100.0, 100.0]
         pen = QPen()
+        bounds['down'] = 1.0
+        for value in values['down']:
+            if (bounds['down'] < value):
+                bounds['down'] = value
+        for value in values['up']:
+            if (bounds['down'] < value):
+                bounds['down'] = value
+        bounds['up'] = bounds['down']
         down = False
         for type in types:
-            bound = [values[type][0], values[type][0]]
-            for value in values[type]:
-                if (value < bound[0]):
-                    bound[0] = value
-                elif (value > bound[1]):
-                    bound[1] = value
-            if ((bound[0] == 0.0) and (bound[0] == 0.0)):
-                norm = [maxOne[0] / len(values[type]), maxOne[1] / 1.5]
-            else:
-                norm = [maxOne[0] / len(values[type]), maxOne[1] / (1.5*(bound[1] - bound[0]))]
+            norm = [maxOne[0] / len(values[type]), maxOne[1] / (1.5 * bounds[type])]
             pen.setColor(QColor(colors[type]))
             if (down):
                 shift = (types.index(type) - 1) * maxOne[0]
@@ -59,9 +58,9 @@ class Tooltip():
                 shift = types.index(type) * maxOne[0]
             for i in range(len(values[type])-1):
                 x1 = i * norm[0] + shift
-                y1 = -(values[type][i] - bound[0]) * norm[1]
+                y1 = -values[type][i] * norm[1]
                 x2 = (i + 1) * norm[0] + shift
-                y2 = -(values[type][i+1] - bound[0]) * norm[1]
+                y2 = -values[type][i+1] * norm[1]
                 widget.addLine(x1, y1, x2, y2, pen)
             if (type == 'down'):
                 down = True

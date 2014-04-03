@@ -65,18 +65,12 @@ class DataEngine:
         if (self.parent.gputempBool > 0):
             self.parent.extsysmon.connectSource("gputemp", self.parent, self.parent.interval)
         if (self.parent.memBool > 0):
-            if (self.parent.memInMb):
-                self.parent.systemmonitor.connectSource("mem/physical/application", self.parent, self.parent.interval)
-            else:
-                self.parent.systemmonitor.connectSource("mem/physical/free", self.parent, int(self.parent.interval*0.5))
-                self.parent.systemmonitor.connectSource("mem/physical/used", self.parent, int(self.parent.interval*0.5))
-                self.parent.systemmonitor.connectSource("mem/physical/application", self.parent, int(self.parent.interval*0.5))
+            self.parent.systemmonitor.connectSource("mem/physical/free", self.parent, int(self.parent.interval*0.5))
+            self.parent.systemmonitor.connectSource("mem/physical/used", self.parent, int(self.parent.interval*0.5))
+            self.parent.systemmonitor.connectSource("mem/physical/application", self.parent, int(self.parent.interval*0.5))
         if (self.parent.swapBool > 0):
-            if (self.parent.swapInMb):
-                self.parent.systemmonitor.connectSource("mem/swap/used", self.parent, self.parent.interval)
-            else:
-                self.parent.systemmonitor.connectSource("mem/swap/free", self.parent, int(self.parent.interval*0.5))
-                self.parent.systemmonitor.connectSource("mem/swap/used", self.parent, int(self.parent.interval*0.5))
+            self.parent.systemmonitor.connectSource("mem/swap/free", self.parent, int(self.parent.interval*0.5))
+            self.parent.systemmonitor.connectSource("mem/swap/used", self.parent, int(self.parent.interval*0.5))
         if (self.parent.hddBool > 0):
             for item in self.parent.mountNames:
                 self.parent.systemmonitor.connectSource("partitions" + item + "/filllevel", self.parent, self.parent.interval)
@@ -167,10 +161,11 @@ class DataEngine:
                 value = str(round(float(data[QString(u'value')]), 1))
                 self.parent.mount['/'+'/'.join(str(sourceName).split('/')[1:-1])] = "%5s" % (value)
             elif (sourceName == "mem/physical/free"):
-                self.parent.mem_free = float(data[QString(u'value')])
+                self.parent.memValues['free'] = float(data[QString(u'value')])
             elif (sourceName == "mem/physical/used"):
-                self.parent.mem_uf = float(data[QString(u'value')])
+                self.parent.memValues['total'] = self.parent.memValues['free'] + float(data[QString(u'value')])
             elif (sourceName == "mem/physical/application"):
+                self.parent.memValues['used'] = float(data[QString(u'value')])
                 if (self.parent.memInMb):
                     mem = str(round(float(data[QString(u'value')]) / 1024, 0)).split('.')[0]
                     mem = "%5s" % (mem)
@@ -180,13 +175,13 @@ class DataEngine:
                         line = self.parent.memFormat
                     text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                     self.parent.label_mem.setText(text)
-                else:
-                    self.parent.mem_used = float(data[QString(u'value')])
                 if (self.parent.memBool == 2):
                     self.parent.tooltipAgent.addValue('mem', float(data[QString(u'value')]), self.parent.tooltipNum)
             elif (sourceName == "mem/swap/free"):
-                self.parent.swap_free = float(data[QString(u'value')])
+                self.parent.swapValues['free'] = float(data[QString(u'value')])
+                self.parent.swapValues['total'] = self.parent.swapValues['free'] + self.parent.swapValues['used']
             elif (sourceName == "mem/swap/used"):
+                self.parent.swapValues['used'] = float(data[QString(u'value')])
                 if (self.parent.swapInMb):
                     mem = str(round(float(data[QString(u'value')]) / 1024, 0)).split('.')[0]
                     mem = "%5s" % (mem)
@@ -196,8 +191,6 @@ class DataEngine:
                         line = self.parent.swapFormat
                     text = self.parent.formatLine.split('$LINE')[0] + line + self.parent.formatLine.split('$LINE')[1]
                     self.parent.label_swap.setText(text)
-                else:
-                    self.parent.swap_used = float(data[QString(u'value')])
                 if (self.parent.swapBool == 2):
                     self.parent.tooltipAgent.addValue('swap', float(data[QString(u'value')]), self.parent.tooltipNum)
             elif (sourceName == "gpu"):

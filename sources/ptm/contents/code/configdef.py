@@ -135,15 +135,13 @@ class ConfigDefinition:
             self.parent.layout.removeItem(self.parent.label_gputemp)
         if (self.parent.memBool > 0):
             self.parent.systemmonitor.disconnectSource("mem/physical/application", self.parent)
-            if (self.parent.memInMb == False):
-                self.parent.systemmonitor.disconnectSource("mem/physical/free", self.parent)
-                self.parent.systemmonitor.disconnectSource("mem/physical/used", self.parent)
+            self.parent.systemmonitor.disconnectSource("mem/physical/free", self.parent)
+            self.parent.systemmonitor.disconnectSource("mem/physical/used", self.parent)
             self.parent.label_mem.setText('')
             self.parent.layout.removeItem(self.parent.label_mem)
         if (self.parent.swapBool > 0):
             self.parent.systemmonitor.disconnectSource("mem/swap/used", self.parent)
-            if (self.parent.swapInMb == False):
-                self.parent.systemmonitor.disconnectSource("mem/swap/free", self.parent)
+            self.parent.systemmonitor.disconnectSource("mem/swap/free", self.parent)
             self.parent.label_swap.setText('')
             self.parent.layout.removeItem(self.parent.label_swap)
         if (self.parent.hddBool > 0):
