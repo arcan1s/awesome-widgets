@@ -1,4 +1,5 @@
 Ver.1.7.2:
++ added scalling to tooltips
 + added dataengine configuration from ptm
 + added custom command to dataengine
 - removed custom command from ptm
