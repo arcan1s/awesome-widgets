@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# update english readme
+cp readme/en.md README.md
+
 SRCDIR="sources"
 VERSION=$(grep -m1 PROJECT_VERSION_MAJOR sources/CMakeLists.txt | awk '{print $3}' | cut -c 1).\
 $(grep -m1 PROJECT_VERSION_MINOR sources/CMakeLists.txt | awk '{print $3}' | cut -c 1).\
@@ -16,13 +19,13 @@ rm -rf "${ARCHIVE}"
 
 # build widget
 ARCHIVE="pytextmonitor"
-FILES="AUTHORS CHANGELOG CHANGELOG-RU COPYING README.md"
+FILES="AUTHORS CHANGELOG CHANGELOG-RU COPYING readme"
 IGNORELIST="build usr"
 # create archive
 [[ -e ${ARCHIVE}-${VERSION}-src.tar.xz ]] && rm -f "${ARCHIVE}-${VERSION}-src.tar.xz"
 [[ -d ${ARCHIVE} ]] && rm -rf "${ARCHIVE}"
 cp -r "${SRCDIR}" "${ARCHIVE}"
-for FILE in ${FILES[*]}; do cp "$FILE" "${ARCHIVE}"; done
+for FILE in ${FILES[*]}; do cp -r "$FILE" "${ARCHIVE}"; done
 for FILE in ${IGNORELIST[*]}; do rm -rf "${ARCHIVE}/${FILE}"; done
 tar cJf "${ARCHIVE}-${VERSION}-src.tar.xz" "${ARCHIVE}" 
 rm -rf "${ARCHIVE}"
