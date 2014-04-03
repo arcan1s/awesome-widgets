@@ -34,7 +34,7 @@ For edited output you must open Settings window and setup output format in lines
 * tag `$up` - upload speed, *KB/s*
 * tag `$netdev` - current network device
 * tag `$bat` - battery charge, *%*
-* tag `$ac` - status AC device. Return *(\*)* if AC device is online or *( )* if offline
+* tag `$ac` - status AC device. Return (\*) if AC device is online or *( )* if offline
 * tag `$album` - current song album. One of supported music players must be installed
 * tag `$artist` - current song artist. One of supported music players must be installed
 * tag `$progress` - current song progress. One of supported music players must be installed
@@ -44,7 +44,7 @@ For edited output you must open Settings window and setup output format in lines
 
 Label order will changed if you change slider position. HTML tags in label work normally.
 
-**NOTE** you don't may set to show $cpu in swap label for example. **$cpu will work only in cpu label**.
+**NOTE** you don't may set to show `$cpu` tag in swap label for example. **`$cpu` will work only in cpu label**.
 
 Advanced settings
 -----------------
@@ -147,20 +147,20 @@ Dependencies
 ------------
 * kdebase-workspace
 * kdebindings-python2
-* lm_sensors (for definition temperature device)
-* sysstat (for notification)
+* lm_sensors (*for definition temperature device*)
+* sysstat (*for notification*)
 
 Optional dependencies
 ---------------------
-ext-sysmon (for GPU, GPU temp, HDD temp and player labels):
 * proprietary video driver
-* hddtemp
+* hddtemp (make sure that it may be run with `sudo` without password. Just add following line to `/etc/sudoers`: `$USERNAME ALL=NOPASSWD: /usr/bin/hddtemp`)
 * music player (amarok, mpd or qmmp)
 
 Make dependencies
 -----------------
 * automoc4
 * cmake
+* kdebase-runtime
 
 Installation
 ------------
@@ -171,7 +171,7 @@ Installation
         cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=`kde4-config --localprefix` ../
         make && make install
 
-  Also you may install it to "/":
+  Also you may install it to `/`:
 
         mkdir build && cd build
         cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=`kde4-config --prefix` ../
