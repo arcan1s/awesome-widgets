@@ -1,8 +1,10 @@
 Ver.1.7.2:
++ added tags $dd, $d, $hh, $h, $mm, $m to custom uptime format
 + added scalling to tooltips
 + added dataengine configuration from ptm
 + added custom command to dataengine
 - removed custom command from ptm
+- removed tags $ds, $hs, $ms
 
 Ver.1.7.1:
 - removed error label

@@ -10,68 +10,71 @@ PyTextMonitor is a minimalistic Plasmoid script written on Python2. It looks lik
 Configuration
 -------------
 For edited output you must open Settings window and setup output format in lines:
-* label `$time` - time in default format. For example, `fri Nov 6 04:48:01 2013`
-* label `$isotime` - time in iso format
-* label `$shorttime` - time in short locale format
-* label `$longtime` - time in long locale format
-* label `$custom` - custom time format
-* label `$uptime` - uptime, <i>---d--h--m</i>
-* label `$custom` - custom uptime format
-* label `$cpu` - total load cpu, <i>%</i>
-* label `$cpuN` - load CPU for core N, <i>%</i>. N should be in range 0 to 8
-* label `$cpucl` - average cpu clock, <i>MHz</i>
-* label `$cpuclN` - cpu clock for core N, <i>MHz</i>. N should be in range 0 to 8
-* label `$tempN` - temperature for device N. For example, `$temp0`
-* label `$gpu` - GPU usage, <i>%</i>. `aticonfig` or `nvidia-smi` must be installed
-* label `$gputemp` - GPU temperature. `aticonfig` or `nvidia-smi` must be installed
-* label `$mem` - usage memory, <i>%</i>
-* label `$memmb` - usage memory, <i>MB</i>
-* label `$swap` - swap, <i>%</i>
-* label `$swapmb` - swap, <i>MB</i>
-* label `$hddN` - usage for mount point N, <i>%</i>. For example, `$hdd0`
-* label `$hddtempN` - temperature for HDD N. For example, `$hddtemp0`
-* label `$down` - download speed, <i>KB/s</i>
-* label `$up` - upload speed, <i>KB/s</i>
-* label `$netdev` - current network device
-* label `$bat` - battery charge, <i>%</i>
-* label `$ac` - status AC device. Return <i>(*)</i> if AC device is online or <i>( )</i> if offline
-* label `$album` - current song album. One of supported music players must be installed
-* label `$artist` - current song artist. One of supported music players must be installed
-* label `$progress` - current song progress. One of supported music players must be installed (mpd does not support yet)
-* label `$time` - current song duration. One of supported music players must be installed
-* label `$title` - current song title. One of supported music players must be installed
-* label `$custom` - returns output for custom command
+* tag `$time` - time in default format. For example, `fri Nov 6 04:48:01 2013`
+* tag `$isotime` - time in iso format
+* tag `$shorttime` - time in short locale format
+* tag `$longtime` - time in long locale format
+* tag `$custom` - custom time format
+* tag `$uptime` - uptime, <i>---d--h--m</i>
+* tag `$custom` - custom uptime format
+* tag `$cpu` - total load cpu, <i>%</i>
+* tag `$cpuN` - load CPU for core N, <i>%</i>. N should be in range 0 to 8
+* tag `$cpucl` - average cpu clock, <i>MHz</i>
+* tag `$cpuclN` - cpu clock for core N, <i>MHz</i>. N should be in range 0 to 8
+* tag `$tempN` - temperature for device N. For example, `$temp0`
+* tag `$gpu` - GPU usage, <i>%</i>. `aticonfig` or `nvidia-smi` must be installed
+* tag `$gputemp` - GPU temperature. `aticonfig` or `nvidia-smi` must be installed
+* tag `$mem` - usage memory, <i>%</i>
+* tag `$memmb` - usage memory, <i>MB</i>
+* tag `$swap` - swap, <i>%</i>
+* tag `$swapmb` - swap, <i>MB</i>
+* tag `$hddN` - usage for mount point N, <i>%</i>. For example, `$hdd0`
+* tag `$hddtempN` - temperature for HDD N. For example, `$hddtemp0`
+* tag `$down` - download speed, <i>KB/s</i>
+* tag `$up` - upload speed, <i>KB/s</i>
+* tag `$netdev` - current network device
+* tag `$bat` - battery charge, <i>%</i>
+* tag `$ac` - status AC device. Return <i>(*)</i> if AC device is online or <i>( )</i> if offline
+* tag `$album` - current song album. One of supported music players must be installed
+* tag `$artist` - current song artist. One of supported music players must be installed
+* tag `$progress` - current song progress. One of supported music players must be installed (mpd does not support yet)
+* tag `$time` - current song duration. One of supported music players must be installed
+* tag `$title` - current song title. One of supported music players must be installed
+* tag `$custom` - returns output for custom command
 
 Label order will changed if you change slider position. HTML tags in label work normally.
 
-**NOTE** you don't may set to show $cpu in swap label for example. <b>$cpu will work only in cpu label</b>.
+**NOTE** you don't may set to show $cpu in swap label for example. **$cpu will work only in cpu label**.
 
 Advanced settings
 -----------------
 **Custom time**
 
-* label `$dddd` - weekday in long format
-* label `$ddd` - weekday in short format
-* label `$dd` - day
-* label `$d` - day without zero
-* label `$MMMM` - month in long format
-* label `$MMM` - month in short format
-* label `$MM` - month
-* label `$M` - month without zero
-* label `$yyyy` - year
-* label `$yy` - year in short format
-* label `$hh` - hours
-* label `$h` - hours without zero
-* label `$mm` - minutes
-* label `$m` - minutes without zero
-* label `$ss` - seconds
-* label `$s` - seconds without zero
+* tag `$dddd` - weekday in long format
+* tag `$ddd` - weekday in short format
+* tag `$dd` - day
+* tag `$d` - day without zero
+* tag `$MMMM` - month in long format
+* tag `$MMM` - month in short format
+* tag `$MM` - month
+* tag `$M` - month without zero
+* tag `$yyyy` - year
+* tag `$yy` - year in short format
+* tag `$hh` - hours
+* tag `$h` - hours without zero
+* tag `$mm` - minutes
+* tag `$m` - minutes without zero
+* tag `$ss` - seconds
+* tag `$s` - seconds without zero
 
 **Custom uptime**
 
-* label `$ds` - uptime days
-* label `$hs` - uptime hours
-* label `$ms` - uptime minutes
+* tag `$dd` - uptime days
+* tag `$dd` - uptime days without zero
+* tag `$hh` - uptime hours
+* tag `$h` - uptime hours without zero
+* tag `$mm` - uptime minutes
+* tag `$m` - uptime minutes without zero
 
 **Temperature devices**
 
