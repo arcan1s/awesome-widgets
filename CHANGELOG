@@ -67,7 +67,7 @@ Ver.1.3.2b:
 Ver.1.3.2:
 + added GPU, GPU temperature, HDD and HDD temperature labels
 + added $ccpu and $ccpucl tags
-* bug fixes
+- bug fixes
 * optimization and refactoring
 
 Ver.1.2.2:
@@ -98,9 +98,9 @@ Ver.1.1.2:
 
 Ver.1.1.1:
 + added $swapmb, $memmb, $netdev, @@netdev=...@@ tags
+- some bug fixes
 * widget consists of several labels
 * edited configuration interface
-- some bug fixes
 
 Ver.1.0:
 First release
