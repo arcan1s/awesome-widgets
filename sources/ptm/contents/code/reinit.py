@@ -69,12 +69,14 @@ class Reinit():
                 exec("ptmVars['bools'][label] = settings.get('" + label + "Bool', 2).toInt()[0]")
             else:
                 exec("ptmVars['bools'][label] = settings.get('" + label + "Bool', 0).toInt()[0]")
-        print (ptmVars['bools'])
         
         ptmNames = {}
         ptmNames['hdd'] = str(settings.get('mount', '/')).split('@@')
         ptmNames['hddtemp'] = str(settings.get('hdd', '/dev/sda')).split('@@')
-        ptmNames['net'] = str(settings.get('custom_netdev', 'lo'))
+        if (ptmVars['adv']['netdevBool'] > 0):
+            ptmNames['net'] = str(settings.get('custom_netdev', 'lo'))
+        else:
+            ptmNames['net'] = ""
         ptmNames['temp'] = str(settings.get('temp_device', '')).split('@@')
         self.parent.applySettings('names', ptmNames)
         
@@ -93,12 +95,3 @@ class Reinit():
                     else:
                         ptmVars['tooltip']['required'].append(label)
         self.parent.applySettings('vars', ptmVars)
-        
-        self.parent.resize(10, 10)
-        
-        # create dataengines
-        self.parent.thread().wait(60000)
-        self.parent.connectToEngine()
-        
-        self.parent.timer.setInterval(self.parent.interval)
-        self.parent.startPolling()

@@ -71,7 +71,7 @@ class pyTextWidget(plasmascript.Applet):
         QObject.connect(self.timer, SIGNAL("timeout()"), self.updateLabel)
         
         self.initTooltip()
-        self.reinit.reinit()
+        self.reInit()
         self.applet.setLayout(self.ptm['layout'])
         self.theme = Plasma.Svg(self)
         self.theme.setImagePath("widgets/background")
@@ -132,21 +132,6 @@ class pyTextWidget(plasmascript.Applet):
         os.system("ksysguard &")
     
     
-    def setupNetdev(self):
-        """function to setup network device"""
-        netdev = "lo"
-        interfaces = QDir.entryList(QDir(self.netdir), QDir.Dirs | QDir.NoDotAndDotDot)
-        for device in interfaces:
-            if (str(device) != "lo"):
-                try:
-                    with open(self.netdir+"/"+str(device)+"/operstate", "r") as stateFile:
-                        if (stateFile.readline() == "up\n"):
-                            netdev = str(device)
-                except:
-                    pass
-        return netdev
-    
-    
     def setupVar(self):
         """function to setup variables"""
         self.ptm = {}
@@ -182,16 +167,17 @@ class pyTextWidget(plasmascript.Applet):
             'swap':[0, 0], 'down':[0, 0], 'up':[0, 0]}
         # values
         self.ptm['values'] = {}
-        self.ptm['values']['cpu'] = {-1:0.0}
-        self.ptm['values']['cpuclock'] = {-1:0}
+        self.ptm['values']['cpu'] = {-1:"  0.0"}
+        self.ptm['values']['cpuclock'] = {-1:"   0"}
         numCores = int(commands.getoutput("grep -c '^processor' /proc/cpuinfo"))
         for i in range(numCores):
-            self.ptm['values']['cpu'][i] = 0.0
-            self.ptm['values']['cpuclock'][i] = 0
+            self.ptm['values']['cpu'][i] = "  0.0"
+            self.ptm['values']['cpuclock'][i] = "   0"
         self.ptm['values']['hdd'] = {}
         self.ptm['values']['hddtemp'] = {}
         self.ptm['values']['mem'] = {'used':0, 'free':0, 'total':1}
-        self.ptm['values']['net'] = {"up":0, "down":0}
+        self.ptm['values']['net'] = {"up":"   0", "down":"   0"}
+        self.ptm['values']['player'] = {}
         self.ptm['values']['swap'] = {'used':0, 'free':0, 'total':1}
         self.ptm['values']['temp'] = {}
         # variables
@@ -212,10 +198,10 @@ class pyTextWidget(plasmascript.Applet):
         self.hdd = {}
         self.mountNames = []
         self.mount = {}
-        self.memValues = {'used':0.0, 'free':0.0, 'total':1.0}
+        self.memValues = {'app':0.0, 'free':0.0, 'used':0.0}
         self.netdev = ''
         self.netSpeed = {"up":"   0", "down":"   0"}
-        self.swapValues = {'used':0.0, 'free':0.0, 'total':1.0}
+        self.swapValues = {'free':0.0, 'used':0.0}
         self.tempNames = []
         self.temp = {}
         self.tooltipBound = {'cpu':100.0, 'cpuclock':4000.0, 'mem':16000.0, 
@@ -327,6 +313,10 @@ class pyTextWidget(plasmascript.Applet):
         self.label_cpuclock.setText(text)
     
     
+    def hddText(self):
+        """function to set hddtemp text"""
+    
+    
     def memText(self):
         """function to set mem text"""
         try:
@@ -355,6 +345,8 @@ class pyTextWidget(plasmascript.Applet):
     def netText(self):
         """function to set network text"""
         line = self.netFormat
+        if (line.split('$netdev')[0] != 0):
+            line = line.split('$netdev')[0] + self.ptm['names']['net'] + line.split('$netdev')[1]
         if (line.split('$up')[0] != line):
             line = line.split('$up')[0] + self.netSpeed['up'] + line.split('$up')[1]
         if (line.split('$down')[0] != line):
@@ -422,6 +414,39 @@ class pyTextWidget(plasmascript.Applet):
         """function to disconnect from sources"""
     
     
+    def reInit(self):
+        """function to run reinit"""
+        self.reinit.reinit()
+        if (self.ptm['vars']['adv']['netdevBool'] == 0):
+            self.ptm['names']['net'] = self.setNetdev()
+        self.resize(10, 10)
+        
+        # create dataengines
+        self.thread().wait(60000)
+        self.connectToEngine()
+        
+        self.timer.setInterval(self.ptm['vars']['app']['interval'])
+        self.startPolling()
+    
+    
+    def setNetdev(self):
+        """function to set network device"""
+        netdev = "lo"
+        self.ptm['vars']['adv']
+        netdir = self.ptm['vars']['adv']['netDir']
+        interfaces = QDir.entryList(QDir(netdir), QDir.Dirs | QDir.NoDotAndDotDot)
+        for device in interfaces:
+            if (str(device) != "lo"):
+                try:
+                    with open(netdir + '/' + str(device) + '/operstate', 'r') as stateFile:
+                        if (stateFile.readline() == "up\n"):
+                            netdev = str(device)
+                except:
+                    pass
+        self.ptm['names']['net'] = netdev
+        return netdev
+    
+    
     def setText(self, name=None, text=None):
         """function to set text to labels"""
         self.ptm['labels'][name].setText(text)
@@ -430,7 +455,19 @@ class pyTextWidget(plasmascript.Applet):
     @pyqtSignature("dataUpdated(const QString &, const Plasma::DataEngine::Data &)")
     def dataUpdated(self, sourceName, data):
         """function to update label"""
-        self.dataengine.dataUpdated(sourceName, data)
+        updatedData = self.dataengine.dataUpdated(str(sourceName), data, self.ptm)
+        # update tooltips
+        if (updatedData['name'] in ['cpu', 'cpuclock', 'mem', 'swap', 'net']):
+            pass
+        # update labels where is needed
+        if (updatedData['name'] in ['gpu', 'gputemp', 'player']):
+            pass
+        else:
+            if (updatedData['type']):
+                pass
+            else:
+                pass
+        self.update()
 
 
 

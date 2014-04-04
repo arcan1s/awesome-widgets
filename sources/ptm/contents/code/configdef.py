@@ -159,18 +159,14 @@ class ConfigDefinition:
             if (self.configpage.checkboxes[self.parent.dict_orders[label]].checkState() > 0):
                 pos = self.configpage.sliders[self.parent.dict_orders[label]].value() - 1
                 self.parent.label_order = self.parent.label_order[:pos] + label + self.parent.label_order[pos+1:]
-            if (self.parent.dict_orders[label] == 'net'):
-                exec ('self.parent.' + self.parent.dict_orders[label] + 'NonFormat = str(self.configpage.lineedits[self.parent.dict_orders[label]].text())')
-                exec ('settings.set("' + self.parent.dict_orders[label] + 'NonFormat", self.parent.' + self.parent.dict_orders[label] + 'NonFormat)')
-            else:
-                exec ('self.parent.' + self.parent.dict_orders[label] + 'Format = str(self.configpage.lineedits[self.parent.dict_orders[label]].text())')
-                exec ('settings.set("' + self.parent.dict_orders[label] + 'Format", self.parent.' + self.parent.dict_orders[label] + 'Format)')
+            exec ('self.parent.' + self.parent.dict_orders[label] + 'Format = str(self.configpage.lineedits[self.parent.dict_orders[label]].text())')
+            exec ('settings.set("' + self.parent.dict_orders[label] + 'Format", self.parent.' + self.parent.dict_orders[label] + 'Format)')
             exec ('settings.set("' + self.parent.dict_orders[label] + 'Bool", self.parent.' + self.parent.dict_orders[label] + 'Bool)')        
         self.parent.label_order = ''.join(self.parent.label_order.split('-'))
         settings.set('label_order', self.parent.label_order)
         
         # reinitializate
-        self.parent.reinit.reinit(confAccept=True)
+        self.parent.reInit()
     
     
     def createConfigurationInterface(self, parent):
@@ -272,10 +268,7 @@ class ConfigDefinition:
             self.configpage.checkboxes[self.parent.dict_orders[label]].setCheckState(bool)
             if (bool > 0):
                 self.configpage.sliders[self.parent.dict_orders[label]].setValue(self.parent.label_order.find(label)+1)
-            if (self.parent.dict_orders[label] == 'net'):
-                self.configpage.lineedits[self.parent.dict_orders[label]].setText(str(settings.get(self.parent.dict_orders[label] + 'NonFormat', self.parent.dict_defFormat[self.parent.dict_orders[label]])))
-            else:
-                self.configpage.lineedits[self.parent.dict_orders[label]].setText(str(settings.get(self.parent.dict_orders[label] + 'Format', self.parent.dict_defFormat[self.parent.dict_orders[label]])))
+            self.configpage.lineedits[self.parent.dict_orders[label]].setText(str(settings.get(self.parent.dict_orders[label] + 'Format', self.parent.dict_defFormat[self.parent.dict_orders[label]])))
         
         # add config page
         page = parent.addPage(self.configpage, i18n(self.parent.name()))
