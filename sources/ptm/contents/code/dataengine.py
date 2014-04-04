@@ -19,8 +19,6 @@
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from PyKDE4.plasma import Plasma
-from PyKDE4 import plasmascript
 
 import datetime
 
@@ -36,54 +34,48 @@ class DataEngine:
         self.parent = parent
     
     
-    def connectToEngine(self):
+    def connectToEngine(self, bools=None, dataEngines=None, interval=1000, names=None):
         """function to initializate engine"""
-        self.parent.systemmonitor = self.parent.dataEngine("systemmonitor")
-        self.parent.extsysmon = self.parent.dataEngine("ext-sysmon")
-        
-        if (self.parent.timeBool > 0):
-            self.parent.timemon = self.parent.dataEngine("time")
-            self.parent.timemon.connectSource("Local", self.parent, 1000)
-        
-        if (self.parent.uptimeBool > 0):
-            self.parent.systemmonitor.connectSource("system/uptime", self.parent, self.parent.interval)
-        if (self.parent.cpuBool > 0):
-            self.parent.systemmonitor.connectSource("cpu/system/TotalLoad", self.parent, self.parent.interval)
-            for core in self.parent.cpuCore.keys():
-                if (core > -1):
-                    self.parent.systemmonitor.connectSource("cpu/cpu"+str(core)+"/TotalLoad", self.parent, self.parent.interval)
-        if (self.parent.cpuclockBool > 0):
-            self.parent.systemmonitor.connectSource("cpu/system/AverageClock", self.parent, self.parent.interval)
-            for core in self.parent.cpuClockCore.keys():
-                if (core > -1):
-                    self.parent.systemmonitor.connectSource("cpu/cpu"+str(core)+"/clock", self.parent, self.parent.interval)
-        if (self.parent.tempBool > 0):
-            for item in self.parent.tempNames:
-                self.parent.systemmonitor.connectSource(item, self.parent, self.parent.interval)
-        if (self.parent.gpuBool > 0):
-            self.parent.extsysmon.connectSource("gpu", self.parent, self.parent.interval)
-        if (self.parent.gputempBool > 0):
-            self.parent.extsysmon.connectSource("gputemp", self.parent, self.parent.interval)
-        if (self.parent.memBool > 0):
-            self.parent.systemmonitor.connectSource("mem/physical/free", self.parent, int(self.parent.interval*0.5))
-            self.parent.systemmonitor.connectSource("mem/physical/used", self.parent, int(self.parent.interval*0.5))
-            self.parent.systemmonitor.connectSource("mem/physical/application", self.parent, int(self.parent.interval*0.5))
-        if (self.parent.swapBool > 0):
-            self.parent.systemmonitor.connectSource("mem/swap/free", self.parent, int(self.parent.interval*0.5))
-            self.parent.systemmonitor.connectSource("mem/swap/used", self.parent, int(self.parent.interval*0.5))
-        if (self.parent.hddBool > 0):
-            for item in self.parent.mountNames:
-                self.parent.systemmonitor.connectSource("partitions" + item + "/filllevel", self.parent, self.parent.interval)
-        if (self.parent.hddtempBool > 0):
-            self.parent.extsysmon.connectSource("hddtemp", self.parent, self.parent.interval)
-        if (self.parent.netBool > 0):
-            self.parent.updateNetdev = 0
-            self.parent.systemmonitor.connectSource("network/interfaces/"+self.parent.netdev+"/transmitter/data", self.parent, self.parent.interval)
-            self.parent.systemmonitor.connectSource("network/interfaces/"+self.parent.netdev+"/receiver/data", self.parent, self.parent.interval)
-        if (self.parent.playerBool > 0):
-            self.parent.extsysmon.connectSource("player", self.parent, self.parent.interval)
-        if (self.parent.customBool > 0):
-            self.parent.extsysmon.connectSource("custom", self.parent, self.parent.interval)
+        if (bools['cpu'] > 0):
+            dataEngines['system'].connectSource("cpu/system/TotalLoad", self.parent, interval)
+            for core in range(8):
+                dataEngines['system'].connectSource("cpu/cpu" + str(core) + "/TotalLoad", self.parent, interval)
+        if (bools['cpuclock'] > 0):
+            dataEngines['system'].connectSource("cpu/system/AverageClock", self.parent, interval)
+            for core in range(8):
+                dataEngines['system'].connectSource("cpu/cpu" + str(core) + "/clock", self.parent, interval)
+        if (bools['custom'] > 0):
+            dataEngines['ext'].connectSource("custom", self.parent, interval)
+        if (bools['gpu'] > 0):
+            dataEngines['ext'].connectSource("gpu", self.parent, interval)
+        if (bools['gputemp'] > 0):
+            dataEngines['ext'].connectSource("gputemp", self.parent, interval)
+        if (bools['hdd'] > 0):
+            for item in names['hdd']:
+                dataEngines['system'].connectSource("partitions" + item + "/filllevel", self.parent, interval)
+        if (bools['hddtemp'] > 0):
+            dataEngines['ext'].connectSource("hddtemp", self.parent, interval)
+        if (bools['mem'] > 0):
+            dataEngines['system'].connectSource("mem/physical/free", self.parent, interval)
+            dataEngines['system'].connectSource("mem/physical/used", self.parent, interval)
+            dataEngines['system'].connectSource("mem/physical/application", self.parent, interval)
+        if (bools['net'] > 0):
+            self.updateNetdev = 0
+            dataEngines['system'].connectSource("network/interfaces/" + names['net'] + "/transmitter/data", self.parent, interval)
+            dataEngines['system'].connectSource("network/interfaces/" + names['net'] + "/receiver/data", self.parent, interval)
+        if (bools['player'] > 0):
+            dataEngines['ext'].connectSource("player", self.parent, interval)
+        if (bools['swap'] > 0):
+            dataEngines['system'].connectSource("mem/swap/free", self.parent, interval)
+            dataEngines['system'].connectSource("mem/swap/used", self.parent, interval)
+        if (bools['temp'] > 0):
+            for item in names['temp']:
+                dataEngines['system'].connectSource(item, self.parent, interval)
+        if (bools['time'] > 0):
+            dataEngines['time'].connectSource("Local", self.parent, 1000)
+        if (bools['uptime'] > 0):
+            dataEngines['system'].connectSource("system/uptime", self.parent, interval)
+    
     
     def dataUpdated(self, sourceName, data):
         """function to update data"""
@@ -145,11 +137,11 @@ class DataEngine:
                 if (self.parent.updateNetdev == 100):
                     self.parent.updateNetdev = 0
                     if (self.parent.netNonFormat.split('@@')[0] == self.parent.netNonFormat):
-                        self.parent.systemmonitor.disconnectSource("network/interfaces/"+self.parent.netdev+"/transmitter/data", self.parent)
-                        self.parent.systemmonitor.disconnectSource("network/interfaces/"+self.parent.netdev+"/receiver/data", self.parent)
+                        dataEngines['system'].disconnectSource("network/interfaces/"+self.parent.netdev+"/transmitter/data", self.parent)
+                        dataEngines['system'].disconnectSource("network/interfaces/"+self.parent.netdev+"/receiver/data", self.parent)
                         self.parent.netdev = self.parent.setupNetdev()
-                        self.parent.systemmonitor.connectSource("network/interfaces/"+self.parent.netdev+"/transmitter/data", self.parent, self.parent.interval)
-                        self.parent.systemmonitor.connectSource("network/interfaces/"+self.parent.netdev+"/receiver/data", self.parent, self.parent.interval)
+                        dataEngines['system'].connectSource("network/interfaces/"+self.parent.netdev+"/transmitter/data", self.parent, self.parent.interval)
+                        dataEngines['system'].connectSource("network/interfaces/"+self.parent.netdev+"/receiver/data", self.parent, self.parent.interval)
                     if (self.parent.netNonFormat.split('$netdev')[0] != self.parent.netNonFormat):
                         self.parent.netFormat = self.parent.netNonFormat.split('$netdev')[0] + self.parent.netdev + self.parent.netNonFormat.split('$netdev')[1]
                     else:
@@ -247,7 +239,7 @@ class DataEngine:
                     line = line.split('$artist')[0] + artist + line.split('$artist')[1]
                 if (line.split('$progress')[0] != line):
                     timeText = '%02i:%02i' % (int(time)/60, int(time)%60)
-                    line = line.split('$progress')[0] + timeText + line.split('$progress')[1]
+                    line = line.split('$progress')[0] + progress + line.split('$progress')[1]
                 if (line.split('$time')[0] != line):
                     timeText = '%02i:%02i' % (int(time)/60, int(time)%60)
                     line = line.split('$time')[0] + timeText + line.split('$time')[1]
@@ -273,9 +265,7 @@ class DataEngine:
                     value = self.parent.custom_time
                     for letters in timeLetters:
                         if (value.split('$'+letters)[0] != value):
-                            value = value.split('$'+letters)[0] + \
-                                str(data[QString(u'DateTime')].toString(letters).toUtf8()).decode("utf-8") + \
-                                value.split('$'+letters)[1]
+                            value = value.split('$'+letters)[0] + str(rawDate.toString(letters).toUtf8()).decode("utf-8") + value.split('$'+letters)[1]
                     line = self.parent.timeFormat.split('$custom')[0] + value + self.parent.timeFormat.split('$custom')[1]
                 else:
                     line = self.parent.timeFormat

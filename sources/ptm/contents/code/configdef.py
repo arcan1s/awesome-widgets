@@ -21,7 +21,7 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyKDE4.kdecore import *
 from PyKDE4.kdeui import *
-import commands, os
+import commands
 import config
 
 
@@ -38,52 +38,37 @@ class ConfigDefinition:
         settings = config.Config(self.parent)
         
         # update local variables
-        self.parent.interval = self.configpage.ui.spinBox_interval.value()
-        settings.set('interval', self.parent.interval)
-        self.parent.font_family = str(self.configpage.ui.fontComboBox.currentFont().family())
-        settings.set('font_family', self.parent.font_family)
-        self.parent.font_size = self.configpage.ui.spinBox_fontSize.value()
-        settings.set('font_size', self.parent.font_size)
-        self.parent.font_color = str(self.configpage.ui.kcolorcombo.color().name())
-        settings.set('font_color', self.parent.font_color)
-        if (self.configpage.ui.comboBox_style.currentIndex() == 0):
-            self.parent.font_style = 'normal'
-        else:
-            self.parent.font_style = 'italic'
-        settings.set('font_style', self.parent.font_style)
-        self.parent.font_weight = self.configpage.ui.spinBox_weight.value()
-        settings.set('font_weight', self.parent.font_weight)
+        settings.set('interval', self.configpage.ui.spinBox_interval.value())
+        settings.set('font_family', str(self.configpage.ui.fontComboBox.currentFont().family()))
+        settings.set('font_size', self.configpage.ui.spinBox_fontSize.value())
+        settings.set('font_color', str(self.configpage.ui.kcolorcombo.color().name()))
+        settings.set('font_style', str(self.configpage.ui.comboBox_style.currentText()))
+        settings.set('font_weight', self.configpage.ui.spinBox_weight.value())
         
-        self.parent.custom_time = str(self.configpage.ui.lineEdit_timeFormat.text())
-        settings.set('custom_time', self.parent.custom_time)
-        self.parent.custom_uptime = str(self.configpage.ui.lineEdit_uptimeFormat.text())
-        settings.set('custom_uptime', self.parent.custom_uptime)
-        # temp and mount below
-        self.parent.hddNames = []
-        self.parent.hdd = {}
+        settings.set('custom_time', str(self.configpage.ui.lineEdit_timeFormat.text()))
+        settings.set('custom_uptime', str(self.configpage.ui.lineEdit_uptimeFormat.text()))
+        item = QStringList()
+        for i in range(self.configpage.ui.listWidget_tempDevice.count()):
+            item.append(self.configpage.ui.listWidget_tempDevice.item(i).text())
+        settings.set('temp_device', str(item.join(QString('@@'))))
+        item = QStringList()
+        for i in range(self.configpage.ui.listWidget_mount.count()):
+            item.append(self.configpage.ui.listWidget_mount.item(i).text())
+        settings.set('mount', str(item.join(QString('@@'))))
+        item = QStringList()
         for i in range(self.configpage.ui.listWidget_hddDevice.count()):
-            item = self.configpage.ui.listWidget_hddDevice.item(i).text()
-            self.parent.hddNames.append(str(item))
-            self.parent.hdd[str(item)] =" 0.0"
-        settings.set('hdd', '@@'.join(self.parent.hddNames))
-        self.parent.netdir = str(self.configpage.ui.lineEdit_netdir.text())
-        settings.set('netdir', self.parent.netdir)
-        self.parent.netdevBool = str(self.configpage.ui.checkBox_netdev.checkState())
-        settings.set('netdevBool', self.parent.netdevBool)
-        self.parent.custom_netdev = str(self.configpage.ui.comboBox_netdev.currentText())
-        settings.set('custom_netdev', self.parent.custom_netdev)
-        self.parent.battery_device = str(self.configpage.ui.lineEdit_batdev.text())
-        settings.set('battery_device', self.parent.battery_device)
-        self.parent.ac_device = str(self.configpage.ui.lineEdit_acdev.text())
-        settings.set('ac_device', self.parent.ac_device)
-        self.parent.player_name = self.configpage.ui.comboBox_playerSelect.currentIndex()
-        settings.set('player_name', self.parent.player_name)
+            item.append(self.configpage.ui.listWidget_hddDevice.item(i).text())
+        settings.set('hdd', str(item.join(QString('@@'))))
+        settings.set('netdir', str(self.configpage.ui.lineEdit_netdir.text()))
+        settings.set('netdevBool', self.configpage.ui.checkBox_netdev.checkState())
+        settings.set('custom_netdev', str(self.configpage.ui.comboBox_netdev.currentText()))
+        settings.set('battery_device', str(self.configpage.ui.lineEdit_batdev.text()))
+        settings.set('ac_device', str(self.configpage.ui.lineEdit_acdev.text()))
+        settings.set('player_name', self.configpage.ui.comboBox_playerSelect.currentIndex())
 
-        self.parent.tooltipNum = self.configpage.ui.spinBox_tooltipNum.value()
-        settings.set('tooltip_num', self.parent.tooltipNum)
+        settings.set('tooltip_num', self.configpage.ui.spinBox_tooltipNum.value())
         for label in ['cpu', 'cpuclock', 'mem', 'swap', 'down', 'up']:
-            exec ('self.parent.tooltipColors["' + label + '"] = str(self.configpage.kcolorcombo_' + label + '.color().name())')
-            exec ('settings.set("' + label + '_color", self.parent.tooltipColors["' + label + '"])')
+            exec('settings.set("' + label + '_color", str(self.configpage.kcolorcombo_' + label + '.color().name()))')
         
         dataengineConfig = unicode(KGlobal.dirs().localkdedir()) + "/share/config/extsysmon.conf"
         try:
@@ -97,6 +82,7 @@ class ConfigDefinition:
             pass
         
         # disconnecting from source and clear layout
+        self.parent.disconnectFromSource()
         if (self.parent.uptimeBool > 0):
             self.parent.systemmonitor.disconnectSource("system/uptime",  self.parent)
             self.parent.label_uptime.setText('')
@@ -118,13 +104,6 @@ class ConfigDefinition:
                 self.parent.systemmonitor.disconnectSource(item, self.parent)
             self.parent.label_temp.setText('')
             self.parent.layout.removeItem(self.parent.label_temp)
-        self.parent.tempNames = []
-        self.parent.temp = {}
-        for i in range(self.configpage.ui.listWidget_tempDevice.count()):
-            item = self.configpage.ui.listWidget_tempDevice.item(i).text()
-            self.parent.tempNames.append(str(item))
-            self.parent.temp[str(item)] =" 0.0"
-        settings.set('temp_device', '@@'.join(self.parent.tempNames))
         if (self.parent.gpuBool > 0):
             self.parent.extsysmon.disconnectSource("gpu", self.parent)
             self.parent.label_gpu.setText('')
@@ -149,13 +128,6 @@ class ConfigDefinition:
                 self.parent.systemmonitor.disconnectSource("partitions" + item + "/filllevel", self.parent)
             self.parent.label_hdd.setText('')
             self.parent.layout.removeItem(self.parent.label_hdd)
-        self.parent.mountNames = []
-        self.parent.mount = {}
-        for i in range(self.configpage.ui.listWidget_mount.count()):
-            item = self.configpage.ui.listWidget_mount.item(i).text()
-            self.parent.mountNames.append(str(item))
-            self.parent.mount[str(item)] ="  0.0"
-        settings.set('mount', '@@'.join(self.parent.mountNames))
         if (self.parent.hddtempBool > 0):
             self.parent.extsysmon.disconnectSource("hddtemp", self.parent)
             self.parent.label_hddtemp.setText('')

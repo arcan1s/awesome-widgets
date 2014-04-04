@@ -21,7 +21,6 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyKDE4.plasma import *
 from PyQt4 import uic
-from PyKDE4 import plasmascript
 
 
 

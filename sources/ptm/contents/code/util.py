@@ -34,7 +34,7 @@ class Util():
             try:
                 os.mkdir(name)
             except:
-                print 'Failed to create directory: ' + name
+                print ('Failed to create directory: ' + name)
     
     
     def kdeHome(self):
@@ -42,7 +42,7 @@ class Util():
     
     
     def createNotifyrc(self):
-        print '[%s] creating notifyrc' % (self.applet._name)
+        print ('[%s] creating notifyrc' % (self.applet._name))
         self.createDirectory(self.kdeHome() + 'share/apps/%s' % self.applet._name)
         
         source = self.applet.package().path() + 'contents/misc/%s.notifyrc' % self.applet._name

@@ -24,14 +24,31 @@ from PyKDE4.kdeui import *
 from PyKDE4.kio import *
 from PyKDE4 import plasmascript
 from PyKDE4.plasma import Plasma
-import commands, os, shutil, time
+import commands, os, shutil
 
 import configdef
 import configwindow
 import dataengine
+import ptmnotify
 import reinit
 import tooltip
 from util import *
+
+
+
+class NewPlasmaLabel(Plasma.Label):
+    """new Label with defined clicked() event"""
+    def __init__(self, applet, parent):
+        """class definition"""
+        Plasma.Label.__init__(self, applet)
+        self.parent = parent
+        self.notify = ptmnotify.PTMNotify(self)
+    
+    
+    def mousePressEvent(self, event):
+        """mouse click event"""
+        if (event.button() == Qt.LeftButton):
+            self.notify.init()
 
 
 
@@ -44,18 +61,21 @@ class pyTextWidget(plasmascript.Applet):
     def init(self):
         """function to initializate widget"""
         self._name = str(self.package().metadata().pluginName())
-        self.layout = QGraphicsLinearLayout(Qt.Horizontal, self.applet)
+        self.setupVar()
         
         self.dataengine = dataengine.DataEngine(self)
-        self.reinit = reinit.Reinit(self)
+        self.reinit = reinit.Reinit(self, self.ptm['defaults'])
         self.tooltipAgent = tooltip.Tooltip(self)
         
         self.timer = QTimer()
         QObject.connect(self.timer, SIGNAL("timeout()"), self.updateLabel)
         
-        self.setupVar()
         self.initTooltip()
-        self.reinit.reinit(confAccept=False)
+        self.reinit.reinit()
+        self.applet.setLayout(self.ptm['layout'])
+        self.theme = Plasma.Svg(self)
+        self.theme.setImagePath("widgets/background")
+        self.setBackgroundHints(Plasma.Applet.DefaultBackground)
         
         self.setHasConfigurationInterface(True)
         # Create notifyrc file if required
@@ -129,6 +149,59 @@ class pyTextWidget(plasmascript.Applet):
     
     def setupVar(self):
         """function to setup variables"""
+        self.ptm = {}
+        # dataengines
+        self.ptm['dataengine'] = {'ext':None, 'system':None, 'time':None}
+        # defaults
+        self.ptm['defaults'] = {}
+        self.ptm['defaults']['order'] = {'6':'bat', '1':'cpu', '7':'cpuclock', 'f':'custom', '9':'gpu', 
+            'a':'gputemp', 'b':'hdd', 'c':'hddtemp', '3':'mem', '5':'net', '4':'swap', '2':'temp', 
+            '8':'uptime', 'd':'player', 'e':'time'}
+        self.ptm['defaults']['format'] = {'bat':'[bat: $bat%$ac]', 'cpu':'[cpu: $cpu%]', 
+            'cpuclock':'[mhz: $cpucl]', 'custom':'[$custom]', 'gpu':'[gpu: $gpu%]', 
+            'gputemp':'[gpu temp: $gputemp&deg;C]', 'hdd':'[hdd: $hdd0%]', 
+            'hddtemp':'[hdd temp: $hddtemp0&deg;C]', 'mem':'[mem: $mem%]', 
+            'net':'[$netdev: $down/$upKB/s]', 'swap':'[swap: $swap%]', 
+            'temp':'[temp: $temp0&deg;C]', 'uptime':'[uptime: $uptime]', 
+            'player':'[$artist - $title]', 'time':'[$time]'}
+        # labels
+        self.ptm['labels'] = {}
+        self.ptm['layout'] = QGraphicsLinearLayout(Qt.Horizontal, self.applet)
+        self.ptm['layout'].setContentsMargins(1, 1, 1, 1)
+        # names
+        self.ptm['names'] = {}
+        self.ptm['names']['hdd'] = []
+        self.ptm['names']['hddtemp'] = []
+        self.ptm['names']['net'] = ""
+        self.ptm['names']['temp'] = []
+        # tooltips
+        self.ptm['tooltip'] = {}
+        self.ptm['tooltip']['bounds'] = {'cpu':100.0, 'cpuclock':4000.0, 'mem':16000.0, 
+            'swap':16000, 'down':10000.0, 'up':10000.0}
+        self.ptm['tooltip']['values'] = {'cpu':[0.0, 0.0], 'cpuclock':[0, 0], 'mem':[0, 0], 
+            'swap':[0, 0], 'down':[0, 0], 'up':[0, 0]}
+        # values
+        self.ptm['values'] = {}
+        self.ptm['values']['cpu'] = {-1:0.0}
+        self.ptm['values']['cpuclock'] = {-1:0}
+        numCores = int(commands.getoutput("grep -c '^processor' /proc/cpuinfo"))
+        for i in range(numCores):
+            self.ptm['values']['cpu'][i] = 0.0
+            self.ptm['values']['cpuclock'][i] = 0
+        self.ptm['values']['hdd'] = {}
+        self.ptm['values']['hddtemp'] = {}
+        self.ptm['values']['mem'] = {'used':0, 'free':0, 'total':1}
+        self.ptm['values']['net'] = {"up":0, "down":0}
+        self.ptm['values']['swap'] = {'used':0, 'free':0, 'total':1}
+        self.ptm['values']['temp'] = {}
+        # variables
+        self.ptm['vars'] = {}
+        self.ptm['vars']['adv'] = {}
+        self.ptm['vars']['app'] = {}
+        self.ptm['vars']['bools'] = {}
+        self.ptm['vars']['formats'] = {}
+        self.ptm['vars']['tooltip'] = {}
+        
         self.cpuCore = {-1:"  0.0"}
         self.cpuClockCore = {-1:"   0"}
         numCores = int(commands.getoutput("grep -c '^processor' /proc/cpuinfo"))
@@ -313,6 +386,45 @@ class pyTextWidget(plasmascript.Applet):
                 line = line.split('$temp'+str(i))[0] + self.temp[self.tempNames[i]] + line.split('$temp'+str(i))[1]
         text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
         self.label_temp.setText(text)
+    
+    
+    # api's functions
+    def addLabel(self, name=None, text=None, add=True):
+        """function to add new label"""
+        if (add):
+            self.ptm['labels'][name] = NewPlasmaLabel(self.applet, self)
+            self.ptm['layout'].addItem(self.ptm['labels'][name])
+            self.setText(name, text)
+        else:
+            self.setText(name, '')
+            self.ptm['layout'].removeItem(self.ptm['labels'][name])
+    
+    
+    def applySettings(self, name=None, ptm=None):
+        """function to read settings"""
+        self.ptm[name] = ptm
+        if (name == "names"):
+            for item in ['hdd', 'hddtemp', 'temp']:
+                for value in self.ptm['names'][item]:
+                    self.ptm['values'][item][value] = 0.0
+    
+    
+    def connectToEngine(self):
+        """function to connect to dataengines"""
+        self.ptm['dataengine']['ext'] = self.dataEngine("ext-sysmon")
+        self.ptm['dataengine']['system'] = self.dataEngine("systemmonitor")
+        self.ptm['dataengine']['time'] = self.dataEngine("time")
+        self.dataengine.connectToEngine(self.ptm['vars']['bools'], self.ptm['dataengine'], 
+            self.ptm['vars']['app']['interval'], self.ptm['names'])
+    
+    
+    def disconnectFromSource(self):
+        """function to disconnect from sources"""
+    
+    
+    def setText(self, name=None, text=None):
+        """function to set text to labels"""
+        self.ptm['labels'][name].setText(text)
     
     
     @pyqtSignature("dataUpdated(const QString &, const Plasma::DataEngine::Data &)")
