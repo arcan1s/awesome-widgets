@@ -27,16 +27,17 @@ import config
 
 
 class ConfigDefinition:
-    def __init__(self, parent, configpage):
+    def __init__(self, parent, configpage, defaults):
         """class definition"""
         self.parent = parent
         self.configpage = configpage
-    
-    
+        self.defaults = defaults
+
+
     def configAccepted(self):
         """function to accept settings"""
         settings = config.Config(self.parent)
-        
+
         # update local variables
         settings.set('interval', self.configpage.ui.spinBox_interval.value())
         settings.set('font_family', str(self.configpage.ui.fontComboBox.currentFont().family()))
@@ -44,7 +45,7 @@ class ConfigDefinition:
         settings.set('font_color', str(self.configpage.ui.kcolorcombo.color().name()))
         settings.set('font_style', str(self.configpage.ui.comboBox_style.currentText()))
         settings.set('font_weight', self.configpage.ui.spinBox_weight.value())
-        
+
         settings.set('custom_time', str(self.configpage.ui.lineEdit_timeFormat.text()))
         settings.set('custom_uptime', str(self.configpage.ui.lineEdit_uptimeFormat.text()))
         item = QStringList()
@@ -68,8 +69,8 @@ class ConfigDefinition:
 
         settings.set('tooltip_num', self.configpage.ui.spinBox_tooltipNum.value())
         for label in ['cpu', 'cpuclock', 'mem', 'swap', 'down', 'up']:
-            exec('settings.set("' + label + '_color", str(self.configpage.kcolorcombo_' + label + '.color().name()))')
-        
+            settings.set(self.defaults['confColor'][label], str(self.configpage.kcolorcombos[label].color().name()))
+
         dataengineConfig = unicode(KGlobal.dirs().localkdedir()) + "/share/config/extsysmon.conf"
         try:
             with open(dataengineConfig, 'w') as deConfigFile:
@@ -80,7 +81,7 @@ class ConfigDefinition:
                 deConfigFile.write("CUSTOM=" + str(self.configpage.ui.lineEdit_customCommand.text()) + "\n")
         except:
             pass
-        
+
         # disconnecting from source and clear layout
         self.parent.disconnectFromSource()
         if (self.parent.uptimeBool > 0):
@@ -151,9 +152,9 @@ class ConfigDefinition:
         if (self.parent.customBool > 0):
             self.parent.label_custom.setText('')
             self.parent.layout.removeItem(self.parent.label_custom)
-        
+
         self.parent.label_order = "---------------"
-        
+
         for label in self.parent.dict_orders.keys():
             exec ('self.parent.' + self.parent.dict_orders[label] + 'Bool = ' + str(self.configpage.checkboxes[self.parent.dict_orders[label]].checkState()))
             if (self.configpage.checkboxes[self.parent.dict_orders[label]].checkState() > 0):
@@ -161,18 +162,18 @@ class ConfigDefinition:
                 self.parent.label_order = self.parent.label_order[:pos] + label + self.parent.label_order[pos+1:]
             exec ('self.parent.' + self.parent.dict_orders[label] + 'Format = str(self.configpage.lineedits[self.parent.dict_orders[label]].text())')
             exec ('settings.set("' + self.parent.dict_orders[label] + 'Format", self.parent.' + self.parent.dict_orders[label] + 'Format)')
-            exec ('settings.set("' + self.parent.dict_orders[label] + 'Bool", self.parent.' + self.parent.dict_orders[label] + 'Bool)')        
+            exec ('settings.set("' + self.parent.dict_orders[label] + 'Bool", self.parent.' + self.parent.dict_orders[label] + 'Bool)')
         self.parent.label_order = ''.join(self.parent.label_order.split('-'))
         settings.set('label_order', self.parent.label_order)
-        
+
         # reinitializate
         self.parent.reInit()
-    
-    
+
+
     def createConfigurationInterface(self, parent):
         """function to setup configuration window"""
         settings = config.Config(self.parent)
-        
+
         font = QFont(str(settings.get('font_family', 'Terminus')), settings.get('font_size', 12).toInt()[0], 400, False)
         self.configpage.ui.spinBox_interval.setValue(settings.get('interval', 2000).toInt()[0])
         self.configpage.ui.fontComboBox.setCurrentFont(font)
@@ -184,7 +185,7 @@ class ConfigDefinition:
         else:
             self.configpage.ui.comboBox_style.setCurrentIndex(1)
         self.configpage.ui.spinBox_weight.setValue(settings.get('font_weight', 400).toInt()[0])
-        
+
         self.configpage.ui.lineEdit_timeFormat.setText(str(settings.get('custom_time', '$hh:$mm')))
         self.configpage.ui.lineEdit_uptimeFormat.setText(str(settings.get('custom_uptime', '$ds,$hs,$ms')))
         commandOut = commands.getoutput("sensors")
@@ -228,7 +229,7 @@ class ConfigDefinition:
         self.configpage.ui.lineEdit_batdev.setText(str(settings.get('battery_device', '/sys/class/power_supply/BAT0/capacity')))
         self.configpage.ui.lineEdit_acdev.setText(str(settings.get('ac_device', '/sys/class/power_supply/AC/online')))
         self.configpage.ui.comboBox_playerSelect.setCurrentIndex(settings.get('player_name', 0).toInt()[0])
-        
+
         self.configpage.ui.spinBox_tooltipNum.setValue(settings.get('tooltip_num', 100).toInt()[0])
         self.configpage.ui.kcolorcombo_cpu.setColor(QColor(str(settings.get('cpu_color', '#ff0000'))))
         self.configpage.ui.kcolorcombo_cpuclock.setColor(QColor(str(settings.get('cpuclock_color', '#00ff00'))))
@@ -236,8 +237,8 @@ class ConfigDefinition:
         self.configpage.ui.kcolorcombo_swap.setColor(QColor(str(settings.get('swap_color', '#ffff00'))))
         self.configpage.ui.kcolorcombo_down.setColor(QColor(str(settings.get('down_color', '#00ffff'))))
         self.configpage.ui.kcolorcombo_up.setColor(QColor(str(settings.get('up_color', '#ff00ff'))))
-        
-        deSettings = {'GPUDEV':'auto', 'HDDDEV':'all', 'MPDADDRESS':'localhost', 
+
+        deSettings = {'GPUDEV':'auto', 'HDDDEV':'all', 'MPDADDRESS':'localhost',
             'MPDPORT':'6600', 'CUSTOM':'wget -qO- http://ifconfig.me/ip'}
         dataengineConfig = unicode(KGlobal.dirs().localkdedir()) + "/share/config/extsysmon.conf"
         try:
@@ -262,16 +263,17 @@ class ConfigDefinition:
         self.configpage.ui.spinBox_mpdport.setValue(int(deSettings['MPDPORT']))
         self.configpage.ui.spinBox_mpdport.setValue(int(deSettings['MPDPORT']))
         self.configpage.ui.lineEdit_customCommand.setText(deSettings['CUSTOM'])
-        
-        for label in self.parent.dict_orders.keys():
-            exec ('bool = self.parent.' + self.parent.dict_orders[label] + 'Bool')
-            self.configpage.checkboxes[self.parent.dict_orders[label]].setCheckState(bool)
+
+        label_order = str(settings.get('label_order', '1345'))
+        for label in self.defaults['order'].keys():
+            bool = self.defaults['confBool'][self.defaults['order'][label]]
+            self.configpage.checkboxes[self.defaults['order'][label]].setCheckState(bool)
             if (bool > 0):
-                self.configpage.sliders[self.parent.dict_orders[label]].setValue(self.parent.label_order.find(label)+1)
-            self.configpage.lineedits[self.parent.dict_orders[label]].setText(str(settings.get(self.parent.dict_orders[label] + 'Format', self.parent.dict_defFormat[self.parent.dict_orders[label]])))
-        
+                self.configpage.sliders[self.defaults['order'][label]].setValue(label_order.find(label)+1)
+            self.configpage.lineedits[self.defaults['order'][label]].setText(str(settings.get(self.defaults['confFormat'][label], self.defaults['format'][label])))
+
         # add config page
         page = parent.addPage(self.configpage, i18n(self.parent.name()))
         page.setIcon(KIcon(self.parent.icon()))
-        
+
         parent.okClicked.connect(self.configAccepted)

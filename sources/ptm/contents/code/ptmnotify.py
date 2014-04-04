@@ -27,14 +27,14 @@ class PTMNotify:
     def __init__(self, parent):
         """class definition"""
         self.parent = parent
-    
-    
+
+
     def init(self):
         """function to init notification"""
         content = self.initText(self.parent)
         self.createNotify(content)
-    
-    
+
+
     def createNotify(self, content):
         """function to create notification for label"""
         notification = KNotification(content[0])
@@ -42,8 +42,8 @@ class PTMNotify:
         notification.setTitle("PyTextMonitor info ::: " + content[0]);
         notification.setText(content[1]);
         notification.sendEvent();
-    
-    
+
+
     def createText(self, type):
         """function to create text"""
         text = ""
@@ -174,11 +174,11 @@ class PTMNotify:
                 text = text + "Artist: %s\nAlbum: %s\nTitle: %s" %(artist, album, title)
             except:
                 text = "Something wrong"
-        
+
         content = [type, text]
         return content
-    
-    
+
+
     def initText(self, sender):
         """function to send text"""
         try:

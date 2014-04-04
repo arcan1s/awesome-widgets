@@ -26,15 +26,8 @@ class Tooltip():
     def __init__(self, parent):
         """class definition"""
         self.parent = parent
-    
-    
-    def addValue(self, type, value=0.0, tooltipNum=100):
-        """function to add value to list"""
-        if (len(self.parent.tooltipValues[type]) > tooltipNum):
-            self.parent.tooltipValues[type] = self.parent.tooltipValues[type][1:]
-        self.parent.tooltipValues[type].append(value)
-    
-    
+
+
     def createGraphic(self, types, colors, bounds, values, widget):
         """function to create graph"""
         widget.clear()
@@ -64,4 +57,4 @@ class Tooltip():
                 widget.addLine(x1, y1, x2, y2, pen)
             if (type == 'down'):
                 down = True
-    
+

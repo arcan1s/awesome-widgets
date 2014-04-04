@@ -30,31 +30,35 @@ class ConfigWindow(QWidget):
         QWidget.__init__(self)
         self.ui = uic.loadUi(parent.package().filePath('ui', 'configwindow.ui'), self)
         self.parent = parent
-        self.checkboxes = {'bat':self.ui.checkBox_bat, 'cpu':self.ui.checkBox_cpu, 
-        'cpuclock':self.ui.checkBox_cpuclock, 'gpu':self.ui.checkBox_gpu, 
-        'gputemp':self.ui.checkBox_gpuTemp, 'hdd':self.ui.checkBox_hdd, 
-        'hddtemp':self.ui.checkBox_hddTemp, 'mem':self.ui.checkBox_mem, 
-        'net':self.ui.checkBox_net, 'swap':self.ui.checkBox_swap, 
-        'temp':self.ui.checkBox_temp, 'uptime':self.ui.checkBox_uptime, 
-        'player':self.ui.checkBox_player, 'time':self.ui.checkBox_time,
-        'custom':self.ui.checkBox_custom}
-        self.lineedits = {'bat':self.ui.lineEdit_bat, 'cpu':self.ui.lineEdit_cpu, 
-        'cpuclock':self.ui.lineEdit_cpuclock, 'gpu':self.ui.lineEdit_gpu, 
-        'gputemp':self.ui.lineEdit_gpuTemp, 'hdd':self.ui.lineEdit_hdd, 
-        'hddtemp':self.ui.lineEdit_hddTemp, 'mem':self.ui.lineEdit_mem, 
-        'net':self.ui.lineEdit_net, 'swap':self.ui.lineEdit_swap, 
-        'temp':self.ui.lineEdit_temp, 'uptime':self.ui.lineEdit_uptime, 
-        'player':self.ui.lineEdit_player, 'time':self.ui.lineEdit_time,
-        'custom':self.ui.lineEdit_custom}
-        self.sliders = {'bat':self.ui.slider_bat, 'cpu':self.ui.slider_cpu, 
-        'cpuclock':self.ui.slider_cpuclock, 'gpu':self.ui.slider_gpu, 
-        'gputemp':self.ui.slider_gpuTemp, 'hdd':self.ui.slider_hdd, 
-        'hddtemp':self.ui.slider_hddTemp, 'mem':self.ui.slider_mem, 
-        'net':self.ui.slider_net, 'swap':self.ui.slider_swap, 
-        'temp':self.ui.slider_temp, 'uptime':self.ui.slider_uptime, 
-        'player':self.ui.slider_player, 'time':self.ui.slider_time, 
-        'custom':self.ui.slider_custom}
-        
+        self.kcolorcombos = {'cpu':self.ui.kcolorcombo_cpu,
+            'cpuclock':self.ui.kcolorcombo_cpuclock, 'down':self.ui.kcolorcombo_down,
+            'mem':self.ui.kcolorcombo_mem, 'swap':self.ui.kcolorcombo_swap,
+            'up':self.ui.kcolorcombo_up}
+        self.checkboxes = {'bat':self.ui.checkBox_bat, 'cpu':self.ui.checkBox_cpu,
+            'cpuclock':self.ui.checkBox_cpuclock, 'custom':self.ui.checkBox_custom,
+            'gpu':self.ui.checkBox_gpu, 'gputemp':self.ui.checkBox_gpuTemp,
+            'hdd':self.ui.checkBox_hdd, 'hddtemp':self.ui.checkBox_hddTemp,
+            'mem':self.ui.checkBox_mem, 'net':self.ui.checkBox_net,
+            'swap':self.ui.checkBox_swap, 'temp':self.ui.checkBox_temp,
+            'uptime':self.ui.checkBox_uptime, 'player':self.ui.checkBox_player,
+            'time':self.ui.checkBox_time}
+        self.lineedits = {'bat':self.ui.lineEdit_bat, 'cpu':self.ui.lineEdit_cpu,
+            'cpuclock':self.ui.lineEdit_cpuclock, 'custom':self.ui.lineEdit_custom,
+            'gpu':self.ui.lineEdit_gpu, 'gputemp':self.ui.lineEdit_gpuTemp,
+            'hdd':self.ui.lineEdit_hdd, 'hddtemp':self.ui.lineEdit_hddTemp,
+            'mem':self.ui.lineEdit_mem, 'net':self.ui.lineEdit_net,
+            'swap':self.ui.lineEdit_swap, 'temp':self.ui.lineEdit_temp,
+            'uptime':self.ui.lineEdit_uptime, 'player':self.ui.lineEdit_player,
+            'time':self.ui.lineEdit_time}
+        self.sliders = {'bat':self.ui.slider_bat, 'cpu':self.ui.slider_cpu,
+            'cpuclock':self.ui.slider_cpuclock, 'custom':self.ui.slider_custom,
+            'gpu':self.ui.slider_gpu, 'gputemp':self.ui.slider_gpuTemp,
+            'hdd':self.ui.slider_hdd, 'hddtemp':self.ui.slider_hddTemp,
+            'mem':self.ui.slider_mem, 'net':self.ui.slider_net,
+            'swap':self.ui.slider_swap, 'temp':self.ui.slider_temp,
+            'uptime':self.ui.slider_uptime, 'player':self.ui.slider_player,
+            'time':self.ui.slider_time}
+
         QObject.connect(self.ui.checkBox_netdev, SIGNAL("stateChanged(int)"), self.setNetdevEnabled)
         QObject.connect(self.ui.pushButton_hddDevice, SIGNAL("clicked()"), self.addHddDevice)
         QObject.connect(self.ui.pushButton_mount, SIGNAL("clicked()"), self.addMount)
@@ -66,8 +70,8 @@ class ConfigWindow(QWidget):
             QObject.connect(item, SIGNAL("valueChanged(int)"), self.setSlider)
         for item in self.checkboxes.values():
             QObject.connect(item, SIGNAL("stateChanged(int)"), self.setStatus)
-    
-    
+
+
     def keyPressEvent(self, event):
         """delete events"""
         if (event.key() == Qt.Key_Delete):
@@ -104,8 +108,8 @@ class ConfigWindow(QWidget):
         if (self.ui.listWidget_tempDevice.count() > 9):
             self.ui.listWidget_tempDevice.takeItem(0)
         self.ui.listWidget_tempDevice.addItem(self.ui.comboBox_tempDevice.currentText())
-    
-    
+
+
     def setNetdevEnabled(self):
         """function to set enabled netdev"""
         if (self.ui.checkBox_netdev.checkState() == 0):
@@ -131,7 +135,7 @@ class ConfigWindow(QWidget):
                     new_value = value + 1
             second_slider.setValue(new_value)
 
-    
+
     def setStatus(self):
         """function to enable label"""
         for label in self.checkboxes.keys():

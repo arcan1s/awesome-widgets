@@ -1,6 +1,8 @@
 Ver.1.7.3:
 + added readme directory
 - fix tooltip for custom uptime format
+- fix #12
+* more refactoring to the god of refactoring
 
 Ver.1.7.2:
 + added tags $dd, $d, $hh, $h, $mm, $m to custom uptime format

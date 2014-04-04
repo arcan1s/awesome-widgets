@@ -32,8 +32,8 @@ class DataEngine:
     def __init__(self, parent):
         """class definition"""
         self.parent = parent
-    
-    
+
+
     def connectToEngine(self, bools=None, dataEngines=None, interval=1000, names=None):
         """function to initializate engine"""
         if (bools['cpu'] > 0):
@@ -75,8 +75,8 @@ class DataEngine:
             dataEngines['time'].connectSource("Local", self.parent, 1000)
         if (bools['uptime'] > 0):
             dataEngines['system'].connectSource("system/uptime", self.parent, interval)
-    
-    
+
+
     def dataUpdated(self, sourceName, data, ptm):
         """function to update data"""
         adv = ptm['vars']['adv']
@@ -242,5 +242,5 @@ class DataEngine:
                 updatedData['value'] = value
         #except:
             #pass
-        
+
         return updatedData

@@ -43,8 +43,8 @@ class NewPlasmaLabel(Plasma.Label):
         Plasma.Label.__init__(self, applet)
         self.parent = parent
         self.notify = ptmnotify.PTMNotify(self)
-    
-    
+
+
     def mousePressEvent(self, event):
         """mouse click event"""
         if (event.button() == Qt.LeftButton):
@@ -56,50 +56,50 @@ class pyTextWidget(plasmascript.Applet):
     def __init__(self, parent, args=None):
         """widget definition"""
         plasmascript.Applet.__init__(self, parent)
-    
-    
+
+
     def init(self):
         """function to initializate widget"""
         self._name = str(self.package().metadata().pluginName())
         self.setupVar()
-        
+
         self.dataengine = dataengine.DataEngine(self)
         self.reinit = reinit.Reinit(self, self.ptm['defaults'])
         self.tooltipAgent = tooltip.Tooltip(self)
-        
+
         self.timer = QTimer()
         QObject.connect(self.timer, SIGNAL("timeout()"), self.updateLabel)
-        
+
         self.initTooltip()
         self.reInit()
         self.applet.setLayout(self.ptm['layout'])
         self.theme = Plasma.Svg(self)
         self.theme.setImagePath("widgets/background")
         self.setBackgroundHints(Plasma.Applet.DefaultBackground)
-        
+
         self.setHasConfigurationInterface(True)
         # Create notifyrc file if required
         kdehome = unicode(KGlobal.dirs().localkdedir())
         if ((not os.path.exists(kdehome + "/share/apps/plasma_applet_pytextmonitor/plasma_applet_pytextmonitor.notifyrc")) and
             (not os.path.exists("/usr" + "/share/apps/plasma_applet_pytextmonitor/plasma_applet_pytextmonitor.notifyrc"))):
             self.createNotifyrc(kdehome)
-    
-    
+
+
     def createConfigurationInterface(self, parent):
         """function to setup configuration window"""
         self.configpage = configwindow.ConfigWindow(self)
-        self.configdef = configdef.ConfigDefinition(self, self.configpage)
+        self.configdef = configdef.ConfigDefinition(self, self.configpage, self.ptm['defaults'])
         self.configdef.createConfigurationInterface(parent)
-    
-    
+
+
     def createNotifyrc(self, kdehome):
         """function to create *.notifyrc"""
         if (not os.path.isdir(kdehome + "/share/apps/plasma_applet_pytextmonitor")):
             os.mkdir(kdehome + "/share/apps/plasma_applet_pytextmonitor")
         shutil.copy(kdehome + "/share/apps/plasma/plasmoids/py-text-monitor/contents/code/plasma_applet_pytextmonitor.notifyrc",
                     kdehome + "/share/apps/plasma_applet_pytextmonitor/")
-    
-    
+
+
     def initTooltip(self):
         """function to create tooltip"""
         self.tooltip = Plasma.ToolTipContent()
@@ -114,24 +114,24 @@ class pyTextWidget(plasmascript.Applet):
         self.tooltip_view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         # show tooltip
         Plasma.ToolTipManager.self().setContent(self.applet, self.tooltip)
-    
-    
+
+
     def updateTooltip(self):
         """function to update tooltip"""
         self.tooltipBound['mem'] = self.memValues['total']
         self.tooltipBound['swap'] = self.swapValues['total']
         self.tooltip_view.resize(100.0*(len(self.tooltipReq)-self.tooltipReq.count('up')), 100.0)
-        self.tooltipAgent.createGraphic(self.tooltipReq, self.tooltipColors, 
+        self.tooltipAgent.createGraphic(self.tooltipReq, self.tooltipColors,
             self.tooltipBound, self.tooltipValues, self.tooltip_scene)
         self.tooltip.setImage(QPixmap.grabWidget(self.tooltip_view))
         Plasma.ToolTipManager.self().setContent(self.applet, self.tooltip)
-    
-    
+
+
     def mouseDoubleClickEvent(self, event):
         """function to doubleclick event"""
         os.system("ksysguard &")
-    
-    
+
+
     def setupVar(self):
         """function to setup variables"""
         self.ptm = {}
@@ -139,16 +139,31 @@ class pyTextWidget(plasmascript.Applet):
         self.ptm['dataengine'] = {'ext':None, 'system':None, 'time':None}
         # defaults
         self.ptm['defaults'] = {}
-        self.ptm['defaults']['order'] = {'6':'bat', '1':'cpu', '7':'cpuclock', 'f':'custom', '9':'gpu', 
-            'a':'gputemp', 'b':'hdd', 'c':'hddtemp', '3':'mem', '5':'net', '4':'swap', '2':'temp', 
-            '8':'uptime', 'd':'player', 'e':'time'}
-        self.ptm['defaults']['format'] = {'bat':'[bat: $bat%$ac]', 'cpu':'[cpu: $cpu%]', 
-            'cpuclock':'[mhz: $cpucl]', 'custom':'[$custom]', 'gpu':'[gpu: $gpu%]', 
-            'gputemp':'[gpu temp: $gputemp&deg;C]', 'hdd':'[hdd: $hdd0%]', 
-            'hddtemp':'[hdd temp: $hddtemp0&deg;C]', 'mem':'[mem: $mem%]', 
-            'net':'[$netdev: $down/$upKB/s]', 'swap':'[swap: $swap%]', 
-            'temp':'[temp: $temp0&deg;C]', 'uptime':'[uptime: $uptime]', 
+        self.ptm['defaults']['confBool'] = {'bat':'batBool', 'cpu':'cpuBool',
+            'cpuclock':'cpuclockBool', 'custom':'customBool', 'gpu':'gpuBool',
+            'gputemp':'gputempBool', 'hdd':'hddBool', 'hddtemp':'hddtempBool',
+            'mem':'memBool', 'net':'netBool', 'swap':'swapBool', 'temp':'tempBool',
+            'uptime':'uptimeBool', 'player':'playerBool', 'time':'timeBool'}
+        self.ptm['defaults']['confColor'] = {'cpu':'cpu_color', 'cpuclock':'cpuclock_color',
+            'down':'down_color', 'mem':'mem_color', 'swap':'swap_color', 'up':'up_color'}
+        self.ptm['defaults']['confFormat'] = {'bat':'batFormat', 'cpu':'cpuFormat',
+            'cpuclock':'cpuclockFormat', 'custom':'customFormat', 'gpu':'gpuFormat',
+            'gputemp':'gputempFormat', 'hdd':'hddFormat', 'hddtemp':'hddtempFormat',
+            'mem':'memFormat', 'net':'netFormat', 'swap':'swapFormat', 'temp':'tempFormat',
+            'uptime':'uptimeFormat', 'player':'playerFormat', 'time':'timeFormat'}
+        self.ptm['defaults']['bool'] = {'bat':0, 'cpu':2, 'cpuclock':0, 'custom':0,
+            'gpu':0, 'gputemp':0, 'hdd':0, 'hddtemp':0, 'mem':2, 'net':2, 'swap':2,
+            'temp':0, 'uptime':0, 'player':0, 'time':0}
+        self.ptm['defaults']['format'] = {'bat':'[bat: $bat%$ac]', 'cpu':'[cpu: $cpu%]',
+            'cpuclock':'[mhz: $cpucl]', 'custom':'[$custom]', 'gpu':'[gpu: $gpu%]',
+            'gputemp':'[gpu temp: $gputemp&deg;C]', 'hdd':'[hdd: $hdd0%]',
+            'hddtemp':'[hdd temp: $hddtemp0&deg;C]', 'mem':'[mem: $mem%]',
+            'net':'[$netdev: $down/$upKB/s]', 'swap':'[swap: $swap%]',
+            'temp':'[temp: $temp0&deg;C]', 'uptime':'[uptime: $uptime]',
             'player':'[$artist - $title]', 'time':'[$time]'}
+        self.ptm['defaults']['order'] = {'6':'bat', '1':'cpu', '7':'cpuclock', 'f':'custom', '9':'gpu',
+            'a':'gputemp', 'b':'hdd', 'c':'hddtemp', '3':'mem', '5':'net', '4':'swap', '2':'temp',
+            '8':'uptime', 'd':'player', 'e':'time'}
         # labels
         self.ptm['labels'] = {}
         self.ptm['layout'] = QGraphicsLinearLayout(Qt.Horizontal, self.applet)
@@ -161,9 +176,9 @@ class pyTextWidget(plasmascript.Applet):
         self.ptm['names']['temp'] = []
         # tooltips
         self.ptm['tooltip'] = {}
-        self.ptm['tooltip']['bounds'] = {'cpu':100.0, 'cpuclock':4000.0, 'mem':16000.0, 
+        self.ptm['tooltip']['bounds'] = {'cpu':100.0, 'cpuclock':4000.0, 'mem':16000.0,
             'swap':16000, 'down':10000.0, 'up':10000.0}
-        self.ptm['tooltip']['values'] = {'cpu':[0.0, 0.0], 'cpuclock':[0, 0], 'mem':[0, 0], 
+        self.ptm['tooltip']['values'] = {'cpu':[0.0, 0.0], 'cpuclock':[0, 0], 'mem':[0, 0],
             'swap':[0, 0], 'down':[0, 0], 'up':[0, 0]}
         # values
         self.ptm['values'] = {}
@@ -187,7 +202,7 @@ class pyTextWidget(plasmascript.Applet):
         self.ptm['vars']['bools'] = {}
         self.ptm['vars']['formats'] = {}
         self.ptm['vars']['tooltip'] = {}
-        
+
         self.cpuCore = {-1:"  0.0"}
         self.cpuClockCore = {-1:"   0"}
         numCores = int(commands.getoutput("grep -c '^processor' /proc/cpuinfo"))
@@ -204,32 +219,32 @@ class pyTextWidget(plasmascript.Applet):
         self.swapValues = {'free':0.0, 'used':0.0}
         self.tempNames = []
         self.temp = {}
-        self.tooltipBound = {'cpu':100.0, 'cpuclock':4000.0, 'mem':16000.0, 
+        self.tooltipBound = {'cpu':100.0, 'cpuclock':4000.0, 'mem':16000.0,
             'swap':16000, 'down':10000.0, 'up':10000.0}
         self.tooltipColors = {}
         self.tooltipNum = 100
         self.tooltipReq = []
-        self.tooltipValues = {'cpu':[0.0, 0.01], 'cpuclock':[0.0, 0.01], 'mem':[0.0, 0.01], 
+        self.tooltipValues = {'cpu':[0.0, 0.01], 'cpuclock':[0.0, 0.01], 'mem':[0.0, 0.01],
             'swap':[0.0, 0.01], 'down':[0.0, 0.01], 'up':[0.0, 0.01]}
-        
+
         # create dictionaries
-        self.dict_orders = {'6':'bat', '1':'cpu', '7':'cpuclock', 'f':'custom', '9':'gpu', 
-        'a':'gputemp', 'b':'hdd', 'c':'hddtemp', '3':'mem', '5':'net', '4':'swap', '2':'temp', 
+        self.dict_orders = {'6':'bat', '1':'cpu', '7':'cpuclock', 'f':'custom', '9':'gpu',
+        'a':'gputemp', 'b':'hdd', 'c':'hddtemp', '3':'mem', '5':'net', '4':'swap', '2':'temp',
         '8':'uptime', 'd':'player', 'e':'time'}
-        self.dict_defFormat = {'bat':'[bat: $bat%$ac]', 'cpu':'[cpu: $cpu%]', 
-        'cpuclock':'[mhz: $cpucl]', 'custom':'[$custom]', 'gpu':'[gpu: $gpu%]', 
-        'gputemp':'[gpu temp: $gputemp&deg;C]', 'hdd':'[hdd: $hdd0%]', 
-        'hddtemp':'[hdd temp: $hddtemp0&deg;C]', 'mem':'[mem: $mem%]', 
-        'net':'[$netdev: $down/$upKB/s]', 'swap':'[swap: $swap%]', 
-        'temp':'[temp: $temp0&deg;C]', 'uptime':'[uptime: $uptime]', 
+        self.dict_defFormat = {'bat':'[bat: $bat%$ac]', 'cpu':'[cpu: $cpu%]',
+        'cpuclock':'[mhz: $cpucl]', 'custom':'[$custom]', 'gpu':'[gpu: $gpu%]',
+        'gputemp':'[gpu temp: $gputemp&deg;C]', 'hdd':'[hdd: $hdd0%]',
+        'hddtemp':'[hdd temp: $hddtemp0&deg;C]', 'mem':'[mem: $mem%]',
+        'net':'[$netdev: $down/$upKB/s]', 'swap':'[swap: $swap%]',
+        'temp':'[temp: $temp0&deg;C]', 'uptime':'[uptime: $uptime]',
         'player':'[$artist - $title]', 'time':'[$time]'}
 
 
     def showConfigurationInterface(self):
         """function to show configuration window"""
         plasmascript.Applet.showConfigurationInterface(self)
-    
-    
+
+
     def startPolling(self):
         try:
             self.timer.start()
@@ -259,8 +274,8 @@ class pyTextWidget(plasmascript.Applet):
         if (self.tempBool > 0):
             self.tempText()
         self.updateTooltip()
-    
-    
+
+
     def batText(self):
         """function to set battery text"""
         line = self.batFormat
@@ -285,8 +300,8 @@ class pyTextWidget(plasmascript.Applet):
             line = line.split('$ac')[0] + bat + line.split('$ac')[1]
         text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
         self.label_bat.setText(text)
-    
-    
+
+
     def cpuText(self):
         """function to set cpu text"""
         line = self.cpuFormat
@@ -298,8 +313,8 @@ class pyTextWidget(plasmascript.Applet):
             line = line.split('$cpu')[0] + self.cpuCore[-1] + line.split('$cpu')[1]
         text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
         self.label_cpu.setText(text)
-    
-    
+
+
     def cpuclockText(self):
         """function to set cpu clock text"""
         line = self.cpuclockFormat
@@ -311,12 +326,12 @@ class pyTextWidget(plasmascript.Applet):
             line = line.split('$cpucl')[0] + self.cpuClockCore[-1] + line.split('$cpucl')[1]
         text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
         self.label_cpuclock.setText(text)
-    
-    
+
+
     def hddText(self):
         """function to set hddtemp text"""
-    
-    
+
+
     def memText(self):
         """function to set mem text"""
         try:
@@ -330,8 +345,8 @@ class pyTextWidget(plasmascript.Applet):
             line = self.memFormat
         text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
         self.label_mem.setText(text)
-    
-    
+
+
     def mountText(self):
         """function to set mount text"""
         line = self.hddFormat
@@ -340,8 +355,8 @@ class pyTextWidget(plasmascript.Applet):
                 line = line.split('$hdd'+str(i))[0] + self.mount[self.mountNames[i]] + line.split('$hdd'+str(i))[1]
         text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
         self.label_hdd.setText(text)
-    
-    
+
+
     def netText(self):
         """function to set network text"""
         line = self.netFormat
@@ -353,8 +368,8 @@ class pyTextWidget(plasmascript.Applet):
             line = line.split('$down')[0] + self.netSpeed['down'] + line.split('$down')[1]
         text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
         self.label_net.setText(text)
-    
-    
+
+
     def swapText(self):
         """function to set swap text"""
         try:
@@ -368,8 +383,8 @@ class pyTextWidget(plasmascript.Applet):
             line = self.swapFormat
         text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
         self.label_swap.setText(text)
-    
-    
+
+
     def tempText(self):
         """function to set temperature text"""
         line = self.tempFormat
@@ -378,8 +393,8 @@ class pyTextWidget(plasmascript.Applet):
                 line = line.split('$temp'+str(i))[0] + self.temp[self.tempNames[i]] + line.split('$temp'+str(i))[1]
         text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
         self.label_temp.setText(text)
-    
-    
+
+
     # api's functions
     def addLabel(self, name=None, text=None, add=True):
         """function to add new label"""
@@ -390,8 +405,8 @@ class pyTextWidget(plasmascript.Applet):
         else:
             self.setText(name, '')
             self.ptm['layout'].removeItem(self.ptm['labels'][name])
-    
-    
+
+
     def applySettings(self, name=None, ptm=None):
         """function to read settings"""
         self.ptm[name] = ptm
@@ -399,40 +414,39 @@ class pyTextWidget(plasmascript.Applet):
             for item in ['hdd', 'hddtemp', 'temp']:
                 for value in self.ptm['names'][item]:
                     self.ptm['values'][item][value] = 0.0
-    
-    
+
+
     def connectToEngine(self):
         """function to connect to dataengines"""
         self.ptm['dataengine']['ext'] = self.dataEngine("ext-sysmon")
         self.ptm['dataengine']['system'] = self.dataEngine("systemmonitor")
         self.ptm['dataengine']['time'] = self.dataEngine("time")
-        self.dataengine.connectToEngine(self.ptm['vars']['bools'], self.ptm['dataengine'], 
+        self.dataengine.connectToEngine(self.ptm['vars']['bools'], self.ptm['dataengine'],
             self.ptm['vars']['app']['interval'], self.ptm['names'])
-    
-    
+
+
     def disconnectFromSource(self):
         """function to disconnect from sources"""
-    
-    
+
+
     def reInit(self):
         """function to run reinit"""
         self.reinit.reinit()
         if (self.ptm['vars']['adv']['netdevBool'] == 0):
             self.ptm['names']['net'] = self.setNetdev()
         self.resize(10, 10)
-        
+
         # create dataengines
         self.thread().wait(60000)
         self.connectToEngine()
-        
+
         self.timer.setInterval(self.ptm['vars']['app']['interval'])
         self.startPolling()
-    
-    
+
+
     def setNetdev(self):
         """function to set network device"""
         netdev = "lo"
-        self.ptm['vars']['adv']
         netdir = self.ptm['vars']['adv']['netDir']
         interfaces = QDir.entryList(QDir(netdir), QDir.Dirs | QDir.NoDotAndDotDot)
         for device in interfaces:
@@ -445,28 +459,88 @@ class pyTextWidget(plasmascript.Applet):
                     pass
         self.ptm['names']['net'] = netdev
         return netdev
-    
-    
+
+
     def setText(self, name=None, text=None):
         """function to set text to labels"""
         self.ptm['labels'][name].setText(text)
-    
-    
+
+
+    def textPrepare(self, name=None, text=None):
+        """function to prepare text"""
+        line = self.ptm['vars']['formats'][name]
+        if (name == "custom"):
+            if (line.split('$custom')[0] != line):
+                line = line.split('$custom')[0] + text + line.split('$custom')[1]
+        elif (name == "gpu"):
+            if (line.split('$gpu')[0] != line):
+                line = line.split('$gpu')[0] + text + line.split('$gpu')[1]
+        elif (name == "gputemp"):
+            if (line.split('$gputemp')[0] != line):
+                line = line.split('$gputemp')[0] + text + line.split('$gputemp')[1]
+        elif (name == "player"):
+            if (line.split('$album')[0] != line):
+                line = line.split('$album')[0] + self.ptm['values']['player']['album'] + line.split('$album')[1]
+            if (line.split('$artist')[0] != line):
+                line = line.split('$artist')[0] + self.ptm['values']['player']['artist'] + line.split('$artist')[1]
+            if (line.split('$progress')[0] != line):
+                line = line.split('$progress')[0] + self.ptm['values']['player']['progress'] + line.split('$progress')[1]
+            if (line.split('$time')[0] != line):
+                line = line.split('$time')[0] + self.ptm['values']['player']['time'] + line.split('$time')[1]
+            if (line.split('$title')[0] != line):
+                line = line.split('$title')[0] + self.ptm['values']['player']['title'] + line.split('$title')[1]
+        elif (name == "time"):
+            if (line.split('$time')[0] != line):
+                line = line.split('$time')[0] + text + line.split('$time')[1]
+            elif (line.split('$isotime')[0] != line):
+                line = line.split('$isotime')[0] + text + line.split('$isotime')[1]
+            elif (line.split('$shorttime')[0] != line):
+                line = line.split('$shorttime')[0] + text + line.split('$shorttime')[1]
+            elif (line.split('$longtime')[0] != line):
+                line = line.split('$longtime')[0] + text + line.split('$longtime')[1]
+            elif (line.split('$custom')[0] != line):
+                line = line.split('$custom')[0] + text + line.split('$custom')[1]
+        elif (name == "uptime"):
+            if (line.split('$uptime')[0] != line):
+                line = line.split('$uptime')[0] + text + line.split('$uptime')[1]
+            elif (line.split('$custom')[0] != line):
+                line = line.split('$custom')[0] + text + line.split('$custom')[1]
+        output = self.ptm['vars']['app']['format'].split('$LINE')[0] + line + self.ptm['vars']['app']['format'].split('$LINE')[1]
+        return output
+
+
     @pyqtSignature("dataUpdated(const QString &, const Plasma::DataEngine::Data &)")
     def dataUpdated(self, sourceName, data):
         """function to update label"""
         updatedData = self.dataengine.dataUpdated(str(sourceName), data, self.ptm)
-        # update tooltips
-        if (updatedData['name'] in ['cpu', 'cpuclock', 'mem', 'swap', 'net']):
-            pass
-        # update labels where is needed
-        if (updatedData['name'] in ['gpu', 'gputemp', 'player']):
-            pass
+        # update falues where is needed
+        if (updatedData['type']):
+            self.ptm['values'][updatedData['name']][updatedData['type']] = updatedData['values']
         else:
-            if (updatedData['type']):
-                pass
+            self.ptm['values'][updatedData['name']] = updatedData['values']
+        # update labels where is needed
+        if (updatedData['name'] in ['custom', 'gpu', 'gputemp', 'player', 'time', 'uptime']):
+            text = self.textPrepare(updatedData['name'], updatedData['value'])
+            self.setText(updatedData['name'], text)
+        # update tooltips
+        if ((updatedData['name'] in ['cpu', 'cpuclock', 'mem', 'swap', 'net']) and (self.ptm['vars']['bools'][updatedData['name']] == 2)):
+            if (updatedData['name'] == "net"):
+                if (len(self.ptm['tooltip']['values'][updatedData['type']]) > self.ptm['vars']['tooltip']['num']):
+                    self.ptm['tooltip']['values'][updatedData['type']] = self.ptm['tooltip']['values'][updatedData['type']][1:]
             else:
-                pass
+                if (len(self.ptm['tooltip']['values'][updatedData['name']]) > self.ptm['vars']['tooltip']['num']):
+                    self.ptm['tooltip']['values'][updatedData['name']] = self.ptm['tooltip']['values'][updatedData['name']][1:]
+            if ((updatedData['name'] in ['cpu', 'cpuclock']) and (updatedData['type'] == -1)):
+                self.ptm['tooltip']['values'][updatedData['name']].append(updatedData['value'])
+            elif ((updatedData['name'] == "mem") and (updatedData['type'] == "app")):
+                self.ptm['tooltip']['values'][updatedData['name']].append(updatedData['value'])
+            elif ((updatedData['name'] == "mem") and (updatedData['type'] == "used")):
+                self.ptm['tooltip']['bounds']['mem'] = self.ptm['values']['mem']['free'] + self.ptm['values']['mem']['used']
+            elif ((updatedData['name'] == "swap") and (updatedData['type'] == "used")):
+                self.ptm['tooltip']['values'][updatedData['name']].append(updatedData['value'])
+                self.ptm['tooltip']['bounds']['swap'] = self.ptm['values']['swap']['free'] + self.ptm['values']['swap']['used']
+            elif (updatedData['name'] == "net"):
+                self.ptm['tooltip']['values'][updatedData['type']].append(updatedData['value'])
         self.update()
 
 

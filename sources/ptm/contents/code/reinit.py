@@ -29,13 +29,13 @@ class Reinit():
         self.parent = parent
         self.defaults = defaults
         self.labels = defaults['format'].keys()
-    
-    
+
+
     def reinit(self):
         """function to reinitializate widget"""
         settings = config.Config(self.parent)
         ptmVars = {}
-        
+
         ptmVars['adv'] = {}
         ptmVars['adv']['acDev'] = str(settings.get('ac_device', '/sys/class/power_supply/AC/online'))
         ptmVars['adv']['batDev'] = str(settings.get('battery_device', '/sys/class/power_supply/BAT0/capacity'))
@@ -44,7 +44,7 @@ class Reinit():
         ptmVars['adv']['netdevBool'] = settings.get('netdevBool', 0).toInt()[0]
         ptmVars['adv']['netDir'] = str(settings.get('netdir', '/sys/class/net'))
         ptmVars['adv']['player'] = settings.get('player_name', 0).toInt()[0]
-        
+
         ptmVars['app'] = {}
         ptmVars['app']['format'] = "<pre><p align=\"center\"><span style=\" font-family:'" + str(settings.get('font_family', 'Terminus')) +\
             "'; font-style:" + str(settings.get('font_style', 'normal')) + "; font-size:" + str(settings.get('font_size', 12)) +\
@@ -52,7 +52,7 @@ class Reinit():
             ";\">$LINE</span></p></pre>"
         ptmVars['app']['interval'] = settings.get('interval', 2000).toInt()[0]
         ptmVars['app']['order'] = str(settings.get('label_order', '1345'))
-        
+
         ptmVars['tooltip'] = {}
         ptmVars['tooltip']['colors'] = {}
         ptmVars['tooltip']['colors']['cpu'] = str(settings.get('cpu_color', '#ff0000'))
@@ -62,14 +62,11 @@ class Reinit():
         ptmVars['tooltip']['colors']['down'] = str(settings.get('down_color', '#00ffff'))
         ptmVars['tooltip']['colors']['up'] = str(settings.get('up_color', '#ff00ff'))
         ptmVars['tooltip']['num'] = settings.get('tooltip_num', 100).toInt()[0]
-        
+
         ptmVars['bools'] = {}
         for label in self.labels:
-            if (label in ['cpu', 'mem', 'swap', 'net']):
-                exec("ptmVars['bools'][label] = settings.get('" + label + "Bool', 2).toInt()[0]")
-            else:
-                exec("ptmVars['bools'][label] = settings.get('" + label + "Bool', 0).toInt()[0]")
-        
+            ptmVars['bools'][label] = settings.get(self.defaults['confBool'][label], self.defaults['bool'][label]).toInt()[0]
+
         ptmNames = {}
         ptmNames['hdd'] = str(settings.get('mount', '/')).split('@@')
         ptmNames['hddtemp'] = str(settings.get('hdd', '/dev/sda')).split('@@')
@@ -79,13 +76,13 @@ class Reinit():
             ptmNames['net'] = ""
         ptmNames['temp'] = str(settings.get('temp_device', '')).split('@@')
         self.parent.applySettings('names', ptmNames)
-        
+
         ptmVars['formats'] = {}
         ptmVars['tooltip']['required'] = []
         for order in ptmVars['app']['order']:
             label = self.defaults['order'][order]
             if (ptmVars['bools'][label] > 0):
-                exec("ptmVars['formats'][label] = str(settings.get('" + label + "Format', self.defaults['format'][label]))")
+                ptmVars['formats'][label] = str(settings.get(self.defaults['confFormat'][label], self.defaults['format'][label]))
                 text = ptmVars['app']['format'].split('$LINE')[0] + ptmVars['formats'][label] + ptmVars['app']['format'].split('$LINE')[1]
                 self.parent.addLabel(label, text, True)
                 if ((label in ['cpu', 'cpuclock', 'mem', 'net', 'swap']) and (ptmVars['bools'][label] == 2)):
