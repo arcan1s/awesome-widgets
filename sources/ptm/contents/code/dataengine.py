@@ -87,29 +87,7 @@ class DataEngine:
         updatedData = {'name':None, 'type':None, 'value':None}
         if True:
         #try:
-            if (sourceName == "system/uptime"):
-                updatedData['name'] = "uptime"
-                value = datetime.timedelta(0, int(round(float(data[QString(u'value')]), 1)))
-                days = value.days
-                hours = int(value.seconds / 60 / 60)
-                minutes = int(value.seconds / 60 % 60)
-                if (formats['uptime'].split('$uptime')[0] != formats['uptime']):
-                    updatedData['value'] = "%3id%2ih%2im" % (days, hours, minutes)
-                elif (formats['uptime'].split('$custom')[0] != formats['uptime']):
-                    updatedData['value'] = adv['customUptime']
-                    if (updatedData['value'].split('$dd')[0] != updatedData['value']):
-                        updatedData['value'] = "%s%03i%s" % (updatedData['value'].split('$dd')[0], days, updatedData['value'].split('$dd')[1])
-                    if (updatedData['value'].split('$d')[0] != updatedData['value']):
-                        updatedData['value'] = "%s%3i%s" % (updatedData['value'].split('$d')[0], days, updatedData['value'].split('$d')[1])
-                    if (updatedData['value'].split('$hh')[0] != updatedData['value']):
-                        updatedData['value'] = "%s%02i%s" % (updatedData['value'].split('$hh')[0], hours, updatedData['value'].split('$hh')[1])
-                    if (updatedData['value'].split('$h')[0] != updatedData['value']):
-                        updatedData['value'] = "%s%2i%s" % (updatedData['value'].split('$h')[0], hours, updatedData['value'].split('$h')[1])
-                    if (updatedData['value'].split('$mm')[0] != updatedData['value']):
-                        updatedData['value'] = "%s%02i%s" % (updatedData['value'].split('$mm')[0], minutes, updatedData['value'].split('$mm')[1])
-                    if (updatedData['value'].split('$m')[0] != updatedData['value']):
-                        updatedData['value'] = "%s%2i%s" % (updatedData['value'].split('$m')[0], minutes, updatedData['value'].split('$m')[1])
-            elif (sourceName == "cpu/system/TotalLoad"):
+            if (sourceName == "cpu/system/TotalLoad"):
                 updatedData['name'] = "cpu"
                 updatedData['type'] = -1
                 value = round(data[QString(u'value')].toFloat()[0], 1)
@@ -129,11 +107,44 @@ class DataEngine:
                 updatedData['type'] = int(sourceName[7])
                 value = round(data[QString(u'value')].toFloat()[0], 0)
                 updatedData['value'] = "%4.0f" % (value)
-            elif ((sourceName.split('/')[0] == "network") and (sourceName.split('/')[3] == "transmitter")):
-                updatedData['name'] = "net"
-                updatedData['type'] = "up"
-                value = round(data[QString(u'value')].toFloat()[0], 0)
-                updatedData['value'] = "%4.0f" % (value)
+            elif (sourceName == "custom"):
+                updatedData['name'] = "custom"
+                value = str(data[QString(u'custom')].toUtf8()).decode("utf-8")
+                updatedData['value'] = value
+            elif (sourceName == "gpu"):
+                updatedData['name'] = "gpu"
+                value = round(data[QString(u'GPU')].toFloat()[0], 1)
+                updatedData['value'] = "%4.1f" % (value)
+            elif (sourceName == "gputemp"):
+                updatedData['name'] = "gputemp"
+                value = round(data[QString(u'GPUTemp')].toFloat()[0], 1)
+                updatedData['value'] = "%4.1f" % (value)
+            elif (sourceName.split('/')[0] == "partitions"):
+                updatedData['name'] = "hdd"
+                updatedData['type'] = '/' + '/'.join(sourceName.split('/')[1:-1])
+                value = round(data[QString(u'value')].toFloat()[0], 1)
+                updatedData['value'] = "%5.1f" % (value)
+            elif (sourceName == "hddtemp"):
+                updatedData['name'] = "hddtemp"
+                updatedData['value'] = {}
+                for item in names['hddtemp']:
+                    value = round(data[QString(item)].toFloat()[0], 1)
+                    updatedData['value'][item] = "%4.1f" % (value)
+            elif (sourceName == "mem/physical/application"):
+                updatedData['name'] = "mem"
+                updatedData['type'] = "app"
+                value = round(data[QString(u'value')].toFloat()[0], 1)
+                updatedData['value'] = value
+            elif (sourceName == "mem/physical/free"):
+                updatedData['name'] = "mem"
+                updatedData['type'] = "free"
+                value = round(data[QString(u'value')].toFloat()[0], 1)
+                updatedData['value'] = value
+            elif (sourceName == "mem/physical/used"):
+                updatedData['name'] = "mem"
+                updatedData['type'] = "used"
+                value = round(data[QString(u'value')].toFloat()[0], 1)
+                updatedData['value'] = value
             elif ((sourceName.split('/')[0] == "network") and (sourceName.split('/')[3] == "receiver")):
                 updatedData['name'] = "net"
                 updatedData['type'] = "down"
@@ -149,55 +160,11 @@ class DataEngine:
                         names['net'] = self.parent.setNetdev()
                         systemDataEngine.connectSource("network/interfaces/" + names['net'] + "/transmitter/data", self.parent, interval)
                         systemDataEngine.connectSource("network/interfaces/" + names['net'] + "/receiver/data", self.parent, interval)
-            elif (sourceName.split('/')[0] == "lmsensors"):
-                updatedData['name'] = "temp"
-                updatedData['type'] = sourceName
-                value = round(data[QString(u'value')].toFloat()[0], 1)
-                updatedData['value'] = "%4.1f" % (value)
-            elif (str(sourceName).split('/')[0] == "partitions"):
-                updatedData['name'] = "hdd"
-                updatedData['type'] = '/' + '/'.join(sourceName.split('/')[1:-1])
-                value = round(data[QString(u'value')].toFloat()[0], 1)
-                updatedData['value'] = "%5.1f" % (value)
-            elif (sourceName == "mem/physical/free"):
-                updatedData['name'] = "mem"
-                updatedData['type'] = "free"
-                value = round(data[QString(u'value')].toFloat()[0], 1)
-                updatedData['value'] = value
-            elif (sourceName == "mem/physical/used"):
-                updatedData['name'] = "mem"
-                updatedData['type'] = "used"
-                value = round(data[QString(u'value')].toFloat()[0], 1)
-                updatedData['value'] = value
-            elif (sourceName == "mem/physical/application"):
-                updatedData['name'] = "mem"
-                updatedData['type'] = "app"
-                value = round(data[QString(u'value')].toFloat()[0], 1)
-                updatedData['value'] = value
-            elif (sourceName == "mem/swap/free"):
-                updatedData['name'] = "swap"
-                updatedData['type'] = "free"
-                value = round(data[QString(u'value')].toFloat()[0], 1)
-                updatedData['value'] = value
-            elif (sourceName == "mem/swap/used"):
-                updatedData['name'] = "swap"
-                updatedData['type'] = "used"
-                value = round(data[QString(u'value')].toFloat()[0], 1)
-                updatedData['value'] = value
-            elif (sourceName == "gpu"):
-                updatedData['name'] = "gpu"
-                value = round(data[QString(u'GPU')].toFloat()[0], 1)
-                updatedData['value'] = "%4.1f" % (value)
-            elif (sourceName == "gputemp"):
-                updatedData['name'] = "gputemp"
-                value = round(data[QString(u'GPUTemp')].toFloat()[0], 1)
-                updatedData['value'] = "%4.1f" % (value)
-            elif (sourceName == "hddtemp"):
-                updatedData['name'] = "hddtemp"
-                updatedData['value'] = {}
-                for item in names['hddtemp']:
-                    value = round(data[QString(item)].toFloat()[0], 1)
-                    updatedData['value'][item] = "%4.1f" % (value)
+            elif ((sourceName.split('/')[0] == "network") and (sourceName.split('/')[3] == "transmitter")):
+                updatedData['name'] = "net"
+                updatedData['type'] = "up"
+                value = round(data[QString(u'value')].toFloat()[0], 0)
+                updatedData['value'] = "%4.0f" % (value)
             elif (sourceName == "player"):
                 updatedData['name'] = "player"
                 updatedData['value'] = {}
@@ -219,6 +186,21 @@ class DataEngine:
                     updatedData['value']['progress'] = str(data[QString(u'qmmp_progress')].toUtf8()).decode("utf-8")
                     updatedData['value']['time'] = str(data[QString(u'qmmp_duration')].toUtf8()).decode("utf-8")
                     updatedData['value']['title'] = str(data[QString(u'qmmp_title')].toUtf8()).decode("utf-8")
+            elif (sourceName == "mem/swap/free"):
+                updatedData['name'] = "swap"
+                updatedData['type'] = "free"
+                value = round(data[QString(u'value')].toFloat()[0], 1)
+                updatedData['value'] = value
+            elif (sourceName == "mem/swap/used"):
+                updatedData['name'] = "swap"
+                updatedData['type'] = "used"
+                value = round(data[QString(u'value')].toFloat()[0], 1)
+                updatedData['value'] = value
+            elif (sourceName.split('/')[0] == "lmsensors"):
+                updatedData['name'] = "temp"
+                updatedData['type'] = sourceName
+                value = round(data[QString(u'value')].toFloat()[0], 1)
+                updatedData['value'] = "%4.1f" % (value)
             elif (sourceName == "Local"):
                 updatedData['name'] = "time"
                 if (formats['time'].split('$time')[0] != formats['time']):
@@ -236,10 +218,28 @@ class DataEngine:
                         if (value.split('$' + letters)[0] != value):
                             value = value.split('$' + letters)[0] + str(rawDate.toString(letters).toUtf8()).decode("utf-8") + value.split('$' + letters)[1]
                 updatedData['value'] = value
-            elif (sourceName == "custom"):
-                updatedData['name'] = "custom"
-                value = str(data[QString(u'custom')].toUtf8()).decode("utf-8")
-                updatedData['value'] = value
+            elif (sourceName == "system/uptime"):
+                updatedData['name'] = "uptime"
+                value = datetime.timedelta(0, int(round(float(data[QString(u'value')]), 1)))
+                days = value.days
+                hours = int(value.seconds / 60 / 60)
+                minutes = int(value.seconds / 60 % 60)
+                if (formats['uptime'].split('$uptime')[0] != formats['uptime']):
+                    updatedData['value'] = "%3id%2ih%2im" % (days, hours, minutes)
+                elif (formats['uptime'].split('$custom')[0] != formats['uptime']):
+                    updatedData['value'] = adv['customUptime']
+                    if (updatedData['value'].split('$dd')[0] != updatedData['value']):
+                        updatedData['value'] = "%s%03i%s" % (updatedData['value'].split('$dd')[0], days, updatedData['value'].split('$dd')[1])
+                    if (updatedData['value'].split('$d')[0] != updatedData['value']):
+                        updatedData['value'] = "%s%3i%s" % (updatedData['value'].split('$d')[0], days, updatedData['value'].split('$d')[1])
+                    if (updatedData['value'].split('$hh')[0] != updatedData['value']):
+                        updatedData['value'] = "%s%02i%s" % (updatedData['value'].split('$hh')[0], hours, updatedData['value'].split('$hh')[1])
+                    if (updatedData['value'].split('$h')[0] != updatedData['value']):
+                        updatedData['value'] = "%s%2i%s" % (updatedData['value'].split('$h')[0], hours, updatedData['value'].split('$h')[1])
+                    if (updatedData['value'].split('$mm')[0] != updatedData['value']):
+                        updatedData['value'] = "%s%02i%s" % (updatedData['value'].split('$mm')[0], minutes, updatedData['value'].split('$mm')[1])
+                    if (updatedData['value'].split('$m')[0] != updatedData['value']):
+                        updatedData['value'] = "%s%2i%s" % (updatedData['value'].split('$m')[0], minutes, updatedData['value'].split('$m')[1])
         #except:
             #pass
 

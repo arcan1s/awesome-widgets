@@ -1,5 +1,6 @@
 Ver.1.7.3:
 + added readme directory
++ added french translation (@Mermouy)
 - fix tooltip for custom uptime format
 - fix #12
 * more refactoring to the god of refactoring

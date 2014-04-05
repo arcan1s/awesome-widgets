@@ -149,18 +149,19 @@ class pyTextWidget(plasmascript.Applet):
         self.ptm['defaults']['confFormat'] = {'bat':'batFormat', 'cpu':'cpuFormat',
             'cpuclock':'cpuclockFormat', 'custom':'customFormat', 'gpu':'gpuFormat',
             'gputemp':'gputempFormat', 'hdd':'hddFormat', 'hddtemp':'hddtempFormat',
-            'mem':'memFormat', 'net':'netFormat', 'swap':'swapFormat', 'temp':'tempFormat',
-            'uptime':'uptimeFormat', 'player':'playerFormat', 'time':'timeFormat'}
+            'mem':'memFormat', 'net':'netFormat', 'player':'playerFormat',
+            'swap':'swapFormat', 'temp':'tempFormat', 'time':'timeFormat',
+            'uptime':'uptimeFormat'}
         self.ptm['defaults']['bool'] = {'bat':0, 'cpu':2, 'cpuclock':0, 'custom':0,
-            'gpu':0, 'gputemp':0, 'hdd':0, 'hddtemp':0, 'mem':2, 'net':2, 'swap':2,
-            'temp':0, 'uptime':0, 'player':0, 'time':0}
+            'gpu':0, 'gputemp':0, 'hdd':0, 'hddtemp':0, 'mem':2, 'net':2, 'player':0,
+            'swap':2, 'temp':0, 'time':0, 'uptime':0}
         self.ptm['defaults']['format'] = {'bat':'[bat: $bat%$ac]', 'cpu':'[cpu: $cpu%]',
             'cpuclock':'[mhz: $cpucl]', 'custom':'[$custom]', 'gpu':'[gpu: $gpu%]',
             'gputemp':'[gpu temp: $gputemp&deg;C]', 'hdd':'[hdd: $hdd0%]',
             'hddtemp':'[hdd temp: $hddtemp0&deg;C]', 'mem':'[mem: $mem%]',
-            'net':'[$netdev: $down/$upKB/s]', 'swap':'[swap: $swap%]',
-            'temp':'[temp: $temp0&deg;C]', 'uptime':'[uptime: $uptime]',
-            'player':'[$artist - $title]', 'time':'[$time]'}
+            'net':'[$netdev: $down/$upKB/s]', 'player':'[$artist - $title]',
+            'swap':'[swap: $swap%]', 'temp':'[temp: $temp0&deg;C]',
+            'time':'[$time]', 'uptime':'[uptime: $uptime]'}
         self.ptm['defaults']['order'] = {'6':'bat', '1':'cpu', '7':'cpuclock', 'f':'custom', '9':'gpu',
             'a':'gputemp', 'b':'hdd', 'c':'hddtemp', '3':'mem', '5':'net', '4':'swap', '2':'temp',
             '8':'uptime', 'd':'player', 'e':'time'}
@@ -190,10 +191,10 @@ class pyTextWidget(plasmascript.Applet):
             self.ptm['values']['cpuclock'][i] = "   0"
         self.ptm['values']['hdd'] = {}
         self.ptm['values']['hddtemp'] = {}
-        self.ptm['values']['mem'] = {'used':0, 'free':0, 'total':1}
+        self.ptm['values']['mem'] = {'app':0, 'used':0, 'free':1}
         self.ptm['values']['net'] = {"up":"   0", "down":"   0"}
         self.ptm['values']['player'] = {}
-        self.ptm['values']['swap'] = {'used':0, 'free':0, 'total':1}
+        self.ptm['values']['swap'] = {'used':0, 'free':1}
         self.ptm['values']['temp'] = {}
         # variables
         self.ptm['vars'] = {}
@@ -202,42 +203,6 @@ class pyTextWidget(plasmascript.Applet):
         self.ptm['vars']['bools'] = {}
         self.ptm['vars']['formats'] = {}
         self.ptm['vars']['tooltip'] = {}
-
-        self.cpuCore = {-1:"  0.0"}
-        self.cpuClockCore = {-1:"   0"}
-        numCores = int(commands.getoutput("grep -c '^processor' /proc/cpuinfo"))
-        for i in range(numCores):
-            self.cpuCore[i] = str("  0.0")
-            self.cpuClockCore[i] = str("   0")
-        self.hddNames = []
-        self.hdd = {}
-        self.mountNames = []
-        self.mount = {}
-        self.memValues = {'app':0.0, 'free':0.0, 'used':0.0}
-        self.netdev = ''
-        self.netSpeed = {"up":"   0", "down":"   0"}
-        self.swapValues = {'free':0.0, 'used':0.0}
-        self.tempNames = []
-        self.temp = {}
-        self.tooltipBound = {'cpu':100.0, 'cpuclock':4000.0, 'mem':16000.0,
-            'swap':16000, 'down':10000.0, 'up':10000.0}
-        self.tooltipColors = {}
-        self.tooltipNum = 100
-        self.tooltipReq = []
-        self.tooltipValues = {'cpu':[0.0, 0.01], 'cpuclock':[0.0, 0.01], 'mem':[0.0, 0.01],
-            'swap':[0.0, 0.01], 'down':[0.0, 0.01], 'up':[0.0, 0.01]}
-
-        # create dictionaries
-        self.dict_orders = {'6':'bat', '1':'cpu', '7':'cpuclock', 'f':'custom', '9':'gpu',
-        'a':'gputemp', 'b':'hdd', 'c':'hddtemp', '3':'mem', '5':'net', '4':'swap', '2':'temp',
-        '8':'uptime', 'd':'player', 'e':'time'}
-        self.dict_defFormat = {'bat':'[bat: $bat%$ac]', 'cpu':'[cpu: $cpu%]',
-        'cpuclock':'[mhz: $cpucl]', 'custom':'[$custom]', 'gpu':'[gpu: $gpu%]',
-        'gputemp':'[gpu temp: $gputemp&deg;C]', 'hdd':'[hdd: $hdd0%]',
-        'hddtemp':'[hdd temp: $hddtemp0&deg;C]', 'mem':'[mem: $mem%]',
-        'net':'[$netdev: $down/$upKB/s]', 'swap':'[swap: $swap%]',
-        'temp':'[temp: $temp0&deg;C]', 'uptime':'[uptime: $uptime]',
-        'player':'[$artist - $title]', 'time':'[$time]'}
 
 
     def showConfigurationInterface(self):
@@ -257,142 +222,150 @@ class pyTextWidget(plasmascript.Applet):
 
     def updateLabel(self):
         """function to update label"""
-        if (self.batBool > 0):
+        if (self.ptm['vars']['bools']['bat'] > 0):
             self.batText()
-        if (self.cpuBool > 0):
+        if (self.ptm['vars']['bools']['cpu'] > 0):
             self.cpuText()
-        if (self.cpuclockBool > 0):
+        if (self.ptm['vars']['bools']['cpuclock'] > 0):
             self.cpuclockText()
-        if (self.hddBool > 0):
-            self.mountText()
-        if ((self.memBool > 0) and (self.memInMb == False)):
+        if (self.ptm['vars']['bools']['hdd'] > 0):
+            self.hddText()
+        if (self.ptm['vars']['bools']['hddtemp'] > 0):
+            self.hddtempText()
+        if (self.ptm['vars']['bools']['mem'] > 0):
             self.memText()
-        if (self.netBool > 0):
+        if (self.ptm['vars']['bools']['net'] > 0):
             self.netText()
-        if ((self.swapBool > 0) and (self.swapInMb == False)):
+        if (self.ptm['vars']['bools']['swap'] > 0):
             self.swapText()
-        if (self.tempBool > 0):
+        if (self.ptm['vars']['bools']['temp'] > 0):
             self.tempText()
         self.updateTooltip()
 
 
     def batText(self):
         """function to set battery text"""
-        line = self.batFormat
+        line = self.ptm['vars']['formats']['bat']
         if (line.split('$bat')[0] != line):
             try:
-                with open (self.battery_device, 'r') as bat_file:
-                    bat = bat_file.readline().split('\n')[0]
+                with open (self.ptm['adv']['batDev'], 'r') as batFile:
+                    bat = batFile.readline()[:-1]
             except:
-                bat = 'off'
+                bat = "off"
             bat = "%3s" % (bat)
             line = line.split('$bat')[0] + bat + line.split('$bat')[1]
         if (line.split('$ac')[0] != line):
             try:
-                with open (self.ac_device, 'r') as bat_file:
-                    bat = bat_file.readline().split('\n')[0]
+                with open (self.ptm['adv']['acDev'], 'r') as batFile:
+                    bat = batFile.readline()[:-1]
                 if (bat == '1'):
-                    bat = '(*)'
+                    bat = "(*)"
                 else:
-                    bat = '( )'
+                    bat = "( )"
             except:
-                bat = '(?)'
+                bat = "(?)"
             line = line.split('$ac')[0] + bat + line.split('$ac')[1]
-        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
-        self.label_bat.setText(text)
+        text = self.ptm['vars']['app']['format'].split('$LINE')[0] + line + self.ptm['vars']['app']['format'].split('$LINE')[1]
+        self.setText("bat", text)
 
 
     def cpuText(self):
         """function to set cpu text"""
-        line = self.cpuFormat
-        for core in self.cpuCore.keys():
-            if (core > -1):
-                if (line.split('$cpu'+str(core))[0] != line):
-                    line = line.split('$cpu'+str(core))[0] + self.cpuCore[core] + line.split('$cpu'+str(core))[1]
+        line = self.ptm['vars']['formats']['cpu']
+        for core in self.ptm['values']['cpu'].keys():
+            if ((core > -1) and (line.split('$cpu' + str(core))[0] != line)):
+                line = line.split('$cpu' + str(core))[0] + self.ptm['values']['cpu'][core] + line.split('$cpu' + str(core))[1]
         if (line.split('$cpu')[0] != line):
-            line = line.split('$cpu')[0] + self.cpuCore[-1] + line.split('$cpu')[1]
-        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
-        self.label_cpu.setText(text)
+            line = line.split('$cpu')[0] + self.ptm['values']['cpu'][-1] + line.split('$cpu')[1]
+        text = self.ptm['vars']['app']['format'].split('$LINE')[0] + line + self.ptm['vars']['app']['format'].split('$LINE')[1]
+        self.setText("cpu", text)
 
 
     def cpuclockText(self):
         """function to set cpu clock text"""
-        line = self.cpuclockFormat
-        for core in self.cpuClockCore.keys():
-            if (core > -1):
-                if (line.split('$cpucl'+str(core))[0] != line):
-                    line = line.split('$cpucl'+str(core))[0] + self.cpuClockCore[core] + line.split('$cpucl'+str(core))[1]
+        line = self.ptm['vars']['formats']['cpuclock']
+        for core in self.ptm['values']['cpuclock'].keys():
+            if ((core > -1) and (line.split('$cpucl' + str(core))[0] != line)):
+                line = line.split('$cpucl' + str(core))[0] + self.ptm['values']['cpuclock'][core] + line.split('$cpucl' + str(core))[1]
         if (line.split('$cpucl')[0] != line):
-            line = line.split('$cpucl')[0] + self.cpuClockCore[-1] + line.split('$cpucl')[1]
-        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
-        self.label_cpuclock.setText(text)
+            line = line.split('$cpucl')[0] + self.ptm['values']['cpuclock'][-1] + line.split('$cpucl')[1]
+        text = self.ptm['vars']['app']['format'].split('$LINE')[0] + line + self.ptm['vars']['app']['format'].split('$LINE')[1]
+        self.setText("cpuclock", text)
 
 
     def hddText(self):
+        """function to set hdd text"""
+        line = self.ptm['vars']['formats']['hdd']
+        for i in range(len(self.ptm['names']['hdd'])):
+            if (line.split('$hdd' + str(i))[0] != line):
+                line = line.split('$hdd' + str(i))[0] + self.ptm['values']['hdd'][self.ptm['names']['hdd'][i]] + line.split('$hdd' + str(i))[1]
+        text = self.ptm['vars']['app']['format'].split('$LINE')[0] + line + self.ptm['vars']['app']['format'].split('$LINE')[1]
+        self.setText("hdd", text)
+
+
+    def hddtempText(self):
         """function to set hddtemp text"""
+        line = self.ptm['vars']['formats']['hddtemp']
+        for i in range(len(self.ptm['names']['hddtemp'])):
+            if (line.split('$hddtemp' + str(i))[0] != line):
+                line = line.split('$hddtemp' + str(i))[0] + self.ptm['values']['hddtemp'][self.ptm['names']['hddtemp'][i]] + line.split('$hddtemp' + str(i))[1]
+        text = self.ptm['vars']['app']['format'].split('$LINE')[0] + line + self.ptm['vars']['app']['format'].split('$LINE')[1]
+        self.setText("hddtemp", text)
 
 
     def memText(self):
         """function to set mem text"""
-        try:
-            mem = 100 * self.memValues['used'] / self.memValues['total']
-            mem = "%5s" % (str(round(mem, 1)))
-        except:
-            mem = "  N\\A"
-        if (self.memFormat.split('$mem')[0] != self.memFormat):
-            line = self.memFormat.split('$mem')[0] + mem + self.memFormat.split('$mem')[1]
-        else:
-            line = self.memFormat
-        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
-        self.label_mem.setText(text)
-
-
-    def mountText(self):
-        """function to set mount text"""
-        line = self.hddFormat
-        for i in range(len(self.mountNames)):
-            if (line.split('$hdd'+str(i))[0] != line):
-                line = line.split('$hdd'+str(i))[0] + self.mount[self.mountNames[i]] + line.split('$hdd'+str(i))[1]
-        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
-        self.label_hdd.setText(text)
+        line = self.ptm['vars']['formats']['mem']
+        if (line.split('$memmb')[0] != line):
+            line = line.split('$memmb')[0] + self.ptm['values']['mem']['app'] + line.split('$memmb')[1]
+        if (line.split('$mem')[0] != line):
+            try:
+                mem = 100 * self.ptm['values']['mem']['app'] / (self.ptm['values']['mem']['free'] + self.ptm['values']['mem']['used'])
+                mem = "%5.1f" % (round(mem, 1))
+            except:
+                mem = "  N\\A"
+            line = line.split('$mem')[0] + mem + line.split('$mem')[1]
+        text = self.ptm['vars']['app']['format'].split('$LINE')[0] + line + self.ptm['vars']['app']['format'].split('$LINE')[1]
+        self.setText("mem", text)
 
 
     def netText(self):
         """function to set network text"""
-        line = self.netFormat
+        line = self.ptm['vars']['formats']['net']
         if (line.split('$netdev')[0] != 0):
             line = line.split('$netdev')[0] + self.ptm['names']['net'] + line.split('$netdev')[1]
-        if (line.split('$up')[0] != line):
-            line = line.split('$up')[0] + self.netSpeed['up'] + line.split('$up')[1]
         if (line.split('$down')[0] != line):
-            line = line.split('$down')[0] + self.netSpeed['down'] + line.split('$down')[1]
-        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
-        self.label_net.setText(text)
+            line = line.split('$down')[0] + self.ptm['values']['net']['down'] + line.split('$down')[1]
+        if (line.split('$up')[0] != line):
+            line = line.split('$up')[0] + self.ptm['values']['net']['up'] + line.split('$up')[1]
+        text = self.ptm['vars']['app']['format'].split('$LINE')[0] + line + self.ptm['vars']['app']['format'].split('$LINE')[1]
+        self.setText("net", text)
 
 
     def swapText(self):
         """function to set swap text"""
-        try:
-            mem = 100 * self.swapValues['used'] / self.swapValues['total']
-            mem = "%5s" % (str(round(mem, 1)))
-        except:
-            mem = "  N\\A"
-        if (self.swapFormat.split('$swap')[0] != self.swapFormat):
-            line = self.swapFormat.split('$swap')[0] + mem + self.swapFormat.split('$swap')[1]
-        else:
-            line = self.swapFormat
-        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
-        self.label_swap.setText(text)
+        line = self.ptm['vars']['formats']['swap']
+        if (line.split('$swapmb')[0] != line):
+            line = line.split('$swapmb')[0] + self.ptm['values']['swap']['used'] + line.split('$swapmb')[1]
+        if (line.split('$swap')[0] != line):
+            try:
+                mem = 100 * self.ptm['values']['swap']['used'] / (self.ptm['values']['swap']['free'] + self.ptm['values']['swap']['used'])
+                mem = "%5.1f" % (round(mem, 1))
+            except:
+                mem = "  N\\A"
+            line = line.split('$swap')[0] + mem + line.split('$swap')[1]
+        text = self.ptm['vars']['app']['format'].split('$LINE')[0] + line + self.ptm['vars']['app']['format'].split('$LINE')[1]
+        self.setText("swap", text)
 
 
     def tempText(self):
         """function to set temperature text"""
-        line = self.tempFormat
-        for i in range(len(self.tempNames)):
-            if (line.split('$temp'+str(i))[0] != line):
-                line = line.split('$temp'+str(i))[0] + self.temp[self.tempNames[i]] + line.split('$temp'+str(i))[1]
-        text = self.formatLine.split('$LINE')[0] + line + self.formatLine.split('$LINE')[1]
-        self.label_temp.setText(text)
+        line = self.ptm['vars']['formats']['temp']
+        for i in range(len(self.ptm['names']['temp'])):
+            if (line.split('$temp' + str(i))[0] != line):
+                line = line.split('$temp' + str(i))[0] + self.ptm['values']['temp'][self.ptm['names']['temp'][i]] + line.split('$temp' + str(i))[1]
+        text = self.ptm['vars']['app']['format'].split('$LINE')[0] + line + self.ptm['vars']['app']['format'].split('$LINE')[1]
+        self.setText("temp", text)
 
 
     # api's functions
@@ -514,10 +487,10 @@ class pyTextWidget(plasmascript.Applet):
         """function to update label"""
         updatedData = self.dataengine.dataUpdated(str(sourceName), data, self.ptm)
         # update falues where is needed
-        if (updatedData['type']):
-            self.ptm['values'][updatedData['name']][updatedData['type']] = updatedData['values']
+        if (updatedData['type'] != None):
+            self.ptm['values'][updatedData['name']][updatedData['type']] = updatedData['value']
         else:
-            self.ptm['values'][updatedData['name']] = updatedData['values']
+            self.ptm['values'][updatedData['name']] = updatedData['value']
         # update labels where is needed
         if (updatedData['name'] in ['custom', 'gpu', 'gputemp', 'player', 'time', 'uptime']):
             text = self.textPrepare(updatedData['name'], updatedData['value'])
