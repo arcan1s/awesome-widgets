@@ -91,22 +91,22 @@ class DataEngine:
                 updatedData['name'] = "cpu"
                 updatedData['type'] = -1
                 value = round(data[QString(u'value')].toFloat()[0], 1)
-                updatedData['value'] = "%5.1f" % (value)
+                updatedData['value'] = value
             elif ((sourceName[:7] == "cpu/cpu") and (sourceName.split('/')[2] == "TotalLoad")):
                 updatedData['name'] = "cpu"
                 updatedData['type'] = int(sourceName[7])
                 value = round(data[QString(u'value')].toFloat()[0], 1)
-                updatedData['value'] = "%5.1f" % (value)
+                updatedData['value'] = value
             elif (sourceName == "cpu/system/AverageClock"):
                 updatedData['name'] = "cpuclock"
                 updatedData['type'] = -1
                 value = round(data[QString(u'value')].toFloat()[0], 0)
-                updatedData['value'] = "%4.0f" % (value)
+                updatedData['value'] = value
             elif ((sourceName[:7] == "cpu/cpu") and (sourceName.split('/')[2] == "clock")):
                 updatedData['name'] = "cpuclock"
                 updatedData['type'] = int(sourceName[7])
                 value = round(data[QString(u'value')].toFloat()[0], 0)
-                updatedData['value'] = "%4.0f" % (value)
+                updatedData['value'] = value
             elif (sourceName == "custom"):
                 updatedData['name'] = "custom"
                 value = str(data[QString(u'custom')].toUtf8()).decode("utf-8")
@@ -149,7 +149,7 @@ class DataEngine:
                 updatedData['name'] = "net"
                 updatedData['type'] = "down"
                 value = round(data[QString(u'value')].toFloat()[0], 0)
-                updatedData['value'] = "%4.0f" % (value)
+                updatedData['value'] = value
                 # update network device
                 self.updateNetdev = self.updateNetdev + 1
                 if (self.updateNetdev == 100):
@@ -164,7 +164,7 @@ class DataEngine:
                 updatedData['name'] = "net"
                 updatedData['type'] = "up"
                 value = round(data[QString(u'value')].toFloat()[0], 0)
-                updatedData['value'] = "%4.0f" % (value)
+                updatedData['value'] = value
             elif (sourceName == "player"):
                 updatedData['name'] = "player"
                 updatedData['value'] = {}

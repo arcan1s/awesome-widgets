@@ -107,23 +107,19 @@ class pyTextWidget(plasmascript.Applet):
         self.tooltip.setSubText('')
         Plasma.ToolTipManager.self().registerWidget(self.applet)
         # graphical tooltip
-        self.tooltip_pixmap = QPixmap()
-        self.tooltip_scene = QGraphicsScene()
-        self.tooltip_view = QGraphicsView(self.tooltip_scene)
-        self.tooltip_view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.tooltip_view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.tooltipScene = QGraphicsScene()
+        self.tooltipView = QGraphicsView(self.tooltipScene)
+        self.tooltipView.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.tooltipView.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         # show tooltip
         Plasma.ToolTipManager.self().setContent(self.applet, self.tooltip)
 
 
     def updateTooltip(self):
         """function to update tooltip"""
-        self.tooltipBound['mem'] = self.memValues['total']
-        self.tooltipBound['swap'] = self.swapValues['total']
-        self.tooltip_view.resize(100.0*(len(self.tooltipReq)-self.tooltipReq.count('up')), 100.0)
-        self.tooltipAgent.createGraphic(self.tooltipReq, self.tooltipColors,
-            self.tooltipBound, self.tooltipValues, self.tooltip_scene)
-        self.tooltip.setImage(QPixmap.grabWidget(self.tooltip_view))
+        self.tooltipView.resize(100.0*(len(self.ptm['vars']['tooltip']['required']) - self.ptm['vars']['tooltip']['required'].count('up')), 100.0)
+        self.tooltipAgent.createGraphic(self.ptm['vars']['tooltip'], self.ptm['tooltip'], self.tooltipScene)
+        self.tooltip.setImage(QPixmap.grabWidget(self.tooltipView))
         Plasma.ToolTipManager.self().setContent(self.applet, self.tooltip)
 
 
@@ -183,18 +179,18 @@ class pyTextWidget(plasmascript.Applet):
             'swap':[0, 0], 'down':[0, 0], 'up':[0, 0]}
         # values
         self.ptm['values'] = {}
-        self.ptm['values']['cpu'] = {-1:"  0.0"}
-        self.ptm['values']['cpuclock'] = {-1:"   0"}
+        self.ptm['values']['cpu'] = {-1:0.0}
+        self.ptm['values']['cpuclock'] = {-1:0.0}
         numCores = int(commands.getoutput("grep -c '^processor' /proc/cpuinfo"))
         for i in range(numCores):
-            self.ptm['values']['cpu'][i] = "  0.0"
-            self.ptm['values']['cpuclock'][i] = "   0"
+            self.ptm['values']['cpu'][i] = 0.0
+            self.ptm['values']['cpuclock'][i] = 0.0
         self.ptm['values']['hdd'] = {}
         self.ptm['values']['hddtemp'] = {}
-        self.ptm['values']['mem'] = {'app':0, 'used':0, 'free':1}
-        self.ptm['values']['net'] = {"up":"   0", "down":"   0"}
+        self.ptm['values']['mem'] = {'app':0.0, 'used':0.0, 'free':1.0}
+        self.ptm['values']['net'] = {"up":0.0, "down":0.0}
         self.ptm['values']['player'] = {}
-        self.ptm['values']['swap'] = {'used':0, 'free':1}
+        self.ptm['values']['swap'] = {'used':0.0, 'free':1.0}
         self.ptm['values']['temp'] = {}
         # variables
         self.ptm['vars'] = {}
@@ -274,9 +270,11 @@ class pyTextWidget(plasmascript.Applet):
         line = self.ptm['vars']['formats']['cpu']
         for core in self.ptm['values']['cpu'].keys():
             if ((core > -1) and (line.split('$cpu' + str(core))[0] != line)):
-                line = line.split('$cpu' + str(core))[0] + self.ptm['values']['cpu'][core] + line.split('$cpu' + str(core))[1]
+                value = "%5.1f" % (self.ptm['values']['cpu'][core])
+                line = line.split('$cpu' + str(core))[0] + value + line.split('$cpu' + str(core))[1]
         if (line.split('$cpu')[0] != line):
-            line = line.split('$cpu')[0] + self.ptm['values']['cpu'][-1] + line.split('$cpu')[1]
+            value = "%5.1f" % (self.ptm['values']['cpu'][-1])
+            line = line.split('$cpu')[0] + value + line.split('$cpu')[1]
         text = self.ptm['vars']['app']['format'].split('$LINE')[0] + line + self.ptm['vars']['app']['format'].split('$LINE')[1]
         self.setText("cpu", text)
 
@@ -286,9 +284,11 @@ class pyTextWidget(plasmascript.Applet):
         line = self.ptm['vars']['formats']['cpuclock']
         for core in self.ptm['values']['cpuclock'].keys():
             if ((core > -1) and (line.split('$cpucl' + str(core))[0] != line)):
-                line = line.split('$cpucl' + str(core))[0] + self.ptm['values']['cpuclock'][core] + line.split('$cpucl' + str(core))[1]
+                value = "%4.0f" % (self.ptm['values']['cpuclock'][core])
+                line = line.split('$cpucl' + str(core))[0] + value + line.split('$cpucl' + str(core))[1]
         if (line.split('$cpucl')[0] != line):
-            line = line.split('$cpucl')[0] + self.ptm['values']['cpuclock'][-1] + line.split('$cpucl')[1]
+            value = "%4.0f" % (self.ptm['values']['cpuclock'][-1])
+            line = line.split('$cpucl')[0] + value + line.split('$cpucl')[1]
         text = self.ptm['vars']['app']['format'].split('$LINE')[0] + line + self.ptm['vars']['app']['format'].split('$LINE')[1]
         self.setText("cpuclock", text)
 
@@ -335,9 +335,11 @@ class pyTextWidget(plasmascript.Applet):
         if (line.split('$netdev')[0] != 0):
             line = line.split('$netdev')[0] + self.ptm['names']['net'] + line.split('$netdev')[1]
         if (line.split('$down')[0] != line):
-            line = line.split('$down')[0] + self.ptm['values']['net']['down'] + line.split('$down')[1]
+            value = "%4.0f" %(self.ptm['values']['net']['down'])
+            line = line.split('$down')[0] + value + line.split('$down')[1]
         if (line.split('$up')[0] != line):
-            line = line.split('$up')[0] + self.ptm['values']['net']['up'] + line.split('$up')[1]
+            value = "%4.0f" %(self.ptm['values']['net']['up'])
+            line = line.split('$up')[0] + value + line.split('$up')[1]
         text = self.ptm['vars']['app']['format'].split('$LINE')[0] + line + self.ptm['vars']['app']['format'].split('$LINE')[1]
         self.setText("net", text)
 

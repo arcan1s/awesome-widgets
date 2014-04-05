@@ -28,11 +28,15 @@ class Tooltip():
         self.parent = parent
 
 
-    def createGraphic(self, types, colors, bounds, values, widget):
+    def createGraphic(self, ptmVars, ptmTooltip, widget):
         """function to create graph"""
         widget.clear()
-        maxOne = [100.0, 100.0]
         pen = QPen()
+        bounds = ptmTooltip['bounds']
+        colors = ptmVars['colors']
+        types = ptmVars['required']
+        values = ptmTooltip['values']
+        maxOne = [100.0, 100.0]
         bounds['down'] = 1.0
         for value in values['down']:
             if (bounds['down'] < value):
