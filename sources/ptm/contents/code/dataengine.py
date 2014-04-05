@@ -168,19 +168,19 @@ class DataEngine:
             elif (sourceName == "player"):
                 updatedData['name'] = "player"
                 updatedData['value'] = {}
-                if (adv['player'] == 0):
+                if (adv['player'] == "amarok"):
                     updatedData['value']['album'] = str(data[QString(u'amarok_album')].toUtf8()).decode("utf-8")
                     updatedData['value']['artist'] = str(data[QString(u'amarok_artist')].toUtf8()).decode("utf-8")
                     updatedData['value']['progress'] = str(data[QString(u'amarok_progress')].toUtf8()).decode("utf-8")
                     updatedData['value']['time'] = str(data[QString(u'amarok_duration')].toUtf8()).decode("utf-8")
                     updatedData['value']['title'] = str(data[QString(u'amarok_title')].toUtf8()).decode("utf-8")
-                elif (adv['player'] == 1):
+                elif (adv['player'] == "mpd"):
                     updatedData['value']['album'] = str(data[QString(u'mpd_album')].toUtf8()).decode("utf-8")
                     updatedData['value']['artist'] = str(data[QString(u'mpd_artist')].toUtf8()).decode("utf-8")
                     updatedData['value']['progress'] = str(data[QString(u'mpd_progress')].toUtf8()).decode("utf-8")
                     updatedData['value']['time'] = str(data[QString(u'mpd_duration')].toUtf8()).decode("utf-8")
                     updatedData['value']['title'] = str(data[QString(u'mpd_title')].toUtf8()).decode("utf-8")
-                elif (adv['player'] == 2):
+                elif (adv['player'] == "qmmp"):
                     updatedData['value']['album'] = str(data[QString(u'qmmp_album')].toUtf8()).decode("utf-8")
                     updatedData['value']['artist'] = str(data[QString(u'qmmp_artist')].toUtf8()).decode("utf-8")
                     updatedData['value']['progress'] = str(data[QString(u'qmmp_progress')].toUtf8()).decode("utf-8")
@@ -244,3 +244,49 @@ class DataEngine:
             #pass
 
         return updatedData
+
+
+    def disconnectFromSource(self, dataEngines=None, keys=None, name=None):
+        """function to disconnect from sources"""
+        if (name == "bat"):
+            pass
+        elif (name == "cpu"):
+            dataEngines['system'].disconnectSource("cpu/system/TotalLoad", self.parent)
+            for item in keys['cpu']:
+                if (item != -1):
+                    dataEngines['system'].disconnectSource("cpu/cpu" + str(item) + "/TotalLoad", self.parent)
+        elif (name == "cpuclock"):
+            dataEngines['system'].disconnectSource("cpu/system/AverageClock", self.parent)
+            for item in keys['cpuclock']:
+                if (item != -1):
+                    dataEngines['system'].disconnectSource("cpu/cpu" + str(item) + "/clock", self.parent)
+        elif (name == "custom"):
+            dataEngines['ext'].disconnectSource("custom", self.parent)
+        elif (name == "gpu"):
+            dataEngines['ext'].disconnectSource("gpu", self.parent)
+        elif (name == "gputemp"):
+            dataEngines['ext'].disconnectSource("gputemp", self.parent)
+        elif (name == "hdd"):
+            for item in keys['hdd']:
+                dataEngines['system'].disconnectSource("partitions" + item + "/filllevel", self.parent)
+        elif (name == "hddtemp"):
+            dataEngines['ext'].disconnectSource("hddtemp", self.parent)
+        elif (name == "mem"):
+            dataEngines['system'].disconnectSource("mem/physical/application", self.parent)
+            dataEngines['system'].disconnectSource("mem/physical/free", self.parent)
+            dataEngines['system'].disconnectSource("mem/physical/used", self.parent)
+        elif (name == "net"):
+            dataEngines['system'].disconnectSource("network/interfaces/" + keys['net'] + "/transmitter/data", self.parent)
+            dataEngines['system'].disconnectSource("network/interfaces/" + keys['net'] + "/receiver/data", self.parent)
+        elif (name == "player"):
+            dataEngines['ext'].disconnectSource("player", self.parent)
+        elif (name == "swap"):
+            dataEngines['system'].disconnectSource("mem/swap/used", self.parent)
+            dataEngines['system'].disconnectSource("mem/swap/free", self.parent)
+        elif (name == "temp"):
+            for item in keys['temp']:
+                dataEngines['system'].disconnectSource(item, self.parent)
+        elif (name == "time"):
+            dataEngines['time'].disconnectSource("Local", self.parent)
+        elif (name == "uptime"):
+            dataEngines['system'].disconnectSource("system/uptime",  self.parent)

@@ -65,7 +65,7 @@ class ConfigDefinition:
         settings.set('custom_netdev', str(self.configpage.ui.comboBox_netdev.currentText()))
         settings.set('battery_device', str(self.configpage.ui.lineEdit_batdev.text()))
         settings.set('ac_device', str(self.configpage.ui.lineEdit_acdev.text()))
-        settings.set('player_name', self.configpage.ui.comboBox_playerSelect.currentIndex())
+        settings.set('player_name', str(self.configpage.ui.comboBox_playerSelect.currentText()))
 
         settings.set('tooltip_num', self.configpage.ui.spinBox_tooltipNum.value())
         for label in ['cpu', 'cpuclock', 'mem', 'swap', 'down', 'up']:
@@ -84,87 +84,16 @@ class ConfigDefinition:
 
         # disconnecting from source and clear layout
         self.parent.disconnectFromSource()
-        if (self.parent.uptimeBool > 0):
-            self.parent.systemmonitor.disconnectSource("system/uptime",  self.parent)
-            self.parent.label_uptime.setText('')
-            self.parent.layout.removeItem(self.parent.label_uptime)
-        if (self.parent.cpuBool > 0):
-            self.parent.systemmonitor.disconnectSource("cpu/system/TotalLoad", self.parent)
-            for core in self.parent.cpuCore.keys():
-                self.parent.systemmonitor.disconnectSource("cpu/cpu"+str(core)+"/TotalLoad", self.parent)
-            self.parent.label_cpu.setText('')
-            self.parent.layout.removeItem(self.parent.label_cpu)
-        if (self.parent.cpuclockBool > 0):
-            self.parent.systemmonitor.disconnectSource("cpu/system/AverageClock", self.parent)
-            for core in self.parent.cpuClockCore.keys():
-                self.parent.systemmonitor.disconnectSource("cpu/cpu"+str(core)+"/clock", self.parent)
-            self.parent.label_cpuclock.setText('')
-            self.parent.layout.removeItem(self.parent.label_cpuclock)
-        if (self.parent.tempBool > 0):
-            for item in self.parent.temp:
-                self.parent.systemmonitor.disconnectSource(item, self.parent)
-            self.parent.label_temp.setText('')
-            self.parent.layout.removeItem(self.parent.label_temp)
-        if (self.parent.gpuBool > 0):
-            self.parent.extsysmon.disconnectSource("gpu", self.parent)
-            self.parent.label_gpu.setText('')
-            self.parent.layout.removeItem(self.parent.label_gpu)
-        if (self.parent.gputempBool > 0):
-            self.parent.extsysmon.disconnectSource("gputemp", self.parent)
-            self.parent.label_gputemp.setText('')
-            self.parent.layout.removeItem(self.parent.label_gputemp)
-        if (self.parent.memBool > 0):
-            self.parent.systemmonitor.disconnectSource("mem/physical/application", self.parent)
-            self.parent.systemmonitor.disconnectSource("mem/physical/free", self.parent)
-            self.parent.systemmonitor.disconnectSource("mem/physical/used", self.parent)
-            self.parent.label_mem.setText('')
-            self.parent.layout.removeItem(self.parent.label_mem)
-        if (self.parent.swapBool > 0):
-            self.parent.systemmonitor.disconnectSource("mem/swap/used", self.parent)
-            self.parent.systemmonitor.disconnectSource("mem/swap/free", self.parent)
-            self.parent.label_swap.setText('')
-            self.parent.layout.removeItem(self.parent.label_swap)
-        if (self.parent.hddBool > 0):
-            for item in self.parent.mount:
-                self.parent.systemmonitor.disconnectSource("partitions" + item + "/filllevel", self.parent)
-            self.parent.label_hdd.setText('')
-            self.parent.layout.removeItem(self.parent.label_hdd)
-        if (self.parent.hddtempBool > 0):
-            self.parent.extsysmon.disconnectSource("hddtemp", self.parent)
-            self.parent.label_hddtemp.setText('')
-            self.parent.layout.removeItem(self.parent.label_hddtemp)
-        if (self.parent.netBool > 0):
-            self.parent.systemmonitor.disconnectSource("network/interfaces/"+self.parent.netdev+"/transmitter/data", self.parent)
-            self.parent.systemmonitor.disconnectSource("network/interfaces/"+self.parent.netdev+"/receiver/data", self.parent)
-            self.parent.label_net.setText('')
-            self.parent.layout.removeItem(self.parent.label_net)
-        if (self.parent.batBool > 0):
-            self.parent.label_bat.setText('')
-            self.parent.layout.removeItem(self.parent.label_bat)
-        if (self.parent.playerBool > 0):
-            self.parent.extsysmon.disconnectSource("player", self.parent)
-            self.parent.label_player.setText('')
-            self.parent.layout.removeItem(self.parent.label_player)
-        if (self.parent.timeBool > 0):
-            self.parent.timemon.disconnectSource("Local", self.parent)
-            self.parent.label_time.setText('')
-            self.parent.layout.removeItem(self.parent.label_time)
-        if (self.parent.customBool > 0):
-            self.parent.label_custom.setText('')
-            self.parent.layout.removeItem(self.parent.label_custom)
 
-        self.parent.label_order = "---------------"
-
-        for label in self.parent.dict_orders.keys():
-            exec ('self.parent.' + self.parent.dict_orders[label] + 'Bool = ' + str(self.configpage.checkboxes[self.parent.dict_orders[label]].checkState()))
-            if (self.configpage.checkboxes[self.parent.dict_orders[label]].checkState() > 0):
-                pos = self.configpage.sliders[self.parent.dict_orders[label]].value() - 1
-                self.parent.label_order = self.parent.label_order[:pos] + label + self.parent.label_order[pos+1:]
-            exec ('self.parent.' + self.parent.dict_orders[label] + 'Format = str(self.configpage.lineedits[self.parent.dict_orders[label]].text())')
-            exec ('settings.set("' + self.parent.dict_orders[label] + 'Format", self.parent.' + self.parent.dict_orders[label] + 'Format)')
-            exec ('settings.set("' + self.parent.dict_orders[label] + 'Bool", self.parent.' + self.parent.dict_orders[label] + 'Bool)')
-        self.parent.label_order = ''.join(self.parent.label_order.split('-'))
-        settings.set('label_order', self.parent.label_order)
+        labelOrder = "---------------"
+        for label in self.defaults['order'].keys():
+            if (self.configpage.checkboxes[self.defaults['order'][label]].checkState() > 0):
+                pos = self.configpage.sliders[self.defaults['order'][label]].value() - 1
+                labelOrder = labelOrder[:pos] + label + labelOrder[pos+1:]
+            settings.set(self.defaults['confFormat'][self.defaults['order'][label]], str(self.configpage.lineedits[self.defaults['order'][label]].text()))
+            settings.set(self.defaults['confBool'][self.defaults['order'][label]], self.configpage.checkboxes[self.defaults['order'][label]].checkState())
+        labelOrder = ''.join(labelOrder.split('-'))
+        settings.set('label_order', labelOrder)
 
         # reinitializate
         self.parent.reInit()
@@ -228,7 +157,8 @@ class ConfigDefinition:
         self.configpage.ui.comboBox_netdev.setCurrentIndex(index)
         self.configpage.ui.lineEdit_batdev.setText(str(settings.get('battery_device', '/sys/class/power_supply/BAT0/capacity')))
         self.configpage.ui.lineEdit_acdev.setText(str(settings.get('ac_device', '/sys/class/power_supply/AC/online')))
-        self.configpage.ui.comboBox_playerSelect.setCurrentIndex(settings.get('player_name', 0).toInt()[0])
+        index = self.configpage.ui.comboBox_playerSelect.findText(str(settings.get('player_name', "amarok")))
+        self.configpage.ui.comboBox_playerSelect.setCurrentIndex(index)
 
         self.configpage.ui.spinBox_tooltipNum.setValue(settings.get('tooltip_num', 100).toInt()[0])
         self.configpage.ui.kcolorcombo_cpu.setColor(QColor(str(settings.get('cpu_color', '#ff0000'))))
@@ -264,13 +194,14 @@ class ConfigDefinition:
         self.configpage.ui.spinBox_mpdport.setValue(int(deSettings['MPDPORT']))
         self.configpage.ui.lineEdit_customCommand.setText(deSettings['CUSTOM'])
 
-        label_order = str(settings.get('label_order', '1345'))
+        labelOrder = str(settings.get('label_order', '1345'))
         for label in self.defaults['order'].keys():
-            bool = self.defaults['confBool'][self.defaults['order'][label]]
+            bool = self.defaults['bool'][self.defaults['order'][label]]
             self.configpage.checkboxes[self.defaults['order'][label]].setCheckState(bool)
             if (bool > 0):
-                self.configpage.sliders[self.defaults['order'][label]].setValue(label_order.find(label)+1)
-            self.configpage.lineedits[self.defaults['order'][label]].setText(str(settings.get(self.defaults['confFormat'][label], self.defaults['format'][label])))
+                self.configpage.sliders[self.defaults['order'][label]].setValue(labelOrder.find(label) + 1)
+            self.configpage.lineedits[self.defaults['order'][label]].setText(str(settings.get(self.defaults['confFormat'][self.defaults['order'][label]],
+                self.defaults['format'][self.defaults['order'][label]])))
 
         # add config page
         page = parent.addPage(self.configpage, i18n(self.parent.name()))

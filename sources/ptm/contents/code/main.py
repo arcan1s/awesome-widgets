@@ -402,6 +402,13 @@ class pyTextWidget(plasmascript.Applet):
 
     def disconnectFromSource(self):
         """function to disconnect from sources"""
+        for label in self.ptm['defaults']['format'].keys():
+            if (self.ptm['vars']['bools'][label] > 0):
+                self.addLabel(label, None, False)
+                keys = {'cpu':self.ptm['values']['cpu'].keys(), 'cpuclock':self.ptm['values']['cpuclock'].keys(),
+                    'hdd':self.ptm['values']['hdd'].keys(), 'net':self.ptm['names']['net'],
+                    'temp':self.ptm['values']['temp'].keys()}
+                self.dataengine.disconnectFromSource(self.ptm['dataengine'], keys, label)
 
 
     def reInit(self):

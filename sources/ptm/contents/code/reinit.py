@@ -43,7 +43,7 @@ class Reinit():
         ptmVars['adv']['customUptime'] = str(settings.get('custom_uptime', '$dd,$hh,$mm'))
         ptmVars['adv']['netdevBool'] = settings.get('netdevBool', 0).toInt()[0]
         ptmVars['adv']['netDir'] = str(settings.get('netdir', '/sys/class/net'))
-        ptmVars['adv']['player'] = settings.get('player_name', 0).toInt()[0]
+        ptmVars['adv']['player'] = str(settings.get('player_name', "amarok"))
 
         ptmVars['app'] = {}
         ptmVars['app']['format'] = "<pre><p align=\"center\"><span style=\" font-family:'" + str(settings.get('font_family', 'Terminus')) +\

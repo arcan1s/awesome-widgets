@@ -149,16 +149,16 @@ class PTMNotify:
                 text = text + "%s" %(commands.getoutput("acpi -abi"))
             except:
                 text = "Something wrong"
-        elif (type == "musicplayer"):
+        elif (type == "player"):
             try:
                 artist = "N\\A"
                 album = "N\\A"
                 title = "N\\A"
-                if (self.parent.parent.player_name == 0):
+                if (self.parent.parent.player_name == "amarok"):
                     artist = commands.getoutput("qdbus org.kde.amarok /Player GetMetadata 2> /dev/null | grep albumartist: | cut -c14-")
                     album = commands.getoutput("qdbus org.kde.amarok /Player GetMetadata 2> /dev/null | grep album: | cut -c8-")
                     title = commands.getoutput("qdbus org.kde.amarok /Player GetMetadata 2> /dev/null | grep title: | cut -c8-")
-                elif (self.parent.parent.player_name == 1):
+                elif (self.parent.parent.player_name == "mpd"):
                     output = commands.getoutput("echo 'currentsong\nclose' | curl --connect-timeout 1 -fsm 3 telnet://localhost:6600 2> /dev/null")
                     for line in output.split("\n"):
                         if (line.split(": ")[0] == "Artist"):
@@ -167,7 +167,7 @@ class PTMNotify:
                             album = line.split(": ")[1]
                         elif (line.split(": ")[0] == "Title"):
                             title = line.split(": ")[1]
-                elif (self.parent.parent.player_name == 2):
+                elif (self.parent.parent.player_name == "qmmp"):
                     artist = commands.getoutput("qmmp --nowplaying '%if(%p,%p,Unknown)' 2> /dev/null")
                     album = commands.getoutput("qmmp --nowplaying '%if(%a,%a,Unknown)' 2> /dev/null")
                     title = commands.getoutput("qmmp --nowplaying '%if(%t,%t,Unknown)' 2> /dev/null")
@@ -261,7 +261,7 @@ class PTMNotify:
             pass
         try:
             if (sender == self.parent.parent.label_player):
-                content = self.createText("musicplayer")
+                content = self.createText("player")
                 return content
         except:
             pass
