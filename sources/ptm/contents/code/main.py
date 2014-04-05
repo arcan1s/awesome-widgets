@@ -310,8 +310,11 @@ class pyTextWidget(plasmascript.Applet):
     def cpuText(self):
         """function to set cpu text"""
         line = self.ptm['vars']['formats']['cpu']
-        for core in self.ptm['values']['cpu'].keys():
-            if ((core > -1) and (line.split('$cpu' + str(core))[0] != line)):
+        keys = self.ptm['values']['cpu'].keys()
+        keys.sort()
+        keys.reverse()
+        for core in keys[:-1]:
+            if (line.split('$cpu' + str(core))[0] != line):
                 value = "%5.1f" % (self.ptm['values']['cpu'][core])
                 line = line.split('$cpu' + str(core))[0] + value + line.split('$cpu' + str(core))[1]
         if (line.split('$cpu')[0] != line):
@@ -324,8 +327,11 @@ class pyTextWidget(plasmascript.Applet):
     def cpuclockText(self):
         """function to set cpu clock text"""
         line = self.ptm['vars']['formats']['cpuclock']
-        for core in self.ptm['values']['cpuclock'].keys():
-            if ((core > -1) and (line.split('$cpucl' + str(core))[0] != line)):
+        keys = self.ptm['values']['cpuclock'].keys()
+        keys.sort()
+        keys.reverse()
+        for core in keys[:-1]:
+            if (line.split('$cpucl' + str(core))[0] != line):
                 value = "%4.0f" % (self.ptm['values']['cpuclock'][core])
                 line = line.split('$cpucl' + str(core))[0] + value + line.split('$cpucl' + str(core))[1]
         if (line.split('$cpucl')[0] != line):
@@ -338,7 +344,7 @@ class pyTextWidget(plasmascript.Applet):
     def hddText(self):
         """function to set hdd text"""
         line = self.ptm['vars']['formats']['hdd']
-        for i in range(len(self.ptm['names']['hdd'])):
+        for i in range(len(self.ptm['names']['hdd'])).reverse():
             if (line.split('$hdd' + str(i))[0] != line):
                 line = line.split('$hdd' + str(i))[0] + str(self.ptm['values']['hdd'][self.ptm['names']['hdd'][i]]) + line.split('$hdd' + str(i))[1]
         text = self.ptm['vars']['app']['format'].split('$LINE')[0] + line + self.ptm['vars']['app']['format'].split('$LINE')[1]
@@ -348,7 +354,7 @@ class pyTextWidget(plasmascript.Applet):
     def hddtempText(self):
         """function to set hddtemp text"""
         line = self.ptm['vars']['formats']['hddtemp']
-        for i in range(len(self.ptm['names']['hddtemp'])):
+        for i in range(len(self.ptm['names']['hddtemp'])).reverse():
             if (line.split('$hddtemp' + str(i))[0] != line):
                 line = line.split('$hddtemp' + str(i))[0] + self.ptm['values']['hddtemp'][self.ptm['names']['hddtemp'][i]] + line.split('$hddtemp' + str(i))[1]
         text = self.ptm['vars']['app']['format'].split('$LINE')[0] + line + self.ptm['vars']['app']['format'].split('$LINE')[1]
@@ -413,7 +419,7 @@ class pyTextWidget(plasmascript.Applet):
     def tempText(self):
         """function to set temperature text"""
         line = self.ptm['vars']['formats']['temp']
-        for i in range(len(self.ptm['names']['temp'])):
+        for i in range(len(self.ptm['names']['temp'])).reverse():
             if (line.split('$temp' + str(i))[0] != line):
                 line = line.split('$temp' + str(i))[0] + self.ptm['values']['temp'][self.ptm['names']['temp'][i]] + line.split('$temp' + str(i))[1]
         text = self.ptm['vars']['app']['format'].split('$LINE')[0] + line + self.ptm['vars']['app']['format'].split('$LINE')[1]

@@ -200,7 +200,9 @@ $custom - custom format</string>
             <string>$cpu - total load CPU, %
 $cpu0 - load CPU for core 0, %
 ...
-$cpu9 - load CPU for core 9, %</string>
+$cpu9 - load CPU for core 9, %
+...
+$cpuN - load CPU for core N, %</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -264,7 +266,9 @@ $cpu9 - load CPU for core 9, %</string>
             <string>$cpucl - average CPU clock, MHz
 $cpucl0 - CPU clock for core 0, MHz
 ...
-$cpucl9 - CPU clock for core 9, MHz</string>
+$cpucl9 - CPU clock for core 9, MHz
+...
+$cpuclN - CPU clock for core N, MHz</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
