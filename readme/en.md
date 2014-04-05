@@ -26,8 +26,10 @@ For edited output you must open Settings window and setup output format in lines
 * tag `$gputemp` - GPU temperature. `aticonfig` or `nvidia-smi` must be installed
 * tag `$mem` - usage memory, *%*
 * tag `$memmb` - usage memory, *MB*
+* tag `$memgb` - usage memory, *GB*
 * tag `$swap` - swap, *%*
 * tag `$swapmb` - swap, *MB*
+* tag `$swapgb` - swap, *GB*
 * tag `$hddN` - usage for mount point N, *%*. For example, `$hdd0`
 * tag `$hddtempN` - temperature for HDD N. For example, `$hddtemp0`
 * tag `$down` - download speed, *KB/s*

@@ -1,9 +1,13 @@
 Ver.1.7.3:
++ added tags $memgb, $swapgb
 + added readme directory
 + added french translation (@Mermouy)
 - fix tooltip for custom uptime format
 - fix #12
 * more refactoring to the god of refactoring
+* network device update interval now is 30*interval
+* $swap, $swapmb and $swapgb tags now work simultaneously ($mem* tags too)
+* player_name now has str type
 
 Ver.1.7.2:
 + added tags $dd, $d, $hh, $h, $mm, $m to custom uptime format

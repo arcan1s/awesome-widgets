@@ -200,7 +200,7 @@ $custom - custom format</string>
             <string>$cpu - total load CPU, %
 $cpu0 - load CPU for core 0, %
 ...
-$cpu7 - load CPU for core 7, %</string>
+$cpu9 - load CPU for core 9, %</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -264,7 +264,7 @@ $cpu7 - load CPU for core 7, %</string>
             <string>$cpucl - average CPU clock, MHz
 $cpucl0 - CPU clock for core 0, MHz
 ...
-$cpucl7 - CPU clock for core 7, MHz</string>
+$cpucl9 - CPU clock for core 9, MHz</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -500,7 +500,8 @@ $cpucl7 - CPU clock for core 7, MHz</string>
           <widget class="QLineEdit" name="lineEdit_mem">
            <property name="toolTip">
             <string>$mem - RAM usage, %
-$memmb - RAM usage, MB</string>
+$memmb - RAM usage, MB
+$memgb - RAM usage, GB</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -562,7 +563,8 @@ $memmb - RAM usage, MB</string>
           <widget class="QLineEdit" name="lineEdit_swap">
            <property name="toolTip">
             <string>$swap - swap usage, %
-$swapmb - swap usage, MB</string>
+$swapmb - swap usage, MB
+$swapgb - swap usage, GB</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

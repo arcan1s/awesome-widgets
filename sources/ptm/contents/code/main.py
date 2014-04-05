@@ -58,6 +58,7 @@ class pyTextWidget(plasmascript.Applet):
         plasmascript.Applet.__init__(self, parent)
 
 
+    # initialization
     def init(self):
         """function to initializate widget"""
         self._name = str(self.package().metadata().pluginName())
@@ -85,6 +86,7 @@ class pyTextWidget(plasmascript.Applet):
             self.createNotifyrc(kdehome)
 
 
+    # internal functions
     def createConfigurationInterface(self, parent):
         """function to setup configuration window"""
         self.configpage = configwindow.ConfigWindow(self)
@@ -112,14 +114,6 @@ class pyTextWidget(plasmascript.Applet):
         self.tooltipView.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.tooltipView.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         # show tooltip
-        Plasma.ToolTipManager.self().setContent(self.applet, self.tooltip)
-
-
-    def updateTooltip(self):
-        """function to update tooltip"""
-        self.tooltipView.resize(100.0*(len(self.ptm['vars']['tooltip']['required']) - self.ptm['vars']['tooltip']['required'].count('up')), 100.0)
-        self.tooltipAgent.createGraphic(self.ptm['vars']['tooltip'], self.ptm['tooltip'], self.tooltipScene)
-        self.tooltip.setImage(QPixmap.grabWidget(self.tooltipView))
         Plasma.ToolTipManager.self().setContent(self.applet, self.tooltip)
 
 
@@ -239,6 +233,54 @@ class pyTextWidget(plasmascript.Applet):
         self.updateTooltip()
 
 
+    def updateTooltip(self):
+        """function to update tooltip"""
+        self.tooltipView.resize(100.0*(len(self.ptm['vars']['tooltip']['required']) - self.ptm['vars']['tooltip']['required'].count('up')), 100.0)
+        self.tooltipAgent.createGraphic(self.ptm['vars']['tooltip'], self.ptm['tooltip'], self.tooltipScene)
+        self.tooltip.setImage(QPixmap.grabWidget(self.tooltipView))
+        Plasma.ToolTipManager.self().setContent(self.applet, self.tooltip)
+
+
+    # update functions
+    # update dataengines
+    @pyqtSignature("dataUpdated(const QString &, const Plasma::DataEngine::Data &)")
+    def dataUpdated(self, sourceName, data):
+        """function to update label"""
+        updatedData = self.dataengine.dataUpdated(str(sourceName), data, self.ptm)
+        if (updatedData['value'] == None):
+            return
+        # update falues where is needed
+        if (updatedData['type'] != None):
+            self.ptm['values'][updatedData['name']][updatedData['type']] = updatedData['value']
+        else:
+            self.ptm['values'][updatedData['name']] = updatedData['value']
+        # update labels where is needed
+        if (updatedData['name'] in ['custom', 'gpu', 'gputemp', 'player', 'time', 'uptime']):
+            text = self.textPrepare(updatedData['name'], updatedData['value'])
+            self.setText(updatedData['name'], text)
+        # update tooltips
+        if ((updatedData['name'] in ['cpu', 'cpuclock', 'mem', 'swap', 'net']) and (self.ptm['vars']['bools'][updatedData['name']] == 2)):
+            if (updatedData['name'] == "net"):
+                if (len(self.ptm['tooltip']['values'][updatedData['type']]) > self.ptm['vars']['tooltip']['num']):
+                    self.ptm['tooltip']['values'][updatedData['type']] = self.ptm['tooltip']['values'][updatedData['type']][1:]
+            else:
+                if (len(self.ptm['tooltip']['values'][updatedData['name']]) > self.ptm['vars']['tooltip']['num']):
+                    self.ptm['tooltip']['values'][updatedData['name']] = self.ptm['tooltip']['values'][updatedData['name']][1:]
+            if ((updatedData['name'] in ['cpu', 'cpuclock']) and (updatedData['type'] == -1)):
+                self.ptm['tooltip']['values'][updatedData['name']].append(updatedData['value'])
+            elif ((updatedData['name'] == "mem") and (updatedData['type'] == "app")):
+                self.ptm['tooltip']['values'][updatedData['name']].append(updatedData['value'])
+            elif ((updatedData['name'] == "mem") and (updatedData['type'] == "used")):
+                self.ptm['tooltip']['bounds']['mem'] = self.ptm['values']['mem']['free'] + self.ptm['values']['mem']['used']
+            elif ((updatedData['name'] == "swap") and (updatedData['type'] == "used")):
+                self.ptm['tooltip']['values'][updatedData['name']].append(updatedData['value'])
+                self.ptm['tooltip']['bounds']['swap'] = self.ptm['values']['swap']['free'] + self.ptm['values']['swap']['used']
+            elif (updatedData['name'] == "net"):
+                self.ptm['tooltip']['values'][updatedData['type']].append(updatedData['value'])
+        self.update()
+
+
+    # update labels
     def batText(self):
         """function to set battery text"""
         line = self.ptm['vars']['formats']['bat']
@@ -316,8 +358,11 @@ class pyTextWidget(plasmascript.Applet):
     def memText(self):
         """function to set mem text"""
         line = self.ptm['vars']['formats']['mem']
+        if (line.split('$memgb')[0] != line):
+            mem = "%4.1f" % (self.ptm['values']['mem']['app'] / (1024.0 * 1024.0))
+            line = line.split('$memgb')[0] + mem + line.split('$memgb')[1]
         if (line.split('$memmb')[0] != line):
-            mem = "%i" % (self.ptm['values']['mem']['app'])
+            mem = "%i" % (self.ptm['values']['mem']['app'] / 1024.0)
             line = line.split('$memmb')[0] + mem + line.split('$memmb')[1]
         if (line.split('$mem')[0] != line):
             try:
@@ -348,8 +393,11 @@ class pyTextWidget(plasmascript.Applet):
     def swapText(self):
         """function to set swap text"""
         line = self.ptm['vars']['formats']['swap']
+        if (line.split('$swapgb')[0] != line):
+            mem = "%4.1f" % (self.ptm['values']['swap']['used'] / (1024.0 * 1024.0))
+            line = line.split('$swapgb')[0] + mem + line.split('$swapgb')[1]
         if (line.split('$swapmb')[0] != line):
-            mem = "%i" % (self.ptm['values']['swap']['used'])
+            mem = "%i" % (self.ptm['values']['swap']['used'] / 1024.0)
             line = line.split('$swapmb')[0] + mem + line.split('$swapmb')[1]
         if (line.split('$swap')[0] != line):
             try:
@@ -372,7 +420,7 @@ class pyTextWidget(plasmascript.Applet):
         self.setText("temp", text)
 
 
-    # api's functions
+    # external functions
     def addLabel(self, name=None, text=None, add=True):
         """function to add new label"""
         if (add):
@@ -491,44 +539,6 @@ class pyTextWidget(plasmascript.Applet):
                 line = line.split('$custom')[0] + text + line.split('$custom')[1]
         output = self.ptm['vars']['app']['format'].split('$LINE')[0] + line + self.ptm['vars']['app']['format'].split('$LINE')[1]
         return output
-
-
-    @pyqtSignature("dataUpdated(const QString &, const Plasma::DataEngine::Data &)")
-    def dataUpdated(self, sourceName, data):
-        """function to update label"""
-        updatedData = self.dataengine.dataUpdated(str(sourceName), data, self.ptm)
-        if (updatedData['value'] == None):
-            return
-        # update falues where is needed
-        if (updatedData['type'] != None):
-            self.ptm['values'][updatedData['name']][updatedData['type']] = updatedData['value']
-        else:
-            self.ptm['values'][updatedData['name']] = updatedData['value']
-        # update labels where is needed
-        if (updatedData['name'] in ['custom', 'gpu', 'gputemp', 'player', 'time', 'uptime']):
-            text = self.textPrepare(updatedData['name'], updatedData['value'])
-            self.setText(updatedData['name'], text)
-        # update tooltips
-        if ((updatedData['name'] in ['cpu', 'cpuclock', 'mem', 'swap', 'net']) and (self.ptm['vars']['bools'][updatedData['name']] == 2)):
-            if (updatedData['name'] == "net"):
-                if (len(self.ptm['tooltip']['values'][updatedData['type']]) > self.ptm['vars']['tooltip']['num']):
-                    self.ptm['tooltip']['values'][updatedData['type']] = self.ptm['tooltip']['values'][updatedData['type']][1:]
-            else:
-                if (len(self.ptm['tooltip']['values'][updatedData['name']]) > self.ptm['vars']['tooltip']['num']):
-                    self.ptm['tooltip']['values'][updatedData['name']] = self.ptm['tooltip']['values'][updatedData['name']][1:]
-            if ((updatedData['name'] in ['cpu', 'cpuclock']) and (updatedData['type'] == -1)):
-                print (updatedData['value'])
-                self.ptm['tooltip']['values'][updatedData['name']].append(updatedData['value'])
-            elif ((updatedData['name'] == "mem") and (updatedData['type'] == "app")):
-                self.ptm['tooltip']['values'][updatedData['name']].append(updatedData['value'])
-            elif ((updatedData['name'] == "mem") and (updatedData['type'] == "used")):
-                self.ptm['tooltip']['bounds']['mem'] = self.ptm['values']['mem']['free'] + self.ptm['values']['mem']['used']
-            elif ((updatedData['name'] == "swap") and (updatedData['type'] == "used")):
-                self.ptm['tooltip']['values'][updatedData['name']].append(updatedData['value'])
-                self.ptm['tooltip']['bounds']['swap'] = self.ptm['values']['swap']['free'] + self.ptm['values']['swap']['used']
-            elif (updatedData['name'] == "net"):
-                self.ptm['tooltip']['values'][updatedData['type']].append(updatedData['value'])
-        self.update()
 
 
 
