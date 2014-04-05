@@ -36,19 +36,19 @@ from util import *
 
 
 
-class NewPlasmaLabel(Plasma.Label):
+class CustomPlasmaLabel(Plasma.Label):
     """new Label with defined clicked() event"""
-    def __init__(self, applet, parent):
+    def __init__(self, applet, name):
         """class definition"""
         Plasma.Label.__init__(self, applet)
-        self.parent = parent
+        self.name = name
         self.notify = ptmnotify.PTMNotify(self)
 
 
     def mousePressEvent(self, event):
         """mouse click event"""
         if (event.button() == Qt.LeftButton):
-            self.notify.init()
+            self.notify.init(self.name)
 
 
 
@@ -374,7 +374,7 @@ class pyTextWidget(plasmascript.Applet):
     def addLabel(self, name=None, text=None, add=True):
         """function to add new label"""
         if (add):
-            self.ptm['labels'][name] = NewPlasmaLabel(self.applet, self)
+            self.ptm['labels'][name] = CustomPlasmaLabel(self.applet, name)
             self.ptm['layout'].addItem(self.ptm['labels'][name])
             self.setText(name, text)
         else:

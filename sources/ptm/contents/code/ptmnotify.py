@@ -26,12 +26,11 @@ import commands
 class PTMNotify:
     def __init__(self, parent):
         """class definition"""
-        self.parent = parent
 
 
-    def init(self):
+    def init(self, name=None):
         """function to init notification"""
-        content = self.initText(self.parent)
+        content = self.initText(name)
         self.createNotify(content)
 
 
@@ -47,27 +46,15 @@ class PTMNotify:
     def createText(self, type):
         """function to create text"""
         text = ""
-        if (type == "system"):
+        if (type == "battery"):
             try:
-                text = text + "Kernel: %s\n" %(commands.getoutput("uname -rsm"))
-                text = text + "Hostname: %s\n" %(commands.getoutput("uname -n"))
-                text = text + "Whoami: %s\n" %(commands.getoutput("whoami"))
-                text = text + "Uptime: %s\n" %(commands.getoutput("uptime"))
+                text = "%s" %(commands.getoutput("acpi -abi"))
             except:
                 text = "Something wrong"
-        elif (type == "processor"):
+        elif (type == "disk"):
             try:
-                output = commands.getoutput("grep 'model name' /proc/cpuinfo | head -1")
-                text = text + "Model: %s\n" %(' '.join(output.split()[3:]))
-                output = commands.getoutput("sar -u | tail -1")
-                text = text + "CPU Usage: %s%%\n" %(str(100-float(output.split()[-1])))
-                output = commands.getoutput("grep MHz /proc/cpuinfo | head -1")
-                text = text + "CPU Freq: %s MHz\n" %(str(int(float(output.split()[-1]))))
-                output = commands.getoutput("sensors -u")
-                text = text + "Temps:"
-                for line in output.split("\n"):
-                    if (line.find("_input") > -1):
-                        text = text + " %s\xb0C" %(str(round(float(line.split()[-1]), 0)))
+                for line in commands.getoutput("df -h --output='source,target,used,size,pcent' --exclude-type=fuseblk --exclude-type=tmpfs --exclude-type=devtmpfs").split("\n")[1:]:
+                    text = text + "%s (to %s): %s of %s (%s)\n" % (line.split()[0], line.split()[1], line.split()[2], line.split()[3], line.split()[4])
             except:
                 text = "Something wrong"
         elif (type == "graphical"):
@@ -78,75 +65,63 @@ class PTMNotify:
                 elif (output.lower().find('radeon') > -1):
                     gpudev = "ati"
                 for line in output.split("\n"):
-                    text = text + "%s %s\n" %(line.split('"')[0], line.split('"')[5])
+                    text = text + "%s %s\n" % (line.split('"')[0], line.split('"')[5])
                 if (gpudev == 'nvidia'):
                     output = commands.getoutput("nvidia-smi -q -d UTILIZATION | grep Gpu | tail -n1")
                     try:
-                        value = "%5s" % (str(round(float(output.split()[2][:-1]), 1)))
+                        value = "%5.1f" % (round(float(output.split()[2]), 1))
                     except:
                         value = "  N\A"
                 elif (gpudev == 'ati'):
                     output = commands.getoutput("aticonfig --od-getclocks | grep load | tail -n1")
                     try:
-                        value = "%5s" % (str(round(float(output.split()[3][:-1]), 1)))
+                        value = "%5.1f" % (round(float(output.split()[3]), 1))
                     except:
                         value = "  N\A"
                 else:
                     value = "  N\A"
-                text = text + "Load: %s%%\n" %(value)
+                text = text + "Load: %s%%\n" % (value)
                 if (gpudev == 'nvidia'):
                     output = commands.getoutput("nvidia-smi -q -d TEMPERATURE | grep Gpu | tail -n1")
                     try:
-                        value = "%5s" % (str(round(float(output.split()[2][:-1]), 1)))
+                        value = "%5.1f" % (round(float(output.split()[2]), 1))
                     except:
                         value = "  N\A"
                 elif (gpudev == 'ati'):
                     output = commands.getoutput("aticonfig --od-gettemperature | grep Temperature | tail -n1")
                     try:
-                        value = "%5s" % (str(round(float(output.split()[3][:-1]), 1)))
+                        value = "%5.1f" % (round(float(output.split()[3]), 1))
                     except:
                         value = "  N\A"
                 else:
                     value = "  N\A"
-                text = text + "Temp: %s\xb0C\n" %(value)
+                text = text + "Temp: %s\xb0C\n" % (value)
             except:
                 text = "Something wrong"
         elif (type == "memory"):
             try:
                 output = commands.getoutput("free -m -o").split("\n")
-                memusage = int(output[1].split()[1]) - (int(output[1].split()[3]) + int(output[1].split()[5]) + int(output[1].split()[6]))
-                text = text + "Memory: %s of %s (%s%%)\n" %(str(memusage), output[1].split()[1], str(int(100*memusage/int(output[1].split()[1]))))
-                text = text + "Swap: %s of %s (%s%%)\n" %(output[2].split()[2], output[2].split()[1], str(int(100*int(output[2].split()[2])/int(output[2].split()[1]))))
+                memUsage = int(output[1].split()[1]) - (int(output[1].split()[3]) + int(output[1].split()[5]) + int(output[1].split()[6]))
+                text = text + "Memory: %i of %s (%i%%)\n" % (memUsage, output[1].split()[1], int(100*memUsage/int(output[1].split()[1])))
+                text = text + "Swap: %s of %s (%i%%)\n" % (output[2].split()[2], output[2].split()[1], int(100*int(output[2].split()[2])/int(output[2].split()[1])))
                 output = commands.getoutput("swapon --show").split("\n")
-                text = text + "Swap Device: %s (%s)" %(output[1].split()[0], output[1].split()[1])
-            except:
-                text = "Something wrong"
-        elif (type == "disk"):
-            try:
-                output = commands.getoutput("df -h --output='source,target,used,size,pcent' --exclude-type=fuseblk --exclude-type=tmpfs --exclude-type=devtmpfs").split("\n")[1:]
-                for line in output:
-                    text = text + "%s (to %s): %s of %s (%s)\n" %(line.split()[0], line.split()[1], line.split()[2], line.split()[3], line.split()[4])
+                text = text + "Swap Device: %s (%s)" % (output[1].split()[0], output[1].split()[1])
             except:
                 text = "Something wrong"
         elif (type == "network"):
             try:
                 output = commands.getoutput("ifconfig -a -s").split("\n")[1:]
-                text = text + "Devices:"
-                for line in output:
-                    text = text + " %s" %(line.split()[0])
-                output = commands.getoutput("ifconfig -a -s " + self.parent.parent.netdev + " && sleep 0.2 && ifconfig -a -s " + self.parent.parent.netdev).split("\n")
-                download = int((int(output[3].split()[2]) - int(output[1].split()[2])) / (0.2 * 1024))
-                upload = int((int(output[3].split()[6]) - int(output[1].split()[6])) / (0.2 * 1024))
-                text = text + "\n%s: %s/%s KB/s\n" %(self.parent.parent.netdev, download, upload)
-                output = commands.getoutput("ifconfig " + self.parent.parent.netdev + " | grep 'inet '").split()[1]
-                text = text + "IP: %s\n" %(output[:-1])
-                output = commands.getoutput("wget http://checkip.dyndns.org/ -q -O - | awk '{print $6}' | sed 's/<.*>//g'")
-                text = text + "External IP: %s" %(output[:-1])
-            except:
-                text = "Something wrong"
-        elif (type == "battery"):
-            try:
-                text = text + "%s" %(commands.getoutput("acpi -abi"))
+                devices = [line.split()[0] for line in output]
+                text = text + "Devices: %s\n" % (' '.join(devices))
+                for dev in devices:
+                    output = commands.getoutput("ifconfig -a -s " + dev + " && sleep 0.2 && ifconfig -a -s " + dev).split("\n")
+                    download = int((int(output[3].split()[2]) - int(output[1].split()[2])) / (0.2 * 1024))
+                    upload = int((int(output[3].split()[6]) - int(output[1].split()[6])) / (0.2 * 1024))
+                    text = text + "%s: %i/%i KB/s" % (dev, download, upload)
+                    output = commands.getoutput("ifconfig " + dev + " | grep 'inet ' || echo ' inet Null'").split()[1]
+                    text = text + " (IP: %s)\n" % (output)
+                output = commands.getoutput("wget -qO- http://ifconfig.me/ip")
+                text = text + "External IP: %s" % (output)
             except:
                 text = "Something wrong"
         elif (type == "player"):
@@ -154,11 +129,19 @@ class PTMNotify:
                 artist = "N\\A"
                 album = "N\\A"
                 title = "N\\A"
-                if (self.parent.parent.player_name == "amarok"):
+                if (len(commands.getoutput("pgrep amarok")) > 0):
+                    player = "amarok"
+                elif (len(commands.getoutput("pgrep mpd")) > 0):
+                    player = "mpd"
+                elif (len(commands.getoutput("pgrep qmmp")) > 0):
+                    player = "qmmp"
+                else:
+                    player = ""
+                if (player == "amarok"):
                     artist = commands.getoutput("qdbus org.kde.amarok /Player GetMetadata 2> /dev/null | grep albumartist: | cut -c14-")
                     album = commands.getoutput("qdbus org.kde.amarok /Player GetMetadata 2> /dev/null | grep album: | cut -c8-")
                     title = commands.getoutput("qdbus org.kde.amarok /Player GetMetadata 2> /dev/null | grep title: | cut -c8-")
-                elif (self.parent.parent.player_name == "mpd"):
+                elif (player == "mpd"):
                     output = commands.getoutput("echo 'currentsong\nclose' | curl --connect-timeout 1 -fsm 3 telnet://localhost:6600 2> /dev/null")
                     for line in output.split("\n"):
                         if (line.split(": ")[0] == "Artist"):
@@ -167,107 +150,71 @@ class PTMNotify:
                             album = line.split(": ")[1]
                         elif (line.split(": ")[0] == "Title"):
                             title = line.split(": ")[1]
-                elif (self.parent.parent.player_name == "qmmp"):
+                elif (player == "qmmp"):
                     artist = commands.getoutput("qmmp --nowplaying '%if(%p,%p,Unknown)' 2> /dev/null")
                     album = commands.getoutput("qmmp --nowplaying '%if(%a,%a,Unknown)' 2> /dev/null")
                     title = commands.getoutput("qmmp --nowplaying '%if(%t,%t,Unknown)' 2> /dev/null")
-                text = text + "Artist: %s\nAlbum: %s\nTitle: %s" %(artist, album, title)
+                text = text + "Artist: %s\nAlbum: %s\nTitle: %s" % (artist, album, title)
             except:
                 text = "Something wrong"
-
+        elif (type == "processor"):
+            try:
+                output = commands.getoutput("grep 'model name' /proc/cpuinfo | head -1")
+                text = text + "Model: %s\n" % (' '.join(output.split()[3:]))
+                output = commands.getoutput("sar -u | tail -1")
+                text = text + "CPU Usage: %5.1f%%\n" % (100-float(output.split()[-1]))
+                output = commands.getoutput("grep MHz /proc/cpuinfo | head -1")
+                text = text + "CPU Freq: %i MHz\n" % (int(float(output.split()[-1])))
+                output = commands.getoutput("sensors -u")
+                text = text + "Temps:"
+                for line in output.split("\n"):
+                    if (line.find("_input") > -1):
+                        text = text + " %3.0f\xb0C" % (round(float(line.split()[-1]), 0))
+            except:
+                text = "Something wrong"
+        elif (type == "system"):
+            try:
+                text = text + "Kernel: %s\n" % (commands.getoutput("uname -rsm"))
+                text = text + "Hostname: %s\n" % (commands.getoutput("uname -n"))
+                text = text + "Whoami: %s\n" % (commands.getoutput("whoami"))
+                text = text + "Uptime: %s\n" % (commands.getoutput("uptime"))
+            except:
+                text = "Something wrong"
         content = [type, text]
         return content
 
 
-    def initText(self, sender):
+    def initText(self, name):
         """function to send text"""
-        try:
-            if (sender == self.parent.parent.label_time):
-                content = self.createText("system")
-                return content
-        except:
-            pass
-        try:
-            if (sender == self.parent.parent.label_uptime):
-                content = self.createText("system")
-                return content
-        except:
-            pass
-        try:
-            if (sender == self.parent.parent.label_cpu):
-                content = self.createText("processor")
-                return content
-        except:
-            pass
-        try:
-            if (sender == self.parent.parent.label_cpuclock):
-                content = self.createText("processor")
-                return content
-        except:
-            pass
-        try:
-            if (sender == self.parent.parent.label_temp):
-                content = self.createText("processor")
-                return content
-        except:
-            pass
-        try:
-            if (sender == self.parent.parent.label_gpu):
-                content = self.createText("graphical")
-                return content
-        except:
-            pass
-        try:
-            if (sender == self.parent.parent.label_gputemp):
-                content = self.createText("graphical")
-                return content
-        except:
-            pass
-        try:
-            if (sender == self.parent.parent.label_mem):
-                content = self.createText("memory")
-                return content
-        except:
-            pass
-        try:
-            if (sender == self.parent.parent.label_swap):
-                content = self.createText("memory")
-                return content
-        except:
-            pass
-        try:
-            if (sender == self.parent.parent.label_hdd):
-                content = self.createText("disk")
-                return content
-        except:
-            pass
-        try:
-            if (sender == self.parent.parent.label_hddtemp):
-                content = self.createText("disk")
-                return content
-        except:
-            pass
-        try:
-            if (sender == self.parent.parent.label_net):
-                content = self.createText("network")
-                return content
-        except:
-            pass
-        try:
-            if (sender == self.parent.parent.label_bat):
-                content = self.createText("battery")
-                return content
-        except:
-            pass
-        try:
-            if (sender == self.parent.parent.label_player):
-                content = self.createText("player")
-                return content
-        except:
-            pass
-        try:
-            if (sender == self.parent.parent.label_custom):
-                content = self.createText("system")
-                return content
-        except:
-            pass
+        if (name == "bat"):
+            return self.createText("battery")
+        elif (name == "cpu"):
+            return self.createText("processor")
+        elif (name == "cpuclock"):
+            return self.createText("processor")
+        elif (name == "custom"):
+            return self.createText("system")
+        elif (name == "gpu"):
+            return self.createText("graphical")
+        elif (name == "gputemp"):
+            return self.createText("graphical")
+        elif (name == "hdd"):
+            return self.createText("disk")
+        elif (name == "hddtemp"):
+            return self.createText("disk")
+        elif (name == "mem"):
+            return self.createText("memory")
+        elif (name == "net"):
+            return self.createText("network")
+        elif (name == "player"):
+            return self.createText("player")
+        elif (name == "swap"):
+            return self.createText("memory")
+        elif (name == "temp"):
+            return self.createText("processor")
+        elif (name == "time"):
+            return self.createText("system")
+        elif (name == "uptime"):
+            return self.createText("system")
+        else:
+            return None

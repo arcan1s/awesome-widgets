@@ -8,13 +8,15 @@ pkgdesc="Minimalistic Plasmoid script written on Python2. It looks like widgets 
 arch=('i686' 'x86_64')
 url="http://arcanis.name/projects/pytextmonitor"
 license=('GPLv3')
-depends=('kdebase-workspace' 'kdebindings-python2' 'lm_sensors' 'sysstat')
-optdepends=("hddtemp: for HDD temperature monitor" 
-            "catalyst: for GPU monitor" 
-            "nvidia-utils: for GPU monitor" 
-            "amarok: for music player monitor" 
-            "mpd: for music player monitor" 
-            "qmmp: for music player monitor")
+depends=('kdebase-workspace' 'kdebindings-python2' 'lm_sensors')
+optdepends=("amarok: for music player monitor"
+            "catalyst: for GPU monitor"
+            "hddtemp: for HDD temperature monitor"
+            "mpd: for music player monitor"
+            "net-tools for popup messages"
+            "nvidia-utils: for GPU monitor"
+            "qmmp: for music player monitor"
+            "sysstat: for popup messages")
 makedepends=('automoc4' 'cmake')
 source=(https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/${_pkgname}-${pkgver}-src.tar.xz)
 install=${pkgname}.install
