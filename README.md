@@ -18,16 +18,18 @@ For edited output you must open Settings window and setup output format in lines
 * tag `$uptime` - uptime, *---d--h--m*
 * tag `$custom` - custom uptime format
 * tag `$cpu` - total load cpu, *%*
-* tag `$cpuN` - load CPU for core N, *%*. N should be in range 0 to 8
+* tag `$cpuN` - load CPU for core N, *%*. N should be in range 0 to 9
 * tag `$cpucl` - average cpu clock, *MHz*
-* tag `$cpuclN` - cpu clock for core N, *MHz*. N should be in range 0 to 8
+* tag `$cpuclN` - cpu clock for core N, *MHz*. N should be in range 0 to 9
 * tag `$tempN` - temperature for device N. For example, `$temp0`
 * tag `$gpu` - GPU usage, *%*. `aticonfig` or `nvidia-smi` must be installed
 * tag `$gputemp` - GPU temperature. `aticonfig` or `nvidia-smi` must be installed
 * tag `$mem` - usage memory, *%*
 * tag `$memmb` - usage memory, *MB*
+* tag `$memgb` - usage memory, *GB*
 * tag `$swap` - swap, *%*
 * tag `$swapmb` - swap, *MB*
+* tag `$swapgb` - swap, *GB*
 * tag `$hddN` - usage for mount point N, *%*. For example, `$hdd0`
 * tag `$hddtempN` - temperature for HDD N. For example, `$hddtemp0`
 * tag `$down` - download speed, *KB/s*
