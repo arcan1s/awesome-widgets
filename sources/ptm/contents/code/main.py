@@ -497,6 +497,8 @@ class pyTextWidget(plasmascript.Applet):
     def dataUpdated(self, sourceName, data):
         """function to update label"""
         updatedData = self.dataengine.dataUpdated(str(sourceName), data, self.ptm)
+        if (updatedData['value'] == None):
+            return
         # update falues where is needed
         if (updatedData['type'] != None):
             self.ptm['values'][updatedData['name']][updatedData['type']] = updatedData['value']
@@ -515,6 +517,7 @@ class pyTextWidget(plasmascript.Applet):
                 if (len(self.ptm['tooltip']['values'][updatedData['name']]) > self.ptm['vars']['tooltip']['num']):
                     self.ptm['tooltip']['values'][updatedData['name']] = self.ptm['tooltip']['values'][updatedData['name']][1:]
             if ((updatedData['name'] in ['cpu', 'cpuclock']) and (updatedData['type'] == -1)):
+                print (updatedData['value'])
                 self.ptm['tooltip']['values'][updatedData['name']].append(updatedData['value'])
             elif ((updatedData['name'] == "mem") and (updatedData['type'] == "app")):
                 self.ptm['tooltip']['values'][updatedData['name']].append(updatedData['value'])

@@ -85,8 +85,7 @@ class DataEngine:
         interval = ptm['vars']['app']['interval']
         names = ptm['names']
         updatedData = {'name':None, 'type':None, 'value':None}
-        if True:
-        #try:
+        try:
             if (sourceName == "cpu/system/TotalLoad"):
                 updatedData['name'] = "cpu"
                 updatedData['type'] = -1
@@ -240,9 +239,8 @@ class DataEngine:
                         updatedData['value'] = "%s%02i%s" % (updatedData['value'].split('$mm')[0], minutes, updatedData['value'].split('$mm')[1])
                     if (updatedData['value'].split('$m')[0] != updatedData['value']):
                         updatedData['value'] = "%s%2i%s" % (updatedData['value'].split('$m')[0], minutes, updatedData['value'].split('$m')[1])
-        #except:
-            #pass
-
+        except:
+            pass
         return updatedData
 
 
