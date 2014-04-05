@@ -13,7 +13,7 @@ optdepends=("amarok: for music player monitor"
             "catalyst: for GPU monitor"
             "hddtemp: for HDD temperature monitor"
             "mpd: for music player monitor"
-            "net-tools for popup messages"
+            "net-tools: for popup messages"
             "nvidia-utils: for GPU monitor"
             "qmmp: for music player monitor"
             "sysstat: for popup messages")
