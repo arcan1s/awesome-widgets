@@ -152,9 +152,9 @@ class DataEngine:
                 updatedData['value'] = value
                 # update network device
                 self.updateNetdev = self.updateNetdev + 1
-                if (self.updateNetdev == 100):
+                if (self.updateNetdev == 30):
                     self.updateNetdev = 0
-                    if (adv['netdevBool'] > 0):
+                    if (adv['netdevBool'] == 0):
                         systemDataEngine.disconnectSource("network/interfaces/" + names['net'] + "/transmitter/data", self.parent)
                         systemDataEngine.disconnectSource("network/interfaces/" + names['net'] + "/receiver/data", self.parent)
                         names['net'] = self.parent.setNetdev()

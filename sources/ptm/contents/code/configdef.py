@@ -196,7 +196,8 @@ class ConfigDefinition:
 
         labelOrder = str(settings.get('label_order', '1345'))
         for label in self.defaults['order'].keys():
-            bool = self.defaults['bool'][self.defaults['order'][label]]
+            bool = settings.get(self.defaults['confBool'][self.defaults['order'][label]],
+                self.defaults['bool'][self.defaults['order'][label]]).toInt()[0]
             self.configpage.checkboxes[self.defaults['order'][label]].setCheckState(bool)
             if (bool > 0):
                 self.configpage.sliders[self.defaults['order'][label]].setValue(labelOrder.find(label) + 1)

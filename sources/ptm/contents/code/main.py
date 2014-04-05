@@ -244,7 +244,7 @@ class pyTextWidget(plasmascript.Applet):
         line = self.ptm['vars']['formats']['bat']
         if (line.split('$bat')[0] != line):
             try:
-                with open (self.ptm['adv']['batDev'], 'r') as batFile:
+                with open (self.ptm['vars']['adv']['batDev'], 'r') as batFile:
                     bat = batFile.readline()[:-1]
             except:
                 bat = "off"
@@ -252,7 +252,7 @@ class pyTextWidget(plasmascript.Applet):
             line = line.split('$bat')[0] + bat + line.split('$bat')[1]
         if (line.split('$ac')[0] != line):
             try:
-                with open (self.ptm['adv']['acDev'], 'r') as batFile:
+                with open (self.ptm['vars']['adv']['acDev'], 'r') as batFile:
                     bat = batFile.readline()[:-1]
                 if (bat == '1'):
                     bat = "(*)"
@@ -298,7 +298,7 @@ class pyTextWidget(plasmascript.Applet):
         line = self.ptm['vars']['formats']['hdd']
         for i in range(len(self.ptm['names']['hdd'])):
             if (line.split('$hdd' + str(i))[0] != line):
-                line = line.split('$hdd' + str(i))[0] + self.ptm['values']['hdd'][self.ptm['names']['hdd'][i]] + line.split('$hdd' + str(i))[1]
+                line = line.split('$hdd' + str(i))[0] + str(self.ptm['values']['hdd'][self.ptm['names']['hdd'][i]]) + line.split('$hdd' + str(i))[1]
         text = self.ptm['vars']['app']['format'].split('$LINE')[0] + line + self.ptm['vars']['app']['format'].split('$LINE')[1]
         self.setText("hdd", text)
 
@@ -317,7 +317,8 @@ class pyTextWidget(plasmascript.Applet):
         """function to set mem text"""
         line = self.ptm['vars']['formats']['mem']
         if (line.split('$memmb')[0] != line):
-            line = line.split('$memmb')[0] + self.ptm['values']['mem']['app'] + line.split('$memmb')[1]
+            mem = "%i" % (self.ptm['values']['mem']['app'])
+            line = line.split('$memmb')[0] + mem + line.split('$memmb')[1]
         if (line.split('$mem')[0] != line):
             try:
                 mem = 100 * self.ptm['values']['mem']['app'] / (self.ptm['values']['mem']['free'] + self.ptm['values']['mem']['used'])
@@ -348,7 +349,8 @@ class pyTextWidget(plasmascript.Applet):
         """function to set swap text"""
         line = self.ptm['vars']['formats']['swap']
         if (line.split('$swapmb')[0] != line):
-            line = line.split('$swapmb')[0] + self.ptm['values']['swap']['used'] + line.split('$swapmb')[1]
+            mem = "%i" % (self.ptm['values']['swap']['used'])
+            line = line.split('$swapmb')[0] + mem + line.split('$swapmb')[1]
         if (line.split('$swap')[0] != line):
             try:
                 mem = 100 * self.ptm['values']['swap']['used'] / (self.ptm['values']['swap']['free'] + self.ptm['values']['swap']['used'])
@@ -433,13 +435,13 @@ class pyTextWidget(plasmascript.Applet):
         interfaces = QDir.entryList(QDir(netdir), QDir.Dirs | QDir.NoDotAndDotDot)
         for device in interfaces:
             if (str(device) != "lo"):
-                try:
+                #try:
+                if True:
                     with open(netdir + '/' + str(device) + '/operstate', 'r') as stateFile:
                         if (stateFile.readline() == "up\n"):
                             netdev = str(device)
-                except:
-                    pass
-        self.ptm['names']['net'] = netdev
+                #except:
+                    #pass
         return netdev
 
 
