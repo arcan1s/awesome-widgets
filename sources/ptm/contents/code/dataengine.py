@@ -230,15 +230,15 @@ class DataEngine:
                     if (updatedData['value'].split('$dd')[0] != updatedData['value']):
                         updatedData['value'] = "%s%03i%s" % (updatedData['value'].split('$dd')[0], days, updatedData['value'].split('$dd')[1])
                     if (updatedData['value'].split('$d')[0] != updatedData['value']):
-                        updatedData['value'] = "%s%3i%s" % (updatedData['value'].split('$d')[0], days, updatedData['value'].split('$d')[1])
+                        updatedData['value'] = "%s%i%s" % (updatedData['value'].split('$d')[0], days, updatedData['value'].split('$d')[1])
                     if (updatedData['value'].split('$hh')[0] != updatedData['value']):
                         updatedData['value'] = "%s%02i%s" % (updatedData['value'].split('$hh')[0], hours, updatedData['value'].split('$hh')[1])
                     if (updatedData['value'].split('$h')[0] != updatedData['value']):
-                        updatedData['value'] = "%s%2i%s" % (updatedData['value'].split('$h')[0], hours, updatedData['value'].split('$h')[1])
+                        updatedData['value'] = "%s%i%s" % (updatedData['value'].split('$h')[0], hours, updatedData['value'].split('$h')[1])
                     if (updatedData['value'].split('$mm')[0] != updatedData['value']):
                         updatedData['value'] = "%s%02i%s" % (updatedData['value'].split('$mm')[0], minutes, updatedData['value'].split('$mm')[1])
                     if (updatedData['value'].split('$m')[0] != updatedData['value']):
-                        updatedData['value'] = "%s%2i%s" % (updatedData['value'].split('$m')[0], minutes, updatedData['value'].split('$m')[1])
+                        updatedData['value'] = "%s%i%s" % (updatedData['value'].split('$m')[0], minutes, updatedData['value'].split('$m')[1])
         except:
             pass
         return updatedData
