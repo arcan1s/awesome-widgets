@@ -46,10 +46,10 @@ class Reinit():
         ptmVars['adv']['player'] = str(settings.get('player_name', "amarok"))
 
         ptmVars['app'] = {}
-        ptmVars['app']['format'] = "<pre><p align=\"center\"><span style=\" font-family:'" + str(settings.get('font_family', 'Terminus')) +\
+        ptmVars['app']['format'] = ["<pre><p align=\"center\"><span style=\" font-family:'" + str(settings.get('font_family', 'Terminus')) +\
             "'; font-style:" + str(settings.get('font_style', 'normal')) + "; font-size:" + str(settings.get('font_size', 12)) +\
             "pt; font-weight:" + str(settings.get('font_weight', 400)) + "; color:" + str(settings.get('font_color', '#000000')) +\
-            ";\">$LINE</span></p></pre>"
+            ";\">", "</span></p></pre>"]
         ptmVars['app']['interval'] = settings.get('interval', 2000).toInt()[0]
         ptmVars['app']['order'] = str(settings.get('label_order', '1345'))
 
@@ -83,7 +83,7 @@ class Reinit():
             label = self.defaults['order'][order]
             if (ptmVars['bools'][label] > 0):
                 ptmVars['formats'][label] = str(settings.get(self.defaults['confFormat'][label], self.defaults['format'][label]))
-                text = ptmVars['app']['format'].split('$LINE')[0] + ptmVars['formats'][label] + ptmVars['app']['format'].split('$LINE')[1]
+                text = ptmVars['app']['format'][0] + ptmVars['formats'][label] + ptmVars['app']['format'][1]
                 self.parent.addLabel(label, text, True)
                 if ((label in ['cpu', 'cpuclock', 'mem', 'net', 'swap']) and (ptmVars['bools'][label] == 2)):
                     if (label == 'net'):

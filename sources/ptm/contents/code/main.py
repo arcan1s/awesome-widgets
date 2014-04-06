@@ -303,7 +303,7 @@ class pyTextWidget(plasmascript.Applet):
             except:
                 bat = "(?)"
             line = line.split('$ac')[0] + bat + line.split('$ac')[1]
-        text = self.ptm['vars']['app']['format'].split('$LINE')[0] + line + self.ptm['vars']['app']['format'].split('$LINE')[1]
+        text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
         self.setText("bat", text)
 
 
@@ -320,7 +320,7 @@ class pyTextWidget(plasmascript.Applet):
         if (line.split('$cpu')[0] != line):
             value = "%5.1f" % (self.ptm['values']['cpu'][-1])
             line = line.split('$cpu')[0] + value + line.split('$cpu')[1]
-        text = self.ptm['vars']['app']['format'].split('$LINE')[0] + line + self.ptm['vars']['app']['format'].split('$LINE')[1]
+        text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
         self.setText("cpu", text)
 
 
@@ -337,7 +337,7 @@ class pyTextWidget(plasmascript.Applet):
         if (line.split('$cpucl')[0] != line):
             value = "%4.0f" % (self.ptm['values']['cpuclock'][-1])
             line = line.split('$cpucl')[0] + value + line.split('$cpucl')[1]
-        text = self.ptm['vars']['app']['format'].split('$LINE')[0] + line + self.ptm['vars']['app']['format'].split('$LINE')[1]
+        text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
         self.setText("cpuclock", text)
 
 
@@ -347,7 +347,7 @@ class pyTextWidget(plasmascript.Applet):
         for i in range(len(self.ptm['names']['hdd'])).reverse():
             if (line.split('$hdd' + str(i))[0] != line):
                 line = line.split('$hdd' + str(i))[0] + str(self.ptm['values']['hdd'][self.ptm['names']['hdd'][i]]) + line.split('$hdd' + str(i))[1]
-        text = self.ptm['vars']['app']['format'].split('$LINE')[0] + line + self.ptm['vars']['app']['format'].split('$LINE')[1]
+        text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
         self.setText("hdd", text)
 
 
@@ -357,7 +357,7 @@ class pyTextWidget(plasmascript.Applet):
         for i in range(len(self.ptm['names']['hddtemp'])).reverse():
             if (line.split('$hddtemp' + str(i))[0] != line):
                 line = line.split('$hddtemp' + str(i))[0] + self.ptm['values']['hddtemp'][self.ptm['names']['hddtemp'][i]] + line.split('$hddtemp' + str(i))[1]
-        text = self.ptm['vars']['app']['format'].split('$LINE')[0] + line + self.ptm['vars']['app']['format'].split('$LINE')[1]
+        text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
         self.setText("hddtemp", text)
 
 
@@ -377,7 +377,7 @@ class pyTextWidget(plasmascript.Applet):
             except:
                 mem = "  N\\A"
             line = line.split('$mem')[0] + mem + line.split('$mem')[1]
-        text = self.ptm['vars']['app']['format'].split('$LINE')[0] + line + self.ptm['vars']['app']['format'].split('$LINE')[1]
+        text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
         self.setText("mem", text)
 
 
@@ -392,7 +392,7 @@ class pyTextWidget(plasmascript.Applet):
         if (line.split('$up')[0] != line):
             value = "%4.0f" %(self.ptm['values']['net']['up'])
             line = line.split('$up')[0] + value + line.split('$up')[1]
-        text = self.ptm['vars']['app']['format'].split('$LINE')[0] + line + self.ptm['vars']['app']['format'].split('$LINE')[1]
+        text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
         self.setText("net", text)
 
 
@@ -412,7 +412,7 @@ class pyTextWidget(plasmascript.Applet):
             except:
                 mem = "  N\\A"
             line = line.split('$swap')[0] + mem + line.split('$swap')[1]
-        text = self.ptm['vars']['app']['format'].split('$LINE')[0] + line + self.ptm['vars']['app']['format'].split('$LINE')[1]
+        text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
         self.setText("swap", text)
 
 
@@ -422,7 +422,7 @@ class pyTextWidget(plasmascript.Applet):
         for i in range(len(self.ptm['names']['temp'])).reverse():
             if (line.split('$temp' + str(i))[0] != line):
                 line = line.split('$temp' + str(i))[0] + self.ptm['values']['temp'][self.ptm['names']['temp'][i]] + line.split('$temp' + str(i))[1]
-        text = self.ptm['vars']['app']['format'].split('$LINE')[0] + line + self.ptm['vars']['app']['format'].split('$LINE')[1]
+        text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
         self.setText("temp", text)
 
 
@@ -543,7 +543,7 @@ class pyTextWidget(plasmascript.Applet):
                 line = line.split('$uptime')[0] + text + line.split('$uptime')[1]
             elif (line.split('$custom')[0] != line):
                 line = line.split('$custom')[0] + text + line.split('$custom')[1]
-        output = self.ptm['vars']['app']['format'].split('$LINE')[0] + line + self.ptm['vars']['app']['format'].split('$LINE')[1]
+        output = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
         return output
 
 
