@@ -1,5 +1,6 @@
 Ver.1.7.4:
 + added support more than 10 tags in cpu, cpuclock, hdd, hddtemp, temp labels
+- format bug fixes
 * changes in custom uptime format
 
 Ver.1.7.3:
