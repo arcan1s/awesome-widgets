@@ -344,7 +344,9 @@ class pyTextWidget(plasmascript.Applet):
     def hddText(self):
         """function to set hdd text"""
         line = self.ptm['vars']['formats']['hdd']
-        for i in range(len(self.ptm['names']['hdd'])).reverse():
+        devices = range(len(self.ptm['names']['hdd']))
+        devices.reverse()
+        for i in devices:
             if (line.split('$hdd' + str(i))[0] != line):
                 line = line.split('$hdd' + str(i))[0] + str(self.ptm['values']['hdd'][self.ptm['names']['hdd'][i]]) + line.split('$hdd' + str(i))[1]
         text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
@@ -354,7 +356,9 @@ class pyTextWidget(plasmascript.Applet):
     def hddtempText(self):
         """function to set hddtemp text"""
         line = self.ptm['vars']['formats']['hddtemp']
-        for i in range(len(self.ptm['names']['hddtemp'])).reverse():
+        devices = range(len(self.ptm['names']['hddtemp']))
+        devices.reverse()
+        for i in devices:
             if (line.split('$hddtemp' + str(i))[0] != line):
                 line = line.split('$hddtemp' + str(i))[0] + self.ptm['values']['hddtemp'][self.ptm['names']['hddtemp'][i]] + line.split('$hddtemp' + str(i))[1]
         text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
@@ -419,7 +423,9 @@ class pyTextWidget(plasmascript.Applet):
     def tempText(self):
         """function to set temperature text"""
         line = self.ptm['vars']['formats']['temp']
-        for i in range(len(self.ptm['names']['temp'])).reverse():
+        devices = range(len(self.ptm['names']['temp']))
+        devices.reverse()
+        for i in devices:
             if (line.split('$temp' + str(i))[0] != line):
                 line = line.split('$temp' + str(i))[0] + self.ptm['values']['temp'][self.ptm['names']['temp'][i]] + line.split('$temp' + str(i))[1]
         text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
