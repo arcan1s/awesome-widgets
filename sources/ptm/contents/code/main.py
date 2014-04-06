@@ -348,7 +348,9 @@ class pyTextWidget(plasmascript.Applet):
         devices.reverse()
         for i in devices:
             if (line.split('$hdd' + str(i))[0] != line):
-                line = line.split('$hdd' + str(i))[0] + str(self.ptm['values']['hdd'][devices[i]]) + line.split('$hdd' + str(i))[1]
+                line = line.split('$hdd' + str(i))[0] +\
+                    str(self.ptm['values']['hdd'][self.ptm['names']['hdd'][i]]) +\
+                    line.split('$hdd' + str(i))[1]
         text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
         self.setText("hdd", text)
 
@@ -360,7 +362,9 @@ class pyTextWidget(plasmascript.Applet):
         devices.reverse()
         for i in devices:
             if (line.split('$hddtemp' + str(i))[0] != line):
-                line = line.split('$hddtemp' + str(i))[0] + self.ptm['values']['hddtemp'][devices[i]] + line.split('$hddtemp' + str(i))[1]
+                line = line.split('$hddtemp' + str(i))[0] +\
+                    str(self.ptm['values']['hddtemp'][self.ptm['names']['hddtemp'][i]]) +\
+                    line.split('$hddtemp' + str(i))[1]
         text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
         self.setText("hddtemp", text)
 
@@ -427,7 +431,9 @@ class pyTextWidget(plasmascript.Applet):
         devices.reverse()
         for i in devices:
             if (line.split('$temp' + str(i))[0] != line):
-                line = line.split('$temp' + str(i))[0] + self.ptm['values']['temp'][devices[i]] + line.split('$temp' + str(i))[1]
+                line = line.split('$temp' + str(i))[0] +\
+                    str(self.ptm['values']['temp'][self.ptm['names']['temp'][i]]) +\
+                    line.split('$temp' + str(i))[1]
         text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
         self.setText("temp", text)
 
