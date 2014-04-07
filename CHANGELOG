@@ -1,3 +1,7 @@
+Ver.1.7.5:
++ added scrollbar to configuration interface
++ added AC lines configuration
+
 Ver.1.7.4:
 + added support more than 10 tags in cpu, cpuclock, hdd, hddtemp, temp labels
 - format bug fixes
