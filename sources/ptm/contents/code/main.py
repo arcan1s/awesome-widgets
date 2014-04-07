@@ -180,6 +180,7 @@ class pyTextWidget(plasmascript.Applet):
             self.ptm['values']['cpu'][i] = 0.0
             self.ptm['values']['cpuclock'][i] = 0.0
         self.ptm['values']['hdd'] = {}
+        self.ptm['values']['hddmb'] = {}
         self.ptm['values']['hddtemp'] = {}
         self.ptm['values']['mem'] = {'app':0.0, 'used':0.0, 'free':1.0}
         self.ptm['values']['net'] = {"up":0.0, "down":0.0}
@@ -348,9 +349,20 @@ class pyTextWidget(plasmascript.Applet):
         devices.reverse()
         for i in devices:
             if (line.split('$hdd' + str(i))[0] != line):
+                hdd = "%4.1f" % (self.ptm['values']['hdd'][self.ptm['names']['hdd'][i]])
                 line = line.split('$hdd' + str(i))[0] +\
-                    str(self.ptm['values']['hdd'][self.ptm['names']['hdd'][i]]) +\
+                    hdd +\
                     line.split('$hdd' + str(i))[1]
+            if (line.split('$hddmb' + str(i))[0] != line):
+                hdd = "%i" % (self.ptm['values']['hddmb'][self.ptm['names']['hdd'][i]] / 1024.0)
+                line = line.split('$hddmb' + str(i))[0] +\
+                    str(int(self.ptm['values']['hddmb'][self.ptm['names']['hdd'][i]] / 1024.0)) +\
+                    line.split('$hddmb' + str(i))[1]
+            if (line.split('$hddgb' + str(i))[0] != line):
+                hdd = "%4.1f" % (self.ptm['values']['hddmb'][self.ptm['names']['hdd'][i]] / (1024.0 * 1024.0))
+                line = line.split('$hddgb' + str(i))[0] +\
+                    hdd +\
+                    line.split('$hddgb' + str(i))[1]
         text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
         self.setText("hdd", text)
 
@@ -457,6 +469,8 @@ class pyTextWidget(plasmascript.Applet):
             for item in ['hdd', 'hddtemp', 'temp']:
                 for value in self.ptm['names'][item]:
                     self.ptm['values'][item][value] = 0.0
+                    if (item == "hdd"):
+                        self.ptm['values']['hddmb'][value] = 0.0
 
 
     def connectToEngine(self):

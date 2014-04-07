@@ -53,6 +53,7 @@ class DataEngine:
         if (bools['hdd'] > 0):
             for item in names['hdd']:
                 dataEngines['system'].connectSource("partitions" + item + "/filllevel", self.parent, interval)
+                dataEngines['system'].connectSource("partitions" + item + "/usedspace", self.parent, interval)
         if (bools['hddtemp'] > 0):
             dataEngines['ext'].connectSource("hddtemp", self.parent, interval)
         if (bools['mem'] > 0):
@@ -118,11 +119,16 @@ class DataEngine:
                 updatedData['name'] = "gputemp"
                 value = round(data[QString(u'GPUTemp')].toFloat()[0], 1)
                 updatedData['value'] = "%4.1f" % (value)
-            elif (sourceName.split('/')[0] == "partitions"):
+            elif (sourceName.split('/')[0] == "partitions") and (sourceName.split('/')[-1] == "filllevel"):
                 updatedData['name'] = "hdd"
                 updatedData['type'] = '/' + '/'.join(sourceName.split('/')[1:-1])
                 value = round(data[QString(u'value')].toFloat()[0], 1)
-                updatedData['value'] = "%5.1f" % (value)
+                updatedData['value'] = value
+            elif (sourceName.split('/')[0] == "partitions") and (sourceName.split('/')[-1] == "usedspace"):
+                updatedData['name'] = "hddmb"
+                updatedData['type'] = '/' + '/'.join(sourceName.split('/')[1:-1])
+                value = data[QString(u'value')].toFloat()[0]
+                updatedData['value'] = value
             elif (sourceName == "hddtemp"):
                 updatedData['name'] = "hddtemp"
                 updatedData['value'] = {}
@@ -267,6 +273,7 @@ class DataEngine:
         elif (name == "hdd"):
             for item in keys['hdd']:
                 dataEngines['system'].disconnectSource("partitions" + item + "/filllevel", self.parent)
+                dataEngines['system'].disconnectSource("partitions" + item + "/usedspace", self.parent)
         elif (name == "hddtemp"):
             dataEngines['ext'].disconnectSource("hddtemp", self.parent)
         elif (name == "mem"):
