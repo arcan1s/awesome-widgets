@@ -182,6 +182,13 @@ Installation
 Additional information
 ======================
 
+TODO (wish list)
+----------------
+* data labels on tooltip
+* package manager support
+* hddmb support
+* ps count and ps support
+
 Links
 -----
 * [Homepage](http://arcanis.name/projects/pytextmonitor/)

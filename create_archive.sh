@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # update english readme
-cp readme/en.md README.md
+cp README.md readme/en.md
 
 SRCDIR="sources"
 VERSION=$(grep -m1 PROJECT_VERSION_MAJOR sources/CMakeLists.txt | awk '{print $3}' | cut -c 1).\
