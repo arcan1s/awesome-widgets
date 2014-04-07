@@ -38,6 +38,8 @@ class Reinit():
 
         ptmVars['adv'] = {}
         ptmVars['adv']['acDev'] = str(settings.get('ac_device', '/sys/class/power_supply/AC/online'))
+        ptmVars['adv']['acOnline'] = str(settings.get('ac_online', '(*)'))
+        ptmVars['adv']['acOffline'] = str(settings.get('ac_offline', '( )'))
         ptmVars['adv']['batDev'] = str(settings.get('battery_device', '/sys/class/power_supply/BAT0/capacity'))
         ptmVars['adv']['customTime'] = str(settings.get('custom_time', '$hh:$mm'))
         ptmVars['adv']['customUptime'] = str(settings.get('custom_uptime', '$dd,$hh,$mm'))

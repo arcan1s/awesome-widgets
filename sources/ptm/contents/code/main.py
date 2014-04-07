@@ -296,12 +296,12 @@ class pyTextWidget(plasmascript.Applet):
             try:
                 with open (self.ptm['vars']['adv']['acDev'], 'r') as batFile:
                     bat = batFile.readline()[:-1]
-                if (bat == '1'):
-                    bat = "(*)"
+                if (bat == "1"):
+                    bat = self.ptm['vars']['adv']['acOnline']
                 else:
-                    bat = "( )"
+                    bat = self.ptm['vars']['adv']['acOffline']
             except:
-                bat = "(?)"
+                bat = "N\\A"
             line = line.split('$ac')[0] + bat + line.split('$ac')[1]
         text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
         self.setText("bat", text)

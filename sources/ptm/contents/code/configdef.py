@@ -65,6 +65,8 @@ class ConfigDefinition:
         settings.set('custom_netdev', str(self.configpage.ui.comboBox_netdev.currentText()))
         settings.set('battery_device', str(self.configpage.ui.lineEdit_batdev.text()))
         settings.set('ac_device', str(self.configpage.ui.lineEdit_acdev.text()))
+        settings.set('ac_online', str(self.configpage.ui.lineEdit_acOnline.text()))
+        settings.set('ac_offline', str(self.configpage.ui.lineEdit_acOffline.text()))
         settings.set('player_name', str(self.configpage.ui.comboBox_playerSelect.currentText()))
 
         settings.set('tooltip_num', self.configpage.ui.spinBox_tooltipNum.value())
@@ -157,6 +159,8 @@ class ConfigDefinition:
         self.configpage.ui.comboBox_netdev.setCurrentIndex(index)
         self.configpage.ui.lineEdit_batdev.setText(str(settings.get('battery_device', '/sys/class/power_supply/BAT0/capacity')))
         self.configpage.ui.lineEdit_acdev.setText(str(settings.get('ac_device', '/sys/class/power_supply/AC/online')))
+        self.configpage.ui.lineEdit_acOnline.setText(str(settings.get('ac_online', '(*)')))
+        self.configpage.ui.lineEdit_acOffline.setText(str(settings.get('ac_offline', '( )')))
         index = self.configpage.ui.comboBox_playerSelect.findText(str(settings.get('player_name', "amarok")))
         self.configpage.ui.comboBox_playerSelect.setCurrentIndex(index)
 
