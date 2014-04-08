@@ -72,13 +72,13 @@ QString ExtendedSysMon::getAutoGpu()
 QStringList ExtendedSysMon::sources() const
 {
     QStringList source;
+    source.append(QString("custom"));
     source.append(QString("gpu"));
     source.append(QString("gputemp"));
     source.append(QString("hddtemp"));
     source.append(QString("pkg"));
     source.append(QString("player"));
     source.append(QString("ps"));
-    source.append(QString("custom"));
     return source;
 }
 
@@ -86,12 +86,13 @@ QStringList ExtendedSysMon::sources() const
 bool ExtendedSysMon::readConfiguration()
 {
     // pre-setup
+    configuration[QString("CUSTOM")] = QString("wget -qO- http://ifconfig.me/ip");
     configuration[QString("GPUDEV")] = QString("auto");
     configuration[QString("HDDDEV")] = QString("all");
     configuration[QString("MPDADDRESS")] = QString("localhost");
     configuration[QString("MPDPORT")] = QString("6600");
-    configuration[QString("CUSTOM")] = QString("wget -qO- http://ifconfig.me/ip");
     configuration[QString("PKGCMD")] = QString("pacman -Qu");
+    configuration[QString("PKGNULL")] = QString("0");
 
     QString fileStr;
     // FIXME: define configuration file
@@ -118,6 +119,10 @@ bool ExtendedSysMon::readConfiguration()
         configuration[QString("GPUDEV")] = getAutoGpu();
     if (configuration[QString("HDDDEV")] == QString("all"))
         configuration[QString("HDDDEV")] = getAllHdd();
+    for (int i=configuration[QString("PKGNULL")].split(QString(","), QString::SkipEmptyParts).count();
+         i<configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts).count()+1;
+         i++)
+        configuration[QString("PKGNULL")] += QString(",0");
 
     return true;
 }
@@ -239,8 +244,8 @@ QStringList ExtendedSysMon::getPlayerInfo(const QString playerName,
     info.append(QString("0"));
     // title
     info.append(QString("unknown"));
-    if ((playerName != QString("amarok")) ||
-            (playerName != QString("mpd")) ||
+    if ((playerName != QString("amarok")) &&
+            (playerName != QString("mpd")) &&
             (playerName != QString("qmmp")))
         return info;
     QProcess command;
@@ -276,7 +281,7 @@ QStringList ExtendedSysMon::getPlayerInfo(const QString playerName,
     else if (playerName == QString("mpd")) {
         // mpd
         command.start(QString("bash -c \"echo 'currentsong\nstatus\nclose' | curl --connect-timeout 1 -fsm 3 telnet://") +
-                      mpdAddress + QString(":") + mpdPort);
+                      mpdAddress + QString(":") + mpdPort + QString("\""));
         command.waitForFinished(-1);
         qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
         for (int i=0; i<qoutput.split(QString("\n"), QString::SkipEmptyParts).count(); i++) {
@@ -323,6 +328,40 @@ QStringList ExtendedSysMon::getPlayerInfo(const QString playerName,
 }
 
 
+QStringList ExtendedSysMon::getPsStats()
+{
+    int psCount = 0;
+    QStringList psList;
+    QProcess command;
+    QString qoutput = QString("");
+    command.start(QString("ps --no-headers -o command"));
+    command.waitForFinished(-1);
+    qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput()).trimmed();
+    for (int i=0; i<qoutput.split(QString("\n"), QString::SkipEmptyParts).count(); i++)
+        if (qoutput.split(QString("\n"), QString::SkipEmptyParts)[i] != QString("ps --no-headers -o command")) {
+            psCount++;
+            psList.append(qoutput.split(QString("\n"), QString::SkipEmptyParts)[i]);
+        }
+    QStringList psStats;
+    psStats.append(QString::number(psCount));
+    psStats.append(psList.join(QString(",")));
+    return psStats;
+}
+
+
+int ExtendedSysMon::getUpgradeInfo(const QString pkgCommand, const int pkgNull)
+{
+    int count = 0;
+    QProcess command;
+    QString qoutput = QString("");
+    command.start(QString("bash -c \"") + pkgCommand + QString("\""));
+    command.waitForFinished(-1);
+    qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput()).trimmed();
+    count = qoutput.split(QString("\n"), QString::SkipEmptyParts).count();
+    return (count - pkgNull);
+}
+
+
 bool ExtendedSysMon::sourceRequestEvent(const QString &name)
 {
     return updateSourceEvent(name);
@@ -332,7 +371,12 @@ bool ExtendedSysMon::sourceRequestEvent(const QString &name)
 bool ExtendedSysMon::updateSourceEvent(const QString &source)
 {
     QString key;
-    if (source == QString("gpu")) {
+    if (source == QString("custom")) {
+            key = QString("custom");
+            QString value = getCustomCmd(configuration[QString("CUSTOM")]);
+            setData(source, key, value);
+        }
+    else if (source == QString("gpu")) {
         key = QString("GPU");
         float value = getGpu(configuration[QString("GPUDEV")]);
         setData(source, key, value);
@@ -347,6 +391,14 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
         for (int i=0; i<deviceList.count(); i++) {
             float value = getHddTemp(deviceList[i]);
             setData(source, deviceList[i], value);
+        }
+    }
+    else if (source == QString("pkg")) {
+        for (int i=0; i<configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts).count(); i++) {
+            key = QString("pkgCount") + QString::number(i);
+            int value = getUpgradeInfo(configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts)[i],
+                    configuration[QString("PKGNULL")].split(QString(","), QString::SkipEmptyParts)[i].toInt());
+            setData(source, key, value);
         }
     }
     else if (source == QString("player")) {
@@ -390,12 +442,13 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
         key = QString("qmmp_title");
         setData(source, key, value[4]);
     }
-    else if (source == QString("custom")) {
-        key = QString("custom");
-        QString value = getCustomCmd(configuration[QString("CUSTOM")]);
-        setData(source, key, value);
+    else if (source == QString("ps")) {
+        QStringList value = getPsStats();
+        key = QString("psCount");
+        setData(source, key, value[0].toInt());
+        key = QString("ps");
+        setData(source, key, value[1]);
     }
-
     return true;
 }
 

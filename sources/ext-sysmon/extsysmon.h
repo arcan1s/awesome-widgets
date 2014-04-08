@@ -34,6 +34,9 @@ public:
     QStringList getPlayerInfo(const QString playerName,
                               const QString mpdAddress = 0,
                               const QString mpdPort = 0);
+    QStringList getPsStats();
+    int getUpgradeInfo(const QString pkgCommand,
+                       const int pkgNull = 0);
 
 protected:
     bool readConfiguration();
