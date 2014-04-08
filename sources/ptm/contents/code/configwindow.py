@@ -40,7 +40,8 @@ class ConfigWindow(QWidget):
             'hdd':self.ui.checkBox_hdd, 'hddtemp':self.ui.checkBox_hddTemp,
             'mem':self.ui.checkBox_mem, 'net':self.ui.checkBox_net,
             'swap':self.ui.checkBox_swap, 'temp':self.ui.checkBox_temp,
-            'uptime':self.ui.checkBox_uptime, 'player':self.ui.checkBox_player,
+            'uptime':self.ui.checkBox_uptime, 'pkg':self.ui.checkBox_pkg,
+            'player':self.ui.checkBox_player, 'ps':self.ui.checkBox_ps,
             'time':self.ui.checkBox_time}
         self.lineedits = {'bat':self.ui.lineEdit_bat, 'cpu':self.ui.lineEdit_cpu,
             'cpuclock':self.ui.lineEdit_cpuclock, 'custom':self.ui.lineEdit_custom,
@@ -48,7 +49,8 @@ class ConfigWindow(QWidget):
             'hdd':self.ui.lineEdit_hdd, 'hddtemp':self.ui.lineEdit_hddTemp,
             'mem':self.ui.lineEdit_mem, 'net':self.ui.lineEdit_net,
             'swap':self.ui.lineEdit_swap, 'temp':self.ui.lineEdit_temp,
-            'uptime':self.ui.lineEdit_uptime, 'player':self.ui.lineEdit_player,
+            'uptime':self.ui.lineEdit_uptime, 'pkg':self.ui.lineEdit_pkg,
+            'player':self.ui.lineEdit_player, 'ps':self.ui.lineEdit_ps,
             'time':self.ui.lineEdit_time}
         self.sliders = {'bat':self.ui.slider_bat, 'cpu':self.ui.slider_cpu,
             'cpuclock':self.ui.slider_cpuclock, 'custom':self.ui.slider_custom,
@@ -56,7 +58,8 @@ class ConfigWindow(QWidget):
             'hdd':self.ui.slider_hdd, 'hddtemp':self.ui.slider_hddTemp,
             'mem':self.ui.slider_mem, 'net':self.ui.slider_net,
             'swap':self.ui.slider_swap, 'temp':self.ui.slider_temp,
-            'uptime':self.ui.slider_uptime, 'player':self.ui.slider_player,
+            'uptime':self.ui.slider_uptime, 'pkg':self.ui.slider_pkg,
+            'player':self.ui.slider_player, 'ps':self.ui.slider_ps,
             'time':self.ui.slider_time}
 
         QObject.connect(self.ui.checkBox_netdev, SIGNAL("stateChanged(int)"), self.setNetdevEnabled)

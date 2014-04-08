@@ -208,6 +208,8 @@ class PTMNotify:
             return self.createText("network")
         elif (name == "player"):
             return self.createText("player")
+        elif (name == "ps"):
+            return self.createText("system")
         elif (name == "swap"):
             return self.createText("memory")
         elif (name == "temp"):

@@ -132,29 +132,30 @@ class pyTextWidget(plasmascript.Applet):
         self.ptm['defaults']['confBool'] = {'bat':'batBool', 'cpu':'cpuBool',
             'cpuclock':'cpuclockBool', 'custom':'customBool', 'gpu':'gpuBool',
             'gputemp':'gputempBool', 'hdd':'hddBool', 'hddtemp':'hddtempBool',
-            'mem':'memBool', 'net':'netBool', 'swap':'swapBool', 'temp':'tempBool',
-            'uptime':'uptimeBool', 'player':'playerBool', 'time':'timeBool'}
+            'mem':'memBool', 'net':'netBool', 'pkg':'pkgBool', 'player':'playerBool',
+            'ps':'psBool', 'swap':'swapBool', 'temp':'tempBool', 'uptime':'uptimeBool',
+            'time':'timeBool'}
         self.ptm['defaults']['confColor'] = {'cpu':'cpu_color', 'cpuclock':'cpuclock_color',
             'down':'down_color', 'mem':'mem_color', 'swap':'swap_color', 'up':'up_color'}
         self.ptm['defaults']['confFormat'] = {'bat':'batFormat', 'cpu':'cpuFormat',
             'cpuclock':'cpuclockFormat', 'custom':'customFormat', 'gpu':'gpuFormat',
             'gputemp':'gputempFormat', 'hdd':'hddFormat', 'hddtemp':'hddtempFormat',
-            'mem':'memFormat', 'net':'netFormat', 'player':'playerFormat',
-            'swap':'swapFormat', 'temp':'tempFormat', 'time':'timeFormat',
-            'uptime':'uptimeFormat'}
+            'mem':'memFormat', 'net':'netFormat', 'pkg':'pkgFormat',
+            'player':'playerFormat', 'ps':'psFormat', 'swap':'swapFormat',
+            'temp':'tempFormat', 'time':'timeFormat', 'uptime':'uptimeFormat'}
         self.ptm['defaults']['bool'] = {'bat':0, 'cpu':2, 'cpuclock':0, 'custom':0,
-            'gpu':0, 'gputemp':0, 'hdd':0, 'hddtemp':0, 'mem':2, 'net':2, 'player':0,
-            'swap':2, 'temp':0, 'time':0, 'uptime':0}
+            'gpu':0, 'gputemp':0, 'hdd':0, 'hddtemp':0, 'mem':2, 'net':2, 'pkg':0,
+            'player':0, 'ps':0, 'swap':2, 'temp':0, 'time':0, 'uptime':0}
         self.ptm['defaults']['format'] = {'bat':'[bat: $bat%$ac]', 'cpu':'[cpu: $cpu%]',
             'cpuclock':'[mhz: $cpucl]', 'custom':'[$custom]', 'gpu':'[gpu: $gpu%]',
             'gputemp':'[gpu temp: $gputemp&deg;C]', 'hdd':'[hdd: $hdd0%]',
             'hddtemp':'[hdd temp: $hddtemp0&deg;C]', 'mem':'[mem: $mem%]',
-            'net':'[$netdev: $down/$upKB/s]', 'player':'[$artist - $title]',
-            'swap':'[swap: $swap%]', 'temp':'[temp: $temp0&deg;C]',
-            'time':'[$time]', 'uptime':'[uptime: $uptime]'}
-        self.ptm['defaults']['order'] = {'6':'bat', '1':'cpu', '7':'cpuclock', 'f':'custom', '9':'gpu',
-            'a':'gputemp', 'b':'hdd', 'c':'hddtemp', '3':'mem', '5':'net', '4':'swap', '2':'temp',
-            '8':'uptime', 'd':'player', 'e':'time'}
+            'net':'[$netdev: $down/$upKB/s]', 'pkg':'[upgrade: $pkgcount]',
+            'player':'[$artist - $title]', 'ps':'[proc: $pscount]', 'swap':'[swap: $swap%]',
+            'temp':'[temp: $temp0&deg;C]', 'time':'[$time]', 'uptime':'[uptime: $uptime]'}
+        self.ptm['defaults']['order'] = {'1':'cpu', '2':'temp', '3':'mem', '4':'swap', '5':'net',
+            '6':'bat', '7':'cpuclock', '8':'uptime', '9':'gpu', 'a':'gputemp', 'b':'hdd',
+            'c':'hddtemp', 'd':'player', 'e':'time', 'f':'custom', 'g':'ps', 'h':'pkg'}
         # labels
         self.ptm['labels'] = {}
         self.ptm['layout'] = QGraphicsLinearLayout(Qt.Horizontal, self.applet)
@@ -185,6 +186,7 @@ class pyTextWidget(plasmascript.Applet):
         self.ptm['values']['mem'] = {'app':0.0, 'used':0.0, 'free':1.0}
         self.ptm['values']['net'] = {"up":0.0, "down":0.0}
         self.ptm['values']['player'] = {}
+        self.ptm['values']['ps'] = {'list':[], 'num':0}
         self.ptm['values']['swap'] = {'used':0.0, 'free':1.0}
         self.ptm['values']['temp'] = {}
         # variables
@@ -227,6 +229,8 @@ class pyTextWidget(plasmascript.Applet):
             self.memText()
         if (self.ptm['vars']['bools']['net'] > 0):
             self.netText()
+        if (self.ptm['vars']['bools']['ps'] > 0):
+            self.psText()
         if (self.ptm['vars']['bools']['swap'] > 0):
             self.swapText()
         if (self.ptm['vars']['bools']['temp'] > 0):
@@ -414,6 +418,16 @@ class pyTextWidget(plasmascript.Applet):
             line = line.split('$up')[0] + value + line.split('$up')[1]
         text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
         self.setText("net", text)
+
+
+    def psText(self):
+        """function to set ps text"""
+        line = self.ptm['vars']['formats']['ps']
+        if (line.split('$pscount')[0] != 0):
+            ps = "%i" % (self.ptm['values']['ps']['num'])
+            line = line.split('$pscount')[0] + ps + line.split('$pscount')[1]
+        text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
+        self.setText("ps", text)
 
 
     def swapText(self):

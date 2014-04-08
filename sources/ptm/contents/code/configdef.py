@@ -81,6 +81,7 @@ class ConfigDefinition:
                 deConfigFile.write("MPDADDRESS=" + str(self.configpage.ui.lineEdit_mpdaddress.text()) + "\n")
                 deConfigFile.write("MPDPORT=" + str(self.configpage.ui.spinBox_mpdport.value()) + "\n")
                 deConfigFile.write("CUSTOM=" + str(self.configpage.ui.lineEdit_customCommand.text()) + "\n")
+                deConfigFile.write("PKGCMD=" + str(self.configpage.ui.comboBox_pkgCommand.currentText()) + "\n")
         except:
             pass
 
@@ -173,7 +174,7 @@ class ConfigDefinition:
         self.configpage.ui.kcolorcombo_up.setColor(QColor(str(settings.get('up_color', '#ff00ff'))))
 
         deSettings = {'GPUDEV':'auto', 'HDDDEV':'all', 'MPDADDRESS':'localhost',
-            'MPDPORT':'6600', 'CUSTOM':'wget -qO- http://ifconfig.me/ip'}
+            'MPDPORT':'6600', 'CUSTOM':'wget -qO- http://ifconfig.me/ip', 'PKGCMD':'pacman -Qu'}
         dataengineConfig = unicode(KGlobal.dirs().localkdedir()) + "/share/config/extsysmon.conf"
         try:
             with open(dataengineConfig, 'r') as deConfigFile:
@@ -197,6 +198,8 @@ class ConfigDefinition:
         self.configpage.ui.spinBox_mpdport.setValue(int(deSettings['MPDPORT']))
         self.configpage.ui.spinBox_mpdport.setValue(int(deSettings['MPDPORT']))
         self.configpage.ui.lineEdit_customCommand.setText(deSettings['CUSTOM'])
+        index = self.configpage.ui.comboBox_pkgCommand.findText(deSettings['PKGCMD'])
+        self.configpage.ui.comboBox_pkgCommand.setCurrentIndex(index)
 
         labelOrder = str(settings.get('label_order', '1345'))
         for label in self.defaults['order'].keys():

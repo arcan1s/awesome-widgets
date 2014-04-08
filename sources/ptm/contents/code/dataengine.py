@@ -66,6 +66,9 @@ class DataEngine:
             dataEngines['system'].connectSource("network/interfaces/" + names['net'] + "/receiver/data", self.parent, interval)
         if (bools['player'] > 0):
             dataEngines['ext'].connectSource("player", self.parent, interval)
+        if (bools['ps'] > 0):
+            dataEngines['system'].connectSource("ps", self.parent, interval)
+            dataEngines['system'].connectSource("pscount", self.parent, interval)
         if (bools['swap'] > 0):
             dataEngines['system'].connectSource("mem/swap/free", self.parent, interval)
             dataEngines['system'].connectSource("mem/swap/used", self.parent, interval)
@@ -191,6 +194,17 @@ class DataEngine:
                     updatedData['value']['progress'] = str(data[QString(u'qmmp_progress')].toUtf8()).decode("utf-8")
                     updatedData['value']['time'] = str(data[QString(u'qmmp_duration')].toUtf8()).decode("utf-8")
                     updatedData['value']['title'] = str(data[QString(u'qmmp_title')].toUtf8()).decode("utf-8")
+            elif (sourceName == "ps"):
+                print data[QString(u'value')]
+#                updatedData['name'] = "ps"
+#                updatedData['type'] = "num"
+#                value = data[QString(u'value')].toInt()[0]
+#                updatedData['value'] = value
+            elif (sourceName == "pscount"):
+                updatedData['name'] = "ps"
+                updatedData['type'] = "num"
+                value = data[QString(u'value')].toInt()[0]
+                updatedData['value'] = value
             elif (sourceName == "mem/swap/free"):
                 updatedData['name'] = "swap"
                 updatedData['type'] = "free"
@@ -285,6 +299,9 @@ class DataEngine:
             dataEngines['system'].disconnectSource("network/interfaces/" + keys['net'] + "/receiver/data", self.parent)
         elif (name == "player"):
             dataEngines['ext'].disconnectSource("player", self.parent)
+        elif (name == "ps"):
+            dataEngines['system'].disconnectSource("ps", self.parent)
+            dataEngines['system'].disconnectSource("pscount", self.parent)
         elif (name == "swap"):
             dataEngines['system'].disconnectSource("mem/swap/used", self.parent)
             dataEngines['system'].disconnectSource("mem/swap/free", self.parent)

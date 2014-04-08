@@ -22,22 +22,31 @@
 
 class ExtendedSysMon : public Plasma::DataEngine
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  ExtendedSysMon(QObject *parent, const QVariantList &args);
+    ExtendedSysMon(QObject *parent, const QVariantList &args);
+    // update functions
+    QString getCustomCmd(const QString cmd);
+    float getGpu(const QString device);
+    float getGpuTemp(const QString device);
+    float getHddTemp(const QString device);
+    QStringList getPlayerInfo(const QString playerName,
+                              const QString mpdAddress = 0,
+                              const QString mpdPort = 0);
 
 protected:
-  bool sourceRequestEvent(const QString &name);
-  bool updateSourceEvent(const QString &source);
-  bool readConfiguration();
-  QStringList sources() const;
-// main configuration
-  QStringList hddDev;
-  QString gpuDev;
-  QString mpdAddress;
-  QString mpdPort;
-  QString customCommand;
+    bool readConfiguration();
+    bool sourceRequestEvent(const QString &name);
+    bool updateSourceEvent(const QString &source);
+    QStringList sources() const;
+
+private:
+    // configuration
+    QMap<QString, QString> configuration;
+    // reread configuration
+    QString getAllHdd();
+    QString getAutoGpu();
 };
 
 #endif /* EXTSYSMON_H */
