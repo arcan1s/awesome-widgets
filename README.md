@@ -207,7 +207,6 @@ Additional information
 
 TODO (wish list)
 ----------------
-* data labels on tooltip
 
 Links
 -----

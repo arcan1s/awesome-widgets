@@ -206,6 +206,8 @@ class PTMNotify:
             return self.createText("memory")
         elif (name == "net"):
             return self.createText("network")
+        elif (name == "pkg"):
+            return self.createText("system")
         elif (name == "player"):
             return self.createText("player")
         elif (name == "ps"):
