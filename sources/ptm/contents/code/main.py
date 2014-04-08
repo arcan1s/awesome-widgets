@@ -558,11 +558,9 @@ class pyTextWidget(plasmascript.Applet):
                 line = line.split('$title')[0] + text['title'] + line.split('$title')[1]
         elif (name == "ps"):
             if (line.split('$pscount')[0] != line):
-                ps = "%i" % (text['num'])
-                line = line.split('$pscount')[0] + ps + line.split('$pscount')[1]
+                line = line.split('$pscount')[0] + text['num'] + line.split('$pscount')[1]
             if (line.split('$pstotal')[0] != line):
-                ps = "%i" % (text['total'])
-                line = line.split('$pstotal')[0] + ps + line.split('$pstotal')[1]
+                line = line.split('$pstotal')[0] + text['total'] + line.split('$pstotal')[1]
             if (line.split('$ps')[0] != line):
                 line = line.split('$ps')[0] + text['list'] + line.split('$ps')[1]
         elif (name == "time"):

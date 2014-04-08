@@ -203,8 +203,8 @@ class DataEngine:
             elif (sourceName == "ps"):
                 updatedData['name'] = "ps"
                 updatedData['value'] = {}
-                updatedData['value']['num'] = data[QString(u'psCount')]
-                updatedData['value']['total'] = data[QString(u'psTotal')]
+                updatedData['value']['num'] = "%i" % (data[QString(u'psCount')])
+                updatedData['value']['total'] = "%i" % (data[QString(u'psTotal')])
                 updatedData['value']['list'] = data[QString(u'ps')]
             elif (sourceName == "mem/swap/free"):
                 updatedData['name'] = "swap"
