@@ -64,7 +64,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
+            <y>-105</y>
             <width>526</width>
             <height>624</height>
            </rect>
@@ -933,12 +933,9 @@ $title - song title</string>
                 </size>
                </property>
                <property name="text">
-                <string>PS</string>
+                <string>Processes</string>
                </property>
                <property name="checked">
-                <bool>true</bool>
-               </property>
-               <property name="tristate">
                 <bool>true</bool>
                </property>
               </widget>
@@ -946,12 +943,9 @@ $title - song title</string>
              <item>
               <widget class="QLineEdit" name="lineEdit_ps">
                <property name="toolTip">
-                <string>$cpu - total load CPU, %
-$cpu0 - load CPU for core 0, %
-...
-$cpu9 - load CPU for core 9, %
-...
-$cpuN - load CPU for core N, %</string>
+                <string>$pscount - number of running processes
+$pstotal - total number of running processes
+$ps - list of running processes comma separated</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1004,20 +998,12 @@ $cpuN - load CPU for core N, %</string>
                <property name="checked">
                 <bool>true</bool>
                </property>
-               <property name="tristate">
-                <bool>true</bool>
-               </property>
               </widget>
              </item>
              <item>
               <widget class="QLineEdit" name="lineEdit_pkg">
                <property name="toolTip">
-                <string>$cpu - total load CPU, %
-$cpu0 - load CPU for core 0, %
-...
-$cpu9 - load CPU for core 9, %
-...
-$cpuN - load CPU for core N, %</string>
+                <string>$pkgcountN - number of packages which are available for updates, command N. For example $pkgcount0</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2330,6 +2316,33 @@ del - remove item</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_11">
            <item>
+            <layout class="QHBoxLayout" name="layout_customCommand">
+             <item>
+              <widget class="QLabel" name="label_customCommand">
+               <property name="minimumSize">
+                <size>
+                 <width>120</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>Custom command</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="lineEdit_customCommand">
+               <property name="toolTip">
+                <string>Custom command to run</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
             <layout class="QHBoxLayout" name="layout_gpudev">
              <item>
               <widget class="QLabel" name="label_gpudev">
@@ -2490,78 +2503,116 @@ del - remove item</string>
             </layout>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="layout_customCommand">
+            <layout class="QVBoxLayout" name="layout_pkgCommand">
              <item>
-              <widget class="QLabel" name="label_customCommand">
-               <property name="minimumSize">
-                <size>
-                 <width>120</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>Custom command</string>
-               </property>
-              </widget>
+              <layout class="QHBoxLayout" name="layout_pkgCommandSelect">
+               <item>
+                <widget class="QLabel" name="label_pkgCommand">
+                 <property name="minimumSize">
+                  <size>
+                   <width>120</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Package manager</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QComboBox" name="comboBox_pkgCommand">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="editable">
+                  <bool>true</bool>
+                 </property>
+                 <item>
+                  <property name="text">
+                   <string>pacman -Qu</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>apt-show-versions -u -b</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>aptitude search '~U'</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>yum list updates</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>pkg_version -I -l '&lt;'</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>urpmq --auto-select</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+              </layout>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_customCommand">
+              <layout class="QHBoxLayout" name="layout_pkgCommandNum">
+               <item>
+                <widget class="QLabel" name="label_pkgCommandNum">
+                 <property name="minimumSize">
+                  <size>
+                   <width>120</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Number of null lines</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="spinBox_pkgCommandNum">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton_pkgCommand">
+                 <property name="minimumSize">
+                  <size>
+                   <width>100</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Add</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QListWidget" name="listWidget_pkgCommand">
                <property name="toolTip">
-                <string>Custom command to run</string>
+                <string>Editable
+del - remove item</string>
                </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="layout_pkgCommand">
-             <item>
-              <widget class="QLabel" name="label_pkgCommand">
-               <property name="minimumSize">
-                <size>
-                 <width>120</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>Package manager</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QComboBox" name="comboBox_pkgCommand">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="editable">
-                <bool>true</bool>
-               </property>
-               <item>
-                <property name="text">
-                 <string>pacman -Qu</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>apt-show-versions -u -b</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>aptitude search '~U'</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>yum list updates</string>
-                </property>
-               </item>
               </widget>
              </item>
             </layout>
@@ -2686,11 +2737,11 @@ del - remove item</string>
   <tabstop>comboBox_style</tabstop>
   <tabstop>spinBox_weight</tabstop>
   <tabstop>scrollArea_dattaengine</tabstop>
+  <tabstop>lineEdit_customCommand</tabstop>
   <tabstop>comboBox_gpudev</tabstop>
   <tabstop>comboBox_hdddev</tabstop>
   <tabstop>lineEdit_mpdaddress</tabstop>
   <tabstop>spinBox_mpdport</tabstop>
-  <tabstop>lineEdit_customCommand</tabstop>
  </tabstops>
  <resources/>
  <connections/>

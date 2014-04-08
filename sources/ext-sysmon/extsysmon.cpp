@@ -345,6 +345,11 @@ QStringList ExtendedSysMon::getPsStats()
     QStringList psStats;
     psStats.append(QString::number(psCount));
     psStats.append(psList.join(QString(",")));
+    command.start(QString("ps -e --no-headers -o command"));
+    command.waitForFinished(-1);
+    qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput()).trimmed();
+    int psTotal = qoutput.split(QString("\n"), QString::SkipEmptyParts).count();
+    psStats.append(QString::number(psTotal));
     return psStats;
 }
 
@@ -448,6 +453,8 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
         setData(source, key, value[0].toInt());
         key = QString("ps");
         setData(source, key, value[1]);
+        key = QString("psTotal");
+        setData(source, key, value[2].toInt());
     }
     return true;
 }

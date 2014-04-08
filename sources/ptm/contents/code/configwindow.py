@@ -66,9 +66,13 @@ class ConfigWindow(QWidget):
         QObject.connect(self.ui.pushButton_hddDevice, SIGNAL("clicked()"), self.addHddDevice)
         QObject.connect(self.ui.pushButton_mount, SIGNAL("clicked()"), self.addMount)
         QObject.connect(self.ui.pushButton_tempDevice, SIGNAL("clicked()"), self.addTempDevice)
+        QObject.connect(self.ui.pushButton_pkgCommand, SIGNAL("clicked()"), self.addPkgCommand)
         QObject.connect(self.ui.listWidget_hddDevice, SIGNAL("itemActivated(QListWidgetItem*)"), self.ui.listWidget_hddDevice.openPersistentEditor)
         QObject.connect(self.ui.listWidget_mount, SIGNAL("itemActivated(QListWidgetItem*)"), self.ui.listWidget_mount.openPersistentEditor)
         QObject.connect(self.ui.listWidget_tempDevice, SIGNAL("itemActivated(QListWidgetItem*)"), self.ui.listWidget_tempDevice.openPersistentEditor)
+        QObject.connect(self.ui.listWidget_pkgCommand, SIGNAL("itemActivated(QListWidgetItem*)"), self.ui.listWidget_pkgCommand.openPersistentEditor)
+        QObject.connect(self.ui.comboBox_pkgCommand, SIGNAL("currentIndexChanged(int)"), self.updatePkgNullValue)
+        QObject.connect(self.ui.comboBox_pkgCommand, SIGNAL("editTextChanged(QString)"), self.updatePkgNullValue)
         for item in self.sliders.values():
             QObject.connect(item, SIGNAL("valueChanged(int)"), self.setSlider)
         for item in self.checkboxes.values():
@@ -87,6 +91,9 @@ class ConfigWindow(QWidget):
             elif (self.ui.listWidget_tempDevice.hasFocus() and
                 (self.ui.listWidget_tempDevice.currentRow() > -1)):
                 self.ui.listWidget_tempDevice.takeItem(self.ui.listWidget_tempDevice.currentRow())
+            elif (self.ui.listWidget_pkgCommand.hasFocus() and
+                (self.ui.listWidget_pkgCommand.currentRow() > -1)):
+                self.ui.listWidget_pkgCommand.takeItem(self.ui.listWidget_pkgCommand.currentRow())
 
 
     def addHddDevice(self):
@@ -105,6 +112,29 @@ class ConfigWindow(QWidget):
         """function to add temperature device"""
         self.ui.listWidget_tempDevice.clearSelection()
         self.ui.listWidget_tempDevice.addItem(self.ui.comboBox_tempDevice.currentText())
+
+
+    def addPkgCommand(self):
+        """function to add package manager command"""
+        self.ui.listWidget_pkgCommand.clearSelection()
+        self.ui.listWidget_pkgCommand.addItem(self.ui.comboBox_pkgCommand.currentText() +\
+            QString(":") + QString.number(self.ui.spinBox_pkgCommandNum.value()))
+
+
+    def updatePkgNullValue(self):
+        """function to set default values to PKGNULL spinbox"""
+        if (self.ui.comboBox_pkgCommand.currentText().contains(QString("pacman -Qu"))):
+            self.ui.spinBox_pkgCommandNum.setValue(0)
+        elif (self.ui.comboBox_pkgCommand.currentText().contains(QString("apt-show-versions -u -b"))):
+            self.ui.spinBox_pkgCommandNum.setValue(0)
+        elif (self.ui.comboBox_pkgCommand.currentText().contains(QString("aptitude search '~U'"))):
+            self.ui.spinBox_pkgCommandNum.setValue(0)
+        elif (self.ui.comboBox_pkgCommand.currentText().contains(QString("yum list updates"))):
+            self.ui.spinBox_pkgCommandNum.setValue(3)
+        elif (self.ui.comboBox_pkgCommand.currentText().contains(QString("pkg_version -I -l '<'"))):
+            self.ui.spinBox_pkgCommandNum.setValue(0)
+        elif (self.ui.comboBox_pkgCommand.currentText().contains(QString("urpmq --auto-select"))):
+            self.ui.spinBox_pkgCommandNum.setValue(0)
 
 
     def setNetdevEnabled(self):

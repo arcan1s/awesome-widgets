@@ -76,12 +76,21 @@ class ConfigDefinition:
         dataengineConfig = unicode(KGlobal.dirs().localkdedir()) + "/share/config/extsysmon.conf"
         try:
             with open(dataengineConfig, 'w') as deConfigFile:
+                deConfigFile.write("CUSTOM=" + str(self.configpage.ui.lineEdit_customCommand.text()) + "\n")
                 deConfigFile.write("GPUDEV=" + str(self.configpage.ui.comboBox_gpudev.currentText()) + "\n")
                 deConfigFile.write("HDDDEV=" + str(self.configpage.ui.comboBox_hdddev.currentText()) + "\n")
                 deConfigFile.write("MPDADDRESS=" + str(self.configpage.ui.lineEdit_mpdaddress.text()) + "\n")
                 deConfigFile.write("MPDPORT=" + str(self.configpage.ui.spinBox_mpdport.value()) + "\n")
-                deConfigFile.write("CUSTOM=" + str(self.configpage.ui.lineEdit_customCommand.text()) + "\n")
-                deConfigFile.write("PKGCMD=" + str(self.configpage.ui.comboBox_pkgCommand.currentText()) + "\n")
+                item = QStringList()
+                for i in range(self.configpage.ui.listWidget_pkgCommand.count()):
+                    item.append(self.configpage.ui.listWidget_pkgCommand.item(i).text())
+                pkgCmd = []
+                pkgNull = []
+                for command in item:
+                    pkgCmd.append(str(command.split(QString(":"))[0]))
+                    pkgNull.append(str(command.split(QString(":"))[1]))
+                deConfigFile.write("PKGCMD=" + ','.join(pkgCmd) + "\n")
+                deConfigFile.write("PKGNULL=" + ','.join(pkgNull) + "\n")
         except:
             pass
 
@@ -173,8 +182,8 @@ class ConfigDefinition:
         self.configpage.ui.kcolorcombo_down.setColor(QColor(str(settings.get('down_color', '#00ffff'))))
         self.configpage.ui.kcolorcombo_up.setColor(QColor(str(settings.get('up_color', '#ff00ff'))))
 
-        deSettings = {'GPUDEV':'auto', 'HDDDEV':'all', 'MPDADDRESS':'localhost',
-            'MPDPORT':'6600', 'CUSTOM':'wget -qO- http://ifconfig.me/ip', 'PKGCMD':'pacman -Qu'}
+        deSettings = {'CUSTOM':'wget -qO- http://ifconfig.me/ip', 'GPUDEV':'auto', 'HDDDEV':'all',
+            'MPDADDRESS':'localhost', 'MPDPORT':'6600', 'PKGCMD':'pacman -Qu', 'PKGNULL':'0'}
         dataengineConfig = unicode(KGlobal.dirs().localkdedir()) + "/share/config/extsysmon.conf"
         try:
             with open(dataengineConfig, 'r') as deConfigFile:
@@ -183,6 +192,7 @@ class ConfigDefinition:
                         deSettings[line.split('=')[0]] = line.split('=')[1][:-1]
         except:
             pass
+        self.configpage.ui.lineEdit_customCommand.setText(deSettings['CUSTOM'])
         index = self.configpage.ui.comboBox_gpudev.findText(deSettings['GPUDEV'])
         self.configpage.ui.comboBox_gpudev.setCurrentIndex(index)
         self.configpage.ui.comboBox_hdddev.addItem("all")
@@ -197,9 +207,13 @@ class ConfigDefinition:
         self.configpage.ui.lineEdit_mpdaddress.setText(deSettings['MPDADDRESS'])
         self.configpage.ui.spinBox_mpdport.setValue(int(deSettings['MPDPORT']))
         self.configpage.ui.spinBox_mpdport.setValue(int(deSettings['MPDPORT']))
-        self.configpage.ui.lineEdit_customCommand.setText(deSettings['CUSTOM'])
-        index = self.configpage.ui.comboBox_pkgCommand.findText(deSettings['PKGCMD'])
-        self.configpage.ui.comboBox_pkgCommand.setCurrentIndex(index)
+        self.configpage.ui.listWidget_pkgCommand.clear()
+        for i in range(len(deSettings['PKGCMD'].split(','))):
+            try:
+                num = deSettings['PKGNULL'].split(',')[i]
+            except:
+                num = "0"
+            self.configpage.ui.listWidget_pkgCommand.addItem(deSettings['PKGCMD'].split(',')[i] + ':' + num)
 
         labelOrder = str(settings.get('label_order', '1345'))
         for label in self.defaults['order'].keys():

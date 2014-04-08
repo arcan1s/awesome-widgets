@@ -150,7 +150,7 @@ class pyTextWidget(plasmascript.Applet):
             'cpuclock':'[mhz: $cpucl]', 'custom':'[$custom]', 'gpu':'[gpu: $gpu%]',
             'gputemp':'[gpu temp: $gputemp&deg;C]', 'hdd':'[hdd: $hdd0%]',
             'hddtemp':'[hdd temp: $hddtemp0&deg;C]', 'mem':'[mem: $mem%]',
-            'net':'[$netdev: $down/$upKB/s]', 'pkg':'[upgrade: $pkgcount]',
+            'net':'[$netdev: $down/$upKB/s]', 'pkg':'[upgrade: $pkgcount0]',
             'player':'[$artist - $title]', 'ps':'[proc: $pscount]', 'swap':'[swap: $swap%]',
             'temp':'[temp: $temp0&deg;C]', 'time':'[$time]', 'uptime':'[uptime: $uptime]'}
         self.ptm['defaults']['order'] = {'1':'cpu', '2':'temp', '3':'mem', '4':'swap', '5':'net',
@@ -185,8 +185,6 @@ class pyTextWidget(plasmascript.Applet):
         self.ptm['values']['hddtemp'] = {}
         self.ptm['values']['mem'] = {'app':0.0, 'used':0.0, 'free':1.0}
         self.ptm['values']['net'] = {"up":0.0, "down":0.0}
-        self.ptm['values']['player'] = {}
-        self.ptm['values']['ps'] = {'list':[], 'num':0}
         self.ptm['values']['swap'] = {'used':0.0, 'free':1.0}
         self.ptm['values']['temp'] = {}
         # variables
@@ -229,8 +227,6 @@ class pyTextWidget(plasmascript.Applet):
             self.memText()
         if (self.ptm['vars']['bools']['net'] > 0):
             self.netText()
-        if (self.ptm['vars']['bools']['ps'] > 0):
-            self.psText()
         if (self.ptm['vars']['bools']['swap'] > 0):
             self.swapText()
         if (self.ptm['vars']['bools']['temp'] > 0):
@@ -254,15 +250,14 @@ class pyTextWidget(plasmascript.Applet):
         updatedData = self.dataengine.dataUpdated(str(sourceName), data, self.ptm)
         if (updatedData['value'] == None):
             return
-        # update falues where is needed
+        # update values where is needed
         if (updatedData['type'] != None):
             self.ptm['values'][updatedData['name']][updatedData['type']] = updatedData['value']
-        else:
-            self.ptm['values'][updatedData['name']] = updatedData['value']
-        # update labels where is needed
-        if (updatedData['name'] in ['custom', 'gpu', 'gputemp', 'player', 'time', 'uptime']):
+        elif (updatedData['name'] in ['custom', 'gpu', 'gputemp', 'pkg', 'player', 'ps', 'time', 'uptime']):
             text = self.textPrepare(updatedData['name'], updatedData['value'])
             self.setText(updatedData['name'], text)
+        else:
+            self.ptm['values'][updatedData['name']] = updatedData['value']
         # update tooltips
         if ((updatedData['name'] in ['cpu', 'cpuclock', 'mem', 'swap', 'net']) and (self.ptm['vars']['bools'][updatedData['name']] == 2)):
             if (updatedData['name'] == "net"):
@@ -420,16 +415,6 @@ class pyTextWidget(plasmascript.Applet):
         self.setText("net", text)
 
 
-    def psText(self):
-        """function to set ps text"""
-        line = self.ptm['vars']['formats']['ps']
-        if (line.split('$pscount')[0] != 0):
-            ps = "%i" % (self.ptm['values']['ps']['num'])
-            line = line.split('$pscount')[0] + ps + line.split('$pscount')[1]
-        text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
-        self.setText("ps", text)
-
-
     def swapText(self):
         """function to set swap text"""
         line = self.ptm['vars']['formats']['swap']
@@ -556,17 +541,30 @@ class pyTextWidget(plasmascript.Applet):
         elif (name == "gputemp"):
             if (line.split('$gputemp')[0] != line):
                 line = line.split('$gputemp')[0] + text + line.split('$gputemp')[1]
+        elif (name == "pkg"):
+            for item in text.keys():
+                if (line.split('$' + item)[0] != line):
+                    line = line.split('$' + item)[0] + text[item] + line.split('$' + item)[1]
         elif (name == "player"):
             if (line.split('$album')[0] != line):
-                line = line.split('$album')[0] + self.ptm['values']['player']['album'] + line.split('$album')[1]
+                line = line.split('$album')[0] + text['album'] + line.split('$album')[1]
             if (line.split('$artist')[0] != line):
-                line = line.split('$artist')[0] + self.ptm['values']['player']['artist'] + line.split('$artist')[1]
+                line = line.split('$artist')[0] + text['artist'] + line.split('$artist')[1]
             if (line.split('$progress')[0] != line):
-                line = line.split('$progress')[0] + self.ptm['values']['player']['progress'] + line.split('$progress')[1]
+                line = line.split('$progress')[0] + text['progress'] + line.split('$progress')[1]
             if (line.split('$time')[0] != line):
-                line = line.split('$time')[0] + self.ptm['values']['player']['time'] + line.split('$time')[1]
+                line = line.split('$time')[0] + text['time'] + line.split('$time')[1]
             if (line.split('$title')[0] != line):
-                line = line.split('$title')[0] + self.ptm['values']['player']['title'] + line.split('$title')[1]
+                line = line.split('$title')[0] + text['title'] + line.split('$title')[1]
+        elif (name == "ps"):
+            if (line.split('$pscount')[0] != line):
+                ps = "%i" % (text['num'])
+                line = line.split('$pscount')[0] + ps + line.split('$pscount')[1]
+            if (line.split('$pstotal')[0] != line):
+                ps = "%i" % (text['total'])
+                line = line.split('$pstotal')[0] + ps + line.split('$pstotal')[1]
+            if (line.split('$ps')[0] != line):
+                line = line.split('$ps')[0] + text['list'] + line.split('$ps')[1]
         elif (name == "time"):
             if (line.split('$time')[0] != line):
                 line = line.split('$time')[0] + text + line.split('$time')[1]
