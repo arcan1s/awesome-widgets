@@ -64,7 +64,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-105</y>
+            <y>0</y>
             <width>526</width>
             <height>624</height>
            </rect>
@@ -1132,7 +1132,7 @@ $ps - list of running processes comma separated</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>526</width>
+            <width>328</width>
             <height>611</height>
            </rect>
           </property>
@@ -1642,8 +1642,8 @@ del - remove item</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>544</width>
-            <height>504</height>
+            <width>326</width>
+            <height>227</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -1976,8 +1976,8 @@ del - remove item</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>544</width>
-            <height>540</height>
+            <width>326</width>
+            <height>190</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_10">
