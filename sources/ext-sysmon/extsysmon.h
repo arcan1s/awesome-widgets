@@ -39,7 +39,6 @@ public:
                        const int pkgNull = 0);
 
 protected:
-    void readConfiguration();
     bool sourceRequestEvent(const QString &name);
     bool updateSourceEvent(const QString &source);
     QStringList sources() const;
@@ -50,6 +49,7 @@ private:
     // reread configuration
     QString getAllHdd();
     QString getAutoGpu();
+    void readConfiguration();
     QMap<QString, QString> updateConfiguration(const QMap<QString, QString> rawConfig);
 };
 

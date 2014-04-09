@@ -87,8 +87,12 @@ class ConfigDefinition:
                 pkgCmd = []
                 pkgNull = []
                 for command in item:
-                    pkgCmd.append(str(command.split(QString(":"))[0]))
-                    pkgNull.append(str(command.split(QString(":"))[1]))
+                    try:
+                        pkgCmd.append(str(command.split(QString(":"))[0]))
+                        pkgNull.append(str(command.split(QString(":"))[1]))
+                    except:
+                        pkgCmd.append(str(command))
+                        pkgNull.append("0")
                 deConfigFile.write("PKGCMD=" + ','.join(pkgCmd) + "\n")
                 deConfigFile.write("PKGNULL=" + ','.join(pkgNull) + "\n")
         except:

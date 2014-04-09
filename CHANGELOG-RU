@@ -4,6 +4,7 @@
 + добавлены теги $hddmbN, $hddgbN
 + добавлена поддержка ps (теги $ps, $pscount, $pstotal)
 + добавлена поддержка пакетных менеджеров (теги $pkgcountN)
+* рефакторинг DataEngine
 
 Вер.1.7.4:
 + добавлена поддержка более чем 10 тэгов в полях cpu, cpuclock, hdd, hddtemp, temp

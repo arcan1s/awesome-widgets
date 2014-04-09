@@ -4,6 +4,7 @@ Ver.1.8.0:
 + added $hddmbN, %hddgbN tags
 + added support of ps ($ps, $pscount, $pstotal tags)
 + added support of package managers ($pkgcountN tags)
+* refactoring of DataEngine
 
 Ver.1.7.4:
 + added support more than 10 tags in cpu, cpuclock, hdd, hddtemp, temp labels

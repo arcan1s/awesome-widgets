@@ -42,6 +42,10 @@ For edited output you must open Settings window and setup output format in lines
 * tag `$progress` - current song progress. One of supported music players must be installed
 * tag `$time` - current song duration. One of supported music players must be installed
 * tag `$title` - current song title. One of supported music players must be installed
+* tag `$pscount` - number of running processes
+* tag `$pstotal` - total number of processes
+* tag `$ps` - list of running processes
+* tag `$pkgcountN` - number of packages, which available to upgrade for command N. For example, `$pkgcount0`
 * tag `$custom` - returns output for custom command
 
 Label order will changed if you change slider position. HTML tags in label work normally.
@@ -102,6 +106,14 @@ Use specified device as active. Combo box items come from **network directory**.
 
 File with battery information. File (`/sys/class/power_supply/BAT0/capacity` by default) should contain only battery charge in percent.
 
+**AC online tag**
+
+Line which will be shown when AC is online.
+
+**AC offline tag**
+
+Line which will be shown when AC is offline.
+
 **AC device**
 
 File with AC information. File (`/sys/class/power_supply/AC/online` by default) must contain `1` if AC is online.
@@ -116,6 +128,12 @@ Since version 1.7.0 CPU, CPU clock, memory, swap and network labels support grap
 
 DataEngine settings
 -------------------
+**Custom command**
+
+*NOTE* This can cause the computer freeze.
+
+A command, which will be run for custom label.
+
 **GPU device**
 
 Select one of supported GPU devices. `auto` will enable auto selection. Default is `auto`.
@@ -132,11 +150,16 @@ Address of MPD server. Default is `localhost`.
 
 Port of MPD server. Default is `6600`.
 
-**Custom command**
+**Package manager**
 
-*NOTE* This can cause the computer freeze.
+List of commands, which will be run. Number of null lines is a number of unneeded lines. Defaults:
+* *Arch*: `PKGCMD=pacman -Qu`, `PKGNULL=0`
+* *Debian*: `PKGCMD=apt-show-versions -u -b`, `PKGNULL=0`
+* *Ubuntu*: `PKGCMD=aptitude search '~U'`, `PKGNULL=0`
+* *Fedora*: `PKGCMD=yum list updates`, `PKGNULL=3`
+* *FreeBSD*: `PKGCMD=pkg_version -I -l '<'`, `PKGNULL=0`
+* *Mandriva*: `PKGCMD=urpmq --auto-select`, `PKGNULL=0`
 
-A command, which will be run for custom label.
 
 DataEngine configuration
 ------------------------
@@ -181,6 +204,9 @@ Installation
 
 Additional information
 ======================
+
+TODO (wish list)
+----------------
 
 Links
 -----

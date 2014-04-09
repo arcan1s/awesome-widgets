@@ -2,8 +2,8 @@
 
 pkgname=kdeplasma-applets-pytextmonitor
 _pkgname=pytextmonitor
-pkgver=1.7.4
-pkgrel=2
+pkgver=1.8.0
+pkgrel=1
 pkgdesc="Minimalistic Plasmoid script written on Python2. It looks like widgets in Awesome WM"
 arch=('i686' 'x86_64')
 url="http://arcanis.name/projects/pytextmonitor"
@@ -20,7 +20,7 @@ optdepends=("amarok: for music player monitor"
 makedepends=('automoc4' 'cmake')
 source=(https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/${_pkgname}-${pkgver}-src.tar.xz)
 install=${pkgname}.install
-md5sums=('b7ab42465a3c1f12719883d754e86a51')
+md5sums=('9052985dc219e75ffbed88ce3ebf5a32')
 backup=('usr/share/config/extsysmon.conf')
 
 prepare() {
