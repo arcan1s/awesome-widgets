@@ -19,11 +19,11 @@
 #include "extsysmon.h"
 
 #include <Plasma/DataContainer>
+#include <KDE/KGlobal>
+#include <KDE/KStandardDirs>
 #include <QFile>
 #include <QProcess>
 #include <QTextCodec>
-
-#include <QDebug>
 
 
 ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList& args)
@@ -83,28 +83,27 @@ QStringList ExtendedSysMon::sources() const
 }
 
 
-bool ExtendedSysMon::readConfiguration()
+void ExtendedSysMon::readConfiguration()
 {
     // pre-setup
-    configuration[QString("CUSTOM")] = QString("wget -qO- http://ifconfig.me/ip");
-    configuration[QString("GPUDEV")] = QString("auto");
-    configuration[QString("HDDDEV")] = QString("all");
-    configuration[QString("MPDADDRESS")] = QString("localhost");
-    configuration[QString("MPDPORT")] = QString("6600");
-    configuration[QString("PKGCMD")] = QString("pacman -Qu");
-    configuration[QString("PKGNULL")] = QString("0");
+    QMap<QString, QString> rawConfig;
+    rawConfig[QString("CUSTOM")] = QString("wget -qO- http://ifconfig.me/ip");
+    rawConfig[QString("GPUDEV")] = QString("auto");
+    rawConfig[QString("HDDDEV")] = QString("all");
+    rawConfig[QString("MPDADDRESS")] = QString("localhost");
+    rawConfig[QString("MPDPORT")] = QString("6600");
+    rawConfig[QString("PKGCMD")] = QString("pacman -Qu");
+    rawConfig[QString("PKGNULL")] = QString("0");
 
+    QString fileName = KGlobal::dirs()->findResource("config", "extsysmon.conf");
+    QFile confFile(fileName);
+    bool ok = confFile.open(QIODevice::ReadOnly);
+    if (!ok) {
+        configuration = updateConfiguration(rawConfig);
+        return;
+    }
     QString fileStr;
     QStringList value;
-    // FIXME: define configuration file
-    QFile confFile(QString(getenv("HOME")) + QString("/.kde4/share/config/extsysmon.conf"));
-    bool exists = confFile.open(QIODevice::ReadOnly);
-    if (!exists) {
-        confFile.setFileName("/usr/share/config/extsysmon.conf");
-        exists = confFile.open(QIODevice::ReadOnly);
-        if (!exists)
-            return false;
-    }
     while (true) {
         fileStr = QString(confFile.readLine()).trimmed();
         if (fileStr[0] == QChar('#')) continue;
@@ -113,24 +112,40 @@ bool ExtendedSysMon::readConfiguration()
             value.clear();
             for (int i=1; i<fileStr.split(QChar('=')).count(); i++)
                 value.append(fileStr.split(QChar('='))[i]);
-            configuration[fileStr.split(QChar('='))[0]] = value.join(QChar('='));
+            rawConfig[fileStr.split(QChar('='))[0]] = value.join(QChar('='));
         }
         if (confFile.atEnd())
             break;
     }
     confFile.close();
-    qDebug() << configuration;
+    configuration = updateConfiguration(rawConfig);
+    return;
+}
 
-    if (configuration[QString("GPUDEV")] == QString("auto"))
-        configuration[QString("GPUDEV")] = getAutoGpu();
-    if (configuration[QString("HDDDEV")] == QString("all"))
-        configuration[QString("HDDDEV")] = getAllHdd();
-    for (int i=configuration[QString("PKGNULL")].split(QString(","), QString::SkipEmptyParts).count();
-         i<configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts).count()+1;
+
+QMap<QString, QString> ExtendedSysMon::updateConfiguration(const QMap<QString, QString> rawConfig)
+{
+    QMap<QString, QString> config;
+    QString key, value;
+    // remove spaces and copy source map
+    for (int i=0; i<rawConfig.keys().count(); i++) {
+        key = rawConfig.keys()[i];
+        value = rawConfig[key];
+        key.remove(QChar(' '));
+        if ((key != QString("CUSTOM")) && (key != QString("PKGCMD")))
+            value.remove(QChar(' '));
+        config[key] = value;
+    }
+    // update values
+    if (config[QString("GPUDEV")] == QString("auto"))
+        config[QString("GPUDEV")] = getAutoGpu();
+    if (config[QString("HDDDEV")] == QString("all"))
+        config[QString("HDDDEV")] = getAllHdd();
+    for (int i=config[QString("PKGNULL")].split(QString(","), QString::SkipEmptyParts).count();
+         i<config[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts).count()+1;
          i++)
-        configuration[QString("PKGNULL")] += QString(",0");
-
-    return true;
+        config[QString("PKGNULL")] += QString(",0");
+    return config;
 }
 
 

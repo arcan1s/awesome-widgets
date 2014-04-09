@@ -39,7 +39,7 @@ public:
                        const int pkgNull = 0);
 
 protected:
-    bool readConfiguration();
+    void readConfiguration();
     bool sourceRequestEvent(const QString &name);
     bool updateSourceEvent(const QString &source);
     QStringList sources() const;
@@ -50,6 +50,7 @@ private:
     // reread configuration
     QString getAllHdd();
     QString getAutoGpu();
+    QMap<QString, QString> updateConfiguration(const QMap<QString, QString> rawConfig);
 };
 
 #endif /* EXTSYSMON_H */
