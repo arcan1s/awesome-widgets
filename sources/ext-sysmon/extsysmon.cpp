@@ -45,8 +45,8 @@ QString ExtendedSysMon::getAllHdd()
     command.start("find /dev -name [hs]d[a-z]");
     command.waitForFinished(-1);
     qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
-    for (int i=0; i<qoutput.split(QString("\n"), QString::SkipEmptyParts).count(); i++) {
-        dev = qoutput.split(QString("\n"), QString::SkipEmptyParts)[i];
+    for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
+        dev = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
         devices.append(dev);
     }
     return devices.join(QChar(','));
@@ -95,6 +95,7 @@ bool ExtendedSysMon::readConfiguration()
     configuration[QString("PKGNULL")] = QString("0");
 
     QString fileStr;
+    QStringList value;
     // FIXME: define configuration file
     QFile confFile(QString(getenv("HOME")) + QString("/.kde4/share/config/extsysmon.conf"));
     bool exists = confFile.open(QIODevice::ReadOnly);
@@ -106,14 +107,19 @@ bool ExtendedSysMon::readConfiguration()
     }
     while (true) {
         fileStr = QString(confFile.readLine()).trimmed();
-        if (fileStr[0] != '#') {
-            if (fileStr.contains(QString("=")))
-                configuration[fileStr.split(QString("="))[0]] = fileStr.split(QString("="))[1];
+        if (fileStr[0] == QChar('#')) continue;
+        if (fileStr[0] == QChar(';')) continue;
+        if (fileStr.contains(QChar('='))) {
+            value.clear();
+            for (int i=1; i<fileStr.split(QChar('=')).count(); i++)
+                value.append(fileStr.split(QChar('='))[i]);
+            configuration[fileStr.split(QChar('='))[0]] = value.join(QChar('='));
         }
         if (confFile.atEnd())
             break;
     }
     confFile.close();
+    qDebug() << configuration;
 
     if (configuration[QString("GPUDEV")] == QString("auto"))
         configuration[QString("GPUDEV")] = getAutoGpu();
@@ -151,9 +157,9 @@ float ExtendedSysMon::getGpu(const QString device)
         command.start(QString("nvidia-smi -q -d UTILIZATION"));
         command.waitForFinished(-1);
         qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
-        for (int i=0; i<qoutput.split(QString("\n"), QString::SkipEmptyParts).count(); i++) {
-            if (qoutput.split(QString("\n"), QString::SkipEmptyParts)[i].contains(QString("Gpu"))) {
-                QString load = qoutput.split(QString("\n"), QString::SkipEmptyParts)[i]
+        for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
+            if (qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i].contains(QString("Gpu"))) {
+                QString load = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i]
                         .split(QChar(' '), QString::SkipEmptyParts)[2]
                         .remove(QChar('%'));
                 gpu = load.toFloat();
@@ -164,9 +170,9 @@ float ExtendedSysMon::getGpu(const QString device)
         command.start(QString("aticonfig --od-getclocks"));
         command.waitForFinished(-1);
         qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
-        for (int i=0; i<qoutput.split(QString("\n"), QString::SkipEmptyParts).count(); i++) {
-            if (qoutput.split(QString("\n"), QString::SkipEmptyParts)[i].contains(QString("load"))) {
-                QString load = qoutput.split(QString("\n"), QString::SkipEmptyParts)[i]
+        for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
+            if (qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i].contains(QString("load"))) {
+                QString load = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i]
                         .split(QChar(' '), QString::SkipEmptyParts)[3]
                         .remove(QChar('%'));
                 gpu = load.toFloat();
@@ -188,9 +194,9 @@ float ExtendedSysMon::getGpuTemp(const QString device)
         command.start(QString("nvidia-smi -q -d TEMPERATURE"));
         command.waitForFinished(-1);
         qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
-        for (int i=0; i<qoutput.split(QString("\n"), QString::SkipEmptyParts).count(); i++) {
-            if (qoutput.split(QString("\n"), QString::SkipEmptyParts)[i].contains(QString("Gpu"))) {
-                QString temp = qoutput.split(QString("\n"), QString::SkipEmptyParts)[i]
+        for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
+            if (qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i].contains(QString("Gpu"))) {
+                QString temp = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i]
                         .split(QChar(' '), QString::SkipEmptyParts)[2];
                 gpuTemp = temp.toFloat();
             }
@@ -200,9 +206,9 @@ float ExtendedSysMon::getGpuTemp(const QString device)
         command.start(QString("aticonfig --od-gettemperature"));
         command.waitForFinished(-1);
         qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
-        for (int i=0; i<qoutput.split(QString("\n"), QString::SkipEmptyParts).count(); i++) {
-            if (qoutput.split(QString("\n"), QString::SkipEmptyParts)[i].contains(QString("Temperature"))) {
-                QString temp = qoutput.split(QString("\n"), QString::SkipEmptyParts)[i]
+        for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
+            if (qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i].contains(QString("Temperature"))) {
+                QString temp = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i]
                         .split(QChar(' '), QString::SkipEmptyParts)[4];
                 gpuTemp = temp.toFloat();
             }
@@ -256,8 +262,8 @@ QStringList ExtendedSysMon::getPlayerInfo(const QString playerName,
         command.start("qdbus org.kde.amarok /Player GetMetadata");
         command.waitForFinished(-1);
         qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
-        for (int i=0; i<qoutput.split(QString("\n"), QString::SkipEmptyParts).count(); i++) {
-            qstr = qoutput.split(QString("\n"), QString::SkipEmptyParts)[i];
+        for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
+            qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
             if (qstr.split(QString(": "), QString::SkipEmptyParts).count() > 1) {
                 if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("album"))
                     info[0] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
@@ -272,8 +278,8 @@ QStringList ExtendedSysMon::getPlayerInfo(const QString playerName,
         command.start("qdbus org.kde.amarok /Player PositionGet");
         command.waitForFinished(-1);
         qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
-        for (int i=0; i<qoutput.split(QString("\n"), QString::SkipEmptyParts).count(); i++) {
-            qstr = qoutput.split(QString("\n"), QString::SkipEmptyParts)[i];
+        for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
+            qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
             int time = qstr.toInt() / 1000;
             info[2] = QString::number(time);
         }
@@ -284,8 +290,8 @@ QStringList ExtendedSysMon::getPlayerInfo(const QString playerName,
                       mpdAddress + QString(":") + mpdPort + QString("\""));
         command.waitForFinished(-1);
         qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
-        for (int i=0; i<qoutput.split(QString("\n"), QString::SkipEmptyParts).count(); i++) {
-            qstr = qoutput.split(QString("\n"), QString::SkipEmptyParts)[i];
+        for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
+            qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
             if (qstr.split(QString(": "), QString::SkipEmptyParts).count() > 1) {
                 if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("Album"))
                     info[0] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
@@ -305,8 +311,8 @@ QStringList ExtendedSysMon::getPlayerInfo(const QString playerName,
         command.start("qmmp --status");
         command.waitForFinished(-1);
         qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
-        for (int i=0; i<qoutput.split(QString("\n"), QString::SkipEmptyParts).count(); i++) {
-            qstr = qoutput.split(QString("\n"), QString::SkipEmptyParts)[i];
+        for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
+            qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
             if ((qstr.split(QString(" = "), QString::SkipEmptyParts).count() > 1) || (qstr.at(0) == QChar('['))) {
                 if (qstr.split(QString(" = "), QString::SkipEmptyParts)[0] == QString("ALBUM"))
                     info[0] = qstr.split(QString(" = "), QString::SkipEmptyParts)[1].trimmed();
@@ -337,10 +343,10 @@ QStringList ExtendedSysMon::getPsStats()
     command.start(QString("ps --no-headers -o command"));
     command.waitForFinished(-1);
     qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput()).trimmed();
-    for (int i=0; i<qoutput.split(QString("\n"), QString::SkipEmptyParts).count(); i++)
-        if (qoutput.split(QString("\n"), QString::SkipEmptyParts)[i] != QString("ps --no-headers -o command")) {
+    for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++)
+        if (qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i] != QString("ps --no-headers -o command")) {
             psCount++;
-            psList.append(qoutput.split(QString("\n"), QString::SkipEmptyParts)[i]);
+            psList.append(qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i]);
         }
     QStringList psStats;
     psStats.append(QString::number(psCount));
@@ -348,7 +354,7 @@ QStringList ExtendedSysMon::getPsStats()
     command.start(QString("ps -e --no-headers -o command"));
     command.waitForFinished(-1);
     qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput()).trimmed();
-    int psTotal = qoutput.split(QString("\n"), QString::SkipEmptyParts).count();
+    int psTotal = qoutput.split(QChar('\n'), QString::SkipEmptyParts).count();
     psStats.append(QString::number(psTotal));
     return psStats;
 }
@@ -362,7 +368,7 @@ int ExtendedSysMon::getUpgradeInfo(const QString pkgCommand, const int pkgNull)
     command.start(QString("bash -c \"") + pkgCommand + QString("\""));
     command.waitForFinished(-1);
     qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput()).trimmed();
-    count = qoutput.split(QString("\n"), QString::SkipEmptyParts).count();
+    count = qoutput.split(QChar('\n'), QString::SkipEmptyParts).count();
     return (count - pkgNull);
 }
 
