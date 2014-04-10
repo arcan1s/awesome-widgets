@@ -19,6 +19,7 @@
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
+from PyKDE4.plasma import Plasma
 
 import datetime
 
@@ -65,7 +66,7 @@ class DataEngine:
             dataEngines['system'].connectSource("network/interfaces/" + names['net'] + "/transmitter/data", self.parent, interval)
             dataEngines['system'].connectSource("network/interfaces/" + names['net'] + "/receiver/data", self.parent, interval)
         if (bools['pkg'] > 0):
-            dataEngines['ext'].connectSource("pkg", self.parent, interval)
+            dataEngines['ext'].connectSource("pkg", self.parent, 60*60*1000, Plasma.AlignToHour)
         if (bools['player'] > 0):
             dataEngines['ext'].connectSource("player", self.parent, interval)
         if (bools['ps'] > 0):
