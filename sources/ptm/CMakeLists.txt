@@ -6,10 +6,6 @@ message (STATUS "Subproject ${SUBPROJECT}")
 
 # find required libaries
 find_package (KDE4 REQUIRED)
-include (KDE4Defaults)
-
-add_definitions (${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
-include_directories (${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} ${KDE4_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR}/../)
 
 add_subdirectory (po)
 
