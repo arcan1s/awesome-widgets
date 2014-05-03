@@ -6,6 +6,7 @@ message (STATUS "Subproject ${SUBPROJECT}")
 
 # find required libaries
 find_package (KDE4 REQUIRED)
+add_definitions (${KDE4_DEFINITIONS})
 
 add_subdirectory (po)
 
