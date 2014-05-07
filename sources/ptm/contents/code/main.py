@@ -35,6 +35,17 @@ import tooltip
 from util import *
 
 
+def getTemp(temp, unit):
+    """function to return temperature"""
+    if (unit == "Celsius"):
+        pass
+    elif (unit == "Fahrenheit"):
+        temp = str(round(((float(temp) * 9.0 / 5.0) + 32.0), 1))
+    elif (unit == "Kelvin"):
+        temp = str(round((float(temp) + 273.15), 1))
+    return temp
+
+
 
 class CustomPlasmaLabel(Plasma.Label):
     """new Label with defined clicked() event"""
@@ -374,7 +385,7 @@ class pyTextWidget(plasmascript.Applet):
         for i in devices:
             if (line.split('$hddtemp' + str(i))[0] != line):
                 line = line.split('$hddtemp' + str(i))[0] +\
-                    str(self.ptm['values']['hddtemp'][self.ptm['names']['hddtemp'][i]]) +\
+                    getTemp(str(self.ptm['values']['hddtemp'][self.ptm['names']['hddtemp'][i]]), self.ptm['vars']['adv']['tempUnit']) +\
                     line.split('$hddtemp' + str(i))[1]
         text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
         self.setText("hddtemp", text)
@@ -443,7 +454,7 @@ class pyTextWidget(plasmascript.Applet):
         for i in devices:
             if (line.split('$temp' + str(i))[0] != line):
                 line = line.split('$temp' + str(i))[0] +\
-                    str(self.ptm['values']['temp'][self.ptm['names']['temp'][i]]) +\
+                    getTemp(str(self.ptm['values']['temp'][self.ptm['names']['temp'][i]]), self.ptm['vars']['adv']['tempUnits']) +\
                     line.split('$temp' + str(i))[1]
         text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
         self.setText("temp", text)
@@ -540,7 +551,7 @@ class pyTextWidget(plasmascript.Applet):
                 line = line.split('$gpu')[0] + text + line.split('$gpu')[1]
         elif (name == "gputemp"):
             if (line.split('$gputemp')[0] != line):
-                line = line.split('$gputemp')[0] + text + line.split('$gputemp')[1]
+                line = line.split('$gputemp')[0] + getTemp(text, self.ptm['vars']['adv']['tempUnits']) + line.split('$gputemp')[1]
         elif (name == "pkg"):
             for item in text.keys():
                 if (line.split('$' + item)[0] != line):

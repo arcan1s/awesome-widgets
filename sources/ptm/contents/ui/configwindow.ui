@@ -1131,9 +1131,9 @@ $ps - list of running processes comma separated</string>
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
-            <width>328</width>
-            <height>611</height>
+            <y>-102</y>
+            <width>526</width>
+            <height>642</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -1207,6 +1207,61 @@ $m - uptime minutes without zero</string>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="layout_tempUnits">
+             <item>
+              <widget class="QLabel" name="label_tempUnits">
+               <property name="minimumSize">
+                <size>
+                 <width>120</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>Temperature units</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="spacer_tempUnits">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QComboBox" name="comboBox_tempUnits">
+               <property name="minimumSize">
+                <size>
+                 <width>180</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <item>
+                <property name="text">
+                 <string notr="true">Celsius</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string notr="true">Fahrenheit</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string notr="true">Kelvin</string>
+                </property>
+               </item>
               </widget>
              </item>
             </layout>
@@ -1578,17 +1633,17 @@ del - remove item</string>
                </property>
                <item>
                 <property name="text">
-                 <string>amarok</string>
+                 <string notr="true">amarok</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>mpd</string>
+                 <string notr="true">mpd</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>qmmp</string>
+                 <string notr="true">qmmp</string>
                 </property>
                </item>
               </widget>
@@ -1642,8 +1697,8 @@ del - remove item</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>326</width>
-            <height>227</height>
+            <width>544</width>
+            <height>504</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -1976,8 +2031,8 @@ del - remove item</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>326</width>
-            <height>190</height>
+            <width>544</width>
+            <height>540</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_10">
@@ -2373,17 +2428,17 @@ del - remove item</string>
                </property>
                <item>
                 <property name="text">
-                 <string>auto</string>
+                 <string notr="true">auto</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>nvidia</string>
+                 <string notr="true">nvidia</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>ati</string>
+                 <string notr="true">ati</string>
                 </property>
                </item>
               </widget>
@@ -2704,6 +2759,7 @@ del - remove item</string>
   <tabstop>scrollArea_advanced</tabstop>
   <tabstop>lineEdit_timeFormat</tabstop>
   <tabstop>lineEdit_uptimeFormat</tabstop>
+  <tabstop>comboBox_tempUnits</tabstop>
   <tabstop>comboBox_tempDevice</tabstop>
   <tabstop>pushButton_tempDevice</tabstop>
   <tabstop>listWidget_tempDevice</tabstop>
@@ -2742,6 +2798,10 @@ del - remove item</string>
   <tabstop>comboBox_hdddev</tabstop>
   <tabstop>lineEdit_mpdaddress</tabstop>
   <tabstop>spinBox_mpdport</tabstop>
+  <tabstop>comboBox_pkgCommand</tabstop>
+  <tabstop>spinBox_pkgCommandNum</tabstop>
+  <tabstop>pushButton_pkgCommand</tabstop>
+  <tabstop>listWidget_pkgCommand</tabstop>
  </tabstops>
  <resources/>
  <connections/>

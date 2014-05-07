@@ -48,6 +48,7 @@ class ConfigDefinition:
 
         settings.set('custom_time', str(self.configpage.ui.lineEdit_timeFormat.text()))
         settings.set('custom_uptime', str(self.configpage.ui.lineEdit_uptimeFormat.text()))
+        settings.set('temp_units', str(self.configpage.ui.comboBox_tempUnits.currentText()))
         item = QStringList()
         for i in range(self.configpage.ui.listWidget_tempDevice.count()):
             item.append(self.configpage.ui.listWidget_tempDevice.item(i).text())
@@ -133,6 +134,8 @@ class ConfigDefinition:
 
         self.configpage.ui.lineEdit_timeFormat.setText(str(settings.get('custom_time', '$hh:$mm')))
         self.configpage.ui.lineEdit_uptimeFormat.setText(str(settings.get('custom_uptime', '$ds,$hs,$ms')))
+        index = self.configpage.ui.comboBox_tempUnits.findText(str(settings.get('temp_units', "Celsius")))
+        self.configpage.ui.comboBox_tempUnits.setCurrentIndex(index)
         commandOut = commands.getoutput("sensors")
         for item in commandOut.split("\n\n"):
             for device in item.split("\n"):

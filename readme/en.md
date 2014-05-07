@@ -82,6 +82,10 @@ Advanced settings
 * tag `$mm` - uptime minutes
 * tag `$m` - uptime minutes without zero
 
+**Temperature units**
+
+Select units for temperature. Available units are Celsius, Farenheit and Kelvin.
+
 **Temperature devices**
 
 List of devices, which will be observed in temp label (combo box items come from `sensors`). List widget is editable, delete key will remove current item.
