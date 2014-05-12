@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # update english readme
-cp README.md readme/en.md
+cp README.md sources/readme/en.md
 
 SRCDIR="sources"
 VERSION=$(grep -m1 PROJECT_VERSION_MAJOR sources/CMakeLists.txt | awk '{print $3}' | cut -c 1).\
@@ -19,7 +19,7 @@ rm -rf "${ARCHIVE}"
 
 # build widget
 ARCHIVE="pytextmonitor"
-FILES="AUTHORS CHANGELOG CHANGELOG-RU COPYING readme"
+FILES="AUTHORS CHANGELOG CHANGELOG-RU COPYING"
 IGNORELIST="build usr"
 # create archive
 [[ -e ${ARCHIVE}-${VERSION}-src.tar.xz ]] && rm -f "${ARCHIVE}-${VERSION}-src.tar.xz"
