@@ -1,3 +1,4 @@
+#!/usr/bin/python2
 # -*- coding: utf-8 -*-
 
 ############################################################################
@@ -74,6 +75,9 @@ class pyTextWidget(plasmascript.Applet):
         """function to initializate widget"""
         self._name = str(self.package().metadata().pluginName())
         self.setupVar()
+        # actions
+        self.createActions()
+
 
         self.dataengine = dataengine.DataEngine(self)
         self.reinit = reinit.Reinit(self, self.ptm['defaults'])
@@ -90,11 +94,53 @@ class pyTextWidget(plasmascript.Applet):
         self.setBackgroundHints(Plasma.Applet.DefaultBackground)
 
         self.setHasConfigurationInterface(True)
-        # Create notifyrc file if required
+        # create notifyrc file if required
         kdehome = unicode(KGlobal.dirs().localkdedir())
         if ((not os.path.exists(kdehome + "/share/apps/plasma_applet_pytextmonitor/plasma_applet_pytextmonitor.notifyrc")) and
             (not os.path.exists("/usr" + "/share/apps/plasma_applet_pytextmonitor/plasma_applet_pytextmonitor.notifyrc"))):
             self.createNotifyrc(kdehome)
+
+
+    # context menu
+    def createActions(self):
+        """function to create actions"""
+        self.ptmActions = {}
+        self.ptmActions['ksysguard'] = QAction(i18n("Run ksysguard"), self)
+        QObject.connect(self.ptmActions['ksysguard'], SIGNAL("triggered(bool)"), self.showReadme)
+        self.ptmActions['readme'] = QAction(i18n("Show README"), self)
+        QObject.connect(self.ptmActions['readme'], SIGNAL("triggered(bool)"), self.showReadme)
+
+
+    def contextualActions(self):
+        """function to create context menu"""
+        contextMenu = []
+        contextMenu.append(self.ptmActions['ksysguard'])
+        contextMenu.append(self.ptmActions['readme'])
+        return contextMenu
+
+
+    def showReadme(self):
+        """function to show readme file"""
+        kdehome = unicode(KGlobal.dirs().localkdedir())
+        if (os.path.exists("/usr/share/pytextmonitor/")):
+            dirPath = "/usr/share/pytextmonitor/"
+        elif (os.path.exists(kdehome + "/share/pytextmonitor/")):
+            dirPath = kdehome + "/share/pytextmonitor/"
+        else:
+            return
+        locale = QLocale.system().name().split('_')[0]
+        if (os.path.exists(dirPath + locale + ".md")):
+            filePath = dirPath + locale + ".md"
+        elif (os.path.exists(dirPath + "en.md")):
+            filePath = dirPath + "en.md"
+        else:
+            return
+        os.system("kioclient exec " + str(filePath) + " &")
+
+
+    def runKsysguard(self, event):
+        """function to run ksysguard"""
+        os.system("ksysguard &")
 
 
     # internal functions
@@ -126,11 +172,6 @@ class pyTextWidget(plasmascript.Applet):
         self.tooltipView.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         # show tooltip
         Plasma.ToolTipManager.self().setContent(self.applet, self.tooltip)
-
-
-    def mouseDoubleClickEvent(self, event):
-        """function to doubleclick event"""
-        os.system("ksysguard &")
 
 
     def setupVar(self):
