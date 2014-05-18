@@ -61,6 +61,10 @@ class ConfigDefinition:
         for i in range(self.configpage.ui.listWidget_hddDevice.count()):
             item.append(self.configpage.ui.listWidget_hddDevice.item(i).text())
         settings.set('hdd', str(item.join(QString('@@'))))
+        item = QStringList()
+        for i in range(self.configpage.ui.listWidget_hddSpeedDevice.count()):
+            item.append(self.configpage.ui.listWidget_hddSpeedDevice.item(i).text())
+        settings.set('disk', str(item.join(QString('@@'))))
         settings.set('netdir', str(self.configpage.ui.lineEdit_netdir.text()))
         settings.set('netdevBool', self.configpage.ui.checkBox_netdev.checkState())
         settings.set('custom_netdev', str(self.configpage.ui.comboBox_netdev.currentText()))
@@ -168,6 +172,12 @@ class ConfigDefinition:
         self.configpage.ui.listWidget_hddDevice.clear()
         for item in str(settings.get('hdd', '/dev/sda')).split('@@'):
             self.configpage.ui.listWidget_hddDevice.addItem(item)
+        self.configpage.ui.comboBox_hddSpeedDevice.clear()
+        for item in self.defaults['disk']:
+            self.configpage.ui.comboBox_hddSpeedDevice.addItem(item)
+        self.configpage.ui.listWidget_hddSpeedDevice.clear()
+        for item in str(settings.get('disk', 'disk/sda_(8:0)')).split('@@'):
+            self.configpage.ui.listWidget_hddSpeedDevice.addItem(item)
         self.configpage.ui.lineEdit_netdir.setText(str(settings.get('netdir', '/sys/class/net')))
         self.configpage.ui.checkBox_netdev.setCheckState(settings.get('netdevBool', 0).toInt()[0])
         for item in QDir.entryList(QDir(str(settings.get('netdir', '/sys/class/net'))), QDir.Dirs | QDir.NoDotAndDotDot):

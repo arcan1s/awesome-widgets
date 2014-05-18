@@ -71,6 +71,7 @@ class Reinit():
             ptmVars['bools'][label] = settings.get(self.defaults['confBool'][label], self.defaults['bool'][label]).toInt()[0]
 
         ptmNames = {}
+        ptmNames['disk'] = str(settings.get('disk', 'disk/sda_(8:0)')).split('@@')
         ptmNames['hdd'] = str(settings.get('mount', '/')).split('@@')
         ptmNames['hddtemp'] = str(settings.get('hdd', '/dev/sda')).split('@@')
         if (ptmVars['adv']['netdevBool'] > 0):

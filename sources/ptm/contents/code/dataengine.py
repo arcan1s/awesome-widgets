@@ -47,6 +47,10 @@ class DataEngine:
                 dataEngines['system'].connectSource("cpu/cpu" + str(core) + "/clock", self.parent, interval)
         if (bools['custom'] > 0):
             dataEngines['ext'].connectSource("custom", self.parent, interval)
+        if (bools['disk'] > 0):
+            for item in names['disk']:
+                dataEngines['system'].connectSource(item + "/Rate/rblk", self.parent, interval)
+                dataEngines['system'].connectSource(item + "/Rate/wblk", self.parent, interval)
         if (bools['gpu'] > 0):
             dataEngines['ext'].connectSource("gpu", self.parent, interval)
         if (bools['gputemp'] > 0):
@@ -115,6 +119,16 @@ class DataEngine:
             elif (sourceName == "custom"):
                 updatedData['name'] = "custom"
                 value = str(data[QString(u'custom')].toUtf8()).decode("utf-8")
+                updatedData['value'] = value
+            elif ((sourceName[:4] == "disk") and (sourceName[-4:] == "rblk")):
+                updatedData['name'] = "disk-r"
+                updatedData['type'] = '/'.join(str(sourceName).split('/')[0:2])
+                value = round(data[QString(u'value')].toFloat()[0], 0)
+                updatedData['value'] = value
+            elif ((sourceName[:4] == "disk") and (sourceName[-4:] == "wblk")):
+                updatedData['name'] = "disk-w"
+                updatedData['type'] = '/'.join(str(sourceName).split('/')[0:2])
+                value = round(data[QString(u'value')].toFloat()[0], 0)
                 updatedData['value'] = value
             elif (sourceName == "gpu"):
                 updatedData['name'] = "gpu"
@@ -282,6 +296,10 @@ class DataEngine:
                     dataEngines['system'].disconnectSource("cpu/cpu" + str(item) + "/clock", self.parent)
         elif (name == "custom"):
             dataEngines['ext'].disconnectSource("custom", self.parent)
+        elif (name == "disk"):
+            for item in keys['disk']:
+                dataEngines['system'].disconnectSource(item + "/Rate/rblk", self.parent)
+                dataEngines['system'].disconnectSource(item + "/Rate/rblk", self.parent)
         elif (name == "gpu"):
             dataEngines['ext'].disconnectSource("gpu", self.parent)
         elif (name == "gputemp"):

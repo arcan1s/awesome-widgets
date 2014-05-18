@@ -66,7 +66,7 @@
             <x>0</x>
             <y>0</y>
             <width>526</width>
-            <height>624</height>
+            <height>660</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -114,7 +114,7 @@ $custom - custom time format</string>
                 <number>1</number>
                </property>
                <property name="maximum">
-                <number>17</number>
+                <number>18</number>
                </property>
                <property name="pageStep">
                 <number>1</number>
@@ -170,7 +170,7 @@ $custom - custom format</string>
                 <number>1</number>
                </property>
                <property name="maximum">
-                <number>17</number>
+                <number>18</number>
                </property>
                <property name="pageStep">
                 <number>1</number>
@@ -236,7 +236,7 @@ $cpuN - load CPU for core N, %</string>
                 <number>1</number>
                </property>
                <property name="maximum">
-                <number>17</number>
+                <number>18</number>
                </property>
                <property name="pageStep">
                 <number>1</number>
@@ -302,7 +302,7 @@ $cpuclN - CPU clock for core N, MHz</string>
                 <number>1</number>
                </property>
                <property name="maximum">
-                <number>17</number>
+                <number>18</number>
                </property>
                <property name="pageStep">
                 <number>1</number>
@@ -360,7 +360,7 @@ $cpuclN - CPU clock for core N, MHz</string>
                 <number>1</number>
                </property>
                <property name="maximum">
-                <number>17</number>
+                <number>18</number>
                </property>
                <property name="pageStep">
                 <number>1</number>
@@ -418,7 +418,7 @@ $cpuclN - CPU clock for core N, MHz</string>
                 <number>1</number>
                </property>
                <property name="maximum">
-                <number>17</number>
+                <number>18</number>
                </property>
                <property name="pageStep">
                 <number>1</number>
@@ -476,7 +476,7 @@ $cpuclN - CPU clock for core N, MHz</string>
                 <number>1</number>
                </property>
                <property name="maximum">
-                <number>17</number>
+                <number>18</number>
                </property>
                <property name="pageStep">
                 <number>1</number>
@@ -539,7 +539,7 @@ $memgb - RAM usage, GB</string>
                 <number>1</number>
                </property>
                <property name="maximum">
-                <number>17</number>
+                <number>18</number>
                </property>
                <property name="pageStep">
                 <number>1</number>
@@ -602,7 +602,7 @@ $swapgb - swap usage, GB</string>
                 <number>1</number>
                </property>
                <property name="maximum">
-                <number>17</number>
+                <number>18</number>
                </property>
                <property name="pageStep">
                 <number>1</number>
@@ -662,13 +662,72 @@ $hddgbN - usage for mount point N (from 0), GB. Example: $hddgb0</string>
                 <number>1</number>
                </property>
                <property name="maximum">
-                <number>17</number>
+                <number>18</number>
                </property>
                <property name="pageStep">
                 <number>1</number>
                </property>
                <property name="value">
                 <number>10</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="tickPosition">
+                <enum>QSlider::TicksAbove</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="layout_hddSpeed">
+             <item>
+              <widget class="QCheckBox" name="checkBox_hddSpeed">
+               <property name="minimumSize">
+                <size>
+                 <width>120</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>HDD speed</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="lineEdit_hddSpeed">
+               <property name="toolTip">
+                <string>$hddrN - read speed HDD N (from 0), KB/s. Example: $hddr0
+$hddwN - write speed HDD N (from 0), KB/s. Example: $hddw0</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSlider" name="slider_hddSpeed">
+               <property name="maximumSize">
+                <size>
+                 <width>120</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="maximum">
+                <number>18</number>
+               </property>
+               <property name="pageStep">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>11</number>
                </property>
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
@@ -691,7 +750,7 @@ $hddgbN - usage for mount point N (from 0), GB. Example: $hddgb0</string>
                 </size>
                </property>
                <property name="text">
-                <string>HDD Temp</string>
+                <string>HDD temp</string>
                </property>
                <property name="checked">
                 <bool>true</bool>
@@ -720,13 +779,13 @@ $hddgbN - usage for mount point N (from 0), GB. Example: $hddgb0</string>
                 <number>1</number>
                </property>
                <property name="maximum">
-                <number>17</number>
+                <number>18</number>
                </property>
                <property name="pageStep">
                 <number>1</number>
                </property>
                <property name="value">
-                <number>11</number>
+                <number>12</number>
                </property>
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
@@ -783,13 +842,13 @@ $netdev - current network device</string>
                 <number>1</number>
                </property>
                <property name="maximum">
-                <number>17</number>
+                <number>18</number>
                </property>
                <property name="pageStep">
                 <number>1</number>
                </property>
                <property name="value">
-                <number>12</number>
+                <number>13</number>
                </property>
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
@@ -842,13 +901,13 @@ $ac - AC status</string>
                 <number>1</number>
                </property>
                <property name="maximum">
-                <number>17</number>
+                <number>18</number>
                </property>
                <property name="pageStep">
                 <number>1</number>
                </property>
                <property name="value">
-                <number>13</number>
+                <number>14</number>
                </property>
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
@@ -904,13 +963,13 @@ $title - song title</string>
                 <number>1</number>
                </property>
                <property name="maximum">
-                <number>17</number>
+                <number>18</number>
                </property>
                <property name="pageStep">
                 <number>1</number>
                </property>
                <property name="value">
-                <number>14</number>
+                <number>15</number>
                </property>
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
@@ -964,13 +1023,13 @@ $ps - list of running processes comma separated</string>
                 <number>1</number>
                </property>
                <property name="maximum">
-                <number>17</number>
+                <number>18</number>
                </property>
                <property name="pageStep">
                 <number>1</number>
                </property>
                <property name="value">
-                <number>15</number>
+                <number>16</number>
                </property>
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
@@ -1022,13 +1081,13 @@ $ps - list of running processes comma separated</string>
                 <number>1</number>
                </property>
                <property name="maximum">
-                <number>17</number>
+                <number>18</number>
                </property>
                <property name="pageStep">
                 <number>1</number>
                </property>
                <property name="value">
-                <number>16</number>
+                <number>17</number>
                </property>
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
@@ -1080,13 +1139,13 @@ $ps - list of running processes comma separated</string>
                 <number>1</number>
                </property>
                <property name="maximum">
-                <number>17</number>
+                <number>18</number>
                </property>
                <property name="pageStep">
                 <number>1</number>
                </property>
                <property name="value">
-                <number>17</number>
+                <number>18</number>
                </property>
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
@@ -1131,9 +1190,9 @@ $ps - list of running processes comma separated</string>
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-102</y>
+            <y>0</y>
             <width>526</width>
-            <height>642</height>
+            <height>754</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -1377,6 +1436,58 @@ del - remove item</string>
             </layout>
            </item>
            <item>
+            <layout class="QVBoxLayout" name="layout_hddSpeedDevice">
+             <item>
+              <layout class="QHBoxLayout" name="layout_hddSpeedDeviceSelect">
+               <item>
+                <widget class="QLabel" name="label_hddSpeedDevice">
+                 <property name="minimumSize">
+                  <size>
+                   <width>120</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>HDD devices (speed)</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QComboBox" name="comboBox_hddSpeedDevice">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton_hddSpeedDevice">
+                 <property name="minimumSize">
+                  <size>
+                   <width>100</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Add</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QListWidget" name="listWidget_hddSpeedDevice">
+               <property name="toolTip">
+                <string>Editable
+del - remove item</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
             <layout class="QVBoxLayout" name="layout_hddDevice">
              <item>
               <layout class="QHBoxLayout" name="layout_hddDeviceSelect">
@@ -1389,7 +1500,7 @@ del - remove item</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>HDD devices</string>
+                  <string>HDD devices (temp)</string>
                  </property>
                 </widget>
                </item>
@@ -1697,8 +1808,8 @@ del - remove item</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>544</width>
-            <height>504</height>
+            <width>326</width>
+            <height>227</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -2031,8 +2142,8 @@ del - remove item</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>544</width>
-            <height>540</height>
+            <width>326</width>
+            <height>190</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_10">
@@ -2365,8 +2476,8 @@ del - remove item</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>544</width>
-            <height>540</height>
+            <width>326</width>
+            <height>302</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -2736,6 +2847,9 @@ del - remove item</string>
   <tabstop>lineEdit_hdd</tabstop>
   <tabstop>slider_hdd</tabstop>
   <tabstop>checkBox_hddTemp</tabstop>
+  <tabstop>checkBox_hddSpeed</tabstop>
+  <tabstop>lineEdit_hddSpeed</tabstop>
+  <tabstop>slider_hddSpeed</tabstop>
   <tabstop>lineEdit_hddTemp</tabstop>
   <tabstop>slider_hddTemp</tabstop>
   <tabstop>checkBox_net</tabstop>
@@ -2766,6 +2880,9 @@ del - remove item</string>
   <tabstop>comboBox_mount</tabstop>
   <tabstop>pushButton_mount</tabstop>
   <tabstop>listWidget_mount</tabstop>
+  <tabstop>comboBox_hddSpeedDevice</tabstop>
+  <tabstop>pushButton_hddSpeedDevice</tabstop>
+  <tabstop>listWidget_hddSpeedDevice</tabstop>
   <tabstop>comboBox_hddDevice</tabstop>
   <tabstop>pushButton_hddDevice</tabstop>
   <tabstop>listWidget_hddDevice</tabstop>

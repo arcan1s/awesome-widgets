@@ -106,7 +106,7 @@ class pyTextWidget(plasmascript.Applet):
         """function to create actions"""
         self.ptmActions = {}
         self.ptmActions['ksysguard'] = QAction(i18n("Run ksysguard"), self)
-        QObject.connect(self.ptmActions['ksysguard'], SIGNAL("triggered(bool)"), self.showReadme)
+        QObject.connect(self.ptmActions['ksysguard'], SIGNAL("triggered(bool)"), self.runKsysguard)
         self.ptmActions['readme'] = QAction(i18n("Show README"), self)
         QObject.connect(self.ptmActions['readme'], SIGNAL("triggered(bool)"), self.showReadme)
 
@@ -117,6 +117,11 @@ class pyTextWidget(plasmascript.Applet):
         contextMenu.append(self.ptmActions['ksysguard'])
         contextMenu.append(self.ptmActions['readme'])
         return contextMenu
+
+
+    def runKsysguard(self, event):
+        """function to run ksysguard"""
+        os.system("ksysguard &")
 
 
     def showReadme(self):
@@ -138,12 +143,13 @@ class pyTextWidget(plasmascript.Applet):
         os.system("kioclient exec " + str(filePath) + " &")
 
 
-    def runKsysguard(self, event):
-        """function to run ksysguard"""
-        os.system("ksysguard &")
-
-
     # internal functions
+    def addDiskDevice(self, sourceName):
+        diskRegexp = QRegExp("disk/(?:md|sd|hd)[a-z|0-9]_.*/Rate/(?:rblk)")
+        if (diskRegexp.indexIn(sourceName) > -1):
+            self.ptm['defaults']['disk'].append('/'.join(str(sourceName).split('/')[0:2]))
+
+
     def createConfigurationInterface(self, parent):
         """function to setup configuration window"""
         self.configpage = configwindow.ConfigWindow(self)
@@ -182,38 +188,41 @@ class pyTextWidget(plasmascript.Applet):
         # defaults
         self.ptm['defaults'] = {}
         self.ptm['defaults']['confBool'] = {'bat':'batBool', 'cpu':'cpuBool',
-            'cpuclock':'cpuclockBool', 'custom':'customBool', 'gpu':'gpuBool',
-            'gputemp':'gputempBool', 'hdd':'hddBool', 'hddtemp':'hddtempBool',
-            'mem':'memBool', 'net':'netBool', 'pkg':'pkgBool', 'player':'playerBool',
-            'ps':'psBool', 'swap':'swapBool', 'temp':'tempBool', 'uptime':'uptimeBool',
-            'time':'timeBool'}
+            'cpuclock':'cpuclockBool', 'custom':'customBool', 'disk':'diskBool',
+            'gpu':'gpuBool', 'gputemp':'gputempBool', 'hdd':'hddBool',
+            'hddtemp':'hddtempBool', 'mem':'memBool', 'net':'netBool', 'pkg':'pkgBool',
+            'player':'playerBool', 'ps':'psBool', 'swap':'swapBool', 'temp':'tempBool',
+            'uptime':'uptimeBool', 'time':'timeBool'}
         self.ptm['defaults']['confColor'] = {'cpu':'cpu_color', 'cpuclock':'cpuclock_color',
             'down':'down_color', 'mem':'mem_color', 'swap':'swap_color', 'up':'up_color'}
         self.ptm['defaults']['confFormat'] = {'bat':'batFormat', 'cpu':'cpuFormat',
-            'cpuclock':'cpuclockFormat', 'custom':'customFormat', 'gpu':'gpuFormat',
-            'gputemp':'gputempFormat', 'hdd':'hddFormat', 'hddtemp':'hddtempFormat',
-            'mem':'memFormat', 'net':'netFormat', 'pkg':'pkgFormat',
-            'player':'playerFormat', 'ps':'psFormat', 'swap':'swapFormat',
+            'cpuclock':'cpuclockFormat', 'custom':'customFormat', 'disk':'diskFormat',
+            'gpu':'gpuFormat', 'gputemp':'gputempFormat', 'hdd':'hddFormat',
+            'hddtemp':'hddtempFormat', 'mem':'memFormat', 'net':'netFormat',
+            'pkg':'pkgFormat', 'player':'playerFormat', 'ps':'psFormat', 'swap':'swapFormat',
             'temp':'tempFormat', 'time':'timeFormat', 'uptime':'uptimeFormat'}
         self.ptm['defaults']['bool'] = {'bat':0, 'cpu':2, 'cpuclock':0, 'custom':0,
-            'gpu':0, 'gputemp':0, 'hdd':0, 'hddtemp':0, 'mem':2, 'net':2, 'pkg':0,
-            'player':0, 'ps':0, 'swap':2, 'temp':0, 'time':0, 'uptime':0}
+            'disk':0, 'gpu':0, 'gputemp':0, 'hdd':0, 'hddtemp':0, 'mem':2, 'net':2,
+            'pkg':0, 'player':0, 'ps':0, 'swap':2, 'temp':0, 'time':0, 'uptime':0}
         self.ptm['defaults']['format'] = {'bat':'[bat: $bat%$ac]', 'cpu':'[cpu: $cpu%]',
-            'cpuclock':'[mhz: $cpucl]', 'custom':'[$custom]', 'gpu':'[gpu: $gpu%]',
-            'gputemp':'[gpu temp: $gputemp&deg;C]', 'hdd':'[hdd: $hdd0%]',
+            'cpuclock':'[mhz: $cpucl]', 'custom':'[$custom]', 'disk':'[disk: $hddr0/$hddw0 KB/s]',
+            'gpu':'[gpu: $gpu%]', 'gputemp':'[gpu temp: $gputemp&deg;C]', 'hdd':'[hdd: $hdd0%]',
             'hddtemp':'[hdd temp: $hddtemp0&deg;C]', 'mem':'[mem: $mem%]',
             'net':'[$netdev: $down/$upKB/s]', 'pkg':'[upgrade: $pkgcount0]',
             'player':'[$artist - $title]', 'ps':'[proc: $pscount]', 'swap':'[swap: $swap%]',
             'temp':'[temp: $temp0&deg;C]', 'time':'[$time]', 'uptime':'[uptime: $uptime]'}
         self.ptm['defaults']['order'] = {'1':'cpu', '2':'temp', '3':'mem', '4':'swap', '5':'net',
             '6':'bat', '7':'cpuclock', '8':'uptime', '9':'gpu', 'a':'gputemp', 'b':'hdd',
-            'c':'hddtemp', 'd':'player', 'e':'time', 'f':'custom', 'g':'ps', 'h':'pkg'}
+            'c':'hddtemp', 'd':'player', 'e':'time', 'f':'custom', 'g':'ps', 'h':'pkg', 'i':'disk'}
+        # disk devices for r/w speed
+        self.ptm['defaults']['disk'] = []
         # labels
         self.ptm['labels'] = {}
         self.ptm['layout'] = QGraphicsLinearLayout(Qt.Horizontal, self.applet)
         self.ptm['layout'].setContentsMargins(1, 1, 1, 1)
         # names
         self.ptm['names'] = {}
+        self.ptm['names']['disk'] = []
         self.ptm['names']['hdd'] = []
         self.ptm['names']['hddtemp'] = []
         self.ptm['names']['net'] = ""
@@ -232,6 +241,8 @@ class pyTextWidget(plasmascript.Applet):
         for i in range(numCores):
             self.ptm['values']['cpu'][i] = 0.0
             self.ptm['values']['cpuclock'][i] = 0.0
+        self.ptm['values']['disk-r'] = {}
+        self.ptm['values']['disk-w'] = {}
         self.ptm['values']['hdd'] = {}
         self.ptm['values']['hddmb'] = {}
         self.ptm['values']['hddtemp'] = {}
@@ -271,6 +282,8 @@ class pyTextWidget(plasmascript.Applet):
             self.cpuText()
         if (self.ptm['vars']['bools']['cpuclock'] > 0):
             self.cpuclockText()
+        if (self.ptm['vars']['bools']['disk'] > 0):
+            self.diskText()
         if (self.ptm['vars']['bools']['hdd'] > 0):
             self.hddText()
         if (self.ptm['vars']['bools']['hddtemp'] > 0):
@@ -391,6 +404,25 @@ class pyTextWidget(plasmascript.Applet):
             line = line.split('$cpucl')[0] + value + line.split('$cpucl')[1]
         text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
         self.setText("cpuclock", text)
+
+
+    def diskText(self):
+        line = self.ptm['vars']['formats']['disk']
+        devices = range(len(self.ptm['names']['disk']))
+        devices.reverse()
+        for i in devices:
+            if (line.split('$hddr' + str(i))[0] != line):
+                hdd = "%4i" % (self.ptm['values']['disk-r'][self.ptm['names']['disk'][i]])
+                line = line.split('$hddr' + str(i))[0] +\
+                    hdd +\
+                    line.split('$hddr' + str(i))[1]
+            if (line.split('$hddw' + str(i))[0] != line):
+                hdd = "%4i" % (self.ptm['values']['disk-w'][self.ptm['names']['disk'][i]])
+                line = line.split('$hddw' + str(i))[0] +\
+                    hdd +\
+                    line.split('$hddw' + str(i))[1]
+        text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
+        self.setText("disk", text)
 
 
     def hddText(self):
@@ -517,11 +549,16 @@ class pyTextWidget(plasmascript.Applet):
         """function to read settings"""
         self.ptm[name] = ptm
         if (name == "names"):
-            for item in ['hdd', 'hddtemp', 'temp']:
+            for item in ['hddtemp', 'temp']:
                 for value in self.ptm['names'][item]:
                     self.ptm['values'][item][value] = 0.0
-                    if (item == "hdd"):
-                        self.ptm['values']['hddmb'][value] = 0.0
+            for value in self.ptm['names']['hdd']:
+                self.ptm['values']['hdd'][value] = 0.0
+                self.ptm['values']['hddmb'][value] = 0.0
+            for value in self.ptm['names']['disk']:
+                self.ptm['values']['disk-r'][value] = 0.0
+                self.ptm['values']['disk-w'][value] = 0.0
+
 
 
     def connectToEngine(self):
@@ -529,6 +566,7 @@ class pyTextWidget(plasmascript.Applet):
         self.ptm['dataengine']['ext'] = self.dataEngine("ext-sysmon")
         self.ptm['dataengine']['system'] = self.dataEngine("systemmonitor")
         self.ptm['dataengine']['time'] = self.dataEngine("time")
+        QObject.connect(self.ptm['dataengine']['system'], SIGNAL("sourceAdded(QString)"), self.addDiskDevice)
         self.dataengine.connectToEngine(self.ptm['vars']['bools'], self.ptm['dataengine'],
             self.ptm['vars']['app']['interval'], self.ptm['names'])
 
@@ -539,8 +577,8 @@ class pyTextWidget(plasmascript.Applet):
             if (self.ptm['vars']['bools'][label] > 0):
                 self.addLabel(label, None, False)
                 keys = {'cpu':self.ptm['values']['cpu'].keys(), 'cpuclock':self.ptm['values']['cpuclock'].keys(),
-                    'hdd':self.ptm['values']['hdd'].keys(), 'net':self.ptm['names']['net'],
-                    'temp':self.ptm['values']['temp'].keys()}
+                    'disk':self.ptm['values']['disk-r'].keys(), 'hdd':self.ptm['values']['hdd'].keys(),
+                    'net':self.ptm['names']['net'], 'temp':self.ptm['values']['temp'].keys()}
                 self.dataengine.disconnectFromSource(self.ptm['dataengine'], keys, label)
 
 

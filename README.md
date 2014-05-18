@@ -31,6 +31,8 @@ For edited output you must open Settings window and setup output format in lines
 * tag `$swapmb` - swap, *MB*
 * tag `$swapgb` - swap, *GB*
 * tag `$hddN` - usage for mount point N, *%*. For example, `$hdd0`
+* tag `$hddrN` - read speed of disk N, *KB/s*. For example, `$hddr0`
+* tag `$hddwN` - write speed of disk N, *KB/s*. For example, `$hddw0`
 * tag `$hddtempN` - temperature for HDD N. For example, `$hddtemp0`
 * tag `$down` - download speed, *KB/s*
 * tag `$up` - upload speed, *KB/s*
@@ -94,9 +96,13 @@ List of devices, which will be observed in temp label (combo box items come from
 
 List of mount points, which will be observed in hdd label (combo box items come from `mount`). List widget is editable, delete key will remove current item.
 
-**HDD**
+**HDD (speed)**
 
-List of hard disk devices, which will be observed in hddtem label (combo box items come from `find`). List widget is editable, delete key will remove current item.
+List of hard disk devices, which will be observed in hddspeed label (combo box items come from DataEngine). List widget is editable, delete key will remove current item.
+
+**HDD (temperature)**
+
+List of hard disk devices, which will be observed in hddtemp label (combo box items come from `find`). List widget is editable, delete key will remove current item.
 
 **Network directory**
 

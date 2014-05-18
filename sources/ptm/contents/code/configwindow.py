@@ -36,34 +36,35 @@ class ConfigWindow(QWidget):
             'up':self.ui.kcolorcombo_up}
         self.checkboxes = {'bat':self.ui.checkBox_bat, 'cpu':self.ui.checkBox_cpu,
             'cpuclock':self.ui.checkBox_cpuclock, 'custom':self.ui.checkBox_custom,
-            'gpu':self.ui.checkBox_gpu, 'gputemp':self.ui.checkBox_gpuTemp,
-            'hdd':self.ui.checkBox_hdd, 'hddtemp':self.ui.checkBox_hddTemp,
-            'mem':self.ui.checkBox_mem, 'net':self.ui.checkBox_net,
-            'swap':self.ui.checkBox_swap, 'temp':self.ui.checkBox_temp,
-            'uptime':self.ui.checkBox_uptime, 'pkg':self.ui.checkBox_pkg,
-            'player':self.ui.checkBox_player, 'ps':self.ui.checkBox_ps,
-            'time':self.ui.checkBox_time}
+            'disk':self.ui.checkBox_hddSpeed, 'gpu':self.ui.checkBox_gpu,
+            'gputemp':self.ui.checkBox_gpuTemp, 'hdd':self.ui.checkBox_hdd,
+            'hddtemp':self.ui.checkBox_hddTemp, 'mem':self.ui.checkBox_mem,
+            'net':self.ui.checkBox_net, 'swap':self.ui.checkBox_swap,
+            'temp':self.ui.checkBox_temp, 'uptime':self.ui.checkBox_uptime,
+            'pkg':self.ui.checkBox_pkg, 'player':self.ui.checkBox_player,
+            'ps':self.ui.checkBox_ps, 'time':self.ui.checkBox_time}
         self.lineedits = {'bat':self.ui.lineEdit_bat, 'cpu':self.ui.lineEdit_cpu,
             'cpuclock':self.ui.lineEdit_cpuclock, 'custom':self.ui.lineEdit_custom,
-            'gpu':self.ui.lineEdit_gpu, 'gputemp':self.ui.lineEdit_gpuTemp,
-            'hdd':self.ui.lineEdit_hdd, 'hddtemp':self.ui.lineEdit_hddTemp,
-            'mem':self.ui.lineEdit_mem, 'net':self.ui.lineEdit_net,
-            'swap':self.ui.lineEdit_swap, 'temp':self.ui.lineEdit_temp,
-            'uptime':self.ui.lineEdit_uptime, 'pkg':self.ui.lineEdit_pkg,
-            'player':self.ui.lineEdit_player, 'ps':self.ui.lineEdit_ps,
-            'time':self.ui.lineEdit_time}
+            'disk':self.ui.lineEdit_hddSpeed, 'gpu':self.ui.lineEdit_gpu,
+            'gputemp':self.ui.lineEdit_gpuTemp, 'hdd':self.ui.lineEdit_hdd,
+            'hddtemp':self.ui.lineEdit_hddTemp, 'mem':self.ui.lineEdit_mem,
+            'net':self.ui.lineEdit_net, 'swap':self.ui.lineEdit_swap,
+            'temp':self.ui.lineEdit_temp, 'uptime':self.ui.lineEdit_uptime,
+            'pkg':self.ui.lineEdit_pkg, 'player':self.ui.lineEdit_player,
+            'ps':self.ui.lineEdit_ps, 'time':self.ui.lineEdit_time}
         self.sliders = {'bat':self.ui.slider_bat, 'cpu':self.ui.slider_cpu,
             'cpuclock':self.ui.slider_cpuclock, 'custom':self.ui.slider_custom,
-            'gpu':self.ui.slider_gpu, 'gputemp':self.ui.slider_gpuTemp,
-            'hdd':self.ui.slider_hdd, 'hddtemp':self.ui.slider_hddTemp,
-            'mem':self.ui.slider_mem, 'net':self.ui.slider_net,
-            'swap':self.ui.slider_swap, 'temp':self.ui.slider_temp,
-            'uptime':self.ui.slider_uptime, 'pkg':self.ui.slider_pkg,
-            'player':self.ui.slider_player, 'ps':self.ui.slider_ps,
-            'time':self.ui.slider_time}
+            'disk':self.ui.slider_hddSpeed, 'gpu':self.ui.slider_gpu,
+            'gputemp':self.ui.slider_gpuTemp, 'hdd':self.ui.slider_hdd,
+            'hddtemp':self.ui.slider_hddTemp, 'mem':self.ui.slider_mem,
+            'net':self.ui.slider_net, 'swap':self.ui.slider_swap,
+            'temp':self.ui.slider_temp, 'uptime':self.ui.slider_uptime,
+            'pkg':self.ui.slider_pkg, 'player':self.ui.slider_player,
+            'ps':self.ui.slider_ps, 'time':self.ui.slider_time}
 
         QObject.connect(self.ui.checkBox_netdev, SIGNAL("stateChanged(int)"), self.setNetdevEnabled)
         QObject.connect(self.ui.pushButton_hddDevice, SIGNAL("clicked()"), self.addHddDevice)
+        QObject.connect(self.ui.pushButton_hddSpeedDevice, SIGNAL("clicked()"), self.addHddSpeedDevice)
         QObject.connect(self.ui.pushButton_mount, SIGNAL("clicked()"), self.addMount)
         QObject.connect(self.ui.pushButton_tempDevice, SIGNAL("clicked()"), self.addTempDevice)
         QObject.connect(self.ui.pushButton_pkgCommand, SIGNAL("clicked()"), self.addPkgCommand)
@@ -85,6 +86,9 @@ class ConfigWindow(QWidget):
             if (self.ui.listWidget_hddDevice.hasFocus() and
                 (self.ui.listWidget_hddDevice.currentRow() > -1)):
                 self.ui.listWidget_hddDevice.takeItem(self.ui.listWidget_hddDevice.currentRow())
+            elif (self.ui.listWidget_hddSpeedDevice.hasFocus() and
+                (self.ui.listWidget_hddSpeedDevice.currentRow() > -1)):
+                self.ui.listWidget_hddSpeedDevice.takeItem(self.ui.listWidget_hddSpeedDevice.currentRow())
             elif (self.ui.listWidget_mount.hasFocus() and
                 (self.ui.listWidget_mount.currentRow() > -1)):
                 self.ui.listWidget_mount.takeItem(self.ui.listWidget_mount.currentRow())
@@ -100,6 +104,12 @@ class ConfigWindow(QWidget):
         """function to add mount points"""
         self.ui.listWidget_hddDevice.clearSelection()
         self.ui.listWidget_hddDevice.addItem(self.ui.comboBox_hddDevice.currentText())
+
+
+    def addHddSpeedDevice(self):
+        """function to add disk device"""
+        self.ui.listWidget_hddSpeedDevice.clearSelection()
+        self.ui.listWidget_hddSpeedDevice.addItem(self.ui.comboBox_hddSpeedDevice.currentText())
 
 
     def addMount(self):
