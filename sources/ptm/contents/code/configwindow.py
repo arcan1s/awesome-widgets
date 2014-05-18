@@ -67,6 +67,7 @@ class ConfigWindow(QWidget):
         QObject.connect(self.ui.pushButton_hddSpeedDevice, SIGNAL("clicked()"), self.addHddSpeedDevice)
         QObject.connect(self.ui.pushButton_mount, SIGNAL("clicked()"), self.addMount)
         QObject.connect(self.ui.pushButton_tempDevice, SIGNAL("clicked()"), self.addTempDevice)
+        QObject.connect(self.ui.pushButton_customCommand, SIGNAL("clicked()"), self.addCustomCommand)
         QObject.connect(self.ui.pushButton_pkgCommand, SIGNAL("clicked()"), self.addPkgCommand)
         QObject.connect(self.ui.listWidget_hddDevice, SIGNAL("itemActivated(QListWidgetItem*)"), self.ui.listWidget_hddDevice.openPersistentEditor)
         QObject.connect(self.ui.listWidget_mount, SIGNAL("itemActivated(QListWidgetItem*)"), self.ui.listWidget_mount.openPersistentEditor)
@@ -95,6 +96,9 @@ class ConfigWindow(QWidget):
             elif (self.ui.listWidget_tempDevice.hasFocus() and
                 (self.ui.listWidget_tempDevice.currentRow() > -1)):
                 self.ui.listWidget_tempDevice.takeItem(self.ui.listWidget_tempDevice.currentRow())
+            elif (self.ui.listWidget_customCommand.hasFocus() and
+                (self.ui.listWidget_customCommand.currentRow() > -1)):
+                self.ui.listWidget_customCommand.takeItem(self.ui.listWidget_customCommand.currentRow())
             elif (self.ui.listWidget_pkgCommand.hasFocus() and
                 (self.ui.listWidget_pkgCommand.currentRow() > -1)):
                 self.ui.listWidget_pkgCommand.takeItem(self.ui.listWidget_pkgCommand.currentRow())
@@ -122,6 +126,12 @@ class ConfigWindow(QWidget):
         """function to add temperature device"""
         self.ui.listWidget_tempDevice.clearSelection()
         self.ui.listWidget_tempDevice.addItem(self.ui.comboBox_tempDevice.currentText())
+
+
+    def addCustomCommand(self):
+        """function to add custom command"""
+        self.ui.listWidget_customCommand.clearSelection()
+        self.ui.listWidget_customCommand.addItem(self.ui.lineEdit_customCommand.text())
 
 
     def addPkgCommand(self):

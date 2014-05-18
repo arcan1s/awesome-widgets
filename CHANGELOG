@@ -1,3 +1,9 @@
+Ver.1.9.0:
++ added support of several custom commands
++ added hdd speed label
++ added actions to context menu (open readme and run ksysguard)
+- removed doubleclick event
+
 Ver.1.8.3:
 + added Spanish translation (thanks to Ernesto Avilés Vzqz)
 + added readme to the package

@@ -80,8 +80,11 @@ class ConfigDefinition:
 
         dataengineConfig = unicode(KGlobal.dirs().localkdedir()) + "/share/config/extsysmon.conf"
         try:
+            item = QStringList()
+            for i in range(self.configpage.ui.listWidget_customCommand.count()):
+                item.append(self.configpage.ui.listWidget_customCommand.item(i).text())
             with open(dataengineConfig, 'w') as deConfigFile:
-                deConfigFile.write("CUSTOM=" + str(self.configpage.ui.lineEdit_customCommand.text()) + "\n")
+                deConfigFile.write("CUSTOM=" + str(item.join(QString('@@'))) + "\n")
                 deConfigFile.write("GPUDEV=" + str(self.configpage.ui.comboBox_gpudev.currentText()) + "\n")
                 deConfigFile.write("HDDDEV=" + str(self.configpage.ui.comboBox_hdddev.currentText()) + "\n")
                 deConfigFile.write("MPDADDRESS=" + str(self.configpage.ui.lineEdit_mpdaddress.text()) + "\n")
@@ -209,7 +212,8 @@ class ConfigDefinition:
                         deSettings[line.split('=')[0]] = line.split('=')[1][:-1]
         except:
             pass
-        self.configpage.ui.lineEdit_customCommand.setText(deSettings['CUSTOM'])
+        for item in deSettings['CUSTOM'].split('@@'):
+            self.configpage.ui.listWidget_customCommand.addItem(item)
         index = self.configpage.ui.comboBox_gpudev.findText(deSettings['GPUDEV'])
         self.configpage.ui.comboBox_gpudev.setCurrentIndex(index)
         self.configpage.ui.comboBox_hdddev.addItem("all")

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=157124\n"
-"POT-Creation-Date: 2014-05-19 00:57+0400\n"
+"POT-Creation-Date: 2014-05-19 02:56+0400\n"
 "PO-Revision-Date: 2014-05-19 00:59+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Spanish <kde-russian@lists.kde.ru>\n"
@@ -166,7 +166,7 @@ msgstr ""
 "$swapmb - uso de la swap, MB\n"
 "$swapgb - uso de la swap, GB"
 
-#: rc.cpp:89 rc.cpp:317
+#: rc.cpp:89 rc.cpp:341
 msgid "HDD"
 msgstr "Disco duro"
 
@@ -183,21 +183,33 @@ msgstr ""
 "$hddgb0"
 
 #: rc.cpp:98
-msgid "HDD Temp"
-msgstr "Temperatura del disco duro"
+#, fuzzy
+msgid "HDD speed"
+msgstr "Dispositivos de disco duro"
 
 #: rc.cpp:101
+msgid ""
+"$hddrN - read speed HDD N (from 0), KB/s. Example: $hddr0\n"
+"$hddwN - write speed HDD N (from 0), KB/s. Example: $hddw0"
+msgstr ""
+
+#: rc.cpp:105
+#, fuzzy
+msgid "HDD temp"
+msgstr "Temperatura del disco duro"
+
+#: rc.cpp:108
 msgid ""
 "$hddtempN - physical temperature on device N (from 0). Example: $hddtemp0"
 msgstr ""
 "$hddtempN - temperatura física en el dispositivo N (a partir de 0). Ejemplo: "
 "$hddtemp0"
 
-#: rc.cpp:104
+#: rc.cpp:111
 msgid "Network"
 msgstr "Red"
 
-#: rc.cpp:107
+#: rc.cpp:114
 msgid ""
 "$down - download speed, KB/s\n"
 "$up - upload speed, KB/s\n"
@@ -207,11 +219,11 @@ msgstr ""
 "$up - velocidad de envío, KB/s\n"
 "$netdev - dispositivo de red actual"
 
-#: rc.cpp:112
+#: rc.cpp:119
 msgid "Battery"
 msgstr "Batería"
 
-#: rc.cpp:116
+#: rc.cpp:123
 msgid ""
 "$bat - battery charge, %\n"
 "$ac - AC status"
@@ -219,11 +231,11 @@ msgstr ""
 "$bat - carga de la batería, %\n"
 "$ac - estado de la alimentación"
 
-#: rc.cpp:120 rc.cpp:254
+#: rc.cpp:127 rc.cpp:271
 msgid "Music player"
 msgstr "Reproductor de música"
 
-#: rc.cpp:123
+#: rc.cpp:130
 msgid ""
 "$album - song album\n"
 "$artist - song artist\n"
@@ -237,11 +249,11 @@ msgstr ""
 "$time - duración de la canción\n"
 "$title - título de la canción"
 
-#: rc.cpp:130
+#: rc.cpp:137
 msgid "Processes"
 msgstr "Procesos"
 
-#: rc.cpp:133
+#: rc.cpp:140
 msgid ""
 "$pscount - number of running processes\n"
 "$pstotal - total number of running processes\n"
@@ -251,11 +263,11 @@ msgstr ""
 "$pstotal - total de procesos en ejecución\n"
 "$ps - listado de procesos en ejecución separados por coma"
 
-#: rc.cpp:138 rc.cpp:326
+#: rc.cpp:145 rc.cpp:350
 msgid "Package manager"
 msgstr "Gestor de paquetes"
 
-#: rc.cpp:141
+#: rc.cpp:148
 msgid ""
 "$pkgcountN - number of packages which are available for updates, command N. "
 "For example $pkgcount0"
@@ -263,23 +275,25 @@ msgstr ""
 "$pkgcountN - número de paquetes con actualizaciones disponibles, comando N. "
 "Por ejemplo $pkgcount0"
 
-#: rc.cpp:144
+#: rc.cpp:151
 msgid "Custom"
 msgstr "Personalizado"
 
-#: rc.cpp:147
-msgid "$custom - get output from custom command"
+#: rc.cpp:154
+#, fuzzy
+msgid ""
+"$customN - get output from custom command N (from N). Example `$custom0`"
 msgstr "$custom - obtener la salida de un comando personalizado"
 
-#: rc.cpp:150
+#: rc.cpp:157
 msgid "Advanced"
 msgstr "Avanzado"
 
-#: rc.cpp:153
+#: rc.cpp:160
 msgid "Custom time format"
 msgstr "Formato personalizado para la hora"
 
-#: rc.cpp:156
+#: rc.cpp:163
 msgid ""
 "$dddd - long weekday\n"
 "$ddd - short weekday\n"
@@ -315,11 +329,11 @@ msgstr ""
 "$ss - segundos\n"
 "$s - segundos (sin ceros)"
 
-#: rc.cpp:174
+#: rc.cpp:181
 msgid "Custom uptime format"
 msgstr "Formato personalizado para el tiempo de actividad del sistema"
 
-#: rc.cpp:177
+#: rc.cpp:184
 msgid ""
 "$dd - uptime days\n"
 "$d - uptime days without zero\n"
@@ -335,19 +349,19 @@ msgstr ""
 "$mm - minutos\n"
 "$m - minutos (sin ceros)"
 
-#: rc.cpp:185
+#: rc.cpp:192
 msgid "Temperature units"
 msgstr "Unidades de temperatura"
 
-#: rc.cpp:188
+#: rc.cpp:195
 msgid "Temperature devices"
 msgstr "Dispositivos de temperatura"
 
-#: rc.cpp:191 rc.cpp:201 rc.cpp:211 rc.cpp:350
+#: rc.cpp:198 rc.cpp:208 rc.cpp:218 rc.cpp:228 rc.cpp:331 rc.cpp:374
 msgid "Add"
 msgstr "Añadir"
 
-#: rc.cpp:194 rc.cpp:204 rc.cpp:214 rc.cpp:353
+#: rc.cpp:201 rc.cpp:211 rc.cpp:221 rc.cpp:231 rc.cpp:334 rc.cpp:377
 msgid ""
 "Editable\n"
 "del - remove item"
@@ -355,67 +369,73 @@ msgstr ""
 "Editable\n"
 "del - eliminar elemento"
 
-#: rc.cpp:198
+#: rc.cpp:205
 msgid "Mount points"
 msgstr "Puntos de montaje"
 
-#: rc.cpp:208
-msgid "HDD devices"
+#: rc.cpp:215
+#, fuzzy
+msgid "HDD devices (speed)"
 msgstr "Dispositivos de disco duro"
 
-#: rc.cpp:218
+#: rc.cpp:225
+#, fuzzy
+msgid "HDD devices (temp)"
+msgstr "Dispositivos de disco duro"
+
+#: rc.cpp:235
 msgid "Network directory"
 msgstr "Directorio de la red"
 
-#: rc.cpp:221
+#: rc.cpp:238
 msgid "\"/sys/class/net\" by default"
 msgstr "\"/sys/class/net\" por defecto"
 
-#: rc.cpp:224
+#: rc.cpp:241
 msgid "Disable auto select device and set specified device"
 msgstr "Inhabilitar selección automática del dispositivo y especificar uno"
 
-#: rc.cpp:227
+#: rc.cpp:244
 msgid "Set network device"
 msgstr "Establecer dispositivo de red"
 
-#: rc.cpp:230
+#: rc.cpp:247
 msgid "Battery device"
 msgstr "Dispositivo de batería"
 
-#: rc.cpp:233
+#: rc.cpp:250
 msgid "\"/sys/class/power_supply/BAT0/capacity\" by default"
 msgstr "\"/sys/class/power_supply/BAT0/capacity\" por defecto"
 
-#: rc.cpp:236
+#: rc.cpp:253
 msgid "AC online tag"
 msgstr "Etiqueta para alimentación conectada"
 
-#: rc.cpp:239
+#: rc.cpp:256
 msgid "Line, which returns when AC is online"
 msgstr "Línea que devuelve si la alimentación está conectada"
 
-#: rc.cpp:242
+#: rc.cpp:259
 msgid "AC offline tag"
 msgstr "Etiqueta para la alimentación desconectada"
 
-#: rc.cpp:245
+#: rc.cpp:262
 msgid "Line, which returns when AC is offline"
 msgstr "Línea que devuelve si la alimentación está desconectada"
 
-#: rc.cpp:248
+#: rc.cpp:265
 msgid "AC device"
 msgstr "Dispositivo de alimentación"
 
-#: rc.cpp:251
+#: rc.cpp:268
 msgid "\"/sys/class/power_supply/AC/online\" by default"
 msgstr "\"/sys/class/power_supply/AC/online\" por defecto"
 
-#: rc.cpp:257
+#: rc.cpp:274
 msgid "Tooltip"
 msgstr "Ventana emergente"
 
-#: rc.cpp:260
+#: rc.cpp:277
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
 "To enable them just make needed checkbox fully checked."
@@ -424,121 +444,120 @@ msgstr ""
 "ventanas emergentes. Para habilitarlas habilite la caja de seleccione la "
 "casilla de verificación pertinente."
 
-#: rc.cpp:263
+#: rc.cpp:280
 msgid "Number of values for tooltips"
 msgstr "Número de valores para las ventanas emergentes"
 
-#: rc.cpp:266
+#: rc.cpp:283
 msgid "CPU clock color"
 msgstr "Color de la frecuencia de la CPU"
 
-#: rc.cpp:269
+#: rc.cpp:286
 msgid "Swap color"
 msgstr "Color de la swap"
 
-#: rc.cpp:272
+#: rc.cpp:289
 msgid "CPU color"
 msgstr "Color de la CPU"
 
-#: rc.cpp:275
+#: rc.cpp:292
 msgid "Download speed color"
 msgstr "Color de la velocidad de recepción"
 
-#: rc.cpp:278
+#: rc.cpp:295
 msgid "Memory color"
 msgstr "Color de la memoria"
 
-#: rc.cpp:281
+#: rc.cpp:298
 msgid "Upload speed color"
 msgstr "Color de la velocidad de envío"
 
-#: rc.cpp:284
+#: rc.cpp:301
 msgid "Appearance"
 msgstr "Apariencia"
 
-#: rc.cpp:287
+#: rc.cpp:304
 msgid "Time interval"
 msgstr "Intervalo de tiempo"
 
-#: rc.cpp:290
+#: rc.cpp:307
 msgid "Font"
 msgstr "Fuente"
 
-#: rc.cpp:293
+#: rc.cpp:310
 msgid "Font size"
 msgstr "Tamaño de fuente"
 
-#: rc.cpp:296
+#: rc.cpp:313
 msgid "Font color"
 msgstr "Color de fuente"
 
-#: rc.cpp:299
+#: rc.cpp:316
 msgid "Font style"
 msgstr "Estilo de fuente"
 
-#: rc.cpp:302
+#: rc.cpp:319
 msgid "Font weight"
 msgstr "Grosor de la fuente"
 
-#: rc.cpp:305
+#: rc.cpp:322
 msgid "DataEngine"
 msgstr "DataEngine"
 
-#: rc.cpp:308
+#: rc.cpp:325
 msgid "Custom command"
 msgstr "Comando personalizado"
 
-#: rc.cpp:311
+#: rc.cpp:328
 msgid "Custom command to run"
 msgstr "Comando personalizado para ejecutar"
 
-#: rc.cpp:314
+#: rc.cpp:338
 msgid "GPU device"
 msgstr "Dispositivo de GPU"
 
-#: rc.cpp:320
+#: rc.cpp:344
 msgid "MPD address"
 msgstr "Dirección de MPD"
 
-#: rc.cpp:323
+#: rc.cpp:347
 msgid "MPD port"
 msgstr "Puerto de MPD"
 
-#: rc.cpp:329
+#: rc.cpp:353
 msgid "pacman -Qu"
 msgstr "pacman -Qu"
 
-#: rc.cpp:332
+#: rc.cpp:356
 msgid "apt-show-versions -u -b"
 msgstr "apt-show-versions -u -b"
 
-#: rc.cpp:335
+#: rc.cpp:359
 msgid "aptitude search '~U'"
 msgstr "aptitude search '~U'"
 
-#: rc.cpp:338
+#: rc.cpp:362
 msgid "yum list updates"
 msgstr "yum list updates"
 
-#: rc.cpp:341
+#: rc.cpp:365
 msgid "pkg_version -I -l '<'"
 msgstr "pkg_version -I -l '<'"
 
-#: rc.cpp:344
+#: rc.cpp:368
 msgid "urpmq --auto-select"
 msgstr "urpmq --auto-select"
 
-#: rc.cpp:347
+#: rc.cpp:371
 msgid "Number of null lines"
 msgstr "Número de líneas nulas"
 
-#: rc.cpp:355
+#: rc.cpp:379
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Tu nombre"
 
-#: rc.cpp:356
+#: rc.cpp:380
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "Tus correos"
-
