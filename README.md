@@ -31,6 +31,8 @@ For edited output you must open Settings window and setup output format in lines
 * tag `$swapmb` - swap, *MB*
 * tag `$swapgb` - swap, *GB*
 * tag `$hddN` - usage for mount point N, *%*. For example, `$hdd0`
+* tag `$hddmbN` - usage for mount point N, *MB*. For example, `$hdd0`
+* tag `$hddgbN` - usage for mount point N, *GB*. For example, `$hdd0`
 * tag `$hddrN` - read speed of disk N, *KB/s*. For example, `$hddr0`
 * tag `$hddwN` - write speed of disk N, *KB/s*. For example, `$hddw0`
 * tag `$hddtempN` - temperature for HDD N. For example, `$hddtemp0`
@@ -48,7 +50,7 @@ For edited output you must open Settings window and setup output format in lines
 * tag `$pstotal` - total number of processes
 * tag `$ps` - list of running processes
 * tag `$pkgcountN` - number of packages, which available to upgrade for command N. For example, `$pkgcount0`
-* tag `$custom` - returns output for custom command
+* tag `$customN` - returns output for custom command N. For example, `$custom0`
 
 Label order will changed if you change slider position. HTML tags in label work normally.
 
@@ -142,7 +144,7 @@ DataEngine settings
 
 *NOTE* This can cause the computer freeze.
 
-A command, which will be run for custom label.
+Commands, which will be run for custom label. Separator is `@@`.
 
 **GPU device**
 
