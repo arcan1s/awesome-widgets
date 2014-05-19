@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=157124\n"
 "POT-Creation-Date: 2014-05-19 11:55+0400\n"
-"PO-Revision-Date: 2014-05-19 00:59+0400\n"
+"PO-Revision-Date: 2014-05-19 23:02+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Spanish <kde-russian@lists.kde.ru>\n"
 "Language: es\n"
@@ -24,7 +24,7 @@ msgstr "Ejecutar ksysguard"
 
 #: code/main.py:110
 msgid "Show README"
-msgstr "Mostrar README"
+msgstr "Mostrar el README"
 
 #: rc.cpp:3
 msgid "Form"
@@ -179,22 +179,23 @@ msgstr ""
 "$hddN - uso para el punto de montaje N (a partir de 0), %. Ejemplo: $hdd0\n"
 "$hddmbN - uso para el punto de montaje N (a partir de 0), MB. Ejemplo: "
 "$hddmb0\n"
-"$hddgbN - uso para el punto de montaje N (a partir de 0), GB. Ejemplo: "
-"$hddgb0"
+"$hddgbN - uso para el punto de montaje N (a partir de 0), GB. Ejemplo: $hddgb0"
 
 #: rc.cpp:98
-#, fuzzy
 msgid "HDD speed"
-msgstr "Dispositivos de disco duro"
+msgstr "Velocidad del disco duro"
 
 #: rc.cpp:101
 msgid ""
 "$hddrN - read speed HDD N (from 0), KB/s. Example: $hddr0\n"
 "$hddwN - write speed HDD N (from 0), KB/s. Example: $hddw0"
 msgstr ""
+"$hddrN - leer la velocidad del disco N (a partir de 0), KB/s. Por ejemplo: "
+"$hddr0\n"
+"$hddwN - velocidad de escritura del disco N (a partir de 0), KB/s. Por "
+"ejemplo: $hddw0"
 
 #: rc.cpp:105
-#, fuzzy
 msgid "HDD temp"
 msgstr "Temperatura del disco duro"
 
@@ -280,10 +281,11 @@ msgid "Custom"
 msgstr "Personalizado"
 
 #: rc.cpp:154
-#, fuzzy
 msgid ""
 "$customN - get output from custom command N (from N). Example `$custom0`"
-msgstr "$custom - obtener la salida de un comando personalizado"
+msgstr ""
+"$customN - obtener la salida de ejecución del comando personalizado N "
+"(apartir de 0). Por ejemplo: $custom0"
 
 #: rc.cpp:157
 msgid "Advanced"
@@ -374,14 +376,12 @@ msgid "Mount points"
 msgstr "Puntos de montaje"
 
 #: rc.cpp:215
-#, fuzzy
 msgid "HDD devices (speed)"
-msgstr "Dispositivos de disco duro"
+msgstr "Disco duro (velocidad)"
 
 #: rc.cpp:225
-#, fuzzy
 msgid "HDD devices (temp)"
-msgstr "Dispositivos de disco duro"
+msgstr "Disco duro (temperatura)"
 
 #: rc.cpp:235
 msgid "Network directory"
@@ -441,8 +441,9 @@ msgid ""
 "To enable them just make needed checkbox fully checked."
 msgstr ""
 "Las etiquetas para CPU, frecuencia de la CPU, memoria, swap  y red soportan "
-"ventanas emergentes. Para habilitarlas habilite la caja de seleccione la "
-"casilla de verificación pertinente."
+"ventanas emergentes. "
+"Para habilitarlas habilite la caja de seleccione la casilla de verificación "
+"pertinente."
 
 #: rc.cpp:280
 msgid "Number of values for tooltips"
@@ -561,3 +562,4 @@ msgstr "Tu nombre"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "Tus correos"
+

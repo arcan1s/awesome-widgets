@@ -31,6 +31,10 @@ Para editar la visualización debes abrir la ventana de Ajustes y establecer el 
 * etiqueta `$swapmb` - swap, *MB*
 * etiqueta `$swapgb` - swap, *GB*
 * etiqueta `$hddN` - uso para el punto de montaje N, *%*. Por ejemplo, `$hdd0`
+* etiqueta `$hddmbN` - uso para el punto de montaje N, *MB*. Por ejemplo, `$hddmb0`
+* etiqueta `$hddgbN` - uso para el punto de montaje N, *GB*. Por ejemplo, `$hddgb0`
+* etiqueta `$hddrN` - leer la velocidad del disco N, *KB/s*. Por ejemplo, `$hddr0`
+* etiqueta `$hddwN` - velocidad de escritura del disco N, *KB/s*. Por ejemplo: `$hddw0`
 * etiqueta `$hddtempN` - temperatura para el disco duro N. Por ejemplo, `$hddtemp0`
 * etiqueta `$down` - velocidad de recepción, *KB/s*
 * etiqueta `$up` - velocidad de envío, *KB/s*
@@ -46,7 +50,7 @@ Para editar la visualización debes abrir la ventana de Ajustes y establecer el 
 * etiqueta `$pstotal` - total de procesos en ejecución
 * etiqueta `$ps` - listado de procesos en ejecución
 * etiqueta `$pkgcountN` - cantidad de paquetes con actualizaciones disponibles para el comando N. Por ejemplo, `$pkgcount0`
-* etiqueta `$custom` - devuelve la salida para un comando personalizado
+* etiqueta `$customN` - obtener la salida de ejecución del comando personalizado N (a partir de 0). Por ejemplo, `$custom0`
 
 El orden de las etiquetas será cambiado si cambias la posición del deslizador. Es posible usar código HTML para las etiquetas.
 
@@ -94,7 +98,11 @@ El listado de dispositivos, será observado en la etiqueta de temperatura (los e
 
 El listado de puntos de montaje, será observado en la etiqueta de disco duro (los elementos de la lista desplegable provienen de `mount`). El listado es editable, la tecla Suprimir borrará el elemento activo.
 
-**Disco duro**
+**Disco duro (velocidad)**
+
+Listado de dispositivos de disco duro, será observado en la etiqueta hddspeed (los elementos de la lista desplegable provienen de DataEngine).
+
+**Disco duro (temperatura)**
 
 El listado de dispositivos de disco duro, será observado desde la etiqueta disco duro (los elementos de la lista desplegable provienen de `find`). El listado es editable, la tecla Suprimir borrará el elemento activo.
 
@@ -136,7 +144,7 @@ Ajustes de DataEngine
 
 *NOTA* Esto puede causar congelamiento de la computadora.
 
-Un comando que será ejecutado para una etiqueta personalizada.
+Listado de los comandos que serán ejecutados para etiquetas personalizadas.
 
 **Dispositivo GPU**
 
