@@ -144,7 +144,7 @@ DataEngine settings
 
 *NOTE* This can cause the computer freeze.
 
-Commands, which will be run for custom label. Separator is `@@`.
+Commands, which will be run for custom label.
 
 **GPU device**
 

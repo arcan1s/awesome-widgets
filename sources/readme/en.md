@@ -31,8 +31,8 @@ For edited output you must open Settings window and setup output format in lines
 * tag `$swapmb` - swap, *MB*
 * tag `$swapgb` - swap, *GB*
 * tag `$hddN` - usage for mount point N, *%*. For example, `$hdd0`
-* tag `$hddmbN` - usage for mount point N, *MB*. For example, `$hdd0`
-* tag `$hddgbN` - usage for mount point N, *GB*. For example, `$hdd0`
+* tag `$hddmbN` - usage for mount point N, *MB*. For example, `$hddmb0`
+* tag `$hddgbN` - usage for mount point N, *GB*. For example, `$hddgb0`
 * tag `$hddrN` - read speed of disk N, *KB/s*. For example, `$hddr0`
 * tag `$hddwN` - write speed of disk N, *KB/s*. For example, `$hddw0`
 * tag `$hddtempN` - temperature for HDD N. For example, `$hddtemp0`
@@ -144,7 +144,7 @@ DataEngine settings
 
 *NOTE* This can cause the computer freeze.
 
-Commands, which will be run for custom label. Separator is `@@`.
+Commands, which will be run for custom label.
 
 **GPU device**
 
