@@ -398,10 +398,12 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
 {
     QString key;
     if (source == QString("custom")) {
-            key = QString("custom");
-            QString value = getCustomCmd(configuration[QString("CUSTOM")]);
+        for (int i=0; i<configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts).count(); i++) {
+            key = QString("custom") + QString::number(i);
+            QString value = getCustomCmd(configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts)[i]);
             setData(source, key, value);
         }
+    }
     else if (source == QString("gpu")) {
         key = QString("GPU");
         float value = getGpu(configuration[QString("GPUDEV")]);
