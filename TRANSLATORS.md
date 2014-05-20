@@ -18,12 +18,12 @@ If you have a github account you may fork [my repo](https://github.com/arcan1s/p
   * Danish (da)
   * German (de)
   * Greek (el)
-  * <del>Englisn (en)</del>
-  * <del>Spanish (es)</del>
+  * **DONE** <del>Englisn (en)</del>
+  * **DONE** <del>Spanish (es)</del>
   * Estonian (et)
   * Basque (eu)
   * Finnish (fi)
-  * French (fr)
+  * **DONE** <del>French (fr)</del>
   * Irish Gaelic (ga)
   * Galician (gl)
   * Hebrew (he)
@@ -34,7 +34,7 @@ If you have a github account you may fork [my repo](https://github.com/arcan1s/p
   * Indonesian (id)
   * Icelandic (is)
   * Italian (it)
-  * Japanese (ka)
+  * Japanese (ja)
   * Kazakh (kk)
   * Khmer (km)
   * Korean (ko)
@@ -48,7 +48,7 @@ If you have a github account you may fork [my repo](https://github.com/arcan1s/p
   * Polish (pl)
   * Portuguese (pt)
   * Romanian (ro)
-  * <del>Russian (ru)</del>
+  * **DONE** <del>Russian (ru)</del>
   * Slovak (sk)
   * Slovenian (sl)
   * Serbian (sr)
