@@ -5,7 +5,7 @@ Information
 -----------
 PyTextMonitor is a minimalistic Plasmoid script written on Python2. It looks like widgets in awesome-wm.
 
-**NOTE** [LOOKING FOR TRANSLATORS!](https://github.com/arcan1s/pytextmonitor/TRANSLATORS.md)
+**NOTE** [LOOKING FOR TRANSLATORS!](https://github.com/arcan1s/pytextmonitor/blob/master/TRANSLATORS.md)
 
 Configuration
 -------------

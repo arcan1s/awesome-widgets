@@ -5,7 +5,7 @@ pytextmonitor
 ----------
 PyTextMonitor - минималистичный плазмоид, написанный на Python2. Он выглядит, как виджеты в Awesome WM.
 
-**ВНИМАНИЕ** [НУЖНЫ ПЕРЕВОДЧИКИ!](https://github.com/arcan1s/pytextmonitor/TRANSLATORS.md)
+**ВНИМАНИЕ** [НУЖНЫ ПЕРЕВОДЧИКИ!](https://github.com/arcan1s/pytextmonitor/blob/master/TRANSLATORS.md)
 
 Настройка
 ---------
