@@ -5,7 +5,7 @@ Información
 -----------
 PyTextMonitor es un plasmoide minimalista escrito en Python2. Luce como los componentes visuales de awesome-wm.
 
-**NOTA** ¡Se buscan traductores!
+**NOTA** [¡Se buscan traductores!](https://github.com/arcan1s/pytextmonitor/TRANSLATORS.md)
 
 Configuración
 -------------
