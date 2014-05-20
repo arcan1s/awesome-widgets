@@ -118,8 +118,9 @@ class DataEngine:
                 updatedData['value'] = value
             elif (sourceName == "custom"):
                 updatedData['name'] = "custom"
-                value = str(data[QString(u'custom')].toUtf8()).decode("utf-8")
-                updatedData['value'] = value
+                updatedData['value'] = {}
+                for singleData in data.keys():
+                    updatedData['value'][str(singleData.toLower())] = str(data[singleData].toUtf8()).decode("utf-8")
             elif ((sourceName[:4] == "disk") and (sourceName[-4:] == "rblk")):
                 updatedData['name'] = "disk-r"
                 updatedData['type'] = '/'.join(str(sourceName).split('/')[0:2])

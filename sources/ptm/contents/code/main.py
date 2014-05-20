@@ -623,8 +623,13 @@ class pyTextWidget(plasmascript.Applet):
         """function to prepare text"""
         line = self.ptm['vars']['formats'][name]
         if (name == "custom"):
-            if (line.split('$custom')[0] != line):
-                line = line.split('$custom')[0] + text + line.split('$custom')[1]
+            cmds = range(len(text.keys()))
+            cmds.reverse()
+            for i in cmds:
+                if (line.split('$custom' + str(i))[0] != line):
+                    line = line.split('$custom' + str(i))[0] + \
+                        text['custom'+str(i)] + \
+                        line.split('$custom' + str(i))[1]
         elif (name == "gpu"):
             if (line.split('$gpu')[0] != line):
                 line = line.split('$gpu')[0] + text + line.split('$gpu')[1]
@@ -632,9 +637,13 @@ class pyTextWidget(plasmascript.Applet):
             if (line.split('$gputemp')[0] != line):
                 line = line.split('$gputemp')[0] + getTemp(text, self.ptm['vars']['adv']['tempUnits']) + line.split('$gputemp')[1]
         elif (name == "pkg"):
-            for item in text.keys():
-                if (line.split('$' + item)[0] != line):
-                    line = line.split('$' + item)[0] + text[item] + line.split('$' + item)[1]
+            pkgs = range(len(text.keys()))
+            pkgs.reverse()
+            for i in pkgs:
+                if (line.split('$pkgcount' + str(i))[0] != line):
+                    line = line.split('$pkgcount' + str(i))[0] + \
+                        text['pkgcount'+str(i)] + \
+                        line.split('$pkgcount' + str(i))[1]
         elif (name == "player"):
             if (line.split('$album')[0] != line):
                 line = line.split('$album')[0] + text['album'] + line.split('$album')[1]

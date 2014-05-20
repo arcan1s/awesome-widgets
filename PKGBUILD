@@ -20,7 +20,7 @@ optdepends=("amarok: for music player monitor"
 makedepends=('automoc4' 'cmake')
 source=(https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/${_pkgname}-${pkgver}-src.tar.xz)
 install=${pkgname}.install
-md5sums=('9cd2ebf4f2afa80c2bd1330c06c86d17')
+md5sums=('3b65c259a8042b8555ff689a68dfe247')
 backup=('usr/share/config/extsysmon.conf')
 
 prepare() {

@@ -1,7 +1,8 @@
 Ver.1.9.0:
-+ added support of several custom commands
-+ added hdd speed label
++ added support of several custom commands ($customN)
++ added hdd speed label ($hddrN, $hddwN)
 + added actions to context menu (open readme and run ksysguard)
+* fix parsing pkg label
 - removed doubleclick event
 
 Ver.1.8.3:

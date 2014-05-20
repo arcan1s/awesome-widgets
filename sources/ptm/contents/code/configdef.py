@@ -80,10 +80,10 @@ class ConfigDefinition:
 
         dataengineConfig = unicode(KGlobal.dirs().localkdedir()) + "/share/config/extsysmon.conf"
         try:
-            item = QStringList()
-            for i in range(self.configpage.ui.listWidget_customCommand.count()):
-                item.append(self.configpage.ui.listWidget_customCommand.item(i).text())
             with open(dataengineConfig, 'w') as deConfigFile:
+                item = QStringList()
+                for i in range(self.configpage.ui.listWidget_customCommand.count()):
+                    item.append(self.configpage.ui.listWidget_customCommand.item(i).text())
                 deConfigFile.write("CUSTOM=" + str(item.join(QString('@@'))) + "\n")
                 deConfigFile.write("GPUDEV=" + str(self.configpage.ui.comboBox_gpudev.currentText()) + "\n")
                 deConfigFile.write("HDDDEV=" + str(self.configpage.ui.comboBox_hdddev.currentText()) + "\n")
