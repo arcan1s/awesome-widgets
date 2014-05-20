@@ -19,7 +19,7 @@ rm -rf "${ARCHIVE}"
 
 # build widget
 ARCHIVE="pytextmonitor"
-FILES="AUTHORS CHANGELOG CHANGELOG-RU COPYING"
+FILES="AUTHORS CHANGELOG CHANGELOG-RU COPYING TRANSLATORS.md"
 IGNORELIST="build usr"
 # create archive
 [[ -e ${ARCHIVE}-${VERSION}-src.tar.xz ]] && rm -f "${ARCHIVE}-${VERSION}-src.tar.xz"
