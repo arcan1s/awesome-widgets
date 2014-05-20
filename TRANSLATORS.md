@@ -59,3 +59,5 @@ If you have a github account you may fork [my repo](https://github.com/arcan1s/p
   * Vietnamese (vi)
   * Walloon (wa)
   * Chinese (zh)
+
+See also: [issue](https://github.com/arcan1s/pytextmonitor/issues/14)
