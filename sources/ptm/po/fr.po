@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=157124\n"
 "POT-Creation-Date: 2014-05-19 11:55+0400\n"
-"PO-Revision-Date: 2014-04-05 02:27+0200\n"
+"PO-Revision-Date: 2014-05-21 16:45+0200\n"
 "Last-Translator: Mermouy <mermouy@gmail.com>\n"
-"Language-Team: Boardgametrans <boardgametrans@gmail.com>\n"
+"Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,11 +21,11 @@ msgstr ""
 
 #: code/main.py:108
 msgid "Run ksysguard"
-msgstr ""
+msgstr "Lancer ksysguard"
 
 #: code/main.py:110
 msgid "Show README"
-msgstr ""
+msgstr "Voir le README"
 
 #: rc.cpp:3
 msgid "Form"
@@ -175,6 +175,11 @@ msgid ""
 "$hddmbN - usage for mount point N (from 0), MB. Example: $hddmb0\n"
 "$hddgbN - usage for mount point N (from 0), GB. Example: $hddgb0"
 msgstr ""
+"$hddN - utilisation du point de montage N (à partir de 0), %. Exemple: $hdd0\n"
+"$hddmbN - utilisation du point de montage N (à partir de 0), MB. Exemple: "
+"$hddmb0\n"
+"$hddgbN - utilisation du point de montage N (à partir de 0), GB. Exemple: "
+"$hddgb0"
 
 #: rc.cpp:98
 #, fuzzy
@@ -186,6 +191,8 @@ msgid ""
 "$hddrN - read speed HDD N (from 0), KB/s. Example: $hddr0\n"
 "$hddwN - write speed HDD N (from 0), KB/s. Example: $hddw0"
 msgstr ""
+"$hddrN - vitesse de lecture HDD N (à partir de 0), KB/s. Exemple: $hddr0\n"
+"$hddwN - vitesse d'écriture HDD N (à partir de 0), KB/s. Exemple: $hddw0"
 
 #: rc.cpp:105
 #, fuzzy
@@ -245,7 +252,7 @@ msgstr ""
 
 #: rc.cpp:137
 msgid "Processes"
-msgstr ""
+msgstr "Processus"
 
 #: rc.cpp:140
 msgid ""
@@ -253,16 +260,21 @@ msgid ""
 "$pstotal - total number of running processes\n"
 "$ps - list of running processes comma separated"
 msgstr ""
+"$pscount - nombre de processus actifs\n"
+"$pstotal - nombre total de processus actifs\n"
+"$ps - liste des processus actifs séparés par une virgule"
 
 #: rc.cpp:145 rc.cpp:350
 msgid "Package manager"
-msgstr ""
+msgstr "Gestionnaire de paquets"
 
 #: rc.cpp:148
 msgid ""
 "$pkgcountN - number of packages which are available for updates, command N. "
 "For example $pkgcount0"
 msgstr ""
+"$pkgcountN - nombre de paquets à mettre à jour, commande N. "
+"Par exemple $pkgcount0"
 
 #: rc.cpp:151
 msgid "Custom"
@@ -401,19 +413,19 @@ msgstr "\"/sys/class/power_supply/BAT0/capacity\" par défaut"
 
 #: rc.cpp:253
 msgid "AC online tag"
-msgstr ""
+msgstr "Tag alimentation branchée"
 
 #: rc.cpp:256
 msgid "Line, which returns when AC is online"
-msgstr ""
+msgstr "Ligne qui est renvoyée lorsque l'alimentation est branchée"
 
 #: rc.cpp:259
 msgid "AC offline tag"
-msgstr ""
+msgstr "Tag alimentation débranchée"
 
 #: rc.cpp:262
 msgid "Line, which returns when AC is offline"
-msgstr ""
+msgstr "Ligne, qui est renvoyée lorsque l'alimentation est débranchée"
 
 #: rc.cpp:265
 msgid "AC device"
@@ -518,27 +530,27 @@ msgstr "Port MPD"
 
 #: rc.cpp:353
 msgid "pacman -Qu"
-msgstr ""
+msgstr "pacman -Qu"
 
 #: rc.cpp:356
 msgid "apt-show-versions -u -b"
-msgstr ""
+msgstr "apt-show-versions -u -b"
 
 #: rc.cpp:359
 msgid "aptitude search '~U'"
-msgstr ""
+msgstr "aptitude search '~U'"
 
 #: rc.cpp:362
 msgid "yum list updates"
-msgstr ""
+msgstr "yum list updates"
 
 #: rc.cpp:365
 msgid "pkg_version -I -l '<'"
-msgstr ""
+msgstr "pkg_version -I -l '<'"
 
 #: rc.cpp:368
 msgid "urpmq --auto-select"
-msgstr ""
+msgstr "urpmq --auto-select"
 
 #: rc.cpp:371
 #, fuzzy
