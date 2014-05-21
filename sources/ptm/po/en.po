@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=157124\n"
-"POT-Creation-Date: 2014-05-19 11:55+0400\n"
+"POT-Creation-Date: 2014-05-22 02:33+0400\n"
 "PO-Revision-Date: 2014-05-19 11:56+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -258,7 +258,7 @@ msgstr ""
 "$pstotal - total number of running processes\n"
 "$ps - list of running processes comma separated"
 
-#: rc.cpp:145 rc.cpp:350
+#: rc.cpp:145 rc.cpp:353
 msgid "Package manager"
 msgstr "Package manager"
 
@@ -352,11 +352,11 @@ msgstr "Temperature units"
 msgid "Temperature devices"
 msgstr "Temperature devices"
 
-#: rc.cpp:198 rc.cpp:208 rc.cpp:218 rc.cpp:228 rc.cpp:331 rc.cpp:374
+#: rc.cpp:198 rc.cpp:208 rc.cpp:218 rc.cpp:228 rc.cpp:331 rc.cpp:377
 msgid "Add"
 msgstr "Add"
 
-#: rc.cpp:201 rc.cpp:211 rc.cpp:221 rc.cpp:231 rc.cpp:334 rc.cpp:377
+#: rc.cpp:201 rc.cpp:211 rc.cpp:221 rc.cpp:231 rc.cpp:334 rc.cpp:380
 msgid ""
 "Editable\n"
 "del - remove item"
@@ -509,47 +509,51 @@ msgid "GPU device"
 msgstr "GPU device"
 
 #: rc.cpp:344
+msgid "hddtemp cmd"
+msgstr ""
+
+#: rc.cpp:347
 msgid "MPD address"
 msgstr "MPD address"
 
-#: rc.cpp:347
+#: rc.cpp:350
 msgid "MPD port"
 msgstr "MPD port"
 
-#: rc.cpp:353
+#: rc.cpp:356
 msgid "pacman -Qu"
 msgstr "pacman -Qu"
 
-#: rc.cpp:356
+#: rc.cpp:359
 msgid "apt-show-versions -u -b"
 msgstr "apt-show-versions -u -b"
 
-#: rc.cpp:359
+#: rc.cpp:362
 msgid "aptitude search '~U'"
 msgstr "aptitude search '~U'"
 
-#: rc.cpp:362
+#: rc.cpp:365
 msgid "yum list updates"
 msgstr "yum list updates"
 
-#: rc.cpp:365
+#: rc.cpp:368
 msgid "pkg_version -I -l '<'"
 msgstr "pkg_version -I -l '<'"
 
-#: rc.cpp:368
+#: rc.cpp:371
 msgid "urpmq --auto-select"
 msgstr "urpmq --auto-select"
 
-#: rc.cpp:371
+#: rc.cpp:374
 msgid "Number of null lines"
 msgstr "Number of null lines"
 
-#: rc.cpp:379
+#: rc.cpp:382
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Evgeniy Alekseev"
 
-#: rc.cpp:380
+#: rc.cpp:383
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "esalexeev@gmail.com"

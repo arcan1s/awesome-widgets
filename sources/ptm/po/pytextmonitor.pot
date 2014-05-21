@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=157124\n"
-"POT-Creation-Date: 2014-05-19 11:55+0400\n"
+"POT-Creation-Date: 2014-05-22 02:33+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -211,7 +211,7 @@ msgid ""
 "$ps - list of running processes comma separated"
 msgstr ""
 
-#: rc.cpp:145 rc.cpp:350
+#: rc.cpp:145 rc.cpp:353
 msgid "Package manager"
 msgstr ""
 
@@ -280,11 +280,11 @@ msgstr ""
 msgid "Temperature devices"
 msgstr ""
 
-#: rc.cpp:198 rc.cpp:208 rc.cpp:218 rc.cpp:228 rc.cpp:331 rc.cpp:374
+#: rc.cpp:198 rc.cpp:208 rc.cpp:218 rc.cpp:228 rc.cpp:331 rc.cpp:377
 msgid "Add"
 msgstr ""
 
-#: rc.cpp:201 rc.cpp:211 rc.cpp:221 rc.cpp:231 rc.cpp:334 rc.cpp:377
+#: rc.cpp:201 rc.cpp:211 rc.cpp:221 rc.cpp:231 rc.cpp:334 rc.cpp:380
 msgid ""
 "Editable\n"
 "del - remove item"
@@ -433,47 +433,51 @@ msgid "GPU device"
 msgstr ""
 
 #: rc.cpp:344
-msgid "MPD address"
+msgid "hddtemp cmd"
 msgstr ""
 
 #: rc.cpp:347
+msgid "MPD address"
+msgstr ""
+
+#: rc.cpp:350
 msgid "MPD port"
 msgstr ""
 
-#: rc.cpp:353
+#: rc.cpp:356
 msgid "pacman -Qu"
 msgstr ""
 
-#: rc.cpp:356
+#: rc.cpp:359
 msgid "apt-show-versions -u -b"
 msgstr ""
 
-#: rc.cpp:359
+#: rc.cpp:362
 msgid "aptitude search '~U'"
 msgstr ""
 
-#: rc.cpp:362
+#: rc.cpp:365
 msgid "yum list updates"
 msgstr ""
 
-#: rc.cpp:365
+#: rc.cpp:368
 msgid "pkg_version -I -l '<'"
 msgstr ""
 
-#: rc.cpp:368
+#: rc.cpp:371
 msgid "urpmq --auto-select"
 msgstr ""
 
-#: rc.cpp:371
+#: rc.cpp:374
 msgid "Number of null lines"
 msgstr ""
 
-#: rc.cpp:379
+#: rc.cpp:382
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
 
-#: rc.cpp:380
+#: rc.cpp:383
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""

@@ -87,6 +87,7 @@ class ConfigDefinition:
                 deConfigFile.write("CUSTOM=" + str(item.join(QString('@@'))) + "\n")
                 deConfigFile.write("GPUDEV=" + str(self.configpage.ui.comboBox_gpudev.currentText()) + "\n")
                 deConfigFile.write("HDDDEV=" + str(self.configpage.ui.comboBox_hdddev.currentText()) + "\n")
+                deConfigFile.write("HDDTEMPCMD=" + str(self.configpage.ui.lineEdit_hddtempCmd.text()) + "\n")
                 deConfigFile.write("MPDADDRESS=" + str(self.configpage.ui.lineEdit_mpdaddress.text()) + "\n")
                 deConfigFile.write("MPDPORT=" + str(self.configpage.ui.spinBox_mpdport.value()) + "\n")
                 item = QStringList()
@@ -203,7 +204,8 @@ class ConfigDefinition:
         self.configpage.ui.kcolorcombo_up.setColor(QColor(str(settings.get('up_color', '#ff00ff'))))
 
         deSettings = {'CUSTOM':'wget -qO- http://ifconfig.me/ip', 'GPUDEV':'auto', 'HDDDEV':'all',
-            'MPDADDRESS':'localhost', 'MPDPORT':'6600', 'PKGCMD':'pacman -Qu', 'PKGNULL':'0'}
+            'HDDTEMPCMD':'sudo hddtemp', 'MPDADDRESS':'localhost', 'MPDPORT':'6600', 'PKGCMD':'pacman -Qu', 
+            'PKGNULL':'0'}
         dataengineConfig = unicode(KGlobal.dirs().localkdedir()) + "/share/config/extsysmon.conf"
         try:
             with open(dataengineConfig, 'r') as deConfigFile:
@@ -225,6 +227,7 @@ class ConfigDefinition:
                 pass
         index = self.configpage.ui.comboBox_hdddev.findText(deSettings['HDDDEV'])
         self.configpage.ui.comboBox_hdddev.setCurrentIndex(index)
+        self.configpage.ui.lineEdit_hddtempCmd.setText(deSettings['HDDTEMPCMD'])
         self.configpage.ui.lineEdit_mpdaddress.setText(deSettings['MPDADDRESS'])
         self.configpage.ui.spinBox_mpdport.setValue(int(deSettings['MPDPORT']))
         self.configpage.ui.spinBox_mpdport.setValue(int(deSettings['MPDPORT']))

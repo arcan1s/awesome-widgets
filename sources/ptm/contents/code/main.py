@@ -133,13 +133,17 @@ class pyTextWidget(plasmascript.Applet):
             dirPath = kdehome + "/share/pytextmonitor/"
         else:
             return
-        locale = QLocale.system().name().split('_')[0]
+        locale = str(QLocale.system().name())
         if (os.path.exists(dirPath + locale + ".md")):
             filePath = dirPath + locale + ".md"
-        elif (os.path.exists(dirPath + "en.md")):
-            filePath = dirPath + "en.md"
         else:
-            return
+            locale = locale.split('_')[0]
+            if (os.path.exists(dirPath + locale + ".md")):
+                filePath = dirPath + locale + ".md"
+            elif (os.path.exists(dirPath + "en.md")):
+                filePath = dirPath + "en.md"
+            else:
+                return
         os.system("kioclient exec " + str(filePath) + " &")
 
 

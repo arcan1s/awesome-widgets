@@ -154,6 +154,10 @@ Select one of supported GPU devices. `auto` will enable auto selection. Default 
 
 Select one of HDDs for HDD temperature monitor. `all` will enable monitor for all devices. Default is `all`.
 
+**hddtemp cmd**
+
+Type a command which will be run for hddtemp DataEngine.
+
 **MPD address**
 
 Address of MPD server. Default is `localhost`.
