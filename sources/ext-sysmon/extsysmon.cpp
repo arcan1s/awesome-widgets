@@ -90,6 +90,7 @@ void ExtendedSysMon::readConfiguration()
     rawConfig[QString("CUSTOM")] = QString("wget -qO- http://ifconfig.me/ip");
     rawConfig[QString("GPUDEV")] = QString("auto");
     rawConfig[QString("HDDDEV")] = QString("all");
+    rawConfig[QString("HDDTEMPCMD")] = QString("sudo hddtemp");
     rawConfig[QString("MPDADDRESS")] = QString("localhost");
     rawConfig[QString("MPDPORT")] = QString("6600");
     rawConfig[QString("PKGCMD")] = QString("pacman -Qu");
@@ -233,12 +234,12 @@ float ExtendedSysMon::getGpuTemp(const QString device)
 }
 
 
-float ExtendedSysMon::getHddTemp(const QString device)
+float ExtendedSysMon::getHddTemp(const QString cmd, const QString device)
 {
     float hddTemp = 0.0;
     QProcess command;
     QString qoutput = QString("");
-    command.start(QString("sudo hddtemp ") + device);
+    command.start(cmd + QString(" ") + device);
     command.waitForFinished(-1);
     qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput()).trimmed();
     if (qoutput.split(QChar(':'), QString::SkipEmptyParts).count() >= 3) {
@@ -417,7 +418,8 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     else if (source == QString("hddtemp")) {
         QStringList deviceList = configuration[QString("HDDDEV")].split(QChar(','), QString::SkipEmptyParts);
         for (int i=0; i<deviceList.count(); i++) {
-            float value = getHddTemp(deviceList[i]);
+            float value = getHddTemp(configuration[QString("HDDTEMPCMD")],
+                                     deviceList[i]);
             setData(source, deviceList[i], value);
         }
     }
