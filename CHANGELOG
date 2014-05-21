@@ -1,3 +1,8 @@
+Ver.1.9.1:
++ added support of hddtemp cmd
++ added Brazillian Portuguese translation (@underr)
+* edited readme call
+
 Ver.1.9.0:
 + added support of several custom commands ($customN)
 + added hdd speed label ($hddrN, $hddwN)
