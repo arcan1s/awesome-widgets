@@ -156,7 +156,7 @@ Select one of HDDs for HDD temperature monitor. `all` will enable monitor for al
 
 **hddtemp cmd**
 
-Type a command which will be run for hddtemp DataEngine.
+Type a command which will be run for hddtemp DataEngine. Default is `sudo hddtemp`.
 
 **MPD address**
 
