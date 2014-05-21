@@ -7,16 +7,10 @@ EOF
 
 post_install() {
   func_update
-  cat << EOF
-Make sure that \`hddtemp\` can be run with sudo without password
-EOF
 }
 
 post_upgrade() {
   func_update
-  cat << EOF
-Make sure that \`hddtemp\` can be run with sudo without password
-EOF
 }
 
 post_remove() {
