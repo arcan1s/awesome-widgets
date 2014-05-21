@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=157124\n"
-"POT-Creation-Date: 2014-05-19 11:55+0400\n"
+"POT-Creation-Date: 2014-05-22 02:46+0400\n"
 "PO-Revision-Date: 2014-05-21 19:10-0300\n"
 "Last-Translator: \n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -38,9 +38,8 @@ msgid ""
 "Detailed information may be found on <a href=\"http://arcanis.name/projects/"
 "pytextmonitor/\">project homepage</a>"
 msgstr ""
-"Informação detalhada pode ser encontrada na <a "
-"href=\"http://arcanis.name/projects/"
-"pytextmonitor/\">página do projeto</a>"
+"Informação detalhada pode ser encontrada na <a href=\"http://arcanis.name/"
+"projects/pytextmonitor/\">página do projeto</a>"
 
 #: rc.cpp:12
 msgid "Time"
@@ -57,7 +56,7 @@ msgstr ""
 "$time - hora no formato padrão\n"
 "$isotime - hora no formato ISO\n"
 "$shorttime - hora em formato curto \n"
-"$longtime - hora em formato completo\n\"
+"$longtime - hora em formato completo\n"
 "$custom - hora em formato personalizado"
 
 #: rc.cpp:22
@@ -115,7 +114,8 @@ msgstr "Temperatura "
 #: rc.cpp:55
 msgid "$tempN - physical temperature on device N (from 0). Example: $temp0"
 msgstr ""
-"$tempN - temperatura física no dispositivo N (começando de 0). Exemplo: $temp0"
+"$tempN - temperatura física no dispositivo N (começando de 0). Exemplo: "
+"$temp0"
 
 #: rc.cpp:58
 msgid "GPU"
@@ -188,7 +188,8 @@ msgid ""
 msgstr ""
 "$hddrN - velocidade de leitura do HDD (começando por 0), KB/s. Exemplo: "
 "$hddr0\n"
-"$hddwN - velocidade de escrita do HDD (começando por 0), Kb/s. Exemplo: $hddwN"
+"$hddwN - velocidade de escrita do HDD (começando por 0), Kb/s. Exemplo: "
+"$hddwN"
 
 #: rc.cpp:105
 msgid "HDD temp"
@@ -212,7 +213,7 @@ msgid ""
 "$netdev - current network device"
 msgstr ""
 "$down - velocidade de download, KB/s\n"
-"$up - velocidade de upload, KB\s\n"
+"$up - velocidade de upload, KB/s\n"
 "$netdev - dispositivo de rede atual"
 
 #: rc.cpp:119
@@ -239,11 +240,8 @@ msgid ""
 "$time - song duration\n"
 "$title - song title"
 msgstr ""
-"$album - álbum da música "
-"$artist - artista da música "
-"$progress - progresso da música "
-"$time - duração da música "
-"$title - título da músic"
+"$album - álbum da música $artist - artista da música $progress - progresso "
+"da música $time - duração da música $title - título da músic"
 
 #: rc.cpp:137
 msgid "Processes"
@@ -256,10 +254,10 @@ msgid ""
 "$ps - list of running processes comma separated"
 msgstr ""
 "$pscount - número de processos a rodar\n"
-"$pstotal - número total de processos a roda "
-"$ps - lista de processos a roda separados por vírgula"
+"$pstotal - número total de processos a roda $ps - lista de processos a roda "
+"separados por vírgula"
 
-#: rc.cpp:145 rc.cpp:350
+#: rc.cpp:145 rc.cpp:353
 msgid "Package manager"
 msgstr "Gerenciador de pacotes"
 
@@ -269,8 +267,7 @@ msgid ""
 "For example $pkgcount0"
 msgstr ""
 "$pkgcountN - número de pacotes que possuem atualizações disponíveis, comando "
-"N. "
-"Por exemplo $pkgcount0"
+"N. Por exemplo $pkgcount0"
 
 #: rc.cpp:151
 msgid "Custom"
@@ -353,11 +350,11 @@ msgstr "Unidades de temperatura"
 msgid "Temperature devices"
 msgstr "Dispositivos de temperatura"
 
-#: rc.cpp:198 rc.cpp:208 rc.cpp:218 rc.cpp:228 rc.cpp:331 rc.cpp:374
+#: rc.cpp:198 rc.cpp:208 rc.cpp:218 rc.cpp:228 rc.cpp:331 rc.cpp:377
 msgid "Add"
 msgstr "Adicionar"
 
-#: rc.cpp:201 rc.cpp:211 rc.cpp:221 rc.cpp:231 rc.cpp:334 rc.cpp:377
+#: rc.cpp:201 rc.cpp:211 rc.cpp:221 rc.cpp:231 rc.cpp:334 rc.cpp:380
 msgid ""
 "Editable\n"
 "del - remove item"
@@ -436,8 +433,7 @@ msgid ""
 "To enable them just make needed checkbox fully checked."
 msgstr ""
 "Os rótulos de CPU, frequência de GPU, memória, swap e rede suportam dica de "
-"contexto gráfica. "
-"Para ativá-los, basta selecionar a caixa necessária."
+"contexto gráfica. Para ativá-los, basta selecionar a caixa necessária."
 
 #: rc.cpp:280
 msgid "Number of values for tooltips"
@@ -512,48 +508,51 @@ msgid "GPU device"
 msgstr "Dispositivo GPU"
 
 #: rc.cpp:344
+msgid "hddtemp cmd"
+msgstr ""
+
+#: rc.cpp:347
 msgid "MPD address"
 msgstr "Endereço do MPD"
 
-#: rc.cpp:347
+#: rc.cpp:350
 msgid "MPD port"
 msgstr "Porta do MPD"
 
-#: rc.cpp:353
+#: rc.cpp:356
 msgid "pacman -Qu"
 msgstr "pacman -Qu"
 
-#: rc.cpp:356
+#: rc.cpp:359
 msgid "apt-show-versions -u -b"
 msgstr "apt-show-versions -u -b"
 
-#: rc.cpp:359
+#: rc.cpp:362
 msgid "aptitude search '~U'"
 msgstr "aptitude search '~U'"
 
-#: rc.cpp:362
+#: rc.cpp:365
 msgid "yum list updates"
 msgstr "yum list updates"
 
-#: rc.cpp:365
+#: rc.cpp:368
 msgid "pkg_version -I -l '<'"
 msgstr "pkg_version -I -l '<'"
 
-#: rc.cpp:368
+#: rc.cpp:371
 msgid "urpmq --auto-select"
 msgstr "urpmq --auto-select"
 
-#: rc.cpp:371
+#: rc.cpp:374
 msgid "Number of null lines"
 msgstr "Número de linhas nulas"
 
-#: rc.cpp:379
+#: rc.cpp:382
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "under"
 
-#: rc.cpp:380
+#: rc.cpp:383
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "dreanazous@gmail.com"
-
