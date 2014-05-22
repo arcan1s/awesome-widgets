@@ -191,7 +191,7 @@ Dependencias opcionales
 -----------------------
 * controlador propietario de video
 * hddtemp (asegúrate de que puede ser ejecutado con `sudo` y sin contraseña. Solo hay que agregar la siguiente línea al archivo `/etc/sudoers`: `$USERNAME ALL=NOPASSWD: /usr/bin/hddtemp`)
-* reproductor de música (amarok, mpd or qmmp)
+* reproductor de música (amarok, clementine, mpd or qmmp)
 
 Dependencias de construcción
 ----------------------------

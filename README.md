@@ -195,7 +195,7 @@ Optional dependencies
 ---------------------
 * proprietary video driver
 * hddtemp (make sure that it may be run with `sudo` without password. Just add following line to `/etc/sudoers`: `$USERNAME ALL=NOPASSWD: /usr/bin/hddtemp`)
-* music player (amarok, mpd or qmmp)
+* music player (amarok, clementine, mpd or qmmp)
 
 Make dependencies
 -----------------
