@@ -300,6 +300,33 @@ QStringList ExtendedSysMon::getPlayerInfo(const QString playerName,
             info[2] = QString::number(time);
         }
     }
+    else if (playerName == QString("clementine")) {
+        // clementine
+        command.start("qdbus org.kde.clementine /Player GetMetadata");
+        command.waitForFinished(-1);
+        qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
+        for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
+            qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
+            if (qstr.split(QString(": "), QString::SkipEmptyParts).count() > 1) {
+                if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("album"))
+                    info[0] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
+                else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("artist"))
+                    info[1] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
+                else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("time"))
+                    info[3] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
+                else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("title"))
+                    info[4] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
+            }
+        }
+        command.start("qdbus org.kde.clementine /Player PositionGet");
+        command.waitForFinished(-1);
+        qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
+        for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
+            qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
+            int time = qstr.toInt() / 1000;
+            info[2] = QString::number(time);
+        }
+    }
     else if (playerName == QString("mpd")) {
         // mpd
         command.start(QString("bash -c \"echo 'currentsong\nstatus\nclose' | curl --connect-timeout 1 -fsm 3 telnet://") +
@@ -444,6 +471,18 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
         key = QString("amarok_duration");
         setData(source, key, value[3]);
         key = QString("amarok_title");
+        setData(source, key, value[4]);
+        // clementine
+        value = getPlayerInfo(QString("clementine"));
+        key = QString("clementine_album");
+        setData(source, key, value[0]);
+        key = QString("clementine_artist");
+        setData(source, key, value[1]);
+        key = QString("clementine_progress");
+        setData(source, key, value[2]);
+        key = QString("clementine_duration");
+        setData(source, key, value[3]);
+        key = QString("clementine_title");
         setData(source, key, value[4]);
         // mpd
         value = getPlayerInfo(QString("mpd"),
