@@ -1190,7 +1190,7 @@ $ps - list of running processes comma separated</string>
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
+            <y>-214</y>
             <width>526</width>
             <height>754</height>
            </rect>
@@ -1745,6 +1745,11 @@ del - remove item</string>
                <item>
                 <property name="text">
                  <string notr="true">amarok</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string notr="true">clementine</string>
                 </property>
                </item>
                <item>

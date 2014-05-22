@@ -204,6 +204,12 @@ class DataEngine:
                     updatedData['value']['progress'] = str(data[QString(u'amarok_progress')].toUtf8()).decode("utf-8")
                     updatedData['value']['time'] = str(data[QString(u'amarok_duration')].toUtf8()).decode("utf-8")
                     updatedData['value']['title'] = str(data[QString(u'amarok_title')].toUtf8()).decode("utf-8")
+                elif (adv['player'] == "clementine"):
+                    updatedData['value']['album'] = str(data[QString(u'clementine_album')].toUtf8()).decode("utf-8")
+                    updatedData['value']['artist'] = str(data[QString(u'clementine_artist')].toUtf8()).decode("utf-8")
+                    updatedData['value']['progress'] = str(data[QString(u'clementine_progress')].toUtf8()).decode("utf-8")
+                    updatedData['value']['time'] = str(data[QString(u'clementine_duration')].toUtf8()).decode("utf-8")
+                    updatedData['value']['title'] = str(data[QString(u'clementine_title')].toUtf8()).decode("utf-8")
                 elif (adv['player'] == "mpd"):
                     updatedData['value']['album'] = str(data[QString(u'mpd_album')].toUtf8()).decode("utf-8")
                     updatedData['value']['artist'] = str(data[QString(u'mpd_artist')].toUtf8()).decode("utf-8")
