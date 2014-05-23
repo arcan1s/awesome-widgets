@@ -1190,8 +1190,8 @@ $ps - list of running processes comma separated</string>
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-214</y>
-            <width>526</width>
+            <y>0</y>
+            <width>328</width>
             <height>754</height>
            </rect>
           </property>
@@ -1813,8 +1813,8 @@ del - remove item</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>544</width>
-            <height>504</height>
+            <width>326</width>
+            <height>227</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -2147,8 +2147,8 @@ del - remove item</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>544</width>
-            <height>540</height>
+            <width>326</width>
+            <height>190</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_10">
@@ -2752,32 +2752,32 @@ del - remove item</string>
                  </property>
                  <item>
                   <property name="text">
-                   <string>pacman -Qu</string>
+                   <string notr="true">pacman -Qu</string>
                   </property>
                  </item>
                  <item>
                   <property name="text">
-                   <string>apt-show-versions -u -b</string>
+                   <string notr="true">apt-show-versions -u -b</string>
                   </property>
                  </item>
                  <item>
                   <property name="text">
-                   <string>aptitude search '~U'</string>
+                   <string notr="true">aptitude search '~U'</string>
                   </property>
                  </item>
                  <item>
                   <property name="text">
-                   <string>yum list updates</string>
+                   <string notr="true">yum list updates</string>
                   </property>
                  </item>
                  <item>
                   <property name="text">
-                   <string>pkg_version -I -l '&lt;'</string>
+                   <string notr="true">pkg_version -I -l '&lt;'</string>
                   </property>
                  </item>
                  <item>
                   <property name="text">
-                   <string>urpmq --auto-select</string>
+                   <string notr="true">urpmq --auto-select</string>
                   </property>
                  </item>
                 </widget>
