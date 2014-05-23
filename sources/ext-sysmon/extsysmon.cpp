@@ -266,10 +266,6 @@ QStringList ExtendedSysMon::getPlayerInfo(const QString playerName,
     info.append(QString("0"));
     // title
     info.append(QString("unknown"));
-    if ((playerName != QString("amarok")) &&
-            (playerName != QString("mpd")) &&
-            (playerName != QString("qmmp")))
-        return info;
     QProcess command;
     QString qoutput = QString("");
     QString qstr;
