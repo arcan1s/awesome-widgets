@@ -3,3 +3,5 @@ sources/usr
 *src.tar.xz
 *src.tar.gz
 build
+src
+pkg

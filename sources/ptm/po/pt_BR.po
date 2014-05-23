@@ -340,7 +340,7 @@ msgstr ""
 "$hh - tempo em atividade em horas\n"
 "$h - tempo em atividade em horas sem zeros\n"
 "$mm - tempo em atividade em minutos\n"
-"$m - tempo em atividade em minuto sem zeros\n"
+"$m - tempo em atividade em minuto sem zeros"
 
 #: rc.cpp:192
 msgid "Temperature units"
