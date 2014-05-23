@@ -1,7 +1,7 @@
 sources/build
 sources/usr
-*src.tar.xz
-*src.tar.gz
+*src.tar.[gx]z
+*pkg.tar.[gx]z
 build
 src
 pkg

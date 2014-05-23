@@ -302,7 +302,7 @@ QStringList ExtendedSysMon::getPlayerInfo(const QString playerName,
     }
     else if (playerName == QString("clementine")) {
         // clementine
-        command.start("qdbus org.kde.clementine /Player GetMetadata");
+        command.start("qdbus org.mpris.clementine /Player GetMetadata");
         command.waitForFinished(-1);
         qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
         for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
@@ -318,7 +318,7 @@ QStringList ExtendedSysMon::getPlayerInfo(const QString playerName,
                     info[4] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
             }
         }
-        command.start("qdbus org.kde.clementine /Player PositionGet");
+        command.start("qdbus org.mpris.clementine /Player PositionGet");
         command.waitForFinished(-1);
         qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
         for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
