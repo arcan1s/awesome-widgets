@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=157124\n"
-"POT-Creation-Date: 2014-05-23 12:08+0400\n"
-"PO-Revision-Date: 2014-05-22 02:33+0400\n"
+"POT-Creation-Date: 2014-05-24 14:15+0400\n"
+"PO-Revision-Date: 2014-05-24 14:15+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -25,6 +25,10 @@ msgstr "Запутить ksysguard"
 #: code/main.py:110
 msgid "Show README"
 msgstr "Показать README"
+
+#: code/main.py:112
+msgid "Update text"
+msgstr "Обновить текст"
 
 #: rc.cpp:3
 msgid "Form"

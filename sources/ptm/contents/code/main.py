@@ -109,6 +109,8 @@ class pyTextWidget(plasmascript.Applet):
         QObject.connect(self.ptmActions['ksysguard'], SIGNAL("triggered(bool)"), self.runKsysguard)
         self.ptmActions['readme'] = QAction(i18n("Show README"), self)
         QObject.connect(self.ptmActions['readme'], SIGNAL("triggered(bool)"), self.showReadme)
+        self.ptmActions['update'] = QAction(i18n("Update text"), self)
+        QObject.connect(self.ptmActions['update'], SIGNAL("triggered(bool)"), self.updateText)
 
 
     def contextualActions(self):
@@ -116,6 +118,7 @@ class pyTextWidget(plasmascript.Applet):
         contextMenu = []
         contextMenu.append(self.ptmActions['ksysguard'])
         contextMenu.append(self.ptmActions['readme'])
+        contextMenu.append(self.ptmActions['update'])
         return contextMenu
 
 
@@ -145,6 +148,10 @@ class pyTextWidget(plasmascript.Applet):
             else:
                 return
         os.system("kioclient exec " + str(filePath) + " &")
+
+
+    def updateText(self):
+        """function to force update text"""
 
 
     # internal functions
