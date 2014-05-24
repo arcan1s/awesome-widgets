@@ -1,7 +1,9 @@
 Ver.1.9.1:
++ added ability for force update text
 + added support of hddtemp cmd
 + added support of clementine
 + added Brazillian Portuguese translation (@underr)
++ added Ukrainian translation (Виктор Слободян)
 * edited readme call
 
 Ver.1.9.0:
