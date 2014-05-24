@@ -75,9 +75,6 @@ class pyTextWidget(plasmascript.Applet):
         """function to initializate widget"""
         self._name = str(self.package().metadata().pluginName())
         self.setupVar()
-        # actions
-        self.createActions()
-
 
         self.dataengine = dataengine.DataEngine(self)
         self.reinit = reinit.Reinit(self, self.ptm['defaults'])
@@ -100,6 +97,9 @@ class pyTextWidget(plasmascript.Applet):
             (not os.path.exists("/usr" + "/share/apps/plasma_applet_pytextmonitor/plasma_applet_pytextmonitor.notifyrc"))):
             self.createNotifyrc(kdehome)
 
+        # actions
+        self.createActions()
+
 
     # context menu
     def createActions(self):
@@ -110,7 +110,12 @@ class pyTextWidget(plasmascript.Applet):
         self.ptmActions['readme'] = QAction(i18n("Show README"), self)
         QObject.connect(self.ptmActions['readme'], SIGNAL("triggered(bool)"), self.showReadme)
         self.ptmActions['update'] = QAction(i18n("Update text"), self)
-        QObject.connect(self.ptmActions['update'], SIGNAL("triggered(bool)"), self.updateText)
+        QObject.connect(self.ptmActions['update'], SIGNAL("triggered(bool)"),
+                        self.ptm['dataengine']['ext'], SLOT("forceImmediateUpdateOfAllVisualizations()"))
+        QObject.connect(self.ptmActions['update'], SIGNAL("triggered(bool)"),
+                        self.ptm['dataengine']['system'], SLOT("forceImmediateUpdateOfAllVisualizations()"))
+        QObject.connect(self.ptmActions['update'], SIGNAL("triggered(bool)"),
+                        self.ptm['dataengine']['time'], SLOT("forceImmediateUpdateOfAllVisualizations()"))
 
 
     def contextualActions(self):
@@ -148,10 +153,6 @@ class pyTextWidget(plasmascript.Applet):
             else:
                 return
         os.system("kioclient exec " + str(filePath) + " &")
-
-
-    def updateText(self):
-        """function to force update text"""
 
 
     # internal functions
