@@ -45,6 +45,7 @@ class Reinit():
         ptmVars['adv']['customTime'] = str(settings.get('custom_time', '$hh:$mm'))
         ptmVars['adv']['customUptime'] = str(settings.get('custom_uptime', '$dd,$hh,$mm'))
         ptmVars['adv']['netdevBool'] = settings.get('netdevBool', 0).toInt()[0]
+        ptmVars['adv']['netdev'] = str(settings.get('custom_netdev', 'lo'))
         ptmVars['adv']['netDir'] = str(settings.get('netdir', '/sys/class/net'))
         ptmVars['adv']['player'] = str(settings.get('player_name', "amarok"))
 
@@ -74,10 +75,6 @@ class Reinit():
         ptmNames['disk'] = str(settings.get('disk', 'disk/sda_(8:0)')).split('@@')
         ptmNames['hdd'] = str(settings.get('mount', '/')).split('@@')
         ptmNames['hddtemp'] = str(settings.get('hdd', '/dev/sda')).split('@@')
-        if (ptmVars['adv']['netdevBool'] > 0):
-            ptmNames['net'] = str(settings.get('custom_netdev', 'lo'))
-        else:
-            ptmNames['net'] = ""
         ptmNames['temp'] = str(settings.get('temp_device', '')).split('@@')
         self.parent.applySettings('names', ptmNames)
 

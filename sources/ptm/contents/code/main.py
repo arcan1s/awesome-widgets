@@ -116,6 +116,7 @@ class pyTextWidget(plasmascript.Applet):
                         self.ptm['dataengine']['system'], SLOT("forceImmediateUpdateOfAllVisualizations()"))
         QObject.connect(self.ptmActions['update'], SIGNAL("triggered(bool)"),
                         self.ptm['dataengine']['time'], SLOT("forceImmediateUpdateOfAllVisualizations()"))
+        QObject.connect(self.ptmActions['update'], SIGNAL("triggered(bool)"), self.updateNetdev)
 
 
     def contextualActions(self):
@@ -309,6 +310,11 @@ class pyTextWidget(plasmascript.Applet):
         if (self.ptm['vars']['bools']['temp'] > 0):
             self.tempText()
         self.updateTooltip()
+
+
+    def updateNetdev(self):
+        """function to update netdev"""
+        self.ptm['names']['net'] = self.setNetdev()
 
 
     def updateTooltip(self):
@@ -597,8 +603,7 @@ class pyTextWidget(plasmascript.Applet):
     def reInit(self):
         """function to run reinit"""
         self.reinit.reinit()
-        if (self.ptm['vars']['adv']['netdevBool'] == 0):
-            self.ptm['names']['net'] = self.setNetdev()
+        self.updateNetdev()
         self.resize(10, 10)
 
         # create dataengines
@@ -611,18 +616,19 @@ class pyTextWidget(plasmascript.Applet):
 
     def setNetdev(self):
         """function to set network device"""
+        if (self.ptm['vars']['adv']['netdevBool'] > 0):
+            return self.ptm['vars']['adv']['netdev']
         netdev = "lo"
         netdir = self.ptm['vars']['adv']['netDir']
         interfaces = QDir.entryList(QDir(netdir), QDir.Dirs | QDir.NoDotAndDotDot)
         for device in interfaces:
             if (str(device) != "lo"):
-                #try:
-                if True:
+                try:
                     with open(netdir + '/' + str(device) + '/operstate', 'r') as stateFile:
                         if (stateFile.readline() == "up\n"):
                             netdev = str(device)
-                #except:
-                    #pass
+                except:
+                    pass
         return netdev
 
 
