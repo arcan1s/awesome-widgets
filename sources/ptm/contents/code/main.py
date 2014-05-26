@@ -143,14 +143,14 @@ class pyTextWidget(plasmascript.Applet):
         else:
             return
         locale = str(QLocale.system().name())
-        if (os.path.exists(dirPath + locale + ".md")):
-            filePath = dirPath + locale + ".md"
+        if (os.path.exists(dirPath + locale + ".html")):
+            filePath = dirPath + locale + ".html"
         else:
             locale = locale.split('_')[0]
-            if (os.path.exists(dirPath + locale + ".md")):
-                filePath = dirPath + locale + ".md"
-            elif (os.path.exists(dirPath + "en.md")):
-                filePath = dirPath + "en.md"
+            if (os.path.exists(dirPath + locale + ".html")):
+                filePath = dirPath + locale + ".html"
+            elif (os.path.exists(dirPath + "en.html")):
+                filePath = dirPath + "en.html"
             else:
                 return
         os.system("kioclient exec " + str(filePath) + " &")

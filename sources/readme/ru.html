@@ -1,0 +1,243 @@
+<h1>pytextmonitor</h1>
+
+<h2>Информация</h2>
+
+<p>PyTextMonitor - минималистичный плазмоид, написанный на Python2. Он выглядит, как виджеты в Awesome WM.</p>
+
+<p><strong>ВНИМАНИЕ</strong> <a href="https://github.com/arcan1s/pytextmonitor/issues/14">НУЖНЫ ПЕРЕВОДЧИКИ!</a></p>
+
+<h2>Настройка</h2>
+
+<p>Для редактирования внешнего вида, откройте окно настроек и установите требуемый формат в поля:
+* тег <code>$time</code> - время в стандартном формате. Например, <em>fri Nov 6 04:48:01 2013</em>
+* тег <code>$isotime</code> - время в ISO формате
+* тег <code>$shorttime</code> - время в коротком формате
+* тег <code>$longtime</code> - время в длинном формате
+* тег <code>$custom</code> - свой формат времени
+* тег <code>$uptime</code> - время работы, <em>---d--h--m</em>
+* тег <code>$custom</code> - свой формат аптайма
+* тег <code>$cpu</code> - общая загрузка CPU, <em>%</em>
+* тег <code>$cpuN</code> - загрузка CPU для ядра N, <em>%</em>
+* тег <code>$cpucl</code> - средняя частота CPU, <em>MHz</em>
+* тег <code>$cpuclN</code> - частота CPU для ядра N, <em>MHz
+* тег <code>$tempN</code> - температура для устройства N. Например, <code>$temp0</code>
+* тег <code>$gpu</code> - использование GPU, *%</em>. <code>aticonfig</code> или <code>nvidia-smi</code> должны быть установлены
+* тег <code>$gputemp</code> - температура GPU. <code>aticonfig</code> или <code>nvidia-smi</code> должны быть установлены
+* тег <code>$mem</code> - использование RAM, <em>%</em>
+* тег <code>$memmb</code> - использование RAM, <em>MB</em>
+* тег <code>$memgb</code> - использование RAM, <em>GB</em>
+* тег <code>$swap</code> - swap, <em>%</em>
+* тег <code>$swapmb</code> - swap, <em>MB</em>
+* тег <code>$swapgb</code> - swap, <em>GB</em>
+* тег <code>$hddN</code> - использование точки монтирования N, <em>%</em>. Например, <code>$hdd0</code>
+* тег <code>$hddmbN</code> - использование точки монтирования N, <em>KB/s</em>. Например, <code>$hddmb0</code>
+* тег <code>$hddgbN</code> - использование точки монтирования N, <em>KB/s</em>. Например, <code>$hddgb0</code>
+* тег <code>$hddrN</code> - скорость записи на диск N, <em>KB/s</em>. Например, <code>$hddr0</code>
+* тег <code>$hddwN</code> - скорость чтения с диска N, <em>KB/s</em>. Например, <code>$hddw0</code>
+* тег <code>$hddtempN</code> - температура HDD N. Например, <code>$hddtemp0</code>
+* тег <code>$down</code> - скорость загрузки, <em>KB/s</em>
+* тег <code>$up</code> - скорость отдачи, <em>KB/s</em>
+* тег <code>$netdev</code> - текущий сетевой интерфейс
+* тег <code>$bat</code> - заряд батареи, <em>%</em>
+* тег <code>$ac</code> - статус адаптора питания. Возвращает (*), если AC подключен или <em>( )</em>, если нет
+* тег <code>$album</code> - альбом. Один из поддерживаемых плееров должен быть установлен
+* тег <code>$artist</code> - исполнитель. Один из поддерживаемых плееров должен быть установлен
+* тег <code>$progress</code> - прогресс. Один из поддерживаемых плееров должен быть установлен
+* тег <code>$time</code> - длительность. Один из поддерживаемых плееров должен быть установлен
+* тег <code>$title</code> - название. Один из поддерживаемых плееров должен быть установлен
+* тег <code>$pscount</code> - число запущенных процессов
+* тег <code>$pstotal</code> - общее число процессов
+* тег <code>$ps</code> - список процессов
+* тег <code>$pkgcountN</code> - число пакетов, которые могут быть обновлены, для команды N. Например, <code>$pkgcount0</code>
+* тег <code>$customN</code> - возвращает результат своей команды N. Например, <code>$custom0</code></p>
+
+<p>Порядок полей изменится, если вы измените позицию слайдеров. HTML теги в полях работают корректно.</p>
+
+<p><strong>ЗАМЕЧАНИЕ</strong> вы не можете установить тег <code>$cpu</code>, например, в поле swap. <strong><code>$cpu</code> будет работать только в поле CPU</strong>.</p>
+
+<h2>Расширенные настройки</h2>
+
+<p><strong>Свой формат времени</strong></p>
+
+<ul>
+<li>тег <code>$dddd</code> - день недели в длинном формате</li>
+<li>тег <code>$ddd</code> - день недели в коротком формате</li>
+<li>тег <code>$dd</code> - день</li>
+<li>тег <code>$d</code> - день без нуля</li>
+<li>тег <code>$MMMM</code> - месяц в длинном формате</li>
+<li>тег <code>$MMM</code> - месяц в коротком формате</li>
+<li>тег <code>$MM</code> - месяц</li>
+<li>тег <code>$M</code> - месяц без нуля</li>
+<li>тег <code>$yyyy</code> - год</li>
+<li>тег <code>$yy</code> - год в коротком формате</li>
+<li>тег <code>$hh</code> - часы</li>
+<li>тег <code>$h</code> - часы без нуля</li>
+<li>тег <code>$mm</code> - минуты</li>
+<li>тег <code>$m</code> - минуты без нуля</li>
+<li>тег <code>$ss</code> - секунды</li>
+<li>тег <code>$s</code> - секунды без нуля</li>
+</ul>
+
+<p><strong>Свой формат аптайма</strong></p>
+
+<ul>
+<li>тег <code>$dd</code> - дни аптайма</li>
+<li>тег <code>$d</code> - дни аптайма без нуля</li>
+<li>тег <code>$hh</code> - часы аптайма</li>
+<li>тег <code>$h</code> - часы аптайма без нуля</li>
+<li>тег <code>$mm</code> - минуты аптайма</li>
+<li>тег <code>$m</code> - минуты аптайма без нуля</li>
+</ul>
+
+<p><strong>Температурные единицы</strong></p>
+
+<p>Выберете единицы температуры. Доступные единицы следующие: Цельсий, Фаренгейт и Кельвин.</p>
+
+<p><strong>Датчики температуры</strong></p>
+
+<p>Список датчиков, которые будут наблюдаться в поле temo (содержимое комбо бокса берется из <code>sensors</code>). Виджет редактируем, клавиша delete удалит текущую строку.</p>
+
+<p><strong>Точки монтирования</strong></p>
+
+<p>Список точек монтирования, которые будут наблюдаться в поле hdd (содержимое комбо бокса берется из <code>mount</code>). Виджет редактируем, клавиша delete удалит текущую строку.</p>
+
+<p><strong>HDD (скорость)</strong></p>
+
+<p>Список HDD, которые будут наблюдаться в поле hddspeed (содержимое комбо бокса берется из DataEngine). Виджет редактируем, клавиша delete удалит текущую строку.</p>
+
+<p><strong>HDD (температура)</strong></p>
+
+<p>Список HDD, которые будут наблюдаться в поле hddtemp (содержимое комбо бокса берется из <code>find</code>). Виджет редактируем, клавиша delete удалит текущую строку.</p>
+
+<p><strong>Директория с сетевыми интерфейсами</strong></p>
+
+<p>Путь к директории, которая содержит информацию о сетевых интерфейсах. По умолчанию <code>/sys/class/net</code>. Требуется для определения сетевого устройства.</p>
+
+<p><strong>Сетевое устройство</strong></p>
+
+<p>Использовать указанный интерфейс, как активный. Содержимое комбо бокса берется из <strong>директории с сетевыми интерфейсами</strong>. Эта опция отключит авто определение интерфейса.</p>
+
+<p><strong>Устройство батареи</strong></p>
+
+<p>Файл с информацией о батарее. Данный файл (<code>/sys/class/power_supply/BAT0/capacity</code> по умолчанию) должен содержать только заряд батареи в процентах.</p>
+
+<p><strong>AC online тег</strong></p>
+
+<p>Строка, которая будет показана, когда AC онлайн.</p>
+
+<p><strong>AC offline тег</strong></p>
+
+<p>Строка, которая будет показана, когда AC оффлайн.</p>
+
+<p><strong>Устройство AC</strong></p>
+
+<p>Файл с информацией об адапторе питания. Данный файл (<code>/sys/class/power_supply/AC/online</code> по умолчанию) должен содержать <code>1</code>, если адаптор подключен.</p>
+
+<p><strong>Музыкальные плеер</strong></p>
+
+<p>Выберете один из поддерживаемых музыкальных плееров.</p>
+
+<h2>Настройки тултипа</h2>
+
+<p>Начиная с версии 1.7.0 поля CPU, частота CPU, память, swap и сеть поддерживают графический тултип. Чтобы включить их, просто сделайте требуемые чекбоксы полностью чекнутыми. Число хранимых значений может быть выставленно в данной вкладке. Цвета графиков также настраиваются.</p>
+
+<h2>Настройки DataEngine</h2>
+
+<p><strong>Своя команда</strong></p>
+
+<p><em>ЗАМЕЧАНИЕ</em> Может вызвать зависание компьютера.</p>
+
+<p>Команды, которые будет запущена для соответствующего поля.</p>
+
+<p><strong>Устройство GPU</strong></p>
+
+<p>Выберете одно из поддерживаемых устройств GPU. <code>auto</code> включит автоматическое определение. По умолчанию <code>auto</code>.</p>
+
+<p><strong>HDD</strong></p>
+
+<p>Выберете один из HDD для монитора его температуры. <code>all</code> включит монитор для всех доступных устройств. По умолчанию <code>all</code>.</p>
+
+<p><strong>Команда hddtemp</strong></p>
+
+<p>Введите команду, которая будет запущена для hddtemp DataEngine. По умолчанию <code>sudo hddtemp</code>.</p>
+
+<p><strong>Адрес MPD</strong></p>
+
+<p>Адрес MPD сервера. По умолчанию <code>localhost</code>.</p>
+
+<p><strong>Порт MPD</strong></p>
+
+<p>Порт MPD сервера. По умолчанию <code>6600</code>.</p>
+
+<p><strong>Package manager</strong></p>
+
+<p>Список команд, которые будут запущены. Число пустых строк - число ненужных для подсчета строк. Стандартные настройки:
+* <em>Arch</em>: <code>PKGCMD=pacman -Qu</code>, <code>PKGNULL=0</code>
+* <em>Debian</em>: <code>PKGCMD=apt-show-versions -u -b</code>, <code>PKGNULL=0</code>
+* <em>Ubuntu</em>: <code>PKGCMD=aptitude search '~U'</code>, <code>PKGNULL=0</code>
+* <em>Fedora</em>: <code>PKGCMD=yum list updates</code>, <code>PKGNULL=3</code>
+* <em>FreeBSD</em>: <code>PKGCMD=pkg_version -I -l '&lt;'</code>, <code>PKGNULL=0</code>
+* <em>Mandriva</em>: <code>PKGCMD=urpmq --auto-select</code>, <code>PKGNULL=0</code></p>
+
+<h2>Настройка DataEngine</h2>
+
+<p>Вы можете отредактировать настройки DataEngine вручную. Откройте файл <code>/usr/share/config/extsysmon.conf</code> или <code>$HOME/.kde4/share/config/extsysmon.conf</code>, в зависимости от типа установки. Раскомментируйте требуемые строки и отредактируйте их.</p>
+
+<h1>Инструкция</h1>
+
+<h2>Зависимости</h2>
+
+<ul>
+<li>kdebase-workspace</li>
+<li>kdebindings-python2</li>
+<li>lm_sensors (<em>для определения датчиков температуры</em>)</li>
+<li>sysstat (<em>для уведомлений</em>)</li>
+</ul>
+
+<h2>Опциональные зависимости</h2>
+
+<ul>
+<li>проприетарный видеодрайвер</li>
+<li>hddtemp (убедитесь, что может быть запущен с <code>sudo</code> без пароля. Просто добавьте следующую строку в <code>/etc/sudoers</code>: <code>$USERNAME ALL=NOPASSWD: /usr/bin/hddtemp</code>)</li>
+<li>музыкальный плеер (amarok, clementine, mpd или qmmp)</li>
+</ul>
+
+<h2>Зависимости сборки</h2>
+
+<ul>
+<li>automoc4</li>
+<li>cmake</li>
+<li>kdebase-runtime</li>
+</ul>
+
+<h2>Установка</h2>
+
+<ul>
+<li>скачать исходный архив</li>
+<li><p>установить</p>
+
+<pre><code>mkdir build &amp;&amp; cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=`kde4-config --localprefix` ../
+make &amp;&amp; make install
+</code></pre>
+
+<p>Для установки в <code>/</code>:</p>
+
+<pre><code>mkdir build &amp;&amp; cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=`kde4-config --prefix` ../
+make &amp;&amp; sudo make install
+</code></pre></li>
+</ul>
+
+<h1>Дополнительная информация</h1>
+
+<h2>TODO (wish list)</h2>
+
+<h2>Ссылки</h2>
+
+<ul>
+<li><a href="http://arcanis.name/projects/pytextmonitor/">Домашняя страница</a></li>
+<li>Виджет на <a href="http://kde-look.org/content/show.php/Py+Text+Monitor?content=157124">kde-look</a></li>
+<li>DataEngine на <a href="http://kde-look.org/content/show.php/Extended+Systemmonitor+DataEngine?content=158773">kde-look</a></li>
+<li>Пакет для Archlinux в <a href="https://aur.archlinux.org/packages/kdeplasma-applets-pytextmonitor/">AUR</a></li>
+</ul>

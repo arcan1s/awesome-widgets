@@ -1,7 +1,14 @@
 #!/bin/bash
 
 # update english readme
-cp README.md sources/readme/en.md
+cp README.md md_readme/en.md
+# create html pages
+for MARKDOWN in $(find md_readme -name '*.md'); do
+  FILENAME=$(basename -- "${MARKDOWN}")
+  FILENAME="${FILENAME%.*}"
+  markdown "${MARKDOWN}" > "sources/readme/${FILENAME}.html"
+done
+exit 1
 
 SRCDIR="sources"
 VERSION=$(grep -m1 PROJECT_VERSION_MAJOR sources/CMakeLists.txt | awk '{print $3}' | cut -c 1).\

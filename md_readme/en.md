@@ -10,6 +10,7 @@ PyTextMonitor is a minimalistic Plasmoid script written on Python2. It looks lik
 Configuration
 -------------
 For edited output you must open Settings window and setup output format in lines:
+
 * tag `$time` - time in default format. For example, *fri Nov 6 04:48:01 2013*
 * tag `$isotime` - time in iso format
 * tag `$shorttime` - time in short locale format

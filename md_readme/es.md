@@ -9,6 +9,7 @@ PyTextMonitor es un plasmoide minimalista escrito en Python2. Luce como los comp
 
 Configuración
 -------------
+
 Para editar la visualización debes abrir la ventana de Ajustes y establecer el formato de visualización en líneas:
 * etiqueta `$time` - hora en formato por defecto. Por ejemplo, *vie 06 Nov 04:48:01 2013*
 * etiqueta `$isotime` - hora en formato ISO
