@@ -1,0 +1,44 @@
+--- README.md.orig	2014-05-21 19:56:55.000000000 +0400
++++ README.md	2014-05-27 01:20:30.845903666 +0400
+@@ -10,6 +10,7 @@
+ Configuration
+ -------------
+ For edited output you must open Settings window and setup output format in lines:
++
+ * tag `$time` - time in default format. For example, *fri Nov 6 04:48:01 2013*
+ * tag `$isotime` - time in iso format
+ * tag `$shorttime` - time in short locale format
+@@ -27,9 +28,13 @@
+ * tag `$mem` - usage memory, *%*
+ * tag `$memmb` - usage memory, *MB*
+ * tag `$memgb` - usage memory, *GB*
++* tag `$memtotmb` - total RAM, *MB*
++* tag `$memtotgb` - total RAM, *GB*
+ * tag `$swap` - swap, *%*
+ * tag `$swapmb` - swap, *MB*
+ * tag `$swapgb` - swap, *GB*
++* tag `$swaptotmb` - total swap, *MB*
++* tag `$swaptotgb` - total swap, *GB*
+ * tag `$hddN` - usage for mount point N, *%*. For example, `$hdd0`
+ * tag `$hddmbN` - usage for mount point N, *MB*. For example, `$hddmb0`
+ * tag `$hddgbN` - usage for mount point N, *GB*. For example, `$hddgb0`
+@@ -154,6 +159,10 @@
+ 
+ Select one of HDDs for HDD temperature monitor. `all` will enable monitor for all devices. Default is `all`.
+ 
++**hddtemp cmd**
++
++Type a command which will be run for hddtemp DataEngine. Default is `sudo hddtemp`.
++
+ **MPD address**
+ 
+ Address of MPD server. Default is `localhost`.
+@@ -191,7 +200,7 @@
+ ---------------------
+ * proprietary video driver
+ * hddtemp (make sure that it may be run with `sudo` without password. Just add following line to `/etc/sudoers`: `$USERNAME ALL=NOPASSWD: /usr/bin/hddtemp`)
+-* music player (amarok, mpd or qmmp)
++* music player (amarok, clementine, mpd or qmmp)
+ 
+ Make dependencies
+ -----------------

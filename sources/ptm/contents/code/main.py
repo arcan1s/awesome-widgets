@@ -485,6 +485,12 @@ class pyTextWidget(plasmascript.Applet):
     def memText(self):
         """function to set mem text"""
         line = self.ptm['vars']['formats']['mem']
+        if (line.split('$memtotgb')[0] != line):
+            mem = "%4.1f" %((self.ptm['values']['mem']['free'] + self.ptm['values']['mem']['used']) / (1024.0 * 1024.0))
+            line = line.split('$memtotgb')[0] + mem + line.split('$memtotgb')[1]
+        if (line.split('$memtotmb')[0] != line):
+            mem = "%i" %((self.ptm['values']['mem']['free'] + self.ptm['values']['mem']['used']) / 1024.0)
+            line = line.split('$memtotmb')[0] + mem + line.split('$memtotmb')[1]
         if (line.split('$memgb')[0] != line):
             mem = "%4.1f" % (self.ptm['values']['mem']['app'] / (1024.0 * 1024.0))
             line = line.split('$memgb')[0] + mem + line.split('$memgb')[1]
@@ -520,6 +526,12 @@ class pyTextWidget(plasmascript.Applet):
     def swapText(self):
         """function to set swap text"""
         line = self.ptm['vars']['formats']['swap']
+        if (line.split('$swaptotgb')[0] != line):
+            mem = "%4.1f" % ((self.ptm['values']['swap']['free'] + self.ptm['values']['swap']['used']) / (1024.0 * 1024.0))
+            line = line.split('$swaptotgb')[0] + mem + line.split('$swaptotgb')[1]
+        if (line.split('$swaptotmb')[0] != line):
+            mem = "%i" % ((self.ptm['values']['swap']['free'] + self.ptm['values']['swap']['used']) / 1024.0)
+            line = line.split('$swaptotmb')[0] + mem + line.split('$swaptotmb')[1]
         if (line.split('$swapgb')[0] != line):
             mem = "%4.1f" % (self.ptm['values']['swap']['used'] / (1024.0 * 1024.0))
             line = line.split('$swapgb')[0] + mem + line.split('$swapgb')[1]

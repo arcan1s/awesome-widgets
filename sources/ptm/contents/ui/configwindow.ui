@@ -520,7 +520,9 @@ $cpuclN - CPU clock for core N, MHz</string>
                <property name="toolTip">
                 <string>$mem - RAM usage, %
 $memmb - RAM usage, MB
-$memgb - RAM usage, GB</string>
+$memgb - RAM usage, GB
+$memtotmb - total RAM, MB
+$memtotgb - total RAM, GB</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -583,7 +585,9 @@ $memgb - RAM usage, GB</string>
                <property name="toolTip">
                 <string>$swap - swap usage, %
 $swapmb - swap usage, MB
-$swapgb - swap usage, GB</string>
+$swapgb - swap usage, GB
+$swaptotmb - total swap, MB
+$swaptotgb - total swap, GB</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2481,8 +2485,8 @@ del - remove item</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>544</width>
-            <height>540</height>
+            <width>326</width>
+            <height>414</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_11">
