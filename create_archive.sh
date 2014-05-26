@@ -8,7 +8,6 @@ for MARKDOWN in $(find md_readme -name '*.md'); do
   FILENAME="${FILENAME%.*}"
   markdown "${MARKDOWN}" > "sources/readme/${FILENAME}.html"
 done
-exit 1
 
 SRCDIR="sources"
 VERSION=$(grep -m1 PROJECT_VERSION_MAJOR sources/CMakeLists.txt | awk '{print $3}' | cut -c 1).\
