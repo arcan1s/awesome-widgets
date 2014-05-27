@@ -131,6 +131,8 @@ class PTMNotify:
                 title = "N\\A"
                 if (len(commands.getoutput("pgrep amarok")) > 0):
                     player = "amarok"
+                elif (len(commands.getoutput("pgrep clementine")) > 0):
+                    player = "clementine"
                 elif (len(commands.getoutput("pgrep mpd")) > 0):
                     player = "mpd"
                 elif (len(commands.getoutput("pgrep qmmp")) > 0):
@@ -141,6 +143,10 @@ class PTMNotify:
                     artist = commands.getoutput("qdbus org.kde.amarok /Player GetMetadata 2> /dev/null | grep albumartist: | cut -c14-")
                     album = commands.getoutput("qdbus org.kde.amarok /Player GetMetadata 2> /dev/null | grep album: | cut -c8-")
                     title = commands.getoutput("qdbus org.kde.amarok /Player GetMetadata 2> /dev/null | grep title: | cut -c8-")
+                elif (player == "clementine"):
+                    artist = commands.getoutput("qdbus org.mpris.clementine /Player GetMetadata 2> /dev/null | grep albumartist: | cut -c14-")
+                    album = commands.getoutput("qdbus org.mpris.clementine /Player GetMetadata 2> /dev/null | grep album: | cut -c8-")
+                    title = commands.getoutput("qdbus org.mpris.clementine /Player GetMetadata 2> /dev/null | grep title: | cut -c8-")
                 elif (player == "mpd"):
                     output = commands.getoutput("echo 'currentsong\nclose' | curl --connect-timeout 1 -fsm 3 telnet://localhost:6600 2> /dev/null")
                     for line in output.split("\n"):
