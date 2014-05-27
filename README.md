@@ -149,11 +149,11 @@ Commands, which will be run for custom label.
 
 **GPU device**
 
-Select one of supported GPU devices. `auto` will enable auto selection. Default is `auto`.
+Select one of supported GPU devices. `auto` will enable auto selection, `disable` will disable definition of GPU states. Default is `auto`.
 
 **HDD**
 
-Select one of HDDs for HDD temperature monitor. `all` will enable monitor for all devices. Default is `all`.
+Select one of HDDs for HDD temperature monitor. `all` will enable monitor for all devices, `disable` will disable definition of HDD temperature. Default is `all`.
 
 **hddtemp cmd**
 

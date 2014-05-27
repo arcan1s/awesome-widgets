@@ -35,7 +35,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>4</number>
      </property>
      <widget class="QWidget" name="settings">
       <attribute name="title">
@@ -1194,8 +1194,8 @@ $ps - list of running processes comma separated</string>
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-183</y>
-            <width>526</width>
+            <y>0</y>
+            <width>328</width>
             <height>723</height>
            </rect>
           </property>
@@ -2521,6 +2521,11 @@ del - remove item</string>
                <item>
                 <property name="text">
                  <string notr="true">auto</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string notr="true">disable</string>
                 </property>
                </item>
                <item>

@@ -1,5 +1,5 @@
 --- README.md.orig	2014-05-21 19:56:55.000000000 +0400
-+++ README.md	2014-05-27 09:07:25.548819808 +0400
++++ README.md	2014-05-27 16:05:16.796247699 +0400
 @@ -10,6 +10,7 @@
  Configuration
  -------------
@@ -33,17 +33,24 @@
  Tooltip settings
  ----------------
  Since version 1.7.0 CPU, CPU clock, memory, swap and network labels support graphical tooltip. To enable them just make the needed checkboxes a fully checked. The number of stored values can be set in the tab. Colors of graphs are configurable too.
-@@ -154,6 +155,10 @@
+@@ -148,11 +149,15 @@
  
- Select one of HDDs for HDD temperature monitor. `all` will enable monitor for all devices. Default is `all`.
+ **GPU device**
  
+-Select one of supported GPU devices. `auto` will enable auto selection. Default is `auto`.
++Select one of supported GPU devices. `auto` will enable auto selection, `disable` will disable definition of GPU states. Default is `auto`.
+ 
+ **HDD**
+ 
+-Select one of HDDs for HDD temperature monitor. `all` will enable monitor for all devices. Default is `all`.
++Select one of HDDs for HDD temperature monitor. `all` will enable monitor for all devices, `disable` will disable definition of HDD temperature. Default is `all`.
++
 +**hddtemp cmd**
 +
 +Type a command which will be run for hddtemp DataEngine. Default is `sudo hddtemp`.
-+
+ 
  **MPD address**
  
- Address of MPD server. Default is `localhost`.
 @@ -172,6 +177,9 @@
  * *FreeBSD*: `PKGCMD=pkg_version -I -l '<'`, `PKGNULL=0`
  * *Mandriva*: `PKGCMD=urpmq --auto-select`, `PKGNULL=0`

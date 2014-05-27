@@ -167,7 +167,7 @@ class ConfigDefinition:
         self.configpage.ui.listWidget_mount.clear()
         for item in str(settings.get('mount', '/')).split('@@'):
             self.configpage.ui.listWidget_mount.addItem(item)
-        commandOut = commands.getoutput("find /dev -name '[hs]d[a-z]'")
+        commandOut = commands.getoutput("find /dev -name '[hms]d[a-z]'")
         for item in commandOut.split("\n"):
             try:
                 self.configpage.ui.comboBox_hddDevice.addItem(item)
@@ -217,7 +217,8 @@ class ConfigDefinition:
         index = self.configpage.ui.comboBox_gpudev.findText(deSettings['GPUDEV'])
         self.configpage.ui.comboBox_gpudev.setCurrentIndex(index)
         self.configpage.ui.comboBox_hdddev.addItem("all")
-        commandOut = commands.getoutput("find /dev -name '[hs]d[a-z]'")
+        self.configpage.ui.comboBox_hdddev.addItem("disable")
+        commandOut = commands.getoutput("find /dev -name '[hms]d[a-z]'")
         for item in commandOut.split("\n"):
             try:
                 self.configpage.ui.comboBox_hdddev.addItem(item)

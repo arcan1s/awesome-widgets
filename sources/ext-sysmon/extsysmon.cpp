@@ -45,6 +45,8 @@ QString ExtendedSysMon::getAllHdd()
     QString dev;
     command.start("find /dev -name [hms]d[a-z]");
     command.waitForFinished(-1);
+#include <QDebug>
+    qDebug() << command.readAllStandardError();
     qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
     for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
         dev = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
@@ -57,7 +59,7 @@ QString ExtendedSysMon::getAllHdd()
 QString ExtendedSysMon::getAutoGpu()
 {
     QProcess command;
-    QString gpu = QString("unknown");
+    QString gpu = QString("disable");
     QString qoutput = QString("");
     command.start("lspci");
     command.waitForFinished(-1);
