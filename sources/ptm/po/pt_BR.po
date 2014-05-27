@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=157124\n"
-"POT-Creation-Date: 2014-05-27 01:18+0400\n"
+"POT-Creation-Date: 2014-05-27 12:07+0400\n"
 "PO-Revision-Date: 2014-05-21 19:10-0300\n"
 "Last-Translator: \n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -171,7 +171,7 @@ msgstr ""
 "$swapmb - uso de swap, MB\n"
 "$swapgb - uso de swap, GB"
 
-#: rc.cpp:93 rc.cpp:345
+#: rc.cpp:93 rc.cpp:342
 msgid "HDD"
 msgstr "HDD"
 
@@ -238,7 +238,7 @@ msgstr ""
 "$bateria - carga da bateria, %\n"
 "$ac - status do carregador"
 
-#: rc.cpp:131 rc.cpp:275
+#: rc.cpp:131 rc.cpp:367
 msgid "Music player"
 msgstr "Reprodutor de áudio"
 
@@ -267,7 +267,7 @@ msgstr ""
 "$pstotal - número total de processos a roda $ps - lista de processos a roda "
 "separados por vírgula"
 
-#: rc.cpp:149 rc.cpp:357
+#: rc.cpp:149 rc.cpp:354
 msgid "Package manager"
 msgstr "Gerenciador de pacotes"
 
@@ -360,11 +360,11 @@ msgstr "Unidades de temperatura"
 msgid "Temperature devices"
 msgstr "Dispositivos de temperatura"
 
-#: rc.cpp:202 rc.cpp:212 rc.cpp:222 rc.cpp:232 rc.cpp:335 rc.cpp:363
+#: rc.cpp:202 rc.cpp:212 rc.cpp:222 rc.cpp:232 rc.cpp:332 rc.cpp:360
 msgid "Add"
 msgstr "Adicionar"
 
-#: rc.cpp:205 rc.cpp:215 rc.cpp:225 rc.cpp:235 rc.cpp:338 rc.cpp:366
+#: rc.cpp:205 rc.cpp:215 rc.cpp:225 rc.cpp:235 rc.cpp:335 rc.cpp:363
 msgid ""
 "Editable\n"
 "del - remove item"
@@ -433,11 +433,11 @@ msgstr "Dispositivo do carregador"
 msgid "\"/sys/class/power_supply/AC/online\" by default"
 msgstr "\"/sys/class/power_supply/AC/online\" por padrão"
 
-#: rc.cpp:278
+#: rc.cpp:275
 msgid "Tooltip"
 msgstr "Dica de contexto"
 
-#: rc.cpp:281
+#: rc.cpp:278
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
 "To enable them just make needed checkbox fully checked."
@@ -445,91 +445,91 @@ msgstr ""
 "Os rótulos de CPU, frequência de GPU, memória, swap e rede suportam dica de "
 "contexto gráfica. Para ativá-los, basta selecionar a caixa necessária."
 
-#: rc.cpp:284
+#: rc.cpp:281
 msgid "Number of values for tooltips"
 msgstr "Número de valores para dicas de contexto"
 
-#: rc.cpp:287
+#: rc.cpp:284
 msgid "CPU clock color"
 msgstr "Cor da frequência da GPU"
 
-#: rc.cpp:290
+#: rc.cpp:287
 msgid "Swap color"
 msgstr "Cor do swap"
 
-#: rc.cpp:293
+#: rc.cpp:290
 msgid "CPU color"
 msgstr "Cor da CPU"
 
-#: rc.cpp:296
+#: rc.cpp:293
 msgid "Download speed color"
 msgstr "Cor da velocidade de download"
 
-#: rc.cpp:299
+#: rc.cpp:296
 msgid "Memory color"
 msgstr "Cor da memória"
 
-#: rc.cpp:302
+#: rc.cpp:299
 msgid "Upload speed color"
 msgstr "Cor da velocidade de upload"
 
-#: rc.cpp:305
+#: rc.cpp:302
 msgid "Appearance"
 msgstr "Aparência"
 
-#: rc.cpp:308
+#: rc.cpp:305
 msgid "Time interval"
 msgstr "Intervalo de tempo"
 
-#: rc.cpp:311
+#: rc.cpp:308
 msgid "Font"
 msgstr "Fonte"
 
-#: rc.cpp:314
+#: rc.cpp:311
 msgid "Font size"
 msgstr "Tamanho da fonte"
 
-#: rc.cpp:317
+#: rc.cpp:314
 msgid "Font color"
 msgstr "Cor da fonte"
 
-#: rc.cpp:320
+#: rc.cpp:317
 msgid "Font style"
 msgstr "Estilo da fonte"
 
-#: rc.cpp:323
+#: rc.cpp:320
 msgid "Font weight"
 msgstr "Peso da fonte"
 
-#: rc.cpp:326
+#: rc.cpp:323
 msgid "DataEngine"
 msgstr "Engine de dados"
 
-#: rc.cpp:329
+#: rc.cpp:326
 msgid "Custom command"
 msgstr "Comando personalizado"
 
-#: rc.cpp:332
+#: rc.cpp:329
 msgid "Custom command to run"
 msgstr "Comando personalizado para usar"
 
-#: rc.cpp:342
+#: rc.cpp:339
 msgid "GPU device"
 msgstr "Dispositivo GPU"
 
-#: rc.cpp:348
+#: rc.cpp:345
 msgid "hddtemp cmd"
 msgstr ""
 
-#: rc.cpp:351
+#: rc.cpp:348
 msgid "MPD address"
 msgstr "Endereço do MPD"
 
-#: rc.cpp:354
+#: rc.cpp:351
 msgid "MPD port"
 msgstr "Porta do MPD"
 
-#: rc.cpp:360
+#: rc.cpp:357
 msgid "Number of null lines"
 msgstr "Número de linhas nulas"
 

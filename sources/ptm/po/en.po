@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=157124\n"
-"POT-Creation-Date: 2014-05-27 01:18+0400\n"
+"POT-Creation-Date: 2014-05-27 12:07+0400\n"
 "PO-Revision-Date: 2014-05-27 01:18+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -176,7 +176,7 @@ msgstr ""
 "$swaptotmb - total swap, MB\n"
 "$swaptotgb - total swap, GB"
 
-#: rc.cpp:93 rc.cpp:345
+#: rc.cpp:93 rc.cpp:342
 msgid "HDD"
 msgstr "HDD"
 
@@ -238,7 +238,7 @@ msgstr ""
 "$bat - battery charge, %\n"
 "$ac - AC status"
 
-#: rc.cpp:131 rc.cpp:275
+#: rc.cpp:131 rc.cpp:367
 msgid "Music player"
 msgstr "Music player"
 
@@ -270,7 +270,7 @@ msgstr ""
 "$pstotal - total number of running processes\n"
 "$ps - list of running processes comma separated"
 
-#: rc.cpp:149 rc.cpp:357
+#: rc.cpp:149 rc.cpp:354
 msgid "Package manager"
 msgstr "Package manager"
 
@@ -364,11 +364,11 @@ msgstr "Temperature units"
 msgid "Temperature devices"
 msgstr "Temperature devices"
 
-#: rc.cpp:202 rc.cpp:212 rc.cpp:222 rc.cpp:232 rc.cpp:335 rc.cpp:363
+#: rc.cpp:202 rc.cpp:212 rc.cpp:222 rc.cpp:232 rc.cpp:332 rc.cpp:360
 msgid "Add"
 msgstr "Add"
 
-#: rc.cpp:205 rc.cpp:215 rc.cpp:225 rc.cpp:235 rc.cpp:338 rc.cpp:366
+#: rc.cpp:205 rc.cpp:215 rc.cpp:225 rc.cpp:235 rc.cpp:335 rc.cpp:363
 msgid ""
 "Editable\n"
 "del - remove item"
@@ -436,11 +436,11 @@ msgstr "AC device"
 msgid "\"/sys/class/power_supply/AC/online\" by default"
 msgstr "\"/sys/class/power_supply/AC/online\" by default"
 
-#: rc.cpp:278
+#: rc.cpp:275
 msgid "Tooltip"
 msgstr "Tooltip"
 
-#: rc.cpp:281
+#: rc.cpp:278
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
 "To enable them just make needed checkbox fully checked."
@@ -448,91 +448,91 @@ msgstr ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
 "To enable them just make needed checkbox fully checked."
 
-#: rc.cpp:284
+#: rc.cpp:281
 msgid "Number of values for tooltips"
 msgstr "Number of values for tooltips"
 
-#: rc.cpp:287
+#: rc.cpp:284
 msgid "CPU clock color"
 msgstr "CPU clock color"
 
-#: rc.cpp:290
+#: rc.cpp:287
 msgid "Swap color"
 msgstr "Swap color"
 
-#: rc.cpp:293
+#: rc.cpp:290
 msgid "CPU color"
 msgstr "CPU color"
 
-#: rc.cpp:296
+#: rc.cpp:293
 msgid "Download speed color"
 msgstr "Download speed color"
 
-#: rc.cpp:299
+#: rc.cpp:296
 msgid "Memory color"
 msgstr "Memory color"
 
-#: rc.cpp:302
+#: rc.cpp:299
 msgid "Upload speed color"
 msgstr "Upload speed color"
 
-#: rc.cpp:305
+#: rc.cpp:302
 msgid "Appearance"
 msgstr "Appearance"
 
-#: rc.cpp:308
+#: rc.cpp:305
 msgid "Time interval"
 msgstr "Time interval"
 
-#: rc.cpp:311
+#: rc.cpp:308
 msgid "Font"
 msgstr "Font"
 
-#: rc.cpp:314
+#: rc.cpp:311
 msgid "Font size"
 msgstr "Font size"
 
-#: rc.cpp:317
+#: rc.cpp:314
 msgid "Font color"
 msgstr "Font color"
 
-#: rc.cpp:320
+#: rc.cpp:317
 msgid "Font style"
 msgstr "Font style"
 
-#: rc.cpp:323
+#: rc.cpp:320
 msgid "Font weight"
 msgstr "Font weight"
 
-#: rc.cpp:326
+#: rc.cpp:323
 msgid "DataEngine"
 msgstr "DataEngine"
 
-#: rc.cpp:329
+#: rc.cpp:326
 msgid "Custom command"
 msgstr "Custom command"
 
-#: rc.cpp:332
+#: rc.cpp:329
 msgid "Custom command to run"
 msgstr "Custom command to run"
 
-#: rc.cpp:342
+#: rc.cpp:339
 msgid "GPU device"
 msgstr "GPU device"
 
-#: rc.cpp:348
+#: rc.cpp:345
 msgid "hddtemp cmd"
 msgstr ""
 
-#: rc.cpp:351
+#: rc.cpp:348
 msgid "MPD address"
 msgstr "MPD address"
 
-#: rc.cpp:354
+#: rc.cpp:351
 msgid "MPD port"
 msgstr "MPD port"
 
-#: rc.cpp:360
+#: rc.cpp:357
 msgid "Number of null lines"
 msgstr "Number of null lines"
 
