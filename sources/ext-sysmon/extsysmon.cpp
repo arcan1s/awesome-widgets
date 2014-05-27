@@ -23,6 +23,7 @@
 #include <KDE/KStandardDirs>
 #include <QFile>
 #include <QProcess>
+#include <QRegExp>
 #include <QTextCodec>
 
 
@@ -42,7 +43,7 @@ QString ExtendedSysMon::getAllHdd()
     QStringList devices;
     QString qoutput = QString("");
     QString dev;
-    command.start("find /dev -name [hs]d[a-z]");
+    command.start("find /dev -name [hms]d[a-z]");
     command.waitForFinished(-1);
     qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
     for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
@@ -56,7 +57,7 @@ QString ExtendedSysMon::getAllHdd()
 QString ExtendedSysMon::getAutoGpu()
 {
     QProcess command;
-    QString gpu = QString("");
+    QString gpu = QString("unknown");
     QString qoutput = QString("");
     command.start("lspci");
     command.waitForFinished(-1);
@@ -139,14 +140,39 @@ QMap<QString, QString> ExtendedSysMon::updateConfiguration(const QMap<QString, Q
         config[key] = value;
     }
     // update values
-    if (config[QString("GPUDEV")] == QString("auto"))
+    if (config[QString("GPUDEV")] == QString("disable"))
+        config[QString("GPUDEV")] = QString("disable");
+    else if (config[QString("GPUDEV")] == QString("auto"))
+        config[QString("GPUDEV")] = getAutoGpu();
+    else if ((config[QString("GPUDEV")] != QString("ati")) &&
+        (config[QString("GPUDEV")] != QString("nvidia")))
         config[QString("GPUDEV")] = getAutoGpu();
     if (config[QString("HDDDEV")] == QString("all"))
         config[QString("HDDDEV")] = getAllHdd();
+    else if (config[QString("HDDDEV")] == QString("disable"))
+        config[QString("HDDDEV")] = QString("");
+    else {
+        QStringList deviceList = config[QString("HDDDEV")].split(QChar(','), QString::SkipEmptyParts);
+        QStringList devices;
+        QRegExp diskRegexp = QRegExp("/dev/[hms]d[a-z]$");
+        for (int i=0; i<deviceList.count(); i++)
+            if ((QFile::exists(deviceList[i])) &&
+                (diskRegexp.indexIn(deviceList[i]) > -1))
+                devices.append(deviceList[i]);
+        if (devices.isEmpty())
+            config[QString("HDDDEV")] = getAllHdd();
+        else
+            config[QString("HDDDEV")] = devices.join(QChar(','));
+    }
     for (int i=config[QString("PKGNULL")].split(QString(","), QString::SkipEmptyParts).count();
          i<config[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts).count()+1;
          i++)
         config[QString("PKGNULL")] += QString(",0");
+    if ((config[QString("PLAYER")] != QString("amarok")) &&
+        (config[QString("PLAYER")] != QString("clementine")) &&
+        (config[QString("PLAYER")] != QString("mpd")) &&
+        (config[QString("PLAYER")] != QString("qmmp")))
+        config[QString("PLAYER")] = QString("amarok");
     return config;
 }
 
