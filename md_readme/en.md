@@ -28,9 +28,13 @@ For edited output you must open Settings window and setup output format in lines
 * tag `$mem` - usage memory, *%*
 * tag `$memmb` - usage memory, *MB*
 * tag `$memgb` - usage memory, *GB*
+* tag `$memtotmb` - total RAM, *MB*
+* tag `$memtotgb` - total RAM, *GB*
 * tag `$swap` - swap, *%*
 * tag `$swapmb` - swap, *MB*
 * tag `$swapgb` - swap, *GB*
+* tag `$swaptotmb` - total swap, *MB*
+* tag `$swaptotgb` - total swap, *GB*
 * tag `$hddN` - usage for mount point N, *%*. For example, `$hdd0`
 * tag `$hddmbN` - usage for mount point N, *MB*. For example, `$hddmb0`
 * tag `$hddgbN` - usage for mount point N, *GB*. For example, `$hddgb0`
@@ -131,10 +135,6 @@ Line which will be shown when AC is offline.
 
 File with AC information. File (`/sys/class/power_supply/AC/online` by default) must contain `1` if AC is online.
 
-**Music player**
-
-Select one of supported music playes for player label.
-
 Tooltip settings
 ----------------
 Since version 1.7.0 CPU, CPU clock, memory, swap and network labels support graphical tooltip. To enable them just make the needed checkboxes a fully checked. The number of stored values can be set in the tab. Colors of graphs are configurable too.
@@ -177,6 +177,9 @@ List of commands, which will be run. Number of null lines is a number of unneede
 * *FreeBSD*: `PKGCMD=pkg_version -I -l '<'`, `PKGNULL=0`
 * *Mandriva*: `PKGCMD=urpmq --auto-select`, `PKGNULL=0`
 
+**Music player**
+
+Select one of supported music playes for player label.
 
 DataEngine configuration
 ------------------------

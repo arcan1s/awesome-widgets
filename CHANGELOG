@@ -5,6 +5,7 @@ Ver.1.9.1:
 + added tags $memtotmb, $memtotgb, $swaptotmb, $swaptotgb
 + added Brazillian Portuguese translation (@underr)
 + added Ukrainian translation (Виктор Слободян)
+* player settings was moved from plasmoid to dataengine
 * edited readme call
 * changed readme from md to html
 

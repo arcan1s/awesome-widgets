@@ -28,9 +28,13 @@
 <li>tag <code>$mem</code> - usage memory, <em>%</em></li>
 <li>tag <code>$memmb</code> - usage memory, <em>MB</em></li>
 <li>tag <code>$memgb</code> - usage memory, <em>GB</em></li>
+<li>tag <code>$memtotmb</code> - total RAM, <em>MB</em></li>
+<li>tag <code>$memtotgb</code> - total RAM, <em>GB</em></li>
 <li>tag <code>$swap</code> - swap, <em>%</em></li>
 <li>tag <code>$swapmb</code> - swap, <em>MB</em></li>
 <li>tag <code>$swapgb</code> - swap, <em>GB</em></li>
+<li>tag <code>$swaptotmb</code> - total swap, <em>MB</em></li>
+<li>tag <code>$swaptotgb</code> - total swap, <em>GB</em></li>
 <li>tag <code>$hddN</code> - usage for mount point N, <em>%</em>. For example, <code>$hdd0</code></li>
 <li>tag <code>$hddmbN</code> - usage for mount point N, <em>MB</em>. For example, <code>$hddmb0</code></li>
 <li>tag <code>$hddgbN</code> - usage for mount point N, <em>GB</em>. For example, <code>$hddgb0</code></li>
@@ -136,10 +140,6 @@
 
 <p>File with AC information. File (<code>/sys/class/power_supply/AC/online</code> by default) must contain <code>1</code> if AC is online.</p>
 
-<p><strong>Music player</strong></p>
-
-<p>Select one of supported music playes for player label.</p>
-
 <h2>Tooltip settings</h2>
 
 <p>Since version 1.7.0 CPU, CPU clock, memory, swap and network labels support graphical tooltip. To enable them just make the needed checkboxes a fully checked. The number of stored values can be set in the tab. Colors of graphs are configurable too.</p>
@@ -181,6 +181,10 @@
 * <em>Fedora</em>: <code>PKGCMD=yum list updates</code>, <code>PKGNULL=3</code>
 * <em>FreeBSD</em>: <code>PKGCMD=pkg_version -I -l '&lt;'</code>, <code>PKGNULL=0</code>
 * <em>Mandriva</em>: <code>PKGCMD=urpmq --auto-select</code>, <code>PKGNULL=0</code></p>
+
+<p><strong>Music player</strong></p>
+
+<p>Select one of supported music playes for player label.</p>
 
 <h2>DataEngine configuration</h2>
 

@@ -5,6 +5,7 @@
 + добавлены теги $memtotmb, $memtotgb, $swaptotmb, $swaptotgb
 + добавлен перевод Brazillian Portuguese (@underr)
 + добавлена украинская локализация (Виктор Слободян)
+* настройки плеера были перенесены из виджета в dataengine
 * исправлен вызов readme под четырехсимвольное обозначение
 * перенос readme с md на html
 

@@ -95,6 +95,7 @@ void ExtendedSysMon::readConfiguration()
     rawConfig[QString("MPDPORT")] = QString("6600");
     rawConfig[QString("PKGCMD")] = QString("pacman -Qu");
     rawConfig[QString("PKGNULL")] = QString("0");
+    rawConfig[QString("PLAYER")] = QString("amarok");
 
     QString fileName = KGlobal::dirs()->findResource("config", "extsysmon.conf");
     QFile confFile(fileName);
@@ -456,55 +457,18 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     }
     else if (source == QString("player")) {
         QStringList value;
-        // amarok
-        value = getPlayerInfo(QString("amarok"));
-        key = QString("amarok_album");
-        setData(source, key, value[0]);
-        key = QString("amarok_artist");
-        setData(source, key, value[1]);
-        key = QString("amarok_progress");
-        setData(source, key, value[2]);
-        key = QString("amarok_duration");
-        setData(source, key, value[3]);
-        key = QString("amarok_title");
-        setData(source, key, value[4]);
-        // clementine
-        value = getPlayerInfo(QString("clementine"));
-        key = QString("clementine_album");
-        setData(source, key, value[0]);
-        key = QString("clementine_artist");
-        setData(source, key, value[1]);
-        key = QString("clementine_progress");
-        setData(source, key, value[2]);
-        key = QString("clementine_duration");
-        setData(source, key, value[3]);
-        key = QString("clementine_title");
-        setData(source, key, value[4]);
-        // mpd
-        value = getPlayerInfo(QString("mpd"),
+        value = getPlayerInfo(configuration[QString("PLAYER")],
                               configuration[QString("MPDADDRESS")],
                               configuration[QString("MPDPORT")]);
-        key = QString("mpd_album");
+        key = QString("album");
         setData(source, key, value[0]);
-        key = QString("mpd_artist");
+        key = QString("artist");
         setData(source, key, value[1]);
-        key = QString("mpd_progress");
+        key = QString("progress");
         setData(source, key, value[2]);
-        key = QString("mpd_duration");
+        key = QString("duration");
         setData(source, key, value[3]);
-        key = QString("mpd_title");
-        setData(source, key, value[4]);
-        // qmmp
-        value = getPlayerInfo(QString("qmmp"));
-        key = QString("qmmp_album");
-        setData(source, key, value[0]);
-        key = QString("qmmp_artist");
-        setData(source, key, value[1]);
-        key = QString("qmmp_progress");
-        setData(source, key, value[2]);
-        key = QString("qmmp_duration");
-        setData(source, key, value[3]);
-        key = QString("qmmp_title");
+        key = QString("title");
         setData(source, key, value[4]);
     }
     else if (source == QString("ps")) {

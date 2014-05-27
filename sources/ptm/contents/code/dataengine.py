@@ -198,30 +198,11 @@ class DataEngine:
             elif (sourceName == "player"):
                 updatedData['name'] = "player"
                 updatedData['value'] = {}
-                if (adv['player'] == "amarok"):
-                    updatedData['value']['album'] = str(data[QString(u'amarok_album')].toUtf8()).decode("utf-8")
-                    updatedData['value']['artist'] = str(data[QString(u'amarok_artist')].toUtf8()).decode("utf-8")
-                    updatedData['value']['progress'] = str(data[QString(u'amarok_progress')].toUtf8()).decode("utf-8")
-                    updatedData['value']['time'] = str(data[QString(u'amarok_duration')].toUtf8()).decode("utf-8")
-                    updatedData['value']['title'] = str(data[QString(u'amarok_title')].toUtf8()).decode("utf-8")
-                elif (adv['player'] == "clementine"):
-                    updatedData['value']['album'] = str(data[QString(u'clementine_album')].toUtf8()).decode("utf-8")
-                    updatedData['value']['artist'] = str(data[QString(u'clementine_artist')].toUtf8()).decode("utf-8")
-                    updatedData['value']['progress'] = str(data[QString(u'clementine_progress')].toUtf8()).decode("utf-8")
-                    updatedData['value']['time'] = str(data[QString(u'clementine_duration')].toUtf8()).decode("utf-8")
-                    updatedData['value']['title'] = str(data[QString(u'clementine_title')].toUtf8()).decode("utf-8")
-                elif (adv['player'] == "mpd"):
-                    updatedData['value']['album'] = str(data[QString(u'mpd_album')].toUtf8()).decode("utf-8")
-                    updatedData['value']['artist'] = str(data[QString(u'mpd_artist')].toUtf8()).decode("utf-8")
-                    updatedData['value']['progress'] = str(data[QString(u'mpd_progress')].toUtf8()).decode("utf-8")
-                    updatedData['value']['time'] = str(data[QString(u'mpd_duration')].toUtf8()).decode("utf-8")
-                    updatedData['value']['title'] = str(data[QString(u'mpd_title')].toUtf8()).decode("utf-8")
-                elif (adv['player'] == "qmmp"):
-                    updatedData['value']['album'] = str(data[QString(u'qmmp_album')].toUtf8()).decode("utf-8")
-                    updatedData['value']['artist'] = str(data[QString(u'qmmp_artist')].toUtf8()).decode("utf-8")
-                    updatedData['value']['progress'] = str(data[QString(u'qmmp_progress')].toUtf8()).decode("utf-8")
-                    updatedData['value']['time'] = str(data[QString(u'qmmp_duration')].toUtf8()).decode("utf-8")
-                    updatedData['value']['title'] = str(data[QString(u'qmmp_title')].toUtf8()).decode("utf-8")
+                updatedData['value']['album'] = str(data[QString(u'album')].toUtf8()).decode("utf-8")
+                updatedData['value']['artist'] = str(data[QString(u'artist')].toUtf8()).decode("utf-8")
+                updatedData['value']['progress'] = str(data[QString(u'progress')].toUtf8()).decode("utf-8")
+                updatedData['value']['time'] = str(data[QString(u'duration')].toUtf8()).decode("utf-8")
+                updatedData['value']['title'] = str(data[QString(u'title')].toUtf8()).decode("utf-8")
             elif (sourceName == "ps"):
                 updatedData['name'] = "ps"
                 updatedData['value'] = {}

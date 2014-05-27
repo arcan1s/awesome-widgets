@@ -47,7 +47,6 @@ class Reinit():
         ptmVars['adv']['netdevBool'] = settings.get('netdevBool', 0).toInt()[0]
         ptmVars['adv']['netdev'] = str(settings.get('custom_netdev', 'lo'))
         ptmVars['adv']['netDir'] = str(settings.get('netdir', '/sys/class/net'))
-        ptmVars['adv']['player'] = str(settings.get('player_name', "amarok"))
 
         ptmVars['app'] = {}
         ptmVars['app']['format'] = ["<pre><p align=\"center\"><span style=\" font-family:'" + str(settings.get('font_family', 'Terminus')) +\

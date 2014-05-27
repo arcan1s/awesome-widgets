@@ -26,9 +26,13 @@
 * тег <code>$mem</code> - использование RAM, <em>%</em>
 * тег <code>$memmb</code> - использование RAM, <em>MB</em>
 * тег <code>$memgb</code> - использование RAM, <em>GB</em>
+* тег <code>$memtotmb</code> - RAM, <em>MB</em>
+* тег <code>$memtotgb</code> - RAM, <em>GB</em>
 * тег <code>$swap</code> - swap, <em>%</em>
 * тег <code>$swapmb</code> - swap, <em>MB</em>
 * тег <code>$swapgb</code> - swap, <em>GB</em>
+* тег <code>$swaptotmb</code> - размер swap, <em>MB</em>
+* тег <code>$swaptotgb</code> - размер swap, <em>GB</em>
 * тег <code>$hddN</code> - использование точки монтирования N, <em>%</em>. Например, <code>$hdd0</code>
 * тег <code>$hddmbN</code> - использование точки монтирования N, <em>KB/s</em>. Например, <code>$hddmb0</code>
 * тег <code>$hddgbN</code> - использование точки монтирования N, <em>KB/s</em>. Например, <code>$hddgb0</code>
@@ -133,10 +137,6 @@
 
 <p>Файл с информацией об адапторе питания. Данный файл (<code>/sys/class/power_supply/AC/online</code> по умолчанию) должен содержать <code>1</code>, если адаптор подключен.</p>
 
-<p><strong>Музыкальные плеер</strong></p>
-
-<p>Выберете один из поддерживаемых музыкальных плееров.</p>
-
 <h2>Настройки тултипа</h2>
 
 <p>Начиная с версии 1.7.0 поля CPU, частота CPU, память, swap и сеть поддерживают графический тултип. Чтобы включить их, просто сделайте требуемые чекбоксы полностью чекнутыми. Число хранимых значений может быть выставленно в данной вкладке. Цвета графиков также настраиваются.</p>
@@ -178,6 +178,10 @@
 * <em>Fedora</em>: <code>PKGCMD=yum list updates</code>, <code>PKGNULL=3</code>
 * <em>FreeBSD</em>: <code>PKGCMD=pkg_version -I -l '&lt;'</code>, <code>PKGNULL=0</code>
 * <em>Mandriva</em>: <code>PKGCMD=urpmq --auto-select</code>, <code>PKGNULL=0</code></p>
+
+<p><strong>Музыкальные плеер</strong></p>
+
+<p>Выберете один из поддерживаемых музыкальных плееров.</p>
 
 <h2>Настройка DataEngine</h2>
 

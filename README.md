@@ -135,10 +135,6 @@ Line which will be shown when AC is offline.
 
 File with AC information. File (`/sys/class/power_supply/AC/online` by default) must contain `1` if AC is online.
 
-**Music player**
-
-Select one of supported music playes for player label.
-
 Tooltip settings
 ----------------
 Since version 1.7.0 CPU, CPU clock, memory, swap and network labels support graphical tooltip. To enable them just make the needed checkboxes a fully checked. The number of stored values can be set in the tab. Colors of graphs are configurable too.
@@ -181,6 +177,9 @@ List of commands, which will be run. Number of null lines is a number of unneede
 * *FreeBSD*: `PKGCMD=pkg_version -I -l '<'`, `PKGNULL=0`
 * *Mandriva*: `PKGCMD=urpmq --auto-select`, `PKGNULL=0`
 
+**Music player**
+
+Select one of supported music playes for player label.
 
 DataEngine configuration
 ------------------------

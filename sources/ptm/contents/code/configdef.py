@@ -72,7 +72,6 @@ class ConfigDefinition:
         settings.set('ac_device', str(self.configpage.ui.lineEdit_acdev.text()))
         settings.set('ac_online', str(self.configpage.ui.lineEdit_acOnline.text()))
         settings.set('ac_offline', str(self.configpage.ui.lineEdit_acOffline.text()))
-        settings.set('player_name', str(self.configpage.ui.comboBox_playerSelect.currentText()))
 
         settings.set('tooltip_num', self.configpage.ui.spinBox_tooltipNum.value())
         for label in ['cpu', 'cpuclock', 'mem', 'swap', 'down', 'up']:
@@ -104,6 +103,7 @@ class ConfigDefinition:
                         pkgNull.append("0")
                 deConfigFile.write("PKGCMD=" + ','.join(pkgCmd) + "\n")
                 deConfigFile.write("PKGNULL=" + ','.join(pkgNull) + "\n")
+                deConfigFile.write("PLAYER=" + str(self.configpage.ui.comboBox_playerSelect.currentText()) + "\n")
         except:
             pass
 
@@ -192,8 +192,6 @@ class ConfigDefinition:
         self.configpage.ui.lineEdit_acdev.setText(str(settings.get('ac_device', '/sys/class/power_supply/AC/online')))
         self.configpage.ui.lineEdit_acOnline.setText(str(settings.get('ac_online', '(*)')))
         self.configpage.ui.lineEdit_acOffline.setText(str(settings.get('ac_offline', '( )')))
-        index = self.configpage.ui.comboBox_playerSelect.findText(str(settings.get('player_name', "amarok")))
-        self.configpage.ui.comboBox_playerSelect.setCurrentIndex(index)
 
         self.configpage.ui.spinBox_tooltipNum.setValue(settings.get('tooltip_num', 100).toInt()[0])
         self.configpage.ui.kcolorcombo_cpu.setColor(QColor(str(settings.get('cpu_color', '#ff0000'))))
@@ -205,7 +203,7 @@ class ConfigDefinition:
 
         deSettings = {'CUSTOM':'wget -qO- http://ifconfig.me/ip', 'GPUDEV':'auto', 'HDDDEV':'all',
             'HDDTEMPCMD':'sudo hddtemp', 'MPDADDRESS':'localhost', 'MPDPORT':'6600', 'PKGCMD':'pacman -Qu', 
-            'PKGNULL':'0'}
+            'PKGNULL':'0', 'PLAYER':'amarok'}
         dataengineConfig = unicode(KGlobal.dirs().localkdedir()) + "/share/config/extsysmon.conf"
         try:
             with open(dataengineConfig, 'r') as deConfigFile:
@@ -238,6 +236,8 @@ class ConfigDefinition:
             except:
                 num = "0"
             self.configpage.ui.listWidget_pkgCommand.addItem(deSettings['PKGCMD'].split(',')[i] + ':' + num)
+        index = self.configpage.ui.comboBox_playerSelect.findText(deSettings['PLAYER'])
+        self.configpage.ui.comboBox_playerSelect.setCurrentIndex(index)
 
         labelOrder = str(settings.get('label_order', '1345'))
         for label in self.defaults['order'].keys():

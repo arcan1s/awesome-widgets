@@ -1194,9 +1194,9 @@ $ps - list of running processes comma separated</string>
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
-            <width>328</width>
-            <height>754</height>
+            <y>-183</y>
+            <width>526</width>
+            <height>723</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -1713,59 +1713,6 @@ del - remove item</string>
                <property name="toolTip">
                 <string>&quot;/sys/class/power_supply/AC/online&quot; by default</string>
                </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="layout_playerSelect">
-             <item>
-              <widget class="QLabel" name="label_playerSelect">
-               <property name="minimumSize">
-                <size>
-                 <width>120</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>Music player</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QComboBox" name="comboBox_playerSelect">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>100</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <item>
-                <property name="text">
-                 <string notr="true">amarok</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string notr="true">clementine</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string notr="true">mpd</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string notr="true">qmmp</string>
-                </property>
-               </item>
               </widget>
              </item>
             </layout>
@@ -2485,8 +2432,8 @@ del - remove item</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>326</width>
-            <height>414</height>
+            <width>544</width>
+            <height>540</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -2842,6 +2789,59 @@ del - remove item</string>
             </layout>
            </item>
            <item>
+            <layout class="QHBoxLayout" name="layout_playerSelect">
+             <item>
+              <widget class="QLabel" name="label_playerSelect">
+               <property name="minimumSize">
+                <size>
+                 <width>120</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>Music player</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="comboBox_playerSelect">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>100</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <item>
+                <property name="text">
+                 <string notr="true">amarok</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string notr="true">clementine</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string notr="true">mpd</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string notr="true">qmmp</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
             <spacer name="spacer_dataengine">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
@@ -2951,7 +2951,6 @@ del - remove item</string>
   <tabstop>lineEdit_acOnline</tabstop>
   <tabstop>lineEdit_acOffline</tabstop>
   <tabstop>lineEdit_acdev</tabstop>
-  <tabstop>comboBox_playerSelect</tabstop>
   <tabstop>scrollArea_tooltip</tabstop>
   <tabstop>spinBox_tooltipNum</tabstop>
   <tabstop>kcolorcombo_cpuclock</tabstop>
