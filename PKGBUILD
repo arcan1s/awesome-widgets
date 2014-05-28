@@ -10,6 +10,7 @@ url="http://arcanis.name/projects/pytextmonitor"
 license=('GPLv3')
 depends=('kdebase-workspace' 'kdebindings-python2' 'lm_sensors')
 optdepends=("amarok: for music player monitor"
+            "clementine: for music player monitor"
             "catalyst: for GPU monitor"
             "hddtemp: for HDD temperature monitor"
             "mpd: for music player monitor"

@@ -61,6 +61,13 @@ Label order will changed if you change slider position. HTML tags in label work 
 
 **NOTE** you don't may set to show `$cpu` tag in swap label for example. **`$cpu` will work only in cpu label**.
 
+Tips & tricks
+-------------
+
+You may use different colors for labels. Just put label text into html code. See [issue](https://github.com/arcan1s/pytextmonitor/issues/9) for more details.
+
+Numbering of elements of temperature, HDD usage, HDD speed, HDD temperature refers to elements order from second tab (*Advanced settings*). You should add item to the required listWidget first. And the first element in the listWidget will be `$tag0`. See [issue](https://github.com/arcan1s/pytextmonitor/issues/17) for more details.
+
 Advanced settings
 -----------------
 **Custom time**
