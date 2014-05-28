@@ -7,6 +7,8 @@ Ver.1.10.0:
 + added error checking of DataEngine variables
 + added Brazillian Portuguese translation (@underr)
 + added Ukrainian translation (Виктор Слободян)
+- removed util.py
+- removed createNotifyrc since it isn't needed
 * refactoring of configuration interface
 * player settings was moved from plasmoid to dataengine
 * edited readme call
@@ -16,8 +18,8 @@ Ver.1.9.0:
 + added support of several custom commands ($customN)
 + added hdd speed label ($hddrN, $hddwN)
 + added actions to context menu (open readme and run ksysguard)
-* fix parsing pkg label
 - removed doubleclick event
+* fix parsing pkg label
 
 Ver.1.8.3:
 + added Spanish translation (thanks to Ernesto Avilés Vzqz)

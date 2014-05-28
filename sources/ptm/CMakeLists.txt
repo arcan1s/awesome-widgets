@@ -12,10 +12,11 @@ add_subdirectory (po)
 
 # set sources
 set (SUBPROJECT_CODE_DIR "contents/code")
+set (SUBPROJECT_MISC_DIR "contents/misc")
 set (SUBPROJECT_UI_DIR "contents/ui")
 file (GLOB SUBPROJECT_DESKTOP_IN *.desktop)
 file (RELATIVE_PATH SUBPROJECT_DESKTOP ${CMAKE_SOURCE_DIR} ${SUBPROJECT_DESKTOP_IN})
-file (GLOB SUBPROJECT_NOTIFY *.notifyrc)
+file (GLOB SUBPROJECT_NOTIFY ${SUBPROJECT_MISC_DIR}/*.notifyrc)
 file (GLOB SUBPROJECT_SOURCE ${SUBPROJECT_CODE_DIR}/*.py)
 file (GLOB SUBPROJECT_UI ${SUBPROJECT_UI_DIR}/*.ui)
 

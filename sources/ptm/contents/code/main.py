@@ -1,4 +1,3 @@
-#!/usr/bin/python2
 # -*- coding: utf-8 -*-
 
 ############################################################################
@@ -37,7 +36,7 @@ import reinit
 import tooltip
 import tooltipconfig
 import widget
-from util import *
+
 
 
 def getTemp(temp, unit):
@@ -77,7 +76,6 @@ class pyTextWidget(plasmascript.Applet):
     # initialization
     def init(self):
         """function to initializate widget"""
-        self._name = str(self.package().metadata().pluginName())
         self.setupVar()
 
         self.dataengine = dataengine.DataEngine(self)
@@ -95,11 +93,6 @@ class pyTextWidget(plasmascript.Applet):
         self.setBackgroundHints(Plasma.Applet.DefaultBackground)
 
         self.setHasConfigurationInterface(True)
-        # create notifyrc file if required
-        kdehome = unicode(KGlobal.dirs().localkdedir())
-        if ((not os.path.exists(kdehome + "/share/apps/plasma_applet_pytextmonitor/plasma_applet_pytextmonitor.notifyrc")) and
-            (not os.path.exists("/usr" + "/share/apps/plasma_applet_pytextmonitor/plasma_applet_pytextmonitor.notifyrc"))):
-            self.createNotifyrc(kdehome)
 
         # actions
         self.createActions()
@@ -178,14 +171,6 @@ class pyTextWidget(plasmascript.Applet):
 
         confdef = configdef.ConfigDefinition(self, configpage, self.ptm['defaults'])
         confdef.createConfigurationInterface(parent)
-
-
-    def createNotifyrc(self, kdehome):
-        """function to create *.notifyrc"""
-        if (not os.path.isdir(kdehome + "/share/apps/plasma_applet_pytextmonitor")):
-            os.mkdir(kdehome + "/share/apps/plasma_applet_pytextmonitor")
-        shutil.copy(kdehome + "/share/apps/plasma/plasmoids/py-text-monitor/contents/code/plasma_applet_pytextmonitor.notifyrc",
-                    kdehome + "/share/apps/plasma_applet_pytextmonitor/")
 
 
     def initTooltip(self):
