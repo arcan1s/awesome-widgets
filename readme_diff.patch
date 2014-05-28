@@ -1,5 +1,5 @@
 --- README.md.orig	2014-05-28 20:30:26.685205144 +0400
-+++ README.md	2014-05-29 00:33:04.628980492 +0400
++++ README.md	2014-05-29 00:42:04.132330206 +0400
 @@ -3,13 +3,16 @@
  
  Information
@@ -111,7 +111,7 @@
  You may edit DataEngine configuration. It is `/usr/share/config/extsysmon.conf` or `$HOME/share/config/extsysmon.conf` depending on the type of installation. Uncomment needed line and edit it.
  
  Instruction
-@@ -182,6 +208,7 @@
+@@ -182,25 +208,29 @@
  
  Dependencies
  ------------
@@ -119,11 +119,12 @@
  * kdebase-workspace
  * kdebindings-python2
  * lm_sensors (*for definition temperature device*)
-@@ -189,18 +216,21 @@
+-* sysstat (*for notification*)
  
  Optional dependencies
  ---------------------
 +
++* sysstat (*for notification*)
  * proprietary video driver
  * hddtemp (make sure that it may be run with `sudo` without password. Just add following line to `/etc/sudoers`: `$USERNAME ALL=NOPASSWD: /usr/bin/hddtemp`)
 -* music player (amarok, mpd or qmmp)

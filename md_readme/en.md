@@ -212,11 +212,11 @@ Dependencies
 * kdebase-workspace
 * kdebindings-python2
 * lm_sensors (*for definition temperature device*)
-* sysstat (*for notification*)
 
 Optional dependencies
 ---------------------
 
+* sysstat (*for notification*)
 * proprietary video driver
 * hddtemp (make sure that it may be run with `sudo` without password. Just add following line to `/etc/sudoers`: `$USERNAME ALL=NOPASSWD: /usr/bin/hddtemp`)
 * music player (amarok, clementine, mpd or qmmp)
