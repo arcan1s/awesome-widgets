@@ -10,5 +10,6 @@ cp README.md md_readme/en.md
 for MARKDOWN in $(find md_readme -name '*.md'); do
   FILENAME=$(basename -- "${MARKDOWN}")
   FILENAME="${FILENAME%.*}"
-  markdown "${MARKDOWN}" > "sources/readme/${FILENAME}.html"
+  echo '<meta charset="utf-8">' > "sources/readme/${FILENAME}.html"
+  markdown "${MARKDOWN}" >> "sources/readme/${FILENAME}.html"
 done
