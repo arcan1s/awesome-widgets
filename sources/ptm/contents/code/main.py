@@ -53,17 +53,19 @@ def getTemp(temp, unit):
 
 class CustomPlasmaLabel(Plasma.Label):
     """new Label with defined clicked() event"""
-    def __init__(self, applet, name):
+    def __init__(self, applet, name, enablePopup):
         """class definition"""
         Plasma.Label.__init__(self, applet)
+        self.enablePopup = enablePopup
         self.name = name
         self.notify = ptmnotify.PTMNotify(self)
 
 
     def mousePressEvent(self, event):
         """mouse click event"""
-        if (event.button() == Qt.LeftButton):
-            self.notify.init(self.name)
+        if (self.enablePopup > 0):
+            if (event.button() == Qt.LeftButton):
+                self.notify.init(self.name)
 
 
 
@@ -169,8 +171,8 @@ class pyTextWidget(plasmascript.Applet):
         configpage['tooltip'] = tooltipconfig.TooltipWindow(self)
         configpage['widget'] = widget.WidgetWindow(self)
 
-        confdef = configdef.ConfigDefinition(self, configpage, self.ptm['defaults'])
-        confdef.createConfigurationInterface(parent)
+        self.confdef = configdef.ConfigDefinition(self, configpage, self.ptm['defaults'])
+        self.confdef.createConfigurationInterface(parent)
 
 
     def initTooltip(self):
@@ -559,10 +561,10 @@ class pyTextWidget(plasmascript.Applet):
 
 
     # external functions
-    def addLabel(self, name=None, text=None, add=True):
+    def addLabel(self, name=None, text=None, add=True, enablePopup=2):
         """function to add new label"""
         if (add):
-            self.ptm['labels'][name] = CustomPlasmaLabel(self.applet, name)
+            self.ptm['labels'][name] = CustomPlasmaLabel(self.applet, name, enablePopup)
             self.ptm['layout'].addItem(self.ptm['labels'][name])
             self.setText(name, text)
         else:

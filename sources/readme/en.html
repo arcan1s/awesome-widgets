@@ -70,6 +70,10 @@
 
 <h2>Advanced settings</h2>
 
+<p><strong>Enable popup</strong></p>
+
+<p>Uncheck box if you do not use popup messages</p>
+
 <p><strong>Custom time</strong></p>
 
 <ul>
@@ -180,13 +184,16 @@
 
 <p><strong>Package manager</strong></p>
 
-<p>List of commands, which will be run. Number of null lines is a number of unneeded lines. Defaults:
-* <em>Arch</em>: <code>PKGCMD=pacman -Qu</code>, <code>PKGNULL=0</code>
-* <em>Debian</em>: <code>PKGCMD=apt-show-versions -u -b</code>, <code>PKGNULL=0</code>
-* <em>Ubuntu</em>: <code>PKGCMD=aptitude search '~U'</code>, <code>PKGNULL=0</code>
-* <em>Fedora</em>: <code>PKGCMD=yum list updates</code>, <code>PKGNULL=3</code>
-* <em>FreeBSD</em>: <code>PKGCMD=pkg_version -I -l '&lt;'</code>, <code>PKGNULL=0</code>
-* <em>Mandriva</em>: <code>PKGCMD=urpmq --auto-select</code>, <code>PKGNULL=0</code></p>
+<p>List of commands, which will be run. Number of null lines is a number of unneeded lines. Defaults:</p>
+
+<ul>
+<li><em>Arch</em>: <code>PKGCMD=pacman -Qu</code>, <code>PKGNULL=0</code></li>
+<li><em>Debian</em>: <code>PKGCMD=apt-show-versions -u -b</code>, <code>PKGNULL=0</code></li>
+<li><em>Ubuntu</em>: <code>PKGCMD=aptitude search '~U'</code>, <code>PKGNULL=0</code></li>
+<li><em>Fedora</em>: <code>PKGCMD=yum list updates</code>, <code>PKGNULL=3</code></li>
+<li><em>FreeBSD</em>: <code>PKGCMD=pkg_version -I -l '&lt;'</code>, <code>PKGNULL=0</code></li>
+<li><em>Mandriva</em>: <code>PKGCMD=urpmq --auto-select</code>, <code>PKGNULL=0</code></li>
+</ul>
 
 <p><strong>Music player</strong></p>
 

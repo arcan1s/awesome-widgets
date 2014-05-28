@@ -3,12 +3,14 @@ pytextmonitor
 
 Information
 -----------
+
 PyTextMonitor is a minimalistic Plasmoid script written on Python2. It looks like widgets in awesome-wm.
 
 **NOTE** [LOOKING FOR TRANSLATORS!](https://github.com/arcan1s/pytextmonitor/issues/14)
 
 Configuration
 -------------
+
 For edited output you must open Settings window and setup output format in lines:
 
 * tag `$time` - time in default format. For example, *fri Nov 6 04:48:01 2013*
@@ -70,6 +72,11 @@ Numbering of elements of temperature, HDD usage, HDD speed, HDD temperature refe
 
 Advanced settings
 -----------------
+
+**Enable popup**
+
+Uncheck box if you do not use popup messages
+
 **Custom time**
 
 * tag `$dddd` - weekday in long format
@@ -144,10 +151,12 @@ File with AC information. File (`/sys/class/power_supply/AC/online` by default) 
 
 Tooltip settings
 ----------------
+
 Since version 1.7.0 CPU, CPU clock, memory, swap and network labels support graphical tooltip. To enable them just make the needed checkboxes a fully checked. The number of stored values can be set in the tab. Colors of graphs are configurable too.
 
 DataEngine settings
 -------------------
+
 **Custom command**
 
 *NOTE* This can cause the computer freeze.
@@ -177,6 +186,7 @@ Port of MPD server. Default is `6600`.
 **Package manager**
 
 List of commands, which will be run. Number of null lines is a number of unneeded lines. Defaults:
+
 * *Arch*: `PKGCMD=pacman -Qu`, `PKGNULL=0`
 * *Debian*: `PKGCMD=apt-show-versions -u -b`, `PKGNULL=0`
 * *Ubuntu*: `PKGCMD=aptitude search '~U'`, `PKGNULL=0`
@@ -190,6 +200,7 @@ Select one of supported music playes for player label.
 
 DataEngine configuration
 ------------------------
+
 You may edit DataEngine configuration. It is `/usr/share/config/extsysmon.conf` or `$HOME/share/config/extsysmon.conf` depending on the type of installation. Uncomment needed line and edit it.
 
 Instruction
@@ -197,6 +208,7 @@ Instruction
 
 Dependencies
 ------------
+
 * kdebase-workspace
 * kdebindings-python2
 * lm_sensors (*for definition temperature device*)
@@ -204,18 +216,21 @@ Dependencies
 
 Optional dependencies
 ---------------------
+
 * proprietary video driver
 * hddtemp (make sure that it may be run with `sudo` without password. Just add following line to `/etc/sudoers`: `$USERNAME ALL=NOPASSWD: /usr/bin/hddtemp`)
 * music player (amarok, clementine, mpd or qmmp)
 
 Make dependencies
 -----------------
+
 * automoc4
 * cmake
 * kdebase-runtime
 
 Installation
 ------------
+
 * download sources
 * install
 
@@ -237,6 +252,7 @@ TODO (wish list)
 
 Links
 -----
+
 * [Homepage](http://arcanis.name/projects/pytextmonitor/)
 * Plasmoid on [kde-look](http://kde-look.org/content/show.php/Py+Text+Monitor?content=157124)
 * DataEngine on [kde-look](http://kde-look.org/content/show.php/Extended+Systemmonitor+DataEngine?content=158773)

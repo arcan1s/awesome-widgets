@@ -43,10 +43,17 @@
         <x>0</x>
         <y>0</y>
         <width>542</width>
-        <height>723</height>
+        <height>748</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_8">
+       <item>
+        <widget class="QCheckBox" name="checkBox_popup">
+         <property name="text">
+          <string>Enable popup on mouse click</string>
+         </property>
+        </widget>
+       </item>
        <item>
         <layout class="QHBoxLayout" name="layout_timeFormat">
          <item>
@@ -583,6 +590,32 @@ del - remove item</string>
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>scrollArea_advanced</tabstop>
+  <tabstop>checkBox_popup</tabstop>
+  <tabstop>lineEdit_timeFormat</tabstop>
+  <tabstop>lineEdit_uptimeFormat</tabstop>
+  <tabstop>comboBox_tempUnits</tabstop>
+  <tabstop>comboBox_tempDevice</tabstop>
+  <tabstop>pushButton_tempDevice</tabstop>
+  <tabstop>listWidget_tempDevice</tabstop>
+  <tabstop>comboBox_mount</tabstop>
+  <tabstop>pushButton_mount</tabstop>
+  <tabstop>listWidget_mount</tabstop>
+  <tabstop>comboBox_hddSpeedDevice</tabstop>
+  <tabstop>pushButton_hddSpeedDevice</tabstop>
+  <tabstop>listWidget_hddSpeedDevice</tabstop>
+  <tabstop>comboBox_hddDevice</tabstop>
+  <tabstop>pushButton_hddDevice</tabstop>
+  <tabstop>listWidget_hddDevice</tabstop>
+  <tabstop>lineEdit_netdir</tabstop>
+  <tabstop>checkBox_netdev</tabstop>
+  <tabstop>comboBox_netdev</tabstop>
+  <tabstop>lineEdit_batdev</tabstop>
+  <tabstop>lineEdit_acOnline</tabstop>
+  <tabstop>lineEdit_acOffline</tabstop>
+  <tabstop>lineEdit_acdev</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

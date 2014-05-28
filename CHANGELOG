@@ -5,6 +5,7 @@ Ver.1.10.0:
 + added support of hddtemp cmd
 + added support of disable option for HDDDEV and GPUDEV
 + added error checking of DataEngine variables
++ added ability to disable popup messages
 + added Brazillian Portuguese translation (@underr)
 + added Ukrainian translation (Виктор Слободян)
 - removed util.py

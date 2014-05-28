@@ -40,13 +40,14 @@ class Reinit():
         ptmVars['adv']['acDev'] = str(settings.get('ac_device', '/sys/class/power_supply/AC/online'))
         ptmVars['adv']['acOnline'] = str(settings.get('ac_online', '(*)'))
         ptmVars['adv']['acOffline'] = str(settings.get('ac_offline', '( )'))
-        ptmVars['adv']['tempUnits'] = str(settings.get('temp_units', 'Celsius'))
         ptmVars['adv']['batDev'] = str(settings.get('battery_device', '/sys/class/power_supply/BAT0/capacity'))
         ptmVars['adv']['customTime'] = str(settings.get('custom_time', '$hh:$mm'))
         ptmVars['adv']['customUptime'] = str(settings.get('custom_uptime', '$dd,$hh,$mm'))
         ptmVars['adv']['netdevBool'] = settings.get('netdevBool', 0).toInt()[0]
         ptmVars['adv']['netdev'] = str(settings.get('custom_netdev', 'lo'))
         ptmVars['adv']['netDir'] = str(settings.get('netdir', '/sys/class/net'))
+        ptmVars['adv']['tempUnits'] = str(settings.get('temp_units', 'Celsius'))
+        ptmVars['adv']['popup'] = settings.get('popup', 2).toInt()[0]
 
         ptmVars['app'] = {}
         ptmVars['app']['format'] = ["<pre><p align=\"center\"><span style=\" font-family:'" + str(settings.get('font_family', 'Terminus')) +\
@@ -84,7 +85,7 @@ class Reinit():
             if (ptmVars['bools'][label] > 0):
                 ptmVars['formats'][label] = str(settings.get(self.defaults['confFormat'][label], self.defaults['format'][label]))
                 text = ptmVars['app']['format'][0] + ptmVars['formats'][label] + ptmVars['app']['format'][1]
-                self.parent.addLabel(label, text, True)
+                self.parent.addLabel(label, text, True, ptmVars['adv']['popup'])
                 if ((label in ['cpu', 'cpuclock', 'mem', 'net', 'swap']) and (ptmVars['bools'][label] == 2)):
                     if (label == 'net'):
                         ptmVars['tooltip']['required'].append("down")

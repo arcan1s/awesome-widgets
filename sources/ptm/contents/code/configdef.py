@@ -46,6 +46,7 @@ class ConfigDefinition:
         settings.set('font_style', str(self.configpage['appearance'].ui.comboBox_style.currentText()))
         settings.set('font_weight', self.configpage['appearance'].ui.spinBox_weight.value())
 
+        settings.set('popup', self.configpage['advanced'].ui.checkBox_popup.checkState())
         settings.set('custom_time', str(self.configpage['advanced'].ui.lineEdit_timeFormat.text()))
         settings.set('custom_uptime', str(self.configpage['advanced'].ui.lineEdit_uptimeFormat.text()))
         settings.set('temp_units', str(self.configpage['advanced'].ui.comboBox_tempUnits.currentText()))
@@ -140,6 +141,7 @@ class ConfigDefinition:
             self.configpage['appearance'].ui.comboBox_style.setCurrentIndex(1)
         self.configpage['appearance'].ui.spinBox_weight.setValue(settings.get('font_weight', 400).toInt()[0])
 
+        self.configpage['advanced'].ui.checkBox_popup.setCheckState(settings.get('popup', 2).toInt()[0])
         self.configpage['advanced'].ui.lineEdit_timeFormat.setText(str(settings.get('custom_time', '$hh:$mm')))
         self.configpage['advanced'].ui.lineEdit_uptimeFormat.setText(str(settings.get('custom_uptime', '$ds,$hs,$ms')))
         index = self.configpage['advanced'].ui.comboBox_tempUnits.findText(str(settings.get('temp_units', "Celsius")))
@@ -263,4 +265,4 @@ class ConfigDefinition:
         page['dataengine'] = parent.addPage(self.configpage['dataengine'], i18n("DataEngine"))
         page['dataengine'].setIcon(KIcon("utilities-system-monitor"))
 
-        parent.okClicked.connect(self.configAccepted)
+        QObject.connect(parent, SIGNAL("okClicked()"), self.configAccepted)
