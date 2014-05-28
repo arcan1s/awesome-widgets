@@ -8,52 +8,55 @@
 
 <h2>Настройка</h2>
 
-<p>Для редактирования внешнего вида, откройте окно настроек и установите требуемый формат в поля:
-* тег <code>$time</code> - время в стандартном формате. Например, <em>fri Nov 6 04:48:01 2013</em>
-* тег <code>$isotime</code> - время в ISO формате
-* тег <code>$shorttime</code> - время в коротком формате
-* тег <code>$longtime</code> - время в длинном формате
-* тег <code>$custom</code> - свой формат времени
-* тег <code>$uptime</code> - время работы, <em>---d--h--m</em>
-* тег <code>$custom</code> - свой формат аптайма
-* тег <code>$cpu</code> - общая загрузка CPU, <em>%</em>
-* тег <code>$cpuN</code> - загрузка CPU для ядра N, <em>%</em>
-* тег <code>$cpucl</code> - средняя частота CPU, <em>MHz</em>
-* тег <code>$cpuclN</code> - частота CPU для ядра N, <em>MHz
-* тег <code>$tempN</code> - температура для устройства N. Например, <code>$temp0</code>
-* тег <code>$gpu</code> - использование GPU, *%</em>. <code>aticonfig</code> или <code>nvidia-smi</code> должны быть установлены
-* тег <code>$gputemp</code> - температура GPU. <code>aticonfig</code> или <code>nvidia-smi</code> должны быть установлены
-* тег <code>$mem</code> - использование RAM, <em>%</em>
-* тег <code>$memmb</code> - использование RAM, <em>MB</em>
-* тег <code>$memgb</code> - использование RAM, <em>GB</em>
-* тег <code>$memtotmb</code> - RAM, <em>MB</em>
-* тег <code>$memtotgb</code> - RAM, <em>GB</em>
-* тег <code>$swap</code> - swap, <em>%</em>
-* тег <code>$swapmb</code> - swap, <em>MB</em>
-* тег <code>$swapgb</code> - swap, <em>GB</em>
-* тег <code>$swaptotmb</code> - размер swap, <em>MB</em>
-* тег <code>$swaptotgb</code> - размер swap, <em>GB</em>
-* тег <code>$hddN</code> - использование точки монтирования N, <em>%</em>. Например, <code>$hdd0</code>
-* тег <code>$hddmbN</code> - использование точки монтирования N, <em>KB/s</em>. Например, <code>$hddmb0</code>
-* тег <code>$hddgbN</code> - использование точки монтирования N, <em>KB/s</em>. Например, <code>$hddgb0</code>
-* тег <code>$hddrN</code> - скорость записи на диск N, <em>KB/s</em>. Например, <code>$hddr0</code>
-* тег <code>$hddwN</code> - скорость чтения с диска N, <em>KB/s</em>. Например, <code>$hddw0</code>
-* тег <code>$hddtempN</code> - температура HDD N. Например, <code>$hddtemp0</code>
-* тег <code>$down</code> - скорость загрузки, <em>KB/s</em>
-* тег <code>$up</code> - скорость отдачи, <em>KB/s</em>
-* тег <code>$netdev</code> - текущий сетевой интерфейс
-* тег <code>$bat</code> - заряд батареи, <em>%</em>
-* тег <code>$ac</code> - статус адаптора питания. Возвращает (*), если AC подключен или <em>( )</em>, если нет
-* тег <code>$album</code> - альбом. Один из поддерживаемых плееров должен быть установлен
-* тег <code>$artist</code> - исполнитель. Один из поддерживаемых плееров должен быть установлен
-* тег <code>$progress</code> - прогресс. Один из поддерживаемых плееров должен быть установлен
-* тег <code>$time</code> - длительность. Один из поддерживаемых плееров должен быть установлен
-* тег <code>$title</code> - название. Один из поддерживаемых плееров должен быть установлен
-* тег <code>$pscount</code> - число запущенных процессов
-* тег <code>$pstotal</code> - общее число процессов
-* тег <code>$ps</code> - список процессов
-* тег <code>$pkgcountN</code> - число пакетов, которые могут быть обновлены, для команды N. Например, <code>$pkgcount0</code>
-* тег <code>$customN</code> - возвращает результат своей команды N. Например, <code>$custom0</code></p>
+<p>Для редактирования внешнего вида, откройте окно настроек и установите требуемый формат в поля:</p>
+
+<ul>
+<li>тег <code>$time</code> - время в стандартном формате. Например, <em>fri Nov 6 04:48:01 2013</em></li>
+<li>тег <code>$isotime</code> - время в ISO формате</li>
+<li>тег <code>$shorttime</code> - время в коротком формате</li>
+<li>тег <code>$longtime</code> - время в длинном формате</li>
+<li>тег <code>$custom</code> - свой формат времени</li>
+<li>тег <code>$uptime</code> - время работы, <em>---d--h--m</em></li>
+<li>тег <code>$custom</code> - свой формат аптайма</li>
+<li>тег <code>$cpu</code> - общая загрузка CPU, <em>%</em></li>
+<li>тег <code>$cpuN</code> - загрузка CPU для ядра N, <em>%</em></li>
+<li>тег <code>$cpucl</code> - средняя частота CPU, <em>MHz</em></li>
+<li>тег <code>$cpuclN</code> - частота CPU для ядра N, *MHz</li>
+<li>тег <code>$tempN</code> - температура для устройства N. Например, <code>$temp0</code></li>
+<li>тег <code>$gpu</code> - использование GPU, <em>%</em>. <code>aticonfig</code> или <code>nvidia-smi</code> должны быть установлены</li>
+<li>тег <code>$gputemp</code> - температура GPU. <code>aticonfig</code> или <code>nvidia-smi</code> должны быть установлены</li>
+<li>тег <code>$mem</code> - использование RAM, <em>%</em></li>
+<li>тег <code>$memmb</code> - использование RAM, <em>MB</em></li>
+<li>тег <code>$memgb</code> - использование RAM, <em>GB</em></li>
+<li>тег <code>$memtotmb</code> - RAM, <em>MB</em></li>
+<li>тег <code>$memtotgb</code> - RAM, <em>GB</em></li>
+<li>тег <code>$swap</code> - swap, <em>%</em></li>
+<li>тег <code>$swapmb</code> - swap, <em>MB</em></li>
+<li>тег <code>$swapgb</code> - swap, <em>GB</em></li>
+<li>тег <code>$swaptotmb</code> - размер swap, <em>MB</em></li>
+<li>тег <code>$swaptotgb</code> - размер swap, <em>GB</em></li>
+<li>тег <code>$hddN</code> - использование точки монтирования N, <em>%</em>. Например, <code>$hdd0</code></li>
+<li>тег <code>$hddmbN</code> - использование точки монтирования N, <em>KB/s</em>. Например, <code>$hddmb0</code></li>
+<li>тег <code>$hddgbN</code> - использование точки монтирования N, <em>KB/s</em>. Например, <code>$hddgb0</code></li>
+<li>тег <code>$hddrN</code> - скорость записи на диск N, <em>KB/s</em>. Например, <code>$hddr0</code></li>
+<li>тег <code>$hddwN</code> - скорость чтения с диска N, <em>KB/s</em>. Например, <code>$hddw0</code></li>
+<li>тег <code>$hddtempN</code> - температура HDD N. Например, <code>$hddtemp0</code></li>
+<li>тег <code>$down</code> - скорость загрузки, <em>KB/s</em></li>
+<li>тег <code>$up</code> - скорость отдачи, <em>KB/s</em></li>
+<li>тег <code>$netdev</code> - текущий сетевой интерфейс</li>
+<li>тег <code>$bat</code> - заряд батареи, <em>%</em></li>
+<li>тег <code>$ac</code> - статус адаптора питания. Возвращает (*), если AC подключен или <em>( )</em>, если нет</li>
+<li>тег <code>$album</code> - альбом. Один из поддерживаемых плееров должен быть установлен</li>
+<li>тег <code>$artist</code> - исполнитель. Один из поддерживаемых плееров должен быть установлен</li>
+<li>тег <code>$progress</code> - прогресс. Один из поддерживаемых плееров должен быть установлен</li>
+<li>тег <code>$time</code> - длительность. Один из поддерживаемых плееров должен быть установлен</li>
+<li>тег <code>$title</code> - название. Один из поддерживаемых плееров должен быть установлен</li>
+<li>тег <code>$pscount</code> - число запущенных процессов</li>
+<li>тег <code>$pstotal</code> - общее число процессов</li>
+<li>тег <code>$ps</code> - список процессов</li>
+<li>тег <code>$pkgcountN</code> - число пакетов, которые могут быть обновлены, для команды N. Например, <code>$pkgcount0</code></li>
+<li>тег <code>$customN</code> - возвращает результат своей команды N. Например, <code>$custom0</code></li>
+</ul>
 
 <p>Порядок полей изменится, если вы измените позицию слайдеров. HTML теги в полях работают корректно.</p>
 

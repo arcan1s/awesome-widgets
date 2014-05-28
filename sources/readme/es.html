@@ -8,48 +8,51 @@
 
 <h2>Configuración</h2>
 
-<p>Para editar la visualización debes abrir la ventana de Ajustes y establecer el formato de visualización en líneas:
-* etiqueta <code>$time</code> - hora en formato por defecto. Por ejemplo, <em>vie 06 Nov 04:48:01 2013</em>
-* etiqueta <code>$isotime</code> - hora en formato ISO
-* etiqueta <code>$shorttime</code> - hora en formato local corto
-* etiqueta <code>$longtime</code> - hora en formato local largo
-* etiqueta <code>$custom</code> - formato de hora personalizado
-* etiqueta <code>$uptime</code> - tiempo de actividad del sistema, <em>---d--h--m</em>
-* etiqueta <code>$custom</code> - formato personalizado del tiempo de actividad del sistema
-* etiqueta <code>$cpu</code> - carga total de la CPU, <em>%</em>
-* etiqueta <code>$cpuN</code> - carga de la CPU para el núcleo N, <em>%</em>
-* etiqueta <code>$cpucl</code> - frecuencia promedio de la CPU, <em>MHz</em>
-* etiqueta <code>$cpuclN</code> - frecuencia de la CPU para el núcleo N, <em>MHz</em>
-* etiqueta <code>$tempN</code> - temperatura para el dispositivo N. Por ejemplo, <code>$temp0</code>
-* etiqueta <code>$gpu</code> - uso de la GPU, <em>%</em>. Debe estar instalado <code>aticonfig</code> o <code>nvidia-smi</code>
-* etiqueta <code>$gputemp</code> - temperatura de la GPU. Debe estar instalado <code>aticonfig</code> o <code>nvidia-smi</code>
-* etiqueta <code>$mem</code> - uso de la memori, <em>%</em>
-* etiqueta <code>$memmb</code> - uso de la memoria, <em>MB</em>
-* etiqueta <code>$memgb</code> - uso de la memoria, <em>GB</em>
-* etiqueta <code>$swap</code> - swap, <em>%</em>
-* etiqueta <code>$swapmb</code> - swap, <em>MB</em>
-* etiqueta <code>$swapgb</code> - swap, <em>GB</em>
-* etiqueta <code>$hddN</code> - uso para el punto de montaje N, <em>%</em>. Por ejemplo, <code>$hdd0</code>
-* etiqueta <code>$hddmbN</code> - uso para el punto de montaje N, <em>MB</em>. Por ejemplo, <code>$hddmb0</code>
-* etiqueta <code>$hddgbN</code> - uso para el punto de montaje N, <em>GB</em>. Por ejemplo, <code>$hddgb0</code>
-* etiqueta <code>$hddrN</code> - leer la velocidad del disco N, <em>KB/s</em>. Por ejemplo, <code>$hddr0</code>
-* etiqueta <code>$hddwN</code> - velocidad de escritura del disco N, <em>KB/s</em>. Por ejemplo: <code>$hddw0</code>
-* etiqueta <code>$hddtempN</code> - temperatura para el disco duro N. Por ejemplo, <code>$hddtemp0</code>
-* etiqueta <code>$down</code> - velocidad de recepción, <em>KB/s</em>
-* etiqueta <code>$up</code> - velocidad de envío, <em>KB/s</em>
-* etiqueta <code>$netdev</code> - dispositivo de red actual
-* etiqueta <code>$bat</code> - carga de la batería, <em>%</em>
-* etiqueta <code>$ac</code> - estado del dispositivo de alimentación. Devuelve (*) si la alimentación está conectada o <em>( )</em> si no lo está
-* etiqueta <code>$album</code> - álbum de la canción actual. Debe estar instalado uno de los reproductores soportados
-* etiqueta <code>$artist</code> - artista de la canción actual. Debe estar instalado uno de los reproductores soportados
-* etiqueta <code>$progress</code> - progreso de la canción actual. Debe estar instalado uno de los reproductores soportados
-* etiqueta <code>$time</code> - duración de la canción actual. Debe estar instalado uno de los reproductores soportados
-* etiqueta <code>$title</code> - título de la canción actual. Debe estar instalado uno de los reproductores soportados
-* etiqueta <code>$pscount</code> - cantidad de procesos en ejecución
-* etiqueta <code>$pstotal</code> - total de procesos en ejecución
-* etiqueta <code>$ps</code> - listado de procesos en ejecución
-* etiqueta <code>$pkgcountN</code> - cantidad de paquetes con actualizaciones disponibles para el comando N. Por ejemplo, <code>$pkgcount0</code>
-* etiqueta <code>$customN</code> - obtener la salida de ejecución del comando personalizado N (a partir de 0). Por ejemplo, <code>$custom0</code></p>
+<p>Para editar la visualización debes abrir la ventana de Ajustes y establecer el formato de visualización en líneas:</p>
+
+<ul>
+<li>etiqueta <code>$time</code> - hora en formato por defecto. Por ejemplo, <em>vie 06 Nov 04:48:01 2013</em></li>
+<li>etiqueta <code>$isotime</code> - hora en formato ISO</li>
+<li>etiqueta <code>$shorttime</code> - hora en formato local corto</li>
+<li>etiqueta <code>$longtime</code> - hora en formato local largo</li>
+<li>etiqueta <code>$custom</code> - formato de hora personalizado</li>
+<li>etiqueta <code>$uptime</code> - tiempo de actividad del sistema, <em>---d--h--m</em></li>
+<li>etiqueta <code>$custom</code> - formato personalizado del tiempo de actividad del sistema</li>
+<li>etiqueta <code>$cpu</code> - carga total de la CPU, <em>%</em></li>
+<li>etiqueta <code>$cpuN</code> - carga de la CPU para el núcleo N, <em>%</em></li>
+<li>etiqueta <code>$cpucl</code> - frecuencia promedio de la CPU, <em>MHz</em></li>
+<li>etiqueta <code>$cpuclN</code> - frecuencia de la CPU para el núcleo N, <em>MHz</em></li>
+<li>etiqueta <code>$tempN</code> - temperatura para el dispositivo N. Por ejemplo, <code>$temp0</code></li>
+<li>etiqueta <code>$gpu</code> - uso de la GPU, <em>%</em>. Debe estar instalado <code>aticonfig</code> o <code>nvidia-smi</code></li>
+<li>etiqueta <code>$gputemp</code> - temperatura de la GPU. Debe estar instalado <code>aticonfig</code> o <code>nvidia-smi</code></li>
+<li>etiqueta <code>$mem</code> - uso de la memori, <em>%</em></li>
+<li>etiqueta <code>$memmb</code> - uso de la memoria, <em>MB</em></li>
+<li>etiqueta <code>$memgb</code> - uso de la memoria, <em>GB</em></li>
+<li>etiqueta <code>$swap</code> - swap, <em>%</em></li>
+<li>etiqueta <code>$swapmb</code> - swap, <em>MB</em></li>
+<li>etiqueta <code>$swapgb</code> - swap, <em>GB</em></li>
+<li>etiqueta <code>$hddN</code> - uso para el punto de montaje N, <em>%</em>. Por ejemplo, <code>$hdd0</code></li>
+<li>etiqueta <code>$hddmbN</code> - uso para el punto de montaje N, <em>MB</em>. Por ejemplo, <code>$hddmb0</code></li>
+<li>etiqueta <code>$hddgbN</code> - uso para el punto de montaje N, <em>GB</em>. Por ejemplo, <code>$hddgb0</code></li>
+<li>etiqueta <code>$hddrN</code> - leer la velocidad del disco N, <em>KB/s</em>. Por ejemplo, <code>$hddr0</code></li>
+<li>etiqueta <code>$hddwN</code> - velocidad de escritura del disco N, <em>KB/s</em>. Por ejemplo: <code>$hddw0</code></li>
+<li>etiqueta <code>$hddtempN</code> - temperatura para el disco duro N. Por ejemplo, <code>$hddtemp0</code></li>
+<li>etiqueta <code>$down</code> - velocidad de recepción, <em>KB/s</em></li>
+<li>etiqueta <code>$up</code> - velocidad de envío, <em>KB/s</em></li>
+<li>etiqueta <code>$netdev</code> - dispositivo de red actual</li>
+<li>etiqueta <code>$bat</code> - carga de la batería, <em>%</em></li>
+<li>etiqueta <code>$ac</code> - estado del dispositivo de alimentación. Devuelve (*) si la alimentación está conectada o <em>( )</em> si no lo está</li>
+<li>etiqueta <code>$album</code> - álbum de la canción actual. Debe estar instalado uno de los reproductores soportados</li>
+<li>etiqueta <code>$artist</code> - artista de la canción actual. Debe estar instalado uno de los reproductores soportados</li>
+<li>etiqueta <code>$progress</code> - progreso de la canción actual. Debe estar instalado uno de los reproductores soportados</li>
+<li>etiqueta <code>$time</code> - duración de la canción actual. Debe estar instalado uno de los reproductores soportados</li>
+<li>etiqueta <code>$title</code> - título de la canción actual. Debe estar instalado uno de los reproductores soportados</li>
+<li>etiqueta <code>$pscount</code> - cantidad de procesos en ejecución</li>
+<li>etiqueta <code>$pstotal</code> - total de procesos en ejecución</li>
+<li>etiqueta <code>$ps</code> - listado de procesos en ejecución</li>
+<li>etiqueta <code>$pkgcountN</code> - cantidad de paquetes con actualizaciones disponibles para el comando N. Por ejemplo, <code>$pkgcount0</code></li>
+<li>etiqueta <code>$customN</code> - obtener la salida de ejecución del comando personalizado N (a partir de 0). Por ejemplo, <code>$custom0</code></li>
+</ul>
 
 <p>El orden de las etiquetas será cambiado si cambias la posición del deslizador. Es posible usar código HTML para las etiquetas.</p>
 

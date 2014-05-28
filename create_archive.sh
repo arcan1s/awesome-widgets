@@ -1,13 +1,6 @@
 #!/bin/bash
 
-# update english readme
-cp README.md md_readme/en.md
-# create html pages
-for MARKDOWN in $(find md_readme -name '*.md'); do
-  FILENAME=$(basename -- "${MARKDOWN}")
-  FILENAME="${FILENAME%.*}"
-  markdown "${MARKDOWN}" > "sources/readme/${FILENAME}.html"
-done
+./update_files.sh
 
 SRCDIR="sources"
 VERSION=$(grep -m1 PROJECT_VERSION_MAJOR sources/CMakeLists.txt | awk '{print $3}' | cut -c 1).\
@@ -33,7 +26,7 @@ IGNORELIST="build usr"
 cp -r "${SRCDIR}" "${ARCHIVE}"
 for FILE in ${FILES[*]}; do cp -r "$FILE" "${ARCHIVE}"; done
 for FILE in ${IGNORELIST[*]}; do rm -rf "${ARCHIVE}/${FILE}"; done
-tar cJf "${ARCHIVE}-${VERSION}-src.tar.xz" "${ARCHIVE}" 
+tar cJf "${ARCHIVE}-${VERSION}-src.tar.xz" "${ARCHIVE}"
 rm -rf "${ARCHIVE}"
 
 # update md5sum
