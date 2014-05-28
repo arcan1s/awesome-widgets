@@ -75,7 +75,7 @@ Advanced settings
 
 **Enable popup**
 
-Uncheck box if you do not use popup messages
+Uncheck box if you do not use popup messages.
 
 **Custom time**
 

@@ -1,5 +1,5 @@
 --- README.md.orig	2014-05-28 20:30:26.685205144 +0400
-+++ README.md	2014-05-29 00:28:13.332304981 +0400
++++ README.md	2014-05-29 00:33:04.628980492 +0400
 @@ -3,13 +3,16 @@
  
  Information
@@ -47,7 +47,7 @@
 +
 +**Enable popup**
 +
-+Uncheck box if you do not use popup messages
++Uncheck box if you do not use popup messages.
 +
  **Custom time**
  
