@@ -253,14 +253,14 @@ class ConfigDefinition:
         # add config page
         page = {}
         page['widget'] = parent.addPage(self.configpage['widget'], i18n("Widget"))
-        page['widget'].setIcon(KIcon("ptm"))
+        page['widget'].setIcon(KIcon("utilities-system-monitor"))
         page['advanced'] = parent.addPage(self.configpage['advanced'], i18n("Advanced"))
-        page['advanced'].setIcon(KIcon("ptm-advanced"))
+        page['advanced'].setIcon(KIcon("system-run"))
         page['tooltip'] = parent.addPage(self.configpage['tooltip'], i18n("Tooltip"))
-        page['tooltip'].setIcon(KIcon("ptm-tooltip"))
+        page['tooltip'].setIcon(KIcon("preferences-desktop-color"))
         page['appearance'] = parent.addPage(self.configpage['appearance'], i18n("Appearance"))
-        page['appearance'].setIcon(KIcon("ptm-appearance"))
+        page['appearance'].setIcon(KIcon("preferences-desktop-theme"))
         page['dataengine'] = parent.addPage(self.configpage['dataengine'], i18n("DataEngine"))
-        page['dataengine'].setIcon(KIcon("ptm"))
+        page['dataengine'].setIcon(KIcon("utilities-system-monitor"))
 
         parent.okClicked.connect(self.configAccepted)

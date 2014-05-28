@@ -1,4 +1,4 @@
-Ver.1.9.1:
+Ver.1.10.0:
 + added tags $memtotmb, $memtotgb, $swaptotmb, $swaptotgb
 + added ability for force update text
 + added support of clementine
@@ -7,6 +7,7 @@ Ver.1.9.1:
 + added error checking of DataEngine variables
 + added Brazillian Portuguese translation (@underr)
 + added Ukrainian translation (Виктор Слободян)
+* refactoring of configuration interface
 * player settings was moved from plasmoid to dataengine
 * edited readme call
 * changed readme from md to html
