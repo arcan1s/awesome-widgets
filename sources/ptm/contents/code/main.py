@@ -27,12 +27,16 @@ from PyKDE4 import plasmascript
 from PyKDE4.plasma import Plasma
 import commands, os, shutil
 
+import advanced
+import appearance
 import configdef
-import configwindow
 import dataengine
+import deconfig
 import ptmnotify
 import reinit
 import tooltip
+import tooltipconfig
+import widget
 from util import *
 
 
@@ -165,9 +169,15 @@ class pyTextWidget(plasmascript.Applet):
 
     def createConfigurationInterface(self, parent):
         """function to setup configuration window"""
-        self.configpage = configwindow.ConfigWindow(self)
-        self.configdef = configdef.ConfigDefinition(self, self.configpage, self.ptm['defaults'])
-        self.configdef.createConfigurationInterface(parent)
+        configpage = {}
+        configpage['advanced'] = advanced.AdvancedWindow(self)
+        configpage['appearance'] = appearance.AppearanceWindow(self)
+        configpage['dataengine'] = deconfig.DEConfigWindow(self)
+        configpage['tooltip'] = tooltipconfig.TooltipWindow(self)
+        configpage['widget'] = widget.WidgetWindow(self)
+
+        confdef = configdef.ConfigDefinition(self, configpage, self.ptm['defaults'])
+        confdef.createConfigurationInterface(parent)
 
 
     def createNotifyrc(self, kdehome):
