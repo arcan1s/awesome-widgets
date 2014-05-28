@@ -3,9 +3,10 @@
 ./update_files.sh
 
 SRCDIR="sources"
-VERSION=$(grep -m1 PROJECT_VERSION_MAJOR sources/CMakeLists.txt | awk '{print $3}' | cut -c 1).\
-$(grep -m1 PROJECT_VERSION_MINOR sources/CMakeLists.txt | awk '{print $3}' | cut -c 1).\
-$(grep -m1 PROJECT_VERSION_PATCH sources/CMakeLists.txt | awk '{print $3}' | cut -c 1)
+MAJOR=$(grep -m1 PROJECT_VERSION_MAJOR sources/CMakeLists.txt | awk '{print $3}' | sed 's/.$//g')
+MINOR=$(grep -m1 PROJECT_VERSION_MINOR sources/CMakeLists.txt | awk '{print $3}' | sed 's/.$//g')
+PATCH=$(grep -m1 PROJECT_VERSION_PATCH sources/CMakeLists.txt | awk '{print $3}' | sed 's/.$//g')
+VERSION="${MAJOR}.${MINOR}.${PATCH}"
 
 # build dataengine
 ARCHIVE="ext-sysmon"
