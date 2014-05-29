@@ -6,6 +6,7 @@ Ver.1.10.0:
 + added support of disable option for HDDDEV and GPUDEV
 + added error checking of DataEngine variables
 + added ability to disable popup messages
++ added ability to use vertical layout
 + added Brazillian Portuguese translation (@underr)
 + added Ukrainian translation (Виктор Слободян)
 - removed util.py

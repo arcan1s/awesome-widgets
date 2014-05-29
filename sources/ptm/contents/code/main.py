@@ -24,7 +24,7 @@ from PyKDE4.kdeui import *
 from PyKDE4.kio import *
 from PyKDE4 import plasmascript
 from PyKDE4.plasma import Plasma
-import commands, os, shutil
+import commands, os
 
 import advanced
 import appearance
@@ -228,8 +228,6 @@ class pyTextWidget(plasmascript.Applet):
         self.ptm['defaults']['disk'] = []
         # labels
         self.ptm['labels'] = {}
-        self.ptm['layout'] = QGraphicsLinearLayout(Qt.Horizontal, self.applet)
-        self.ptm['layout'].setContentsMargins(1, 1, 1, 1)
         # names
         self.ptm['names'] = {}
         self.ptm['names']['disk'] = []
@@ -596,6 +594,15 @@ class pyTextWidget(plasmascript.Applet):
         QObject.connect(self.ptm['dataengine']['system'], SIGNAL("sourceAdded(QString)"), self.addDiskDevice)
         self.dataengine.connectToEngine(self.ptm['vars']['bools'], self.ptm['dataengine'],
             self.ptm['vars']['app']['interval'], self.ptm['names'])
+
+
+    def createLayout(self, verticalLayout=0):
+        """function to create layout"""
+        if (verticalLayout == 0):
+            self.ptm['layout'] = QGraphicsLinearLayout(Qt.Horizontal, self.applet)
+        else:
+            self.ptm['layout'] = QGraphicsLinearLayout(Qt.Vertical, self.applet)
+        self.ptm['layout'].setContentsMargins(1, 1, 1, 1)
 
 
     def disconnectFromSource(self):

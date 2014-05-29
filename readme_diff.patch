@@ -1,5 +1,5 @@
 --- README.md.orig	2014-05-28 20:30:26.685205144 +0400
-+++ README.md	2014-05-29 00:42:04.132330206 +0400
++++ README.md	2014-05-29 18:11:33.604651513 +0400
 @@ -3,13 +3,16 @@
  
  Information
@@ -31,7 +31,7 @@
  * tag `$hddN` - usage for mount point N, *%*. For example, `$hdd0`
  * tag `$hddmbN` - usage for mount point N, *MB*. For example, `$hddmb0`
  * tag `$hddgbN` - usage for mount point N, *GB*. For example, `$hddgb0`
-@@ -56,8 +63,20 @@
+@@ -56,8 +63,24 @@
  
  **NOTE** you don't may set to show `$cpu` tag in swap label for example. **`$cpu` will work only in cpu label**.
  
@@ -45,6 +45,10 @@
  Advanced settings
  -----------------
 +
++**Vertical layout**
++
++Use vertical layout instead of horizontal.
++
 +**Enable popup**
 +
 +Uncheck box if you do not use popup messages.
@@ -52,7 +56,7 @@
  **Custom time**
  
  * tag `$dddd` - weekday in long format
-@@ -130,16 +149,14 @@
+@@ -130,16 +153,14 @@
  
  File with AC information. File (`/sys/class/power_supply/AC/online` by default) must contain `1` if AC is online.
  
@@ -71,7 +75,7 @@
  **Custom command**
  
  *NOTE* This can cause the computer freeze.
-@@ -148,11 +165,15 @@
+@@ -148,11 +169,15 @@
  
  **GPU device**
  
@@ -89,7 +93,7 @@
  
  **MPD address**
  
-@@ -165,6 +186,7 @@
+@@ -165,6 +190,7 @@
  **Package manager**
  
  List of commands, which will be run. Number of null lines is a number of unneeded lines. Defaults:
@@ -97,7 +101,7 @@
  * *Arch*: `PKGCMD=pacman -Qu`, `PKGNULL=0`
  * *Debian*: `PKGCMD=apt-show-versions -u -b`, `PKGNULL=0`
  * *Ubuntu*: `PKGCMD=aptitude search '~U'`, `PKGNULL=0`
-@@ -172,9 +194,13 @@
+@@ -172,9 +198,13 @@
  * *FreeBSD*: `PKGCMD=pkg_version -I -l '<'`, `PKGNULL=0`
  * *Mandriva*: `PKGCMD=urpmq --auto-select`, `PKGNULL=0`
  
@@ -111,7 +115,7 @@
  You may edit DataEngine configuration. It is `/usr/share/config/extsysmon.conf` or `$HOME/share/config/extsysmon.conf` depending on the type of installation. Uncomment needed line and edit it.
  
  Instruction
-@@ -182,25 +208,29 @@
+@@ -182,25 +212,29 @@
  
  Dependencies
  ------------
@@ -143,7 +147,7 @@
  * download sources
  * install
  
-@@ -222,6 +252,7 @@
+@@ -222,6 +256,7 @@
  
  Links
  -----

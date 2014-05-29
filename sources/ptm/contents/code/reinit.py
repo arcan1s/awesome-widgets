@@ -43,6 +43,7 @@ class Reinit():
         ptmVars['adv']['batDev'] = str(settings.get('battery_device', '/sys/class/power_supply/BAT0/capacity'))
         ptmVars['adv']['customTime'] = str(settings.get('custom_time', '$hh:$mm'))
         ptmVars['adv']['customUptime'] = str(settings.get('custom_uptime', '$dd,$hh,$mm'))
+        ptmVars['adv']['layout'] = settings.get('layout', 0).toInt()[0]
         ptmVars['adv']['netdevBool'] = settings.get('netdevBool', 0).toInt()[0]
         ptmVars['adv']['netdev'] = str(settings.get('custom_netdev', 'lo'))
         ptmVars['adv']['netDir'] = str(settings.get('netdir', '/sys/class/net'))
@@ -78,6 +79,7 @@ class Reinit():
         ptmNames['temp'] = str(settings.get('temp_device', '')).split('@@')
         self.parent.applySettings('names', ptmNames)
 
+        self.parent.createLayout(ptmVars['adv']['layout'])
         ptmVars['formats'] = {}
         ptmVars['tooltip']['required'] = []
         for order in ptmVars['app']['order']:

@@ -73,6 +73,10 @@ Numbering of elements of temperature, HDD usage, HDD speed, HDD temperature refe
 Advanced settings
 -----------------
 
+**Vertical layout**
+
+Use vertical layout instead of horizontal.
+
 **Enable popup**
 
 Uncheck box if you do not use popup messages.
