@@ -75,7 +75,7 @@ Advanced settings
 
 **Vertical layout**
 
-Use vertical layout instead of horizontal.
+Use vertical layout instead of horizontal one.
 
 **Enable popup**
 
