@@ -1,5 +1,5 @@
 --- README.md.orig	2014-05-28 20:30:26.685205144 +0400
-+++ README.md	2014-05-29 18:17:09.764661719 +0400
++++ README.md	2014-05-31 14:11:11.206846569 +0400
 @@ -3,13 +3,16 @@
  
  Information
@@ -17,7 +17,7 @@
  * tag `$time` - time in default format. For example, *fri Nov 6 04:48:01 2013*
  * tag `$isotime` - time in iso format
  * tag `$shorttime` - time in short locale format
-@@ -27,9 +30,13 @@
+@@ -27,12 +30,18 @@
  * tag `$mem` - usage memory, *%*
  * tag `$memmb` - usage memory, *MB*
  * tag `$memgb` - usage memory, *GB*
@@ -31,7 +31,12 @@
  * tag `$hddN` - usage for mount point N, *%*. For example, `$hdd0`
  * tag `$hddmbN` - usage for mount point N, *MB*. For example, `$hddmb0`
  * tag `$hddgbN` - usage for mount point N, *GB*. For example, `$hddgb0`
-@@ -56,8 +63,24 @@
++* tag `$hddtotmbN` - total size of mount point N, *MB*. For example, `$hddtotmb0`
++* tag `$hddtotgbN` - total size of mount point N, *GB*. For example, `$hddtotgb0`
+ * tag `$hddrN` - read speed of disk N, *KB/s*. For example, `$hddr0`
+ * tag `$hddwN` - write speed of disk N, *KB/s*. For example, `$hddw0`
+ * tag `$hddtempN` - temperature for HDD N. For example, `$hddtemp0`
+@@ -56,8 +65,24 @@
  
  **NOTE** you don't may set to show `$cpu` tag in swap label for example. **`$cpu` will work only in cpu label**.
  
@@ -56,7 +61,7 @@
  **Custom time**
  
  * tag `$dddd` - weekday in long format
-@@ -130,16 +153,14 @@
+@@ -130,16 +155,14 @@
  
  File with AC information. File (`/sys/class/power_supply/AC/online` by default) must contain `1` if AC is online.
  
@@ -75,7 +80,7 @@
  **Custom command**
  
  *NOTE* This can cause the computer freeze.
-@@ -148,11 +169,15 @@
+@@ -148,11 +171,15 @@
  
  **GPU device**
  
@@ -93,7 +98,7 @@
  
  **MPD address**
  
-@@ -165,6 +190,7 @@
+@@ -165,6 +192,7 @@
  **Package manager**
  
  List of commands, which will be run. Number of null lines is a number of unneeded lines. Defaults:
@@ -101,7 +106,7 @@
  * *Arch*: `PKGCMD=pacman -Qu`, `PKGNULL=0`
  * *Debian*: `PKGCMD=apt-show-versions -u -b`, `PKGNULL=0`
  * *Ubuntu*: `PKGCMD=aptitude search '~U'`, `PKGNULL=0`
-@@ -172,9 +198,13 @@
+@@ -172,9 +200,13 @@
  * *FreeBSD*: `PKGCMD=pkg_version -I -l '<'`, `PKGNULL=0`
  * *Mandriva*: `PKGCMD=urpmq --auto-select`, `PKGNULL=0`
  
@@ -115,7 +120,7 @@
  You may edit DataEngine configuration. It is `/usr/share/config/extsysmon.conf` or `$HOME/share/config/extsysmon.conf` depending on the type of installation. Uncomment needed line and edit it.
  
  Instruction
-@@ -182,25 +212,29 @@
+@@ -182,25 +214,29 @@
  
  Dependencies
  ------------
@@ -147,7 +152,7 @@
  * download sources
  * install
  
-@@ -222,6 +256,7 @@
+@@ -222,6 +258,7 @@
  
  Links
  -----

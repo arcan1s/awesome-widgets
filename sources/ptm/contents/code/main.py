@@ -252,6 +252,7 @@ class pyTextWidget(plasmascript.Applet):
         self.ptm['values']['disk-r'] = {}
         self.ptm['values']['disk-w'] = {}
         self.ptm['values']['hdd'] = {}
+        self.ptm['values']['hddfreemb'] = {}
         self.ptm['values']['hddmb'] = {}
         self.ptm['values']['hddtemp'] = {}
         self.ptm['values']['mem'] = {'app':0.0, 'used':0.0, 'free':1.0}
@@ -426,14 +427,10 @@ class pyTextWidget(plasmascript.Applet):
         for i in devices:
             if (line.split('$hddr' + str(i))[0] != line):
                 hdd = "%4i" % (self.ptm['values']['disk-r'][self.ptm['names']['disk'][i]])
-                line = line.split('$hddr' + str(i))[0] +\
-                    hdd +\
-                    line.split('$hddr' + str(i))[1]
+                line = line.split('$hddr' + str(i))[0] + hdd + line.split('$hddr' + str(i))[1]
             if (line.split('$hddw' + str(i))[0] != line):
                 hdd = "%4i" % (self.ptm['values']['disk-w'][self.ptm['names']['disk'][i]])
-                line = line.split('$hddw' + str(i))[0] +\
-                    hdd +\
-                    line.split('$hddw' + str(i))[1]
+                line = line.split('$hddw' + str(i))[0] + hdd + line.split('$hddw' + str(i))[1]
         text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
         self.setText("disk", text)
 
@@ -446,19 +443,21 @@ class pyTextWidget(plasmascript.Applet):
         for i in devices:
             if (line.split('$hdd' + str(i))[0] != line):
                 hdd = "%4.1f" % (self.ptm['values']['hdd'][self.ptm['names']['hdd'][i]])
-                line = line.split('$hdd' + str(i))[0] +\
-                    hdd +\
-                    line.split('$hdd' + str(i))[1]
+                line = line.split('$hdd' + str(i))[0] + hdd + line.split('$hdd' + str(i))[1]
             if (line.split('$hddmb' + str(i))[0] != line):
                 hdd = "%i" % (self.ptm['values']['hddmb'][self.ptm['names']['hdd'][i]] / 1024.0)
-                line = line.split('$hddmb' + str(i))[0] +\
-                    str(int(self.ptm['values']['hddmb'][self.ptm['names']['hdd'][i]] / 1024.0)) +\
-                    line.split('$hddmb' + str(i))[1]
+                line = line.split('$hddmb' + str(i))[0] + hdd + line.split('$hddmb' + str(i))[1]
             if (line.split('$hddgb' + str(i))[0] != line):
-                hdd = "%4.1f" % (self.ptm['values']['hddmb'][self.ptm['names']['hdd'][i]] / (1024.0 * 1024.0))
-                line = line.split('$hddgb' + str(i))[0] +\
-                    hdd +\
-                    line.split('$hddgb' + str(i))[1]
+                hdd = "%5.1f" % (self.ptm['values']['hddmb'][self.ptm['names']['hdd'][i]] / (1024.0 * 1024.0))
+                line = line.split('$hddgb' + str(i))[0] + hdd + line.split('$hddgb' + str(i))[1]
+            if (line.split('$hddtotmb' + str(i))[0] != line):
+                hdd = "%i" % ((self.ptm['values']['hddfreemb'][self.ptm['names']['hdd'][i]] +\
+                               self.ptm['values']['hddmb'][self.ptm['names']['hdd'][i]]) / 1024.0)
+                line = line.split('$hddtotmb' + str(i))[0] + hdd + line.split('$hddtotmb' + str(i))[1]
+            if (line.split('$hddtotgb' + str(i))[0] != line):
+                hdd = "%5.1f" % ((self.ptm['values']['hddfreemb'][self.ptm['names']['hdd'][i]] +\
+                               self.ptm['values']['hddmb'][self.ptm['names']['hdd'][i]]) / (1024.0 * 1024.0))
+                line = line.split('$hddtotgb' + str(i))[0] + hdd + line.split('$hddtotgb' + str(i))[1]
         text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
         self.setText("hdd", text)
 
@@ -579,6 +578,7 @@ class pyTextWidget(plasmascript.Applet):
                     self.ptm['values'][item][value] = 0.0
             for value in self.ptm['names']['hdd']:
                 self.ptm['values']['hdd'][value] = 0.0
+                self.ptm['values']['hddfreemb'][value] = 0.0
                 self.ptm['values']['hddmb'][value] = 0.0
             for value in self.ptm['names']['disk']:
                 self.ptm['values']['disk-r'][value] = 0.0

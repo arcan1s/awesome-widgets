@@ -1,4 +1,5 @@
 Вер.1.10.0:
++ добавлены теги $hddtotmb, $hddtotgb
 + добавлены теги $memtotmb, $memtotgb, $swaptotmb, $swaptotgb
 + добавлена возможность форсированного обновления
 + добавлена поддержка clementine

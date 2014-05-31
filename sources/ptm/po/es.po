@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=157124\n"
-"POT-Creation-Date: 2014-05-29 18:12+0400\n"
+"POT-Creation-Date: 2014-05-31 14:04+0400\n"
 "PO-Revision-Date: 2014-05-19 23:02+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Spanish <kde-russian@lists.kde.ru>\n"
@@ -254,7 +254,7 @@ msgstr "Dirección de MPD"
 msgid "MPD port"
 msgstr "Puerto de MPD"
 
-#: rc.cpp:175 rc.cpp:361
+#: rc.cpp:175 rc.cpp:363
 msgid "Package manager"
 msgstr "Gestor de paquetes"
 
@@ -262,7 +262,7 @@ msgstr "Gestor de paquetes"
 msgid "Number of null lines"
 msgstr "Número de líneas nulas"
 
-#: rc.cpp:188 rc.cpp:343
+#: rc.cpp:188 rc.cpp:345
 msgid "Music player"
 msgstr "Reproductor de música"
 
@@ -442,10 +442,13 @@ msgstr ""
 "$swapgb - uso de la swap, GB"
 
 #: rc.cpp:309
+#, fuzzy
 msgid ""
 "$hddN - usage for mount point N (from 0), %. Example: $hdd0\n"
 "$hddmbN - usage for mount point N (from 0), MB. Example: $hddmb0\n"
-"$hddgbN - usage for mount point N (from 0), GB. Example: $hddgb0"
+"$hddgbN - usage for mount point N (from 0), GB. Example: $hddgb0\n"
+"$hddtotmbN - total size of mount point N (from 0), MB. Example: $hddtotmb0\n"
+"$hddtotgbN - total size of mount point N (from 0), GB. Example: $hddtotgb0"
 msgstr ""
 "$hddN - uso para el punto de montaje N (a partir de 0), %. Ejemplo: $hdd0\n"
 "$hddmbN - uso para el punto de montaje N (a partir de 0), MB. Ejemplo: "
@@ -453,11 +456,11 @@ msgstr ""
 "$hddgbN - uso para el punto de montaje N (a partir de 0), GB. Ejemplo: "
 "$hddgb0"
 
-#: rc.cpp:314
+#: rc.cpp:316
 msgid "HDD speed"
 msgstr "Velocidad del disco duro"
 
-#: rc.cpp:317
+#: rc.cpp:319
 msgid ""
 "$hddrN - read speed HDD N (from 0), KB/s. Example: $hddr0\n"
 "$hddwN - write speed HDD N (from 0), KB/s. Example: $hddw0"
@@ -467,22 +470,22 @@ msgstr ""
 "$hddwN - velocidad de escritura del disco N (a partir de 0), KB/s. Por "
 "ejemplo: $hddw0"
 
-#: rc.cpp:321
+#: rc.cpp:323
 msgid "HDD temp"
 msgstr "Temperatura del disco duro"
 
-#: rc.cpp:324
+#: rc.cpp:326
 msgid ""
 "$hddtempN - physical temperature on device N (from 0). Example: $hddtemp0"
 msgstr ""
 "$hddtempN - temperatura física en el dispositivo N (a partir de 0). Ejemplo: "
 "$hddtemp0"
 
-#: rc.cpp:327
+#: rc.cpp:329
 msgid "Network"
 msgstr "Red"
 
-#: rc.cpp:330
+#: rc.cpp:332
 msgid ""
 "$down - download speed, KB/s\n"
 "$up - upload speed, KB/s\n"
@@ -492,11 +495,11 @@ msgstr ""
 "$up - velocidad de envío, KB/s\n"
 "$netdev - dispositivo de red actual"
 
-#: rc.cpp:335
+#: rc.cpp:337
 msgid "Battery"
 msgstr "Batería"
 
-#: rc.cpp:339
+#: rc.cpp:341
 msgid ""
 "$bat - battery charge, %\n"
 "$ac - AC status"
@@ -504,7 +507,7 @@ msgstr ""
 "$bat - carga de la batería, %\n"
 "$ac - estado de la alimentación"
 
-#: rc.cpp:346
+#: rc.cpp:348
 msgid ""
 "$album - song album\n"
 "$artist - song artist\n"
@@ -518,11 +521,11 @@ msgstr ""
 "$time - duración de la canción\n"
 "$title - título de la canción"
 
-#: rc.cpp:353
+#: rc.cpp:355
 msgid "Processes"
 msgstr "Procesos"
 
-#: rc.cpp:356
+#: rc.cpp:358
 msgid ""
 "$pscount - number of running processes\n"
 "$pstotal - total number of running processes\n"
@@ -532,7 +535,7 @@ msgstr ""
 "$pstotal - total de procesos en ejecución\n"
 "$ps - listado de procesos en ejecución separados por coma"
 
-#: rc.cpp:364
+#: rc.cpp:366
 msgid ""
 "$pkgcountN - number of packages which are available for updates, command N. "
 "For example $pkgcount0"
@@ -540,23 +543,23 @@ msgstr ""
 "$pkgcountN - número de paquetes con actualizaciones disponibles, comando N. "
 "Por ejemplo $pkgcount0"
 
-#: rc.cpp:367
+#: rc.cpp:369
 msgid "Custom"
 msgstr "Personalizado"
 
-#: rc.cpp:370
+#: rc.cpp:372
 msgid ""
 "$customN - get output from custom command N (from N). Example `$custom0`"
 msgstr ""
 "$customN - obtener la salida de ejecución del comando personalizado N "
 "(apartir de 0). Por ejemplo: $custom0"
 
-#: rc.cpp:371
+#: rc.cpp:373
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Tu nombre"
 
-#: rc.cpp:372
+#: rc.cpp:374
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "Tus correos"

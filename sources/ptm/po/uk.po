@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=157124\n"
-"POT-Creation-Date: 2014-05-29 18:12+0400\n"
+"POT-Creation-Date: 2014-05-31 14:04+0400\n"
 "PO-Revision-Date: 2014-05-24 16:27+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Ukrainian <kde-russian@lists.kde.ru>\n"
@@ -254,7 +254,7 @@ msgstr "Адреса сервера MPD"
 msgid "MPD port"
 msgstr "Порт сервера MPD"
 
-#: rc.cpp:175 rc.cpp:361
+#: rc.cpp:175 rc.cpp:363
 msgid "Package manager"
 msgstr "Пакетний менеджер"
 
@@ -262,7 +262,7 @@ msgstr "Пакетний менеджер"
 msgid "Number of null lines"
 msgstr "Кількість пустих рядків"
 
-#: rc.cpp:188 rc.cpp:343
+#: rc.cpp:188 rc.cpp:345
 msgid "Music player"
 msgstr "Музичний плеєр"
 
@@ -439,20 +439,23 @@ msgstr ""
 "$swapgb - використання swap, GB"
 
 #: rc.cpp:309
+#, fuzzy
 msgid ""
 "$hddN - usage for mount point N (from 0), %. Example: $hdd0\n"
 "$hddmbN - usage for mount point N (from 0), MB. Example: $hddmb0\n"
-"$hddgbN - usage for mount point N (from 0), GB. Example: $hddgb0"
+"$hddgbN - usage for mount point N (from 0), GB. Example: $hddgb0\n"
+"$hddtotmbN - total size of mount point N (from 0), MB. Example: $hddtotmb0\n"
+"$hddtotgbN - total size of mount point N (from 0), GB. Example: $hddtotgb0"
 msgstr ""
 "$hddN - використання точки монтування N (від 0), %. Приклад: $hdd0\n"
 "$hddmbN - використання точки монтування N (від 0), MB. Приклад: $hddmb0\n"
 "$hddgbN - використання точки монтування N (від 0), GB. Приклад: $hddgb0"
 
-#: rc.cpp:314
+#: rc.cpp:316
 msgid "HDD speed"
 msgstr "Швидкість HDD"
 
-#: rc.cpp:317
+#: rc.cpp:319
 msgid ""
 "$hddrN - read speed HDD N (from 0), KB/s. Example: $hddr0\n"
 "$hddwN - write speed HDD N (from 0), KB/s. Example: $hddw0"
@@ -460,21 +463,21 @@ msgstr ""
 "$hddrN - швидкість читання HDD N (від 0), KB/s. Приклад: $hddr0\n"
 "$hddwN - швидкість запису HDD N (від 0), KB/s. Приклад: $hddw0"
 
-#: rc.cpp:321
+#: rc.cpp:323
 msgid "HDD temp"
 msgstr "Температура HDD"
 
-#: rc.cpp:324
+#: rc.cpp:326
 msgid ""
 "$hddtempN - physical temperature on device N (from 0). Example: $hddtemp0"
 msgstr ""
 "$hddtempN - фізична температура на пристрої N (від 0). Приклад: $hddtemp"
 
-#: rc.cpp:327
+#: rc.cpp:329
 msgid "Network"
 msgstr "Мережа"
 
-#: rc.cpp:330
+#: rc.cpp:332
 msgid ""
 "$down - download speed, KB/s\n"
 "$up - upload speed, KB/s\n"
@@ -484,11 +487,11 @@ msgstr ""
 "$up - швидкість віддачі, KB/s\n"
 "$netdev - поточний мережевий пристрій"
 
-#: rc.cpp:335
+#: rc.cpp:337
 msgid "Battery"
 msgstr "Батарея"
 
-#: rc.cpp:339
+#: rc.cpp:341
 msgid ""
 "$bat - battery charge, %\n"
 "$ac - AC status"
@@ -496,7 +499,7 @@ msgstr ""
 "$bat - заряд батареї, %\n"
 "$ac - статус адаптера живлення"
 
-#: rc.cpp:346
+#: rc.cpp:348
 msgid ""
 "$album - song album\n"
 "$artist - song artist\n"
@@ -510,11 +513,11 @@ msgstr ""
 "$time - тривалість\n"
 "$title - назва"
 
-#: rc.cpp:353
+#: rc.cpp:355
 msgid "Processes"
 msgstr "Процеси"
 
-#: rc.cpp:356
+#: rc.cpp:358
 msgid ""
 "$pscount - number of running processes\n"
 "$pstotal - total number of running processes\n"
@@ -524,7 +527,7 @@ msgstr ""
 "$pstotal - загальна кількість процесів\n"
 "$ps - перелік запущених процесів, розділених комами"
 
-#: rc.cpp:364
+#: rc.cpp:366
 msgid ""
 "$pkgcountN - number of packages which are available for updates, command N. "
 "For example $pkgcount0"
@@ -532,22 +535,22 @@ msgstr ""
 "$pkgcountN - кількість пакетів, що доступні для оновлення, для команди N. "
 "Наприклад: $pkgcount0"
 
-#: rc.cpp:367
+#: rc.cpp:369
 msgid "Custom"
 msgstr "Своя команда"
 
-#: rc.cpp:370
+#: rc.cpp:372
 msgid ""
 "$customN - get output from custom command N (from N). Example `$custom0`"
 msgstr ""
 "$customN - отримати інформацію зі своєї команди N. Наприклад `$custom0`"
 
-#: rc.cpp:371
+#: rc.cpp:373
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Slobodyan Victor"
 
-#: rc.cpp:372
+#: rc.cpp:374
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "sarumyan@i.ua"

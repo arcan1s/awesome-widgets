@@ -1,4 +1,5 @@
 Ver.1.10.0:
++ added tags $hddtotmb, $hddtotgb
 + added tags $memtotmb, $memtotgb, $swaptotmb, $swaptotgb
 + added ability for force update text
 + added support of clementine

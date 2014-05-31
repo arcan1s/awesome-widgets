@@ -58,6 +58,7 @@ class DataEngine:
         if (bools['hdd'] > 0):
             for item in names['hdd']:
                 dataEngines['system'].connectSource("partitions" + item + "/filllevel", self.parent, interval)
+                dataEngines['system'].connectSource("partitions" + item + "/freespace", self.parent, interval)
                 dataEngines['system'].connectSource("partitions" + item + "/usedspace", self.parent, interval)
         if (bools['hddtemp'] > 0):
             dataEngines['ext'].connectSource("hddtemp", self.parent, interval)
@@ -143,6 +144,11 @@ class DataEngine:
                 updatedData['name'] = "hdd"
                 updatedData['type'] = '/' + '/'.join(sourceName.split('/')[1:-1])
                 value = round(data[QString(u'value')].toFloat()[0], 1)
+                updatedData['value'] = value
+            elif (sourceName.split('/')[0] == "partitions") and (sourceName.split('/')[-1] == "freespace"):
+                updatedData['name'] = "hddfreemb"
+                updatedData['type'] = '/' + '/'.join(sourceName.split('/')[1:-1])
+                value = data[QString(u'value')].toFloat()[0]
                 updatedData['value'] = value
             elif (sourceName.split('/')[0] == "partitions") and (sourceName.split('/')[-1] == "usedspace"):
                 updatedData['name'] = "hddmb"

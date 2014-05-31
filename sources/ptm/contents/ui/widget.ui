@@ -637,7 +637,9 @@ $swaptotgb - total swap, GB</string>
            <property name="toolTip">
             <string>$hddN - usage for mount point N (from 0), %. Example: $hdd0
 $hddmbN - usage for mount point N (from 0), MB. Example: $hddmb0
-$hddgbN - usage for mount point N (from 0), GB. Example: $hddgb0</string>
+$hddgbN - usage for mount point N (from 0), GB. Example: $hddgb0
+$hddtotmbN - total size of mount point N (from 0), MB. Example: $hddtotmb0
+$hddtotgbN - total size of mount point N (from 0), GB. Example: $hddtotgb0</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

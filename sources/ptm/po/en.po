@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=157124\n"
-"POT-Creation-Date: 2014-05-29 18:12+0400\n"
-"PO-Revision-Date: 2014-05-29 18:12+0400\n"
+"POT-Creation-Date: 2014-05-31 14:04+0400\n"
+"PO-Revision-Date: 2014-05-31 14:05+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -254,7 +254,7 @@ msgstr "MPD address"
 msgid "MPD port"
 msgstr "MPD port"
 
-#: rc.cpp:175 rc.cpp:361
+#: rc.cpp:175 rc.cpp:363
 msgid "Package manager"
 msgstr "Package manager"
 
@@ -262,7 +262,7 @@ msgstr "Package manager"
 msgid "Number of null lines"
 msgstr "Number of null lines"
 
-#: rc.cpp:188 rc.cpp:343
+#: rc.cpp:188 rc.cpp:345
 msgid "Music player"
 msgstr "Music player"
 
@@ -444,17 +444,21 @@ msgstr ""
 msgid ""
 "$hddN - usage for mount point N (from 0), %. Example: $hdd0\n"
 "$hddmbN - usage for mount point N (from 0), MB. Example: $hddmb0\n"
-"$hddgbN - usage for mount point N (from 0), GB. Example: $hddgb0"
+"$hddgbN - usage for mount point N (from 0), GB. Example: $hddgb0\n"
+"$hddtotmbN - total size of mount point N (from 0), MB. Example: $hddtotmb0\n"
+"$hddtotgbN - total size of mount point N (from 0), GB. Example: $hddtotgb0"
 msgstr ""
 "$hddN - usage for mount point N (from 0), %. Example: $hdd0\n"
 "$hddmbN - usage for mount point N (from 0), MB. Example: $hddmb0\n"
-"$hddgbN - usage for mount point N (from 0), GB. Example: $hddgb0"
+"$hddgbN - usage for mount point N (from 0), GB. Example: $hddgb0\n"
+"$hddtotmbN - total size of mount point N (from 0), MB. Example: $hddtotmb0\n"
+"$hddtotgbN - total size of mount point N (from 0), GB. Example: $hddtotgb0"
 
-#: rc.cpp:314
+#: rc.cpp:316
 msgid "HDD speed"
 msgstr "HDD speed"
 
-#: rc.cpp:317
+#: rc.cpp:319
 msgid ""
 "$hddrN - read speed HDD N (from 0), KB/s. Example: $hddr0\n"
 "$hddwN - write speed HDD N (from 0), KB/s. Example: $hddw0"
@@ -462,21 +466,21 @@ msgstr ""
 "$hddrN - read speed HDD N (from 0), KB/s. Example: $hddr0\n"
 "$hddwN - write speed HDD N (from 0), KB/s. Example: $hddw0"
 
-#: rc.cpp:321
+#: rc.cpp:323
 msgid "HDD temp"
 msgstr "HDD temp"
 
-#: rc.cpp:324
+#: rc.cpp:326
 msgid ""
 "$hddtempN - physical temperature on device N (from 0). Example: $hddtemp0"
 msgstr ""
 "$hddtempN - physical temperature on device N (from 0). Example: $hddtemp0"
 
-#: rc.cpp:327
+#: rc.cpp:329
 msgid "Network"
 msgstr "Network"
 
-#: rc.cpp:330
+#: rc.cpp:332
 msgid ""
 "$down - download speed, KB/s\n"
 "$up - upload speed, KB/s\n"
@@ -486,11 +490,11 @@ msgstr ""
 "$up - upload speed, KB/s\n"
 "$netdev - current network device"
 
-#: rc.cpp:335
+#: rc.cpp:337
 msgid "Battery"
 msgstr "Battery"
 
-#: rc.cpp:339
+#: rc.cpp:341
 msgid ""
 "$bat - battery charge, %\n"
 "$ac - AC status"
@@ -498,7 +502,7 @@ msgstr ""
 "$bat - battery charge, %\n"
 "$ac - AC status"
 
-#: rc.cpp:346
+#: rc.cpp:348
 msgid ""
 "$album - song album\n"
 "$artist - song artist\n"
@@ -512,11 +516,11 @@ msgstr ""
 "$time - song duration\n"
 "$title - song title"
 
-#: rc.cpp:353
+#: rc.cpp:355
 msgid "Processes"
 msgstr "Processes"
 
-#: rc.cpp:356
+#: rc.cpp:358
 msgid ""
 "$pscount - number of running processes\n"
 "$pstotal - total number of running processes\n"
@@ -526,7 +530,7 @@ msgstr ""
 "$pstotal - total number of running processes\n"
 "$ps - list of running processes comma separated"
 
-#: rc.cpp:364
+#: rc.cpp:366
 msgid ""
 "$pkgcountN - number of packages which are available for updates, command N. "
 "For example $pkgcount0"
@@ -534,22 +538,22 @@ msgstr ""
 "$pkgcountN - number of packages which are available for updates, command N. "
 "For example $pkgcount0"
 
-#: rc.cpp:367
+#: rc.cpp:369
 msgid "Custom"
 msgstr "Custom"
 
-#: rc.cpp:370
+#: rc.cpp:372
 msgid ""
 "$customN - get output from custom command N (from N). Example `$custom0`"
 msgstr ""
 "$customN - get output from custom command N (from N). Example `$custom0`"
 
-#: rc.cpp:371
+#: rc.cpp:373
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Evgeniy Alekseev"
 
-#: rc.cpp:372
+#: rc.cpp:374
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "esalexeev@gmail.com"
