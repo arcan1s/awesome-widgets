@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=157124\n"
-"POT-Creation-Date: 2014-05-31 14:04+0400\n"
-"PO-Revision-Date: 2014-05-24 16:27+0400\n"
+"POT-Creation-Date: 2014-06-01 23:12+0400\n"
+"PO-Revision-Date: 2014-06-01 23:13+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Ukrainian <kde-russian@lists.kde.ru>\n"
 "Language: ua\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: code/configdef.py:259
 msgid "Widget"
-msgstr ""
+msgstr "Віджет"
 
 #: code/configdef.py:261
 msgid "Advanced"
@@ -56,11 +56,11 @@ msgstr "Form"
 
 #: rc.cpp:6
 msgid "Vertical layout"
-msgstr ""
+msgstr "Вертикальна розмітка"
 
 #: rc.cpp:9
 msgid "Enable popup on mouse click"
-msgstr ""
+msgstr "Включити спливаючі підказки при натисканні клавіші миші"
 
 #: rc.cpp:12
 msgid "Custom time format"
@@ -324,7 +324,7 @@ msgid ""
 msgstr ""
 "$time - час у стандартному форматі\n"
 "$isotime - час у форматі ISO\n"
-"$shorttime - час у короткому форматі\n"
+"$shorttime - час в короткому форматі\n"
 "$longtime - час у довгому форматі\n"
 "$custom - свій формат часу"
 
@@ -409,7 +409,6 @@ msgid "Memory"
 msgstr "Пам’ять"
 
 #: rc.cpp:287
-#, fuzzy
 msgid ""
 "$mem - RAM usage, %\n"
 "$memmb - RAM usage, MB\n"
@@ -419,14 +418,15 @@ msgid ""
 msgstr ""
 "$mem - використання RAM, %\n"
 "$memmb - використання RAM, MB\n"
-"$memgb - використання RAM, GB"
+"$memgb - використання RAM, GB\n"
+"$memtotmb - RAM, MB\n"
+"$memtotgb - RAM, GB"
 
 #: rc.cpp:294
 msgid "Swap"
 msgstr "Swap"
 
 #: rc.cpp:298
-#, fuzzy
 msgid ""
 "$swap - swap usage, %\n"
 "$swapmb - swap usage, MB\n"
@@ -436,10 +436,11 @@ msgid ""
 msgstr ""
 "$swap - використання swap, %\n"
 "$swapmb - використання swap, MB\n"
-"$swapgb - використання swap, GB"
+"$swapgb - використання swap, GB\n"
+"$swaptotmb - swap, MB\n"
+"$swaptotgb - swap, GB"
 
 #: rc.cpp:309
-#, fuzzy
 msgid ""
 "$hddN - usage for mount point N (from 0), %. Example: $hdd0\n"
 "$hddmbN - usage for mount point N (from 0), MB. Example: $hddmb0\n"
@@ -449,7 +450,9 @@ msgid ""
 msgstr ""
 "$hddN - використання точки монтування N (від 0), %. Приклад: $hdd0\n"
 "$hddmbN - використання точки монтування N (від 0), MB. Приклад: $hddmb0\n"
-"$hddgbN - використання точки монтування N (від 0), GB. Приклад: $hddgb0"
+"$hddgbN - використання точки монтування N (від 0), GB. Приклад: $hddgb0\n"
+"$hddtotmbN - розмір точки монтування N (від 0), MB. Приклад: $hddtotmb0\n"
+"$hddtotgbN - розмір точки монтування N (від 0), GB. Приклад: $hddtotgb0"
 
 #: rc.cpp:316
 msgid "HDD speed"

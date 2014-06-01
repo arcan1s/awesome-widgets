@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=157124\n"
-"POT-Creation-Date: 2014-05-31 14:04+0400\n"
+"POT-Creation-Date: 2014-06-01 23:12+0400\n"
 "PO-Revision-Date: 2014-05-31 14:09+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -164,7 +164,7 @@ msgstr "\"/sys/class/net\" по умолчанию"
 
 #: rc.cpp:93
 msgid "Disable auto select device and set specified device"
-msgstr "Отключить авто выбор устройства и использовать указанное"
+msgstr "Отключить автовыбор устройства и использовать указанное"
 
 #: rc.cpp:96
 msgid "Set network device"
@@ -184,7 +184,7 @@ msgstr "AC подключен"
 
 #: rc.cpp:108
 msgid "Line, which returns when AC is online"
-msgstr "Строка, возвращаемая при подключенном адапторе питания"
+msgstr "Строка, возвращаемая при подключенном адаптере питания"
 
 #: rc.cpp:111
 msgid "AC offline tag"
@@ -192,7 +192,7 @@ msgstr "AC отключен"
 
 #: rc.cpp:114
 msgid "Line, which returns when AC is offline"
-msgstr "Строка, возвращаемая при отключенном адапторе питания"
+msgstr "Строка, возвращаемая при отключенном адаптере питания"
 
 #: rc.cpp:117
 msgid "AC device"
@@ -499,7 +499,7 @@ msgid ""
 "$ac - AC status"
 msgstr ""
 "$bat - заряд батареи, %\n"
-"$ac - статус адаптора питания"
+"$ac - статус адаптера питания"
 
 #: rc.cpp:348
 msgid ""
