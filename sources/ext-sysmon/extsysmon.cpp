@@ -24,6 +24,7 @@
 #include <QDebug>
 #include <QFile>
 #include <QProcess>
+#include <QProcessEnvironment>
 #include <QRegExp>
 #include <QTextCodec>
 
@@ -33,8 +34,15 @@ ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList& args)
 {
     Q_UNUSED(args)
 
+    // debug
+    QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
+    QString debugEnv = environment.value(QString("PTM_DE_DEBUG"), QString("no"));
+    if (debugEnv == QString("yes"))
+        debug = true;
+    else
+        debug = false;
+
     setMinimumPollingInterval(333);
-    debug = true;
     readConfiguration();
 }
 
@@ -101,7 +109,6 @@ void ExtendedSysMon::readConfiguration()
     // pre-setup
     QMap<QString, QString> rawConfig;
     rawConfig[QString("CUSTOM")] = QString("wget -qO- http://ifconfig.me/ip");
-    rawConfig[QString("DEBUG")] = QString("no");
     rawConfig[QString("GPUDEV")] = QString("auto");
     rawConfig[QString("HDDDEV")] = QString("all");
     rawConfig[QString("HDDTEMPCMD")] = QString("sudo hddtemp");
@@ -154,12 +161,6 @@ QMap<QString, QString> ExtendedSysMon::updateConfiguration(const QMap<QString, Q
         config[key] = value;
     }
     // update values
-    // debug
-    if ((config[QString("DEBUG")] != QString("yes")) &&
-        (config[QString("DEBUG")] != QString("no")))
-        config[QString("DEBUG")] = QString("no");
-    if (config[QString("DEBUG")] == QString("no"))
-        debug = false;
     // gpudev
     if (config[QString("GPUDEV")] == QString("disable"))
         config[QString("GPUDEV")] = QString("disable");
