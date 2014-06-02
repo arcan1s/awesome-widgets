@@ -25,11 +25,20 @@ from PyQt4.QtGui import *
 class Tooltip():
     def __init__(self, parent):
         """class definition"""
+        # debug
+        environment = QProcessEnvironment.systemEnvironment()
+        debugEnv = environment.value(QString("PTM_DEBUG"), QString("no"));
+        if (debugEnv == QString("yes")):
+            self.debug = True
+        else:
+            self.debug = False
+        # main
         self.parent = parent
 
 
     def createGraphic(self, ptmVars, ptmTooltip, widget):
         """function to create graph"""
+        if self.debug: qDebug("[PTM] [tooltip.py] [createGraphic]")
         widget.clear()
         pen = QPen()
         bounds = ptmTooltip['bounds']

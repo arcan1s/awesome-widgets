@@ -17,6 +17,7 @@
 #   along with pytextmonitor. If not, see http://www.gnu.org/licenses/     #
 ############################################################################
 
+from PyQt4.QtCore import *
 from PyKDE4.kdecore import KComponentData
 from PyKDE4.kdeui import KNotification
 import commands
@@ -26,16 +27,28 @@ import commands
 class PTMNotify:
     def __init__(self, parent):
         """class definition"""
+        # debug
+        environment = QProcessEnvironment.systemEnvironment()
+        debugEnv = environment.value(QString("PTM_DEBUG"), QString("no"));
+        if (debugEnv == QString("yes")):
+            self.debug = True
+        else:
+            self.debug = False
+        # main
 
 
     def init(self, name=None):
         """function to init notification"""
+        if self.debug: qDebug("[PTM] [ptmnotify.py] [init]")
+        if self.debug: qDebug("[PTM] [ptmnotify.py] [init] : Run function with name '%s'" %(name))
         content = self.initText(name)
         self.createNotify(content)
 
 
     def createNotify(self, content):
         """function to create notification for label"""
+        if self.debug: qDebug("[PTM] [ptmnotify.py] [createNotify]")
+        if self.debug: qDebug("[PTM] [ptmnotify.py] [createNotify] : Run function with content '%s'" %(content))
         notification = KNotification(content[0])
         notification.setComponentData(KComponentData("plasma_applet_pytextmonitor"))
         notification.setTitle("PyTextMonitor info ::: " + content[0]);
@@ -45,6 +58,8 @@ class PTMNotify:
 
     def createText(self, type):
         """function to create text"""
+        if self.debug: qDebug("[PTM] [ptmnotify.py] [createText]")
+        if self.debug: qDebug("[PTM] [ptmnotify.py] [createText] : Run function with type '%s'" %(type))
         text = ""
         if (type == "battery"):
             try:
@@ -187,11 +202,14 @@ class PTMNotify:
             except:
                 text = "Something wrong"
         content = [type, text]
+        if self.debug: qDebug("[PTM] [ptmnotify.py] [createText] : Returns '%s'" %(content))
         return content
 
 
     def initText(self, name):
         """function to send text"""
+        if self.debug: qDebug("[PTM] [ptmnotify.py] [initText]")
+        if self.debug: qDebug("[PTM] [ptmnotify.py] [initText] : Run function with name '%s'" %(name))
         if (name == "bat"):
             return self.createText("battery")
         elif (name == "cpu"):

@@ -26,6 +26,14 @@ import config
 class Reinit():
     def __init__(self, parent, defaults=None):
         """class definition"""
+        # debug
+        environment = QProcessEnvironment.systemEnvironment()
+        debugEnv = environment.value(QString("PTM_DEBUG"), QString("no"));
+        if (debugEnv == QString("yes")):
+            self.debug = True
+        else:
+            self.debug = False
+        # main
         self.parent = parent
         self.defaults = defaults
         self.labels = defaults['format'].keys()
@@ -33,6 +41,7 @@ class Reinit():
 
     def reinit(self):
         """function to reinitializate widget"""
+        if self.debug: qDebug("[PTM] [reinit.py] [reinit]")
         settings = config.Config(self.parent)
         ptmVars = {}
 
@@ -77,6 +86,7 @@ class Reinit():
         ptmNames['hdd'] = str(settings.get('mount', '/')).split('@@')
         ptmNames['hddtemp'] = str(settings.get('hdd', '/dev/sda')).split('@@')
         ptmNames['temp'] = str(settings.get('temp_device', '')).split('@@')
+        if self.debug: qDebug("[PTM] [reinit.py] [reinit] : Returns names '%s'" %(ptmNames))
         self.parent.applySettings('names', ptmNames)
 
         self.parent.createLayout(ptmVars['adv']['layout'])
@@ -94,4 +104,5 @@ class Reinit():
                         ptmVars['tooltip']['required'].append("up")
                     else:
                         ptmVars['tooltip']['required'].append(label)
+        if self.debug: qDebug("[PTM] [reinit.py] [reinit] : Returns vars '%s'" %(ptmVars))
         self.parent.applySettings('vars', ptmVars)

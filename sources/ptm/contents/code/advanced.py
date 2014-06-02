@@ -27,6 +27,14 @@ from PyQt4 import uic
 class AdvancedWindow(QWidget):
     def __init__(self, parent):
         """settings window definition"""
+        # debug
+        environment = QProcessEnvironment.systemEnvironment()
+        debugEnv = environment.value(QString("PTM_DEBUG"), QString("no"));
+        if (debugEnv == QString("yes")):
+            self.debug = True
+        else:
+            self.debug = False
+        # main
         QWidget.__init__(self)
         self.ui = uic.loadUi(parent.package().filePath('ui', 'advanced.ui'), self)
         self.parent = parent
@@ -44,6 +52,8 @@ class AdvancedWindow(QWidget):
 
     def keyPressEvent(self, event):
         """delete events"""
+        if self.debug: qDebug("[PTM] [advanced.py] [keyPressEvent]")
+        if self.debug: qDebug("[PTM] [advanced.py] [keyPressEvent] : Run function with event '%s'" %(event.key()))
         if (event.key() == Qt.Key_Delete):
             if (self.ui.listWidget_hddDevice.hasFocus() and
                 (self.ui.listWidget_hddDevice.currentRow() > -1)):
@@ -61,30 +71,40 @@ class AdvancedWindow(QWidget):
 
     def addHddDevice(self):
         """function to add mount points"""
+        if self.debug: qDebug("[PTM] [advanced.py] [addHddDevice]")
+        if self.debug: qDebug("[PTM] [advanced.py] [addHddDevice] : Device '%s'" %(self.ui.comboBox_hddDevice.currentText()))
         self.ui.listWidget_hddDevice.clearSelection()
         self.ui.listWidget_hddDevice.addItem(self.ui.comboBox_hddDevice.currentText())
 
 
     def addHddSpeedDevice(self):
         """function to add disk device"""
+        if self.debug: qDebug("[PTM] [advanced.py] [addHddSpeedDevice]")
+        if self.debug: qDebug("[PTM] [advanced.py] [addHddSpeedDevice] : Device '%s'" %(self.ui.comboBox_hddSpeedDevice.currentText()))
         self.ui.listWidget_hddSpeedDevice.clearSelection()
         self.ui.listWidget_hddSpeedDevice.addItem(self.ui.comboBox_hddSpeedDevice.currentText())
 
 
     def addMount(self):
         """function to add mount points"""
+        if self.debug: qDebug("[PTM] [advanced.py] [addMount]")
+        if self.debug: qDebug("[PTM] [advanced.py] [addMount] : Device '%s'" %(self.ui.comboBox_mount.currentText()))
         self.ui.listWidget_mount.clearSelection()
         self.ui.listWidget_mount.addItem(self.ui.comboBox_mount.currentText())
 
 
     def addTempDevice(self):
         """function to add temperature device"""
+        if self.debug: qDebug("[PTM] [advanced.py] [addTempDevice]")
+        if self.debug: qDebug("[PTM] [advanced.py] [addTempDevice] : Device '%s'" %(self.ui.comboBox_tempDevice.currentText()))
         self.ui.listWidget_tempDevice.clearSelection()
         self.ui.listWidget_tempDevice.addItem(self.ui.comboBox_tempDevice.currentText())
 
 
     def setNetdevEnabled(self):
         """function to set enabled netdev"""
+        if self.debug: qDebug("[PTM] [advanced.py] [setNetdevEnabled]")
+        if self.debug: qDebug("[PTM] [advanced.py] [setNetdevEnabled] : State '%s'" %(self.ui.checkBox_netdev.checkState()))
         if (self.ui.checkBox_netdev.checkState() == 0):
             self.ui.comboBox_netdev.setDisabled(True)
         else:

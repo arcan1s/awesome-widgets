@@ -27,6 +27,14 @@ from PyQt4 import uic
 class TooltipWindow(QWidget):
     def __init__(self, parent):
         """settings window definition"""
+        # debug
+        environment = QProcessEnvironment.systemEnvironment()
+        debugEnv = environment.value(QString("PTM_DEBUG"), QString("no"));
+        if (debugEnv == QString("yes")):
+            self.debug = True
+        else:
+            self.debug = False
+        # main
         QWidget.__init__(self)
         self.ui = uic.loadUi(parent.package().filePath('ui', 'tooltipconfig.ui'), self)
         self.parent = parent

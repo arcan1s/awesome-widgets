@@ -27,6 +27,14 @@ from PyQt4 import uic
 class DEConfigWindow(QWidget):
     def __init__(self, parent):
         """settings window definition"""
+        # debug
+        environment = QProcessEnvironment.systemEnvironment()
+        debugEnv = environment.value(QString("PTM_DEBUG"), QString("no"));
+        if (debugEnv == QString("yes")):
+            self.debug = True
+        else:
+            self.debug = False
+        # main
         QWidget.__init__(self)
         self.ui = uic.loadUi(parent.package().filePath('ui', 'deconfig.ui'), self)
         self.parent = parent
@@ -41,6 +49,8 @@ class DEConfigWindow(QWidget):
 
     def keyPressEvent(self, event):
         """delete events"""
+        if self.debug: qDebug("[PTM] [deconfig.py] [keyPressEvent]")
+        if self.debug: qDebug("[PTM] [deconfig.py] [keyPressEvent] : Run function with event '%s'" %(event.key()))
         if (event.key() == Qt.Key_Delete):
             if (self.ui.listWidget_customCommand.hasFocus() and
                 (self.ui.listWidget_customCommand.currentRow() > -1)):
@@ -52,12 +62,16 @@ class DEConfigWindow(QWidget):
 
     def addCustomCommand(self):
         """function to add custom command"""
+        if self.debug: qDebug("[PTM] [deconfig.py] [addCustomCommand]")
+        if self.debug: qDebug("[PTM] [deconfig.py] [addCustomCommand] : Cmd '%s'" %(self.ui.lineEdit_customCommand.text()))
         self.ui.listWidget_customCommand.clearSelection()
         self.ui.listWidget_customCommand.addItem(self.ui.lineEdit_customCommand.text())
 
 
     def addPkgCommand(self):
         """function to add package manager command"""
+        if self.debug: qDebug("[PTM] [deconfig.py] [addPkgCommand]")
+        if self.debug: qDebug("[PTM] [deconfig.py] [addPkgCommand] : Cmd '%s'" %(self.ui.comboBox_pkgCommand.currentText()))
         self.ui.listWidget_pkgCommand.clearSelection()
         self.ui.listWidget_pkgCommand.addItem(self.ui.comboBox_pkgCommand.currentText() +\
             QString(":") + QString.number(self.ui.spinBox_pkgCommandNum.value()))
@@ -65,6 +79,7 @@ class DEConfigWindow(QWidget):
 
     def updatePkgNullValue(self):
         """function to set default values to PKGNULL spinbox"""
+        if self.debug: qDebug("[PTM] [deconfig.py] [updatePkgNullValue]")
         if (self.ui.comboBox_pkgCommand.currentText().contains(QString("pacman -Qu"))):
             self.ui.spinBox_pkgCommandNum.setValue(0)
         elif (self.ui.comboBox_pkgCommand.currentText().contains(QString("apt-show-versions -u -b"))):

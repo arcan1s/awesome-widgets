@@ -32,11 +32,23 @@ timeLetters = ['dddd', 'ddd', 'dd', 'd', \
 class DataEngine:
     def __init__(self, parent):
         """class definition"""
+        # debug
+        environment = QProcessEnvironment.systemEnvironment()
+        debugEnv = environment.value(QString("PTM_DEBUG"), QString("no"));
+        if (debugEnv == QString("yes")):
+            self.debug = True
+        else:
+            self.debug = False
+        # main
         self.parent = parent
 
 
     def connectToEngine(self, bools=None, dataEngines=None, interval=1000, names=None):
         """function to initializate engine"""
+        if self.debug: qDebug("[PTM] [dataengine.py] [connectToEngine]")
+        if self.debug: qDebug("[PTM] [dataengine.py] [connectToEngine] : Run function with bools '%s'" %(bools))
+        if self.debug: qDebug("[PTM] [dataengine.py] [connectToEngine] : Run function with dataengines '%s'" %(dataEngines))
+        if self.debug: qDebug("[PTM] [dataengine.py] [connectToEngine] : Run function with names '%s'" %(names))
         if (bools['cpu'] > 0):
             dataEngines['system'].connectSource("cpu/system/TotalLoad", self.parent, interval)
             for core in range(8):
@@ -90,6 +102,10 @@ class DataEngine:
 
     def dataUpdated(self, sourceName, data, ptm):
         """function to update data"""
+        if self.debug: qDebug("[PTM] [dataengine.py] [dataUpdated]")
+        if self.debug: qDebug("[PTM] [dataengine.py] [dataUpdated] : Run function with source '%s'" %(sourceName))
+        if self.debug: qDebug("[PTM] [dataengine.py] [dataUpdated] : Run function with data '%s'" %(data))
+        if self.debug: qDebug("[PTM] [dataengine.py] [dataUpdated] : Run function with settings '%s'" %(ptm))
         adv = ptm['vars']['adv']
         systemDataEngine = ptm['dataengine']['system']
         formats = ptm['vars']['formats']
@@ -271,11 +287,16 @@ class DataEngine:
                         updatedData['value'] = "%s%i%s" % (updatedData['value'].split('$m')[0], minutes, updatedData['value'].split('$m')[1])
         except:
             pass
+        if self.debug: qDebug("[PTM] [dataengine.py] [dataUpdated] : Returns '%s'" %(updatedData))
         return updatedData
 
 
     def disconnectFromSource(self, dataEngines=None, keys=None, name=None):
         """function to disconnect from sources"""
+        if self.debug: qDebug("[PTM] [dataengine.py] [disconnectFromSource]")
+        if self.debug: qDebug("[PTM] [dataengine.py] [disconnectFromSource] : Run function with dataengines '%s'" %(dataEngines))
+        if self.debug: qDebug("[PTM] [dataengine.py] [disconnectFromSource] : Run function with keys '%s'" %(keys))
+        if self.debug: qDebug("[PTM] [dataengine.py] [disconnectFromSource] : Run function with name '%s'" %(name))
         if (name == "bat"):
             pass
         elif (name == "cpu"):

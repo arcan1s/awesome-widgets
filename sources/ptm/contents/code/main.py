@@ -72,12 +72,21 @@ class CustomPlasmaLabel(Plasma.Label):
 class pyTextWidget(plasmascript.Applet):
     def __init__(self, parent, args=None):
         """widget definition"""
+        # debug
+        environment = QProcessEnvironment.systemEnvironment()
+        debugEnv = environment.value(QString("PTM_DEBUG"), QString("no"));
+        if (debugEnv == QString("yes")):
+            self.debug = True
+        else:
+            self.debug = False
+        # main
         plasmascript.Applet.__init__(self, parent)
 
 
     # initialization
     def init(self):
         """function to initializate widget"""
+        if self.debug: qDebug("[PTM] [main.py] [init]")
         self.setupVar()
 
         self.dataengine = dataengine.DataEngine(self)
@@ -85,7 +94,7 @@ class pyTextWidget(plasmascript.Applet):
         self.tooltipAgent = tooltip.Tooltip(self)
 
         self.timer = QTimer()
-        QObject.connect(self.timer, SIGNAL("timeout()"), self.updateLabel)
+        QObject.connect(self.timer, SIGNAL("timeout()"), self.startPolling)
 
         self.initTooltip()
         self.reInit()
@@ -103,6 +112,7 @@ class pyTextWidget(plasmascript.Applet):
     # context menu
     def createActions(self):
         """function to create actions"""
+        if self.debug: qDebug("[PTM] [main.py] [createActions]")
         self.ptmActions = {}
         self.ptmActions['ksysguard'] = QAction(i18n("Run ksysguard"), self)
         QObject.connect(self.ptmActions['ksysguard'], SIGNAL("triggered(bool)"), self.runKsysguard)
@@ -120,6 +130,7 @@ class pyTextWidget(plasmascript.Applet):
 
     def contextualActions(self):
         """function to create context menu"""
+        if self.debug: qDebug("[PTM] [main.py] [contextualActions]")
         contextMenu = []
         contextMenu.append(self.ptmActions['ksysguard'])
         contextMenu.append(self.ptmActions['readme'])
@@ -129,11 +140,14 @@ class pyTextWidget(plasmascript.Applet):
 
     def runKsysguard(self, event):
         """function to run ksysguard"""
+        if self.debug: qDebug("[PTM] [main.py] [runKsysguard]")
+        if self.debug: qDebug("[PTM] [main.py] [runKsysguard] : Run cmd " + "'ksysguard &'")
         os.system("ksysguard &")
 
 
     def showReadme(self):
         """function to show readme file"""
+        if self.debug: qDebug("[PTM] [main.py] [showReadme]")
         kdehome = unicode(KGlobal.dirs().localkdedir())
         if (os.path.exists("/usr/share/pytextmonitor/")):
             dirPath = "/usr/share/pytextmonitor/"
@@ -152,18 +166,22 @@ class pyTextWidget(plasmascript.Applet):
                 filePath = dirPath + "en.html"
             else:
                 return
+        if self.debug: qDebug("[PTM] [main.py] [showReadme] : Run cmd " + "'kioclient exec " + str(filePath) + " &'")
         os.system("kioclient exec " + str(filePath) + " &")
 
 
     # internal functions
     def addDiskDevice(self, sourceName):
+        if self.debug: qDebug("[PTM] [main.py] [addDiskDevice]")
         diskRegexp = QRegExp("disk/(?:md|sd|hd)[a-z|0-9]_.*/Rate/(?:rblk)")
         if (diskRegexp.indexIn(sourceName) > -1):
+            if self.debug: qDebug("[PTM] [main.py] [addDiskDevice] : Add device '%s'" %(str(sourceName).split('/')[1]))
             self.ptm['defaults']['disk'].append('/'.join(str(sourceName).split('/')[0:2]))
 
 
     def createConfigurationInterface(self, parent):
         """function to setup configuration window"""
+        if self.debug: qDebug("[PTM] [main.py] [createConfigurationInterface]")
         configpage = {}
         configpage['advanced'] = advanced.AdvancedWindow(self)
         configpage['appearance'] = appearance.AppearanceWindow(self)
@@ -177,6 +195,7 @@ class pyTextWidget(plasmascript.Applet):
 
     def initTooltip(self):
         """function to create tooltip"""
+        if self.debug: qDebug("[PTM] [main.py] [initTooltip]")
         self.tooltip = Plasma.ToolTipContent()
         self.tooltip.setMainText("PyTextMonitor")
         self.tooltip.setSubText('')
@@ -192,6 +211,8 @@ class pyTextWidget(plasmascript.Applet):
 
     def setupVar(self):
         """function to setup variables"""
+        if self.debug: qDebug("[PTM] [main.py] [setupVar]")
+        # variables
         self.ptm = {}
         # dataengines
         self.ptm['dataengine'] = {'ext':None, 'system':None, 'time':None}
@@ -246,6 +267,7 @@ class pyTextWidget(plasmascript.Applet):
         self.ptm['values']['cpu'] = {-1:0.0}
         self.ptm['values']['cpuclock'] = {-1:0.0}
         numCores = int(commands.getoutput("grep -c '^processor' /proc/cpuinfo"))
+        if self.debug: qDebug("[PTM] [main.py] [setupVar] : Number of cores '%s'" %(numCores))
         for i in range(numCores):
             self.ptm['values']['cpu'][i] = 0.0
             self.ptm['values']['cpuclock'][i] = 0.0
@@ -270,21 +292,26 @@ class pyTextWidget(plasmascript.Applet):
 
     def showConfigurationInterface(self):
         """function to show configuration window"""
+        if self.debug: qDebug("[PTM] [main.py] [showConfigurationInterface]")
         plasmascript.Applet.showConfigurationInterface(self)
 
 
     def startPolling(self):
+        """function to update"""
+        if self.debug: qDebug("[PTM] [main.py] [startPolling]")
         try:
-            self.timer.start()
             self.updateLabel()
             self.tooltip.setSubText('')
+            if self.debug: qDebug("[PTM] [main.py] [startPolling] : Update without errors")
         except Exception as strerror:
             self.tooltip.setSubText(str(strerror))
+            if self.debug: qDebug("[PTM] [main.py] [startPolling] : There is some errors '%s'" %(str(strerror)))
             return
 
 
     def updateLabel(self):
         """function to update label"""
+        if self.debug: qDebug("[PTM] [main.py] [updateLabel]")
         if (self.ptm['vars']['bools']['bat'] > 0):
             self.batText()
         if (self.ptm['vars']['bools']['cpu'] > 0):
@@ -310,11 +337,13 @@ class pyTextWidget(plasmascript.Applet):
 
     def updateNetdev(self):
         """function to update netdev"""
+        if self.debug: qDebug("[PTM] [main.py] [updateNetdev]")
         self.ptm['names']['net'] = self.setNetdev()
 
 
     def updateTooltip(self):
         """function to update tooltip"""
+        if self.debug: qDebug("[PTM] [main.py] [updateTooltip]")
         self.tooltipView.resize(100.0*(len(self.ptm['vars']['tooltip']['required']) - self.ptm['vars']['tooltip']['required'].count('up')), 100.0)
         self.tooltipAgent.createGraphic(self.ptm['vars']['tooltip'], self.ptm['tooltip'], self.tooltipScene)
         self.tooltip.setImage(QPixmap.grabWidget(self.tooltipView))
@@ -326,7 +355,11 @@ class pyTextWidget(plasmascript.Applet):
     @pyqtSignature("dataUpdated(const QString &, const Plasma::DataEngine::Data &)")
     def dataUpdated(self, sourceName, data):
         """function to update label"""
+        if self.debug: qDebug("[PTM] [main.py] [dataUpdated]")
+        if self.debug: qDebug("[PTM] [main.py] [dataUpdated] : Run function with source '%s'" %(sourceName))
+        if self.debug: qDebug("[PTM] [main.py] [dataUpdated] : Run function with data '%s'" %(data))
         updatedData = self.dataengine.dataUpdated(str(sourceName), data, self.ptm)
+        if self.debug: qDebug("[PTM] [main.py] [dataUpdated] : Received data '%s'" %(updatedData))
         if (updatedData['value'] == None):
             return
         # update values where is needed
@@ -362,6 +395,7 @@ class pyTextWidget(plasmascript.Applet):
     # update labels
     def batText(self):
         """function to set battery text"""
+        if self.debug: qDebug("[PTM] [main.py] [batText]")
         line = self.ptm['vars']['formats']['bat']
         if (line.split('$bat')[0] != line):
             try:
@@ -388,6 +422,7 @@ class pyTextWidget(plasmascript.Applet):
 
     def cpuText(self):
         """function to set cpu text"""
+        if self.debug: qDebug("[PTM] [main.py] [cpuText]")
         line = self.ptm['vars']['formats']['cpu']
         keys = self.ptm['values']['cpu'].keys()
         keys.sort()
@@ -405,6 +440,7 @@ class pyTextWidget(plasmascript.Applet):
 
     def cpuclockText(self):
         """function to set cpu clock text"""
+        if self.debug: qDebug("[PTM] [main.py] [cpuclockText]")
         line = self.ptm['vars']['formats']['cpuclock']
         keys = self.ptm['values']['cpuclock'].keys()
         keys.sort()
@@ -421,6 +457,8 @@ class pyTextWidget(plasmascript.Applet):
 
 
     def diskText(self):
+        """function to update hdd speed text"""
+        if self.debug: qDebug("[PTM] [main.py] [diskText]")
         line = self.ptm['vars']['formats']['disk']
         devices = range(len(self.ptm['names']['disk']))
         devices.reverse()
@@ -437,6 +475,7 @@ class pyTextWidget(plasmascript.Applet):
 
     def hddText(self):
         """function to set hdd text"""
+        if self.debug: qDebug("[PTM] [main.py] [hddText]")
         line = self.ptm['vars']['formats']['hdd']
         devices = range(len(self.ptm['names']['hdd']))
         devices.reverse()
@@ -464,6 +503,7 @@ class pyTextWidget(plasmascript.Applet):
 
     def hddtempText(self):
         """function to set hddtemp text"""
+        if self.debug: qDebug("[PTM] [main.py] [hddtempText]")
         line = self.ptm['vars']['formats']['hddtemp']
         devices = range(len(self.ptm['names']['hddtemp']))
         devices.reverse()
@@ -478,6 +518,7 @@ class pyTextWidget(plasmascript.Applet):
 
     def memText(self):
         """function to set mem text"""
+        if self.debug: qDebug("[PTM] [main.py] [memText]")
         line = self.ptm['vars']['formats']['mem']
         if (line.split('$memtotgb')[0] != line):
             mem = "%4.1f" %((self.ptm['values']['mem']['free'] + self.ptm['values']['mem']['used']) / (1024.0 * 1024.0))
@@ -504,6 +545,7 @@ class pyTextWidget(plasmascript.Applet):
 
     def netText(self):
         """function to set network text"""
+        if self.debug: qDebug("[PTM] [main.py] [netText]")
         line = self.ptm['vars']['formats']['net']
         if (line.split('$netdev')[0] != 0):
             line = line.split('$netdev')[0] + self.ptm['names']['net'] + line.split('$netdev')[1]
@@ -519,6 +561,7 @@ class pyTextWidget(plasmascript.Applet):
 
     def swapText(self):
         """function to set swap text"""
+        if self.debug: qDebug("[PTM] [main.py] [swapText]")
         line = self.ptm['vars']['formats']['swap']
         if (line.split('$swaptotgb')[0] != line):
             mem = "%4.1f" % ((self.ptm['values']['swap']['free'] + self.ptm['values']['swap']['used']) / (1024.0 * 1024.0))
@@ -545,6 +588,7 @@ class pyTextWidget(plasmascript.Applet):
 
     def tempText(self):
         """function to set temperature text"""
+        if self.debug: qDebug("[PTM] [main.py] [tempText]")
         line = self.ptm['vars']['formats']['temp']
         devices = range(len(self.ptm['names']['temp']))
         devices.reverse()
@@ -560,6 +604,11 @@ class pyTextWidget(plasmascript.Applet):
     # external functions
     def addLabel(self, name=None, text=None, add=True, enablePopup=2):
         """function to add new label"""
+        if self.debug: qDebug("[PTM] [main.py] [addLabel]")
+        if self.debug: qDebug("[PTM] [main.py] [addLabel] : Run function with name '%s'" %(name))
+        if self.debug: qDebug("[PTM] [main.py] [addLabel] : Run function with text '%s'" %(text))
+        if self.debug: qDebug("[PTM] [main.py] [addLabel] : Run function with add '%s'" %(add))
+        if self.debug: qDebug("[PTM] [main.py] [addLabel] : Run function with popup '%s'" %(enablePopup))
         if (add):
             self.ptm['labels'][name] = CustomPlasmaLabel(self.applet, name, enablePopup)
             self.ptm['layout'].addItem(self.ptm['labels'][name])
@@ -571,6 +620,9 @@ class pyTextWidget(plasmascript.Applet):
 
     def applySettings(self, name=None, ptm=None):
         """function to read settings"""
+        if self.debug: qDebug("[PTM] [main.py] [applySettings]")
+        if self.debug: qDebug("[PTM] [main.py] [applySettings] : Run function with name '%s'" %(name))
+        if self.debug: qDebug("[PTM] [main.py] [applySettings] : Run function with settings '%s'" %(ptm))
         self.ptm[name] = ptm
         if (name == "names"):
             for item in ['hddtemp', 'temp']:
@@ -588,6 +640,7 @@ class pyTextWidget(plasmascript.Applet):
 
     def connectToEngine(self):
         """function to connect to dataengines"""
+        if self.debug: qDebug("[PTM] [main.py] [connectToEngine]")
         self.ptm['dataengine']['ext'] = self.dataEngine("ext-sysmon")
         self.ptm['dataengine']['system'] = self.dataEngine("systemmonitor")
         self.ptm['dataengine']['time'] = self.dataEngine("time")
@@ -598,6 +651,8 @@ class pyTextWidget(plasmascript.Applet):
 
     def createLayout(self, verticalLayout=0):
         """function to create layout"""
+        if self.debug: qDebug("[PTM] [main.py] [createLayout]")
+        if self.debug: qDebug("[PTM] [main.py] [createLayout] : Run function with vertical layout '%s'" %(verticalLayout))
         if (verticalLayout == 0):
             self.ptm['layout'] = QGraphicsLinearLayout(Qt.Horizontal, self.applet)
         else:
@@ -607,6 +662,7 @@ class pyTextWidget(plasmascript.Applet):
 
     def disconnectFromSource(self):
         """function to disconnect from sources"""
+        if self.debug: qDebug("[PTM] [main.py] [disconnectFromSource]")
         for label in self.ptm['defaults']['format'].keys():
             if (self.ptm['vars']['bools'][label] > 0):
                 self.addLabel(label, None, False)
@@ -618,6 +674,7 @@ class pyTextWidget(plasmascript.Applet):
 
     def reInit(self):
         """function to run reinit"""
+        if self.debug: qDebug("[PTM] [main.py] [reInit]")
         self.reinit.reinit()
         self.updateNetdev()
         self.resize(10, 10)
@@ -627,11 +684,13 @@ class pyTextWidget(plasmascript.Applet):
         self.connectToEngine()
 
         self.timer.setInterval(self.ptm['vars']['app']['interval'])
+        self.timer.start()
         self.startPolling()
 
 
     def setNetdev(self):
         """function to set network device"""
+        if self.debug: qDebug("[PTM] [main.py] [setNetdev]")
         if (self.ptm['vars']['adv']['netdevBool'] > 0):
             return self.ptm['vars']['adv']['netdev']
         netdev = "lo"
@@ -645,16 +704,23 @@ class pyTextWidget(plasmascript.Applet):
                             netdev = str(device)
                 except:
                     pass
+        if self.debug: qDebug("[PTM] [main.py] [setNetdev] : Returns '%s'" %(netdev))
         return netdev
 
 
     def setText(self, name=None, text=None):
         """function to set text to labels"""
+        if self.debug: qDebug("[PTM] [main.py] [setText]")
+        if self.debug: qDebug("[PTM] [main.py] [setText] : Run function with name '%s'" %(name))
+        if self.debug: qDebug("[PTM] [main.py] [setText] : Run function with text '%s'" %(text))
         self.ptm['labels'][name].setText(text)
 
 
     def textPrepare(self, name=None, text=None):
         """function to prepare text"""
+        if self.debug: qDebug("[PTM] [main.py] [textPrepare]")
+        if self.debug: qDebug("[PTM] [main.py] [textPrepare] : Run function with name '%s'" %(name))
+        if self.debug: qDebug("[PTM] [main.py] [textPrepare] : Run function with text '%s'" %(text))
         line = self.ptm['vars']['formats'][name]
         if (name == "custom"):
             cmds = range(len(text.keys()))
@@ -713,6 +779,7 @@ class pyTextWidget(plasmascript.Applet):
             elif (line.split('$custom')[0] != line):
                 line = line.split('$custom')[0] + text + line.split('$custom')[1]
         output = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
+        if self.debug: qDebug("[PTM] [main.py] [textPrepare] : Returns '%s'" %(output))
         return output
 
 

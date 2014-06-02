@@ -27,6 +27,14 @@ from PyQt4 import uic
 class WidgetWindow(QWidget):
     def __init__(self, parent):
         """settings window definition"""
+        # debug
+        environment = QProcessEnvironment.systemEnvironment()
+        debugEnv = environment.value(QString("PTM_DEBUG"), QString("no"));
+        if (debugEnv == QString("yes")):
+            self.debug = True
+        else:
+            self.debug = False
+        # main
         QWidget.__init__(self)
         self.ui = uic.loadUi(parent.package().filePath('ui', 'widget.ui'), self)
         self.parent = parent
@@ -66,6 +74,7 @@ class WidgetWindow(QWidget):
 
     def setSlider(self):
         """function to set sliders"""
+        if self.debug: qDebug("[PTM] [widget.py] [setSlider]")
         if (self.sender().isEnabled() == True):
             second_slider = self.sender()
             order = []
@@ -84,6 +93,7 @@ class WidgetWindow(QWidget):
 
     def setStatus(self):
         """function to enable label"""
+        if self.debug: qDebug("[PTM] [widget.py] [setStatus]")
         for label in self.checkboxes.keys():
             if ((self.checkboxes[label].checkState() > 0) and (self.sliders[label].isEnabled() == False)):
                 self.lineedits[label].setEnabled(True)

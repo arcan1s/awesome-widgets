@@ -29,6 +29,14 @@ import config
 class ConfigDefinition:
     def __init__(self, parent, configpage, defaults):
         """class definition"""
+        # debug
+        environment = QProcessEnvironment.systemEnvironment()
+        debugEnv = environment.value(QString("PTM_DEBUG"), QString("no"));
+        if (debugEnv == QString("yes")):
+            self.debug = True
+        else:
+            self.debug = False
+        # main
         self.parent = parent
         self.configpage = configpage
         self.defaults = defaults
@@ -36,6 +44,7 @@ class ConfigDefinition:
 
     def configAccepted(self):
         """function to accept settings"""
+        if self.debug: qDebug("[PTM] [configdef.py] [configAccepted]")
         settings = config.Config(self.parent)
 
         # update local variables
@@ -128,6 +137,7 @@ class ConfigDefinition:
 
     def createConfigurationInterface(self, parent):
         """function to setup configuration window"""
+        if self.debug: qDebug("[PTM] [configdef.py] [createConfigurationInterface]")
         settings = config.Config(self.parent)
 
         font = QFont(str(settings.get('font_family', 'Terminus')), settings.get('font_size', 12).toInt()[0], 400, False)
