@@ -46,6 +46,7 @@ protected:
 private:
     // configuration
     QMap<QString, QString> configuration;
+    bool debug;
     // reread configuration
     QString getAllHdd();
     QString getAutoGpu();

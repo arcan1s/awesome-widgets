@@ -8,6 +8,7 @@ Ver.1.10.0:
 + added error checking of DataEngine variables
 + added ability to disable popup messages
 + added ability to use vertical layout
++ added ability to show debug information in DataEngine
 + added Brazillian Portuguese translation (@underr)
 + added Ukrainian translation (Виктор Слободян)
 - removed util.py
