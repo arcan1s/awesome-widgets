@@ -7,7 +7,7 @@ pkgrel=1
 pkgdesc="Minimalistic Plasmoid script written on Python2. It looks like widgets in Awesome WM"
 arch=('i686' 'x86_64')
 url="http://arcanis.name/projects/pytextmonitor"
-license=('GPLv3')
+license=('GPL3')
 depends=('kdebase-workspace' 'kdebindings-python2' 'lm_sensors')
 optdepends=("amarok: for music player monitor"
             "clementine: for music player monitor"
@@ -25,7 +25,7 @@ md5sums=('7366d3a97c2426f3ffe769e74f83a86b')
 backup=('usr/share/config/extsysmon.conf')
 
 prepare() {
-  [[ -d ${srcdir}/build ]] && rm -rf "${srcdir}/build"
+  rm -rf "${srcdir}/build"
   mkdir "${srcdir}/build"
 }
 
