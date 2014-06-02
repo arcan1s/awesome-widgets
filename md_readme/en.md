@@ -232,7 +232,6 @@ Make dependencies
 
 * automoc4
 * cmake
-* kdebase-runtime
 
 Installation
 ------------

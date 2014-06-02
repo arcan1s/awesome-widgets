@@ -1,5 +1,5 @@
 --- README.md.orig	2014-05-28 20:30:26.685205144 +0400
-+++ README.md	2014-05-31 14:11:11.206846569 +0400
++++ README.md	2014-06-02 12:16:19.449635195 +0400
 @@ -3,13 +3,16 @@
  
  Information
@@ -120,7 +120,7 @@
  You may edit DataEngine configuration. It is `/usr/share/config/extsysmon.conf` or `$HOME/share/config/extsysmon.conf` depending on the type of installation. Uncomment needed line and edit it.
  
  Instruction
-@@ -182,25 +214,29 @@
+@@ -182,25 +214,28 @@
  
  Dependencies
  ------------
@@ -144,7 +144,7 @@
 +
  * automoc4
  * cmake
- * kdebase-runtime
+-* kdebase-runtime
  
  Installation
  ------------
@@ -152,7 +152,7 @@
  * download sources
  * install
  
-@@ -222,6 +258,7 @@
+@@ -222,6 +257,7 @@
  
  Links
  -----

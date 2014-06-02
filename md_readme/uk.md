@@ -214,11 +214,11 @@ PyTextMonitor - мінімалістичний плазмоїд, що напис
 * kdebase-workspace
 * kdebindings-python2
 * lm_sensors (*для визначення датчиків температури*)
-* sysstat (*для сповіщень*)
 
 Опціональні залежності
 ----------------------
 
+* sysstat (*для сповіщень*)
 * проприєтарний відеодрайвер
 * hddtemp (переконайтесь, що може бути запущений з `sudo` без пароля. Просто добавте наступний рядок в `/etc/sudoers`: `$USERNAME ALL=NOPASSWD: /usr/bin/hddtemp`)
 * музичний плеєр (amarok, clementine, mpd или qmmp)
@@ -228,7 +228,6 @@ PyTextMonitor - мінімалістичний плазмоїд, що напис
 
 * automoc4
 * cmake
-* kdebase-runtime
 
 Установка
 ---------
