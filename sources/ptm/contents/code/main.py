@@ -653,6 +653,7 @@ class pyTextWidget(plasmascript.Applet):
         """function to create layout"""
         if self.debug: qDebug("[PTM] [main.py] [createLayout]")
         if self.debug: qDebug("[PTM] [main.py] [createLayout] : Run function with vertical layout '%s'" %(verticalLayout))
+        if self.debug: qDebug("[PTM] [main.py] [createLayout] : Run function with left stretch '%s'" %(leftStretch))
         if (verticalLayout == 0):
             self.ptm['layout'] = QGraphicsLinearLayout(Qt.Horizontal, self.applet)
         else:
