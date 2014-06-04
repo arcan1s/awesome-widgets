@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>576</width>
+    <width>700</width>
     <height>594</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>576</width>
+    <width>700</width>
     <height>0</height>
    </size>
   </property>
@@ -54,8 +54,8 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
-        <width>542</width>
+        <y>-103</y>
+        <width>666</width>
         <height>660</height>
        </rect>
       </property>
@@ -66,7 +66,7 @@
           <widget class="QCheckBox" name="checkBox_time">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -125,7 +125,7 @@ $custom - custom time format</string>
           <widget class="QCheckBox" name="checkBox_uptime">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -184,7 +184,7 @@ $custom - custom format</string>
           <widget class="QCheckBox" name="checkBox_cpu">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -250,7 +250,7 @@ $cpuN - load CPU for core N, %</string>
           <widget class="QCheckBox" name="checkBox_cpuclock">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -316,7 +316,7 @@ $cpuclN - CPU clock for core N, MHz</string>
           <widget class="QCheckBox" name="checkBox_temp">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -374,7 +374,7 @@ $cpuclN - CPU clock for core N, MHz</string>
           <widget class="QCheckBox" name="checkBox_gpu">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -432,7 +432,7 @@ $cpuclN - CPU clock for core N, MHz</string>
           <widget class="QCheckBox" name="checkBox_gpuTemp">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -490,7 +490,7 @@ $cpuclN - CPU clock for core N, MHz</string>
           <widget class="QCheckBox" name="checkBox_mem">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -555,7 +555,7 @@ $memtotgb - total RAM, GB</string>
           <widget class="QCheckBox" name="checkBox_swap">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -620,7 +620,7 @@ $swaptotgb - total swap, GB</string>
           <widget class="QCheckBox" name="checkBox_hdd">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -682,7 +682,7 @@ $hddtotgbN - total size of mount point N (from 0), GB. Example: $hddtotgb0</stri
           <widget class="QCheckBox" name="checkBox_hddSpeed">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -741,7 +741,7 @@ $hddwN - write speed HDD N (from 0), KB/s. Example: $hddw0</string>
           <widget class="QCheckBox" name="checkBox_hddTemp">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -799,7 +799,7 @@ $hddwN - write speed HDD N (from 0), KB/s. Example: $hddw0</string>
           <widget class="QCheckBox" name="checkBox_net">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -862,7 +862,7 @@ $netdev - current network device</string>
           <widget class="QCheckBox" name="checkBox_bat">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -921,7 +921,7 @@ $ac - AC status</string>
           <widget class="QCheckBox" name="checkBox_player">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -983,7 +983,7 @@ $title - song title</string>
           <widget class="QCheckBox" name="checkBox_ps">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -1043,7 +1043,7 @@ $ps - list of running processes comma separated</string>
           <widget class="QCheckBox" name="checkBox_pkg">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -1101,7 +1101,7 @@ $ps - list of running processes comma separated</string>
           <widget class="QCheckBox" name="checkBox_custom">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>

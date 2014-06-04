@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>576</width>
+    <width>700</width>
     <height>594</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>576</width>
+    <width>700</width>
     <height>0</height>
    </size>
   </property>
@@ -42,7 +42,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>560</width>
+        <width>684</width>
         <height>578</height>
        </rect>
       </property>
@@ -55,7 +55,7 @@
             <widget class="QLabel" name="label_customCommand">
              <property name="minimumSize">
               <size>
-               <width>120</width>
+               <width>200</width>
                <height>0</height>
               </size>
              </property>
@@ -105,7 +105,7 @@ del - remove item</string>
           <widget class="QLabel" name="label_gpudev">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -158,7 +158,7 @@ del - remove item</string>
           <widget class="QLabel" name="label_hdddev">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -191,7 +191,7 @@ del - remove item</string>
           <widget class="QLabel" name="label_hddtempCmd">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -215,7 +215,7 @@ del - remove item</string>
           <widget class="QLabel" name="label_mpdaddress">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -239,7 +239,7 @@ del - remove item</string>
           <widget class="QLabel" name="label_mpdport">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -296,7 +296,7 @@ del - remove item</string>
             <widget class="QLabel" name="label_pkgCommand">
              <property name="minimumSize">
               <size>
-               <width>120</width>
+               <width>200</width>
                <height>0</height>
               </size>
              </property>
@@ -356,7 +356,7 @@ del - remove item</string>
             <widget class="QLabel" name="label_pkgCommandNum">
              <property name="minimumSize">
               <size>
-               <width>120</width>
+               <width>200</width>
                <height>0</height>
               </size>
              </property>
@@ -409,7 +409,7 @@ del - remove item</string>
           <widget class="QLabel" name="label_playerSelect">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>

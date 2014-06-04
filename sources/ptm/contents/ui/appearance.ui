@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>576</width>
+    <width>700</width>
     <height>594</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>576</width>
+    <width>700</width>
     <height>0</height>
    </size>
   </property>
@@ -42,7 +42,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>560</width>
+        <width>684</width>
         <height>578</height>
        </rect>
       </property>
@@ -53,7 +53,7 @@
           <widget class="QLabel" name="label_interval">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -108,7 +108,7 @@
           <widget class="QLabel" name="label_font">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -148,7 +148,7 @@
           <widget class="QLabel" name="label_fontSize">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -203,7 +203,7 @@
           <widget class="QLabel" name="label_color">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -243,7 +243,7 @@
           <widget class="QLabel" name="label_style">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -293,7 +293,7 @@
           <widget class="QLabel" name="label_weight">
            <property name="minimumSize">
             <size>
-             <width>120</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
