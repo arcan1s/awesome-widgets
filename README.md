@@ -83,6 +83,10 @@ Use vertical layout instead of horizontal one.
 
 Uncheck box if you do not use popup messages.
 
+**Add stretch**
+
+Add stretch (spacer) to the selected side of the widget.
+
 **Custom time**
 
 * tag `$dddd` - weekday in long format
