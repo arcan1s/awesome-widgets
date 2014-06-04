@@ -41,9 +41,9 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-195</y>
+        <y>0</y>
         <width>666</width>
-        <height>773</height>
+        <height>823</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -58,6 +58,20 @@
         <widget class="QCheckBox" name="checkBox_popup">
          <property name="text">
           <string>Enable popup on mouse click</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_leftStretch">
+         <property name="text">
+          <string>Add stretch to left/top of the layout</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_rightStretch">
+         <property name="text">
+          <string>Add stretch to right/bottom of the layout</string>
          </property>
         </widget>
        </item>
@@ -601,6 +615,8 @@ del - remove item</string>
   <tabstop>scrollArea_advanced</tabstop>
   <tabstop>checkBox_layout</tabstop>
   <tabstop>checkBox_popup</tabstop>
+  <tabstop>checkBox_leftStretch</tabstop>
+  <tabstop>checkBox_rightStretch</tabstop>
   <tabstop>lineEdit_timeFormat</tabstop>
   <tabstop>lineEdit_uptimeFormat</tabstop>
   <tabstop>comboBox_tempUnits</tabstop>

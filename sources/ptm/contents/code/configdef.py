@@ -57,6 +57,8 @@ class ConfigDefinition:
 
         settings.set('layout', self.configpage['advanced'].ui.checkBox_layout.checkState())
         settings.set('popup', self.configpage['advanced'].ui.checkBox_popup.checkState())
+        settings.set('left_stretch', self.configpage['advanced'].ui.checkBox_leftStretch.checkState())
+        settings.set('right_stretch', self.configpage['advanced'].ui.checkBox_rightStretch.checkState())
         settings.set('custom_time', str(self.configpage['advanced'].ui.lineEdit_timeFormat.text()))
         settings.set('custom_uptime', str(self.configpage['advanced'].ui.lineEdit_uptimeFormat.text()))
         settings.set('temp_units', str(self.configpage['advanced'].ui.comboBox_tempUnits.currentText()))
@@ -154,6 +156,8 @@ class ConfigDefinition:
 
         self.configpage['advanced'].ui.checkBox_layout.setCheckState(settings.get('layout', 0).toInt()[0])
         self.configpage['advanced'].ui.checkBox_popup.setCheckState(settings.get('popup', 2).toInt()[0])
+        self.configpage['advanced'].ui.checkBox_leftStretch.setCheckState(settings.get('left_stretch', 2).toInt()[0])
+        self.configpage['advanced'].ui.checkBox_rightStretch.setCheckState(settings.get('right_stretch', 2).toInt()[0])
         self.configpage['advanced'].ui.lineEdit_timeFormat.setText(str(settings.get('custom_time', '$hh:$mm')))
         self.configpage['advanced'].ui.lineEdit_uptimeFormat.setText(str(settings.get('custom_uptime', '$ds,$hs,$ms')))
         index = self.configpage['advanced'].ui.comboBox_tempUnits.findText(str(settings.get('temp_units', "Celsius")))

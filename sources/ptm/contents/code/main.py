@@ -649,7 +649,7 @@ class pyTextWidget(plasmascript.Applet):
             self.ptm['vars']['app']['interval'], self.ptm['names'])
 
 
-    def createLayout(self, verticalLayout=0):
+    def createLayout(self, verticalLayout=0, leftStretch=2):
         """function to create layout"""
         if self.debug: qDebug("[PTM] [main.py] [createLayout]")
         if self.debug: qDebug("[PTM] [main.py] [createLayout] : Run function with vertical layout '%s'" %(verticalLayout))
@@ -658,6 +658,8 @@ class pyTextWidget(plasmascript.Applet):
         else:
             self.ptm['layout'] = QGraphicsLinearLayout(Qt.Vertical, self.applet)
         self.ptm['layout'].setContentsMargins(1, 1, 1, 1)
+        if (leftStretch == 2):
+            self.ptm['layout'].addStretch(1)
 
 
     def disconnectFromSource(self):
@@ -676,6 +678,9 @@ class pyTextWidget(plasmascript.Applet):
         """function to run reinit"""
         if self.debug: qDebug("[PTM] [main.py] [reInit]")
         self.reinit.reinit()
+        # add stretch
+        if (self.ptm['vars']['adv']['rightStretch'] == 2):
+            self.ptm['layout'].addStretch(1)
         self.updateNetdev()
         self.resize(10, 10)
 

@@ -53,9 +53,11 @@ class Reinit():
         ptmVars['adv']['customTime'] = str(settings.get('custom_time', '$hh:$mm'))
         ptmVars['adv']['customUptime'] = str(settings.get('custom_uptime', '$dd,$hh,$mm'))
         ptmVars['adv']['layout'] = settings.get('layout', 0).toInt()[0]
+        ptmVars['adv']['leftStretch'] = settings.get('left_stretch', 2).toInt()[0]
         ptmVars['adv']['netdevBool'] = settings.get('netdevBool', 0).toInt()[0]
         ptmVars['adv']['netdev'] = str(settings.get('custom_netdev', 'lo'))
         ptmVars['adv']['netDir'] = str(settings.get('netdir', '/sys/class/net'))
+        ptmVars['adv']['rightStretch'] = settings.get('right_stretch', 2).toInt()[0]
         ptmVars['adv']['tempUnits'] = str(settings.get('temp_units', 'Celsius'))
         ptmVars['adv']['popup'] = settings.get('popup', 2).toInt()[0]
 
@@ -89,7 +91,7 @@ class Reinit():
         if self.debug: qDebug("[PTM] [reinit.py] [reinit] : Returns names '%s'" %(ptmNames))
         self.parent.applySettings('names', ptmNames)
 
-        self.parent.createLayout(ptmVars['adv']['layout'])
+        self.parent.createLayout(ptmVars['adv']['layout'], ptmVars['adv']['leftStretch'])
         ptmVars['formats'] = {}
         ptmVars['tooltip']['required'] = []
         for order in ptmVars['app']['order']:
