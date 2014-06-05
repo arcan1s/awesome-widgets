@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=157124\n"
 "POT-Creation-Date: 2014-06-04 22:48+0400\n"
-"PO-Revision-Date: 2014-05-21 16:45+0200\n"
+"PO-Revision-Date: 2014-06-05 16:16+0200\n"
 "Last-Translator: Mermouy <mermouy@gmail.com>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: code/configdef.py:273
 msgid "Widget"
-msgstr ""
+msgstr "Widget"
 
 #: code/configdef.py:275
 msgid "Advanced"
@@ -49,7 +49,7 @@ msgstr "Voir le README"
 
 #: code/main.py:121
 msgid "Update text"
-msgstr ""
+msgstr "Mettre à jour le texte"
 
 #: rc.cpp:3 rc.cpp:129 rc.cpp:150 rc.cpp:197 rc.cpp:224
 msgid "Form"
@@ -57,19 +57,19 @@ msgstr "Entrées"
 
 #: rc.cpp:6
 msgid "Vertical layout"
-msgstr ""
+msgstr "Positionnement vertical"
 
 #: rc.cpp:9
 msgid "Enable popup on mouse click"
-msgstr ""
+msgstr "Popup lors d'un click souris"
 
 #: rc.cpp:12
 msgid "Add stretch to left/top of the layout"
-msgstr ""
+msgstr "Étirer le positionnement vers haut/gauche"
 
 #: rc.cpp:15
 msgid "Add stretch to right/bottom of the layout"
-msgstr ""
+msgstr "Étirer le positionnement vers bas/droite"
 
 #: rc.cpp:18
 msgid "Custom time format"
@@ -258,7 +258,7 @@ msgstr "Disque dur"
 
 #: rc.cpp:172
 msgid "hddtemp cmd"
-msgstr ""
+msgstr "Commande de température HDD"
 
 #: rc.cpp:175
 msgid "MPD address"
