@@ -1,5 +1,5 @@
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) 2014
+# This file is distributed under the same license as the PyTextMonitor package.
 #
 # Ernesto Avilés Vzqz <whippiii@gmail.com>, 2014.
 # Evgeniy Alekseev <esalexeev@gmail.com>, 2014.
@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=157124\n"
 "POT-Creation-Date: 2014-06-04 22:48+0400\n"
-"PO-Revision-Date: 2014-05-19 23:02+0400\n"
+"PO-Revision-Date: 2014-06-05 10:21+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Spanish <kde-russian@lists.kde.ru>\n"
 "Language: es\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: code/configdef.py:273
 msgid "Widget"
-msgstr ""
+msgstr "Widget"
 
 #: code/configdef.py:275
 msgid "Advanced"
@@ -48,7 +48,7 @@ msgstr "Mostrar el README"
 
 #: code/main.py:121
 msgid "Update text"
-msgstr ""
+msgstr "Actualizar texto"
 
 #: rc.cpp:3 rc.cpp:129 rc.cpp:150 rc.cpp:197 rc.cpp:224
 msgid "Form"
@@ -56,19 +56,19 @@ msgstr "Formulario"
 
 #: rc.cpp:6
 msgid "Vertical layout"
-msgstr ""
+msgstr "Orientación vertical"
 
 #: rc.cpp:9
 msgid "Enable popup on mouse click"
-msgstr ""
+msgstr "Habilitar ventana emergente al hacer clic"
 
 #: rc.cpp:12
 msgid "Add stretch to left/top of the layout"
-msgstr ""
+msgstr "Añadir extensión a la izquierda/superior de la distribución"
 
 #: rc.cpp:15
 msgid "Add stretch to right/bottom of the layout"
-msgstr ""
+msgstr "Añadir extensión a la derecha/inferior de la distribución"
 
 #: rc.cpp:18
 msgid "Custom time format"
@@ -252,7 +252,7 @@ msgstr "Disco duro"
 
 #: rc.cpp:172
 msgid "hddtemp cmd"
-msgstr ""
+msgstr "Comando hddtemp"
 
 #: rc.cpp:175
 msgid "MPD address"
@@ -420,7 +420,6 @@ msgid "Memory"
 msgstr "Memoria"
 
 #: rc.cpp:293
-#, fuzzy
 msgid ""
 "$mem - RAM usage, %\n"
 "$memmb - RAM usage, MB\n"
@@ -430,14 +429,15 @@ msgid ""
 msgstr ""
 "$mem - uso de la RAM, %\n"
 "$memmb - uso de la RAM, MB\n"
-"$memgb - uso de la RAM, GB"
+"$memgb - uso de la RAM, GB\n"
+"$memtotmb - uso total de la RAM, MB\n"
+"$memtotgb - uso total de la RAM, GB"
 
 #: rc.cpp:300
 msgid "Swap"
 msgstr "Swap"
 
 #: rc.cpp:304
-#, fuzzy
 msgid ""
 "$swap - swap usage, %\n"
 "$swapmb - swap usage, MB\n"
@@ -447,10 +447,11 @@ msgid ""
 msgstr ""
 "$swap - uso de la swap, %\n"
 "$swapmb - uso de la swap, MB\n"
-"$swapgb - uso de la swap, GB"
+"$swapgb - uso de la swap, GB\n"
+"$swaptotmb - uso total de la swap, MB\n"
+"$swaptotgb - uso total de la swap, GB"
 
 #: rc.cpp:315
-#, fuzzy
 msgid ""
 "$hddN - usage for mount point N (from 0), %. Example: $hdd0\n"
 "$hddmbN - usage for mount point N (from 0), MB. Example: $hddmb0\n"
@@ -462,7 +463,11 @@ msgstr ""
 "$hddmbN - uso para el punto de montaje N (a partir de 0), MB. Ejemplo: "
 "$hddmb0\n"
 "$hddgbN - uso para el punto de montaje N (a partir de 0), GB. Ejemplo: "
-"$hddgb0"
+"$hddgb0\n"
+"$hddtotmbN - uso total para el punto de montaje N (a partir de 0), MB. "
+"Ejemplo: $hddtotmb0\n"
+"$hddtotgbN - uso total para el punto de montaje N (a partir de 0), GB. "
+"Ejemplo: $hddtotgb0"
 
 #: rc.cpp:322
 msgid "HDD speed"
@@ -473,7 +478,7 @@ msgid ""
 "$hddrN - read speed HDD N (from 0), KB/s. Example: $hddr0\n"
 "$hddwN - write speed HDD N (from 0), KB/s. Example: $hddw0"
 msgstr ""
-"$hddrN - leer la velocidad del disco N (a partir de 0), KB/s. Por ejemplo: "
+"$hddrN - velocidad de lectura del disco N (a partir de 0), KB/s. Por ejemplo: "
 "$hddr0\n"
 "$hddwN - velocidad de escritura del disco N (a partir de 0), KB/s. Por "
 "ejemplo: $hddw0"
@@ -559,8 +564,8 @@ msgstr "Personalizado"
 msgid ""
 "$customN - get output from custom command N (from N). Example `$custom0`"
 msgstr ""
-"$customN - obtener la salida de ejecución del comando personalizado N "
-"(apartir de 0). Por ejemplo: $custom0"
+"$customN - obtener la salida de ejecución del comando personalizado N (a "
+"partir de 0). Por ejemplo: $custom0"
 
 #: rc.cpp:379
 msgctxt "NAME OF TRANSLATORS"

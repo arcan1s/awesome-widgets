@@ -26,40 +26,49 @@ Para editar la visualización debes abrir la ventana de Ajustes y establecer el 
 * etiqueta `$tempN` - temperatura para el dispositivo N. Por ejemplo, `$temp0`
 * etiqueta `$gpu` - uso de la GPU, *%*. Debe estar instalado `aticonfig` o `nvidia-smi`
 * etiqueta `$gputemp` - temperatura de la GPU. Debe estar instalado `aticonfig` o `nvidia-smi`
-* etiqueta `$mem` - uso de la memori, *%*
+* etiqueta `$mem` - uso de la memoria, *%*
 * etiqueta `$memmb` - uso de la memoria, *MB*
 * etiqueta `$memgb` - uso de la memoria, *GB*
+* etiqueta `$memtotmb` - uso total de memoria, *MB*
+* etiqueta `$memtotgb` - uso total de memoria, *GB*
 * etiqueta `$swap` - swap, *%*
 * etiqueta `$swapmb` - swap, *MB*
 * etiqueta `$swapgb` - swap, *GB*
+* etiqueta `$swaptotmb` - uso total de swap, *MB*
+* etiqueta `$swaptotgb` - uso total de swap, *GB*
 * etiqueta `$hddN` - uso para el punto de montaje N, *%*. Por ejemplo, `$hdd0`
 * etiqueta `$hddmbN` - uso para el punto de montaje N, *MB*. Por ejemplo, `$hddmb0`
 * etiqueta `$hddgbN` - uso para el punto de montaje N, *GB*. Por ejemplo, `$hddgb0`
+* etiqueta `$hddtotmbN` - tamaño completo del punto de montaje N, *MB*. Por ejemplo, `$hddtotmb0`
+* etiqueta `$hddtotgbN` - tamaño completo del punto de montaje N, *GB*. Por ejemplo, `$hddtotgb0`
 * etiqueta `$hddrN` - leer la velocidad del disco N, *KB/s*. Por ejemplo, `$hddr0`
 * etiqueta `$hddwN` - velocidad de escritura del disco N, *KB/s*. Por ejemplo: `$hddw0`
 * etiqueta `$hddtempN` - temperatura para el disco duro N. Por ejemplo, `$hddtemp0`
-* etiqueta `$down` - velocidad de recepción, *KB/s*
-* etiqueta `$up` - velocidad de envío, *KB/s*
-* etiqueta `$netdev` - dispositivo de red actual
-* etiqueta `$bat` - carga de la batería, *%*
-* etiqueta `$ac` - estado del dispositivo de alimentación. Devuelve (\*) si la alimentación está conectada o *( )* si no lo está
-* etiqueta `$album` - álbum de la canción actual. Debe estar instalado uno de los reproductores soportados
-* etiqueta `$artist` - artista de la canción actual. Debe estar instalado uno de los reproductores soportados
-* etiqueta `$progress` - progreso de la canción actual. Debe estar instalado uno de los reproductores soportados
-* etiqueta `$time` - duración de la canción actual. Debe estar instalado uno de los reproductores soportados
-* etiqueta `$title` - título de la canción actual. Debe estar instalado uno de los reproductores soportados
-* etiqueta `$pscount` - cantidad de procesos en ejecución
-* etiqueta `$pstotal` - total de procesos en ejecución
-* etiqueta `$ps` - listado de procesos en ejecución
-* etiqueta `$pkgcountN` - cantidad de paquetes con actualizaciones disponibles para el comando N. Por ejemplo, `$pkgcount0`
-* etiqueta `$customN` - obtener la salida de ejecución del comando personalizado N (a partir de 0). Por ejemplo, `$custom0`
-
-El orden de las etiquetas será cambiado si cambias la posición del deslizador. Es posible usar código HTML para las etiquetas.
 
 **NOTA** no puedes establecer la etiqueta `$cpu` para que se muestre en la información de la swap, por citar un ejemplo. **`$cpu` solo funcionará en la etiqueta de la CPU**.
 
+Trucos
+------
+
+Es posible usar diferentes colores para las etiquetas. Solo tienes que ponerles el texto en formato HTML. Para más detalles, ver [el tema](https://github.com/arcan1s/pytextmonitor/issues/9) relacionado.
+
+La enumeración de los elementos de temperatura, uso del disco duro, velocidad del disco duro y la temperatura del disco duro, se refiere al orden de los elementos de la segunda pestaña (*Ajustes avanzados*). Primeramente deberías añadir el elemento a la lista requerida. El primer elemento de la lista será $tag0. Para más información, ver [el tema](https://github.com/arcan1s/pytextmonitor/issues/17) relacionado.
+
 Ajustes avanzados
 -----------------
+
+**Orientación vertical**
+
+Usar la orientación vertical en lugar de la horizontal.
+
+**Habilitar ventanas emergentes**
+
+Desmarcar esta caja si no deseas usar ventanas emergentes.
+
+**Añadir extensión**
+
+Añadir extensión (espaciador) al lado seleccionado del widget.
+
 **Hora personalizada**
 
 * etiqueta `$dddd` - día de la semana en foramto largo
@@ -132,29 +141,29 @@ Línea que será mostrada cuando la alimentación esté desconectada.
 
 El archivo con información de la alimentación. El archivo (`/sys/class/power_supply/AC/online` por defecto) debe contener `1` si la alimentación está conectada.
 
-**Reproductor de música**
-
-Seleccionar uno de los reproductores de música soportados para la etiqueta del reproductor.
-
 Ajustes de las ventanas emergentes
 ----------------------------------
+
 Desde la versión 1.7.0 las etiquetas CPU, frecuencia de la CPU, memoria, swap y red soportan ventanas emergentes. Para habilitarlas es necesario tener marcadas las casillas de verificación pertinentes. El número de valores almacenados puede ser establecido en la pestaña. También es posible configurar los colores de los gráficos.
 
 Ajustes de DataEngine
 ---------------------
+
 **Comando personalizado**
 
 *NOTA* Esto puede causar congelamiento de la computadora.
 
-Listado de los comandos que serán ejecutados para etiquetas personalizadas.
-
 **Dispositivo GPU**
 
-Elegir uno de los dispositivos GPU soportados. `auto` habilitará la selección automática. El valor por defecto es `auto`.
+Elegir uno de los dispositivos GPU soportados. `auto` habilitará la selección automática, `disable` inhabilitará la definición de los estados de la GPU. El valor por defecto es `auto`.
 
 **Disco duro**
 
-Elegir uno de los discos duros para el monitor de temperatura del disco. `all` habilitará el monitor para todos los dispositivos. El valor por defecto es `all`.
+Elegir uno de los discos duros para el monitor de temperatura del disco. `all` habilitará el monitor para todos los dispositivos, `disable` inhabilitará la definición de la temperatura del disco. El valor por defecto es `all`.
+
+**Comando hddtemp**
+
+Escriba el comando que será ejecutado por el DataEngine hddtemp. El valor por defecto es `sudo hddtemp`.
 
 **Dirección MPD**
 
@@ -167,6 +176,7 @@ Puerto del servidor MPD. El valor por defecto es `6600`.
 **Gestor de paquetes**
 
 Listado de comandos que serán ejecutados. La cantidad de líneas nulas es el número de líneas innecesarias. Predeterminados:
+
 * *Arch*: `PKGCMD=pacman -Qu`, `PKGNULL=0`
 * *Debian*: `PKGCMD=apt-show-versions -u -b`, `PKGNULL=0`
 * *Ubuntu*: `PKGCMD=aptitude search '~U'`, `PKGNULL=0`
@@ -174,6 +184,9 @@ Listado de comandos que serán ejecutados. La cantidad de líneas nulas es el n�
 * *FreeBSD*: `PKGCMD=pkg_version -I -l '<'`, `PKGNULL=0`
 * *Mandriva*: `PKGCMD=urpmq --auto-select`, `PKGNULL=0`
 
+**Reproductor de música**
+
+Selecciona uno de los reproductores de música soportados para la etiqueta del reproductor.
 
 Configuración de DataEngine
 ---------------------------
@@ -184,22 +197,24 @@ Instrucción
 
 Dependencias
 ------------
+
 * kdebase-workspace
 * kdebindings-python2
 * lm_sensors (*para definir el dispositivo de temperatura*)
-* sysstat (*para las notificaciones*)
 
 Dependencias opcionales
 -----------------------
+
+* sysstat (*para las notificaciones*)
 * controlador propietario de video
 * hddtemp (asegúrate de que puede ser ejecutado con `sudo` y sin contraseña. Solo hay que agregar la siguiente línea al archivo `/etc/sudoers`: `$USERNAME ALL=NOPASSWD: /usr/bin/hddtemp`)
-* reproductor de música (amarok, clementine, mpd or qmmp)
+* reproductor de música (amarok, clementine, mpd o qmmp)
 
 Dependencias de construcción
 ----------------------------
+
 * automoc4
 * cmake
-* kdebase-runtime
 
 Instalación
 -----------

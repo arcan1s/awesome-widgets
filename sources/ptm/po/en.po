@@ -1,5 +1,5 @@
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) 2014
+# This file is distributed under the same license as the PyTextMonitor package.
 #
 # Evgeniy Alekseev <esalexeev@gmail.com>, 2014.
 msgid ""
