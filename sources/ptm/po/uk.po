@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=157124\n"
-"POT-Creation-Date: 2014-06-04 22:48+0400\n"
-"PO-Revision-Date: 2014-06-01 23:13+0400\n"
+"POT-Creation-Date: 2014-05-31 14:04+0400\n"
+"PO-Revision-Date: 2014-06-06 01:23+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Ukrainian <kde-russian@lists.kde.ru>\n"
 "Language: ua\n"
@@ -64,11 +64,11 @@ msgstr "Включити спливаючі підказки при натиск
 
 #: rc.cpp:12
 msgid "Add stretch to left/top of the layout"
-msgstr ""
+msgstr "Додати порожнє місце ліворуч/вгорі віджету"
 
 #: rc.cpp:15
 msgid "Add stretch to right/bottom of the layout"
-msgstr ""
+msgstr "Додати порожнє місце праворуч/внизу віджету"
 
 #: rc.cpp:18
 msgid "Custom time format"
@@ -279,7 +279,8 @@ msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
 "To enable them just make needed checkbox fully checked."
 msgstr ""
-"Поля CPU, частота CPU, пам’ять, swap та мережа підтримують графічний тултіп. "
+"Поля \"CPU\", \"Частота CPU\", \"Пам’ятьґЄ, \"Swap\" та \"Мережа\" "
+"підтримують графічний тултіп. "
 "Щоб їх задіяти, просто зробіть необхідні чекбокси повністю чекнутими."
 
 #: rc.cpp:203
@@ -426,9 +427,7 @@ msgid ""
 msgstr ""
 "$mem - використання RAM, %\n"
 "$memmb - використання RAM, MB\n"
-"$memgb - використання RAM, GB\n"
-"$memtotmb - RAM, MB\n"
-"$memtotgb - RAM, GB"
+"$memgb - використання RAM, GB"
 
 #: rc.cpp:300
 msgid "Swap"
@@ -444,7 +443,7 @@ msgid ""
 msgstr ""
 "$swap - використання swap, %\n"
 "$swapmb - використання swap, MB\n"
-"$swapgb - використання swap, GB\n"
+"$swapgb - використання swap, GB"
 "$swaptotmb - swap, MB\n"
 "$swaptotgb - swap, GB"
 

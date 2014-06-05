@@ -26,40 +26,47 @@
 <li>etiqueta <code>$tempN</code> - temperatura para el dispositivo N. Por ejemplo, <code>$temp0</code></li>
 <li>etiqueta <code>$gpu</code> - uso de la GPU, <em>%</em>. Debe estar instalado <code>aticonfig</code> o <code>nvidia-smi</code></li>
 <li>etiqueta <code>$gputemp</code> - temperatura de la GPU. Debe estar instalado <code>aticonfig</code> o <code>nvidia-smi</code></li>
-<li>etiqueta <code>$mem</code> - uso de la memori, <em>%</em></li>
+<li>etiqueta <code>$mem</code> - uso de la memoria, <em>%</em></li>
 <li>etiqueta <code>$memmb</code> - uso de la memoria, <em>MB</em></li>
 <li>etiqueta <code>$memgb</code> - uso de la memoria, <em>GB</em></li>
+<li>etiqueta <code>$memtotmb</code> - uso total de memoria, <em>MB</em></li>
+<li>etiqueta <code>$memtotgb</code> - uso total de memoria, <em>GB</em></li>
 <li>etiqueta <code>$swap</code> - swap, <em>%</em></li>
 <li>etiqueta <code>$swapmb</code> - swap, <em>MB</em></li>
 <li>etiqueta <code>$swapgb</code> - swap, <em>GB</em></li>
+<li>etiqueta <code>$swaptotmb</code> - uso total de swap, <em>MB</em></li>
+<li>etiqueta <code>$swaptotgb</code> - uso total de swap, <em>GB</em></li>
 <li>etiqueta <code>$hddN</code> - uso para el punto de montaje N, <em>%</em>. Por ejemplo, <code>$hdd0</code></li>
 <li>etiqueta <code>$hddmbN</code> - uso para el punto de montaje N, <em>MB</em>. Por ejemplo, <code>$hddmb0</code></li>
 <li>etiqueta <code>$hddgbN</code> - uso para el punto de montaje N, <em>GB</em>. Por ejemplo, <code>$hddgb0</code></li>
+<li>etiqueta <code>$hddtotmbN</code> - tamaño completo del punto de montaje N, <em>MB</em>. Por ejemplo, <code>$hddtotmb0</code></li>
+<li>etiqueta <code>$hddtotgbN</code> - tamaño completo del punto de montaje N, <em>GB</em>. Por ejemplo, <code>$hddtotgb0</code></li>
 <li>etiqueta <code>$hddrN</code> - leer la velocidad del disco N, <em>KB/s</em>. Por ejemplo, <code>$hddr0</code></li>
 <li>etiqueta <code>$hddwN</code> - velocidad de escritura del disco N, <em>KB/s</em>. Por ejemplo: <code>$hddw0</code></li>
 <li>etiqueta <code>$hddtempN</code> - temperatura para el disco duro N. Por ejemplo, <code>$hddtemp0</code></li>
-<li>etiqueta <code>$down</code> - velocidad de recepción, <em>KB/s</em></li>
-<li>etiqueta <code>$up</code> - velocidad de envío, <em>KB/s</em></li>
-<li>etiqueta <code>$netdev</code> - dispositivo de red actual</li>
-<li>etiqueta <code>$bat</code> - carga de la batería, <em>%</em></li>
-<li>etiqueta <code>$ac</code> - estado del dispositivo de alimentación. Devuelve (*) si la alimentación está conectada o <em>( )</em> si no lo está</li>
-<li>etiqueta <code>$album</code> - álbum de la canción actual. Debe estar instalado uno de los reproductores soportados</li>
-<li>etiqueta <code>$artist</code> - artista de la canción actual. Debe estar instalado uno de los reproductores soportados</li>
-<li>etiqueta <code>$progress</code> - progreso de la canción actual. Debe estar instalado uno de los reproductores soportados</li>
-<li>etiqueta <code>$time</code> - duración de la canción actual. Debe estar instalado uno de los reproductores soportados</li>
-<li>etiqueta <code>$title</code> - título de la canción actual. Debe estar instalado uno de los reproductores soportados</li>
-<li>etiqueta <code>$pscount</code> - cantidad de procesos en ejecución</li>
-<li>etiqueta <code>$pstotal</code> - total de procesos en ejecución</li>
-<li>etiqueta <code>$ps</code> - listado de procesos en ejecución</li>
-<li>etiqueta <code>$pkgcountN</code> - cantidad de paquetes con actualizaciones disponibles para el comando N. Por ejemplo, <code>$pkgcount0</code></li>
-<li>etiqueta <code>$customN</code> - obtener la salida de ejecución del comando personalizado N (a partir de 0). Por ejemplo, <code>$custom0</code></li>
 </ul>
-
-<p>El orden de las etiquetas será cambiado si cambias la posición del deslizador. Es posible usar código HTML para las etiquetas.</p>
 
 <p><strong>NOTA</strong> no puedes establecer la etiqueta <code>$cpu</code> para que se muestre en la información de la swap, por citar un ejemplo. <strong><code>$cpu</code> solo funcionará en la etiqueta de la CPU</strong>.</p>
 
+<h2>Trucos</h2>
+
+<p>Es posible usar diferentes colores para las etiquetas. Solo tienes que ponerles el texto en formato HTML. Para más detalles, ver <a href="https://github.com/arcan1s/pytextmonitor/issues/9">el tema</a> relacionado.</p>
+
+<p>La enumeración de los elementos de temperatura, uso del disco duro, velocidad del disco duro y la temperatura del disco duro, se refiere al orden de los elementos de la segunda pestaña (<em>Ajustes avanzados</em>). Primeramente deberías añadir el elemento a la lista requerida. El primer elemento de la lista será $tag0. Para más información, ver <a href="https://github.com/arcan1s/pytextmonitor/issues/17">el tema</a> relacionado.</p>
+
 <h2>Ajustes avanzados</h2>
+
+<p><strong>Orientación vertical</strong></p>
+
+<p>Usar la orientación vertical en lugar de la horizontal.</p>
+
+<p><strong>Habilitar ventanas emergentes</strong></p>
+
+<p>Desmarcar esta caja si no deseas usar ventanas emergentes.</p>
+
+<p><strong>Añadir extensión</strong></p>
+
+<p>Añadir extensión (espaciador) al lado seleccionado del widget.</p>
 
 <p><strong>Hora personalizada</strong></p>
 
@@ -137,10 +144,6 @@
 
 <p>El archivo con información de la alimentación. El archivo (<code>/sys/class/power_supply/AC/online</code> por defecto) debe contener <code>1</code> si la alimentación está conectada.</p>
 
-<p><strong>Reproductor de música</strong></p>
-
-<p>Seleccionar uno de los reproductores de música soportados para la etiqueta del reproductor.</p>
-
 <h2>Ajustes de las ventanas emergentes</h2>
 
 <p>Desde la versión 1.7.0 las etiquetas CPU, frecuencia de la CPU, memoria, swap y red soportan ventanas emergentes. Para habilitarlas es necesario tener marcadas las casillas de verificación pertinentes. El número de valores almacenados puede ser establecido en la pestaña. También es posible configurar los colores de los gráficos.</p>
@@ -151,15 +154,17 @@
 
 <p><em>NOTA</em> Esto puede causar congelamiento de la computadora.</p>
 
-<p>Listado de los comandos que serán ejecutados para etiquetas personalizadas.</p>
-
 <p><strong>Dispositivo GPU</strong></p>
 
-<p>Elegir uno de los dispositivos GPU soportados. <code>auto</code> habilitará la selección automática. El valor por defecto es <code>auto</code>.</p>
+<p>Elegir uno de los dispositivos GPU soportados. <code>auto</code> habilitará la selección automática, <code>disable</code> inhabilitará la definición de los estados de la GPU. El valor por defecto es <code>auto</code>.</p>
 
 <p><strong>Disco duro</strong></p>
 
-<p>Elegir uno de los discos duros para el monitor de temperatura del disco. <code>all</code> habilitará el monitor para todos los dispositivos. El valor por defecto es <code>all</code>.</p>
+<p>Elegir uno de los discos duros para el monitor de temperatura del disco. <code>all</code> habilitará el monitor para todos los dispositivos, <code>disable</code> inhabilitará la definición de la temperatura del disco. El valor por defecto es <code>all</code>.</p>
+
+<p><strong>Comando hddtemp</strong></p>
+
+<p>Escriba el comando que será ejecutado por el DataEngine hddtemp. El valor por defecto es <code>sudo hddtemp</code>.</p>
 
 <p><strong>Dirección MPD</strong></p>
 
@@ -171,13 +176,20 @@
 
 <p><strong>Gestor de paquetes</strong></p>
 
-<p>Listado de comandos que serán ejecutados. La cantidad de líneas nulas es el número de líneas innecesarias. Predeterminados:
-* <em>Arch</em>: <code>PKGCMD=pacman -Qu</code>, <code>PKGNULL=0</code>
-* <em>Debian</em>: <code>PKGCMD=apt-show-versions -u -b</code>, <code>PKGNULL=0</code>
-* <em>Ubuntu</em>: <code>PKGCMD=aptitude search '~U'</code>, <code>PKGNULL=0</code>
-* <em>Fedora</em>: <code>PKGCMD=yum list updates</code>, <code>PKGNULL=3</code>
-* <em>FreeBSD</em>: <code>PKGCMD=pkg_version -I -l '&lt;'</code>, <code>PKGNULL=0</code>
-* <em>Mandriva</em>: <code>PKGCMD=urpmq --auto-select</code>, <code>PKGNULL=0</code></p>
+<p>Listado de comandos que serán ejecutados. La cantidad de líneas nulas es el número de líneas innecesarias. Predeterminados:</p>
+
+<ul>
+<li><em>Arch</em>: <code>PKGCMD=pacman -Qu</code>, <code>PKGNULL=0</code></li>
+<li><em>Debian</em>: <code>PKGCMD=apt-show-versions -u -b</code>, <code>PKGNULL=0</code></li>
+<li><em>Ubuntu</em>: <code>PKGCMD=aptitude search '~U'</code>, <code>PKGNULL=0</code></li>
+<li><em>Fedora</em>: <code>PKGCMD=yum list updates</code>, <code>PKGNULL=3</code></li>
+<li><em>FreeBSD</em>: <code>PKGCMD=pkg_version -I -l '&lt;'</code>, <code>PKGNULL=0</code></li>
+<li><em>Mandriva</em>: <code>PKGCMD=urpmq --auto-select</code>, <code>PKGNULL=0</code></li>
+</ul>
+
+<p><strong>Reproductor de música</strong></p>
+
+<p>Selecciona uno de los reproductores de música soportados para la etiqueta del reproductor.</p>
 
 <h2>Configuración de DataEngine</h2>
 
@@ -191,15 +203,15 @@
 <li>kdebase-workspace</li>
 <li>kdebindings-python2</li>
 <li>lm_sensors (<em>para definir el dispositivo de temperatura</em>)</li>
-<li>sysstat (<em>para las notificaciones</em>)</li>
 </ul>
 
 <h2>Dependencias opcionales</h2>
 
 <ul>
+<li>sysstat (<em>para las notificaciones</em>)</li>
 <li>controlador propietario de video</li>
 <li>hddtemp (asegúrate de que puede ser ejecutado con <code>sudo</code> y sin contraseña. Solo hay que agregar la siguiente línea al archivo <code>/etc/sudoers</code>: <code>$USERNAME ALL=NOPASSWD: /usr/bin/hddtemp</code>)</li>
-<li>reproductor de música (amarok, clementine, mpd or qmmp)</li>
+<li>reproductor de música (amarok, clementine, mpd o qmmp)</li>
 </ul>
 
 <h2>Dependencias de construcción</h2>
@@ -207,7 +219,6 @@
 <ul>
 <li>automoc4</li>
 <li>cmake</li>
-<li>kdebase-runtime</li>
 </ul>
 
 <h2>Instalación</h2>
