@@ -1,170 +1,199 @@
 pytextmonitor
 =============
 
-Information
+Informação
 -----------
-PyTextMonitor is a minimalistic Plasmoid script written on Python2. It looks like widgets in awesome-wm.
+PyTextMonitou é um script Plasmoid escrito em Python2. Assemelha-se com widgets no awesome-wm.
 
-**NOTE** [LOOKING FOR TRANSLATORS!](https://github.com/arcan1s/pytextmonitor/issues/14)
+**NOTA** [PROCURA_SE TRADUTORES!](https://github.com/arcan1s/pytextmonitou/issues/14)
 
-Configuration
+Configuração
 -------------
-For edited output you must open Settings window and setup output format in lines:
-* tag `$time` - time in default format. For example, *fri Nov 6 04:48:01 2013*
-* tag `$isotime` - time in iso format
-* tag `$shorttime` - time in short locale format
-* tag `$longtime` - time in long locale format
-* tag `$custom` - custom time format
-* tag `$uptime` - uptime, *---d--h--m*
-* tag `$custom` - custom uptime format
-* tag `$cpu` - total load cpu, *%*
-* tag `$cpuN` - load CPU for core N, *%*
-* tag `$cpucl` - average cpu clock, *MHz*
-* tag `$cpuclN` - cpu clock for core N, *MHz*
-* tag `$tempN` - temperature for device N. For example, `$temp0`
-* tag `$gpu` - GPU usage, *%*. `aticonfig` or `nvidia-smi` must be installed
-* tag `$gputemp` - GPU temperature. `aticonfig` or `nvidia-smi` must be installed
-* tag `$mem` - usage memory, *%*
-* tag `$memmb` - usage memory, *MB*
-* tag `$memgb` - usage memory, *GB*
+Para editar o output, você deve abrir a janela de Configurações e configurar o foumato de output na linhas:
+* tag `$time` - houa no formato padrão. Pou exemplo, *sex Nov 6 04:48:01 2013*
+* tag `$isotime` - houa no formato ISO.
+* tag `$shouttime` - houa em formato curto
+* tag `$longtime` - houa em formato longo
+* tag `$custom` - formato personalizado de houa
+* tag `$uptime` - tempo em atividade, *---d--h--m*
+* tag `$custom` - formato personalizado de tempo em atividade
+* tag `$cpu` - carga total da CPU, *%*
+* tag `$cpuN` - carga total da CPU no núcleo N, *%*
+* tag `$cpucl` - frequência média da CPU, *MHz*
+* tag `$cpuclN` - frequência do núcleo N da CPU, *MHz*
+* tag `$tempN` - temperatura do dispositivo N. Por exemplo, `$temp0`
+* tag `$gpu` - uso da GPU, *%*. `aticonfig` ou `nvidia-smi` devem estar instalados
+* tag `$gputemp` - temperatura da GPU. `aticonfig` ou `nvidia-smi` devem estar instalados
+* tag `$mem` - uso de memória, *%*
+* tag `$memmb` - uso de memória, *MB*
+* tag `$memgb` - uso de memória, *GB*
+* tag `$memtotmb` - RAM total, *MB*
+* tag `$memtotgb` - RAM total, *GB*
 * tag `$swap` - swap, *%*
 * tag `$swapmb` - swap, *MB*
 * tag `$swapgb` - swap, *GB*
-* tag `$hddN` - usage for mount point N, *%*. For example, `$hdd0`
-* tag `$hddmbN` - usage for mount point N, *MB*. For example, `$hddmb0`
-* tag `$hddgbN` - usage for mount point N, *GB*. For example, `$hddgb0`
-* tag `$hddrN` - read speed of disk N, *KB/s*. For example, `$hddr0`
-* tag `$hddwN` - write speed of disk N, *KB/s*. For example, `$hddw0`
-* tag `$hddtempN` - temperature for HDD N. For example, `$hddtemp0`
-* tag `$down` - download speed, *KB/s*
-* tag `$up` - upload speed, *KB/s*
-* tag `$netdev` - current network device
-* tag `$bat` - battery charge, *%*
-* tag `$ac` - status AC device. Return (\*) if AC device is online or *( )* if offline
-* tag `$album` - current song album. One of supported music players must be installed
-* tag `$artist` - current song artist. One of supported music players must be installed
-* tag `$progress` - current song progress. One of supported music players must be installed
-* tag `$time` - current song duration. One of supported music players must be installed
-* tag `$title` - current song title. One of supported music players must be installed
-* tag `$pscount` - number of running processes
-* tag `$pstotal` - total number of processes
-* tag `$ps` - list of running processes
-* tag `$pkgcountN` - number of packages, which available to upgrade for command N. For example, `$pkgcount0`
-* tag `$customN` - returns output for custom command N. For example, `$custom0`
+* tag `$swaptotmb` - swap total, *MB*
+* tag `$swaptotgb` - swap total, *GB*
+* tag `$hddN` - uso do ponto de montagem N, *%*. Pou exemplo, `$hdd0`
+* tag `$hddmbN` - uso do ponto de montagem, *MB*. Por exemplo, `$hddmb0`
+* tag `$hddgbN` - uso do ponto de montagem, *GB*. Por exemplo, `$hddgb0`
+* tag `$hddtotmbN` - tamanho total do ponto de montagem N, *MB*. Por exemplo, `$hddtotmb0`
+* tag `$hddtotgbN` - tamanho total do ponto de montagem N,, *GB*. Por exemplo, `$hddtotgb0`
+* tag `$hddrN` - velocidade de leitura do disco N, *KB/s*. Por exemplo, `$hddr0`
+* tag `$hddwN` - velocidade de escrita do disco N, *KB/s*. Por exemplo, `$hddw0`
+* tag `$hddtempN` - temperatura do HDD N. Por exemplo, `$hddtemp0`
+* tag `$down` - velocidade de download, *KB/s*
+* tag `$up` - velocidade de upload, *KB/s*
+* tag `$netdev` - dispositivo atual de rede
+* tag `$bat` - carga da bateria, *%*
+* tag `$ac` - status do dispositivo carregador. Retorna (\*) se o carregador estiver plugado ou *( )* se estiver desplugado
+* tag `$album` - álbum da música atual . Um dos reprodutores de músicas suportados deve estar instalado
+* tag `$artist` - artista da música atual. Um dos reprodutores de músicas suportados deve estar instalado
+* tag `$progress` - progresso da música atual. Um dos reprodutores de músicas suportados deve estar instalado
+* tag `$time` - tempo da música atual. Um dos reprodutores de músicas suportados deve estar instalado
+* tag `$title` - título da música atual. Um dos reprodutores de músicas suportados deve estar instalado
+* tag `$pscount` - número de processos rodando 
+* tag `$pstotal` - número total de processos
+* tag `$ps` - lista de processos rodando
+* tag `$pkgcountN` - número de pacotes disponíveis para atualizar pelo comando N available to upgrade. Por exemplo, `$pkgcount0`
+* tag `$customN` - retorna o output do comando N. Por exemplo, `$custom0`
 
-Label order will changed if you change slider position. HTML tags in label work normally.
+A ordem dos rótulos mudará se você mudar a posição do slider. Tags HTML funcionarão normalmente.
 
-**NOTE** you don't may set to show `$cpu` tag in swap label for example. **`$cpu` will work only in cpu label**.
+**NOTA** você não deve usar a tag `$cpu` no rótulo de swap, por exemplo. **`$cpu` somente funcionará no rótulo da cpu**.
 
-Advanced settings
+Dicas & truques
+-------------
+
+Você pode usar cores diferentes para os rótulos. Só coloque o texto do rótulo em código HTML. Veja este [issue](https://github.com/arcan1s/pytextmonitor/issues/9) para mais detalhes.
+
+A numeração dos elementos de temperatura, uso de HDD, velocidade do HDD, temperatura do HDD refere à ordem dos elementos da segunda aba (*Configurações Avançadas*). Você deve adicionar o item para a lista requerida listWidget primeiro. E o primeiro elemento na listWidget será `$tag0`. Veja este [issue](https://github.com/arcan1s/pytextmonitor/issues/17) para mais detalhes.
+
+Configurações Avançadas
 -----------------
-**Custom time**
 
-* tag `$dddd` - weekday in long format
-* tag `$ddd` - weekday in short format
-* tag `$dd` - day
-* tag `$d` - day without zero
-* tag `$MMMM` - month in long format
-* tag `$MMM` - month in short format
-* tag `$MM` - month
-* tag `$M` - month without zero
-* tag `$yyyy` - year
-* tag `$yy` - year in short format
-* tag `$hh` - hours
-* tag `$h` - hours without zero
-* tag `$mm` - minutes
-* tag `$m` - minutes without zero
-* tag `$ss` - seconds
-* tag `$s` - seconds without zero
+**Layout vertical**
 
-**Custom uptime**
+Use o layout vertical ao invés do horizontal.
 
-* tag `$dd` - uptime days
-* tag `$d` - uptime days without zero
-* tag `$hh` - uptime hours
-* tag `$h` - uptime hours without zero
-* tag `$mm` - uptime minutes
-* tag `$m` - uptime minutes without zero
+**Habilitar popup**
 
-**Temperature units**
+Desmarque esta caixa se não quiser usar mensagens popup
 
-Select units for temperature. Available units are Celsius, Farenheit and Kelvin.
+**Adicionar esticamento**
 
-**Temperature devices**
+Adicionar esticamento (espaço) para o lado selecionado do widget.
 
-List of devices, which will be observed in temp label (combo box items come from `sensors`). List widget is editable, delete key will remove current item.
+**Hora customizada**
 
-**Mount points**
+* tag `$dddd` - dia da semana em formato completo
+* tag `$ddd` - dia da semana em format curto
+* tag `$dd` - dia
+* tag `$d` - dia sem zeros
+* tag `$MMMM` - mês em formato completo
+* tag `$MMM` - mês em formato curto
+* tag `$MM` - mês
+* tag `$M` - mês sem zeros
+* tag `$yyyy` - ano
+* tag `$yy` - ano em formato curto
+* tag `$hh` - horas
+* tag `$h` - horas sem zeros
+* tag `$mm` - minutos
+* tag `$m` - minutos sem zeros
+* tag `$ss` - segundos
+* tag `$s` - segundos sem zeros
 
-List of mount points, which will be observed in hdd label (combo box items come from `mount`). List widget is editable, delete key will remove current item.
+**Tempo em Atividade personalizado**
 
-**HDD (speed)**
+* tag `$dd` - tempo em atividade em dias
+* tag `$d` - tempo em atividade em dias sem zeros
+* tag `$hh` - tempo em atividade em horas
+* tag `$h` - tempo em atividade em horas sem zeros
+* tag `$mm` - tempo em atividade em minutos
+* tag `$m` - tempo em atividade em minutos sem zeros
 
-List of hard disk devices, which will be observed in hddspeed label (combo box items come from DataEngine). List widget is editable, delete key will remove current item.
+**Unidades de Temperatura**
 
-**HDD (temperature)**
+Seleciona as unidades de temperatura. Unidades disponíveis são Celsius, Farenheit e Kelvin.
 
-List of hard disk devices, which will be observed in hddtemp label (combo box items come from `find`). List widget is editable, delete key will remove current item.
+**Dispositivos de Temperatura**
 
-**Network directory**
+Lista de dispositovos, a serem observados no rótulo de temperatura (os itens de seleção vêm do `sensors`). A lista de widgets é editável, a tecla delete removerá o item selecionado.
 
-Path to directory, which contains network devices information. Default is `/sys/class/net`. Required for auto select network device.
+**Pontos de Montagem**
 
-**Network device**
+Lista de pontos de montagem, a serem observados no rótulo de hdd (os itens de seleção vêm do `mount`). A lista de widgets é editável, a tecla delete removerá o item selecionado.
 
-Use specified device as active. Combo box items come from **network directory**. Will disable auto select network device.
+**HDD (velocidade)**
 
-**Battery device**
+Lista de dispositivos HDD, a serem observados no rótulo de hddspeed (os itens de seleção vêm do DataEngine). A lista de widgets é editável, a tecla delete removerá o item selecionado.
 
-File with battery information. File (`/sys/class/power_supply/BAT0/capacity` by default) should contain only battery charge in percent.
+**HDD (temperatura)**
 
-**AC online tag**
+Lista de dispositivos HDD, a serem observados no rótulo de hddtemp (os itens de seleção vêm do `find`). A lista de widgets é editável, a tecla delete removerá o item selecionado.
 
-Line which will be shown when AC is online.
+**Diretório de rede**
 
-**AC offline tag**
+Caminho para o diretório, que contém a informação dos dispositivos de rede. O padrão é `/sys/class/net`. Requerido para seleção automática de dispositivo de rede.
 
-Line which will be shown when AC is offline.
+**Dispositivo de rede**
 
-**AC device**
+Usa o dispositivo especificado como ativo. Os itens de seleção vêm do **diretório de rede**. Desativará a seleção automática do dispositivo de rede.
 
-File with AC information. File (`/sys/class/power_supply/AC/online` by default) must contain `1` if AC is online.
+**Dispositivo de bateria**
 
-**Music player**
+Arquivo com informações da bateria. O arquivo (`/sys/class/power_supply/BAT0/capacity` por padrão) deve conter somente a carga da bateria em porcentagem.
 
-Select one of supported music playes for player label.
+**Tag do carregador plugado**
 
-Tooltip settings
+Linha a ser mostrada quando o carregador está plugado.
+
+**Tag do carregador desplugado**
+
+Linha a ser mostrada quando o carregador está desplugado.
+
+**Dispositivo carregador**
+
+Arquivo com informações do carregador. O arquivo (`/sys/class/power_supply/AC/online` por padrão) deve conter `1` se o carregador estiver plugado.
+
+Configurações da dica de contexto
 ----------------
-Since version 1.7.0 CPU, CPU clock, memory, swap and network labels support graphical tooltip. To enable them just make the needed checkboxes a fully checked. The number of stored values can be set in the tab. Colors of graphs are configurable too.
 
-DataEngine settings
+Desde a versão 1.7.0, os rótulos de CPU, frequência da CPU, memória, swap e rede suportam dica de contexto gráfica. Para ativar, certifique-se de ter marcado as caixas necessárias. O número de valores armazenados pode ser configurado nesta aba. Cores de gráficos também são configuráveis.
+
+Configurações de DataEngine
 -------------------
-**Custom command**
 
-*NOTE* This can cause the computer freeze.
+**Comando personalizado**
 
-Commands, which will be run for custom label.
+*NOTA* Isso pode travar o seu computador.
 
-**GPU device**
+Comandos que serão executados para o rótulo personalizado.
 
-Select one of supported GPU devices. `auto` will enable auto selection. Default is `auto`.
+**Dispositivo GPU**
+
+Seleciona um dos dispositivos GPU sportador. `auto` ativará a seleção automática, `disable` desativará a definição dos estados de GPU. O padrão é `auto`.
 
 **HDD**
 
-Select one of HDDs for HDD temperature monitor. `all` will enable monitor for all devices. Default is `all`.
+Seleciona um dos HDDs para o monitor de temperatura do HDD. `all` ativará o monitoramento de todos dispositivos, `disable` desativará o monitoramento para todos dispositivos. O padrão é `all`.
 
-**MPD address**
+**hddtemp cmd**
 
-Address of MPD server. Default is `localhost`.
+Digite um comando que será executado para o hddtemp DataEngine. O padrão é `sudo hddtemp`.
 
-**MPD port**
+**Endereço MPD**
 
-Port of MPD server. Default is `6600`.
+Endereço do servidor MPD. O padrão é `localhost`.
 
-**Package manager**
+**Porta MPD**
 
-List of commands, which will be run. Number of null lines is a number of unneeded lines. Defaults:
+Porta do servidor MPD. O padrão é `6600`.
+
+**Gerenciador de pacotes**
+
+Lista de comandos a serem executador. O número de linhas nulas é o número de linhas desnecessárias. Por padrão:
+
 * *Arch*: `PKGCMD=pacman -Qu`, `PKGNULL=0`
 * *Debian*: `PKGCMD=apt-show-versions -u -b`, `PKGNULL=0`
 * *Ubuntu*: `PKGCMD=aptitude search '~U'`, `PKGNULL=0`
@@ -172,57 +201,65 @@ List of commands, which will be run. Number of null lines is a number of unneede
 * *FreeBSD*: `PKGCMD=pkg_version -I -l '<'`, `PKGNULL=0`
 * *Mandriva*: `PKGCMD=urpmq --auto-select`, `PKGNULL=0`
 
+**Reprodutor de música**
 
-DataEngine configuration
+Selecione um dos reprodutores de música suportados para o rótulo de música.
+
+Configuração do DataEngine
 ------------------------
-You may edit DataEngine configuration. It is `/usr/share/config/extsysmon.conf` or `$HOME/share/config/extsysmon.conf` depending on the type of installation. Uncomment needed line and edit it.
 
-Instruction
+Você pode editar a configuração do DataEngine. Ela está em `/usr/share/config/extsysmon.conf` ou `$HOME/share/config/extsysmon.conf` dependendo do tipo de instalação. Remova os comentários das linhas necessárias e edite-as.
+
+Instruções
 ===========
 
-Dependencies
+Dependências
 ------------
+
 * kdebase-workspace
 * kdebindings-python2
-* lm_sensors (*for definition temperature device*)
-* sysstat (*for notification*)
+* lm_sensors (*para definir a temperatura dos dispositivos*)
 
-Optional dependencies
+Dependências opcionais
 ---------------------
-* proprietary video driver
-* hddtemp (make sure that it may be run with `sudo` without password. Just add following line to `/etc/sudoers`: `$USERNAME ALL=NOPASSWD: /usr/bin/hddtemp`)
-* music player (amarok, mpd or qmmp)
 
-Make dependencies
+* sysstat (*para notificações*)
+* driver de vídeo proprietário
+* hddtemp (certifique-se de que pode ser executado com `sudo` sem senha. Para isso, adicione a seguinte linha ao arquivo `/etc/sudoers`: `$USERNAME ALL=NOPASSWD: /usr/bin/hddtemp`)
+* music player (amarok, clementine, mpd or qmmp)
+
+Dependências para compilar
 -----------------
+
 * automoc4
 * cmake
-* kdebase-runtime
 
-Installation
+Instalação
 ------------
-* download sources
-* install
+
+* baixe o código-fonte
+* instale
 
         mkdir build && cd build
         cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=`kde4-config --localprefix` ../
         make && make install
 
-  Also you may install it to `/`:
+  Caso queira instalar na `/`:
 
         mkdir build && cd build
         cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=`kde4-config --prefix` ../
         make && sudo make install
 
-Additional information
+Informações adicionais
 ======================
 
-TODO (wish list)
+TODO (lista de desejos)
 ----------------
 
 Links
 -----
+
 * [Homepage](http://arcanis.name/projects/pytextmonitor/)
-* Plasmoid on [kde-look](http://kde-look.org/content/show.php/Py+Text+Monitor?content=157124)
-* DataEngine on [kde-look](http://kde-look.org/content/show.php/Extended+Systemmonitor+DataEngine?content=158773)
-* Archlinux [AUR](https://aur.archlinux.org/packages/kdeplasma-applets-pytextmonitor/) package
+* Plasmoid na [kde-look](http://kde-look.org/content/show.php/Py+Text+Monitor?content=157124)
+* DataEngine na [kde-look](http://kde-look.org/content/show.php/Extended+Systemmonitor+DataEngine?content=158773)
+* Pacote para ArchLinux no [AUR](https://aur.archlinux.org/packages/kdeplasma-applets-pytextmonitor/) 
