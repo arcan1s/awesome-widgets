@@ -20,6 +20,8 @@
 
 #include <Plasma/DataEngine>
 
+class QProcess;
+
 class ExtendedSysMon : public Plasma::DataEngine
 {
     Q_OBJECT
@@ -27,7 +29,7 @@ class ExtendedSysMon : public Plasma::DataEngine
 public:
     ExtendedSysMon(QObject *parent, const QVariantList &args);
     // update functions
-    QString getCustomCmd(const QString cmd);
+    void getCustomCmd(const QString cmd, const int number);
     float getGpu(const QString device);
     float getGpuTemp(const QString device);
     float getHddTemp(const QString cmd, const QString device);
@@ -43,7 +45,12 @@ protected:
     bool updateSourceEvent(const QString &source);
     QStringList sources() const;
 
+private slots:
+    void setCustomCmd();
+
 private:
+    // processes
+    QList<QProcess*> customProcesses;
     // configuration
     QMap<QString, QString> configuration;
     bool debug;
@@ -51,6 +58,7 @@ private:
     QString getAllHdd();
     QString getAutoGpu();
     void readConfiguration();
+    void setCustomProcesses();
     QMap<QString, QString> updateConfiguration(const QMap<QString, QString> rawConfig);
 };
 

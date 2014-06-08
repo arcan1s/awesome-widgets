@@ -143,6 +143,17 @@ void ExtendedSysMon::readConfiguration()
     }
     confFile.close();
     configuration = updateConfiguration(rawConfig);
+    setCustomProcesses();
+}
+
+
+void ExtendedSysMon::setCustomProcesses()
+{
+    if (debug) qDebug() << "[DE]" << "[setCustomProcesses]";
+    for (int i=0; i<configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts).count(); i++) {
+        customProcesses.append(new QProcess);
+        connect(customProcesses[i], SIGNAL(readyReadStandardOutput()), this, SLOT(setCustomCmd()));
+    }
 }
 
 
@@ -206,19 +217,29 @@ QMap<QString, QString> ExtendedSysMon::updateConfiguration(const QMap<QString, Q
 }
 
 
-QString ExtendedSysMon::getCustomCmd(const QString cmd)
+void ExtendedSysMon::getCustomCmd(const QString cmd, const int number)
 {
     if (debug) qDebug() << "[DE]" << "[getCustomCmd]";
     if (debug) qDebug() << "[DE]" << "[getCustomCmd]" << ":" << "Run function with cmd" << cmd;
-    QProcess command;
-    QString qoutput = QString("");
     if (debug) qDebug() << "[DE]" << "[getCustomCmd]" << ":" << "Run cmd" << QString("bash -c \"") + cmd + QString("\"");
-    command.start(QString("bash -c \"") + cmd + QString("\""));
-    command.waitForFinished(-1);
-    if (debug) qDebug() << "[DE]" << "[getCustomCmd]" << ":" << "Cmd returns" << command.exitCode();
-    qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput()).trimmed();
-    if (debug) qDebug() << "[DE]" << "[getCustomCmd]" << ":" << "Return" << qoutput;
-    return qoutput;
+    customProcesses[number]->start(QString("bash -c \"") + cmd + QString("\""));
+}
+
+
+void ExtendedSysMon::setCustomCmd()
+{
+    if (debug) qDebug() << "[DE]" << "[setCustomCmd]";
+    for (int i=0; i<customProcesses.count(); i++) {
+        QString value = QString("");
+        value = QTextCodec::codecForMib(106)->toUnicode(customProcesses[i]->readAllStandardOutput()).trimmed();
+        if (!value.isEmpty()) {
+            if (debug) qDebug() << "[DE]" << "[setCustomCmd]" << ":" << "Found output for cmd" << i;
+            if (debug) qDebug() << "[DE]" << "[setCustomCmd]" << ":" << "Return" << value;
+            QString source = QString("custom");
+            QString key = QString("custom") + QString::number(i);
+            setData(source, key, value);
+        }
+    }
 }
 
 
@@ -553,9 +574,7 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     QString key;
     if (source == QString("custom")) {
         for (int i=0; i<configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts).count(); i++) {
-            key = QString("custom") + QString::number(i);
-            QString value = getCustomCmd(configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts)[i]);
-            setData(source, key, value);
+            getCustomCmd(configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts)[i], i);
         }
     }
     else if (source == QString("gpu")) {
