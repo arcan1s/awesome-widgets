@@ -3,17 +3,17 @@ pytextmonitor
 
 Informação
 -----------
-PyTextMonitou é um script Plasmoid escrito em Python2. Assemelha-se com widgets no awesome-wm.
+PyTextMonitor é um script Plasmoid escrito em Python2. Assemelha-se com widgets no awesome-wm.
 
 **NOTA** [PROCURA_SE TRADUTORES!](https://github.com/arcan1s/pytextmonitou/issues/14)
 
 Configuração
 -------------
-Para editar o output, você deve abrir a janela de Configurações e configurar o foumato de output na linhas:
-* tag `$time` - houa no formato padrão. Pou exemplo, *sex Nov 6 04:48:01 2013*
-* tag `$isotime` - houa no formato ISO.
-* tag `$shouttime` - houa em formato curto
-* tag `$longtime` - houa em formato longo
+Para editar o output, você deve abrir a janela de Configurações e configurar o formato de output na linhas:
+* tag `$time` - hora no formato padrão. Por exemplo, *sex Nov 6 04:48:01 2013*
+* tag `$isotime` - hora no formato ISO.
+* tag `$shouttime` - hora em formato curto
+* tag `$longtime` - hora em formato longo
 * tag `$custom` - formato personalizado de houa
 * tag `$uptime` - tempo em atividade, *---d--h--m*
 * tag `$custom` - formato personalizado de tempo em atividade
