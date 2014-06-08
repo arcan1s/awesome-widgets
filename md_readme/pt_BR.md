@@ -3,13 +3,16 @@ pytextmonitor
 
 Informação
 -----------
+
 PyTextMonitor é um script Plasmoid escrito em Python2. Assemelha-se com widgets no awesome-wm.
 
 **NOTA** [PROCURA_SE TRADUTORES!](https://github.com/arcan1s/pytextmonitou/issues/14)
 
 Configuração
--------------
+------------
+
 Para editar o output, você deve abrir a janela de Configurações e configurar o formato de output na linhas:
+
 * tag `$time` - hora no formato padrão. Por exemplo, *sex Nov 6 04:48:01 2013*
 * tag `$isotime` - hora no formato ISO.
 * tag `$shouttime` - hora em formato curto
@@ -52,7 +55,7 @@ Para editar o output, você deve abrir a janela de Configurações e configurar 
 * tag `$progress` - progresso da música atual. Um dos reprodutores de músicas suportados deve estar instalado
 * tag `$time` - tempo da música atual. Um dos reprodutores de músicas suportados deve estar instalado
 * tag `$title` - título da música atual. Um dos reprodutores de músicas suportados deve estar instalado
-* tag `$pscount` - número de processos rodando 
+* tag `$pscount` - número de processos rodando
 * tag `$pstotal` - número total de processos
 * tag `$ps` - lista de processos rodando
 * tag `$pkgcountN` - número de pacotes disponíveis para atualizar pelo comando N available to upgrade. Por exemplo, `$pkgcount0`
@@ -63,14 +66,14 @@ A ordem dos rótulos mudará se você mudar a posição do slider. Tags HTML fun
 **NOTA** você não deve usar a tag `$cpu` no rótulo de swap, por exemplo. **`$cpu` somente funcionará no rótulo da cpu**.
 
 Dicas & truques
--------------
+---------------
 
 Você pode usar cores diferentes para os rótulos. Só coloque o texto do rótulo em código HTML. Veja este [issue](https://github.com/arcan1s/pytextmonitor/issues/9) para mais detalhes.
 
 A numeração dos elementos de temperatura, uso de HDD, velocidade do HDD, temperatura do HDD refere à ordem dos elementos da segunda aba (*Configurações Avançadas*). Você deve adicionar o item para a lista requerida listWidget primeiro. E o primeiro elemento na listWidget será `$tag0`. Veja este [issue](https://github.com/arcan1s/pytextmonitor/issues/17) para mais detalhes.
 
 Configurações Avançadas
------------------
+-----------------------
 
 **Layout vertical**
 
@@ -157,12 +160,12 @@ Linha a ser mostrada quando o carregador está desplugado.
 Arquivo com informações do carregador. O arquivo (`/sys/class/power_supply/AC/online` por padrão) deve conter `1` se o carregador estiver plugado.
 
 Configurações da dica de contexto
-----------------
+---------------------------------
 
 Desde a versão 1.7.0, os rótulos de CPU, frequência da CPU, memória, swap e rede suportam dica de contexto gráfica. Para ativar, certifique-se de ter marcado as caixas necessárias. O número de valores armazenados pode ser configurado nesta aba. Cores de gráficos também são configuráveis.
 
 Configurações de DataEngine
--------------------
+---------------------------
 
 **Comando personalizado**
 
@@ -206,12 +209,12 @@ Lista de comandos a serem executador. O número de linhas nulas é o número de 
 Selecione um dos reprodutores de música suportados para o rótulo de música.
 
 Configuração do DataEngine
-------------------------
+--------------------------
 
 Você pode editar a configuração do DataEngine. Ela está em `/usr/share/config/extsysmon.conf` ou `$HOME/share/config/extsysmon.conf` dependendo do tipo de instalação. Remova os comentários das linhas necessárias e edite-as.
 
 Instruções
-===========
+==========
 
 Dependências
 ------------
@@ -221,7 +224,7 @@ Dependências
 * lm_sensors (*para definir a temperatura dos dispositivos*)
 
 Dependências opcionais
----------------------
+----------------------
 
 * sysstat (*para notificações*)
 * driver de vídeo proprietário
@@ -229,13 +232,13 @@ Dependências opcionais
 * music player (amarok, clementine, mpd or qmmp)
 
 Dependências para compilar
------------------
+--------------------------
 
 * automoc4
 * cmake
 
 Instalação
-------------
+----------
 
 * baixe o código-fonte
 * instale
@@ -254,7 +257,7 @@ Informações adicionais
 ======================
 
 TODO (lista de desejos)
-----------------
+-----------------------
 
 Links
 -----
@@ -262,4 +265,4 @@ Links
 * [Homepage](http://arcanis.name/projects/pytextmonitor/)
 * Plasmoid na [kde-look](http://kde-look.org/content/show.php/Py+Text+Monitor?content=157124)
 * DataEngine na [kde-look](http://kde-look.org/content/show.php/Extended+Systemmonitor+DataEngine?content=158773)
-* Pacote para ArchLinux no [AUR](https://aur.archlinux.org/packages/kdeplasma-applets-pytextmonitor/) 
+* Pacote para ArchLinux no [AUR](https://aur.archlinux.org/packages/kdeplasma-applets-pytextmonitor/)
