@@ -6,6 +6,7 @@ Ver.1.10.0:
 + added support of hddtemp cmd
 + added support of disable option for HDDDEV and GPUDEV
 + added error checking of DataEngine variables
++ added multithreading to custom command
 + added ability to disable popup messages
 + added ability to use vertical layout
 + added ability to add stretch
