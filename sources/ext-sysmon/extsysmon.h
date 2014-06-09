@@ -29,16 +29,18 @@ class ExtendedSysMon : public Plasma::DataEngine
 public:
     ExtendedSysMon(QObject *parent, const QVariantList &args);
     // update functions
-    void getCustomCmd(const QString cmd, const int number);
-    float getGpu(const QString device);
-    float getGpuTemp(const QString device);
-    float getHddTemp(const QString cmd, const QString device);
-    QStringList getPlayerInfo(const QString playerName,
-                              const QString mpdAddress = 0,
-                              const QString mpdPort = 0);
-    QStringList getPsStats();
-    int getUpgradeInfo(const QString pkgCommand,
-                       const int pkgNull = 0);
+    void getCustomCmd(const QString cmd,
+                      const int number = 0);
+    void getGpu(const QString device);
+    void getGpuTemp(const QString device);
+    void getHddTemp(const QString cmd, const QString device,
+                    const int number = 0);
+    void getPlayerInfo(const QString playerName,
+                       const QString mpdAddress = 0,
+                       const QString mpdPort = 0);
+    void getPsStats();
+    void getUpgradeInfo(const QString pkgCommand,
+                        const int number = 0);
 
 protected:
     bool sourceRequestEvent(const QString &name);
@@ -47,10 +49,16 @@ protected:
 
 private slots:
     void setCustomCmd();
+    void setGpu();
+    void setGpuTemp();
+    void setHddTemp();
+    void setUpgradeInfo();
+    void setPlayer();
+    void setPs();
 
 private:
     // processes
-    QList<QProcess*> customProcesses;
+    QMap<QString, QList<QProcess*> > processes;
     // configuration
     QMap<QString, QString> configuration;
     bool debug;
@@ -58,7 +66,7 @@ private:
     QString getAllHdd();
     QString getAutoGpu();
     void readConfiguration();
-    void setCustomProcesses();
+    void setProcesses();
     QMap<QString, QString> updateConfiguration(const QMap<QString, QString> rawConfig);
 };
 

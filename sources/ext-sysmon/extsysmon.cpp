@@ -143,17 +143,49 @@ void ExtendedSysMon::readConfiguration()
     }
     confFile.close();
     configuration = updateConfiguration(rawConfig);
-    setCustomProcesses();
+    setProcesses();
 }
 
 
-void ExtendedSysMon::setCustomProcesses()
+void ExtendedSysMon::setProcesses()
 {
-    if (debug) qDebug() << "[DE]" << "[setCustomProcesses]";
+    if (debug) qDebug() << "[DE]" << "[setProcesses]";
+    // custom
     for (int i=0; i<configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts).count(); i++) {
-        customProcesses.append(new QProcess);
-        connect(customProcesses[i], SIGNAL(readyReadStandardOutput()), this, SLOT(setCustomCmd()));
+        processes[QString("custom")].append(new QProcess);
+        connect(processes[QString("custom")][i], SIGNAL(readyReadStandardOutput()), this, SLOT(setCustomCmd()));
     }
+    // gpu
+    processes[QString("gpu")].append(new QProcess);
+    connect(processes[QString("gpu")][0], SIGNAL(readyReadStandardOutput()), this, SLOT(getGpu()));
+    // gputemp
+    processes[QString("gputemp")].append(new QProcess);
+    connect(processes[QString("gputemp")][0], SIGNAL(readyReadStandardOutput()), this, SLOT(getGpuTemp()));
+    // hddtemp
+    for (int i=0; i<configuration[QString("HDDDEV")].split(QChar(','), QString::SkipEmptyParts).count(); i++) {
+        processes[QString("hddtemp")].append(new QProcess);
+        connect(processes[QString("hddtemp")][i], SIGNAL(readyReadStandardOutput()), this, SLOT(setHddTemp()));
+    }
+    // pkg
+    for (int i=0; i<configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts).count(); i++) {
+        processes[QString("pkg")].append(new QProcess);
+        connect(processes[QString("pkg")][i], SIGNAL(readyReadStandardOutput()), this, SLOT(setPkg()));
+    }
+    // player
+    // two processes because amarok and clementine requires two commands
+    // general
+    processes[QString("player")].append(new QProcess);
+    connect(processes[QString("player")][0], SIGNAL(readyReadStandardOutput()), this, SLOT(setPlayer()));
+    // addition
+    processes[QString("player")].append(new QProcess);
+    connect(processes[QString("player")][1], SIGNAL(readyReadStandardOutput()), this, SLOT(setPlayer()));
+    // ps
+    // pscount && ps
+    processes[QString("ps")].append(new QProcess);
+    connect(processes[QString("ps")][0], SIGNAL(readyReadStandardOutput()), this, SLOT(setPs()));
+    // pstotal
+    processes[QString("ps")].append(new QProcess);
+    connect(processes[QString("ps")][2], SIGNAL(readyReadStandardOutput()), this, SLOT(setPs()));
 }
 
 
@@ -222,18 +254,18 @@ void ExtendedSysMon::getCustomCmd(const QString cmd, const int number)
     if (debug) qDebug() << "[DE]" << "[getCustomCmd]";
     if (debug) qDebug() << "[DE]" << "[getCustomCmd]" << ":" << "Run function with cmd" << cmd;
     if (debug) qDebug() << "[DE]" << "[getCustomCmd]" << ":" << "Run cmd" << QString("bash -c \"") + cmd + QString("\"");
-    customProcesses[number]->start(QString("bash -c \"") + cmd + QString("\""));
+    processes[QString("custom")][number]->start(QString("bash -c \"") + cmd + QString("\""));
 }
 
 
 void ExtendedSysMon::setCustomCmd()
 {
     if (debug) qDebug() << "[DE]" << "[setCustomCmd]";
-    for (int i=0; i<customProcesses.count(); i++) {
+    for (int i=0; i<processes[QString("custom")].count(); i++) {
         QString value = QString("");
-        value = QTextCodec::codecForMib(106)->toUnicode(customProcesses[i]->readAllStandardOutput()).trimmed();
+        value = QTextCodec::codecForMib(106)->toUnicode(processes[QString("custom")][i]->readAllStandardOutput()).trimmed();
         if (!value.isEmpty()) {
-            if (debug) qDebug() << "[DE]" << "[setCustomCmd]" << ":" << "Found output for cmd" << i;
+            if (debug) qDebug() << "[DE]" << "[setCustomCmd]" << ":" << "Found data for cmd" << i;
             if (debug) qDebug() << "[DE]" << "[setCustomCmd]" << ":" << "Return" << value;
             QString source = QString("custom");
             QString key = QString("custom") + QString::number(i);
@@ -243,129 +275,192 @@ void ExtendedSysMon::setCustomCmd()
 }
 
 
-float ExtendedSysMon::getGpu(const QString device)
+void ExtendedSysMon::getGpu(const QString device)
 {
     if (debug) qDebug() << "[DE]" << "[getGpu]";
     if (debug) qDebug() << "[DE]" << "[getGpu]" << ":" << "Run function with device" << device;
-    float gpu = 0.0;
     if ((device != QString("nvidia")) && (device != QString("ati")))
-        return gpu;
-    QProcess command;
-    QString qoutput;
+        return;
 
     if (device == QString("nvidia")) {
         QString cmd = QString("nvidia-smi -q -d UTILIZATION");
         if (debug) qDebug() << "[DE]" << "[getGpu]" << ":" << "Run cmd" << cmd;
-        command.start(cmd);
-        command.waitForFinished(-1);
-        if (debug) qDebug() << "[DE]" << "[getGpu]" << ":" << "Cmd returns" << command.exitCode();
-        qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
+        processes[QString("gpu")][0]->start(cmd);
+    }
+    else if (device == QString("ati")) {
+        QString cmd = QString("aticonfig --od-getclocks");
+        if (debug) qDebug() << "[DE]" << "[getGpu]" << ":" << "Run cmd" << cmd;
+        processes[QString("gpu")][0]->start(cmd);
+    }
+}
+
+
+void ExtendedSysMon::setGpu()
+{
+    if (debug) qDebug() << "[DE]" << "[setGpu]";
+    float value = 0.0;
+    QString qoutput;
+    if (configuration[QString("GPUDEV")] == QString("nvidia")) {
+        qoutput = QTextCodec::codecForMib(106)->toUnicode(processes[QString("gpu")][0]->readAllStandardOutput());
         for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
             if (qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i].contains(QString("Gpu"))) {
                 QString load = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i]
                         .split(QChar(' '), QString::SkipEmptyParts)[2]
                         .remove(QChar('%'));
-                gpu = load.toFloat();
+                value = load.toFloat();
             }
         }
     }
-    else if (device == QString("ati")) {
-        QString cmd = QString("aticonfig --od-getclocks");
-        if (debug) qDebug() << "[DE]" << "[getGpu]" << ":" << "Run cmd" << cmd;
-        command.start(cmd);
-        command.waitForFinished(-1);
-        if (debug) qDebug() << "[DE]" << "[getGpu]" << ":" << "Cmd returns" << command.exitCode();
-        qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
+    else if (configuration[QString("GPUDEV")] == QString("ati")) {
+        qoutput = QTextCodec::codecForMib(106)->toUnicode(processes[QString("gpu")][0]->readAllStandardOutput());
         for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
             if (qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i].contains(QString("load"))) {
                 QString load = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i]
                         .split(QChar(' '), QString::SkipEmptyParts)[3]
                         .remove(QChar('%'));
-                gpu = load.toFloat();
+                value = load.toFloat();
             }
         }
     }
-    if (debug) qDebug() << "[DE]" << "[getGpu]" << ":" << "Return" << gpu;
-    return gpu;
+    if (debug) qDebug() << "[DE]" << "[setGpu]" << ":" << "Return" << value;
+    QString source = QString("gpu");
+    QString key = QString("GPU");
+    setData(source, key, value);
 }
 
 
-float ExtendedSysMon::getGpuTemp(const QString device)
+void ExtendedSysMon::getGpuTemp(const QString device)
 {
     if (debug) qDebug() << "[DE]" << "[getGpuTemp]";
     if (debug) qDebug() << "[DE]" << "[getGpuTemp]" << ":" << "Run function with device" << device;
-    float gpuTemp = 0.0;
     if ((device != QString("nvidia")) && (device != QString("ati")))
-        return gpuTemp;
-    QProcess command;
-    QString qoutput;
+        return;
 
     if (device == QString("nvidia")) {
         QString cmd = QString("nvidia-smi -q -d TEMPERATURE");
         if (debug) qDebug() << "[DE]" << "[getGpuTemp]" << ":" << "Run cmd" << cmd;
-        command.start(cmd);
-        command.waitForFinished(-1);
-        if (debug) qDebug() << "[DE]" << "[getGpuTemp]" << ":" << "Cmd returns" << command.exitCode();
-        qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
-        for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
-            if (qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i].contains(QString("Gpu"))) {
-                QString temp = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i]
-                        .split(QChar(' '), QString::SkipEmptyParts)[2];
-                gpuTemp = temp.toFloat();
-            }
-        }
+        processes[QString("gputemp")][0]->start(cmd);
     }
     else if (device == QString("ati")) {
         QString cmd = QString("aticonfig --od-gettemperature");
         if (debug) qDebug() << "[DE]" << "[getGpuTemp]" << ":" << "Run cmd" << cmd;
-        command.start(cmd);
-        command.waitForFinished(-1);
-        if (debug) qDebug() << "[DE]" << "[getGpuTemp]" << ":" << "Cmd returns" << command.exitCode();
-        qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
+        processes[QString("gputemp")][0]->start(cmd);
+    }
+}
+
+
+void ExtendedSysMon::setGpuTemp()
+{
+    if (debug) qDebug() << "[DE]" << "[setGpuTemp]";
+    float value = 0.0;
+    QString qoutput;
+    if (configuration[QString("GPUDEV")] == QString("nvidia")) {
+        qoutput = QTextCodec::codecForMib(106)->toUnicode(processes[QString("gputemp")][0]->readAllStandardOutput());
+        for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
+            if (qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i].contains(QString("Gpu"))) {
+                QString temp = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i]
+                        .split(QChar(' '), QString::SkipEmptyParts)[2];
+                value = temp.toFloat();
+            }
+        }
+    }
+    else if (configuration[QString("GPUDEV")] == QString("ati")) {
+        qoutput = QTextCodec::codecForMib(106)->toUnicode(processes[QString("gputemp")][0]->readAllStandardOutput());
         for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
             if (qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i].contains(QString("Temperature"))) {
                 QString temp = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i]
                         .split(QChar(' '), QString::SkipEmptyParts)[4];
-                gpuTemp = temp.toFloat();
+                value = temp.toFloat();
             }
         }
     }
-    if (debug) qDebug() << "[DE]" << "[getGpuTemp]" << ":" << "Return" << gpuTemp;
-    return gpuTemp;
+    if (debug) qDebug() << "[DE]" << "[setGpuTemp]" << ":" << "Return" << value;
+    QString source = QString("gputemp");
+    QString key = QString("GPUTemp");
+    setData(source, key, value);
 }
 
 
-float ExtendedSysMon::getHddTemp(const QString cmd, const QString device)
+void ExtendedSysMon::getHddTemp(const QString cmd, const QString device, const int number)
 {
     if (debug) qDebug() << "[DE]" << "[getHddTemp]";
     if (debug) qDebug() << "[DE]" << "[getHddTemp]" << ":" << "Run function with cmd" << cmd;
     if (debug) qDebug() << "[DE]" << "[getHddTemp]" << ":" << "Run function with device" << device;
-    float hddTemp = 0.0;
-    QProcess command;
-    QString qoutput = QString("");
     if (debug) qDebug() << "[DE]" << "[getHddTemp]" << ":" << "Run cmd" << cmd + QString(" ") + device;
-    command.start(cmd + QString(" ") + device);
-    command.waitForFinished(-1);
-    if (debug) qDebug() << "[DE]" << "[getHddTemp]" << ":" << "Cmd returns" << command.exitCode();
-    qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput()).trimmed();
-    if (qoutput.split(QChar(':'), QString::SkipEmptyParts).count() >= 3) {
-        QString temp = qoutput.split(QChar(':'), QString::SkipEmptyParts)[2];
-        temp.remove(QChar(0260)).remove(QChar('C'));
-        hddTemp = temp.toFloat();
-    }
-    if (debug) qDebug() << "[DE]" << "[getHddTemp]" << ":" << "Return" << hddTemp;
-    return hddTemp;
+    processes[QString("hddtemp")][number]->start(cmd + QString(" ") + device);
 }
 
 
-QStringList ExtendedSysMon::getPlayerInfo(const QString playerName,
-                                          const QString mpdAddress,
-                                          const QString mpdPort)
+void ExtendedSysMon::setHddTemp()
+{
+    if (debug) qDebug() << "[DE]" << "[setHddTemp]";
+    float value = 0.0;
+    QString qoutput = QString("");
+    for (int i=0; i<processes[QString("hddtemp")].count(); i++) {
+        qoutput = QTextCodec::codecForMib(106)->toUnicode(processes[QString("hddtemp")][i]->readAllStandardOutput()).trimmed();
+        if (qoutput.split(QChar(':'), QString::SkipEmptyParts).count() >= 3) {
+            QString temp = qoutput.split(QChar(':'), QString::SkipEmptyParts)[2];
+            temp.remove(QChar(0260)).remove(QChar('C'));
+            value = temp.toFloat();
+            if (debug) qDebug() << "[DE]" << "[setHddTemp]" << ":" << "Found data for cmd" << i;
+            if (debug) qDebug() << "[DE]" << "[setHddTemp]" << ":" << "Return" << value;
+            QString source = QString("hddtemp");
+            QString key = configuration[QString("HDDDEV")].split(QChar(','), QString::SkipEmptyParts)[i];
+            setData(source, key, value);
+        }
+    }
+}
+
+
+void ExtendedSysMon::getPlayerInfo(const QString playerName,
+                                   const QString mpdAddress,
+                                   const QString mpdPort)
 {
     if (debug) qDebug() << "[DE]" << "[getPlayerInfo]";
     if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run function with player" << playerName;
     if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run function with MPD parameters" <<
         mpdAddress + QString(":") + mpdPort;
+    QString cmd;
+    if (playerName == QString("amarok")) {
+        // amarok
+        cmd = QString("qdbus org.kde.amarok /Player GetMetadata");
+        if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run cmd" << cmd;
+        processes[QString("player")][0]->start(cmd);
+        cmd = QString("qdbus org.kde.amarok /Player PositionGet");
+        if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run cmd" << cmd;
+        processes[QString("player")][1]->start(cmd);
+    }
+    else if (playerName == QString("clementine")) {
+        // clementine
+        cmd = QString("qdbus org.mpris.clementine /Player GetMetadata");
+        if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run cmd" << cmd;
+        processes[QString("player")][0]->start(cmd);
+        cmd = QString("qdbus org.mpris.clementine /Player PositionGet");
+        if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run cmd" << cmd;
+        processes[QString("player")][1]->start(cmd);
+    }
+    else if (playerName == QString("mpd")) {
+        // mpd
+        cmd = QString("bash -c \"echo 'currentsong\nstatus\nclose' | curl --connect-timeout 1 -fsm 3 telnet://") +
+              mpdAddress + QString(":") + mpdPort + QString("\"");
+        if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run cmd" << cmd;
+        processes[QString("player")][0]->start(cmd);
+    }
+    else if (playerName == QString("qmmp")) {
+        // qmmp
+        cmd = QString("qmmp --status");
+        if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run cmd" << cmd;
+        processes[QString("player")][0]->start(cmd);
+    }
+}
+
+
+void ExtendedSysMon::setPlayer()
+{
+    if (debug) qDebug() << "[DE]" << "[setPlayer]";
+    QString playerName = configuration[QString("PLAYER")];
+    QString qoutput = QString("");
+    QString qstr = QString("");
     QStringList info;
     // album
     info.append(QString("unknown"));
@@ -377,85 +472,64 @@ QStringList ExtendedSysMon::getPlayerInfo(const QString playerName,
     info.append(QString("0"));
     // title
     info.append(QString("unknown"));
-    QProcess command;
-    QString cmd;
-    QString qoutput = QString("");
-    QString qstr;
     if (playerName == QString("amarok")) {
-        // amarok
-        cmd = QString("qdbus org.kde.amarok /Player GetMetadata");
-        if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run cmd" << cmd;
-        command.start(cmd);
-        command.waitForFinished(-1);
-        if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Cmd returns" << command.exitCode();
-        qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
-        for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
-            qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
-            if (qstr.split(QString(": "), QString::SkipEmptyParts).count() > 1) {
-                if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("album"))
-                    info[0] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
-                else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("artist"))
-                    info[1] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
-                else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("time"))
-                    info[3] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
-                else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("title"))
-                    info[4] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
+        qoutput = QTextCodec::codecForMib(106)->toUnicode(processes[QString("player")][0]->readAllStandardOutput());
+        if (!qoutput.isEmpty()) {
+            if (debug) qDebug() << "[DE]" << "[setPlayer]" << ":" << "Found data for cmd" << 0;
+            for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
+                qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
+                if (qstr.split(QString(": "), QString::SkipEmptyParts).count() > 1) {
+                    if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("album"))
+                        info[0] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
+                    else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("artist"))
+                        info[1] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
+                    else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("time"))
+                        info[3] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
+                    else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("title"))
+                        info[4] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
+                }
             }
         }
-        cmd = QString("qdbus org.kde.amarok /Player PositionGet");
-        if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run cmd" << cmd;
-        command.start(cmd);
-        command.waitForFinished(-1);
-        if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Cmd returns" << command.exitCode();
-        qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
-        for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
-            qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
-            int time = qstr.toInt() / 1000;
-            info[2] = QString::number(time);
+        qoutput = QTextCodec::codecForMib(106)->toUnicode(processes[QString("player")][1]->readAllStandardOutput());
+        if (!qoutput.isEmpty()) {
+            if (debug) qDebug() << "[DE]" << "[setPlayer]" << ":" << "Found data for cmd" << 1;
+            for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
+                qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
+                int time = qstr.toInt() / 1000;
+                info[2] = QString::number(time);
+            }
         }
     }
     else if (playerName == QString("clementine")) {
-        // clementine
-        cmd = QString("qdbus org.mpris.clementine /Player GetMetadata");
-        if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run cmd" << cmd;
-        command.start(cmd);
-        command.waitForFinished(-1);
-        if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Cmd returns" << command.exitCode();
-        qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
-        for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
-            qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
-            if (qstr.split(QString(": "), QString::SkipEmptyParts).count() > 1) {
-                if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("album"))
-                    info[0] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
-                else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("artist"))
-                    info[1] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
-                else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("time"))
-                    info[3] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
-                else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("title"))
-                    info[4] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
+        qoutput = QTextCodec::codecForMib(106)->toUnicode(processes[QString("player")][0]->readAllStandardOutput());
+        if (!qoutput.isEmpty()) {
+            if (debug) qDebug() << "[DE]" << "[setPlayer]" << ":" << "Found data for cmd" << 0;
+            for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
+                qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
+                if (qstr.split(QString(": "), QString::SkipEmptyParts).count() > 1) {
+                    if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("album"))
+                        info[0] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
+                    else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("artist"))
+                        info[1] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
+                    else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("time"))
+                        info[3] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
+                    else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("title"))
+                        info[4] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
+                }
             }
         }
-        cmd = QString("qdbus org.mpris.clementine /Player PositionGet");
-        if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run cmd" << cmd;
-        command.start(cmd);
-        command.waitForFinished(-1);
-        if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Cmd returns" << command.exitCode();
-        qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
-        for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
-            qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
-            int time = qstr.toInt() / 1000;
-            info[2] = QString::number(time);
+        qoutput = QTextCodec::codecForMib(106)->toUnicode(processes[QString("player")][1]->readAllStandardOutput());
+        if (!qoutput.isEmpty()) {
+            if (debug) qDebug() << "[DE]" << "[setPlayer]" << ":" << "Found data for cmd" << 1;
+            for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
+                qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
+                int time = qstr.toInt() / 1000;
+                info[2] = QString::number(time);
+            }
         }
     }
     else if (playerName == QString("mpd")) {
-        // mpd
-        cmd = QString("bash -c \"echo 'currentsong\nstatus\nclose' | curl --connect-timeout 1 -fsm 3 telnet://") +
-              mpdAddress + QString(":") + mpdPort + QString("\"");
-        if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run cmd" << cmd;
-        command.start(cmd);
-        command.waitForFinished(-1);
-        if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Cmd returns" << command.exitCode();
-        qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
+        qoutput = QTextCodec::codecForMib(106)->toUnicode(processes[QString("player")][0]->readAllStandardOutput());
         for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
             qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
             if (qstr.split(QString(": "), QString::SkipEmptyParts).count() > 1) {
@@ -473,13 +547,7 @@ QStringList ExtendedSysMon::getPlayerInfo(const QString playerName,
         }
     }
     else if (playerName == QString("qmmp")) {
-        // qmmp
-        cmd = QString("qmmp --status");
-        if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run cmd" << cmd;
-        command.start(cmd);
-        command.waitForFinished(-1);
-        if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Cmd returns" << command.exitCode();
-        qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
+        qoutput = QTextCodec::codecForMib(106)->toUnicode(processes[QString("player")][0]->readAllStandardOutput());
         for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
             qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
             if ((qstr.split(QString(" = "), QString::SkipEmptyParts).count() > 1) || (qstr.at(0) == QChar('['))) {
@@ -499,63 +567,93 @@ QStringList ExtendedSysMon::getPlayerInfo(const QString playerName,
             }
         }
     }
-    if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Return" << info;
-    return info;
+    QString source = QString("player");
+    QString key;
+    key = QString("album");
+    setData(source, key, info[0]);
+    key = QString("artist");
+    setData(source, key, info[1]);
+    key = QString("progress");
+    setData(source, key, info[2]);
+    key = QString("duration");
+    setData(source, key, info[3]);
+    key = QString("title");
+    setData(source, key, info[4]);
 }
 
 
-QStringList ExtendedSysMon::getPsStats()
+void ExtendedSysMon::getPsStats()
 {
     if (debug) qDebug() << "[DE]" << "[getPsStats]";
-    int psCount = 0;
-    QStringList psList;
     QString cmd;
-    QProcess command;
-    QString qoutput = QString("");
     cmd = QString("ps --no-headers -o command");
     if (debug) qDebug() << "[DE]" << "[getPsStats]" << ":" << "Run cmd" << cmd;
-    command.start(cmd);
-    command.waitForFinished(-1);
-    if (debug) qDebug() << "[DE]" << "[getPsStats]" << ":" << "Cmd returns" << command.exitCode();
-    qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput()).trimmed();
-    for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++)
-        if (qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i] != QString("ps --no-headers -o command")) {
-            psCount++;
-            psList.append(qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i]);
-        }
-    QStringList psStats;
-    psStats.append(QString::number(psCount));
-    psStats.append(psList.join(QString(",")));
+    processes[QString("ps")][0]->start(cmd);
     cmd = QString("ps -e --no-headers -o command");
     if (debug) qDebug() << "[DE]" << "[getPsStats]" << ":" << "Run cmd" << cmd;
-    command.start(cmd);
-    command.waitForFinished(-1);
-    if (debug) qDebug() << "[DE]" << "[getPsStats]" << ":" << "Cmd returns" << command.exitCode();
-    qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput()).trimmed();
-    int psTotal = qoutput.split(QChar('\n'), QString::SkipEmptyParts).count();
-    psStats.append(QString::number(psTotal));
-    if (debug) qDebug() << "[DE]" << "[getPsStats]" << ":" << "Return" << psStats;
-    return psStats;
+    processes[QString("ps")][1]->start(cmd);
 }
 
 
-int ExtendedSysMon::getUpgradeInfo(const QString pkgCommand, const int pkgNull)
+void ExtendedSysMon::setPs()
+{
+    if (debug) qDebug() << "[DE]" << "[setPs]";
+    QString qoutput = QString("");
+    for (int i=0; i<processes[QString("ps")].count(); i++) {
+        qoutput = QTextCodec::codecForMib(106)->toUnicode(processes[QString("ps")][i]->readAllStandardOutput()).trimmed();
+        if (!qoutput.isEmpty()) {
+            if (debug) qDebug() << "[DE]" << "[setPs]" << ":" << "Found data for cmd" << i;
+            if (i == 0) {
+                // pscount && ps
+                QStringList psList;
+                for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++)
+                    if (qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i] != QString("ps --no-headers -o command"))
+                        psList.append(qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i]);
+                QString source = QString("ps");
+                QString key = QString("psCount");
+                setData(source, key, QString::number(psList.count()));
+                key = QString("ps");
+                setData(source, key, psList.join(QString(",")));
+            }
+            else if (i == 1) {
+                // pstotal
+                QString source = QString("ps");
+                QString key = QString("psTotal");
+                setData(source, key, QString::number(qoutput.split(QChar('\n'), QString::SkipEmptyParts).count()));
+            }
+        }
+    }
+}
+
+
+void ExtendedSysMon::getUpgradeInfo(const QString pkgCommand, const int number)
 {
     if (debug) qDebug() << "[DE]" << "[getUpgradeInfo]";
     if (debug) qDebug() << "[DE]" << "[getUpgradeInfo]" << ":" << "Run function with cmd" << pkgCommand;
-    if (debug) qDebug() << "[DE]" << "[getUpgradeInfo]" << ":" << "Run function with number of null lines" << pkgNull;
-    int count = 0;
     QString cmd = QString("bash -c \"") + pkgCommand + QString("\"");
-    QProcess command;
-    QString qoutput = QString("");
     if (debug) qDebug() << "[DE]" << "[getUpgradeInfo]" << ":" << "Run cmd" << cmd;
-    command.start(cmd);
-    command.waitForFinished(-1);
-    if (debug) qDebug() << "[DE]" << "[getUpgradeInfo]" << ":" << "Cmd returns" << command.exitCode();
-    qoutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput()).trimmed();
-    count = qoutput.split(QChar('\n'), QString::SkipEmptyParts).count();
-    if (debug) qDebug() << "[DE]" << "[getUpgradeInfo]" << ":" << "Return" << (count - pkgNull);
-    return (count - pkgNull);
+    processes[QString("pkg")][number]->start(cmd);
+}
+
+
+void ExtendedSysMon::setUpgradeInfo()
+{
+    if (debug) qDebug() << "[DE]" << "[setUpgradeInfo]";
+    int pkgNull = 0;
+    int value = 0;
+    QString qoutput = QString("");
+    for (int i=0; i<processes[QString("pkg")].count(); i++) {
+        qoutput = QTextCodec::codecForMib(106)->toUnicode(processes[QString("pkg")][i]->readAllStandardOutput()).trimmed();
+        if (!qoutput.isEmpty()) {
+            if (debug) qDebug() << "[DE]" << "[setUpgradeInfo]" << ":" << "Found data for cmd" << i;
+            pkgNull = configuration[QString("PKGNULL")].split(QString(","), QString::SkipEmptyParts)[i].toInt();
+            value = qoutput.split(QChar('\n'), QString::SkipEmptyParts).count();
+            if (debug) qDebug() << "[DE]" << "[setUpgradeInfo]" << ":" << "Return" << value;
+            QString source = QString("pkg");
+            QString key = QString("pkgCount") + QString::number(i);
+            setData(source, key, value - pkgNull);
+        }
+    }
 }
 
 
@@ -578,55 +676,29 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
         }
     }
     else if (source == QString("gpu")) {
-        key = QString("GPU");
-        float value = getGpu(configuration[QString("GPUDEV")]);
-        setData(source, key, value);
+        getGpu(configuration[QString("GPUDEV")]);
     }
     else if (source == QString("gputemp")) {
-        key = QString("GPUTemp");
-        float value = getGpuTemp(configuration[QString("GPUDEV")]);
-        setData(source, key, value);
+        getGpuTemp(configuration[QString("GPUDEV")]);
     }
     else if (source == QString("hddtemp")) {
         QStringList deviceList = configuration[QString("HDDDEV")].split(QChar(','), QString::SkipEmptyParts);
         for (int i=0; i<deviceList.count(); i++) {
-            float value = getHddTemp(configuration[QString("HDDTEMPCMD")],
-                                     deviceList[i]);
-            setData(source, deviceList[i], value);
+            getHddTemp(configuration[QString("HDDTEMPCMD")], deviceList[i], i);
         }
     }
     else if (source == QString("pkg")) {
         for (int i=0; i<configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts).count(); i++) {
-            key = QString("pkgCount") + QString::number(i);
-            int value = getUpgradeInfo(configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts)[i],
-                    configuration[QString("PKGNULL")].split(QString(","), QString::SkipEmptyParts)[i].toInt());
-            setData(source, key, value);
+            getUpgradeInfo(configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts)[i], i);
         }
     }
     else if (source == QString("player")) {
-        QStringList value;
-        value = getPlayerInfo(configuration[QString("PLAYER")],
-                              configuration[QString("MPDADDRESS")],
-                              configuration[QString("MPDPORT")]);
-        key = QString("album");
-        setData(source, key, value[0]);
-        key = QString("artist");
-        setData(source, key, value[1]);
-        key = QString("progress");
-        setData(source, key, value[2]);
-        key = QString("duration");
-        setData(source, key, value[3]);
-        key = QString("title");
-        setData(source, key, value[4]);
+        getPlayerInfo(configuration[QString("PLAYER")],
+                      configuration[QString("MPDADDRESS")],
+                      configuration[QString("MPDPORT")]);
     }
     else if (source == QString("ps")) {
-        QStringList value = getPsStats();
-        key = QString("psCount");
-        setData(source, key, value[0].toInt());
-        key = QString("ps");
-        setData(source, key, value[1]);
-        key = QString("psTotal");
-        setData(source, key, value[2].toInt());
+        getPsStats();
     }
     return true;
 }
