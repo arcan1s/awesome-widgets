@@ -23,7 +23,6 @@
 #include <KDE/KStandardDirs>
 #include <QDebug>
 #include <QFile>
-#include <QProcess>
 #include <QProcessEnvironment>
 #include <QRegExp>
 #include <QTextCodec>
@@ -157,10 +156,10 @@ void ExtendedSysMon::setProcesses()
     }
     // gpu
     processes[QString("gpu")].append(new QProcess);
-    connect(processes[QString("gpu")][0], SIGNAL(readyReadStandardOutput()), this, SLOT(getGpu()));
+    connect(processes[QString("gpu")][0], SIGNAL(readyReadStandardOutput()), this, SLOT(setGpu()));
     // gputemp
     processes[QString("gputemp")].append(new QProcess);
-    connect(processes[QString("gputemp")][0], SIGNAL(readyReadStandardOutput()), this, SLOT(getGpuTemp()));
+    connect(processes[QString("gputemp")][0], SIGNAL(readyReadStandardOutput()), this, SLOT(setGpuTemp()));
     // hddtemp
     for (int i=0; i<configuration[QString("HDDDEV")].split(QChar(','), QString::SkipEmptyParts).count(); i++) {
         processes[QString("hddtemp")].append(new QProcess);
@@ -169,7 +168,8 @@ void ExtendedSysMon::setProcesses()
     // pkg
     for (int i=0; i<configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts).count(); i++) {
         processes[QString("pkg")].append(new QProcess);
-        connect(processes[QString("pkg")][i], SIGNAL(readyReadStandardOutput()), this, SLOT(setPkg()));
+        connect(processes[QString("pkg")][i], SIGNAL(finished(int, QProcess::ExitStatus)),
+                this, SLOT(setUpgradeInfo(int, QProcess::ExitStatus)));
     }
     // player
     // two processes because amarok and clementine requires two commands
@@ -185,7 +185,7 @@ void ExtendedSysMon::setProcesses()
     connect(processes[QString("ps")][0], SIGNAL(readyReadStandardOutput()), this, SLOT(setPs()));
     // pstotal
     processes[QString("ps")].append(new QProcess);
-    connect(processes[QString("ps")][2], SIGNAL(readyReadStandardOutput()), this, SLOT(setPs()));
+    connect(processes[QString("ps")][1], SIGNAL(readyReadStandardOutput()), this, SLOT(setPs()));
 }
 
 
@@ -199,7 +199,9 @@ QMap<QString, QString> ExtendedSysMon::updateConfiguration(const QMap<QString, Q
         key = rawConfig.keys()[i];
         value = rawConfig[key];
         key.remove(QChar(' '));
-        if ((key != QString("CUSTOM")) && (key != QString("PKGCMD")))
+        if ((key != QString("CUSTOM")) &&
+            (key != QString("HDDTEMPCMD")) &&
+            (key != QString("PKGCMD")))
             value.remove(QChar(' '));
         config[key] = value;
     }
@@ -253,6 +255,7 @@ void ExtendedSysMon::getCustomCmd(const QString cmd, const int number)
 {
     if (debug) qDebug() << "[DE]" << "[getCustomCmd]";
     if (debug) qDebug() << "[DE]" << "[getCustomCmd]" << ":" << "Run function with cmd" << cmd;
+    if (debug) qDebug() << "[DE]" << "[getCustomCmd]" << ":" << "Run function with number" << number;
     if (debug) qDebug() << "[DE]" << "[getCustomCmd]" << ":" << "Run cmd" << QString("bash -c \"") + cmd + QString("\"");
     processes[QString("custom")][number]->start(QString("bash -c \"") + cmd + QString("\""));
 }
@@ -386,6 +389,7 @@ void ExtendedSysMon::getHddTemp(const QString cmd, const QString device, const i
     if (debug) qDebug() << "[DE]" << "[getHddTemp]";
     if (debug) qDebug() << "[DE]" << "[getHddTemp]" << ":" << "Run function with cmd" << cmd;
     if (debug) qDebug() << "[DE]" << "[getHddTemp]" << ":" << "Run function with device" << device;
+    if (debug) qDebug() << "[DE]" << "[getHddTemp]" << ":" << "Run function with number" << number;
     if (debug) qDebug() << "[DE]" << "[getHddTemp]" << ":" << "Run cmd" << cmd + QString(" ") + device;
     processes[QString("hddtemp")][number]->start(cmd + QString(" ") + device);
 }
@@ -630,15 +634,19 @@ void ExtendedSysMon::getUpgradeInfo(const QString pkgCommand, const int number)
 {
     if (debug) qDebug() << "[DE]" << "[getUpgradeInfo]";
     if (debug) qDebug() << "[DE]" << "[getUpgradeInfo]" << ":" << "Run function with cmd" << pkgCommand;
-    QString cmd = QString("bash -c \"") + pkgCommand + QString("\"");
+    if (debug) qDebug() << "[DE]" << "[getUpgradeInfo]" << ":" << "Run function with number" << number;
+    QString cmd = QString("bash -c \"") + pkgCommand + QString(" | wc -l\"");
     if (debug) qDebug() << "[DE]" << "[getUpgradeInfo]" << ":" << "Run cmd" << cmd;
     processes[QString("pkg")][number]->start(cmd);
 }
 
 
-void ExtendedSysMon::setUpgradeInfo()
+void ExtendedSysMon::setUpgradeInfo(int exitCode, QProcess::ExitStatus exitStatus)
 {
+    Q_UNUSED(exitStatus)
+
     if (debug) qDebug() << "[DE]" << "[setUpgradeInfo]";
+    if (debug) qDebug() << "[DE]" << "[setUpgradeInfo]" << ":" << "Cmd returns" << exitCode;
     int pkgNull = 0;
     int value = 0;
     QString qoutput = QString("");
@@ -647,7 +655,7 @@ void ExtendedSysMon::setUpgradeInfo()
         if (!qoutput.isEmpty()) {
             if (debug) qDebug() << "[DE]" << "[setUpgradeInfo]" << ":" << "Found data for cmd" << i;
             pkgNull = configuration[QString("PKGNULL")].split(QString(","), QString::SkipEmptyParts)[i].toInt();
-            value = qoutput.split(QChar('\n'), QString::SkipEmptyParts).count();
+            value = qoutput.toInt();
             if (debug) qDebug() << "[DE]" << "[setUpgradeInfo]" << ":" << "Return" << value;
             QString source = QString("pkg");
             QString key = QString("pkgCount") + QString::number(i);
@@ -669,11 +677,9 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
 {
     if (debug) qDebug() << "[DE]" << "[updateSourceEvent]";
     if (debug) qDebug() << "[DE]" << "[updateSourceEvent]" << ":" << "Run function with source name" << source;
-    QString key;
     if (source == QString("custom")) {
-        for (int i=0; i<configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts).count(); i++) {
+        for (int i=0; i<configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts).count(); i++)
             getCustomCmd(configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts)[i], i);
-        }
     }
     else if (source == QString("gpu")) {
         getGpu(configuration[QString("GPUDEV")]);
@@ -683,14 +689,12 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     }
     else if (source == QString("hddtemp")) {
         QStringList deviceList = configuration[QString("HDDDEV")].split(QChar(','), QString::SkipEmptyParts);
-        for (int i=0; i<deviceList.count(); i++) {
+        for (int i=0; i<deviceList.count(); i++)
             getHddTemp(configuration[QString("HDDTEMPCMD")], deviceList[i], i);
-        }
     }
     else if (source == QString("pkg")) {
-        for (int i=0; i<configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts).count(); i++) {
+        for (int i=0; i<configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts).count(); i++)
             getUpgradeInfo(configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts)[i], i);
-        }
     }
     else if (source == QString("player")) {
         getPlayerInfo(configuration[QString("PLAYER")],

@@ -19,8 +19,7 @@
 #define EXTSYSMON_H
 
 #include <Plasma/DataEngine>
-
-class QProcess;
+#include <QProcess>
 
 class ExtendedSysMon : public Plasma::DataEngine
 {
@@ -52,7 +51,7 @@ private slots:
     void setGpu();
     void setGpuTemp();
     void setHddTemp();
-    void setUpgradeInfo();
+    void setUpgradeInfo(int exitCode, QProcess::ExitStatus exitStatus);
     void setPlayer();
     void setPs();
 
