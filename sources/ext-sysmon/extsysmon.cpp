@@ -166,7 +166,8 @@ void ExtendedSysMon::setProcesses()
     // hddtemp
     for (int i=0; i<configuration[QString("HDDDEV")].split(QChar(','), QString::SkipEmptyParts).count(); i++) {
         processes[QString("hddtemp")].append(new QProcess);
-        connect(processes[QString("hddtemp")][i], SIGNAL(readyReadStandardOutput()), this, SLOT(setHddTemp()));
+        connect(processes[QString("hddtemp")][i], SIGNAL(finished(int, QProcess::ExitStatus)),
+                this, SLOT(setHddTemp(int, QProcess::ExitStatus)));
     }
     // pkg
     for (int i=0; i<configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts).count(); i++) {
@@ -399,18 +400,21 @@ void ExtendedSysMon::getHddTemp(const QString cmd, const QString device, const i
 }
 
 
-void ExtendedSysMon::setHddTemp()
+void ExtendedSysMon::setHddTemp(int exitCode, QProcess::ExitStatus exitStatus)
 {
+    Q_UNUSED(exitStatus)
+
     if (debug) qDebug() << "[DE]" << "[setHddTemp]";
-    float value = 0.0;
-    QString qoutput = QString("");
+    if (debug) qDebug() << "[DE]" << "[setHddTemp]" << ":" << "Cmd returns" << exitCode;
     for (int i=0; i<processes[QString("hddtemp")].count(); i++) {
+        float value = 0.0;
+        QString qoutput = QString("");
         qoutput = QTextCodec::codecForMib(106)->toUnicode(processes[QString("hddtemp")][i]->readAllStandardOutput()).trimmed();
         if (qoutput.split(QChar(':'), QString::SkipEmptyParts).count() >= 3) {
+            if (debug) qDebug() << "[DE]" << "[setHddTemp]" << ":" << "Found data for cmd" << i;
             QString temp = qoutput.split(QChar(':'), QString::SkipEmptyParts)[2];
             temp.remove(QChar(0260)).remove(QChar('C'));
             value = temp.toFloat();
-            if (debug) qDebug() << "[DE]" << "[setHddTemp]" << ":" << "Found data for cmd" << i;
             if (debug) qDebug() << "[DE]" << "[setHddTemp]" << ":" << "Return" << value;
             QString source = QString("hddtemp");
             QString key = configuration[QString("HDDDEV")].split(QChar(','), QString::SkipEmptyParts)[i];
