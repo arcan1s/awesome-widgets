@@ -120,11 +120,11 @@ class pyTextWidget(plasmascript.Applet):
         QObject.connect(self.ptmActions['readme'], SIGNAL("triggered(bool)"), self.showReadme)
         self.ptmActions['update'] = QAction(i18n("Update text"), self)
         QObject.connect(self.ptmActions['update'], SIGNAL("triggered(bool)"),
-                        self.ptm['dataengine']['ext'], SLOT("forceImmediateUpdateOfAllVisualizations()"))
+                        self.ptm['dataengine']['ext'], SLOT("updateAllSources()"))
         QObject.connect(self.ptmActions['update'], SIGNAL("triggered(bool)"),
-                        self.ptm['dataengine']['system'], SLOT("forceImmediateUpdateOfAllVisualizations()"))
+                        self.ptm['dataengine']['system'], SLOT("updateAllSources()"))
         QObject.connect(self.ptmActions['update'], SIGNAL("triggered(bool)"),
-                        self.ptm['dataengine']['time'], SLOT("forceImmediateUpdateOfAllVisualizations()"))
+                        self.ptm['dataengine']['time'], SLOT("updateAllSources()"))
         QObject.connect(self.ptmActions['update'], SIGNAL("triggered(bool)"), self.updateNetdev)
 
 
