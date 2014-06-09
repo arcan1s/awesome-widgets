@@ -52,7 +52,7 @@ private slots:
     void setGpuTemp(int exitCode, QProcess::ExitStatus exitStatus);
     void setHddTemp(int exitCode, QProcess::ExitStatus exitStatus);
     void setUpgradeInfo(int exitCode, QProcess::ExitStatus exitStatus);
-    void setPlayer();
+    void setPlayer(int exitCode, QProcess::ExitStatus exitStatus);
     void setPs();
 
 private:

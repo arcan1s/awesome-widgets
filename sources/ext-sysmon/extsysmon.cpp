@@ -176,13 +176,9 @@ void ExtendedSysMon::setProcesses()
                 this, SLOT(setUpgradeInfo(int, QProcess::ExitStatus)));
     }
     // player
-    // two processes because amarok and clementine requires two commands
-    // general
     processes[QString("player")].append(new QProcess);
-    connect(processes[QString("player")][0], SIGNAL(readyReadStandardOutput()), this, SLOT(setPlayer()));
-    // addition
-    processes[QString("player")].append(new QProcess);
-    connect(processes[QString("player")][1], SIGNAL(readyReadStandardOutput()), this, SLOT(setPlayer()));
+    connect(processes[QString("player")][0], SIGNAL(finished(int, QProcess::ExitStatus)),
+            this, SLOT(setPlayer(int, QProcess::ExitStatus)));
     // ps
     // pscount && ps
     processes[QString("ps")].append(new QProcess);
@@ -435,21 +431,15 @@ void ExtendedSysMon::getPlayerInfo(const QString playerName,
     QString cmd;
     if (playerName == QString("amarok")) {
         // amarok
-        cmd = QString("qdbus org.kde.amarok /Player GetMetadata");
+        cmd = QString("bash -c \"qdbus org.kde.amarok /Player GetMetadata && qdbus org.kde.amarok /Player PositionGet\"");
         if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run cmd" << cmd;
         processes[QString("player")][0]->start(cmd);
-        cmd = QString("qdbus org.kde.amarok /Player PositionGet");
-        if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run cmd" << cmd;
-        processes[QString("player")][1]->start(cmd);
     }
     else if (playerName == QString("clementine")) {
         // clementine
-        cmd = QString("qdbus org.mpris.clementine /Player GetMetadata");
+        cmd = QString("bash -c \"qdbus org.mpris.clementine /Player GetMetadata && qdbus org.mpris.clementine /Player PositionGet\"");
         if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run cmd" << cmd;
         processes[QString("player")][0]->start(cmd);
-        cmd = QString("qdbus org.mpris.clementine /Player PositionGet");
-        if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run cmd" << cmd;
-        processes[QString("player")][1]->start(cmd);
     }
     else if (playerName == QString("mpd")) {
         // mpd
@@ -467,9 +457,12 @@ void ExtendedSysMon::getPlayerInfo(const QString playerName,
 }
 
 
-void ExtendedSysMon::setPlayer()
+void ExtendedSysMon::setPlayer(int exitCode, QProcess::ExitStatus exitStatus)
 {
+    Q_UNUSED(exitStatus)
+
     if (debug) qDebug() << "[DE]" << "[setPlayer]";
+    if (debug) qDebug() << "[DE]" << "[setPlayer]" << ":" << "Cmd returns" << exitCode;
     QString playerName = configuration[QString("PLAYER")];
     QString qoutput = QString("");
     QString qstr = QString("");
@@ -487,7 +480,6 @@ void ExtendedSysMon::setPlayer()
     if (playerName == QString("amarok")) {
         qoutput = QTextCodec::codecForMib(106)->toUnicode(processes[QString("player")][0]->readAllStandardOutput());
         if (!qoutput.isEmpty()) {
-            if (debug) qDebug() << "[DE]" << "[setPlayer]" << ":" << "Found data for cmd" << 0;
             for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
                 qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
                 if (qstr.split(QString(": "), QString::SkipEmptyParts).count() > 1) {
@@ -500,22 +492,16 @@ void ExtendedSysMon::setPlayer()
                     else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("title"))
                         info[4] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
                 }
-            }
-        }
-        qoutput = QTextCodec::codecForMib(106)->toUnicode(processes[QString("player")][1]->readAllStandardOutput());
-        if (!qoutput.isEmpty()) {
-            if (debug) qDebug() << "[DE]" << "[setPlayer]" << ":" << "Found data for cmd" << 1;
-            for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
-                qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
-                int time = qstr.toInt() / 1000;
-                info[2] = QString::number(time);
+                else {
+                    int time = qstr.toInt() / 1000;
+                    info[2] = QString::number(time);
+                }
             }
         }
     }
     else if (playerName == QString("clementine")) {
         qoutput = QTextCodec::codecForMib(106)->toUnicode(processes[QString("player")][0]->readAllStandardOutput());
         if (!qoutput.isEmpty()) {
-            if (debug) qDebug() << "[DE]" << "[setPlayer]" << ":" << "Found data for cmd" << 0;
             for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
                 qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
                 if (qstr.split(QString(": "), QString::SkipEmptyParts).count() > 1) {
@@ -528,15 +514,10 @@ void ExtendedSysMon::setPlayer()
                     else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("title"))
                         info[4] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
                 }
-            }
-        }
-        qoutput = QTextCodec::codecForMib(106)->toUnicode(processes[QString("player")][1]->readAllStandardOutput());
-        if (!qoutput.isEmpty()) {
-            if (debug) qDebug() << "[DE]" << "[setPlayer]" << ":" << "Found data for cmd" << 1;
-            for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
-                qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
-                int time = qstr.toInt() / 1000;
-                info[2] = QString::number(time);
+                else {
+                    int time = qstr.toInt() / 1000;
+                    info[2] = QString::number(time);
+                }
             }
         }
     }
