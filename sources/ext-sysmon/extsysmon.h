@@ -53,7 +53,7 @@ private slots:
     void setHddTemp(int exitCode, QProcess::ExitStatus exitStatus);
     void setUpgradeInfo(int exitCode, QProcess::ExitStatus exitStatus);
     void setPlayer(int exitCode, QProcess::ExitStatus exitStatus);
-    void setPs();
+    void setPs(int exitCode, QProcess::ExitStatus exitStatus);
 
 private:
     // processes

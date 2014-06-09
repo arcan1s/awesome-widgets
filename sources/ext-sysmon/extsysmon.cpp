@@ -182,10 +182,10 @@ void ExtendedSysMon::setProcesses()
     // ps
     // pscount && ps
     processes[QString("ps")].append(new QProcess);
-    connect(processes[QString("ps")][0], SIGNAL(readyReadStandardOutput()), this, SLOT(setPs()));
     // pstotal
     processes[QString("ps")].append(new QProcess);
-    connect(processes[QString("ps")][1], SIGNAL(readyReadStandardOutput()), this, SLOT(setPs()));
+    connect(processes[QString("ps")][1], SIGNAL(finished(int, QProcess::ExitStatus)),
+            this, SLOT(setPs(int, QProcess::ExitStatus)));
 }
 
 
@@ -588,9 +588,12 @@ void ExtendedSysMon::getPsStats()
 }
 
 
-void ExtendedSysMon::setPs()
+void ExtendedSysMon::setPs(int exitCode, QProcess::ExitStatus exitStatus)
 {
+    Q_UNUSED(exitStatus)
+
     if (debug) qDebug() << "[DE]" << "[setPs]";
+    if (debug) qDebug() << "[DE]" << "[setPs]" << ":" << "Cmd returns" << exitCode;
     QString qoutput = QString("");
     for (int i=0; i<processes[QString("ps")].count(); i++) {
         qoutput = QTextCodec::codecForMib(106)->toUnicode(processes[QString("ps")][i]->readAllStandardOutput()).trimmed();
@@ -600,7 +603,8 @@ void ExtendedSysMon::setPs()
                 // pscount && ps
                 QStringList psList;
                 for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++)
-                    if (qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i] != QString("ps --no-headers -o command"))
+                    if (!qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i].
+                        contains(QString("ps ")))
                         psList.append(qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i]);
                 QString source = QString("ps");
                 QString key = QString("psCount");
