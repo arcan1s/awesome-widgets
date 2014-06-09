@@ -147,51 +147,9 @@ void ExtendedSysMon::readConfiguration()
 }
 
 
-void ExtendedSysMon::setProcesses()
-{
-    if (debug) qDebug() << "[DE]" << "[setProcesses]";
-    // custom
-    for (int i=0; i<configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts).count(); i++) {
-        processes[QString("custom")].append(new QProcess);
-        connect(processes[QString("custom")][i], SIGNAL(finished(int, QProcess::ExitStatus)),
-                this, SLOT(setCustomCmd(int, QProcess::ExitStatus)));
-    }
-    // gpu
-    processes[QString("gpu")].append(new QProcess);
-    connect(processes[QString("gpu")][0], SIGNAL(finished(int, QProcess::ExitStatus)),
-            this, SLOT(setGpu(int, QProcess::ExitStatus)));
-    // gputemp
-    processes[QString("gputemp")].append(new QProcess);
-    connect(processes[QString("gputemp")][0], SIGNAL(finished(int, QProcess::ExitStatus)),
-            this, SLOT(setGpuTemp(int, QProcess::ExitStatus)));
-    // hddtemp
-    for (int i=0; i<configuration[QString("HDDDEV")].split(QChar(','), QString::SkipEmptyParts).count(); i++) {
-        processes[QString("hddtemp")].append(new QProcess);
-        connect(processes[QString("hddtemp")][i], SIGNAL(finished(int, QProcess::ExitStatus)),
-                this, SLOT(setHddTemp(int, QProcess::ExitStatus)));
-    }
-    // pkg
-    for (int i=0; i<configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts).count(); i++) {
-        processes[QString("pkg")].append(new QProcess);
-        connect(processes[QString("pkg")][i], SIGNAL(finished(int, QProcess::ExitStatus)),
-                this, SLOT(setUpgradeInfo(int, QProcess::ExitStatus)));
-    }
-    // player
-    processes[QString("player")].append(new QProcess);
-    connect(processes[QString("player")][0], SIGNAL(finished(int, QProcess::ExitStatus)),
-            this, SLOT(setPlayer(int, QProcess::ExitStatus)));
-    // ps
-    // pscount && ps
-    processes[QString("ps")].append(new QProcess);
-    // pstotal
-    processes[QString("ps")].append(new QProcess);
-    connect(processes[QString("ps")][1], SIGNAL(finished(int, QProcess::ExitStatus)),
-            this, SLOT(setPs(int, QProcess::ExitStatus)));
-}
-
-
 void ExtendedSysMon::setKeys()
 {
+    if (debug) qDebug() << "[DE]" << "[setKeys]";
     QString key, source;
     // custom
     source = QString("custom");
@@ -239,6 +197,49 @@ void ExtendedSysMon::setKeys()
     setData(source, key, QString(""));
     key = QString("psTotal");
     setData(source, key, QString("0"));
+}
+
+
+void ExtendedSysMon::setProcesses()
+{
+    if (debug) qDebug() << "[DE]" << "[setProcesses]";
+    // custom
+    for (int i=0; i<configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts).count(); i++) {
+        processes[QString("custom")].append(new QProcess);
+        connect(processes[QString("custom")][i], SIGNAL(finished(int, QProcess::ExitStatus)),
+                this, SLOT(setCustomCmd(int, QProcess::ExitStatus)));
+    }
+    // gpu
+    processes[QString("gpu")].append(new QProcess);
+    connect(processes[QString("gpu")][0], SIGNAL(finished(int, QProcess::ExitStatus)),
+            this, SLOT(setGpu(int, QProcess::ExitStatus)));
+    // gputemp
+    processes[QString("gputemp")].append(new QProcess);
+    connect(processes[QString("gputemp")][0], SIGNAL(finished(int, QProcess::ExitStatus)),
+            this, SLOT(setGpuTemp(int, QProcess::ExitStatus)));
+    // hddtemp
+    for (int i=0; i<configuration[QString("HDDDEV")].split(QChar(','), QString::SkipEmptyParts).count(); i++) {
+        processes[QString("hddtemp")].append(new QProcess);
+        connect(processes[QString("hddtemp")][i], SIGNAL(finished(int, QProcess::ExitStatus)),
+                this, SLOT(setHddTemp(int, QProcess::ExitStatus)));
+    }
+    // pkg
+    for (int i=0; i<configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts).count(); i++) {
+        processes[QString("pkg")].append(new QProcess);
+        connect(processes[QString("pkg")][i], SIGNAL(finished(int, QProcess::ExitStatus)),
+                this, SLOT(setUpgradeInfo(int, QProcess::ExitStatus)));
+    }
+    // player
+    processes[QString("player")].append(new QProcess);
+    connect(processes[QString("player")][0], SIGNAL(finished(int, QProcess::ExitStatus)),
+            this, SLOT(setPlayer(int, QProcess::ExitStatus)));
+    // ps
+    // pscount && ps
+    processes[QString("ps")].append(new QProcess);
+    // pstotal
+    processes[QString("ps")].append(new QProcess);
+    connect(processes[QString("ps")][1], SIGNAL(finished(int, QProcess::ExitStatus)),
+            this, SLOT(setPs(int, QProcess::ExitStatus)));
 }
 
 
