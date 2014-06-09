@@ -152,7 +152,8 @@ void ExtendedSysMon::setProcesses()
     // custom
     for (int i=0; i<configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts).count(); i++) {
         processes[QString("custom")].append(new QProcess);
-        connect(processes[QString("custom")][i], SIGNAL(readyReadStandardOutput()), this, SLOT(setCustomCmd()));
+        connect(processes[QString("custom")][i], SIGNAL(finished(int, QProcess::ExitStatus)),
+                this, SLOT(setCustomCmd(int, QProcess::ExitStatus)));
     }
     // gpu
     processes[QString("gpu")].append(new QProcess);
@@ -261,9 +262,12 @@ void ExtendedSysMon::getCustomCmd(const QString cmd, const int number)
 }
 
 
-void ExtendedSysMon::setCustomCmd()
+void ExtendedSysMon::setCustomCmd(int exitCode, QProcess::ExitStatus exitStatus)
 {
+    Q_UNUSED(exitStatus)
+
     if (debug) qDebug() << "[DE]" << "[setCustomCmd]";
+    if (debug) qDebug() << "[DE]" << "[setCustomCmd]" << ":" << "Cmd returns" << exitCode;
     for (int i=0; i<processes[QString("custom")].count(); i++) {
         QString value = QString("");
         value = QTextCodec::codecForMib(106)->toUnicode(processes[QString("custom")][i]->readAllStandardOutput()).trimmed();
@@ -647,10 +651,10 @@ void ExtendedSysMon::setUpgradeInfo(int exitCode, QProcess::ExitStatus exitStatu
 
     if (debug) qDebug() << "[DE]" << "[setUpgradeInfo]";
     if (debug) qDebug() << "[DE]" << "[setUpgradeInfo]" << ":" << "Cmd returns" << exitCode;
-    int pkgNull = 0;
-    int value = 0;
-    QString qoutput = QString("");
     for (int i=0; i<processes[QString("pkg")].count(); i++) {
+        int pkgNull = 0;
+        int value = 0;
+        QString qoutput = QString("");
         qoutput = QTextCodec::codecForMib(106)->toUnicode(processes[QString("pkg")][i]->readAllStandardOutput()).trimmed();
         if (!qoutput.isEmpty()) {
             if (debug) qDebug() << "[DE]" << "[setUpgradeInfo]" << ":" << "Found data for cmd" << i;

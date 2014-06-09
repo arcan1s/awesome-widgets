@@ -47,7 +47,7 @@ protected:
     QStringList sources() const;
 
 private slots:
-    void setCustomCmd();
+    void setCustomCmd(int exitCode, QProcess::ExitStatus exitStatus);
     void setGpu();
     void setGpuTemp();
     void setHddTemp();
