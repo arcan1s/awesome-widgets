@@ -157,10 +157,12 @@ void ExtendedSysMon::setProcesses()
     }
     // gpu
     processes[QString("gpu")].append(new QProcess);
-    connect(processes[QString("gpu")][0], SIGNAL(readyReadStandardOutput()), this, SLOT(setGpu()));
+    connect(processes[QString("gpu")][0], SIGNAL(finished(int, QProcess::ExitStatus)),
+            this, SLOT(setGpu(int, QProcess::ExitStatus)));
     // gputemp
     processes[QString("gputemp")].append(new QProcess);
-    connect(processes[QString("gputemp")][0], SIGNAL(readyReadStandardOutput()), this, SLOT(setGpuTemp()));
+    connect(processes[QString("gputemp")][0], SIGNAL(finished(int, QProcess::ExitStatus)),
+            this, SLOT(setGpuTemp(int, QProcess::ExitStatus)));
     // hddtemp
     for (int i=0; i<configuration[QString("HDDDEV")].split(QChar(','), QString::SkipEmptyParts).count(); i++) {
         processes[QString("hddtemp")].append(new QProcess);
@@ -288,23 +290,22 @@ void ExtendedSysMon::getGpu(const QString device)
     if (debug) qDebug() << "[DE]" << "[getGpu]" << ":" << "Run function with device" << device;
     if ((device != QString("nvidia")) && (device != QString("ati")))
         return;
-
-    if (device == QString("nvidia")) {
-        QString cmd = QString("nvidia-smi -q -d UTILIZATION");
-        if (debug) qDebug() << "[DE]" << "[getGpu]" << ":" << "Run cmd" << cmd;
-        processes[QString("gpu")][0]->start(cmd);
-    }
-    else if (device == QString("ati")) {
-        QString cmd = QString("aticonfig --od-getclocks");
-        if (debug) qDebug() << "[DE]" << "[getGpu]" << ":" << "Run cmd" << cmd;
-        processes[QString("gpu")][0]->start(cmd);
-    }
+    QString cmd = QString("");
+    if (device == QString("nvidia"))
+        cmd = QString("nvidia-smi -q -d UTILIZATION");
+    else if (device == QString("ati"))
+        cmd = QString("aticonfig --od-getclocks");
+    if (debug) qDebug() << "[DE]" << "[getGpu]" << ":" << "Run cmd" << cmd;
+    processes[QString("gpu")][0]->start(cmd);
 }
 
 
-void ExtendedSysMon::setGpu()
+void ExtendedSysMon::setGpu(int exitCode, QProcess::ExitStatus exitStatus)
 {
+    Q_UNUSED(exitStatus)
+
     if (debug) qDebug() << "[DE]" << "[setGpu]";
+    if (debug) qDebug() << "[DE]" << "[setGpu]" << ":" << "Cmd returns" << exitCode;
     float value = 0.0;
     QString qoutput;
     if (configuration[QString("GPUDEV")] == QString("nvidia")) {
@@ -342,23 +343,22 @@ void ExtendedSysMon::getGpuTemp(const QString device)
     if (debug) qDebug() << "[DE]" << "[getGpuTemp]" << ":" << "Run function with device" << device;
     if ((device != QString("nvidia")) && (device != QString("ati")))
         return;
-
-    if (device == QString("nvidia")) {
-        QString cmd = QString("nvidia-smi -q -d TEMPERATURE");
-        if (debug) qDebug() << "[DE]" << "[getGpuTemp]" << ":" << "Run cmd" << cmd;
-        processes[QString("gputemp")][0]->start(cmd);
-    }
-    else if (device == QString("ati")) {
-        QString cmd = QString("aticonfig --od-gettemperature");
-        if (debug) qDebug() << "[DE]" << "[getGpuTemp]" << ":" << "Run cmd" << cmd;
-        processes[QString("gputemp")][0]->start(cmd);
-    }
+    QString cmd = QString("");
+    if (device == QString("nvidia"))
+        cmd = QString("nvidia-smi -q -d TEMPERATURE");
+    else if (device == QString("ati"))
+        cmd = QString("aticonfig --od-gettemperature");
+    if (debug) qDebug() << "[DE]" << "[getGpuTemp]" << ":" << "Run cmd" << cmd;
+    processes[QString("gputemp")][0]->start(cmd);
 }
 
 
-void ExtendedSysMon::setGpuTemp()
+void ExtendedSysMon::setGpuTemp(int exitCode, QProcess::ExitStatus exitStatus)
 {
+    Q_UNUSED(exitStatus)
+
     if (debug) qDebug() << "[DE]" << "[setGpuTemp]";
+    if (debug) qDebug() << "[DE]" << "[setGpuTemp]" << ":" << "Cmd returns" << exitCode;
     float value = 0.0;
     QString qoutput;
     if (configuration[QString("GPUDEV")] == QString("nvidia")) {

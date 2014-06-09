@@ -48,8 +48,8 @@ protected:
 
 private slots:
     void setCustomCmd(int exitCode, QProcess::ExitStatus exitStatus);
-    void setGpu();
-    void setGpuTemp();
+    void setGpu(int exitCode, QProcess::ExitStatus exitStatus);
+    void setGpuTemp(int exitCode, QProcess::ExitStatus exitStatus);
     void setHddTemp();
     void setUpgradeInfo(int exitCode, QProcess::ExitStatus exitStatus);
     void setPlayer();
