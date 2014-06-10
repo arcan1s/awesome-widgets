@@ -662,7 +662,7 @@ void ExtendedSysMon::setPs(int exitCode, QProcess::ExitStatus exitStatus)
                         psList.append(qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i]);
                 QString source = QString("ps");
                 QString key = QString("psCount");
-                setData(source, key, int(QString::number(psList.count())));
+                setData(source, key, psList.count());
                 key = QString("ps");
                 setData(source, key, psList.join(QString(",")));
             }
@@ -670,7 +670,7 @@ void ExtendedSysMon::setPs(int exitCode, QProcess::ExitStatus exitStatus)
                 // pstotal
                 QString source = QString("ps");
                 QString key = QString("psTotal");
-                setData(source, key, int(QString::number(qoutput.split(QChar('\n'), QString::SkipEmptyParts).count())));
+                setData(source, key, qoutput.split(QChar('\n'), QString::SkipEmptyParts).count());
             }
         }
     }
