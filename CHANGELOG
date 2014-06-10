@@ -1,5 +1,7 @@
 Ver.1.10.1:
 - fix error with number formats in ps label
+- fix first initialization of DataEngine
+- fix checking of qmmp
 
 Ver.1.10.0:
 + added tags $hddtotmb, $hddtotgb

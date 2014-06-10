@@ -459,7 +459,7 @@ void ExtendedSysMon::getPlayerInfo(const QString playerName,
     }
     else if (playerName == QString("qmmp")) {
         // qmmp
-        cmd = QString("qmmp --status");
+        cmd = QString("bash -c \"pgrep qmmp && qmmp --status || echo 'null'\"");
         if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run cmd" << cmd;
         processes[QString("player")][0]->start(cmd);
     }
