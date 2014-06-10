@@ -26,6 +26,7 @@
 #include <QProcessEnvironment>
 #include <QRegExp>
 #include <QTextCodec>
+#include <QThread>
 
 
 ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList& args)
@@ -44,7 +45,7 @@ ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList& args)
     setMinimumPollingInterval(333);
     readConfiguration();
     setProcesses();
-    initValues();
+    setKeys();
 }
 
 
@@ -106,9 +107,10 @@ QStringList ExtendedSysMon::sources() const
 
 void ExtendedSysMon::initValues()
 {
+    if (debug) qDebug() << "[DE]" << "[initValues]";
     QStringList sourceList = sources();
     for (int i=0; i<sourceList.count(); i++)
-        updateSourceEvent(sourceList[i]);
+        sourceRequestEvent(sourceList[i]);
 }
 
 
@@ -152,6 +154,61 @@ void ExtendedSysMon::readConfiguration()
     }
     confFile.close();
     configuration = updateConfiguration(rawConfig);
+}
+
+
+void ExtendedSysMon::setKeys()
+{
+    if (debug) qDebug() << "[DE]" << "[setKeys]";
+    QString key, source;
+    // custom
+    source = QString("custom");
+    for (int i=0; i<configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts).count(); i++) {
+        key = QString("custom") + QString::number(i);
+        setData(source, key, QString(""));
+    }
+    // gpu
+    source = QString("gpu");
+    key = QString("GPU");
+    setData(source, key, float(0.0));
+    // gputemp
+    source = QString("gputemp");
+    key = QString("GPUTemp");
+    setData(source, key, float(0.0));
+    // hddtemp
+    source = QString("hddtemp");
+    for (int i=0; i<configuration[QString("HDDDEV")].split(QChar(','), QString::SkipEmptyParts).count(); i++) {
+        key = configuration[QString("HDDDEV")].split(QChar(','), QString::SkipEmptyParts)[i];
+        setData(source, key, float(0.0));
+    }
+    // pkg
+    source = QString("pkg");
+    for (int i=0; i<configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts).count(); i++) {
+        key = QString("pkgCount") + QString::number(i);
+        setData(source, key, 0);
+    }
+    // player
+    source = QString("player");
+    key = QString("album");
+    setData(source, key, QString("unknown"));
+    key = QString("artist");
+    setData(source, key, QString("unknown"));
+    key = QString("duration");
+    setData(source, key, QString("0"));
+    key = QString("progress");
+    setData(source, key, QString("0"));
+    key = QString("title");
+    setData(source, key, QString("unknown"));
+    // ps
+    source = QString("ps");
+    key = QString("psCount");
+    setData(source, key, QString("0"));
+    key = QString("ps");
+    setData(source, key, QString(""));
+    key = QString("psTotal");
+    setData(source, key, QString("0"));
+    // initialization of values
+    initValues();
 }
 
 
@@ -266,7 +323,9 @@ void ExtendedSysMon::getCustomCmd(const QString cmd, const int number)
     if (debug) qDebug() << "[DE]" << "[getCustomCmd]" << ":" << "Run function with cmd" << cmd;
     if (debug) qDebug() << "[DE]" << "[getCustomCmd]" << ":" << "Run function with number" << number;
     if (debug) qDebug() << "[DE]" << "[getCustomCmd]" << ":" << "Run cmd" << QString("bash -c \"") + cmd + QString("\"");
-    processes[QString("custom")][number]->start(QString("bash -c \"") + cmd + QString("\""));
+    if ((processes[QString("custom")][number]->state() != QProcess::Running) &&
+        (processes[QString("custom")][number]->state() != QProcess::Starting))
+        processes[QString("custom")][number]->start(QString("bash -c \"") + cmd + QString("\""));
 }
 
 
@@ -302,7 +361,9 @@ void ExtendedSysMon::getGpu(const QString device)
     else if (device == QString("ati"))
         cmd = QString("aticonfig --od-getclocks");
     if (debug) qDebug() << "[DE]" << "[getGpu]" << ":" << "Run cmd" << cmd;
-    processes[QString("gpu")][0]->start(cmd);
+    if ((processes[QString("gpu")][0]->state() != QProcess::Running) &&
+        (processes[QString("gpu")][0]->state() != QProcess::Starting))
+        processes[QString("gpu")][0]->start(cmd);
 }
 
 
@@ -355,7 +416,9 @@ void ExtendedSysMon::getGpuTemp(const QString device)
     else if (device == QString("ati"))
         cmd = QString("aticonfig --od-gettemperature");
     if (debug) qDebug() << "[DE]" << "[getGpuTemp]" << ":" << "Run cmd" << cmd;
-    processes[QString("gputemp")][0]->start(cmd);
+    if ((processes[QString("gputemp")][0]->state() != QProcess::Running) &&
+        (processes[QString("gputemp")][0]->state() != QProcess::Running))
+        processes[QString("gputemp")][0]->start(cmd);
 }
 
 
@@ -401,7 +464,9 @@ void ExtendedSysMon::getHddTemp(const QString cmd, const QString device, const i
     if (debug) qDebug() << "[DE]" << "[getHddTemp]" << ":" << "Run function with device" << device;
     if (debug) qDebug() << "[DE]" << "[getHddTemp]" << ":" << "Run function with number" << number;
     if (debug) qDebug() << "[DE]" << "[getHddTemp]" << ":" << "Run cmd" << cmd + QString(" ") + device;
-    processes[QString("hddtemp")][number]->start(cmd + QString(" ") + device);
+    if ((processes[QString("hddtemp")][number]->state() != QProcess::Running) &&
+        (processes[QString("hddtemp")][number]->state() != QProcess::Starting))
+        processes[QString("hddtemp")][number]->start(cmd + QString(" ") + device);
 }
 
 
@@ -438,31 +503,23 @@ void ExtendedSysMon::getPlayerInfo(const QString playerName,
     if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run function with MPD parameters" <<
         mpdAddress + QString(":") + mpdPort;
     QString cmd;
-    if (playerName == QString("amarok")) {
+    if (playerName == QString("amarok"))
         // amarok
         cmd = QString("bash -c \"qdbus org.kde.amarok /Player GetMetadata && qdbus org.kde.amarok /Player PositionGet\"");
-        if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run cmd" << cmd;
-        processes[QString("player")][0]->start(cmd);
-    }
-    else if (playerName == QString("clementine")) {
+    else if (playerName == QString("clementine"))
         // clementine
         cmd = QString("bash -c \"qdbus org.mpris.clementine /Player GetMetadata && qdbus org.mpris.clementine /Player PositionGet\"");
-        if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run cmd" << cmd;
-        processes[QString("player")][0]->start(cmd);
-    }
-    else if (playerName == QString("mpd")) {
+    else if (playerName == QString("mpd"))
         // mpd
         cmd = QString("bash -c \"echo 'currentsong\nstatus\nclose' | curl --connect-timeout 1 -fsm 3 telnet://") +
               mpdAddress + QString(":") + mpdPort + QString("\"");
-        if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run cmd" << cmd;
-        processes[QString("player")][0]->start(cmd);
-    }
-    else if (playerName == QString("qmmp")) {
+    else if (playerName == QString("qmmp"))
         // qmmp
         cmd = QString("bash -c \"pgrep qmmp && qmmp --status || echo 'null'\"");
-        if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run cmd" << cmd;
+    if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run cmd" << cmd;
+    if ((processes[QString("player")][0]->state() != QProcess::Running) &&
+        (processes[QString("player")][0]->state() != QProcess::Starting))
         processes[QString("player")][0]->start(cmd);
-    }
 }
 
 
@@ -590,10 +647,14 @@ void ExtendedSysMon::getPsStats()
     QString cmd;
     cmd = QString("ps --no-headers -o command");
     if (debug) qDebug() << "[DE]" << "[getPsStats]" << ":" << "Run cmd" << cmd;
-    processes[QString("ps")][0]->start(cmd);
+    if ((processes[QString("ps")][0]->state() != QProcess::Running) &&
+        (processes[QString("ps")][0]->state() != QProcess::Starting))
+        processes[QString("ps")][0]->start(cmd);
     cmd = QString("ps -e --no-headers -o command");
     if (debug) qDebug() << "[DE]" << "[getPsStats]" << ":" << "Run cmd" << cmd;
-    processes[QString("ps")][1]->start(cmd);
+    if ((processes[QString("ps")][1]->state() != QProcess::Running) &&
+        (processes[QString("ps")][1]->state() != QProcess::Starting))
+        processes[QString("ps")][1]->start(cmd);
 }
 
 
@@ -639,7 +700,9 @@ void ExtendedSysMon::getUpgradeInfo(const QString pkgCommand, const int number)
     if (debug) qDebug() << "[DE]" << "[getUpgradeInfo]" << ":" << "Run function with number" << number;
     QString cmd = QString("bash -c \"") + pkgCommand + QString(" | wc -l\"");
     if (debug) qDebug() << "[DE]" << "[getUpgradeInfo]" << ":" << "Run cmd" << cmd;
-    processes[QString("pkg")][number]->start(cmd);
+    if ((processes[QString("pkg")][number]->state() != QProcess::Running) &&
+        (processes[QString("pkg")][number]->state() != QProcess::Starting))
+        processes[QString("pkg")][number]->start(cmd);
 }
 
 

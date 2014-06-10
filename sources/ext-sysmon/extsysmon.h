@@ -66,6 +66,7 @@ private:
     QString getAutoGpu();
     void initValues();
     void readConfiguration();
+    void setKeys();
     void setProcesses();
     QMap<QString, QString> updateConfiguration(const QMap<QString, QString> rawConfig);
 };
