@@ -44,7 +44,7 @@ ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList& args)
     setMinimumPollingInterval(333);
     readConfiguration();
     setProcesses();
-    setKeys();
+    initValues();
 }
 
 
@@ -104,6 +104,14 @@ QStringList ExtendedSysMon::sources() const
 }
 
 
+void ExtendedSysMon::initValues()
+{
+    QStringList sourceList = sources();
+    for (int i=0; i<sourceList.count(); i++)
+        updateSourceEvent(sourceList[i]);
+}
+
+
 void ExtendedSysMon::readConfiguration()
 {
     if (debug) qDebug() << "[DE]" << "[readConfiguration]";
@@ -144,59 +152,6 @@ void ExtendedSysMon::readConfiguration()
     }
     confFile.close();
     configuration = updateConfiguration(rawConfig);
-}
-
-
-void ExtendedSysMon::setKeys()
-{
-    if (debug) qDebug() << "[DE]" << "[setKeys]";
-    QString key, source;
-    // custom
-    source = QString("custom");
-    for (int i=0; i<configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts).count(); i++) {
-        key = QString("custom") + QString::number(i);
-        setData(source, key, QString(""));
-    }
-    // gpu
-    source = QString("gpu");
-    key = QString("GPU");
-    setData(source, key, float(0.0));
-    // gputemp
-    source = QString("gputemp");
-    key = QString("GPUTemp");
-    setData(source, key, float(0.0));
-    // hddtemp
-    source = QString("hddtemp");
-    for (int i=0; i<configuration[QString("HDDDEV")].split(QChar(','), QString::SkipEmptyParts).count(); i++) {
-        key = configuration[QString("HDDDEV")].split(QChar(','), QString::SkipEmptyParts)[i];
-        setData(source, key, float(0.0));
-    }
-    // pkg
-    source = QString("pkg");
-    for (int i=0; i<configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts).count(); i++) {
-        key = QString("pkgCount") + QString::number(i);
-        setData(source, key, 0);
-    }
-    // player
-    source = QString("player");
-    key = QString("album");
-    setData(source, key, QString("unknown"));
-    key = QString("artist");
-    setData(source, key, QString("unknown"));
-    key = QString("duration");
-    setData(source, key, QString("0"));
-    key = QString("progress");
-    setData(source, key, QString("0"));
-    key = QString("title");
-    setData(source, key, QString("unknown"));
-    // ps
-    source = QString("ps");
-    key = QString("psCount");
-    setData(source, key, QString("0"));
-    key = QString("ps");
-    setData(source, key, QString(""));
-    key = QString("psTotal");
-    setData(source, key, QString("0"));
 }
 
 
