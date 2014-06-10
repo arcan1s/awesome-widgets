@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Extended SystemMonitor DataEngine
-Comment=Adds gpu, gputemp and hddtemp to DataEngine
+Comment=Adds some additional functions to System DataEngine
 ServiceTypes=Plasma/DataEngine
 Type=Service
 Icon=utilities-system-monitor
