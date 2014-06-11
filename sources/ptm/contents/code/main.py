@@ -510,7 +510,7 @@ class pyTextWidget(plasmascript.Applet):
         for i in devices:
             if (line.split('$hddtemp' + str(i))[0] != line):
                 line = line.split('$hddtemp' + str(i))[0] +\
-                    getTemp(str(self.ptm['values']['hddtemp'][self.ptm['names']['hddtemp'][i]]), self.ptm['vars']['adv']['tempUnit']) +\
+                    getTemp(str(self.ptm['values']['hddtemp'][self.ptm['names']['hddtemp'][i]]), self.ptm['vars']['adv']['tempUnits']) +\
                     line.split('$hddtemp' + str(i))[1]
         text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
         self.setText("hddtemp", text)

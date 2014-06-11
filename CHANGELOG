@@ -1,3 +1,6 @@
+Ver.1.10.2:
+- fix error with tempUnits in hddtemp label
+
 Ver.1.10.1:
 - fix error with number formats in ps label
 - fix first initialization of DataEngine
