@@ -28,6 +28,7 @@ class ExtendedSysMon : public Plasma::DataEngine
 public:
     ExtendedSysMon(QObject *parent, const QVariantList &args);
     // update functions
+    void getCurrentDesktop(const QString cmd);
     void getCustomCmd(const QString cmd,
                       const int number = 0);
     void getGpu(const QString device);
@@ -47,6 +48,7 @@ protected:
     QStringList sources() const;
 
 private slots:
+    void setCurrentDesktop(int exitCode, QProcess::ExitStatus exitStatus);
     void setCustomCmd(int exitCode, QProcess::ExitStatus exitStatus);
     void setGpu(int exitCode, QProcess::ExitStatus exitStatus);
     void setGpuTemp(int exitCode, QProcess::ExitStatus exitStatus);
@@ -64,6 +66,7 @@ private:
     // reread configuration
     QString getAllHdd();
     QString getAutoGpu();
+    QStringList getDesktopNames();
     void initValues();
     void readConfiguration();
     void setKeys();

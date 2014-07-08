@@ -89,11 +89,47 @@ QString ExtendedSysMon::getAutoGpu()
 }
 
 
+QStringList ExtendedSysMon::getDesktopNames()
+{
+    if (debug) qDebug() << "[DE]" << "[getDesktopNames]";
+    QStringList list;
+    QString fileName = KGlobal::dirs()->findResource("config", "kwinrc");
+    if (debug) qDebug() << "[DE]" << "[getDesktopNames]" << ":" << "Configuration file" << fileName;
+    QFile confFile(fileName);
+    if (!confFile.open(QIODevice::ReadOnly)) return list;
+
+    QString fileStr;
+    QStringList value;
+    bool desktopSection = false;
+    while (true) {
+        fileStr = QString(confFile.readLine()).trimmed();
+        if (fileStr[0] == QChar('#')) continue;
+        if (fileStr[0] == QChar(';')) continue;
+        if (fileStr[0] == QChar('[')) desktopSection = false;
+        if (fileStr == QString("[Desktops]")) desktopSection = true;
+        if (desktopSection) {
+            if (fileStr.contains(QChar('='))) {
+                value.clear();
+                for (int i=1; i<fileStr.split(QChar('=')).count(); i++)
+                    value.append(fileStr.split(QChar('='))[i]);
+                if (fileStr.split(QChar('='))[0].contains(QString("Name_")))
+                    list.append(value.join(QChar('=')));
+            }
+        }
+        if (confFile.atEnd())
+            break;
+    }
+    confFile.close();
+    return list;
+}
+
+
 QStringList ExtendedSysMon::sources() const
 {
     if (debug) qDebug() << "[DE]" << "[sources]";
     QStringList source;
     source.append(QString("custom"));
+    source.append(QString("desktop"));
     source.append(QString("gpu"));
     source.append(QString("gputemp"));
     source.append(QString("hddtemp"));
@@ -120,6 +156,8 @@ void ExtendedSysMon::readConfiguration()
     // pre-setup
     QMap<QString, QString> rawConfig;
     rawConfig[QString("CUSTOM")] = QString("wget -qO- http://ifconfig.me/ip");
+    rawConfig[QString("DESKTOP")] = QString("");
+    rawConfig[QString("DESKTOPCMD")] = QString("qdbus org.kde.kwin /KWin currentDesktop");
     rawConfig[QString("GPUDEV")] = QString("auto");
     rawConfig[QString("HDDDEV")] = QString("all");
     rawConfig[QString("HDDTEMPCMD")] = QString("sudo hddtemp");
@@ -132,8 +170,7 @@ void ExtendedSysMon::readConfiguration()
     QString fileName = KGlobal::dirs()->findResource("config", "extsysmon.conf");
     if (debug) qDebug() << "[DE]" << "[readConfiguration]" << ":" << "Configuration file" << fileName;
     QFile confFile(fileName);
-    bool ok = confFile.open(QIODevice::ReadOnly);
-    if (!ok) {
+    if (!confFile.open(QIODevice::ReadOnly)) {
         configuration = updateConfiguration(rawConfig);
         return;
     }
@@ -167,6 +204,16 @@ void ExtendedSysMon::setKeys()
         key = QString("custom") + QString::number(i);
         setData(source, key, QString(""));
     }
+    // desktop
+    source = QString("desktop");
+    key = QString("list");
+    setData(source, key, QString(""));
+    key = QString("number");
+    setData(source, key, 0);
+    key = QString("currentName");
+    setData(source, key, QString(""));
+    key = QString("currentNumber");
+    setData(source, key, 0);
     // gpu
     source = QString("gpu");
     key = QString("GPU");
@@ -221,6 +268,10 @@ void ExtendedSysMon::setProcesses()
         connect(processes[QString("custom")][i], SIGNAL(finished(int, QProcess::ExitStatus)),
                 this, SLOT(setCustomCmd(int, QProcess::ExitStatus)));
     }
+    // desktop
+    processes[QString("desktop")].append(new QProcess);
+    connect(processes[QString("desktop")][0], SIGNAL(finished(int, QProcess::ExitStatus)),
+            this, SLOT(setCurrentDesktop(int, QProcess::ExitStatus)));
     // gpu
     processes[QString("gpu")].append(new QProcess);
     connect(processes[QString("gpu")][0], SIGNAL(finished(int, QProcess::ExitStatus)),
@@ -266,12 +317,15 @@ QMap<QString, QString> ExtendedSysMon::updateConfiguration(const QMap<QString, Q
         value = rawConfig[key];
         key.remove(QChar(' '));
         if ((key != QString("CUSTOM")) &&
+            (key != QString("DESKTOPCMD")) &&
             (key != QString("HDDTEMPCMD")) &&
             (key != QString("PKGCMD")))
             value.remove(QChar(' '));
         config[key] = value;
     }
     // update values
+    // desktop names
+    config[QString("DESKTOP")] = getDesktopNames().join(QString(";;"));
     // gpudev
     if (config[QString("GPUDEV")] == QString("disable"))
         config[QString("GPUDEV")] = QString("disable");
@@ -314,6 +368,39 @@ QMap<QString, QString> ExtendedSysMon::updateConfiguration(const QMap<QString, Q
         if (debug) qDebug() << "[DE]" << "[updateConfiguration]" << ":" <<
             config.keys()[i] + QString("=") + config[config.keys()[i]];
     return config;
+}
+
+
+void ExtendedSysMon::getCurrentDesktop(const QString cmd)
+{
+    if (debug) qDebug() << "[DE]" << "[getCurrentDesktop]";
+    if (debug) qDebug() << "[DE]" << "[getCurrentDesktop]" << ":" << "Run function with cmd" << cmd;
+    if (debug) qDebug() << "[DE]" << "[getCurrentDesktop]" << ":" << "Run cmd" << QString("bash -c \"") + cmd + QString("\"");
+    if ((processes[QString("desktop")][0]->state() != QProcess::Running) &&
+        (processes[QString("desktop")][0]->state() != QProcess::Starting))
+        processes[QString("desktop")][0]->start(QString("bash -c \"") + cmd + QString("\""));
+}
+
+
+void ExtendedSysMon::setCurrentDesktop(int exitCode, QProcess::ExitStatus exitStatus)
+{
+    Q_UNUSED(exitStatus)
+
+    if (debug) qDebug() << "[DE]" << "[setCurrentDesktop]";
+    if (debug) qDebug() << "[DE]" << "[setCurrentDesktop]" << ":" << "Cmd returns" << exitCode;
+    QString qoutput = QTextCodec::codecForMib(106)->toUnicode(processes[QString("desktop")][0]->readAllStandardOutput()).trimmed();
+    int number = qoutput.toInt();
+    QString key, source, value;
+    source = QString("desktop");
+
+    key = QString("list");
+    setData(source, key, configuration[QString("DESKTOP")]);
+    key = QString("number");
+    setData(source, key, configuration[QString("DESKTOP")].split(QString(";;")).count());
+    key = QString("currentName");
+    setData(source, key, configuration[QString("DESKTOP")].split(QString(";;"))[number-1]);
+    key = QString("currentNumber");
+    setData(source, key, number);
 }
 
 
@@ -745,6 +832,9 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     if (source == QString("custom")) {
         for (int i=0; i<configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts).count(); i++)
             getCustomCmd(configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts)[i], i);
+    }
+    else if (source == QString("desktop")) {
+        getCurrentDesktop(configuration[QString("DESKTOPCMD")]);
     }
     else if (source == QString("gpu")) {
         getGpu(configuration[QString("GPUDEV")]);
