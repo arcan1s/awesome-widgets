@@ -24,5 +24,6 @@ else ()
 endif ()
 
 add_subdirectory (ext-sysmon)
+add_subdirectory (desktop-panel)
 add_subdirectory (ptm)
 add_subdirectory (readme)

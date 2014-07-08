@@ -1,6 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=Py Text Monitor
+Name=PTM Desktop Panel
 Comment=A minimalistic Plasmoid script written on Python2
 Comment[en]=A minimalistic Plasmoid script written on Python2
 Comment[es]=Un plasmoide minimalista escrito en Python2
@@ -12,13 +12,11 @@ X-KDE-ServiceTypes=Plasma/Applet
 Type=Service
 Icon=utilities-system-monitor
 
-X-Plasma-API=python
-X-Plasma-MainScript=code/main.py
-X-Plasma-RequiredExtensions=LaunchApp,LocalIO,FileDialog
+X-KDE-Library=plasma_applet_ptm-desktop-panel
 
 X-KDE-PluginInfo-Author=Evgeniy Alekseev aka arcanis
 X-KDE-PluginInfo-Email=esalexeev@gmail.com
-X-KDE-PluginInfo-Name=pytextmonitor
+X-KDE-PluginInfo-Name=ptm-desktop-panel
 X-KDE-PluginInfo-Version=@PROJECT_VERSION@
 X-KDE-PluginInfo-Website=http://arcanis.name/projects/pytextmonitor/
 X-KDE-PluginInfo-Category=System Information
