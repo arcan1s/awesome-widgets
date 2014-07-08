@@ -55,6 +55,7 @@ class ConfigDefinition:
         settings.set('font_style', str(self.configpage['appearance'].ui.comboBox_style.currentText()))
         settings.set('font_weight', self.configpage['appearance'].ui.spinBox_weight.value())
 
+        settings.set('background', self.configpage['advanced'].ui.checkBox_background.checkState())
         settings.set('layout', self.configpage['advanced'].ui.checkBox_layout.checkState())
         settings.set('popup', self.configpage['advanced'].ui.checkBox_popup.checkState())
         settings.set('left_stretch', self.configpage['advanced'].ui.checkBox_leftStretch.checkState())
@@ -154,6 +155,7 @@ class ConfigDefinition:
             self.configpage['appearance'].ui.comboBox_style.setCurrentIndex(1)
         self.configpage['appearance'].ui.spinBox_weight.setValue(settings.get('font_weight', 400).toInt()[0])
 
+        self.configpage['advanced'].ui.checkBox_background.setCheckState(settings.get('background', 2).toInt()[0])
         self.configpage['advanced'].ui.checkBox_layout.setCheckState(settings.get('layout', 0).toInt()[0])
         self.configpage['advanced'].ui.checkBox_popup.setCheckState(settings.get('popup', 2).toInt()[0])
         self.configpage['advanced'].ui.checkBox_leftStretch.setCheckState(settings.get('left_stretch', 2).toInt()[0])

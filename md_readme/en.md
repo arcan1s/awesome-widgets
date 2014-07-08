@@ -75,6 +75,10 @@ Numbering of elements of temperature, HDD usage, HDD speed, HDD temperature refe
 Advanced settings
 -----------------
 
+**Enable background**
+
+Uncheck to disable default background and set transparent one.
+
 **Vertical layout**
 
 Use vertical layout instead of horizontal one.

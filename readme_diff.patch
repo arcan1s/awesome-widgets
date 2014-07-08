@@ -1,0 +1,13 @@
+--- README.md.orig	2014-06-09 16:57:03.181101600 +0400
++++ README.md	2014-07-08 10:09:15.338228176 +0400
+@@ -75,6 +75,10 @@
+ Advanced settings
+ -----------------
+ 
++**Enable background**
++
++Uncheck to disable default background and set transparent one.
++
+ **Vertical layout**
+ 
+ Use vertical layout instead of horizontal one.

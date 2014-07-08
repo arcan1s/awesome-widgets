@@ -43,10 +43,17 @@
         <x>0</x>
         <y>0</y>
         <width>666</width>
-        <height>823</height>
+        <height>848</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_8">
+       <item>
+        <widget class="QCheckBox" name="checkBox_background">
+         <property name="text">
+          <string>Enable background</string>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QCheckBox" name="checkBox_layout">
          <property name="text">
@@ -613,6 +620,7 @@ del - remove item</string>
  </widget>
  <tabstops>
   <tabstop>scrollArea_advanced</tabstop>
+  <tabstop>checkBox_background</tabstop>
   <tabstop>checkBox_layout</tabstop>
   <tabstop>checkBox_popup</tabstop>
   <tabstop>checkBox_leftStretch</tabstop>

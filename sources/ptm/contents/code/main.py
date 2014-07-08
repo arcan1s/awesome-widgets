@@ -96,12 +96,10 @@ class pyTextWidget(plasmascript.Applet):
         self.timer = QTimer()
         QObject.connect(self.timer, SIGNAL("timeout()"), self.startPolling)
 
+        self.theme = Plasma.Svg(self)
         self.initTooltip()
         self.reInit()
         self.applet.setLayout(self.ptm['layout'])
-        self.theme = Plasma.Svg(self)
-        self.theme.setImagePath("widgets/background")
-        self.setBackgroundHints(Plasma.Applet.DefaultBackground)
 
         self.setHasConfigurationInterface(True)
 
@@ -692,6 +690,19 @@ class pyTextWidget(plasmascript.Applet):
         self.timer.setInterval(self.ptm['vars']['app']['interval'])
         self.timer.start()
         self.startPolling()
+
+
+    def setTransparentBackground(self, hasBackground=2):
+        """function to set background to the widget"""
+        if self.debug: qDebug("[PTM] [main.py] [setTransparentBackground]")
+        if self.debug: qDebug("[PTM] [main.py] [setTransparentBackground] : Run function with hasBackground '%s'" %(hasBackground))
+        if (hasBackground == 2):
+            self.theme.setImagePath("widgets/background")
+            self.setBackgroundHints(Plasma.Applet.DefaultBackground)
+        else:
+            self.theme.setImagePath("")
+            self.setBackgroundHints(Plasma.Applet.NoBackground)
+
 
 
     def setNetdev(self):

@@ -49,6 +49,7 @@ class Reinit():
         ptmVars['adv']['acDev'] = str(settings.get('ac_device', '/sys/class/power_supply/AC/online'))
         ptmVars['adv']['acOnline'] = str(settings.get('ac_online', '(*)'))
         ptmVars['adv']['acOffline'] = str(settings.get('ac_offline', '( )'))
+        ptmVars['adv']['background'] = settings.get('background', 2).toInt()[0]
         ptmVars['adv']['batDev'] = str(settings.get('battery_device', '/sys/class/power_supply/BAT0/capacity'))
         ptmVars['adv']['customTime'] = str(settings.get('custom_time', '$hh:$mm'))
         ptmVars['adv']['customUptime'] = str(settings.get('custom_uptime', '$dd,$hh,$mm'))
@@ -91,6 +92,7 @@ class Reinit():
         if self.debug: qDebug("[PTM] [reinit.py] [reinit] : Returns names '%s'" %(ptmNames))
         self.parent.applySettings('names', ptmNames)
 
+        self.parent.setTransparentBackground(ptmVars['adv']['background'])
         self.parent.createLayout(ptmVars['adv']['layout'], ptmVars['adv']['leftStretch'])
         ptmVars['formats'] = {}
         ptmVars['tooltip']['required'] = []
