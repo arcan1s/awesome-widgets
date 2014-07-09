@@ -286,7 +286,8 @@ void DesktopPanel::createConfigurationInterface(KConfigDialog *parent)
     else
         uiWidConfig.checkBox_rightStretch->setCheckState(Qt::Checked);
     uiWidConfig.spinBox_interval->setValue(configuration[QString("interval")].toInt());
-    uiWidConfig.lineEdit_mark->setText(configuration[QString("mark")]);
+    uiWidConfig.comboBox_mark->setItemText(uiWidConfig.comboBox_mark->count()-1, configuration[QString("mark")]);
+    uiWidConfig.comboBox_mark->setCurrentIndex(uiWidConfig.comboBox_mark->count()-1);
     uiWidConfig.lineEdit_pattern->setText(configuration[QString("pattern")]);
     uiWidConfig.lineEdit_desktopcmd->setText(configuration[QString("desktopcmd")]);
 
@@ -340,7 +341,7 @@ void DesktopPanel::configAccepted()
     cg.writeEntry("leftStretch", QString::number(uiWidConfig.checkBox_leftStretch->checkState()));
     cg.writeEntry("rightStretch", QString::number(uiWidConfig.checkBox_rightStretch->checkState()));
     cg.writeEntry("interval", QString::number(uiWidConfig.spinBox_interval->value()));
-    cg.writeEntry("mark", uiWidConfig.lineEdit_mark->text());
+    cg.writeEntry("mark", uiWidConfig.comboBox_mark->currentText());
     cg.writeEntry("pattern", uiWidConfig.lineEdit_pattern->text());
     cg.writeEntry("desktopcmd", uiWidConfig.lineEdit_desktopcmd->text());
 
@@ -368,7 +369,7 @@ void DesktopPanel::configChanged()
     configuration[QString("interval")] = cg.readEntry("interval", "1000");
     configuration[QString("layout")] = cg.readEntry("layout", "0");
     configuration[QString("leftStretch")] = cg.readEntry("leftStretch", "2");
-    configuration[QString("mark")] = cg.readEntry("mark", "*");
+    configuration[QString("mark")] = cg.readEntry("mark", "¤");
     configuration[QString("pattern")] = cg.readEntry("pattern", "[$mark$number/$total: $name]");
     configuration[QString("rightStretch")] = cg.readEntry("rightStretch", "2");
 

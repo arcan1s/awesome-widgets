@@ -134,10 +134,83 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_mark">
+          <widget class="QComboBox" name="comboBox_mark">
            <property name="toolTip">
             <string>A mark which will be shown if this desktop is active</string>
            </property>
+           <property name="editable">
+            <bool>true</bool>
+           </property>
+           <item>
+            <property name="text">
+             <string notr="true">#</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">$</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">%</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">&amp;</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">*</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">@</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">¤</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">¶</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">·</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">º</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">×</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">†</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">•</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">(current)</string>
+            </property>
+           </item>
           </widget>
          </item>
         </layout>
