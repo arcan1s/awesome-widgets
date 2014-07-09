@@ -241,7 +241,7 @@ Add stretch (spacer) to the selected side of the widget.
 
 **Mark**
 
-Type symbol (or line) which will be shown if this desktop is active now.
+Type symbol (or string) which will be shown if this desktop is active now.
 
 **Pattern tags**
 
