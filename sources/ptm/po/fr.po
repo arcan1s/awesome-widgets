@@ -1,5 +1,5 @@
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) 2014
+# This file is distributed under the same license as the PyTextMonitor package.
 #
 # Evgeniy Alekseev <esalexeev@gmail.com>, 2014.
 # Mermouy <mermouy@gmail.com>, 2014.
@@ -10,7 +10,7 @@ msgstr ""
 "POT-Creation-Date: 2014-07-08 10:10+0400\n"
 "PO-Revision-Date: 2014-06-05 19:24+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
-"Language-Team: French <kde-russian@lists.kde.ru>\n"
+"Language-Team: French <kde-french@lists.kde.ru>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
