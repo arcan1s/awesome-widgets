@@ -134,7 +134,11 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_mark"/>
+          <widget class="QLineEdit" name="lineEdit_mark">
+           <property name="toolTip">
+            <string>A mark which will be shown if this desktop is active</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>

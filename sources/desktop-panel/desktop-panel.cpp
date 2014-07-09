@@ -112,6 +112,19 @@ void DesktopPanel::reinit()
 {
     if (debug) qDebug() << "[PTM-DP]" << "[reinit]";
 
+    // clear
+    // labels
+    for (int i=0; i<labels.count(); i++) {
+        layout->removeItem(labels[i]);
+        delete labels[i];
+    }
+    labels.clear();
+    // layout
+    layout = new QGraphicsLinearLayout();
+    layout->setContentsMargins(1, 1, 1, 1);
+    setLayout(layout);
+
+    // add
     // layout
     if (configuration[QString("background")].toInt() == 0)
         setBackgroundHints(NoBackground);
@@ -121,15 +134,17 @@ void DesktopPanel::reinit()
         layout->setOrientation(Qt::Horizontal);
     else
         layout->setOrientation(Qt::Horizontal);
-
+    // left stretch
+    if (configuration[QString("leftStretch")].toInt() == 2)
+        layout->addStretch(1);
     // labels
-    for (int i=0; i<labels.count(); i++)
-        delete labels[i];
-    labels.clear();
     for (int i=0; i<desktopNames.count(); i++) {
         labels.append(new Plasma::Label());
         layout->addItem(labels[i]);
     }
+    // right stretch
+    if (configuration[QString("rightStretch")].toInt() == 2)
+        layout->addStretch(1);
 
     updateText();
 }
@@ -204,7 +219,56 @@ void DesktopPanel::createConfigurationInterface(KConfigDialog *parent)
     QWidget *configWidget = new QWidget;
     uiWidConfig.setupUi(configWidget);
 
-    
+    if (configuration[QString("background")].toInt() == 0)
+        uiWidConfig.checkBox_background->setCheckState(Qt::Unchecked);
+    else
+        uiWidConfig.checkBox_background->setCheckState(Qt::Checked);
+    if (configuration[QString("layout")].toInt() == 0)
+        uiWidConfig.checkBox_layout->setCheckState(Qt::Unchecked);
+    else
+        uiWidConfig.checkBox_layout->setCheckState(Qt::Checked);
+    if (configuration[QString("leftStretch")].toInt() == 0)
+        uiWidConfig.checkBox_leftStretch->setCheckState(Qt::Unchecked);
+    else
+        uiWidConfig.checkBox_leftStretch->setCheckState(Qt::Checked);
+    if (configuration[QString("rightStretch")].toInt() == 0)
+        uiWidConfig.checkBox_rightStretch->setCheckState(Qt::Unchecked);
+    else
+        uiWidConfig.checkBox_rightStretch->setCheckState(Qt::Checked);
+    uiWidConfig.spinBox_interval->setValue(configuration[QString("interval")].toInt());
+    uiWidConfig.lineEdit_mark->setText(configuration[QString("mark")]);
+    uiWidConfig.lineEdit_pattern->setText(configuration[QString("pattern")]);
+
+    KConfigGroup cg = config();
+    QString fontFamily = cg.readEntry("currentFontFamily", "Terminus");
+    int fontSize = cg.readEntry("currentFontSize", 10);
+    QString fontColor = cg.readEntry("currentFontColor", "#ff0000");
+    int fontWeight = cg.readEntry("currentFontWeight", 400);
+    QString fontStyle = cg.readEntry("currentFontStyle", "normal");
+    QFont font = QFont(fontFamily, 12, 400, FALSE);
+    uiAppConfig.fontComboBox_fontActive->setCurrentFont(font);
+    uiAppConfig.spinBox_fontSizeActive->setValue(fontSize);
+    uiAppConfig.kcolorcombo_fontColorActive->setColor(fontColor);
+    uiAppConfig.spinBox_fontWeightActive->setValue(fontWeight);
+    if (fontStyle == "normal")
+        uiAppConfig.comboBox_fontStyleActive->setCurrentIndex(0);
+    else if (fontStyle == "italic")
+        uiAppConfig.comboBox_fontStyleActive->setCurrentIndex(1);
+
+    fontFamily = cg.readEntry("fontFamily", "Terminus");
+    fontSize = cg.readEntry("fontSize", 10);
+    fontColor = cg.readEntry("fontColor", "#000000");
+    fontWeight = cg.readEntry("fontWeight", 400);
+    fontStyle = cg.readEntry("fontStyle", "normal");
+    font = QFont(fontFamily, 12, 400, FALSE);
+    uiAppConfig.fontComboBox_fontInactive->setCurrentFont(font);
+    uiAppConfig.spinBox_fontSizeInactive->setValue(fontSize);
+    uiAppConfig.kcolorcombo_fontColorInactive->setColor(fontColor);
+    uiAppConfig.spinBox_fontWeightInactive->setValue(fontWeight);
+    if (fontStyle == "normal")
+        uiAppConfig.comboBox_fontStyleInactive->setCurrentIndex(0);
+    else if (fontStyle == "italic")
+        uiAppConfig.comboBox_fontStyleInactive->setCurrentIndex(1);
 
     parent->addPage(configWidget, i18n("Widget"), Applet::icon());
     parent->addPage(appWidget, i18n("Appearance"), QString("preferences-desktop-theme"));
@@ -220,7 +284,25 @@ void DesktopPanel::configAccepted()
     extsysmonEngine->disconnectSource(QString("desktop"), this);
     KConfigGroup cg = config();
 
-//     cg.writeEntry("autoUpdateInterval", uiConfig.spinBox_autoUpdate->value());
+    cg.writeEntry("background", QString::number(uiWidConfig.checkBox_background->checkState()));
+    cg.writeEntry("layout", QString::number(uiWidConfig.checkBox_layout->checkState()));
+    cg.writeEntry("leftStretch", QString::number(uiWidConfig.checkBox_leftStretch->checkState()));
+    cg.writeEntry("rightStretch", QString::number(uiWidConfig.checkBox_rightStretch->checkState()));
+    cg.writeEntry("interval", QString::number(uiWidConfig.spinBox_interval->value()));
+    cg.writeEntry("mark", uiWidConfig.lineEdit_mark->text());
+    cg.writeEntry("pattern", uiWidConfig.lineEdit_pattern->text());
+
+    cg.writeEntry("currentFontFamily", uiAppConfig.fontComboBox_fontActive->currentFont().family());
+    cg.writeEntry("currentFontSize", uiAppConfig.spinBox_fontSizeActive->value());
+    cg.writeEntry("currentFontColor", uiAppConfig.kcolorcombo_fontColorActive->color().name());
+    cg.writeEntry("currentFontWeight", uiAppConfig.spinBox_fontWeightActive->value());
+    cg.writeEntry("currentFontStyle", uiAppConfig.comboBox_fontStyleActive->currentText());
+
+    cg.writeEntry("fontFamily", uiAppConfig.fontComboBox_fontInactive->currentFont().family());
+    cg.writeEntry("fontSize", uiAppConfig.spinBox_fontSizeInactive->value());
+    cg.writeEntry("fontColor", uiAppConfig.kcolorcombo_fontColorInactive->color().name());
+    cg.writeEntry("fontWeight", uiAppConfig.spinBox_fontWeightInactive->value());
+    cg.writeEntry("fontStyle", uiAppConfig.comboBox_fontStyleInactive->currentText());
 }
 
 
@@ -232,10 +314,10 @@ void DesktopPanel::configChanged()
     configuration[QString("background")] = cg.readEntry("background", "0");
     configuration[QString("interval")] = cg.readEntry("interval", "1000");
     configuration[QString("layout")] = cg.readEntry("layout", "0");
-    configuration[QString("leftStretch")] = cg.readEntry("left_stretch", "2");
+    configuration[QString("leftStretch")] = cg.readEntry("leftStretch", "2");
     configuration[QString("mark")] = cg.readEntry("mark", "*");
     configuration[QString("pattern")] = cg.readEntry("pattern", "[$mark$number/$total: $name]");
-    configuration[QString("rightStretch")] = cg.readEntry("right_stretch", "2");
+    configuration[QString("rightStretch")] = cg.readEntry("rightStretch", "2");
 
     desktopNames = getDesktopNames();
 
