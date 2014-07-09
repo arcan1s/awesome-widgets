@@ -28,6 +28,29 @@
 
 
 class QGraphicsLinearLayout;
+class DesktopPanel;
+
+
+class CustomPlasmaLabel : public Plasma::Label
+{
+    Q_OBJECT
+
+public:
+    CustomPlasmaLabel(DesktopPanel *wid, const int num);
+    ~CustomPlasmaLabel();
+    int getNumber();
+
+protected:
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+
+private:
+    // debug
+    bool debug;
+    // variables
+    int number;
+    DesktopPanel *widget;
+};
+
 
 class DesktopPanel : public Plasma::Applet
 {
@@ -44,10 +67,11 @@ public slots:
     // configuration interface
     void configAccepted();
     void configChanged();
+    // event
+    int setCurrentDesktop(const int number);
 
 private slots:
     void reinit();
-    void setCurrentDesktop();
 
 protected:
     void createConfigurationInterface(KConfigDialog *parent);
@@ -58,7 +82,7 @@ private:
     void updateText();
     // ui
     QGraphicsLinearLayout *layout;
-    QList<Plasma::Label *> labels;
+    QList<CustomPlasmaLabel *> labels;
     // debug
     bool debug;
     // data engine

@@ -26,7 +26,48 @@
 #include <QDebug>
 #include <QFile>
 #include <QGraphicsLinearLayout>
+#include <QGraphicsSceneMouseEvent>
 #include <QProcessEnvironment>
+#include <QTextCodec>
+
+
+CustomPlasmaLabel::CustomPlasmaLabel(DesktopPanel *wid, const int num)
+    : Plasma::Label(wid)
+{
+    // debug
+    QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
+    QString debugEnv = environment.value(QString("PTM_DEBUG"), QString("no"));
+    if (debugEnv == QString("yes"))
+        debug = true;
+    else
+        debug = false;
+
+    if (debug) qDebug() << "[PTM-DP]" << "Init label" << num;
+    number = num;
+    widget = wid;
+}
+
+
+CustomPlasmaLabel::~CustomPlasmaLabel()
+{
+}
+
+
+int CustomPlasmaLabel::getNumber()
+{
+    if (debug) qDebug() << "[PTM-DP]" << "[" << number << "]" << "[getNumber]";
+    return number;
+}
+
+
+void CustomPlasmaLabel::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    if (debug) qDebug() << "[PTM-DP]" << "[" << number << "]" << "[mouseMoveEvent]";
+    if (debug) qDebug() << "[PTM-DP]" << "[" << number << "]" << "[mouseMoveEvent]" << "Get signal" << event->button();
+    if (event->button() == Qt::LeftButton)
+        widget->setCurrentDesktop(number);
+}
+
 
 
 DesktopPanel::DesktopPanel(QObject *parent, const QVariantList &args)
@@ -139,7 +180,7 @@ void DesktopPanel::reinit()
         layout->addStretch(1);
     // labels
     for (int i=0; i<desktopNames.count(); i++) {
-        labels.append(new Plasma::Label());
+        labels.append(new CustomPlasmaLabel(this, i));
         layout->addItem(labels[i]);
     }
     // right stretch
@@ -150,9 +191,18 @@ void DesktopPanel::reinit()
 }
 
 
-void DesktopPanel::setCurrentDesktop()
+int DesktopPanel::setCurrentDesktop(const int number)
 {
     if (debug) qDebug() << "[PTM-DP]" << "[setCurrentDesktop]";
+    if (debug) qDebug() << "[PTM-DP]" << "[setCurrentDesktop]" << "Set desktop" << number;
+    if (debug) qDebug() << "[PTM-DP]" << "[setCurrentDesktop]" << "Run cmd " << configuration[QString("desktopcmd")] << QString::number(number+1);
+
+    QProcess command;
+    command.start(configuration[QString("desktopcmd")] + QString(" ") + QString::number(number+1));
+    command.waitForFinished(-1);
+    int status = command.exitCode();
+    if (debug) qDebug() << "[PTM-DP]" << "[setCurrentDesktop]" << "Cmd returns " << status;
+    return status;
 }
 
 
@@ -238,6 +288,7 @@ void DesktopPanel::createConfigurationInterface(KConfigDialog *parent)
     uiWidConfig.spinBox_interval->setValue(configuration[QString("interval")].toInt());
     uiWidConfig.lineEdit_mark->setText(configuration[QString("mark")]);
     uiWidConfig.lineEdit_pattern->setText(configuration[QString("pattern")]);
+    uiWidConfig.lineEdit_desktopcmd->setText(configuration[QString("desktopcmd")]);
 
     KConfigGroup cg = config();
     QString fontFamily = cg.readEntry("currentFontFamily", "Terminus");
@@ -291,6 +342,7 @@ void DesktopPanel::configAccepted()
     cg.writeEntry("interval", QString::number(uiWidConfig.spinBox_interval->value()));
     cg.writeEntry("mark", uiWidConfig.lineEdit_mark->text());
     cg.writeEntry("pattern", uiWidConfig.lineEdit_pattern->text());
+    cg.writeEntry("desktopcmd", uiWidConfig.lineEdit_desktopcmd->text());
 
     cg.writeEntry("currentFontFamily", uiAppConfig.fontComboBox_fontActive->currentFont().family());
     cg.writeEntry("currentFontSize", uiAppConfig.spinBox_fontSizeActive->value());
@@ -312,6 +364,7 @@ void DesktopPanel::configChanged()
     KConfigGroup cg = config();
 
     configuration[QString("background")] = cg.readEntry("background", "0");
+    configuration[QString("desktopcmd")] = cg.readEntry("desktopcmd", "qdbus org.kde.kwin /KWin setCurrentDesktop");
     configuration[QString("interval")] = cg.readEntry("interval", "1000");
     configuration[QString("layout")] = cg.readEntry("layout", "0");
     configuration[QString("leftStretch")] = cg.readEntry("leftStretch", "2");
