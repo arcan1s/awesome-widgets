@@ -59,6 +59,9 @@
 <li>tag <code>$ps</code> - list of running processes</li>
 <li>tag <code>$pkgcountN</code> - number of packages, which available to upgrade for command N. For example, <code>$pkgcount0</code></li>
 <li>tag <code>$customN</code> - returns output for custom command N. For example, <code>$custom0</code></li>
+<li>tag <code>$name</code> - name of the current desktop</li>
+<li>tag <code>$number</code> - number of the current desktop</li>
+<li>tag <code>$total</code> - total number of desktops</li>
 </ul>
 
 <p>Label order will changed if you change slider position. HTML tags in label work normally.</p>
@@ -177,6 +180,10 @@
 
 <p>Commands, which will be run for custom label.</p>
 
+<p><strong>Desktop cmd</strong></p>
+
+<p>Type a command which will be run for desktop DataEngine. Default is <code>qdbus org.kde.kwin /KWin currentDesktop</code>.</p>
+
 <p><strong>GPU device</strong></p>
 
 <p>Select one of supported GPU devices. <code>auto</code> will enable auto selection, <code>disable</code> will disable definition of GPU states. Default is <code>auto</code>.</p>
@@ -214,9 +221,40 @@
 
 <p>Select one of supported music playes for player label.</p>
 
-<h2>DataEngine configuration</h2>
+<h1>PTM desktop panel</h1>
 
-<p>You may edit DataEngine configuration. It is <code>/usr/share/config/extsysmon.conf</code> or <code>$HOME/share/config/extsysmon.conf</code> depending on the type of installation. Uncomment needed line and edit it.</p>
+<p>Since version 1.11.0 PyTextMonitor provides a minimalistic panel for monitoring on desktops written on <code>C++</code>. And yes, it looks like the same panel in Awesome.</p>
+
+<h2>Desktop panel configuration</h2>
+
+<p><strong>Enable background</strong></p>
+
+<p>Uncheck to disable default background and set transparent one.</p>
+
+<p><strong>Vertical layout</strong></p>
+
+<p>Use vertical layout instead of horizontal one.</p>
+
+<p><strong>Add stretch</strong></p>
+
+<p>Add stretch (spacer) to the selected side of the widget.</p>
+
+<p><strong>Mark</strong></p>
+
+<p>Type symbol (or line) which will be shown if this desktop is active now.</p>
+
+<p><strong>Pattern tags</strong></p>
+
+<ul>
+<li>tag <code>$mark</code> - show mark if this desktop is active</li>
+<li>tag <code>$name</code> - name of the current desktop</li>
+<li>tag <code>$number</code> - number of the current desktop</li>
+<li>tag <code>$total</code> - total number of desktops</li>
+</ul>
+
+<p><strong>Command</strong></p>
+
+<p>Type command which will be run on left click on the selected desktop. Available variables are same as for pattern. Default is <code>dbus org.kde.kwin /KWin setCurrentDesktop $number</code>.</p>
 
 <h1>Instruction</h1>
 

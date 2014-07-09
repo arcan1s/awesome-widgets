@@ -1,5 +1,8 @@
-Ver.1.10.3:
+Ver.1.11.0:
 + added ability to disable background image
++ added desktop DataEngine
++ added PTM desktop panel
++ added desktop label (tags $name, $number, $total)
 
 Ver.1.10.2:
 - fix error with tempUnits in hddtemp label

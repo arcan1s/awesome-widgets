@@ -60,6 +60,9 @@ For edited output you must open Settings window and setup output format in lines
 * tag `$ps` - list of running processes
 * tag `$pkgcountN` - number of packages, which available to upgrade for command N. For example, `$pkgcount0`
 * tag `$customN` - returns output for custom command N. For example, `$custom0`
+* tag `$name` - name of the current desktop
+* tag `$number` - number of the current desktop
+* tag `$total` - total number of desktops
 
 Label order will changed if you change slider position. HTML tags in label work normally.
 
@@ -177,6 +180,10 @@ DataEngine settings
 
 Commands, which will be run for custom label.
 
+**Desktop cmd**
+
+Type a command which will be run for desktop DataEngine. Default is `qdbus org.kde.kwin /KWin currentDesktop`.
+
 **GPU device**
 
 Select one of supported GPU devices. `auto` will enable auto selection, `disable` will disable definition of GPU states. Default is `auto`.
@@ -212,10 +219,40 @@ List of commands, which will be run. Number of null lines is a number of unneede
 
 Select one of supported music playes for player label.
 
-DataEngine configuration
-------------------------
+PTM desktop panel
+=================
 
-You may edit DataEngine configuration. It is `/usr/share/config/extsysmon.conf` or `$HOME/share/config/extsysmon.conf` depending on the type of installation. Uncomment needed line and edit it.
+Since version 1.11.0 PyTextMonitor provides a minimalistic panel for monitoring on desktops written on `C++`. And yes, it looks like the same panel in Awesome.
+
+Desktop panel configuration
+---------------------------
+
+**Enable background**
+
+Uncheck to disable default background and set transparent one.
+
+**Vertical layout**
+
+Use vertical layout instead of horizontal one.
+
+**Add stretch**
+
+Add stretch (spacer) to the selected side of the widget.
+
+**Mark**
+
+Type symbol (or line) which will be shown if this desktop is active now.
+
+**Pattern tags**
+
+* tag `$mark` - show mark if this desktop is active
+* tag `$name` - name of the current desktop
+* tag `$number` - number of the current desktop
+* tag `$total` - total number of desktops
+
+**Command**
+
+Type command which will be run on left click on the selected desktop. Available variables are same as for pattern. Default is `dbus org.kde.kwin /KWin setCurrentDesktop $number`.
 
 Instruction
 ===========
