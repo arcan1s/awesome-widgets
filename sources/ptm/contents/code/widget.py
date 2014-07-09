@@ -40,31 +40,34 @@ class WidgetWindow(QWidget):
         self.parent = parent
         self.checkboxes = {'bat':self.ui.checkBox_bat, 'cpu':self.ui.checkBox_cpu,
             'cpuclock':self.ui.checkBox_cpuclock, 'custom':self.ui.checkBox_custom,
-            'disk':self.ui.checkBox_hddSpeed, 'gpu':self.ui.checkBox_gpu,
-            'gputemp':self.ui.checkBox_gpuTemp, 'hdd':self.ui.checkBox_hdd,
-            'hddtemp':self.ui.checkBox_hddTemp, 'mem':self.ui.checkBox_mem,
-            'net':self.ui.checkBox_net, 'swap':self.ui.checkBox_swap,
-            'temp':self.ui.checkBox_temp, 'uptime':self.ui.checkBox_uptime,
-            'pkg':self.ui.checkBox_pkg, 'player':self.ui.checkBox_player,
-            'ps':self.ui.checkBox_ps, 'time':self.ui.checkBox_time}
+            'desktop':self.ui.checkBox_desktop, 'disk':self.ui.checkBox_hddSpeed,
+            'gpu':self.ui.checkBox_gpu, 'gputemp':self.ui.checkBox_gpuTemp,
+            'hdd':self.ui.checkBox_hdd, 'hddtemp':self.ui.checkBox_hddTemp,
+            'mem':self.ui.checkBox_mem, 'net':self.ui.checkBox_net,
+            'swap':self.ui.checkBox_swap, 'temp':self.ui.checkBox_temp,
+            'uptime':self.ui.checkBox_uptime, 'pkg':self.ui.checkBox_pkg,
+            'player':self.ui.checkBox_player, 'ps':self.ui.checkBox_ps,
+            'time':self.ui.checkBox_time}
         self.lineedits = {'bat':self.ui.lineEdit_bat, 'cpu':self.ui.lineEdit_cpu,
             'cpuclock':self.ui.lineEdit_cpuclock, 'custom':self.ui.lineEdit_custom,
-            'disk':self.ui.lineEdit_hddSpeed, 'gpu':self.ui.lineEdit_gpu,
-            'gputemp':self.ui.lineEdit_gpuTemp, 'hdd':self.ui.lineEdit_hdd,
-            'hddtemp':self.ui.lineEdit_hddTemp, 'mem':self.ui.lineEdit_mem,
-            'net':self.ui.lineEdit_net, 'swap':self.ui.lineEdit_swap,
-            'temp':self.ui.lineEdit_temp, 'uptime':self.ui.lineEdit_uptime,
-            'pkg':self.ui.lineEdit_pkg, 'player':self.ui.lineEdit_player,
-            'ps':self.ui.lineEdit_ps, 'time':self.ui.lineEdit_time}
+            'desktop':self.ui.lineEdit_desktop, 'disk':self.ui.lineEdit_hddSpeed,
+            'gpu':self.ui.lineEdit_gpu, 'gputemp':self.ui.lineEdit_gpuTemp,
+            'hdd':self.ui.lineEdit_hdd, 'hddtemp':self.ui.lineEdit_hddTemp,
+            'mem':self.ui.lineEdit_mem, 'net':self.ui.lineEdit_net,
+            'swap':self.ui.lineEdit_swap, 'temp':self.ui.lineEdit_temp,
+            'uptime':self.ui.lineEdit_uptime, 'pkg':self.ui.lineEdit_pkg,
+            'player':self.ui.lineEdit_player, 'ps':self.ui.lineEdit_ps,
+            'time':self.ui.lineEdit_time}
         self.sliders = {'bat':self.ui.slider_bat, 'cpu':self.ui.slider_cpu,
             'cpuclock':self.ui.slider_cpuclock, 'custom':self.ui.slider_custom,
-            'disk':self.ui.slider_hddSpeed, 'gpu':self.ui.slider_gpu,
-            'gputemp':self.ui.slider_gpuTemp, 'hdd':self.ui.slider_hdd,
-            'hddtemp':self.ui.slider_hddTemp, 'mem':self.ui.slider_mem,
-            'net':self.ui.slider_net, 'swap':self.ui.slider_swap,
-            'temp':self.ui.slider_temp, 'uptime':self.ui.slider_uptime,
-            'pkg':self.ui.slider_pkg, 'player':self.ui.slider_player,
-            'ps':self.ui.slider_ps, 'time':self.ui.slider_time}
+            'desktop':self.ui.slider_desktop, 'disk':self.ui.slider_hddSpeed,
+            'gpu':self.ui.slider_gpu, 'gputemp':self.ui.slider_gpuTemp,
+            'hdd':self.ui.slider_hdd, 'hddtemp':self.ui.slider_hddTemp,
+            'mem':self.ui.slider_mem, 'net':self.ui.slider_net,
+            'swap':self.ui.slider_swap, 'temp':self.ui.slider_temp,
+            'uptime':self.ui.slider_uptime, 'pkg':self.ui.slider_pkg,
+            'player':self.ui.slider_player, 'ps':self.ui.slider_ps,
+            'time':self.ui.slider_time}
 
         for item in self.sliders.values():
             QObject.connect(item, SIGNAL("valueChanged(int)"), self.setSlider)

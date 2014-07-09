@@ -98,6 +98,7 @@ class ConfigDefinition:
                 for i in range(self.configpage['dataengine'].ui.listWidget_customCommand.count()):
                     item.append(self.configpage['dataengine'].ui.listWidget_customCommand.item(i).text())
                 deConfigFile.write("CUSTOM=" + str(item.join(QString('@@'))) + "\n")
+                deConfigFile.write("DESKTOPCMD=" + str(self.configpage['dataengine'].ui.lineEdit_desktopCmd.text()) + "\n")
                 deConfigFile.write("GPUDEV=" + str(self.configpage['dataengine'].ui.comboBox_gpudev.currentText()) + "\n")
                 deConfigFile.write("HDDDEV=" + str(self.configpage['dataengine'].ui.comboBox_hdddev.currentText()) + "\n")
                 deConfigFile.write("HDDTEMPCMD=" + str(self.configpage['dataengine'].ui.lineEdit_hddtempCmd.text()) + "\n")
@@ -124,7 +125,7 @@ class ConfigDefinition:
         # disconnecting from source and clear layout
         self.parent.disconnectFromSource()
 
-        labelOrder = "---------------"
+        labelOrder = "----------------"
         for label in self.defaults['order'].keys():
             if (self.configpage['widget'].checkboxes[self.defaults['order'][label]].checkState() > 0):
                 pos = self.configpage['widget'].sliders[self.defaults['order'][label]].value() - 1
@@ -221,9 +222,9 @@ class ConfigDefinition:
         self.configpage['tooltip'].ui.kcolorcombo_down.setColor(QColor(str(settings.get('down_color', '#00ffff'))))
         self.configpage['tooltip'].ui.kcolorcombo_up.setColor(QColor(str(settings.get('up_color', '#ff00ff'))))
 
-        deSettings = {'CUSTOM':'wget -qO- http://ifconfig.me/ip', 'GPUDEV':'auto', 'HDDDEV':'all',
-            'HDDTEMPCMD':'sudo hddtemp', 'MPDADDRESS':'localhost', 'MPDPORT':'6600', 'PKGCMD':'pacman -Qu',
-            'PKGNULL':'0', 'PLAYER':'amarok'}
+        deSettings = {'CUSTOM':'wget -qO- http://ifconfig.me/ip', 'DESKTOPCMD':'qdbus org.kde.kwin /KWin currentDesktop',
+            'GPUDEV':'auto', 'HDDDEV':'all', 'HDDTEMPCMD':'sudo hddtemp', 'MPDADDRESS':'localhost',
+            'MPDPORT':'6600', 'PKGCMD':'pacman -Qu', 'PKGNULL':'0', 'PLAYER':'amarok'}
         dataengineConfig = unicode(KGlobal.dirs().localkdedir()) + "/share/config/extsysmon.conf"
         try:
             with open(dataengineConfig, 'r') as deConfigFile:
@@ -235,6 +236,7 @@ class ConfigDefinition:
         for item in deSettings['CUSTOM'].split('@@'):
             self.configpage['dataengine'].ui.listWidget_customCommand.addItem(item)
         index = self.configpage['dataengine'].ui.comboBox_gpudev.findText(deSettings['GPUDEV'])
+        self.configpage['dataengine'].ui.lineEdit_desktopCmd.setText(deSettings['DESKTOPCMD'])
         self.configpage['dataengine'].ui.comboBox_gpudev.setCurrentIndex(index)
         self.configpage['dataengine'].ui.comboBox_hdddev.addItem("all")
         self.configpage['dataengine'].ui.comboBox_hdddev.addItem("disable")

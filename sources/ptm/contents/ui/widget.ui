@@ -54,9 +54,9 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-103</y>
+        <y>-139</y>
         <width>666</width>
-        <height>660</height>
+        <height>696</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -104,7 +104,7 @@ $custom - custom time format</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>18</number>
+            <number>19</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -160,7 +160,7 @@ $custom - custom format</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>18</number>
+            <number>19</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -226,7 +226,7 @@ $cpuN - load CPU for core N, %</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>18</number>
+            <number>19</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -292,7 +292,7 @@ $cpuclN - CPU clock for core N, MHz</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>18</number>
+            <number>19</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -350,7 +350,7 @@ $cpuclN - CPU clock for core N, MHz</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>18</number>
+            <number>19</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -408,7 +408,7 @@ $cpuclN - CPU clock for core N, MHz</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>18</number>
+            <number>19</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -466,7 +466,7 @@ $cpuclN - CPU clock for core N, MHz</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>18</number>
+            <number>19</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -531,7 +531,7 @@ $memtotgb - total RAM, GB</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>18</number>
+            <number>19</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -596,7 +596,7 @@ $swaptotgb - total swap, GB</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>18</number>
+            <number>19</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -658,7 +658,7 @@ $hddtotgbN - total size of mount point N (from 0), GB. Example: $hddtotgb0</stri
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>18</number>
+            <number>19</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -717,7 +717,7 @@ $hddwN - write speed HDD N (from 0), KB/s. Example: $hddw0</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>18</number>
+            <number>19</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -775,7 +775,7 @@ $hddwN - write speed HDD N (from 0), KB/s. Example: $hddw0</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>18</number>
+            <number>19</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -838,7 +838,7 @@ $netdev - current network device</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>18</number>
+            <number>19</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -897,7 +897,7 @@ $ac - AC status</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>18</number>
+            <number>19</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -959,7 +959,7 @@ $title - song title</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>18</number>
+            <number>19</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -1019,7 +1019,7 @@ $ps - list of running processes comma separated</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>18</number>
+            <number>19</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -1077,7 +1077,7 @@ $ps - list of running processes comma separated</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>18</number>
+            <number>19</number>
            </property>
            <property name="pageStep">
             <number>1</number>
@@ -1135,13 +1135,73 @@ $ps - list of running processes comma separated</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>18</number>
+            <number>19</number>
            </property>
            <property name="pageStep">
             <number>1</number>
            </property>
            <property name="value">
             <number>18</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="tickPosition">
+            <enum>QSlider::TicksAbove</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="layout_desktop">
+         <item>
+          <widget class="QCheckBox" name="checkBox_desktop">
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Current desktop</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_desktop">
+           <property name="toolTip">
+            <string>$name - desktop name
+$number - desktop number
+$total - total number of desktops</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSlider" name="slider_desktop">
+           <property name="maximumSize">
+            <size>
+             <width>120</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>19</number>
+           </property>
+           <property name="pageStep">
+            <number>1</number>
+           </property>
+           <property name="value">
+            <number>19</number>
            </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>

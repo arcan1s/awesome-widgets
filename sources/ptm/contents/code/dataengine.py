@@ -59,6 +59,8 @@ class DataEngine:
                 dataEngines['system'].connectSource("cpu/cpu" + str(core) + "/clock", self.parent, interval)
         if (bools['custom'] > 0):
             dataEngines['ext'].connectSource("custom", self.parent, interval)
+        if (bools['desktop'] > 0):
+            dataEngines['ext'].connectSource("desktop", self.parent, interval)
         if (bools['disk'] > 0):
             for item in names['disk']:
                 dataEngines['system'].connectSource(item + "/Rate/rblk", self.parent, interval)
@@ -138,6 +140,11 @@ class DataEngine:
                 updatedData['value'] = {}
                 for singleData in data.keys():
                     updatedData['value'][str(singleData.toLower())] = str(data[singleData].toUtf8()).decode("utf-8")
+            elif (sourceName == "desktop"):
+                updatedData['name'] = "desktop"
+                updatedData['value'] = {}
+                updatedData['value']['current'] = data[QString(u'currentNumber')]
+                updatedData['value']['names'] = [str(desktop.toUtf8()).decode("utf-8") for desktop in data[QString(u'list')].split(';;')]
             elif ((sourceName[:4] == "disk") and (sourceName[-4:] == "rblk")):
                 updatedData['name'] = "disk-r"
                 updatedData['type'] = '/'.join(str(sourceName).split('/')[0:2])
@@ -311,6 +318,8 @@ class DataEngine:
                     dataEngines['system'].disconnectSource("cpu/cpu" + str(item) + "/clock", self.parent)
         elif (name == "custom"):
             dataEngines['ext'].disconnectSource("custom", self.parent)
+        elif (name == "desktop"):
+            dataEngines['ext'].disconnectSource("desktop", self.parent)
         elif (name == "disk"):
             for item in keys['disk']:
                 dataEngines['system'].disconnectSource(item + "/Rate/rblk", self.parent)

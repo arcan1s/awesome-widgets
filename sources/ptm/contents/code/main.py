@@ -217,32 +217,34 @@ class pyTextWidget(plasmascript.Applet):
         # defaults
         self.ptm['defaults'] = {}
         self.ptm['defaults']['confBool'] = {'bat':'batBool', 'cpu':'cpuBool',
-            'cpuclock':'cpuclockBool', 'custom':'customBool', 'disk':'diskBool',
-            'gpu':'gpuBool', 'gputemp':'gputempBool', 'hdd':'hddBool',
+            'cpuclock':'cpuclockBool', 'custom':'customBool', 'desktop':'desktopBool',
+            'disk':'diskBool', 'gpu':'gpuBool', 'gputemp':'gputempBool', 'hdd':'hddBool',
             'hddtemp':'hddtempBool', 'mem':'memBool', 'net':'netBool', 'pkg':'pkgBool',
             'player':'playerBool', 'ps':'psBool', 'swap':'swapBool', 'temp':'tempBool',
             'uptime':'uptimeBool', 'time':'timeBool'}
         self.ptm['defaults']['confColor'] = {'cpu':'cpu_color', 'cpuclock':'cpuclock_color',
             'down':'down_color', 'mem':'mem_color', 'swap':'swap_color', 'up':'up_color'}
         self.ptm['defaults']['confFormat'] = {'bat':'batFormat', 'cpu':'cpuFormat',
-            'cpuclock':'cpuclockFormat', 'custom':'customFormat', 'disk':'diskFormat',
-            'gpu':'gpuFormat', 'gputemp':'gputempFormat', 'hdd':'hddFormat',
+            'cpuclock':'cpuclockFormat', 'custom':'customFormat', 'desktop':'desktopFormat',
+            'disk':'diskFormat', 'gpu':'gpuFormat', 'gputemp':'gputempFormat', 'hdd':'hddFormat',
             'hddtemp':'hddtempFormat', 'mem':'memFormat', 'net':'netFormat',
             'pkg':'pkgFormat', 'player':'playerFormat', 'ps':'psFormat', 'swap':'swapFormat',
             'temp':'tempFormat', 'time':'timeFormat', 'uptime':'uptimeFormat'}
         self.ptm['defaults']['bool'] = {'bat':0, 'cpu':2, 'cpuclock':0, 'custom':0,
-            'disk':0, 'gpu':0, 'gputemp':0, 'hdd':0, 'hddtemp':0, 'mem':2, 'net':2,
-            'pkg':0, 'player':0, 'ps':0, 'swap':2, 'temp':0, 'time':0, 'uptime':0}
+            'desktop':0, 'disk':0, 'gpu':0, 'gputemp':0, 'hdd':0, 'hddtemp':0, 'mem':2,
+            'net':2, 'pkg':0, 'player':0, 'ps':0, 'swap':2, 'temp':0, 'time':0, 'uptime':0}
         self.ptm['defaults']['format'] = {'bat':'[bat: $bat%$ac]', 'cpu':'[cpu: $cpu%]',
-            'cpuclock':'[mhz: $cpucl]', 'custom':'[$custom]', 'disk':'[disk: $hddr0/$hddw0 KB/s]',
-            'gpu':'[gpu: $gpu%]', 'gputemp':'[gpu temp: $gputemp&deg;C]', 'hdd':'[hdd: $hdd0%]',
+            'cpuclock':'[mhz: $cpucl]', 'custom':'[$custom]', 'desktop':'[$number/$total: $name]',
+            'disk':'[disk: $hddr0/$hddw0 KB/s]', 'gpu':'[gpu: $gpu%]',
+            'gputemp':'[gpu temp: $gputemp&deg;C]', 'hdd':'[hdd: $hdd0%]',
             'hddtemp':'[hdd temp: $hddtemp0&deg;C]', 'mem':'[mem: $mem%]',
             'net':'[$netdev: $down/$upKB/s]', 'pkg':'[upgrade: $pkgcount0]',
             'player':'[$artist - $title]', 'ps':'[proc: $pscount]', 'swap':'[swap: $swap%]',
             'temp':'[temp: $temp0&deg;C]', 'time':'[$time]', 'uptime':'[uptime: $uptime]'}
         self.ptm['defaults']['order'] = {'1':'cpu', '2':'temp', '3':'mem', '4':'swap', '5':'net',
             '6':'bat', '7':'cpuclock', '8':'uptime', '9':'gpu', 'a':'gputemp', 'b':'hdd',
-            'c':'hddtemp', 'd':'player', 'e':'time', 'f':'custom', 'g':'ps', 'h':'pkg', 'i':'disk'}
+            'c':'hddtemp', 'd':'player', 'e':'time', 'f':'custom', 'g':'ps', 'h':'pkg', 'i':'disk',
+            'j':'desktop'}
         # disk devices for r/w speed
         self.ptm['defaults']['disk'] = []
         # labels
@@ -269,6 +271,7 @@ class pyTextWidget(plasmascript.Applet):
         for i in range(numCores):
             self.ptm['values']['cpu'][i] = 0.0
             self.ptm['values']['cpuclock'][i] = 0.0
+        self.ptm['values']['desktop'] = {'names':[], 'current':1}
         self.ptm['values']['disk-r'] = {}
         self.ptm['values']['disk-w'] = {}
         self.ptm['values']['hdd'] = {}
@@ -316,6 +319,8 @@ class pyTextWidget(plasmascript.Applet):
             self.cpuText()
         if (self.ptm['vars']['bools']['cpuclock'] > 0):
             self.cpuclockText()
+        if (self.ptm['vars']['bools']['desktop'] > 0):
+            self.desktopText()
         if (self.ptm['vars']['bools']['disk'] > 0):
             self.diskText()
         if (self.ptm['vars']['bools']['hdd'] > 0):
@@ -452,6 +457,26 @@ class pyTextWidget(plasmascript.Applet):
             line = line.split('$cpucl')[0] + value + line.split('$cpucl')[1]
         text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
         self.setText("cpuclock", text)
+
+
+    def desktopText(self):
+        """function to update desktop text"""
+        if self.debug: qDebug("[PTM] [main.py] [desktopText]")
+        line = self.ptm['vars']['formats']['desktop']
+        if (line.split('$name')[0] != line):
+            line = line.split('$name')[0] + \
+                   self.ptm['values']['desktop']['names'][self.ptm['values']['desktop']['current']-1] + \
+                   line.split('$name')[1]
+        if (line.split('$number')[0] != line):
+            line = line.split('$number')[0] + \
+                   str(self.ptm['values']['desktop']['current']) + \
+                   line.split('$number')[1]
+        if (line.split('$total')[0] != line):
+            line = line.split('$total')[0] + \
+                   str(len(self.ptm['values']['desktop']['names'])) + \
+                   line.split('$total')[1]
+        text = self.ptm['vars']['app']['format'][0] + line + self.ptm['vars']['app']['format'][1]
+        self.setText("desktop", text)
 
 
     def diskText(self):

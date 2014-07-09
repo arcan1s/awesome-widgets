@@ -99,7 +99,7 @@ del - remove item</string>
          </item>
         </layout>
        </item>
-       <item row="1" column="0">
+       <item row="2" column="0">
         <layout class="QHBoxLayout" name="layout_gpudev">
          <item>
           <widget class="QLabel" name="label_gpudev">
@@ -152,7 +152,7 @@ del - remove item</string>
          </item>
         </layout>
        </item>
-       <item row="2" column="0">
+       <item row="3" column="0">
         <layout class="QHBoxLayout" name="layout_hdddev">
          <item>
           <widget class="QLabel" name="label_hdddev">
@@ -185,7 +185,7 @@ del - remove item</string>
          </item>
         </layout>
        </item>
-       <item row="3" column="0">
+       <item row="4" column="0">
         <layout class="QHBoxLayout" name="layout_hddtempCmd">
          <item>
           <widget class="QLabel" name="label_hddtempCmd">
@@ -209,7 +209,7 @@ del - remove item</string>
          </item>
         </layout>
        </item>
-       <item row="4" column="0">
+       <item row="5" column="0">
         <layout class="QHBoxLayout" name="layout_mpdaddress">
          <item>
           <widget class="QLabel" name="label_mpdaddress">
@@ -233,7 +233,7 @@ del - remove item</string>
          </item>
         </layout>
        </item>
-       <item row="5" column="0">
+       <item row="6" column="0">
         <layout class="QHBoxLayout" name="layout_mpdport">
          <item>
           <widget class="QLabel" name="label_mpdport">
@@ -288,7 +288,7 @@ del - remove item</string>
          </item>
         </layout>
        </item>
-       <item row="6" column="0">
+       <item row="7" column="0">
         <layout class="QVBoxLayout" name="layout_pkgCommand">
          <item>
           <layout class="QHBoxLayout" name="layout_pkgCommandSelect">
@@ -403,7 +403,7 @@ del - remove item</string>
          </item>
         </layout>
        </item>
-       <item row="7" column="0">
+       <item row="8" column="0">
         <layout class="QHBoxLayout" name="layout_playerSelect">
          <item>
           <widget class="QLabel" name="label_playerSelect">
@@ -456,7 +456,7 @@ del - remove item</string>
          </item>
         </layout>
        </item>
-       <item row="8" column="0">
+       <item row="9" column="0">
         <spacer name="spacer_dataengine">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -469,12 +469,53 @@ del - remove item</string>
          </property>
         </spacer>
        </item>
+       <item row="1" column="0">
+        <layout class="QHBoxLayout" name="layout_desktopCmd">
+         <item>
+          <widget class="QLabel" name="label_desktopCmd">
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Desktop check cmd</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_desktopCmd">
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
       </layout>
      </widget>
     </widget>
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>scrollArea_dattaengine</tabstop>
+  <tabstop>lineEdit_customCommand</tabstop>
+  <tabstop>pushButton_customCommand</tabstop>
+  <tabstop>listWidget_customCommand</tabstop>
+  <tabstop>lineEdit_desktopCmd</tabstop>
+  <tabstop>comboBox_gpudev</tabstop>
+  <tabstop>comboBox_hdddev</tabstop>
+  <tabstop>lineEdit_hddtempCmd</tabstop>
+  <tabstop>lineEdit_mpdaddress</tabstop>
+  <tabstop>spinBox_mpdport</tabstop>
+  <tabstop>comboBox_pkgCommand</tabstop>
+  <tabstop>spinBox_pkgCommandNum</tabstop>
+  <tabstop>pushButton_pkgCommand</tabstop>
+  <tabstop>listWidget_pkgCommand</tabstop>
+  <tabstop>comboBox_playerSelect</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -218,6 +218,8 @@ class PTMNotify:
             return self.createText("processor")
         elif (name == "custom"):
             return self.createText("system")
+        elif (name == "desktop"):
+            return self.createText("system")
         elif (name == "disk"):
             return self.createText("disk")
         elif (name == "gpu"):
