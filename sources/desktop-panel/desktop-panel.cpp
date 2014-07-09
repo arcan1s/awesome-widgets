@@ -149,6 +149,38 @@ QStringList DesktopPanel::getDesktopNames()
 }
 
 
+QString DesktopPanel::parsePattern(const QString rawLine, const int num)
+{
+    if (debug) qDebug() << "[PTM-DP]" << "[parsePattern]";
+    if (debug) qDebug() << "[PTM-DP]" << "[parsePattern]" << "Run function with raw line" << rawLine;
+    if (debug) qDebug() << "[PTM-DP]" << "[parsePattern]" << "Run function with number" << num;
+
+    QString line, mark;
+    line = rawLine;
+    if (currentDesktop == num + 1)
+        mark = configuration[QString("mark")];
+    else
+        mark = QString("");
+    if (line.split(QString("$mark"))[0] != line) {
+        if (debug) qDebug() << "[PTM-DP]" << "[parsePattern]" << "Found mark";
+        line = line.split(QString("$mark"))[0] + mark + line.split(QString("$mark"))[1];
+    }
+    if (line.split(QString("$name"))[0] != line) {
+        if (debug) qDebug() << "[PTM-DP]" << "[parsePattern]" << "Found name";
+        line = line.split(QString("$name"))[0] + desktopNames[num] + line.split(QString("$name"))[1];
+    }
+    if (line.split(QString("$number"))[0] != line) {
+        if (debug) qDebug() << "[PTM-DP]" << "[parsePattern]" << "Found number";
+        line = line.split(QString("$number"))[0] + QString::number(num + 1) + line.split(QString("$number"))[1];
+    }
+    if (line.split(QString("$total"))[0] != line) {
+        if (debug) qDebug() << "[PTM-DP]" << "[parsePattern]" << "Found total";
+        line = line.split(QString("$total"))[0] + QString::number(desktopNames.count()) + line.split(QString("$total"))[1];
+    }
+    return line;
+}
+
+
 void DesktopPanel::reinit()
 {
     if (debug) qDebug() << "[PTM-DP]" << "[reinit]";
@@ -194,11 +226,13 @@ void DesktopPanel::reinit()
 int DesktopPanel::setCurrentDesktop(const int number)
 {
     if (debug) qDebug() << "[PTM-DP]" << "[setCurrentDesktop]";
-    if (debug) qDebug() << "[PTM-DP]" << "[setCurrentDesktop]" << "Set desktop" << number;
-    if (debug) qDebug() << "[PTM-DP]" << "[setCurrentDesktop]" << "Run cmd " << configuration[QString("desktopcmd")] << QString::number(number+1);
+    if (debug) qDebug() << "[PTM-DP]" << "[setCurrentDesktop]" << "Set desktop" << number + 1;
+
+    QString cmd = parsePattern(configuration[QString("desktopcmd")], number);
+    if (debug) qDebug() << "[PTM-DP]" << "[setCurrentDesktop]" << "Run cmd " << cmd;
 
     QProcess command;
-    command.start(configuration[QString("desktopcmd")] + QString(" ") + QString::number(number+1));
+    command.start(cmd);
     command.waitForFinished(-1);
     int status = command.exitCode();
     if (debug) qDebug() << "[PTM-DP]" << "[setCurrentDesktop]" << "Cmd returns " << status;
@@ -210,32 +244,10 @@ void DesktopPanel::updateText()
 {
     if (debug) qDebug() << "[PTM-DP]" << "[updateText]";
     if (labels.isEmpty()) return;
-    QString line, mark, text;
+    QString line, text;
     for (int i=0; i<labels.count(); i++) {
         if (debug) qDebug() << "[PTM-DP]" << "[updateText]" << "Label" << i;
-        line = configuration[QString("pattern")];
-        if (currentDesktop == i + 1)
-            mark = configuration[QString("mark")];
-        else
-            mark = QString("");
-
-        if (line.split(QString("$mark"))[0] != line) {
-            if (debug) qDebug() << "[PTM-DP]" << "[updateText]" << "Found mark";
-            line = line.split(QString("$mark"))[0] + mark + line.split(QString("$mark"))[1];
-        }
-        if (line.split(QString("$name"))[0] != line) {
-            if (debug) qDebug() << "[PTM-DP]" << "[updateText]" << "Found name";
-            line = line.split(QString("$name"))[0] + desktopNames[i] + line.split(QString("$name"))[1];
-        }
-        if (line.split(QString("$number"))[0] != line) {
-            if (debug) qDebug() << "[PTM-DP]" << "[updateText]" << "Found number";
-            line = line.split(QString("$number"))[0] + QString::number(i+1) + line.split(QString("$number"))[1];
-        }
-        if (line.split(QString("$total"))[0] != line) {
-            if (debug) qDebug() << "[PTM-DP]" << "[updateText]" << "Found total";
-            line = line.split(QString("$total"))[0] + QString::number(desktopNames.count()) + line.split(QString("$total"))[1];
-        }
-
+        line = parsePattern(configuration[QString("pattern")], i);
         if (currentDesktop == i + 1)
             text = currentFormatLine[0] + line + currentFormatLine[1];
         else
@@ -365,7 +377,7 @@ void DesktopPanel::configChanged()
     KConfigGroup cg = config();
 
     configuration[QString("background")] = cg.readEntry("background", "0");
-    configuration[QString("desktopcmd")] = cg.readEntry("desktopcmd", "qdbus org.kde.kwin /KWin setCurrentDesktop");
+    configuration[QString("desktopcmd")] = cg.readEntry("desktopcmd", "qdbus org.kde.kwin /KWin setCurrentDesktop $number");
     configuration[QString("interval")] = cg.readEntry("interval", "1000");
     configuration[QString("layout")] = cg.readEntry("layout", "0");
     configuration[QString("leftStretch")] = cg.readEntry("leftStretch", "2");

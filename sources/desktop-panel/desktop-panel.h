@@ -60,6 +60,7 @@ public:
     DesktopPanel(QObject *parent, const QVariantList &args);
     ~DesktopPanel();
     void init();
+    QString parsePattern(const QString rawLine, const int num);
 
 public slots:
     // dataengine
