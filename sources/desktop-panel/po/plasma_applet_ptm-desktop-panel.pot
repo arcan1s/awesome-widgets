@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/pytextmonitor/issues\n"
-"POT-Creation-Date: 2014-07-09 10:30+0400\n"
+"POT-Creation-Date: 2014-07-09 10:38+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,205 +33,121 @@ msgstr ""
 
 #. i18n: file: appearance.ui:59
 #. i18n: ectx: property (text), widget (QLabel, label_fontActive)
-#. i18n: file: appearance.ui:380
+#. i18n: file: appearance.ui:365
 #. i18n: ectx: property (text), widget (QLabel, label_fontInactive)
 #. i18n: file: appearance.ui:59
 #. i18n: ectx: property (text), widget (QLabel, label_fontActive)
-#. i18n: file: appearance.ui:380
+#. i18n: file: appearance.ui:365
 #. i18n: ectx: property (text), widget (QLabel, label_fontInactive)
-#: po/rc.cpp:6 po/rc.cpp:45 rc.cpp:6 rc.cpp:45
+#: po/rc.cpp:6 po/rc.cpp:24 rc.cpp:6 rc.cpp:24
 msgid "Font"
 msgstr ""
 
-#. i18n: file: appearance.ui:91
-#. i18n: ectx: property (toolTip), widget (QFontComboBox, fontComboBox_fontActive)
-#. i18n: file: appearance.ui:412
-#. i18n: ectx: property (toolTip), widget (QFontComboBox, fontComboBox_fontInactive)
-#. i18n: file: appearance.ui:91
-#. i18n: ectx: property (toolTip), widget (QFontComboBox, fontComboBox_fontActive)
-#. i18n: file: appearance.ui:412
-#. i18n: ectx: property (toolTip), widget (QFontComboBox, fontComboBox_fontInactive)
-#: po/rc.cpp:9 po/rc.cpp:48 rc.cpp:9 rc.cpp:48
-msgid "Set font family"
-msgstr ""
-
-#. i18n: file: appearance.ui:108
+#. i18n: file: appearance.ui:105
 #. i18n: ectx: property (text), widget (QLabel, label_fontSizeActive)
-#. i18n: file: appearance.ui:429
+#. i18n: file: appearance.ui:411
 #. i18n: ectx: property (text), widget (QLabel, label_fontSizeInactive)
-#. i18n: file: appearance.ui:108
+#. i18n: file: appearance.ui:105
 #. i18n: ectx: property (text), widget (QLabel, label_fontSizeActive)
-#. i18n: file: appearance.ui:429
+#. i18n: file: appearance.ui:411
 #. i18n: ectx: property (text), widget (QLabel, label_fontSizeInactive)
-#: po/rc.cpp:12 po/rc.cpp:51 rc.cpp:12 rc.cpp:51
+#: po/rc.cpp:9 po/rc.cpp:27 rc.cpp:9 rc.cpp:27
 msgid "Font size"
 msgstr ""
 
-#. i18n: file: appearance.ui:140
-#. i18n: ectx: property (toolTip), widget (QSpinBox, spinBox_fontSizeActive)
-#. i18n: file: appearance.ui:461
-#. i18n: ectx: property (toolTip), widget (QSpinBox, spinBox_fontSizeInactive)
-#. i18n: file: appearance.ui:140
-#. i18n: ectx: property (toolTip), widget (QSpinBox, spinBox_fontSizeActive)
-#. i18n: file: appearance.ui:461
-#. i18n: ectx: property (toolTip), widget (QSpinBox, spinBox_fontSizeInactive)
-#: po/rc.cpp:15 po/rc.cpp:54 rc.cpp:15 rc.cpp:54
-msgid "Set font size"
-msgstr ""
-
-#. i18n: file: appearance.ui:169
+#. i18n: file: appearance.ui:163
 #. i18n: ectx: property (text), widget (QLabel, label_fontColorActive)
-#. i18n: file: appearance.ui:490
+#. i18n: file: appearance.ui:469
 #. i18n: ectx: property (text), widget (QLabel, label_fontColorInactive)
-#. i18n: file: appearance.ui:169
+#. i18n: file: appearance.ui:163
 #. i18n: ectx: property (text), widget (QLabel, label_fontColorActive)
-#. i18n: file: appearance.ui:490
+#. i18n: file: appearance.ui:469
 #. i18n: ectx: property (text), widget (QLabel, label_fontColorInactive)
-#: po/rc.cpp:18 po/rc.cpp:57 rc.cpp:18 rc.cpp:57
+#: po/rc.cpp:12 po/rc.cpp:30 rc.cpp:12 rc.cpp:30
 msgid "Font color"
 msgstr ""
 
-#. i18n: file: appearance.ui:201
-#. i18n: ectx: property (toolTip), widget (KColorCombo, kcolorcombo_fontColorActive)
-#. i18n: file: appearance.ui:522
-#. i18n: ectx: property (toolTip), widget (KColorCombo, kcolorcombo_fontColorInactive)
-#. i18n: file: appearance.ui:201
-#. i18n: ectx: property (toolTip), widget (KColorCombo, kcolorcombo_fontColorActive)
-#. i18n: file: appearance.ui:522
-#. i18n: ectx: property (toolTip), widget (KColorCombo, kcolorcombo_fontColorInactive)
-#: po/rc.cpp:21 po/rc.cpp:60 rc.cpp:21 rc.cpp:60
-msgid "Set font color"
-msgstr ""
-
-#. i18n: file: appearance.ui:218
+#. i18n: file: appearance.ui:209
 #. i18n: ectx: property (text), widget (QLabel, label_fontWeightActive)
-#. i18n: file: appearance.ui:539
+#. i18n: file: appearance.ui:515
 #. i18n: ectx: property (text), widget (QLabel, label_fontWeightInactive)
-#. i18n: file: appearance.ui:218
+#. i18n: file: appearance.ui:209
 #. i18n: ectx: property (text), widget (QLabel, label_fontWeightActive)
-#. i18n: file: appearance.ui:539
+#. i18n: file: appearance.ui:515
 #. i18n: ectx: property (text), widget (QLabel, label_fontWeightInactive)
-#: po/rc.cpp:24 po/rc.cpp:63 rc.cpp:24 rc.cpp:63
+#: po/rc.cpp:15 po/rc.cpp:33 rc.cpp:15 rc.cpp:33
 msgid "Font weight"
 msgstr ""
 
-#. i18n: file: appearance.ui:250
-#. i18n: ectx: property (toolTip), widget (QSpinBox, spinBox_fontWeightActive)
-#. i18n: file: appearance.ui:571
-#. i18n: ectx: property (toolTip), widget (QSpinBox, spinBox_fontWeightInactive)
-#. i18n: file: appearance.ui:250
-#. i18n: ectx: property (toolTip), widget (QSpinBox, spinBox_fontWeightActive)
-#. i18n: file: appearance.ui:571
-#. i18n: ectx: property (toolTip), widget (QSpinBox, spinBox_fontWeightInactive)
-#: po/rc.cpp:27 po/rc.cpp:66 rc.cpp:27 rc.cpp:66
-msgid "Set font weight"
-msgstr ""
-
-#. i18n: file: appearance.ui:282
+#. i18n: file: appearance.ui:270
 #. i18n: ectx: property (text), widget (QLabel, label_fontStyleActive)
-#. i18n: file: appearance.ui:603
+#. i18n: file: appearance.ui:576
 #. i18n: ectx: property (text), widget (QLabel, label_fontStyleInactive)
-#. i18n: file: appearance.ui:282
+#. i18n: file: appearance.ui:270
 #. i18n: ectx: property (text), widget (QLabel, label_fontStyleActive)
-#. i18n: file: appearance.ui:603
+#. i18n: file: appearance.ui:576
 #. i18n: ectx: property (text), widget (QLabel, label_fontStyleInactive)
-#: po/rc.cpp:30 po/rc.cpp:69 rc.cpp:30 rc.cpp:69
+#: po/rc.cpp:18 po/rc.cpp:36 rc.cpp:18 rc.cpp:36
 msgid "Font style"
 msgstr ""
 
-#. i18n: file: appearance.ui:314
-#. i18n: ectx: property (toolTip), widget (QComboBox, comboBox_fontStyleActive)
-#. i18n: file: appearance.ui:635
-#. i18n: ectx: property (toolTip), widget (QComboBox, comboBox_fontStyleInactive)
-#. i18n: file: appearance.ui:314
-#. i18n: ectx: property (toolTip), widget (QComboBox, comboBox_fontStyleActive)
-#. i18n: file: appearance.ui:635
-#. i18n: ectx: property (toolTip), widget (QComboBox, comboBox_fontStyleInactive)
-#: po/rc.cpp:33 po/rc.cpp:72 rc.cpp:33 rc.cpp:72
-msgid "Set font style"
-msgstr ""
-
-#. i18n: file: appearance.ui:318
-#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_fontStyleActive)
-#. i18n: file: appearance.ui:639
-#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_fontStyleInactive)
-#. i18n: file: appearance.ui:318
-#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_fontStyleActive)
-#. i18n: file: appearance.ui:639
-#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_fontStyleInactive)
-#: po/rc.cpp:36 po/rc.cpp:75 rc.cpp:36 rc.cpp:75
-msgid "normal"
-msgstr ""
-
-#. i18n: file: appearance.ui:323
-#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_fontStyleActive)
-#. i18n: file: appearance.ui:644
-#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_fontStyleInactive)
-#. i18n: file: appearance.ui:323
-#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_fontStyleActive)
-#. i18n: file: appearance.ui:644
-#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_fontStyleInactive)
-#: po/rc.cpp:39 po/rc.cpp:78 rc.cpp:39 rc.cpp:78
-msgid "italic"
-msgstr ""
-
-#. i18n: file: appearance.ui:351
+#. i18n: file: appearance.ui:336
 #. i18n: ectx: attribute (title), widget (QWidget, tab_inactive)
-#: po/rc.cpp:42 rc.cpp:42
+#: po/rc.cpp:21 rc.cpp:21
 msgid "Inactive desktop"
 msgstr ""
 
 #. i18n: file: widget.ui:41
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_background)
-#: po/rc.cpp:81 rc.cpp:81
+#: po/rc.cpp:39 rc.cpp:39
 msgid "Enable background"
 msgstr ""
 
 #. i18n: file: widget.ui:48
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_layout)
-#: po/rc.cpp:84 rc.cpp:84
+#: po/rc.cpp:42 rc.cpp:42
 msgid "Vertical layout"
 msgstr ""
 
 #. i18n: file: widget.ui:55
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_leftStretch)
-#: po/rc.cpp:87 rc.cpp:87
+#: po/rc.cpp:45 rc.cpp:45
 msgid "Add stretch to left/top of the layout"
 msgstr ""
 
 #. i18n: file: widget.ui:62
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_rightStretch)
-#: po/rc.cpp:90 rc.cpp:90
+#: po/rc.cpp:48 rc.cpp:48
 msgid "Add stretch to right/bottom of the layout"
 msgstr ""
 
 #. i18n: file: widget.ui:77
 #. i18n: ectx: property (text), widget (QLabel, label_interval)
-#: po/rc.cpp:93 rc.cpp:93
+#: po/rc.cpp:51 rc.cpp:51
 msgid "Time interval"
 msgstr ""
 
 #. i18n: file: widget.ui:132
 #. i18n: ectx: property (text), widget (QLabel, label_mark)
-#: po/rc.cpp:96 rc.cpp:96
+#: po/rc.cpp:54 rc.cpp:54
 msgid "Mark"
 msgstr ""
 
 #. i18n: file: widget.ui:139
 #. i18n: ectx: property (toolTip), widget (QComboBox, comboBox_mark)
-#: po/rc.cpp:99 rc.cpp:99
+#: po/rc.cpp:57 rc.cpp:57
 msgid "A mark which will be shown if this desktop is active"
 msgstr ""
 
 #. i18n: file: widget.ui:229
 #. i18n: ectx: property (text), widget (QLabel, label_pattern)
-#: po/rc.cpp:102 rc.cpp:102
+#: po/rc.cpp:60 rc.cpp:60
 msgid "Pattern"
 msgstr ""
 
 #. i18n: file: widget.ui:239
 #. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_pattern)
-#: po/rc.cpp:105 rc.cpp:105
+#: po/rc.cpp:63 rc.cpp:63
 msgid ""
 "$mark - show mark if the current desktop is active\n"
 "$name - desktop name\n"
@@ -241,22 +157,22 @@ msgstr ""
 
 #. i18n: file: widget.ui:256
 #. i18n: ectx: property (text), widget (QLabel, label_desktopcmd)
-#: po/rc.cpp:111 rc.cpp:111
+#: po/rc.cpp:69 rc.cpp:69
 msgid "Command to change desktop"
 msgstr ""
 
 #. i18n: file: widget.ui:263
 #. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_desktopcmd)
-#: po/rc.cpp:114 rc.cpp:114
+#: po/rc.cpp:72 rc.cpp:72
 msgid "Command which will change the current desktop"
 msgstr ""
 
-#: po/rc.cpp:115 rc.cpp:115
+#: po/rc.cpp:73 rc.cpp:73
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
 
-#: po/rc.cpp:116 rc.cpp:116
+#: po/rc.cpp:74 rc.cpp:74
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""

@@ -87,9 +87,6 @@
                  <height>23</height>
                 </size>
                </property>
-               <property name="toolTip">
-                <string>Set font family</string>
-               </property>
               </widget>
              </item>
             </layout>
@@ -135,9 +132,6 @@
                  <width>100</width>
                  <height>23</height>
                 </size>
-               </property>
-               <property name="toolTip">
-                <string>Set font size</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -197,9 +191,6 @@
                  <height>23</height>
                 </size>
                </property>
-               <property name="toolTip">
-                <string>Set font color</string>
-               </property>
               </widget>
              </item>
             </layout>
@@ -245,9 +236,6 @@
                  <width>100</width>
                  <height>23</height>
                 </size>
-               </property>
-               <property name="toolTip">
-                <string>Set font weight</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -310,17 +298,14 @@
                  <height>23</height>
                 </size>
                </property>
-               <property name="toolTip">
-                <string>Set font style</string>
-               </property>
                <item>
                 <property name="text">
-                 <string>normal</string>
+                 <string notr="true">normal</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>italic</string>
+                 <string notr="true">italic</string>
                 </property>
                </item>
               </widget>
@@ -408,9 +393,6 @@
                  <height>23</height>
                 </size>
                </property>
-               <property name="toolTip">
-                <string>Set font family</string>
-               </property>
               </widget>
              </item>
             </layout>
@@ -456,9 +438,6 @@
                  <width>100</width>
                  <height>23</height>
                 </size>
-               </property>
-               <property name="toolTip">
-                <string>Set font size</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -518,9 +497,6 @@
                  <height>23</height>
                 </size>
                </property>
-               <property name="toolTip">
-                <string>Set font color</string>
-               </property>
               </widget>
              </item>
             </layout>
@@ -566,9 +542,6 @@
                  <width>100</width>
                  <height>23</height>
                 </size>
-               </property>
-               <property name="toolTip">
-                <string>Set font weight</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -631,17 +604,14 @@
                  <height>23</height>
                 </size>
                </property>
-               <property name="toolTip">
-                <string>Set font style</string>
-               </property>
                <item>
                 <property name="text">
-                 <string>normal</string>
+                 <string notr="true">normal</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>italic</string>
+                 <string notr="true">italic</string>
                 </property>
                </item>
               </widget>
