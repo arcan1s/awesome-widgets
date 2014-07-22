@@ -1,5 +1,5 @@
 --- README.md.orig	2014-07-08 12:10:47.217925504 +0400
-+++ README.md	2014-07-09 18:54:32.749203368 +0400
++++ README.md	2014-07-22 09:48:59.337749400 +0400
 @@ -60,6 +60,9 @@
  * tag `$ps` - list of running processes
  * tag `$pkgcountN` - number of packages, which available to upgrade for command N. For example, `$pkgcount0`

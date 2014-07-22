@@ -95,16 +95,17 @@ QStringList ExtendedSysMon::getDesktopNames()
     QStringList list;
     QString fileName = KGlobal::dirs()->findResource("config", "kwinrc");
     if (debug) qDebug() << "[DE]" << "[getDesktopNames]" << ":" << "Configuration file" << fileName;
-    QFile confFile(fileName);
-    if (!confFile.open(QIODevice::ReadOnly)) return list;
+    QFile configFile(fileName);
+    if (!configFile.open(QIODevice::ReadOnly)) return list;
 
     QString fileStr;
     QStringList value;
     bool desktopSection = false;
     while (true) {
-        fileStr = QString(confFile.readLine()).trimmed();
-        if (fileStr[0] == QChar('#')) continue;
-        if (fileStr[0] == QChar(';')) continue;
+        fileStr = QString(configFile.readLine()).trimmed();
+        if ((fileStr.isEmpty()) && (!configFile.atEnd())) continue;
+        if ((fileStr[0] == QChar('#')) && (!configFile.atEnd())) continue;
+        if ((fileStr[0] == QChar(';')) && (!configFile.atEnd())) continue;
         if (fileStr[0] == QChar('[')) desktopSection = false;
         if (fileStr == QString("[Desktops]")) desktopSection = true;
         if (desktopSection) {
@@ -116,10 +117,9 @@ QStringList ExtendedSysMon::getDesktopNames()
                     list.append(value.join(QChar('=')));
             }
         }
-        if (confFile.atEnd())
-            break;
+        if (configFile.atEnd()) break;
     }
-    confFile.close();
+    configFile.close();
     return list;
 }
 
@@ -169,27 +169,27 @@ void ExtendedSysMon::readConfiguration()
 
     QString fileName = KGlobal::dirs()->findResource("config", "extsysmon.conf");
     if (debug) qDebug() << "[DE]" << "[readConfiguration]" << ":" << "Configuration file" << fileName;
-    QFile confFile(fileName);
-    if (!confFile.open(QIODevice::ReadOnly)) {
+    QFile configFile(fileName);
+    if (!configFile.open(QIODevice::ReadOnly)) {
         configuration = updateConfiguration(rawConfig);
         return;
     }
     QString fileStr;
     QStringList value;
     while (true) {
-        fileStr = QString(confFile.readLine()).trimmed();
-        if (fileStr[0] == QChar('#')) continue;
-        if (fileStr[0] == QChar(';')) continue;
+        fileStr = QString(configFile.readLine()).trimmed();
+        if ((fileStr.isEmpty()) && (!configFile.atEnd())) continue;
+        if ((fileStr[0] == QChar('#')) && (!configFile.atEnd())) continue;
+        if ((fileStr[0] == QChar(';')) && (!configFile.atEnd())) continue;
         if (fileStr.contains(QChar('='))) {
             value.clear();
             for (int i=1; i<fileStr.split(QChar('=')).count(); i++)
                 value.append(fileStr.split(QChar('='))[i]);
             rawConfig[fileStr.split(QChar('='))[0]] = value.join(QChar('='));
         }
-        if (confFile.atEnd())
-            break;
+        if (configFile.atEnd()) break;
     }
-    confFile.close();
+    configFile.close();
     configuration = updateConfiguration(rawConfig);
 }
 

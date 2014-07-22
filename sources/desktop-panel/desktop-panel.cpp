@@ -43,6 +43,7 @@ CustomPlasmaLabel::CustomPlasmaLabel(DesktopPanel *wid, const int num)
         debug = false;
 
     if (debug) qDebug() << "[PTM-DP]" << "Init label" << num;
+
     number = num;
     widget = wid;
 }
@@ -56,6 +57,7 @@ CustomPlasmaLabel::~CustomPlasmaLabel()
 int CustomPlasmaLabel::getNumber()
 {
     if (debug) qDebug() << "[PTM-DP]" << "[" << number << "]" << "[getNumber]";
+
     return number;
 }
 
@@ -64,6 +66,7 @@ void CustomPlasmaLabel::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (debug) qDebug() << "[PTM-DP]" << "[" << number << "]" << "[mouseMoveEvent]";
     if (debug) qDebug() << "[PTM-DP]" << "[" << number << "]" << "[mouseMoveEvent]" << "Get signal" << event->button();
+
     if (event->button() == Qt::LeftButton)
         widget->setCurrentDesktop(number);
 }
@@ -101,6 +104,7 @@ DesktopPanel::~DesktopPanel()
 void DesktopPanel::init()
 {
     if (debug) qDebug() << "[PTM-DP]" << "[init]";
+
     extsysmonEngine = dataEngine(QString("ext-sysmon"));
 
     layout = new QGraphicsLinearLayout();
@@ -117,19 +121,21 @@ void DesktopPanel::init()
 QStringList DesktopPanel::getDesktopNames()
 {
     if (debug) qDebug() << "[PTM-DP]" << "[getDesktopNames]";
+
     QStringList list;
     QString fileName = KGlobal::dirs()->findResource("config", "kwinrc");
     if (debug) qDebug() << "[PTM-DP]" << "[getDesktopNames]" << ":" << "Configuration file" << fileName;
-    QFile confFile(fileName);
-    if (!confFile.open(QIODevice::ReadOnly)) return list;
+    QFile configFile(fileName);
+    if (!configFile.open(QIODevice::ReadOnly)) return list;
 
     QString fileStr;
     QStringList value;
     bool desktopSection = false;
     while (true) {
-        fileStr = QString(confFile.readLine()).trimmed();
-        if (fileStr[0] == QChar('#')) continue;
-        if (fileStr[0] == QChar(';')) continue;
+        fileStr = QString(configFile.readLine()).trimmed();
+        if ((fileStr.isEmpty()) && (!configFile.atEnd())) continue;
+        if ((fileStr[0] == QChar('#')) && (!configFile.atEnd())) continue;
+        if ((fileStr[0] == QChar(';')) && (!configFile.atEnd())) continue;
         if (fileStr[0] == QChar('[')) desktopSection = false;
         if (fileStr == QString("[Desktops]")) desktopSection = true;
         if (desktopSection) {
@@ -141,10 +147,10 @@ QStringList DesktopPanel::getDesktopNames()
                     list.append(value.join(QChar('=')));
             }
         }
-        if (confFile.atEnd())
-            break;
+        if (configFile.atEnd()) break;
     }
-    confFile.close();
+    configFile.close();
+
     return list;
 }
 
@@ -177,6 +183,7 @@ QString DesktopPanel::parsePattern(const QString rawLine, const int num)
         if (debug) qDebug() << "[PTM-DP]" << "[parsePattern]" << "Found total";
         line = line.split(QString("$total"))[0] + QString::number(desktopNames.count()) + line.split(QString("$total"))[1];
     }
+
     return line;
 }
 
@@ -206,7 +213,7 @@ void DesktopPanel::reinit()
     if (configuration[QString("layout")].toInt() == 0)
         layout->setOrientation(Qt::Horizontal);
     else
-        layout->setOrientation(Qt::Horizontal);
+        layout->setOrientation(Qt::Vertical);
     // left stretch
     if (configuration[QString("leftStretch")].toInt() == 2)
         layout->addStretch(1);
@@ -236,6 +243,7 @@ int DesktopPanel::setCurrentDesktop(const int number)
     command.waitForFinished(-1);
     int status = command.exitCode();
     if (debug) qDebug() << "[PTM-DP]" << "[setCurrentDesktop]" << "Cmd returns " << status;
+
     return status;
 }
 
@@ -243,6 +251,7 @@ int DesktopPanel::setCurrentDesktop(const int number)
 void DesktopPanel::updateText()
 {
     if (debug) qDebug() << "[PTM-DP]" << "[updateText]";
+
     if (labels.isEmpty()) return;
     QString line, text;
     for (int i=0; i<labels.count(); i++) {
@@ -263,6 +272,7 @@ void DesktopPanel::dataUpdated(const QString &sourceName, const Plasma::DataEngi
 {
     if (debug) qDebug() << "[PTM-DP]" << "[dataUpdated]";
     if (debug) qDebug() << "[PTM-DP]" << "[dataUpdated]" << ":" << "Run function with source name" << sourceName;
+
     if (data.keys().count() == 0)
         return;
     if (sourceName == QString("desktop")) {
@@ -276,6 +286,7 @@ void DesktopPanel::dataUpdated(const QString &sourceName, const Plasma::DataEngi
 void DesktopPanel::createConfigurationInterface(KConfigDialog *parent)
 {
     if (debug) qDebug() << "[PTM-DP]" << "[createConfigurationInterface]";
+
     QWidget *appWidget = new QWidget;
     uiAppConfig.setupUi(appWidget);
     QWidget *configWidget = new QWidget;
@@ -345,6 +356,7 @@ void DesktopPanel::createConfigurationInterface(KConfigDialog *parent)
 void DesktopPanel::configAccepted()
 {
     if (debug) qDebug() << "[PTM-DP]" << "[configAccepted]";
+
     extsysmonEngine->disconnectSource(QString("desktop"), this);
     KConfigGroup cg = config();
 
@@ -374,9 +386,10 @@ void DesktopPanel::configAccepted()
 void DesktopPanel::configChanged()
 {
     if (debug) qDebug() << "[PTM-DP]" << "[configChanged]";
+
     KConfigGroup cg = config();
 
-    configuration[QString("background")] = cg.readEntry("background", "0");
+    configuration[QString("background")] = cg.readEntry("background", "2");
     configuration[QString("desktopcmd")] = cg.readEntry("desktopcmd", "qdbus org.kde.kwin /KWin setCurrentDesktop $number");
     configuration[QString("interval")] = cg.readEntry("interval", "1000");
     configuration[QString("layout")] = cg.readEntry("layout", "0");
@@ -394,26 +407,26 @@ void DesktopPanel::configChanged()
     QString fontColor = cg.readEntry("currentFontColor", "#ff0000");
     int fontWeight = cg.readEntry("currentFontWeight", 400);
     QString fontStyle = cg.readEntry("currentFontStyle", "normal");
-    currentFormatLine[0] = ("<p align=\"center\"><span style=\" font-family:'" + fontFamily + \
+    currentFormatLine[0] = ("<pre><p align=\"center\"><span style=\" font-family:'" + fontFamily + \
                      "'; font-style:" + fontStyle + \
                      "; font-size:" + QString::number(fontSize) + \
                      "pt; font-weight:" + QString::number(fontWeight) + \
                      "; color:" + fontColor + \
-                     ";\"><pre>");
-    currentFormatLine[1] = ("</pre></span></p>");
+                     ";\">");
+    currentFormatLine[1] = ("</span></p></pre>");
 
     fontFamily = cg.readEntry("fontFamily", "Terminus");
     fontSize = cg.readEntry("fontSize", 10);
     fontColor = cg.readEntry("fontColor", "#000000");
     fontWeight = cg.readEntry("fontWeight", 400);
     fontStyle = cg.readEntry("fontStyle", "normal");
-    formatLine[0] = ("<p align=\"center\"><span style=\" font-family:'" + fontFamily + \
+    formatLine[0] = ("<pre><p align=\"center\"><span style=\" font-family:'" + fontFamily + \
                      "'; font-style:" + fontStyle + \
                      "; font-size:" + QString::number(fontSize) + \
                      "pt; font-weight:" + QString::number(fontWeight) + \
                      "; color:" + fontColor + \
-                     ";\"><pre>");
-    formatLine[1] = ("</pre></span></p>");
+                     ";\">");
+    formatLine[1] = ("</span></p></pre>");
 
     reinit();
 }
