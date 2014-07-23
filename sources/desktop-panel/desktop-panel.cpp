@@ -227,6 +227,7 @@ void DesktopPanel::reinit()
         layout->addStretch(1);
 
     updateText();
+    resize(10, 10);
 }
 
 
@@ -263,7 +264,6 @@ void DesktopPanel::updateText()
             text = formatLine[0] + line + formatLine[1];
         labels[i]->setText(text);
     }
-    resize(1, 1);
 }
 
 
