@@ -300,6 +300,8 @@ Additional information
 TODO (wish list)
 ----------------
 
+* player control buttons to the tooltip
+
 Links
 -----
 
