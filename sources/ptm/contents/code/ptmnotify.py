@@ -144,24 +144,15 @@ class PTMNotify:
                 artist = "N\\A"
                 album = "N\\A"
                 title = "N\\A"
-                if (len(commands.getoutput("pgrep amarok")) > 0):
-                    player = "amarok"
-                elif (len(commands.getoutput("pgrep clementine")) > 0):
-                    player = "clementine"
-                elif (len(commands.getoutput("pgrep mpd")) > 0):
+                if (len(commands.getoutput("pgrep mpd")) > 0):
                     player = "mpd"
-                elif (len(commands.getoutput("pgrep qmmp")) > 0):
-                    player = "qmmp"
                 else:
-                    player = ""
-                if (player == "amarok"):
-                    artist = commands.getoutput("qdbus org.kde.amarok /Player GetMetadata 2> /dev/null | grep albumartist: | cut -c14-")
-                    album = commands.getoutput("qdbus org.kde.amarok /Player GetMetadata 2> /dev/null | grep album: | cut -c8-")
-                    title = commands.getoutput("qdbus org.kde.amarok /Player GetMetadata 2> /dev/null | grep title: | cut -c8-")
-                elif (player == "clementine"):
-                    artist = commands.getoutput("qdbus org.mpris.clementine /Player GetMetadata 2> /dev/null | grep albumartist: | cut -c14-")
-                    album = commands.getoutput("qdbus org.mpris.clementine /Player GetMetadata 2> /dev/null | grep album: | cut -c8-")
-                    title = commands.getoutput("qdbus org.mpris.clementine /Player GetMetadata 2> /dev/null | grep title: | cut -c8-")
+                    player = "mpris"
+                if (player == "mpris"):
+                    name = commands.getoutput("qdbus 'org.mpris.MediaPlayer2.*'").split('\n')[0].split('.')[3]
+                    artist = commands.getoutput("qdbus org.mpris." + name + " /Player GetMetadata 2> /dev/null | grep albumartist: | cut -c14-")
+                    album = commands.getoutput("qdbus org.mpris." + name + " /Player GetMetadata 2> /dev/null | grep album: | cut -c8-")
+                    title = commands.getoutput("qdbus org.mpris." + name + " /Player GetMetadata 2> /dev/null | grep title: | cut -c8-")
                 elif (player == "mpd"):
                     output = commands.getoutput("echo 'currentsong\nclose' | curl --connect-timeout 1 -fsm 3 telnet://localhost:6600 2> /dev/null")
                     for line in output.split("\n"):
@@ -171,10 +162,6 @@ class PTMNotify:
                             album = line.split(": ")[1]
                         elif (line.split(": ")[0] == "Title"):
                             title = line.split(": ")[1]
-                elif (player == "qmmp"):
-                    artist = commands.getoutput("qmmp --nowplaying '%if(%p,%p,Unknown)' 2> /dev/null")
-                    album = commands.getoutput("qmmp --nowplaying '%if(%a,%a,Unknown)' 2> /dev/null")
-                    title = commands.getoutput("qmmp --nowplaying '%if(%t,%t,Unknown)' 2> /dev/null")
                 text = text + "Artist: %s\nAlbum: %s\nTitle: %s" % (artist, album, title)
             except:
                 text = "Something wrong"

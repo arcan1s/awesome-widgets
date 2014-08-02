@@ -86,7 +86,7 @@ QString ExtendedSysMon::getAutoGpu()
     if (qoutput.toLower().contains("nvidia"))
         gpu = QString("nvidia");
     else if (qoutput.toLower().contains("radeon"))
-        gpu = QString("ati");   
+        gpu = QString("ati");
     if (debug) qDebug() << "[DE]" << "[getAutoGpu]" << ":" << "Device" << gpu;
 
     return gpu;
@@ -97,17 +97,18 @@ QString ExtendedSysMon::getAutoMpris()
 {
     if (debug) qDebug() << "[DE]" << "[getAutoMpris]";
 
-   QProcess command;
-   QString mpris;
-   QString cmd = QString("bash -c \"qdbus 'org.mpris.MediaPlayer2.*'\"");
-   if (debug) qDebug() << "[DE]" << "[getAutoMpris]" << ":" << "Run cmd" << cmd;
-   command.start(cmd);
-   command.waitForFinished(-1);
-   QString cmdOutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput()).trimmed();
-   mpris = cmdOutput.split(QChar('\n'))[0].split(QChar('.'))[3];
+    QProcess command;
+    QString mpris;
+    QString cmd = QString("bash -c \"qdbus 'org.mpris.MediaPlayer2.*'\"");
+    if (debug) qDebug() << "[DE]" << "[getAutoMpris]" << ":" << "Run cmd" << cmd;
+    command.start(cmd);
+    command.waitForFinished(-1);
+    QString cmdOutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput()).trimmed();
+    if (cmdOutput.split(QChar('\n'))[0].split(QChar('.')).count() > 3)
+        mpris = cmdOutput.split(QChar('\n'))[0].split(QChar('.'))[3];
 
-   if (debug) qDebug() << "[DE]" << "[getAutoMpris]" << ":" << "Player found" << mpris;
-   return mpris;
+    if (debug) qDebug() << "[DE]" << "[getAutoMpris]" << ":" << "Player found" << mpris;
+    return mpris;
 }
 
 
