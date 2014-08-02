@@ -52,6 +52,7 @@ ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList& args)
 QString ExtendedSysMon::getAllHdd()
 {
     if (debug) qDebug() << "[DE]" << "[getAllHdd]";
+
     QProcess command;
     QStringList devices;
     QString cmd = QString("find /dev -name [hms]d[a-z]");
@@ -64,6 +65,7 @@ QString ExtendedSysMon::getAllHdd()
     for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++)
         devices.append(qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i]);
     if (debug) qDebug() << "[DE]" << "[getAllHdd]" << ":" << "Device list" << devices;
+
     return devices.join(QChar(','));
 }
 
@@ -71,6 +73,7 @@ QString ExtendedSysMon::getAllHdd()
 QString ExtendedSysMon::getAutoGpu()
 {
     if (debug) qDebug() << "[DE]" << "[getAutoGpu]";
+
     QProcess command;
     QString gpu = QString("disable");
     QString cmd = QString("lspci");
@@ -83,15 +86,35 @@ QString ExtendedSysMon::getAutoGpu()
     if (qoutput.toLower().contains("nvidia"))
         gpu = QString("nvidia");
     else if (qoutput.toLower().contains("radeon"))
-        gpu = QString("ati");
+        gpu = QString("ati");   
     if (debug) qDebug() << "[DE]" << "[getAutoGpu]" << ":" << "Device" << gpu;
+
     return gpu;
+}
+
+
+QString ExtendedSysMon::getAutoMpris()
+{
+    if (debug) qDebug() << "[DE]" << "[getAutoMpris]";
+
+   QProcess command;
+   QString mpris;
+   QString cmd = QString("bash -c \"qdbus 'org.mpris.MediaPlayer2.*'\"");
+   if (debug) qDebug() << "[DE]" << "[getAutoMpris]" << ":" << "Run cmd" << cmd;
+   command.start(cmd);
+   command.waitForFinished(-1);
+   QString cmdOutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput()).trimmed();
+   mpris = cmdOutput.split(QChar('\n'))[0].split(QChar('.'))[3];
+
+   if (debug) qDebug() << "[DE]" << "[getAutoMpris]" << ":" << "Player found" << mpris;
+   return mpris;
 }
 
 
 QStringList ExtendedSysMon::getDesktopNames()
 {
     if (debug) qDebug() << "[DE]" << "[getDesktopNames]";
+
     QStringList list;
     QString fileName = KGlobal::dirs()->findResource("config", "kwinrc");
     if (debug) qDebug() << "[DE]" << "[getDesktopNames]" << ":" << "Configuration file" << fileName;
@@ -120,6 +143,7 @@ QStringList ExtendedSysMon::getDesktopNames()
         if (configFile.atEnd()) break;
     }
     configFile.close();
+
     return list;
 }
 
@@ -127,6 +151,7 @@ QStringList ExtendedSysMon::getDesktopNames()
 QStringList ExtendedSysMon::sources() const
 {
     if (debug) qDebug() << "[DE]" << "[sources]";
+
     QStringList source;
     source.append(QString("custom"));
     source.append(QString("desktop"));
@@ -137,6 +162,7 @@ QStringList ExtendedSysMon::sources() const
     source.append(QString("player"));
     source.append(QString("ps"));
     if (debug) qDebug() << "[DE]" << "[sources]" << ":" << "Sources" << source;
+
     return source;
 }
 
@@ -144,6 +170,7 @@ QStringList ExtendedSysMon::sources() const
 void ExtendedSysMon::initValues()
 {
     if (debug) qDebug() << "[DE]" << "[initValues]";
+
     QStringList sourceList = sources();
     for (int i=0; i<sourceList.count(); i++)
         sourceRequestEvent(sourceList[i]);
@@ -153,6 +180,7 @@ void ExtendedSysMon::initValues()
 void ExtendedSysMon::readConfiguration()
 {
     if (debug) qDebug() << "[DE]" << "[readConfiguration]";
+
     // pre-setup
     QMap<QString, QString> rawConfig;
     rawConfig[QString("CUSTOM")] = QString("wget -qO- http://ifconfig.me/ip");
@@ -163,9 +191,10 @@ void ExtendedSysMon::readConfiguration()
     rawConfig[QString("HDDTEMPCMD")] = QString("sudo hddtemp");
     rawConfig[QString("MPDADDRESS")] = QString("localhost");
     rawConfig[QString("MPDPORT")] = QString("6600");
+    rawConfig[QString("MPRIS")] = QString("auto");
     rawConfig[QString("PKGCMD")] = QString("pacman -Qu");
     rawConfig[QString("PKGNULL")] = QString("0");
-    rawConfig[QString("PLAYER")] = QString("amarok");
+    rawConfig[QString("PLAYER")] = QString("mpris");
 
     QString fileName = KGlobal::dirs()->findResource("config", "extsysmon.conf");
     if (debug) qDebug() << "[DE]" << "[readConfiguration]" << ":" << "Configuration file" << fileName;
@@ -190,6 +219,7 @@ void ExtendedSysMon::readConfiguration()
         if (configFile.atEnd()) break;
     }
     configFile.close();
+
     configuration = updateConfiguration(rawConfig);
 }
 
@@ -197,6 +227,7 @@ void ExtendedSysMon::readConfiguration()
 void ExtendedSysMon::setKeys()
 {
     if (debug) qDebug() << "[DE]" << "[setKeys]";
+
     QString key, source;
     // custom
     source = QString("custom");
@@ -254,6 +285,7 @@ void ExtendedSysMon::setKeys()
     setData(source, key, QString(""));
     key = QString("psTotal");
     setData(source, key, QString("0"));
+
     // initialization of values
     initValues();
 }
@@ -262,6 +294,7 @@ void ExtendedSysMon::setKeys()
 void ExtendedSysMon::setProcesses()
 {
     if (debug) qDebug() << "[DE]" << "[setProcesses]";
+
     // custom
     for (int i=0; i<configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts).count(); i++) {
         processes[QString("custom")].append(new QProcess);
@@ -309,6 +342,7 @@ void ExtendedSysMon::setProcesses()
 QMap<QString, QString> ExtendedSysMon::updateConfiguration(const QMap<QString, QString> rawConfig)
 {
     if (debug) qDebug() << "[DE]" << "[updateConfiguration]";
+
     QMap<QString, QString> config;
     QString key, value;
     // remove spaces and copy source map
@@ -358,15 +392,14 @@ QMap<QString, QString> ExtendedSysMon::updateConfiguration(const QMap<QString, Q
          i++)
         config[QString("PKGNULL")] += QString(",0");
     // player
-    if ((config[QString("PLAYER")] != QString("amarok")) &&
-        (config[QString("PLAYER")] != QString("clementine")) &&
-        (config[QString("PLAYER")] != QString("mpd")) &&
-        (config[QString("PLAYER")] != QString("qmmp")))
-        config[QString("PLAYER")] = QString("amarok");
+    if ((config[QString("PLAYER")] != QString("mpd")) &&
+        (config[QString("PLAYER")] != QString("mpris")))
+        config[QString("PLAYER")] = QString("mpris");
 
     for (int i=0; i<config.keys().count(); i++)
         if (debug) qDebug() << "[DE]" << "[updateConfiguration]" << ":" <<
             config.keys()[i] + QString("=") + config[config.keys()[i]];
+
     return config;
 }
 
@@ -376,6 +409,7 @@ void ExtendedSysMon::getCurrentDesktop(const QString cmd)
     if (debug) qDebug() << "[DE]" << "[getCurrentDesktop]";
     if (debug) qDebug() << "[DE]" << "[getCurrentDesktop]" << ":" << "Run function with cmd" << cmd;
     if (debug) qDebug() << "[DE]" << "[getCurrentDesktop]" << ":" << "Run cmd" << QString("bash -c \"") + cmd + QString("\"");
+
     if ((processes[QString("desktop")][0]->state() != QProcess::Running) &&
         (processes[QString("desktop")][0]->state() != QProcess::Starting))
         processes[QString("desktop")][0]->start(QString("bash -c \"") + cmd + QString("\""));
@@ -385,9 +419,9 @@ void ExtendedSysMon::getCurrentDesktop(const QString cmd)
 void ExtendedSysMon::setCurrentDesktop(int exitCode, QProcess::ExitStatus exitStatus)
 {
     Q_UNUSED(exitStatus)
-
     if (debug) qDebug() << "[DE]" << "[setCurrentDesktop]";
     if (debug) qDebug() << "[DE]" << "[setCurrentDesktop]" << ":" << "Cmd returns" << exitCode;
+
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(processes[QString("desktop")][0]->readAllStandardOutput()).trimmed();
     int number = qoutput.toInt();
     QString key, source, value;
@@ -410,6 +444,7 @@ void ExtendedSysMon::getCustomCmd(const QString cmd, const int number)
     if (debug) qDebug() << "[DE]" << "[getCustomCmd]" << ":" << "Run function with cmd" << cmd;
     if (debug) qDebug() << "[DE]" << "[getCustomCmd]" << ":" << "Run function with number" << number;
     if (debug) qDebug() << "[DE]" << "[getCustomCmd]" << ":" << "Run cmd" << QString("bash -c \"") + cmd + QString("\"");
+
     if ((processes[QString("custom")][number]->state() != QProcess::Running) &&
         (processes[QString("custom")][number]->state() != QProcess::Starting))
         processes[QString("custom")][number]->start(QString("bash -c \"") + cmd + QString("\""));
@@ -419,9 +454,9 @@ void ExtendedSysMon::getCustomCmd(const QString cmd, const int number)
 void ExtendedSysMon::setCustomCmd(int exitCode, QProcess::ExitStatus exitStatus)
 {
     Q_UNUSED(exitStatus)
-
     if (debug) qDebug() << "[DE]" << "[setCustomCmd]";
     if (debug) qDebug() << "[DE]" << "[setCustomCmd]" << ":" << "Cmd returns" << exitCode;
+
     for (int i=0; i<processes[QString("custom")].count(); i++) {
         QString value = QString("");
         value = QTextCodec::codecForMib(106)->toUnicode(processes[QString("custom")][i]->readAllStandardOutput()).trimmed();
@@ -440,6 +475,7 @@ void ExtendedSysMon::getGpu(const QString device)
 {
     if (debug) qDebug() << "[DE]" << "[getGpu]";
     if (debug) qDebug() << "[DE]" << "[getGpu]" << ":" << "Run function with device" << device;
+
     if ((device != QString("nvidia")) && (device != QString("ati")))
         return;
     QString cmd = QString("");
@@ -457,9 +493,9 @@ void ExtendedSysMon::getGpu(const QString device)
 void ExtendedSysMon::setGpu(int exitCode, QProcess::ExitStatus exitStatus)
 {
     Q_UNUSED(exitStatus)
-
     if (debug) qDebug() << "[DE]" << "[setGpu]";
     if (debug) qDebug() << "[DE]" << "[setGpu]" << ":" << "Cmd returns" << exitCode;
+
     float value = 0.0;
     QString qoutput;
     if (configuration[QString("GPUDEV")] == QString("nvidia")) {
@@ -487,6 +523,7 @@ void ExtendedSysMon::setGpu(int exitCode, QProcess::ExitStatus exitStatus)
     if (debug) qDebug() << "[DE]" << "[setGpu]" << ":" << "Return" << value;
     QString source = QString("gpu");
     QString key = QString("GPU");
+
     setData(source, key, value);
 }
 
@@ -495,6 +532,7 @@ void ExtendedSysMon::getGpuTemp(const QString device)
 {
     if (debug) qDebug() << "[DE]" << "[getGpuTemp]";
     if (debug) qDebug() << "[DE]" << "[getGpuTemp]" << ":" << "Run function with device" << device;
+
     if ((device != QString("nvidia")) && (device != QString("ati")))
         return;
     QString cmd = QString("");
@@ -512,9 +550,9 @@ void ExtendedSysMon::getGpuTemp(const QString device)
 void ExtendedSysMon::setGpuTemp(int exitCode, QProcess::ExitStatus exitStatus)
 {
     Q_UNUSED(exitStatus)
-
     if (debug) qDebug() << "[DE]" << "[setGpuTemp]";
     if (debug) qDebug() << "[DE]" << "[setGpuTemp]" << ":" << "Cmd returns" << exitCode;
+
     float value = 0.0;
     QString qoutput;
     if (configuration[QString("GPUDEV")] == QString("nvidia")) {
@@ -540,6 +578,7 @@ void ExtendedSysMon::setGpuTemp(int exitCode, QProcess::ExitStatus exitStatus)
     if (debug) qDebug() << "[DE]" << "[setGpuTemp]" << ":" << "Return" << value;
     QString source = QString("gputemp");
     QString key = QString("GPUTemp");
+
     setData(source, key, value);
 }
 
@@ -551,6 +590,7 @@ void ExtendedSysMon::getHddTemp(const QString cmd, const QString device, const i
     if (debug) qDebug() << "[DE]" << "[getHddTemp]" << ":" << "Run function with device" << device;
     if (debug) qDebug() << "[DE]" << "[getHddTemp]" << ":" << "Run function with number" << number;
     if (debug) qDebug() << "[DE]" << "[getHddTemp]" << ":" << "Run cmd" << cmd + QString(" ") + device;
+
     if ((processes[QString("hddtemp")][number]->state() != QProcess::Running) &&
         (processes[QString("hddtemp")][number]->state() != QProcess::Starting))
         processes[QString("hddtemp")][number]->start(cmd + QString(" ") + device);
@@ -560,9 +600,9 @@ void ExtendedSysMon::getHddTemp(const QString cmd, const QString device, const i
 void ExtendedSysMon::setHddTemp(int exitCode, QProcess::ExitStatus exitStatus)
 {
     Q_UNUSED(exitStatus)
-
     if (debug) qDebug() << "[DE]" << "[setHddTemp]";
     if (debug) qDebug() << "[DE]" << "[setHddTemp]" << ":" << "Cmd returns" << exitCode;
+
     for (int i=0; i<processes[QString("hddtemp")].count(); i++) {
         float value = 0.0;
         QString qoutput = QString("");
@@ -583,26 +623,27 @@ void ExtendedSysMon::setHddTemp(int exitCode, QProcess::ExitStatus exitStatus)
 
 void ExtendedSysMon::getPlayerInfo(const QString playerName,
                                    const QString mpdAddress,
-                                   const QString mpdPort)
+                                   const QString mpdPort,
+                                   QString mpris)
 {
     if (debug) qDebug() << "[DE]" << "[getPlayerInfo]";
     if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run function with player" << playerName;
     if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run function with MPD parameters" <<
         mpdAddress + QString(":") + mpdPort;
+    if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run function with MPRIS" << mpris;
+
     QString cmd;
-    if (playerName == QString("amarok"))
-        // amarok
-        cmd = QString("bash -c \"qdbus org.kde.amarok /Player GetMetadata && qdbus org.kde.amarok /Player PositionGet\"");
-    else if (playerName == QString("clementine"))
-        // clementine
-        cmd = QString("bash -c \"qdbus org.mpris.clementine /Player GetMetadata && qdbus org.mpris.clementine /Player PositionGet\"");
-    else if (playerName == QString("mpd"))
+    if (playerName == QString("mpd"))
         // mpd
         cmd = QString("bash -c \"echo 'currentsong\nstatus\nclose' | curl --connect-timeout 1 -fsm 3 telnet://") +
               mpdAddress + QString(":") + mpdPort + QString("\"");
-    else if (playerName == QString("qmmp"))
-        // qmmp
-        cmd = QString("bash -c \"pgrep qmmp && qmmp --status || echo 'null'\"");
+    else if (playerName == QString("mpris")) {
+        // players which supports mpris
+        if (mpris == "auto")
+            mpris = getAutoMpris();
+        cmd = QString("bash -c \"qdbus org.mpris.%1 /Player GetMetadata && qdbus org.mpris.%1 /Player PositionGet\"")
+                .arg(mpris);
+    }
     if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Run cmd" << cmd;
     if ((processes[QString("player")][0]->state() != QProcess::Running) &&
         (processes[QString("player")][0]->state() != QProcess::Starting))
@@ -613,9 +654,9 @@ void ExtendedSysMon::getPlayerInfo(const QString playerName,
 void ExtendedSysMon::setPlayer(int exitCode, QProcess::ExitStatus exitStatus)
 {
     Q_UNUSED(exitStatus)
-
     if (debug) qDebug() << "[DE]" << "[setPlayer]";
     if (debug) qDebug() << "[DE]" << "[setPlayer]" << ":" << "Cmd returns" << exitCode;
+
     QString playerName = configuration[QString("PLAYER")];
     QString qoutput = QString("");
     QString qstr = QString("");
@@ -630,7 +671,25 @@ void ExtendedSysMon::setPlayer(int exitCode, QProcess::ExitStatus exitStatus)
     info.append(QString("0"));
     // title
     info.append(QString("unknown"));
-    if (playerName == QString("amarok")) {
+    if (playerName == QString("mpd")) {
+            qoutput = QTextCodec::codecForMib(106)->toUnicode(processes[QString("player")][0]->readAllStandardOutput());
+            for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
+                qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
+                if (qstr.split(QString(": "), QString::SkipEmptyParts).count() > 1) {
+                    if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("Album"))
+                        info[0] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
+                    else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("Artist"))
+                        info[1] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
+                    else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("time")) {
+                        info[3] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed().split(QString(":"))[0];
+                        info[2] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed().split(QString(":"))[1];
+                    }
+                    else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("Title"))
+                        info[4] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
+                }
+            }
+        }
+    else if (playerName == QString("mpris")) {
         qoutput = QTextCodec::codecForMib(106)->toUnicode(processes[QString("player")][0]->readAllStandardOutput());
         if (!qoutput.isEmpty()) {
             for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
@@ -652,67 +711,7 @@ void ExtendedSysMon::setPlayer(int exitCode, QProcess::ExitStatus exitStatus)
             }
         }
     }
-    else if (playerName == QString("clementine")) {
-        qoutput = QTextCodec::codecForMib(106)->toUnicode(processes[QString("player")][0]->readAllStandardOutput());
-        if (!qoutput.isEmpty()) {
-            for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
-                qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
-                if (qstr.split(QString(": "), QString::SkipEmptyParts).count() > 1) {
-                    if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("album"))
-                        info[0] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
-                    else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("artist"))
-                        info[1] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
-                    else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("time"))
-                        info[3] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
-                    else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("title"))
-                        info[4] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
-                }
-                else {
-                    int time = qstr.toInt() / 1000;
-                    info[2] = QString::number(time);
-                }
-            }
-        }
-    }
-    else if (playerName == QString("mpd")) {
-        qoutput = QTextCodec::codecForMib(106)->toUnicode(processes[QString("player")][0]->readAllStandardOutput());
-        for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
-            qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
-            if (qstr.split(QString(": "), QString::SkipEmptyParts).count() > 1) {
-                if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("Album"))
-                    info[0] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
-                else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("Artist"))
-                    info[1] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
-                else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("time")) {
-                    info[3] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed().split(QString(":"))[0];
-                    info[2] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed().split(QString(":"))[1];
-                }
-                else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("Title"))
-                    info[4] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
-            }
-        }
-    }
-    else if (playerName == QString("qmmp")) {
-        qoutput = QTextCodec::codecForMib(106)->toUnicode(processes[QString("player")][0]->readAllStandardOutput());
-        for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
-            qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
-            if ((qstr.split(QString(" = "), QString::SkipEmptyParts).count() > 1) || (qstr.at(0) == QChar('['))) {
-                if (qstr.split(QString(" = "), QString::SkipEmptyParts)[0] == QString("ALBUM"))
-                    info[0] = qstr.split(QString(" = "), QString::SkipEmptyParts)[1].trimmed();
-                else if (qstr.split(QString(" = "), QString::SkipEmptyParts)[0] == QString("ARTIST"))
-                    info[1] = qstr.split(QString(" = "), QString::SkipEmptyParts)[1].trimmed();
-                else if ((qstr.at(0) == QChar('[')) && (!qstr.contains("[stopped]"))) {
-                    QString time = qstr.split(QString(" "), QString::SkipEmptyParts)[2].trimmed();
-                    info[2] = QString::number(time.split(QString("/"), QString::SkipEmptyParts)[0].split(QString(":"), QString::SkipEmptyParts)[0].toInt() * 60 +
-                            time.split(QString("/"), QString::SkipEmptyParts)[0].split(QString(":"), QString::SkipEmptyParts)[1].toInt());
-                    info[3] = QString::number(time.split(QString("/"), QString::SkipEmptyParts)[1].split(QString(":"), QString::SkipEmptyParts)[0].toInt() * 60 +
-                            time.split(QString("/"), QString::SkipEmptyParts)[1].split(QString(":"), QString::SkipEmptyParts)[1].toInt());
-                }
-                else if (qstr.split(QString(" = "), QString::SkipEmptyParts)[0] == QString("TITLE"))
-                    info[4] = qstr.split(QString(" = "), QString::SkipEmptyParts)[1].trimmed();
-            }
-        }
-    }
+
     QString source = QString("player");
     QString key;
     key = QString("album");
@@ -731,6 +730,7 @@ void ExtendedSysMon::setPlayer(int exitCode, QProcess::ExitStatus exitStatus)
 void ExtendedSysMon::getPsStats()
 {
     if (debug) qDebug() << "[DE]" << "[getPsStats]";
+
     QString cmd;
     cmd = QString("ps --no-headers -o command");
     if (debug) qDebug() << "[DE]" << "[getPsStats]" << ":" << "Run cmd" << cmd;
@@ -748,9 +748,9 @@ void ExtendedSysMon::getPsStats()
 void ExtendedSysMon::setPs(int exitCode, QProcess::ExitStatus exitStatus)
 {
     Q_UNUSED(exitStatus)
-
     if (debug) qDebug() << "[DE]" << "[setPs]";
     if (debug) qDebug() << "[DE]" << "[setPs]" << ":" << "Cmd returns" << exitCode;
+
     QString qoutput = QString("");
     for (int i=0; i<processes[QString("ps")].count(); i++) {
         qoutput = QTextCodec::codecForMib(106)->toUnicode(processes[QString("ps")][i]->readAllStandardOutput()).trimmed();
@@ -785,6 +785,7 @@ void ExtendedSysMon::getUpgradeInfo(const QString pkgCommand, const int number)
     if (debug) qDebug() << "[DE]" << "[getUpgradeInfo]";
     if (debug) qDebug() << "[DE]" << "[getUpgradeInfo]" << ":" << "Run function with cmd" << pkgCommand;
     if (debug) qDebug() << "[DE]" << "[getUpgradeInfo]" << ":" << "Run function with number" << number;
+
     QString cmd = QString("bash -c \"") + pkgCommand + QString(" | wc -l\"");
     if (debug) qDebug() << "[DE]" << "[getUpgradeInfo]" << ":" << "Run cmd" << cmd;
     if ((processes[QString("pkg")][number]->state() != QProcess::Running) &&
@@ -796,9 +797,9 @@ void ExtendedSysMon::getUpgradeInfo(const QString pkgCommand, const int number)
 void ExtendedSysMon::setUpgradeInfo(int exitCode, QProcess::ExitStatus exitStatus)
 {
     Q_UNUSED(exitStatus)
-
     if (debug) qDebug() << "[DE]" << "[setUpgradeInfo]";
     if (debug) qDebug() << "[DE]" << "[setUpgradeInfo]" << ":" << "Cmd returns" << exitCode;
+
     for (int i=0; i<processes[QString("pkg")].count(); i++) {
         int pkgNull = 0;
         int value = 0;
@@ -821,6 +822,7 @@ bool ExtendedSysMon::sourceRequestEvent(const QString &name)
 {
     if (debug) qDebug() << "[DE]" << "[sourceRequestEvent]";
     if (debug) qDebug() << "[DE]" << "[sourceRequestEvent]" << ":" << "Run function with source name" << name;
+
     return updateSourceEvent(name);
 }
 
@@ -829,6 +831,7 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
 {
     if (debug) qDebug() << "[DE]" << "[updateSourceEvent]";
     if (debug) qDebug() << "[DE]" << "[updateSourceEvent]" << ":" << "Run function with source name" << source;
+
     if (source == QString("custom")) {
         for (int i=0; i<configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts).count(); i++)
             getCustomCmd(configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts)[i], i);
@@ -854,11 +857,13 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     else if (source == QString("player")) {
         getPlayerInfo(configuration[QString("PLAYER")],
                       configuration[QString("MPDADDRESS")],
-                      configuration[QString("MPDPORT")]);
+                      configuration[QString("MPDPORT")],
+                      configuration[QString("MPRIS")]);
     }
     else if (source == QString("ps")) {
         getPsStats();
     }
+
     return true;
 }
 

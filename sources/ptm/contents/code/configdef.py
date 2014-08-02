@@ -104,6 +104,7 @@ class ConfigDefinition:
                 deConfigFile.write("HDDTEMPCMD=" + str(self.configpage['dataengine'].ui.lineEdit_hddtempCmd.text()) + "\n")
                 deConfigFile.write("MPDADDRESS=" + str(self.configpage['dataengine'].ui.lineEdit_mpdaddress.text()) + "\n")
                 deConfigFile.write("MPDPORT=" + str(self.configpage['dataengine'].ui.spinBox_mpdport.value()) + "\n")
+                deConfigFile.write("MPRIS=" + str(self.configpage['dataengine'].ui.comboBox_mpris.currentText()) + "\n")
                 item = QStringList()
                 for i in range(self.configpage['dataengine'].ui.listWidget_pkgCommand.count()):
                     item.append(self.configpage['dataengine'].ui.listWidget_pkgCommand.item(i).text())
@@ -125,7 +126,7 @@ class ConfigDefinition:
         # disconnecting from source and clear layout
         self.parent.disconnectFromSource()
 
-        labelOrder = "----------------"
+        labelOrder = "--------------------"
         for label in self.defaults['order'].keys():
             if (self.configpage['widget'].checkboxes[self.defaults['order'][label]].checkState() > 0):
                 pos = self.configpage['widget'].sliders[self.defaults['order'][label]].value() - 1
@@ -224,7 +225,7 @@ class ConfigDefinition:
 
         deSettings = {'CUSTOM':'wget -qO- http://ifconfig.me/ip', 'DESKTOPCMD':'qdbus org.kde.kwin /KWin currentDesktop',
             'GPUDEV':'auto', 'HDDDEV':'all', 'HDDTEMPCMD':'sudo hddtemp', 'MPDADDRESS':'localhost',
-            'MPDPORT':'6600', 'PKGCMD':'pacman -Qu', 'PKGNULL':'0', 'PLAYER':'amarok'}
+            'MPDPORT':'6600', 'MPRIS':'auto', 'PKGCMD':'pacman -Qu', 'PKGNULL':'0', 'PLAYER':'mpris'}
         dataengineConfig = unicode(KGlobal.dirs().localkdedir()) + "/share/config/extsysmon.conf"
         try:
             with open(dataengineConfig, 'r') as deConfigFile:
@@ -252,6 +253,8 @@ class ConfigDefinition:
         self.configpage['dataengine'].ui.lineEdit_mpdaddress.setText(deSettings['MPDADDRESS'])
         self.configpage['dataengine'].ui.spinBox_mpdport.setValue(int(deSettings['MPDPORT']))
         self.configpage['dataengine'].ui.spinBox_mpdport.setValue(int(deSettings['MPDPORT']))
+        index = self.configpage['dataengine'].ui.comboBox_mpris.findText(deSettings['MPRIS'])
+        self.configpage['dataengine'].ui.comboBox_mpris.setCurrentIndex(index)
         self.configpage['dataengine'].ui.listWidget_pkgCommand.clear()
         for i in range(len(deSettings['PKGCMD'].split(','))):
             try:

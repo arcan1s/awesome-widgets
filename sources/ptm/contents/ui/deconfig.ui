@@ -288,7 +288,7 @@ del - remove item</string>
          </item>
         </layout>
        </item>
-       <item row="7" column="0">
+       <item row="8" column="0">
         <layout class="QVBoxLayout" name="layout_pkgCommand">
          <item>
           <layout class="QHBoxLayout" name="layout_pkgCommandSelect">
@@ -403,7 +403,7 @@ del - remove item</string>
          </item>
         </layout>
        </item>
-       <item row="8" column="0">
+       <item row="9" column="0">
         <layout class="QHBoxLayout" name="layout_playerSelect">
          <item>
           <widget class="QLabel" name="label_playerSelect">
@@ -434,12 +434,7 @@ del - remove item</string>
            </property>
            <item>
             <property name="text">
-             <string notr="true">amarok</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">clementine</string>
+             <string notr="true">mpris</string>
             </property>
            </item>
            <item>
@@ -447,16 +442,11 @@ del - remove item</string>
              <string notr="true">mpd</string>
             </property>
            </item>
-           <item>
-            <property name="text">
-             <string notr="true">qmmp</string>
-            </property>
-           </item>
           </widget>
          </item>
         </layout>
        </item>
-       <item row="9" column="0">
+       <item row="10" column="0">
         <spacer name="spacer_dataengine">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -493,6 +483,96 @@ del - remove item</string>
          </item>
         </layout>
        </item>
+       <item row="7" column="0">
+        <layout class="QVBoxLayout" name="layout_mpris">
+         <item>
+          <widget class="QLabel" name="label_mprisInfo">
+           <property name="text">
+            <string>&lt;b&gt;NOTE:&lt;/b&gt; Player DBus interface should be an active</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="layout_mprisSelect">
+           <item>
+            <widget class="QLabel" name="label_mpris">
+             <property name="minimumSize">
+              <size>
+               <width>200</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>MPRIS player name</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="comboBox_mpris">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="editable">
+              <bool>true</bool>
+             </property>
+             <item>
+              <property name="text">
+               <string notr="true">auto</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string notr="true">amarok</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string notr="true">audacious</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string notr="true">clementine</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string notr="true">deadbeef</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>vlc</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string notr="true">qmmp</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>xmms2</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
       </layout>
      </widget>
     </widget>
@@ -510,6 +590,7 @@ del - remove item</string>
   <tabstop>lineEdit_hddtempCmd</tabstop>
   <tabstop>lineEdit_mpdaddress</tabstop>
   <tabstop>spinBox_mpdport</tabstop>
+  <tabstop>comboBox_mpris</tabstop>
   <tabstop>comboBox_pkgCommand</tabstop>
   <tabstop>spinBox_pkgCommandNum</tabstop>
   <tabstop>pushButton_pkgCommand</tabstop>

@@ -37,7 +37,8 @@ public:
                     const int number = 0);
     void getPlayerInfo(const QString playerName,
                        const QString mpdAddress = 0,
-                       const QString mpdPort = 0);
+                       const QString mpdPort = 0,
+                       QString mpris = 0);
     void getPsStats();
     void getUpgradeInfo(const QString pkgCommand,
                         const int number = 0);
@@ -66,6 +67,7 @@ private:
     // reread configuration
     QString getAllHdd();
     QString getAutoGpu();
+    QString getAutoMpris();
     QStringList getDesktopNames();
     void initValues();
     void readConfiguration();
