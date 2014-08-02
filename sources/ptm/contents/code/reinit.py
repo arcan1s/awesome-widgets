@@ -72,6 +72,7 @@ class Reinit():
 
         ptmVars['tooltip'] = {}
         ptmVars['tooltip']['colors'] = {}
+        ptmVars['tooltip']['colors']['background'] = str(settings.get('tooltip_background', 'null'))
         ptmVars['tooltip']['colors']['cpu'] = str(settings.get('cpu_color', '#ff0000'))
         ptmVars['tooltip']['colors']['cpuclock'] = str(settings.get('cpuclock_color', '#00ff00'))
         ptmVars['tooltip']['colors']['mem'] = str(settings.get('mem_color', '#0000ff'))

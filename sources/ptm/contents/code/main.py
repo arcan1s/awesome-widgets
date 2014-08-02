@@ -201,6 +201,8 @@ class pyTextWidget(plasmascript.Applet):
         # graphical tooltip
         self.tooltipScene = QGraphicsScene()
         self.tooltipView = QGraphicsView(self.tooltipScene)
+        self.tooltipView.setStyleSheet("background: transparent")
+        self.tooltipView.setContentsMargins(0, 0, 0, 0)
         self.tooltipView.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.tooltipView.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         # show tooltip

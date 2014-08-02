@@ -38,7 +38,16 @@ class TooltipWindow(QWidget):
         QWidget.__init__(self)
         self.ui = uic.loadUi(parent.package().filePath('ui', 'tooltipconfig.ui'), self)
         self.parent = parent
-        self.kcolorcombos = {'cpu':self.ui.kcolorcombo_cpu,
+        self.kcolorcombos = {'background':self.ui.kcolorcombo_background, 'cpu':self.ui.kcolorcombo_cpu,
             'cpuclock':self.ui.kcolorcombo_cpuclock, 'down':self.ui.kcolorcombo_down,
             'mem':self.ui.kcolorcombo_mem, 'swap':self.ui.kcolorcombo_swap,
             'up':self.ui.kcolorcombo_up}
+        QObject.connect(self.ui.checkBox_background, SIGNAL("stateChanged(int)"), self.setBackground)
+
+
+    def setBackground(self, background=0):
+        """function to enable/disable background elements"""
+        if (background == 0):
+            self.kcolorcombos['background'].setDisabled(True)
+        else:
+            self.kcolorcombos['background'].setEnabled(True)

@@ -47,6 +47,10 @@ class Tooltip():
         values = ptmTooltip['values']
         maxOne = [100.0, 100.0]
         bounds['down'] = 1.0
+        if (colors['background'] != "null"):
+            widget.setBackgroundBrush(QColor(colors['background']))
+        else:
+            widget.setBackgroundBrush(QBrush(Qt.NoBrush))
         for value in values['down']:
             if (bounds['down'] < value):
                 bounds['down'] = value

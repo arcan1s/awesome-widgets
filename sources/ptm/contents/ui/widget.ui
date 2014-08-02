@@ -1233,6 +1233,7 @@ $total - total number of desktops</string>
   </layout>
  </widget>
  <tabstops>
+  <tabstop>scrollArea_settings</tabstop>
   <tabstop>checkBox_time</tabstop>
   <tabstop>lineEdit_time</tabstop>
   <tabstop>slider_time</tabstop>
@@ -1287,6 +1288,9 @@ $total - total number of desktops</string>
   <tabstop>checkBox_custom</tabstop>
   <tabstop>lineEdit_custom</tabstop>
   <tabstop>slider_custom</tabstop>
+  <tabstop>checkBox_desktop</tabstop>
+  <tabstop>lineEdit_desktop</tabstop>
+  <tabstop>slider_desktop</tabstop>
  </tabstops>
  <resources/>
  <connections/>

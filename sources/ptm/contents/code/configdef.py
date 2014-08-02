@@ -88,6 +88,10 @@ class ConfigDefinition:
         settings.set('ac_offline', str(self.configpage['advanced'].ui.lineEdit_acOffline.text()))
 
         settings.set('tooltip_num', self.configpage['tooltip'].ui.spinBox_tooltipNum.value())
+        if (self.configpage['tooltip'].checkBox_background.checkState() == 0):
+            settings.set("tooltip_background", "null")
+        else:
+            settings.set("tooltip_background", str(self.configpage['tooltip'].kcolorcombos["background"].color().name()))
         for label in ['cpu', 'cpuclock', 'mem', 'swap', 'down', 'up']:
             settings.set(self.defaults['confColor'][label], str(self.configpage['tooltip'].kcolorcombos[label].color().name()))
 
@@ -216,6 +220,11 @@ class ConfigDefinition:
         self.configpage['advanced'].ui.lineEdit_acOffline.setText(str(settings.get('ac_offline', '( )')))
 
         self.configpage['tooltip'].ui.spinBox_tooltipNum.setValue(settings.get('tooltip_num', 100).toInt()[0])
+        if (str(settings.get('tooltip_background', 'null')) == "null"):
+            self.configpage['tooltip'].checkBox_background.setCheckState(0)
+        else:
+            self.configpage['tooltip'].checkBox_background.setCheckState(2)
+            self.configpage['tooltip'].ui.kcolorcombo_cpu.setColor(QColor(str(settings.get('tooltip_background', 'null'))))
         self.configpage['tooltip'].ui.kcolorcombo_cpu.setColor(QColor(str(settings.get('cpu_color', '#ff0000'))))
         self.configpage['tooltip'].ui.kcolorcombo_cpuclock.setColor(QColor(str(settings.get('cpuclock_color', '#00ff00'))))
         self.configpage['tooltip'].ui.kcolorcombo_mem.setColor(QColor(str(settings.get('mem_color', '#0000ff'))))
@@ -253,8 +262,8 @@ class ConfigDefinition:
         self.configpage['dataengine'].ui.lineEdit_mpdaddress.setText(deSettings['MPDADDRESS'])
         self.configpage['dataengine'].ui.spinBox_mpdport.setValue(int(deSettings['MPDPORT']))
         self.configpage['dataengine'].ui.spinBox_mpdport.setValue(int(deSettings['MPDPORT']))
-        index = self.configpage['dataengine'].ui.comboBox_mpris.findText(deSettings['MPRIS'])
-        self.configpage['dataengine'].ui.comboBox_mpris.setCurrentIndex(index)
+        self.configpage['dataengine'].ui.comboBox_mpris.addItem(deSettings['MPRIS'])
+        self.configpage['dataengine'].ui.comboBox_mpris.setCurrentIndex(self.configpage['dataengine'].ui.comboBox_mpris.count()-1)
         self.configpage['dataengine'].ui.listWidget_pkgCommand.clear()
         for i in range(len(deSettings['PKGCMD'].split(','))):
             try:
