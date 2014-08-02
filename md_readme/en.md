@@ -204,6 +204,10 @@ Address of MPD server. Default is `localhost`.
 
 Port of MPD server. Default is `6600`.
 
+**MPRIS player name**
+
+MPRIS player name. The DBus interface of an music player should be enabled. Default is `auto`.
+
 **Package manager**
 
 List of commands, which will be run. Number of null lines is a number of unneeded lines. Defaults:

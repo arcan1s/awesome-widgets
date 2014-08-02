@@ -554,7 +554,7 @@ del - remove item</string>
              </item>
              <item>
               <property name="text">
-               <string>vlc</string>
+               <string notr="true">vlc</string>
               </property>
              </item>
              <item>
@@ -564,7 +564,7 @@ del - remove item</string>
              </item>
              <item>
               <property name="text">
-               <string>xmms2</string>
+               <string notr="true">xmms2</string>
               </property>
              </item>
             </widget>

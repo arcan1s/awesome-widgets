@@ -1,5 +1,5 @@
 --- README.md.orig	2014-07-08 12:10:47.217925504 +0400
-+++ README.md	2014-07-22 09:48:59.337749400 +0400
++++ README.md	2014-08-02 18:17:43.086103875 +0400
 @@ -60,6 +60,9 @@
  * tag `$ps` - list of running processes
  * tag `$pkgcountN` - number of packages, which available to upgrade for command N. For example, `$pkgcount0`
@@ -32,7 +32,18 @@
  **GPU device**
  
  Select one of supported GPU devices. `auto` will enable auto selection, `disable` will disable definition of GPU states. Default is `auto`.
-@@ -208,10 +219,40 @@
+@@ -193,6 +204,10 @@
+ 
+ Port of MPD server. Default is `6600`.
+ 
++**MPRIS player name**
++
++MPRIS player name. The DBus interface of an music player should be enabled. Default is `auto`.
++
+ **Package manager**
+ 
+ List of commands, which will be run. Number of null lines is a number of unneeded lines. Defaults:
+@@ -208,10 +223,40 @@
  
  Select one of supported music playes for player label.
  
