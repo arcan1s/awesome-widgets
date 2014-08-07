@@ -28,39 +28,24 @@ class ExtendedSysMon : public Plasma::DataEngine
 public:
     ExtendedSysMon(QObject *parent, const QVariantList &args);
     // update functions
-    void getCurrentDesktop(const QString cmd);
-    void getCustomCmd(const QString cmd,
-                      const int number = 0);
-    void getGpu(const QString device);
-    void getGpuTemp(const QString device);
-    void getHddTemp(const QString cmd, const QString device,
-                    const int number = 0);
-    void getPlayerInfo(const QString playerName,
-                       const QString mpdAddress = 0,
-                       const QString mpdPort = 0,
-                       QString mpris = 0);
-    void getPsStats();
-    void getUpgradeInfo(const QString pkgCommand,
-                        const int number = 0);
+    QMap<QString, QVariant> getCurrentDesktop(const QString cmd);
+    QString getCustomCmd(const QString cmd);
+    float getGpu(const QString device);
+    float getGpuTemp(const QString device);
+    float getHddTemp(const QString cmd, const QString device);
+    QMap<QString, QVariant> getPlayerInfo(const QString playerName,
+                                          const QString mpdAddress = 0,
+                                          const QString mpdPort = 0,
+                                          QString mpris = 0);
+    QMap<QString, QVariant> getPsStats();
+    int getUpgradeInfo(const QString cmd);
 
 protected:
-    bool sourceRequestEvent(const QString &name);
+    bool sourceRequestEvent(const QString &source);
     bool updateSourceEvent(const QString &source);
     QStringList sources() const;
 
-private slots:
-    void setCurrentDesktop(int exitCode, QProcess::ExitStatus exitStatus);
-    void setCustomCmd(int exitCode, QProcess::ExitStatus exitStatus);
-    void setGpu(int exitCode, QProcess::ExitStatus exitStatus);
-    void setGpuTemp(int exitCode, QProcess::ExitStatus exitStatus);
-    void setHddTemp(int exitCode, QProcess::ExitStatus exitStatus);
-    void setUpgradeInfo(int exitCode, QProcess::ExitStatus exitStatus);
-    void setPlayer(int exitCode, QProcess::ExitStatus exitStatus);
-    void setPs(int exitCode, QProcess::ExitStatus exitStatus);
-
 private:
-    // processes
-    QMap<QString, QList<QProcess*> > processes;
     // configuration
     QMap<QString, QString> configuration;
     bool debug;
@@ -70,9 +55,8 @@ private:
     QString getAutoMpris();
     QStringList getDesktopNames();
     void initValues();
-    void readConfiguration();
     void setKeys();
-    void setProcesses();
+    void readConfiguration();
     QMap<QString, QString> updateConfiguration(const QMap<QString, QString> rawConfig);
 };
 

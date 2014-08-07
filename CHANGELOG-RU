@@ -3,6 +3,8 @@
 + добавлен desktop DataEngine
 + добавлен виджет PTM desktop panel
 + добавлено поле текущий рабочий стол (теги $name, $number, $total)
+* dataengine переписан с использованием tasks
+* фикс чтения температуры nvidia
 
 Вер.1.10.2:
 - фикс ошибки с tempUnits в поле hddtemp
