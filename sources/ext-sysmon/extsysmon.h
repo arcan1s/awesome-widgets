@@ -54,7 +54,6 @@ private:
     QString getAutoGpu();
     QString getAutoMpris();
     QStringList getDesktopNames();
-    void initValues();
     void setKeys();
     void readConfiguration();
     QMap<QString, QString> updateConfiguration(const QMap<QString, QString> rawConfig);

@@ -164,16 +164,6 @@ QStringList ExtendedSysMon::sources() const
 }
 
 
-void ExtendedSysMon::initValues()
-{
-    if (debug) qDebug() << "[DE]" << "[initValues]";
-
-    QStringList sourceList = sources();
-    for (int i=0; i<sourceList.count(); i++)
-        sourceRequestEvent(sourceList[i]);
-}
-
-
 void ExtendedSysMon::setKeys()
 {
     if (debug) qDebug() << "[DE]" << "[setKeys]";
@@ -208,9 +198,6 @@ void ExtendedSysMon::setKeys()
     setData(QString("ps"), QString("psCount"), QString("0"));
     setData(QString("ps"), QString("ps"), QString(""));
     setData(QString("ps"), QString("psTotal"), QString("0"));
-
-    // initialization of values
-    initValues();
 }
 
 

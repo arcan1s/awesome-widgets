@@ -23,6 +23,7 @@ source=(https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/$
 install=${pkgname}.install
 md5sums=('b5f8383c198e7059f463678f84a16273')
 backup=('usr/share/config/extsysmon.conf')
+changelog=CHANGELOG
 
 prepare() {
   rm -rf "${srcdir}/build"
