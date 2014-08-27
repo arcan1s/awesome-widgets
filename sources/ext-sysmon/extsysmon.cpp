@@ -46,7 +46,6 @@ ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList& args)
 
     setMinimumPollingInterval(333);
     readConfiguration();
-    setKeys();
 }
 
 
@@ -161,43 +160,6 @@ QStringList ExtendedSysMon::sources() const
 
     if (debug) qDebug() << "[DE]" << "[sources]" << ":" << "Sources" << source;
     return source;
-}
-
-
-void ExtendedSysMon::setKeys()
-{
-    if (debug) qDebug() << "[DE]" << "[setKeys]";
-
-    // custom
-    for (int i=0; i<configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts).count(); i++)
-        setData(QString("custom"), QString("custom") + QString::number(i), QString(""));
-    // desktop
-    setData(QString("desktop"), QString("list"), QString(""));
-    setData(QString("desktop"), QString("number"), int(0));
-    setData(QString("desktop"), QString("currentName"), QString(""));
-    setData(QString("desktop"), QString("currentNumber"), int(0));
-    // gpu
-    setData(QString("gpu"), QString("GPU"), float(0.0));
-    // gputemp
-    setData(QString("gputemp"), QString("GPUTemp"), float(0.0));
-    // hddtemp
-    for (int i=0; i<configuration[QString("HDDDEV")].split(QChar(','), QString::SkipEmptyParts).count(); i++) {
-        QString key = configuration[QString("HDDDEV")].split(QChar(','), QString::SkipEmptyParts)[i];
-        setData(QString("hddtemp"), key, float(0.0));
-    }
-    // pkg
-    for (int i=0; i<configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts).count(); i++)
-        setData(QString("pkg"), QString("pkgCount") + QString::number(i), 0);
-    // player
-    setData(QString("player"), QString("album"), QString("unknown"));
-    setData(QString("player"), QString("artist"), QString("unknown"));
-    setData(QString("player"), QString("duration"), QString("0"));
-    setData(QString("player"), QString("progress"), QString("0"));
-    setData(QString("player"), QString("title"), QString("unknown"));
-    // ps
-    setData(QString("ps"), QString("psCount"), QString("0"));
-    setData(QString("ps"), QString("ps"), QString(""));
-    setData(QString("ps"), QString("psTotal"), QString("0"));
 }
 
 
@@ -559,8 +521,12 @@ int ExtendedSysMon::getUpgradeInfo(const QString cmd)
     if (debug) qDebug() << "[DE]" << "[getUpgradeInfo]" << ":" << "Cmd returns" << process.exitCode;
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
+    int count = 0;
+    for (int i=0; i<qoutput.split(QChar('\n')).count(); i++)
+        if (!qoutput.isEmpty())
+            count++;
 
-    return qoutput.split(QChar('\n')).count();
+    return count;
 }
 
 

@@ -68,7 +68,8 @@ public slots:
     // configuration interface
     void configAccepted();
     void configChanged();
-    // event
+    // events
+    void changePanelsState();
     int setCurrentDesktop(const int number);
 
 private slots:
@@ -80,6 +81,7 @@ protected:
 private:
     // functions
     QStringList getDesktopNames();
+    QList<Plasma::Containment *> getPanels();
     void updateText();
     // ui
     QGraphicsLinearLayout *layout;
@@ -88,6 +90,7 @@ private:
     bool debug;
     // data engine
     int currentDesktop;
+    int oldState;
     Plasma::DataEngine *extsysmonEngine;
     // configuration interface
     Ui::AppearanceWidget uiAppConfig;

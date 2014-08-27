@@ -22,17 +22,24 @@
 #include <KDE/KConfigDialog>
 #include <KDE/KGlobal>
 #include <KDE/KStandardDirs>
-#include <plasma/theme.h>
+#include <KDE/Plasma/Containment>
+#include <KDE/Plasma/Corona>
+#include <KDE/Plasma/Theme>
+#include <KDE/KWindowInfo>
+#include <KDE/KWindowSystem>
 #include <QDebug>
 #include <QFile>
 #include <QGraphicsLinearLayout>
 #include <QGraphicsSceneMouseEvent>
+#include <QGraphicsView>
 #include <QProcessEnvironment>
 #include <QTextCodec>
 
 
 CustomPlasmaLabel::CustomPlasmaLabel(DesktopPanel *wid, const int num)
-    : Plasma::Label(wid)
+    : Plasma::Label(wid),
+      number(num),
+      widget(wid)
 {
     // debug
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
@@ -42,10 +49,7 @@ CustomPlasmaLabel::CustomPlasmaLabel(DesktopPanel *wid, const int num)
     else
         debug = false;
 
-    if (debug) qDebug() << "[PTM-DP]" << "Init label" << num;
-
-    number = num;
-    widget = wid;
+    if (debug) qDebug() << "[PTM-DP]" << "Init label" << number;
 }
 
 
@@ -115,6 +119,7 @@ void DesktopPanel::init()
 
     // read variables
     configChanged();
+    connect(this, SIGNAL(activate()), this, SLOT(changePanelsState()));
 }
 
 
@@ -152,6 +157,21 @@ QStringList DesktopPanel::getDesktopNames()
     configFile.close();
 
     return list;
+}
+
+
+QList<Plasma::Containment *> DesktopPanel::getPanels()
+{
+    if (debug) qDebug() << "[PTM-DP]" << "[getPanels]";
+
+    QList<Plasma::Containment *> panels;
+    for (int i=0; i<containment()->corona()->containments().count(); i++) {
+        qDebug() << containment()->corona()->containments()[i]->containmentType();
+        if (containment()->corona()->containments()[i]->containmentType() == Plasma::Containment::PanelContainment)
+            panels.append(containment()->corona()->containments()[i]);
+    }
+
+    return panels;
 }
 
 
@@ -228,6 +248,30 @@ void DesktopPanel::reinit()
 
     updateText();
     resize(10, 10);
+}
+
+
+void DesktopPanel::changePanelsState()
+{
+    if (debug) qDebug() << "[PTM-DP]" << "[changePanelsState]";
+
+    QList<Plasma::Containment *> panels = getPanels();
+    for (int i=0; i<panels.count(); i++) {
+        bool wasVisible = panels[i]->view()->isVisible();
+        int winId = panels[i]->view()->winId();
+        if (wasVisible) {
+            if (debug) qDebug() << "[PTM-DP]" << "[changePanelsState]" << ":" << "Hide panel";
+            KWindowInfo oldInfo = KWindowSystem::windowInfo(winId, NET::WMState);
+            oldState = oldInfo.state();
+            panels[i]->view()->setVisible(false);
+        } else {
+            if (debug) qDebug() << "[PTM-DP]" << "[changePanelsState]" << ":" << "Show panel";
+            panels[i]->view()->setVisible(true);
+            KWindowSystem::clearState(winId, NET::KeepAbove);
+            KWindowSystem::setState(winId, oldState | NET::StaysOnTop);
+            KWindowSystem::setOnAllDesktops(winId, true);
+        }
+    }
 }
 
 
