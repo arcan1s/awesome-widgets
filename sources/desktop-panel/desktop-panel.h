@@ -81,7 +81,6 @@ protected:
 
 private:
     // functions
-    QStringList getDesktopNames();
     QList<Plasma::Containment *> getPanels();
     QString panelLocationToStr(Plasma::Location loc);
     void updateText();

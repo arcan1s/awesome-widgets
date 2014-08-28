@@ -454,8 +454,7 @@ QMap<QString, QVariant> ExtendedSysMon::getPlayerInfo(const QString playerName,
                 else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("time")) {
                     info[QString("duration")] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed().split(QString(":"))[0];
                     info[QString("progress")] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed().split(QString(":"))[1];
-                }
-                else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("Title"))
+                } else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("Title"))
                     info[QString("title")] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
             }
         }
@@ -471,8 +470,7 @@ QMap<QString, QVariant> ExtendedSysMon::getPlayerInfo(const QString playerName,
                     info[QString("duration")] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
                 else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("title"))
                     info[QString("title")] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
-            }
-            else {
+            } else {
                 int time = qstr.toInt() / 1000;
                 info[QString("progress")] = QString::number(time);
             }
@@ -550,38 +548,31 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
             setData(source, QString("custom") + QString::number(i),
                     getCustomCmd(configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts)[i]));
         }
-    }
-    else if (source == QString("desktop")) {
+    } else if (source == QString("desktop")) {
         QMap<QString, QVariant> desktop = getCurrentDesktop(configuration[QString("DESKTOPCMD")]);
         for (int i=0; i<desktop.keys().count(); i++)
             setData(source, desktop.keys()[i], desktop[desktop.keys()[i]]);
-    }
-    else if (source == QString("gpu")) {
+    } else if (source == QString("gpu")) {
         setData(source, QString("GPU"), getGpu(configuration[QString("GPUDEV")]));
-    }
-    else if (source == QString("gputemp")) {
+    } else if (source == QString("gputemp")) {
         setData(source, QString("GPUTemp"), getGpuTemp(configuration[QString("GPUDEV")]));
-    }
-    else if (source == QString("hddtemp")) {
+    } else if (source == QString("hddtemp")) {
         QStringList deviceList = configuration[QString("HDDDEV")].split(QChar(','), QString::SkipEmptyParts);
         for (int i=0; i<deviceList.count(); i++)
             setData(source, deviceList[i],
                     getHddTemp(configuration[QString("HDDTEMPCMD")], deviceList[i]));
-    }
-    else if (source == QString("pkg")) {
+    } else if (source == QString("pkg")) {
         for (int i=0; i<configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts).count(); i++)
             setData(source, QString("pkgCount") + QString::number(i),
                     getUpgradeInfo(configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts)[i]));
-    }
-    else if (source == QString("player")) {
+    } else if (source == QString("player")) {
         QMap<QString, QVariant> player = getPlayerInfo(configuration[QString("PLAYER")],
                 configuration[QString("MPDADDRESS")],
                 configuration[QString("MPDPORT")],
                 configuration[QString("MPRIS")]);
         for (int i=0; i<player.keys().count(); i++)
             setData(source, player.keys()[i], player[player.keys()[i]]);
-    }
-    else if (source == QString("ps")) {
+    } else if (source == QString("ps")) {
         QMap<QString, QVariant> ps = getPsStats();
         for (int i=0; i<ps.keys().count(); i++)
             setData(source, ps.keys()[i], ps[ps.keys()[i]]);

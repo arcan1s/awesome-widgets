@@ -4,6 +4,7 @@ Ver.1.11.0:
 + added PTM desktop panel
 + added desktop label (tags $name, $number, $total)
 + added ability to interact with players using mpris
+* rewrite to use submodules
 * rewrite dataengine to use tasks
 * fix nvidia temperature definition
 

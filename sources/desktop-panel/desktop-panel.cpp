@@ -122,43 +122,6 @@ void DesktopPanel::init()
 }
 
 
-QStringList DesktopPanel::getDesktopNames()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    QStringList list;
-    QString fileName = KGlobal::dirs()->findResource("config", "kwinrc");
-    if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
-    QFile configFile(fileName);
-    if (!configFile.open(QIODevice::ReadOnly)) return list;
-
-    QString fileStr;
-    QStringList value;
-    bool desktopSection = false;
-    while (true) {
-        fileStr = QString(configFile.readLine()).trimmed();
-        if ((fileStr.isEmpty()) && (!configFile.atEnd())) continue;
-        if ((fileStr[0] == QChar('#')) && (!configFile.atEnd())) continue;
-        if ((fileStr[0] == QChar(';')) && (!configFile.atEnd())) continue;
-        if (fileStr[0] == QChar('[')) desktopSection = false;
-        if (fileStr == QString("[Desktops]")) desktopSection = true;
-        if (desktopSection) {
-            if (fileStr.contains(QChar('='))) {
-                value.clear();
-                for (int i=1; i<fileStr.split(QChar('=')).count(); i++)
-                    value.append(fileStr.split(QChar('='))[i]);
-                if (fileStr.split(QChar('='))[0].contains(QString("Name_")))
-                    list.append(value.join(QChar('=')));
-            }
-        }
-        if (configFile.atEnd()) break;
-    }
-    configFile.close();
-
-    return list;
-}
-
-
 QList<Plasma::Containment *> DesktopPanel::getPanels()
 {
     if (debug) qDebug() << PDEBUG;
@@ -228,6 +191,7 @@ QString DesktopPanel::parsePattern(const QString rawLine, const int num)
 void DesktopPanel::reinit()
 {
     if (debug) qDebug() << PDEBUG;
+    if (desktopNames.isEmpty()) return;
 
     // clear
     // labels
@@ -274,9 +238,9 @@ void DesktopPanel::changePanelsState()
 
     QList<Plasma::Containment *> panels = getPanels();
     for (int i=0; i<panels.count(); i++) {
-        if ((configuration[QString("panels")].split(QChar(','))
-                .contains(QString::number(i))) ||
-                (configuration[QString("panels")] == QString("-1")))
+        if ((!configuration[QString("panels")].split(QChar(','))
+                .contains(QString::number(i))) &&
+                (configuration[QString("panels")] != QString("-1")))
             continue;
         bool wasVisible = panels[i]->view()->isVisible();
         int winId = panels[i]->view()->winId();
@@ -337,6 +301,10 @@ void DesktopPanel::dataUpdated(const QString &sourceName, const Plasma::DataEngi
         return;
     if (sourceName == QString("desktop")) {
         currentDesktop = data[QString("currentNumber")].toInt();
+        if (desktopNames.isEmpty()) {
+            desktopNames = data[QString("list")].toString().split(QString(";;"));
+            reinit();
+        }
         updateText();
     }
 }
@@ -483,8 +451,6 @@ void DesktopPanel::configChanged()
     configuration[QString("panels")] = cg.readEntry("panels", "-1");
     configuration[QString("pattern")] = cg.readEntry("pattern", "[$mark$number/$total: $name]");
     configuration[QString("rightStretch")] = cg.readEntry("rightStretch", "2");
-
-    desktopNames = getDesktopNames();
 
     extsysmonEngine->connectSource(QString("desktop"), this, configuration[QString("interval")].toInt());
 
