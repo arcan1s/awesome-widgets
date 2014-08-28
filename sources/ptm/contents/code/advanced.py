@@ -40,65 +40,10 @@ class AdvancedWindow(QWidget):
         self.parent = parent
 
         QObject.connect(self.ui.checkBox_netdev, SIGNAL("stateChanged(int)"), self.setNetdevEnabled)
-        QObject.connect(self.ui.pushButton_hddDevice, SIGNAL("clicked()"), self.addHddDevice)
-        QObject.connect(self.ui.pushButton_hddSpeedDevice, SIGNAL("clicked()"), self.addHddSpeedDevice)
-        QObject.connect(self.ui.pushButton_mount, SIGNAL("clicked()"), self.addMount)
-        QObject.connect(self.ui.pushButton_tempDevice, SIGNAL("clicked()"), self.addTempDevice)
         QObject.connect(self.ui.listWidget_hddDevice, SIGNAL("itemActivated(QListWidgetItem*)"), self.ui.listWidget_hddDevice.openPersistentEditor)
         QObject.connect(self.ui.listWidget_hddSpeedDevice, SIGNAL("itemActivated(QListWidgetItem*)"), self.ui.listWidget_hddSpeedDevice.openPersistentEditor)
         QObject.connect(self.ui.listWidget_mount, SIGNAL("itemActivated(QListWidgetItem*)"), self.ui.listWidget_mount.openPersistentEditor)
         QObject.connect(self.ui.listWidget_tempDevice, SIGNAL("itemActivated(QListWidgetItem*)"), self.ui.listWidget_tempDevice.openPersistentEditor)
-
-
-    def keyPressEvent(self, event):
-        """delete events"""
-        if self.debug: qDebug("[PTM] [advanced.py] [keyPressEvent]")
-        if self.debug: qDebug("[PTM] [advanced.py] [keyPressEvent] : Run function with event '%s'" %(event.key()))
-        if (event.key() == Qt.Key_Delete):
-            if (self.ui.listWidget_hddDevice.hasFocus() and
-                (self.ui.listWidget_hddDevice.currentRow() > -1)):
-                self.ui.listWidget_hddDevice.takeItem(self.ui.listWidget_hddDevice.currentRow())
-            elif (self.ui.listWidget_hddSpeedDevice.hasFocus() and
-                (self.ui.listWidget_hddSpeedDevice.currentRow() > -1)):
-                self.ui.listWidget_hddSpeedDevice.takeItem(self.ui.listWidget_hddSpeedDevice.currentRow())
-            elif (self.ui.listWidget_mount.hasFocus() and
-                (self.ui.listWidget_mount.currentRow() > -1)):
-                self.ui.listWidget_mount.takeItem(self.ui.listWidget_mount.currentRow())
-            elif (self.ui.listWidget_tempDevice.hasFocus() and
-                (self.ui.listWidget_tempDevice.currentRow() > -1)):
-                self.ui.listWidget_tempDevice.takeItem(self.ui.listWidget_tempDevice.currentRow())
-
-
-    def addHddDevice(self):
-        """function to add mount points"""
-        if self.debug: qDebug("[PTM] [advanced.py] [addHddDevice]")
-        if self.debug: qDebug("[PTM] [advanced.py] [addHddDevice] : Device '%s'" %(self.ui.comboBox_hddDevice.currentText()))
-        self.ui.listWidget_hddDevice.clearSelection()
-        self.ui.listWidget_hddDevice.addItem(self.ui.comboBox_hddDevice.currentText())
-
-
-    def addHddSpeedDevice(self):
-        """function to add disk device"""
-        if self.debug: qDebug("[PTM] [advanced.py] [addHddSpeedDevice]")
-        if self.debug: qDebug("[PTM] [advanced.py] [addHddSpeedDevice] : Device '%s'" %(self.ui.comboBox_hddSpeedDevice.currentText()))
-        self.ui.listWidget_hddSpeedDevice.clearSelection()
-        self.ui.listWidget_hddSpeedDevice.addItem(self.ui.comboBox_hddSpeedDevice.currentText())
-
-
-    def addMount(self):
-        """function to add mount points"""
-        if self.debug: qDebug("[PTM] [advanced.py] [addMount]")
-        if self.debug: qDebug("[PTM] [advanced.py] [addMount] : Device '%s'" %(self.ui.comboBox_mount.currentText()))
-        self.ui.listWidget_mount.clearSelection()
-        self.ui.listWidget_mount.addItem(self.ui.comboBox_mount.currentText())
-
-
-    def addTempDevice(self):
-        """function to add temperature device"""
-        if self.debug: qDebug("[PTM] [advanced.py] [addTempDevice]")
-        if self.debug: qDebug("[PTM] [advanced.py] [addTempDevice] : Device '%s'" %(self.ui.comboBox_tempDevice.currentText()))
-        self.ui.listWidget_tempDevice.clearSelection()
-        self.ui.listWidget_tempDevice.addItem(self.ui.comboBox_tempDevice.currentText())
 
 
     def setNetdevEnabled(self):

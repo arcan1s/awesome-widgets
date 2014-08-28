@@ -65,20 +65,24 @@ class ConfigDefinition:
         settings.set('temp_units', str(self.configpage['advanced'].ui.comboBox_tempUnits.currentText()))
         item = QStringList()
         for i in range(self.configpage['advanced'].ui.listWidget_tempDevice.count()):
-            item.append(self.configpage['advanced'].ui.listWidget_tempDevice.item(i).text())
+            if (self.configpage['advanced'].ui.listWidget_tempDevice.item(i).checkState() == Qt.Checked):
+                item.append(self.configpage['advanced'].ui.listWidget_tempDevice.item(i).text())
         settings.set('temp_device', str(item.join(QString('@@'))))
         item = QStringList()
         for i in range(self.configpage['advanced'].ui.listWidget_mount.count()):
-            item.append(self.configpage['advanced'].ui.listWidget_mount.item(i).text())
+            if (self.configpage['advanced'].ui.listWidget_mount.item(i).checkState() == Qt.Checked):
+                item.append(self.configpage['advanced'].ui.listWidget_mount.item(i).text())
         settings.set('mount', str(item.join(QString('@@'))))
         item = QStringList()
-        for i in range(self.configpage['advanced'].ui.listWidget_hddDevice.count()):
-            item.append(self.configpage['advanced'].ui.listWidget_hddDevice.item(i).text())
-        settings.set('hdd', str(item.join(QString('@@'))))
-        item = QStringList()
         for i in range(self.configpage['advanced'].ui.listWidget_hddSpeedDevice.count()):
-            item.append(self.configpage['advanced'].ui.listWidget_hddSpeedDevice.item(i).text())
+            if (self.configpage['advanced'].ui.listWidget_hddSpeedDevice.item(i).checkState() == Qt.Checked):
+                item.append(self.configpage['advanced'].ui.listWidget_hddSpeedDevice.item(i).text())
         settings.set('disk', str(item.join(QString('@@'))))
+        item = QStringList()
+        for i in range(self.configpage['advanced'].ui.listWidget_hddDevice.count()):
+            if (self.configpage['advanced'].ui.listWidget_hddDevice.item(i).checkState() == Qt.Checked):
+                item.append(self.configpage['advanced'].ui.listWidget_hddDevice.item(i).text())
+        settings.set('hdd', str(item.join(QString('@@'))))
         settings.set('netdir', str(self.configpage['advanced'].ui.lineEdit_netdir.text()))
         settings.set('netdevBool', self.configpage['advanced'].ui.checkBox_netdev.checkState())
         settings.set('custom_netdev', str(self.configpage['advanced'].ui.comboBox_netdev.currentText()))
@@ -170,44 +174,56 @@ class ConfigDefinition:
         self.configpage['advanced'].ui.lineEdit_uptimeFormat.setText(str(settings.get('custom_uptime', '$ds,$hs,$ms')))
         index = self.configpage['advanced'].ui.comboBox_tempUnits.findText(str(settings.get('temp_units', "Celsius")))
         self.configpage['advanced'].ui.comboBox_tempUnits.setCurrentIndex(index)
+        self.configpage['advanced'].ui.listWidget_tempDevice.clear()
         commandOut = commands.getoutput("sensors")
         for item in commandOut.split("\n\n"):
             for device in item.split("\n"):
                 if (device.find('\xc2\xb0C') > -1):
                     try:
-                        tempdev = 'lmsensors/' + item.split("\n")[0] + '/' + '_'.join(device.split(":")[0].split())
-                        self.configpage['advanced'].ui.comboBox_tempDevice.addItem(tempdev)
+                        listItem = QListWidgetItem('lmsensors/' + item.split("\n")[0] + '/' + '_'.join(device.split(":")[0].split()))
+                        listItem.setCheckState(0)
+                        self.configpage['advanced'].ui.listWidget_tempDevice.addItem(listItem)
                     except:
                         pass
-        self.configpage['advanced'].ui.listWidget_tempDevice.clear()
         for item in str(settings.get('temp_device', '')).split('@@'):
-            if (len(item) > 0):
-                self.configpage['advanced'].ui.listWidget_tempDevice.addItem(item)
+            items = self.configpage['advanced'].ui.listWidget_tempDevice.findItems(item, Qt.MatchFixedString)
+            for listItem in items:
+                listItem.setCheckState(2)
+        self.configpage['advanced'].ui.listWidget_mount.clear()
         commandOut = commands.getoutput("mount")
         for item in commandOut.split("\n"):
             try:
-                mount = item.split(' on ')[1].split(' type ')[0]
-                self.configpage['advanced'].ui.comboBox_mount.addItem(mount)
+                listItem = QListWidgetItem(item.split(' on ')[1].split(' type ')[0])
+                listItem.setCheckState(0)
+                self.configpage['advanced'].ui.listWidget_mount.addItem(listItem)
             except:
                 pass
-        self.configpage['advanced'].ui.listWidget_mount.clear()
         for item in str(settings.get('mount', '/')).split('@@'):
-            self.configpage['advanced'].ui.listWidget_mount.addItem(item)
+            items = self.configpage['advanced'].ui.listWidget_mount.findItems(item, Qt.MatchFixedString)
+            for listItem in items:
+                listItem.setCheckState(2)
+        self.configpage['advanced'].ui.listWidget_hddSpeedDevice.clear()
+        for item in self.defaults['disk']:
+            listItem = QListWidgetItem(item)
+            listItem.setCheckState(0)
+            self.configpage['advanced'].ui.listWidget_hddSpeedDevice.addItem(listItem)
+        for item in str(settings.get('disk', 'disk/sda_(8:0)')).split('@@'):
+            items = self.configpage['advanced'].ui.listWidget_hddSpeedDevice.findItems(item, Qt.MatchFixedString)
+            for listItem in items:
+                listItem.setCheckState(2)
+        self.configpage['advanced'].ui.listWidget_hddDevice.clear()
         commandOut = commands.getoutput("find /dev -name '[hms]d[a-z]'")
         for item in commandOut.split("\n"):
             try:
-                self.configpage['advanced'].ui.comboBox_hddDevice.addItem(item)
+                listItem = QListWidgetItem(item)
+                listItem.setCheckState(0)
+                self.configpage['advanced'].ui.listWidget_hddDevice.addItem(listItem)
             except:
                 pass
-        self.configpage['advanced'].ui.listWidget_hddDevice.clear()
         for item in str(settings.get('hdd', '/dev/sda')).split('@@'):
-            self.configpage['advanced'].ui.listWidget_hddDevice.addItem(item)
-        self.configpage['advanced'].ui.comboBox_hddSpeedDevice.clear()
-        for item in self.defaults['disk']:
-            self.configpage['advanced'].ui.comboBox_hddSpeedDevice.addItem(item)
-        self.configpage['advanced'].ui.listWidget_hddSpeedDevice.clear()
-        for item in str(settings.get('disk', 'disk/sda_(8:0)')).split('@@'):
-            self.configpage['advanced'].ui.listWidget_hddSpeedDevice.addItem(item)
+            items = self.configpage['advanced'].ui.listWidget_hddDevice.findItems(item, Qt.MatchFixedString)
+            for listItem in items:
+                listItem.setCheckState(2)
         self.configpage['advanced'].ui.lineEdit_netdir.setText(str(settings.get('netdir', '/sys/class/net')))
         self.configpage['advanced'].ui.checkBox_netdev.setCheckState(settings.get('netdevBool', 0).toInt()[0])
         for item in QDir.entryList(QDir(str(settings.get('netdir', '/sys/class/net'))), QDir.Dirs | QDir.NoDotAndDotDot):

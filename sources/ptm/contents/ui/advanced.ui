@@ -42,8 +42,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>666</width>
-        <height>848</height>
+        <width>677</width>
+        <height>752</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -214,53 +214,22 @@ $m - uptime minutes without zero</string>
        <item>
         <layout class="QVBoxLayout" name="layout_tempDevice">
          <item>
-          <layout class="QHBoxLayout" name="layout_tempDeviceSelect">
-           <item>
-            <widget class="QLabel" name="label_tempDevice">
-             <property name="minimumSize">
-              <size>
-               <width>200</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Temperature devices</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QComboBox" name="comboBox_tempDevice">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="editable">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButton_tempDevice">
-             <property name="minimumSize">
-              <size>
-               <width>100</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Add</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
+          <widget class="QLabel" name="label_tempDevice">
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Temperature devices</string>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QListWidget" name="listWidget_tempDevice">
            <property name="toolTip">
-            <string>Editable
-del - remove item</string>
+            <string>Editable</string>
            </property>
           </widget>
          </item>
@@ -269,47 +238,17 @@ del - remove item</string>
        <item>
         <layout class="QVBoxLayout" name="layout_mount">
          <item>
-          <layout class="QHBoxLayout" name="layout_mountSelect">
-           <item>
-            <widget class="QLabel" name="label_mount">
-             <property name="minimumSize">
-              <size>
-               <width>200</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Mount points</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QComboBox" name="comboBox_mount">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="editable">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButton_mount">
-             <property name="minimumSize">
-              <size>
-               <width>100</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Add</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
+          <widget class="QLabel" name="label_mount">
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Mount points</string>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QListWidget" name="listWidget_mount">
@@ -324,44 +263,17 @@ del - remove item</string>
        <item>
         <layout class="QVBoxLayout" name="layout_hddSpeedDevice">
          <item>
-          <layout class="QHBoxLayout" name="layout_hddSpeedDeviceSelect">
-           <item>
-            <widget class="QLabel" name="label_hddSpeedDevice">
-             <property name="minimumSize">
-              <size>
-               <width>200</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>HDD devices (speed)</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QComboBox" name="comboBox_hddSpeedDevice">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButton_hddSpeedDevice">
-             <property name="minimumSize">
-              <size>
-               <width>100</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Add</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
+          <widget class="QLabel" name="label_hddSpeedDevice">
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>HDD devices (speed)</string>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QListWidget" name="listWidget_hddSpeedDevice">
@@ -376,47 +288,17 @@ del - remove item</string>
        <item>
         <layout class="QVBoxLayout" name="layout_hddDevice">
          <item>
-          <layout class="QHBoxLayout" name="layout_hddDeviceSelect">
-           <item>
-            <widget class="QLabel" name="label_hddDevice">
-             <property name="minimumSize">
-              <size>
-               <width>200</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>HDD devices (temp)</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QComboBox" name="comboBox_hddDevice">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="editable">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButton_hddDevice">
-             <property name="minimumSize">
-              <size>
-               <width>100</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Add</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
+          <widget class="QLabel" name="label_hddDevice">
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>HDD devices (temp)</string>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QListWidget" name="listWidget_hddDevice">
@@ -628,17 +510,9 @@ del - remove item</string>
   <tabstop>lineEdit_timeFormat</tabstop>
   <tabstop>lineEdit_uptimeFormat</tabstop>
   <tabstop>comboBox_tempUnits</tabstop>
-  <tabstop>comboBox_tempDevice</tabstop>
-  <tabstop>pushButton_tempDevice</tabstop>
   <tabstop>listWidget_tempDevice</tabstop>
-  <tabstop>comboBox_mount</tabstop>
-  <tabstop>pushButton_mount</tabstop>
   <tabstop>listWidget_mount</tabstop>
-  <tabstop>comboBox_hddSpeedDevice</tabstop>
-  <tabstop>pushButton_hddSpeedDevice</tabstop>
   <tabstop>listWidget_hddSpeedDevice</tabstop>
-  <tabstop>comboBox_hddDevice</tabstop>
-  <tabstop>pushButton_hddDevice</tabstop>
   <tabstop>listWidget_hddDevice</tabstop>
   <tabstop>lineEdit_netdir</tabstop>
   <tabstop>checkBox_netdev</tabstop>
