@@ -24,6 +24,7 @@
 #include <Plasma/Label>
 
 #include <ui_appearance.h>
+#include <ui_toggle.h>
 #include <ui_widget.h>
 
 
@@ -70,7 +71,7 @@ public slots:
     void configChanged();
     // events
     void changePanelsState();
-    int setCurrentDesktop(const int number);
+    void setCurrentDesktop(const int number);
 
 private slots:
     void reinit();
@@ -82,6 +83,7 @@ private:
     // functions
     QStringList getDesktopNames();
     QList<Plasma::Containment *> getPanels();
+    QString panelLocationToStr(Plasma::Location loc);
     void updateText();
     // ui
     QGraphicsLinearLayout *layout;
@@ -95,6 +97,7 @@ private:
     // configuration interface
     Ui::AppearanceWidget uiAppConfig;
     Ui::ConfigWindow uiWidConfig;
+    Ui::ToggleWindow uiToggleConfig;
     // configuration
     QMap<QString, QString> configuration;
     QStringList desktopNames;

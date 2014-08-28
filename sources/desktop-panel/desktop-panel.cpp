@@ -165,13 +165,31 @@ QList<Plasma::Containment *> DesktopPanel::getPanels()
     if (debug) qDebug() << "[PTM-DP]" << "[getPanels]";
 
     QList<Plasma::Containment *> panels;
-    for (int i=0; i<containment()->corona()->containments().count(); i++) {
-        qDebug() << containment()->corona()->containments()[i]->containmentType();
+    for (int i=0; i<containment()->corona()->containments().count(); i++)
         if (containment()->corona()->containments()[i]->containmentType() == Plasma::Containment::PanelContainment)
             panels.append(containment()->corona()->containments()[i]);
-    }
 
     return panels;
+}
+
+
+QString DesktopPanel::panelLocationToStr(Plasma::Location loc)
+{
+    if (debug) qDebug() << "[PTM-DP]" << "[panelLocationToStr]";
+    if (debug) qDebug() << "[PTM-DP]" << "[panelLocationToStr]" << ":" << "Location" << loc;
+
+    switch(loc) {
+    case Plasma::TopEdge:
+        return i18n("Top Edge");
+    case Plasma::BottomEdge:
+        return i18n("Bottom Edge");
+    case Plasma::LeftEdge:
+        return i18n("Left Edge");
+    case Plasma::RightEdge:
+        return i18n("Right Edge");
+    default:
+        return i18n("Unknown Position (%1)", loc);
+    }
 }
 
 
@@ -257,6 +275,10 @@ void DesktopPanel::changePanelsState()
 
     QList<Plasma::Containment *> panels = getPanels();
     for (int i=0; i<panels.count(); i++) {
+        if ((configuration[QString("panels")].split(QChar(','))
+                .contains(QString::number(i))) ||
+                (configuration[QString("panels")] == QString("-1")))
+            continue;
         bool wasVisible = panels[i]->view()->isVisible();
         int winId = panels[i]->view()->winId();
         if (wasVisible) {
@@ -275,7 +297,7 @@ void DesktopPanel::changePanelsState()
 }
 
 
-int DesktopPanel::setCurrentDesktop(const int number)
+void DesktopPanel::setCurrentDesktop(const int number)
 {
     if (debug) qDebug() << "[PTM-DP]" << "[setCurrentDesktop]";
     if (debug) qDebug() << "[PTM-DP]" << "[setCurrentDesktop]" << "Set desktop" << number + 1;
@@ -284,12 +306,7 @@ int DesktopPanel::setCurrentDesktop(const int number)
     if (debug) qDebug() << "[PTM-DP]" << "[setCurrentDesktop]" << "Run cmd " << cmd;
 
     QProcess command;
-    command.start(cmd);
-    command.waitForFinished(-1);
-    int status = command.exitCode();
-    if (debug) qDebug() << "[PTM-DP]" << "[setCurrentDesktop]" << "Cmd returns " << status;
-
-    return status;
+    command.startDetached(cmd);
 }
 
 
@@ -335,6 +352,8 @@ void DesktopPanel::createConfigurationInterface(KConfigDialog *parent)
     uiAppConfig.setupUi(appWidget);
     QWidget *configWidget = new QWidget;
     uiWidConfig.setupUi(configWidget);
+    QWidget *toggleWidget = new QWidget;
+    uiToggleConfig.setupUi(toggleWidget);
 
     if (configuration[QString("background")].toInt() == 0)
         uiWidConfig.checkBox_background->setCheckState(Qt::Unchecked);
@@ -389,8 +408,22 @@ void DesktopPanel::createConfigurationInterface(KConfigDialog *parent)
     else if (fontStyle == "italic")
         uiAppConfig.comboBox_fontStyleInactive->setCurrentIndex(1);
 
+    uiToggleConfig.listWidget_list->clear();
+    QList<Plasma::Containment *> panels = getPanels();
+    for (int i=0; i<panels.count(); i++) {
+        QListWidgetItem *item = new QListWidgetItem(panelLocationToStr(panels[i]->location()), uiToggleConfig.listWidget_list);
+        item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
+        if ((configuration[QString("panels")].split(QChar(','))
+                .contains(QString::number(i))) ||
+                (configuration[QString("panels")] == QString("-1")))
+            item->setCheckState(Qt::Checked);
+        else
+            item->setCheckState(Qt::Unchecked);
+    }
+
     parent->addPage(configWidget, i18n("Widget"), Applet::icon());
     parent->addPage(appWidget, i18n("Appearance"), QString("preferences-desktop-theme"));
+    parent->addPage(toggleWidget, i18n("Toggle panels"), QString("plasma"));
 
     connect(parent, SIGNAL(okClicked()), this, SLOT(configAccepted()));
     connect(parent, SIGNAL(applyClicked()), this, SLOT(configAccepted()));
@@ -424,6 +457,15 @@ void DesktopPanel::configAccepted()
     cg.writeEntry("fontColor", uiAppConfig.kcolorcombo_fontColorInactive->color().name());
     cg.writeEntry("fontWeight", uiAppConfig.spinBox_fontWeightInactive->value());
     cg.writeEntry("fontStyle", uiAppConfig.comboBox_fontStyleInactive->currentText());
+
+    QStringList indexes;
+    for (int i=0; i<uiToggleConfig.listWidget_list->count(); i++)
+        if (uiToggleConfig.listWidget_list->item(i)->checkState() == Qt::Checked)
+            indexes.append(QString::number(i));
+    if (indexes.count() == uiToggleConfig.listWidget_list->count())
+        cg.writeEntry("panels", QString("-1"));
+    else
+        cg.writeEntry("panels", indexes.join(QChar(',')));
 }
 
 
@@ -439,6 +481,7 @@ void DesktopPanel::configChanged()
     configuration[QString("layout")] = cg.readEntry("layout", "0");
     configuration[QString("leftStretch")] = cg.readEntry("leftStretch", "2");
     configuration[QString("mark")] = cg.readEntry("mark", "¤");
+    configuration[QString("panels")] = cg.readEntry("panels", "-1");
     configuration[QString("pattern")] = cg.readEntry("pattern", "[$mark$number/$total: $name]");
     configuration[QString("rightStretch")] = cg.readEntry("rightStretch", "2");
 
