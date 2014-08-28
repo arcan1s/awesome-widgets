@@ -207,6 +207,11 @@ $m - uptime minutes without zero</string>
              <string notr="true">Kelvin</string>
             </property>
            </item>
+           <item>
+            <property name="text">
+             <string notr="true">Reaumur</string>
+            </property>
+           </item>
           </widget>
          </item>
         </layout>

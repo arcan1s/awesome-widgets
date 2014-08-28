@@ -47,6 +47,17 @@ def getTemp(temp, unit):
         temp = str(round(((float(temp) * 9.0 / 5.0) + 32.0), 1))
     elif (unit == "Kelvin"):
         temp = str(round((float(temp) + 273.15), 1))
+    elif (unit == "Reaumur"):
+        temp = str(round((float(temp) * 0.8), 1))
+    elif (unit == "cm^-1"):
+        kelvin = round((float(temp) + 273.15), 1)
+        temp = str(round((kelvin * 0.695), 1))
+    elif (unit == "kJ/mol"):
+        kelvin = round((float(temp) + 273.15), 1)
+        temp = str(round((kelvin * 8.31), 1))
+    elif (unit == "kcal/mol"):
+        kelvin = round((float(temp) + 273.15), 1)
+        temp = str(round((kelvin * 1.98), 1))
     return temp
 
 
