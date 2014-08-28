@@ -19,14 +19,13 @@
 #include "ui_appearance.h"
 #include "ui_widget.h"
 
-#include <KDE/KConfigDialog>
-#include <KDE/KGlobal>
-#include <KDE/KStandardDirs>
-#include <KDE/Plasma/Containment>
-#include <KDE/Plasma/Corona>
-#include <KDE/Plasma/Theme>
-#include <KDE/KWindowInfo>
-#include <KDE/KWindowSystem>
+#include <KConfigDialog>
+#include <KGlobal>
+#include <KStandardDirs>
+#include <KWindowSystem>
+#include <Plasma/Containment>
+#include <Plasma/Corona>
+#include <Plasma/Theme>
 #include <QDebug>
 #include <QFile>
 #include <QGraphicsLinearLayout>

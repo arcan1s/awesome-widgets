@@ -1,0 +1,9 @@
+[submodule "sources/3rdparty/pdebug"]
+	path = sources/3rdparty/pdebug
+	url = https://github.com/arcan1s/qtadds-pdebug.git
+[submodule "sources/3rdparty/task"]
+	path = sources/3rdparty/task
+	url = https://github.com/arcan1s/qtadds-taskadds-qprocess.git
+[submodule "sources/3rdparty/tasks"]
+	path = sources/3rdparty/tasks
+	url = https://github.com/mhogomchungu/tasks.git
