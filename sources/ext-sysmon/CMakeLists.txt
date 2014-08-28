@@ -6,13 +6,18 @@ find_package (KDE4 REQUIRED)
 include (KDE4Defaults)
 
 add_definitions (${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
-include_directories (${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} ${KDE4_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR}/../)
+include_directories (${CMAKE_SOURCE_DIR}
+                     ${CMAKE_BINARY_DIR}
+                     ${KDE4_INCLUDES}
+                     ${CMAKE_CURRENT_BINARY_DIR}
+                     ${CMAKE_CURRENT_BINARY_DIR}/../
+                     ${PROJECT_TRDPARTY_DIR})
 
 set (PLUGIN_NAME ${SUBPROJECT})
 file (GLOB SUBPROJECT_DESKTOP_IN *.desktop)
 file (RELATIVE_PATH SUBPROJECT_DESKTOP ${CMAKE_SOURCE_DIR} ${SUBPROJECT_DESKTOP_IN})
-file (GLOB SUBPROJECT_SOURCE *.cpp)
-set (TASK_HEADER ${CMAKE_CURRENT_SOURCE_DIR}/task.h)
+file (GLOB_RECURSE SUBPROJECT_SOURCE *.cpp ${PROJECT_TRDPARTY_DIR}/task/*.cpp)
+set (TASK_HEADER ${PROJECT_TRDPARTY_DIR}/task/task.h)
 file (GLOB SUBPROJECT_CONF *.conf)
 
 # prepare

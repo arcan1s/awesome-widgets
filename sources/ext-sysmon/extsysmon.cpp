@@ -28,7 +28,8 @@
 #include <QTextCodec>
 #include <QThread>
 
-#include "taskadds.h"
+#include <task/taskadds.h>
+#include <pdebug/pdebug.h>
 
 
 ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList& args)
@@ -51,32 +52,32 @@ ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList& args)
 
 QString ExtendedSysMon::getAllHdd()
 {
-    if (debug) qDebug() << "[DE]" << "[getAllHdd]";
+    if (debug) qDebug() << PDEBUG;
 
     QStringList devices;
     QString cmd = QString("find /dev -name [hms]d[a-z]");
-    if (debug) qDebug() << "[DE]" << "[getAllHdd]" << ":" << "cmd" << cmd;
+    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
     TaskResult process = runTask(cmd);
-    if (debug) qDebug() << "[DE]" << "[getAllHdd]" << ":" << "Cmd returns" << process.exitCode;
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output);
     for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++)
         devices.append(qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i]);
 
-    if (debug) qDebug() << "[DE]" << "[getAllHdd]" << ":" << "Device list" << devices;
+    if (debug) qDebug() << PDEBUG << ":" << "Device list" << devices;
     return devices.join(QChar(','));
 }
 
 
 QString ExtendedSysMon::getAutoGpu()
 {
-    if (debug) qDebug() << "[DE]" << "[getAutoGpu]";
+    if (debug) qDebug() << PDEBUG;
 
     QString gpu = QString("disable");
     QString cmd = QString("lspci");
-    if (debug) qDebug() << "[DE]" << "[getAutoGpu]" << ":" << "cmd" << cmd;
+    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
     TaskResult process = runTask(cmd);
-    if (debug) qDebug() << "[DE]" << "[getAutoGpu]" << ":" << "Cmd returns" << process.exitCode;
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output);
     if (qoutput.toLower().contains("nvidia"))
@@ -84,36 +85,36 @@ QString ExtendedSysMon::getAutoGpu()
     else if (qoutput.toLower().contains("radeon"))
         gpu = QString("ati");
 
-    if (debug) qDebug() << "[DE]" << "[getAutoGpu]" << ":" << "Device" << gpu;
+    if (debug) qDebug() << PDEBUG << ":" << "Device" << gpu;
     return gpu;
 }
 
 
 QString ExtendedSysMon::getAutoMpris()
 {
-    if (debug) qDebug() << "[DE]" << "[getAutoMpris]";
+    if (debug) qDebug() << PDEBUG;
 
     QString mpris;
     QString cmd = QString("bash -c \"qdbus 'org.mpris.MediaPlayer2.*'\"");
-    if (debug) qDebug() << "[DE]" << "[getAutoMpris]" << ":" << "cmd" << cmd;
+    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
     TaskResult process = runTask(cmd);
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     if (qoutput.split(QChar('\n'))[0].split(QChar('.')).count() > 3)
         mpris = qoutput.split(QChar('\n'))[0].split(QChar('.'))[3];
 
-    if (debug) qDebug() << "[DE]" << "[getAutoMpris]" << ":" << "Player found" << mpris;
+    if (debug) qDebug() << PDEBUG << ":" << "Player found" << mpris;
     return mpris;
 }
 
 
 QStringList ExtendedSysMon::getDesktopNames()
 {
-    if (debug) qDebug() << "[DE]" << "[getDesktopNames]";
+    if (debug) qDebug() << PDEBUG;
 
     QStringList list;
     QString fileName = KGlobal::dirs()->findResource("config", "kwinrc");
-    if (debug) qDebug() << "[DE]" << "[getDesktopNames]" << ":" << "Configuration file" << fileName;
+    if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
     QFile configFile(fileName);
     if (!configFile.open(QIODevice::ReadOnly)) return list;
 
@@ -146,7 +147,7 @@ QStringList ExtendedSysMon::getDesktopNames()
 
 QStringList ExtendedSysMon::sources() const
 {
-    if (debug) qDebug() << "[DE]" << "[sources]";
+    if (debug) qDebug() << PDEBUG;
 
     QStringList source;
     source.append(QString("custom"));
@@ -158,14 +159,14 @@ QStringList ExtendedSysMon::sources() const
     source.append(QString("player"));
     source.append(QString("ps"));
 
-    if (debug) qDebug() << "[DE]" << "[sources]" << ":" << "Sources" << source;
+    if (debug) qDebug() << PDEBUG << ":" << "Sources" << source;
     return source;
 }
 
 
 void ExtendedSysMon::readConfiguration()
 {
-    if (debug) qDebug() << "[DE]" << "[readConfiguration]";
+    if (debug) qDebug() << PDEBUG;
 
     // pre-setup
     QMap<QString, QString> rawConfig;
@@ -183,7 +184,7 @@ void ExtendedSysMon::readConfiguration()
     rawConfig[QString("PLAYER")] = QString("mpris");
 
     QString fileName = KGlobal::dirs()->findResource("config", "extsysmon.conf");
-    if (debug) qDebug() << "[DE]" << "[readConfiguration]" << ":" << "Configuration file" << fileName;
+    if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
     QFile configFile(fileName);
     if (!configFile.open(QIODevice::ReadOnly)) {
         configuration = updateConfiguration(rawConfig);
@@ -212,7 +213,7 @@ void ExtendedSysMon::readConfiguration()
 
 QMap<QString, QString> ExtendedSysMon::updateConfiguration(const QMap<QString, QString> rawConfig)
 {
-    if (debug) qDebug() << "[DE]" << "[updateConfiguration]";
+    if (debug) qDebug() << PDEBUG;
 
     QMap<QString, QString> config;
     QString key, value;
@@ -268,7 +269,7 @@ QMap<QString, QString> ExtendedSysMon::updateConfiguration(const QMap<QString, Q
         config[QString("PLAYER")] = QString("mpris");
 
     for (int i=0; i<config.keys().count(); i++)
-        if (debug) qDebug() << "[DE]" << "[updateConfiguration]" << ":" <<
+        if (debug) qDebug() << PDEBUG << ":" <<
             config.keys()[i] + QString("=") + config[config.keys()[i]];
     return config;
 }
@@ -276,11 +277,11 @@ QMap<QString, QString> ExtendedSysMon::updateConfiguration(const QMap<QString, Q
 
 QMap<QString, QVariant> ExtendedSysMon::getCurrentDesktop(const QString cmd)
 {
-    if (debug) qDebug() << "[DE]" << "[getCurrentDesktop]";
-    if (debug) qDebug() << "[DE]" << "[getCurrentDesktop]" << ":" << "cmd" << cmd;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
 
     TaskResult process = runTask(QString("bash -c \"") + cmd + QString("\""));
-    if (debug) qDebug() << "[DE]" << "[getCurrentDesktop]" << ":" << "Cmd returns" << process.exitCode;
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     int number = qoutput.toInt();
@@ -296,11 +297,11 @@ QMap<QString, QVariant> ExtendedSysMon::getCurrentDesktop(const QString cmd)
 
 QString ExtendedSysMon::getCustomCmd(const QString cmd)
 {
-    if (debug) qDebug() << "[DE]" << "[getCustomCmd]";
-    if (debug) qDebug() << "[DE]" << "[getCustomCmd]" << ":" << "cmd" << cmd;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
 
     TaskResult process = runTask(QString("bash -c \"") + cmd + QString("\""));
-    if (debug) qDebug() << "[DE]" << "[getCustomCmd]" << ":" << "Cmd returns" << process.exitCode;
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
 
     return QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
 }
@@ -308,8 +309,8 @@ QString ExtendedSysMon::getCustomCmd(const QString cmd)
 
 float ExtendedSysMon::getGpu(const QString device)
 {
-    if (debug) qDebug() << "[DE]" << "[getGpu]";
-    if (debug) qDebug() << "[DE]" << "[getGpu]" << ":" << "Device" << device;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Device" << device;
 
     float value = 0.0;
     if ((device != QString("nvidia")) && (device != QString("ati")))
@@ -319,9 +320,9 @@ float ExtendedSysMon::getGpu(const QString device)
         cmd = QString("nvidia-smi -q -d UTILIZATION");
     else if (device == QString("ati"))
         cmd = QString("aticonfig --od-getclocks");
-    if (debug) qDebug() << "[DE]" << "[getGpu]" << ":" << "cmd" << cmd;
+    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
     TaskResult process = runTask(QString("bash -c \"") + cmd + QString("\""));
-    if (debug) qDebug() << "[DE]" << "[getGpu]" << ":" << "Cmd returns" << process.exitCode;
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     if (configuration[QString("GPUDEV")] == QString("nvidia"))
@@ -349,8 +350,8 @@ float ExtendedSysMon::getGpu(const QString device)
 
 float ExtendedSysMon::getGpuTemp(const QString device)
 {
-    if (debug) qDebug() << "[DE]" << "[getGpuTemp]";
-    if (debug) qDebug() << "[DE]" << "[getGpuTemp]" << ":" << "Device" << device;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Device" << device;
 
     float value = 0.0;
     if ((device != QString("nvidia")) && (device != QString("ati")))
@@ -360,9 +361,9 @@ float ExtendedSysMon::getGpuTemp(const QString device)
         cmd = QString("nvidia-smi -q -d TEMPERATURE");
     else if (device == QString("ati"))
         cmd = QString("aticonfig --od-gettemperature");
-    if (debug) qDebug() << "[DE]" << "[getGpuTemp]" << ":" << "cmd" << cmd;
+    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
     TaskResult process = runTask(QString("bash -c \"") + cmd + QString("\""));
-    if (debug) qDebug() << "[DE]" << "[getGpuTemp]" << ":" << "Cmd returns" << process.exitCode;
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output);
     if (configuration[QString("GPUDEV")] == QString("nvidia"))
@@ -388,13 +389,13 @@ float ExtendedSysMon::getGpuTemp(const QString device)
 
 float ExtendedSysMon::getHddTemp(const QString cmd, const QString device)
 {
-    if (debug) qDebug() << "[DE]" << "[getHddTemp]";
-    if (debug) qDebug() << "[DE]" << "[getHddTemp]" << ":" << "cmd" << cmd;
-    if (debug) qDebug() << "[DE]" << "[getHddTemp]" << ":" << "Device" << device;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
+    if (debug) qDebug() << PDEBUG << ":" << "Device" << device;
 
     float value = 0.0;
     TaskResult process = runTask(cmd + QString(" ") + device);
-    if (debug) qDebug() << "[DE]" << "[getHddTemp]" << ":" << "Cmd returns" << process.exitCode;
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     if (qoutput.split(QChar(':'), QString::SkipEmptyParts).count() >= 3) {
@@ -412,10 +413,10 @@ QMap<QString, QVariant> ExtendedSysMon::getPlayerInfo(const QString playerName,
                                                       const QString mpdPort,
                                                       QString mpris)
 {
-    if (debug) qDebug() << "[DE]" << "[getPlayerInfo]";
-    if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "player" << playerName;
-    if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "MPD" << mpdAddress + QString(":") + mpdPort;
-    if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "MPRIS" << mpris;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "player" << playerName;
+    if (debug) qDebug() << PDEBUG << ":" << "MPD" << mpdAddress + QString(":") + mpdPort;
+    if (debug) qDebug() << PDEBUG << ":" << "MPRIS" << mpris;
 
     QMap<QString, QVariant> info;
     info[QString("album")] = QString("unknown");
@@ -436,9 +437,9 @@ QMap<QString, QVariant> ExtendedSysMon::getPlayerInfo(const QString playerName,
         cmd = QString("bash -c \"qdbus org.mpris.%1 /Player GetMetadata && qdbus org.mpris.%1 /Player PositionGet\"")
                 .arg(mpris);
     }
-    if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "cmd" << cmd;
+    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
     TaskResult process = runTask(cmd);
-    if (debug) qDebug() << "[DE]" << "[getPlayerInfo]" << ":" << "Cmd returns" << process.exitCode;
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     QString qstr = QString("");
@@ -483,14 +484,14 @@ QMap<QString, QVariant> ExtendedSysMon::getPlayerInfo(const QString playerName,
 
 QMap<QString, QVariant> ExtendedSysMon::getPsStats()
 {
-    if (debug) qDebug() << "[DE]" << "[getPsStats]";
+    if (debug) qDebug() << PDEBUG;
 
     QMap<QString, QVariant> psStats;
     QString cmd, qoutput;
     cmd = QString("ps --no-headers -o command");
-    if (debug) qDebug() << "[DE]" << "[getPsStats]" << ":" << "Run cmd" << cmd;
+    if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd);
-    if (debug) qDebug() << "[DE]" << "[getPsStats]" << ":" << "Cmd returns" << process.exitCode;
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
 
     qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     QStringList psList;
@@ -501,9 +502,9 @@ QMap<QString, QVariant> ExtendedSysMon::getPsStats()
     psStats[QString("ps")] = psList.join(QString(","));
 
     cmd = QString("ps -e --no-headers -o command");
-    if (debug) qDebug() << "[DE]" << "[getPsStats]" << ":" << "Run cmd" << cmd;
+    if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
     process = runTask(cmd);
-    if (debug) qDebug() << "[DE]" << "[getPsStats]" << ":" << "Cmd returns" << process.exitCode;
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
 
     qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     psStats[QString("psTotal")] = qoutput.split(QChar('\n'), QString::SkipEmptyParts).count();
@@ -514,11 +515,11 @@ QMap<QString, QVariant> ExtendedSysMon::getPsStats()
 
 int ExtendedSysMon::getUpgradeInfo(const QString cmd)
 {
-    if (debug) qDebug() << "[DE]" << "[getUpgradeInfo]";
-    if (debug) qDebug() << "[DE]" << "[getUpgradeInfo]" << ":" << "cmd" << cmd;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
 
     TaskResult process = runTask(QString("bash -c \"") + cmd + QString("\""));
-    if (debug) qDebug() << "[DE]" << "[getUpgradeInfo]" << ":" << "Cmd returns" << process.exitCode;
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     int count = 0;
@@ -532,8 +533,8 @@ int ExtendedSysMon::getUpgradeInfo(const QString cmd)
 
 bool ExtendedSysMon::sourceRequestEvent(const QString &source)
 {
-    if (debug) qDebug() << "[DE]" << "[sourceRequestEvent]";
-    if (debug) qDebug() << "[DE]" << "[sourceRequestEvent]" << ":" << "Source" << source;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Source" << source;
 
     return updateSourceEvent(source);
 }
@@ -541,8 +542,8 @@ bool ExtendedSysMon::sourceRequestEvent(const QString &source)
 
 bool ExtendedSysMon::updateSourceEvent(const QString &source)
 {
-    if (debug) qDebug() << "[DE]" << "[updateSourceEvent]";
-    if (debug) qDebug() << "[DE]" << "[updateSourceEvent]" << ":" << "Source" << source;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Source" << source;
 
     if (source == QString("custom")) {
         for (int i=0; i<configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts).count(); i++) {

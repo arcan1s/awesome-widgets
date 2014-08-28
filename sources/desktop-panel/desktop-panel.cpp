@@ -16,8 +16,6 @@
  ***************************************************************************/
 
 #include "desktop-panel.h"
-#include "ui_appearance.h"
-#include "ui_widget.h"
 
 #include <KConfigDialog>
 #include <KGlobal>
@@ -34,6 +32,8 @@
 #include <QProcessEnvironment>
 #include <QTextCodec>
 
+#include <pdebug/pdebug.h>
+
 
 CustomPlasmaLabel::CustomPlasmaLabel(DesktopPanel *wid, const int num)
     : Plasma::Label(wid),
@@ -48,7 +48,7 @@ CustomPlasmaLabel::CustomPlasmaLabel(DesktopPanel *wid, const int num)
     else
         debug = false;
 
-    if (debug) qDebug() << "[PTM-DP]" << "Init label" << number;
+    if (debug) qDebug() << PDEBUG << ":" << "Init label" << number;
 }
 
 
@@ -59,7 +59,7 @@ CustomPlasmaLabel::~CustomPlasmaLabel()
 
 int CustomPlasmaLabel::getNumber()
 {
-    if (debug) qDebug() << "[PTM-DP]" << "[" << number << "]" << "[getNumber]";
+    if (debug) qDebug() << PDEBUG;
 
     return number;
 }
@@ -67,8 +67,8 @@ int CustomPlasmaLabel::getNumber()
 
 void CustomPlasmaLabel::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (debug) qDebug() << "[PTM-DP]" << "[" << number << "]" << "[mouseMoveEvent]";
-    if (debug) qDebug() << "[PTM-DP]" << "[" << number << "]" << "[mouseMoveEvent]" << "Get signal" << event->button();
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Get signal" << event->button();
 
     if (event->button() == Qt::LeftButton)
         widget->setCurrentDesktop(number);
@@ -106,7 +106,7 @@ DesktopPanel::~DesktopPanel()
 
 void DesktopPanel::init()
 {
-    if (debug) qDebug() << "[PTM-DP]" << "[init]";
+    if (debug) qDebug() << PDEBUG;
 
     extsysmonEngine = dataEngine(QString("ext-sysmon"));
 
@@ -124,11 +124,11 @@ void DesktopPanel::init()
 
 QStringList DesktopPanel::getDesktopNames()
 {
-    if (debug) qDebug() << "[PTM-DP]" << "[getDesktopNames]";
+    if (debug) qDebug() << PDEBUG;
 
     QStringList list;
     QString fileName = KGlobal::dirs()->findResource("config", "kwinrc");
-    if (debug) qDebug() << "[PTM-DP]" << "[getDesktopNames]" << ":" << "Configuration file" << fileName;
+    if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
     QFile configFile(fileName);
     if (!configFile.open(QIODevice::ReadOnly)) return list;
 
@@ -161,7 +161,7 @@ QStringList DesktopPanel::getDesktopNames()
 
 QList<Plasma::Containment *> DesktopPanel::getPanels()
 {
-    if (debug) qDebug() << "[PTM-DP]" << "[getPanels]";
+    if (debug) qDebug() << PDEBUG;
 
     QList<Plasma::Containment *> panels;
     for (int i=0; i<containment()->corona()->containments().count(); i++)
@@ -174,8 +174,8 @@ QList<Plasma::Containment *> DesktopPanel::getPanels()
 
 QString DesktopPanel::panelLocationToStr(Plasma::Location loc)
 {
-    if (debug) qDebug() << "[PTM-DP]" << "[panelLocationToStr]";
-    if (debug) qDebug() << "[PTM-DP]" << "[panelLocationToStr]" << ":" << "Location" << loc;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Location" << loc;
 
     switch(loc) {
     case Plasma::TopEdge:
@@ -194,9 +194,9 @@ QString DesktopPanel::panelLocationToStr(Plasma::Location loc)
 
 QString DesktopPanel::parsePattern(const QString rawLine, const int num)
 {
-    if (debug) qDebug() << "[PTM-DP]" << "[parsePattern]";
-    if (debug) qDebug() << "[PTM-DP]" << "[parsePattern]" << "Run function with raw line" << rawLine;
-    if (debug) qDebug() << "[PTM-DP]" << "[parsePattern]" << "Run function with number" << num;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Run function with raw line" << rawLine;
+    if (debug) qDebug() << PDEBUG << ":" << "Run function with number" << num;
 
     QString line, mark;
     line = rawLine;
@@ -205,19 +205,19 @@ QString DesktopPanel::parsePattern(const QString rawLine, const int num)
     else
         mark = QString("");
     if (line.split(QString("$mark"))[0] != line) {
-        if (debug) qDebug() << "[PTM-DP]" << "[parsePattern]" << "Found mark";
+        if (debug) qDebug() << PDEBUG << ":" << "Found mark";
         line = line.split(QString("$mark"))[0] + mark + line.split(QString("$mark"))[1];
     }
     if (line.split(QString("$name"))[0] != line) {
-        if (debug) qDebug() << "[PTM-DP]" << "[parsePattern]" << "Found name";
+        if (debug) qDebug() << PDEBUG << ":" << "Found name";
         line = line.split(QString("$name"))[0] + desktopNames[num] + line.split(QString("$name"))[1];
     }
     if (line.split(QString("$number"))[0] != line) {
-        if (debug) qDebug() << "[PTM-DP]" << "[parsePattern]" << "Found number";
+        if (debug) qDebug() << PDEBUG << ":" << "Found number";
         line = line.split(QString("$number"))[0] + QString::number(num + 1) + line.split(QString("$number"))[1];
     }
     if (line.split(QString("$total"))[0] != line) {
-        if (debug) qDebug() << "[PTM-DP]" << "[parsePattern]" << "Found total";
+        if (debug) qDebug() << PDEBUG << ":" << "Found total";
         line = line.split(QString("$total"))[0] + QString::number(desktopNames.count()) + line.split(QString("$total"))[1];
     }
 
@@ -227,7 +227,7 @@ QString DesktopPanel::parsePattern(const QString rawLine, const int num)
 
 void DesktopPanel::reinit()
 {
-    if (debug) qDebug() << "[PTM-DP]" << "[reinit]";
+    if (debug) qDebug() << PDEBUG;
 
     // clear
     // labels
@@ -270,7 +270,7 @@ void DesktopPanel::reinit()
 
 void DesktopPanel::changePanelsState()
 {
-    if (debug) qDebug() << "[PTM-DP]" << "[changePanelsState]";
+    if (debug) qDebug() << PDEBUG;
 
     QList<Plasma::Containment *> panels = getPanels();
     for (int i=0; i<panels.count(); i++) {
@@ -281,12 +281,12 @@ void DesktopPanel::changePanelsState()
         bool wasVisible = panels[i]->view()->isVisible();
         int winId = panels[i]->view()->winId();
         if (wasVisible) {
-            if (debug) qDebug() << "[PTM-DP]" << "[changePanelsState]" << ":" << "Hide panel";
+            if (debug) qDebug() << PDEBUG << ":" << "Hide panel";
             KWindowInfo oldInfo = KWindowSystem::windowInfo(winId, NET::WMState);
             oldState = oldInfo.state();
             panels[i]->view()->setVisible(false);
         } else {
-            if (debug) qDebug() << "[PTM-DP]" << "[changePanelsState]" << ":" << "Show panel";
+            if (debug) qDebug() << PDEBUG << ":" << "Show panel";
             panels[i]->view()->setVisible(true);
             KWindowSystem::clearState(winId, NET::KeepAbove);
             KWindowSystem::setState(winId, oldState | NET::StaysOnTop);
@@ -298,11 +298,11 @@ void DesktopPanel::changePanelsState()
 
 void DesktopPanel::setCurrentDesktop(const int number)
 {
-    if (debug) qDebug() << "[PTM-DP]" << "[setCurrentDesktop]";
-    if (debug) qDebug() << "[PTM-DP]" << "[setCurrentDesktop]" << "Set desktop" << number + 1;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Set desktop" << number + 1;
 
     QString cmd = parsePattern(configuration[QString("desktopcmd")], number);
-    if (debug) qDebug() << "[PTM-DP]" << "[setCurrentDesktop]" << "Run cmd " << cmd;
+    if (debug) qDebug() << PDEBUG << ":" << "Run cmd " << cmd;
 
     QProcess command;
     command.startDetached(cmd);
@@ -311,12 +311,12 @@ void DesktopPanel::setCurrentDesktop(const int number)
 
 void DesktopPanel::updateText()
 {
-    if (debug) qDebug() << "[PTM-DP]" << "[updateText]";
+    if (debug) qDebug() << PDEBUG;
 
     if (labels.isEmpty()) return;
     QString line, text;
     for (int i=0; i<labels.count(); i++) {
-        if (debug) qDebug() << "[PTM-DP]" << "[updateText]" << "Label" << i;
+        if (debug) qDebug() << PDEBUG << ":" << "Label" << i;
         line = parsePattern(configuration[QString("pattern")], i);
         if (currentDesktop == i + 1)
             text = currentFormatLine[0] + line + currentFormatLine[1];
@@ -330,8 +330,8 @@ void DesktopPanel::updateText()
 // data engine interaction
 void DesktopPanel::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Data &data)
 {
-    if (debug) qDebug() << "[PTM-DP]" << "[dataUpdated]";
-    if (debug) qDebug() << "[PTM-DP]" << "[dataUpdated]" << ":" << "Run function with source name" << sourceName;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Run function with source name" << sourceName;
 
     if (data.keys().count() == 0)
         return;
@@ -345,7 +345,7 @@ void DesktopPanel::dataUpdated(const QString &sourceName, const Plasma::DataEngi
 //  configuration interface
 void DesktopPanel::createConfigurationInterface(KConfigDialog *parent)
 {
-    if (debug) qDebug() << "[PTM-DP]" << "[createConfigurationInterface]";
+    if (debug) qDebug() << PDEBUG;
 
     QWidget *appWidget = new QWidget;
     uiAppConfig.setupUi(appWidget);
@@ -431,7 +431,7 @@ void DesktopPanel::createConfigurationInterface(KConfigDialog *parent)
 
 void DesktopPanel::configAccepted()
 {
-    if (debug) qDebug() << "[PTM-DP]" << "[configAccepted]";
+    if (debug) qDebug() << PDEBUG;
 
     extsysmonEngine->disconnectSource(QString("desktop"), this);
     KConfigGroup cg = config();
@@ -470,7 +470,7 @@ void DesktopPanel::configAccepted()
 
 void DesktopPanel::configChanged()
 {
-    if (debug) qDebug() << "[PTM-DP]" << "[configChanged]";
+    if (debug) qDebug() << PDEBUG;
 
     KConfigGroup cg = config();
 

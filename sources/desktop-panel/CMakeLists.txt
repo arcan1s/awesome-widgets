@@ -9,7 +9,12 @@ add_definitions (${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 add_subdirectory (po)
 
 include (KDE4Defaults)
-include_directories (${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} ${KDE4_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR}/../)
+include_directories (${CMAKE_SOURCE_DIR}
+                     ${CMAKE_BINARY_DIR}
+                     ${KDE4_INCLUDES}
+                     ${CMAKE_CURRENT_BINARY_DIR}
+                     ${CMAKE_CURRENT_BINARY_DIR}/../
+                     ${PROJECT_TRDPARTY_DIR})
 
 # set sources
 set (PLUGIN_NAME ${SUBPROJECT})
