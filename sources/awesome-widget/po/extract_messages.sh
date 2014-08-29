@@ -1,8 +1,8 @@
 #!/bin/sh
 BASEDIR="../" # root of translatable sources
-PROJECT="plasma_applet_ptm-desktop-panel" # project name
+PROJECT="plasma_applet_ptm-awesome-widget" # project name
 BUGADDR="https://github.com/arcan1s/pytextmonitor/issues" # MSGID-Bugs
-WDIR=`pwd` # working dir
+WDIR=$(pwd) # working dir
 
 echo "Preparing rc files"
 cd "${BASEDIR}"
@@ -38,3 +38,4 @@ echo "Cleaning up"
 cd "${WDIR}"
 rm -f rcfiles.list infiles.list rc.cpp
 echo "Done"
+

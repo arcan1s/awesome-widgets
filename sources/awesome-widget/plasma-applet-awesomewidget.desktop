@@ -1,0 +1,25 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=PTM Awesome Widget
+Comment=A minimalistic Plasmoid script written on Python2
+Comment[en]=A minimalistic Plasmoid script written on Python2
+Comment[es]=Un plasmoide minimalista escrito en Python2
+Comment[es]=Un script Plasmoïde minimaliste écrit sur Python2
+Comment[pt_BR]=Um script Plasmoid escrito em Python2
+Comment[ru]=Минималистичный плазмоид скрипт, написанный на Python2
+Comment[uk]=Мінімалістичний плазмоїд, що написаний на Python2
+X-KDE-ServiceTypes=Plasma/Applet
+Type=Service
+Icon=utilities-system-monitor
+
+X-KDE-Library=plasma_applet_ptm-awesome-widget
+
+X-KDE-PluginInfo-Author=Evgeniy Alekseev aka arcanis
+X-KDE-PluginInfo-Email=esalexeev@gmail.com
+X-KDE-PluginInfo-Name=ptm-awesome-widget
+X-KDE-PluginInfo-Version=@PROJECT_VERSION@
+X-KDE-PluginInfo-Website=http://arcanis.name/projects/pytextmonitor/
+X-KDE-PluginInfo-Category=System Information
+X-KDE-PluginInfo-Depends=
+X-KDE-PluginInfo-License=GPLv3
+X-KDE-PluginInfo-EnabledByDefault=true

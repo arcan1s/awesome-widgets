@@ -1,0 +1,674 @@
+# Copyright (C) 2014
+# This file is distributed under the same license as the PyTextMonitor package.
+#
+# Evgeniy Alekseev <esalexeev@gmail.com>, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=157124\n"
+"POT-Creation-Date: 2014-08-02 18:20+0400\n"
+"PO-Revision-Date: 2014-08-02 18:20+0400\n"
+"Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
+"Language-Team: English <kde-russian@lists.kde.ru>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Lokalize 1.5\n"
+
+#: code/configdef.py:289
+msgid "Widget"
+msgstr "Widget"
+
+#: code/configdef.py:291
+msgid "Advanced"
+msgstr "Advanced"
+
+#: code/configdef.py:293
+msgid "Tooltip"
+msgstr "Tooltip"
+
+#: code/configdef.py:295
+msgid "Appearance"
+msgstr "Appearance"
+
+#: code/configdef.py:297
+msgid "DataEngine"
+msgstr "DataEngine"
+
+#: code/main.py:115
+msgid "Run ksysguard"
+msgstr "Run ksysguard"
+
+#: code/main.py:117
+msgid "Show README"
+msgstr "Show README"
+
+#: code/main.py:119
+msgid "Update text"
+msgstr "Update text"
+
+#: rc.cpp:3 rc.cpp:132 rc.cpp:153 rc.cpp:209 rc.cpp:239
+msgid "Form"
+msgstr "Form"
+
+#: rc.cpp:6
+msgid "Enable background"
+msgstr "Enable background"
+
+#: rc.cpp:9
+msgid "Vertical layout"
+msgstr "Vertical layout"
+
+#: rc.cpp:12
+msgid "Enable popup on mouse click"
+msgstr "Enable popup on mouse click"
+
+#: rc.cpp:15
+msgid "Add stretch to left/top of the layout"
+msgstr "Add stretch to left/top of the layout"
+
+#: rc.cpp:18
+msgid "Add stretch to right/bottom of the layout"
+msgstr "Add stretch to right/bottom of the layout"
+
+#: rc.cpp:21
+msgid "Custom time format"
+msgstr "Custom time format"
+
+#: rc.cpp:24
+msgid ""
+"$dddd - long weekday\n"
+"$ddd - short weekday\n"
+"$dd - day\n"
+"$d - day w\\o zero\n"
+"$MMMM - long month\n"
+"$MMM - short month\n"
+"$MM - month\n"
+"$M - month w\\o zero\n"
+"$yyyy - year\n"
+"$yy - short year\n"
+"$hh - hours (24 only)\n"
+"$h - hours w\\o zero (24 only)\n"
+"$mm - minutes\n"
+"$m - minutes w\\o zero\n"
+"$ss - seconds\n"
+"$s - seconds w\\o zero"
+msgstr ""
+"$dddd - long weekday\n"
+"$ddd - short weekday\n"
+"$dd - day\n"
+"$d - day w\\o zero\n"
+"$MMMM - long month\n"
+"$MMM - short month\n"
+"$MM - month\n"
+"$M - month w\\o zero\n"
+"$yyyy - year\n"
+"$yy - short year\n"
+"$hh - hours (24 only)\n"
+"$h - hours w\\o zero (24 only)\n"
+"$mm - minutes\n"
+"$m - minutes w\\o zero\n"
+"$ss - seconds\n"
+"$s - seconds w\\o zero"
+
+#: rc.cpp:42
+msgid "Custom uptime format"
+msgstr "Custom uptime format"
+
+#: rc.cpp:45
+msgid ""
+"$dd - uptime days\n"
+"$d - uptime days without zero\n"
+"$hh - uptime hours\n"
+"$h - uptime hours without zero\n"
+"$mm - uptime minutes\n"
+"$m - uptime minutes without zero"
+msgstr ""
+"$dd - uptime days\n"
+"$d - uptime days without zero\n"
+"$hh - uptime hours\n"
+"$h - uptime hours without zero\n"
+"$mm - uptime minutes\n"
+"$m - uptime minutes without zero"
+
+#: rc.cpp:53
+msgid "Temperature units"
+msgstr "Temperature units"
+
+#: rc.cpp:56
+msgid "Temperature devices"
+msgstr "Temperature devices"
+
+#: rc.cpp:59 rc.cpp:69 rc.cpp:79 rc.cpp:89 rc.cpp:162 rc.cpp:190
+msgid "Add"
+msgstr "Add"
+
+#: rc.cpp:62 rc.cpp:72 rc.cpp:82 rc.cpp:92 rc.cpp:165 rc.cpp:193
+msgid ""
+"Editable\n"
+"del - remove item"
+msgstr ""
+"Editable\n"
+"del - remove item"
+
+#: rc.cpp:66
+msgid "Mount points"
+msgstr "Mount points"
+
+#: rc.cpp:76
+msgid "HDD devices (speed)"
+msgstr "HDD (speed)"
+
+#: rc.cpp:86
+msgid "HDD devices (temp)"
+msgstr "HDD (temp)"
+
+#: rc.cpp:96
+msgid "Network directory"
+msgstr "Network directory"
+
+#: rc.cpp:99
+msgid "\"/sys/class/net\" by default"
+msgstr "\"/sys/class/net\" by default"
+
+#: rc.cpp:102
+msgid "Disable auto select device and set specified device"
+msgstr "Disable auto select device and set specified device"
+
+#: rc.cpp:105
+msgid "Set network device"
+msgstr "Set network device"
+
+#: rc.cpp:108
+msgid "Battery device"
+msgstr "Battery device"
+
+#: rc.cpp:111
+msgid "\"/sys/class/power_supply/BAT0/capacity\" by default"
+msgstr "\"/sys/class/power_supply/BAT0/capacity\" by default"
+
+#: rc.cpp:114
+msgid "AC online tag"
+msgstr "AC online tag"
+
+#: rc.cpp:117
+msgid "Line, which returns when AC is online"
+msgstr "Line, which returns when AC is online"
+
+#: rc.cpp:120
+msgid "AC offline tag"
+msgstr "AC offline tag"
+
+#: rc.cpp:123
+msgid "Line, which returns when AC is offline"
+msgstr "Line, which returns when AC is offline"
+
+#: rc.cpp:126
+msgid "AC device"
+msgstr "AC device"
+
+#: rc.cpp:129
+msgid "\"/sys/class/power_supply/AC/online\" by default"
+msgstr "\"/sys/class/power_supply/AC/online\" by default"
+
+#: rc.cpp:135
+msgid "Time interval"
+msgstr "Time interval"
+
+#: rc.cpp:138
+msgid "Font"
+msgstr "Font"
+
+#: rc.cpp:141
+msgid "Font size"
+msgstr "Font size"
+
+#: rc.cpp:144
+msgid "Font color"
+msgstr "Font color"
+
+#: rc.cpp:147
+msgid "Font style"
+msgstr "Font style"
+
+#: rc.cpp:150
+msgid "Font weight"
+msgstr "Font weight"
+
+#: rc.cpp:156
+msgid "Custom command"
+msgstr "Custom command"
+
+#: rc.cpp:159
+msgid "Custom command to run"
+msgstr "Custom command to run"
+
+#: rc.cpp:169
+msgid "GPU device"
+msgstr "GPU device"
+
+#: rc.cpp:172 rc.cpp:326
+msgid "HDD"
+msgstr "HDD"
+
+#: rc.cpp:175
+msgid "hddtemp cmd"
+msgstr "hddtemp cmd"
+
+#: rc.cpp:178
+msgid "MPD address"
+msgstr "MPD address"
+
+#: rc.cpp:181
+msgid "MPD port"
+msgstr "MPD port"
+
+#: rc.cpp:184 rc.cpp:384
+msgid "Package manager"
+msgstr "Package manager"
+
+#: rc.cpp:187
+msgid "Number of null lines"
+msgstr "Number of null lines"
+
+#: rc.cpp:197 rc.cpp:366
+msgid "Music player"
+msgstr "Music player"
+
+#: rc.cpp:200
+msgid "Desktop check cmd"
+msgstr "Desktop check cmd"
+
+#: rc.cpp:203
+msgid "<b>NOTE:</b> Player DBus interface should be an active"
+msgstr "<b>NOTE:</b> Player DBus interface should be an active"
+
+#: rc.cpp:206
+msgid "MPRIS player name"
+msgstr "MPRIS player name"
+
+#: rc.cpp:212
+msgid ""
+"CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
+"To enable them just make needed checkbox fully checked."
+msgstr ""
+"CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
+"To enable them just make needed checkbox fully checked."
+
+#: rc.cpp:215
+msgid "Number of values for tooltips"
+msgstr "Number of values for tooltips"
+
+#: rc.cpp:218
+msgid "Background"
+msgstr "Background"
+
+#: rc.cpp:221
+msgid "CPU clock color"
+msgstr "CPU clock color"
+
+#: rc.cpp:224
+msgid "Swap color"
+msgstr "Swap color"
+
+#: rc.cpp:227
+msgid "CPU color"
+msgstr "CPU color"
+
+#: rc.cpp:230
+msgid "Download speed color"
+msgstr "Download speed color"
+
+#: rc.cpp:233
+msgid "Memory color"
+msgstr "Memory color"
+
+#: rc.cpp:236
+msgid "Upload speed color"
+msgstr "Upload speed color"
+
+#: rc.cpp:242
+msgid ""
+"Detailed information may be found on <a href=\"http://arcanis.name/projects/"
+"pytextmonitor/\">project homepage</a>"
+msgstr ""
+"Detailed information may be found on <a href=\"http://arcanis.name/projects/"
+"pytextmonitor/\">project homepage</a>"
+
+#: rc.cpp:245
+msgid "Time"
+msgstr "Time"
+
+#: rc.cpp:248
+msgid ""
+"$time - time in default format\n"
+"$isotime - time in ISO format\n"
+"$shorttime - time in short format\n"
+"$longtime - time in log format\n"
+"$custom - custom time format"
+msgstr ""
+"$time - time in default format\n"
+"$isotime - time in ISO format\n"
+"$shorttime - time in short format\n"
+"$longtime - time in log format\n"
+"$custom - custom time format"
+
+#: rc.cpp:255
+msgid "Uptime"
+msgstr "Uptime"
+
+#: rc.cpp:258
+msgid ""
+"$uptime - system uptime\n"
+"$custom - custom format"
+msgstr ""
+"$uptime - system uptime\n"
+"$custom - custom format"
+
+#: rc.cpp:262
+msgid "CPU"
+msgstr "CPU"
+
+#: rc.cpp:266
+msgid ""
+"$cpu - total load CPU, %\n"
+"$cpu0 - load CPU for core 0, %\n"
+"...\n"
+"$cpu9 - load CPU for core 9, %\n"
+"...\n"
+"$cpuN - load CPU for core N, %"
+msgstr ""
+"$cpu - total load CPU, %\n"
+"$cpu0 - load CPU for core 0, %\n"
+"...\n"
+"$cpu9 - load CPU for core 9, %\n"
+"...\n"
+"$cpuN - load CPU for core N, %"
+
+#: rc.cpp:274
+msgid "CPU Clock"
+msgstr "CPU Clock"
+
+#: rc.cpp:277
+msgid ""
+"$cpucl - average CPU clock, MHz\n"
+"$cpucl0 - CPU clock for core 0, MHz\n"
+"...\n"
+"$cpucl9 - CPU clock for core 9, MHz\n"
+"...\n"
+"$cpuclN - CPU clock for core N, MHz"
+msgstr ""
+"$cpucl - average CPU clock, MHz\n"
+"$cpucl0 - CPU clock for core 0, MHz\n"
+"...\n"
+"$cpucl9 - CPU clock for core 9, MHz\n"
+"...\n"
+"$cpuclN - CPU clock for core N, MHz"
+
+#: rc.cpp:285
+msgid "Temperature"
+msgstr "Temperature"
+
+#: rc.cpp:288
+msgid "$tempN - physical temperature on device N (from 0). Example: $temp0"
+msgstr "$tempN - physical temperature on device N (from 0). Example: $temp0"
+
+#: rc.cpp:291
+msgid "GPU"
+msgstr "GPU"
+
+#: rc.cpp:295
+msgid "$gpu - gpu usage, %"
+msgstr "$gpu - gpu usage, %"
+
+#: rc.cpp:298
+msgid "GPU Temp"
+msgstr "GPU Temp"
+
+#: rc.cpp:301
+msgid "$gputemp - physical temperature on GPU"
+msgstr "$gputemp - physical temperature on GPU"
+
+#: rc.cpp:304
+msgid "Memory"
+msgstr "Memory"
+
+#: rc.cpp:308
+msgid ""
+"$mem - RAM usage, %\n"
+"$memmb - RAM usage, MB\n"
+"$memgb - RAM usage, GB\n"
+"$memtotmb - total RAM, MB\n"
+"$memtotgb - total RAM, GB"
+msgstr ""
+"$mem - RAM usage, %\n"
+"$memmb - RAM usage, MB\n"
+"$memgb - RAM usage, GB\n"
+"$memtotmb - total RAM, MB\n"
+"$memtotgb - total RAM, GB"
+
+#: rc.cpp:315
+msgid "Swap"
+msgstr "Swap"
+
+#: rc.cpp:319
+msgid ""
+"$swap - swap usage, %\n"
+"$swapmb - swap usage, MB\n"
+"$swapgb - swap usage, GB\n"
+"$swaptotmb - total swap, MB\n"
+"$swaptotgb - total swap, GB"
+msgstr ""
+"$swap - swap usage, %\n"
+"$swapmb - swap usage, MB\n"
+"$swapgb - swap usage, GB\n"
+"$swaptotmb - total swap, MB\n"
+"$swaptotgb - total swap, GB"
+
+#: rc.cpp:330
+msgid ""
+"$hddN - usage for mount point N (from 0), %. Example: $hdd0\n"
+"$hddmbN - usage for mount point N (from 0), MB. Example: $hddmb0\n"
+"$hddgbN - usage for mount point N (from 0), GB. Example: $hddgb0\n"
+"$hddtotmbN - total size of mount point N (from 0), MB. Example: $hddtotmb0\n"
+"$hddtotgbN - total size of mount point N (from 0), GB. Example: $hddtotgb0"
+msgstr ""
+"$hddN - usage for mount point N (from 0), %. Example: $hdd0\n"
+"$hddmbN - usage for mount point N (from 0), MB. Example: $hddmb0\n"
+"$hddgbN - usage for mount point N (from 0), GB. Example: $hddgb0\n"
+"$hddtotmbN - total size of mount point N (from 0), MB. Example: $hddtotmb0\n"
+"$hddtotgbN - total size of mount point N (from 0), GB. Example: $hddtotgb0"
+
+#: rc.cpp:337
+msgid "HDD speed"
+msgstr "HDD speed"
+
+#: rc.cpp:340
+msgid ""
+"$hddrN - read speed HDD N (from 0), KB/s. Example: $hddr0\n"
+"$hddwN - write speed HDD N (from 0), KB/s. Example: $hddw0"
+msgstr ""
+"$hddrN - read speed HDD N (from 0), KB/s. Example: $hddr0\n"
+"$hddwN - write speed HDD N (from 0), KB/s. Example: $hddw0"
+
+#: rc.cpp:344
+msgid "HDD temp"
+msgstr "HDD temp"
+
+#: rc.cpp:347
+msgid ""
+"$hddtempN - physical temperature on device N (from 0). Example: $hddtemp0"
+msgstr ""
+"$hddtempN - physical temperature on device N (from 0). Example: $hddtemp0"
+
+#: rc.cpp:350
+msgid "Network"
+msgstr "Network"
+
+#: rc.cpp:353
+msgid ""
+"$down - download speed, KB/s\n"
+"$up - upload speed, KB/s\n"
+"$netdev - current network device"
+msgstr ""
+"$down - download speed, KB/s\n"
+"$up - upload speed, KB/s\n"
+"$netdev - current network device"
+
+#: rc.cpp:358
+msgid "Battery"
+msgstr "Battery"
+
+#: rc.cpp:362
+msgid ""
+"$bat - battery charge, %\n"
+"$ac - AC status"
+msgstr ""
+"$bat - battery charge, %\n"
+"$ac - AC status"
+
+#: rc.cpp:369
+msgid ""
+"$album - song album\n"
+"$artist - song artist\n"
+"$progress - song progress\n"
+"$time - song duration\n"
+"$title - song title"
+msgstr ""
+"$album - song album\n"
+"$artist - song artist\n"
+"$progress - song progress\n"
+"$time - song duration\n"
+"$title - song title"
+
+#: rc.cpp:376
+msgid "Processes"
+msgstr "Processes"
+
+#: rc.cpp:379
+msgid ""
+"$pscount - number of running processes\n"
+"$pstotal - total number of running processes\n"
+"$ps - list of running processes comma separated"
+msgstr ""
+"$pscount - number of running processes\n"
+"$pstotal - total number of running processes\n"
+"$ps - list of running processes comma separated"
+
+#: rc.cpp:387
+msgid ""
+"$pkgcountN - number of packages which are available for updates, command N. "
+"For example $pkgcount0"
+msgstr ""
+"$pkgcountN - number of packages which are available for updates, command N. "
+"For example $pkgcount0"
+
+#: rc.cpp:390
+msgid "Custom"
+msgstr "Custom"
+
+#: rc.cpp:393
+msgid ""
+"$customN - get output from custom command N (from N). Example `$custom0`"
+msgstr ""
+"$customN - get output from custom command N (from N). Example `$custom0`"
+
+#: rc.cpp:396
+msgid "Current desktop"
+msgstr "Current desktop"
+
+#: rc.cpp:399
+msgid ""
+"$name - desktop name\n"
+"$number - desktop number\n"
+"$total - total number of desktops"
+msgstr ""
+"$name - desktop name\n"
+"$number - desktop number\n"
+"$total - total number of desktops"
+
+#: rc.cpp:402
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Evgeniy Alekseev"
+
+#: rc.cpp:403
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "esalexeev@gmail.com"
+
+#~ msgid "Widget settings"
+#~ msgstr "Widget settings"
+
+#~ msgid "pacman -Qu"
+#~ msgstr "pacman -Qu"
+
+#~ msgid "apt-show-versions -u -b"
+#~ msgstr "apt-show-versions -u -b"
+
+#~ msgid "aptitude search '~U'"
+#~ msgstr "aptitude search '~U'"
+
+#~ msgid "yum list updates"
+#~ msgstr "yum list updates"
+
+#~ msgid "pkg_version -I -l '<'"
+#~ msgstr "pkg_version -I -l '<'"
+
+#~ msgid "urpmq --auto-select"
+#~ msgstr "urpmq --auto-select"
+
+#~ msgid "amarok"
+#~ msgstr "amarok"
+
+#~ msgid "mpd"
+#~ msgstr "mpd"
+
+#~ msgid "qmmp"
+#~ msgstr "qmmp"
+
+#~ msgid "auto"
+#~ msgstr "auto"
+
+#~ msgid "nvidia"
+#~ msgstr "nvidia"
+
+#~ msgid "ati"
+#~ msgstr "ati"
+
+#~ msgid "$hddN - usage for mount point N (from 0), %. Example: $hdd0"
+#~ msgstr "$hddN - usage for mount point N (from 0), %. Example: $hdd0"
+
+#~ msgid ""
+#~ "$ds - uptime days\n"
+#~ "$hs - uptime hours\n"
+#~ "$ms - uptime minutes"
+#~ msgstr ""
+#~ "$ds - uptime days\n"
+#~ "$hs - uptime hours\n"
+#~ "$ms - uptime minutes"
+
+#~ msgid ""
+#~ "Command to run, example:\n"
+#~ "wget -qO- http://ifconfig.me/ip - get external IP"
+#~ msgstr ""
+#~ "Command to run, example:\n"
+#~ "wget -qO- http://ifconfig.me/ip - get external IP"
+
+#~ msgid "@@/;@@ - mount point usage, %"
+#~ msgstr "@@/;@@ - mount point usage, %"
+
+#~ msgid "@@/dev/sda@@ - physical temperature on /dev/sda"
+#~ msgstr "@@/dev/sda@@ - physical temperature on /dev/sda"
+
+#~ msgid ""
+#~ "$net - network speed, down/up, KB/s\n"
+#~ "$netdev - current network device\n"
+#~ "@@eth0@@ - disable auto select device and set specified device"
+#~ msgstr ""
+#~ "$net - network speed, down/up, KB/s\n"
+#~ "$netdev - current network device\n"
+#~ "@@eth0@@ - disable auto select device and set specified device"

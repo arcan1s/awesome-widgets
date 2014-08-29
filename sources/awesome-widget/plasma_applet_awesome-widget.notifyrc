@@ -1,0 +1,44 @@
+[Global]
+IconName=system
+Name=PyTextMonitor
+Comment=PyTextMonitor information
+
+[Event/battery]
+Name=Battery information
+Comment=Battery information
+Action=Popup
+
+[Event/disk]
+Name=Disk information
+Comment=Disk information
+Action=Popup
+
+[Event/graphical]
+Name=GPU information
+Comment=GPU information
+Action=Popup
+
+[Event/memory]
+Name=Memory information
+Comment=Memory information
+Action=Popup
+
+[Event/network]
+Name=Network information
+Comment=Network information
+Action=Popup
+
+[Event/player]
+Name=Now playing
+Comment=Now playing
+Action=Popup
+
+[Event/processor]
+Name=Processor information
+Comment=Processor information
+Action=Popup
+
+[Event/system]
+Name=System information
+Comment=System information
+Action=Popup
