@@ -47,57 +47,61 @@
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="0">
-        <layout class="QVBoxLayout" name="layout_customCmd">
+       <item row="8" column="0">
+        <layout class="QHBoxLayout" name="layout_playerSelect">
          <item>
-          <layout class="QHBoxLayout" name="layout_customCommand">
-           <item>
-            <widget class="QLabel" name="label_customCommand">
-             <property name="minimumSize">
-              <size>
-               <width>200</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Custom command</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="lineEdit_customCommand">
-             <property name="toolTip">
-              <string>Custom command to run</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButton_customCommand">
-             <property name="minimumSize">
-              <size>
-               <width>100</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Add</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <widget class="QListWidget" name="listWidget_customCommand">
-           <property name="toolTip">
-            <string>Editable
-del - remove item</string>
+          <widget class="QLabel" name="label_playerSelect">
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Music player</string>
            </property>
           </widget>
          </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_playerSelect">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
+           <item>
+            <property name="text">
+             <string notr="true">mpris</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">mpd</string>
+            </property>
+           </item>
+          </widget>
+         </item>
         </layout>
+       </item>
+       <item row="10" column="0">
+        <spacer name="spacer_dataengine">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item row="2" column="0">
         <layout class="QHBoxLayout" name="layout_gpudev">
@@ -288,177 +292,6 @@ del - remove item</string>
          </item>
         </layout>
        </item>
-       <item row="8" column="0">
-        <layout class="QVBoxLayout" name="layout_pkgCommand">
-         <item>
-          <layout class="QHBoxLayout" name="layout_pkgCommandSelect">
-           <item>
-            <widget class="QLabel" name="label_pkgCommand">
-             <property name="minimumSize">
-              <size>
-               <width>200</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Package manager</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QComboBox" name="comboBox_pkgCommand">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="editable">
-              <bool>true</bool>
-             </property>
-             <item>
-              <property name="text">
-               <string notr="true">pacman -Qu</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string notr="true">apt-show-versions -u -b</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string notr="true">aptitude search '~U'</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string notr="true">yum list updates</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string notr="true">pkg_version -I -l '&lt;'</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string notr="true">urpmq --auto-select</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="layout_pkgCommandNum">
-           <item>
-            <widget class="QLabel" name="label_pkgCommandNum">
-             <property name="minimumSize">
-              <size>
-               <width>200</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Number of null lines</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QSpinBox" name="spinBox_pkgCommandNum">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButton_pkgCommand">
-             <property name="minimumSize">
-              <size>
-               <width>100</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Add</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <widget class="QListWidget" name="listWidget_pkgCommand">
-           <property name="toolTip">
-            <string>Editable
-del - remove item</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="9" column="0">
-        <layout class="QHBoxLayout" name="layout_playerSelect">
-         <item>
-          <widget class="QLabel" name="label_playerSelect">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Music player</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="comboBox_playerSelect">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>100</width>
-             <height>0</height>
-            </size>
-           </property>
-           <item>
-            <property name="text">
-             <string notr="true">mpris</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">mpd</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="10" column="0">
-        <spacer name="spacer_dataengine">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>657</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
        <item row="1" column="0">
         <layout class="QHBoxLayout" name="layout_desktopCmd">
          <item>
@@ -573,6 +406,56 @@ del - remove item</string>
          </item>
         </layout>
        </item>
+       <item row="9" column="0">
+        <layout class="QVBoxLayout" name="layout_pkgCommand">
+         <item>
+          <widget class="QTableWidget" name="tableWidget_pkgCommand">
+           <property name="toolTip">
+            <string>Editable
+del - remove item</string>
+           </property>
+           <property name="selectionMode">
+            <enum>QAbstractItemView::SingleSelection</enum>
+           </property>
+           <attribute name="horizontalHeaderStretchLastSection">
+            <bool>true</bool>
+           </attribute>
+           <attribute name="verticalHeaderVisible">
+            <bool>false</bool>
+           </attribute>
+           <column>
+            <property name="text">
+             <string>Package manager</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Null lines</string>
+            </property>
+           </column>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="0" column="0">
+        <widget class="QTableWidget" name="tableWidget_customCommand">
+         <property name="toolTip">
+          <string>Editable
+del - remove item</string>
+         </property>
+         <attribute name="horizontalHeaderStretchLastSection">
+          <bool>true</bool>
+         </attribute>
+         <attribute name="verticalHeaderVisible">
+          <bool>false</bool>
+         </attribute>
+         <column>
+          <property name="text">
+           <string>Custom command</string>
+          </property>
+         </column>
+        </widget>
+       </item>
       </layout>
      </widget>
     </widget>
@@ -581,9 +464,7 @@ del - remove item</string>
  </widget>
  <tabstops>
   <tabstop>scrollArea_dattaengine</tabstop>
-  <tabstop>lineEdit_customCommand</tabstop>
-  <tabstop>pushButton_customCommand</tabstop>
-  <tabstop>listWidget_customCommand</tabstop>
+  <tabstop>tableWidget_customCommand</tabstop>
   <tabstop>lineEdit_desktopCmd</tabstop>
   <tabstop>comboBox_gpudev</tabstop>
   <tabstop>comboBox_hdddev</tabstop>
@@ -591,11 +472,8 @@ del - remove item</string>
   <tabstop>lineEdit_mpdaddress</tabstop>
   <tabstop>spinBox_mpdport</tabstop>
   <tabstop>comboBox_mpris</tabstop>
-  <tabstop>comboBox_pkgCommand</tabstop>
-  <tabstop>spinBox_pkgCommandNum</tabstop>
-  <tabstop>pushButton_pkgCommand</tabstop>
-  <tabstop>listWidget_pkgCommand</tabstop>
   <tabstop>comboBox_playerSelect</tabstop>
+  <tabstop>tableWidget_pkgCommand</tabstop>
  </tabstops>
  <resources/>
  <connections/>

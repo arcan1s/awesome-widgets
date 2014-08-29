@@ -39,12 +39,10 @@ class DEConfigWindow(QWidget):
         self.ui = uic.loadUi(parent.package().filePath('ui', 'deconfig.ui'), self)
         self.parent = parent
 
-        QObject.connect(self.ui.pushButton_customCommand, SIGNAL("clicked()"), self.addCustomCommand)
-        QObject.connect(self.ui.pushButton_pkgCommand, SIGNAL("clicked()"), self.addPkgCommand)
-        QObject.connect(self.ui.listWidget_customCommand, SIGNAL("itemActivated(QListWidgetItem*)"), self.ui.listWidget_customCommand.openPersistentEditor)
-        QObject.connect(self.ui.listWidget_pkgCommand, SIGNAL("itemActivated(QListWidgetItem*)"), self.ui.listWidget_pkgCommand.openPersistentEditor)
-        QObject.connect(self.ui.comboBox_pkgCommand, SIGNAL("currentIndexChanged(int)"), self.updatePkgNullValue)
-        QObject.connect(self.ui.comboBox_pkgCommand, SIGNAL("editTextChanged(QString)"), self.updatePkgNullValue)
+        QObject.connect(self.ui.tableWidget_customCommand, SIGNAL("itemActivated(QTableWidgetItem*)"), self.ui.tableWidget_customCommand.openPersistentEditor)
+        QObject.connect(self.ui.tableWidget_customCommand, SIGNAL("itemChanged(QTableWidgetItem*)"), self.addCustomCommand)
+        QObject.connect(self.ui.tableWidget_pkgCommand, SIGNAL("itemActivated(QTableWidgetItem*)"), self.ui.tableWidget_pkgCommand.openPersistentEditor)
+        QObject.connect(self.ui.tableWidget_pkgCommand, SIGNAL("itemChanged(QTableWidgetItem*)"), self.addPkgCommand)
 
 
     def keyPressEvent(self, event):
@@ -52,43 +50,25 @@ class DEConfigWindow(QWidget):
         if self.debug: qDebug("[PTM] [deconfig.py] [keyPressEvent]")
         if self.debug: qDebug("[PTM] [deconfig.py] [keyPressEvent] : Run function with event '%s'" %(event.key()))
         if (event.key() == Qt.Key_Delete):
-            if (self.ui.listWidget_customCommand.hasFocus() and
-                (self.ui.listWidget_customCommand.currentRow() > -1)):
-                self.ui.listWidget_customCommand.takeItem(self.ui.listWidget_customCommand.currentRow())
-            elif (self.ui.listWidget_pkgCommand.hasFocus() and
-                (self.ui.listWidget_pkgCommand.currentRow() > -1)):
-                self.ui.listWidget_pkgCommand.takeItem(self.ui.listWidget_pkgCommand.currentRow())
+            if (self.ui.tableWidget_customCommand.hasFocus() and
+                (self.ui.tableWidget_customCommand.currentRow() > -1)):
+                self.ui.tableWidget_customCommand.removeRow(self.ui.tableWidget_customCommand.currentRow())
+            elif (self.ui.tableWidget_pkgCommand.hasFocus() and
+                (self.ui.tableWidget_pkgCommand.currentRow() > -1)):
+                self.ui.tableWidget_pkgCommand.removeRow(self.ui.tableWidget_pkgCommand.currentRow())
 
 
-    def addCustomCommand(self):
+    def addCustomCommand(self, item):
         """function to add custom command"""
         if self.debug: qDebug("[PTM] [deconfig.py] [addCustomCommand]")
-        if self.debug: qDebug("[PTM] [deconfig.py] [addCustomCommand] : Cmd '%s'" %(self.ui.lineEdit_customCommand.text()))
-        self.ui.listWidget_customCommand.clearSelection()
-        self.ui.listWidget_customCommand.addItem(self.ui.lineEdit_customCommand.text())
+        if (item.row() == (self.ui.tableWidget_customCommand.rowCount() - 1)):
+            self.ui.tableWidget_customCommand.insertRow(self.ui.tableWidget_customCommand.rowCount());
 
 
-    def addPkgCommand(self):
-        """function to add package manager command"""
+    def addPkgCommand(self, item):
+        """function to add new row"""
         if self.debug: qDebug("[PTM] [deconfig.py] [addPkgCommand]")
-        if self.debug: qDebug("[PTM] [deconfig.py] [addPkgCommand] : Cmd '%s'" %(self.ui.comboBox_pkgCommand.currentText()))
-        self.ui.listWidget_pkgCommand.clearSelection()
-        self.ui.listWidget_pkgCommand.addItem(self.ui.comboBox_pkgCommand.currentText() +\
-            QString(":") + QString.number(self.ui.spinBox_pkgCommandNum.value()))
-
-
-    def updatePkgNullValue(self):
-        """function to set default values to PKGNULL spinbox"""
-        if self.debug: qDebug("[PTM] [deconfig.py] [updatePkgNullValue]")
-        if (self.ui.comboBox_pkgCommand.currentText().contains(QString("pacman -Qu"))):
-            self.ui.spinBox_pkgCommandNum.setValue(0)
-        elif (self.ui.comboBox_pkgCommand.currentText().contains(QString("apt-show-versions -u -b"))):
-            self.ui.spinBox_pkgCommandNum.setValue(0)
-        elif (self.ui.comboBox_pkgCommand.currentText().contains(QString("aptitude search '~U'"))):
-            self.ui.spinBox_pkgCommandNum.setValue(0)
-        elif (self.ui.comboBox_pkgCommand.currentText().contains(QString("yum list updates"))):
-            self.ui.spinBox_pkgCommandNum.setValue(3)
-        elif (self.ui.comboBox_pkgCommand.currentText().contains(QString("pkg_version -I -l '<'"))):
-            self.ui.spinBox_pkgCommandNum.setValue(0)
-        elif (self.ui.comboBox_pkgCommand.currentText().contains(QString("urpmq --auto-select"))):
-            self.ui.spinBox_pkgCommandNum.setValue(0)
+        if ((item.row() == (self.ui.tableWidget_pkgCommand.rowCount() - 1)) and
+            (item.column() == 0)):
+            self.ui.tableWidget_pkgCommand.insertRow(self.ui.tableWidget_pkgCommand.rowCount());
+            self.ui.tableWidget_pkgCommand.setItem(self.ui.tableWidget_pkgCommand.rowCount()-1, 1, QTableWidgetItem("0"))

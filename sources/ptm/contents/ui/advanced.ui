@@ -212,6 +212,21 @@ $m - uptime minutes without zero</string>
              <string notr="true">Reaumur</string>
             </property>
            </item>
+           <item>
+            <property name="text">
+             <string notr="true">cm^-1</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">kJ/mol</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">kcal/mol</string>
+            </property>
+           </item>
           </widget>
          </item>
         </layout>
@@ -258,8 +273,7 @@ $m - uptime minutes without zero</string>
          <item>
           <widget class="QListWidget" name="listWidget_mount">
            <property name="toolTip">
-            <string>Editable
-del - remove item</string>
+            <string>Editable</string>
            </property>
           </widget>
          </item>
@@ -283,8 +297,7 @@ del - remove item</string>
          <item>
           <widget class="QListWidget" name="listWidget_hddSpeedDevice">
            <property name="toolTip">
-            <string>Editable
-del - remove item</string>
+            <string>Editable</string>
            </property>
           </widget>
          </item>
@@ -308,8 +321,7 @@ del - remove item</string>
          <item>
           <widget class="QListWidget" name="listWidget_hddDevice">
            <property name="toolTip">
-            <string>Editable
-del - remove item</string>
+            <string>Editable</string>
            </property>
           </widget>
          </item>

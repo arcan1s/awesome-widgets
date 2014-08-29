@@ -103,8 +103,9 @@ class ConfigDefinition:
         try:
             with open(dataengineConfig, 'w') as deConfigFile:
                 item = QStringList()
-                for i in range(self.configpage['dataengine'].ui.listWidget_customCommand.count()):
-                    item.append(self.configpage['dataengine'].ui.listWidget_customCommand.item(i).text())
+                for i in range(self.configpage['dataengine'].ui.tableWidget_customCommand.count()):
+                    if (self.configpage['dataengine'].ui.tableWidget_customCommand.item(i, 0) != None):
+                        item.append(self.configpage['dataengine'].ui.tableWidget_customCommand.item(i, 0).text())
                 deConfigFile.write("CUSTOM=" + str(item.join(QString('@@'))) + "\n")
                 deConfigFile.write("DESKTOPCMD=" + str(self.configpage['dataengine'].ui.lineEdit_desktopCmd.text()) + "\n")
                 deConfigFile.write("GPUDEV=" + str(self.configpage['dataengine'].ui.comboBox_gpudev.currentText()) + "\n")
@@ -114,8 +115,10 @@ class ConfigDefinition:
                 deConfigFile.write("MPDPORT=" + str(self.configpage['dataengine'].ui.spinBox_mpdport.value()) + "\n")
                 deConfigFile.write("MPRIS=" + str(self.configpage['dataengine'].ui.comboBox_mpris.currentText()) + "\n")
                 item = QStringList()
-                for i in range(self.configpage['dataengine'].ui.listWidget_pkgCommand.count()):
-                    item.append(self.configpage['dataengine'].ui.listWidget_pkgCommand.item(i).text())
+                for i in range(self.configpage['dataengine'].ui.tableWidget_pkgCommand.rowCount()):
+                    if (self.configpage['dataengine'].ui.tableWidget_pkgCommand.item(i, 0) != None):
+                        item.append(self.configpage['dataengine'].ui.tableWidget_pkgCommand.item(i, 0).text() + ":" +
+                                    self.configpage['dataengine'].ui.tableWidget_pkgCommand.item(i, 1).text())
                 pkgCmd = []
                 pkgNull = []
                 for command in item:
@@ -259,11 +262,18 @@ class ConfigDefinition:
                         deSettings[line.split('=')[0]] = line.split('=')[1][:-1]
         except:
             pass
-        for item in deSettings['CUSTOM'].split('@@'):
-            self.configpage['dataengine'].ui.listWidget_customCommand.addItem(item)
-        index = self.configpage['dataengine'].ui.comboBox_gpudev.findText(deSettings['GPUDEV'])
+        self.configpage['dataengine'].ui.tableWidget_customCommand.clear()
+        self.configpage['dataengine'].ui.tableWidget_customCommand.setRowCount(len(deSettings['CUSTOM'].split('@@')))
+        headerList = QStringList()
+        headerList.append(i18n("Custom command"))
+        self.configpage['dataengine'].ui.tableWidget_customCommand.setHorizontalHeaderLabels(headerList)
+        self.configpage['dataengine'].ui.tableWidget_customCommand.horizontalHeader().setResizeMode(QHeaderView.Stretch)
+        for i in range(len(deSettings['CUSTOM'].split('@@'))):
+            self.configpage['dataengine'].ui.tableWidget_customCommand.setItem(i, 0, QTableWidgetItem(deSettings['CUSTOM'].split('@@')[i]))
         self.configpage['dataengine'].ui.lineEdit_desktopCmd.setText(deSettings['DESKTOPCMD'])
+        index = self.configpage['dataengine'].ui.comboBox_gpudev.findText(deSettings['GPUDEV'])
         self.configpage['dataengine'].ui.comboBox_gpudev.setCurrentIndex(index)
+        self.configpage['dataengine'].ui.comboBox_hdddev.clear()
         self.configpage['dataengine'].ui.comboBox_hdddev.addItem("all")
         self.configpage['dataengine'].ui.comboBox_hdddev.addItem("disable")
         commandOut = commands.getoutput("find /dev -name '[hms]d[a-z]'")
@@ -280,13 +290,20 @@ class ConfigDefinition:
         self.configpage['dataengine'].ui.spinBox_mpdport.setValue(int(deSettings['MPDPORT']))
         self.configpage['dataengine'].ui.comboBox_mpris.addItem(deSettings['MPRIS'])
         self.configpage['dataengine'].ui.comboBox_mpris.setCurrentIndex(self.configpage['dataengine'].ui.comboBox_mpris.count()-1)
-        self.configpage['dataengine'].ui.listWidget_pkgCommand.clear()
+        self.configpage['dataengine'].ui.tableWidget_pkgCommand.clear()
+        self.configpage['dataengine'].ui.tableWidget_pkgCommand.setRowCount(len(deSettings['PKGCMD'].split(',')))
+        headerList = QStringList()
+        headerList.append(i18n("Package manager"))
+        headerList.append(i18n("Null lines"))
+        self.configpage['dataengine'].ui.tableWidget_pkgCommand.setHorizontalHeaderLabels(headerList)
+        self.configpage['dataengine'].ui.tableWidget_pkgCommand.horizontalHeader().setResizeMode(QHeaderView.Stretch)
         for i in range(len(deSettings['PKGCMD'].split(','))):
             try:
                 num = deSettings['PKGNULL'].split(',')[i]
             except:
                 num = "0"
-            self.configpage['dataengine'].ui.listWidget_pkgCommand.addItem(deSettings['PKGCMD'].split(',')[i] + ':' + num)
+            self.configpage['dataengine'].ui.tableWidget_pkgCommand.setItem(i, 0, QTableWidgetItem(deSettings['PKGCMD'].split(',')[i]))
+            self.configpage['dataengine'].ui.tableWidget_pkgCommand.setItem(i, 1, QTableWidgetItem(num))
         index = self.configpage['dataengine'].ui.comboBox_playerSelect.findText(deSettings['PLAYER'])
         self.configpage['dataengine'].ui.comboBox_playerSelect.setCurrentIndex(index)
 
