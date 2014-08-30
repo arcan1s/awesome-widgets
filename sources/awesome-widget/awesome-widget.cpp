@@ -114,6 +114,12 @@ QStringList AwesomeWidget::findKeys()
     if (debug) qDebug() << PDEBUG;
 
     QStringList selectedKeys;
+    for (int i=0; i<keys.count(); i++)
+        if (configuration[QString("text")]
+                .indexOf(QString("$") + keys[i] + QString("$")) > -1) {
+            if (debug) qDebug() << PDEBUG << ":" << "Found key" << keys[i];
+            selectedKeys.append(keys[i]);
+        }
 
     return selectedKeys;
 }
