@@ -223,6 +223,25 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
         for (int j=0; j<items.count(); j++)
             items[j]->setCheckState(Qt::Checked);
     }
+    cmd = QString("find /dev -name '[hms]d[a-z]'");
+    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
+    process = runTask(cmd);
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
+    if (process.exitCode != 0)
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+    qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output);
+    uiAdvancedConfig.listWidget_hddDevice->clear();
+    for (int i=0; i<qoutput.split(QChar('\n')).count(); i++) {
+        QListWidgetItem item = QListWidgetItem(qoutput.split(QChar('\n'))[i]);
+        item.setCheckState(Qt::Unchecked);
+        uiAdvancedConfig.listWidget_hddDevice->addItem(&item);
+    }
+    for (int i=0; i<configuration[QString("hdd")].split(QString("@@")).count(); i++) {
+        QList<QListWidgetItem *> items = uiAdvancedConfig.listWidget_hddDevice
+                ->findItems(configuration[QString("hdd")].split(QString("@@"))[i], Qt::MatchFixedString);
+        for (int j=0; j<items.count(); j++)
+            items[j]->setCheckState(Qt::Checked);
+    }
     if (configuration[QString("useCustomNetdev")].toInt() == 0)
         uiAdvancedConfig.checkBox_netdev->setCheckState(Qt::Unchecked);
     else
@@ -385,6 +404,11 @@ void AwesomeWidget::configAccepted()
             items.append(uiAdvancedConfig.listWidget_mount->item(i)->text());
     cg.writeEntry("mount", items.join(QString("@@")));
     items.clear();
+    for (int i=0; i<uiAdvancedConfig.listWidget_hddDevice->count(); i++)
+        if (uiAdvancedConfig.listWidget_hddDevice->item(i)->checkState() == Qt::Checked)
+            items.append(uiAdvancedConfig.listWidget_hddDevice->item(i)->text());
+    cg.writeEntry("hdd", items.join(QString("@@")));
+    items.clear();
     for (int i=0; i<uiAdvancedConfig.listWidget_hddSpeedDevice->count(); i++)
         if (uiAdvancedConfig.listWidget_hddSpeedDevice->item(i)->checkState() == Qt::Checked)
             items.append(uiAdvancedConfig.listWidget_hddSpeedDevice->item(i)->text());
@@ -470,6 +494,7 @@ void AwesomeWidget::configChanged()
     configuration[QString("tempUnits")] = cg.readEntry("tempUnits", "Celsius");
     configuration[QString("tempDevice")] = cg.readEntry("tempUnits", "");
     configuration[QString("mount")] = cg.readEntry("mount", "/");
+    configuration[QString("hdd")] = cg.readEntry("hdd", "/dev/sda");
     configuration[QString("disk")] = cg.readEntry("disk", "disk/sda_(8:0)");
     configuration[QString("useCustomNetdev")] = cg.readEntry("useCustomNetdev", "0");
     configuration[QString("customNetdev")] = cg.readEntry("customNetdev", "lo");

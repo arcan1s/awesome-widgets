@@ -40,6 +40,7 @@ public:
     AwesomeWidget(QObject *parent, const QVariantList &args);
     ~AwesomeWidget();
     QString getNetworkDevice();
+    int getNumberCpus();
     void init();
     // de configuration
     QMap<QString, QString> readDataEngineConfiguration();
@@ -67,10 +68,12 @@ protected:
 
 private:
     // functions
-    QTimer *timer;
+    QStringList findKeys();
+    QStringList getKeys();
     // ui
     QGraphicsLinearLayout *mainLayout;
     CustomLabel *textLabel;
+    QTimer *timer;
     // values
     QMap<QString, QString> values;
     // debug

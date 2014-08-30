@@ -20,10 +20,12 @@
 #include <QGraphicsLinearLayout>
 #include <QNetworkInterface>
 #include <QProcessEnvironment>
+#include <QTextCodec>
 #include <QTimer>
 
 #include "customlabel.h"
 #include <pdebug/pdebug.h>
+#include <task/taskadds.h>
 
 
 AwesomeWidget::AwesomeWidget(QObject *parent, const QVariantList &args)
@@ -68,6 +70,20 @@ QString AwesomeWidget::getNetworkDevice()
 }
 
 
+int AwesomeWidget::getNumberCpus()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QString cmd = QString("grep -c '^processor' /proc/cpuinfo");
+    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
+    TaskResult process = runTask(cmd);
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
+    if (process.exitCode != 0)
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+    return QTextCodec::codecForMib(106)->toUnicode(process.output).toInt();
+}
+
+
 void AwesomeWidget::init()
 {
     if (debug) qDebug() << PDEBUG;
@@ -90,6 +106,109 @@ void AwesomeWidget::init()
     connect(timer, SIGNAL(timeout()), this, SLOT(updateText()));
     connect(timer, SIGNAL(timeout()), this, SLOT(updateTooltip()));
     timer->start();
+}
+
+
+QStringList AwesomeWidget::findKeys()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QStringList selectedKeys;
+
+    return selectedKeys;
+}
+
+
+QStringList AwesomeWidget::getKeys()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QStringList allKeys;
+    int numCpus = getNumberCpus();
+    QMap<QString, QString> deSettings = readDataEngineConfiguration();
+    // time
+    allKeys.append(QString("time"));
+    allKeys.append(QString("isotime"));
+    allKeys.append(QString("shorttime"));
+    allKeys.append(QString("longtime"));
+    allKeys.append(QString("ctime"));
+    // uptime
+    allKeys.append(QString("uptime"));
+    allKeys.append(QString("cuptime"));
+    // cpu
+    allKeys.append(QString("cpu"));
+    for (int i=0; i<numCpus; i++)
+        allKeys.append(QString("cpu") + QString::number(i));
+    // cpuclock
+    allKeys.append(QString("cpucl"));
+    for (int i=0; i<numCpus; i++)
+        allKeys.append(QString("cpucl") + QString::number(i));
+    // temperature
+    for (int i=0; i<configuration[QString("tempDevice")].split(QString("@@")).count(); i++)
+        allKeys.append(QString("temp") + QString::number(i));
+    // gpu
+    allKeys.append(QString("gpu"));
+    // gputemp
+    allKeys.append(QString("gputemp"));
+    // memory
+    allKeys.append(QString("mem"));
+    allKeys.append(QString("memmb"));
+    allKeys.append(QString("memgb"));
+    allKeys.append(QString("memtotmb"));
+    allKeys.append(QString("memtotgb"));
+    // swap
+    allKeys.append(QString("swap"));
+    allKeys.append(QString("swapmb"));
+    allKeys.append(QString("swapgb"));
+    allKeys.append(QString("swaptotmb"));
+    allKeys.append(QString("swaptotgb"));
+    // hdd
+    for (int i=0; i<configuration[QString("mount")].split(QString("@@")).count(); i++) {
+        allKeys.append(QString("hdd") + QString::number(i));
+        allKeys.append(QString("hddmb") + QString::number(i));
+        allKeys.append(QString("hddgb") + QString::number(i));
+        allKeys.append(QString("hddtotmb") + QString::number(i));
+        allKeys.append(QString("hddtotgb") + QString::number(i));
+    }
+    // hdd speed
+    for (int i=0; i<configuration[QString("disk")].split(QString("@@")).count(); i++) {
+        allKeys.append(QString("hddr") + QString::number(i));
+        allKeys.append(QString("hddw") + QString::number(i));
+    }
+    // hdd temp
+    for (int i=0; i<configuration[QString("hdd")].split(QString("@@")).count(); i++) {
+        allKeys.append(QString("hddtemp") + QString::number(i));
+        allKeys.append(QString("hddtemp") + QString::number(i));
+    }
+    // network
+    allKeys.append(QString("down"));
+    allKeys.append(QString("up"));
+    allKeys.append(QString("netdev"));
+    // battery
+    allKeys.append(QString("bat"));
+    allKeys.append(QString("ac"));
+    // player
+    allKeys.append(QString("album"));
+    allKeys.append(QString("artist"));
+    allKeys.append(QString("duration"));
+    allKeys.append(QString("progress"));
+    allKeys.append(QString("title"));
+    // ps
+    allKeys.append(QString("ps"));
+    allKeys.append(QString("pscount"));
+    allKeys.append(QString("pstotal"));
+    // package manager
+    for (int i=0; i<deSettings[QString("PKGCMD")].split(QChar(',')).count(); i++)
+        allKeys.append(QString("pkgcount") + QString::number(i));
+    // custom
+    for (int i=0; i<deSettings[QString("CUSTOM")].split(QString("@@")).count(); i++)
+        allKeys.append(QString("custom") + QString::number(i));
+    // desktop
+    allKeys.append(QString("desktop"));
+    allKeys.append(QString("ndesktop"));
+    allKeys.append(QString("tdesktops"));
+
+    return allKeys;
 }
 
 

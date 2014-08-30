@@ -48,6 +48,8 @@ void AwesomeWidget::reinit()
     if (configuration[QString("rightStretch")].toInt() == 2)
         mainLayout->addStretch(1);
 
+    keys = getKeys();
+    foundKeys = findKeys();
     values[QString("netdev")] = getNetworkDevice();
 //    thread()->wait(60000);
     connectToEngine();
