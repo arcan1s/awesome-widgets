@@ -18,8 +18,11 @@
 #include "awesome-widget.h"
 
 #include <QGraphicsLinearLayout>
+#include <QNetworkInterface>
 #include <QProcessEnvironment>
+#include <QTimer>
 
+#include "customlabel.h"
 #include <pdebug/pdebug.h>
 
 
@@ -46,6 +49,25 @@ AwesomeWidget::~AwesomeWidget()
 }
 
 
+QString AwesomeWidget::getNetworkDevice()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QString device = QString("lo");
+    if (configuration[QString("useCustomNetdev")].toInt() == 2)
+        device = configuration[QString("customNetdev")];
+    else {
+        QList<QNetworkInterface> rawInterfaceList = QNetworkInterface::allInterfaces();
+        for (int i=0; i<rawInterfaceList.count(); i++)
+            if ((rawInterfaceList[i].flags().testFlag(QNetworkInterface::IsUp)) &&
+                    (rawInterfaceList[i].flags().testFlag(QNetworkInterface::IsLoopBack)))
+                device = rawInterfaceList[i].name();
+    }
+
+    return device;
+}
+
+
 void AwesomeWidget::init()
 {
     if (debug) qDebug() << PDEBUG;
@@ -54,12 +76,20 @@ void AwesomeWidget::init()
     sysmonEngine = dataEngine(QString("systemmonitor"));
     timeEngine = dataEngine(QString("time"));
 
-    layout = new QGraphicsLinearLayout();
-    layout->setContentsMargins(1, 1, 1, 1);
-    setLayout(layout);
+    mainLayout = new QGraphicsLinearLayout();
+    mainLayout->setContentsMargins(1, 1, 1, 1);
+    setLayout(mainLayout);
+
+    textLabel = new CustomLabel(this, debug);
 
     // read variables
     configChanged();
+    timer = new QTimer(this);
+    timer->setSingleShot(false);
+    timer->setInterval(configuration[QString("interval")].toInt());
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateText()));
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateTooltip()));
+    timer->start();
 }
 
 

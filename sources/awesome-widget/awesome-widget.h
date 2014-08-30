@@ -21,7 +21,6 @@
 
 #include <Plasma/Applet>
 #include <Plasma/DataEngine>
-#include <Plasma/Label>
 
 #include <ui_advanced.h>
 #include <ui_appearance.h>
@@ -30,6 +29,7 @@
 #include <ui_widget.h>
 
 
+class CustomLabel;
 class QGraphicsLinearLayout;
 
 class AwesomeWidget : public Plasma::Applet
@@ -54,6 +54,9 @@ public slots:
     // configuration interface
     void configAccepted();
     void configChanged();
+    // update events
+    void updateText();
+    void updateTooltip();
 
 private slots:
     void reinit();
@@ -64,9 +67,12 @@ protected:
 
 private:
     // functions
-    void updateText();
+    QTimer *timer;
     // ui
-    QGraphicsLinearLayout *layout;
+    QGraphicsLinearLayout *mainLayout;
+    CustomLabel *textLabel;
+    // values
+    QMap<QString, QString> values;
     // debug
     bool debug;
     // data engine
@@ -81,8 +87,7 @@ private:
     Ui::TooltipWindow uiTooltipConfig;
     // configuration
     QMap<QString, QString> configuration;
-    QStringList diskDevices;
-    QStringList formatLine;
+    QStringList diskDevices, keys, formatLine, foundKeys;
 };
 
 

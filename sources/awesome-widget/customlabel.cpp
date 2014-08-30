@@ -15,53 +15,42 @@
  *   along with pytextmonitor. If not, see http://www.gnu.org/licenses/    *
  ***************************************************************************/
 
-#include "awesome-widget.h"
-
-#include <QGraphicsLinearLayout>
-//#include <QThread>
-
 #include "customlabel.h"
+
+#include <QGraphicsSceneMouseEvent>
+
+#include "awesome-widget.h"
 #include <pdebug/pdebug.h>
 
 
-void AwesomeWidget::reinit()
+CustomLabel::CustomLabel(AwesomeWidget *wid, const bool debugCmd)
+    : Plasma::Label(wid),
+      debug(debugCmd)
 {
-    if (debug) qDebug() << PDEBUG;
-
-    mainLayout = new QGraphicsLinearLayout();
-    mainLayout->setContentsMargins(1, 1, 1, 1);
-    setLayout(mainLayout);
-
-    if (configuration[QString("background")].toInt() == 0)
-        setBackgroundHints(NoBackground);
-    else
-        setBackgroundHints(DefaultBackground);
-    if (configuration[QString("layout")].toInt() == 0)
-        mainLayout->setOrientation(Qt::Horizontal);
-    else
-        mainLayout->setOrientation(Qt::Vertical);
-    if (configuration[QString("leftStretch")].toInt() == 2)
-        mainLayout->addStretch(1);
-    if (configuration[QString("popup")].toInt() == 0)
-        textLabel->setPopupEnabled(true);
-    mainLayout->addItem(textLabel);
-    if (configuration[QString("rightStretch")].toInt() == 2)
-        mainLayout->addStretch(1);
-
-    values[QString("netdev")] = getNetworkDevice();
-//    thread()->wait(60000);
-    connectToEngine();
-    resize(10, 10);
 }
 
 
-void AwesomeWidget::updateText()
+CustomLabel::~CustomLabel()
 {
     if (debug) qDebug() << PDEBUG;
 }
 
 
-void AwesomeWidget::updateTooltip()
+void CustomLabel::setPopupEnabled(const bool state)
 {
     if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "State" << state;
+
+    enablePopup = state;
+}
+
+
+void CustomLabel::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Get signal" << event->button();
+
+    if ((enablePopup) && (event->button() == Qt::LeftButton))
+        {}
+    emit(Plasma::Label::mousePressEvent(event));
 }
