@@ -174,7 +174,7 @@ class ConfigDefinition:
         self.configpage['advanced'].ui.checkBox_leftStretch.setCheckState(settings.get('left_stretch', 2).toInt()[0])
         self.configpage['advanced'].ui.checkBox_rightStretch.setCheckState(settings.get('right_stretch', 2).toInt()[0])
         self.configpage['advanced'].ui.lineEdit_timeFormat.setText(str(settings.get('custom_time', '$hh:$mm')))
-        self.configpage['advanced'].ui.lineEdit_uptimeFormat.setText(str(settings.get('custom_uptime', '$ds,$hs,$ms')))
+        self.configpage['advanced'].ui.lineEdit_uptimeFormat.setText(str(settings.get('custom_uptime', '$dd,$hh,$mm')))
         index = self.configpage['advanced'].ui.comboBox_tempUnits.findText(str(settings.get('temp_units', "Celsius")))
         self.configpage['advanced'].ui.comboBox_tempUnits.setCurrentIndex(index)
         self.configpage['advanced'].ui.listWidget_tempDevice.clear()

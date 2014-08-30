@@ -428,6 +428,56 @@ void AwesomeWidget::configChanged()
 
     KConfigGroup cg = config();
 
+    // widget
+    configuration[QString("text")] = cg.readEntry("text", "[cpu: $cpu$%] [mem: $mem$%] [swap: $swap$%] [$netdev$: $down$/$up$KB/s]");
+
+    // advanced
+    configuration[QString("background")] = cg.readEntry("background", "2");
+    configuration[QString("layout")] = cg.readEntry("layout", "0");
+    configuration[QString("popup")] = cg.readEntry("popup", "2");
+    configuration[QString("leftStretch")] = cg.readEntry("leftStretch", "2");
+    configuration[QString("rightStretch")] = cg.readEntry("rightStretch", "2");
+    configuration[QString("customTime")] = cg.readEntry("customTime", "$hh$:$mm$");
+    configuration[QString("customUptime")] = cg.readEntry("customUptime", "$dd$,$hh$,$mm$");
+    configuration[QString("tempUnits")] = cg.readEntry("tempUnits", "Celsius");
+    configuration[QString("tempDevice")] = cg.readEntry("tempUnits", "");
+    configuration[QString("mount")] = cg.readEntry("mount", "/");
+    configuration[QString("disk")] = cg.readEntry("disk", "disk/sda_(8:0)");
+    configuration[QString("useCustomNetdev")] = cg.readEntry("useCustomNetdev", "0");
+    configuration[QString("customNetdev")] = cg.readEntry("customNetdev", "lo");
+    configuration[QString("batteryDevice")] = cg.readEntry("batteryDevice", "/sys/class/power_supply/BAT0/capacity");
+    configuration[QString("acDevice")] = cg.readEntry("acDevice", "/sys/class/power_supply/AC/online");
+    configuration[QString("acOnline")] = cg.readEntry("acOnline", "(*)");
+    configuration[QString("acOffile")] = cg.readEntry("acOffile", "( )");
+
+    // tooltip
+    configuration[QString("tooltipNumber")] = cg.readEntry("tooltipNumber", "100");
+    configuration[QString("useTooltipBackground")] = cg.readEntry("useTooltipBackground", "2");
+    configuration[QString("tooltipBackground")] = cg.readEntry("tooltipBackground", "#ffffff");
+    configuration[QString("cpuColor")] = cg.readEntry("cpuColor", "#ff0000");
+    configuration[QString("cpuclockColor")] = cg.readEntry("cpuclockColor", "#00ff00");
+    configuration[QString("memColor")] = cg.readEntry("memColor", "#0000ff");
+    configuration[QString("swapColor")] = cg.readEntry("swapColor", "#ffff00");
+    configuration[QString("downColor")] = cg.readEntry("downColor", "#00ffff");
+    configuration[QString("upColor")] = cg.readEntry("upColor", "#ff00ff");
+
+    // appearance
+    configuration[QString("interval")] = cg.readEntry("interval", "100");
+    QString fontFamily = cg.readEntry("fontFamily", "Terminus");
+    int fontSize = cg.readEntry("fontSize", 10);
+    QString fontColor = cg.readEntry("fontColor", "#000000");
+    int fontWeight = cg.readEntry("fontWeight", 400);
+    QString fontStyle = cg.readEntry("fontStyle", "normal");
+    formatLine[0] = QString("<html><head><meta name=\"qrichtext\" content=\"1\" />\
+    <style type=\"text/css\">p, li { white-space: pre-wrap; }</style>\
+    </head><body style=\"font-family:'%1'; font-size:%2pt; font-weight:%3; font-style:%4; color:%5;\"><p>")
+                .arg(fontFamily)
+                .arg(QString::number(fontSize))
+                .arg(QString::number(fontWeight))
+                .arg(fontStyle)
+                .arg(fontColor);
+    formatLine[1] = QString("</p></body></html>");
+
     reinit();
 }
 
