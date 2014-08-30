@@ -103,7 +103,7 @@ class ConfigDefinition:
         try:
             with open(dataengineConfig, 'w') as deConfigFile:
                 item = QStringList()
-                for i in range(self.configpage['dataengine'].ui.tableWidget_customCommand.count()):
+                for i in range(self.configpage['dataengine'].ui.tableWidget_customCommand.rowCount()):
                     if (self.configpage['dataengine'].ui.tableWidget_customCommand.item(i, 0) != None):
                         item.append(self.configpage['dataengine'].ui.tableWidget_customCommand.item(i, 0).text())
                 deConfigFile.write("CUSTOM=" + str(item.join(QString('@@'))) + "\n")

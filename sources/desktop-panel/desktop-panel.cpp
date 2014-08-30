@@ -350,14 +350,14 @@ void DesktopPanel::createConfigurationInterface(KConfigDialog *parent)
     QString fontColor = cg.readEntry("currentFontColor", "#ff0000");
     int fontWeight = cg.readEntry("currentFontWeight", 400);
     QString fontStyle = cg.readEntry("currentFontStyle", "normal");
-    QFont font = QFont(fontFamily, 12, 400, FALSE);
+    QFont font = QFont(fontFamily, 12, 400, false);
     uiAppConfig.fontComboBox_fontActive->setCurrentFont(font);
     uiAppConfig.spinBox_fontSizeActive->setValue(fontSize);
     uiAppConfig.kcolorcombo_fontColorActive->setColor(fontColor);
     uiAppConfig.spinBox_fontWeightActive->setValue(fontWeight);
-    if (fontStyle == "normal")
+    if (fontStyle == QString("normal"))
         uiAppConfig.comboBox_fontStyleActive->setCurrentIndex(0);
-    else if (fontStyle == "italic")
+    else if (fontStyle == QString("italic"))
         uiAppConfig.comboBox_fontStyleActive->setCurrentIndex(1);
 
     fontFamily = cg.readEntry("fontFamily", "Terminus");

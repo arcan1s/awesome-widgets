@@ -152,10 +152,6 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
         uiAdvancedConfig.checkBox_popup->setCheckState(Qt::Unchecked);
     else
         uiAdvancedConfig.checkBox_popup->setCheckState(Qt::Checked);
-    if (configuration[QString("popup")].toInt() == 0)
-        uiAdvancedConfig.checkBox_popup->setCheckState(Qt::Unchecked);
-    else
-        uiAdvancedConfig.checkBox_popup->setCheckState(Qt::Checked);
     if (configuration[QString("leftStretch")].toInt() == 0)
         uiAdvancedConfig.checkBox_leftStretch->setCheckState(Qt::Unchecked);
     else
@@ -273,8 +269,10 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     uiAppConfig.fontComboBox->setCurrentFont(font);
     uiAppConfig.spinBox_size->setValue(fontSize);
     uiAppConfig.kcolorcombo->setColor(fontColor);
-    uiAppConfig.comboBox_style->setCurrentIndex(
-                uiAppConfig.comboBox_style->findText(fontStyle, Qt::MatchFixedString));
+    if (fontStyle == QString("normal"))
+        uiAppConfig.comboBox_style->setCurrentIndex(0);
+    else if (fontStyle == QString("italic"))
+        uiAppConfig.comboBox_style->setCurrentIndex(1);
     uiAppConfig.spinBox_weight->setValue(fontWeight);
 
     // dataengine
@@ -320,9 +318,8 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
         uiDEConfig.tableWidget_pkgCommand->setItem(i, 0, new QTableWidgetItem(deSettings[QString("PKGCMD")].split(QChar(','))[i]));
         uiDEConfig.tableWidget_pkgCommand->setItem(i, 1, new QTableWidgetItem(deSettings[QString("PKGNULL")].split(QChar(','))[i]));
     }
-
-
-
+    uiDEConfig.comboBox_playerSelect->setCurrentIndex(
+                uiDEConfig.comboBox_playerSelect->findText(deSettings[QString("PLAYER")], Qt::MatchFixedString));
 
     parent->addPage(configWidget, i18n("Widget"), Applet::icon());
     parent->addPage(advWidget, i18n("Advanced"), QString("system-run"));
@@ -338,6 +335,90 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
 void AwesomeWidget::configAccepted()
 {
     if (debug) qDebug() << PDEBUG;
+    QStringList items;
+
+    disconnectFromEngine();
+    KConfigGroup cg = config();
+
+    // widget
+    cg.writeEntry("text", uiWidConfig.textEdit_elements->toPlainText());
+
+    // advanced
+    cg.writeEntry("background", QString::number(uiAdvancedConfig.checkBox_background->checkState()));
+    cg.writeEntry("layout", QString::number(uiAdvancedConfig.checkBox_layout->checkState()));
+    cg.writeEntry("popup", QString::number(uiAdvancedConfig.checkBox_popup->checkState()));
+    cg.writeEntry("leftStretch", QString::number(uiAdvancedConfig.checkBox_leftStretch->checkState()));
+    cg.writeEntry("rightStretch", QString::number(uiAdvancedConfig.checkBox_rightStretch->checkState()));
+    cg.writeEntry("customTime", uiAdvancedConfig.lineEdit_timeFormat->text());
+    cg.writeEntry("customUptime", uiAdvancedConfig.lineEdit_uptimeFormat->text());
+    cg.writeEntry("tempUnits", uiAdvancedConfig.comboBox_tempUnits->currentText());
+    items.clear();
+    for (int i=0; i<uiAdvancedConfig.listWidget_tempDevice->count(); i++)
+        if (uiAdvancedConfig.listWidget_tempDevice->item(i)->checkState() == Qt::Checked)
+            items.append(uiAdvancedConfig.listWidget_tempDevice->item(i)->text());
+    cg.writeEntry("tempDevice", items.join(QString("@@")));
+    items.clear();
+    for (int i=0; i<uiAdvancedConfig.listWidget_mount->count(); i++)
+        if (uiAdvancedConfig.listWidget_mount->item(i)->checkState() == Qt::Checked)
+            items.append(uiAdvancedConfig.listWidget_mount->item(i)->text());
+    cg.writeEntry("mount", items.join(QString("@@")));
+    items.clear();
+    for (int i=0; i<uiAdvancedConfig.listWidget_hddSpeedDevice->count(); i++)
+        if (uiAdvancedConfig.listWidget_hddSpeedDevice->item(i)->checkState() == Qt::Checked)
+            items.append(uiAdvancedConfig.listWidget_hddSpeedDevice->item(i)->text());
+    cg.writeEntry("disk", items.join(QString("@@")));
+    cg.writeEntry("useCustomNetdev", QString::number(uiAdvancedConfig.checkBox_netdev->checkState()));
+    cg.writeEntry("customNetdev", uiAdvancedConfig.comboBox_netdev->currentText());
+    cg.writeEntry("batteryDevice", uiAdvancedConfig.lineEdit_batdev->text());
+    cg.writeEntry("acDevice", uiAdvancedConfig.lineEdit_acdev->text());
+    cg.writeEntry("acOnline", uiAdvancedConfig.lineEdit_acOnline->text());
+    cg.writeEntry("acOffile", uiAdvancedConfig.lineEdit_acOffline->text());
+
+    // tooltip
+    cg.writeEntry("tooltipNumber", QString::number(uiTooltipConfig.spinBox_tooltipNum->value()));
+    cg.writeEntry("useTooltipBackground", QString::number(uiTooltipConfig.checkBox_background->checkState()));
+    cg.writeEntry("tooltipBackground", uiTooltipConfig.kcolorcombo_background->color().name());
+    cg.writeEntry("cpuColor", uiTooltipConfig.kcolorcombo_cpu->color().name());
+    cg.writeEntry("cpuclockColor", uiTooltipConfig.kcolorcombo_cpuclock->color().name());
+    cg.writeEntry("memColor", uiTooltipConfig.kcolorcombo_mem->color().name());
+    cg.writeEntry("swapColor", uiTooltipConfig.kcolorcombo_swap->color().name());
+    cg.writeEntry("downColor", uiTooltipConfig.kcolorcombo_down->color().name());
+    cg.writeEntry("upColor", uiTooltipConfig.kcolorcombo_up->color().name());
+
+    // appearance
+    cg.writeEntry("interval", QString::number(uiAppConfig.spinBox_interval->value()));
+    cg.writeEntry("fontFamily", uiAppConfig.fontComboBox->currentFont().family());
+    cg.writeEntry("fontSize", QString::number(uiAppConfig.spinBox_size->value()));
+    cg.writeEntry("fontColor", uiAppConfig.kcolorcombo->color().name());
+    cg.writeEntry("fontStyle", uiAppConfig.comboBox_style->currentText());
+    cg.writeEntry("fontWeight", QString::number(uiAppConfig.spinBox_weight->value()));
+
+    // dataengine
+    QMap<QString, QString> deSettings;
+    items.clear();
+    for (int i=0; i<uiDEConfig.tableWidget_customCommand->rowCount(); i++)
+        if (uiDEConfig.tableWidget_customCommand->item(i, 0) != 0)
+            items.append(uiDEConfig.tableWidget_customCommand->item(i, 0)->text());
+    deSettings[QString("CUSTOM")] = items.join(QString("@@"));
+    deSettings[QString("DESKTOPCMD")] = uiDEConfig.lineEdit_desktopCmd->text();
+    deSettings[QString("GPUDEV")] = uiDEConfig.comboBox_gpudev->currentText();
+    deSettings[QString("HDDDEV")] = uiDEConfig.comboBox_hdddev->currentText();
+    deSettings[QString("HDDTEMPCMD")] = uiDEConfig.lineEdit_hddtempCmd->text();
+    deSettings[QString("MPDADDRESS")] = uiDEConfig.lineEdit_mpdaddress->text();
+    deSettings[QString("MPDPORT")] = QString::number(uiDEConfig.spinBox_mpdport->value());
+    deSettings[QString("MPRIS")] = uiDEConfig.comboBox_mpris->currentText();
+    items.clear();
+    for (int i=0; i<uiDEConfig.tableWidget_pkgCommand->rowCount(); i++)
+        if (uiDEConfig.tableWidget_pkgCommand->item(i, 0) != 0)
+            items.append(uiDEConfig.tableWidget_pkgCommand->item(i, 0)->text());
+    deSettings[QString("PKGCMD")] = items.join(QChar(','));
+    items.clear();
+    for (int i=0; i<uiDEConfig.tableWidget_pkgCommand->rowCount(); i++)
+        if (uiDEConfig.tableWidget_pkgCommand->item(i, 0) != 0)
+            items.append(uiDEConfig.tableWidget_pkgCommand->item(i, 1)->text());
+    deSettings[QString("PKGNULL")] = items.join(QChar(','));
+    deSettings[QString("PLAYER")] = uiDEConfig.comboBox_playerSelect->currentText();
+    writeDataEngineConfiguration(deSettings);
 }
 
 
