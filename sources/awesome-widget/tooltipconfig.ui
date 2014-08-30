@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ConfigWindow</class>
- <widget class="QWidget" name="ConfigWindow">
+ <class>TooltipWindow</class>
+ <widget class="QWidget" name="TooltipWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Tooltip configuration</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_6">
    <item>

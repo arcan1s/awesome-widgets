@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ConfigWindow</class>
- <widget class="QWidget" name="ConfigWindow">
+ <class>AdvancedWindow</class>
+ <widget class="QWidget" name="AdvancedWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Advanced configuration</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -41,9 +41,9 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
+        <y>-145</y>
         <width>677</width>
-        <height>752</height>
+        <height>723</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -328,33 +328,6 @@ $m - uptime minutes without zero</string>
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="layout_netdir">
-         <item>
-          <widget class="QLabel" name="label_netdir">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Network directory</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_netdir">
-           <property name="toolTip">
-            <string>&quot;/sys/class/net&quot; by default</string>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
         <layout class="QHBoxLayout" name="layout_netdev">
          <item>
           <widget class="QCheckBox" name="checkBox_netdev">
@@ -531,7 +504,6 @@ $m - uptime minutes without zero</string>
   <tabstop>listWidget_mount</tabstop>
   <tabstop>listWidget_hddSpeedDevice</tabstop>
   <tabstop>listWidget_hddDevice</tabstop>
-  <tabstop>lineEdit_netdir</tabstop>
   <tabstop>checkBox_netdev</tabstop>
   <tabstop>comboBox_netdev</tabstop>
   <tabstop>lineEdit_batdev</tabstop>

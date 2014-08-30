@@ -28,8 +28,8 @@
 #include <QTextCodec>
 #include <QThread>
 
-#include <task/taskadds.h>
 #include <pdebug/pdebug.h>
+#include <task/taskadds.h>
 
 
 ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList& args)

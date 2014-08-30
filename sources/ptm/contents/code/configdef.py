@@ -243,7 +243,7 @@ class ConfigDefinition:
             self.configpage['tooltip'].checkBox_background.setCheckState(0)
         else:
             self.configpage['tooltip'].checkBox_background.setCheckState(2)
-            self.configpage['tooltip'].ui.kcolorcombo_cpu.setColor(QColor(str(settings.get('tooltip_background', 'null'))))
+            self.configpage['tooltip'].ui.kcolorcombo_background.setColor(QColor(str(settings.get('tooltip_background', 'null'))))
         self.configpage['tooltip'].ui.kcolorcombo_cpu.setColor(QColor(str(settings.get('cpu_color', '#ff0000'))))
         self.configpage['tooltip'].ui.kcolorcombo_cpuclock.setColor(QColor(str(settings.get('cpuclock_color', '#00ff00'))))
         self.configpage['tooltip'].ui.kcolorcombo_mem.setColor(QColor(str(settings.get('mem_color', '#0000ff'))))
@@ -286,7 +286,6 @@ class ConfigDefinition:
         self.configpage['dataengine'].ui.comboBox_hdddev.setCurrentIndex(index)
         self.configpage['dataengine'].ui.lineEdit_hddtempCmd.setText(deSettings['HDDTEMPCMD'])
         self.configpage['dataengine'].ui.lineEdit_mpdaddress.setText(deSettings['MPDADDRESS'])
-        self.configpage['dataengine'].ui.spinBox_mpdport.setValue(int(deSettings['MPDPORT']))
         self.configpage['dataengine'].ui.spinBox_mpdport.setValue(int(deSettings['MPDPORT']))
         self.configpage['dataengine'].ui.comboBox_mpris.addItem(deSettings['MPRIS'])
         self.configpage['dataengine'].ui.comboBox_mpris.setCurrentIndex(self.configpage['dataengine'].ui.comboBox_mpris.count()-1)
