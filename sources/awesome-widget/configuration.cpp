@@ -236,7 +236,6 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     uiAdvancedConfig.comboBox_netdev->setCurrentIndex(
                 uiAdvancedConfig.comboBox_netdev->findText(configuration[QString("customNetdev")],
                 Qt::MatchFixedString));
-    setNetworkDevice();
     uiAdvancedConfig.lineEdit_batdev->setText(configuration[QString("batteryDevice")]);
     uiAdvancedConfig.lineEdit_acdev->setText(configuration[QString("acDevice")]);
     uiAdvancedConfig.lineEdit_acOnline->setText(configuration[QString("acOnline")]);
@@ -249,12 +248,35 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     else
         uiAdvancedConfig.checkBox_background->setCheckState(Qt::Checked);
     uiTooltipConfig.kcolorcombo_background->setColor(QColor(configuration[QString("tooltipBackground")]));
-    setTooltipBackground();
+    if (configuration[QString("cpuTooltip")].toInt() == 0)
+        uiTooltipConfig.checkBox_cpu->setCheckState(Qt::Unchecked);
+    else
+        uiTooltipConfig.checkBox_cpu->setCheckState(Qt::Checked);
     uiTooltipConfig.kcolorcombo_cpu->setColor(QColor(configuration[QString("cpuColor")]));
+    if (configuration[QString("cpuclockTooltip")].toInt() == 0)
+        uiTooltipConfig.checkBox_cpuclock->setCheckState(Qt::Unchecked);
+    else
+        uiTooltipConfig.checkBox_cpuclock->setCheckState(Qt::Checked);
     uiTooltipConfig.kcolorcombo_cpuclock->setColor(QColor(configuration[QString("cpuclockColor")]));
+    if (configuration[QString("memTooltip")].toInt() == 0)
+        uiTooltipConfig.checkBox_mem->setCheckState(Qt::Unchecked);
+    else
+        uiTooltipConfig.checkBox_mem->setCheckState(Qt::Checked);
     uiTooltipConfig.kcolorcombo_mem->setColor(QColor(configuration[QString("memColor")]));
+    if (configuration[QString("swapTooltip")].toInt() == 0)
+        uiTooltipConfig.checkBox_swap->setCheckState(Qt::Unchecked);
+    else
+        uiTooltipConfig.checkBox_swap->setCheckState(Qt::Checked);
     uiTooltipConfig.kcolorcombo_swap->setColor(QColor(configuration[QString("swapColor")]));
+    if (configuration[QString("downTooltip")].toInt() == 0)
+        uiTooltipConfig.checkBox_down->setCheckState(Qt::Unchecked);
+    else
+        uiTooltipConfig.checkBox_down->setCheckState(Qt::Checked);
     uiTooltipConfig.kcolorcombo_down->setColor(QColor(configuration[QString("downColor")]));
+    if (configuration[QString("upTooltip")].toInt() == 0)
+        uiTooltipConfig.checkBox_up->setCheckState(Qt::Unchecked);
+    else
+        uiTooltipConfig.checkBox_up->setCheckState(Qt::Checked);
     uiTooltipConfig.kcolorcombo_up->setColor(QColor(configuration[QString("upColor")]));
 
     // appearance
@@ -378,11 +400,17 @@ void AwesomeWidget::configAccepted()
     cg.writeEntry("tooltipNumber", QString::number(uiTooltipConfig.spinBox_tooltipNum->value()));
     cg.writeEntry("useTooltipBackground", QString::number(uiTooltipConfig.checkBox_background->checkState()));
     cg.writeEntry("tooltipBackground", uiTooltipConfig.kcolorcombo_background->color().name());
+    cg.writeEntry("cpuTooltip", QString::number(uiTooltipConfig.checkBox_cpu->checkState()));
     cg.writeEntry("cpuColor", uiTooltipConfig.kcolorcombo_cpu->color().name());
+    cg.writeEntry("cpuclockTooltip", QString::number(uiTooltipConfig.checkBox_cpuclock->checkState()));
     cg.writeEntry("cpuclockColor", uiTooltipConfig.kcolorcombo_cpuclock->color().name());
+    cg.writeEntry("memTooltip", QString::number(uiTooltipConfig.checkBox_mem->checkState()));
     cg.writeEntry("memColor", uiTooltipConfig.kcolorcombo_mem->color().name());
+    cg.writeEntry("swapTooltip", QString::number(uiTooltipConfig.checkBox_swap->checkState()));
     cg.writeEntry("swapColor", uiTooltipConfig.kcolorcombo_swap->color().name());
+    cg.writeEntry("downTooltip", QString::number(uiTooltipConfig.checkBox_down->checkState()));
     cg.writeEntry("downColor", uiTooltipConfig.kcolorcombo_down->color().name());
+    cg.writeEntry("upTooltip", QString::number(uiTooltipConfig.checkBox_up->checkState()));
     cg.writeEntry("upColor", uiTooltipConfig.kcolorcombo_up->color().name());
 
     // appearance
@@ -454,11 +482,17 @@ void AwesomeWidget::configChanged()
     configuration[QString("tooltipNumber")] = cg.readEntry("tooltipNumber", "100");
     configuration[QString("useTooltipBackground")] = cg.readEntry("useTooltipBackground", "2");
     configuration[QString("tooltipBackground")] = cg.readEntry("tooltipBackground", "#ffffff");
+    configuration[QString("cpuTooltip")] = cg.readEntry("cpuTooltip", "2");
     configuration[QString("cpuColor")] = cg.readEntry("cpuColor", "#ff0000");
+    configuration[QString("cpuclockTooltip")] = cg.readEntry("cpuclockTooltip", "2");
     configuration[QString("cpuclockColor")] = cg.readEntry("cpuclockColor", "#00ff00");
+    configuration[QString("memTooltip")] = cg.readEntry("memTooltip", "2");
     configuration[QString("memColor")] = cg.readEntry("memColor", "#0000ff");
+    configuration[QString("swapTooltip")] = cg.readEntry("swapTooltip", "2");
     configuration[QString("swapColor")] = cg.readEntry("swapColor", "#ffff00");
+    configuration[QString("downTooltip")] = cg.readEntry("downTooltip", "2");
     configuration[QString("downColor")] = cg.readEntry("downColor", "#00ffff");
+    configuration[QString("upTooltip")] = cg.readEntry("upTooltip", "2");
     configuration[QString("upColor")] = cg.readEntry("upColor", "#ff00ff");
 
     // appearance
@@ -479,26 +513,4 @@ void AwesomeWidget::configChanged()
     formatLine[1] = QString("</p></body></html>");
 
     reinit();
-}
-
-
-void AwesomeWidget::setNetworkDevice()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    if (uiAdvancedConfig.checkBox_netdev->checkState() == 0)
-        uiAdvancedConfig.comboBox_netdev->setDisabled(true);
-    else if (uiAdvancedConfig.checkBox_netdev->checkState() == 2)
-        uiAdvancedConfig.checkBox_netdev->setEnabled(true);
-}
-
-
-void AwesomeWidget::setTooltipBackground()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    if (uiTooltipConfig.checkBox_background->checkState() == 0)
-        uiTooltipConfig.kcolorcombo_cpu->setDisabled(true);
-    else if (uiTooltipConfig.checkBox_background->checkState() == 2)
-        uiTooltipConfig.kcolorcombo_cpu->setEnabled(true);
 }

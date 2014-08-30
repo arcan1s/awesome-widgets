@@ -462,19 +462,6 @@ del - remove item</string>
    </item>
   </layout>
  </widget>
- <tabstops>
-  <tabstop>scrollArea_dattaengine</tabstop>
-  <tabstop>tableWidget_customCommand</tabstop>
-  <tabstop>lineEdit_desktopCmd</tabstop>
-  <tabstop>comboBox_gpudev</tabstop>
-  <tabstop>comboBox_hdddev</tabstop>
-  <tabstop>lineEdit_hddtempCmd</tabstop>
-  <tabstop>lineEdit_mpdaddress</tabstop>
-  <tabstop>spinBox_mpdport</tabstop>
-  <tabstop>comboBox_mpris</tabstop>
-  <tabstop>comboBox_playerSelect</tabstop>
-  <tabstop>tableWidget_pkgCommand</tabstop>
- </tabstops>
  <resources/>
  <connections/>
 </ui>

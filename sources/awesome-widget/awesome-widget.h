@@ -58,8 +58,6 @@ public slots:
 private slots:
     void reinit();
     // configuration interface
-    void setNetworkDevice();
-    void setTooltipBackground();
 
 protected:
     void createConfigurationInterface(KConfigDialog *parent);

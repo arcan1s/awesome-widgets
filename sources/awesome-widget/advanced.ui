@@ -490,27 +490,6 @@ $m - uptime minutes without zero</string>
    </item>
   </layout>
  </widget>
- <tabstops>
-  <tabstop>scrollArea_advanced</tabstop>
-  <tabstop>checkBox_background</tabstop>
-  <tabstop>checkBox_layout</tabstop>
-  <tabstop>checkBox_popup</tabstop>
-  <tabstop>checkBox_leftStretch</tabstop>
-  <tabstop>checkBox_rightStretch</tabstop>
-  <tabstop>lineEdit_timeFormat</tabstop>
-  <tabstop>lineEdit_uptimeFormat</tabstop>
-  <tabstop>comboBox_tempUnits</tabstop>
-  <tabstop>listWidget_tempDevice</tabstop>
-  <tabstop>listWidget_mount</tabstop>
-  <tabstop>listWidget_hddSpeedDevice</tabstop>
-  <tabstop>listWidget_hddDevice</tabstop>
-  <tabstop>checkBox_netdev</tabstop>
-  <tabstop>comboBox_netdev</tabstop>
-  <tabstop>lineEdit_batdev</tabstop>
-  <tabstop>lineEdit_acOnline</tabstop>
-  <tabstop>lineEdit_acOffline</tabstop>
-  <tabstop>lineEdit_acdev</tabstop>
- </tabstops>
  <resources/>
  <connections/>
 </ui>
