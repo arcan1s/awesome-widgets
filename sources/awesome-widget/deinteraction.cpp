@@ -173,4 +173,101 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
 void AwesomeWidget::disconnectFromEngine()
 {
     if (debug) qDebug() << PDEBUG;
+    QRegExp regExp;
+
+    // cpu
+    regExp = QRegExp(QString("cpu.*"));
+    if (foundKeys.indexOf(regExp) > -1) {
+        sysmonEngine->disconnectSource(QString("cpu/system/TotalLoad"), this);
+        int numCpus = getNumberCpus();
+        for (int i=0; i<numCpus; i++)
+            sysmonEngine->disconnectSource(QString("cpu/cpu") + QString::number(i) + QString("/TotalLoad"), this);
+    }
+    // cpuclock
+    regExp = QRegExp(QString("cpucl.*"));
+    if (foundKeys.indexOf(regExp) > -1) {
+        sysmonEngine->disconnectSource(QString("cpu/system/AverageClock"), this);
+        int numCpus = getNumberCpus();
+        for (int i=0; i<numCpus; i++)
+            sysmonEngine->disconnectSource(QString("cpu/cpu") + QString::number(i) + QString("/clock"), this);
+    }
+    // custom command
+    regExp = QRegExp(QString("custom.*"));
+    if (foundKeys.indexOf(regExp) > -1)
+        extsysmonEngine->disconnectSource(QString("custom"), this);
+    // desktop
+    regExp = QRegExp(QString(".*desktop.*"));
+    if (foundKeys.indexOf(regExp) > -1)
+        extsysmonEngine->disconnectSource(QString("desktop"), this);
+    // disk speed
+    regExp = QRegExp(QString("hdd[rw].*"));
+    if (foundKeys.indexOf(regExp) > -1)
+        for (int i=0; i<configuration[QString("disk")].split(QString("@@")).count(); i++) {
+            sysmonEngine->disconnectSource(configuration[QString("disk")].split(QString("@@"))[i] + QString("/Rate/rblk"), this);
+            sysmonEngine->disconnectSource(configuration[QString("disk")].split(QString("@@"))[i] + QString("/Rate/wblk"), this);
+        }
+    // gpu
+    regExp = QRegExp(QString("gpu"));
+    if (foundKeys.indexOf(regExp) > -1)
+        extsysmonEngine->disconnectSource(QString("gpu"), this);
+    // gputemp
+    regExp = QRegExp(QString("gputemp"));
+    if (foundKeys.indexOf(regExp) > -1)
+        extsysmonEngine->disconnectSource(QString("gputemp"), this);
+    // mount
+    regExp = QRegExp(QString("hdd([0-9]|mb|gb|totmb|totgb).*"));
+    if (foundKeys.indexOf(regExp) > -1)
+        for (int i=0; i<configuration[QString("mount")].split(QString("@@")).count(); i++) {
+            sysmonEngine->disconnectSource(QString("partitions") + configuration[QString("mount")].split(QString("@@"))[i] + QString("/filllevel"), this);
+            sysmonEngine->disconnectSource(QString("partitions") + configuration[QString("mount")].split(QString("@@"))[i] + QString("/freespace"), this);
+            sysmonEngine->disconnectSource(QString("partitions") + configuration[QString("mount")].split(QString("@@"))[i] + QString("/usedspace"), this);
+        }
+    // hddtemp
+    regExp = QRegExp(QString("hddtemp.*"));
+    if (foundKeys.indexOf(regExp) > -1)
+        extsysmonEngine->disconnectSource(QString("hddtemp"), this);
+    // memory
+    regExp = QRegExp(QString("mem.*"));
+    if (foundKeys.indexOf(regExp) > -1) {
+        sysmonEngine->disconnectSource(QString("mem/physical/free"), this);
+        sysmonEngine->disconnectSource(QString("mem/physical/used"), this);
+        sysmonEngine->disconnectSource(QString("mem/physical/application"), this);
+    }
+    // network
+    regExp = QRegExp(QString("(down|up|netdev)"));
+    if (foundKeys.indexOf(regExp) > -1) {
+        sysmonEngine->disconnectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/transmitter/data"), this);
+        sysmonEngine->disconnectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/receiver/data"), this);
+    }
+    // package manager
+    regExp = QRegExp(QString("pkgcount.*"));
+    if (foundKeys.indexOf(regExp) > -1)
+        extsysmonEngine->disconnectSource(QString("pkg"), this);
+    // player
+    regExp = QRegExp(QString("(album|artist|duration|progress|title)"));
+    if (foundKeys.indexOf(regExp) > -1)
+        extsysmonEngine->disconnectSource(QString("player"), this);
+    // ps
+    regExp = QRegExp(QString("ps.*"));
+    if (foundKeys.indexOf(regExp) > -1)
+        extsysmonEngine->disconnectSource(QString("ps"), this);
+    // swap
+    regExp = QRegExp(QString("swap.*"));
+    if (foundKeys.indexOf(regExp) > -1) {
+        sysmonEngine->disconnectSource(QString("mem/swap/free"), this);
+        sysmonEngine->disconnectSource(QString("mem/swap/used"), this);
+    }
+    // temp
+    regExp = QRegExp(QString("temp.*"));
+    if (foundKeys.indexOf(regExp) > -1)
+        for (int i=0; i<configuration[QString("tempDevice")].split(QString("@@")).count(); i++)
+            sysmonEngine->disconnectSource(configuration[QString("tempDevice")].split(QString("@@"))[i], this);
+    // time
+    regExp = QRegExp(QString("(^|iso|short|long|c)time"));
+    if (foundKeys.indexOf(regExp) > -1)
+        timeEngine->disconnectSource(QString("Local"), this);
+    // uptime
+    regExp = QRegExp(QString("(^|c)uptime"));
+    if (foundKeys.indexOf(regExp) > -1)
+        sysmonEngine->disconnectSource(QString("system/uptime"), this);
 }

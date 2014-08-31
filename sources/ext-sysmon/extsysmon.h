@@ -28,6 +28,7 @@ class ExtendedSysMon : public Plasma::DataEngine
 public:
     ExtendedSysMon(QObject *parent, const QVariantList &args);
     // update functions
+    QMap<QString, int> getBattery(const QString acPath, const QString batPath);
     QMap<QString, QVariant> getCurrentDesktop(const QString cmd);
     QString getCustomCmd(const QString cmd);
     float getGpu(const QString device);

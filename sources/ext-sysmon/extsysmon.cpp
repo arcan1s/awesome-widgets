@@ -150,6 +150,7 @@ QStringList ExtendedSysMon::sources() const
     if (debug) qDebug() << PDEBUG;
 
     QStringList source;
+    source.append(QString("battery"));
     source.append(QString("custom"));
     source.append(QString("desktop"));
     source.append(QString("gpu"));
@@ -170,6 +171,8 @@ void ExtendedSysMon::readConfiguration()
 
     // pre-setup
     QMap<QString, QString> rawConfig;
+    rawConfig[QString("AC")] = QString("/sys/class/power_supply/AC/online");
+    rawConfig[QString("BATTERY")] = QString("/sys/class/power_supply/BAT0/capacity");
     rawConfig[QString("CUSTOM")] = QString("curl ip4.telize.com");
     rawConfig[QString("DESKTOP")] = QString("");
     rawConfig[QString("DESKTOPCMD")] = QString("qdbus org.kde.kwin /KWin currentDesktop");
@@ -272,6 +275,28 @@ QMap<QString, QString> ExtendedSysMon::updateConfiguration(const QMap<QString, Q
         if (debug) qDebug() << PDEBUG << ":" <<
             config.keys()[i] + QString("=") + config[config.keys()[i]];
     return config;
+}
+
+
+QMap<QString, int> ExtendedSysMon::getBattery(const QString acPath, const QString batPath)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "AC path" << acPath;
+    if (debug) qDebug() << PDEBUG << ":" << "Battery path" << batPath;
+
+    QMap<QString, int> battery;
+    battery[QString("ac")] = 0;
+    battery[QString("battery")] = 0;
+    QFile acFile(acPath);
+    if (acFile.open(QIODevice::ReadOnly))
+        battery[QString("ac")] = QString(acFile.readLine()).trimmed().toInt();
+    acFile.close();
+    QFile batFile(batPath);
+    if (batFile.open(QIODevice::ReadOnly))
+        battery[QString("battery")] = QString(batFile.readLine()).trimmed().toInt();
+    batFile.close();
+
+    return battery;
 }
 
 
@@ -543,7 +568,12 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Source" << source;
 
-    if (source == QString("custom")) {
+    if (source == QString("battery")) {
+        QMap<QString, int> battery = getBattery(configuration[QString("AC")],
+                configuration[QString("BATTERY")]);
+        setData(source, QString("ac"), QString::number(battery[QString("ac")]));
+        setData(source, QString("bat"), QString::number(battery[QString("battery")]));
+    } else if (source == QString("custom")) {
         for (int i=0; i<configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts).count(); i++) {
             setData(source, QString("custom") + QString::number(i),
                     getCustomCmd(configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts)[i]));
