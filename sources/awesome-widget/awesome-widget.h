@@ -41,6 +41,7 @@ public:
     ~AwesomeWidget();
     QString getNetworkDevice();
     int getNumberCpus();
+    QStringList getTimeKeys();
     void init();
     // de configuration
     QMap<QString, QString> readDataEngineConfiguration();
@@ -76,6 +77,7 @@ private:
     CustomLabel *textLabel;
     QTimer *timer;
     // values
+    int networkDeviceUpdate;
     QMap<QString, int> counts;
     QMap<QString, QList<float>> tooltipValues;
     QMap<QString, QString> values;

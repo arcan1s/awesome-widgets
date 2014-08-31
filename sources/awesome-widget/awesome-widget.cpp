@@ -84,6 +84,32 @@ int AwesomeWidget::getNumberCpus()
 }
 
 
+QStringList AwesomeWidget::getTimeKeys()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QStringList timeKeys;
+    timeKeys.append(QString("d"));
+    timeKeys.append(QString("dd"));
+    timeKeys.append(QString("ddd"));
+    timeKeys.append(QString("dddd"));
+    timeKeys.append(QString("M"));
+    timeKeys.append(QString("MM"));
+    timeKeys.append(QString("MMM"));
+    timeKeys.append(QString("MMMM"));
+    timeKeys.append(QString("yy"));
+    timeKeys.append(QString("yyyy"));
+    timeKeys.append(QString("h"));
+    timeKeys.append(QString("hh"));
+    timeKeys.append(QString("m"));
+    timeKeys.append(QString("mm"));
+    timeKeys.append(QString("s"));
+    timeKeys.append(QString("ss"));
+
+    return timeKeys;
+}
+
+
 void AwesomeWidget::init()
 {
     if (debug) qDebug() << PDEBUG;

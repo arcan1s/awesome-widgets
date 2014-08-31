@@ -108,6 +108,7 @@ void AwesomeWidget::connectToEngine()
     // network
     regExp = QRegExp(QString("(down|up|netdev)"));
     if (foundKeys.indexOf(regExp) > -1) {
+        networkDeviceUpdate = 0;
         sysmonEngine->connectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/transmitter/data"),
                                     this, configuration[QString("interval")].toInt());
         sysmonEngine->connectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/receiver/data"),
@@ -168,6 +169,9 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
     QRegExp mountFillRegExp = QRegExp(QString("partitions/.*/filllevel"));
     QRegExp mountFreeRegExp = QRegExp(QString("partitions/.*/freespace"));
     QRegExp mountUsedRegExp = QRegExp(QString("partitions/.*/usedspace"));
+    QRegExp netRecRegExp = QRegExp(QString("network/interfaces/.*/receiver/data"));
+    QRegExp netTransRegExp = QRegExp(QString("network/interfaces/.*/transmitter/data"));
+    QRegExp tempRegExp = QRegExp(QString("lmsensors/.*"));
 
     if (data.keys().isEmpty()) return;
     if (sourceName == QString("battery")) {
@@ -284,6 +288,86 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
                     values[QString("memgb")].toFloat() + values[QString("memfreegb")].toFloat());
         // percentage
         values[QString("mem")] = QString("%5.1f").arg(100.0 * values[QString("memmb")].toFloat() / values[QString("memtotmb")].toFloat());
+        if (configuration[QString("memTooltip")].toInt() == 2)
+            tooltipValues[QString("mem")].append(values[QString("mem")].toFloat());
+    } else if (sourceName.indexOf(netRecRegExp) > -1) {
+        values[QString("down")] = QString("%4i").arg(data[QString("value")].toFloat());
+        if (configuration[QString("downTooltip")].toInt() == 2)
+            tooltipValues[QString("down")].append(data[QString("value")].toFloat());
+        networkDeviceUpdate++;
+        if (networkDeviceUpdate == 30) {
+            networkDeviceUpdate = 0;
+            if (configuration[QString("useCustomNetdev")].toInt() == 2) {
+                sysmonEngine->disconnectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/transmitter/data"), this);
+                sysmonEngine->disconnectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/receiver/data"), this);
+                values[QString("netdev")] = getNetworkDevice();
+                sysmonEngine->connectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/transmitter/data"),
+                                            this, configuration[QString("interval")].toInt());
+                sysmonEngine->connectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/receiver/data"),
+                                            this, configuration[QString("interval")].toInt());
+            }
+        }
+    } else if (sourceName.indexOf(netTransRegExp) > -1) {
+        values[QString("up")] = QString("%4i").arg(data[QString("value")].toFloat());
+        if (configuration[QString("upTooltip")].toInt() == 2)
+            tooltipValues[QString("up")].append(data[QString("value")].toFloat());
+    } else if (sourceName == QString("pkg")) {
+        for (int i=0; i<data.keys().count(); i++)
+            values[data.keys()[i].toLower()] = QString("%i").arg(data[data.keys()[i]].toInt());
+    } else if (sourceName == QString("player")) {
+        values[QString("album")] = data[QString("album")].toString();
+        values[QString("artist")] = data[QString("artist")].toString();
+        values[QString("duration")] = data[QString("duration")].toString();
+        values[QString("progress")] = data[QString("progress")].toString();
+        values[QString("title")] = data[QString("title")].toString();
+    } else if (sourceName == QString("ps")) {
+        values[QString("ps")] = data[QString("ps")].toString();
+        values[QString("pscount")] = QString("%i").arg(data[QString("psCount")].toInt());
+        values[QString("pstotal")] = QString("%i").arg(data[QString("psTotal")].toInt());
+    } else if (sourceName == QString("mem/swap/free")) {
+        values[QString("swapfreemb")] = QString("%i").arg(data[QString("value")].toFloat() / 1024.0);
+        values[QString("swapfreegb")] = QString("%5.1f").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0));
+    } else if (sourceName == QString("mem/swap/used")) {
+        values[QString("swapmb")] = QString("%i").arg(data[QString("value")].toFloat() / 1024.0);
+        values[QString("swapgb")] = QString("%5.1f").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0));
+        // total
+        values[QString("swaptotmb")] = QString("%i").arg(
+                    values[QString("swapmb")].toInt() + values[QString("swapfreemb")].toInt());
+        values[QString("swaptotgb")] = QString("%5.1f").arg(
+                    values[QString("swapgb")].toFloat() + values[QString("swapfreegb")].toFloat());
+        // percentage
+        values[QString("swap")] = QString("%5.1f").arg(100.0 * values[QString("swapmb")].toFloat() / values[QString("swaptotmb")].toFloat());
+        if (configuration[QString("swapTooltip")].toInt() == 2)
+            tooltipValues[QString("swap")].append(values[QString("swap")].toFloat());
+    } else if (sourceName.indexOf(tempRegExp) > -1) {
+        for (int i=0; i<counts[QString("temp")]; i++)
+            if (sourceName == configuration[QString("tempDevice")].split(QString("@@"))[i]) {
+                values[QString("temp") + QString::number(i)] = QString("%4.1f").arg(data[QString("value")].toFloat());
+                break;
+            }
+    } else if (sourceName == QString("Local")) {
+        values[QString("time")] = data[QString("value")].toDateTime().toString(Qt::TextDate);
+        values[QString("isotime")] = data[QString("value")].toDateTime().toString(Qt::ISODate);
+        values[QString("shorttime")] = data[QString("value")].toDateTime().toString(Qt::SystemLocaleShortDate);
+        values[QString("longtime")] = data[QString("value")].toDateTime().toString(Qt::SystemLocaleLongDate);
+        QStringList timeKeys = getTimeKeys();
+        values[QString("ctime")] = configuration[QString("customTime")];
+        for (int i=0; i<timeKeys.count(); i++)
+            values[QString("ctime")].replace(QString("$") + timeKeys[i] + QString("$"),
+                                             data[QString("value")].toDateTime().toString(timeKeys[i]));
+    } else if (sourceName == QString("system/uptime")) {
+        int seconds = data[QString("value")].toInt() - data[QString("value")].toInt() % 60;
+        int minutes = seconds / 60 % 60;
+        int hours = ((seconds / 60) - minutes) / 60 % 24;
+        int days = (((seconds / 60) - minutes) / 60 - hours) / 24;
+        values[QString("uptime")] = QString("%3id%2ih%2im").arg(days).arg(hours).arg(minutes);
+        values[QString("cuptime")] = configuration[QString("customUptime")];
+        values[QString("cuptime")].replace(QString("$d$"), QString("%i").arg(days));
+        values[QString("cuptime")].replace(QString("$dd$"), QString("%03i").arg(days));
+        values[QString("cuptime")].replace(QString("$h$"), QString("%i").arg(hours));
+        values[QString("cuptime")].replace(QString("$hh$"), QString("%2i").arg(hours));
+        values[QString("cuptime")].replace(QString("$m$"), QString("%2i").arg(minutes));
+        values[QString("cuptime")].replace(QString("$mm$"), QString("%02i").arg(minutes));
     }
 }
 
