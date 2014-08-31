@@ -32,6 +32,8 @@ QMap<QString, QString> AwesomeWidget::readDataEngineConfiguration()
     if (debug) qDebug() << PDEBUG;
 
     QMap<QString, QString> rawConfig;
+    rawConfig[QString("AC")] = QString("/sys/class/power_supply/AC/online");
+    rawConfig[QString("BATTERY")] = QString("/sys/class/power_supply/BAT0/capacity");
     rawConfig[QString("CUSTOM")] = QString("wget -qO- http://ifconfig.me/ip");
     rawConfig[QString("DESKTOPCMD")] = QString("qdbus org.kde.kwin /KWin currentDesktop");
     rawConfig[QString("GPUDEV")] = QString("auto");
@@ -255,8 +257,6 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     uiAdvancedConfig.comboBox_netdev->setCurrentIndex(
                 uiAdvancedConfig.comboBox_netdev->findText(configuration[QString("customNetdev")],
                 Qt::MatchFixedString));
-    uiAdvancedConfig.lineEdit_batdev->setText(configuration[QString("batteryDevice")]);
-    uiAdvancedConfig.lineEdit_acdev->setText(configuration[QString("acDevice")]);
     uiAdvancedConfig.lineEdit_acOnline->setText(configuration[QString("acOnline")]);
     uiAdvancedConfig.lineEdit_acOffline->setText(configuration[QString("acOffile")]);
 
@@ -318,6 +318,8 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
 
     // dataengine
     QMap<QString, QString> deSettings = readDataEngineConfiguration();
+    uiDEConfig.lineEdit_acdev->setText(deSettings[QString("AC")]);
+    uiDEConfig.lineEdit_batdev->setText(deSettings[QString("BATTERY")]);
     uiDEConfig.tableWidget_customCommand->clear();
     uiDEConfig.tableWidget_customCommand->setRowCount(deSettings[QString("CUSTOM")].split(QString("@@")).count() + 1);
     headerList.clear();
@@ -415,8 +417,6 @@ void AwesomeWidget::configAccepted()
     cg.writeEntry("disk", items.join(QString("@@")));
     cg.writeEntry("useCustomNetdev", QString::number(uiAdvancedConfig.checkBox_netdev->checkState()));
     cg.writeEntry("customNetdev", uiAdvancedConfig.comboBox_netdev->currentText());
-    cg.writeEntry("batteryDevice", uiAdvancedConfig.lineEdit_batdev->text());
-    cg.writeEntry("acDevice", uiAdvancedConfig.lineEdit_acdev->text());
     cg.writeEntry("acOnline", uiAdvancedConfig.lineEdit_acOnline->text());
     cg.writeEntry("acOffile", uiAdvancedConfig.lineEdit_acOffline->text());
 
@@ -447,6 +447,8 @@ void AwesomeWidget::configAccepted()
 
     // dataengine
     QMap<QString, QString> deSettings;
+    deSettings[QString("AC")] = uiDEConfig.lineEdit_acdev->text();
+    deSettings[QString("BATTERY")] = uiDEConfig.lineEdit_batdev->text();
     items.clear();
     for (int i=0; i<uiDEConfig.tableWidget_customCommand->rowCount(); i++)
         if (uiDEConfig.tableWidget_customCommand->item(i, 0) != 0)
@@ -498,8 +500,6 @@ void AwesomeWidget::configChanged()
     configuration[QString("disk")] = cg.readEntry("disk", "disk/sda_(8:0)");
     configuration[QString("useCustomNetdev")] = cg.readEntry("useCustomNetdev", "0");
     configuration[QString("customNetdev")] = cg.readEntry("customNetdev", "lo");
-    configuration[QString("batteryDevice")] = cg.readEntry("batteryDevice", "/sys/class/power_supply/BAT0/capacity");
-    configuration[QString("acDevice")] = cg.readEntry("acDevice", "/sys/class/power_supply/AC/online");
     configuration[QString("acOnline")] = cg.readEntry("acOnline", "(*)");
     configuration[QString("acOffile")] = cg.readEntry("acOffile", "( )");
 

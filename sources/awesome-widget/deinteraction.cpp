@@ -27,6 +27,11 @@ void AwesomeWidget::connectToEngine()
     if (debug) qDebug() << PDEBUG;
     QRegExp regExp;
 
+    // battery
+    regExp = QRegExp(QString("(ac|bat)"));
+    if (foundKeys.indexOf(regExp) > -1)
+        extsysmonEngine->connectSource(QString("battery"),
+                                       this, configuration[QString("interval")].toInt());
     // cpu
     regExp = QRegExp(QString("cpu.*"));
     if (foundKeys.indexOf(regExp) > -1) {
@@ -175,6 +180,10 @@ void AwesomeWidget::disconnectFromEngine()
     if (debug) qDebug() << PDEBUG;
     QRegExp regExp;
 
+    // battery
+    regExp = QRegExp(QString("(ac|bat)"));
+    if (foundKeys.indexOf(regExp) > -1)
+        extsysmonEngine->disconnectSource(QString("battery"), this);
     // cpu
     regExp = QRegExp(QString("cpu.*"));
     if (foundKeys.indexOf(regExp) > -1) {

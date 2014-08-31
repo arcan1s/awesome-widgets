@@ -47,116 +47,7 @@
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="8" column="0">
-        <layout class="QHBoxLayout" name="layout_playerSelect">
-         <item>
-          <widget class="QLabel" name="label_playerSelect">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Music player</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="comboBox_playerSelect">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>100</width>
-             <height>0</height>
-            </size>
-           </property>
-           <item>
-            <property name="text">
-             <string notr="true">mpris</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">mpd</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="10" column="0">
-        <spacer name="spacer_dataengine">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="2" column="0">
-        <layout class="QHBoxLayout" name="layout_gpudev">
-         <item>
-          <widget class="QLabel" name="label_gpudev">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>GPU device</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="comboBox_gpudev">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>100</width>
-             <height>0</height>
-            </size>
-           </property>
-           <item>
-            <property name="text">
-             <string notr="true">auto</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">disable</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">nvidia</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">ati</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="3" column="0">
+       <item row="5" column="0">
         <layout class="QHBoxLayout" name="layout_hdddev">
          <item>
           <widget class="QLabel" name="label_hdddev">
@@ -189,55 +80,7 @@
          </item>
         </layout>
        </item>
-       <item row="4" column="0">
-        <layout class="QHBoxLayout" name="layout_hddtempCmd">
-         <item>
-          <widget class="QLabel" name="label_hddtempCmd">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>hddtemp cmd</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_hddtempCmd">
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="5" column="0">
-        <layout class="QHBoxLayout" name="layout_mpdaddress">
-         <item>
-          <widget class="QLabel" name="label_mpdaddress">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>MPD address</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_mpdaddress">
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="6" column="0">
+       <item row="8" column="0">
         <layout class="QHBoxLayout" name="layout_mpdport">
          <item>
           <widget class="QLabel" name="label_mpdport">
@@ -292,7 +135,164 @@
          </item>
         </layout>
        </item>
-       <item row="1" column="0">
+       <item row="4" column="0">
+        <layout class="QHBoxLayout" name="layout_gpudev">
+         <item>
+          <widget class="QLabel" name="label_gpudev">
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>GPU device</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_gpudev">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
+           <item>
+            <property name="text">
+             <string notr="true">auto</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">disable</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">nvidia</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">ati</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="12" column="0">
+        <spacer name="spacer_dataengine">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="6" column="0">
+        <layout class="QHBoxLayout" name="layout_hddtempCmd">
+         <item>
+          <widget class="QLabel" name="label_hddtempCmd">
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>hddtemp cmd</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_hddtempCmd">
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="10" column="0">
+        <layout class="QHBoxLayout" name="layout_playerSelect">
+         <item>
+          <widget class="QLabel" name="label_playerSelect">
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Music player</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_playerSelect">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
+           <item>
+            <property name="text">
+             <string notr="true">mpris</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">mpd</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="7" column="0">
+        <layout class="QHBoxLayout" name="layout_mpdaddress">
+         <item>
+          <widget class="QLabel" name="label_mpdaddress">
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>MPD address</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_mpdaddress">
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="3" column="0">
         <layout class="QHBoxLayout" name="layout_desktopCmd">
          <item>
           <widget class="QLabel" name="label_desktopCmd">
@@ -316,7 +316,7 @@
          </item>
         </layout>
        </item>
-       <item row="7" column="0">
+       <item row="9" column="0">
         <layout class="QVBoxLayout" name="layout_mpris">
          <item>
           <widget class="QLabel" name="label_mprisInfo">
@@ -406,7 +406,7 @@
          </item>
         </layout>
        </item>
-       <item row="9" column="0">
+       <item row="11" column="0">
         <layout class="QVBoxLayout" name="layout_pkgCommand">
          <item>
           <widget class="QTableWidget" name="tableWidget_pkgCommand">
@@ -437,7 +437,7 @@ del - remove item</string>
          </item>
         </layout>
        </item>
-       <item row="0" column="0">
+       <item row="2" column="0">
         <widget class="QTableWidget" name="tableWidget_customCommand">
          <property name="toolTip">
           <string>Editable
@@ -455,6 +455,54 @@ del - remove item</string>
           </property>
          </column>
         </widget>
+       </item>
+       <item row="1" column="0">
+        <layout class="QHBoxLayout" name="layout_batdev">
+         <item>
+          <widget class="QLabel" name="label_batdev">
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Battery device</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_batdev">
+           <property name="toolTip">
+            <string>&quot;/sys/class/power_supply/BAT0/capacity&quot; by default</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="0" column="0">
+        <layout class="QHBoxLayout" name="layout_acdev">
+         <item>
+          <widget class="QLabel" name="label_acdev">
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>AC device</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_acdev">
+           <property name="toolTip">
+            <string>&quot;/sys/class/power_supply/AC/online&quot; by default</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>

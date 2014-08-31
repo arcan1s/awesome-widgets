@@ -41,9 +41,9 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-145</y>
+        <y>-87</y>
         <width>677</width>
-        <height>723</height>
+        <height>665</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -364,30 +364,6 @@ $m - uptime minutes without zero</string>
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="layout_batdev">
-         <item>
-          <widget class="QLabel" name="label_batdev">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Battery device</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_batdev">
-           <property name="toolTip">
-            <string>&quot;/sys/class/power_supply/BAT0/capacity&quot; by default</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
         <layout class="QHBoxLayout" name="layout_acOnline">
          <item>
           <widget class="QLabel" name="label_acOnline">
@@ -442,30 +418,6 @@ $m - uptime minutes without zero</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="layout_acdev">
-         <item>
-          <widget class="QLabel" name="label_acdev">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>AC device</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_acdev">
-           <property name="toolTip">
-            <string>&quot;/sys/class/power_supply/AC/online&quot; by default</string>
            </property>
           </widget>
          </item>

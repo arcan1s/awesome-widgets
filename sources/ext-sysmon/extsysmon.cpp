@@ -278,18 +278,20 @@ QMap<QString, QString> ExtendedSysMon::updateConfiguration(const QMap<QString, Q
 }
 
 
-QMap<QString, int> ExtendedSysMon::getBattery(const QString acPath, const QString batPath)
+QMap<QString, QVariant> ExtendedSysMon::getBattery(const QString acPath, const QString batPath)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "AC path" << acPath;
     if (debug) qDebug() << PDEBUG << ":" << "Battery path" << batPath;
 
-    QMap<QString, int> battery;
-    battery[QString("ac")] = 0;
+    QMap<QString, QVariant> battery;
+    battery[QString("ac")] = false;
     battery[QString("battery")] = 0;
     QFile acFile(acPath);
-    if (acFile.open(QIODevice::ReadOnly))
-        battery[QString("ac")] = QString(acFile.readLine()).trimmed().toInt();
+    if (acFile.open(QIODevice::ReadOnly)) {
+        if (QString(acFile.readLine()).trimmed().toInt() == 1)
+            battery[QString("ac")] = true;
+    }
     acFile.close();
     QFile batFile(batPath);
     if (batFile.open(QIODevice::ReadOnly))
@@ -569,10 +571,10 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     if (debug) qDebug() << PDEBUG << ":" << "Source" << source;
 
     if (source == QString("battery")) {
-        QMap<QString, int> battery = getBattery(configuration[QString("AC")],
+        QMap<QString, QVariant> battery = getBattery(configuration[QString("AC")],
                 configuration[QString("BATTERY")]);
-        setData(source, QString("ac"), QString::number(battery[QString("ac")]));
-        setData(source, QString("bat"), QString::number(battery[QString("battery")]));
+        setData(source, QString("ac"), battery[QString("ac")].toBool());
+        setData(source, QString("bat"), battery[QString("battery")].toInt());
     } else if (source == QString("custom")) {
         for (int i=0; i<configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts).count(); i++) {
             setData(source, QString("custom") + QString::number(i),
