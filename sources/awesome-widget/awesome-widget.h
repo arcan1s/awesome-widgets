@@ -68,6 +68,7 @@ protected:
 
 private:
     // functions
+    void initValues();
     QStringList findKeys();
     QStringList getKeys();
     // ui
@@ -75,6 +76,8 @@ private:
     CustomLabel *textLabel;
     QTimer *timer;
     // values
+    QMap<QString, int> counts;
+    QMap<QString, QList<float>> tooltipValues;
     QMap<QString, QString> values;
     // debug
     bool debug;

@@ -537,5 +537,15 @@ void AwesomeWidget::configChanged()
                 .arg(fontColor);
     formatLine[1] = QString("</p></body></html>");
 
+    // counts
+    QMap<QString, QString> deSettings = readDataEngineConfiguration();
+    counts[QString("cpu")] = getNumberCpus();
+    counts[QString("custom")] = deSettings[QString("CUSTOM")].split(QString("@@")).count();
+    counts[QString("disk")] = configuration[QString("disk")].split(QString("@@")).count();
+    counts[QString("hddtemp")] = configuration[QString("hdd")].split(QString("@@")).count();
+    counts[QString("mount")] = configuration[QString("mount")].split(QString("@@")).count();
+    counts[QString("pkg")] = deSettings[QString("PKGCMD")].split(QChar(',')).count();
+    counts[QString("temp")] = configuration[QString("tempDevice")].split(QString("@@")).count();
+
     reinit();
 }

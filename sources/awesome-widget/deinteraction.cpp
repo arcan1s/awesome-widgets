@@ -37,8 +37,7 @@ void AwesomeWidget::connectToEngine()
     if (foundKeys.indexOf(regExp) > -1) {
         sysmonEngine->connectSource(QString("cpu/system/TotalLoad"),
                                     this, configuration[QString("interval")].toInt());
-        int numCpus = getNumberCpus();
-        for (int i=0; i<numCpus; i++)
+        for (int i=0; i<counts[QString("cpu")]; i++)
             sysmonEngine->connectSource(QString("cpu/cpu") + QString::number(i) + QString("/TotalLoad"),
                                         this, configuration[QString("interval")].toInt());
     }
@@ -47,8 +46,7 @@ void AwesomeWidget::connectToEngine()
     if (foundKeys.indexOf(regExp) > -1) {
         sysmonEngine->connectSource(QString("cpu/system/AverageClock"),
                                     this, configuration[QString("interval")].toInt());
-        int numCpus = getNumberCpus();
-        for (int i=0; i<numCpus; i++)
+        for (int i=0; i<counts[QString("cpu")]; i++)
             sysmonEngine->connectSource(QString("cpu/cpu") + QString::number(i) + QString("/clock"),
                                         this, configuration[QString("interval")].toInt());
     }
@@ -82,7 +80,7 @@ void AwesomeWidget::connectToEngine()
         extsysmonEngine->connectSource(QString("gputemp"),
                                        this, configuration[QString("interval")].toInt());
     // mount
-    regExp = QRegExp(QString("hdd([0-9]|mb|gb|totmb|totgb).*"));
+    regExp = QRegExp(QString("hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb).*"));
     if (foundKeys.indexOf(regExp) > -1)
         for (int i=0; i<configuration[QString("mount")].split(QString("@@")).count(); i++) {
             sysmonEngine->connectSource(QString("partitions") + configuration[QString("mount")].split(QString("@@"))[i] + QString("/filllevel"),
@@ -160,18 +158,133 @@ void AwesomeWidget::connectToEngine()
 void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Data &data)
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Run function with source name" << sourceName;
+    if (debug) qDebug() << PDEBUG << ":" << "Source" << sourceName;
 
-    if (data.keys().count() == 0)
-        return;
-//    if (sourceName == QString("desktop")) {
-//        currentDesktop = data[QString("currentNumber")].toInt();
-//        if (desktopNames.isEmpty()) {
-//            desktopNames = data[QString("list")].toString().split(QString(";;"));
-//            reinit();
-//        }
-//        updateText();
-//    }
+    // regular expressions
+    QRegExp cpuRegExp = QRegExp(QString("cpu/cpu.*/TotalLoad"));
+    QRegExp cpuclRegExp = QRegExp(QString("cpu/cpu.*/clock"));
+    QRegExp hddrRegExp = QRegExp(QString("disk/.*/Rate/rblk"));
+    QRegExp hddwRegExp = QRegExp(QString("disk/.*/Rate/wblk"));
+    QRegExp mountFillRegExp = QRegExp(QString("partitions/.*/filllevel"));
+    QRegExp mountFreeRegExp = QRegExp(QString("partitions/.*/freespace"));
+    QRegExp mountUsedRegExp = QRegExp(QString("partitions/.*/usedspace"));
+
+    if (data.keys().isEmpty()) return;
+    if (sourceName == QString("battery")) {
+        if (data[QString("ac")].toBool())
+            values[QString("ac")] = configuration[QString("acOnline")];
+        else
+            values[QString("ac")] = configuration[QString("acOffline")];
+        values[QString("bat")] = QString("%3i").arg(data[QString("bat")].toInt());
+    } else if (sourceName == QString("cpu/system/TotalLoad")) {
+        values[QString("cpu")] = QString("%5.1f").arg(data[QString("value")].toFloat());
+        if (configuration[QString("cpuTooltip")].toInt() == 2)
+            tooltipValues[QString("cpu")].append(data[QString("value")].toFloat());
+    } else if (sourceName.indexOf(cpuRegExp) > -1) {
+        QString number = sourceName;
+        number.remove(QString("cpu/cpu"));
+        number.remove(QString("/TotalLoad"));
+        values[QString("cpu") + number] = QString("%5.1f").arg(data[QString("value")].toFloat());
+    } else if (sourceName == QString("cpu/system/AverageClock")) {
+        values[QString("cpucl")] = QString("%5.1f").arg(data[QString("value")].toFloat());
+        if (configuration[QString("cpuclockTooltip")].toInt() == 2)
+            tooltipValues[QString("cpucl")].append(data[QString("value")].toFloat());
+    } else if (sourceName.indexOf(cpuclRegExp) > -1) {
+        QString number = sourceName;
+        number.remove(QString("cpu/cpu"));
+        number.remove(QString("/clock"));
+        values[QString("cpucl") + number] = QString("%5.1f").arg(data[QString("value")].toFloat());
+    } else if (sourceName == QString("custom")) {
+        for (int i=0; i<data.keys().count(); i++)
+            values[data.keys()[i]] = data[data.keys()[i]].toString();
+    } else if (sourceName == QString("desktop")) {
+        values[QString("desktop")] = data[QString("currentName")].toString();
+        values[QString("ndesktop")] = QString("%i").arg(data[QString("currentNumber")].toInt());
+        values[QString("tdesktops")] = QString("%i").arg(data[QString("number")].toInt());
+    } else if (sourceName.indexOf(hddrRegExp) > -1) {
+        QString device = sourceName;
+        device.remove(QString("/Rate/rblk"));
+        for (int i=0; i<counts[QString("disk")]; i++)
+            if (configuration[QString("disk")].split(QString("@@"))[i] == device) {
+                values[QString("hddr") + QString::number(i)] = QString("%i").arg(data[QString("value")].toFloat());
+                break;
+            }
+    } else if (sourceName.indexOf(hddwRegExp) > -1) {
+        QString device = sourceName;
+        device.remove(QString("/Rate/wblk"));
+        for (int i=0; i<counts[QString("disk")]; i++)
+            if (configuration[QString("disk")].split(QString("@@"))[i] == device) {
+                values[QString("hddw") + QString::number(i)] = QString("%i").arg(data[QString("value")].toFloat());
+                break;
+            }
+    } else if (sourceName == QString("gpu")) {
+        values[QString("gpu")] = QString("%4.1f").arg(data[QString("GPU")].toFloat());
+    } else if (sourceName == QString("gputemp")) {
+        values[QString("gputemp")] = QString("%4.1f").arg(data[QString("GPUTemp")].toFloat());
+    } else if (sourceName.indexOf(mountFillRegExp) > -1) {
+        QString mount = sourceName;
+        mount.remove(QString("partitions"));
+        mount.remove(QString("/filllevel"));
+        for (int i=0; i<counts[QString("mount")]; i++)
+            if (configuration[QString("mount")].split(QString("@@"))[i] == mount) {
+                values[QString("hdd") + QString::number(i)] = QString("%5.1f").arg(data[QString("value")].toFloat());
+                break;
+            }
+    } else if (sourceName.indexOf(mountFreeRegExp) > -1) {
+        QString mount = sourceName;
+        mount.remove(QString("partitions"));
+        mount.remove(QString("/freespace"));
+        for (int i=0; i<counts[QString("mount")]; i++)
+            if (configuration[QString("mount")].split(QString("@@"))[i] == mount) {
+                values[QString("hddfreemb") + QString::number(i)] = QString("%i").arg(
+                            data[QString("value")].toFloat() / 1024.0);
+                values[QString("hddfreegb") + QString::number(i)] = QString("%5.1f").arg(
+                            data[QString("value")].toFloat() / (1024.0 * 1024.0));
+                break;
+            }
+    } else if (sourceName.indexOf(mountUsedRegExp) > -1) {
+        QString mount = sourceName;
+        mount.remove(QString("partitions"));
+        mount.remove(QString("/usedspace"));
+        for (int i=0; i<counts[QString("mount")]; i++)
+            if (configuration[QString("mount")].split(QString("@@"))[i] == mount) {
+                values[QString("hddmb") + QString::number(i)] = QString("%i").arg(
+                            data[QString("value")].toFloat() / 1024.0);
+                values[QString("hddgb") + QString::number(i)] = QString("%5.1f").arg(
+                            data[QString("value")].toFloat() / (1024.0 * 1024.0));
+                // total
+                values[QString("hddtotmb") + QString::number(i)] = QString("%i").arg(
+                            values[QString("hddfreemb") + QString::number(i)].toInt() +
+                            values[QString("hddmb") + QString::number(i)].toInt());
+                values[QString("hddtotgb") + QString::number(i)] = QString("%5.1f").arg(
+                            values[QString("hddfreegb") + QString::number(i)].toFloat() +
+                            values[QString("hddgb") + QString::number(i)].toFloat());
+                break;
+            }
+    } else if (sourceName == QString("hddtemp")) {
+        for (int i=0; i<data.keys().count(); i++)
+            for (int j=0; j<counts[QString("hddtemp")]; j++)
+                if (data.keys()[i] == configuration[QString("hdd")].split(QString("@@"))[j]) {
+                    values[QString("hddtemp") + QString::number(j)] = QString("%4.1f").arg(data[data.keys()[i]].toFloat());
+                    break;
+                }
+    } else if (sourceName == QString("mem/physical/application")) {
+        values[QString("memappmb")] = QString("%i").arg(data[QString("value")].toFloat() / 1024.0);
+        values[QString("memappgb")] = QString("%5.1f").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0));
+    } else if (sourceName == QString("mem/physical/free")) {
+        values[QString("memfreemb")] = QString("%i").arg(data[QString("value")].toFloat() / 1024.0);
+        values[QString("memfreegb")] = QString("%5.1f").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0));
+    } else if (sourceName == QString("mem/physical/used")) {
+        values[QString("memmb")] = QString("%i").arg(data[QString("value")].toFloat() / 1024.0);
+        values[QString("memgb")] = QString("%5.1f").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0));
+        // total
+        values[QString("memtotmb")] = QString("%i").arg(
+                    values[QString("memmb")].toInt() + values[QString("memfreemb")].toInt());
+        values[QString("memtotgb")] = QString("%5.1f").arg(
+                    values[QString("memgb")].toFloat() + values[QString("memfreegb")].toFloat());
+        // percentage
+        values[QString("mem")] = QString("%5.1f").arg(100.0 * values[QString("memmb")].toFloat() / values[QString("memtotmb")].toFloat());
+    }
 }
 
 
@@ -188,16 +301,14 @@ void AwesomeWidget::disconnectFromEngine()
     regExp = QRegExp(QString("cpu.*"));
     if (foundKeys.indexOf(regExp) > -1) {
         sysmonEngine->disconnectSource(QString("cpu/system/TotalLoad"), this);
-        int numCpus = getNumberCpus();
-        for (int i=0; i<numCpus; i++)
+        for (int i=0; i<counts[QString("cpu")]; i++)
             sysmonEngine->disconnectSource(QString("cpu/cpu") + QString::number(i) + QString("/TotalLoad"), this);
     }
     // cpuclock
     regExp = QRegExp(QString("cpucl.*"));
     if (foundKeys.indexOf(regExp) > -1) {
         sysmonEngine->disconnectSource(QString("cpu/system/AverageClock"), this);
-        int numCpus = getNumberCpus();
-        for (int i=0; i<numCpus; i++)
+        for (int i=0; i<counts[QString("cpu")]; i++)
             sysmonEngine->disconnectSource(QString("cpu/cpu") + QString::number(i) + QString("/clock"), this);
     }
     // custom command
@@ -224,7 +335,7 @@ void AwesomeWidget::disconnectFromEngine()
     if (foundKeys.indexOf(regExp) > -1)
         extsysmonEngine->disconnectSource(QString("gputemp"), this);
     // mount
-    regExp = QRegExp(QString("hdd([0-9]|mb|gb|totmb|totgb).*"));
+    regExp = QRegExp(QString("hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb).*"));
     if (foundKeys.indexOf(regExp) > -1)
         for (int i=0; i<configuration[QString("mount")].split(QString("@@")).count(); i++) {
             sysmonEngine->disconnectSource(QString("partitions") + configuration[QString("mount")].split(QString("@@"))[i] + QString("/filllevel"), this);

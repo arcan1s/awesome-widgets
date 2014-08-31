@@ -24,6 +24,12 @@
 #include <pdebug/pdebug.h>
 
 
+void AwesomeWidget::initValues()
+{
+    if (debug) qDebug() << PDEBUG;
+}
+
+
 void AwesomeWidget::reinit()
 {
     if (debug) qDebug() << PDEBUG;
@@ -50,6 +56,7 @@ void AwesomeWidget::reinit()
 
     keys = getKeys();
     foundKeys = findKeys();
+    initValues();
     values[QString("netdev")] = getNetworkDevice();
 //    thread()->wait(60000);
     connectToEngine();
