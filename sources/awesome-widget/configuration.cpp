@@ -20,6 +20,7 @@
 #include <KConfigDialog>
 #include <KGlobal>
 #include <KStandardDirs>
+#include <QMenu>
 #include <QNetworkInterface>
 #include <QTextCodec>
 
@@ -125,7 +126,6 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     if (debug) qDebug() << PDEBUG;
     QString cmd, qoutput;
     QStringList headerList;
-    TaskResult process;
 
     QWidget *advWidget = new QWidget;
     uiAdvancedConfig.setupUi(advWidget);
@@ -169,21 +169,21 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
                 Qt::MatchFixedString));
     cmd = QString("sensors");
     if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
-    process = runTask(cmd);
-    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-    if (process.exitCode != 0)
-        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
-    qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output);
+    TaskResult sensorsProcess = runTask(cmd);
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << sensorsProcess.exitCode;
+    if (sensorsProcess.exitCode != 0)
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << sensorsProcess.error;
+    qoutput = QTextCodec::codecForMib(106)->toUnicode(sensorsProcess.output);
     uiAdvancedConfig.listWidget_tempDevice->clear();
     for (int i=0; i<qoutput.split(QString("\n\n")).count(); i++) {
         QString sensor = qoutput.split(QString("\n\n"))[i];
         for (int j=0; j<sensor.split(QChar('\n')).count(); j++) {
             QString device = sensor.split(QChar('\n'))[j];
-            if (device.indexOf(QString("°C")) > -1) {
-                QListWidgetItem item = QListWidgetItem(QString("lmsensors/") + sensor.split(QChar('\n'))[0] + QString("/") +
+            if (device.indexOf(QChar(0260)) > -1) {
+                QListWidgetItem *item = new QListWidgetItem(QString("lmsensors/") + sensor.split(QChar('\n'))[0] + QString("/") +
                         device.split(QChar(':'))[0].replace(QChar(' '), QChar('_')));
-                item.setCheckState(Qt::Unchecked);
-                uiAdvancedConfig.listWidget_tempDevice->addItem(&item);
+                item->setCheckState(Qt::Unchecked);
+                uiAdvancedConfig.listWidget_tempDevice->addItem(item);
             }
         }
     }
@@ -195,17 +195,17 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     }
     cmd = QString("mount");
     if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
-    process = runTask(cmd);
-    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-    if (process.exitCode != 0)
-        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
-    qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output);
+    TaskResult mountProcess = runTask(cmd);
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << mountProcess.exitCode;
+    if (mountProcess.exitCode != 0)
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << mountProcess.error;
+    qoutput = QTextCodec::codecForMib(106)->toUnicode(mountProcess.output);
     uiAdvancedConfig.listWidget_mount->clear();
     for (int i=0; i<qoutput.split(QChar('\n')).count(); i++) {
         QString mountPoint = qoutput.split(QChar('\n'))[i].split(QString(" on "))[1].split(QString(" type "))[0];
-        QListWidgetItem item = QListWidgetItem(mountPoint);
-        item.setCheckState(Qt::Unchecked);
-        uiAdvancedConfig.listWidget_mount->addItem(&item);
+        QListWidgetItem *item = new QListWidgetItem(mountPoint);
+        item->setCheckState(Qt::Unchecked);
+        uiAdvancedConfig.listWidget_mount->addItem(item);
     }
     for (int i=0; i<configuration[QString("mount")].split(QString("@@")).count(); i++) {
         QList<QListWidgetItem *> items = uiAdvancedConfig.listWidget_mount
@@ -215,9 +215,9 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     }
     uiAdvancedConfig.listWidget_hddSpeedDevice->clear();
     for (int i=0; i<diskDevices.count(); i++) {
-        QListWidgetItem item = QListWidgetItem(diskDevices[i]);
-        item.setCheckState(Qt::Unchecked);
-        uiAdvancedConfig.listWidget_hddSpeedDevice->addItem(&item);
+        QListWidgetItem *item = new QListWidgetItem(diskDevices[i]);
+        item->setCheckState(Qt::Unchecked);
+        uiAdvancedConfig.listWidget_hddSpeedDevice->addItem(item);
     }
     for (int i=0; i<configuration[QString("disk")].split(QString("@@")).count(); i++) {
         QList<QListWidgetItem *> items = uiAdvancedConfig.listWidget_hddSpeedDevice
@@ -225,18 +225,18 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
         for (int j=0; j<items.count(); j++)
             items[j]->setCheckState(Qt::Checked);
     }
-    cmd = QString("find /dev -name '[hms]d[a-z]'");
+    cmd = QString("find /dev -name [hms]d[a-z]");
     if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
-    process = runTask(cmd);
-    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-    if (process.exitCode != 0)
-        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
-    qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output);
+    TaskResult findProcess = runTask(cmd);
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << findProcess.exitCode;
+    if (findProcess.exitCode != 0)
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << findProcess.error;
+    qoutput = QTextCodec::codecForMib(106)->toUnicode(findProcess.output).trimmed();
     uiAdvancedConfig.listWidget_hddDevice->clear();
     for (int i=0; i<qoutput.split(QChar('\n')).count(); i++) {
-        QListWidgetItem item = QListWidgetItem(qoutput.split(QChar('\n'))[i]);
-        item.setCheckState(Qt::Unchecked);
-        uiAdvancedConfig.listWidget_hddDevice->addItem(&item);
+        QListWidgetItem *item = new QListWidgetItem(qoutput.split(QChar('\n'))[i]);
+        item->setCheckState(Qt::Unchecked);
+        uiAdvancedConfig.listWidget_hddDevice->addItem(item);
     }
     for (int i=0; i<configuration[QString("hdd")].split(QString("@@")).count(); i++) {
         QList<QListWidgetItem *> items = uiAdvancedConfig.listWidget_hddDevice
@@ -331,13 +331,13 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     uiDEConfig.lineEdit_desktopCmd->setText(deSettings[QString("DESKTOPCMD")]);
     uiDEConfig.comboBox_gpudev->setCurrentIndex(
                 uiDEConfig.comboBox_gpudev->findText(deSettings[QString("GPUDEV")], Qt::MatchFixedString));
-    cmd = QString("find /dev -name '[hms]d[a-z]'");
+    cmd = QString("find /dev -name [hms]d[a-z]");
     if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
-    process = runTask(cmd);
-    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-    if (process.exitCode != 0)
-        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
-    qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output);
+    TaskResult hddProcess = runTask(cmd);
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << hddProcess.exitCode;
+    if (hddProcess.exitCode != 0)
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << hddProcess.error;
+    qoutput = QTextCodec::codecForMib(106)->toUnicode(hddProcess.output).trimmed();
     uiDEConfig.comboBox_hdddev->clear();
     uiDEConfig.comboBox_hdddev->addItem(QString("all"));
     uiDEConfig.comboBox_hdddev->addItem(QString("disable"));
@@ -361,6 +361,8 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
         uiDEConfig.tableWidget_pkgCommand->setItem(i, 0, new QTableWidgetItem(deSettings[QString("PKGCMD")].split(QChar(','))[i]));
         uiDEConfig.tableWidget_pkgCommand->setItem(i, 1, new QTableWidgetItem(deSettings[QString("PKGNULL")].split(QChar(','))[i]));
     }
+    uiDEConfig.tableWidget_pkgCommand->setItem(uiDEConfig.tableWidget_pkgCommand->rowCount() - 1, 1,
+                                               new QTableWidgetItem(QString("0")));
     uiDEConfig.comboBox_playerSelect->setCurrentIndex(
                 uiDEConfig.comboBox_playerSelect->findText(deSettings[QString("PLAYER")], Qt::MatchFixedString));
 
@@ -369,6 +371,23 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     parent->addPage(tooltipWidget, i18n("Tooltip"), QString("preferences-desktop-color"));
     parent->addPage(appWidget, i18n("Appearance"), QString("preferences-desktop-theme"));
     parent->addPage(deConfigWidget, i18n("DataEngine"), QString("utilities-system-monitor"));
+
+    connect(uiAdvancedConfig.listWidget_hddDevice, SIGNAL(itemActivated(QListWidgetItem *)),
+            this, SLOT(editHddItem(QListWidgetItem *)));
+    connect(uiAdvancedConfig.listWidget_hddSpeedDevice, SIGNAL(itemActivated(QListWidgetItem *)),
+            this, SLOT(editHddSpeedItem(QListWidgetItem *)));
+    connect(uiAdvancedConfig.listWidget_mount, SIGNAL(itemActivated(QListWidgetItem *)),
+            this, SLOT(editMountItem(QListWidgetItem *)));
+    connect(uiAdvancedConfig.listWidget_tempDevice, SIGNAL(itemActivated(QListWidgetItem *)),
+            this, SLOT(editTempItem(QListWidgetItem *)));
+    connect(uiDEConfig.tableWidget_customCommand, SIGNAL(itemChanged(QTableWidgetItem *)),
+            this, SLOT(addNewCustomCommand(QTableWidgetItem *)));
+    connect(uiDEConfig.tableWidget_customCommand, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(contextMenuCustomCommand(QPoint)));
+    connect(uiDEConfig.tableWidget_pkgCommand, SIGNAL(itemChanged(QTableWidgetItem *)),
+            this, SLOT(addNewPkgCommand(QTableWidgetItem *)));
+    connect(uiDEConfig.tableWidget_pkgCommand, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(contextMenuPkgCommand(QPoint)));
 
     connect(parent, SIGNAL(okClicked()), this, SLOT(configAccepted()));
     connect(parent, SIGNAL(applyClicked()), this, SLOT(configAccepted()));
@@ -557,4 +576,89 @@ void AwesomeWidget::configChanged()
     counts[QString("tooltip")] = counts[QString("tooltip")] / 2;
 
     reinit();
+}
+
+
+void AwesomeWidget::addNewCustomCommand(QTableWidgetItem *item)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    if (item->row() == (uiDEConfig.tableWidget_customCommand->rowCount() - 1))
+        uiDEConfig.tableWidget_customCommand->insertRow(
+                    uiDEConfig.tableWidget_customCommand->rowCount());
+}
+
+
+void AwesomeWidget::addNewPkgCommand(QTableWidgetItem *item)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    if ((item->row() == (uiDEConfig.tableWidget_pkgCommand->rowCount() - 1)) &&
+            (item->column() == 0)) {
+        uiDEConfig.tableWidget_pkgCommand->insertRow(
+                    uiDEConfig.tableWidget_pkgCommand->rowCount());
+        uiDEConfig.tableWidget_pkgCommand->setItem(
+                    uiDEConfig.tableWidget_pkgCommand->rowCount() - 1, 1,
+                    new QTableWidgetItem(QString("0")));
+    }
+}
+
+
+void AwesomeWidget::contextMenuCustomCommand(const QPoint pos)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (uiDEConfig.tableWidget_customCommand->currentItem() == 0) return;
+
+    QMenu menu(uiDEConfig.tableWidget_customCommand);
+    QAction *remove = menu.addAction(i18n("Remove"));
+    QAction *action = menu.exec(uiDEConfig.tableWidget_customCommand->viewport()->mapToGlobal(pos));
+    if (action == remove)
+        uiDEConfig.tableWidget_customCommand->removeRow(
+                    uiDEConfig.tableWidget_customCommand->currentRow());
+}
+
+
+void AwesomeWidget::contextMenuPkgCommand(const QPoint pos)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (uiDEConfig.tableWidget_pkgCommand->currentItem() == 0) return;
+
+    QMenu menu(uiDEConfig.tableWidget_pkgCommand);
+    QAction *remove = menu.addAction(i18n("Remove"));
+    QAction *action = menu.exec(uiDEConfig.tableWidget_pkgCommand->viewport()->mapToGlobal(pos));
+    if (action == remove)
+        uiDEConfig.tableWidget_pkgCommand->removeRow(
+                    uiDEConfig.tableWidget_pkgCommand->currentRow());
+}
+
+
+void AwesomeWidget::editHddItem(QListWidgetItem *item)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    uiAdvancedConfig.listWidget_hddDevice->openPersistentEditor(item);
+}
+
+
+void AwesomeWidget::editHddSpeedItem(QListWidgetItem *item)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    uiAdvancedConfig.listWidget_hddSpeedDevice->openPersistentEditor(item);
+}
+
+
+void AwesomeWidget::editMountItem(QListWidgetItem *item)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    uiAdvancedConfig.listWidget_mount->openPersistentEditor(item);
+}
+
+
+void AwesomeWidget::editTempItem(QListWidgetItem *item)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    uiAdvancedConfig.listWidget_tempDevice->openPersistentEditor(item);
 }

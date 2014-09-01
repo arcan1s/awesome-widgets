@@ -410,6 +410,9 @@
         <layout class="QVBoxLayout" name="layout_pkgCommand">
          <item>
           <widget class="QTableWidget" name="tableWidget_pkgCommand">
+           <property name="contextMenuPolicy">
+            <enum>Qt::CustomContextMenu</enum>
+           </property>
            <property name="toolTip">
             <string>Editable
 del - remove item</string>
@@ -439,6 +442,9 @@ del - remove item</string>
        </item>
        <item row="2" column="0">
         <widget class="QTableWidget" name="tableWidget_customCommand">
+         <property name="contextMenuPolicy">
+          <enum>Qt::CustomContextMenu</enum>
+         </property>
          <property name="toolTip">
           <string>Editable
 del - remove item</string>

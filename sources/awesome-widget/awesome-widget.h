@@ -53,6 +53,7 @@ public:
 
 public slots:
     // dataengine
+    void addDiskDevice(const QString source);
     void connectToEngine();
     void dataUpdated(const QString &sourceName, const Plasma::DataEngine::Data &data);
     void disconnectFromEngine();
@@ -66,6 +67,14 @@ public slots:
 private slots:
     void reinit();
     // configuration interface
+    void addNewCustomCommand(QTableWidgetItem *item);
+    void addNewPkgCommand(QTableWidgetItem *item);
+    void contextMenuCustomCommand(const QPoint pos);
+    void contextMenuPkgCommand(const QPoint pos);
+    void editHddItem(QListWidgetItem *item);
+    void editHddSpeedItem(QListWidgetItem *item);
+    void editMountItem(QListWidgetItem *item);
+    void editTempItem(QListWidgetItem *item);
 
 protected:
     void createConfigurationInterface(KConfigDialog *parent);

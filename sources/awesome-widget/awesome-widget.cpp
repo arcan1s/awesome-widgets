@@ -144,6 +144,7 @@ void AwesomeWidget::init()
     // dataengines
     extsysmonEngine = dataEngine(QString("ext-sysmon"));
     sysmonEngine = dataEngine(QString("systemmonitor"));
+    connect(sysmonEngine, SIGNAL(sourceAdded(QString)), this, SLOT(addDiskDevice(QString)));
     timeEngine = dataEngine(QString("time"));
 
     // tooltip
@@ -172,6 +173,19 @@ void AwesomeWidget::init()
     connect(timer, SIGNAL(timeout()), this, SLOT(updateText()));
     connect(timer, SIGNAL(timeout()), this, SLOT(updateTooltip()));
     timer->start();
+}
+
+
+void AwesomeWidget::addDiskDevice(const QString source)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QRegExp diskRegexp = QRegExp(QString("disk/(?:md|sd|hd)[a-z|0-9]_.*/Rate/(?:rblk)"));
+    if (diskRegexp.indexIn(source) > -1) {
+        QStringList splitSource = source.split(QChar('/'));
+        QString device = splitSource[0] + QString("/") + splitSource[1];
+        diskDevices.append(device);
+    }
 }
 
 
@@ -282,39 +296,6 @@ QStringList AwesomeWidget::getKeys()
 
     return allKeys;
 }
-
-
-//QString DesktopPanel::parsePattern(const QString rawLine, const int num)
-//{
-//    if (debug) qDebug() << PDEBUG;
-//    if (debug) qDebug() << PDEBUG << ":" << "Run function with raw line" << rawLine;
-//    if (debug) qDebug() << PDEBUG << ":" << "Run function with number" << num;
-
-//    QString line, mark;
-//    line = rawLine;
-//    if (currentDesktop == num + 1)
-//        mark = configuration[QString("mark")];
-//    else
-//        mark = QString("");
-//    if (line.split(QString("$mark"))[0] != line) {
-//        if (debug) qDebug() << PDEBUG << ":" << "Found mark";
-//        line = line.split(QString("$mark"))[0] + mark + line.split(QString("$mark"))[1];
-//    }
-//    if (line.split(QString("$name"))[0] != line) {
-//        if (debug) qDebug() << PDEBUG << ":" << "Found name";
-//        line = line.split(QString("$name"))[0] + desktopNames[num] + line.split(QString("$name"))[1];
-//    }
-//    if (line.split(QString("$number"))[0] != line) {
-//        if (debug) qDebug() << PDEBUG << ":" << "Found number";
-//        line = line.split(QString("$number"))[0] + QString::number(num + 1) + line.split(QString("$number"))[1];
-//    }
-//    if (line.split(QString("$total"))[0] != line) {
-//        if (debug) qDebug() << PDEBUG << ":" << "Found total";
-//        line = line.split(QString("$total"))[0] + QString::number(desktopNames.count()) + line.split(QString("$total"))[1];
-//    }
-
-//    return line;
-//}
 
 
 K_EXPORT_PLASMA_APPLET(ptm-awesome-widget, AwesomeWidget)
