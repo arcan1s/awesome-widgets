@@ -1,12 +1,12 @@
 # Maintainer: Evgeniy "arcanis" Alexeev <arcanis.arch at gmail dot com>
 
-pkgname=kdeplasma-applets-pytextmonitor
-_pkgname=pytextmonitor
+pkgname=kdeplasma-applets-awesome-widgets
+_pkgname=awesome-widgets
 pkgver=1.11.0
 pkgrel=1
-pkgdesc="Minimalistic Plasmoid script written on Python2. It looks like widgets in Awesome WM"
+pkgdesc="Collection of minimalistic Plasmoids which looks like Awesome WM widgets"
 arch=('i686' 'x86_64')
-url="http://arcanis.name/projects/pytextmonitor"
+url="http://arcanis.name/projects/awesome-widgets"
 license=('GPL3')
 depends=('kdebase-workspace' 'kdebindings-python2' 'lm_sensors')
 optdepends=("amarok: for music player monitor"
@@ -19,11 +19,10 @@ optdepends=("amarok: for music player monitor"
             "qmmp: for music player monitor"
             "sysstat: for popup messages")
 makedepends=('automoc4' 'cmake')
-source=(https://github.com/arcan1s/pytextmonitor/releases/download/V.${pkgver}/${_pkgname}-${pkgver}-src.tar.xz)
+source=(https://github.com/arcan1s/awesome-widgets/releases/download/V.${pkgver}/${_pkgname}-${pkgver}-src.tar.xz)
 install=${pkgname}.install
 md5sums=('23b3f2f2d0a8bd87354d721cbf43ee22')
 backup=('usr/share/config/extsysmon.conf')
-changelog=CHANGELOG
 
 prepare() {
   rm -rf "${srcdir}/build"

@@ -47,7 +47,7 @@ QMap<QString, QString> AwesomeWidget::readDataEngineConfiguration()
     rawConfig[QString("PKGNULL")] = QString("0");
     rawConfig[QString("PLAYER")] = QString("mpris");
 
-    QString fileName = KGlobal::dirs()->findResource("config", "ext-sysmon.conf");
+    QString fileName = KGlobal::dirs()->findResource("config", "extsysmon.conf");
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
     QFile configFile(fileName);
     if (!configFile.open(QIODevice::ReadOnly))
@@ -78,7 +78,7 @@ void AwesomeWidget::writeDataEngineConfiguration(const QMap<QString, QString> se
     if (debug) qDebug() << PDEBUG;
 
     QMap<QString, QString> config = updateDataEngineConfiguration(settings);
-    QString fileName = KGlobal::dirs()->locateLocal("config", "ext-sysmon.conf");
+    QString fileName = KGlobal::dirs()->locateLocal("config", "extsysmon.conf");
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
     QFile configFile(fileName);
     if (!configFile.open(QIODevice::WriteOnly)) return;
@@ -126,6 +126,7 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     if (debug) qDebug() << PDEBUG;
     QString cmd, qoutput;
     QStringList headerList;
+    TaskResult process;
 
     QWidget *advWidget = new QWidget;
     uiAdvancedConfig.setupUi(advWidget);
@@ -165,11 +166,11 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
                 Qt::MatchFixedString));
     cmd = QString("sensors");
     if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
-    TaskResult sensorsProcess = runTask(cmd);
-    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << sensorsProcess.exitCode;
-    if (sensorsProcess.exitCode != 0)
-        if (debug) qDebug() << PDEBUG << ":" << "Error" << sensorsProcess.error;
-    qoutput = QTextCodec::codecForMib(106)->toUnicode(sensorsProcess.output);
+    process = runTask(cmd);
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
+    if (process.exitCode != 0)
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+    qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output);
     uiAdvancedConfig.listWidget_tempDevice->clear();
     for (int i=0; i<qoutput.split(QString("\n\n")).count(); i++) {
         QString sensor = qoutput.split(QString("\n\n"))[i];
@@ -191,11 +192,11 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     }
     cmd = QString("mount");
     if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
-    TaskResult mountProcess = runTask(cmd);
-    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << mountProcess.exitCode;
-    if (mountProcess.exitCode != 0)
-        if (debug) qDebug() << PDEBUG << ":" << "Error" << mountProcess.error;
-    qoutput = QTextCodec::codecForMib(106)->toUnicode(mountProcess.output);
+    process = runTask(cmd);
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
+    if (process.exitCode != 0)
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+    qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output);
     uiAdvancedConfig.listWidget_mount->clear();
     for (int i=0; i<qoutput.split(QChar('\n')).count(); i++) {
         QString mountPoint = qoutput.split(QChar('\n'))[i].split(QString(" on "))[1].split(QString(" type "))[0];
@@ -223,11 +224,11 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     }
     cmd = QString("find /dev -name [hms]d[a-z]");
     if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
-    TaskResult findProcess = runTask(cmd);
-    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << findProcess.exitCode;
-    if (findProcess.exitCode != 0)
-        if (debug) qDebug() << PDEBUG << ":" << "Error" << findProcess.error;
-    qoutput = QTextCodec::codecForMib(106)->toUnicode(findProcess.output).trimmed();
+    process = runTask(cmd);
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
+    if (process.exitCode != 0)
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+    qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     uiAdvancedConfig.listWidget_hddDevice->clear();
     for (int i=0; i<qoutput.split(QChar('\n')).count(); i++) {
         QListWidgetItem *item = new QListWidgetItem(qoutput.split(QChar('\n'))[i]);
@@ -325,11 +326,11 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
                 uiDEConfig.comboBox_gpudev->findText(deSettings[QString("GPUDEV")], Qt::MatchFixedString));
     cmd = QString("find /dev -name [hms]d[a-z]");
     if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
-    TaskResult hddProcess = runTask(cmd);
-    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << hddProcess.exitCode;
-    if (hddProcess.exitCode != 0)
-        if (debug) qDebug() << PDEBUG << ":" << "Error" << hddProcess.error;
-    qoutput = QTextCodec::codecForMib(106)->toUnicode(hddProcess.output).trimmed();
+    process = runTask(cmd);
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
+    if (process.exitCode != 0)
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+    qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     uiDEConfig.comboBox_hdddev->clear();
     uiDEConfig.comboBox_hdddev->addItem(QString("all"));
     uiDEConfig.comboBox_hdddev->addItem(QString("disable"));

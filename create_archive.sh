@@ -18,7 +18,7 @@ tar cJf "${ARCHIVE}-${VERSION}-src.tar.xz" "${ARCHIVE}"
 rm -rf "${ARCHIVE}"
 
 # build widget
-ARCHIVE="pytextmonitor"
+ARCHIVE="awesome-widgets"
 FILES="AUTHORS CHANGELOG CHANGELOG-RU COPYING"
 IGNORELIST="build usr"
 # create archive
