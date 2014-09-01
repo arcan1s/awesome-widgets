@@ -62,18 +62,20 @@ void AwesomeWidget::reinit()
     values[QString("netdev")] = getNetworkDevice();
 //    thread()->wait(60000);
     connectToEngine();
+    updateText(true);
     resize(10, 10);
 }
 
 
-void AwesomeWidget::updateText()
+void AwesomeWidget::updateText(bool clear)
 {
     if (debug) qDebug() << PDEBUG;
 
     QString text = configuration[QString("text")];
-    for (int i=0; i<foundKeys.count(); i++)
-        text.replace(QString("$") + foundKeys[i] + QString("$"), values[foundKeys[i]]);
-    textLabel->setText(text);
+    if (!clear)
+        for (int i=0; i<foundKeys.count(); i++)
+            text.replace(QString("$") + foundKeys[i] + QString("$"), values[foundKeys[i]]);
+    textLabel->setText(formatLine[0] + text + formatLine[1]);
 }
 
 

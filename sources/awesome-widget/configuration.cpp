@@ -521,7 +521,7 @@ void AwesomeWidget::configChanged()
     configuration[QString("upColor")] = cg.readEntry("upColor", "#ff00ff");
 
     // appearance
-    configuration[QString("interval")] = cg.readEntry("interval", "100");
+    configuration[QString("interval")] = cg.readEntry("interval", "1000");
     QString fontFamily = cg.readEntry("fontFamily", "Terminus");
     int fontSize = cg.readEntry("fontSize", 10);
     QString fontColor = cg.readEntry("fontColor", "#000000");
@@ -529,13 +529,13 @@ void AwesomeWidget::configChanged()
     QString fontStyle = cg.readEntry("fontStyle", "normal");
     formatLine[0] = QString("<html><head><meta name=\"qrichtext\" content=\"1\" />\
     <style type=\"text/css\">p, li { white-space: pre-wrap; }</style>\
-    </head><body style=\"font-family:'%1'; font-size:%2pt; font-weight:%3; font-style:%4; color:%5;\"><p>")
+    </head><body style=\"font-family:'%1'; font-size:%2pt; font-weight:%3; font-style:%4; color:%5;\"><pre>")
                 .arg(fontFamily)
                 .arg(QString::number(fontSize))
                 .arg(QString::number(fontWeight))
                 .arg(fontStyle)
                 .arg(fontColor);
-    formatLine[1] = QString("</p></body></html>");
+    formatLine[1] = QString("</pre></body></html>");
 
     // counts
     QMap<QString, QString> deSettings = readDataEngineConfiguration();

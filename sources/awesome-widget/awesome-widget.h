@@ -60,7 +60,7 @@ public slots:
     void configAccepted();
     void configChanged();
     // update events
-    void updateText();
+    void updateText(bool clear = false);
     void updateTooltip();
 
 private slots:
