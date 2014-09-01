@@ -179,38 +179,38 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
             values[QString("ac")] = configuration[QString("acOnline")];
         else
             values[QString("ac")] = configuration[QString("acOffline")];
-        values[QString("bat")] = QString("%3i").arg(data[QString("bat")].toInt());
+        values[QString("bat")] = QString("%1").arg(data[QString("bat")].toFloat(), 3, 'f', 0);
     } else if (sourceName == QString("cpu/system/TotalLoad")) {
-        values[QString("cpu")] = QString("%5.1f").arg(data[QString("value")].toFloat());
+        values[QString("cpu")] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
         if (configuration[QString("cpuTooltip")].toInt() == 2)
             tooltipValues[QString("cpu")].append(data[QString("value")].toFloat());
     } else if (sourceName.indexOf(cpuRegExp) > -1) {
         QString number = sourceName;
         number.remove(QString("cpu/cpu"));
         number.remove(QString("/TotalLoad"));
-        values[QString("cpu") + number] = QString("%5.1f").arg(data[QString("value")].toFloat());
+        values[QString("cpu") + number] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
     } else if (sourceName == QString("cpu/system/AverageClock")) {
-        values[QString("cpucl")] = QString("%5.1f").arg(data[QString("value")].toFloat());
+        values[QString("cpucl")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
         if (configuration[QString("cpuclTooltip")].toInt() == 2)
             tooltipValues[QString("cpucl")].append(data[QString("value")].toFloat());
     } else if (sourceName.indexOf(cpuclRegExp) > -1) {
         QString number = sourceName;
         number.remove(QString("cpu/cpu"));
         number.remove(QString("/clock"));
-        values[QString("cpucl") + number] = QString("%5.1f").arg(data[QString("value")].toFloat());
+        values[QString("cpucl") + number] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
     } else if (sourceName == QString("custom")) {
         for (int i=0; i<data.keys().count(); i++)
             values[data.keys()[i]] = data[data.keys()[i]].toString();
     } else if (sourceName == QString("desktop")) {
         values[QString("desktop")] = data[QString("currentName")].toString();
-        values[QString("ndesktop")] = QString("%i").arg(data[QString("currentNumber")].toInt());
-        values[QString("tdesktops")] = QString("%i").arg(data[QString("number")].toInt());
+        values[QString("ndesktop")] = QString("%1").arg(data[QString("currentNumber")].toInt());
+        values[QString("tdesktops")] = QString("%1").arg(data[QString("number")].toInt());
     } else if (sourceName.indexOf(hddrRegExp) > -1) {
         QString device = sourceName;
         device.remove(QString("/Rate/rblk"));
         for (int i=0; i<counts[QString("disk")]; i++)
             if (configuration[QString("disk")].split(QString("@@"))[i] == device) {
-                values[QString("hddr") + QString::number(i)] = QString("%i").arg(data[QString("value")].toFloat());
+                values[QString("hddr") + QString::number(i)] = QString("%1").arg(data[QString("value")].toFloat(), 0, 'f', 0);
                 break;
             }
     } else if (sourceName.indexOf(hddwRegExp) > -1) {
@@ -218,20 +218,20 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         device.remove(QString("/Rate/wblk"));
         for (int i=0; i<counts[QString("disk")]; i++)
             if (configuration[QString("disk")].split(QString("@@"))[i] == device) {
-                values[QString("hddw") + QString::number(i)] = QString("%i").arg(data[QString("value")].toFloat());
+                values[QString("hddw") + QString::number(i)] = QString("%1").arg(data[QString("value")].toFloat(), 0, 'f', 0);
                 break;
             }
     } else if (sourceName == QString("gpu")) {
-        values[QString("gpu")] = QString("%4.1f").arg(data[QString("GPU")].toFloat());
+        values[QString("gpu")] = QString("%1").arg(data[QString("GPU")].toFloat(), 5, 'f', 1);
     } else if (sourceName == QString("gputemp")) {
-        values[QString("gputemp")] = QString("%4.1f").arg(getTemp(data[QString("GPUTemp")].toFloat()));
+        values[QString("gputemp")] = QString("%1").arg(getTemp(data[QString("GPUTemp")].toFloat()), 4, 'f', 1);
     } else if (sourceName.indexOf(mountFillRegExp) > -1) {
         QString mount = sourceName;
         mount.remove(QString("partitions"));
         mount.remove(QString("/filllevel"));
         for (int i=0; i<counts[QString("mount")]; i++)
             if (configuration[QString("mount")].split(QString("@@"))[i] == mount) {
-                values[QString("hdd") + QString::number(i)] = QString("%5.1f").arg(data[QString("value")].toFloat());
+                values[QString("hdd") + QString::number(i)] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
                 break;
             }
     } else if (sourceName.indexOf(mountFreeRegExp) > -1) {
@@ -240,10 +240,10 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         mount.remove(QString("/freespace"));
         for (int i=0; i<counts[QString("mount")]; i++)
             if (configuration[QString("mount")].split(QString("@@"))[i] == mount) {
-                values[QString("hddfreemb") + QString::number(i)] = QString("%i").arg(
-                            data[QString("value")].toFloat() / 1024.0);
-                values[QString("hddfreegb") + QString::number(i)] = QString("%5.1f").arg(
-                            data[QString("value")].toFloat() / (1024.0 * 1024.0));
+                values[QString("hddfreemb") + QString::number(i)] = QString("%1").arg(
+                            data[QString("value")].toFloat() / 1024.0, 0, 'f', 0);
+                values[QString("hddfreegb") + QString::number(i)] = QString("%1").arg(
+                            data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
                 break;
             }
     } else if (sourceName.indexOf(mountUsedRegExp) > -1) {
@@ -252,46 +252,49 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         mount.remove(QString("/usedspace"));
         for (int i=0; i<counts[QString("mount")]; i++)
             if (configuration[QString("mount")].split(QString("@@"))[i] == mount) {
-                values[QString("hddmb") + QString::number(i)] = QString("%i").arg(
-                            data[QString("value")].toFloat() / 1024.0);
-                values[QString("hddgb") + QString::number(i)] = QString("%5.1f").arg(
-                            data[QString("value")].toFloat() / (1024.0 * 1024.0));
+                values[QString("hddmb") + QString::number(i)] = QString("%1").arg(
+                            data[QString("value")].toFloat() / 1024.0, 0, 'f', 0);
+                values[QString("hddgb") + QString::number(i)] = QString("%1").arg(
+                            data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
                 // total
-                values[QString("hddtotmb") + QString::number(i)] = QString("%i").arg(
+                values[QString("hddtotmb") + QString::number(i)] = QString("%1").arg(
                             values[QString("hddfreemb") + QString::number(i)].toInt() +
                             values[QString("hddmb") + QString::number(i)].toInt());
-                values[QString("hddtotgb") + QString::number(i)] = QString("%5.1f").arg(
+                values[QString("hddtotgb") + QString::number(i)] = QString("%1").arg(
                             values[QString("hddfreegb") + QString::number(i)].toFloat() +
-                            values[QString("hddgb") + QString::number(i)].toFloat());
+                            values[QString("hddgb") + QString::number(i)].toFloat(),
+                            5, 'f', 1);
                 break;
             }
     } else if (sourceName == QString("hddtemp")) {
         for (int i=0; i<data.keys().count(); i++)
             for (int j=0; j<counts[QString("hddtemp")]; j++)
                 if (data.keys()[i] == configuration[QString("hdd")].split(QString("@@"))[j]) {
-                    values[QString("hddtemp") + QString::number(j)] = QString("%4.1f").arg(getTemp(data[data.keys()[i]].toFloat()));
+                    values[QString("hddtemp") + QString::number(j)] = QString("%1").arg(getTemp(data[data.keys()[i]].toFloat()), 4, 'f', 1);
                     break;
                 }
     } else if (sourceName == QString("mem/physical/application")) {
-        values[QString("memappmb")] = QString("%i").arg(data[QString("value")].toFloat() / 1024.0);
-        values[QString("memappgb")] = QString("%5.1f").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0));
+        values[QString("memappmb")] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 0, 'f', 0);
+        values[QString("memappgb")] = QString("%1").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
     } else if (sourceName == QString("mem/physical/free")) {
-        values[QString("memfreemb")] = QString("%i").arg(data[QString("value")].toFloat() / 1024.0);
-        values[QString("memfreegb")] = QString("%5.1f").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0));
+        values[QString("memfreemb")] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 0, 'f', 0);
+        values[QString("memfreegb")] = QString("%1").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
     } else if (sourceName == QString("mem/physical/used")) {
-        values[QString("memmb")] = QString("%i").arg(data[QString("value")].toFloat() / 1024.0);
-        values[QString("memgb")] = QString("%5.1f").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0));
+        values[QString("memmb")] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 0, 'f', 0);
+        values[QString("memgb")] = QString("%1").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
         // total
-        values[QString("memtotmb")] = QString("%i").arg(
+        values[QString("memtotmb")] = QString("%1").arg(
                     values[QString("memmb")].toInt() + values[QString("memfreemb")].toInt());
-        values[QString("memtotgb")] = QString("%5.1f").arg(
-                    values[QString("memgb")].toFloat() + values[QString("memfreegb")].toFloat());
+        values[QString("memtotgb")] = QString("%1").arg(
+                    values[QString("memgb")].toFloat() + values[QString("memfreegb")].toFloat(),
+                    5, 'f', 1);
         // percentage
-        values[QString("mem")] = QString("%5.1f").arg(100.0 * values[QString("memmb")].toFloat() / values[QString("memtotmb")].toFloat());
+        values[QString("mem")] = QString("%1").arg(100.0 * values[QString("memmb")].toFloat() / values[QString("memtotmb")].toFloat(),
+                                                   5, 'f', 1);
         if (configuration[QString("memTooltip")].toInt() == 2)
             tooltipValues[QString("mem")].append(values[QString("mem")].toFloat());
     } else if (sourceName.indexOf(netRecRegExp) > -1) {
-        values[QString("down")] = QString("%4i").arg(data[QString("value")].toFloat());
+        values[QString("down")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
         if (configuration[QString("downTooltip")].toInt() == 2)
             tooltipValues[QString("down")].append(data[QString("value")].toFloat());
         networkDeviceUpdate++;
@@ -308,12 +311,12 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
             }
         }
     } else if (sourceName.indexOf(netTransRegExp) > -1) {
-        values[QString("up")] = QString("%4i").arg(data[QString("value")].toFloat());
+        values[QString("up")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
         if (configuration[QString("upTooltip")].toInt() == 2)
             tooltipValues[QString("up")].append(data[QString("value")].toFloat());
     } else if (sourceName == QString("pkg")) {
         for (int i=0; i<data.keys().count(); i++)
-            values[data.keys()[i].toLower()] = QString("%i").arg(data[data.keys()[i]].toInt());
+            values[data.keys()[i].toLower()] = QString("%1").arg(data[data.keys()[i]].toInt());
     } else if (sourceName == QString("player")) {
         values[QString("album")] = data[QString("album")].toString();
         values[QString("artist")] = data[QString("artist")].toString();
@@ -322,27 +325,28 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         values[QString("title")] = data[QString("title")].toString();
     } else if (sourceName == QString("ps")) {
         values[QString("ps")] = data[QString("ps")].toString();
-        values[QString("pscount")] = QString("%i").arg(data[QString("psCount")].toInt());
-        values[QString("pstotal")] = QString("%i").arg(data[QString("psTotal")].toInt());
+        values[QString("pscount")] = QString("%1").arg(data[QString("psCount")].toInt());
+        values[QString("pstotal")] = QString("%1").arg(data[QString("psTotal")].toInt());
     } else if (sourceName == QString("mem/swap/free")) {
-        values[QString("swapfreemb")] = QString("%i").arg(data[QString("value")].toFloat() / 1024.0);
-        values[QString("swapfreegb")] = QString("%5.1f").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0));
+        values[QString("swapfreemb")] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 0, 'f', 0);
+        values[QString("swapfreegb")] = QString("%1").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
     } else if (sourceName == QString("mem/swap/used")) {
-        values[QString("swapmb")] = QString("%i").arg(data[QString("value")].toFloat() / 1024.0);
-        values[QString("swapgb")] = QString("%5.1f").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0));
+        values[QString("swapmb")] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 0, 'f', 0);
+        values[QString("swapgb")] = QString("%1").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
         // total
-        values[QString("swaptotmb")] = QString("%i").arg(
+        values[QString("swaptotmb")] = QString("%1").arg(
                     values[QString("swapmb")].toInt() + values[QString("swapfreemb")].toInt());
-        values[QString("swaptotgb")] = QString("%5.1f").arg(
-                    values[QString("swapgb")].toFloat() + values[QString("swapfreegb")].toFloat());
+        values[QString("swaptotgb")] = QString("%1").arg(
+                    values[QString("swapgb")].toFloat() + values[QString("swapfreegb")].toFloat(), 5, 'f', 1);
         // percentage
-        values[QString("swap")] = QString("%5.1f").arg(100.0 * values[QString("swapmb")].toFloat() / values[QString("swaptotmb")].toFloat());
+        values[QString("swap")] = QString("%1").arg(100.0 * values[QString("swapmb")].toFloat() / values[QString("swaptotmb")].toFloat(),
+                                                    5, 'f', 1);
         if (configuration[QString("swapTooltip")].toInt() == 2)
             tooltipValues[QString("swap")].append(values[QString("swap")].toFloat());
     } else if (sourceName.indexOf(tempRegExp) > -1) {
         for (int i=0; i<counts[QString("temp")]; i++)
             if (sourceName == configuration[QString("tempDevice")].split(QString("@@"))[i]) {
-                values[QString("temp") + QString::number(i)] = QString("%4.1f").arg(getTemp(data[QString("value")].toFloat()));
+                values[QString("temp") + QString::number(i)] = QString("%1").arg(getTemp(data[QString("value")].toFloat()), 4, 'f', 1);
                 break;
             }
     } else if (sourceName == QString("Local")) {
@@ -360,7 +364,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         int minutes = seconds / 60 % 60;
         int hours = ((seconds / 60) - minutes) / 60 % 24;
         int days = (((seconds / 60) - minutes) / 60 - hours) / 24;
-        values[QString("uptime")] = QString("%3id%2ih%2im").arg(days).arg(hours).arg(minutes);
+        values[QString("uptime")] = QString("%1d%2h%3m").arg(days, 3).arg(hours, 2).arg(minutes, 2);
         values[QString("cuptime")] = configuration[QString("customUptime")];
         values[QString("cuptime")].replace(QString("$d$"), QString("%i").arg(days));
         values[QString("cuptime")].replace(QString("$dd$"), QString("%03i").arg(days));
