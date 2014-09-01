@@ -18,6 +18,7 @@
 #include "awesome-widget.h"
 
 #include <QRegExp>
+#include <math.h>
 
 #include <pdebug/pdebug.h>
 
@@ -33,23 +34,21 @@ void AwesomeWidget::connectToEngine()
         extsysmonEngine->connectSource(QString("battery"),
                                        this, configuration[QString("interval")].toInt());
     // cpu
+    sysmonEngine->connectSource(QString("cpu/system/TotalLoad"),
+                                this, configuration[QString("interval")].toInt());
     regExp = QRegExp(QString("cpu.*"));
-    if (foundKeys.indexOf(regExp) > -1) {
-        sysmonEngine->connectSource(QString("cpu/system/TotalLoad"),
-                                    this, configuration[QString("interval")].toInt());
+    if (foundKeys.indexOf(regExp) > -1)
         for (int i=0; i<counts[QString("cpu")]; i++)
             sysmonEngine->connectSource(QString("cpu/cpu") + QString::number(i) + QString("/TotalLoad"),
                                         this, configuration[QString("interval")].toInt());
-    }
     // cpuclock
+    sysmonEngine->connectSource(QString("cpu/system/AverageClock"),
+                                this, configuration[QString("interval")].toInt());
     regExp = QRegExp(QString("cpucl.*"));
-    if (foundKeys.indexOf(regExp) > -1) {
-        sysmonEngine->connectSource(QString("cpu/system/AverageClock"),
-                                    this, configuration[QString("interval")].toInt());
+    if (foundKeys.indexOf(regExp) > -1)
         for (int i=0; i<counts[QString("cpu")]; i++)
             sysmonEngine->connectSource(QString("cpu/cpu") + QString::number(i) + QString("/clock"),
                                         this, configuration[QString("interval")].toInt());
-    }
     // custom command
     regExp = QRegExp(QString("custom.*"));
     if (foundKeys.indexOf(regExp) > -1)
@@ -96,24 +95,18 @@ void AwesomeWidget::connectToEngine()
         extsysmonEngine->connectSource(QString("hddtemp"),
                                        this, configuration[QString("interval")].toInt());
     // memory
-    regExp = QRegExp(QString("mem.*"));
-    if (foundKeys.indexOf(regExp) > -1) {
-        sysmonEngine->connectSource(QString("mem/physical/free"),
-                                    this, configuration[QString("interval")].toInt());
-        sysmonEngine->connectSource(QString("mem/physical/used"),
-                                    this, configuration[QString("interval")].toInt());
-        sysmonEngine->connectSource(QString("mem/physical/application"),
-                                    this, configuration[QString("interval")].toInt());
-    }
+    sysmonEngine->connectSource(QString("mem/physical/free"),
+                                this, configuration[QString("interval")].toInt());
+    sysmonEngine->connectSource(QString("mem/physical/used"),
+                                this, configuration[QString("interval")].toInt());
+    sysmonEngine->connectSource(QString("mem/physical/application"),
+                                this, configuration[QString("interval")].toInt());
     // network
-    regExp = QRegExp(QString("(down|up|netdev)"));
-    if (foundKeys.indexOf(regExp) > -1) {
-        networkDeviceUpdate = 0;
-        sysmonEngine->connectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/transmitter/data"),
-                                    this, configuration[QString("interval")].toInt());
-        sysmonEngine->connectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/receiver/data"),
-                                    this, configuration[QString("interval")].toInt());
-    }
+    networkDeviceUpdate = 0;
+    sysmonEngine->connectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/transmitter/data"),
+                                this, configuration[QString("interval")].toInt());
+    sysmonEngine->connectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/receiver/data"),
+                                this, configuration[QString("interval")].toInt());
     // package manager
     regExp = QRegExp(QString("pkgcount.*"));
     if (foundKeys.indexOf(regExp) > -1)
@@ -130,13 +123,10 @@ void AwesomeWidget::connectToEngine()
         extsysmonEngine->connectSource(QString("ps"),
                                        this, configuration[QString("interval")].toInt());
     // swap
-    regExp = QRegExp(QString("swap.*"));
-    if (foundKeys.indexOf(regExp) > -1) {
-        sysmonEngine->connectSource(QString("mem/swap/free"),
-                                    this, configuration[QString("interval")].toInt());
-        sysmonEngine->connectSource(QString("mem/swap/used"),
-                                    this, configuration[QString("interval")].toInt());
-    }
+    sysmonEngine->connectSource(QString("mem/swap/free"),
+                                this, configuration[QString("interval")].toInt());
+    sysmonEngine->connectSource(QString("mem/swap/used"),
+                                this, configuration[QString("interval")].toInt());
     // temp
     regExp = QRegExp(QString("temp.*"));
     if (foundKeys.indexOf(regExp) > -1)
@@ -182,7 +172,8 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         values[QString("bat")] = QString("%1").arg(data[QString("bat")].toFloat(), 3, 'f', 0);
     } else if (sourceName == QString("cpu/system/TotalLoad")) {
         values[QString("cpu")] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
-        if (configuration[QString("cpuTooltip")].toInt() == 2)
+        if ((configuration[QString("cpuTooltip")].toInt() == 2) &&
+                (!isnan(data[QString("value")].toFloat())))
             tooltipValues[QString("cpu")].append(data[QString("value")].toFloat());
     } else if (sourceName.indexOf(cpuRegExp) > -1) {
         QString number = sourceName;
@@ -191,7 +182,8 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         values[QString("cpu") + number] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
     } else if (sourceName == QString("cpu/system/AverageClock")) {
         values[QString("cpucl")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
-        if (configuration[QString("cpuclTooltip")].toInt() == 2)
+        if ((configuration[QString("cpuclTooltip")].toInt() == 2) &&
+                (!isnan(data[QString("value")].toFloat())))
             tooltipValues[QString("cpucl")].append(data[QString("value")].toFloat());
     } else if (sourceName.indexOf(cpuclRegExp) > -1) {
         QString number = sourceName;
@@ -274,28 +266,30 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
                     break;
                 }
     } else if (sourceName == QString("mem/physical/application")) {
-        values[QString("memappmb")] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 0, 'f', 0);
-        values[QString("memappgb")] = QString("%1").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
+        values[QString("memmb")] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 0, 'f', 0);
+        values[QString("memgb")] = QString("%1").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
     } else if (sourceName == QString("mem/physical/free")) {
         values[QString("memfreemb")] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 0, 'f', 0);
         values[QString("memfreegb")] = QString("%1").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
     } else if (sourceName == QString("mem/physical/used")) {
-        values[QString("memmb")] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 0, 'f', 0);
-        values[QString("memgb")] = QString("%1").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
+        values[QString("memusedmb")] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 0, 'f', 0);
+        values[QString("memusedgb")] = QString("%1").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
         // total
         values[QString("memtotmb")] = QString("%1").arg(
-                    values[QString("memmb")].toInt() + values[QString("memfreemb")].toInt());
+                    values[QString("memusedmb")].toInt() + values[QString("memfreemb")].toInt());
         values[QString("memtotgb")] = QString("%1").arg(
-                    values[QString("memgb")].toFloat() + values[QString("memfreegb")].toFloat(),
+                    values[QString("memusedgb")].toFloat() + values[QString("memfreegb")].toFloat(),
                     5, 'f', 1);
         // percentage
         values[QString("mem")] = QString("%1").arg(100.0 * values[QString("memmb")].toFloat() / values[QString("memtotmb")].toFloat(),
                                                    5, 'f', 1);
-        if (configuration[QString("memTooltip")].toInt() == 2)
+        if ((configuration[QString("memTooltip")].toInt() == 2) &&
+                (!isnan(values[QString("mem")].toFloat())))
             tooltipValues[QString("mem")].append(values[QString("mem")].toFloat());
     } else if (sourceName.indexOf(netRecRegExp) > -1) {
         values[QString("down")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
-        if (configuration[QString("downTooltip")].toInt() == 2)
+        if ((configuration[QString("downTooltip")].toInt() == 2) &&
+                (!isnan(data[QString("value")].toFloat())))
             tooltipValues[QString("down")].append(data[QString("value")].toFloat());
         networkDeviceUpdate++;
         if (networkDeviceUpdate == 30) {
@@ -312,7 +306,8 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         }
     } else if (sourceName.indexOf(netTransRegExp) > -1) {
         values[QString("up")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
-        if (configuration[QString("upTooltip")].toInt() == 2)
+        if ((configuration[QString("downTooltip")].toInt() == 2) &&
+                (!isnan(data[QString("value")].toFloat())))
             tooltipValues[QString("up")].append(data[QString("value")].toFloat());
     } else if (sourceName == QString("pkg")) {
         for (int i=0; i<data.keys().count(); i++)
@@ -341,7 +336,8 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         // percentage
         values[QString("swap")] = QString("%1").arg(100.0 * values[QString("swapmb")].toFloat() / values[QString("swaptotmb")].toFloat(),
                                                     5, 'f', 1);
-        if (configuration[QString("swapTooltip")].toInt() == 2)
+        if ((configuration[QString("swapTooltip")].toInt() == 2) &&
+                (!isnan(values[QString("swap")].toFloat())))
             tooltipValues[QString("swap")].append(values[QString("swap")].toFloat());
     } else if (sourceName.indexOf(tempRegExp) > -1) {
         for (int i=0; i<counts[QString("temp")]; i++)
@@ -386,19 +382,17 @@ void AwesomeWidget::disconnectFromEngine()
     if (foundKeys.indexOf(regExp) > -1)
         extsysmonEngine->disconnectSource(QString("battery"), this);
     // cpu
+    sysmonEngine->disconnectSource(QString("cpu/system/TotalLoad"), this);
     regExp = QRegExp(QString("cpu.*"));
-    if (foundKeys.indexOf(regExp) > -1) {
-        sysmonEngine->disconnectSource(QString("cpu/system/TotalLoad"), this);
+    if (foundKeys.indexOf(regExp) > -1)
         for (int i=0; i<counts[QString("cpu")]; i++)
             sysmonEngine->disconnectSource(QString("cpu/cpu") + QString::number(i) + QString("/TotalLoad"), this);
-    }
     // cpuclock
+    sysmonEngine->disconnectSource(QString("cpu/system/AverageClock"), this);
     regExp = QRegExp(QString("cpucl.*"));
-    if (foundKeys.indexOf(regExp) > -1) {
-        sysmonEngine->disconnectSource(QString("cpu/system/AverageClock"), this);
+    if (foundKeys.indexOf(regExp) > -1)
         for (int i=0; i<counts[QString("cpu")]; i++)
             sysmonEngine->disconnectSource(QString("cpu/cpu") + QString::number(i) + QString("/clock"), this);
-    }
     // custom command
     regExp = QRegExp(QString("custom.*"));
     if (foundKeys.indexOf(regExp) > -1)
@@ -435,18 +429,12 @@ void AwesomeWidget::disconnectFromEngine()
     if (foundKeys.indexOf(regExp) > -1)
         extsysmonEngine->disconnectSource(QString("hddtemp"), this);
     // memory
-    regExp = QRegExp(QString("mem.*"));
-    if (foundKeys.indexOf(regExp) > -1) {
-        sysmonEngine->disconnectSource(QString("mem/physical/free"), this);
-        sysmonEngine->disconnectSource(QString("mem/physical/used"), this);
-        sysmonEngine->disconnectSource(QString("mem/physical/application"), this);
-    }
+    sysmonEngine->disconnectSource(QString("mem/physical/free"), this);
+    sysmonEngine->disconnectSource(QString("mem/physical/used"), this);
+    sysmonEngine->disconnectSource(QString("mem/physical/application"), this);
     // network
-    regExp = QRegExp(QString("(down|up|netdev)"));
-    if (foundKeys.indexOf(regExp) > -1) {
-        sysmonEngine->disconnectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/transmitter/data"), this);
-        sysmonEngine->disconnectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/receiver/data"), this);
-    }
+    sysmonEngine->disconnectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/transmitter/data"), this);
+    sysmonEngine->disconnectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/receiver/data"), this);
     // package manager
     regExp = QRegExp(QString("pkgcount.*"));
     if (foundKeys.indexOf(regExp) > -1)
@@ -460,11 +448,8 @@ void AwesomeWidget::disconnectFromEngine()
     if (foundKeys.indexOf(regExp) > -1)
         extsysmonEngine->disconnectSource(QString("ps"), this);
     // swap
-    regExp = QRegExp(QString("swap.*"));
-    if (foundKeys.indexOf(regExp) > -1) {
-        sysmonEngine->disconnectSource(QString("mem/swap/free"), this);
-        sysmonEngine->disconnectSource(QString("mem/swap/used"), this);
-    }
+    sysmonEngine->disconnectSource(QString("mem/swap/free"), this);
+    sysmonEngine->disconnectSource(QString("mem/swap/used"), this);
     // temp
     regExp = QRegExp(QString("temp.*"));
     if (foundKeys.indexOf(regExp) > -1)

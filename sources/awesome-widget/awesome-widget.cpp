@@ -42,6 +42,8 @@ AwesomeWidget::AwesomeWidget(QObject *parent, const QVariantList &args)
     else
         debug = false;
 
+    setBackgroundHints(DefaultBackground);
+    setAspectRatioMode(Plasma::IgnoreAspectRatio);
     setHasConfigurationInterface(true);
     // text format init
     formatLine.append(QString(""));
@@ -162,8 +164,10 @@ void AwesomeWidget::init()
     // body
     mainLayout = new QGraphicsLinearLayout();
     mainLayout->setContentsMargins(1, 1, 1, 1);
+    mainLayout->setOrientation(Qt::Horizontal);
     setLayout(mainLayout);
     textLabel = new CustomLabel(this, debug);
+    textLabel->setWordWrap(false);
 
     // read variables
     configChanged();
@@ -238,12 +242,18 @@ QStringList AwesomeWidget::getKeys()
     allKeys.append(QString("mem"));
     allKeys.append(QString("memmb"));
     allKeys.append(QString("memgb"));
+    allKeys.append(QString("memfreemb"));
+    allKeys.append(QString("memfreegb"));
     allKeys.append(QString("memtotmb"));
     allKeys.append(QString("memtotgb"));
+    allKeys.append(QString("memusedmb"));
+    allKeys.append(QString("memusedgb"));
     // swap
     allKeys.append(QString("swap"));
     allKeys.append(QString("swapmb"));
     allKeys.append(QString("swapgb"));
+    allKeys.append(QString("swapfreemb"));
+    allKeys.append(QString("swapfreegb"));
     allKeys.append(QString("swaptotmb"));
     allKeys.append(QString("swaptotgb"));
     // hdd

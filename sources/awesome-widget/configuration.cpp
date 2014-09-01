@@ -146,10 +146,6 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
         uiAdvancedConfig.checkBox_background->setCheckState(Qt::Unchecked);
     else
         uiAdvancedConfig.checkBox_background->setCheckState(Qt::Checked);
-    if (configuration[QString("layout")].toInt() == 0)
-        uiAdvancedConfig.checkBox_layout->setCheckState(Qt::Unchecked);
-    else
-        uiAdvancedConfig.checkBox_layout->setCheckState(Qt::Checked);
     if (configuration[QString("popup")].toInt() == 0)
         uiAdvancedConfig.checkBox_popup->setCheckState(Qt::Unchecked);
     else
@@ -292,10 +288,6 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     else
         uiTooltipConfig.checkBox_down->setCheckState(Qt::Checked);
     uiTooltipConfig.kcolorcombo_down->setColor(QColor(configuration[QString("downColor")]));
-    if (configuration[QString("upTooltip")].toInt() == 0)
-        uiTooltipConfig.checkBox_up->setCheckState(Qt::Unchecked);
-    else
-        uiTooltipConfig.checkBox_up->setCheckState(Qt::Checked);
     uiTooltipConfig.kcolorcombo_up->setColor(QColor(configuration[QString("upColor")]));
 
     // appearance
@@ -407,7 +399,6 @@ void AwesomeWidget::configAccepted()
 
     // advanced
     cg.writeEntry("background", QString::number(uiAdvancedConfig.checkBox_background->checkState()));
-    cg.writeEntry("layout", QString::number(uiAdvancedConfig.checkBox_layout->checkState()));
     cg.writeEntry("popup", QString::number(uiAdvancedConfig.checkBox_popup->checkState()));
     cg.writeEntry("leftStretch", QString::number(uiAdvancedConfig.checkBox_leftStretch->checkState()));
     cg.writeEntry("rightStretch", QString::number(uiAdvancedConfig.checkBox_rightStretch->checkState()));
@@ -453,7 +444,6 @@ void AwesomeWidget::configAccepted()
     cg.writeEntry("swapColor", uiTooltipConfig.kcolorcombo_swap->color().name());
     cg.writeEntry("downTooltip", QString::number(uiTooltipConfig.checkBox_down->checkState()));
     cg.writeEntry("downColor", uiTooltipConfig.kcolorcombo_down->color().name());
-    cg.writeEntry("upTooltip", QString::number(uiTooltipConfig.checkBox_up->checkState()));
     cg.writeEntry("upColor", uiTooltipConfig.kcolorcombo_up->color().name());
 
     // appearance
@@ -506,7 +496,6 @@ void AwesomeWidget::configChanged()
 
     // advanced
     configuration[QString("background")] = cg.readEntry("background", "2");
-    configuration[QString("layout")] = cg.readEntry("layout", "0");
     configuration[QString("popup")] = cg.readEntry("popup", "2");
     configuration[QString("leftStretch")] = cg.readEntry("leftStretch", "2");
     configuration[QString("rightStretch")] = cg.readEntry("rightStretch", "2");
@@ -523,20 +512,42 @@ void AwesomeWidget::configChanged()
     configuration[QString("acOffile")] = cg.readEntry("acOffile", "( )");
 
     // tooltip
+    tooltipValues.clear();
     configuration[QString("tooltipNumber")] = cg.readEntry("tooltipNumber", "100");
     configuration[QString("useTooltipBackground")] = cg.readEntry("useTooltipBackground", "2");
     configuration[QString("tooltipBackground")] = cg.readEntry("tooltipBackground", "#ffffff");
     configuration[QString("cpuTooltip")] = cg.readEntry("cpuTooltip", "2");
+    if (configuration[QString("cpuTooltip")].toInt() == 2) {
+        tooltipValues[QString("cpu")].append(0.0);
+        tooltipValues[QString("cpu")].append(0.01);
+    }
     configuration[QString("cpuColor")] = cg.readEntry("cpuColor", "#ff0000");
     configuration[QString("cpuclTooltip")] = cg.readEntry("cpuclTooltip", "2");
+    if (configuration[QString("cpuclTooltip")].toInt() == 2) {
+        tooltipValues[QString("cpucl")].append(0.0);
+        tooltipValues[QString("cpucl")].append(0.01);
+    }
     configuration[QString("cpuclColor")] = cg.readEntry("cpuclColor", "#00ff00");
     configuration[QString("memTooltip")] = cg.readEntry("memTooltip", "2");
+    if (configuration[QString("memTooltip")].toInt() == 2) {
+        tooltipValues[QString("mem")].append(0.0);
+        tooltipValues[QString("mem")].append(0.01);
+    }
     configuration[QString("memColor")] = cg.readEntry("memColor", "#0000ff");
     configuration[QString("swapTooltip")] = cg.readEntry("swapTooltip", "2");
+    if (configuration[QString("swapTooltip")].toInt() == 2) {
+        tooltipValues[QString("swap")].append(0.0);
+        tooltipValues[QString("swap")].append(0.01);
+    }
     configuration[QString("swapColor")] = cg.readEntry("swapColor", "#ffff00");
     configuration[QString("downTooltip")] = cg.readEntry("downTooltip", "2");
+    if (configuration[QString("downTooltip")].toInt() == 2) {
+        tooltipValues[QString("down")].append(0.0);
+        tooltipValues[QString("down")].append(0.01);
+        tooltipValues[QString("up")].append(0.0);
+        tooltipValues[QString("up")].append(0.01);
+    }
     configuration[QString("downColor")] = cg.readEntry("downColor", "#00ffff");
-    configuration[QString("upTooltip")] = cg.readEntry("upTooltip", "2");
     configuration[QString("upColor")] = cg.readEntry("upColor", "#ff00ff");
 
     // appearance
@@ -570,9 +581,7 @@ void AwesomeWidget::configChanged()
     counts[QString("tooltip")] += configuration[QString("cpuclTooltip")].toInt();
     counts[QString("tooltip")] += configuration[QString("memTooltip")].toInt();
     counts[QString("tooltip")] += configuration[QString("swapTooltip")].toInt();
-    if ((configuration[QString("downTooltip")].toInt() == 2) ||
-            (configuration[QString("upTooltip")].toInt() == 2))
-        counts[QString("tooltip")] += 2;
+    counts[QString("tooltip")] += configuration[QString("downTooltip")].toInt();
     counts[QString("tooltip")] = counts[QString("tooltip")] / 2;
 
     reinit();
@@ -610,7 +619,7 @@ void AwesomeWidget::contextMenuCustomCommand(const QPoint pos)
     if (uiDEConfig.tableWidget_customCommand->currentItem() == 0) return;
 
     QMenu menu(uiDEConfig.tableWidget_customCommand);
-    QAction *remove = menu.addAction(i18n("Remove"));
+    QAction *remove = menu.addAction(QIcon("edit-delete"), i18n("Remove"));
     QAction *action = menu.exec(uiDEConfig.tableWidget_customCommand->viewport()->mapToGlobal(pos));
     if (action == remove)
         uiDEConfig.tableWidget_customCommand->removeRow(
@@ -624,7 +633,7 @@ void AwesomeWidget::contextMenuPkgCommand(const QPoint pos)
     if (uiDEConfig.tableWidget_pkgCommand->currentItem() == 0) return;
 
     QMenu menu(uiDEConfig.tableWidget_pkgCommand);
-    QAction *remove = menu.addAction(i18n("Remove"));
+    QAction *remove = menu.addAction(QIcon("edit-delete"), i18n("Remove"));
     QAction *action = menu.exec(uiDEConfig.tableWidget_pkgCommand->viewport()->mapToGlobal(pos));
     if (action == remove)
         uiDEConfig.tableWidget_pkgCommand->removeRow(

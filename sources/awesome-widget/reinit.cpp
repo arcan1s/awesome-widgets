@@ -44,15 +44,15 @@ void AwesomeWidget::reinit()
         setBackgroundHints(NoBackground);
     else
         setBackgroundHints(DefaultBackground);
-    if (configuration[QString("layout")].toInt() == 0)
-        mainLayout->setOrientation(Qt::Horizontal);
-    else
-        mainLayout->setOrientation(Qt::Vertical);
     if (configuration[QString("leftStretch")].toInt() == 2)
         mainLayout->addStretch(1);
     if (configuration[QString("popup")].toInt() == 0)
         textLabel->setPopupEnabled(true);
+    else
+        textLabel->setPopupEnabled(false);
+    updateText(true);
     mainLayout->addItem(textLabel);
+    resize(10, 10);
     if (configuration[QString("rightStretch")].toInt() == 2)
         mainLayout->addStretch(1);
 
@@ -62,8 +62,6 @@ void AwesomeWidget::reinit()
     values[QString("netdev")] = getNetworkDevice();
 //    thread()->wait(60000);
     connectToEngine();
-    updateText(true);
-    resize(10, 10);
 }
 
 
@@ -72,6 +70,7 @@ void AwesomeWidget::updateText(bool clear)
     if (debug) qDebug() << PDEBUG;
 
     QString text = configuration[QString("text")];
+    text.replace(QString("\n"), QString("<br>"));
     if (!clear)
         for (int i=0; i<foundKeys.count(); i++)
             text.replace(QString("$") + foundKeys[i] + QString("$"), values[foundKeys[i]]);
@@ -84,6 +83,7 @@ void AwesomeWidget::updateTooltip()
     if (debug) qDebug() << PDEBUG;
 
     toolTipView->resize(100.0 * counts[QString("tooltip")], 100.0);
+    // remove nan
 
     // boundaries
     QMap<QString, float> boundaries;
@@ -92,14 +92,14 @@ void AwesomeWidget::updateTooltip()
     boundaries[QString("mem")] = 100.0;
     boundaries[QString("swap")] = 100.0;
     boundaries[QString("down")] = 1.0;
-    if (configuration[QString("downTooltip")].toInt() == 2)
+    if (configuration[QString("downTooltip")].toInt() == 2) {
         for (int i=0; i<tooltipValues[QString("down")].count(); i++)
             if (boundaries[QString("down")] < tooltipValues[QString("down")][i])
                 boundaries[QString("down")] = tooltipValues[QString("down")][i];
-    if (configuration[QString("upTooltip")].toInt() == 2)
         for (int i=0; i<tooltipValues[QString("up")].count(); i++)
             if (boundaries[QString("down")] < tooltipValues[QString("up")][i])
                 boundaries[QString("down")] = tooltipValues[QString("up")][i];
+    }
     boundaries[QString("up")] = boundaries[QString("down")];
 
     // create image
@@ -110,21 +110,28 @@ void AwesomeWidget::updateTooltip()
     else
         toolTipScene->setBackgroundBrush(QBrush(Qt::NoBrush));
     bool down = false;
-    for (int i=0; i<tooltipValues.keys().count(); i++) {
-        float normX = 100.0 / tooltipValues[tooltipValues.keys()[i]].count();
-        float normY = 100.0 / (1.5 * boundaries[tooltipValues.keys()[i]]);
-        pen.setColor(QColor(configuration[tooltipValues.keys()[i] + QString("Color")]));
+    QStringList trueKeys;
+    if (tooltipValues.contains(QString("cpu"))) trueKeys.append(QString("cpu"));
+    if (tooltipValues.contains(QString("cpucl"))) trueKeys.append(QString("cpucl"));
+    if (tooltipValues.contains(QString("mem"))) trueKeys.append(QString("mem"));
+    if (tooltipValues.contains(QString("swap"))) trueKeys.append(QString("swap"));
+    if (tooltipValues.contains(QString("down"))) trueKeys.append(QString("down"));
+    if (tooltipValues.contains(QString("up"))) trueKeys.append(QString("up"));
+    for (int i=0; i<trueKeys.count(); i++) {
+        float normX = 100.0 / (tooltipValues[trueKeys[i]].count() + 0.0);
+        float normY = 100.0 / (1.5 * boundaries[trueKeys[i]]);
+        pen.setColor(QColor(configuration[trueKeys[i] + QString("Color")]));
         float shift = i * 100.0;
         if (down)
             shift -= 100.0;
-        for (int j=0; j<tooltipValues[tooltipValues.keys()[i]].count()-1; j++) {
+        for (int j=0; j<tooltipValues[trueKeys[i]].count()-1; j++) {
             float x1 = j * normX + shift;
-            float y1 = -tooltipValues[tooltipValues.keys()[i]][j] * normY;
+            float y1 = - tooltipValues[trueKeys[i]][j] * normY;
             float x2 = (j + 1) * normX + shift;
-            float y2 = -tooltipValues[tooltipValues.keys()[i]][j+1] * normY;
+            float y2 = - tooltipValues[trueKeys[i]][j+1] * normY;
             toolTipScene->addLine(x1, y1, x2, y2, pen);
         }
-        if (tooltipValues.keys()[i] == QString("down"))
+        if (trueKeys[i] == QString("down"))
             down = true;
     }
 
