@@ -65,6 +65,14 @@ void AwesomeWidget::reinit()
 }
 
 
+void AwesomeWidget::updateNetworkDevice()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    values[QString("netdev")] = getNetworkDevice();
+}
+
+
 void AwesomeWidget::updateText(bool clear)
 {
     if (debug) qDebug() << PDEBUG;

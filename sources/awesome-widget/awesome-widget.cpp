@@ -17,7 +17,10 @@
 
 #include "awesome-widget.h"
 
+#include <KStandardDirs>
 #include <Plasma/ToolTipManager>
+#include <QDesktopServices>
+#include <QDir>
 #include <QGraphicsLinearLayout>
 #include <QGraphicsScene>
 #include <QGraphicsView>
@@ -53,6 +56,35 @@ AwesomeWidget::AwesomeWidget(QObject *parent, const QVariantList &args)
 
 AwesomeWidget::~AwesomeWidget()
 {
+    if (debug) qDebug() << PDEBUG;
+}
+
+
+QList<QAction *> AwesomeWidget::contextualActions()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return contextMenu;
+}
+
+
+void AwesomeWidget::createActions()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    contextMenu.clear();
+    contextMenu.append(new QAction(QIcon::fromTheme(QString("utilities-system-monitor")),
+                                   i18n("Run ksysguard"), this));
+    connect(contextMenu[0], SIGNAL(triggered(bool)), this, SLOT(showKsysguard()));
+    contextMenu.append(new QAction(QIcon::fromTheme(QString("text-x-readme")),
+                                   i18n("Show README"), this));
+    connect(contextMenu[1], SIGNAL(triggered(bool)), this, SLOT(showReadme()));
+    contextMenu.append(new QAction(QIcon::fromTheme(QString("stock-refresh")),
+                                   i18n("Update text"), this));
+    connect(contextMenu[2], SIGNAL(triggered(bool)), extsysmonEngine, SLOT(updateAllSources()));
+    connect(contextMenu[2], SIGNAL(triggered(bool)), sysmonEngine, SLOT(updateAllSources()));
+    connect(contextMenu[2], SIGNAL(triggered(bool)), timeEngine, SLOT(updateAllSources()));
+    connect(contextMenu[2], SIGNAL(triggered(bool)), this, SLOT(updateNetworkDevice()));
 }
 
 
@@ -162,6 +194,7 @@ void AwesomeWidget::init()
     Plasma::ToolTipManager::self()->setContent(this, toolTip);
 
     // body
+    createActions();
     mainLayout = new QGraphicsLinearLayout();
     mainLayout->setContentsMargins(1, 1, 1, 1);
     mainLayout->setOrientation(Qt::Horizontal);
@@ -305,6 +338,46 @@ QStringList AwesomeWidget::getKeys()
     allKeys.append(QString("tdesktops"));
 
     return allKeys;
+}
+
+
+void AwesomeWidget::showKsysguard()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QString cmd = QString("ksysguard");
+    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
+    TaskResult process = runTask(cmd);
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
+    if (process.exitCode != 0)
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+}
+
+
+void AwesomeWidget::showReadme()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QString kdeHome = KGlobal::dirs()->localkdedir();
+    QString dirPath;
+    if (QDir(QString("/usr/share/awesome-widgets")).exists())
+        dirPath = QString("/usr/share/awesome-widgets");
+    else if (QDir(kdeHome + QString("/share/awesome-widgets")).exists())
+        dirPath = kdeHome + QString("/share/awesome-widgets");
+    else return;
+    QString locale = QLocale::system().name();
+    QString filePath;
+    if (QFileInfo(dirPath + locale + QString(".html")).exists())
+        filePath = dirPath + locale + QString(".html");
+    else {
+        locale = locale.split(QChar('_'))[0];
+        if (QFileInfo(dirPath + locale + QString(".html")).exists())
+            filePath = dirPath + locale + QString(".html");
+        else if (QFileInfo(dirPath + QString("en.html")).exists())
+            filePath = dirPath + QString("en.html");
+        else return;
+    }
+    QDesktopServices::openUrl(filePath);
 }
 
 

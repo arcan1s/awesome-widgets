@@ -52,6 +52,9 @@ public:
     QMap<QString, QString> updateDataEngineConfiguration(const QMap<QString, QString> rawConfig);
 
 public slots:
+    // contextual actions
+    void showKsysguard();
+    void showReadme();
     // dataengine
     void addDiskDevice(const QString source);
     void connectToEngine();
@@ -61,6 +64,7 @@ public slots:
     void configAccepted();
     void configChanged();
     // update events
+    void updateNetworkDevice();
     void updateText(bool clear = false);
     void updateTooltip();
 
@@ -77,10 +81,12 @@ private slots:
     void editTempItem(QListWidgetItem *item);
 
 protected:
+    QList<QAction *> contextualActions();
     void createConfigurationInterface(KConfigDialog *parent);
 
 private:
     // functions
+    void createActions();
     void initValues();
     QStringList findKeys();
     QStringList getKeys();
@@ -88,6 +94,7 @@ private:
     QGraphicsLinearLayout *mainLayout;
     CustomLabel *textLabel;
     QTimer *timer;
+    QList<QAction *> contextMenu;
     // tooltip
     Plasma::ToolTipContent toolTip;
     QGraphicsScene *toolTipScene;

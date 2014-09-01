@@ -620,7 +620,7 @@ void AwesomeWidget::contextMenuCustomCommand(const QPoint pos)
     if (uiDEConfig.tableWidget_customCommand->currentItem() == 0) return;
 
     QMenu menu(uiDEConfig.tableWidget_customCommand);
-    QAction *remove = menu.addAction(QIcon("edit-delete"), i18n("Remove"));
+    QAction *remove = menu.addAction(QIcon::fromTheme("edit-delete"), i18n("Remove"));
     QAction *action = menu.exec(uiDEConfig.tableWidget_customCommand->viewport()->mapToGlobal(pos));
     if (action == remove)
         uiDEConfig.tableWidget_customCommand->removeRow(
@@ -634,7 +634,7 @@ void AwesomeWidget::contextMenuPkgCommand(const QPoint pos)
     if (uiDEConfig.tableWidget_pkgCommand->currentItem() == 0) return;
 
     QMenu menu(uiDEConfig.tableWidget_pkgCommand);
-    QAction *remove = menu.addAction(QIcon("edit-delete"), i18n("Remove"));
+    QAction *remove = menu.addAction(QIcon::fromTheme("edit-delete"), i18n("Remove"));
     QAction *action = menu.exec(uiDEConfig.tableWidget_pkgCommand->viewport()->mapToGlobal(pos));
     if (action == remove)
         uiDEConfig.tableWidget_pkgCommand->removeRow(
