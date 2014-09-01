@@ -21,6 +21,7 @@
 
 #include <Plasma/Applet>
 #include <Plasma/DataEngine>
+#include <Plasma/ToolTipContent>
 
 #include <ui_advanced.h>
 #include <ui_appearance.h>
@@ -31,6 +32,7 @@
 
 class CustomLabel;
 class QGraphicsLinearLayout;
+class QGraphicsScene;
 
 class AwesomeWidget : public Plasma::Applet
 {
@@ -41,6 +43,7 @@ public:
     ~AwesomeWidget();
     QString getNetworkDevice();
     int getNumberCpus();
+    float getTemp(const float temp);
     QStringList getTimeKeys();
     void init();
     // de configuration
@@ -76,6 +79,10 @@ private:
     QGraphicsLinearLayout *mainLayout;
     CustomLabel *textLabel;
     QTimer *timer;
+    // tooltip
+    Plasma::ToolTipContent toolTip;
+    QGraphicsScene *toolTipScene;
+    QGraphicsView *toolTipView;
     // values
     int networkDeviceUpdate;
     QMap<QString, int> counts;

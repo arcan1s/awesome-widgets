@@ -17,12 +17,6 @@
 
 #include "awesome-widget.h"
 
-#include <Plasma/ToolTipManager>
-#include <QGraphicsLinearLayout>
-#include <QGraphicsView>
-//#include <QThread>
-
-#include "customlabel.h"
 #include <pdebug/pdebug.h>
 
 
@@ -80,52 +74,4 @@ void AwesomeWidget::updateText()
 void AwesomeWidget::updateTooltip()
 {
     if (debug) qDebug() << PDEBUG;
-
-    toolTipView->resize(100.0 * counts[QString("tooltip")], 100.0);
-
-    // boundaries
-    QMap<QString, float> boundaries;
-    boundaries[QString("cpu")] = 100.0;
-    boundaries[QString("cpucl")] = 4000.0;
-    boundaries[QString("mem")] = 100.0;
-    boundaries[QString("swap")] = 100.0;
-    boundaries[QString("down")] = 1.0;
-    if (configuration[QString("downTooltip")].toInt() == 2)
-        for (int i=0; i<tooltipValues[QString("down")].count(); i++)
-            if (boundaries[QString("down")] < tooltipValues[QString("down")][i])
-                boundaries[QString("down")] = tooltipValues[QString("down")][i];
-    if (configuration[QString("upTooltip")].toInt() == 2)
-        for (int i=0; i<tooltipValues[QString("up")].count(); i++)
-            if (boundaries[QString("down")] < tooltipValues[QString("up")][i])
-                boundaries[QString("down")] = tooltipValues[QString("up")][i];
-    boundaries[QString("up")] = boundaries[QString("down")];
-
-    // create image
-    toolTipScene->clear();
-    QPen pen = QPen();
-    if (configuration[QString("useTooltipBackground")].toInt() == 2)
-        toolTipScene->setBackgroundBrush(QColor(configuration[QString("tooltipBackground")]));
-    else
-        toolTipScene->setBackgroundBrush(QBrush(Qt::NoBrush));
-    bool down = false;
-    for (int i=0; i<tooltipValues.keys().count(); i++) {
-        float normX = 100.0 / tooltipValues[tooltipValues.keys()[i]].count();
-        float normY = 100.0 / (1.5 * boundaries[tooltipValues.keys()[i]]);
-        pen.setColor(QColor(configuration[tooltipValues.keys()[i] + QString("Color")]));
-        float shift = i * 100.0;
-        if (down)
-            shift -= 100.0;
-        for (int j=0; j<tooltipValues[tooltipValues.keys()[i]].count()-1; j++) {
-            float x1 = j * normX + shift;
-            float y1 = -tooltipValues[tooltipValues.keys()[i]][j] * normY;
-            float x2 = (j + 1) * normX + shift;
-            float y2 = -tooltipValues[tooltipValues.keys()[i]][j+1] * normY;
-            toolTipScene->addLine(x1, y1, x2, y2, pen);
-        }
-        if (tooltipValues.keys()[i] == QString("down"))
-            down = true;
-    }
-
-    toolTip.setImage(QPixmap::grabWidget(toolTipView));
-    Plasma::ToolTipManager::self()->setContent(this, toolTip);
 }

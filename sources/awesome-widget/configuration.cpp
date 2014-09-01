@@ -272,11 +272,11 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     else
         uiTooltipConfig.checkBox_cpu->setCheckState(Qt::Checked);
     uiTooltipConfig.kcolorcombo_cpu->setColor(QColor(configuration[QString("cpuColor")]));
-    if (configuration[QString("cpuclockTooltip")].toInt() == 0)
+    if (configuration[QString("cpuclTooltip")].toInt() == 0)
         uiTooltipConfig.checkBox_cpuclock->setCheckState(Qt::Unchecked);
     else
         uiTooltipConfig.checkBox_cpuclock->setCheckState(Qt::Checked);
-    uiTooltipConfig.kcolorcombo_cpuclock->setColor(QColor(configuration[QString("cpuclockColor")]));
+    uiTooltipConfig.kcolorcombo_cpuclock->setColor(QColor(configuration[QString("cpuclColor")]));
     if (configuration[QString("memTooltip")].toInt() == 0)
         uiTooltipConfig.checkBox_mem->setCheckState(Qt::Unchecked);
     else
@@ -426,8 +426,8 @@ void AwesomeWidget::configAccepted()
     cg.writeEntry("tooltipBackground", uiTooltipConfig.kcolorcombo_background->color().name());
     cg.writeEntry("cpuTooltip", QString::number(uiTooltipConfig.checkBox_cpu->checkState()));
     cg.writeEntry("cpuColor", uiTooltipConfig.kcolorcombo_cpu->color().name());
-    cg.writeEntry("cpuclockTooltip", QString::number(uiTooltipConfig.checkBox_cpuclock->checkState()));
-    cg.writeEntry("cpuclockColor", uiTooltipConfig.kcolorcombo_cpuclock->color().name());
+    cg.writeEntry("cpuclTooltip", QString::number(uiTooltipConfig.checkBox_cpuclock->checkState()));
+    cg.writeEntry("cpuclColor", uiTooltipConfig.kcolorcombo_cpuclock->color().name());
     cg.writeEntry("memTooltip", QString::number(uiTooltipConfig.checkBox_mem->checkState()));
     cg.writeEntry("memColor", uiTooltipConfig.kcolorcombo_mem->color().name());
     cg.writeEntry("swapTooltip", QString::number(uiTooltipConfig.checkBox_swap->checkState()));
@@ -509,8 +509,8 @@ void AwesomeWidget::configChanged()
     configuration[QString("tooltipBackground")] = cg.readEntry("tooltipBackground", "#ffffff");
     configuration[QString("cpuTooltip")] = cg.readEntry("cpuTooltip", "2");
     configuration[QString("cpuColor")] = cg.readEntry("cpuColor", "#ff0000");
-    configuration[QString("cpuclockTooltip")] = cg.readEntry("cpuclockTooltip", "2");
-    configuration[QString("cpuclockColor")] = cg.readEntry("cpuclockColor", "#00ff00");
+    configuration[QString("cpuclTooltip")] = cg.readEntry("cpuclTooltip", "2");
+    configuration[QString("cpuclColor")] = cg.readEntry("cpuclColor", "#00ff00");
     configuration[QString("memTooltip")] = cg.readEntry("memTooltip", "2");
     configuration[QString("memColor")] = cg.readEntry("memColor", "#0000ff");
     configuration[QString("swapTooltip")] = cg.readEntry("swapTooltip", "2");
@@ -546,6 +546,15 @@ void AwesomeWidget::configChanged()
     counts[QString("mount")] = configuration[QString("mount")].split(QString("@@")).count();
     counts[QString("pkg")] = deSettings[QString("PKGCMD")].split(QChar(',')).count();
     counts[QString("temp")] = configuration[QString("tempDevice")].split(QString("@@")).count();
+    counts[QString("tooltip")] = 0;
+    counts[QString("tooltip")] += configuration[QString("cpuTooltip")].toInt();
+    counts[QString("tooltip")] += configuration[QString("cpuclTooltip")].toInt();
+    counts[QString("tooltip")] += configuration[QString("memTooltip")].toInt();
+    counts[QString("tooltip")] += configuration[QString("swapTooltip")].toInt();
+    if ((configuration[QString("downTooltip")].toInt() == 2) ||
+            (configuration[QString("upTooltip")].toInt() == 2))
+        counts[QString("tooltip")] += 2;
+    counts[QString("tooltip")] = counts[QString("tooltip")] / 2;
 
     reinit();
 }

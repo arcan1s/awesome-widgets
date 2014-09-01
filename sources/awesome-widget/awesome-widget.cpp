@@ -17,7 +17,10 @@
 
 #include "awesome-widget.h"
 
+#include <Plasma/ToolTipManager>
 #include <QGraphicsLinearLayout>
+#include <QGraphicsScene>
+#include <QGraphicsView>
 #include <QNetworkInterface>
 #include <QProcessEnvironment>
 #include <QTextCodec>
@@ -84,6 +87,30 @@ int AwesomeWidget::getNumberCpus()
 }
 
 
+float AwesomeWidget::getTemp(const float temp)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    float convertedTemp = temp;
+    if (configuration[QString("tempUnits")] == QString("Celsius"))
+        ;
+    else if (configuration[QString("tempUnits")] == QString("Fahrenheit"))
+        convertedTemp = temp * 9.0 / 5.0 + 32.0;
+    else if (configuration[QString("tempUnits")] == QString("Kelvin"))
+        convertedTemp = temp + 273.15;
+    else if (configuration[QString("tempUnits")] == QString("Reaumur"))
+        convertedTemp = temp * 0.8;
+    else if (configuration[QString("tempUnits")] == QString("cm^-1"))
+        convertedTemp = temp * 0.695;
+    else if (configuration[QString("tempUnits")] == QString("kJ/mol"))
+        convertedTemp = temp * 8.31;
+    else if (configuration[QString("tempUnits")] == QString("kcal/mol"))
+        convertedTemp = temp * 1.98;
+
+    return convertedTemp;
+}
+
+
 QStringList AwesomeWidget::getTimeKeys()
 {
     if (debug) qDebug() << PDEBUG;
@@ -114,14 +141,27 @@ void AwesomeWidget::init()
 {
     if (debug) qDebug() << PDEBUG;
 
+    // dataengines
     extsysmonEngine = dataEngine(QString("ext-sysmon"));
     sysmonEngine = dataEngine(QString("systemmonitor"));
     timeEngine = dataEngine(QString("time"));
 
+    // tooltip
+    toolTip = Plasma::ToolTipContent();
+    toolTip.setMainText(QString("Awesome Widget"));
+    toolTip.setSubText(QString(""));
+    toolTipScene = new QGraphicsScene();
+    toolTipView = new QGraphicsView(toolTipScene);
+    toolTipView->setStyleSheet(QString("background: transparent"));
+    toolTipView->setContentsMargins(0, 0, 0, 0);
+    toolTipView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    toolTipView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    Plasma::ToolTipManager::self()->setContent(this, toolTip);
+
+    // body
     mainLayout = new QGraphicsLinearLayout();
     mainLayout->setContentsMargins(1, 1, 1, 1);
     setLayout(mainLayout);
-
     textLabel = new CustomLabel(this, debug);
 
     // read variables

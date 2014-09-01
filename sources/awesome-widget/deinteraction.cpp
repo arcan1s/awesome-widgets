@@ -191,7 +191,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         values[QString("cpu") + number] = QString("%5.1f").arg(data[QString("value")].toFloat());
     } else if (sourceName == QString("cpu/system/AverageClock")) {
         values[QString("cpucl")] = QString("%5.1f").arg(data[QString("value")].toFloat());
-        if (configuration[QString("cpuclockTooltip")].toInt() == 2)
+        if (configuration[QString("cpuclTooltip")].toInt() == 2)
             tooltipValues[QString("cpucl")].append(data[QString("value")].toFloat());
     } else if (sourceName.indexOf(cpuclRegExp) > -1) {
         QString number = sourceName;
@@ -224,7 +224,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
     } else if (sourceName == QString("gpu")) {
         values[QString("gpu")] = QString("%4.1f").arg(data[QString("GPU")].toFloat());
     } else if (sourceName == QString("gputemp")) {
-        values[QString("gputemp")] = QString("%4.1f").arg(data[QString("GPUTemp")].toFloat());
+        values[QString("gputemp")] = QString("%4.1f").arg(getTemp(data[QString("GPUTemp")].toFloat()));
     } else if (sourceName.indexOf(mountFillRegExp) > -1) {
         QString mount = sourceName;
         mount.remove(QString("partitions"));
@@ -269,7 +269,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         for (int i=0; i<data.keys().count(); i++)
             for (int j=0; j<counts[QString("hddtemp")]; j++)
                 if (data.keys()[i] == configuration[QString("hdd")].split(QString("@@"))[j]) {
-                    values[QString("hddtemp") + QString::number(j)] = QString("%4.1f").arg(data[data.keys()[i]].toFloat());
+                    values[QString("hddtemp") + QString::number(j)] = QString("%4.1f").arg(getTemp(data[data.keys()[i]].toFloat()));
                     break;
                 }
     } else if (sourceName == QString("mem/physical/application")) {
@@ -342,7 +342,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
     } else if (sourceName.indexOf(tempRegExp) > -1) {
         for (int i=0; i<counts[QString("temp")]; i++)
             if (sourceName == configuration[QString("tempDevice")].split(QString("@@"))[i]) {
-                values[QString("temp") + QString::number(i)] = QString("%4.1f").arg(data[QString("value")].toFloat());
+                values[QString("temp") + QString::number(i)] = QString("%4.1f").arg(getTemp(data[QString("value")].toFloat()));
                 break;
             }
     } else if (sourceName == QString("Local")) {
