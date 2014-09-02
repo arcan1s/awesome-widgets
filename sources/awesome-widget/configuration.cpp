@@ -566,13 +566,13 @@ void AwesomeWidget::configChanged()
     QString fontStyle = cg.readEntry("fontStyle", "normal");
     formatLine[0] = QString("<html><head><meta name=\"qrichtext\" content=\"1\" />\
     <style type=\"text/css\">p, li { white-space: pre-wrap; }</style>\
-    </head><body style=\"font-family:'%1'; font-size:%2pt; font-weight:%3; font-style:%4; color:%5;\"><pre>")
+    </head><body style=\"font-family:'%1'; font-size:%2pt; font-weight:%3; font-style:%4; color:%5;\">")
                 .arg(fontFamily)
                 .arg(QString::number(fontSize))
                 .arg(QString::number(fontWeight))
                 .arg(fontStyle)
                 .arg(fontColor);
-    formatLine[1] = QString("</pre></body></html>");
+    formatLine[1] = QString("</body></html>");
 
     // counts
     QMap<QString, QString> deSettings = readDataEngineConfiguration();

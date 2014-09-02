@@ -56,9 +56,9 @@ void AwesomeWidget::reinit()
         textLabel->setPopupEnabled(true);
     updateText(true);
     mainLayout->addItem(textLabel);
-    resize(10, 10);
     if (configuration[QString("rightStretch")].toInt() == 2)
         mainLayout->addStretch(1);
+    resize(10, 10);
 
     keys = getKeys();
     foundKeys = findKeys();

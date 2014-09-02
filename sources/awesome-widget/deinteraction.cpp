@@ -36,7 +36,7 @@ void AwesomeWidget::connectToEngine()
     // cpu
     sysmonEngine->connectSource(QString("cpu/system/TotalLoad"),
                                 this, configuration[QString("interval")].toInt());
-    regExp = QRegExp(QString("cpu.*"));
+    regExp = QRegExp(QString("cpu[0-9].*"));
     if (foundKeys.indexOf(regExp) > -1)
         for (int i=0; i<counts[QString("cpu")]; i++)
             sysmonEngine->connectSource(QString("cpu/cpu") + QString::number(i) + QString("/TotalLoad"),
@@ -44,7 +44,7 @@ void AwesomeWidget::connectToEngine()
     // cpuclock
     sysmonEngine->connectSource(QString("cpu/system/AverageClock"),
                                 this, configuration[QString("interval")].toInt());
-    regExp = QRegExp(QString("cpucl.*"));
+    regExp = QRegExp(QString("cpucl[0-9].*"));
     if (foundKeys.indexOf(regExp) > -1)
         for (int i=0; i<counts[QString("cpu")]; i++)
             sysmonEngine->connectSource(QString("cpu/cpu") + QString::number(i) + QString("/clock"),

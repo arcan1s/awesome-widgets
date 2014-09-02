@@ -83,7 +83,6 @@ void AwesomeWidget::createActions()
                                    i18n("Update text"), this));
     connect(contextMenu[2], SIGNAL(triggered(bool)), extsysmonEngine, SLOT(updateAllSources()));
     connect(contextMenu[2], SIGNAL(triggered(bool)), sysmonEngine, SLOT(updateAllSources()));
-    connect(contextMenu[2], SIGNAL(triggered(bool)), timeEngine, SLOT(updateAllSources()));
     connect(contextMenu[2], SIGNAL(triggered(bool)), this, SLOT(updateNetworkDevice()));
 }
 
@@ -111,7 +110,7 @@ int AwesomeWidget::getNumberCpus()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QString cmd = QString("grep -c '^processor' /proc/cpuinfo");
+    QString cmd = QString("grep -c ^processor /proc/cpuinfo");
     if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
     TaskResult process = runTask(cmd);
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
