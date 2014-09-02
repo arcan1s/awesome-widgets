@@ -1,5 +1,5 @@
-awesome-widgets
-===============
+awesome-widgets (ex-pytextmonitor)
+==================================
 
 Information
 -----------
