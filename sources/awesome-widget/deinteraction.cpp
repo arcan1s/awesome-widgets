@@ -346,28 +346,29 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
                 break;
             }
     } else if (sourceName == QString("Local")) {
-        values[QString("time")] = data[QString("value")].toDateTime().toString(Qt::TextDate);
-        values[QString("isotime")] = data[QString("value")].toDateTime().toString(Qt::ISODate);
-        values[QString("shorttime")] = data[QString("value")].toDateTime().toString(Qt::SystemLocaleShortDate);
-        values[QString("longtime")] = data[QString("value")].toDateTime().toString(Qt::SystemLocaleLongDate);
+        values[QString("time")] = data[QString("DateTime")].toDateTime().toString(Qt::TextDate);
+        values[QString("isotime")] = data[QString("DateTime")].toDateTime().toString(Qt::ISODate);
+        values[QString("shorttime")] = data[QString("DateTime")].toDateTime().toString(Qt::SystemLocaleShortDate);
+        values[QString("longtime")] = data[QString("DateTime")].toDateTime().toString(Qt::SystemLocaleLongDate);
         QStringList timeKeys = getTimeKeys();
         values[QString("ctime")] = configuration[QString("customTime")];
         for (int i=0; i<timeKeys.count(); i++)
             values[QString("ctime")].replace(QString("$") + timeKeys[i] + QString("$"),
-                                             data[QString("value")].toDateTime().toString(timeKeys[i]));
+                                             data[QString("DateTime")].toDateTime().toString(timeKeys[i]));
     } else if (sourceName == QString("system/uptime")) {
-        int seconds = data[QString("value")].toInt() - data[QString("value")].toInt() % 60;
+        int uptime = data[QString("value")].toFloat();
+        int seconds = uptime - uptime % 60;
         int minutes = seconds / 60 % 60;
         int hours = ((seconds / 60) - minutes) / 60 % 24;
         int days = (((seconds / 60) - minutes) / 60 - hours) / 24;
         values[QString("uptime")] = QString("%1d%2h%3m").arg(days, 3).arg(hours, 2).arg(minutes, 2);
         values[QString("cuptime")] = configuration[QString("customUptime")];
-        values[QString("cuptime")].replace(QString("$d$"), QString("%i").arg(days));
-        values[QString("cuptime")].replace(QString("$dd$"), QString("%03i").arg(days));
-        values[QString("cuptime")].replace(QString("$h$"), QString("%i").arg(hours));
-        values[QString("cuptime")].replace(QString("$hh$"), QString("%2i").arg(hours));
-        values[QString("cuptime")].replace(QString("$m$"), QString("%2i").arg(minutes));
-        values[QString("cuptime")].replace(QString("$mm$"), QString("%02i").arg(minutes));
+        values[QString("cuptime")].replace(QString("$d$"), QString("%1").arg(days));
+        values[QString("cuptime")].replace(QString("$dd$"), QString("%1").arg(days, 3, 10, QChar('0')));
+        values[QString("cuptime")].replace(QString("$h$"), QString("%1").arg(hours));
+        values[QString("cuptime")].replace(QString("$hh$"), QString("%1").arg(hours, 2, 10, QChar('0')));
+        values[QString("cuptime")].replace(QString("$m$"), QString("%1").arg(minutes));
+        values[QString("cuptime")].replace(QString("$mm$"), QString("%1").arg(minutes, 2, 10, QChar('0')));
     }
 }
 

@@ -260,9 +260,9 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     // tooltip
     uiTooltipConfig.spinBox_tooltipNum->setValue(configuration[QString("tooltipNumber")].toInt());
     if (configuration[QString("useTooltipBackground")].toInt() == 0)
-        uiAdvancedConfig.checkBox_background->setCheckState(Qt::Unchecked);
+        uiTooltipConfig.checkBox_background->setCheckState(Qt::Unchecked);
     else
-        uiAdvancedConfig.checkBox_background->setCheckState(Qt::Checked);
+        uiTooltipConfig.checkBox_background->setCheckState(Qt::Checked);
     uiTooltipConfig.kcolorcombo_background->setColor(QColor(configuration[QString("tooltipBackground")]));
     if (configuration[QString("cpuTooltip")].toInt() == 0)
         uiTooltipConfig.checkBox_cpu->setCheckState(Qt::Unchecked);

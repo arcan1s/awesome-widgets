@@ -121,6 +121,7 @@ void AwesomeWidget::updateTooltip()
         for (int i=0; i<tooltipValues[QString("up")].count(); i++)
             if (boundaries[QString("down")] < tooltipValues[QString("up")][i])
                 boundaries[QString("down")] = tooltipValues[QString("up")][i];
+        boundaries[QString("down")] *= 1.2;
     }
     boundaries[QString("up")] = boundaries[QString("down")];
 
