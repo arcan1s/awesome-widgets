@@ -509,7 +509,7 @@ void AwesomeWidget::configChanged()
     configuration[QString("customTime")] = cg.readEntry("customTime", "$hh$:$mm$");
     configuration[QString("customUptime")] = cg.readEntry("customUptime", "$dd$,$hh$,$mm$");
     configuration[QString("tempUnits")] = cg.readEntry("tempUnits", "Celsius");
-    configuration[QString("tempDevice")] = cg.readEntry("tempUnits", "");
+    configuration[QString("tempDevice")] = cg.readEntry("tempDevice", "");
     configuration[QString("mount")] = cg.readEntry("mount", "/");
     configuration[QString("hdd")] = cg.readEntry("hdd", "/dev/sda");
     configuration[QString("disk")] = cg.readEntry("disk", "disk/sda_(8:0)");
