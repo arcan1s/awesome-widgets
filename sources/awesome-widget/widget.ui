@@ -35,7 +35,7 @@
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>Detailed information may be found on &lt;a href=&quot;http://arcanis.name/projects/pytextmonitor/&quot;&gt;project homepage&lt;/a&gt;</string>
+      <string>Detailed information may be found on &lt;a href=&quot;http://arcanis.name/projects/awesome-widgets/&quot;&gt;project homepage&lt;/a&gt;</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>

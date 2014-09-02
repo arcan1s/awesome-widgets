@@ -1,7 +1,7 @@
 #!/bin/sh
 BASEDIR="../" # root of translatable sources
-PROJECT="plasma_applet_ptm-desktop-panel" # project name
-BUGADDR="https://github.com/arcan1s/pytextmonitor/issues" # MSGID-Bugs
+PROJECT="plasma_applet_desktop-panel" # project name
+BUGADDR="https://github.com/arcan1s/awesome-widgets/issues" # MSGID-Bugs
 WDIR=`pwd` # working dir
 
 echo "Preparing rc files"

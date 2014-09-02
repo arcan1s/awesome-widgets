@@ -221,7 +221,7 @@ List of commands, which will be run. Number of null lines is a number of unneede
 
 Select one of supported music playes for player label.
 
-PTM desktop panel
+Desktop panel
 =================
 
 Since version 1.11.0 it provides a minimalistic panel for monitoring on desktops written on `C++`. And yes, it looks like the same panel in Awesome.

@@ -1,5 +1,5 @@
 # set project name
-set (SUBPROJECT plasma_applet_ptm-awesome-widget)
+set (SUBPROJECT plasma_applet_awesome-widget)
 set (PLUGIN_NAME ${SUBPROJECT})
 message (STATUS "Subproject ${SUBPROJECT}")
 

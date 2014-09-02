@@ -1,18 +1,18 @@
 /***************************************************************************
- *   This file is part of pytextmonitor                                    *
+ *   This file is part of awesome-widgets                                  *
  *                                                                         *
- *   pytextmonitor is free software: you can redistribute it and/or        *
+ *   awesome-widgets is free software: you can redistribute it and/or      *
  *   modify it under the terms of the GNU General Public License as        *
  *   published by the Free Software Foundation, either version 3 of the    *
  *   License, or (at your option) any later version.                       *
  *                                                                         *
- *   pytextmonitor is distributed in the hope that it will be useful,      *
+ *   awesome-widgets is distributed in the hope that it will be useful,    *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
  *   You should have received a copy of the GNU General Public License     *
- *   along with pytextmonitor. If not, see http://www.gnu.org/licenses/    *
+ *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
 #include "desktop-panel.h"
@@ -42,7 +42,7 @@ CustomPlasmaLabel::CustomPlasmaLabel(DesktopPanel *wid, const int num)
 {
     // debug
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
-    QString debugEnv = environment.value(QString("PTM_DEBUG"), QString("no"));
+    QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
     if (debugEnv == QString("yes"))
         debug = true;
     else
@@ -81,7 +81,7 @@ DesktopPanel::DesktopPanel(QObject *parent, const QVariantList &args)
 {
     // debug
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
-    QString debugEnv = environment.value(QString("PTM_DEBUG"), QString("no"));
+    QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
     if (debugEnv == QString("yes"))
         debug = true;
     else

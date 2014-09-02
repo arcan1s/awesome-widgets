@@ -1,5 +1,5 @@
 # set project name
-set (SUBPROJECT plasma_applet_ptm-desktop-panel)
+set (SUBPROJECT plasma_applet_desktop-panel)
 message (STATUS "Subproject ${SUBPROJECT}")
 
 # find required libaries
