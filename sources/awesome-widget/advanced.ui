@@ -41,9 +41,9 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-62</y>
+        <y>0</y>
         <width>677</width>
-        <height>640</height>
+        <height>665</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -51,6 +51,13 @@
         <widget class="QCheckBox" name="checkBox_background">
          <property name="text">
           <string>Enable background</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_layout">
+         <property name="text">
+          <string>Vertical layout</string>
          </property>
         </widget>
        </item>

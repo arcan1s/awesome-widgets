@@ -38,6 +38,10 @@ void AwesomeWidget::reinit()
 
     mainLayout = new QGraphicsLinearLayout();
     mainLayout->setContentsMargins(1, 1, 1, 1);
+    if (configuration[QString("layout")].toInt() == 0)
+        mainLayout->setOrientation(Qt::Horizontal);
+    else
+        mainLayout->setOrientation(Qt::Vertical);
     setLayout(mainLayout);
 
     if (configuration[QString("background")].toInt() == 0)
