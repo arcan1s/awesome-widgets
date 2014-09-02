@@ -99,7 +99,7 @@ QString AwesomeWidget::getNetworkDevice()
         QList<QNetworkInterface> rawInterfaceList = QNetworkInterface::allInterfaces();
         for (int i=0; i<rawInterfaceList.count(); i++)
             if ((rawInterfaceList[i].flags().testFlag(QNetworkInterface::IsUp)) &&
-                    (rawInterfaceList[i].flags().testFlag(QNetworkInterface::IsLoopBack)))
+                    (!rawInterfaceList[i].flags().testFlag(QNetworkInterface::IsLoopBack)))
                 device = rawInterfaceList[i].name();
     }
 
@@ -117,7 +117,7 @@ int AwesomeWidget::getNumberCpus()
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
     if (process.exitCode != 0)
         if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
-    return QTextCodec::codecForMib(106)->toUnicode(process.output).toInt();
+    return QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed().toInt();
 }
 
 

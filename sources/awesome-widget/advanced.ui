@@ -41,7 +41,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
+        <y>-62</y>
         <width>677</width>
         <height>640</height>
        </rect>
@@ -340,9 +340,6 @@ $m - uptime minutes without zero</string>
          </item>
          <item>
           <widget class="QComboBox" name="comboBox_netdev">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
              <horstretch>0</horstretch>

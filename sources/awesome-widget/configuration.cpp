@@ -170,7 +170,7 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
     if (process.exitCode != 0)
         if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
-    qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output);
+    qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     uiAdvancedConfig.listWidget_tempDevice->clear();
     for (int i=0; i<qoutput.split(QString("\n\n")).count(); i++) {
         QString sensor = qoutput.split(QString("\n\n"))[i];
@@ -196,7 +196,7 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
     if (process.exitCode != 0)
         if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
-    qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output);
+    qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     uiAdvancedConfig.listWidget_mount->clear();
     for (int i=0; i<qoutput.split(QChar('\n')).count(); i++) {
         QString mountPoint = qoutput.split(QChar('\n'))[i].split(QString(" on "))[1].split(QString(" type "))[0];

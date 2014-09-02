@@ -297,7 +297,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
             if (configuration[QString("useCustomNetdev")].toInt() == 2) {
                 sysmonEngine->disconnectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/transmitter/data"), this);
                 sysmonEngine->disconnectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/receiver/data"), this);
-                values[QString("netdev")] = getNetworkDevice();
+                updateNetworkDevice();
                 sysmonEngine->connectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/transmitter/data"),
                                             this, configuration[QString("interval")].toInt());
                 sysmonEngine->connectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/receiver/data"),

@@ -17,10 +17,10 @@
 
 #include "awesome-widget.h"
 
+#include <KNotification>
 #include <Plasma/ToolTipManager>
 #include <QGraphicsLinearLayout>
 #include <QGraphicsView>
-//#include <QThread>
 
 #include "customlabel.h"
 #include <pdebug/pdebug.h>
@@ -47,9 +47,9 @@ void AwesomeWidget::reinit()
     if (configuration[QString("leftStretch")].toInt() == 2)
         mainLayout->addStretch(1);
     if (configuration[QString("popup")].toInt() == 0)
-        textLabel->setPopupEnabled(true);
-    else
         textLabel->setPopupEnabled(false);
+    else
+        textLabel->setPopupEnabled(true);
     updateText(true);
     mainLayout->addItem(textLabel);
     resize(10, 10);
@@ -59,9 +59,23 @@ void AwesomeWidget::reinit()
     keys = getKeys();
     foundKeys = findKeys();
     initValues();
-    values[QString("netdev")] = getNetworkDevice();
-//    thread()->wait(60000);
+    updateNetworkDevice();
     connectToEngine();
+}
+
+
+void AwesomeWidget::sendNotification(const QString eventId, const QString message)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Event" << eventId;
+    if (debug) qDebug() << PDEBUG << ":" << "Message" << message;
+
+    KNotification *notification = new KNotification(eventId);
+    notification->setComponentData(KComponentData("plasma_applet_awesome-widget"));
+    notification->setTitle(QString("Awesome Widget ::: ") + eventId);
+    notification->setText(message);
+    notification->sendEvent();
+    delete notification;
 }
 
 

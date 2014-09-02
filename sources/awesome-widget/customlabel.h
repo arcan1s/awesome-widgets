@@ -36,6 +36,7 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
 private:
+    AwesomeWidget *widget;
     bool debug;
     bool enablePopup;
 };
