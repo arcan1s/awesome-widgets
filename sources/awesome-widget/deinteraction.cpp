@@ -34,21 +34,25 @@ void AwesomeWidget::connectToEngine()
         extsysmonEngine->connectSource(QString("battery"),
                                        this, configuration[QString("interval")].toInt());
     // cpu
-    sysmonEngine->connectSource(QString("cpu/system/TotalLoad"),
-                                this, configuration[QString("interval")].toInt());
     regExp = QRegExp(QString("cpu[0-9].*"));
-    if (foundKeys.indexOf(regExp) > -1)
+    if ((foundKeys.indexOf(regExp) > -1) ||
+            (configuration[QString("cpuTooltip")].toInt() == 2)) {
+        sysmonEngine->connectSource(QString("cpu/system/TotalLoad"),
+                                    this, configuration[QString("interval")].toInt());
         for (int i=0; i<counts[QString("cpu")]; i++)
             sysmonEngine->connectSource(QString("cpu/cpu") + QString::number(i) + QString("/TotalLoad"),
                                         this, configuration[QString("interval")].toInt());
+    }
     // cpuclock
-    sysmonEngine->connectSource(QString("cpu/system/AverageClock"),
-                                this, configuration[QString("interval")].toInt());
     regExp = QRegExp(QString("cpucl[0-9].*"));
-    if (foundKeys.indexOf(regExp) > -1)
+    if ((foundKeys.indexOf(regExp) > -1) ||
+            (configuration[QString("cpuclTooltip")].toInt() == 2)) {
+        sysmonEngine->connectSource(QString("cpu/system/AverageClock"),
+                                    this, configuration[QString("interval")].toInt());
         for (int i=0; i<counts[QString("cpu")]; i++)
             sysmonEngine->connectSource(QString("cpu/cpu") + QString::number(i) + QString("/clock"),
                                         this, configuration[QString("interval")].toInt());
+    }
     // custom command
     regExp = QRegExp(QString("custom.*"));
     if (foundKeys.indexOf(regExp) > -1)
@@ -95,18 +99,26 @@ void AwesomeWidget::connectToEngine()
         extsysmonEngine->connectSource(QString("hddtemp"),
                                        this, configuration[QString("interval")].toInt());
     // memory
-    sysmonEngine->connectSource(QString("mem/physical/free"),
-                                this, configuration[QString("interval")].toInt());
-    sysmonEngine->connectSource(QString("mem/physical/used"),
-                                this, configuration[QString("interval")].toInt());
-    sysmonEngine->connectSource(QString("mem/physical/application"),
-                                this, configuration[QString("interval")].toInt());
+    regExp = QRegExp(QString("mem.*"));
+    if ((foundKeys.indexOf(regExp) > -1) ||
+            (configuration[QString("memTooltip")].toInt() == 2)) {
+        sysmonEngine->connectSource(QString("mem/physical/free"),
+                                    this, configuration[QString("interval")].toInt());
+        sysmonEngine->connectSource(QString("mem/physical/used"),
+                                    this, configuration[QString("interval")].toInt());
+        sysmonEngine->connectSource(QString("mem/physical/application"),
+                                    this, configuration[QString("interval")].toInt());
+    }
     // network
     networkDeviceUpdate = 0;
-    sysmonEngine->connectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/transmitter/data"),
-                                this, configuration[QString("interval")].toInt());
-    sysmonEngine->connectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/receiver/data"),
-                                this, configuration[QString("interval")].toInt());
+    regExp = QRegExp(QString("(down|up|netdev)"));
+    if ((foundKeys.indexOf(regExp) > -1) ||
+            (configuration[QString("downTooltip")].toInt() == 2)) {
+        sysmonEngine->connectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/transmitter/data"),
+                                    this, configuration[QString("interval")].toInt());
+        sysmonEngine->connectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/receiver/data"),
+                                    this, configuration[QString("interval")].toInt());
+    }
     // package manager
     regExp = QRegExp(QString("pkgcount.*"));
     if (foundKeys.indexOf(regExp) > -1)
@@ -123,10 +135,14 @@ void AwesomeWidget::connectToEngine()
         extsysmonEngine->connectSource(QString("ps"),
                                        this, configuration[QString("interval")].toInt());
     // swap
-    sysmonEngine->connectSource(QString("mem/swap/free"),
-                                this, configuration[QString("interval")].toInt());
-    sysmonEngine->connectSource(QString("mem/swap/used"),
-                                this, configuration[QString("interval")].toInt());
+    regExp = QRegExp(QString("swap.*"));
+    if ((foundKeys.indexOf(regExp) > -1) ||
+            (configuration[QString("swapTooltip")].toInt() == 2)) {
+        sysmonEngine->connectSource(QString("mem/swap/free"),
+                                    this, configuration[QString("interval")].toInt());
+        sysmonEngine->connectSource(QString("mem/swap/used"),
+                                    this, configuration[QString("interval")].toInt());
+    }
     // temp
     regExp = QRegExp(QString("temp.*"));
     if (foundKeys.indexOf(regExp) > -1)
@@ -401,17 +417,21 @@ void AwesomeWidget::disconnectFromEngine()
     if (foundKeys.indexOf(regExp) > -1)
         extsysmonEngine->disconnectSource(QString("battery"), this);
     // cpu
-    sysmonEngine->disconnectSource(QString("cpu/system/TotalLoad"), this);
     regExp = QRegExp(QString("cpu.*"));
-    if (foundKeys.indexOf(regExp) > -1)
+    if ((foundKeys.indexOf(regExp) > -1) ||
+        (configuration[QString("cpuTooltip")].toInt() == 2)) {
+        sysmonEngine->disconnectSource(QString("cpu/system/TotalLoad"), this);
         for (int i=0; i<counts[QString("cpu")]; i++)
             sysmonEngine->disconnectSource(QString("cpu/cpu") + QString::number(i) + QString("/TotalLoad"), this);
+    }
     // cpuclock
-    sysmonEngine->disconnectSource(QString("cpu/system/AverageClock"), this);
     regExp = QRegExp(QString("cpucl.*"));
-    if (foundKeys.indexOf(regExp) > -1)
+    if ((foundKeys.indexOf(regExp) > -1) ||
+        (configuration[QString("cpuclTooltip")].toInt() == 2)) {
+        sysmonEngine->disconnectSource(QString("cpu/system/AverageClock"), this);
         for (int i=0; i<counts[QString("cpu")]; i++)
             sysmonEngine->disconnectSource(QString("cpu/cpu") + QString::number(i) + QString("/clock"), this);
+    }
     // custom command
     regExp = QRegExp(QString("custom.*"));
     if (foundKeys.indexOf(regExp) > -1)
@@ -448,12 +468,20 @@ void AwesomeWidget::disconnectFromEngine()
     if (foundKeys.indexOf(regExp) > -1)
         extsysmonEngine->disconnectSource(QString("hddtemp"), this);
     // memory
-    sysmonEngine->disconnectSource(QString("mem/physical/free"), this);
-    sysmonEngine->disconnectSource(QString("mem/physical/used"), this);
-    sysmonEngine->disconnectSource(QString("mem/physical/application"), this);
+    regExp = QRegExp(QString("mem.*"));
+    if ((foundKeys.indexOf(regExp) > -1) ||
+        (configuration[QString("memTooltip")].toInt() == 2)) {
+        sysmonEngine->disconnectSource(QString("mem/physical/free"), this);
+        sysmonEngine->disconnectSource(QString("mem/physical/used"), this);
+        sysmonEngine->disconnectSource(QString("mem/physical/application"), this);
+    }
     // network
-    sysmonEngine->disconnectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/transmitter/data"), this);
-    sysmonEngine->disconnectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/receiver/data"), this);
+    regExp = QRegExp(QString("(down|up|netdev)"));
+    if ((foundKeys.indexOf(regExp) > -1) ||
+        (configuration[QString("downTooltip")].toInt() == 2)) {
+        sysmonEngine->disconnectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/transmitter/data"), this);
+        sysmonEngine->disconnectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/receiver/data"), this);
+    }
     // package manager
     regExp = QRegExp(QString("pkgcount.*"));
     if (foundKeys.indexOf(regExp) > -1)
@@ -467,8 +495,12 @@ void AwesomeWidget::disconnectFromEngine()
     if (foundKeys.indexOf(regExp) > -1)
         extsysmonEngine->disconnectSource(QString("ps"), this);
     // swap
-    sysmonEngine->disconnectSource(QString("mem/swap/free"), this);
-    sysmonEngine->disconnectSource(QString("mem/swap/used"), this);
+    regExp = QRegExp(QString("swap.*"));
+    if ((foundKeys.indexOf(regExp) > -1) ||
+        (configuration[QString("swapTooltip")].toInt() == 2)) {
+        sysmonEngine->disconnectSource(QString("mem/swap/free"), this);
+        sysmonEngine->disconnectSource(QString("mem/swap/used"), this);
+    }
     // temp
     regExp = QRegExp(QString("temp.*"));
     if (foundKeys.indexOf(regExp) > -1)
