@@ -294,6 +294,12 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
         uiTooltipConfig.checkBox_down->setCheckState(Qt::Checked);
     uiTooltipConfig.kcolorcombo_down->setColor(QColor(configuration[QString("downColor")]));
     uiTooltipConfig.kcolorcombo_up->setColor(QColor(configuration[QString("upColor")]));
+    if (configuration[QString("batteryTooltip")].toInt() == 0)
+        uiTooltipConfig.checkBox_battery->setCheckState(Qt::Unchecked);
+    else
+        uiTooltipConfig.checkBox_battery->setCheckState(Qt::Checked);
+    uiTooltipConfig.kcolorcombo_battery->setColor(QColor(configuration[QString("batteryColor")]));
+    uiTooltipConfig.kcolorcombo_batteryIn->setColor(QColor(configuration[QString("batteryInColor")]));
 
     // appearance
     KConfigGroup cg = config();
@@ -451,6 +457,9 @@ void AwesomeWidget::configAccepted()
     cg.writeEntry("downTooltip", QString::number(uiTooltipConfig.checkBox_down->checkState()));
     cg.writeEntry("downColor", uiTooltipConfig.kcolorcombo_down->color().name());
     cg.writeEntry("upColor", uiTooltipConfig.kcolorcombo_up->color().name());
+    cg.writeEntry("batteryTooltip", QString::number(uiTooltipConfig.checkBox_battery->checkState()));
+    cg.writeEntry("batteryColor", uiTooltipConfig.kcolorcombo_battery->color().name());
+    cg.writeEntry("batteryInColor", uiTooltipConfig.kcolorcombo_batteryIn->color().name());
 
     // appearance
     cg.writeEntry("interval", QString::number(uiAppConfig.spinBox_interval->value()));
@@ -556,6 +565,13 @@ void AwesomeWidget::configChanged()
     }
     configuration[QString("downColor")] = cg.readEntry("downColor", "#00ffff");
     configuration[QString("upColor")] = cg.readEntry("upColor", "#ff00ff");
+    configuration[QString("batteryTooltip")] = cg.readEntry("batteryTooltip", "2");
+    if (configuration[QString("batteryTooltip")].toInt() == 2) {
+        tooltipValues[QString("bat")].append(0.0);
+        tooltipValues[QString("bat")].append(0.01);
+    }
+    configuration[QString("batteryColor")] = cg.readEntry("batteryColor", "#009900");
+    configuration[QString("batteryInColor")] = cg.readEntry("batteryInColor", "#990000");
 
     // appearance
     configuration[QString("interval")] = cg.readEntry("interval", "1000");
@@ -589,6 +605,7 @@ void AwesomeWidget::configChanged()
     counts[QString("tooltip")] += configuration[QString("memTooltip")].toInt();
     counts[QString("tooltip")] += configuration[QString("swapTooltip")].toInt();
     counts[QString("tooltip")] += configuration[QString("downTooltip")].toInt();
+    counts[QString("tooltip")] += configuration[QString("batteryTooltip")].toInt();
     counts[QString("tooltip")] = counts[QString("tooltip")] / 2;
 
     reinit();

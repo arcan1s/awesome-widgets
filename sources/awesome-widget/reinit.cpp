@@ -21,6 +21,7 @@
 #include <Plasma/ToolTipManager>
 #include <QGraphicsLinearLayout>
 #include <QGraphicsView>
+#include <math.h>
 
 #include "customlabel.h"
 #include <pdebug/pdebug.h>
@@ -128,6 +129,7 @@ void AwesomeWidget::updateTooltip()
         boundaries[QString("down")] *= 1.2;
     }
     boundaries[QString("up")] = boundaries[QString("down")];
+    boundaries[QString("bat")] = 100.0;
 
     // create image
     toolTipScene->clear();
@@ -137,6 +139,7 @@ void AwesomeWidget::updateTooltip()
     else
         toolTipScene->setBackgroundBrush(QBrush(Qt::NoBrush));
     bool down = false;
+    bool isBattery = false;
     QStringList trueKeys;
     if (tooltipValues.contains(QString("cpu"))) trueKeys.append(QString("cpu"));
     if (tooltipValues.contains(QString("cpucl"))) trueKeys.append(QString("cpucl"));
@@ -144,18 +147,28 @@ void AwesomeWidget::updateTooltip()
     if (tooltipValues.contains(QString("swap"))) trueKeys.append(QString("swap"));
     if (tooltipValues.contains(QString("down"))) trueKeys.append(QString("down"));
     if (tooltipValues.contains(QString("up"))) trueKeys.append(QString("up"));
+    if (tooltipValues.contains(QString("bat"))) trueKeys.append(QString("bat"));
     for (int i=0; i<trueKeys.count(); i++) {
         float normX = 100.0 / (tooltipValues[trueKeys[i]].count() + 0.0);
         float normY = 100.0 / (1.5 * boundaries[trueKeys[i]]);
-        pen.setColor(QColor(configuration[trueKeys[i] + QString("Color")]));
+        if (trueKeys[i] == QString("bat"))
+            isBattery = true;
+        else
+            isBattery = false;
+        if (!isBattery) pen.setColor(QColor(configuration[trueKeys[i] + QString("Color")]));
         float shift = i * 100.0;
-        if (down)
-            shift -= 100.0;
+        if (down) shift -= 100.0;
         for (int j=0; j<tooltipValues[trueKeys[i]].count()-1; j++) {
             float x1 = j * normX + shift;
-            float y1 = - tooltipValues[trueKeys[i]][j] * normY;
+            float y1 = - fabs(tooltipValues[trueKeys[i]][j]) * normY;
             float x2 = (j + 1) * normX + shift;
-            float y2 = - tooltipValues[trueKeys[i]][j+1] * normY;
+            float y2 = - fabs(tooltipValues[trueKeys[i]][j+1]) * normY;
+            if (isBattery) {
+                if (tooltipValues[trueKeys[i]][j+1] > 0)
+                    pen.setColor(QColor(configuration[QString("batteryColor")]));
+                else
+                    pen.setColor(QColor(configuration[QString("batteryInColor")]));
+            }
             toolTipScene->addLine(x1, y1, x2, y2, pen);
         }
         if (trueKeys[i] == QString("down"))

@@ -30,7 +30,8 @@ void AwesomeWidget::connectToEngine()
 
     // battery
     regExp = QRegExp(QString("(ac|bat)"));
-    if (foundKeys.indexOf(regExp) > -1)
+    if ((foundKeys.indexOf(regExp) > -1) ||
+            (configuration[QString("batteryTooltip")].toInt() == 2))
         extsysmonEngine->connectSource(QString("battery"),
                                        this, configuration[QString("interval")].toInt());
     // cpu
@@ -186,6 +187,15 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         else
             values[QString("ac")] = configuration[QString("acOffline")];
         values[QString("bat")] = QString("%1").arg(data[QString("bat")].toFloat(), 3, 'f', 0);
+        if ((configuration[QString("batteryTooltip")].toInt() == 2) &&
+                (!isnan(data[QString("bat")].toFloat()))) {
+            if (tooltipValues[QString("bat")].count() > configuration[QString("tooltipNumber")].toInt())
+                tooltipValues[QString("bat")].takeFirst();
+            if (data[QString("ac")].toBool())
+                tooltipValues[QString("bat")].append(data[QString("bat")].toFloat());
+            else
+                tooltipValues[QString("bat")].append(-data[QString("bat")].toFloat());
+        }
     } else if (sourceName == QString("cpu/system/TotalLoad")) {
         values[QString("cpu")] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
         if ((configuration[QString("cpuTooltip")].toInt() == 2) &&
@@ -414,7 +424,8 @@ void AwesomeWidget::disconnectFromEngine()
 
     // battery
     regExp = QRegExp(QString("(ac|bat)"));
-    if (foundKeys.indexOf(regExp) > -1)
+    if ((foundKeys.indexOf(regExp) > -1) ||
+            (configuration[QString("batteryTooltip")].toInt() == 2))
         extsysmonEngine->disconnectSource(QString("battery"), this);
     // cpu
     regExp = QRegExp(QString("cpu.*"));
