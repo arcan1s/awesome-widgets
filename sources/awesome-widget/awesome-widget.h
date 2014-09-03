@@ -80,6 +80,7 @@ private slots:
     void editHddSpeedItem(QListWidgetItem *item);
     void editMountItem(QListWidgetItem *item);
     void editTempItem(QListWidgetItem *item);
+    void setFormating();
 
 protected:
     QList<QAction *> contextualActions();

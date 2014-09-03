@@ -171,8 +171,7 @@ void AwesomeWidget::updateTooltip()
             }
             toolTipScene->addLine(x1, y1, x2, y2, pen);
         }
-        if (trueKeys[i] == QString("down"))
-            down = true;
+        if (trueKeys[i] == QString("down")) down = true;
     }
 
     toolTip.setImage(QPixmap::grabWidget(toolTipView));

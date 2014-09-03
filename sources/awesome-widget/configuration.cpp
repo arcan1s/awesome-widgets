@@ -318,6 +318,10 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     else if (fontStyle == QString("italic"))
         uiAppConfig.comboBox_style->setCurrentIndex(1);
     uiAppConfig.spinBox_weight->setValue(fontWeight);
+    // format page
+    uiWidConfig.kcolorcombo->setColor(fontColor);
+    uiWidConfig.fontComboBox->setCurrentFont(font);
+    uiWidConfig.spinBox->setValue(fontSize);
 
     // dataengine
     QMap<QString, QString> deSettings = readDataEngineConfiguration();
@@ -391,6 +395,16 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
             this, SLOT(addNewPkgCommand(QTableWidgetItem *)));
     connect(uiDEConfig.tableWidget_pkgCommand, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(contextMenuPkgCommand(QPoint)));
+    connect(uiWidConfig.pushButton_bold, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
+    connect(uiWidConfig.pushButton_italic, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
+    connect(uiWidConfig.pushButton_underline, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
+    connect(uiWidConfig.pushButton_strike, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
+    connect(uiWidConfig.pushButton_left, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
+    connect(uiWidConfig.pushButton_center, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
+    connect(uiWidConfig.pushButton_right, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
+    connect(uiWidConfig.pushButton_fill, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
+    connect(uiWidConfig.pushButton_applyFont, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
+
 
     connect(parent, SIGNAL(okClicked()), this, SLOT(configAccepted()));
     connect(parent, SIGNAL(applyClicked()), this, SLOT(configAccepted()));
@@ -694,4 +708,40 @@ void AwesomeWidget::editTempItem(QListWidgetItem *item)
     if (debug) qDebug() << PDEBUG;
 
     uiAdvancedConfig.listWidget_tempDevice->openPersistentEditor(item);
+}
+
+
+void AwesomeWidget::setFormating()
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Sender" << sender();
+
+    QString selectedText = uiWidConfig.textEdit_elements->textCursor().selectedText();
+    if (sender() == uiWidConfig.pushButton_bold)
+        uiWidConfig.textEdit_elements->insertPlainText(QString("<b>") + selectedText + QString("</b>"));
+    else if (sender() == uiWidConfig.pushButton_italic)
+        uiWidConfig.textEdit_elements->insertPlainText(QString("<i>") + selectedText + QString("</i>"));
+    else if (sender() == uiWidConfig.pushButton_underline)
+        uiWidConfig.textEdit_elements->insertPlainText(QString("<u>") + selectedText + QString("</u>"));
+    else if (sender() == uiWidConfig.pushButton_strike)
+        uiWidConfig.textEdit_elements->insertPlainText(QString("<s>") + selectedText + QString("</s>"));
+    else if (sender() == uiWidConfig.pushButton_left)
+        uiWidConfig.textEdit_elements->insertPlainText(QString("<p align=\"left\">") + selectedText + QString("</p>"));
+    else if (sender() == uiWidConfig.pushButton_center)
+        uiWidConfig.textEdit_elements->insertPlainText(QString("<p align=\"center\">") + selectedText + QString("</p>"));
+    else if (sender() == uiWidConfig.pushButton_right)
+        uiWidConfig.textEdit_elements->insertPlainText(QString("<p align=\"right\">") + selectedText + QString("</p>"));
+    else if (sender() == uiWidConfig.pushButton_fill)
+        uiWidConfig.textEdit_elements->insertPlainText(QString("<p align=\"justify\">") + selectedText + QString("</p>"));
+    else if (sender() == uiWidConfig.pushButton_applyFont) {
+        QString color = uiWidConfig.kcolorcombo->color().name();
+        QString font = uiWidConfig.fontComboBox->currentFont().family();
+        QString size = QString::number(uiWidConfig.spinBox->value());
+        uiWidConfig.textEdit_elements->insertPlainText(QString("<font color=\"%1\" face=\"%2\" size=\"%3\">")
+                                                       .arg(color).arg(font).arg(size) +
+                                                       selectedText + QString("</font>"));
+        uiWidConfig.kcolorcombo->setColor(uiAppConfig.kcolorcombo->color());
+        uiWidConfig.fontComboBox->setCurrentFont(uiAppConfig.fontComboBox->currentFont());
+        uiWidConfig.spinBox->setValue(uiAppConfig.spinBox_size->value());
+    }
 }
