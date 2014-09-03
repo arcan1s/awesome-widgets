@@ -173,8 +173,11 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
     } else if (sourceName == QString("cpu/system/TotalLoad")) {
         values[QString("cpu")] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
         if ((configuration[QString("cpuTooltip")].toInt() == 2) &&
-                (!isnan(data[QString("value")].toFloat())))
+                (!isnan(data[QString("value")].toFloat()))) {
+            if (tooltipValues[QString("cpu")].count() > configuration[QString("tooltipNumber")].toInt())
+                tooltipValues[QString("cpu")].takeFirst();
             tooltipValues[QString("cpu")].append(data[QString("value")].toFloat());
+        }
     } else if (sourceName.indexOf(cpuRegExp) > -1) {
         QString number = sourceName;
         number.remove(QString("cpu/cpu"));
@@ -183,8 +186,11 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
     } else if (sourceName == QString("cpu/system/AverageClock")) {
         values[QString("cpucl")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
         if ((configuration[QString("cpuclTooltip")].toInt() == 2) &&
-                (!isnan(data[QString("value")].toFloat())))
+                (!isnan(data[QString("value")].toFloat()))) {
+            if (tooltipValues[QString("cpucl")].count() > configuration[QString("tooltipNumber")].toInt())
+                tooltipValues[QString("cpucl")].takeFirst();
             tooltipValues[QString("cpucl")].append(data[QString("value")].toFloat());
+        }
     } else if (sourceName.indexOf(cpuclRegExp) > -1) {
         QString number = sourceName;
         number.remove(QString("cpu/cpu"));
@@ -284,13 +290,19 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         values[QString("mem")] = QString("%1").arg(100.0 * values[QString("memmb")].toFloat() / values[QString("memtotmb")].toFloat(),
                                                    5, 'f', 1);
         if ((configuration[QString("memTooltip")].toInt() == 2) &&
-                (!isnan(values[QString("mem")].toFloat())))
+                (!isnan(values[QString("mem")].toFloat()))) {
+            if (tooltipValues[QString("mem")].count() > configuration[QString("tooltipNumber")].toInt())
+                tooltipValues[QString("mem")].takeFirst();
             tooltipValues[QString("mem")].append(values[QString("mem")].toFloat());
+        }
     } else if (sourceName.indexOf(netRecRegExp) > -1) {
         values[QString("down")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
         if ((configuration[QString("downTooltip")].toInt() == 2) &&
-                (!isnan(data[QString("value")].toFloat())))
+                (!isnan(data[QString("value")].toFloat()))) {
+            if (tooltipValues[QString("down")].count() > configuration[QString("tooltipNumber")].toInt())
+                tooltipValues[QString("down")].takeFirst();
             tooltipValues[QString("down")].append(data[QString("value")].toFloat());
+        }
         networkDeviceUpdate++;
         if (networkDeviceUpdate == 30) {
             networkDeviceUpdate = 0;
@@ -307,8 +319,11 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
     } else if (sourceName.indexOf(netTransRegExp) > -1) {
         values[QString("up")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
         if ((configuration[QString("downTooltip")].toInt() == 2) &&
-                (!isnan(data[QString("value")].toFloat())))
+                (!isnan(data[QString("value")].toFloat()))) {
+            if (tooltipValues[QString("up")].count() > configuration[QString("tooltipNumber")].toInt())
+                tooltipValues[QString("up")].takeFirst();
             tooltipValues[QString("up")].append(data[QString("value")].toFloat());
+        }
     } else if (sourceName == QString("pkg")) {
         for (int i=0; i<data.keys().count(); i++)
             values[data.keys()[i].toLower()] = QString("%1").arg(data[data.keys()[i]].toInt(), 2);
@@ -337,8 +352,11 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         values[QString("swap")] = QString("%1").arg(100.0 * values[QString("swapmb")].toFloat() / values[QString("swaptotmb")].toFloat(),
                                                     5, 'f', 1);
         if ((configuration[QString("swapTooltip")].toInt() == 2) &&
-                (!isnan(values[QString("swap")].toFloat())))
+                (!isnan(values[QString("swap")].toFloat()))) {
+            if (tooltipValues[QString("swap")].count() > configuration[QString("tooltipNumber")].toInt())
+                tooltipValues[QString("swap")].takeFirst();
             tooltipValues[QString("swap")].append(values[QString("swap")].toFloat());
+        }
     } else if (sourceName.indexOf(tempRegExp) > -1) {
         for (int i=0; i<counts[QString("temp")]; i++)
             if (sourceName == configuration[QString("tempDevice")].split(QString("@@"))[i]) {
