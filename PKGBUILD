@@ -4,20 +4,18 @@ pkgname=kdeplasma-applets-awesome-widgets
 _pkgname=awesome-widgets
 pkgver=1.11.0
 pkgrel=1
-pkgdesc="Collection of minimalistic Plasmoids which looks like Awesome WM widgets"
+pkgdesc="Collection of minimalistic Plasmoids which look like Awesome WM widgets"
 arch=('i686' 'x86_64')
 url="http://arcanis.name/projects/awesome-widgets"
 license=('GPL3')
-depends=('kdebase-workspace' 'kdebindings-python2' 'lm_sensors')
+depends=('kdebase-workspace' 'lm_sensors')
 optdepends=("amarok: for music player monitor"
             "clementine: for music player monitor"
             "catalyst: for GPU monitor"
             "hddtemp: for HDD temperature monitor"
             "mpd: for music player monitor"
-            "net-tools: for popup messages"
             "nvidia-utils: for GPU monitor"
-            "qmmp: for music player monitor"
-            "sysstat: for popup messages")
+            "qmmp: for music player monitor")
 makedepends=('automoc4' 'cmake')
 source=(https://github.com/arcan1s/awesome-widgets/releases/download/V.${pkgver}/${_pkgname}-${pkgver}-src.tar.xz)
 install=${pkgname}.install

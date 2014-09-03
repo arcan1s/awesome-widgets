@@ -202,7 +202,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         device.remove(QString("/Rate/rblk"));
         for (int i=0; i<counts[QString("disk")]; i++)
             if (configuration[QString("disk")].split(QString("@@"))[i] == device) {
-                values[QString("hddr") + QString::number(i)] = QString("%1").arg(data[QString("value")].toFloat(), 0, 'f', 0);
+                values[QString("hddr") + QString::number(i)] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 0);
                 break;
             }
     } else if (sourceName.indexOf(hddwRegExp) > -1) {
@@ -210,7 +210,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         device.remove(QString("/Rate/wblk"));
         for (int i=0; i<counts[QString("disk")]; i++)
             if (configuration[QString("disk")].split(QString("@@"))[i] == device) {
-                values[QString("hddw") + QString::number(i)] = QString("%1").arg(data[QString("value")].toFloat(), 0, 'f', 0);
+                values[QString("hddw") + QString::number(i)] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 0);
                 break;
             }
     } else if (sourceName == QString("gpu")) {
@@ -233,7 +233,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         for (int i=0; i<counts[QString("mount")]; i++)
             if (configuration[QString("mount")].split(QString("@@"))[i] == mount) {
                 values[QString("hddfreemb") + QString::number(i)] = QString("%1").arg(
-                            data[QString("value")].toFloat() / 1024.0, 0, 'f', 0);
+                            data[QString("value")].toFloat() / 1024.0, 5, 'f', 0);
                 values[QString("hddfreegb") + QString::number(i)] = QString("%1").arg(
                             data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
                 break;
@@ -245,7 +245,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         for (int i=0; i<counts[QString("mount")]; i++)
             if (configuration[QString("mount")].split(QString("@@"))[i] == mount) {
                 values[QString("hddmb") + QString::number(i)] = QString("%1").arg(
-                            data[QString("value")].toFloat() / 1024.0, 0, 'f', 0);
+                            data[QString("value")].toFloat() / 1024.0, 5, 'f', 0);
                 values[QString("hddgb") + QString::number(i)] = QString("%1").arg(
                             data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
                 // total
@@ -266,20 +266,20 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
                     break;
                 }
     } else if (sourceName == QString("mem/physical/application")) {
-        values[QString("memmb")] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 0, 'f', 0);
+        values[QString("memmb")] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 5, 'f', 0);
         values[QString("memgb")] = QString("%1").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
     } else if (sourceName == QString("mem/physical/free")) {
-        values[QString("memfreemb")] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 0, 'f', 0);
-        values[QString("memfreegb")] = QString("%1").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
+        values[QString("memfreemb")] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 5, 'f', 0);
+        values[QString("memfreegb")] = QString("%1").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0), 4, 'f', 1);
     } else if (sourceName == QString("mem/physical/used")) {
         values[QString("memusedmb")] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 0, 'f', 0);
-        values[QString("memusedgb")] = QString("%1").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
+        values[QString("memusedgb")] = QString("%1").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0), 4, 'f', 1);
         // total
         values[QString("memtotmb")] = QString("%1").arg(
-                    values[QString("memusedmb")].toInt() + values[QString("memfreemb")].toInt());
+                    values[QString("memusedmb")].toInt() + values[QString("memfreemb")].toInt(), 5);
         values[QString("memtotgb")] = QString("%1").arg(
                     values[QString("memusedgb")].toFloat() + values[QString("memfreegb")].toFloat(),
-                    5, 'f', 1);
+                    4, 'f', 1);
         // percentage
         values[QString("mem")] = QString("%1").arg(100.0 * values[QString("memmb")].toFloat() / values[QString("memtotmb")].toFloat(),
                                                    5, 'f', 1);
@@ -311,7 +311,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
             tooltipValues[QString("up")].append(data[QString("value")].toFloat());
     } else if (sourceName == QString("pkg")) {
         for (int i=0; i<data.keys().count(); i++)
-            values[data.keys()[i].toLower()] = QString("%1").arg(data[data.keys()[i]].toInt());
+            values[data.keys()[i].toLower()] = QString("%1").arg(data[data.keys()[i]].toInt(), 2);
     } else if (sourceName == QString("player")) {
         values[QString("album")] = data[QString("album")].toString();
         values[QString("artist")] = data[QString("artist")].toString();
@@ -320,19 +320,19 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         values[QString("title")] = data[QString("title")].toString();
     } else if (sourceName == QString("ps")) {
         values[QString("ps")] = data[QString("ps")].toString();
-        values[QString("pscount")] = QString("%1").arg(data[QString("psCount")].toInt());
-        values[QString("pstotal")] = QString("%1").arg(data[QString("psTotal")].toInt());
+        values[QString("pscount")] = QString("%1").arg(data[QString("psCount")].toInt(), 2);
+        values[QString("pstotal")] = QString("%1").arg(data[QString("psTotal")].toInt(), 3);
     } else if (sourceName == QString("mem/swap/free")) {
-        values[QString("swapfreemb")] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 0, 'f', 0);
-        values[QString("swapfreegb")] = QString("%1").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
+        values[QString("swapfreemb")] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 5, 'f', 0);
+        values[QString("swapfreegb")] = QString("%1").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0), 4, 'f', 1);
     } else if (sourceName == QString("mem/swap/used")) {
-        values[QString("swapmb")] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 0, 'f', 0);
-        values[QString("swapgb")] = QString("%1").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
+        values[QString("swapmb")] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 5, 'f', 0);
+        values[QString("swapgb")] = QString("%1").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0), 4, 'f', 1);
         // total
         values[QString("swaptotmb")] = QString("%1").arg(
-                    values[QString("swapmb")].toInt() + values[QString("swapfreemb")].toInt());
+                    values[QString("swapmb")].toInt() + values[QString("swapfreemb")].toInt(), 5);
         values[QString("swaptotgb")] = QString("%1").arg(
-                    values[QString("swapgb")].toFloat() + values[QString("swapfreegb")].toFloat(), 5, 'f', 1);
+                    values[QString("swapgb")].toFloat() + values[QString("swapfreegb")].toFloat(), 4, 'f', 1);
         // percentage
         values[QString("swap")] = QString("%1").arg(100.0 * values[QString("swapmb")].toFloat() / values[QString("swaptotmb")].toFloat(),
                                                     5, 'f', 1);

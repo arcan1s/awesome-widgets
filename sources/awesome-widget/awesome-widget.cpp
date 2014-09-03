@@ -357,26 +357,7 @@ void AwesomeWidget::showReadme()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QString kdeHome = KGlobal::dirs()->localkdedir();
-    QString dirPath;
-    if (QDir(QString("/usr/share/awesome-widgets")).exists())
-        dirPath = QString("/usr/share/awesome-widgets");
-    else if (QDir(kdeHome + QString("/share/awesome-widgets")).exists())
-        dirPath = kdeHome + QString("/share/awesome-widgets");
-    else return;
-    QString locale = QLocale::system().name();
-    QString filePath;
-    if (QFileInfo(dirPath + locale + QString(".html")).exists())
-        filePath = dirPath + locale + QString(".html");
-    else {
-        locale = locale.split(QChar('_'))[0];
-        if (QFileInfo(dirPath + locale + QString(".html")).exists())
-            filePath = dirPath + locale + QString(".html");
-        else if (QFileInfo(dirPath + QString("en.html")).exists())
-            filePath = dirPath + QString("en.html");
-        else return;
-    }
-    QDesktopServices::openUrl(filePath);
+    QDesktopServices::openUrl(QString("http://arcanis.name/projects/awesome-widgets/"));
 }
 
 

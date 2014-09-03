@@ -1,7 +1,5 @@
 #!/bin/bash
 
-./update_files.sh
-
 SRCDIR="sources"
 MAJOR=$(grep -m1 PROJECT_VERSION_MAJOR sources/CMakeLists.txt | awk '{print $3}' | sed 's/.$//g')
 MINOR=$(grep -m1 PROJECT_VERSION_MINOR sources/CMakeLists.txt | awk '{print $3}' | sed 's/.$//g')
