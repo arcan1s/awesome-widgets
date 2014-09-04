@@ -24,6 +24,7 @@
 #include <QNetworkInterface>
 #include <QTextCodec>
 
+#include <fontdialog/fontdialog.h>
 #include <pdebug/pdebug.h>
 #include <task/taskadds.h>
 
@@ -303,25 +304,20 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
 
     // appearance
     KConfigGroup cg = config();
-    QString fontFamily = cg.readEntry("fontFamily", "Terminus");
-    int fontSize = cg.readEntry("fontSize", 10);
-    QString fontColor = cg.readEntry("fontColor", "#000000");
-    int fontWeight = cg.readEntry("fontWeight", 400);
-    QString fontStyle = cg.readEntry("fontStyle", "normal");
-    QFont font = QFont(fontFamily, 12, 400, false);
+    CFont font(cg.readEntry("fontFamily", "Terminus"));
+    font.setPointSize(cg.readEntry("fontSize", 10));
+    font.setCurrentColor(QColor(cg.readEntry("fontColor", "#000000")));
+    font.setHtmlWeight(cg.readEntry("fontWeight", 400));
+    font.setItalic(cg.readEntry("fontStyle", "normal") == QString("italic"));
     uiAppConfig.spinBox_interval->setValue(configuration[QString("interval")].toInt());
-    uiAppConfig.fontComboBox->setCurrentFont(font);
-    uiAppConfig.spinBox_size->setValue(fontSize);
-    uiAppConfig.kcolorcombo->setColor(fontColor);
-    if (fontStyle == QString("normal"))
-        uiAppConfig.comboBox_style->setCurrentIndex(0);
-    else if (fontStyle == QString("italic"))
+    uiAppConfig.fontComboBox->setCurrentFont(font.toQFont());
+    uiAppConfig.spinBox_size->setValue(font.pointSize());
+    uiAppConfig.kcolorcombo->setColor(font.color());
+    if (font.italic())
         uiAppConfig.comboBox_style->setCurrentIndex(1);
-    uiAppConfig.spinBox_weight->setValue(fontWeight);
-    // format page
-    uiWidConfig.kcolorcombo->setColor(fontColor);
-    uiWidConfig.fontComboBox->setCurrentFont(font);
-    uiWidConfig.spinBox->setValue(fontSize);
+    else
+        uiAppConfig.comboBox_style->setCurrentIndex(0);
+    uiAppConfig.spinBox_weight->setValue(font.htmlWeight());
 
     // dataengine
     QMap<QString, QString> deSettings = readDataEngineConfiguration();
@@ -403,7 +399,7 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     connect(uiWidConfig.pushButton_center, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
     connect(uiWidConfig.pushButton_right, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
     connect(uiWidConfig.pushButton_fill, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
-    connect(uiWidConfig.pushButton_applyFont, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
+    connect(uiWidConfig.pushButton_font, SIGNAL(clicked(bool)), this, SLOT(setFontFormating()));
 
 
     connect(parent, SIGNAL(okClicked()), this, SLOT(configAccepted()));
@@ -589,19 +585,24 @@ void AwesomeWidget::configChanged()
 
     // appearance
     configuration[QString("interval")] = cg.readEntry("interval", "1000");
-    QString fontFamily = cg.readEntry("fontFamily", "Terminus");
-    int fontSize = cg.readEntry("fontSize", 10);
-    QString fontColor = cg.readEntry("fontColor", "#000000");
-    int fontWeight = cg.readEntry("fontWeight", 400);
-    QString fontStyle = cg.readEntry("fontStyle", "normal");
+    CFont font = CFont(cg.readEntry("fontFamily", "Terminus"));
+    font.setPointSize(cg.readEntry("fontSize", 10));
+    font.setCurrentColor(QColor(cg.readEntry("fontColor", "#000000")));
+    font.setHtmlWeight(cg.readEntry("fontWeight", 400));
+    font.setItalic(cg.readEntry("fontStyle", "normal") == QString("italic"));
+    QString fontStyle;
+    if (font.italic())
+        fontStyle = QString("italic");
+    else
+        fontStyle = QString("normal");
     formatLine[0] = QString("<html><head><meta name=\"qrichtext\" content=\"1\" />\
     <style type=\"text/css\">p, li { white-space: pre-wrap; }</style>\
     </head><body style=\"font-family:'%1'; font-size:%2pt; font-weight:%3; font-style:%4; color:%5;\">")
-                .arg(fontFamily)
-                .arg(QString::number(fontSize))
-                .arg(QString::number(fontWeight))
+                .arg(font.family())
+                .arg(font.pointSize())
+                .arg(font.htmlWeight())
                 .arg(fontStyle)
-                .arg(fontColor);
+                .arg(font.color().name());
     formatLine[1] = QString("</body></html>");
 
     // counts
@@ -711,6 +712,24 @@ void AwesomeWidget::editTempItem(QListWidgetItem *item)
 }
 
 
+void AwesomeWidget::setFontFormating()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    CFont defaultFont = CFont(uiAppConfig.fontComboBox->currentFont().family(),
+                              uiAppConfig.spinBox_size->value(),
+                              400, false, uiAppConfig.kcolorcombo->color());
+    CFont font = CFontDialog::getFont(i18n("Select font"), defaultFont,
+                                      false, false);
+    if (font != defaultFont) {
+        QString selectedText = uiWidConfig.textEdit_elements->textCursor().selectedText();
+        uiWidConfig.textEdit_elements->insertPlainText(QString("<font color=\"%1\" face=\"%2\" size=\"%3\">")
+                                                       .arg(font.color().name()).arg(font.family()).arg(font.pointSize()) +
+                                                       selectedText + QString("</font>"));
+    }
+}
+
+
 void AwesomeWidget::setFormating()
 {
     if (debug) qDebug() << PDEBUG;
@@ -733,15 +752,4 @@ void AwesomeWidget::setFormating()
         uiWidConfig.textEdit_elements->insertPlainText(QString("<p align=\"right\">") + selectedText + QString("</p>"));
     else if (sender() == uiWidConfig.pushButton_fill)
         uiWidConfig.textEdit_elements->insertPlainText(QString("<p align=\"justify\">") + selectedText + QString("</p>"));
-    else if (sender() == uiWidConfig.pushButton_applyFont) {
-        QString color = uiWidConfig.kcolorcombo->color().name();
-        QString font = uiWidConfig.fontComboBox->currentFont().family();
-        QString size = QString::number(uiWidConfig.spinBox->value());
-        uiWidConfig.textEdit_elements->insertPlainText(QString("<font color=\"%1\" face=\"%2\" size=\"%3\">")
-                                                       .arg(color).arg(font).arg(size) +
-                                                       selectedText + QString("</font>"));
-        uiWidConfig.kcolorcombo->setColor(uiAppConfig.kcolorcombo->color());
-        uiWidConfig.fontComboBox->setCurrentFont(uiAppConfig.fontComboBox->currentFont());
-        uiWidConfig.spinBox->setValue(uiAppConfig.spinBox_size->value());
-    }
 }

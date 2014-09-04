@@ -241,13 +241,13 @@
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                </property>
                <property name="minimum">
-                <number>300</number>
+                <number>100</number>
                </property>
                <property name="maximum">
-                <number>600</number>
+                <number>900</number>
                </property>
                <property name="singleStep">
-                <number>50</number>
+                <number>100</number>
                </property>
                <property name="value">
                 <number>400</number>
@@ -547,13 +547,13 @@
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                </property>
                <property name="minimum">
-                <number>300</number>
+                <number>100</number>
                </property>
                <property name="maximum">
-                <number>600</number>
+                <number>900</number>
                </property>
                <property name="singleStep">
-                <number>50</number>
+                <number>100</number>
                </property>
                <property name="value">
                 <number>400</number>

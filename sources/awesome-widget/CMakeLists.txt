@@ -21,7 +21,8 @@ include_directories (${CMAKE_SOURCE_DIR}
 set (SUBPROJECT_MISC_DIR "contents/misc")
 file (GLOB SUBPROJECT_DESKTOP_IN *.desktop)
 file (RELATIVE_PATH SUBPROJECT_DESKTOP ${CMAKE_SOURCE_DIR} ${SUBPROJECT_DESKTOP_IN})
-file (GLOB_RECURSE SUBPROJECT_SOURCE *.cpp ${PROJECT_TRDPARTY_DIR}/task/*.cpp)
+file (GLOB_RECURSE SUBPROJECT_SOURCE *.cpp ${PROJECT_TRDPARTY_DIR}/task/*.cpp
+                                           ${PROJECT_TRDPARTY_DIR}/fontdialog/*.cpp)
 set (TASK_HEADER ${PROJECT_TRDPARTY_DIR}/task/task.h)
 file (GLOB SUBPROJECT_UI *.ui)
 file (GLOB SUBPROJECT_NOTIFY ${SUBPROJECT_MISC_DIR}/*.notifyrc)

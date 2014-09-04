@@ -7,3 +7,6 @@
 [submodule "sources/3rdparty/tasks"]
 	path = sources/3rdparty/tasks
 	url = https://github.com/mhogomchungu/tasks.git
+[submodule "sources/3rdparty/fontdialog"]
+	path = sources/3rdparty/fontdialog
+	url = https://github.com/arcan1s/qtadds-fontdialog.git
