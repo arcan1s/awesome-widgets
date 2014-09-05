@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2014-09-05 11:14+0400\n"
+"POT-Creation-Date: 2014-09-05 11:46+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,43 +29,43 @@ msgstr ""
 msgid "Update text"
 msgstr ""
 
-#: configuration.cpp:329 po/rc.cpp:163 rc.cpp:163
+#: configuration.cpp:331 po/rc.cpp:163 rc.cpp:163
 msgid "Custom command"
 msgstr ""
 
-#: configuration.cpp:359 po/rc.cpp:153 rc.cpp:153
+#: configuration.cpp:361 po/rc.cpp:153 rc.cpp:153
 msgid "Package manager"
 msgstr ""
 
-#: configuration.cpp:360 po/rc.cpp:156 rc.cpp:156
+#: configuration.cpp:362 po/rc.cpp:156 rc.cpp:156
 msgid "Null lines"
 msgstr ""
 
-#: configuration.cpp:372
+#: configuration.cpp:374
 msgid "Widget"
 msgstr ""
 
-#: configuration.cpp:373
+#: configuration.cpp:375
 msgid "Advanced"
 msgstr ""
 
-#: configuration.cpp:374
+#: configuration.cpp:376
 msgid "Tooltip"
 msgstr ""
 
-#: configuration.cpp:375
+#: configuration.cpp:377
 msgid "Appearance"
 msgstr ""
 
-#: configuration.cpp:376
+#: configuration.cpp:378
 msgid "DataEngine"
 msgstr ""
 
-#: configuration.cpp:661 configuration.cpp:675
+#: configuration.cpp:663 configuration.cpp:677
 msgid "Remove"
 msgstr ""
 
-#: configuration.cpp:722
+#: configuration.cpp:724
 msgid "Select font"
 msgstr ""
 
@@ -342,12 +342,16 @@ msgstr ""
 msgid "Ctrl+U"
 msgstr ""
 
-#: po/rc.cpp:230 rc.cpp:230
+#: po/rc.cpp:232 rc.cpp:232
+msgid "Add"
+msgstr ""
+
+#: po/rc.cpp:233 rc.cpp:233
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
 
-#: po/rc.cpp:231 rc.cpp:231
+#: po/rc.cpp:234 rc.cpp:234
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""

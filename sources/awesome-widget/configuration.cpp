@@ -142,6 +142,8 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
 
     //widget
     uiWidConfig.textEdit_elements->setPlainText(configuration[QString("text")]);
+    uiWidConfig.comboBox_tags->clear();
+    uiWidConfig.comboBox_tags->addItems(getKeys());
 
     // advanced
     if (configuration[QString("background")].toInt() == 0)
@@ -391,6 +393,7 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
             this, SLOT(addNewPkgCommand(QTableWidgetItem *)));
     connect(uiDEConfig.tableWidget_pkgCommand, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(contextMenuPkgCommand(QPoint)));
+    connect(uiWidConfig.pushButton_tags, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
     connect(uiWidConfig.pushButton_bold, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
     connect(uiWidConfig.pushButton_italic, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
     connect(uiWidConfig.pushButton_underline, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
@@ -400,7 +403,6 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     connect(uiWidConfig.pushButton_right, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
     connect(uiWidConfig.pushButton_fill, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
     connect(uiWidConfig.pushButton_font, SIGNAL(clicked(bool)), this, SLOT(setFontFormating()));
-
 
     connect(parent, SIGNAL(okClicked()), this, SLOT(configAccepted()));
     connect(parent, SIGNAL(applyClicked()), this, SLOT(configAccepted()));
@@ -736,7 +738,11 @@ void AwesomeWidget::setFormating()
     if (debug) qDebug() << PDEBUG << ":" << "Sender" << sender();
 
     QString selectedText = uiWidConfig.textEdit_elements->textCursor().selectedText();
-    if (sender() == uiWidConfig.pushButton_bold)
+    if (sender() == uiWidConfig.pushButton_tags)
+        uiWidConfig.textEdit_elements->insertPlainText(QString("$") +
+                                                       uiWidConfig.comboBox_tags->currentText() +
+                                                       QString("$"));
+    else if (sender() == uiWidConfig.pushButton_bold)
         uiWidConfig.textEdit_elements->insertPlainText(QString("<b>") + selectedText + QString("</b>"));
     else if (sender() == uiWidConfig.pushButton_italic)
         uiWidConfig.textEdit_elements->insertPlainText(QString("<i>") + selectedText + QString("</i>"));

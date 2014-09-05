@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2014-09-05 11:14+0400\n"
+"POT-Creation-Date: 2014-09-05 11:46+0400\n"
 "PO-Revision-Date: 2014-09-05 11:20+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: French <kde-russian@lists.kde.ru>\n"
@@ -31,43 +31,43 @@ msgstr "Voir le README"
 msgid "Update text"
 msgstr "Mettre à jour le texte"
 
-#: configuration.cpp:329 po/rc.cpp:163 rc.cpp:163
+#: configuration.cpp:331 po/rc.cpp:163 rc.cpp:163
 msgid "Custom command"
 msgstr "Commande personnalisée"
 
-#: configuration.cpp:359 po/rc.cpp:153 rc.cpp:153
+#: configuration.cpp:361 po/rc.cpp:153 rc.cpp:153
 msgid "Package manager"
 msgstr "Gestionnaire de paquets"
 
-#: configuration.cpp:360 po/rc.cpp:156 rc.cpp:156
+#: configuration.cpp:362 po/rc.cpp:156 rc.cpp:156
 msgid "Null lines"
 msgstr "Nombre d'éléments pour les conseils"
 
-#: configuration.cpp:372
+#: configuration.cpp:374
 msgid "Widget"
 msgstr "Widget"
 
-#: configuration.cpp:373
+#: configuration.cpp:375
 msgid "Advanced"
 msgstr "Avancé"
 
-#: configuration.cpp:374
+#: configuration.cpp:376
 msgid "Tooltip"
 msgstr "Conseil"
 
-#: configuration.cpp:375
+#: configuration.cpp:377
 msgid "Appearance"
 msgstr "Apparence"
 
-#: configuration.cpp:376
+#: configuration.cpp:378
 msgid "DataEngine"
 msgstr "Moteur de données"
 
-#: configuration.cpp:661 configuration.cpp:675
+#: configuration.cpp:663 configuration.cpp:677
 msgid "Remove"
 msgstr "Supprimer"
 
-#: configuration.cpp:722
+#: configuration.cpp:724
 msgid "Select font"
 msgstr ""
 
@@ -376,21 +376,22 @@ msgstr "Ctrl+I"
 msgid "Ctrl+U"
 msgstr "Ctrl+U"
 
-#: po/rc.cpp:230 rc.cpp:230
+#: po/rc.cpp:232 rc.cpp:232
+msgid "Add"
+msgstr "Ajouter"
+
+#: po/rc.cpp:233 rc.cpp:233
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Evgeniy Alekseev"
 
-#: po/rc.cpp:231 rc.cpp:231
+#: po/rc.cpp:234 rc.cpp:234
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "esalexeev@gmail.com"
 
 #~ msgid "Form"
 #~ msgstr "Entrées"
-
-#~ msgid "Add"
-#~ msgstr "Ajouter"
 
 #~ msgid "Network directory"
 #~ msgstr "Voisinage réseau"

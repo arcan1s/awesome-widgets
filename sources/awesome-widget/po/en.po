@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2014-09-05 11:14+0400\n"
+"POT-Creation-Date: 2014-09-05 11:46+0400\n"
 "PO-Revision-Date: 2014-09-05 11:14+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: English <kde-russian@lists.kde.ru>\n"
@@ -30,43 +30,43 @@ msgstr "Show README"
 msgid "Update text"
 msgstr "Update text"
 
-#: configuration.cpp:329 po/rc.cpp:163 rc.cpp:163
+#: configuration.cpp:331 po/rc.cpp:163 rc.cpp:163
 msgid "Custom command"
 msgstr "Custom command"
 
-#: configuration.cpp:359 po/rc.cpp:153 rc.cpp:153
+#: configuration.cpp:361 po/rc.cpp:153 rc.cpp:153
 msgid "Package manager"
 msgstr "Package manager"
 
-#: configuration.cpp:360 po/rc.cpp:156 rc.cpp:156
+#: configuration.cpp:362 po/rc.cpp:156 rc.cpp:156
 msgid "Null lines"
 msgstr "Null lines"
 
-#: configuration.cpp:372
+#: configuration.cpp:374
 msgid "Widget"
 msgstr "Widget"
 
-#: configuration.cpp:373
+#: configuration.cpp:375
 msgid "Advanced"
 msgstr "Advanced"
 
-#: configuration.cpp:374
+#: configuration.cpp:376
 msgid "Tooltip"
 msgstr "Tooltip"
 
-#: configuration.cpp:375
+#: configuration.cpp:377
 msgid "Appearance"
 msgstr "Appearance"
 
-#: configuration.cpp:376
+#: configuration.cpp:378
 msgid "DataEngine"
 msgstr "DataEngine"
 
-#: configuration.cpp:661 configuration.cpp:675
+#: configuration.cpp:663 configuration.cpp:677
 msgid "Remove"
 msgstr "Remove"
 
-#: configuration.cpp:722
+#: configuration.cpp:724
 msgid "Select font"
 msgstr "Select font"
 
@@ -371,21 +371,22 @@ msgstr "Ctrl+I"
 msgid "Ctrl+U"
 msgstr "Ctrl+U"
 
-#: po/rc.cpp:230 rc.cpp:230
+#: po/rc.cpp:232 rc.cpp:232
+msgid "Add"
+msgstr "Add"
+
+#: po/rc.cpp:233 rc.cpp:233
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Evgeniy Alekseev"
 
-#: po/rc.cpp:231 rc.cpp:231
+#: po/rc.cpp:234 rc.cpp:234
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "esalexeev@gmail.com"
 
 #~ msgid "Form"
 #~ msgstr "Form"
-
-#~ msgid "Add"
-#~ msgstr "Add"
 
 #~ msgid "Network directory"
 #~ msgstr "Network directory"
