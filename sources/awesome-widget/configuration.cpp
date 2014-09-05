@@ -582,8 +582,8 @@ void AwesomeWidget::configChanged()
         tooltipValues[QString("bat")].append(0.0);
         tooltipValues[QString("bat")].append(0.01);
     }
-    configuration[QString("batteryColor")] = cg.readEntry("batteryColor", "#009900");
-    configuration[QString("batteryInColor")] = cg.readEntry("batteryInColor", "#990000");
+    configuration[QString("batteryColor")] = cg.readEntry("batteryColor", "#008800");
+    configuration[QString("batteryInColor")] = cg.readEntry("batteryInColor", "#880000");
 
     // appearance
     configuration[QString("interval")] = cg.readEntry("interval", "1000");
