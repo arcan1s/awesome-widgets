@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
 "POT-Creation-Date: 2014-09-05 11:14+0400\n"
-"PO-Revision-Date: 2014-06-09 01:47+0400\n"
+"PO-Revision-Date: 2014-09-05 11:21+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-russian@lists.kde.ru>\n"
 "Language: pt_BR\n"
@@ -38,7 +38,6 @@ msgid "Package manager"
 msgstr "Gerenciador de pacotes"
 
 #: configuration.cpp:360 po/rc.cpp:156 rc.cpp:156
-#, fuzzy
 msgid "Null lines"
 msgstr "Número de valores para dicas de contexto"
 
@@ -64,7 +63,7 @@ msgstr "Engine de dados"
 
 #: configuration.cpp:661 configuration.cpp:675
 msgid "Remove"
-msgstr ""
+msgstr "Remover"
 
 #: configuration.cpp:722
 msgid "Select font"
@@ -163,7 +162,7 @@ msgstr "Dispositivos de temperatura"
 #: po/rc.cpp:59 po/rc.cpp:65 po/rc.cpp:71 po/rc.cpp:77 rc.cpp:59 rc.cpp:65
 #: rc.cpp:71 rc.cpp:77
 msgid "Editable"
-msgstr ""
+msgstr "Editável"
 
 #: po/rc.cpp:62 rc.cpp:62
 msgid "Mount points"
@@ -352,25 +351,24 @@ msgid "Widget configuration"
 msgstr ""
 
 #: po/rc.cpp:217 rc.cpp:217
-#, fuzzy
 msgid ""
 "Detailed information may be found on <a href=\"http://arcanis.name/projects/"
 "awesome-widgets/\">project homepage</a>"
 msgstr ""
 "Informações detalhadas podem ser encontradas na <a href=\"http://arcanis."
-"name/projects/pytextmonitor/\">página do projeto</a>"
+"name/projects/awesome-widgets/\">página do projeto</a>"
 
 #: po/rc.cpp:223 rc.cpp:223
 msgid "Ctrl+B"
-msgstr ""
+msgstr "Ctrl+B"
 
 #: po/rc.cpp:226 rc.cpp:226
 msgid "Ctrl+I"
-msgstr ""
+msgstr "Ctrl+I"
 
 #: po/rc.cpp:229 rc.cpp:229
 msgid "Ctrl+U"
-msgstr ""
+msgstr "Ctrl+U"
 
 #: po/rc.cpp:230 rc.cpp:230
 msgctxt "NAME OF TRANSLATORS"

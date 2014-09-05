@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
 "POT-Creation-Date: 2014-09-05 11:14+0400\n"
-"PO-Revision-Date: 2014-06-05 19:24+0400\n"
+"PO-Revision-Date: 2014-09-05 11:20+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
-"Language-Team: French <kde-french@lists.kde.ru>\n"
+"Language-Team: French <kde-russian@lists.kde.ru>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,7 +40,6 @@ msgid "Package manager"
 msgstr "Gestionnaire de paquets"
 
 #: configuration.cpp:360 po/rc.cpp:156 rc.cpp:156
-#, fuzzy
 msgid "Null lines"
 msgstr "Nombre d'éléments pour les conseils"
 
@@ -66,7 +65,7 @@ msgstr "Moteur de données"
 
 #: configuration.cpp:661 configuration.cpp:675
 msgid "Remove"
-msgstr ""
+msgstr "Supprimer"
 
 #: configuration.cpp:722
 msgid "Select font"
@@ -167,7 +166,7 @@ msgstr "Temperature des périphériques"
 #: po/rc.cpp:59 po/rc.cpp:65 po/rc.cpp:71 po/rc.cpp:77 rc.cpp:59 rc.cpp:65
 #: rc.cpp:71 rc.cpp:77
 msgid "Editable"
-msgstr ""
+msgstr "Modifiable"
 
 #: po/rc.cpp:62 rc.cpp:62
 msgid "Mount points"
@@ -358,25 +357,24 @@ msgid "Widget configuration"
 msgstr ""
 
 #: po/rc.cpp:217 rc.cpp:217
-#, fuzzy
 msgid ""
 "Detailed information may be found on <a href=\"http://arcanis.name/projects/"
 "awesome-widgets/\">project homepage</a>"
 msgstr ""
 "D'avantage d'informations se trouvent sur <a href=\"http://arcanis.name/"
-"projects/pytextmonitor/\">la page du projet</a>"
+"projects/awesome-widgets/\">la page du projet</a>"
 
 #: po/rc.cpp:223 rc.cpp:223
 msgid "Ctrl+B"
-msgstr ""
+msgstr "Ctrl+B"
 
 #: po/rc.cpp:226 rc.cpp:226
 msgid "Ctrl+I"
-msgstr ""
+msgstr "Ctrl+I"
 
 #: po/rc.cpp:229 rc.cpp:229
 msgid "Ctrl+U"
-msgstr ""
+msgstr "Ctrl+U"
 
 #: po/rc.cpp:230 rc.cpp:230
 msgctxt "NAME OF TRANSLATORS"
