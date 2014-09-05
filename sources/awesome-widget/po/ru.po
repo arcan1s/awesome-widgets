@@ -5,9 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=157124\n"
-"POT-Creation-Date: 2014-08-02 18:20+0400\n"
-"PO-Revision-Date: 2014-08-02 18:21+0400\n"
+"Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
+"POT-Creation-Date: 2014-09-05 11:14+0400\n"
+"PO-Revision-Date: 2014-09-05 11:16+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -18,67 +18,87 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: code/configdef.py:289
-msgid "Widget"
-msgstr "Виджет"
-
-#: code/configdef.py:291
-msgid "Advanced"
-msgstr "Расширенные"
-
-#: code/configdef.py:293
-msgid "Tooltip"
-msgstr "Тултип"
-
-#: code/configdef.py:295
-msgid "Appearance"
-msgstr "Внешний вид"
-
-#: code/configdef.py:297
-msgid "DataEngine"
-msgstr "DataEngine"
-
-#: code/main.py:115
+#: awesome-widget.cpp:77
 msgid "Run ksysguard"
-msgstr "Запутить ksysguard"
+msgstr "Запустить ksysguard"
 
-#: code/main.py:117
+#: awesome-widget.cpp:80
 msgid "Show README"
 msgstr "Показать README"
 
-#: code/main.py:119
+#: awesome-widget.cpp:83
 msgid "Update text"
 msgstr "Обновить текст"
 
-#: rc.cpp:3 rc.cpp:132 rc.cpp:153 rc.cpp:209 rc.cpp:239
-msgid "Form"
-msgstr "Form"
+#: configuration.cpp:329 po/rc.cpp:163 rc.cpp:163
+msgid "Custom command"
+msgstr "Своя команда"
 
-#: rc.cpp:6
+#: configuration.cpp:359 po/rc.cpp:153 rc.cpp:153
+msgid "Package manager"
+msgstr "Пакетный менеджер"
+
+#: configuration.cpp:360 po/rc.cpp:156 rc.cpp:156
+msgid "Null lines"
+msgstr "Число пустых линий"
+
+#: configuration.cpp:372
+msgid "Widget"
+msgstr "Виджет"
+
+#: configuration.cpp:373
+msgid "Advanced"
+msgstr "Расширенные"
+
+#: configuration.cpp:374
+msgid "Tooltip"
+msgstr "Тултип"
+
+#: configuration.cpp:375
+msgid "Appearance"
+msgstr "Внешний вид"
+
+#: configuration.cpp:376
+msgid "DataEngine"
+msgstr "DataEngine"
+
+#: configuration.cpp:661 configuration.cpp:675
+msgid "Remove"
+msgstr "Удалить"
+
+#: configuration.cpp:722
+msgid "Select font"
+msgstr "Выберете шрифт"
+
+#: po/rc.cpp:3 rc.cpp:3
+msgid "Advanced configuration"
+msgstr "Расширенная настройка"
+
+#: po/rc.cpp:6 rc.cpp:6
 msgid "Enable background"
 msgstr "Включить фон"
 
-#: rc.cpp:9
+#: po/rc.cpp:9 rc.cpp:9
 msgid "Vertical layout"
 msgstr "Вертикальная разметка"
 
-#: rc.cpp:12
+#: po/rc.cpp:12 rc.cpp:12
 msgid "Enable popup on mouse click"
 msgstr "Включить сообщения по клику мыши"
 
-#: rc.cpp:15
+#: po/rc.cpp:15 rc.cpp:15
 msgid "Add stretch to left/top of the layout"
 msgstr "Добавить пустое место слева/вверху виджета"
 
-#: rc.cpp:18
+#: po/rc.cpp:18 rc.cpp:18
 msgid "Add stretch to right/bottom of the layout"
 msgstr "Добавить пустое место справа/внизу виджета"
 
-#: rc.cpp:21
+#: po/rc.cpp:21 rc.cpp:21
 msgid "Custom time format"
 msgstr "Свой формат времени"
 
-#: rc.cpp:24
+#: po/rc.cpp:24 rc.cpp:24
 msgid ""
 "$dddd - long weekday\n"
 "$ddd - short weekday\n"
@@ -114,11 +134,11 @@ msgstr ""
 "$ss - секунды\n"
 "$s - секунды без 0"
 
-#: rc.cpp:42
+#: po/rc.cpp:42 rc.cpp:42
 msgid "Custom uptime format"
 msgstr "Свой формат аптайма"
 
-#: rc.cpp:45
+#: po/rc.cpp:45 rc.cpp:45
 msgid ""
 "$dd - uptime days\n"
 "$d - uptime days without zero\n"
@@ -134,19 +154,124 @@ msgstr ""
 "$mm - минуты аптайма\n"
 "$m - минуты аптайма без нулей"
 
-#: rc.cpp:53
+#: po/rc.cpp:53 rc.cpp:53
 msgid "Temperature units"
 msgstr "Температурные единицы"
 
-#: rc.cpp:56
+#: po/rc.cpp:56 rc.cpp:56
 msgid "Temperature devices"
 msgstr "Температурные устройства"
 
-#: rc.cpp:59 rc.cpp:69 rc.cpp:79 rc.cpp:89 rc.cpp:162 rc.cpp:190
-msgid "Add"
-msgstr "Добавить"
+#: po/rc.cpp:59 po/rc.cpp:65 po/rc.cpp:71 po/rc.cpp:77 rc.cpp:59 rc.cpp:65
+#: rc.cpp:71 rc.cpp:77
+msgid "Editable"
+msgstr "Редактируемо"
 
-#: rc.cpp:62 rc.cpp:72 rc.cpp:82 rc.cpp:92 rc.cpp:165 rc.cpp:193
+#: po/rc.cpp:62 rc.cpp:62
+msgid "Mount points"
+msgstr "Точки монтирования"
+
+#: po/rc.cpp:68 rc.cpp:68
+msgid "HDD devices (speed)"
+msgstr "HDD (скорость)"
+
+#: po/rc.cpp:74 rc.cpp:74
+msgid "HDD devices (temp)"
+msgstr "HDD (температура)"
+
+#: po/rc.cpp:80 rc.cpp:80
+msgid "Disable auto select device and set specified device"
+msgstr "Отключить автовыбор устройства и использовать указанное"
+
+#: po/rc.cpp:83 rc.cpp:83
+msgid "Set network device"
+msgstr "Выберете сетевое устройство"
+
+#: po/rc.cpp:86 rc.cpp:86
+msgid "AC online tag"
+msgstr "AC подключен"
+
+#: po/rc.cpp:89 rc.cpp:89
+msgid "Line, which returns when AC is online"
+msgstr "Строка, возвращаемая при подключенном адаптере питания"
+
+#: po/rc.cpp:92 rc.cpp:92
+msgid "AC offline tag"
+msgstr "AC отключен"
+
+#: po/rc.cpp:95 rc.cpp:95
+msgid "Line, which returns when AC is offline"
+msgstr "Строка, возвращаемая при отключенном адаптере питания"
+
+#: po/rc.cpp:98 rc.cpp:98
+msgid "Appearance configuration"
+msgstr "Настройка внешнего вида"
+
+#: po/rc.cpp:101 rc.cpp:101
+msgid "Time interval"
+msgstr "Интервал обновления"
+
+#: po/rc.cpp:104 po/rc.cpp:220 rc.cpp:104 rc.cpp:220
+msgid "Font"
+msgstr "Шрифт"
+
+#: po/rc.cpp:107 rc.cpp:107
+msgid "Font size"
+msgstr "Размер шрифта"
+
+#: po/rc.cpp:110 rc.cpp:110
+msgid "Font color"
+msgstr "Цвет шрифта"
+
+#: po/rc.cpp:113 rc.cpp:113
+msgid "Font style"
+msgstr "Стиль шрифта"
+
+#: po/rc.cpp:116 rc.cpp:116
+msgid "Font weight"
+msgstr "Ширина шрифта"
+
+#: po/rc.cpp:119 rc.cpp:119
+msgid "DE Configuration"
+msgstr "Настройка DE"
+
+#: po/rc.cpp:122 rc.cpp:122
+msgid "HDD"
+msgstr "HDD"
+
+#: po/rc.cpp:125 rc.cpp:125
+msgid "MPD port"
+msgstr "Порт сервера MPD"
+
+#: po/rc.cpp:128 rc.cpp:128
+msgid "GPU device"
+msgstr "Устройство GPU"
+
+#: po/rc.cpp:131 rc.cpp:131
+msgid "hddtemp cmd"
+msgstr "Команда hddtemp"
+
+#: po/rc.cpp:134 rc.cpp:134
+msgid "Music player"
+msgstr "Музыкальный плеер"
+
+#: po/rc.cpp:137 rc.cpp:137
+msgid "MPD address"
+msgstr "Адрес сервера MPD"
+
+#: po/rc.cpp:140 rc.cpp:140
+msgid "Desktop check cmd"
+msgstr "Команда для проверки рабочего стола"
+
+#: po/rc.cpp:143 rc.cpp:143
+msgid "<b>NOTE:</b> Player DBus interface should be an active"
+msgstr "<b>ВНИМАНИЕ:</b> DBus интерфейс плеера должен быть активен"
+
+#: po/rc.cpp:146 rc.cpp:146
+msgid "MPRIS player name"
+msgstr "Имя плеера в MPRIS"
+
+#: po/rc.cpp:149 po/rc.cpp:159 rc.cpp:149 rc.cpp:159
 msgid ""
 "Editable\n"
 "del - remove item"
@@ -154,143 +279,27 @@ msgstr ""
 "Редактируемо\n"
 "del - удалить строку"
 
-#: rc.cpp:66
-msgid "Mount points"
-msgstr "Точки монтирования"
-
-#: rc.cpp:76
-msgid "HDD devices (speed)"
-msgstr "HDD (скорость)"
-
-#: rc.cpp:86
-msgid "HDD devices (temp)"
-msgstr "HDD (температура)"
-
-#: rc.cpp:96
-msgid "Network directory"
-msgstr "Путь к интерфейсам"
-
-#: rc.cpp:99
-msgid "\"/sys/class/net\" by default"
-msgstr "\"/sys/class/net\" по умолчанию"
-
-#: rc.cpp:102
-msgid "Disable auto select device and set specified device"
-msgstr "Отключить автовыбор устройства и использовать указанное"
-
-#: rc.cpp:105
-msgid "Set network device"
-msgstr "Выберете сетевое устройство"
-
-#: rc.cpp:108
+#: po/rc.cpp:166 rc.cpp:166
 msgid "Battery device"
 msgstr "Устройство батареи"
 
-#: rc.cpp:111
+#: po/rc.cpp:169 rc.cpp:169
 msgid "\"/sys/class/power_supply/BAT0/capacity\" by default"
 msgstr "\"/sys/class/power_supply/BAT0/capacity\" по умолчанию"
 
-#: rc.cpp:114
-msgid "AC online tag"
-msgstr "AC подключен"
-
-#: rc.cpp:117
-msgid "Line, which returns when AC is online"
-msgstr "Строка, возвращаемая при подключенном адаптере питания"
-
-#: rc.cpp:120
-msgid "AC offline tag"
-msgstr "AC отключен"
-
-#: rc.cpp:123
-msgid "Line, which returns when AC is offline"
-msgstr "Строка, возвращаемая при отключенном адаптере питания"
-
-#: rc.cpp:126
+#: po/rc.cpp:172 rc.cpp:172
 msgid "AC device"
 msgstr "Устройство AC"
 
-#: rc.cpp:129
+#: po/rc.cpp:175 rc.cpp:175
 msgid "\"/sys/class/power_supply/AC/online\" by default"
 msgstr "\"/sys/class/power_supply/AC/online\" по умолчанию"
 
-#: rc.cpp:135
-msgid "Time interval"
-msgstr "Интервал обновления"
+#: po/rc.cpp:178 rc.cpp:178
+msgid "Tooltip configuration"
+msgstr "Настройка тултипа"
 
-#: rc.cpp:138
-msgid "Font"
-msgstr "Шрифт"
-
-#: rc.cpp:141
-msgid "Font size"
-msgstr "Размер шрифта"
-
-#: rc.cpp:144
-msgid "Font color"
-msgstr "Цвет шрифта"
-
-#: rc.cpp:147
-msgid "Font style"
-msgstr "Стиль шрифта"
-
-#: rc.cpp:150
-msgid "Font weight"
-msgstr "Ширина шрифта"
-
-#: rc.cpp:156
-msgid "Custom command"
-msgstr "Своя команда"
-
-#: rc.cpp:159
-msgid "Custom command to run"
-msgstr "Своя команда для запуска"
-
-#: rc.cpp:169
-msgid "GPU device"
-msgstr "Устройство GPU"
-
-#: rc.cpp:172 rc.cpp:326
-msgid "HDD"
-msgstr "HDD"
-
-#: rc.cpp:175
-msgid "hddtemp cmd"
-msgstr "Команда hddtemp"
-
-#: rc.cpp:178
-msgid "MPD address"
-msgstr "Адрес сервера MPD"
-
-#: rc.cpp:181
-msgid "MPD port"
-msgstr "Порт сервера MPD"
-
-#: rc.cpp:184 rc.cpp:384
-msgid "Package manager"
-msgstr "Пакетный менеджер"
-
-#: rc.cpp:187
-msgid "Number of null lines"
-msgstr "Число пустых линий"
-
-#: rc.cpp:197 rc.cpp:366
-msgid "Music player"
-msgstr "Музыкальный плеер"
-
-#: rc.cpp:200
-msgid "Desktop check cmd"
-msgstr "Команда для проверки рабочего стола"
-
-#: rc.cpp:203
-msgid "<b>NOTE:</b> Player DBus interface should be an active"
-msgstr "<b>ВНИМАНИЕ:</b> DBus интерфейс плеера должен быть активен"
-
-#: rc.cpp:206
-msgid "MPRIS player name"
-msgstr "Имя плеера в MPRIS"
-
-#: rc.cpp:212
+#: po/rc.cpp:181 rc.cpp:181
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
 "To enable them just make needed checkbox fully checked."
@@ -299,305 +308,312 @@ msgstr ""
 "графический тултип. Чтобы включить его, просто сделайте требуемые чекбоксы "
 "полностью чекнутыми."
 
-#: rc.cpp:215
+#: po/rc.cpp:184 rc.cpp:184
 msgid "Number of values for tooltips"
 msgstr "Число хранящихся значений"
 
-#: rc.cpp:218
+#: po/rc.cpp:187 rc.cpp:187
 msgid "Background"
 msgstr "Фон"
 
-#: rc.cpp:221
-msgid "CPU clock color"
-msgstr "Цвет частоты CPU"
-
-#: rc.cpp:224
-msgid "Swap color"
-msgstr "Цвет swap"
-
-#: rc.cpp:227
+#: po/rc.cpp:190 rc.cpp:190
 msgid "CPU color"
 msgstr "Цвет CPU"
 
-#: rc.cpp:230
-msgid "Download speed color"
-msgstr "Цвет скорости загрузки"
+#: po/rc.cpp:193 rc.cpp:193
+msgid "CPU clock color"
+msgstr "Цвет частоты CPU"
 
-#: rc.cpp:233
+#: po/rc.cpp:196 rc.cpp:196
 msgid "Memory color"
 msgstr "Цвет памяти"
 
-#: rc.cpp:236
+#: po/rc.cpp:199 rc.cpp:199
+msgid "Swap color"
+msgstr "Цвет swap"
+
+#: po/rc.cpp:202 rc.cpp:202
+msgid "Download speed color"
+msgstr "Цвет скорости загрузки"
+
+#: po/rc.cpp:205 rc.cpp:205
 msgid "Upload speed color"
 msgstr "Цвет скорости отдачи"
 
-#: rc.cpp:242
+#: po/rc.cpp:208 rc.cpp:208
+msgid "Battery active color"
+msgstr "Цвет заряжаемой батареи"
+
+#: po/rc.cpp:211 rc.cpp:211
+msgid "Battery inactive color"
+msgstr "Цвет разряжаемой батареи"
+
+#: po/rc.cpp:214 rc.cpp:214
+msgid "Widget configuration"
+msgstr "Настройка виджета"
+
+#: po/rc.cpp:217 rc.cpp:217
 msgid ""
 "Detailed information may be found on <a href=\"http://arcanis.name/projects/"
-"pytextmonitor/\">project homepage</a>"
+"awesome-widgets/\">project homepage</a>"
 msgstr ""
 "Подробная информация может быть найдена на <a href=\"http://arcanis.name/ru/"
-"projects/pytextmonitor/\">домашней странице проекта</a>"
+"projects/awesome-widgets/\">домашней странице проекта</a>"
 
-#: rc.cpp:245
-msgid "Time"
-msgstr "Время"
+#: po/rc.cpp:223 rc.cpp:223
+msgid "Ctrl+B"
+msgstr "Ctrl+B"
 
-#: rc.cpp:248
-msgid ""
-"$time - time in default format\n"
-"$isotime - time in ISO format\n"
-"$shorttime - time in short format\n"
-"$longtime - time in log format\n"
-"$custom - custom time format"
-msgstr ""
-"$time - время в стандартном формате\n"
-"$isotime - время в ISO формате\n"
-"$shorttime - время в коротком формате\n"
-"$longtime - время в длинном формате\n"
-"$custom - свой формат времени"
+#: po/rc.cpp:226 rc.cpp:226
+msgid "Ctrl+I"
+msgstr "Ctrl+I"
 
-#: rc.cpp:255
-msgid "Uptime"
-msgstr "Время работы"
+#: po/rc.cpp:229 rc.cpp:229
+msgid "Ctrl+U"
+msgstr "Ctrl+U"
 
-#: rc.cpp:258
-msgid ""
-"$uptime - system uptime\n"
-"$custom - custom format"
-msgstr ""
-"$uptime - время работы\n"
-"$custom - свой формат"
-
-#: rc.cpp:262
-msgid "CPU"
-msgstr "CPU"
-
-#: rc.cpp:266
-msgid ""
-"$cpu - total load CPU, %\n"
-"$cpu0 - load CPU for core 0, %\n"
-"...\n"
-"$cpu9 - load CPU for core 9, %\n"
-"...\n"
-"$cpuN - load CPU for core N, %"
-msgstr ""
-"$cpu - общая загрузка CPU, %\n"
-"$cpu0 - загрузка CPU для ядра 0, %\n"
-"...\n"
-"$cpu9 - загрузка CPU для ядра 9, %\n"
-"...\n"
-"$cpuN - загрузка CPU для ядра N, %"
-
-#: rc.cpp:274
-msgid "CPU Clock"
-msgstr "Частота CPU"
-
-#: rc.cpp:277
-msgid ""
-"$cpucl - average CPU clock, MHz\n"
-"$cpucl0 - CPU clock for core 0, MHz\n"
-"...\n"
-"$cpucl9 - CPU clock for core 9, MHz\n"
-"...\n"
-"$cpuclN - CPU clock for core N, MHz"
-msgstr ""
-"$cpucl - средняя частота CPU, MHz\n"
-"$cpucl0 - частота CPU для ядра 0, MHz\n"
-"...\n"
-"$cpucl9 - частота CPU для ядра 9, MHz\n"
-"...\n"
-"$cpuclN - частота CPU для ядра N, MHz"
-
-#: rc.cpp:285
-msgid "Temperature"
-msgstr "Температура"
-
-#: rc.cpp:288
-msgid "$tempN - physical temperature on device N (from 0). Example: $temp0"
-msgstr "$tempN - физическая температура на устройстве N (от 0). Пример: $temp0"
-
-#: rc.cpp:291
-msgid "GPU"
-msgstr "GPU"
-
-#: rc.cpp:295
-msgid "$gpu - gpu usage, %"
-msgstr "$gpu - использование GPU, %"
-
-#: rc.cpp:298
-msgid "GPU Temp"
-msgstr "Температура GPU"
-
-#: rc.cpp:301
-msgid "$gputemp - physical temperature on GPU"
-msgstr "$gputemp - физическая температура на GPU"
-
-#: rc.cpp:304
-msgid "Memory"
-msgstr "Память"
-
-#: rc.cpp:308
-msgid ""
-"$mem - RAM usage, %\n"
-"$memmb - RAM usage, MB\n"
-"$memgb - RAM usage, GB\n"
-"$memtotmb - total RAM, MB\n"
-"$memtotgb - total RAM, GB"
-msgstr ""
-"$mem - использование RAM, %\n"
-"$memmb - использование RAM, MB\n"
-"$memgb - использование RAM, GB\n"
-"$memtotmb - RAM, MB\n"
-"$memtotgb - RAM, GB"
-
-#: rc.cpp:315
-msgid "Swap"
-msgstr "Swap"
-
-#: rc.cpp:319
-msgid ""
-"$swap - swap usage, %\n"
-"$swapmb - swap usage, MB\n"
-"$swapgb - swap usage, GB\n"
-"$swaptotmb - total swap, MB\n"
-"$swaptotgb - total swap, GB"
-msgstr ""
-"$swap - использование swap, %\n"
-"$swapmb - использование swap, MB\n"
-"$swapgb - использование swap, GB\n"
-"$swaptotmb - swap, MB\n"
-"$swaptotgb - swap, GB"
-
-#: rc.cpp:330
-msgid ""
-"$hddN - usage for mount point N (from 0), %. Example: $hdd0\n"
-"$hddmbN - usage for mount point N (from 0), MB. Example: $hddmb0\n"
-"$hddgbN - usage for mount point N (from 0), GB. Example: $hddgb0\n"
-"$hddtotmbN - total size of mount point N (from 0), MB. Example: $hddtotmb0\n"
-"$hddtotgbN - total size of mount point N (from 0), GB. Example: $hddtotgb0"
-msgstr ""
-"$hddN - использование точки монтирования N (от 0), %. Пример: $hdd0\n"
-"$hddmbN - использование точки монтирования N (от 0), MB. Пример: $hddmb0\n"
-"$hddgbN - использование точки монтирования N (от 0), GB. Пример: $hddgb0\n"
-"$hddtotmbN - размер точки монтирования N (от 0), MB. Пример: $hddtotmb0\n"
-"$hddtotgbN - размер точки монтирования N (от 0), GB. Пример: $hddtotgb0"
-
-#: rc.cpp:337
-msgid "HDD speed"
-msgstr "Скорость HDD"
-
-#: rc.cpp:340
-msgid ""
-"$hddrN - read speed HDD N (from 0), KB/s. Example: $hddr0\n"
-"$hddwN - write speed HDD N (from 0), KB/s. Example: $hddw0"
-msgstr ""
-"$hddrN - скорость записи на HDD N (от 0), KB/s. Например: $hddr0\n"
-"$hddwN - скорость чтения с HDD N (от 0), KB/s. Например: $hddw0"
-
-#: rc.cpp:344
-msgid "HDD temp"
-msgstr "Температура HDD"
-
-#: rc.cpp:347
-msgid ""
-"$hddtempN - physical temperature on device N (from 0). Example: $hddtemp0"
-msgstr "$hddtempN - температура на устройстве N (от 0). Пример: $hddtemp0"
-
-#: rc.cpp:350
-msgid "Network"
-msgstr "Сеть"
-
-#: rc.cpp:353
-msgid ""
-"$down - download speed, KB/s\n"
-"$up - upload speed, KB/s\n"
-"$netdev - current network device"
-msgstr ""
-"$down - скорость скачки, KB/s\n"
-"$up - скорость загрузки, KB/s\n"
-"$netdev - текущее устройство"
-
-#: rc.cpp:358
-msgid "Battery"
-msgstr "Батарея"
-
-#: rc.cpp:362
-msgid ""
-"$bat - battery charge, %\n"
-"$ac - AC status"
-msgstr ""
-"$bat - заряд батареи, %\n"
-"$ac - статус адаптера питания"
-
-#: rc.cpp:369
-msgid ""
-"$album - song album\n"
-"$artist - song artist\n"
-"$progress - song progress\n"
-"$time - song duration\n"
-"$title - song title"
-msgstr ""
-"$album - альбом\n"
-"$artist - исполнитель\n"
-"$progress - прогресс\n"
-"$time - продолжительность\n"
-"$title - название"
-
-#: rc.cpp:376
-msgid "Processes"
-msgstr "Процессы"
-
-#: rc.cpp:379
-msgid ""
-"$pscount - number of running processes\n"
-"$pstotal - total number of running processes\n"
-"$ps - list of running processes comma separated"
-msgstr ""
-"$pscount - число запущенных процессов\n"
-"$pstotal - общее число процессов\n"
-"$ps - список запущенных процессов, разделенных запятыми"
-
-#: rc.cpp:387
-msgid ""
-"$pkgcountN - number of packages which are available for updates, command N. "
-"For example $pkgcount0"
-msgstr ""
-"$pkgcountN - число пакетов, которые доступны для обновления, для команды N. "
-"Например, $pkgcount0"
-
-#: rc.cpp:390
-msgid "Custom"
-msgstr "Своя команда"
-
-#: rc.cpp:393
-msgid ""
-"$customN - get output from custom command N (from N). Example `$custom0`"
-msgstr "$customN - получить информацию из своей команды N. Например $custom0"
-
-#: rc.cpp:396
-msgid "Current desktop"
-msgstr "Текущий рабочий стол"
-
-#: rc.cpp:399
-msgid ""
-"$name - desktop name\n"
-"$number - desktop number\n"
-"$total - total number of desktops"
-msgstr ""
-"$name - имя рабочего стола\n"
-"$number - номер рабочего стола\n"
-"$total - общее число рабочих столов"
-
-#: rc.cpp:402
+#: po/rc.cpp:230 rc.cpp:230
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Evgeniy Alekseev"
 
-#: rc.cpp:403
+#: po/rc.cpp:231 rc.cpp:231
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "esalexeev@gmail.com"
+
+#~ msgid "Form"
+#~ msgstr "Form"
+
+#~ msgid "Add"
+#~ msgstr "Добавить"
+
+#~ msgid "Network directory"
+#~ msgstr "Путь к интерфейсам"
+
+#~ msgid "\"/sys/class/net\" by default"
+#~ msgstr "\"/sys/class/net\" по умолчанию"
+
+#~ msgid "Custom command to run"
+#~ msgstr "Своя команда для запуска"
+
+#~ msgid "Time"
+#~ msgstr "Время"
+
+#~ msgid ""
+#~ "$time - time in default format\n"
+#~ "$isotime - time in ISO format\n"
+#~ "$shorttime - time in short format\n"
+#~ "$longtime - time in log format\n"
+#~ "$custom - custom time format"
+#~ msgstr ""
+#~ "$time - время в стандартном формате\n"
+#~ "$isotime - время в ISO формате\n"
+#~ "$shorttime - время в коротком формате\n"
+#~ "$longtime - время в длинном формате\n"
+#~ "$custom - свой формат времени"
+
+#~ msgid "Uptime"
+#~ msgstr "Время работы"
+
+#~ msgid ""
+#~ "$uptime - system uptime\n"
+#~ "$custom - custom format"
+#~ msgstr ""
+#~ "$uptime - время работы\n"
+#~ "$custom - свой формат"
+
+#~ msgid "CPU"
+#~ msgstr "CPU"
+
+#~ msgid ""
+#~ "$cpu - total load CPU, %\n"
+#~ "$cpu0 - load CPU for core 0, %\n"
+#~ "...\n"
+#~ "$cpu9 - load CPU for core 9, %\n"
+#~ "...\n"
+#~ "$cpuN - load CPU for core N, %"
+#~ msgstr ""
+#~ "$cpu - общая загрузка CPU, %\n"
+#~ "$cpu0 - загрузка CPU для ядра 0, %\n"
+#~ "...\n"
+#~ "$cpu9 - загрузка CPU для ядра 9, %\n"
+#~ "...\n"
+#~ "$cpuN - загрузка CPU для ядра N, %"
+
+#~ msgid "CPU Clock"
+#~ msgstr "Частота CPU"
+
+#~ msgid ""
+#~ "$cpucl - average CPU clock, MHz\n"
+#~ "$cpucl0 - CPU clock for core 0, MHz\n"
+#~ "...\n"
+#~ "$cpucl9 - CPU clock for core 9, MHz\n"
+#~ "...\n"
+#~ "$cpuclN - CPU clock for core N, MHz"
+#~ msgstr ""
+#~ "$cpucl - средняя частота CPU, MHz\n"
+#~ "$cpucl0 - частота CPU для ядра 0, MHz\n"
+#~ "...\n"
+#~ "$cpucl9 - частота CPU для ядра 9, MHz\n"
+#~ "...\n"
+#~ "$cpuclN - частота CPU для ядра N, MHz"
+
+#~ msgid "Temperature"
+#~ msgstr "Температура"
+
+#~ msgid "$tempN - physical temperature on device N (from 0). Example: $temp0"
+#~ msgstr ""
+#~ "$tempN - физическая температура на устройстве N (от 0). Пример: $temp0"
+
+#~ msgid "GPU"
+#~ msgstr "GPU"
+
+#~ msgid "$gpu - gpu usage, %"
+#~ msgstr "$gpu - использование GPU, %"
+
+#~ msgid "GPU Temp"
+#~ msgstr "Температура GPU"
+
+#~ msgid "$gputemp - physical temperature on GPU"
+#~ msgstr "$gputemp - физическая температура на GPU"
+
+#~ msgid "Memory"
+#~ msgstr "Память"
+
+#~ msgid ""
+#~ "$mem - RAM usage, %\n"
+#~ "$memmb - RAM usage, MB\n"
+#~ "$memgb - RAM usage, GB\n"
+#~ "$memtotmb - total RAM, MB\n"
+#~ "$memtotgb - total RAM, GB"
+#~ msgstr ""
+#~ "$mem - использование RAM, %\n"
+#~ "$memmb - использование RAM, MB\n"
+#~ "$memgb - использование RAM, GB\n"
+#~ "$memtotmb - RAM, MB\n"
+#~ "$memtotgb - RAM, GB"
+
+#~ msgid "Swap"
+#~ msgstr "Swap"
+
+#~ msgid ""
+#~ "$swap - swap usage, %\n"
+#~ "$swapmb - swap usage, MB\n"
+#~ "$swapgb - swap usage, GB\n"
+#~ "$swaptotmb - total swap, MB\n"
+#~ "$swaptotgb - total swap, GB"
+#~ msgstr ""
+#~ "$swap - использование swap, %\n"
+#~ "$swapmb - использование swap, MB\n"
+#~ "$swapgb - использование swap, GB\n"
+#~ "$swaptotmb - swap, MB\n"
+#~ "$swaptotgb - swap, GB"
+
+#~ msgid ""
+#~ "$hddN - usage for mount point N (from 0), %. Example: $hdd0\n"
+#~ "$hddmbN - usage for mount point N (from 0), MB. Example: $hddmb0\n"
+#~ "$hddgbN - usage for mount point N (from 0), GB. Example: $hddgb0\n"
+#~ "$hddtotmbN - total size of mount point N (from 0), MB. Example: "
+#~ "$hddtotmb0\n"
+#~ "$hddtotgbN - total size of mount point N (from 0), GB. Example: $hddtotgb0"
+#~ msgstr ""
+#~ "$hddN - использование точки монтирования N (от 0), %. Пример: $hdd0\n"
+#~ "$hddmbN - использование точки монтирования N (от 0), MB. Пример: $hddmb0\n"
+#~ "$hddgbN - использование точки монтирования N (от 0), GB. Пример: $hddgb0\n"
+#~ "$hddtotmbN - размер точки монтирования N (от 0), MB. Пример: $hddtotmb0\n"
+#~ "$hddtotgbN - размер точки монтирования N (от 0), GB. Пример: $hddtotgb0"
+
+#~ msgid "HDD speed"
+#~ msgstr "Скорость HDD"
+
+#~ msgid ""
+#~ "$hddrN - read speed HDD N (from 0), KB/s. Example: $hddr0\n"
+#~ "$hddwN - write speed HDD N (from 0), KB/s. Example: $hddw0"
+#~ msgstr ""
+#~ "$hddrN - скорость записи на HDD N (от 0), KB/s. Например: $hddr0\n"
+#~ "$hddwN - скорость чтения с HDD N (от 0), KB/s. Например: $hddw0"
+
+#~ msgid "HDD temp"
+#~ msgstr "Температура HDD"
+
+#~ msgid ""
+#~ "$hddtempN - physical temperature on device N (from 0). Example: $hddtemp0"
+#~ msgstr "$hddtempN - температура на устройстве N (от 0). Пример: $hddtemp0"
+
+#~ msgid "Network"
+#~ msgstr "Сеть"
+
+#~ msgid ""
+#~ "$down - download speed, KB/s\n"
+#~ "$up - upload speed, KB/s\n"
+#~ "$netdev - current network device"
+#~ msgstr ""
+#~ "$down - скорость скачки, KB/s\n"
+#~ "$up - скорость загрузки, KB/s\n"
+#~ "$netdev - текущее устройство"
+
+#~ msgid "Battery"
+#~ msgstr "Батарея"
+
+#~ msgid ""
+#~ "$bat - battery charge, %\n"
+#~ "$ac - AC status"
+#~ msgstr ""
+#~ "$bat - заряд батареи, %\n"
+#~ "$ac - статус адаптера питания"
+
+#~ msgid ""
+#~ "$album - song album\n"
+#~ "$artist - song artist\n"
+#~ "$progress - song progress\n"
+#~ "$time - song duration\n"
+#~ "$title - song title"
+#~ msgstr ""
+#~ "$album - альбом\n"
+#~ "$artist - исполнитель\n"
+#~ "$progress - прогресс\n"
+#~ "$time - продолжительность\n"
+#~ "$title - название"
+
+#~ msgid "Processes"
+#~ msgstr "Процессы"
+
+#~ msgid ""
+#~ "$pscount - number of running processes\n"
+#~ "$pstotal - total number of running processes\n"
+#~ "$ps - list of running processes comma separated"
+#~ msgstr ""
+#~ "$pscount - число запущенных процессов\n"
+#~ "$pstotal - общее число процессов\n"
+#~ "$ps - список запущенных процессов, разделенных запятыми"
+
+#~ msgid ""
+#~ "$pkgcountN - number of packages which are available for updates, command "
+#~ "N. For example $pkgcount0"
+#~ msgstr ""
+#~ "$pkgcountN - число пакетов, которые доступны для обновления, для команды "
+#~ "N. Например, $pkgcount0"
+
+#~ msgid "Custom"
+#~ msgstr "Своя команда"
+
+#~ msgid ""
+#~ "$customN - get output from custom command N (from N). Example `$custom0`"
+#~ msgstr ""
+#~ "$customN - получить информацию из своей команды N. Например $custom0"
+
+#~ msgid "Current desktop"
+#~ msgstr "Текущий рабочий стол"
+
+#~ msgid ""
+#~ "$name - desktop name\n"
+#~ "$number - desktop number\n"
+#~ "$total - total number of desktops"
+#~ msgstr ""
+#~ "$name - имя рабочего стола\n"
+#~ "$number - номер рабочего стола\n"
+#~ "$total - общее число рабочих столов"
 
 #~ msgid "Widget settings"
 #~ msgstr "Настройки виджета"

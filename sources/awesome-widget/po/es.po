@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=157124\n"
-"POT-Creation-Date: 2014-08-02 18:20+0400\n"
+"Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
+"POT-Creation-Date: 2014-09-05 11:14+0400\n"
 "PO-Revision-Date: 2014-06-05 10:21+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Spanish <kde-spanish@lists.kde.ru>\n"
@@ -18,67 +18,88 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: code/configdef.py:289
-msgid "Widget"
-msgstr "Widget"
-
-#: code/configdef.py:291
-msgid "Advanced"
-msgstr "Avanzado"
-
-#: code/configdef.py:293
-msgid "Tooltip"
-msgstr "Ventana emergente"
-
-#: code/configdef.py:295
-msgid "Appearance"
-msgstr "Apariencia"
-
-#: code/configdef.py:297
-msgid "DataEngine"
-msgstr "DataEngine"
-
-#: code/main.py:115
+#: awesome-widget.cpp:77
 msgid "Run ksysguard"
 msgstr "Ejecutar ksysguard"
 
-#: code/main.py:117
+#: awesome-widget.cpp:80
 msgid "Show README"
 msgstr "Mostrar el README"
 
-#: code/main.py:119
+#: awesome-widget.cpp:83
 msgid "Update text"
 msgstr "Actualizar texto"
 
-#: rc.cpp:3 rc.cpp:132 rc.cpp:153 rc.cpp:209 rc.cpp:239
-msgid "Form"
-msgstr "Formulario"
+#: configuration.cpp:329 po/rc.cpp:163 rc.cpp:163
+msgid "Custom command"
+msgstr "Comando personalizado"
 
-#: rc.cpp:6
+#: configuration.cpp:359 po/rc.cpp:153 rc.cpp:153
+msgid "Package manager"
+msgstr "Gestor de paquetes"
+
+#: configuration.cpp:360 po/rc.cpp:156 rc.cpp:156
+#, fuzzy
+msgid "Null lines"
+msgstr "Número de líneas nulas"
+
+#: configuration.cpp:372
+msgid "Widget"
+msgstr "Widget"
+
+#: configuration.cpp:373
+msgid "Advanced"
+msgstr "Avanzado"
+
+#: configuration.cpp:374
+msgid "Tooltip"
+msgstr "Ventana emergente"
+
+#: configuration.cpp:375
+msgid "Appearance"
+msgstr "Apariencia"
+
+#: configuration.cpp:376
+msgid "DataEngine"
+msgstr "DataEngine"
+
+#: configuration.cpp:661 configuration.cpp:675
+msgid "Remove"
+msgstr ""
+
+#: configuration.cpp:722
+msgid "Select font"
+msgstr ""
+
+#: po/rc.cpp:3 rc.cpp:3
+msgid "Advanced configuration"
+msgstr ""
+
+#: po/rc.cpp:6 rc.cpp:6
 msgid "Enable background"
 msgstr ""
 
-#: rc.cpp:9
+#: po/rc.cpp:9 rc.cpp:9
 msgid "Vertical layout"
 msgstr "Orientación vertical"
 
-#: rc.cpp:12
+#: po/rc.cpp:12 rc.cpp:12
 msgid "Enable popup on mouse click"
 msgstr "Habilitar ventana emergente al hacer clic"
 
-#: rc.cpp:15
+#: po/rc.cpp:15 rc.cpp:15
 msgid "Add stretch to left/top of the layout"
 msgstr "Añadir extensión a la izquierda/superior de la distribución"
 
-#: rc.cpp:18
+#: po/rc.cpp:18 rc.cpp:18
 msgid "Add stretch to right/bottom of the layout"
 msgstr "Añadir extensión a la derecha/inferior de la distribución"
 
-#: rc.cpp:21
+#: po/rc.cpp:21 rc.cpp:21
 msgid "Custom time format"
 msgstr "Formato personalizado para la hora"
 
-#: rc.cpp:24
+#: po/rc.cpp:24 rc.cpp:24
 msgid ""
 "$dddd - long weekday\n"
 "$ddd - short weekday\n"
@@ -114,11 +135,11 @@ msgstr ""
 "$ss - segundos\n"
 "$s - segundos (sin ceros)"
 
-#: rc.cpp:42
+#: po/rc.cpp:42 rc.cpp:42
 msgid "Custom uptime format"
 msgstr "Formato personalizado para el tiempo de actividad del sistema"
 
-#: rc.cpp:45
+#: po/rc.cpp:45 rc.cpp:45
 msgid ""
 "$dd - uptime days\n"
 "$d - uptime days without zero\n"
@@ -134,19 +155,124 @@ msgstr ""
 "$mm - minutos\n"
 "$m - minutos (sin ceros)"
 
-#: rc.cpp:53
+#: po/rc.cpp:53 rc.cpp:53
 msgid "Temperature units"
 msgstr "Unidades de temperatura"
 
-#: rc.cpp:56
+#: po/rc.cpp:56 rc.cpp:56
 msgid "Temperature devices"
 msgstr "Dispositivos de temperatura"
 
-#: rc.cpp:59 rc.cpp:69 rc.cpp:79 rc.cpp:89 rc.cpp:162 rc.cpp:190
-msgid "Add"
-msgstr "Añadir"
+#: po/rc.cpp:59 po/rc.cpp:65 po/rc.cpp:71 po/rc.cpp:77 rc.cpp:59 rc.cpp:65
+#: rc.cpp:71 rc.cpp:77
+msgid "Editable"
+msgstr ""
 
-#: rc.cpp:62 rc.cpp:72 rc.cpp:82 rc.cpp:92 rc.cpp:165 rc.cpp:193
+#: po/rc.cpp:62 rc.cpp:62
+msgid "Mount points"
+msgstr "Puntos de montaje"
+
+#: po/rc.cpp:68 rc.cpp:68
+msgid "HDD devices (speed)"
+msgstr "Disco duro (velocidad)"
+
+#: po/rc.cpp:74 rc.cpp:74
+msgid "HDD devices (temp)"
+msgstr "Disco duro (temperatura)"
+
+#: po/rc.cpp:80 rc.cpp:80
+msgid "Disable auto select device and set specified device"
+msgstr "Inhabilitar selección automática del dispositivo y especificar uno"
+
+#: po/rc.cpp:83 rc.cpp:83
+msgid "Set network device"
+msgstr "Establecer dispositivo de red"
+
+#: po/rc.cpp:86 rc.cpp:86
+msgid "AC online tag"
+msgstr "Etiqueta para alimentación conectada"
+
+#: po/rc.cpp:89 rc.cpp:89
+msgid "Line, which returns when AC is online"
+msgstr "Línea que devuelve si la alimentación está conectada"
+
+#: po/rc.cpp:92 rc.cpp:92
+msgid "AC offline tag"
+msgstr "Etiqueta para la alimentación desconectada"
+
+#: po/rc.cpp:95 rc.cpp:95
+msgid "Line, which returns when AC is offline"
+msgstr "Línea que devuelve si la alimentación está desconectada"
+
+#: po/rc.cpp:98 rc.cpp:98
+msgid "Appearance configuration"
+msgstr ""
+
+#: po/rc.cpp:101 rc.cpp:101
+msgid "Time interval"
+msgstr "Intervalo de tiempo"
+
+#: po/rc.cpp:104 po/rc.cpp:220 rc.cpp:104 rc.cpp:220
+msgid "Font"
+msgstr "Fuente"
+
+#: po/rc.cpp:107 rc.cpp:107
+msgid "Font size"
+msgstr "Tamaño de fuente"
+
+#: po/rc.cpp:110 rc.cpp:110
+msgid "Font color"
+msgstr "Color de fuente"
+
+#: po/rc.cpp:113 rc.cpp:113
+msgid "Font style"
+msgstr "Estilo de fuente"
+
+#: po/rc.cpp:116 rc.cpp:116
+msgid "Font weight"
+msgstr "Grosor de la fuente"
+
+#: po/rc.cpp:119 rc.cpp:119
+msgid "DE Configuration"
+msgstr ""
+
+#: po/rc.cpp:122 rc.cpp:122
+msgid "HDD"
+msgstr "Disco duro"
+
+#: po/rc.cpp:125 rc.cpp:125
+msgid "MPD port"
+msgstr "Puerto de MPD"
+
+#: po/rc.cpp:128 rc.cpp:128
+msgid "GPU device"
+msgstr "Dispositivo de GPU"
+
+#: po/rc.cpp:131 rc.cpp:131
+msgid "hddtemp cmd"
+msgstr "Comando hddtemp"
+
+#: po/rc.cpp:134 rc.cpp:134
+msgid "Music player"
+msgstr "Reproductor de música"
+
+#: po/rc.cpp:137 rc.cpp:137
+msgid "MPD address"
+msgstr "Dirección de MPD"
+
+#: po/rc.cpp:140 rc.cpp:140
+msgid "Desktop check cmd"
+msgstr ""
+
+#: po/rc.cpp:143 rc.cpp:143
+msgid "<b>NOTE:</b> Player DBus interface should be an active"
+msgstr ""
+
+#: po/rc.cpp:146 rc.cpp:146
+msgid "MPRIS player name"
+msgstr ""
+
+#: po/rc.cpp:149 po/rc.cpp:159 rc.cpp:149 rc.cpp:159
 msgid ""
 "Editable\n"
 "del - remove item"
@@ -154,143 +280,27 @@ msgstr ""
 "Editable\n"
 "del - eliminar elemento"
 
-#: rc.cpp:66
-msgid "Mount points"
-msgstr "Puntos de montaje"
-
-#: rc.cpp:76
-msgid "HDD devices (speed)"
-msgstr "Disco duro (velocidad)"
-
-#: rc.cpp:86
-msgid "HDD devices (temp)"
-msgstr "Disco duro (temperatura)"
-
-#: rc.cpp:96
-msgid "Network directory"
-msgstr "Directorio de la red"
-
-#: rc.cpp:99
-msgid "\"/sys/class/net\" by default"
-msgstr "\"/sys/class/net\" por defecto"
-
-#: rc.cpp:102
-msgid "Disable auto select device and set specified device"
-msgstr "Inhabilitar selección automática del dispositivo y especificar uno"
-
-#: rc.cpp:105
-msgid "Set network device"
-msgstr "Establecer dispositivo de red"
-
-#: rc.cpp:108
+#: po/rc.cpp:166 rc.cpp:166
 msgid "Battery device"
 msgstr "Dispositivo de batería"
 
-#: rc.cpp:111
+#: po/rc.cpp:169 rc.cpp:169
 msgid "\"/sys/class/power_supply/BAT0/capacity\" by default"
 msgstr "\"/sys/class/power_supply/BAT0/capacity\" por defecto"
 
-#: rc.cpp:114
-msgid "AC online tag"
-msgstr "Etiqueta para alimentación conectada"
-
-#: rc.cpp:117
-msgid "Line, which returns when AC is online"
-msgstr "Línea que devuelve si la alimentación está conectada"
-
-#: rc.cpp:120
-msgid "AC offline tag"
-msgstr "Etiqueta para la alimentación desconectada"
-
-#: rc.cpp:123
-msgid "Line, which returns when AC is offline"
-msgstr "Línea que devuelve si la alimentación está desconectada"
-
-#: rc.cpp:126
+#: po/rc.cpp:172 rc.cpp:172
 msgid "AC device"
 msgstr "Dispositivo de alimentación"
 
-#: rc.cpp:129
+#: po/rc.cpp:175 rc.cpp:175
 msgid "\"/sys/class/power_supply/AC/online\" by default"
 msgstr "\"/sys/class/power_supply/AC/online\" por defecto"
 
-#: rc.cpp:135
-msgid "Time interval"
-msgstr "Intervalo de tiempo"
-
-#: rc.cpp:138
-msgid "Font"
-msgstr "Fuente"
-
-#: rc.cpp:141
-msgid "Font size"
-msgstr "Tamaño de fuente"
-
-#: rc.cpp:144
-msgid "Font color"
-msgstr "Color de fuente"
-
-#: rc.cpp:147
-msgid "Font style"
-msgstr "Estilo de fuente"
-
-#: rc.cpp:150
-msgid "Font weight"
-msgstr "Grosor de la fuente"
-
-#: rc.cpp:156
-msgid "Custom command"
-msgstr "Comando personalizado"
-
-#: rc.cpp:159
-msgid "Custom command to run"
-msgstr "Comando personalizado para ejecutar"
-
-#: rc.cpp:169
-msgid "GPU device"
-msgstr "Dispositivo de GPU"
-
-#: rc.cpp:172 rc.cpp:326
-msgid "HDD"
-msgstr "Disco duro"
-
-#: rc.cpp:175
-msgid "hddtemp cmd"
-msgstr "Comando hddtemp"
-
-#: rc.cpp:178
-msgid "MPD address"
-msgstr "Dirección de MPD"
-
-#: rc.cpp:181
-msgid "MPD port"
-msgstr "Puerto de MPD"
-
-#: rc.cpp:184 rc.cpp:384
-msgid "Package manager"
-msgstr "Gestor de paquetes"
-
-#: rc.cpp:187
-msgid "Number of null lines"
-msgstr "Número de líneas nulas"
-
-#: rc.cpp:197 rc.cpp:366
-msgid "Music player"
-msgstr "Reproductor de música"
-
-#: rc.cpp:200
-msgid "Desktop check cmd"
+#: po/rc.cpp:178 rc.cpp:178
+msgid "Tooltip configuration"
 msgstr ""
 
-#: rc.cpp:203
-msgid "<b>NOTE:</b> Player DBus interface should be an active"
-msgstr ""
-
-#: rc.cpp:206
-msgid "MPRIS player name"
-msgstr ""
-
-#: rc.cpp:212
+#: po/rc.cpp:181 rc.cpp:181
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
 "To enable them just make needed checkbox fully checked."
@@ -299,314 +309,313 @@ msgstr ""
 "ventanas emergentes. Para habilitarlas habilite la caja de seleccione la "
 "casilla de verificación pertinente."
 
-#: rc.cpp:215
+#: po/rc.cpp:184 rc.cpp:184
 msgid "Number of values for tooltips"
 msgstr "Número de valores para las ventanas emergentes"
 
-#: rc.cpp:218
+#: po/rc.cpp:187 rc.cpp:187
 msgid "Background"
 msgstr ""
 
-#: rc.cpp:221
-msgid "CPU clock color"
-msgstr "Color de la frecuencia de la CPU"
-
-#: rc.cpp:224
-msgid "Swap color"
-msgstr "Color de la swap"
-
-#: rc.cpp:227
+#: po/rc.cpp:190 rc.cpp:190
 msgid "CPU color"
 msgstr "Color de la CPU"
 
-#: rc.cpp:230
-msgid "Download speed color"
-msgstr "Color de la velocidad de recepción"
+#: po/rc.cpp:193 rc.cpp:193
+msgid "CPU clock color"
+msgstr "Color de la frecuencia de la CPU"
 
-#: rc.cpp:233
+#: po/rc.cpp:196 rc.cpp:196
 msgid "Memory color"
 msgstr "Color de la memoria"
 
-#: rc.cpp:236
+#: po/rc.cpp:199 rc.cpp:199
+msgid "Swap color"
+msgstr "Color de la swap"
+
+#: po/rc.cpp:202 rc.cpp:202
+msgid "Download speed color"
+msgstr "Color de la velocidad de recepción"
+
+#: po/rc.cpp:205 rc.cpp:205
 msgid "Upload speed color"
 msgstr "Color de la velocidad de envío"
 
-#: rc.cpp:242
+#: po/rc.cpp:208 rc.cpp:208
+msgid "Battery active color"
+msgstr ""
+
+#: po/rc.cpp:211 rc.cpp:211
+#, fuzzy
+msgid "Battery inactive color"
+msgstr "Dispositivo de batería"
+
+#: po/rc.cpp:214 rc.cpp:214
+msgid "Widget configuration"
+msgstr ""
+
+#: po/rc.cpp:217 rc.cpp:217
+#, fuzzy
 msgid ""
 "Detailed information may be found on <a href=\"http://arcanis.name/projects/"
-"pytextmonitor/\">project homepage</a>"
+"awesome-widgets/\">project homepage</a>"
 msgstr ""
 "Puede encontrar información detallada en el <a href=\"http://arcanis.name/"
 "projects/pytextmonitor/\">sitio del proyecto</a>"
 
-#: rc.cpp:245
-msgid "Time"
-msgstr "Hora"
-
-#: rc.cpp:248
-msgid ""
-"$time - time in default format\n"
-"$isotime - time in ISO format\n"
-"$shorttime - time in short format\n"
-"$longtime - time in log format\n"
-"$custom - custom time format"
-msgstr ""
-"$time - hora en el  formato por defecto\n"
-"$isotime - hora en formato ISO\n"
-"$shorttime - hora en formato corto\n"
-"$longtime - hora en formato largo\n"
-"$custom - hora en formato personalizado"
-
-#: rc.cpp:255
-msgid "Uptime"
-msgstr "Tiempo de actividad"
-
-#: rc.cpp:258
-msgid ""
-"$uptime - system uptime\n"
-"$custom - custom format"
-msgstr ""
-"$uptime - tiempo de actividad del sistema\n"
-"$custom - formato personalizado"
-
-#: rc.cpp:262
-msgid "CPU"
-msgstr "CPU"
-
-#: rc.cpp:266
-msgid ""
-"$cpu - total load CPU, %\n"
-"$cpu0 - load CPU for core 0, %\n"
-"...\n"
-"$cpu9 - load CPU for core 9, %\n"
-"...\n"
-"$cpuN - load CPU for core N, %"
-msgstr ""
-"$cpu - carga total de la CPU, %\n"
-"$cpu0 - carga de la CPU para el núcleo 0, %\n"
-"...\n"
-"$cpu9 - carga de la CPU para el núcleo 9, %\n"
-"...\n"
-"$cpuN - carga de la CPU para el núcleo N, %"
-
-#: rc.cpp:274
-msgid "CPU Clock"
-msgstr "Frecuencia de la CPU"
-
-#: rc.cpp:277
-msgid ""
-"$cpucl - average CPU clock, MHz\n"
-"$cpucl0 - CPU clock for core 0, MHz\n"
-"...\n"
-"$cpucl9 - CPU clock for core 9, MHz\n"
-"...\n"
-"$cpuclN - CPU clock for core N, MHz"
-msgstr ""
-"$cpucl - frecuencia de la CPU promedio, MHz\n"
-"$cpucl0 - frecuencia de la CPU para el núcleo 0, MHz\n"
-"...\n"
-"$cpucl9 - frecuencia de la CPU para el núcleo 9, MHz\n"
-"...\n"
-"$cpuclN - frecuencia de la CPU para el núcleo N, MHz"
-
-#: rc.cpp:285
-msgid "Temperature"
-msgstr "Temperatura"
-
-#: rc.cpp:288
-msgid "$tempN - physical temperature on device N (from 0). Example: $temp0"
-msgstr ""
-"$tempN - temperatura física en el dispositivo N (a partir de 0). Ejemplo: "
-"$temp0"
-
-#: rc.cpp:291
-msgid "GPU"
-msgstr "GPU"
-
-#: rc.cpp:295
-msgid "$gpu - gpu usage, %"
-msgstr "$gpu - uso de la GPU, %"
-
-#: rc.cpp:298
-msgid "GPU Temp"
-msgstr "Temperatura de la GPU"
-
-#: rc.cpp:301
-msgid "$gputemp - physical temperature on GPU"
-msgstr "$gputemp - temperatura física de la GPU"
-
-#: rc.cpp:304
-msgid "Memory"
-msgstr "Memoria"
-
-#: rc.cpp:308
-msgid ""
-"$mem - RAM usage, %\n"
-"$memmb - RAM usage, MB\n"
-"$memgb - RAM usage, GB\n"
-"$memtotmb - total RAM, MB\n"
-"$memtotgb - total RAM, GB"
-msgstr ""
-"$mem - uso de la RAM, %\n"
-"$memmb - uso de la RAM, MB\n"
-"$memgb - uso de la RAM, GB\n"
-"$memtotmb - uso total de la RAM, MB\n"
-"$memtotgb - uso total de la RAM, GB"
-
-#: rc.cpp:315
-msgid "Swap"
-msgstr "Swap"
-
-#: rc.cpp:319
-msgid ""
-"$swap - swap usage, %\n"
-"$swapmb - swap usage, MB\n"
-"$swapgb - swap usage, GB\n"
-"$swaptotmb - total swap, MB\n"
-"$swaptotgb - total swap, GB"
-msgstr ""
-"$swap - uso de la swap, %\n"
-"$swapmb - uso de la swap, MB\n"
-"$swapgb - uso de la swap, GB\n"
-"$swaptotmb - uso total de la swap, MB\n"
-"$swaptotgb - uso total de la swap, GB"
-
-#: rc.cpp:330
-msgid ""
-"$hddN - usage for mount point N (from 0), %. Example: $hdd0\n"
-"$hddmbN - usage for mount point N (from 0), MB. Example: $hddmb0\n"
-"$hddgbN - usage for mount point N (from 0), GB. Example: $hddgb0\n"
-"$hddtotmbN - total size of mount point N (from 0), MB. Example: $hddtotmb0\n"
-"$hddtotgbN - total size of mount point N (from 0), GB. Example: $hddtotgb0"
-msgstr ""
-"$hddN - uso para el punto de montaje N (a partir de 0), %. Ejemplo: $hdd0\n"
-"$hddmbN - uso para el punto de montaje N (a partir de 0), MB. Ejemplo: "
-"$hddmb0\n"
-"$hddgbN - uso para el punto de montaje N (a partir de 0), GB. Ejemplo: "
-"$hddgb0\n"
-"$hddtotmbN - uso total para el punto de montaje N (a partir de 0), MB. "
-"Ejemplo: $hddtotmb0\n"
-"$hddtotgbN - uso total para el punto de montaje N (a partir de 0), GB. "
-"Ejemplo: $hddtotgb0"
-
-#: rc.cpp:337
-msgid "HDD speed"
-msgstr "Velocidad del disco duro"
-
-#: rc.cpp:340
-msgid ""
-"$hddrN - read speed HDD N (from 0), KB/s. Example: $hddr0\n"
-"$hddwN - write speed HDD N (from 0), KB/s. Example: $hddw0"
-msgstr ""
-"$hddrN - velocidad de lectura del disco N (a partir de 0), KB/s. Por "
-"ejemplo: $hddr0\n"
-"$hddwN - velocidad de escritura del disco N (a partir de 0), KB/s. Por "
-"ejemplo: $hddw0"
-
-#: rc.cpp:344
-msgid "HDD temp"
-msgstr "Temperatura del disco duro"
-
-#: rc.cpp:347
-msgid ""
-"$hddtempN - physical temperature on device N (from 0). Example: $hddtemp0"
-msgstr ""
-"$hddtempN - temperatura física en el dispositivo N (a partir de 0). Ejemplo: "
-"$hddtemp0"
-
-#: rc.cpp:350
-msgid "Network"
-msgstr "Red"
-
-#: rc.cpp:353
-msgid ""
-"$down - download speed, KB/s\n"
-"$up - upload speed, KB/s\n"
-"$netdev - current network device"
-msgstr ""
-"$down - velocidad de recepción, KB/s\n"
-"$up - velocidad de envío, KB/s\n"
-"$netdev - dispositivo de red actual"
-
-#: rc.cpp:358
-msgid "Battery"
-msgstr "Batería"
-
-#: rc.cpp:362
-msgid ""
-"$bat - battery charge, %\n"
-"$ac - AC status"
-msgstr ""
-"$bat - carga de la batería, %\n"
-"$ac - estado de la alimentación"
-
-#: rc.cpp:369
-msgid ""
-"$album - song album\n"
-"$artist - song artist\n"
-"$progress - song progress\n"
-"$time - song duration\n"
-"$title - song title"
-msgstr ""
-"$album - álbum de la canción\n"
-"$artist - artista de la canción\n"
-"$progress - progreso de la canción\n"
-"$time - duración de la canción\n"
-"$title - título de la canción"
-
-#: rc.cpp:376
-msgid "Processes"
-msgstr "Procesos"
-
-#: rc.cpp:379
-msgid ""
-"$pscount - number of running processes\n"
-"$pstotal - total number of running processes\n"
-"$ps - list of running processes comma separated"
-msgstr ""
-"$pscount - número de procesos en ejecución\n"
-"$pstotal - total de procesos en ejecución\n"
-"$ps - listado de procesos en ejecución separados por coma"
-
-#: rc.cpp:387
-msgid ""
-"$pkgcountN - number of packages which are available for updates, command N. "
-"For example $pkgcount0"
-msgstr ""
-"$pkgcountN - número de paquetes con actualizaciones disponibles, comando N. "
-"Por ejemplo $pkgcount0"
-
-#: rc.cpp:390
-msgid "Custom"
-msgstr "Personalizado"
-
-#: rc.cpp:393
-msgid ""
-"$customN - get output from custom command N (from N). Example `$custom0`"
-msgstr ""
-"$customN - obtener la salida de ejecución del comando personalizado N (a "
-"partir de 0). Por ejemplo: $custom0"
-
-#: rc.cpp:396
-msgid "Current desktop"
+#: po/rc.cpp:223 rc.cpp:223
+msgid "Ctrl+B"
 msgstr ""
 
-#: rc.cpp:399
-msgid ""
-"$name - desktop name\n"
-"$number - desktop number\n"
-"$total - total number of desktops"
+#: po/rc.cpp:226 rc.cpp:226
+msgid "Ctrl+I"
 msgstr ""
 
-#: rc.cpp:402
+#: po/rc.cpp:229 rc.cpp:229
+msgid "Ctrl+U"
+msgstr ""
+
+#: po/rc.cpp:230 rc.cpp:230
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Tu nombre"
 
-#: rc.cpp:403
+#: po/rc.cpp:231 rc.cpp:231
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "Tus correos"
+
+#~ msgid "Form"
+#~ msgstr "Formulario"
+
+#~ msgid "Add"
+#~ msgstr "Añadir"
+
+#~ msgid "Network directory"
+#~ msgstr "Directorio de la red"
+
+#~ msgid "\"/sys/class/net\" by default"
+#~ msgstr "\"/sys/class/net\" por defecto"
+
+#~ msgid "Custom command to run"
+#~ msgstr "Comando personalizado para ejecutar"
+
+#~ msgid "Time"
+#~ msgstr "Hora"
+
+#~ msgid ""
+#~ "$time - time in default format\n"
+#~ "$isotime - time in ISO format\n"
+#~ "$shorttime - time in short format\n"
+#~ "$longtime - time in log format\n"
+#~ "$custom - custom time format"
+#~ msgstr ""
+#~ "$time - hora en el  formato por defecto\n"
+#~ "$isotime - hora en formato ISO\n"
+#~ "$shorttime - hora en formato corto\n"
+#~ "$longtime - hora en formato largo\n"
+#~ "$custom - hora en formato personalizado"
+
+#~ msgid "Uptime"
+#~ msgstr "Tiempo de actividad"
+
+#~ msgid ""
+#~ "$uptime - system uptime\n"
+#~ "$custom - custom format"
+#~ msgstr ""
+#~ "$uptime - tiempo de actividad del sistema\n"
+#~ "$custom - formato personalizado"
+
+#~ msgid "CPU"
+#~ msgstr "CPU"
+
+#~ msgid ""
+#~ "$cpu - total load CPU, %\n"
+#~ "$cpu0 - load CPU for core 0, %\n"
+#~ "...\n"
+#~ "$cpu9 - load CPU for core 9, %\n"
+#~ "...\n"
+#~ "$cpuN - load CPU for core N, %"
+#~ msgstr ""
+#~ "$cpu - carga total de la CPU, %\n"
+#~ "$cpu0 - carga de la CPU para el núcleo 0, %\n"
+#~ "...\n"
+#~ "$cpu9 - carga de la CPU para el núcleo 9, %\n"
+#~ "...\n"
+#~ "$cpuN - carga de la CPU para el núcleo N, %"
+
+#~ msgid "CPU Clock"
+#~ msgstr "Frecuencia de la CPU"
+
+#~ msgid ""
+#~ "$cpucl - average CPU clock, MHz\n"
+#~ "$cpucl0 - CPU clock for core 0, MHz\n"
+#~ "...\n"
+#~ "$cpucl9 - CPU clock for core 9, MHz\n"
+#~ "...\n"
+#~ "$cpuclN - CPU clock for core N, MHz"
+#~ msgstr ""
+#~ "$cpucl - frecuencia de la CPU promedio, MHz\n"
+#~ "$cpucl0 - frecuencia de la CPU para el núcleo 0, MHz\n"
+#~ "...\n"
+#~ "$cpucl9 - frecuencia de la CPU para el núcleo 9, MHz\n"
+#~ "...\n"
+#~ "$cpuclN - frecuencia de la CPU para el núcleo N, MHz"
+
+#~ msgid "Temperature"
+#~ msgstr "Temperatura"
+
+#~ msgid "$tempN - physical temperature on device N (from 0). Example: $temp0"
+#~ msgstr ""
+#~ "$tempN - temperatura física en el dispositivo N (a partir de 0). Ejemplo: "
+#~ "$temp0"
+
+#~ msgid "GPU"
+#~ msgstr "GPU"
+
+#~ msgid "$gpu - gpu usage, %"
+#~ msgstr "$gpu - uso de la GPU, %"
+
+#~ msgid "GPU Temp"
+#~ msgstr "Temperatura de la GPU"
+
+#~ msgid "$gputemp - physical temperature on GPU"
+#~ msgstr "$gputemp - temperatura física de la GPU"
+
+#~ msgid "Memory"
+#~ msgstr "Memoria"
+
+#~ msgid ""
+#~ "$mem - RAM usage, %\n"
+#~ "$memmb - RAM usage, MB\n"
+#~ "$memgb - RAM usage, GB\n"
+#~ "$memtotmb - total RAM, MB\n"
+#~ "$memtotgb - total RAM, GB"
+#~ msgstr ""
+#~ "$mem - uso de la RAM, %\n"
+#~ "$memmb - uso de la RAM, MB\n"
+#~ "$memgb - uso de la RAM, GB\n"
+#~ "$memtotmb - uso total de la RAM, MB\n"
+#~ "$memtotgb - uso total de la RAM, GB"
+
+#~ msgid "Swap"
+#~ msgstr "Swap"
+
+#~ msgid ""
+#~ "$swap - swap usage, %\n"
+#~ "$swapmb - swap usage, MB\n"
+#~ "$swapgb - swap usage, GB\n"
+#~ "$swaptotmb - total swap, MB\n"
+#~ "$swaptotgb - total swap, GB"
+#~ msgstr ""
+#~ "$swap - uso de la swap, %\n"
+#~ "$swapmb - uso de la swap, MB\n"
+#~ "$swapgb - uso de la swap, GB\n"
+#~ "$swaptotmb - uso total de la swap, MB\n"
+#~ "$swaptotgb - uso total de la swap, GB"
+
+#~ msgid ""
+#~ "$hddN - usage for mount point N (from 0), %. Example: $hdd0\n"
+#~ "$hddmbN - usage for mount point N (from 0), MB. Example: $hddmb0\n"
+#~ "$hddgbN - usage for mount point N (from 0), GB. Example: $hddgb0\n"
+#~ "$hddtotmbN - total size of mount point N (from 0), MB. Example: "
+#~ "$hddtotmb0\n"
+#~ "$hddtotgbN - total size of mount point N (from 0), GB. Example: $hddtotgb0"
+#~ msgstr ""
+#~ "$hddN - uso para el punto de montaje N (a partir de 0), %. Ejemplo: "
+#~ "$hdd0\n"
+#~ "$hddmbN - uso para el punto de montaje N (a partir de 0), MB. Ejemplo: "
+#~ "$hddmb0\n"
+#~ "$hddgbN - uso para el punto de montaje N (a partir de 0), GB. Ejemplo: "
+#~ "$hddgb0\n"
+#~ "$hddtotmbN - uso total para el punto de montaje N (a partir de 0), MB. "
+#~ "Ejemplo: $hddtotmb0\n"
+#~ "$hddtotgbN - uso total para el punto de montaje N (a partir de 0), GB. "
+#~ "Ejemplo: $hddtotgb0"
+
+#~ msgid "HDD speed"
+#~ msgstr "Velocidad del disco duro"
+
+#~ msgid ""
+#~ "$hddrN - read speed HDD N (from 0), KB/s. Example: $hddr0\n"
+#~ "$hddwN - write speed HDD N (from 0), KB/s. Example: $hddw0"
+#~ msgstr ""
+#~ "$hddrN - velocidad de lectura del disco N (a partir de 0), KB/s. Por "
+#~ "ejemplo: $hddr0\n"
+#~ "$hddwN - velocidad de escritura del disco N (a partir de 0), KB/s. Por "
+#~ "ejemplo: $hddw0"
+
+#~ msgid "HDD temp"
+#~ msgstr "Temperatura del disco duro"
+
+#~ msgid ""
+#~ "$hddtempN - physical temperature on device N (from 0). Example: $hddtemp0"
+#~ msgstr ""
+#~ "$hddtempN - temperatura física en el dispositivo N (a partir de 0). "
+#~ "Ejemplo: $hddtemp0"
+
+#~ msgid "Network"
+#~ msgstr "Red"
+
+#~ msgid ""
+#~ "$down - download speed, KB/s\n"
+#~ "$up - upload speed, KB/s\n"
+#~ "$netdev - current network device"
+#~ msgstr ""
+#~ "$down - velocidad de recepción, KB/s\n"
+#~ "$up - velocidad de envío, KB/s\n"
+#~ "$netdev - dispositivo de red actual"
+
+#~ msgid "Battery"
+#~ msgstr "Batería"
+
+#~ msgid ""
+#~ "$bat - battery charge, %\n"
+#~ "$ac - AC status"
+#~ msgstr ""
+#~ "$bat - carga de la batería, %\n"
+#~ "$ac - estado de la alimentación"
+
+#~ msgid ""
+#~ "$album - song album\n"
+#~ "$artist - song artist\n"
+#~ "$progress - song progress\n"
+#~ "$time - song duration\n"
+#~ "$title - song title"
+#~ msgstr ""
+#~ "$album - álbum de la canción\n"
+#~ "$artist - artista de la canción\n"
+#~ "$progress - progreso de la canción\n"
+#~ "$time - duración de la canción\n"
+#~ "$title - título de la canción"
+
+#~ msgid "Processes"
+#~ msgstr "Procesos"
+
+#~ msgid ""
+#~ "$pscount - number of running processes\n"
+#~ "$pstotal - total number of running processes\n"
+#~ "$ps - list of running processes comma separated"
+#~ msgstr ""
+#~ "$pscount - número de procesos en ejecución\n"
+#~ "$pstotal - total de procesos en ejecución\n"
+#~ "$ps - listado de procesos en ejecución separados por coma"
+
+#~ msgid ""
+#~ "$pkgcountN - number of packages which are available for updates, command "
+#~ "N. For example $pkgcount0"
+#~ msgstr ""
+#~ "$pkgcountN - número de paquetes con actualizaciones disponibles, comando "
+#~ "N. Por ejemplo $pkgcount0"
+
+#~ msgid "Custom"
+#~ msgstr "Personalizado"
+
+#~ msgid ""
+#~ "$customN - get output from custom command N (from N). Example `$custom0`"
+#~ msgstr ""
+#~ "$customN - obtener la salida de ejecución del comando personalizado N (a "
+#~ "partir de 0). Por ejemplo: $custom0"
 
 #~ msgid "Widget settings"
 #~ msgstr "Configuración del componente"

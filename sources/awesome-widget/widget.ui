@@ -103,7 +103,7 @@
         </iconset>
        </property>
        <property name="shortcut">
-        <string>Ctrl+I, Return</string>
+        <string>Ctrl+I</string>
        </property>
       </widget>
      </item>
