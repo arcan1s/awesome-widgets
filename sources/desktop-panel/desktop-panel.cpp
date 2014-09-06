@@ -32,22 +32,16 @@
 #include <QProcessEnvironment>
 #include <QTextCodec>
 
+#include <fontdialog/fontdialog.h>
 #include <pdebug/pdebug.h>
 
 
-CustomPlasmaLabel::CustomPlasmaLabel(DesktopPanel *wid, const int num)
+CustomPlasmaLabel::CustomPlasmaLabel(DesktopPanel *wid, const int num, const bool debugCmd)
     : Plasma::Label(wid),
+      debug(debugCmd),
       number(num),
       widget(wid)
 {
-    // debug
-    QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
-    QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
-    if (debugEnv == QString("yes"))
-        debug = true;
-    else
-        debug = false;
-
     if (debug) qDebug() << PDEBUG << ":" << "Init label" << number;
 }
 
@@ -345,35 +339,33 @@ void DesktopPanel::createConfigurationInterface(KConfigDialog *parent)
     uiWidConfig.lineEdit_desktopcmd->setText(configuration[QString("desktopcmd")]);
 
     KConfigGroup cg = config();
-    QString fontFamily = cg.readEntry("currentFontFamily", "Terminus");
-    int fontSize = cg.readEntry("currentFontSize", 10);
-    QString fontColor = cg.readEntry("currentFontColor", "#ff0000");
-    int fontWeight = cg.readEntry("currentFontWeight", 400);
-    QString fontStyle = cg.readEntry("currentFontStyle", "normal");
-    QFont font = QFont(fontFamily, 12, 400, false);
-    uiAppConfig.fontComboBox_fontActive->setCurrentFont(font);
-    uiAppConfig.spinBox_fontSizeActive->setValue(fontSize);
-    uiAppConfig.kcolorcombo_fontColorActive->setColor(fontColor);
-    uiAppConfig.spinBox_fontWeightActive->setValue(fontWeight);
-    if (fontStyle == QString("normal"))
-        uiAppConfig.comboBox_fontStyleActive->setCurrentIndex(0);
-    else if (fontStyle == QString("italic"))
+    CFont font(cg.readEntry("currentFontFamily", "Terminus"));
+    font.setPointSize(cg.readEntry("currentFontSize", 10));
+    font.setCurrentColor(QColor(cg.readEntry("currentFontColor", "#ff0000")));
+    font.setHtmlWeight(cg.readEntry("currentFontWeight", 400));
+    font.setItalic(cg.readEntry("currentFontStyle", "normal") == QString("italic"));
+    uiAppConfig.fontComboBox_fontActive->setCurrentFont(font.toQFont());
+    uiAppConfig.spinBox_fontSizeActive->setValue(font.pointSize());
+    uiAppConfig.kcolorcombo_fontColorActive->setColor(font.color());
+    if (font.italic())
         uiAppConfig.comboBox_fontStyleActive->setCurrentIndex(1);
+    else
+        uiAppConfig.comboBox_fontStyleActive->setCurrentIndex(0);
+    uiAppConfig.spinBox_fontWeightActive->setValue(font.htmlWeight());
 
-    fontFamily = cg.readEntry("fontFamily", "Terminus");
-    fontSize = cg.readEntry("fontSize", 10);
-    fontColor = cg.readEntry("fontColor", "#000000");
-    fontWeight = cg.readEntry("fontWeight", 400);
-    fontStyle = cg.readEntry("fontStyle", "normal");
-    font = QFont(fontFamily, 12, 400, FALSE);
-    uiAppConfig.fontComboBox_fontInactive->setCurrentFont(font);
-    uiAppConfig.spinBox_fontSizeInactive->setValue(fontSize);
-    uiAppConfig.kcolorcombo_fontColorInactive->setColor(fontColor);
-    uiAppConfig.spinBox_fontWeightInactive->setValue(fontWeight);
-    if (fontStyle == "normal")
-        uiAppConfig.comboBox_fontStyleInactive->setCurrentIndex(0);
-    else if (fontStyle == "italic")
+    font = CFont(cg.readEntry("fontFamily", "Terminus"));
+    font.setPointSize(cg.readEntry("fontSize", 10));
+    font.setCurrentColor(QColor(cg.readEntry("fontColor", "#000000")));
+    font.setHtmlWeight(cg.readEntry("fontWeight", 400));
+    font.setItalic(cg.readEntry("fontStyle", "normal") == QString("italic"));
+    uiAppConfig.fontComboBox_fontInactive->setCurrentFont(font.toQFont());
+    uiAppConfig.spinBox_fontSizeInactive->setValue(font.pointSize());
+    uiAppConfig.kcolorcombo_fontColorInactive->setColor(font.color());
+    if (font.italic())
         uiAppConfig.comboBox_fontStyleInactive->setCurrentIndex(1);
+    else
+        uiAppConfig.comboBox_fontStyleInactive->setCurrentIndex(0);
+    uiAppConfig.spinBox_fontWeightInactive->setValue(font.htmlWeight());
 
     uiToggleConfig.listWidget_list->clear();
     QList<Plasma::Containment *> panels = getPanels();
@@ -454,31 +446,44 @@ void DesktopPanel::configChanged()
 
     extsysmonEngine->connectSource(QString("desktop"), this, configuration[QString("interval")].toInt());
 
-    QString fontFamily = cg.readEntry("currentFontFamily", "Terminus");
-    int fontSize = cg.readEntry("currentFontSize", 10);
-    QString fontColor = cg.readEntry("currentFontColor", "#ff0000");
-    int fontWeight = cg.readEntry("currentFontWeight", 400);
-    QString fontStyle = cg.readEntry("currentFontStyle", "normal");
-    currentFormatLine[0] = ("<pre><p align=\"center\"><span style=\" font-family:'" + fontFamily + \
-                     "'; font-style:" + fontStyle + \
-                     "; font-size:" + QString::number(fontSize) + \
-                     "pt; font-weight:" + QString::number(fontWeight) + \
-                     "; color:" + fontColor + \
-                     ";\">");
-    currentFormatLine[1] = ("</span></p></pre>");
+    CFont font = CFont(cg.readEntry("currentFontFamily", "Terminus"));
+    font.setPointSize(cg.readEntry("currentFontSize", 10));
+    font.setCurrentColor(QColor(cg.readEntry("currentFontColor", "#ff0000")));
+    font.setHtmlWeight(cg.readEntry("currentFontWeight", 400));
+    font.setItalic(cg.readEntry("currentFontStyle", "normal") == QString("italic"));
+    QString fontStyle;
+    if (font.italic())
+        fontStyle = QString("italic");
+    else
+        fontStyle = QString("normal");
+    currentFormatLine[0] = QString("<html><head><meta name=\"qrichtext\" content=\"1\" />\
+    <style type=\"text/css\">p, li { white-space: pre-wrap; }</style>\
+    </head><body style=\"font-family:'%1'; font-size:%2pt; font-weight:%3; font-style:%4; color:%5;\">")
+            .arg(font.family())
+            .arg(font.pointSize())
+            .arg(font.htmlWeight())
+            .arg(fontStyle)
+            .arg(font.color().name());
+    currentFormatLine[1] = QString("</body></html>");
 
-    fontFamily = cg.readEntry("fontFamily", "Terminus");
-    fontSize = cg.readEntry("fontSize", 10);
-    fontColor = cg.readEntry("fontColor", "#000000");
-    fontWeight = cg.readEntry("fontWeight", 400);
-    fontStyle = cg.readEntry("fontStyle", "normal");
-    formatLine[0] = ("<pre><p align=\"center\"><span style=\" font-family:'" + fontFamily + \
-                     "'; font-style:" + fontStyle + \
-                     "; font-size:" + QString::number(fontSize) + \
-                     "pt; font-weight:" + QString::number(fontWeight) + \
-                     "; color:" + fontColor + \
-                     ";\">");
-    formatLine[1] = ("</span></p></pre>");
+    font = CFont(cg.readEntry("fontFamily", "Terminus"));
+    font.setPointSize(cg.readEntry("fontSize", 10));
+    font.setCurrentColor(QColor(cg.readEntry("fontColor", "#000000")));
+    font.setHtmlWeight(cg.readEntry("fontWeight", 400));
+    font.setItalic(cg.readEntry("fontStyle", "normal") == QString("italic"));
+    if (font.italic())
+        fontStyle = QString("italic");
+    else
+        fontStyle = QString("normal");
+    formatLine[0] = QString("<html><head><meta name=\"qrichtext\" content=\"1\" />\
+    <style type=\"text/css\">p, li { white-space: pre-wrap; }</style>\
+    </head><body style=\"font-family:'%1'; font-size:%2pt; font-weight:%3; font-style:%4; color:%5;\">")
+            .arg(font.family())
+            .arg(font.pointSize())
+            .arg(font.htmlWeight())
+            .arg(fontStyle)
+            .arg(font.color().name());
+    formatLine[1] = QString("</body></html>");
 
     reinit();
 }

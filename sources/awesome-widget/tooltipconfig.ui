@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Tooltip configuration</string>
+   <string notr="true">Tooltip</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_6">
    <item>

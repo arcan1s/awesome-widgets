@@ -306,7 +306,7 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
 
     // appearance
     KConfigGroup cg = config();
-    CFont font(cg.readEntry("fontFamily", "Terminus"));
+    CFont font = CFont(cg.readEntry("fontFamily", "Terminus"));
     font.setPointSize(cg.readEntry("fontSize", 10));
     font.setCurrentColor(QColor(cg.readEntry("fontColor", "#000000")));
     font.setHtmlWeight(cg.readEntry("fontWeight", 400));
@@ -600,11 +600,11 @@ void AwesomeWidget::configChanged()
     formatLine[0] = QString("<html><head><meta name=\"qrichtext\" content=\"1\" />\
     <style type=\"text/css\">p, li { white-space: pre-wrap; }</style>\
     </head><body style=\"font-family:'%1'; font-size:%2pt; font-weight:%3; font-style:%4; color:%5;\">")
-                .arg(font.family())
-                .arg(font.pointSize())
-                .arg(font.htmlWeight())
-                .arg(fontStyle)
-                .arg(font.color().name());
+            .arg(font.family())
+            .arg(font.pointSize())
+            .arg(font.htmlWeight())
+            .arg(fontStyle)
+            .arg(font.color().name());
     formatLine[1] = QString("</body></html>");
 
     // counts

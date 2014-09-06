@@ -37,7 +37,8 @@ class CustomPlasmaLabel : public Plasma::Label
     Q_OBJECT
 
 public:
-    CustomPlasmaLabel(DesktopPanel *wid, const int num);
+    CustomPlasmaLabel(DesktopPanel *wid, const int num,
+                      const bool debugCmd = false);
     ~CustomPlasmaLabel();
     int getNumber();
 

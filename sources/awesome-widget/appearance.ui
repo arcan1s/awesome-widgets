@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Appearance configuration</string>
+   <string notr="true">Appearance</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">

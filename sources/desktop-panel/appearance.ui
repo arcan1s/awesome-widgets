@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string notr="true">Configuration Window</string>
+   <string notr="true">Apearance</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -346,8 +346,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>448</width>
-            <height>289</height>
+            <width>406</width>
+            <height>167</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_2">
