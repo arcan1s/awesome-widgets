@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2014-09-05 11:46+0400\n"
+"POT-Creation-Date: 2014-09-06 16:04+0400\n"
 "PO-Revision-Date: 2014-09-05 11:21+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-russian@lists.kde.ru>\n"
@@ -29,15 +29,15 @@ msgstr "Mostrar README"
 msgid "Update text"
 msgstr "Atualizar texto"
 
-#: configuration.cpp:331 po/rc.cpp:163 rc.cpp:163
+#: configuration.cpp:331 po/rc.cpp:154 rc.cpp:154
 msgid "Custom command"
 msgstr "Comando personalizado"
 
-#: configuration.cpp:361 po/rc.cpp:153 rc.cpp:153
+#: configuration.cpp:361 po/rc.cpp:144 rc.cpp:144
 msgid "Package manager"
 msgstr "Gerenciador de pacotes"
 
-#: configuration.cpp:362 po/rc.cpp:156 rc.cpp:156
+#: configuration.cpp:362 po/rc.cpp:147 rc.cpp:147
 msgid "Null lines"
 msgstr "Número de valores para dicas de contexto"
 
@@ -70,34 +70,30 @@ msgid "Select font"
 msgstr ""
 
 #: po/rc.cpp:3 rc.cpp:3
-msgid "Advanced configuration"
-msgstr ""
-
-#: po/rc.cpp:6 rc.cpp:6
 msgid "Enable background"
 msgstr ""
 
-#: po/rc.cpp:9 rc.cpp:9
+#: po/rc.cpp:6 rc.cpp:6
 msgid "Vertical layout"
 msgstr "Layout vertical"
 
-#: po/rc.cpp:12 rc.cpp:12
+#: po/rc.cpp:9 rc.cpp:9
 msgid "Enable popup on mouse click"
 msgstr "Ativar popup no clique do mouse"
 
-#: po/rc.cpp:15 rc.cpp:15
+#: po/rc.cpp:12 rc.cpp:12
 msgid "Add stretch to left/top of the layout"
 msgstr "Adicionar esticamento à esquerda/topo do layout"
 
-#: po/rc.cpp:18 rc.cpp:18
+#: po/rc.cpp:15 rc.cpp:15
 msgid "Add stretch to right/bottom of the layout"
 msgstr "Adicionar esticamento à direita/inferior do layout"
 
-#: po/rc.cpp:21 rc.cpp:21
+#: po/rc.cpp:18 rc.cpp:18
 msgid "Custom time format"
 msgstr "Formato de hora personalizado"
 
-#: po/rc.cpp:24 rc.cpp:24
+#: po/rc.cpp:21 rc.cpp:21
 msgid ""
 "$dddd - long weekday\n"
 "$ddd - short weekday\n"
@@ -131,11 +127,11 @@ msgstr ""
 "$ss - segundos\n"
 "$s segundos sem zeros"
 
-#: po/rc.cpp:42 rc.cpp:42
+#: po/rc.cpp:39 rc.cpp:39
 msgid "Custom uptime format"
 msgstr "Tempo em atividade com formato personalizado"
 
-#: po/rc.cpp:45 rc.cpp:45
+#: po/rc.cpp:42 rc.cpp:42
 msgid ""
 "$dd - uptime days\n"
 "$d - uptime days without zero\n"
@@ -151,125 +147,117 @@ msgstr ""
 "$mm - tempo em atividade em minutos\n"
 "$m - tempo em atividade em minuto sem zeros"
 
-#: po/rc.cpp:53 rc.cpp:53
+#: po/rc.cpp:50 rc.cpp:50
 msgid "Temperature units"
 msgstr "Unidades de temperatura"
 
-#: po/rc.cpp:56 rc.cpp:56
+#: po/rc.cpp:53 rc.cpp:53
 msgid "Temperature devices"
 msgstr "Dispositivos de temperatura"
 
-#: po/rc.cpp:59 po/rc.cpp:65 po/rc.cpp:71 po/rc.cpp:77 rc.cpp:59 rc.cpp:65
-#: rc.cpp:71 rc.cpp:77
+#: po/rc.cpp:56 po/rc.cpp:62 po/rc.cpp:68 po/rc.cpp:74 rc.cpp:56 rc.cpp:62
+#: rc.cpp:68 rc.cpp:74
 msgid "Editable"
 msgstr "Editável"
 
-#: po/rc.cpp:62 rc.cpp:62
+#: po/rc.cpp:59 rc.cpp:59
 msgid "Mount points"
 msgstr "Pontos de montagem"
 
-#: po/rc.cpp:68 rc.cpp:68
+#: po/rc.cpp:65 rc.cpp:65
 msgid "HDD devices (speed)"
 msgstr "Dispositivos HDD (velocidade) "
 
-#: po/rc.cpp:74 rc.cpp:74
+#: po/rc.cpp:71 rc.cpp:71
 msgid "HDD devices (temp)"
 msgstr "Dispositivos HDD (temperatura)"
 
-#: po/rc.cpp:80 rc.cpp:80
+#: po/rc.cpp:77 rc.cpp:77
 msgid "Disable auto select device and set specified device"
 msgstr ""
 "Desativar auto seleção de dispositivos e escolher um dispositivo específico"
 
-#: po/rc.cpp:83 rc.cpp:83
+#: po/rc.cpp:80 rc.cpp:80
 msgid "Set network device"
 msgstr "Escolher dispositivo de rede"
 
-#: po/rc.cpp:86 rc.cpp:86
+#: po/rc.cpp:83 rc.cpp:83
 msgid "AC online tag"
 msgstr "Rótulo com carregador conectado"
 
-#: po/rc.cpp:89 rc.cpp:89
+#: po/rc.cpp:86 rc.cpp:86
 msgid "Line, which returns when AC is online"
 msgstr "Linha, que aparece quando o carregador está conectado"
 
-#: po/rc.cpp:92 rc.cpp:92
+#: po/rc.cpp:89 rc.cpp:89
 msgid "AC offline tag"
 msgstr "Rótulo com carregador desconectado"
 
-#: po/rc.cpp:95 rc.cpp:95
+#: po/rc.cpp:92 rc.cpp:92
 msgid "Line, which returns when AC is offline"
 msgstr "Linha, que aparece quando o carregador está offline"
 
-#: po/rc.cpp:98 rc.cpp:98
-msgid "Appearance configuration"
-msgstr ""
-
-#: po/rc.cpp:101 rc.cpp:101
+#: po/rc.cpp:95 rc.cpp:95
 msgid "Time interval"
 msgstr "Intervalo de tempo"
 
-#: po/rc.cpp:104 po/rc.cpp:220 rc.cpp:104 rc.cpp:220
+#: po/rc.cpp:98 po/rc.cpp:205 rc.cpp:98 rc.cpp:205
 msgid "Font"
 msgstr "Tamanho da fonte"
 
-#: po/rc.cpp:107 rc.cpp:107
+#: po/rc.cpp:101 rc.cpp:101
 msgid "Font size"
 msgstr "Tamanho da fonte"
 
-#: po/rc.cpp:110 rc.cpp:110
+#: po/rc.cpp:104 rc.cpp:104
 msgid "Font color"
 msgstr "Cor da fonte"
 
-#: po/rc.cpp:113 rc.cpp:113
+#: po/rc.cpp:107 rc.cpp:107
 msgid "Font style"
 msgstr "Estilo da fonte"
 
-#: po/rc.cpp:116 rc.cpp:116
+#: po/rc.cpp:110 rc.cpp:110
 msgid "Font weight"
 msgstr "Peso da fonte"
 
-#: po/rc.cpp:119 rc.cpp:119
-msgid "DE Configuration"
-msgstr ""
-
-#: po/rc.cpp:122 rc.cpp:122
+#: po/rc.cpp:113 rc.cpp:113
 msgid "HDD"
 msgstr "HDD"
 
-#: po/rc.cpp:125 rc.cpp:125
+#: po/rc.cpp:116 rc.cpp:116
 msgid "MPD port"
 msgstr "Porta do MPD"
 
-#: po/rc.cpp:128 rc.cpp:128
+#: po/rc.cpp:119 rc.cpp:119
 msgid "GPU device"
 msgstr "Dispositivo GPU"
 
-#: po/rc.cpp:131 rc.cpp:131
+#: po/rc.cpp:122 rc.cpp:122
 msgid "hddtemp cmd"
 msgstr "comando hddtemp "
 
-#: po/rc.cpp:134 rc.cpp:134
+#: po/rc.cpp:125 rc.cpp:125
 msgid "Music player"
 msgstr "Reprodutor de áudio"
 
-#: po/rc.cpp:137 rc.cpp:137
+#: po/rc.cpp:128 rc.cpp:128
 msgid "MPD address"
 msgstr "Endereço do MPD"
 
-#: po/rc.cpp:140 rc.cpp:140
+#: po/rc.cpp:131 rc.cpp:131
 msgid "Desktop check cmd"
 msgstr ""
 
-#: po/rc.cpp:143 rc.cpp:143
+#: po/rc.cpp:134 rc.cpp:134
 msgid "<b>NOTE:</b> Player DBus interface should be an active"
 msgstr ""
 
-#: po/rc.cpp:146 rc.cpp:146
+#: po/rc.cpp:137 rc.cpp:137
 msgid "MPRIS player name"
 msgstr ""
 
-#: po/rc.cpp:149 po/rc.cpp:159 rc.cpp:149 rc.cpp:159
+#: po/rc.cpp:140 po/rc.cpp:150 rc.cpp:140 rc.cpp:150
 msgid ""
 "Editable\n"
 "del - remove item"
@@ -277,27 +265,23 @@ msgstr ""
 "Editável\n"
 "del - remover item"
 
-#: po/rc.cpp:166 rc.cpp:166
+#: po/rc.cpp:157 rc.cpp:157
 msgid "Battery device"
 msgstr "Dispositivo do carregador"
 
-#: po/rc.cpp:169 rc.cpp:169
+#: po/rc.cpp:160 rc.cpp:160
 msgid "\"/sys/class/power_supply/BAT0/capacity\" by default"
 msgstr "\"/sys/class/power_supply/BAT0/capacity\" por padrão"
 
-#: po/rc.cpp:172 rc.cpp:172
+#: po/rc.cpp:163 rc.cpp:163
 msgid "AC device"
 msgstr "Dispositivo do carregador"
 
-#: po/rc.cpp:175 rc.cpp:175
+#: po/rc.cpp:166 rc.cpp:166
 msgid "\"/sys/class/power_supply/AC/online\" by default"
 msgstr "\"/sys/class/power_supply/AC/online\" por padrão"
 
-#: po/rc.cpp:178 rc.cpp:178
-msgid "Tooltip configuration"
-msgstr ""
-
-#: po/rc.cpp:181 rc.cpp:181
+#: po/rc.cpp:169 rc.cpp:169
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
 "To enable them just make needed checkbox fully checked."
@@ -305,52 +289,48 @@ msgstr ""
 "Os rótulos de CPU, frequência de GPU, memória, swap e rede suportam dica de "
 "contexto gráfica. Para ativá-los, basta selecionar a caixa necessária."
 
-#: po/rc.cpp:184 rc.cpp:184
+#: po/rc.cpp:172 rc.cpp:172
 msgid "Number of values for tooltips"
 msgstr "Número de valores para dicas de contexto"
 
-#: po/rc.cpp:187 rc.cpp:187
+#: po/rc.cpp:175 rc.cpp:175
 msgid "Background"
 msgstr ""
 
-#: po/rc.cpp:190 rc.cpp:190
+#: po/rc.cpp:178 rc.cpp:178
 msgid "CPU color"
 msgstr "Cor da frequência da GPU"
 
-#: po/rc.cpp:193 rc.cpp:193
+#: po/rc.cpp:181 rc.cpp:181
 msgid "CPU clock color"
 msgstr "Cor da frequência da GPU"
 
-#: po/rc.cpp:196 rc.cpp:196
+#: po/rc.cpp:184 rc.cpp:184
 msgid "Memory color"
 msgstr "Cor da memória"
 
-#: po/rc.cpp:199 rc.cpp:199
+#: po/rc.cpp:187 rc.cpp:187
 msgid "Swap color"
 msgstr "Cor do swap"
 
-#: po/rc.cpp:202 rc.cpp:202
+#: po/rc.cpp:190 rc.cpp:190
 msgid "Download speed color"
 msgstr "Cor da velocidade de download"
 
-#: po/rc.cpp:205 rc.cpp:205
+#: po/rc.cpp:193 rc.cpp:193
 msgid "Upload speed color"
 msgstr "Cor da velocidade de upload"
 
-#: po/rc.cpp:208 rc.cpp:208
+#: po/rc.cpp:196 rc.cpp:196
 msgid "Battery active color"
 msgstr ""
 
-#: po/rc.cpp:211 rc.cpp:211
+#: po/rc.cpp:199 rc.cpp:199
 #, fuzzy
 msgid "Battery inactive color"
 msgstr "Dispositivo do carregador"
 
-#: po/rc.cpp:214 rc.cpp:214
-msgid "Widget configuration"
-msgstr ""
-
-#: po/rc.cpp:217 rc.cpp:217
+#: po/rc.cpp:202 rc.cpp:202
 msgid ""
 "Detailed information may be found on <a href=\"http://arcanis.name/projects/"
 "awesome-widgets/\">project homepage</a>"
@@ -358,28 +338,28 @@ msgstr ""
 "Informações detalhadas podem ser encontradas na <a href=\"http://arcanis."
 "name/projects/awesome-widgets/\">página do projeto</a>"
 
-#: po/rc.cpp:223 rc.cpp:223
+#: po/rc.cpp:208 rc.cpp:208
 msgid "Ctrl+B"
 msgstr "Ctrl+B"
 
-#: po/rc.cpp:226 rc.cpp:226
+#: po/rc.cpp:211 rc.cpp:211
 msgid "Ctrl+I"
 msgstr "Ctrl+I"
 
-#: po/rc.cpp:229 rc.cpp:229
+#: po/rc.cpp:214 rc.cpp:214
 msgid "Ctrl+U"
 msgstr "Ctrl+U"
 
-#: po/rc.cpp:232 rc.cpp:232
+#: po/rc.cpp:217 rc.cpp:217
 msgid "Add"
 msgstr "Adicionar"
 
-#: po/rc.cpp:233 rc.cpp:233
+#: po/rc.cpp:218 rc.cpp:218
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "under"
 
-#: po/rc.cpp:234 rc.cpp:234
+#: po/rc.cpp:219 rc.cpp:219
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "dreanazous@gmail.com"
