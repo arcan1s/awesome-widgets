@@ -94,8 +94,8 @@ private:
     QStringList findKeys();
     QStringList getKeys();
     // ui
-    QGraphicsLinearLayout *mainLayout;
-    CustomLabel *textLabel;
+    QGraphicsLinearLayout *mainLayout = nullptr;
+    CustomLabel *textLabel = nullptr;
     QTimer *timer;
     QList<QAction *> contextMenu;
     // tooltip

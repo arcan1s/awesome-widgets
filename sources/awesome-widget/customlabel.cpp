@@ -30,6 +30,7 @@ CustomLabel::CustomLabel(AwesomeWidget *wid, const bool debugCmd)
       widget(wid),
       debug(debugCmd)
 {
+    setWordWrap(false);
 }
 
 
