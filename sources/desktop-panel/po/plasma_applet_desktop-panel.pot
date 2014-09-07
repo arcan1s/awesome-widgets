@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2014-09-06 16:04+0400\n"
+"POT-Creation-Date: 2014-09-08 02:02+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,35 +17,35 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: desktop-panel.cpp:139
+#: desktop-panel.cpp:141
 msgid "Top Edge"
 msgstr ""
 
-#: desktop-panel.cpp:141
+#: desktop-panel.cpp:143
 msgid "Bottom Edge"
 msgstr ""
 
-#: desktop-panel.cpp:143
+#: desktop-panel.cpp:145
 msgid "Left Edge"
 msgstr ""
 
-#: desktop-panel.cpp:145
+#: desktop-panel.cpp:147
 msgid "Right Edge"
 msgstr ""
 
-#: desktop-panel.cpp:147
+#: desktop-panel.cpp:149
 msgid "Unknown Position (%1)"
 msgstr ""
 
-#: desktop-panel.cpp:383
+#: desktop-panel.cpp:375
 msgid "Widget"
 msgstr ""
 
-#: desktop-panel.cpp:384
+#: desktop-panel.cpp:376
 msgid "Appearance"
 msgstr ""
 
-#: desktop-panel.cpp:385
+#: desktop-panel.cpp:377
 msgid "Toggle panels"
 msgstr ""
 
@@ -115,10 +115,10 @@ msgstr ""
 
 #: po/rc.cpp:66 rc.cpp:66
 msgid ""
-"$mark$ - show mark if the current desktop is active\n"
-"$name$ - desktop name\n"
-"$number$ - desktop number\n"
-"$total$ - total number of desktops"
+"$mark - show mark if the current desktop is active\n"
+"$name - desktop name\n"
+"$number - desktop number\n"
+"$total - total number of desktops"
 msgstr ""
 
 #: po/rc.cpp:72 rc.cpp:72

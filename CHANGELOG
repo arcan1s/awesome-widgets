@@ -1,9 +1,33 @@
+Ver.2.0.0:
++ add new widget - awesome widget
++ add new tags $hddfreemb, $hddfreegb, $memusedmb, $memusedgb, $memfreemb $memfreegb, $swapfreemb, $swapfreegb
++ add new DataEngine - battery
++ add new tooltip - battery
++ add new temperature units cm^-1, kcal/mol, kJ/mol, Reamur
++ add ability to hide panels by hotkey pressing
+- remove widget pytextmonitor
+- remove separate fields
+- remove README
+* project has been renamed to Awesome Widgets
+* rename tag $custom (time) to $ctime
+* rename tag $custom (uptime) to $cuptime
+* rename tag $time (player) to $duration
+* rename tag $number to $ndesktop
+* rename tag $name to $desktop
+* rename tag $total to $tdesktops
+* debug flag is DEBUG now
+* rewrite project to C++
+* tooltip doesn't depend on widget now
+* text align now can be configured only by using HTML tags
+* move battery and AC settings to DataEngine
+* changes in configuration interface
+
 Ver.1.11.0:
-+ added ability to disable background image
-+ added desktop DataEngine
-+ added PTM desktop panel
-+ added desktop label (tags $name, $number, $total)
-+ added ability to interact with players using mpris
++ add ability to disable background image
++ add desktop DataEngine
++ add PTM desktop panel
++ add desktop label (tags $name, $number, $total)
++ add ability to interact with players using mpris
 * rewrite to use submodules
 * rewrite dataengine to use tasks
 * fix nvidia temperature definition
@@ -17,61 +41,61 @@ Ver.1.10.1:
 - fix checking of qmmp
 
 Ver.1.10.0:
-+ added tags $hddtotmb, $hddtotgb
-+ added tags $memtotmb, $memtotgb, $swaptotmb, $swaptotgb
-+ added ability for force update text
-+ added support of clementine
-+ added support of hddtemp cmd
-+ added support of disable option for HDDDEV and GPUDEV
-+ added error checking of DataEngine variables
-+ added multithreading to DataEngine
-+ added ability to disable popup messages
-+ added ability to use vertical layout
-+ added ability to add stretch
-+ added ability to show debug information (set environment variable 'PTM_DEBUG' to 'yes')
-+ added Brazillian Portuguese translation (@underr)
-+ added Ukrainian translation (Виктор Слободян)
-- removed util.py
-- removed createNotifyrc since it isn't needed
++ add tags $hddtotmb, $hddtotgb
++ add tags $memtotmb, $memtotgb, $swaptotmb, $swaptotgb
++ add ability for force update text
++ add support of clementine
++ add support of hddtemp cmd
++ add support of disable option for HDDDEV and GPUDEV
++ add error checking of DataEngine variables
++ add multithreading to DataEngine
++ add ability to disable popup messages
++ add ability to use vertical layout
++ add ability to add stretch
++ add ability to show debug information (set environment variable 'PTM_DEBUG' to 'yes')
++ add Brazillian Portuguese translation (@underr)
++ add Ukrainian translation (Виктор Слободян)
+- remove util.py
+- remove createNotifyrc since it isn't needed
 * refactoring of configuration interface
 * player settings was moved from plasmoid to dataengine
-* edited readme call
-* changed readme from md to html
+* edit readme call
+* change readme from md to html
 
 Ver.1.9.0:
-+ added support of several custom commands ($customN)
-+ added hdd speed label ($hddrN, $hddwN)
-+ added actions to context menu (open readme and run ksysguard)
-- removed doubleclick event
++ add support of several custom commands ($customN)
++ add hdd speed label ($hddrN, $hddwN)
++ add actions to context menu (open readme and run ksysguard)
+- remove doubleclick event
 * fix parsing pkg label
 
 Ver.1.8.3:
-+ added Spanish translation (thanks to Ernesto Avilés Vzqz)
-+ added readme to the package
++ add Spanish translation (thanks to Ernesto Avilés Vzqz)
++ add readme to the package
 
 Ver.1.8.2:
-+ added different temperature units (Farenheit and Kelvin)
++ add different temperature units (Farenheit and Kelvin)
 
 Ver.1.8.1:
 * change pkg update time to hour
 
 Ver.1.8.0:
-+ added scrollbar to configuration interface
-+ added AC lines configuration
-+ added $hddmbN, %hddgbN tags
-+ added support of ps ($ps, $pscount, $pstotal tags)
-+ added support of package managers ($pkgcountN tags)
++ add scrollbar to configuration interface
++ add AC lines configuration
++ add $hddmbN, $hddgbN tags
++ add support of ps ($ps, $pscount, $pstotal tags)
++ add support of package managers ($pkgcountN tags)
 * refactoring of DataEngine
 
 Ver.1.7.4:
-+ added support more than 10 tags in cpu, cpuclock, hdd, hddtemp, temp labels
++ add support more than 10 tags in cpu, cpuclock, hdd, hddtemp, temp labels
 - format bug fixes
 * changes in custom uptime format
 
 Ver.1.7.3:
-+ added tags $memgb, $swapgb
-+ added readme directory
-+ added french translation (@Mermouy)
++ add tags $memgb, $swapgb
++ add readme directory
++ add french translation (@Mermouy)
 - fix tooltip for custom uptime format
 - fix #12
 * more refactoring to the god of refactoring
@@ -80,108 +104,108 @@ Ver.1.7.3:
 * player_name now has str type
 
 Ver.1.7.2:
-+ added tags $dd, $d, $hh, $h, $mm, $m to custom uptime format
-+ added scalling to tooltips
-+ added dataengine configuration from ptm
-+ added custom command to dataengine
-- removed custom command from ptm
-- removed tags $ds, $hs, $ms
++ add tags $dd, $d, $hh, $h, $mm, $m to custom uptime format
++ add scalling to tooltips
++ add dataengine configuration from ptm
++ add custom command to dataengine
+- remove custom command from ptm
+- remove tags $ds, $hs, $ms
 
 Ver.1.7.1:
-- removed error label
+- remove error label
 * fix bug with zero values in tooltip
 
 Ver.1.7.0:
-+ added support of several tags in temperature label
-+ added tags $cpuN, $cpuclN, $hddN, $tempN, $hddtempN, $up, $down
-+ added label with custom command
-+ added tooltips for CPU, CPU clock, memory, swap and network labels
-- removed tags @@...@@, $temp, $ccpu, $ccpucl, $net
++ add support of several tags in temperature label
++ add tags $cpuN, $cpuclN, $hddN, $tempN, $hddtempN, $up, $down
++ add label with custom command
++ add tooltips for CPU, CPU clock, memory, swap and network labels
+- remove tags @@...@@, $temp, $ccpu, $ccpucl, $net
 * changes in settings
 * ptm now does not require net-tools
 * refactoring
 
 Ver.1.6.1:
-+ added support of several devices in hddtemp label
++ add support of several devices in hddtemp label
 - fixed #6
 
 Ver.1.6.0:
-+ added $custom tag to time and uptime labels (#8)
++ add $custom tag to time and uptime labels (#8)
 + russian translation
-- fixed #6, #10
-* changed license to GPLv3
-* changed project build
+- fix #6, #10
+* change license to GPLv3
+* change project build
 
 Ver.1.5.3:
-+ added $album, $progress and $time tags to player label (#7)
-- fixed zero swap
++ add $album, $progress and $time tags to player label (#7)
+- fix zero swap
 
 Ver.1.5.2:
-+ added $isotime, $shorttime and $longtime tags to time label
++ add $isotime, $shorttime and $longtime tags to time label
 
 Ver.1.5.1:
-+ added time label
++ add time label
 
 Ver.1.5.0:
-+ added player label
++ add player label
 
 Ver.1.4.0:
-+ added notifications
++ add notifications
 
 Ver.1.3.6:
-- fixed #1, #2
+- fix #1, #2
 
 Ver.1.3.5:
 - fix bug with definition network device
 
 Ver.1.3.4:
-+ added double click event
-+ added auto selection of network device
-- fixed yet another plasma crash
++ add double click event
++ add auto selection of network device
+- fix yet another plasma crash
 
 Ver.1.3.3:
-* edited reading temperature device
+* edit reading temperature device
 
 Ver.1.3.2b:
-- fixed plasma crash
+- fix plasma crash
 
 Ver.1.3.2:
-+ added GPU, GPU temperature, HDD and HDD temperature labels
-+ added $ccpu and $ccpucl tags
++ add GPU, GPU temperature, HDD and HDD temperature labels
++ add $ccpu and $ccpucl tags
 - bug fixes
 * optimization and refactoring
 
 Ver.1.2.2:
-+ added tooltip to lineEdit
++ add tooltip to lineEdit
 
 Ver.1.2.1:
 * if battery doesn't exist return 'off'
 * if AC doesn't exist return '(?)'
 
 Ver.1.2.0:
-+ added $ac tag to battery label
-+ added battery and ac device configurations
-+ added error cheking
++ add $ac tag to battery label
++ add battery and ac device configurations
++ add error cheking
 * $bat tag now reading from /sys/*
 
 Ver.1.1.4:
-* changed parsing acpi output (battery label)
+* change parsing acpi output (battery label)
 
 Ver.1.1.3:
-+ added font weight
-* edited font setup line. Now setup for font family works normaly
++ add font weight
+* edit font setup line. Now setup for font family works normaly
 * small bug fix
 
 Ver.1.1.2:
-+ added CPU clock lable
-+ added function to update network device (100*time_interval)
-+ changed update sliders
++ add CPU clock lable
++ add function to update network device (100*time_interval)
++ change update sliders
 
 Ver.1.1.1:
-+ added $swapmb, $memmb, $netdev, @@netdev=...@@ tags
++ add $swapmb, $memmb, $netdev, @@netdev=...@@ tags
 - some bug fixes
 * widget consists of several labels
-* edited configuration interface
+* edit configuration interface
 
 Ver.1.0:
 First release

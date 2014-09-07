@@ -233,10 +233,10 @@
          <item>
           <widget class="QLineEdit" name="lineEdit_pattern">
            <property name="toolTip">
-            <string>$mark$ - show mark if the current desktop is active
-$name$ - desktop name
-$number$ - desktop number
-$total$ - total number of desktops</string>
+            <string>$mark - show mark if the current desktop is active
+$name - desktop name
+$number - desktop number
+$total - total number of desktops</string>
            </property>
           </widget>
          </item>
