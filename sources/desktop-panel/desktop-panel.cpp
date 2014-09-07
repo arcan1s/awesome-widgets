@@ -161,22 +161,14 @@ QString DesktopPanel::parsePattern(const QString rawLine, const int num)
         mark = configuration[QString("mark")];
     else
         mark = QString("");
-    if (line.split(QString("$mark$"))[0] != line) {
-        if (debug) qDebug() << PDEBUG << ":" << "Found mark";
-        line = line.split(QString("$mark$"))[0] + mark + line.split(QString("$mark$"))[1];
-    }
-    if (line.split(QString("$name$"))[0] != line) {
-        if (debug) qDebug() << PDEBUG << ":" << "Found name";
-        line = line.split(QString("$name$"))[0] + desktopNames[num] + line.split(QString("$name$"))[1];
-    }
-    if (line.split(QString("$number$"))[0] != line) {
-        if (debug) qDebug() << PDEBUG << ":" << "Found number";
-        line = line.split(QString("$number$"))[0] + QString::number(num + 1) + line.split(QString("$number$"))[1];
-    }
-    if (line.split(QString("$total$"))[0] != line) {
-        if (debug) qDebug() << PDEBUG << ":" << "Found total";
-        line = line.split(QString("$total$"))[0] + QString::number(desktopNames.count()) + line.split(QString("$total$"))[1];
-    }
+    if (line.contains(QString("$mark")))
+        line.replace(QString("$mark"), mark);
+    if (line.contains(QString("$name")))
+        line.replace(QString("$name"), desktopNames[num]);
+    if (line.contains(QString("$number")))
+        line.replace(QString("$number"), QString::number(num + 1));
+    if (line.contains(QString("$total")))
+        line.replace(QString("$total"), QString::number(desktopNames.count()));
 
     return line;
 }
@@ -435,13 +427,13 @@ void DesktopPanel::configChanged()
     KConfigGroup cg = config();
 
     configuration[QString("background")] = cg.readEntry("background", "2");
-    configuration[QString("desktopcmd")] = cg.readEntry("desktopcmd", "qdbus org.kde.kwin /KWin setCurrentDesktop $number$");
+    configuration[QString("desktopcmd")] = cg.readEntry("desktopcmd", "qdbus org.kde.kwin /KWin setCurrentDesktop $number");
     configuration[QString("interval")] = cg.readEntry("interval", "1000");
     configuration[QString("layout")] = cg.readEntry("layout", "0");
     configuration[QString("leftStretch")] = cg.readEntry("leftStretch", "2");
     configuration[QString("mark")] = cg.readEntry("mark", "¤");
     configuration[QString("panels")] = cg.readEntry("panels", "-1");
-    configuration[QString("pattern")] = cg.readEntry("pattern", "[$mark$$number$/$total$: $name$]");
+    configuration[QString("pattern")] = cg.readEntry("pattern", "[$mark$number/$total: $name]");
     configuration[QString("rightStretch")] = cg.readEntry("rightStretch", "2");
 
     extsysmonEngine->connectSource(QString("desktop"), this, configuration[QString("interval")].toInt());

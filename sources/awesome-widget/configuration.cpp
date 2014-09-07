@@ -519,7 +519,7 @@ void AwesomeWidget::configChanged()
     KConfigGroup cg = config();
 
     // widget
-    configuration[QString("text")] = cg.readEntry("text", "[cpu: $cpu$%] [mem: $mem$%] [swap: $swap$%] [$netdev$: $down$/$up$KB/s]");
+    configuration[QString("text")] = cg.readEntry("text", "[cpu: $cpu%] [mem: $mem%] [swap: $swap%] [$netdev: $down/$upKB/s]");
 
     // advanced
     configuration[QString("background")] = cg.readEntry("background", "2");
@@ -527,8 +527,8 @@ void AwesomeWidget::configChanged()
     configuration[QString("popup")] = cg.readEntry("popup", "2");
     configuration[QString("leftStretch")] = cg.readEntry("leftStretch", "2");
     configuration[QString("rightStretch")] = cg.readEntry("rightStretch", "2");
-    configuration[QString("customTime")] = cg.readEntry("customTime", "$hh$:$mm$");
-    configuration[QString("customUptime")] = cg.readEntry("customUptime", "$dd$,$hh$,$mm$");
+    configuration[QString("customTime")] = cg.readEntry("customTime", "$hh:$mm");
+    configuration[QString("customUptime")] = cg.readEntry("customUptime", "$dd,$hh,$mm");
     configuration[QString("tempUnits")] = cg.readEntry("tempUnits", "Celsius");
     configuration[QString("tempDevice")] = cg.readEntry("tempDevice", "");
     configuration[QString("mount")] = cg.readEntry("mount", "/");
@@ -739,9 +739,7 @@ void AwesomeWidget::setFormating()
 
     QString selectedText = uiWidConfig.textEdit_elements->textCursor().selectedText();
     if (sender() == uiWidConfig.pushButton_tags)
-        uiWidConfig.textEdit_elements->insertPlainText(QString("$") +
-                                                       uiWidConfig.comboBox_tags->currentText() +
-                                                       QString("$"));
+        uiWidConfig.textEdit_elements->insertPlainText(QString("$") + uiWidConfig.comboBox_tags->currentText());
     else if (sender() == uiWidConfig.pushButton_bold)
         uiWidConfig.textEdit_elements->insertPlainText(QString("<b>") + selectedText + QString("</b>"));
     else if (sender() == uiWidConfig.pushButton_italic)

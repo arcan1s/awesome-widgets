@@ -397,7 +397,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         QStringList timeKeys = getTimeKeys();
         values[QString("ctime")] = configuration[QString("customTime")];
         for (int i=0; i<timeKeys.count(); i++)
-            values[QString("ctime")].replace(QString("$") + timeKeys[i] + QString("$"),
+            values[QString("ctime")].replace(QString("$") + timeKeys[i],
                                              data[QString("DateTime")].toDateTime().toString(timeKeys[i]));
     } else if (sourceName == QString("system/uptime")) {
         int uptime = data[QString("value")].toFloat();
@@ -407,12 +407,12 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         int days = (((seconds / 60) - minutes) / 60 - hours) / 24;
         values[QString("uptime")] = QString("%1d%2h%3m").arg(days, 3).arg(hours, 2).arg(minutes, 2);
         values[QString("cuptime")] = configuration[QString("customUptime")];
-        values[QString("cuptime")].replace(QString("$d$"), QString("%1").arg(days));
-        values[QString("cuptime")].replace(QString("$dd$"), QString("%1").arg(days, 3, 10, QChar('0')));
-        values[QString("cuptime")].replace(QString("$h$"), QString("%1").arg(hours));
-        values[QString("cuptime")].replace(QString("$hh$"), QString("%1").arg(hours, 2, 10, QChar('0')));
-        values[QString("cuptime")].replace(QString("$m$"), QString("%1").arg(minutes));
-        values[QString("cuptime")].replace(QString("$mm$"), QString("%1").arg(minutes, 2, 10, QChar('0')));
+        values[QString("cuptime")].replace(QString("$dd"), QString("%1").arg(days, 3, 10, QChar('0')));
+        values[QString("cuptime")].replace(QString("$d"), QString("%1").arg(days));
+        values[QString("cuptime")].replace(QString("$hh"), QString("%1").arg(hours, 2, 10, QChar('0')));
+        values[QString("cuptime")].replace(QString("$h"), QString("%1").arg(hours));
+        values[QString("cuptime")].replace(QString("$mm"), QString("%1").arg(minutes, 2, 10, QChar('0')));
+        values[QString("cuptime")].replace(QString("$m"), QString("%1").arg(minutes));
     }
 }
 

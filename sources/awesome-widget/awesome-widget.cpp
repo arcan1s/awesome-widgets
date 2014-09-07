@@ -149,22 +149,22 @@ QStringList AwesomeWidget::getTimeKeys()
     if (debug) qDebug() << PDEBUG;
 
     QStringList timeKeys;
-    timeKeys.append(QString("d"));
-    timeKeys.append(QString("dd"));
-    timeKeys.append(QString("ddd"));
     timeKeys.append(QString("dddd"));
-    timeKeys.append(QString("M"));
-    timeKeys.append(QString("MM"));
-    timeKeys.append(QString("MMM"));
+    timeKeys.append(QString("ddd"));
+    timeKeys.append(QString("dd"));
+    timeKeys.append(QString("d"));
     timeKeys.append(QString("MMMM"));
-    timeKeys.append(QString("yy"));
+    timeKeys.append(QString("MMM"));
+    timeKeys.append(QString("MM"));
+    timeKeys.append(QString("M"));
     timeKeys.append(QString("yyyy"));
-    timeKeys.append(QString("h"));
+    timeKeys.append(QString("yy"));
     timeKeys.append(QString("hh"));
-    timeKeys.append(QString("m"));
+    timeKeys.append(QString("h"));
     timeKeys.append(QString("mm"));
-    timeKeys.append(QString("s"));
+    timeKeys.append(QString("m"));
     timeKeys.append(QString("ss"));
+    timeKeys.append(QString("s"));
 
     return timeKeys;
 }
@@ -232,7 +232,7 @@ QStringList AwesomeWidget::findKeys()
     QStringList selectedKeys;
     for (int i=0; i<keys.count(); i++)
         if (configuration[QString("text")]
-                .indexOf(QString("$") + keys[i] + QString("$")) > -1) {
+                .indexOf(QString("$") + keys[i]) > -1) {
             if (debug) qDebug() << PDEBUG << ":" << "Found key" << keys[i];
             selectedKeys.append(keys[i]);
         }
@@ -257,14 +257,14 @@ QStringList AwesomeWidget::getKeys()
     allKeys.append(QString("cuptime"));
     // cpu
     allKeys.append(QString("cpu"));
-    for (int i=0; i<counts[QString("cpu")]; i++)
+    for (int i=counts[QString("cpu")]-1; i>=0; i--)
         allKeys.append(QString("cpu") + QString::number(i));
     // cpuclock
     allKeys.append(QString("cpucl"));
-    for (int i=0; i<counts[QString("cpu")]; i++)
+    for (int i=counts[QString("cpu")]-1; i>=0; i--)
         allKeys.append(QString("cpucl") + QString::number(i));
     // temperature
-    for (int i=0; i<counts[QString("temp")]; i++)
+    for (int i=counts[QString("temp")]-1; i>=0; i--)
         allKeys.append(QString("temp") + QString::number(i));
     // gpu
     allKeys.append(QString("gpu"));
@@ -289,7 +289,7 @@ QStringList AwesomeWidget::getKeys()
     allKeys.append(QString("swaptotmb"));
     allKeys.append(QString("swaptotgb"));
     // hdd
-    for (int i=0; i<counts[QString("mount")]; i++) {
+    for (int i=counts[QString("mount")]-1; i>=0; i--) {
         allKeys.append(QString("hdd") + QString::number(i));
         allKeys.append(QString("hddmb") + QString::number(i));
         allKeys.append(QString("hddgb") + QString::number(i));
@@ -299,12 +299,12 @@ QStringList AwesomeWidget::getKeys()
         allKeys.append(QString("hddtotgb") + QString::number(i));
     }
     // hdd speed
-    for (int i=0; i<counts[QString("disk")]; i++) {
+    for (int i=counts[QString("disk")]-1; i>=0; i--) {
         allKeys.append(QString("hddr") + QString::number(i));
         allKeys.append(QString("hddw") + QString::number(i));
     }
     // hdd temp
-    for (int i=0; i<counts[QString("hddtemp")]; i++) {
+    for (int i=counts[QString("hddtemp")]-1; i>=0; i--) {
         allKeys.append(QString("hddtemp") + QString::number(i));
         allKeys.append(QString("hddtemp") + QString::number(i));
     }
@@ -326,10 +326,10 @@ QStringList AwesomeWidget::getKeys()
     allKeys.append(QString("pscount"));
     allKeys.append(QString("pstotal"));
     // package manager
-    for (int i=0; i<counts[QString("pkg")]; i++)
+    for (int i=counts[QString("pkg")]-1; i>=0; i--)
         allKeys.append(QString("pkgcount") + QString::number(i));
     // custom
-    for (int i=0; i<counts[QString("custom")]; i++)
+    for (int i=counts[QString("custom")]-1; i>=0; i--)
         allKeys.append(QString("custom") + QString::number(i));
     // desktop
     allKeys.append(QString("desktop"));

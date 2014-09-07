@@ -105,7 +105,7 @@ void AwesomeWidget::updateText(bool clear)
     text.replace(QString("\n"), QString("<br>"));
     if (!clear)
         for (int i=0; i<foundKeys.count(); i++)
-            text.replace(QString("$") + foundKeys[i] + QString("$"), values[foundKeys[i]]);
+            text.replace(QString("$") + foundKeys[i], values[foundKeys[i]]);
     textLabel->setText(formatLine[0] + text + formatLine[1]);
 }
 
