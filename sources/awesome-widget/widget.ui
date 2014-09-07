@@ -55,6 +55,15 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="pushButton_br">
+       <property name="icon">
+        <iconset theme="stock_text_indent">
+         <normaloff/>
+        </iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="spacer_mainFormatingCenter1">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>

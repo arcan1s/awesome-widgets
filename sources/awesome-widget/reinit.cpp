@@ -33,8 +33,6 @@ void AwesomeWidget::reinit()
 
     if (configuration[QString("background")].toInt() == 0)
         setBackgroundHints(NoBackground);
-    else
-        setBackgroundHints(DefaultBackground);
     if (configuration[QString("popup")].toInt() == 0)
         textLabel->setPopupEnabled(false);
     else
@@ -71,12 +69,11 @@ void AwesomeWidget::updateNetworkDevice()
 }
 
 
-void AwesomeWidget::updateText(bool clear)
+void AwesomeWidget::updateText(const bool clear)
 {
     if (debug) qDebug() << PDEBUG;
 
     QString text = configuration[QString("text")];
-    text.replace(QString("\n"), QString("<br>"));
     if (!clear)
         for (int i=0; i<foundKeys.count(); i++)
             text.replace(QString("$") + foundKeys[i], values[foundKeys[i]]);
@@ -89,8 +86,6 @@ void AwesomeWidget::updateTooltip()
     if (debug) qDebug() << PDEBUG;
 
     toolTipView->resize(100.0 * counts[QString("tooltip")], 100.0);
-    // remove nan
-
     // boundaries
     QMap<QString, float> boundaries;
     boundaries[QString("cpu")] = 100.0;

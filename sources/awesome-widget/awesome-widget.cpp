@@ -254,14 +254,14 @@ QStringList AwesomeWidget::getKeys()
     // uptime
     allKeys.append(QString("uptime"));
     allKeys.append(QString("cuptime"));
-    // cpu
-    allKeys.append(QString("cpu"));
-    for (int i=counts[QString("cpu")]-1; i>=0; i--)
-        allKeys.append(QString("cpu") + QString::number(i));
     // cpuclock
     allKeys.append(QString("cpucl"));
     for (int i=counts[QString("cpu")]-1; i>=0; i--)
         allKeys.append(QString("cpucl") + QString::number(i));
+    // cpu
+    allKeys.append(QString("cpu"));
+    for (int i=counts[QString("cpu")]-1; i>=0; i--)
+        allKeys.append(QString("cpu") + QString::number(i));
     // temperature
     for (int i=counts[QString("temp")]-1; i>=0; i--)
         allKeys.append(QString("temp") + QString::number(i));
@@ -270,7 +270,6 @@ QStringList AwesomeWidget::getKeys()
     // gputemp
     allKeys.append(QString("gputemp"));
     // memory
-    allKeys.append(QString("mem"));
     allKeys.append(QString("memmb"));
     allKeys.append(QString("memgb"));
     allKeys.append(QString("memfreemb"));
@@ -279,23 +278,24 @@ QStringList AwesomeWidget::getKeys()
     allKeys.append(QString("memtotgb"));
     allKeys.append(QString("memusedmb"));
     allKeys.append(QString("memusedgb"));
+    allKeys.append(QString("mem"));
     // swap
-    allKeys.append(QString("swap"));
     allKeys.append(QString("swapmb"));
     allKeys.append(QString("swapgb"));
     allKeys.append(QString("swapfreemb"));
     allKeys.append(QString("swapfreegb"));
     allKeys.append(QString("swaptotmb"));
     allKeys.append(QString("swaptotgb"));
+    allKeys.append(QString("swap"));
     // hdd
     for (int i=counts[QString("mount")]-1; i>=0; i--) {
-        allKeys.append(QString("hdd") + QString::number(i));
         allKeys.append(QString("hddmb") + QString::number(i));
         allKeys.append(QString("hddgb") + QString::number(i));
         allKeys.append(QString("hddfreemb") + QString::number(i));
         allKeys.append(QString("hddfreegb") + QString::number(i));
         allKeys.append(QString("hddtotmb") + QString::number(i));
         allKeys.append(QString("hddtotgb") + QString::number(i));
+        allKeys.append(QString("hdd") + QString::number(i));
     }
     // hdd speed
     for (int i=counts[QString("disk")]-1; i>=0; i--) {

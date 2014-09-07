@@ -81,6 +81,8 @@ DesktopPanel::DesktopPanel(QObject *parent, const QVariantList &args)
     else
         debug = false;
 
+    setBackgroundHints(DefaultBackground);
+    setAspectRatioMode(Plasma::IgnoreAspectRatio);
     setHasConfigurationInterface(true);
     // text format init
     currentFormatLine.append(QString(""));
@@ -195,8 +197,6 @@ void DesktopPanel::reinit()
     // layout
     if (configuration[QString("background")].toInt() == 0)
         setBackgroundHints(NoBackground);
-    else
-        setBackgroundHints(DefaultBackground);
     if (configuration[QString("layout")].toInt() == 0)
         layout->setOrientation(Qt::Horizontal);
     else
@@ -448,9 +448,8 @@ void DesktopPanel::configChanged()
         fontStyle = QString("italic");
     else
         fontStyle = QString("normal");
-    currentFormatLine[0] = QString("<html><head><meta name=\"qrichtext\" content=\"1\" />\
-    <style type=\"text/css\">p, li { white-space: pre-wrap; }</style>\
-    </head><body style=\"font-family:'%1'; font-size:%2pt; font-weight:%3; font-style:%4; color:%5;\">")
+    currentFormatLine[0] = QString("<html><head><style type=\"text/css\">p, li { white-space: pre-wrap; }</style>\
+                                   </head><body style=\"font-family:'%1'; font-size:%2pt; font-weight:%3; font-style:%4; color:%5;\">")
             .arg(font.family())
             .arg(font.pointSize())
             .arg(font.htmlWeight())
@@ -467,9 +466,8 @@ void DesktopPanel::configChanged()
         fontStyle = QString("italic");
     else
         fontStyle = QString("normal");
-    formatLine[0] = QString("<html><head><meta name=\"qrichtext\" content=\"1\" />\
-    <style type=\"text/css\">p, li { white-space: pre-wrap; }</style>\
-    </head><body style=\"font-family:'%1'; font-size:%2pt; font-weight:%3; font-style:%4; color:%5;\">")
+    formatLine[0] = QString("<html><head><style type=\"text/css\">p, li { white-space: pre-wrap; }</style>\
+                            </head><body style=\"font-family:'%1'; font-size:%2pt; font-weight:%3; font-style:%4; color:%5;\">")
             .arg(font.family())
             .arg(font.pointSize())
             .arg(font.htmlWeight())

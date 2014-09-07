@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2014-09-06 16:04+0400\n"
+"POT-Creation-Date: 2014-09-08 01:52+0400\n"
 "PO-Revision-Date: 2014-09-05 11:22+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Ukrainian <kde-russian@lists.kde.ru>\n"
@@ -30,43 +30,43 @@ msgstr "Показати README"
 msgid "Update text"
 msgstr "Оновити текст"
 
-#: configuration.cpp:331 po/rc.cpp:154 rc.cpp:154
+#: configuration.cpp:319 po/rc.cpp:145 rc.cpp:145
 msgid "Custom command"
 msgstr "Своя команда"
 
-#: configuration.cpp:361 po/rc.cpp:144 rc.cpp:144
+#: configuration.cpp:349 po/rc.cpp:135 rc.cpp:135
 msgid "Package manager"
 msgstr "Пакетний менеджер"
 
-#: configuration.cpp:362 po/rc.cpp:147 rc.cpp:147
+#: configuration.cpp:350 po/rc.cpp:138 rc.cpp:138
 msgid "Null lines"
 msgstr "Кількість пустих рядків"
 
-#: configuration.cpp:374
+#: configuration.cpp:362
 msgid "Widget"
 msgstr "Віджет"
 
-#: configuration.cpp:375
+#: configuration.cpp:363
 msgid "Advanced"
 msgstr "Розширені"
 
-#: configuration.cpp:376
+#: configuration.cpp:364
 msgid "Tooltip"
 msgstr "Тултіп"
 
-#: configuration.cpp:377
+#: configuration.cpp:365
 msgid "Appearance"
 msgstr "Зовнішній вигляд"
 
-#: configuration.cpp:378
+#: configuration.cpp:366
 msgid "DataEngine"
 msgstr "DataEngine"
 
-#: configuration.cpp:663 configuration.cpp:677
+#: configuration.cpp:645 configuration.cpp:659
 msgid "Remove"
 msgstr "Видалити"
 
-#: configuration.cpp:724
+#: configuration.cpp:706
 msgid "Select font"
 msgstr ""
 
@@ -75,26 +75,14 @@ msgid "Enable background"
 msgstr ""
 
 #: po/rc.cpp:6 rc.cpp:6
-msgid "Vertical layout"
-msgstr "Вертикальна розмітка"
-
-#: po/rc.cpp:9 rc.cpp:9
 msgid "Enable popup on mouse click"
 msgstr "Включити спливаючі підказки при натисканні клавіші миші"
 
-#: po/rc.cpp:12 rc.cpp:12
-msgid "Add stretch to left/top of the layout"
-msgstr "Додати порожнє місце ліворуч/вгорі віджету"
-
-#: po/rc.cpp:15 rc.cpp:15
-msgid "Add stretch to right/bottom of the layout"
-msgstr "Додати порожнє місце праворуч/внизу віджету"
-
-#: po/rc.cpp:18 rc.cpp:18
+#: po/rc.cpp:9 rc.cpp:9
 msgid "Custom time format"
 msgstr "Свій формат часу"
 
-#: po/rc.cpp:21 rc.cpp:21
+#: po/rc.cpp:12 rc.cpp:12
 msgid ""
 "$dddd - long weekday\n"
 "$ddd - short weekday\n"
@@ -130,11 +118,11 @@ msgstr ""
 "$ss - секунди\n"
 "$s - секунди без нулів"
 
-#: po/rc.cpp:39 rc.cpp:39
+#: po/rc.cpp:30 rc.cpp:30
 msgid "Custom uptime format"
 msgstr "Свій формат аптайму (uptime)"
 
-#: po/rc.cpp:42 rc.cpp:42
+#: po/rc.cpp:33 rc.cpp:33
 msgid ""
 "$dd - uptime days\n"
 "$d - uptime days without zero\n"
@@ -150,116 +138,116 @@ msgstr ""
 "$mm - хвилини аптайму\n"
 "$m - хвилини аптайму без нулів"
 
-#: po/rc.cpp:50 rc.cpp:50
+#: po/rc.cpp:41 rc.cpp:41
 msgid "Temperature units"
 msgstr "Одиниці виміру температури"
 
-#: po/rc.cpp:53 rc.cpp:53
+#: po/rc.cpp:44 rc.cpp:44
 msgid "Temperature devices"
 msgstr "Температурні пристрої"
 
-#: po/rc.cpp:56 po/rc.cpp:62 po/rc.cpp:68 po/rc.cpp:74 rc.cpp:56 rc.cpp:62
-#: rc.cpp:68 rc.cpp:74
+#: po/rc.cpp:47 po/rc.cpp:53 po/rc.cpp:59 po/rc.cpp:65 rc.cpp:47 rc.cpp:53
+#: rc.cpp:59 rc.cpp:65
 msgid "Editable"
 msgstr "Можна редагувати"
 
-#: po/rc.cpp:59 rc.cpp:59
+#: po/rc.cpp:50 rc.cpp:50
 msgid "Mount points"
 msgstr "Точки монтування"
 
-#: po/rc.cpp:65 rc.cpp:65
+#: po/rc.cpp:56 rc.cpp:56
 msgid "HDD devices (speed)"
 msgstr "HDD (швидкість)"
 
-#: po/rc.cpp:71 rc.cpp:71
+#: po/rc.cpp:62 rc.cpp:62
 msgid "HDD devices (temp)"
 msgstr "HDD (температура)"
 
-#: po/rc.cpp:77 rc.cpp:77
+#: po/rc.cpp:68 rc.cpp:68
 msgid "Disable auto select device and set specified device"
 msgstr "Відключити автоматичний вибір пристрою та використовувати вказаний"
 
-#: po/rc.cpp:80 rc.cpp:80
+#: po/rc.cpp:71 rc.cpp:71
 msgid "Set network device"
 msgstr "Оберіть мережевий пристрій"
 
-#: po/rc.cpp:83 rc.cpp:83
+#: po/rc.cpp:74 rc.cpp:74
 msgid "AC online tag"
 msgstr "AC підключений"
 
-#: po/rc.cpp:86 rc.cpp:86
+#: po/rc.cpp:77 rc.cpp:77
 msgid "Line, which returns when AC is online"
 msgstr "Рядок, що повертається при підключеному адаптері живлення"
 
-#: po/rc.cpp:89 rc.cpp:89
+#: po/rc.cpp:80 rc.cpp:80
 msgid "AC offline tag"
 msgstr "AC відключений"
 
-#: po/rc.cpp:92 rc.cpp:92
+#: po/rc.cpp:83 rc.cpp:83
 msgid "Line, which returns when AC is offline"
 msgstr "Рядок, що повертається при відключеному адаптері живлення"
 
-#: po/rc.cpp:95 rc.cpp:95
+#: po/rc.cpp:86 rc.cpp:86
 msgid "Time interval"
 msgstr "Інтервал оновлення"
 
-#: po/rc.cpp:98 po/rc.cpp:205 rc.cpp:98 rc.cpp:205
+#: po/rc.cpp:89 po/rc.cpp:196 rc.cpp:89 rc.cpp:196
 msgid "Font"
 msgstr "Шрифт"
 
-#: po/rc.cpp:101 rc.cpp:101
+#: po/rc.cpp:92 rc.cpp:92
 msgid "Font size"
 msgstr "Розмір шрифту"
 
-#: po/rc.cpp:104 rc.cpp:104
+#: po/rc.cpp:95 rc.cpp:95
 msgid "Font color"
 msgstr "Колір шрифту"
 
-#: po/rc.cpp:107 rc.cpp:107
+#: po/rc.cpp:98 rc.cpp:98
 msgid "Font style"
 msgstr "Стиль шрифту"
 
-#: po/rc.cpp:110 rc.cpp:110
+#: po/rc.cpp:101 rc.cpp:101
 msgid "Font weight"
 msgstr "Ширина шрифту"
 
-#: po/rc.cpp:113 rc.cpp:113
+#: po/rc.cpp:104 rc.cpp:104
 msgid "HDD"
 msgstr "HDD"
 
-#: po/rc.cpp:116 rc.cpp:116
+#: po/rc.cpp:107 rc.cpp:107
 msgid "MPD port"
 msgstr "Порт сервера MPD"
 
-#: po/rc.cpp:119 rc.cpp:119
+#: po/rc.cpp:110 rc.cpp:110
 msgid "GPU device"
 msgstr "Пристій GPU"
 
-#: po/rc.cpp:122 rc.cpp:122
+#: po/rc.cpp:113 rc.cpp:113
 msgid "hddtemp cmd"
 msgstr "Команда hddtemp"
 
-#: po/rc.cpp:125 rc.cpp:125
+#: po/rc.cpp:116 rc.cpp:116
 msgid "Music player"
 msgstr "Музичний плеєр"
 
-#: po/rc.cpp:128 rc.cpp:128
+#: po/rc.cpp:119 rc.cpp:119
 msgid "MPD address"
 msgstr "Адреса сервера MPD"
 
-#: po/rc.cpp:131 rc.cpp:131
+#: po/rc.cpp:122 rc.cpp:122
 msgid "Desktop check cmd"
 msgstr ""
 
-#: po/rc.cpp:134 rc.cpp:134
+#: po/rc.cpp:125 rc.cpp:125
 msgid "<b>NOTE:</b> Player DBus interface should be an active"
 msgstr ""
 
-#: po/rc.cpp:137 rc.cpp:137
+#: po/rc.cpp:128 rc.cpp:128
 msgid "MPRIS player name"
 msgstr ""
 
-#: po/rc.cpp:140 po/rc.cpp:150 rc.cpp:140 rc.cpp:150
+#: po/rc.cpp:131 po/rc.cpp:141 rc.cpp:131 rc.cpp:141
 msgid ""
 "Editable\n"
 "del - remove item"
@@ -267,23 +255,23 @@ msgstr ""
 "Можна редагувати\n"
 "del - видалити рядок"
 
-#: po/rc.cpp:157 rc.cpp:157
+#: po/rc.cpp:148 rc.cpp:148
 msgid "Battery device"
 msgstr "Пристрій батареї"
 
-#: po/rc.cpp:160 rc.cpp:160
+#: po/rc.cpp:151 rc.cpp:151
 msgid "\"/sys/class/power_supply/BAT0/capacity\" by default"
 msgstr "\"/sys/class/power_supply/BAT0/capacity\" за замовчуванням"
 
-#: po/rc.cpp:163 rc.cpp:163
+#: po/rc.cpp:154 rc.cpp:154
 msgid "AC device"
 msgstr "AC пристрій"
 
-#: po/rc.cpp:166 rc.cpp:166
+#: po/rc.cpp:157 rc.cpp:157
 msgid "\"/sys/class/power_supply/AC/online\" by default"
 msgstr "\"/sys/class/power_supply/AC/online\" за замовчуванням"
 
-#: po/rc.cpp:169 rc.cpp:169
+#: po/rc.cpp:160 rc.cpp:160
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
 "To enable them just make needed checkbox fully checked."
@@ -292,48 +280,48 @@ msgstr ""
 "підтримують графічний тултіп. Щоб їх задіяти, просто зробіть необхідні "
 "чекбокси повністю чекнутими."
 
-#: po/rc.cpp:172 rc.cpp:172
+#: po/rc.cpp:163 rc.cpp:163
 msgid "Number of values for tooltips"
 msgstr "Кількість значень для тултіпа"
 
-#: po/rc.cpp:175 rc.cpp:175
+#: po/rc.cpp:166 rc.cpp:166
 msgid "Background"
 msgstr ""
 
-#: po/rc.cpp:178 rc.cpp:178
+#: po/rc.cpp:169 rc.cpp:169
 msgid "CPU color"
 msgstr "Колір CPU"
 
-#: po/rc.cpp:181 rc.cpp:181
+#: po/rc.cpp:172 rc.cpp:172
 msgid "CPU clock color"
 msgstr "Колір частоти CPU"
 
-#: po/rc.cpp:184 rc.cpp:184
+#: po/rc.cpp:175 rc.cpp:175
 msgid "Memory color"
 msgstr "Колір пам’яті"
 
-#: po/rc.cpp:187 rc.cpp:187
+#: po/rc.cpp:178 rc.cpp:178
 msgid "Swap color"
 msgstr "Колір swap"
 
-#: po/rc.cpp:190 rc.cpp:190
+#: po/rc.cpp:181 rc.cpp:181
 msgid "Download speed color"
 msgstr "Колір швидкості скачування"
 
-#: po/rc.cpp:193 rc.cpp:193
+#: po/rc.cpp:184 rc.cpp:184
 msgid "Upload speed color"
 msgstr "Колір швидкості віддачі"
 
-#: po/rc.cpp:196 rc.cpp:196
+#: po/rc.cpp:187 rc.cpp:187
 msgid "Battery active color"
 msgstr ""
 
-#: po/rc.cpp:199 rc.cpp:199
+#: po/rc.cpp:190 rc.cpp:190
 #, fuzzy
 msgid "Battery inactive color"
 msgstr "Пристрій батареї"
 
-#: po/rc.cpp:202 rc.cpp:202
+#: po/rc.cpp:193 rc.cpp:193
 msgid ""
 "Detailed information may be found on <a href=\"http://arcanis.name/projects/"
 "awesome-widgets/\">project homepage</a>"
@@ -341,31 +329,40 @@ msgstr ""
 "Детальна інформація може бути знайдена на <a href=\"http://arcanis.name/"
 "projects/awesome-widgets/\">домашній сторінці проекту</a>"
 
-#: po/rc.cpp:208 rc.cpp:208
+#: po/rc.cpp:199 rc.cpp:199
 msgid "Ctrl+B"
 msgstr "Ctrl+B"
 
-#: po/rc.cpp:211 rc.cpp:211
+#: po/rc.cpp:202 rc.cpp:202
 msgid "Ctrl+I"
 msgstr "Ctrl+I"
 
-#: po/rc.cpp:214 rc.cpp:214
+#: po/rc.cpp:205 rc.cpp:205
 msgid "Ctrl+U"
 msgstr "Ctrl+U"
 
-#: po/rc.cpp:217 rc.cpp:217
+#: po/rc.cpp:208 rc.cpp:208
 msgid "Add"
 msgstr "Добавити"
 
-#: po/rc.cpp:218 rc.cpp:218
+#: po/rc.cpp:209 rc.cpp:209
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Slobodyan Victor"
 
-#: po/rc.cpp:219 rc.cpp:219
+#: po/rc.cpp:210 rc.cpp:210
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "sarumyan@i.ua"
+
+#~ msgid "Vertical layout"
+#~ msgstr "Вертикальна розмітка"
+
+#~ msgid "Add stretch to left/top of the layout"
+#~ msgstr "Додати порожнє місце ліворуч/вгорі віджету"
+
+#~ msgid "Add stretch to right/bottom of the layout"
+#~ msgstr "Додати порожнє місце праворуч/внизу віджету"
 
 #~ msgid "Form"
 #~ msgstr "Form"

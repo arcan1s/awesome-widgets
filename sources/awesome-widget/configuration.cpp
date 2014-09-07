@@ -382,6 +382,8 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     connect(uiDEConfig.tableWidget_pkgCommand, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(contextMenuPkgCommand(QPoint)));
     connect(uiWidConfig.pushButton_tags, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
+    connect(uiWidConfig.pushButton_br, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
+    connect(uiWidConfig.pushButton_font, SIGNAL(clicked(bool)), this, SLOT(setFontFormating()));
     connect(uiWidConfig.pushButton_bold, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
     connect(uiWidConfig.pushButton_italic, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
     connect(uiWidConfig.pushButton_underline, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
@@ -390,7 +392,6 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     connect(uiWidConfig.pushButton_center, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
     connect(uiWidConfig.pushButton_right, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
     connect(uiWidConfig.pushButton_fill, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
-    connect(uiWidConfig.pushButton_font, SIGNAL(clicked(bool)), this, SLOT(setFontFormating()));
 
     connect(parent, SIGNAL(okClicked()), this, SLOT(configAccepted()));
     connect(parent, SIGNAL(applyClicked()), this, SLOT(configAccepted()));
@@ -579,9 +580,8 @@ void AwesomeWidget::configChanged()
         fontStyle = QString("italic");
     else
         fontStyle = QString("normal");
-    formatLine[0] = QString("<html><head><meta name=\"qrichtext\" content=\"1\" />\
-    <style type=\"text/css\">p, li { white-space: pre-wrap; }</style>\
-    </head><body style=\"font-family:'%1'; font-size:%2pt; font-weight:%3; font-style:%4; color:%5;\">")
+    formatLine[0] = QString("<html><head><style type=\"text/css\">p, li { white-space: pre-wrap; }</style>\
+                            </head><body style=\"font-family:'%1'; font-size:%2pt; font-weight:%3; font-style:%4; color:%5;\">")
             .arg(font.family())
             .arg(font.pointSize())
             .arg(font.htmlWeight())
@@ -722,6 +722,8 @@ void AwesomeWidget::setFormating()
     QString selectedText = uiWidConfig.textEdit_elements->textCursor().selectedText();
     if (sender() == uiWidConfig.pushButton_tags)
         uiWidConfig.textEdit_elements->insertPlainText(QString("$") + uiWidConfig.comboBox_tags->currentText());
+    else if (sender() == uiWidConfig.pushButton_br)
+        uiWidConfig.textEdit_elements->insertPlainText(QString("<br>\n"));
     else if (sender() == uiWidConfig.pushButton_bold)
         uiWidConfig.textEdit_elements->insertPlainText(QString("<b>") + selectedText + QString("</b>"));
     else if (sender() == uiWidConfig.pushButton_italic)

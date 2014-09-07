@@ -66,7 +66,7 @@ public slots:
     // update events
     void sendNotification(const QString eventId, const QString message);
     void updateNetworkDevice();
-    void updateText(bool clear = false);
+    void updateText(const bool clear = false);
     void updateTooltip();
 
 private slots:
