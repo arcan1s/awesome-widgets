@@ -43,7 +43,7 @@
         <x>0</x>
         <y>0</y>
         <width>677</width>
-        <height>665</height>
+        <height>590</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -55,30 +55,9 @@
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="checkBox_layout">
-         <property name="text">
-          <string>Vertical layout</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QCheckBox" name="checkBox_popup">
          <property name="text">
           <string>Enable popup on mouse click</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="checkBox_leftStretch">
-         <property name="text">
-          <string>Add stretch to left/top of the layout</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="checkBox_rightStretch">
-         <property name="text">
-          <string>Add stretch to right/bottom of the layout</string>
          </property>
         </widget>
        </item>

@@ -19,7 +19,7 @@
 
 #include <KNotification>
 #include <Plasma/ToolTipManager>
-#include <QGraphicsLinearLayout>
+#include <QGraphicsGridLayout>
 #include <QGraphicsView>
 #include <math.h>
 
@@ -27,48 +27,22 @@
 #include <pdebug/pdebug.h>
 
 
-void AwesomeWidget::initValues()
-{
-    if (debug) qDebug() << PDEBUG;
-}
-
-
 void AwesomeWidget::reinit()
 {
     if (debug) qDebug() << PDEBUG;
-
-    mainLayout->removeItem(textLabel);
-    if (textLabel != nullptr) delete textLabel;
-    setLayout(0);
-
-    mainLayout = new QGraphicsLinearLayout();
-    mainLayout->setContentsMargins(1, 1, 1, 1);
-    if (configuration[QString("layout")].toInt() == 0)
-        mainLayout->setOrientation(Qt::Horizontal);
-    else
-        mainLayout->setOrientation(Qt::Vertical);
-    setLayout(mainLayout);
 
     if (configuration[QString("background")].toInt() == 0)
         setBackgroundHints(NoBackground);
     else
         setBackgroundHints(DefaultBackground);
-    if (configuration[QString("leftStretch")].toInt() == 2)
-        mainLayout->addStretch(1);
-    textLabel = new CustomLabel(this, debug);
     if (configuration[QString("popup")].toInt() == 0)
         textLabel->setPopupEnabled(false);
     else
         textLabel->setPopupEnabled(true);
-    mainLayout->addItem(textLabel);
     updateText(true);
-    if (configuration[QString("rightStretch")].toInt() == 2)
-        mainLayout->addStretch(1);
-    resize(10, 10);
 
     keys = getKeys();
     foundKeys = findKeys();
-    initValues();
     updateNetworkDevice();
     connectToEngine();
 }

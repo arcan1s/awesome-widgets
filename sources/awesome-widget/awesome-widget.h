@@ -31,7 +31,7 @@
 
 
 class CustomLabel;
-class QGraphicsLinearLayout;
+class QGraphicsGridLayout;
 class QGraphicsScene;
 
 class AwesomeWidget : public Plasma::Applet
@@ -90,11 +90,10 @@ protected:
 private:
     // functions
     void createActions();
-    void initValues();
     QStringList findKeys();
     QStringList getKeys();
     // ui
-    QGraphicsLinearLayout *mainLayout = nullptr;
+    QGraphicsGridLayout *mainLayout = nullptr;
     CustomLabel *textLabel = nullptr;
     QTimer *timer;
     QList<QAction *> contextMenu;

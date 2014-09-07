@@ -150,22 +150,10 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
         uiAdvancedConfig.checkBox_background->setCheckState(Qt::Unchecked);
     else
         uiAdvancedConfig.checkBox_background->setCheckState(Qt::Checked);
-    if (configuration[QString("layout")].toInt() == 0)
-        uiAdvancedConfig.checkBox_layout->setCheckState(Qt::Unchecked);
-    else
-        uiAdvancedConfig.checkBox_layout->setCheckState(Qt::Checked);
     if (configuration[QString("popup")].toInt() == 0)
         uiAdvancedConfig.checkBox_popup->setCheckState(Qt::Unchecked);
     else
         uiAdvancedConfig.checkBox_popup->setCheckState(Qt::Checked);
-    if (configuration[QString("leftStretch")].toInt() == 0)
-        uiAdvancedConfig.checkBox_leftStretch->setCheckState(Qt::Unchecked);
-    else
-        uiAdvancedConfig.checkBox_leftStretch->setCheckState(Qt::Checked);
-    if (configuration[QString("rightStretch")].toInt() == 0)
-        uiAdvancedConfig.checkBox_rightStretch->setCheckState(Qt::Unchecked);
-    else
-        uiAdvancedConfig.checkBox_rightStretch->setCheckState(Qt::Checked);
     uiAdvancedConfig.lineEdit_timeFormat->setText(configuration[QString("customTime")]);
     uiAdvancedConfig.lineEdit_uptimeFormat->setText(configuration[QString("customUptime")]);
     uiAdvancedConfig.comboBox_tempUnits->setCurrentIndex(
@@ -422,10 +410,7 @@ void AwesomeWidget::configAccepted()
 
     // advanced
     cg.writeEntry("background", QString::number(uiAdvancedConfig.checkBox_background->checkState()));
-    cg.writeEntry("layout", QString::number(uiAdvancedConfig.checkBox_layout->checkState()));
     cg.writeEntry("popup", QString::number(uiAdvancedConfig.checkBox_popup->checkState()));
-    cg.writeEntry("leftStretch", QString::number(uiAdvancedConfig.checkBox_leftStretch->checkState()));
-    cg.writeEntry("rightStretch", QString::number(uiAdvancedConfig.checkBox_rightStretch->checkState()));
     cg.writeEntry("customTime", uiAdvancedConfig.lineEdit_timeFormat->text());
     cg.writeEntry("customUptime", uiAdvancedConfig.lineEdit_uptimeFormat->text());
     cg.writeEntry("tempUnits", uiAdvancedConfig.comboBox_tempUnits->currentText());
@@ -523,10 +508,7 @@ void AwesomeWidget::configChanged()
 
     // advanced
     configuration[QString("background")] = cg.readEntry("background", "2");
-    configuration[QString("layout")] = cg.readEntry("layout", "2");
     configuration[QString("popup")] = cg.readEntry("popup", "2");
-    configuration[QString("leftStretch")] = cg.readEntry("leftStretch", "2");
-    configuration[QString("rightStretch")] = cg.readEntry("rightStretch", "2");
     configuration[QString("customTime")] = cg.readEntry("customTime", "$hh:$mm");
     configuration[QString("customUptime")] = cg.readEntry("customUptime", "$dd,$hh,$mm");
     configuration[QString("tempUnits")] = cg.readEntry("tempUnits", "Celsius");

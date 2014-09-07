@@ -21,7 +21,7 @@
 #include <Plasma/ToolTipManager>
 #include <QDesktopServices>
 #include <QDir>
-#include <QGraphicsLinearLayout>
+#include <QGraphicsGridLayout>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QNetworkInterface>
@@ -194,12 +194,11 @@ void AwesomeWidget::init()
 
     // body
     createActions();
-    mainLayout = new QGraphicsLinearLayout();
+    mainLayout = new QGraphicsGridLayout();
     mainLayout->setContentsMargins(1, 1, 1, 1);
-    mainLayout->setOrientation(Qt::Horizontal);
     setLayout(mainLayout);
     textLabel = new CustomLabel(this, debug);
-    textLabel->setWordWrap(false);
+    mainLayout->addItem(textLabel, 0, 0);
 
     // read variables
     configChanged();
