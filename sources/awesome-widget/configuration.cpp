@@ -182,8 +182,13 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     for (int i=0; i<configuration[QString("tempDevice")].split(QString("@@")).count(); i++) {
         QList<QListWidgetItem *> items = uiAdvancedConfig.listWidget_tempDevice
                 ->findItems(configuration[QString("tempDevice")].split(QString("@@"))[i], Qt::MatchFixedString);
-        for (int j=0; j<items.count(); j++)
-            items[j]->setCheckState(Qt::Checked);
+        if (items.isEmpty()) {
+            QListWidgetItem *item = new QListWidgetItem(configuration[QString("tempDevice")].split(QString("@@"))[i]);
+            item->setCheckState(Qt::Checked);
+            uiAdvancedConfig.listWidget_tempDevice->addItem(item);
+        } else
+            for (int j=0; j<items.count(); j++)
+                items[j]->setCheckState(Qt::Checked);
     }
     cmd = QString("mount");
     if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
@@ -202,8 +207,13 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     for (int i=0; i<configuration[QString("mount")].split(QString("@@")).count(); i++) {
         QList<QListWidgetItem *> items = uiAdvancedConfig.listWidget_mount
                 ->findItems(configuration[QString("mount")].split(QString("@@"))[i], Qt::MatchFixedString);
-        for (int j=0; j<items.count(); j++)
-            items[j]->setCheckState(Qt::Checked);
+        if (items.isEmpty()) {
+            QListWidgetItem *item = new QListWidgetItem(configuration[QString("mount")].split(QString("@@"))[i]);
+            item->setCheckState(Qt::Checked);
+            uiAdvancedConfig.listWidget_mount->addItem(item);
+        } else
+            for (int j=0; j<items.count(); j++)
+                items[j]->setCheckState(Qt::Checked);
     }
     uiAdvancedConfig.listWidget_hddSpeedDevice->clear();
     for (int i=0; i<diskDevices.count(); i++) {
@@ -214,8 +224,13 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     for (int i=0; i<configuration[QString("disk")].split(QString("@@")).count(); i++) {
         QList<QListWidgetItem *> items = uiAdvancedConfig.listWidget_hddSpeedDevice
                 ->findItems(configuration[QString("disk")].split(QString("@@"))[i], Qt::MatchFixedString);
-        for (int j=0; j<items.count(); j++)
-            items[j]->setCheckState(Qt::Checked);
+        if (items.isEmpty()) {
+            QListWidgetItem *item = new QListWidgetItem(configuration[QString("disk")].split(QString("@@"))[i]);
+            item->setCheckState(Qt::Checked);
+            uiAdvancedConfig.listWidget_hddSpeedDevice->addItem(item);
+        } else
+            for (int j=0; j<items.count(); j++)
+                items[j]->setCheckState(Qt::Checked);
     }
     cmd = QString("find /dev -name [hms]d[a-z]");
     if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
@@ -233,8 +248,13 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     for (int i=0; i<configuration[QString("hdd")].split(QString("@@")).count(); i++) {
         QList<QListWidgetItem *> items = uiAdvancedConfig.listWidget_hddDevice
                 ->findItems(configuration[QString("hdd")].split(QString("@@"))[i], Qt::MatchFixedString);
-        for (int j=0; j<items.count(); j++)
-            items[j]->setCheckState(Qt::Checked);
+        if (items.isEmpty()) {
+            QListWidgetItem *item = new QListWidgetItem(configuration[QString("hdd")].split(QString("@@"))[i]);
+            item->setCheckState(Qt::Checked);
+            uiAdvancedConfig.listWidget_hddDevice->addItem(item);
+        } else
+            for (int j=0; j<items.count(); j++)
+                items[j]->setCheckState(Qt::Checked);
     }
     if (configuration[QString("useCustomNetdev")].toInt() == 0)
         uiAdvancedConfig.checkBox_netdev->setCheckState(Qt::Unchecked);
