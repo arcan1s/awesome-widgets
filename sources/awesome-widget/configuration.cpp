@@ -250,7 +250,7 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
                 uiAdvancedConfig.comboBox_netdev->findText(configuration[QString("customNetdev")],
                 Qt::MatchFixedString));
     uiAdvancedConfig.lineEdit_acOnline->setText(configuration[QString("acOnline")]);
-    uiAdvancedConfig.lineEdit_acOffline->setText(configuration[QString("acOffile")]);
+    uiAdvancedConfig.lineEdit_acOffline->setText(configuration[QString("acOffline")]);
 
     // tooltip
     uiTooltipConfig.spinBox_tooltipNum->setValue(configuration[QString("tooltipNumber")].toInt());
@@ -438,7 +438,7 @@ void AwesomeWidget::configAccepted()
     cg.writeEntry("useCustomNetdev", QString::number(uiAdvancedConfig.checkBox_netdev->checkState()));
     cg.writeEntry("customNetdev", uiAdvancedConfig.comboBox_netdev->currentText());
     cg.writeEntry("acOnline", uiAdvancedConfig.lineEdit_acOnline->text());
-    cg.writeEntry("acOffile", uiAdvancedConfig.lineEdit_acOffline->text());
+    cg.writeEntry("acOffline", uiAdvancedConfig.lineEdit_acOffline->text());
 
     // tooltip
     cg.writeEntry("tooltipNumber", QString::number(uiTooltipConfig.spinBox_tooltipNum->value()));
@@ -520,7 +520,7 @@ void AwesomeWidget::configChanged()
     configuration[QString("useCustomNetdev")] = cg.readEntry("useCustomNetdev", "0");
     configuration[QString("customNetdev")] = cg.readEntry("customNetdev", "lo");
     configuration[QString("acOnline")] = cg.readEntry("acOnline", "(*)");
-    configuration[QString("acOffile")] = cg.readEntry("acOffile", "( )");
+    configuration[QString("acOffline")] = cg.readEntry("acOffline", "( )");
 
     // tooltip
     tooltipValues.clear();
