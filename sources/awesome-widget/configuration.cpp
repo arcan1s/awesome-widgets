@@ -182,7 +182,8 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     for (int i=0; i<configuration[QString("tempDevice")].split(QString("@@")).count(); i++) {
         QList<QListWidgetItem *> items = uiAdvancedConfig.listWidget_tempDevice
                 ->findItems(configuration[QString("tempDevice")].split(QString("@@"))[i], Qt::MatchFixedString);
-        if (items.isEmpty()) {
+        if ((items.isEmpty()) &&
+                (!configuration[QString("tempDevice")].split(QString("@@"))[i].isEmpty())) {
             QListWidgetItem *item = new QListWidgetItem(configuration[QString("tempDevice")].split(QString("@@"))[i]);
             item->setCheckState(Qt::Checked);
             uiAdvancedConfig.listWidget_tempDevice->addItem(item);
@@ -207,7 +208,8 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     for (int i=0; i<configuration[QString("mount")].split(QString("@@")).count(); i++) {
         QList<QListWidgetItem *> items = uiAdvancedConfig.listWidget_mount
                 ->findItems(configuration[QString("mount")].split(QString("@@"))[i], Qt::MatchFixedString);
-        if (items.isEmpty()) {
+        if ((items.isEmpty()) &&
+                (!configuration[QString("mount")].split(QString("@@"))[i].isEmpty())) {
             QListWidgetItem *item = new QListWidgetItem(configuration[QString("mount")].split(QString("@@"))[i]);
             item->setCheckState(Qt::Checked);
             uiAdvancedConfig.listWidget_mount->addItem(item);
@@ -224,7 +226,8 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     for (int i=0; i<configuration[QString("disk")].split(QString("@@")).count(); i++) {
         QList<QListWidgetItem *> items = uiAdvancedConfig.listWidget_hddSpeedDevice
                 ->findItems(configuration[QString("disk")].split(QString("@@"))[i], Qt::MatchFixedString);
-        if (items.isEmpty()) {
+        if ((items.isEmpty()) &&
+                (!configuration[QString("disk")].split(QString("@@"))[i].isEmpty())) {
             QListWidgetItem *item = new QListWidgetItem(configuration[QString("disk")].split(QString("@@"))[i]);
             item->setCheckState(Qt::Checked);
             uiAdvancedConfig.listWidget_hddSpeedDevice->addItem(item);
@@ -248,7 +251,8 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     for (int i=0; i<configuration[QString("hdd")].split(QString("@@")).count(); i++) {
         QList<QListWidgetItem *> items = uiAdvancedConfig.listWidget_hddDevice
                 ->findItems(configuration[QString("hdd")].split(QString("@@"))[i], Qt::MatchFixedString);
-        if (items.isEmpty()) {
+        if ((items.isEmpty()) &&
+                (!configuration[QString("hdd")].split(QString("@@"))[i].isEmpty())) {
             QListWidgetItem *item = new QListWidgetItem(configuration[QString("hdd")].split(QString("@@"))[i]);
             item->setCheckState(Qt::Checked);
             uiAdvancedConfig.listWidget_hddDevice->addItem(item);
@@ -264,6 +268,9 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     QStringList interfaceList;
     for (int i=0; i<rawInterfaceList.count(); i++)
         interfaceList.append(rawInterfaceList[i].name());
+    if ((!interfaceList.contains(configuration[QString("customNetdev")])) &&
+            (!configuration[QString("customNetdev")].isEmpty()))
+        interfaceList.append(configuration[QString("customNetdev")]);
     uiAdvancedConfig.comboBox_netdev->clear();
     uiAdvancedConfig.comboBox_netdev->addItems(interfaceList);
     uiAdvancedConfig.comboBox_netdev->setCurrentIndex(
