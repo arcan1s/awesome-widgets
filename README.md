@@ -298,6 +298,6 @@ Links
 -----
 
 * [Homepage](http://arcanis.name/projects/awesome-widgets/)
-* Plasmoid on [kde-look](http://kde-look.org/content/show.php/Py+Text+Monitor?content=157124)
+* Plasmoid on [kde-look](http://kde-look.org/content/show.php/Awesome+Widgets?content=157124)
 * DataEngine on [kde-look](http://kde-look.org/content/show.php/Extended+Systemmonitor+DataEngine?content=158773)
 * Archlinux [AUR](https://aur.archlinux.org/packages/kdeplasma-applets-awesome-widgets/) package
