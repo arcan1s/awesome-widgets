@@ -78,6 +78,7 @@ void AwesomeWidget::updateText(const bool clear)
         for (int i=0; i<foundKeys.count(); i++)
             text.replace(QString("$") + foundKeys[i], values[foundKeys[i]]);
     textLabel->setText(formatLine[0] + text + formatLine[1]);
+    update();
 }
 
 
