@@ -1,3 +1,6 @@
+Ver.2.0.2:
++ add $fan* tags
+
 Ver.2.0.1:
 + add support of custom interfaces
 * fix label edge's shading

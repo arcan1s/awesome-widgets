@@ -43,7 +43,7 @@
         <x>0</x>
         <y>0</y>
         <width>677</width>
-        <height>590</height>
+        <height>677</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -227,6 +227,30 @@ $m - uptime minutes without zero</string>
          </item>
          <item>
           <widget class="QListWidget" name="listWidget_tempDevice">
+           <property name="toolTip">
+            <string>Editable</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="layout_fanDevice">
+         <item>
+          <widget class="QLabel" name="label_fanDevice">
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Fan devices</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QListWidget" name="listWidget_fanDevice">
            <property name="toolTip">
             <string>Editable</string>
            </property>

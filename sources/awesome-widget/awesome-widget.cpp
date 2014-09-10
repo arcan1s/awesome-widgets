@@ -265,6 +265,8 @@ QStringList AwesomeWidget::getKeys()
     // temperature
     for (int i=counts[QString("temp")]-1; i>=0; i--)
         allKeys.append(QString("temp") + QString::number(i));
+    for (int i=counts[QString("fan")]-1; i>=0; i--)
+        allKeys.append(QString("fan") + QString::number(i));
     // gputemp
     allKeys.append(QString("gputemp"));
     // gpu

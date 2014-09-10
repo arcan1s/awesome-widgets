@@ -171,11 +171,16 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
         QString sensor = qoutput.split(QString("\n\n"))[i];
         for (int j=0; j<sensor.split(QChar('\n')).count(); j++) {
             QString device = sensor.split(QChar('\n'))[j];
-            if (device.indexOf(QChar(0260)) > -1) {
+            if (device.contains(QChar(0260))) {
                 QListWidgetItem *item = new QListWidgetItem(QString("lmsensors/") + sensor.split(QChar('\n'))[0] + QString("/") +
                         device.split(QChar(':'))[0].replace(QChar(' '), QChar('_')));
                 item->setCheckState(Qt::Unchecked);
                 uiAdvancedConfig.listWidget_tempDevice->addItem(item);
+            } else if (device.contains(QString("RPM"))) {
+                QListWidgetItem *item = new QListWidgetItem(QString("lmsensors/") + sensor.split(QChar('\n'))[0] + QString("/") +
+                        device.split(QChar(':'))[0].replace(QChar(' '), QChar('_')));
+                item->setCheckState(Qt::Unchecked);
+                uiAdvancedConfig.listWidget_fanDevice->addItem(item);
             }
         }
     }
@@ -187,6 +192,18 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
             QListWidgetItem *item = new QListWidgetItem(configuration[QString("tempDevice")].split(QString("@@"))[i]);
             item->setCheckState(Qt::Checked);
             uiAdvancedConfig.listWidget_tempDevice->addItem(item);
+        } else
+            for (int j=0; j<items.count(); j++)
+                items[j]->setCheckState(Qt::Checked);
+    }
+    for (int i=0; i<configuration[QString("fanDevice")].split(QString("@@")).count(); i++) {
+        QList<QListWidgetItem *> items = uiAdvancedConfig.listWidget_fanDevice
+                ->findItems(configuration[QString("fanDevice")].split(QString("@@"))[i], Qt::MatchFixedString);
+        if ((items.isEmpty()) &&
+                (!configuration[QString("fanDevice")].split(QString("@@"))[i].isEmpty())) {
+            QListWidgetItem *item = new QListWidgetItem(configuration[QString("fanDevice")].split(QString("@@"))[i]);
+            item->setCheckState(Qt::Checked);
+            uiAdvancedConfig.listWidget_fanDevice->addItem(item);
         } else
             for (int j=0; j<items.count(); j++)
                 items[j]->setCheckState(Qt::Checked);
@@ -392,6 +409,8 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     parent->addPage(appWidget, i18n("Appearance"), QString("preferences-desktop-theme"));
     parent->addPage(deConfigWidget, i18n("DataEngine"), QString("utilities-system-monitor"));
 
+    connect(uiAdvancedConfig.listWidget_fanDevice, SIGNAL(itemActivated(QListWidgetItem *)),
+            this, SLOT(editFanItem(QListWidgetItem *)));
     connect(uiAdvancedConfig.listWidget_hddDevice, SIGNAL(itemActivated(QListWidgetItem *)),
             this, SLOT(editHddItem(QListWidgetItem *)));
     connect(uiAdvancedConfig.listWidget_hddSpeedDevice, SIGNAL(itemActivated(QListWidgetItem *)),
@@ -447,6 +466,11 @@ void AwesomeWidget::configAccepted()
         if (uiAdvancedConfig.listWidget_tempDevice->item(i)->checkState() == Qt::Checked)
             items.append(uiAdvancedConfig.listWidget_tempDevice->item(i)->text());
     cg.writeEntry("tempDevice", items.join(QString("@@")));
+    items.clear();
+    for (int i=0; i<uiAdvancedConfig.listWidget_fanDevice->count(); i++)
+        if (uiAdvancedConfig.listWidget_fanDevice->item(i)->checkState() == Qt::Checked)
+            items.append(uiAdvancedConfig.listWidget_fanDevice->item(i)->text());
+    cg.writeEntry("fanDevice", items.join(QString("@@")));
     items.clear();
     for (int i=0; i<uiAdvancedConfig.listWidget_mount->count(); i++)
         if (uiAdvancedConfig.listWidget_mount->item(i)->checkState() == Qt::Checked)
@@ -541,6 +565,7 @@ void AwesomeWidget::configChanged()
     configuration[QString("customUptime")] = cg.readEntry("customUptime", "$dd,$hh,$mm");
     configuration[QString("tempUnits")] = cg.readEntry("tempUnits", "Celsius");
     configuration[QString("tempDevice")] = cg.readEntry("tempDevice", "");
+    configuration[QString("fanDevice")] = cg.readEntry("fanDevice", "");
     configuration[QString("mount")] = cg.readEntry("mount", "/");
     configuration[QString("hdd")] = cg.readEntry("hdd", "/dev/sda");
     configuration[QString("disk")] = cg.readEntry("disk", "disk/sda_(8:0)");
@@ -621,6 +646,7 @@ void AwesomeWidget::configChanged()
     counts[QString("cpu")] = getNumberCpus();
     counts[QString("custom")] = deSettings[QString("CUSTOM")].split(QString("@@")).count();
     counts[QString("disk")] = configuration[QString("disk")].split(QString("@@")).count();
+    counts[QString("fan")] = configuration[QString("fanDevice")].split(QString("@@")).count();
     counts[QString("hddtemp")] = configuration[QString("hdd")].split(QString("@@")).count();
     counts[QString("mount")] = configuration[QString("mount")].split(QString("@@")).count();
     counts[QString("pkg")] = deSettings[QString("PKGCMD")].split(QChar(',')).count();
@@ -688,6 +714,14 @@ void AwesomeWidget::contextMenuPkgCommand(const QPoint pos)
     if (action == remove)
         uiDEConfig.tableWidget_pkgCommand->removeRow(
                     uiDEConfig.tableWidget_pkgCommand->currentRow());
+}
+
+
+void AwesomeWidget::editFanItem(QListWidgetItem *item)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    uiAdvancedConfig.listWidget_fanDevice->openPersistentEditor(item);
 }
 
 

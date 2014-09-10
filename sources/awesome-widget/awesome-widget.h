@@ -76,6 +76,7 @@ private slots:
     void addNewPkgCommand(QTableWidgetItem *item);
     void contextMenuCustomCommand(const QPoint pos);
     void contextMenuPkgCommand(const QPoint pos);
+    void editFanItem(QListWidgetItem *item);
     void editHddItem(QListWidgetItem *item);
     void editHddSpeedItem(QListWidgetItem *item);
     void editMountItem(QListWidgetItem *item);

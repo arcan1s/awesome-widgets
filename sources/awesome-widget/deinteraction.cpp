@@ -73,6 +73,12 @@ void AwesomeWidget::connectToEngine()
             sysmonEngine->connectSource(configuration[QString("disk")].split(QString("@@"))[i] + QString("/Rate/wblk"),
                                         this, configuration[QString("interval")].toInt());
         }
+    // fan
+    regExp = QRegExp(QString("fan.*"));
+    if (foundKeys.indexOf(regExp) > -1)
+        for (int i=0; i<configuration[QString("fanDevice")].split(QString("@@")).count(); i++)
+            sysmonEngine->connectSource(configuration[QString("fanDevice")].split(QString("@@"))[i],
+                                        this, configuration[QString("interval")].toInt());
     // gpu
     regExp = QRegExp(QString("gpu"));
     if (foundKeys.indexOf(regExp) > -1)
@@ -384,11 +390,19 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
             tooltipValues[QString("swap")].append(values[QString("swap")].toFloat());
         }
     } else if (sourceName.indexOf(tempRegExp) > -1) {
-        for (int i=0; i<counts[QString("temp")]; i++)
-            if (sourceName == configuration[QString("tempDevice")].split(QString("@@"))[i]) {
-                values[QString("temp") + QString::number(i)] = QString("%1").arg(getTemp(data[QString("value")].toFloat()), 4, 'f', 1);
-                break;
-            }
+        if (data[QString("units")].toString() == QString("rpm")) {
+            for (int i=0; i<counts[QString("fan")]; i++)
+                if (sourceName == configuration[QString("fanDevice")].split(QString("@@"))[i]) {
+                    values[QString("fan") + QString::number(i)] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 1);
+                    break;
+                }
+        } else {
+            for (int i=0; i<counts[QString("temp")]; i++)
+                if (sourceName == configuration[QString("tempDevice")].split(QString("@@"))[i]) {
+                    values[QString("temp") + QString::number(i)] = QString("%1").arg(getTemp(data[QString("value")].toFloat()), 4, 'f', 1);
+                    break;
+                }
+        }
     } else if (sourceName == QString("Local")) {
         values[QString("time")] = data[QString("DateTime")].toDateTime().toString(Qt::TextDate);
         values[QString("isotime")] = data[QString("DateTime")].toDateTime().toString(Qt::ISODate);
@@ -458,6 +472,11 @@ void AwesomeWidget::disconnectFromEngine()
             sysmonEngine->disconnectSource(configuration[QString("disk")].split(QString("@@"))[i] + QString("/Rate/rblk"), this);
             sysmonEngine->disconnectSource(configuration[QString("disk")].split(QString("@@"))[i] + QString("/Rate/wblk"), this);
         }
+    // fan
+    regExp = QRegExp(QString("fan.*"));
+    if (foundKeys.indexOf(regExp) > -1)
+        for (int i=0; i<configuration[QString("fanDevice")].split(QString("@@")).count(); i++)
+            sysmonEngine->disconnectSource(configuration[QString("fanDevice")].split(QString("@@"))[i], this);
     // gpu
     regExp = QRegExp(QString("gpu"));
     if (foundKeys.indexOf(regExp) > -1)
