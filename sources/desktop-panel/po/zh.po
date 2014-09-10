@@ -1,0 +1,146 @@
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Steve Lemuel <wlemuel@hotmail.com>, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
+"POT-Creation-Date: 2014-09-08 02:02+0400\n"
+"PO-Revision-Date: 2014-09-10 22:25+0800\n"
+"Last-Translator: Steve Lemuel <wlemuel@hotmail.com>\n"
+"Language-Team: American English <kde-i18n-doc@kde.org>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.5\n"
+
+#: desktop-panel.cpp:141
+msgid "Top Edge"
+msgstr "顶部边缘"
+
+#: desktop-panel.cpp:143
+msgid "Bottom Edge"
+msgstr "底部边缘"
+
+#: desktop-panel.cpp:145
+msgid "Left Edge"
+msgstr "左边缘"
+
+#: desktop-panel.cpp:147
+msgid "Right Edge"
+msgstr "右边缘"
+
+#: desktop-panel.cpp:149
+msgid "Unknown Position (%1)"
+msgstr "未知位置（%1）"
+
+#: desktop-panel.cpp:375
+msgid "Widget"
+msgstr "窗口小部件"
+
+#: desktop-panel.cpp:376
+msgid "Appearance"
+msgstr "外观"
+
+#: desktop-panel.cpp:377
+msgid "Toggle panels"
+msgstr "控制面板显示切换(显示/隐藏)"
+
+#: po/rc.cpp:3 rc.cpp:3
+msgid "Active desktop"
+msgstr "当前激活桌面"
+
+#: po/rc.cpp:6 po/rc.cpp:24 rc.cpp:6 rc.cpp:24
+msgid "Font"
+msgstr "字体"
+
+#: po/rc.cpp:9 po/rc.cpp:27 rc.cpp:9 rc.cpp:27
+msgid "Font size"
+msgstr "字体大小"
+
+#: po/rc.cpp:12 po/rc.cpp:30 rc.cpp:12 rc.cpp:30
+msgid "Font color"
+msgstr "字体颜色"
+
+#: po/rc.cpp:15 po/rc.cpp:33 rc.cpp:15 rc.cpp:33
+msgid "Font weight"
+msgstr "字体宽度"
+
+#: po/rc.cpp:18 po/rc.cpp:36 rc.cpp:18 rc.cpp:36
+msgid "Font style"
+msgstr "字体样式"
+
+#: po/rc.cpp:21 rc.cpp:21
+msgid "Inactive desktop"
+msgstr "未激活桌面"
+
+#: po/rc.cpp:39 rc.cpp:39
+msgid "To control panels please set widget shortcut."
+msgstr "设置控制面板的快捷键"
+
+#: po/rc.cpp:42 rc.cpp:42
+msgid "Enable background"
+msgstr "启用背景"
+
+#: po/rc.cpp:45 rc.cpp:45
+msgid "Vertical layout"
+msgstr "垂直布局"
+
+#: po/rc.cpp:48 rc.cpp:48
+msgid "Add stretch to left/top of the layout"
+msgstr "添加左上角拉伸"
+
+#: po/rc.cpp:51 rc.cpp:51
+msgid "Add stretch to right/bottom of the layout"
+msgstr "添加右下角拉伸"
+
+#: po/rc.cpp:54 rc.cpp:54
+msgid "Time interval"
+msgstr "时间间隔"
+
+#: po/rc.cpp:57 rc.cpp:57
+msgid "Mark"
+msgstr "标记"
+
+#: po/rc.cpp:60 rc.cpp:60
+msgid "A mark which will be shown if this desktop is active"
+msgstr "当前桌面处于激活状态下，该当标记显示。 "
+
+#: po/rc.cpp:63 rc.cpp:63
+msgid "Pattern"
+msgstr "样式"
+
+#: po/rc.cpp:66 rc.cpp:66
+msgid ""
+"$mark - show mark if the current desktop is active\n"
+"$name - desktop name\n"
+"$number - desktop number\n"
+"$total - total number of desktops"
+msgstr ""
+"$mark - 当前桌面处于激活状态时，显示标记\n"
+"$name - 桌面名称\n"
+"$number - 桌面数量\n"
+"$total - 桌面总数量"
+
+#: po/rc.cpp:72 rc.cpp:72
+msgid "Command to change desktop"
+msgstr "桌面切换命令"
+
+#: po/rc.cpp:75 rc.cpp:75
+msgid "Command which will change the current desktop"
+msgstr "改变当前桌面命令"
+
+#: po/rc.cpp:76 rc.cpp:76
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "用户名"
+
+#: po/rc.cpp:77 rc.cpp:77
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "用户邮箱"
+
+
