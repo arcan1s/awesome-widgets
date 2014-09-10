@@ -1,5 +1,7 @@
 Ver.2.0.1:
 + add support of custom interfaces
+* fix label edge's shading
+* fix cpu*, cpucl*, gpu*, ps* tags
 
 Ver.2.0.0:
 + add new widget - awesome widget

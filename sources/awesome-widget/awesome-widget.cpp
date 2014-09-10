@@ -255,20 +255,20 @@ QStringList AwesomeWidget::getKeys()
     allKeys.append(QString("uptime"));
     allKeys.append(QString("cuptime"));
     // cpuclock
-    allKeys.append(QString("cpucl"));
     for (int i=counts[QString("cpu")]-1; i>=0; i--)
         allKeys.append(QString("cpucl") + QString::number(i));
+    allKeys.append(QString("cpucl"));
     // cpu
-    allKeys.append(QString("cpu"));
     for (int i=counts[QString("cpu")]-1; i>=0; i--)
         allKeys.append(QString("cpu") + QString::number(i));
+    allKeys.append(QString("cpu"));
     // temperature
     for (int i=counts[QString("temp")]-1; i>=0; i--)
         allKeys.append(QString("temp") + QString::number(i));
-    // gpu
-    allKeys.append(QString("gpu"));
     // gputemp
     allKeys.append(QString("gputemp"));
+    // gpu
+    allKeys.append(QString("gpu"));
     // memory
     allKeys.append(QString("memmb"));
     allKeys.append(QString("memgb"));
@@ -321,9 +321,9 @@ QStringList AwesomeWidget::getKeys()
     allKeys.append(QString("progress"));
     allKeys.append(QString("title"));
     // ps
-    allKeys.append(QString("ps"));
     allKeys.append(QString("pscount"));
     allKeys.append(QString("pstotal"));
+    allKeys.append(QString("ps"));
     // package manager
     for (int i=counts[QString("pkg")]-1; i>=0; i--)
         allKeys.append(QString("pkgcount") + QString::number(i));
