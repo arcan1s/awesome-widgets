@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
 "POT-Creation-Date: 2014-09-08 01:52+0400\n"
-"PO-Revision-Date: 2014-09-10 22:11+0800\n"
+"PO-Revision-Date: 2014-09-10 22:50+0800\n"
 "Last-Translator: Steve Lemuel <wlemuel@hotmail.com>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "Language: en_US\n"
@@ -130,12 +130,12 @@ msgid ""
 "$mm - uptime minutes\n"
 "$m - uptime minutes without zero"
 msgstr ""
-"$dd - 启动天数\n"
-"$d - uptime days without zero\n"
-"$hh - 启动小时数\n"
-"$h - uptime hours without zero\n"
-"$mm - 启动分钟数\n"
-"$m - uptime minutes without zero"
+"$dd - 运行天数\n"
+"$d - 运行天数（不显示0）\n"
+"$hh - 运行小时数\n"
+"$h - 运行小时数（不显示0）\n"
+"$mm - 运行分钟数\n"
+"$m - 运行分钟数（不显示0）"
 
 #: po/rc.cpp:41 rc.cpp:41
 msgid "Temperature units"
@@ -160,7 +160,7 @@ msgstr "硬盘（高速）"
 
 #: po/rc.cpp:62 rc.cpp:62
 msgid "HDD devices (temp)"
-msgstr "硬盘"
+msgstr "硬盘（临时）"
 
 #: po/rc.cpp:68 rc.cpp:68
 msgid "Disable auto select device and set specified device"
@@ -240,11 +240,11 @@ msgstr "检测桌面命令"
 
 #: po/rc.cpp:125 rc.cpp:125
 msgid "<b>NOTE:</b> Player DBus interface should be an active"
-msgstr "<b>提示:</b> 播放器 DBus 应该处于激活状态"
+msgstr "<b>提示:</b> 播放器 DBus 应当处于激活状态"
 
 #: po/rc.cpp:128 rc.cpp:128
 msgid "MPRIS player name"
-msgstr "MPRIS 播放器名字"
+msgstr "MPRIS 播放器名"
 
 #: po/rc.cpp:131 po/rc.cpp:141 rc.cpp:131 rc.cpp:141
 msgid ""
@@ -288,11 +288,11 @@ msgstr "背景"
 
 #: po/rc.cpp:169 rc.cpp:169
 msgid "CPU color"
-msgstr "CPU颜色"
+msgstr "CPU 颜色"
 
 #: po/rc.cpp:172 rc.cpp:172
 msgid "CPU clock color"
-msgstr "CPU时钟颜色"
+msgstr "CPU 时钟颜色"
 
 #: po/rc.cpp:175 rc.cpp:175
 msgid "Memory color"

@@ -27,11 +27,11 @@ msgstr "底部边缘"
 
 #: desktop-panel.cpp:145
 msgid "Left Edge"
-msgstr "左边缘"
+msgstr "左端边缘"
 
 #: desktop-panel.cpp:147
 msgid "Right Edge"
-msgstr "右边缘"
+msgstr "右端边缘"
 
 #: desktop-panel.cpp:149
 msgid "Unknown Position (%1)"
@@ -47,7 +47,7 @@ msgstr "外观"
 
 #: desktop-panel.cpp:377
 msgid "Toggle panels"
-msgstr "控制面板显示切换(显示/隐藏)"
+msgstr "控制面板状态切换(显示/隐藏)"
 
 #: po/rc.cpp:3 rc.cpp:3
 msgid "Active desktop"
@@ -131,7 +131,7 @@ msgstr "桌面切换命令"
 
 #: po/rc.cpp:75 rc.cpp:75
 msgid "Command which will change the current desktop"
-msgstr "改变当前桌面命令"
+msgstr "当前桌面更改命令"
 
 #: po/rc.cpp:76 rc.cpp:76
 msgctxt "NAME OF TRANSLATORS"
