@@ -1,0 +1,12 @@
+aticonfig --od-gettemperature
+
+Default Adapter - AMD Radeon HD 7800 Series
+                  Sensor 0: Temperature - 50.00 C
+aticonfig --od-getclocks
+
+Default Adapter - AMD Radeon HD 7800 Series
+                            Core (MHz)    Memory (MHz)
+           Current Clocks :    1100           1250
+             Current Peak :    1100           1250
+  Configurable Peak Range : [300-1050]     [150-1450]
+                 GPU load :    99%

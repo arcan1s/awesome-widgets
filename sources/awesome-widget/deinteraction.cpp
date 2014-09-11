@@ -35,7 +35,7 @@ void AwesomeWidget::connectToEngine()
         extsysmonEngine->connectSource(QString("battery"),
                                        this, configuration[QString("interval")].toInt());
     // cpu
-    regExp = QRegExp(QString("cpu[0-9].*"));
+    regExp = QRegExp(QString("cpu(?!cl).*"));
     if ((foundKeys.indexOf(regExp) > -1) ||
             (configuration[QString("cpuTooltip")].toInt() == 2)) {
         sysmonEngine->connectSource(QString("cpu/system/TotalLoad"),
@@ -45,7 +45,7 @@ void AwesomeWidget::connectToEngine()
                                         this, configuration[QString("interval")].toInt());
     }
     // cpuclock
-    regExp = QRegExp(QString("cpucl[0-9].*"));
+    regExp = QRegExp(QString("cpucl.*"));
     if ((foundKeys.indexOf(regExp) > -1) ||
             (configuration[QString("cpuclTooltip")].toInt() == 2)) {
         sysmonEngine->connectSource(QString("cpu/system/AverageClock"),
@@ -442,7 +442,7 @@ void AwesomeWidget::disconnectFromEngine()
             (configuration[QString("batteryTooltip")].toInt() == 2))
         extsysmonEngine->disconnectSource(QString("battery"), this);
     // cpu
-    regExp = QRegExp(QString("cpu.*"));
+    regExp = QRegExp(QString("cpu(?!cl).*"));
     if ((foundKeys.indexOf(regExp) > -1) ||
         (configuration[QString("cpuTooltip")].toInt() == 2)) {
         sysmonEngine->disconnectSource(QString("cpu/system/TotalLoad"), this);

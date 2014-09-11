@@ -90,21 +90,6 @@ void CustomLabel::mousePressEvent(QGraphicsSceneMouseEvent *event)
         if (process.exitCode != 0)
             if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
         text += QString("Uptime: %1\n").arg(QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed());
-        // ps stats
-        cmd = QString("ps --no-headers -o command");
-        if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
-        process = runTask(cmd);
-        if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-        if (process.exitCode != 0)
-            if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
-        QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
-        QStringList processes;
-        for (int i=0; i<qoutput.split(QChar('\n')).count(); i++)
-            if (qoutput.split(QChar('\n'))[i] != QString("ps --no-headers -o command"))
-                processes.append(qoutput.split(QChar('\n'))[i]);
-        text += QString("ps stats: %1 | %2")
-                .arg(processes.count())
-                .arg(processes.join(QChar(',')));
 
         widget->sendNotification(QString("system"), text);
     }
