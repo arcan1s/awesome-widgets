@@ -134,11 +134,11 @@ float AwesomeWidget::getTemp(const float temp)
     else if (configuration[QString("tempUnits")] == QString("Reaumur"))
         convertedTemp = temp * 0.8;
     else if (configuration[QString("tempUnits")] == QString("cm^-1"))
-        convertedTemp = temp * 0.695;
+        convertedTemp = (temp + 273.15) * 0.695;
     else if (configuration[QString("tempUnits")] == QString("kJ/mol"))
-        convertedTemp = temp * 8.31;
+        convertedTemp = (temp + 273.15) * 8.31;
     else if (configuration[QString("tempUnits")] == QString("kcal/mol"))
-        convertedTemp = temp * 1.98;
+        convertedTemp = (temp + 273.15) * 1.98;
 
     return convertedTemp;
 }

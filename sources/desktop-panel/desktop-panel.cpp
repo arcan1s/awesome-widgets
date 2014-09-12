@@ -211,6 +211,7 @@ void DesktopPanel::reinit()
     for (int i=0; i<desktopNames.count(); i++) {
         labels.append(new CustomPlasmaLabel(this, i));
         labels[i]->setWordWrap(false);
+        qDebug() << labels[i]->styleSheet();
         layout->addItem(labels[i]);
     }
     // right stretch
