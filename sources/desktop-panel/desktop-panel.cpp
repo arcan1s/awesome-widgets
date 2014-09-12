@@ -154,15 +154,18 @@ QString DesktopPanel::panelLocationToStr(Plasma::Location loc)
 QString DesktopPanel::parsePattern(const QString rawLine, const int num)
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Run function with raw line" << rawLine;
-    if (debug) qDebug() << PDEBUG << ":" << "Run function with number" << num;
+    if (debug) qDebug() << PDEBUG << ":" << "Raw line" << rawLine;
+    if (debug) qDebug() << PDEBUG << ":" << "Number" << num;
 
-    QString line, mark;
+    QString line, fullMark, mark;
     line = rawLine;
     if (currentDesktop == num + 1)
         mark = configuration[QString("mark")];
     else
         mark = QString("");
+    fullMark = QString("%1").arg(mark, configuration[QString("mark")].count(), QLatin1Char(' '));
+    if (line.contains(QString("$fullmark")))
+        line.replace(QString("$fullmark"), fullMark);
     if (line.contains(QString("$mark")))
         line.replace(QString("$mark"), mark);
     if (line.contains(QString("$name")))
@@ -207,6 +210,7 @@ void DesktopPanel::reinit()
     // labels
     for (int i=0; i<desktopNames.count(); i++) {
         labels.append(new CustomPlasmaLabel(this, i));
+        labels[i]->setWordWrap(false);
         layout->addItem(labels[i]);
     }
     // right stretch
@@ -281,7 +285,7 @@ void DesktopPanel::updateText()
 void DesktopPanel::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Data &data)
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Run function with source name" << sourceName;
+    if (debug) qDebug() << PDEBUG << ":" << "Source name" << sourceName;
 
     if (data.keys().count() == 0)
         return;
@@ -308,6 +312,7 @@ void DesktopPanel::createConfigurationInterface(KConfigDialog *parent)
     QWidget *toggleWidget = new QWidget;
     uiToggleConfig.setupUi(toggleWidget);
 
+    uiWidConfig.textEdit_elements->setPlainText(configuration[QString("pattern")]);
     if (configuration[QString("background")].toInt() == 0)
         uiWidConfig.checkBox_background->setCheckState(Qt::Unchecked);
     else
@@ -327,7 +332,6 @@ void DesktopPanel::createConfigurationInterface(KConfigDialog *parent)
     uiWidConfig.spinBox_interval->setValue(configuration[QString("interval")].toInt());
     uiWidConfig.comboBox_mark->setItemText(uiWidConfig.comboBox_mark->count()-1, configuration[QString("mark")]);
     uiWidConfig.comboBox_mark->setCurrentIndex(uiWidConfig.comboBox_mark->count()-1);
-    uiWidConfig.lineEdit_pattern->setText(configuration[QString("pattern")]);
     uiWidConfig.lineEdit_desktopcmd->setText(configuration[QString("desktopcmd")]);
 
     KConfigGroup cg = config();
@@ -376,6 +380,18 @@ void DesktopPanel::createConfigurationInterface(KConfigDialog *parent)
     parent->addPage(appWidget, i18n("Appearance"), QString("preferences-desktop-theme"));
     parent->addPage(toggleWidget, i18n("Toggle panels"), QString("plasma"));
 
+    connect(uiWidConfig.pushButton_tags, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
+    connect(uiWidConfig.pushButton_br, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
+    connect(uiWidConfig.pushButton_font, SIGNAL(clicked(bool)), this, SLOT(setFontFormating()));
+    connect(uiWidConfig.pushButton_bold, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
+    connect(uiWidConfig.pushButton_italic, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
+    connect(uiWidConfig.pushButton_underline, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
+    connect(uiWidConfig.pushButton_strike, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
+    connect(uiWidConfig.pushButton_left, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
+    connect(uiWidConfig.pushButton_center, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
+    connect(uiWidConfig.pushButton_right, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
+    connect(uiWidConfig.pushButton_fill, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
+
     connect(parent, SIGNAL(okClicked()), this, SLOT(configAccepted()));
     connect(parent, SIGNAL(applyClicked()), this, SLOT(configAccepted()));
 }
@@ -388,13 +404,13 @@ void DesktopPanel::configAccepted()
     extsysmonEngine->disconnectSource(QString("desktop"), this);
     KConfigGroup cg = config();
 
+    cg.writeEntry("pattern", uiWidConfig.textEdit_elements->toPlainText());
     cg.writeEntry("background", QString::number(uiWidConfig.checkBox_background->checkState()));
     cg.writeEntry("layout", QString::number(uiWidConfig.checkBox_layout->checkState()));
     cg.writeEntry("leftStretch", QString::number(uiWidConfig.checkBox_leftStretch->checkState()));
     cg.writeEntry("rightStretch", QString::number(uiWidConfig.checkBox_rightStretch->checkState()));
     cg.writeEntry("interval", QString::number(uiWidConfig.spinBox_interval->value()));
     cg.writeEntry("mark", uiWidConfig.comboBox_mark->currentText());
-    cg.writeEntry("pattern", uiWidConfig.lineEdit_pattern->text());
     cg.writeEntry("desktopcmd", uiWidConfig.lineEdit_desktopcmd->text());
 
     cg.writeEntry("currentFontFamily", uiAppConfig.fontComboBox_fontActive->currentFont().family());
@@ -426,6 +442,7 @@ void DesktopPanel::configChanged()
 
     KConfigGroup cg = config();
 
+    configuration[QString("pattern")] = cg.readEntry("pattern", "[$fullmark$number/$total: $name]");
     configuration[QString("background")] = cg.readEntry("background", "2");
     configuration[QString("desktopcmd")] = cg.readEntry("desktopcmd", "qdbus org.kde.kwin /KWin setCurrentDesktop $number");
     configuration[QString("interval")] = cg.readEntry("interval", "1000");
@@ -433,7 +450,6 @@ void DesktopPanel::configChanged()
     configuration[QString("leftStretch")] = cg.readEntry("leftStretch", "2");
     configuration[QString("mark")] = cg.readEntry("mark", "¤");
     configuration[QString("panels")] = cg.readEntry("panels", "-1");
-    configuration[QString("pattern")] = cg.readEntry("pattern", "[$mark$number/$total: $name]");
     configuration[QString("rightStretch")] = cg.readEntry("rightStretch", "2");
 
     extsysmonEngine->connectSource(QString("desktop"), this, configuration[QString("interval")].toInt());
@@ -476,6 +492,51 @@ void DesktopPanel::configChanged()
     formatLine[1] = QString("</body></html>");
 
     reinit();
+}
+
+
+void DesktopPanel::setFontFormating()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    CFont defaultFont = CFont(uiAppConfig.fontComboBox_fontInactive->currentFont().family(),
+                              uiAppConfig.spinBox_fontSizeInactive->value(),
+                              400, false, uiAppConfig.kcolorcombo_fontColorInactive->color());
+    CFont font = CFontDialog::getFont(i18n("Select font"), defaultFont,
+                                      false, false);
+    QString selectedText = uiWidConfig.textEdit_elements->textCursor().selectedText();
+    uiWidConfig.textEdit_elements->insertPlainText(QString("<font color=\"%1\" face=\"%2\" size=\"%3\">")
+                                                   .arg(font.color().name()).arg(font.family()).arg(font.pointSize()) +
+                                                    selectedText + QString("</font>"));
+}
+
+
+void DesktopPanel::setFormating()
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Sender" << sender();
+
+    QString selectedText = uiWidConfig.textEdit_elements->textCursor().selectedText();
+    if (sender() == uiWidConfig.pushButton_tags)
+        uiWidConfig.textEdit_elements->insertPlainText(QString("$") + uiWidConfig.comboBox_tags->currentText());
+    else if (sender() == uiWidConfig.pushButton_br)
+        uiWidConfig.textEdit_elements->insertPlainText(QString("<br>\n"));
+    else if (sender() == uiWidConfig.pushButton_bold)
+        uiWidConfig.textEdit_elements->insertPlainText(QString("<b>") + selectedText + QString("</b>"));
+    else if (sender() == uiWidConfig.pushButton_italic)
+        uiWidConfig.textEdit_elements->insertPlainText(QString("<i>") + selectedText + QString("</i>"));
+    else if (sender() == uiWidConfig.pushButton_underline)
+        uiWidConfig.textEdit_elements->insertPlainText(QString("<u>") + selectedText + QString("</u>"));
+    else if (sender() == uiWidConfig.pushButton_strike)
+        uiWidConfig.textEdit_elements->insertPlainText(QString("<s>") + selectedText + QString("</s>"));
+    else if (sender() == uiWidConfig.pushButton_left)
+        uiWidConfig.textEdit_elements->insertPlainText(QString("<p align=\"left\">") + selectedText + QString("</p>"));
+    else if (sender() == uiWidConfig.pushButton_center)
+        uiWidConfig.textEdit_elements->insertPlainText(QString("<p align=\"center\">") + selectedText + QString("</p>"));
+    else if (sender() == uiWidConfig.pushButton_right)
+        uiWidConfig.textEdit_elements->insertPlainText(QString("<p align=\"right\">") + selectedText + QString("</p>"));
+    else if (sender() == uiWidConfig.pushButton_fill)
+        uiWidConfig.textEdit_elements->insertPlainText(QString("<p align=\"justify\">") + selectedText + QString("</p>"));
 }
 
 

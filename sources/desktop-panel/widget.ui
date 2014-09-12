@@ -6,13 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>480</width>
-    <height>343</height>
+    <width>729</width>
+    <height>428</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>480</width>
+    <width>700</width>
     <height>320</height>
    </size>
   </property>
@@ -20,267 +20,400 @@
    <string notr="true">Widget</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QScrollArea" name="scrollArea">
-     <property name="widgetResizable">
-      <bool>true</bool>
+   <item row="6" column="0">
+    <layout class="QHBoxLayout" name="layout_interval">
+     <item>
+      <widget class="QLabel" name="label_interval">
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Time interval</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="spacer_interval">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="spinBox_interval">
+       <property name="minimumSize">
+        <size>
+         <width>180</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>10000</number>
+       </property>
+       <property name="singleStep">
+        <number>500</number>
+       </property>
+       <property name="value">
+        <number>1000</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="4" column="0">
+    <widget class="QCheckBox" name="checkBox_leftStretch">
+     <property name="text">
+      <string>Add stretch to left/top of the layout</string>
      </property>
-     <widget class="QWidget" name="scrollAreaWidgetContents">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>464</width>
-        <height>327</height>
-       </rect>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout">
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QCheckBox" name="checkBox_background">
+     <property name="text">
+      <string>Enable background</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <layout class="QHBoxLayout" name="layout_mark">
+     <item>
+      <widget class="QLabel" name="label_mark">
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Mark</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="comboBox_mark">
+       <property name="toolTip">
+        <string>A mark which will be shown if this desktop is active</string>
+       </property>
+       <property name="editable">
+        <bool>true</bool>
+       </property>
        <item>
-        <widget class="QCheckBox" name="checkBox_background">
-         <property name="text">
-          <string>Enable background</string>
-         </property>
-        </widget>
+        <property name="text">
+         <string notr="true">#</string>
+        </property>
        </item>
        <item>
-        <widget class="QCheckBox" name="checkBox_layout">
-         <property name="text">
-          <string>Vertical layout</string>
-         </property>
-        </widget>
+        <property name="text">
+         <string notr="true">$</string>
+        </property>
        </item>
        <item>
-        <widget class="QCheckBox" name="checkBox_leftStretch">
-         <property name="text">
-          <string>Add stretch to left/top of the layout</string>
-         </property>
-        </widget>
+        <property name="text">
+         <string notr="true">%</string>
+        </property>
        </item>
        <item>
-        <widget class="QCheckBox" name="checkBox_rightStretch">
-         <property name="text">
-          <string>Add stretch to right/bottom of the layout</string>
-         </property>
-        </widget>
+        <property name="text">
+         <string notr="true">&amp;</string>
+        </property>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="layout_interval">
-         <item>
-          <widget class="QLabel" name="label_interval">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Time interval</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="spacer_interval">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QSpinBox" name="spinBox_interval">
-           <property name="minimumSize">
-            <size>
-             <width>180</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-           <property name="minimum">
-            <number>1</number>
-           </property>
-           <property name="maximum">
-            <number>10000</number>
-           </property>
-           <property name="singleStep">
-            <number>500</number>
-           </property>
-           <property name="value">
-            <number>1000</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <property name="text">
+         <string notr="true">*</string>
+        </property>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="layout_mark">
-         <item>
-          <widget class="QLabel" name="label_mark">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Mark</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="comboBox_mark">
-           <property name="toolTip">
-            <string>A mark which will be shown if this desktop is active</string>
-           </property>
-           <property name="editable">
-            <bool>true</bool>
-           </property>
-           <item>
-            <property name="text">
-             <string notr="true">#</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">$</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">%</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">&amp;</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">*</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">@</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">¤</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">¶</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">·</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">º</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">×</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">†</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">•</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">(current)</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-        </layout>
+        <property name="text">
+         <string notr="true">@</string>
+        </property>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="layout_pattern">
-         <item>
-          <widget class="QLabel" name="label_pattern">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Pattern</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_pattern">
-           <property name="toolTip">
-            <string>$mark - show mark if the current desktop is active
-$name - desktop name
-$number - desktop number
-$total - total number of desktops</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <property name="text">
+         <string notr="true">¤</string>
+        </property>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="layout_desktopcmd">
-         <item>
-          <widget class="QLabel" name="label_desktopcmd">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Command to change desktop</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_desktopcmd">
-           <property name="toolTip">
-            <string>Command which will change the current desktop</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <property name="text">
+         <string notr="true">¶</string>
+        </property>
        </item>
        <item>
-        <spacer name="spacer_widget">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>152</height>
-          </size>
-         </property>
-        </spacer>
+        <property name="text">
+         <string notr="true">·</string>
+        </property>
        </item>
-      </layout>
-     </widget>
+       <item>
+        <property name="text">
+         <string notr="true">º</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">×</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">†</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">•</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">(current)</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="5" column="0">
+    <widget class="QCheckBox" name="checkBox_rightStretch">
+     <property name="text">
+      <string>Add stretch to right/bottom of the layout</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QCheckBox" name="checkBox_layout">
+     <property name="text">
+      <string>Vertical layout</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0">
+    <layout class="QHBoxLayout" name="layout_desktopcmd">
+     <item>
+      <widget class="QLabel" name="label_desktopcmd">
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Command to change desktop</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit_desktopcmd">
+       <property name="toolTip">
+        <string>Command which will change the current desktop</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="0">
+    <layout class="QHBoxLayout" name="layput_mainFormating">
+     <item>
+      <widget class="QPushButton" name="pushButton_font">
+       <property name="text">
+        <string>Font</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_br">
+       <property name="icon">
+        <iconset theme="stock_text_indent">
+         <normaloff>../awesome-widget</normaloff>../awesome-widget</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="spacer_mainFormatingCenter1">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_bold">
+       <property name="icon">
+        <iconset theme="format-text-bold">
+         <normaloff>../awesome-widget</normaloff>../awesome-widget</iconset>
+       </property>
+       <property name="shortcut">
+        <string>Ctrl+B</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_italic">
+       <property name="icon">
+        <iconset theme="format-text-italic">
+         <normaloff>../awesome-widget</normaloff>../awesome-widget</iconset>
+       </property>
+       <property name="shortcut">
+        <string>Ctrl+I</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_underline">
+       <property name="icon">
+        <iconset theme="format-text-underline">
+         <normaloff>../awesome-widget</normaloff>../awesome-widget</iconset>
+       </property>
+       <property name="shortcut">
+        <string>Ctrl+U</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_strike">
+       <property name="icon">
+        <iconset theme="format-text-strikethrough">
+         <normaloff>../awesome-widget</normaloff>../awesome-widget</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="spacer_mainFormatingCenter2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_left">
+       <property name="icon">
+        <iconset theme="format-justify-left">
+         <normaloff>../awesome-widget</normaloff>../awesome-widget</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_center">
+       <property name="icon">
+        <iconset theme="format-justify-center">
+         <normaloff>../awesome-widget</normaloff>../awesome-widget</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_right">
+       <property name="icon">
+        <iconset theme="format-justify-right">
+         <normaloff>../awesome-widget</normaloff>../awesome-widget</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_fill">
+       <property name="icon">
+        <iconset theme="format-justify-fill">
+         <normaloff>../awesome-widget</normaloff>../awesome-widget</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="spacer_mainFormatingCenter3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QComboBox" name="comboBox_tags">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <item>
+        <property name="text">
+         <string notr="true">fullmark</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">mark</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">name</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">number</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string notr="true">total</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_tags">
+       <property name="text">
+        <string>Add</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0">
+    <widget class="QTextEdit" name="textEdit_elements">
+     <property name="lineWrapMode">
+      <enum>QTextEdit::NoWrap</enum>
+     </property>
+     <property name="acceptRichText">
+      <bool>false</bool>
+     </property>
     </widget>
    </item>
   </layout>

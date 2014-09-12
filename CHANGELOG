@@ -3,6 +3,7 @@ Ver.2.0.2:
 + add Chinese translation (thanks to @Lemueler)
 - remove ps stats from notification
 * yet another fix cpu* and cpucl*
+* rewrite DP configuration interface
 
 Ver.2.0.1:
 + add support of custom interfaces

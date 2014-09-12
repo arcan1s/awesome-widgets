@@ -76,6 +76,8 @@ public slots:
 
 private slots:
     void reinit();
+    void setFontFormating();
+    void setFormating();
 
 protected:
     void createConfigurationInterface(KConfigDialog *parent);
@@ -100,9 +102,7 @@ private:
     Ui::ToggleWindow uiToggleConfig;
     // configuration
     QMap<QString, QString> configuration;
-    QStringList desktopNames;
-    QStringList currentFormatLine;
-    QStringList formatLine;
+    QStringList desktopNames, currentFormatLine, formatLine;
 };
 
 K_EXPORT_PLASMA_APPLET(desktop-panel, DesktopPanel)
