@@ -20,7 +20,7 @@
    <string notr="true">Widget</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="6" column="0">
+   <item row="4" column="0">
     <layout class="QHBoxLayout" name="layout_interval">
      <item>
       <widget class="QLabel" name="label_interval">
@@ -75,13 +75,6 @@
      </item>
     </layout>
    </item>
-   <item row="4" column="0">
-    <widget class="QCheckBox" name="checkBox_leftStretch">
-     <property name="text">
-      <string>Add stretch to left/top of the layout</string>
-     </property>
-    </widget>
-   </item>
    <item row="2" column="0">
     <widget class="QCheckBox" name="checkBox_background">
      <property name="text">
@@ -89,7 +82,7 @@
      </property>
     </widget>
    </item>
-   <item row="7" column="0">
+   <item row="5" column="0">
     <layout class="QHBoxLayout" name="layout_mark">
      <item>
       <widget class="QLabel" name="label_mark">
@@ -186,13 +179,6 @@
      </item>
     </layout>
    </item>
-   <item row="5" column="0">
-    <widget class="QCheckBox" name="checkBox_rightStretch">
-     <property name="text">
-      <string>Add stretch to right/bottom of the layout</string>
-     </property>
-    </widget>
-   </item>
    <item row="3" column="0">
     <widget class="QCheckBox" name="checkBox_layout">
      <property name="text">
@@ -200,7 +186,7 @@
      </property>
     </widget>
    </item>
-   <item row="8" column="0">
+   <item row="6" column="0">
     <layout class="QHBoxLayout" name="layout_desktopcmd">
      <item>
       <widget class="QLabel" name="label_desktopcmd">

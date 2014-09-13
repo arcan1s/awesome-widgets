@@ -28,7 +28,7 @@
 #include <ui_widget.h>
 
 
-class QGraphicsLinearLayout;
+class QGraphicsGridLayout;
 class DesktopPanel;
 
 
@@ -86,9 +86,9 @@ private:
     // functions
     QList<Plasma::Containment *> getPanels();
     QString panelLocationToStr(Plasma::Location loc);
-    void updateText();
+    void updateText(const bool first = false);
     // ui
-    QGraphicsLinearLayout *layout;
+    QGraphicsGridLayout *layout;
     QList<CustomPlasmaLabel *> labels;
     // debug
     bool debug;

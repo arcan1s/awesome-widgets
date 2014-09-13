@@ -26,7 +26,7 @@
 #include <Plasma/Theme>
 #include <QDebug>
 #include <QFile>
-#include <QGraphicsLinearLayout>
+#include <QGraphicsGridLayout>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>
 #include <QProcessEnvironment>
@@ -106,7 +106,7 @@ void DesktopPanel::init()
 
     extsysmonEngine = dataEngine(QString("ext-sysmon"));
 
-    layout = new QGraphicsLinearLayout();
+    layout = new QGraphicsGridLayout();
     layout->setContentsMargins(1, 1, 1, 1);
     setLayout(layout);
 
@@ -192,7 +192,7 @@ void DesktopPanel::reinit()
     }
     labels.clear();
     // layout
-    layout = new QGraphicsLinearLayout();
+    layout = new QGraphicsGridLayout();
     layout->setContentsMargins(1, 1, 1, 1);
     setLayout(layout);
 
@@ -200,25 +200,18 @@ void DesktopPanel::reinit()
     // layout
     if (configuration[QString("background")].toInt() == 0)
         setBackgroundHints(NoBackground);
-    if (configuration[QString("layout")].toInt() == 0)
-        layout->setOrientation(Qt::Horizontal);
-    else
-        layout->setOrientation(Qt::Vertical);
-    // left stretch
-    if (configuration[QString("leftStretch")].toInt() == 2)
-        layout->addStretch(1);
     // labels
     for (int i=0; i<desktopNames.count(); i++) {
         labels.append(new CustomPlasmaLabel(this, i));
         labels[i]->setWordWrap(false);
-        qDebug() << labels[i]->styleSheet();
-        layout->addItem(labels[i]);
+        if (configuration[QString("layout")].toInt() == 0)
+            layout->addItem(labels[i], 0, i);
+        else
+            layout->addItem(labels[i], i, 0);
     }
-    // right stretch
-    if (configuration[QString("rightStretch")].toInt() == 2)
-        layout->addStretch(1);
 
-    updateText();
+    updateText(true);
+//    layout->updateGeometry();
     resize(10, 10);
 }
 
@@ -264,15 +257,17 @@ void DesktopPanel::setCurrentDesktop(const int number)
 }
 
 
-void DesktopPanel::updateText()
+void DesktopPanel::updateText(const bool first)
 {
     if (debug) qDebug() << PDEBUG;
 
-    if (labels.isEmpty()) return;
     QString line, text;
     for (int i=0; i<labels.count(); i++) {
         if (debug) qDebug() << PDEBUG << ":" << "Label" << i;
-        line = parsePattern(configuration[QString("pattern")], i);
+        if (first)
+            line = configuration[QString("pattern")];
+        else
+            line = parsePattern(configuration[QString("pattern")], i);
         if (currentDesktop == i + 1)
             text = currentFormatLine[0] + line + currentFormatLine[1];
         else
@@ -322,14 +317,6 @@ void DesktopPanel::createConfigurationInterface(KConfigDialog *parent)
         uiWidConfig.checkBox_layout->setCheckState(Qt::Unchecked);
     else
         uiWidConfig.checkBox_layout->setCheckState(Qt::Checked);
-    if (configuration[QString("leftStretch")].toInt() == 0)
-        uiWidConfig.checkBox_leftStretch->setCheckState(Qt::Unchecked);
-    else
-        uiWidConfig.checkBox_leftStretch->setCheckState(Qt::Checked);
-    if (configuration[QString("rightStretch")].toInt() == 0)
-        uiWidConfig.checkBox_rightStretch->setCheckState(Qt::Unchecked);
-    else
-        uiWidConfig.checkBox_rightStretch->setCheckState(Qt::Checked);
     uiWidConfig.spinBox_interval->setValue(configuration[QString("interval")].toInt());
     uiWidConfig.comboBox_mark->setItemText(uiWidConfig.comboBox_mark->count()-1, configuration[QString("mark")]);
     uiWidConfig.comboBox_mark->setCurrentIndex(uiWidConfig.comboBox_mark->count()-1);
@@ -408,8 +395,6 @@ void DesktopPanel::configAccepted()
     cg.writeEntry("pattern", uiWidConfig.textEdit_elements->toPlainText());
     cg.writeEntry("background", QString::number(uiWidConfig.checkBox_background->checkState()));
     cg.writeEntry("layout", QString::number(uiWidConfig.checkBox_layout->checkState()));
-    cg.writeEntry("leftStretch", QString::number(uiWidConfig.checkBox_leftStretch->checkState()));
-    cg.writeEntry("rightStretch", QString::number(uiWidConfig.checkBox_rightStretch->checkState()));
     cg.writeEntry("interval", QString::number(uiWidConfig.spinBox_interval->value()));
     cg.writeEntry("mark", uiWidConfig.comboBox_mark->currentText());
     cg.writeEntry("desktopcmd", uiWidConfig.lineEdit_desktopcmd->text());
@@ -448,10 +433,8 @@ void DesktopPanel::configChanged()
     configuration[QString("desktopcmd")] = cg.readEntry("desktopcmd", "qdbus org.kde.kwin /KWin setCurrentDesktop $number");
     configuration[QString("interval")] = cg.readEntry("interval", "1000");
     configuration[QString("layout")] = cg.readEntry("layout", "0");
-    configuration[QString("leftStretch")] = cg.readEntry("leftStretch", "2");
     configuration[QString("mark")] = cg.readEntry("mark", "¤");
     configuration[QString("panels")] = cg.readEntry("panels", "-1");
-    configuration[QString("rightStretch")] = cg.readEntry("rightStretch", "2");
 
     extsysmonEngine->connectSource(QString("desktop"), this, configuration[QString("interval")].toInt());
 
@@ -506,9 +489,9 @@ void DesktopPanel::setFontFormating()
     CFont font = CFontDialog::getFont(i18n("Select font"), defaultFont,
                                       false, false);
     QString selectedText = uiWidConfig.textEdit_elements->textCursor().selectedText();
-    uiWidConfig.textEdit_elements->insertPlainText(QString("<font color=\"%1\" face=\"%2\" size=\"%3\">")
+    uiWidConfig.textEdit_elements->insertPlainText(QString("<span style=\"color:%1; font-family:'%2'; font-size:%3pt;\">")
                                                    .arg(font.color().name()).arg(font.family()).arg(font.pointSize()) +
-                                                    selectedText + QString("</font>"));
+                                                   selectedText + QString("</span>"));
 }
 
 

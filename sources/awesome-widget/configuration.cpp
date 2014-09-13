@@ -768,9 +768,9 @@ void AwesomeWidget::setFontFormating()
                                       false, false);
     if (font != defaultFont) {
         QString selectedText = uiWidConfig.textEdit_elements->textCursor().selectedText();
-        uiWidConfig.textEdit_elements->insertPlainText(QString("<font color=\"%1\" face=\"%2\" size=\"%3\">")
+        uiWidConfig.textEdit_elements->insertPlainText(QString("<span style=\"color:%1; font-family:'%2'; font-size:%3pt;\">")
                                                        .arg(font.color().name()).arg(font.family()).arg(font.pointSize()) +
-                                                       selectedText + QString("</font>"));
+                                                       selectedText + QString("</span>"));
     }
 }
 
