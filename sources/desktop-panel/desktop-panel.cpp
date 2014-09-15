@@ -94,9 +94,6 @@ DesktopPanel::DesktopPanel(QObject *parent, const QVariantList &args)
 
 DesktopPanel::~DesktopPanel()
 {
-//     for (int i=0; i<labels.count(); i++)
-//         delete labels[i];
-//     delete layout;
 }
 
 
@@ -204,6 +201,7 @@ void DesktopPanel::reinit()
     for (int i=0; i<desktopNames.count(); i++) {
         labels.append(new CustomPlasmaLabel(this, i));
         labels[i]->setWordWrap(false);
+        labels[i]->setAttribute(Qt::WA_NoSystemBackground, true);
         if (configuration[QString("layout")].toInt() == 0)
             layout->addItem(labels[i], 0, i);
         else
@@ -211,8 +209,6 @@ void DesktopPanel::reinit()
     }
 
     updateText(true);
-//    layout->updateGeometry();
-    resize(10, 10);
 }
 
 
@@ -274,6 +270,7 @@ void DesktopPanel::updateText(const bool first)
             text = formatLine[0] + line + formatLine[1];
         labels[i]->setText(text);
     }
+    update();
 }
 
 
