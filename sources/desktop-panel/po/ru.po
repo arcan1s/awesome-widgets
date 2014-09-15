@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2014-09-08 02:02+0400\n"
-"PO-Revision-Date: 2014-09-08 02:03+0400\n"
+"POT-Creation-Date: 2014-09-15 10:02+0400\n"
+"PO-Revision-Date: 2014-09-15 10:03+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -38,23 +38,27 @@ msgstr "Правый край"
 msgid "Unknown Position (%1)"
 msgstr "Неизвестное положение (%1)"
 
-#: desktop-panel.cpp:375
+#: desktop-panel.cpp:367
 msgid "Widget"
 msgstr "Виджет"
 
-#: desktop-panel.cpp:376
+#: desktop-panel.cpp:368
 msgid "Appearance"
 msgstr "Внешний вид"
 
-#: desktop-panel.cpp:377
+#: desktop-panel.cpp:369
 msgid "Toggle panels"
 msgstr "Скрыть панели"
+
+#: desktop-panel.cpp:489
+msgid "Select font"
+msgstr "Выберете шрифт"
 
 #: po/rc.cpp:3 rc.cpp:3
 msgid "Active desktop"
 msgstr "Активный рабочий стол"
 
-#: po/rc.cpp:6 po/rc.cpp:24 rc.cpp:6 rc.cpp:24
+#: po/rc.cpp:6 po/rc.cpp:24 po/rc.cpp:63 rc.cpp:6 rc.cpp:24 rc.cpp:63
 msgid "Font"
 msgstr "Шрифт"
 
@@ -83,56 +87,48 @@ msgid "To control panels please set widget shortcut."
 msgstr "Чтобы управлять панелями, настройте комбинацию клавиш."
 
 #: po/rc.cpp:42 rc.cpp:42
-msgid "Enable background"
-msgstr "Включить фон"
-
-#: po/rc.cpp:45 rc.cpp:45
-msgid "Vertical layout"
-msgstr "Вертикальная разметка"
-
-#: po/rc.cpp:48 rc.cpp:48
-msgid "Add stretch to left/top of the layout"
-msgstr "Добавить пустое место слева/сверху виджета"
-
-#: po/rc.cpp:51 rc.cpp:51
-msgid "Add stretch to right/bottom of the layout"
-msgstr "Добавить пустое место справа/снизу виджета"
-
-#: po/rc.cpp:54 rc.cpp:54
 msgid "Time interval"
 msgstr "Интервал обновления"
 
-#: po/rc.cpp:57 rc.cpp:57
+#: po/rc.cpp:45 rc.cpp:45
+msgid "Enable background"
+msgstr "Включить фон"
+
+#: po/rc.cpp:48 rc.cpp:48
 msgid "Mark"
 msgstr "Метка"
 
-#: po/rc.cpp:60 rc.cpp:60
+#: po/rc.cpp:51 rc.cpp:51
 msgid "A mark which will be shown if this desktop is active"
 msgstr "Метка, которая будет показана, если данный рабочий стол активен"
 
-#: po/rc.cpp:63 rc.cpp:63
-msgid "Pattern"
-msgstr "Шаблон"
+#: po/rc.cpp:54 rc.cpp:54
+msgid "Vertical layout"
+msgstr "Вертикальная разметка"
 
-#: po/rc.cpp:66 rc.cpp:66
-msgid ""
-"$mark - show mark if the current desktop is active\n"
-"$name - desktop name\n"
-"$number - desktop number\n"
-"$total - total number of desktops"
-msgstr ""
-"$mark - показать метку, если данный рабочий стол активен\n"
-"$name - имя рабочего стола\n"
-"$number - номер рабочего стола\n"
-"$total - общее число рабочий столов"
-
-#: po/rc.cpp:72 rc.cpp:72
+#: po/rc.cpp:57 rc.cpp:57
 msgid "Command to change desktop"
 msgstr "Команда"
 
-#: po/rc.cpp:75 rc.cpp:75
+#: po/rc.cpp:60 rc.cpp:60
 msgid "Command which will change the current desktop"
 msgstr "Команда которая изменит текущий рабочий стол"
+
+#: po/rc.cpp:66 rc.cpp:66
+msgid "Ctrl+B"
+msgstr "Ctrl+B"
+
+#: po/rc.cpp:69 rc.cpp:69
+msgid "Ctrl+I"
+msgstr "Ctrl+I"
+
+#: po/rc.cpp:72 rc.cpp:72
+msgid "Ctrl+U"
+msgstr "Ctrl+U"
+
+#: po/rc.cpp:75 rc.cpp:75
+msgid "Add"
+msgstr "Добавить"
 
 #: po/rc.cpp:76 rc.cpp:76
 msgctxt "NAME OF TRANSLATORS"
@@ -144,3 +140,22 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "esalexeev@gmail.com"
 
+#~ msgid "Add stretch to left/top of the layout"
+#~ msgstr "Добавить пустое место слева/сверху виджета"
+
+#~ msgid "Add stretch to right/bottom of the layout"
+#~ msgstr "Добавить пустое место справа/снизу виджета"
+
+#~ msgid "Pattern"
+#~ msgstr "Шаблон"
+
+#~ msgid ""
+#~ "$mark - show mark if the current desktop is active\n"
+#~ "$name - desktop name\n"
+#~ "$number - desktop number\n"
+#~ "$total - total number of desktops"
+#~ msgstr ""
+#~ "$mark - показать метку, если данный рабочий стол активен\n"
+#~ "$name - имя рабочего стола\n"
+#~ "$number - номер рабочего стола\n"
+#~ "$total - общее число рабочий столов"

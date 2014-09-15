@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2014-09-08 02:02+0400\n"
+"POT-Creation-Date: 2014-09-15 10:02+0400\n"
 "PO-Revision-Date: 2014-06-05 19:24+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: French <kde-french@lists.kde.ru>\n"
@@ -39,23 +39,27 @@ msgstr ""
 msgid "Unknown Position (%1)"
 msgstr ""
 
-#: desktop-panel.cpp:375
+#: desktop-panel.cpp:367
 msgid "Widget"
 msgstr "Widget"
 
-#: desktop-panel.cpp:376
+#: desktop-panel.cpp:368
 msgid "Appearance"
 msgstr "Apparence"
 
-#: desktop-panel.cpp:377
+#: desktop-panel.cpp:369
 msgid "Toggle panels"
+msgstr ""
+
+#: desktop-panel.cpp:489
+msgid "Select font"
 msgstr ""
 
 #: po/rc.cpp:3 rc.cpp:3
 msgid "Active desktop"
 msgstr ""
 
-#: po/rc.cpp:6 po/rc.cpp:24 rc.cpp:6 rc.cpp:24
+#: po/rc.cpp:6 po/rc.cpp:24 po/rc.cpp:63 rc.cpp:6 rc.cpp:24 rc.cpp:63
 msgid "Font"
 msgstr "Police"
 
@@ -84,51 +88,47 @@ msgid "To control panels please set widget shortcut."
 msgstr ""
 
 #: po/rc.cpp:42 rc.cpp:42
-msgid "Enable background"
-msgstr ""
-
-#: po/rc.cpp:45 rc.cpp:45
-msgid "Vertical layout"
-msgstr "Positionnement vertical"
-
-#: po/rc.cpp:48 rc.cpp:48
-msgid "Add stretch to left/top of the layout"
-msgstr "Étirer le positionnement vers haut/gauche"
-
-#: po/rc.cpp:51 rc.cpp:51
-msgid "Add stretch to right/bottom of the layout"
-msgstr "Étirer le positionnement vers bas/droite"
-
-#: po/rc.cpp:54 rc.cpp:54
 msgid "Time interval"
 msgstr "Intervalle"
 
-#: po/rc.cpp:57 rc.cpp:57
+#: po/rc.cpp:45 rc.cpp:45
+msgid "Enable background"
+msgstr ""
+
+#: po/rc.cpp:48 rc.cpp:48
 msgid "Mark"
 msgstr ""
 
-#: po/rc.cpp:60 rc.cpp:60
+#: po/rc.cpp:51 rc.cpp:51
 msgid "A mark which will be shown if this desktop is active"
 msgstr ""
 
-#: po/rc.cpp:63 rc.cpp:63
-msgid "Pattern"
-msgstr ""
+#: po/rc.cpp:54 rc.cpp:54
+msgid "Vertical layout"
+msgstr "Positionnement vertical"
 
-#: po/rc.cpp:66 rc.cpp:66
-msgid ""
-"$mark - show mark if the current desktop is active\n"
-"$name - desktop name\n"
-"$number - desktop number\n"
-"$total - total number of desktops"
-msgstr ""
-
-#: po/rc.cpp:72 rc.cpp:72
+#: po/rc.cpp:57 rc.cpp:57
 msgid "Command to change desktop"
 msgstr ""
 
-#: po/rc.cpp:75 rc.cpp:75
+#: po/rc.cpp:60 rc.cpp:60
 msgid "Command which will change the current desktop"
+msgstr ""
+
+#: po/rc.cpp:66 rc.cpp:66
+msgid "Ctrl+B"
+msgstr ""
+
+#: po/rc.cpp:69 rc.cpp:69
+msgid "Ctrl+I"
+msgstr ""
+
+#: po/rc.cpp:72 rc.cpp:72
+msgid "Ctrl+U"
+msgstr ""
+
+#: po/rc.cpp:75 rc.cpp:75
+msgid "Add"
 msgstr ""
 
 #: po/rc.cpp:76 rc.cpp:76
@@ -140,3 +140,9 @@ msgstr "Evgeniy Alekseev"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "esalexeev@gmail.com"
+
+#~ msgid "Add stretch to left/top of the layout"
+#~ msgstr "Étirer le positionnement vers haut/gauche"
+
+#~ msgid "Add stretch to right/bottom of the layout"
+#~ msgstr "Étirer le positionnement vers bas/droite"
