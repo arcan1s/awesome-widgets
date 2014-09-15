@@ -98,7 +98,8 @@ QString AwesomeWidget::getNetworkDevice()
         QList<QNetworkInterface> rawInterfaceList = QNetworkInterface::allInterfaces();
         for (int i=0; i<rawInterfaceList.count(); i++)
             if ((rawInterfaceList[i].flags().testFlag(QNetworkInterface::IsUp)) &&
-                    (!rawInterfaceList[i].flags().testFlag(QNetworkInterface::IsLoopBack)))
+                    (!rawInterfaceList[i].flags().testFlag(QNetworkInterface::IsLoopBack)) &&
+                    (!rawInterfaceList[i].flags().testFlag(QNetworkInterface::IsPointToPoint)))
                 device = rawInterfaceList[i].name();
     }
 
