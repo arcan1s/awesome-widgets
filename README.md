@@ -25,6 +25,7 @@ For edited output you must open Settings window and setup output format in lines
 * tag `$cpucl` - average cpu clock, *MHz*
 * tag `$cpuclN` - cpu clock for core N, *MHz*
 * tag `$tempN` - temperature for device N. For example, `$temp0`
+* tag `$fanN` - fan speed for device N. For example, `$fan0`
 * tag `$gpu` - GPU usage, *%*. `aticonfig` or `nvidia-smi` must be installed
 * tag `$gputemp` - GPU temperature. `aticonfig` or `nvidia-smi` must be installed
 * tag `$mem` - usage memory, *%*
@@ -293,6 +294,9 @@ Additional information
 
 TODO (wish list)
 ----------------
+
+* 3rdpatry modules support (C++, Python and Shell modules in the plan)
+* graphical bars support
 
 Links
 -----
