@@ -26,7 +26,7 @@
 
 
 CustomLabel::CustomLabel(AwesomeWidget *wid, const bool debugCmd)
-    : Plasma::Label(wid),
+    : QLabel(0),
       widget(wid),
       debug(debugCmd)
 {
@@ -49,7 +49,7 @@ void CustomLabel::setPopupEnabled(const bool state)
 }
 
 
-void CustomLabel::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void CustomLabel::mousePressEvent(QMouseEvent *event)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Get signal" << event->button();
@@ -93,5 +93,5 @@ void CustomLabel::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
         widget->sendNotification(QString("system"), text);
     }
-    emit(Plasma::Label::mousePressEvent(event));
+    emit(QLabel::mousePressEvent(event));
 }

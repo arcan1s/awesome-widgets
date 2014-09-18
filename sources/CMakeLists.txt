@@ -16,7 +16,7 @@ message (STATUS "Version: ${PROJECT_VERSION}")
 
 # flags
 if (CMAKE_COMPILER_IS_GNUCXX)
-    set (CMAKE_CXX_FLAGS "-Wall -std=c++11")
+    set (CMAKE_CXX_FLAGS "-Wall -Wno-cpp -std=c++11")
     set (CMAKE_CXX_FLAGS_DEBUG "-g -O0")
     set (CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
 else ()

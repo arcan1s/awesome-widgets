@@ -18,22 +18,22 @@
 #ifndef CUSTOMLABEL_H
 #define CUSTOMLABEL_H
 
-#include <Plasma/Label>
+#include <QLabel>
 
 
 class AwesomeWidget;
 
-class CustomLabel : public Plasma::Label
+class CustomLabel : public QLabel
 {
     Q_OBJECT
 
 public:
-    CustomLabel(AwesomeWidget *wid, const bool debugCmd);
+    CustomLabel(AwesomeWidget *wid, const bool debugCmd = false);
     ~CustomLabel();
     void setPopupEnabled(const bool state);
 
 protected:
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
 
 private:
     AwesomeWidget *widget;
