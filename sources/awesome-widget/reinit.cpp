@@ -39,6 +39,7 @@ void AwesomeWidget::reinit()
         textLabel->setPopupEnabled(true);
     updateText(true);
     textLabel->adjustSize();
+    mainLayout->itemAt(0, 0)->setGeometry(textLabel->geometry());
 
     keys = getKeys();
     foundKeys = findKeys();

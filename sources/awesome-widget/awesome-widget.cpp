@@ -49,6 +49,7 @@ AwesomeWidget::AwesomeWidget(QObject *parent, const QVariantList &args)
     setBackgroundHints(DefaultBackground);
     setAspectRatioMode(Plasma::IgnoreAspectRatio);
     setHasConfigurationInterface(true);
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     // text format init
     formatLine.append(QString(""));
     formatLine.append(QString(""));
@@ -202,9 +203,9 @@ void AwesomeWidget::init()
     textLabel = new CustomLabel(this, debug);
     QGraphicsProxyWidget *pw = new QGraphicsProxyWidget(this);
     pw->setAttribute(Qt::WA_TranslucentBackground, true);
-    pw->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    pw->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     textLabel->setAttribute(Qt::WA_TranslucentBackground, true);
-    textLabel->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    textLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     pw->setWidget(textLabel);
     mainLayout->addItem(pw, 0, 0);
 
