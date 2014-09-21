@@ -641,7 +641,12 @@ void AwesomeWidget::configChanged()
 
     // counts
     QMap<QString, QString> deSettings = readDataEngineConfiguration();
-    counts[QString("bat")] = QDir(deSettings[QString("ACPIPATH")]).entryList(QDir::Dirs | QDir::NoDotAndDotDot).count();
+    counts[QString("bat")] = 0;
+    QStringList acpiDevices = QDir(deSettings[QString("ACPIPATH")]).entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+    QRegExp batRegexp = QRegExp(QString("BAT.*"));
+    for (int i=0; i<acpiDevices.count(); i++)
+        if (acpiDevices[i].indexOf(batRegexp) > -1)
+            counts[QString("bat")]++;
     counts[QString("cpu")] = getNumberCpus();
     counts[QString("custom")] = deSettings[QString("CUSTOM")].split(QString("@@")).count();
     counts[QString("disk")] = configuration[QString("disk")].split(QString("@@")).count();

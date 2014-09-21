@@ -285,7 +285,7 @@ QMap<QString, QVariant> ExtendedSysMon::getBattery(const QString acpiPath)
 
     QMap<QString, QVariant> battery;
     battery[QString("ac")] = false;
-    battery[QString("bat0")] = 0;
+    battery[QString("bat")] = 0;
     QFile acFile(acpiPath + QString("/AC/online"));
     if (acFile.open(QIODevice::ReadOnly)) {
         if (QString(acFile.readLine()).trimmed().toInt() == 1)
@@ -293,7 +293,7 @@ QMap<QString, QVariant> ExtendedSysMon::getBattery(const QString acpiPath)
     }
     acFile.close();
     // batterites
-    QStringList allDevices = QDir(acpiPath).entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+    QStringList allDevices = QDir(acpiPath).entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
     QStringList batDevices;
     QRegExp batRegexp = QRegExp(QString("BAT.*"));
     for (int i=0; i<allDevices.count(); i++)
@@ -302,18 +302,18 @@ QMap<QString, QVariant> ExtendedSysMon::getBattery(const QString acpiPath)
     for (int i=0; i<batDevices.count(); i++) {
         QFile batFile(acpiPath + QString("/") + batDevices[i] + QString("/capacity"));
         if (batFile.open(QIODevice::ReadOnly))
-            battery[QString("bat") + QString::number(i+1)] = QString(batFile.readLine()).trimmed().toInt();
+            battery[QString("bat") + QString::number(i)] = QString(batFile.readLine()).trimmed().toInt();
         batFile.close();
     }
     float number = 0.0;
     float average = 0.0;
     for (int i=0; i<battery.keys().count(); i++) {
         if (battery.keys()[i] == QString("ac")) continue;
-        if (battery.keys()[i] == QString("bat0")) continue;
+        if (battery.keys()[i] == QString("bat")) continue;
         average += battery[battery.keys()[i]].toInt();
         number++;
     }
-    battery[QString("bat0")] = int(average / number);
+    battery[QString("bat")] = int(average / number);
 
     return battery;
 }

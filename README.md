@@ -57,7 +57,8 @@ For edited output you must open Settings window and setup output format in lines
 * tag `$down` - download speed, *KB/s*
 * tag `$up` - upload speed, *KB/s*
 * tag `$netdev` - current network device
-* tag `$batN` - battery N charge, *%*. `$bat0` is average value
+* tag `$bat` - average battery charge, *%*
+* tag `$batN` - battery N charge, *%*
 * tag `$ac` - status AC device. Return (\*) if AC device is online or *( )* if offline
 * tag `$album` - current song album. One of supported music players must be installed
 * tag `$artist` - current song artist. One of supported music players must be installed
