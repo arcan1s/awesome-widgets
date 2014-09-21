@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2014-09-08 01:52+0400\n"
+"POT-Creation-Date: 2014-09-21 20:18+0400\n"
 "PO-Revision-Date: 2014-09-10 22:50+0800\n"
 "Last-Translator: Steve Lemuel <wlemuel@hotmail.com>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -17,55 +17,55 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: awesome-widget.cpp:77
+#: awesome-widget.cpp:78
 msgid "Run ksysguard"
 msgstr "运行任务管理器"
 
-#: awesome-widget.cpp:80
+#: awesome-widget.cpp:81
 msgid "Show README"
 msgstr "显示帮助文档"
 
-#: awesome-widget.cpp:83
+#: awesome-widget.cpp:84
 msgid "Update text"
 msgstr "刷新文本"
 
-#: configuration.cpp:319 po/rc.cpp:145 rc.cpp:145
+#: configuration.cpp:362 po/rc.cpp:151 rc.cpp:151
 msgid "Custom command"
 msgstr "自定义命令"
 
-#: configuration.cpp:349 po/rc.cpp:135 rc.cpp:135
+#: configuration.cpp:392 po/rc.cpp:141 rc.cpp:141
 msgid "Package manager"
 msgstr "包管理器"
 
-#: configuration.cpp:350 po/rc.cpp:138 rc.cpp:138
+#: configuration.cpp:393 po/rc.cpp:144 rc.cpp:144
 msgid "Null lines"
 msgstr "空行"
 
-#: configuration.cpp:362
+#: configuration.cpp:405
 msgid "Widget"
 msgstr "窗口小部件"
 
-#: configuration.cpp:363
+#: configuration.cpp:406
 msgid "Advanced"
 msgstr "高级设置"
 
-#: configuration.cpp:364
+#: configuration.cpp:407
 msgid "Tooltip"
 msgstr "提示"
 
-#: configuration.cpp:365
+#: configuration.cpp:408
 msgid "Appearance"
 msgstr "外观"
 
-#: configuration.cpp:366
+#: configuration.cpp:409
 msgid "DataEngine"
 msgstr "数据引擎"
 
-#: configuration.cpp:645 configuration.cpp:659
+#: configuration.cpp:697 configuration.cpp:711
 msgid "Remove"
 msgstr "移除"
 
-#: configuration.cpp:706
+#: configuration.cpp:766
 msgid "Select font"
 msgstr "选择字体"
 
@@ -145,108 +145,113 @@ msgstr "温度单位"
 msgid "Temperature devices"
 msgstr "温度传感器"
 
-#: po/rc.cpp:47 po/rc.cpp:53 po/rc.cpp:59 po/rc.cpp:65 rc.cpp:47 rc.cpp:53
-#: rc.cpp:59 rc.cpp:65
+#: po/rc.cpp:47 po/rc.cpp:53 po/rc.cpp:59 po/rc.cpp:65 po/rc.cpp:71 rc.cpp:47
+#: rc.cpp:53 rc.cpp:59 rc.cpp:65 rc.cpp:71
 msgid "Editable"
 msgstr "可编辑的"
 
 #: po/rc.cpp:50 rc.cpp:50
+#, fuzzy
+msgid "Fan devices"
+msgstr "外界电源设备"
+
+#: po/rc.cpp:56 rc.cpp:56
 msgid "Mount points"
 msgstr "挂载点"
 
-#: po/rc.cpp:56 rc.cpp:56
+#: po/rc.cpp:62 rc.cpp:62
 msgid "HDD devices (speed)"
 msgstr "硬盘（高速）"
 
-#: po/rc.cpp:62 rc.cpp:62
+#: po/rc.cpp:68 rc.cpp:68
 msgid "HDD devices (temp)"
 msgstr "硬盘（临时）"
 
-#: po/rc.cpp:68 rc.cpp:68
+#: po/rc.cpp:74 rc.cpp:74
 msgid "Disable auto select device and set specified device"
 msgstr "禁用自动选择设备和设置特殊设备"
 
-#: po/rc.cpp:71 rc.cpp:71
+#: po/rc.cpp:77 rc.cpp:77
 msgid "Set network device"
 msgstr "设置网络设备"
 
-#: po/rc.cpp:74 rc.cpp:74
+#: po/rc.cpp:80 rc.cpp:80
 msgid "AC online tag"
 msgstr "外接电源使用中标签"
 
-#: po/rc.cpp:77 rc.cpp:77
+#: po/rc.cpp:83 rc.cpp:83
 msgid "Line, which returns when AC is online"
 msgstr "外接电源使用时显示线条"
 
-#: po/rc.cpp:80 rc.cpp:80
+#: po/rc.cpp:86 rc.cpp:86
 msgid "AC offline tag"
 msgstr "外接电源未使用标签"
 
-#: po/rc.cpp:83 rc.cpp:83
+#: po/rc.cpp:89 rc.cpp:89
 msgid "Line, which returns when AC is offline"
 msgstr "外接电源未使用时显示线条"
 
-#: po/rc.cpp:86 rc.cpp:86
+#: po/rc.cpp:92 rc.cpp:92
 msgid "Time interval"
 msgstr "时间周期"
 
-#: po/rc.cpp:89 po/rc.cpp:196 rc.cpp:89 rc.cpp:196
+#: po/rc.cpp:95 po/rc.cpp:196 rc.cpp:95 rc.cpp:196
 msgid "Font"
 msgstr "字体"
 
-#: po/rc.cpp:92 rc.cpp:92
+#: po/rc.cpp:98 rc.cpp:98
 msgid "Font size"
 msgstr "字体大小"
 
-#: po/rc.cpp:95 rc.cpp:95
+#: po/rc.cpp:101 rc.cpp:101
 msgid "Font color"
 msgstr "字体颜色"
 
-#: po/rc.cpp:98 rc.cpp:98
+#: po/rc.cpp:104 rc.cpp:104
 msgid "Font style"
 msgstr "字体样式"
 
-#: po/rc.cpp:101 rc.cpp:101
+#: po/rc.cpp:107 rc.cpp:107
 msgid "Font weight"
 msgstr "字体宽度"
 
-#: po/rc.cpp:104 rc.cpp:104
+#: po/rc.cpp:110 rc.cpp:110
 msgid "HDD"
 msgstr "硬盘"
 
-#: po/rc.cpp:107 rc.cpp:107
+#: po/rc.cpp:113 rc.cpp:113
 msgid "MPD port"
 msgstr "MPD 端口"
 
-#: po/rc.cpp:110 rc.cpp:110
+#: po/rc.cpp:116 rc.cpp:116
 msgid "GPU device"
 msgstr "GPU 设备"
 
-#: po/rc.cpp:113 rc.cpp:113
+#: po/rc.cpp:119 rc.cpp:119
 msgid "hddtemp cmd"
 msgstr "硬盘温度显示命令"
 
-#: po/rc.cpp:116 rc.cpp:116
+#: po/rc.cpp:122 rc.cpp:122
 msgid "Music player"
 msgstr "音乐播放器"
 
-#: po/rc.cpp:119 rc.cpp:119
+#: po/rc.cpp:125 rc.cpp:125
 msgid "MPD address"
 msgstr "MPD 地址"
 
-#: po/rc.cpp:122 rc.cpp:122
+#: po/rc.cpp:128 rc.cpp:128
 msgid "Desktop check cmd"
 msgstr "检测桌面命令"
 
-#: po/rc.cpp:125 rc.cpp:125
+#: po/rc.cpp:131 rc.cpp:131
 msgid "<b>NOTE:</b> Player DBus interface should be an active"
 msgstr "<b>提示:</b> 播放器 DBus 应当处于激活状态"
 
-#: po/rc.cpp:128 rc.cpp:128
+#: po/rc.cpp:134 rc.cpp:134
 msgid "MPRIS player name"
 msgstr "MPRIS 播放器名"
 
-#: po/rc.cpp:131 po/rc.cpp:141 rc.cpp:131 rc.cpp:141
+#: po/rc.cpp:137 po/rc.cpp:147 rc.cpp:137 rc.cpp:147
 msgid ""
 "Editable\n"
 "del - remove item"
@@ -254,20 +259,13 @@ msgstr ""
 "可编辑的\n"
 "del - 移除项目"
 
-#: po/rc.cpp:148 rc.cpp:148
-msgid "Battery device"
-msgstr "电池设备"
-
-#: po/rc.cpp:151 rc.cpp:151
-msgid "\"/sys/class/power_supply/BAT0/capacity\" by default"
-msgstr "默认为 \"/sys/class/power_supply/BAT0/capacity\""
-
 #: po/rc.cpp:154 rc.cpp:154
-msgid "AC device"
-msgstr "外界电源设备"
+msgid "ACPI path"
+msgstr ""
 
 #: po/rc.cpp:157 rc.cpp:157
-msgid "\"/sys/class/power_supply/AC/online\" by default"
+#, fuzzy
+msgid "\"/sys/class/power_supply/\" by default"
 msgstr "默认为 \"/sys/class/power_supply/AC/online\""
 
 #: po/rc.cpp:160 rc.cpp:160
@@ -275,8 +273,8 @@ msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
 "To enable them just make needed checkbox fully checked."
 msgstr ""
-"CPU， CPU 时钟，内存，虚拟内存和网络连接标签均支持图形化提示显示。 "
-"请在相应复选框中勾选以启用该功能。 "
+"CPU， CPU 时钟，内存，虚拟内存和网络连接标签均支持图形化提示显示。 请在相应复"
+"选框中勾选以启用该功能。 "
 
 #: po/rc.cpp:163 rc.cpp:163
 msgid "Number of values for tooltips"
@@ -323,8 +321,8 @@ msgid ""
 "Detailed information may be found on <a href=\"http://arcanis.name/projects/"
 "awesome-widgets/\">project homepage</a>"
 msgstr ""
-"详情请参照 <a href=\"http://arcanis.name/projects/ "
-"awesome-widgets/\">项目主页</a>"
+"详情请参照 <a href=\"http://arcanis.name/projects/ awesome-widgets/\">项目主"
+"页</a>"
 
 #: po/rc.cpp:199 rc.cpp:199
 msgid "Ctrl+B"
@@ -352,4 +350,8 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "用户邮箱"
 
+#~ msgid "Battery device"
+#~ msgstr "电池设备"
 
+#~ msgid "\"/sys/class/power_supply/BAT0/capacity\" by default"
+#~ msgstr "默认为 \"/sys/class/power_supply/BAT0/capacity\""

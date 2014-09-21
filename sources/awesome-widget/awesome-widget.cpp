@@ -322,8 +322,10 @@ QStringList AwesomeWidget::getKeys()
     allKeys.append(QString("up"));
     allKeys.append(QString("netdev"));
     // battery
-    allKeys.append(QString("bat"));
     allKeys.append(QString("ac"));
+    allKeys.append(QString("bat0"));
+    for (int i=0; i<counts[QString("bat")]; i++)
+        allKeys.append(QString("bat") + QString::number(i+1));
     // player
     allKeys.append(QString("album"));
     allKeys.append(QString("artist"));

@@ -29,7 +29,7 @@ void AwesomeWidget::connectToEngine()
     QRegExp regExp;
 
     // battery
-    regExp = QRegExp(QString("(ac|bat)"));
+    regExp = QRegExp(QString("(ac|bat.*)"));
     if ((foundKeys.indexOf(regExp) > -1) ||
             (configuration[QString("batteryTooltip")].toInt() == 2))
         extsysmonEngine->connectSource(QString("battery"),
@@ -188,19 +188,23 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
 
     if (data.keys().isEmpty()) return;
     if (sourceName == QString("battery")) {
-        if (data[QString("ac")].toBool())
-            values[QString("ac")] = configuration[QString("acOnline")];
-        else
-            values[QString("ac")] = configuration[QString("acOffline")];
-        values[QString("bat")] = QString("%1").arg(data[QString("bat")].toFloat(), 3, 'f', 0);
+        for (int i=0; i<data.keys().count(); i++) {
+            if (data.keys()[i] == QString("ac")) {
+                if (data[QString("ac")].toBool())
+                    values[QString("ac")] = configuration[QString("acOnline")];
+                else
+                    values[QString("ac")] = configuration[QString("acOffline")];
+            } else
+                values[data.keys()[i]] = QString("%1").arg(data[data.keys()[i]].toFloat(), 3, 'f', 0);
+        }
         if ((configuration[QString("batteryTooltip")].toInt() == 2) &&
-                (!isnan(data[QString("bat")].toFloat()))) {
+                (!isnan(data[QString("bat0")].toFloat()))) {
             if (tooltipValues[QString("bat")].count() > configuration[QString("tooltipNumber")].toInt())
                 tooltipValues[QString("bat")].takeFirst();
             if (data[QString("ac")].toBool())
-                tooltipValues[QString("bat")].append(data[QString("bat")].toFloat());
+                tooltipValues[QString("bat0")].append(data[QString("bat0")].toFloat());
             else
-                tooltipValues[QString("bat")].append(-data[QString("bat")].toFloat());
+                tooltipValues[QString("bat0")].append(-data[QString("bat0")].toFloat());
         }
     } else if (sourceName == QString("cpu/system/TotalLoad")) {
         values[QString("cpu")] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);

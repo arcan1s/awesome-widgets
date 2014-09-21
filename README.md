@@ -57,7 +57,7 @@ For edited output you must open Settings window and setup output format in lines
 * tag `$down` - download speed, *KB/s*
 * tag `$up` - upload speed, *KB/s*
 * tag `$netdev` - current network device
-* tag `$bat` - battery charge, *%*
+* tag `$batN` - battery N charge, *%*. `$bat0` is average value
 * tag `$ac` - status AC device. Return (\*) if AC device is online or *( )* if offline
 * tag `$album` - current song album. One of supported music players must be installed
 * tag `$artist` - current song artist. One of supported music players must be installed
@@ -159,13 +159,9 @@ Since version 1.7.0 CPU, CPU clock, memory, swap and network labels support grap
 DataEngine settings
 -------------------
 
-**AC device**
+**ACPI path**
 
-File with AC information. File (`/sys/class/power_supply/AC/online` by default) must contain `1` if AC is online.
-
-**Battery device**
-
-File with battery information. File (`/sys/class/power_supply/BAT0/capacity` by default) should contain only battery charge in percent.
+Path to APCI devices. Default is `/sys/class/power_supply/`.
 
 **Custom command**
 

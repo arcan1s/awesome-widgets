@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2014-09-08 01:52+0400\n"
+"POT-Creation-Date: 2014-09-21 20:18+0400\n"
 "PO-Revision-Date: 2014-09-05 11:22+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Ukrainian <kde-russian@lists.kde.ru>\n"
@@ -18,55 +18,55 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: awesome-widget.cpp:77
+#: awesome-widget.cpp:78
 msgid "Run ksysguard"
 msgstr "Запустити ksysguard"
 
-#: awesome-widget.cpp:80
+#: awesome-widget.cpp:81
 msgid "Show README"
 msgstr "Показати README"
 
-#: awesome-widget.cpp:83
+#: awesome-widget.cpp:84
 msgid "Update text"
 msgstr "Оновити текст"
 
-#: configuration.cpp:319 po/rc.cpp:145 rc.cpp:145
+#: configuration.cpp:362 po/rc.cpp:151 rc.cpp:151
 msgid "Custom command"
 msgstr "Своя команда"
 
-#: configuration.cpp:349 po/rc.cpp:135 rc.cpp:135
+#: configuration.cpp:392 po/rc.cpp:141 rc.cpp:141
 msgid "Package manager"
 msgstr "Пакетний менеджер"
 
-#: configuration.cpp:350 po/rc.cpp:138 rc.cpp:138
+#: configuration.cpp:393 po/rc.cpp:144 rc.cpp:144
 msgid "Null lines"
 msgstr "Кількість пустих рядків"
 
-#: configuration.cpp:362
+#: configuration.cpp:405
 msgid "Widget"
 msgstr "Віджет"
 
-#: configuration.cpp:363
+#: configuration.cpp:406
 msgid "Advanced"
 msgstr "Розширені"
 
-#: configuration.cpp:364
+#: configuration.cpp:407
 msgid "Tooltip"
 msgstr "Тултіп"
 
-#: configuration.cpp:365
+#: configuration.cpp:408
 msgid "Appearance"
 msgstr "Зовнішній вигляд"
 
-#: configuration.cpp:366
+#: configuration.cpp:409
 msgid "DataEngine"
 msgstr "DataEngine"
 
-#: configuration.cpp:645 configuration.cpp:659
+#: configuration.cpp:697 configuration.cpp:711
 msgid "Remove"
 msgstr "Видалити"
 
-#: configuration.cpp:706
+#: configuration.cpp:766
 msgid "Select font"
 msgstr ""
 
@@ -146,108 +146,113 @@ msgstr "Одиниці виміру температури"
 msgid "Temperature devices"
 msgstr "Температурні пристрої"
 
-#: po/rc.cpp:47 po/rc.cpp:53 po/rc.cpp:59 po/rc.cpp:65 rc.cpp:47 rc.cpp:53
-#: rc.cpp:59 rc.cpp:65
+#: po/rc.cpp:47 po/rc.cpp:53 po/rc.cpp:59 po/rc.cpp:65 po/rc.cpp:71 rc.cpp:47
+#: rc.cpp:53 rc.cpp:59 rc.cpp:65 rc.cpp:71
 msgid "Editable"
 msgstr "Можна редагувати"
 
 #: po/rc.cpp:50 rc.cpp:50
+#, fuzzy
+msgid "Fan devices"
+msgstr "AC пристрій"
+
+#: po/rc.cpp:56 rc.cpp:56
 msgid "Mount points"
 msgstr "Точки монтування"
 
-#: po/rc.cpp:56 rc.cpp:56
+#: po/rc.cpp:62 rc.cpp:62
 msgid "HDD devices (speed)"
 msgstr "HDD (швидкість)"
 
-#: po/rc.cpp:62 rc.cpp:62
+#: po/rc.cpp:68 rc.cpp:68
 msgid "HDD devices (temp)"
 msgstr "HDD (температура)"
 
-#: po/rc.cpp:68 rc.cpp:68
+#: po/rc.cpp:74 rc.cpp:74
 msgid "Disable auto select device and set specified device"
 msgstr "Відключити автоматичний вибір пристрою та використовувати вказаний"
 
-#: po/rc.cpp:71 rc.cpp:71
+#: po/rc.cpp:77 rc.cpp:77
 msgid "Set network device"
 msgstr "Оберіть мережевий пристрій"
 
-#: po/rc.cpp:74 rc.cpp:74
+#: po/rc.cpp:80 rc.cpp:80
 msgid "AC online tag"
 msgstr "AC підключений"
 
-#: po/rc.cpp:77 rc.cpp:77
+#: po/rc.cpp:83 rc.cpp:83
 msgid "Line, which returns when AC is online"
 msgstr "Рядок, що повертається при підключеному адаптері живлення"
 
-#: po/rc.cpp:80 rc.cpp:80
+#: po/rc.cpp:86 rc.cpp:86
 msgid "AC offline tag"
 msgstr "AC відключений"
 
-#: po/rc.cpp:83 rc.cpp:83
+#: po/rc.cpp:89 rc.cpp:89
 msgid "Line, which returns when AC is offline"
 msgstr "Рядок, що повертається при відключеному адаптері живлення"
 
-#: po/rc.cpp:86 rc.cpp:86
+#: po/rc.cpp:92 rc.cpp:92
 msgid "Time interval"
 msgstr "Інтервал оновлення"
 
-#: po/rc.cpp:89 po/rc.cpp:196 rc.cpp:89 rc.cpp:196
+#: po/rc.cpp:95 po/rc.cpp:196 rc.cpp:95 rc.cpp:196
 msgid "Font"
 msgstr "Шрифт"
 
-#: po/rc.cpp:92 rc.cpp:92
+#: po/rc.cpp:98 rc.cpp:98
 msgid "Font size"
 msgstr "Розмір шрифту"
 
-#: po/rc.cpp:95 rc.cpp:95
+#: po/rc.cpp:101 rc.cpp:101
 msgid "Font color"
 msgstr "Колір шрифту"
 
-#: po/rc.cpp:98 rc.cpp:98
+#: po/rc.cpp:104 rc.cpp:104
 msgid "Font style"
 msgstr "Стиль шрифту"
 
-#: po/rc.cpp:101 rc.cpp:101
+#: po/rc.cpp:107 rc.cpp:107
 msgid "Font weight"
 msgstr "Ширина шрифту"
 
-#: po/rc.cpp:104 rc.cpp:104
+#: po/rc.cpp:110 rc.cpp:110
 msgid "HDD"
 msgstr "HDD"
 
-#: po/rc.cpp:107 rc.cpp:107
+#: po/rc.cpp:113 rc.cpp:113
 msgid "MPD port"
 msgstr "Порт сервера MPD"
 
-#: po/rc.cpp:110 rc.cpp:110
+#: po/rc.cpp:116 rc.cpp:116
 msgid "GPU device"
 msgstr "Пристій GPU"
 
-#: po/rc.cpp:113 rc.cpp:113
+#: po/rc.cpp:119 rc.cpp:119
 msgid "hddtemp cmd"
 msgstr "Команда hddtemp"
 
-#: po/rc.cpp:116 rc.cpp:116
+#: po/rc.cpp:122 rc.cpp:122
 msgid "Music player"
 msgstr "Музичний плеєр"
 
-#: po/rc.cpp:119 rc.cpp:119
+#: po/rc.cpp:125 rc.cpp:125
 msgid "MPD address"
 msgstr "Адреса сервера MPD"
 
-#: po/rc.cpp:122 rc.cpp:122
+#: po/rc.cpp:128 rc.cpp:128
 msgid "Desktop check cmd"
 msgstr ""
 
-#: po/rc.cpp:125 rc.cpp:125
+#: po/rc.cpp:131 rc.cpp:131
 msgid "<b>NOTE:</b> Player DBus interface should be an active"
 msgstr ""
 
-#: po/rc.cpp:128 rc.cpp:128
+#: po/rc.cpp:134 rc.cpp:134
 msgid "MPRIS player name"
 msgstr ""
 
-#: po/rc.cpp:131 po/rc.cpp:141 rc.cpp:131 rc.cpp:141
+#: po/rc.cpp:137 po/rc.cpp:147 rc.cpp:137 rc.cpp:147
 msgid ""
 "Editable\n"
 "del - remove item"
@@ -255,20 +260,13 @@ msgstr ""
 "Можна редагувати\n"
 "del - видалити рядок"
 
-#: po/rc.cpp:148 rc.cpp:148
-msgid "Battery device"
-msgstr "Пристрій батареї"
-
-#: po/rc.cpp:151 rc.cpp:151
-msgid "\"/sys/class/power_supply/BAT0/capacity\" by default"
-msgstr "\"/sys/class/power_supply/BAT0/capacity\" за замовчуванням"
-
 #: po/rc.cpp:154 rc.cpp:154
-msgid "AC device"
-msgstr "AC пристрій"
+msgid "ACPI path"
+msgstr ""
 
 #: po/rc.cpp:157 rc.cpp:157
-msgid "\"/sys/class/power_supply/AC/online\" by default"
+#, fuzzy
+msgid "\"/sys/class/power_supply/\" by default"
 msgstr "\"/sys/class/power_supply/AC/online\" за замовчуванням"
 
 #: po/rc.cpp:160 rc.cpp:160
@@ -354,6 +352,12 @@ msgstr "Slobodyan Victor"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "sarumyan@i.ua"
+
+#~ msgid "Battery device"
+#~ msgstr "Пристрій батареї"
+
+#~ msgid "\"/sys/class/power_supply/BAT0/capacity\" by default"
+#~ msgstr "\"/sys/class/power_supply/BAT0/capacity\" за замовчуванням"
 
 #~ msgid "Vertical layout"
 #~ msgstr "Вертикальна розмітка"

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2014-09-08 01:52+0400\n"
-"PO-Revision-Date: 2014-09-05 11:16+0400\n"
+"POT-Creation-Date: 2014-09-21 20:18+0400\n"
+"PO-Revision-Date: 2014-09-21 20:19+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -18,55 +18,55 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: awesome-widget.cpp:77
+#: awesome-widget.cpp:78
 msgid "Run ksysguard"
 msgstr "Запустить ksysguard"
 
-#: awesome-widget.cpp:80
+#: awesome-widget.cpp:81
 msgid "Show README"
 msgstr "Показать README"
 
-#: awesome-widget.cpp:83
+#: awesome-widget.cpp:84
 msgid "Update text"
 msgstr "Обновить текст"
 
-#: configuration.cpp:319 po/rc.cpp:145 rc.cpp:145
+#: configuration.cpp:362 po/rc.cpp:151 rc.cpp:151
 msgid "Custom command"
 msgstr "Своя команда"
 
-#: configuration.cpp:349 po/rc.cpp:135 rc.cpp:135
+#: configuration.cpp:392 po/rc.cpp:141 rc.cpp:141
 msgid "Package manager"
 msgstr "Пакетный менеджер"
 
-#: configuration.cpp:350 po/rc.cpp:138 rc.cpp:138
+#: configuration.cpp:393 po/rc.cpp:144 rc.cpp:144
 msgid "Null lines"
 msgstr "Число пустых линий"
 
-#: configuration.cpp:362
+#: configuration.cpp:405
 msgid "Widget"
 msgstr "Виджет"
 
-#: configuration.cpp:363
+#: configuration.cpp:406
 msgid "Advanced"
 msgstr "Расширенные"
 
-#: configuration.cpp:364
+#: configuration.cpp:407
 msgid "Tooltip"
 msgstr "Тултип"
 
-#: configuration.cpp:365
+#: configuration.cpp:408
 msgid "Appearance"
 msgstr "Внешний вид"
 
-#: configuration.cpp:366
+#: configuration.cpp:409
 msgid "DataEngine"
 msgstr "DataEngine"
 
-#: configuration.cpp:645 configuration.cpp:659
+#: configuration.cpp:697 configuration.cpp:711
 msgid "Remove"
 msgstr "Удалить"
 
-#: configuration.cpp:706
+#: configuration.cpp:766
 msgid "Select font"
 msgstr "Выберете шрифт"
 
@@ -146,108 +146,112 @@ msgstr "Температурные единицы"
 msgid "Temperature devices"
 msgstr "Температурные устройства"
 
-#: po/rc.cpp:47 po/rc.cpp:53 po/rc.cpp:59 po/rc.cpp:65 rc.cpp:47 rc.cpp:53
-#: rc.cpp:59 rc.cpp:65
+#: po/rc.cpp:47 po/rc.cpp:53 po/rc.cpp:59 po/rc.cpp:65 po/rc.cpp:71 rc.cpp:47
+#: rc.cpp:53 rc.cpp:59 rc.cpp:65 rc.cpp:71
 msgid "Editable"
 msgstr "Редактируемо"
 
 #: po/rc.cpp:50 rc.cpp:50
+msgid "Fan devices"
+msgstr "Кулеры"
+
+#: po/rc.cpp:56 rc.cpp:56
 msgid "Mount points"
 msgstr "Точки монтирования"
 
-#: po/rc.cpp:56 rc.cpp:56
+#: po/rc.cpp:62 rc.cpp:62
 msgid "HDD devices (speed)"
 msgstr "HDD (скорость)"
 
-#: po/rc.cpp:62 rc.cpp:62
+#: po/rc.cpp:68 rc.cpp:68
 msgid "HDD devices (temp)"
 msgstr "HDD (температура)"
 
-#: po/rc.cpp:68 rc.cpp:68
+#: po/rc.cpp:74 rc.cpp:74
 msgid "Disable auto select device and set specified device"
 msgstr "Отключить автовыбор устройства и использовать указанное"
 
-#: po/rc.cpp:71 rc.cpp:71
+#: po/rc.cpp:77 rc.cpp:77
 msgid "Set network device"
 msgstr "Выберете сетевое устройство"
 
-#: po/rc.cpp:74 rc.cpp:74
+#: po/rc.cpp:80 rc.cpp:80
 msgid "AC online tag"
 msgstr "AC подключен"
 
-#: po/rc.cpp:77 rc.cpp:77
+#: po/rc.cpp:83 rc.cpp:83
 msgid "Line, which returns when AC is online"
 msgstr "Строка, возвращаемая при подключенном адаптере питания"
 
-#: po/rc.cpp:80 rc.cpp:80
+#: po/rc.cpp:86 rc.cpp:86
 msgid "AC offline tag"
 msgstr "AC отключен"
 
-#: po/rc.cpp:83 rc.cpp:83
+#: po/rc.cpp:89 rc.cpp:89
 msgid "Line, which returns when AC is offline"
 msgstr "Строка, возвращаемая при отключенном адаптере питания"
 
-#: po/rc.cpp:86 rc.cpp:86
+#: po/rc.cpp:92 rc.cpp:92
 msgid "Time interval"
 msgstr "Интервал обновления"
 
-#: po/rc.cpp:89 po/rc.cpp:196 rc.cpp:89 rc.cpp:196
+#: po/rc.cpp:95 po/rc.cpp:196 rc.cpp:95 rc.cpp:196
 msgid "Font"
 msgstr "Шрифт"
 
-#: po/rc.cpp:92 rc.cpp:92
+#: po/rc.cpp:98 rc.cpp:98
 msgid "Font size"
 msgstr "Размер шрифта"
 
-#: po/rc.cpp:95 rc.cpp:95
+#: po/rc.cpp:101 rc.cpp:101
 msgid "Font color"
 msgstr "Цвет шрифта"
 
-#: po/rc.cpp:98 rc.cpp:98
+#: po/rc.cpp:104 rc.cpp:104
 msgid "Font style"
 msgstr "Стиль шрифта"
 
-#: po/rc.cpp:101 rc.cpp:101
+#: po/rc.cpp:107 rc.cpp:107
 msgid "Font weight"
 msgstr "Ширина шрифта"
 
-#: po/rc.cpp:104 rc.cpp:104
+#: po/rc.cpp:110 rc.cpp:110
 msgid "HDD"
 msgstr "HDD"
 
-#: po/rc.cpp:107 rc.cpp:107
+#: po/rc.cpp:113 rc.cpp:113
 msgid "MPD port"
 msgstr "Порт сервера MPD"
 
-#: po/rc.cpp:110 rc.cpp:110
+#: po/rc.cpp:116 rc.cpp:116
 msgid "GPU device"
 msgstr "Устройство GPU"
 
-#: po/rc.cpp:113 rc.cpp:113
+#: po/rc.cpp:119 rc.cpp:119
 msgid "hddtemp cmd"
 msgstr "Команда hddtemp"
 
-#: po/rc.cpp:116 rc.cpp:116
+#: po/rc.cpp:122 rc.cpp:122
 msgid "Music player"
 msgstr "Музыкальный плеер"
 
-#: po/rc.cpp:119 rc.cpp:119
+#: po/rc.cpp:125 rc.cpp:125
 msgid "MPD address"
 msgstr "Адрес сервера MPD"
 
-#: po/rc.cpp:122 rc.cpp:122
+#: po/rc.cpp:128 rc.cpp:128
 msgid "Desktop check cmd"
 msgstr "Команда для проверки рабочего стола"
 
-#: po/rc.cpp:125 rc.cpp:125
+#: po/rc.cpp:131 rc.cpp:131
 msgid "<b>NOTE:</b> Player DBus interface should be an active"
 msgstr "<b>ВНИМАНИЕ:</b> DBus интерфейс плеера должен быть активен"
 
-#: po/rc.cpp:128 rc.cpp:128
+#: po/rc.cpp:134 rc.cpp:134
 msgid "MPRIS player name"
 msgstr "Имя плеера в MPRIS"
 
-#: po/rc.cpp:131 po/rc.cpp:141 rc.cpp:131 rc.cpp:141
+#: po/rc.cpp:137 po/rc.cpp:147 rc.cpp:137 rc.cpp:147
 msgid ""
 "Editable\n"
 "del - remove item"
@@ -255,21 +259,13 @@ msgstr ""
 "Редактируемо\n"
 "del - удалить строку"
 
-#: po/rc.cpp:148 rc.cpp:148
-msgid "Battery device"
-msgstr "Устройство батареи"
-
-#: po/rc.cpp:151 rc.cpp:151
-msgid "\"/sys/class/power_supply/BAT0/capacity\" by default"
-msgstr "\"/sys/class/power_supply/BAT0/capacity\" по умолчанию"
-
 #: po/rc.cpp:154 rc.cpp:154
-msgid "AC device"
-msgstr "Устройство AC"
+msgid "ACPI path"
+msgstr "Пусть к ACPI"
 
 #: po/rc.cpp:157 rc.cpp:157
-msgid "\"/sys/class/power_supply/AC/online\" by default"
-msgstr "\"/sys/class/power_supply/AC/online\" по умолчанию"
+msgid "\"/sys/class/power_supply/\" by default"
+msgstr "\"/sys/class/power_supply/\" по умолчанию"
 
 #: po/rc.cpp:160 rc.cpp:160
 msgid ""
@@ -353,6 +349,12 @@ msgstr "Evgeniy Alekseev"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "esalexeev@gmail.com"
+
+#~ msgid "Battery device"
+#~ msgstr "Устройство батареи"
+
+#~ msgid "\"/sys/class/power_supply/BAT0/capacity\" by default"
+#~ msgstr "\"/sys/class/power_supply/BAT0/capacity\" по умолчанию"
 
 #~ msgid "Vertical layout"
 #~ msgstr "Вертикальная разметка"

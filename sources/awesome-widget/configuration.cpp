@@ -20,6 +20,7 @@
 #include <KConfigDialog>
 #include <KGlobal>
 #include <KStandardDirs>
+#include <QDir>
 #include <QMenu>
 #include <QNetworkInterface>
 #include <QTextCodec>
@@ -34,8 +35,7 @@ QMap<QString, QString> AwesomeWidget::readDataEngineConfiguration()
     if (debug) qDebug() << PDEBUG;
 
     QMap<QString, QString> rawConfig;
-    rawConfig[QString("AC")] = QString("/sys/class/power_supply/AC/online");
-    rawConfig[QString("BATTERY")] = QString("/sys/class/power_supply/BAT0/capacity");
+    rawConfig[QString("ACPIPATH")] = QString("/sys/class/power_supply/");
     rawConfig[QString("CUSTOM")] = QString("wget -qO- http://ifconfig.me/ip");
     rawConfig[QString("DESKTOPCMD")] = QString("qdbus org.kde.kwin /KWin currentDesktop");
     rawConfig[QString("GPUDEV")] = QString("auto");
@@ -355,8 +355,7 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
 
     // dataengine
     QMap<QString, QString> deSettings = readDataEngineConfiguration();
-    uiDEConfig.lineEdit_acdev->setText(deSettings[QString("AC")]);
-    uiDEConfig.lineEdit_batdev->setText(deSettings[QString("BATTERY")]);
+    uiDEConfig.lineEdit_acpi->setText(deSettings[QString("ACPIPATH")]);
     uiDEConfig.tableWidget_customCommand->clear();
     uiDEConfig.tableWidget_customCommand->setRowCount(deSettings[QString("CUSTOM")].split(QString("@@")).count() + 1);
     headerList.clear();
@@ -520,8 +519,7 @@ void AwesomeWidget::configAccepted()
 
     // dataengine
     QMap<QString, QString> deSettings;
-    deSettings[QString("AC")] = uiDEConfig.lineEdit_acdev->text();
-    deSettings[QString("BATTERY")] = uiDEConfig.lineEdit_batdev->text();
+    deSettings[QString("ACPIPATH")] = uiDEConfig.lineEdit_acpi->text();
     items.clear();
     for (int i=0; i<uiDEConfig.tableWidget_customCommand->rowCount(); i++)
         if (uiDEConfig.tableWidget_customCommand->item(i, 0) != 0)
@@ -643,6 +641,7 @@ void AwesomeWidget::configChanged()
 
     // counts
     QMap<QString, QString> deSettings = readDataEngineConfiguration();
+    counts[QString("bat")] = QDir(deSettings[QString("ACPIPATH")]).entryList(QDir::Dirs | QDir::NoDotAndDotDot).count();
     counts[QString("cpu")] = getNumberCpus();
     counts[QString("custom")] = deSettings[QString("CUSTOM")].split(QString("@@")).count();
     counts[QString("disk")] = configuration[QString("disk")].split(QString("@@")).count();

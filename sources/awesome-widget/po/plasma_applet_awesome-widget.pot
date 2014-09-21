@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2014-09-08 01:52+0400\n"
+"POT-Creation-Date: 2014-09-21 20:18+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,55 +17,55 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: awesome-widget.cpp:77
+#: awesome-widget.cpp:78
 msgid "Run ksysguard"
 msgstr ""
 
-#: awesome-widget.cpp:80
+#: awesome-widget.cpp:81
 msgid "Show README"
 msgstr ""
 
-#: awesome-widget.cpp:83
+#: awesome-widget.cpp:84
 msgid "Update text"
 msgstr ""
 
-#: configuration.cpp:319 po/rc.cpp:145 rc.cpp:145
+#: configuration.cpp:362 po/rc.cpp:151 rc.cpp:151
 msgid "Custom command"
 msgstr ""
 
-#: configuration.cpp:349 po/rc.cpp:135 rc.cpp:135
+#: configuration.cpp:392 po/rc.cpp:141 rc.cpp:141
 msgid "Package manager"
 msgstr ""
 
-#: configuration.cpp:350 po/rc.cpp:138 rc.cpp:138
+#: configuration.cpp:393 po/rc.cpp:144 rc.cpp:144
 msgid "Null lines"
 msgstr ""
 
-#: configuration.cpp:362
+#: configuration.cpp:405
 msgid "Widget"
 msgstr ""
 
-#: configuration.cpp:363
+#: configuration.cpp:406
 msgid "Advanced"
 msgstr ""
 
-#: configuration.cpp:364
+#: configuration.cpp:407
 msgid "Tooltip"
 msgstr ""
 
-#: configuration.cpp:365
+#: configuration.cpp:408
 msgid "Appearance"
 msgstr ""
 
-#: configuration.cpp:366
+#: configuration.cpp:409
 msgid "DataEngine"
 msgstr ""
 
-#: configuration.cpp:645 configuration.cpp:659
+#: configuration.cpp:697 configuration.cpp:711
 msgid "Remove"
 msgstr ""
 
-#: configuration.cpp:706
+#: configuration.cpp:766
 msgid "Select font"
 msgstr ""
 
@@ -123,127 +123,123 @@ msgstr ""
 msgid "Temperature devices"
 msgstr ""
 
-#: po/rc.cpp:47 po/rc.cpp:53 po/rc.cpp:59 po/rc.cpp:65 rc.cpp:47 rc.cpp:53
-#: rc.cpp:59 rc.cpp:65
+#: po/rc.cpp:47 po/rc.cpp:53 po/rc.cpp:59 po/rc.cpp:65 po/rc.cpp:71 rc.cpp:47
+#: rc.cpp:53 rc.cpp:59 rc.cpp:65 rc.cpp:71
 msgid "Editable"
 msgstr ""
 
 #: po/rc.cpp:50 rc.cpp:50
-msgid "Mount points"
+msgid "Fan devices"
 msgstr ""
 
 #: po/rc.cpp:56 rc.cpp:56
-msgid "HDD devices (speed)"
+msgid "Mount points"
 msgstr ""
 
 #: po/rc.cpp:62 rc.cpp:62
-msgid "HDD devices (temp)"
+msgid "HDD devices (speed)"
 msgstr ""
 
 #: po/rc.cpp:68 rc.cpp:68
-msgid "Disable auto select device and set specified device"
-msgstr ""
-
-#: po/rc.cpp:71 rc.cpp:71
-msgid "Set network device"
+msgid "HDD devices (temp)"
 msgstr ""
 
 #: po/rc.cpp:74 rc.cpp:74
-msgid "AC online tag"
+msgid "Disable auto select device and set specified device"
 msgstr ""
 
 #: po/rc.cpp:77 rc.cpp:77
-msgid "Line, which returns when AC is online"
+msgid "Set network device"
 msgstr ""
 
 #: po/rc.cpp:80 rc.cpp:80
-msgid "AC offline tag"
+msgid "AC online tag"
 msgstr ""
 
 #: po/rc.cpp:83 rc.cpp:83
-msgid "Line, which returns when AC is offline"
+msgid "Line, which returns when AC is online"
 msgstr ""
 
 #: po/rc.cpp:86 rc.cpp:86
-msgid "Time interval"
+msgid "AC offline tag"
 msgstr ""
 
-#: po/rc.cpp:89 po/rc.cpp:196 rc.cpp:89 rc.cpp:196
-msgid "Font"
+#: po/rc.cpp:89 rc.cpp:89
+msgid "Line, which returns when AC is offline"
 msgstr ""
 
 #: po/rc.cpp:92 rc.cpp:92
-msgid "Font size"
+msgid "Time interval"
 msgstr ""
 
-#: po/rc.cpp:95 rc.cpp:95
-msgid "Font color"
+#: po/rc.cpp:95 po/rc.cpp:196 rc.cpp:95 rc.cpp:196
+msgid "Font"
 msgstr ""
 
 #: po/rc.cpp:98 rc.cpp:98
-msgid "Font style"
+msgid "Font size"
 msgstr ""
 
 #: po/rc.cpp:101 rc.cpp:101
-msgid "Font weight"
+msgid "Font color"
 msgstr ""
 
 #: po/rc.cpp:104 rc.cpp:104
-msgid "HDD"
+msgid "Font style"
 msgstr ""
 
 #: po/rc.cpp:107 rc.cpp:107
-msgid "MPD port"
+msgid "Font weight"
 msgstr ""
 
 #: po/rc.cpp:110 rc.cpp:110
-msgid "GPU device"
+msgid "HDD"
 msgstr ""
 
 #: po/rc.cpp:113 rc.cpp:113
-msgid "hddtemp cmd"
+msgid "MPD port"
 msgstr ""
 
 #: po/rc.cpp:116 rc.cpp:116
-msgid "Music player"
+msgid "GPU device"
 msgstr ""
 
 #: po/rc.cpp:119 rc.cpp:119
-msgid "MPD address"
+msgid "hddtemp cmd"
 msgstr ""
 
 #: po/rc.cpp:122 rc.cpp:122
-msgid "Desktop check cmd"
+msgid "Music player"
 msgstr ""
 
 #: po/rc.cpp:125 rc.cpp:125
-msgid "<b>NOTE:</b> Player DBus interface should be an active"
+msgid "MPD address"
 msgstr ""
 
 #: po/rc.cpp:128 rc.cpp:128
+msgid "Desktop check cmd"
+msgstr ""
+
+#: po/rc.cpp:131 rc.cpp:131
+msgid "<b>NOTE:</b> Player DBus interface should be an active"
+msgstr ""
+
+#: po/rc.cpp:134 rc.cpp:134
 msgid "MPRIS player name"
 msgstr ""
 
-#: po/rc.cpp:131 po/rc.cpp:141 rc.cpp:131 rc.cpp:141
+#: po/rc.cpp:137 po/rc.cpp:147 rc.cpp:137 rc.cpp:147
 msgid ""
 "Editable\n"
 "del - remove item"
 msgstr ""
 
-#: po/rc.cpp:148 rc.cpp:148
-msgid "Battery device"
-msgstr ""
-
-#: po/rc.cpp:151 rc.cpp:151
-msgid "\"/sys/class/power_supply/BAT0/capacity\" by default"
-msgstr ""
-
 #: po/rc.cpp:154 rc.cpp:154
-msgid "AC device"
+msgid "ACPI path"
 msgstr ""
 
 #: po/rc.cpp:157 rc.cpp:157
-msgid "\"/sys/class/power_supply/AC/online\" by default"
+msgid "\"/sys/class/power_supply/\" by default"
 msgstr ""
 
 #: po/rc.cpp:160 rc.cpp:160

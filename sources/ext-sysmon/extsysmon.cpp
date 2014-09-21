@@ -22,6 +22,7 @@
 #include <KDE/KGlobal>
 #include <KDE/KStandardDirs>
 #include <QDebug>
+#include <QDir>
 #include <QFile>
 #include <QProcessEnvironment>
 #include <QRegExp>
@@ -171,8 +172,7 @@ void ExtendedSysMon::readConfiguration()
 
     // pre-setup
     QMap<QString, QString> rawConfig;
-    rawConfig[QString("AC")] = QString("/sys/class/power_supply/AC/online");
-    rawConfig[QString("BATTERY")] = QString("/sys/class/power_supply/BAT0/capacity");
+    rawConfig[QString("ACPIPATH")] = QString("/sys/class/power_supply/");
     rawConfig[QString("CUSTOM")] = QString("curl ip4.telize.com");
     rawConfig[QString("DESKTOP")] = QString("");
     rawConfig[QString("DESKTOPCMD")] = QString("qdbus org.kde.kwin /KWin currentDesktop");
@@ -278,25 +278,42 @@ QMap<QString, QString> ExtendedSysMon::updateConfiguration(const QMap<QString, Q
 }
 
 
-QMap<QString, QVariant> ExtendedSysMon::getBattery(const QString acPath, const QString batPath)
+QMap<QString, QVariant> ExtendedSysMon::getBattery(const QString acpiPath)
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "AC path" << acPath;
-    if (debug) qDebug() << PDEBUG << ":" << "Battery path" << batPath;
+    if (debug) qDebug() << PDEBUG << ":" << "ACPI path" << acpiPath;
 
     QMap<QString, QVariant> battery;
     battery[QString("ac")] = false;
-    battery[QString("battery")] = 0;
-    QFile acFile(acPath);
+    battery[QString("bat0")] = 0;
+    QFile acFile(acpiPath + QString("/AC/online"));
     if (acFile.open(QIODevice::ReadOnly)) {
         if (QString(acFile.readLine()).trimmed().toInt() == 1)
             battery[QString("ac")] = true;
     }
     acFile.close();
-    QFile batFile(batPath);
-    if (batFile.open(QIODevice::ReadOnly))
-        battery[QString("battery")] = QString(batFile.readLine()).trimmed().toInt();
-    batFile.close();
+    // batterites
+    QStringList allDevices = QDir(acpiPath).entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+    QStringList batDevices;
+    QRegExp batRegexp = QRegExp(QString("BAT.*"));
+    for (int i=0; i<allDevices.count(); i++)
+        if (allDevices[i].indexOf(batRegexp) > -1)
+            batDevices.append(allDevices[i]);
+    for (int i=0; i<batDevices.count(); i++) {
+        QFile batFile(acpiPath + QString("/") + batDevices[i] + QString("/capacity"));
+        if (batFile.open(QIODevice::ReadOnly))
+            battery[QString("bat") + QString::number(i+1)] = QString(batFile.readLine()).trimmed().toInt();
+        batFile.close();
+    }
+    float number = 0.0;
+    float average = 0.0;
+    for (int i=0; i<battery.keys().count(); i++) {
+        if (battery.keys()[i] == QString("ac")) continue;
+        if (battery.keys()[i] == QString("bat0")) continue;
+        average += battery[battery.keys()[i]].toInt();
+        number++;
+    }
+    battery[QString("bat0")] = int(average / number);
 
     return battery;
 }
@@ -571,10 +588,12 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     if (debug) qDebug() << PDEBUG << ":" << "Source" << source;
 
     if (source == QString("battery")) {
-        QMap<QString, QVariant> battery = getBattery(configuration[QString("AC")],
-                configuration[QString("BATTERY")]);
+        QMap<QString, QVariant> battery = getBattery(configuration[QString("ACPIPATH")]);
         setData(source, QString("ac"), battery[QString("ac")].toBool());
-        setData(source, QString("bat"), battery[QString("battery")].toInt());
+        for (int i=0; i<battery.keys().count(); i++) {
+            if (battery.keys()[i] == QString("ac")) continue;
+            setData(source, battery.keys()[i], battery[battery.keys()[i]].toInt());
+        }
     } else if (source == QString("custom")) {
         for (int i=0; i<configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts).count(); i++) {
             setData(source, QString("custom") + QString::number(i),
