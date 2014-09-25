@@ -88,7 +88,7 @@ void AwesomeWidget::updateTooltip()
 {
     if (debug) qDebug() << PDEBUG;
 
-    toolTipView->resize(100.0 * counts[QString("tooltip")], 100.0);
+    toolTipView->resize(100.0 * counts[QString("tooltip")], 105.0);
     // boundaries
     QMap<QString, float> boundaries;
     boundaries[QString("cpu")] = 100.0;
@@ -137,9 +137,9 @@ void AwesomeWidget::updateTooltip()
         if (down) shift -= 100.0;
         for (int j=0; j<tooltipValues[trueKeys[i]].count()-1; j++) {
             float x1 = j * normX + shift;
-            float y1 = - fabs(tooltipValues[trueKeys[i]][j]) * normY;
+            float y1 = - fabs(tooltipValues[trueKeys[i]][j]) * normY + 5.0;
             float x2 = (j + 1) * normX + shift;
-            float y2 = - fabs(tooltipValues[trueKeys[i]][j+1]) * normY;
+            float y2 = - fabs(tooltipValues[trueKeys[i]][j+1]) * normY + 5.0;
             if (isBattery) {
                 if (tooltipValues[trueKeys[i]][j+1] > 0)
                     pen.setColor(QColor(configuration[QString("batteryColor")]));
