@@ -198,13 +198,13 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
                 values[data.keys()[i]] = QString("%1").arg(data[data.keys()[i]].toFloat(), 3, 'f', 0);
         }
         if ((configuration[QString("batteryTooltip")].toInt() == 2) &&
-                (!isnan(data[QString("bat0")].toFloat()))) {
+                (!isnan(data[QString("bat")].toFloat()))) {
             if (tooltipValues[QString("bat")].count() > configuration[QString("tooltipNumber")].toInt())
                 tooltipValues[QString("bat")].takeFirst();
             if (data[QString("ac")].toBool())
-                tooltipValues[QString("bat0")].append(data[QString("bat0")].toFloat());
+                tooltipValues[QString("bat")].append(data[QString("bat")].toFloat());
             else
-                tooltipValues[QString("bat0")].append(-data[QString("bat0")].toFloat());
+                tooltipValues[QString("bat")].append(-data[QString("bat")].toFloat());
         }
     } else if (sourceName == QString("cpu/system/TotalLoad")) {
         values[QString("cpu")] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
