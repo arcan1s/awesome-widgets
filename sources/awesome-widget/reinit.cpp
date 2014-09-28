@@ -43,7 +43,7 @@ void AwesomeWidget::reinit()
 
     keys = getKeys();
     foundKeys = findKeys();
-    updateNetworkDevice();
+    updateNetworkDevice(false);
     connectToEngine();
 }
 
@@ -63,11 +63,14 @@ void AwesomeWidget::sendNotification(const QString eventId, const QString messag
 }
 
 
-void AwesomeWidget::updateNetworkDevice()
+void AwesomeWidget::updateNetworkDevice(const bool delay)
 {
     if (debug) qDebug() << PDEBUG;
 
-    values[QString("netdev")] = getNetworkDevice();
+    if (delay)
+        networkDeviceUpdate = 30;
+    else
+        values[QString("netdev")] = getNetworkDevice();
 }
 
 

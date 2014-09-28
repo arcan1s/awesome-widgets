@@ -83,9 +83,9 @@ void AwesomeWidget::createActions()
     connect(contextMenu[1], SIGNAL(triggered(bool)), this, SLOT(showReadme()));
     contextMenu.append(new QAction(QIcon::fromTheme(QString("stock-refresh")),
                                    i18n("Update text"), this));
+    connect(contextMenu[2], SIGNAL(triggered(bool)), this, SLOT(updateNetworkDevice()));
     connect(contextMenu[2], SIGNAL(triggered(bool)), extsysmonEngine, SLOT(updateAllSources()));
     connect(contextMenu[2], SIGNAL(triggered(bool)), sysmonEngine, SLOT(updateAllSources()));
-    connect(contextMenu[2], SIGNAL(triggered(bool)), this, SLOT(updateNetworkDevice()));
 }
 
 

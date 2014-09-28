@@ -340,12 +340,12 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
             tooltipValues[QString("down")].append(data[QString("value")].toFloat());
         }
         networkDeviceUpdate++;
-        if (networkDeviceUpdate == 30) {
+        if (networkDeviceUpdate >= 30) {
             networkDeviceUpdate = 0;
             if (configuration[QString("useCustomNetdev")].toInt() == 2) {
                 sysmonEngine->disconnectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/transmitter/data"), this);
                 sysmonEngine->disconnectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/receiver/data"), this);
-                updateNetworkDevice();
+                updateNetworkDevice(false);
                 sysmonEngine->connectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/transmitter/data"),
                                             this, configuration[QString("interval")].toInt());
                 sysmonEngine->connectSource(QString("network/interfaces/") + values[QString("netdev")] + QString("/receiver/data"),
