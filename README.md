@@ -292,8 +292,7 @@ Additional information
 TODO (wish list)
 ----------------
 
-* 3rdpatry modules support (C++, Python and Shell modules in the plan)
-* graphical bars support
+See [milestones](https://github.com/arcan1s/awesome-widgets/milestones) for more details.
 
 Links
 -----

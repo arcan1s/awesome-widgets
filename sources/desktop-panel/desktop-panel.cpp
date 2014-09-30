@@ -187,7 +187,6 @@ void DesktopPanel::reinit()
     for (int i=0; i<proxyWidgets.count(); i++) {
         layout->removeItem(proxyWidgets[i]);
         delete proxyWidgets[i];
-        delete labels[i];
     }
     labels.clear();
     proxyWidgets.clear();
