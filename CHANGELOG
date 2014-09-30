@@ -1,6 +1,8 @@
 Ver.2.0.5:
 + add tooltip bottom (#30)
+* fix network interface update
 * fix battery tooltip bug
+* edit DP layout (#31)
 
 Ver.2.0.4:
 * more correct work with batteries

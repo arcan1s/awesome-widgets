@@ -27,8 +27,9 @@
 #include <QDebug>
 #include <QFile>
 #include <QGraphicsGridLayout>
-#include <QGraphicsSceneMouseEvent>
+#include <QGraphicsProxyWidget>
 #include <QGraphicsView>
+#include <QMouseEvent>
 #include <QProcessEnvironment>
 #include <QTextCodec>
 
@@ -37,7 +38,7 @@
 
 
 CustomPlasmaLabel::CustomPlasmaLabel(DesktopPanel *wid, const int num, const bool debugCmd)
-    : Plasma::Label(wid),
+    : QLabel(0),
       debug(debugCmd),
       number(num),
       widget(wid)
@@ -59,7 +60,7 @@ int CustomPlasmaLabel::getNumber()
 }
 
 
-void CustomPlasmaLabel::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void CustomPlasmaLabel::mousePressEvent(QMouseEvent *event)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Get signal" << event->button();
@@ -183,11 +184,13 @@ void DesktopPanel::reinit()
 
     // clear
     // labels
-    for (int i=0; i<labels.count(); i++) {
-        layout->removeItem(labels[i]);
+    for (int i=0; i<proxyWidgets.count(); i++) {
+        layout->removeItem(proxyWidgets[i]);
+        delete proxyWidgets[i];
         delete labels[i];
     }
     labels.clear();
+    proxyWidgets.clear();
     // layout
     layout = new QGraphicsGridLayout();
     layout->setContentsMargins(1, 1, 1, 1);
@@ -199,13 +202,18 @@ void DesktopPanel::reinit()
         setBackgroundHints(NoBackground);
     // labels
     for (int i=0; i<desktopNames.count(); i++) {
-        labels.append(new CustomPlasmaLabel(this, i));
+        proxyWidgets.append(new QGraphicsProxyWidget(this));
+        proxyWidgets[i]->setAttribute(Qt::WA_TranslucentBackground, true);
+        proxyWidgets[i]->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        labels.append(new CustomPlasmaLabel(this, i, debug));
         labels[i]->setWordWrap(false);
-        labels[i]->setAttribute(Qt::WA_NoSystemBackground, true);
+        labels[i]->setAttribute(Qt::WA_TranslucentBackground, true);
+        labels[i]->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        proxyWidgets[i]->setWidget(labels[i]);
         if (configuration[QString("layout")].toInt() == 0)
-            layout->addItem(labels[i], 0, i);
+            layout->addItem(proxyWidgets[i], 0, i);
         else
-            layout->addItem(labels[i], i, 0);
+            layout->addItem(proxyWidgets[i], i, 0);
     }
 
     updateText(true);

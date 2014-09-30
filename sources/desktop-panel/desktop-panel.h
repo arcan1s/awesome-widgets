@@ -21,7 +21,7 @@
 
 #include <Plasma/Applet>
 #include <Plasma/DataEngine>
-#include <Plasma/Label>
+#include <QLabel>
 
 #include <ui_appearance.h>
 #include <ui_toggle.h>
@@ -29,21 +29,23 @@
 
 
 class QGraphicsGridLayout;
+class QGraphicsProxyWidget;
 class DesktopPanel;
 
 
-class CustomPlasmaLabel : public Plasma::Label
+class CustomPlasmaLabel : public QLabel
 {
     Q_OBJECT
 
 public:
-    CustomPlasmaLabel(DesktopPanel *wid, const int num,
+    CustomPlasmaLabel(DesktopPanel *wid,
+                      const int num,
                       const bool debugCmd = false);
     ~CustomPlasmaLabel();
     int getNumber();
 
 protected:
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
 
 private:
     // debug
@@ -89,6 +91,7 @@ private:
     void updateText(const bool first = false);
     // ui
     QGraphicsGridLayout *layout;
+    QList<QGraphicsProxyWidget *> proxyWidgets;
     QList<CustomPlasmaLabel *> labels;
     // debug
     bool debug;

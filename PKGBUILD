@@ -1,4 +1,4 @@
-# Maintainer: Evgeniy "arcanis" Alexeev <arcanis.arch at gmail dot com>
+# Maintainer: Evgeniy Alekseev <arcanis at archlinux dot org>
 
 pkgname=kdeplasma-applets-awesome-widgets
 _pkgname=awesome-widgets
