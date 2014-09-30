@@ -192,10 +192,6 @@ void DesktopPanel::reinit()
     }
     labels.clear();
     proxyWidgets.clear();
-    // layout
-    layout = new QGraphicsGridLayout();
-    layout->setContentsMargins(1, 1, 1, 1);
-    setLayout(layout);
 
     // add
     // layout
@@ -218,6 +214,10 @@ void DesktopPanel::reinit()
     }
 
     updateText(true);
+    for (int i=0; i<proxyWidgets.count(); i++) {
+        labels[i]->adjustSize();
+        proxyWidgets[i]->setGeometry(labels[i]->geometry());
+    }
 }
 
 
