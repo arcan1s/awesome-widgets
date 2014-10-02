@@ -79,9 +79,12 @@ void AwesomeWidget::updateText(const bool clear)
     if (debug) qDebug() << PDEBUG;
 
     QString text = configuration[QString("text")];
-    if (!clear)
+    if (!clear) {
+        text.replace(QString("$$"), QString("$\\$\\"));
         for (int i=0; i<foundKeys.count(); i++)
             text.replace(QString("$") + foundKeys[i], values[foundKeys[i]]);
+        text.replace(QString("$\\$\\"), QString("$$"));
+    }
     textLabel->setText(formatLine[0] + text + formatLine[1]);
     update();
 }
