@@ -67,6 +67,7 @@ void CustomPlasmaLabel::mousePressEvent(QMouseEvent *event)
 
     if (event->button() == Qt::LeftButton)
         widget->setCurrentDesktop(number);
+    emit(QLabel::mousePressEvent(event));
 }
 
 
@@ -200,12 +201,9 @@ void DesktopPanel::reinit()
     // labels
     for (int i=0; i<desktopNames.count(); i++) {
         proxyWidgets.append(new QGraphicsProxyWidget(this));
-        proxyWidgets[i]->setAttribute(Qt::WA_TranslucentBackground, true);
-        proxyWidgets[i]->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         labels.append(new CustomPlasmaLabel(this, i, debug));
         labels[i]->setWordWrap(false);
         labels[i]->setAttribute(Qt::WA_TranslucentBackground, true);
-        labels[i]->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         proxyWidgets[i]->setWidget(labels[i]);
         if (configuration[QString("layout")].toInt() == 0)
             layout->addItem(proxyWidgets[i], 0, i);

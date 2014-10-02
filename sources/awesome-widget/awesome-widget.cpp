@@ -202,10 +202,7 @@ void AwesomeWidget::init()
     setLayout(mainLayout);
     textLabel = new CustomLabel(this, debug);
     QGraphicsProxyWidget *pw = new QGraphicsProxyWidget(this);
-    pw->setAttribute(Qt::WA_TranslucentBackground, true);
-    pw->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     textLabel->setAttribute(Qt::WA_TranslucentBackground, true);
-    textLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     pw->setWidget(textLabel);
     mainLayout->addItem(pw, 0, 0);
 
