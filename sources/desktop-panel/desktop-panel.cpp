@@ -278,6 +278,22 @@ void DesktopPanel::updateText(const bool first)
         labels[i]->setText(text);
     }
     update();
+    int height = 0;
+    int width = 0;
+    for (int i=0; i<proxyWidgets.count(); i++) {
+        labels[i]->adjustSize();
+        proxyWidgets[i]->setGeometry(labels[i]->geometry());
+        if (configuration[QString("layout")].toInt() == 0) {
+            width += proxyWidgets[i]->geometry().width();
+            if (height < proxyWidgets[i]->geometry().height())
+                height = proxyWidgets[i]->geometry().height();
+        } else {
+            height += proxyWidgets[i]->geometry().height();
+            if (width < proxyWidgets[i]->geometry().width())
+                width = proxyWidgets[i]->geometry().width();
+        }
+    }
+    layout->setMinimumSize(width, height);
 }
 
 
