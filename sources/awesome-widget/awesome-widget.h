@@ -70,6 +70,7 @@ public slots:
     void updateTooltip();
 
 private slots:
+    bool checkUpdates();
     void reinit();
     // configuration interface
     void addNewCustomCommand(QTableWidgetItem *item);

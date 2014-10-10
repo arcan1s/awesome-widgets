@@ -33,6 +33,7 @@
 #include "customlabel.h"
 #include <pdebug/pdebug.h>
 #include <task/taskadds.h>
+#include "version.h"
 
 
 AwesomeWidget::AwesomeWidget(QObject *parent, const QVariantList &args)
@@ -59,6 +60,16 @@ AwesomeWidget::AwesomeWidget(QObject *parent, const QVariantList &args)
 AwesomeWidget::~AwesomeWidget()
 {
     if (debug) qDebug() << PDEBUG;
+}
+
+
+bool AwesomeWidget::checkUpdates()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    bool needUpdate = false;
+
+    return needUpdate;
 }
 
 

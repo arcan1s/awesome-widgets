@@ -1,0 +1,29 @@
+#ifndef VERSION_H
+#define VERSION_H
+
+// information
+#define NAME "Awesome Widgets"
+#define VERSION "@PROJECT_VERSION@"
+#define AUTHOR "@PROJECT_AUTHOR@"
+#define TRANSLATORS "Ernesto Avilés Vzqz (Spanish),Mermouy (French),underr (Brazillian Portuguese),Виктор Слободян (Ukrainian),Lemueler (Chinese)"
+#define EMAIL "@PROJECT_CONTACT@"
+#define LICENSE "@PROJECT_LICENSE@"
+#define TRDPARTY_LICENSE "tasks,BSD,https://github.com/mhogomchungu/tasks"
+
+// links
+#define HOMEPAGE "http://arcanis.name/projects/awesome-widgets/"
+#define REPOSITORY "https://github.com/arcan1s/awesome-widgets"
+#define VERSION_API "https://api.github.com/repos/arcan1s/awesome-widgets/releases"
+#define BUGTRACKER "https://github.com/arcan1s/awesome-widgets/issues"
+#define TRANSLATION "https://github.com/arcan1s/awesome-widgets/issues/14"
+#define AUR_PACKAGES "https://aur.archlinux.org/packages/kdeplasma-applets-awesome-widgets/"
+
+// build information
+#define BUILD_DATE "@CURRENT_DATE@"
+#define DATE "2014-@CURRENT_YEAR@"
+
+// cmake properties
+#define CMAKE_BUILD_TYPE "@CMAKE_BUILD_TYPE@"
+#define CMAKE_INSTALL_PREFIX "@CMAKE_INSTALL_PREFIX@"
+
+#endif /* VERSION_H */

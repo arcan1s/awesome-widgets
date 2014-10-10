@@ -6,13 +6,20 @@ cmake_policy (SET CMP0011 NEW)
 cmake_policy (SET CMP0015 NEW)
 
 project (awesome-widgets)
+set (PROJECT_AUTHOR "Evgeniy Alekseev")
+set (PROJECT_CONTACT "esalexeev@gmail.com")
+set (PROJECT_LICENSE "GPLv3")
 set (PROJECT_VERSION_MAJOR 2)
 set (PROJECT_VERSION_MINOR 0)
 set (PROJECT_VERSION_PATCH 5)
 set (PROJECT_VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH})
-set (PROJECT_TRDPARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty)
 
+string (TIMESTAMP CURRENT_DATE "%Y-%m-%d %H:%M" UTC)
+string (TIMESTAMP CURRENT_YEAR "%Y")
+
+message (STATUS "Project: ${PROJECT_NAME}")
 message (STATUS "Version: ${PROJECT_VERSION}")
+message (STATUS "Build date: ${CURRENT_DATE}")
 
 # flags
 if (CMAKE_COMPILER_IS_GNUCXX)
@@ -22,6 +29,9 @@ if (CMAKE_COMPILER_IS_GNUCXX)
 else ()
     message (STATUS "Unknown compiler")
 endif ()
+
+configure_file (${CMAKE_SOURCE_DIR}/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/version.h)
+set (PROJECT_TRDPARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty)
 
 add_subdirectory (awesome-widget)
 add_subdirectory (ext-sysmon)
