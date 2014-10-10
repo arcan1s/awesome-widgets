@@ -25,7 +25,11 @@
 #include <QGraphicsProxyWidget>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QMessageBox>
+#include <QNetworkAccessManager>
 #include <QNetworkInterface>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 #include <QProcessEnvironment>
 #include <QTextCodec>
 #include <QTimer>
@@ -63,13 +67,13 @@ AwesomeWidget::~AwesomeWidget()
 }
 
 
-bool AwesomeWidget::checkUpdates()
+void AwesomeWidget::checkUpdates()
 {
     if (debug) qDebug() << PDEBUG;
 
-    bool needUpdate = false;
-
-    return needUpdate;
+    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+    connect(manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(replyRecieved(QNetworkReply *)));
+    manager->get(QNetworkRequest(QUrl(VERSION_API)));
 }
 
 
@@ -97,6 +101,9 @@ void AwesomeWidget::createActions()
     connect(contextMenu[2], SIGNAL(triggered(bool)), this, SLOT(updateNetworkDevice()));
     connect(contextMenu[2], SIGNAL(triggered(bool)), extsysmonEngine, SLOT(updateAllSources()));
     connect(contextMenu[2], SIGNAL(triggered(bool)), sysmonEngine, SLOT(updateAllSources()));
+    contextMenu.append(new QAction(QIcon::fromTheme(QString("system-software-update")),
+                                   i18n("Check for updates"), this));
+    connect(contextMenu[3], SIGNAL(triggered(bool)), this, SLOT(checkUpdates()));
 }
 
 
@@ -225,6 +232,29 @@ void AwesomeWidget::init()
     connect(timer, SIGNAL(timeout()), this, SLOT(updateText()));
     connect(timer, SIGNAL(timeout()), this, SLOT(updateTooltip()));
     timer->start();
+    // check for updates
+    connect(this, SIGNAL(thereIsUpdates(QString)), this, SLOT(showUpdates(QString)));
+    checkUpdates();
+}
+
+
+void AwesomeWidget::replyRecieved(QNetworkReply *reply)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QString answer = reply->readAll();
+    if (!answer.contains(QString("tag_name"))) return;
+    QString version = QString(VERSION);
+    if (debug) qDebug() << PDEBUG << answer;
+    for (int i=0; i<answer.split(QString("tag_name")).count(); i++) {
+        version = answer.split(QString("tag_name"))[1].split(QChar(','))[0];
+        version.remove(QChar('"'));
+        version.remove(QChar(':'));
+        version.remove(QString("V."));
+        break;
+    }
+    if (version != QString(VERSION))
+        emit(thereIsUpdates(version));
 }
 
 
@@ -378,6 +408,23 @@ void AwesomeWidget::showReadme()
     if (debug) qDebug() << PDEBUG;
 
     QDesktopServices::openUrl(QString("http://arcanis.name/projects/awesome-widgets/"));
+}
+
+
+void AwesomeWidget::showUpdates(QString version)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QString text;
+    text += i18n("Current version : %1", QString(VERSION)) + QString("\n");
+    text += i18n("New version : %2", version) + QString("\n");
+    text += i18n("Click \"Ok\" to download");
+    int select = QMessageBox::information(0, i18n("There are updates"), text, QMessageBox::Ok | QMessageBox::Cancel);
+    switch(select) {
+    case QMessageBox::Ok:
+        QDesktopServices::openUrl(QString(RELEASES) + version);
+        break;
+    }
 }
 
 

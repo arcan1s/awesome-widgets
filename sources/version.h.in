@@ -13,6 +13,7 @@
 // links
 #define HOMEPAGE "http://arcanis.name/projects/awesome-widgets/"
 #define REPOSITORY "https://github.com/arcan1s/awesome-widgets"
+#define RELEASES "https://github.com/arcan1s/awesome-widgets/releases/tag/V."
 #define VERSION_API "https://api.github.com/repos/arcan1s/awesome-widgets/releases"
 #define BUGTRACKER "https://github.com/arcan1s/awesome-widgets/issues"
 #define TRANSLATION "https://github.com/arcan1s/awesome-widgets/issues/14"

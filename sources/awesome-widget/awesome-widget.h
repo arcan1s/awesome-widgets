@@ -33,6 +33,7 @@
 class CustomLabel;
 class QGraphicsGridLayout;
 class QGraphicsScene;
+class QNetworkReply;
 
 class AwesomeWidget : public Plasma::Applet
 {
@@ -55,6 +56,7 @@ public slots:
     // contextual actions
     void showKsysguard();
     void showReadme();
+    void showUpdates(QString version);
     // dataengine
     void addDiskDevice(const QString source);
     void connectToEngine();
@@ -70,8 +72,9 @@ public slots:
     void updateTooltip();
 
 private slots:
-    bool checkUpdates();
+    void checkUpdates();
     void reinit();
+    void replyRecieved(QNetworkReply *reply);
     // configuration interface
     void addNewCustomCommand(QTableWidgetItem *item);
     void addNewPkgCommand(QTableWidgetItem *item);
@@ -84,6 +87,9 @@ private slots:
     void editTempItem(QListWidgetItem *item);
     void setFontFormating();
     void setFormating();
+
+signals:
+    void thereIsUpdates(QString version);
 
 protected:
     QList<QAction *> contextualActions();
