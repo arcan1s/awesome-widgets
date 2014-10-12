@@ -28,6 +28,7 @@
 #include <fontdialog/fontdialog.h>
 #include <pdebug/pdebug.h>
 #include <task/taskadds.h>
+#include "version.h"
 
 
 QMap<QString, QString> AwesomeWidget::readDataEngineConfiguration()
@@ -139,6 +140,8 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     uiDEConfig.setupUi(deConfigWidget);
     QWidget *tooltipWidget = new QWidget;
     uiTooltipConfig.setupUi(tooltipWidget);
+    QWidget *aboutWidget = new QWidget;
+    uiAboutConfig.setupUi(aboutWidget);
 
     //widget
     uiWidConfig.textEdit_elements->setPlainText(configuration[QString("text")]);
@@ -402,11 +405,34 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     uiDEConfig.comboBox_playerSelect->setCurrentIndex(
                 uiDEConfig.comboBox_playerSelect->findText(deSettings[QString("PLAYER")], Qt::MatchFixedString));
 
+    // about
+    uiAboutConfig.label_name->setText(QString(NAME));
+    uiAboutConfig.label_version->setText(i18n("Version %1\n(build date %2)", QString(VERSION), QString(BUILD_DATE)));
+    uiAboutConfig.label_description->setText(i18n("A set of minimalistic plasmoid widgets"));
+    uiAboutConfig.label_links->setText(i18n("Links:") + QString("<br>") +
+                                       QString("<a href=\"%1\">%2</a><br>").arg(QString(HOMEPAGE)).arg(i18n("Homepage")) +
+                                       QString("<a href=\"%1\">%2</a><br>").arg(QString(REPOSITORY)).arg(i18n("Repository")) +
+                                       QString("<a href=\"%1\">%2</a><br>").arg(QString(BUGTRACKER)).arg(i18n("Bugtracker")) +
+                                       QString("<a href=\"%1\">%2</a><br>").arg(QString(TRANSLATION)).arg(i18n("Translation issue")) +
+                                       QString("<a href=\"%1\">%2</a>").arg(QString(AUR_PACKAGES)).arg(i18n("AUR packages")));
+    uiAboutConfig.label_license->setText(QString("<small>&copy; %1 <a href=\"mailto:%2\">%3</a><br>").arg(QString(DATE)).arg(QString(EMAIL)).arg(QString(AUTHOR)) +
+                                         i18n("This software is licensed under %1", QString(LICENSE)) + QString("</small>"));
+    // 2nd tab
+    QStringList trdPartyList = QString(TRDPARTY_LICENSE).split(QChar(';'), QString::SkipEmptyParts);
+    for (int i=0; i<trdPartyList.count(); i++)
+        trdPartyList[i] = QString("<a href=\"%3\">%1</a> (%2 license)")
+                .arg(trdPartyList[i].split(QChar(','))[0])
+                .arg(trdPartyList[i].split(QChar(','))[1])
+                .arg(trdPartyList[i].split(QChar(','))[2]);
+    uiAboutConfig.label_translators->setText(i18n("Translators: %1", QString(TRANSLATORS)));
+    uiAboutConfig.label_trdparty->setText(i18n("This software uses: %1", trdPartyList.join(QString(", "))));
+
     parent->addPage(configWidget, i18n("Widget"), Applet::icon());
     parent->addPage(advWidget, i18n("Advanced"), QString("system-run"));
     parent->addPage(tooltipWidget, i18n("Tooltip"), QString("preferences-desktop-color"));
     parent->addPage(appWidget, i18n("Appearance"), QString("preferences-desktop-theme"));
     parent->addPage(deConfigWidget, i18n("DataEngine"), QString("utilities-system-monitor"));
+    parent->addPage(aboutWidget, i18n("About"), QString("help-about"));
 
     connect(uiAdvancedConfig.listWidget_fanDevice, SIGNAL(itemActivated(QListWidgetItem *)),
             this, SLOT(editFanItem(QListWidgetItem *)));

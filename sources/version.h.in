@@ -5,7 +5,7 @@
 #define NAME "Awesome Widgets"
 #define VERSION "@PROJECT_VERSION@"
 #define AUTHOR "@PROJECT_AUTHOR@"
-#define TRANSLATORS "Ernesto Avilés Vzqz (Spanish),Mermouy (French),underr (Brazillian Portuguese),Виктор Слободян (Ukrainian),Lemueler (Chinese)"
+#define TRANSLATORS "Ernesto Aviles Vzqz (Spanish);Mermouy (French);underr (Brazillian Portuguese);Viktor Slobodyan (Ukrainian);Lemueler (Chinese)"
 #define EMAIL "@PROJECT_CONTACT@"
 #define LICENSE "@PROJECT_LICENSE@"
 #define TRDPARTY_LICENSE "tasks,BSD,https://github.com/mhogomchungu/tasks"

@@ -23,6 +23,7 @@
 #include <Plasma/DataEngine>
 #include <Plasma/ToolTipContent>
 
+#include <ui_about.h>
 #include <ui_advanced.h>
 #include <ui_appearance.h>
 #include <ui_deconfig.h>
@@ -121,6 +122,7 @@ private:
     Plasma::DataEngine *sysmonEngine;
     Plasma::DataEngine *timeEngine;
     // configuration interface
+    Ui::About uiAboutConfig;
     Ui::AdvancedWindow uiAdvancedConfig;
     Ui::AppearanceWindow uiAppConfig;
     Ui::ConfigWindow uiWidConfig;
