@@ -214,7 +214,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
                 tooltipValues[QString("cpu")].takeFirst();
             tooltipValues[QString("cpu")].append(data[QString("value")].toFloat());
         }
-    } else if (sourceName.indexOf(cpuRegExp) > -1) {
+    } else if (sourceName.contains(cpuRegExp)) {
         QString number = sourceName;
         number.remove(QString("cpu/cpu"));
         number.remove(QString("/TotalLoad"));
@@ -227,7 +227,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
                 tooltipValues[QString("cpucl")].takeFirst();
             tooltipValues[QString("cpucl")].append(data[QString("value")].toFloat());
         }
-    } else if (sourceName.indexOf(cpuclRegExp) > -1) {
+    } else if (sourceName.contains(cpuclRegExp)) {
         QString number = sourceName;
         number.remove(QString("cpu/cpu"));
         number.remove(QString("/clock"));
@@ -239,7 +239,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         values[QString("desktop")] = data[QString("currentName")].toString();
         values[QString("ndesktop")] = QString("%1").arg(data[QString("currentNumber")].toInt());
         values[QString("tdesktops")] = QString("%1").arg(data[QString("number")].toInt());
-    } else if (sourceName.indexOf(hddrRegExp) > -1) {
+    } else if (sourceName.contains(hddrRegExp)) {
         QString device = sourceName;
         device.remove(QString("/Rate/rblk"));
         for (int i=0; i<counts[QString("disk")]; i++)
@@ -247,7 +247,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
                 values[QString("hddr") + QString::number(i)] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 0);
                 break;
             }
-    } else if (sourceName.indexOf(hddwRegExp) > -1) {
+    } else if (sourceName.contains(hddwRegExp)) {
         QString device = sourceName;
         device.remove(QString("/Rate/wblk"));
         for (int i=0; i<counts[QString("disk")]; i++)
@@ -259,7 +259,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         values[QString("gpu")] = QString("%1").arg(data[QString("GPU")].toFloat(), 5, 'f', 1);
     } else if (sourceName == QString("gputemp")) {
         values[QString("gputemp")] = QString("%1").arg(getTemp(data[QString("GPUTemp")].toFloat()), 4, 'f', 1);
-    } else if (sourceName.indexOf(mountFillRegExp) > -1) {
+    } else if (sourceName.contains(mountFillRegExp)) {
         QString mount = sourceName;
         mount.remove(QString("partitions"));
         mount.remove(QString("/filllevel"));
@@ -268,7 +268,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
                 values[QString("hdd") + QString::number(i)] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
                 break;
             }
-    } else if (sourceName.indexOf(mountFreeRegExp) > -1) {
+    } else if (sourceName.contains(mountFreeRegExp)) {
         QString mount = sourceName;
         mount.remove(QString("partitions"));
         mount.remove(QString("/freespace"));
@@ -280,7 +280,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
                             data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
                 break;
             }
-    } else if (sourceName.indexOf(mountUsedRegExp) > -1) {
+    } else if (sourceName.contains(mountUsedRegExp)) {
         QString mount = sourceName;
         mount.remove(QString("partitions"));
         mount.remove(QString("/usedspace"));
@@ -331,7 +331,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
                 tooltipValues[QString("mem")].takeFirst();
             tooltipValues[QString("mem")].append(values[QString("mem")].toFloat());
         }
-    } else if (sourceName.indexOf(netRecRegExp) > -1) {
+    } else if (sourceName.contains(netRecRegExp)) {
         values[QString("down")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
         if ((configuration[QString("downTooltip")].toInt() == 2) &&
                 (!isnan(data[QString("value")].toFloat()))) {
@@ -352,7 +352,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
                                             this, configuration[QString("interval")].toInt());
             }
         }
-    } else if (sourceName.indexOf(netTransRegExp) > -1) {
+    } else if (sourceName.contains(netTransRegExp)) {
         values[QString("up")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
         if ((configuration[QString("downTooltip")].toInt() == 2) &&
                 (!isnan(data[QString("value")].toFloat()))) {
@@ -393,7 +393,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
                 tooltipValues[QString("swap")].takeFirst();
             tooltipValues[QString("swap")].append(values[QString("swap")].toFloat());
         }
-    } else if (sourceName.indexOf(tempRegExp) > -1) {
+    } else if (sourceName.contains(tempRegExp)) {
         if (data[QString("units")].toString() == QString("rpm")) {
             for (int i=0; i<counts[QString("fan")]; i++)
                 if (sourceName == configuration[QString("fanDevice")].split(QString("@@"))[i]) {

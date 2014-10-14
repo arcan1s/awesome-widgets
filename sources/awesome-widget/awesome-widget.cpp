@@ -277,8 +277,7 @@ QStringList AwesomeWidget::findKeys()
 
     QStringList selectedKeys;
     for (int i=0; i<keys.count(); i++)
-        if (configuration[QString("text")]
-                .indexOf(QString("$") + keys[i]) > -1) {
+        if (configuration[QString("text")].contains(QString("$") + keys[i])) {
             if (debug) qDebug() << PDEBUG << ":" << "Found key" << keys[i];
             selectedKeys.append(keys[i]);
         }

@@ -297,7 +297,7 @@ QMap<QString, QVariant> ExtendedSysMon::getBattery(const QString acpiPath)
     QStringList batDevices;
     QRegExp batRegexp = QRegExp(QString("BAT.*"));
     for (int i=0; i<allDevices.count(); i++)
-        if (allDevices[i].indexOf(batRegexp) > -1)
+        if (allDevices[i].contains(batRegexp))
             batDevices.append(allDevices[i]);
     for (int i=0; i<batDevices.count(); i++) {
         QFile batFile(acpiPath + QString("/") + batDevices[i] + QString("/capacity"));

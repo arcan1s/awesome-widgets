@@ -1,3 +1,7 @@
+Ver.2.1.0:
++ add autoupdate function
+* change regexp matching
+
 Ver.2.0.5:
 + add tooltip bottom (#30)
 * fix network interface update

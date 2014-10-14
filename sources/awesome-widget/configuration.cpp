@@ -671,7 +671,7 @@ void AwesomeWidget::configChanged()
     QStringList acpiDevices = QDir(deSettings[QString("ACPIPATH")]).entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     QRegExp batRegexp = QRegExp(QString("BAT.*"));
     for (int i=0; i<acpiDevices.count(); i++)
-        if (acpiDevices[i].indexOf(batRegexp) > -1)
+        if (acpiDevices[i].contains(batRegexp))
             counts[QString("bat")]++;
     counts[QString("cpu")] = getNumberCpus();
     counts[QString("custom")] = deSettings[QString("CUSTOM")].split(QString("@@")).count();
