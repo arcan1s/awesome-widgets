@@ -298,6 +298,10 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
                 Qt::MatchFixedString));
     uiAdvancedConfig.lineEdit_acOnline->setText(configuration[QString("acOnline")]);
     uiAdvancedConfig.lineEdit_acOffline->setText(configuration[QString("acOffline")]);
+    if (configuration[QString("checkUpdates")].toInt() == 0)
+        uiAdvancedConfig.checkBox_updates->setCheckState(Qt::Unchecked);
+    else
+        uiAdvancedConfig.checkBox_updates->setCheckState(Qt::Checked);
 
     // tooltip
     uiTooltipConfig.spinBox_tooltipNum->setValue(configuration[QString("tooltipNumber")].toInt());
@@ -515,6 +519,7 @@ void AwesomeWidget::configAccepted()
     cg.writeEntry("customNetdev", uiAdvancedConfig.comboBox_netdev->currentText());
     cg.writeEntry("acOnline", uiAdvancedConfig.lineEdit_acOnline->text());
     cg.writeEntry("acOffline", uiAdvancedConfig.lineEdit_acOffline->text());
+    cg.writeEntry("checkUpdates", QString::number(uiAdvancedConfig.checkBox_updates->checkState()));
 
     // tooltip
     cg.writeEntry("tooltipNumber", QString::number(uiTooltipConfig.spinBox_tooltipNum->value()));
@@ -597,6 +602,7 @@ void AwesomeWidget::configChanged()
     configuration[QString("customNetdev")] = cg.readEntry("customNetdev", "lo");
     configuration[QString("acOnline")] = cg.readEntry("acOnline", "(*)");
     configuration[QString("acOffline")] = cg.readEntry("acOffline", "( )");
+    configuration[QString("checkUpdates")] = cg.readEntry("checkUpdates", "2");
 
     // tooltip
     tooltipValues.clear();

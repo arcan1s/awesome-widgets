@@ -234,7 +234,8 @@ void AwesomeWidget::init()
     timer->start();
     // check for updates
     connect(this, SIGNAL(thereIsUpdates(QString)), this, SLOT(showUpdates(QString)));
-    checkUpdates();
+    if (configuration[QString("checkUpdates")].toInt() == 2)
+        checkUpdates();
 }
 
 
