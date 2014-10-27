@@ -277,7 +277,6 @@ void DesktopPanel::updateText(const bool first)
             text = formatLine[0] + line + formatLine[1];
         labels[i]->setText(text);
     }
-    update();
     int height = 0;
     int width = 0;
     for (int i=0; i<proxyWidgets.count(); i++) {

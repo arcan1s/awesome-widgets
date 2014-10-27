@@ -18,7 +18,6 @@ optdepends=("amarok: for music player monitor"
             "qmmp: for music player monitor")
 makedepends=('automoc4' 'cmake')
 source=(${_pkgname}::git+https://github.com/arcan1s/awesome-widgets/)
-install=${pkgname}.install
 md5sums=('SKIP')
 backup=('usr/share/config/extsysmon.conf')
 
