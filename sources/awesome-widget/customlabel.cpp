@@ -93,5 +93,5 @@ void CustomLabel::mousePressEvent(QMouseEvent *event)
 
         widget->sendNotification(QString("system"), text);
     }
-    emit(QLabel::mousePressEvent(event));
+    emit(QWidget::mousePressEvent(event));
 }

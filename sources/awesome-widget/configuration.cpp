@@ -662,7 +662,7 @@ void AwesomeWidget::configChanged()
         fontStyle = QString("italic");
     else
         fontStyle = QString("normal");
-    formatLine[0] = QString("<html><head><style type=\"text/css\">p, li { white-space: pre-wrap; }</style>\
+    formatLine[0] = QString("<html><head><style type=\"text/css\">body { white-space: pre-wrap; }</style>\
                             </head><body style=\"font-family:'%1'; font-size:%2pt; font-weight:%3; font-style:%4; color:%5;\">")
             .arg(font.family())
             .arg(font.pointSize())

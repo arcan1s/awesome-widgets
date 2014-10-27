@@ -38,8 +38,6 @@ void AwesomeWidget::reinit()
     else
         textLabel->setPopupEnabled(true);
     updateText(true);
-    textLabel->adjustSize();
-    mainLayout->itemAt(0, 0)->setGeometry(textLabel->geometry());
 
     keys = getKeys();
     foundKeys = findKeys();
@@ -86,7 +84,8 @@ void AwesomeWidget::updateText(const bool clear)
         text.replace(QString("$\\$\\"), QString("$$"));
     }
     textLabel->setText(formatLine[0] + text + formatLine[1]);
-    update();
+    mainLayout->itemAt(0, 0)->updateGeometry();
+    updateGeometry();
 }
 
 
