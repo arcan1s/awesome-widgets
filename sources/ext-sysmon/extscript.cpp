@@ -230,4 +230,19 @@ QMap<QString, QString> ExtScript::getConfigurationFromFile(const QString fileNam
 QMap<QString, QString> ExtScript::toExternalConfiguration()
 {
     if (debug) qDebug() << PDEBUG;
+
+    QMap<QString, QString> settings;
+    if (isActive())
+        settings[QString("ACTIVE")] = QString("true");
+    else
+        settings[QString("ACTIVE")] = QString("false");
+    settings[QString("INTERVAL")] = QString::number(getInterval());
+    settings[QString("PREFIX")] = getPrefix();
+    if (hasOutput())
+        settings[QString("OUTPUT")] = QString("true");
+    else
+        settings[QString("OUTPUT")] = QString("false");
+    settings[QString("REDIRECT")] = QString::number(getRedirect());
+
+    return settings;
 }
