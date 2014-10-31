@@ -15,13 +15,15 @@ include_directories (${CMAKE_SOURCE_DIR}
                      ${KDE4_INCLUDES}
                      ${CMAKE_CURRENT_BINARY_DIR}
                      ${CMAKE_CURRENT_BINARY_DIR}/../
-                     ${PROJECT_TRDPARTY_DIR})
+                     ${PROJECT_TRDPARTY_DIR}
+                     ../ext-sysmon)
 
 # set sources
 file (GLOB SUBPROJECT_DESKTOP_IN *.desktop)
 file (RELATIVE_PATH SUBPROJECT_DESKTOP ${CMAKE_SOURCE_DIR} ${SUBPROJECT_DESKTOP_IN})
 file (GLOB_RECURSE SUBPROJECT_SOURCE *.cpp ${PROJECT_TRDPARTY_DIR}/task/*.cpp
-                                           ${PROJECT_TRDPARTY_DIR}/fontdialog/*.cpp)
+                                           ${PROJECT_TRDPARTY_DIR}/fontdialog/*.cpp
+                                           ../ext-sysmon/extscript.cpp)
 set (TASK_HEADER ${PROJECT_TRDPARTY_DIR}/task/task.h)
 file (GLOB SUBPROJECT_UI *.ui ${PROJECT_TRDPARTY_DIR}/about/*.ui)
 file (GLOB SUBPROJECT_NOTIFY *.notifyrc)

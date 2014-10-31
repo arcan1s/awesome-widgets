@@ -32,6 +32,7 @@
 
 
 class CustomLabel;
+class ExtScript;
 class QGraphicsGridLayout;
 class QGraphicsScene;
 class QNetworkReply;
@@ -77,9 +78,7 @@ private slots:
     void reinit();
     void replyRecieved(QNetworkReply *reply);
     // configuration interface
-    void addNewCustomCommand(QTableWidgetItem *item);
     void addNewPkgCommand(QTableWidgetItem *item);
-    void contextMenuCustomCommand(const QPoint pos);
     void contextMenuPkgCommand(const QPoint pos);
     void editFanItem(QListWidgetItem *item);
     void editHddItem(QListWidgetItem *item);
@@ -101,6 +100,7 @@ private:
     void createActions();
     QStringList findKeys();
     QStringList getKeys();
+    QList<ExtScript *> initScripts();
     // ui
     QGraphicsGridLayout *mainLayout = nullptr;
     CustomLabel *textLabel = nullptr;

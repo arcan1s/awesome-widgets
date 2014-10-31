@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>700</width>
-    <height>592</height>
+    <height>590</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -43,7 +43,7 @@
         <x>0</x>
         <y>0</y>
         <width>684</width>
-        <height>576</height>
+        <height>574</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout">
@@ -442,9 +442,6 @@ del - remove item</string>
        </item>
        <item row="1" column="0">
         <widget class="QTableWidget" name="tableWidget_customCommand">
-         <property name="contextMenuPolicy">
-          <enum>Qt::CustomContextMenu</enum>
-         </property>
          <property name="toolTip">
           <string>Editable
 del - remove item</string>
@@ -457,7 +454,27 @@ del - remove item</string>
          </attribute>
          <column>
           <property name="text">
-           <string>Custom command</string>
+           <string>Name</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Active</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Interval</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Prefix</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Redirect</string>
           </property>
          </column>
         </widget>

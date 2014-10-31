@@ -233,6 +233,23 @@ ExtScript::ScriptData ExtScript::run(const int time)
 }
 
 
+void ExtScript::writeConfiguration()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QString fileName = dirs[0] + QDir::separator() + name + QString(".conf");
+    if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
+    QFile configFile(fileName);
+    if (!configFile.open(QIODevice::WriteOnly)) return;
+    QMap<QString, QString> config = toExternalConfiguration();
+    for (int i=0; i<config.keys().count(); i++) {
+        QByteArray string = (config.keys()[i] + QString("=") + config[config.keys()[i]] + QString("\n")).toUtf8();
+        configFile.write(string);
+    }
+    configFile.close();
+}
+
+
 void ExtScript::fromExternalConfiguration(const QMap<QString, QString> settings)
 {
     if (settings.contains(QString("ACTIVE")))

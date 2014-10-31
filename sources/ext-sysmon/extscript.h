@@ -58,6 +58,7 @@ public:
 public slots:
     void readConfiguration();
     ScriptData run(const int time);
+    void writeConfiguration();
 
 private:
     // configuration

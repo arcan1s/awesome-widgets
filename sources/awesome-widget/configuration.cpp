@@ -25,6 +25,7 @@
 #include <QNetworkInterface>
 #include <QTextCodec>
 
+#include <extscript.h>
 #include <fontdialog/fontdialog.h>
 #include <pdebug/pdebug.h>
 #include <task/taskadds.h>
@@ -37,7 +38,6 @@ QMap<QString, QString> AwesomeWidget::readDataEngineConfiguration()
 
     QMap<QString, QString> rawConfig;
     rawConfig[QString("ACPIPATH")] = QString("/sys/class/power_supply/");
-    rawConfig[QString("CUSTOM")] = QString("wget -qO- http://ifconfig.me/ip");
     rawConfig[QString("DESKTOPCMD")] = QString("qdbus org.kde.kwin /KWin currentDesktop");
     rawConfig[QString("GPUDEV")] = QString("auto");
     rawConfig[QString("HDDDEV")] = QString("all");
@@ -103,10 +103,9 @@ QMap<QString, QString> AwesomeWidget::updateDataEngineConfiguration(const QMap<Q
         key = rawConfig.keys()[i];
         value = rawConfig[key];
         key.remove(QChar(' '));
-        if ((key != QString("CUSTOM")) &&
-                (key != QString("DESKTOPCMD")) &&
-                (key != QString("HDDTEMPCMD")) &&
-                (key != QString("PKGCMD")))
+        if ((key != QString("DESKTOPCMD")) &&
+            (key != QString("HDDTEMPCMD")) &&
+            (key != QString("PKGCMD")))
             value.remove(QChar(' '));
         config[key] = value;
     }
@@ -364,13 +363,35 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     QMap<QString, QString> deSettings = readDataEngineConfiguration();
     uiDEConfig.lineEdit_acpi->setText(deSettings[QString("ACPIPATH")]);
     uiDEConfig.tableWidget_customCommand->clear();
-    uiDEConfig.tableWidget_customCommand->setRowCount(deSettings[QString("CUSTOM")].split(QString("@@")).count() + 1);
+    QList<ExtScript *> externalScripts = initScripts();
+    uiDEConfig.tableWidget_customCommand->setRowCount(externalScripts.count());
     headerList.clear();
-    headerList.append(i18n("Custom command"));
+    headerList.append(i18n("Name"));
+    headerList.append(i18n("Interval"));
+    headerList.append(i18n("Output"));
+    headerList.append(i18n("Prefix"));
+    headerList.append(i18n("Redirect"));
     uiDEConfig.tableWidget_customCommand->setHorizontalHeaderLabels(headerList);
     uiDEConfig.tableWidget_customCommand->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
-    for (int i=0; i<deSettings[QString("CUSTOM")].split(QString("@@")).count(); i++)
-        uiDEConfig.tableWidget_customCommand->setItem(i, 0, new QTableWidgetItem(deSettings[QString("CUSTOM")].split(QString("@@"))[i]));
+    for (int i=0; i<externalScripts.count(); i++) {
+        QTableWidgetItem *name = new QTableWidgetItem(externalScripts[i]->getName());
+        name->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEnabled);
+        if (externalScripts[i]->isActive())
+            name->setCheckState(Qt::Checked);
+        else
+            name->setCheckState(Qt::Unchecked);
+        uiDEConfig.tableWidget_customCommand->setItem(i, 0, name);
+        uiDEConfig.tableWidget_customCommand->setItem(i, 1, new QTableWidgetItem(QString::number(externalScripts[i]->getInterval())));
+        QTableWidgetItem *output = new QTableWidgetItem();
+        if (externalScripts[i]->hasOutput())
+            output->setCheckState(Qt::Checked);
+        else
+            output->setCheckState(Qt::Unchecked);
+        uiDEConfig.tableWidget_customCommand->setItem(i, 2, output);
+        uiDEConfig.tableWidget_customCommand->setItem(i, 3, new QTableWidgetItem(externalScripts[i]->getPrefix()));
+        uiDEConfig.tableWidget_customCommand->setItem(i, 4, new QTableWidgetItem(QString::number(externalScripts[i]->getRedirect())));
+    }
+    externalScripts.clear();
     uiDEConfig.lineEdit_desktopCmd->setText(deSettings[QString("DESKTOPCMD")]);
     uiDEConfig.comboBox_gpudev->setCurrentIndex(
                 uiDEConfig.comboBox_gpudev->findText(deSettings[QString("GPUDEV")], Qt::MatchFixedString));
@@ -448,10 +469,6 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
             this, SLOT(editMountItem(QListWidgetItem *)));
     connect(uiAdvancedConfig.listWidget_tempDevice, SIGNAL(itemActivated(QListWidgetItem *)),
             this, SLOT(editTempItem(QListWidgetItem *)));
-    connect(uiDEConfig.tableWidget_customCommand, SIGNAL(itemChanged(QTableWidgetItem *)),
-            this, SLOT(addNewCustomCommand(QTableWidgetItem *)));
-    connect(uiDEConfig.tableWidget_customCommand, SIGNAL(customContextMenuRequested(QPoint)),
-            this, SLOT(contextMenuCustomCommand(QPoint)));
     connect(uiDEConfig.tableWidget_pkgCommand, SIGNAL(itemChanged(QTableWidgetItem *)),
             this, SLOT(addNewPkgCommand(QTableWidgetItem *)));
     connect(uiDEConfig.tableWidget_pkgCommand, SIGNAL(customContextMenuRequested(QPoint)),
@@ -551,11 +568,23 @@ void AwesomeWidget::configAccepted()
     // dataengine
     QMap<QString, QString> deSettings;
     deSettings[QString("ACPIPATH")] = uiDEConfig.lineEdit_acpi->text();
-    items.clear();
-    for (int i=0; i<uiDEConfig.tableWidget_customCommand->rowCount(); i++)
-        if (uiDEConfig.tableWidget_customCommand->item(i, 0) != 0)
-            items.append(uiDEConfig.tableWidget_customCommand->item(i, 0)->text());
-    deSettings[QString("CUSTOM")] = items.join(QString("@@"));
+    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_engine_extsysmon/scripts");
+    for (int i=0; i<uiDEConfig.tableWidget_customCommand->rowCount(); i++) {
+        ExtScript *script = new ExtScript(uiDEConfig.tableWidget_customCommand->item(i, 0)->text(), dirs);
+        if (uiDEConfig.tableWidget_customCommand->item(i, 0)->checkState() == Qt::Checked)
+            script->setActive(true);
+        else
+            script->setActive(false);
+        script->setInterval(uiDEConfig.tableWidget_customCommand->item(i, 1)->text().toInt());
+        if (uiDEConfig.tableWidget_customCommand->item(i, 2)->checkState() == Qt::Checked)
+            script->setHasOutput(true);
+        else
+            script->setHasOutput(false);
+        script->setPrefix(uiDEConfig.tableWidget_customCommand->item(i, 3)->text());
+        script->setRedirect((ExtScript::Redirect)uiDEConfig.tableWidget_customCommand->item(i, 4)->text().toInt());
+        script->writeConfiguration();
+        delete script;
+    }
     deSettings[QString("DESKTOPCMD")] = uiDEConfig.lineEdit_desktopCmd->text();
     deSettings[QString("GPUDEV")] = uiDEConfig.comboBox_gpudev->currentText();
     deSettings[QString("HDDDEV")] = uiDEConfig.comboBox_hdddev->currentText();
@@ -680,7 +709,7 @@ void AwesomeWidget::configChanged()
         if (acpiDevices[i].contains(batRegexp))
             counts[QString("bat")]++;
     counts[QString("cpu")] = getNumberCpus();
-    counts[QString("custom")] = deSettings[QString("CUSTOM")].split(QString("@@")).count();
+    counts[QString("custom")] = initScripts().count();
     counts[QString("disk")] = configuration[QString("disk")].split(QString("@@")).count();
     counts[QString("fan")] = configuration[QString("fanDevice")].split(QString("@@")).count();
     counts[QString("hddtemp")] = configuration[QString("hdd")].split(QString("@@")).count();
@@ -700,16 +729,6 @@ void AwesomeWidget::configChanged()
 }
 
 
-void AwesomeWidget::addNewCustomCommand(QTableWidgetItem *item)
-{
-    if (debug) qDebug() << PDEBUG;
-
-    if (item->row() == (uiDEConfig.tableWidget_customCommand->rowCount() - 1))
-        uiDEConfig.tableWidget_customCommand->insertRow(
-                    uiDEConfig.tableWidget_customCommand->rowCount());
-}
-
-
 void AwesomeWidget::addNewPkgCommand(QTableWidgetItem *item)
 {
     if (debug) qDebug() << PDEBUG;
@@ -722,20 +741,6 @@ void AwesomeWidget::addNewPkgCommand(QTableWidgetItem *item)
                     uiDEConfig.tableWidget_pkgCommand->rowCount() - 1, 1,
                     new QTableWidgetItem(QString("0")));
     }
-}
-
-
-void AwesomeWidget::contextMenuCustomCommand(const QPoint pos)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (uiDEConfig.tableWidget_customCommand->currentItem() == 0) return;
-
-    QMenu menu(uiDEConfig.tableWidget_customCommand);
-    QAction *remove = menu.addAction(QIcon::fromTheme("edit-delete"), i18n("Remove"));
-    QAction *action = menu.exec(uiDEConfig.tableWidget_customCommand->viewport()->mapToGlobal(pos));
-    if (action == remove)
-        uiDEConfig.tableWidget_customCommand->removeRow(
-                    uiDEConfig.tableWidget_customCommand->currentRow());
 }
 
 
@@ -790,6 +795,33 @@ void AwesomeWidget::editTempItem(QListWidgetItem *item)
     if (debug) qDebug() << PDEBUG;
 
     uiAdvancedConfig.listWidget_tempDevice->openPersistentEditor(item);
+}
+
+
+QList<ExtScript *> AwesomeWidget::initScripts()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QList<ExtScript *> externalScripts;
+    // create directory at $HOME
+    QString localDir = KStandardDirs::locateLocal("data", "plasma_engine_extsysmon/scripts");
+    if (KStandardDirs::makeDir(localDir))
+        if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
+
+    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_engine_extsysmon/scripts");
+    QStringList names;
+    for (int i=0; i<dirs.count(); i++) {
+        QStringList files = QDir(dirs[i]).entryList(QDir::Files, QDir::Name);
+        for (int j=0; j<files.count(); j++) {
+            if (files[j].endsWith(QString(".conf"))) continue;
+            if (names.contains(files[j])) continue;
+            if (debug) qDebug() << PDEBUG << ":" << "Found file" << files[j] << "in" << dirs[i];
+            names.append(files[j]);
+            externalScripts.append(new ExtScript(files[j], dirs, debug));
+        }
+    }
+
+    return externalScripts;
 }
 
 
