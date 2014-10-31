@@ -50,6 +50,7 @@ public:
 
 public slots:
     void readConfiguration();
+    QMap<QString, QVariant> run(const int time);
 
 private:
     // configuration

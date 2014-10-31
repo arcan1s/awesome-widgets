@@ -19,6 +19,7 @@
 
 #include <QDebug>
 #include <QDir>
+#include <QTextCodec>
 
 #include <pdebug/pdebug.h>
 #include <task/taskadds.h>
@@ -30,6 +31,7 @@ ExtScript::ExtScript(const QString scriptName, const QStringList directories, co
         dirs(directories),
         debug(debugCmd)
 {
+    readConfiguration();
 }
 
 
@@ -175,29 +177,67 @@ void ExtScript::readConfiguration()
 }
 
 
+QMap<QString, QVariant> ExtScript::run(const int time)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QMap<QString, QVariant> response;
+    if (time != interval) {
+        response[QString("refresh")] = false;
+        return response;
+    }
+    response[QString("refresh")] = true;
+
+    QStringList cmdList;
+    if (!prefix.isEmpty())
+        cmdList.append(prefix);
+    QString fullPath = name;
+    for (int i=0; i<dirs.count(); i++) {
+        if (!QDir(dirs[i]).entryList().contains(name)) continue;
+        fullPath = dirs[i] + QDir::separator() + name;
+        break;
+    }
+    cmdList.append(fullPath);
+    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmdList.join(QChar(' '));
+    TaskResult process = runTask(cmdList.join(QChar(' ')));
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
+
+    QString info = QTextCodec::codecForMib(106)->toUnicode(process.error).trimmed();
+    QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
+    switch(redirect) {
+    case stdout2stderr:
+        if (debug) qDebug() << PDEBUG << ":" << "Debug" << info;
+        if (debug) qDebug() << PDEBUG << ":" << "Output" << qoutput;
+        break;
+    case stderr2stdout:
+        response[QString("output")] = info + QString("\t") + qoutput;
+        break;
+    default:
+        if (debug) qDebug() << PDEBUG << ":" << "Debug" << info;
+        response[QString("output")] = qoutput;
+        break;
+    }
+    if (!output)
+        response[QString("output")] = QString::number(process.exitCode);
+
+    return response;
+}
+
+
 void ExtScript::fromExternalConfiguration(const QMap<QString, QString> settings)
 {
-    if (settings.contains(QString("ACTIVE"))) {
-        if (settings[QString("ACTIVE")] == QString("true"))
-            setActive(true);
-        else
-            setActive(false);
-    }
-    if (settings.contains(QString("INTERVAL"))) {
+    if (settings.contains(QString("ACTIVE")))
+        setActive(settings[QString("ACTIVE")] == QString("true"));
+    if (settings.contains(QString("INTERVAL")))
         setInterval(settings[QString("INTERVAL")].toInt());
-    }
-    if (settings.contains(QString("PREFIX"))) {
+    if (settings.contains(QString("PREFIX")))
         setPrefix(settings[QString("PREFIX")]);
-    }
-    if (settings.contains(QString("OUTPUT"))) {
-        if (settings[QString("OUTPUT")] == QString("true"))
-            setHasOutput(true);
-        else
-            setHasOutput(false);
-    }
-    if (settings.contains(QString("REDIRECT"))) {
+    if (settings.contains(QString("OUTPUT")))
+        setHasOutput(settings[QString("OUTPUT")] == QString("true"));
+    if (settings.contains(QString("REDIRECT")))
         setRedirect((Redirect)settings[QString("REDIRECT")].toInt());
-    }
+    if (!output)
+        redirect = stdout2stderr;
 }
 
 
@@ -232,17 +272,17 @@ QMap<QString, QString> ExtScript::toExternalConfiguration()
     if (debug) qDebug() << PDEBUG;
 
     QMap<QString, QString> settings;
-    if (isActive())
+    if (active)
         settings[QString("ACTIVE")] = QString("true");
     else
         settings[QString("ACTIVE")] = QString("false");
-    settings[QString("INTERVAL")] = QString::number(getInterval());
-    settings[QString("PREFIX")] = getPrefix();
-    if (hasOutput())
+    settings[QString("INTERVAL")] = QString::number(interval);
+    settings[QString("PREFIX")] = prefix;
+    if (output)
         settings[QString("OUTPUT")] = QString("true");
     else
         settings[QString("OUTPUT")] = QString("false");
-    settings[QString("REDIRECT")] = QString::number(getRedirect());
+    settings[QString("REDIRECT")] = QString::number(redirect);
 
     return settings;
 }
