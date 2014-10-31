@@ -29,6 +29,7 @@
 #include <QTextCodec>
 #include <QThread>
 
+#include <extscript.h>
 #include <pdebug/pdebug.h>
 #include <task/taskadds.h>
 
@@ -48,6 +49,7 @@ ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList& args)
 
     setMinimumPollingInterval(333);
     readConfiguration();
+    initScripts();
 }
 
 
@@ -146,6 +148,31 @@ QStringList ExtendedSysMon::getDesktopNames()
 }
 
 
+void ExtendedSysMon::initScripts()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    // create directory at $HOME
+    QString localDir = KStandardDirs::locateLocal("data", "plasma_engine_extsysmon/scripts");
+    if (KStandardDirs::makeDir(localDir))
+        if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
+
+    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_engine_extsysmon/scripts");
+    QStringList names;
+    for (int i=0; i<dirs.count(); i++) {
+        QStringList files = QDir(dirs[i]).entryList(QDir::Files, QDir::Name);
+        for (int j=0; j<files.count(); j++) {
+            if (files[j].endsWith(QString(".conf"))) continue;
+            if (names.contains(files[j])) continue;
+            if (debug) qDebug() << PDEBUG << ":" << "Found file" << files[j] << "in" << dirs[i];
+            names.append(files[j]);
+            externalScripts.append(new ExtScript(files[j], dirs, debug));
+            times.append(1);
+        }
+    }
+}
+
+
 QStringList ExtendedSysMon::sources() const
 {
     if (debug) qDebug() << PDEBUG;
@@ -173,7 +200,6 @@ void ExtendedSysMon::readConfiguration()
     // pre-setup
     QMap<QString, QString> rawConfig;
     rawConfig[QString("ACPIPATH")] = QString("/sys/class/power_supply/");
-    rawConfig[QString("CUSTOM")] = QString("curl ip4.telize.com");
     rawConfig[QString("DESKTOP")] = QString("");
     rawConfig[QString("DESKTOPCMD")] = QString("qdbus org.kde.kwin /KWin currentDesktop");
     rawConfig[QString("GPUDEV")] = QString("auto");
@@ -225,8 +251,7 @@ QMap<QString, QString> ExtendedSysMon::updateConfiguration(const QMap<QString, Q
         key = rawConfig.keys()[i];
         value = rawConfig[key];
         key.remove(QChar(' '));
-        if ((key != QString("CUSTOM")) &&
-            (key != QString("DESKTOPCMD")) &&
+        if ((key != QString("DESKTOPCMD")) &&
             (key != QString("HDDTEMPCMD")) &&
             (key != QString("PKGCMD")))
             value.remove(QChar(' '));
@@ -336,18 +361,6 @@ QMap<QString, QVariant> ExtendedSysMon::getCurrentDesktop(const QString cmd)
     currentDesktop[QString("number")] = configuration[QString("DESKTOP")].split(QString(";;")).count();
 
     return currentDesktop;
-}
-
-
-QString ExtendedSysMon::getCustomCmd(const QString cmd)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
-
-    TaskResult process = runTask(QString("bash -c \"") + cmd + QString("\""));
-    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-
-    return QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
 }
 
 
@@ -595,9 +608,14 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
             setData(source, battery.keys()[i], battery[battery.keys()[i]].toInt());
         }
     } else if (source == QString("custom")) {
-        for (int i=0; i<configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts).count(); i++) {
-            setData(source, QString("custom") + QString::number(i),
-                    getCustomCmd(configuration[QString("CUSTOM")].split(QString("@@"), QString::SkipEmptyParts)[i]));
+        for (int i=0; i<externalScripts.count(); i++) {
+            ExtScript::ScriptData data = externalScripts[i]->run(times[i]);
+            if (!data.active) return true;
+            if (data.refresh) {
+                times[i] = 1;
+                setData(source, QString("custom") + QString::number(i), data.output);
+            } else
+                times[i]++;
         }
     } else if (source == QString("desktop")) {
         QMap<QString, QVariant> desktop = getCurrentDesktop(configuration[QString("DESKTOPCMD")]);

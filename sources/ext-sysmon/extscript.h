@@ -24,19 +24,26 @@
 
 class ExtScript : public QObject
 {
+public:
     enum Redirect {
         stdout2stderr = -1,
         nothing,
         stderr2stdout
     };
+    typedef struct {
+        bool active;
+        QString name;
+        QString output;
+        bool refresh;
+    } ScriptData;
 
-public:
     ExtScript(const QString scriptName, const QStringList directories, const bool debugCmd = false);
     ~ExtScript();
     // configuration
     void addDirectory(const QString dir);
     QStringList directories();
     int getInterval();
+    QString getName();
     QString getPrefix();
     Redirect getRedirect();
     bool hasOutput();
@@ -50,7 +57,7 @@ public:
 
 public slots:
     void readConfiguration();
-    QMap<QString, QVariant> run(const int time);
+    ScriptData run(const int time);
 
 private:
     // configuration

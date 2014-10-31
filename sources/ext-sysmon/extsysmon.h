@@ -21,6 +21,9 @@
 #include <Plasma/DataEngine>
 #include <QProcess>
 
+
+class ExtScript;
+
 class ExtendedSysMon : public Plasma::DataEngine
 {
     Q_OBJECT
@@ -30,7 +33,6 @@ public:
     // update functions
     QMap<QString, QVariant> getBattery(const QString acpiPath);
     QMap<QString, QVariant> getCurrentDesktop(const QString cmd);
-    QString getCustomCmd(const QString cmd);
     float getGpu(const QString device);
     float getGpuTemp(const QString device);
     float getHddTemp(const QString cmd, const QString device);
@@ -49,14 +51,18 @@ protected:
 private:
     // configuration
     QMap<QString, QString> configuration;
+    QList<ExtScript *> externalScripts;
+    QList<int> times;
     bool debug;
     // reread configuration
     QString getAllHdd();
     QString getAutoGpu();
     QString getAutoMpris();
     QStringList getDesktopNames();
+    void initScripts();
     void readConfiguration();
     QMap<QString, QString> updateConfiguration(const QMap<QString, QString> rawConfig);
 };
+
 
 #endif /* EXTSYSMON_H */

@@ -71,6 +71,14 @@ int ExtScript::getInterval()
 }
 
 
+QString ExtScript::getName()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return name;
+}
+
+
 QString ExtScript::getPrefix()
 {
     if (debug) qDebug() << PDEBUG;
@@ -166,7 +174,7 @@ void ExtScript::readConfiguration()
 
     QMap<QString, QString> settings;
     for (int i=0; i<dirs.count(); i++) {
-        if (!QDir(dirs[i]).entryList().contains(name + QString(".conf"))) continue;
+        if (!QDir(dirs[i]).entryList(QDir::Files).contains(name + QString(".conf"))) continue;
         QString fileName = dirs[i] + QDir::separator() + name + QString(".conf");
         QMap<QString, QString> newSettings = getConfigurationFromFile(fileName);
         for (int i=0; i<newSettings.keys().count(); i++)
@@ -177,23 +185,24 @@ void ExtScript::readConfiguration()
 }
 
 
-QMap<QString, QVariant> ExtScript::run(const int time)
+ExtScript::ScriptData ExtScript::run(const int time)
 {
     if (debug) qDebug() << PDEBUG;
 
-    QMap<QString, QVariant> response;
-    if (time != interval) {
-        response[QString("refresh")] = false;
-        return response;
-    }
-    response[QString("refresh")] = true;
+    ScriptData response;
+    response.active = active;
+    response.name = name;
+    response.refresh = false;
+    if (!active) return response;
+    if (time != interval) return response;
+    response.refresh = true;
 
     QStringList cmdList;
     if (!prefix.isEmpty())
         cmdList.append(prefix);
     QString fullPath = name;
     for (int i=0; i<dirs.count(); i++) {
-        if (!QDir(dirs[i]).entryList().contains(name)) continue;
+        if (!QDir(dirs[i]).entryList(QDir::Files).contains(name)) continue;
         fullPath = dirs[i] + QDir::separator() + name;
         break;
     }
@@ -210,15 +219,15 @@ QMap<QString, QVariant> ExtScript::run(const int time)
         if (debug) qDebug() << PDEBUG << ":" << "Output" << qoutput;
         break;
     case stderr2stdout:
-        response[QString("output")] = info + QString("\t") + qoutput;
+        response.output = info + QString("\t") + qoutput;
         break;
     default:
         if (debug) qDebug() << PDEBUG << ":" << "Debug" << info;
-        response[QString("output")] = qoutput;
+        response.output = qoutput;
         break;
     }
     if (!output)
-        response[QString("output")] = QString::number(process.exitCode);
+        response.output = QString::number(process.exitCode);
 
     return response;
 }
