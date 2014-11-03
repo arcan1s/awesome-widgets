@@ -22,6 +22,7 @@
 #include <KStandardDirs>
 #include <QDesktopServices>
 #include <QDir>
+#include <QInputDialog>
 #include <QMenu>
 #include <QNetworkInterface>
 #include <QTextCodec>
@@ -390,7 +391,12 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
             output->setCheckState(Qt::Unchecked);
         uiDEConfig.tableWidget_customCommand->setItem(i, 2, output);
         uiDEConfig.tableWidget_customCommand->setItem(i, 3, new QTableWidgetItem(externalScripts[i]->getPrefix()));
-        uiDEConfig.tableWidget_customCommand->setItem(i, 4, new QTableWidgetItem(QString::number(externalScripts[i]->getRedirect())));
+        QComboBox *redirect = new QComboBox();
+        redirect->addItem(QString("out2err"));
+        redirect->addItem(QString("nothing"));
+        redirect->addItem(QString("err2out"));
+        redirect->setCurrentIndex(externalScripts[i]->getRedirect() + 1);
+        uiDEConfig.tableWidget_customCommand->setCellWidget(i, 4, redirect);
     }
     externalScripts.clear();
     uiDEConfig.lineEdit_desktopCmd->setText(deSettings[QString("DESKTOPCMD")]);
@@ -472,6 +478,8 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
             this, SLOT(editTempItem(QListWidgetItem *)));
     connect(uiDEConfig.tableWidget_customCommand, SIGNAL(cellDoubleClicked(int, int)),
             this, SLOT(editCustomCommand(int, int)));
+    connect(uiDEConfig.tableWidget_customCommand, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(contextMenuCustomCommand(QPoint)));
     connect(uiDEConfig.tableWidget_pkgCommand, SIGNAL(itemChanged(QTableWidgetItem *)),
             this, SLOT(addNewPkgCommand(QTableWidgetItem *)));
     connect(uiDEConfig.tableWidget_pkgCommand, SIGNAL(customContextMenuRequested(QPoint)),
@@ -584,7 +592,8 @@ void AwesomeWidget::configAccepted()
         else
             script->setHasOutput(false);
         script->setPrefix(uiDEConfig.tableWidget_customCommand->item(i, 3)->text());
-        script->setRedirect((ExtScript::Redirect)uiDEConfig.tableWidget_customCommand->item(i, 4)->text().toInt());
+        int redirect = ((QComboBox *)uiDEConfig.tableWidget_customCommand->cellWidget(i, 4))->currentIndex() - 1;
+        script->setRedirect((ExtScript::Redirect)redirect);
         script->writeConfiguration();
         delete script;
     }
@@ -732,6 +741,57 @@ void AwesomeWidget::configChanged()
 }
 
 
+void AwesomeWidget::addCustomScript()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QString name = QInputDialog::getText(0, i18n("Enter script name"),
+                                         i18n("Name"));
+    if (name.isEmpty()) return;
+    QString localDir = KGlobal::dirs()->locateLocal("data", "plasma_engine_extsysmon/scripts");
+
+    QString fileName = QDir(localDir).absoluteFilePath(name);
+    if (debug) qDebug() << PDEBUG << ":" << "Script" << fileName;
+    QFile configFile(fileName);
+    if (!configFile.open(QIODevice::WriteOnly)) return;
+    configFile.write("#!/bin/bash\n");
+    configFile.close();
+    configFile.setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner |
+                              QFile::ReadGroup | QFile::ExeGroup |
+                              QFile::ReadOther | QFile::ExeOther);
+    QDesktopServices::openUrl(QUrl(fileName));
+
+    fileName = QDir(localDir).absoluteFilePath(name + QString(".conf"));
+    if (debug) qDebug() << PDEBUG << ":" << "Configuration" << fileName;
+    configFile.setFileName(fileName);
+    if (!configFile.open(QIODevice::WriteOnly)) return;
+    configFile.write("ACTIVE=false\n");
+    configFile.write("INTERVAL=1\n");
+    configFile.write("OUTPUT=true\n");
+    configFile.write("PREFIX=\n");
+    configFile.write("REDIRECT=0\n");
+    configFile.close();
+
+    int i = uiDEConfig.tableWidget_customCommand->rowCount();
+    uiDEConfig.tableWidget_customCommand->insertRow(i);
+    QTableWidgetItem *nameItem = new QTableWidgetItem(name);
+    nameItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEnabled);
+    nameItem->setCheckState(Qt::Unchecked);
+    uiDEConfig.tableWidget_customCommand->setItem(i, 0, nameItem);
+    uiDEConfig.tableWidget_customCommand->setItem(i, 1, new QTableWidgetItem(QString::number(1)));
+    QTableWidgetItem *output = new QTableWidgetItem();
+    output->setCheckState(Qt::Checked);
+    uiDEConfig.tableWidget_customCommand->setItem(i, 2, output);
+    uiDEConfig.tableWidget_customCommand->setItem(i, 3, new QTableWidgetItem(QString("")));
+    QComboBox *redirect = new QComboBox();
+    redirect->addItem(QString("out2err"));
+    redirect->addItem(QString("nothing"));
+    redirect->addItem(QString("err2out"));
+    redirect->setCurrentIndex(1);
+    uiDEConfig.tableWidget_customCommand->setCellWidget(i, 4, redirect);
+}
+
+
 void AwesomeWidget::addNewPkgCommand(QTableWidgetItem *item)
 {
     if (debug) qDebug() << PDEBUG;
@@ -743,6 +803,31 @@ void AwesomeWidget::addNewPkgCommand(QTableWidgetItem *item)
         uiDEConfig.tableWidget_pkgCommand->setItem(
                     uiDEConfig.tableWidget_pkgCommand->rowCount() - 1, 1,
                     new QTableWidgetItem(QString("0")));
+    }
+}
+
+
+void AwesomeWidget::contextMenuCustomCommand(const QPoint pos)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (uiDEConfig.tableWidget_customCommand->currentItem() == 0) return;
+
+    QMenu menu(uiDEConfig.tableWidget_customCommand);
+    QAction *edit = menu.addAction(QIcon::fromTheme("document-edit"), i18n("Edit"));
+    QAction *create = menu.addAction(QIcon::fromTheme("document-new"), i18n("Create"));
+    QAction *remove = menu.addAction(QIcon::fromTheme("edit-delete"), i18n("Remove"));
+    QAction *action = menu.exec(uiDEConfig.tableWidget_customCommand->viewport()->mapToGlobal(pos));
+    if (action == edit) {
+        editCustomCommand(uiDEConfig.tableWidget_customCommand->currentRow(), 0);
+    } else if (action == create) {
+        addCustomScript();
+    } else if (action == remove) {
+        int row = uiDEConfig.tableWidget_customCommand->currentRow();
+        QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_engine_extsysmon/scripts");
+        ExtScript *script = new ExtScript(uiDEConfig.tableWidget_customCommand->item(row, 0)->text(), dirs, debug);
+        script->tryDelete();
+        delete script;
+        uiDEConfig.tableWidget_customCommand->removeRow(row);
     }
 }
 
@@ -766,7 +851,7 @@ void AwesomeWidget::editCustomCommand(const int row, const int column)
     Q_UNUSED(column);
     if (debug) qDebug() << PDEBUG;
 
-    QString name = uiDEConfig.tableWidget_customCommand->itemAt(row, 0)->text();
+    QString name = uiDEConfig.tableWidget_customCommand->item(row, 0)->text();
     QString localDir = KStandardDirs::locateLocal("data", "plasma_engine_extsysmon/scripts");
     QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_engine_extsysmon/scripts");
     for (int i=0; i<dirs.count(); i++) {

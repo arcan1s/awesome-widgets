@@ -78,7 +78,9 @@ private slots:
     void reinit();
     void replyRecieved(QNetworkReply *reply);
     // configuration interface
+    void addCustomScript();
     void addNewPkgCommand(QTableWidgetItem *item);
+    void contextMenuCustomCommand(const QPoint pos);
     void contextMenuPkgCommand(const QPoint pos);
     void editCustomCommand(const int row, const int column);
     void editFanItem(QListWidgetItem *item);

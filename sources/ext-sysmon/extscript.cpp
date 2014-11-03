@@ -233,6 +233,19 @@ ExtScript::ScriptData ExtScript::run(const int time)
 }
 
 
+void ExtScript::tryDelete()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    for (int i=0; i<dirs.count(); i++) {
+        QString fileName = dirs[i] + QDir::separator() + name;
+        if (debug) qDebug() << PDEBUG << ":" << "Remove file" << fileName << QFile::remove(fileName);
+        if (debug) qDebug() << PDEBUG << ":" << "Remove file" << fileName + QString(".conf") <<
+                               QFile::remove(fileName + QString(".conf"));
+    }
+}
+
+
 void ExtScript::writeConfiguration()
 {
     if (debug) qDebug() << PDEBUG;
