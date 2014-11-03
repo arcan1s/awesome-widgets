@@ -37,7 +37,7 @@
 ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList& args)
     : Plasma::DataEngine(parent, args)
 {
-    Q_UNUSED(args)
+    Q_UNUSED(args);
 
     // debug
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
@@ -374,7 +374,7 @@ float ExtendedSysMon::getGpu(const QString device)
         return value;
     QString cmd = QString("");
     if (device == QString("nvidia"))
-        cmd = QString("nvidia-smi -q -d UTILIZATION");
+        cmd = QString("nvidia-smi -q -x");
     else if (device == QString("ati"))
         cmd = QString("aticonfig --od-getclocks");
     if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
@@ -384,9 +384,10 @@ float ExtendedSysMon::getGpu(const QString device)
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     if (configuration[QString("GPUDEV")] == QString("nvidia"))
         for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
-            if (qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i].contains(QString("Gpu"))) {
+            if (qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i].contains(QString("<gpu_util>"))) {
                 QString load = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i]
-                        .split(QChar(' '), QString::SkipEmptyParts)[2]
+                        .remove(QString("<gpu_util>"))
+                        .remove(QString("</gpu_util>"))
                         .remove(QChar('%'));
                 value = load.toFloat();
             }
@@ -415,7 +416,7 @@ float ExtendedSysMon::getGpuTemp(const QString device)
         return value;
     QString cmd = QString("");
     if (device == QString("nvidia"))
-        cmd = QString("nvidia-smi -q -d TEMPERATURE");
+        cmd = QString("nvidia-smi -q -x");
     else if (device == QString("ati"))
         cmd = QString("aticonfig --od-gettemperature");
     if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
@@ -425,9 +426,10 @@ float ExtendedSysMon::getGpuTemp(const QString device)
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output);
     if (configuration[QString("GPUDEV")] == QString("nvidia"))
         for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
-            if (qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i].contains(QString("GPU Current Temp"))) {
+            if (qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i].contains(QString("<gpu_temp>"))) {
                 QString temp = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i]
-                        .split(QChar(' '), QString::SkipEmptyParts)[4];
+                        .remove(QString("<gpu_temp>"))
+                        .remove(QString("C</gpu_temp>"));
                 value = temp.toFloat();
             }
         }
