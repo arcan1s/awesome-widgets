@@ -173,7 +173,7 @@ void ExtScript::readConfiguration()
     if (debug) qDebug() << PDEBUG;
 
     QMap<QString, QString> settings;
-    for (int i=0; i<dirs.count(); i++) {
+    for (int i=dirs.count()-1; i>=0; i--) {
         if (!QDir(dirs[i]).entryList(QDir::Files).contains(name + QString(".conf"))) continue;
         QString fileName = dirs[i] + QDir::separator() + name + QString(".conf");
         QMap<QString, QString> newSettings = getConfigurationFromFile(fileName);
@@ -252,6 +252,8 @@ void ExtScript::writeConfiguration()
 
 void ExtScript::fromExternalConfiguration(const QMap<QString, QString> settings)
 {
+    if (debug) qDebug() << PDEBUG;
+
     if (settings.contains(QString("ACTIVE")))
         setActive(settings[QString("ACTIVE")] == QString("true"));
     if (settings.contains(QString("INTERVAL")))

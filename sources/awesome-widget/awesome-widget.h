@@ -80,6 +80,7 @@ private slots:
     // configuration interface
     void addNewPkgCommand(QTableWidgetItem *item);
     void contextMenuPkgCommand(const QPoint pos);
+    void editCustomCommand(const int row, const int column);
     void editFanItem(QListWidgetItem *item);
     void editHddItem(QListWidgetItem *item);
     void editHddSpeedItem(QListWidgetItem *item);

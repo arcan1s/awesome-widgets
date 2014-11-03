@@ -20,6 +20,7 @@
 #include <KConfigDialog>
 #include <KGlobal>
 #include <KStandardDirs>
+#include <QDesktopServices>
 #include <QDir>
 #include <QMenu>
 #include <QNetworkInterface>
@@ -469,6 +470,8 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
             this, SLOT(editMountItem(QListWidgetItem *)));
     connect(uiAdvancedConfig.listWidget_tempDevice, SIGNAL(itemActivated(QListWidgetItem *)),
             this, SLOT(editTempItem(QListWidgetItem *)));
+    connect(uiDEConfig.tableWidget_customCommand, SIGNAL(cellDoubleClicked(int, int)),
+            this, SLOT(editCustomCommand(int, int)));
     connect(uiDEConfig.tableWidget_pkgCommand, SIGNAL(itemChanged(QTableWidgetItem *)),
             this, SLOT(addNewPkgCommand(QTableWidgetItem *)));
     connect(uiDEConfig.tableWidget_pkgCommand, SIGNAL(customContextMenuRequested(QPoint)),
@@ -570,7 +573,7 @@ void AwesomeWidget::configAccepted()
     deSettings[QString("ACPIPATH")] = uiDEConfig.lineEdit_acpi->text();
     QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_engine_extsysmon/scripts");
     for (int i=0; i<uiDEConfig.tableWidget_customCommand->rowCount(); i++) {
-        ExtScript *script = new ExtScript(uiDEConfig.tableWidget_customCommand->item(i, 0)->text(), dirs);
+        ExtScript *script = new ExtScript(uiDEConfig.tableWidget_customCommand->item(i, 0)->text(), dirs, debug);
         if (uiDEConfig.tableWidget_customCommand->item(i, 0)->checkState() == Qt::Checked)
             script->setActive(true);
         else
@@ -755,6 +758,23 @@ void AwesomeWidget::contextMenuPkgCommand(const QPoint pos)
     if (action == remove)
         uiDEConfig.tableWidget_pkgCommand->removeRow(
                     uiDEConfig.tableWidget_pkgCommand->currentRow());
+}
+
+
+void AwesomeWidget::editCustomCommand(const int row, const int column)
+{
+    Q_UNUSED(column);
+    if (debug) qDebug() << PDEBUG;
+
+    QString name = uiDEConfig.tableWidget_customCommand->itemAt(row, 0)->text();
+    QString localDir = KStandardDirs::locateLocal("data", "plasma_engine_extsysmon/scripts");
+    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_engine_extsysmon/scripts");
+    for (int i=0; i<dirs.count(); i++) {
+        if (!QDir(dirs[i]).exists(name)) continue;
+        if (dirs[i] == localDir) break;
+        QFile::copy(QDir(dirs[i]).absoluteFilePath(name), QDir(localDir).absoluteFilePath(name));
+    }
+    QDesktopServices::openUrl(QUrl(QDir(localDir).absoluteFilePath(name)));
 }
 
 

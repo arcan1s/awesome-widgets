@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>700</width>
-    <height>590</height>
+    <height>588</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -43,7 +43,7 @@
         <x>0</x>
         <y>0</y>
         <width>684</width>
-        <height>574</height>
+        <height>572</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout">
@@ -459,12 +459,12 @@ del - remove item</string>
          </column>
          <column>
           <property name="text">
-           <string>Active</string>
+           <string>Interval</string>
           </property>
          </column>
          <column>
           <property name="text">
-           <string>Interval</string>
+           <string>Output</string>
           </property>
          </column>
          <column>
