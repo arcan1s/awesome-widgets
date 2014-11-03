@@ -268,15 +268,15 @@ void ExtScript::fromExternalConfiguration(const QMap<QString, QString> settings)
     if (debug) qDebug() << PDEBUG;
 
     if (settings.contains(QString("ACTIVE")))
-        setActive(settings[QString("ACTIVE")] == QString("true"));
+        active = (settings[QString("ACTIVE")] == QString("true"));
     if (settings.contains(QString("INTERVAL")))
-        setInterval(settings[QString("INTERVAL")].toInt());
+        interval = settings[QString("INTERVAL")].toInt();
     if (settings.contains(QString("PREFIX")))
-        setPrefix(settings[QString("PREFIX")]);
+        prefix = settings[QString("PREFIX")];
     if (settings.contains(QString("OUTPUT")))
-        setHasOutput(settings[QString("OUTPUT")] == QString("true"));
+        output = (settings[QString("OUTPUT")] == QString("true"));
     if (settings.contains(QString("REDIRECT")))
-        setRedirect((Redirect)settings[QString("REDIRECT")].toInt());
+        redirect = (Redirect)settings[QString("REDIRECT")].toInt();
     if (!output)
         redirect = stdout2stderr;
 }
