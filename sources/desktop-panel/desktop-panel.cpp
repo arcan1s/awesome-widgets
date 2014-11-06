@@ -24,6 +24,7 @@
 #include <Plasma/Containment>
 #include <Plasma/Corona>
 #include <Plasma/Theme>
+#include <QBuffer>
 #include <QDebug>
 #include <QFile>
 #include <QGraphicsGridLayout>
@@ -114,6 +115,26 @@ void DesktopPanel::init()
     // read variables
     configChanged();
     connect(this, SIGNAL(activate()), this, SLOT(changePanelsState()));
+}
+
+
+DesktopPanel::DesktopWindowsInfo DesktopPanel::getInfoByDesktop(const int num)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Number" << num;
+
+
+    DesktopWindowsInfo info;
+    info.desktop = KWindowSystem::workArea(num);
+
+    QList<WId> windows = KWindowSystem::windows();
+    for (int i=0; i<windows.count(); i++) {
+        KWindowInfo winInfo = KWindowSystem::windowInfo(windows[i], NET::Property::WMDesktop | NET::Property::WMGeometry);
+        if (winInfo.isOnDesktop(num)) continue;
+        info.windows.append(winInfo.geometry());
+    }
+
+    return info;
 }
 
 
@@ -276,6 +297,17 @@ void DesktopPanel::updateText(const bool first)
         else
             text = formatLine[0] + line + formatLine[1];
         labels[i]->setText(text);
+
+        // update tooltip
+        if (configuration[QString("tooltip")].toInt() == 2) {
+            QPixmap pixmap("/home/arcanis/testicon.jpg");
+            pixmap.scaledToWidth(configuration[QString("tooltipWidth")].toInt());
+            QByteArray byteArray;
+            QBuffer buffer(&byteArray);
+            pixmap.save(&buffer, "PNG");
+            QString url = QString("<html><img src=\"data:image/png;base64,") + byteArray.toBase64() + QString("\"/></html>");
+            labels[i]->setToolTip(url);
+        }
     }
     int height = 0;
     int width = 0;
@@ -328,6 +360,11 @@ void DesktopPanel::createConfigurationInterface(KConfigDialog *parent)
     uiToggleConfig.setupUi(toggleWidget);
 
     uiWidConfig.textEdit_elements->setPlainText(configuration[QString("pattern")]);
+    if (configuration[QString("tooltip")].toInt() == 0)
+        uiWidConfig.checkBox_tooltip->setCheckState(Qt::Unchecked);
+    else
+        uiWidConfig.checkBox_tooltip->setCheckState(Qt::Checked);
+    uiWidConfig.spinBox_tooltip->setValue(configuration[QString("tooltipWidth")].toInt());
     if (configuration[QString("background")].toInt() == 0)
         uiWidConfig.checkBox_background->setCheckState(Qt::Unchecked);
     else
@@ -412,6 +449,8 @@ void DesktopPanel::configAccepted()
     KConfigGroup cg = config();
 
     cg.writeEntry("pattern", uiWidConfig.textEdit_elements->toPlainText());
+    cg.writeEntry("tooltip", QString::number(uiWidConfig.checkBox_tooltip->checkState()));
+    cg.writeEntry("tooltipWidth", QString::number(uiWidConfig.spinBox_tooltip->value()));
     cg.writeEntry("background", QString::number(uiWidConfig.checkBox_background->checkState()));
     cg.writeEntry("layout", QString::number(uiWidConfig.checkBox_layout->checkState()));
     cg.writeEntry("interval", QString::number(uiWidConfig.spinBox_interval->value()));
@@ -448,6 +487,8 @@ void DesktopPanel::configChanged()
     KConfigGroup cg = config();
 
     configuration[QString("pattern")] = cg.readEntry("pattern", "[$fullmark$number/$total: $name]");
+    configuration[QString("tooltip")] = cg.readEntry("tooltip", "2");
+    configuration[QString("tooltipWidth")] = cg.readEntry("tooltipWidth", "200");
     configuration[QString("background")] = cg.readEntry("background", "2");
     configuration[QString("desktopcmd")] = cg.readEntry("desktopcmd", "qdbus org.kde.kwin /KWin setCurrentDesktop $number");
     configuration[QString("interval")] = cg.readEntry("interval", "1000");

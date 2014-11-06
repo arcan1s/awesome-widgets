@@ -60,10 +60,16 @@ class DesktopPanel : public Plasma::Applet
 {
     Q_OBJECT
 
+    typedef struct {
+        QRect desktop;
+        QList<QRect> windows;
+    } DesktopWindowsInfo;
+
 public:
     DesktopPanel(QObject *parent, const QVariantList &args);
     ~DesktopPanel();
     void init();
+    DesktopWindowsInfo getInfoByDesktop(const int num);
     QString parsePattern(const QString rawLine, const int num);
 
 public slots:

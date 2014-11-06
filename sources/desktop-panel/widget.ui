@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>729</width>
-    <height>428</height>
+    <width>725</width>
+    <height>424</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -20,7 +20,38 @@
    <string notr="true">Widget</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="4" column="0">
+   <item row="6" column="0">
+    <widget class="QCheckBox" name="checkBox_layout">
+     <property name="text">
+      <string>Vertical layout</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="0">
+    <layout class="QHBoxLayout" name="layout_desktopcmd">
+     <item>
+      <widget class="QLabel" name="label_desktopcmd">
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Command to change desktop</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit_desktopcmd">
+       <property name="toolTip">
+        <string>Command which will change the current desktop</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="8" column="0">
     <layout class="QHBoxLayout" name="layout_interval">
      <item>
       <widget class="QLabel" name="label_interval">
@@ -75,14 +106,14 @@
      </item>
     </layout>
    </item>
-   <item row="2" column="0">
+   <item row="4" column="0">
     <widget class="QCheckBox" name="checkBox_background">
      <property name="text">
       <string>Enable background</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="0">
+   <item row="9" column="0">
     <layout class="QHBoxLayout" name="layout_mark">
      <item>
       <widget class="QLabel" name="label_mark">
@@ -179,36 +210,15 @@
      </item>
     </layout>
    </item>
-   <item row="3" column="0">
-    <widget class="QCheckBox" name="checkBox_layout">
-     <property name="text">
-      <string>Vertical layout</string>
+   <item row="1" column="0">
+    <widget class="QTextEdit" name="textEdit_elements">
+     <property name="lineWrapMode">
+      <enum>QTextEdit::NoWrap</enum>
+     </property>
+     <property name="acceptRichText">
+      <bool>false</bool>
      </property>
     </widget>
-   </item>
-   <item row="6" column="0">
-    <layout class="QHBoxLayout" name="layout_desktopcmd">
-     <item>
-      <widget class="QLabel" name="label_desktopcmd">
-       <property name="minimumSize">
-        <size>
-         <width>200</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Command to change desktop</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="lineEdit_desktopcmd">
-       <property name="toolTip">
-        <string>Command which will change the current desktop</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
    </item>
    <item row="0" column="0">
     <layout class="QHBoxLayout" name="layput_mainFormating">
@@ -392,15 +402,61 @@
      </item>
     </layout>
    </item>
-   <item row="1" column="0">
-    <widget class="QTextEdit" name="textEdit_elements">
-     <property name="lineWrapMode">
-      <enum>QTextEdit::NoWrap</enum>
-     </property>
-     <property name="acceptRichText">
-      <bool>false</bool>
+   <item row="2" column="0">
+    <widget class="QCheckBox" name="checkBox_tooltip">
+     <property name="text">
+      <string>Enable tooltip</string>
      </property>
     </widget>
+   </item>
+   <item row="3" column="0">
+    <layout class="QHBoxLayout" name="layout_tooltip">
+     <item>
+      <widget class="QLabel" name="label_tooltip">
+       <property name="text">
+        <string>Tooltip width</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="spacer_tooltip">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="spinBox_tooltip">
+       <property name="minimumSize">
+        <size>
+         <width>180</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="specialValueText">
+        <string>px</string>
+       </property>
+       <property name="minimum">
+        <number>100</number>
+       </property>
+       <property name="maximum">
+        <number>1000</number>
+       </property>
+       <property name="singleStep">
+        <number>25</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
