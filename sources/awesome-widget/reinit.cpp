@@ -131,7 +131,7 @@ void AwesomeWidget::updateTooltip()
     if (tooltipValues.contains(QString("up"))) trueKeys.append(QString("up"));
     if (tooltipValues.contains(QString("bat"))) trueKeys.append(QString("bat"));
     for (int i=0; i<trueKeys.count(); i++) {
-        float normX = 100.0 / (tooltipValues[trueKeys[i]].count() + 0.0);
+        float normX = 100.0 / (float)tooltipValues[trueKeys[i]].count();
         float normY = 100.0 / (1.5 * boundaries[trueKeys[i]]);
         if (trueKeys[i] == QString("bat"))
             isBattery = true;

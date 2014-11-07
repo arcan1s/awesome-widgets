@@ -129,8 +129,12 @@ DesktopPanel::DesktopWindowsInfo DesktopPanel::getInfoByDesktop(const int num)
 
     QList<WId> windows = KWindowSystem::windows();
     for (int i=0; i<windows.count(); i++) {
-        KWindowInfo winInfo = KWindowSystem::windowInfo(windows[i], NET::Property::WMDesktop | NET::Property::WMGeometry);
-        if (winInfo.isOnDesktop(num)) continue;
+        KWindowInfo winInfo = KWindowSystem::windowInfo(windows[i],
+                                                        NET::Property::WMDesktop | NET::Property::WMGeometry |
+                                                        NET::Property::WMState | NET::Property::WMWindowType);
+        if (winInfo.windowType(NET::WindowTypeMask::NormalMask) != NET::WindowType::Normal) continue;
+        if (winInfo.isMinimized()) continue;
+        if (!winInfo.isOnDesktop(num)) continue;
         info.windows.append(winInfo.geometry());
     }
 
@@ -300,12 +304,36 @@ void DesktopPanel::updateText(const bool first)
 
         // update tooltip
         if (configuration[QString("tooltip")].toInt() == 2) {
-            QPixmap pixmap("/home/arcanis/testicon.jpg");
-            pixmap.scaledToWidth(configuration[QString("tooltipWidth")].toInt());
+            QGraphicsScene *toolTipScene = new QGraphicsScene();
+            toolTipScene->setBackgroundBrush(QBrush(Qt::NoBrush));
+            QGraphicsView *toolTipView = new QGraphicsView(toolTipScene);
+            toolTipView->setStyleSheet(QString("background: transparent"));
+            toolTipView->setContentsMargins(0, 0, 0, 0);
+            toolTipView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+            toolTipView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+            // paint
+            DesktopWindowsInfo info = getInfoByDesktop(i + 1);
+            toolTipView->resize(info.desktop.width() * 1.01, info.desktop.height() * 1.03);
+            QPen pen = QPen();
+            pen.setWidthF(2.0 * info.desktop.width() / 400.0);
+            for (int i=0; i<info.windows.count(); i++) {
+                toolTipScene->addLine(info.windows[i].left(), info.windows[i].bottom(),
+                                      info.windows[i].left(), info.windows[i].top(), pen);
+                toolTipScene->addLine(info.windows[i].left(), info.windows[i].top(),
+                                      info.windows[i].right(), info.windows[i].top(), pen);
+                toolTipScene->addLine(info.windows[i].right(), info.windows[i].top(),
+                                      info.windows[i].right(), info.windows[i].bottom(), pen);
+                toolTipScene->addLine(info.windows[i].right(), info.windows[i].bottom(),
+                                      info.windows[i].left(), info.windows[i].bottom(), pen);
+            }
+            // convert
+            QPixmap pixmap = QPixmap::grabWidget(toolTipView);
             QByteArray byteArray;
             QBuffer buffer(&byteArray);
-            pixmap.save(&buffer, "PNG");
-            QString url = QString("<html><img src=\"data:image/png;base64,") + byteArray.toBase64() + QString("\"/></html>");
+            pixmap.scaledToWidth(configuration[QString("tooltipWidth")].toInt()).save(&buffer, "PNG");
+            QString url = QString("<html><style type=\"text/css\">body {margin: 0; padding: 0;}</style><body><img src=\"data:image/png;base64,") +
+                                  byteArray.toBase64() +
+                                  QString("\"/></body></html>");
             labels[i]->setToolTip(url);
         }
     }
