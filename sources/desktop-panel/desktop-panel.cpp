@@ -33,6 +33,7 @@
 #include <QMouseEvent>
 #include <QProcessEnvironment>
 #include <QTextCodec>
+#include <QTimer>
 
 #include <fontdialog/fontdialog.h>
 #include <pdebug/pdebug.h>
@@ -104,17 +105,19 @@ void DesktopPanel::init()
 {
     if (debug) qDebug() << PDEBUG;
 
-    extsysmonEngine = dataEngine(QString("ext-sysmon"));
-
     layout = new QGraphicsGridLayout();
     layout->setContentsMargins(1, 1, 1, 1);
     setLayout(layout);
 
-    currentDesktop = 1;
-
     // read variables
     configChanged();
+    timer = new QTimer(this);
+    timer->setSingleShot(false);
+    timer->setInterval(2000);
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateTooltip()));
+    timer->start();
     connect(this, SIGNAL(activate()), this, SLOT(changePanelsState()));
+    connect(KWindowSystem::self(), SIGNAL(currentDesktopChanged(int)), this, SLOT(updateText(int)));
 }
 
 
@@ -183,7 +186,7 @@ QString DesktopPanel::parsePattern(const QString rawLine, const int num)
 
     QString line, fullMark, mark;
     line = rawLine;
-    if (currentDesktop == num + 1)
+    if (KWindowSystem::currentDesktop() == num + 1)
         mark = configuration[QString("mark")];
     else
         mark = QString("");
@@ -206,7 +209,6 @@ QString DesktopPanel::parsePattern(const QString rawLine, const int num)
 void DesktopPanel::reinit()
 {
     if (debug) qDebug() << PDEBUG;
-    if (desktopNames.isEmpty()) return;
 
     // clear
     // labels
@@ -218,8 +220,12 @@ void DesktopPanel::reinit()
     }
     labels.clear();
     proxyWidgets.clear();
+    desktopNames.clear();
 
     // add
+    int total = KWindowSystem::numberOfDesktops();
+    for (int i=1; i<total+1; i++)
+        desktopNames.append(KWindowSystem::desktopName(i));
     // layout
     if (configuration[QString("background")].toInt() == 0)
         setBackgroundHints(NoBackground);
@@ -236,7 +242,7 @@ void DesktopPanel::reinit()
             layout->addItem(proxyWidgets[i], i, 0);
     }
 
-    updateText(true);
+    updateText(KWindowSystem::currentDesktop());
     for (int i=0; i<proxyWidgets.count(); i++) {
         labels[i]->adjustSize();
         proxyWidgets[i]->setGeometry(labels[i]->geometry());
@@ -277,65 +283,23 @@ void DesktopPanel::setCurrentDesktop(const int number)
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Set desktop" << number + 1;
 
-    QString cmd = parsePattern(configuration[QString("desktopcmd")], number);
-    if (debug) qDebug() << PDEBUG << ":" << "Run cmd " << cmd;
-
-    QProcess command;
-    command.startDetached(cmd);
+    KWindowSystem::setCurrentDesktop(number + 1);
 }
 
 
-void DesktopPanel::updateText(const bool first)
+void DesktopPanel::updateText(const int active)
 {
     if (debug) qDebug() << PDEBUG;
 
     QString line, text;
     for (int i=0; i<labels.count(); i++) {
         if (debug) qDebug() << PDEBUG << ":" << "Label" << i;
-        if (first)
-            line = configuration[QString("pattern")];
-        else
-            line = parsePattern(configuration[QString("pattern")], i);
-        if (currentDesktop == i + 1)
+        line = parsePattern(configuration[QString("pattern")], i);
+        if (active == i + 1)
             text = currentFormatLine[0] + line + currentFormatLine[1];
         else
             text = formatLine[0] + line + formatLine[1];
         labels[i]->setText(text);
-
-        // update tooltip
-        if (configuration[QString("tooltip")].toInt() == 2) {
-            QGraphicsScene *toolTipScene = new QGraphicsScene();
-            toolTipScene->setBackgroundBrush(QBrush(Qt::NoBrush));
-            QGraphicsView *toolTipView = new QGraphicsView(toolTipScene);
-            toolTipView->setStyleSheet(QString("background: transparent"));
-            toolTipView->setContentsMargins(0, 0, 0, 0);
-            toolTipView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-            toolTipView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-            // paint
-            DesktopWindowsInfo info = getInfoByDesktop(i + 1);
-            toolTipView->resize(info.desktop.width() * 1.01, info.desktop.height() * 1.03);
-            QPen pen = QPen();
-            pen.setWidthF(2.0 * info.desktop.width() / 400.0);
-            for (int i=0; i<info.windows.count(); i++) {
-                toolTipScene->addLine(info.windows[i].left(), info.windows[i].bottom(),
-                                      info.windows[i].left(), info.windows[i].top(), pen);
-                toolTipScene->addLine(info.windows[i].left(), info.windows[i].top(),
-                                      info.windows[i].right(), info.windows[i].top(), pen);
-                toolTipScene->addLine(info.windows[i].right(), info.windows[i].top(),
-                                      info.windows[i].right(), info.windows[i].bottom(), pen);
-                toolTipScene->addLine(info.windows[i].right(), info.windows[i].bottom(),
-                                      info.windows[i].left(), info.windows[i].bottom(), pen);
-            }
-            // convert
-            QPixmap pixmap = QPixmap::grabWidget(toolTipView);
-            QByteArray byteArray;
-            QBuffer buffer(&byteArray);
-            pixmap.scaledToWidth(configuration[QString("tooltipWidth")].toInt()).save(&buffer, "PNG");
-            QString url = QString("<html><style type=\"text/css\">body {margin: 0; padding: 0;}</style><body><img src=\"data:image/png;base64,") +
-                                  byteArray.toBase64() +
-                                  QString("\"/></body></html>");
-            labels[i]->setToolTip(url);
-        }
     }
     int height = 0;
     int width = 0;
@@ -356,21 +320,45 @@ void DesktopPanel::updateText(const bool first)
 }
 
 
-// data engine interaction
-void DesktopPanel::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Data &data)
+void DesktopPanel::updateTooltip()
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Source name" << sourceName;
+    if (configuration[QString("tooltip")].toInt() != 2) return;
 
-    if (data.keys().count() == 0)
-        return;
-    if (sourceName == QString("desktop")) {
-        currentDesktop = data[QString("currentNumber")].toInt();
-        if (desktopNames.isEmpty()) {
-            desktopNames = data[QString("list")].toString().split(QString(";;"));
-            reinit();
+    for (int i=0; i<labels.count(); i++) {
+        QGraphicsScene *toolTipScene = new QGraphicsScene();
+        toolTipScene->setBackgroundBrush(QBrush(Qt::NoBrush));
+        QGraphicsView *toolTipView = new QGraphicsView(toolTipScene);
+        toolTipView->setStyleSheet(QString("background: transparent"));
+        toolTipView->setContentsMargins(0, 0, 0, 0);
+        toolTipView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        toolTipView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        // paint
+        DesktopWindowsInfo info = getInfoByDesktop(i + 1);
+        toolTipView->resize(info.desktop.width() * 1.01, info.desktop.height() * 1.03);
+        QPen pen = QPen();
+        pen.setWidthF(2.0 * info.desktop.width() / 400.0);
+        for (int i=0; i<info.windows.count(); i++) {
+            toolTipScene->addLine(info.windows[i].left(), info.windows[i].bottom(),
+                                  info.windows[i].left(), info.windows[i].top(), pen);
+            toolTipScene->addLine(info.windows[i].left(), info.windows[i].top(),
+                                  info.windows[i].right(), info.windows[i].top(), pen);
+            toolTipScene->addLine(info.windows[i].right(), info.windows[i].top(),
+                                  info.windows[i].right(), info.windows[i].bottom(), pen);
+            toolTipScene->addLine(info.windows[i].right(), info.windows[i].bottom(),
+                                  info.windows[i].left(), info.windows[i].bottom(), pen);
         }
-        updateText();
+        // convert
+        QPixmap pixmap = QPixmap::grabWidget(toolTipView);
+        QByteArray byteArray;
+        QBuffer buffer(&byteArray);
+        pixmap.scaledToWidth(configuration[QString("tooltipWidth")].toInt()).save(&buffer, "PNG");
+        QString url = QString("<html><style type=\"text/css\">body {margin: 0; padding: 0;}</style><body><img src=\"data:image/png;base64,") +
+                              byteArray.toBase64() +
+                              QString("\"/></body></html>");
+        labels[i]->setToolTip(url);
+        delete toolTipView;
+        delete toolTipScene;
     }
 }
 
@@ -401,10 +389,8 @@ void DesktopPanel::createConfigurationInterface(KConfigDialog *parent)
         uiWidConfig.checkBox_layout->setCheckState(Qt::Unchecked);
     else
         uiWidConfig.checkBox_layout->setCheckState(Qt::Checked);
-    uiWidConfig.spinBox_interval->setValue(configuration[QString("interval")].toInt());
     uiWidConfig.comboBox_mark->setItemText(uiWidConfig.comboBox_mark->count()-1, configuration[QString("mark")]);
     uiWidConfig.comboBox_mark->setCurrentIndex(uiWidConfig.comboBox_mark->count()-1);
-    uiWidConfig.lineEdit_desktopcmd->setText(configuration[QString("desktopcmd")]);
 
     KConfigGroup cg = config();
     CFont font(cg.readEntry("currentFontFamily", "Terminus"));
@@ -473,7 +459,6 @@ void DesktopPanel::configAccepted()
 {
     if (debug) qDebug() << PDEBUG;
 
-    extsysmonEngine->disconnectSource(QString("desktop"), this);
     KConfigGroup cg = config();
 
     cg.writeEntry("pattern", uiWidConfig.textEdit_elements->toPlainText());
@@ -481,9 +466,7 @@ void DesktopPanel::configAccepted()
     cg.writeEntry("tooltipWidth", QString::number(uiWidConfig.spinBox_tooltip->value()));
     cg.writeEntry("background", QString::number(uiWidConfig.checkBox_background->checkState()));
     cg.writeEntry("layout", QString::number(uiWidConfig.checkBox_layout->checkState()));
-    cg.writeEntry("interval", QString::number(uiWidConfig.spinBox_interval->value()));
     cg.writeEntry("mark", uiWidConfig.comboBox_mark->currentText());
-    cg.writeEntry("desktopcmd", uiWidConfig.lineEdit_desktopcmd->text());
 
     cg.writeEntry("currentFontFamily", uiAppConfig.fontComboBox_fontActive->currentFont().family());
     cg.writeEntry("currentFontSize", uiAppConfig.spinBox_fontSizeActive->value());
@@ -518,13 +501,9 @@ void DesktopPanel::configChanged()
     configuration[QString("tooltip")] = cg.readEntry("tooltip", "2");
     configuration[QString("tooltipWidth")] = cg.readEntry("tooltipWidth", "200");
     configuration[QString("background")] = cg.readEntry("background", "2");
-    configuration[QString("desktopcmd")] = cg.readEntry("desktopcmd", "qdbus org.kde.kwin /KWin setCurrentDesktop $number");
-    configuration[QString("interval")] = cg.readEntry("interval", "1000");
     configuration[QString("layout")] = cg.readEntry("layout", "0");
     configuration[QString("mark")] = cg.readEntry("mark", "¤");
     configuration[QString("panels")] = cg.readEntry("panels", "-1");
-
-    extsysmonEngine->connectSource(QString("desktop"), this, configuration[QString("interval")].toInt());
 
     CFont font = CFont(cg.readEntry("currentFontFamily", "Terminus"));
     font.setPointSize(cg.readEntry("currentFontSize", 10));

@@ -32,7 +32,7 @@ public:
     ExtendedSysMon(QObject *parent, const QVariantList &args);
     // update functions
     QMap<QString, QVariant> getBattery(const QString acpiPath);
-    QMap<QString, QVariant> getCurrentDesktop(const QString cmd);
+    QMap<QString, QVariant> getCurrentDesktop();
     float getGpu(const QString device);
     float getGpuTemp(const QString device);
     float getHddTemp(const QString cmd, const QString device);
@@ -58,7 +58,6 @@ private:
     QString getAllHdd();
     QString getAutoGpu();
     QString getAutoMpris();
-    QStringList getDesktopNames();
     void initScripts();
     void readConfiguration();
     QMap<QString, QString> updateConfiguration(const QMap<QString, QString> rawConfig);

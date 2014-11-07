@@ -21,6 +21,7 @@
 #include <Plasma/DataContainer>
 #include <KDE/KGlobal>
 #include <KDE/KStandardDirs>
+#include <KDE/KWindowSystem>
 #include <QDebug>
 #include <QDir>
 #include <QFile>
@@ -111,43 +112,6 @@ QString ExtendedSysMon::getAutoMpris()
 }
 
 
-QStringList ExtendedSysMon::getDesktopNames()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    QStringList list;
-    QString fileName = KGlobal::dirs()->findResource("config", "kwinrc");
-    if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
-    QFile configFile(fileName);
-    if (!configFile.open(QIODevice::ReadOnly)) return list;
-
-    QString fileStr;
-    QStringList value;
-    bool desktopSection = false;
-    while (true) {
-        fileStr = QString(configFile.readLine()).trimmed();
-        if ((fileStr.isEmpty()) && (!configFile.atEnd())) continue;
-        if ((fileStr[0] == QChar('#')) && (!configFile.atEnd())) continue;
-        if ((fileStr[0] == QChar(';')) && (!configFile.atEnd())) continue;
-        if (fileStr[0] == QChar('[')) desktopSection = false;
-        if (fileStr == QString("[Desktops]")) desktopSection = true;
-        if (desktopSection) {
-            if (fileStr.contains(QChar('='))) {
-                value.clear();
-                for (int i=1; i<fileStr.split(QChar('=')).count(); i++)
-                    value.append(fileStr.split(QChar('='))[i]);
-                if (fileStr.split(QChar('='))[0].contains(QString("Name_")))
-                    list.append(value.join(QChar('=')));
-            }
-        }
-        if (configFile.atEnd()) break;
-    }
-    configFile.close();
-
-    return list;
-}
-
-
 void ExtendedSysMon::initScripts()
 {
     if (debug) qDebug() << PDEBUG;
@@ -200,8 +164,6 @@ void ExtendedSysMon::readConfiguration()
     // pre-setup
     QMap<QString, QString> rawConfig;
     rawConfig[QString("ACPIPATH")] = QString("/sys/class/power_supply/");
-    rawConfig[QString("DESKTOP")] = QString("");
-    rawConfig[QString("DESKTOPCMD")] = QString("qdbus org.kde.kwin /KWin currentDesktop");
     rawConfig[QString("GPUDEV")] = QString("auto");
     rawConfig[QString("HDDDEV")] = QString("all");
     rawConfig[QString("HDDTEMPCMD")] = QString("sudo hddtemp");
@@ -251,15 +213,12 @@ QMap<QString, QString> ExtendedSysMon::updateConfiguration(const QMap<QString, Q
         key = rawConfig.keys()[i];
         value = rawConfig[key];
         key.remove(QChar(' '));
-        if ((key != QString("DESKTOPCMD")) &&
-            (key != QString("HDDTEMPCMD")) &&
+        if ((key != QString("HDDTEMPCMD")) &&
             (key != QString("PKGCMD")))
             value.remove(QChar(' '));
         config[key] = value;
     }
     // update values
-    // desktop names
-    config[QString("DESKTOP")] = getDesktopNames().join(QString(";;"));
     // gpudev
     if (config[QString("GPUDEV")] == QString("disable"))
         config[QString("GPUDEV")] = QString("disable");
@@ -344,21 +303,20 @@ QMap<QString, QVariant> ExtendedSysMon::getBattery(const QString acpiPath)
 }
 
 
-QMap<QString, QVariant> ExtendedSysMon::getCurrentDesktop(const QString cmd)
+QMap<QString, QVariant> ExtendedSysMon::getCurrentDesktop()
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
 
-    TaskResult process = runTask(QString("bash -c \"") + cmd + QString("\""));
-    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-
-    QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
-    int number = qoutput.toInt();
+    int number = KWindowSystem::currentDesktop();
+    int total = KWindowSystem::numberOfDesktops();
     QMap<QString, QVariant> currentDesktop;
-    currentDesktop[QString("currentName")] = configuration[QString("DESKTOP")].split(QString(";;"))[number-1];
+    currentDesktop[QString("currentName")] = KWindowSystem::desktopName(number);
     currentDesktop[QString("currentNumber")] = number;
-    currentDesktop[QString("list")] = configuration[QString("DESKTOP")];
-    currentDesktop[QString("number")] = configuration[QString("DESKTOP")].split(QString(";;")).count();
+    QStringList list;
+    for (int i=1; i<total+1; i++)
+        list.append(KWindowSystem::desktopName(i));
+    currentDesktop[QString("list")] = list.join(QString(";;"));
+    currentDesktop[QString("number")] = total;
 
     return currentDesktop;
 }
@@ -620,7 +578,7 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
                 times[i]++;
         }
     } else if (source == QString("desktop")) {
-        QMap<QString, QVariant> desktop = getCurrentDesktop(configuration[QString("DESKTOPCMD")]);
+        QMap<QString, QVariant> desktop = getCurrentDesktop();
         for (int i=0; i<desktop.keys().count(); i++)
             setData(source, desktop.keys()[i], desktop[desktop.keys()[i]]);
     } else if (source == QString("gpu")) {

@@ -30,6 +30,7 @@
 
 class QGraphicsGridLayout;
 class QGraphicsProxyWidget;
+class QTimer;
 class DesktopPanel;
 
 
@@ -73,8 +74,6 @@ public:
     QString parsePattern(const QString rawLine, const int num);
 
 public slots:
-    // dataengine
-    void dataUpdated(const QString &sourceName, const Plasma::DataEngine::Data &data);
     // configuration interface
     void configAccepted();
     void configChanged();
@@ -86,6 +85,8 @@ private slots:
     void reinit();
     void setFontFormating();
     void setFormating();
+    void updateText(const int active);
+    void updateTooltip();
 
 protected:
     void createConfigurationInterface(KConfigDialog *parent);
@@ -94,17 +95,14 @@ private:
     // functions
     QList<Plasma::Containment *> getPanels();
     QString panelLocationToStr(Plasma::Location loc);
-    void updateText(const bool first = false);
     // ui
     QGraphicsGridLayout *layout;
     QList<QGraphicsProxyWidget *> proxyWidgets;
     QList<CustomPlasmaLabel *> labels;
+    QTimer *timer;
     // debug
     bool debug;
-    // data engine
-    int currentDesktop;
     int oldState;
-    Plasma::DataEngine *extsysmonEngine;
     // configuration interface
     Ui::AppearanceWidget uiAppConfig;
     Ui::ConfigWindow uiWidConfig;
