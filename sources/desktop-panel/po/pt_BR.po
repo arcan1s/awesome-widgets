@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2014-09-15 10:02+0400\n"
+"POT-Creation-Date: 2014-11-08 18:41+0300\n"
 "PO-Revision-Date: 2014-06-09 01:47+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-russian@lists.kde.ru>\n"
@@ -17,39 +17,39 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: desktop-panel.cpp:141
+#: desktop-panel.cpp:168
 msgid "Top Edge"
 msgstr ""
 
-#: desktop-panel.cpp:143
+#: desktop-panel.cpp:170
 msgid "Bottom Edge"
 msgstr ""
 
-#: desktop-panel.cpp:145
+#: desktop-panel.cpp:172
 msgid "Left Edge"
 msgstr ""
 
-#: desktop-panel.cpp:147
+#: desktop-panel.cpp:174
 msgid "Right Edge"
 msgstr ""
 
-#: desktop-panel.cpp:149
+#: desktop-panel.cpp:176
 msgid "Unknown Position (%1)"
 msgstr ""
 
-#: desktop-panel.cpp:367
+#: desktop-panel.cpp:437
 msgid "Widget"
 msgstr "Widget"
 
-#: desktop-panel.cpp:368
+#: desktop-panel.cpp:438
 msgid "Appearance"
 msgstr "Aparência"
 
-#: desktop-panel.cpp:369
+#: desktop-panel.cpp:439
 msgid "Toggle panels"
 msgstr ""
 
-#: desktop-panel.cpp:489
+#: desktop-panel.cpp:556
 msgid "Select font"
 msgstr ""
 
@@ -57,7 +57,7 @@ msgstr ""
 msgid "Active desktop"
 msgstr ""
 
-#: po/rc.cpp:6 po/rc.cpp:24 po/rc.cpp:63 rc.cpp:6 rc.cpp:24 rc.cpp:63
+#: po/rc.cpp:6 po/rc.cpp:24 po/rc.cpp:60 rc.cpp:6 rc.cpp:24 rc.cpp:60
 msgid "Font"
 msgstr "Tamanho da fonte"
 
@@ -86,47 +86,47 @@ msgid "To control panels please set widget shortcut."
 msgstr ""
 
 #: po/rc.cpp:42 rc.cpp:42
-msgid "Time interval"
-msgstr "Intervalo de tempo"
-
-#: po/rc.cpp:45 rc.cpp:45
-msgid "Enable background"
-msgstr ""
-
-#: po/rc.cpp:48 rc.cpp:48
-msgid "Mark"
-msgstr ""
-
-#: po/rc.cpp:51 rc.cpp:51
-msgid "A mark which will be shown if this desktop is active"
-msgstr ""
-
-#: po/rc.cpp:54 rc.cpp:54
 msgid "Vertical layout"
 msgstr "Layout vertical"
 
+#: po/rc.cpp:45 rc.cpp:45
+msgid "Mark"
+msgstr ""
+
+#: po/rc.cpp:48 rc.cpp:48
+msgid "A mark which will be shown if this desktop is active"
+msgstr ""
+
+#: po/rc.cpp:51 rc.cpp:51
+msgid "Enable tooltip"
+msgstr ""
+
+#: po/rc.cpp:54 rc.cpp:54
+msgid "Tooltip width"
+msgstr ""
+
 #: po/rc.cpp:57 rc.cpp:57
-msgid "Command to change desktop"
+msgid "px"
 msgstr ""
 
-#: po/rc.cpp:60 rc.cpp:60
-msgid "Command which will change the current desktop"
-msgstr ""
-
-#: po/rc.cpp:66 rc.cpp:66
+#: po/rc.cpp:63 rc.cpp:63
 msgid "Ctrl+B"
 msgstr ""
 
-#: po/rc.cpp:69 rc.cpp:69
+#: po/rc.cpp:66 rc.cpp:66
 msgid "Ctrl+I"
 msgstr ""
 
-#: po/rc.cpp:72 rc.cpp:72
+#: po/rc.cpp:69 rc.cpp:69
 msgid "Ctrl+U"
 msgstr ""
 
-#: po/rc.cpp:75 rc.cpp:75
+#: po/rc.cpp:72 rc.cpp:72
 msgid "Add"
+msgstr ""
+
+#: po/rc.cpp:75 rc.cpp:75
+msgid "Enable background"
 msgstr ""
 
 #: po/rc.cpp:76 rc.cpp:76
@@ -138,6 +138,9 @@ msgstr "under"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "dreanazous@gmail.com"
+
+#~ msgid "Time interval"
+#~ msgstr "Intervalo de tempo"
 
 #~ msgid "Add stretch to left/top of the layout"
 #~ msgstr "Adicionar esticamento à esquerda/topo do layout"
