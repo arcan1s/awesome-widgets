@@ -20,7 +20,7 @@
 #define DESKTOP_PANEL_H
 
 #include <Plasma/Applet>
-#include <Plasma/DataEngine>
+#include <Plasma/ToolTipContent>
 #include <QLabel>
 
 #include <ui_appearance.h>
@@ -30,7 +30,7 @@
 
 class QGraphicsGridLayout;
 class QGraphicsProxyWidget;
-class QTimer;
+class QGraphicsScene;
 class DesktopPanel;
 
 
@@ -46,6 +46,7 @@ public:
     int getNumber();
 
 protected:
+    void enterEvent(QEvent *event);
     void mousePressEvent(QMouseEvent *event);
 
 private:
@@ -79,15 +80,14 @@ public slots:
     void configChanged();
     // events
     void changePanelsState();
+    void paintTooltip(const int active);
     void setCurrentDesktop(const int number);
 
 private slots:
     void reinit();
-    void paintTooltip();
     void setFontFormating();
     void setFormating();
     void updateText(const int active);
-    void updateTooltip();
 
 protected:
     void createConfigurationInterface(KConfigDialog *parent);
@@ -100,9 +100,13 @@ private:
     QGraphicsGridLayout *layout;
     QList<QGraphicsProxyWidget *> proxyWidgets;
     QList<CustomPlasmaLabel *> labels;
-    QTimer *timer;
+    // tooltip
+    Plasma::ToolTipContent toolTip;
+    QGraphicsScene *toolTipScene;
+    QGraphicsView *toolTipView;
     // debug
     bool debug;
+    int activeTooltip = -1;
     int oldState;
     // configuration interface
     Ui::AppearanceWidget uiAppConfig;

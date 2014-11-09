@@ -24,7 +24,6 @@
 #include <Plasma/Containment>
 #include <Plasma/Corona>
 #include <Plasma/Theme>
-#include <Plasma/ToolTipContent>
 #include <Plasma/ToolTipManager>
 #include <QBuffer>
 #include <QDebug>
@@ -61,6 +60,18 @@ int CustomPlasmaLabel::getNumber()
     if (debug) qDebug() << PDEBUG;
 
     return number;
+}
+
+
+void CustomPlasmaLabel::enterEvent(QEvent *event)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Event" << event->type();
+
+    if (event->type() == QEvent::Enter)
+        widget->paintTooltip(number);
+
+    emit(QLabel::enterEvent(event));
 }
 
 
@@ -111,14 +122,18 @@ void DesktopPanel::init()
     layout->setContentsMargins(1, 1, 1, 1);
     setLayout(layout);
 
+    // tooltip
+    toolTip = Plasma::ToolTipContent();
+    toolTipScene = new QGraphicsScene();
+    toolTipView = new QGraphicsView(toolTipScene);
+    toolTipView->setStyleSheet(QString("background: transparent"));
+    toolTipView->setContentsMargins(0, 0, 0, 0);
+    toolTipView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    toolTipView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    Plasma::ToolTipManager::self()->setContent(this, toolTip);
+
     // read variables
     configChanged();
-    timer = new QTimer(this);
-    timer->setSingleShot(false);
-    timer->setInterval(2000);
-    connect(timer, SIGNAL(timeout()), this, SLOT(updateTooltip()));
-    connect(this, SIGNAL(releaseVisualFocus()), this, SLOT(paintTooltip()));
-    timer->start();
     connect(this, SIGNAL(activate()), this, SLOT(changePanelsState()));
     connect(KWindowSystem::self(), SIGNAL(currentDesktopChanged(int)), this, SLOT(updateText(int)));
 }
@@ -281,10 +296,33 @@ void DesktopPanel::changePanelsState()
 }
 
 
-void DesktopPanel::paintTooltip()
+void DesktopPanel::paintTooltip(const int active)
 {
     if (debug) qDebug() << PDEBUG;
-    qDebug() << PDEBUG;
+    if (active == activeTooltip) return;
+
+    // prepare
+    activeTooltip = active;
+    DesktopWindowsInfo info = getInfoByDesktop(active + 1);
+    toolTipView->resize(info.desktop.width() * 1.01, info.desktop.height() * 1.03);
+    toolTipScene->clear();
+    toolTipScene->setBackgroundBrush(QBrush(Qt::NoBrush));
+
+    QPen pen = QPen();
+    pen.setWidthF(2.0 * info.desktop.width() / 400.0);
+    for (int i=0; i<info.windows.count(); i++) {
+        toolTipScene->addLine(info.windows[i].left(), info.windows[i].bottom(),
+                              info.windows[i].left(), info.windows[i].top(), pen);
+        toolTipScene->addLine(info.windows[i].left(), info.windows[i].top(),
+                              info.windows[i].right(), info.windows[i].top(), pen);
+        toolTipScene->addLine(info.windows[i].right(), info.windows[i].top(),
+                              info.windows[i].right(), info.windows[i].bottom(), pen);
+        toolTipScene->addLine(info.windows[i].right(), info.windows[i].bottom(),
+                              info.windows[i].left(), info.windows[i].bottom(), pen);
+    }
+
+    toolTip.setImage(QPixmap::grabWidget(toolTipView).scaledToWidth(configuration[QString("tooltipWidth")].toInt()));
+    Plasma::ToolTipManager::self()->setContent(this, toolTip);
 }
 
 
@@ -327,49 +365,6 @@ void DesktopPanel::updateText(const int active)
         }
     }
     layout->setMinimumSize(width, height);
-}
-
-
-void DesktopPanel::updateTooltip()
-{
-    if (debug) qDebug() << PDEBUG;
-    if (configuration[QString("tooltip")].toInt() != 2) return;
-
-    for (int i=0; i<proxyWidgets.count(); i++) {
-        QGraphicsScene *toolTipScene = new QGraphicsScene();
-        toolTipScene->setBackgroundBrush(QBrush(Qt::NoBrush));
-        QGraphicsView *toolTipView = new QGraphicsView(toolTipScene);
-        toolTipView->setStyleSheet(QString("background: transparent"));
-        toolTipView->setContentsMargins(0, 0, 0, 0);
-        toolTipView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        toolTipView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        // paint
-        DesktopWindowsInfo info = getInfoByDesktop(i + 1);
-        toolTipView->resize(info.desktop.width() * 1.01, info.desktop.height() * 1.03);
-        QPen pen = QPen();
-        pen.setWidthF(2.0 * info.desktop.width() / 400.0);
-        for (int i=0; i<info.windows.count(); i++) {
-            toolTipScene->addLine(info.windows[i].left(), info.windows[i].bottom(),
-                                  info.windows[i].left(), info.windows[i].top(), pen);
-            toolTipScene->addLine(info.windows[i].left(), info.windows[i].top(),
-                                  info.windows[i].right(), info.windows[i].top(), pen);
-            toolTipScene->addLine(info.windows[i].right(), info.windows[i].top(),
-                                  info.windows[i].right(), info.windows[i].bottom(), pen);
-            toolTipScene->addLine(info.windows[i].right(), info.windows[i].bottom(),
-                                  info.windows[i].left(), info.windows[i].bottom(), pen);
-        }
-        // convert
-        QPixmap pixmap = QPixmap::grabWidget(toolTipView);
-        QByteArray byteArray;
-        QBuffer buffer(&byteArray);
-        pixmap.scaledToWidth(configuration[QString("tooltipWidth")].toInt()).save(&buffer, "PNG");
-        QString url = QString("<html><style type=\"text/css\">body {margin: 0; padding: 0;}</style><body><img src=\"data:image/png;base64,") +
-                              byteArray.toBase64() +
-                              QString("\"/></body></html>");
-        proxyWidgets[i]->setToolTip(url);
-        delete toolTipView;
-        delete toolTipScene;
-    }
 }
 
 
