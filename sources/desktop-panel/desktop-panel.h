@@ -83,6 +83,7 @@ public slots:
 
 private slots:
     void reinit();
+    void paintTooltip();
     void setFontFormating();
     void setFormating();
     void updateText(const int active);

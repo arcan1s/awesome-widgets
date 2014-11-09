@@ -24,6 +24,8 @@
 #include <Plasma/Containment>
 #include <Plasma/Corona>
 #include <Plasma/Theme>
+#include <Plasma/ToolTipContent>
+#include <Plasma/ToolTipManager>
 #include <QBuffer>
 #include <QDebug>
 #include <QFile>
@@ -115,6 +117,7 @@ void DesktopPanel::init()
     timer->setSingleShot(false);
     timer->setInterval(2000);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateTooltip()));
+    connect(this, SIGNAL(releaseVisualFocus()), this, SLOT(paintTooltip()));
     timer->start();
     connect(this, SIGNAL(activate()), this, SLOT(changePanelsState()));
     connect(KWindowSystem::self(), SIGNAL(currentDesktopChanged(int)), this, SLOT(updateText(int)));
@@ -278,6 +281,13 @@ void DesktopPanel::changePanelsState()
 }
 
 
+void DesktopPanel::paintTooltip()
+{
+    if (debug) qDebug() << PDEBUG;
+    qDebug() << PDEBUG;
+}
+
+
 void DesktopPanel::setCurrentDesktop(const int number)
 {
     if (debug) qDebug() << PDEBUG;
@@ -325,7 +335,7 @@ void DesktopPanel::updateTooltip()
     if (debug) qDebug() << PDEBUG;
     if (configuration[QString("tooltip")].toInt() != 2) return;
 
-    for (int i=0; i<labels.count(); i++) {
+    for (int i=0; i<proxyWidgets.count(); i++) {
         QGraphicsScene *toolTipScene = new QGraphicsScene();
         toolTipScene->setBackgroundBrush(QBrush(Qt::NoBrush));
         QGraphicsView *toolTipView = new QGraphicsView(toolTipScene);
@@ -356,7 +366,7 @@ void DesktopPanel::updateTooltip()
         QString url = QString("<html><style type=\"text/css\">body {margin: 0; padding: 0;}</style><body><img src=\"data:image/png;base64,") +
                               byteArray.toBase64() +
                               QString("\"/></body></html>");
-        labels[i]->setToolTip(url);
+        proxyWidgets[i]->setToolTip(url);
         delete toolTipView;
         delete toolTipScene;
     }
