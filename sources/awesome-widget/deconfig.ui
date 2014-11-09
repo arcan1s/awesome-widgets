@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>700</width>
-    <height>586</height>
+    <height>584</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -43,11 +43,11 @@
         <x>0</x>
         <y>0</y>
         <width>684</width>
-        <height>570</height>
+        <height>568</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="5" column="0">
+       <item row="4" column="0">
         <layout class="QHBoxLayout" name="layout_hddtempCmd">
          <item>
           <widget class="QLabel" name="label_hddtempCmd">
@@ -71,7 +71,7 @@
          </item>
         </layout>
        </item>
-       <item row="3" column="0">
+       <item row="2" column="0">
         <layout class="QHBoxLayout" name="layout_gpudev">
          <item>
           <widget class="QLabel" name="label_gpudev">
@@ -124,7 +124,7 @@
          </item>
         </layout>
        </item>
-       <item row="4" column="0">
+       <item row="3" column="0">
         <layout class="QHBoxLayout" name="layout_hdddev">
          <item>
           <widget class="QLabel" name="label_hdddev">
@@ -157,7 +157,7 @@
          </item>
         </layout>
        </item>
-       <item row="9" column="0">
+       <item row="8" column="0">
         <layout class="QHBoxLayout" name="layout_playerSelect">
          <item>
           <widget class="QLabel" name="label_playerSelect">
@@ -200,7 +200,7 @@
          </item>
         </layout>
        </item>
-       <item row="7" column="0">
+       <item row="6" column="0">
         <layout class="QHBoxLayout" name="layout_mpdport">
          <item>
           <widget class="QLabel" name="label_mpdport">
@@ -255,31 +255,7 @@
          </item>
         </layout>
        </item>
-       <item row="2" column="0">
-        <layout class="QHBoxLayout" name="layout_desktopCmd">
-         <item>
-          <widget class="QLabel" name="label_desktopCmd">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Desktop check cmd</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_desktopCmd">
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="6" column="0">
+       <item row="5" column="0">
         <layout class="QHBoxLayout" name="layout_mpdaddress">
          <item>
           <widget class="QLabel" name="label_mpdaddress">
@@ -303,7 +279,7 @@
          </item>
         </layout>
        </item>
-       <item row="11" column="0">
+       <item row="10" column="0">
         <spacer name="spacer_dataengine">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -381,7 +357,7 @@
          </column>
         </widget>
        </item>
-       <item row="8" column="0">
+       <item row="7" column="0">
         <layout class="QVBoxLayout" name="layout_mpris">
          <item>
           <widget class="QLabel" name="label_mprisInfo">
@@ -471,7 +447,7 @@
          </item>
         </layout>
        </item>
-       <item row="10" column="0">
+       <item row="9" column="0">
         <layout class="QVBoxLayout" name="layout_pkgCommand">
          <item>
           <widget class="QTableWidget" name="tableWidget_pkgCommand">

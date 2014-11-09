@@ -318,6 +318,7 @@ void DesktopPanel::paintTooltip(const int active)
 
     QPen pen = QPen();
     pen.setWidthF(2.0 * info.desktop.width() / 400.0);
+    pen.setColor(QColor(configuration[QString("tooltipColor")]));
     for (int i=0; i<info.windows.count(); i++) {
         toolTipScene->addLine(info.windows[i].left() + margin, info.windows[i].bottom() + margin,
                               info.windows[i].left() + margin, info.windows[i].top() + margin, pen);
@@ -394,6 +395,7 @@ void DesktopPanel::createConfigurationInterface(KConfigDialog *parent)
     else
         uiWidConfig.checkBox_tooltip->setCheckState(Qt::Checked);
     uiWidConfig.spinBox_tooltip->setValue(configuration[QString("tooltipWidth")].toInt());
+    uiWidConfig.kcolorcombo_tooltipColor->setColor(QColor(configuration[QString("tooltipColor")]));
     if (configuration[QString("background")].toInt() == 0)
         uiWidConfig.checkBox_background->setCheckState(Qt::Unchecked);
     else
@@ -477,6 +479,7 @@ void DesktopPanel::configAccepted()
     cg.writeEntry("pattern", uiWidConfig.textEdit_elements->toPlainText());
     cg.writeEntry("tooltip", QString::number(uiWidConfig.checkBox_tooltip->checkState()));
     cg.writeEntry("tooltipWidth", QString::number(uiWidConfig.spinBox_tooltip->value()));
+    cg.writeEntry("tooltipColor", uiWidConfig.kcolorcombo_tooltipColor->color().name());
     cg.writeEntry("background", QString::number(uiWidConfig.checkBox_background->checkState()));
     cg.writeEntry("layout", QString::number(uiWidConfig.checkBox_layout->checkState()));
     cg.writeEntry("mark", uiWidConfig.comboBox_mark->currentText());
@@ -513,6 +516,7 @@ void DesktopPanel::configChanged()
     configuration[QString("pattern")] = cg.readEntry("pattern", "[$fullmark$number/$total: $name]");
     configuration[QString("tooltip")] = cg.readEntry("tooltip", "2");
     configuration[QString("tooltipWidth")] = cg.readEntry("tooltipWidth", "200");
+    configuration[QString("tooltipColor")] = cg.readEntry("tooltipColor", "#ffffff");
     configuration[QString("background")] = cg.readEntry("background", "2");
     configuration[QString("layout")] = cg.readEntry("layout", "0");
     configuration[QString("mark")] = cg.readEntry("mark", "¤");

@@ -40,7 +40,6 @@ QMap<QString, QString> AwesomeWidget::readDataEngineConfiguration()
 
     QMap<QString, QString> rawConfig;
     rawConfig[QString("ACPIPATH")] = QString("/sys/class/power_supply/");
-    rawConfig[QString("DESKTOPCMD")] = QString("qdbus org.kde.kwin /KWin currentDesktop");
     rawConfig[QString("GPUDEV")] = QString("auto");
     rawConfig[QString("HDDDEV")] = QString("all");
     rawConfig[QString("HDDTEMPCMD")] = QString("sudo hddtemp");
@@ -105,8 +104,7 @@ QMap<QString, QString> AwesomeWidget::updateDataEngineConfiguration(const QMap<Q
         key = rawConfig.keys()[i];
         value = rawConfig[key];
         key.remove(QChar(' '));
-        if ((key != QString("DESKTOPCMD")) &&
-            (key != QString("HDDTEMPCMD")) &&
+        if ((key != QString("HDDTEMPCMD")) &&
             (key != QString("PKGCMD")))
             value.remove(QChar(' '));
         config[key] = value;
@@ -399,7 +397,6 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
         uiDEConfig.tableWidget_customCommand->setCellWidget(i, 4, redirect);
     }
     externalScripts.clear();
-    uiDEConfig.lineEdit_desktopCmd->setText(deSettings[QString("DESKTOPCMD")]);
     uiDEConfig.comboBox_gpudev->setCurrentIndex(
                 uiDEConfig.comboBox_gpudev->findText(deSettings[QString("GPUDEV")], Qt::MatchFixedString));
     cmd = QString("find /dev -name [hms]d[a-z]");
@@ -597,7 +594,6 @@ void AwesomeWidget::configAccepted()
         script->writeConfiguration();
         delete script;
     }
-    deSettings[QString("DESKTOPCMD")] = uiDEConfig.lineEdit_desktopCmd->text();
     deSettings[QString("GPUDEV")] = uiDEConfig.comboBox_gpudev->currentText();
     deSettings[QString("HDDDEV")] = uiDEConfig.comboBox_hdddev->currentText();
     deSettings[QString("HDDTEMPCMD")] = uiDEConfig.lineEdit_hddtempCmd->text();

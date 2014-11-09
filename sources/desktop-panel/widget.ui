@@ -20,14 +20,14 @@
    <string notr="true">Widget</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="6" column="0">
+   <item row="7" column="0">
     <widget class="QCheckBox" name="checkBox_layout">
      <property name="text">
       <string>Vertical layout</string>
      </property>
     </widget>
    </item>
-   <item row="8" column="0">
+   <item row="9" column="0">
     <layout class="QHBoxLayout" name="layout_mark">
      <item>
       <widget class="QLabel" name="label_mark">
@@ -372,15 +372,56 @@
      </item>
     </layout>
    </item>
-   <item row="4" column="0">
+   <item row="5" column="0">
     <widget class="QCheckBox" name="checkBox_background">
      <property name="text">
       <string>Enable background</string>
      </property>
     </widget>
    </item>
+   <item row="4" column="0">
+    <layout class="QHBoxLayout" name="layout_tooltipColor">
+     <item>
+      <widget class="QLabel" name="label_tooltipColor">
+       <property name="text">
+        <string>Tooltip border color</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="spacer_tooltipColor">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="KColorCombo" name="kcolorcombo_tooltipColor">
+       <property name="minimumSize">
+        <size>
+         <width>180</width>
+         <height>0</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KColorCombo</class>
+   <extends>QComboBox</extends>
+   <header>kcolorcombo.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
