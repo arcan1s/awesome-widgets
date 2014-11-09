@@ -304,21 +304,29 @@ void DesktopPanel::paintTooltip(const int active)
     // prepare
     activeTooltip = active;
     DesktopWindowsInfo info = getInfoByDesktop(active + 1);
-    toolTipView->resize(info.desktop.width() * 1.01, info.desktop.height() * 1.03);
+    float margin = 3.0 * info.desktop.width() / 400.0;
+    toolTipView->resize(info.desktop.width() + 2.0 * margin, info.desktop.height() + 2.0 * margin);
     toolTipScene->clear();
     toolTipScene->setBackgroundBrush(QBrush(Qt::NoBrush));
+    // borders
+    toolTipScene->addLine(0, 0, 0, info.desktop.height() + 2.0 * margin);
+    toolTipScene->addLine(0, info.desktop.height() + 2.0 * margin,
+                          info.desktop.width() + 2.0 * margin, info.desktop.height() + 2.0 * margin);
+    toolTipScene->addLine(info.desktop.width() + 2.0 * margin, info.desktop.height() + 2.0 * margin,
+                          info.desktop.width() + 2.0 * margin, 0);
+    toolTipScene->addLine(info.desktop.width() + 2.0 * margin, 0, 0, 0);
 
     QPen pen = QPen();
     pen.setWidthF(2.0 * info.desktop.width() / 400.0);
     for (int i=0; i<info.windows.count(); i++) {
-        toolTipScene->addLine(info.windows[i].left(), info.windows[i].bottom(),
-                              info.windows[i].left(), info.windows[i].top(), pen);
-        toolTipScene->addLine(info.windows[i].left(), info.windows[i].top(),
-                              info.windows[i].right(), info.windows[i].top(), pen);
-        toolTipScene->addLine(info.windows[i].right(), info.windows[i].top(),
-                              info.windows[i].right(), info.windows[i].bottom(), pen);
-        toolTipScene->addLine(info.windows[i].right(), info.windows[i].bottom(),
-                              info.windows[i].left(), info.windows[i].bottom(), pen);
+        toolTipScene->addLine(info.windows[i].left() + margin, info.windows[i].bottom() + margin,
+                              info.windows[i].left() + margin, info.windows[i].top() + margin, pen);
+        toolTipScene->addLine(info.windows[i].left() + margin, info.windows[i].top() + margin,
+                              info.windows[i].right() + margin, info.windows[i].top() + margin, pen);
+        toolTipScene->addLine(info.windows[i].right() + margin, info.windows[i].top() + margin,
+                              info.windows[i].right() + margin, info.windows[i].bottom() + margin, pen);
+        toolTipScene->addLine(info.windows[i].right() + margin, info.windows[i].bottom() + margin,
+                              info.windows[i].left() + margin, info.windows[i].bottom() + margin, pen);
     }
 
     toolTip.setImage(QPixmap::grabWidget(toolTipView).scaledToWidth(configuration[QString("tooltipWidth")].toInt()));
