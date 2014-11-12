@@ -25,7 +25,6 @@
 #include <Plasma/Corona>
 #include <Plasma/Theme>
 #include <Plasma/ToolTipManager>
-#include <QBuffer>
 #include <QDebug>
 #include <QFile>
 #include <QGraphicsGridLayout>
@@ -52,6 +51,7 @@ CustomPlasmaLabel::CustomPlasmaLabel(DesktopPanel *wid, const int num, const boo
 
 CustomPlasmaLabel::~CustomPlasmaLabel()
 {
+    if (debug) qDebug() << PDEBUG;
 }
 
 
@@ -111,6 +111,7 @@ DesktopPanel::DesktopPanel(QObject *parent, const QVariantList &args)
 
 DesktopPanel::~DesktopPanel()
 {
+    if (debug) qDebug() << PDEBUG;
 }
 
 

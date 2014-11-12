@@ -7,3 +7,8 @@ Comment=Awesome widget information
 Name=System information
 Comment=System information
 Action=Popup
+
+[Event/tag]
+Name=Tag information
+Comment=Tag information
+Action=Popup

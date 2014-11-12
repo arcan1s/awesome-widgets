@@ -24,6 +24,8 @@
 
 class ExtScript : public QObject
 {
+    Q_OBJECT
+
 public:
     enum Redirect {
         stdout2stderr = -1,

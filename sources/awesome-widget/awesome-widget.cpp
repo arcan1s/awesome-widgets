@@ -35,6 +35,7 @@
 #include <QTimer>
 
 #include "customlabel.h"
+#include "graphicalitem.h"
 #include <pdebug/pdebug.h>
 #include <task/taskadds.h>
 #include "version.h"
@@ -58,6 +59,8 @@ AwesomeWidget::AwesomeWidget(QObject *parent, const QVariantList &args)
     // text format init
     formatLine.append(QString(""));
     formatLine.append(QString(""));
+    GraphicalItem *item = new GraphicalItem(this, QString("test"), QString("${cpu;255,0,0,255;0,255,0,255;2;-1;300;500}"), true);
+    qDebug() << item->getImage(75.0);
 }
 
 
