@@ -34,7 +34,7 @@ public:
     enum Type {
         Horizontal = 0,
         Vertical,
-        Ring
+        Circle
     };
 
     GraphicalItem(QObject *wid, const QString assignName, const QString tag, const bool debugCmd = false);

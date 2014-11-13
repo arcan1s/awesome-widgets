@@ -22,7 +22,7 @@
 #include <QGraphicsEllipseItem>
 #include <QGraphicsScene>
 #include <QGraphicsView>
-#include <QPainterPath>
+
 
 #include <pdebug/pdebug.h>
 
@@ -62,7 +62,6 @@ QString GraphicalItem::getImage(const float value)
     view->resize(width + 5.0, height + 5.0);
 
     // paint
-    QPainterPath ppath;
     switch(type) {
     case Vertical:
         pen.setWidth(width);
@@ -75,26 +74,19 @@ QString GraphicalItem::getImage(const float value)
         // scale
         scale[1] = (int)direction;
         break;
-    case Ring:
+    case Circle:
         QGraphicsEllipseItem *circle;
         pen.setWidth(1.0);
         // inactive
         pen.setColor(inactiveColor);
         circle = scene->addEllipse(0.0, 0.0, width, height, pen, QBrush(inactiveColor, Qt::SolidPattern));
+        circle->setSpanAngle((1.0 - percent) * 360.0 * 16.0);
+        circle->setStartAngle(180.0 * 16.0 - (1.0 - percent) * 360.0 * 16.0);
         // active
         pen.setColor(activeColor);
         circle = scene->addEllipse(0.0, 0.0, width, height, pen, QBrush(activeColor, Qt::SolidPattern));
         circle->setSpanAngle(percent * 360.0 * 16.0);
         circle->setStartAngle(180.0 * 16.0);
-        // null
-        pen.setColor(QColor(255, 255, 255, 0));
-        ppath.addEllipse(0.16 * width, 0.16 * height, 0.66 * width, 0.66 * height);
-        scene->setSelectionArea(ppath);
-        scene->clearSelection();
-//        scene->addPath(ppath, pen, QBrush(QColor(255,255,255,0), Qt::SolidPattern));
-//        pen.setColor(QColor(255, 255, 255, 0));
-//        scene->addEllipse(0.16 * width, 0.16 * height, 0.66 * width, 0.66 * height, pen, QBrush(QColor(255,255,255,255), Qt::SolidPattern));
-//        scene->addEllipse(0.16 * width, 0.16 * height, 0.66 * width, 0.66 * height, pen, QBrush(QColor(255,255,255,0), Qt::SolidPattern));
         // scale
         scale[0] = (int)direction;
         break;
@@ -231,8 +223,8 @@ void GraphicalItem::parseTag(const QString tag)
         case Vertical:
             type = Vertical;
             break;
-        case Ring:
-            type = Ring;
+        case Circle:
+            type = Circle;
             break;
         default:
             type = Horizontal;
