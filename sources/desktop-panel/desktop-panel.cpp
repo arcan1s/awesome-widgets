@@ -305,7 +305,7 @@ void DesktopPanel::paintTooltip(const int active)
     // prepare
     activeTooltip = active;
     DesktopWindowsInfo info = getInfoByDesktop(active + 1);
-    float margin = 3.0 * info.desktop.width() / 400.0;
+    float margin = 5.0 * info.desktop.width() / 400.0;
     toolTipView->resize(info.desktop.width() + 2.0 * margin, info.desktop.height() + 2.0 * margin);
     toolTipScene->clear();
     toolTipScene->setBackgroundBrush(QBrush(Qt::NoBrush));
