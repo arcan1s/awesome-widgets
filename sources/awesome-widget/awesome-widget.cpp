@@ -59,8 +59,6 @@ AwesomeWidget::AwesomeWidget(QObject *parent, const QVariantList &args)
     // text format init
     formatLine.append(QString(""));
     formatLine.append(QString(""));
-//    GraphicalItem *item = new GraphicalItem(this, QString("test"), QString("${cpu;255,0,0,255;0,255,0,255;2;-1;300;500}"), true);
-//    qDebug() << item->getImage(75.0);
 }
 
 
@@ -392,6 +390,49 @@ QStringList AwesomeWidget::getKeys()
     allKeys.append(QString("tdesktops"));
 
     return allKeys;
+}
+
+
+QStringList AwesomeWidget::findGraphicalItems()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QStringList orderedKeys = graphicalItems.keys();
+    orderedKeys.sort();
+    QStringList selectedKeys;
+    for (int i=orderedKeys.count()-1; i>=0; i--)
+        if (configuration[QString("text")].contains(QString("$") + orderedKeys[i])) {
+            if (debug) qDebug() << PDEBUG << ":" << "Found key" << orderedKeys[i];
+            selectedKeys.append(orderedKeys[i]);
+        }
+
+    return selectedKeys;
+}
+
+
+void AwesomeWidget::getGraphicalItems()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    graphicalItems.clear();
+    // create directory at $HOME
+    QString localDir = KStandardDirs::locateLocal("data", "plasma_applet_awesome-widget/destkops");
+    if (KStandardDirs::makeDir(localDir))
+        if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
+
+    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_applet_awesome-widget/desktops");
+    QStringList names;
+    for (int i=0; i<dirs.count(); i++) {
+        QStringList files = QDir(dirs[i]).entryList(QDir::Files, QDir::Name);
+        for (int j=0; j<files.count(); j++) {
+            if (!files[j].endsWith(QString(".desktop"))) continue;
+            if (names.contains(files[j])) continue;
+            if (debug) qDebug() << PDEBUG << ":" << "Found file" << files[j] << "in" << dirs[i];
+            names.append(files[j]);
+            GraphicalItem *item = new GraphicalItem(files[j], dirs, debug);
+            graphicalItems[item->getName() + item->getBar()] = item;
+        }
+    }
 }
 
 

@@ -33,6 +33,7 @@
 
 class CustomLabel;
 class ExtScript;
+class GraphicalItem;
 class QGraphicsGridLayout;
 class QGraphicsScene;
 class QNetworkReply;
@@ -103,16 +104,18 @@ private:
     void createActions();
     QStringList findKeys();
     QStringList getKeys();
+    QStringList findGraphicalItems();
+    void getGraphicalItems();
     QList<ExtScript *> initScripts();
     // ui
     QGraphicsGridLayout *mainLayout = nullptr;
     CustomLabel *textLabel = nullptr;
-    QTimer *timer;
+    QTimer *timer = nullptr;
     QList<QAction *> contextMenu;
     // tooltip
     Plasma::ToolTipContent toolTip;
-    QGraphicsScene *toolTipScene;
-    QGraphicsView *toolTipView;
+    QGraphicsScene *toolTipScene = nullptr;
+    QGraphicsView *toolTipView = nullptr;
     // values
     int networkDeviceUpdate;
     QMap<QString, int> counts;
@@ -121,9 +124,9 @@ private:
     // debug
     bool debug;
     // data engine
-    Plasma::DataEngine *extsysmonEngine;
-    Plasma::DataEngine *sysmonEngine;
-    Plasma::DataEngine *timeEngine;
+    Plasma::DataEngine *extsysmonEngine = nullptr;
+    Plasma::DataEngine *sysmonEngine = nullptr;
+    Plasma::DataEngine *timeEngine = nullptr;
     // configuration interface
     Ui::About uiAboutConfig;
     Ui::AdvancedWindow uiAdvancedConfig;
@@ -134,6 +137,8 @@ private:
     // configuration
     QMap<QString, QString> configuration;
     QStringList diskDevices, keys, formatLine, foundKeys;
+    QMap<QString, GraphicalItem *> graphicalItems;
+    QStringList foundBars;
 };
 
 

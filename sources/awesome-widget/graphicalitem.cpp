@@ -28,9 +28,8 @@
 #include <pdebug/pdebug.h>
 
 
-GraphicalItem::GraphicalItem(QObject *wid, const QString desktopName, const QStringList directories, const bool debugCmd)
-    : QObject(wid),
-      fileName(desktopName),
+GraphicalItem::GraphicalItem(const QString desktopName, const QStringList directories, const bool debugCmd)
+    : fileName(desktopName),
       dirs(directories),
       debug(debugCmd)
 {

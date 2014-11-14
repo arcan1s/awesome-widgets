@@ -24,6 +24,7 @@
 #include <math.h>
 
 #include "customlabel.h"
+#include "graphicalitem.h"
 #include <pdebug/pdebug.h>
 
 
@@ -41,6 +42,8 @@ void AwesomeWidget::reinit()
 
     keys = getKeys();
     foundKeys = findKeys();
+    getGraphicalItems();
+    foundBars = findGraphicalItems();
     updateNetworkDevice(false);
     connectToEngine();
 }
@@ -81,6 +84,8 @@ void AwesomeWidget::updateText(const bool clear)
         text.replace(QString("$$"), QString("$\\$\\"));
         for (int i=0; i<foundKeys.count(); i++)
             text.replace(QString("$") + foundKeys[i], values[foundKeys[i]]);
+        for (int i=0; i<foundBars.count(); i++)
+            text.replace(QString("$") + foundBars[i], graphicalItems[foundBars[i]]->getImage(values[foundBars[i]].toFloat()));
         text.replace(QString("$\\$\\"), QString("$$"));
     }
     textLabel->setText(formatLine[0] + text + formatLine[1]);

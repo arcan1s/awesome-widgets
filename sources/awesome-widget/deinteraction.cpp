@@ -20,6 +20,7 @@
 #include <QRegExp>
 #include <math.h>
 
+#include "graphicalitem.h"
 #include <pdebug/pdebug.h>
 
 
@@ -29,15 +30,17 @@ void AwesomeWidget::connectToEngine()
     QRegExp regExp;
 
     // battery
-    regExp = QRegExp(QString("(ac|bat.*)"));
+    regExp = QRegExp(QString("(^|bar[0-9].*)(ac|bat.*)"));
     if ((foundKeys.indexOf(regExp) > -1) ||
-            (configuration[QString("batteryTooltip")].toInt() == 2))
+            (configuration[QString("batteryTooltip")].toInt() == 2) ||
+            (foundBars.indexOf(regExp) > -1))
         extsysmonEngine->connectSource(QString("battery"),
                                        this, configuration[QString("interval")].toInt());
     // cpu
-    regExp = QRegExp(QString("cpu(?!cl).*"));
+    regExp = QRegExp(QString("(^|bar[0-9].*)cpu(?!cl).*"));
     if ((foundKeys.indexOf(regExp) > -1) ||
-            (configuration[QString("cpuTooltip")].toInt() == 2)) {
+            (configuration[QString("cpuTooltip")].toInt() == 2) ||
+            (foundBars.indexOf(regExp) > -1)) {
         sysmonEngine->connectSource(QString("cpu/system/TotalLoad"),
                                     this, configuration[QString("interval")].toInt());
         for (int i=0; i<counts[QString("cpu")]; i++)
@@ -80,8 +83,9 @@ void AwesomeWidget::connectToEngine()
             sysmonEngine->connectSource(configuration[QString("fanDevice")].split(QString("@@"))[i],
                                         this, configuration[QString("interval")].toInt());
     // gpu
-    regExp = QRegExp(QString("gpu"));
-    if (foundKeys.indexOf(regExp) > -1)
+    regExp = QRegExp(QString("(^|bar[0-9].*)gpu"));
+    if ((foundKeys.indexOf(regExp) > -1) ||
+            (foundBars.indexOf(regExp) > -1))
         extsysmonEngine->connectSource(QString("gpu"),
                                        this, configuration[QString("interval")].toInt());
     // gputemp
@@ -90,8 +94,9 @@ void AwesomeWidget::connectToEngine()
         extsysmonEngine->connectSource(QString("gputemp"),
                                        this, configuration[QString("interval")].toInt());
     // mount
-    regExp = QRegExp(QString("hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb).*"));
-    if (foundKeys.indexOf(regExp) > -1)
+    regExp = QRegExp(QString("(^|bar[0-9].*)hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb).*"));
+    if ((foundKeys.indexOf(regExp) > -1) ||
+            (foundBars.indexOf(regExp) > -1))
         for (int i=0; i<configuration[QString("mount")].split(QString("@@")).count(); i++) {
             sysmonEngine->connectSource(QString("partitions") + configuration[QString("mount")].split(QString("@@"))[i] + QString("/filllevel"),
                                         this, configuration[QString("interval")].toInt());
@@ -106,9 +111,10 @@ void AwesomeWidget::connectToEngine()
         extsysmonEngine->connectSource(QString("hddtemp"),
                                        this, configuration[QString("interval")].toInt());
     // memory
-    regExp = QRegExp(QString("mem.*"));
+    regExp = QRegExp(QString("(^|bar[0-9].*)mem.*"));
     if ((foundKeys.indexOf(regExp) > -1) ||
-            (configuration[QString("memTooltip")].toInt() == 2)) {
+            (configuration[QString("memTooltip")].toInt() == 2) ||
+            (foundBars.indexOf(regExp) > -1)) {
         sysmonEngine->connectSource(QString("mem/physical/free"),
                                     this, configuration[QString("interval")].toInt());
         sysmonEngine->connectSource(QString("mem/physical/used"),
@@ -142,9 +148,10 @@ void AwesomeWidget::connectToEngine()
         extsysmonEngine->connectSource(QString("ps"),
                                        this, configuration[QString("interval")].toInt());
     // swap
-    regExp = QRegExp(QString("swap.*"));
+    regExp = QRegExp(QString("(^|bar[0-9].*)swap.*"));
     if ((foundKeys.indexOf(regExp) > -1) ||
-            (configuration[QString("swapTooltip")].toInt() == 2)) {
+            (configuration[QString("swapTooltip")].toInt() == 2) ||
+            (foundBars.indexOf(regExp) > -1)) {
         sysmonEngine->connectSource(QString("mem/swap/free"),
                                     this, configuration[QString("interval")].toInt());
         sysmonEngine->connectSource(QString("mem/swap/used"),
@@ -194,8 +201,15 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
                     values[QString("ac")] = configuration[QString("acOnline")];
                 else
                     values[QString("ac")] = configuration[QString("acOffline")];
-            } else
+            } else {
                 values[data.keys()[i]] = QString("%1").arg(data[data.keys()[i]].toFloat(), 3, 'f', 0);
+                if (foundBars.indexOf(QRegExp(QString("bar[0-9].*bat"))) > -1) {
+                    for (int j=0; j<foundBars.count(); j++) {
+                        if (graphicalItems[foundBars[j]]->getBar() != data.keys()[i]) continue;
+                        values[foundBars[j]] = values[data.keys()[i]];
+                    }
+                }
+            }
         }
         if ((configuration[QString("batteryTooltip")].toInt() == 2) &&
                 (!isnan(data[QString("bat")].toFloat()))) {
@@ -208,6 +222,12 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         }
     } else if (sourceName == QString("cpu/system/TotalLoad")) {
         values[QString("cpu")] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
+        if (foundBars.indexOf(QRegExp(QString("bar[0-9].*cpu(?!cl).*"))) > -1) {
+            for (int j=0; j<foundBars.count(); j++) {
+                if (graphicalItems[foundBars[j]]->getBar() != QString("cpu")) continue;
+                values[foundBars[j]] = QString("%1").arg(data[QString("value")].toFloat());
+            }
+        }
         if ((configuration[QString("cpuTooltip")].toInt() == 2) &&
                 (!isnan(data[QString("value")].toFloat()))) {
             if (tooltipValues[QString("cpu")].count() > configuration[QString("tooltipNumber")].toInt())
@@ -219,6 +239,12 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         number.remove(QString("cpu/cpu"));
         number.remove(QString("/TotalLoad"));
         values[QString("cpu") + number] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
+        if (foundBars.indexOf(QRegExp(QString("bar[0-9].*cpu(?!cl).*"))) > -1) {
+            for (int j=0; j<foundBars.count(); j++) {
+                if (graphicalItems[foundBars[j]]->getBar() != (QString("cpu") + number)) continue;
+                values[foundBars[j]] = values[QString("cpu") + number];
+            }
+        }
     } else if (sourceName == QString("cpu/system/AverageClock")) {
         values[QString("cpucl")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
         if ((configuration[QString("cpuclTooltip")].toInt() == 2) &&
@@ -257,6 +283,12 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
             }
     } else if (sourceName == QString("gpu")) {
         values[QString("gpu")] = QString("%1").arg(data[QString("GPU")].toFloat(), 5, 'f', 1);
+        if (foundBars.indexOf(QRegExp(QString("bar[0-9].*gpu"))) > -1) {
+            for (int j=0; j<foundBars.count(); j++) {
+                if (graphicalItems[foundBars[j]]->getBar() != QString("gpu")) continue;
+                values[foundBars[j]] = values[QString("gpu")];
+            }
+        }
     } else if (sourceName == QString("gputemp")) {
         values[QString("gputemp")] = QString("%1").arg(getTemp(data[QString("GPUTemp")].toFloat()), 4, 'f', 1);
     } else if (sourceName.contains(mountFillRegExp)) {
@@ -266,7 +298,12 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         for (int i=0; i<counts[QString("mount")]; i++)
             if (configuration[QString("mount")].split(QString("@@"))[i] == mount) {
                 values[QString("hdd") + QString::number(i)] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
-                break;
+                if (foundBars.indexOf(QRegExp(QString("bar[0-9].*hdd([0-9].*"))) > -1) {
+                    for (int j=0; j<foundBars.count(); j++) {
+                        if (graphicalItems[foundBars[j]]->getBar() != (QString("hdd") + QString::number(i))) continue;
+                        values[foundBars[j]] = values[QString("hdd") + QString::number(i)];
+                    }
+                }
             }
     } else if (sourceName.contains(mountFreeRegExp)) {
         QString mount = sourceName;
@@ -331,6 +368,12 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
                 tooltipValues[QString("mem")].takeFirst();
             tooltipValues[QString("mem")].append(values[QString("mem")].toFloat());
         }
+        if (foundBars.indexOf(QRegExp(QString("bar[0-9].*mem"))) > -1) {
+            for (int j=0; j<foundBars.count(); j++) {
+                if (graphicalItems[foundBars[j]]->getBar() != QString("mem")) continue;
+                values[foundBars[j]] = values[QString("mem")];
+            }
+        }
     } else if (sourceName.contains(netRecRegExp)) {
         values[QString("down")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
         if ((configuration[QString("downTooltip")].toInt() == 2) &&
@@ -393,6 +436,12 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
                 tooltipValues[QString("swap")].takeFirst();
             tooltipValues[QString("swap")].append(values[QString("swap")].toFloat());
         }
+        if (foundBars.indexOf(QRegExp(QString("bar[0-9].*swap"))) > -1) {
+            for (int j=0; j<foundBars.count(); j++) {
+                if (graphicalItems[foundBars[j]]->getBar() != QString("swap")) continue;
+                values[foundBars[j]] = values[QString("swap")];
+            }
+        }
     } else if (sourceName.contains(tempRegExp)) {
         if (data[QString("units")].toString() == QString("rpm")) {
             for (int i=0; i<counts[QString("fan")]; i++)
@@ -441,14 +490,16 @@ void AwesomeWidget::disconnectFromEngine()
     QRegExp regExp;
 
     // battery
-    regExp = QRegExp(QString("(ac|bat)"));
+    regExp = QRegExp(QString("(^|bar[0-9].*)(ac|bat.*)"));
     if ((foundKeys.indexOf(regExp) > -1) ||
-            (configuration[QString("batteryTooltip")].toInt() == 2))
+            (configuration[QString("batteryTooltip")].toInt() == 2) ||
+            (foundBars.indexOf(regExp) > -1))
         extsysmonEngine->disconnectSource(QString("battery"), this);
     // cpu
-    regExp = QRegExp(QString("cpu(?!cl).*"));
+    regExp = QRegExp(QString("(^|bar[0-9].*)cpu(?!cl).*"));
     if ((foundKeys.indexOf(regExp) > -1) ||
-        (configuration[QString("cpuTooltip")].toInt() == 2)) {
+        (configuration[QString("cpuTooltip")].toInt() == 2) ||
+        (foundBars.indexOf(regExp) > -1)) {
         sysmonEngine->disconnectSource(QString("cpu/system/TotalLoad"), this);
         for (int i=0; i<counts[QString("cpu")]; i++)
             sysmonEngine->disconnectSource(QString("cpu/cpu") + QString::number(i) + QString("/TotalLoad"), this);
@@ -482,16 +533,18 @@ void AwesomeWidget::disconnectFromEngine()
         for (int i=0; i<configuration[QString("fanDevice")].split(QString("@@")).count(); i++)
             sysmonEngine->disconnectSource(configuration[QString("fanDevice")].split(QString("@@"))[i], this);
     // gpu
-    regExp = QRegExp(QString("gpu"));
-    if (foundKeys.indexOf(regExp) > -1)
+    regExp = QRegExp(QString("(^|bar[0-9].*)gpu"));
+    if ((foundKeys.indexOf(regExp) > -1) ||
+            (foundBars.indexOf(regExp) > -1))
         extsysmonEngine->disconnectSource(QString("gpu"), this);
     // gputemp
     regExp = QRegExp(QString("gputemp"));
     if (foundKeys.indexOf(regExp) > -1)
         extsysmonEngine->disconnectSource(QString("gputemp"), this);
     // mount
-    regExp = QRegExp(QString("hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb).*"));
-    if (foundKeys.indexOf(regExp) > -1)
+    regExp = QRegExp(QString("(^|bar[0-9].*)hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb).*"));
+    if ((foundKeys.indexOf(regExp) > -1) ||
+            (foundBars.indexOf(regExp) > -1))
         for (int i=0; i<configuration[QString("mount")].split(QString("@@")).count(); i++) {
             sysmonEngine->disconnectSource(QString("partitions") + configuration[QString("mount")].split(QString("@@"))[i] + QString("/filllevel"), this);
             sysmonEngine->disconnectSource(QString("partitions") + configuration[QString("mount")].split(QString("@@"))[i] + QString("/freespace"), this);
@@ -502,9 +555,10 @@ void AwesomeWidget::disconnectFromEngine()
     if (foundKeys.indexOf(regExp) > -1)
         extsysmonEngine->disconnectSource(QString("hddtemp"), this);
     // memory
-    regExp = QRegExp(QString("mem.*"));
+    regExp = QRegExp(QString("(^|bar[0-9].*)mem.*"));
     if ((foundKeys.indexOf(regExp) > -1) ||
-        (configuration[QString("memTooltip")].toInt() == 2)) {
+        (configuration[QString("memTooltip")].toInt() == 2) ||
+        (foundBars.indexOf(regExp) > -1)) {
         sysmonEngine->disconnectSource(QString("mem/physical/free"), this);
         sysmonEngine->disconnectSource(QString("mem/physical/used"), this);
         sysmonEngine->disconnectSource(QString("mem/physical/application"), this);
@@ -529,9 +583,10 @@ void AwesomeWidget::disconnectFromEngine()
     if (foundKeys.indexOf(regExp) > -1)
         extsysmonEngine->disconnectSource(QString("ps"), this);
     // swap
-    regExp = QRegExp(QString("swap.*"));
+    regExp = QRegExp(QString("(^|bar[0-9].*)swap.*"));
     if ((foundKeys.indexOf(regExp) > -1) ||
-        (configuration[QString("swapTooltip")].toInt() == 2)) {
+        (configuration[QString("swapTooltip")].toInt() == 2) ||
+        (foundBars.indexOf(regExp) > -1)) {
         sysmonEngine->disconnectSource(QString("mem/swap/free"), this);
         sysmonEngine->disconnectSource(QString("mem/swap/used"), this);
     }

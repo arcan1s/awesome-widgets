@@ -37,7 +37,7 @@ public:
         Circle
     };
 
-    GraphicalItem(QObject *wid, const QString desktopName, const QStringList directories, const bool debugCmd = false);
+    GraphicalItem(const QString desktopName, const QStringList directories, const bool debugCmd = false);
     ~GraphicalItem();
     QString getImage(const float value);
     // get methods
