@@ -37,10 +37,12 @@ public:
         Circle
     };
 
-    GraphicalItem(QObject *wid, const QString assignName, const QString tag, const bool debugCmd = false);
+    GraphicalItem(QObject *wid, const QString desktopName, const QStringList directories, const bool debugCmd = false);
     ~GraphicalItem();
     QString getImage(const float value);
+    // get methods
     QString getName();
+    QString getComment();
     QString getBar();
     QColor getActiveColor();
     QColor getInactiveColor();
@@ -48,22 +50,35 @@ public:
     Direction getDirection();
     int getHeight();
     int getWidth();
+    // set methods
+    void setName(const QString name);
+    void setComment(const QString comment);
+    void setBar(const QString bar);
+    void setActiveColor(const QColor color);
+    void setInactiveColor(const QColor color);
+    void setType(const QString type);
+    void setDirection(const QString direction);
+    void setHeight(const int height);
+    void setWidth(const int width);
 
 public slots:
-    void parseTag(const QString tag);
+    void readConfiguration();
+    void writeConfiguration();
 
 private:
-    QList<int> parseColor(const QString stringColor);
-    QString name;
+    QString fileName;
+    QStringList dirs;
     bool debug;
     // properties
-    QString bar = QString("cpu");
-    QColor activeColor = QColor(QString("#ffffff"));
-    QColor inactiveColor = QColor(QString("#000000"));
-    Type type = Horizontal;
-    Direction direction;
-    int height = 100;
-    int width = 100;
+    QString _name = QString("none");
+    QString _comment = QString("empty");
+    QString _bar = QString("cpu");
+    QColor _activeColor = QColor(255, 255, 255, 0);
+    QColor _inactiveColor = QColor(255, 255, 255, 255);
+    Type _type = Horizontal;
+    Direction _direction = LeftToRight;
+    int _height = 100;
+    int _width = 100;
 };
 
 

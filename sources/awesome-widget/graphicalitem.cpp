@@ -19,21 +19,22 @@
 
 #include <QBuffer>
 #include <QDebug>
+#include <QDir>
 #include <QGraphicsEllipseItem>
 #include <QGraphicsScene>
 #include <QGraphicsView>
-
+#include <QSettings>
 
 #include <pdebug/pdebug.h>
 
 
-GraphicalItem::GraphicalItem(QObject *wid, const QString assignName, const QString tag, const bool debugCmd)
+GraphicalItem::GraphicalItem(QObject *wid, const QString desktopName, const QStringList directories, const bool debugCmd)
     : QObject(wid),
-      name(assignName),
+      fileName(desktopName),
+      dirs(directories),
       debug(debugCmd)
 {
-    if (debug) qDebug() << PDEBUG << ":" << "Name" << name;
-    parseTag(tag);
+    readConfiguration();
 }
 
 
@@ -47,7 +48,7 @@ QString GraphicalItem::getImage(const float value)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Value" << value;
-    if (bar == QString("none")) return QString("");
+    if (_bar == QString("none")) return QString("");
 
     float percent = value / 100.0;
     int scale[2] = {1, 1};
@@ -59,47 +60,47 @@ QString GraphicalItem::getImage(const float value)
     view->setContentsMargins(0, 0, 0, 0);
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    view->resize(width + 5.0, height + 5.0);
+    view->resize(_width + 5.0, _height + 5.0);
 
     // paint
-    switch(type) {
+    switch(_type) {
     case Vertical:
-        pen.setWidth(width);
+        pen.setWidth(_width);
         // inactive
-        pen.setColor(inactiveColor);
-        scene->addLine(0.5 * width, 0.0, 0.5 * width, height, pen);
+        pen.setColor(_inactiveColor);
+        scene->addLine(0.5 * _width, 0.0, 0.5 * _width, _height, pen);
         // active
-        pen.setColor(activeColor);
-        scene->addLine(0.5 * width, (1.0 - percent) * height + 0.5 * width, 0.5 * width, height + 0.5 * width, pen);
+        pen.setColor(_activeColor);
+        scene->addLine(0.5 * _width, (1.0 - percent) * _height + 0.5 * _width, 0.5 * _width, _height + 0.5 * _width, pen);
         // scale
-        scale[1] = (int)direction;
+        scale[1] = (int)_direction;
         break;
     case Circle:
         QGraphicsEllipseItem *circle;
         pen.setWidth(1.0);
         // inactive
-        pen.setColor(inactiveColor);
-        circle = scene->addEllipse(0.0, 0.0, width, height, pen, QBrush(inactiveColor, Qt::SolidPattern));
+        pen.setColor(_inactiveColor);
+        circle = scene->addEllipse(0.0, 0.0, _width, _height, pen, QBrush(_inactiveColor, Qt::SolidPattern));
         circle->setSpanAngle((1.0 - percent) * 360.0 * 16.0);
         circle->setStartAngle(180.0 * 16.0 - (1.0 - percent) * 360.0 * 16.0);
         // active
-        pen.setColor(activeColor);
-        circle = scene->addEllipse(0.0, 0.0, width, height, pen, QBrush(activeColor, Qt::SolidPattern));
+        pen.setColor(_activeColor);
+        circle = scene->addEllipse(0.0, 0.0, _width, _height, pen, QBrush(_activeColor, Qt::SolidPattern));
         circle->setSpanAngle(percent * 360.0 * 16.0);
         circle->setStartAngle(180.0 * 16.0);
         // scale
-        scale[0] = (int)direction;
+        scale[0] = (int)_direction;
         break;
     default:
-        pen.setWidth(height);
+        pen.setWidth(_height);
         // inactive
-        pen.setColor(inactiveColor);
-        scene->addLine(0.0, 0.5 * height, width, 0.5 * height, pen);
+        pen.setColor(_inactiveColor);
+        scene->addLine(0.0, 0.5 * _height, _width, 0.5 * _height, pen);
         // active
-        pen.setColor(activeColor);
-        scene->addLine(-0.5 * height, 0.5 * height, percent * width - 0.5 * height, 0.5 * height, pen);
+        pen.setColor(_activeColor);
+        scene->addLine(-0.5 * _height, 0.5 * _height, percent * _width - 0.5 * _height, 0.5 * _height, pen);
         // scale
-        scale[0] = (int)direction;
+        scale[0] = (int)_direction;
         break;
     }
 
@@ -120,7 +121,15 @@ QString GraphicalItem::getName()
 {
     if (debug) qDebug() << PDEBUG;
 
-    return name;
+    return _name;
+}
+
+
+QString GraphicalItem::getComment()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return _comment;
 }
 
 
@@ -128,7 +137,7 @@ QString GraphicalItem::getBar()
 {
     if (debug) qDebug() << PDEBUG;
 
-    return bar;
+    return _bar;
 }
 
 
@@ -136,7 +145,7 @@ QColor GraphicalItem::getActiveColor()
 {
     if (debug) qDebug() << PDEBUG;
 
-    return activeColor;
+    return _activeColor;
 }
 
 
@@ -144,7 +153,7 @@ QColor GraphicalItem::getInactiveColor()
 {
     if (debug) qDebug() << PDEBUG;
 
-    return inactiveColor;
+    return _inactiveColor;
 }
 
 
@@ -152,7 +161,7 @@ GraphicalItem::Type GraphicalItem::getType()
 {
     if (debug) qDebug() << PDEBUG;
 
-    return type;
+    return _type;
 }
 
 
@@ -160,7 +169,7 @@ GraphicalItem::Direction GraphicalItem::getDirection()
 {
     if (debug) qDebug() << PDEBUG;
 
-    return direction;
+    return _direction;
 }
 
 
@@ -168,7 +177,7 @@ int GraphicalItem::getHeight()
 {
     if (debug) qDebug() << PDEBUG;
 
-    return height;
+    return _height;
 }
 
 
@@ -176,86 +185,186 @@ int GraphicalItem::getWidth()
 {
     if (debug) qDebug() << PDEBUG;
 
-    return width;
+    return _width;
 }
 
 
-QList<int> GraphicalItem::parseColor(const QString stringColor)
+void GraphicalItem::setName(const QString name)
 {
     if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Name" << name;
 
-    QList<int> color;
-    color.append(0);
-    color.append(0);
-    color.append(0);
-    color.append(0);
-
-    QStringList colors = stringColor.split(QChar(','));
-    for (int i=0; i<colors.count(); i++) {
-        if (i == 4) break;
-        color[i] = colors[i].toInt();
-    }
-
-    return color;
+    _name = name;
 }
 
 
-void GraphicalItem::parseTag(const QString tag)
+void GraphicalItem::setComment(const QString comment)
 {
     if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Comment" << comment;
 
-    QStringList parsedTag = tag.split(QChar(';'));
-    for (int i=0; i<parsedTag.count(); i++)
-        parsedTag[i].remove(QChar('$')).remove(QChar('{')).remove(QChar('}'));
+    _comment = comment;
+}
 
-    if (parsedTag.count() > 0)
-        bar = parsedTag[0];
-    if (parsedTag.count() > 1) {
-        QList<int> color = parseColor(parsedTag[1]);
-        activeColor = QColor(color[0], color[1], color[2], color[3]);
-    }
-    if (parsedTag.count() > 2) {
-        QList<int> color = parseColor(parsedTag[2]);
-        inactiveColor = QColor(color[0], color[1], color[2], color[3]);
-    }
-    if (parsedTag.count() > 3)
-        switch(parsedTag[3].toInt()) {
-        case Vertical:
-            type = Vertical;
-            break;
-        case Circle:
-            type = Circle;
-            break;
-        default:
-            type = Horizontal;
-            break;
-        }
-    if (parsedTag.count() > 4)
-        switch (parsedTag[4].toInt()) {
-        case RightToLeft:
-            direction = RightToLeft;
-            break;
-        default:
-            direction = LeftToRight;
-            break;
-        }
-    if (parsedTag.count() > 5)
-        height = parsedTag[5].toInt();
-    if (parsedTag.count() > 6)
-        width = parsedTag[6].toInt();
 
-    if ((!bar.contains(QRegExp(QString("cpu(?!cl).*")))) &&
-        (!bar.contains(QRegExp(QString("gpu")))) &&
-        (!bar.contains(QRegExp(QString("mem")))) &&
-        (!bar.contains(QRegExp(QString("swap")))) &&
-        (!bar.contains(QRegExp(QString("hdd[0-9].*")))) &&
-        (!bar.contains(QRegExp(QString("bat.*")))))
-        bar = QString("none");
-
+void GraphicalItem::setBar(const QString bar)
+{
+    if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Bar" << bar;
-    if (debug) qDebug() << PDEBUG << ":" << "Active color" << activeColor;
-    if (debug) qDebug() << PDEBUG << ":" << "Inactive color" << inactiveColor;
+
+    _bar = bar;
+    if ((!_bar.contains(QRegExp(QString("cpu(?!cl).*")))) &&
+        (!_bar.contains(QRegExp(QString("gpu")))) &&
+        (!_bar.contains(QRegExp(QString("mem")))) &&
+        (!_bar.contains(QRegExp(QString("swap")))) &&
+        (!_bar.contains(QRegExp(QString("hdd[0-9].*")))) &&
+        (!_bar.contains(QRegExp(QString("bat.*")))))
+        _bar = QString("none");
+}
+
+
+void GraphicalItem::setActiveColor(const QColor color)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Color" << color;
+
+    _activeColor = color;
+}
+
+
+void GraphicalItem::setInactiveColor(const QColor color)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Color" << color;
+
+    _inactiveColor = color;
+}
+
+
+void GraphicalItem::setType(const QString type)
+{
+    if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Type" << type;
+
+    if (type == QString("Vertical"))
+        _type = Vertical;
+    else if (type == QString("Circle"))
+        _type = Circle;
+    else
+        _type = Horizontal;
+}
+
+
+void GraphicalItem::setDirection(const QString direction)
+{
+    if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Direction" << direction;
-    if (debug) qDebug() << PDEBUG << ":" << "Size" << height << width;
+
+    if (direction == QString("RightToLeft"))
+        _direction = RightToLeft;
+    else
+        _direction = LeftToRight;
+}
+
+
+void GraphicalItem::setHeight(const int height)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Height" << height;
+
+    _height = height;
+}
+
+
+void GraphicalItem::setWidth(const int width)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Width" << width;
+
+    _width = width;
+}
+
+
+void GraphicalItem::readConfiguration()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    for (int i=dirs.count()-1; i>=0; i--) {
+        if (!QDir(dirs[i]).entryList(QDir::Files).contains(fileName)) continue;
+        QSettings settings(dirs[i] + QDir::separator() + fileName, QSettings::IniFormat);
+        settings.beginGroup(QString("Desktop Entry"));
+        QStringList childKeys = settings.childKeys();
+        for (int i=0; i<childKeys.count(); i++) {
+            if (childKeys[i] == QString("Name")) {
+                setName(settings.value(childKeys[i]).toString());
+            } else if (childKeys[i] == QString("Comment")) {
+                setComment(settings.value(childKeys[i]).toString());
+            } else if (childKeys[i] == QString("X-AW-Value")) {
+                setBar(settings.value(childKeys[i]).toString());
+            } else if (childKeys[i] == QString("X-AW-ActiveColor")) {
+                QStringList color = settings.value(childKeys[i]).toString().split(QChar(','));
+                setActiveColor(QColor(color[0].toInt(), color[1].toInt(), color[2].toInt(), color[3].toInt()));
+            } else if (childKeys[i] == QString("X-AW-InactiveColor")) {
+                QStringList color = settings.value(childKeys[i]).toString().split(QChar(','));
+                setInactiveColor(QColor(color[0].toInt(), color[1].toInt(), color[2].toInt(), color[3].toInt()));
+            } else if (childKeys[i] == QString("X-AW-Type")) {
+                setType(settings.value(childKeys[i]).toString());
+            } else if (childKeys[i] == QString("X-AW-Direction")) {
+                setDirection(settings.value(childKeys[i]).toString());
+            } else if (childKeys[i] == QString("X-AW-Height")) {
+                setHeight(settings.value(childKeys[i]).toInt());
+            } else if (childKeys[i] == QString("X-AW-Width")) {
+                setWidth(settings.value(childKeys[i]).toInt());
+            }
+        }
+        settings.endGroup();
+    }
+}
+
+
+void GraphicalItem::writeConfiguration()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QSettings settings(dirs[0] + QDir::separator() + fileName, QSettings::IniFormat);
+    if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << settings.fileName();
+    settings.beginGroup(QString("Desktop Entry"));
+
+    QString strValue;
+    settings.setValue(QString("Encoding"), QString("UTF-8"));
+    settings.setValue(QString("Name"), _name);
+    settings.setValue(QString("Comment"), _comment);
+    settings.setValue(QString("X-AW-Value"), _bar);
+    settings.setValue(QString("X-AW-ActiveColor"), QString("%1,%2,%3,%4")
+                      .arg(_activeColor.red()).arg(_activeColor.green())
+                      .arg(_activeColor.blue()).arg(_activeColor.alpha()));
+    settings.setValue(QString("X-AW-InactiveColor"), QString("%1,%2,%3,%4")
+                      .arg(_inactiveColor.red()).arg(_inactiveColor.green())
+                      .arg(_inactiveColor.blue()).arg(_inactiveColor.alpha()));
+    switch(_type) {
+    case Vertical:
+        strValue = QString("Vertical");
+        break;
+    case Circle:
+        strValue = QString("Circle");
+        break;
+    default:
+        strValue = QString("Horizontal");
+        break;
+    }
+    settings.setValue(QString("X-AW-Type"), strValue);
+    switch (_direction) {
+    case RightToLeft:
+        strValue = QString("RightToLeft");
+        break;
+    default:
+        strValue = QString("LeftToRight");
+        break;
+    }
+    settings.setValue(QString("X-AW-Direction"), strValue);
+    settings.setValue(QString("X-AW-Height"), _height);
+    settings.setValue(QString("X-AW-Width"), _width);
+
+    settings.endGroup();
+    settings.sync();
 }
