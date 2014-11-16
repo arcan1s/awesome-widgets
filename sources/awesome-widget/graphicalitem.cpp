@@ -339,7 +339,7 @@ void GraphicalItem::showConfiguration(const QStringList tags)
     ui->lineEdit_comment->setText(_comment);
     ui->comboBox_value->addItems(tags);
     ui->comboBox_value->addItem(_bar);
-    ui->comboBox_value->setCurrentIndex(ui->comboBox_value->count()-1);
+    ui->comboBox_value->setCurrentIndex(ui->comboBox_value->count() - 1);
     ui->pushButton_activeColor->setText(QString("%1,%2,%3,%4")
                                         .arg(_activeColor.red()).arg(_activeColor.green())
                                         .arg(_activeColor.blue()).arg(_activeColor.alpha()));
