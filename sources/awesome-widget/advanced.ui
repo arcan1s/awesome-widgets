@@ -41,9 +41,9 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-126</y>
+        <y>-225</y>
         <width>677</width>
-        <height>702</height>
+        <height>801</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -74,6 +74,9 @@
            <property name="text">
             <string>Custom time format</string>
            </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
           </widget>
          </item>
          <item>
@@ -96,9 +99,6 @@ $m - minutes w\o zero
 $ss - seconds
 $s - seconds w\o zero</string>
            </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
           </widget>
          </item>
         </layout>
@@ -116,6 +116,9 @@ $s - seconds w\o zero</string>
            <property name="text">
             <string>Custom uptime format</string>
            </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
           </widget>
          </item>
          <item>
@@ -127,9 +130,6 @@ $hh - uptime hours
 $h - uptime hours without zero
 $mm - uptime minutes
 $m - uptime minutes without zero</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
@@ -147,6 +147,9 @@ $m - uptime minutes without zero</string>
            </property>
            <property name="text">
             <string>Temperature units</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
@@ -376,6 +379,9 @@ $m - uptime minutes without zero</string>
            <property name="text">
             <string>AC online tag</string>
            </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
           </widget>
          </item>
          <item>
@@ -385,9 +391,6 @@ $m - uptime minutes without zero</string>
            </property>
            <property name="text">
             <string/>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
@@ -406,6 +409,9 @@ $m - uptime minutes without zero</string>
            <property name="text">
             <string>AC offline tag</string>
            </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
           </widget>
          </item>
          <item>
@@ -416,10 +422,54 @@ $m - uptime minutes without zero</string>
            <property name="text">
             <string/>
            </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
           </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="layout_bars">
+         <item>
+          <layout class="QHBoxLayout" name="layout_barsAdd">
+           <item>
+            <widget class="QLabel" name="label_bars">
+             <property name="minimumSize">
+              <size>
+               <width>200</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Bars</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="spacer_bars">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_bars">
+             <property name="text">
+              <string>Add</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QListWidget" name="listWidget_bars"/>
          </item>
         </layout>
        </item>

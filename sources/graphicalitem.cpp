@@ -16,10 +16,8 @@
  ***************************************************************************/
 
 #include "graphicalitem.h"
-#include "ui_graphicalitem.h"
 
 #include <QBuffer>
-#include <QColorDialog>
 #include <QDebug>
 #include <QDir>
 #include <QGraphicsEllipseItem>
@@ -30,26 +28,18 @@
 #include <pdebug/pdebug.h>
 
 
-GraphicalItem::GraphicalItem(QWidget *parent, const QString desktopName, const QStringList directories, const bool debugCmd)
-    : QDialog(parent),
-      fileName(desktopName),
+GraphicalItem::GraphicalItem(const QString desktopName, const QStringList directories, const bool debugCmd)
+    : fileName(desktopName),
       dirs(directories),
-      debug(debugCmd),
-      ui(new Ui::GraphicalItem)
+      debug(debugCmd)
 {
     readConfiguration();
-
-    ui->setupUi(this);
-    connect(ui->pushButton_activeColor, SIGNAL(clicked()), this, SLOT(changeColor()));
-    connect(ui->pushButton_inactiveColor, SIGNAL(clicked()), this, SLOT(changeColor()));
 }
 
 
 GraphicalItem::~GraphicalItem()
 {
     if (debug) qDebug() << PDEBUG;
-
-    delete ui;
 }
 
 
@@ -331,44 +321,9 @@ void GraphicalItem::readConfiguration()
 }
 
 
-void GraphicalItem::showConfiguration(const QStringList tags)
+void GraphicalItem::showConfiguration()
 {
     if (debug) qDebug() << PDEBUG;
-
-    ui->label_nameValue->setText(_name);
-    ui->lineEdit_comment->setText(_comment);
-    ui->comboBox_value->addItems(tags);
-    ui->comboBox_value->addItem(_bar);
-    ui->comboBox_value->setCurrentIndex(ui->comboBox_value->count()-1);
-    ui->pushButton_activeColor->setText(QString("%1,%2,%3,%4")
-                                        .arg(_activeColor.red()).arg(_activeColor.green())
-                                        .arg(_activeColor.blue()).arg(_activeColor.alpha()));
-    ui->pushButton_inactiveColor->setText(QString("%1,%2,%3,%4")
-                                          .arg(_inactiveColor.red()).arg(_inactiveColor.green())
-                                          .arg(_inactiveColor.blue()).arg(_inactiveColor.alpha()));
-    ui->comboBox_type->setCurrentIndex((int)_type);
-    ui->comboBox_direction->setCurrentIndex((int)_direction);
-    ui->spinBox_height->setValue(_height);
-    ui->spinBox_width->setValue(_width);
-
-    int ret = exec();
-    if (ret == 0) {
-        QStringList colorText;
-        setName(ui->label_nameValue->text());
-        setComment(ui->label_comment->text());
-        setBar(ui->comboBox_value->currentText());
-        colorText = ui->pushButton_activeColor->text().split(QChar(','));
-        setActiveColor(QColor(colorText[0].toInt(), colorText[1].toInt(),
-                              colorText[2].toInt(), colorText[3].toInt()));
-        colorText = ui->pushButton_inactiveColor->text().split(QChar(','));
-        setInactiveColor(QColor(colorText[0].toInt(), colorText[1].toInt(),
-                                colorText[2].toInt(), colorText[3].toInt()));
-        setType(ui->comboBox_type->currentText());
-        setDirection(ui->comboBox_direction->currentText());
-        setHeight(ui->spinBox_height->value());
-        setWidth(ui->spinBox_width->value());
-        writeConfiguration();
-    }
 }
 
 
@@ -426,23 +381,4 @@ void GraphicalItem::writeConfiguration()
 
     settings.endGroup();
     settings.sync();
-}
-
-
-void GraphicalItem::changeColor()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    QStringList colorText = ((QPushButton *)sender())->text().split(QChar(','));
-    QColor color = QColor(colorText[0].toInt(), colorText[1].toInt(),
-                          colorText[2].toInt(), colorText[3].toInt());
-    QColor newColor = QColorDialog::getColor(color, 0, i18n("Select color"),
-                                             QColorDialog::ShowAlphaChannel);
-
-    colorText.clear();
-    colorText.append(QString("%1").arg(newColor.red()));
-    colorText.append(QString("%1").arg(newColor.green()));
-    colorText.append(QString("%1").arg(newColor.blue()));
-    colorText.append(QString("%1").arg(newColor.alpha()));
-    ((QPushButton *)sender())->setText(colorText.join(QChar(',')));
 }

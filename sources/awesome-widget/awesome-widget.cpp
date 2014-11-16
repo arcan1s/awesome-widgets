@@ -429,7 +429,7 @@ void AwesomeWidget::getGraphicalItems()
             if (names.contains(files[j])) continue;
             if (debug) qDebug() << PDEBUG << ":" << "Found file" << files[j] << "in" << dirs[i];
             names.append(files[j]);
-            GraphicalItem *item = new GraphicalItem(files[j], dirs, debug);
+            GraphicalItem *item = new GraphicalItem(0, files[j], dirs, debug);
             graphicalItems[item->getName() + item->getBar()] = item;
         }
     }

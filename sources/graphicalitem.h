@@ -19,19 +19,16 @@
 #define GRAPHICALITEM_H
 
 #include <QColor>
-#include <QDialog>
+#include <QObject>
 
-namespace Ui {
-class GraphicalItem;
-}
 
-class GraphicalItem : public QDialog
+class GraphicalItem : public QObject
 {
     Q_OBJECT
 
 public:
     enum Direction {
-        RightToLeft = 0,
+        RightToLeft = -1,
         LeftToRight = 1
     };
     enum Type {
@@ -40,8 +37,7 @@ public:
         Circle
     };
 
-    explicit GraphicalItem(QWidget *parent = 0, const QString desktopName = QString(),
-                           const QStringList directories = QStringList(), const bool debugCmd = false);
+    GraphicalItem(const QString desktopName, const QStringList directories, const bool debugCmd = false);
     ~GraphicalItem();
     QString getImage(const float value);
     // get methods
@@ -67,18 +63,14 @@ public:
 
 public slots:
     void readConfiguration();
-    void showConfiguration(const QStringList tags = QStringList());
+    void showConfiguration();
     void tryDelete();
     void writeConfiguration();
-
-private slots:
-    void changeColor();
 
 private:
     QString fileName;
     QStringList dirs;
     bool debug;
-    Ui::GraphicalItem *ui;
     // properties
     QString _name = QString("none");
     QString _comment = QString("empty");
@@ -90,5 +82,6 @@ private:
     int _height = 100;
     int _width = 100;
 };
+
 
 #endif /* GRAPHICALITEM_H */

@@ -79,10 +79,12 @@ private slots:
     void reinit();
     void replyRecieved(QNetworkReply *reply);
     // configuration interface
+    void addBar();
     void addCustomScript();
     void addNewPkgCommand(QTableWidgetItem *item);
     void contextMenuCustomCommand(const QPoint pos);
     void contextMenuPkgCommand(const QPoint pos);
+    void editBar(QListWidgetItem *item);
     void editCustomCommand(const int row, const int column);
     void editFanItem(QListWidgetItem *item);
     void editHddItem(QListWidgetItem *item);

@@ -28,6 +28,7 @@
 #include <QTextCodec>
 
 #include <extscript.h>
+#include <graphicalitem.h>
 #include <fontdialog/fontdialog.h>
 #include <pdebug/pdebug.h>
 #include <task/taskadds.h>
@@ -297,6 +298,9 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
                 Qt::MatchFixedString));
     uiAdvancedConfig.lineEdit_acOnline->setText(configuration[QString("acOnline")]);
     uiAdvancedConfig.lineEdit_acOffline->setText(configuration[QString("acOffline")]);
+    uiAdvancedConfig.listWidget_bars->clear();
+    for (int i=0; i<graphicalItems.keys().count(); i++)
+        uiAdvancedConfig.listWidget_bars->addItem(new QListWidgetItem(graphicalItems.keys()[i]));
     if (configuration[QString("checkUpdates")].toInt() == 0)
         uiAdvancedConfig.checkBox_updates->setCheckState(Qt::Unchecked);
     else
@@ -473,6 +477,8 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
             this, SLOT(editMountItem(QListWidgetItem *)));
     connect(uiAdvancedConfig.listWidget_tempDevice, SIGNAL(itemActivated(QListWidgetItem *)),
             this, SLOT(editTempItem(QListWidgetItem *)));
+    connect(uiAdvancedConfig.listWidget_bars, SIGNAL(itemActivated(QListWidgetItem *)),
+            this, SLOT(editBar(QListWidgetItem *)));
     connect(uiDEConfig.tableWidget_customCommand, SIGNAL(cellDoubleClicked(int, int)),
             this, SLOT(editCustomCommand(int, int)));
     connect(uiDEConfig.tableWidget_customCommand, SIGNAL(customContextMenuRequested(QPoint)),
@@ -481,6 +487,7 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
             this, SLOT(addNewPkgCommand(QTableWidgetItem *)));
     connect(uiDEConfig.tableWidget_pkgCommand, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(contextMenuPkgCommand(QPoint)));
+    connect(uiAdvancedConfig.pushButton_bars, SIGNAL(clicked(bool)), this, SLOT(addBar()));
     connect(uiWidConfig.pushButton_tags, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
     connect(uiWidConfig.pushButton_br, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
     connect(uiWidConfig.pushButton_font, SIGNAL(clicked(bool)), this, SLOT(setFontFormating()));
@@ -737,6 +744,41 @@ void AwesomeWidget::configChanged()
 }
 
 
+void AwesomeWidget::addBar()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    int number = 0;
+    while (true) {
+        bool exit = true;
+        for (int i=0; i<graphicalItems.keys().count(); i++)
+            if (graphicalItems[graphicalItems.keys()[i]]->getName() == QString("bar%1").arg(number)) {
+                number++;
+                exit = false;
+                break;
+            }
+        if (exit) break;
+    }
+    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_applet_awesome-widget/desktops");
+    bool ok;
+    QString name = QInputDialog::getText(0, i18n("Enter file name"),
+                                         i18n("File name"), QLineEdit::Normal,
+                                         QString(""), &ok);
+    if ((!ok) || (name.isEmpty())) return;
+    QStringList bars;
+    bars.append(keys.filter((QRegExp(QString("cpu(?!cl).*")))));
+    bars.append(keys.filter((QRegExp(QString("gpu")))));
+    bars.append(keys.filter((QRegExp(QString("mem")))));
+    bars.append(keys.filter((QRegExp(QString("swap")))));
+    bars.append(keys.filter((QRegExp(QString("hdd[0-9].*")))));
+    bars.append(keys.filter((QRegExp(QString("bat.*")))));
+
+    GraphicalItem *item = new GraphicalItem(0, name, dirs, debug);
+    item->setName(QString("bar%1").arg(number));
+    item->showConfiguration(bars);
+}
+
+
 void AwesomeWidget::addCustomScript()
 {
     if (debug) qDebug() << PDEBUG;
@@ -839,6 +881,22 @@ void AwesomeWidget::contextMenuPkgCommand(const QPoint pos)
     if (action == remove)
         uiDEConfig.tableWidget_pkgCommand->removeRow(
                     uiDEConfig.tableWidget_pkgCommand->currentRow());
+}
+
+
+void AwesomeWidget::editBar(QListWidgetItem *item)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QStringList bars;
+    bars.append(keys.filter((QRegExp(QString("cpu(?!cl).*")))));
+    bars.append(keys.filter((QRegExp(QString("gpu$")))));
+    bars.append(keys.filter((QRegExp(QString("mem$")))));
+    bars.append(keys.filter((QRegExp(QString("swap$")))));
+    bars.append(keys.filter((QRegExp(QString("hdd[0-9].*")))));
+    bars.append(keys.filter((QRegExp(QString("bat.*")))));
+
+    graphicalItems[item->text()]->showConfiguration(bars);
 }
 
 
