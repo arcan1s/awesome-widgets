@@ -321,6 +321,15 @@ void GraphicalItem::readConfiguration()
 }
 
 
+void GraphicalItem::tryDelete()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    for (int i=0; i<dirs.count(); i++)
+        if (debug) qDebug() << PDEBUG << ":" << "Remove file" << fileName << QFile::remove(fileName);
+}
+
+
 void GraphicalItem::writeConfiguration()
 {
     if (debug) qDebug() << PDEBUG;

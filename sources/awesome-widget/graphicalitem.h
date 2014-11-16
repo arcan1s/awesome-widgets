@@ -63,6 +63,7 @@ public:
 
 public slots:
     void readConfiguration();
+    void tryDelete();
     void writeConfiguration();
 
 private:
