@@ -126,7 +126,7 @@ void ExtendedSysMon::initScripts()
     for (int i=0; i<dirs.count(); i++) {
         QStringList files = QDir(dirs[i]).entryList(QDir::Files, QDir::Name);
         for (int j=0; j<files.count(); j++) {
-            if (files[j].endsWith(QString(".conf"))) continue;
+            if (!files[j].endsWith(QString(".desktop"))) continue;
             if (names.contains(files[j])) continue;
             if (debug) qDebug() << PDEBUG << ":" << "Found file" << files[j] << "in" << dirs[i];
             names.append(files[j]);

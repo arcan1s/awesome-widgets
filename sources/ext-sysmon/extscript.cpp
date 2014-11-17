@@ -248,13 +248,7 @@ ExtScript::ScriptData ExtScript::run(const int time)
     QStringList cmdList;
     if (!_prefix.isEmpty())
         cmdList.append(_prefix);
-    QString fullPath = fileName;
-    for (int i=0; i<dirs.count(); i++) {
-        if (!QDir(dirs[i]).entryList(QDir::Files).contains(fileName)) continue;
-        fullPath = dirs[i] + QDir::separator() + fileName;
-        break;
-    }
-    cmdList.append(fullPath);
+    cmdList.append(_exec);
     if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmdList.join(QChar(' '));
     TaskResult process = runTask(cmdList.join(QChar(' ')));
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
