@@ -1,5 +1,7 @@
 # set project name
 set (SUBPROJECT plasma_engine_extsysmon)
+set (PLUGIN_NAME ${SUBPROJECT})
+message (STATUS "Subproject ${SUBPROJECT}")
 
 # find required libaries
 find_package (KDE4 REQUIRED)
@@ -13,11 +15,11 @@ include_directories (${CMAKE_SOURCE_DIR}
                      ${CMAKE_CURRENT_BINARY_DIR}/../
                      ${PROJECT_TRDPARTY_DIR})
 
-set (PLUGIN_NAME ${SUBPROJECT})
 file (GLOB SUBPROJECT_DESKTOP_IN *.desktop)
 file (RELATIVE_PATH SUBPROJECT_DESKTOP ${CMAKE_SOURCE_DIR} ${SUBPROJECT_DESKTOP_IN})
 file (GLOB_RECURSE SUBPROJECT_SOURCE *.cpp ${PROJECT_TRDPARTY_DIR}/task/*.cpp)
 set (TASK_HEADER ${PROJECT_TRDPARTY_DIR}/task/task.h)
+file (GLOB SUBPROJECT_UI *.ui)
 file (GLOB SUBPROJECT_CONF *.conf)
 set (SUBPROJECT_SCRIPTS ${CMAKE_CURRENT_SOURCE_DIR}/scripts)
 
@@ -26,6 +28,7 @@ configure_file (${SUBPROJECT_DESKTOP_IN} ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJEC
 
 # make
 qt4_wrap_cpp (TASK_MOC_SOURCE ${TASK_HEADER})
+kde4_add_ui_files (SUBPROJECT_SOURCE ${SUBPROJECT_UI})
 kde4_add_plugin (${PLUGIN_NAME} ${SUBPROJECT_SOURCE} ${TASK_MOC_SOURCE})
 target_link_libraries (${PLUGIN_NAME} ${KDE4_KDECORE_LIBS} ${KDE4_PLASMA_LIBS})
 

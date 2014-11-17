@@ -585,7 +585,7 @@ void AwesomeWidget::configAccepted()
     deSettings[QString("ACPIPATH")] = uiDEConfig.lineEdit_acpi->text();
     QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_engine_extsysmon/scripts");
     for (int i=0; i<uiDEConfig.tableWidget_customCommand->rowCount(); i++) {
-        ExtScript *script = new ExtScript(uiDEConfig.tableWidget_customCommand->item(i, 0)->text(), dirs, debug);
+        ExtScript *script = new ExtScript(0, uiDEConfig.tableWidget_customCommand->item(i, 0)->text(), dirs, debug);
         if (uiDEConfig.tableWidget_customCommand->item(i, 0)->checkState() == Qt::Checked)
             script->setActive(true);
         else
@@ -862,7 +862,7 @@ void AwesomeWidget::contextMenuCustomCommand(const QPoint pos)
     } else if (action == remove) {
         int row = uiDEConfig.tableWidget_customCommand->currentRow();
         QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_engine_extsysmon/scripts");
-        ExtScript *script = new ExtScript(uiDEConfig.tableWidget_customCommand->item(row, 0)->text(), dirs, debug);
+        ExtScript *script = new ExtScript(0, uiDEConfig.tableWidget_customCommand->item(row, 0)->text(), dirs, debug);
         script->tryDelete();
         delete script;
         uiDEConfig.tableWidget_customCommand->removeRow(row);
@@ -976,7 +976,7 @@ QList<ExtScript *> AwesomeWidget::initScripts()
             if (names.contains(files[j])) continue;
             if (debug) qDebug() << PDEBUG << ":" << "Found file" << files[j] << "in" << dirs[i];
             names.append(files[j]);
-            externalScripts.append(new ExtScript(files[j], dirs, debug));
+            externalScripts.append(new ExtScript(0, files[j], dirs, debug));
         }
     }
 

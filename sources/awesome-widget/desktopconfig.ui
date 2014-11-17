@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DEWindow</class>
+ <widget class="QWidget" name="DEWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>700</width>
+    <height>584</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>700</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>16777215</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string notr="true">DE</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0">
+    <widget class="QScrollArea" name="scrollArea_dattaengine">
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="contents_dattaengine">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>684</width>
+        <height>568</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="4" column="0">
+        <layout class="QHBoxLayout" name="layout_hddtempCmd">
+         <item>
+          <widget class="QLabel" name="label_hddtempCmd">
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>hddtemp cmd</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_hddtempCmd">
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="2" column="0">
+        <layout class="QHBoxLayout" name="layout_gpudev">
+         <item>
+          <widget class="QLabel" name="label_gpudev">
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>GPU device</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_gpudev">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
+           <item>
+            <property name="text">
+             <string notr="true">auto</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">disable</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">nvidia</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">ati</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="3" column="0">
+        <layout class="QHBoxLayout" name="layout_hdddev">
+         <item>
+          <widget class="QLabel" name="label_hdddev">
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>HDD</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_hdddev">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="8" column="0">
+        <layout class="QHBoxLayout" name="layout_playerSelect">
+         <item>
+          <widget class="QLabel" name="label_playerSelect">
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Music player</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_playerSelect">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
+           <item>
+            <property name="text">
+             <string notr="true">mpris</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">mpd</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="6" column="0">
+        <layout class="QHBoxLayout" name="layout_mpdport">
+         <item>
+          <widget class="QLabel" name="label_mpdport">
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>MPD port</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="spacer_mpdport">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>19</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spinBox_mpdport">
+           <property name="minimumSize">
+            <size>
+             <width>180</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="minimum">
+            <number>0</number>
+           </property>
+           <property name="maximum">
+            <number>50000</number>
+           </property>
+           <property name="singleStep">
+            <number>100</number>
+           </property>
+           <property name="value">
+            <number>6600</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="5" column="0">
+        <layout class="QHBoxLayout" name="layout_mpdaddress">
+         <item>
+          <widget class="QLabel" name="label_mpdaddress">
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>MPD address</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_mpdaddress">
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="10" column="0">
+        <spacer name="spacer_dataengine">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="0">
+        <layout class="QHBoxLayout" name="layout_acpi">
+         <item>
+          <widget class="QLabel" name="label_acpi">
+           <property name="minimumSize">
+            <size>
+             <width>200</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>ACPI path</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_acpi">
+           <property name="toolTip">
+            <string>&quot;/sys/class/power_supply/&quot; by default</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="1" column="0">
+        <widget class="QTableWidget" name="tableWidget_customCommand">
+         <property name="contextMenuPolicy">
+          <enum>Qt::CustomContextMenu</enum>
+         </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::SingleSelection</enum>
+         </property>
+         <attribute name="horizontalHeaderStretchLastSection">
+          <bool>true</bool>
+         </attribute>
+         <attribute name="verticalHeaderVisible">
+          <bool>false</bool>
+         </attribute>
+         <column>
+          <property name="text">
+           <string>Name</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Interval</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Output</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Prefix</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Redirect</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <layout class="QVBoxLayout" name="layout_mpris">
+         <item>
+          <widget class="QLabel" name="label_mprisInfo">
+           <property name="text">
+            <string>&lt;b&gt;NOTE:&lt;/b&gt; Player DBus interface should be an active</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="layout_mprisSelect">
+           <item>
+            <widget class="QLabel" name="label_mpris">
+             <property name="minimumSize">
+              <size>
+               <width>200</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>MPRIS player name</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="comboBox_mpris">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="editable">
+              <bool>true</bool>
+             </property>
+             <item>
+              <property name="text">
+               <string notr="true">auto</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string notr="true">amarok</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string notr="true">audacious</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string notr="true">clementine</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string notr="true">deadbeef</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string notr="true">vlc</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string notr="true">qmmp</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string notr="true">xmms2</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item row="9" column="0">
+        <layout class="QVBoxLayout" name="layout_pkgCommand">
+         <item>
+          <widget class="QTableWidget" name="tableWidget_pkgCommand">
+           <property name="contextMenuPolicy">
+            <enum>Qt::CustomContextMenu</enum>
+           </property>
+           <property name="toolTip">
+            <string>Editable
+del - remove item</string>
+           </property>
+           <property name="selectionMode">
+            <enum>QAbstractItemView::SingleSelection</enum>
+           </property>
+           <attribute name="horizontalHeaderStretchLastSection">
+            <bool>true</bool>
+           </attribute>
+           <attribute name="verticalHeaderVisible">
+            <bool>false</bool>
+           </attribute>
+           <column>
+            <property name="text">
+             <string>Package manager</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Null lines</string>
+            </property>
+           </column>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

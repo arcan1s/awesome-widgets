@@ -130,7 +130,7 @@ void ExtendedSysMon::initScripts()
             if (names.contains(files[j])) continue;
             if (debug) qDebug() << PDEBUG << ":" << "Found file" << files[j] << "in" << dirs[i];
             names.append(files[j]);
-            externalScripts.append(new ExtScript(files[j], dirs, debug));
+            externalScripts.append(new ExtScript(0, files[j], dirs, debug));
             times.append(1);
         }
     }

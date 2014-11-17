@@ -18,11 +18,14 @@
 #ifndef EXTSCRIPT_H
 #define EXTSCRIPT_H
 
-#include <QObject>
-#include <QStringList>
+#include <QDialog>
 
 
-class ExtScript : public QObject
+namespace Ui {
+class ExtScript;
+}
+
+class ExtScript : public QDialog
 {
     Q_OBJECT
 
@@ -38,8 +41,8 @@ public:
         QString output;
         bool refresh;
     } ScriptData;
-
-    ExtScript(const QString scriptName, const QStringList directories, const bool debugCmd = false);
+    explicit ExtScript(QWidget *parent = 0, const QString scriptName = QString(),
+                       const QStringList directories = QStringList(), const bool debugCmd = false);
     ~ExtScript();
     // configuration
     void addDirectory(const QString dir);
@@ -63,21 +66,22 @@ public slots:
     void tryDelete();
     void writeConfiguration();
 
+
 private:
+    QString name;
+    QStringList dirs;
+    bool debug;
+    Ui::ExtScript *ui;
     // configuration
     void fromExternalConfiguration(const QMap<QString, QString> settings);
     QMap<QString, QString> getConfigurationFromFile(const QString fileName);
     QMap<QString, QString> toExternalConfiguration();
     // properties
     bool active = true;
-    QString name;
-    QStringList dirs;
     int interval = 1;
     bool output = true;
     QString prefix = QString("");
     Redirect redirect = nothing;
-    // other
-    bool debug;
 };
 
 

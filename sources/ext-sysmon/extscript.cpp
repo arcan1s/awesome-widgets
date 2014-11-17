@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "extscript.h"
+#include "ui_extscript.h"
 
 #include <QDebug>
 #include <QDir>
@@ -25,19 +26,23 @@
 #include <task/taskadds.h>
 
 
-ExtScript::ExtScript(const QString scriptName, const QStringList directories, const bool debugCmd)
-      : QObject(0),
-        name(scriptName),
-        dirs(directories),
-        debug(debugCmd)
+ExtScript::ExtScript(QWidget *parent, const QString scriptName, const QStringList directories, const bool debugCmd) :
+    QDialog(parent),
+    name(scriptName),
+    dirs(directories),
+    debug(debugCmd),
+    ui(new Ui::ExtScript)
 {
     readConfiguration();
+    ui->setupUi(this);
 }
 
 
 ExtScript::~ExtScript()
 {
     if (debug) qDebug() << PDEBUG;
+
+    delete ui;
 }
 
 

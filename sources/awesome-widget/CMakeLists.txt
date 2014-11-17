@@ -16,7 +16,8 @@ include_directories (${CMAKE_SOURCE_DIR}
                      ${CMAKE_CURRENT_BINARY_DIR}
                      ${CMAKE_CURRENT_BINARY_DIR}/../
                      ${PROJECT_TRDPARTY_DIR}
-                     ../ext-sysmon)
+                     ../ext-sysmon
+                     ${CMAKE_CURRENT_BINARY_DIR}/../ext-sysmon)
 
 # set sources
 file (GLOB SUBPROJECT_DESKTOP_IN *.desktop)
