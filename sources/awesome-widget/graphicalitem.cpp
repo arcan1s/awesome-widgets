@@ -280,6 +280,7 @@ void GraphicalItem::setHeight(const int height)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Height" << height;
+    if (height <= 0) return;
 
     _height = height;
 }
@@ -289,6 +290,7 @@ void GraphicalItem::setWidth(const int width)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Width" << width;
+    if (width <= 0) return;
 
     _width = width;
 }

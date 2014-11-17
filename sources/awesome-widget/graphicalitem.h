@@ -55,15 +55,15 @@ public:
     int getHeight();
     int getWidth();
     // set methods
-    void setName(const QString name);
-    void setComment(const QString comment);
-    void setBar(const QString bar);
-    void setActiveColor(const QColor color);
-    void setInactiveColor(const QColor color);
-    void setType(const QString type);
-    void setDirection(const QString direction);
-    void setHeight(const int height);
-    void setWidth(const int width);
+    void setName(const QString name = QString("none"));
+    void setComment(const QString comment = QString("empty"));
+    void setBar(const QString bar = QString("cpu"));
+    void setActiveColor(const QColor color = QColor(255, 255, 255, 0));
+    void setInactiveColor(const QColor color = QColor(255, 255, 255, 255));
+    void setType(const QString type = QString("Horizontal"));
+    void setDirection(const QString direction = QString("LeftToRight"));
+    void setHeight(const int height = 100);
+    void setWidth(const int width = 100);
 
 public slots:
     void readConfiguration();

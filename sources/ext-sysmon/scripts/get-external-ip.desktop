@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=aw-get-external-ip
+Comment=Custom command to get external IP
+Exec=curl ip4.telize.com
+X-AW-Prefix=
+X-AW-Active=true
+X-AW-Output=true
+X-AW-Redirect=nothing
+X-AW-Interval=1

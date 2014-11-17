@@ -46,28 +46,6 @@ ExtScript::~ExtScript()
 }
 
 
-void ExtScript::addDirectory(const QString dir)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Directory" << dir;
-
-    QString absPath = QDir(dir).absolutePath();
-    if (!QDir(absPath).exists()) return;
-    for (int i=0; i<dirs.count(); i++)
-        if (dirs[i] == absPath) return;
-
-    dirs.append(absPath);
-}
-
-
-QStringList ExtScript::directories()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return dirs;
-}
-
-
 int ExtScript::getInterval()
 {
     if (debug) qDebug() << PDEBUG;
@@ -88,7 +66,7 @@ QString ExtScript::getPrefix()
 {
     if (debug) qDebug() << PDEBUG;
 
-    return prefix;
+    return _prefix;
 }
 
 
@@ -96,7 +74,7 @@ ExtScript::Redirect ExtScript::getRedirect()
 {
     if (debug) qDebug() << PDEBUG;
 
-    return redirect;
+    return _redirect;
 }
 
 
@@ -104,7 +82,7 @@ bool ExtScript::hasOutput()
 {
     if (debug) qDebug() << PDEBUG;
 
-    return output;
+    return _output;
 }
 
 
@@ -112,7 +90,7 @@ bool ExtScript::isActive()
 {
     if (debug) qDebug() << PDEBUG;
 
-    return active;
+    return _active;
 }
 
 
@@ -121,17 +99,7 @@ void ExtScript::setActive(const bool state)
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "State" << state;
 
-    active = state;
-}
-
-
-void ExtScript::setDirectories(const QStringList directories)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Directories" << directories;
-
-    for (int i=0; i<directories.count(); i++)
-        addDirectory(directories[i]);
+    _active = state;
 }
 
 
@@ -140,36 +108,40 @@ void ExtScript::setHasOutput(const bool state)
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "State" << state;
 
-    output = state;
+    _output = state;
 }
 
 
-void ExtScript::setInterval(const int inter)
+void ExtScript::setInterval(const int interval)
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Interval" << inter;
+    if (debug) qDebug() << PDEBUG << ":" << "Interval" << interval;
+    if (interval <= 0) return;
 
-    if (inter <= 0) return;
-
-    interval = inter;
+    _interval = interval;
 }
 
 
-void ExtScript::setPrefix(const QString pref)
+void ExtScript::setPrefix(const QString prefix)
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Prefix" << pref;
+    if (debug) qDebug() << PDEBUG << ":" << "Prefix" << prefix;
 
-    prefix = pref;
+    _prefix = prefix;
 }
 
 
-void ExtScript::setRedirect(const Redirect redir)
+void ExtScript::setRedirect(const QString redirect)
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Redirect" << redir;
+    if (debug) qDebug() << PDEBUG << ":" << "Redirect" << redirect;
 
-    redirect = redir;
+    if (redirect == QString("stdout2sdterr"))
+        _redirect = stdout2stderr;
+    else if (redirect == QString("stderr2sdtout"))
+        _redirect = stderr2stdout;
+    else
+        _redirect = nothing;
 }
 
 
@@ -195,16 +167,16 @@ ExtScript::ScriptData ExtScript::run(const int time)
     if (debug) qDebug() << PDEBUG;
 
     ScriptData response;
-    response.active = active;
+    response.active = _active;
     response.name = name;
     response.refresh = false;
-    if (!active) return response;
-    if (time != interval) return response;
+    if (!_active) return response;
+    if (time != _interval) return response;
     response.refresh = true;
 
     QStringList cmdList;
-    if (!prefix.isEmpty())
-        cmdList.append(prefix);
+    if (!_prefix.isEmpty())
+        cmdList.append(_prefix);
     QString fullPath = name;
     for (int i=0; i<dirs.count(); i++) {
         if (!QDir(dirs[i]).entryList(QDir::Files).contains(name)) continue;
@@ -218,7 +190,7 @@ ExtScript::ScriptData ExtScript::run(const int time)
 
     QString info = QTextCodec::codecForMib(106)->toUnicode(process.error).trimmed();
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
-    switch(redirect) {
+    switch(_redirect) {
     case stdout2stderr:
         if (debug) qDebug() << PDEBUG << ":" << "Debug" << info;
         if (debug) qDebug() << PDEBUG << ":" << "Output" << qoutput;
@@ -231,10 +203,16 @@ ExtScript::ScriptData ExtScript::run(const int time)
         response.output = qoutput;
         break;
     }
-    if (!output)
+    if (!_output)
         response.output = QString::number(process.exitCode);
 
     return response;
+}
+
+
+void ExtScript::showConfiguration()
+{
+    if (debug) qDebug() << PDEBUG;
 }
 
 
@@ -273,17 +251,17 @@ void ExtScript::fromExternalConfiguration(const QMap<QString, QString> settings)
     if (debug) qDebug() << PDEBUG;
 
     if (settings.contains(QString("ACTIVE")))
-        active = (settings[QString("ACTIVE")] == QString("true"));
+        _active = (settings[QString("ACTIVE")] == QString("true"));
     if (settings.contains(QString("INTERVAL")))
-        interval = settings[QString("INTERVAL")].toInt();
+        _interval = settings[QString("INTERVAL")].toInt();
     if (settings.contains(QString("PREFIX")))
-        prefix = settings[QString("PREFIX")];
+        _prefix = settings[QString("PREFIX")];
     if (settings.contains(QString("OUTPUT")))
-        output = (settings[QString("OUTPUT")] == QString("true"));
+        _output = (settings[QString("OUTPUT")] == QString("true"));
     if (settings.contains(QString("REDIRECT")))
-        redirect = (Redirect)settings[QString("REDIRECT")].toInt();
-    if (!output)
-        redirect = stdout2stderr;
+        _redirect = (Redirect)settings[QString("REDIRECT")].toInt();
+    if (!_output)
+        _redirect = stdout2stderr;
 }
 
 
@@ -318,17 +296,17 @@ QMap<QString, QString> ExtScript::toExternalConfiguration()
     if (debug) qDebug() << PDEBUG;
 
     QMap<QString, QString> settings;
-    if (active)
+    if (_active)
         settings[QString("ACTIVE")] = QString("true");
     else
         settings[QString("ACTIVE")] = QString("false");
-    settings[QString("INTERVAL")] = QString::number(interval);
-    settings[QString("PREFIX")] = prefix;
-    if (output)
+    settings[QString("INTERVAL")] = QString::number(_interval);
+    settings[QString("PREFIX")] = _prefix;
+    if (_output)
         settings[QString("OUTPUT")] = QString("true");
     else
         settings[QString("OUTPUT")] = QString("false");
-    settings[QString("REDIRECT")] = QString::number(redirect);
+    settings[QString("REDIRECT")] = QString::number(_redirect);
 
     return settings;
 }

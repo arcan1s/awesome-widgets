@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>408</width>
+    <width>420</width>
     <height>329</height>
    </rect>
   </property>
@@ -39,6 +39,12 @@
     <layout class="QHBoxLayout" name="layout_comment">
      <item>
       <widget class="QLabel" name="label_comment">
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="text">
         <string>Comment</string>
        </property>

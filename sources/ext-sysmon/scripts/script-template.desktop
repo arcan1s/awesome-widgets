@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=aw-script-template
+Comment=Template for external script
+Exec=/path/to/some/command
+X-AW-Prefix=/prefix/to/command/if/required
+X-AW-Active=false
+X-AW-Output=false
+X-AW-Redirect=nothing
+X-AW-Interval=1

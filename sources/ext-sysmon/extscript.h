@@ -31,7 +31,7 @@ class ExtScript : public QDialog
 
 public:
     enum Redirect {
-        stdout2stderr = -1,
+        stdout2stderr = 0,
         nothing,
         stderr2stdout
     };
@@ -41,28 +41,28 @@ public:
         QString output;
         bool refresh;
     } ScriptData;
+
     explicit ExtScript(QWidget *parent = 0, const QString scriptName = QString(),
                        const QStringList directories = QStringList(), const bool debugCmd = false);
     ~ExtScript();
-    // configuration
-    void addDirectory(const QString dir);
-    QStringList directories();
+    // get methods
     int getInterval();
     QString getName();
     QString getPrefix();
     Redirect getRedirect();
     bool hasOutput();
     bool isActive();
+    // set methods
     void setActive(const bool state = true);
-    void setDirectories(const QStringList directories);
     void setHasOutput(const bool state = true);
-    void setInterval(const int inter = 1);
-    void setPrefix(const QString pref = QString(""));
-    void setRedirect(const Redirect redir);
+    void setInterval(const int interval = 1);
+    void setPrefix(const QString prefix = QString(""));
+    void setRedirect(const QString redirect = QString("nothing"));
 
 public slots:
     void readConfiguration();
     ScriptData run(const int time);
+    void showConfiguration();
     void tryDelete();
     void writeConfiguration();
 
@@ -77,11 +77,12 @@ private:
     QMap<QString, QString> getConfigurationFromFile(const QString fileName);
     QMap<QString, QString> toExternalConfiguration();
     // properties
-    bool active = true;
-    int interval = 1;
-    bool output = true;
-    QString prefix = QString("");
-    Redirect redirect = nothing;
+    bool _active = true;
+    QString _comment = QString("");
+    int _interval = 1;
+    bool _output = true;
+    QString _prefix = QString("");
+    Redirect _redirect = nothing;
 };
 
 
