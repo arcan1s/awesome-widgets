@@ -46,6 +46,9 @@ public:
                        const QStringList directories = QStringList(), const bool debugCmd = false);
     ~ExtScript();
     // get methods
+    QString getComment();
+    QString getExec();
+    QString getFileName();
     int getInterval();
     QString getName();
     QString getPrefix();
@@ -54,8 +57,11 @@ public:
     bool isActive();
     // set methods
     void setActive(const bool state = true);
+    void setComment(const QString comment = QString("empty"));
+    void setExec(const QString exec = QString("/usr/bin/true"));
     void setHasOutput(const bool state = true);
     void setInterval(const int interval = 1);
+    void setName(const QString name = QString("none"));
     void setPrefix(const QString prefix = QString(""));
     void setRedirect(const QString redirect = QString("nothing"));
 
@@ -68,18 +74,16 @@ public slots:
 
 
 private:
-    QString name;
+    QString fileName;
     QStringList dirs;
     bool debug;
     Ui::ExtScript *ui;
-    // configuration
-    void fromExternalConfiguration(const QMap<QString, QString> settings);
-    QMap<QString, QString> getConfigurationFromFile(const QString fileName);
-    QMap<QString, QString> toExternalConfiguration();
     // properties
     bool _active = true;
-    QString _comment = QString("");
+    QString _comment = QString("empty");
+    QString _exec = QString("/usr/bin/true");
     int _interval = 1;
+    QString _name = QString("none");
     bool _output = true;
     QString _prefix = QString("");
     Redirect _redirect = nothing;

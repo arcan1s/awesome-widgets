@@ -357,7 +357,7 @@ void GraphicalItem::showConfiguration(const QStringList tags)
     if (ret == 0) {
         QStringList colorText;
         setName(ui->label_nameValue->text());
-        setComment(ui->label_comment->text());
+        setComment(ui->lineEdit_comment->text());
         setBar(ui->comboBox_value->currentText());
         colorText = ui->pushButton_activeColor->text().split(QChar(','));
         setActiveColor(QColor(colorText[0].toInt(), colorText[1].toInt(),
@@ -379,7 +379,8 @@ void GraphicalItem::tryDelete()
     if (debug) qDebug() << PDEBUG;
 
     for (int i=0; i<dirs.count(); i++)
-        if (debug) qDebug() << PDEBUG << ":" << "Remove file" << fileName << QFile::remove(fileName);
+        if (debug) qDebug() << PDEBUG << ":" << "Remove file" << dirs[i] + QDir::separator() + fileName <<
+                               QFile::remove(dirs[i] + QDir::separator() + fileName);
 }
 
 

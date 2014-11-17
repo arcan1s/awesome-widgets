@@ -366,40 +366,10 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     // dataengine
     QMap<QString, QString> deSettings = readDataEngineConfiguration();
     uiDEConfig.lineEdit_acpi->setText(deSettings[QString("ACPIPATH")]);
-    uiDEConfig.tableWidget_customCommand->clear();
     QList<ExtScript *> externalScripts = initScripts();
-    uiDEConfig.tableWidget_customCommand->setRowCount(externalScripts.count());
-    headerList.clear();
-    headerList.append(i18n("Name"));
-    headerList.append(i18n("Interval"));
-    headerList.append(i18n("Output"));
-    headerList.append(i18n("Prefix"));
-    headerList.append(i18n("Redirect"));
-    uiDEConfig.tableWidget_customCommand->setHorizontalHeaderLabels(headerList);
-    uiDEConfig.tableWidget_customCommand->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
-    for (int i=0; i<externalScripts.count(); i++) {
-        QTableWidgetItem *name = new QTableWidgetItem(externalScripts[i]->getName());
-        name->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEnabled);
-        if (externalScripts[i]->isActive())
-            name->setCheckState(Qt::Checked);
-        else
-            name->setCheckState(Qt::Unchecked);
-        uiDEConfig.tableWidget_customCommand->setItem(i, 0, name);
-        uiDEConfig.tableWidget_customCommand->setItem(i, 1, new QTableWidgetItem(QString::number(externalScripts[i]->getInterval())));
-        QTableWidgetItem *output = new QTableWidgetItem();
-        if (externalScripts[i]->hasOutput())
-            output->setCheckState(Qt::Checked);
-        else
-            output->setCheckState(Qt::Unchecked);
-        uiDEConfig.tableWidget_customCommand->setItem(i, 2, output);
-        uiDEConfig.tableWidget_customCommand->setItem(i, 3, new QTableWidgetItem(externalScripts[i]->getPrefix()));
-        QComboBox *redirect = new QComboBox();
-        redirect->addItem(QString("out2err"));
-        redirect->addItem(QString("nothing"));
-        redirect->addItem(QString("err2out"));
-        redirect->setCurrentIndex(externalScripts[i]->getRedirect() + 1);
-        uiDEConfig.tableWidget_customCommand->setCellWidget(i, 4, redirect);
-    }
+    uiDEConfig.listWidget_custom->clear();
+    for (int i=0; i<externalScripts.count(); i++)
+        uiDEConfig.listWidget_custom->addItem(new QListWidgetItem(externalScripts[i]->getFileName()));
     externalScripts.clear();
     uiDEConfig.comboBox_gpudev->setCurrentIndex(
                 uiDEConfig.comboBox_gpudev->findText(deSettings[QString("GPUDEV")], Qt::MatchFixedString));
@@ -479,15 +449,14 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
             this, SLOT(editTempItem(QListWidgetItem *)));
     connect(uiAdvancedConfig.listWidget_bars, SIGNAL(itemActivated(QListWidgetItem *)),
             this, SLOT(editBar(QListWidgetItem *)));
-    connect(uiDEConfig.tableWidget_customCommand, SIGNAL(cellDoubleClicked(int, int)),
-            this, SLOT(editCustomCommand(int, int)));
-    connect(uiDEConfig.tableWidget_customCommand, SIGNAL(customContextMenuRequested(QPoint)),
-            this, SLOT(contextMenuCustomCommand(QPoint)));
+    connect(uiDEConfig.listWidget_custom, SIGNAL(itemActivated(QListWidgetItem *)),
+            this, SLOT(editCustomCommand(QListWidgetItem *)));
     connect(uiDEConfig.tableWidget_pkgCommand, SIGNAL(itemChanged(QTableWidgetItem *)),
             this, SLOT(addNewPkgCommand(QTableWidgetItem *)));
     connect(uiDEConfig.tableWidget_pkgCommand, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(contextMenuPkgCommand(QPoint)));
     connect(uiAdvancedConfig.pushButton_bars, SIGNAL(clicked(bool)), this, SLOT(addBar()));
+    connect(uiDEConfig.pushButton_custom, SIGNAL(clicked(bool)), this, SLOT(addCustomScript()));
     connect(uiWidConfig.pushButton_tags, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
     connect(uiWidConfig.pushButton_br, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
     connect(uiWidConfig.pushButton_font, SIGNAL(clicked(bool)), this, SLOT(setFontFormating()));
@@ -583,24 +552,6 @@ void AwesomeWidget::configAccepted()
     // dataengine
     QMap<QString, QString> deSettings;
     deSettings[QString("ACPIPATH")] = uiDEConfig.lineEdit_acpi->text();
-    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_engine_extsysmon/scripts");
-    for (int i=0; i<uiDEConfig.tableWidget_customCommand->rowCount(); i++) {
-        ExtScript *script = new ExtScript(0, uiDEConfig.tableWidget_customCommand->item(i, 0)->text(), dirs, debug);
-        if (uiDEConfig.tableWidget_customCommand->item(i, 0)->checkState() == Qt::Checked)
-            script->setActive(true);
-        else
-            script->setActive(false);
-        script->setInterval(uiDEConfig.tableWidget_customCommand->item(i, 1)->text().toInt());
-        if (uiDEConfig.tableWidget_customCommand->item(i, 2)->checkState() == Qt::Checked)
-            script->setHasOutput(true);
-        else
-            script->setHasOutput(false);
-        script->setPrefix(uiDEConfig.tableWidget_customCommand->item(i, 3)->text());
-        int redirect = ((QComboBox *)uiDEConfig.tableWidget_customCommand->cellWidget(i, 4))->currentIndex() - 1;
-        script->setRedirect((ExtScript::Redirect)redirect);
-        script->writeConfiguration();
-        delete script;
-    }
     deSettings[QString("GPUDEV")] = uiDEConfig.comboBox_gpudev->currentText();
     deSettings[QString("HDDDEV")] = uiDEConfig.comboBox_hdddev->currentText();
     deSettings[QString("HDDTEMPCMD")] = uiDEConfig.lineEdit_hddtempCmd->text();
@@ -783,50 +734,15 @@ void AwesomeWidget::addCustomScript()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QString name = QInputDialog::getText(0, i18n("Enter script name"),
-                                         i18n("Name"));
-    if (name.isEmpty()) return;
-    QString localDir = KGlobal::dirs()->locateLocal("data", "plasma_engine_extsysmon/scripts");
+    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_applet_awesome-widget/desktops");
+    bool ok;
+    QString name = QInputDialog::getText(0, i18n("Enter file name"),
+                                         i18n("File name"), QLineEdit::Normal,
+                                         QString(""), &ok);
+    if ((!ok) || (name.isEmpty())) return;
 
-    QString fileName = QDir(localDir).absoluteFilePath(name);
-    if (debug) qDebug() << PDEBUG << ":" << "Script" << fileName;
-    QFile configFile(fileName);
-    if (!configFile.open(QIODevice::WriteOnly)) return;
-    configFile.write("#!/bin/bash\n");
-    configFile.close();
-    configFile.setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner |
-                              QFile::ReadGroup | QFile::ExeGroup |
-                              QFile::ReadOther | QFile::ExeOther);
-    QDesktopServices::openUrl(QUrl(fileName));
-
-    fileName = QDir(localDir).absoluteFilePath(name + QString(".conf"));
-    if (debug) qDebug() << PDEBUG << ":" << "Configuration" << fileName;
-    configFile.setFileName(fileName);
-    if (!configFile.open(QIODevice::WriteOnly)) return;
-    configFile.write("ACTIVE=false\n");
-    configFile.write("INTERVAL=1\n");
-    configFile.write("OUTPUT=true\n");
-    configFile.write("PREFIX=\n");
-    configFile.write("REDIRECT=0\n");
-    configFile.close();
-
-    int i = uiDEConfig.tableWidget_customCommand->rowCount();
-    uiDEConfig.tableWidget_customCommand->insertRow(i);
-    QTableWidgetItem *nameItem = new QTableWidgetItem(name);
-    nameItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEnabled);
-    nameItem->setCheckState(Qt::Unchecked);
-    uiDEConfig.tableWidget_customCommand->setItem(i, 0, nameItem);
-    uiDEConfig.tableWidget_customCommand->setItem(i, 1, new QTableWidgetItem(QString::number(1)));
-    QTableWidgetItem *output = new QTableWidgetItem();
-    output->setCheckState(Qt::Checked);
-    uiDEConfig.tableWidget_customCommand->setItem(i, 2, output);
-    uiDEConfig.tableWidget_customCommand->setItem(i, 3, new QTableWidgetItem(QString("")));
-    QComboBox *redirect = new QComboBox();
-    redirect->addItem(QString("out2err"));
-    redirect->addItem(QString("nothing"));
-    redirect->addItem(QString("err2out"));
-    redirect->setCurrentIndex(1);
-    uiDEConfig.tableWidget_customCommand->setCellWidget(i, 4, redirect);
+    ExtScript *script = new ExtScript(0, name, dirs, debug);
+    script->showConfiguration();
 }
 
 
@@ -841,31 +757,6 @@ void AwesomeWidget::addNewPkgCommand(QTableWidgetItem *item)
         uiDEConfig.tableWidget_pkgCommand->setItem(
                     uiDEConfig.tableWidget_pkgCommand->rowCount() - 1, 1,
                     new QTableWidgetItem(QString("0")));
-    }
-}
-
-
-void AwesomeWidget::contextMenuCustomCommand(const QPoint pos)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (uiDEConfig.tableWidget_customCommand->currentItem() == 0) return;
-
-    QMenu menu(uiDEConfig.tableWidget_customCommand);
-    QAction *edit = menu.addAction(QIcon::fromTheme("document-edit"), i18n("Edit"));
-    QAction *create = menu.addAction(QIcon::fromTheme("document-new"), i18n("Create"));
-    QAction *remove = menu.addAction(QIcon::fromTheme("edit-delete"), i18n("Remove"));
-    QAction *action = menu.exec(uiDEConfig.tableWidget_customCommand->viewport()->mapToGlobal(pos));
-    if (action == edit) {
-        editCustomCommand(uiDEConfig.tableWidget_customCommand->currentRow(), 0);
-    } else if (action == create) {
-        addCustomScript();
-    } else if (action == remove) {
-        int row = uiDEConfig.tableWidget_customCommand->currentRow();
-        QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_engine_extsysmon/scripts");
-        ExtScript *script = new ExtScript(0, uiDEConfig.tableWidget_customCommand->item(row, 0)->text(), dirs, debug);
-        script->tryDelete();
-        delete script;
-        uiDEConfig.tableWidget_customCommand->removeRow(row);
     }
 }
 
@@ -900,20 +791,13 @@ void AwesomeWidget::editBar(QListWidgetItem *item)
 }
 
 
-void AwesomeWidget::editCustomCommand(const int row, const int column)
+void AwesomeWidget::editCustomCommand(QListWidgetItem *item)
 {
-    Q_UNUSED(column);
     if (debug) qDebug() << PDEBUG;
 
-    QString name = uiDEConfig.tableWidget_customCommand->item(row, 0)->text();
-    QString localDir = KStandardDirs::locateLocal("data", "plasma_engine_extsysmon/scripts");
     QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_engine_extsysmon/scripts");
-    for (int i=0; i<dirs.count(); i++) {
-        if (!QDir(dirs[i]).exists(name)) continue;
-        if (dirs[i] == localDir) break;
-        QFile::copy(QDir(dirs[i]).absoluteFilePath(name), QDir(localDir).absoluteFilePath(name));
-    }
-    QDesktopServices::openUrl(QUrl(QDir(localDir).absoluteFilePath(name)));
+    ExtScript *script = new ExtScript(0, item->text(), dirs, debug);
+    script->showConfiguration();
 }
 
 
