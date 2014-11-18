@@ -301,8 +301,14 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     uiAdvancedConfig.lineEdit_acOnline->setText(configuration[QString("acOnline")]);
     uiAdvancedConfig.lineEdit_acOffline->setText(configuration[QString("acOffline")]);
     uiAdvancedConfig.listWidget_bars->clear();
-    for (int i=0; i<graphicalItems.count(); i++)
-        uiAdvancedConfig.listWidget_bars->addItem(new QListWidgetItem(graphicalItems[i]->getFileName()));
+    for (int i=0; i<graphicalItems.count(); i++) {
+        QListWidgetItem *item = new QListWidgetItem(graphicalItems[i]->getFileName());
+        QStringList tooltip;
+        tooltip.append(i18n("Tag: %1", graphicalItems[i]->getName() + graphicalItems[i]->getBar()));
+        tooltip.append(i18n("Comment: %1", graphicalItems[i]->getComment()));
+        item->setToolTip(tooltip.join(QChar('\n')));
+        uiAdvancedConfig.listWidget_bars->addItem(item);
+    }
     if (configuration[QString("checkUpdates")].toInt() == 0)
         uiAdvancedConfig.checkBox_updates->setCheckState(Qt::Unchecked);
     else
@@ -370,8 +376,15 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     uiDEConfig.lineEdit_acpi->setText(deSettings[QString("ACPIPATH")]);
     QList<ExtScript *> externalScripts = initScripts();
     uiDEConfig.listWidget_custom->clear();
-    for (int i=0; i<externalScripts.count(); i++)
-        uiDEConfig.listWidget_custom->addItem(new QListWidgetItem(externalScripts[i]->getFileName()));
+    for (int i=0; i<externalScripts.count(); i++) {
+        QListWidgetItem *item = new QListWidgetItem(externalScripts[i]->getFileName());
+        QStringList tooltip;
+        tooltip.append(i18n("Name: %1", externalScripts[i]->getName()));
+        tooltip.append(i18n("Comment: %1", externalScripts[i]->getComment()));
+        tooltip.append(i18n("Exec: %1", externalScripts[i]->getExec()));
+        item->setToolTip(tooltip.join(QChar('\n')));
+        uiDEConfig.listWidget_custom->addItem(item);
+    }
     externalScripts.clear();
     uiDEConfig.comboBox_gpudev->setCurrentIndex(
                 uiDEConfig.comboBox_gpudev->findText(deSettings[QString("GPUDEV")], Qt::MatchFixedString));
