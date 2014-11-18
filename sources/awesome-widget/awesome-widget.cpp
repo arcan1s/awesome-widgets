@@ -397,7 +397,9 @@ QStringList AwesomeWidget::findGraphicalItems()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QStringList orderedKeys = graphicalItems.keys();
+    QStringList orderedKeys;
+    for (int i=0; i<graphicalItems.count(); i++)
+        orderedKeys.append(graphicalItems[i]->getName() + graphicalItems[i]->getBar());
     orderedKeys.sort();
     QStringList selectedKeys;
     for (int i=orderedKeys.count()-1; i>=0; i--)
@@ -429,10 +431,24 @@ void AwesomeWidget::getGraphicalItems()
             if (names.contains(files[j])) continue;
             if (debug) qDebug() << PDEBUG << ":" << "Found file" << files[j] << "in" << dirs[i];
             names.append(files[j]);
-            GraphicalItem *item = new GraphicalItem(0, files[j], dirs, debug);
-            graphicalItems[item->getName() + item->getBar()] = item;
+            graphicalItems.append(new GraphicalItem(0, files[j], dirs, debug));
         }
     }
+}
+
+
+GraphicalItem *AwesomeWidget::getItemByTag(const QString tag)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    GraphicalItem *item = nullptr;
+    for (int i=0; i< graphicalItems.count(); i++) {
+        if ((graphicalItems[i]->getName() + graphicalItems[i]->getBar()) != tag) continue;
+        item = graphicalItems[i];
+        break;
+    }
+
+    return item;
 }
 
 

@@ -45,6 +45,7 @@ public:
     ~GraphicalItem();
     QString getImage(const float value);
     // get methods
+    QString getFileName();
     QString getName();
     QString getComment();
     QString getBar();

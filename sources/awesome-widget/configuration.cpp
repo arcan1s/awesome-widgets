@@ -147,6 +147,8 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     uiWidConfig.textEdit_elements->setPlainText(configuration[QString("text")]);
     uiWidConfig.comboBox_tags->clear();
     uiWidConfig.comboBox_tags->addItems(getKeys());
+    for (int i=0; i<graphicalItems.count(); i++)
+        uiWidConfig.comboBox_tags->addItem(graphicalItems[i]->getName() + graphicalItems[i]->getBar());
 
     // advanced
     if (configuration[QString("background")].toInt() == 0)
@@ -299,8 +301,8 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     uiAdvancedConfig.lineEdit_acOnline->setText(configuration[QString("acOnline")]);
     uiAdvancedConfig.lineEdit_acOffline->setText(configuration[QString("acOffline")]);
     uiAdvancedConfig.listWidget_bars->clear();
-    for (int i=0; i<graphicalItems.keys().count(); i++)
-        uiAdvancedConfig.listWidget_bars->addItem(new QListWidgetItem(graphicalItems.keys()[i]));
+    for (int i=0; i<graphicalItems.count(); i++)
+        uiAdvancedConfig.listWidget_bars->addItem(new QListWidgetItem(graphicalItems[i]->getFileName()));
     if (configuration[QString("checkUpdates")].toInt() == 0)
         uiAdvancedConfig.checkBox_updates->setCheckState(Qt::Unchecked);
     else
@@ -702,8 +704,8 @@ void AwesomeWidget::addBar()
     int number = 0;
     while (true) {
         bool exit = true;
-        for (int i=0; i<graphicalItems.keys().count(); i++)
-            if (graphicalItems[graphicalItems.keys()[i]]->getName() == QString("bar%1").arg(number)) {
+        for (int i=0; i<graphicalItems.count(); i++)
+            if (graphicalItems[i]->getName() == QString("bar%1").arg(number)) {
                 number++;
                 exit = false;
                 break;
@@ -787,7 +789,11 @@ void AwesomeWidget::editBar(QListWidgetItem *item)
     bars.append(keys.filter((QRegExp(QString("hdd[0-9].*")))));
     bars.append(keys.filter((QRegExp(QString("bat.*")))));
 
-    graphicalItems[item->text()]->showConfiguration(bars);
+    for (int i=0; i<graphicalItems.count(); i++) {
+        if (graphicalItems[i]->getFileName() != item->text()) continue;
+        graphicalItems[i]->showConfiguration(bars);
+        break;
+    }
 }
 
 

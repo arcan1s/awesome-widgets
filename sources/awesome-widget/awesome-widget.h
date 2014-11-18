@@ -107,6 +107,7 @@ private:
     QStringList getKeys();
     QStringList findGraphicalItems();
     void getGraphicalItems();
+    GraphicalItem *getItemByTag(const QString tag);
     QList<ExtScript *> initScripts();
     // ui
     QGraphicsGridLayout *mainLayout = nullptr;
@@ -138,7 +139,7 @@ private:
     // configuration
     QMap<QString, QString> configuration;
     QStringList diskDevices, keys, formatLine, foundKeys;
-    QMap<QString, GraphicalItem *> graphicalItems;
+    QList<GraphicalItem *> graphicalItems;
     QStringList foundBars;
 };
 

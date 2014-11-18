@@ -85,7 +85,7 @@ void AwesomeWidget::updateText(const bool clear)
         for (int i=0; i<foundKeys.count(); i++)
             text.replace(QString("$") + foundKeys[i], values[foundKeys[i]]);
         for (int i=0; i<foundBars.count(); i++)
-            text.replace(QString("$") + foundBars[i], graphicalItems[foundBars[i]]->getImage(values[foundBars[i]].toFloat()));
+            text.replace(QString("$") + foundBars[i], getItemByTag(foundBars[i])->getImage(values[foundBars[i]].toFloat()));
         text.replace(QString("$\\$\\"), QString("$$"));
     }
     textLabel->setText(formatLine[0] + text + formatLine[1]);

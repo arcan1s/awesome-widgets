@@ -126,6 +126,14 @@ QString GraphicalItem::getImage(const float value)
 }
 
 
+QString GraphicalItem::getFileName()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return fileName;
+}
+
+
 QString GraphicalItem::getName()
 {
     if (debug) qDebug() << PDEBUG;
