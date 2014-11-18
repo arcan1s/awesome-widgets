@@ -82,6 +82,8 @@ private slots:
     void addBar();
     void addCustomScript();
     void addNewPkgCommand(QTableWidgetItem *item);
+    void contextMenuBars(const QPoint pos);
+    void contextMenuCustomCommand(const QPoint pos);
     void contextMenuPkgCommand(const QPoint pos);
     void editBar(QListWidgetItem *item);
     void editCustomCommand(QListWidgetItem *item);

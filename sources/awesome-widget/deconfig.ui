@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>700</width>
-    <height>584</height>
+    <height>582</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -43,7 +43,7 @@
         <x>0</x>
         <y>0</y>
         <width>684</width>
-        <height>568</height>
+        <height>566</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout">
@@ -507,7 +507,11 @@ del - remove item</string>
           </layout>
          </item>
          <item>
-          <widget class="QListWidget" name="listWidget_custom"/>
+          <widget class="QListWidget" name="listWidget_custom">
+           <property name="contextMenuPolicy">
+            <enum>Qt::CustomContextMenu</enum>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>

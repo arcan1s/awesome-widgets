@@ -451,8 +451,12 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
             this, SLOT(editTempItem(QListWidgetItem *)));
     connect(uiAdvancedConfig.listWidget_bars, SIGNAL(itemActivated(QListWidgetItem *)),
             this, SLOT(editBar(QListWidgetItem *)));
+    connect(uiAdvancedConfig.listWidget_bars, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(contextMenuBars(QPoint)));
     connect(uiDEConfig.listWidget_custom, SIGNAL(itemActivated(QListWidgetItem *)),
             this, SLOT(editCustomCommand(QListWidgetItem *)));
+    connect(uiDEConfig.listWidget_custom, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(contextMenuCustomCommand(QPoint)));
     connect(uiDEConfig.tableWidget_pkgCommand, SIGNAL(itemChanged(QTableWidgetItem *)),
             this, SLOT(addNewPkgCommand(QTableWidgetItem *)));
     connect(uiDEConfig.tableWidget_pkgCommand, SIGNAL(customContextMenuRequested(QPoint)),
@@ -759,6 +763,50 @@ void AwesomeWidget::addNewPkgCommand(QTableWidgetItem *item)
         uiDEConfig.tableWidget_pkgCommand->setItem(
                     uiDEConfig.tableWidget_pkgCommand->rowCount() - 1, 1,
                     new QTableWidgetItem(QString("0")));
+    }
+}
+
+
+void AwesomeWidget::contextMenuBars(const QPoint pos)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (uiAdvancedConfig.listWidget_bars->currentItem() == 0) return;
+
+    QMenu menu(uiAdvancedConfig.listWidget_bars);
+    QAction *edit = menu.addAction(QIcon::fromTheme("document-edit"), i18n("Edit"));
+    QAction *remove = menu.addAction(QIcon::fromTheme("edit-delete"), i18n("Remove"));
+    QAction *action = menu.exec(uiAdvancedConfig.listWidget_bars->viewport()->mapToGlobal(pos));
+    if (action == edit)
+        editBar(uiAdvancedConfig.listWidget_bars->currentItem());
+    else if (action == remove)
+        for (int i=0; i<graphicalItems.count(); i++) {
+            if (graphicalItems[i]->getFileName() != uiAdvancedConfig.listWidget_bars->currentItem()->text())
+                continue;
+            graphicalItems[i]->tryDelete();
+            graphicalItems.takeAt(i);
+            uiAdvancedConfig.listWidget_bars->takeItem(uiAdvancedConfig.listWidget_bars->currentRow());
+            break;
+        }
+}
+
+
+void AwesomeWidget::contextMenuCustomCommand(const QPoint pos)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (uiDEConfig.listWidget_custom->currentItem() == 0) return;
+
+    QMenu menu(uiDEConfig.listWidget_custom);
+    QAction *edit = menu.addAction(QIcon::fromTheme("document-edit"), i18n("Edit"));
+    QAction *remove = menu.addAction(QIcon::fromTheme("edit-delete"), i18n("Remove"));
+    QAction *action = menu.exec(uiDEConfig.listWidget_custom->viewport()->mapToGlobal(pos));
+    if (action == edit)
+        editCustomCommand(uiDEConfig.listWidget_custom->currentItem());
+    else if (action == remove) {
+        QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_engine_extsysmon/scripts");
+        ExtScript *script = new ExtScript(0, uiDEConfig.listWidget_custom->currentItem()->text(), dirs, debug);
+        script->tryDelete();
+        delete script;
+        uiDEConfig.listWidget_custom->takeItem(uiDEConfig.listWidget_custom->currentRow());
     }
 }
 
