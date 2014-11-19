@@ -418,7 +418,7 @@ void AwesomeWidget::getGraphicalItems()
 
     graphicalItems.clear();
     // create directory at $HOME
-    QString localDir = KStandardDirs::locateLocal("data", "plasma_applet_awesome-widget/destkops");
+    QString localDir = KStandardDirs::locateLocal("data", "plasma_applet_awesome-widget/desktops");
     if (KStandardDirs::makeDir(localDir))
         if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
 

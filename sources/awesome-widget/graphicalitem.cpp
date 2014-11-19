@@ -362,7 +362,7 @@ void GraphicalItem::showConfiguration(const QStringList tags)
     ui->spinBox_width->setValue(_width);
 
     int ret = exec();
-    if (ret == 0) {
+    if (ret == 1) {
         QStringList colorText;
         setName(ui->label_nameValue->text());
         setComment(ui->lineEdit_comment->text());
