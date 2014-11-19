@@ -93,13 +93,13 @@ QString GraphicalItem::getImage(const float value)
         // inactive
         pen.setColor(inactive);
         circle = scene->addEllipse(0.0, 0.0, _width, _height, pen, QBrush(inactive, Qt::SolidPattern));
-        circle->setSpanAngle((1.0 - percent) * 360.0 * 16.0);
-        circle->setStartAngle(180.0 * 16.0 - (1.0 - percent) * 360.0 * 16.0);
+        circle->setSpanAngle(- (1.0 - percent) * 360.0 * 16.0);
+        circle->setStartAngle(90.0 * 16.0 - percent * 360.0 * 16.0);
         // active
         pen.setColor(active);
         circle = scene->addEllipse(0.0, 0.0, _width, _height, pen, QBrush(active, Qt::SolidPattern));
-        circle->setSpanAngle(percent * 360.0 * 16.0);
-        circle->setStartAngle(180.0 * 16.0);
+        circle->setSpanAngle(- percent * 360.0 * 16.0);
+        circle->setStartAngle(90.0 * 16.0);
         // scale
         scale[0] = -2 *(int)_direction + 1;
         break;
@@ -385,18 +385,17 @@ void GraphicalItem::showConfiguration(const QStringList tags)
     ui->spinBox_width->setValue(_width);
 
     int ret = exec();
-    if (ret == 1) {
-        setName(ui->label_nameValue->text());
-        setComment(ui->lineEdit_comment->text());
-        setBar(ui->comboBox_value->currentText());
-        setActiveColor(ui->pushButton_activeColor->text());
-        setInactiveColor(ui->pushButton_inactiveColor->text());
-        setType(ui->comboBox_type->currentText());
-        setDirection(ui->comboBox_direction->currentText());
-        setHeight(ui->spinBox_height->value());
-        setWidth(ui->spinBox_width->value());
-        writeConfiguration();
-    }
+    if (ret != 1) return;
+    setName(ui->label_nameValue->text());
+    setComment(ui->lineEdit_comment->text());
+    setBar(ui->comboBox_value->currentText());
+    setActiveColor(ui->pushButton_activeColor->text().remove(QChar('&')));
+    setInactiveColor(ui->pushButton_inactiveColor->text().remove(QChar('&')));
+    setType(ui->comboBox_type->currentText());
+    setDirection(ui->comboBox_direction->currentText());
+    setHeight(ui->spinBox_height->value());
+    setWidth(ui->spinBox_width->value());
+    writeConfiguration();
 }
 
 
@@ -441,6 +440,7 @@ void GraphicalItem::changeColor()
     QColor color = stringToColor(((QPushButton *)sender())->text());
     QColor newColor = QColorDialog::getColor(color, 0, i18n("Select color"),
                                              QColorDialog::ShowAlphaChannel);
+    if (!newColor.isValid()) return;
 
     QStringList colorText;
     colorText.append(QString("%1").arg(newColor.red()));
@@ -454,6 +454,7 @@ void GraphicalItem::changeColor()
 QColor GraphicalItem::stringToColor(const QString color)
 {
     if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Color" << color;
 
     QColor qcolor;
     QStringList listColor = color.split(QChar(','));
