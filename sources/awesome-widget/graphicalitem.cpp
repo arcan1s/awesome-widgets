@@ -79,39 +79,39 @@ QString GraphicalItem::getImage(const float value)
         pen.setWidth(_width);
         // inactive
         pen.setColor(inactive);
-        scene->addLine(0.5 * _width, 0.0, 0.5 * _width, _height, pen);
+        scene->addLine(0.5 * _width, -0.5 * _width, 0.5 * _width, (1.0 - percent) * _height - 0.5 * _width, pen);
         // active
         pen.setColor(active);
         scene->addLine(0.5 * _width, (1.0 - percent) * _height + 0.5 * _width, 0.5 * _width, _height + 0.5 * _width, pen);
         // scale
-        scale[1] = (int)_direction;
+        scale[1] = -2 * (int)_direction + 1;
         break;
     case Circle:
         QGraphicsEllipseItem *circle;
         pen.setWidth(1.0);
         // inactive
         pen.setColor(inactive);
-        circle = scene->addEllipse(0.0, 0.0, _width, _height, pen, QBrush(_inactiveColor, Qt::SolidPattern));
+        circle = scene->addEllipse(0.0, 0.0, _width, _height, pen, QBrush(inactive, Qt::SolidPattern));
         circle->setSpanAngle((1.0 - percent) * 360.0 * 16.0);
         circle->setStartAngle(180.0 * 16.0 - (1.0 - percent) * 360.0 * 16.0);
         // active
         pen.setColor(active);
-        circle = scene->addEllipse(0.0, 0.0, _width, _height, pen, QBrush(_activeColor, Qt::SolidPattern));
+        circle = scene->addEllipse(0.0, 0.0, _width, _height, pen, QBrush(active, Qt::SolidPattern));
         circle->setSpanAngle(percent * 360.0 * 16.0);
         circle->setStartAngle(180.0 * 16.0);
         // scale
-        scale[0] = (int)_direction;
+        scale[0] = -2 *(int)_direction + 1;
         break;
     default:
         pen.setWidth(_height);
         // inactive
         pen.setColor(inactive);
-        scene->addLine(0.0, 0.5 * _height, _width, 0.5 * _height, pen);
+        scene->addLine(percent * _width + 0.5 * _height, 0.5 * _height, _width + 0.5 * _height, 0.5 * _height, pen);
         // active
         pen.setColor(active);
         scene->addLine(-0.5 * _height, 0.5 * _height, percent * _width - 0.5 * _height, 0.5 * _height, pen);
         // scale
-        scale[0] = (int)_direction;
+        scale[0] = -2 * (int)_direction + 1;
         break;
     }
 

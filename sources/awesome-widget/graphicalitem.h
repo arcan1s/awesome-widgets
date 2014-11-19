@@ -31,8 +31,8 @@ class GraphicalItem : public QDialog
 
 public:
     enum Direction {
-        RightToLeft = 0,
-        LeftToRight = 1
+        LeftToRight = 0,
+        RightToLeft
     };
     enum Type {
         Horizontal = 0,
