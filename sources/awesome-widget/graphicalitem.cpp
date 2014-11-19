@@ -69,6 +69,7 @@ QString GraphicalItem::getImage(const float value)
     QGraphicsView *view = new QGraphicsView(scene);
     view->setStyleSheet(QString("background: transparent"));
     view->setContentsMargins(0, 0, 0, 0);
+    view->setFrameShape(QFrame::NoFrame);
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->resize(_width + 5.0, _height + 5.0);

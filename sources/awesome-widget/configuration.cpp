@@ -722,6 +722,7 @@ void AwesomeWidget::addBar()
                                          i18n("File name"), QLineEdit::Normal,
                                          QString(""), &ok);
     if ((!ok) || (name.isEmpty())) return;
+    if (!name.endsWith(QString(".desktop"))) name += QString(".desktop");
     QStringList bars;
     bars.append(keys.filter((QRegExp(QString("cpu(?!cl).*")))));
     bars.append(keys.filter((QRegExp(QString("gpu")))));
@@ -746,6 +747,7 @@ void AwesomeWidget::addCustomScript()
                                          i18n("File name"), QLineEdit::Normal,
                                          QString(""), &ok);
     if ((!ok) || (name.isEmpty())) return;
+    if (!name.endsWith(QString(".desktop"))) name += QString(".desktop");
 
     ExtScript *script = new ExtScript(0, name, dirs, debug);
     script->showConfiguration();
