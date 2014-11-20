@@ -51,11 +51,11 @@
         <layout class="QHBoxLayout" name="layout_hddtempCmd">
          <item>
           <widget class="QLabel" name="label_hddtempCmd">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
            <property name="text">
             <string>hddtemp cmd</string>
@@ -66,11 +66,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_hddtempCmd">
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
+          <widget class="QLineEdit" name="lineEdit_hddtempCmd"/>
          </item>
         </layout>
        </item>
@@ -78,12 +74,6 @@
         <layout class="QHBoxLayout" name="layout_gpudev">
          <item>
           <widget class="QLabel" name="label_gpudev">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
-           </property>
            <property name="text">
             <string>GPU device</string>
            </property>
@@ -94,18 +84,6 @@
          </item>
          <item>
           <widget class="QComboBox" name="comboBox_gpudev">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>100</width>
-             <height>0</height>
-            </size>
-           </property>
            <item>
             <property name="text">
              <string notr="true">auto</string>
@@ -134,12 +112,6 @@
         <layout class="QHBoxLayout" name="layout_hdddev">
          <item>
           <widget class="QLabel" name="label_hdddev">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
-           </property>
            <property name="text">
             <string>HDD</string>
            </property>
@@ -149,20 +121,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="comboBox_hdddev">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>100</width>
-             <height>0</height>
-            </size>
-           </property>
-          </widget>
+          <widget class="QComboBox" name="comboBox_hdddev"/>
          </item>
         </layout>
        </item>
@@ -170,11 +129,11 @@
         <layout class="QHBoxLayout" name="layout_playerSelect">
          <item>
           <widget class="QLabel" name="label_playerSelect">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
            <property name="text">
             <string>Music player</string>
@@ -191,12 +150,6 @@
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>100</width>
-             <height>0</height>
-            </size>
            </property>
            <item>
             <property name="text">
@@ -216,12 +169,6 @@
         <layout class="QHBoxLayout" name="layout_mpdport">
          <item>
           <widget class="QLabel" name="label_mpdport">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
-           </property>
            <property name="text">
             <string>MPD port</string>
            </property>
@@ -231,29 +178,7 @@
           </widget>
          </item>
          <item>
-          <spacer name="spacer_mpdport">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>19</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
           <widget class="QSpinBox" name="spinBox_mpdport">
-           <property name="minimumSize">
-            <size>
-             <width>180</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
            <property name="minimum">
             <number>0</number>
            </property>
@@ -274,11 +199,11 @@
         <layout class="QHBoxLayout" name="layout_mpdaddress">
          <item>
           <widget class="QLabel" name="label_mpdaddress">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
            <property name="text">
             <string>MPD address</string>
@@ -289,11 +214,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_mpdaddress">
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
+          <widget class="QLineEdit" name="lineEdit_mpdaddress"/>
          </item>
         </layout>
        </item>
@@ -314,11 +235,11 @@
         <layout class="QHBoxLayout" name="layout_acpi">
          <item>
           <widget class="QLabel" name="label_acpi">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
            <property name="text">
             <string>ACPI path</string>
@@ -353,11 +274,11 @@
           <layout class="QHBoxLayout" name="layout_mprisSelect">
            <item>
             <widget class="QLabel" name="label_mpris">
-             <property name="minimumSize">
-              <size>
-               <width>200</width>
-               <height>0</height>
-              </size>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
              <property name="text">
               <string>MPRIS player name</string>
@@ -374,12 +295,6 @@
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>100</width>
-               <height>0</height>
-              </size>
              </property>
              <property name="editable">
               <bool>true</bool>
@@ -470,17 +385,8 @@ del - remove item</string>
           <layout class="QHBoxLayout" name="layout_customAdd">
            <item>
             <widget class="QLabel" name="label_custom">
-             <property name="minimumSize">
-              <size>
-               <width>200</width>
-               <height>0</height>
-              </size>
-             </property>
              <property name="text">
               <string>Custom scripts</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
              </property>
             </widget>
            </item>

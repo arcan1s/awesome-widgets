@@ -41,35 +41,81 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-239</y>
+        <y>0</y>
         <width>675</width>
-        <height>813</height>
+        <height>822</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_8">
        <item>
-        <widget class="QCheckBox" name="checkBox_background">
-         <property name="text">
-          <string>Enable background</string>
-         </property>
-        </widget>
+        <layout class="QHBoxLayout" name="layout_popup">
+         <item>
+          <spacer name="spacer_popup">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_popup">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Enable popup on mouse click</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
-        <widget class="QCheckBox" name="checkBox_popup">
-         <property name="text">
-          <string>Enable popup on mouse click</string>
-         </property>
-        </widget>
+        <layout class="QHBoxLayout" name="layout_background">
+         <item>
+          <spacer name="spacer_background">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_background">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Enable background</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
         <layout class="QHBoxLayout" name="layout_timeFormat">
          <item>
           <widget class="QLabel" name="label_timeFormat">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
            <property name="text">
             <string>Custom time format</string>
@@ -107,11 +153,11 @@ $s - seconds w\o zero</string>
         <layout class="QHBoxLayout" name="layout_uptimeFormat">
          <item>
           <widget class="QLabel" name="label_uptimeFormat">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
            <property name="text">
             <string>Custom uptime format</string>
@@ -139,12 +185,6 @@ $m - uptime minutes without zero</string>
         <layout class="QHBoxLayout" name="layout_tempUnits">
          <item>
           <widget class="QLabel" name="label_tempUnits">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
-           </property>
            <property name="text">
             <string>Temperature units</string>
            </property>
@@ -154,26 +194,7 @@ $m - uptime minutes without zero</string>
           </widget>
          </item>
          <item>
-          <spacer name="spacer_tempUnits">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
           <widget class="QComboBox" name="comboBox_tempUnits">
-           <property name="minimumSize">
-            <size>
-             <width>180</width>
-             <height>0</height>
-            </size>
-           </property>
            <item>
             <property name="text">
              <string notr="true">Celsius</string>
@@ -337,14 +358,11 @@ $m - uptime minutes without zero</string>
         <layout class="QHBoxLayout" name="layout_netdev">
          <item>
           <widget class="QCheckBox" name="checkBox_netdev">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
-           </property>
            <property name="toolTip">
             <string>Disable auto select device and set specified device</string>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::RightToLeft</enum>
            </property>
            <property name="text">
             <string>Set network device</string>
@@ -353,12 +371,6 @@ $m - uptime minutes without zero</string>
          </item>
          <item>
           <widget class="QComboBox" name="comboBox_netdev">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
            <property name="editable">
             <bool>true</bool>
            </property>
@@ -370,11 +382,11 @@ $m - uptime minutes without zero</string>
         <layout class="QHBoxLayout" name="layout_acOnline">
          <item>
           <widget class="QLabel" name="label_acOnline">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
            <property name="text">
             <string>AC online tag</string>
@@ -400,11 +412,11 @@ $m - uptime minutes without zero</string>
         <layout class="QHBoxLayout" name="layout_acOffline">
          <item>
           <widget class="QLabel" name="label_acOffline">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
            <property name="text">
             <string>AC offline tag</string>
@@ -432,17 +444,8 @@ $m - uptime minutes without zero</string>
           <layout class="QHBoxLayout" name="layout_barsAdd">
            <item>
             <widget class="QLabel" name="label_bars">
-             <property name="minimumSize">
-              <size>
-               <width>200</width>
-               <height>0</height>
-              </size>
-             </property>
              <property name="text">
               <string>Bars</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
              </property>
             </widget>
            </item>
@@ -478,11 +481,34 @@ $m - uptime minutes without zero</string>
         </layout>
        </item>
        <item>
-        <widget class="QCheckBox" name="checkBox_updates">
-         <property name="text">
-          <string>Check for updates</string>
-         </property>
-        </widget>
+        <layout class="QHBoxLayout" name="layout_updates_3">
+         <item>
+          <spacer name="spacer_updates_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_updates_3">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Check for updates</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
         <spacer name="spacer_advanced">

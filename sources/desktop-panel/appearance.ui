@@ -49,18 +49,6 @@
             <layout class="QHBoxLayout" name="layout_fontActive">
              <item>
               <widget class="QLabel" name="label_fontActive">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>200</width>
-                 <height>0</height>
-                </size>
-               </property>
                <property name="text">
                 <string>Font</string>
                </property>
@@ -70,20 +58,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QFontComboBox" name="fontComboBox_fontActive">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>180</width>
-                 <height>23</height>
-                </size>
-               </property>
-              </widget>
+              <widget class="QFontComboBox" name="fontComboBox_fontActive"/>
              </item>
             </layout>
            </item>
@@ -91,18 +66,6 @@
             <layout class="QHBoxLayout" name="layout_fontSizeActive">
              <item>
               <widget class="QLabel" name="label_fontSizeActive">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>200</width>
-                 <height>0</height>
-                </size>
-               </property>
                <property name="text">
                 <string>Font size</string>
                </property>
@@ -113,18 +76,6 @@
              </item>
              <item>
               <widget class="QSpinBox" name="spinBox_fontSizeActive">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>100</width>
-                 <height>23</height>
-                </size>
-               </property>
                <property name="minimum">
                 <number>7</number>
                </property>
@@ -142,18 +93,6 @@
             <layout class="QHBoxLayout" name="layout_fontColorActive">
              <item>
               <widget class="QLabel" name="label_fontColorActive">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>200</width>
-                 <height>0</height>
-                </size>
-               </property>
                <property name="text">
                 <string>Font color</string>
                </property>
@@ -163,20 +102,7 @@
               </widget>
              </item>
              <item>
-              <widget class="KColorCombo" name="kcolorcombo_fontColorActive">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>100</width>
-                 <height>23</height>
-                </size>
-               </property>
-              </widget>
+              <widget class="KColorCombo" name="kcolorcombo_fontColorActive"/>
              </item>
             </layout>
            </item>
@@ -184,18 +110,6 @@
             <layout class="QHBoxLayout" name="layout_fontWeightActive">
              <item>
               <widget class="QLabel" name="label_fontWeightActive">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>200</width>
-                 <height>0</height>
-                </size>
-               </property>
                <property name="text">
                 <string>Font weight</string>
                </property>
@@ -206,18 +120,6 @@
              </item>
              <item>
               <widget class="QSpinBox" name="spinBox_fontWeightActive">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>100</width>
-                 <height>23</height>
-                </size>
-               </property>
                <property name="minimum">
                 <number>100</number>
                </property>
@@ -238,18 +140,6 @@
             <layout class="QHBoxLayout" name="layout_fontStyleActive">
              <item>
               <widget class="QLabel" name="label_fontStyleActive">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>200</width>
-                 <height>0</height>
-                </size>
-               </property>
                <property name="text">
                 <string>Font style</string>
                </property>
@@ -260,18 +150,6 @@
              </item>
              <item>
               <widget class="QComboBox" name="comboBox_fontStyleActive">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>100</width>
-                 <height>23</height>
-                </size>
-               </property>
                <item>
                 <property name="text">
                  <string notr="true">normal</string>
@@ -329,18 +207,6 @@
             <layout class="QHBoxLayout" name="layout_fontInactive">
              <item>
               <widget class="QLabel" name="label_fontInactive">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>200</width>
-                 <height>0</height>
-                </size>
-               </property>
                <property name="text">
                 <string>Font</string>
                </property>
@@ -350,20 +216,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QFontComboBox" name="fontComboBox_fontInactive">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>180</width>
-                 <height>23</height>
-                </size>
-               </property>
-              </widget>
+              <widget class="QFontComboBox" name="fontComboBox_fontInactive"/>
              </item>
             </layout>
            </item>
@@ -371,18 +224,6 @@
             <layout class="QHBoxLayout" name="layout_fontSizeInactive">
              <item>
               <widget class="QLabel" name="label_fontSizeInactive">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>200</width>
-                 <height>0</height>
-                </size>
-               </property>
                <property name="text">
                 <string>Font size</string>
                </property>
@@ -393,18 +234,6 @@
              </item>
              <item>
               <widget class="QSpinBox" name="spinBox_fontSizeInactive">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>100</width>
-                 <height>23</height>
-                </size>
-               </property>
                <property name="minimum">
                 <number>7</number>
                </property>
@@ -422,18 +251,6 @@
             <layout class="QHBoxLayout" name="layout_fontColorInactive">
              <item>
               <widget class="QLabel" name="label_fontColorInactive">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>200</width>
-                 <height>0</height>
-                </size>
-               </property>
                <property name="text">
                 <string>Font color</string>
                </property>
@@ -443,20 +260,7 @@
               </widget>
              </item>
              <item>
-              <widget class="KColorCombo" name="kcolorcombo_fontColorInactive">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>100</width>
-                 <height>23</height>
-                </size>
-               </property>
-              </widget>
+              <widget class="KColorCombo" name="kcolorcombo_fontColorInactive"/>
              </item>
             </layout>
            </item>
@@ -464,18 +268,6 @@
             <layout class="QHBoxLayout" name="layout_fontWeightInactive">
              <item>
               <widget class="QLabel" name="label_fontWeightInactive">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>200</width>
-                 <height>0</height>
-                </size>
-               </property>
                <property name="text">
                 <string>Font weight</string>
                </property>
@@ -486,18 +278,6 @@
              </item>
              <item>
               <widget class="QSpinBox" name="spinBox_fontWeightInactive">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>100</width>
-                 <height>23</height>
-                </size>
-               </property>
                <property name="minimum">
                 <number>100</number>
                </property>
@@ -518,18 +298,6 @@
             <layout class="QHBoxLayout" name="layout_fontStyleInactive">
              <item>
               <widget class="QLabel" name="label_fontStyleInactive">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>200</width>
-                 <height>0</height>
-                </size>
-               </property>
                <property name="text">
                 <string>Font style</string>
                </property>
@@ -540,18 +308,6 @@
              </item>
              <item>
               <widget class="QComboBox" name="comboBox_fontStyleInactive">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>100</width>
-                 <height>23</height>
-                </size>
-               </property>
                <item>
                 <property name="text">
                  <string notr="true">normal</string>

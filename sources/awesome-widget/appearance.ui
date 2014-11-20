@@ -51,41 +51,16 @@
         <layout class="QHBoxLayout" name="layout_interval">
          <item>
           <widget class="QLabel" name="label_interval">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
-           </property>
            <property name="text">
             <string>Time interval</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="spacer_interval">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QSpinBox" name="spinBox_interval">
-           <property name="minimumSize">
-            <size>
-             <width>180</width>
-             <height>0</height>
-            </size>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spinBox_interval">
            <property name="minimum">
             <number>1</number>
            </property>
@@ -106,29 +81,13 @@
         <layout class="QHBoxLayout" name="layout_font">
          <item>
           <widget class="QLabel" name="label_font">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
-           </property>
            <property name="text">
             <string>Font</string>
            </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
           </widget>
-         </item>
-         <item>
-          <spacer name="spacer_font">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
          </item>
          <item>
           <widget class="QFontComboBox" name="fontComboBox">
@@ -146,41 +105,16 @@
         <layout class="QHBoxLayout" name="layout_size">
          <item>
           <widget class="QLabel" name="label_size">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
-           </property>
            <property name="text">
             <string>Font size</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="spacer_size">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QSpinBox" name="spinBox_size">
-           <property name="minimumSize">
-            <size>
-             <width>180</width>
-             <height>0</height>
-            </size>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spinBox_size">
            <property name="minimum">
             <number>1</number>
            </property>
@@ -201,39 +135,16 @@
         <layout class="QHBoxLayout" name="layout_color">
          <item>
           <widget class="QLabel" name="label_color">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
-           </property>
            <property name="text">
             <string>Font color</string>
            </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
           </widget>
          </item>
          <item>
-          <spacer name="spacer_color">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="KColorCombo" name="kcolorcombo">
-           <property name="minimumSize">
-            <size>
-             <width>180</width>
-             <height>0</height>
-            </size>
-           </property>
-          </widget>
+          <widget class="KColorCombo" name="kcolorcombo"/>
          </item>
         </layout>
        </item>
@@ -241,38 +152,16 @@
         <layout class="QHBoxLayout" name="layout_style">
          <item>
           <widget class="QLabel" name="label_style">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
-           </property>
            <property name="text">
             <string>Font style</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
          <item>
-          <spacer name="spacer_style">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
           <widget class="QComboBox" name="comboBox_style">
-           <property name="minimumSize">
-            <size>
-             <width>180</width>
-             <height>0</height>
-            </size>
-           </property>
            <item>
             <property name="text">
              <string notr="true">normal</string>
@@ -291,41 +180,16 @@
         <layout class="QHBoxLayout" name="layout_weight">
          <item>
           <widget class="QLabel" name="label_weight">
-           <property name="minimumSize">
-            <size>
-             <width>200</width>
-             <height>0</height>
-            </size>
-           </property>
            <property name="text">
             <string>Font weight</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="spacer_weight">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>19</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QSpinBox" name="spinBox_weight">
-           <property name="minimumSize">
-            <size>
-             <width>180</width>
-             <height>0</height>
-            </size>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spinBox_weight">
            <property name="minimum">
             <number>100</number>
            </property>

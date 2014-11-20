@@ -24,18 +24,6 @@
     <layout class="QHBoxLayout" name="layout_mark">
      <item>
       <widget class="QLabel" name="label_mark">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>200</width>
-         <height>0</height>
-        </size>
-       </property>
        <property name="text">
         <string>Mark</string>
        </property>
@@ -46,12 +34,6 @@
      </item>
      <item>
       <widget class="QComboBox" name="comboBox_mark">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
        <property name="toolTip">
         <string>A mark which will be shown if this desktop is active</string>
        </property>
@@ -328,12 +310,6 @@
     <layout class="QHBoxLayout" name="layout_tooltip">
      <item>
       <widget class="QLabel" name="label_tooltip">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
        <property name="text">
         <string>Tooltip width</string>
        </property>
@@ -344,18 +320,6 @@
      </item>
      <item>
       <widget class="QSpinBox" name="spinBox_tooltip">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>180</width>
-         <height>0</height>
-        </size>
-       </property>
        <property name="suffix">
         <string>px</string>
        </property>
@@ -376,12 +340,6 @@
     <layout class="QHBoxLayout" name="layout_tooltipColor">
      <item>
       <widget class="QLabel" name="label_tooltipColor">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
        <property name="text">
         <string>Window border color on tooltip</string>
        </property>
@@ -391,20 +349,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KColorCombo" name="kcolorcombo_tooltipColor">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>180</width>
-         <height>0</height>
-        </size>
-       </property>
-      </widget>
+      <widget class="KColorCombo" name="kcolorcombo_tooltipColor"/>
      </item>
     </layout>
    </item>

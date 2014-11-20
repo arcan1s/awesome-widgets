@@ -24,12 +24,6 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="minimumSize">
-        <size>
-         <width>200</width>
-         <height>0</height>
-        </size>
-       </property>
        <property name="text">
         <string>Name</string>
        </property>
@@ -52,12 +46,6 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>200</width>
-         <height>0</height>
-        </size>
        </property>
        <property name="text">
         <string>Comment</string>
@@ -82,12 +70,6 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="minimumSize">
-        <size>
-         <width>200</width>
-         <height>0</height>
-        </size>
-       </property>
        <property name="text">
         <string>Command</string>
        </property>
@@ -110,12 +92,6 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>200</width>
-         <height>0</height>
-        </size>
        </property>
        <property name="text">
         <string>Prefix</string>
@@ -194,12 +170,6 @@
     <layout class="QHBoxLayout" name="layout_redirect">
      <item>
       <widget class="QLabel" name="label_redirect">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
        <property name="text">
         <string>Redirect</string>
        </property>
@@ -210,12 +180,6 @@
      </item>
      <item>
       <widget class="QComboBox" name="comboBox_redirect">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
        <item>
         <property name="text">
          <string notr="true">stdout2stderr</string>
@@ -239,12 +203,6 @@
     <layout class="QHBoxLayout" name="layout_interval">
      <item>
       <widget class="QLabel" name="label_interval">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
        <property name="text">
         <string>Interval</string>
        </property>
@@ -255,12 +213,6 @@
      </item>
      <item>
       <widget class="QSpinBox" name="spinBox_interval">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
        <property name="minimum">
         <number>1</number>
        </property>
