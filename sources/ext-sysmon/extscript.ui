@@ -18,6 +18,12 @@
     <layout class="QHBoxLayout" name="layout_name">
      <item>
       <widget class="QLabel" name="label_name">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
          <width>200</width>
@@ -41,6 +47,12 @@
     <layout class="QHBoxLayout" name="layout_comment">
      <item>
       <widget class="QLabel" name="label_comment">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
          <width>200</width>
@@ -64,6 +76,12 @@
     <layout class="QHBoxLayout" name="layout_command">
      <item>
       <widget class="QLabel" name="label_command">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
          <width>200</width>
@@ -87,6 +105,12 @@
     <layout class="QHBoxLayout" name="layout_prefix">
      <item>
       <widget class="QLabel" name="label_prefix">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
          <width>200</width>
@@ -107,23 +131,75 @@
     </layout>
    </item>
    <item>
-    <widget class="QCheckBox" name="checkBox_active">
-     <property name="text">
-      <string>Active</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="layout_active">
+     <item>
+      <spacer name="spacer_active">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="checkBox_active">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Active</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
-    <widget class="QCheckBox" name="checkBox_output">
-     <property name="text">
-      <string>Has output</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="layout_output">
+     <item>
+      <spacer name="spacer_output">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="checkBox_output">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Has output</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <layout class="QHBoxLayout" name="layout_redirect">
      <item>
       <widget class="QLabel" name="label_redirect">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>Redirect</string>
        </property>
@@ -134,6 +210,12 @@
      </item>
      <item>
       <widget class="QComboBox" name="comboBox_redirect">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <item>
         <property name="text">
          <string notr="true">stdout2stderr</string>
@@ -157,6 +239,12 @@
     <layout class="QHBoxLayout" name="layout_interval">
      <item>
       <widget class="QLabel" name="label_interval">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>Interval</string>
        </property>
@@ -167,6 +255,12 @@
      </item>
      <item>
       <widget class="QSpinBox" name="spinBox_interval">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimum">
         <number>1</number>
        </property>

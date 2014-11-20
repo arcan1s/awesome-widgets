@@ -49,6 +49,12 @@
             <layout class="QHBoxLayout" name="layout_fontActive">
              <item>
               <widget class="QLabel" name="label_fontActive">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="minimumSize">
                 <size>
                  <width>200</width>
@@ -58,20 +64,10 @@
                <property name="text">
                 <string>Font</string>
                </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
               </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_fontActive">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
              </item>
              <item>
               <widget class="QFontComboBox" name="fontComboBox_fontActive">
@@ -95,6 +91,12 @@
             <layout class="QHBoxLayout" name="layout_fontSizeActive">
              <item>
               <widget class="QLabel" name="label_fontSizeActive">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="minimumSize">
                 <size>
                  <width>200</width>
@@ -104,25 +106,15 @@
                <property name="text">
                 <string>Font size</string>
                </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
               </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_fontSizeActive">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
              </item>
              <item>
               <widget class="QSpinBox" name="spinBox_fontSizeActive">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -132,9 +124,6 @@
                  <width>100</width>
                  <height>23</height>
                 </size>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                </property>
                <property name="minimum">
                 <number>7</number>
@@ -153,6 +142,12 @@
             <layout class="QHBoxLayout" name="layout_fontColorActive">
              <item>
               <widget class="QLabel" name="label_fontColorActive">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="minimumSize">
                 <size>
                  <width>200</width>
@@ -162,25 +157,15 @@
                <property name="text">
                 <string>Font color</string>
                </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
               </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_fontColorActive">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
              </item>
              <item>
               <widget class="KColorCombo" name="kcolorcombo_fontColorActive">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -199,6 +184,12 @@
             <layout class="QHBoxLayout" name="layout_fontWeightActive">
              <item>
               <widget class="QLabel" name="label_fontWeightActive">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="minimumSize">
                 <size>
                  <width>200</width>
@@ -208,25 +199,15 @@
                <property name="text">
                 <string>Font weight</string>
                </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
               </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_fontWeightActive">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
              </item>
              <item>
               <widget class="QSpinBox" name="spinBox_fontWeightActive">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -236,9 +217,6 @@
                  <width>100</width>
                  <height>23</height>
                 </size>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                </property>
                <property name="minimum">
                 <number>100</number>
@@ -260,6 +238,12 @@
             <layout class="QHBoxLayout" name="layout_fontStyleActive">
              <item>
               <widget class="QLabel" name="label_fontStyleActive">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="minimumSize">
                 <size>
                  <width>200</width>
@@ -269,25 +253,15 @@
                <property name="text">
                 <string>Font style</string>
                </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
               </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_fontStyleActive">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
              </item>
              <item>
               <widget class="QComboBox" name="comboBox_fontStyleActive">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -346,8 +320,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>406</width>
-            <height>167</height>
+            <width>448</width>
+            <height>289</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -355,6 +329,12 @@
             <layout class="QHBoxLayout" name="layout_fontInactive">
              <item>
               <widget class="QLabel" name="label_fontInactive">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="minimumSize">
                 <size>
                  <width>200</width>
@@ -364,20 +344,10 @@
                <property name="text">
                 <string>Font</string>
                </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
               </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_fontInactive">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
              </item>
              <item>
               <widget class="QFontComboBox" name="fontComboBox_fontInactive">
@@ -401,6 +371,12 @@
             <layout class="QHBoxLayout" name="layout_fontSizeInactive">
              <item>
               <widget class="QLabel" name="label_fontSizeInactive">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="minimumSize">
                 <size>
                  <width>200</width>
@@ -410,25 +386,15 @@
                <property name="text">
                 <string>Font size</string>
                </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
               </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_fontSizeInactive">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
              </item>
              <item>
               <widget class="QSpinBox" name="spinBox_fontSizeInactive">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -438,9 +404,6 @@
                  <width>100</width>
                  <height>23</height>
                 </size>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                </property>
                <property name="minimum">
                 <number>7</number>
@@ -459,6 +422,12 @@
             <layout class="QHBoxLayout" name="layout_fontColorInactive">
              <item>
               <widget class="QLabel" name="label_fontColorInactive">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="minimumSize">
                 <size>
                  <width>200</width>
@@ -468,25 +437,15 @@
                <property name="text">
                 <string>Font color</string>
                </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
               </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_fontColorInactive">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
              </item>
              <item>
               <widget class="KColorCombo" name="kcolorcombo_fontColorInactive">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -505,6 +464,12 @@
             <layout class="QHBoxLayout" name="layout_fontWeightInactive">
              <item>
               <widget class="QLabel" name="label_fontWeightInactive">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="minimumSize">
                 <size>
                  <width>200</width>
@@ -514,25 +479,15 @@
                <property name="text">
                 <string>Font weight</string>
                </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
               </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_fontWeightInactive">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
              </item>
              <item>
               <widget class="QSpinBox" name="spinBox_fontWeightInactive">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -542,9 +497,6 @@
                  <width>100</width>
                  <height>23</height>
                 </size>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                </property>
                <property name="minimum">
                 <number>100</number>
@@ -566,6 +518,12 @@
             <layout class="QHBoxLayout" name="layout_fontStyleInactive">
              <item>
               <widget class="QLabel" name="label_fontStyleInactive">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="minimumSize">
                 <size>
                  <width>200</width>
@@ -575,25 +533,15 @@
                <property name="text">
                 <string>Font style</string>
                </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
               </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_fontStyleInactive">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
              </item>
              <item>
               <widget class="QComboBox" name="comboBox_fontStyleInactive">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
