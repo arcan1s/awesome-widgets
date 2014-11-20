@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>700</width>
-    <height>590</height>
+    <height>588</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -41,7 +41,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
+        <y>-250</y>
         <width>675</width>
         <height>822</height>
        </rect>
@@ -481,9 +481,9 @@ $m - uptime minutes without zero</string>
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="layout_updates_3">
+        <layout class="QHBoxLayout" name="layout_updates">
          <item>
-          <spacer name="spacer_updates_3">
+          <spacer name="spacer_updates">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -496,7 +496,7 @@ $m - uptime minutes without zero</string>
           </spacer>
          </item>
          <item>
-          <widget class="QCheckBox" name="checkBox_updates_3">
+          <widget class="QCheckBox" name="checkBox_updates">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
              <horstretch>0</horstretch>

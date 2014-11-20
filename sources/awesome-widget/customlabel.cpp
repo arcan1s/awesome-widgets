@@ -65,7 +65,7 @@ void CustomLabel::mousePressEvent(QMouseEvent *event)
         if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
         if (process.exitCode != 0)
             if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
-        text += QString("Kernel: %1\n").arg(QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed());
+        text += QString("Kernel: %1<br>").arg(QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed());
         // hostname
         cmd = QString("uname -n");
         if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
@@ -73,7 +73,7 @@ void CustomLabel::mousePressEvent(QMouseEvent *event)
         if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
         if (process.exitCode != 0)
             if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
-        text += QString("Hostname: %1\n").arg(QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed());
+        text += QString("Hostname: %1<br>").arg(QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed());
         // whoami
         cmd = QString("whoami");
         if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
@@ -81,7 +81,7 @@ void CustomLabel::mousePressEvent(QMouseEvent *event)
         if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
         if (process.exitCode != 0)
             if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
-        text += QString("Whoami: %1\n").arg(QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed());
+        text += QString("Whoami: %1<br>").arg(QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed());
         // uptime
         cmd = QString("uptime");
         if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
@@ -89,7 +89,7 @@ void CustomLabel::mousePressEvent(QMouseEvent *event)
         if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
         if (process.exitCode != 0)
             if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
-        text += QString("Uptime: %1\n").arg(QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed());
+        text += QString("Uptime: %1").arg(QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed());
 
         widget->sendNotification(QString("system"), text);
     }
