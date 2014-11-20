@@ -129,6 +129,7 @@ void DesktopPanel::init()
     toolTipView = new QGraphicsView(toolTipScene);
     toolTipView->setStyleSheet(QString("background: transparent"));
     toolTipView->setContentsMargins(0, 0, 0, 0);
+    toolTipView->setFrameShape(QFrame::NoFrame);
     toolTipView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     toolTipView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     Plasma::ToolTipManager::self()->setContent(this, toolTip);

@@ -395,6 +395,7 @@ void GraphicalItem::showConfiguration(const QStringList tags)
     setDirection(ui->comboBox_direction->currentText());
     setHeight(ui->spinBox_height->value());
     setWidth(ui->spinBox_width->value());
+
     writeConfiguration();
 }
 

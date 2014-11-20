@@ -53,6 +53,7 @@ public:
     QString getName();
     QString getPrefix();
     Redirect getRedirect();
+    QString getStrRedirect();
     bool hasOutput();
     bool isActive();
     // set methods

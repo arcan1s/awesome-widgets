@@ -34,6 +34,7 @@ ExtScript::ExtScript(QWidget *parent, const QString scriptName, const QStringLis
     debug(debugCmd),
     ui(new Ui::ExtScript)
 {
+    _name = fileName;
     readConfiguration();
     ui->setupUi(this);
 }
@@ -100,6 +101,27 @@ ExtScript::Redirect ExtScript::getRedirect()
     if (debug) qDebug() << PDEBUG;
 
     return _redirect;
+}
+
+
+QString ExtScript::getStrRedirect()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QString value;
+    switch (_redirect) {
+    case stdout2stderr:
+        value = QString("stdout2stderr");
+        break;
+    case stderr2stdout:
+        value = QString("stderr2stdout");
+        break;
+    default:
+        value = QString("nothing");
+        break;
+    }
+
+    return value;
 }
 
 
@@ -205,26 +227,14 @@ void ExtScript::readConfiguration()
         if (!QDir(dirs[i]).entryList(QDir::Files).contains(fileName)) continue;
         QSettings settings(dirs[i] + QDir::separator() + fileName, QSettings::IniFormat);
         settings.beginGroup(QString("Desktop Entry"));
-        QStringList childKeys = settings.childKeys();
-        for (int i=0; i<childKeys.count(); i++) {
-            if (childKeys[i] == QString("Name")) {
-                setName(settings.value(childKeys[i]).toString());
-            } else if (childKeys[i] == QString("Comment")) {
-                setComment(settings.value(childKeys[i]).toString());
-            } else if (childKeys[i] == QString("Exec")) {
-                setExec(settings.value(childKeys[i]).toString());
-            } else if (childKeys[i] == QString("X-AW-Prefix")) {
-                setPrefix(settings.value(childKeys[i]).toString());
-            } else if (childKeys[i] == QString("X-AW-Active")) {
-                setActive(settings.value(childKeys[i]).toString() == QString("true"));
-            } else if (childKeys[i] == QString("X-AW-Output")) {
-                setHasOutput(settings.value(childKeys[i]).toString() == QString("true"));
-            } else if (childKeys[i] == QString("X-AW-Redirect")) {
-                setRedirect(settings.value(childKeys[i]).toString());
-            } else if (childKeys[i] == QString("X-AW-Interval")) {
-                setInterval(settings.value(childKeys[i]).toInt());
-            }
-        }
+        setName(settings.value(QString("Name"), _name).toString());
+        setComment(settings.value(QString("Comment"), _comment).toString());
+        setExec(settings.value(QString("Exec"), _exec).toString());
+        setPrefix(settings.value(QString("X-AW-Prefix"), _prefix).toString());
+        setActive(settings.value(QString("X-AW-Active"), QVariant(_active).toString()).toString() == QString("true"));
+        setHasOutput(settings.value(QString("X-AW-Output"), QVariant(_output).toString()).toString() == QString("true"));
+        setRedirect(settings.value(QString("X-AW-Redirect"), getStrRedirect()).toString());
+        setInterval(settings.value(QString("X-AW-Interval"), _interval).toInt());
         settings.endGroup();
     }
 
@@ -295,17 +305,17 @@ void ExtScript::showConfiguration()
     ui->spinBox_interval->setValue(_interval);
 
     int ret = exec();
-    if (ret == 1) {
-        setName(ui->lineEdit_name->text());
-        setComment(ui->lineEdit_comment->text());
-        setExec(ui->lineEdit_command->text());
-        setPrefix(ui->lineEdit_prefix->text());
-        setActive(ui->checkBox_active->checkState() == Qt::Checked);
-        setHasOutput(ui->checkBox_output->checkState() == Qt::Checked);
-        setRedirect(ui->comboBox_redirect->currentText());
-        setInterval(ui->spinBox_interval->value());
-        writeConfiguration();
-    }
+    if (ret != 1) return;
+    setName(ui->lineEdit_name->text());
+    setComment(ui->lineEdit_comment->text());
+    setExec(ui->lineEdit_command->text());
+    setPrefix(ui->lineEdit_prefix->text());
+    setActive(ui->checkBox_active->checkState() == Qt::Checked);
+    setHasOutput(ui->checkBox_output->checkState() == Qt::Checked);
+    setRedirect(ui->comboBox_redirect->currentText());
+    setInterval(ui->spinBox_interval->value());
+
+    writeConfiguration();
 }
 
 
@@ -327,34 +337,14 @@ void ExtScript::writeConfiguration()
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << settings.fileName();
     settings.beginGroup(QString("Desktop Entry"));
 
-    QString strValue;
     settings.setValue(QString("Encoding"), QString("UTF-8"));
     settings.setValue(QString("Name"), _name);
     settings.setValue(QString("Comment"), _comment);
     settings.setValue(QString("Exec"), _exec);
     settings.setValue(QString("X-AW-Prefix"), _prefix);
-    if (_active)
-        strValue = QString("true");
-    else
-        strValue = QString("false");
-    settings.setValue(QString("X-AW-Active"), strValue);
-    if (_output)
-        strValue = QString("true");
-    else
-        strValue = QString("false");
-    settings.setValue(QString("X-AW-Output"), strValue);
-    switch (_redirect) {
-    case stdout2stderr:
-        strValue = QString("stdout2stderr");
-        break;
-    case stderr2stdout:
-        strValue = QString("stderr2stdout");
-        break;
-    default:
-        strValue = QString("nothing");
-        break;
-    }
-    settings.setValue(QString("X-AW-Redirect"), strValue);
+    settings.setValue(QString("X-AW-Active"), QVariant(_active).toString());
+    settings.setValue(QString("X-AW-Output"), QVariant(_active).toString());
+    settings.setValue(QString("X-AW-Redirect"), getStrRedirect());
     settings.setValue(QString("X-AW-Interval"), _interval);
 
     settings.endGroup();
