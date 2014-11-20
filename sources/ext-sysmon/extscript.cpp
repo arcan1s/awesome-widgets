@@ -295,7 +295,7 @@ void ExtScript::showConfiguration()
     ui->spinBox_interval->setValue(_interval);
 
     int ret = exec();
-    if (ret == 0) {
+    if (ret == 1) {
         setName(ui->lineEdit_name->text());
         setComment(ui->lineEdit_comment->text());
         setExec(ui->lineEdit_command->text());

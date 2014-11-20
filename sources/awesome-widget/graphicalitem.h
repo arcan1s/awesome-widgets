@@ -31,8 +31,8 @@ class GraphicalItem : public QDialog
 
 public:
     enum Direction {
-        RightToLeft = 0,
-        LeftToRight = 1
+        LeftToRight = 0,
+        RightToLeft
     };
     enum Type {
         Horizontal = 0,
@@ -49,18 +49,20 @@ public:
     QString getName();
     QString getComment();
     QString getBar();
-    QColor getActiveColor();
-    QColor getInactiveColor();
+    QString getActiveColor();
+    QString getInactiveColor();
     Type getType();
+    QString getStrType();
     Direction getDirection();
+    QString getStrDirection();
     int getHeight();
     int getWidth();
     // set methods
     void setName(const QString name = QString("none"));
     void setComment(const QString comment = QString("empty"));
     void setBar(const QString bar = QString("cpu"));
-    void setActiveColor(const QColor color = QColor(255, 255, 255, 0));
-    void setInactiveColor(const QColor color = QColor(255, 255, 255, 255));
+    void setActiveColor(const QString color = QString("0,0,0,130"));
+    void setInactiveColor(const QString color = QString("255,255,255,130"));
     void setType(const QString type = QString("Horizontal"));
     void setDirection(const QString direction = QString("LeftToRight"));
     void setHeight(const int height = 100);
@@ -76,6 +78,7 @@ private slots:
     void changeColor();
 
 private:
+    QColor stringToColor(const QString color);
     QString fileName;
     QStringList dirs;
     bool debug;
@@ -84,8 +87,8 @@ private:
     QString _name = QString("none");
     QString _comment = QString("empty");
     QString _bar = QString("cpu");
-    QColor _activeColor = QColor(255, 255, 255, 0);
-    QColor _inactiveColor = QColor(255, 255, 255, 255);
+    QString _activeColor = QString("0,0,0,130");
+    QString _inactiveColor = QString("255,255,255,130");
     Type _type = Horizontal;
     Direction _direction = LeftToRight;
     int _height = 100;

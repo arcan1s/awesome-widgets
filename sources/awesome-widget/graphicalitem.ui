@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>420</width>
-    <height>329</height>
+    <width>416</width>
+    <height>325</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -73,7 +73,7 @@
      <item>
       <widget class="QComboBox" name="comboBox_value">
        <property name="editable">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -94,7 +94,7 @@
      <item>
       <widget class="QPushButton" name="pushButton_activeColor">
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
       </widget>
      </item>
@@ -115,7 +115,7 @@
      <item>
       <widget class="QPushButton" name="pushButton_inactiveColor">
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
       </widget>
      </item>

@@ -735,13 +735,14 @@ void AwesomeWidget::addBar()
                                          i18n("File name"), QLineEdit::Normal,
                                          QString(""), &ok);
     if ((!ok) || (name.isEmpty())) return;
+    if (!name.endsWith(QString(".desktop"))) name += QString(".desktop");
     QStringList bars;
     bars.append(keys.filter((QRegExp(QString("cpu(?!cl).*")))));
-    bars.append(keys.filter((QRegExp(QString("gpu")))));
-    bars.append(keys.filter((QRegExp(QString("mem")))));
-    bars.append(keys.filter((QRegExp(QString("swap")))));
-    bars.append(keys.filter((QRegExp(QString("hdd[0-9].*")))));
-    bars.append(keys.filter((QRegExp(QString("bat.*")))));
+    bars.append(keys.filter((QRegExp(QString("^gpu$")))));
+    bars.append(keys.filter((QRegExp(QString("^mem$")))));
+    bars.append(keys.filter((QRegExp(QString("^swap$")))));
+    bars.append(keys.filter((QRegExp(QString("^hdd[0-9].*")))));
+    bars.append(keys.filter((QRegExp(QString("^bat.*")))));
 
     GraphicalItem *item = new GraphicalItem(0, name, dirs, debug);
     item->setName(QString("bar%1").arg(number));
@@ -759,6 +760,7 @@ void AwesomeWidget::addCustomScript()
                                          i18n("File name"), QLineEdit::Normal,
                                          QString(""), &ok);
     if ((!ok) || (name.isEmpty())) return;
+    if (!name.endsWith(QString(".desktop"))) name += QString(".desktop");
 
     ExtScript *script = new ExtScript(0, name, dirs, debug);
     script->showConfiguration();
@@ -843,12 +845,12 @@ void AwesomeWidget::editBar(QListWidgetItem *item)
     if (debug) qDebug() << PDEBUG;
 
     QStringList bars;
-    bars.append(keys.filter((QRegExp(QString("cpu(?!cl).*")))));
-    bars.append(keys.filter((QRegExp(QString("gpu$")))));
-    bars.append(keys.filter((QRegExp(QString("mem$")))));
-    bars.append(keys.filter((QRegExp(QString("swap$")))));
-    bars.append(keys.filter((QRegExp(QString("hdd[0-9].*")))));
-    bars.append(keys.filter((QRegExp(QString("bat.*")))));
+    bars.append(keys.filter((QRegExp(QString("^cpu(?!cl).*")))));
+    bars.append(keys.filter((QRegExp(QString("^gpu$")))));
+    bars.append(keys.filter((QRegExp(QString("^mem$")))));
+    bars.append(keys.filter((QRegExp(QString("^swap$")))));
+    bars.append(keys.filter((QRegExp(QString("^hdd[0-9].*")))));
+    bars.append(keys.filter((QRegExp(QString("^bat.*")))));
 
     for (int i=0; i<graphicalItems.count(); i++) {
         if (graphicalItems[i]->getFileName() != item->text()) continue;
