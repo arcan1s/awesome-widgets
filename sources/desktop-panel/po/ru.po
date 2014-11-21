@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2014-11-08 18:41+0300\n"
-"PO-Revision-Date: 2014-09-15 10:03+0400\n"
+"POT-Creation-Date: 2014-11-20 17:40+0300\n"
+"PO-Revision-Date: 2014-11-20 17:58+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -18,39 +18,39 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: desktop-panel.cpp:168
+#: desktop-panel.cpp:188
 msgid "Top Edge"
 msgstr "Верхний край"
 
-#: desktop-panel.cpp:170
+#: desktop-panel.cpp:190
 msgid "Bottom Edge"
 msgstr "Нижний край"
 
-#: desktop-panel.cpp:172
+#: desktop-panel.cpp:192
 msgid "Left Edge"
 msgstr "Левый край"
 
-#: desktop-panel.cpp:174
+#: desktop-panel.cpp:194
 msgid "Right Edge"
 msgstr "Правый край"
 
-#: desktop-panel.cpp:176
+#: desktop-panel.cpp:196
 msgid "Unknown Position (%1)"
 msgstr "Неизвестное положение (%1)"
 
-#: desktop-panel.cpp:437
+#: desktop-panel.cpp:454
 msgid "Widget"
 msgstr "Виджет"
 
-#: desktop-panel.cpp:438
+#: desktop-panel.cpp:455
 msgid "Appearance"
 msgstr "Внешний вид"
 
-#: desktop-panel.cpp:439
+#: desktop-panel.cpp:456
 msgid "Toggle panels"
 msgstr "Скрыть панели"
 
-#: desktop-panel.cpp:556
+#: desktop-panel.cpp:575
 msgid "Select font"
 msgstr "Выберете шрифт"
 
@@ -58,7 +58,7 @@ msgstr "Выберете шрифт"
 msgid "Active desktop"
 msgstr "Активный рабочий стол"
 
-#: po/rc.cpp:6 po/rc.cpp:24 po/rc.cpp:60 rc.cpp:6 rc.cpp:24 rc.cpp:60
+#: po/rc.cpp:6 po/rc.cpp:24 po/rc.cpp:48 rc.cpp:6 rc.cpp:24 rc.cpp:48
 msgid "Font"
 msgstr "Шрифт"
 
@@ -87,55 +87,59 @@ msgid "To control panels please set widget shortcut."
 msgstr "Чтобы управлять панелями, настройте комбинацию клавиш."
 
 #: po/rc.cpp:42 rc.cpp:42
-msgid "Vertical layout"
-msgstr "Вертикальная разметка"
-
-#: po/rc.cpp:45 rc.cpp:45
 msgid "Mark"
 msgstr "Метка"
 
-#: po/rc.cpp:48 rc.cpp:48
+#: po/rc.cpp:45 rc.cpp:45
 msgid "A mark which will be shown if this desktop is active"
 msgstr "Метка, которая будет показана, если данный рабочий стол активен"
 
 #: po/rc.cpp:51 rc.cpp:51
-msgid "Enable tooltip"
-msgstr ""
-
-#: po/rc.cpp:54 rc.cpp:54
-msgid "Tooltip width"
-msgstr ""
-
-#: po/rc.cpp:57 rc.cpp:57
-msgid "px"
-msgstr ""
-
-#: po/rc.cpp:63 rc.cpp:63
 msgid "Ctrl+B"
 msgstr "Ctrl+B"
 
-#: po/rc.cpp:66 rc.cpp:66
+#: po/rc.cpp:54 rc.cpp:54
 msgid "Ctrl+I"
 msgstr "Ctrl+I"
 
-#: po/rc.cpp:69 rc.cpp:69
+#: po/rc.cpp:57 rc.cpp:57
 msgid "Ctrl+U"
 msgstr "Ctrl+U"
 
-#: po/rc.cpp:72 rc.cpp:72
+#: po/rc.cpp:60 rc.cpp:60
 msgid "Add"
 msgstr "Добавить"
 
-#: po/rc.cpp:75 rc.cpp:75
+#: po/rc.cpp:63 rc.cpp:63
+msgid "Tooltip width"
+msgstr "Ширина тултипа"
+
+#: po/rc.cpp:66 rc.cpp:66
+msgid "px"
+msgstr "px"
+
+#: po/rc.cpp:69 rc.cpp:69
+msgid "Window border color on tooltip"
+msgstr "Цвет границ окна в тултипе"
+
+#: po/rc.cpp:72 rc.cpp:72
 msgid "Enable background"
 msgstr "Включить фон"
 
-#: po/rc.cpp:76 rc.cpp:76
+#: po/rc.cpp:75 rc.cpp:75
+msgid "Vertical layout"
+msgstr "Вертикальная разметка"
+
+#: po/rc.cpp:78 rc.cpp:78
+msgid "Enable tooltip"
+msgstr "Включить тултип"
+
+#: po/rc.cpp:79 rc.cpp:79
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Evgeniy Alekseev"
 
-#: po/rc.cpp:77 rc.cpp:77
+#: po/rc.cpp:80 rc.cpp:80
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "esalexeev@gmail.com"
