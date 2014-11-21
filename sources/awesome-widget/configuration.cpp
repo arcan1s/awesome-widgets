@@ -746,6 +746,7 @@ void AwesomeWidget::addBar()
 
     GraphicalItem *item = new GraphicalItem(0, name, dirs, debug);
     item->setName(QString("bar%1").arg(number));
+
     item->showConfiguration(bars);
 }
 
@@ -763,6 +764,7 @@ void AwesomeWidget::addCustomScript()
     if (!name.endsWith(QString(".desktop"))) name += QString(".desktop");
 
     ExtScript *script = new ExtScript(0, name, dirs, debug);
+
     script->showConfiguration();
 }
 
@@ -789,10 +791,13 @@ void AwesomeWidget::contextMenuBars(const QPoint pos)
 
     QMenu menu(uiAdvancedConfig.listWidget_bars);
     QAction *edit = menu.addAction(QIcon::fromTheme("document-edit"), i18n("Edit"));
+    QAction *copy = menu.addAction(QIcon::fromTheme("edit-copy"), i18n("Copy"));
     QAction *remove = menu.addAction(QIcon::fromTheme("edit-delete"), i18n("Remove"));
     QAction *action = menu.exec(uiAdvancedConfig.listWidget_bars->viewport()->mapToGlobal(pos));
     if (action == edit)
         editBar(uiAdvancedConfig.listWidget_bars->currentItem());
+    else if (action == copy)
+        copyBar(uiAdvancedConfig.listWidget_bars->currentItem()->text());
     else if (action == remove)
         for (int i=0; i<graphicalItems.count(); i++) {
             if (graphicalItems[i]->getFileName() != uiAdvancedConfig.listWidget_bars->currentItem()->text())
@@ -812,10 +817,13 @@ void AwesomeWidget::contextMenuCustomCommand(const QPoint pos)
 
     QMenu menu(uiDEConfig.listWidget_custom);
     QAction *edit = menu.addAction(QIcon::fromTheme("document-edit"), i18n("Edit"));
+    QAction *copy = menu.addAction(QIcon::fromTheme("edit-copy"), i18n("Copy"));
     QAction *remove = menu.addAction(QIcon::fromTheme("edit-delete"), i18n("Remove"));
     QAction *action = menu.exec(uiDEConfig.listWidget_custom->viewport()->mapToGlobal(pos));
     if (action == edit)
         editCustomCommand(uiDEConfig.listWidget_custom->currentItem());
+    else if (action == copy)
+        copyCustomCommand(uiDEConfig.listWidget_custom->currentItem()->text());
     else if (action == remove) {
         QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_engine_extsysmon/scripts");
         ExtScript *script = new ExtScript(0, uiDEConfig.listWidget_custom->currentItem()->text(), dirs, debug);
@@ -837,6 +845,88 @@ void AwesomeWidget::contextMenuPkgCommand(const QPoint pos)
     if (action == remove)
         uiDEConfig.tableWidget_pkgCommand->removeRow(
                     uiDEConfig.tableWidget_pkgCommand->currentRow());
+}
+
+
+void AwesomeWidget::copyBar(const QString original)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    int number = 0;
+    while (true) {
+        bool exit = true;
+        for (int i=0; i<graphicalItems.count(); i++)
+            if (graphicalItems[i]->getName() == QString("bar%1").arg(number)) {
+                number++;
+                exit = false;
+                break;
+            }
+        if (exit) break;
+    }
+    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_applet_awesome-widget/desktops");
+    bool ok;
+    QString name = QInputDialog::getText(0, i18n("Enter file name"),
+                                         i18n("File name"), QLineEdit::Normal,
+                                         QString(""), &ok);
+    if ((!ok) || (name.isEmpty())) return;
+    if (!name.endsWith(QString(".desktop"))) name += QString(".desktop");
+    QStringList bars;
+    bars.append(keys.filter((QRegExp(QString("cpu(?!cl).*")))));
+    bars.append(keys.filter((QRegExp(QString("^gpu$")))));
+    bars.append(keys.filter((QRegExp(QString("^mem$")))));
+    bars.append(keys.filter((QRegExp(QString("^swap$")))));
+    bars.append(keys.filter((QRegExp(QString("^hdd[0-9].*")))));
+    bars.append(keys.filter((QRegExp(QString("^bat.*")))));
+
+    GraphicalItem *originalItem = nullptr;
+    for (int i=0; i<graphicalItems.count(); i++) {
+        if (graphicalItems[i]->getFileName() != original) continue;
+        originalItem = graphicalItems[i];
+        break;
+    }
+    GraphicalItem *item = new GraphicalItem(0, name, dirs, debug);
+    item->setName(QString("bar%1").arg(number));
+    item->setComment(originalItem->getComment());
+    item->setBar(originalItem->getBar());
+    item->setActiveColor(originalItem->getActiveColor());
+    item->setInactiveColor(originalItem->getInactiveColor());
+    item->setType(originalItem->getStrType());
+    item->setDirection(originalItem->getStrDirection());
+    item->setHeight(originalItem->getHeight());
+    item->setWidth(originalItem->getWidth());
+    delete originalItem;
+
+    item->showConfiguration(bars);
+    delete item;
+}
+
+
+void AwesomeWidget::copyCustomCommand(const QString original)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_applet_awesome-widget/desktops");
+    bool ok;
+    QString name = QInputDialog::getText(0, i18n("Enter file name"),
+                                         i18n("File name"), QLineEdit::Normal,
+                                         QString(""), &ok);
+    if ((!ok) || (name.isEmpty())) return;
+    if (!name.endsWith(QString(".desktop"))) name += QString(".desktop");
+
+    ExtScript *originalScript = new ExtScript(0, original, dirs, debug);
+    ExtScript *script = new ExtScript(0, name, dirs, debug);
+    script->setActive(originalScript->isActive());
+    script->setComment(originalScript->getComment());
+    script->setExec(originalScript->getExec());
+    script->setHasOutput(originalScript->hasOutput());
+    script->setInterval(originalScript->getInterval());
+    script->setName(originalScript->getName());
+    script->setPrefix(originalScript->getPrefix());
+    script->setRedirect(originalScript->getStrRedirect());
+    delete originalScript;
+
+    script->showConfiguration();
+    delete script;
 }
 
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2014-11-20 17:39+0300\n"
+"POT-Creation-Date: 2014-11-21 05:12+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,7 +38,7 @@ msgid "Current version : %1"
 msgstr ""
 
 #: awesome-widget.cpp:483
-msgid "New version : %2"
+msgid "New version : %1"
 msgstr ""
 
 #: awesome-widget.cpp:484
@@ -143,23 +143,29 @@ msgstr ""
 msgid "About"
 msgstr ""
 
-#: configuration.cpp:734 configuration.cpp:759
+#: configuration.cpp:734 configuration.cpp:760 configuration.cpp:868
+#: configuration.cpp:910
 msgid "Enter file name"
 msgstr ""
 
-#: configuration.cpp:735 configuration.cpp:760
+#: configuration.cpp:735 configuration.cpp:761 configuration.cpp:869
+#: configuration.cpp:911
 msgid "File name"
 msgstr ""
 
-#: configuration.cpp:791 configuration.cpp:814
+#: configuration.cpp:793 configuration.cpp:819
 msgid "Edit"
 msgstr ""
 
-#: configuration.cpp:792 configuration.cpp:815 configuration.cpp:835
+#: configuration.cpp:794 configuration.cpp:820
+msgid "Copy"
+msgstr ""
+
+#: configuration.cpp:795 configuration.cpp:821 configuration.cpp:843
 msgid "Remove"
 msgstr ""
 
-#: configuration.cpp:947
+#: configuration.cpp:1037
 msgid "Select font"
 msgstr ""
 

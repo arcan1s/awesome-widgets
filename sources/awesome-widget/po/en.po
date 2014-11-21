@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2014-11-20 17:39+0300\n"
-"PO-Revision-Date: 2014-09-21 20:19+0400\n"
+"POT-Creation-Date: 2014-11-21 05:12+0300\n"
+"PO-Revision-Date: 2014-11-21 05:12+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: English <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -32,40 +32,39 @@ msgstr "Update text"
 
 #: awesome-widget.cpp:106 po/rc.cpp:98 rc.cpp:98
 msgid "Check for updates"
-msgstr ""
+msgstr "Check for updates"
 
 #: awesome-widget.cpp:482
-#, fuzzy
 msgid "Current version : %1"
-msgstr "Current desktop"
+msgstr "Current version : %1"
 
 #: awesome-widget.cpp:483
-msgid "New version : %2"
-msgstr ""
+msgid "New version : %1"
+msgstr "New version : %1"
 
 #: awesome-widget.cpp:484
 msgid "Click \"Ok\" to download"
-msgstr ""
+msgstr "Click \"Ok\" to download"
 
 #: awesome-widget.cpp:485
 msgid "There are updates"
-msgstr ""
+msgstr "There are updates"
 
 #: configuration.cpp:307
 msgid "Tag: %1"
-msgstr ""
+msgstr "Tag: %1"
 
 #: configuration.cpp:308 configuration.cpp:383
 msgid "Comment: %1"
-msgstr ""
+msgstr "Comment: %1"
 
 #: configuration.cpp:382
 msgid "Name: %1"
-msgstr ""
+msgstr "Name: %1"
 
 #: configuration.cpp:384
 msgid "Exec: %1"
-msgstr ""
+msgstr "Exec: %1"
 
 #: configuration.cpp:413 po/rc.cpp:153 rc.cpp:153
 msgid "Package manager"
@@ -80,46 +79,48 @@ msgid ""
 "Version %1\n"
 "(build date %2)"
 msgstr ""
+"Version %1\n"
+"(build date %2)"
 
 #: configuration.cpp:429
 msgid "A set of minimalistic plasmoid widgets"
-msgstr ""
+msgstr "A set of minimalistic plasmoid widgets"
 
 #: configuration.cpp:430
 msgid "Links:"
-msgstr ""
+msgstr "Links:"
 
 #: configuration.cpp:431
 msgid "Homepage"
-msgstr ""
+msgstr "Homepage"
 
 #: configuration.cpp:432
 msgid "Repository"
-msgstr ""
+msgstr "Repository"
 
 #: configuration.cpp:433
 msgid "Bugtracker"
-msgstr ""
+msgstr "Bugtracker"
 
 #: configuration.cpp:434
 msgid "Translation issue"
-msgstr ""
+msgstr "Translation issue"
 
 #: configuration.cpp:435
 msgid "AUR packages"
-msgstr ""
+msgstr "AUR packages"
 
 #: configuration.cpp:437
 msgid "This software is licensed under %1"
-msgstr ""
+msgstr "This software is licensed under %1"
 
 #: configuration.cpp:445
 msgid "Translators: %1"
-msgstr ""
+msgstr "Translators: %1"
 
 #: configuration.cpp:446
 msgid "This software uses: %1"
-msgstr ""
+msgstr "This software uses: %1"
 
 #: configuration.cpp:448
 msgid "Widget"
@@ -143,33 +144,37 @@ msgstr "DataEngine"
 
 #: configuration.cpp:453
 msgid "About"
-msgstr ""
+msgstr "About"
 
-#: configuration.cpp:734 configuration.cpp:759
+#: configuration.cpp:734 configuration.cpp:760 configuration.cpp:868
+#: configuration.cpp:910
 msgid "Enter file name"
-msgstr ""
+msgstr "Enter file name"
 
-#: configuration.cpp:735 configuration.cpp:760
+#: configuration.cpp:735 configuration.cpp:761 configuration.cpp:869
+#: configuration.cpp:911
 msgid "File name"
-msgstr ""
+msgstr "File name"
 
-#: configuration.cpp:791 configuration.cpp:814
-#, fuzzy
+#: configuration.cpp:793 configuration.cpp:819
 msgid "Edit"
-msgstr "Editable"
+msgstr "Edit"
 
-#: configuration.cpp:792 configuration.cpp:815 configuration.cpp:835
+#: configuration.cpp:794 configuration.cpp:820
+msgid "Copy"
+msgstr "Copy"
+
+#: configuration.cpp:795 configuration.cpp:821 configuration.cpp:843
 msgid "Remove"
 msgstr "Remove"
 
-#: configuration.cpp:947
+#: configuration.cpp:1037
 msgid "Select font"
 msgstr "Select font"
 
 #: graphicalitem.cpp:442
-#, fuzzy
 msgid "Select color"
-msgstr "Select font"
+msgstr "Select color"
 
 #: po/rc.cpp:3 rc.cpp:3
 msgid "Enable popup on mouse click"
@@ -294,7 +299,7 @@ msgstr "Line, which returns when AC is offline"
 
 #: po/rc.cpp:92 rc.cpp:92
 msgid "Bars"
-msgstr ""
+msgstr "Bars"
 
 #: po/rc.cpp:95 po/rc.cpp:162 po/rc.cpp:243 rc.cpp:95 rc.cpp:162 rc.cpp:243
 msgid "Add"
@@ -373,52 +378,48 @@ msgstr ""
 "del - remove item"
 
 #: po/rc.cpp:159 rc.cpp:159
-#, fuzzy
 msgid "Custom scripts"
-msgstr "Custom"
+msgstr "Custom scripts"
 
 #: po/rc.cpp:165 rc.cpp:165
-#, fuzzy
 msgid "Configuration"
-msgstr "DE Configuration"
+msgstr "Configuration"
 
 #: po/rc.cpp:168 rc.cpp:168
 msgid "Name"
-msgstr ""
+msgstr "Name"
 
 #: po/rc.cpp:171 rc.cpp:171
 msgid "Comment"
-msgstr ""
+msgstr "Comment"
 
 #: po/rc.cpp:174 rc.cpp:174
 msgid "Value"
-msgstr ""
+msgstr "Value"
 
 #: po/rc.cpp:177 rc.cpp:177
-#, fuzzy
 msgid "Active color"
-msgstr "Battery active color"
+msgstr "Active color"
 
 #: po/rc.cpp:180 rc.cpp:180
-#, fuzzy
 msgid "Inactive color"
-msgstr "Battery inactive color"
+msgstr "Inactive color"
 
 #: po/rc.cpp:183 rc.cpp:183
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 #: po/rc.cpp:186 rc.cpp:186
 msgid "Direction"
-msgstr ""
+msgstr "Direction"
 
 #: po/rc.cpp:189 rc.cpp:189
 msgid "Height"
-msgstr ""
+msgstr "Height"
 
 #: po/rc.cpp:192 rc.cpp:192
 msgid "Width"
-msgstr ""
+msgstr "Width"
 
 #: po/rc.cpp:195 rc.cpp:195
 msgid ""

@@ -85,6 +85,8 @@ private slots:
     void contextMenuBars(const QPoint pos);
     void contextMenuCustomCommand(const QPoint pos);
     void contextMenuPkgCommand(const QPoint pos);
+    void copyBar(const QString original);
+    void copyCustomCommand(const QString original);
     void editBar(QListWidgetItem *item);
     void editCustomCommand(QListWidgetItem *item);
     void editFanItem(QListWidgetItem *item);

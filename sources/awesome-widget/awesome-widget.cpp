@@ -480,7 +480,7 @@ void AwesomeWidget::showUpdates(QString version)
 
     QString text;
     text += i18n("Current version : %1", QString(VERSION)) + QString("\n");
-    text += i18n("New version : %2", version) + QString("\n");
+    text += i18n("New version : %1", version) + QString("\n\n");
     text += i18n("Click \"Ok\" to download");
     int select = QMessageBox::information(0, i18n("There are updates"), text, QMessageBox::Ok | QMessageBox::Cancel);
     switch(select) {
