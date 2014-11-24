@@ -1,6 +1,16 @@
 Ver.2.1.0:
++ add support of custom scripts
++ add support of desktop preview to DP
++ add bar support
 + add autoupdate function
-* change regexp matching
+- remove custom command
+- fix #34
+* fix notifications
+* rewrite UI to KDE standards
+* fix margins on graphical objects
+* rewrite DP abd DE to use library calls
+* edit GPU properties definition
+* edit regexp matching
 
 Ver.2.0.5:
 + add tooltip bottom (#30)
