@@ -71,6 +71,7 @@ public:
     DesktopPanel(QObject *parent, const QVariantList &args);
     ~DesktopPanel();
     void init();
+    WId getDesktopId(const int num);
     DesktopWindowsInfo getInfoByDesktop(const int num);
     QString parsePattern(const QString rawLine, const int num);
 

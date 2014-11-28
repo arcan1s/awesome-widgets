@@ -258,7 +258,16 @@ void AwesomeWidget::replyRecieved(QNetworkReply *reply)
         version.remove(QString("V."));
         break;
     }
-    if (version != QString(VERSION))
+    
+    int old_major = QString(VERSION).split(QChar('.'))[0].toInt();
+    int old_minor = QString(VERSION).split(QChar('.'))[1].toInt();
+    int old_patch = QString(VERSION).split(QChar('.'))[2].toInt();
+    int new_major = QString(version).split(QChar('.'))[0].toInt();
+    int new_minor = QString(version).split(QChar('.'))[1].toInt();
+    int new_patch = QString(version).split(QChar('.'))[2].toInt();
+    if ((old_major < new_major) ||
+        (old_minor < new_minor) ||
+        (old_patch < new_patch))
         emit(thereIsUpdates(version));
 }
 

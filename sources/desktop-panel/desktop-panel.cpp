@@ -26,6 +26,7 @@
 #include <Plasma/Theme>
 #include <Plasma/ToolTipManager>
 #include <QDebug>
+#include <QDesktopWidget>
 #include <QFile>
 #include <QGraphicsGridLayout>
 #include <QGraphicsProxyWidget>
@@ -138,6 +139,29 @@ void DesktopPanel::init()
     configChanged();
     connect(this, SIGNAL(activate()), this, SLOT(changePanelsState()));
     connect(KWindowSystem::self(), SIGNAL(currentDesktopChanged(int)), this, SLOT(updateText(int)));
+}
+
+
+WId DesktopPanel::getDesktopId(const int num)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Number" << num;
+
+    WId wid = 0;
+    QList<WId> windows = KWindowSystem::windows();
+    for (int i=0; i<windows.count(); i++) {
+        KWindowInfo winInfo = KWindowSystem::windowInfo(windows[i], NET::Property::WMName |
+                                                        NET::Property::WMDesktop | NET::Property::WMGeometry |
+                                                        NET::Property::WMState | NET::Property::WMWindowType);
+        if (winInfo.windowType(NET::WindowTypeMask::DesktopMask) != NET::WindowType::Desktop) continue;
+        if (!winInfo.isOnDesktop(num)) continue;
+        wid = winInfo.win();
+        break;
+    }
+    qDebug() << QApplication::desktop()->winId();
+    wid = QApplication::desktop()->winId();
+
+    return wid;
 }
 
 
@@ -318,21 +342,24 @@ void DesktopPanel::paintTooltip(const int active)
                           info.desktop.width() + 2.0 * margin, 0);
     toolTipScene->addLine(info.desktop.width() + 2.0 * margin, 0, 0, 0);
 
-    QPen pen = QPen();
-    pen.setWidthF(2.0 * info.desktop.width() / 400.0);
-    pen.setColor(QColor(configuration[QString("tooltipColor")]));
-    for (int i=0; i<info.windows.count(); i++) {
-        toolTipScene->addLine(info.windows[i].left() + margin, info.windows[i].bottom() + margin,
-                              info.windows[i].left() + margin, info.windows[i].top() + margin, pen);
-        toolTipScene->addLine(info.windows[i].left() + margin, info.windows[i].top() + margin,
-                              info.windows[i].right() + margin, info.windows[i].top() + margin, pen);
-        toolTipScene->addLine(info.windows[i].right() + margin, info.windows[i].top() + margin,
-                              info.windows[i].right() + margin, info.windows[i].bottom() + margin, pen);
-        toolTipScene->addLine(info.windows[i].right() + margin, info.windows[i].bottom() + margin,
-                              info.windows[i].left() + margin, info.windows[i].bottom() + margin, pen);
-    }
+    // only contours
+//    QPen pen = QPen();
+//    pen.setWidthF(2.0 * info.desktop.width() / 400.0);
+//    pen.setColor(QColor(configuration[QString("tooltipColor")]));
+//    for (int i=0; i<info.windows.count(); i++) {
+//        toolTipScene->addLine(info.windows[i].left() + margin, info.windows[i].bottom() + margin,
+//                              info.windows[i].left() + margin, info.windows[i].top() + margin, pen);
+//        toolTipScene->addLine(info.windows[i].left() + margin, info.windows[i].top() + margin,
+//                              info.windows[i].right() + margin, info.windows[i].top() + margin, pen);
+//        toolTipScene->addLine(info.windows[i].right() + margin, info.windows[i].top() + margin,
+//                              info.windows[i].right() + margin, info.windows[i].bottom() + margin, pen);
+//        toolTipScene->addLine(info.windows[i].right() + margin, info.windows[i].bottom() + margin,
+//                              info.windows[i].left() + margin, info.windows[i].bottom() + margin, pen);
+//    }
+    toolTip.setImage(QPixmap::grabWindow(getDesktopId(active + 1)).scaledToWidth(configuration[QString("tooltipWidth")].toInt()));
+    toolTip.setWindowsToPreview(KWindowSystem::windows());
 
-    toolTip.setImage(QPixmap::grabWidget(toolTipView).scaledToWidth(configuration[QString("tooltipWidth")].toInt()));
+//    toolTip.setImage(QPixmap::grabWidget(toolTipView).scaledToWidth(configuration[QString("tooltipWidth")].toInt()));
     Plasma::ToolTipManager::self()->setContent(this, toolTip);
 }
 
