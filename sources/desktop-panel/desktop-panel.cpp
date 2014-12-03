@@ -342,24 +342,28 @@ void DesktopPanel::paintTooltip(const int active)
                           info.desktop.width() + 2.0 * margin, 0);
     toolTipScene->addLine(info.desktop.width() + 2.0 * margin, 0, 0, 0);
 
-    // only contours
-//    QPen pen = QPen();
-//    pen.setWidthF(2.0 * info.desktop.width() / 400.0);
-//    pen.setColor(QColor(configuration[QString("tooltipColor")]));
-//    for (int i=0; i<info.windows.count(); i++) {
-//        toolTipScene->addLine(info.windows[i].left() + margin, info.windows[i].bottom() + margin,
-//                              info.windows[i].left() + margin, info.windows[i].top() + margin, pen);
-//        toolTipScene->addLine(info.windows[i].left() + margin, info.windows[i].top() + margin,
-//                              info.windows[i].right() + margin, info.windows[i].top() + margin, pen);
-//        toolTipScene->addLine(info.windows[i].right() + margin, info.windows[i].top() + margin,
-//                              info.windows[i].right() + margin, info.windows[i].bottom() + margin, pen);
-//        toolTipScene->addLine(info.windows[i].right() + margin, info.windows[i].bottom() + margin,
-//                              info.windows[i].left() + margin, info.windows[i].bottom() + margin, pen);
-//    }
-    toolTip.setImage(QPixmap::grabWindow(getDesktopId(active + 1)).scaledToWidth(configuration[QString("tooltipWidth")].toInt()));
-    toolTip.setWindowsToPreview(KWindowSystem::windows());
+    if (configuration[QString("desktopPreview")].toInt() == 0) {
+        // only contours
+        QPen pen = QPen();
+        pen.setWidthF(2.0 * info.desktop.width() / 400.0);
+        pen.setColor(QColor(configuration[QString("tooltipColor")]));
+        for (int i=0; i<info.windows.count(); i++) {
+            toolTipScene->addLine(info.windows[i].left() + margin, info.windows[i].bottom() + margin,
+                                  info.windows[i].left() + margin, info.windows[i].top() + margin, pen);
+            toolTipScene->addLine(info.windows[i].left() + margin, info.windows[i].top() + margin,
+                                  info.windows[i].right() + margin, info.windows[i].top() + margin, pen);
+            toolTipScene->addLine(info.windows[i].right() + margin, info.windows[i].top() + margin,
+                                  info.windows[i].right() + margin, info.windows[i].bottom() + margin, pen);
+            toolTipScene->addLine(info.windows[i].right() + margin, info.windows[i].bottom() + margin,
+                                  info.windows[i].left() + margin, info.windows[i].bottom() + margin, pen);
+        }
+        toolTip.setImage(QPixmap::grabWidget(toolTipView).scaledToWidth(configuration[QString("tooltipWidth")].toInt()));
+    } else {
+        // desktop preview
+        toolTip.setImage(QPixmap::grabWindow(getDesktopId(active + 1)).scaledToWidth(configuration[QString("tooltipWidth")].toInt()));
+        toolTip.setWindowsToPreview(KWindowSystem::windows());
+    }
 
-//    toolTip.setImage(QPixmap::grabWidget(toolTipView).scaledToWidth(configuration[QString("tooltipWidth")].toInt()));
     Plasma::ToolTipManager::self()->setContent(this, toolTip);
 }
 
@@ -423,6 +427,10 @@ void DesktopPanel::createConfigurationInterface(KConfigDialog *parent)
         uiWidConfig.checkBox_tooltip->setCheckState(Qt::Unchecked);
     else
         uiWidConfig.checkBox_tooltip->setCheckState(Qt::Checked);
+    if (configuration[QString("desktopPreview")].toInt() == 0)
+        uiWidConfig.checkBox_desktopPreview->setCheckState(Qt::Unchecked);
+    else
+        uiWidConfig.checkBox_desktopPreview->setCheckState(Qt::Checked);
     uiWidConfig.spinBox_tooltip->setValue(configuration[QString("tooltipWidth")].toInt());
     uiWidConfig.kcolorcombo_tooltipColor->setColor(QColor(configuration[QString("tooltipColor")]));
     if (configuration[QString("background")].toInt() == 0)
@@ -508,6 +516,7 @@ void DesktopPanel::configAccepted()
     cg.writeEntry("pattern", uiWidConfig.textEdit_elements->toPlainText());
     cg.writeEntry("tooltip", QString::number(uiWidConfig.checkBox_tooltip->checkState()));
     cg.writeEntry("tooltipWidth", QString::number(uiWidConfig.spinBox_tooltip->value()));
+    cg.writeEntry("desktopPreview", QString::number(uiWidConfig.checkBox_desktopPreview->checkState()));
     cg.writeEntry("tooltipColor", uiWidConfig.kcolorcombo_tooltipColor->color().name());
     cg.writeEntry("background", QString::number(uiWidConfig.checkBox_background->checkState()));
     cg.writeEntry("layout", QString::number(uiWidConfig.checkBox_layout->checkState()));
@@ -545,6 +554,7 @@ void DesktopPanel::configChanged()
     configuration[QString("pattern")] = cg.readEntry("pattern", "[$fullmark$number/$total: $name]");
     configuration[QString("tooltip")] = cg.readEntry("tooltip", "2");
     configuration[QString("tooltipWidth")] = cg.readEntry("tooltipWidth", "200");
+    configuration[QString("desktopPreview")] = cg.readEntry("desktopPreview", "2");
     configuration[QString("tooltipColor")] = cg.readEntry("tooltipColor", "#ffffff");
     configuration[QString("background")] = cg.readEntry("background", "2");
     configuration[QString("layout")] = cg.readEntry("layout", "0");
