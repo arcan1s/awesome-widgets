@@ -142,12 +142,12 @@ void DesktopPanel::init()
 }
 
 
-WId DesktopPanel::getDesktopId(const int num)
+QPixmap DesktopPanel::getDesktopId(const int num)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Number" << num;
 
-    WId wid = 0;
+    QList<WId> desktops;
     QList<WId> windows = KWindowSystem::windows();
     for (int i=0; i<windows.count(); i++) {
         KWindowInfo winInfo = KWindowSystem::windowInfo(windows[i], NET::Property::WMName |
@@ -155,13 +155,19 @@ WId DesktopPanel::getDesktopId(const int num)
                                                         NET::Property::WMState | NET::Property::WMWindowType);
         if (winInfo.windowType(NET::WindowTypeMask::DesktopMask) != NET::WindowType::Desktop) continue;
         if (!winInfo.isOnDesktop(num)) continue;
-        wid = winInfo.win();
-        break;
+        desktops.append(winInfo.win());
     }
-    qDebug() << QApplication::desktop()->winId();
-    wid = QApplication::desktop()->winId();
+    if (desktops.count() == 0) return QPixmap();
 
-    return wid;
+    QPixmap pixmap = QPixmap::grabWindow(desktops[0]);
+    QPainter painter(&pixmap);
+    for (int i=0; i<desktops.count(); i++)
+        painter.drawPixmap(KWindowSystem::windowInfo(desktops[i], NET::Property::WMGeometry).geometry(),
+                           QPixmap::grabWindow(desktops[i]));
+
+    return pixmap;
+
+//    return desktops;
 }
 
 
@@ -360,8 +366,9 @@ void DesktopPanel::paintTooltip(const int active)
         toolTip.setImage(QPixmap::grabWidget(toolTipView).scaledToWidth(configuration[QString("tooltipWidth")].toInt()));
     } else {
         // desktop preview
-        toolTip.setImage(QPixmap::grabWindow(getDesktopId(active + 1)).scaledToWidth(configuration[QString("tooltipWidth")].toInt()));
-        toolTip.setWindowsToPreview(KWindowSystem::windows());
+        toolTip.setImage(getDesktopId(active + 1).scaledToWidth(configuration[QString("tooltipWidth")].toInt()));
+//        toolTip.setImage(QPixmap::grabWindow(getDesktopId(active + 1)).scaledToWidth(configuration[QString("tooltipWidth")].toInt()));
+//        toolTip.setWindowsToPreview(KWindowSystem::windows());
     }
 
     Plasma::ToolTipManager::self()->setContent(this, toolTip);
