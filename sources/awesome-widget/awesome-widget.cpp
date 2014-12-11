@@ -266,8 +266,8 @@ void AwesomeWidget::replyRecieved(QNetworkReply *reply)
     int new_minor = QString(version).split(QChar('.'))[1].toInt();
     int new_patch = QString(version).split(QChar('.'))[2].toInt();
     if ((old_major < new_major) ||
-        (old_minor < new_minor) ||
-        (old_patch < new_patch))
+        ((old_major == new_major) && (old_minor < new_minor)) ||
+        ((old_major == new_major) && (old_minor == new_minor) && (old_patch < new_patch)))
         emit(thereIsUpdates(version));
 }
 
