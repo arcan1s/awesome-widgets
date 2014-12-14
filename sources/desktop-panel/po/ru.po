@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2014-11-20 17:40+0300\n"
-"PO-Revision-Date: 2014-11-20 17:58+0300\n"
+"POT-Creation-Date: 2014-12-15 02:40+0300\n"
+"PO-Revision-Date: 2014-12-15 02:41+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -18,39 +18,39 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: desktop-panel.cpp:188
+#: desktop-panel.cpp:193
 msgid "Top Edge"
 msgstr "Верхний край"
 
-#: desktop-panel.cpp:190
+#: desktop-panel.cpp:195
 msgid "Bottom Edge"
 msgstr "Нижний край"
 
-#: desktop-panel.cpp:192
+#: desktop-panel.cpp:197
 msgid "Left Edge"
 msgstr "Левый край"
 
-#: desktop-panel.cpp:194
+#: desktop-panel.cpp:199
 msgid "Right Edge"
 msgstr "Правый край"
 
-#: desktop-panel.cpp:196
+#: desktop-panel.cpp:201
 msgid "Unknown Position (%1)"
 msgstr "Неизвестное положение (%1)"
 
-#: desktop-panel.cpp:454
+#: desktop-panel.cpp:473
 msgid "Widget"
 msgstr "Виджет"
 
-#: desktop-panel.cpp:455
+#: desktop-panel.cpp:474
 msgid "Appearance"
 msgstr "Внешний вид"
 
-#: desktop-panel.cpp:456
+#: desktop-panel.cpp:475
 msgid "Toggle panels"
 msgstr "Скрыть панели"
 
-#: desktop-panel.cpp:575
+#: desktop-panel.cpp:596
 msgid "Select font"
 msgstr "Выберете шрифт"
 
@@ -134,15 +134,30 @@ msgstr "Вертикальная разметка"
 msgid "Enable tooltip"
 msgstr "Включить тултип"
 
-#: po/rc.cpp:79 rc.cpp:79
+#: po/rc.cpp:81 rc.cpp:81
+msgid "Windows"
+msgstr "Окна"
+
+#: po/rc.cpp:84 rc.cpp:84
+msgid "Contours"
+msgstr "Контуры"
+
+#: po/rc.cpp:87 rc.cpp:87
+msgid "Clean desktop"
+msgstr "Пустой рабочий стол"
+
+#: po/rc.cpp:88 rc.cpp:88
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Evgeniy Alekseev"
 
-#: po/rc.cpp:80 rc.cpp:80
+#: po/rc.cpp:89 rc.cpp:89
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "esalexeev@gmail.com"
+
+#~ msgid "Show windows instead of contours"
+#~ msgstr "Показывать окна вместо контуров"
 
 #~ msgid "Time interval"
 #~ msgstr "Интервал обновления"

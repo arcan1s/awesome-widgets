@@ -20,7 +20,7 @@
    <string notr="true">Widget</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="10" column="0">
+   <item row="9" column="0">
     <layout class="QHBoxLayout" name="layout_mark">
      <item>
       <widget class="QLabel" name="label_mark">
@@ -336,7 +336,7 @@
      </item>
     </layout>
    </item>
-   <item row="7" column="0">
+   <item row="6" column="0">
     <layout class="QHBoxLayout" name="layout_tooltipColor">
      <item>
       <widget class="QLabel" name="label_tooltipColor">
@@ -416,19 +416,6 @@
    <item row="4" column="0">
     <layout class="QHBoxLayout" name="layout_tooltip_2">
      <item>
-      <spacer name="spacer_tooltip">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
       <widget class="QCheckBox" name="checkBox_tooltip">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -436,39 +423,37 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="layoutDirection">
+        <enum>Qt::RightToLeft</enum>
+       </property>
        <property name="text">
         <string>Enable tooltip</string>
        </property>
       </widget>
      </item>
-    </layout>
-   </item>
-   <item row="6" column="0">
-    <layout class="QHBoxLayout" name="layout_desktopPreview">
      <item>
-      <spacer name="spacer_desktopPreview">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="checkBox_desktopPreview">
+      <widget class="QComboBox" name="comboBox_tooltipType">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="text">
-        <string>Use desktop preview</string>
-       </property>
+       <item>
+        <property name="text">
+         <string>Windows</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Contours</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Clean desktop</string>
+        </property>
+       </item>
       </widget>
      </item>
     </layout>

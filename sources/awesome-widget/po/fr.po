@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2014-11-21 05:12+0300\n"
+"POT-Creation-Date: 2014-12-15 02:40+0300\n"
 "PO-Revision-Date: 2014-09-05 11:20+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: French <kde-russian@lists.kde.ru>\n"
@@ -35,19 +35,19 @@ msgstr "Mettre à jour le texte"
 msgid "Check for updates"
 msgstr ""
 
-#: awesome-widget.cpp:482
+#: awesome-widget.cpp:491
 msgid "Current version : %1"
 msgstr ""
 
-#: awesome-widget.cpp:483
+#: awesome-widget.cpp:492
 msgid "New version : %1"
 msgstr ""
 
-#: awesome-widget.cpp:484
+#: awesome-widget.cpp:493
 msgid "Click \"Ok\" to download"
 msgstr ""
 
-#: awesome-widget.cpp:485
+#: awesome-widget.cpp:494
 msgid "There are updates"
 msgstr ""
 

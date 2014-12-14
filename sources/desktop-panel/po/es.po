@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2014-11-20 17:40+0300\n"
+"POT-Creation-Date: 2014-12-15 02:40+0300\n"
 "PO-Revision-Date: 2014-06-05 10:21+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Spanish <kde-spanish@lists.kde.ru>\n"
@@ -18,39 +18,39 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: desktop-panel.cpp:188
+#: desktop-panel.cpp:193
 msgid "Top Edge"
 msgstr ""
 
-#: desktop-panel.cpp:190
+#: desktop-panel.cpp:195
 msgid "Bottom Edge"
 msgstr ""
 
-#: desktop-panel.cpp:192
+#: desktop-panel.cpp:197
 msgid "Left Edge"
 msgstr ""
 
-#: desktop-panel.cpp:194
+#: desktop-panel.cpp:199
 msgid "Right Edge"
 msgstr ""
 
-#: desktop-panel.cpp:196
+#: desktop-panel.cpp:201
 msgid "Unknown Position (%1)"
 msgstr ""
 
-#: desktop-panel.cpp:454
+#: desktop-panel.cpp:473
 msgid "Widget"
 msgstr "Widget"
 
-#: desktop-panel.cpp:455
+#: desktop-panel.cpp:474
 msgid "Appearance"
 msgstr "Apariencia"
 
-#: desktop-panel.cpp:456
+#: desktop-panel.cpp:475
 msgid "Toggle panels"
 msgstr ""
 
-#: desktop-panel.cpp:575
+#: desktop-panel.cpp:596
 msgid "Select font"
 msgstr ""
 
@@ -134,12 +134,24 @@ msgstr "Orientación vertical"
 msgid "Enable tooltip"
 msgstr ""
 
-#: po/rc.cpp:79 rc.cpp:79
+#: po/rc.cpp:81 rc.cpp:81
+msgid "Windows"
+msgstr ""
+
+#: po/rc.cpp:84 rc.cpp:84
+msgid "Contours"
+msgstr ""
+
+#: po/rc.cpp:87 rc.cpp:87
+msgid "Clean desktop"
+msgstr ""
+
+#: po/rc.cpp:88 rc.cpp:88
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Tu nombre"
 
-#: po/rc.cpp:80 rc.cpp:80
+#: po/rc.cpp:89 rc.cpp:89
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "Tus correos"

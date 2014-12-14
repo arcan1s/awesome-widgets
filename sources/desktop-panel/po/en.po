@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2014-11-20 17:40+0300\n"
-"PO-Revision-Date: 2014-09-15 10:02+0400\n"
+"POT-Creation-Date: 2014-12-15 02:40+0300\n"
+"PO-Revision-Date: 2014-12-15 02:41+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: English <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -18,39 +18,39 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: desktop-panel.cpp:188
+#: desktop-panel.cpp:193
 msgid "Top Edge"
 msgstr "Top Edge"
 
-#: desktop-panel.cpp:190
+#: desktop-panel.cpp:195
 msgid "Bottom Edge"
 msgstr "Bottom Edge"
 
-#: desktop-panel.cpp:192
+#: desktop-panel.cpp:197
 msgid "Left Edge"
 msgstr "Left Edge"
 
-#: desktop-panel.cpp:194
+#: desktop-panel.cpp:199
 msgid "Right Edge"
 msgstr "Right Edge"
 
-#: desktop-panel.cpp:196
+#: desktop-panel.cpp:201
 msgid "Unknown Position (%1)"
 msgstr "Unknown Position (%1)"
 
-#: desktop-panel.cpp:454
+#: desktop-panel.cpp:473
 msgid "Widget"
 msgstr "Widget"
 
-#: desktop-panel.cpp:455
+#: desktop-panel.cpp:474
 msgid "Appearance"
 msgstr "Appearance"
 
-#: desktop-panel.cpp:456
+#: desktop-panel.cpp:475
 msgid "Toggle panels"
 msgstr "Toggle panels"
 
-#: desktop-panel.cpp:575
+#: desktop-panel.cpp:596
 msgid "Select font"
 msgstr "Select font"
 
@@ -112,15 +112,15 @@ msgstr "Add"
 
 #: po/rc.cpp:63 rc.cpp:63
 msgid "Tooltip width"
-msgstr ""
+msgstr "Tooltip width"
 
 #: po/rc.cpp:66 rc.cpp:66
 msgid "px"
-msgstr ""
+msgstr "px"
 
 #: po/rc.cpp:69 rc.cpp:69
 msgid "Window border color on tooltip"
-msgstr ""
+msgstr "Window border color on tooltip"
 
 #: po/rc.cpp:72 rc.cpp:72
 msgid "Enable background"
@@ -132,17 +132,32 @@ msgstr "Vertical layout"
 
 #: po/rc.cpp:78 rc.cpp:78
 msgid "Enable tooltip"
-msgstr ""
+msgstr "Enable tooltip"
 
-#: po/rc.cpp:79 rc.cpp:79
+#: po/rc.cpp:81 rc.cpp:81
+msgid "Windows"
+msgstr "Windows"
+
+#: po/rc.cpp:84 rc.cpp:84
+msgid "Contours"
+msgstr "Contours"
+
+#: po/rc.cpp:87 rc.cpp:87
+msgid "Clean desktop"
+msgstr "Clean desktop"
+
+#: po/rc.cpp:88 rc.cpp:88
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Evgeniy Alekseev"
 
-#: po/rc.cpp:80 rc.cpp:80
+#: po/rc.cpp:89 rc.cpp:89
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "esalexeev@gmail.com"
+
+#~ msgid "Show windows instead of contours"
+#~ msgstr "Show windows instead of contours"
 
 #~ msgid "Time interval"
 #~ msgstr "Time interval"

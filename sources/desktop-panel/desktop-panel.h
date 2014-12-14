@@ -64,14 +64,15 @@ class DesktopPanel : public Plasma::Applet
 
     typedef struct {
         QRect desktop;
+        QList<WId> desktopId;
         QList<QRect> windows;
+        QList<WId> winId;
     } DesktopWindowsInfo;
 
 public:
     DesktopPanel(QObject *parent, const QVariantList &args);
     ~DesktopPanel();
     void init();
-    QPixmap getDesktopId(const int num);
     DesktopWindowsInfo getInfoByDesktop(const int num);
     QString parsePattern(const QString rawLine, const int num);
 
