@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
 "POT-Creation-Date: 2014-12-15 02:40+0300\n"
-"PO-Revision-Date: 2014-09-05 11:18+0400\n"
-"Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
-"Language-Team: Spanish <kde-russian@lists.kde.ru>\n"
+"PO-Revision-Date: 2014-12-15 19:51-0500\n"
+"Last-Translator: Ernesto Avilés Vázquez\n"
+"Language-Team: Spanish <kde-i18n-doc@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,39 +32,39 @@ msgstr "Actualizar texto"
 
 #: awesome-widget.cpp:106 po/rc.cpp:98 rc.cpp:98
 msgid "Check for updates"
-msgstr ""
+msgstr "Comprobar actualizaciones"
 
 #: awesome-widget.cpp:491
 msgid "Current version : %1"
-msgstr ""
+msgstr "Versión actual: %1"
 
 #: awesome-widget.cpp:492
 msgid "New version : %1"
-msgstr ""
+msgstr "Nueva versión: %1"
 
 #: awesome-widget.cpp:493
 msgid "Click \"Ok\" to download"
-msgstr ""
+msgstr "Haz clic en «Ok» para descargar"
 
 #: awesome-widget.cpp:494
 msgid "There are updates"
-msgstr ""
+msgstr "Hay actualizaciones disponibles"
 
 #: configuration.cpp:307
 msgid "Tag: %1"
-msgstr ""
+msgstr "Etiqueta: %1"
 
 #: configuration.cpp:308 configuration.cpp:383
 msgid "Comment: %1"
-msgstr ""
+msgstr "Comentario: %1"
 
 #: configuration.cpp:382
 msgid "Name: %1"
-msgstr ""
+msgstr "Nombre: %1"
 
 #: configuration.cpp:384
 msgid "Exec: %1"
-msgstr ""
+msgstr "Ejecutar: %1"
 
 #: configuration.cpp:413 po/rc.cpp:153 rc.cpp:153
 msgid "Package manager"
@@ -79,46 +79,48 @@ msgid ""
 "Version %1\n"
 "(build date %2)"
 msgstr ""
+"Versión %1\n"
+"(fecha de construcción %2)"
 
 #: configuration.cpp:429
 msgid "A set of minimalistic plasmoid widgets"
-msgstr ""
+msgstr "Un conjunto de plasmoides minimalistas"
 
 #: configuration.cpp:430
 msgid "Links:"
-msgstr ""
+msgstr "Enlaces:"
 
 #: configuration.cpp:431
 msgid "Homepage"
-msgstr ""
+msgstr "Página principal"
 
 #: configuration.cpp:432
 msgid "Repository"
-msgstr ""
+msgstr "Repositorio"
 
 #: configuration.cpp:433
 msgid "Bugtracker"
-msgstr ""
+msgstr "Reporte de errores"
 
 #: configuration.cpp:434
 msgid "Translation issue"
-msgstr ""
+msgstr "Problemas de traducción"
 
 #: configuration.cpp:435
 msgid "AUR packages"
-msgstr ""
+msgstr "Paquetes AUR"
 
 #: configuration.cpp:437
 msgid "This software is licensed under %1"
-msgstr ""
+msgstr "Este software está licenciado bajo %1"
 
 #: configuration.cpp:445
 msgid "Translators: %1"
-msgstr ""
+msgstr "Traductores: %1"
 
 #: configuration.cpp:446
 msgid "This software uses: %1"
-msgstr ""
+msgstr "Este software usa: %1"
 
 #: configuration.cpp:448
 msgid "Widget"
@@ -142,26 +144,25 @@ msgstr "DataEngine"
 
 #: configuration.cpp:453
 msgid "About"
-msgstr ""
+msgstr "Acerca de"
 
 #: configuration.cpp:734 configuration.cpp:760 configuration.cpp:868
 #: configuration.cpp:910
 msgid "Enter file name"
-msgstr ""
+msgstr "Inserta el nombre de archivo"
 
 #: configuration.cpp:735 configuration.cpp:761 configuration.cpp:869
 #: configuration.cpp:911
 msgid "File name"
-msgstr ""
+msgstr "Nombre de archivo"
 
 #: configuration.cpp:793 configuration.cpp:819
-#, fuzzy
 msgid "Edit"
-msgstr "Editable"
+msgstr "Editar"
 
 #: configuration.cpp:794 configuration.cpp:820
 msgid "Copy"
-msgstr ""
+msgstr "Copiar"
 
 #: configuration.cpp:795 configuration.cpp:821 configuration.cpp:843
 msgid "Remove"
@@ -169,12 +170,11 @@ msgstr "Eliminar"
 
 #: configuration.cpp:1037
 msgid "Select font"
-msgstr ""
+msgstr "Elegir tipo de letra"
 
 #: graphicalitem.cpp:442
-#, fuzzy
 msgid "Select color"
-msgstr "Color de fuente"
+msgstr "Elegir color"
 
 #: po/rc.cpp:3 rc.cpp:3
 msgid "Enable popup on mouse click"
@@ -182,7 +182,7 @@ msgstr "Habilitar ventana emergente al hacer clic"
 
 #: po/rc.cpp:6 rc.cpp:6
 msgid "Enable background"
-msgstr ""
+msgstr "Habilitar fondo"
 
 #: po/rc.cpp:9 rc.cpp:9
 msgid "Custom time format"
@@ -207,16 +207,16 @@ msgid ""
 "$ss - seconds\n"
 "$s - seconds w\\o zero"
 msgstr ""
-"$dddd - día de la semana largo\n"
-"$ddd - día de la semana corto\n"
+"$dddd - día de la semana en formato largo\n"
+"$ddd - día de la semana en formato corto\n"
 "$dd - día\n"
 "$d - día (sin ceros)\n"
-"$MMMM - mes largo\n"
-"$MMM - mes corto\n"
+"$MMMM - mes en formato largo\n"
+"$MMM - mes en formato corto\n"
 "$MM - mes\n"
 "$M - mes (sin ceros)\n"
 "$yyyy - año\n"
-"$yy - año largo\n"
+"$yy - año en formato largo\n"
 "$hh - horas (solo formato de 24 horas)\n"
 "$h - horas (sin ceros, solo formato de 24 horas)\n"
 "$mm - minutos\n"
@@ -258,9 +258,8 @@ msgid "Editable"
 msgstr "Editable"
 
 #: po/rc.cpp:50 rc.cpp:50
-#, fuzzy
 msgid "Fan devices"
-msgstr "Dispositivo de alimentación"
+msgstr "Dispositivos de ventilación"
 
 #: po/rc.cpp:56 rc.cpp:56
 msgid "Mount points"
@@ -268,11 +267,11 @@ msgstr "Puntos de montaje"
 
 #: po/rc.cpp:62 rc.cpp:62
 msgid "HDD devices (speed)"
-msgstr "Disco duro (velocidad)"
+msgstr "Discos duros (velocidad)"
 
 #: po/rc.cpp:68 rc.cpp:68
 msgid "HDD devices (temp)"
-msgstr "Disco duro (temperatura)"
+msgstr "Discos duros (temperatura)"
 
 #: po/rc.cpp:74 rc.cpp:74
 msgid "Disable auto select device and set specified device"
@@ -288,7 +287,7 @@ msgstr "Etiqueta para alimentación conectada"
 
 #: po/rc.cpp:83 rc.cpp:83
 msgid "Line, which returns when AC is online"
-msgstr "Línea que devuelve si la alimentación está conectada"
+msgstr "Línea devuelta si la alimentación está conectada"
 
 #: po/rc.cpp:86 rc.cpp:86
 msgid "AC offline tag"
@@ -296,11 +295,11 @@ msgstr "Etiqueta para la alimentación desconectada"
 
 #: po/rc.cpp:89 rc.cpp:89
 msgid "Line, which returns when AC is offline"
-msgstr "Línea que devuelve si la alimentación está desconectada"
+msgstr "Línea devuelta si la alimentación está desconectada"
 
 #: po/rc.cpp:92 rc.cpp:92
 msgid "Bars"
-msgstr ""
+msgstr "Barras"
 
 #: po/rc.cpp:95 po/rc.cpp:162 po/rc.cpp:243 rc.cpp:95 rc.cpp:162 rc.cpp:243
 msgid "Add"
@@ -312,23 +311,23 @@ msgstr "Intervalo de tiempo"
 
 #: po/rc.cpp:104 po/rc.cpp:231 rc.cpp:104 rc.cpp:231
 msgid "Font"
-msgstr "Fuente"
+msgstr "Tipo de letra"
 
 #: po/rc.cpp:107 rc.cpp:107
 msgid "Font size"
-msgstr "Tamaño de fuente"
+msgstr "Tamaño de letra"
 
 #: po/rc.cpp:110 rc.cpp:110
 msgid "Font color"
-msgstr "Color de fuente"
+msgstr "Color de letra"
 
 #: po/rc.cpp:113 rc.cpp:113
 msgid "Font style"
-msgstr "Estilo de fuente"
+msgstr "Estilo de letra"
 
 #: po/rc.cpp:116 rc.cpp:116
 msgid "Font weight"
-msgstr "Grosor de la fuente"
+msgstr "Grosor de la letra"
 
 #: po/rc.cpp:119 rc.cpp:119
 msgid "hddtemp cmd"
@@ -356,7 +355,7 @@ msgstr "Dirección de MPD"
 
 #: po/rc.cpp:137 rc.cpp:137
 msgid "ACPI path"
-msgstr ""
+msgstr "Ruta ACPI"
 
 #: po/rc.cpp:140 rc.cpp:140
 #, fuzzy
@@ -365,11 +364,11 @@ msgstr "\"/sys/class/power_supply/AC/online\" por defecto"
 
 #: po/rc.cpp:143 rc.cpp:143
 msgid "<b>NOTE:</b> Player DBus interface should be an active"
-msgstr ""
+msgstr "<b>NOTA:</b> La interfaz DBus del reproductor debería estar activada"
 
 #: po/rc.cpp:146 rc.cpp:146
 msgid "MPRIS player name"
-msgstr ""
+msgstr "Nombre del reproductor MPRIS"
 
 #: po/rc.cpp:149 rc.cpp:149
 msgid ""
@@ -380,51 +379,48 @@ msgstr ""
 "del - eliminar elemento"
 
 #: po/rc.cpp:159 rc.cpp:159
-#, fuzzy
 msgid "Custom scripts"
-msgstr "Personalizado"
+msgstr "Scripts personalizados"
 
 #: po/rc.cpp:165 rc.cpp:165
 msgid "Configuration"
-msgstr ""
+msgstr "Configuración"
 
 #: po/rc.cpp:168 rc.cpp:168
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
 #: po/rc.cpp:171 rc.cpp:171
 msgid "Comment"
-msgstr ""
+msgstr "Comentario"
 
 #: po/rc.cpp:174 rc.cpp:174
 msgid "Value"
-msgstr ""
+msgstr "Valor"
 
 #: po/rc.cpp:177 rc.cpp:177
-#, fuzzy
 msgid "Active color"
-msgstr "Dispositivo de batería"
+msgstr "Color de activo"
 
 #: po/rc.cpp:180 rc.cpp:180
-#, fuzzy
 msgid "Inactive color"
-msgstr "Dispositivo de batería"
+msgstr "Color de inactivo"
 
 #: po/rc.cpp:183 rc.cpp:183
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #: po/rc.cpp:186 rc.cpp:186
 msgid "Direction"
-msgstr ""
+msgstr "Dirección"
 
 #: po/rc.cpp:189 rc.cpp:189
 msgid "Height"
-msgstr ""
+msgstr "Alto"
 
 #: po/rc.cpp:192 rc.cpp:192
 msgid "Width"
-msgstr ""
+msgstr "Ancho"
 
 #: po/rc.cpp:195 rc.cpp:195
 msgid ""
@@ -432,8 +428,8 @@ msgid ""
 "To enable them just make needed checkbox fully checked."
 msgstr ""
 "Las etiquetas para CPU, frecuencia de la CPU, memoria, swap  y red soportan "
-"ventanas emergentes. Para habilitarlas habilite la caja de seleccione la "
-"casilla de verificación pertinente."
+"ventanas emergentes. Para habilitarlas marca las cajas de selección "
+"necesarias."
 
 #: po/rc.cpp:198 rc.cpp:198
 msgid "Number of values for tooltips"
@@ -441,7 +437,7 @@ msgstr "Número de valores para las ventanas emergentes"
 
 #: po/rc.cpp:201 rc.cpp:201
 msgid "Background"
-msgstr ""
+msgstr "Fondo"
 
 #: po/rc.cpp:204 rc.cpp:204
 msgid "CPU color"
@@ -469,19 +465,18 @@ msgstr "Color de la velocidad de envío"
 
 #: po/rc.cpp:222 rc.cpp:222
 msgid "Battery active color"
-msgstr ""
+msgstr "Color de la batería activa"
 
 #: po/rc.cpp:225 rc.cpp:225
-#, fuzzy
 msgid "Battery inactive color"
-msgstr "Dispositivo de batería"
+msgstr "Color de la batería inactiva"
 
 #: po/rc.cpp:228 rc.cpp:228
 msgid ""
 "Detailed information may be found on <a href=\"http://arcanis.name/projects/"
 "awesome-widgets/\">project homepage</a>"
 msgstr ""
-"Puede encontrar información detallada en el <a href=\"http://arcanis.name/"
+"Puedes encontrar información detallada en el <a href=\"http://arcanis.name/"
 "projects/awesome-widgets/\">sitio del proyecto</a>"
 
 #: po/rc.cpp:234 rc.cpp:234
@@ -504,7 +499,7 @@ msgstr "Tu nombre"
 #: po/rc.cpp:245 rc.cpp:245
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "Tus correos"
+msgstr "Tu email"
 
 #, fuzzy
 #~ msgid "Interval"
