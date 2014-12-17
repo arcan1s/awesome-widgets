@@ -20,23 +20,23 @@ msgstr ""
 
 #: desktop-panel.cpp:193
 msgid "Top Edge"
-msgstr ""
+msgstr "Верхній край"
 
 #: desktop-panel.cpp:195
 msgid "Bottom Edge"
-msgstr ""
+msgstr "Нижній край"
 
 #: desktop-panel.cpp:197
 msgid "Left Edge"
-msgstr ""
+msgstr "Лівий край"
 
 #: desktop-panel.cpp:199
 msgid "Right Edge"
-msgstr ""
+msgstr "Правий край"
 
 #: desktop-panel.cpp:201
 msgid "Unknown Position (%1)"
-msgstr ""
+msgstr "Невідоме положення (%1)"
 
 #: desktop-panel.cpp:473
 msgid "Widget"
@@ -48,15 +48,15 @@ msgstr "Зовнішній вигляд"
 
 #: desktop-panel.cpp:475
 msgid "Toggle panels"
-msgstr ""
+msgstr "Перемикання панелей"
 
 #: desktop-panel.cpp:596
 msgid "Select font"
-msgstr ""
+msgstr "Вибрати шрифт"
 
 #: po/rc.cpp:3 rc.cpp:3
 msgid "Active desktop"
-msgstr ""
+msgstr "Активний робочий стіл"
 
 #: po/rc.cpp:6 po/rc.cpp:24 po/rc.cpp:48 rc.cpp:6 rc.cpp:24 rc.cpp:48
 msgid "Font"
@@ -80,51 +80,51 @@ msgstr "Стиль шрифту"
 
 #: po/rc.cpp:21 rc.cpp:21
 msgid "Inactive desktop"
-msgstr ""
+msgstr "Неактивний робочий стіл"
 
 #: po/rc.cpp:39 rc.cpp:39
 msgid "To control panels please set widget shortcut."
-msgstr ""
+msgstr "Для управління панелями будьдаска встановіть комбінацію клавіш для віджету"
 
 #: po/rc.cpp:42 rc.cpp:42
 msgid "Mark"
-msgstr ""
+msgstr "Позначка"
 
 #: po/rc.cpp:45 rc.cpp:45
 msgid "A mark which will be shown if this desktop is active"
-msgstr ""
+msgstr "Позначка, що буде показана, якщо цей робочий стіл є активним"
 
 #: po/rc.cpp:51 rc.cpp:51
 msgid "Ctrl+B"
-msgstr ""
+msgstr "Ctrl+B"
 
 #: po/rc.cpp:54 rc.cpp:54
 msgid "Ctrl+I"
-msgstr ""
+msgstr "Ctrl+I"
 
 #: po/rc.cpp:57 rc.cpp:57
 msgid "Ctrl+U"
-msgstr ""
+msgstr "Ctrl+U"
 
 #: po/rc.cpp:60 rc.cpp:60
 msgid "Add"
-msgstr ""
+msgstr "Додати"
 
 #: po/rc.cpp:63 rc.cpp:63
 msgid "Tooltip width"
-msgstr ""
+msgstr "Ширина підказки"
 
 #: po/rc.cpp:66 rc.cpp:66
 msgid "px"
-msgstr ""
+msgstr "px"
 
 #: po/rc.cpp:69 rc.cpp:69
 msgid "Window border color on tooltip"
-msgstr ""
+msgstr "Колір границі вікна підказки"
 
 #: po/rc.cpp:72 rc.cpp:72
 msgid "Enable background"
-msgstr ""
+msgstr "Включити фон"
 
 #: po/rc.cpp:75 rc.cpp:75
 msgid "Vertical layout"
@@ -132,19 +132,19 @@ msgstr "Вертикальна розмітка"
 
 #: po/rc.cpp:78 rc.cpp:78
 msgid "Enable tooltip"
-msgstr ""
+msgstr "Включити підказки"
 
 #: po/rc.cpp:81 rc.cpp:81
 msgid "Windows"
-msgstr ""
+msgstr "Вікна"
 
 #: po/rc.cpp:84 rc.cpp:84
 msgid "Contours"
-msgstr ""
+msgstr "Контури"
 
 #: po/rc.cpp:87 rc.cpp:87
 msgid "Clean desktop"
-msgstr ""
+msgstr "Очистити робочий стіл"
 
 #: po/rc.cpp:88 rc.cpp:88
 msgctxt "NAME OF TRANSLATORS"
@@ -164,3 +164,4 @@ msgstr "sarumyan@i.ua"
 
 #~ msgid "Add stretch to right/bottom of the layout"
 #~ msgstr "Додати порожнє місце праворуч/внизу віджету"
+
