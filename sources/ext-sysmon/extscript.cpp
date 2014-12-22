@@ -263,7 +263,8 @@ ExtScript::ScriptData ExtScript::run(const int time)
     TaskResult process = runTask(cmdList.join(QChar(' ')));
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
 
-    QString info = QTextCodec::codecForMib(106)->toUnicode(process.error).trimmed();
+    QString info = QString::number(process.exitCode) + QString(":") +
+                   QTextCodec::codecForMib(106)->toUnicode(process.error).trimmed();
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     switch(_redirect) {
     case stdout2stderr:
@@ -278,8 +279,6 @@ ExtScript::ScriptData ExtScript::run(const int time)
         response.output = qoutput;
         break;
     }
-    if (!_output)
-        response.output = QString::number(process.exitCode);
 
     return response;
 }
