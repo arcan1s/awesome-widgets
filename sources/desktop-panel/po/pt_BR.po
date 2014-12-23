@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
 "POT-Creation-Date: 2014-12-15 02:40+0300\n"
-"PO-Revision-Date: 2014-06-09 01:47+0400\n"
+"PO-Revision-Date: 2014-12-24 00:05+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-russian@lists.kde.ru>\n"
 "Language: pt_BR\n"
@@ -20,27 +20,23 @@ msgstr ""
 "X-Source-Language: C\n"
 
 #: desktop-panel.cpp:193
-#, fuzzy
 msgid "Top Edge"
 msgstr "Canto do topo"
 
 #: desktop-panel.cpp:195
-#, fuzzy
 msgid "Bottom Edge"
 msgstr "Canto de baixo"
 
 #: desktop-panel.cpp:197
-#, fuzzy
 msgid "Left Edge"
 msgstr "Canto esquerdo"
 
 #: desktop-panel.cpp:199
-#, fuzzy
 msgid "Right Edge"
 msgstr "Canto direito"
 
 #: desktop-panel.cpp:201
-#, fuzzy, qt-format
+#, qt-format
 msgid "Unknown Position (%1)"
 msgstr "Posição desconhecida (%1)"
 
@@ -53,22 +49,18 @@ msgid "Appearance"
 msgstr "Aparência"
 
 #: desktop-panel.cpp:475
-#, fuzzy
 msgid "Toggle panels"
 msgstr "Ativar painéis"
 
 #: desktop-panel.cpp:596
-#, fuzzy
 msgid "Select font"
 msgstr "Selecionar fonte"
 
 #: po/rc.cpp:3 rc.cpp:3
-#, fuzzy
 msgid "Active desktop"
 msgstr "Desktop ativo"
 
 #: po/rc.cpp:6 po/rc.cpp:24 po/rc.cpp:48 rc.cpp:6 rc.cpp:24 rc.cpp:48
-#, fuzzy
 msgid "Font"
 msgstr "Fonte"
 
@@ -81,7 +73,6 @@ msgid "Font color"
 msgstr "Cor da fonte"
 
 #: po/rc.cpp:15 po/rc.cpp:33 rc.cpp:15 rc.cpp:33
-#, fuzzy
 msgid "Font weight"
 msgstr "Grossura da fonte"
 
@@ -90,62 +81,50 @@ msgid "Font style"
 msgstr "Estilo da fonte"
 
 #: po/rc.cpp:21 rc.cpp:21
-#, fuzzy
 msgid "Inactive desktop"
 msgstr "Desktop inativo"
 
 #: po/rc.cpp:39 rc.cpp:39
-#, fuzzy
 msgid "To control panels please set widget shortcut."
 msgstr "Para controlar paines por favor defina o atalho do widget"
 
 #: po/rc.cpp:42 rc.cpp:42
-#, fuzzy
 msgid "Mark"
 msgstr "Marca"
 
 #: po/rc.cpp:45 rc.cpp:45
-#, fuzzy
 msgid "A mark which will be shown if this desktop is active"
 msgstr "Uma marca a ser mostrada se este desktop estiver ativo"
 
 #: po/rc.cpp:51 rc.cpp:51
-#, fuzzy
 msgid "Ctrl+B"
 msgstr "Ctrl+B"
 
 #: po/rc.cpp:54 rc.cpp:54
-#, fuzzy
 msgid "Ctrl+I"
 msgstr "Ctrl+I"
 
 #: po/rc.cpp:57 rc.cpp:57
-#, fuzzy
 msgid "Ctrl+U"
 msgstr "Ctrl+U"
 
 #: po/rc.cpp:60 rc.cpp:60
-#, fuzzy
 msgid "Add"
 msgstr "Adicionar"
 
 #: po/rc.cpp:63 rc.cpp:63
-#, fuzzy
 msgid "Tooltip width"
 msgstr "Largura da dica de contexto"
 
 #: po/rc.cpp:66 rc.cpp:66
-#, fuzzy
 msgid "px"
 msgstr "px"
 
 #: po/rc.cpp:69 rc.cpp:69
-#, fuzzy
 msgid "Window border color on tooltip"
 msgstr "Cor da borda de janela na dica de contexto"
 
 #: po/rc.cpp:72 rc.cpp:72
-#, fuzzy
 msgid "Enable background"
 msgstr "Ativar plano de fundo"
 
@@ -154,22 +133,18 @@ msgid "Vertical layout"
 msgstr "Layout vertical"
 
 #: po/rc.cpp:78 rc.cpp:78
-#, fuzzy
 msgid "Enable tooltip"
 msgstr "Ativar dica de contexto"
 
 #: po/rc.cpp:81 rc.cpp:81
-#, fuzzy
 msgid "Windows"
 msgstr "Janelas"
 
 #: po/rc.cpp:84 rc.cpp:84
-#, fuzzy
 msgid "Contours"
 msgstr "Contornos"
 
 #: po/rc.cpp:87 rc.cpp:87
-#, fuzzy
 msgid "Clean desktop"
 msgstr "Limpar desktop"
 
@@ -179,7 +154,6 @@ msgid "Your names"
 msgstr "under"
 
 #: po/rc.cpp:89 rc.cpp:89
-#, fuzzy
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "under@insicuri.net"

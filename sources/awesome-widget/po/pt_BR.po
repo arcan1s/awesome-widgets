@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
 "POT-Creation-Date: 2014-12-15 02:40+0300\n"
-"PO-Revision-Date: 2014-09-05 11:21+0400\n"
+"PO-Revision-Date: 2014-12-24 00:04+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-russian@lists.kde.ru>\n"
 "Language: pt_BR\n"
@@ -78,12 +78,11 @@ msgid "Package manager"
 msgstr "Gerenciador de pacotes"
 
 #: configuration.cpp:414 po/rc.cpp:156 rc.cpp:156
-#, fuzzy
 msgid "Null lines"
 msgstr "Linhas nulas"
 
 #: configuration.cpp:428
-#, fuzzy, qt-format
+#, qt-format
 msgid ""
 "Version %1\n"
 "(build date %2)"
@@ -96,47 +95,41 @@ msgid "A set of minimalistic plasmoid widgets"
 msgstr "Um conjunto de widgets plasmoid minimalistas."
 
 #: configuration.cpp:430
-#, fuzzy
 msgid "Links:"
 msgstr "Links:"
 
 #: configuration.cpp:431
-#, fuzzy
 msgid "Homepage"
 msgstr "Homepage"
 
 #: configuration.cpp:432
-#, fuzzy
 msgid "Repository"
 msgstr "Repositório"
 
 #: configuration.cpp:433
-#, fuzzy
 msgid "Bugtracker"
 msgstr "Bugtracker"
 
 #: configuration.cpp:434
-#, fuzzy
 msgid "Translation issue"
 msgstr "Problema na tradução"
 
 #: configuration.cpp:435
-#, fuzzy
 msgid "AUR packages"
 msgstr "Pacotes AUR"
 
 #: configuration.cpp:437
-#, fuzzy, qt-format
+#, qt-format
 msgid "This software is licensed under %1"
 msgstr "Este software é licenciado sob %1"
 
 #: configuration.cpp:445
-#, fuzzy, qt-format
+#, qt-format
 msgid "Translators: %1"
 msgstr "Tradutores: %1"
 
 #: configuration.cpp:446
-#, fuzzy, qt-format
+#, qt-format
 msgid "This software uses: %1"
 msgstr "Este software usa: %1"
 
@@ -161,29 +154,24 @@ msgid "DataEngine"
 msgstr "Engine de dados"
 
 #: configuration.cpp:453
-#, fuzzy
 msgid "About"
 msgstr "Sobre"
 
 #: configuration.cpp:734 configuration.cpp:760 configuration.cpp:868
 #: configuration.cpp:910
-#, fuzzy
 msgid "Enter file name"
 msgstr "Digite o nome de arquivo"
 
 #: configuration.cpp:735 configuration.cpp:761 configuration.cpp:869
 #: configuration.cpp:911
-#, fuzzy
 msgid "File name"
 msgstr "Nome de arquivo"
 
 #: configuration.cpp:793 configuration.cpp:819
-#, fuzzy
 msgid "Edit"
 msgstr "Editar"
 
 #: configuration.cpp:794 configuration.cpp:820
-#, fuzzy
 msgid "Copy"
 msgstr "Copiar"
 
@@ -192,12 +180,10 @@ msgid "Remove"
 msgstr "Remover"
 
 #: configuration.cpp:1037
-#, fuzzy
 msgid "Select font"
 msgstr "Selecionar fonte"
 
 #: graphicalitem.cpp:442
-#, fuzzy
 msgid "Select color"
 msgstr "Selecionar cor"
 
@@ -206,7 +192,6 @@ msgid "Enable popup on mouse click"
 msgstr "Ativar popup no clique do mouse"
 
 #: po/rc.cpp:6 rc.cpp:6
-#, fuzzy
 msgid "Enable background"
 msgstr "Ativar plano de fundo"
 
@@ -282,7 +267,6 @@ msgid "Editable"
 msgstr "Editável"
 
 #: po/rc.cpp:50 rc.cpp:50
-#, fuzzy
 msgid "Fan devices"
 msgstr "Dispositivos de ventilação"
 
@@ -324,7 +308,6 @@ msgid "Line, which returns when AC is offline"
 msgstr "Linha, que aparece quando o carregador está offline"
 
 #: po/rc.cpp:92 rc.cpp:92
-#, fuzzy
 msgid "Bars"
 msgstr "Barras"
 
@@ -353,7 +336,6 @@ msgid "Font style"
 msgstr "Estilo da fonte"
 
 #: po/rc.cpp:116 rc.cpp:116
-#, fuzzy
 msgid "Font weight"
 msgstr "Grossura da fonte"
 
@@ -382,22 +364,18 @@ msgid "MPD address"
 msgstr "Endereço do MPD"
 
 #: po/rc.cpp:137 rc.cpp:137
-#, fuzzy
 msgid "ACPI path"
 msgstr "Caminho ACPI"
 
 #: po/rc.cpp:140 rc.cpp:140
-#, fuzzy
 msgid "\"/sys/class/power_supply/\" by default"
 msgstr "\"/sys/class/power_supply/AC/online\" por padrão"
 
 #: po/rc.cpp:143 rc.cpp:143
-#, fuzzy
 msgid "<b>NOTE:</b> Player DBus interface should be an active"
 msgstr "<b>NOTA:</> Interface do player DBus deverá ser uma ativa"
 
 #: po/rc.cpp:146 rc.cpp:146
-#, fuzzy
 msgid "MPRIS player name"
 msgstr "Nome do player MPRIS"
 
@@ -410,57 +388,46 @@ msgstr ""
 "del - remover item"
 
 #: po/rc.cpp:159 rc.cpp:159
-#, fuzzy
 msgid "Custom scripts"
 msgstr "Scripts customizados"
 
 #: po/rc.cpp:165 rc.cpp:165
-#, fuzzy
 msgid "Configuration"
 msgstr "Configuração"
 
 #: po/rc.cpp:168 rc.cpp:168
-#, fuzzy
 msgid "Name"
 msgstr "NOme"
 
 #: po/rc.cpp:171 rc.cpp:171
-#, fuzzy
 msgid "Comment"
 msgstr "Comentário"
 
 #: po/rc.cpp:174 rc.cpp:174
-#, fuzzy
 msgid "Value"
 msgstr "Valor"
 
 #: po/rc.cpp:177 rc.cpp:177
-#, fuzzy
 msgid "Active color"
 msgstr "Cor ativa"
 
 #: po/rc.cpp:180 rc.cpp:180
-#, fuzzy
 msgid "Inactive color"
 msgstr "Cor inativa"
 
 #: po/rc.cpp:183 rc.cpp:183
-#, fuzzy
 msgid "Type"
 msgstr "Tipo"
 
 #: po/rc.cpp:186 rc.cpp:186
-#, fuzzy
 msgid "Direction"
 msgstr "Direção"
 
 #: po/rc.cpp:189 rc.cpp:189
-#, fuzzy
 msgid "Height"
 msgstr "Altura"
 
 #: po/rc.cpp:192 rc.cpp:192
-#, fuzzy
 msgid "Width"
 msgstr "Largura"
 
@@ -477,17 +444,14 @@ msgid "Number of values for tooltips"
 msgstr "Número de valores para dicas de contexto"
 
 #: po/rc.cpp:201 rc.cpp:201
-#, fuzzy
 msgid "Background"
 msgstr "Plano de fundo"
 
 #: po/rc.cpp:204 rc.cpp:204
-#, fuzzy
 msgid "CPU color"
 msgstr "Cor da CPU"
 
 #: po/rc.cpp:207 rc.cpp:207
-#, fuzzy
 msgid "CPU clock color"
 msgstr "Cor do relógio da CPU"
 
@@ -496,7 +460,6 @@ msgid "Memory color"
 msgstr "Cor da memória"
 
 #: po/rc.cpp:213 rc.cpp:213
-#, fuzzy
 msgid "Swap color"
 msgstr "Cor da swap"
 
@@ -509,12 +472,10 @@ msgid "Upload speed color"
 msgstr "Cor da velocidade de upload"
 
 #: po/rc.cpp:222 rc.cpp:222
-#, fuzzy
 msgid "Battery active color"
 msgstr "Cor da bateria ativa"
 
 #: po/rc.cpp:225 rc.cpp:225
-#, fuzzy
 msgid "Battery inactive color"
 msgstr "Cor da bateria inativa"
 
@@ -544,7 +505,6 @@ msgid "Your names"
 msgstr "under"
 
 #: po/rc.cpp:245 rc.cpp:245
-#, fuzzy
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "under@insicuri.net"
