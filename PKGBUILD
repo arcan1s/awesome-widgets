@@ -2,7 +2,7 @@
 
 pkgname=kdeplasma-applets-awesome-widgets
 _pkgname=awesome-widgets
-pkgver=2.0.5
+pkgver=2.1.0
 pkgrel=1
 pkgdesc="Collection of minimalistic Plasmoids which look like Awesome WM widgets (ex-PyTextMonitor)"
 arch=('i686' 'x86_64')
@@ -19,7 +19,7 @@ optdepends=("amarok: for music player monitor"
 makedepends=('automoc4' 'cmake')
 source=(https://github.com/arcan1s/awesome-widgets/releases/download/V.${pkgver}/${_pkgname}-${pkgver}-src.tar.xz)
 install=${pkgname}.install
-md5sums=('a86de1841491ea1fc1d8021c5b3d9d43')
+md5sums=('52af779478bac4f721adf0675b726577')
 backup=('usr/share/config/extsysmon.conf')
 
 prepare() {
