@@ -19,7 +19,7 @@ optdepends=("amarok: for music player monitor"
 makedepends=('automoc4' 'cmake')
 source=(https://github.com/arcan1s/awesome-widgets/releases/download/V.${pkgver}/${_pkgname}-${pkgver}-src.tar.xz)
 install=${pkgname}.install
-md5sums=('52af779478bac4f721adf0675b726577')
+md5sums=('37d9ad08b2b4623d2ab9089facf4b5ff')
 backup=('usr/share/config/extsysmon.conf')
 
 prepare() {
