@@ -21,13 +21,17 @@ message (STATUS "Project: ${PROJECT_NAME}")
 message (STATUS "Version: ${PROJECT_VERSION}")
 message (STATUS "Build date: ${CURRENT_DATE}")
 
+option (BUILD_KDE4 "Build on KDE4" OFF)
+
 # flags
 if (CMAKE_COMPILER_IS_GNUCXX)
-    set (CMAKE_CXX_FLAGS "-Wall -Wno-cpp -std=c++11")
-    set (CMAKE_CXX_FLAGS_DEBUG "-g -O0")
-    set (CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
+  set (CMAKE_CXX_FLAGS "-Wall -Wno-cpp -std=c++11")
+  set (CMAKE_CXX_FLAGS_DEBUG "-g -O0")
+  set (CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
+  # avoid newer gcc warnings
+  add_definitions (-D_DEFAULT_SOURCE)
 else ()
-    message (STATUS "Unknown compiler")
+  message (STATUS "Unknown compiler")
 endif ()
 
 configure_file (${CMAKE_SOURCE_DIR}/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/version.h)

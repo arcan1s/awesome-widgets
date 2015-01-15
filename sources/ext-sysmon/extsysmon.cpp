@@ -19,20 +19,27 @@
 #include "extsysmon.h"
 
 #include <Plasma/DataContainer>
-#include <KDE/KGlobal>
-#include <KDE/KStandardDirs>
-#include <KDE/KWindowSystem>
+#include <KWindowSystem>
+
 #include <QDebug>
 #include <QDir>
 #include <QFile>
 #include <QProcessEnvironment>
 #include <QRegExp>
 #include <QTextCodec>
-#include <QThread>
 
 #include <extscript.h>
 #include <pdebug/pdebug.h>
 #include <task/taskadds.h>
+#include <version.h>
+
+// KF5-KDE4 compability
+#ifdef BUILD_KDE4
+#include <KGlobal>
+#include <KStandardDirs>
+#else
+#include <QStandardPaths>
+#endif /* BUILD_KDE4 */
 
 
 ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList& args)
@@ -174,7 +181,7 @@ void ExtendedSysMon::readConfiguration()
     rawConfig[QString("PKGNULL")] = QString("0");
     rawConfig[QString("PLAYER")] = QString("mpris");
 
-    QString fileName = KGlobal::dirs()->findResource("config", "extsysmon.conf");
+    QString fileName = KGlobal::dirs()->findResource("config", "plasma-dataengine-extsysmon.conf");
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
     QFile configFile(fileName);
     if (!configFile.open(QIODevice::ReadOnly)) {
@@ -611,6 +618,10 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
 }
 
 
+#ifdef BUILD_KDE4
 K_EXPORT_PLASMA_DATAENGINE(extsysmon, ExtendedSysMon)
+#else
+K_EXPORT_PLASMA_DATAENGINE_WITH_JSON(extsysmon, ExtendedSysMon, "plasma-dataengine-extsysmon.json")
+#endif /* BUILD_KDE4 */
 
 #include "extsysmon.moc"

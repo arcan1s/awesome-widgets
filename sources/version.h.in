@@ -26,5 +26,6 @@
 // cmake properties
 #define CMAKE_BUILD_TYPE "@CMAKE_BUILD_TYPE@"
 #define CMAKE_INSTALL_PREFIX "@CMAKE_INSTALL_PREFIX@"
+#cmakedefine BUILD_KDE4
 
 #endif /* VERSION_H */
