@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required (VERSION 2.8.12)
 
 cmake_policy (SET CMP0003 OLD)
 cmake_policy (SET CMP0002 OLD)
@@ -38,5 +38,5 @@ configure_file (${CMAKE_SOURCE_DIR}/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/ver
 set (PROJECT_TRDPARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty)
 
 add_subdirectory (ext-sysmon)
-add_subdirectory (awesome-widget)
-add_subdirectory (desktop-panel)
+#add_subdirectory (awesome-widget)
+#add_subdirectory (desktop-panel)

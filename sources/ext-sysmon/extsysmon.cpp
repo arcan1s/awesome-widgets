@@ -18,8 +18,8 @@
 
 #include "extsysmon.h"
 
-#include <Plasma/DataContainer>
 #include <KWindowSystem>
+#include <Plasma/DataContainer>
 
 #include <QDebug>
 #include <QDir>
@@ -27,6 +27,7 @@
 #include <QProcessEnvironment>
 #include <QRegExp>
 #include <QTextCodec>
+#include <QSettings>
 
 #include <extscript.h>
 #include <pdebug/pdebug.h>
@@ -123,12 +124,27 @@ void ExtendedSysMon::initScripts()
 {
     if (debug) qDebug() << PDEBUG;
 
-    // create directory at $HOME
-    QString localDir = KStandardDirs::locateLocal("data", "plasma_engine_extsysmon/scripts");
+    // create directory at $HOME and create dirs list
+    QString localDir;
+    QStringList dirs;
+#ifdef BUILD_KDE4
+    localDir = KStandardDirs::locateLocal("data", "plasma_engine_extsysmon/scripts");
     if (KStandardDirs::makeDir(localDir))
         if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
 
-    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_engine_extsysmon/scripts");
+    dirs = KGlobal::dirs()->findDirs("data", "plasma_engine_extsysmon/scripts");
+#else
+    localDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) +
+            QString("/plasma_engine_extsysmon/scripts");
+    QDir localDirectory;
+    if (localDirectory.mkdir(localDir))
+        if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
+
+    dirs = QStandardPaths::locateAll(QStandardPaths::DataLocation,
+                                     QString("plasma_engine_extsysmon/scripts"),
+                                     QStandardPaths::LocateDirectory);
+#endif /* BUILD_KDE4 */
+
     QStringList names;
     for (int i=0; i<dirs.count(); i++) {
         QStringList files = QDir(dirs[i]).entryList(QDir::Files, QDir::Name);
@@ -168,42 +184,28 @@ void ExtendedSysMon::readConfiguration()
 {
     if (debug) qDebug() << PDEBUG;
 
-    // pre-setup
-    QMap<QString, QString> rawConfig;
-    rawConfig[QString("ACPIPATH")] = QString("/sys/class/power_supply/");
-    rawConfig[QString("GPUDEV")] = QString("auto");
-    rawConfig[QString("HDDDEV")] = QString("all");
-    rawConfig[QString("HDDTEMPCMD")] = QString("sudo hddtemp");
-    rawConfig[QString("MPDADDRESS")] = QString("localhost");
-    rawConfig[QString("MPDPORT")] = QString("6600");
-    rawConfig[QString("MPRIS")] = QString("auto");
-    rawConfig[QString("PKGCMD")] = QString("pacman -Qu");
-    rawConfig[QString("PKGNULL")] = QString("0");
-    rawConfig[QString("PLAYER")] = QString("mpris");
-
-    QString fileName = KGlobal::dirs()->findResource("config", "plasma-dataengine-extsysmon.conf");
+    QString fileName;
+#ifdef BUILD_KDE4
+    fileName = KGlobal::dirs()->findResource("config", "plasma-dataengine-extsysmon.conf");
+#else
+    fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation, QString("plasma-dataengine-extsysmon.conf"));
+#endif /* BUILD_KDE4 */
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
-    QFile configFile(fileName);
-    if (!configFile.open(QIODevice::ReadOnly)) {
-        configuration = updateConfiguration(rawConfig);
-        return;
-    }
-    QString fileStr;
-    QStringList value;
-    while (true) {
-        fileStr = QString(configFile.readLine()).trimmed();
-        if ((fileStr.isEmpty()) && (!configFile.atEnd())) continue;
-        if ((fileStr[0] == QChar('#')) && (!configFile.atEnd())) continue;
-        if ((fileStr[0] == QChar(';')) && (!configFile.atEnd())) continue;
-        if (fileStr.contains(QChar('='))) {
-            value.clear();
-            for (int i=1; i<fileStr.split(QChar('=')).count(); i++)
-                value.append(fileStr.split(QChar('='))[i]);
-            rawConfig[fileStr.split(QChar('='))[0]] = value.join(QChar('='));
-        }
-        if (configFile.atEnd()) break;
-    }
-    configFile.close();
+    QSettings settings(fileName, QSettings::IniFormat);
+    QMap<QString, QString> rawConfig;
+
+    settings.beginGroup(QString("Configuration"));
+    rawConfig[QString("ACPIPATH")] = settings.value(QString("ACPIPATH"), QString("/sys/class/power_supply/")).toString();
+    rawConfig[QString("GPUDEV")] = settings.value(QString("GPUDEV"), QString("auto")).toString();
+    rawConfig[QString("HDDDEV")] = settings.value(QString("HDDDEV"), QString("all")).toString();
+    rawConfig[QString("HDDTEMPCMD")] = settings.value(QString("HDDTEMPCMD"), QString("sudo hddtemp")).toString();
+    rawConfig[QString("MPDADDRESS")] = settings.value(QString("MPDADDRESS"), QString("localhost")).toString();
+    rawConfig[QString("MPDPORT")] = settings.value(QString("MPDPORT"), QString("6600")).toString();
+    rawConfig[QString("MPRIS")] = settings.value(QString("MPRIS"), QString("auto")).toString();
+    rawConfig[QString("PKGCMD")] = settings.value(QString("PKGCMD"), QString("pacman -Qu")).toString();
+    rawConfig[QString("PKGNULL")] = settings.value(QString("PKGNULL"), QString("0")).toString();
+    rawConfig[QString("PLAYER")] = settings.value(QString("PLAYER"), QString("mpris")).toString();
+    settings.endGroup();
 
     configuration = updateConfiguration(rawConfig);
 }
