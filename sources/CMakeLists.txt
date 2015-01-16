@@ -10,7 +10,7 @@ set (PROJECT_AUTHOR "Evgeniy Alekseev")
 set (PROJECT_CONTACT "esalexeev@gmail.com")
 set (PROJECT_LICENSE "GPLv3")
 set (PROJECT_VERSION_MAJOR 2)
-set (PROJECT_VERSION_MINOR 1)
+set (PROJECT_VERSION_MINOR 2)
 set (PROJECT_VERSION_PATCH 0)
 set (PROJECT_VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH})
 
@@ -38,5 +38,15 @@ configure_file (${CMAKE_SOURCE_DIR}/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/ver
 set (PROJECT_TRDPARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty)
 
 add_subdirectory (ext-sysmon)
-#add_subdirectory (awesome-widget)
-#add_subdirectory (desktop-panel)
+if (BUILD_KDE4)
+  add_subdirectory (awesome-widget-kde4)
+  add_subdirectory (desktop-panel-kde4)
+else ()
+  add_subdirectory (awesome-widget-kf5)
+endif ()
+
+# translations
+add_subdirectory (translations)
+# aw bars desktops
+set (AW_DESKTOPS ${CMAKE_CURRENT_SOURCE_DIR}/desktops)
+install (DIRECTORY ${AW_DESKTOPS} DESTINATION ${DATA_INSTALL_DIR}/plasma_applet_awesome-widget)
