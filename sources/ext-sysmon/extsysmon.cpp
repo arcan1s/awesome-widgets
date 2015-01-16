@@ -211,38 +211,25 @@ void ExtendedSysMon::readConfiguration()
 }
 
 
-QMap<QString, QString> ExtendedSysMon::updateConfiguration(const QMap<QString, QString> rawConfig)
+QMap<QString, QString> ExtendedSysMon::updateConfiguration(QMap<QString, QString> rawConfig)
 {
     if (debug) qDebug() << PDEBUG;
 
-    QMap<QString, QString> config;
-    QString key, value;
-    // remove spaces and copy source map
-    for (int i=0; i<rawConfig.keys().count(); i++) {
-        key = rawConfig.keys()[i];
-        value = rawConfig[key];
-        key.remove(QChar(' '));
-        if ((key != QString("HDDTEMPCMD")) &&
-            (key != QString("PKGCMD")))
-            value.remove(QChar(' '));
-        config[key] = value;
-    }
-    // update values
     // gpudev
-    if (config[QString("GPUDEV")] == QString("disable"))
-        config[QString("GPUDEV")] = QString("disable");
-    else if (config[QString("GPUDEV")] == QString("auto"))
-        config[QString("GPUDEV")] = getAutoGpu();
-    else if ((config[QString("GPUDEV")] != QString("ati")) &&
-        (config[QString("GPUDEV")] != QString("nvidia")))
-        config[QString("GPUDEV")] = getAutoGpu();
+    if (rawConfig[QString("GPUDEV")] == QString("disable"))
+        rawConfig[QString("GPUDEV")] = QString("disable");
+    else if (rawConfig[QString("GPUDEV")] == QString("auto"))
+        rawConfig[QString("GPUDEV")] = getAutoGpu();
+    else if ((rawConfig[QString("GPUDEV")] != QString("ati")) &&
+        (rawConfig[QString("GPUDEV")] != QString("nvidia")))
+        rawConfig[QString("GPUDEV")] = getAutoGpu();
     // hdddev
-    if (config[QString("HDDDEV")] == QString("all"))
-        config[QString("HDDDEV")] = getAllHdd();
-    else if (config[QString("HDDDEV")] == QString("disable"))
-        config[QString("HDDDEV")] = QString("");
+    if (rawConfig[QString("HDDDEV")] == QString("all"))
+        rawConfig[QString("HDDDEV")] = getAllHdd();
+    else if (rawConfig[QString("HDDDEV")] == QString("disable"))
+        rawConfig[QString("HDDDEV")] = QString("");
     else {
-        QStringList deviceList = config[QString("HDDDEV")].split(QChar(','), QString::SkipEmptyParts);
+        QStringList deviceList = rawConfig[QString("HDDDEV")].split(QChar(','), QString::SkipEmptyParts);
         QStringList devices;
         QRegExp diskRegexp = QRegExp("/dev/[hms]d[a-z]$");
         for (int i=0; i<deviceList.count(); i++)
@@ -250,24 +237,24 @@ QMap<QString, QString> ExtendedSysMon::updateConfiguration(const QMap<QString, Q
                 (diskRegexp.indexIn(deviceList[i]) > -1))
                 devices.append(deviceList[i]);
         if (devices.isEmpty())
-            config[QString("HDDDEV")] = getAllHdd();
+            rawConfig[QString("HDDDEV")] = getAllHdd();
         else
-            config[QString("HDDDEV")] = devices.join(QChar(','));
+            rawConfig[QString("HDDDEV")] = devices.join(QChar(','));
     }
     // pkgcmd
-    for (int i=config[QString("PKGNULL")].split(QString(","), QString::SkipEmptyParts).count();
-         i<config[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts).count()+1;
+    for (int i=rawConfig[QString("PKGNULL")].split(QString(","), QString::SkipEmptyParts).count();
+         i<rawConfig[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts).count()+1;
          i++)
-        config[QString("PKGNULL")] += QString(",0");
+        rawConfig[QString("PKGNULL")] += QString(",0");
     // player
-    if ((config[QString("PLAYER")] != QString("mpd")) &&
-        (config[QString("PLAYER")] != QString("mpris")))
-        config[QString("PLAYER")] = QString("mpris");
+    if ((rawConfig[QString("PLAYER")] != QString("mpd")) &&
+        (rawConfig[QString("PLAYER")] != QString("mpris")))
+        rawConfig[QString("PLAYER")] = QString("mpris");
 
-    for (int i=0; i<config.keys().count(); i++)
+    for (int i=0; i<rawConfig.keys().count(); i++)
         if (debug) qDebug() << PDEBUG << ":" <<
-            config.keys()[i] + QString("=") + config[config.keys()[i]];
-    return config;
+            rawConfig.keys()[i] + QString("=") + rawConfig[rawConfig.keys()[i]];
+    return rawConfig;
 }
 
 

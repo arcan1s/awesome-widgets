@@ -46,7 +46,7 @@ else ()
 endif ()
 
 # translations
-add_subdirectory (translations)
+# add_subdirectory (translations)
 # aw bars desktops
 set (AW_DESKTOPS ${CMAKE_CURRENT_SOURCE_DIR}/desktops)
 install (DIRECTORY ${AW_DESKTOPS} DESTINATION ${DATA_INSTALL_DIR}/plasma_applet_awesome-widget)

@@ -60,7 +60,7 @@ private:
     QString getAutoMpris();
     void initScripts();
     void readConfiguration();
-    QMap<QString, QString> updateConfiguration(const QMap<QString, QString> rawConfig);
+    QMap<QString, QString> updateConfiguration(QMap<QString, QString> rawConfig);
 };
 
 

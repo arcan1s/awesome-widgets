@@ -19,7 +19,10 @@
 #ifndef AWADDS_H
 #define AWADDS_H
 
+#include <QMap>
 #include <QObject>
+#include <QStringList>
+#include <QVariant>
 
 
 class AWAdds : public QObject
@@ -30,7 +33,16 @@ public:
     AWAdds(QObject *parent = 0);
     ~AWAdds();
 
+    Q_INVOKABLE QString networkDevice(const QString custom = QString(""));
+    Q_INVOKABLE int numberCpus();
+    Q_INVOKABLE float tempepature(const float temp, const QString units = QString("Celsius"));
+    Q_INVOKABLE QStringList timeKeys();
+    // dataengine
+    Q_INVOKABLE QMap<QString, QVariant> readDataEngineConfiguration();
+    Q_INVOKABLE void writeDataEngineConfiguration(const QMap<QString, QVariant> configuration);
+
 private:
+    QMap<QString, QVariant> updateDataEngineConfiguration(QMap<QString, QVariant> rawConfig);
     bool debug = false;
 };
 

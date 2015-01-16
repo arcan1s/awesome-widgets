@@ -16,6 +16,9 @@
  ***************************************************************************/
 
 #include "awesomewidget.h"
+
+#include <QtQml>
+
 #include "awadds.h"
 
 
