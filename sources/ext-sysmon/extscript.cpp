@@ -26,15 +26,17 @@
 #include <pdebug/pdebug.h>
 #include <task/taskadds.h>
 
+#include "version.h"
+
 
 ExtScript::ExtScript(QWidget *parent, const QString scriptName, const QStringList directories, const bool debugCmd) :
     QDialog(parent),
-    fileName(scriptName),
-    dirs(directories),
+    m_fileName(scriptName),
+    m_dirs(directories),
     debug(debugCmd),
     ui(new Ui::ExtScript)
 {
-    _name = fileName;
+    m_name = m_fileName;
     readConfiguration();
     ui->setupUi(this);
 }
@@ -48,68 +50,76 @@ ExtScript::~ExtScript()
 }
 
 
-QString ExtScript::getComment()
+int ExtScript::apiVersion()
 {
     if (debug) qDebug() << PDEBUG;
 
-    return _comment;
+    return m_apiVersion;
 }
 
 
-QString ExtScript::getExec()
+QString ExtScript::comment()
 {
     if (debug) qDebug() << PDEBUG;
 
-    return _exec;
+    return m_comment;
 }
 
 
-QString ExtScript::getFileName()
+QString ExtScript::executable()
 {
     if (debug) qDebug() << PDEBUG;
 
-    return fileName;
+    return m_executable;
 }
 
 
-int ExtScript::getInterval()
+QString ExtScript::fileName()
 {
     if (debug) qDebug() << PDEBUG;
 
-    return _interval;
+    return m_fileName;
 }
 
 
-QString ExtScript::getName()
+int ExtScript::interval()
 {
     if (debug) qDebug() << PDEBUG;
 
-    return _name;
+    return m_interval;
 }
 
 
-QString ExtScript::getPrefix()
+QString ExtScript::name()
 {
     if (debug) qDebug() << PDEBUG;
 
-    return _prefix;
+    return m_name;
 }
 
 
-ExtScript::Redirect ExtScript::getRedirect()
+QString ExtScript::prefix()
 {
     if (debug) qDebug() << PDEBUG;
 
-    return _redirect;
+    return m_prefix;
 }
 
 
-QString ExtScript::getStrRedirect()
+ExtScript::Redirect ExtScript::redirect()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return m_redirect;
+}
+
+
+QString ExtScript::strRedirect()
 {
     if (debug) qDebug() << PDEBUG;
 
     QString value;
-    switch (_redirect) {
+    switch (m_redirect) {
     case stdout2stderr:
         value = QString("stdout2stderr");
         break;
@@ -129,7 +139,7 @@ bool ExtScript::hasOutput()
 {
     if (debug) qDebug() << PDEBUG;
 
-    return _output;
+    return m_output;
 }
 
 
@@ -137,7 +147,16 @@ bool ExtScript::isActive()
 {
     if (debug) qDebug() << PDEBUG;
 
-    return _active;
+    return m_active;
+}
+
+
+void ExtScript::setApiVersion(const int _apiVersion)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Version" << _apiVersion;
+
+    m_apiVersion = _apiVersion;
 }
 
 
@@ -146,25 +165,25 @@ void ExtScript::setActive(const bool state)
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "State" << state;
 
-    _active = state;
+    m_active = state;
 }
 
 
-void ExtScript::setComment(const QString comment)
+void ExtScript::setComment(const QString _comment)
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Comment" << comment;
+    if (debug) qDebug() << PDEBUG << ":" << "Comment" << _comment;
 
-    _comment = comment;
+    m_comment = _comment;
 }
 
 
-void ExtScript::setExec(const QString exec)
+void ExtScript::setExecutable(const QString _executable)
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Executable" << exec;
+    if (debug) qDebug() << PDEBUG << ":" << "Executable" << _executable;
 
-    _exec = exec;
+    m_executable = _executable;
 }
 
 
@@ -173,49 +192,58 @@ void ExtScript::setHasOutput(const bool state)
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "State" << state;
 
-    _output = state;
+    m_output = state;
 }
 
 
-void ExtScript::setInterval(const int interval)
+void ExtScript::setInterval(const int _interval)
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Interval" << interval;
-    if (interval <= 0) return;
+    if (debug) qDebug() << PDEBUG << ":" << "Interval" << _interval;
+    if (_interval <= 0) return;
 
-    _interval = interval;
+    m_interval = _interval;
 }
 
 
-void ExtScript::setName(const QString name)
+void ExtScript::setName(const QString _name)
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Name" << name;
+    if (debug) qDebug() << PDEBUG << ":" << "Name" << _name;
 
-    _name = name;
+    m_name = _name;
 }
 
 
-void ExtScript::setPrefix(const QString prefix)
+void ExtScript::setPrefix(const QString _prefix)
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Prefix" << prefix;
+    if (debug) qDebug() << PDEBUG << ":" << "Prefix" << _prefix;
 
-    _prefix = prefix;
+    m_prefix = _prefix;
 }
 
 
-void ExtScript::setRedirect(const QString redirect)
+void ExtScript::setRedirect(const Redirect _redirect)
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Redirect" << redirect;
+    if (debug) qDebug() << PDEBUG << ":" << "Redirect" << _redirect;
 
-    if (redirect == QString("stdout2sdterr"))
-        _redirect = stdout2stderr;
-    else if (redirect == QString("stderr2sdtout"))
-        _redirect = stderr2stdout;
+    m_redirect = _redirect;
+}
+
+
+void ExtScript::setStrRedirect(const QString _redirect)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Redirect" << _redirect;
+
+    if (_redirect == QString("stdout2sdterr"))
+        m_redirect = stdout2stderr;
+    else if (_redirect == QString("stderr2sdtout"))
+        m_redirect = stderr2stdout;
     else
-        _redirect = nothing;
+        m_redirect = nothing;
 }
 
 
@@ -223,23 +251,25 @@ void ExtScript::readConfiguration()
 {
     if (debug) qDebug() << PDEBUG;
 
-    for (int i=dirs.count()-1; i>=0; i--) {
-        if (!QDir(dirs[i]).entryList(QDir::Files).contains(fileName)) continue;
-        QSettings settings(dirs[i] + QDir::separator() + fileName, QSettings::IniFormat);
+    for (int i=m_dirs.count()-1; i>=0; i--) {
+        if (!QDir(m_dirs[i]).entryList(QDir::Files).contains(m_fileName)) continue;
+        QSettings settings(m_dirs[i] + QDir::separator() + m_fileName, QSettings::IniFormat);
+
         settings.beginGroup(QString("Desktop Entry"));
-        setName(settings.value(QString("Name"), _name).toString());
-        setComment(settings.value(QString("Comment"), _comment).toString());
-        setExec(settings.value(QString("Exec"), _exec).toString());
-        setPrefix(settings.value(QString("X-AW-Prefix"), _prefix).toString());
-        setActive(settings.value(QString("X-AW-Active"), QVariant(_active).toString()).toString() == QString("true"));
-        setHasOutput(settings.value(QString("X-AW-Output"), QVariant(_output).toString()).toString() == QString("true"));
-        setRedirect(settings.value(QString("X-AW-Redirect"), getStrRedirect()).toString());
-        setInterval(settings.value(QString("X-AW-Interval"), _interval).toInt());
+        setName(settings.value(QString("Name"), m_name).toString());
+        setComment(settings.value(QString("Comment"), m_comment).toString());
+        setApiVersion(settings.value(QString("X-AW-ApiVersion"), AWESAPI).toInt());
+        setExecutable(settings.value(QString("Exec"), m_executable).toString());
+        setPrefix(settings.value(QString("X-AW-Prefix"), m_prefix).toString());
+        setActive(settings.value(QString("X-AW-Active"), QVariant(m_active)).toString() == QString("true"));
+        setHasOutput(settings.value(QString("X-AW-Output"), QVariant(m_output)).toString() == QString("true"));
+        setStrRedirect(settings.value(QString("X-AW-Redirect"), strRedirect()).toString());
+        setInterval(settings.value(QString("X-AW-Interval"), m_interval).toInt());
         settings.endGroup();
     }
 
-    if (!_output)
-        setRedirect(QString("stdout2stderr"));
+    if (!m_output)
+        setRedirect(stdout2stderr);
 }
 
 
@@ -248,17 +278,17 @@ ExtScript::ScriptData ExtScript::run(const int time)
     if (debug) qDebug() << PDEBUG;
 
     ScriptData response;
-    response.active = _active;
-    response.name = _name;
+    response.active = m_active;
+    response.name = m_name;
     response.refresh = false;
-    if (!_active) return response;
-    if (time != _interval) return response;
+    if (!m_active) return response;
+    if (time != m_interval) return response;
     response.refresh = true;
 
     QStringList cmdList;
-    if (!_prefix.isEmpty())
-        cmdList.append(_prefix);
-    cmdList.append(_exec);
+    if (!m_prefix.isEmpty())
+        cmdList.append(m_prefix);
+    cmdList.append(m_executable);
     if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmdList.join(QChar(' '));
     TaskResult process = runTask(cmdList.join(QChar(' ')));
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
@@ -266,7 +296,7 @@ ExtScript::ScriptData ExtScript::run(const int time)
     QString info = QString::number(process.exitCode) + QString(":") +
                    QTextCodec::codecForMib(106)->toUnicode(process.error).trimmed();
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
-    switch(_redirect) {
+    switch (m_redirect) {
     case stdout2stderr:
         if (debug) qDebug() << PDEBUG << ":" << "Debug" << info;
         if (debug) qDebug() << PDEBUG << ":" << "Output" << qoutput;
@@ -288,30 +318,31 @@ void ExtScript::showConfiguration()
 {
     if (debug) qDebug() << PDEBUG;
 
-    ui->lineEdit_name->setText(_name);
-    ui->lineEdit_comment->setText(_comment);
-    ui->lineEdit_command->setText(_exec);
-    ui->lineEdit_prefix->setText(_prefix);
-    if (_active)
+    ui->lineEdit_name->setText(m_name);
+    ui->lineEdit_comment->setText(m_comment);
+    ui->lineEdit_command->setText(m_executable);
+    ui->lineEdit_prefix->setText(m_prefix);
+    if (m_active)
         ui->checkBox_active->setCheckState(Qt::Checked);
     else
         ui->checkBox_active->setCheckState(Qt::Unchecked);
-    if (_output)
+    if (m_output)
         ui->checkBox_output->setCheckState(Qt::Checked);
     else
         ui->checkBox_output->setCheckState(Qt::Unchecked);
-    ui->comboBox_redirect->setCurrentIndex((int)_redirect);
-    ui->spinBox_interval->setValue(_interval);
+    ui->comboBox_redirect->setCurrentIndex(static_cast<int>(m_redirect));
+    ui->spinBox_interval->setValue(m_interval);
 
     int ret = exec();
     if (ret != 1) return;
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
-    setExec(ui->lineEdit_command->text());
+    setApiVersion(AWESAPI);
+    setExecutable(ui->lineEdit_command->text());
     setPrefix(ui->lineEdit_prefix->text());
     setActive(ui->checkBox_active->checkState() == Qt::Checked);
     setHasOutput(ui->checkBox_output->checkState() == Qt::Checked);
-    setRedirect(ui->comboBox_redirect->currentText());
+    setStrRedirect(ui->comboBox_redirect->currentText());
     setInterval(ui->spinBox_interval->value());
 
     writeConfiguration();
@@ -322,9 +353,9 @@ void ExtScript::tryDelete()
 {
     if (debug) qDebug() << PDEBUG;
 
-    for (int i=0; i<dirs.count(); i++)
-        if (debug) qDebug() << PDEBUG << ":" << "Remove file" << dirs[i] + QDir::separator() + fileName <<
-                               QFile::remove(dirs[i] + QDir::separator() + fileName);
+    for (int i=0; i<m_dirs.count(); i++)
+        if (debug) qDebug() << PDEBUG << ":" << "Remove file" << m_dirs[i] + QDir::separator() + m_fileName <<
+                               QFile::remove(m_dirs[i] + QDir::separator() + m_fileName);
 }
 
 
@@ -332,20 +363,21 @@ void ExtScript::writeConfiguration()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QSettings settings(dirs[0] + QDir::separator() + fileName, QSettings::IniFormat);
+    QSettings settings(m_dirs[0] + QDir::separator() + m_fileName, QSettings::IniFormat);
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << settings.fileName();
+
     settings.beginGroup(QString("Desktop Entry"));
-
     settings.setValue(QString("Encoding"), QString("UTF-8"));
-    settings.setValue(QString("Name"), _name);
-    settings.setValue(QString("Comment"), _comment);
-    settings.setValue(QString("Exec"), _exec);
-    settings.setValue(QString("X-AW-Prefix"), _prefix);
-    settings.setValue(QString("X-AW-Active"), QVariant(_active).toString());
-    settings.setValue(QString("X-AW-Output"), QVariant(_active).toString());
-    settings.setValue(QString("X-AW-Redirect"), getStrRedirect());
-    settings.setValue(QString("X-AW-Interval"), _interval);
-
+    settings.setValue(QString("Name"), m_name);
+    settings.setValue(QString("Comment"), m_comment);
+    settings.setValue(QString("Exec"), m_executable);
+    settings.setValue(QString("X-AW-ApiVersion"), m_apiVersion);
+    settings.setValue(QString("X-AW-Prefix"), m_prefix);
+    settings.setValue(QString("X-AW-Active"), QVariant(m_active).toString());
+    settings.setValue(QString("X-AW-Output"), QVariant(m_active).toString());
+    settings.setValue(QString("X-AW-Redirect"), strRedirect());
+    settings.setValue(QString("X-AW-Interval"), m_interval);
     settings.endGroup();
+
     settings.sync();
 }

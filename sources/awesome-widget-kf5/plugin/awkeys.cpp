@@ -15,34 +15,23 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#include "awadds.h"
-
-#include <KI18n/KLocalizedString>
-#include <KNotifications/KNotification>
+#include "awkeys.h"
 
 #include <QDebug>
-#include <QDesktopServices>
-#include <QMessageBox>
-#include <QNetworkAccessManager>
+#include <QDir>
 #include <QNetworkInterface>
-#include <QNetworkRequest>
-#include <QNetworkReply>
-#include <QProcess>
 #include <QProcessEnvironment>
-#include <QSettings>
 #include <QStandardPaths>
-#include <QTextCodec>
 #include <QThread>
 
 #include <pdebug/pdebug.h>
-//#include <task/taskadds.h>
 
 #include "extscript.h"
 #include "graphicalitem.h"
 #include "version.h"
 
 
-AWAdds::AWAdds(QObject *parent)
+AWKeys::AWKeys(QObject *parent)
     : QObject(parent)
 {
     // debug
@@ -54,24 +43,27 @@ AWAdds::AWAdds(QObject *parent)
 }
 
 
-AWAdds::~AWAdds()
+AWKeys::~AWKeys()
 {
     if (debug) qDebug() << PDEBUG;
 }
 
 
-void AWAdds::checkUpdates()
+void AWKeys::initKeys(const QString pattern)
 {
     if (debug) qDebug() << PDEBUG;
 
-    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
-    connect(manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(versionReplyRecieved(QNetworkReply *)));
+    // clear
+    foundBars.clear();
+    foundKeys.clear();
 
-    manager->get(QNetworkRequest(QUrl(VERSION_API)));
+    // init
+    foundBars = findGraphicalItems(pattern);
+    foundKeys = findKeys(pattern);
 }
 
 
-void AWAdds::initValues()
+void AWKeys::initValues()
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -87,7 +79,7 @@ void AWAdds::initValues()
 }
 
 
-bool AWAdds::isDebugEnabled()
+bool AWKeys::isDebugEnabled()
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -95,7 +87,7 @@ bool AWAdds::isDebugEnabled()
 }
 
 
-QString AWAdds::networkDevice(const QString custom)
+QString AWKeys::networkDevice(const QString custom)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Custom device" << custom;
@@ -117,7 +109,7 @@ QString AWAdds::networkDevice(const QString custom)
 }
 
 
-int AWAdds::numberCpus()
+int AWKeys::numberCpus()
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -125,26 +117,35 @@ int AWAdds::numberCpus()
 }
 
 
-QString AWAdds::parsePattern(const QString pattern, const QMap<QString, QVariant> dict,
-                             const QMap<QString, QVariant> values,
-                             const QStringList foundKeys, const QStringList foundBars)
+QString AWKeys::parsePattern(const QString pattern, const QMap<QString, QVariant> values)
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Dictionary" << dict;
 
     QString parsed = pattern;
     parsed.replace(QString("$$"), QString("$\\$\\"));
     for (int i=0; i<foundKeys.count(); i++)
-        parsed.replace(QString("$") + foundKeys[i], values[foundKeys[i]]);
+        parsed.replace(QString("$") + foundKeys[i], values[foundKeys[i]].toString());
     for (int i=0; i<foundBars.count(); i++)
-        parsed.replace(QString("$") + foundBars[i], getItemByTag(foundBars[i])->getImage(values[foundBars[i]].toFloat()));
+        parsed.replace(QString("$") + foundBars[i], getItemByTag(foundBars[i])->image(values[foundBars[i]].toFloat()));
     parsed.replace(QString("$\\$\\"), QString("$$"));
 
     return parsed;
 }
 
 
-float AWAdds::tempepature(const float temp, const QString units)
+QStringList AWKeys::sourcesForDataEngine(const QString pattern, const QString dataEngine)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Pattern" << pattern;
+    if (debug) qDebug() << PDEBUG << ":" << "DataEngine" << dataEngine;
+
+    QStringList sources;
+
+    return sources;
+}
+
+
+float AWKeys::temperature(const float temp, const QString units)
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -168,7 +169,7 @@ float AWAdds::tempepature(const float temp, const QString units)
 }
 
 
-QMap<QString, QVariant> AWAdds::counts()
+QMap<QString, QVariant> AWKeys::counts()
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -194,7 +195,7 @@ QMap<QString, QVariant> AWAdds::counts()
 }
 
 
-QStringList AWAdds::dictKeys()
+QStringList AWKeys::dictKeys()
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -298,7 +299,38 @@ QStringList AWAdds::dictKeys()
 }
 
 
-QStringList AWAdds::timeKeys()
+QStringList AWKeys::extScriptsInfo()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QStringList info;
+    for (int i=0; i<extScripts.count(); i++) {
+        info.append(extScripts[i]->fileName());
+        info.append(extScripts[i]->name());
+        info.append(extScripts[i]->comment());
+        info.append(extScripts[i]->executable());
+    }
+
+    return info;
+}
+
+
+QStringList AWKeys::graphicalItemsInfo()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QStringList info;
+    for (int i=0; i<graphicalItems.count(); i++) {
+        info.append(graphicalItems[i]->fileName());
+        info.append(graphicalItems[i]->name() + graphicalItems[i]->bar());
+        info.append(graphicalItems[i]->comment());
+    }
+
+    return info;
+}
+
+
+QStringList AWKeys::timeKeys()
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -324,13 +356,13 @@ QStringList AWAdds::timeKeys()
 }
 
 
-QStringList AWAdds::findGraphicalItems(const QString pattern)
+QStringList AWKeys::findGraphicalItems(const QString pattern)
 {
     if (debug) qDebug() << PDEBUG;
 
     QStringList orderedKeys;
     for (int i=0; i<graphicalItems.count(); i++)
-        orderedKeys.append(graphicalItems[i]->getName() + graphicalItems[i]->getBar());
+        orderedKeys.append(graphicalItems[i]->name() + graphicalItems[i]->bar());
     orderedKeys.sort();
 
     QStringList selectedKeys;
@@ -344,7 +376,7 @@ QStringList AWAdds::findGraphicalItems(const QString pattern)
 }
 
 
-QString AWAdds::findKeys(const QString pattern)
+QStringList AWKeys::findKeys(const QString pattern)
 {
     QStringList selectedKeys;
     for (int i=0; i<keys.count(); i++)
@@ -357,151 +389,7 @@ QString AWAdds::findKeys(const QString pattern)
 }
 
 
-void AWAdds::runCmd(const QString cmd)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Cmd" << cmd;
-
-    QProcess command;
-    sendNotification(QString("Info"), i18n("Run %1", cmd));
-
-    command.startDetached(cmd);
-}
-
-
-void AWAdds::sendNotification(const QString eventId, const QString message)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Event" << eventId;
-    if (debug) qDebug() << PDEBUG << ":" << "Message" << message;
-
-    KNotification *notification = KNotification::event(eventId, QString("Awesome Widget ::: ") + eventId, message);
-    notification->setComponentName(QString("plasma-applet-org.kde.plasma.awesome-widget"));
-}
-
-
-void AWAdds::showReadme()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    QDesktopServices::openUrl(QString(HOMEPAGE));
-}
-
-
-QMap<QString, QVariant> AWAdds::readDataEngineConfiguration()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    QString fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation, QString("plasma-dataengine-extsysmon.conf"));
-    if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
-    QSettings settings(fileName, QSettings::IniFormat);
-    QMap<QString, QVariant> rawConfig;
-
-    settings.beginGroup(QString("Configuration"));
-    rawConfig[QString("ACPIPATH")] = settings.value(QString("ACPIPATH"), QString("/sys/class/power_supply/"));
-    rawConfig[QString("GPUDEV")] = settings.value(QString("GPUDEV"), QString("auto"));
-    rawConfig[QString("HDDDEV")] = settings.value(QString("HDDDEV"), QString("all"));
-    rawConfig[QString("HDDTEMPCMD")] = settings.value(QString("HDDTEMPCMD"), QString("sudo hddtemp"));
-    rawConfig[QString("MPDADDRESS")] = settings.value(QString("MPDADDRESS"), QString("localhost"));
-    rawConfig[QString("MPDPORT")] = settings.value(QString("MPDPORT"), QString("6600"));
-    rawConfig[QString("MPRIS")] = settings.value(QString("MPRIS"), QString("auto"));
-    rawConfig[QString("PKGCMD")] = settings.value(QString("PKGCMD"), QString("pacman -Qu"));
-    rawConfig[QString("PKGNULL")] = settings.value(QString("PKGNULL"), QString("0"));
-    rawConfig[QString("PLAYER")] = settings.value(QString("PLAYER"), QString("mpris"));
-    settings.endGroup();
-
-    return updateDataEngineConfiguration(rawConfig);
-}
-
-
-QMap<QString, QVariant> AWAdds::updateDataEngineConfiguration(QMap<QString, QVariant> rawConfig)
-{
-    if (debug) qDebug() << PDEBUG;
-
-    for (int i=rawConfig[QString("PKGNULL")].toString().split(QString(","), QString::SkipEmptyParts).count();
-         i<rawConfig[QString("PKGCMD")].toString().split(QString(","), QString::SkipEmptyParts).count()+1;
-         i++)
-        rawConfig[QString("PKGNULL")].toString() += QString(",0");
-
-    for (int i=0; i<rawConfig.keys().count(); i++)
-        if (debug) qDebug() << PDEBUG << ":" <<
-            rawConfig.keys()[i] << QString("=") << rawConfig[rawConfig.keys()[i]];
-    return rawConfig;
-}
-
-
-void AWAdds::writeDataEngineConfiguration(const QMap<QString, QVariant> configuration)
-{
-    if (debug) qDebug() << PDEBUG;
-
-    QString fileName = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + QString("/plasma-dataengine-extsysmon.conf");
-    QSettings settings(fileName, QSettings::IniFormat);
-    if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << settings.fileName();
-
-    settings.beginGroup(QString("Configuration"));
-    settings.setValue(QString("GPUDEV"), configuration[QString("GPUDEV")]);
-    settings.setValue(QString("HDDDEV"), configuration[QString("HDDDEV")]);
-    settings.setValue(QString("HDDTEMPCMD"), configuration[QString("HDDTEMPCMD")]);
-    settings.setValue(QString("MPDADDRESS"), configuration[QString("MPDADDRESS")]);
-    settings.setValue(QString("MPDPORT"), configuration[QString("MPDPORT")]);
-    settings.setValue(QString("MPRIS"), configuration[QString("MPRIS")]);
-    settings.setValue(QString("PKGCMD"), configuration[QString("PKGCMD")]);
-    settings.setValue(QString("PKGNULL"), configuration[QString("PKGNULL")]);
-    settings.setValue(QString("PLAYER"), configuration[QString("PLAYER")]);
-    settings.endGroup();
-
-    settings.sync();
-}
-
-
-void AWAdds::showUpdates(QString version)
-{
-    if (debug) qDebug() << PDEBUG;
-
-    QString text;
-    text += i18n("Current version : %1", QString(VERSION)) + QString("\n");
-    text += i18n("New version : %1", version) + QString("\n\n");
-    text += i18n("Click \"Ok\" to download");
-
-    int select = QMessageBox::information(0, i18n("There are updates"), text, QMessageBox::Ok | QMessageBox::Cancel);
-    switch(select) {
-    case QMessageBox::Ok:
-        QDesktopServices::openUrl(QString(RELEASES) + version);
-        break;
-    }
-}
-
-
-void AWAdds::versionReplyRecieved(QNetworkReply *reply)
-{
-    if (debug) qDebug() << PDEBUG;
-
-    QString answer = reply->readAll();
-    if (!answer.contains(QString("tag_name"))) return;
-    QString version = QString(VERSION);
-    if (debug) qDebug() << PDEBUG << answer;
-    for (int i=0; i<answer.split(QString("tag_name")).count(); i++) {
-        version = answer.split(QString("tag_name"))[1].split(QChar(','))[0];
-        version.remove(QChar('"'));
-        version.remove(QChar(':'));
-        version.remove(QString("V."));
-        break;
-    }
-
-    int old_major = QString(VERSION).split(QChar('.'))[0].toInt();
-    int old_minor = QString(VERSION).split(QChar('.'))[1].toInt();
-    int old_patch = QString(VERSION).split(QChar('.'))[2].toInt();
-    int new_major = QString(version).split(QChar('.'))[0].toInt();
-    int new_minor = QString(version).split(QChar('.'))[1].toInt();
-    int new_patch = QString(version).split(QChar('.'))[2].toInt();
-    if ((old_major < new_major) ||
-        ((old_major == new_major) && (old_minor < new_minor)) ||
-        ((old_major == new_major) && (old_minor == new_minor) && (old_patch < new_patch)))
-        showUpdates(version);
-}
-
-
-QList<ExtScript *> AWAdds::getExtScripts()
+QList<ExtScript *> AWKeys::getExtScripts()
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -532,7 +420,7 @@ QList<ExtScript *> AWAdds::getExtScripts()
 }
 
 
-QList<GraphicalItem *> AWAdds::getGraphicalItems()
+QList<GraphicalItem *> AWKeys::getGraphicalItems()
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -563,13 +451,13 @@ QList<GraphicalItem *> AWAdds::getGraphicalItems()
 }
 
 
-GraphicalItem *AWAdds::getItemByTag(const QString tag)
+GraphicalItem *AWKeys::getItemByTag(const QString tag)
 {
     if (debug) qDebug() << PDEBUG;
 
     GraphicalItem *item = nullptr;
     for (int i=0; i< graphicalItems.count(); i++) {
-        if ((graphicalItems[i]->getName() + graphicalItems[i]->getBar()) != tag) continue;
+        if ((graphicalItems[i]->name() + graphicalItems[i]->bar()) != tag) continue;
         item = graphicalItems[i];
         break;
     }

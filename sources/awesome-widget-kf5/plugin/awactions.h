@@ -15,36 +15,42 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#include "awesomewidget.h"
 
-#include <QtQml>
+#ifndef AWACTIONS_H
+#define AWACTIONS_H
 
-#include "awactions.h"
-#include "awkeys.h"
+#include <QMap>
+#include <QObject>
+#include <QVariant>
 
 
-static QObject *awactions_singletontype_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+class QNetworkReply;
+
+class AWActions : public QObject
 {
-    Q_UNUSED(engine);
-    Q_UNUSED(scriptEngine);
+    Q_OBJECT
 
-    return new AWActions();
-}
+public:
+    AWActions(QObject *parent = 0);
+    ~AWActions();
+
+    Q_INVOKABLE void checkUpdates();
+    Q_INVOKABLE void runCmd(const QString cmd = QString("/usr/bin/true"));
+    Q_INVOKABLE void sendNotification(const QString eventId, const QString message);
+    Q_INVOKABLE void showReadme();
+    // dataengine
+    Q_INVOKABLE QMap<QString, QVariant> readDataEngineConfiguration();
+    Q_INVOKABLE void writeDataEngineConfiguration(const QMap<QString, QVariant> configuration);
+
+private slots:
+    void showUpdates(QString version);
+    void versionReplyRecieved(QNetworkReply *reply);
+
+private:
+    QMap<QString, QVariant> updateDataEngineConfiguration(QMap<QString, QVariant> rawConfig);
+    // variables
+    bool debug = false;
+};
 
 
-static QObject *awkeys_singletontype_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
-{
-    Q_UNUSED(engine);
-    Q_UNUSED(scriptEngine);
-
-    return new AWKeys();
-}
-
-
-void AWPlugin::registerTypes(const char *uri)
-{
-    Q_ASSERT(uri == QLatin1String("org.kde.plasma.private.awesome-widget"));
-
-    qmlRegisterSingletonType<AWActions>(uri, 1, 0, "AWActions", awactions_singletontype_provider);
-    qmlRegisterSingletonType<AWKeys>(uri, 1, 0, "AWKeys", awkeys_singletontype_provider);
-}
+#endif /* AWACTIONS_H */

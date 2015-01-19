@@ -31,6 +31,8 @@
 
 #include <pdebug/pdebug.h>
 
+#include "version.h"
+
 
 GraphicalItem::GraphicalItem(QWidget *parent, const QString desktopName, const QStringList directories, const bool debugCmd)
     : QDialog(parent),
@@ -143,6 +145,14 @@ QString GraphicalItem::fileName()
 }
 
 
+int GraphicalItem::apiVersion()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return m_apiVersion;
+}
+
+
 QString GraphicalItem::name()
 {
     if (debug) qDebug() << PDEBUG;
@@ -251,6 +261,15 @@ int GraphicalItem::width()
     if (debug) qDebug() << PDEBUG;
 
     return m_width;
+}
+
+
+void GraphicalItem::setApiVersion(const int _apiVersion)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Version" << _apiVersion;
+
+    m_apiVersion = _apiVersion;
 }
 
 
@@ -382,6 +401,7 @@ void GraphicalItem::readConfiguration()
         settings.beginGroup(QString("Desktop Entry"));
         setName(settings.value(QString("Name"), m_name).toString());
         setComment(settings.value(QString("Comment"), m_comment).toString());
+        setApiVersion(settings.value(QString("X-AW-ApiVersion"), AWGIAPI).toInt());
         setBar(settings.value(QString("X-AW-Value"), m_bar).toString());
         setActiveColor(settings.value(QString("X-AW-ActiveColor"), m_activeColor).toString());
         setInactiveColor(settings.value(QString("X-AW-InactiveColor"), m_inactiveColor).toString());
@@ -415,6 +435,7 @@ void GraphicalItem::showConfiguration(const QStringList tags)
 
     setName(ui->label_nameValue->text());
     setComment(ui->lineEdit_comment->text());
+    setApiVersion(AWGIAPI);
     setBar(ui->comboBox_value->currentText());
     setActiveColor(ui->pushButton_activeColor->text().remove(QChar('&')));
     setInactiveColor(ui->pushButton_inactiveColor->text().remove(QChar('&')));
@@ -448,6 +469,7 @@ void GraphicalItem::writeConfiguration()
     settings.setValue(QString("Encoding"), QString("UTF-8"));
     settings.setValue(QString("Name"), m_name);
     settings.setValue(QString("Comment"), m_comment);
+    settings.setValue(QString("X-AW-ApiVersion"), m_apiVersion);
     settings.setValue(QString("X-AW-Value"), m_bar);
     settings.setValue(QString("X-AW-ActiveColor"), m_activeColor);
     settings.setValue(QString("X-AW-InactiveColor"), m_inactiveColor);

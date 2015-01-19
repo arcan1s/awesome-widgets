@@ -174,6 +174,7 @@ QStringList ExtendedSysMon::sources() const
     source.append(QString("pkg"));
     source.append(QString("player"));
     source.append(QString("ps"));
+    source.append(QString("update"));
 
     if (debug) qDebug() << PDEBUG << ":" << "Sources" << source;
     return source;
@@ -601,6 +602,8 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
         QMap<QString, QVariant> ps = getPsStats();
         for (int i=0; i<ps.keys().count(); i++)
             setData(source, ps.keys()[i], ps[ps.keys()[i]]);
+    } else if (source == QString("update")) {
+        setData(source, QString("value"), true);
     }
 
     return true;

@@ -9,6 +9,8 @@
 #define EMAIL "@PROJECT_CONTACT@"
 #define LICENSE "@PROJECT_LICENSE@"
 #define TRDPARTY_LICENSE "tasks,BSD,https://github.com/mhogomchungu/tasks"
+#define AWGIAPI 1
+#define AWESAPI 1
 
 // links
 #define HOMEPAGE "http://arcanis.name/projects/awesome-widgets/"

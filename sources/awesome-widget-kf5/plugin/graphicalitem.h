@@ -29,8 +29,9 @@ class GraphicalItem;
 class GraphicalItem : public QDialog
 {
     Q_OBJECT
+    Q_PROPERTY(int apiVersion READ apiVersion WRITE setApiVersion)
     Q_PROPERTY(QString name READ name WRITE setName)
-    Q_PROPERTY(QString comment READ comment WRITE setName)
+    Q_PROPERTY(QString comment READ comment WRITE setComment)
     Q_PROPERTY(QString bar READ bar WRITE setBar)
     Q_PROPERTY(QString activeColor READ activeColor WRITE setActiveColor)
     Q_PROPERTY(QString inactiveColor READ inactiveColor WRITE setInactiveColor)
@@ -56,6 +57,7 @@ public:
     QString fileName();
     QString image(const float value);
     // get methods
+    int apiVersion();
     QString name();
     QString comment();
     QString bar();
@@ -68,6 +70,7 @@ public:
     int height();
     int width();
     // set methods
+    void setApiVersion(const int _apiVersion = 0);
     void setName(const QString _name = QString("none"));
     void setComment(const QString _comment = QString("empty"));
     void setBar(const QString _bar = QString("cpu"));
@@ -96,6 +99,7 @@ private:
     bool debug;
     Ui::GraphicalItem *ui;
     // properties
+    int m_apiVersion = 0;
     QString m_name = QString("none");
     QString m_comment = QString("empty");
     QString m_bar = QString("cpu");
