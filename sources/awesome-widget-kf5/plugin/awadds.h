@@ -25,6 +25,10 @@
 #include <QVariant>
 
 
+class ExtScript;
+class GraphicalItem;
+class QNetworkReply;
+
 class AWAdds : public QObject
 {
     Q_OBJECT
@@ -33,17 +37,44 @@ public:
     AWAdds(QObject *parent = 0);
     ~AWAdds();
 
+    Q_INVOKABLE void checkUpdates();
+    Q_INVOKABLE void initValues();
+    Q_INVOKABLE bool isDebugEnabled();
     Q_INVOKABLE QString networkDevice(const QString custom = QString(""));
     Q_INVOKABLE int numberCpus();
+    Q_INVOKABLE QString parsePattern(const QString pattern, const QMap<QString, QVariant> dict,
+                                     const QMap<QString, QVariant> values,
+                                     const QStringList foundKeys, const QStringList foundBars);
     Q_INVOKABLE float tempepature(const float temp, const QString units = QString("Celsius"));
+    // keys
+    Q_INVOKABLE QMap<QString, QVariant> counts();
+    Q_INVOKABLE QStringList dictKeys();
+//    Q_INVOKABLE QStringList graphicalItemsNames();
     Q_INVOKABLE QStringList timeKeys();
+    Q_INVOKABLE QStringList findGraphicalItems(const QString pattern);
+    Q_INVOKABLE QStringList findKeys(const QString pattern);
+    // actions
+    Q_INVOKABLE void runCmd(const QString cmd = QString("/usr/bin/true"));
+    Q_INVOKABLE void sendNotification(const QString eventId, const QString message);
+    Q_INVOKABLE void showReadme();
     // dataengine
     Q_INVOKABLE QMap<QString, QVariant> readDataEngineConfiguration();
     Q_INVOKABLE void writeDataEngineConfiguration(const QMap<QString, QVariant> configuration);
 
+private slots:
+    void showUpdates(QString version);
+    void versionReplyRecieved(QNetworkReply *reply);
+
 private:
+    QList<ExtScript *> getExtScripts();
+    QList<GraphicalItem *> getGraphicalItems();
+    GraphicalItem *getItemByTag(const QString tag);
     QMap<QString, QVariant> updateDataEngineConfiguration(QMap<QString, QVariant> rawConfig);
+    // variables
     bool debug = false;
+    QList<GraphicalItem *> graphicalItems;
+    QList<ExtScript *> extScripts;
+    QStringList keys;
 };
 
 

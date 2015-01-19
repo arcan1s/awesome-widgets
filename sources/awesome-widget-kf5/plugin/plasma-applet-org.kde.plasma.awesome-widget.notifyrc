@@ -1,7 +1,12 @@
 [Global]
 IconName=system
 Name=Awesome Widget
-Comment=Awesome widget information
+Comment=Awesome widget notifications
+
+[info]
+Name=Information
+Comment=Information
+Action=Popup
 
 [Event/system]
 Name=System information
