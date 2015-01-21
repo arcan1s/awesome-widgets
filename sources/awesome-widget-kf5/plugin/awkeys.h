@@ -43,6 +43,8 @@ public:
     Q_INVOKABLE int numberCpus();
     Q_INVOKABLE QString parsePattern(const QString pattern, const QMap<QString, QVariant> values);
     Q_INVOKABLE QStringList sourcesForDataEngine(const QString pattern,
+                                                 const QMap<QString, QVariant> paths,
+                                                 const QMap<QString, QVariant> tooltipBools,
                                                  const QString dataEngine = QString("systemmonitor"));
     Q_INVOKABLE float temperature(const float temp, const QString units = QString("Celsius"));
     // keys

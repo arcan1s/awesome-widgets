@@ -26,6 +26,7 @@
 
 #include <pdebug/pdebug.h>
 
+#include "awdesources.h"
 #include "extscript.h"
 #include "graphicalitem.h"
 #include "version.h"
@@ -133,13 +134,27 @@ QString AWKeys::parsePattern(const QString pattern, const QMap<QString, QVariant
 }
 
 
-QStringList AWKeys::sourcesForDataEngine(const QString pattern, const QString dataEngine)
+QStringList AWKeys::sourcesForDataEngine(const QString pattern,
+                                         const QMap<QString, QVariant> paths,
+                                         const QMap<QString, QVariant> tooltipBools,
+                                         const QString dataEngine)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Pattern" << pattern;
     if (debug) qDebug() << PDEBUG << ":" << "DataEngine" << dataEngine;
 
+    AWDESources *deSources = new AWDESources(this, pattern, foundKeys, foundBars,
+                                             counts(), paths, tooltipBools);
+
     QStringList sources;
+    if (dataEngine == QString("ext-sysmon"))
+        sources = deSources->getSourcesForExtSystemMonitor();
+    else if (dataEngine == QString("systemmonitor"))
+        sources = deSources->getSourcesForSystemMonitor();
+    else if (dataEngine == QString("time"))
+        sources = deSources->getSourcesForTimeMonitor();
+    delete deSources;
+    if (debug) qDebug() << PDEBUG << ":" << "Sources" << sources;
 
     return sources;
 }

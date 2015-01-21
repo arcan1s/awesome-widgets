@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+  <kcfgfile name=""/>
+
+  <group name="Widget">
+    <!--   widget -->
+    <entry name="text" type="string">
+      <default>[cpu: $cpu%] [mem: $mem%] [swap: $swap%] [$netdev: $down/$upKB/s]</default>
+    </entry>
+  </group>
+
+  <group name="Advanced">
+    <!--   advanced -->
+    <entry name="background" type="bool">
+      <default>true</default>
+    </entry>
+    <entry name="popup" type="bool">
+      <default>true</default>
+    </entry>
+    <entry name="customTime" type="string">
+      <default>$hh:$mm</default>
+    </entry>
+    <entry name="customUptime" type="string">
+      <default>$dd,$hh,$mm</default>
+    </entry>
+    <entry name="tempUnits" type="string">
+      <default>Celsius</default>
+    </entry>
+    <entry name="tempDevice" type="string">
+      <default></default>
+    </entry>
+    <entry name="fanDevice" type="string">
+      <default></default>
+    </entry>
+    <entry name="mount" type="string">
+      <default>/</default>
+    </entry>
+    <entry name="hdd" type="string">
+      <default>/dev/sda</default>
+    </entry>
+    <entry name="disk" type="string">
+      <default>disk/sda_(8:0)</default>
+    </entry>
+    <entry name="customNetdev" type="string">
+      <default></default>
+    </entry>
+    <entry name="acOnline" type="string">
+      <default>(*)</default>
+    </entry>
+    <entry name="acOffline" type="string">
+      <default>( )</default>
+    </entry>
+    <entry name="checkUpdates" type="bool">
+      <default>true</default>
+    </entry>
+  </group>
+
+  <group name="Tooltip">
+    <entry name="tooltipNumber" type="int">
+      <default>100</default>
+    </entry>
+    <entry name="useTooltipBackground" type="bool">
+      <default>true</default>
+    </entry>
+    <entry name="tooltipBackgroung" type="string">
+      <default>#ffffff</default>
+    </entry>
+    <entry name="cpuTooltip" type="bool">
+      <default>true</default>
+    </entry>
+    <entry name="cpuTooltipColor" type="string">
+      <default>#ff0000</default>
+    </entry>
+    <entry name="cpuclTooltip" type="bool">
+      <default>true</default>
+    </entry>
+    <entry name="cpuclTooltipColor" type="string">
+      <default>#00ff00</default>
+    </entry>
+    <entry name="memTooltip" type="bool">
+      <default>true</default>
+    </entry>
+    <entry name="memTooltipColor" type="string">
+      <default>#0000ff</default>
+    </entry>
+    <entry name="swapTooltip" type="bool">
+      <default>true</default>
+    </entry>
+    <entry name="swapTooltipColor" type="string">
+      <default>#ffff00</default>
+    </entry>
+    <entry name="downTooltip" type="bool">
+      <default>true</default>
+    </entry>
+    <entry name="downTooltipColor" type="string">
+      <default>#00ffff</default>
+    </entry>
+    <entry name="upTooltip" type="bool">
+      <default>true</default>
+    </entry>
+    <entry name="upTooltipColor" type="string">
+      <default>#ff00ff</default>
+    </entry>
+    <entry name="batteryTooltip" type="bool">
+      <default>true</default>
+    </entry>
+    <entry name="batteryTooltipColor" type="string">
+      <default>#008800</default>
+    </entry>
+    <entry name="batteryInTooltipColor" type="string">
+      <default>#880000</default>
+    </entry>
+  </group>
+
+  <group name="Appearance">
+    <!--   appearance -->
+    <entry name="interval" type="int">
+      <default>1000</default>
+    </entry>
+    <entry name="textAlign" type="string">
+      <default>center</default>
+    </entry>
+    <entry name="fontFamily" type="string">
+      <default>Terminus</default>
+    </entry>
+    <entry name="fontSize" type="int">
+      <default>12</default>
+    </entry>
+    <entry name="fontColor" type="string">
+      <default>#000000</default>
+    </entry>
+    <entry name="fontWeight" type="string">
+      <default>normal</default>
+    </entry>
+    <entry name="fontStyle" type="string">
+      <default>normal</default>
+    </entry>
+  </group>
+
+</kcfg>
