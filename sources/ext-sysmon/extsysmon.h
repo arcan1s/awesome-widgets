@@ -36,6 +36,7 @@ public:
     float getGpu(const QString device);
     float getGpuTemp(const QString device);
     float getHddTemp(const QString cmd, const QString device);
+    QString getNetworkDevice();
     QMap<QString, QVariant> getPlayerInfo(const QString playerName,
                                           const QString mpdAddress = 0,
                                           const QString mpdPort = 0,

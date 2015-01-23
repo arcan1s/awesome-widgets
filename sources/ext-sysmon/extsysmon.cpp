@@ -24,6 +24,7 @@
 #include <QDebug>
 #include <QDir>
 #include <QFile>
+#include <QNetworkInterface>
 #include <QProcessEnvironment>
 #include <QRegExp>
 #include <QTextCodec>
@@ -168,6 +169,7 @@ QStringList ExtendedSysMon::sources() const
     source.append(QString("battery"));
     source.append(QString("custom"));
     source.append(QString("desktop"));
+    source.append(QString("netdev"));
     source.append(QString("gpu"));
     source.append(QString("gputemp"));
     source.append(QString("hddtemp"));
@@ -422,6 +424,24 @@ float ExtendedSysMon::getHddTemp(const QString cmd, const QString device)
 }
 
 
+QString ExtendedSysMon::getNetworkDevice()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QString device = QString("lo");
+    QList<QNetworkInterface> rawInterfaceList = QNetworkInterface::allInterfaces();
+    for (int i=0; i<rawInterfaceList.count(); i++)
+        if ((rawInterfaceList[i].flags().testFlag(QNetworkInterface::IsUp)) &&
+            (!rawInterfaceList[i].flags().testFlag(QNetworkInterface::IsLoopBack)) &&
+            (!rawInterfaceList[i].flags().testFlag(QNetworkInterface::IsPointToPoint))) {
+            device = rawInterfaceList[i].name();
+            break;
+        }
+
+    return device;
+}
+
+
 QMap<QString, QVariant> ExtendedSysMon::getPlayerInfo(const QString playerName,
                                                       const QString mpdAddress,
                                                       const QString mpdPort,
@@ -587,6 +607,8 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
         for (int i=0; i<deviceList.count(); i++)
             setData(source, deviceList[i],
                     getHddTemp(configuration[QString("HDDTEMPCMD")], deviceList[i]));
+    } else if (source == QString("netdev")) {
+        setData(source, QString("value"), getNetworkDevice());
     } else if (source == QString("pkg")) {
         for (int i=0; i<configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts).count(); i++)
             setData(source, QString("pkgCount") + QString::number(i),

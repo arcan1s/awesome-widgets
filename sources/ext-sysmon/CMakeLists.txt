@@ -20,8 +20,9 @@ else ()
   include (KDECMakeSettings)
   include (KDECompilerSettings)
 
-  add_definitions (${Qt5Core_DEFINITIONS} ${Qt5Widgets_DEFINITIONS})
+  add_definitions (${Qt5Core_DEFINITIONS} ${Qt5Network_DEFINITIONS} ${Qt5Widgets_DEFINITIONS})
   set (Qt_INCLUDE ${Qt5Core_INCLUDE_DIRS}
+                  ${Qt5Network_INCLUDE_DIRS}
                   ${Qt5Widgets_INCLUDE_DIRS})
   set (KDE_INCLUDE ${Plasma_INCLUDE_DIR})
 endif ()
@@ -55,7 +56,7 @@ else ()
   qt5_wrap_cpp (TASK_MOC_SOURCE ${TASK_HEADER})
   qt5_wrap_ui (SUBPROJECT_UI_HEADER ${SUBPROJECT_UI})
   add_library (${PLUGIN_NAME} MODULE ${SUBPROJECT_SOURCE} ${SUBPROJECT_UI_HEADER} ${TASK_MOC_SOURCE})
-  target_link_libraries (${PLUGIN_NAME} ${Plasma_LIBRARIES} KF5::WindowSystem ${Qt5Widgets_LIBRARIES})
+  target_link_libraries (${PLUGIN_NAME} ${Plasma_LIBRARIES} KF5::WindowSystem ${Qt5Network_LIBRARIES} ${Qt5Widgets_LIBRARIES})
   kcoreaddons_desktop_to_json (${PLUGIN_NAME} ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT_DESKTOP})
 endif ()
 

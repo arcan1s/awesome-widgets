@@ -59,8 +59,12 @@ Item {
     PlasmaCore.DataSource {
         id: systemmonitorDE
         engine: "systemmonitor"
-        connectedSources: ["active", "current", "extip4", "extip6", "interfaces", "intip4", "intip6", "profiles", "status"]
-        interval: plasmoid.configuration.interval
+
+        Component.onCompleted: {
+            if (debug) console.log("[main::onCompleted] : Connect sources to systemmonitor")
+
+            systemmonitorDE.connectAllSources(main, plasmoid.configuration.interval)
+        }
 
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)
@@ -74,13 +78,28 @@ Item {
     PlasmaCore.DataSource {
         id: extsysmonDE
         engine: "ext-sysmon"
-        connectedSources: ["update"]
-        interval: plasmoid.configuration.interval
+
+        Component.onCompleted: {
+            if (debug) console.log("[main::onCompleted] : Connect sources to ext-sysmon")
+
+            extsysmonDE.connectAllSources(main, plasmoid.configuration.interval)
+        }
 
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)
 
             if (sourceName == "update") needUpdate()
+        }
+    }
+
+    PlasmaCore.DataSource {
+        id: timeDE
+        engine: "time"
+        connectedSources: ["Local"]
+        interval: plasmoid.configuration.autoUpdateInterval
+
+        onNewData: {
+            if (debug) console.log("[main::onNewData] : Update source " + sourceName)
         }
     }
 
