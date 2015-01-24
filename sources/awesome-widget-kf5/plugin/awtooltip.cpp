@@ -15,40 +15,43 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
+#include "awtooltip.h"
 
-#ifndef AWDESOURCES_H
-#define AWDESOURCES_H
+#include <QDebug>
+#include <QProcessEnvironment>
 
-#include <QMap>
-#include <QObject>
-#include <QVariant>
+#include <pdebug/pdebug.h>
 
 
-class AWDESources : public QObject
+AWToolTip::AWToolTip(QObject *parent,
+                     const int maxCount)
+    : QObject(parent),
+      m_maxCount(maxCount)
 {
-    Q_OBJECT
-
-public:
-    AWDESources(QObject *parent = 0,
-                const QString pattern = QString(""),
-                const QStringList foundKeys = QStringList(),
-                const QStringList foundBars = QStringList(),
-                const QMap<QString, QVariant> counts = QMap<QString, QVariant>(),
-                const QMap<QString, QVariant> paths = QMap<QString, QVariant>(),
-                const QMap<QString, QVariant> tooltipBools = QMap<QString, QVariant>());
-    ~AWDESources();
-
-    QStringList getSourcesForExtSystemMonitor();
-    QStringList getSourcesForSystemMonitor();
-    QStringList getSourcesForTimeMonitor();
-
-private:
-    // variables
-    bool debug = false;
-    QString m_pattern;
-    QStringList m_foundKeys, m_foundBars;
-    QMap<QString, QVariant> m_counts, m_paths, m_tooltipBools;
-};
+    // debug
+    QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
+    QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
+    debug = (debugEnv == QString("yes"));
+}
 
 
-#endif /* AWDESOURCES_H */
+AWToolTip::~AWToolTip()
+{
+    if (debug) qDebug() << PDEBUG;
+}
+
+
+void AWToolTip::setData (const QString source, const float value, const bool ac)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    if (data[source].count() == 0)
+        data[source].append(0.0);
+    else if (data[source].count() > m_maxCount)
+        data[source].takeFirst();
+
+    if (ac)
+        data[source].append(value);
+    else
+        data[source].append(-value);
+}

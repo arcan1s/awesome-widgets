@@ -21,7 +21,7 @@ import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents
 
-import org.kde.plasma.private.awesome-widget 1.0
+import org.kde.plasma.private.awesomewidget 1.0
 
 
 Item {
@@ -59,36 +59,27 @@ Item {
     PlasmaCore.DataSource {
         id: systemmonitorDE
         engine: "systemmonitor"
-
-        Component.onCompleted: {
-            if (debug) console.log("[main::onCompleted] : Connect sources to systemmonitor")
-
-            systemmonitorDE.connectAllSources(main, plasmoid.configuration.interval)
-        }
+        connectedSources: systemmonitorDE.sources
+        interval: plasmoid.configuration.autoUpdateInterval
 
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)
 
             if ((data.value == "N\\A") || (data.value == "")) return
             // update
-            info[sourceName] = data.value
         }
     }
 
     PlasmaCore.DataSource {
         id: extsysmonDE
         engine: "ext-sysmon"
-
-        Component.onCompleted: {
-            if (debug) console.log("[main::onCompleted] : Connect sources to ext-sysmon")
-
-            extsysmonDE.connectAllSources(main, plasmoid.configuration.interval)
-        }
+        connectedSources: extsysmonDE.sources
+        interval: plasmoid.configuration.autoUpdateInterval
 
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)
 
-            if (sourceName == "update") needUpdate()
+//             if (sourceName == "update") needUpdate()
         }
     }
 

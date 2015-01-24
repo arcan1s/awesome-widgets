@@ -13,4 +13,4 @@ include (KDECMakeSettings)
 include (KDECompilerSettings)
 
 add_subdirectory (plugin)
-plasma_install_package (package org.kde.plasma.awesome-widget)
+plasma_install_package (package org.kde.plasma.awesomewidget)

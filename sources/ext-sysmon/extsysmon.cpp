@@ -138,7 +138,7 @@ void ExtendedSysMon::initScripts()
     localDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) +
             QString("/plasma_engine_extsysmon/scripts");
     QDir localDirectory;
-    if (localDirectory.mkdir(localDir))
+    if (localDirectory.mkpath(localDir))
         if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
 
     dirs = QStandardPaths::locateAll(QStandardPaths::DataLocation,
@@ -246,7 +246,7 @@ QMap<QString, QString> ExtendedSysMon::updateConfiguration(QMap<QString, QString
     }
     // pkgcmd
     for (int i=rawConfig[QString("PKGNULL")].split(QString(","), QString::SkipEmptyParts).count();
-         i<rawConfig[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts).count()+1;
+         i<rawConfig[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts).count();
          i++)
         rawConfig[QString("PKGNULL")] += QString(",0");
     // player
@@ -530,7 +530,7 @@ QMap<QString, QVariant> ExtendedSysMon::getPsStats()
     for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++)
         if (!qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i].contains(QString("ps ")))
             psList.append(qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i]);
-    psStats[QString("psCount")] = psList.count();
+    psStats[QString("pscount")] = psList.count();
     psStats[QString("ps")] = psList.join(QString(","));
 
     cmd = QString("ps -e --no-headers -o command");
@@ -539,7 +539,7 @@ QMap<QString, QVariant> ExtendedSysMon::getPsStats()
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
 
     qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
-    psStats[QString("psTotal")] = qoutput.split(QChar('\n'), QString::SkipEmptyParts).count();
+    psStats[QString("pstotal")] = qoutput.split(QChar('\n'), QString::SkipEmptyParts).count();
 
     return psStats;
 }
@@ -611,7 +611,7 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
         setData(source, QString("value"), getNetworkDevice());
     } else if (source == QString("pkg")) {
         for (int i=0; i<configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts).count(); i++)
-            setData(source, QString("pkgCount") + QString::number(i),
+            setData(source, QString("pkgcount") + QString::number(i),
                     getUpgradeInfo(configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts)[i]));
     } else if (source == QString("player")) {
         QMap<QString, QVariant> player = getPlayerInfo(configuration[QString("PLAYER")],

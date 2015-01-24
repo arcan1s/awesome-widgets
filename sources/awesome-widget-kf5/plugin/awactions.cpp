@@ -128,7 +128,7 @@ QMap<QString, QVariant> AWActions::updateDataEngineConfiguration(QMap<QString, Q
     if (debug) qDebug() << PDEBUG;
 
     for (int i=rawConfig[QString("PKGNULL")].toString().split(QString(","), QString::SkipEmptyParts).count();
-         i<rawConfig[QString("PKGCMD")].toString().split(QString(","), QString::SkipEmptyParts).count()+1;
+         i<rawConfig[QString("PKGCMD")].toString().split(QString(","), QString::SkipEmptyParts).count();
          i++)
         rawConfig[QString("PKGNULL")].toString() += QString(",0");
 

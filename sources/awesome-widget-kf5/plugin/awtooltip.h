@@ -15,36 +15,34 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#include "awesomewidget.h"
 
-#include <QtQml>
+#ifndef AWTOOLTIP_H
+#define AWTOOLTIP_H
 
-#include "awactions.h"
-#include "awkeys.h"
+#include <QMap>
+#include <QObject>
+#include <QPixmap>
 
 
-static QObject *awactions_singletontype_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+class AWToolTip : public QObject
 {
-    Q_UNUSED(engine);
-    Q_UNUSED(scriptEngine);
+    Q_OBJECT
 
-    return new AWActions();
-}
+public:
+    AWToolTip(QObject *parent = 0,
+              int maxCount = 0);
+    ~AWToolTip();
+
+//     Q_INVOKABLE QPixmap image();
+    void setData(const QString source, const float value,
+                 const bool ac = true);
+
+private:
+    // variables
+    bool debug = false;
+    int m_maxCount = 0;
+    QMap<QString, QList<float>> data;
+};
 
 
-static QObject *awkeys_singletontype_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
-{
-    Q_UNUSED(engine);
-    Q_UNUSED(scriptEngine);
-
-    return new AWKeys();
-}
-
-
-void AWPlugin::registerTypes(const char *uri)
-{
-    Q_ASSERT(uri == QLatin1String("org.kde.plasma.private.awesomewidget"));
-
-    qmlRegisterSingletonType<AWActions>(uri, 1, 0, "AWActions", awactions_singletontype_provider);
-    qmlRegisterSingletonType<AWKeys>(uri, 1, 0, "AWKeys", awkeys_singletontype_provider);
-}
+#endif /* AWTOOLTIP_H */
