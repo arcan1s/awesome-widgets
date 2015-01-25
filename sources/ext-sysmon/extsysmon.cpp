@@ -52,10 +52,7 @@ ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList& args)
     // debug
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
     QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
-    if (debugEnv == QString("yes"))
-        debug = true;
-    else
-        debug = false;
+    debug = (debugEnv == QString("yes"));
 
     setMinimumPollingInterval(333);
     readConfiguration();
@@ -67,15 +64,10 @@ QString ExtendedSysMon::getAllHdd()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QStringList devices;
-    QString cmd = QString("find /dev -name [hms]d[a-z]");
-    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
-    TaskResult process = runTask(cmd);
-    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-
-    QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output);
-    for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++)
-        devices.append(qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i]);
+    QStringList allDevices = QDir(QString("/dev")).entryList(QDir::System, QDir::Name);
+    QStringList devices = allDevices.filter(QRegExp(QString("^[hms]d[a-z]$")));
+    for (int i=0; i<devices.count(); i++)
+        devices[i] = QString("/dev/") + devices[i];
 
     if (debug) qDebug() << PDEBUG << ":" << "Device list" << devices;
     return devices.join(QChar(','));
@@ -554,12 +546,8 @@ int ExtendedSysMon::getUpgradeInfo(const QString cmd)
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
-    int count = 0;
-    for (int i=0; i<qoutput.split(QChar('\n')).count(); i++)
-        if (!qoutput.isEmpty())
-            count++;
 
-    return count;
+    return qoutput.split(QChar('\n'), QString::SkipEmptyParts).count();
 }
 
 
