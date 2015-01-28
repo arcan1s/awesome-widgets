@@ -44,7 +44,38 @@ Item {
         "justify": Text.AlignJustify
     }
     // external
-    property variant info: {
+    property variant settings: {
+        "customTime": plasmoid.configuration.customTime,
+        "customUptime": plasmoid.configuration.customUptime,
+        "tempUnits": plasmoid.configuration.tempUnits,
+        "tempDevice": plasmoid.configuration.tempDevice,
+        "fanDevice": plasmoid.configuration.fanDevice,
+        "mount": plasmoid.configuration.mount,
+        "hdd": plasmoid.configuration.hdd,
+        "disk": plasmoid.configuration.disk,
+        "customNetdev": plasmoid.configuration.customNetdev,
+        "acOnline": plasmoid.configuration.acOnline,
+        "acOffline": plasmoid.configuration.acOffline
+    }
+    property variant tooltipSettings: {
+        "tooltipNumber": plasmoid.configuration.tooltipNumber,
+        "useTooltipBackground": plasmoid.configuration.useTooltipBackground,
+        "tooltipBackgroung": plasmoid.configuration.tooltipBackgroung,
+        "cpuTooltip": plasmoid.configuration.cpuTooltip,
+        "cpuclTooltip": plasmoid.configuration.cpuclTooltip,
+        "memTooltip": plasmoid.configuration.memTooltip,
+        "swapTooltip": plasmoid.configuration.swapTooltip,
+        "downTooltip": plasmoid.configuration.downTooltip,
+        "upTooltip": plasmoid.configuration.downTooltip,
+        "batteryTooltip": plasmoid.configuration.batteryTooltip,
+        "cpuTooltipColor": plasmoid.configuration.cpuTooltipColor,
+        "cpuclTooltipColor": plasmoid.configuration.cpuclTooltipColor,
+        "memTooltipColor": plasmoid.configuration.memTooltipColor,
+        "swapTooltipColor": plasmoid.configuration.swapTooltipColor,
+        "downTooltipColor": plasmoid.configuration.downTooltipColor,
+        "upTooltipColor": plasmoid.configuration.upTooltipColor,
+        "batteryTooltipColor": plasmoid.configuration.batteryTooltipColor,
+        "batteryInTooltipColor": plasmoid.configuration.batteryInTooltipColor
     }
     property string pattern: plasmoid.configuration.text
     // signals
@@ -60,26 +91,29 @@ Item {
         id: systemmonitorDE
         engine: "systemmonitor"
         connectedSources: systemmonitorDE.sources
-        interval: plasmoid.configuration.autoUpdateInterval
+        interval: plasmoid.configuration.interval
 
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)
 
             if ((data.value == "N\\A") || (data.value == "")) return
-            // update
+            if (AWKeys.isReady()) AWKeys.setDataBySource(sourceName, data, settings)
         }
     }
 
     PlasmaCore.DataSource {
         id: extsysmonDE
-        engine: "ext-sysmon"
+        engine: "extsysmon"
         connectedSources: extsysmonDE.sources
-        interval: plasmoid.configuration.autoUpdateInterval
+        interval: plasmoid.configuration.interval
 
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)
 
-//             if (sourceName == "update") needUpdate()
+            if ((data.value == "N\\A") || (data.value == "")) return
+            if (AWKeys.isReady()) AWKeys.setDataBySource(sourceName, data, settings)
+            // update
+            if (sourceName == "update") needUpdate()
         }
     }
 
@@ -87,10 +121,13 @@ Item {
         id: timeDE
         engine: "time"
         connectedSources: ["Local"]
-        interval: plasmoid.configuration.autoUpdateInterval
+        interval: plasmoid.configuration.interval
 
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)
+
+            if ((data.value == "N\\A") || (data.value == "")) return
+            if (AWKeys.isReady()) AWKeys.setDataBySource(sourceName, data, settings)
         }
     }
 
@@ -115,6 +152,8 @@ Item {
     Component.onCompleted: {
         if (debug) console.log("[main::onCompleted]")
 
+        // init submodule
+        AWKeys.initKeys(pattern, settings, tooltipSettings)
         // actions
         plasmoid.setAction("showReadme", i18n("Show README"), "text-x-readme")
         plasmoid.setAction("updateText", i18n("Update text"), "stock-refresh")
@@ -124,7 +163,7 @@ Item {
     onNeedUpdate: {
         if (debug) console.log("[main::onNeedUpdate]")
 
-        text.text = AWKeys.parsePattern(pattern, info)
+        text.text = AWKeys.parsePattern(pattern)
         // update geometry
         text.update()
         height = text.contentHeight

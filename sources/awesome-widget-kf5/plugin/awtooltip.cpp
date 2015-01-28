@@ -24,9 +24,9 @@
 
 
 AWToolTip::AWToolTip(QObject *parent,
-                     const int maxCount)
+                     QMap<QString, QVariant> settings)
     : QObject(parent),
-      m_maxCount(maxCount)
+      m_settings(settings)
 {
     // debug
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
@@ -41,13 +41,21 @@ AWToolTip::~AWToolTip()
 }
 
 
+QPixmap AWToolTip::image()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return QPixmap();
+}
+
+
 void AWToolTip::setData (const QString source, const float value, const bool ac)
 {
     if (debug) qDebug() << PDEBUG;
 
     if (data[source].count() == 0)
         data[source].append(0.0);
-    else if (data[source].count() > m_maxCount)
+    else if (data[source].count() > m_settings[QString("tooltipNumber")].toInt())
         data[source].takeFirst();
 
     if (ac)

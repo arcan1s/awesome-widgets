@@ -37,9 +37,11 @@ public:
     AWKeys(QObject *parent = 0);
     ~AWKeys();
 
-    Q_INVOKABLE void initKeys(const QString pattern, const int maxTooltip);
-    Q_INVOKABLE void initValues();
+    Q_INVOKABLE void initKeys(const QString pattern,
+                              const QMap<QString, QVariant> params,
+                              const QMap<QString, QVariant> tooltipParams);
     Q_INVOKABLE bool isDebugEnabled();
+    Q_INVOKABLE bool isReady();
     Q_INVOKABLE QString networkDevice(const QString custom = QString(""));
     Q_INVOKABLE int numberCpus();
     Q_INVOKABLE QString parsePattern(const QString pattern);
@@ -48,21 +50,22 @@ public:
     Q_INVOKABLE QStringList dictKeys();
     Q_INVOKABLE QStringList extScriptsInfo();
     Q_INVOKABLE QStringList graphicalItemsInfo();
-    Q_INVOKABLE QStringList timeKeys();
     Q_INVOKABLE void setDataBySource(const QString sourceName,
                                      const QMap<QString, QVariant> data,
                                      const QMap<QString, QVariant> params);
-    Q_INVOKABLE QMap<QString, QVariant> getCounts();
     Q_INVOKABLE QStringList findGraphicalItems(const QString pattern);
     Q_INVOKABLE QStringList findKeys(const QString pattern);
 
 private:
+    QMap<QString, QVariant> getCounts(const QMap<QString, QVariant> params);
     QList<ExtScript *> getExtScripts();
     QList<GraphicalItem *> getGraphicalItems();
     GraphicalItem *getItemByTag(const QString tag);
+    QStringList getTimeKeys();
     AWToolTip *toolTip = nullptr;
     // variables
     bool debug = false;
+    bool ready = false;
     QList<GraphicalItem *> graphicalItems;
     QList<ExtScript *> extScripts;
     QStringList foundBars, foundKeys, keys;

@@ -37,7 +37,7 @@ endif ()
 configure_file (${CMAKE_SOURCE_DIR}/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/version.h)
 set (PROJECT_TRDPARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty)
 
-add_subdirectory (ext-sysmon)
+add_subdirectory (extsysmon)
 if (BUILD_KDE4)
   add_subdirectory (awesome-widget-kde4)
   add_subdirectory (desktop-panel-kde4)

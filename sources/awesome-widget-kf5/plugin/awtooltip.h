@@ -22,6 +22,7 @@
 #include <QMap>
 #include <QObject>
 #include <QPixmap>
+#include <QVariant>
 
 
 class AWToolTip : public QObject
@@ -30,17 +31,17 @@ class AWToolTip : public QObject
 
 public:
     AWToolTip(QObject *parent = 0,
-              int maxCount = 0);
+              QMap<QString, QVariant> m_settings = QMap<QString, QVariant>());
     ~AWToolTip();
 
-//     Q_INVOKABLE QPixmap image();
+    Q_INVOKABLE QPixmap image();
     void setData(const QString source, const float value,
                  const bool ac = true);
 
 private:
     // variables
     bool debug = false;
-    int m_maxCount = 0;
+    QMap<QString, QVariant> m_settings;
     QMap<QString, QList<float>> data;
 };
 

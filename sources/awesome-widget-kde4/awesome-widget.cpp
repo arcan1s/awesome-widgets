@@ -197,7 +197,7 @@ void AwesomeWidget::init()
     if (debug) qDebug() << PDEBUG;
 
     // dataengines
-    extsysmonEngine = dataEngine(QString("ext-sysmon"));
+    extsysmonEngine = dataEngine(QString("extsysmon"));
     sysmonEngine = dataEngine(QString("systemmonitor"));
     connect(sysmonEngine, SIGNAL(sourceAdded(QString)), this, SLOT(addDiskDevice(QString)));
     timeEngine = dataEngine(QString("time"));
@@ -258,7 +258,7 @@ void AwesomeWidget::replyRecieved(QNetworkReply *reply)
         version.remove(QString("V."));
         break;
     }
-    
+
     int old_major = QString(VERSION).split(QChar('.'))[0].toInt();
     int old_minor = QString(VERSION).split(QChar('.'))[1].toInt();
     int old_patch = QString(VERSION).split(QChar('.'))[2].toInt();

@@ -17,8 +17,8 @@ include_directories (${CMAKE_SOURCE_DIR}
                      ${CMAKE_CURRENT_BINARY_DIR}
                      ${CMAKE_CURRENT_BINARY_DIR}/../
                      ${PROJECT_TRDPARTY_DIR}
-                     ../../ext-sysmon
-                     ${CMAKE_CURRENT_BINARY_DIR}/../../ext-sysmon
+                     ../../extsysmon
+                     ${CMAKE_CURRENT_BINARY_DIR}/../../extsysmon
                      ${Qt_INCLUDE}
                      ${Kf5_INCLUDE})
 
@@ -27,7 +27,7 @@ file (GLOB SUBPROJECT_NOTIFY *.notifyrc)
 file (GLOB SUBPROJECT_UI *.ui)
 # task source is required by extscripts
 file (GLOB_RECURSE SUBPROJECT_SOURCE *.cpp ${PROJECT_TRDPARTY_DIR}/task/*.cpp
-                                     ../../ext-sysmon/extscript.cpp)
+                                     ../../extsysmon/extscript.cpp)
 set (TASK_HEADER ${PROJECT_TRDPARTY_DIR}/task/task.h)
 
 qt5_wrap_cpp (TASK_MOC_SOURCE ${TASK_HEADER})

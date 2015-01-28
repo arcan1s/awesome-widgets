@@ -44,10 +44,10 @@
 #endif /* BUILD_KDE4 */
 
 
-ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList& args)
+ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList &args)
     : Plasma::DataEngine(parent, args)
 {
-    Q_UNUSED(args);
+    Q_UNUSED(args)
 
     // debug
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
@@ -79,16 +79,14 @@ QString ExtendedSysMon::getAutoGpu()
     if (debug) qDebug() << PDEBUG;
 
     QString gpu = QString("disable");
-    QString cmd = QString("lspci");
-    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
-    TaskResult process = runTask(cmd);
-    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
+    QFile moduleFile(QString("/proc/modules"));
+    if (!moduleFile.open(QIODevice::ReadOnly)) return gpu;
 
-    QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output);
-    if (qoutput.toLower().contains("nvidia"))
-        gpu = QString("nvidia");
-    else if (qoutput.toLower().contains("radeon"))
+    QString output = moduleFile.readAll();
+    if (output.contains(QString("fglrx")))
         gpu = QString("ati");
+    else if (output.contains(QString("nvidia")))
+        gpu = QString("nvidia");
 
     if (debug) qDebug() << PDEBUG << ":" << "Device" << gpu;
     return gpu;
@@ -130,7 +128,7 @@ void ExtendedSysMon::initScripts()
     localDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) +
             QString("/plasma_engine_extsysmon/scripts");
     QDir localDirectory;
-    if (localDirectory.mkpath(localDir))
+    if ((!localDirectory.exists(localDir)) && (localDirectory.mkpath(localDir)))
         if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
 
     dirs = QStandardPaths::locateAll(QStandardPaths::DataLocation,
@@ -226,7 +224,7 @@ QMap<QString, QString> ExtendedSysMon::updateConfiguration(QMap<QString, QString
     else {
         QStringList deviceList = rawConfig[QString("HDDDEV")].split(QChar(','), QString::SkipEmptyParts);
         QStringList devices;
-        QRegExp diskRegexp = QRegExp("/dev/[hms]d[a-z]$");
+        QRegExp diskRegexp = QRegExp("^/dev/[hms]d[a-z]$");
         for (int i=0; i<deviceList.count(); i++)
             if ((QFile::exists(deviceList[i])) &&
                 (diskRegexp.indexIn(deviceList[i]) > -1))
@@ -458,8 +456,9 @@ QMap<QString, QVariant> ExtendedSysMon::getPlayerInfo(const QString playerName,
                 .arg(mpdPort);
     else if (playerName == QString("mpris")) {
         // players which supports mpris
-        if (mpris == "auto")
+        if (mpris == QString("auto"))
             mpris = getAutoMpris();
+        if (mpris.isEmpty()) return info;
         cmd = QString("bash -c \"qdbus org.mpris.%1 /Player GetMetadata && qdbus org.mpris.%1 /Player PositionGet\"")
                 .arg(mpris);
     }
@@ -598,9 +597,13 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     } else if (source == QString("netdev")) {
         setData(source, QString("value"), getNetworkDevice());
     } else if (source == QString("pkg")) {
-        for (int i=0; i<configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts).count(); i++)
-            setData(source, QString("pkgcount") + QString::number(i),
-                    getUpgradeInfo(configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts)[i]));
+        if (pkgTimeUpdate > MSEC_IN_HOUR) {
+            for (int i=0; i<configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts).count(); i++)
+                setData(source, QString("pkgcount") + QString::number(i),
+                        getUpgradeInfo(configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts)[i]));
+            pkgTimeUpdate = 0;
+        }
+        pkgTimeUpdate++;
     } else if (source == QString("player")) {
         QMap<QString, QVariant> player = getPlayerInfo(configuration[QString("PLAYER")],
                 configuration[QString("MPDADDRESS")],

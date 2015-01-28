@@ -98,9 +98,6 @@
     <entry name="downTooltipColor" type="string">
       <default>#00ffff</default>
     </entry>
-    <entry name="upTooltip" type="bool">
-      <default>true</default>
-    </entry>
     <entry name="upTooltipColor" type="string">
       <default>#ff00ff</default>
     </entry>

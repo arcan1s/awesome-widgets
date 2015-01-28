@@ -41,8 +41,6 @@ AWKeys::AWKeys(QObject *parent)
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
     QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
     debug = (debugEnv == QString("yes"));
-
-    initValues();
 }
 
 
@@ -52,11 +50,15 @@ AWKeys::~AWKeys()
 }
 
 
-void AWKeys::initKeys(const QString pattern, const int maxTooltip)
+void AWKeys::initKeys(const QString pattern,
+                      const QMap<QString, QVariant> params,
+                      const QMap<QString, QVariant> tooltipParams)
 {
     if (debug) qDebug() << PDEBUG;
 
     // clear
+    extScripts.clear();
+    graphicalItems.clear();
     counts.clear();
     keys.clear();
     foundBars.clear();
@@ -64,25 +66,15 @@ void AWKeys::initKeys(const QString pattern, const int maxTooltip)
     toolTip = nullptr;
 
     // init
-    counts = getCounts();
+    extScripts = getExtScripts();
+    graphicalItems = getGraphicalItems();
+    counts = getCounts(params);
     keys = dictKeys();
     foundBars = findGraphicalItems(pattern);
     foundKeys = findKeys(pattern);
-    toolTip = new AWToolTip(this, maxTooltip);
-}
+    toolTip = new AWToolTip(this, tooltipParams);
 
-
-void AWKeys::initValues()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    // clear
-    extScripts.clear();
-    graphicalItems.clear();
-
-    // init
-    extScripts = getExtScripts();
-    graphicalItems = getGraphicalItems();
+    ready = true;
 }
 
 
@@ -91,6 +83,14 @@ bool AWKeys::isDebugEnabled()
     if (debug) qDebug() << PDEBUG;
 
     return debug;
+}
+
+
+bool AWKeys::isReady()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return ready;
 }
 
 
@@ -301,32 +301,6 @@ QStringList AWKeys::graphicalItemsInfo()
 }
 
 
-QStringList AWKeys::timeKeys()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    QStringList keys;
-    keys.append(QString("dddd"));
-    keys.append(QString("ddd"));
-    keys.append(QString("dd"));
-    keys.append(QString("d"));
-    keys.append(QString("MMMM"));
-    keys.append(QString("MMM"));
-    keys.append(QString("MM"));
-    keys.append(QString("M"));
-    keys.append(QString("yyyy"));
-    keys.append(QString("yy"));
-    keys.append(QString("hh"));
-    keys.append(QString("h"));
-    keys.append(QString("mm"));
-    keys.append(QString("m"));
-    keys.append(QString("ss"));
-    keys.append(QString("s"));
-
-    return keys;
-}
-
-
 void AWKeys::setDataBySource(const QString sourceName,
                              const QMap<QString, QVariant> data,
                              const QMap<QString, QVariant> params)
@@ -351,10 +325,10 @@ void AWKeys::setDataBySource(const QString sourceName,
         for (int i=0; i<data.keys().count(); i++) {
             if (data.keys()[i] == QString("ac")) {
                 values[QString("ac")] = data.keys()[i];
-//                 if (data[QString("ac")].toBool())
-//                     values[QString("ac")] = configuration[QString("acOnline")];
-//                 else
-//                     values[QString("ac")] = configuration[QString("acOffline")];
+                if (data[QString("ac")].toBool())
+                    values[QString("ac")] = params[QString("acOnline")].toString();
+                else
+                    values[QString("ac")] = params[QString("acOffline")].toString();
             } else {
                 values[data.keys()[i]] = QString("%1").arg(data[data.keys()[i]].toFloat(), 3, 'f', 0);
                 toolTip->setData(QString("bat"), data[data.keys()[i]].toFloat(), data[QString("ac")].toBool());
@@ -556,7 +530,7 @@ void AWKeys::setDataBySource(const QString sourceName,
         values[QString("isotime")] = data[QString("DateTime")].toDateTime().toString(Qt::ISODate);
         values[QString("shorttime")] = data[QString("DateTime")].toDateTime().toString(Qt::SystemLocaleShortDate);
         values[QString("longtime")] = data[QString("DateTime")].toDateTime().toString(Qt::SystemLocaleLongDate);
-        QStringList _timeKeys = timeKeys();
+        QStringList _timeKeys = getTimeKeys();
         values[QString("ctime")] = params[QString("customTime")].toString();
         for (int i=0; i<_timeKeys.count(); i++)
             values[QString("ctime")].replace(QString("$") + _timeKeys[i],
@@ -577,32 +551,6 @@ void AWKeys::setDataBySource(const QString sourceName,
         values[QString("cuptime")].replace(QString("$mm"), QString("%1").arg(minutes, 2, 10, QChar('0')));
         values[QString("cuptime")].replace(QString("$m"), QString("%1").arg(minutes));
     }
-}
-
-
-QMap<QString, QVariant> AWKeys::getCounts()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    QMap<QString, QVariant> awCounts;
-    awCounts[QString("cpu")] = numberCpus();
-    awCounts[QString("custom")] = getExtScripts().count();
-//    awCounts[QString("disk")] = configuration[QString("disk")].split(QString("@@")).count();
-//    awCounts[QString("fan")] = configuration[QString("fanDevice")].split(QString("@@")).count();
-//    awCounts[QString("hddtemp")] = configuration[QString("hdd")].split(QString("@@")).count();
-//    awCounts[QString("mount")] = configuration[QString("mount")].split(QString("@@")).count();
-//    awCounts[QString("pkg")] = deSettings[QString("PKGCMD")].split(QChar(',')).count();
-//    awCounts[QString("temp")] = configuration[QString("tempDevice")].split(QString("@@")).count();
-//    awCounts[QString("tooltip")] = 0;
-//    awCounts[QString("tooltip")] += configuration[QString("cpuTooltip")].toInt();
-//    awCounts[QString("tooltip")] += configuration[QString("cpuclTooltip")].toInt();
-//    awCounts[QString("tooltip")] += configuration[QString("memTooltip")].toInt();
-//    awCounts[QString("tooltip")] += configuration[QString("swapTooltip")].toInt();
-//    awCounts[QString("tooltip")] += configuration[QString("downTooltip")].toInt();
-//    awCounts[QString("tooltip")] += configuration[QString("batteryTooltip")].toInt();
-//    awCounts[QString("tooltip")] = counts[QString("tooltip")] / 2;
-
-    return awCounts;
 }
 
 
@@ -639,6 +587,26 @@ QStringList AWKeys::findKeys(const QString pattern)
 }
 
 
+QMap<QString, QVariant> AWKeys::getCounts(const QMap<QString, QVariant> params)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QMap<QString, QVariant> awCounts;
+    awCounts[QString("cpu")] = numberCpus();
+    awCounts[QString("custom")] = extScripts.count();
+    awCounts[QString("disk")] = params[QString("disk")].toString().split(QString("@@")).count();
+    awCounts[QString("fan")] = params[QString("fanDevice")].toString().split(QString("@@")).count();
+    awCounts[QString("hddtemp")] = params[QString("hdd")].toString().split(QString("@@")).count();
+    awCounts[QString("mount")] = params[QString("mount")].toString().split(QString("@@")).count();
+    // TODO update pkg parsing
+//     awCounts[QString("pkg")] = deSettings[QString("PKGCMD")].split(QChar(',')).count();
+    awCounts[QString("pkg")] = 1;
+    awCounts[QString("temp")] = params[QString("tempDevice")].toString().split(QString("@@")).count();
+
+    return awCounts;
+}
+
+
 QList<ExtScript *> AWKeys::getExtScripts()
 {
     if (debug) qDebug() << PDEBUG;
@@ -648,7 +616,7 @@ QList<ExtScript *> AWKeys::getExtScripts()
     QString localDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) +
             QString("/plasma_engine_extsysmon/scripts");
     QDir localDirectory;
-    if (localDirectory.mkpath(localDir))
+    if ((!localDirectory.exists(localDir)) && (localDirectory.mkpath(localDir)))
         if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
 
     QStringList dirs = QStandardPaths::locateAll(QStandardPaths::DataLocation,
@@ -713,4 +681,30 @@ GraphicalItem *AWKeys::getItemByTag(const QString tag)
     }
 
     return item;
+}
+
+
+QStringList AWKeys::getTimeKeys()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QStringList keys;
+    keys.append(QString("dddd"));
+    keys.append(QString("ddd"));
+    keys.append(QString("dd"));
+    keys.append(QString("d"));
+    keys.append(QString("MMMM"));
+    keys.append(QString("MMM"));
+    keys.append(QString("MM"));
+    keys.append(QString("M"));
+    keys.append(QString("yyyy"));
+    keys.append(QString("yy"));
+    keys.append(QString("hh"));
+    keys.append(QString("h"));
+    keys.append(QString("mm"));
+    keys.append(QString("m"));
+    keys.append(QString("ss"));
+    keys.append(QString("s"));
+
+    return keys;
 }
