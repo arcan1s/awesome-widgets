@@ -21,9 +21,9 @@ import org.kde.plasma.configuration 2.0
 
 
 ConfigModel {
-//     ConfigCategory {
-//          name: i18n("Widget")
-//          icon: "utilities-system-monitor"
-//          source: "widget.qml"
-//     }
+    ConfigCategory {
+        name: i18n("Widget")
+        icon: "utilities-system-monitor"
+        source: "widget.qml"
+    }
 }

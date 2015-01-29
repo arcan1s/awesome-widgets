@@ -30,6 +30,7 @@
 
 #include "awtooltip.h"
 #include "extscript.h"
+#include "extupgrade.h"
 #include "graphicalitem.h"
 #include "version.h"
 
@@ -58,6 +59,7 @@ void AWKeys::initKeys(const QString pattern,
 
     // clear
     extScripts.clear();
+    extUpgrade.clear();
     graphicalItems.clear();
     counts.clear();
     keys.clear();
@@ -67,6 +69,7 @@ void AWKeys::initKeys(const QString pattern,
 
     // init
     extScripts = getExtScripts();
+    extUpgrade = getExtUpgrade();
     graphicalItems = getGraphicalItems();
     counts = getCounts(params);
     keys = dictKeys();
@@ -94,36 +97,6 @@ bool AWKeys::isReady()
 }
 
 
-QString AWKeys::networkDevice(const QString custom)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Custom device" << custom;
-
-    QString device = QString("lo");
-    if (custom.isEmpty()) {
-        QList<QNetworkInterface> rawInterfaceList = QNetworkInterface::allInterfaces();
-        for (int i=0; i<rawInterfaceList.count(); i++)
-            if ((rawInterfaceList[i].flags().testFlag(QNetworkInterface::IsUp)) &&
-                    (!rawInterfaceList[i].flags().testFlag(QNetworkInterface::IsLoopBack)) &&
-                    (!rawInterfaceList[i].flags().testFlag(QNetworkInterface::IsPointToPoint))) {
-                device = rawInterfaceList[i].name();
-                break;
-            }
-    } else
-        device = custom;
-
-    return device;
-}
-
-
-int AWKeys::numberCpus()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return QThread::idealThreadCount();
-}
-
-
 QString AWKeys::parsePattern(const QString pattern)
 {
     if (debug) qDebug() << PDEBUG;
@@ -131,39 +104,20 @@ QString AWKeys::parsePattern(const QString pattern)
     QString parsed = pattern;
     parsed.replace(QString("$$"), QString("$\\$\\"));
     for (int i=0; i<foundKeys.count(); i++)
-        parsed.replace(QString("$") + foundKeys[i], values[foundKeys[i]]);
-    for (int i=0; i<foundBars.count(); i++) {
-        QString key = foundBars[i];
-        key.remove(QRegExp(QString("bar[0-9]{1,}")));
-        parsed.replace(QString("$") + foundBars[i], getItemByTag(foundBars[i])->image(values[key].toFloat()));
-    }
+        parsed.replace(QString("$") + foundKeys[i], valueByKey(foundKeys[i]));
+    for (int i=0; i<foundBars.count(); i++)
+        parsed.replace(QString("$") + foundBars[i], getItemByTag(foundBars[i])->image(valueByKey(foundBars[i]).toFloat()));
     parsed.replace(QString("$\\$\\"), QString("$$"));
 
     return parsed;
 }
 
 
-float AWKeys::temperature(const float temp, const QString units)
+QPixmap AWKeys::toolTipImage()
 {
-    if (debug) qDebug() << PDEBUG;
+    if(debug) qDebug() << PDEBUG;
 
-    float converted = temp;
-    if (units == QString("Celsius"))
-        ;
-    else if (units == QString("Fahrenheit"))
-        converted = temp * 9.0 / 5.0 + 32.0;
-    else if (units == QString("Kelvin"))
-        converted = temp + 273.15;
-    else if (units == QString("Reaumur"))
-        converted = temp * 0.8;
-    else if (units == QString("cm^-1"))
-        converted = (temp + 273.15) * 0.695;
-    else if (units == QString("kJ/mol"))
-        converted = (temp + 273.15) * 8.31;
-    else if (units == QString("kcal/mol"))
-        converted = (temp + 273.15) * 1.98;
-
-    return converted;
+    return toolTip->image();
 }
 
 
@@ -280,6 +234,24 @@ QStringList AWKeys::extScriptsInfo()
         info.append(extScripts[i]->name());
         info.append(extScripts[i]->comment());
         info.append(extScripts[i]->executable());
+        info.append(QVariant(extScripts[i]->isActive()).toString());
+    }
+
+    return info;
+}
+
+
+QStringList AWKeys::extUpgradeInfo()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QStringList info;
+    for (int i=0; i<extUpgrade.count(); i++) {
+        info.append(extUpgrade[i]->fileName());
+        info.append(extUpgrade[i]->name());
+        info.append(extUpgrade[i]->comment());
+        info.append(extUpgrade[i]->executable());
+        info.append(QVariant(extUpgrade[i]->isActive()).toString());
     }
 
     return info;
@@ -381,11 +353,11 @@ void AWKeys::setDataBySource(const QString sourceName,
             }
     } else if (sourceName == QString("gpu")) {
         // gpu load
-        values[QString("gpu")] = QString("%1").arg(data[QString("GPU")].toFloat(), 5, 'f', 1);
+        values[QString("gpu")] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
     } else if (sourceName == QString("gputemp")) {
         // gpu temperature
         values[QString("gputemp")] = QString("%1").arg(
-            temperature(data[QString("GPUTemp")].toFloat(),params[QString("tempUnits")].toString()), 4, 'f', 1);
+            temperature(data[QString("value")].toFloat(), params[QString("tempUnits")].toString()), 4, 'f', 1);
     } else if (sourceName.contains(mountFillRegExp)) {
         // fill level
         QString mount = sourceName;
@@ -554,6 +526,71 @@ void AWKeys::setDataBySource(const QString sourceName,
 }
 
 
+QString AWKeys::valueByKey(QString key)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Requested key" << key;
+
+    key.remove(QRegExp(QString("^bar[0-9]{1,}")));
+
+    return values[key];
+}
+
+
+QString AWKeys::networkDevice(const QString custom)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Custom device" << custom;
+
+    QString device = QString("lo");
+    if (custom.isEmpty()) {
+        QList<QNetworkInterface> rawInterfaceList = QNetworkInterface::allInterfaces();
+        for (int i=0; i<rawInterfaceList.count(); i++)
+            if ((rawInterfaceList[i].flags().testFlag(QNetworkInterface::IsUp)) &&
+                    (!rawInterfaceList[i].flags().testFlag(QNetworkInterface::IsLoopBack)) &&
+                    (!rawInterfaceList[i].flags().testFlag(QNetworkInterface::IsPointToPoint))) {
+                device = rawInterfaceList[i].name();
+                break;
+            }
+    } else
+        device = custom;
+
+    return device;
+}
+
+
+int AWKeys::numberCpus()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return QThread::idealThreadCount();
+}
+
+
+float AWKeys::temperature(const float temp, const QString units)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    float converted = temp;
+    if (units == QString("Celsius"))
+        ;
+    else if (units == QString("Fahrenheit"))
+        converted = temp * 9.0 / 5.0 + 32.0;
+    else if (units == QString("Kelvin"))
+        converted = temp + 273.15;
+    else if (units == QString("Reaumur"))
+        converted = temp * 0.8;
+    else if (units == QString("cm^-1"))
+        converted = (temp + 273.15) * 0.695;
+    else if (units == QString("kJ/mol"))
+        converted = (temp + 273.15) * 8.31;
+    else if (units == QString("kcal/mol"))
+        converted = (temp + 273.15) * 1.98;
+
+    return converted;
+}
+
+
 QStringList AWKeys::findGraphicalItems(const QString pattern)
 {
     if (debug) qDebug() << PDEBUG;
@@ -598,9 +635,7 @@ QMap<QString, QVariant> AWKeys::getCounts(const QMap<QString, QVariant> params)
     awCounts[QString("fan")] = params[QString("fanDevice")].toString().split(QString("@@")).count();
     awCounts[QString("hddtemp")] = params[QString("hdd")].toString().split(QString("@@")).count();
     awCounts[QString("mount")] = params[QString("mount")].toString().split(QString("@@")).count();
-    // TODO update pkg parsing
-//     awCounts[QString("pkg")] = deSettings[QString("PKGCMD")].split(QChar(',')).count();
-    awCounts[QString("pkg")] = 1;
+    awCounts[QString("pkg")] = extUpgrade.count();
     awCounts[QString("temp")] = params[QString("tempDevice")].toString().split(QString("@@")).count();
 
     return awCounts;
@@ -614,13 +649,13 @@ QList<ExtScript *> AWKeys::getExtScripts()
     QList<ExtScript *> externalScripts;
     // create directory at $HOME
     QString localDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) +
-            QString("/plasma_engine_extsysmon/scripts");
+            QString("/plasma_dataengine_extsysmon/scripts");
     QDir localDirectory;
     if ((!localDirectory.exists(localDir)) && (localDirectory.mkpath(localDir)))
         if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
 
     QStringList dirs = QStandardPaths::locateAll(QStandardPaths::DataLocation,
-                                                 QString("plasma_engine_extsysmon/scripts"),
+                                                 QString("plasma_dataengine_extsysmon/scripts"),
                                                  QStandardPaths::LocateDirectory);
     QStringList names;
     for (int i=0; i<dirs.count(); i++) {
@@ -635,6 +670,37 @@ QList<ExtScript *> AWKeys::getExtScripts()
     }
 
     return externalScripts;
+}
+
+
+QList<ExtUpgrade *> AWKeys::getExtUpgrade()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QList<ExtUpgrade *> externalUpgrade;
+    // create directory at $HOME
+    QString localDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) +
+            QString("/plasma_dataengine_extsysmon/upgrade");
+    QDir localDirectory;
+    if ((!localDirectory.exists(localDir)) && (localDirectory.mkpath(localDir)))
+        if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
+
+    QStringList dirs = QStandardPaths::locateAll(QStandardPaths::DataLocation,
+                                                 QString("plasma_dataengine_extsysmon/upgrade"),
+                                                 QStandardPaths::LocateDirectory);
+    QStringList names;
+    for (int i=0; i<dirs.count(); i++) {
+        QStringList files = QDir(dirs[i]).entryList(QDir::Files, QDir::Name);
+        for (int j=0; j<files.count(); j++) {
+            if (!files[j].endsWith(QString(".desktop"))) continue;
+            if (names.contains(files[j])) continue;
+            if (debug) qDebug() << PDEBUG << ":" << "Found file" << files[j] << "in" << dirs[i];
+            names.append(files[j]);
+            externalUpgrade.append(new ExtUpgrade(0, files[j], dirs, debug));
+        }
+    }
+
+    return externalUpgrade;
 }
 
 

@@ -11,6 +11,7 @@
 #define TRDPARTY_LICENSE "tasks,BSD,https://github.com/mhogomchungu/tasks"
 #define AWGIAPI 1
 #define AWESAPI 1
+#define AWEUAPI 1
 
 // links
 #define HOMEPAGE "http://arcanis.name/projects/awesome-widgets/"

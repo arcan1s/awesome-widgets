@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=default-mandriva
+Comment=Mandriva upgrade info
+Exec=urpmq --auto-select
+X-AW-Prefix=
+X-AW-Active=false
+X-AW-Null=0
+X-AW-ApiVersion=1

@@ -34,7 +34,7 @@ public:
               QMap<QString, QVariant> m_settings = QMap<QString, QVariant>());
     ~AWToolTip();
 
-    Q_INVOKABLE QPixmap image();
+    QPixmap image();
     void setData(const QString source, const float value,
                  const bool ac = true);
 

@@ -1,11 +1,12 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=bar3
-Comment=Simple bat bar
-X-AW-Value=bat
+Name=bar0
+Comment=Simple cpu bar
+X-AW-Value=cpu
 X-AW-ActiveColor="0,0,0,255"
 X-AW-InactiveColor="255,255,255,255"
 X-AW-Type=Horizontal
 X-AW-Direction=LeftToRight
 X-AW-Height=25
 X-AW-Width=100
+X-AW-ApiVersion=1

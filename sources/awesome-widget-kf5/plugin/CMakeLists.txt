@@ -27,8 +27,11 @@ file (GLOB SUBPROJECT_NOTIFY *.notifyrc)
 file (GLOB SUBPROJECT_UI *.ui)
 # task source is required by extscripts
 file (GLOB_RECURSE SUBPROJECT_SOURCE *.cpp ${PROJECT_TRDPARTY_DIR}/task/*.cpp
-                                     ../../extsysmon/extscript.cpp)
+                                     ${PROJECT_TRDPARTY_DIR}/fontdialog/*.cpp
+                                     ../../extsysmon/extscript.cpp
+                                     ../../extsysmon/extupgrade.cpp)
 set (TASK_HEADER ${PROJECT_TRDPARTY_DIR}/task/task.h)
+set (SUBPROJECT_DESKTOPS ${CMAKE_CURRENT_SOURCE_DIR}/desktops)
 
 qt5_wrap_cpp (TASK_MOC_SOURCE ${TASK_HEADER})
 qt5_wrap_ui (SUBPROJECT_UI_HEADER ${SUBPROJECT_UI})
@@ -38,3 +41,4 @@ target_link_libraries (${PLUGIN_NAME} ${Qt_LIBRARIES} ${Kf5_LIBRARIES})
 install (TARGETS ${PLUGIN_NAME} DESTINATION ${QML_INSTALL_DIR}/org/kde/plasma/private/awesomewidget)
 install (FILES qmldir DESTINATION ${QML_INSTALL_DIR}/org/kde/plasma/private/awesomewidget)
 install (FILES ${SUBPROJECT_NOTIFY} DESTINATION ${KNOTIFYRC_INSTALL_DIR})
+install (DIRECTORY ${SUBPROJECT_DESKTOPS} DESTINATION ${DATA_INSTALL_DIR}/${PLUGIN_NAME})

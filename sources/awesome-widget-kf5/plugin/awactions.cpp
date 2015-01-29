@@ -22,16 +22,18 @@
 
 #include <QDebug>
 #include <QDesktopServices>
+#include <QDir>
 #include <QMessageBox>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QProcess>
 #include <QProcessEnvironment>
+#include <QRegExp>
 #include <QSettings>
 #include <QStandardPaths>
-#include <QThread>
 
+#include <fontdialog/fontdialog.h>
 #include <pdebug/pdebug.h>
 
 #include "extscript.h"
@@ -94,6 +96,94 @@ void AWActions::showReadme()
     if (debug) qDebug() << PDEBUG;
 
     QDesktopServices::openUrl(QString(HOMEPAGE));
+}
+
+
+void AWActions::addDevice(const QString source)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Source" << source;
+
+    QRegExp diskRegexp = QRegExp(QString("disk/(?:md|sd|hd)[a-z|0-9]_.*/Rate/(?:rblk)"));
+    QRegExp fanRegexp = QRegExp(QString("lmsensors/.*/fan.*"));
+    QRegExp mountRegexp = QRegExp(QString("partitions/.*/filllevel"));
+    QRegExp tempRegexp = QRegExp(QString("lmsensors/.*temp.*/.*"));
+
+    if (diskRegexp.indexIn(source) > -1) {
+        QStringList splitSource = source.split(QChar('/'));
+        QString device = splitSource[0] + QString("/") + splitSource[1];
+        diskDevices.append(device);
+    } else if (fanRegexp.indexIn(source) > -1)
+        fanDevices.append(source);
+    else if (mountRegexp.indexIn(source) > -1) {
+        QString device = source;
+        device.remove(QString("partitions")).remove(QString("/filllevel"));
+        mountDevices.append(device);
+    } else if (tempRegexp.indexIn(source) > -1)
+        tempDevices.append(source);
+}
+
+
+QStringList AWActions::getDiskDevices()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return diskDevices;
+}
+
+
+QStringList AWActions::getFanDevices()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return fanDevices;
+}
+
+
+QStringList AWActions::getHddDevices()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QStringList allDevices = QDir(QString("/dev")).entryList(QDir::System, QDir::Name);
+    QStringList devices = allDevices.filter(QRegExp(QString("^[hms]d[a-z]$")));
+    for (int i=0; i<devices.count(); i++)
+        devices[i] = QString("/dev/") + devices[i];
+
+    return devices;
+}
+
+
+QStringList AWActions::getMountDevices()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return mountDevices;
+}
+
+
+QStringList AWActions::getTempDevices()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return tempDevices;
+}
+
+
+QMap<QString, QVariant> AWActions::getFont(const QMap<QString, QVariant> defaultFont)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QMap<QString, QVariant> fontMap;
+    CFont defaultCFont = CFont(defaultFont[QString("family")].toString(),
+                               defaultFont[QString("size")].toInt(),
+                               400, false, defaultFont[QString("color")].toString());
+    CFont font = CFontDialog::getFont(i18n("Select font"), defaultCFont,
+                                      false, false);
+    fontMap[QString("color")] = font.color().name();
+    fontMap[QString("family")] = font.family();
+    fontMap[QString("size")] = font.pointSize();
+
+    return fontMap;
 }
 
 

@@ -16,3 +16,5 @@ X-AW-Output=false
 X-AW-Redirect=nothing
 # update interval in default AW intervals
 X-AW-Interval=1
+# API version
+X-AW-ApiVersion=1

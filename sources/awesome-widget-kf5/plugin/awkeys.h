@@ -22,11 +22,13 @@
 #include <QMap>
 #include <QObject>
 #include <QStringList>
+#include <QPixmap>
 #include <QVariant>
 
 
 class AWToolTip;
 class ExtScript;
+class ExtUpgrade;
 class GraphicalItem;
 
 class AWKeys : public QObject
@@ -42,23 +44,31 @@ public:
                               const QMap<QString, QVariant> tooltipParams);
     Q_INVOKABLE bool isDebugEnabled();
     Q_INVOKABLE bool isReady();
-    Q_INVOKABLE QString networkDevice(const QString custom = QString(""));
-    Q_INVOKABLE int numberCpus();
     Q_INVOKABLE QString parsePattern(const QString pattern);
-    Q_INVOKABLE float temperature(const float temp, const QString units = QString("Celsius"));
+    Q_INVOKABLE QPixmap toolTipImage();
     // keys
     Q_INVOKABLE QStringList dictKeys();
     Q_INVOKABLE QStringList extScriptsInfo();
+    Q_INVOKABLE QStringList extUpgradeInfo();
     Q_INVOKABLE QStringList graphicalItemsInfo();
     Q_INVOKABLE void setDataBySource(const QString sourceName,
                                      const QMap<QString, QVariant> data,
                                      const QMap<QString, QVariant> params);
-    Q_INVOKABLE QStringList findGraphicalItems(const QString pattern);
-    Q_INVOKABLE QStringList findKeys(const QString pattern);
+    // values
+    Q_INVOKABLE QString valueByKey(QString key);
 
 private:
+    // methods
+    QString networkDevice(const QString custom = QString(""));
+    int numberCpus();
+    float temperature(const float temp, const QString units = QString("Celsius"));
+    // find methods
+    QStringList findGraphicalItems(const QString pattern);
+    QStringList findKeys(const QString pattern);
+    // get methods
     QMap<QString, QVariant> getCounts(const QMap<QString, QVariant> params);
     QList<ExtScript *> getExtScripts();
+    QList<ExtUpgrade *> getExtUpgrade();
     QList<GraphicalItem *> getGraphicalItems();
     GraphicalItem *getItemByTag(const QString tag);
     QStringList getTimeKeys();
@@ -68,6 +78,7 @@ private:
     bool ready = false;
     QList<GraphicalItem *> graphicalItems;
     QList<ExtScript *> extScripts;
+    QList<ExtUpgrade *> extUpgrade;
     QStringList foundBars, foundKeys, keys;
     QMap<QString, QVariant> counts;
     QMap<QString, QString> values;

@@ -1,0 +1,25 @@
+[Desktop Entry]
+Encoding=UTF-8
+# name should be barN and uniq
+Name=bar100500
+Comment=Template for the AW bars
+# value to show. Supported types are
+# cpu, cpu[0-9], mem, swap, bat
+X-AW-Value=cpu
+# active color, RGBA
+# you should use double quotes
+X-AW-ActiveColor="0,0,0,255"
+# inactive color, RGBA
+# you should use double quotes
+X-AW-InactiveColor="255,255,255,255"
+# bar type. Supported types are
+# Horizontal, Vertical, Circle
+X-AW-Type=Horizontal
+# direction. LeftToRight or RightToLeft
+X-AW-Direction=LeftToRight
+# height in pixels
+X-AW-Height=25
+# width in pixels
+X-AW-Width=100
+# API version
+X-AW-ApiVersion=1

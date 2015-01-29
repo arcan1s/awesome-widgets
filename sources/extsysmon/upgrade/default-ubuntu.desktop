@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=default-ubuntu
+Comment=Ubuntu upgrade info
+Exec=aptitude search '~U'
+X-AW-Prefix=
+X-AW-Active=false
+X-AW-Null=0
+X-AW-ApiVersion=1

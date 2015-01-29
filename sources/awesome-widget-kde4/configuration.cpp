@@ -825,7 +825,7 @@ void AwesomeWidget::contextMenuCustomCommand(const QPoint pos)
     else if (action == copy)
         copyCustomCommand(uiDEConfig.listWidget_custom->currentItem()->text());
     else if (action == remove) {
-        QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_engine_extsysmon/scripts");
+        QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_dataengine_extsysmon/scripts");
         ExtScript *script = new ExtScript(0, uiDEConfig.listWidget_custom->currentItem()->text(), dirs, debug);
         script->tryDelete();
         delete script;
@@ -954,7 +954,7 @@ void AwesomeWidget::editCustomCommand(QListWidgetItem *item)
 {
     if (debug) qDebug() << PDEBUG;
 
-    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_engine_extsysmon/scripts");
+    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_dataengine_extsysmon/scripts");
     ExtScript *script = new ExtScript(0, item->text(), dirs, debug);
     script->showConfiguration();
 }
@@ -1006,11 +1006,11 @@ QList<ExtScript *> AwesomeWidget::initScripts()
 
     QList<ExtScript *> externalScripts;
     // create directory at $HOME
-    QString localDir = KStandardDirs::locateLocal("data", "plasma_engine_extsysmon/scripts");
+    QString localDir = KStandardDirs::locateLocal("data", "plasma_dataengine_extsysmon/scripts");
     if (KStandardDirs::makeDir(localDir))
         if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
 
-    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_engine_extsysmon/scripts");
+    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_dataengine_extsysmon/scripts");
     QStringList names;
     for (int i=0; i<dirs.count(); i++) {
         QStringList files = QDir(dirs[i]).entryList(QDir::Files, QDir::Name);

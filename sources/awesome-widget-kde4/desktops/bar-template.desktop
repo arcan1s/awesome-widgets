@@ -21,3 +21,5 @@ X-AW-Direction=LeftToRight
 X-AW-Height=25
 # width in pixels
 X-AW-Width=100
+# API version
+X-AW-ApiVersion=1

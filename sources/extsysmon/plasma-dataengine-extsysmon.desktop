@@ -7,7 +7,7 @@ Type=Service
 Icon=utilities-system-monitor
 
 X-KDE-ServiceTypes=Plasma/DataEngine
-X-KDE-Library=plasma_engine_extsysmon
+X-KDE-Library=plasma_dataengine_extsysmon
 X-Plasma-EngineName=extsysmon
 
 X-KDE-PluginInfo-Author=Evgeniy Alekseev aka arcanis

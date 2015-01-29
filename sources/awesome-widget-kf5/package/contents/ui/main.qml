@@ -99,6 +99,12 @@ Item {
             if ((data.value == "N\\A") || (data.value == "")) return
             if (AWKeys.isReady()) AWKeys.setDataBySource(sourceName, data, settings)
         }
+
+        onSourceAdded: {
+            if (debug) console.log("[main::onSourceAdded] : Source " + source)
+
+            AWActions.addDevice(source)
+        }
     }
 
     PlasmaCore.DataSource {

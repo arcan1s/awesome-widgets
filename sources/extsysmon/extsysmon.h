@@ -27,6 +27,7 @@
 
 
 class ExtScript;
+class ExtUpgrade;
 
 class ExtendedSysMon : public Plasma::DataEngine
 {
@@ -46,7 +47,6 @@ public:
                                           const QString mpdPort = 0,
                                           QString mpris = 0);
     QMap<QString, QVariant> getPsStats();
-    int getUpgradeInfo(const QString cmd);
 
 protected:
     bool sourceRequestEvent(const QString &source);
@@ -57,6 +57,7 @@ private:
     // configuration
     QMap<QString, QString> configuration;
     QList<ExtScript *> externalScripts;
+    QList<ExtUpgrade *> externalUpgrade;
     QList<int> times;
     bool debug;
     // FIXME dirty hack to avoid update package information every second
@@ -66,6 +67,7 @@ private:
     QString getAutoGpu();
     QString getAutoMpris();
     void initScripts();
+    void initUpgrade();
     void readConfiguration();
     QMap<QString, QString> updateConfiguration(QMap<QString, QString> rawConfig);
 };

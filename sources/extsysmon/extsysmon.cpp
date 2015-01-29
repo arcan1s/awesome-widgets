@@ -30,10 +30,12 @@
 #include <QTextCodec>
 #include <QSettings>
 
-#include <extscript.h>
 #include <pdebug/pdebug.h>
 #include <task/taskadds.h>
-#include <version.h>
+
+#include "extscript.h"
+#include "extupgrade.h"
+#include "version.h"
 
 // KF5-KDE4 compability
 #ifdef BUILD_KDE4
@@ -57,6 +59,7 @@ ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList &args)
     setMinimumPollingInterval(333);
     readConfiguration();
     initScripts();
+    initUpgrade();
 }
 
 
@@ -101,6 +104,9 @@ QString ExtendedSysMon::getAutoMpris()
     QString cmd = QString("bash -c \"qdbus 'org.mpris.MediaPlayer2.*'\"");
     if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
     TaskResult process = runTask(cmd);
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
+    if (process.exitCode != 0)
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     if (qoutput.split(QChar('\n'))[0].split(QChar('.')).count() > 3)
@@ -119,20 +125,61 @@ void ExtendedSysMon::initScripts()
     QString localDir;
     QStringList dirs;
 #ifdef BUILD_KDE4
-    localDir = KStandardDirs::locateLocal("data", "plasma_engine_extsysmon/scripts");
+    localDir = KStandardDirs::locateLocal("data", "plasma_dataengine_extsysmon/scripts");
     if (KStandardDirs::makeDir(localDir))
         if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
 
-    dirs = KGlobal::dirs()->findDirs("data", "plasma_engine_extsysmon/scripts");
+    dirs = KGlobal::dirs()->findDirs("data", "plasma_dataengine_extsysmon/scripts");
 #else
     localDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) +
-            QString("/plasma_engine_extsysmon/scripts");
+            QString("/plasma_dataengine_extsysmon/scripts");
     QDir localDirectory;
     if ((!localDirectory.exists(localDir)) && (localDirectory.mkpath(localDir)))
         if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
 
     dirs = QStandardPaths::locateAll(QStandardPaths::DataLocation,
-                                     QString("plasma_engine_extsysmon/scripts"),
+                                     QString("plasma_dataengine_extsysmon/scripts"),
+                                     QStandardPaths::LocateDirectory);
+#endif /* BUILD_KDE4 */
+
+    times.clear();
+    QStringList names;
+    for (int i=0; i<dirs.count(); i++) {
+        QStringList files = QDir(dirs[i]).entryList(QDir::Files, QDir::Name);
+        for (int j=0; j<files.count(); j++) {
+            if (!files[j].endsWith(QString(".desktop"))) continue;
+            if (names.contains(files[j])) continue;
+            if (debug) qDebug() << PDEBUG << ":" << "Found file" << files[j] << "in" << dirs[i];
+            names.append(files[j]);
+            externalScripts.append(new ExtScript(0, files[j], dirs, debug));
+            times.append(1);
+        }
+    }
+}
+
+
+void ExtendedSysMon::initUpgrade()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    // create directory at $HOME and create dirs list
+    QString localDir;
+    QStringList dirs;
+#ifdef BUILD_KDE4
+    localDir = KStandardDirs::locateLocal("data", "plasma_dataengine_extsysmon/upgrade");
+    if (KStandardDirs::makeDir(localDir))
+        if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
+
+    dirs = KGlobal::dirs()->findDirs("data", "plasma_dataengine_extsysmon/upgrade");
+#else
+    localDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) +
+            QString("/plasma_dataengine_extsysmon/upgrade");
+    QDir localDirectory;
+    if ((!localDirectory.exists(localDir)) && (localDirectory.mkpath(localDir)))
+        if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
+
+    dirs = QStandardPaths::locateAll(QStandardPaths::DataLocation,
+                                     QString("plasma_dataengine_extsysmon/upgrade"),
                                      QStandardPaths::LocateDirectory);
 #endif /* BUILD_KDE4 */
 
@@ -144,8 +191,7 @@ void ExtendedSysMon::initScripts()
             if (names.contains(files[j])) continue;
             if (debug) qDebug() << PDEBUG << ":" << "Found file" << files[j] << "in" << dirs[i];
             names.append(files[j]);
-            externalScripts.append(new ExtScript(0, files[j], dirs, debug));
-            times.append(1);
+            externalUpgrade.append(new ExtUpgrade(0, files[j], dirs, debug));
         }
     }
 }
@@ -195,8 +241,6 @@ void ExtendedSysMon::readConfiguration()
     rawConfig[QString("MPDADDRESS")] = settings.value(QString("MPDADDRESS"), QString("localhost")).toString();
     rawConfig[QString("MPDPORT")] = settings.value(QString("MPDPORT"), QString("6600")).toString();
     rawConfig[QString("MPRIS")] = settings.value(QString("MPRIS"), QString("auto")).toString();
-    rawConfig[QString("PKGCMD")] = settings.value(QString("PKGCMD"), QString("pacman -Qu")).toString();
-    rawConfig[QString("PKGNULL")] = settings.value(QString("PKGNULL"), QString("0")).toString();
     rawConfig[QString("PLAYER")] = settings.value(QString("PLAYER"), QString("mpris")).toString();
     settings.endGroup();
 
@@ -234,11 +278,6 @@ QMap<QString, QString> ExtendedSysMon::updateConfiguration(QMap<QString, QString
         else
             rawConfig[QString("HDDDEV")] = devices.join(QChar(','));
     }
-    // pkgcmd
-    for (int i=rawConfig[QString("PKGNULL")].split(QString(","), QString::SkipEmptyParts).count();
-         i<rawConfig[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts).count();
-         i++)
-        rawConfig[QString("PKGNULL")] += QString(",0");
     // player
     if ((rawConfig[QString("PLAYER")] != QString("mpd")) &&
         (rawConfig[QString("PLAYER")] != QString("mpris")))
@@ -327,6 +366,8 @@ float ExtendedSysMon::getGpu(const QString device)
     if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
     TaskResult process = runTask(QString("bash -c \"") + cmd + QString("\""));
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
+    if (process.exitCode != 0)
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     if (configuration[QString("GPUDEV")] == QString("nvidia"))
@@ -369,6 +410,8 @@ float ExtendedSysMon::getGpuTemp(const QString device)
     if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
     TaskResult process = runTask(QString("bash -c \"") + cmd + QString("\""));
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
+    if (process.exitCode != 0)
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output);
     if (configuration[QString("GPUDEV")] == QString("nvidia"))
@@ -402,6 +445,8 @@ float ExtendedSysMon::getHddTemp(const QString cmd, const QString device)
     float value = 0.0;
     TaskResult process = runTask(cmd + QString(" ") + device);
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
+    if (process.exitCode != 0)
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     if (qoutput.split(QChar(':'), QString::SkipEmptyParts).count() >= 3) {
@@ -465,6 +510,8 @@ QMap<QString, QVariant> ExtendedSysMon::getPlayerInfo(const QString playerName,
     if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
     TaskResult process = runTask(cmd);
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
+    if (process.exitCode != 0)
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     QString qstr = QString("");
@@ -515,6 +562,8 @@ QMap<QString, QVariant> ExtendedSysMon::getPsStats()
     if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd);
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
+    if (process.exitCode != 0)
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
     qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     QStringList psList;
@@ -528,25 +577,13 @@ QMap<QString, QVariant> ExtendedSysMon::getPsStats()
     if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
     process = runTask(cmd);
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
+    if (process.exitCode != 0)
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
     qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     psStats[QString("pstotal")] = qoutput.split(QChar('\n'), QString::SkipEmptyParts).count();
 
     return psStats;
-}
-
-
-int ExtendedSysMon::getUpgradeInfo(const QString cmd)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
-
-    TaskResult process = runTask(QString("bash -c \"") + cmd + QString("\""));
-    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-
-    QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
-
-    return qoutput.split(QChar('\n'), QString::SkipEmptyParts).count();
 }
 
 
@@ -586,9 +623,9 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
         for (int i=0; i<desktop.keys().count(); i++)
             setData(source, desktop.keys()[i], desktop[desktop.keys()[i]]);
     } else if (source == QString("gpu")) {
-        setData(source, QString("GPU"), getGpu(configuration[QString("GPUDEV")]));
+        setData(source, QString("value"), getGpu(configuration[QString("GPUDEV")]));
     } else if (source == QString("gputemp")) {
-        setData(source, QString("GPUTemp"), getGpuTemp(configuration[QString("GPUDEV")]));
+        setData(source, QString("value"), getGpuTemp(configuration[QString("GPUDEV")]));
     } else if (source == QString("hddtemp")) {
         QStringList deviceList = configuration[QString("HDDDEV")].split(QChar(','), QString::SkipEmptyParts);
         for (int i=0; i<deviceList.count(); i++)
@@ -598,9 +635,8 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
         setData(source, QString("value"), getNetworkDevice());
     } else if (source == QString("pkg")) {
         if (pkgTimeUpdate > MSEC_IN_HOUR) {
-            for (int i=0; i<configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts).count(); i++)
-                setData(source, QString("pkgcount") + QString::number(i),
-                        getUpgradeInfo(configuration[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts)[i]));
+            for (int i=0; i<externalUpgrade.count(); i++)
+                setData(source, QString("pkgcount") + QString::number(i), externalUpgrade[i]->run());
             pkgTimeUpdate = 0;
         }
         pkgTimeUpdate++;

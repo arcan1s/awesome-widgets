@@ -38,6 +38,14 @@ public:
     Q_INVOKABLE void runCmd(const QString cmd = QString("/usr/bin/true"));
     Q_INVOKABLE void sendNotification(const QString eventId, const QString message);
     Q_INVOKABLE void showReadme();
+    // configuration slots
+    Q_INVOKABLE void addDevice(const QString source);
+    Q_INVOKABLE QStringList getDiskDevices();
+    Q_INVOKABLE QStringList getFanDevices();
+    Q_INVOKABLE QStringList getHddDevices();
+    Q_INVOKABLE QStringList getMountDevices();
+    Q_INVOKABLE QStringList getTempDevices();
+    Q_INVOKABLE QMap<QString, QVariant> getFont(const QMap<QString, QVariant> defaultFont);
     // dataengine
     Q_INVOKABLE QMap<QString, QVariant> readDataEngineConfiguration();
     Q_INVOKABLE void writeDataEngineConfiguration(const QMap<QString, QVariant> configuration);
@@ -50,6 +58,7 @@ private:
     QMap<QString, QVariant> updateDataEngineConfiguration(QMap<QString, QVariant> rawConfig);
     // variables
     bool debug = false;
+    QStringList diskDevices, fanDevices, mountDevices, tempDevices;
 };
 
 
