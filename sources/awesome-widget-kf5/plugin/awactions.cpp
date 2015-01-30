@@ -23,8 +23,11 @@
 #include <QDebug>
 #include <QDesktopServices>
 #include <QDir>
+#include <QHBoxLayout>
+#include <QListWidget>
 #include <QMessageBox>
 #include <QNetworkAccessManager>
+#include <QNetworkInterface>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QProcess>
@@ -54,6 +57,15 @@ AWActions::AWActions(QObject *parent)
 AWActions::~AWActions()
 {
     if (debug) qDebug() << PDEBUG;
+}
+
+
+bool AWActions::checkKeys(const QMap<QString, QVariant> data)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Data" << data;
+
+    return (data.count() != 0);
 }
 
 
@@ -124,9 +136,48 @@ void AWActions::addDevice(const QString source)
 }
 
 
+QString AWActions::getAboutText(const QString type)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Type" << type;
+
+    QString text;
+    if (type == QString("header"))
+        text = QString(NAME);
+    else if (type == QString("description"))
+        text = i18n("A set of minimalistic plasmoid widgets");
+    else if (type == QString("links"))
+        text = i18n("Links:") + QString("<br>") +
+               QString("<a href=\"%1\">%2</a><br>").arg(QString(HOMEPAGE)).arg(i18n("Homepage")) +
+               QString("<a href=\"%1\">%2</a><br>").arg(QString(REPOSITORY)).arg(i18n("Repository")) +
+               QString("<a href=\"%1\">%2</a><br>").arg(QString(BUGTRACKER)).arg(i18n("Bugtracker")) +
+               QString("<a href=\"%1\">%2</a><br>").arg(QString(TRANSLATION)).arg(i18n("Translation issue")) +
+               QString("<a href=\"%1\">%2</a><br>").arg(QString(AUR_PACKAGES)).arg(i18n("AUR packages")) +
+               QString("<a href=\"%1\">%2</a>").arg(QString(OPENSUSE_PACKAGES)).arg(i18n("openSUSE packages"));
+    else if (type == QString("copy"))
+        text = QString("<small>&copy; %1 <a href=\"mailto:%2\">%3</a><br>").arg(QString(DATE)).arg(QString(EMAIL)).arg(QString(AUTHOR)) +
+               i18n("This software is licensed under %1", QString(LICENSE)) + QString("</small>");
+    else if (type == QString("translators"))
+        text = i18n("Translators: %1", QString(TRANSLATORS));
+    else if (type == QString("3rdparty")) {
+        QStringList trdPartyList = QString(TRDPARTY_LICENSE).split(QChar(';'), QString::SkipEmptyParts);
+        for (int i=0; i<trdPartyList.count(); i++)
+            trdPartyList[i] = QString("<a href=\"%3\">%1</a> (%2 license)")
+                    .arg(trdPartyList[i].split(QChar(','))[0])
+                    .arg(trdPartyList[i].split(QChar(','))[1])
+                    .arg(trdPartyList[i].split(QChar(','))[2]);
+        text = i18n("This software uses: %1", trdPartyList.join(QString(", ")));
+    }
+
+    return text;
+}
+
+
 QStringList AWActions::getDiskDevices()
 {
     if (debug) qDebug() << PDEBUG;
+
+    diskDevices.sort();
 
     return diskDevices;
 }
@@ -135,6 +186,8 @@ QStringList AWActions::getDiskDevices()
 QStringList AWActions::getFanDevices()
 {
     if (debug) qDebug() << PDEBUG;
+
+    fanDevices.sort();
 
     return fanDevices;
 }
@@ -148,6 +201,7 @@ QStringList AWActions::getHddDevices()
     QStringList devices = allDevices.filter(QRegExp(QString("^[hms]d[a-z]$")));
     for (int i=0; i<devices.count(); i++)
         devices[i] = QString("/dev/") + devices[i];
+    devices.sort();
 
     return devices;
 }
@@ -157,13 +211,31 @@ QStringList AWActions::getMountDevices()
 {
     if (debug) qDebug() << PDEBUG;
 
+    mountDevices.sort();
+
     return mountDevices;
+}
+
+
+QStringList AWActions::getNetworkDevices()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QStringList interfaceList;
+    QList<QNetworkInterface> rawInterfaceList = QNetworkInterface::allInterfaces();
+    for (int i=0; i<rawInterfaceList.count(); i++)
+        interfaceList.append(rawInterfaceList[i].name());
+    interfaceList.sort();
+
+    return interfaceList;
 }
 
 
 QStringList AWActions::getTempDevices()
 {
     if (debug) qDebug() << PDEBUG;
+
+    tempDevices.sort();
 
     return tempDevices;
 }
@@ -184,6 +256,45 @@ QMap<QString, QVariant> AWActions::getFont(const QMap<QString, QVariant> default
     fontMap[QString("size")] = font.pointSize();
 
     return fontMap;
+}
+
+
+QString AWActions::selectDevices(const QStringList source, const QStringList current)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    // paint
+    QDialog *dialog = new QDialog(0);
+    QListWidget *widget = new QListWidget(dialog);
+    QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
+                                                    Qt::Horizontal, dialog);
+    QHBoxLayout *layout = new QHBoxLayout(dialog);
+    layout->addWidget(widget);
+    layout->addWidget(buttons);
+    dialog->setLayout(layout);
+
+    // fill
+    for (int i=0; i<source.count(); i++) {
+        QListWidgetItem *item = new QListWidgetItem(source[i]);
+        if (current.contains(source[i]))
+            item->setCheckState(Qt::Checked);
+        else
+            item->setCheckState(Qt::Unchecked);
+        widget->addItem(item);
+    }
+
+    // exec
+    QStringList selected;
+    int ret = dialog->exec();
+    if (ret == QDialog::Accepted) {
+        for (int i=0; i<widget->count(); i++)
+            if (widget->item(i)->checkState() == Qt::Checked)
+                selected.append(widget->item(i)->text());
+    } else
+        selected = current;
+    delete dialog;
+
+    return selected.join(QString("@@"));
 }
 
 

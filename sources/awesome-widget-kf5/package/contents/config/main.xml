@@ -17,9 +17,6 @@
     <entry name="background" type="bool">
       <default>true</default>
     </entry>
-    <entry name="popup" type="bool">
-      <default>true</default>
-    </entry>
     <entry name="customTime" type="string">
       <default>$hh:$mm</default>
     </entry>

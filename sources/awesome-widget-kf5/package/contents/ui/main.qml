@@ -96,7 +96,7 @@ Item {
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)
 
-            if ((data.value == "N\\A") || (data.value == "")) return
+            if (!AWActions.checkKeys(data)) return
             if (AWKeys.isReady()) AWKeys.setDataBySource(sourceName, data, settings)
         }
 
@@ -116,7 +116,7 @@ Item {
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)
 
-            if ((data.value == "N\\A") || (data.value == "")) return
+            if (!AWActions.checkKeys(data)) return
             if (AWKeys.isReady()) AWKeys.setDataBySource(sourceName, data, settings)
             // update
             if (sourceName == "update") needUpdate()
@@ -132,7 +132,7 @@ Item {
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)
 
-            if ((data.value == "N\\A") || (data.value == "")) return
+            if (!AWActions.checkKeys(data)) return
             if (AWKeys.isReady()) AWKeys.setDataBySource(sourceName, data, settings)
         }
     }

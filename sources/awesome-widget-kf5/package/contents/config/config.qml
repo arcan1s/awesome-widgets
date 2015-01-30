@@ -26,4 +26,22 @@ ConfigModel {
         icon: "utilities-system-monitor"
         source: "widget.qml"
     }
+
+    ConfigCategory {
+        name: i18n("Advanced")
+        icon: "system-run"
+        source: "advanced.qml"
+    }
+
+    ConfigCategory {
+        name: i18n("Appearance")
+        icon: "preferences-desktop-theme"
+        source: "appearance.qml"
+    }
+
+    ConfigCategory {
+        name: i18n("About")
+        icon: "help-about"
+        source: "about.qml"
+    }
 }

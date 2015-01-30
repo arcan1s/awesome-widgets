@@ -21,6 +21,7 @@
 #define BUGTRACKER "https://github.com/arcan1s/awesome-widgets/issues"
 #define TRANSLATION "https://github.com/arcan1s/awesome-widgets/issues/14"
 #define AUR_PACKAGES "https://aur.archlinux.org/packages/kdeplasma-applets-awesome-widgets/"
+#define OPENSUSE_PACKAGES "http://software.opensuse.org/package/awesome-widgets"
 
 // build information
 #define BUILD_DATE "@CURRENT_DATE@"
