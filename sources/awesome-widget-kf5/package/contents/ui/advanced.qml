@@ -20,6 +20,8 @@ import QtQuick.Controls 1.3 as QtControls
 import QtQuick.Layouts 1.0 as QtLayouts
 import QtQuick.Controls.Styles 1.3 as QtStyles
 
+import org.kde.plasma.private.awesomewidget 1.0
+
 
 Item {
     id: advancedPage
@@ -28,8 +30,7 @@ Item {
     implicitWidth: pageColumn.implicitWidth
     implicitHeight: pageColumn.implicitHeight
 
-    Loader { id: connector; source: "connector.qml" }
-    property bool debug: connector.item.debug
+    property bool debug: AWKeys.isDebugEnabled()
 
     property alias cfg_background: background.checked
     property alias cfg_customTime: customTime.text
@@ -158,10 +159,10 @@ Item {
             QtControls.Button {
                 width: parent.width * 3 / 5
                 text: i18n("Select devices")
-                onClicked: plasmoid.configuration.tempDevice = connector.item.selectDevices(
-                                                               connector.item.getTempDevices(),
+                onClicked: plasmoid.configuration.tempDevice = AWActions.selectDevices(
+                                                               AWActions.getTempDevices(),
                                                                plasmoid.configuration.tempDevice.split("@@")
-                                                                                           )
+                                                                                      )
             }
         }
 
@@ -178,10 +179,10 @@ Item {
             QtControls.Button {
                 width: parent.width * 3 / 5
                 text: i18n("Select devices")
-                onClicked: plasmoid.configuration.fanDevice = connector.item.selectDevice(
-                                                              connector.item.getFanDevices(),
+                onClicked: plasmoid.configuration.fanDevice = AWActions.selectDevice(
+                                                              AWActions.getFanDevices(),
                                                               plasmoid.configuration.fanDevice.split("@@")
-                                                                                         )
+                                                                                    )
             }
         }
 
@@ -198,9 +199,10 @@ Item {
             QtControls.Button {
                 width: parent.width * 3 / 5
                 text: i18n("Select devices")
-                onClicked: plasmoid.configuration.mount = connector.item.selectDevices(connector.item.getMountDevices(),
-                                                                                       plasmoid.configuration.mount.split("@@")
-                                                                                      )
+                onClicked: plasmoid.configuration.mount = AWActions.selectDevices(
+                                                          AWActions.getMountDevices(),
+                                                          plasmoid.configuration.mount.split("@@")
+                                                                                 )
             }
         }
 
@@ -217,10 +219,10 @@ Item {
             QtControls.Button {
                 width: parent.width * 3 / 5
                 text: i18n("Select devices")
-                onClicked: plasmoid.configuration.disk = connector.item.selectDevices(
-                                                         connector.item.getDiskDevices(),
+                onClicked: plasmoid.configuration.disk = AWActions.selectDevices(
+                                                         AWActions.getDiskDevices(),
                                                          plasmoid.configuration.disk.split("@@")
-                                                                                     )
+                                                                                )
             }
         }
 
@@ -237,10 +239,10 @@ Item {
             QtControls.Button {
                 width: parent.width * 3 / 5
                 text: i18n("Select devices")
-                onClicked: plasmoid.configuration.hdd = connector.item.selectDevices(
-                                                        connector.item.getHddDevices(),
+                onClicked: plasmoid.configuration.hdd = AWActions.selectDevices(
+                                                        AWActions.getHddDevices(),
                                                         plasmoid.configuration.hdd.split("@@")
-                                                                                    )
+                                                                               )
             }
         }
 
@@ -257,10 +259,10 @@ Item {
             QtControls.Button {
                 width: parent.width * 3 / 5
                 text: i18n("Select devices")
-                onClicked: plasmoid.configuration.customNetdev = connector.item.selectDevices(
-                                                                 connector.item.getNetworkDevices(),
+                onClicked: plasmoid.configuration.customNetdev = AWActions.selectDevices(
+                                                                 AWActions.getNetworkDevices(),
                                                                  plasmoid.configuration.customNetdev.split("@@")
-                                                                                             )
+                                                                                        )
             }
         }
 
@@ -311,7 +313,7 @@ Item {
             QtControls.Button {
                 width: parent.width * 3 / 5
                 text: i18n("Edit bars")
-                onClicked: connector.item.editItem("graphicalitem")
+                onClicked: AWKeys.editItem("graphicalitem")
             }
         }
     }
@@ -319,5 +321,8 @@ Item {
 
     Component.onCompleted: {
         if (debug) console.log("[advanced::onCompleted]")
+
+        // init submodule
+        AWKeys.initKeys(pattern, settings, tooltipSettings)
     }
 }

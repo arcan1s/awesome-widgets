@@ -15,16 +15,11 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
+pragma Singleton
 import QtQuick 2.0
-
-import org.kde.plasma.private.awesomewidget 1.0
 
 
 QtObject {
-    id: connector
-
-    // variables
-    property bool debug: AWKeys.isDebugEnabled()
     property variant fontWeight: {
         "light": Font.Light,
         "normal": Font.Normal,
@@ -38,7 +33,6 @@ QtObject {
         "right": Text.AlignRight,
         "justify": Text.AlignJustify
     }
-    // external
     property variant settings: {
         "customTime": plasmoid.configuration.customTime,
         "customUptime": plasmoid.configuration.customUptime,
@@ -71,93 +65,5 @@ QtObject {
         "upTooltipColor": plasmoid.configuration.upTooltipColor,
         "batteryTooltipColor": plasmoid.configuration.batteryTooltipColor,
         "batteryInTooltipColor": plasmoid.configuration.batteryInTooltipColor
-    }
-    property string pattern: plasmoid.configuration.text
-
-    Component.onCompleted: {
-        if (debug) console.log("[connector::onCompleted]")
-
-        // init submodule
-        AWKeys.initKeys(pattern, settings, tooltipSettings)
-    }
-
-    function addDevice(source) {
-        AWActions.addDevice(source)
-    }
-
-    function checkKeys(data) {
-        return AWActions.checkKeys(data)
-    }
-
-    function checkUpdates() {
-        AWActions.checkUpdates()
-    }
-
-    function dictKeys() {
-        return AWKeys.dictKeys()
-    }
-
-    function editItem(type) {
-        AWKeys.editItem(type)
-    }
-
-    function getAboutText(type) {
-        AWActions.getAboutText(type)
-    }
-
-    function getDiskDevices() {
-        return AWActions.getDiskDevices()
-    }
-
-    function getFanDevices() {
-        return AWActions.getFanDevices()
-    }
-
-    function getFont(defaultFont) {
-        return AWActions.getFont(defaultFont)
-    }
-
-    function getHddDevices() {
-        return AWActions.getHddDevices()
-    }
-
-    function getMountDevices() {
-        return AWActions.getMountDevices()
-    }
-
-    function getNetworkDevices() {
-        return AWActions.getNetworkDevices()
-    }
-
-    function getTempDevices() {
-        return AWActions.getTempDevices()
-    }
-
-    function isReady() {
-        return AWKeys.isReady()
-    }
-
-    function parsePattern() {
-        return AWKeys.parsePattern(pattern)
-    }
-
-    function selectDevice(all, current) {
-        return AWActions.selectDevices(all, current)
-    }
-
-    function sendNotification(event, message) {
-        AWActions.sendNotification(event, message)
-    }
-
-    function setDataBySource(sourceName, data) {
-        AWKeys.setDataBySource(sourceName, data, settings)
-    }
-
-    function showValue(tag) {
-        return AWKeys.valueByKey(tag)
-    }
-
-    function showReadme() {
-        AWActions.showReadme()
     }
 }

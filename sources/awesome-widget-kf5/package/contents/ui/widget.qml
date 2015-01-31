@@ -21,6 +21,9 @@ import QtQuick.Dialogs 1.1 as QtDialogs
 import QtQuick.Layouts 1.0 as QtLayouts
 import QtQuick.Controls.Styles 1.3 as QtStyles
 
+import org.kde.plasma.private.awesomewidget 1.0
+import "."
+
 
 Item {
     id: widgetPage
@@ -29,8 +32,7 @@ Item {
     implicitWidth: pageColumn.implicitWidth
     implicitHeight: pageColumn.implicitHeight
 
-    Loader { id: connector; source: "connector.qml" }
-    property bool debug: connector.item.debug
+    property bool debug: AWKeys.isDebugEnabled()
 
     property alias cfg_text: textPattern.text
 
@@ -59,7 +61,7 @@ Item {
                         "family": plasmoid.configuration.fontFamily,
                         "size": plasmoid.configuration.fontSize
                     }
-                    var font = connector.item.getFont(defaultFont)
+                    var font = AWActions.getFont(defaultFont)
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
@@ -182,7 +184,7 @@ Item {
 
             QtControls.ComboBox {
                 id: tags
-                model: connector.item.dictKeys()
+                model: AWKeys.dictKeys()
             }
             QtControls.Button {
                 text: i18n("Add")
@@ -204,8 +206,8 @@ Item {
 
                     var message = i18n("Tag: %1", tags.currentText)
                     message += "<br>"
-                    message += i18n("Value: %1", connector.item.showValue(tags.currentText))
-                    connector.item.sendNotification("tag", message)
+                    message += i18n("Value: %1", AWKeys.valueByKey(tags.currentText))
+                    AWActions.sendNotification("tag", message)
                 }
             }
         }
@@ -220,5 +222,8 @@ Item {
 
     Component.onCompleted: {
         if (debug) console.log("[widget::onCompleted]")
+
+        // init submodule
+        AWKeys.initKeys(plasmoid.configuration.text, general.settings, general.tooltipSettings)
     }
 }

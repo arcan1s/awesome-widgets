@@ -21,14 +21,17 @@ import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents
 
+import org.kde.plasma.private.awesomewidget 1.0
+import "."
+
 
 Item {
     id: main
 
-    Loader { id: connector; source: "connector.qml" }
-    property bool debug: connector.item.debug
+    property bool debug: AWKeys.isDebugEnabled()
 
     signal needUpdate
+
 
     // init
     Plasmoid.icon: "utilities-system-monitor"
@@ -45,14 +48,14 @@ Item {
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)
 
-            if (!connector.item.checkKeys(data)) return
-            if (connector.item.isReady()) connector.item.setDataBySource(sourceName, data)
+            if (!AWActions.checkKeys(data)) return
+            if (AWKeys.isReady()) AWKeys.setDataBySource(sourceName, data, general.settings)
         }
 
         onSourceAdded: {
             if (debug) console.log("[main::onSourceAdded] : Source " + source)
 
-            connector.item.addDevice(source)
+            AWActions.addDevice(source)
         }
     }
 
@@ -65,8 +68,8 @@ Item {
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)
 
-            if (!connector.item.checkKeys(data)) return
-            if (connector.item.isReady()) connector.item.setDataBySource(sourceName, data)
+            if (!AWActions.checkKeys(data)) return
+            if (AWKeys.isReady()) AWKeys.setDataBySource(sourceName, data, general.settings)
             // update
             if (sourceName == "update") needUpdate()
         }
@@ -81,8 +84,8 @@ Item {
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)
 
-            if (!connector.item.checkKeys(data)) return
-            if (connector.item.isReady()) connector.item.setDataBySource(sourceName, data)
+            if (!AWActions.checkKeys(data)) return
+            if (AWKeys.isReady()) AWKeys.setDataBySource(sourceName, data, general.settings)
         }
     }
 
@@ -97,8 +100,8 @@ Item {
             font.family: plasmoid.configuration.fontFamily
             font.italic: plasmoid.configuration.fontStyle == "italic" ? true : false
             font.pointSize: plasmoid.configuration.fontSize
-            font.weight: connector.item.fontWeight[plasmoid.configuration.fontWeight]
-            horizontalAlignment: connector.item.align[plasmoid.configuration.textAlign]
+            font.weight: general.fontWeight[plasmoid.configuration.fontWeight]
+            horizontalAlignment: general.align[plasmoid.configuration.textAlign]
             textFormat: Text.RichText
             text: plasmoid.configuration.text
         }
@@ -107,6 +110,8 @@ Item {
     Component.onCompleted: {
         if (debug) console.log("[main::onCompleted]")
 
+        // init submodule
+        AWKeys.initKeys(plasmoid.configuration.text, general.settings, general.tooltipSettings)
         // actions
         plasmoid.setAction("showReadme", i18n("Show README"), "text-x-readme")
         plasmoid.setAction("updateText", i18n("Update text"), "stock-refresh")
@@ -116,7 +121,7 @@ Item {
     onNeedUpdate: {
         if (debug) console.log("[main::onNeedUpdate]")
 
-        text.text = connector.item.parsePattern()
+        text.text = AWKeys.parsePattern(plasmoid.configuration.text)
         // update geometry
         text.update()
         height = text.contentHeight
@@ -127,13 +132,13 @@ Item {
     function action_checkUpdates() {
         if (debug) console.log("[main::action_checkUpdates]")
 
-        connector.item.checkUpdates()
+        AWActions.checkUpdates()
     }
 
     function action_showReadme() {
         if (debug) console.log("[main::action_showReadme]")
 
-        connector.item.showReadme()
+        AWActions.showReadme()
     }
 
     function action_updateText() {

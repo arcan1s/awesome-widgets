@@ -21,6 +21,9 @@ import QtQuick.Controls.Styles 1.3 as QtStyles
 import QtQuick.Dialogs 1.1 as QtDialogs
 import QtQuick.Layouts 1.0 as QtLayouts
 
+import org.kde.plasma.private.awesomewidget 1.0
+import "."
+
 
 Item {
     id: appearancePage
@@ -29,8 +32,7 @@ Item {
     implicitWidth: pageColumn.implicitWidth
     implicitHeight: pageColumn.implicitHeight
 
-    Loader { id: connector; source: "connector.qml" }
-    property bool debug: connector.item.debug
+    property bool debug: AWKeys.isDebugEnabled()
     property variant weight: {
         25: 0,
         50: 1,
