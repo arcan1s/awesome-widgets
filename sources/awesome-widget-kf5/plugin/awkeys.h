@@ -19,10 +19,14 @@
 #ifndef AWKEYS_H
 #define AWKEYS_H
 
+#include <QDialog>
+#include <QDialogButtonBox>
+#include <QListWidget>
 #include <QMap>
 #include <QObject>
 #include <QStringList>
 #include <QPixmap>
+#include <QPushButton>
 #include <QVariant>
 
 
@@ -34,6 +38,13 @@ class GraphicalItem;
 class AWKeys : public QObject
 {
     Q_OBJECT
+
+    enum RequestedItem {
+        Nothing,
+        RequestedGraphicalItem,
+        RequestedExtScript,
+        RequestedExtUpgrade
+    };
 
 public:
     AWKeys(QObject *parent = 0);
@@ -48,14 +59,19 @@ public:
     Q_INVOKABLE QPixmap toolTipImage();
     // keys
     Q_INVOKABLE QStringList dictKeys();
-    Q_INVOKABLE QStringList extScriptsInfo();
-    Q_INVOKABLE QStringList extUpgradeInfo();
-    Q_INVOKABLE QStringList graphicalItemsInfo();
     Q_INVOKABLE void setDataBySource(const QString sourceName,
                                      const QMap<QString, QVariant> data,
                                      const QMap<QString, QVariant> params);
     // values
     Q_INVOKABLE QString valueByKey(QString key);
+    // configuration
+    Q_INVOKABLE void editItem(const QString type);
+
+private slots:
+    void editItemButtonPressed(QAbstractButton *button);
+    void copyBar(const QString original);
+    void copyScript(const QString original);
+    void copyUpgrade(const QString original);
 
 private:
     // methods
@@ -73,6 +89,13 @@ private:
     GraphicalItem *getItemByTag(const QString tag);
     QStringList getTimeKeys();
     AWToolTip *toolTip = nullptr;
+    // graphical elements
+    QDialog *dialog = nullptr;
+    QListWidget *widgetDialog = nullptr;
+    QDialogButtonBox *dialogButtons = nullptr;
+    QPushButton *copyButton = nullptr;
+    QPushButton *createButton = nullptr;
+    RequestedItem requestedItem = Nothing;
     // variables
     bool debug = false;
     bool ready = false;

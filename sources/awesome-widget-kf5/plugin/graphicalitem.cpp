@@ -125,7 +125,7 @@ QString GraphicalItem::image(const float value)
     }
 
     // convert
-    QPixmap pixmap = QPixmap::grabWidget(view).transformed(QTransform().scale(scale[0], scale[1]));
+    QPixmap pixmap = view->grab().transformed(QTransform().scale(scale[0], scale[1]));
     QByteArray byteArray;
     QBuffer buffer(&byteArray);
     pixmap.save(&buffer, "PNG");

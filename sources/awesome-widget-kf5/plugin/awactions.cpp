@@ -267,11 +267,13 @@ QString AWActions::selectDevices(const QStringList source, const QStringList cur
     QDialog *dialog = new QDialog(0);
     QListWidget *widget = new QListWidget(dialog);
     QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
-                                                    Qt::Horizontal, dialog);
+                                                     Qt::Vertical, dialog);
     QHBoxLayout *layout = new QHBoxLayout(dialog);
     layout->addWidget(widget);
     layout->addWidget(buttons);
     dialog->setLayout(layout);
+    connect(buttons, SIGNAL(accepted()), dialog, SLOT(accept()));
+    connect(buttons, SIGNAL(rejected()), dialog, SLOT(reject()));
 
     // fill
     for (int i=0; i<source.count(); i++) {
@@ -286,6 +288,7 @@ QString AWActions::selectDevices(const QStringList source, const QStringList cur
     // exec
     QStringList selected;
     int ret = dialog->exec();
+    if (debug) qDebug() << PDEBUG << ":" << "Dialog returns" << ret;
     if (ret == QDialog::Accepted) {
         for (int i=0; i<widget->count(); i++)
             if (widget->item(i)->checkState() == Qt::Checked)

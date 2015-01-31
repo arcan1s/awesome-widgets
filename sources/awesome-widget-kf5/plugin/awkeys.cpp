@@ -17,9 +17,13 @@
 
 #include "awkeys.h"
 
+#include <KI18n/KLocalizedString>
+
 #include <QDateTime>
 #include <QDebug>
 #include <QDir>
+#include <QHBoxLayout>
+#include <QInputDialog>
 #include <QNetworkInterface>
 #include <QProcessEnvironment>
 #include <QRegExp>
@@ -42,12 +46,27 @@ AWKeys::AWKeys(QObject *parent)
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
     QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
     debug = (debugEnv == QString("yes"));
+
+    dialog = new QDialog(0);
+    widgetDialog = new QListWidget(dialog);
+    dialogButtons = new QDialogButtonBox(QDialogButtonBox::Open | QDialogButtonBox::Close,
+                                         Qt::Vertical, dialog);
+    copyButton = dialogButtons->addButton(i18n("Copy"), QDialogButtonBox::ActionRole);
+    createButton = dialogButtons->addButton(i18n("Create"), QDialogButtonBox::ActionRole);
+    QHBoxLayout *layout = new QHBoxLayout(dialog);
+    layout->addWidget(widgetDialog);
+    layout->addWidget(dialogButtons);
+    dialog->setLayout(layout);
+    connect(dialogButtons, SIGNAL(clicked(QAbstractButton *)), this, SLOT(editItemButtonPressed(QAbstractButton *)));
+    connect(dialogButtons, SIGNAL(rejected()), dialog, SLOT(reject()));
 }
 
 
 AWKeys::~AWKeys()
 {
     if (debug) qDebug() << PDEBUG;
+
+    delete dialog;
 }
 
 
@@ -221,55 +240,6 @@ QStringList AWKeys::dictKeys()
     allKeys.append(QString("tdesktops"));
 
     return allKeys;
-}
-
-
-QStringList AWKeys::extScriptsInfo()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    QStringList info;
-    for (int i=0; i<extScripts.count(); i++) {
-        info.append(extScripts[i]->fileName());
-        info.append(extScripts[i]->name());
-        info.append(extScripts[i]->comment());
-        info.append(extScripts[i]->executable());
-        info.append(QVariant(extScripts[i]->isActive()).toString());
-    }
-
-    return info;
-}
-
-
-QStringList AWKeys::extUpgradeInfo()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    QStringList info;
-    for (int i=0; i<extUpgrade.count(); i++) {
-        info.append(extUpgrade[i]->fileName());
-        info.append(extUpgrade[i]->name());
-        info.append(extUpgrade[i]->comment());
-        info.append(extUpgrade[i]->executable());
-        info.append(QVariant(extUpgrade[i]->isActive()).toString());
-    }
-
-    return info;
-}
-
-
-QStringList AWKeys::graphicalItemsInfo()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    QStringList info;
-    for (int i=0; i<graphicalItems.count(); i++) {
-        info.append(graphicalItems[i]->fileName());
-        info.append(graphicalItems[i]->name() + graphicalItems[i]->bar());
-        info.append(graphicalItems[i]->comment());
-    }
-
-    return info;
 }
 
 
@@ -537,6 +507,254 @@ QString AWKeys::valueByKey(QString key)
 }
 
 
+void AWKeys::editItem(const QString type)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    widgetDialog->clear();
+    if (type == QString("graphicalitem")) {
+        requestedItem = RequestedGraphicalItem;
+        for (int i=0; i<graphicalItems.count(); i++) {
+            QListWidgetItem *item = new QListWidgetItem(graphicalItems[i]->fileName());
+            QStringList tooltip;
+            tooltip.append(i18n("Tag: %1", graphicalItems[i]->name() + graphicalItems[i]->bar()));
+            tooltip.append(i18n("Comment: %1", graphicalItems[i]->comment()));
+            item->setToolTip(tooltip.join(QChar('\n')));
+            widgetDialog->addItem(item);
+        }
+    } else if (type == QString("extscript")) {
+        requestedItem = RequestedExtScript;
+        for (int i=0; i<extScripts.count(); i++) {
+            QListWidgetItem *item = new QListWidgetItem(extScripts[i]->fileName());
+            QStringList tooltip;
+            tooltip.append(i18n("Name: %1", extScripts[i]->name()));
+            tooltip.append(i18n("Comment: %1", extScripts[i]->comment()));
+            tooltip.append(i18n("Exec: %1", extScripts[i]->executable()));
+            item->setToolTip(tooltip.join(QChar('\n')));
+            widgetDialog->addItem(item);
+        }
+    } else if (type == QString("extupgrade")) {
+        requestedItem = RequestedExtUpgrade;
+        for (int i=0; i<extUpgrade.count(); i++) {
+            QListWidgetItem *item = new QListWidgetItem(extUpgrade[i]->fileName());
+            QStringList tooltip;
+            tooltip.append(i18n("Name: %1", extUpgrade[i]->name()));
+            tooltip.append(i18n("Comment: %1", extUpgrade[i]->comment()));
+            tooltip.append(i18n("Exec: %1", extUpgrade[i]->executable()));
+            item->setToolTip(tooltip.join(QChar('\n')));
+            widgetDialog->addItem(item);
+        }
+    }
+
+    int ret = dialog->exec();
+    if (debug) qDebug() << PDEBUG << ":" << "Dialog returns" << ret;
+    requestedItem = Nothing;
+}
+
+
+void AWKeys::editItemButtonPressed(QAbstractButton *button)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QListWidgetItem *item = widgetDialog->currentItem();
+    if (dynamic_cast<QPushButton *>(button) == copyButton) {
+        if (item == nullptr) return;
+        QString current = item->text();
+        switch (requestedItem) {
+        case RequestedExtScript:
+            copyScript(current);
+            break;
+        case RequestedExtUpgrade:
+            copyUpgrade(current);
+            break;
+        case RequestedGraphicalItem:
+            copyBar(current);
+            break;
+        case Nothing:
+        default:
+            break;
+        }
+    } else if (dynamic_cast<QPushButton *>(button) == createButton) {
+        switch (requestedItem) {
+        case RequestedExtScript:
+            copyScript(QString(""));
+            break;
+        case RequestedExtUpgrade:
+            copyUpgrade(QString(""));
+            break;
+        case RequestedGraphicalItem:
+            copyBar(QString(""));
+            break;
+        case Nothing:
+        default:
+            break;
+        }
+    } else if (dialogButtons->buttonRole(button) == QDialogButtonBox::AcceptRole) {
+        if (item == nullptr) return;
+        QString current = item->text();
+        switch (requestedItem) {
+        case RequestedExtScript:
+            for (int i=0; i<extScripts.count(); i++) {
+                if (extScripts[i]->fileName() != current) continue;
+                extScripts[i]->showConfiguration();
+                break;
+            }
+            break;
+        case RequestedExtUpgrade:
+            for (int i=0; i<extUpgrade.count(); i++) {
+                if (extUpgrade[i]->fileName() != current) continue;
+                extUpgrade[i]->showConfiguration();
+                break;
+            }
+            break;
+        case RequestedGraphicalItem:
+            for (int i=0; i<graphicalItems.count(); i++) {
+                if (graphicalItems[i]->fileName() != current) continue;
+                graphicalItems[i]->showConfiguration();
+                break;
+            }
+            break;
+        case Nothing:
+        default:
+            break;
+        }
+    }
+}
+
+
+void AWKeys::copyBar(const QString original)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    int number = 0;
+    while (true) {
+        bool exit = true;
+        for (int i=0; i<graphicalItems.count(); i++)
+            if (graphicalItems[i]->name() == QString("bar%1").arg(number)) {
+                number++;
+                exit = false;
+                break;
+            }
+        if (exit) break;
+    }
+    QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
+                                                 QString("plasma_applet_awesome-widget/desktops"),
+                                                 QStandardPaths::LocateDirectory);
+    bool ok;
+    QString name = QInputDialog::getText(0, i18n("Enter file name"),
+                                         i18n("File name"), QLineEdit::Normal,
+                                         QString(""), &ok);
+    if ((!ok) || (name.isEmpty())) return;
+    if (!name.endsWith(QString(".desktop"))) name += QString(".desktop");
+    QStringList bars;
+    bars.append(keys.filter((QRegExp(QString("cpu(?!cl).*")))));
+    bars.append(keys.filter((QRegExp(QString("^gpu$")))));
+    bars.append(keys.filter((QRegExp(QString("^mem$")))));
+    bars.append(keys.filter((QRegExp(QString("^swap$")))));
+    bars.append(keys.filter((QRegExp(QString("^hdd[0-9].*")))));
+    bars.append(keys.filter((QRegExp(QString("^bat.*")))));
+
+    int originalItem = -1;
+    for (int i=0; i<graphicalItems.count(); i++) {
+        if ((graphicalItems[i]->fileName() != original) ||
+            (graphicalItems[i]->fileName() != name))
+            continue;
+        originalItem = i;
+        break;
+    }
+    GraphicalItem *item = new GraphicalItem(0, name, dirs, debug);
+    item->setName(QString("bar%1").arg(number));
+    if (originalItem != -1) {
+        item->setComment(graphicalItems[originalItem]->comment());
+        item->setBar(graphicalItems[originalItem]->bar());
+        item->setActiveColor(graphicalItems[originalItem]->activeColor());
+        item->setInactiveColor(graphicalItems[originalItem]->inactiveColor());
+        item->setType(graphicalItems[originalItem]->type());
+        item->setDirection(graphicalItems[originalItem]->direction());
+        item->setHeight(graphicalItems[originalItem]->height());
+        item->setWidth(graphicalItems[originalItem]->width());
+    }
+
+    item->showConfiguration(bars);
+    delete item;
+}
+
+
+void AWKeys::copyScript(const QString original)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
+                                                 QString("plasma_dataengine_extsysmon/scripts"),
+                                                 QStandardPaths::LocateDirectory);
+    bool ok;
+    QString name = QInputDialog::getText(0, i18n("Enter file name"),
+                                         i18n("File name"), QLineEdit::Normal,
+                                         QString(""), &ok);
+    if ((!ok) || (name.isEmpty())) return;
+    if (!name.endsWith(QString(".desktop"))) name += QString(".desktop");
+
+    int originalItem = -1;
+    for (int i=0; i<extScripts.count(); i++) {
+        if ((extScripts[i]->fileName() != original) ||
+            (extScripts[i]->fileName() != name))
+            continue;
+        originalItem = i;
+        break;
+    }
+    ExtScript *script = new ExtScript(0, name, dirs, debug);
+    if (originalItem != -1) {
+        script->setActive(extScripts[originalItem]->isActive());
+        script->setComment(extScripts[originalItem]->comment());
+        script->setExecutable(extScripts[originalItem]->executable());
+        script->setHasOutput(extScripts[originalItem]->hasOutput());
+        script->setInterval(extScripts[originalItem]->interval());
+        script->setName(extScripts[originalItem]->name());
+        script->setPrefix(extScripts[originalItem]->prefix());
+        script->setRedirect(extScripts[originalItem]->redirect());
+    }
+
+    script->showConfiguration();
+    delete script;
+}
+
+
+void AWKeys::copyUpgrade(const QString original)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
+                                                 QString("plasma_dataengine_extsysmon/upgrade"),
+                                                 QStandardPaths::LocateDirectory);
+    bool ok;
+    QString name = QInputDialog::getText(0, i18n("Enter file name"),
+                                         i18n("File name"), QLineEdit::Normal,
+                                         QString(""), &ok);
+    if ((!ok) || (name.isEmpty())) return;
+    if (!name.endsWith(QString(".desktop"))) name += QString(".desktop");
+
+    int originalItem = -1;
+    for (int i=0; i<extUpgrade.count(); i++) {
+        if ((extUpgrade[i]->fileName() != original) ||
+            (extUpgrade[i]->fileName() != name))
+            continue;
+        originalItem = i;
+        break;
+    }
+    ExtUpgrade *uprade = new ExtUpgrade(0, name, dirs, debug);
+    if (originalItem != -1) {
+        uprade->setActive(extUpgrade[originalItem]->isActive());
+        uprade->setComment(extUpgrade[originalItem]->comment());
+        uprade->setExecutable(extUpgrade[originalItem]->executable());
+        uprade->setName(extUpgrade[originalItem]->name());
+        uprade->setNull(extUpgrade[originalItem]->null());
+    }
+
+    uprade->showConfiguration();
+    delete uprade;
+}
+
+
 QString AWKeys::networkDevice(const QString custom)
 {
     if (debug) qDebug() << PDEBUG;
@@ -648,13 +866,13 @@ QList<ExtScript *> AWKeys::getExtScripts()
 
     QList<ExtScript *> externalScripts;
     // create directory at $HOME
-    QString localDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) +
+    QString localDir = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) +
             QString("/plasma_dataengine_extsysmon/scripts");
     QDir localDirectory;
     if ((!localDirectory.exists(localDir)) && (localDirectory.mkpath(localDir)))
         if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
 
-    QStringList dirs = QStandardPaths::locateAll(QStandardPaths::DataLocation,
+    QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
                                                  QString("plasma_dataengine_extsysmon/scripts"),
                                                  QStandardPaths::LocateDirectory);
     QStringList names;
@@ -679,13 +897,13 @@ QList<ExtUpgrade *> AWKeys::getExtUpgrade()
 
     QList<ExtUpgrade *> externalUpgrade;
     // create directory at $HOME
-    QString localDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) +
+    QString localDir = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) +
             QString("/plasma_dataengine_extsysmon/upgrade");
     QDir localDirectory;
     if ((!localDirectory.exists(localDir)) && (localDirectory.mkpath(localDir)))
         if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
 
-    QStringList dirs = QStandardPaths::locateAll(QStandardPaths::DataLocation,
+    QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
                                                  QString("plasma_dataengine_extsysmon/upgrade"),
                                                  QStandardPaths::LocateDirectory);
     QStringList names;
@@ -710,13 +928,13 @@ QList<GraphicalItem *> AWKeys::getGraphicalItems()
 
     QList<GraphicalItem *> items;
     // create directory at $HOME
-    QString localDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) +
+    QString localDir = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) +
             QString("/plasma_applet_awesome-widget/desktops");
     QDir localDirectory;
     if (localDirectory.mkpath(localDir))
         if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
 
-    QStringList dirs = QStandardPaths::locateAll(QStandardPaths::DataLocation,
+    QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
                                                  QString("plasma_applet_awesome-widget/desktops"),
                                                  QStandardPaths::LocateDirectory);
     QStringList names;

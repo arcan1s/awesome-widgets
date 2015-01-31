@@ -20,8 +20,6 @@ import QtQuick.Controls 1.3 as QtControls
 import QtQuick.Layouts 1.0 as QtLayouts
 import QtQuick.Controls.Styles 1.3 as QtStyles
 
-import org.kde.plasma.private.awesomewidget 1.0
-
 
 Item {
     id: advancedPage
@@ -30,12 +28,15 @@ Item {
     implicitWidth: pageColumn.implicitWidth
     implicitHeight: pageColumn.implicitHeight
 
-    property bool debug: AWKeys.isDebugEnabled()
+    Loader { id: connector; source: "connector.qml" }
+    property bool debug: connector.item.debug
 
     property alias cfg_background: background.checked
     property alias cfg_customTime: customTime.text
     property alias cfg_customUptime: customUptime.text
     property string cfg_tempUnits: tempUnits.currentText
+    property alias cfg_acOnline: acOnline.text
+    property alias cfg_acOffline: acOffline.text
 
 
     Column {
@@ -157,8 +158,160 @@ Item {
             QtControls.Button {
                 width: parent.width * 3 / 5
                 text: i18n("Select devices")
-                onClicked: plasmoid.configuration.customNetdev = AWActions.selectDevices(AWActions.getNetworkDevices(),
-                                                                                         plasmoid.configuration.customNetdev.split("@@"))
+                onClicked: plasmoid.configuration.tempDevice = connector.item.selectDevices(
+                                                               connector.item.getTempDevices(),
+                                                               plasmoid.configuration.tempDevice.split("@@")
+                                                                                           )
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: implicitHeight
+                width: parent.width * 2 / 5
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+                text: i18n("Fan devices")
+            }
+            QtControls.Button {
+                width: parent.width * 3 / 5
+                text: i18n("Select devices")
+                onClicked: plasmoid.configuration.fanDevice = connector.item.selectDevice(
+                                                              connector.item.getFanDevices(),
+                                                              plasmoid.configuration.fanDevice.split("@@")
+                                                                                         )
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: implicitHeight
+                width: parent.width * 2 / 5
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+                text: i18n("Mount devices")
+            }
+            QtControls.Button {
+                width: parent.width * 3 / 5
+                text: i18n("Select devices")
+                onClicked: plasmoid.configuration.mount = connector.item.selectDevices(connector.item.getMountDevices(),
+                                                                                       plasmoid.configuration.mount.split("@@")
+                                                                                      )
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: implicitHeight
+                width: parent.width * 2 / 5
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+                text: i18n("HDD devices (speed)")
+            }
+            QtControls.Button {
+                width: parent.width * 3 / 5
+                text: i18n("Select devices")
+                onClicked: plasmoid.configuration.disk = connector.item.selectDevices(
+                                                         connector.item.getDiskDevices(),
+                                                         plasmoid.configuration.disk.split("@@")
+                                                                                     )
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: implicitHeight
+                width: parent.width * 2 / 5
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+                text: i18n("HDD devices (temp)")
+            }
+            QtControls.Button {
+                width: parent.width * 3 / 5
+                text: i18n("Select devices")
+                onClicked: plasmoid.configuration.hdd = connector.item.selectDevices(
+                                                        connector.item.getHddDevices(),
+                                                        plasmoid.configuration.hdd.split("@@")
+                                                                                    )
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: implicitHeight
+                width: parent.width * 2 / 5
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+                text: i18n("Network devices")
+            }
+            QtControls.Button {
+                width: parent.width * 3 / 5
+                text: i18n("Select devices")
+                onClicked: plasmoid.configuration.customNetdev = connector.item.selectDevices(
+                                                                 connector.item.getNetworkDevices(),
+                                                                 plasmoid.configuration.customNetdev.split("@@")
+                                                                                             )
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.height
+                width: parent.width * 2 / 5
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+                text: i18n("AC online tag")
+            }
+            QtControls.TextField {
+                id: acOnline
+                width: parent.width * 3 / 5
+                text: plasmoid.configuration.acOnline
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.height
+                width: parent.width * 2 / 5
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+                text: i18n("AC offline tag")
+            }
+            QtControls.TextField {
+                id: acOffline
+                width: parent.width * 3 / 5
+                text: plasmoid.configuration.acOffline
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: implicitHeight
+                width: parent.width * 2 / 5
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+                text: i18n("Bars")
+            }
+            QtControls.Button {
+                width: parent.width * 3 / 5
+                text: i18n("Edit bars")
+                onClicked: connector.item.editItem("graphicalitem")
             }
         }
     }

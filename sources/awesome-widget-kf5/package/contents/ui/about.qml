@@ -19,8 +19,6 @@ import QtQuick 2.0
 import QtQuick.Controls 1.3 as QtControls
 import QtQuick.Layouts 1.0 as QtLayouts
 
-import org.kde.plasma.private.awesomewidget 1.0
-
 
 Item {
     id: aboutPage
@@ -29,7 +27,8 @@ Item {
     implicitWidth: pageColumn.implicitWidth
     implicitHeight: pageColumn.implicitHeight
 
-    property bool debug: AWKeys.isDebugEnabled()
+    Loader { id: connector; source: "connector.qml" }
+    property bool debug: connector.item.debug
 
     Column {
         id: pageColumn
@@ -44,20 +43,20 @@ Item {
                     QtControls.Label {
                         QtLayouts.Layout.fillWidth: true
                         horizontalAlignment: Text.AlignHCenter
-                        text: AWActions.getAboutText("header")
+                        text: connector.item.getAboutText("header")
                     }
 
                     QtControls.Label {
                         QtLayouts.Layout.fillWidth: true
                         horizontalAlignment: Text.AlignJustify
-                        text: AWActions.getAboutText("description")
+                        text: connector.item.getAboutText("description")
                     }
 
                     QtControls.Label {
                         QtLayouts.Layout.fillWidth: true
                         horizontalAlignment: Text.AlignLeft
                         textFormat: Text.RichText
-                        text: AWActions.getAboutText("links")
+                        text: connector.item.getAboutText("links")
                     }
 
                     QtControls.Label {
@@ -65,7 +64,7 @@ Item {
                         font.capitalization: Font.SmallCaps
                         horizontalAlignment: Text.AlignHCenter
                         textFormat: Text.RichText
-                        text: AWActions.getAboutText("copy")
+                        text: connector.item.getAboutText("copy")
                     }
                 }
             }
@@ -78,14 +77,14 @@ Item {
                         QtLayouts.Layout.fillWidth: true
                         wrapMode: Text.WordWrap
                         horizontalAlignment: Text.AlignJustify
-                        text: AWActions.getAboutText("translators")
+                        text: connector.item.getAboutText("translators")
                     }
 
                     QtControls.Label {
                         QtLayouts.Layout.fillWidth: true
                         horizontalAlignment: Text.AlignJustify
                         textFormat: Text.RichText
-                        text: AWActions.getAboutText("3rdparty")
+                        text: connector.item.getAboutText("3rdparty")
                     }
                 }
             }

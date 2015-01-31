@@ -21,8 +21,6 @@ import QtQuick.Dialogs 1.1 as QtDialogs
 import QtQuick.Layouts 1.0 as QtLayouts
 import QtQuick.Controls.Styles 1.3 as QtStyles
 
-import org.kde.plasma.private.awesomewidget 1.0
-
 
 Item {
     id: widgetPage
@@ -31,7 +29,8 @@ Item {
     implicitWidth: pageColumn.implicitWidth
     implicitHeight: pageColumn.implicitHeight
 
-    property bool debug: AWKeys.isDebugEnabled()
+    Loader { id: connector; source: "connector.qml" }
+    property bool debug: connector.item.debug
 
     property alias cfg_text: textPattern.text
 
@@ -60,7 +59,7 @@ Item {
                         "family": plasmoid.configuration.fontFamily,
                         "size": plasmoid.configuration.fontSize
                     }
-                    var font = AWActions.getFont(defaultFont)
+                    var font = connector.item.getFont(defaultFont)
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
@@ -183,7 +182,7 @@ Item {
 
             QtControls.ComboBox {
                 id: tags
-                model: AWKeys.dictKeys()
+                model: connector.item.dictKeys()
             }
             QtControls.Button {
                 text: i18n("Add")
@@ -203,8 +202,10 @@ Item {
                 onClicked: {
                     if (debug) console.log("[widget::onClicked] : Show tag button")
 
-                    var message = i18n("Tag: %1<br>Value: %2", tags.currentText, AWKeys.valueByKey(tags.currentText))
-                    AWActions.sendNotification("tag", message)
+                    var message = i18n("Tag: %1", tags.currentText)
+                    message += "<br>"
+                    message += i18n("Value: %1", connector.item.showValue(tags.currentText))
+                    connector.item.sendNotification("tag", message)
                 }
             }
         }

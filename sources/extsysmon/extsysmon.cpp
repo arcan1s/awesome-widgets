@@ -131,13 +131,13 @@ void ExtendedSysMon::initScripts()
 
     dirs = KGlobal::dirs()->findDirs("data", "plasma_dataengine_extsysmon/scripts");
 #else
-    localDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) +
+    localDir = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) +
             QString("/plasma_dataengine_extsysmon/scripts");
     QDir localDirectory;
     if ((!localDirectory.exists(localDir)) && (localDirectory.mkpath(localDir)))
         if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
 
-    dirs = QStandardPaths::locateAll(QStandardPaths::DataLocation,
+    dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
                                      QString("plasma_dataengine_extsysmon/scripts"),
                                      QStandardPaths::LocateDirectory);
 #endif /* BUILD_KDE4 */
@@ -172,13 +172,13 @@ void ExtendedSysMon::initUpgrade()
 
     dirs = KGlobal::dirs()->findDirs("data", "plasma_dataengine_extsysmon/upgrade");
 #else
-    localDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) +
+    localDir = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) +
             QString("/plasma_dataengine_extsysmon/upgrade");
     QDir localDirectory;
     if ((!localDirectory.exists(localDir)) && (localDirectory.mkpath(localDir)))
         if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
 
-    dirs = QStandardPaths::locateAll(QStandardPaths::DataLocation,
+    dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
                                      QString("plasma_dataengine_extsysmon/upgrade"),
                                      QStandardPaths::LocateDirectory);
 #endif /* BUILD_KDE4 */

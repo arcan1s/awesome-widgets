@@ -21,64 +21,13 @@ import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents
 
-import org.kde.plasma.private.awesomewidget 1.0
-
 
 Item {
     id: main
 
-    // variables
-    // internal
-    property bool debug: AWKeys.isDebugEnabled()
-    property variant fontWeight: {
-        "light": Font.Light,
-        "normal": Font.Normal,
-        "demibold": Font.DemiBold,
-        "bold": Font.Bold,
-        "black": Font.Black
-    }
-    property variant align: {
-        "left": Text.AlignLeft,
-        "center": Text.AlignHCenter,
-        "right": Text.AlignRight,
-        "justify": Text.AlignJustify
-    }
-    // external
-    property variant settings: {
-        "customTime": plasmoid.configuration.customTime,
-        "customUptime": plasmoid.configuration.customUptime,
-        "tempUnits": plasmoid.configuration.tempUnits,
-        "tempDevice": plasmoid.configuration.tempDevice,
-        "fanDevice": plasmoid.configuration.fanDevice,
-        "mount": plasmoid.configuration.mount,
-        "hdd": plasmoid.configuration.hdd,
-        "disk": plasmoid.configuration.disk,
-        "customNetdev": plasmoid.configuration.customNetdev,
-        "acOnline": plasmoid.configuration.acOnline,
-        "acOffline": plasmoid.configuration.acOffline
-    }
-    property variant tooltipSettings: {
-        "tooltipNumber": plasmoid.configuration.tooltipNumber,
-        "useTooltipBackground": plasmoid.configuration.useTooltipBackground,
-        "tooltipBackgroung": plasmoid.configuration.tooltipBackgroung,
-        "cpuTooltip": plasmoid.configuration.cpuTooltip,
-        "cpuclTooltip": plasmoid.configuration.cpuclTooltip,
-        "memTooltip": plasmoid.configuration.memTooltip,
-        "swapTooltip": plasmoid.configuration.swapTooltip,
-        "downTooltip": plasmoid.configuration.downTooltip,
-        "upTooltip": plasmoid.configuration.downTooltip,
-        "batteryTooltip": plasmoid.configuration.batteryTooltip,
-        "cpuTooltipColor": plasmoid.configuration.cpuTooltipColor,
-        "cpuclTooltipColor": plasmoid.configuration.cpuclTooltipColor,
-        "memTooltipColor": plasmoid.configuration.memTooltipColor,
-        "swapTooltipColor": plasmoid.configuration.swapTooltipColor,
-        "downTooltipColor": plasmoid.configuration.downTooltipColor,
-        "upTooltipColor": plasmoid.configuration.upTooltipColor,
-        "batteryTooltipColor": plasmoid.configuration.batteryTooltipColor,
-        "batteryInTooltipColor": plasmoid.configuration.batteryInTooltipColor
-    }
-    property string pattern: plasmoid.configuration.text
-    // signals
+    Loader { id: connector; source: "connector.qml" }
+    property bool debug: connector.item.debug
+
     signal needUpdate
 
     // init
@@ -96,14 +45,14 @@ Item {
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)
 
-            if (!AWActions.checkKeys(data)) return
-            if (AWKeys.isReady()) AWKeys.setDataBySource(sourceName, data, settings)
+            if (!connector.item.checkKeys(data)) return
+            if (connector.item.isReady()) connector.item.setDataBySource(sourceName, data)
         }
 
         onSourceAdded: {
             if (debug) console.log("[main::onSourceAdded] : Source " + source)
 
-            AWActions.addDevice(source)
+            connector.item.addDevice(source)
         }
     }
 
@@ -116,8 +65,8 @@ Item {
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)
 
-            if (!AWActions.checkKeys(data)) return
-            if (AWKeys.isReady()) AWKeys.setDataBySource(sourceName, data, settings)
+            if (!connector.item.checkKeys(data)) return
+            if (connector.item.isReady()) connector.item.setDataBySource(sourceName, data)
             // update
             if (sourceName == "update") needUpdate()
         }
@@ -132,8 +81,8 @@ Item {
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)
 
-            if (!AWActions.checkKeys(data)) return
-            if (AWKeys.isReady()) AWKeys.setDataBySource(sourceName, data, settings)
+            if (!connector.item.checkKeys(data)) return
+            if (connector.item.isReady()) connector.item.setDataBySource(sourceName, data)
         }
     }
 
@@ -148,8 +97,8 @@ Item {
             font.family: plasmoid.configuration.fontFamily
             font.italic: plasmoid.configuration.fontStyle == "italic" ? true : false
             font.pointSize: plasmoid.configuration.fontSize
-            font.weight: fontWeight[plasmoid.configuration.fontWeight]
-            horizontalAlignment: align[plasmoid.configuration.textAlign]
+            font.weight: connector.item.fontWeight[plasmoid.configuration.fontWeight]
+            horizontalAlignment: connector.item.align[plasmoid.configuration.textAlign]
             textFormat: Text.RichText
             text: plasmoid.configuration.text
         }
@@ -158,8 +107,6 @@ Item {
     Component.onCompleted: {
         if (debug) console.log("[main::onCompleted]")
 
-        // init submodule
-        AWKeys.initKeys(pattern, settings, tooltipSettings)
         // actions
         plasmoid.setAction("showReadme", i18n("Show README"), "text-x-readme")
         plasmoid.setAction("updateText", i18n("Update text"), "stock-refresh")
@@ -169,7 +116,7 @@ Item {
     onNeedUpdate: {
         if (debug) console.log("[main::onNeedUpdate]")
 
-        text.text = AWKeys.parsePattern(pattern)
+        text.text = connector.item.parsePattern()
         // update geometry
         text.update()
         height = text.contentHeight
@@ -180,13 +127,13 @@ Item {
     function action_checkUpdates() {
         if (debug) console.log("[main::action_checkUpdates]")
 
-        AWActions.checkUpdates()
+        connector.item.checkUpdates()
     }
 
     function action_showReadme() {
         if (debug) console.log("[main::action_showReadme]")
 
-        AWActions.showReadme()
+        connector.item.showReadme()
     }
 
     function action_updateText() {
