@@ -19,7 +19,6 @@ import QtQuick 2.0
 import QtQuick.Controls 1.3 as QtControls
 import QtQuick.Controls.Styles 1.3 as QtStyles
 import QtQuick.Dialogs 1.1 as QtDialogs
-import QtQuick.Layouts 1.0 as QtLayouts
 
 import org.kde.plasma.private.awesomewidget 1.0
 import "."

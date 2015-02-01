@@ -5,7 +5,7 @@ cmake_policy (SET CMP0002 OLD)
 cmake_policy (SET CMP0011 NEW)
 cmake_policy (SET CMP0015 NEW)
 
-project (awesome-widgets)
+project (awesomewidgets)
 set (PROJECT_AUTHOR "Evgeniy Alekseev")
 set (PROJECT_CONTACT "esalexeev@gmail.com")
 set (PROJECT_LICENSE "GPLv3")

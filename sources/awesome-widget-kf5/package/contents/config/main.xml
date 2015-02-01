@@ -26,24 +26,6 @@
     <entry name="tempUnits" type="string">
       <default>Celsius</default>
     </entry>
-    <entry name="tempDevice" type="string">
-      <default></default>
-    </entry>
-    <entry name="fanDevice" type="string">
-      <default></default>
-    </entry>
-    <entry name="mount" type="string">
-      <default>/</default>
-    </entry>
-    <entry name="hdd" type="string">
-      <default>/dev/sda</default>
-    </entry>
-    <entry name="disk" type="string">
-      <default>disk/sda_(8:0)</default>
-    </entry>
-    <entry name="customNetdev" type="string">
-      <default></default>
-    </entry>
     <entry name="acOnline" type="string">
       <default>(*)</default>
     </entry>

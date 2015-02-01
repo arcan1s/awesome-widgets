@@ -50,19 +50,26 @@ public:
     AWKeys(QObject *parent = 0);
     ~AWKeys();
 
+    Q_INVOKABLE bool checkKeys(const QMap<QString, QVariant> data);
     Q_INVOKABLE void initKeys(const QString pattern,
-                              const QMap<QString, QVariant> params,
                               const QMap<QString, QVariant> tooltipParams);
     Q_INVOKABLE bool isDebugEnabled();
-    Q_INVOKABLE bool isReady();
     Q_INVOKABLE QString parsePattern(const QString pattern);
     Q_INVOKABLE QPixmap toolTipImage();
     // keys
+    Q_INVOKABLE void addDevice(const QString source);
     Q_INVOKABLE QStringList dictKeys();
+    Q_INVOKABLE QStringList getDiskDevices();
+    Q_INVOKABLE QStringList getFanDevices();
+    Q_INVOKABLE QStringList getHddDevices();
+    Q_INVOKABLE QStringList getMountDevices();
+    Q_INVOKABLE QStringList getNetworkDevices();
+    Q_INVOKABLE QStringList getTempDevices();
     Q_INVOKABLE void setDataBySource(const QString sourceName,
                                      const QMap<QString, QVariant> data,
                                      const QMap<QString, QVariant> params);
     // values
+    Q_INVOKABLE QString graphicalValueByKey();
     Q_INVOKABLE QString valueByKey(QString key);
     // configuration
     Q_INVOKABLE void editItem(const QString type);
@@ -75,14 +82,13 @@ private slots:
 
 private:
     // methods
-    QString networkDevice(const QString custom = QString(""));
+    QString networkDevice();
     int numberCpus();
     float temperature(const float temp, const QString units = QString("Celsius"));
     // find methods
     QStringList findGraphicalItems(const QString pattern);
     QStringList findKeys(const QString pattern);
     // get methods
-    QMap<QString, QVariant> getCounts(const QMap<QString, QVariant> params);
     QList<ExtScript *> getExtScripts();
     QList<ExtUpgrade *> getExtUpgrade();
     QList<GraphicalItem *> getGraphicalItems();
@@ -103,8 +109,8 @@ private:
     QList<ExtScript *> extScripts;
     QList<ExtUpgrade *> extUpgrade;
     QStringList foundBars, foundKeys, keys;
-    QMap<QString, QVariant> counts;
     QMap<QString, QString> values;
+    QStringList diskDevices, fanDevices, mountDevices, tempDevices;
 };
 
 

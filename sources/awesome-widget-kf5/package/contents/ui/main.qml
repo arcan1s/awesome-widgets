@@ -29,6 +29,33 @@ Item {
     id: main
 
     property bool debug: AWKeys.isDebugEnabled()
+    property variant settings: {
+        "customTime": plasmoid.configuration.customTime,
+        "customUptime": plasmoid.configuration.customUptime,
+        "tempUnits": plasmoid.configuration.tempUnits,
+        "acOnline": plasmoid.configuration.acOnline,
+        "acOffline": plasmoid.configuration.acOffline
+    }
+    property variant tooltipSettings: {
+        "tooltipNumber": plasmoid.configuration.tooltipNumber,
+        "useTooltipBackground": plasmoid.configuration.useTooltipBackground,
+        "tooltipBackgroung": plasmoid.configuration.tooltipBackgroung,
+        "cpuTooltip": plasmoid.configuration.cpuTooltip,
+        "cpuclTooltip": plasmoid.configuration.cpuclTooltip,
+        "memTooltip": plasmoid.configuration.memTooltip,
+        "swapTooltip": plasmoid.configuration.swapTooltip,
+        "downTooltip": plasmoid.configuration.downTooltip,
+        "upTooltip": plasmoid.configuration.downTooltip,
+        "batteryTooltip": plasmoid.configuration.batteryTooltip,
+        "cpuTooltipColor": plasmoid.configuration.cpuTooltipColor,
+        "cpuclTooltipColor": plasmoid.configuration.cpuclTooltipColor,
+        "memTooltipColor": plasmoid.configuration.memTooltipColor,
+        "swapTooltipColor": plasmoid.configuration.swapTooltipColor,
+        "downTooltipColor": plasmoid.configuration.downTooltipColor,
+        "upTooltipColor": plasmoid.configuration.upTooltipColor,
+        "batteryTooltipColor": plasmoid.configuration.batteryTooltipColor,
+        "batteryInTooltipColor": plasmoid.configuration.batteryInTooltipColor
+    }
 
     signal needUpdate
 
@@ -42,34 +69,34 @@ Item {
     PlasmaCore.DataSource {
         id: systemmonitorDE
         engine: "systemmonitor"
-        connectedSources: systemmonitorDE.sources
+        connectedSources: []
         interval: plasmoid.configuration.interval
 
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)
 
-            if (!AWActions.checkKeys(data)) return
-            if (AWKeys.isReady()) AWKeys.setDataBySource(sourceName, data, general.settings)
+            AWKeys.setDataBySource(sourceName, data, settings)
         }
 
         onSourceAdded: {
             if (debug) console.log("[main::onSourceAdded] : Source " + source)
 
-            AWActions.addDevice(source)
+            systemmonitorDE.connectSource(source)
+            AWKeys.addDevice(source)
         }
     }
 
     PlasmaCore.DataSource {
         id: extsysmonDE
         engine: "extsysmon"
-        connectedSources: extsysmonDE.sources
+        connectedSources: ["battery", "custom", "desktop", "netdev", "gpu",
+                           "gputemp", "hddtemp", "pkg", "player", "ps", "update"]
         interval: plasmoid.configuration.interval
 
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)
 
-            if (!AWActions.checkKeys(data)) return
-            if (AWKeys.isReady()) AWKeys.setDataBySource(sourceName, data, general.settings)
+            AWKeys.setDataBySource(sourceName, data, settings)
             // update
             if (sourceName == "update") needUpdate()
         }
@@ -84,8 +111,7 @@ Item {
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)
 
-            if (!AWActions.checkKeys(data)) return
-            if (AWKeys.isReady()) AWKeys.setDataBySource(sourceName, data, general.settings)
+            AWKeys.setDataBySource(sourceName, data, settings)
         }
     }
 
@@ -111,10 +137,11 @@ Item {
         if (debug) console.log("[main::onCompleted]")
 
         // init submodule
-        AWKeys.initKeys(plasmoid.configuration.text, general.settings, general.tooltipSettings)
+        AWKeys.initKeys(plasmoid.configuration.text, tooltipSettings)
         // actions
+        plasmoid.setAction("requestKey", i18n("Request key"), "utilities-system-monitor")
         plasmoid.setAction("showReadme", i18n("Show README"), "text-x-readme")
-        plasmoid.setAction("updateText", i18n("Update text"), "stock-refresh")
+        plasmoid.setAction("updateText", i18n("Update text"), "view-refresh")
         plasmoid.setAction("checkUpdates", i18n("Check updates"), "system-software-update")
     }
 
@@ -139,6 +166,14 @@ Item {
         if (debug) console.log("[main::action_showReadme]")
 
         AWActions.showReadme()
+    }
+
+    function action_requestKey() {
+        if (debug) console.log("[main::action_requestKey]")
+
+        var message = AWKeys.graphicalValueByKey();
+        if (message.length == 0) return
+        AWActions.sendNotification("tag", message)
     }
 
     function action_updateText() {

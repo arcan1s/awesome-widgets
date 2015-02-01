@@ -33,37 +33,4 @@ QtObject {
         "right": Text.AlignRight,
         "justify": Text.AlignJustify
     }
-    property variant settings: {
-        "customTime": plasmoid.configuration.customTime,
-        "customUptime": plasmoid.configuration.customUptime,
-        "tempUnits": plasmoid.configuration.tempUnits,
-        "tempDevice": plasmoid.configuration.tempDevice,
-        "fanDevice": plasmoid.configuration.fanDevice,
-        "mount": plasmoid.configuration.mount,
-        "hdd": plasmoid.configuration.hdd,
-        "disk": plasmoid.configuration.disk,
-        "customNetdev": plasmoid.configuration.customNetdev,
-        "acOnline": plasmoid.configuration.acOnline,
-        "acOffline": plasmoid.configuration.acOffline
-    }
-    property variant tooltipSettings: {
-        "tooltipNumber": plasmoid.configuration.tooltipNumber,
-        "useTooltipBackground": plasmoid.configuration.useTooltipBackground,
-        "tooltipBackgroung": plasmoid.configuration.tooltipBackgroung,
-        "cpuTooltip": plasmoid.configuration.cpuTooltip,
-        "cpuclTooltip": plasmoid.configuration.cpuclTooltip,
-        "memTooltip": plasmoid.configuration.memTooltip,
-        "swapTooltip": plasmoid.configuration.swapTooltip,
-        "downTooltip": plasmoid.configuration.downTooltip,
-        "upTooltip": plasmoid.configuration.downTooltip,
-        "batteryTooltip": plasmoid.configuration.batteryTooltip,
-        "cpuTooltipColor": plasmoid.configuration.cpuTooltipColor,
-        "cpuclTooltipColor": plasmoid.configuration.cpuclTooltipColor,
-        "memTooltipColor": plasmoid.configuration.memTooltipColor,
-        "swapTooltipColor": plasmoid.configuration.swapTooltipColor,
-        "downTooltipColor": plasmoid.configuration.downTooltipColor,
-        "upTooltipColor": plasmoid.configuration.upTooltipColor,
-        "batteryTooltipColor": plasmoid.configuration.batteryTooltipColor,
-        "batteryInTooltipColor": plasmoid.configuration.batteryInTooltipColor
-    }
 }

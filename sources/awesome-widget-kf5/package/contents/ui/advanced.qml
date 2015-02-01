@@ -17,8 +17,7 @@
 
 import QtQuick 2.0
 import QtQuick.Controls 1.3 as QtControls
-import QtQuick.Layouts 1.0 as QtLayouts
-import QtQuick.Controls.Styles 1.3 as QtStyles
+import org.kde.plasma.core 2.0 as PlasmaCore
 
 import org.kde.plasma.private.awesomewidget 1.0
 
@@ -31,6 +30,33 @@ Item {
     implicitHeight: pageColumn.implicitHeight
 
     property bool debug: AWKeys.isDebugEnabled()
+    property variant settings: {
+        "customTime": plasmoid.configuration.customTime,
+        "customUptime": plasmoid.configuration.customUptime,
+        "tempUnits": plasmoid.configuration.tempUnits,
+        "acOnline": plasmoid.configuration.acOnline,
+        "acOffline": plasmoid.configuration.acOffline
+    }
+    property variant tooltipSettings: {
+        "tooltipNumber": plasmoid.configuration.tooltipNumber,
+        "useTooltipBackground": plasmoid.configuration.useTooltipBackground,
+        "tooltipBackgroung": plasmoid.configuration.tooltipBackgroung,
+        "cpuTooltip": plasmoid.configuration.cpuTooltip,
+        "cpuclTooltip": plasmoid.configuration.cpuclTooltip,
+        "memTooltip": plasmoid.configuration.memTooltip,
+        "swapTooltip": plasmoid.configuration.swapTooltip,
+        "downTooltip": plasmoid.configuration.downTooltip,
+        "upTooltip": plasmoid.configuration.downTooltip,
+        "batteryTooltip": plasmoid.configuration.batteryTooltip,
+        "cpuTooltipColor": plasmoid.configuration.cpuTooltipColor,
+        "cpuclTooltipColor": plasmoid.configuration.cpuclTooltipColor,
+        "memTooltipColor": plasmoid.configuration.memTooltipColor,
+        "swapTooltipColor": plasmoid.configuration.swapTooltipColor,
+        "downTooltipColor": plasmoid.configuration.downTooltipColor,
+        "upTooltipColor": plasmoid.configuration.upTooltipColor,
+        "batteryTooltipColor": plasmoid.configuration.batteryTooltipColor,
+        "batteryInTooltipColor": plasmoid.configuration.batteryInTooltipColor
+    }
 
     property alias cfg_background: background.checked
     property alias cfg_customTime: customTime.text
@@ -150,126 +176,6 @@ Item {
             height: implicitHeight
             width: parent.width
             QtControls.Label {
-                height: implicitHeight
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Temperature devices")
-            }
-            QtControls.Button {
-                width: parent.width * 3 / 5
-                text: i18n("Select devices")
-                onClicked: plasmoid.configuration.tempDevice = AWActions.selectDevices(
-                                                               AWActions.getTempDevices(),
-                                                               plasmoid.configuration.tempDevice.split("@@")
-                                                                                      )
-            }
-        }
-
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: implicitHeight
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Fan devices")
-            }
-            QtControls.Button {
-                width: parent.width * 3 / 5
-                text: i18n("Select devices")
-                onClicked: plasmoid.configuration.fanDevice = AWActions.selectDevice(
-                                                              AWActions.getFanDevices(),
-                                                              plasmoid.configuration.fanDevice.split("@@")
-                                                                                    )
-            }
-        }
-
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: implicitHeight
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Mount devices")
-            }
-            QtControls.Button {
-                width: parent.width * 3 / 5
-                text: i18n("Select devices")
-                onClicked: plasmoid.configuration.mount = AWActions.selectDevices(
-                                                          AWActions.getMountDevices(),
-                                                          plasmoid.configuration.mount.split("@@")
-                                                                                 )
-            }
-        }
-
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: implicitHeight
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("HDD devices (speed)")
-            }
-            QtControls.Button {
-                width: parent.width * 3 / 5
-                text: i18n("Select devices")
-                onClicked: plasmoid.configuration.disk = AWActions.selectDevices(
-                                                         AWActions.getDiskDevices(),
-                                                         plasmoid.configuration.disk.split("@@")
-                                                                                )
-            }
-        }
-
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: implicitHeight
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("HDD devices (temp)")
-            }
-            QtControls.Button {
-                width: parent.width * 3 / 5
-                text: i18n("Select devices")
-                onClicked: plasmoid.configuration.hdd = AWActions.selectDevices(
-                                                        AWActions.getHddDevices(),
-                                                        plasmoid.configuration.hdd.split("@@")
-                                                                               )
-            }
-        }
-
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: implicitHeight
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Network devices")
-            }
-            QtControls.Button {
-                width: parent.width * 3 / 5
-                text: i18n("Select devices")
-                onClicked: plasmoid.configuration.customNetdev = AWActions.selectDevices(
-                                                                 AWActions.getNetworkDevices(),
-                                                                 plasmoid.configuration.customNetdev.split("@@")
-                                                                                        )
-            }
-        }
-
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
                 height: parent.height
                 width: parent.width * 2 / 5
                 horizontalAlignment: Text.AlignRight
@@ -304,7 +210,7 @@ Item {
             height: implicitHeight
             width: parent.width
             QtControls.Label {
-                height: implicitHeight
+                height: parent.height
                 width: parent.width * 2 / 5
                 horizontalAlignment: Text.AlignRight
                 verticalAlignment: Text.AlignVCenter
@@ -318,11 +224,52 @@ Item {
         }
     }
 
+    // we need to initializate DataEngines here too
+    // because we need to get keys and values
+    PlasmaCore.DataSource {
+        id: systemmonitorDE
+        engine: "systemmonitor"
+        connectedSources: systemmonitorDE.sources
+        interval: 5000
+
+        onNewData: {
+            if (debug) console.log("[advanced::onNewData] : Update source " + sourceName)
+
+            AWKeys.setDataBySource(sourceName, data, settings)
+        }
+    }
+
+    PlasmaCore.DataSource {
+        id: extsysmonDE
+        engine: "extsysmon"
+        connectedSources: ["battery", "custom", "desktop", "netdev", "gpu",
+                           "gputemp", "hddtemp", "pkg", "player", "ps", "update"]
+        interval: 5000
+
+        onNewData: {
+            if (debug) console.log("[advanced::onNewData] : Update source " + sourceName)
+
+            AWKeys.setDataBySource(sourceName, data, settings)
+        }
+    }
+
+    PlasmaCore.DataSource {
+        id: timeDE
+        engine: "time"
+        connectedSources: ["Local"]
+        interval: 5000
+
+        onNewData: {
+            if (debug) console.log("[advanced::onNewData] : Update source " + sourceName)
+
+            AWKeys.setDataBySource(sourceName, data, settings)
+        }
+    }
 
     Component.onCompleted: {
         if (debug) console.log("[advanced::onCompleted]")
 
         // init submodule
-        AWKeys.initKeys(pattern, settings, tooltipSettings)
+        AWKeys.initKeys(plasmoid.configuration.text, tooltipSettings)
     }
 }

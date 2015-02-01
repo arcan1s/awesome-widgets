@@ -23,16 +23,12 @@
 #include <QDebug>
 #include <QDesktopServices>
 #include <QDir>
-#include <QHBoxLayout>
-#include <QListWidget>
 #include <QMessageBox>
 #include <QNetworkAccessManager>
-#include <QNetworkInterface>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QProcess>
 #include <QProcessEnvironment>
-#include <QRegExp>
 #include <QSettings>
 #include <QStandardPaths>
 
@@ -57,15 +53,6 @@ AWActions::AWActions(QObject *parent)
 AWActions::~AWActions()
 {
     if (debug) qDebug() << PDEBUG;
-}
-
-
-bool AWActions::checkKeys(const QMap<QString, QVariant> data)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Data" << data;
-
-    return (data.count() != 0);
 }
 
 
@@ -111,31 +98,6 @@ void AWActions::showReadme()
 }
 
 
-void AWActions::addDevice(const QString source)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Source" << source;
-
-    QRegExp diskRegexp = QRegExp(QString("disk/(?:md|sd|hd)[a-z|0-9]_.*/Rate/(?:rblk)"));
-    QRegExp fanRegexp = QRegExp(QString("lmsensors/.*/fan.*"));
-    QRegExp mountRegexp = QRegExp(QString("partitions/.*/filllevel"));
-    QRegExp tempRegexp = QRegExp(QString("lmsensors/.*temp.*/.*"));
-
-    if (diskRegexp.indexIn(source) > -1) {
-        QStringList splitSource = source.split(QChar('/'));
-        QString device = splitSource[0] + QString("/") + splitSource[1];
-        diskDevices.append(device);
-    } else if (fanRegexp.indexIn(source) > -1)
-        fanDevices.append(source);
-    else if (mountRegexp.indexIn(source) > -1) {
-        QString device = source;
-        device.remove(QString("partitions")).remove(QString("/filllevel"));
-        mountDevices.append(device);
-    } else if (tempRegexp.indexIn(source) > -1)
-        tempDevices.append(source);
-}
-
-
 QString AWActions::getAboutText(const QString type)
 {
     if (debug) qDebug() << PDEBUG;
@@ -170,74 +132,6 @@ QString AWActions::getAboutText(const QString type)
     }
 
     return text;
-}
-
-
-QStringList AWActions::getDiskDevices()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    diskDevices.sort();
-
-    return diskDevices;
-}
-
-
-QStringList AWActions::getFanDevices()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    fanDevices.sort();
-
-    return fanDevices;
-}
-
-
-QStringList AWActions::getHddDevices()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    QStringList allDevices = QDir(QString("/dev")).entryList(QDir::System, QDir::Name);
-    QStringList devices = allDevices.filter(QRegExp(QString("^[hms]d[a-z]$")));
-    for (int i=0; i<devices.count(); i++)
-        devices[i] = QString("/dev/") + devices[i];
-    devices.sort();
-
-    return devices;
-}
-
-
-QStringList AWActions::getMountDevices()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    mountDevices.sort();
-
-    return mountDevices;
-}
-
-
-QStringList AWActions::getNetworkDevices()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    QStringList interfaceList;
-    QList<QNetworkInterface> rawInterfaceList = QNetworkInterface::allInterfaces();
-    for (int i=0; i<rawInterfaceList.count(); i++)
-        interfaceList.append(rawInterfaceList[i].name());
-    interfaceList.sort();
-
-    return interfaceList;
-}
-
-
-QStringList AWActions::getTempDevices()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    tempDevices.sort();
-
-    return tempDevices;
 }
 
 
@@ -308,38 +202,20 @@ QMap<QString, QVariant> AWActions::readDataEngineConfiguration()
     QString fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation, QString("plasma-dataengine-extsysmon.conf"));
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
     QSettings settings(fileName, QSettings::IniFormat);
-    QMap<QString, QVariant> rawConfig;
+    QMap<QString, QVariant> configuration;
 
     settings.beginGroup(QString("Configuration"));
-    rawConfig[QString("ACPIPATH")] = settings.value(QString("ACPIPATH"), QString("/sys/class/power_supply/"));
-    rawConfig[QString("GPUDEV")] = settings.value(QString("GPUDEV"), QString("auto"));
-    rawConfig[QString("HDDDEV")] = settings.value(QString("HDDDEV"), QString("all"));
-    rawConfig[QString("HDDTEMPCMD")] = settings.value(QString("HDDTEMPCMD"), QString("sudo hddtemp"));
-    rawConfig[QString("MPDADDRESS")] = settings.value(QString("MPDADDRESS"), QString("localhost"));
-    rawConfig[QString("MPDPORT")] = settings.value(QString("MPDPORT"), QString("6600"));
-    rawConfig[QString("MPRIS")] = settings.value(QString("MPRIS"), QString("auto"));
-    rawConfig[QString("PKGCMD")] = settings.value(QString("PKGCMD"), QString("pacman -Qu"));
-    rawConfig[QString("PKGNULL")] = settings.value(QString("PKGNULL"), QString("0"));
-    rawConfig[QString("PLAYER")] = settings.value(QString("PLAYER"), QString("mpris"));
+    configuration[QString("ACPIPATH")] = settings.value(QString("ACPIPATH"), QString("/sys/class/power_supply/"));
+    configuration[QString("GPUDEV")] = settings.value(QString("GPUDEV"), QString("auto"));
+    configuration[QString("HDDDEV")] = settings.value(QString("HDDDEV"), QString("all"));
+    configuration[QString("HDDTEMPCMD")] = settings.value(QString("HDDTEMPCMD"), QString("sudo hddtemp"));
+    configuration[QString("MPDADDRESS")] = settings.value(QString("MPDADDRESS"), QString("localhost"));
+    configuration[QString("MPDPORT")] = settings.value(QString("MPDPORT"), QString("6600"));
+    configuration[QString("MPRIS")] = settings.value(QString("MPRIS"), QString("auto"));
+    configuration[QString("PLAYER")] = settings.value(QString("PLAYER"), QString("mpris"));
     settings.endGroup();
 
-    return updateDataEngineConfiguration(rawConfig);
-}
-
-
-QMap<QString, QVariant> AWActions::updateDataEngineConfiguration(QMap<QString, QVariant> rawConfig)
-{
-    if (debug) qDebug() << PDEBUG;
-
-    for (int i=rawConfig[QString("PKGNULL")].toString().split(QString(","), QString::SkipEmptyParts).count();
-         i<rawConfig[QString("PKGCMD")].toString().split(QString(","), QString::SkipEmptyParts).count();
-         i++)
-        rawConfig[QString("PKGNULL")].toString() += QString(",0");
-
-    for (int i=0; i<rawConfig.keys().count(); i++)
-        if (debug) qDebug() << PDEBUG << ":" <<
-            rawConfig.keys()[i] << QString("=") << rawConfig[rawConfig.keys()[i]];
-    return rawConfig;
+    return configuration;
 }
 
 
@@ -358,8 +234,6 @@ void AWActions::writeDataEngineConfiguration(const QMap<QString, QVariant> confi
     settings.setValue(QString("MPDADDRESS"), configuration[QString("MPDADDRESS")]);
     settings.setValue(QString("MPDPORT"), configuration[QString("MPDPORT")]);
     settings.setValue(QString("MPRIS"), configuration[QString("MPRIS")]);
-    settings.setValue(QString("PKGCMD"), configuration[QString("PKGCMD")]);
-    settings.setValue(QString("PKGNULL"), configuration[QString("PKGNULL")]);
     settings.setValue(QString("PLAYER"), configuration[QString("PLAYER")]);
     settings.endGroup();
 
