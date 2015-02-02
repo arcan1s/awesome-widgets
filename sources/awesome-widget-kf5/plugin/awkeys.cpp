@@ -19,6 +19,7 @@
 
 #include <KI18n/KLocalizedString>
 
+#include <QBuffer>
 #include <QDateTime>
 #include <QDebug>
 #include <QDir>
@@ -140,15 +141,21 @@ QString AWKeys::parsePattern(const QString pattern)
 }
 
 
-QPixmap AWKeys::toolTipImage()
+QString AWKeys::toolTipImage()
 {
     if(debug) qDebug() << PDEBUG;
 
-    return toolTip->image();
+    if (!ready) return QString();
+
+    QPixmap tooltip = toolTip->image();
+    QByteArray byteArray;
+    QBuffer buffer(&byteArray);
+    tooltip.save(&buffer, "PNG");
+    return QString("<img src=\"data:image/png;base64,%1\"/>").arg(QString(byteArray.toBase64()));
 }
 
 
-void AWKeys::addDevice(const QString source)
+bool AWKeys::addDevice(const QString source)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Source" << source;
@@ -170,6 +177,40 @@ void AWKeys::addDevice(const QString source)
         mountDevices.append(device);
     } else if (tempRegexp.indexIn(source) > -1)
         tempDevices.append(source);
+
+    // check sources to be connected
+    if ((source.endsWith(QString("/TotalLoad"))) ||
+        (source.endsWith(QString("/clock"))) ||
+        (source.endsWith(QString("/AverageClock"))) ||
+        (source.endsWith(QString("/Rate/rblk"))) ||
+        (source.endsWith(QString("/Rate/wblk"))) ||
+        (source.endsWith(QString("/filllevel"))) ||
+        (source.endsWith(QString("/freespace"))) ||
+        (source.endsWith(QString("/usedspace"))) ||
+        (source.endsWith(QString("/receiver/data"))) ||
+        (source.endsWith(QString("/receiver/data"))) ||
+        (source.endsWith(QString("/transmitter/data"))) ||
+        (source.startsWith(QString("lmsensors/"))) ||
+        (source.startsWith(QString("mem/physical/"))) ||
+        (source.startsWith(QString("mem/swap/"))) ||
+        (source == QString("system/uptime")) ||
+        (source == QString("Local")) ||
+        (source == QString("battery")) ||
+        (source == QString("custom")) ||
+        (source == QString("desktop")) ||
+        (source == QString("netdev")) ||
+        (source == QString("gpu")) ||
+        (source == QString("gputemp")) ||
+        (source == QString("hddtemp")) ||
+        (source == QString("pkg")) ||
+        (source == QString("player")) ||
+        (source == QString("ps")) ||
+        (source == QString("update")))
+        return true;
+    else {
+        if (debug) qDebug() << PDEBUG << ":" << "Source" << source << "not found";
+        return false;
+    }
 }
 
 
@@ -279,8 +320,12 @@ QStringList AWKeys::dictKeys()
     allKeys.append(QString("ndesktop"));
     allKeys.append(QString("tdesktops"));
     // bars
+    QStringList graphicalItemsKeys;
     for (int i=0; i<graphicalItems.count(); i++)
-        allKeys.append(graphicalItems[i]->name() + graphicalItems[i]->bar());
+        graphicalItemsKeys.append(graphicalItems[i]->name() + graphicalItems[i]->bar());
+    graphicalItemsKeys.sort();
+    for (int i=graphicalItemsKeys.count()-1; i>=0; i--)
+        allKeys.append(graphicalItemsKeys[i]);
 
     return allKeys;
 }
@@ -365,6 +410,8 @@ bool AWKeys::setDataBySource(const QString sourceName,
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Source" << sourceName;
+
+    if (sourceName == QString("update")) return true;
 
     // checking
     if (!checkKeys(data)) return false;
@@ -625,12 +672,9 @@ bool AWKeys::setDataBySource(const QString sourceName,
         values[QString("cuptime")].replace(QString("$h"), QString("%1").arg(hours));
         values[QString("cuptime")].replace(QString("$mm"), QString("%1").arg(minutes, 2, 10, QChar('0')));
         values[QString("cuptime")].replace(QString("$m"), QString("%1").arg(minutes));
-    } else {
-        if (debug) qDebug() << PDEBUG << ":" << "Source not found";
-        return false;
     }
 
-    return true;
+    return false;
 }
 
 
@@ -984,11 +1028,13 @@ QStringList AWKeys::findGraphicalItems(const QString pattern)
 QStringList AWKeys::findKeys(const QString pattern)
 {
     QStringList selectedKeys;
-    for (int i=0; i<keys.count(); i++)
+    for (int i=0; i<keys.count(); i++) {
+        if (keys[i].startsWith(QString("bar"))) continue;
         if (pattern.contains(QString("$") + keys[i])) {
             if (debug) qDebug() << PDEBUG << ":" << "Found key" << keys[i];
             selectedKeys.append(keys[i]);
         }
+    }
 
     return selectedKeys;
 }

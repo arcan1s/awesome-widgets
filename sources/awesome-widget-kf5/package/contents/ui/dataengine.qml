@@ -70,7 +70,6 @@ Item {
                 text: i18n("ACPI path")
             }
             QtControls.TextField {
-                height: parent.height
                 width: parent.width * 3 / 5
                 text: cfg_dataengine["ACPIPATH"]
             }
@@ -154,9 +153,8 @@ Item {
                 text: i18n("hddtemp cmd")
             }
             QtControls.TextField {
-                height: parent.height
                 width: parent.width * 3 / 5
-                text: cfg_dataengine["HDDTEMP"]
+                text: cfg_dataengine["HDDTEMPCMD"]
             }
         }
 
@@ -171,7 +169,6 @@ Item {
                 text: i18n("MPD address")
             }
             QtControls.TextField {
-                height: parent.height
                 width: parent.width * 3 / 5
                 text: cfg_dataengine["MPDADDRESS"]
             }

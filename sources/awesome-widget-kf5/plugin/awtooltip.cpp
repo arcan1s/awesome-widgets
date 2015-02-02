@@ -26,7 +26,7 @@
 AWToolTip::AWToolTip(QObject *parent,
                      QMap<QString, QVariant> settings)
     : QObject(parent),
-      m_settings(settings)
+      configuration(settings)
 {
     // debug
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
@@ -41,12 +41,12 @@ AWToolTip::AWToolTip(QObject *parent,
     toolTipView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     toolTipView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    m_counts += m_settings[QString("cpuTooltip")].toInt();
-    m_counts += m_settings[QString("cpuclTooltip")].toInt();
-    m_counts += m_settings[QString("memTooltip")].toInt();
-    m_counts += m_settings[QString("swapTooltip")].toInt();
-    m_counts += m_settings[QString("downTooltip")].toInt();
-    m_counts += m_settings[QString("batteryTooltip")].toInt();
+    counts += configuration[QString("cpuTooltip")].toInt();
+    counts += configuration[QString("cpuclTooltip")].toInt();
+    counts += configuration[QString("memTooltip")].toInt();
+    counts += configuration[QString("swapTooltip")].toInt();
+    counts += configuration[QString("downTooltip")].toInt();
+    counts += configuration[QString("batteryTooltip")].toInt();
 
     boundaries[QString("cpu")] = 100.0;
     boundaries[QString("cpucl")] = 4000.0;
@@ -56,13 +56,13 @@ AWToolTip::AWToolTip(QObject *parent,
     boundaries[QString("up")] = 1.0;
     boundaries[QString("bat")] = 100.0;
 
-    if (m_settings[QString("cpuTooltip")].toBool()) requiredKeys.append(QString("cpu"));
-    if (m_settings[QString("cpuclTooltip")].toBool()) requiredKeys.append(QString("cpucl"));
-    if (m_settings[QString("memTooltip")].toBool()) requiredKeys.append(QString("mem"));
-    if (m_settings[QString("swapTooltip")].toBool()) requiredKeys.append(QString("swap"));
-    if (m_settings[QString("downTooltip")].toBool()) requiredKeys.append(QString("down"));
-    if (m_settings[QString("upTooltip")].toBool()) requiredKeys.append(QString("up"));
-    if (m_settings[QString("batTooltip")].toBool()) requiredKeys.append(QString("bat"));
+    if (configuration[QString("cpuTooltip")].toBool()) requiredKeys.append(QString("cpu"));
+    if (configuration[QString("cpuclTooltip")].toBool()) requiredKeys.append(QString("cpucl"));
+    if (configuration[QString("memTooltip")].toBool()) requiredKeys.append(QString("mem"));
+    if (configuration[QString("swapTooltip")].toBool()) requiredKeys.append(QString("swap"));
+    if (configuration[QString("downTooltip")].toBool()) requiredKeys.append(QString("down"));
+    if (configuration[QString("upTooltip")].toBool()) requiredKeys.append(QString("up"));
+    if (configuration[QString("batTooltip")].toBool()) requiredKeys.append(QString("bat"));
 }
 
 
@@ -79,13 +79,13 @@ QPixmap AWToolTip::image()
 {
     if (debug) qDebug() << PDEBUG;
 
-    toolTipView->resize(100.0 * m_counts, 105.0);
+    toolTipView->resize(100.0 * counts, 105.0);
     // create image
     toolTipScene->clear();
     QPen pen = QPen();
     // background
-    if (m_settings[QString("useTooltipBackground")].toBool())
-        toolTipScene->setBackgroundBrush(QColor(m_settings[QString("tooltipBackground")].toString()));
+    if (configuration[QString("useTooltipBackground")].toBool())
+        toolTipScene->setBackgroundBrush(QColor(configuration[QString("tooltipBackground")].toString()));
     else
         toolTipScene->setBackgroundBrush(QBrush(Qt::NoBrush));
     bool down = false;
@@ -97,7 +97,7 @@ QPixmap AWToolTip::image()
             isBattery = true;
         else
             isBattery = false;
-        if (!isBattery) pen.setColor(QColor(m_settings[requiredKeys[i] + QString("Color")].toString()));
+        if (!isBattery) pen.setColor(QColor(configuration[requiredKeys[i] + QString("Color")].toString()));
         float shift = i * 100.0;
         if (down) shift -= 100.0;
         for (int j=0; j<data[requiredKeys[i]].count()-1; j++) {
@@ -107,9 +107,9 @@ QPixmap AWToolTip::image()
             float y2 = - fabs(data[requiredKeys[i]][j+1]) * normY + 5.0;
             if (isBattery) {
                 if (data[requiredKeys[i]][j+1] > 0)
-                    pen.setColor(QColor(m_settings[QString("batteryColor")].toString()));
+                    pen.setColor(QColor(configuration[QString("batteryColor")].toString()));
                 else
-                    pen.setColor(QColor(m_settings[QString("batteryInColor")].toString()));
+                    pen.setColor(QColor(configuration[QString("batteryInColor")].toString()));
             }
             toolTipScene->addLine(x1, y1, x2, y2, pen);
         }
@@ -126,7 +126,7 @@ void AWToolTip::setData (const QString source, const float value, const bool ac)
 
     if (data[source].count() == 0)
         data[source].append(0.0);
-    else if (data[source].count() > m_settings[QString("tooltipNumber")].toInt())
+    else if (data[source].count() > configuration[QString("tooltipNumber")].toInt())
         data[source].takeFirst();
 
     if (ac)

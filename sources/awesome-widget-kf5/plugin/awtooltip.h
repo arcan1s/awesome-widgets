@@ -33,7 +33,7 @@ class AWToolTip : public QObject
 
 public:
     AWToolTip(QObject *parent = 0,
-              QMap<QString, QVariant> m_settings = QMap<QString, QVariant>());
+              QMap<QString, QVariant> settings = QMap<QString, QVariant>());
     ~AWToolTip();
 
     QPixmap image();
@@ -46,8 +46,8 @@ private:
     QGraphicsView *toolTipView = nullptr;
     // variables
     bool debug = false;
-    int m_counts = 0;
-    QMap<QString, QVariant> m_settings;
+    int counts = 0;
+    QMap<QString, QVariant> configuration;
     QMap<QString, float> boundaries;
     QMap<QString, QList<float>> data;
     QStringList requiredKeys;

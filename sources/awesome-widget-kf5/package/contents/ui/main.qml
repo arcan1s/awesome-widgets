@@ -62,14 +62,12 @@ Item {
 
     // init
     Plasmoid.icon: "utilities-system-monitor"
-    Plasmoid.backgroundHints: "DefaultBackground"
-    Plasmoid.toolTipMainText: "Awesome Widget"
+    Plasmoid.backgroundHints: plasmoid.configuration.background ? "DefaultBackground" : "NoBackground"
     Plasmoid.associatedApplication: "ksysguard"
 
     PlasmaCore.DataSource {
         id: systemmonitorDE
         engine: "systemmonitor"
-        connectedSources: []
         interval: plasmoid.configuration.interval
 
         onNewData: {
@@ -81,8 +79,7 @@ Item {
         onSourceAdded: {
             if (debug) console.log("[main::onSourceAdded] : Source " + source)
 
-            systemmonitorDE.connectSource(source)
-            AWKeys.addDevice(source)
+            if (AWKeys.addDevice(source)) systemmonitorDE.connectSource(source)
         }
     }
 
@@ -96,9 +93,7 @@ Item {
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)
 
-            AWKeys.setDataBySource(sourceName, data, settings)
-            // update
-            if (sourceName == "update") needUpdate()
+            if (AWKeys.setDataBySource(sourceName, data, settings)) needUpdate()
         }
     }
 
@@ -130,6 +125,13 @@ Item {
             horizontalAlignment: general.align[plasmoid.configuration.textAlign]
             textFormat: Text.RichText
             text: plasmoid.configuration.text
+
+            PlasmaCore.ToolTipArea {
+                id: tooltip
+                height: 100
+                width: 500
+                mainText: "Awesome Widget"
+            }
         }
     }
 
@@ -148,6 +150,8 @@ Item {
         if (debug) console.log("[main::onNeedUpdate]")
 
         text.text = AWKeys.parsePattern(plasmoid.configuration.text)
+        // FIXME change to pixmap/image/etc
+        tooltip.mainText = AWKeys.toolTipImage()
         // update geometry
         text.update()
         height = text.contentHeight

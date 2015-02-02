@@ -59,6 +59,7 @@ Item {
           width: parent.width
           horizontalAlignment: Text.AlignHCenter
           verticalAlignment: Text.AlignVCenter
+          wrapMode: Text.WordWrap
           text: i18n("CPU, CPU clock, memory, swap and network labels support graphical tooltip. To enable them just make needed checkbox fully checked.")
         }
 
