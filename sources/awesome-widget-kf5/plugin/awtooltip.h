@@ -19,6 +19,8 @@
 #ifndef AWTOOLTIP_H
 #define AWTOOLTIP_H
 
+#include <QGraphicsScene>
+#include <QGraphicsView>
 #include <QMap>
 #include <QObject>
 #include <QPixmap>
@@ -39,10 +41,16 @@ public:
                  const bool ac = true);
 
 private:
+    // ui
+    QGraphicsScene *toolTipScene = nullptr;
+    QGraphicsView *toolTipView = nullptr;
     // variables
     bool debug = false;
+    int m_counts = 0;
     QMap<QString, QVariant> m_settings;
+    QMap<QString, float> boundaries;
     QMap<QString, QList<float>> data;
+    QStringList requiredKeys;
 };
 
 

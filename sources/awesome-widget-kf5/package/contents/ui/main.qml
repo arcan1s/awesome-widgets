@@ -141,7 +141,6 @@ Item {
         // actions
         plasmoid.setAction("requestKey", i18n("Request key"), "utilities-system-monitor")
         plasmoid.setAction("showReadme", i18n("Show README"), "text-x-readme")
-        plasmoid.setAction("updateText", i18n("Update text"), "view-refresh")
         plasmoid.setAction("checkUpdates", i18n("Check updates"), "system-software-update")
     }
 
@@ -174,9 +173,5 @@ Item {
         var message = AWKeys.graphicalValueByKey();
         if (message.length == 0) return
         AWActions.sendNotification("tag", message)
-    }
-
-    function action_updateText() {
-        if (debug) console.log("[main::action_updateText]")
     }
 }

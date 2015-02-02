@@ -153,48 +153,6 @@ QMap<QString, QVariant> AWActions::getFont(const QMap<QString, QVariant> default
 }
 
 
-QString AWActions::selectDevices(const QStringList source, const QStringList current)
-{
-    if (debug) qDebug() << PDEBUG;
-
-    // paint
-    QDialog *dialog = new QDialog(0);
-    QListWidget *widget = new QListWidget(dialog);
-    QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
-                                                     Qt::Vertical, dialog);
-    QHBoxLayout *layout = new QHBoxLayout(dialog);
-    layout->addWidget(widget);
-    layout->addWidget(buttons);
-    dialog->setLayout(layout);
-    connect(buttons, SIGNAL(accepted()), dialog, SLOT(accept()));
-    connect(buttons, SIGNAL(rejected()), dialog, SLOT(reject()));
-
-    // fill
-    for (int i=0; i<source.count(); i++) {
-        QListWidgetItem *item = new QListWidgetItem(source[i]);
-        if (current.contains(source[i]))
-            item->setCheckState(Qt::Checked);
-        else
-            item->setCheckState(Qt::Unchecked);
-        widget->addItem(item);
-    }
-
-    // exec
-    QStringList selected;
-    int ret = dialog->exec();
-    if (debug) qDebug() << PDEBUG << ":" << "Dialog returns" << ret;
-    if (ret == QDialog::Accepted) {
-        for (int i=0; i<widget->count(); i++)
-            if (widget->item(i)->checkState() == Qt::Checked)
-                selected.append(widget->item(i)->text());
-    } else
-        selected = current;
-    delete dialog;
-
-    return selected.join(QString("@@"));
-}
-
-
 QMap<QString, QVariant> AWActions::readDataEngineConfiguration()
 {
     if (debug) qDebug() << PDEBUG;

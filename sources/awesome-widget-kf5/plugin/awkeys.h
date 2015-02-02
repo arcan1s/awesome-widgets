@@ -61,11 +61,11 @@ public:
     Q_INVOKABLE QStringList dictKeys();
     Q_INVOKABLE QStringList getDiskDevices();
     Q_INVOKABLE QStringList getFanDevices();
-    Q_INVOKABLE QStringList getHddDevices();
+    Q_INVOKABLE QStringList getHddDevices(const bool needAbstract = false);
     Q_INVOKABLE QStringList getMountDevices();
     Q_INVOKABLE QStringList getNetworkDevices();
     Q_INVOKABLE QStringList getTempDevices();
-    Q_INVOKABLE void setDataBySource(const QString sourceName,
+    Q_INVOKABLE bool setDataBySource(const QString sourceName,
                                      const QMap<QString, QVariant> data,
                                      const QMap<QString, QVariant> params);
     // values

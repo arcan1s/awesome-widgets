@@ -44,7 +44,7 @@
     <entry name="useTooltipBackground" type="bool">
       <default>true</default>
     </entry>
-    <entry name="tooltipBackgroung" type="string">
+    <entry name="tooltipBackground" type="string">
       <default>#ffffff</default>
     </entry>
     <entry name="cpuTooltip" type="bool">

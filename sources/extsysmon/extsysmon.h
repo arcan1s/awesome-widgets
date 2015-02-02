@@ -63,6 +63,7 @@ private:
     // FIXME dirty hack to avoid update package information every second
     int pkgTimeUpdate = MSEC_IN_HOUR;
     // reread configuration
+    QStringList allHddDevices;
     QString getAllHdd();
     QString getAutoGpu();
     QString getAutoMpris();

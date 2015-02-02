@@ -261,8 +261,9 @@ QMap<QString, QString> ExtendedSysMon::updateConfiguration(QMap<QString, QString
         (rawConfig[QString("GPUDEV")] != QString("nvidia")))
         rawConfig[QString("GPUDEV")] = getAutoGpu();
     // hdddev
+    allHddDevices = getAllHdd().split(QChar(','), QString::SkipEmptyParts);
     if (rawConfig[QString("HDDDEV")] == QString("all"))
-        rawConfig[QString("HDDDEV")] = getAllHdd();
+        rawConfig[QString("HDDDEV")] = allHddDevices.join(QChar(','));
     else if (rawConfig[QString("HDDDEV")] == QString("disable"))
         rawConfig[QString("HDDDEV")] = QString("");
     else {
@@ -274,7 +275,7 @@ QMap<QString, QString> ExtendedSysMon::updateConfiguration(QMap<QString, QString
                 (diskRegexp.indexIn(deviceList[i]) > -1))
                 devices.append(deviceList[i]);
         if (devices.isEmpty())
-            rawConfig[QString("HDDDEV")] = getAllHdd();
+            rawConfig[QString("HDDDEV")] = allHddDevices.join(QChar(','));
         else
             rawConfig[QString("HDDDEV")] = devices.join(QChar(','));
     }
@@ -627,6 +628,9 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     } else if (source == QString("gputemp")) {
         setData(source, QString("value"), getGpuTemp(configuration[QString("GPUDEV")]));
     } else if (source == QString("hddtemp")) {
+        // fill empty list
+        for (int i=0; i<allHddDevices.count(); i++)
+            setData(source, allHddDevices[i], 0.0);
         QStringList deviceList = configuration[QString("HDDDEV")].split(QChar(','), QString::SkipEmptyParts);
         for (int i=0; i<deviceList.count(); i++)
             setData(source, deviceList[i],

@@ -34,9 +34,21 @@ ConfigModel {
     }
 
     ConfigCategory {
+        name: i18n("Tooltip")
+        icon: "preferences-desktop-color"
+        source: "tooltip.qml"
+    }
+
+    ConfigCategory {
         name: i18n("Appearance")
         icon: "preferences-desktop-theme"
         source: "appearance.qml"
+    }
+
+    ConfigCategory {
+        name: i18n("DataEngine")
+        icon: "utilities-system-monitor"
+        source: "dataengine.qml"
     }
 
     ConfigCategory {
