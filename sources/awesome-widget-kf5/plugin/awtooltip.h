@@ -37,7 +37,7 @@ public:
     ~AWToolTip();
 
     QPixmap image();
-    void setData(const QString source, const float value,
+    void setData(const QString source, float value,
                  const bool ac = true);
 
 private:

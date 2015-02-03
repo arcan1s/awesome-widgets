@@ -55,8 +55,7 @@ public:
                               const QMap<QString, QVariant> tooltipParams);
     Q_INVOKABLE bool isDebugEnabled();
     Q_INVOKABLE QString parsePattern(const QString pattern);
-//     Q_INVOKABLE QPixmap toolTipImage();
-    Q_INVOKABLE QString toolTipImage();
+    Q_INVOKABLE QPixmap toolTipImage();
     // keys
     Q_INVOKABLE bool addDevice(const QString source);
     Q_INVOKABLE QStringList dictKeys();

@@ -19,7 +19,7 @@
 
 #include <KI18n/KLocalizedString>
 
-#include <QBuffer>
+// #include <QBuffer>
 #include <QDateTime>
 #include <QDebug>
 #include <QDir>
@@ -141,17 +141,17 @@ QString AWKeys::parsePattern(const QString pattern)
 }
 
 
-QString AWKeys::toolTipImage()
+QPixmap AWKeys::toolTipImage()
 {
     if(debug) qDebug() << PDEBUG;
 
-    if (!ready) return QString();
+    if (!ready) return QPixmap();
 
-    QPixmap tooltip = toolTip->image();
-    QByteArray byteArray;
-    QBuffer buffer(&byteArray);
-    tooltip.save(&buffer, "PNG");
-    return QString("<img src=\"data:image/png;base64,%1\"/>").arg(QString(byteArray.toBase64()));
+    return toolTip->image();
+//     QByteArray byteArray;
+//     QBuffer buffer(&byteArray);
+//     tooltip.save(&buffer, "PNG");
+//     return QString("<img src=\"data:image/png;base64,%1\"/>").arg(QString(byteArray.toBase64()));
 }
 
 
@@ -440,13 +440,13 @@ bool AWKeys::setDataBySource(const QString sourceName,
                     values[QString("ac")] = params[QString("acOffline")].toString();
             } else {
                 values[data.keys()[i]] = QString("%1").arg(data[data.keys()[i]].toFloat(), 3, 'f', 0);
-                toolTip->setData(QString("bat"), data[data.keys()[i]].toFloat(), data[QString("ac")].toBool());
+                toolTip->setData(QString("batTooltip"), data[data.keys()[i]].toFloat(), data[QString("ac")].toBool());
             }
         }
     } else if (sourceName == QString("cpu/system/TotalLoad")) {
         // cpu
         values[QString("cpu")] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
-        toolTip->setData(QString("cpu"), data[QString("value")].toFloat());
+        toolTip->setData(QString("cpuTooltip"), data[QString("value")].toFloat());
     } else if (sourceName.contains(cpuRegExp)) {
         // cpus
         QString number = sourceName;
@@ -455,7 +455,7 @@ bool AWKeys::setDataBySource(const QString sourceName,
     } else if (sourceName == QString("cpu/system/AverageClock")) {
         // cpucl
         values[QString("cpucl")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
-        toolTip->setData(QString("cpucl"), data[QString("value")].toFloat());
+        toolTip->setData(QString("cpuclTooltip"), data[QString("value")].toFloat());
     } else if (sourceName.contains(cpuclRegExp)) {
         // cpucls
         QString number = sourceName;
@@ -565,7 +565,7 @@ bool AWKeys::setDataBySource(const QString sourceName,
         // percentage
         values[QString("mem")] = QString("%1").arg(
             100.0 * values[QString("memmb")].toFloat() / values[QString("memtotmb")].toFloat(), 5, 'f', 1);
-        toolTip->setData(QString("mem"), values[QString("mem")].toFloat());
+        toolTip->setData(QString("memTooltip"), values[QString("mem")].toFloat());
     } else if (sourceName == QString("netdev")) {
         // network device
         values[QString("netdev")] = data[QString("value")].toString();
@@ -581,7 +581,7 @@ bool AWKeys::setDataBySource(const QString sourceName,
         }
         if (device == networkDevice()) {
             values[QString("down")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
-            toolTip->setData(QString("down"), data[QString("value")].toFloat());
+            toolTip->setData(QString("downTooltip"), data[QString("value")].toFloat());
         }
     } else if (sourceName.contains(netTransRegExp)) {
         // upload speed
@@ -595,7 +595,7 @@ bool AWKeys::setDataBySource(const QString sourceName,
         }
         if (device == networkDevice()) {
             values[QString("up")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
-            toolTip->setData(QString("up"), data[QString("value")].toFloat());
+            toolTip->setData(QString("upTooltip"), data[QString("value")].toFloat());
         }
     } else if (sourceName == QString("pkg")) {
         // package manager
@@ -629,7 +629,7 @@ bool AWKeys::setDataBySource(const QString sourceName,
         // percentage
         values[QString("swap")] = QString("%1").arg(
             100.0 * values[QString("swapmb")].toFloat() / values[QString("swaptotmb")].toFloat(), 5, 'f', 1);
-        toolTip->setData(QString("swap"), values[QString("swap")].toFloat());
+        toolTip->setData(QString("swapTooltip"), values[QString("swap")].toFloat());
     } else if (sourceName.contains(tempRegExp)) {
         // temperature devices
         if (data[QString("units")].toString() == QString("rpm")) {

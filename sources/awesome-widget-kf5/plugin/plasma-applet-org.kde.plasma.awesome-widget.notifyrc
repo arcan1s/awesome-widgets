@@ -8,6 +8,11 @@ Name=Information
 Comment=Information
 Action=Popup
 
+[Event/event]
+Name=Event
+Comment=Some event occurs
+Action=Popup
+
 [Event/system]
 Name=System information
 Comment=System information

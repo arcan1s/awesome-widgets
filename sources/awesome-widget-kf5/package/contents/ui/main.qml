@@ -151,7 +151,7 @@ Item {
 
         text.text = AWKeys.parsePattern(plasmoid.configuration.text)
         // FIXME change to pixmap/image/etc
-        tooltip.mainText = AWKeys.toolTipImage()
+        tooltip.image = AWKeys.toolTipImage()
         // update geometry
         text.update()
         height = text.contentHeight

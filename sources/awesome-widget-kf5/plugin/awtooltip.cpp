@@ -19,6 +19,7 @@
 
 #include <QDebug>
 #include <QProcessEnvironment>
+#include <math.h>
 
 #include <pdebug/pdebug.h>
 
@@ -48,21 +49,21 @@ AWToolTip::AWToolTip(QObject *parent,
     counts += configuration[QString("downTooltip")].toInt();
     counts += configuration[QString("batteryTooltip")].toInt();
 
-    boundaries[QString("cpu")] = 100.0;
-    boundaries[QString("cpucl")] = 4000.0;
-    boundaries[QString("mem")] = 100.0;
-    boundaries[QString("swap")] = 100.0;
-    boundaries[QString("down")] = 1.0;
-    boundaries[QString("up")] = 1.0;
-    boundaries[QString("bat")] = 100.0;
+    boundaries[QString("cpuTooltip")] = 100.0;
+    boundaries[QString("cpuclTooltip")] = 4000.0;
+    boundaries[QString("memTooltip")] = 100.0;
+    boundaries[QString("swapTooltip")] = 100.0;
+    boundaries[QString("downTooltip")] = 1.0;
+    boundaries[QString("upTooltip")] = 1.0;
+    boundaries[QString("batTooltip")] = 100.0;
 
-    if (configuration[QString("cpuTooltip")].toBool()) requiredKeys.append(QString("cpu"));
-    if (configuration[QString("cpuclTooltip")].toBool()) requiredKeys.append(QString("cpucl"));
-    if (configuration[QString("memTooltip")].toBool()) requiredKeys.append(QString("mem"));
-    if (configuration[QString("swapTooltip")].toBool()) requiredKeys.append(QString("swap"));
-    if (configuration[QString("downTooltip")].toBool()) requiredKeys.append(QString("down"));
-    if (configuration[QString("upTooltip")].toBool()) requiredKeys.append(QString("up"));
-    if (configuration[QString("batTooltip")].toBool()) requiredKeys.append(QString("bat"));
+    if (configuration[QString("cpuTooltip")].toBool()) requiredKeys.append(QString("cpuTooltip"));
+    if (configuration[QString("cpuclTooltip")].toBool()) requiredKeys.append(QString("cpuclTooltip"));
+    if (configuration[QString("memTooltip")].toBool()) requiredKeys.append(QString("memTooltip"));
+    if (configuration[QString("swapTooltip")].toBool()) requiredKeys.append(QString("swapTooltip"));
+    if (configuration[QString("downTooltip")].toBool()) requiredKeys.append(QString("downTooltip"));
+    if (configuration[QString("upTooltip")].toBool()) requiredKeys.append(QString("upTooltip"));
+    if (configuration[QString("batTooltip")].toBool()) requiredKeys.append(QString("batTooltip"));
 }
 
 
@@ -93,7 +94,7 @@ QPixmap AWToolTip::image()
     for (int i=0; i<requiredKeys.count(); i++) {
         float normX = 100.0 / static_cast<float>(data[requiredKeys[i]].count());
         float normY = 100.0 / (1.5 * boundaries[requiredKeys[i]]);
-        if (requiredKeys[i] == QString("bat"))
+        if (requiredKeys[i] == QString("batTooltip"))
             isBattery = true;
         else
             isBattery = false;
@@ -113,14 +114,14 @@ QPixmap AWToolTip::image()
             }
             toolTipScene->addLine(x1, y1, x2, y2, pen);
         }
-        if (requiredKeys[i] == QString("down")) down = true;
+        if (requiredKeys[i] == QString("downTooltip")) down = true;
     }
 
     return toolTipView->grab();
 }
 
 
-void AWToolTip::setData (const QString source, const float value, const bool ac)
+void AWToolTip::setData(const QString source, float value, const bool ac)
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -128,20 +129,21 @@ void AWToolTip::setData (const QString source, const float value, const bool ac)
         data[source].append(0.0);
     else if (data[source].count() > configuration[QString("tooltipNumber")].toInt())
         data[source].takeFirst();
+    if (isnan(value)) value = 100.0;
 
     if (ac)
         data[source].append(value);
     else
         data[source].append(-value);
 
-    if ((source == QString("down")) || (source == QString("up"))) {
-        for (int i=0; i<data[QString("down")].count(); i++)
-            if (boundaries[QString("down")] < data[QString("down")][i])
-                boundaries[QString("down")] = data[QString("down")][i];
-        for (int i=0; i<data[QString("up")].count(); i++)
-            if (boundaries[QString("down")] < data[QString("up")][i])
-                boundaries[QString("down")] = data[QString("up")][i];
-        boundaries[QString("down")] *= 1.2;
-        boundaries[QString("up")] = boundaries[QString("down")];
+    if ((source == QString("downTooltip")) || (source == QString("upTooltip"))) {
+        for (int i=0; i<data[QString("downTooltip")].count(); i++)
+            if (boundaries[QString("downTooltip")] < data[QString("downTooltip")][i])
+                boundaries[QString("downTooltip")] = data[QString("downTooltip")][i];
+        for (int i=0; i<data[QString("upTooltip")].count(); i++)
+            if (boundaries[QString("downTooltip")] < data[QString("upTooltip")][i])
+                boundaries[QString("downTooltip")] = data[QString("upTooltip")][i];
+        boundaries[QString("downTooltip")] *= 1.2;
+        boundaries[QString("upTooltip")] = boundaries[QString("downTooltip")];
     }
 }
