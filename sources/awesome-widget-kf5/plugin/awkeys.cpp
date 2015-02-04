@@ -19,7 +19,7 @@
 
 #include <KI18n/KLocalizedString>
 
-// #include <QBuffer>
+#include <QBuffer>
 #include <QDateTime>
 #include <QDebug>
 #include <QDir>
@@ -80,15 +80,6 @@ AWKeys::~AWKeys()
 }
 
 
-bool AWKeys::checkKeys(const QMap<QString, QVariant> data)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Data" << data;
-
-    return (data.count() != 0);
-}
-
-
 void AWKeys::initKeys(const QString pattern,
                       const QMap<QString, QVariant> tooltipParams)
 {
@@ -101,7 +92,7 @@ void AWKeys::initKeys(const QString pattern,
     keys.clear();
     foundBars.clear();
     foundKeys.clear();
-    toolTip = nullptr;
+    if (toolTip != nullptr) delete toolTip;
 
     // init
     extScripts = getExtScripts();
@@ -130,6 +121,7 @@ QString AWKeys::parsePattern(const QString pattern)
     if (!ready) return pattern;
 
     QString parsed = pattern;
+    parsed.replace(QString(" "), QString("&nbsp;"));
     parsed.replace(QString("$$"), QString("$\\$\\"));
     for (int i=0; i<foundKeys.count(); i++)
         parsed.replace(QString("$") + foundKeys[i], valueByKey(foundKeys[i]));
@@ -141,17 +133,26 @@ QString AWKeys::parsePattern(const QString pattern)
 }
 
 
-QPixmap AWKeys::toolTipImage()
+QString AWKeys::toolTipImage()
 {
     if(debug) qDebug() << PDEBUG;
 
-    if (!ready) return QPixmap();
+    if (!ready) return QString();
 
-    return toolTip->image();
-//     QByteArray byteArray;
-//     QBuffer buffer(&byteArray);
-//     tooltip.save(&buffer, "PNG");
-//     return QString("<img src=\"data:image/png;base64,%1\"/>").arg(QString(byteArray.toBase64()));
+    QPixmap tooltip = toolTip->image();
+    QByteArray byteArray;
+    QBuffer buffer(&byteArray);
+    tooltip.save(&buffer, "PNG");
+
+    return QString("<img src=\"data:image/png;base64,%1\"/>").arg(QString(byteArray.toBase64()));
+}
+
+
+QSize AWKeys::toolTipSize()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return toolTip->getSize();
 }
 
 
@@ -672,6 +673,9 @@ bool AWKeys::setDataBySource(const QString sourceName,
         values[QString("cuptime")].replace(QString("$h"), QString("%1").arg(hours));
         values[QString("cuptime")].replace(QString("$mm"), QString("%1").arg(minutes, 2, 10, QChar('0')));
         values[QString("cuptime")].replace(QString("$m"), QString("%1").arg(minutes));
+    } else {
+        if (debug) qDebug() << PDEBUG << ":" << "Source not found";
+        return true;
     }
 
     return false;
@@ -951,6 +955,15 @@ void AWKeys::copyUpgrade(const QString original)
 
     uprade->showConfiguration();
     delete uprade;
+}
+
+
+bool AWKeys::checkKeys(const QMap<QString, QVariant> data)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Data" << data;
+
+    return (data.count() != 0);
 }
 
 

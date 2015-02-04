@@ -36,7 +36,7 @@ public:
 
     Q_INVOKABLE void checkUpdates();
     Q_INVOKABLE void runCmd(const QString cmd = QString("/usr/bin/true"));
-    Q_INVOKABLE void sendNotification(const QString eventId, const QString message);
+    Q_INVOKABLE void sendEmail();
     Q_INVOKABLE void showReadme();
     // configuration slots
     Q_INVOKABLE QString getAboutText(const QString type = "header");
@@ -44,6 +44,9 @@ public:
     // dataengine
     Q_INVOKABLE QMap<QString, QVariant> readDataEngineConfiguration();
     Q_INVOKABLE void writeDataEngineConfiguration(const QMap<QString, QVariant> configuration);
+
+public slots:
+    Q_INVOKABLE static void sendNotification(const QString eventId, const QString message);
 
 private slots:
     void showUpdates(QString version);

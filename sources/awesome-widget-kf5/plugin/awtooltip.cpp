@@ -56,6 +56,8 @@ AWToolTip::AWToolTip(QObject *parent,
     boundaries[QString("downTooltip")] = 1.0;
     boundaries[QString("upTooltip")] = 1.0;
     boundaries[QString("batTooltip")] = 100.0;
+    size.setHeight(105.0);
+    size.setWidth(100.0 * counts);
 
     if (configuration[QString("cpuTooltip")].toBool()) requiredKeys.append(QString("cpuTooltip"));
     if (configuration[QString("cpuclTooltip")].toBool()) requiredKeys.append(QString("cpuclTooltip"));
@@ -76,17 +78,25 @@ AWToolTip::~AWToolTip()
 }
 
 
+QSize AWToolTip::getSize()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return size;
+}
+
+
 QPixmap AWToolTip::image()
 {
     if (debug) qDebug() << PDEBUG;
 
-    toolTipView->resize(100.0 * counts, 105.0);
+    toolTipView->resize(size);
     // create image
     toolTipScene->clear();
     QPen pen = QPen();
     // background
     if (configuration[QString("useTooltipBackground")].toBool())
-        toolTipScene->setBackgroundBrush(QColor(configuration[QString("tooltipBackground")].toString()));
+        toolTipScene->setBackgroundBrush(QBrush(QColor(configuration[QString("tooltipBackground")].toString())));
     else
         toolTipScene->setBackgroundBrush(QBrush(Qt::NoBrush));
     bool down = false;

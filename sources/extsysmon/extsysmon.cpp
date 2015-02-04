@@ -449,11 +449,23 @@ float ExtendedSysMon::getHddTemp(const QString cmd, const QString device)
     if (process.exitCode != 0)
         if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
+    bool smartctl = cmd.contains(QString("smartctl"));
+    if (debug) qDebug() << PDEBUG << ":" << "Define smartctl" << smartctl;
+
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
-    if (qoutput.split(QChar(':'), QString::SkipEmptyParts).count() >= 3) {
-        QString temp = qoutput.split(QChar(':'), QString::SkipEmptyParts)[2];
-        temp.remove(QChar(0260)).remove(QChar('C'));
-        value = temp.toFloat();
+    if (smartctl) {
+        for (int i=0; i<qoutput.split(QChar(':'), QString::SkipEmptyParts).count(); i++) {
+            if (qoutput.split(QChar(':'), QString::SkipEmptyParts)[i].split(QChar(' '))[0] != QString("194")) continue;
+            if (qoutput.split(QChar(':'), QString::SkipEmptyParts)[i].split(QChar(' '), QString::SkipEmptyParts).count() < 9) break;
+            value = qoutput.split(QChar(':'), QString::SkipEmptyParts)[i].split(QChar(' '), QString::SkipEmptyParts)[9].toFloat();
+            break;
+        }
+    } else {
+        if (qoutput.split(QChar(':'), QString::SkipEmptyParts).count() < 3) {
+            QString temp = qoutput.split(QChar(':'), QString::SkipEmptyParts)[2];
+            temp.remove(QChar(0260)).remove(QChar('C'));
+            value = temp.toFloat();
+        }
     }
 
     return value;

@@ -36,6 +36,7 @@ public:
               QMap<QString, QVariant> settings = QMap<QString, QVariant>());
     ~AWToolTip();
 
+    QSize getSize();
     QPixmap image();
     void setData(const QString source, float value,
                  const bool ac = true);
@@ -51,6 +52,7 @@ private:
     QMap<QString, float> boundaries;
     QMap<QString, QList<float>> data;
     QStringList requiredKeys;
+    QSize size;
 };
 
 

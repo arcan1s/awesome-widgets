@@ -25,7 +25,6 @@
 #include <QMap>
 #include <QObject>
 #include <QStringList>
-#include <QPixmap>
 #include <QPushButton>
 #include <QVariant>
 
@@ -50,12 +49,12 @@ public:
     AWKeys(QObject *parent = 0);
     ~AWKeys();
 
-    Q_INVOKABLE bool checkKeys(const QMap<QString, QVariant> data);
     Q_INVOKABLE void initKeys(const QString pattern,
                               const QMap<QString, QVariant> tooltipParams);
     Q_INVOKABLE bool isDebugEnabled();
     Q_INVOKABLE QString parsePattern(const QString pattern);
-    Q_INVOKABLE QPixmap toolTipImage();
+    Q_INVOKABLE QString toolTipImage();
+    Q_INVOKABLE QSize toolTipSize();
     // keys
     Q_INVOKABLE bool addDevice(const QString source);
     Q_INVOKABLE QStringList dictKeys();
@@ -82,6 +81,7 @@ private slots:
 
 private:
     // methods
+    bool checkKeys(const QMap<QString, QVariant> data);
     QString networkDevice();
     int numberCpus();
     float temperature(const float temp, const QString units = QString("Celsius"));

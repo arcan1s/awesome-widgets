@@ -64,7 +64,7 @@ Item {
 
     Column {
         id: pageColumn
-        width: units.gridUnit * 50
+        width: units.gridUnit * 25
         QtControls.Label {
           width: parent.width
           horizontalAlignment: Text.AlignHCenter
@@ -78,6 +78,7 @@ Item {
             width: parent.width
             QtControls.Button {
                 text: i18n("Font")
+                iconName: "font"
 
                 onClicked: {
                     if (debug) console.log("[widget::onClicked] : Font button")
@@ -207,12 +208,17 @@ Item {
                     textPattern.insert(pos, "<p align=\"justify\">" + selected + "</p")
                 }
             }
+        }
 
+        Row {
+            height: implicitHeight
+            width: parent.width
             QtControls.ComboBox {
                 id: tags
-                model: AWKeys.dictKeys()
+                width: parent.width - addTagButton.width - showValueButton.width
             }
             QtControls.Button {
+                id: addTagButton
                 text: i18n("Add")
 
                 onClicked: {
@@ -225,6 +231,7 @@ Item {
                 }
             }
             QtControls.Button {
+                id: showValueButton
                 text: i18n("Show value")
 
                 onClicked: {
@@ -293,5 +300,6 @@ Item {
 
         // init submodule
         AWKeys.initKeys(plasmoid.configuration.text, tooltipSettings)
+        tags.model = AWKeys.dictKeys()
     }
 }

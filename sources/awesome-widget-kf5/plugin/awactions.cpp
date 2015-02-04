@@ -79,14 +79,9 @@ void AWActions::runCmd(const QString cmd)
 }
 
 
-void AWActions::sendNotification(const QString eventId, const QString message)
+void AWActions::sendEmail()
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Event" << eventId;
-    if (debug) qDebug() << PDEBUG << ":" << "Message" << message;
-
-    KNotification *notification = KNotification::event(eventId, QString("Awesome Widget ::: ") + eventId, message);
-    notification->setComponentName(QString("plasma-applet-org.kde.plasma.awesome-widget"));
 }
 
 
@@ -196,6 +191,13 @@ void AWActions::writeDataEngineConfiguration(const QMap<QString, QVariant> confi
     settings.endGroup();
 
     settings.sync();
+}
+
+
+void AWActions::sendNotification(const QString eventId, const QString message)
+{
+    KNotification *notification = KNotification::event(eventId, QString("Awesome Widget ::: ") + eventId, message);
+    notification->setComponentName(QString("plasma-applet-org.kde.plasma.awesome-widget"));
 }
 
 
