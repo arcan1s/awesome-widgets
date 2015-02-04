@@ -240,6 +240,8 @@ Item {
                     var message = i18n("Tag: %1", tags.currentText)
                     message += "<br>"
                     message += i18n("Value: %1", AWKeys.valueByKey(tags.currentText))
+                    message += "<br>"
+                    message += i18n("Info: %1", AWKeys.infoByKey(tags.currentText))
                     AWActions.sendNotification("tag", message)
                 }
             }

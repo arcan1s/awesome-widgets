@@ -205,8 +205,6 @@ Item {
     function action_requestKey() {
         if (debug) console.log("[main::action_requestKey]")
 
-        var message = AWKeys.graphicalValueByKey();
-        if (message.length == 0) return
-        AWActions.sendNotification("tag", message)
+        AWKeys.graphicalValueByKey()
     }
 }

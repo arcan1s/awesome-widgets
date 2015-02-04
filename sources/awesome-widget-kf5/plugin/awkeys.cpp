@@ -33,6 +33,7 @@
 
 #include <pdebug/pdebug.h>
 
+#include "awactions.h"
 #include "awtooltip.h"
 #include "extscript.h"
 #include "extupgrade.h"
@@ -569,6 +570,9 @@ bool AWKeys::setDataBySource(const QString sourceName,
         toolTip->setData(QString("memTooltip"), values[QString("mem")].toFloat());
     } else if (sourceName == QString("netdev")) {
         // network device
+        if (values[QString("netdev")] != data[QString("value")].toString())
+            AWActions::sendNotification(QString("event"), i18n("Network device has been changed to %1",
+                                                               data[QString("value")].toString()));
         values[QString("netdev")] = data[QString("value")].toString();
     } else if (sourceName.contains(netRecRegExp)) {
         // download speed
@@ -682,7 +686,7 @@ bool AWKeys::setDataBySource(const QString sourceName,
 }
 
 
-QString AWKeys::graphicalValueByKey()
+void AWKeys::graphicalValueByKey()
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -690,12 +694,39 @@ QString AWKeys::graphicalValueByKey()
     QString tag = QInputDialog::getItem(0, i18n("Select tag"),
                                         i18n("Tag"), keys, 0, false, &ok);
 
-    if ((!ok) || (tag.isEmpty())) return QString("");
+    if ((!ok) || (tag.isEmpty())) return;
     QString message = i18n("Tag: %1", tag);
     message += QString("<br>");
     message += i18n("Value: %1", valueByKey(tag));
 
-    return message;
+    return AWActions::sendNotification(QString("tag"), message);
+}
+
+
+QString AWKeys::infoByKey(QString key)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Requested key" << key;
+
+    key.remove(QRegExp(QString("^bar[0-9]{1,}")));
+    if (key.startsWith(QString("custom")))
+        return QString("%1").arg(extScripts[key.remove(QString("custom")).toInt()]->executable());
+    else if (key.contains(QRegExp(QString("^hdd[rw]"))))
+        return QString("%1").arg(diskDevices[key.remove(QRegExp(QString("hdd[rw]"))).toInt()]);
+    else if (key.startsWith(QString("fan")))
+        return QString("%1").arg(fanDevices[key.remove(QString("fan")).toInt()]);
+    else if (key.contains(QRegExp(QString("^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)"))))
+        return QString("%1").arg(mountDevices[key.remove(QRegExp(QString("^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)"))).toInt()]);
+    else if (key.startsWith(QString("hddtemp")))
+        return QString("%1").arg(getHddDevices()[key.remove(QString("hddtemp")).toInt()]);
+    else if (key.contains(QRegExp(QString("^(down|up)[0-9]"))))
+        return QString("%1").arg(getNetworkDevices()[key.remove(QRegExp(QString("^(down|up)"))).toInt()]);
+    else if (key.startsWith(QString("pkgcount")))
+        return QString("%1").arg(extUpgrade[key.remove(QString("pkgcount")).toInt()]->executable());
+    else if (key.startsWith(QString("temp")))
+        return QString("%1").arg(tempDevices[key.remove(QString("temp")).toInt()]);
+
+    return QString("(none)");
 }
 
 

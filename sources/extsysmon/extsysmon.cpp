@@ -461,7 +461,7 @@ float ExtendedSysMon::getHddTemp(const QString cmd, const QString device)
             break;
         }
     } else {
-        if (qoutput.split(QChar(':'), QString::SkipEmptyParts).count() < 3) {
+        if (qoutput.split(QChar(':'), QString::SkipEmptyParts).count() >= 3) {
             QString temp = qoutput.split(QChar(':'), QString::SkipEmptyParts)[2];
             temp.remove(QChar(0260)).remove(QChar('C'));
             value = temp.toFloat();

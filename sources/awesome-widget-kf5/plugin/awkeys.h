@@ -68,7 +68,8 @@ public:
                                      const QMap<QString, QVariant> data,
                                      const QMap<QString, QVariant> params);
     // values
-    Q_INVOKABLE QString graphicalValueByKey();
+    Q_INVOKABLE void graphicalValueByKey();
+    Q_INVOKABLE QString infoByKey(QString key);
     Q_INVOKABLE QString valueByKey(QString key);
     // configuration
     Q_INVOKABLE void editItem(const QString type);
