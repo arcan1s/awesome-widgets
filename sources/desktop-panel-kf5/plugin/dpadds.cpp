@@ -174,7 +174,7 @@ void DPAdds::changePanelsState()
     if (debug) qDebug() << PDEBUG;
     if (panelsToControl == QString("-1")) return;
 
-//     QList<Plasma::Containment *> panels = getPanels();
+    QList<Plasma::Containment *> panels = getPanels();
 //     for (int i=0; i<panels.count(); i++) {
 //         if (!panelsToControl.split(QChar(',')).contains(QString::number(i))) continue;
 //         bool wasVisible = panels[i]->view()->isVisible();
@@ -192,6 +192,7 @@ void DPAdds::changePanelsState()
 //             KWindowSystem::setOnAllDesktops(winId, true);
 //         }
 //     }
+    panels.clear();
 }
 
 
@@ -230,6 +231,7 @@ QList<Plasma::Containment *> DPAdds::getPanels()
         if (containment->corona()->containments()[i]->containmentType() ==
             Plasma::Types::ContainmentType::PanelContainment)
             panels.append(containment->corona()->containments()[i]);
+    delete containment;
 
     return panels;
 }
