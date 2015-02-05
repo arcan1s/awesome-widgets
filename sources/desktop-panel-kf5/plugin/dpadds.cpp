@@ -22,8 +22,14 @@
 #include <KWindowSystem/KWindowSystem>
 #include <Plasma/Corona>
 
+#include <QBuffer>
 #include <QDebug>
+#include <QGraphicsScene>
+#include <QGraphicsView>
+#include <QHBoxLayout>
+#include <QListWidget>
 #include <QMessageBox>
+#include <QPixmap>
 #include <QProcessEnvironment>
 
 #include <fontdialog/fontdialog.h>
@@ -63,13 +69,63 @@ QStringList DPAdds::dictKeys()
     if (debug) qDebug() << PDEBUG;
 
     QStringList allKeys;
-    allKeys.append(QString("fullmark"));
     allKeys.append(QString("mark"));
     allKeys.append(QString("name"));
     allKeys.append(QString("number"));
     allKeys.append(QString("total"));
 
     return allKeys;
+}
+
+
+QString DPAdds::toolTipImage(const int desktop)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Desktop" << desktop;
+
+    // prepare
+    // clear
+    QGraphicsScene *toolTipScene = new QGraphicsScene();
+    QGraphicsView *toolTipView = new QGraphicsView(toolTipScene);
+    DesktopWindowsInfo info = getInfoByDesktop(desktop);
+    float margin = 5.0 * info.desktop.width() / 400.0;
+    toolTipView->resize(info.desktop.width() + 2.0 * margin, info.desktop.height() + 2.0 * margin);
+    toolTipScene->clear();
+    toolTipScene->setBackgroundBrush(QBrush(Qt::NoBrush));
+    // borders
+    toolTipScene->addLine(0, 0, 0, info.desktop.height() + 2.0 * margin);
+    toolTipScene->addLine(0, info.desktop.height() + 2.0 * margin,
+                          info.desktop.width() + 2.0 * margin, info.desktop.height() + 2.0 * margin);
+    toolTipScene->addLine(info.desktop.width() + 2.0 * margin, info.desktop.height() + 2.0 * margin,
+                          info.desktop.width() + 2.0 * margin, 0);
+    toolTipScene->addLine(info.desktop.width() + 2.0 * margin, 0, 0, 0);
+
+    if (tooltipType == QString("contours")) {
+        QPen pen = QPen();
+        pen.setWidthF(2.0 * info.desktop.width() / 400.0);
+        pen.setColor(QColor(tooltipColor));
+        for (int i=0; i<info.windows.count(); i++) {
+            toolTipScene->addLine(info.windows[i].left() + margin, info.windows[i].bottom() + margin,
+                                  info.windows[i].left() + margin, info.windows[i].top() + margin, pen);
+            toolTipScene->addLine(info.windows[i].left() + margin, info.windows[i].top() + margin,
+                                  info.windows[i].right() + margin, info.windows[i].top() + margin, pen);
+            toolTipScene->addLine(info.windows[i].right() + margin, info.windows[i].top() + margin,
+                                  info.windows[i].right() + margin, info.windows[i].bottom() + margin, pen);
+            toolTipScene->addLine(info.windows[i].right() + margin, info.windows[i].bottom() + margin,
+                                  info.windows[i].left() + margin, info.windows[i].bottom() + margin, pen);
+        }
+    } else if (tooltipType == QString("clean")) {
+//         toolTip.setWindowsToPreview(info.desktopId);
+    } else if (tooltipType == QString("windows")) {
+//         toolTip.setWindowsToPreview(info.winId);
+    }
+
+    QPixmap image = toolTipView->grab().scaledToWidth(tooltipWidth);
+    QByteArray byteArray;
+    QBuffer buffer(&byteArray);
+    image.save(&buffer, "PNG");
+
+    return QString("<img src=\"data:image/png;base64,%1\"/>").arg(QString(byteArray.toBase64()));
 }
 
 
@@ -89,6 +145,42 @@ QString DPAdds::parsePattern(const QString pattern, const int desktop)
 }
 
 
+void DPAdds::setMark(const QString newMark)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Mark" << newMark;
+
+    mark = newMark;
+}
+
+
+void DPAdds::setPanelsToControl(const QString newPanels)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Panels" << newPanels;
+
+    panelsToControl.clear();
+    if (newPanels == QString("-1")) {
+        int count = getPanels().count();
+        for (int i=0; i<count; i++)
+          panelsToControl.append(i);
+    } else
+        for (int i=0; i<newPanels.split(QChar(',')).count(); i++)
+            panelsToControl.append(newPanels.split(QChar(','))[i].toInt());
+}
+
+
+void DPAdds::setToolTipData(const QMap< QString, QVariant > tooltipData)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Data" << tooltipData;
+
+    tooltipColor = tooltipData[QString("tooltipColor")].toString();
+    tooltipType = tooltipData[QString("tooltipType")].toString();
+    tooltipWidth = tooltipData[QString("tooltipWidth")].toInt();
+}
+
+
 QString DPAdds::valueByKey(const QString key, const int desktop)
 {
     if (debug) qDebug() << PDEBUG;
@@ -99,10 +191,8 @@ QString DPAdds::valueByKey(const QString key, const int desktop)
         currentMark = mark;
     else
         currentMark = QString("");
-    if (key == QString("fullmark"))
+    if (key == QString("mark"))
         return QString("%1").arg(currentMark, currentMark.count(), QLatin1Char(' '));
-    else if (key == QString("mark"))
-        return currentMark;
     else if (key == QString("name"))
         return KWindowSystem::desktopName(desktop);
     else if (key == QString("number"))
@@ -111,6 +201,56 @@ QString DPAdds::valueByKey(const QString key, const int desktop)
         return QString::number(KWindowSystem::numberOfDesktops());
     else
         return QString();
+}
+
+
+QString DPAdds::editPanelsToContol(const QString current)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    // paint
+    QDialog *dialog = new QDialog(0);
+    QListWidget *widget = new QListWidget(dialog);
+    QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Open | QDialogButtonBox::Close,
+                                                     Qt::Vertical, dialog);
+    QHBoxLayout *layout = new QHBoxLayout(dialog);
+    layout->addWidget(widget);
+    layout->addWidget(buttons);
+    dialog->setLayout(layout);
+    connect(buttons, SIGNAL(rejected()), dialog, SLOT(reject()));
+    connect(buttons, SIGNAL(accepted()), dialog, SLOT(accept()));
+
+    // fill
+    QList<Plasma::Containment *> panels = getPanels();
+    for (int i=0; i<panels.count(); i++) {
+        QListWidgetItem *item = new QListWidgetItem(panelLocationToStr(panels[i]->location()), widget);
+        if ((current.split(QChar(',')).contains(QString::number(i))) ||
+            (current == QString("-1")))
+            item->setCheckState(Qt::Checked);
+        else
+            item->setCheckState(Qt::Unchecked);
+    }
+
+    // exec
+    QString value;
+    QStringList indexes;
+    int ret = dialog->exec();
+    switch (ret) {
+    case QDialog::Accepted:
+        for (int i=0; i<widget->count(); i++)
+            if (widget->item(i)->checkState() == Qt::Checked)
+                indexes.append(QString::number(i));
+        if (indexes.count() == widget->count())
+            value = QString("-1");
+        else
+            value = indexes.join(QChar(','));
+        break;
+    default:
+        value = current;
+        break;
+    }
+
+    return value;
 }
 
 
@@ -172,11 +312,11 @@ QMap<QString, QVariant> DPAdds::getFont(const QMap<QString, QVariant> defaultFon
 void DPAdds::changePanelsState()
 {
     if (debug) qDebug() << PDEBUG;
-    if (panelsToControl == QString("-1")) return;
+    if (panelsToControl.isEmpty()) return;
 
     QList<Plasma::Containment *> panels = getPanels();
 //     for (int i=0; i<panels.count(); i++) {
-//         if (!panelsToControl.split(QChar(',')).contains(QString::number(i))) continue;
+//         if (!panelsToControl.contains(i)) continue;
 //         bool wasVisible = panels[i]->view()->isVisible();
 //         int winId = panels[i]->view()->winId();
 //         if (wasVisible) {
@@ -221,6 +361,34 @@ void DPAdds::changeDesktop(const int desktop)
 }
 
 
+DPAdds::DesktopWindowsInfo DPAdds::getInfoByDesktop(const int desktop)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Desktop" << desktop;
+
+
+    DesktopWindowsInfo info;
+    info.desktop = KWindowSystem::workArea(desktop);
+
+    QList<WId> windows = KWindowSystem::windows();
+    for (int i=0; i<windows.count(); i++) {
+        KWindowInfo winInfo = KWindowInfo(windows[i],
+                                          NET::Property::WMDesktop | NET::Property::WMGeometry |
+                                          NET::Property::WMState | NET::Property::WMWindowType);
+        if (!winInfo.isOnDesktop(desktop)) continue;
+        if (winInfo.windowType(NET::WindowTypeMask::NormalMask) == NET::WindowType::Normal) {
+            if (winInfo.isMinimized()) continue;
+            info.windows.append(winInfo.geometry());
+            info.winId.append(windows[i]);
+        } else if (winInfo.windowType(NET::WindowTypeMask::DesktopMask) == NET::WindowType::Desktop) {
+            info.desktopId.append(windows[i]);
+        }
+    }
+
+    return info;
+}
+
+
 QList<Plasma::Containment *> DPAdds::getPanels()
 {
     if (debug) qDebug() << PDEBUG;
@@ -242,7 +410,7 @@ QString DPAdds::panelLocationToStr(Plasma::Types::Location location)
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Location" << location;
 
-    switch(location) {
+    switch (location) {
     case Plasma::Types::Location::TopEdge:
         return i18n("Top Edge");
     case Plasma::Types::Location::BottomEdge:

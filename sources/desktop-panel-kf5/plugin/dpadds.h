@@ -30,16 +30,28 @@ class DPAdds : public QObject
 {
     Q_OBJECT
 
+    typedef struct {
+        QRect desktop;
+        QList<WId> desktopId;
+        QList<QRect> windows;
+        QList<WId> winId;
+    } DesktopWindowsInfo;
+
 public:
     DPAdds(QObject *parent = 0);
     ~DPAdds();
 
     Q_INVOKABLE bool isDebugEnabled();
     Q_INVOKABLE QStringList dictKeys();
+    Q_INVOKABLE QString toolTipImage(const int desktop);
     Q_INVOKABLE QString parsePattern(const QString pattern, const int desktop);
     // values
+    Q_INVOKABLE void setMark(const QString newMark);
+    Q_INVOKABLE void setPanelsToControl(const QString newPanels);
+    Q_INVOKABLE void setToolTipData(const QMap<QString, QVariant> tooltipData);
     Q_INVOKABLE QString valueByKey(const QString key, const int desktop);
     // configuration slots
+    Q_INVOKABLE QString editPanelsToContol(const QString current);
     Q_INVOKABLE QString getAboutText(const QString type = "header");
     Q_INVOKABLE QMap<QString, QVariant> getFont(const QMap<QString, QVariant> defaultFont);
 
@@ -55,12 +67,14 @@ private slots:
     void changeDesktop(const int desktop);
 
 private:
+    DesktopWindowsInfo getInfoByDesktop(const int desktop);
     QList<Plasma::Containment *> getPanels();
     QString panelLocationToStr(Plasma::Types::Location location);
     // variables
     bool debug = false;
-    int oldState;
-    QString mark, panelsToControl;
+    int oldState, tooltipWidth;
+    QString mark, tooltipColor, tooltipType;
+    QList<int> panelsToControl;
 };
 
 

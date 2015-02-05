@@ -188,7 +188,7 @@ QString DesktopPanel::panelLocationToStr(Plasma::Location loc)
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Location" << loc;
 
-    switch(loc) {
+    switch (loc) {
     case Plasma::TopEdge:
         return i18n("Top Edge");
     case Plasma::BottomEdge:

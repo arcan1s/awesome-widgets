@@ -14,9 +14,6 @@
 
   <group name="Advanced">
     <!--   advanced -->
-    <entry name="tooltip" type="bool">
-      <default>true</default>
-    </entry>
     <entry name="tooltipType" type="string">
       <default>windows</default>
     </entry>

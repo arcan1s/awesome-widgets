@@ -79,7 +79,7 @@ QString GraphicalItem::image(const float value)
     view->resize(m_width + 5.0, m_height + 5.0);
 
     // paint
-    switch(m_type) {
+    switch (m_type) {
     case Vertical:
         pen.setWidth(m_width);
         // inactive
@@ -206,7 +206,7 @@ QString GraphicalItem::strType()
     if (debug) qDebug() << PDEBUG;
 
     QString value;
-    switch(m_type) {
+    switch (m_type) {
     case Vertical:
         value = QString("Vertical");
         break;
