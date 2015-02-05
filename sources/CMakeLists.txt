@@ -43,6 +43,7 @@ if (BUILD_KDE4)
   add_subdirectory (desktop-panel-kde4)
 else ()
   add_subdirectory (awesome-widget-kf5)
+  add_subdirectory (desktop-panel-kf5)
 endif ()
 
 # translations

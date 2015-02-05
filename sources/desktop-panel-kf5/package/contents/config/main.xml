@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+  <kcfgfile name=""/>
+
+  <group name="Widget">
+    <!--   widget -->
+    <entry name="text" type="string">
+      <default>[$fullmark$number/$total: $name]</default>
+    </entry>
+  </group>
+
+  <group name="Advanced">
+    <!--   advanced -->
+    <entry name="tooltip" type="bool">
+      <default>true</default>
+    </entry>
+    <entry name="tooltipType" type="string">
+      <default>windows</default>
+    </entry>
+    <entry name="tooltipWidth" type="int">
+      <default>200</default>
+    </entry>
+    <entry name="tooltipColor" type="string">
+      <default>#ffffff</default>
+    </entry>
+    <entry name="background" type="bool">
+      <default>true</default>
+    </entry>
+    <entry name="verticalLayout" type="bool">
+      <default>false</default>
+    </entry>
+    <entry name="mark" type="string">
+      <default>¤</default>
+    </entry>
+    <entry name="panels" type="int">
+      <default>-1</default>
+    </entry>
+  </group>
+
+  <group name="Appearance">
+    <!--   appearance -->
+    <entry name="textAlign" type="string">
+      <default>center</default>
+    </entry>
+    <entry name="fontFamily" type="string">
+      <default>Terminus</default>
+    </entry>
+    <entry name="fontSize" type="int">
+      <default>12</default>
+    </entry>
+    <entry name="fontColor" type="string">
+      <default>#000000</default>
+    </entry>
+    <entry name="fontWeight" type="string">
+      <default>normal</default>
+    </entry>
+    <entry name="fontStyle" type="string">
+      <default>normal</default>
+    </entry>
+    <!--   current -->
+    <entry name="currentTextAlign" type="string">
+      <default>center</default>
+    </entry>
+    <entry name="currentFontFamily" type="string">
+      <default>Terminus</default>
+    </entry>
+    <entry name="currentFontSize" type="int">
+      <default>12</default>
+    </entry>
+    <entry name="currentFontColor" type="string">
+      <default>#ff0000</default>
+    </entry>
+    <entry name="currentFontWeight" type="string">
+      <default>normal</default>
+    </entry>
+    <entry name="currentFontStyle" type="string">
+      <default>normal</default>
+    </entry>
+  </group>
+
+</kcfg>

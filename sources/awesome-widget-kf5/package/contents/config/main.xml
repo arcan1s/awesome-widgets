@@ -80,13 +80,13 @@
     <entry name="upTooltipColor" type="string">
       <default>#ff00ff</default>
     </entry>
-    <entry name="batteryTooltip" type="bool">
+    <entry name="batTooltip" type="bool">
       <default>true</default>
     </entry>
-    <entry name="batteryTooltipColor" type="string">
+    <entry name="batTooltipColor" type="string">
       <default>#008800</default>
     </entry>
-    <entry name="batteryInTooltipColor" type="string">
+    <entry name="batInTooltipColor" type="string">
       <default>#880000</default>
     </entry>
   </group>
