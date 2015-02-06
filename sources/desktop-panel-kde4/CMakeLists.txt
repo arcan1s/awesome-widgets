@@ -6,8 +6,6 @@ message (STATUS "Subproject ${SUBPROJECT}")
 find_package (KDE4 REQUIRED)
 add_definitions (${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
 
-add_subdirectory (po)
-
 include (KDE4Defaults)
 include_directories (${CMAKE_SOURCE_DIR}
                      ${CMAKE_BINARY_DIR}

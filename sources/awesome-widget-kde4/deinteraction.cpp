@@ -205,7 +205,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
                 values[data.keys()[i]] = QString("%1").arg(data[data.keys()[i]].toFloat(), 3, 'f', 0);
                 if (foundBars.indexOf(QRegExp(QString("bar[0-9].*bat"))) > -1) {
                     for (int j=0; j<foundBars.count(); j++) {
-                        if (getItemByTag(foundBars[j])->getBar() != data.keys()[i]) continue;
+                        if (getItemByTag(foundBars[j])->bar() != data.keys()[i]) continue;
                         values[foundBars[j]] = values[data.keys()[i]];
                     }
                 }
@@ -224,7 +224,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         values[QString("cpu")] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
         if (foundBars.indexOf(QRegExp(QString("bar[0-9].*cpu(?!cl).*"))) > -1) {
             for (int j=0; j<foundBars.count(); j++) {
-                if (getItemByTag(foundBars[j])->getBar() != QString("cpu")) continue;
+                if (getItemByTag(foundBars[j])->bar() != QString("cpu")) continue;
                 values[foundBars[j]] = QString("%1").arg(data[QString("value")].toFloat());
             }
         }
@@ -241,7 +241,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         values[QString("cpu") + number] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
         if (foundBars.indexOf(QRegExp(QString("bar[0-9].*cpu(?!cl).*"))) > -1) {
             for (int j=0; j<foundBars.count(); j++) {
-                if (getItemByTag(foundBars[j])->getBar() != (QString("cpu") + number)) continue;
+                if (getItemByTag(foundBars[j])->bar() != (QString("cpu") + number)) continue;
                 values[foundBars[j]] = values[QString("cpu") + number];
             }
         }
@@ -285,7 +285,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         values[QString("gpu")] = QString("%1").arg(data[QString("GPU")].toFloat(), 5, 'f', 1);
         if (foundBars.indexOf(QRegExp(QString("bar[0-9].*gpu"))) > -1) {
             for (int j=0; j<foundBars.count(); j++) {
-                if (getItemByTag(foundBars[j])->getBar() != QString("gpu")) continue;
+                if (getItemByTag(foundBars[j])->bar() != QString("gpu")) continue;
                 values[foundBars[j]] = values[QString("gpu")];
             }
         }
@@ -300,7 +300,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
                 values[QString("hdd") + QString::number(i)] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
                 if (foundBars.indexOf(QRegExp(QString("bar[0-9].*hdd([0-9].*"))) > -1) {
                     for (int j=0; j<foundBars.count(); j++) {
-                        if (getItemByTag(foundBars[j])->getBar() != (QString("hdd") + QString::number(i))) continue;
+                        if (getItemByTag(foundBars[j])->bar() != (QString("hdd") + QString::number(i))) continue;
                         values[foundBars[j]] = values[QString("hdd") + QString::number(i)];
                     }
                 }
@@ -370,7 +370,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         }
         if (foundBars.indexOf(QRegExp(QString("bar[0-9].*mem"))) > -1) {
             for (int j=0; j<foundBars.count(); j++) {
-                if (getItemByTag(foundBars[j])->getBar() != QString("mem")) continue;
+                if (getItemByTag(foundBars[j])->bar() != QString("mem")) continue;
                 values[foundBars[j]] = values[QString("mem")];
             }
         }
@@ -438,7 +438,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
         }
         if (foundBars.indexOf(QRegExp(QString("bar[0-9].*swap"))) > -1) {
             for (int j=0; j<foundBars.count(); j++) {
-                if (getItemByTag(foundBars[j])->getBar() != QString("swap")) continue;
+                if (getItemByTag(foundBars[j])->bar() != QString("swap")) continue;
                 values[foundBars[j]] = values[QString("swap")];
             }
         }

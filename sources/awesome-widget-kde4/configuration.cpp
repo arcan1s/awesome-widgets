@@ -51,7 +51,7 @@ QMap<QString, QString> AwesomeWidget::readDataEngineConfiguration()
     rawConfig[QString("PKGNULL")] = QString("0");
     rawConfig[QString("PLAYER")] = QString("mpris");
 
-    QString fileName = KGlobal::dirs()->findResource("config", "extsysmon.conf");
+    QString fileName = KGlobal::dirs()->findResource("config", "plasma-dataengine-extsysmon.conf");
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
     QFile configFile(fileName);
     if (!configFile.open(QIODevice::ReadOnly))
@@ -82,7 +82,7 @@ void AwesomeWidget::writeDataEngineConfiguration(const QMap<QString, QString> se
     if (debug) qDebug() << PDEBUG;
 
     QMap<QString, QString> config = updateDataEngineConfiguration(settings);
-    QString fileName = KGlobal::dirs()->locateLocal("config", "extsysmon.conf");
+    QString fileName = KGlobal::dirs()->locateLocal("config", "plasma-dataengine-extsysmon.conf");
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
     QFile configFile(fileName);
     if (!configFile.open(QIODevice::WriteOnly)) return;
@@ -148,7 +148,7 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     uiWidConfig.comboBox_tags->clear();
     uiWidConfig.comboBox_tags->addItems(getKeys());
     for (int i=0; i<graphicalItems.count(); i++)
-        uiWidConfig.comboBox_tags->addItem(graphicalItems[i]->getName() + graphicalItems[i]->getBar());
+        uiWidConfig.comboBox_tags->addItem(graphicalItems[i]->name() + graphicalItems[i]->bar());
 
     // advanced
     if (configuration[QString("background")].toInt() == 0)
@@ -302,10 +302,10 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     uiAdvancedConfig.lineEdit_acOffline->setText(configuration[QString("acOffline")]);
     uiAdvancedConfig.listWidget_bars->clear();
     for (int i=0; i<graphicalItems.count(); i++) {
-        QListWidgetItem *item = new QListWidgetItem(graphicalItems[i]->getFileName());
+        QListWidgetItem *item = new QListWidgetItem(graphicalItems[i]->fileName());
         QStringList tooltip;
-        tooltip.append(i18n("Tag: %1", graphicalItems[i]->getName() + graphicalItems[i]->getBar()));
-        tooltip.append(i18n("Comment: %1", graphicalItems[i]->getComment()));
+        tooltip.append(i18n("Tag: %1", graphicalItems[i]->name() + graphicalItems[i]->bar()));
+        tooltip.append(i18n("Comment: %1", graphicalItems[i]->comment()));
         item->setToolTip(tooltip.join(QChar('\n')));
         uiAdvancedConfig.listWidget_bars->addItem(item);
     }
@@ -377,11 +377,11 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     QList<ExtScript *> externalScripts = initScripts();
     uiDEConfig.listWidget_custom->clear();
     for (int i=0; i<externalScripts.count(); i++) {
-        QListWidgetItem *item = new QListWidgetItem(externalScripts[i]->getFileName());
+        QListWidgetItem *item = new QListWidgetItem(externalScripts[i]->fileName());
         QStringList tooltip;
-        tooltip.append(i18n("Name: %1", externalScripts[i]->getName()));
-        tooltip.append(i18n("Comment: %1", externalScripts[i]->getComment()));
-        tooltip.append(i18n("Exec: %1", externalScripts[i]->getExec()));
+        tooltip.append(i18n("Name: %1", externalScripts[i]->name()));
+        tooltip.append(i18n("Comment: %1", externalScripts[i]->comment()));
+        tooltip.append(i18n("Exec: %1", externalScripts[i]->exec()));
         item->setToolTip(tooltip.join(QChar('\n')));
         uiDEConfig.listWidget_custom->addItem(item);
     }
@@ -722,7 +722,7 @@ void AwesomeWidget::addBar()
     while (true) {
         bool exit = true;
         for (int i=0; i<graphicalItems.count(); i++)
-            if (graphicalItems[i]->getName() == QString("bar%1").arg(number)) {
+            if (graphicalItems[i]->name() == QString("bar%1").arg(number)) {
                 number++;
                 exit = false;
                 break;
@@ -800,7 +800,7 @@ void AwesomeWidget::contextMenuBars(const QPoint pos)
         copyBar(uiAdvancedConfig.listWidget_bars->currentItem()->text());
     else if (action == remove)
         for (int i=0; i<graphicalItems.count(); i++) {
-            if (graphicalItems[i]->getFileName() != uiAdvancedConfig.listWidget_bars->currentItem()->text())
+            if (graphicalItems[i]->fileName() != uiAdvancedConfig.listWidget_bars->currentItem()->text())
                 continue;
             graphicalItems[i]->tryDelete();
             graphicalItems.takeAt(i);
@@ -856,7 +856,7 @@ void AwesomeWidget::copyBar(const QString original)
     while (true) {
         bool exit = true;
         for (int i=0; i<graphicalItems.count(); i++)
-            if (graphicalItems[i]->getName() == QString("bar%1").arg(number)) {
+            if (graphicalItems[i]->name() == QString("bar%1").arg(number)) {
                 number++;
                 exit = false;
                 break;
@@ -880,20 +880,20 @@ void AwesomeWidget::copyBar(const QString original)
 
     GraphicalItem *originalItem = nullptr;
     for (int i=0; i<graphicalItems.count(); i++) {
-        if (graphicalItems[i]->getFileName() != original) continue;
+        if (graphicalItems[i]->fileName() != original) continue;
         originalItem = graphicalItems[i];
         break;
     }
     GraphicalItem *item = new GraphicalItem(0, name, dirs, debug);
     item->setName(QString("bar%1").arg(number));
-    item->setComment(originalItem->getComment());
-    item->setBar(originalItem->getBar());
-    item->setActiveColor(originalItem->getActiveColor());
-    item->setInactiveColor(originalItem->getInactiveColor());
-    item->setType(originalItem->getStrType());
-    item->setDirection(originalItem->getStrDirection());
-    item->setHeight(originalItem->getHeight());
-    item->setWidth(originalItem->getWidth());
+    item->setComment(originalItem->comment());
+    item->setBar(originalItem->bar());
+    item->setActiveColor(originalItem->activeColor());
+    item->setInactiveColor(originalItem->inactiveColor());
+    item->setType(originalItem->type());
+    item->setDirection(originalItem->direction());
+    item->setHeight(originalItem->height());
+    item->setWidth(originalItem->width());
     delete originalItem;
 
     item->showConfiguration(bars);
@@ -916,13 +916,13 @@ void AwesomeWidget::copyCustomCommand(const QString original)
     ExtScript *originalScript = new ExtScript(0, original, dirs, debug);
     ExtScript *script = new ExtScript(0, name, dirs, debug);
     script->setActive(originalScript->isActive());
-    script->setComment(originalScript->getComment());
-    script->setExec(originalScript->getExec());
+    script->setComment(originalScript->comment());
+    script->setExecutable(originalScript->executable());
     script->setHasOutput(originalScript->hasOutput());
-    script->setInterval(originalScript->getInterval());
-    script->setName(originalScript->getName());
-    script->setPrefix(originalScript->getPrefix());
-    script->setRedirect(originalScript->getStrRedirect());
+    script->setInterval(originalScript->interval());
+    script->setName(originalScript->name());
+    script->setPrefix(originalScript->prefix());
+    script->setRedirect(originalScript->redirect());
     delete originalScript;
 
     script->showConfiguration();
@@ -943,7 +943,7 @@ void AwesomeWidget::editBar(QListWidgetItem *item)
     bars.append(keys.filter((QRegExp(QString("^bat.*")))));
 
     for (int i=0; i<graphicalItems.count(); i++) {
-        if (graphicalItems[i]->getFileName() != item->text()) continue;
+        if (graphicalItems[i]->fileName() != item->text()) continue;
         graphicalItems[i]->showConfiguration(bars);
         break;
     }

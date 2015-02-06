@@ -409,7 +409,7 @@ QStringList AwesomeWidget::findGraphicalItems()
 
     QStringList orderedKeys;
     for (int i=0; i<graphicalItems.count(); i++)
-        orderedKeys.append(graphicalItems[i]->getName() + graphicalItems[i]->getBar());
+        orderedKeys.append(graphicalItems[i]->name() + graphicalItems[i]->bar());
     orderedKeys.sort();
     QStringList selectedKeys;
     for (int i=orderedKeys.count()-1; i>=0; i--)
@@ -453,7 +453,7 @@ GraphicalItem *AwesomeWidget::getItemByTag(const QString tag)
 
     GraphicalItem *item = nullptr;
     for (int i=0; i< graphicalItems.count(); i++) {
-        if ((graphicalItems[i]->getName() + graphicalItems[i]->getBar()) != tag) continue;
+        if ((graphicalItems[i]->name() + graphicalItems[i]->bar()) != tag) continue;
         item = graphicalItems[i];
         break;
     }
