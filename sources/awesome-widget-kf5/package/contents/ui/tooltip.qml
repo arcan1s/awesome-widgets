@@ -21,7 +21,6 @@ import QtQuick.Controls.Styles 1.3 as QtStyles
 import QtQuick.Dialogs 1.1 as QtDialogs
 
 import org.kde.plasma.private.awesomewidget 1.0
-import "."
 
 
 Item {
@@ -47,9 +46,9 @@ Item {
     property alias cfg_downTooltip: downTooltip.checked
     property alias cfg_downTooltipColor: downTooltipColor.text
     property alias cfg_upTooltipColor: upTooltipColor.text
-    property alias cfg_batteryTooltip: batteryTooltip.checked
-    property alias cfg_batteryTooltipColor: batteryTooltipColor.text
-    property alias cfg_batteryInTooltipColor: batteryInTooltipColor.text
+    property alias cfg_batTooltip: batTooltip.checked
+    property alias cfg_batTooltipColor: batTooltipColor.text
+    property alias cfg_batInTooltipColor: batInTooltipColor.text
 
 
     Column {
@@ -430,13 +429,13 @@ Item {
             width: parent.width
             QtControls.Label {
                 height: parent.height
-                width: parent.width * 2 / 5 - batteryTooltip.width
+                width: parent.width * 2 / 5 - batTooltip.width
                 horizontalAlignment: Text.AlignRight
                 verticalAlignment: Text.AlignVCenter
                 text: i18n("Battery active color")
             }
             QtControls.CheckBox {
-                id: batteryTooltip
+                id: batTooltip
                 height: parent.height
                 width: implicitWidth
                 style: QtStyles.CheckBoxStyle {
@@ -458,22 +457,22 @@ Item {
                 }
             }
             QtControls.Button {
-                id: batteryTooltipColor
+                id: batTooltipColor
                 width: parent.width * 3 / 5
                 style: QtStyles.ButtonStyle {
                     background: Rectangle {
-                        color: plasmoid.configuration.batteryTooltipColor
+                        color: plasmoid.configuration.batTooltipColor
                     }
                 }
-                text: plasmoid.configuration.batteryTooltipColor
-                onClicked: batteryTooltipColorDialog.visible = true
+                text: plasmoid.configuration.batTooltipColor
+                onClicked: batTooltipColorDialog.visible = true
             }
 
             QtDialogs.ColorDialog {
-                id: batteryTooltipColorDialog
+                id: batTooltipColorDialog
                 title: i18n("Select a color")
-                color: batteryTooltipColor.text
-                onAccepted: batteryTooltipColor.text = batteryTooltipColorDialog.color
+                color: batTooltipColor.text
+                onAccepted: batTooltipColor.text = batTooltipColorDialog.color
             }
         }
 
@@ -488,22 +487,22 @@ Item {
                 text: i18n("Battery inactive color")
             }
             QtControls.Button {
-                id: batteryInTooltipColor
+                id: batInTooltipColor
                 width: parent.width * 3 / 5
                 style: QtStyles.ButtonStyle {
                     background: Rectangle {
-                        color: plasmoid.configuration.batteryInTooltipColor
+                        color: plasmoid.configuration.batInTooltipColor
                     }
                 }
-                text: plasmoid.configuration.batteryInTooltipColor
-                onClicked: batteryInTooltipColorDialog.visible = true
+                text: plasmoid.configuration.batInTooltipColor
+                onClicked: batInTooltipColorDialog.visible = true
             }
 
             QtDialogs.ColorDialog {
-                id: batteryInTooltipColorDialog
+                id: batInTooltipColorDialog
                 title: i18n("Select a color")
-                color: batteryInTooltipColor.text
-                onAccepted: batteryInTooltipColor.text = batteryInTooltipColorDialog.color
+                color: batInTooltipColor.text
+                onAccepted: batInTooltipColor.text = batInTooltipColorDialog.color
             }
         }
     }

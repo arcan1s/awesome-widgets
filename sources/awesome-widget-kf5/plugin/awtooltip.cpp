@@ -51,7 +51,7 @@ AWToolTip::AWToolTip(QObject *parent,
     counts += configuration[QString("memTooltip")].toInt();
     counts += configuration[QString("swapTooltip")].toInt();
     counts += configuration[QString("downTooltip")].toInt();
-    counts += configuration[QString("batteryTooltip")].toInt();
+    counts += configuration[QString("batTooltip")].toInt();
 
     boundaries[QString("cpuTooltip")] = 100.0;
     boundaries[QString("cpuclTooltip")] = 4000.0;
@@ -108,10 +108,7 @@ QPixmap AWToolTip::image()
     for (int i=0; i<requiredKeys.count(); i++) {
         float normX = 100.0 / static_cast<float>(data[requiredKeys[i]].count());
         float normY = 100.0 / (1.5 * boundaries[requiredKeys[i]]);
-        if (requiredKeys[i] == QString("batTooltip"))
-            isBattery = true;
-        else
-            isBattery = false;
+        isBattery = (requiredKeys[i] == QString("batTooltip"));
         if (!isBattery) pen.setColor(QColor(configuration[requiredKeys[i] + QString("Color")].toString()));
         float shift = i * 100.0;
         if (down) shift -= 100.0;
@@ -122,9 +119,9 @@ QPixmap AWToolTip::image()
             float y2 = - fabs(data[requiredKeys[i]][j+1]) * normY + 5.0;
             if (isBattery) {
                 if (data[requiredKeys[i]][j+1] > 0)
-                    pen.setColor(QColor(configuration[QString("batteryColor")].toString()));
+                    pen.setColor(QColor(configuration[QString("batTooltipColor")].toString()));
                 else
-                    pen.setColor(QColor(configuration[QString("batteryInColor")].toString()));
+                    pen.setColor(QColor(configuration[QString("batInTooltipColor")].toString()));
             }
             toolTipScene->addLine(x1, y1, x2, y2, pen);
         }

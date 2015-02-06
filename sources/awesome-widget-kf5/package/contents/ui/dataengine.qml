@@ -22,7 +22,6 @@ import QtQuick.Layouts 1.0 as QtLayouts
 import QtQuick.Controls.Styles 1.3 as QtStyles
 
 import org.kde.plasma.private.awesomewidget 1.0
-import "."
 
 
 Item {
@@ -43,15 +42,15 @@ Item {
         "swapTooltip": plasmoid.configuration.swapTooltip,
         "downTooltip": plasmoid.configuration.downTooltip,
         "upTooltip": plasmoid.configuration.downTooltip,
-        "batteryTooltip": plasmoid.configuration.batteryTooltip,
+        "batTooltip": plasmoid.configuration.batTooltip,
         "cpuTooltipColor": plasmoid.configuration.cpuTooltipColor,
         "cpuclTooltipColor": plasmoid.configuration.cpuclTooltipColor,
         "memTooltipColor": plasmoid.configuration.memTooltipColor,
         "swapTooltipColor": plasmoid.configuration.swapTooltipColor,
         "downTooltipColor": plasmoid.configuration.downTooltipColor,
         "upTooltipColor": plasmoid.configuration.upTooltipColor,
-        "batteryTooltipColor": plasmoid.configuration.batteryTooltipColor,
-        "batteryInTooltipColor": plasmoid.configuration.batteryInTooltipColor
+        "batTooltipColor": plasmoid.configuration.batTooltipColor,
+        "batInTooltipColor": plasmoid.configuration.batInTooltipColor
     }
 
     property variant cfg_dataengine: AWActions.readDataEngineConfiguration()

@@ -47,15 +47,15 @@ Item {
         "swapTooltip": plasmoid.configuration.swapTooltip,
         "downTooltip": plasmoid.configuration.downTooltip,
         "upTooltip": plasmoid.configuration.downTooltip,
-        "batteryTooltip": plasmoid.configuration.batteryTooltip,
+        "batTooltip": plasmoid.configuration.batTooltip,
         "cpuTooltipColor": plasmoid.configuration.cpuTooltipColor,
         "cpuclTooltipColor": plasmoid.configuration.cpuclTooltipColor,
         "memTooltipColor": plasmoid.configuration.memTooltipColor,
         "swapTooltipColor": plasmoid.configuration.swapTooltipColor,
         "downTooltipColor": plasmoid.configuration.downTooltipColor,
         "upTooltipColor": plasmoid.configuration.upTooltipColor,
-        "batteryTooltipColor": plasmoid.configuration.batteryTooltipColor,
-        "batteryInTooltipColor": plasmoid.configuration.batteryInTooltipColor
+        "batTooltipColor": plasmoid.configuration.batTooltipColor,
+        "batInTooltipColor": plasmoid.configuration.batInTooltipColor
     }
 
     signal needUpdate
@@ -111,7 +111,7 @@ Item {
         id: timeDE
         engine: "time"
         connectedSources: ["Local"]
-        interval: plasmoid.configuration.interval
+        interval: 1000
 
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)

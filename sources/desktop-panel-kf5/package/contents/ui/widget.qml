@@ -17,9 +17,8 @@
 
 import QtQuick 2.0
 import QtQuick.Controls 1.3 as QtControls
-import org.kde.plasma.core 2.0 as PlasmaCore
 
-import org.kde.plasma.private.awesomewidget 1.0
+import org.kde.plasma.private.desktoppanel 1.0
 
 
 Item {
@@ -29,34 +28,7 @@ Item {
     implicitWidth: pageColumn.implicitWidth
     implicitHeight: pageColumn.implicitHeight
 
-    property bool debug: AWKeys.isDebugEnabled()
-    property variant settings: {
-        "customTime": plasmoid.configuration.customTime,
-        "customUptime": plasmoid.configuration.customUptime,
-        "tempUnits": plasmoid.configuration.tempUnits,
-        "acOnline": plasmoid.configuration.acOnline,
-        "acOffline": plasmoid.configuration.acOffline
-    }
-    property variant tooltipSettings: {
-        "tooltipNumber": plasmoid.configuration.tooltipNumber,
-        "useTooltipBackground": plasmoid.configuration.useTooltipBackground,
-        "tooltipBackgroung": plasmoid.configuration.tooltipBackgroung,
-        "cpuTooltip": plasmoid.configuration.cpuTooltip,
-        "cpuclTooltip": plasmoid.configuration.cpuclTooltip,
-        "memTooltip": plasmoid.configuration.memTooltip,
-        "swapTooltip": plasmoid.configuration.swapTooltip,
-        "downTooltip": plasmoid.configuration.downTooltip,
-        "upTooltip": plasmoid.configuration.downTooltip,
-        "batTooltip": plasmoid.configuration.batTooltip,
-        "cpuTooltipColor": plasmoid.configuration.cpuTooltipColor,
-        "cpuclTooltipColor": plasmoid.configuration.cpuclTooltipColor,
-        "memTooltipColor": plasmoid.configuration.memTooltipColor,
-        "swapTooltipColor": plasmoid.configuration.swapTooltipColor,
-        "downTooltipColor": plasmoid.configuration.downTooltipColor,
-        "upTooltipColor": plasmoid.configuration.upTooltipColor,
-        "batTooltipColor": plasmoid.configuration.batTooltipColor,
-        "batInTooltipColor": plasmoid.configuration.batInTooltipColor
-    }
+    property bool debug: DPAdds.isDebugEnabled()
 
     property alias cfg_text: textPattern.text
 
@@ -87,7 +59,7 @@ Item {
                         "family": plasmoid.configuration.fontFamily,
                         "size": plasmoid.configuration.fontSize
                     }
-                    var font = AWActions.getFont(defaultFont)
+                    var font = DPAdds.getFont(defaultFont)
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
@@ -215,6 +187,7 @@ Item {
             QtControls.ComboBox {
                 id: tags
                 width: parent.width - addTagButton.width - showValueButton.width
+                model: ADAdds.dictKeys()
             }
             QtControls.Button {
                 id: addTagButton
@@ -238,10 +211,10 @@ Item {
 
                     var message = i18n("Tag: %1", tags.currentText)
                     message += "<br>"
-                    message += i18n("Value: %1", AWKeys.valueByKey(tags.currentText))
+                    message += i18n("Value: %1", DPAdds.valueByKey(tags.currentText))
                     message += "<br>"
-                    message += i18n("Info: %1", AWKeys.infoByKey(tags.currentText))
-                    AWActions.sendNotification("tag", message)
+                    message += i18n("Info: %1", DPAdds.infoByKey(tags.currentText))
+                    DPAdds.sendNotification("tag", message)
                 }
             }
         }
@@ -254,53 +227,8 @@ Item {
         }
     }
 
-    // we need to initializate DataEngines here too
-    // because we need to get keys and values
-    PlasmaCore.DataSource {
-        id: systemmonitorDE
-        engine: "systemmonitor"
-        connectedSources: systemmonitorDE.sources
-        interval: 5000
-
-        onNewData: {
-            if (debug) console.log("[widget::onNewData] : Update source " + sourceName)
-
-            AWKeys.setDataBySource(sourceName, data, settings)
-        }
-    }
-
-    PlasmaCore.DataSource {
-        id: extsysmonDE
-        engine: "extsysmon"
-        connectedSources: ["battery", "custom", "desktop", "netdev", "gpu",
-                           "gputemp", "hddtemp", "pkg", "player", "ps", "update"]
-        interval: 5000
-
-        onNewData: {
-            if (debug) console.log("[widget::onNewData] : Update source " + sourceName)
-
-            AWKeys.setDataBySource(sourceName, data, settings)
-        }
-    }
-
-    PlasmaCore.DataSource {
-        id: timeDE
-        engine: "time"
-        connectedSources: ["Local"]
-        interval: 5000
-
-        onNewData: {
-            if (debug) console.log("[widget::onNewData] : Update source " + sourceName)
-
-            AWKeys.setDataBySource(sourceName, data, settings)
-        }
-    }
 
     Component.onCompleted: {
         if (debug) console.log("[widget::onCompleted]")
-
-        // init submodule
-        AWKeys.initKeys(plasmoid.configuration.text, tooltipSettings)
-        tags.model = AWKeys.dictKeys()
     }
 }

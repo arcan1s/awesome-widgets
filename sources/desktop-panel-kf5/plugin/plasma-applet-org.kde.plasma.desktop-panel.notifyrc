@@ -1,0 +1,24 @@
+[Global]
+IconName=system
+Name=Desktop Panel
+Comment=Desktop panel notifications
+
+[info]
+Name=Information
+Comment=Information
+Action=Popup
+
+[Event/event]
+Name=Event
+Comment=Some event occurs
+Action=Popup
+
+[Event/system]
+Name=System information
+Comment=System information
+Action=Popup
+
+[Event/tag]
+Name=Tag information
+Comment=Tag information
+Action=Popup
