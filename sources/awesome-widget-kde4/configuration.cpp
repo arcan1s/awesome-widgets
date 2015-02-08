@@ -47,15 +47,13 @@ QMap<QString, QString> AwesomeWidget::readDataEngineConfiguration()
     rawConfig[QString("MPDADDRESS")] = QString("localhost");
     rawConfig[QString("MPDPORT")] = QString("6600");
     rawConfig[QString("MPRIS")] = QString("auto");
-    rawConfig[QString("PKGCMD")] = QString("pacman -Qu");
-    rawConfig[QString("PKGNULL")] = QString("0");
     rawConfig[QString("PLAYER")] = QString("mpris");
 
     QString fileName = KGlobal::dirs()->findResource("config", "plasma-dataengine-extsysmon.conf");
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
     QFile configFile(fileName);
     if (!configFile.open(QIODevice::ReadOnly))
-        return updateDataEngineConfiguration(rawConfig);
+        return rawConfig;
     QString fileStr;
     QStringList value;
     while (true) {
@@ -73,7 +71,7 @@ QMap<QString, QString> AwesomeWidget::readDataEngineConfiguration()
     }
     configFile.close();
 
-    return updateDataEngineConfiguration(rawConfig);
+    return rawConfig;
 }
 
 
@@ -81,7 +79,7 @@ void AwesomeWidget::writeDataEngineConfiguration(const QMap<QString, QString> se
 {
     if (debug) qDebug() << PDEBUG;
 
-    QMap<QString, QString> config = updateDataEngineConfiguration(settings);
+    QMap<QString, QString> config = settings;
     QString fileName = KGlobal::dirs()->locateLocal("config", "plasma-dataengine-extsysmon.conf");
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
     QFile configFile(fileName);
@@ -91,35 +89,6 @@ void AwesomeWidget::writeDataEngineConfiguration(const QMap<QString, QString> se
         configFile.write(string);
     }
     configFile.close();
-}
-
-
-QMap<QString, QString> AwesomeWidget::updateDataEngineConfiguration(const QMap<QString, QString> rawConfig)
-{
-    if (debug) qDebug() << PDEBUG;
-
-    QMap<QString, QString> config;
-    QString key, value;
-    // remove spaces and copy source map
-    for (int i=0; i<rawConfig.keys().count(); i++) {
-        key = rawConfig.keys()[i];
-        value = rawConfig[key];
-        key.remove(QChar(' '));
-        if ((key != QString("HDDTEMPCMD")) &&
-            (key != QString("PKGCMD")))
-            value.remove(QChar(' '));
-        config[key] = value;
-    }
-    // pkgcmd
-    for (int i=config[QString("PKGNULL")].split(QString(","), QString::SkipEmptyParts).count();
-         i<config[QString("PKGCMD")].split(QString(","), QString::SkipEmptyParts).count()+1;
-         i++)
-        config[QString("PKGNULL")] += QString(",0");
-
-    for (int i=0; i<config.keys().count(); i++)
-        if (debug) qDebug() << PDEBUG << ":" << config.keys()[i] + QString("=") + config[config.keys()[i]];
-
-    return config;
 }
 
 

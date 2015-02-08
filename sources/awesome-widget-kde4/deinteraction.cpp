@@ -282,7 +282,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
                 break;
             }
     } else if (sourceName == QString("gpu")) {
-        values[QString("gpu")] = QString("%1").arg(data[QString("GPU")].toFloat(), 5, 'f', 1);
+        values[QString("gpu")] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
         if (foundBars.indexOf(QRegExp(QString("bar[0-9].*gpu"))) > -1) {
             for (int j=0; j<foundBars.count(); j++) {
                 if (getItemByTag(foundBars[j])->bar() != QString("gpu")) continue;
@@ -290,7 +290,7 @@ void AwesomeWidget::dataUpdated(const QString &sourceName, const Plasma::DataEng
             }
         }
     } else if (sourceName == QString("gputemp")) {
-        values[QString("gputemp")] = QString("%1").arg(getTemp(data[QString("GPUTemp")].toFloat()), 4, 'f', 1);
+        values[QString("gputemp")] = QString("%1").arg(getTemp(data[QString("value")].toFloat()), 4, 'f', 1);
     } else if (sourceName.contains(mountFillRegExp)) {
         QString mount = sourceName;
         mount.remove(QString("partitions"));

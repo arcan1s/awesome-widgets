@@ -31,10 +31,15 @@ class DPAdds : public QObject
     Q_OBJECT
 
     typedef struct {
+        WId id;
+        QString name;
+        QRect rect;
+    } WindowData;
+
+    typedef struct {
         QRect desktop;
-        QList<WId> desktopId;
-        QList<QRect> windows;
-        QList<WId> winId;
+        QList<WindowData> desktopsData;
+        QList<WindowData> windowsData;
     } DesktopWindowsInfo;
 
 public:
@@ -42,14 +47,16 @@ public:
     ~DPAdds();
 
     Q_INVOKABLE bool isDebugEnabled();
+    Q_INVOKABLE int currentDesktop();
     Q_INVOKABLE QStringList dictKeys();
+    Q_INVOKABLE int numberOfDesktops();
     Q_INVOKABLE QString toolTipImage(const int desktop);
     Q_INVOKABLE QString parsePattern(const QString pattern, const int desktop);
     // values
     Q_INVOKABLE void setMark(const QString newMark);
     Q_INVOKABLE void setPanelsToControl(const QString newPanels);
     Q_INVOKABLE void setToolTipData(const QMap<QString, QVariant> tooltipData);
-    Q_INVOKABLE QString valueByKey(const QString key, const int desktop);
+    Q_INVOKABLE QString valueByKey(const QString key, int desktop = -1);
     // configuration slots
     Q_INVOKABLE QString editPanelsToContol(const QString current);
     Q_INVOKABLE QString getAboutText(const QString type = "header");
@@ -57,6 +64,7 @@ public:
 
 signals:
     void desktopChanged();
+    void windowListChanged();
 
 public slots:
     Q_INVOKABLE void changePanelsState();
@@ -65,6 +73,7 @@ public slots:
 
 private slots:
     void changeDesktop(const int desktop);
+    void changeWindowList(const WId window);
 
 private:
     DesktopWindowsInfo getInfoByDesktop(const int desktop);
@@ -72,8 +81,10 @@ private:
     QString panelLocationToStr(Plasma::Types::Location location);
     // variables
     bool debug = false;
-    int oldState, tooltipWidth;
-    QString mark, tooltipColor, tooltipType;
+    int oldState, tooltipWidth = 200;
+    QString mark = QString("*");
+    QString tooltipColor = QString("#000000");
+    QString tooltipType = QString("none");
     QList<int> panelsToControl;
 };
 

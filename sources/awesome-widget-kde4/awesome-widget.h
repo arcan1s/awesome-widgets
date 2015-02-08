@@ -53,7 +53,6 @@ public:
     // de configuration
     QMap<QString, QString> readDataEngineConfiguration();
     void writeDataEngineConfiguration(const QMap<QString, QString> settings);
-    QMap<QString, QString> updateDataEngineConfiguration(const QMap<QString, QString> rawConfig);
 
 public slots:
     // contextual actions

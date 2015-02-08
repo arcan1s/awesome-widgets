@@ -146,8 +146,8 @@ Item {
             PlasmaCore.ToolTipArea {
                 id: rootTooltip
                 mainItem: Text {
-                id: tooltip
-                textFormat: Text.RichText
+                    id: tooltip
+                    textFormat: Text.RichText
                 }
             }
         }
@@ -180,6 +180,8 @@ Item {
     }
 
     Plasmoid.onUserConfiguringChanged: {
+        if (debug) console.log("[main::onUserConfiguringChanged]")
+
         // init submodule
         AWKeys.initKeys(plasmoid.configuration.text, tooltipSettings)
     }

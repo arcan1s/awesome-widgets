@@ -30,8 +30,14 @@ Item {
     id: main
 
     property bool debug: DPAdds.isDebugEnabled()
-    property variant settings: {
+    property variant tooltipSettings: {
+        "tooltipColor": plasmoid.configuration.tooltipColor,
+        "tooltipType": plasmoid.configuration.tooltipType,
+        "tooltipWidth": plasmoid.configuration.tooltipWidth
     }
+
+    signal needUpdate
+    signal needTooltipUpdate
 
 
     // init
@@ -40,8 +46,8 @@ Item {
 
     Layout.fillWidth: plasmoid.formFactor != PlasmaCore.Planar
     Layout.fillHeight: plasmoid.formFactor != PlasmaCore.Planar
-    Layout.minimumHeight: text.height
-    Layout.minimumWidth: text.width
+    Layout.minimumWidth: width
+    Layout. minimumHeight: height
 
     Plasmoid.icon: "utilities-system-monitor"
     Plasmoid.backgroundHints: plasmoid.configuration.background ? "DefaultBackground" : "NoBackground"
@@ -49,37 +55,116 @@ Item {
 
     // ui
     Grid {
-        columns: 1
+        columns: plasmoid.configuration.verticalLayout ? 1 : DPAdds.numberOfDesktops()
+        rows: plasmoid.configuration.verticalLayout ? DPAdds.numberOfDesktops() : 1
 
-        Text {
-            id: text
-            height: contentHeight
-            width: contentWidth
-            textFormat: Text.RichText
-            wrapMode: Text.NoWrap
-
-            horizontalAlignment: general.align[plasmoid.configuration.textAlign]
-            verticalAlignment: Text.AlignVCenter
-
-            color: plasmoid.configuration.fontColor
-            font.family: plasmoid.configuration.fontFamily
-            font.italic: plasmoid.configuration.fontStyle == "italic" ? true : false
-            font.pointSize: plasmoid.configuration.fontSize
-            font.weight: general.fontWeight[plasmoid.configuration.fontWeight]
-
-            text: plasmoid.configuration.text
-
-            PlasmaCore.ToolTipArea {
-                id: rootTooltip
-                mainItem: Text {
-                id: tooltip
+        Repeater {
+            id: repeater
+            model: DPAdds.numberOfDesktops()
+            Text {
+                id: text
+                height: contentHeight
+                width: contentWidth
                 textFormat: Text.RichText
+                wrapMode: Text.NoWrap
+
+                verticalAlignment: Text.AlignVCenter
+
+                text: DPAdds.parsePattern(plasmoid.configuration.text, index + 1)
+                property alias tooltip: tooltip
+
+                MouseArea {
+                    hoverEnabled: true
+                    anchors.fill: parent
+                    onClicked: DPAdds.setCurrentDesktop(index + 1);
+                    onEntered: needTooltipUpdate()
+                }
+
+                PlasmaCore.ToolTipArea {
+                    height: tooltip.height
+                    width: tooltip.width
+                    mainItem: Text {
+                        id: tooltip
+                        height: contentHeight
+                        width: contentWidth
+                        textFormat: Text.RichText
+                    }
                 }
             }
         }
     }
 
+    Timer {
+        id: timer
+        interval: 1000
+        onTriggered: needUpdate()
+    }
+
+    onNeedUpdate: {
+        if (debug) console.log("[main::onNeedUpdate]")
+
+        var newHeight = 0
+        var newWidth = 0
+        for (var i=0; i<repeater.count; i++) {
+            if (!repeater.itemAt(i)) {
+                if (debug) console.log("[main::onNeedUpdate] : Nothing to do here " + i)
+                timer.start()
+                return
+            }
+            repeater.itemAt(i).text = DPAdds.parsePattern(plasmoid.configuration.text, i + 1)
+            if (DPAdds.currentDesktop() == i + 1) {
+                repeater.itemAt(i).color = plasmoid.configuration.currentFontColor
+                repeater.itemAt(i).font.family = plasmoid.configuration.currentFontFamily
+                repeater.itemAt(i).font.italic = plasmoid.configuration.currentFontStyle == "italic" ? true : false
+                repeater.itemAt(i).font.pointSize = plasmoid.configuration.currentFontSize
+                repeater.itemAt(i).font.weight = general.fontWeight[plasmoid.configuration.currentFontWeight]
+            } else {
+                repeater.itemAt(i).color = plasmoid.configuration.fontColor
+                repeater.itemAt(i).font.family = plasmoid.configuration.fontFamily
+                repeater.itemAt(i).font.italic = plasmoid.configuration.fontStyle == "italic" ? true : false
+                repeater.itemAt(i).font.pointSize = plasmoid.configuration.fontSize
+                repeater.itemAt(i).font.weight = general.fontWeight[plasmoid.configuration.fontWeight]
+            }
+            repeater.itemAt(i).update()
+            newHeight += repeater.itemAt(i).height
+            newWidth += repeater.itemAt(i).width
+        }
+        height = newHeight
+        width = newHeight
+        update()
+
+        needTooltipUpdate()
+    }
+
+    onNeedTooltipUpdate: {
+        if (debug) console.log("[main::onNeedTooltipUpdate]")
+
+        for (var i=0; i<repeater.count; i++) {
+            repeater.itemAt(i).tooltip.text = DPAdds.toolTipImage(i + 1)
+        }
+    }
+
+    Plasmoid.onActivated: {
+        if (debug) console.log("[main::onActivated]")
+
+        DPAdds.changePanelsState()
+    }
+
+    Plasmoid.onUserConfiguringChanged: {
+        if (debug) console.log("[main::onUserConfiguringChanged]")
+
+        DPAdds.setMark(plasmoid.configuration.mark)
+        DPAdds.setPanelsToControl(plasmoid.configuration.panels)
+        DPAdds.setToolTipData(tooltipSettings)
+        needUpdate()
+    }
+
     Component.onCompleted: {
         if (debug) console.log("[main::onCompleted]")
+
+        // init submodule
+        Plasmoid.userConfiguringChanged(true)
+        DPAdds.desktopChanged.connect(needUpdate)
+        DPAdds.windowListChanged.connect(needTooltipUpdate)
     }
 }

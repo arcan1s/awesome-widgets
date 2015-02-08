@@ -8,7 +8,7 @@
   <group name="Widget">
     <!--   widget -->
     <entry name="text" type="string">
-      <default>[$fullmark$number/$total: $name]</default>
+      <default>[$mark$number/$total: $name]</default>
     </entry>
   </group>
 

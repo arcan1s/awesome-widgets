@@ -187,7 +187,7 @@ Item {
             QtControls.ComboBox {
                 id: tags
                 width: parent.width - addTagButton.width - showValueButton.width
-                model: ADAdds.dictKeys()
+                model: DPAdds.dictKeys()
             }
             QtControls.Button {
                 id: addTagButton
@@ -212,8 +212,6 @@ Item {
                     var message = i18n("Tag: %1", tags.currentText)
                     message += "<br>"
                     message += i18n("Value: %1", DPAdds.valueByKey(tags.currentText))
-                    message += "<br>"
-                    message += i18n("Info: %1", DPAdds.infoByKey(tags.currentText))
                     DPAdds.sendNotification("tag", message)
                 }
             }

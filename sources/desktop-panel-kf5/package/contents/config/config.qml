@@ -34,9 +34,15 @@ ConfigModel {
     }
 
     ConfigCategory {
-        name: i18n("Appearance")
+        name: i18n("Active desktop")
         icon: "preferences-desktop-theme"
-        source: "appearance.qml"
+        source: "activeapp.qml"
+    }
+
+    ConfigCategory {
+        name: i18n("Inactive desktop")
+        icon: "preferences-desktop-theme"
+        source: "inactiveapp.qml"
     }
 
     ConfigCategory {

@@ -122,10 +122,10 @@ QString AWKeys::parsePattern(const QString pattern)
     if (!ready) return pattern;
 
     QString parsed = pattern;
-    parsed.replace(QString(" "), QString("&nbsp;"));
     parsed.replace(QString("$$"), QString("$\\$\\"));
     for (int i=0; i<foundKeys.count(); i++)
         parsed.replace(QString("$") + foundKeys[i], valueByKey(foundKeys[i]));
+    parsed.replace(QString(" "), QString("&nbsp;"));
     for (int i=0; i<foundBars.count(); i++)
         parsed.replace(QString("$") + foundBars[i], getItemByTag(foundBars[i])->image(valueByKey(foundBars[i]).toFloat()));
     parsed.replace(QString("$\\$\\"), QString("$$"));

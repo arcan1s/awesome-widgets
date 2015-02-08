@@ -17,9 +17,10 @@
 
 import QtQuick 2.0
 import QtQuick.Controls 1.3 as QtControls
-import org.kde.plasma.core 2.0 as PlasmaCore
+import QtQuick.Controls.Styles 1.3 as QtStyles
+import QtQuick.Dialogs 1.1 as QtDialogs
 
-import org.kde.plasma.private.awesomewidget 1.0
+import org.kde.plasma.private.desktoppanel 1.0
 
 
 Item {
@@ -29,46 +30,109 @@ Item {
     implicitWidth: pageColumn.implicitWidth
     implicitHeight: pageColumn.implicitHeight
 
-    property bool debug: AWKeys.isDebugEnabled()
-    property variant settings: {
-        "customTime": plasmoid.configuration.customTime,
-        "customUptime": plasmoid.configuration.customUptime,
-        "tempUnits": plasmoid.configuration.tempUnits,
-        "acOnline": plasmoid.configuration.acOnline,
-        "acOffline": plasmoid.configuration.acOffline
-    }
-    property variant tooltipSettings: {
-        "tooltipNumber": plasmoid.configuration.tooltipNumber,
-        "useTooltipBackground": plasmoid.configuration.useTooltipBackground,
-        "tooltipBackgroung": plasmoid.configuration.tooltipBackgroung,
-        "cpuTooltip": plasmoid.configuration.cpuTooltip,
-        "cpuclTooltip": plasmoid.configuration.cpuclTooltip,
-        "memTooltip": plasmoid.configuration.memTooltip,
-        "swapTooltip": plasmoid.configuration.swapTooltip,
-        "downTooltip": plasmoid.configuration.downTooltip,
-        "upTooltip": plasmoid.configuration.downTooltip,
-        "batTooltip": plasmoid.configuration.batTooltip,
-        "cpuTooltipColor": plasmoid.configuration.cpuTooltipColor,
-        "cpuclTooltipColor": plasmoid.configuration.cpuclTooltipColor,
-        "memTooltipColor": plasmoid.configuration.memTooltipColor,
-        "swapTooltipColor": plasmoid.configuration.swapTooltipColor,
-        "downTooltipColor": plasmoid.configuration.downTooltipColor,
-        "upTooltipColor": plasmoid.configuration.upTooltipColor,
-        "batTooltipColor": plasmoid.configuration.batTooltipColor,
-        "batInTooltipColor": plasmoid.configuration.batInTooltipColor
-    }
+    property bool debug: DPAdds.isDebugEnabled()
 
+    property string cfg_tooltipType: tooltipType.currentText
+    property alias cfg_tooltipWidth: tooltipWidth.value
+    property alias cfg_tooltipColor: tooltipColor.text
     property alias cfg_background: background.checked
-    property alias cfg_customTime: customTime.text
-    property alias cfg_customUptime: customUptime.text
-    property string cfg_tempUnits: tempUnits.currentText
-    property alias cfg_acOnline: acOnline.text
-    property alias cfg_acOffline: acOffline.text
+    property alias cfg_verticalLayout: verticalLayout.checked
+    property string cfg_mark: mark.currentText
 
 
     Column {
         id: pageColumn
         width: units.gridUnit * 25
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.height
+                width: parent.width * 2 / 5
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+                text: i18n("Tooltip type")
+            }
+            QtControls.ComboBox {
+                id: tooltipType
+                width: parent.width * 3 / 5
+                textRole: "label"
+                model: [
+                    {
+                        'label': i18n("contours"),
+                        'name': "contours"
+                    },
+                    {
+                        'label': i18n("windows"),
+                        'name': "windows"
+                    },
+                    {
+                        'label': i18n("clean desktop"),
+                        'name': "clean"
+                    },
+                    {
+                        'label': i18n("names"),
+                        'name': "names"
+                    },
+                    {
+                        'label': i18n("none"),
+                        'name': "none"
+                    }
+                ]
+                onCurrentIndexChanged: cfg_tooltipType = model[currentIndex]["name"]
+                Component.onCompleted: {
+                    for (var i = 0; i < model.length; i++) {
+                        if (model[i]["name"] == plasmoid.configuration.tooltipType) {
+                            tooltipType.currentIndex = i;
+                        }
+                    }
+                }
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.height
+                width: parent.width * 2 / 5
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+                text: i18n("Tooltip width")
+            }
+            QtControls.SpinBox {
+                id: tooltipWidth
+                width: parent.width * 3 / 5
+                minimumValue: 100
+                maximumValue: 1000
+                stepSize: 50
+                value: plasmoid.configuration.tooltipWidth
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.height
+                width: parent.width * 2 / 5
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+                text: i18n("Font color")
+            }
+            QtControls.Button {
+                id: tooltipColor
+                width: parent.width * 3 / 5
+                style: QtStyles.ButtonStyle {
+                    background: Rectangle {
+                        color: plasmoid.configuration.tooltipColor
+                    }
+                }
+                text: plasmoid.configuration.tooltipColor
+                onClicked: colorDialog.visible = true
+            }
+        }
+
         Row {
             height: implicitHeight
             width: parent.width
@@ -87,16 +151,13 @@ Item {
             height: implicitHeight
             width: parent.width
             QtControls.Label {
-                height: parent.height
+                height: parent.heigth
                 width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Custom time format")
             }
-            QtControls.TextField {
-                id: customTime
+            QtControls.CheckBox {
+                id: verticalLayout
                 width: parent.width * 3 / 5
-                text: plasmoid.configuration.customTime
+                text: i18n("Vertical layout")
             }
         }
 
@@ -108,67 +169,16 @@ Item {
                 width: parent.width * 2 / 5
                 horizontalAlignment: Text.AlignRight
                 verticalAlignment: Text.AlignVCenter
-                text: i18n("Custom uptime format")
-            }
-            QtControls.TextField {
-                id: customUptime
-                width: parent.width * 3 / 5
-                text: plasmoid.configuration.customUptime
-            }
-        }
-
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Temperature units")
+                text: i18n("Mark")
             }
             QtControls.ComboBox {
-                id: tempUnits
+                id: mark
                 width: parent.width * 3 / 5
-                textRole: "label"
-                model: [
-                    {
-                        'label': i18n("Celsius"),
-                        'name': "Celsius"
-                    },
-                    {
-                        'label': i18n("Fahrenheit"),
-                        'name': "Fahrenheit"
-                    },
-                    {
-                        'label': i18n("Kelvin"),
-                        'name': "Kelvin"
-                    },
-                    {
-                        'label': i18n("Reaumur"),
-                        'name': "Reaumur"
-                    },
-                    {
-                        'label': i18n("cm^-1"),
-                        'name': "cm^-1"
-                    },
-                    {
-                        'label': i18n("kJ/mol"),
-                        'name': "kJ/mol"
-                    },
-                    {
-                        'label': i18n("kcal/mol"),
-                        'name': "kcal/mol"
-                    }
-                ]
-                onCurrentIndexChanged: cfg_tempUnits = model[currentIndex]["name"]
-                Component.onCompleted: {
-                    for (var i = 0; i < model.length; i++) {
-                        if (model[i]["name"] == plasmoid.configuration.tempUnits) {
-                            tempUnits.currentIndex = i;
-                        }
-                    }
-                }
+                editable: true
+                model: ["#", "$", "%", "&", "*", "@", "¤", "¶", "·", "º",
+                        plasmoid.configuration.mark]
+                currentIndex: model.length - 1
+                onCurrentIndexChanged: cfg_mark = currentText
             }
         }
 
@@ -180,96 +190,24 @@ Item {
                 width: parent.width * 2 / 5
                 horizontalAlignment: Text.AlignRight
                 verticalAlignment: Text.AlignVCenter
-                text: i18n("AC online tag")
-            }
-            QtControls.TextField {
-                id: acOnline
-                width: parent.width * 3 / 5
-                text: plasmoid.configuration.acOnline
-            }
-        }
-
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("AC offline tag")
-            }
-            QtControls.TextField {
-                id: acOffline
-                width: parent.width * 3 / 5
-                text: plasmoid.configuration.acOffline
-            }
-        }
-
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Bars")
+                text: i18n("Panels to be hidden")
             }
             QtControls.Button {
                 width: parent.width * 3 / 5
-                text: i18n("Edit bars")
-                onClicked: AWKeys.editItem("graphicalitem")
+                text: i18n("Edit panels")
+                onClicked: cfg_panels = DPAdds.editPanelsToContol(plasmoid.configuration.panels)
             }
         }
     }
 
-    // we need to initializate DataEngines here too
-    // because we need to get keys and values
-    PlasmaCore.DataSource {
-        id: systemmonitorDE
-        engine: "systemmonitor"
-        connectedSources: systemmonitorDE.sources
-        interval: 5000
-
-        onNewData: {
-            if (debug) console.log("[advanced::onNewData] : Update source " + sourceName)
-
-            AWKeys.setDataBySource(sourceName, data, settings)
-        }
-    }
-
-    PlasmaCore.DataSource {
-        id: extsysmonDE
-        engine: "extsysmon"
-        connectedSources: ["battery", "custom", "desktop", "netdev", "gpu",
-                           "gputemp", "hddtemp", "pkg", "player", "ps", "update"]
-        interval: 5000
-
-        onNewData: {
-            if (debug) console.log("[advanced::onNewData] : Update source " + sourceName)
-
-            AWKeys.setDataBySource(sourceName, data, settings)
-        }
-    }
-
-    PlasmaCore.DataSource {
-        id: timeDE
-        engine: "time"
-        connectedSources: ["Local"]
-        interval: 5000
-
-        onNewData: {
-            if (debug) console.log("[advanced::onNewData] : Update source " + sourceName)
-
-            AWKeys.setDataBySource(sourceName, data, settings)
-        }
+    QtDialogs.ColorDialog {
+        id: colorDialog
+        title: i18n("Select a color")
+        color: tooltipColor.text
+        onAccepted: tooltipColor.text = colorDialog.color
     }
 
     Component.onCompleted: {
         if (debug) console.log("[advanced::onCompleted]")
-
-        // init submodule
-        AWKeys.initKeys(plasmoid.configuration.text, tooltipSettings)
     }
 }
