@@ -102,6 +102,7 @@ private:
     QDialogButtonBox *dialogButtons = nullptr;
     QPushButton *copyButton = nullptr;
     QPushButton *createButton = nullptr;
+    QPushButton *deleteButton = nullptr;
     RequestedItem requestedItem = Nothing;
     // variables
     bool debug = false;

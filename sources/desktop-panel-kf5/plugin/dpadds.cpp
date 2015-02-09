@@ -459,11 +459,13 @@ QList<Plasma::Containment *> DPAdds::getPanels()
 {
     if (debug) qDebug() << PDEBUG;
 
+    ScriptEngine *env = new ScriptEngine(this);
+    Plasma::Corona *corona = env->corona();
 //     Plasma::Corona *corona = new Plasma::Corona(this);
     QList<Plasma::Containment *> panels;
-//     for (int i=0; i<corona->containments().count(); i++)
-//         if (corona->containments()[i]->containmentType() == Plasma::Types::ContainmentType::PanelContainment)
-//             panels.append(corona->containments()[i]);
+    for (int i=0; i<corona->containments().count(); i++)
+        if (corona->containments()[i]->containmentType() == Plasma::Types::ContainmentType::PanelContainment)
+            panels.append(corona->containments()[i]);
 //     delete corona;
 
     return panels;

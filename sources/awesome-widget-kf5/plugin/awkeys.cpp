@@ -55,6 +55,7 @@ AWKeys::AWKeys(QObject *parent)
                                          Qt::Vertical, dialog);
     copyButton = dialogButtons->addButton(i18n("Copy"), QDialogButtonBox::ActionRole);
     createButton = dialogButtons->addButton(i18n("Create"), QDialogButtonBox::ActionRole);
+    deleteButton = dialogButtons->addButton(i18n("Remove"), QDialogButtonBox::ActionRole);
     QHBoxLayout *layout = new QHBoxLayout(dialog);
     layout->addWidget(widgetDialog);
     layout->addWidget(dialogButtons);
@@ -818,6 +819,35 @@ void AWKeys::editItemButtonPressed(QAbstractButton *button)
             break;
         case RequestedGraphicalItem:
             copyBar(QString(""));
+            break;
+        case Nothing:
+        default:
+            break;
+        }
+    } else if (dynamic_cast<QPushButton *>(button) == deleteButton) {
+        if (item == nullptr) return;
+        QString current = item->text();
+        switch (requestedItem) {
+        case RequestedExtScript:
+            for (int i=0; i<extScripts.count(); i++) {
+                if (extScripts[i]->fileName() != current) continue;
+                extScripts[i]->tryDelete();
+                break;
+            }
+            break;
+        case RequestedExtUpgrade:
+            for (int i=0; i<extUpgrade.count(); i++) {
+                if (extUpgrade[i]->fileName() != current) continue;
+                extUpgrade[i]->tryDelete();
+                break;
+            }
+            break;
+        case RequestedGraphicalItem:
+            for (int i=0; i<graphicalItems.count(); i++) {
+                if (graphicalItems[i]->fileName() != current) continue;
+                graphicalItems[i]->tryDelete();
+                break;
+            }
             break;
         case Nothing:
         default:
