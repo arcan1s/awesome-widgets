@@ -72,6 +72,7 @@ AWKeys::~AWKeys()
     delete toolTip;
     delete createButton;
     delete copyButton;
+    delete deleteButton;
     delete dialogButtons;
     delete widgetDialog;
     delete dialog;
