@@ -147,7 +147,7 @@ Item {
     Plasmoid.onActivated: {
         if (debug) console.log("[main::onActivated]")
 
-        DPAdds.changePanelsState()
+//         DPAdds.changePanelsState()
     }
 
     Plasmoid.onUserConfiguringChanged: {

@@ -21,6 +21,10 @@
 #include <KWindowSystem>
 #include <Plasma/DataContainer>
 
+#include <QDBusArgument>
+#include <QDBusConnection>
+#include <QDBusConnectionInterface>
+#include <QDBusMessage>
 #include <QDebug>
 #include <QDir>
 #include <QFile>
@@ -100,20 +104,17 @@ QString ExtendedSysMon::getAutoMpris()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QString mpris;
-    QString cmd = QString("bash -c \"qdbus 'org.mpris.MediaPlayer2.*'\"");
-    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
-    TaskResult process = runTask(cmd);
-    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-    if (process.exitCode != 0)
-        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+    QDBusMessage listServices = QDBusConnection::sessionBus().interface()->call(QDBus::BlockWithGui, QString("ListNames"));
+    QList<QVariant> arguments = listServices.arguments();
 
-    QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
-    if (qoutput.split(QChar('\n'))[0].split(QChar('.')).count() > 3)
-        mpris = qoutput.split(QChar('\n'))[0].split(QChar('.'))[3];
+    for (int i=0; i<arguments.count(); i++) {
+        if (!arguments[i].toString().startsWith(QString("org.mpris.MediaPlayer2."))) continue;
+        QString service = arguments[i].toString();
+        service.remove(QString("org.mpris.MediaPlayer2."));
+        return service;
+    }
 
-    if (debug) qDebug() << PDEBUG << ":" << "Player found" << mpris;
-    return mpris;
+    return QString();
 }
 
 
@@ -506,20 +507,37 @@ QMap<QString, QVariant> ExtendedSysMon::getPlayerInfo(const QString playerName,
     info[QString("duration")] = QString("0");
     info[QString("progress")] = QString("0");
     info[QString("title")] = QString("unknown");
-    QString cmd;
+
     if (playerName == QString("mpd"))
         // mpd
-        cmd = QString("bash -c \"echo 'currentsong\nstatus\nclose' | curl --connect-timeout 1 -fsm 3 telnet://%1:%2\"")
-                .arg(mpdAddress)
-                .arg(mpdPort);
+        return getPlayerMpdInfo(mpdAddress, mpdPort);
     else if (playerName == QString("mpris")) {
         // players which supports mpris
-        if (mpris == QString("auto"))
-            mpris = getAutoMpris();
+        if (mpris == QString("auto")) mpris = getAutoMpris();
         if (mpris.isEmpty()) return info;
-        cmd = QString("bash -c \"qdbus org.mpris.%1 /Player GetMetadata && qdbus org.mpris.%1 /Player PositionGet\"")
-                .arg(mpris);
+        return getPlayerMprisInfo(mpris);
     }
+
+    return info;
+}
+
+
+QMap<QString, QVariant> ExtendedSysMon::getPlayerMpdInfo(const QString mpdAddress,
+                                                         const QString mpdPort)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "MPD" << mpdAddress + QString(":") + mpdPort;
+
+    QMap<QString, QVariant> info;
+    info[QString("album")] = QString("unknown");
+    info[QString("artist")] = QString("unknown");
+    info[QString("duration")] = QString("0");
+    info[QString("progress")] = QString("0");
+    info[QString("title")] = QString("unknown");
+
+    QString cmd = QString("bash -c \"echo 'currentsong\nstatus\nclose' | curl --connect-timeout 1 -fsm 3 telnet://%1:%2\"")
+                    .arg(mpdAddress)
+                    .arg(mpdPort);
     if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
     TaskResult process = runTask(cmd);
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
@@ -528,38 +546,70 @@ QMap<QString, QVariant> ExtendedSysMon::getPlayerInfo(const QString playerName,
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     QString qstr = QString("");
-    if (playerName == QString("mpd"))
-        for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
-            qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
-            if (qstr.split(QString(": "), QString::SkipEmptyParts).count() > 1) {
-                if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("Album"))
-                    info[QString("album")] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
-                else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("Artist"))
-                    info[QString("artist")] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
-                else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("time")) {
-                    info[QString("duration")] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed().split(QString(":"))[0];
-                    info[QString("progress")] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed().split(QString(":"))[1];
-                } else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("Title"))
-                    info[QString("title")] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
-            }
+    for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
+        qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
+        if (qstr.split(QString(": "), QString::SkipEmptyParts).count() > 1) {
+            if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("Album"))
+                info[QString("album")] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
+            else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("Artist"))
+                info[QString("artist")] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
+            else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("time")) {
+                info[QString("duration")] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed().split(QString(":"))[0];
+                info[QString("progress")] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed().split(QString(":"))[1];
+            } else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("Title"))
+                info[QString("title")] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
         }
-    else if (playerName == QString("mpris"))
-        for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
-            qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
-            if (qstr.split(QString(": "), QString::SkipEmptyParts).count() > 1) {
-                if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("album"))
-                    info[QString("album")] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
-                else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("artist"))
-                    info[QString("artist")] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
-                else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("time"))
-                    info[QString("duration")] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
-                else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("title"))
-                    info[QString("title")] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
-            } else {
-                int time = qstr.toInt() / 1000;
-                info[QString("progress")] = QString::number(time);
-            }
-        }
+    }
+
+    return info;
+}
+
+
+QMap<QString, QVariant> ExtendedSysMon::getPlayerMprisInfo(const QString mpris)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << "MPRIS" << mpris;
+
+    QMap<QString, QVariant> info;
+    info[QString("album")] = QString("unknown");
+    info[QString("artist")] = QString("unknown");
+    info[QString("duration")] = 0;
+    info[QString("progress")] = 0;
+    info[QString("title")] = QString("unknown");
+
+    // init
+    QDBusArgument arg;
+    QDBusConnection bus = QDBusConnection::sessionBus();
+    QDBusMessage response, request;
+    QVariantMap map;
+
+    // general information
+    request = QDBusMessage::createMethodCall(QString("org.mpris.MediaPlayer2.%1").arg(mpris),
+                                             QString("/Player"),
+                                             QString(""),
+                                             QString("GetMetadata"));
+    response = bus.call(request, QDBus::BlockWithGui);
+    if (response.arguments().size() == 0) {
+        if (debug) qDebug() << PDEBUG << ":" << "Error message" << response.errorMessage();
+    } else {
+        arg = response.arguments()[0].value<QDBusArgument>();
+        arg >> map;
+        info[QString("album")] = map[QString("album")];
+        info[QString("artist")] = map[QString("artist")];
+        info[QString("duration")] = map[QString("time")];
+        info[QString("title")] = map[QString("title")];
+    }
+
+    // position
+    request = QDBusMessage::createMethodCall(QString("org.mpris.MediaPlayer2.%1").arg(mpris),
+                                             QString("/Player"),
+                                             QString(""),
+                                             QString("PositionGet"));
+    response = bus.call(request, QDBus::BlockWithGui);
+    if (response.arguments().size() == 0) {
+        if (debug) qDebug() << PDEBUG << ":" << "Error message" << response.errorMessage();
+    } else
+        info[QString("progress")] = response.arguments()[0].toInt() / 1000;
 
     return info;
 }
@@ -569,32 +619,24 @@ QMap<QString, QVariant> ExtendedSysMon::getPsStats()
 {
     if (debug) qDebug() << PDEBUG;
 
+    QStringList allDirectories = QDir(QString("/proc")).entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
+    QStringList directories = allDirectories.filter(QRegExp(QString("(\\d+)")));
+    QStringList running;
+
+    for (int i=0; i<directories.count(); i++) {
+        QFile statusFile(directories[i] + QString("/status"));
+        if (!statusFile.open(QIODevice::ReadOnly)) continue;
+        QFile cmdFile(directories[i] + QString("/cmdline"));
+        if (!cmdFile.open(QIODevice::ReadOnly)) continue;
+
+        QString output = statusFile.readAll();
+        if (output.contains(QString("running"))) running.append(cmdFile.readAll());
+    }
+
     QMap<QString, QVariant> psStats;
-    QString cmd, qoutput;
-    cmd = QString("ps --no-headers -o command");
-    if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
-    TaskResult process = runTask(cmd);
-    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-    if (process.exitCode != 0)
-        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
-
-    qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
-    QStringList psList;
-    for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++)
-        if (!qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i].contains(QString("ps ")))
-            psList.append(qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i]);
-    psStats[QString("pscount")] = psList.count();
-    psStats[QString("ps")] = psList.join(QString(","));
-
-    cmd = QString("ps -e --no-headers -o command");
-    if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
-    process = runTask(cmd);
-    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-    if (process.exitCode != 0)
-        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
-
-    qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
-    psStats[QString("pstotal")] = qoutput.split(QChar('\n'), QString::SkipEmptyParts).count();
+    psStats[QString("pscount")] = running.count();
+    psStats[QString("ps")] = running.join(QString(","));
+    psStats[QString("pstotal")] = directories.count();
 
     return psStats;
 }

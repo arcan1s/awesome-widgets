@@ -182,22 +182,22 @@ Item {
             }
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Panels to be hidden")
-            }
-            QtControls.Button {
-                width: parent.width * 3 / 5
-                text: i18n("Edit panels")
-                onClicked: cfg_panels = DPAdds.editPanelsToContol(plasmoid.configuration.panels)
-            }
-        }
+//         Row {
+//             height: implicitHeight
+//             width: parent.width
+//             QtControls.Label {
+//                 height: parent.height
+//                 width: parent.width * 2 / 5
+//                 horizontalAlignment: Text.AlignRight
+//                 verticalAlignment: Text.AlignVCenter
+//                 text: i18n("Panels to be hidden")
+//             }
+//             QtControls.Button {
+//                 width: parent.width * 3 / 5
+//                 text: i18n("Edit panels")
+//                 onClicked: cfg_panels = DPAdds.editPanelsToContol(plasmoid.configuration.panels)
+//             }
+//         }
     }
 
     QtDialogs.ColorDialog {

@@ -45,7 +45,10 @@ public:
     QMap<QString, QVariant> getPlayerInfo(const QString playerName,
                                           const QString mpdAddress = 0,
                                           const QString mpdPort = 0,
-                                          QString mpris = 0);
+                                          const QString mpris = 0);
+    QMap<QString, QVariant> getPlayerMpdInfo(const QString mpdAddress = 0,
+                                             const QString mpdPort = 0);
+    QMap<QString, QVariant> getPlayerMprisInfo(const QString mpris = 0);
     QMap<QString, QVariant> getPsStats();
 
 protected:

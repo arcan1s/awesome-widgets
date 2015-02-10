@@ -11,7 +11,7 @@ if (BUILD_KDE4)
   add_definitions (${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
   set (KDE_INCLUDE ${KDE4_INCLUDES})
 else ()
-  find_package (Qt5 REQUIRED COMPONENTS Network Widgets)
+  find_package (Qt5 REQUIRED COMPONENTS DBus Network Widgets)
   find_package (ECM 0.0.11 REQUIRED NO_MODULE)
   set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
   find_package (KF5 REQUIRED COMPONENTS Plasma Service WindowSystem)
@@ -20,8 +20,10 @@ else ()
   include (KDECMakeSettings)
   include (KDECompilerSettings)
 
-  add_definitions (${Qt5Core_DEFINITIONS} ${Qt5Network_DEFINITIONS} ${Qt5Widgets_DEFINITIONS})
+  add_definitions (${Qt5Core_DEFINITIONS} ${Qt5DBus_DEFINITIONS}
+                   ${Qt5Network_DEFINITIONS} ${Qt5Widgets_DEFINITIONS})
   set (Qt_INCLUDE ${Qt5Core_INCLUDE_DIRS}
+                  ${Qt5DBus_INCLUDE_DIRS}
                   ${Qt5Network_INCLUDE_DIRS}
                   ${Qt5Widgets_INCLUDE_DIRS})
   set (KDE_INCLUDE ${Plasma_INCLUDE_DIR})
@@ -57,7 +59,8 @@ else ()
   qt5_wrap_cpp (TASK_MOC_SOURCE ${TASK_HEADER})
   qt5_wrap_ui (SUBPROJECT_UI_HEADER ${SUBPROJECT_UI})
   add_library (${PLUGIN_NAME} MODULE ${SUBPROJECT_SOURCE} ${SUBPROJECT_UI_HEADER} ${TASK_MOC_SOURCE})
-  target_link_libraries (${PLUGIN_NAME} ${Plasma_LIBRARIES} KF5::WindowSystem ${Qt5Network_LIBRARIES} ${Qt5Widgets_LIBRARIES})
+  target_link_libraries (${PLUGIN_NAME} ${Plasma_LIBRARIES} KF5::WindowSystem
+                         ${Qt5DBus_LIBRARIES} ${Qt5Network_LIBRARIES} ${Qt5Widgets_LIBRARIES})
   kcoreaddons_desktop_to_json (${PLUGIN_NAME} ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT_DESKTOP})
 endif ()
 
