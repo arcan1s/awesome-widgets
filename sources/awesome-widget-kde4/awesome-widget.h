@@ -87,6 +87,7 @@ private slots:
     void contextMenuPkgCommand(const QPoint pos);
     void copyBar(const QString original);
     void copyCustomCommand(const QString original);
+    void copyPkgCommand(const QString original);
     void editBar(QListWidgetItem *item);
     void editCustomCommand(QListWidgetItem *item);
     void editPkgCommand(QListWidgetItem *item);
@@ -125,7 +126,7 @@ private:
     QGraphicsScene *toolTipScene = nullptr;
     QGraphicsView *toolTipView = nullptr;
     // values
-    int networkDeviceUpdate;
+    int networkDeviceUpdate = 0;
     QMap<QString, int> counts;
     QMap<QString, QList<float>> tooltipValues;
     QMap<QString, QString> values;

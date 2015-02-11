@@ -412,7 +412,7 @@ void GraphicalItem::readConfiguration()
 }
 
 
-void GraphicalItem::showConfiguration(const QStringList tags)
+int GraphicalItem::showConfiguration(const QStringList tags)
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -429,7 +429,7 @@ void GraphicalItem::showConfiguration(const QStringList tags)
     ui->spinBox_width->setValue(m_width);
 
     int ret = exec();
-    if (ret != 1) return;
+    if (ret != 1) return ret;
 
     setName(ui->label_nameValue->text());
     setComment(ui->lineEdit_comment->text());
@@ -443,16 +443,22 @@ void GraphicalItem::showConfiguration(const QStringList tags)
     setWidth(ui->spinBox_width->value());
 
     writeConfiguration();
+    return ret;
 }
 
 
-void GraphicalItem::tryDelete()
+int GraphicalItem::tryDelete()
 {
     if (debug) qDebug() << PDEBUG;
 
     for (int i=0; i<m_dirs.count(); i++)
         if (debug) qDebug() << PDEBUG << ":" << "Remove file" << m_dirs[i] + QDir::separator() + m_fileName <<
                                QFile::remove(m_dirs[i] + QDir::separator() + m_fileName);
+
+    // check if exists
+    for (int i=0; i<m_dirs.count(); i++)
+        if (QFile::exists(m_dirs[i] + QDir::separator() + m_fileName)) return 0;
+    return 1;
 }
 
 

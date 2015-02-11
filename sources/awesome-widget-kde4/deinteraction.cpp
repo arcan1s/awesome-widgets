@@ -136,7 +136,7 @@ void AwesomeWidget::connectToEngine()
     regExp = QRegExp(QString("pkgcount.*"));
     if (foundKeys.indexOf(regExp) > -1)
         extsysmonEngine->connectSource(QString("pkg"),
-                                       this, 60*60*1000, Plasma::AlignToHour);
+                                       this, configuration[QString("interval")].toInt());
     // player
     regExp = QRegExp(QString("(album|artist|duration|progress|title)"));
     if (foundKeys.indexOf(regExp) > -1)

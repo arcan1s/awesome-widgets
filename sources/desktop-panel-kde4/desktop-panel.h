@@ -99,17 +99,17 @@ private:
     QList<Plasma::Containment *> getPanels();
     QString panelLocationToStr(Plasma::Location loc);
     // ui
-    QGraphicsGridLayout *layout;
+    QGraphicsGridLayout *layout = nullptr;
     QList<QGraphicsProxyWidget *> proxyWidgets;
     QList<CustomPlasmaLabel *> labels;
     // tooltip
     Plasma::ToolTipContent toolTip;
-    QGraphicsScene *toolTipScene;
-    QGraphicsView *toolTipView;
+    QGraphicsScene *toolTipScene = nullptr;
+    QGraphicsView *toolTipView = nullptr;
     // debug
     bool debug;
     int activeTooltip = -1;
-    int oldState;
+    int oldState = 0;
     // configuration interface
     Ui::AppearanceWidget uiAppConfig;
     Ui::ConfigWindow uiWidConfig;

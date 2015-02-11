@@ -100,12 +100,11 @@ QPixmap AWToolTip::image()
     else
         toolTipScene->setBackgroundBrush(QBrush(Qt::NoBrush));
     bool down = false;
-    bool isBattery = false;
     for (int i=0; i<requiredKeys.count(); i++) {
         float normX = 100.0 / static_cast<float>(data[requiredKeys[i]].count());
         float normY = 100.0 / (1.5 * boundaries[requiredKeys[i]]);
-        isBattery = (requiredKeys[i] == QString("batTooltip"));
-        if (!isBattery) pen.setColor(QColor(configuration[requiredKeys[i] + QString("Color")].toString()));
+        if (requiredKeys[i] != QString("batTooltip"))
+            pen.setColor(QColor(configuration[requiredKeys[i] + QString("Color")].toString()));
         float shift = i * 100.0;
         if (down) shift -= 100.0;
         for (int j=0; j<data[requiredKeys[i]].count()-1; j++) {
@@ -113,7 +112,7 @@ QPixmap AWToolTip::image()
             float y1 = - fabs(data[requiredKeys[i]][j]) * normY + 5.0;
             float x2 = (j + 1) * normX + shift;
             float y2 = - fabs(data[requiredKeys[i]][j+1]) * normY + 5.0;
-            if (isBattery) {
+            if (requiredKeys[i] == QString("batTooltip")) {
                 if (data[requiredKeys[i]][j+1] > 0)
                     pen.setColor(QColor(configuration[QString("batTooltipColor")].toString()));
                 else

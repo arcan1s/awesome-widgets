@@ -316,7 +316,7 @@ ExtScript::ScriptData ExtScript::run(const int time)
 }
 
 
-void ExtScript::showConfiguration()
+int ExtScript::showConfiguration()
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -336,7 +336,7 @@ void ExtScript::showConfiguration()
     ui->spinBox_interval->setValue(m_interval);
 
     int ret = exec();
-    if (ret != 1) return;
+    if (ret != 1) return ret;
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
     setApiVersion(AWESAPI);
@@ -348,16 +348,22 @@ void ExtScript::showConfiguration()
     setInterval(ui->spinBox_interval->value());
 
     writeConfiguration();
+    return ret;
 }
 
 
-void ExtScript::tryDelete()
+int ExtScript::tryDelete()
 {
     if (debug) qDebug() << PDEBUG;
 
     for (int i=0; i<m_dirs.count(); i++)
         if (debug) qDebug() << PDEBUG << ":" << "Remove file" << m_dirs[i] + QDir::separator() + m_fileName <<
                                QFile::remove(m_dirs[i] + QDir::separator() + m_fileName);
+
+    // check if exists
+    for (int i=0; i<m_dirs.count(); i++)
+        if (QFile::exists(m_dirs[i] + QDir::separator() + m_fileName)) return 0;
+    return 1;
 }
 
 

@@ -196,7 +196,7 @@ int ExtUpgrade::run()
 }
 
 
-void ExtUpgrade::showConfiguration()
+int ExtUpgrade::showConfiguration()
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -210,7 +210,7 @@ void ExtUpgrade::showConfiguration()
     ui->spinBox_null->setValue(m_null);
 
     int ret = exec();
-    if (ret != 1) return;
+    if (ret != 1) return ret;
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
     setApiVersion(AWEUAPI);
@@ -219,16 +219,22 @@ void ExtUpgrade::showConfiguration()
     setNull(ui->spinBox_null->value());
 
     writeConfiguration();
+    return ret;
 }
 
 
-void ExtUpgrade::tryDelete()
+int ExtUpgrade::tryDelete()
 {
     if (debug) qDebug() << PDEBUG;
 
     for (int i=0; i<m_dirs.count(); i++)
         if (debug) qDebug() << PDEBUG << ":" << "Remove file" << m_dirs[i] + QDir::separator() + m_fileName <<
                                QFile::remove(m_dirs[i] + QDir::separator() + m_fileName);
+
+    // check if exists
+    for (int i=0; i<m_dirs.count(); i++)
+        if (QFile::exists(m_dirs[i] + QDir::separator() + m_fileName)) return 0;
+    return 1;
 }
 
 

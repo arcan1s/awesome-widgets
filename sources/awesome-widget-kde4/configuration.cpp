@@ -547,7 +547,6 @@ void AwesomeWidget::configAccepted()
     deSettings[QString("MPDADDRESS")] = uiDEConfig.lineEdit_mpdaddress->text();
     deSettings[QString("MPDPORT")] = QString::number(uiDEConfig.spinBox_mpdport->value());
     deSettings[QString("MPRIS")] = uiDEConfig.comboBox_mpris->currentText();
-    deSettings[QString("PKGNULL")] = items.join(QChar(','));
     deSettings[QString("PLAYER")] = uiDEConfig.comboBox_playerSelect->currentText();
     writeDataEngineConfiguration(deSettings);
 }
@@ -708,7 +707,17 @@ void AwesomeWidget::addBar()
     GraphicalItem *item = new GraphicalItem(0, name, dirs, debug);
     item->setName(QString("bar%1").arg(number));
 
-    item->showConfiguration(bars);
+    if (item->showConfiguration(bars) == 1) {
+        getGraphicalItems();
+        QListWidgetItem *widgetItem = new QListWidgetItem(item->fileName());
+        QStringList tooltip;
+        tooltip.append(i18n("Tag: %1", item->name() + item->bar()));
+        tooltip.append(i18n("Comment: %1", item->comment()));
+        widgetItem->setToolTip(tooltip.join(QChar('\n')));
+        uiAdvancedConfig.listWidget_bars->addItem(widgetItem);
+        uiAdvancedConfig.listWidget_bars->sortItems();
+    }
+    delete item;
 }
 
 
@@ -716,7 +725,7 @@ void AwesomeWidget::addCustomScript()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_dataengine_extsysmon/scripts");
+    QStringList dirs = KGlobal::dirs()->findDirs("data", "awesomewidgets/scripts");
     bool ok;
     QString name = QInputDialog::getText(0, i18n("Enter file name"),
                                          i18n("File name"), QLineEdit::Normal,
@@ -726,7 +735,17 @@ void AwesomeWidget::addCustomScript()
 
     ExtScript *script = new ExtScript(0, name, dirs, debug);
 
-    script->showConfiguration();
+    if (script->showConfiguration() == 1) {
+        QListWidgetItem *widgetItem = new QListWidgetItem(script->fileName());
+        QStringList tooltip;
+        tooltip.append(i18n("Name: %1", script->name()));
+        tooltip.append(i18n("Comment: %1", script->comment()));
+        tooltip.append(i18n("Exec: %1", script->executable()));
+        widgetItem->setToolTip(tooltip.join(QChar('\n')));
+        uiDEConfig.listWidget_custom->addItem(widgetItem);
+        uiDEConfig.listWidget_custom->sortItems();
+    }
+    delete script;
 }
 
 
@@ -734,7 +753,7 @@ void AwesomeWidget::addPkgCommand()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_dataengine_extsysmon/upgrade");
+    QStringList dirs = KGlobal::dirs()->findDirs("data", "awesomewidgets/upgrade");
     bool ok;
     QString name = QInputDialog::getText(0, i18n("Enter file name"),
                                          i18n("File name"), QLineEdit::Normal,
@@ -744,7 +763,17 @@ void AwesomeWidget::addPkgCommand()
 
     ExtUpgrade *upgrade = new ExtUpgrade(0, name, dirs, debug);
 
-    upgrade->showConfiguration();
+    if (upgrade->showConfiguration() == 1) {
+        QListWidgetItem *widgetItem = new QListWidgetItem(upgrade->fileName());
+        QStringList tooltip;
+        tooltip.append(i18n("Name: %1", upgrade->name()));
+        tooltip.append(i18n("Comment: %1", upgrade->comment()));
+        tooltip.append(i18n("Exec: %1", upgrade->executable()));
+        widgetItem->setToolTip(tooltip.join(QChar('\n')));
+        uiDEConfig.listWidget_pkgCommand->addItem(widgetItem);
+        uiDEConfig.listWidget_pkgCommand->sortItems();
+    }
+    delete upgrade;
 }
 
 
@@ -766,9 +795,10 @@ void AwesomeWidget::contextMenuBars(const QPoint pos)
         for (int i=0; i<graphicalItems.count(); i++) {
             if (graphicalItems[i]->fileName() != uiAdvancedConfig.listWidget_bars->currentItem()->text())
                 continue;
-            graphicalItems[i]->tryDelete();
-            graphicalItems.takeAt(i);
-            uiAdvancedConfig.listWidget_bars->takeItem(uiAdvancedConfig.listWidget_bars->currentRow());
+            if (graphicalItems[i]->tryDelete() == 1) {
+                graphicalItems.removeAt(i);
+                uiAdvancedConfig.listWidget_bars->takeItem(uiAdvancedConfig.listWidget_bars->currentRow());
+            }
             break;
         }
 }
@@ -789,11 +819,11 @@ void AwesomeWidget::contextMenuCustomCommand(const QPoint pos)
     else if (action == copy)
         copyCustomCommand(uiDEConfig.listWidget_custom->currentItem()->text());
     else if (action == remove) {
-        QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_dataengine_extsysmon/scripts");
+        QStringList dirs = KGlobal::dirs()->findDirs("data", "awesomewidgets/scripts");
         ExtScript *script = new ExtScript(0, uiDEConfig.listWidget_custom->currentItem()->text(), dirs, debug);
-        script->tryDelete();
+        if (script->tryDelete() == 1)
+            uiDEConfig.listWidget_custom->takeItem(uiDEConfig.listWidget_custom->currentRow());
         delete script;
-        uiDEConfig.listWidget_custom->takeItem(uiDEConfig.listWidget_custom->currentRow());
     }
 }
 
@@ -804,14 +834,20 @@ void AwesomeWidget::contextMenuPkgCommand(const QPoint pos)
     if (uiDEConfig.listWidget_pkgCommand->currentItem() == 0) return;
 
     QMenu menu(uiDEConfig.listWidget_pkgCommand);
+    QAction *edit = menu.addAction(QIcon::fromTheme("document-edit"), i18n("Edit"));
+    QAction *copy = menu.addAction(QIcon::fromTheme("edit-copy"), i18n("Copy"));
     QAction *remove = menu.addAction(QIcon::fromTheme("edit-delete"), i18n("Remove"));
     QAction *action = menu.exec(uiDEConfig.listWidget_pkgCommand->viewport()->mapToGlobal(pos));
-    if (action == remove) {
-        QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_dataengine_extsysmon/upgrade");
+    if (action == edit)
+        editPkgCommand(uiDEConfig.listWidget_pkgCommand->currentItem());
+    else if (action == copy)
+        copyPkgCommand(uiDEConfig.listWidget_pkgCommand->currentItem()->text());
+    else if (action == remove) {
+        QStringList dirs = KGlobal::dirs()->findDirs("data", "awesomewidgets/upgrade");
         ExtUpgrade *upgrade = new ExtUpgrade(0, uiDEConfig.listWidget_pkgCommand->currentItem()->text(), dirs, debug);
-        upgrade->tryDelete();
+        if (upgrade->tryDelete() == 1)
+            uiDEConfig.listWidget_pkgCommand->takeItem(uiDEConfig.listWidget_pkgCommand->currentRow());
         delete upgrade;
-        uiDEConfig.listWidget_pkgCommand->takeItem(uiDEConfig.listWidget_pkgCommand->currentRow());
     }
 }
 
@@ -864,7 +900,16 @@ void AwesomeWidget::copyBar(const QString original)
     item->setWidth(originalItem->width());
     delete originalItem;
 
-    item->showConfiguration(bars);
+    if (item->showConfiguration(bars) == 1) {
+        getGraphicalItems();
+        QListWidgetItem *widgetItem = new QListWidgetItem(item->fileName());
+        QStringList tooltip;
+        tooltip.append(i18n("Tag: %1", item->name() + item->bar()));
+        tooltip.append(i18n("Comment: %1", item->comment()));
+        widgetItem->setToolTip(tooltip.join(QChar('\n')));
+        uiAdvancedConfig.listWidget_bars->addItem(widgetItem);
+        uiAdvancedConfig.listWidget_bars->sortItems();
+    }
     delete item;
 }
 
@@ -873,7 +918,7 @@ void AwesomeWidget::copyCustomCommand(const QString original)
 {
     if (debug) qDebug() << PDEBUG;
 
-    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_dataengine_extsysmon/scripts");
+    QStringList dirs = KGlobal::dirs()->findDirs("data", "awesomewidgets/scripts");
     bool ok;
     QString name = QInputDialog::getText(0, i18n("Enter file name"),
                                          i18n("File name"), QLineEdit::Normal,
@@ -893,14 +938,59 @@ void AwesomeWidget::copyCustomCommand(const QString original)
     script->setRedirect(originalScript->redirect());
     delete originalScript;
 
-    script->showConfiguration();
+    if (script->showConfiguration() == 1) {
+        QListWidgetItem *widgetItem = new QListWidgetItem(script->fileName());
+        QStringList tooltip;
+        tooltip.append(i18n("Name: %1", script->name()));
+        tooltip.append(i18n("Comment: %1", script->comment()));
+        tooltip.append(i18n("Exec: %1", script->executable()));
+        widgetItem->setToolTip(tooltip.join(QChar('\n')));
+        uiDEConfig.listWidget_custom->addItem(widgetItem);
+        uiDEConfig.listWidget_custom->sortItems();
+    }
     delete script;
+}
+
+
+void AwesomeWidget::copyPkgCommand(const QString original)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QStringList dirs = KGlobal::dirs()->findDirs("data", "awesomewidgets/upgrade");
+    bool ok;
+    QString name = QInputDialog::getText(0, i18n("Enter file name"),
+                                         i18n("File name"), QLineEdit::Normal,
+                                         QString(""), &ok);
+    if ((!ok) || (name.isEmpty())) return;
+    if (!name.endsWith(QString(".desktop"))) name += QString(".desktop");
+
+    ExtUpgrade *originalUpgrade = new ExtUpgrade(0, original, dirs, debug);
+    ExtUpgrade *upgrade = new ExtUpgrade(0, name, dirs, debug);
+    upgrade->setActive(originalUpgrade->isActive());
+    upgrade->setComment(originalUpgrade->comment());
+    upgrade->setExecutable(originalUpgrade->executable());
+    upgrade->setName(originalUpgrade->name());
+    upgrade->setNull(originalUpgrade->null());
+    delete originalUpgrade;
+
+    if (upgrade->showConfiguration() == 1) {
+        QListWidgetItem *widgetItem = new QListWidgetItem(upgrade->fileName());
+        QStringList tooltip;
+        tooltip.append(i18n("Name: %1", upgrade->name()));
+        tooltip.append(i18n("Comment: %1", upgrade->comment()));
+        tooltip.append(i18n("Exec: %1", upgrade->executable()));
+        widgetItem->setToolTip(tooltip.join(QChar('\n')));
+        uiDEConfig.listWidget_pkgCommand->addItem(widgetItem);
+        uiDEConfig.listWidget_pkgCommand->sortItems();
+    }
+    delete upgrade;
 }
 
 
 void AwesomeWidget::editBar(QListWidgetItem *item)
 {
     if (debug) qDebug() << PDEBUG;
+    if (item == nullptr) return;
 
     QStringList bars;
     bars.append(keys.filter((QRegExp(QString("^cpu(?!cl).*")))));
@@ -921,8 +1011,9 @@ void AwesomeWidget::editBar(QListWidgetItem *item)
 void AwesomeWidget::editCustomCommand(QListWidgetItem *item)
 {
     if (debug) qDebug() << PDEBUG;
+    if (item == nullptr) return;
 
-    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_dataengine_extsysmon/scripts");
+    QStringList dirs = KGlobal::dirs()->findDirs("data", "awesomewidgets/scripts");
     ExtScript *script = new ExtScript(0, item->text(), dirs, debug);
     script->showConfiguration();
 }
@@ -931,8 +1022,9 @@ void AwesomeWidget::editCustomCommand(QListWidgetItem *item)
 void AwesomeWidget::editPkgCommand(QListWidgetItem *item)
 {
     if (debug) qDebug() << PDEBUG;
+    if (item == nullptr) return;
 
-    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_dataengine_extsysmon/upgrade");
+    QStringList dirs = KGlobal::dirs()->findDirs("data", "awesomewidgets/upgrade");
     ExtUpgrade *upgrade = new ExtUpgrade(0, item->text(), dirs, debug);
     upgrade->showConfiguration();
 }
@@ -984,11 +1076,11 @@ QList<ExtScript *> AwesomeWidget::initScripts()
 
     QList<ExtScript *> externalScripts;
     // create directory at $HOME
-    QString localDir = KStandardDirs::locateLocal("data", "plasma_dataengine_extsysmon/scripts");
+    QString localDir = KStandardDirs::locateLocal("data", "awesomewidgets/scripts");
     if (KStandardDirs::makeDir(localDir))
         if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
 
-    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_dataengine_extsysmon/scripts");
+    QStringList dirs = KGlobal::dirs()->findDirs("data", "awesomewidgets/scripts");
     QStringList names;
     for (int i=0; i<dirs.count(); i++) {
         QStringList files = QDir(dirs[i]).entryList(QDir::Files, QDir::Name);
@@ -1011,11 +1103,11 @@ QList<ExtUpgrade *> AwesomeWidget::initUpgrades()
 
     QList<ExtUpgrade *> externalUpgrade;
     // create directory at $HOME
-    QString localDir = KStandardDirs::locateLocal("data", "plasma_dataengine_extsysmon/upgrade");
+    QString localDir = KStandardDirs::locateLocal("data", "awesomewidgets/upgrade");
     if (KStandardDirs::makeDir(localDir))
         if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
 
-    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_dataengine_extsysmon/upgrade");
+    QStringList dirs = KGlobal::dirs()->findDirs("data", "awesomewidgets/upgrade");
     QStringList names;
     for (int i=0; i<dirs.count(); i++) {
         QStringList files = QDir(dirs[i]).entryList(QDir::Files, QDir::Name);

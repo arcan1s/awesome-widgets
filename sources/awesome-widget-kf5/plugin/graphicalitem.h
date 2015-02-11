@@ -85,8 +85,8 @@ public:
 
 public slots:
     void readConfiguration();
-    void showConfiguration(const QStringList tags = QStringList());
-    void tryDelete();
+    int showConfiguration(const QStringList tags = QStringList());
+    int tryDelete();
     void writeConfiguration();
 
 private slots:

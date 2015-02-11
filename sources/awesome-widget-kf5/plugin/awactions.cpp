@@ -181,6 +181,7 @@ void AWActions::writeDataEngineConfiguration(const QMap<QString, QVariant> confi
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Configuration"));
+    settings.setValue(QString("ACPIPATH"), configuration[QString("ACPIPATH")]);
     settings.setValue(QString("GPUDEV"), configuration[QString("GPUDEV")]);
     settings.setValue(QString("HDDDEV"), configuration[QString("HDDDEV")]);
     settings.setValue(QString("HDDTEMPCMD"), configuration[QString("HDDTEMPCMD")]);

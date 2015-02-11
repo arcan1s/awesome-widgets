@@ -856,21 +856,33 @@ void AWKeys::editItemButtonPressed(QAbstractButton *button)
         case RequestedExtScript:
             for (int i=0; i<extScripts.count(); i++) {
                 if (extScripts[i]->fileName() != current) continue;
-                extScripts[i]->tryDelete();
+                if (extScripts[i]->tryDelete() == 1) {
+                    widgetDialog->takeItem(widgetDialog->row(item));
+                    extScripts.clear();
+                    extScripts = getExtScripts();
+                }
                 break;
             }
             break;
         case RequestedExtUpgrade:
             for (int i=0; i<extUpgrade.count(); i++) {
                 if (extUpgrade[i]->fileName() != current) continue;
-                extUpgrade[i]->tryDelete();
+                if (extUpgrade[i]->tryDelete() == 1) {
+                    widgetDialog->takeItem(widgetDialog->row(item));
+                    extUpgrade.clear();
+                    extUpgrade = getExtUpgrade();
+                }
                 break;
             }
             break;
         case RequestedGraphicalItem:
             for (int i=0; i<graphicalItems.count(); i++) {
                 if (graphicalItems[i]->fileName() != current) continue;
-                graphicalItems[i]->tryDelete();
+                if (graphicalItems[i]->tryDelete() == 1) {
+                    widgetDialog->takeItem(widgetDialog->row(item));
+                    graphicalItems.clear();
+                    graphicalItems = getGraphicalItems();
+                }
                 break;
             }
             break;
@@ -964,7 +976,17 @@ void AWKeys::copyBar(const QString original)
         item->setWidth(graphicalItems[originalItem]->width());
     }
 
-    item->showConfiguration(bars);
+    if (item->showConfiguration(bars) == 1) {
+        graphicalItems.clear();
+        graphicalItems = getGraphicalItems();
+        QListWidgetItem *widgetItem = new QListWidgetItem(item->fileName());
+        QStringList tooltip;
+        tooltip.append(i18n("Tag: %1", item->name() + item->bar()));
+        tooltip.append(i18n("Comment: %1", item->comment()));
+        widgetItem->setToolTip(tooltip.join(QChar('\n')));
+        widgetDialog->addItem(widgetItem);
+        widgetDialog->sortItems();
+    }
     delete item;
 }
 
@@ -1003,7 +1025,18 @@ void AWKeys::copyScript(const QString original)
         script->setRedirect(extScripts[originalItem]->redirect());
     }
 
-    script->showConfiguration();
+    if (script->showConfiguration() == 1) {
+        extScripts.clear();
+        extScripts = getExtScripts();
+        QListWidgetItem *widgetItem = new QListWidgetItem(script->fileName());
+        QStringList tooltip;
+        tooltip.append(i18n("Name: %1", script->name()));
+        tooltip.append(i18n("Comment: %1", script->comment()));
+        tooltip.append(i18n("Exec: %1", script->executable()));
+        widgetItem->setToolTip(tooltip.join(QChar('\n')));
+        widgetDialog->addItem(widgetItem);
+        widgetDialog->sortItems();
+    }
     delete script;
 }
 
@@ -1030,17 +1063,28 @@ void AWKeys::copyUpgrade(const QString original)
         originalItem = i;
         break;
     }
-    ExtUpgrade *uprade = new ExtUpgrade(0, name, dirs, debug);
+    ExtUpgrade *upgrade = new ExtUpgrade(0, name, dirs, debug);
     if (originalItem != -1) {
-        uprade->setActive(extUpgrade[originalItem]->isActive());
-        uprade->setComment(extUpgrade[originalItem]->comment());
-        uprade->setExecutable(extUpgrade[originalItem]->executable());
-        uprade->setName(extUpgrade[originalItem]->name());
-        uprade->setNull(extUpgrade[originalItem]->null());
+        upgrade->setActive(extUpgrade[originalItem]->isActive());
+        upgrade->setComment(extUpgrade[originalItem]->comment());
+        upgrade->setExecutable(extUpgrade[originalItem]->executable());
+        upgrade->setName(extUpgrade[originalItem]->name());
+        upgrade->setNull(extUpgrade[originalItem]->null());
     }
 
-    uprade->showConfiguration();
-    delete uprade;
+    if (upgrade->showConfiguration() == 1) {
+        extUpgrade.clear();
+        extUpgrade = getExtUpgrade();
+        QListWidgetItem *widgetItem = new QListWidgetItem(upgrade->fileName());
+        QStringList tooltip;
+        tooltip.append(i18n("Name: %1", upgrade->name()));
+        tooltip.append(i18n("Comment: %1", upgrade->comment()));
+        tooltip.append(i18n("Exec: %1", upgrade->executable()));
+        widgetItem->setToolTip(tooltip.join(QChar('\n')));
+        widgetDialog->addItem(widgetItem);
+        widgetDialog->sortItems();
+    }
+    delete upgrade;
 }
 
 

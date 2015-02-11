@@ -38,7 +38,7 @@ protected:
 private:
     AwesomeWidget *widget;
     bool debug;
-    bool enablePopup;
+    bool enablePopup = true;
 };
 
 

@@ -105,11 +105,13 @@ QString ExtendedSysMon::getAutoMpris()
     if (debug) qDebug() << PDEBUG;
 
     QDBusMessage listServices = QDBusConnection::sessionBus().interface()->call(QDBus::BlockWithGui, QString("ListNames"));
-    QList<QVariant> arguments = listServices.arguments();
+    if (listServices.arguments().count() == 0) return QString();
+    QStringList arguments = listServices.arguments()[0].toStringList();
 
     for (int i=0; i<arguments.count(); i++) {
-        if (!arguments[i].toString().startsWith(QString("org.mpris.MediaPlayer2."))) continue;
-        QString service = arguments[i].toString();
+        if (debug) qDebug() << PDEBUG << ":" << "Service found" << arguments[i];
+        if (!arguments[i].startsWith(QString("org.mpris.MediaPlayer2."))) continue;
+        QString service = arguments[i];
         service.remove(QString("org.mpris.MediaPlayer2."));
         return service;
     }

@@ -58,8 +58,8 @@ public:
 public slots:
     void readConfiguration();
     int run();
-    void showConfiguration();
-    void tryDelete();
+    int showConfiguration();
+    int tryDelete();
     void writeConfiguration();
 
 private:
