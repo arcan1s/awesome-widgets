@@ -437,6 +437,14 @@ bool AWKeys::setDataBySource(const QString sourceName,
         // battery
         for (int i=0; i<data.keys().count(); i++) {
             if (data.keys()[i] == QString("ac")) {
+                // notification
+                if ((values[QString("ac")] == params[QString("acOnline")].toString()) != data[QString("ac")].toBool()) {
+                    if (data[QString("ac")].toBool())
+                        AWActions::sendNotification(QString("event"), i18n("AC online"));
+                    else
+                        AWActions::sendNotification(QString("event"), i18n("AC offline"));
+                }
+                // value
                 values[QString("ac")] = data.keys()[i];
                 if (data[QString("ac")].toBool())
                     values[QString("ac")] = params[QString("acOnline")].toString();
@@ -449,6 +457,10 @@ bool AWKeys::setDataBySource(const QString sourceName,
         }
     } else if (sourceName == QString("cpu/system/TotalLoad")) {
         // cpu
+        // notification
+        if ((data[QString("value")].toFloat() >= 90.0) && (values[QString("cpu")].toFloat() < 90.0))
+            AWActions::sendNotification(QString("event"), i18n("High CPU load"));
+        // value
         values[QString("cpu")] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
         toolTip->setData(QString("cpuTooltip"), data[QString("value")].toFloat());
     } else if (sourceName.contains(cpuRegExp)) {
@@ -505,6 +517,8 @@ bool AWKeys::setDataBySource(const QString sourceName,
         mount.remove(QString("partitions")).remove(QString("/filllevel"));
         for (int i=0; i<mountDevices.count(); i++)
             if (mountDevices[i] == mount) {
+                if ((data[QString("value")].toFloat() >= 90.0) && (values[QString("hdd") + QString::number(i)].toFloat() < 90.0))
+                    AWActions::sendNotification(QString("event"), i18n("Free space on %1 less than 10%", mount));
                 values[QString("hdd") + QString::number(i)] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
                 break;
             }
@@ -567,14 +581,20 @@ bool AWKeys::setDataBySource(const QString sourceName,
         values[QString("memtotgb")] = QString("%1").arg(
             values[QString("memusedgb")].toFloat() + values[QString("memfreegb")].toFloat(), 4, 'f', 1);
         // percentage
-        values[QString("mem")] = QString("%1").arg(
-            100.0 * values[QString("memmb")].toFloat() / values[QString("memtotmb")].toFloat(), 5, 'f', 1);
+        float value = 100.0 * values[QString("memmb")].toFloat() / values[QString("memtotmb")].toFloat();
+        // notification
+        if ((value >= 90.0) && (values[QString("mem")].toFloat() < 90.0))
+            AWActions::sendNotification(QString("event"), i18n("High memory usage"));
+        // value
+        values[QString("mem")] = QString("%1").arg(value, 5, 'f', 1);
         toolTip->setData(QString("memTooltip"), values[QString("mem")].toFloat());
     } else if (sourceName == QString("netdev")) {
         // network device
+        // notification
         if (values[QString("netdev")] != data[QString("value")].toString())
             AWActions::sendNotification(QString("event"), i18n("Network device has been changed to %1",
                                                                data[QString("value")].toString()));
+        // value
         values[QString("netdev")] = data[QString("value")].toString();
     } else if (sourceName.contains(netRecRegExp)) {
         // download speed
@@ -634,8 +654,12 @@ bool AWKeys::setDataBySource(const QString sourceName,
         values[QString("swaptotgb")] = QString("%1").arg(
             values[QString("swapgb")].toFloat() + values[QString("swapfreegb")].toFloat(), 4, 'f', 1);
         // percentage
-        values[QString("swap")] = QString("%1").arg(
-            100.0 * values[QString("swapmb")].toFloat() / values[QString("swaptotmb")].toFloat(), 5, 'f', 1);
+        float value = 100.0 * values[QString("swapmb")].toFloat() / values[QString("swaptotmb")].toFloat();
+        // notification
+        if ((value > 0.0) && (values[QString("swap")].toFloat() == 0.0))
+            AWActions::sendNotification(QString("event"), i18n("Swap is used"));
+        // value
+        values[QString("swap")] = QString("%1").arg(value, 5, 'f', 1);
         toolTip->setData(QString("swapTooltip"), values[QString("swap")].toFloat());
     } else if (sourceName.contains(tempRegExp)) {
         // temperature devices

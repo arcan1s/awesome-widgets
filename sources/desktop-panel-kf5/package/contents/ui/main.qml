@@ -44,11 +44,6 @@ Item {
     Plasmoid.preferredRepresentation: Plasmoid.fullRepresentation
     Plasmoid.compactRepresentation: Plasmoid.fullRepresentation
 
-    Layout.fillWidth: plasmoid.formFactor != PlasmaCore.Planar
-    Layout.fillHeight: plasmoid.formFactor != PlasmaCore.Planar
-    Layout.minimumWidth: width
-    Layout. minimumHeight: height
-
     Plasmoid.icon: "utilities-system-monitor"
     Plasmoid.backgroundHints: plasmoid.configuration.background ? "DefaultBackground" : "NoBackground"
 
@@ -60,6 +55,8 @@ Item {
 
         Repeater {
             id: repeater
+            height: implicitHeight
+            width: implicitWidth
             model: DPAdds.numberOfDesktops()
             Text {
                 id: text
@@ -126,12 +123,11 @@ Item {
                 repeater.itemAt(i).font.weight = general.fontWeight[plasmoid.configuration.fontWeight]
             }
             repeater.itemAt(i).update()
-            newHeight += repeater.itemAt(i).height
-            newWidth += repeater.itemAt(i).width
+            newHeight += repeater.itemAt(i).contentHeight
+            newWidth += repeater.itemAt(i).contentWidth
         }
-        height = newHeight
-        width = newHeight
-        update()
+        Layout.minimumHeight = newHeight
+        Layout.minimumWidth = newWidth
 
         needTooltipUpdate()
     }

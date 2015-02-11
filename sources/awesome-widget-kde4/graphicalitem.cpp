@@ -214,7 +214,7 @@ QString GraphicalItem::strType()
     default:
         value = QString("Horizontal");
         break;
-    }\
+    }
 
     return value;
 }

@@ -624,9 +624,9 @@ QMap<QString, QVariant> ExtendedSysMon::getPsStats()
     QStringList running;
 
     for (int i=0; i<directories.count(); i++) {
-        QFile statusFile(directories[i] + QString("/status"));
+        QFile statusFile(QString("/proc/%1/status").arg(directories[i]));
         if (!statusFile.open(QIODevice::ReadOnly)) continue;
-        QFile cmdFile(directories[i] + QString("/cmdline"));
+        QFile cmdFile(QString("/proc/%1/cmdline").arg(directories[i]));
         if (!cmdFile.open(QIODevice::ReadOnly)) continue;
 
         QString output = statusFile.readAll();

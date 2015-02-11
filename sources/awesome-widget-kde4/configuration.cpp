@@ -28,6 +28,7 @@
 #include <QTextCodec>
 
 #include <extscript.h>
+#include <extupgrade.h>
 #include <graphicalitem.h>
 #include <fontdialog/fontdialog.h>
 #include <pdebug/pdebug.h>
@@ -350,7 +351,7 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
         QStringList tooltip;
         tooltip.append(i18n("Name: %1", externalScripts[i]->name()));
         tooltip.append(i18n("Comment: %1", externalScripts[i]->comment()));
-        tooltip.append(i18n("Exec: %1", externalScripts[i]->exec()));
+        tooltip.append(i18n("Exec: %1", externalScripts[i]->executable()));
         item->setToolTip(tooltip.join(QChar('\n')));
         uiDEConfig.listWidget_custom->addItem(item);
     }
@@ -376,19 +377,18 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
     uiDEConfig.spinBox_mpdport->setValue(deSettings[QString("MPDPORT")].toInt());
     uiDEConfig.comboBox_mpris->addItem(deSettings[QString("MPRIS")]);
     uiDEConfig.comboBox_mpris->setCurrentIndex(uiDEConfig.comboBox_mpris->count() - 1);
-    uiDEConfig.tableWidget_pkgCommand->clear();
-    uiDEConfig.tableWidget_pkgCommand->setRowCount(deSettings[QString("PKGCMD")].split(QChar(',')).count() + 1);
-    headerList.clear();
-    headerList.append(i18n("Package manager"));
-    headerList.append(i18n("Null lines"));
-    uiDEConfig.tableWidget_pkgCommand->setHorizontalHeaderLabels(headerList);
-    uiDEConfig.tableWidget_pkgCommand->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
-    for (int i=0; i<deSettings[QString("PKGCMD")].split(QChar(',')).count(); i++) {
-        uiDEConfig.tableWidget_pkgCommand->setItem(i, 0, new QTableWidgetItem(deSettings[QString("PKGCMD")].split(QChar(','))[i]));
-        uiDEConfig.tableWidget_pkgCommand->setItem(i, 1, new QTableWidgetItem(deSettings[QString("PKGNULL")].split(QChar(','))[i]));
+    QList<ExtUpgrade *> externalUpgrade = initUpgrades();
+    uiDEConfig.listWidget_pkgCommand->clear();
+    for (int i=0; i<externalUpgrade.count(); i++) {
+        QListWidgetItem *item = new QListWidgetItem(externalUpgrade[i]->fileName());
+        QStringList tooltip;
+        tooltip.append(i18n("Name: %1", externalUpgrade[i]->name()));
+        tooltip.append(i18n("Comment: %1", externalUpgrade[i]->comment()));
+        tooltip.append(i18n("Exec: %1", externalUpgrade[i]->executable()));
+        item->setToolTip(tooltip.join(QChar('\n')));
+        uiDEConfig.listWidget_pkgCommand->addItem(item);
     }
-    uiDEConfig.tableWidget_pkgCommand->setItem(uiDEConfig.tableWidget_pkgCommand->rowCount() - 1, 1,
-                                               new QTableWidgetItem(QString("0")));
+    externalUpgrade.clear();
     uiDEConfig.comboBox_playerSelect->setCurrentIndex(
                 uiDEConfig.comboBox_playerSelect->findText(deSettings[QString("PLAYER")], Qt::MatchFixedString));
 
@@ -439,12 +439,13 @@ void AwesomeWidget::createConfigurationInterface(KConfigDialog *parent)
             this, SLOT(editCustomCommand(QListWidgetItem *)));
     connect(uiDEConfig.listWidget_custom, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(contextMenuCustomCommand(QPoint)));
-    connect(uiDEConfig.tableWidget_pkgCommand, SIGNAL(itemChanged(QTableWidgetItem *)),
-            this, SLOT(addNewPkgCommand(QTableWidgetItem *)));
-    connect(uiDEConfig.tableWidget_pkgCommand, SIGNAL(customContextMenuRequested(QPoint)),
+    connect(uiDEConfig.listWidget_pkgCommand, SIGNAL(itemActivated(QListWidgetItem *)),
+            this, SLOT(editPkgCommand(QListWidgetItem *)));
+    connect(uiDEConfig.listWidget_pkgCommand, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(contextMenuPkgCommand(QPoint)));
     connect(uiAdvancedConfig.pushButton_bars, SIGNAL(clicked(bool)), this, SLOT(addBar()));
     connect(uiDEConfig.pushButton_custom, SIGNAL(clicked(bool)), this, SLOT(addCustomScript()));
+    connect(uiDEConfig.pushButton_pkgCommand, SIGNAL(clicked(bool)), this, SLOT(addPkgCommand()));
     connect(uiWidConfig.pushButton_tags, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
     connect(uiWidConfig.pushButton_br, SIGNAL(clicked(bool)), this, SLOT(setFormating()));
     connect(uiWidConfig.pushButton_font, SIGNAL(clicked(bool)), this, SLOT(setFontFormating()));
@@ -546,15 +547,6 @@ void AwesomeWidget::configAccepted()
     deSettings[QString("MPDADDRESS")] = uiDEConfig.lineEdit_mpdaddress->text();
     deSettings[QString("MPDPORT")] = QString::number(uiDEConfig.spinBox_mpdport->value());
     deSettings[QString("MPRIS")] = uiDEConfig.comboBox_mpris->currentText();
-    items.clear();
-    for (int i=0; i<uiDEConfig.tableWidget_pkgCommand->rowCount(); i++)
-        if (uiDEConfig.tableWidget_pkgCommand->item(i, 0) != 0)
-            items.append(uiDEConfig.tableWidget_pkgCommand->item(i, 0)->text());
-    deSettings[QString("PKGCMD")] = items.join(QChar(','));
-    items.clear();
-    for (int i=0; i<uiDEConfig.tableWidget_pkgCommand->rowCount(); i++)
-        if (uiDEConfig.tableWidget_pkgCommand->item(i, 0) != 0)
-            items.append(uiDEConfig.tableWidget_pkgCommand->item(i, 1)->text());
     deSettings[QString("PKGNULL")] = items.join(QChar(','));
     deSettings[QString("PLAYER")] = uiDEConfig.comboBox_playerSelect->currentText();
     writeDataEngineConfiguration(deSettings);
@@ -668,7 +660,7 @@ void AwesomeWidget::configChanged()
     counts[QString("fan")] = configuration[QString("fanDevice")].split(QString("@@")).count();
     counts[QString("hddtemp")] = configuration[QString("hdd")].split(QString("@@")).count();
     counts[QString("mount")] = configuration[QString("mount")].split(QString("@@")).count();
-    counts[QString("pkg")] = deSettings[QString("PKGCMD")].split(QChar(',')).count();
+    counts[QString("pkg")] = initUpgrades().count();
     counts[QString("temp")] = configuration[QString("tempDevice")].split(QString("@@")).count();
     counts[QString("tooltip")] = 0;
     counts[QString("tooltip")] += configuration[QString("cpuTooltip")].toInt();
@@ -724,7 +716,7 @@ void AwesomeWidget::addCustomScript()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_applet_awesome-widget/desktops");
+    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_dataengine_extsysmon/scripts");
     bool ok;
     QString name = QInputDialog::getText(0, i18n("Enter file name"),
                                          i18n("File name"), QLineEdit::Normal,
@@ -738,18 +730,21 @@ void AwesomeWidget::addCustomScript()
 }
 
 
-void AwesomeWidget::addNewPkgCommand(QTableWidgetItem *item)
+void AwesomeWidget::addPkgCommand()
 {
     if (debug) qDebug() << PDEBUG;
 
-    if ((item->row() == (uiDEConfig.tableWidget_pkgCommand->rowCount() - 1)) &&
-            (item->column() == 0)) {
-        uiDEConfig.tableWidget_pkgCommand->insertRow(
-                    uiDEConfig.tableWidget_pkgCommand->rowCount());
-        uiDEConfig.tableWidget_pkgCommand->setItem(
-                    uiDEConfig.tableWidget_pkgCommand->rowCount() - 1, 1,
-                    new QTableWidgetItem(QString("0")));
-    }
+    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_dataengine_extsysmon/upgrade");
+    bool ok;
+    QString name = QInputDialog::getText(0, i18n("Enter file name"),
+                                         i18n("File name"), QLineEdit::Normal,
+                                         QString(""), &ok);
+    if ((!ok) || (name.isEmpty())) return;
+    if (!name.endsWith(QString(".desktop"))) name += QString(".desktop");
+
+    ExtUpgrade *upgrade = new ExtUpgrade(0, name, dirs, debug);
+
+    upgrade->showConfiguration();
 }
 
 
@@ -806,14 +801,18 @@ void AwesomeWidget::contextMenuCustomCommand(const QPoint pos)
 void AwesomeWidget::contextMenuPkgCommand(const QPoint pos)
 {
     if (debug) qDebug() << PDEBUG;
-    if (uiDEConfig.tableWidget_pkgCommand->currentItem() == 0) return;
+    if (uiDEConfig.listWidget_pkgCommand->currentItem() == 0) return;
 
-    QMenu menu(uiDEConfig.tableWidget_pkgCommand);
+    QMenu menu(uiDEConfig.listWidget_pkgCommand);
     QAction *remove = menu.addAction(QIcon::fromTheme("edit-delete"), i18n("Remove"));
-    QAction *action = menu.exec(uiDEConfig.tableWidget_pkgCommand->viewport()->mapToGlobal(pos));
-    if (action == remove)
-        uiDEConfig.tableWidget_pkgCommand->removeRow(
-                    uiDEConfig.tableWidget_pkgCommand->currentRow());
+    QAction *action = menu.exec(uiDEConfig.listWidget_pkgCommand->viewport()->mapToGlobal(pos));
+    if (action == remove) {
+        QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_dataengine_extsysmon/upgrade");
+        ExtUpgrade *upgrade = new ExtUpgrade(0, uiDEConfig.listWidget_pkgCommand->currentItem()->text(), dirs, debug);
+        upgrade->tryDelete();
+        delete upgrade;
+        uiDEConfig.listWidget_pkgCommand->takeItem(uiDEConfig.listWidget_pkgCommand->currentRow());
+    }
 }
 
 
@@ -874,7 +873,7 @@ void AwesomeWidget::copyCustomCommand(const QString original)
 {
     if (debug) qDebug() << PDEBUG;
 
-    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_applet_awesome-widget/desktops");
+    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_dataengine_extsysmon/scripts");
     bool ok;
     QString name = QInputDialog::getText(0, i18n("Enter file name"),
                                          i18n("File name"), QLineEdit::Normal,
@@ -926,6 +925,16 @@ void AwesomeWidget::editCustomCommand(QListWidgetItem *item)
     QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_dataengine_extsysmon/scripts");
     ExtScript *script = new ExtScript(0, item->text(), dirs, debug);
     script->showConfiguration();
+}
+
+
+void AwesomeWidget::editPkgCommand(QListWidgetItem *item)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_dataengine_extsysmon/upgrade");
+    ExtUpgrade *upgrade = new ExtUpgrade(0, item->text(), dirs, debug);
+    upgrade->showConfiguration();
 }
 
 
@@ -993,6 +1002,33 @@ QList<ExtScript *> AwesomeWidget::initScripts()
     }
 
     return externalScripts;
+}
+
+
+QList<ExtUpgrade *> AwesomeWidget::initUpgrades()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QList<ExtUpgrade *> externalUpgrade;
+    // create directory at $HOME
+    QString localDir = KStandardDirs::locateLocal("data", "plasma_dataengine_extsysmon/upgrade");
+    if (KStandardDirs::makeDir(localDir))
+        if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
+
+    QStringList dirs = KGlobal::dirs()->findDirs("data", "plasma_dataengine_extsysmon/upgrade");
+    QStringList names;
+    for (int i=0; i<dirs.count(); i++) {
+        QStringList files = QDir(dirs[i]).entryList(QDir::Files, QDir::Name);
+        for (int j=0; j<files.count(); j++) {
+            if (!files[j].endsWith(QString(".desktop"))) continue;
+            if (names.contains(files[j])) continue;
+            if (debug) qDebug() << PDEBUG << ":" << "Found file" << files[j] << "in" << dirs[i];
+            names.append(files[j]);
+            externalUpgrade.append(new ExtUpgrade(0, files[j], dirs, debug));
+        }
+    }
+
+    return externalUpgrade;
 }
 
 

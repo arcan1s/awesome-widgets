@@ -67,8 +67,8 @@ Item {
 
     Layout.fillWidth: plasmoid.formFactor != PlasmaCore.Planar
     Layout.fillHeight: plasmoid.formFactor != PlasmaCore.Planar
-    Layout.minimumHeight: text.height
-    Layout.minimumWidth: text.width
+    Layout.minimumHeight: text.contentHeight
+    Layout.minimumWidth: text.contentWidth
 
     Plasmoid.icon: "utilities-system-monitor"
     Plasmoid.backgroundHints: plasmoid.configuration.background ? "DefaultBackground" : "NoBackground"
@@ -144,9 +144,12 @@ Item {
             text: plasmoid.configuration.text
 
             PlasmaCore.ToolTipArea {
-                id: rootTooltip
+                height: tooltip.height
+                width: tooltip.width
                 mainItem: Text {
                     id: tooltip
+                    height: contentHeight
+                    width: contentWidth
                     textFormat: Text.RichText
                 }
             }
@@ -170,13 +173,6 @@ Item {
 
         text.text = AWKeys.parsePattern(plasmoid.configuration.text)
         tooltip.text = AWKeys.toolTipImage()
-        // update geometry
-        text.update()
-        height = text.height
-        width = text.width
-        update()
-        rootTooltip.height = AWKeys.toolTipSize().height
-        rootTooltip.width = AWKeys.toolTipSize().width
     }
 
     Plasmoid.onUserConfiguringChanged: {

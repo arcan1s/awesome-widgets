@@ -33,6 +33,7 @@
 
 class CustomLabel;
 class ExtScript;
+class ExtUpgrade;
 class GraphicalItem;
 class QGraphicsGridLayout;
 class QGraphicsScene;
@@ -80,7 +81,7 @@ private slots:
     // configuration interface
     void addBar();
     void addCustomScript();
-    void addNewPkgCommand(QTableWidgetItem *item);
+    void addPkgCommand();
     void contextMenuBars(const QPoint pos);
     void contextMenuCustomCommand(const QPoint pos);
     void contextMenuPkgCommand(const QPoint pos);
@@ -88,6 +89,7 @@ private slots:
     void copyCustomCommand(const QString original);
     void editBar(QListWidgetItem *item);
     void editCustomCommand(QListWidgetItem *item);
+    void editPkgCommand(QListWidgetItem *item);
     void editFanItem(QListWidgetItem *item);
     void editHddItem(QListWidgetItem *item);
     void editHddSpeedItem(QListWidgetItem *item);
@@ -112,6 +114,7 @@ private:
     void getGraphicalItems();
     GraphicalItem *getItemByTag(const QString tag);
     QList<ExtScript *> initScripts();
+    QList<ExtUpgrade *> initUpgrades();
     // ui
     QGraphicsGridLayout *mainLayout = nullptr;
     CustomLabel *textLabel = nullptr;

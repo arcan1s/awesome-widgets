@@ -17,15 +17,11 @@
 
 #include "awtooltip.h"
 
-#include <KI18n/KLocalizedString>
-
 #include <QDebug>
 #include <QProcessEnvironment>
 #include <math.h>
 
 #include <pdebug/pdebug.h>
-
-#include "awactions.h"
 
 
 AWToolTip::AWToolTip(QObject *parent,
@@ -156,12 +152,5 @@ void AWToolTip::setData(const QString source, float value, const bool ac)
                 boundaries[QString("downTooltip")] = data[QString("upTooltip")][i];
         boundaries[QString("downTooltip")] *= 1.2;
         boundaries[QString("upTooltip")] = boundaries[QString("downTooltip")];
-    } else if (source == QString("batTooltip")) {
-        int size = data[source].count();
-        if (data[source][size-1] * data[source][size-2] >= 0) return;
-        if (data[source].last() > 0.0)
-            AWActions::sendNotification(QString("event"), i18n("AC online"));
-        else
-            AWActions::sendNotification(QString("event"), i18n("AC offline"));
     }
 }

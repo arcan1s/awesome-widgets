@@ -22,7 +22,8 @@ file (GLOB SUBPROJECT_DESKTOP_IN *.desktop)
 file (RELATIVE_PATH SUBPROJECT_DESKTOP ${CMAKE_SOURCE_DIR} ${SUBPROJECT_DESKTOP_IN})
 file (GLOB_RECURSE SUBPROJECT_SOURCE *.cpp ${PROJECT_TRDPARTY_DIR}/task/*.cpp
                                            ${PROJECT_TRDPARTY_DIR}/fontdialog/*.cpp
-                                           ../extsysmon/extscript.cpp)
+                                           ../extsysmon/extscript.cpp
+                                           ../extsysmon/extupgrade.cpp)
 set (TASK_HEADER ${PROJECT_TRDPARTY_DIR}/task/task.h)
 file (GLOB SUBPROJECT_UI *.ui ${PROJECT_TRDPARTY_DIR}/about/*.ui)
 file (GLOB SUBPROJECT_NOTIFY *.notifyrc)

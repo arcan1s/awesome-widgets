@@ -1,4 +1,8 @@
-set (MO_NAME plasma_applet_desktop-panel.mo)
+if (BUILD_KDE4)
+  set (MO_NAME plasma_applet_desktop-panel.mo)
+else ()
+  set (MO_NAME plasma_applet_org.kde.plasma.desktoppanel.mo)
+endif ()
 
 file (GLOB _po_files *.po)
 set (_gmoFiles)

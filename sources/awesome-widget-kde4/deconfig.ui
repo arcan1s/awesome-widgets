@@ -345,40 +345,6 @@
          </item>
         </layout>
        </item>
-       <item row="9" column="0">
-        <layout class="QVBoxLayout" name="layout_pkgCommand">
-         <item>
-          <widget class="QTableWidget" name="tableWidget_pkgCommand">
-           <property name="contextMenuPolicy">
-            <enum>Qt::CustomContextMenu</enum>
-           </property>
-           <property name="toolTip">
-            <string>Editable
-del - remove item</string>
-           </property>
-           <property name="selectionMode">
-            <enum>QAbstractItemView::SingleSelection</enum>
-           </property>
-           <attribute name="horizontalHeaderStretchLastSection">
-            <bool>true</bool>
-           </attribute>
-           <attribute name="verticalHeaderVisible">
-            <bool>false</bool>
-           </attribute>
-           <column>
-            <property name="text">
-             <string>Package manager</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Null lines</string>
-            </property>
-           </column>
-          </widget>
-         </item>
-        </layout>
-       </item>
        <item row="1" column="0">
         <layout class="QVBoxLayout" name="layout_custom">
          <item>
@@ -414,6 +380,48 @@ del - remove item</string>
          </item>
          <item>
           <widget class="QListWidget" name="listWidget_custom">
+           <property name="contextMenuPolicy">
+            <enum>Qt::CustomContextMenu</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="9" column="0">
+        <layout class="QVBoxLayout" name="layout_pkgCommand">
+         <item>
+          <layout class="QHBoxLayout" name="layout_pkgCommandAdd">
+           <item>
+            <widget class="QLabel" name="label_pkgCommand">
+             <property name="text">
+              <string>Package manager</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="spacer_pkgCommand">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_pkgCommand">
+             <property name="text">
+              <string>Add</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QListWidget" name="listWidget_pkgCommand">
            <property name="contextMenuPolicy">
             <enum>Qt::CustomContextMenu</enum>
            </property>
