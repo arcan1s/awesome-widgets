@@ -1,3 +1,18 @@
+Ver.2.2.0:
+* port to Plasma 5
++ add support of windows list in tooltip
++ add notifications on system events
++ add ability to show selected tag
++ add tags $downN, $upN
++ add new engine netdev
++ add support of smartctl
+- remove ability to hide panel on hotkey
+* small changes in widget logic
+* edit window preview painting
+* KDE4 code upgrade to new ABI
+* dataengine optimization
+* PKGCMD was replaced by ExtUpgrade
+
 Ver.2.1.0:
 + add support of custom scripts
 + add support of desktop preview to DP

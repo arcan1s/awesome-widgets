@@ -2,7 +2,7 @@
 
 pkgname=kdeplasma-applets-awesome-widgets
 _pkgname=awesome-widgets
-pkgver=2.1.0
+pkgver=2.2.0
 pkgrel=1
 pkgdesc="Collection of minimalistic Plasmoids which look like Awesome WM widgets (ex-PyTextMonitor)"
 arch=('i686' 'x86_64')
@@ -13,14 +13,15 @@ optdepends=("amarok: for music player monitor"
             "clementine: for music player monitor"
             "catalyst: for GPU monitor"
             "hddtemp: for HDD temperature monitor"
+            "smartmontools: for HDD temperature monitor"
             "mpd: for music player monitor"
             "nvidia-utils: for GPU monitor"
             "qmmp: for music player monitor")
 makedepends=('automoc4' 'cmake')
 source=(https://github.com/arcan1s/awesome-widgets/releases/download/V.${pkgver}/${_pkgname}-${pkgver}-src.tar.xz)
 install=${pkgname}.install
-md5sums=('37d9ad08b2b4623d2ab9089facf4b5ff')
-backup=('usr/share/config/extsysmon.conf')
+md5sums=('25e1598b2d939b927428a219bae7c187')
+backup=('usr/share/config/plasma-dataengine-extsysmon.conf')
 
 prepare() {
   rm -rf "${srcdir}/build"
@@ -29,7 +30,8 @@ prepare() {
 
 build () {
   cd "${srcdir}/build"
-  cmake -DCMAKE_BUILD_TYPE=Release \
+  cmake -DBUILD_KDE4=ON \
+        -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=$(kde4-config --prefix) \
         "../${_pkgname}"
   make
