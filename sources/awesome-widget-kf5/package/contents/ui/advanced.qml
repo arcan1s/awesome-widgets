@@ -58,6 +58,7 @@ Item {
         "batInTooltipColor": plasmoid.configuration.batInTooltipColor
     }
 
+    property alias cfg_notify: notify.checked
     property alias cfg_background: background.checked
     property alias cfg_customTime: customTime.text
     property alias cfg_customUptime: customUptime.text
@@ -69,6 +70,20 @@ Item {
     Column {
         id: pageColumn
         width: units.gridUnit * 25
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.heigth
+                width: parent.width * 2 / 5
+            }
+            QtControls.CheckBox {
+                id: notify
+                width: parent.width * 3 / 5
+                text: i18n("Enable notifications")
+            }
+        }
+
         Row {
             height: implicitHeight
             width: parent.width

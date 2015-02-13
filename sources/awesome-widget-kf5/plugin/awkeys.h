@@ -50,7 +50,8 @@ public:
     ~AWKeys();
 
     Q_INVOKABLE void initKeys(const QString pattern,
-                              const QMap<QString, QVariant> tooltipParams);
+                              const QMap<QString, QVariant> tooltipParams,
+                              const bool popup = false);
     Q_INVOKABLE bool isDebugEnabled();
     Q_INVOKABLE QString parsePattern(const QString pattern);
     Q_INVOKABLE QString toolTipImage();
@@ -106,6 +107,7 @@ private:
     RequestedItem requestedItem = Nothing;
     // variables
     bool debug = false;
+    bool enablePopup = false;
     bool ready = false;
     QList<GraphicalItem *> graphicalItems;
     QList<ExtScript *> extScripts;

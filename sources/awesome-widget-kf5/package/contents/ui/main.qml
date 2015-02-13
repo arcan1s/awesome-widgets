@@ -179,7 +179,7 @@ Item {
         if (debug) console.log("[main::onUserConfiguringChanged]")
 
         // init submodule
-        AWKeys.initKeys(plasmoid.configuration.text, tooltipSettings)
+        AWKeys.initKeys(plasmoid.configuration.text, tooltipSettings, plasmoid.configuration.notify)
     }
 
     function action_checkUpdates() {

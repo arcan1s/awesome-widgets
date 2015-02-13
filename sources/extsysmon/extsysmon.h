@@ -18,9 +18,9 @@
 #ifndef EXTSYSMON_H
 #define EXTSYSMON_H
 
-#ifndef MSEC_IN_HOUR
-#define MSEC_IN_HOUR 60*60*1000
-#endif /* MSEC_IN_HOUR */
+#ifndef SEC_IN_HOUR
+#define SEC_IN_HOUR 60*60
+#endif /* SEC_IN_HOUR */
 
 #include <Plasma/DataEngine>
 #include <QProcess>
@@ -64,7 +64,7 @@ private:
     QList<int> times;
     bool debug;
     // FIXME dirty hack to avoid update package information every second
-    int pkgTimeUpdate = MSEC_IN_HOUR;
+    int pkgTimeUpdate = SEC_IN_HOUR;
     // reread configuration
     QStringList allHddDevices;
     QString getAllHdd();

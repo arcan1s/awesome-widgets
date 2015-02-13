@@ -84,7 +84,8 @@ AWKeys::~AWKeys()
 
 
 void AWKeys::initKeys(const QString pattern,
-                      const QMap<QString, QVariant> tooltipParams)
+                      const QMap<QString, QVariant> tooltipParams,
+                      const bool popup)
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -107,6 +108,7 @@ void AWKeys::initKeys(const QString pattern,
     toolTip = new AWToolTip(this, tooltipParams);
 
     ready = true;
+    enablePopup = popup;
 }
 
 
@@ -438,7 +440,8 @@ bool AWKeys::setDataBySource(const QString sourceName,
         for (int i=0; i<data.keys().count(); i++) {
             if (data.keys()[i] == QString("ac")) {
                 // notification
-                if ((values[QString("ac")] == params[QString("acOnline")].toString()) != data[QString("ac")].toBool()) {
+                if ((enablePopup) &&
+                    ((values[QString("ac")] == params[QString("acOnline")].toString()) != data[QString("ac")].toBool())) {
                     if (data[QString("ac")].toBool())
                         AWActions::sendNotification(QString("event"), i18n("AC online"));
                     else
@@ -458,7 +461,8 @@ bool AWKeys::setDataBySource(const QString sourceName,
     } else if (sourceName == QString("cpu/system/TotalLoad")) {
         // cpu
         // notification
-        if ((data[QString("value")].toFloat() >= 90.0) && (values[QString("cpu")].toFloat() < 90.0))
+        if ((enablePopup) &&
+            ((data[QString("value")].toFloat() >= 90.0) && (values[QString("cpu")].toFloat() < 90.0)))
             AWActions::sendNotification(QString("event"), i18n("High CPU load"));
         // value
         values[QString("cpu")] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
@@ -517,7 +521,8 @@ bool AWKeys::setDataBySource(const QString sourceName,
         mount.remove(QString("partitions")).remove(QString("/filllevel"));
         for (int i=0; i<mountDevices.count(); i++)
             if (mountDevices[i] == mount) {
-                if ((data[QString("value")].toFloat() >= 90.0) && (values[QString("hdd") + QString::number(i)].toFloat() < 90.0))
+                if ((enablePopup) &&
+                    ((data[QString("value")].toFloat() >= 90.0) && (values[QString("hdd") + QString::number(i)].toFloat() < 90.0)))
                     AWActions::sendNotification(QString("event"), i18n("Free space on %1 less than 10%", mount));
                 values[QString("hdd") + QString::number(i)] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
                 break;
@@ -583,7 +588,7 @@ bool AWKeys::setDataBySource(const QString sourceName,
         // percentage
         float value = 100.0 * values[QString("memmb")].toFloat() / values[QString("memtotmb")].toFloat();
         // notification
-        if ((value >= 90.0) && (values[QString("mem")].toFloat() < 90.0))
+        if ((enablePopup) && ((value >= 90.0) && (values[QString("mem")].toFloat() < 90.0)))
             AWActions::sendNotification(QString("event"), i18n("High memory usage"));
         // value
         values[QString("mem")] = QString("%1").arg(value, 5, 'f', 1);
@@ -591,7 +596,7 @@ bool AWKeys::setDataBySource(const QString sourceName,
     } else if (sourceName == QString("netdev")) {
         // network device
         // notification
-        if (values[QString("netdev")] != data[QString("value")].toString())
+        if ((enablePopup) && (values[QString("netdev")] != data[QString("value")].toString()))
             AWActions::sendNotification(QString("event"), i18n("Network device has been changed to %1",
                                                                data[QString("value")].toString()));
         // value
@@ -656,7 +661,7 @@ bool AWKeys::setDataBySource(const QString sourceName,
         // percentage
         float value = 100.0 * values[QString("swapmb")].toFloat() / values[QString("swaptotmb")].toFloat();
         // notification
-        if ((value > 0.0) && (values[QString("swap")].toFloat() == 0.0))
+        if ((enablePopup) && ((value > 0.0) && (values[QString("swap")].toFloat() == 0.0)))
             AWActions::sendNotification(QString("event"), i18n("Swap is used"));
         // value
         values[QString("swap")] = QString("%1").arg(value, 5, 'f', 1);

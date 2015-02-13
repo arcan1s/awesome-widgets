@@ -14,6 +14,9 @@
 
   <group name="Advanced">
     <!--   advanced -->
+    <entry name="notify" type="bool">
+      <default>true</default>
+    </entry>
     <entry name="background" type="bool">
       <default>true</default>
     </entry>
