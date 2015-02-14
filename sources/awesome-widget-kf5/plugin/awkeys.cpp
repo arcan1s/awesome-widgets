@@ -440,12 +440,11 @@ bool AWKeys::setDataBySource(const QString sourceName,
         for (int i=0; i<data.keys().count(); i++) {
             if (data.keys()[i] == QString("ac")) {
                 // notification
-                if ((enablePopup) &&
-                    ((values[QString("ac")] == params[QString("acOnline")].toString()) != data[QString("ac")].toBool())) {
+                if ((values[QString("ac")] == params[QString("acOnline")].toString()) != data[QString("ac")].toBool()) {
                     if (data[QString("ac")].toBool())
-                        AWActions::sendNotification(QString("event"), i18n("AC online"));
+                        AWActions::sendNotification(QString("event"), i18n("AC online"), enablePopup);
                     else
-                        AWActions::sendNotification(QString("event"), i18n("AC offline"));
+                        AWActions::sendNotification(QString("event"), i18n("AC offline"), enablePopup);
                 }
                 // value
                 values[QString("ac")] = data.keys()[i];
@@ -461,9 +460,8 @@ bool AWKeys::setDataBySource(const QString sourceName,
     } else if (sourceName == QString("cpu/system/TotalLoad")) {
         // cpu
         // notification
-        if ((enablePopup) &&
-            ((data[QString("value")].toFloat() >= 90.0) && (values[QString("cpu")].toFloat() < 90.0)))
-            AWActions::sendNotification(QString("event"), i18n("High CPU load"));
+        if ((data[QString("value")].toFloat() >= 90.0) && (values[QString("cpu")].toFloat() < 90.0))
+            AWActions::sendNotification(QString("event"), i18n("High CPU load"), enablePopup);
         // value
         values[QString("cpu")] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
         toolTip->setData(QString("cpuTooltip"), data[QString("value")].toFloat());
@@ -510,6 +508,10 @@ bool AWKeys::setDataBySource(const QString sourceName,
             }
     } else if (sourceName == QString("gpu")) {
         // gpu load
+        // notification
+        if ((data[QString("value")].toFloat() >= 90.0) && (values[QString("gpu")].toFloat() < 90.0))
+            AWActions::sendNotification(QString("event"), i18n("High GPU load"), enablePopup);
+        // value
         values[QString("gpu")] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
     } else if (sourceName == QString("gputemp")) {
         // gpu temperature
@@ -521,9 +523,8 @@ bool AWKeys::setDataBySource(const QString sourceName,
         mount.remove(QString("partitions")).remove(QString("/filllevel"));
         for (int i=0; i<mountDevices.count(); i++)
             if (mountDevices[i] == mount) {
-                if ((enablePopup) &&
-                    ((data[QString("value")].toFloat() >= 90.0) && (values[QString("hdd") + QString::number(i)].toFloat() < 90.0)))
-                    AWActions::sendNotification(QString("event"), i18n("Free space on %1 less than 10%", mount));
+                if ((data[QString("value")].toFloat() >= 90.0) && (values[QString("hdd") + QString::number(i)].toFloat() < 90.0))
+                    AWActions::sendNotification(QString("event"), i18n("Free space on %1 less than 10%", mount), enablePopup);
                 values[QString("hdd") + QString::number(i)] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
                 break;
             }
@@ -588,17 +589,18 @@ bool AWKeys::setDataBySource(const QString sourceName,
         // percentage
         float value = 100.0 * values[QString("memmb")].toFloat() / values[QString("memtotmb")].toFloat();
         // notification
-        if ((enablePopup) && ((value >= 90.0) && (values[QString("mem")].toFloat() < 90.0)))
-            AWActions::sendNotification(QString("event"), i18n("High memory usage"));
+        if ((value >= 90.0) && (values[QString("mem")].toFloat() < 90.0))
+            AWActions::sendNotification(QString("event"), i18n("High memory usage"), enablePopup);
         // value
         values[QString("mem")] = QString("%1").arg(value, 5, 'f', 1);
         toolTip->setData(QString("memTooltip"), values[QString("mem")].toFloat());
     } else if (sourceName == QString("netdev")) {
         // network device
         // notification
-        if ((enablePopup) && (values[QString("netdev")] != data[QString("value")].toString()))
+        if (values[QString("netdev")] != data[QString("value")].toString())
             AWActions::sendNotification(QString("event"), i18n("Network device has been changed to %1",
-                                                               data[QString("value")].toString()));
+                                                               data[QString("value")].toString()),
+                                        enablePopup);
         // value
         values[QString("netdev")] = data[QString("value")].toString();
     } else if (sourceName.contains(netRecRegExp)) {
@@ -661,8 +663,8 @@ bool AWKeys::setDataBySource(const QString sourceName,
         // percentage
         float value = 100.0 * values[QString("swapmb")].toFloat() / values[QString("swaptotmb")].toFloat();
         // notification
-        if ((enablePopup) && ((value > 0.0) && (values[QString("swap")].toFloat() == 0.0)))
-            AWActions::sendNotification(QString("event"), i18n("Swap is used"));
+        if ((value > 0.0) && (values[QString("swap")].toFloat() == 0.0))
+            AWActions::sendNotification(QString("event"), i18n("Swap is used"), enablePopup);
         // value
         values[QString("swap")] = QString("%1").arg(value, 5, 'f', 1);
         toolTip->setData(QString("swapTooltip"), values[QString("swap")].toFloat());
