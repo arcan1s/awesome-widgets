@@ -27,7 +27,7 @@ Instruction
 Dependencies
 ------------
 
-* kdebase-workspace
+* kdebase-workspace (*if KDE4 is used*) **or** plasma-framework (*if KF5 is used*)
 * lm_sensors (*for definition temperature device*)
 
 Optional dependencies
@@ -35,13 +35,14 @@ Optional dependencies
 
 * proprietary video driver
 * hddtemp
+* smartmontools
 * music player (mpd or supported MPRIS)
 
 Make dependencies
 -----------------
 
-* automoc4
 * cmake
+* automoc4 (*if KDE4 is used*) or extra-cmake-modules (*if KF5 is used*)
 
 Installation
 ------------
@@ -50,14 +51,10 @@ Installation
 * install
 
         mkdir build && cd build
-        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=`kde4-config --localprefix` ../
-        make && make install
-
-  Also you may install it to `/`:
-
-        mkdir build && cd build
-        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=`kde4-config --prefix` ../
+        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr ../
         make && sudo make install
+
+  **NOTE** on Plasma 5 it may require `-DKDE_INSTALL_USE_QT_SYS_PATHS=ON` flag
 
 Additional information
 ======================
