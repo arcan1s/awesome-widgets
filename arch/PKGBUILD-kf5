@@ -8,7 +8,7 @@ pkgdesc="Collection of minimalistic Plasmoids which look like Awesome WM widgets
 arch=('i686' 'x86_64')
 url="http://arcanis.name/projects/awesome-widgets"
 license=('GPL3')
-depends=('lm_sensors' 'plasma-framework')
+depends=('plasma-framework')
 optdepends=("amarok: for music player monitor"
             "clementine: for music player monitor"
             "catalyst: for GPU monitor"
