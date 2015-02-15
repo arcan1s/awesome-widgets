@@ -20,7 +20,7 @@ optdepends=("amarok: for music player monitor"
 makedepends=('cmake' 'extra-cmake-modules')
 source=(https://github.com/arcan1s/awesome-widgets/releases/download/V.${pkgver}/${_pkgname}-${pkgver}-src.tar.xz)
 install=${pkgname}.install
-md5sums=('9b570c6061092bd443038f8dadd3d943')
+md5sums=('a8b46415c387b98d5df1a79bb985f709')
 backup=('etc/xdg/plasma-dataengine-extsysmon.conf')
 
 prepare() {
