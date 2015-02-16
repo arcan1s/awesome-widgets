@@ -694,7 +694,7 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     } else if (source == QString("netdev")) {
         setData(source, QString("value"), getNetworkDevice());
     } else if (source == QString("pkg")) {
-        if (pkgTimeUpdate > SEC_IN_HOUR) {
+        if (pkgTimeUpdate >= SEC_IN_HOUR) {
             for (int i=0; i<externalUpgrade.count(); i++)
                 setData(source, QString("pkgcount") + QString::number(i), externalUpgrade[i]->run());
             pkgTimeUpdate = 0;
