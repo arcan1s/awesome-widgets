@@ -184,6 +184,7 @@ void ExtUpgrade::readConfiguration()
 int ExtUpgrade::run()
 {
     if (debug) qDebug() << PDEBUG;
+    if (!m_active) return 0;
 
     TaskResult process = runTask(QString("bash -c \"") + m_executable + QString("\""));
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
