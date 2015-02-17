@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.8.12)
+cmake_minimum_required (VERSION 2.8)
 
 cmake_policy (SET CMP0003 OLD)
 cmake_policy (SET CMP0002 OLD)
@@ -22,6 +22,10 @@ message (STATUS "Version: ${PROJECT_VERSION}")
 message (STATUS "Build date: ${CURRENT_DATE}")
 
 option (BUILD_KDE4 "Build on KDE4" OFF)
+# update minimum cmake version
+if (NOT BUILD_KDE4)
+  cmake_minimum_required (VERSION 2.8.12)
+endif ()
 
 # flags
 if (CMAKE_COMPILER_IS_GNUCXX)
