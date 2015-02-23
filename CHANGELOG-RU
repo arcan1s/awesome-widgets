@@ -1,3 +1,10 @@
+Вер.2.2.1:
++ добавлен ключ X-AW-Interval в ExtUpgrade (ApiVer = 1, default = 3600)
++ добавлено кеширование значений в ExtScript и ExtUpgrade
++ добавлена поддержка isActive в ExtUpgrade
+* изменена проверка версий cmake
+* улучшена логика работы ExtScript и ExtUpgrade
+
 Вер.2.2.0:
 * портирование на Plasma 5
 + добавлена поддержка списка окон в тултипе

@@ -1,3 +1,10 @@
+Ver.2.2.1:
++ add key X-AW-Interval to ExtUpgrade (ApiVer = 1, default = 3600)
++ add values cache to ExtScript and ExtUpgrade
++ add support isActive to ExtUpgrade
+* change cmake version check
+* improve logic of ExtScript and ExtUpgrade
+
 Ver.2.2.0:
 * port to Plasma 5
 + add support of windows list in tooltip
