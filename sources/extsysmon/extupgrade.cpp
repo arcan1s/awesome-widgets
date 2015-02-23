@@ -82,6 +82,14 @@ QString ExtUpgrade::fileName()
 }
 
 
+int ExtUpgrade::interval()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return m_interval;
+}
+
+
 QString ExtUpgrade::name()
 {
     if (debug) qDebug() << PDEBUG;
@@ -142,6 +150,15 @@ void ExtUpgrade::setExecutable(const QString _executable)
 }
 
 
+void ExtUpgrade::setInterval(const int _interval)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Interval" << _interval;
+
+    m_interval = _interval;
+}
+
+
 void ExtUpgrade::setName(const QString _name)
 {
     if (debug) qDebug() << PDEBUG;
@@ -176,6 +193,7 @@ void ExtUpgrade::readConfiguration()
         setExecutable(settings.value(QString("Exec"), m_executable).toString());
         setActive(settings.value(QString("X-AW-Active"), QVariant(m_active)).toString() == QString("true"));
         setNull(settings.value(QString("X-AW-Null"), m_null).toInt());
+        setInterval(settings.value(QString("X-AW-Interval"), m_interval).toInt());
         settings.endGroup();
     }
 }
@@ -184,16 +202,23 @@ void ExtUpgrade::readConfiguration()
 int ExtUpgrade::run()
 {
     if (debug) qDebug() << PDEBUG;
-    if (!m_active) return 0;
+    if (!m_active) return value;
 
-    TaskResult process = runTask(QString("bash -c \"") + m_executable + QString("\""));
-    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-    if (process.exitCode != 0)
-        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+    if (times == 1) {
+        TaskResult process = runTask(QString("bash -c \"") + m_executable + QString("\""));
+        if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
+        if (process.exitCode != 0)
+            if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
-    QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
+        QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
+        value = qoutput.split(QChar('\n'), QString::SkipEmptyParts).count() - m_null;
+    }
 
-    return (qoutput.split(QChar('\n'), QString::SkipEmptyParts).count() - m_null);
+    // update value
+    times++;
+    if (times >= m_interval) times = 0;
+
+    return value;
 }
 
 
@@ -209,6 +234,7 @@ int ExtUpgrade::showConfiguration()
     else
         ui->checkBox_active->setCheckState(Qt::Unchecked);
     ui->spinBox_null->setValue(m_null);
+    ui->spinBox_interval->setValue(m_interval);
 
     int ret = exec();
     if (ret != 1) return ret;
@@ -218,6 +244,7 @@ int ExtUpgrade::showConfiguration()
     setExecutable(ui->lineEdit_command->text());
     setActive(ui->checkBox_active->checkState() == Qt::Checked);
     setNull(ui->spinBox_null->value());
+    setInterval(ui->spinBox_interval->value());
 
     writeConfiguration();
     return ret;
@@ -254,6 +281,7 @@ void ExtUpgrade::writeConfiguration()
     settings.setValue(QString("X-AW-ApiVersion"), m_apiVersion);
     settings.setValue(QString("X-AW-Active"), QVariant(m_active).toString());
     settings.setValue(QString("X-AW-Null"), m_null);
+    settings.setValue(QString("X-AW-Interval"), m_interval);
     settings.endGroup();
 
     settings.sync();

@@ -1077,6 +1077,7 @@ void AWKeys::copyUpgrade(const QString original)
         upgrade->setExecutable(extUpgrade[originalItem]->executable());
         upgrade->setName(extUpgrade[originalItem]->name());
         upgrade->setNull(extUpgrade[originalItem]->null());
+        upgrade->setInterval(extUpgrade[originalItem]->interval());
     }
 
     if (upgrade->showConfiguration() == 1) {

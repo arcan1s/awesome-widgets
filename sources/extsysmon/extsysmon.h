@@ -18,10 +18,6 @@
 #ifndef EXTSYSMON_H
 #define EXTSYSMON_H
 
-#ifndef SEC_IN_HOUR
-#define SEC_IN_HOUR 60*60
-#endif /* SEC_IN_HOUR */
-
 #include <Plasma/DataEngine>
 #include <QProcess>
 
@@ -61,10 +57,7 @@ private:
     QMap<QString, QString> configuration;
     QList<ExtScript *> externalScripts;
     QList<ExtUpgrade *> externalUpgrade;
-    QList<int> times;
     bool debug;
-    // FIXME dirty hack to avoid update package information every second
-    int pkgTimeUpdate = SEC_IN_HOUR;
     // reread configuration
     QStringList allHddDevices;
     QString getAllHdd();

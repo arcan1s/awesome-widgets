@@ -44,12 +44,6 @@ public:
         nothing,
         stderr2stdout
     };
-    typedef struct {
-        bool active;
-        QString name;
-        QString output;
-        bool refresh;
-    } ScriptData;
 
     explicit ExtScript(QWidget *parent = 0, const QString scriptName = QString(),
                        const QStringList directories = QStringList(), const bool debugCmd = false);
@@ -80,7 +74,7 @@ public:
 
 public slots:
     void readConfiguration();
-    ScriptData run(const int time);
+    QString run();
     int showConfiguration();
     int tryDelete();
     void writeConfiguration();
@@ -100,6 +94,8 @@ private:
     bool m_output = true;
     QString m_prefix = QString("");
     Redirect m_redirect = nothing;
+    int times = 0;
+    QString value = QString();
 };
 
 

@@ -145,7 +145,6 @@ void ExtendedSysMon::initScripts()
                                      QStandardPaths::LocateDirectory);
 #endif /* BUILD_KDE4 */
 
-    times.clear();
     QStringList names;
     for (int i=0; i<dirs.count(); i++) {
         QStringList files = QDir(dirs[i]).entryList(QDir::Files, QDir::Name);
@@ -155,7 +154,6 @@ void ExtendedSysMon::initScripts()
             if (debug) qDebug() << PDEBUG << ":" << "Found file" << files[j] << "in" << dirs[i];
             names.append(files[j]);
             externalScripts.append(new ExtScript(0, files[j], dirs, debug));
-            times.append(1);
         }
     }
 }
@@ -666,15 +664,8 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
             setData(source, battery.keys()[i], battery[battery.keys()[i]].toInt());
         }
     } else if (source == QString("custom")) {
-        for (int i=0; i<externalScripts.count(); i++) {
-            ExtScript::ScriptData data = externalScripts[i]->run(times[i]);
-            if (!data.active) return true;
-            if (data.refresh) {
-                times[i] = 1;
-                setData(source, QString("custom") + QString::number(i), data.output);
-            } else
-                times[i]++;
-        }
+        for (int i=0; i<externalScripts.count(); i++)
+            setData(source, QString("custom") + QString::number(i), externalScripts[i]->run());
     } else if (source == QString("desktop")) {
         QMap<QString, QVariant> desktop = getCurrentDesktop();
         for (int i=0; i<desktop.keys().count(); i++)
@@ -694,12 +685,8 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     } else if (source == QString("netdev")) {
         setData(source, QString("value"), getNetworkDevice());
     } else if (source == QString("pkg")) {
-        if (pkgTimeUpdate >= SEC_IN_HOUR) {
-            for (int i=0; i<externalUpgrade.count(); i++)
-                setData(source, QString("pkgcount") + QString::number(i), externalUpgrade[i]->run());
-            pkgTimeUpdate = 0;
-        }
-        pkgTimeUpdate++;
+        for (int i=0; i<externalUpgrade.count(); i++)
+            setData(source, QString("pkgcount") + QString::number(i), externalUpgrade[i]->run());
     } else if (source == QString("player")) {
         QMap<QString, QVariant> player = getPlayerInfo(configuration[QString("PLAYER")],
                 configuration[QString("MPDADDRESS")],

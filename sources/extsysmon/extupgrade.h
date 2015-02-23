@@ -34,6 +34,7 @@ class ExtUpgrade : public QDialog
     Q_PROPERTY(QString executable READ executable WRITE setExecutable)
     Q_PROPERTY(int null READ null WRITE setNull)
     Q_PROPERTY(bool active READ isActive WRITE setActive)
+    Q_PROPERTY(int interval READ interval WRITE setInterval)
 
 public:
     explicit ExtUpgrade(QWidget *parent = 0, const QString upgradeName = QString(),
@@ -44,6 +45,7 @@ public:
     QString comment();
     QString executable();
     QString fileName();
+    int interval();
     QString name();
     int null();
     bool isActive();
@@ -54,6 +56,7 @@ public:
     void setExecutable(const QString _executable = QString("/usr/bin/true"));
     void setName(const QString _name = QString("none"));
     void setNull(const int _null = 0);
+    void setInterval(const int _interval = 0);
 
 public slots:
     void readConfiguration();
@@ -74,6 +77,9 @@ private:
     QString m_executable = QString("/usr/bin/true");
     QString m_name = QString("none");
     int m_null = 0;
+    int m_interval = 3600;
+    int times = 0;
+    int value = 0;
 };
 
 

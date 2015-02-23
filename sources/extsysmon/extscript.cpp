@@ -273,46 +273,45 @@ void ExtScript::readConfiguration()
 }
 
 
-ExtScript::ScriptData ExtScript::run(const int time)
+QString ExtScript::run()
 {
     if (debug) qDebug() << PDEBUG;
+    if (!m_active) return value;
 
-    ScriptData response;
-    response.active = m_active;
-    response.name = m_name;
-    response.refresh = false;
-    if (!m_active) return response;
-    if (time != m_interval) return response;
-    response.refresh = true;
+    if (times == 1) {
+        QStringList cmdList;
+        if (!m_prefix.isEmpty())
+            cmdList.append(m_prefix);
+        cmdList.append(m_executable);
+        if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmdList.join(QChar(' '));
+        TaskResult process = runTask(cmdList.join(QChar(' ')));
+        if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
+        if (process.exitCode != 0)
+            if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
-    QStringList cmdList;
-    if (!m_prefix.isEmpty())
-        cmdList.append(m_prefix);
-    cmdList.append(m_executable);
-    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmdList.join(QChar(' '));
-    TaskResult process = runTask(cmdList.join(QChar(' ')));
-    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-    if (process.exitCode != 0)
-        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
-
-    QString info = QString::number(process.exitCode) + QString(":") +
-                   QTextCodec::codecForMib(106)->toUnicode(process.error).trimmed();
-    QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
-    switch (m_redirect) {
-    case stdout2stderr:
-        if (debug) qDebug() << PDEBUG << ":" << "Debug" << info;
-        if (debug) qDebug() << PDEBUG << ":" << "Output" << qoutput;
-        break;
-    case stderr2stdout:
-        response.output = info + QString("\t") + qoutput;
-        break;
-    default:
-        if (debug) qDebug() << PDEBUG << ":" << "Debug" << info;
-        response.output = qoutput;
-        break;
+        QString info = QString::number(process.exitCode) + QString(":") +
+                    QTextCodec::codecForMib(106)->toUnicode(process.error).trimmed();
+        QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
+        switch (m_redirect) {
+        case stdout2stderr:
+            if (debug) qDebug() << PDEBUG << ":" << "Debug" << info;
+            if (debug) qDebug() << PDEBUG << ":" << "Output" << qoutput;
+            break;
+        case stderr2stdout:
+            value = info + QString("\t") + qoutput;
+            break;
+        default:
+            if (debug) qDebug() << PDEBUG << ":" << "Debug" << info;
+            value = qoutput;
+            break;
+        }
     }
 
-    return response;
+    // update value
+    times++;
+    if (times >= m_interval) times = 0;
+
+    return value;
 }
 
 

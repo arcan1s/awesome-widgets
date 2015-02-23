@@ -6,4 +6,5 @@ Exec=aptitude search '~U'
 X-AW-Prefix=
 X-AW-Active=false
 X-AW-Null=0
+X-AW-Interval=3600
 X-AW-ApiVersion=1

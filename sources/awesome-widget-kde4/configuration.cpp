@@ -971,6 +971,7 @@ void AwesomeWidget::copyPkgCommand(const QString original)
     upgrade->setExecutable(originalUpgrade->executable());
     upgrade->setName(originalUpgrade->name());
     upgrade->setNull(originalUpgrade->null());
+    upgrade->setInterval(originalUpgrade->interval());
     delete originalUpgrade;
 
     if (upgrade->showConfiguration() == 1) {

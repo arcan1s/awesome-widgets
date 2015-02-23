@@ -6,4 +6,5 @@ Exec=yum list updates
 X-AW-Prefix=
 X-AW-Active=false
 X-AW-Null=3
+X-AW-Interval=3600
 X-AW-ApiVersion=1
