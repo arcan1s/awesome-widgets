@@ -1,12 +1,14 @@
 set (PLUGIN_NAME awplugin)
 
-add_definitions (${Qt5Core_DEFINITIONS} ${Qt5Network_DEFINITIONS})
+add_definitions (${Qt5Core_DEFINITIONS} ${Qt5Network_DEFINITIONS} ${Qt5Xml_DEFINITIONS})
 set (Qt_INCLUDE ${Qt5Core_INCLUDE_DIRS}
                 ${Qt5Network_INCLUDE_DIRS}
-                ${Qt5Qml_INCLUDE_DIRS})
+                ${Qt5Qml_INCLUDE_DIRS}
+                ${Qt5Xml_INCLUDE_DIRS})
 set (Qt_LIBRARIES ${Qt5Core_LIBRARIES}
                   ${Qt5Network_LIBRARIES}
-                  ${Qt5Qml_LIBRARIES})
+                  ${Qt5Qml_LIBRARIES}
+                  ${Qt5Xml_LIBRARIES})
 set (Kf5_INCLUDE ${I18n_INCLUDE_DIR}
                  ${Notifications_INCLUDE_DIR})
 set (Kf5_LIBRARIES KF5::I18n
@@ -28,6 +30,7 @@ file (GLOB SUBPROJECT_UI *.ui)
 # task source is required by extscripts
 file (GLOB_RECURSE SUBPROJECT_SOURCE *.cpp ${PROJECT_TRDPARTY_DIR}/task/*.cpp
                                      ${PROJECT_TRDPARTY_DIR}/fontdialog/*.cpp
+                                     ../../extsysmon/extquotes.cpp
                                      ../../extsysmon/extscript.cpp
                                      ../../extsysmon/extupgrade.cpp)
 set (TASK_HEADER ${PROJECT_TRDPARTY_DIR}/task/task.h)

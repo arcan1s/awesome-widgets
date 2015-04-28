@@ -3,7 +3,6 @@ Encoding=UTF-8
 Name=default-fedora
 Comment=Fedora upgrade info
 Exec=yum list updates
-X-AW-Prefix=
 X-AW-Active=false
 X-AW-Null=3
 X-AW-Interval=3600

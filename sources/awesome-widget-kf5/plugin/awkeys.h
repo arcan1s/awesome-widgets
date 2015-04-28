@@ -30,6 +30,7 @@
 
 
 class AWToolTip;
+class ExtQuotes;
 class ExtScript;
 class ExtUpgrade;
 class GraphicalItem;
@@ -41,6 +42,7 @@ class AWKeys : public QObject
     enum RequestedItem {
         Nothing,
         RequestedGraphicalItem,
+        RequestedExtQuotes,
         RequestedExtScript,
         RequestedExtUpgrade
     };
@@ -78,6 +80,7 @@ public:
 private slots:
     void editItemButtonPressed(QAbstractButton *button);
     void copyBar(const QString original);
+    void copyQuotes(const QString original);
     void copyScript(const QString original);
     void copyUpgrade(const QString original);
 
@@ -91,6 +94,7 @@ private:
     QStringList findGraphicalItems(const QString pattern);
     QStringList findKeys(const QString pattern);
     // get methods
+    QList<ExtQuotes *> getExtQuotes();
     QList<ExtScript *> getExtScripts();
     QList<ExtUpgrade *> getExtUpgrade();
     QList<GraphicalItem *> getGraphicalItems();
@@ -110,6 +114,7 @@ private:
     bool enablePopup = false;
     bool ready = false;
     QList<GraphicalItem *> graphicalItems;
+    QList<ExtQuotes *> extQuotes;
     QList<ExtScript *> extScripts;
     QList<ExtUpgrade *> extUpgrade;
     QStringList foundBars, foundKeys, keys;

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=GOOG.NASDAQ
+Comment=Google Inc
+X-AW-Ticker=GOOG
+X-AW-Active=true
+X-AW-ApiVersion=1
+X-AW-Interval=60

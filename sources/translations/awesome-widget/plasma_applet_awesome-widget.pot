@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-02-11 04:56+0300\n"
+"POT-Creation-Date: 2015-04-27 13:58+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,52 +38,80 @@ msgid "Check for updates"
 msgstr ""
 
 #: awesome-widget-kde4/awesome-widget.cpp:491
-#: awesome-widget-kf5/plugin/awactions.cpp:209
+#: awesome-widget-kf5/plugin/awactions.cpp:212
 msgid "Current version : %1"
 msgstr ""
 
 #: awesome-widget-kde4/awesome-widget.cpp:492
-#: awesome-widget-kf5/plugin/awactions.cpp:210
+#: awesome-widget-kf5/plugin/awactions.cpp:213
 msgid "New version : %1"
 msgstr ""
 
 #: awesome-widget-kde4/awesome-widget.cpp:493
-#: awesome-widget-kf5/plugin/awactions.cpp:211
+#: awesome-widget-kf5/plugin/awactions.cpp:214
 msgid "Click \"Ok\" to download"
 msgstr ""
 
 #: awesome-widget-kde4/awesome-widget.cpp:494
-#: awesome-widget-kf5/plugin/awactions.cpp:213
+#: awesome-widget-kf5/plugin/awactions.cpp:216
 msgid "There are updates"
 msgstr ""
 
 #: awesome-widget-kde4/configuration.cpp:277
+#: awesome-widget-kde4/configuration.cpp:714
+#: awesome-widget-kde4/configuration.cpp:907
 #: awesome-widget-kf5/package/contents/ui/widget.qml:239
-#: awesome-widget-kf5/plugin/awkeys.cpp:724
-#: awesome-widget-kf5/plugin/awkeys.cpp:780
+#: awesome-widget-kf5/plugin/awkeys.cpp:743
+#: awesome-widget-kf5/plugin/awkeys.cpp:803
+#: awesome-widget-kf5/plugin/awkeys.cpp:1042
 msgid "Tag: %1"
 msgstr ""
 
 #: awesome-widget-kde4/configuration.cpp:278
 #: awesome-widget-kde4/configuration.cpp:353
 #: awesome-widget-kde4/configuration.cpp:386
-#: awesome-widget-kf5/plugin/awkeys.cpp:781
-#: awesome-widget-kf5/plugin/awkeys.cpp:791
-#: awesome-widget-kf5/plugin/awkeys.cpp:802
+#: awesome-widget-kde4/configuration.cpp:715
+#: awesome-widget-kde4/configuration.cpp:742
+#: awesome-widget-kde4/configuration.cpp:770
+#: awesome-widget-kde4/configuration.cpp:908
+#: awesome-widget-kde4/configuration.cpp:945
+#: awesome-widget-kde4/configuration.cpp:981
+#: awesome-widget-kf5/plugin/awkeys.cpp:804
+#: awesome-widget-kf5/plugin/awkeys.cpp:814
+#: awesome-widget-kf5/plugin/awkeys.cpp:825
+#: awesome-widget-kf5/plugin/awkeys.cpp:836
+#: awesome-widget-kf5/plugin/awkeys.cpp:1043
+#: awesome-widget-kf5/plugin/awkeys.cpp:1089
+#: awesome-widget-kf5/plugin/awkeys.cpp:1140
+#: awesome-widget-kf5/plugin/awkeys.cpp:1188
 msgid "Comment: %1"
 msgstr ""
 
 #: awesome-widget-kde4/configuration.cpp:352
 #: awesome-widget-kde4/configuration.cpp:385
-#: awesome-widget-kf5/plugin/awkeys.cpp:790
-#: awesome-widget-kf5/plugin/awkeys.cpp:801
+#: awesome-widget-kde4/configuration.cpp:741
+#: awesome-widget-kde4/configuration.cpp:769
+#: awesome-widget-kde4/configuration.cpp:944
+#: awesome-widget-kde4/configuration.cpp:980
+#: awesome-widget-kf5/plugin/awkeys.cpp:813
+#: awesome-widget-kf5/plugin/awkeys.cpp:824
+#: awesome-widget-kf5/plugin/awkeys.cpp:835
+#: awesome-widget-kf5/plugin/awkeys.cpp:1088
+#: awesome-widget-kf5/plugin/awkeys.cpp:1139
+#: awesome-widget-kf5/plugin/awkeys.cpp:1187
 msgid "Name: %1"
 msgstr ""
 
 #: awesome-widget-kde4/configuration.cpp:354
 #: awesome-widget-kde4/configuration.cpp:387
-#: awesome-widget-kf5/plugin/awkeys.cpp:792
-#: awesome-widget-kf5/plugin/awkeys.cpp:803
+#: awesome-widget-kde4/configuration.cpp:743
+#: awesome-widget-kde4/configuration.cpp:771
+#: awesome-widget-kde4/configuration.cpp:946
+#: awesome-widget-kde4/configuration.cpp:982
+#: awesome-widget-kf5/plugin/awkeys.cpp:826
+#: awesome-widget-kf5/plugin/awkeys.cpp:837
+#: awesome-widget-kf5/plugin/awkeys.cpp:1141
+#: awesome-widget-kf5/plugin/awkeys.cpp:1189
 msgid "Exec: %1"
 msgstr ""
 
@@ -174,53 +202,59 @@ msgstr ""
 msgid "About"
 msgstr ""
 
-#: awesome-widget-kde4/configuration.cpp:695
-#: awesome-widget-kde4/configuration.cpp:721
-#: awesome-widget-kde4/configuration.cpp:739
-#: awesome-widget-kde4/configuration.cpp:836
-#: awesome-widget-kde4/configuration.cpp:878
-#: awesome-widget-kf5/plugin/awkeys.cpp:933
-#: awesome-widget-kf5/plugin/awkeys.cpp:980
-#: awesome-widget-kf5/plugin/awkeys.cpp:1019
+#: awesome-widget-kde4/configuration.cpp:694
+#: awesome-widget-kde4/configuration.cpp:730
+#: awesome-widget-kde4/configuration.cpp:758
+#: awesome-widget-kde4/configuration.cpp:872
+#: awesome-widget-kde4/configuration.cpp:923
+#: awesome-widget-kde4/configuration.cpp:961
+#: awesome-widget-kf5/plugin/awkeys.cpp:1003
+#: awesome-widget-kf5/plugin/awkeys.cpp:1060
+#: awesome-widget-kf5/plugin/awkeys.cpp:1108
+#: awesome-widget-kf5/plugin/awkeys.cpp:1158
 msgid "Enter file name"
 msgstr ""
 
-#: awesome-widget-kde4/configuration.cpp:696
-#: awesome-widget-kde4/configuration.cpp:722
-#: awesome-widget-kde4/configuration.cpp:740
-#: awesome-widget-kde4/configuration.cpp:837
-#: awesome-widget-kde4/configuration.cpp:879
-#: awesome-widget-kf5/plugin/awkeys.cpp:934
-#: awesome-widget-kf5/plugin/awkeys.cpp:981
-#: awesome-widget-kf5/plugin/awkeys.cpp:1020
+#: awesome-widget-kde4/configuration.cpp:695
+#: awesome-widget-kde4/configuration.cpp:731
+#: awesome-widget-kde4/configuration.cpp:759
+#: awesome-widget-kde4/configuration.cpp:873
+#: awesome-widget-kde4/configuration.cpp:924
+#: awesome-widget-kde4/configuration.cpp:962
+#: awesome-widget-kf5/plugin/awkeys.cpp:1004
+#: awesome-widget-kf5/plugin/awkeys.cpp:1061
+#: awesome-widget-kf5/plugin/awkeys.cpp:1109
+#: awesome-widget-kf5/plugin/awkeys.cpp:1159
 msgid "File name"
 msgstr ""
 
-#: awesome-widget-kde4/configuration.cpp:757
-#: awesome-widget-kde4/configuration.cpp:783
+#: awesome-widget-kde4/configuration.cpp:786
+#: awesome-widget-kde4/configuration.cpp:813
+#: awesome-widget-kde4/configuration.cpp:837
 msgid "Edit"
 msgstr ""
 
-#: awesome-widget-kde4/configuration.cpp:758
-#: awesome-widget-kde4/configuration.cpp:784
-#: awesome-widget-kf5/plugin/awkeys.cpp:56
+#: awesome-widget-kde4/configuration.cpp:787
+#: awesome-widget-kde4/configuration.cpp:814
+#: awesome-widget-kde4/configuration.cpp:838
+#: awesome-widget-kf5/plugin/awkeys.cpp:57
 msgid "Copy"
 msgstr ""
 
-#: awesome-widget-kde4/configuration.cpp:759
-#: awesome-widget-kde4/configuration.cpp:785
-#: awesome-widget-kde4/configuration.cpp:807
-#: awesome-widget-kf5/plugin/awkeys.cpp:58
+#: awesome-widget-kde4/configuration.cpp:788
+#: awesome-widget-kde4/configuration.cpp:815
+#: awesome-widget-kde4/configuration.cpp:839
+#: awesome-widget-kf5/plugin/awkeys.cpp:59
 msgid "Remove"
 msgstr ""
 
-#: awesome-widget-kde4/configuration.cpp:1042
+#: awesome-widget-kde4/configuration.cpp:1135
 #: awesome-widget-kf5/plugin/awactions.cpp:141
 msgid "Select font"
 msgstr ""
 
-#: awesome-widget-kde4/graphicalitem.cpp:489
-#: awesome-widget-kf5/plugin/graphicalitem.cpp:491
+#: awesome-widget-kde4/graphicalitem.cpp:495
+#: awesome-widget-kf5/plugin/graphicalitem.cpp:497
 msgid "Select color"
 msgstr ""
 
@@ -228,84 +262,88 @@ msgstr ""
 msgid "Acknowledgment"
 msgstr ""
 
+#: awesome-widget-kf5/package/contents/ui/advanced.qml:83
+msgid "Enable notifications"
+msgstr ""
+
 #. i18n: file: awesome-widget-kde4/advanced.ui:104
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_background)
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:82
+#: awesome-widget-kf5/package/contents/ui/advanced.qml:97
 #: translations/awesome-widget/rc.cpp:6 rc.cpp:6
 msgid "Enable background"
 msgstr ""
 
 #. i18n: file: awesome-widget-kde4/advanced.ui:121
 #. i18n: ectx: property (text), widget (QLabel, label_timeFormat)
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:94
+#: awesome-widget-kf5/package/contents/ui/advanced.qml:109
 #: translations/awesome-widget/rc.cpp:9 rc.cpp:9
 msgid "Custom time format"
 msgstr ""
 
 #. i18n: file: awesome-widget-kde4/advanced.ui:163
 #. i18n: ectx: property (text), widget (QLabel, label_uptimeFormat)
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:111
+#: awesome-widget-kf5/package/contents/ui/advanced.qml:126
 #: translations/awesome-widget/rc.cpp:30 rc.cpp:30
 msgid "Custom uptime format"
 msgstr ""
 
 #. i18n: file: awesome-widget-kde4/advanced.ui:189
 #. i18n: ectx: property (text), widget (QLabel, label_tempUnits)
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:128
+#: awesome-widget-kf5/package/contents/ui/advanced.qml:143
 #: translations/awesome-widget/rc.cpp:41 rc.cpp:41
 msgid "Temperature units"
 msgstr ""
 
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:136
+#: awesome-widget-kf5/package/contents/ui/advanced.qml:151
 msgid "Celsius"
 msgstr ""
 
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:140
+#: awesome-widget-kf5/package/contents/ui/advanced.qml:155
 msgid "Fahrenheit"
 msgstr ""
 
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:144
+#: awesome-widget-kf5/package/contents/ui/advanced.qml:159
 msgid "Kelvin"
 msgstr ""
 
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:148
+#: awesome-widget-kf5/package/contents/ui/advanced.qml:163
 msgid "Reaumur"
 msgstr ""
 
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:152
+#: awesome-widget-kf5/package/contents/ui/advanced.qml:167
 msgid "cm^-1"
 msgstr ""
 
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:156
+#: awesome-widget-kf5/package/contents/ui/advanced.qml:171
 msgid "kJ/mol"
 msgstr ""
 
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:160
+#: awesome-widget-kf5/package/contents/ui/advanced.qml:175
 msgid "kcal/mol"
 msgstr ""
 
 #. i18n: file: awesome-widget-kde4/advanced.ui:392
 #. i18n: ectx: property (text), widget (QLabel, label_acOnline)
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:183
+#: awesome-widget-kf5/package/contents/ui/advanced.qml:198
 #: translations/awesome-widget/rc.cpp:80 rc.cpp:80
 msgid "AC online tag"
 msgstr ""
 
 #. i18n: file: awesome-widget-kde4/advanced.ui:422
 #. i18n: ectx: property (text), widget (QLabel, label_acOffline)
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:200
+#: awesome-widget-kf5/package/contents/ui/advanced.qml:215
 #: translations/awesome-widget/rc.cpp:86 rc.cpp:86
 msgid "AC offline tag"
 msgstr ""
 
 #. i18n: file: awesome-widget-kde4/advanced.ui:448
 #. i18n: ectx: property (text), widget (QLabel, label_bars)
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:217
+#: awesome-widget-kf5/package/contents/ui/advanced.qml:232
 #: translations/awesome-widget/rc.cpp:92 rc.cpp:92
 msgid "Bars"
 msgstr ""
 
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:221
+#: awesome-widget-kf5/package/contents/ui/advanced.qml:236
 msgid "Edit bars"
 msgstr ""
 
@@ -468,14 +506,22 @@ msgstr ""
 msgid "Music player"
 msgstr ""
 
+#: awesome-widget-kf5/package/contents/ui/dataengine.qml:248
+msgid "Quotes monitor"
+msgstr ""
+
+#: awesome-widget-kf5/package/contents/ui/dataengine.qml:252
+msgid "Edit tickers"
+msgstr ""
+
 #. i18n: file: awesome-widget-kde4/deconfig.ui:397
 #. i18n: ectx: property (text), widget (QLabel, label_pkgCommand)
-#: awesome-widget-kf5/package/contents/ui/dataengine.qml:248
+#: awesome-widget-kf5/package/contents/ui/dataengine.qml:265
 #: translations/awesome-widget/rc.cpp:155 rc.cpp:155
 msgid "Package manager"
 msgstr ""
 
-#: awesome-widget-kf5/package/contents/ui/dataengine.qml:252
+#: awesome-widget-kf5/package/contents/ui/dataengine.qml:269
 msgid "Edit command"
 msgstr ""
 
@@ -605,7 +651,7 @@ msgid "Show value"
 msgstr ""
 
 #: awesome-widget-kf5/package/contents/ui/widget.qml:241
-#: awesome-widget-kf5/plugin/awkeys.cpp:726
+#: awesome-widget-kf5/plugin/awkeys.cpp:745
 msgid "Value: %1"
 msgstr ""
 
@@ -621,44 +667,53 @@ msgstr ""
 msgid "openSUSE packages"
 msgstr ""
 
-#: awesome-widget-kf5/plugin/awkeys.cpp:57
+#: awesome-widget-kf5/plugin/awkeys.cpp:58
 msgid "Create"
 msgstr ""
 
-#: awesome-widget-kf5/plugin/awkeys.cpp:443
+#: awesome-widget-kf5/plugin/awkeys.cpp:453
 msgid "AC online"
 msgstr ""
 
-#: awesome-widget-kf5/plugin/awkeys.cpp:445
+#: awesome-widget-kf5/plugin/awkeys.cpp:455
 msgid "AC offline"
 msgstr ""
 
-#: awesome-widget-kf5/plugin/awkeys.cpp:462
+#: awesome-widget-kf5/plugin/awkeys.cpp:472
 msgid "High CPU load"
 msgstr ""
 
 #: awesome-widget-kf5/plugin/awkeys.cpp:521
+msgid "High GPU load"
+msgstr ""
+
+#: awesome-widget-kf5/plugin/awkeys.cpp:535
 msgid "Free space on %1 less than 10%"
 msgstr ""
 
-#: awesome-widget-kf5/plugin/awkeys.cpp:587
+#: awesome-widget-kf5/plugin/awkeys.cpp:601
 msgid "High memory usage"
 msgstr ""
 
-#: awesome-widget-kf5/plugin/awkeys.cpp:595
+#: awesome-widget-kf5/plugin/awkeys.cpp:609
 msgid "Network device has been changed to %1"
 msgstr ""
 
-#: awesome-widget-kf5/plugin/awkeys.cpp:660
+#: awesome-widget-kf5/plugin/awkeys.cpp:679
 msgid "Swap is used"
 msgstr ""
 
-#: awesome-widget-kf5/plugin/awkeys.cpp:720
+#: awesome-widget-kf5/plugin/awkeys.cpp:739
 msgid "Select tag"
 msgstr ""
 
-#: awesome-widget-kf5/plugin/awkeys.cpp:721
+#: awesome-widget-kf5/plugin/awkeys.cpp:740
 msgid "Tag"
+msgstr ""
+
+#: awesome-widget-kf5/plugin/awkeys.cpp:815
+#: awesome-widget-kf5/plugin/awkeys.cpp:1090
+msgid "Ticker: %1"
 msgstr ""
 
 #. i18n: file: awesome-widget-kde4/advanced.ui:74
@@ -798,12 +853,28 @@ msgstr ""
 #. i18n: ectx: property (windowTitle), widget (QDialog, GraphicalItem)
 #. i18n: file: awesome-widget-kf5/plugin/graphicalitem.ui:14
 #. i18n: ectx: property (windowTitle), widget (QDialog, GraphicalItem)
+#. i18n: file: extsysmon/extquotes.ui:14
+#. i18n: ectx: property (windowTitle), widget (QDialog, ExtQuotes)
+#. i18n: file: extsysmon/extscript.ui:14
+#. i18n: ectx: property (windowTitle), widget (QDialog, ExtScript)
+#. i18n: file: extsysmon/extupgrade.ui:14
+#. i18n: ectx: property (windowTitle), widget (QDialog, ExtUpgrade)
 #. i18n: file: awesome-widget-kde4/graphicalitem.ui:14
 #. i18n: ectx: property (windowTitle), widget (QDialog, GraphicalItem)
 #. i18n: file: awesome-widget-kf5/plugin/graphicalitem.ui:14
 #. i18n: ectx: property (windowTitle), widget (QDialog, GraphicalItem)
+#. i18n: file: extsysmon/extquotes.ui:14
+#. i18n: ectx: property (windowTitle), widget (QDialog, ExtQuotes)
+#. i18n: file: extsysmon/extscript.ui:14
+#. i18n: ectx: property (windowTitle), widget (QDialog, ExtScript)
+#. i18n: file: extsysmon/extupgrade.ui:14
+#. i18n: ectx: property (windowTitle), widget (QDialog, ExtUpgrade)
 #: translations/awesome-widget/rc.cpp:161
-#: translations/awesome-widget/rc.cpp:242 rc.cpp:161 rc.cpp:242
+#: translations/awesome-widget/rc.cpp:242
+#: translations/awesome-widget/rc.cpp:272
+#: translations/awesome-widget/rc.cpp:293
+#: translations/awesome-widget/rc.cpp:320 rc.cpp:161 rc.cpp:242 rc.cpp:272
+#: rc.cpp:293 rc.cpp:320
 msgid "Configuration"
 msgstr ""
 
@@ -811,12 +882,28 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: file: awesome-widget-kf5/plugin/graphicalitem.ui:22
 #. i18n: ectx: property (text), widget (QLabel, label_name)
+#. i18n: file: extsysmon/extquotes.ui:28
+#. i18n: ectx: property (text), widget (QLabel, label_name)
+#. i18n: file: extsysmon/extscript.ui:28
+#. i18n: ectx: property (text), widget (QLabel, label_name)
+#. i18n: file: extsysmon/extupgrade.ui:28
+#. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: file: awesome-widget-kde4/graphicalitem.ui:22
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: file: awesome-widget-kf5/plugin/graphicalitem.ui:22
 #. i18n: ectx: property (text), widget (QLabel, label_name)
+#. i18n: file: extsysmon/extquotes.ui:28
+#. i18n: ectx: property (text), widget (QLabel, label_name)
+#. i18n: file: extsysmon/extscript.ui:28
+#. i18n: ectx: property (text), widget (QLabel, label_name)
+#. i18n: file: extsysmon/extupgrade.ui:28
+#. i18n: ectx: property (text), widget (QLabel, label_name)
 #: translations/awesome-widget/rc.cpp:164
-#: translations/awesome-widget/rc.cpp:245 rc.cpp:164 rc.cpp:245
+#: translations/awesome-widget/rc.cpp:245
+#: translations/awesome-widget/rc.cpp:275
+#: translations/awesome-widget/rc.cpp:296
+#: translations/awesome-widget/rc.cpp:323 rc.cpp:164 rc.cpp:245 rc.cpp:275
+#: rc.cpp:296 rc.cpp:323
 msgid "Name"
 msgstr ""
 
@@ -824,12 +911,28 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_comment)
 #. i18n: file: awesome-widget-kf5/plugin/graphicalitem.ui:49
 #. i18n: ectx: property (text), widget (QLabel, label_comment)
+#. i18n: file: extsysmon/extquotes.ui:51
+#. i18n: ectx: property (text), widget (QLabel, label_comment)
+#. i18n: file: extsysmon/extscript.ui:51
+#. i18n: ectx: property (text), widget (QLabel, label_comment)
+#. i18n: file: extsysmon/extupgrade.ui:51
+#. i18n: ectx: property (text), widget (QLabel, label_comment)
 #. i18n: file: awesome-widget-kde4/graphicalitem.ui:49
 #. i18n: ectx: property (text), widget (QLabel, label_comment)
 #. i18n: file: awesome-widget-kf5/plugin/graphicalitem.ui:49
 #. i18n: ectx: property (text), widget (QLabel, label_comment)
+#. i18n: file: extsysmon/extquotes.ui:51
+#. i18n: ectx: property (text), widget (QLabel, label_comment)
+#. i18n: file: extsysmon/extscript.ui:51
+#. i18n: ectx: property (text), widget (QLabel, label_comment)
+#. i18n: file: extsysmon/extupgrade.ui:51
+#. i18n: ectx: property (text), widget (QLabel, label_comment)
 #: translations/awesome-widget/rc.cpp:167
-#: translations/awesome-widget/rc.cpp:248 rc.cpp:167 rc.cpp:248
+#: translations/awesome-widget/rc.cpp:248
+#: translations/awesome-widget/rc.cpp:278
+#: translations/awesome-widget/rc.cpp:299
+#: translations/awesome-widget/rc.cpp:326 rc.cpp:167 rc.cpp:248 rc.cpp:278
+#: rc.cpp:299 rc.cpp:326
 msgid "Comment"
 msgstr ""
 
@@ -942,12 +1045,101 @@ msgstr ""
 msgid "Ctrl+U"
 msgstr ""
 
-#: translations/awesome-widget/rc.cpp:270 rc.cpp:270
+#. i18n: file: extsysmon/extquotes.ui:66
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: translations/awesome-widget/rc.cpp:281 rc.cpp:281
+msgid ""
+"<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
+"instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
+"text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</"
+"span></a></p></body></html>"
+msgstr ""
+
+#. i18n: file: extsysmon/extquotes.ui:87
+#. i18n: ectx: property (text), widget (QLabel, label_ticker)
+#: translations/awesome-widget/rc.cpp:284 rc.cpp:284
+msgid "Ticker"
+msgstr ""
+
+#. i18n: file: extsysmon/extquotes.ui:123
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_active)
+#. i18n: file: extsysmon/extscript.ui:133
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_active)
+#. i18n: file: extsysmon/extupgrade.ui:110
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_active)
+#. i18n: file: extsysmon/extquotes.ui:123
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_active)
+#. i18n: file: extsysmon/extscript.ui:133
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_active)
+#. i18n: file: extsysmon/extupgrade.ui:110
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_active)
+#: translations/awesome-widget/rc.cpp:287
+#: translations/awesome-widget/rc.cpp:308
+#: translations/awesome-widget/rc.cpp:332 rc.cpp:287 rc.cpp:308 rc.cpp:332
+msgid "Active"
+msgstr ""
+
+#. i18n: file: extsysmon/extquotes.ui:134
+#. i18n: ectx: property (text), widget (QLabel, label_interval)
+#. i18n: file: extsysmon/extscript.ui:207
+#. i18n: ectx: property (text), widget (QLabel, label_interval)
+#. i18n: file: extsysmon/extupgrade.ui:145
+#. i18n: ectx: property (text), widget (QLabel, label_interval)
+#. i18n: file: extsysmon/extquotes.ui:134
+#. i18n: ectx: property (text), widget (QLabel, label_interval)
+#. i18n: file: extsysmon/extscript.ui:207
+#. i18n: ectx: property (text), widget (QLabel, label_interval)
+#. i18n: file: extsysmon/extupgrade.ui:145
+#. i18n: ectx: property (text), widget (QLabel, label_interval)
+#: translations/awesome-widget/rc.cpp:290
+#: translations/awesome-widget/rc.cpp:317
+#: translations/awesome-widget/rc.cpp:338 rc.cpp:290 rc.cpp:317 rc.cpp:338
+msgid "Interval"
+msgstr ""
+
+#. i18n: file: extsysmon/extscript.ui:74
+#. i18n: ectx: property (text), widget (QLabel, label_command)
+#. i18n: file: extsysmon/extupgrade.ui:74
+#. i18n: ectx: property (text), widget (QLabel, label_command)
+#. i18n: file: extsysmon/extscript.ui:74
+#. i18n: ectx: property (text), widget (QLabel, label_command)
+#. i18n: file: extsysmon/extupgrade.ui:74
+#. i18n: ectx: property (text), widget (QLabel, label_command)
+#: translations/awesome-widget/rc.cpp:302
+#: translations/awesome-widget/rc.cpp:329 rc.cpp:302 rc.cpp:329
+msgid "Command"
+msgstr ""
+
+#. i18n: file: extsysmon/extscript.ui:97
+#. i18n: ectx: property (text), widget (QLabel, label_prefix)
+#: translations/awesome-widget/rc.cpp:305 rc.cpp:305
+msgid "Prefix"
+msgstr ""
+
+#. i18n: file: extsysmon/extscript.ui:163
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_output)
+#: translations/awesome-widget/rc.cpp:311 rc.cpp:311
+msgid "Has output"
+msgstr ""
+
+#. i18n: file: extsysmon/extscript.ui:174
+#. i18n: ectx: property (text), widget (QLabel, label_redirect)
+#: translations/awesome-widget/rc.cpp:314 rc.cpp:314
+msgid "Redirect"
+msgstr ""
+
+#. i18n: file: extsysmon/extupgrade.ui:121
+#. i18n: ectx: property (text), widget (QLabel, label_null)
+#: translations/awesome-widget/rc.cpp:335 rc.cpp:335
+msgid "Null"
+msgstr ""
+
+#: translations/awesome-widget/rc.cpp:339 rc.cpp:339
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
 
-#: translations/awesome-widget/rc.cpp:271 rc.cpp:271
+#: translations/awesome-widget/rc.cpp:340 rc.cpp:340
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""

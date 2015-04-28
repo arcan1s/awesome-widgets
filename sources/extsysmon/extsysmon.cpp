@@ -37,6 +37,7 @@
 #include <pdebug/pdebug.h>
 #include <task/taskadds.h>
 
+#include "extquotes.h"
 #include "extscript.h"
 #include "extupgrade.h"
 #include "version.h"
@@ -62,6 +63,7 @@ ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList &args)
 
     setMinimumPollingInterval(333);
     readConfiguration();
+    initQuotes();
     initScripts();
     initUpgrade();
 }
@@ -117,6 +119,45 @@ QString ExtendedSysMon::getAutoMpris()
     }
 
     return QString();
+}
+
+
+void ExtendedSysMon::initQuotes()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    // create directory at $HOME and create dirs list
+    QString localDir;
+    QStringList dirs;
+#ifdef BUILD_KDE4
+    localDir = KStandardDirs::locateLocal("data", "awesomewidgets/quotes");
+    if (KStandardDirs::makeDir(localDir))
+        if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
+
+    dirs = KGlobal::dirs()->findDirs("data", "awesomewidgets/quotes");
+#else
+    localDir = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) +
+            QString("/awesomewidgets/quotes");
+    QDir localDirectory;
+    if ((!localDirectory.exists(localDir)) && (localDirectory.mkpath(localDir)))
+        if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
+
+    dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
+                                     QString("awesomewidgets/quotes"),
+                                     QStandardPaths::LocateDirectory);
+#endif /* BUILD_KDE4 */
+
+    QStringList names;
+    for (int i=0; i<dirs.count(); i++) {
+        QStringList files = QDir(dirs[i]).entryList(QDir::Files, QDir::Name);
+        for (int j=0; j<files.count(); j++) {
+            if (!files[j].endsWith(QString(".desktop"))) continue;
+            if (names.contains(files[j])) continue;
+            if (debug) qDebug() << PDEBUG << ":" << "Found file" << files[j] << "in" << dirs[i];
+            names.append(files[j]);
+            externalQuotes.append(new ExtQuotes(0, files[j], dirs, debug));
+        }
+    }
 }
 
 
@@ -213,6 +254,7 @@ QStringList ExtendedSysMon::sources() const
     source.append(QString("pkg"));
     source.append(QString("player"));
     source.append(QString("ps"));
+    source.append(QString("quotes"));
     source.append(QString("update"));
 
     if (debug) qDebug() << PDEBUG << ":" << "Sources" << source;
@@ -665,7 +707,7 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
         }
     } else if (source == QString("custom")) {
         for (int i=0; i<externalScripts.count(); i++)
-            setData(source, QString("custom") + QString::number(i), externalScripts[i]->run());
+            setData(source, QString("custom%1").arg(i), externalScripts[i]->run());
     } else if (source == QString("desktop")) {
         QMap<QString, QVariant> desktop = getCurrentDesktop();
         for (int i=0; i<desktop.keys().count(); i++)
@@ -686,7 +728,7 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
         setData(source, QString("value"), getNetworkDevice());
     } else if (source == QString("pkg")) {
         for (int i=0; i<externalUpgrade.count(); i++)
-            setData(source, QString("pkgcount") + QString::number(i), externalUpgrade[i]->run());
+            setData(source, QString("pkgcount%1").arg(i), externalUpgrade[i]->run());
     } else if (source == QString("player")) {
         QMap<QString, QVariant> player = getPlayerInfo(configuration[QString("PLAYER")],
                 configuration[QString("MPDADDRESS")],
@@ -698,6 +740,13 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
         QMap<QString, QVariant> ps = getPsStats();
         for (int i=0; i<ps.keys().count(); i++)
             setData(source, ps.keys()[i], ps[ps.keys()[i]]);
+    } else if (source == QString("quotes")) {
+        for (int i=0; i<externalQuotes.count(); i++) {
+            QMap<QString, float> data = externalQuotes[i]->run();
+            setData(source, QString("ask%1").arg(i), data[QString("ask")]);
+            setData(source, QString("bid%1").arg(i), data[QString("bid")]);
+            setData(source, QString("price%1").arg(i), data[QString("price")]);
+        }
     } else if (source == QString("update")) {
         setData(source, QString("value"), true);
     }

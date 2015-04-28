@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=AAPL.NASDAQ
+Comment=Apple Inc
+X-AW-Ticker=AAPL
+X-AW-Active=true
+X-AW-ApiVersion=1
+X-AW-Interval=60

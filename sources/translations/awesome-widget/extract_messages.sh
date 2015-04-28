@@ -1,7 +1,7 @@
 #!/bin/sh
 # root of translatable sources
 BASEDIR="../../"
-PATHS="awesome-widget"
+PATHS="awesome-widget\|extsysmon"
 PROJECT="plasma_applet_awesome-widget" # project name
 BUGADDR="https://github.com/arcan1s/awesome-widgets/issues" # MSGID-Bugs
 # working dir

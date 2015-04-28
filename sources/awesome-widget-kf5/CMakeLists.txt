@@ -8,7 +8,7 @@ configure_file (metadata.desktop ${CMAKE_CURRENT_SOURCE_DIR}/package/metadata.de
 find_package (ECM 0.0.12 REQUIRED NO_MODULE)
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
 
-find_package (Qt5 REQUIRED COMPONENTS Core Network Qml)
+find_package (Qt5 REQUIRED COMPONENTS Core Network Qml Xml)
 find_package (KF5 REQUIRED COMPONENTS I18n Notifications Plasma)
 
 include (KDEInstallDirs)

@@ -35,6 +35,7 @@
 
 #include "awactions.h"
 #include "awtooltip.h"
+#include "extquotes.h"
 #include "extscript.h"
 #include "extupgrade.h"
 #include "graphicalitem.h"
@@ -99,6 +100,7 @@ void AWKeys::initKeys(const QString pattern,
     if (toolTip != nullptr) delete toolTip;
 
     // init
+    extQuotes = getExtQuotes();
     extScripts = getExtScripts();
     extUpgrade = getExtUpgrade();
     graphicalItems = getGraphicalItems();
@@ -236,17 +238,17 @@ QStringList AWKeys::dictKeys()
     allKeys.append(QString("cuptime"));
     // cpuclock
     for (int i=numberCpus()-1; i>=0; i--)
-        allKeys.append(QString("cpucl") + QString::number(i));
+        allKeys.append(QString("cpucl%1").arg(i));
     allKeys.append(QString("cpucl"));
     // cpu
     for (int i=numberCpus()-1; i>=0; i--)
-        allKeys.append(QString("cpu") + QString::number(i));
+        allKeys.append(QString("cpu%1").arg(i));
     allKeys.append(QString("cpu"));
     // temperature
     for (int i=tempDevices.count()-1; i>=0; i--)
-        allKeys.append(QString("temp") + QString::number(i));
+        allKeys.append(QString("temp%1").arg(i));
     for (int i=fanDevices.count()-1; i>=0; i--)
-        allKeys.append(QString("fan") + QString::number(i));
+        allKeys.append(QString("fan%1").arg(i));
     // gputemp
     allKeys.append(QString("gputemp"));
     // gpu
@@ -271,28 +273,28 @@ QStringList AWKeys::dictKeys()
     allKeys.append(QString("swap"));
     // hdd
     for (int i=mountDevices.count()-1; i>=0; i--) {
-        allKeys.append(QString("hddmb") + QString::number(i));
-        allKeys.append(QString("hddgb") + QString::number(i));
-        allKeys.append(QString("hddfreemb") + QString::number(i));
-        allKeys.append(QString("hddfreegb") + QString::number(i));
-        allKeys.append(QString("hddtotmb") + QString::number(i));
-        allKeys.append(QString("hddtotgb") + QString::number(i));
-        allKeys.append(QString("hdd") + QString::number(i));
+        allKeys.append(QString("hddmb%1").arg(i));
+        allKeys.append(QString("hddgb%1").arg(i));
+        allKeys.append(QString("hddfreemb%1").arg(i));
+        allKeys.append(QString("hddfreegb%1").arg(i));
+        allKeys.append(QString("hddtotmb%1").arg(i));
+        allKeys.append(QString("hddtotgb%1").arg(i));
+        allKeys.append(QString("hdd%1").arg(i));
     }
     // hdd speed
     for (int i=diskDevices.count()-1; i>=0; i--) {
-        allKeys.append(QString("hddr") + QString::number(i));
-        allKeys.append(QString("hddw") + QString::number(i));
+        allKeys.append(QString("hddr%1").arg(i));
+        allKeys.append(QString("hddw%1").arg(i));
     }
     // hdd temp
     for (int i=getHddDevices().count()-1; i>=0; i--) {
-        allKeys.append(QString("hddtemp") + QString::number(i));
-        allKeys.append(QString("hddtemp") + QString::number(i));
+        allKeys.append(QString("hddtemp%1").arg(i));
+        allKeys.append(QString("hddtemp%1").arg(i));
     }
     // network
     for (int i=getNetworkDevices().count()-1; i>=0; i--) {
-        allKeys.append(QString("down") + QString::number(i));
-        allKeys.append(QString("up") + QString::number(i));
+        allKeys.append(QString("down%1").arg(i));
+        allKeys.append(QString("up%1").arg(i));
     }
     allKeys.append(QString("down"));
     allKeys.append(QString("up"));
@@ -303,7 +305,7 @@ QStringList AWKeys::dictKeys()
                                         .entryList(QDir::Dirs | QDir::NoDotAndDotDot,
                                                    QDir::Name);
     for (int i=allBatteryDevices.filter(QRegExp(QString("BAT.*"))).count()-1; i>=0; i--)
-        allKeys.append(QString("bat") + QString::number(i));
+        allKeys.append(QString("bat%1").arg(i));
     allKeys.append(QString("bat"));
     // player
     allKeys.append(QString("album"));
@@ -317,10 +319,16 @@ QStringList AWKeys::dictKeys()
     allKeys.append(QString("ps"));
     // package manager
     for (int i=extUpgrade.count()-1; i>=0; i--)
-        allKeys.append(QString("pkgcount") + QString::number(i));
+        allKeys.append(QString("pkgcount%1").arg(i));
+    // quotes
+    for (int i=extQuotes.count()-1; i>=0; i--) {
+        allKeys.append(QString("ask%1").arg(i));
+        allKeys.append(QString("bid%1").arg(i));
+        allKeys.append(QString("price%1").arg(i));
+    }
     // custom
     for (int i=extScripts.count()-1; i>=0; i--)
-        allKeys.append(QString("custom") + QString::number(i));
+        allKeys.append(QString("custom%1").arg(i));
     // desktop
     allKeys.append(QString("desktop"));
     allKeys.append(QString("ndesktop"));
@@ -494,7 +502,7 @@ bool AWKeys::setDataBySource(const QString sourceName,
         device.remove(QString("/Rate/rblk"));
         for (int i=0; i<diskDevices.count(); i++)
             if (diskDevices[i] == device) {
-                values[QString("hddr") + QString::number(i)] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 0);
+                values[QString("hddr%1").arg(i)] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 0);
                 break;
             }
     } else if (sourceName.contains(hddwRegExp)) {
@@ -503,7 +511,7 @@ bool AWKeys::setDataBySource(const QString sourceName,
         device.remove(QString("/Rate/wblk"));
         for (int i=0; i<diskDevices.count(); i++)
             if (diskDevices[i] == device) {
-                values[QString("hddw") + QString::number(i)] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 0);
+                values[QString("hddw%1").arg(i)] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 0);
                 break;
             }
     } else if (sourceName == QString("gpu")) {
@@ -523,9 +531,9 @@ bool AWKeys::setDataBySource(const QString sourceName,
         mount.remove(QString("partitions")).remove(QString("/filllevel"));
         for (int i=0; i<mountDevices.count(); i++)
             if (mountDevices[i] == mount) {
-                if ((data[QString("value")].toFloat() >= 90.0) && (values[QString("hdd") + QString::number(i)].toFloat() < 90.0))
+                if ((data[QString("value")].toFloat() >= 90.0) && (values[QString("hdd%1").arg(i)].toFloat() < 90.0))
                     AWActions::sendNotification(QString("event"), i18n("Free space on %1 less than 10%", mount), enablePopup);
-                values[QString("hdd") + QString::number(i)] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
+                values[QString("hdd%1").arg(i)] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
                 break;
             }
     } else if (sourceName.contains(mountFreeRegExp)) {
@@ -534,9 +542,9 @@ bool AWKeys::setDataBySource(const QString sourceName,
         mount.remove(QString("partitions")).remove(QString("/freespace"));
         for (int i=0; i<mountDevices.count(); i++)
             if (mountDevices[i] == mount) {
-                values[QString("hddfreemb") + QString::number(i)] = QString("%1").arg(
+                values[QString("hddfreemb%1").arg(i)] = QString("%1").arg(
                     data[QString("value")].toFloat() / 1024.0, 5, 'f', 0);
-                values[QString("hddfreegb") + QString::number(i)] = QString("%1").arg(
+                values[QString("hddfreegb%1").arg(i)] = QString("%1").arg(
                     data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
                 break;
             }
@@ -546,17 +554,17 @@ bool AWKeys::setDataBySource(const QString sourceName,
         mount.remove(QString("partitions")).remove(QString("/usedspace"));
         for (int i=0; i<mountDevices.count(); i++)
             if (mountDevices[i] == mount) {
-                values[QString("hddmb") + QString::number(i)] = QString("%1").arg(
+                values[QString("hddmb%1").arg(i)] = QString("%1").arg(
                     data[QString("value")].toFloat() / 1024.0, 5, 'f', 0);
-                values[QString("hddgb") + QString::number(i)] = QString("%1").arg(
+                values[QString("hddgb%1").arg(i)] = QString("%1").arg(
                     data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
                 // total
-                values[QString("hddtotmb") + QString::number(i)] = QString("%1").arg(
-                    values[QString("hddfreemb") + QString::number(i)].toInt() +
-                    values[QString("hddmb") + QString::number(i)].toInt());
-                values[QString("hddtotgb") + QString::number(i)] = QString("%1").arg(
-                    values[QString("hddfreegb") + QString::number(i)].toFloat() +
-                    values[QString("hddgb") + QString::number(i)].toFloat(), 5, 'f', 1);
+                values[QString("hddtotmb%1").arg(i)] = QString("%1").arg(
+                    values[QString("hddfreemb%1").arg(i)].toInt() +
+                    values[QString("hddmb%1").arg(i)].toInt());
+                values[QString("hddtotgb%1").arg(i)] = QString("%1").arg(
+                    values[QString("hddfreegb%1").arg(i)].toFloat() +
+                    values[QString("hddgb%1").arg(i)].toFloat(), 5, 'f', 1);
                 break;
             }
     } else if (sourceName == QString("hddtemp")) {
@@ -610,7 +618,7 @@ bool AWKeys::setDataBySource(const QString sourceName,
         QStringList allNetworkDevices = getNetworkDevices();
         for (int i=0; i<allNetworkDevices.count(); i++)
             if (allNetworkDevices[i] == device) {
-                values[QString("down") + QString::number(i)] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
+                values[QString("down%1").arg(i)] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
                 break;
         }
         if (device == networkDevice()) {
@@ -624,7 +632,7 @@ bool AWKeys::setDataBySource(const QString sourceName,
         QStringList allNetworkDevices = getNetworkDevices();
         for (int i=0; i<allNetworkDevices.count(); i++)
             if (allNetworkDevices[i] == device) {
-                values[QString("up") + QString::number(i)] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
+                values[QString("up%1").arg(i)] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
                 break;
         }
         if (device == networkDevice()) {
@@ -647,6 +655,10 @@ bool AWKeys::setDataBySource(const QString sourceName,
         values[QString("ps")] = data[QString("ps")].toString();
         values[QString("pscount")] = QString("%1").arg(data[QString("pscount")].toInt(), 2);
         values[QString("pstotal")] = QString("%1").arg(data[QString("pstotal")].toInt(), 3);
+    } else if (sourceName == QString("quotes")) {
+        // quotes
+        for (int i=0; i<data.keys().count(); i++)
+            values[data.keys()[i]] = QString("%1").arg(data[data.keys()[i]].toFloat(), 7, 'f');
     } else if (sourceName == QString("mem/swap/free")) {
         // free swap
         values[QString("swapfreemb")] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 5, 'f', 0);
@@ -673,13 +685,13 @@ bool AWKeys::setDataBySource(const QString sourceName,
         if (data[QString("units")].toString() == QString("rpm")) {
             for (int i=0; i<fanDevices.count(); i++)
                 if (sourceName == fanDevices[i]) {
-                    values[QString("fan") + QString::number(i)] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 1);
+                    values[QString("fan%1").arg(i)] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 1);
                     break;
                 }
         } else {
             for (int i=0; i<tempDevices.count(); i++)
                 if (sourceName == tempDevices[i]) {
-                    values[QString("temp") + QString::number(i)] = QString("%1").arg(
+                    values[QString("temp%1").arg(i)] = QString("%1").arg(
                         temperature(data[QString("value")].toFloat(), params[QString("tempUnits")].toString()), 4, 'f', 1);
                     break;
                 }
@@ -756,6 +768,10 @@ QString AWKeys::infoByKey(QString key)
         return QString("%1").arg(getNetworkDevices()[key.remove(QRegExp(QString("^(down|up)"))).toInt()]);
     else if (key.startsWith(QString("pkgcount")))
         return QString("%1").arg(extUpgrade[key.remove(QString("pkgcount")).toInt()]->executable());
+    else if ((key.startsWith(QString("ask"))) ||
+             (key.startsWith(QString("bid"))) ||
+             (key.startsWith(QString("price"))))
+        return QString("%1").arg(extQuotes[key.remove(QRegExp(QString("^(ask|bid|price)"))).toInt()]->ticker());
     else if (key.startsWith(QString("temp")))
         return QString("%1").arg(tempDevices[key.remove(QString("temp")).toInt()]);
 
@@ -786,6 +802,17 @@ void AWKeys::editItem(const QString type)
             QStringList tooltip;
             tooltip.append(i18n("Tag: %1", graphicalItems[i]->name() + graphicalItems[i]->bar()));
             tooltip.append(i18n("Comment: %1", graphicalItems[i]->comment()));
+            item->setToolTip(tooltip.join(QChar('\n')));
+            widgetDialog->addItem(item);
+        }
+    } else if (type == QString("extquotes")) {
+        requestedItem = RequestedExtQuotes;
+        for (int i=0; i<extQuotes.count(); i++) {
+            QListWidgetItem *item = new QListWidgetItem(extQuotes[i]->fileName());
+            QStringList tooltip;
+            tooltip.append(i18n("Name: %1", extQuotes[i]->name()));
+            tooltip.append(i18n("Comment: %1", extQuotes[i]->comment()));
+            tooltip.append(i18n("Ticker: %1", extQuotes[i]->ticker()));
             item->setToolTip(tooltip.join(QChar('\n')));
             widgetDialog->addItem(item);
         }
@@ -828,6 +855,9 @@ void AWKeys::editItemButtonPressed(QAbstractButton *button)
         if (item == nullptr) return;
         QString current = item->text();
         switch (requestedItem) {
+        case RequestedExtQuotes:
+            copyQuotes(current);
+            break;
         case RequestedExtScript:
             copyScript(current);
             break;
@@ -843,6 +873,9 @@ void AWKeys::editItemButtonPressed(QAbstractButton *button)
         }
     } else if (dynamic_cast<QPushButton *>(button) == createButton) {
         switch (requestedItem) {
+        case RequestedExtQuotes:
+            copyQuotes(QString(""));
+            break;
         case RequestedExtScript:
             copyScript(QString(""));
             break;
@@ -860,6 +893,17 @@ void AWKeys::editItemButtonPressed(QAbstractButton *button)
         if (item == nullptr) return;
         QString current = item->text();
         switch (requestedItem) {
+        case RequestedExtQuotes:
+            for (int i=0; i<extQuotes.count(); i++) {
+                if (extQuotes[i]->fileName() != current) continue;
+                if (extQuotes[i]->tryDelete() == 1) {
+                    widgetDialog->takeItem(widgetDialog->row(item));
+                    extQuotes.clear();
+                    extQuotes = getExtQuotes();
+                }
+                break;
+            }
+            break;
         case RequestedExtScript:
             for (int i=0; i<extScripts.count(); i++) {
                 if (extScripts[i]->fileName() != current) continue;
@@ -901,6 +945,13 @@ void AWKeys::editItemButtonPressed(QAbstractButton *button)
         if (item == nullptr) return;
         QString current = item->text();
         switch (requestedItem) {
+        case RequestedExtQuotes:
+            for (int i=0; i<extQuotes.count(); i++) {
+                if (extQuotes[i]->fileName() != current) continue;
+                extQuotes[i]->showConfiguration();
+                break;
+            }
+            break;
         case RequestedExtScript:
             for (int i=0; i<extScripts.count(); i++) {
                 if (extScripts[i]->fileName() != current) continue;
@@ -996,6 +1047,54 @@ void AWKeys::copyBar(const QString original)
     }
     delete item;
 }
+
+
+void AWKeys::copyQuotes(const QString original)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
+                                                 QString("awesomewidgets/quotes"),
+                                                 QStandardPaths::LocateDirectory);
+    bool ok;
+    QString name = QInputDialog::getText(0, i18n("Enter file name"),
+                                         i18n("File name"), QLineEdit::Normal,
+                                         QString(""), &ok);
+    if ((!ok) || (name.isEmpty())) return;
+    if (!name.endsWith(QString(".desktop"))) name += QString(".desktop");
+
+    int originalItem = -1;
+    for (int i=0; i<extQuotes.count(); i++) {
+        if ((extQuotes[i]->fileName() != original) ||
+            (extQuotes[i]->fileName() != name))
+            continue;
+        originalItem = i;
+        break;
+    }
+    ExtQuotes *quotes = new ExtQuotes(0, name, dirs, debug);
+    if (originalItem != -1) {
+        quotes->setActive(extQuotes[originalItem]->isActive());
+        quotes->setComment(extQuotes[originalItem]->comment());
+        quotes->setInterval(extQuotes[originalItem]->interval());
+        quotes->setName(extQuotes[originalItem]->name());
+        quotes->setTicker(extQuotes[originalItem]->ticker());
+    }
+
+    if (quotes->showConfiguration() == 1) {
+        extQuotes.clear();
+        extQuotes = getExtQuotes();
+        QListWidgetItem *widgetItem = new QListWidgetItem(quotes->fileName());
+        QStringList tooltip;
+        tooltip.append(i18n("Name: %1", quotes->name()));
+        tooltip.append(i18n("Comment: %1", quotes->comment()));
+        tooltip.append(i18n("Ticker: %1", quotes->ticker()));
+        widgetItem->setToolTip(tooltip.join(QChar('\n')));
+        widgetDialog->addItem(widgetItem);
+        widgetDialog->sortItems();
+    }
+    delete quotes;
+}
+
 
 
 void AWKeys::copyScript(const QString original)
@@ -1188,6 +1287,37 @@ QStringList AWKeys::findKeys(const QString pattern)
     }
 
     return selectedKeys;
+}
+
+
+QList<ExtQuotes *> AWKeys::getExtQuotes()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QList<ExtQuotes *> externalQuotes;
+    // create directory at $HOME
+    QString localDir = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) +
+            QString("/awesomewidgets/quotes");
+    QDir localDirectory;
+    if ((!localDirectory.exists(localDir)) && (localDirectory.mkpath(localDir)))
+        if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
+
+    QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
+                                                 QString("awesomewidgets/quotes"),
+                                                 QStandardPaths::LocateDirectory);
+    QStringList names;
+    for (int i=0; i<dirs.count(); i++) {
+        QStringList files = QDir(dirs[i]).entryList(QDir::Files, QDir::Name);
+        for (int j=0; j<files.count(); j++) {
+            if (!files[j].endsWith(QString(".desktop"))) continue;
+            if (names.contains(files[j])) continue;
+            if (debug) qDebug() << PDEBUG << ":" << "Found file" << files[j] << "in" << dirs[i];
+            names.append(files[j]);
+            externalQuotes.append(new ExtQuotes(0, files[j], dirs, debug));
+        }
+    }
+
+    return externalQuotes;
 }
 
 

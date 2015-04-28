@@ -9,8 +9,13 @@
 #define EMAIL "@PROJECT_CONTACT@"
 #define LICENSE "@PROJECT_LICENSE@"
 #define TRDPARTY_LICENSE "tasks,BSD,https://github.com/mhogomchungu/tasks"
+// graphical items api version
 #define AWGIAPI 1
+// extquotes api version
+#define AWEQAPI 1
+// extscript api version
 #define AWESAPI 1
+// extupgrade api version
 #define AWEUAPI 1
 
 // links

@@ -22,6 +22,7 @@
 #include <QProcess>
 
 
+class ExtQuotes;
 class ExtScript;
 class ExtUpgrade;
 
@@ -55,6 +56,7 @@ protected:
 private:
     // configuration
     QMap<QString, QString> configuration;
+    QList<ExtQuotes *> externalQuotes;
     QList<ExtScript *> externalScripts;
     QList<ExtUpgrade *> externalUpgrade;
     bool debug;
@@ -63,6 +65,7 @@ private:
     QString getAllHdd();
     QString getAutoGpu();
     QString getAutoMpris();
+    void initQuotes();
     void initScripts();
     void initUpgrade();
     void readConfiguration();

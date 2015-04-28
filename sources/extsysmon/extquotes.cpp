@@ -15,34 +15,41 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#include "extupgrade.h"
-#include "ui_extupgrade.h"
+#include "extquotes.h"
+#include "ui_extquotes.h"
 
 #include <QDebug>
 #include <QDir>
+#include <QDomDocument>
+#include <QDomElement>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 #include <QSettings>
-#include <QTextCodec>
 
 #include <pdebug/pdebug.h>
-#include <task/taskadds.h>
 
 #include "version.h"
 
 
-ExtUpgrade::ExtUpgrade(QWidget *parent, const QString upgradeName, const QStringList directories, const bool debugCmd)
+ExtQuotes::ExtQuotes(QWidget *parent, const QString quotesName, const QStringList directories, const bool debugCmd)
     : QDialog(parent),
-      m_fileName(upgradeName),
+      m_fileName(quotesName),
       m_dirs(directories),
       debug(debugCmd),
-      ui(new Ui::ExtUpgrade)
+      ui(new Ui::ExtQuotes)
 {
     m_name = m_fileName;
     readConfiguration();
     ui->setupUi(this);
+
+    values[QString("ask")] = 0.0;
+    values[QString("bid")] = 0.0;
+    values[QString("price")] = 0.0;
 }
 
 
-ExtUpgrade::~ExtUpgrade()
+ExtQuotes::~ExtQuotes()
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -50,7 +57,7 @@ ExtUpgrade::~ExtUpgrade()
 }
 
 
-int ExtUpgrade::apiVersion()
+int ExtQuotes::apiVersion()
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -58,7 +65,7 @@ int ExtUpgrade::apiVersion()
 }
 
 
-QString ExtUpgrade::comment()
+QString ExtQuotes::comment()
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -66,15 +73,7 @@ QString ExtUpgrade::comment()
 }
 
 
-QString ExtUpgrade::executable()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return m_executable;
-}
-
-
-QString ExtUpgrade::fileName()
+QString ExtQuotes::fileName()
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -82,7 +81,7 @@ QString ExtUpgrade::fileName()
 }
 
 
-int ExtUpgrade::interval()
+int ExtQuotes::interval()
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -90,23 +89,7 @@ int ExtUpgrade::interval()
 }
 
 
-QString ExtUpgrade::name()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return m_name;
-}
-
-
-int ExtUpgrade::null()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return m_null;
-}
-
-
-bool ExtUpgrade::isActive()
+bool ExtQuotes::isActive()
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -114,7 +97,23 @@ bool ExtUpgrade::isActive()
 }
 
 
-void ExtUpgrade::setApiVersion(const int _apiVersion)
+QString ExtQuotes::name()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return m_name;
+}
+
+
+QString ExtQuotes::ticker()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return m_ticker;
+}
+
+
+void ExtQuotes::setApiVersion(const int _apiVersion)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Version" << _apiVersion;
@@ -123,7 +122,7 @@ void ExtUpgrade::setApiVersion(const int _apiVersion)
 }
 
 
-void ExtUpgrade::setActive(const bool state)
+void ExtQuotes::setActive(const bool state)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "State" << state;
@@ -132,7 +131,7 @@ void ExtUpgrade::setActive(const bool state)
 }
 
 
-void ExtUpgrade::setComment(const QString _comment)
+void ExtQuotes::setComment(const QString _comment)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Comment" << _comment;
@@ -141,16 +140,7 @@ void ExtUpgrade::setComment(const QString _comment)
 }
 
 
-void ExtUpgrade::setExecutable(const QString _executable)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Executable" << _executable;
-
-    m_executable = _executable;
-}
-
-
-void ExtUpgrade::setInterval(const int _interval)
+void ExtQuotes::setInterval(const int _interval)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Interval" << _interval;
@@ -159,7 +149,7 @@ void ExtUpgrade::setInterval(const int _interval)
 }
 
 
-void ExtUpgrade::setName(const QString _name)
+void ExtQuotes::setName(const QString _name)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Name" << _name;
@@ -168,17 +158,16 @@ void ExtUpgrade::setName(const QString _name)
 }
 
 
-void ExtUpgrade::setNull(const int _null)
+void ExtQuotes::setTicker(const QString _ticker)
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Null lines" << _null;
-    if (_null < 0) return;
+    if (debug) qDebug() << PDEBUG << ":" << "Ticker" << _ticker;
 
-    m_null = _null;
+    m_ticker = _ticker;
 }
 
 
-void ExtUpgrade::readConfiguration()
+void ExtQuotes::readConfiguration()
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -189,61 +178,57 @@ void ExtUpgrade::readConfiguration()
         settings.beginGroup(QString("Desktop Entry"));
         setName(settings.value(QString("Name"), m_name).toString());
         setComment(settings.value(QString("Comment"), m_comment).toString());
-        setApiVersion(settings.value(QString("X-AW-ApiVersion"), AWEUAPI).toInt());
-        setExecutable(settings.value(QString("Exec"), m_executable).toString());
+        setApiVersion(settings.value(QString("X-AW-ApiVersion"), AWEQAPI).toInt());
+        setTicker(settings.value(QString("X-AW-Ticker"), m_ticker).toString());
         setActive(settings.value(QString("X-AW-Active"), QVariant(m_active)).toString() == QString("true"));
-        setNull(settings.value(QString("X-AW-Null"), m_null).toInt());
         setInterval(settings.value(QString("X-AW-Interval"), m_interval).toInt());
         settings.endGroup();
     }
 }
 
 
-int ExtUpgrade::run()
+QMap<QString, float> ExtQuotes::run()
 {
     if (debug) qDebug() << PDEBUG;
-    if (!m_active) return value;
+    if (!m_active) return values;
 
+    qDebug() << PDEBUG << times;
     if (times == 1) {
-        TaskResult process = runTask(QString("bash -c \"") + m_executable + QString("\""));
-        if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-        if (process.exitCode != 0)
-            if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+        if (debug) qDebug() << PDEBUG << ":" << "Send request";
+        QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+        connect(manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(quotesReplyReceived(QNetworkReply *)));
 
-        QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
-        value = qoutput.split(QChar('\n'), QString::SkipEmptyParts).count() - m_null;
+        manager->get(QNetworkRequest(QUrl(url())));
     }
 
     // update value
     if (times >= m_interval) times = 0;
     times++;
 
-    return value;
+    return values;
 }
 
 
-int ExtUpgrade::showConfiguration()
+int ExtQuotes::showConfiguration()
 {
     if (debug) qDebug() << PDEBUG;
 
     ui->lineEdit_name->setText(m_name);
     ui->lineEdit_comment->setText(m_comment);
-    ui->lineEdit_command->setText(m_executable);
+    ui->lineEdit_ticker->setText(m_ticker);
     if (m_active)
         ui->checkBox_active->setCheckState(Qt::Checked);
     else
         ui->checkBox_active->setCheckState(Qt::Unchecked);
-    ui->spinBox_null->setValue(m_null);
     ui->spinBox_interval->setValue(m_interval);
 
     int ret = exec();
     if (ret != 1) return ret;
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
-    setApiVersion(AWEUAPI);
-    setExecutable(ui->lineEdit_command->text());
+    setApiVersion(AWEQAPI);
+    setTicker(ui->lineEdit_ticker->text());
     setActive(ui->checkBox_active->checkState() == Qt::Checked);
-    setNull(ui->spinBox_null->value());
     setInterval(ui->spinBox_interval->value());
 
     writeConfiguration();
@@ -251,7 +236,7 @@ int ExtUpgrade::showConfiguration()
 }
 
 
-int ExtUpgrade::tryDelete()
+int ExtQuotes::tryDelete()
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -266,7 +251,7 @@ int ExtUpgrade::tryDelete()
 }
 
 
-void ExtUpgrade::writeConfiguration()
+void ExtQuotes::writeConfiguration()
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -277,12 +262,58 @@ void ExtUpgrade::writeConfiguration()
     settings.setValue(QString("Encoding"), QString("UTF-8"));
     settings.setValue(QString("Name"), m_name);
     settings.setValue(QString("Comment"), m_comment);
-    settings.setValue(QString("Exec"), m_executable);
+    settings.setValue(QString("X-AW-Ticker"), m_ticker);
     settings.setValue(QString("X-AW-ApiVersion"), m_apiVersion);
     settings.setValue(QString("X-AW-Active"), QVariant(m_active).toString());
-    settings.setValue(QString("X-AW-Null"), m_null);
     settings.setValue(QString("X-AW-Interval"), m_interval);
     settings.endGroup();
 
     settings.sync();
+}
+
+void ExtQuotes::quotesReplyReceived(QNetworkReply *reply)
+{
+    if (debug) qDebug() << PDEBUG << reply->url();
+
+    QDomDocument doc;
+    if (!doc.setContent(reply)) {
+        if (debug) qDebug() << PDEBUG << ":" << "Could not parse answer to XML";
+        return;
+    }
+    QDomNodeList fields;
+
+    // ask
+    fields = doc.elementsByTagName(QString("Ask"));
+    for (int i=0; i<fields.size(); i++) {
+        values[QString("ask")] = fields.item(i).toElement().text().toFloat();
+        if (debug) qDebug() << PDEBUG << "Found ask" << values[QString("ask")];
+    }
+
+    // bid
+    fields = doc.elementsByTagName(QString("Bid"));
+    for (int i=0; i<fields.size(); i++) {
+        values[QString("bid")] = fields.item(i).toElement().text().toFloat();
+        if (debug) qDebug() << PDEBUG << "Found bid" << values[QString("bid")];
+    }
+
+    // last trade
+    fields = doc.elementsByTagName(QString("LastTradePriceOnly"));
+    for (int i=0; i<fields.size(); i++) {
+        values[QString("price")] = fields.item(i).toElement().text().toFloat();
+        if (debug) qDebug() << PDEBUG << "Found last trade" << values[QString("price")];
+    }
+
+    reply->deleteLater();
+}
+
+
+QString ExtQuotes::url()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QString apiUrl = QString(YAHOO_URL);
+    apiUrl.replace(QString("$TICKER"), m_ticker);
+    if (debug) qDebug() << PDEBUG << ":" << "API url" << apiUrl;
+
+    return apiUrl;
 }
