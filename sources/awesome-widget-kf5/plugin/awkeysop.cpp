@@ -15,7 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#include "awkeys.h"
+#include "awkeysop.h"
 
 #include <KI18n/KLocalizedString>
 
@@ -34,7 +34,6 @@
 #include <pdebug/pdebug.h>
 
 #include "awactions.h"
-#include "awtooltip.h"
 #include "extquotes.h"
 #include "extscript.h"
 #include "extupgrade.h"
@@ -42,7 +41,7 @@
 #include "version.h"
 
 
-AWKeys::AWKeys(QObject *parent)
+AWKeysOperations::AWKeysOperations(QObject *parent)
     : QObject(parent)
 {
     // debug
@@ -70,11 +69,10 @@ AWKeys::AWKeys(QObject *parent)
 }
 
 
-AWKeys::~AWKeys()
+AWKeysOperations::~AWKeysOperations()
 {
     if (debug) qDebug() << PDEBUG;
 
-    delete toolTip;
     delete createButton;
     delete copyButton;
     delete deleteButton;
@@ -88,87 +86,7 @@ AWKeys::~AWKeys()
 }
 
 
-void AWKeys::initKeys(const QString pattern,
-                      const QMap<QString, QVariant> tooltipParams,
-                      const bool popup)
-{
-    if (debug) qDebug() << PDEBUG;
-
-    // clear
-    extQuotes.clear();
-    extScripts.clear();
-    extUpgrade.clear();
-    graphicalItems.clear();
-    keys.clear();
-    foundBars.clear();
-    foundKeys.clear();
-    if (toolTip != nullptr) delete toolTip;
-
-    // init
-    extQuotes = getExtQuotes();
-    extScripts = getExtScripts();
-    extUpgrade = getExtUpgrade();
-    graphicalItems = getGraphicalItems();
-    keys = dictKeys();
-    foundBars = findGraphicalItems(pattern);
-    foundKeys = findKeys(pattern);
-    toolTip = new AWToolTip(this, tooltipParams);
-
-    ready = true;
-    enablePopup = popup;
-}
-
-
-bool AWKeys::isDebugEnabled()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return debug;
-}
-
-
-QString AWKeys::parsePattern(const QString pattern)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (!ready) return pattern;
-
-    QString parsed = pattern;
-    parsed.replace(QString("$$"), QString("$\\$\\"));
-    for (int i=0; i<foundKeys.count(); i++)
-        parsed.replace(QString("$") + foundKeys[i], valueByKey(foundKeys[i]));
-    parsed.replace(QString(" "), QString("&nbsp;"));
-    for (int i=0; i<foundBars.count(); i++)
-        parsed.replace(QString("$") + foundBars[i], getItemByTag(foundBars[i])->image(valueByKey(foundBars[i]).toFloat()));
-    parsed.replace(QString("$\\$\\"), QString("$$"));
-
-    return parsed;
-}
-
-
-QString AWKeys::toolTipImage()
-{
-    if(debug) qDebug() << PDEBUG;
-
-    if (!ready) return QString();
-
-    QPixmap tooltip = toolTip->image();
-    QByteArray byteArray;
-    QBuffer buffer(&byteArray);
-    tooltip.save(&buffer, "PNG");
-
-    return QString("<img src=\"data:image/png;base64,%1\"/>").arg(QString(byteArray.toBase64()));
-}
-
-
-QSize AWKeys::toolTipSize()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return toolTip->getSize();
-}
-
-
-bool AWKeys::addDevice(const QString source)
+AWKeysOperations::AWStruct AWKeysOperations::addDevice(const QString source)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Source" << source;
@@ -178,53 +96,24 @@ bool AWKeys::addDevice(const QString source)
     QRegExp mountRegexp = QRegExp(QString("partitions/.*/filllevel"));
     QRegExp tempRegexp = QRegExp(QString("lmsensors/.*temp.*/.*"));
 
+    AWKeysOperations::AWStruct str;
     if (diskRegexp.indexIn(source) > -1) {
         QString device = source;
         device.remove(QString("/Rate/rblk"));
         diskDevices.append(device);
-    } else if (fanRegexp.indexIn(source) > -1)
+    } else if (fanRegexp.indexIn(source) > -1) {
         fanDevices.append(source);
-    else if (mountRegexp.indexIn(source) > -1) {
+    } else if (mountRegexp.indexIn(source) > -1) {
         QString device = source;
         device.remove(QString("partitions")).remove(QString("/filllevel"));
         mountDevices.append(device);
-    } else if (tempRegexp.indexIn(source) > -1)
+    } else if (tempRegexp.indexIn(source) > -1) {
         tempDevices.append(source);
-
-    // check sources to be connected
-    if ((source.endsWith(QString("/TotalLoad"))) ||
-        (source.endsWith(QString("/clock"))) ||
-        (source.endsWith(QString("/AverageClock"))) ||
-        (source.endsWith(QString("/Rate/rblk"))) ||
-        (source.endsWith(QString("/Rate/wblk"))) ||
-        (source.endsWith(QString("/filllevel"))) ||
-        (source.endsWith(QString("/freespace"))) ||
-        (source.endsWith(QString("/usedspace"))) ||
-        (source.endsWith(QString("/receiver/data"))) ||
-        (source.endsWith(QString("/receiver/data"))) ||
-        (source.endsWith(QString("/transmitter/data"))) ||
-        (source.startsWith(QString("lmsensors/"))) ||
-        (source.startsWith(QString("mem/physical/"))) ||
-        (source.startsWith(QString("mem/swap/"))) ||
-        (source == QString("system/uptime")) ||
-        (source == QString("Local")) ||
-        (source == QString("battery")) ||
-        (source == QString("custom")) ||
-        (source == QString("desktop")) ||
-        (source == QString("netdev")) ||
-        (source == QString("gpu")) ||
-        (source == QString("gputemp")) ||
-        (source == QString("hddtemp")) ||
-        (source == QString("pkg")) ||
-        (source == QString("player")) ||
-        (source == QString("ps")) ||
-        (source == QString("update"))) {
-
-        return true;
     } else {
         if (debug) qDebug() << PDEBUG << ":" << "Source" << source << "not found";
-        return false;
     }
+
+    return str;
 }
 
 
@@ -852,11 +741,10 @@ void AWKeys::editItem(const QString type)
 }
 
 
-void AWKeys::addSource()
+void AWKeys::addSource(const QString source)
 {
     if (debug) qDebug() << PDEBUG;
-
-
+    if (debug) qDebug() << PDEBUG << ":" << "Source" << source;
 }
 
 

@@ -29,13 +29,12 @@
 #include <QVariant>
 
 
-class AWToolTip;
 class ExtQuotes;
 class ExtScript;
 class ExtUpgrade;
 class GraphicalItem;
 
-class AWKeys : public QObject
+class AWKeysOperations : public QObject
 {
     Q_OBJECT
 
@@ -46,20 +45,17 @@ class AWKeys : public QObject
         RequestedExtScript,
         RequestedExtUpgrade
     };
+    typedef struct {
+        QString key = QString();
+        QString value = QString();
+    } AWStruct;
 
 public:
-    AWKeys(QObject *parent = 0);
-    ~AWKeys();
+    AWKeysOperations(QObject *parent = 0);
+    ~AWKeysOperations();
 
-    Q_INVOKABLE void initKeys(const QString pattern,
-                              const QMap<QString, QVariant> tooltipParams,
-                              const bool popup = false);
-    Q_INVOKABLE bool isDebugEnabled();
-    Q_INVOKABLE QString parsePattern(const QString pattern);
-    Q_INVOKABLE QString toolTipImage();
-    Q_INVOKABLE QSize toolTipSize();
     // keys
-    Q_INVOKABLE bool addDevice(const QString source);
+    AWStruct addDevice(const QString source);
     Q_INVOKABLE QStringList dictKeys();
     Q_INVOKABLE QStringList getDiskDevices();
     Q_INVOKABLE QStringList getFanDevices();
@@ -105,7 +101,6 @@ private:
     QList<GraphicalItem *> getGraphicalItems();
     GraphicalItem *getItemByTag(const QString tag);
     QStringList getTimeKeys();
-    AWToolTip *toolTip = nullptr;
     // graphical elements
     QDialog *dialog = nullptr;
     QListWidget *widgetDialog = nullptr;

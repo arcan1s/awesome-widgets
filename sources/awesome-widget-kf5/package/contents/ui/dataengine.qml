@@ -105,7 +105,7 @@ Item {
                 id: gpuDev
                 width: parent.width * 3 / 5
                 model: ["auto", "disable", "ati", "nvidia"]
-                onCurrentIndexChanged: cfg_dataengine["GPUDEV"] = gpuDev.currentText
+                onCurrentIndexChanged: cfg_dataengine["GPUDEV"] = model[currentIndex]
                 Component.onCompleted: {
                     for (var i=0; i<model.length; i++) {
                         if (model[i] == cfg_dataengine["GPUDEV"]) {
@@ -130,7 +130,7 @@ Item {
                 id: hdd
                 width: parent.width * 3 / 5
                 model: AWKeys.getHddDevices(true)
-                onCurrentIndexChanged: cfg_dataengine["HDDDEV"] = hdd.currentText
+                onCurrentIndexChanged: cfg_dataengine["HDDDEV"] = model[currentIndex]
                 Component.onCompleted: {
                     for (var i=0; i<model.length; i++) {
                         if (model[i] == cfg_dataengine["HDDDEV"]) {
