@@ -96,8 +96,8 @@ Item {
     PlasmaCore.DataSource {
         id: extsysmonDE
         engine: "extsysmon"
-        connectedSources: ["battery", "custom", "desktop", "netdev", "gpu",
-                           "gputemp", "hddtemp", "pkg", "player", "ps", "update"]
+        connectedSources: ["battery", "custom", "desktop", "netdev", "gpu", "gputemp",
+                           "hddtemp", "quotes", "pkg", "player", "ps", "update"]
         interval: plasmoid.configuration.interval
 
         onNewData: {
@@ -171,7 +171,7 @@ Item {
     onNeedUpdate: {
         if (debug) console.log("[main::onNeedUpdate]")
 
-        text.text = AWKeys.parsePattern(plasmoid.configuration.text)
+        text.text = AWKeys.parsePattern()
         tooltip.text = AWKeys.toolTipImage()
     }
 

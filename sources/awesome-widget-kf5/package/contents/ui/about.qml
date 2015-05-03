@@ -34,7 +34,7 @@ Item {
 
     Column {
         id: pageColumn
-        width: units.gridUnit * 25
+        anchors.fill: parent
         QtControls.TabView {
             height: parent.height
             width: parent.width

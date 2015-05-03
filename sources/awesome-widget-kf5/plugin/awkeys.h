@@ -51,22 +51,17 @@ public:
     AWKeys(QObject *parent = 0);
     ~AWKeys();
 
-    Q_INVOKABLE void initKeys(const QString pattern,
+    Q_INVOKABLE void initKeys(const QString currentPattern,
                               const QMap<QString, QVariant> tooltipParams,
                               const bool popup = false);
     Q_INVOKABLE bool isDebugEnabled();
-    Q_INVOKABLE QString parsePattern(const QString pattern);
+    Q_INVOKABLE QString parsePattern();
     Q_INVOKABLE QString toolTipImage();
     Q_INVOKABLE QSize toolTipSize();
     // keys
-    Q_INVOKABLE bool addDevice(const QString source);
+    Q_INVOKABLE void addDevice(const QString source);
     Q_INVOKABLE QStringList dictKeys();
-    Q_INVOKABLE QStringList getDiskDevices();
-    Q_INVOKABLE QStringList getFanDevices();
-    Q_INVOKABLE QStringList getHddDevices(const bool needAbstract = false);
-    Q_INVOKABLE QStringList getMountDevices();
-    Q_INVOKABLE QStringList getNetworkDevices();
-    Q_INVOKABLE QStringList getTempDevices();
+    Q_INVOKABLE QStringList getHddDevices();
     Q_INVOKABLE bool setDataBySource(const QString sourceName,
                                      const QMap<QString, QVariant> data,
                                      const QMap<QString, QVariant> params);
@@ -77,11 +72,9 @@ public:
     // configuration
     Q_INVOKABLE void editItem(const QString type);
 
-signals:
-    void sourceAdded(const QString source);
-
 private slots:
-    void addSource(const QString source);
+    void loadKeysFromCache();
+    void reinitKeys();
     // editor
     void editItemButtonPressed(QAbstractButton *button);
     void copyBar(const QString original);
@@ -91,13 +84,14 @@ private slots:
 
 private:
     // methods
+    void addKeyToCache(const QString type, const QString key = QString(""));
     bool checkKeys(const QMap<QString, QVariant> data);
     QString networkDevice();
     int numberCpus();
-    float temperature(const float temp, const QString units = QString("Celsius"));
+    float temperature(const float temp, const QString units);
     // find methods
-    QStringList findGraphicalItems(const QString pattern);
-    QStringList findKeys(const QString pattern);
+    QStringList findGraphicalItems();
+    QStringList findKeys();
     // get methods
     QList<ExtQuotes *> getExtQuotes();
     QList<ExtScript *> getExtScripts();
@@ -117,14 +111,14 @@ private:
     // variables
     bool debug = false;
     bool enablePopup = false;
-    bool ready = false;
     QList<GraphicalItem *> graphicalItems;
     QList<ExtQuotes *> extQuotes;
     QList<ExtScript *> extScripts;
     QList<ExtUpgrade *> extUpgrade;
     QStringList foundBars, foundKeys, keys;
+    QString pattern;
     QMap<QString, QString> values;
-    QStringList diskDevices, fanDevices, mountDevices, tempDevices;
+    QStringList diskDevices, fanDevices, hddDevices, mountDevices, networkDevices, tempDevices;
 };
 
 

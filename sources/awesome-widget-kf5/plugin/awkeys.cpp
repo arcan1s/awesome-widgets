@@ -28,6 +28,7 @@
 #include <QNetworkInterface>
 #include <QProcessEnvironment>
 #include <QRegExp>
+#include <QSettings>
 #include <QStandardPaths>
 #include <QThread>
 
@@ -39,7 +40,6 @@
 #include "extscript.h"
 #include "extupgrade.h"
 #include "graphicalitem.h"
-#include "version.h"
 
 
 AWKeys::AWKeys(QObject *parent)
@@ -49,9 +49,6 @@ AWKeys::AWKeys(QObject *parent)
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
     QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
     debug = (debugEnv == QString("yes"));
-
-    // signals
-    connect(this, SIGNAL(sourceAdded(QString)), this, SLOT(addSource(QString)));
 
     // init dialog
     dialog = new QDialog(nullptr);
@@ -88,7 +85,7 @@ AWKeys::~AWKeys()
 }
 
 
-void AWKeys::initKeys(const QString pattern,
+void AWKeys::initKeys(const QString currentPattern,
                       const QMap<QString, QVariant> tooltipParams,
                       const bool popup)
 {
@@ -105,16 +102,18 @@ void AWKeys::initKeys(const QString pattern,
     if (toolTip != nullptr) delete toolTip;
 
     // init
+    pattern = currentPattern;
     extQuotes = getExtQuotes();
     extScripts = getExtScripts();
     extUpgrade = getExtUpgrade();
     graphicalItems = getGraphicalItems();
-    keys = dictKeys();
-    foundBars = findGraphicalItems(pattern);
-    foundKeys = findKeys(pattern);
+    // update network and hdd list
+    addKeyToCache(QString("Hdd"));
+    addKeyToCache(QString("Network"));
+    loadKeysFromCache();
+    reinitKeys();
     toolTip = new AWToolTip(this, tooltipParams);
 
-    ready = true;
     enablePopup = popup;
 }
 
@@ -127,10 +126,10 @@ bool AWKeys::isDebugEnabled()
 }
 
 
-QString AWKeys::parsePattern(const QString pattern)
+QString AWKeys::parsePattern()
 {
     if (debug) qDebug() << PDEBUG;
-    if (!ready) return pattern;
+    if (keys.isEmpty()) return pattern;
 
     QString parsed = pattern;
     parsed.replace(QString("$$"), QString("$\\$\\"));
@@ -149,7 +148,7 @@ QString AWKeys::toolTipImage()
 {
     if(debug) qDebug() << PDEBUG;
 
-    if (!ready) return QString();
+    if (keys.isEmpty()) return QString();
 
     QPixmap tooltip = toolTip->image();
     QByteArray byteArray;
@@ -168,7 +167,7 @@ QSize AWKeys::toolTipSize()
 }
 
 
-bool AWKeys::addDevice(const QString source)
+void AWKeys::addDevice(const QString source)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Source" << source;
@@ -181,49 +180,15 @@ bool AWKeys::addDevice(const QString source)
     if (diskRegexp.indexIn(source) > -1) {
         QString device = source;
         device.remove(QString("/Rate/rblk"));
-        diskDevices.append(device);
-    } else if (fanRegexp.indexIn(source) > -1)
-        fanDevices.append(source);
-    else if (mountRegexp.indexIn(source) > -1) {
+        addKeyToCache(QString("Disk"), device);
+    } else if (fanRegexp.indexIn(source) > -1) {
+        addKeyToCache(QString("Fan"), source);
+    } else if (mountRegexp.indexIn(source) > -1) {
         QString device = source;
         device.remove(QString("partitions")).remove(QString("/filllevel"));
-        mountDevices.append(device);
-    } else if (tempRegexp.indexIn(source) > -1)
-        tempDevices.append(source);
-
-    // check sources to be connected
-    if ((source.endsWith(QString("/TotalLoad"))) ||
-        (source.endsWith(QString("/clock"))) ||
-        (source.endsWith(QString("/AverageClock"))) ||
-        (source.endsWith(QString("/Rate/rblk"))) ||
-        (source.endsWith(QString("/Rate/wblk"))) ||
-        (source.endsWith(QString("/filllevel"))) ||
-        (source.endsWith(QString("/freespace"))) ||
-        (source.endsWith(QString("/usedspace"))) ||
-        (source.endsWith(QString("/receiver/data"))) ||
-        (source.endsWith(QString("/receiver/data"))) ||
-        (source.endsWith(QString("/transmitter/data"))) ||
-        (source.startsWith(QString("lmsensors/"))) ||
-        (source.startsWith(QString("mem/physical/"))) ||
-        (source.startsWith(QString("mem/swap/"))) ||
-        (source == QString("system/uptime")) ||
-        (source == QString("Local")) ||
-        (source == QString("battery")) ||
-        (source == QString("custom")) ||
-        (source == QString("desktop")) ||
-        (source == QString("netdev")) ||
-        (source == QString("gpu")) ||
-        (source == QString("gputemp")) ||
-        (source == QString("hddtemp")) ||
-        (source == QString("pkg")) ||
-        (source == QString("player")) ||
-        (source == QString("ps")) ||
-        (source == QString("update"))) {
-
-        return true;
-    } else {
-        if (debug) qDebug() << PDEBUG << ":" << "Source" << source << "not found";
-        return false;
+        addKeyToCache(QString("Mount"), device);
+    } else if (tempRegexp.indexIn(source) > -1) {
+        addKeyToCache(QString("Temp"), source);
     }
 }
 
@@ -293,12 +258,12 @@ QStringList AWKeys::dictKeys()
         allKeys.append(QString("hddw%1").arg(i));
     }
     // hdd temp
-    for (int i=getHddDevices().count()-1; i>=0; i--) {
+    for (int i=hddDevices.count()-1; i>=0; i--) {
         allKeys.append(QString("hddtemp%1").arg(i));
         allKeys.append(QString("hddtemp%1").arg(i));
     }
     // network
-    for (int i=getNetworkDevices().count()-1; i>=0; i--) {
+    for (int i=networkDevices.count()-1; i>=0; i--) {
         allKeys.append(QString("down%1").arg(i));
         allKeys.append(QString("up%1").arg(i));
     }
@@ -351,76 +316,16 @@ QStringList AWKeys::dictKeys()
 }
 
 
-QStringList AWKeys::getDiskDevices()
+QStringList AWKeys::getHddDevices()
 {
     if (debug) qDebug() << PDEBUG;
 
-    diskDevices.sort();
-
-    return diskDevices;
-}
-
-
-QStringList AWKeys::getFanDevices()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    fanDevices.sort();
-
-    return fanDevices;
-}
-
-
-QStringList AWKeys::getHddDevices(const bool needAbstract)
-{
-    if (debug) qDebug() << PDEBUG;
-
-    QStringList allDevices = QDir(QString("/dev")).entryList(QDir::System, QDir::Name);
-    QStringList devices = allDevices.filter(QRegExp(QString("^[hms]d[a-z]$")));
-    for (int i=0; i<devices.count(); i++)
-        devices[i] = QString("/dev/") + devices[i];
-    devices.sort();
-
-    if (needAbstract) {
-        devices.insert(0, QString("disable"));
-        devices.insert(0, QString("auto"));
-    }
+    QStringList devices = hddDevices;
+    // required by ui interface
+    devices.insert(0, QString("disable"));
+    devices.insert(0, QString("auto"));
 
     return devices;
-}
-
-
-QStringList AWKeys::getMountDevices()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    mountDevices.sort();
-
-    return mountDevices;
-}
-
-
-QStringList AWKeys::getNetworkDevices()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    QStringList interfaceList;
-    QList<QNetworkInterface> rawInterfaceList = QNetworkInterface::allInterfaces();
-    for (int i=0; i<rawInterfaceList.count(); i++)
-        interfaceList.append(rawInterfaceList[i].name());
-    interfaceList.sort();
-
-    return interfaceList;
-}
-
-
-QStringList AWKeys::getTempDevices()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    tempDevices.sort();
-
-    return tempDevices;
 }
 
 
@@ -435,7 +340,7 @@ bool AWKeys::setDataBySource(const QString sourceName,
 
     // checking
     if (!checkKeys(data)) return false;
-    if (!ready) return false;
+    if (keys.isEmpty()) return false;
 
     // regular expressions
     QRegExp cpuRegExp = QRegExp(QString("cpu/cpu.*/TotalLoad"));
@@ -523,7 +428,7 @@ bool AWKeys::setDataBySource(const QString sourceName,
     } else if (sourceName == QString("gpu")) {
         // gpu load
         // notification
-        if ((data[QString("value")].toFloat() >= 90.0) && (values[QString("gpu")].toFloat() < 90.0))
+        if ((data[QString("value")].toFloat() >= 75.0) && (values[QString("gpu")].toFloat() < 75.0))
             AWActions::sendNotification(QString("event"), i18n("High GPU load"), enablePopup);
         // value
         values[QString("gpu")] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
@@ -575,7 +480,6 @@ bool AWKeys::setDataBySource(const QString sourceName,
             }
     } else if (sourceName == QString("hddtemp")) {
         // hdd temperature
-        QStringList hddDevices = getHddDevices();
         for (int i=0; i<data.keys().count(); i++)
             for (int j=0; j<hddDevices.count(); j++)
                 if (hddDevices[j] == data.keys()[i]) {
@@ -621,7 +525,7 @@ bool AWKeys::setDataBySource(const QString sourceName,
         // download speed
         QString device = sourceName;
         device.remove(QString("network/interfaces/")).remove(QString("/receiver/data"));
-        QStringList allNetworkDevices = getNetworkDevices();
+        QStringList allNetworkDevices = networkDevices;
         for (int i=0; i<allNetworkDevices.count(); i++)
             if (allNetworkDevices[i] == device) {
                 values[QString("down%1").arg(i)] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
@@ -635,7 +539,7 @@ bool AWKeys::setDataBySource(const QString sourceName,
         // upload speed
         QString device = sourceName;
         device.remove(QString("network/interfaces/")).remove(QString("/transmitter/data"));
-        QStringList allNetworkDevices = getNetworkDevices();
+        QStringList allNetworkDevices = networkDevices;
         for (int i=0; i<allNetworkDevices.count(); i++)
             if (allNetworkDevices[i] == device) {
                 values[QString("up%1").arg(i)] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
@@ -769,9 +673,9 @@ QString AWKeys::infoByKey(QString key)
     else if (key.contains(QRegExp(QString("^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)"))))
         return QString("%1").arg(mountDevices[key.remove(QRegExp(QString("^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)"))).toInt()]);
     else if (key.startsWith(QString("hddtemp")))
-        return QString("%1").arg(getHddDevices()[key.remove(QString("hddtemp")).toInt()]);
+        return QString("%1").arg(hddDevices[key.remove(QString("hddtemp")).toInt()]);
     else if (key.contains(QRegExp(QString("^(down|up)[0-9]"))))
-        return QString("%1").arg(getNetworkDevices()[key.remove(QRegExp(QString("^(down|up)"))).toInt()]);
+        return QString("%1").arg(networkDevices[key.remove(QRegExp(QString("^(down|up)"))).toInt()]);
     else if (key.startsWith(QString("pkgcount")))
         return QString("%1").arg(extUpgrade[key.remove(QString("pkgcount")).toInt()]->executable());
     else if ((key.startsWith(QString("ask"))) ||
@@ -852,11 +756,66 @@ void AWKeys::editItem(const QString type)
 }
 
 
-void AWKeys::addSource()
+void AWKeys::loadKeysFromCache()
 {
     if (debug) qDebug() << PDEBUG;
 
+    QString fileName = QString("%1/awesomewidgets.ndx").arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
+    if (debug) qDebug() << PDEBUG << ":" << "Cache file" << fileName;
+    QSettings cache(fileName, QSettings::IniFormat);
+    QStringList cachedKeys;
 
+    cache.beginGroup(QString("Disk"));
+    diskDevices.clear();
+    cachedKeys = cache.allKeys();
+    for (int i=0; i<cachedKeys.count(); i++)
+        diskDevices.append(cache.value(cachedKeys[i]).toString());
+    cache.endGroup();
+
+    cache.beginGroup(QString("Fan"));
+    fanDevices.clear();
+    cachedKeys = cache.allKeys();
+    for (int i=0; i<cachedKeys.count(); i++)
+        fanDevices.append(cache.value(cachedKeys[i]).toString());
+    cache.endGroup();
+
+    cache.beginGroup(QString("Hdd"));
+    hddDevices.clear();
+    cachedKeys = cache.allKeys();
+    for (int i=0; i<cachedKeys.count(); i++)
+        hddDevices.append(cache.value(cachedKeys[i]).toString());
+    cache.endGroup();
+
+    cache.beginGroup(QString("Mount"));
+    mountDevices.clear();
+    cachedKeys = cache.allKeys();
+    for (int i=0; i<cachedKeys.count(); i++)
+        mountDevices.append(cache.value(cachedKeys[i]).toString());
+    cache.endGroup();
+
+    cache.beginGroup(QString("Network"));
+    networkDevices.clear();
+    cachedKeys = cache.allKeys();
+    for (int i=0; i<cachedKeys.count(); i++)
+        networkDevices.append(cache.value(cachedKeys[i]).toString());
+    cache.endGroup();
+
+    cache.beginGroup(QString("Temp"));
+    tempDevices.clear();
+    cachedKeys = cache.allKeys();
+    for (int i=0; i<cachedKeys.count(); i++)
+        tempDevices.append(cache.value(cachedKeys[i]).toString());
+    cache.endGroup();
+}
+
+
+void AWKeys::reinitKeys()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    keys = dictKeys();
+    foundBars = findGraphicalItems();
+    foundKeys = findKeys();
 }
 
 
@@ -1209,6 +1168,51 @@ void AWKeys::copyUpgrade(const QString original)
 }
 
 
+void AWKeys::addKeyToCache(const QString type, const QString key)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Key type" << type;
+    if (debug) qDebug() << PDEBUG << ":" << "Key" << key;
+
+    QString fileName = QString("%1/awesomewidgets.ndx").arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
+    if (debug) qDebug() << PDEBUG << ":" << "Cache file" << fileName;
+    QSettings cache(fileName, QSettings::IniFormat);
+
+    cache.beginGroup(type);
+    QStringList cachedValues;
+    for (int i=0; i<cache.allKeys().count(); i++)
+        cachedValues.append(cache.value(cache.allKeys()[i]).toString());
+
+    if (type == QString("Hdd")) {
+        QStringList allDevices = QDir(QString("/dev")).entryList(QDir::System, QDir::Name);
+        QStringList devices = allDevices.filter(QRegExp(QString("^[hms]d[a-z]$")));
+        for (int i=0; i<devices.count(); i++) {
+            QString device = QString("/dev/%1").arg(devices[i]);
+            if (cachedValues.contains(devices[i])) continue;
+            if (debug) qDebug() << PDEBUG << ":" << "Found new key" << device << "for type" << type;
+            cache.setValue(QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), device);
+        }
+    } else if (type == QString("Network")) {
+        QList<QNetworkInterface> rawInterfaceList = QNetworkInterface::allInterfaces();
+        for (int i=0; i<rawInterfaceList.count(); i++) {
+            QString device = rawInterfaceList[i].name();
+            if (cachedValues.contains(device)) continue;
+            if (debug) qDebug() << PDEBUG << ":" << "Found new key" << device << "for type" << type;
+            cache.setValue(QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), device);
+        }
+    } else {
+        if (cachedValues.contains(key)) return;
+        if (debug) qDebug() << PDEBUG << ":" << "Found new key" << key << "for type" << type;
+        cache.setValue(QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), key);
+    }
+    cache.endGroup();
+
+    cache.sync();
+    loadKeysFromCache();
+    return reinitKeys();
+}
+
+
 bool AWKeys::checkKeys(const QMap<QString, QVariant> data)
 {
     if (debug) qDebug() << PDEBUG;
@@ -1269,7 +1273,7 @@ float AWKeys::temperature(const float temp, const QString units)
 }
 
 
-QStringList AWKeys::findGraphicalItems(const QString pattern)
+QStringList AWKeys::findGraphicalItems()
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -1289,7 +1293,7 @@ QStringList AWKeys::findGraphicalItems(const QString pattern)
 }
 
 
-QStringList AWKeys::findKeys(const QString pattern)
+QStringList AWKeys::findKeys()
 {
     QStringList selectedKeys;
     for (int i=0; i<keys.count(); i++) {

@@ -3,6 +3,6 @@ Encoding=UTF-8
 Name=MSFT.NASDAQ
 Comment=Microsoft Corp
 X-AW-Ticker=MSFT
-X-AW-Active=true
+X-AW-Active=false
 X-AW-ApiVersion=1
 X-AW-Interval=60

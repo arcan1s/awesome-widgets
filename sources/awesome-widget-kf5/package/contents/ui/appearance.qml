@@ -49,7 +49,7 @@ Item {
 
     Column {
         id: pageColumn
-        width: units.gridUnit * 25
+        anchors.fill: parent
         Row {
             height: implicitHeight
             width: parent.width

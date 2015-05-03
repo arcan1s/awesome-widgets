@@ -3,6 +3,6 @@ Encoding=UTF-8
 Name=EUR/USD
 Comment=EUR/USD
 X-AW-Ticker=EURUSD=X
-X-AW-Active=true
+X-AW-Active=false
 X-AW-ApiVersion=1
 X-AW-Interval=60

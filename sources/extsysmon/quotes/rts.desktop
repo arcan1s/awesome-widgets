@@ -3,6 +3,6 @@ Encoding=UTF-8
 Name=RTS
 Comment=RTS Index
 X-AW-Ticker=RTS.RS
-X-AW-Active=true
+X-AW-Active=false
 X-AW-ApiVersion=1
 X-AW-Interval=60

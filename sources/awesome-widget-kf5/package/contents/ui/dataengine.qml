@@ -57,7 +57,7 @@ Item {
 
     Column {
         id: pageColumn
-        width: units.gridUnit * 25
+        anchors.fill: parent
         Row {
             height: implicitHeight
             width: parent.width
@@ -105,11 +105,11 @@ Item {
                 id: gpuDev
                 width: parent.width * 3 / 5
                 model: ["auto", "disable", "ati", "nvidia"]
-                onCurrentIndexChanged: cfg_dataengine["GPUDEV"] = model[currentIndex]
                 Component.onCompleted: {
                     for (var i=0; i<model.length; i++) {
+                        console.log(cfg_dataengine["GPUDEV"])
                         if (model[i] == cfg_dataengine["GPUDEV"]) {
-                            gpuDev.currentIndex = i;
+                            currentIndex = i;
                         }
                     }
                 }
@@ -130,7 +130,6 @@ Item {
                 id: hdd
                 width: parent.width * 3 / 5
                 model: AWKeys.getHddDevices(true)
-                onCurrentIndexChanged: cfg_dataengine["HDDDEV"] = model[currentIndex]
                 Component.onCompleted: {
                     for (var i=0; i<model.length; i++) {
                         if (model[i] == cfg_dataengine["HDDDEV"]) {
@@ -226,7 +225,6 @@ Item {
                 id: player
                 width: parent.width * 3 / 5
                 model: ["mpris", "mpd"]
-                onCurrentIndexChanged: cfg_dataengine["PLAYER"] = model[currentIndex]
                 Component.onCompleted: {
                     for (var i=0; i<model.length; i++) {
                         if (model[i] == cfg_dataengine["PLAYER"]) {
@@ -282,6 +280,9 @@ Item {
     Component.onDestruction: {
         if (debug) console.log("[dataengine::onDestruction]")
 
+        cfg_dataengine["GPUDEV"] = gpuDev.currentText
+        cfg_dataengine["HDDDEV"] = hdd.currentText
+        cfg_dataengine["PLAYER"] = player.currentText
         cfg_dataengine["MPRIS"] = mpris.currentText
         AWActions.writeDataEngineConfiguration(cfg_dataengine)
     }

@@ -3,6 +3,6 @@ Encoding=UTF-8
 Name=EUR/RUB
 Comment=EUR/RUB
 X-AW-Ticker=EURRUB=X
-X-AW-Active=true
+X-AW-Active=false
 X-AW-ApiVersion=1
 X-AW-Interval=60

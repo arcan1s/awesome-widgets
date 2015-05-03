@@ -63,7 +63,7 @@ Item {
 
     Column {
         id: pageColumn
-        width: units.gridUnit * 25
+        anchors.fill: parent
         QtControls.Label {
           width: parent.width
           horizontalAlignment: Text.AlignHCenter
