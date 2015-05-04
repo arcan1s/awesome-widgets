@@ -67,8 +67,8 @@ Item {
 
     Layout.fillWidth: plasmoid.formFactor != PlasmaCore.Planar
     Layout.fillHeight: plasmoid.formFactor != PlasmaCore.Planar
-    Layout.minimumHeight: text.contentHeight
-    Layout.minimumWidth: text.contentWidth
+    Layout.minimumHeight: plasmoid.configuration.height == 0 ? text.contentHeight : plasmoid.configuration.height
+    Layout.minimumWidth: plasmoid.configuration.width == 0 ? text.contentWidth : plasmoid.configuration.width
 
     Plasmoid.icon: "utilities-system-monitor"
     Plasmoid.backgroundHints: plasmoid.configuration.background ? "DefaultBackground" : "NoBackground"
@@ -124,11 +124,11 @@ Item {
     // ui
     Grid {
         columns: 1
+        anchors.fill: parent
 
         Text {
             id: text
-            height: contentHeight
-            width: contentWidth
+            anchors.fill: parent
             textFormat: Text.RichText
             wrapMode: Text.NoWrap
 

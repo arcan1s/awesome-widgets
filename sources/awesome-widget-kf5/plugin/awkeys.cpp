@@ -1188,7 +1188,7 @@ void AWKeys::addKeyToCache(const QString type, const QString key)
         QStringList devices = allDevices.filter(QRegExp(QString("^[hms]d[a-z]$")));
         for (int i=0; i<devices.count(); i++) {
             QString device = QString("/dev/%1").arg(devices[i]);
-            if (cachedValues.contains(devices[i])) continue;
+            if (cachedValues.contains(device)) continue;
             if (debug) qDebug() << PDEBUG << ":" << "Found new key" << device << "for type" << type;
             cache.setValue(QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), device);
         }

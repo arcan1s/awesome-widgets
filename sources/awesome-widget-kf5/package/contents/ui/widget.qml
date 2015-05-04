@@ -246,6 +246,16 @@ Item {
             }
         }
 
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Button {
+                width: parent.width
+                text: i18n("Edit bars")
+                onClicked: AWKeys.editItem("graphicalitem")
+            }
+        }
+
         QtControls.TextArea {
             id: textPattern
             width: parent.width

@@ -17,7 +17,6 @@
 
 import QtQuick 2.0
 import QtQuick.Controls 1.3 as QtControls
-import org.kde.plasma.core 2.0 as PlasmaCore
 
 import org.kde.plasma.private.awesomewidget 1.0
 
@@ -30,34 +29,9 @@ Item {
     implicitHeight: pageColumn.implicitHeight
 
     property bool debug: AWKeys.isDebugEnabled()
-    property variant settings: {
-        "customTime": plasmoid.configuration.customTime,
-        "customUptime": plasmoid.configuration.customUptime,
-        "tempUnits": plasmoid.configuration.tempUnits,
-        "acOnline": plasmoid.configuration.acOnline,
-        "acOffline": plasmoid.configuration.acOffline
-    }
-    property variant tooltipSettings: {
-        "tooltipNumber": plasmoid.configuration.tooltipNumber,
-        "useTooltipBackground": plasmoid.configuration.useTooltipBackground,
-        "tooltipBackgroung": plasmoid.configuration.tooltipBackgroung,
-        "cpuTooltip": plasmoid.configuration.cpuTooltip,
-        "cpuclTooltip": plasmoid.configuration.cpuclTooltip,
-        "memTooltip": plasmoid.configuration.memTooltip,
-        "swapTooltip": plasmoid.configuration.swapTooltip,
-        "downTooltip": plasmoid.configuration.downTooltip,
-        "upTooltip": plasmoid.configuration.downTooltip,
-        "batTooltip": plasmoid.configuration.batTooltip,
-        "cpuTooltipColor": plasmoid.configuration.cpuTooltipColor,
-        "cpuclTooltipColor": plasmoid.configuration.cpuclTooltipColor,
-        "memTooltipColor": plasmoid.configuration.memTooltipColor,
-        "swapTooltipColor": plasmoid.configuration.swapTooltipColor,
-        "downTooltipColor": plasmoid.configuration.downTooltipColor,
-        "upTooltipColor": plasmoid.configuration.upTooltipColor,
-        "batTooltipColor": plasmoid.configuration.batTooltipColor,
-        "batInTooltipColor": plasmoid.configuration.batInTooltipColor
-    }
 
+    property alias cfg_height: widgetHeight.value
+    property alias cfg_width: widgetWidth.value
     property alias cfg_notify: notify.checked
     property alias cfg_background: background.checked
     property alias cfg_customTime: customTime.text
@@ -70,6 +44,46 @@ Item {
     Column {
         id: pageColumn
         anchors.fill: parent
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.height
+                width: parent.width / 3
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+                text: i18n("Widget height, px")
+            }
+            QtControls.SpinBox {
+                id: widgetHeight
+                width: parent.width * 2 / 3
+                minimumValue: 0
+                maximumValue: 4096
+                stepSize: 50
+                value: plasmoid.configuration.height
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.height
+                width: parent.width / 3
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+                text: i18n("Widget width, px")
+            }
+            QtControls.SpinBox {
+                id: widgetWidth
+                width: parent.width * 2 / 3
+                minimumValue: 0
+                maximumValue: 4096
+                stepSize: 50
+                value: plasmoid.configuration.width
+            }
+        }
+
         Row {
             height: implicitHeight
             width: parent.width
@@ -220,71 +234,9 @@ Item {
                 text: plasmoid.configuration.acOffline
             }
         }
-
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Bars")
-            }
-            QtControls.Button {
-                width: parent.width * 3 / 5
-                text: i18n("Edit bars")
-                onClicked: AWKeys.editItem("graphicalitem")
-            }
-        }
-    }
-
-    // we need to initializate DataEngines here too
-    // because we need to get keys and values
-    PlasmaCore.DataSource {
-        id: systemmonitorDE
-        engine: "systemmonitor"
-        connectedSources: systemmonitorDE.sources
-        interval: 5000
-
-        onNewData: {
-            if (debug) console.log("[advanced::onNewData] : Update source " + sourceName)
-
-            AWKeys.setDataBySource(sourceName, data, settings)
-        }
-    }
-
-    PlasmaCore.DataSource {
-        id: extsysmonDE
-        engine: "extsysmon"
-        connectedSources: ["battery", "custom", "desktop", "netdev", "gpu",
-                           "gputemp", "hddtemp", "pkg", "player", "ps", "update"]
-        interval: 5000
-
-        onNewData: {
-            if (debug) console.log("[advanced::onNewData] : Update source " + sourceName)
-
-            AWKeys.setDataBySource(sourceName, data, settings)
-        }
-    }
-
-    PlasmaCore.DataSource {
-        id: timeDE
-        engine: "time"
-        connectedSources: ["Local"]
-        interval: 5000
-
-        onNewData: {
-            if (debug) console.log("[advanced::onNewData] : Update source " + sourceName)
-
-            AWKeys.setDataBySource(sourceName, data, settings)
-        }
     }
 
     Component.onCompleted: {
         if (debug) console.log("[advanced::onCompleted]")
-
-        // init submodule
-        AWKeys.initKeys(plasmoid.configuration.text, tooltipSettings)
     }
 }
