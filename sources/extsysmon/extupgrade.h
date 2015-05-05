@@ -22,7 +22,7 @@
 
 
 namespace Ui {
-class ExtUpgrade;
+    class ExtUpgrade;
 }
 
 class ExtUpgrade : public QDialog

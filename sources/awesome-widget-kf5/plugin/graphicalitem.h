@@ -23,7 +23,7 @@
 
 
 namespace Ui {
-class GraphicalItem;
+    class GraphicalItem;
 }
 
 class GraphicalItem : public QDialog

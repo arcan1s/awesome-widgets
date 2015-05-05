@@ -107,7 +107,6 @@ Item {
                 model: ["auto", "disable", "ati", "nvidia"]
                 Component.onCompleted: {
                     for (var i=0; i<model.length; i++) {
-                        console.log(cfg_dataengine["GPUDEV"])
                         if (model[i] == cfg_dataengine["GPUDEV"]) {
                             currentIndex = i;
                         }

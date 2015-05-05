@@ -22,7 +22,7 @@
 
 
 namespace Ui {
-class ExtScript;
+    class ExtScript;
 }
 
 class ExtScript : public QDialog

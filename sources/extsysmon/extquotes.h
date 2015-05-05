@@ -27,7 +27,7 @@
 class QNetworkReply;
 
 namespace Ui {
-class ExtQuotes;
+    class ExtQuotes;
 }
 
 class ExtQuotes : public QDialog

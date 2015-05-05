@@ -192,7 +192,6 @@ QMap<QString, float> ExtQuotes::run()
     if (debug) qDebug() << PDEBUG;
     if (!m_active) return values;
 
-    qDebug() << PDEBUG << times;
     if (times == 1) {
         if (debug) qDebug() << PDEBUG << ":" << "Send request";
         QNetworkAccessManager *manager = new QNetworkAccessManager(this);

@@ -49,14 +49,14 @@ Item {
             width: parent.width
             QtControls.Label {
                 height: parent.height
-                width: parent.width / 3
+                width: parent.width * 2 / 5
                 horizontalAlignment: Text.AlignRight
                 verticalAlignment: Text.AlignVCenter
                 text: i18n("Widget height, px")
             }
             QtControls.SpinBox {
                 id: widgetHeight
-                width: parent.width * 2 / 3
+                width: parent.width * 3 / 5
                 minimumValue: 0
                 maximumValue: 4096
                 stepSize: 50
@@ -69,14 +69,14 @@ Item {
             width: parent.width
             QtControls.Label {
                 height: parent.height
-                width: parent.width / 3
+                width: parent.width * 2 / 5
                 horizontalAlignment: Text.AlignRight
                 verticalAlignment: Text.AlignVCenter
                 text: i18n("Widget width, px")
             }
             QtControls.SpinBox {
                 id: widgetWidth
-                width: parent.width * 2 / 3
+                width: parent.width * 3 / 5
                 minimumValue: 0
                 maximumValue: 4096
                 stepSize: 50
