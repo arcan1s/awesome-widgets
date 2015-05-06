@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>420</width>
-    <height>301</height>
+    <height>304</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -57,6 +57,27 @@
      </item>
      <item>
       <widget class="QLineEdit" name="lineEdit_comment"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="layout_number">
+     <item>
+      <widget class="QLabel" name="label_number">
+       <property name="text">
+        <string>Tag</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_numberValue">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

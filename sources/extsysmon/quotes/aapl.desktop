@@ -2,7 +2,8 @@
 Encoding=UTF-8
 Name=AAPL.NASDAQ
 Comment=Apple Inc
-X-AW-Ticker=AAPL
+X-AW-Ticker="AAPL"
 X-AW-Active=false
 X-AW-ApiVersion=1
 X-AW-Interval=60
+X-AW-Number=0

@@ -2,7 +2,8 @@
 Encoding=UTF-8
 Name=VIX
 Comment=Volatility S&P 500
-X-AW-Ticker=^VIX
+X-AW-Ticker="^VIX"
 X-AW-Active=false
 X-AW-ApiVersion=1
 X-AW-Interval=60
+X-AW-Number=7

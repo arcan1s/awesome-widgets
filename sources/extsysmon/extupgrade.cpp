@@ -22,6 +22,7 @@
 #include <QDir>
 #include <QSettings>
 #include <QTextCodec>
+#include <QTime>
 
 #include <pdebug/pdebug.h>
 #include <task/taskadds.h>
@@ -106,6 +107,22 @@ int ExtUpgrade::null()
 }
 
 
+int ExtUpgrade::number()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return m_number;
+}
+
+
+QString ExtUpgrade::tag()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return QString("pkgcount%1").arg(m_number);
+}
+
+
 bool ExtUpgrade::isActive()
 {
     if (debug) qDebug() << PDEBUG;
@@ -178,6 +195,21 @@ void ExtUpgrade::setNull(const int _null)
 }
 
 
+void ExtUpgrade::setNumber(int _number)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Number" << _number;
+    if (_number == -1) {
+        if (debug) qDebug() << PDEBUG << ":" << "Number is empty, generate new one";
+        qsrand(QTime::currentTime().msec());
+        _number = qrand() % 1000;
+        if (debug) qDebug() << PDEBUG << ":" << "Generated number is" << _number;
+    }
+
+    m_number = _number;
+}
+
+
 void ExtUpgrade::readConfiguration()
 {
     if (debug) qDebug() << PDEBUG;
@@ -189,12 +221,20 @@ void ExtUpgrade::readConfiguration()
         settings.beginGroup(QString("Desktop Entry"));
         setName(settings.value(QString("Name"), m_name).toString());
         setComment(settings.value(QString("Comment"), m_comment).toString());
-        setApiVersion(settings.value(QString("X-AW-ApiVersion"), AWEUAPI).toInt());
+        setApiVersion(settings.value(QString("X-AW-ApiVersion"), m_apiVersion).toInt());
         setExecutable(settings.value(QString("Exec"), m_executable).toString());
         setActive(settings.value(QString("X-AW-Active"), QVariant(m_active)).toString() == QString("true"));
         setNull(settings.value(QString("X-AW-Null"), m_null).toInt());
         setInterval(settings.value(QString("X-AW-Interval"), m_interval).toInt());
+        // api == 2
+        setNumber(settings.value(QString("X-AW-Number"), m_number).toInt());
         settings.endGroup();
+    }
+
+    // update for current API
+    if ((m_apiVersion > 0) && (m_apiVersion < AWEUAPI)) {
+        setApiVersion(AWEUAPI);
+        writeConfiguration();
     }
 }
 
@@ -228,6 +268,7 @@ int ExtUpgrade::showConfiguration()
 
     ui->lineEdit_name->setText(m_name);
     ui->lineEdit_comment->setText(m_comment);
+    ui->label_numberValue->setText(QString("%1").arg(m_number));
     ui->lineEdit_command->setText(m_executable);
     if (m_active)
         ui->checkBox_active->setCheckState(Qt::Checked);
@@ -240,6 +281,7 @@ int ExtUpgrade::showConfiguration()
     if (ret != 1) return ret;
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
+    setNumber(ui->label_numberValue->text().toInt());
     setApiVersion(AWEUAPI);
     setExecutable(ui->lineEdit_command->text());
     setActive(ui->checkBox_active->checkState() == Qt::Checked);
@@ -282,6 +324,7 @@ void ExtUpgrade::writeConfiguration()
     settings.setValue(QString("X-AW-Active"), QVariant(m_active).toString());
     settings.setValue(QString("X-AW-Null"), m_null);
     settings.setValue(QString("X-AW-Interval"), m_interval);
+    settings.setValue(QString("X-AW-Number"), m_number);
     settings.endGroup();
 
     settings.sync();

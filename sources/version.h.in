@@ -14,9 +14,9 @@
 // extquotes api version
 #define AWEQAPI 1
 // extscript api version
-#define AWESAPI 1
+#define AWESAPI 2
 // extupgrade api version
-#define AWEUAPI 1
+#define AWEUAPI 2
 
 // links
 #define HOMEPAGE "http://arcanis.name/projects/awesome-widgets/"

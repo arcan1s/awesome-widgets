@@ -22,6 +22,7 @@
 #include <QDir>
 #include <QSettings>
 #include <QTextCodec>
+#include <QTime>
 
 #include <pdebug/pdebug.h>
 #include <task/taskadds.h>
@@ -98,6 +99,14 @@ QString ExtScript::name()
 }
 
 
+int ExtScript::number()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return m_number;
+}
+
+
 QString ExtScript::prefix()
 {
     if (debug) qDebug() << PDEBUG;
@@ -132,6 +141,14 @@ QString ExtScript::strRedirect()
     }
 
     return value;
+}
+
+
+QString ExtScript::tag()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return QString("custom%1").arg(m_number);
 }
 
 
@@ -215,6 +232,21 @@ void ExtScript::setName(const QString _name)
 }
 
 
+void ExtScript::setNumber(int _number)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Number" << _number;
+    if (_number == -1) {
+        if (debug) qDebug() << PDEBUG << ":" << "Number is empty, generate new one";
+        qsrand(QTime::currentTime().msec());
+        _number = qrand() % 1000;
+        if (debug) qDebug() << PDEBUG << ":" << "Generated number is" << _number;
+    }
+
+    m_number = _number;
+}
+
+
 void ExtScript::setPrefix(const QString _prefix)
 {
     if (debug) qDebug() << PDEBUG;
@@ -258,18 +290,26 @@ void ExtScript::readConfiguration()
         settings.beginGroup(QString("Desktop Entry"));
         setName(settings.value(QString("Name"), m_name).toString());
         setComment(settings.value(QString("Comment"), m_comment).toString());
-        setApiVersion(settings.value(QString("X-AW-ApiVersion"), AWESAPI).toInt());
+        setApiVersion(settings.value(QString("X-AW-ApiVersion"), m_apiVersion).toInt());
         setExecutable(settings.value(QString("Exec"), m_executable).toString());
         setPrefix(settings.value(QString("X-AW-Prefix"), m_prefix).toString());
         setActive(settings.value(QString("X-AW-Active"), QVariant(m_active)).toString() == QString("true"));
         setHasOutput(settings.value(QString("X-AW-Output"), QVariant(m_output)).toString() == QString("true"));
         setStrRedirect(settings.value(QString("X-AW-Redirect"), strRedirect()).toString());
         setInterval(settings.value(QString("X-AW-Interval"), m_interval).toInt());
+        // api == 2
+        setNumber(settings.value(QString("X-AW-Number"), m_number).toInt());
         settings.endGroup();
     }
 
     if (!m_output)
         setRedirect(stdout2stderr);
+
+    // update for current API
+    if ((m_apiVersion > 0) && (m_apiVersion < AWESAPI)) {
+        setApiVersion(AWESAPI);
+        writeConfiguration();
+    }
 }
 
 
@@ -321,6 +361,7 @@ int ExtScript::showConfiguration()
 
     ui->lineEdit_name->setText(m_name);
     ui->lineEdit_comment->setText(m_comment);
+    ui->label_numberValue->setText(QString("%1").arg(m_number));
     ui->lineEdit_command->setText(m_executable);
     ui->lineEdit_prefix->setText(m_prefix);
     if (m_active)
@@ -338,6 +379,7 @@ int ExtScript::showConfiguration()
     if (ret != 1) return ret;
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
+    setNumber(ui->label_numberValue->text().toInt());
     setApiVersion(AWESAPI);
     setExecutable(ui->lineEdit_command->text());
     setPrefix(ui->lineEdit_prefix->text());
@@ -384,6 +426,7 @@ void ExtScript::writeConfiguration()
     settings.setValue(QString("X-AW-Output"), QVariant(m_active).toString());
     settings.setValue(QString("X-AW-Redirect"), strRedirect());
     settings.setValue(QString("X-AW-Interval"), m_interval);
+    settings.setValue(QString("X-AW-Number"), m_number);
     settings.endGroup();
 
     settings.sync();

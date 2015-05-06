@@ -38,6 +38,7 @@ class ExtQuotes : public QDialog
     Q_PROPERTY(QString comment READ comment WRITE setComment)
     Q_PROPERTY(int interval READ interval WRITE setInterval)
     Q_PROPERTY(bool active READ isActive WRITE setActive)
+    Q_PROPERTY(int number READ number WRITE setNumber)
     Q_PROPERTY(QString ticker READ ticker WRITE setTicker)
 
 public:
@@ -51,6 +52,8 @@ public:
     int interval();
     bool isActive();
     QString name();
+    int number();
+    QString tag(const QString _type = QString("price"));
     QString ticker();
     // set methods
     void setApiVersion(const int _apiVersion = 0);
@@ -58,6 +61,7 @@ public:
     void setComment(const QString _comment = QString("empty"));
     void setInterval(const int _interval = 0);
     void setName(const QString _name = QString("none"));
+    void setNumber(int _number = -1);
     void setTicker(const QString _ticker = QString("EURUSD=X"));
 
 public slots:
@@ -82,6 +86,7 @@ private:
     QString m_comment = QString("empty");
     int m_interval = 60;
     QString m_name = QString("none");
+    int m_number = -1;
     QString m_ticker = QString("EURUSD=X");
     // values
     int times = 0;

@@ -40,6 +40,7 @@
 #include "extscript.h"
 #include "extupgrade.h"
 #include "graphicalitem.h"
+#include "version.h"
 
 
 AWKeys::AWKeys(QObject *parent)
@@ -290,16 +291,16 @@ QStringList AWKeys::dictKeys()
     allKeys.append(QString("ps"));
     // package manager
     for (int i=extUpgrade.count()-1; i>=0; i--)
-        allKeys.append(QString("pkgcount%1").arg(i));
+        allKeys.append(extUpgrade[i]->tag());
     // quotes
     for (int i=extQuotes.count()-1; i>=0; i--) {
-        allKeys.append(QString("ask%1").arg(i));
-        allKeys.append(QString("bid%1").arg(i));
-        allKeys.append(QString("price%1").arg(i));
+        allKeys.append(extQuotes[i]->tag(QString("ask")));
+        allKeys.append(extQuotes[i]->tag(QString("bid")));
+        allKeys.append(extQuotes[i]->tag(QString("price")));
     }
     // custom
     for (int i=extScripts.count()-1; i>=0; i--)
-        allKeys.append(QString("custom%1").arg(i));
+        allKeys.append(extScripts[i]->tag());
     // desktop
     allKeys.append(QString("desktop"));
     allKeys.append(QString("ndesktop"));
@@ -958,17 +959,13 @@ void AWKeys::copyBar(const QString original)
 {
     if (debug) qDebug() << PDEBUG;
 
+    QStringList tagList;
+    for (int i=0; i<graphicalItems.count(); i++)
+        tagList.append(graphicalItems[i]->name());
     int number = 0;
-    while (true) {
-        bool exit = true;
-        for (int i=0; i<graphicalItems.count(); i++)
-            if (graphicalItems[i]->name() == QString("bar%1").arg(number)) {
-                number++;
-                exit = false;
-                break;
-            }
-        if (exit) break;
-    }
+    while (tagList.contains(QString("bar%1").arg(number)))
+        number++;
+
     QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
                                                  QString("awesomewidgets/desktops"),
                                                  QStandardPaths::LocateDirectory);
@@ -995,6 +992,7 @@ void AWKeys::copyBar(const QString original)
         break;
     }
     GraphicalItem *item = new GraphicalItem(0, name, dirs, debug);
+    item->setApiVersion(AWGIAPI);
     item->setName(QString("bar%1").arg(number));
     if (originalItem != -1) {
         item->setComment(graphicalItems[originalItem]->comment());
@@ -1026,6 +1024,13 @@ void AWKeys::copyQuotes(const QString original)
 {
     if (debug) qDebug() << PDEBUG;
 
+    QList<int> tagList;
+    for (int i=0; i<extQuotes.count(); i++)
+        tagList.append(extQuotes[i]->number());
+    int number = 0;
+    while (tagList.contains(number))
+        number++;
+
     QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
                                                  QString("awesomewidgets/quotes"),
                                                  QStandardPaths::LocateDirectory);
@@ -1045,6 +1050,8 @@ void AWKeys::copyQuotes(const QString original)
         break;
     }
     ExtQuotes *quotes = new ExtQuotes(0, name, dirs, debug);
+    quotes->setApiVersion(AWEQAPI);
+    quotes->setNumber(number);
     if (originalItem != -1) {
         quotes->setActive(extQuotes[originalItem]->isActive());
         quotes->setComment(extQuotes[originalItem]->comment());
@@ -1074,6 +1081,13 @@ void AWKeys::copyScript(const QString original)
 {
     if (debug) qDebug() << PDEBUG;
 
+    QList<int> tagList;
+    for (int i=0; i<extScripts.count(); i++)
+        tagList.append(extScripts[i]->number());
+    int number = 0;
+    while (tagList.contains(number))
+        number++;
+
     QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
                                                  QString("awesomewidgets/scripts"),
                                                  QStandardPaths::LocateDirectory);
@@ -1093,6 +1107,8 @@ void AWKeys::copyScript(const QString original)
         break;
     }
     ExtScript *script = new ExtScript(0, name, dirs, debug);
+    script->setApiVersion(AWESAPI);
+    script->setNumber(number);
     if (originalItem != -1) {
         script->setActive(extScripts[originalItem]->isActive());
         script->setComment(extScripts[originalItem]->comment());
@@ -1124,6 +1140,13 @@ void AWKeys::copyUpgrade(const QString original)
 {
     if (debug) qDebug() << PDEBUG;
 
+    QList<int> tagList;
+    for (int i=0; i<extUpgrade.count(); i++)
+        tagList.append(extUpgrade[i]->number());
+    int number = 0;
+    while (tagList.contains(number))
+        number++;
+
     QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
                                                  QString("awesomewidgets/upgrade"),
                                                  QStandardPaths::LocateDirectory);
@@ -1143,6 +1166,8 @@ void AWKeys::copyUpgrade(const QString original)
         break;
     }
     ExtUpgrade *upgrade = new ExtUpgrade(0, name, dirs, debug);
+    upgrade->setApiVersion(AWEUAPI);
+    upgrade->setNumber(number);
     if (originalItem != -1) {
         upgrade->setActive(extUpgrade[originalItem]->isActive());
         upgrade->setComment(extUpgrade[originalItem]->comment());

@@ -707,7 +707,7 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
         }
     } else if (source == QString("custom")) {
         for (int i=0; i<externalScripts.count(); i++)
-            setData(source, QString("custom%1").arg(i), externalScripts[i]->run());
+            setData(source, externalScripts[i]->tag(), externalScripts[i]->run());
     } else if (source == QString("desktop")) {
         QMap<QString, QVariant> desktop = getCurrentDesktop();
         for (int i=0; i<desktop.keys().count(); i++)
@@ -728,7 +728,7 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
         setData(source, QString("value"), getNetworkDevice());
     } else if (source == QString("pkg")) {
         for (int i=0; i<externalUpgrade.count(); i++)
-            setData(source, QString("pkgcount%1").arg(i), externalUpgrade[i]->run());
+            setData(source, externalUpgrade[i]->tag(), externalUpgrade[i]->run());
     } else if (source == QString("player")) {
         QMap<QString, QVariant> player = getPlayerInfo(configuration[QString("PLAYER")],
                 configuration[QString("MPDADDRESS")],
@@ -743,9 +743,9 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     } else if (source == QString("quotes")) {
         for (int i=0; i<externalQuotes.count(); i++) {
             QMap<QString, float> data = externalQuotes[i]->run();
-            setData(source, QString("ask%1").arg(i), data[QString("ask")]);
-            setData(source, QString("bid%1").arg(i), data[QString("bid")]);
-            setData(source, QString("price%1").arg(i), data[QString("price")]);
+            setData(source, externalQuotes[i]->tag(QString("ask")), data[QString("ask")]);
+            setData(source, externalQuotes[i]->tag(QString("bid")), data[QString("bid")]);
+            setData(source, externalQuotes[i]->tag(QString("price")), data[QString("price")]);
         }
     } else if (source == QString("update")) {
         setData(source, QString("value"), true);

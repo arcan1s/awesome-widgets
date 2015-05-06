@@ -26,6 +26,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QSettings>
+#include <QTime>
 
 #include <pdebug/pdebug.h>
 
@@ -105,6 +106,23 @@ QString ExtQuotes::name()
 }
 
 
+int ExtQuotes::number()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return m_number;
+}
+
+
+QString ExtQuotes::tag(const QString _type)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Tag type" << _type;
+
+    return QString("%1%2").arg(_type).arg(m_number);
+}
+
+
 QString ExtQuotes::ticker()
 {
     if (debug) qDebug() << PDEBUG;
@@ -158,6 +176,21 @@ void ExtQuotes::setName(const QString _name)
 }
 
 
+void ExtQuotes::setNumber(int _number)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Number" << _number;
+    if (_number == -1) {
+        if (debug) qDebug() << PDEBUG << ":" << "Number is empty, generate new one";
+        qsrand(QTime::currentTime().msec());
+        _number = qrand() % 1000;
+        if (debug) qDebug() << PDEBUG << ":" << "Generated number is" << _number;
+    }
+
+    m_number = _number;
+}
+
+
 void ExtQuotes::setTicker(const QString _ticker)
 {
     if (debug) qDebug() << PDEBUG;
@@ -178,11 +211,18 @@ void ExtQuotes::readConfiguration()
         settings.beginGroup(QString("Desktop Entry"));
         setName(settings.value(QString("Name"), m_name).toString());
         setComment(settings.value(QString("Comment"), m_comment).toString());
-        setApiVersion(settings.value(QString("X-AW-ApiVersion"), AWEQAPI).toInt());
+        setApiVersion(settings.value(QString("X-AW-ApiVersion"), m_apiVersion).toInt());
         setTicker(settings.value(QString("X-AW-Ticker"), m_ticker).toString());
         setActive(settings.value(QString("X-AW-Active"), QVariant(m_active)).toString() == QString("true"));
         setInterval(settings.value(QString("X-AW-Interval"), m_interval).toInt());
+        setNumber(settings.value(QString("X-AW-Number"), m_number).toInt());
         settings.endGroup();
+    }
+
+    // update for current API
+    if ((m_apiVersion > 0) && (m_apiVersion < AWEQAPI)) {
+        setApiVersion(AWEQAPI);
+        writeConfiguration();
     }
 }
 
@@ -214,6 +254,7 @@ int ExtQuotes::showConfiguration()
 
     ui->lineEdit_name->setText(m_name);
     ui->lineEdit_comment->setText(m_comment);
+    ui->label_numberValue->setText(QString("%1").arg(m_number));
     ui->lineEdit_ticker->setText(m_ticker);
     if (m_active)
         ui->checkBox_active->setCheckState(Qt::Checked);
@@ -225,6 +266,7 @@ int ExtQuotes::showConfiguration()
     if (ret != 1) return ret;
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
+    setNumber(ui->label_numberValue->text().toInt());
     setApiVersion(AWEQAPI);
     setTicker(ui->lineEdit_ticker->text());
     setActive(ui->checkBox_active->checkState() == Qt::Checked);
@@ -265,6 +307,7 @@ void ExtQuotes::writeConfiguration()
     settings.setValue(QString("X-AW-ApiVersion"), m_apiVersion);
     settings.setValue(QString("X-AW-Active"), QVariant(m_active).toString());
     settings.setValue(QString("X-AW-Interval"), m_interval);
+    settings.setValue(QString("X-AW-Number"), m_number);
     settings.endGroup();
 
     settings.sync();

@@ -32,6 +32,7 @@ class ExtScript : public QDialog
     Q_PROPERTY(QString name READ name WRITE setName)
     Q_PROPERTY(QString comment READ comment WRITE setComment)
     Q_PROPERTY(QString executable READ executable WRITE setExecutable)
+    Q_PROPERTY(int number READ number WRITE setNumber)
     Q_PROPERTY(QString prefix READ prefix WRITE setPrefix)
     Q_PROPERTY(bool active READ isActive WRITE setActive)
     Q_PROPERTY(bool output READ hasOutput WRITE setHasOutput)
@@ -55,9 +56,11 @@ public:
     QString fileName();
     int interval();
     QString name();
+    int number();
     QString prefix();
     Redirect redirect();
     QString strRedirect();
+    QString tag();
     bool hasOutput();
     bool isActive();
     // set methods
@@ -68,6 +71,7 @@ public:
     void setHasOutput(const bool _state = true);
     void setInterval(const int _interval = 1);
     void setName(const QString _name = QString("none"));
+    void setNumber(int _number = -1);
     void setPrefix(const QString _prefix = QString(""));
     void setRedirect(const Redirect _redirect = nothing);
     void setStrRedirect(const QString _redirect = QString("nothing"));
@@ -91,6 +95,7 @@ private:
     QString m_executable = QString("/usr/bin/true");
     int m_interval = 1;
     QString m_name = QString("none");
+    int m_number = -1;
     bool m_output = true;
     QString m_prefix = QString("");
     Redirect m_redirect = nothing;

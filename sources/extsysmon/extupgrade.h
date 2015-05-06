@@ -33,6 +33,7 @@ class ExtUpgrade : public QDialog
     Q_PROPERTY(QString comment READ comment WRITE setComment)
     Q_PROPERTY(QString executable READ executable WRITE setExecutable)
     Q_PROPERTY(int null READ null WRITE setNull)
+    Q_PROPERTY(int number READ number WRITE setNumber)
     Q_PROPERTY(bool active READ isActive WRITE setActive)
     Q_PROPERTY(int interval READ interval WRITE setInterval)
 
@@ -48,6 +49,8 @@ public:
     int interval();
     QString name();
     int null();
+    int number();
+    QString tag();
     bool isActive();
     // set methods
     void setApiVersion(const int _apiVersion = 0);
@@ -56,6 +59,7 @@ public:
     void setExecutable(const QString _executable = QString("/usr/bin/true"));
     void setName(const QString _name = QString("none"));
     void setNull(const int _null = 0);
+    void setNumber(int _number = -1);
     void setInterval(const int _interval = 0);
 
 public slots:
@@ -77,6 +81,7 @@ private:
     QString m_executable = QString("/usr/bin/true");
     QString m_name = QString("none");
     int m_null = 0;
+    int m_number = -1;
     int m_interval = 3600;
     int times = 0;
     int value = 0;
