@@ -122,36 +122,31 @@ Item {
 
 
     // ui
-    Grid {
-        columns: 1
+    Text {
+        id: text
         anchors.fill: parent
+        textFormat: Text.RichText
+        wrapMode: Text.NoWrap
 
-        Text {
-            id: text
-            anchors.fill: parent
-            textFormat: Text.RichText
-            wrapMode: Text.NoWrap
+        horizontalAlignment: general.align[plasmoid.configuration.textAlign]
+        verticalAlignment: Text.AlignVCenter
 
-            horizontalAlignment: general.align[plasmoid.configuration.textAlign]
-            verticalAlignment: Text.AlignVCenter
+        color: plasmoid.configuration.fontColor
+        font.family: plasmoid.configuration.fontFamily
+        font.italic: plasmoid.configuration.fontStyle == "italic" ? true : false
+        font.pointSize: plasmoid.configuration.fontSize
+        font.weight: general.fontWeight[plasmoid.configuration.fontWeight]
 
-            color: plasmoid.configuration.fontColor
-            font.family: plasmoid.configuration.fontFamily
-            font.italic: plasmoid.configuration.fontStyle == "italic" ? true : false
-            font.pointSize: plasmoid.configuration.fontSize
-            font.weight: general.fontWeight[plasmoid.configuration.fontWeight]
+        text: plasmoid.configuration.text
 
-            text: plasmoid.configuration.text
-
-            PlasmaCore.ToolTipArea {
-                height: tooltip.height
-                width: tooltip.width
-                mainItem: Text {
-                    id: tooltip
-                    height: contentHeight
-                    width: contentWidth
-                    textFormat: Text.RichText
-                }
+        PlasmaCore.ToolTipArea {
+            height: tooltip.height
+            width: tooltip.width
+            mainItem: Text {
+                id: tooltip
+                height: contentHeight
+                width: contentWidth
+                textFormat: Text.RichText
             }
         }
     }
