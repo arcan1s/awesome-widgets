@@ -32,6 +32,8 @@ Item {
 
     property bool debug: DPAdds.isDebugEnabled()
 
+    property alias cfg_height: widgetHeight.value
+    property alias cfg_width: widgetWidth.value
     property string cfg_tooltipType: tooltipType.currentText
     property alias cfg_tooltipWidth: tooltipWidth.value
     property alias cfg_tooltipColor: tooltipColor.text
@@ -42,7 +44,47 @@ Item {
 
     Column {
         id: pageColumn
-        width: units.gridUnit * 25
+        anchors.fill: parent
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.height
+                width: parent.width * 2 / 5
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+                text: i18n("Widget height, px")
+            }
+            QtControls.SpinBox {
+                id: widgetHeight
+                width: parent.width * 3 / 5
+                minimumValue: 0
+                maximumValue: 4096
+                stepSize: 50
+                value: plasmoid.configuration.height
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.height
+                width: parent.width * 2 / 5
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+                text: i18n("Widget width, px")
+            }
+            QtControls.SpinBox {
+                id: widgetWidth
+                width: parent.width * 3 / 5
+                minimumValue: 0
+                maximumValue: 4096
+                stepSize: 50
+                value: plasmoid.configuration.width
+            }
+        }
+
         Row {
             height: implicitHeight
             width: parent.width

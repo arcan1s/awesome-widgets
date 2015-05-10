@@ -35,7 +35,7 @@ Item {
 
     Column {
         id: pageColumn
-        width: units.gridUnit * 25
+        anchors.fill: parent
         QtControls.Label {
           width: parent.width
           horizontalAlignment: Text.AlignHCenter
@@ -220,6 +220,7 @@ Item {
         QtControls.TextArea {
             id: textPattern
             width: parent.width
+            height: parent.height * 4 / 5
             textFormat: TextEdit.PlainText
             text: plasmoid.configuration.text
         }

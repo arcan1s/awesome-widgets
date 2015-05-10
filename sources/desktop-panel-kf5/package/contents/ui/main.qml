@@ -50,13 +50,14 @@ Item {
 
     // ui
     Grid {
+        anchors.fill: parent
+        horizontalItemAlignment: Grid.AlignHCenter
+        verticalItemAlignment: Grid.AlignVCenter
         columns: plasmoid.configuration.verticalLayout ? 1 : DPAdds.numberOfDesktops()
         rows: plasmoid.configuration.verticalLayout ? DPAdds.numberOfDesktops() : 1
 
         Repeater {
             id: repeater
-            height: implicitHeight
-            width: implicitWidth
             model: DPAdds.numberOfDesktops()
             Text {
                 id: text
@@ -123,8 +124,8 @@ Item {
                 repeater.itemAt(i).font.weight = general.fontWeight[plasmoid.configuration.fontWeight]
             }
             repeater.itemAt(i).update()
-            newHeight += repeater.itemAt(i).contentHeight
-            newWidth += repeater.itemAt(i).contentWidth
+            newHeight += plasmoid.configuration.height == 0 ? repeater.itemAt(i).contentHeight : plasmoid.configuration.height / repeater.count
+            newWidth += plasmoid.configuration.width == 0 ? repeater.itemAt(i).contentWidth : plasmoid.configuration.width / repeater.count
         }
         Layout.minimumHeight = newHeight
         Layout.minimumWidth = newWidth
