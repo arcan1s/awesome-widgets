@@ -43,7 +43,7 @@ class DPAdds : public QObject
     } DesktopWindowsInfo;
 
 public:
-    DPAdds(QObject *parent = 0);
+    DPAdds(QObject *parent = nullptr);
     ~DPAdds();
 
     Q_INVOKABLE bool isDebugEnabled();

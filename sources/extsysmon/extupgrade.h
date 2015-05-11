@@ -38,7 +38,7 @@ class ExtUpgrade : public QDialog
     Q_PROPERTY(int interval READ interval WRITE setInterval)
 
 public:
-    explicit ExtUpgrade(QWidget *parent = 0, const QString upgradeName = QString(),
+    explicit ExtUpgrade(QWidget *parent = nullptr, const QString upgradeName = QString(),
                         const QStringList directories = QStringList(), const bool debugCmd = false);
     ~ExtUpgrade();
     // get methods
@@ -66,7 +66,7 @@ public slots:
     void readConfiguration();
     int run();
     int showConfiguration();
-    int tryDelete();
+    bool tryDelete();
     void writeConfiguration();
 
 private:

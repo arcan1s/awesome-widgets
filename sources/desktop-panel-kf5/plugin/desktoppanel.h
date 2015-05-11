@@ -22,8 +22,6 @@
 #include <QQmlExtensionPlugin>
 
 
-class QQmlEngine;
-
 class DPPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT

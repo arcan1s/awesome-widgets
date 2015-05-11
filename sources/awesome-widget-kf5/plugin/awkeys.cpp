@@ -135,10 +135,10 @@ QString AWKeys::parsePattern()
     QString parsed = pattern;
     parsed.replace(QString("$$"), QString("$\\$\\"));
     for (int i=0; i<foundKeys.count(); i++)
-        parsed.replace(QString("$") + foundKeys[i], valueByKey(foundKeys[i]));
+        parsed.replace(QString("$%1").arg(foundKeys[i]), valueByKey(foundKeys[i]));
     parsed.replace(QString(" "), QString("&nbsp;"));
     for (int i=0; i<foundBars.count(); i++)
-        parsed.replace(QString("$") + foundBars[i], getItemByTag(foundBars[i])->image(valueByKey(foundBars[i]).toFloat()));
+        parsed.replace(QString("$%1").arg(foundBars[i]), getItemByTag(foundBars[i])->image(valueByKey(foundBars[i]).toFloat()));
     parsed.replace(QString("$\\$\\"), QString("$$"));
 
     return parsed;
@@ -259,10 +259,8 @@ QStringList AWKeys::dictKeys()
         allKeys.append(QString("hddw%1").arg(i));
     }
     // hdd temp
-    for (int i=hddDevices.count()-1; i>=0; i--) {
+    for (int i=hddDevices.count()-1; i>=0; i--)
         allKeys.append(QString("hddtemp%1").arg(i));
-        allKeys.append(QString("hddtemp%1").arg(i));
-    }
     // network
     for (int i=networkDevices.count()-1; i>=0; i--) {
         allKeys.append(QString("down%1").arg(i));
@@ -308,7 +306,8 @@ QStringList AWKeys::dictKeys()
     // bars
     QStringList graphicalItemsKeys;
     for (int i=0; i<graphicalItems.count(); i++)
-        graphicalItemsKeys.append(graphicalItems[i]->name() + graphicalItems[i]->bar());
+        graphicalItemsKeys.append(QString("%1%2").arg(graphicalItems[i]->name())
+                                                 .arg(graphicalItems[i]->bar()));
     graphicalItemsKeys.sort();
     for (int i=graphicalItemsKeys.count()-1; i>=0; i--)
         allKeys.append(graphicalItemsKeys[i]);
@@ -666,7 +665,10 @@ QString AWKeys::infoByKey(QString key)
 
     key.remove(QRegExp(QString("^bar[0-9]{1,}")));
     if (key.startsWith(QString("custom")))
-        return QString("%1").arg(extScripts[key.remove(QString("custom")).toInt()]->executable());
+        for (int i=0; i<extScripts.count(); i++) {
+            if (extScripts[i]->tag() != key) continue;
+            return extScripts[i]->executable();
+        }
     else if (key.contains(QRegExp(QString("^hdd[rw]"))))
         return QString("%1").arg(diskDevices[key.remove(QRegExp(QString("hdd[rw]"))).toInt()]);
     else if (key.startsWith(QString("fan")))
@@ -678,11 +680,17 @@ QString AWKeys::infoByKey(QString key)
     else if (key.contains(QRegExp(QString("^(down|up)[0-9]"))))
         return QString("%1").arg(networkDevices[key.remove(QRegExp(QString("^(down|up)"))).toInt()]);
     else if (key.startsWith(QString("pkgcount")))
-        return QString("%1").arg(extUpgrade[key.remove(QString("pkgcount")).toInt()]->executable());
+        for (int i=0; i<extUpgrade.count(); i++) {
+            if (extUpgrade[i]->tag() != key) continue;
+            return extUpgrade[i]->executable();
+        }
     else if ((key.startsWith(QString("ask"))) ||
              (key.startsWith(QString("bid"))) ||
              (key.startsWith(QString("price"))))
-        return QString("%1").arg(extQuotes[key.remove(QRegExp(QString("^(ask|bid|price)"))).toInt()]->ticker());
+        for (int i=0; i<extQuotes.count(); i++) {
+            if (extQuotes[i]->number() != key.remove(QRegExp(QString("^(ask|bid|price)"))).toInt()) continue;
+            return extQuotes[i]->ticker();
+        }
     else if (key.startsWith(QString("temp")))
         return QString("%1").arg(tempDevices[key.remove(QString("temp")).toInt()]);
 
@@ -761,7 +769,8 @@ void AWKeys::loadKeysFromCache()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QString fileName = QString("%1/awesomewidgets.ndx").arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
+    QString fileName = QString("%1/awesomewidgets.ndx")
+                        .arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
     if (debug) qDebug() << PDEBUG << ":" << "Cache file" << fileName;
     QSettings cache(fileName, QSettings::IniFormat);
     QStringList cachedKeys;
@@ -870,7 +879,7 @@ void AWKeys::editItemButtonPressed(QAbstractButton *button)
         case RequestedExtQuotes:
             for (int i=0; i<extQuotes.count(); i++) {
                 if (extQuotes[i]->fileName() != current) continue;
-                if (extQuotes[i]->tryDelete() == 1) {
+                if (extQuotes[i]->tryDelete()) {
                     widgetDialog->takeItem(widgetDialog->row(item));
                     extQuotes.clear();
                     extQuotes = getExtQuotes();
@@ -881,7 +890,7 @@ void AWKeys::editItemButtonPressed(QAbstractButton *button)
         case RequestedExtScript:
             for (int i=0; i<extScripts.count(); i++) {
                 if (extScripts[i]->fileName() != current) continue;
-                if (extScripts[i]->tryDelete() == 1) {
+                if (extScripts[i]->tryDelete()) {
                     widgetDialog->takeItem(widgetDialog->row(item));
                     extScripts.clear();
                     extScripts = getExtScripts();
@@ -892,7 +901,7 @@ void AWKeys::editItemButtonPressed(QAbstractButton *button)
         case RequestedExtUpgrade:
             for (int i=0; i<extUpgrade.count(); i++) {
                 if (extUpgrade[i]->fileName() != current) continue;
-                if (extUpgrade[i]->tryDelete() == 1) {
+                if (extUpgrade[i]->tryDelete()) {
                     widgetDialog->takeItem(widgetDialog->row(item));
                     extUpgrade.clear();
                     extUpgrade = getExtUpgrade();
@@ -903,7 +912,7 @@ void AWKeys::editItemButtonPressed(QAbstractButton *button)
         case RequestedGraphicalItem:
             for (int i=0; i<graphicalItems.count(); i++) {
                 if (graphicalItems[i]->fileName() != current) continue;
-                if (graphicalItems[i]->tryDelete() == 1) {
+                if (graphicalItems[i]->tryDelete()) {
                     widgetDialog->takeItem(widgetDialog->row(item));
                     graphicalItems.clear();
                     graphicalItems = getGraphicalItems();
@@ -1309,7 +1318,7 @@ QStringList AWKeys::findGraphicalItems()
 
     QStringList selectedKeys;
     for (int i=orderedKeys.count()-1; i>=0; i--)
-        if (pattern.contains(QString("$") + orderedKeys[i])) {
+        if (pattern.contains(QString("$%1").arg(orderedKeys[i]))) {
             if (debug) qDebug() << PDEBUG << ":" << "Found key" << orderedKeys[i];
             selectedKeys.append(orderedKeys[i]);
         }
@@ -1323,7 +1332,7 @@ QStringList AWKeys::findKeys()
     QStringList selectedKeys;
     for (int i=0; i<keys.count(); i++) {
         if (keys[i].startsWith(QString("bar"))) continue;
-        if (pattern.contains(QString("$") + keys[i])) {
+        if (pattern.contains(QString("$%1").arg(keys[i]))) {
             if (debug) qDebug() << PDEBUG << ":" << "Found key" << keys[i];
             selectedKeys.append(keys[i]);
         }
@@ -1339,8 +1348,8 @@ QList<ExtQuotes *> AWKeys::getExtQuotes()
 
     QList<ExtQuotes *> externalQuotes;
     // create directory at $HOME
-    QString localDir = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) +
-            QString("/awesomewidgets/quotes");
+    QString localDir = QString("%1/awesomewidgets/quotes")
+                        .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
     QDir localDirectory;
     if ((!localDirectory.exists(localDir)) && (localDirectory.mkpath(localDir)))
         if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
@@ -1370,8 +1379,8 @@ QList<ExtScript *> AWKeys::getExtScripts()
 
     QList<ExtScript *> externalScripts;
     // create directory at $HOME
-    QString localDir = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) +
-            QString("/awesomewidgets/scripts");
+    QString localDir = QString("%1/awesomewidgets/scripts")
+                        .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
     QDir localDirectory;
     if ((!localDirectory.exists(localDir)) && (localDirectory.mkpath(localDir)))
         if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
@@ -1401,8 +1410,8 @@ QList<ExtUpgrade *> AWKeys::getExtUpgrade()
 
     QList<ExtUpgrade *> externalUpgrade;
     // create directory at $HOME
-    QString localDir = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) +
-            QString("/awesomewidgets/upgrade");
+    QString localDir = QString("%1/awesomewidgets/upgrade")
+                        .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
     QDir localDirectory;
     if ((!localDirectory.exists(localDir)) && (localDirectory.mkpath(localDir)))
         if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
@@ -1432,8 +1441,8 @@ QList<GraphicalItem *> AWKeys::getGraphicalItems()
 
     QList<GraphicalItem *> items;
     // create directory at $HOME
-    QString localDir = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) +
-            QString("/awesomewidgets/desktops");
+    QString localDir = QString("%1/awesomewidgets/desktops")
+                        .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
     QDir localDirectory;
     if (localDirectory.mkpath(localDir))
         if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;

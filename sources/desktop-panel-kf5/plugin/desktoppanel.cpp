@@ -33,7 +33,7 @@ static QObject *dpadds_singletontype_provider(QQmlEngine *engine, QJSEngine *scr
 
 void DPPlugin::registerTypes(const char *uri)
 {
-    Q_ASSERT(uri == QLatin1String("org.kde.plasma.private.desktoppanel"));
+    Q_ASSERT(uri == QLatin1String("org.kde.plasma.desktoppanel"));
 
     qmlRegisterSingletonType<DPAdds>(uri, 1, 0, "DPAdds", dpadds_singletontype_provider);
 }

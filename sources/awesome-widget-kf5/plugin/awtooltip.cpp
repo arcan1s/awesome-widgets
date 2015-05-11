@@ -104,7 +104,7 @@ QPixmap AWToolTip::image()
         float normX = 100.0 / static_cast<float>(data[requiredKeys[i]].count());
         float normY = 100.0 / (1.5 * boundaries[requiredKeys[i]]);
         if (requiredKeys[i] != QString("batTooltip"))
-            pen.setColor(QColor(configuration[requiredKeys[i] + QString("Color")].toString()));
+            pen.setColor(QColor(configuration[QString("%1Color").arg(requiredKeys[i])].toString()));
         float shift = i * 100.0;
         if (down) shift -= 100.0;
         for (int j=0; j<data[requiredKeys[i]].count()-1; j++) {

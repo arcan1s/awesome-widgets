@@ -109,7 +109,7 @@ QString DPAdds::toolTipImage(const int desktop)
         QStringList windowList;
         for (int i=0; i<info.windowsData.count(); i++)
             windowList.append(info.windowsData[i].name);
-        return QString("<ul><li>") + windowList.join(QString("</li><li>")) + QString("</li></ul>");
+        return QString("<ul><li>%1</li></ul>").arg(windowList.join(QString("</li><li>")));
     }
     // init
     QGraphicsScene *toolTipScene = new QGraphicsScene();
@@ -188,7 +188,7 @@ QString DPAdds::parsePattern(const QString pattern, const int desktop)
     QStringList keys = dictKeys();
     parsed.replace(QString("$$"), QString("$\\$\\"));
     for (int i=0; i<keys.count(); i++)
-        parsed.replace(QString("$") + keys[i], valueByKey(keys[i], desktop));
+        parsed.replace(QString("$%1").arg(keys[i]), valueByKey(keys[i], desktop));
     parsed.replace(QString(" "), QString("&nbsp;"));
     parsed.replace(QString("$\\$\\"), QString("$$"));
 
@@ -238,11 +238,7 @@ QString DPAdds::valueByKey(const QString key, int desktop)
     if (debug) qDebug() << PDEBUG << ":" << "Requested key" << key;
     if (desktop == -1) desktop = currentDesktop();
 
-    QString currentMark;
-    if (currentDesktop() == desktop)
-        currentMark = mark;
-    else
-        currentMark = QString("");
+    QString currentMark = currentDesktop() == desktop ? mark : QString("");
     if (key == QString("mark"))
         return QString("%1").arg(currentMark, mark.count(), QLatin1Char(' '));
     else if (key == QString("name"))
@@ -261,7 +257,7 @@ QString DPAdds::editPanelsToContol(const QString current)
     if (debug) qDebug() << PDEBUG;
 
     // paint
-    QDialog *dialog = new QDialog(0);
+    QDialog *dialog = new QDialog(nullptr);
     QListWidget *widget = new QListWidget(dialog);
     QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Open | QDialogButtonBox::Close,
                                                      Qt::Vertical, dialog);
@@ -366,7 +362,7 @@ void DPAdds::changePanelsState()
     if (debug) qDebug() << PDEBUG;
     if (panelsToControl.isEmpty()) return;
 
-    QList<Plasma::Containment *> panels = getPanels();
+//     QList<Plasma::Containment *> panels = getPanels();
 //     for (int i=0; i<panels.count(); i++) {
 //         if (!panelsToControl.contains(i)) continue;
 //         bool wasVisible = panels[i]->view()->isVisible();
@@ -384,13 +380,13 @@ void DPAdds::changePanelsState()
 //             KWindowSystem::setOnAllDesktops(winId, true);
 //         }
 //     }
-    panels.clear();
+//     panels.clear();
 }
 
 
 void DPAdds::sendNotification(const QString eventId, const QString message)
 {
-    KNotification *notification = KNotification::event(eventId, QString("Desktop Panel ::: ") + eventId, message);
+    KNotification *notification = KNotification::event(eventId, QString("Desktop Panel ::: %1").arg(eventId), message);
     notification->setComponentName(QString("plasma-applet-org.kde.plasma.desktop-panel"));
 }
 

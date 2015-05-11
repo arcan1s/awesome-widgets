@@ -48,7 +48,7 @@ class AWKeys : public QObject
     };
 
 public:
-    AWKeys(QObject *parent = 0);
+    AWKeys(QObject *parent = nullptr);
     ~AWKeys();
 
     Q_INVOKABLE void initKeys(const QString currentPattern,

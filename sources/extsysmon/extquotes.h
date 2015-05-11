@@ -42,7 +42,7 @@ class ExtQuotes : public QDialog
     Q_PROPERTY(QString ticker READ ticker WRITE setTicker)
 
 public:
-    explicit ExtQuotes(QWidget *parent = 0, const QString quotesName = QString(),
+    explicit ExtQuotes(QWidget *parent = nullptr, const QString quotesName = QString(),
                         const QStringList directories = QStringList(), const bool debugCmd = false);
     ~ExtQuotes();
     // get methods
@@ -68,7 +68,7 @@ public slots:
     void readConfiguration();
     QMap<QString, float> run();
     int showConfiguration();
-    int tryDelete();
+    bool tryDelete();
     void writeConfiguration();
 
 private slots:

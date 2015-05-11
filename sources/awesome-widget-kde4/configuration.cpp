@@ -795,7 +795,7 @@ void AwesomeWidget::contextMenuBars(const QPoint pos)
         for (int i=0; i<graphicalItems.count(); i++) {
             if (graphicalItems[i]->fileName() != uiAdvancedConfig.listWidget_bars->currentItem()->text())
                 continue;
-            if (graphicalItems[i]->tryDelete() == 1) {
+            if (graphicalItems[i]->tryDelete()) {
                 graphicalItems.removeAt(i);
                 uiAdvancedConfig.listWidget_bars->takeItem(uiAdvancedConfig.listWidget_bars->currentRow());
             }
@@ -821,7 +821,7 @@ void AwesomeWidget::contextMenuCustomCommand(const QPoint pos)
     else if (action == remove) {
         QStringList dirs = KGlobal::dirs()->findDirs("data", "awesomewidgets/scripts");
         ExtScript *script = new ExtScript(0, uiDEConfig.listWidget_custom->currentItem()->text(), dirs, debug);
-        if (script->tryDelete() == 1)
+        if (script->tryDelete())
             uiDEConfig.listWidget_custom->takeItem(uiDEConfig.listWidget_custom->currentRow());
         delete script;
     }
@@ -845,7 +845,7 @@ void AwesomeWidget::contextMenuPkgCommand(const QPoint pos)
     else if (action == remove) {
         QStringList dirs = KGlobal::dirs()->findDirs("data", "awesomewidgets/upgrade");
         ExtUpgrade *upgrade = new ExtUpgrade(0, uiDEConfig.listWidget_pkgCommand->currentItem()->text(), dirs, debug);
-        if (upgrade->tryDelete() == 1)
+        if (upgrade->tryDelete())
             uiDEConfig.listWidget_pkgCommand->takeItem(uiDEConfig.listWidget_pkgCommand->currentRow());
         delete upgrade;
     }

@@ -31,7 +31,7 @@ class AWActions : public QObject
     Q_OBJECT
 
 public:
-    AWActions(QObject *parent = 0);
+    AWActions(QObject *parent = nullptr);
     ~AWActions();
 
     Q_INVOKABLE void checkUpdates();
@@ -39,14 +39,15 @@ public:
     Q_INVOKABLE void sendEmail();
     Q_INVOKABLE void showReadme();
     // configuration slots
-    Q_INVOKABLE QString getAboutText(const QString type = "header");
+    Q_INVOKABLE QString getAboutText(const QString type = QString("header"));
     Q_INVOKABLE QMap<QString, QVariant> getFont(const QMap<QString, QVariant> defaultFont);
     // dataengine
     Q_INVOKABLE QMap<QString, QVariant> readDataEngineConfiguration();
     Q_INVOKABLE void writeDataEngineConfiguration(const QMap<QString, QVariant> configuration);
 
 public slots:
-    Q_INVOKABLE static void sendNotification(const QString eventId, const QString message, const bool enablePopup = false);
+    Q_INVOKABLE static void sendNotification(const QString eventId, const QString message,
+                                             const bool enablePopup = false);
 
 private slots:
     void showUpdates(QString version);

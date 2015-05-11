@@ -40,12 +40,12 @@ public:
     float getHddTemp(const QString cmd, const QString device);
     QString getNetworkDevice();
     QMap<QString, QVariant> getPlayerInfo(const QString playerName,
-                                          const QString mpdAddress = 0,
-                                          const QString mpdPort = 0,
-                                          const QString mpris = 0);
-    QMap<QString, QVariant> getPlayerMpdInfo(const QString mpdAddress = 0,
-                                             const QString mpdPort = 0);
-    QMap<QString, QVariant> getPlayerMprisInfo(const QString mpris = 0);
+                                          const QString mpdAddress = QString(),
+                                          const QString mpdPort = QString(),
+                                          const QString mpris = QString());
+    QMap<QString, QVariant> getPlayerMpdInfo(const QString mpdAddress = QString(),
+                                             const QString mpdPort = QString());
+    QMap<QString, QVariant> getPlayerMprisInfo(const QString mpris = QString());
     QMap<QString, QVariant> getPsStats();
 
 protected:

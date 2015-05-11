@@ -22,7 +22,7 @@ import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents
 
-import org.kde.plasma.private.desktoppanel 1.0
+import org.kde.plasma.desktoppanel 1.0
 import "."
 
 
@@ -35,9 +35,11 @@ Item {
         "tooltipType": plasmoid.configuration.tooltipType,
         "tooltipWidth": plasmoid.configuration.tooltipWidth
     }
+    property bool initializated: false
 
     signal needUpdate
     signal needTooltipUpdate
+    signal sizeUpdate
 
 
     // init
@@ -49,16 +51,17 @@ Item {
 
 
     // ui
-    Grid {
+    GridLayout {
         anchors.fill: parent
-        horizontalItemAlignment: Grid.AlignHCenter
-        verticalItemAlignment: Grid.AlignVCenter
         columns: plasmoid.configuration.verticalLayout ? 1 : DPAdds.numberOfDesktops()
         rows: plasmoid.configuration.verticalLayout ? DPAdds.numberOfDesktops() : 1
 
         Repeater {
             id: repeater
+            Layout.columnSpan: 0
+            Layout.rowSpan: 0
             model: DPAdds.numberOfDesktops()
+
             Text {
                 id: text
                 height: contentHeight
@@ -101,8 +104,6 @@ Item {
     onNeedUpdate: {
         if (debug) console.log("[main::onNeedUpdate]")
 
-        var newHeight = 0
-        var newWidth = 0
         for (var i=0; i<repeater.count; i++) {
             if (!repeater.itemAt(i)) {
                 if (debug) console.log("[main::onNeedUpdate] : Nothing to do here " + i)
@@ -124,12 +125,9 @@ Item {
                 repeater.itemAt(i).font.weight = general.fontWeight[plasmoid.configuration.fontWeight]
             }
             repeater.itemAt(i).update()
-            newHeight += plasmoid.configuration.height == 0 ? repeater.itemAt(i).contentHeight : plasmoid.configuration.height / repeater.count
-            newWidth += plasmoid.configuration.width == 0 ? repeater.itemAt(i).contentWidth : plasmoid.configuration.width / repeater.count
         }
-        Layout.minimumHeight = newHeight
-        Layout.minimumWidth = newWidth
 
+        if (!initializated) sizeUpdate()
         needTooltipUpdate()
     }
 
@@ -141,6 +139,19 @@ Item {
         }
     }
 
+    onSizeUpdate: {
+        if (debug) console.log("[main::onSizeUpdate]")
+
+        var newHeight = 0
+        var newWidth = 0
+        for (var i=0; i<repeater.count; i++) {
+            newHeight += plasmoid.configuration.height == 0 ? repeater.itemAt(i).contentHeight : plasmoid.configuration.height / repeater.count
+            newWidth += plasmoid.configuration.width == 0 ? repeater.itemAt(i).contentWidth : plasmoid.configuration.width / repeater.count
+        }
+        Layout.minimumHeight = newHeight
+        Layout.minimumWidth = newWidth
+    }
+
     Plasmoid.onActivated: {
         if (debug) console.log("[main::onActivated]")
 
@@ -150,10 +161,13 @@ Item {
     Plasmoid.onUserConfiguringChanged: {
         if (debug) console.log("[main::onUserConfiguringChanged]")
 
+        initializated = false
         DPAdds.setMark(plasmoid.configuration.mark)
         DPAdds.setPanelsToControl(plasmoid.configuration.panels)
         DPAdds.setToolTipData(tooltipSettings)
+
         needUpdate()
+        initializated = true
     }
 
     Component.onCompleted: {

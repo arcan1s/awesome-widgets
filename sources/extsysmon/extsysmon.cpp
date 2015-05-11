@@ -76,7 +76,7 @@ QString ExtendedSysMon::getAllHdd()
     QStringList allDevices = QDir(QString("/dev")).entryList(QDir::System, QDir::Name);
     QStringList devices = allDevices.filter(QRegExp(QString("^[hms]d[a-z]$")));
     for (int i=0; i<devices.count(); i++)
-        devices[i] = QString("/dev/") + devices[i];
+        devices[i] = QString("/dev/%1").arg(devices[i]);
 
     if (debug) qDebug() << PDEBUG << ":" << "Device list" << devices;
     return devices.join(QChar(','));
@@ -107,7 +107,7 @@ QString ExtendedSysMon::getAutoMpris()
     if (debug) qDebug() << PDEBUG;
 
     QDBusMessage listServices = QDBusConnection::sessionBus().interface()->call(QDBus::BlockWithGui, QString("ListNames"));
-    if (listServices.arguments().count() == 0) return QString();
+    if (listServices.arguments().isEmpty()) return QString();
     QStringList arguments = listServices.arguments()[0].toStringList();
 
     for (int i=0; i<arguments.count(); i++) {
@@ -136,8 +136,8 @@ void ExtendedSysMon::initQuotes()
 
     dirs = KGlobal::dirs()->findDirs("data", "awesomewidgets/quotes");
 #else
-    localDir = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) +
-            QString("/awesomewidgets/quotes");
+    localDir = QString("%1/awesomewidgets/quotes")
+                .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
     QDir localDirectory;
     if ((!localDirectory.exists(localDir)) && (localDirectory.mkpath(localDir)))
         if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
@@ -175,8 +175,8 @@ void ExtendedSysMon::initScripts()
 
     dirs = KGlobal::dirs()->findDirs("data", "awesomewidgets/scripts");
 #else
-    localDir = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) +
-            QString("/awesomewidgets/scripts");
+    localDir = QString("%1/awesomewidgets/scripts")
+                .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
     QDir localDirectory;
     if ((!localDirectory.exists(localDir)) && (localDirectory.mkpath(localDir)))
         if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
@@ -214,8 +214,8 @@ void ExtendedSysMon::initUpgrade()
 
     dirs = KGlobal::dirs()->findDirs("data", "awesomewidgets/upgrade");
 #else
-    localDir = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) +
-            QString("/awesomewidgets/upgrade");
+    localDir = QString("%1/awesomewidgets/upgrade")
+                .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
     QDir localDirectory;
     if ((!localDirectory.exists(localDir)) && (localDirectory.mkpath(localDir)))
         if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
@@ -356,9 +356,9 @@ QMap<QString, QVariant> ExtendedSysMon::getBattery(const QString acpiPath)
         if (allDevices[i].contains(batRegexp))
             batDevices.append(allDevices[i]);
     for (int i=0; i<batDevices.count(); i++) {
-        QFile batFile(acpiPath + QString("/") + batDevices[i] + QString("/capacity"));
+        QFile batFile(QString("%1/%2/capacity").arg(acpiPath).arg(batDevices[i]));
         if (batFile.open(QIODevice::ReadOnly))
-            battery[QString("bat") + QString::number(i)] = QString(batFile.readLine()).trimmed().toInt();
+            battery[QString("bat%1").arg(i)] = QString(batFile.readLine()).trimmed().toInt();
         batFile.close();
     }
     float number = 0.0;

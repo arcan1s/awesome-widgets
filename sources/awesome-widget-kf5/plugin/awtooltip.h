@@ -32,7 +32,7 @@ class AWToolTip : public QObject
     Q_OBJECT
 
 public:
-    AWToolTip(QObject *parent = 0,
+    AWToolTip(QObject *parent = nullptr,
               QMap<QString, QVariant> settings = QMap<QString, QVariant>());
     ~AWToolTip();
 

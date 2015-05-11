@@ -285,7 +285,7 @@ void ExtScript::readConfiguration()
 
     for (int i=m_dirs.count()-1; i>=0; i--) {
         if (!QDir(m_dirs[i]).entryList(QDir::Files).contains(m_fileName)) continue;
-        QSettings settings(m_dirs[i] + QDir::separator() + m_fileName, QSettings::IniFormat);
+        QSettings settings(QString("%1/%2").arg(m_dirs[i]).arg(m_fileName), QSettings::IniFormat);
 
         settings.beginGroup(QString("Desktop Entry"));
         setName(settings.value(QString("Name"), m_name).toString());
@@ -329,8 +329,8 @@ QString ExtScript::run()
         if (process.exitCode != 0)
             if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
-        QString info = QString::number(process.exitCode) + QString(":") +
-                    QTextCodec::codecForMib(106)->toUnicode(process.error).trimmed();
+        QString info = QString("%1 : %2").arg(process.exitCode)
+                        .arg(QTextCodec::codecForMib(106)->toUnicode(process.error).trimmed());
         QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
         switch (m_redirect) {
         case stdout2stderr:
@@ -338,7 +338,7 @@ QString ExtScript::run()
             if (debug) qDebug() << PDEBUG << ":" << "Output" << qoutput;
             break;
         case stderr2stdout:
-            value = info + QString("\t") + qoutput;
+            value = QString("%1\t%2").arg(info).arg(qoutput);
             break;
         default:
             if (debug) qDebug() << PDEBUG << ":" << "Debug" << info;
@@ -393,18 +393,18 @@ int ExtScript::showConfiguration()
 }
 
 
-int ExtScript::tryDelete()
+bool ExtScript::tryDelete()
 {
     if (debug) qDebug() << PDEBUG;
 
     for (int i=0; i<m_dirs.count(); i++)
-        if (debug) qDebug() << PDEBUG << ":" << "Remove file" << m_dirs[i] + QDir::separator() + m_fileName <<
-                               QFile::remove(m_dirs[i] + QDir::separator() + m_fileName);
+        if (debug) qDebug() << PDEBUG << ":" << "Remove file" << QString("%1/%2").arg(m_dirs[i]).arg(m_fileName) <<
+                               QFile::remove(QString("%1/%2").arg(m_dirs[i]).arg(m_fileName));
 
     // check if exists
     for (int i=0; i<m_dirs.count(); i++)
-        if (QFile::exists(m_dirs[i] + QDir::separator() + m_fileName)) return 0;
-    return 1;
+        if (QFile::exists(QString("%1/%2").arg(m_dirs[i]).arg(m_fileName))) return false;
+    return true;
 }
 
 
@@ -412,7 +412,7 @@ void ExtScript::writeConfiguration()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QSettings settings(m_dirs[0] + QDir::separator() + m_fileName, QSettings::IniFormat);
+    QSettings settings(QString("%1/%2").arg(m_dirs[0]).arg(m_fileName), QSettings::IniFormat);
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));

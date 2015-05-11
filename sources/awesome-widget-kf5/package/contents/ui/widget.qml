@@ -19,7 +19,7 @@ import QtQuick 2.0
 import QtQuick.Controls 1.3 as QtControls
 import org.kde.plasma.core 2.0 as PlasmaCore
 
-import org.kde.plasma.private.awesomewidget 1.0
+import org.kde.plasma.awesomewidget 1.0
 
 
 Item {

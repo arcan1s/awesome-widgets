@@ -51,7 +51,7 @@ public:
         Circle
     };
 
-    explicit GraphicalItem(QWidget *parent = 0, const QString desktopName = QString(),
+    explicit GraphicalItem(QWidget *parent = nullptr, const QString desktopName = QString(),
                            const QStringList directories = QStringList(), const bool debugCmd = false);
     ~GraphicalItem();
     QString fileName();
@@ -86,7 +86,7 @@ public:
 public slots:
     void readConfiguration();
     int showConfiguration(const QStringList tags = QStringList());
-    int tryDelete();
+    bool tryDelete();
     void writeConfiguration();
 
 private slots:

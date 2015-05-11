@@ -46,7 +46,7 @@ public:
         stderr2stdout
     };
 
-    explicit ExtScript(QWidget *parent = 0, const QString scriptName = QString(),
+    explicit ExtScript(QWidget *parent = nullptr, const QString scriptName = QString(),
                        const QStringList directories = QStringList(), const bool debugCmd = false);
     ~ExtScript();
     // get methods
@@ -80,7 +80,7 @@ public slots:
     void readConfiguration();
     QString run();
     int showConfiguration();
-    int tryDelete();
+    bool tryDelete();
     void writeConfiguration();
 
 private:

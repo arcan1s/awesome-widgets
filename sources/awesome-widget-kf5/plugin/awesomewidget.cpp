@@ -43,7 +43,7 @@ static QObject *awkeys_singletontype_provider(QQmlEngine *engine, QJSEngine *scr
 
 void AWPlugin::registerTypes(const char *uri)
 {
-    Q_ASSERT(uri == QLatin1String("org.kde.plasma.private.awesomewidget"));
+    Q_ASSERT(uri == QLatin1String("org.kde.plasma.awesomewidget"));
 
     qmlRegisterSingletonType<AWActions>(uri, 1, 0, "AWActions", awactions_singletontype_provider);
     qmlRegisterSingletonType<AWKeys>(uri, 1, 0, "AWKeys", awkeys_singletontype_provider);

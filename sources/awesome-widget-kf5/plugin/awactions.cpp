@@ -199,7 +199,7 @@ void AWActions::sendNotification(const QString eventId, const QString message, c
 {
     if ((eventId == QString("event")) && (!enablePopup)) return;
 
-    KNotification *notification = KNotification::event(eventId, QString("Awesome Widget ::: ") + eventId, message);
+    KNotification *notification = KNotification::event(eventId, QString("Awesome Widget ::: %1").arg(eventId), message);
     notification->setComponentName(QString("plasma-applet-org.kde.plasma.awesome-widget"));
 }
 
