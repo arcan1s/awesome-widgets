@@ -270,10 +270,7 @@ int ExtUpgrade::showConfiguration()
     ui->lineEdit_comment->setText(m_comment);
     ui->label_numberValue->setText(QString("%1").arg(m_number));
     ui->lineEdit_command->setText(m_executable);
-    if (m_active)
-        ui->checkBox_active->setCheckState(Qt::Checked);
-    else
-        ui->checkBox_active->setCheckState(Qt::Unchecked);
+    ui->checkBox_active->setCheckState(m_active ? Qt::Checked : Qt::Unchecked);
     ui->spinBox_null->setValue(m_null);
     ui->spinBox_interval->setValue(m_interval);
 

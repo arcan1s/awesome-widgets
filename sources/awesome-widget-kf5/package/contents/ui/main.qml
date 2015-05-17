@@ -59,6 +59,7 @@ Item {
     }
 
     signal needUpdate
+    signal sizeUpdate
 
 
     // init
@@ -67,8 +68,7 @@ Item {
 
     Layout.fillWidth: plasmoid.formFactor != PlasmaCore.Planar
     Layout.fillHeight: plasmoid.formFactor != PlasmaCore.Planar
-    Layout.minimumHeight: plasmoid.configuration.height == 0 ? text.contentHeight : plasmoid.configuration.height
-    Layout.minimumWidth: plasmoid.configuration.width == 0 ? text.contentWidth : plasmoid.configuration.width
+    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
 
     Plasmoid.icon: "utilities-system-monitor"
     Plasmoid.backgroundHints: plasmoid.configuration.background ? "DefaultBackground" : "NoBackground"
@@ -160,7 +160,7 @@ Item {
         plasmoid.setAction("checkUpdates", i18n("Check updates"), "system-software-update")
 //         plasmoid.setAction("report", i18n("Mail to developers"), "email")
         // init submodule
-        Plasmoid.userConfiguringChanged(true)
+        Plasmoid.userConfiguringChanged(false)
     }
 
     onNeedUpdate: {
@@ -168,13 +168,37 @@ Item {
 
         text.text = AWKeys.parsePattern()
         tooltip.text = AWKeys.toolTipImage()
+
+        sizeUpdate()
+    }
+
+    onSizeUpdate: {
+        if (debug) console.log("[main::onSizeUpdate]")
+
+        if (plasmoid.configuration.height == 0) {
+            Layout.minimumHeight = text.contentHeight
+            Layout.maximumHeight = -1
+        } else {
+            Layout.minimumHeight = plasmoid.configuration.height
+            Layout.maximumHeight = plasmoid.configuration.height
+        }
+        if (plasmoid.configuration.width == 0) {
+            Layout.minimumWidth = text.contentWidth
+            Layout.maximumWidth = -1
+        } else {
+            Layout.minimumWidth = plasmoid.configuration.width
+            Layout.maximumWidth = plasmoid.configuration.width
+        }
     }
 
     Plasmoid.onUserConfiguringChanged: {
+        if (plasmoid.userConfiguring) return
         if (debug) console.log("[main::onUserConfiguringChanged]")
 
         // init submodule
         AWKeys.initKeys(plasmoid.configuration.text, tooltipSettings, plasmoid.configuration.notify)
+
+        needUpdate()
     }
 
     function action_checkUpdates() {

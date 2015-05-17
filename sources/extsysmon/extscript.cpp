@@ -320,14 +320,12 @@ QString ExtScript::run()
 
     if (times == 1) {
         QStringList cmdList;
-        if (!m_prefix.isEmpty())
-            cmdList.append(m_prefix);
+        if (!m_prefix.isEmpty()) cmdList.append(m_prefix);
         cmdList.append(m_executable);
         if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmdList.join(QChar(' '));
         TaskResult process = runTask(cmdList.join(QChar(' ')));
         if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-        if (process.exitCode != 0)
-            if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
         QString info = QString("%1 : %2").arg(process.exitCode)
                         .arg(QTextCodec::codecForMib(106)->toUnicode(process.error).trimmed());
@@ -340,6 +338,7 @@ QString ExtScript::run()
         case stderr2stdout:
             value = QString("%1\t%2").arg(info).arg(qoutput);
             break;
+        case nothing:
         default:
             if (debug) qDebug() << PDEBUG << ":" << "Debug" << info;
             value = qoutput;
@@ -364,14 +363,8 @@ int ExtScript::showConfiguration()
     ui->label_numberValue->setText(QString("%1").arg(m_number));
     ui->lineEdit_command->setText(m_executable);
     ui->lineEdit_prefix->setText(m_prefix);
-    if (m_active)
-        ui->checkBox_active->setCheckState(Qt::Checked);
-    else
-        ui->checkBox_active->setCheckState(Qt::Unchecked);
-    if (m_output)
-        ui->checkBox_output->setCheckState(Qt::Checked);
-    else
-        ui->checkBox_output->setCheckState(Qt::Unchecked);
+    ui->checkBox_active->setCheckState(m_active ? Qt::Checked : Qt::Unchecked);
+    ui->checkBox_output->setCheckState(m_output ? Qt::Checked : Qt::Unchecked);
     ui->comboBox_redirect->setCurrentIndex(static_cast<int>(m_redirect));
     ui->spinBox_interval->setValue(m_interval);
 
@@ -423,7 +416,7 @@ void ExtScript::writeConfiguration()
     settings.setValue(QString("X-AW-ApiVersion"), m_apiVersion);
     settings.setValue(QString("X-AW-Prefix"), m_prefix);
     settings.setValue(QString("X-AW-Active"), QVariant(m_active).toString());
-    settings.setValue(QString("X-AW-Output"), QVariant(m_active).toString());
+    settings.setValue(QString("X-AW-Output"), QVariant(m_output).toString());
     settings.setValue(QString("X-AW-Redirect"), strRedirect());
     settings.setValue(QString("X-AW-Interval"), m_interval);
     settings.setValue(QString("X-AW-Number"), m_number);

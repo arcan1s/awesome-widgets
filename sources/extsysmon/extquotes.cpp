@@ -256,10 +256,7 @@ int ExtQuotes::showConfiguration()
     ui->lineEdit_comment->setText(m_comment);
     ui->label_numberValue->setText(QString("%1").arg(m_number));
     ui->lineEdit_ticker->setText(m_ticker);
-    if (m_active)
-        ui->checkBox_active->setCheckState(Qt::Checked);
-    else
-        ui->checkBox_active->setCheckState(Qt::Unchecked);
+    ui->checkBox_active->setCheckState(m_active ? Qt::Checked : Qt::Unchecked);
     ui->spinBox_interval->setValue(m_interval);
 
     int ret = exec();

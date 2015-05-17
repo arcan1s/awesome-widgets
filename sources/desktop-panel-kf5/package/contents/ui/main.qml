@@ -35,7 +35,6 @@ Item {
         "tooltipType": plasmoid.configuration.tooltipType,
         "tooltipWidth": plasmoid.configuration.tooltipWidth
     }
-    property bool initializated: false
 
     signal needUpdate
     signal needTooltipUpdate
@@ -45,6 +44,8 @@ Item {
     // init
     Plasmoid.preferredRepresentation: Plasmoid.fullRepresentation
     Plasmoid.compactRepresentation: Plasmoid.fullRepresentation
+
+    Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
 
     Plasmoid.icon: "utilities-system-monitor"
     Plasmoid.backgroundHints: plasmoid.configuration.background ? "DefaultBackground" : "NoBackground"
@@ -127,7 +128,7 @@ Item {
             repeater.itemAt(i).update()
         }
 
-        if (!initializated) sizeUpdate()
+        sizeUpdate()
         needTooltipUpdate()
     }
 
@@ -142,14 +143,26 @@ Item {
     onSizeUpdate: {
         if (debug) console.log("[main::onSizeUpdate]")
 
-        var newHeight = 0
-        var newWidth = 0
-        for (var i=0; i<repeater.count; i++) {
-            newHeight += plasmoid.configuration.height == 0 ? repeater.itemAt(i).contentHeight : plasmoid.configuration.height / repeater.count
-            newWidth += plasmoid.configuration.width == 0 ? repeater.itemAt(i).contentWidth : plasmoid.configuration.width / repeater.count
+        if (plasmoid.configuration.height == 0) {
+            var newHeight = 0
+            for (var i=0; i<repeater.count; i++)
+                newHeight += repeater.itemAt(i).contentHeight
+            Layout.minimumHeight = newHeight
+            Layout.maximumHeight = -1
+        } else {
+            Layout.minimumHeight = plasmoid.configuration.height
+            Layout.maximumHeight = plasmoid.configuration.height
         }
-        Layout.minimumHeight = newHeight
-        Layout.minimumWidth = newWidth
+        if (plasmoid.configuration.width == 0) {
+            var newWidth = 0
+            for (var i=0; i<repeater.count; i++)
+                newWidth += repeater.itemAt(i).contentWidth
+            Layout.minimumWidth = newWidth
+            Layout.maximumWidth = -1
+        } else {
+            Layout.minimumWidth = plasmoid.configuration.width
+            Layout.maximumWidth = plasmoid.configuration.width
+        }
     }
 
     Plasmoid.onActivated: {
@@ -159,22 +172,21 @@ Item {
     }
 
     Plasmoid.onUserConfiguringChanged: {
+        if (plasmoid.userConfiguring) return
         if (debug) console.log("[main::onUserConfiguringChanged]")
 
-        initializated = false
         DPAdds.setMark(plasmoid.configuration.mark)
         DPAdds.setPanelsToControl(plasmoid.configuration.panels)
         DPAdds.setToolTipData(tooltipSettings)
 
         needUpdate()
-        initializated = true
     }
 
     Component.onCompleted: {
         if (debug) console.log("[main::onCompleted]")
 
         // init submodule
-        Plasmoid.userConfiguringChanged(true)
+        Plasmoid.userConfiguringChanged(false)
         DPAdds.desktopChanged.connect(needUpdate)
         DPAdds.windowListChanged.connect(needTooltipUpdate)
     }
