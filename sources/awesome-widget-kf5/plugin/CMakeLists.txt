@@ -26,19 +26,16 @@ include_directories (${CMAKE_SOURCE_DIR}
                      ${Kf5_INCLUDE})
 
 # task source is required by extscripts
-file (GLOB_RECURSE SUBPROJECT_SOURCE *.cpp ${PROJECT_TRDPARTY_DIR}/task/*.cpp
-                                     ${PROJECT_TRDPARTY_DIR}/fontdialog/*.cpp
+file (GLOB_RECURSE SUBPROJECT_SOURCE *.cpp ${PROJECT_TRDPARTY_DIR}/fontdialog/*.cpp
                                      ../../extsysmon/extquotes.cpp
                                      ../../extsysmon/extscript.cpp
                                      ../../extsysmon/extupgrade.cpp)
-set (SUBPROJECT_HEADER ${PROJECT_TRDPARTY_DIR}/task/task.h)
 file (GLOB SUBPROJECT_UI *.ui)
 file (GLOB SUBPROJECT_NOTIFY *.notifyrc)
 set (SUBPROJECT_DESKTOP ${CMAKE_CURRENT_SOURCE_DIR}/desktops)
 
-qt5_wrap_cpp (SUBPROJECT_MOC_SOURCE ${SUBPROJECT_HEADER})
 qt5_wrap_ui (SUBPROJECT_UI_HEADER ${SUBPROJECT_UI})
-add_library (${PLUGIN_NAME} SHARED ${SUBPROJECT_SOURCE} ${SUBPROJECT_UI_HEADER} ${SUBPROJECT_MOC_SOURCE})
+add_library (${PLUGIN_NAME} SHARED ${SUBPROJECT_SOURCE})
 target_link_libraries (${PLUGIN_NAME} ${Qt_LIBRARIES} ${Kf5_LIBRARIES})
 
 install (TARGETS ${PLUGIN_NAME} DESTINATION ${QML_INSTALL_DIR}/org/kde/plasma/awesomewidget)

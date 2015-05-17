@@ -19,7 +19,6 @@
 #define EXTSYSMON_H
 
 #include <Plasma/DataEngine>
-#include <QProcess>
 
 
 class ExtQuotes;
@@ -31,7 +30,8 @@ class ExtendedSysMon : public Plasma::DataEngine
     Q_OBJECT
 
 public:
-    ExtendedSysMon(QObject *parent, const QVariantList &args);
+    explicit ExtendedSysMon(QObject *parent, const QVariantList &args);
+    ~ExtendedSysMon();
     // update functions
     QMap<QString, QVariant> getBattery(const QString acpiPath);
     QMap<QString, QVariant> getCurrentDesktop();

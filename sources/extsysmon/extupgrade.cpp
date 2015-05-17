@@ -25,7 +25,6 @@
 #include <QTime>
 
 #include <pdebug/pdebug.h>
-#include <task/taskadds.h>
 
 #include "version.h"
 
@@ -39,6 +38,11 @@ ExtUpgrade::ExtUpgrade(QWidget *parent, const QString upgradeName, const QString
 {
     m_name = m_fileName;
     readConfiguration();
+    // init process
+    process = new QProcess(this);
+    connect(process, SIGNAL(finished(int)), this, SLOT(updateValue()));
+    process->waitForFinished(0);
+    // init ui
     ui->setupUi(this);
 }
 
@@ -47,6 +51,8 @@ ExtUpgrade::~ExtUpgrade()
 {
     if (debug) qDebug() << PDEBUG;
 
+    process->kill();
+    delete process;
     delete ui;
 }
 
@@ -244,18 +250,10 @@ int ExtUpgrade::run()
     if (debug) qDebug() << PDEBUG;
     if (!m_active) return value;
 
-    if (times == 1) {
-        TaskResult process = runTask(QString("bash -c \"%1\"").arg(m_executable));
-        if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-        if (process.exitCode != 0)
-            if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
-
-        QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
-        value = qoutput.split(QChar('\n'), QString::SkipEmptyParts).count() - m_null;
-    }
-
-    // update value
-    if (times >= m_interval) times = 0;
+    if ((times == 1) && (process->state() == QProcess::NotRunning))
+        process->start(QString("bash -c \"%1\"").arg(m_executable));
+    else if (times >= m_interval)
+        times = 0;
     times++;
 
     return value;
@@ -325,4 +323,16 @@ void ExtUpgrade::writeConfiguration()
     settings.endGroup();
 
     settings.sync();
+}
+
+
+void ExtUpgrade::updateValue()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process->exitCode();
+    if (debug) qDebug() << PDEBUG << ":" << "Error" << process->readAllStandardError();
+
+    QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process->readAllStandardOutput()).trimmed();
+    value = qoutput.split(QChar('\n'), QString::SkipEmptyParts).count() - m_null;
 }

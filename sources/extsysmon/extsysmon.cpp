@@ -69,6 +69,16 @@ ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList &args)
 }
 
 
+ExtendedSysMon::~ExtendedSysMon()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    externalQuotes.clear();
+    externalScripts.clear();
+    externalUpgrade.clear();
+}
+
+
 QString ExtendedSysMon::getAllHdd()
 {
     if (debug) qDebug() << PDEBUG;
@@ -408,10 +418,9 @@ float ExtendedSysMon::getGpu(const QString device)
     else if (device == QString("ati"))
         cmd = QString("aticonfig --od-getclocks");
     if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
-    TaskResult process = runTask(QString("bash -c \"") + cmd + QString("\""));
+    TaskResult process = runTask(cmd);
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-    if (process.exitCode != 0)
-        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+    if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     if (configuration[QString("GPUDEV")] == QString("nvidia"))
@@ -452,10 +461,9 @@ float ExtendedSysMon::getGpuTemp(const QString device)
     else if (device == QString("ati"))
         cmd = QString("aticonfig --od-gettemperature");
     if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
-    TaskResult process = runTask(QString("bash -c \"") + cmd + QString("\""));
+    TaskResult process = runTask(cmd);
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-    if (process.exitCode != 0)
-        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+    if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output);
     if (configuration[QString("GPUDEV")] == QString("nvidia"))
@@ -487,10 +495,9 @@ float ExtendedSysMon::getHddTemp(const QString cmd, const QString device)
     if (debug) qDebug() << PDEBUG << ":" << "Device" << device;
 
     float value = 0.0;
-    TaskResult process = runTask(cmd + QString(" ") + device);
+    TaskResult process = runTask(QString("%1 %2").arg(cmd).arg(device));
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-    if (process.exitCode != 0)
-        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+    if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
     bool smartctl = cmd.contains(QString("smartctl"));
     if (debug) qDebug() << PDEBUG << ":" << "Define smartctl" << smartctl;
@@ -583,8 +590,7 @@ QMap<QString, QVariant> ExtendedSysMon::getPlayerMpdInfo(const QString mpdAddres
     if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
     TaskResult process = runTask(cmd);
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-    if (process.exitCode != 0)
-        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+    if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     QString qstr = QString("");
@@ -661,7 +667,8 @@ QMap<QString, QVariant> ExtendedSysMon::getPsStats()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QStringList allDirectories = QDir(QString("/proc")).entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
+    QStringList allDirectories = QDir(QString("/proc")).entryList(QDir::Dirs | QDir::NoDotAndDotDot,
+                                                                  QDir::Name);
     QStringList directories = allDirectories.filter(QRegExp(QString("(\\d+)")));
     QStringList running;
 
@@ -731,9 +738,9 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
             setData(source, externalUpgrade[i]->tag(), externalUpgrade[i]->run());
     } else if (source == QString("player")) {
         QMap<QString, QVariant> player = getPlayerInfo(configuration[QString("PLAYER")],
-                configuration[QString("MPDADDRESS")],
-                configuration[QString("MPDPORT")],
-                configuration[QString("MPRIS")]);
+                                                       configuration[QString("MPDADDRESS")],
+                                                       configuration[QString("MPDPORT")],
+                                                       configuration[QString("MPRIS")]);
         for (int i=0; i<player.keys().count(); i++)
             setData(source, player.keys()[i], player[player.keys()[i]]);
     } else if (source == QString("ps")) {

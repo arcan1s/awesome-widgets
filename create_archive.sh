@@ -21,7 +21,7 @@ rm -rf "${ARCHIVE}"
 # build widget
 ARCHIVE="awesome-widgets"
 FILES="AUTHORS CHANGELOG CHANGELOG-RU COPYING"
-IGNORELIST="build usr .kdev4 sources.kdev4"
+IGNORELIST="build usr .kdev4 *.kdev4"
 # create archive
 [[ -e ${ARCHIVE}-${VERSION}-src.tar.xz ]] && rm -f "${ARCHIVE}-${VERSION}-src.tar.xz"
 [[ -d ${ARCHIVE} ]] && rm -rf "${ARCHIVE}"

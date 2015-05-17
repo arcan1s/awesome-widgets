@@ -19,6 +19,7 @@
 #define EXTSCRIPT_H
 
 #include <QDialog>
+#include <QProcess>
 
 
 namespace Ui {
@@ -83,10 +84,14 @@ public slots:
     bool tryDelete();
     void writeConfiguration();
 
+private slots:
+    void updateValue();
+
 private:
     QString m_fileName;
     QStringList m_dirs;
     bool debug;
+    QProcess *process = nullptr;
     Ui::ExtScript *ui;
     // properties
     int m_apiVersion = 0;
@@ -99,6 +104,7 @@ private:
     bool m_output = true;
     QString m_prefix = QString("");
     Redirect m_redirect = nothing;
+    Q_PID childProcess = 0;
     int times = 0;
     QString value = QString();
 };

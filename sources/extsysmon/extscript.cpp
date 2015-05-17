@@ -25,7 +25,6 @@
 #include <QTime>
 
 #include <pdebug/pdebug.h>
-#include <task/taskadds.h>
 
 #include "version.h"
 
@@ -39,6 +38,11 @@ ExtScript::ExtScript(QWidget *parent, const QString scriptName, const QStringLis
 {
     m_name = m_fileName;
     readConfiguration();
+    // init process
+    process = new QProcess(this);
+    connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(updateValue()));
+    process->waitForFinished(0);
+    // init ui
     ui->setupUi(this);
 }
 
@@ -47,6 +51,8 @@ ExtScript::~ExtScript()
 {
     if (debug) qDebug() << PDEBUG;
 
+    process->kill();
+    delete process;
     delete ui;
 }
 
@@ -318,36 +324,14 @@ QString ExtScript::run()
     if (debug) qDebug() << PDEBUG;
     if (!m_active) return value;
 
-    if (times == 1) {
+    if ((times == 1) && (process->state() == QProcess::NotRunning)) {
         QStringList cmdList;
         if (!m_prefix.isEmpty()) cmdList.append(m_prefix);
         cmdList.append(m_executable);
         if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmdList.join(QChar(' '));
-        TaskResult process = runTask(cmdList.join(QChar(' ')));
-        if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
-
-        QString info = QString("%1 : %2").arg(process.exitCode)
-                        .arg(QTextCodec::codecForMib(106)->toUnicode(process.error).trimmed());
-        QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
-        switch (m_redirect) {
-        case stdout2stderr:
-            if (debug) qDebug() << PDEBUG << ":" << "Debug" << info;
-            if (debug) qDebug() << PDEBUG << ":" << "Output" << qoutput;
-            break;
-        case stderr2stdout:
-            value = QString("%1\t%2").arg(info).arg(qoutput);
-            break;
-        case nothing:
-        default:
-            if (debug) qDebug() << PDEBUG << ":" << "Debug" << info;
-            value = qoutput;
-            break;
-        }
-    }
-
-    // update value
-    if (times >= m_interval) times = 0;
+        process->start(cmdList.join(QChar(' ')));
+    } else if (times >= m_interval)
+        times = 0;
     times++;
 
     return value;
@@ -423,4 +407,30 @@ void ExtScript::writeConfiguration()
     settings.endGroup();
 
     settings.sync();
+}
+
+
+void ExtScript::updateValue()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process->exitCode();
+    QString qdebug = QTextCodec::codecForMib(106)->toUnicode(process->readAllStandardError()).trimmed();
+    if (debug) qDebug() << PDEBUG << ":" << "Error" << qdebug;
+    QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process->readAllStandardOutput()).trimmed();
+
+    switch (m_redirect) {
+    case stdout2stderr:
+        if (debug) qDebug() << PDEBUG << ":" << "Debug" << qdebug;
+        if (debug) qDebug() << PDEBUG << ":" << "Output" << qoutput;
+        break;
+    case stderr2stdout:
+        value = QString("%1\t%2").arg(qdebug).arg(qoutput);
+        break;
+    case nothing:
+    default:
+        if (debug) qDebug() << PDEBUG << ":" << "Debug" << qdebug;
+        value = qoutput;
+        break;
+    }
 }

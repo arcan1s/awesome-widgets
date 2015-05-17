@@ -19,6 +19,7 @@
 #define EXTUPGRADE_H
 
 #include <QDialog>
+#include <QProcess>
 
 
 namespace Ui {
@@ -69,10 +70,14 @@ public slots:
     bool tryDelete();
     void writeConfiguration();
 
+private slots:
+    void updateValue();
+
 private:
     QString m_fileName;
     QStringList m_dirs;
     bool debug;
+    QProcess *process = nullptr;
     Ui::ExtUpgrade *ui;
     // properties
     int m_apiVersion = 0;
