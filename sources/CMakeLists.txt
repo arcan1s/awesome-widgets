@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required (VERSION 2.8.12)
 
 cmake_policy (SET CMP0003 OLD)
 cmake_policy (SET CMP0002 OLD)
@@ -21,12 +21,6 @@ message (STATUS "Project: ${PROJECT_NAME}")
 message (STATUS "Version: ${PROJECT_VERSION}")
 message (STATUS "Build date: ${CURRENT_DATE}")
 
-option (BUILD_KDE4 "Build on KDE4" OFF)
-# update minimum cmake version
-if (NOT BUILD_KDE4)
-  cmake_minimum_required (VERSION 2.8.12)
-endif ()
-
 # flags
 if (CMAKE_COMPILER_IS_GNUCXX)
   set (CMAKE_CXX_FLAGS "-Wall -Wno-cpp -std=c++11")
@@ -45,13 +39,8 @@ configure_file (${CMAKE_SOURCE_DIR}/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/ver
 set (PROJECT_TRDPARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty)
 
 add_subdirectory (extsysmon)
-if (BUILD_KDE4)
-  add_subdirectory (awesome-widget-kde4)
-  add_subdirectory (desktop-panel-kde4)
-else ()
-  add_subdirectory (awesome-widget-kf5)
-  add_subdirectory (desktop-panel-kf5)
-endif ()
+add_subdirectory (awesome-widget)
+add_subdirectory (desktop-panel)
 
 # translations
 add_subdirectory (translations)

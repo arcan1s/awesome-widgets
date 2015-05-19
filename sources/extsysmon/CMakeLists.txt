@@ -4,28 +4,20 @@ set (PLUGIN_NAME ${SUBPROJECT})
 message (STATUS "Subproject ${SUBPROJECT}")
 
 # find required libaries
-if (BUILD_KDE4)
-  find_package (KDE4 REQUIRED)
-  include (KDE4Defaults)
+find_package (Qt5 REQUIRED COMPONENTS DBus Network Widgets Xml)
+find_package (ECM 0.0.11 REQUIRED NO_MODULE)
+set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
+find_package (KF5 REQUIRED COMPONENTS Plasma Service WindowSystem)
 
-  add_definitions (${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
-  set (KDE_INCLUDE ${KDE4_INCLUDES})
-else ()
-  find_package (Qt5 REQUIRED COMPONENTS DBus Network Widgets Xml)
-  find_package (ECM 0.0.11 REQUIRED NO_MODULE)
-  set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
-  find_package (KF5 REQUIRED COMPONENTS Plasma Service WindowSystem)
+include (KDEInstallDirs)
+include (KDECMakeSettings)
+include (KDECompilerSettings)
 
-  include (KDEInstallDirs)
-  include (KDECMakeSettings)
-  include (KDECompilerSettings)
-
-  add_definitions (${Qt5Core_DEFINITIONS} ${Qt5DBus_DEFINITIONS}
-                   ${Qt5Network_DEFINITIONS} ${Qt5Widgets_DEFINITIONS} ${Qt5Xml_DEFINITIONS})
-  set (Qt_INCLUDE ${Qt5Core_INCLUDE_DIRS} ${Qt5DBus_INCLUDE_DIRS}
-                  ${Qt5Network_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS} ${Qt5Xml_INCLUDE_DIRS})
-  set (KDE_INCLUDE ${Plasma_INCLUDE_DIR})
-endif ()
+add_definitions (${Qt5Core_DEFINITIONS} ${Qt5DBus_DEFINITIONS}
+                 ${Qt5Network_DEFINITIONS} ${Qt5Widgets_DEFINITIONS} ${Qt5Xml_DEFINITIONS})
+set (Qt_INCLUDE ${Qt5Core_INCLUDE_DIRS} ${Qt5DBus_INCLUDE_DIRS}
+                ${Qt5Network_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS} ${Qt5Xml_INCLUDE_DIRS})
+set (KDE_INCLUDE ${Plasma_INCLUDE_DIR})
 
 include_directories (${CMAKE_SOURCE_DIR}
                      ${CMAKE_BINARY_DIR}
@@ -49,26 +41,15 @@ set (SUBPROJECT_UPGRADE ${CMAKE_CURRENT_SOURCE_DIR}/upgrade)
 configure_file (${SUBPROJECT_DESKTOP_IN} ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT_DESKTOP})
 
 # make
-if (BUILD_KDE4)
-  qt4_wrap_cpp (TASK_MOC_SOURCE ${TASK_HEADER})
-  kde4_add_ui_files (SUBPROJECT_SOURCE ${SUBPROJECT_UI})
-  kde4_add_plugin (${PLUGIN_NAME} ${SUBPROJECT_SOURCE} ${TASK_MOC_SOURCE})
-  target_link_libraries (${PLUGIN_NAME} ${KDE4_KDECORE_LIBS} ${KDE4_PLASMA_LIBS}
-                         ${QT_QTNETWORK_LIBRARY} ${QT_QTXML_LIBRARY})
-else ()
-  qt5_wrap_cpp (TASK_MOC_SOURCE ${TASK_HEADER})
-  qt5_wrap_ui (SUBPROJECT_UI_HEADER ${SUBPROJECT_UI})
-  add_library (${PLUGIN_NAME} MODULE ${SUBPROJECT_SOURCE} ${SUBPROJECT_UI_HEADER} ${TASK_MOC_SOURCE})
-  target_link_libraries (${PLUGIN_NAME} ${Plasma_LIBRARIES} KF5::WindowSystem
-                         ${Qt5DBus_LIBRARIES} ${Qt5Network_LIBRARIES} ${Qt5Widgets_LIBRARIES} ${Qt5Xml_LIBRARIES})
-  kcoreaddons_desktop_to_json (${PLUGIN_NAME} ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT_DESKTOP})
-endif ()
+qt5_wrap_cpp (TASK_MOC_SOURCE ${TASK_HEADER})
+qt5_wrap_ui (SUBPROJECT_UI_HEADER ${SUBPROJECT_UI})
+add_library (${PLUGIN_NAME} MODULE ${SUBPROJECT_SOURCE} ${SUBPROJECT_UI_HEADER} ${TASK_MOC_SOURCE})
+target_link_libraries (${PLUGIN_NAME} ${Plasma_LIBRARIES} KF5::WindowSystem
+                       ${Qt5DBus_LIBRARIES} ${Qt5Network_LIBRARIES} ${Qt5Widgets_LIBRARIES} ${Qt5Xml_LIBRARIES})
+kcoreaddons_desktop_to_json (${PLUGIN_NAME} ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT_DESKTOP})
 
 # install
-if (BUILD_KDE4)
-  install (TARGETS ${PLUGIN_NAME} DESTINATION ${PLUGIN_INSTALL_DIR})
-else ()
-  install (TARGETS ${PLUGIN_NAME} DESTINATION ${PLUGIN_INSTALL_DIR}/plasma/dataengine)
+install (TARGETS ${PLUGIN_NAME} DESTINATION ${PLUGIN_INSTALL_DIR}/plasma/dataengine)
 endif ()
 install (FILES ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT_DESKTOP} DESTINATION ${SERVICES_INSTALL_DIR})
 install (FILES ${SUBPROJECT_CONF} DESTINATION ${CONFIG_INSTALL_DIR})
