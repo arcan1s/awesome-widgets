@@ -161,7 +161,7 @@ QMap<QString, QVariant> AWActions::readDataEngineConfiguration()
     configuration[QString("ACPIPATH")] = settings.value(QString("ACPIPATH"), QString("/sys/class/power_supply/"));
     configuration[QString("GPUDEV")] = settings.value(QString("GPUDEV"), QString("auto"));
     configuration[QString("HDDDEV")] = settings.value(QString("HDDDEV"), QString("all"));
-    configuration[QString("HDDTEMPCMD")] = settings.value(QString("HDDTEMPCMD"), QString("sudo hddtemp"));
+    configuration[QString("HDDTEMPCMD")] = settings.value(QString("HDDTEMPCMD"), QString("sudo smartctl -a"));
     configuration[QString("MPDADDRESS")] = settings.value(QString("MPDADDRESS"), QString("localhost"));
     configuration[QString("MPDPORT")] = settings.value(QString("MPDPORT"), QString("6600"));
     configuration[QString("MPRIS")] = settings.value(QString("MPRIS"), QString("auto"));

@@ -290,7 +290,7 @@ void ExtendedSysMon::readConfiguration()
     rawConfig[QString("ACPIPATH")] = settings.value(QString("ACPIPATH"), QString("/sys/class/power_supply/")).toString();
     rawConfig[QString("GPUDEV")] = settings.value(QString("GPUDEV"), QString("auto")).toString();
     rawConfig[QString("HDDDEV")] = settings.value(QString("HDDDEV"), QString("all")).toString();
-    rawConfig[QString("HDDTEMPCMD")] = settings.value(QString("HDDTEMPCMD"), QString("sudo hddtemp")).toString();
+    rawConfig[QString("HDDTEMPCMD")] = settings.value(QString("HDDTEMPCMD"), QString("sudo smartctl -a")).toString();
     rawConfig[QString("MPDADDRESS")] = settings.value(QString("MPDADDRESS"), QString("localhost")).toString();
     rawConfig[QString("MPDPORT")] = settings.value(QString("MPDPORT"), QString("6600")).toString();
     rawConfig[QString("MPRIS")] = settings.value(QString("MPRIS"), QString("auto")).toString();
@@ -504,10 +504,10 @@ float ExtendedSysMon::getHddTemp(const QString cmd, const QString device)
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     if (smartctl) {
-        for (int i=0; i<qoutput.split(QChar(':'), QString::SkipEmptyParts).count(); i++) {
-            if (qoutput.split(QChar(':'), QString::SkipEmptyParts)[i].split(QChar(' '))[0] != QString("194")) continue;
-            if (qoutput.split(QChar(':'), QString::SkipEmptyParts)[i].split(QChar(' '), QString::SkipEmptyParts).count() < 9) break;
-            value = qoutput.split(QChar(':'), QString::SkipEmptyParts)[i].split(QChar(' '), QString::SkipEmptyParts)[9].toFloat();
+        for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
+            if (!qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i].startsWith(QString("194"))) continue;
+            if (qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i].split(QChar(' '), QString::SkipEmptyParts).count() < 9) break;
+            value = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i].split(QChar(' '), QString::SkipEmptyParts)[9].toFloat();
             break;
         }
     } else {
@@ -728,9 +728,10 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
         for (int i=0; i<allHddDevices.count(); i++)
             setData(source, allHddDevices[i], 0.0);
         QStringList deviceList = configuration[QString("HDDDEV")].split(QChar(','), QString::SkipEmptyParts);
-        for (int i=0; i<deviceList.count(); i++)
+        for (int i=0; i<deviceList.count(); i++) {
             setData(source, deviceList[i],
                     getHddTemp(configuration[QString("HDDTEMPCMD")], deviceList[i]));
+        }
     } else if (source == QString("netdev")) {
         setData(source, QString("value"), getNetworkDevice());
     } else if (source == QString("pkg")) {

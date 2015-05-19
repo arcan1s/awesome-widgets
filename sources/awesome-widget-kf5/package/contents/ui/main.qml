@@ -82,6 +82,8 @@ Item {
 
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)
+            // FIXME: ugly workaround to make some sources working
+            systemmonitorDE.interval = plasmoid.configuration.interval
 
             if (AWKeys.setDataBySource(sourceName, data, settings)) disconnectSource(sourceName)
         }
@@ -96,12 +98,13 @@ Item {
     PlasmaCore.DataSource {
         id: extsysmonDE
         engine: "extsysmon"
-        connectedSources: ["battery", "custom", "desktop", "netdev", "gpu", "gputemp",
-                           "hddtemp", "quotes", "pkg", "player", "ps", "update"]
+        connectedSources: extsysmonDE.sources
         interval: plasmoid.configuration.interval
 
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)
+            // FIXME: ugly workaround to make some sources working
+            extsysmonDE.interval = plasmoid.configuration.interval
 
             if (AWKeys.setDataBySource(sourceName, data, settings)) needUpdate()
         }
