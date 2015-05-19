@@ -215,8 +215,8 @@ int ExtUpgrade::run()
     }
 
     // update value
-    times++;
     if (times >= m_interval) times = 0;
+    times++;
 
     return value;
 }

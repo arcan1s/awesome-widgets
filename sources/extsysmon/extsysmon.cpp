@@ -41,13 +41,8 @@
 #include "extupgrade.h"
 #include "version.h"
 
-// KF5-KDE4 compability
-#ifdef BUILD_KDE4
 #include <KGlobal>
 #include <KStandardDirs>
-#else
-#include <QStandardPaths>
-#endif /* BUILD_KDE4 */
 
 
 ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList &args)
@@ -127,23 +122,11 @@ void ExtendedSysMon::initScripts()
     // create directory at $HOME and create dirs list
     QString localDir;
     QStringList dirs;
-#ifdef BUILD_KDE4
     localDir = KStandardDirs::locateLocal("data", "awesomewidgets/scripts");
     if (KStandardDirs::makeDir(localDir))
         if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
 
     dirs = KGlobal::dirs()->findDirs("data", "awesomewidgets/scripts");
-#else
-    localDir = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) +
-            QString("/awesomewidgets/scripts");
-    QDir localDirectory;
-    if ((!localDirectory.exists(localDir)) && (localDirectory.mkpath(localDir)))
-        if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
-
-    dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
-                                     QString("awesomewidgets/scripts"),
-                                     QStandardPaths::LocateDirectory);
-#endif /* BUILD_KDE4 */
 
     QStringList names;
     for (int i=0; i<dirs.count(); i++) {
@@ -166,23 +149,11 @@ void ExtendedSysMon::initUpgrade()
     // create directory at $HOME and create dirs list
     QString localDir;
     QStringList dirs;
-#ifdef BUILD_KDE4
     localDir = KStandardDirs::locateLocal("data", "awesomewidgets/upgrade");
     if (KStandardDirs::makeDir(localDir))
         if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
 
     dirs = KGlobal::dirs()->findDirs("data", "awesomewidgets/upgrade");
-#else
-    localDir = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) +
-            QString("/awesomewidgets/upgrade");
-    QDir localDirectory;
-    if ((!localDirectory.exists(localDir)) && (localDirectory.mkpath(localDir)))
-        if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
-
-    dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
-                                     QString("awesomewidgets/upgrade"),
-                                     QStandardPaths::LocateDirectory);
-#endif /* BUILD_KDE4 */
 
     QStringList names;
     for (int i=0; i<dirs.count(); i++) {
@@ -225,11 +196,7 @@ void ExtendedSysMon::readConfiguration()
     if (debug) qDebug() << PDEBUG;
 
     QString fileName;
-#ifdef BUILD_KDE4
     fileName = KGlobal::dirs()->findResource("config", "plasma-dataengine-extsysmon.conf");
-#else
-    fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation, QString("plasma-dataengine-extsysmon.conf"));
-#endif /* BUILD_KDE4 */
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
     QSettings settings(fileName, QSettings::IniFormat);
     QMap<QString, QString> rawConfig;
@@ -706,10 +673,6 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
 }
 
 
-#ifdef BUILD_KDE4
 K_EXPORT_PLASMA_DATAENGINE(extsysmon, ExtendedSysMon)
-#else
-K_EXPORT_PLASMA_DATAENGINE_WITH_JSON(extsysmon, ExtendedSysMon, "plasma-dataengine-extsysmon.json")
-#endif /* BUILD_KDE4 */
 
 #include "extsysmon.moc"

@@ -1,8 +1,4 @@
-if (BUILD_KDE4)
-  set (MO_NAME plasma_applet_awesome-widget.mo)
-else ()
-  set (MO_NAME plasma_applet_org.kde.plasma.awesomewidget.mo)
-endif ()
+set (MO_NAME plasma_applet_awesome-widget.mo)
 
 file (GLOB _po_files *.po)
 set (_gmoFiles)
