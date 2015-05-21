@@ -17,27 +17,40 @@ optdepends=("amarok: for music player monitor"
             "mpd: for music player monitor"
             "nvidia-utils: for GPU monitor"
             "qmmp: for music player monitor")
-makedepends=('automoc4' 'cmake')
-source=(https://github.com/arcan1s/awesome-widgets/releases/download/V.${pkgver}/${_pkgname}-${pkgver}-src.tar.xz)
+makedepends=('automoc4' 'cmake' 'git')
+source=(${_pkgname}::git+https://github.com/arcan1s/awesome-widgets.git#branch=release-2.2.1)
 install=${pkgname}.install
-md5sums=('74099a8150aa1992b8a168934878d928')
+md5sums=('SKIP')
 backup=('usr/share/config/plasma-dataengine-extsysmon.conf')
 
-prepare() {
-  rm -rf "${srcdir}/build"
-  mkdir "${srcdir}/build"
+
+pkgver() {
+  cd "${srcdir}/${_pkgname}"
+  git describe --tags --long | sed 's/V\.//' | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
+
+prepare() {
+  rm -rf "${srcdir}/${_pkgname}/build"
+  mkdir "${srcdir}/${_pkgname}/build"
+
+  # update submobules
+  cd "${srcdir}/${_pkgname}"
+  git submodule init
+  git submodule update --recursive
+}
+
+
 build () {
-  cd "${srcdir}/build"
-  cmake -DBUILD_KDE4=ON \
-        -DCMAKE_BUILD_TYPE=Release \
+  cd "${srcdir}/${_pkgname}/build"
+  cmake -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=$(kde4-config --prefix) \
-        "../${_pkgname}"
+        "../sources"
   make
 }
 
+
 package() {
-  cd "${srcdir}/build"
+  cd "${srcdir}/${_pkgname}/build"
   make DESTDIR="${pkgdir}" install
 }
