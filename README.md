@@ -1,6 +1,9 @@
 awesome-widgets (ex-pytextmonitor)
 ==================================
 
+**NOTE** KDE4 version is dropped from development since 2.2.1. Only critical bug
+fixes will be applied.
+
 Information
 -----------
 
