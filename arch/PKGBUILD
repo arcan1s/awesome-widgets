@@ -1,8 +1,8 @@
 # Maintainer: Evgeniy Alekseev <arcanis at archlinux dot org>
 
-pkgname=kdeplasma-applets-awesome-widgets
+pkgname=kdeplasma-applets-awesome-widgets-git
 _pkgname=awesome-widgets
-pkgver=2.2.1
+pkgver=2.2.1.r2.ga098c9d
 pkgrel=1
 pkgdesc="Collection of minimalistic Plasmoids which look like Awesome WM widgets (ex-PyTextMonitor)"
 arch=('i686' 'x86_64')
