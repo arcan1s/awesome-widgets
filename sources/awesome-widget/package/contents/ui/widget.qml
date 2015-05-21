@@ -168,7 +168,7 @@ Item {
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
-                    textPattern.insert(pos, "<p align=\"left\">" + selected + "</p")
+                    textPattern.insert(pos, "<p align=\"left\">" + selected + "</p>")
                 }
             }
             QtControls.Button {
@@ -180,7 +180,7 @@ Item {
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
-                    textPattern.insert(pos, "<p align=\"center\">" + selected + "</p")
+                    textPattern.insert(pos, "<p align=\"center\">" + selected + "</p>")
                 }
             }
             QtControls.Button {
@@ -192,7 +192,7 @@ Item {
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
-                    textPattern.insert(pos, "<p align=\"right\">" + selected + "</p")
+                    textPattern.insert(pos, "<p align=\"right\">" + selected + "</p>")
                 }
             }
             QtControls.Button {
@@ -204,7 +204,7 @@ Item {
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
-                    textPattern.insert(pos, "<p align=\"justify\">" + selected + "</p")
+                    textPattern.insert(pos, "<p align=\"justify\">" + selected + "</p>")
                 }
             }
         }
@@ -283,8 +283,7 @@ Item {
     PlasmaCore.DataSource {
         id: extsysmonDE
         engine: "extsysmon"
-        connectedSources: ["battery", "custom", "desktop", "netdev", "gpu",
-                           "gputemp", "hddtemp", "pkg", "player", "ps", "update"]
+        connectedSources: extsysmonDE.sources
         interval: 5000
 
         onNewData: {

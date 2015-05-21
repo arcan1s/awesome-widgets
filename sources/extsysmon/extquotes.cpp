@@ -312,7 +312,14 @@ void ExtQuotes::writeConfiguration()
 
 void ExtQuotes::quotesReplyReceived(QNetworkReply *reply)
 {
-    if (debug) qDebug() << PDEBUG << reply->url();
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Return code" << reply->error();
+    if (debug) qDebug() << PDEBUG << ":" << "Error message" << reply->errorString();
+
+    if (reply->error() != QNetworkReply::NoError) {
+        reply->deleteLater();
+        return;
+    }
 
     QDomDocument doc;
     if (!doc.setContent(reply)) {

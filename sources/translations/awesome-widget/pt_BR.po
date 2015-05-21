@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-04-27 13:58+0300\n"
+"POT-Creation-Date: 2015-05-22 00:07+0300\n"
 "PO-Revision-Date: 2014-12-24 00:04+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-russian@lists.kde.ru>\n"
@@ -19,536 +19,242 @@ msgstr ""
 "X-Language: pt_BR\n"
 "X-Source-Language: en\n"
 
-#: awesome-widget-kde4/awesome-widget.cpp:95
-msgid "Run ksysguard"
-msgstr "Abrir ksysguard"
-
-#: awesome-widget-kde4/awesome-widget.cpp:98
-#: awesome-widget-kf5/package/contents/ui/main.qml:164
-msgid "Show README"
-msgstr "Mostrar README"
-
-#: awesome-widget-kde4/awesome-widget.cpp:101
-msgid "Update text"
-msgstr "Atualizar texto"
-
-#. i18n: file: awesome-widget-kde4/advanced.ui:507
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_updates)
-#: awesome-widget-kde4/awesome-widget.cpp:106
-#: translations/awesome-widget/rc.cpp:98 rc.cpp:98
-msgid "Check for updates"
-msgstr "Checar por atualizações"
-
-#: awesome-widget-kde4/awesome-widget.cpp:491
-#: awesome-widget-kf5/plugin/awactions.cpp:212
-msgid "Current version : %1"
-msgstr "Versão atual: %1"
-
-#: awesome-widget-kde4/awesome-widget.cpp:492
-#: awesome-widget-kf5/plugin/awactions.cpp:213
-msgid "New version : %1"
-msgstr "Nova versão: %1"
-
-#: awesome-widget-kde4/awesome-widget.cpp:493
-#: awesome-widget-kf5/plugin/awactions.cpp:214
-msgid "Click \"Ok\" to download"
-msgstr "Clique \"Ok\" para baixar"
-
-#: awesome-widget-kde4/awesome-widget.cpp:494
-#: awesome-widget-kf5/plugin/awactions.cpp:216
-msgid "There are updates"
-msgstr "Há atualizações disponíveis"
-
-#: awesome-widget-kde4/configuration.cpp:277
-#: awesome-widget-kde4/configuration.cpp:714
-#: awesome-widget-kde4/configuration.cpp:907
-#: awesome-widget-kf5/package/contents/ui/widget.qml:239
-#: awesome-widget-kf5/plugin/awkeys.cpp:743
-#: awesome-widget-kf5/plugin/awkeys.cpp:803
-#: awesome-widget-kf5/plugin/awkeys.cpp:1042
-msgid "Tag: %1"
-msgstr "Tag: %1"
-
-#: awesome-widget-kde4/configuration.cpp:278
-#: awesome-widget-kde4/configuration.cpp:353
-#: awesome-widget-kde4/configuration.cpp:386
-#: awesome-widget-kde4/configuration.cpp:715
-#: awesome-widget-kde4/configuration.cpp:742
-#: awesome-widget-kde4/configuration.cpp:770
-#: awesome-widget-kde4/configuration.cpp:908
-#: awesome-widget-kde4/configuration.cpp:945
-#: awesome-widget-kde4/configuration.cpp:981
-#: awesome-widget-kf5/plugin/awkeys.cpp:804
-#: awesome-widget-kf5/plugin/awkeys.cpp:814
-#: awesome-widget-kf5/plugin/awkeys.cpp:825
-#: awesome-widget-kf5/plugin/awkeys.cpp:836
-#: awesome-widget-kf5/plugin/awkeys.cpp:1043
-#: awesome-widget-kf5/plugin/awkeys.cpp:1089
-#: awesome-widget-kf5/plugin/awkeys.cpp:1140
-#: awesome-widget-kf5/plugin/awkeys.cpp:1188
-msgid "Comment: %1"
-msgstr "Comentário: %1"
-
-#: awesome-widget-kde4/configuration.cpp:352
-#: awesome-widget-kde4/configuration.cpp:385
-#: awesome-widget-kde4/configuration.cpp:741
-#: awesome-widget-kde4/configuration.cpp:769
-#: awesome-widget-kde4/configuration.cpp:944
-#: awesome-widget-kde4/configuration.cpp:980
-#: awesome-widget-kf5/plugin/awkeys.cpp:813
-#: awesome-widget-kf5/plugin/awkeys.cpp:824
-#: awesome-widget-kf5/plugin/awkeys.cpp:835
-#: awesome-widget-kf5/plugin/awkeys.cpp:1088
-#: awesome-widget-kf5/plugin/awkeys.cpp:1139
-#: awesome-widget-kf5/plugin/awkeys.cpp:1187
-msgid "Name: %1"
-msgstr "Nome: %1"
-
-#: awesome-widget-kde4/configuration.cpp:354
-#: awesome-widget-kde4/configuration.cpp:387
-#: awesome-widget-kde4/configuration.cpp:743
-#: awesome-widget-kde4/configuration.cpp:771
-#: awesome-widget-kde4/configuration.cpp:946
-#: awesome-widget-kde4/configuration.cpp:982
-#: awesome-widget-kf5/plugin/awkeys.cpp:826
-#: awesome-widget-kf5/plugin/awkeys.cpp:837
-#: awesome-widget-kf5/plugin/awkeys.cpp:1141
-#: awesome-widget-kf5/plugin/awkeys.cpp:1189
-msgid "Exec: %1"
-msgstr "Exec: %1"
-
-#: awesome-widget-kde4/configuration.cpp:397
-msgid ""
-"Version %1\n"
-"(build date %2)"
-msgstr ""
-"Versão: %1\n"
-"(data de compilação %2)"
-
-#: awesome-widget-kde4/configuration.cpp:398
-#: awesome-widget-kf5/plugin/awactions.cpp:105
-msgid "A set of minimalistic plasmoid widgets"
-msgstr "Um conjunto de widgets plasmoid minimalistas."
-
-#: awesome-widget-kde4/configuration.cpp:399
-#: awesome-widget-kf5/plugin/awactions.cpp:107
-msgid "Links:"
-msgstr "Links:"
-
-#: awesome-widget-kde4/configuration.cpp:400
-#: awesome-widget-kf5/plugin/awactions.cpp:108
-msgid "Homepage"
-msgstr "Homepage"
-
-#: awesome-widget-kde4/configuration.cpp:401
-#: awesome-widget-kf5/plugin/awactions.cpp:109
-msgid "Repository"
-msgstr "Repositório"
-
-#: awesome-widget-kde4/configuration.cpp:402
-#: awesome-widget-kf5/plugin/awactions.cpp:110
-msgid "Bugtracker"
-msgstr "Bugtracker"
-
-#: awesome-widget-kde4/configuration.cpp:403
-#: awesome-widget-kf5/plugin/awactions.cpp:111
-msgid "Translation issue"
-msgstr "Problema na tradução"
-
-#: awesome-widget-kde4/configuration.cpp:404
-#: awesome-widget-kf5/plugin/awactions.cpp:112
-msgid "AUR packages"
-msgstr "Pacotes AUR"
-
-#: awesome-widget-kde4/configuration.cpp:406
-#: awesome-widget-kf5/plugin/awactions.cpp:116
-msgid "This software is licensed under %1"
-msgstr "Este software é licenciado sob %1"
-
-#: awesome-widget-kde4/configuration.cpp:414
-#: awesome-widget-kf5/plugin/awactions.cpp:118
-msgid "Translators: %1"
-msgstr "Tradutores: %1"
-
-#: awesome-widget-kde4/configuration.cpp:415
-#: awesome-widget-kf5/plugin/awactions.cpp:126
-msgid "This software uses: %1"
-msgstr "Este software usa: %1"
-
-#: awesome-widget-kde4/configuration.cpp:417
-#: awesome-widget-kf5/package/contents/config/config.qml:25
+#: awesome-widget/package/contents/config/config.qml:25
 msgid "Widget"
 msgstr "Widget"
 
-#: awesome-widget-kde4/configuration.cpp:418
-#: awesome-widget-kf5/package/contents/config/config.qml:31
+#: awesome-widget/package/contents/config/config.qml:31
 msgid "Advanced"
 msgstr "Avançado"
 
-#: awesome-widget-kde4/configuration.cpp:419
-#: awesome-widget-kf5/package/contents/config/config.qml:37
+#: awesome-widget/package/contents/config/config.qml:37
 msgid "Tooltip"
 msgstr "Dica de contexto"
 
-#: awesome-widget-kde4/configuration.cpp:420
-#: awesome-widget-kf5/package/contents/config/config.qml:43
+#: awesome-widget/package/contents/config/config.qml:43
 msgid "Appearance"
 msgstr "Aparência"
 
-#: awesome-widget-kde4/configuration.cpp:421
-#: awesome-widget-kf5/package/contents/config/config.qml:49
+#: awesome-widget/package/contents/config/config.qml:49
 msgid "DataEngine"
 msgstr "Engine de dados"
 
-#: awesome-widget-kde4/configuration.cpp:422
-#: awesome-widget-kf5/package/contents/config/config.qml:55
-#: awesome-widget-kf5/package/contents/ui/about.qml:42
+#: awesome-widget/package/contents/config/config.qml:55
+#: awesome-widget/package/contents/ui/about.qml:42
 msgid "About"
 msgstr "Sobre"
 
-#: awesome-widget-kde4/configuration.cpp:694
-#: awesome-widget-kde4/configuration.cpp:730
-#: awesome-widget-kde4/configuration.cpp:758
-#: awesome-widget-kde4/configuration.cpp:872
-#: awesome-widget-kde4/configuration.cpp:923
-#: awesome-widget-kde4/configuration.cpp:961
-#: awesome-widget-kf5/plugin/awkeys.cpp:1003
-#: awesome-widget-kf5/plugin/awkeys.cpp:1060
-#: awesome-widget-kf5/plugin/awkeys.cpp:1108
-#: awesome-widget-kf5/plugin/awkeys.cpp:1158
-msgid "Enter file name"
-msgstr "Digite o nome de arquivo"
-
-#: awesome-widget-kde4/configuration.cpp:695
-#: awesome-widget-kde4/configuration.cpp:731
-#: awesome-widget-kde4/configuration.cpp:759
-#: awesome-widget-kde4/configuration.cpp:873
-#: awesome-widget-kde4/configuration.cpp:924
-#: awesome-widget-kde4/configuration.cpp:962
-#: awesome-widget-kf5/plugin/awkeys.cpp:1004
-#: awesome-widget-kf5/plugin/awkeys.cpp:1061
-#: awesome-widget-kf5/plugin/awkeys.cpp:1109
-#: awesome-widget-kf5/plugin/awkeys.cpp:1159
-msgid "File name"
-msgstr "Nome de arquivo"
-
-#: awesome-widget-kde4/configuration.cpp:786
-#: awesome-widget-kde4/configuration.cpp:813
-#: awesome-widget-kde4/configuration.cpp:837
-msgid "Edit"
-msgstr "Editar"
-
-#: awesome-widget-kde4/configuration.cpp:787
-#: awesome-widget-kde4/configuration.cpp:814
-#: awesome-widget-kde4/configuration.cpp:838
-#: awesome-widget-kf5/plugin/awkeys.cpp:57
-msgid "Copy"
-msgstr "Copiar"
-
-#: awesome-widget-kde4/configuration.cpp:788
-#: awesome-widget-kde4/configuration.cpp:815
-#: awesome-widget-kde4/configuration.cpp:839
-#: awesome-widget-kf5/plugin/awkeys.cpp:59
-msgid "Remove"
-msgstr "Remover"
-
-#: awesome-widget-kde4/configuration.cpp:1135
-#: awesome-widget-kf5/plugin/awactions.cpp:141
-msgid "Select font"
-msgstr "Selecionar fonte"
-
-#: awesome-widget-kde4/graphicalitem.cpp:495
-#: awesome-widget-kf5/plugin/graphicalitem.cpp:497
-msgid "Select color"
-msgstr "Selecionar cor"
-
-#: awesome-widget-kf5/package/contents/ui/about.qml:75
+#: awesome-widget/package/contents/ui/about.qml:75
 msgid "Acknowledgment"
 msgstr ""
 
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:83
+#: awesome-widget/package/contents/ui/advanced.qml:55
+msgid "Widget height, px"
+msgstr ""
+
+#: awesome-widget/package/contents/ui/advanced.qml:75
+msgid "Widget width, px"
+msgstr ""
+
+#: awesome-widget/package/contents/ui/advanced.qml:97
 msgid "Enable notifications"
 msgstr ""
 
-#. i18n: file: awesome-widget-kde4/advanced.ui:104
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_background)
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:97
-#: translations/awesome-widget/rc.cpp:6 rc.cpp:6
+#: awesome-widget/package/contents/ui/advanced.qml:111
 msgid "Enable background"
 msgstr "Ativar plano de fundo"
 
-#. i18n: file: awesome-widget-kde4/advanced.ui:121
-#. i18n: ectx: property (text), widget (QLabel, label_timeFormat)
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:109
-#: translations/awesome-widget/rc.cpp:9 rc.cpp:9
+#: awesome-widget/package/contents/ui/advanced.qml:123
 msgid "Custom time format"
 msgstr "Formato de hora personalizado"
 
-#. i18n: file: awesome-widget-kde4/advanced.ui:163
-#. i18n: ectx: property (text), widget (QLabel, label_uptimeFormat)
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:126
-#: translations/awesome-widget/rc.cpp:30 rc.cpp:30
+#: awesome-widget/package/contents/ui/advanced.qml:140
 msgid "Custom uptime format"
 msgstr "Tempo em atividade com formato personalizado"
 
-#. i18n: file: awesome-widget-kde4/advanced.ui:189
-#. i18n: ectx: property (text), widget (QLabel, label_tempUnits)
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:143
-#: translations/awesome-widget/rc.cpp:41 rc.cpp:41
+#: awesome-widget/package/contents/ui/advanced.qml:157
 msgid "Temperature units"
 msgstr "Unidades de temperatura"
 
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:151
+#: awesome-widget/package/contents/ui/advanced.qml:165
 msgid "Celsius"
 msgstr ""
 
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:155
+#: awesome-widget/package/contents/ui/advanced.qml:169
 msgid "Fahrenheit"
 msgstr ""
 
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:159
+#: awesome-widget/package/contents/ui/advanced.qml:173
 msgid "Kelvin"
 msgstr ""
 
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:163
+#: awesome-widget/package/contents/ui/advanced.qml:177
 msgid "Reaumur"
 msgstr ""
 
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:167
+#: awesome-widget/package/contents/ui/advanced.qml:181
 msgid "cm^-1"
 msgstr ""
 
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:171
+#: awesome-widget/package/contents/ui/advanced.qml:185
 msgid "kJ/mol"
 msgstr ""
 
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:175
+#: awesome-widget/package/contents/ui/advanced.qml:189
 msgid "kcal/mol"
 msgstr ""
 
-#. i18n: file: awesome-widget-kde4/advanced.ui:392
-#. i18n: ectx: property (text), widget (QLabel, label_acOnline)
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:198
-#: translations/awesome-widget/rc.cpp:80 rc.cpp:80
+#: awesome-widget/package/contents/ui/advanced.qml:212
 msgid "AC online tag"
 msgstr "Rótulo com carregador conectado"
 
-#. i18n: file: awesome-widget-kde4/advanced.ui:422
-#. i18n: ectx: property (text), widget (QLabel, label_acOffline)
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:215
-#: translations/awesome-widget/rc.cpp:86 rc.cpp:86
+#: awesome-widget/package/contents/ui/advanced.qml:229
 msgid "AC offline tag"
 msgstr "Rótulo com carregador desconectado"
 
-#. i18n: file: awesome-widget-kde4/advanced.ui:448
-#. i18n: ectx: property (text), widget (QLabel, label_bars)
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:232
-#: translations/awesome-widget/rc.cpp:92 rc.cpp:92
-msgid "Bars"
-msgstr "Barras"
-
-#: awesome-widget-kf5/package/contents/ui/advanced.qml:236
-#, fuzzy
-msgid "Edit bars"
-msgstr "Editar"
-
-#. i18n: file: awesome-widget-kde4/appearance.ui:55
-#. i18n: ectx: property (text), widget (QLabel, label_interval)
-#: awesome-widget-kf5/package/contents/ui/appearance.qml:61
-#: translations/awesome-widget/rc.cpp:101 rc.cpp:101
+#: awesome-widget/package/contents/ui/appearance.qml:61
 msgid "Time interval"
 msgstr "Intervalo de tempo"
 
-#. i18n: file: awesome-widget-kde4/appearance.ui:85
-#. i18n: ectx: property (text), widget (QLabel, label_font)
-#. i18n: file: awesome-widget-kde4/widget.ui:53
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_font)
-#. i18n: file: awesome-widget-kde4/appearance.ui:85
-#. i18n: ectx: property (text), widget (QLabel, label_font)
-#. i18n: file: awesome-widget-kde4/widget.ui:53
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_font)
-#: awesome-widget-kf5/package/contents/ui/appearance.qml:81
-#: awesome-widget-kf5/package/contents/ui/widget.qml:79
-#: translations/awesome-widget/rc.cpp:104
-#: translations/awesome-widget/rc.cpp:227 rc.cpp:104 rc.cpp:227
+#: awesome-widget/package/contents/ui/appearance.qml:81
+#: awesome-widget/package/contents/ui/widget.qml:79
 msgid "Font"
 msgstr "Tamanho da fonte"
 
-#. i18n: file: awesome-widget-kde4/appearance.ui:109
-#. i18n: ectx: property (text), widget (QLabel, label_size)
-#: awesome-widget-kf5/package/contents/ui/appearance.qml:99
-#: translations/awesome-widget/rc.cpp:107 rc.cpp:107
+#: awesome-widget/package/contents/ui/appearance.qml:99
 msgid "Font size"
 msgstr "Tamanho da fonte"
 
-#. i18n: file: awesome-widget-kde4/appearance.ui:184
-#. i18n: ectx: property (text), widget (QLabel, label_weight)
-#: awesome-widget-kf5/package/contents/ui/appearance.qml:119
-#: translations/awesome-widget/rc.cpp:116 rc.cpp:116
+#: awesome-widget/package/contents/ui/appearance.qml:119
 msgid "Font weight"
 msgstr "Grossura da fonte"
 
-#: awesome-widget-kf5/package/contents/ui/appearance.qml:127
+#: awesome-widget/package/contents/ui/appearance.qml:127
 #, fuzzy
 msgid "light"
 msgstr "Altura"
 
-#: awesome-widget-kf5/package/contents/ui/appearance.qml:131
-#: awesome-widget-kf5/package/contents/ui/appearance.qml:174
+#: awesome-widget/package/contents/ui/appearance.qml:131
+#: awesome-widget/package/contents/ui/appearance.qml:174
 msgid "normal"
 msgstr ""
 
-#: awesome-widget-kf5/package/contents/ui/appearance.qml:135
+#: awesome-widget/package/contents/ui/appearance.qml:135
 msgid "demi bold"
 msgstr ""
 
-#: awesome-widget-kf5/package/contents/ui/appearance.qml:139
+#: awesome-widget/package/contents/ui/appearance.qml:139
 msgid "bold"
 msgstr ""
 
-#: awesome-widget-kf5/package/contents/ui/appearance.qml:143
+#: awesome-widget/package/contents/ui/appearance.qml:143
 msgid "black"
 msgstr ""
 
-#. i18n: file: awesome-widget-kde4/appearance.ui:156
-#. i18n: ectx: property (text), widget (QLabel, label_style)
-#: awesome-widget-kf5/package/contents/ui/appearance.qml:166
-#: translations/awesome-widget/rc.cpp:113 rc.cpp:113
+#: awesome-widget/package/contents/ui/appearance.qml:166
 msgid "Font style"
 msgstr "Estilo da fonte"
 
-#: awesome-widget-kf5/package/contents/ui/appearance.qml:178
+#: awesome-widget/package/contents/ui/appearance.qml:178
 msgid "italic"
 msgstr ""
 
-#. i18n: file: awesome-widget-kde4/appearance.ui:139
-#. i18n: ectx: property (text), widget (QLabel, label_color)
-#: awesome-widget-kf5/package/contents/ui/appearance.qml:201
-#: translations/awesome-widget/rc.cpp:110 rc.cpp:110
+#: awesome-widget/package/contents/ui/appearance.qml:201
 msgid "Font color"
 msgstr "Cor da fonte"
 
-#: awesome-widget-kf5/package/contents/ui/appearance.qml:219
-#: awesome-widget-kf5/package/contents/ui/tooltip.qml:131
-#: awesome-widget-kf5/package/contents/ui/tooltip.qml:183
-#: awesome-widget-kf5/package/contents/ui/tooltip.qml:235
-#: awesome-widget-kf5/package/contents/ui/tooltip.qml:287
-#: awesome-widget-kf5/package/contents/ui/tooltip.qml:339
-#: awesome-widget-kf5/package/contents/ui/tooltip.qml:391
-#: awesome-widget-kf5/package/contents/ui/tooltip.qml:421
-#: awesome-widget-kf5/package/contents/ui/tooltip.qml:473
-#: awesome-widget-kf5/package/contents/ui/tooltip.qml:503
+#: awesome-widget/package/contents/ui/appearance.qml:219
+#: awesome-widget/package/contents/ui/tooltip.qml:131
+#: awesome-widget/package/contents/ui/tooltip.qml:183
+#: awesome-widget/package/contents/ui/tooltip.qml:235
+#: awesome-widget/package/contents/ui/tooltip.qml:287
+#: awesome-widget/package/contents/ui/tooltip.qml:339
+#: awesome-widget/package/contents/ui/tooltip.qml:391
+#: awesome-widget/package/contents/ui/tooltip.qml:421
+#: awesome-widget/package/contents/ui/tooltip.qml:473
+#: awesome-widget/package/contents/ui/tooltip.qml:503
 #, fuzzy
 msgid "Select a color"
 msgstr "Selecionar cor"
 
-#: awesome-widget-kf5/package/contents/ui/appearance.qml:226
+#: awesome-widget/package/contents/ui/appearance.qml:226
 #, fuzzy
 msgid "Select a font"
 msgstr "Selecionar fonte"
 
-#. i18n: file: awesome-widget-kde4/deconfig.ui:245
-#. i18n: ectx: property (text), widget (QLabel, label_acpi)
-#: awesome-widget-kf5/package/contents/ui/dataengine.qml:69
-#: translations/awesome-widget/rc.cpp:137 rc.cpp:137
+#: awesome-widget/package/contents/ui/dataengine.qml:69
 msgid "ACPI path"
 msgstr "Caminho ACPI"
 
-#. i18n: file: awesome-widget-kde4/deconfig.ui:355
-#. i18n: ectx: property (text), widget (QLabel, label_custom)
-#: awesome-widget-kf5/package/contents/ui/dataengine.qml:85
-#: translations/awesome-widget/rc.cpp:149 rc.cpp:149
+#: awesome-widget/package/contents/ui/dataengine.qml:85
 msgid "Custom scripts"
 msgstr "Scripts customizados"
 
-#: awesome-widget-kf5/package/contents/ui/dataengine.qml:89
+#: awesome-widget/package/contents/ui/dataengine.qml:89
 #, fuzzy
 msgid "Edit scripts"
 msgstr "Scripts customizados"
 
-#. i18n: file: awesome-widget-kde4/deconfig.ui:78
-#. i18n: ectx: property (text), widget (QLabel, label_gpudev)
-#: awesome-widget-kf5/package/contents/ui/dataengine.qml:102
-#: translations/awesome-widget/rc.cpp:122 rc.cpp:122
+#: awesome-widget/package/contents/ui/dataengine.qml:102
 msgid "GPU device"
 msgstr "Dispositivo GPU"
 
-#. i18n: file: awesome-widget-kde4/deconfig.ui:116
-#. i18n: ectx: property (text), widget (QLabel, label_hdddev)
-#: awesome-widget-kf5/package/contents/ui/dataengine.qml:127
-#: translations/awesome-widget/rc.cpp:125 rc.cpp:125
+#: awesome-widget/package/contents/ui/dataengine.qml:126
 msgid "HDD"
 msgstr "HDD"
 
-#. i18n: file: awesome-widget-kde4/deconfig.ui:61
-#. i18n: ectx: property (text), widget (QLabel, label_hddtempCmd)
-#: awesome-widget-kf5/package/contents/ui/dataengine.qml:152
-#: translations/awesome-widget/rc.cpp:119 rc.cpp:119
+#: awesome-widget/package/contents/ui/dataengine.qml:150
 msgid "hddtemp cmd"
 msgstr "comando hddtemp "
 
-#. i18n: file: awesome-widget-kde4/deconfig.ui:209
-#. i18n: ectx: property (text), widget (QLabel, label_mpdaddress)
-#: awesome-widget-kf5/package/contents/ui/dataengine.qml:168
-#: translations/awesome-widget/rc.cpp:134 rc.cpp:134
+#: awesome-widget/package/contents/ui/dataengine.qml:166
 msgid "MPD address"
 msgstr "Endereço do MPD"
 
-#. i18n: file: awesome-widget-kde4/deconfig.ui:173
-#. i18n: ectx: property (text), widget (QLabel, label_mpdport)
-#: awesome-widget-kf5/package/contents/ui/dataengine.qml:184
-#: translations/awesome-widget/rc.cpp:131 rc.cpp:131
+#: awesome-widget/package/contents/ui/dataengine.qml:182
 msgid "MPD port"
 msgstr "Porta do MPD"
 
-#. i18n: file: awesome-widget-kde4/deconfig.ui:284
-#. i18n: ectx: property (text), widget (QLabel, label_mpris)
-#: awesome-widget-kf5/package/contents/ui/dataengine.qml:203
-#: translations/awesome-widget/rc.cpp:146 rc.cpp:146
+#: awesome-widget/package/contents/ui/dataengine.qml:201
 msgid "MPRIS player name"
 msgstr "Nome do player MPRIS"
 
-#. i18n: file: awesome-widget-kde4/deconfig.ui:139
-#. i18n: ectx: property (text), widget (QLabel, label_playerSelect)
-#: awesome-widget-kf5/package/contents/ui/dataengine.qml:223
-#: translations/awesome-widget/rc.cpp:128 rc.cpp:128
+#: awesome-widget/package/contents/ui/dataengine.qml:221
 msgid "Music player"
 msgstr "Reprodutor de áudio"
 
-#: awesome-widget-kf5/package/contents/ui/dataengine.qml:248
+#: awesome-widget/package/contents/ui/dataengine.qml:245
 msgid "Quotes monitor"
 msgstr ""
 
-#: awesome-widget-kf5/package/contents/ui/dataengine.qml:252
+#: awesome-widget/package/contents/ui/dataengine.qml:249
 #, fuzzy
 msgid "Edit tickers"
 msgstr "Editar"
 
-#. i18n: file: awesome-widget-kde4/deconfig.ui:397
-#. i18n: ectx: property (text), widget (QLabel, label_pkgCommand)
-#: awesome-widget-kf5/package/contents/ui/dataengine.qml:265
-#: translations/awesome-widget/rc.cpp:155 rc.cpp:155
+#: awesome-widget/package/contents/ui/dataengine.qml:262
 msgid "Package manager"
 msgstr "Gerenciador de pacotes"
 
-#: awesome-widget-kf5/package/contents/ui/dataengine.qml:269
+#: awesome-widget/package/contents/ui/dataengine.qml:266
 #, fuzzy
 msgid "Edit command"
 msgstr "Comando personalizado"
 
-#: awesome-widget-kf5/package/contents/ui/main.qml:163
+#: awesome-widget/package/contents/ui/main.qml:161
 msgid "Request key"
 msgstr ""
 
-#: awesome-widget-kf5/package/contents/ui/main.qml:165
+#: awesome-widget/package/contents/ui/main.qml:162
+msgid "Show README"
+msgstr "Mostrar README"
+
+#: awesome-widget/package/contents/ui/main.qml:163
 #, fuzzy
 msgid "Check updates"
 msgstr "Checar por atualizações"
 
-#. i18n: file: awesome-widget-kde4/tooltipconfig.ui:38
-#. i18n: ectx: property (text), widget (QLabel, label_tooltip)
-#: awesome-widget-kf5/package/contents/ui/tooltip.qml:62
-#: translations/awesome-widget/rc.cpp:191 rc.cpp:191
+#: awesome-widget/package/contents/ui/tooltip.qml:62
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
 "To enable them just make needed checkbox fully checked."
@@ -556,80 +262,47 @@ msgstr ""
 "Os rótulos de CPU, frequência de GPU, memória, swap e rede suportam dica de "
 "contexto gráfica. Para ativá-los, basta selecionar a caixa necessária."
 
-#. i18n: file: awesome-widget-kde4/tooltipconfig.ui:68
-#. i18n: ectx: property (text), widget (QLabel, label_tooltipNum)
-#: awesome-widget-kf5/package/contents/ui/tooltip.qml:73
-#: translations/awesome-widget/rc.cpp:194 rc.cpp:194
+#: awesome-widget/package/contents/ui/tooltip.qml:73
 msgid "Number of values for tooltips"
 msgstr "Número de valores para dicas de contexto"
 
-#. i18n: file: awesome-widget-kde4/tooltipconfig.ui:101
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_background)
-#: awesome-widget-kf5/package/contents/ui/tooltip.qml:93
-#: translations/awesome-widget/rc.cpp:197 rc.cpp:197
+#: awesome-widget/package/contents/ui/tooltip.qml:93
 msgid "Background"
 msgstr "Plano de fundo"
 
-#. i18n: file: awesome-widget-kde4/tooltipconfig.ui:121
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_cpu)
-#: awesome-widget-kf5/package/contents/ui/tooltip.qml:145
-#: translations/awesome-widget/rc.cpp:200 rc.cpp:200
+#: awesome-widget/package/contents/ui/tooltip.qml:145
 msgid "CPU color"
 msgstr "Cor da CPU"
 
-#. i18n: file: awesome-widget-kde4/tooltipconfig.ui:141
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_cpuclock)
-#: awesome-widget-kf5/package/contents/ui/tooltip.qml:197
-#: translations/awesome-widget/rc.cpp:203 rc.cpp:203
+#: awesome-widget/package/contents/ui/tooltip.qml:197
 msgid "CPU clock color"
 msgstr "Cor do relógio da CPU"
 
-#. i18n: file: awesome-widget-kde4/tooltipconfig.ui:161
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_mem)
-#: awesome-widget-kf5/package/contents/ui/tooltip.qml:249
-#: translations/awesome-widget/rc.cpp:206 rc.cpp:206
+#: awesome-widget/package/contents/ui/tooltip.qml:249
 msgid "Memory color"
 msgstr "Cor da memória"
 
-#. i18n: file: awesome-widget-kde4/tooltipconfig.ui:181
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_swap)
-#: awesome-widget-kf5/package/contents/ui/tooltip.qml:301
-#: translations/awesome-widget/rc.cpp:209 rc.cpp:209
+#: awesome-widget/package/contents/ui/tooltip.qml:301
 msgid "Swap color"
 msgstr "Cor da swap"
 
-#. i18n: file: awesome-widget-kde4/tooltipconfig.ui:201
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_down)
-#: awesome-widget-kf5/package/contents/ui/tooltip.qml:353
-#: translations/awesome-widget/rc.cpp:212 rc.cpp:212
+#: awesome-widget/package/contents/ui/tooltip.qml:353
 msgid "Download speed color"
 msgstr "Cor da velocidade de download"
 
-#. i18n: file: awesome-widget-kde4/tooltipconfig.ui:218
-#. i18n: ectx: property (text), widget (QLabel, label_up)
-#: awesome-widget-kf5/package/contents/ui/tooltip.qml:405
-#: translations/awesome-widget/rc.cpp:215 rc.cpp:215
+#: awesome-widget/package/contents/ui/tooltip.qml:405
 msgid "Upload speed color"
 msgstr "Cor da velocidade de upload"
 
-#. i18n: file: awesome-widget-kde4/tooltipconfig.ui:238
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_battery)
-#: awesome-widget-kf5/package/contents/ui/tooltip.qml:435
-#: translations/awesome-widget/rc.cpp:218 rc.cpp:218
+#: awesome-widget/package/contents/ui/tooltip.qml:435
 msgid "Battery active color"
 msgstr "Cor da bateria ativa"
 
-#. i18n: file: awesome-widget-kde4/tooltipconfig.ui:255
-#. i18n: ectx: property (text), widget (QLabel, label_batteryIn)
-#: awesome-widget-kf5/package/contents/ui/tooltip.qml:487
-#: translations/awesome-widget/rc.cpp:221 rc.cpp:221
+#: awesome-widget/package/contents/ui/tooltip.qml:487
 msgid "Battery inactive color"
 msgstr "Cor da bateria inativa"
 
-#. i18n: file: awesome-widget-kde4/widget.ui:38
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: awesome-widget-kf5/package/contents/ui/widget.qml:72
-#: translations/awesome-widget/rc.cpp:224 rc.cpp:224
+#: awesome-widget/package/contents/ui/widget.qml:72
 msgid ""
 "Detailed information may be found on <a href=\"http://arcanis.name/projects/"
 "awesome-widgets/\">project homepage</a>"
@@ -637,558 +310,367 @@ msgstr ""
 "Informações detalhadas podem ser encontradas na <a href=\"http://arcanis."
 "name/projects/awesome-widgets/\">página do projeto</a>"
 
-#. i18n: file: awesome-widget-kde4/advanced.ui:468
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_bars)
-#. i18n: file: awesome-widget-kde4/deconfig.ui:375
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_custom)
-#. i18n: file: awesome-widget-kde4/deconfig.ui:417
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_pkgCommand)
-#. i18n: file: awesome-widget-kde4/widget.ui:208
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_tags)
-#. i18n: file: awesome-widget-kde4/advanced.ui:468
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_bars)
-#. i18n: file: awesome-widget-kde4/deconfig.ui:375
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_custom)
-#. i18n: file: awesome-widget-kde4/deconfig.ui:417
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_pkgCommand)
-#. i18n: file: awesome-widget-kde4/widget.ui:208
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_tags)
-#: awesome-widget-kf5/package/contents/ui/widget.qml:221
-#: translations/awesome-widget/rc.cpp:95
-#: translations/awesome-widget/rc.cpp:152
-#: translations/awesome-widget/rc.cpp:158
-#: translations/awesome-widget/rc.cpp:239 rc.cpp:95 rc.cpp:152 rc.cpp:158
-#: rc.cpp:239
+#: awesome-widget/package/contents/ui/widget.qml:221
 msgid "Add"
 msgstr "Adicionar"
 
-#: awesome-widget-kf5/package/contents/ui/widget.qml:234
+#: awesome-widget/package/contents/ui/widget.qml:234
 msgid "Show value"
 msgstr ""
 
-#: awesome-widget-kf5/package/contents/ui/widget.qml:241
-#: awesome-widget-kf5/plugin/awkeys.cpp:745
+#: awesome-widget/package/contents/ui/widget.qml:239
+#: awesome-widget/plugin/awkeys.cpp:653 awesome-widget/plugin/awkeys.cpp:722
+#: awesome-widget/plugin/awkeys.cpp:1022
+msgid "Tag: %1"
+msgstr "Tag: %1"
+
+#: awesome-widget/package/contents/ui/widget.qml:241
+#: awesome-widget/plugin/awkeys.cpp:655
 #, fuzzy
 msgid "Value: %1"
 msgstr "Valor"
 
-#: awesome-widget-kf5/package/contents/ui/widget.qml:243
+#: awesome-widget/package/contents/ui/widget.qml:243
 msgid "Info: %1"
 msgstr ""
 
-#: awesome-widget-kf5/plugin/awactions.cpp:76
+#: awesome-widget/package/contents/ui/widget.qml:254
+#, fuzzy
+msgid "Edit bars"
+msgstr "Editar"
+
+#: awesome-widget/plugin/awactions.cpp:76
 msgid "Run %1"
 msgstr ""
 
-#: awesome-widget-kf5/plugin/awactions.cpp:113
+#: awesome-widget/plugin/awactions.cpp:105
+msgid "A set of minimalistic plasmoid widgets"
+msgstr "Um conjunto de widgets plasmoid minimalistas."
+
+#: awesome-widget/plugin/awactions.cpp:107
+msgid "Links:"
+msgstr "Links:"
+
+#: awesome-widget/plugin/awactions.cpp:108
+msgid "Homepage"
+msgstr "Homepage"
+
+#: awesome-widget/plugin/awactions.cpp:109
+msgid "Repository"
+msgstr "Repositório"
+
+#: awesome-widget/plugin/awactions.cpp:110
+msgid "Bugtracker"
+msgstr "Bugtracker"
+
+#: awesome-widget/plugin/awactions.cpp:111
+msgid "Translation issue"
+msgstr "Problema na tradução"
+
+#: awesome-widget/plugin/awactions.cpp:112
+msgid "AUR packages"
+msgstr "Pacotes AUR"
+
+#: awesome-widget/plugin/awactions.cpp:113
 #, fuzzy
 msgid "openSUSE packages"
 msgstr "Pacotes AUR"
 
-#: awesome-widget-kf5/plugin/awkeys.cpp:58
+#: awesome-widget/plugin/awactions.cpp:116
+msgid "This software is licensed under %1"
+msgstr "Este software é licenciado sob %1"
+
+#: awesome-widget/plugin/awactions.cpp:118
+msgid "Translators: %1"
+msgstr "Tradutores: %1"
+
+#: awesome-widget/plugin/awactions.cpp:126
+msgid "This software uses: %1"
+msgstr "Este software usa: %1"
+
+#: awesome-widget/plugin/awactions.cpp:141
+msgid "Select font"
+msgstr "Selecionar fonte"
+
+#: awesome-widget/plugin/awactions.cpp:212
+msgid "Current version : %1"
+msgstr "Versão atual: %1"
+
+#: awesome-widget/plugin/awactions.cpp:213
+msgid "New version : %1"
+msgstr "Nova versão: %1"
+
+#: awesome-widget/plugin/awactions.cpp:214
+msgid "Click \"Ok\" to download"
+msgstr "Clique \"Ok\" para baixar"
+
+#: awesome-widget/plugin/awactions.cpp:216
+msgid "There are updates"
+msgstr "Há atualizações disponíveis"
+
+#: awesome-widget/plugin/awkeys.cpp:59
+msgid "Copy"
+msgstr "Copiar"
+
+#: awesome-widget/plugin/awkeys.cpp:60
 msgid "Create"
 msgstr ""
 
-#: awesome-widget-kf5/plugin/awkeys.cpp:453
+#: awesome-widget/plugin/awkeys.cpp:61
+msgid "Remove"
+msgstr "Remover"
+
+#: awesome-widget/plugin/awkeys.cpp:364
 #, fuzzy
 msgid "AC online"
 msgstr "Rótulo com carregador conectado"
 
-#: awesome-widget-kf5/plugin/awkeys.cpp:455
+#: awesome-widget/plugin/awkeys.cpp:366
 #, fuzzy
 msgid "AC offline"
 msgstr "Rótulo com carregador desconectado"
 
-#: awesome-widget-kf5/plugin/awkeys.cpp:472
+#: awesome-widget/plugin/awkeys.cpp:383
 msgid "High CPU load"
 msgstr ""
 
-#: awesome-widget-kf5/plugin/awkeys.cpp:521
+#: awesome-widget/plugin/awkeys.cpp:432
 msgid "High GPU load"
 msgstr ""
 
-#: awesome-widget-kf5/plugin/awkeys.cpp:535
+#: awesome-widget/plugin/awkeys.cpp:446
 msgid "Free space on %1 less than 10%"
 msgstr ""
 
-#: awesome-widget-kf5/plugin/awkeys.cpp:601
+#: awesome-widget/plugin/awkeys.cpp:511
 msgid "High memory usage"
 msgstr ""
 
-#: awesome-widget-kf5/plugin/awkeys.cpp:609
+#: awesome-widget/plugin/awkeys.cpp:519
 msgid "Network device has been changed to %1"
 msgstr ""
 
-#: awesome-widget-kf5/plugin/awkeys.cpp:679
+#: awesome-widget/plugin/awkeys.cpp:589
 msgid "Swap is used"
 msgstr ""
 
-#: awesome-widget-kf5/plugin/awkeys.cpp:739
+#: awesome-widget/plugin/awkeys.cpp:649
 #, fuzzy
 msgid "Select tag"
 msgstr "Selecionar fonte"
 
-#: awesome-widget-kf5/plugin/awkeys.cpp:740
+#: awesome-widget/plugin/awkeys.cpp:650
 #, fuzzy
 msgid "Tag"
 msgstr "Tag: %1"
 
-#: awesome-widget-kf5/plugin/awkeys.cpp:815
-#: awesome-widget-kf5/plugin/awkeys.cpp:1090
+#: awesome-widget/plugin/awkeys.cpp:723 awesome-widget/plugin/awkeys.cpp:733
+#: awesome-widget/plugin/awkeys.cpp:744 awesome-widget/plugin/awkeys.cpp:755
+#: awesome-widget/plugin/awkeys.cpp:1023 awesome-widget/plugin/awkeys.cpp:1078
+#: awesome-widget/plugin/awkeys.cpp:1138 awesome-widget/plugin/awkeys.cpp:1195
+msgid "Comment: %1"
+msgstr "Comentário: %1"
+
+#: awesome-widget/plugin/awkeys.cpp:732 awesome-widget/plugin/awkeys.cpp:743
+#: awesome-widget/plugin/awkeys.cpp:754 awesome-widget/plugin/awkeys.cpp:1077
+#: awesome-widget/plugin/awkeys.cpp:1137 awesome-widget/plugin/awkeys.cpp:1194
+msgid "Name: %1"
+msgstr "Nome: %1"
+
+#: awesome-widget/plugin/awkeys.cpp:734 awesome-widget/plugin/awkeys.cpp:1079
 msgid "Ticker: %1"
 msgstr ""
 
-#. i18n: file: awesome-widget-kde4/advanced.ui:74
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_popup)
-#: translations/awesome-widget/rc.cpp:3 rc.cpp:3
-msgid "Enable popup on mouse click"
-msgstr "Ativar popup no clique do mouse"
+#: awesome-widget/plugin/awkeys.cpp:745 awesome-widget/plugin/awkeys.cpp:756
+#: awesome-widget/plugin/awkeys.cpp:1139 awesome-widget/plugin/awkeys.cpp:1196
+msgid "Exec: %1"
+msgstr "Exec: %1"
 
-#. i18n: file: awesome-widget-kde4/advanced.ui:146
-#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_timeFormat)
-#: translations/awesome-widget/rc.cpp:12 rc.cpp:12
-msgid ""
-"$dddd - long weekday\n"
-"$ddd - short weekday\n"
-"$dd - day\n"
-"$d - day w\\o zero\n"
-"$MMMM - long month\n"
-"$MMM - short month\n"
-"$MM - month\n"
-"$M - month w\\o zero\n"
-"$yyyy - year\n"
-"$yy - short year\n"
-"$hh - hours (24 only)\n"
-"$h - hours w\\o zero (24 only)\n"
-"$mm - minutes\n"
-"$m - minutes w\\o zero\n"
-"$ss - seconds\n"
-"$s - seconds w\\o zero"
-msgstr ""
-"$dddd - dia da semana completo\n"
-"$ddd - dia da semana curto\n"
-"$dd - dia\n"
-"$d - dia com zero\n"
-"$MMMM - mês completo\n"
-"$MMM - mês curto\n"
-"$MM - mês\n"
-"$M - mês com zero\n"
-"$hh - horas (somente 24)\n"
-"$h - horas sem zeros (somente 24)\n"
-"$mm - minutos\n"
-"$m - minutos sem zeros\n"
-"$ss - segundos\n"
-"$s segundos sem zeros"
+#: awesome-widget/plugin/awkeys.cpp:982 awesome-widget/plugin/awkeys.cpp:1047
+#: awesome-widget/plugin/awkeys.cpp:1104 awesome-widget/plugin/awkeys.cpp:1163
+msgid "Enter file name"
+msgstr "Digite o nome de arquivo"
 
-#. i18n: file: awesome-widget-kde4/advanced.ui:178
-#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_uptimeFormat)
-#: translations/awesome-widget/rc.cpp:33 rc.cpp:33
-msgid ""
-"$dd - uptime days\n"
-"$d - uptime days without zero\n"
-"$hh - uptime hours\n"
-"$h - uptime hours without zero\n"
-"$mm - uptime minutes\n"
-"$m - uptime minutes without zero"
-msgstr ""
-"$dd - tempo em atividade em dias\n"
-"$d -  tempo em atividade em dias sem zeros\n"
-"$hh - tempo em atividade em horas\n"
-"$h - tempo em atividade em horas sem zeros\n"
-"$mm - tempo em atividade em minutos\n"
-"$m - tempo em atividade em minuto sem zeros"
+#: awesome-widget/plugin/awkeys.cpp:983 awesome-widget/plugin/awkeys.cpp:1048
+#: awesome-widget/plugin/awkeys.cpp:1105 awesome-widget/plugin/awkeys.cpp:1164
+msgid "File name"
+msgstr "Nome de arquivo"
 
-#. i18n: file: awesome-widget-kde4/advanced.ui:248
-#. i18n: ectx: property (text), widget (QLabel, label_tempDevice)
-#: translations/awesome-widget/rc.cpp:44 rc.cpp:44
-msgid "Temperature devices"
-msgstr "Dispositivos de temperatura"
+#: awesome-widget/plugin/graphicalitem.cpp:497
+msgid "Select color"
+msgstr "Selecionar cor"
 
-#. i18n: file: awesome-widget-kde4/advanced.ui:255
-#. i18n: ectx: property (toolTip), widget (QListWidget, listWidget_tempDevice)
-#. i18n: file: awesome-widget-kde4/advanced.ui:279
-#. i18n: ectx: property (toolTip), widget (QListWidget, listWidget_fanDevice)
-#. i18n: file: awesome-widget-kde4/advanced.ui:303
-#. i18n: ectx: property (toolTip), widget (QListWidget, listWidget_mount)
-#. i18n: file: awesome-widget-kde4/advanced.ui:327
-#. i18n: ectx: property (toolTip), widget (QListWidget, listWidget_hddSpeedDevice)
-#. i18n: file: awesome-widget-kde4/advanced.ui:351
-#. i18n: ectx: property (toolTip), widget (QListWidget, listWidget_hddDevice)
-#. i18n: file: awesome-widget-kde4/advanced.ui:255
-#. i18n: ectx: property (toolTip), widget (QListWidget, listWidget_tempDevice)
-#. i18n: file: awesome-widget-kde4/advanced.ui:279
-#. i18n: ectx: property (toolTip), widget (QListWidget, listWidget_fanDevice)
-#. i18n: file: awesome-widget-kde4/advanced.ui:303
-#. i18n: ectx: property (toolTip), widget (QListWidget, listWidget_mount)
-#. i18n: file: awesome-widget-kde4/advanced.ui:327
-#. i18n: ectx: property (toolTip), widget (QListWidget, listWidget_hddSpeedDevice)
-#. i18n: file: awesome-widget-kde4/advanced.ui:351
-#. i18n: ectx: property (toolTip), widget (QListWidget, listWidget_hddDevice)
-#: translations/awesome-widget/rc.cpp:47 translations/awesome-widget/rc.cpp:53
-#: translations/awesome-widget/rc.cpp:59 translations/awesome-widget/rc.cpp:65
-#: translations/awesome-widget/rc.cpp:71 rc.cpp:47 rc.cpp:53 rc.cpp:59
-#: rc.cpp:65 rc.cpp:71
-msgid "Editable"
-msgstr "Editável"
-
-#. i18n: file: awesome-widget-kde4/advanced.ui:272
-#. i18n: ectx: property (text), widget (QLabel, label_fanDevice)
-#: translations/awesome-widget/rc.cpp:50 rc.cpp:50
-msgid "Fan devices"
-msgstr "Dispositivos de ventilação"
-
-#. i18n: file: awesome-widget-kde4/advanced.ui:296
-#. i18n: ectx: property (text), widget (QLabel, label_mount)
-#: translations/awesome-widget/rc.cpp:56 rc.cpp:56
-msgid "Mount points"
-msgstr "Pontos de montagem"
-
-#. i18n: file: awesome-widget-kde4/advanced.ui:320
-#. i18n: ectx: property (text), widget (QLabel, label_hddSpeedDevice)
-#: translations/awesome-widget/rc.cpp:62 rc.cpp:62
-msgid "HDD devices (speed)"
-msgstr "Dispositivos HDD (velocidade) "
-
-#. i18n: file: awesome-widget-kde4/advanced.ui:344
-#. i18n: ectx: property (text), widget (QLabel, label_hddDevice)
-#: translations/awesome-widget/rc.cpp:68 rc.cpp:68
-msgid "HDD devices (temp)"
-msgstr "Dispositivos HDD (temperatura)"
-
-#. i18n: file: awesome-widget-kde4/advanced.ui:362
-#. i18n: ectx: property (toolTip), widget (QCheckBox, checkBox_netdev)
-#: translations/awesome-widget/rc.cpp:74 rc.cpp:74
-msgid "Disable auto select device and set specified device"
-msgstr ""
-"Desativar auto seleção de dispositivos e escolher um dispositivo específico"
-
-#. i18n: file: awesome-widget-kde4/advanced.ui:368
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_netdev)
-#: translations/awesome-widget/rc.cpp:77 rc.cpp:77
-msgid "Set network device"
-msgstr "Escolher dispositivo de rede"
-
-#. i18n: file: awesome-widget-kde4/advanced.ui:402
-#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_acOnline)
-#: translations/awesome-widget/rc.cpp:83 rc.cpp:83
-msgid "Line, which returns when AC is online"
-msgstr "Linha, que aparece quando o carregador está conectado"
-
-#. i18n: file: awesome-widget-kde4/advanced.ui:432
-#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_acOffline)
-#: translations/awesome-widget/rc.cpp:89 rc.cpp:89
-msgid "Line, which returns when AC is offline"
-msgstr "Linha, que aparece quando o carregador está offline"
-
-#. i18n: file: awesome-widget-kde4/deconfig.ui:255
-#. i18n: ectx: property (toolTip), widget (QLineEdit, lineEdit_acpi)
-#: translations/awesome-widget/rc.cpp:140 rc.cpp:140
-msgid "\"/sys/class/power_supply/\" by default"
-msgstr "\"/sys/class/power_supply/AC/online\" por padrão"
-
-#. i18n: file: awesome-widget-kde4/deconfig.ui:266
-#. i18n: ectx: property (text), widget (QLabel, label_mprisInfo)
-#: translations/awesome-widget/rc.cpp:143 rc.cpp:143
-msgid "<b>NOTE:</b> Player DBus interface should be an active"
-msgstr "<b>NOTA:</> Interface do player DBus deverá ser uma ativa"
-
-#. i18n: file: awesome-widget-kde4/graphicalitem.ui:14
-#. i18n: ectx: property (windowTitle), widget (QDialog, GraphicalItem)
-#. i18n: file: awesome-widget-kf5/plugin/graphicalitem.ui:14
-#. i18n: ectx: property (windowTitle), widget (QDialog, GraphicalItem)
-#. i18n: file: extsysmon/extquotes.ui:14
-#. i18n: ectx: property (windowTitle), widget (QDialog, ExtQuotes)
-#. i18n: file: extsysmon/extscript.ui:14
-#. i18n: ectx: property (windowTitle), widget (QDialog, ExtScript)
-#. i18n: file: extsysmon/extupgrade.ui:14
-#. i18n: ectx: property (windowTitle), widget (QDialog, ExtUpgrade)
-#. i18n: file: awesome-widget-kde4/graphicalitem.ui:14
-#. i18n: ectx: property (windowTitle), widget (QDialog, GraphicalItem)
-#. i18n: file: awesome-widget-kf5/plugin/graphicalitem.ui:14
-#. i18n: ectx: property (windowTitle), widget (QDialog, GraphicalItem)
-#. i18n: file: extsysmon/extquotes.ui:14
-#. i18n: ectx: property (windowTitle), widget (QDialog, ExtQuotes)
-#. i18n: file: extsysmon/extscript.ui:14
-#. i18n: ectx: property (windowTitle), widget (QDialog, ExtScript)
-#. i18n: file: extsysmon/extupgrade.ui:14
-#. i18n: ectx: property (windowTitle), widget (QDialog, ExtUpgrade)
-#: translations/awesome-widget/rc.cpp:161
-#: translations/awesome-widget/rc.cpp:242
-#: translations/awesome-widget/rc.cpp:272
-#: translations/awesome-widget/rc.cpp:293
-#: translations/awesome-widget/rc.cpp:320 rc.cpp:161 rc.cpp:242 rc.cpp:272
-#: rc.cpp:293 rc.cpp:320
-msgid "Configuration"
-msgstr "Configuração"
-
-#. i18n: file: awesome-widget-kde4/graphicalitem.ui:22
-#. i18n: ectx: property (text), widget (QLabel, label_name)
-#. i18n: file: awesome-widget-kf5/plugin/graphicalitem.ui:22
-#. i18n: ectx: property (text), widget (QLabel, label_name)
-#. i18n: file: extsysmon/extquotes.ui:28
-#. i18n: ectx: property (text), widget (QLabel, label_name)
-#. i18n: file: extsysmon/extscript.ui:28
-#. i18n: ectx: property (text), widget (QLabel, label_name)
-#. i18n: file: extsysmon/extupgrade.ui:28
-#. i18n: ectx: property (text), widget (QLabel, label_name)
-#. i18n: file: awesome-widget-kde4/graphicalitem.ui:22
-#. i18n: ectx: property (text), widget (QLabel, label_name)
-#. i18n: file: awesome-widget-kf5/plugin/graphicalitem.ui:22
-#. i18n: ectx: property (text), widget (QLabel, label_name)
-#. i18n: file: extsysmon/extquotes.ui:28
-#. i18n: ectx: property (text), widget (QLabel, label_name)
-#. i18n: file: extsysmon/extscript.ui:28
-#. i18n: ectx: property (text), widget (QLabel, label_name)
-#. i18n: file: extsysmon/extupgrade.ui:28
-#. i18n: ectx: property (text), widget (QLabel, label_name)
-#: translations/awesome-widget/rc.cpp:164
-#: translations/awesome-widget/rc.cpp:245
-#: translations/awesome-widget/rc.cpp:275
-#: translations/awesome-widget/rc.cpp:296
-#: translations/awesome-widget/rc.cpp:323 rc.cpp:164 rc.cpp:245 rc.cpp:275
-#: rc.cpp:296 rc.cpp:323
-msgid "Name"
-msgstr "NOme"
-
-#. i18n: file: awesome-widget-kde4/graphicalitem.ui:49
-#. i18n: ectx: property (text), widget (QLabel, label_comment)
-#. i18n: file: awesome-widget-kf5/plugin/graphicalitem.ui:49
-#. i18n: ectx: property (text), widget (QLabel, label_comment)
-#. i18n: file: extsysmon/extquotes.ui:51
-#. i18n: ectx: property (text), widget (QLabel, label_comment)
-#. i18n: file: extsysmon/extscript.ui:51
-#. i18n: ectx: property (text), widget (QLabel, label_comment)
-#. i18n: file: extsysmon/extupgrade.ui:51
-#. i18n: ectx: property (text), widget (QLabel, label_comment)
-#. i18n: file: awesome-widget-kde4/graphicalitem.ui:49
-#. i18n: ectx: property (text), widget (QLabel, label_comment)
-#. i18n: file: awesome-widget-kf5/plugin/graphicalitem.ui:49
-#. i18n: ectx: property (text), widget (QLabel, label_comment)
-#. i18n: file: extsysmon/extquotes.ui:51
-#. i18n: ectx: property (text), widget (QLabel, label_comment)
-#. i18n: file: extsysmon/extscript.ui:51
-#. i18n: ectx: property (text), widget (QLabel, label_comment)
-#. i18n: file: extsysmon/extupgrade.ui:51
-#. i18n: ectx: property (text), widget (QLabel, label_comment)
-#: translations/awesome-widget/rc.cpp:167
-#: translations/awesome-widget/rc.cpp:248
-#: translations/awesome-widget/rc.cpp:278
-#: translations/awesome-widget/rc.cpp:299
-#: translations/awesome-widget/rc.cpp:326 rc.cpp:167 rc.cpp:248 rc.cpp:278
-#: rc.cpp:299 rc.cpp:326
-msgid "Comment"
-msgstr "Comentário"
-
-#. i18n: file: awesome-widget-kde4/graphicalitem.ui:66
-#. i18n: ectx: property (text), widget (QLabel, label_value)
-#. i18n: file: awesome-widget-kf5/plugin/graphicalitem.ui:66
-#. i18n: ectx: property (text), widget (QLabel, label_value)
-#. i18n: file: awesome-widget-kde4/graphicalitem.ui:66
-#. i18n: ectx: property (text), widget (QLabel, label_value)
-#. i18n: file: awesome-widget-kf5/plugin/graphicalitem.ui:66
-#. i18n: ectx: property (text), widget (QLabel, label_value)
-#: translations/awesome-widget/rc.cpp:170
-#: translations/awesome-widget/rc.cpp:251 rc.cpp:170 rc.cpp:251
-msgid "Value"
-msgstr "Valor"
-
-#. i18n: file: awesome-widget-kde4/graphicalitem.ui:87
-#. i18n: ectx: property (text), widget (QLabel, label_activeColor)
-#. i18n: file: awesome-widget-kf5/plugin/graphicalitem.ui:87
-#. i18n: ectx: property (text), widget (QLabel, label_activeColor)
-#. i18n: file: awesome-widget-kde4/graphicalitem.ui:87
-#. i18n: ectx: property (text), widget (QLabel, label_activeColor)
-#. i18n: file: awesome-widget-kf5/plugin/graphicalitem.ui:87
-#. i18n: ectx: property (text), widget (QLabel, label_activeColor)
-#: translations/awesome-widget/rc.cpp:173
-#: translations/awesome-widget/rc.cpp:254 rc.cpp:173 rc.cpp:254
-msgid "Active color"
-msgstr "Cor ativa"
-
-#. i18n: file: awesome-widget-kde4/graphicalitem.ui:108
-#. i18n: ectx: property (text), widget (QLabel, label_inactiveColor)
-#. i18n: file: awesome-widget-kf5/plugin/graphicalitem.ui:108
-#. i18n: ectx: property (text), widget (QLabel, label_inactiveColor)
-#. i18n: file: awesome-widget-kde4/graphicalitem.ui:108
-#. i18n: ectx: property (text), widget (QLabel, label_inactiveColor)
-#. i18n: file: awesome-widget-kf5/plugin/graphicalitem.ui:108
-#. i18n: ectx: property (text), widget (QLabel, label_inactiveColor)
-#: translations/awesome-widget/rc.cpp:176
-#: translations/awesome-widget/rc.cpp:257 rc.cpp:176 rc.cpp:257
-msgid "Inactive color"
-msgstr "Cor inativa"
-
-#. i18n: file: awesome-widget-kde4/graphicalitem.ui:129
-#. i18n: ectx: property (text), widget (QLabel, label_type)
-#. i18n: file: awesome-widget-kf5/plugin/graphicalitem.ui:129
-#. i18n: ectx: property (text), widget (QLabel, label_type)
-#. i18n: file: awesome-widget-kde4/graphicalitem.ui:129
-#. i18n: ectx: property (text), widget (QLabel, label_type)
-#. i18n: file: awesome-widget-kf5/plugin/graphicalitem.ui:129
-#. i18n: ectx: property (text), widget (QLabel, label_type)
-#: translations/awesome-widget/rc.cpp:179
-#: translations/awesome-widget/rc.cpp:260 rc.cpp:179 rc.cpp:260
-msgid "Type"
-msgstr "Tipo"
-
-#. i18n: file: awesome-widget-kde4/graphicalitem.ui:162
-#. i18n: ectx: property (text), widget (QLabel, label_direction)
-#. i18n: file: awesome-widget-kf5/plugin/graphicalitem.ui:162
-#. i18n: ectx: property (text), widget (QLabel, label_direction)
-#. i18n: file: awesome-widget-kde4/graphicalitem.ui:162
-#. i18n: ectx: property (text), widget (QLabel, label_direction)
-#. i18n: file: awesome-widget-kf5/plugin/graphicalitem.ui:162
-#. i18n: ectx: property (text), widget (QLabel, label_direction)
-#: translations/awesome-widget/rc.cpp:182
-#: translations/awesome-widget/rc.cpp:263 rc.cpp:182 rc.cpp:263
-msgid "Direction"
-msgstr "Direção"
-
-#. i18n: file: awesome-widget-kde4/graphicalitem.ui:190
-#. i18n: ectx: property (text), widget (QLabel, label_height)
-#. i18n: file: awesome-widget-kf5/plugin/graphicalitem.ui:190
-#. i18n: ectx: property (text), widget (QLabel, label_height)
-#. i18n: file: awesome-widget-kde4/graphicalitem.ui:190
-#. i18n: ectx: property (text), widget (QLabel, label_height)
-#. i18n: file: awesome-widget-kf5/plugin/graphicalitem.ui:190
-#. i18n: ectx: property (text), widget (QLabel, label_height)
-#: translations/awesome-widget/rc.cpp:185
-#: translations/awesome-widget/rc.cpp:266 rc.cpp:185 rc.cpp:266
-msgid "Height"
-msgstr "Altura"
-
-#. i18n: file: awesome-widget-kde4/graphicalitem.ui:214
-#. i18n: ectx: property (text), widget (QLabel, label_width)
-#. i18n: file: awesome-widget-kf5/plugin/graphicalitem.ui:214
-#. i18n: ectx: property (text), widget (QLabel, label_width)
-#. i18n: file: awesome-widget-kde4/graphicalitem.ui:214
-#. i18n: ectx: property (text), widget (QLabel, label_width)
-#. i18n: file: awesome-widget-kf5/plugin/graphicalitem.ui:214
-#. i18n: ectx: property (text), widget (QLabel, label_width)
-#: translations/awesome-widget/rc.cpp:188
-#: translations/awesome-widget/rc.cpp:269 rc.cpp:188 rc.cpp:269
-msgid "Width"
-msgstr "Largura"
-
-#. i18n: file: awesome-widget-kde4/widget.ui:90
-#. i18n: ectx: property (shortcut), widget (QPushButton, pushButton_bold)
-#: translations/awesome-widget/rc.cpp:230 rc.cpp:230
-msgid "Ctrl+B"
-msgstr "Ctrl+B"
-
-#. i18n: file: awesome-widget-kde4/widget.ui:102
-#. i18n: ectx: property (shortcut), widget (QPushButton, pushButton_italic)
-#: translations/awesome-widget/rc.cpp:233 rc.cpp:233
-msgid "Ctrl+I"
-msgstr "Ctrl+I"
-
-#. i18n: file: awesome-widget-kde4/widget.ui:114
-#. i18n: ectx: property (shortcut), widget (QPushButton, pushButton_underline)
-#: translations/awesome-widget/rc.cpp:236 rc.cpp:236
-msgid "Ctrl+U"
-msgstr "Ctrl+U"
-
-#. i18n: file: extsysmon/extquotes.ui:66
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: translations/awesome-widget/rc.cpp:281 rc.cpp:281
-msgid ""
-"<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
-"instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
-"text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</"
-"span></a></p></body></html>"
-msgstr ""
-
-#. i18n: file: extsysmon/extquotes.ui:87
-#. i18n: ectx: property (text), widget (QLabel, label_ticker)
-#: translations/awesome-widget/rc.cpp:284 rc.cpp:284
-msgid "Ticker"
-msgstr ""
-
-#. i18n: file: extsysmon/extquotes.ui:123
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_active)
-#. i18n: file: extsysmon/extscript.ui:133
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_active)
-#. i18n: file: extsysmon/extupgrade.ui:110
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_active)
-#. i18n: file: extsysmon/extquotes.ui:123
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_active)
-#. i18n: file: extsysmon/extscript.ui:133
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_active)
-#. i18n: file: extsysmon/extupgrade.ui:110
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_active)
-#: translations/awesome-widget/rc.cpp:287
-#: translations/awesome-widget/rc.cpp:308
-#: translations/awesome-widget/rc.cpp:332 rc.cpp:287 rc.cpp:308 rc.cpp:332
-#, fuzzy
-msgid "Active"
-msgstr "Cor ativa"
-
-#. i18n: file: extsysmon/extquotes.ui:134
-#. i18n: ectx: property (text), widget (QLabel, label_interval)
-#. i18n: file: extsysmon/extscript.ui:207
-#. i18n: ectx: property (text), widget (QLabel, label_interval)
-#. i18n: file: extsysmon/extupgrade.ui:145
-#. i18n: ectx: property (text), widget (QLabel, label_interval)
-#. i18n: file: extsysmon/extquotes.ui:134
-#. i18n: ectx: property (text), widget (QLabel, label_interval)
-#. i18n: file: extsysmon/extscript.ui:207
-#. i18n: ectx: property (text), widget (QLabel, label_interval)
-#. i18n: file: extsysmon/extupgrade.ui:145
-#. i18n: ectx: property (text), widget (QLabel, label_interval)
-#: translations/awesome-widget/rc.cpp:290
-#: translations/awesome-widget/rc.cpp:317
-#: translations/awesome-widget/rc.cpp:338 rc.cpp:290 rc.cpp:317 rc.cpp:338
-#, fuzzy
-msgid "Interval"
-msgstr "Intervalo de tempo"
-
-#. i18n: file: extsysmon/extscript.ui:74
-#. i18n: ectx: property (text), widget (QLabel, label_command)
-#. i18n: file: extsysmon/extupgrade.ui:74
-#. i18n: ectx: property (text), widget (QLabel, label_command)
-#. i18n: file: extsysmon/extscript.ui:74
-#. i18n: ectx: property (text), widget (QLabel, label_command)
-#. i18n: file: extsysmon/extupgrade.ui:74
-#. i18n: ectx: property (text), widget (QLabel, label_command)
-#: translations/awesome-widget/rc.cpp:302
-#: translations/awesome-widget/rc.cpp:329 rc.cpp:302 rc.cpp:329
-#, fuzzy
-msgid "Command"
-msgstr "Comentário"
-
-#. i18n: file: extsysmon/extscript.ui:97
-#. i18n: ectx: property (text), widget (QLabel, label_prefix)
-#: translations/awesome-widget/rc.cpp:305 rc.cpp:305
-msgid "Prefix"
-msgstr ""
-
-#. i18n: file: extsysmon/extscript.ui:163
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_output)
-#: translations/awesome-widget/rc.cpp:311 rc.cpp:311
-msgid "Has output"
-msgstr ""
-
-#. i18n: file: extsysmon/extscript.ui:174
-#. i18n: ectx: property (text), widget (QLabel, label_redirect)
-#: translations/awesome-widget/rc.cpp:314 rc.cpp:314
-msgid "Redirect"
-msgstr ""
-
-#. i18n: file: extsysmon/extupgrade.ui:121
-#. i18n: ectx: property (text), widget (QLabel, label_null)
-#: translations/awesome-widget/rc.cpp:335 rc.cpp:335
-msgid "Null"
-msgstr ""
-
-#: translations/awesome-widget/rc.cpp:339 rc.cpp:339
+#: translations/awesome-widget/rc.cpp:1 rc.cpp:1
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "under"
 
-#: translations/awesome-widget/rc.cpp:340 rc.cpp:340
+#: translations/awesome-widget/rc.cpp:2 rc.cpp:2
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "under@insicuri.net"
+
+#~ msgid "Run ksysguard"
+#~ msgstr "Abrir ksysguard"
+
+#~ msgid "Update text"
+#~ msgstr "Atualizar texto"
+
+#~ msgid "Check for updates"
+#~ msgstr "Checar por atualizações"
+
+#~ msgid ""
+#~ "Version %1\n"
+#~ "(build date %2)"
+#~ msgstr ""
+#~ "Versão: %1\n"
+#~ "(data de compilação %2)"
+
+#~ msgid "Edit"
+#~ msgstr "Editar"
+
+#~ msgid "Bars"
+#~ msgstr "Barras"
+
+#~ msgid "Enable popup on mouse click"
+#~ msgstr "Ativar popup no clique do mouse"
+
+#~ msgid ""
+#~ "$dddd - long weekday\n"
+#~ "$ddd - short weekday\n"
+#~ "$dd - day\n"
+#~ "$d - day w\\o zero\n"
+#~ "$MMMM - long month\n"
+#~ "$MMM - short month\n"
+#~ "$MM - month\n"
+#~ "$M - month w\\o zero\n"
+#~ "$yyyy - year\n"
+#~ "$yy - short year\n"
+#~ "$hh - hours (24 only)\n"
+#~ "$h - hours w\\o zero (24 only)\n"
+#~ "$mm - minutes\n"
+#~ "$m - minutes w\\o zero\n"
+#~ "$ss - seconds\n"
+#~ "$s - seconds w\\o zero"
+#~ msgstr ""
+#~ "$dddd - dia da semana completo\n"
+#~ "$ddd - dia da semana curto\n"
+#~ "$dd - dia\n"
+#~ "$d - dia com zero\n"
+#~ "$MMMM - mês completo\n"
+#~ "$MMM - mês curto\n"
+#~ "$MM - mês\n"
+#~ "$M - mês com zero\n"
+#~ "$hh - horas (somente 24)\n"
+#~ "$h - horas sem zeros (somente 24)\n"
+#~ "$mm - minutos\n"
+#~ "$m - minutos sem zeros\n"
+#~ "$ss - segundos\n"
+#~ "$s segundos sem zeros"
+
+#~ msgid ""
+#~ "$dd - uptime days\n"
+#~ "$d - uptime days without zero\n"
+#~ "$hh - uptime hours\n"
+#~ "$h - uptime hours without zero\n"
+#~ "$mm - uptime minutes\n"
+#~ "$m - uptime minutes without zero"
+#~ msgstr ""
+#~ "$dd - tempo em atividade em dias\n"
+#~ "$d -  tempo em atividade em dias sem zeros\n"
+#~ "$hh - tempo em atividade em horas\n"
+#~ "$h - tempo em atividade em horas sem zeros\n"
+#~ "$mm - tempo em atividade em minutos\n"
+#~ "$m - tempo em atividade em minuto sem zeros"
+
+#~ msgid "Temperature devices"
+#~ msgstr "Dispositivos de temperatura"
+
+#~ msgid "Editable"
+#~ msgstr "Editável"
+
+#~ msgid "Fan devices"
+#~ msgstr "Dispositivos de ventilação"
+
+#~ msgid "Mount points"
+#~ msgstr "Pontos de montagem"
+
+#~ msgid "HDD devices (speed)"
+#~ msgstr "Dispositivos HDD (velocidade) "
+
+#~ msgid "HDD devices (temp)"
+#~ msgstr "Dispositivos HDD (temperatura)"
+
+#~ msgid "Disable auto select device and set specified device"
+#~ msgstr ""
+#~ "Desativar auto seleção de dispositivos e escolher um dispositivo "
+#~ "específico"
+
+#~ msgid "Set network device"
+#~ msgstr "Escolher dispositivo de rede"
+
+#~ msgid "Line, which returns when AC is online"
+#~ msgstr "Linha, que aparece quando o carregador está conectado"
+
+#~ msgid "Line, which returns when AC is offline"
+#~ msgstr "Linha, que aparece quando o carregador está offline"
+
+#~ msgid "\"/sys/class/power_supply/\" by default"
+#~ msgstr "\"/sys/class/power_supply/AC/online\" por padrão"
+
+#~ msgid "<b>NOTE:</b> Player DBus interface should be an active"
+#~ msgstr "<b>NOTA:</> Interface do player DBus deverá ser uma ativa"
+
+#~ msgid "Configuration"
+#~ msgstr "Configuração"
+
+#~ msgid "Name"
+#~ msgstr "NOme"
+
+#~ msgid "Comment"
+#~ msgstr "Comentário"
+
+#~ msgid "Value"
+#~ msgstr "Valor"
+
+#~ msgid "Active color"
+#~ msgstr "Cor ativa"
+
+#~ msgid "Inactive color"
+#~ msgstr "Cor inativa"
+
+#~ msgid "Type"
+#~ msgstr "Tipo"
+
+#~ msgid "Direction"
+#~ msgstr "Direção"
+
+#~ msgid "Height"
+#~ msgstr "Altura"
+
+#~ msgid "Width"
+#~ msgstr "Largura"
+
+#~ msgid "Ctrl+B"
+#~ msgstr "Ctrl+B"
+
+#~ msgid "Ctrl+I"
+#~ msgstr "Ctrl+I"
+
+#~ msgid "Ctrl+U"
+#~ msgstr "Ctrl+U"
+
+#, fuzzy
+#~ msgid "Active"
+#~ msgstr "Cor ativa"
+
+#, fuzzy
+#~ msgid "Interval"
+#~ msgstr "Intervalo de tempo"
+
+#, fuzzy
+#~ msgid "Command"
+#~ msgstr "Comentário"
 
 #~ msgid "Null lines"
 #~ msgstr "Linhas nulas"

@@ -1,3 +1,21 @@
+Ver.2.2.2:
++ add quotes support (#46)
++ add support of properties height and width (#47)
++ add transtaltion support to the plugins (#50)
++ add support of key caching
++ add support of X-AW-Number to ExtScript and ExtUpgrade (ApiVer=2)
++ add reconnection to DataEngine (in some cases some values are not updated)
++ add widgets width and height update
+- fix bug with Ext* items update (#49)
+- fix bug with GPUDEV, HDDDEV settings saving from UI
+- fix Desktop Panel settings
+- fix bug with adding paragraph settings
+* drop support of KDE4 support, created a separate branch
+* increase intervals limits (#48)
+* hddtemp was replaced to smartctl by default
+* plugins were moved from private
+* more correct interface painting
+
 Ver.2.2.1:
 + add key X-AW-Interval to ExtUpgrade (ApiVer = 1, default = 3600)
 + add values cache to ExtScript and ExtUpgrade
@@ -17,7 +35,7 @@ Ver.2.2.0:
 * small changes in widget logic
 * edit window preview painting
 * KDE4 code upgrade to new ABI
-* dataengine optimization
+* DataEngine optimization
 * PKGCMD was replaced by ExtUpgrade
 
 Ver.2.1.0:
@@ -92,7 +110,7 @@ Ver.1.11.0:
 + add desktop label (tags $name, $number, $total)
 + add ability to interact with players using mpris
 * rewrite to use submodules
-* rewrite dataengine to use tasks
+* rewrite DataEngine to use tasks
 * fix nvidia temperature definition
 
 Ver.1.10.2:
@@ -121,7 +139,7 @@ Ver.1.10.0:
 - remove util.py
 - remove createNotifyrc since it isn't needed
 * refactoring of configuration interface
-* player settings was moved from plasmoid to dataengine
+* player settings was moved from plasmoid to DataEngine
 * edit readme call
 * change readme from md to html
 
@@ -169,8 +187,8 @@ Ver.1.7.3:
 Ver.1.7.2:
 + add tags $dd, $d, $hh, $h, $mm, $m to custom uptime format
 + add scalling to tooltips
-+ add dataengine configuration from ptm
-+ add custom command to dataengine
++ add DataEngine configuration from ptm
++ add custom command to DataEngine
 - remove custom command from ptm
 - remove tags $ds, $hs, $ms
 

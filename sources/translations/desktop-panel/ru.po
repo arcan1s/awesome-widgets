@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-04-27 13:58+0300\n"
-"PO-Revision-Date: 2015-02-11 05:04+0300\n"
-"Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
+"POT-Creation-Date: 2015-05-22 00:05+0300\n"
+"PO-Revision-Date: 2015-05-22 00:06+0300\n"
+"Last-Translator: Evgeniy <darkarcanis@exante.eu>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -16,254 +16,152 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 
-#: desktop-panel-kde4/desktop-panel.cpp:193
-#: desktop-panel-kf5/plugin/dpadds.cpp:479
-msgid "Top Edge"
-msgstr "Верхний край"
-
-#: desktop-panel-kde4/desktop-panel.cpp:195
-#: desktop-panel-kf5/plugin/dpadds.cpp:481
-msgid "Bottom Edge"
-msgstr "Нижний край"
-
-#: desktop-panel-kde4/desktop-panel.cpp:197
-#: desktop-panel-kf5/plugin/dpadds.cpp:483
-msgid "Left Edge"
-msgstr "Левый край"
-
-#: desktop-panel-kde4/desktop-panel.cpp:199
-#: desktop-panel-kf5/plugin/dpadds.cpp:485
-msgid "Right Edge"
-msgstr "Правый край"
-
-#: desktop-panel-kde4/desktop-panel.cpp:201
-msgid "Unknown Position (%1)"
-msgstr "Неизвестное положение (%1)"
-
-#: desktop-panel-kde4/desktop-panel.cpp:473
-#: desktop-panel-kf5/package/contents/config/config.qml:25
+#: desktop-panel/package/contents/config/config.qml:25
 msgid "Widget"
 msgstr "Виджет"
 
-#: desktop-panel-kde4/desktop-panel.cpp:474
-msgid "Appearance"
-msgstr "Внешний вид"
-
-#: desktop-panel-kde4/desktop-panel.cpp:475
-msgid "Toggle panels"
-msgstr "Скрыть панели"
-
-#: desktop-panel-kde4/desktop-panel.cpp:596
-#: desktop-panel-kf5/plugin/dpadds.cpp:354
-msgid "Select font"
-msgstr "Выберете шрифт"
-
-#: desktop-panel-kf5/package/contents/config/config.qml:31
+#: desktop-panel/package/contents/config/config.qml:31
 msgid "Advanced"
 msgstr "Расширенные"
 
-#. i18n: file: desktop-panel-kde4/appearance.ui:30
-#. i18n: ectx: attribute (title), widget (QWidget, tab_active)
-#: desktop-panel-kf5/package/contents/config/config.qml:37
-#: translations/desktop-panel/rc.cpp:3 rc.cpp:3
+#: desktop-panel/package/contents/config/config.qml:37
 msgid "Active desktop"
 msgstr "Активный рабочий стол"
 
-#. i18n: file: desktop-panel-kde4/appearance.ui:188
-#. i18n: ectx: attribute (title), widget (QWidget, tab_inactive)
-#: desktop-panel-kf5/package/contents/config/config.qml:43
-#: translations/desktop-panel/rc.cpp:21 rc.cpp:21
+#: desktop-panel/package/contents/config/config.qml:43
 msgid "Inactive desktop"
 msgstr "Неактивный рабочий стол"
 
-#: desktop-panel-kf5/package/contents/config/config.qml:49
-#: desktop-panel-kf5/package/contents/ui/about.qml:42
+#: desktop-panel/package/contents/config/config.qml:49
+#: desktop-panel/package/contents/ui/about.qml:42
 msgid "About"
 msgstr "О программе"
 
-#: desktop-panel-kf5/package/contents/ui/about.qml:75
+#: desktop-panel/package/contents/ui/about.qml:75
 msgid "Acknowledgment"
 msgstr "Благодарности"
 
-#. i18n: file: desktop-panel-kde4/appearance.ui:53
-#. i18n: ectx: property (text), widget (QLabel, label_fontActive)
-#. i18n: file: desktop-panel-kde4/appearance.ui:211
-#. i18n: ectx: property (text), widget (QLabel, label_fontInactive)
-#. i18n: file: desktop-panel-kde4/widget.ui:122
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_font)
-#. i18n: file: desktop-panel-kde4/appearance.ui:53
-#. i18n: ectx: property (text), widget (QLabel, label_fontActive)
-#. i18n: file: desktop-panel-kde4/appearance.ui:211
-#. i18n: ectx: property (text), widget (QLabel, label_fontInactive)
-#. i18n: file: desktop-panel-kde4/widget.ui:122
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_font)
-#: desktop-panel-kf5/package/contents/ui/activeapp.qml:61
-#: desktop-panel-kf5/package/contents/ui/inactiveapp.qml:60
-#: desktop-panel-kf5/package/contents/ui/widget.qml:51
-#: translations/desktop-panel/rc.cpp:6 translations/desktop-panel/rc.cpp:24
-#: translations/desktop-panel/rc.cpp:48 rc.cpp:6 rc.cpp:24 rc.cpp:48
+#: desktop-panel/package/contents/ui/activeapp.qml:60
+#: desktop-panel/package/contents/ui/inactiveapp.qml:60
+#: desktop-panel/package/contents/ui/widget.qml:51
 msgid "Font"
 msgstr "Шрифт"
 
-#. i18n: file: desktop-panel-kde4/appearance.ui:70
-#. i18n: ectx: property (text), widget (QLabel, label_fontSizeActive)
-#. i18n: file: desktop-panel-kde4/appearance.ui:228
-#. i18n: ectx: property (text), widget (QLabel, label_fontSizeInactive)
-#. i18n: file: desktop-panel-kde4/appearance.ui:70
-#. i18n: ectx: property (text), widget (QLabel, label_fontSizeActive)
-#. i18n: file: desktop-panel-kde4/appearance.ui:228
-#. i18n: ectx: property (text), widget (QLabel, label_fontSizeInactive)
-#: desktop-panel-kf5/package/contents/ui/activeapp.qml:79
-#: desktop-panel-kf5/package/contents/ui/inactiveapp.qml:78
-#: translations/desktop-panel/rc.cpp:9 translations/desktop-panel/rc.cpp:27
-#: rc.cpp:9 rc.cpp:27
+#: desktop-panel/package/contents/ui/activeapp.qml:78
+#: desktop-panel/package/contents/ui/inactiveapp.qml:78
 msgid "Font size"
 msgstr "Размер шрифта"
 
-#. i18n: file: desktop-panel-kde4/appearance.ui:114
-#. i18n: ectx: property (text), widget (QLabel, label_fontWeightActive)
-#. i18n: file: desktop-panel-kde4/appearance.ui:272
-#. i18n: ectx: property (text), widget (QLabel, label_fontWeightInactive)
-#. i18n: file: desktop-panel-kde4/appearance.ui:114
-#. i18n: ectx: property (text), widget (QLabel, label_fontWeightActive)
-#. i18n: file: desktop-panel-kde4/appearance.ui:272
-#. i18n: ectx: property (text), widget (QLabel, label_fontWeightInactive)
-#: desktop-panel-kf5/package/contents/ui/activeapp.qml:99
-#: desktop-panel-kf5/package/contents/ui/inactiveapp.qml:98
-#: translations/desktop-panel/rc.cpp:15 translations/desktop-panel/rc.cpp:33
-#: rc.cpp:15 rc.cpp:33
+#: desktop-panel/package/contents/ui/activeapp.qml:98
+#: desktop-panel/package/contents/ui/inactiveapp.qml:98
 msgid "Font weight"
 msgstr "Толщина шрифта"
 
-#: desktop-panel-kf5/package/contents/ui/activeapp.qml:107
-#: desktop-panel-kf5/package/contents/ui/inactiveapp.qml:106
+#: desktop-panel/package/contents/ui/activeapp.qml:106
+#: desktop-panel/package/contents/ui/inactiveapp.qml:106
 msgid "light"
 msgstr "тонкий"
 
-#: desktop-panel-kf5/package/contents/ui/activeapp.qml:111
-#: desktop-panel-kf5/package/contents/ui/activeapp.qml:154
-#: desktop-panel-kf5/package/contents/ui/inactiveapp.qml:110
-#: desktop-panel-kf5/package/contents/ui/inactiveapp.qml:153
+#: desktop-panel/package/contents/ui/activeapp.qml:110
+#: desktop-panel/package/contents/ui/activeapp.qml:153
+#: desktop-panel/package/contents/ui/inactiveapp.qml:110
+#: desktop-panel/package/contents/ui/inactiveapp.qml:153
 msgid "normal"
 msgstr "нормальный"
 
-#: desktop-panel-kf5/package/contents/ui/activeapp.qml:115
-#: desktop-panel-kf5/package/contents/ui/inactiveapp.qml:114
+#: desktop-panel/package/contents/ui/activeapp.qml:114
+#: desktop-panel/package/contents/ui/inactiveapp.qml:114
 msgid "demi bold"
 msgstr "полужирный"
 
-#: desktop-panel-kf5/package/contents/ui/activeapp.qml:119
-#: desktop-panel-kf5/package/contents/ui/inactiveapp.qml:118
+#: desktop-panel/package/contents/ui/activeapp.qml:118
+#: desktop-panel/package/contents/ui/inactiveapp.qml:118
 msgid "bold"
 msgstr "жирный"
 
-#: desktop-panel-kf5/package/contents/ui/activeapp.qml:123
-#: desktop-panel-kf5/package/contents/ui/inactiveapp.qml:122
+#: desktop-panel/package/contents/ui/activeapp.qml:122
+#: desktop-panel/package/contents/ui/inactiveapp.qml:122
 msgid "black"
 msgstr "очень жирный"
 
-#. i18n: file: desktop-panel-kde4/appearance.ui:144
-#. i18n: ectx: property (text), widget (QLabel, label_fontStyleActive)
-#. i18n: file: desktop-panel-kde4/appearance.ui:302
-#. i18n: ectx: property (text), widget (QLabel, label_fontStyleInactive)
-#. i18n: file: desktop-panel-kde4/appearance.ui:144
-#. i18n: ectx: property (text), widget (QLabel, label_fontStyleActive)
-#. i18n: file: desktop-panel-kde4/appearance.ui:302
-#. i18n: ectx: property (text), widget (QLabel, label_fontStyleInactive)
-#: desktop-panel-kf5/package/contents/ui/activeapp.qml:146
-#: desktop-panel-kf5/package/contents/ui/inactiveapp.qml:145
-#: translations/desktop-panel/rc.cpp:18 translations/desktop-panel/rc.cpp:36
-#: rc.cpp:18 rc.cpp:36
+#: desktop-panel/package/contents/ui/activeapp.qml:145
+#: desktop-panel/package/contents/ui/inactiveapp.qml:145
 msgid "Font style"
 msgstr "Стиль шрифта"
 
-#: desktop-panel-kf5/package/contents/ui/activeapp.qml:158
-#: desktop-panel-kf5/package/contents/ui/inactiveapp.qml:157
+#: desktop-panel/package/contents/ui/activeapp.qml:157
+#: desktop-panel/package/contents/ui/inactiveapp.qml:157
 msgid "italic"
 msgstr "курсив"
 
-#. i18n: file: desktop-panel-kde4/appearance.ui:97
-#. i18n: ectx: property (text), widget (QLabel, label_fontColorActive)
-#. i18n: file: desktop-panel-kde4/appearance.ui:255
-#. i18n: ectx: property (text), widget (QLabel, label_fontColorInactive)
-#. i18n: file: desktop-panel-kde4/appearance.ui:97
-#. i18n: ectx: property (text), widget (QLabel, label_fontColorActive)
-#. i18n: file: desktop-panel-kde4/appearance.ui:255
-#. i18n: ectx: property (text), widget (QLabel, label_fontColorInactive)
-#: desktop-panel-kf5/package/contents/ui/activeapp.qml:181
-#: desktop-panel-kf5/package/contents/ui/advanced.qml:121
-#: desktop-panel-kf5/package/contents/ui/inactiveapp.qml:180
-#: translations/desktop-panel/rc.cpp:12 translations/desktop-panel/rc.cpp:30
-#: rc.cpp:12 rc.cpp:30
+#: desktop-panel/package/contents/ui/activeapp.qml:180
+#: desktop-panel/package/contents/ui/advanced.qml:163
+#: desktop-panel/package/contents/ui/inactiveapp.qml:180
 msgid "Font color"
 msgstr "Цвет шрифта"
 
-#: desktop-panel-kf5/package/contents/ui/activeapp.qml:199
-#: desktop-panel-kf5/package/contents/ui/advanced.qml:205
-#: desktop-panel-kf5/package/contents/ui/inactiveapp.qml:198
+#: desktop-panel/package/contents/ui/activeapp.qml:198
+#: desktop-panel/package/contents/ui/advanced.qml:247
+#: desktop-panel/package/contents/ui/inactiveapp.qml:198
 msgid "Select a color"
 msgstr "Выберете цвет"
 
-#: desktop-panel-kf5/package/contents/ui/activeapp.qml:206
-#: desktop-panel-kf5/package/contents/ui/inactiveapp.qml:205
+#: desktop-panel/package/contents/ui/activeapp.qml:205
+#: desktop-panel/package/contents/ui/inactiveapp.qml:205
 msgid "Select a font"
 msgstr "Выберете шрифт"
 
-#: desktop-panel-kf5/package/contents/ui/advanced.qml:54
+#: desktop-panel/package/contents/ui/advanced.qml:56
+msgid "Widget height, px"
+msgstr "Высота виджета, пиксели"
+
+#: desktop-panel/package/contents/ui/advanced.qml:76
+msgid "Widget width, px"
+msgstr "Ширина виджета, пиксели"
+
+#: desktop-panel/package/contents/ui/advanced.qml:96
 msgid "Tooltip type"
 msgstr "Тип тултипа"
 
-#: desktop-panel-kf5/package/contents/ui/advanced.qml:62
+#: desktop-panel/package/contents/ui/advanced.qml:104
 msgid "contours"
 msgstr "контуры"
 
-#: desktop-panel-kf5/package/contents/ui/advanced.qml:66
+#: desktop-panel/package/contents/ui/advanced.qml:108
 msgid "windows"
 msgstr "окна"
 
-#: desktop-panel-kf5/package/contents/ui/advanced.qml:70
+#: desktop-panel/package/contents/ui/advanced.qml:112
 msgid "clean desktop"
 msgstr "пустой рабочий стол"
 
-#: desktop-panel-kf5/package/contents/ui/advanced.qml:74
+#: desktop-panel/package/contents/ui/advanced.qml:116
 msgid "names"
 msgstr "названия"
 
-#: desktop-panel-kf5/package/contents/ui/advanced.qml:78
+#: desktop-panel/package/contents/ui/advanced.qml:120
 msgid "none"
 msgstr "нет"
 
-#. i18n: file: desktop-panel-kde4/widget.ui:314
-#. i18n: ectx: property (text), widget (QLabel, label_tooltip)
-#: desktop-panel-kf5/package/contents/ui/advanced.qml:101
-#: translations/desktop-panel/rc.cpp:63 rc.cpp:63
+#: desktop-panel/package/contents/ui/advanced.qml:143
 msgid "Tooltip width"
 msgstr "Ширина тултипа"
 
-#. i18n: file: desktop-panel-kde4/widget.ui:380
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_background)
-#: desktop-panel-kf5/package/contents/ui/advanced.qml:146
-#: translations/desktop-panel/rc.cpp:72 rc.cpp:72
+#: desktop-panel/package/contents/ui/advanced.qml:188
 msgid "Enable background"
 msgstr "Включить фон"
 
-#. i18n: file: desktop-panel-kde4/widget.ui:410
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_layout)
-#: desktop-panel-kf5/package/contents/ui/advanced.qml:160
-#: translations/desktop-panel/rc.cpp:75 rc.cpp:75
+#: desktop-panel/package/contents/ui/advanced.qml:202
 msgid "Vertical layout"
 msgstr "Вертикальная разметка"
 
-#. i18n: file: desktop-panel-kde4/widget.ui:28
-#. i18n: ectx: property (text), widget (QLabel, label_mark)
-#: desktop-panel-kf5/package/contents/ui/advanced.qml:172
-#: translations/desktop-panel/rc.cpp:42 rc.cpp:42
+#: desktop-panel/package/contents/ui/advanced.qml:214
 msgid "Mark"
 msgstr "Метка"
 
-#: desktop-panel-kf5/package/contents/ui/widget.qml:44
+#: desktop-panel/package/contents/ui/widget.qml:44
 msgid ""
 "Detailed information may be found on <a href=\"http://arcanis.name/projects/"
 "awesome-widgets/\">project homepage</a>"
@@ -271,148 +169,141 @@ msgstr ""
 "Подробная информация может быть найдена на <a href=\"http://arcanis.name/"
 "projects/awesome-widgets/\">домашней странице</a> проекта"
 
-#. i18n: file: desktop-panel-kde4/widget.ui:293
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_tags)
-#: desktop-panel-kf5/package/contents/ui/widget.qml:194
-#: translations/desktop-panel/rc.cpp:60 rc.cpp:60
+#: desktop-panel/package/contents/ui/widget.qml:194
 msgid "Add"
 msgstr "Добавить"
 
-#: desktop-panel-kf5/package/contents/ui/widget.qml:207
+#: desktop-panel/package/contents/ui/widget.qml:207
 msgid "Show value"
 msgstr "Показать значение"
 
-#: desktop-panel-kf5/package/contents/ui/widget.qml:212
+#: desktop-panel/package/contents/ui/widget.qml:212
 msgid "Tag: %1"
 msgstr "Тег: %1"
 
-#: desktop-panel-kf5/package/contents/ui/widget.qml:214
+#: desktop-panel/package/contents/ui/widget.qml:214
 msgid "Value: %1"
 msgstr "Значение: %1"
 
-#: desktop-panel-kf5/plugin/dpadds.cpp:318
+#: desktop-panel/plugin/dpadds.cpp:314
 msgid "A set of minimalistic plasmoid widgets"
 msgstr "Коллекция минималистичных плазмоидов"
 
-#: desktop-panel-kf5/plugin/dpadds.cpp:320
+#: desktop-panel/plugin/dpadds.cpp:316
 msgid "Links:"
 msgstr "Ссылки:"
 
-#: desktop-panel-kf5/plugin/dpadds.cpp:321
+#: desktop-panel/plugin/dpadds.cpp:317
 msgid "Homepage"
 msgstr "Домашняя страница"
 
-#: desktop-panel-kf5/plugin/dpadds.cpp:322
+#: desktop-panel/plugin/dpadds.cpp:318
 msgid "Repository"
 msgstr "Репозиторий"
 
-#: desktop-panel-kf5/plugin/dpadds.cpp:323
+#: desktop-panel/plugin/dpadds.cpp:319
 msgid "Bugtracker"
 msgstr "Багтрекер"
 
-#: desktop-panel-kf5/plugin/dpadds.cpp:324
+#: desktop-panel/plugin/dpadds.cpp:320
 msgid "Translation issue"
 msgstr "Тикет перевода"
 
-#: desktop-panel-kf5/plugin/dpadds.cpp:325
+#: desktop-panel/plugin/dpadds.cpp:321
 msgid "AUR packages"
 msgstr "Пакеты в AUR"
 
-#: desktop-panel-kf5/plugin/dpadds.cpp:326
+#: desktop-panel/plugin/dpadds.cpp:322
 msgid "openSUSE packages"
 msgstr "Пакеты для openSUSE"
 
-#: desktop-panel-kf5/plugin/dpadds.cpp:329
+#: desktop-panel/plugin/dpadds.cpp:325
 msgid "This software is licensed under %1"
 msgstr "Данное программное обеспечение лицензировано под %1"
 
-#: desktop-panel-kf5/plugin/dpadds.cpp:331
+#: desktop-panel/plugin/dpadds.cpp:327
 msgid "Translators: %1"
 msgstr "Переводчики: %1"
 
-#: desktop-panel-kf5/plugin/dpadds.cpp:339
+#: desktop-panel/plugin/dpadds.cpp:335
 msgid "This software uses: %1"
 msgstr "Данное приложение использует: %1"
 
-#: desktop-panel-kf5/plugin/dpadds.cpp:487
+#: desktop-panel/plugin/dpadds.cpp:350
+msgid "Select font"
+msgstr "Выберете шрифт"
+
+#: desktop-panel/plugin/dpadds.cpp:475
+msgid "Top Edge"
+msgstr "Верхний край"
+
+#: desktop-panel/plugin/dpadds.cpp:477
+msgid "Bottom Edge"
+msgstr "Нижний край"
+
+#: desktop-panel/plugin/dpadds.cpp:479
+msgid "Left Edge"
+msgstr "Левый край"
+
+#: desktop-panel/plugin/dpadds.cpp:481
+msgid "Right Edge"
+msgstr "Правый край"
+
+#: desktop-panel/plugin/dpadds.cpp:483
 msgid "Unknown location (%1)"
 msgstr "Неизвестное положение (%1)"
 
-#. i18n: file: desktop-panel-kde4/toggle.ui:41
-#. i18n: ectx: property (text), widget (QLabel, label_info)
-#: translations/desktop-panel/rc.cpp:39 rc.cpp:39
-msgid "To control panels please set widget shortcut."
-msgstr "Чтобы управлять панелями, настройте комбинацию клавиш."
-
-#. i18n: file: desktop-panel-kde4/widget.ui:38
-#. i18n: ectx: property (toolTip), widget (QComboBox, comboBox_mark)
-#: translations/desktop-panel/rc.cpp:45 rc.cpp:45
-msgid "A mark which will be shown if this desktop is active"
-msgstr "Метка, которая будет показана, если данный рабочий стол активен"
-
-#. i18n: file: desktop-panel-kde4/widget.ui:157
-#. i18n: ectx: property (shortcut), widget (QPushButton, pushButton_bold)
-#: translations/desktop-panel/rc.cpp:51 rc.cpp:51
-msgid "Ctrl+B"
-msgstr "Ctrl+B"
-
-#. i18n: file: desktop-panel-kde4/widget.ui:168
-#. i18n: ectx: property (shortcut), widget (QPushButton, pushButton_italic)
-#: translations/desktop-panel/rc.cpp:54 rc.cpp:54
-msgid "Ctrl+I"
-msgstr "Ctrl+I"
-
-#. i18n: file: desktop-panel-kde4/widget.ui:179
-#. i18n: ectx: property (shortcut), widget (QPushButton, pushButton_underline)
-#: translations/desktop-panel/rc.cpp:57 rc.cpp:57
-msgid "Ctrl+U"
-msgstr "Ctrl+U"
-
-#. i18n: file: desktop-panel-kde4/widget.ui:324
-#. i18n: ectx: property (suffix), widget (QSpinBox, spinBox_tooltip)
-#: translations/desktop-panel/rc.cpp:66 rc.cpp:66
-msgid "px"
-msgstr "px"
-
-#. i18n: file: desktop-panel-kde4/widget.ui:344
-#. i18n: ectx: property (text), widget (QLabel, label_tooltipColor)
-#: translations/desktop-panel/rc.cpp:69 rc.cpp:69
-msgid "Window border color on tooltip"
-msgstr "Цвет границ окна в тултипе"
-
-#. i18n: file: desktop-panel-kde4/widget.ui:430
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_tooltip)
-#: translations/desktop-panel/rc.cpp:78 rc.cpp:78
-msgid "Enable tooltip"
-msgstr "Включить тултип"
-
-#. i18n: file: desktop-panel-kde4/widget.ui:444
-#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_tooltipType)
-#: translations/desktop-panel/rc.cpp:81 rc.cpp:81
-msgid "Windows"
-msgstr "Окна"
-
-#. i18n: file: desktop-panel-kde4/widget.ui:449
-#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_tooltipType)
-#: translations/desktop-panel/rc.cpp:84 rc.cpp:84
-msgid "Contours"
-msgstr "Контуры"
-
-#. i18n: file: desktop-panel-kde4/widget.ui:454
-#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_tooltipType)
-#: translations/desktop-panel/rc.cpp:87 rc.cpp:87
-msgid "Clean desktop"
-msgstr "Пустой рабочий стол"
-
-#: translations/desktop-panel/rc.cpp:88 rc.cpp:88
+#: translations/desktop-panel/rc.cpp:1 rc.cpp:1
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Evgeniy Alekseev"
 
-#: translations/desktop-panel/rc.cpp:89 rc.cpp:89
+#: translations/desktop-panel/rc.cpp:2 rc.cpp:2
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "esalexeev@gmail.com"
+
+#~ msgid "Unknown Position (%1)"
+#~ msgstr "Неизвестное положение (%1)"
+
+#~ msgid "Appearance"
+#~ msgstr "Внешний вид"
+
+#~ msgid "Toggle panels"
+#~ msgstr "Скрыть панели"
+
+#~ msgid "To control panels please set widget shortcut."
+#~ msgstr "Чтобы управлять панелями, настройте комбинацию клавиш."
+
+#~ msgid "A mark which will be shown if this desktop is active"
+#~ msgstr "Метка, которая будет показана, если данный рабочий стол активен"
+
+#~ msgid "Ctrl+B"
+#~ msgstr "Ctrl+B"
+
+#~ msgid "Ctrl+I"
+#~ msgstr "Ctrl+I"
+
+#~ msgid "Ctrl+U"
+#~ msgstr "Ctrl+U"
+
+#~ msgid "px"
+#~ msgstr "px"
+
+#~ msgid "Window border color on tooltip"
+#~ msgstr "Цвет границ окна в тултипе"
+
+#~ msgid "Enable tooltip"
+#~ msgstr "Включить тултип"
+
+#~ msgid "Windows"
+#~ msgstr "Окна"
+
+#~ msgid "Contours"
+#~ msgstr "Контуры"
+
+#~ msgid "Clean desktop"
+#~ msgstr "Пустой рабочий стол"
 
 #~ msgid "Show windows instead of contours"
 #~ msgstr "Показывать окна вместо контуров"

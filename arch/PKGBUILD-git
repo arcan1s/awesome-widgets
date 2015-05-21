@@ -2,7 +2,7 @@
 
 pkgname=plasma5-applet-awesome-widgets
 _pkgname=awesome-widgets
-pkgver=2.2.1.r12.gb82d78b
+pkgver=2.2.1.r15.g78931b3
 pkgrel=1
 pkgdesc="Collection of minimalistic Plasmoids which look like Awesome WM widgets (ex-PyTextMonitor). Git version"
 arch=('i686' 'x86_64')

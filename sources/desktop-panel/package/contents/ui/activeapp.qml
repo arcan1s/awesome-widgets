@@ -127,7 +127,7 @@ Item {
                 Component.onCompleted: {
                     for (var i = 0; i < model.length; i++) {
                         if (model[i]["name"] == plasmoid.configuration.currentFontWeight) {
-                            currentFontWeight.currentIndex = i;
+                            fontWeight.currentIndex = i;
                         }
                     }
                 }
@@ -162,7 +162,7 @@ Item {
                 Component.onCompleted: {
                     for (var i = 0; i < model.length; i++) {
                         if (model[i]["name"] == plasmoid.configuration.currentFontStyle) {
-                            currentFontStyle.currentIndex = i;
+                            fontStyle.currentIndex = i;
                         }
                     }
                 }
