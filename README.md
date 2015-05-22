@@ -27,8 +27,7 @@ Instruction
 Dependencies
 ------------
 
-* kdebase-workspace (*if KDE4 is used*) **or** plasma-framework (*if KF5 is used*)
-* lm_sensors (*for definition temperature device*)
+* plasma-framework
 
 Optional dependencies
 ---------------------
@@ -42,7 +41,7 @@ Make dependencies
 -----------------
 
 * cmake
-* automoc4 (*if KDE4 is used*) or extra-cmake-modules (*if KF5 is used*)
+* extra-cmake-modules
 
 Installation
 ------------
@@ -72,4 +71,5 @@ Links
 * [Scripts and bars](http://arcanis.name/en/2014/12/19/aw-v21-bells-and-whistles/)
 * Plasmoid on [kde-look](http://kde-look.org/content/show.php/Awesome+Widgets?content=157124)
 * DataEngine on [kde-look](http://kde-look.org/content/show.php/Extended+Systemmonitor+DataEngine?content=158773)
-* Archlinux [AUR](https://aur.archlinux.org/packages/kdeplasma-applets-awesome-widgets/) package
+* Archlinux [AUR](https://aur.archlinux.org/packages/plasma5-applet-awesome-widgets/) package
+* [OpenSuse](http://software.opensuse.org/package/awesome-widgets) package

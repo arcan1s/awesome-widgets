@@ -14,7 +14,7 @@
 // extquotes api version
 #define AWEQAPI 1
 // extscript api version
-#define AWESAPI 2
+#define AWESAPI 3
 // extupgrade api version
 #define AWEUAPI 2
 
