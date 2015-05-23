@@ -1,9 +1,15 @@
++ implement fitlers support to ExtScripts (ApiVer = 3) (#53)
++ implement ability to wrap `\n` as new lines (#53)
++ implement key sorting in comboboxes
+- fix bug with invalid html parsing
+* some part of refactoring
+
 Ver.2.2.2:
 + add quotes support (#46)
 + add support of properties height and width (#47)
 + add transtaltion support to the plugins (#50)
 + add support of key caching
-+ add support of X-AW-Number to ExtScript and ExtUpgrade (ApiVer=2)
++ add support of X-AW-Number to ExtScript and ExtUpgrade (ApiVer = 2)
 + add reconnection to DataEngine (in some cases some values are not updated)
 + add widgets width and height update
 - fix bug with Ext* items update (#49)

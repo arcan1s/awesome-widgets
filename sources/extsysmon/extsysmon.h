@@ -33,20 +33,20 @@ public:
     explicit ExtendedSysMon(QObject *parent, const QVariantList &args);
     ~ExtendedSysMon();
     // update functions
-    QMap<QString, QVariant> getBattery(const QString acpiPath);
-    QMap<QString, QVariant> getCurrentDesktop();
+    QVariantMap getBattery(const QString acpiPath);
+    QVariantMap getCurrentDesktop();
     float getGpu(const QString device);
     float getGpuTemp(const QString device);
     float getHddTemp(const QString cmd, const QString device);
     QString getNetworkDevice();
-    QMap<QString, QVariant> getPlayerInfo(const QString playerName,
-                                          const QString mpdAddress = QString(),
-                                          const QString mpdPort = QString(),
-                                          const QString mpris = QString());
-    QMap<QString, QVariant> getPlayerMpdInfo(const QString mpdAddress = QString(),
-                                             const QString mpdPort = QString());
-    QMap<QString, QVariant> getPlayerMprisInfo(const QString mpris = QString());
-    QMap<QString, QVariant> getPsStats();
+    QVariantMap getPlayerInfo(const QString playerName,
+                              const QString mpdAddress = QString(),
+                              const QString mpdPort = QString(),
+                              const QString mpris = QString());
+    QVariantMap getPlayerMpdInfo(const QString mpdAddress = QString(),
+                                 const QString mpdPort = QString());
+    QVariantMap getPlayerMprisInfo(const QString mpris = QString());
+    QVariantMap getPsStats();
 
 protected:
     bool sourceRequestEvent(const QString &source);

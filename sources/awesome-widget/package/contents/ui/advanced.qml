@@ -33,6 +33,7 @@ Item {
     property alias cfg_height: widgetHeight.value
     property alias cfg_width: widgetWidth.value
     property alias cfg_notify: notify.checked
+    property alias cfg_wrapNewLines: wrapNewLines.checked
     property alias cfg_background: background.checked
     property alias cfg_customTime: customTime.text
     property alias cfg_customUptime: customUptime.text
@@ -95,6 +96,20 @@ Item {
                 id: notify
                 width: parent.width * 3 / 5
                 text: i18n("Enable notifications")
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.heigth
+                width: parent.width * 2 / 5
+            }
+            QtControls.CheckBox {
+                id: wrapNewLines
+                width: parent.width * 3 / 5
+                text: i18n("Wrap new lines")
             }
         }
 

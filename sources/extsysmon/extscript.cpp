@@ -20,7 +20,9 @@
 
 #include <QDebug>
 #include <QDir>
+#include <QJsonDocument>
 #include <QSettings>
+#include <QStandardPaths>
 #include <QTextCodec>
 #include <QTime>
 
@@ -38,6 +40,7 @@ ExtScript::ExtScript(QWidget *parent, const QString scriptName, const QStringLis
 {
     m_name = m_fileName;
     readConfiguration();
+    readJsonFilters();
     // init process
     process = new QProcess(this);
     connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(updateValue()));
@@ -89,7 +92,7 @@ QString ExtScript::fileName()
 }
 
 
-QList<ExtScript::Filter> ExtScript::filters()
+QStringList ExtScript::filters()
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -150,28 +153,6 @@ ExtScript::Redirect ExtScript::redirect()
     if (debug) qDebug() << PDEBUG;
 
     return m_redirect;
-}
-
-
-QStringList ExtScript::strFilters()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    QStringList value;
-    for (int i=0; i<m_filters.count(); i++)
-        switch (m_filters[i]) {
-        case wrapAnsiColor:
-            value.append(QString("color"));
-            break;
-        case wrapNewLine:
-            value.append(QString("newline"));
-            break;
-        case none:
-        default:
-            break;
-        }
-
-    return value;
 }
 
 
@@ -241,12 +222,13 @@ void ExtScript::setExecutable(const QString _executable)
 }
 
 
-void ExtScript::setFilters(const QList<ExtScript::Filter> _filters)
+void ExtScript::setFilters(const QStringList _filters)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Filters" << _filters;
 
-    m_filters = _filters;
+    for (int i=0; i<_filters.count(); i++)
+        updateFilter(_filters[i]);
 }
 
 
@@ -311,19 +293,6 @@ void ExtScript::setRedirect(const Redirect _redirect)
 }
 
 
-void ExtScript::setStrFilters(const QStringList _filters)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Filters" << _filters;
-
-    for (int i=0; i<_filters.count(); i++)
-        if (_filters[i] == QString("color"))
-            updateFilter(wrapAnsiColor);
-        else if (_filters[i] == QString("newline"))
-            updateFilter(wrapNewLine);
-}
-
-
 void ExtScript::setStrRedirect(const QString _redirect)
 {
     if (debug) qDebug() << PDEBUG;
@@ -338,54 +307,27 @@ void ExtScript::setStrRedirect(const QString _redirect)
 }
 
 
-QString ExtScript::applyColorFilter(QString _value)
+QString ExtScript::applyFilters(QString _value)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Value" << _value;
 
-    // black
-    _value.replace(QString("\\[\\033[0;30m\\]"), QString("<span style=\"color:#000000;\">"));
-    _value.replace(QString("\\[\\033[1;30m\\]"), QString("<span style=\"color:#808080;\">"));
-    // red
-    _value.replace(QString("\\[\\033[0;31m\\]"), QString("<span style=\"color:#800000;\">"));
-    _value.replace(QString("\\[\\033[1;31m\\]"), QString("<span style=\"color:#ff0000;\">"));
-    // green
-    _value.replace(QString("\\[\\033[0;32m\\]"), QString("<span style=\"color:#008000;\">"));
-    _value.replace(QString("\\[\\033[1;32m\\]"), QString("<span style=\"color:#00ff00;\">"));
-    // yellow
-    _value.replace(QString("\\[\\033[0;33m\\]"), QString("<span style=\"color:#808000;\">"));
-    _value.replace(QString("\\[\\033[1;33m\\]"), QString("<span style=\"color:#ffff00;\">"));
-    // blue
-    _value.replace(QString("\\[\\033[0;34m\\]"), QString("<span style=\"color:#000080;\">"));
-    _value.replace(QString("\\[\\033[1;34m\\]"), QString("<span style=\"color:#0000ff;\">"));
-    // purple
-    _value.replace(QString("\\[\\033[0;35m\\]"), QString("<span style=\"color:#800080;\">"));
-    _value.replace(QString("\\[\\033[1;35m\\]"), QString("<span style=\"color:#ff00ff;\">"));
-    // cyan
-    _value.replace(QString("\\[\\033[0;36m\\]"), QString("<span style=\"color:#008080;\">"));
-    _value.replace(QString("\\[\\033[1;36m\\]"), QString("<span style=\"color:#00ffff;\">"));
-    // white
-    _value.replace(QString("\\[\\033[0;37m\\]"), QString("<span style=\"color:#c0c0c0;\">"));
-    _value.replace(QString("\\[\\033[1;37m\\]"), QString("<span style=\"color:#ffffff;\">"));
-    // exit
-    _value.replace(QString("\\[\\033[0m\\]"), QString("</span>"));
+    for (int i=0; i<m_filters.count(); i++) {
+        if (debug) qDebug() << PDEBUG << ":" << "Found filter" << m_filters[i];
+        QVariantMap filter = jsonFilters[m_filters[i]].toMap();
+        if (filter.isEmpty()) {
+            if (debug) qDebug() << PDEBUG << ":" << "Could not find filter in the json";
+            continue;
+        }
+        for (int j=0; j<filter.keys().count(); j++)
+            _value.replace(filter.keys()[j], filter[filter.keys()[j]].toString());
+    }
 
     return _value;
 }
 
 
-QString ExtScript::applyNewLineFilter(QString _value)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Value" << _value;
-
-    _value.replace(QString("\n"), QString("<br>"));
-
-    return _value;
-}
-
-
-void ExtScript::updateFilter(const ExtScript::Filter _filter, const bool _add)
+void ExtScript::updateFilter(const QString _filter, const bool _add)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Filter" << _filter;
@@ -418,9 +360,11 @@ void ExtScript::readConfiguration()
         setHasOutput(settings.value(QString("X-AW-Output"), QVariant(m_output)).toString() == QString("true"));
         setStrRedirect(settings.value(QString("X-AW-Redirect"), strRedirect()).toString());
         setInterval(settings.value(QString("X-AW-Interval"), m_interval).toInt());
-        setStrFilters(settings.value(QString("X-AW-Filters"), strFilters()).toStringList());
         // api == 2
         setNumber(settings.value(QString("X-AW-Number"), m_number).toInt());
+        // api == 3
+        setFilters(settings.value(QString("X-AW-Filters"), m_filters).toString()
+                                                                     .split(QChar(','), QString::SkipEmptyParts));
         settings.endGroup();
     }
 
@@ -432,6 +376,26 @@ void ExtScript::readConfiguration()
         setApiVersion(AWESAPI);
         writeConfiguration();
     }
+}
+
+
+void ExtScript::readJsonFilters()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QString fileName = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
+                                              QString("awesomewidgets/scripts/awesomewidgets-extscripts-filters.json"));
+    if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
+    QFile jsonFile(fileName);
+    if (!jsonFile.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+    QString jsonText = jsonFile.readAll();
+    jsonFile.close();
+
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonText.toUtf8());
+    jsonFilters = jsonDoc.toVariant().toMap();
+
+    if (debug) qDebug() << PDEBUG << ":" << "Filters" << jsonFilters;
 }
 
 
@@ -468,8 +432,9 @@ int ExtScript::showConfiguration()
     ui->comboBox_redirect->setCurrentIndex(static_cast<int>(m_redirect));
     ui->spinBox_interval->setValue(m_interval);
     // filters
-    ui->checkBox_colorFilter->setCheckState(m_filters.contains(wrapAnsiColor) ? Qt::Checked : Qt::Unchecked);
-    ui->checkBox_linesFilter->setCheckState(m_filters.contains(wrapNewLine) ? Qt::Checked : Qt::Unchecked);
+    ui->checkBox_colorFilter->setCheckState(m_filters.contains(QString("color")) ? Qt::Checked : Qt::Unchecked);
+    ui->checkBox_linesFilter->setCheckState(m_filters.contains(QString("newline")) ? Qt::Checked : Qt::Unchecked);
+    ui->checkBox_spaceFilter->setCheckState(m_filters.contains(QString("space")) ? Qt::Checked : Qt::Unchecked);
 
     int ret = exec();
     if (ret != 1) return ret;
@@ -484,8 +449,9 @@ int ExtScript::showConfiguration()
     setStrRedirect(ui->comboBox_redirect->currentText());
     setInterval(ui->spinBox_interval->value());
     // filters
-    updateFilter(wrapAnsiColor, ui->checkBox_colorFilter->checkState() == Qt::Checked);
-    updateFilter(wrapNewLine, ui->checkBox_linesFilter->checkState() == Qt::Checked);
+    updateFilter(QString("color"), ui->checkBox_colorFilter->checkState() == Qt::Checked);
+    updateFilter(QString("newline"), ui->checkBox_linesFilter->checkState() == Qt::Checked);
+    updateFilter(QString("space"), ui->checkBox_spaceFilter->checkState() == Qt::Checked);
 
     writeConfiguration();
     return ret;
@@ -526,7 +492,7 @@ void ExtScript::writeConfiguration()
     settings.setValue(QString("X-AW-Redirect"), strRedirect());
     settings.setValue(QString("X-AW-Interval"), m_interval);
     settings.setValue(QString("X-AW-Number"), m_number);
-    settings.setValue(QString("X-AW-Filters"), strFilters());
+    settings.setValue(QString("X-AW-Filters"), m_filters.join(QChar(',')));
     settings.endGroup();
 
     settings.sync();
@@ -556,4 +522,7 @@ void ExtScript::updateValue()
         value = qoutput;
         break;
     }
+
+    // filters
+    value = applyFilters(value);
 }

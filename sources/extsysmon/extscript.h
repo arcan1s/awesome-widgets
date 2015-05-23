@@ -34,7 +34,7 @@ class ExtScript : public QDialog
     Q_PROPERTY(int apiVersion READ apiVersion WRITE setApiVersion)
     Q_PROPERTY(QString comment READ comment WRITE setComment)
     Q_PROPERTY(QString executable READ executable WRITE setExecutable)
-    Q_PROPERTY(QList<Filter> filters READ filters WRITE setFilters)
+    Q_PROPERTY(QStringList filters READ filters WRITE setFilters)
     Q_PROPERTY(int interval READ interval WRITE setInterval)
     Q_PROPERTY(QString name READ name WRITE setName)
     Q_PROPERTY(int number READ number WRITE setNumber)
@@ -48,11 +48,6 @@ public:
         nothing,
         stderr2stdout
     };
-    enum Filter {
-        none = -1,
-        wrapNewLine,
-        wrapAnsiColor
-    };
 
     explicit ExtScript(QWidget *parent = nullptr, const QString scriptName = QString(),
                        const QStringList directories = QStringList(), const bool debugCmd = false);
@@ -62,7 +57,7 @@ public:
     QString comment();
     QString executable();
     QString fileName();
-    QList<Filter> filters();
+    QStringList filters();
     bool hasOutput();
     int interval();
     bool isActive();
@@ -71,7 +66,6 @@ public:
     QString prefix();
     Redirect redirect();
     // derivatives
-    QStringList strFilters();
     QString strRedirect();
     QString tag();
     // set methods
@@ -79,22 +73,21 @@ public:
     void setActive(const bool _state = true);
     void setComment(const QString _comment = QString("empty"));
     void setExecutable(const QString _executable = QString("/usr/bin/true"));
-    void setFilters(const QList<Filter> _filters = QList<Filter>());
+    void setFilters(const QStringList _filters = QStringList());
     void setHasOutput(const bool _state = true);
     void setInterval(const int _interval = 1);
     void setName(const QString _name = QString("none"));
     void setNumber(int _number = -1);
     void setPrefix(const QString _prefix = QString(""));
     void setRedirect(const Redirect _redirect = nothing);
-    void setStrFilters(const QStringList _filters = QStringList());
     void setStrRedirect(const QString _redirect = QString("nothing"));
     // filters
-    QString applyColorFilter(QString _value);
-    QString applyNewLineFilter(QString _value);
-    void updateFilter(const Filter _filter = none, const bool _add = true);
+    QString applyFilters(QString _value);
+    void updateFilter(const QString _filter, const bool _add = true);
 
 public slots:
     void readConfiguration();
+    void readJsonFilters();
     QString run();
     int showConfiguration();
     bool tryDelete();
@@ -114,7 +107,7 @@ private:
     bool m_active = true;
     QString m_comment = QString("empty");
     QString m_executable = QString("/usr/bin/true");
-    QList<Filter> m_filters = QList<Filter>();
+    QStringList m_filters = QStringList();
     int m_interval = 1;
     QString m_name = QString("none");
     int m_number = -1;
@@ -123,6 +116,7 @@ private:
     Redirect m_redirect = nothing;
     // internal properties
     Q_PID childProcess = 0;
+    QVariantMap jsonFilters = QVariantMap();
     int times = 0;
     QString value = QString();
 };

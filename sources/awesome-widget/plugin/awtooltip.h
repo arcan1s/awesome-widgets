@@ -32,8 +32,7 @@ class AWToolTip : public QObject
     Q_OBJECT
 
 public:
-    AWToolTip(QObject *parent = nullptr,
-              QMap<QString, QVariant> settings = QMap<QString, QVariant>());
+    AWToolTip(QObject *parent = nullptr, QVariantMap settings = QVariantMap());
     ~AWToolTip();
 
     QSize getSize();
@@ -48,7 +47,7 @@ private:
     // variables
     bool debug = false;
     int counts = 0;
-    QMap<QString, QVariant> configuration;
+    QVariantMap configuration;
     QMap<QString, float> boundaries;
     QMap<QString, QList<float>> data;
     QStringList requiredKeys;

@@ -273,7 +273,7 @@ Item {
         if (debug) console.log("[dataengine::onCompleted]")
 
         // init submodule
-        AWKeys.initKeys(plasmoid.configuration.text, tooltipSettings)
+        AWKeys.initKeys(plasmoid.configuration.text)
     }
 
     Component.onDestruction: {

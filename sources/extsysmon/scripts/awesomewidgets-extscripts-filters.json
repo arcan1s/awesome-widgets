@@ -1,0 +1,28 @@
+{
+    "color": {
+        "\u001b[0;30m": "<span style=\"color:'#000000';\">",
+        "\u001b[1;30m": "<span style=\"color:'#808080';\">",
+        "\u001b[0;31m": "<span style=\"color:'#800000';\">",
+        "\u001b[1;31m": "<span style=\"color:'#ff0000';\">",
+        "\u001b[0;32m": "<span style=\"color:'#008000';\">",
+        "\u001b[1;32m": "<span style=\"color:'#00ff00';\">",
+        "\u001b[0;33m": "<span style=\"color:'#808000';\">",
+        "\u001b[1;33m": "<span style=\"color:'#ffff00';\">",
+        "\u001b[0;34m": "<span style=\"color:'#000080';\">",
+        "\u001b[1;34m": "<span style=\"color:'#0000ff';\">",
+        "\u001b[0;35m": "<span style=\"color:'#800080';\">",
+        "\u001b[1;35m": "<span style=\"color:'#ff00ff';\">",
+        "\u001b[0;36m": "<span style=\"color:'#008080';\">",
+        "\u001b[1;36m": "<span style=\"color:'#00ffff';\">",
+        "\u001b[0;37m": "<span style=\"color:'#c0c0c0';\">",
+        "\u001b[1;37m": "<span style=\"color:'#ffffff';\">",
+        "\u001b[0m": "</span>"
+    },
+    "newline": {
+        "\n": "<br>",
+        "\t": "&#09;"
+    },
+    "space": {
+        " ": "&nbsp;"
+    }
+}

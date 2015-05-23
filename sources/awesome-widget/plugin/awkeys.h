@@ -51,20 +51,20 @@ public:
     AWKeys(QObject *parent = nullptr);
     ~AWKeys();
 
-    Q_INVOKABLE void initKeys(const QString currentPattern,
-                              const QMap<QString, QVariant> tooltipParams,
-                              const bool popup = false);
+    Q_INVOKABLE void initKeys(const QString currentPattern);
+    Q_INVOKABLE void initTooltip(const QVariantMap tooltipParams);
+    Q_INVOKABLE void setPopupEnabled(const bool popup = false);
+    Q_INVOKABLE void setWrapNewLines(const bool wrap = false);
     Q_INVOKABLE bool isDebugEnabled();
     Q_INVOKABLE QString parsePattern();
     Q_INVOKABLE QString toolTipImage();
     Q_INVOKABLE QSize toolTipSize();
     // keys
     Q_INVOKABLE void addDevice(const QString source);
-    Q_INVOKABLE QStringList dictKeys();
+    Q_INVOKABLE QStringList dictKeys(const bool sorted = false);
     Q_INVOKABLE QStringList getHddDevices();
-    Q_INVOKABLE bool setDataBySource(const QString sourceName,
-                                     const QMap<QString, QVariant> data,
-                                     const QMap<QString, QVariant> params);
+    Q_INVOKABLE bool setDataBySource(const QString sourceName, const QVariantMap data,
+                                     const QVariantMap params);
     // values
     Q_INVOKABLE void graphicalValueByKey();
     Q_INVOKABLE QString infoByKey(QString key);
@@ -85,7 +85,8 @@ private slots:
 private:
     // methods
     void addKeyToCache(const QString type, const QString key = QString(""));
-    bool checkKeys(const QMap<QString, QVariant> data);
+    bool checkKeys(const QVariantMap data);
+    QString htmlValue(QString key);
     QString networkDevice();
     int numberCpus();
     float temperature(const float temp, const QString units);
@@ -111,6 +112,7 @@ private:
     // variables
     bool debug = false;
     bool enablePopup = false;
+    bool wrapNewLines = false;
     QList<GraphicalItem *> graphicalItems;
     QList<ExtQuotes *> extQuotes;
     QList<ExtScript *> extScripts;

@@ -55,12 +55,12 @@ public:
     // values
     Q_INVOKABLE void setMark(const QString newMark);
     Q_INVOKABLE void setPanelsToControl(const QString newPanels);
-    Q_INVOKABLE void setToolTipData(const QMap<QString, QVariant> tooltipData);
+    Q_INVOKABLE void setToolTipData(const QVariantMap tooltipData);
     Q_INVOKABLE QString valueByKey(const QString key, int desktop = -1);
     // configuration slots
     Q_INVOKABLE QString editPanelsToContol(const QString current);
     Q_INVOKABLE QString getAboutText(const QString type = "header");
-    Q_INVOKABLE QMap<QString, QVariant> getFont(const QMap<QString, QVariant> defaultFont);
+    Q_INVOKABLE QVariantMap getFont(const QVariantMap defaultFont);
 
 signals:
     void desktopChanged();

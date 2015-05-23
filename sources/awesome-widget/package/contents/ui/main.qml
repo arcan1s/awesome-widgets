@@ -199,7 +199,10 @@ Item {
         if (debug) console.log("[main::onUserConfiguringChanged]")
 
         // init submodule
-        AWKeys.initKeys(plasmoid.configuration.text, tooltipSettings, plasmoid.configuration.notify)
+        AWKeys.initKeys(plasmoid.configuration.text)
+        AWKeys.initTooltip(tooltipSettings)
+        AWKeys.setPopupEnabled(plasmoid.configuration.notify)
+        AWKeys.setWrapNewLines(plasmoid.configuration.wrapNewLines)
 
         needUpdate()
     }

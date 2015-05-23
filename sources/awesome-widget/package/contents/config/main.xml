@@ -23,6 +23,9 @@
     <entry name="notify" type="bool">
       <default>true</default>
     </entry>
+    <entry name="wrapNewLines" type="bool">
+      <default>false</default>
+    </entry>
     <entry name="background" type="bool">
       <default>true</default>
     </entry>

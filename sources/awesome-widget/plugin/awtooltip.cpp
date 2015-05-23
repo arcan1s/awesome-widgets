@@ -24,8 +24,7 @@
 #include <pdebug/pdebug.h>
 
 
-AWToolTip::AWToolTip(QObject *parent,
-                     QMap<QString, QVariant> settings)
+AWToolTip::AWToolTip(QObject *parent, QVariantMap settings)
     : QObject(parent),
       configuration(settings)
 {

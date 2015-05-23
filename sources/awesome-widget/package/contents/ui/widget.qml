@@ -310,7 +310,7 @@ Item {
         if (debug) console.log("[widget::onCompleted]")
 
         // init submodule
-        AWKeys.initKeys(plasmoid.configuration.text, tooltipSettings)
-        tags.model = AWKeys.dictKeys()
+        AWKeys.initKeys(plasmoid.configuration.text)
+        tags.model = AWKeys.dictKeys(true)
     }
 }

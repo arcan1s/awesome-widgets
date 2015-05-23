@@ -189,7 +189,6 @@ QString DPAdds::parsePattern(const QString pattern, const int desktop)
     parsed.replace(QString("$$"), QString("$\\$\\"));
     for (int i=0; i<keys.count(); i++)
         parsed.replace(QString("$%1").arg(keys[i]), valueByKey(keys[i], desktop));
-    parsed.replace(QString(" "), QString("&nbsp;"));
     parsed.replace(QString("$\\$\\"), QString("$$"));
 
     return parsed;
@@ -221,7 +220,7 @@ void DPAdds::setPanelsToControl(const QString newPanels)
 }
 
 
-void DPAdds::setToolTipData(const QMap<QString, QVariant> tooltipData)
+void DPAdds::setToolTipData(const QVariantMap tooltipData)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Data" << tooltipData;
@@ -240,9 +239,10 @@ QString DPAdds::valueByKey(const QString key, int desktop)
 
     QString currentMark = currentDesktop() == desktop ? mark : QString("");
     if (key == QString("mark"))
-        return QString("%1").arg(currentMark, mark.count(), QLatin1Char(' '));
+        return QString("%1").arg(currentMark, mark.count(), QLatin1Char(' '))
+                            .replace(QString(" "), QString("&nbsp;"));
     else if (key == QString("name"))
-        return KWindowSystem::desktopName(desktop);
+        return KWindowSystem::desktopName(desktop).replace(QString(" "), QString("&nbsp;"));
     else if (key == QString("number"))
         return QString::number(desktop);
     else if (key == QString("total"))
@@ -339,11 +339,11 @@ QString DPAdds::getAboutText(const QString type)
 }
 
 
-QMap<QString, QVariant> DPAdds::getFont(const QMap<QString, QVariant> defaultFont)
+QVariantMap DPAdds::getFont(const QVariantMap defaultFont)
 {
     if (debug) qDebug() << PDEBUG;
 
-    QMap<QString, QVariant> fontMap;
+    QVariantMap fontMap;
     CFont defaultCFont = CFont(defaultFont[QString("family")].toString(),
                                defaultFont[QString("size")].toInt(),
                                400, false, defaultFont[QString("color")].toString());

@@ -40,10 +40,10 @@ public:
     Q_INVOKABLE void showReadme();
     // configuration slots
     Q_INVOKABLE QString getAboutText(const QString type = QString("header"));
-    Q_INVOKABLE QMap<QString, QVariant> getFont(const QMap<QString, QVariant> defaultFont);
+    Q_INVOKABLE QVariantMap getFont(const QVariantMap defaultFont);
     // dataengine
-    Q_INVOKABLE QMap<QString, QVariant> readDataEngineConfiguration();
-    Q_INVOKABLE void writeDataEngineConfiguration(const QMap<QString, QVariant> configuration);
+    Q_INVOKABLE QVariantMap readDataEngineConfiguration();
+    Q_INVOKABLE void writeDataEngineConfiguration(const QVariantMap configuration);
 
 public slots:
     Q_INVOKABLE static void sendNotification(const QString eventId, const QString message,

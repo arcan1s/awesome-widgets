@@ -86,9 +86,7 @@ AWKeys::~AWKeys()
 }
 
 
-void AWKeys::initKeys(const QString currentPattern,
-                      const QMap<QString, QVariant> tooltipParams,
-                      const bool popup)
+void AWKeys::initKeys(const QString currentPattern)
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -100,7 +98,6 @@ void AWKeys::initKeys(const QString currentPattern,
     keys.clear();
     foundBars.clear();
     foundKeys.clear();
-    if (toolTip != nullptr) delete toolTip;
 
     // init
     pattern = currentPattern;
@@ -113,9 +110,31 @@ void AWKeys::initKeys(const QString currentPattern,
     addKeyToCache(QString("Network"));
     loadKeysFromCache();
     reinitKeys();
+}
+
+
+void AWKeys::initTooltip(const QVariantMap tooltipParams)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    if (toolTip != nullptr) delete toolTip;
     toolTip = new AWToolTip(this, tooltipParams);
+}
+
+
+void AWKeys::setPopupEnabled(const bool popup)
+{
+    if (debug) qDebug() << PDEBUG;
 
     enablePopup = popup;
+}
+
+
+void AWKeys::setWrapNewLines(const bool wrap)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    wrapNewLines = wrap;
 }
 
 
@@ -135,11 +154,12 @@ QString AWKeys::parsePattern()
     QString parsed = pattern;
     parsed.replace(QString("$$"), QString("$\\$\\"));
     for (int i=0; i<foundKeys.count(); i++)
-        parsed.replace(QString("$%1").arg(foundKeys[i]), valueByKey(foundKeys[i]));
-    parsed.replace(QString(" "), QString("&nbsp;"));
+        parsed.replace(QString("$%1").arg(foundKeys[i]), htmlValue(foundKeys[i]));
     for (int i=0; i<foundBars.count(); i++)
         parsed.replace(QString("$%1").arg(foundBars[i]), getItemByTag(foundBars[i])->image(valueByKey(foundBars[i]).toFloat()));
     parsed.replace(QString("$\\$\\"), QString("$$"));
+    // wrap new lines if required
+    if (wrapNewLines) parsed.replace(QString("\n"), QString("<br>"));
 
     return parsed;
 }
@@ -148,6 +168,7 @@ QString AWKeys::parsePattern()
 QString AWKeys::toolTipImage()
 {
     if(debug) qDebug() << PDEBUG;
+    if (toolTip == nullptr) return QString("");
 
     if (keys.isEmpty()) return QString();
 
@@ -163,6 +184,7 @@ QString AWKeys::toolTipImage()
 QSize AWKeys::toolTipSize()
 {
     if (debug) qDebug() << PDEBUG;
+    if (toolTip == nullptr) return QSize();
 
     return toolTip->getSize();
 }
@@ -194,7 +216,7 @@ void AWKeys::addDevice(const QString source)
 }
 
 
-QStringList AWKeys::dictKeys()
+QStringList AWKeys::dictKeys(const bool sorted)
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -312,6 +334,9 @@ QStringList AWKeys::dictKeys()
     for (int i=graphicalItemsKeys.count()-1; i>=0; i--)
         allKeys.append(graphicalItemsKeys[i]);
 
+    // sort if required
+    if (sorted) allKeys.sort();
+
     return allKeys;
 }
 
@@ -329,9 +354,8 @@ QStringList AWKeys::getHddDevices()
 }
 
 
-bool AWKeys::setDataBySource(const QString sourceName,
-                             const QMap<QString, QVariant> data,
-                             const QMap<QString, QVariant> params)
+bool AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
+                             const QVariantMap params)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Source" << sourceName;
@@ -373,7 +397,9 @@ bool AWKeys::setDataBySource(const QString sourceName,
                     values[QString("ac")] = params[QString("acOffline")].toString();
             } else {
                 values[data.keys()[i]] = QString("%1").arg(data[data.keys()[i]].toFloat(), 3, 'f', 0);
-                toolTip->setData(QString("batTooltip"), data[data.keys()[i]].toFloat(), data[QString("ac")].toBool());
+                if (toolTip != nullptr) toolTip->setData(QString("batTooltip"),
+                                                         data[data.keys()[i]].toFloat(),
+                                                         data[QString("ac")].toBool());
             }
         }
     } else if (sourceName == QString("cpu/system/TotalLoad")) {
@@ -383,7 +409,8 @@ bool AWKeys::setDataBySource(const QString sourceName,
             AWActions::sendNotification(QString("event"), i18n("High CPU load"), enablePopup);
         // value
         values[QString("cpu")] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
-        toolTip->setData(QString("cpuTooltip"), data[QString("value")].toFloat());
+        if (toolTip != nullptr) toolTip->setData(QString("cpuTooltip"),
+                                                 data[QString("value")].toFloat());
     } else if (sourceName.contains(cpuRegExp)) {
         // cpus
         QString number = sourceName;
@@ -392,7 +419,8 @@ bool AWKeys::setDataBySource(const QString sourceName,
     } else if (sourceName == QString("cpu/system/AverageClock")) {
         // cpucl
         values[QString("cpucl")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
-        toolTip->setData(QString("cpuclTooltip"), data[QString("value")].toFloat());
+        if (toolTip != nullptr) toolTip->setData(QString("cpuclTooltip"),
+                                                 data[QString("value")].toFloat());
     } else if (sourceName.contains(cpuclRegExp)) {
         // cpucls
         QString number = sourceName;
@@ -511,7 +539,8 @@ bool AWKeys::setDataBySource(const QString sourceName,
             AWActions::sendNotification(QString("event"), i18n("High memory usage"), enablePopup);
         // value
         values[QString("mem")] = QString("%1").arg(value, 5, 'f', 1);
-        toolTip->setData(QString("memTooltip"), values[QString("mem")].toFloat());
+        if (toolTip != nullptr) toolTip->setData(QString("memTooltip"),
+                                                 values[QString("mem")].toFloat());
     } else if (sourceName == QString("netdev")) {
         // network device
         // notification
@@ -533,7 +562,8 @@ bool AWKeys::setDataBySource(const QString sourceName,
         }
         if (device == networkDevice()) {
             values[QString("down")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
-            toolTip->setData(QString("downTooltip"), data[QString("value")].toFloat());
+            if (toolTip != nullptr) toolTip->setData(QString("downTooltip"),
+                                                     data[QString("value")].toFloat());
         }
     } else if (sourceName.contains(netTransRegExp)) {
         // upload speed
@@ -547,7 +577,8 @@ bool AWKeys::setDataBySource(const QString sourceName,
         }
         if (device == networkDevice()) {
             values[QString("up")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
-            toolTip->setData(QString("upTooltip"), data[QString("value")].toFloat());
+            if (toolTip != nullptr) toolTip->setData(QString("upTooltip"),
+                                                     data[QString("value")].toFloat());
         }
     } else if (sourceName == QString("pkg")) {
         // package manager
@@ -589,7 +620,8 @@ bool AWKeys::setDataBySource(const QString sourceName,
             AWActions::sendNotification(QString("event"), i18n("Swap is used"), enablePopup);
         // value
         values[QString("swap")] = QString("%1").arg(value, 5, 'f', 1);
-        toolTip->setData(QString("swapTooltip"), values[QString("swap")].toFloat());
+        if (toolTip != nullptr) toolTip->setData(QString("swapTooltip"),
+                                                 values[QString("swap")].toFloat());
     } else if (sourceName.contains(tempRegExp)) {
         // temperature devices
         if (data[QString("units")].toString() == QString("rpm")) {
@@ -646,8 +678,8 @@ void AWKeys::graphicalValueByKey()
     if (debug) qDebug() << PDEBUG;
 
     bool ok;
-    QString tag = QInputDialog::getItem(0, i18n("Select tag"),
-                                        i18n("Tag"), keys, 0, false, &ok);
+    QString tag = QInputDialog::getItem(0, i18n("Select tag"), i18n("Tag"),
+                                        dictKeys(true), 0, false, &ok);
 
     if ((!ok) || (tag.isEmpty())) return;
     QString message = i18n("Tag: %1", tag);
@@ -1247,12 +1279,24 @@ void AWKeys::addKeyToCache(const QString type, const QString key)
 }
 
 
-bool AWKeys::checkKeys(const QMap<QString, QVariant> data)
+bool AWKeys::checkKeys(const QVariantMap data)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Data" << data;
 
     return (data.count() != 0);
+}
+
+
+QString AWKeys::htmlValue(QString key)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Requested key" << key;
+
+    QString value = values[key];
+    if (!key.startsWith(QString("custom")))
+        value.replace(QString(" "), QString("&nbsp;"));
+    return value;
 }
 
 

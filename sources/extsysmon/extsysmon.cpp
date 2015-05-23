@@ -303,12 +303,12 @@ QMap<QString, QString> ExtendedSysMon::updateConfiguration(QMap<QString, QString
 }
 
 
-QMap<QString, QVariant> ExtendedSysMon::getBattery(const QString acpiPath)
+QVariantMap ExtendedSysMon::getBattery(const QString acpiPath)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "ACPI path" << acpiPath;
 
-    QMap<QString, QVariant> battery;
+    QVariantMap battery;
     battery[QString("ac")] = false;
     battery[QString("bat")] = 0;
     QFile acFile(acpiPath + QString("/AC/online"));
@@ -344,13 +344,13 @@ QMap<QString, QVariant> ExtendedSysMon::getBattery(const QString acpiPath)
 }
 
 
-QMap<QString, QVariant> ExtendedSysMon::getCurrentDesktop()
+QVariantMap ExtendedSysMon::getCurrentDesktop()
 {
     if (debug) qDebug() << PDEBUG;
 
     int number = KWindowSystem::currentDesktop();
     int total = KWindowSystem::numberOfDesktops();
-    QMap<QString, QVariant> currentDesktop;
+    QVariantMap currentDesktop;
     currentDesktop[QString("currentName")] = KWindowSystem::desktopName(number);
     currentDesktop[QString("currentNumber")] = number;
     QStringList list;
@@ -499,17 +499,15 @@ QString ExtendedSysMon::getNetworkDevice()
 }
 
 
-QMap<QString, QVariant> ExtendedSysMon::getPlayerInfo(const QString playerName,
-                                                      const QString mpdAddress,
-                                                      const QString mpdPort,
-                                                      QString mpris)
+QVariantMap ExtendedSysMon::getPlayerInfo(const QString playerName, const QString mpdAddress,
+                                          const QString mpdPort, QString mpris)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "player" << playerName;
-    if (debug) qDebug() << PDEBUG << ":" << "MPD" << mpdAddress + QString(":") + mpdPort;
+    if (debug) qDebug() << PDEBUG << ":" << "MPD" << QString("%1:%2").arg(mpdAddress).arg(mpdPort);
     if (debug) qDebug() << PDEBUG << ":" << "MPRIS" << mpris;
 
-    QMap<QString, QVariant> info;
+    QVariantMap info;
     info[QString("album")] = QString("unknown");
     info[QString("artist")] = QString("unknown");
     info[QString("duration")] = QString("0");
@@ -530,13 +528,12 @@ QMap<QString, QVariant> ExtendedSysMon::getPlayerInfo(const QString playerName,
 }
 
 
-QMap<QString, QVariant> ExtendedSysMon::getPlayerMpdInfo(const QString mpdAddress,
-                                                         const QString mpdPort)
+QVariantMap ExtendedSysMon::getPlayerMpdInfo(const QString mpdAddress, const QString mpdPort)
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "MPD" << mpdAddress + QString(":") + mpdPort;
+    if (debug) qDebug() << PDEBUG << ":" << "MPD" << QString("%1:%2").arg(mpdAddress).arg(mpdPort);
 
-    QMap<QString, QVariant> info;
+    QVariantMap info;
     info[QString("album")] = QString("unknown");
     info[QString("artist")] = QString("unknown");
     info[QString("duration")] = QString("0");
@@ -572,12 +569,12 @@ QMap<QString, QVariant> ExtendedSysMon::getPlayerMpdInfo(const QString mpdAddres
 }
 
 
-QMap<QString, QVariant> ExtendedSysMon::getPlayerMprisInfo(const QString mpris)
+QVariantMap ExtendedSysMon::getPlayerMprisInfo(const QString mpris)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << "MPRIS" << mpris;
 
-    QMap<QString, QVariant> info;
+    QVariantMap info;
     info[QString("album")] = QString("unknown");
     info[QString("artist")] = QString("unknown");
     info[QString("duration")] = 0;
@@ -622,7 +619,7 @@ QMap<QString, QVariant> ExtendedSysMon::getPlayerMprisInfo(const QString mpris)
 }
 
 
-QMap<QString, QVariant> ExtendedSysMon::getPsStats()
+QVariantMap ExtendedSysMon::getPsStats()
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -641,7 +638,7 @@ QMap<QString, QVariant> ExtendedSysMon::getPsStats()
         if (output.contains(QString("running"))) running.append(cmdFile.readAll());
     }
 
-    QMap<QString, QVariant> psStats;
+    QVariantMap psStats;
     psStats[QString("pscount")] = running.count();
     psStats[QString("ps")] = running.join(QString(","));
     psStats[QString("pstotal")] = directories.count();
@@ -665,7 +662,7 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     if (debug) qDebug() << PDEBUG << ":" << "Source" << source;
 
     if (source == QString("battery")) {
-        QMap<QString, QVariant> battery = getBattery(configuration[QString("ACPIPATH")]);
+        QVariantMap battery = getBattery(configuration[QString("ACPIPATH")]);
         setData(source, QString("ac"), battery[QString("ac")].toBool());
         for (int i=0; i<battery.keys().count(); i++) {
             if (battery.keys()[i] == QString("ac")) continue;
@@ -675,7 +672,7 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
         for (int i=0; i<externalScripts.count(); i++)
             setData(source, externalScripts[i]->tag(), externalScripts[i]->run());
     } else if (source == QString("desktop")) {
-        QMap<QString, QVariant> desktop = getCurrentDesktop();
+        QVariantMap desktop = getCurrentDesktop();
         for (int i=0; i<desktop.keys().count(); i++)
             setData(source, desktop.keys()[i], desktop[desktop.keys()[i]]);
     } else if (source == QString("gpu")) {
@@ -697,14 +694,14 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
         for (int i=0; i<externalUpgrade.count(); i++)
             setData(source, externalUpgrade[i]->tag(), externalUpgrade[i]->run());
     } else if (source == QString("player")) {
-        QMap<QString, QVariant> player = getPlayerInfo(configuration[QString("PLAYER")],
-                                                       configuration[QString("MPDADDRESS")],
-                                                       configuration[QString("MPDPORT")],
-                                                       configuration[QString("MPRIS")]);
+        QVariantMap player = getPlayerInfo(configuration[QString("PLAYER")],
+                                           configuration[QString("MPDADDRESS")],
+                                           configuration[QString("MPDPORT")],
+                                           configuration[QString("MPRIS")]);
         for (int i=0; i<player.keys().count(); i++)
             setData(source, player.keys()[i], player[player.keys()[i]]);
     } else if (source == QString("ps")) {
-        QMap<QString, QVariant> ps = getPsStats();
+        QVariantMap ps = getPsStats();
         for (int i=0; i<ps.keys().count(); i++)
             setData(source, ps.keys()[i], ps[ps.keys()[i]]);
     } else if (source == QString("quotes")) {

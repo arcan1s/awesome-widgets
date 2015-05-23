@@ -130,11 +130,11 @@ QString AWActions::getAboutText(const QString type)
 }
 
 
-QMap<QString, QVariant> AWActions::getFont(const QMap<QString, QVariant> defaultFont)
+QVariantMap AWActions::getFont(const QVariantMap defaultFont)
 {
     if (debug) qDebug() << PDEBUG;
 
-    QMap<QString, QVariant> fontMap;
+    QVariantMap fontMap;
     CFont defaultCFont = CFont(defaultFont[QString("family")].toString(),
                                defaultFont[QString("size")].toInt(),
                                400, false, defaultFont[QString("color")].toString());
@@ -148,14 +148,14 @@ QMap<QString, QVariant> AWActions::getFont(const QMap<QString, QVariant> default
 }
 
 
-QMap<QString, QVariant> AWActions::readDataEngineConfiguration()
+QVariantMap AWActions::readDataEngineConfiguration()
 {
     if (debug) qDebug() << PDEBUG;
 
     QString fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation, QString("plasma-dataengine-extsysmon.conf"));
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
     QSettings settings(fileName, QSettings::IniFormat);
-    QMap<QString, QVariant> configuration;
+    QVariantMap configuration;
 
     settings.beginGroup(QString("Configuration"));
     configuration[QString("ACPIPATH")] = settings.value(QString("ACPIPATH"), QString("/sys/class/power_supply/"));
@@ -172,7 +172,7 @@ QMap<QString, QVariant> AWActions::readDataEngineConfiguration()
 }
 
 
-void AWActions::writeDataEngineConfiguration(const QMap<QString, QVariant> configuration)
+void AWActions::writeDataEngineConfiguration(const QVariantMap configuration)
 {
     if (debug) qDebug() << PDEBUG;
 
