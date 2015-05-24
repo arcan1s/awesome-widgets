@@ -48,6 +48,7 @@ Item {
             height: implicitHeight
             width: parent.width
             QtControls.Button {
+                width: parent.width * 3 / 12
                 text: i18n("Font")
                 iconName: "font"
 
@@ -70,6 +71,7 @@ Item {
                 }
             }
             QtControls.Button {
+                width: parent.width / 12
                 iconName: "format-indent-more"
 
                 onClicked: {
@@ -83,6 +85,7 @@ Item {
             }
 
             QtControls.Button {
+                width: parent.width / 12
                 iconName: "format-text-bold"
 
                 onClicked: {
@@ -95,6 +98,7 @@ Item {
                 }
             }
             QtControls.Button {
+                width: parent.width / 12
                 iconName: "format-text-italic"
 
                 onClicked: {
@@ -107,6 +111,7 @@ Item {
                 }
             }
             QtControls.Button {
+                width: parent.width / 12
                 iconName: "format-text-underline"
 
                 onClicked: {
@@ -119,6 +124,7 @@ Item {
                 }
             }
             QtControls.Button {
+                width: parent.width / 12
                 iconName: "format-text-strikethrough"
 
                 onClicked: {
@@ -132,6 +138,7 @@ Item {
             }
 
             QtControls.Button {
+                width: parent.width / 12
                 iconName: "format-justify-left"
 
                 onClicked: {
@@ -144,6 +151,7 @@ Item {
                 }
             }
             QtControls.Button {
+                width: parent.width / 12
                 iconName: "format-justify-center"
 
                 onClicked: {
@@ -156,6 +164,7 @@ Item {
                 }
             }
             QtControls.Button {
+                width: parent.width / 12
                 iconName: "format-justify-right"
 
                 onClicked: {
@@ -168,6 +177,7 @@ Item {
                 }
             }
             QtControls.Button {
+                width: parent.width / 12
                 iconName: "format-justify-fill"
 
                 onClicked: {

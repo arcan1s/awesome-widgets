@@ -45,8 +45,14 @@ ExtQuotes::ExtQuotes(QWidget *parent, const QString quotesName, const QStringLis
     ui->setupUi(this);
 
     values[QString("ask")] = 0.0;
+    values[QString("askchg")] = 0.0;
+    values[QString("percaskchg")] = 0.0;
     values[QString("bid")] = 0.0;
+    values[QString("bidchg")] = 0.0;
+    values[QString("percbidchg")] = 0.0;
     values[QString("price")] = 0.0;
+    values[QString("pricechg")] = 0.0;
+    values[QString("percpricechg")] = 0.0;
 }
 
 
@@ -331,22 +337,31 @@ void ExtQuotes::quotesReplyReceived(QNetworkReply *reply)
     // ask
     fields = doc.elementsByTagName(QString("Ask"));
     for (int i=0; i<fields.size(); i++) {
-        values[QString("ask")] = fields.item(i).toElement().text().toFloat();
-        if (debug) qDebug() << PDEBUG << "Found ask" << values[QString("ask")];
+        float value = fields.item(i).toElement().text().toFloat();
+        if (debug) qDebug() << PDEBUG << "Found ask" << value;
+        values[QString("askchg")] = values[QString("ask")] == 0 ? 0.0 : value - values[QString("ask")];
+        values[QString("percaskchg")] = 100 * values[QString("askchg")] / values[QString("ask")];
+        values[QString("ask")] = value;
     }
 
     // bid
     fields = doc.elementsByTagName(QString("Bid"));
     for (int i=0; i<fields.size(); i++) {
-        values[QString("bid")] = fields.item(i).toElement().text().toFloat();
-        if (debug) qDebug() << PDEBUG << "Found bid" << values[QString("bid")];
+        float value = fields.item(i).toElement().text().toFloat();
+        if (debug) qDebug() << PDEBUG << "Found bid" << value;
+        values[QString("bidchg")] = values[QString("bid")] == 0 ? 0.0 : value - values[QString("bid")];
+        values[QString("percbidchg")] = 100 * values[QString("bidchg")] / values[QString("bid")];
+        values[QString("bid")] = value;
     }
 
     // last trade
     fields = doc.elementsByTagName(QString("LastTradePriceOnly"));
     for (int i=0; i<fields.size(); i++) {
-        values[QString("price")] = fields.item(i).toElement().text().toFloat();
-        if (debug) qDebug() << PDEBUG << "Found last trade" << values[QString("price")];
+        float value = fields.item(i).toElement().text().toFloat();
+        if (debug) qDebug() << PDEBUG << "Found last trade" << value;
+        values[QString("pricechg")] = values[QString("price")] == 0 ? 0.0 : value - values[QString("price")];
+        values[QString("percpricechg")] = 100 * values[QString("pricechg")] / values[QString("price")];
+        values[QString("price")] = value;
     }
 
     reply->deleteLater();

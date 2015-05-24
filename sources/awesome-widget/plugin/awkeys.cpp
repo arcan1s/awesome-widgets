@@ -315,8 +315,14 @@ QStringList AWKeys::dictKeys(const bool sorted)
     // quotes
     for (int i=extQuotes.count()-1; i>=0; i--) {
         allKeys.append(extQuotes[i]->tag(QString("ask")));
+        allKeys.append(extQuotes[i]->tag(QString("askchg")));
+        allKeys.append(extQuotes[i]->tag(QString("percaskchg")));
         allKeys.append(extQuotes[i]->tag(QString("bid")));
+        allKeys.append(extQuotes[i]->tag(QString("bidchg")));
+        allKeys.append(extQuotes[i]->tag(QString("percbidchg")));
         allKeys.append(extQuotes[i]->tag(QString("price")));
+        allKeys.append(extQuotes[i]->tag(QString("pricechg")));
+        allKeys.append(extQuotes[i]->tag(QString("percpricechg")));
     }
     // custom
     for (int i=extScripts.count()-1; i>=0; i--)
@@ -560,7 +566,7 @@ bool AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
                 values[QString("down%1").arg(i)] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
                 break;
         }
-        if (device == networkDevice()) {
+        if (device == values[QString("netdev")]) {
             values[QString("down")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
             if (toolTip != nullptr) toolTip->setData(QString("downTooltip"),
                                                      data[QString("value")].toFloat());
@@ -575,7 +581,7 @@ bool AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
                 values[QString("up%1").arg(i)] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
                 break;
         }
-        if (device == networkDevice()) {
+        if (device == values[QString("netdev")]) {
             values[QString("up")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
             if (toolTip != nullptr) toolTip->setData(QString("upTooltip"),
                                                      data[QString("value")].toFloat());
@@ -716,11 +722,9 @@ QString AWKeys::infoByKey(QString key)
             if (extUpgrade[i]->tag() != key) continue;
             return extUpgrade[i]->executable();
         }
-    else if ((key.startsWith(QString("ask"))) ||
-             (key.startsWith(QString("bid"))) ||
-             (key.startsWith(QString("price"))))
+    else if (key.contains(QRegExp(QString("(^|perc)(ask|bid|price)(chg|)"))))
         for (int i=0; i<extQuotes.count(); i++) {
-            if (extQuotes[i]->number() != key.remove(QRegExp(QString("^(ask|bid|price)"))).toInt()) continue;
+            if (extQuotes[i]->number() != key.remove(QRegExp(QString("(^|perc)(ask|bid|price)(chg|)"))).toInt()) continue;
             return extQuotes[i]->ticker();
         }
     else if (key.startsWith(QString("temp")))
@@ -1297,25 +1301,6 @@ QString AWKeys::htmlValue(QString key)
     if (!key.startsWith(QString("custom")))
         value.replace(QString(" "), QString("&nbsp;"));
     return value;
-}
-
-
-QString AWKeys::networkDevice()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    QString device = QString("lo");
-    QList<QNetworkInterface> rawInterfaceList = QNetworkInterface::allInterfaces();
-    for (int i=0; i<rawInterfaceList.count(); i++)
-        if ((rawInterfaceList[i].flags().testFlag(QNetworkInterface::IsUp)) &&
-            (!rawInterfaceList[i].flags().testFlag(QNetworkInterface::IsLoopBack)) &&
-            (!rawInterfaceList[i].flags().testFlag(QNetworkInterface::IsPointToPoint))) {
-            device = rawInterfaceList[i].name();
-            break;
-
-        }
-
-    return device;
 }
 
 

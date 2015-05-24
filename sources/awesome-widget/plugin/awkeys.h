@@ -87,7 +87,6 @@ private:
     void addKeyToCache(const QString type, const QString key = QString(""));
     bool checkKeys(const QVariantMap data);
     QString htmlValue(QString key);
-    QString networkDevice();
     int numberCpus();
     float temperature(const float temp, const QString units);
     // find methods

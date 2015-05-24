@@ -50,6 +50,12 @@ Item {
 
                     QtControls.Label {
                         QtLayouts.Layout.fillWidth: true
+                        horizontalAlignment: Text.AlignHCenter
+                        text: DPAdds.getAboutText("version")
+                    }
+
+                    QtControls.Label {
+                        QtLayouts.Layout.fillWidth: true
                         horizontalAlignment: Text.AlignJustify
                         text: DPAdds.getAboutText("description")
                     }
@@ -62,9 +68,11 @@ Item {
                     }
 
                     QtControls.Label {
+                        QtLayouts.Layout.fillHeight: true
                         QtLayouts.Layout.fillWidth: true
                         font.capitalization: Font.SmallCaps
                         horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignBottom
                         textFormat: Text.RichText
                         text: DPAdds.getAboutText("copy")
                     }
@@ -83,8 +91,10 @@ Item {
                     }
 
                     QtControls.Label {
+                        QtLayouts.Layout.fillHeight: true
                         QtLayouts.Layout.fillWidth: true
                         horizontalAlignment: Text.AlignJustify
+                        verticalAlignment: Text.AlignTop
                         textFormat: Text.RichText
                         text: DPAdds.getAboutText("3rdparty")
                     }

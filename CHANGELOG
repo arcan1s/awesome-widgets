@@ -1,7 +1,9 @@
 + implement fitlers support to ExtScripts (ApiVer = 3) (#53)
 + implement ability to wrap `\n` as new lines (#53)
 + implement key sorting in comboboxes
++ implement (perc)(bid|ask|price)chg tag support
 - fix bug with invalid html parsing
+* more pretty configuration UI
 * some part of refactoring
 
 Ver.2.2.2:

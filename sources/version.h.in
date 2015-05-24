@@ -12,7 +12,7 @@
 // graphical items api version
 #define AWGIAPI 1
 // extquotes api version
-#define AWEQAPI 1
+#define AWEQAPI 2
 // extscript api version
 #define AWESAPI 3
 // extupgrade api version

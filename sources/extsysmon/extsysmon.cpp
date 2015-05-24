@@ -708,8 +708,14 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
         for (int i=0; i<externalQuotes.count(); i++) {
             QMap<QString, float> data = externalQuotes[i]->run();
             setData(source, externalQuotes[i]->tag(QString("ask")), data[QString("ask")]);
+            setData(source, externalQuotes[i]->tag(QString("askchg")), data[QString("askchg")]);
+            setData(source, externalQuotes[i]->tag(QString("percaskchg")), data[QString("percaskchg")]);
             setData(source, externalQuotes[i]->tag(QString("bid")), data[QString("bid")]);
+            setData(source, externalQuotes[i]->tag(QString("bidchg")), data[QString("bidchg")]);
+            setData(source, externalQuotes[i]->tag(QString("percbidchg")), data[QString("percbidchg")]);
             setData(source, externalQuotes[i]->tag(QString("price")), data[QString("price")]);
+            setData(source, externalQuotes[i]->tag(QString("pricechg")), data[QString("pricechg")]);
+            setData(source, externalQuotes[i]->tag(QString("percpricechg")), data[QString("percpricechg")]);
         }
     } else if (source == QString("update")) {
         setData(source, QString("value"), true);

@@ -310,6 +310,8 @@ QString DPAdds::getAboutText(const QString type)
     QString text;
     if (type == QString("header"))
         text = QString(NAME);
+    else if (type == QString("version"))
+        text = i18n("Version %1 (build date %2)", QString(VERSION), QString(BUILD_DATE));
     else if (type == QString("description"))
         text = i18n("A set of minimalistic plasmoid widgets");
     else if (type == QString("links"))
