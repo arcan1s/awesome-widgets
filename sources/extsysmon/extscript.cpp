@@ -21,6 +21,7 @@
 #include <QDebug>
 #include <QDir>
 #include <QJsonDocument>
+#include <QJsonParseError>
 #include <QSettings>
 #include <QStandardPaths>
 #include <QTextCodec>
@@ -392,7 +393,11 @@ void ExtScript::readJsonFilters()
     QString jsonText = jsonFile.readAll();
     jsonFile.close();
 
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonText.toUtf8());
+    QJsonParseError error;
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonText.toUtf8(), &error);
+    if (debug) qDebug() << PDEBUG << ":" << "Json parse error" << error.errorString();
+    if (error.error != QJsonParseError::NoError)
+        return;
     jsonFilters = jsonDoc.toVariant().toMap();
 
     if (debug) qDebug() << PDEBUG << ":" << "Filters" << jsonFilters;

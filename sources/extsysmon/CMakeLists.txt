@@ -4,7 +4,7 @@ set (PLUGIN_NAME ${SUBPROJECT})
 message (STATUS "Subproject ${SUBPROJECT}")
 
 # find required libaries
-find_package (Qt5 REQUIRED COMPONENTS DBus Network Widgets Xml)
+find_package (Qt5 REQUIRED COMPONENTS DBus Network Widgets)
 find_package (ECM 0.0.11 REQUIRED NO_MODULE)
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
 find_package (KF5 REQUIRED COMPONENTS Plasma Service WindowSystem)
@@ -14,9 +14,9 @@ include (KDECMakeSettings)
 include (KDECompilerSettings)
 
 add_definitions (${Qt5Core_DEFINITIONS} ${Qt5DBus_DEFINITIONS}
-                 ${Qt5Network_DEFINITIONS} ${Qt5Widgets_DEFINITIONS} ${Qt5Xml_DEFINITIONS})
+                 ${Qt5Network_DEFINITIONS} ${Qt5Widgets_DEFINITIONS})
 set (Qt_INCLUDE ${Qt5Core_INCLUDE_DIRS} ${Qt5DBus_INCLUDE_DIRS}
-                ${Qt5Network_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS} ${Qt5Xml_INCLUDE_DIRS})
+                ${Qt5Network_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS})
 set (KDE_INCLUDE ${Plasma_INCLUDE_DIR})
 
 include_directories (${CMAKE_SOURCE_DIR}

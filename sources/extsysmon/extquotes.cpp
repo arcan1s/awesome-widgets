@@ -20,8 +20,8 @@
 
 #include <QDebug>
 #include <QDir>
-#include <QDomDocument>
-#include <QDomElement>
+#include <QJsonDocument>
+#include <QJsonParseError>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -320,51 +320,37 @@ void ExtQuotes::quotesReplyReceived(QNetworkReply *reply)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Return code" << reply->error();
-    if (debug) qDebug() << PDEBUG << ":" << "Error message" << reply->errorString();
+    if (debug) qDebug() << PDEBUG << ":" << "Reply error message" << reply->errorString();
 
-    if (reply->error() != QNetworkReply::NoError) {
-        reply->deleteLater();
+    QJsonParseError error;
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll(), &error);
+    reply->deleteLater();
+    if (debug) qDebug() << PDEBUG << ":" << "Json parse error" << error.errorString();
+    if ((reply->error() != QNetworkReply::NoError) ||
+        (error.error != QJsonParseError::NoError)) {
         return;
     }
-
-    QDomDocument doc;
-    if (!doc.setContent(reply)) {
-        if (debug) qDebug() << PDEBUG << ":" << "Could not parse answer to XML";
-        return;
-    }
-    QDomNodeList fields;
+    QVariantMap jsonQuotes = jsonDoc.toVariant().toMap()[QString("query")].toMap();
+    jsonQuotes = jsonQuotes[QString("results")].toMap()[QString("quote")].toMap();
+    float value;
 
     // ask
-    fields = doc.elementsByTagName(QString("Ask"));
-    for (int i=0; i<fields.size(); i++) {
-        float value = fields.item(i).toElement().text().toFloat();
-        if (debug) qDebug() << PDEBUG << "Found ask" << value;
-        values[QString("askchg")] = values[QString("ask")] == 0 ? 0.0 : value - values[QString("ask")];
-        values[QString("percaskchg")] = 100 * values[QString("askchg")] / values[QString("ask")];
-        values[QString("ask")] = value;
-    }
+    value = jsonQuotes[QString("Ask")].toString().toFloat();
+    values[QString("askchg")] = values[QString("ask")] == 0 ? 0.0 : value - values[QString("ask")];
+    values[QString("percaskchg")] = 100 * values[QString("askchg")] / values[QString("ask")];
+    values[QString("ask")] = value;
 
     // bid
-    fields = doc.elementsByTagName(QString("Bid"));
-    for (int i=0; i<fields.size(); i++) {
-        float value = fields.item(i).toElement().text().toFloat();
-        if (debug) qDebug() << PDEBUG << "Found bid" << value;
-        values[QString("bidchg")] = values[QString("bid")] == 0 ? 0.0 : value - values[QString("bid")];
-        values[QString("percbidchg")] = 100 * values[QString("bidchg")] / values[QString("bid")];
-        values[QString("bid")] = value;
-    }
+    value = jsonQuotes[QString("Bid")].toString().toFloat();
+    values[QString("bidchg")] = values[QString("bid")] == 0 ? 0.0 : value - values[QString("bid")];
+    values[QString("percbidchg")] = 100 * values[QString("bidchg")] / values[QString("bid")];
+    values[QString("bid")] = value;
 
     // last trade
-    fields = doc.elementsByTagName(QString("LastTradePriceOnly"));
-    for (int i=0; i<fields.size(); i++) {
-        float value = fields.item(i).toElement().text().toFloat();
-        if (debug) qDebug() << PDEBUG << "Found last trade" << value;
-        values[QString("pricechg")] = values[QString("price")] == 0 ? 0.0 : value - values[QString("price")];
-        values[QString("percpricechg")] = 100 * values[QString("pricechg")] / values[QString("price")];
-        values[QString("price")] = value;
-    }
-
-    reply->deleteLater();
+    value = jsonQuotes[QString("LastTradePriceOnly")].toString().toFloat();
+    values[QString("pricechg")] = values[QString("price")] == 0 ? 0.0 : value - values[QString("price")];
+    values[QString("percpricechg")] = 100 * values[QString("pricechg")] / values[QString("price")];
+    values[QString("price")] = value;
 }
 
 

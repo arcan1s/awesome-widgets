@@ -21,7 +21,7 @@
 #include <QDialog>
 #include <QMap>
 
-#define YAHOO_URL "https://query.yahooapis.com/v1/public/yql?q=select * from yahoo.finance.quotes where symbol in (\"$TICKER\")&env=store://datatables.org/alltableswithkeys"
+#define YAHOO_URL "https://query.yahooapis.com/v1/public/yql?q=select * from yahoo.finance.quotes where symbol=\"$TICKER\"&env=store://datatables.org/alltableswithkeys&format=json"
 
 
 class QNetworkReply;
