@@ -24,7 +24,6 @@
 #include <QJsonParseError>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
-#include <QNetworkReply>
 #include <QSettings>
 #include <QTime>
 
@@ -243,7 +242,8 @@ QMap<QString, float> ExtQuotes::run()
         QNetworkAccessManager *manager = new QNetworkAccessManager(this);
         connect(manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(quotesReplyReceived(QNetworkReply *)));
 
-        manager->get(QNetworkRequest(QUrl(url())));
+        QNetworkReply *reply = manager->get(QNetworkRequest(QUrl(url())));
+        new QReplyTimeout(reply, 1000);
     }
 
     // update value

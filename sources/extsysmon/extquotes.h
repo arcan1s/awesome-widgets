@@ -20,11 +20,29 @@
 
 #include <QDialog>
 #include <QMap>
+#include <QNetworkReply>
+#include <QTimer>
 
 #define YAHOO_URL "https://query.yahooapis.com/v1/public/yql?q=select * from yahoo.finance.quotes where symbol=\"$TICKER\"&env=store://datatables.org/alltableswithkeys&format=json"
 
 
-class QNetworkReply;
+class QReplyTimeout : public QObject
+{
+    Q_OBJECT
+
+public:
+    QReplyTimeout(QNetworkReply *reply, const int timeout) : QObject(reply)
+    {
+        QTimer::singleShot(timeout, this, SLOT(timeout()));
+    }
+
+private slots:
+    void timeout()
+    {
+        QNetworkReply *reply = static_cast<QNetworkReply *>(parent());
+        if (reply->isRunning()) reply->close();
+    }
+};
 
 namespace Ui {
     class ExtQuotes;
