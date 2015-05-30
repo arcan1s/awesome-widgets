@@ -1,8 +1,10 @@
 + implement fitlers support to ExtScripts (ApiVer = 3) (#53)
 + implement ability to wrap `\n` as new lines (#53)
 + implement key sorting in comboboxes
-+ implement (perc)(bid|ask|price)chg tag support
++ implement (perc)(bid|ask|price)chg tag support (ApiVer = 2)
++ implement timeouts to quotes (#54)
 - fix bug with invalid html parsing
+* move from XML to JSON in ExtQuotes (ApiVer = 2)
 * more pretty configuration UI
 * some part of refactoring
 

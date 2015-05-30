@@ -4,6 +4,6 @@ Name=AAPL.NASDAQ
 Comment=Apple Inc
 X-AW-Ticker="AAPL"
 X-AW-Active=false
-X-AW-ApiVersion=1
+X-AW-ApiVersion=2
 X-AW-Interval=60
 X-AW-Number=0

@@ -4,6 +4,6 @@ Name=GOOG.NASDAQ
 Comment=Google Inc
 X-AW-Ticker="GOOG"
 X-AW-Active=false
-X-AW-ApiVersion=1
+X-AW-ApiVersion=2
 X-AW-Interval=60
 X-AW-Number=3

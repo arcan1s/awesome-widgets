@@ -4,6 +4,6 @@ Name=RTS
 Comment=RTS Index
 X-AW-Ticker="RTS.RS"
 X-AW-Active=false
-X-AW-ApiVersion=1
+X-AW-ApiVersion=2
 X-AW-Interval=60
 X-AW-Number=5

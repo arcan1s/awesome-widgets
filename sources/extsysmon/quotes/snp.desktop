@@ -4,6 +4,6 @@ Name=S&P
 Comment=S&P 500 Index
 X-AW-Ticker="^GSPC"
 X-AW-Active=false
-X-AW-ApiVersion=1
+X-AW-ApiVersion=2
 X-AW-Interval=60
 X-AW-Number=6

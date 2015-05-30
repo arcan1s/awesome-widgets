@@ -369,6 +369,7 @@ bool AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
     if (sourceName == QString("update")) return true;
 
     // checking
+    if (toolTip == nullptr) return false;
     if (!checkKeys(data)) return false;
     if (keys.isEmpty()) return false;
 
@@ -403,9 +404,8 @@ bool AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
                     values[QString("ac")] = params[QString("acOffline")].toString();
             } else {
                 values[data.keys()[i]] = QString("%1").arg(data[data.keys()[i]].toFloat(), 3, 'f', 0);
-                if (toolTip != nullptr) toolTip->setData(QString("batTooltip"),
-                                                         data[data.keys()[i]].toFloat(),
-                                                         data[QString("ac")].toBool());
+                toolTip->setData(QString("batTooltip"), data[data.keys()[i]].toFloat(),
+                                 data[QString("ac")].toBool());
             }
         }
     } else if (sourceName == QString("cpu/system/TotalLoad")) {
@@ -415,8 +415,7 @@ bool AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
             AWActions::sendNotification(QString("event"), i18n("High CPU load"), enablePopup);
         // value
         values[QString("cpu")] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
-        if (toolTip != nullptr) toolTip->setData(QString("cpuTooltip"),
-                                                 data[QString("value")].toFloat());
+        toolTip->setData(QString("cpuTooltip"), data[QString("value")].toFloat());
     } else if (sourceName.contains(cpuRegExp)) {
         // cpus
         QString number = sourceName;
@@ -425,8 +424,7 @@ bool AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
     } else if (sourceName == QString("cpu/system/AverageClock")) {
         // cpucl
         values[QString("cpucl")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
-        if (toolTip != nullptr) toolTip->setData(QString("cpuclTooltip"),
-                                                 data[QString("value")].toFloat());
+        toolTip->setData(QString("cpuclTooltip"), data[QString("value")].toFloat());
     } else if (sourceName.contains(cpuclRegExp)) {
         // cpucls
         QString number = sourceName;
@@ -545,8 +543,7 @@ bool AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
             AWActions::sendNotification(QString("event"), i18n("High memory usage"), enablePopup);
         // value
         values[QString("mem")] = QString("%1").arg(value, 5, 'f', 1);
-        if (toolTip != nullptr) toolTip->setData(QString("memTooltip"),
-                                                 values[QString("mem")].toFloat());
+        toolTip->setData(QString("memTooltip"), values[QString("mem")].toFloat());
     } else if (sourceName == QString("netdev")) {
         // network device
         // notification
@@ -568,8 +565,7 @@ bool AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         }
         if (device == values[QString("netdev")]) {
             values[QString("down")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
-            if (toolTip != nullptr) toolTip->setData(QString("downTooltip"),
-                                                     data[QString("value")].toFloat());
+            toolTip->setData(QString("downTooltip"), data[QString("value")].toFloat());
         }
     } else if (sourceName.contains(netTransRegExp)) {
         // upload speed
@@ -583,8 +579,7 @@ bool AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         }
         if (device == values[QString("netdev")]) {
             values[QString("up")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
-            if (toolTip != nullptr) toolTip->setData(QString("upTooltip"),
-                                                     data[QString("value")].toFloat());
+            toolTip->setData(QString("upTooltip"), data[QString("value")].toFloat());
         }
     } else if (sourceName == QString("pkg")) {
         // package manager
@@ -626,8 +621,7 @@ bool AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
             AWActions::sendNotification(QString("event"), i18n("Swap is used"), enablePopup);
         // value
         values[QString("swap")] = QString("%1").arg(value, 5, 'f', 1);
-        if (toolTip != nullptr) toolTip->setData(QString("swapTooltip"),
-                                                 values[QString("swap")].toFloat());
+        toolTip->setData(QString("swapTooltip"), values[QString("swap")].toFloat());
     } else if (sourceName.contains(tempRegExp)) {
         // temperature devices
         if (data[QString("units")].toString() == QString("rpm")) {

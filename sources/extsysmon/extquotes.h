@@ -36,7 +36,7 @@ public:
         QTimer::singleShot(timeout, this, SLOT(timeout()));
     }
 
-private slots:
+public slots:
     void timeout()
     {
         QNetworkReply *reply = static_cast<QNetworkReply *>(parent());
