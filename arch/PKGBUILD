@@ -2,7 +2,7 @@
 
 pkgname=plasma5-applet-awesome-widgets
 _pkgname=awesome-widgets
-pkgver=2.2.2
+pkgver=2.3.0
 pkgrel=1
 pkgdesc="Collection of minimalistic Plasmoids which look like Awesome WM widgets (ex-PyTextMonitor)"
 arch=('i686' 'x86_64')
@@ -20,7 +20,7 @@ optdepends=("amarok: for music player monitor"
 makedepends=('cmake' 'extra-cmake-modules')
 source=(https://github.com/arcan1s/awesome-widgets/releases/download/V.${pkgver}/${_pkgname}-${pkgver}-src.tar.xz)
 install=${pkgname}.install
-md5sums=('73e176a124f8bfe43a0a112307624bfe')
+md5sums=('3c79159d6de7b737d386d8ab7eb1ccf0')
 backup=('etc/xdg/plasma-dataengine-extsysmon.conf')
 
 prepare() {
