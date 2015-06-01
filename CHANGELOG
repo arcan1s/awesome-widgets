@@ -1,3 +1,6 @@
+- fix invalid vertical tab parsing
+* translation update
+
 Ver.2.3.0:
 + implement fitlers support to ExtScripts (ApiVer = 3) (#53)
 + implement ability to wrap `\n` as new lines (#53)

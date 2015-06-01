@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-05-22 00:07+0300\n"
-"PO-Revision-Date: 2015-05-22 00:07+0300\n"
+"POT-Creation-Date: 2015-06-01 01:48+0300\n"
+"PO-Revision-Date: 2015-06-01 01:49+0300\n"
 "Last-Translator: Evgeniy <darkarcanis@exante.eu>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -43,71 +43,75 @@ msgstr "DataEngine"
 msgid "About"
 msgstr "О программе"
 
-#: awesome-widget/package/contents/ui/about.qml:75
+#: awesome-widget/package/contents/ui/about.qml:83
 msgid "Acknowledgment"
 msgstr "Благодарности"
 
-#: awesome-widget/package/contents/ui/advanced.qml:55
+#: awesome-widget/package/contents/ui/advanced.qml:56
 msgid "Widget height, px"
 msgstr "Высота виджета, пиксели"
 
-#: awesome-widget/package/contents/ui/advanced.qml:75
+#: awesome-widget/package/contents/ui/advanced.qml:76
 msgid "Widget width, px"
 msgstr "Ширина виджета, пиксели"
 
-#: awesome-widget/package/contents/ui/advanced.qml:97
+#: awesome-widget/package/contents/ui/advanced.qml:98
 msgid "Enable notifications"
 msgstr "Включить уведомления "
 
-#: awesome-widget/package/contents/ui/advanced.qml:111
+#: awesome-widget/package/contents/ui/advanced.qml:112
+msgid "Wrap new lines"
+msgstr "Заменить символ перевода строки"
+
+#: awesome-widget/package/contents/ui/advanced.qml:126
 msgid "Enable background"
 msgstr "Включить фон"
 
-#: awesome-widget/package/contents/ui/advanced.qml:123
+#: awesome-widget/package/contents/ui/advanced.qml:138
 msgid "Custom time format"
 msgstr "Свой формат времени"
 
-#: awesome-widget/package/contents/ui/advanced.qml:140
+#: awesome-widget/package/contents/ui/advanced.qml:155
 msgid "Custom uptime format"
 msgstr "Свой формат аптайма"
 
-#: awesome-widget/package/contents/ui/advanced.qml:157
+#: awesome-widget/package/contents/ui/advanced.qml:172
 msgid "Temperature units"
 msgstr "Температурные единицы"
 
-#: awesome-widget/package/contents/ui/advanced.qml:165
+#: awesome-widget/package/contents/ui/advanced.qml:180
 msgid "Celsius"
 msgstr "Цельсий"
 
-#: awesome-widget/package/contents/ui/advanced.qml:169
+#: awesome-widget/package/contents/ui/advanced.qml:184
 msgid "Fahrenheit"
 msgstr "Фаренгейт"
 
-#: awesome-widget/package/contents/ui/advanced.qml:173
+#: awesome-widget/package/contents/ui/advanced.qml:188
 msgid "Kelvin"
 msgstr "Кельвин"
 
-#: awesome-widget/package/contents/ui/advanced.qml:177
+#: awesome-widget/package/contents/ui/advanced.qml:192
 msgid "Reaumur"
 msgstr "Реамюр"
 
-#: awesome-widget/package/contents/ui/advanced.qml:181
+#: awesome-widget/package/contents/ui/advanced.qml:196
 msgid "cm^-1"
 msgstr "см^-1"
 
-#: awesome-widget/package/contents/ui/advanced.qml:185
+#: awesome-widget/package/contents/ui/advanced.qml:200
 msgid "kJ/mol"
 msgstr "кДж/моль"
 
-#: awesome-widget/package/contents/ui/advanced.qml:189
+#: awesome-widget/package/contents/ui/advanced.qml:204
 msgid "kcal/mol"
 msgstr "ккал/моль"
 
-#: awesome-widget/package/contents/ui/advanced.qml:212
+#: awesome-widget/package/contents/ui/advanced.qml:227
 msgid "AC online tag"
 msgstr "AC подключен"
 
-#: awesome-widget/package/contents/ui/advanced.qml:229
+#: awesome-widget/package/contents/ui/advanced.qml:244
 msgid "AC offline tag"
 msgstr "AC отключен"
 
@@ -116,7 +120,7 @@ msgid "Time interval"
 msgstr "Интервал обновления"
 
 #: awesome-widget/package/contents/ui/appearance.qml:81
-#: awesome-widget/package/contents/ui/widget.qml:79
+#: awesome-widget/package/contents/ui/widget.qml:80
 msgid "Font"
 msgstr "Шрифт"
 
@@ -303,30 +307,30 @@ msgstr ""
 "Подробная информация может быть найдена на <a href=\"http://arcanis.name/ru/"
 "projects/awesome-widgets/\">домашней странице проекта</a>"
 
-#: awesome-widget/package/contents/ui/widget.qml:221
+#: awesome-widget/package/contents/ui/widget.qml:231
 msgid "Add"
 msgstr "Добавить"
 
-#: awesome-widget/package/contents/ui/widget.qml:234
+#: awesome-widget/package/contents/ui/widget.qml:244
 msgid "Show value"
 msgstr "Показать значение"
 
-#: awesome-widget/package/contents/ui/widget.qml:239
-#: awesome-widget/plugin/awkeys.cpp:653 awesome-widget/plugin/awkeys.cpp:722
-#: awesome-widget/plugin/awkeys.cpp:1022
+#: awesome-widget/package/contents/ui/widget.qml:249
+#: awesome-widget/plugin/awkeys.cpp:685 awesome-widget/plugin/awkeys.cpp:752
+#: awesome-widget/plugin/awkeys.cpp:1052
 msgid "Tag: %1"
 msgstr "Тег: %1"
 
-#: awesome-widget/package/contents/ui/widget.qml:241
-#: awesome-widget/plugin/awkeys.cpp:655
+#: awesome-widget/package/contents/ui/widget.qml:251
+#: awesome-widget/plugin/awkeys.cpp:687
 msgid "Value: %1"
 msgstr "Значение: %1"
 
-#: awesome-widget/package/contents/ui/widget.qml:243
+#: awesome-widget/package/contents/ui/widget.qml:253
 msgid "Info: %1"
 msgstr "Информация: %1"
 
-#: awesome-widget/package/contents/ui/widget.qml:254
+#: awesome-widget/package/contents/ui/widget.qml:264
 msgid "Edit bars"
 msgstr "Редактировать бары"
 
@@ -335,66 +339,70 @@ msgid "Run %1"
 msgstr "Запуск %1"
 
 #: awesome-widget/plugin/awactions.cpp:105
+msgid "Version %1 (build date %2)"
+msgstr "Версия %1 (дата сборки %2)"
+
+#: awesome-widget/plugin/awactions.cpp:107
 msgid "A set of minimalistic plasmoid widgets"
 msgstr "Коллекция минималистичных плазмоидов"
 
-#: awesome-widget/plugin/awactions.cpp:107
+#: awesome-widget/plugin/awactions.cpp:109
 msgid "Links:"
 msgstr "Ссылки:"
 
-#: awesome-widget/plugin/awactions.cpp:108
+#: awesome-widget/plugin/awactions.cpp:110
 msgid "Homepage"
 msgstr "Домашняя страница"
 
-#: awesome-widget/plugin/awactions.cpp:109
+#: awesome-widget/plugin/awactions.cpp:111
 msgid "Repository"
 msgstr "Репозиторий"
 
-#: awesome-widget/plugin/awactions.cpp:110
+#: awesome-widget/plugin/awactions.cpp:112
 msgid "Bugtracker"
 msgstr "Баг-трекер"
 
-#: awesome-widget/plugin/awactions.cpp:111
+#: awesome-widget/plugin/awactions.cpp:113
 msgid "Translation issue"
 msgstr "Тикет перевода"
 
-#: awesome-widget/plugin/awactions.cpp:112
+#: awesome-widget/plugin/awactions.cpp:114
 msgid "AUR packages"
 msgstr "Пакеты в AUR"
 
-#: awesome-widget/plugin/awactions.cpp:113
+#: awesome-widget/plugin/awactions.cpp:115
 msgid "openSUSE packages"
 msgstr "Пакеты для openSUSE"
 
-#: awesome-widget/plugin/awactions.cpp:116
+#: awesome-widget/plugin/awactions.cpp:118
 msgid "This software is licensed under %1"
 msgstr "Данное приложение лицензировано под %1"
 
-#: awesome-widget/plugin/awactions.cpp:118
+#: awesome-widget/plugin/awactions.cpp:120
 msgid "Translators: %1"
 msgstr "Переводчики: %1"
 
-#: awesome-widget/plugin/awactions.cpp:126
+#: awesome-widget/plugin/awactions.cpp:128
 msgid "This software uses: %1"
 msgstr "Данное приложение использует: %1"
 
-#: awesome-widget/plugin/awactions.cpp:141
+#: awesome-widget/plugin/awactions.cpp:143
 msgid "Select font"
 msgstr "Выберете шрифт"
 
-#: awesome-widget/plugin/awactions.cpp:212
+#: awesome-widget/plugin/awactions.cpp:214
 msgid "Current version : %1"
 msgstr "Текущая версия : %1"
 
-#: awesome-widget/plugin/awactions.cpp:213
+#: awesome-widget/plugin/awactions.cpp:215
 msgid "New version : %1"
 msgstr "Новая версия : %1"
 
-#: awesome-widget/plugin/awactions.cpp:214
+#: awesome-widget/plugin/awactions.cpp:216
 msgid "Click \"Ok\" to download"
 msgstr "Нажмите \"Ok\" для загрузки"
 
-#: awesome-widget/plugin/awactions.cpp:216
+#: awesome-widget/plugin/awactions.cpp:218
 msgid "There are updates"
 msgstr "Найдены обновления"
 
@@ -410,75 +418,75 @@ msgstr "Создать"
 msgid "Remove"
 msgstr "Удалить"
 
-#: awesome-widget/plugin/awkeys.cpp:364
+#: awesome-widget/plugin/awkeys.cpp:395
 msgid "AC online"
 msgstr "AC подключен"
 
-#: awesome-widget/plugin/awkeys.cpp:366
+#: awesome-widget/plugin/awkeys.cpp:397
 msgid "AC offline"
 msgstr "AC отключен"
 
-#: awesome-widget/plugin/awkeys.cpp:383
+#: awesome-widget/plugin/awkeys.cpp:415
 msgid "High CPU load"
 msgstr "Высокая загрузка CPU"
 
-#: awesome-widget/plugin/awkeys.cpp:432
+#: awesome-widget/plugin/awkeys.cpp:464
 msgid "High GPU load"
 msgstr "Высокая загрузка GPU"
 
-#: awesome-widget/plugin/awkeys.cpp:446
+#: awesome-widget/plugin/awkeys.cpp:478
 msgid "Free space on %1 less than 10%"
 msgstr "Свободное место на диске %1 меньше 10%"
 
-#: awesome-widget/plugin/awkeys.cpp:511
+#: awesome-widget/plugin/awkeys.cpp:543
 msgid "High memory usage"
 msgstr "Большое потребление памяти"
 
-#: awesome-widget/plugin/awkeys.cpp:519
+#: awesome-widget/plugin/awkeys.cpp:551
 msgid "Network device has been changed to %1"
 msgstr "Сетевое устройство было изменено на %1"
 
-#: awesome-widget/plugin/awkeys.cpp:589
+#: awesome-widget/plugin/awkeys.cpp:621
 msgid "Swap is used"
 msgstr "Используется своп"
 
-#: awesome-widget/plugin/awkeys.cpp:649
+#: awesome-widget/plugin/awkeys.cpp:681
 msgid "Select tag"
 msgstr "Выберете тег"
 
-#: awesome-widget/plugin/awkeys.cpp:650
+#: awesome-widget/plugin/awkeys.cpp:681
 msgid "Tag"
 msgstr "Тег"
 
-#: awesome-widget/plugin/awkeys.cpp:723 awesome-widget/plugin/awkeys.cpp:733
-#: awesome-widget/plugin/awkeys.cpp:744 awesome-widget/plugin/awkeys.cpp:755
-#: awesome-widget/plugin/awkeys.cpp:1023 awesome-widget/plugin/awkeys.cpp:1078
-#: awesome-widget/plugin/awkeys.cpp:1138 awesome-widget/plugin/awkeys.cpp:1195
+#: awesome-widget/plugin/awkeys.cpp:753 awesome-widget/plugin/awkeys.cpp:763
+#: awesome-widget/plugin/awkeys.cpp:774 awesome-widget/plugin/awkeys.cpp:785
+#: awesome-widget/plugin/awkeys.cpp:1053 awesome-widget/plugin/awkeys.cpp:1108
+#: awesome-widget/plugin/awkeys.cpp:1168 awesome-widget/plugin/awkeys.cpp:1225
 msgid "Comment: %1"
 msgstr "Комментарий: %1"
 
-#: awesome-widget/plugin/awkeys.cpp:732 awesome-widget/plugin/awkeys.cpp:743
-#: awesome-widget/plugin/awkeys.cpp:754 awesome-widget/plugin/awkeys.cpp:1077
-#: awesome-widget/plugin/awkeys.cpp:1137 awesome-widget/plugin/awkeys.cpp:1194
+#: awesome-widget/plugin/awkeys.cpp:762 awesome-widget/plugin/awkeys.cpp:773
+#: awesome-widget/plugin/awkeys.cpp:784 awesome-widget/plugin/awkeys.cpp:1107
+#: awesome-widget/plugin/awkeys.cpp:1167 awesome-widget/plugin/awkeys.cpp:1224
 msgid "Name: %1"
 msgstr "Имя: %1"
 
-#: awesome-widget/plugin/awkeys.cpp:734 awesome-widget/plugin/awkeys.cpp:1079
+#: awesome-widget/plugin/awkeys.cpp:764 awesome-widget/plugin/awkeys.cpp:1109
 msgid "Ticker: %1"
 msgstr "Тикер: %1"
 
-#: awesome-widget/plugin/awkeys.cpp:745 awesome-widget/plugin/awkeys.cpp:756
-#: awesome-widget/plugin/awkeys.cpp:1139 awesome-widget/plugin/awkeys.cpp:1196
+#: awesome-widget/plugin/awkeys.cpp:775 awesome-widget/plugin/awkeys.cpp:786
+#: awesome-widget/plugin/awkeys.cpp:1169 awesome-widget/plugin/awkeys.cpp:1226
 msgid "Exec: %1"
 msgstr "Команда: %1"
 
-#: awesome-widget/plugin/awkeys.cpp:982 awesome-widget/plugin/awkeys.cpp:1047
-#: awesome-widget/plugin/awkeys.cpp:1104 awesome-widget/plugin/awkeys.cpp:1163
+#: awesome-widget/plugin/awkeys.cpp:1012 awesome-widget/plugin/awkeys.cpp:1077
+#: awesome-widget/plugin/awkeys.cpp:1134 awesome-widget/plugin/awkeys.cpp:1193
 msgid "Enter file name"
 msgstr "Введите имя файла"
 
-#: awesome-widget/plugin/awkeys.cpp:983 awesome-widget/plugin/awkeys.cpp:1048
-#: awesome-widget/plugin/awkeys.cpp:1105 awesome-widget/plugin/awkeys.cpp:1164
+#: awesome-widget/plugin/awkeys.cpp:1013 awesome-widget/plugin/awkeys.cpp:1078
+#: awesome-widget/plugin/awkeys.cpp:1135 awesome-widget/plugin/awkeys.cpp:1194
 msgid "File name"
 msgstr "Имя файла"
 
@@ -504,13 +512,6 @@ msgstr "esalexeev@gmail.com"
 
 #~ msgid "Check for updates"
 #~ msgstr "Проверить обновления"
-
-#~ msgid ""
-#~ "Version %1\n"
-#~ "(build date %2)"
-#~ msgstr ""
-#~ "Версия %1\n"
-#~ "(дата сборки %2)"
 
 #~ msgid "Edit"
 #~ msgstr "Править"

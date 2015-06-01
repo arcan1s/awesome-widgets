@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-05-22 00:07+0300\n"
+"POT-Creation-Date: 2015-06-01 01:48+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,71 +42,75 @@ msgstr ""
 msgid "About"
 msgstr ""
 
-#: awesome-widget/package/contents/ui/about.qml:75
+#: awesome-widget/package/contents/ui/about.qml:83
 msgid "Acknowledgment"
 msgstr ""
 
-#: awesome-widget/package/contents/ui/advanced.qml:55
+#: awesome-widget/package/contents/ui/advanced.qml:56
 msgid "Widget height, px"
 msgstr ""
 
-#: awesome-widget/package/contents/ui/advanced.qml:75
+#: awesome-widget/package/contents/ui/advanced.qml:76
 msgid "Widget width, px"
 msgstr ""
 
-#: awesome-widget/package/contents/ui/advanced.qml:97
+#: awesome-widget/package/contents/ui/advanced.qml:98
 msgid "Enable notifications"
 msgstr ""
 
-#: awesome-widget/package/contents/ui/advanced.qml:111
+#: awesome-widget/package/contents/ui/advanced.qml:112
+msgid "Wrap new lines"
+msgstr ""
+
+#: awesome-widget/package/contents/ui/advanced.qml:126
 msgid "Enable background"
 msgstr ""
 
-#: awesome-widget/package/contents/ui/advanced.qml:123
+#: awesome-widget/package/contents/ui/advanced.qml:138
 msgid "Custom time format"
 msgstr ""
 
-#: awesome-widget/package/contents/ui/advanced.qml:140
+#: awesome-widget/package/contents/ui/advanced.qml:155
 msgid "Custom uptime format"
 msgstr ""
 
-#: awesome-widget/package/contents/ui/advanced.qml:157
+#: awesome-widget/package/contents/ui/advanced.qml:172
 msgid "Temperature units"
 msgstr ""
 
-#: awesome-widget/package/contents/ui/advanced.qml:165
+#: awesome-widget/package/contents/ui/advanced.qml:180
 msgid "Celsius"
 msgstr ""
 
-#: awesome-widget/package/contents/ui/advanced.qml:169
+#: awesome-widget/package/contents/ui/advanced.qml:184
 msgid "Fahrenheit"
 msgstr ""
 
-#: awesome-widget/package/contents/ui/advanced.qml:173
+#: awesome-widget/package/contents/ui/advanced.qml:188
 msgid "Kelvin"
 msgstr ""
 
-#: awesome-widget/package/contents/ui/advanced.qml:177
+#: awesome-widget/package/contents/ui/advanced.qml:192
 msgid "Reaumur"
 msgstr ""
 
-#: awesome-widget/package/contents/ui/advanced.qml:181
+#: awesome-widget/package/contents/ui/advanced.qml:196
 msgid "cm^-1"
 msgstr ""
 
-#: awesome-widget/package/contents/ui/advanced.qml:185
+#: awesome-widget/package/contents/ui/advanced.qml:200
 msgid "kJ/mol"
 msgstr ""
 
-#: awesome-widget/package/contents/ui/advanced.qml:189
+#: awesome-widget/package/contents/ui/advanced.qml:204
 msgid "kcal/mol"
 msgstr ""
 
-#: awesome-widget/package/contents/ui/advanced.qml:212
+#: awesome-widget/package/contents/ui/advanced.qml:227
 msgid "AC online tag"
 msgstr ""
 
-#: awesome-widget/package/contents/ui/advanced.qml:229
+#: awesome-widget/package/contents/ui/advanced.qml:244
 msgid "AC offline tag"
 msgstr ""
 
@@ -115,7 +119,7 @@ msgid "Time interval"
 msgstr ""
 
 #: awesome-widget/package/contents/ui/appearance.qml:81
-#: awesome-widget/package/contents/ui/widget.qml:79
+#: awesome-widget/package/contents/ui/widget.qml:80
 msgid "Font"
 msgstr ""
 
@@ -297,30 +301,30 @@ msgid ""
 "awesome-widgets/\">project homepage</a>"
 msgstr ""
 
-#: awesome-widget/package/contents/ui/widget.qml:221
+#: awesome-widget/package/contents/ui/widget.qml:231
 msgid "Add"
 msgstr ""
 
-#: awesome-widget/package/contents/ui/widget.qml:234
+#: awesome-widget/package/contents/ui/widget.qml:244
 msgid "Show value"
 msgstr ""
 
-#: awesome-widget/package/contents/ui/widget.qml:239
-#: awesome-widget/plugin/awkeys.cpp:653 awesome-widget/plugin/awkeys.cpp:722
-#: awesome-widget/plugin/awkeys.cpp:1022
+#: awesome-widget/package/contents/ui/widget.qml:249
+#: awesome-widget/plugin/awkeys.cpp:685 awesome-widget/plugin/awkeys.cpp:752
+#: awesome-widget/plugin/awkeys.cpp:1052
 msgid "Tag: %1"
 msgstr ""
 
-#: awesome-widget/package/contents/ui/widget.qml:241
-#: awesome-widget/plugin/awkeys.cpp:655
+#: awesome-widget/package/contents/ui/widget.qml:251
+#: awesome-widget/plugin/awkeys.cpp:687
 msgid "Value: %1"
 msgstr ""
 
-#: awesome-widget/package/contents/ui/widget.qml:243
+#: awesome-widget/package/contents/ui/widget.qml:253
 msgid "Info: %1"
 msgstr ""
 
-#: awesome-widget/package/contents/ui/widget.qml:254
+#: awesome-widget/package/contents/ui/widget.qml:264
 msgid "Edit bars"
 msgstr ""
 
@@ -329,66 +333,70 @@ msgid "Run %1"
 msgstr ""
 
 #: awesome-widget/plugin/awactions.cpp:105
-msgid "A set of minimalistic plasmoid widgets"
+msgid "Version %1 (build date %2)"
 msgstr ""
 
 #: awesome-widget/plugin/awactions.cpp:107
-msgid "Links:"
-msgstr ""
-
-#: awesome-widget/plugin/awactions.cpp:108
-msgid "Homepage"
+msgid "A set of minimalistic plasmoid widgets"
 msgstr ""
 
 #: awesome-widget/plugin/awactions.cpp:109
-msgid "Repository"
+msgid "Links:"
 msgstr ""
 
 #: awesome-widget/plugin/awactions.cpp:110
-msgid "Bugtracker"
+msgid "Homepage"
 msgstr ""
 
 #: awesome-widget/plugin/awactions.cpp:111
-msgid "Translation issue"
+msgid "Repository"
 msgstr ""
 
 #: awesome-widget/plugin/awactions.cpp:112
-msgid "AUR packages"
+msgid "Bugtracker"
 msgstr ""
 
 #: awesome-widget/plugin/awactions.cpp:113
+msgid "Translation issue"
+msgstr ""
+
+#: awesome-widget/plugin/awactions.cpp:114
+msgid "AUR packages"
+msgstr ""
+
+#: awesome-widget/plugin/awactions.cpp:115
 msgid "openSUSE packages"
 msgstr ""
 
-#: awesome-widget/plugin/awactions.cpp:116
+#: awesome-widget/plugin/awactions.cpp:118
 msgid "This software is licensed under %1"
 msgstr ""
 
-#: awesome-widget/plugin/awactions.cpp:118
+#: awesome-widget/plugin/awactions.cpp:120
 msgid "Translators: %1"
 msgstr ""
 
-#: awesome-widget/plugin/awactions.cpp:126
+#: awesome-widget/plugin/awactions.cpp:128
 msgid "This software uses: %1"
 msgstr ""
 
-#: awesome-widget/plugin/awactions.cpp:141
+#: awesome-widget/plugin/awactions.cpp:143
 msgid "Select font"
 msgstr ""
 
-#: awesome-widget/plugin/awactions.cpp:212
+#: awesome-widget/plugin/awactions.cpp:214
 msgid "Current version : %1"
 msgstr ""
 
-#: awesome-widget/plugin/awactions.cpp:213
+#: awesome-widget/plugin/awactions.cpp:215
 msgid "New version : %1"
 msgstr ""
 
-#: awesome-widget/plugin/awactions.cpp:214
+#: awesome-widget/plugin/awactions.cpp:216
 msgid "Click \"Ok\" to download"
 msgstr ""
 
-#: awesome-widget/plugin/awactions.cpp:216
+#: awesome-widget/plugin/awactions.cpp:218
 msgid "There are updates"
 msgstr ""
 
@@ -404,75 +412,75 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: awesome-widget/plugin/awkeys.cpp:364
+#: awesome-widget/plugin/awkeys.cpp:395
 msgid "AC online"
 msgstr ""
 
-#: awesome-widget/plugin/awkeys.cpp:366
+#: awesome-widget/plugin/awkeys.cpp:397
 msgid "AC offline"
 msgstr ""
 
-#: awesome-widget/plugin/awkeys.cpp:383
+#: awesome-widget/plugin/awkeys.cpp:415
 msgid "High CPU load"
 msgstr ""
 
-#: awesome-widget/plugin/awkeys.cpp:432
+#: awesome-widget/plugin/awkeys.cpp:464
 msgid "High GPU load"
 msgstr ""
 
-#: awesome-widget/plugin/awkeys.cpp:446
+#: awesome-widget/plugin/awkeys.cpp:478
 msgid "Free space on %1 less than 10%"
 msgstr ""
 
-#: awesome-widget/plugin/awkeys.cpp:511
+#: awesome-widget/plugin/awkeys.cpp:543
 msgid "High memory usage"
 msgstr ""
 
-#: awesome-widget/plugin/awkeys.cpp:519
+#: awesome-widget/plugin/awkeys.cpp:551
 msgid "Network device has been changed to %1"
 msgstr ""
 
-#: awesome-widget/plugin/awkeys.cpp:589
+#: awesome-widget/plugin/awkeys.cpp:621
 msgid "Swap is used"
 msgstr ""
 
-#: awesome-widget/plugin/awkeys.cpp:649
+#: awesome-widget/plugin/awkeys.cpp:681
 msgid "Select tag"
 msgstr ""
 
-#: awesome-widget/plugin/awkeys.cpp:650
+#: awesome-widget/plugin/awkeys.cpp:681
 msgid "Tag"
 msgstr ""
 
-#: awesome-widget/plugin/awkeys.cpp:723 awesome-widget/plugin/awkeys.cpp:733
-#: awesome-widget/plugin/awkeys.cpp:744 awesome-widget/plugin/awkeys.cpp:755
-#: awesome-widget/plugin/awkeys.cpp:1023 awesome-widget/plugin/awkeys.cpp:1078
-#: awesome-widget/plugin/awkeys.cpp:1138 awesome-widget/plugin/awkeys.cpp:1195
+#: awesome-widget/plugin/awkeys.cpp:753 awesome-widget/plugin/awkeys.cpp:763
+#: awesome-widget/plugin/awkeys.cpp:774 awesome-widget/plugin/awkeys.cpp:785
+#: awesome-widget/plugin/awkeys.cpp:1053 awesome-widget/plugin/awkeys.cpp:1108
+#: awesome-widget/plugin/awkeys.cpp:1168 awesome-widget/plugin/awkeys.cpp:1225
 msgid "Comment: %1"
 msgstr ""
 
-#: awesome-widget/plugin/awkeys.cpp:732 awesome-widget/plugin/awkeys.cpp:743
-#: awesome-widget/plugin/awkeys.cpp:754 awesome-widget/plugin/awkeys.cpp:1077
-#: awesome-widget/plugin/awkeys.cpp:1137 awesome-widget/plugin/awkeys.cpp:1194
+#: awesome-widget/plugin/awkeys.cpp:762 awesome-widget/plugin/awkeys.cpp:773
+#: awesome-widget/plugin/awkeys.cpp:784 awesome-widget/plugin/awkeys.cpp:1107
+#: awesome-widget/plugin/awkeys.cpp:1167 awesome-widget/plugin/awkeys.cpp:1224
 msgid "Name: %1"
 msgstr ""
 
-#: awesome-widget/plugin/awkeys.cpp:734 awesome-widget/plugin/awkeys.cpp:1079
+#: awesome-widget/plugin/awkeys.cpp:764 awesome-widget/plugin/awkeys.cpp:1109
 msgid "Ticker: %1"
 msgstr ""
 
-#: awesome-widget/plugin/awkeys.cpp:745 awesome-widget/plugin/awkeys.cpp:756
-#: awesome-widget/plugin/awkeys.cpp:1139 awesome-widget/plugin/awkeys.cpp:1196
+#: awesome-widget/plugin/awkeys.cpp:775 awesome-widget/plugin/awkeys.cpp:786
+#: awesome-widget/plugin/awkeys.cpp:1169 awesome-widget/plugin/awkeys.cpp:1226
 msgid "Exec: %1"
 msgstr ""
 
-#: awesome-widget/plugin/awkeys.cpp:982 awesome-widget/plugin/awkeys.cpp:1047
-#: awesome-widget/plugin/awkeys.cpp:1104 awesome-widget/plugin/awkeys.cpp:1163
+#: awesome-widget/plugin/awkeys.cpp:1012 awesome-widget/plugin/awkeys.cpp:1077
+#: awesome-widget/plugin/awkeys.cpp:1134 awesome-widget/plugin/awkeys.cpp:1193
 msgid "Enter file name"
 msgstr ""
 
-#: awesome-widget/plugin/awkeys.cpp:983 awesome-widget/plugin/awkeys.cpp:1048
-#: awesome-widget/plugin/awkeys.cpp:1105 awesome-widget/plugin/awkeys.cpp:1164
+#: awesome-widget/plugin/awkeys.cpp:1013 awesome-widget/plugin/awkeys.cpp:1078
+#: awesome-widget/plugin/awkeys.cpp:1135 awesome-widget/plugin/awkeys.cpp:1194
 msgid "File name"
 msgstr ""
 
