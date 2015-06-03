@@ -1,13 +1,13 @@
 # Copyright (C) 2014
 # This file is distributed under the same license as the PyTextMonitor package.
 #
-# Evgeniy Alekseev <esalexeev@gmail.com>, 2014.
+# Evgeniy Alekseev <esalexeev@gmail.com>, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
 "POT-Creation-Date: 2015-06-01 01:48+0300\n"
-"PO-Revision-Date: 2014-09-05 11:22+0400\n"
+"PO-Revision-Date: 2015-06-04 01:49+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Ukrainian <kde-russian@lists.kde.ru>\n"
 "Language: ua\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 
 #: awesome-widget/package/contents/config/config.qml:25
 msgid "Widget"
@@ -45,24 +45,23 @@ msgstr "Про програму"
 
 #: awesome-widget/package/contents/ui/about.qml:83
 msgid "Acknowledgment"
-msgstr ""
+msgstr "Подяка"
 
 #: awesome-widget/package/contents/ui/advanced.qml:56
-#, fuzzy
 msgid "Widget height, px"
-msgstr "Налаштування віджету"
+msgstr "Висота віджету, пікселі"
 
 #: awesome-widget/package/contents/ui/advanced.qml:76
 msgid "Widget width, px"
-msgstr ""
+msgstr "Ширина віджету, пікселі"
 
 #: awesome-widget/package/contents/ui/advanced.qml:98
 msgid "Enable notifications"
-msgstr ""
+msgstr "Включити повідомлення"
 
 #: awesome-widget/package/contents/ui/advanced.qml:112
 msgid "Wrap new lines"
-msgstr ""
+msgstr "Замінити символ переводу рядка"
 
 #: awesome-widget/package/contents/ui/advanced.qml:126
 msgid "Enable background"
@@ -82,31 +81,31 @@ msgstr "Одиниці виміру температури"
 
 #: awesome-widget/package/contents/ui/advanced.qml:180
 msgid "Celsius"
-msgstr ""
+msgstr "Цельсій"
 
 #: awesome-widget/package/contents/ui/advanced.qml:184
 msgid "Fahrenheit"
-msgstr ""
+msgstr "Фаренгейт"
 
 #: awesome-widget/package/contents/ui/advanced.qml:188
 msgid "Kelvin"
-msgstr ""
+msgstr "Кельвін"
 
 #: awesome-widget/package/contents/ui/advanced.qml:192
 msgid "Reaumur"
-msgstr ""
+msgstr "Реамюр"
 
 #: awesome-widget/package/contents/ui/advanced.qml:196
 msgid "cm^-1"
-msgstr ""
+msgstr "см^-1"
 
 #: awesome-widget/package/contents/ui/advanced.qml:200
 msgid "kJ/mol"
-msgstr ""
+msgstr "кДж/моль"
 
 #: awesome-widget/package/contents/ui/advanced.qml:204
 msgid "kcal/mol"
-msgstr ""
+msgstr "ккал/моль"
 
 #: awesome-widget/package/contents/ui/advanced.qml:227
 msgid "AC online tag"
@@ -134,26 +133,25 @@ msgid "Font weight"
 msgstr "Ширина шрифту"
 
 #: awesome-widget/package/contents/ui/appearance.qml:127
-#, fuzzy
 msgid "light"
-msgstr "Висота"
+msgstr "тонкий"
 
 #: awesome-widget/package/contents/ui/appearance.qml:131
 #: awesome-widget/package/contents/ui/appearance.qml:174
 msgid "normal"
-msgstr ""
+msgstr "нормальний"
 
 #: awesome-widget/package/contents/ui/appearance.qml:135
 msgid "demi bold"
-msgstr ""
+msgstr "напівжирний"
 
 #: awesome-widget/package/contents/ui/appearance.qml:139
 msgid "bold"
-msgstr ""
+msgstr "жирний"
 
 #: awesome-widget/package/contents/ui/appearance.qml:143
 msgid "black"
-msgstr ""
+msgstr "дуже жирний"
 
 #: awesome-widget/package/contents/ui/appearance.qml:166
 msgid "Font style"
@@ -161,7 +159,7 @@ msgstr "Стиль шрифту"
 
 #: awesome-widget/package/contents/ui/appearance.qml:178
 msgid "italic"
-msgstr ""
+msgstr "курсив"
 
 #: awesome-widget/package/contents/ui/appearance.qml:201
 msgid "Font color"
@@ -177,12 +175,10 @@ msgstr "Колір шрифту"
 #: awesome-widget/package/contents/ui/tooltip.qml:421
 #: awesome-widget/package/contents/ui/tooltip.qml:473
 #: awesome-widget/package/contents/ui/tooltip.qml:503
-#, fuzzy
 msgid "Select a color"
 msgstr "Оберіть колір"
 
 #: awesome-widget/package/contents/ui/appearance.qml:226
-#, fuzzy
 msgid "Select a font"
 msgstr "Оберіть шрифт"
 
@@ -191,14 +187,12 @@ msgid "ACPI path"
 msgstr "Шлях до ICPI"
 
 #: awesome-widget/package/contents/ui/dataengine.qml:85
-#, fuzzy
 msgid "Custom scripts"
 msgstr "Свої скрипти"
 
 #: awesome-widget/package/contents/ui/dataengine.qml:89
-#, fuzzy
 msgid "Edit scripts"
-msgstr "Свої скрипти"
+msgstr "Редагувати скрипти"
 
 #: awesome-widget/package/contents/ui/dataengine.qml:102
 msgid "GPU device"
@@ -230,37 +224,33 @@ msgstr "Музичний плеєр"
 
 #: awesome-widget/package/contents/ui/dataengine.qml:245
 msgid "Quotes monitor"
-msgstr ""
+msgstr "Монітор котирувань"
 
 #: awesome-widget/package/contents/ui/dataengine.qml:249
-#, fuzzy
 msgid "Edit tickers"
-msgstr "Редагувати"
+msgstr "Редагувати тікети"
 
 #: awesome-widget/package/contents/ui/dataengine.qml:262
 msgid "Package manager"
 msgstr "Пакетний менеджер"
 
 #: awesome-widget/package/contents/ui/dataengine.qml:266
-#, fuzzy
 msgid "Edit command"
-msgstr "Своя команда"
+msgstr "Редагувати команду"
 
 #: awesome-widget/package/contents/ui/main.qml:161
 msgid "Request key"
-msgstr ""
+msgstr "Показати ключ"
 
 #: awesome-widget/package/contents/ui/main.qml:162
 msgid "Show README"
 msgstr "Показати README"
 
 #: awesome-widget/package/contents/ui/main.qml:163
-#, fuzzy
 msgid "Check updates"
 msgstr "Шукати оновлення"
 
 #: awesome-widget/package/contents/ui/tooltip.qml:62
-#, fuzzy
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
 "To enable them just make needed checkbox fully checked."
@@ -306,7 +296,6 @@ msgid "Battery active color"
 msgstr "Колір батареї, що заряджається"
 
 #: awesome-widget/package/contents/ui/tooltip.qml:487
-#, fuzzy
 msgid "Battery inactive color"
 msgstr "Колір батарєї, що розряджається"
 
@@ -324,7 +313,7 @@ msgstr "Додати"
 
 #: awesome-widget/package/contents/ui/widget.qml:244
 msgid "Show value"
-msgstr ""
+msgstr "Показати значення"
 
 #: awesome-widget/package/contents/ui/widget.qml:249
 #: awesome-widget/plugin/awkeys.cpp:685 awesome-widget/plugin/awkeys.cpp:752
@@ -334,29 +323,24 @@ msgstr "Тег: %1"
 
 #: awesome-widget/package/contents/ui/widget.qml:251
 #: awesome-widget/plugin/awkeys.cpp:687
-#, fuzzy
 msgid "Value: %1"
-msgstr "Значення"
+msgstr "Значення: %1"
 
 #: awesome-widget/package/contents/ui/widget.qml:253
 msgid "Info: %1"
-msgstr ""
+msgstr "Інформація: %1"
 
 #: awesome-widget/package/contents/ui/widget.qml:264
-#, fuzzy
 msgid "Edit bars"
-msgstr "Редагувати"
+msgstr "Редагувати бари"
 
 #: awesome-widget/plugin/awactions.cpp:76
 msgid "Run %1"
-msgstr ""
+msgstr "Запуск %1"
 
 #: awesome-widget/plugin/awactions.cpp:105
-#, fuzzy
 msgid "Version %1 (build date %2)"
-msgstr ""
-"Версія %1\n"
-"(дата створення %2)"
+msgstr "Версія %1 (дата створення %2)"
 
 #: awesome-widget/plugin/awactions.cpp:107
 msgid "A set of minimalistic plasmoid widgets"
@@ -387,9 +371,8 @@ msgid "AUR packages"
 msgstr "Пакети в AUR"
 
 #: awesome-widget/plugin/awactions.cpp:115
-#, fuzzy
 msgid "openSUSE packages"
-msgstr "Пакети в AUR"
+msgstr "Пакети для openSUSE"
 
 #: awesome-widget/plugin/awactions.cpp:118
 msgid "This software is licensed under %1"
@@ -429,55 +412,51 @@ msgstr "Копіювати"
 
 #: awesome-widget/plugin/awkeys.cpp:60
 msgid "Create"
-msgstr ""
+msgstr "Створити"
 
 #: awesome-widget/plugin/awkeys.cpp:61
 msgid "Remove"
 msgstr "Видалити"
 
 #: awesome-widget/plugin/awkeys.cpp:395
-#, fuzzy
 msgid "AC online"
 msgstr "AC підключений"
 
 #: awesome-widget/plugin/awkeys.cpp:397
-#, fuzzy
 msgid "AC offline"
 msgstr "AC відключений"
 
 #: awesome-widget/plugin/awkeys.cpp:415
 msgid "High CPU load"
-msgstr ""
+msgstr "Високе завантаження CPU"
 
 #: awesome-widget/plugin/awkeys.cpp:464
 msgid "High GPU load"
-msgstr ""
+msgstr "Високе завантаження GPU"
 
 #: awesome-widget/plugin/awkeys.cpp:478
 msgid "Free space on %1 less than 10%"
-msgstr ""
+msgstr "Вільний простір на диску %1 меньше ніж 10%"
 
 #: awesome-widget/plugin/awkeys.cpp:543
 msgid "High memory usage"
-msgstr ""
+msgstr "Велике споживання пам’яті"
 
 #: awesome-widget/plugin/awkeys.cpp:551
 msgid "Network device has been changed to %1"
-msgstr ""
+msgstr "Мережевий пристрій було змінено на %1"
 
 #: awesome-widget/plugin/awkeys.cpp:621
 msgid "Swap is used"
-msgstr ""
+msgstr "Використовується swap"
 
 #: awesome-widget/plugin/awkeys.cpp:681
-#, fuzzy
 msgid "Select tag"
-msgstr "Оберіть шрифт"
+msgstr "Оберіть тег"
 
 #: awesome-widget/plugin/awkeys.cpp:681
-#, fuzzy
 msgid "Tag"
-msgstr "Тег: %1"
+msgstr "Тег"
 
 #: awesome-widget/plugin/awkeys.cpp:753 awesome-widget/plugin/awkeys.cpp:763
 #: awesome-widget/plugin/awkeys.cpp:774 awesome-widget/plugin/awkeys.cpp:785
@@ -494,7 +473,7 @@ msgstr "Ім’я: %1"
 
 #: awesome-widget/plugin/awkeys.cpp:764 awesome-widget/plugin/awkeys.cpp:1109
 msgid "Ticker: %1"
-msgstr ""
+msgstr "Тікер: %1"
 
 #: awesome-widget/plugin/awkeys.cpp:775 awesome-widget/plugin/awkeys.cpp:786
 #: awesome-widget/plugin/awkeys.cpp:1169 awesome-widget/plugin/awkeys.cpp:1226
@@ -512,7 +491,6 @@ msgid "File name"
 msgstr "Ім’я файлу"
 
 #: awesome-widget/plugin/graphicalitem.cpp:497
-#, fuzzy
 msgid "Select color"
 msgstr "Оберіть колір"
 

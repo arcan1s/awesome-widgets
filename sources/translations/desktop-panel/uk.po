@@ -1,22 +1,22 @@
 # Copyright (C) 2014
 # This file is distributed under the same license as the PyTextMonitor package.
-# 
-# Evgeniy Alekseev <esalexeev@gmail.com>, 2014.
+#
+# Evgeniy Alekseev <esalexeev@gmail.com>, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
 "POT-Creation-Date: 2015-05-22 00:05+0300\n"
-"PO-Revision-Date: 2014-06-06 01:23+0400\n"
+"PO-Revision-Date: 2015-06-04 01:49+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
-"Language-Team: Ukrainian <kde-ukrainian@lists.kde.ru>\n"
+"Language-Team: Ukrainian <kde-russian@lists.kde.ru>\n"
 "Language: ua\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 
 #: desktop-panel/package/contents/config/config.qml:25
 msgid "Widget"
@@ -24,7 +24,7 @@ msgstr "Віджет"
 
 #: desktop-panel/package/contents/config/config.qml:31
 msgid "Advanced"
-msgstr ""
+msgstr "Розширені"
 
 #: desktop-panel/package/contents/config/config.qml:37
 msgid "Active desktop"
@@ -37,11 +37,11 @@ msgstr "Неактивний робочий стіл"
 #: desktop-panel/package/contents/config/config.qml:49
 #: desktop-panel/package/contents/ui/about.qml:42
 msgid "About"
-msgstr ""
+msgstr "Про програму"
 
 #: desktop-panel/package/contents/ui/about.qml:75
 msgid "Acknowledgment"
-msgstr ""
+msgstr "Подяка"
 
 #: desktop-panel/package/contents/ui/activeapp.qml:60
 #: desktop-panel/package/contents/ui/inactiveapp.qml:60
@@ -62,29 +62,29 @@ msgstr "Ширина шрифту"
 #: desktop-panel/package/contents/ui/activeapp.qml:106
 #: desktop-panel/package/contents/ui/inactiveapp.qml:106
 msgid "light"
-msgstr ""
+msgstr "тонкий"
 
 #: desktop-panel/package/contents/ui/activeapp.qml:110
 #: desktop-panel/package/contents/ui/activeapp.qml:153
 #: desktop-panel/package/contents/ui/inactiveapp.qml:110
 #: desktop-panel/package/contents/ui/inactiveapp.qml:153
 msgid "normal"
-msgstr ""
+msgstr "нормальний"
 
 #: desktop-panel/package/contents/ui/activeapp.qml:114
 #: desktop-panel/package/contents/ui/inactiveapp.qml:114
 msgid "demi bold"
-msgstr ""
+msgstr "напівжирний"
 
 #: desktop-panel/package/contents/ui/activeapp.qml:118
 #: desktop-panel/package/contents/ui/inactiveapp.qml:118
 msgid "bold"
-msgstr ""
+msgstr "жирний"
 
 #: desktop-panel/package/contents/ui/activeapp.qml:122
 #: desktop-panel/package/contents/ui/inactiveapp.qml:122
 msgid "black"
-msgstr ""
+msgstr "дуже жирний"
 
 #: desktop-panel/package/contents/ui/activeapp.qml:145
 #: desktop-panel/package/contents/ui/inactiveapp.qml:145
@@ -94,7 +94,7 @@ msgstr "Стиль шрифту"
 #: desktop-panel/package/contents/ui/activeapp.qml:157
 #: desktop-panel/package/contents/ui/inactiveapp.qml:157
 msgid "italic"
-msgstr ""
+msgstr "курсив"
 
 #: desktop-panel/package/contents/ui/activeapp.qml:180
 #: desktop-panel/package/contents/ui/advanced.qml:163
@@ -105,52 +105,45 @@ msgstr "Колір шрифту"
 #: desktop-panel/package/contents/ui/activeapp.qml:198
 #: desktop-panel/package/contents/ui/advanced.qml:247
 #: desktop-panel/package/contents/ui/inactiveapp.qml:198
-#, fuzzy
 msgid "Select a color"
-msgstr "Вибрати шрифт"
+msgstr "Вибрати колір"
 
 #: desktop-panel/package/contents/ui/activeapp.qml:205
 #: desktop-panel/package/contents/ui/inactiveapp.qml:205
-#, fuzzy
 msgid "Select a font"
 msgstr "Вибрати шрифт"
 
 #: desktop-panel/package/contents/ui/advanced.qml:56
 msgid "Widget height, px"
-msgstr ""
+msgstr "Висота віджету, пікселі"
 
 #: desktop-panel/package/contents/ui/advanced.qml:76
 msgid "Widget width, px"
-msgstr ""
+msgstr "Ширина віджету, пікселі"
 
 #: desktop-panel/package/contents/ui/advanced.qml:96
-#, fuzzy
 msgid "Tooltip type"
-msgstr "Ширина підказки"
+msgstr "Тип підказки"
 
 #: desktop-panel/package/contents/ui/advanced.qml:104
-#, fuzzy
 msgid "contours"
 msgstr "Контури"
 
 #: desktop-panel/package/contents/ui/advanced.qml:108
-#, fuzzy
 msgid "windows"
 msgstr "Вікна"
 
 #: desktop-panel/package/contents/ui/advanced.qml:112
-#, fuzzy
 msgid "clean desktop"
-msgstr "Очистити робочий стіл"
+msgstr "пустий робочий стіл"
 
 #: desktop-panel/package/contents/ui/advanced.qml:116
-#, fuzzy
 msgid "names"
-msgstr "Slobodyan Victor"
+msgstr "назви"
 
 #: desktop-panel/package/contents/ui/advanced.qml:120
 msgid "none"
-msgstr ""
+msgstr "немає"
 
 #: desktop-panel/package/contents/ui/advanced.qml:143
 msgid "Tooltip width"
@@ -173,6 +166,8 @@ msgid ""
 "Detailed information may be found on <a href=\"http://arcanis.name/projects/"
 "awesome-widgets/\">project homepage</a>"
 msgstr ""
+"Детальна інформація може бути знайдена на <a href=\"http://arcanis.name/"
+"projects/awesome-widgets/\">домашній сторінці</a> проекту"
 
 #: desktop-panel/package/contents/ui/widget.qml:194
 msgid "Add"
@@ -180,59 +175,59 @@ msgstr "Додати"
 
 #: desktop-panel/package/contents/ui/widget.qml:207
 msgid "Show value"
-msgstr ""
+msgstr "Показати значення"
 
 #: desktop-panel/package/contents/ui/widget.qml:212
 msgid "Tag: %1"
-msgstr ""
+msgstr "Тег: %1"
 
 #: desktop-panel/package/contents/ui/widget.qml:214
 msgid "Value: %1"
-msgstr ""
+msgstr "Значення: %1"
 
 #: desktop-panel/plugin/dpadds.cpp:314
 msgid "A set of minimalistic plasmoid widgets"
-msgstr ""
+msgstr "Колекція мінімалістичних плазмоідів"
 
 #: desktop-panel/plugin/dpadds.cpp:316
 msgid "Links:"
-msgstr ""
+msgstr "Посилання:"
 
 #: desktop-panel/plugin/dpadds.cpp:317
 msgid "Homepage"
-msgstr ""
+msgstr "Домашня сторінка"
 
 #: desktop-panel/plugin/dpadds.cpp:318
 msgid "Repository"
-msgstr ""
+msgstr "Репозіторій"
 
 #: desktop-panel/plugin/dpadds.cpp:319
 msgid "Bugtracker"
-msgstr ""
+msgstr "Багтрекер"
 
 #: desktop-panel/plugin/dpadds.cpp:320
 msgid "Translation issue"
-msgstr ""
+msgstr "Тікет перекладу"
 
 #: desktop-panel/plugin/dpadds.cpp:321
 msgid "AUR packages"
-msgstr ""
+msgstr "Пакети в AUR"
 
 #: desktop-panel/plugin/dpadds.cpp:322
 msgid "openSUSE packages"
-msgstr ""
+msgstr "Пакети для openSUSE"
 
 #: desktop-panel/plugin/dpadds.cpp:325
 msgid "This software is licensed under %1"
-msgstr ""
+msgstr "Цю програму ліцензовано під %1"
 
 #: desktop-panel/plugin/dpadds.cpp:327
 msgid "Translators: %1"
-msgstr ""
+msgstr "Перекладачі: %1"
 
 #: desktop-panel/plugin/dpadds.cpp:335
 msgid "This software uses: %1"
-msgstr ""
+msgstr "Ця програма використовує: %1"
 
 #: desktop-panel/plugin/dpadds.cpp:350
 msgid "Select font"
@@ -255,7 +250,6 @@ msgid "Right Edge"
 msgstr "Правий край"
 
 #: desktop-panel/plugin/dpadds.cpp:483
-#, fuzzy
 msgid "Unknown location (%1)"
 msgstr "Невідоме положення (%1)"
 
