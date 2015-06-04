@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
 "POT-Creation-Date: 2015-05-22 00:05+0300\n"
-"PO-Revision-Date: 2014-12-15 19:56-0500\n"
-"Last-Translator: Ernesto Avilés Vázquez\n"
+"PO-Revision-Date: 2015-06-03 21:06-0500\n"
+"Last-Translator: Ernesto Avilés Vázquez <whippiii@gmail.com>\n"
 "Language-Team: Spanish <kde-i18n-doc@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Poedit 1.7.6\n"
 
 #: desktop-panel/package/contents/config/config.qml:25
 msgid "Widget"
@@ -24,7 +24,7 @@ msgstr "Widget"
 
 #: desktop-panel/package/contents/config/config.qml:31
 msgid "Advanced"
-msgstr ""
+msgstr "Avanzado"
 
 #: desktop-panel/package/contents/config/config.qml:37
 msgid "Active desktop"
@@ -37,11 +37,11 @@ msgstr "Escritorio inactivo"
 #: desktop-panel/package/contents/config/config.qml:49
 #: desktop-panel/package/contents/ui/about.qml:42
 msgid "About"
-msgstr ""
+msgstr "Acerca de"
 
 #: desktop-panel/package/contents/ui/about.qml:75
 msgid "Acknowledgment"
-msgstr ""
+msgstr "Reconocimiento"
 
 #: desktop-panel/package/contents/ui/activeapp.qml:60
 #: desktop-panel/package/contents/ui/inactiveapp.qml:60
@@ -62,29 +62,29 @@ msgstr "Grosor de letra"
 #: desktop-panel/package/contents/ui/activeapp.qml:106
 #: desktop-panel/package/contents/ui/inactiveapp.qml:106
 msgid "light"
-msgstr ""
+msgstr "fina"
 
 #: desktop-panel/package/contents/ui/activeapp.qml:110
 #: desktop-panel/package/contents/ui/activeapp.qml:153
 #: desktop-panel/package/contents/ui/inactiveapp.qml:110
 #: desktop-panel/package/contents/ui/inactiveapp.qml:153
 msgid "normal"
-msgstr ""
+msgstr "normal"
 
 #: desktop-panel/package/contents/ui/activeapp.qml:114
 #: desktop-panel/package/contents/ui/inactiveapp.qml:114
 msgid "demi bold"
-msgstr ""
+msgstr "medio negrita"
 
 #: desktop-panel/package/contents/ui/activeapp.qml:118
 #: desktop-panel/package/contents/ui/inactiveapp.qml:118
 msgid "bold"
-msgstr ""
+msgstr "negrita"
 
 #: desktop-panel/package/contents/ui/activeapp.qml:122
 #: desktop-panel/package/contents/ui/inactiveapp.qml:122
 msgid "black"
-msgstr ""
+msgstr "negro"
 
 #: desktop-panel/package/contents/ui/activeapp.qml:145
 #: desktop-panel/package/contents/ui/inactiveapp.qml:145
@@ -94,7 +94,7 @@ msgstr "Estilo de letra"
 #: desktop-panel/package/contents/ui/activeapp.qml:157
 #: desktop-panel/package/contents/ui/inactiveapp.qml:157
 msgid "italic"
-msgstr ""
+msgstr "cursiva"
 
 #: desktop-panel/package/contents/ui/activeapp.qml:180
 #: desktop-panel/package/contents/ui/advanced.qml:163
@@ -105,52 +105,45 @@ msgstr "Color de letra"
 #: desktop-panel/package/contents/ui/activeapp.qml:198
 #: desktop-panel/package/contents/ui/advanced.qml:247
 #: desktop-panel/package/contents/ui/inactiveapp.qml:198
-#, fuzzy
 msgid "Select a color"
-msgstr "Elegir tipo de letra"
+msgstr "Elige un color"
 
 #: desktop-panel/package/contents/ui/activeapp.qml:205
 #: desktop-panel/package/contents/ui/inactiveapp.qml:205
-#, fuzzy
 msgid "Select a font"
-msgstr "Elegir tipo de letra"
+msgstr "Elige un tipo de letra"
 
 #: desktop-panel/package/contents/ui/advanced.qml:56
 msgid "Widget height, px"
-msgstr ""
+msgstr "Alto del widget, px"
 
 #: desktop-panel/package/contents/ui/advanced.qml:76
 msgid "Widget width, px"
-msgstr ""
+msgstr "Ancho del widget, px"
 
 #: desktop-panel/package/contents/ui/advanced.qml:96
-#, fuzzy
 msgid "Tooltip type"
-msgstr "Ancho de la ventana emergente"
+msgstr "Tipo de ventana emergente"
 
 #: desktop-panel/package/contents/ui/advanced.qml:104
-#, fuzzy
 msgid "contours"
-msgstr "Contornos"
+msgstr "contornos"
 
 #: desktop-panel/package/contents/ui/advanced.qml:108
-#, fuzzy
 msgid "windows"
-msgstr "Ventanas"
+msgstr "ventanas"
 
 #: desktop-panel/package/contents/ui/advanced.qml:112
-#, fuzzy
 msgid "clean desktop"
-msgstr "Limpiar escritorio"
+msgstr "limpiar escritorio"
 
 #: desktop-panel/package/contents/ui/advanced.qml:116
-#, fuzzy
 msgid "names"
-msgstr "Tu nombre"
+msgstr "nombres"
 
 #: desktop-panel/package/contents/ui/advanced.qml:120
 msgid "none"
-msgstr ""
+msgstr "ninguno"
 
 #: desktop-panel/package/contents/ui/advanced.qml:143
 msgid "Tooltip width"
@@ -173,6 +166,8 @@ msgid ""
 "Detailed information may be found on <a href=\"http://arcanis.name/projects/"
 "awesome-widgets/\">project homepage</a>"
 msgstr ""
+"Puedes encontrar información detallada en el <a href=\"http://arcanis.name/"
+"projects/awesome-widgets/\">sitio del proyecto</a>"
 
 #: desktop-panel/package/contents/ui/widget.qml:194
 msgid "Add"
@@ -180,59 +175,59 @@ msgstr "Añadir"
 
 #: desktop-panel/package/contents/ui/widget.qml:207
 msgid "Show value"
-msgstr ""
+msgstr "Mostrar valor"
 
 #: desktop-panel/package/contents/ui/widget.qml:212
 msgid "Tag: %1"
-msgstr ""
+msgstr "Etiqueta: %1"
 
 #: desktop-panel/package/contents/ui/widget.qml:214
 msgid "Value: %1"
-msgstr ""
+msgstr "Valor: %1"
 
 #: desktop-panel/plugin/dpadds.cpp:314
 msgid "A set of minimalistic plasmoid widgets"
-msgstr ""
+msgstr "Un conjunto de plasmoides minimalistas"
 
 #: desktop-panel/plugin/dpadds.cpp:316
 msgid "Links:"
-msgstr ""
+msgstr "Enlaces:"
 
 #: desktop-panel/plugin/dpadds.cpp:317
 msgid "Homepage"
-msgstr ""
+msgstr "Página principal"
 
 #: desktop-panel/plugin/dpadds.cpp:318
 msgid "Repository"
-msgstr ""
+msgstr "Repositorio"
 
 #: desktop-panel/plugin/dpadds.cpp:319
 msgid "Bugtracker"
-msgstr ""
+msgstr "Reporte de errores"
 
 #: desktop-panel/plugin/dpadds.cpp:320
 msgid "Translation issue"
-msgstr ""
+msgstr "Problemas de traducción"
 
 #: desktop-panel/plugin/dpadds.cpp:321
 msgid "AUR packages"
-msgstr ""
+msgstr "Paquetes AUR"
 
 #: desktop-panel/plugin/dpadds.cpp:322
 msgid "openSUSE packages"
-msgstr ""
+msgstr "Paquetes de openSUSE"
 
 #: desktop-panel/plugin/dpadds.cpp:325
 msgid "This software is licensed under %1"
-msgstr ""
+msgstr "Este software está licenciado bajo %1"
 
 #: desktop-panel/plugin/dpadds.cpp:327
 msgid "Translators: %1"
-msgstr ""
+msgstr "Traductores: %1"
 
 #: desktop-panel/plugin/dpadds.cpp:335
 msgid "This software uses: %1"
-msgstr ""
+msgstr "Este software usa: %1"
 
 #: desktop-panel/plugin/dpadds.cpp:350
 msgid "Select font"
@@ -255,9 +250,8 @@ msgid "Right Edge"
 msgstr "Borde derecho"
 
 #: desktop-panel/plugin/dpadds.cpp:483
-#, fuzzy
 msgid "Unknown location (%1)"
-msgstr "Posición desconocida (%1)"
+msgstr "Ubicación desconocida (%1)"
 
 #: translations/desktop-panel/rc.cpp:1 rc.cpp:1
 msgctxt "NAME OF TRANSLATORS"
@@ -267,7 +261,7 @@ msgstr "Tu nombre"
 #: translations/desktop-panel/rc.cpp:2 rc.cpp:2
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "Tu email"
+msgstr "Tu correo electrónico"
 
 #~ msgid "Unknown Position (%1)"
 #~ msgstr "Posición desconocida (%1)"
