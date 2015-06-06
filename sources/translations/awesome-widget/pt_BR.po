@@ -45,24 +45,29 @@ msgid "About"
 msgstr "Sobre"
 
 #: awesome-widget/package/contents/ui/about.qml:83
+#, fuzzy
 msgid "Acknowledgment"
-msgstr ""
+msgstr "Confirmação"
 
 #: awesome-widget/package/contents/ui/advanced.qml:56
+#, fuzzy
 msgid "Widget height, px"
-msgstr ""
+msgstr "Altura do widget, px"
 
 #: awesome-widget/package/contents/ui/advanced.qml:76
+#, fuzzy
 msgid "Widget width, px"
-msgstr ""
+msgstr "Largura do widget, px"
 
 #: awesome-widget/package/contents/ui/advanced.qml:98
+#, fuzzy
 msgid "Enable notifications"
-msgstr ""
+msgstr "Ativar notificações"
 
 #: awesome-widget/package/contents/ui/advanced.qml:112
+#, fuzzy
 msgid "Wrap new lines"
-msgstr ""
+msgstr "Cobrir novas linhas"
 
 #: awesome-widget/package/contents/ui/advanced.qml:126
 msgid "Enable background"
@@ -81,32 +86,39 @@ msgid "Temperature units"
 msgstr "Unidades de temperatura"
 
 #: awesome-widget/package/contents/ui/advanced.qml:180
+#, fuzzy
 msgid "Celsius"
-msgstr ""
+msgstr "Celsius"
 
 #: awesome-widget/package/contents/ui/advanced.qml:184
+#, fuzzy
 msgid "Fahrenheit"
-msgstr ""
+msgstr "Fahrenheit"
 
 #: awesome-widget/package/contents/ui/advanced.qml:188
+#, fuzzy
 msgid "Kelvin"
-msgstr ""
+msgstr "Kelvin"
 
 #: awesome-widget/package/contents/ui/advanced.qml:192
+#, fuzzy
 msgid "Reaumur"
-msgstr ""
+msgstr "Reaumur"
 
 #: awesome-widget/package/contents/ui/advanced.qml:196
+#, fuzzy
 msgid "cm^-1"
-msgstr ""
+msgstr "cm^-1"
 
 #: awesome-widget/package/contents/ui/advanced.qml:200
+#, fuzzy
 msgid "kJ/mol"
-msgstr ""
+msgstr "KJ/mol"
 
 #: awesome-widget/package/contents/ui/advanced.qml:204
+#, fuzzy
 msgid "kcal/mol"
-msgstr ""
+msgstr "kcal/mol"
 
 #: awesome-widget/package/contents/ui/advanced.qml:227
 msgid "AC online tag"
@@ -136,32 +148,37 @@ msgstr "Grossura da fonte"
 #: awesome-widget/package/contents/ui/appearance.qml:127
 #, fuzzy
 msgid "light"
-msgstr "Altura"
+msgstr "leve"
 
 #: awesome-widget/package/contents/ui/appearance.qml:131
 #: awesome-widget/package/contents/ui/appearance.qml:174
+#, fuzzy
 msgid "normal"
-msgstr ""
+msgstr "normal"
 
 #: awesome-widget/package/contents/ui/appearance.qml:135
+#, fuzzy
 msgid "demi bold"
-msgstr ""
+msgstr "demi negrito"
 
 #: awesome-widget/package/contents/ui/appearance.qml:139
+#, fuzzy
 msgid "bold"
-msgstr ""
+msgstr "negrito"
 
 #: awesome-widget/package/contents/ui/appearance.qml:143
+#, fuzzy
 msgid "black"
-msgstr ""
+msgstr "preto"
 
 #: awesome-widget/package/contents/ui/appearance.qml:166
 msgid "Font style"
 msgstr "Estilo da fonte"
 
 #: awesome-widget/package/contents/ui/appearance.qml:178
+#, fuzzy
 msgid "italic"
-msgstr ""
+msgstr "itálico"
 
 #: awesome-widget/package/contents/ui/appearance.qml:201
 msgid "Font color"
@@ -179,12 +196,12 @@ msgstr "Cor da fonte"
 #: awesome-widget/package/contents/ui/tooltip.qml:503
 #, fuzzy
 msgid "Select a color"
-msgstr "Selecionar cor"
+msgstr "Selecionar uma cor"
 
 #: awesome-widget/package/contents/ui/appearance.qml:226
 #, fuzzy
 msgid "Select a font"
-msgstr "Selecionar fonte"
+msgstr "Selecionar uma fonte"
 
 #: awesome-widget/package/contents/ui/dataengine.qml:69
 msgid "ACPI path"
@@ -197,7 +214,7 @@ msgstr "Scripts customizados"
 #: awesome-widget/package/contents/ui/dataengine.qml:89
 #, fuzzy
 msgid "Edit scripts"
-msgstr "Scripts customizados"
+msgstr "Editar scripts"
 
 #: awesome-widget/package/contents/ui/dataengine.qml:102
 msgid "GPU device"
@@ -208,8 +225,9 @@ msgid "HDD"
 msgstr "HDD"
 
 #: awesome-widget/package/contents/ui/dataengine.qml:150
+#, fuzzy
 msgid "hddtemp cmd"
-msgstr "comando hddtemp "
+msgstr "comando hddtemp"
 
 #: awesome-widget/package/contents/ui/dataengine.qml:166
 msgid "MPD address"
@@ -228,13 +246,14 @@ msgid "Music player"
 msgstr "Reprodutor de áudio"
 
 #: awesome-widget/package/contents/ui/dataengine.qml:245
+#, fuzzy
 msgid "Quotes monitor"
-msgstr ""
+msgstr "Monitor de citações"
 
 #: awesome-widget/package/contents/ui/dataengine.qml:249
 #, fuzzy
 msgid "Edit tickers"
-msgstr "Editar"
+msgstr "Editar relógios"
 
 #: awesome-widget/package/contents/ui/dataengine.qml:262
 msgid "Package manager"
@@ -243,11 +262,12 @@ msgstr "Gerenciador de pacotes"
 #: awesome-widget/package/contents/ui/dataengine.qml:266
 #, fuzzy
 msgid "Edit command"
-msgstr "Comando personalizado"
+msgstr "Editar comandos"
 
 #: awesome-widget/package/contents/ui/main.qml:161
+#, fuzzy
 msgid "Request key"
-msgstr ""
+msgstr "Solicitar chave"
 
 #: awesome-widget/package/contents/ui/main.qml:162
 msgid "Show README"
@@ -308,51 +328,53 @@ msgstr "Cor da bateria inativa"
 
 #: awesome-widget/package/contents/ui/widget.qml:72
 msgid ""
-"Detailed information may be found on <a href=\"http://arcanis.name/projects/"
-"awesome-widgets/\">project homepage</a>"
+"Detailed information may be found on <a "
+"href=\"http://arcanis.name/projects/awesome-widgets/\">project homepage</a>"
 msgstr ""
-"Informações detalhadas podem ser encontradas na <a href=\"http://arcanis."
-"name/projects/awesome-widgets/\">página do projeto</a>"
+"Informações detalhadas podem ser encontradas na <a "
+"href=\"http://arcanis.name/projects/awesome-widgets/\">página do projeto</a>"
 
 #: awesome-widget/package/contents/ui/widget.qml:231
 msgid "Add"
 msgstr "Adicionar"
 
 #: awesome-widget/package/contents/ui/widget.qml:244
+#, fuzzy
 msgid "Show value"
-msgstr ""
+msgstr "Mostrar valor"
 
 #: awesome-widget/package/contents/ui/widget.qml:249
 #: awesome-widget/plugin/awkeys.cpp:685 awesome-widget/plugin/awkeys.cpp:752
 #: awesome-widget/plugin/awkeys.cpp:1052
+#, qt-format
 msgid "Tag: %1"
 msgstr "Tag: %1"
 
 #: awesome-widget/package/contents/ui/widget.qml:251
 #: awesome-widget/plugin/awkeys.cpp:687
-#, fuzzy
+#, fuzzy, qt-format
 msgid "Value: %1"
-msgstr "Valor"
+msgstr "Valor: %1"
 
 #: awesome-widget/package/contents/ui/widget.qml:253
+#, fuzzy, qt-format
 msgid "Info: %1"
-msgstr ""
+msgstr "Info: %1"
 
 #: awesome-widget/package/contents/ui/widget.qml:264
 #, fuzzy
 msgid "Edit bars"
-msgstr "Editar"
+msgstr "Editar barras"
 
 #: awesome-widget/plugin/awactions.cpp:76
+#, fuzzy, qt-format
 msgid "Run %1"
-msgstr ""
+msgstr "Rodar %1"
 
 #: awesome-widget/plugin/awactions.cpp:105
-#, fuzzy
+#, fuzzy, qt-format
 msgid "Version %1 (build date %2)"
-msgstr ""
-"Versão: %1\n"
-"(data de compilação %2)"
+msgstr "Versão: %1 (data de compilação %2)"
 
 #: awesome-widget/plugin/awactions.cpp:107
 msgid "A set of minimalistic plasmoid widgets"
@@ -385,17 +407,20 @@ msgstr "Pacotes AUR"
 #: awesome-widget/plugin/awactions.cpp:115
 #, fuzzy
 msgid "openSUSE packages"
-msgstr "Pacotes AUR"
+msgstr "Pacotes openSUSE"
 
 #: awesome-widget/plugin/awactions.cpp:118
+#, qt-format
 msgid "This software is licensed under %1"
 msgstr "Este software é licenciado sob %1"
 
 #: awesome-widget/plugin/awactions.cpp:120
+#, qt-format
 msgid "Translators: %1"
 msgstr "Tradutores: %1"
 
 #: awesome-widget/plugin/awactions.cpp:128
+#, qt-format
 msgid "This software uses: %1"
 msgstr "Este software usa: %1"
 
@@ -404,10 +429,12 @@ msgid "Select font"
 msgstr "Selecionar fonte"
 
 #: awesome-widget/plugin/awactions.cpp:214
+#, qt-format
 msgid "Current version : %1"
 msgstr "Versão atual: %1"
 
 #: awesome-widget/plugin/awactions.cpp:215
+#, qt-format
 msgid "New version : %1"
 msgstr "Nova versão: %1"
 
@@ -424,8 +451,9 @@ msgid "Copy"
 msgstr "Copiar"
 
 #: awesome-widget/plugin/awkeys.cpp:60
+#, fuzzy
 msgid "Create"
-msgstr ""
+msgstr "Criar"
 
 #: awesome-widget/plugin/awkeys.cpp:61
 msgid "Remove"
@@ -434,66 +462,76 @@ msgstr "Remover"
 #: awesome-widget/plugin/awkeys.cpp:395
 #, fuzzy
 msgid "AC online"
-msgstr "Rótulo com carregador conectado"
+msgstr "Carregador conectado"
 
 #: awesome-widget/plugin/awkeys.cpp:397
 #, fuzzy
 msgid "AC offline"
-msgstr "Rótulo com carregador desconectado"
+msgstr "Carregador desconectado"
 
 #: awesome-widget/plugin/awkeys.cpp:415
+#, fuzzy
 msgid "High CPU load"
-msgstr ""
+msgstr "Alta carga da CPU"
 
 #: awesome-widget/plugin/awkeys.cpp:464
+#, fuzzy
 msgid "High GPU load"
-msgstr ""
+msgstr "Alta carga da GPU"
 
 #: awesome-widget/plugin/awkeys.cpp:478
+#, fuzzy, qt-format
 msgid "Free space on %1 less than 10%"
-msgstr ""
+msgstr "O espaço livre em %1 é menor que 10%"
 
 #: awesome-widget/plugin/awkeys.cpp:543
+#, fuzzy
 msgid "High memory usage"
-msgstr ""
+msgstr "Alto uso de memória"
 
 #: awesome-widget/plugin/awkeys.cpp:551
+#, fuzzy, qt-format
 msgid "Network device has been changed to %1"
-msgstr ""
+msgstr "O dispositivo de rede mudou para %1"
 
 #: awesome-widget/plugin/awkeys.cpp:621
+#, fuzzy
 msgid "Swap is used"
-msgstr ""
+msgstr "Swap está sendo usado"
 
 #: awesome-widget/plugin/awkeys.cpp:681
 #, fuzzy
 msgid "Select tag"
-msgstr "Selecionar fonte"
+msgstr "Selecionar tag"
 
 #: awesome-widget/plugin/awkeys.cpp:681
 #, fuzzy
 msgid "Tag"
-msgstr "Tag: %1"
+msgstr "Tag"
 
 #: awesome-widget/plugin/awkeys.cpp:753 awesome-widget/plugin/awkeys.cpp:763
 #: awesome-widget/plugin/awkeys.cpp:774 awesome-widget/plugin/awkeys.cpp:785
 #: awesome-widget/plugin/awkeys.cpp:1053 awesome-widget/plugin/awkeys.cpp:1108
 #: awesome-widget/plugin/awkeys.cpp:1168 awesome-widget/plugin/awkeys.cpp:1225
+#, qt-format
 msgid "Comment: %1"
 msgstr "Comentário: %1"
 
 #: awesome-widget/plugin/awkeys.cpp:762 awesome-widget/plugin/awkeys.cpp:773
 #: awesome-widget/plugin/awkeys.cpp:784 awesome-widget/plugin/awkeys.cpp:1107
 #: awesome-widget/plugin/awkeys.cpp:1167 awesome-widget/plugin/awkeys.cpp:1224
+#, qt-format
 msgid "Name: %1"
 msgstr "Nome: %1"
 
 #: awesome-widget/plugin/awkeys.cpp:764 awesome-widget/plugin/awkeys.cpp:1109
+#, fuzzy, qt-format
 msgid "Ticker: %1"
-msgstr ""
+msgstr "Relógio: %1"
 
 #: awesome-widget/plugin/awkeys.cpp:775 awesome-widget/plugin/awkeys.cpp:786
 #: awesome-widget/plugin/awkeys.cpp:1169 awesome-widget/plugin/awkeys.cpp:1226
+#, qt-format
 msgid "Exec: %1"
 msgstr "Exec: %1"
 
