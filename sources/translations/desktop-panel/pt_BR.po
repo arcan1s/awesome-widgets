@@ -24,8 +24,9 @@ msgid "Widget"
 msgstr "Widget"
 
 #: desktop-panel/package/contents/config/config.qml:31
+#, fuzzy
 msgid "Advanced"
-msgstr ""
+msgstr "Avançado"
 
 #: desktop-panel/package/contents/config/config.qml:37
 msgid "Active desktop"
@@ -37,12 +38,14 @@ msgstr "Desktop inativo"
 
 #: desktop-panel/package/contents/config/config.qml:49
 #: desktop-panel/package/contents/ui/about.qml:42
+#, fuzzy
 msgid "About"
-msgstr ""
+msgstr "Sobre"
 
 #: desktop-panel/package/contents/ui/about.qml:75
+#, fuzzy
 msgid "Acknowledgment"
-msgstr ""
+msgstr "Confirmação"
 
 #: desktop-panel/package/contents/ui/activeapp.qml:60
 #: desktop-panel/package/contents/ui/inactiveapp.qml:60
@@ -62,30 +65,35 @@ msgstr "Grossura da fonte"
 
 #: desktop-panel/package/contents/ui/activeapp.qml:106
 #: desktop-panel/package/contents/ui/inactiveapp.qml:106
+#, fuzzy
 msgid "light"
-msgstr ""
+msgstr "leve"
 
 #: desktop-panel/package/contents/ui/activeapp.qml:110
 #: desktop-panel/package/contents/ui/activeapp.qml:153
 #: desktop-panel/package/contents/ui/inactiveapp.qml:110
 #: desktop-panel/package/contents/ui/inactiveapp.qml:153
+#, fuzzy
 msgid "normal"
-msgstr ""
+msgstr "normal"
 
 #: desktop-panel/package/contents/ui/activeapp.qml:114
 #: desktop-panel/package/contents/ui/inactiveapp.qml:114
+#, fuzzy
 msgid "demi bold"
-msgstr ""
+msgstr "demi negrito"
 
 #: desktop-panel/package/contents/ui/activeapp.qml:118
 #: desktop-panel/package/contents/ui/inactiveapp.qml:118
+#, fuzzy
 msgid "bold"
-msgstr ""
+msgstr "negrito"
 
 #: desktop-panel/package/contents/ui/activeapp.qml:122
 #: desktop-panel/package/contents/ui/inactiveapp.qml:122
+#, fuzzy
 msgid "black"
-msgstr ""
+msgstr "preto"
 
 #: desktop-panel/package/contents/ui/activeapp.qml:145
 #: desktop-panel/package/contents/ui/inactiveapp.qml:145
@@ -94,8 +102,9 @@ msgstr "Estilo da fonte"
 
 #: desktop-panel/package/contents/ui/activeapp.qml:157
 #: desktop-panel/package/contents/ui/inactiveapp.qml:157
+#, fuzzy
 msgid "italic"
-msgstr ""
+msgstr "itálico"
 
 #: desktop-panel/package/contents/ui/activeapp.qml:180
 #: desktop-panel/package/contents/ui/advanced.qml:163
@@ -108,26 +117,28 @@ msgstr "Cor da fonte"
 #: desktop-panel/package/contents/ui/inactiveapp.qml:198
 #, fuzzy
 msgid "Select a color"
-msgstr "Selecionar fonte"
+msgstr "Selecione uma cor"
 
 #: desktop-panel/package/contents/ui/activeapp.qml:205
 #: desktop-panel/package/contents/ui/inactiveapp.qml:205
 #, fuzzy
 msgid "Select a font"
-msgstr "Selecionar fonte"
+msgstr "Selecione uma fonte"
 
 #: desktop-panel/package/contents/ui/advanced.qml:56
+#, fuzzy
 msgid "Widget height, px"
-msgstr ""
+msgstr "Largura do widget, px"
 
 #: desktop-panel/package/contents/ui/advanced.qml:76
+#, fuzzy
 msgid "Widget width, px"
-msgstr ""
+msgstr "Altura do widget, px"
 
 #: desktop-panel/package/contents/ui/advanced.qml:96
 #, fuzzy
 msgid "Tooltip type"
-msgstr "Largura da dica de contexto"
+msgstr "Tipo de dica de contexto"
 
 #: desktop-panel/package/contents/ui/advanced.qml:104
 #, fuzzy
@@ -147,11 +158,12 @@ msgstr "Limpar desktop"
 #: desktop-panel/package/contents/ui/advanced.qml:116
 #, fuzzy
 msgid "names"
-msgstr "under"
+msgstr "nomes"
 
 #: desktop-panel/package/contents/ui/advanced.qml:120
+#, fuzzy
 msgid "none"
-msgstr ""
+msgstr "nenhum"
 
 #: desktop-panel/package/contents/ui/advanced.qml:143
 msgid "Tooltip width"
@@ -170,70 +182,87 @@ msgid "Mark"
 msgstr "Marca"
 
 #: desktop-panel/package/contents/ui/widget.qml:44
+#, fuzzy
 msgid ""
-"Detailed information may be found on <a href=\"http://arcanis.name/projects/"
-"awesome-widgets/\">project homepage</a>"
+"Detailed information may be found on <a "
+"href=\"http://arcanis.name/projects/awesome-widgets/\">project homepage</a>"
 msgstr ""
+"Informações detalhadas podem ser encontradas na <a "
+"href=\"http://arcanis.name/projects/awesome-widgets/\">página do projeto</a>"
 
 #: desktop-panel/package/contents/ui/widget.qml:194
 msgid "Add"
 msgstr "Adicionar"
 
 #: desktop-panel/package/contents/ui/widget.qml:207
+#, fuzzy
 msgid "Show value"
-msgstr ""
+msgstr "Mostrar valor"
 
 #: desktop-panel/package/contents/ui/widget.qml:212
+#, fuzzy, qt-format
 msgid "Tag: %1"
-msgstr ""
+msgstr "Tag: %1"
 
 #: desktop-panel/package/contents/ui/widget.qml:214
+#, fuzzy, qt-format
 msgid "Value: %1"
-msgstr ""
+msgstr "Valor: %1"
 
 #: desktop-panel/plugin/dpadds.cpp:314
+#, fuzzy
 msgid "A set of minimalistic plasmoid widgets"
-msgstr ""
+msgstr "Um conjunto de widgets plasmoid minimalistas"
 
 #: desktop-panel/plugin/dpadds.cpp:316
+#, fuzzy
 msgid "Links:"
-msgstr ""
+msgstr "Links: "
 
 #: desktop-panel/plugin/dpadds.cpp:317
+#, fuzzy
 msgid "Homepage"
-msgstr ""
+msgstr "Homepage"
 
 #: desktop-panel/plugin/dpadds.cpp:318
+#, fuzzy
 msgid "Repository"
-msgstr ""
+msgstr "Repositório"
 
 #: desktop-panel/plugin/dpadds.cpp:319
+#, fuzzy
 msgid "Bugtracker"
-msgstr ""
+msgstr "Tracker de bugs"
 
 #: desktop-panel/plugin/dpadds.cpp:320
+#, fuzzy
 msgid "Translation issue"
-msgstr ""
+msgstr "Problema de tradução"
 
 #: desktop-panel/plugin/dpadds.cpp:321
+#, fuzzy
 msgid "AUR packages"
-msgstr ""
+msgstr "Pacotes da AUR"
 
 #: desktop-panel/plugin/dpadds.cpp:322
+#, fuzzy
 msgid "openSUSE packages"
-msgstr ""
+msgstr "Pacotes openSUSE"
 
 #: desktop-panel/plugin/dpadds.cpp:325
+#, fuzzy, qt-format
 msgid "This software is licensed under %1"
-msgstr ""
+msgstr "Este software é licenciado sob %1"
 
 #: desktop-panel/plugin/dpadds.cpp:327
+#, fuzzy, qt-format
 msgid "Translators: %1"
-msgstr ""
+msgstr "Tradutores: %1"
 
 #: desktop-panel/plugin/dpadds.cpp:335
+#, fuzzy, qt-format
 msgid "This software uses: %1"
-msgstr ""
+msgstr "Este software usa: %1"
 
 #: desktop-panel/plugin/dpadds.cpp:350
 msgid "Select font"
@@ -256,9 +285,9 @@ msgid "Right Edge"
 msgstr "Canto direito"
 
 #: desktop-panel/plugin/dpadds.cpp:483
-#, fuzzy
+#, fuzzy, qt-format
 msgid "Unknown location (%1)"
-msgstr "Posição desconhecida (%1)"
+msgstr "Localização desconhecida (%1)"
 
 #: translations/desktop-panel/rc.cpp:1 rc.cpp:1
 msgctxt "NAME OF TRANSLATORS"
@@ -270,6 +299,7 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "under@insicuri.net"
 
+#, qt-format
 #~ msgid "Unknown Position (%1)"
 #~ msgstr "Posição desconhecida (%1)"
 
