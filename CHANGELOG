@@ -1,5 +1,7 @@
+- fix bug with no updates from configuration UI
 - fix invalid vertical tab parsing
 * translation update
+* merge fan tags to temp ones, improve lmsensors tags handling
 
 Ver.2.3.0:
 + implement fitlers support to ExtScripts (ApiVer = 3) (#53)
@@ -24,7 +26,7 @@ Ver.2.2.2:
 - fix bug with GPUDEV, HDDDEV settings saving from UI
 - fix Desktop Panel settings
 - fix bug with adding paragraph settings
-* drop support of KDE4 support, created a separate branch
+* drop support of KDE4 support, created a separated branch
 * increase intervals limits (#48)
 * hddtemp was replaced to smartctl by default
 * plugins were moved from private

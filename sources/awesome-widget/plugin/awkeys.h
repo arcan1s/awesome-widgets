@@ -119,7 +119,7 @@ private:
     QStringList foundBars, foundKeys, keys;
     QString pattern;
     QMap<QString, QString> values;
-    QStringList diskDevices, fanDevices, hddDevices, mountDevices, networkDevices, tempDevices;
+    QStringList diskDevices, hddDevices, mountDevices, networkDevices, tempDevices;
 };
 
 

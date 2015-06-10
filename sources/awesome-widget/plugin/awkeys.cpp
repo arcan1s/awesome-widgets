@@ -196,16 +196,13 @@ void AWKeys::addDevice(const QString source)
     if (debug) qDebug() << PDEBUG << ":" << "Source" << source;
 
     QRegExp diskRegexp = QRegExp(QString("disk/(?:md|sd|hd)[a-z|0-9]_.*/Rate/(?:rblk)"));
-    QRegExp fanRegexp = QRegExp(QString("lmsensors/.*/fan.*"));
     QRegExp mountRegexp = QRegExp(QString("partitions/.*/filllevel"));
-    QRegExp tempRegexp = QRegExp(QString("lmsensors/.*temp.*/.*"));
+    QRegExp tempRegexp = QRegExp(QString("lmsensors/.*"));
 
     if (diskRegexp.indexIn(source) > -1) {
         QString device = source;
         device.remove(QString("/Rate/rblk"));
         addKeyToCache(QString("Disk"), device);
-    } else if (fanRegexp.indexIn(source) > -1) {
-        addKeyToCache(QString("Fan"), source);
     } else if (mountRegexp.indexIn(source) > -1) {
         QString device = source;
         device.remove(QString("partitions")).remove(QString("/filllevel"));
@@ -241,8 +238,6 @@ QStringList AWKeys::dictKeys(const bool sorted)
     // temperature
     for (int i=tempDevices.count()-1; i>=0; i--)
         allKeys.append(QString("temp%1").arg(i));
-    for (int i=fanDevices.count()-1; i>=0; i--)
-        allKeys.append(QString("fan%1").arg(i));
     // gputemp
     allKeys.append(QString("gputemp"));
     // gpu
@@ -369,7 +364,6 @@ bool AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
     if (sourceName == QString("update")) return true;
 
     // checking
-    if (toolTip == nullptr) return false;
     if (!checkKeys(data)) return false;
     if (keys.isEmpty()) return false;
 
@@ -404,8 +398,8 @@ bool AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
                     values[QString("ac")] = params[QString("acOffline")].toString();
             } else {
                 values[data.keys()[i]] = QString("%1").arg(data[data.keys()[i]].toFloat(), 3, 'f', 0);
-                toolTip->setData(QString("batTooltip"), data[data.keys()[i]].toFloat(),
-                                 data[QString("ac")].toBool());
+                if (toolTip != nullptr) toolTip->setData(QString("batTooltip"), data[data.keys()[i]].toFloat(),
+                                                         data[QString("ac")].toBool());
             }
         }
     } else if (sourceName == QString("cpu/system/TotalLoad")) {
@@ -415,7 +409,7 @@ bool AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
             AWActions::sendNotification(QString("event"), i18n("High CPU load"), enablePopup);
         // value
         values[QString("cpu")] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
-        toolTip->setData(QString("cpuTooltip"), data[QString("value")].toFloat());
+        if (toolTip != nullptr) toolTip->setData(QString("cpuTooltip"), data[QString("value")].toFloat());
     } else if (sourceName.contains(cpuRegExp)) {
         // cpus
         QString number = sourceName;
@@ -424,7 +418,7 @@ bool AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
     } else if (sourceName == QString("cpu/system/AverageClock")) {
         // cpucl
         values[QString("cpucl")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
-        toolTip->setData(QString("cpuclTooltip"), data[QString("value")].toFloat());
+        if (toolTip != nullptr) toolTip->setData(QString("cpuclTooltip"), data[QString("value")].toFloat());
     } else if (sourceName.contains(cpuclRegExp)) {
         // cpucls
         QString number = sourceName;
@@ -543,7 +537,7 @@ bool AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
             AWActions::sendNotification(QString("event"), i18n("High memory usage"), enablePopup);
         // value
         values[QString("mem")] = QString("%1").arg(value, 5, 'f', 1);
-        toolTip->setData(QString("memTooltip"), values[QString("mem")].toFloat());
+        if (toolTip != nullptr) toolTip->setData(QString("memTooltip"), values[QString("mem")].toFloat());
     } else if (sourceName == QString("netdev")) {
         // network device
         // notification
@@ -565,7 +559,7 @@ bool AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         }
         if (device == values[QString("netdev")]) {
             values[QString("down")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
-            toolTip->setData(QString("downTooltip"), data[QString("value")].toFloat());
+            if (toolTip != nullptr) toolTip->setData(QString("downTooltip"), data[QString("value")].toFloat());
         }
     } else if (sourceName.contains(netTransRegExp)) {
         // upload speed
@@ -579,7 +573,7 @@ bool AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         }
         if (device == values[QString("netdev")]) {
             values[QString("up")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
-            toolTip->setData(QString("upTooltip"), data[QString("value")].toFloat());
+            if (toolTip != nullptr) toolTip->setData(QString("upTooltip"), data[QString("value")].toFloat());
         }
     } else if (sourceName == QString("pkg")) {
         // package manager
@@ -621,23 +615,17 @@ bool AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
             AWActions::sendNotification(QString("event"), i18n("Swap is used"), enablePopup);
         // value
         values[QString("swap")] = QString("%1").arg(value, 5, 'f', 1);
-        toolTip->setData(QString("swapTooltip"), values[QString("swap")].toFloat());
+        if (toolTip != nullptr) toolTip->setData(QString("swapTooltip"), values[QString("swap")].toFloat());
     } else if (sourceName.contains(tempRegExp)) {
         // temperature devices
-        if (data[QString("units")].toString() == QString("rpm")) {
-            for (int i=0; i<fanDevices.count(); i++)
-                if (sourceName == fanDevices[i]) {
-                    values[QString("fan%1").arg(i)] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 1);
-                    break;
-                }
-        } else {
-            for (int i=0; i<tempDevices.count(); i++)
-                if (sourceName == tempDevices[i]) {
-                    values[QString("temp%1").arg(i)] = QString("%1").arg(
-                        temperature(data[QString("value")].toFloat(), params[QString("tempUnits")].toString()), 4, 'f', 1);
-                    break;
-                }
-        }
+        for (int i=0; i<tempDevices.count(); i++)
+            if (sourceName == tempDevices[i]) {
+                float temp = data[QString("units")].toString() == QString("°C") ?
+                    temperature(data[QString("value")].toFloat(), params[QString("tempUnits")].toString())
+                    : data[QString("value")].toFloat();
+                values[QString("temp%1").arg(i)] = QString("%1").arg(temp, 4, 'f', 1);
+                break;
+            }
     } else if (sourceName == QString("Local")) {
         // time
         values[QString("time")] = data[QString("DateTime")].toDateTime().toString(Qt::TextDate);
@@ -703,8 +691,6 @@ QString AWKeys::infoByKey(QString key)
         }
     else if (key.contains(QRegExp(QString("^hdd[rw]"))))
         return QString("%1").arg(diskDevices[key.remove(QRegExp(QString("hdd[rw]"))).toInt()]);
-    else if (key.startsWith(QString("fan")))
-        return QString("%1").arg(fanDevices[key.remove(QString("fan")).toInt()]);
     else if (key.contains(QRegExp(QString("^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)"))))
         return QString("%1").arg(mountDevices[key.remove(QRegExp(QString("^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)"))).toInt()]);
     else if (key.startsWith(QString("hddtemp")))
@@ -810,13 +796,6 @@ void AWKeys::loadKeysFromCache()
     cachedKeys = cache.allKeys();
     for (int i=0; i<cachedKeys.count(); i++)
         diskDevices.append(cache.value(cachedKeys[i]).toString());
-    cache.endGroup();
-
-    cache.beginGroup(QString("Fan"));
-    fanDevices.clear();
-    cachedKeys = cache.allKeys();
-    for (int i=0; i<cachedKeys.count(); i++)
-        fanDevices.append(cache.value(cachedKeys[i]).toString());
     cache.endGroup();
 
     cache.beginGroup(QString("Hdd"));
