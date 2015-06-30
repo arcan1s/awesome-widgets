@@ -1,3 +1,7 @@
+Ver.2.3.2:
+* improve quotes support, e.g. fix plasma crash
+* rewrite main widget to signal-slot update model
+
 Ver.2.3.1:
 - fix bug with no updates from configuration UI
 - fix invalid vertical tab parsing

@@ -58,6 +58,7 @@ Item {
         "batInTooltipColor": plasmoid.configuration.batInTooltipColor
     }
 
+    signal dropSource(string sourceName)
     signal needUpdate
     signal sizeUpdate
 
@@ -85,7 +86,7 @@ Item {
             // FIXME: ugly workaround to make some sources working
             systemmonitorDE.interval = plasmoid.configuration.interval
 
-            if (AWKeys.setDataBySource(sourceName, data, settings)) disconnectSource(sourceName)
+            AWKeys.setDataBySource(sourceName, data, settings)
         }
 
         onSourceAdded: {
@@ -106,7 +107,7 @@ Item {
             // FIXME: ugly workaround to make some sources working
             extsysmonDE.interval = plasmoid.configuration.interval
 
-            if (AWKeys.setDataBySource(sourceName, data, settings)) needUpdate()
+            AWKeys.setDataBySource(sourceName, data, settings)
         }
     }
 
@@ -164,6 +165,16 @@ Item {
 //         plasmoid.setAction("report", i18n("Mail to developers"), "email")
         // init submodule
         Plasmoid.userConfiguringChanged(false)
+        // connect data
+        AWKeys.dropSourceFromDataengine.connect(dropSource)
+        AWKeys.needToBeUpdated.connect(needUpdate)
+    }
+
+    onDropSource: {
+        if (debug) console.log("[main::onDropSource]")
+        if (debug) console.log("[main::onDropSource] : Source " + sourceName)
+
+        systemmonitorDE.disconnectSource(sourceName)
     }
 
     onNeedUpdate: {

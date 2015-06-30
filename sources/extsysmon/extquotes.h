@@ -96,6 +96,8 @@ private:
     QString m_fileName;
     QStringList m_dirs;
     bool debug;
+    QNetworkAccessManager *manager;
+    bool isRunning = false;
     Ui::ExtQuotes *ui;
     QString url();
     // properties

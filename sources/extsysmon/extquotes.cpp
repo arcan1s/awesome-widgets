@@ -52,6 +52,9 @@ ExtQuotes::ExtQuotes(QWidget *parent, const QString quotesName, const QStringLis
     values[QString("price")] = 0.0;
     values[QString("pricechg")] = 0.0;
     values[QString("percpricechg")] = 0.0;
+
+    manager = new QNetworkAccessManager(this);
+    connect(manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(quotesReplyReceived(QNetworkReply *)));
 }
 
 
@@ -59,6 +62,9 @@ ExtQuotes::~ExtQuotes()
 {
     if (debug) qDebug() << PDEBUG;
 
+    disconnect(manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(quotesReplyReceived(QNetworkReply *)));
+
+    delete manager;
     delete ui;
 }
 
@@ -235,13 +241,11 @@ void ExtQuotes::readConfiguration()
 QMap<QString, float> ExtQuotes::run()
 {
     if (debug) qDebug() << PDEBUG;
-    if (!m_active) return values;
+    if ((!m_active) || (isRunning)) return values;
 
     if (times == 1) {
         if (debug) qDebug() << PDEBUG << ":" << "Send request";
-        QNetworkAccessManager *manager = new QNetworkAccessManager(this);
-        connect(manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(quotesReplyReceived(QNetworkReply *)));
-
+        isRunning = true;
         QNetworkReply *reply = manager->get(QNetworkRequest(QUrl(url())));
         new QReplyTimeout(reply, 1000);
     }
@@ -351,6 +355,8 @@ void ExtQuotes::quotesReplyReceived(QNetworkReply *reply)
     values[QString("pricechg")] = values[QString("price")] == 0 ? 0.0 : value - values[QString("price")];
     values[QString("percpricechg")] = 100 * values[QString("pricechg")] / values[QString("price")];
     values[QString("price")] = value;
+
+    isRunning = false;
 }
 
 

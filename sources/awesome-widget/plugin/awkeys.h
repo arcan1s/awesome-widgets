@@ -63,7 +63,7 @@ public:
     Q_INVOKABLE void addDevice(const QString source);
     Q_INVOKABLE QStringList dictKeys(const bool sorted = false);
     Q_INVOKABLE QStringList getHddDevices();
-    Q_INVOKABLE bool setDataBySource(const QString sourceName, const QVariantMap data,
+    Q_INVOKABLE void setDataBySource(const QString sourceName, const QVariantMap data,
                                      const QVariantMap params);
     // values
     Q_INVOKABLE void graphicalValueByKey();
@@ -71,6 +71,10 @@ public:
     Q_INVOKABLE QString valueByKey(QString key);
     // configuration
     Q_INVOKABLE void editItem(const QString type);
+
+signals:
+    void dropSourceFromDataengine(const QString source);
+    void needToBeUpdated();
 
 private slots:
     void loadKeysFromCache();

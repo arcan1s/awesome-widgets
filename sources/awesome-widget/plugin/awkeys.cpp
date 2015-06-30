@@ -355,17 +355,20 @@ QStringList AWKeys::getHddDevices()
 }
 
 
-bool AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
+void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
                              const QVariantMap params)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Source" << sourceName;
 
-    if (sourceName == QString("update")) return true;
+    if (sourceName == QString("update")) {
+        emit(needToBeUpdated());
+        return;
+    }
 
     // checking
-    if (!checkKeys(data)) return false;
-    if (keys.isEmpty()) return false;
+    if (!checkKeys(data)) return;
+    if (keys.isEmpty()) return;
 
     // regular expressions
     QRegExp cpuRegExp = QRegExp(QString("cpu/cpu.*/TotalLoad"));
@@ -653,11 +656,9 @@ bool AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         values[QString("cuptime")].replace(QString("$mm"), QString("%1").arg(minutes, 2, 10, QChar('0')));
         values[QString("cuptime")].replace(QString("$m"), QString("%1").arg(minutes));
     } else {
-        if (debug) qDebug() << PDEBUG << ":" << "Source not found";
-        return true;
+        if (debug) qDebug() << PDEBUG << ":" << "Source" << sourceName << "not found";
+        emit(dropSourceFromDataengine(sourceName));
     }
-
-    return false;
 }
 
 
