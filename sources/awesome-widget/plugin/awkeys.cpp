@@ -289,9 +289,10 @@ QStringList AWKeys::dictKeys(const bool sorted)
     // battery
     allKeys.append(QString("ac"));
     QStringList allBatteryDevices = QDir(QString("/sys/class/power_supply"))
-                                        .entryList(QDir::Dirs | QDir::NoDotAndDotDot,
+                                        .entryList(QStringList() << QString("BAT*"),
+                                                   QDir::Dirs | QDir::NoDotAndDotDot,
                                                    QDir::Name);
-    for (int i=allBatteryDevices.filter(QRegExp(QString("BAT.*"))).count()-1; i>=0; i--)
+    for (int i=allBatteryDevices.count()-1; i>=0; i--)
         allKeys.append(QString("bat%1").arg(i));
     allKeys.append(QString("bat"));
     // player

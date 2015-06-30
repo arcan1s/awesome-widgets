@@ -311,34 +311,36 @@ QVariantMap ExtendedSysMon::getBattery(const QString acpiPath)
     QVariantMap battery;
     battery[QString("ac")] = false;
     battery[QString("bat")] = 0;
-    QFile acFile(acpiPath + QString("/AC/online"));
+
+    // adaptor
+    QFile acFile(QString("%1/AC/online").arg(acpiPath));
     if (acFile.open(QIODevice::ReadOnly)) {
         if (QString(acFile.readLine()).trimmed().toInt() == 1)
             battery[QString("ac")] = true;
     }
     acFile.close();
+
     // batterites
-    QStringList allDevices = QDir(acpiPath).entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
-    QStringList batDevices;
-    QRegExp batRegexp = QRegExp(QString("BAT.*"));
-    for (int i=0; i<allDevices.count(); i++)
-        if (allDevices[i].contains(batRegexp))
-            batDevices.append(allDevices[i]);
+    float currentLevel = 0.0;
+    float fullLevel = 0.0;
+    QStringList batDevices = QDir(acpiPath).entryList(QStringList() << QString("BAT*"),
+                                                      QDir::Dirs | QDir::NoDotAndDotDot,
+                                                      QDir::Name);
     for (int i=0; i<batDevices.count(); i++) {
-        QFile batFile(QString("%1/%2/capacity").arg(acpiPath).arg(batDevices[i]));
-        if (batFile.open(QIODevice::ReadOnly))
-            battery[QString("bat%1").arg(i)] = QString(batFile.readLine()).trimmed().toInt();
-        batFile.close();
+        QFile currentLevelFile(QString("%1/%2/energy_now").arg(acpiPath).arg(batDevices[i]));
+        QFile fullLevelFile(QString("%1/%2/energy_full").arg(acpiPath).arg(batDevices[i]));
+        if ((currentLevelFile.open(QIODevice::ReadOnly)) &&
+            (fullLevelFile.open(QIODevice::ReadOnly))) {
+            float batCurrent = QString(currentLevelFile.readLine()).trimmed().toFloat();
+            float batFull = QString(fullLevelFile.readLine()).trimmed().toFloat();
+            battery[QString("bat%1").arg(i)] = 100 * batCurrent / batFull;
+            currentLevel += batCurrent;
+            fullLevel += batFull;
+        }
+        currentLevelFile.close();
+        fullLevelFile.close();
     }
-    float number = 0.0;
-    float average = 0.0;
-    for (int i=0; i<battery.keys().count(); i++) {
-        if (battery.keys()[i] == QString("ac")) continue;
-        if (battery.keys()[i] == QString("bat")) continue;
-        average += battery[battery.keys()[i]].toInt();
-        number++;
-    }
-    battery[QString("bat")] = int(average / number);
+    battery[QString("bat")] = 100 * currentLevel / fullLevel;
 
     return battery;
 }
@@ -663,11 +665,8 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
 
     if (source == QString("battery")) {
         QVariantMap battery = getBattery(configuration[QString("ACPIPATH")]);
-        setData(source, QString("ac"), battery[QString("ac")].toBool());
-        for (int i=0; i<battery.keys().count(); i++) {
-            if (battery.keys()[i] == QString("ac")) continue;
-            setData(source, battery.keys()[i], battery[battery.keys()[i]].toInt());
-        }
+        for (int i=0; i<battery.keys().count(); i++)
+            setData(source, battery.keys()[i], battery[battery.keys()[i]]);
     } else if (source == QString("custom")) {
         for (int i=0; i<externalScripts.count(); i++)
             setData(source, externalScripts[i]->tag(), externalScripts[i]->run());
