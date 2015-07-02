@@ -559,7 +559,7 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         for (int i=0; i<allNetworkDevices.count(); i++) {
             if (allNetworkDevices[i] != device) continue;
             float value = data[QString("value")].toFloat();
-            if (value > 1000)
+            if (value > 1000.0)
                 values[QString("down%1").arg(i)] = QString("%1").arg(value / 1024.0, 4, 'f', 1);
             else
                 values[QString("down%1").arg(i)] = QString("%1").arg(value, 4, 'f', 0);
@@ -577,7 +577,7 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         for (int i=0; i<allNetworkDevices.count(); i++) {
             if (allNetworkDevices[i] != device) continue;
             float value = data[QString("value")].toFloat();
-            if (value > 1000)
+            if (value > 1000.0)
                 values[QString("up%1").arg(i)] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 4, 'f', 1);
             else
                 values[QString("up%1").arg(i)] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
