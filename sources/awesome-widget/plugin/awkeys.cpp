@@ -556,10 +556,14 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         QString device = sourceName;
         device.remove(QString("network/interfaces/")).remove(QString("/receiver/data"));
         QStringList allNetworkDevices = networkDevices;
-        for (int i=0; i<allNetworkDevices.count(); i++)
-            if (allNetworkDevices[i] == device) {
-                values[QString("down%1").arg(i)] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
-                break;
+        for (int i=0; i<allNetworkDevices.count(); i++) {
+            if (allNetworkDevices[i] != device) continue;
+            float value = data[QString("value")].toFloat();
+            if (value > 1000)
+                values[QString("down%1").arg(i)] = QString("%1").arg(value / 1024.0, 4, 'f', 1);
+            else
+                values[QString("down%1").arg(i)] = QString("%1").arg(value, 4, 'f', 0);
+            break;
         }
         if (device == values[QString("netdev")]) {
             values[QString("down")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
@@ -570,10 +574,14 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         QString device = sourceName;
         device.remove(QString("network/interfaces/")).remove(QString("/transmitter/data"));
         QStringList allNetworkDevices = networkDevices;
-        for (int i=0; i<allNetworkDevices.count(); i++)
-            if (allNetworkDevices[i] == device) {
+        for (int i=0; i<allNetworkDevices.count(); i++) {
+            if (allNetworkDevices[i] != device) continue;
+            float value = data[QString("value")].toFloat();
+            if (value > 1000)
+                values[QString("up%1").arg(i)] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 4, 'f', 1);
+            else
                 values[QString("up%1").arg(i)] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
-                break;
+            break;
         }
         if (device == values[QString("netdev")]) {
             values[QString("up")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);

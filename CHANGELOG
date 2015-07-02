@@ -1,4 +1,6 @@
 Ver.2.3.2:
++ change network speed units from KB/s to MB/s if value is more than 1000 KB/s (metrics are the same)
+- fix bug with no actions on link activation (thanks to infans)
 * improve quotes support, e.g. fix plasma crash
 * rewrite main widget to signal-slot update model
 * improve battery calculation for system which has several batteries
