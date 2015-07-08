@@ -1,3 +1,6 @@
+Ver.2.3.3:
+* change text rendering from Qt to native
+
 Ver.2.3.2:
 + change network speed units from KB/s to MB/s if value is more than 1000 KB/s (metrics are the same)
 - fix bug with no actions on link activation (thanks to infans)

@@ -67,6 +67,7 @@ Item {
                 id: text
                 height: contentHeight
                 width: contentWidth
+                renderType: Text.NativeRendering
                 textFormat: Text.RichText
                 wrapMode: Text.NoWrap
 

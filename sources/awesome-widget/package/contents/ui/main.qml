@@ -129,6 +129,7 @@ Item {
     Text {
         id: text
         anchors.fill: parent
+        renderType: Text.NativeRendering
         textFormat: Text.RichText
         wrapMode: Text.NoWrap
 
