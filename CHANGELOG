@@ -1,3 +1,7 @@
+ver.2.3.4:
+- fix bug with invalid network data calculation
+* update pattern parsing to recent plasma changes
+
 Ver.2.3.3:
 * change text rendering from Qt to native
 

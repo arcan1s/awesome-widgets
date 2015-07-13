@@ -553,11 +553,11 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
     } else if (sourceName.contains(netRecRegExp)) {
         // download speed
         QString device = sourceName;
+        float value = data[QString("value")].toFloat();
         device.remove(QString("network/interfaces/")).remove(QString("/receiver/data"));
         QStringList allNetworkDevices = networkDevices;
         for (int i=0; i<allNetworkDevices.count(); i++) {
             if (allNetworkDevices[i] != device) continue;
-            float value = data[QString("value")].toFloat();
             if (value > 1000.0)
                 values[QString("down%1").arg(i)] = QString("%1").arg(value / 1024.0, 4, 'f', 1);
             else
@@ -565,17 +565,20 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
             break;
         }
         if (device == values[QString("netdev")]) {
-            values[QString("down")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
-            if (toolTip != nullptr) toolTip->setData(QString("downTooltip"), data[QString("value")].toFloat());
+            if (value > 1000.0)
+                values[QString("down")] = QString("%1").arg(value / 1024.0, 4, 'f', 1);
+            else
+                values[QString("down")] = QString("%1").arg(value, 4, 'f', 0);
+            if (toolTip != nullptr) toolTip->setData(QString("downTooltip"), value);
         }
     } else if (sourceName.contains(netTransRegExp)) {
         // upload speed
         QString device = sourceName;
+        float value = data[QString("value")].toFloat();
         device.remove(QString("network/interfaces/")).remove(QString("/transmitter/data"));
         QStringList allNetworkDevices = networkDevices;
         for (int i=0; i<allNetworkDevices.count(); i++) {
             if (allNetworkDevices[i] != device) continue;
-            float value = data[QString("value")].toFloat();
             if (value > 1000.0)
                 values[QString("up%1").arg(i)] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 4, 'f', 1);
             else
@@ -583,7 +586,10 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
             break;
         }
         if (device == values[QString("netdev")]) {
-            values[QString("up")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
+            if (value > 1000.0)
+                values[QString("up")] = QString("%1").arg(value / 1024.0, 4, 'f', 1);
+            else
+                values[QString("up")] = QString("%1").arg(value, 4, 'f', 0);
             if (toolTip != nullptr) toolTip->setData(QString("upTooltip"), data[QString("value")].toFloat());
         }
     } else if (sourceName == QString("pkg")) {
