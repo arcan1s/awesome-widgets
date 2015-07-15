@@ -1,3 +1,3 @@
-module org.kde.plasma.awesomewidget
+module org.kde.plasma.private.awesomewidget
 
 plugin awplugin
