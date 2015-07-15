@@ -181,7 +181,7 @@ Item {
     onNeedUpdate: {
         if (debug) console.log("[main::onNeedUpdate]")
 
-        text.text = AWKeys.parsePattern(plasmoid.configuration.text)
+        text.text = AWKeys.parsePattern()
         tooltip.text = AWKeys.toolTipImage()
 
         sizeUpdate()
@@ -211,7 +211,7 @@ Item {
         if (debug) console.log("[main::onUserConfiguringChanged]")
 
         // init submodule
-        AWKeys.initKeys()
+        AWKeys.initKeys(plasmoid.configuration.text)
         AWKeys.initTooltip(tooltipSettings)
         AWKeys.setPopupEnabled(plasmoid.configuration.notify)
         AWKeys.setWrapNewLines(plasmoid.configuration.wrapNewLines)
