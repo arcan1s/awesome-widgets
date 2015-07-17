@@ -96,6 +96,8 @@ void AWKeys::initKeys()
     extUpgrade.clear();
     graphicalItems.clear();
     keys.clear();
+    foundBars.clear();
+    foundKeys.clear();
 
     // init
     extQuotes = getExtQuotes();
@@ -148,14 +150,18 @@ QString AWKeys::parsePattern(const QString currentPattern)
     if (debug) qDebug() << PDEBUG;
     if (keys.isEmpty()) return currentPattern;
 
+    // get key data
+    if ((foundBars.isEmpty()) && (foundKeys.isEmpty())) {
+        foundBars = findGraphicalItems(currentPattern);
+        foundKeys = findKeys(currentPattern);
+    }
+
     QString parsed = currentPattern;
     parsed.replace(QString("$$"), QString("$\\$\\"));
-    for (int i=0; i<keys.count(); i++) {
-        if (keys[i].startsWith(QString("bar")))
-            parsed.replace(QString("$%1").arg(keys[i]), getItemByTag(keys[i])->image(valueByKey(keys[i]).toFloat()));
-        else
-            parsed.replace(QString("$%1").arg(keys[i]), htmlValue(keys[i]));
-    }
+    for (int i=0; i<foundKeys.count(); i++)
+        parsed.replace(QString("$%1").arg(foundKeys[i]), htmlValue(foundKeys[i]));
+    for (int i=0; i<foundBars.count(); i++)
+        parsed.replace(QString("$%1").arg(foundBars[i]), getItemByTag(foundBars[i])->image(valueByKey(foundBars[i]).toFloat()));
     parsed.replace(QString("$\\$\\"), QString("$$"));
     // wrap new lines if required
     if (wrapNewLines) parsed.replace(QString("\n"), QString("<br>"));
@@ -1319,6 +1325,41 @@ float AWKeys::temperature(const float temp, const QString units)
         converted = (temp + 273.15) * 1.98;
 
     return converted;
+}
+
+
+QStringList AWKeys::findGraphicalItems(const QString pattern)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QStringList orderedKeys;
+    for (int i=0; i<graphicalItems.count(); i++)
+        orderedKeys.append(graphicalItems[i]->name() + graphicalItems[i]->bar());
+    orderedKeys.sort();
+
+    QStringList selectedKeys;
+    for (int i=orderedKeys.count()-1; i>=0; i--)
+        if (pattern.contains(QString("$%1").arg(orderedKeys[i]))) {
+            if (debug) qDebug() << PDEBUG << ":" << "Found key" << orderedKeys[i];
+            selectedKeys.append(orderedKeys[i]);
+        }
+
+    return selectedKeys;
+}
+
+
+QStringList AWKeys::findKeys(const QString pattern)
+{
+    QStringList selectedKeys;
+    for (int i=0; i<keys.count(); i++) {
+        if (keys[i].startsWith(QString("bar"))) continue;
+        if (pattern.contains(QString("$%1").arg(keys[i]))) {
+            if (debug) qDebug() << PDEBUG << ":" << "Found key" << keys[i];
+            selectedKeys.append(keys[i]);
+        }
+    }
+
+    return selectedKeys;
 }
 
 
