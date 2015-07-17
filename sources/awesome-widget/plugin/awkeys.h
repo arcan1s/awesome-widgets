@@ -93,6 +93,10 @@ private:
     QString htmlValue(QString key);
     int numberCpus();
     float temperature(const float temp, const QString units);
+    // find methods
+    QStringList findGraphicalItems(const QString pattern);
+    QStringList findKeys(const QString pattern);
+     // get methods
     // get methods
     QList<ExtQuotes *> getExtQuotes();
     QList<ExtScript *> getExtScripts();
@@ -117,8 +121,9 @@ private:
     QList<ExtQuotes *> extQuotes;
     QList<ExtScript *> extScripts;
     QList<ExtUpgrade *> extUpgrade;
+    QStringList foundBars, foundKeys, keys;
     QMap<QString, QString> values;
-    QStringList keys, diskDevices, hddDevices, mountDevices, networkDevices, tempDevices;
+    QStringList diskDevices, hddDevices, mountDevices, networkDevices, tempDevices;
 };
 
 
