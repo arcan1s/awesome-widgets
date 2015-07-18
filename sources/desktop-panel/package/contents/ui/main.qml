@@ -28,8 +28,12 @@ import "."
 
 Item {
     id: main
+    // backend
+    DPAdds {
+        id: dpAdds;
+    }
 
-    property bool debug: DPAdds.isDebugEnabled()
+    property bool debug: dpAdds.isDebugEnabled()
     property variant tooltipSettings: {
         "tooltipColor": plasmoid.configuration.tooltipColor,
         "tooltipType": plasmoid.configuration.tooltipType,
@@ -54,14 +58,14 @@ Item {
     // ui
     GridLayout {
         anchors.fill: parent
-        columns: plasmoid.configuration.verticalLayout ? 1 : DPAdds.numberOfDesktops()
-        rows: plasmoid.configuration.verticalLayout ? DPAdds.numberOfDesktops() : 1
+        columns: plasmoid.configuration.verticalLayout ? 1 : dpAdds.numberOfDesktops()
+        rows: plasmoid.configuration.verticalLayout ? dpAdds.numberOfDesktops() : 1
 
         Repeater {
             id: repeater
             Layout.columnSpan: 0
             Layout.rowSpan: 0
-            model: DPAdds.numberOfDesktops()
+            model: dpAdds.numberOfDesktops()
 
             Text {
                 id: text
@@ -73,13 +77,13 @@ Item {
 
                 verticalAlignment: Text.AlignVCenter
 
-                text: DPAdds.parsePattern(plasmoid.configuration.text, index + 1)
+                text: dpAdds.parsePattern(plasmoid.configuration.text, index + 1)
                 property alias tooltip: tooltip
 
                 MouseArea {
                     hoverEnabled: true
                     anchors.fill: parent
-                    onClicked: DPAdds.setCurrentDesktop(index + 1);
+                    onClicked: dpAdds.setCurrentDesktop(index + 1);
                     onEntered: needTooltipUpdate()
                 }
 
@@ -112,8 +116,8 @@ Item {
                 timer.start()
                 return
             }
-            repeater.itemAt(i).text = DPAdds.parsePattern(plasmoid.configuration.text, i + 1)
-            if (DPAdds.currentDesktop() == i + 1) {
+            repeater.itemAt(i).text = dpAdds.parsePattern(plasmoid.configuration.text, i + 1)
+            if (dpAdds.currentDesktop() == i + 1) {
                 repeater.itemAt(i).color = plasmoid.configuration.currentFontColor
                 repeater.itemAt(i).font.family = plasmoid.configuration.currentFontFamily
                 repeater.itemAt(i).font.italic = plasmoid.configuration.currentFontStyle == "italic" ? true : false
@@ -137,7 +141,7 @@ Item {
         if (debug) console.log("[main::onNeedTooltipUpdate]")
 
         for (var i=0; i<repeater.count; i++) {
-            repeater.itemAt(i).tooltip.text = DPAdds.toolTipImage(i + 1)
+            repeater.itemAt(i).tooltip.text = dpAdds.toolTipImage(i + 1)
         }
     }
 
@@ -169,16 +173,16 @@ Item {
     Plasmoid.onActivated: {
         if (debug) console.log("[main::onActivated]")
 
-//         DPAdds.changePanelsState()
+//         dpAdds.changePanelsState()
     }
 
     Plasmoid.onUserConfiguringChanged: {
         if (plasmoid.userConfiguring) return
         if (debug) console.log("[main::onUserConfiguringChanged]")
 
-        DPAdds.setMark(plasmoid.configuration.mark)
-        DPAdds.setPanelsToControl(plasmoid.configuration.panels)
-        DPAdds.setToolTipData(tooltipSettings)
+        dpAdds.setMark(plasmoid.configuration.mark)
+        dpAdds.setPanelsToControl(plasmoid.configuration.panels)
+        dpAdds.setToolTipData(tooltipSettings)
 
         needUpdate()
     }
@@ -188,7 +192,7 @@ Item {
 
         // init submodule
         Plasmoid.userConfiguringChanged(false)
-        DPAdds.desktopChanged.connect(needUpdate)
-        DPAdds.windowListChanged.connect(needTooltipUpdate)
+        dpAdds.desktopChanged.connect(needUpdate)
+        dpAdds.windowListChanged.connect(needTooltipUpdate)
     }
 }

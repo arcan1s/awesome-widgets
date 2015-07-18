@@ -24,12 +24,20 @@ import org.kde.plasma.private.awesomewidget 1.0
 
 Item {
     id: widgetPage
+    // backend
+    AWKeys {
+        id: awKeys;
+    }
+    AWActions {
+        id: awActions;
+    }
+
     width: childrenRect.width
     height: childrenRect.height
     implicitWidth: pageColumn.implicitWidth
     implicitHeight: pageColumn.implicitHeight
 
-    property bool debug: AWKeys.isDebugEnabled()
+    property bool debug: awKeys.isDebugEnabled()
     property variant settings: {
         "customTime": plasmoid.configuration.customTime,
         "customUptime": plasmoid.configuration.customUptime,
@@ -89,7 +97,7 @@ Item {
                         "family": plasmoid.configuration.fontFamily,
                         "size": plasmoid.configuration.fontSize
                     }
-                    var font = AWActions.getFont(defaultFont)
+                    var font = awActions.getFont(defaultFont)
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
@@ -249,10 +257,10 @@ Item {
 
                     var message = i18n("Tag: %1", tags.currentText)
                     message += "<br>"
-                    message += i18n("Value: %1", AWKeys.valueByKey(tags.currentText))
+                    message += i18n("Value: %1", awKeys.valueByKey(tags.currentText))
                     message += "<br>"
-                    message += i18n("Info: %1", AWKeys.infoByKey(tags.currentText))
-                    AWActions.sendNotification("tag", message)
+                    message += i18n("Info: %1", awKeys.infoByKey(tags.currentText))
+                    awActions.sendNotification("tag", message)
                 }
             }
         }
@@ -263,7 +271,7 @@ Item {
             QtControls.Button {
                 width: parent.width
                 text: i18n("Edit bars")
-                onClicked: AWKeys.editItem("graphicalitem")
+                onClicked: awKeys.editItem("graphicalitem")
             }
         }
 
@@ -287,7 +295,7 @@ Item {
         onNewData: {
             if (debug) console.log("[widget::onNewData] : Update source " + sourceName)
 
-            AWKeys.setDataBySource(sourceName, data, settings)
+            awKeys.setDataBySource(sourceName, data, settings)
         }
     }
 
@@ -300,7 +308,7 @@ Item {
         onNewData: {
             if (debug) console.log("[widget::onNewData] : Update source " + sourceName)
 
-            AWKeys.setDataBySource(sourceName, data, settings)
+            awKeys.setDataBySource(sourceName, data, settings)
         }
     }
 
@@ -313,7 +321,7 @@ Item {
         onNewData: {
             if (debug) console.log("[widget::onNewData] : Update source " + sourceName)
 
-            AWKeys.setDataBySource(sourceName, data, settings)
+            awKeys.setDataBySource(sourceName, data, settings)
         }
     }
 
@@ -321,7 +329,7 @@ Item {
         if (debug) console.log("[widget::onCompleted]")
 
         // init submodule
-        AWKeys.initKeys(plasmoid.configuration.text)
-        tags.model = AWKeys.dictKeys(true)
+        awKeys.initKeys(plasmoid.configuration.text)
+        tags.model = awKeys.dictKeys(true)
     }
 }

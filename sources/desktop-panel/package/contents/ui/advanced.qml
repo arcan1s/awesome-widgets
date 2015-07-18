@@ -25,12 +25,17 @@ import org.kde.plasma.private.desktoppanel 1.0
 
 Item {
     id: advancedPage
+    // backend
+    DPAdds {
+        id: dpAdds;
+    }
+    
     width: childrenRect.width
     height: childrenRect.height
     implicitWidth: pageColumn.implicitWidth
     implicitHeight: pageColumn.implicitHeight
 
-    property bool debug: DPAdds.isDebugEnabled()
+    property bool debug: dpAdds.isDebugEnabled()
 
     property alias cfg_height: widgetHeight.value
     property alias cfg_width: widgetWidth.value
@@ -237,7 +242,7 @@ Item {
 //             QtControls.Button {
 //                 width: parent.width * 3 / 5
 //                 text: i18n("Edit panels")
-//                 onClicked: cfg_panels = DPAdds.editPanelsToContol(plasmoid.configuration.panels)
+//                 onClicked: cfg_panels = dpAdds.editPanelsToContol(plasmoid.configuration.panels)
 //             }
 //         }
     }

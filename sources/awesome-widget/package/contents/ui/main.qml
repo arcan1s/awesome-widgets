@@ -28,8 +28,15 @@ import "."
 
 Item {
     id: main
+    // backend
+    AWKeys {
+        id: awKeys;
+    }
+    AWActions {
+        id: awActions;
+    }
 
-    property bool debug: AWKeys.isDebugEnabled()
+    property bool debug: awKeys.isDebugEnabled()
     property variant settings: {
         "customTime": plasmoid.configuration.customTime,
         "customUptime": plasmoid.configuration.customUptime,
@@ -86,13 +93,13 @@ Item {
             // FIXME: ugly workaround to make some sources working
             systemmonitorDE.interval = plasmoid.configuration.interval
 
-            AWKeys.setDataBySource(sourceName, data, settings)
+            awKeys.setDataBySource(sourceName, data, settings)
         }
 
         onSourceAdded: {
             if (debug) console.log("[main::onSourceAdded] : Source " + source)
 
-            AWKeys.addDevice(source)
+            awKeys.addDevice(source)
         }
     }
 
@@ -107,7 +114,7 @@ Item {
             // FIXME: ugly workaround to make some sources working
             extsysmonDE.interval = plasmoid.configuration.interval
 
-            AWKeys.setDataBySource(sourceName, data, settings)
+            awKeys.setDataBySource(sourceName, data, settings)
         }
     }
 
@@ -120,7 +127,7 @@ Item {
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)
 
-            AWKeys.setDataBySource(sourceName, data, settings)
+            awKeys.setDataBySource(sourceName, data, settings)
         }
     }
 
@@ -167,8 +174,8 @@ Item {
         // init submodule
         Plasmoid.userConfiguringChanged(false)
         // connect data
-        AWKeys.dropSourceFromDataengine.connect(dropSource)
-        AWKeys.needToBeUpdated.connect(needUpdate)
+        awKeys.dropSourceFromDataengine.connect(dropSource)
+        awKeys.needToBeUpdated.connect(needUpdate)
     }
 
     onDropSource: {
@@ -181,8 +188,8 @@ Item {
     onNeedUpdate: {
         if (debug) console.log("[main::onNeedUpdate]")
 
-        text.text = AWKeys.parsePattern(plasmoid.configuration.text)
-        tooltip.text = AWKeys.toolTipImage()
+        text.text = awKeys.parsePattern()
+        tooltip.text = awKeys.toolTipImage()
 
         sizeUpdate()
     }
@@ -211,10 +218,10 @@ Item {
         if (debug) console.log("[main::onUserConfiguringChanged]")
 
         // init submodule
-        AWKeys.initKeys()
-        AWKeys.initTooltip(tooltipSettings)
-        AWKeys.setPopupEnabled(plasmoid.configuration.notify)
-        AWKeys.setWrapNewLines(plasmoid.configuration.wrapNewLines)
+        awKeys.initKeys(plasmoid.configuration.text)
+        awKeys.initTooltip(tooltipSettings)
+        awKeys.setPopupEnabled(plasmoid.configuration.notify)
+        awKeys.setWrapNewLines(plasmoid.configuration.wrapNewLines)
 
         needUpdate()
     }
@@ -222,24 +229,24 @@ Item {
     function action_checkUpdates() {
         if (debug) console.log("[main::action_checkUpdates]")
 
-        AWActions.checkUpdates()
+        awActions.checkUpdates()
     }
 
     function action_showReadme() {
         if (debug) console.log("[main::action_showReadme]")
 
-        AWActions.showReadme()
+        awActions.showReadme()
     }
 
     function action_report() {
         if (debug) console.log("[main::action_report]")
 
-        AWActions.sendEmail()
+        awActions.sendEmail()
     }
 
     function action_requestKey() {
         if (debug) console.log("[main::action_requestKey]")
 
-        AWKeys.graphicalValueByKey()
+        awKeys.graphicalValueByKey()
     }
 }

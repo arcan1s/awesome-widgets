@@ -23,12 +23,17 @@ import org.kde.plasma.private.awesomewidget 1.0
 
 Item {
     id: advancedPage
+    // backend
+    AWKeys {
+        id: awKeys;
+    }
+
     width: childrenRect.width
     height: childrenRect.height
     implicitWidth: pageColumn.implicitWidth
     implicitHeight: pageColumn.implicitHeight
 
-    property bool debug: AWKeys.isDebugEnabled()
+    property bool debug: awKeys.isDebugEnabled()
 
     property alias cfg_height: widgetHeight.value
     property alias cfg_width: widgetWidth.value

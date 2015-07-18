@@ -26,12 +26,20 @@ import org.kde.plasma.private.awesomewidget 1.0
 
 Item {
     id: dataenginePage
+    // backend
+    AWKeys {
+        id: awKeys;
+    }
+    AWActions {
+        id: awActions;
+    }
+
     width: childrenRect.width
     height: childrenRect.height
     implicitWidth: pageColumn.implicitWidth
     implicitHeight: pageColumn.implicitHeight
 
-    property bool debug: AWKeys.isDebugEnabled()
+    property bool debug: awKeys.isDebugEnabled()
     property variant tooltipSettings: {
         "tooltipNumber": plasmoid.configuration.tooltipNumber,
         "useTooltipBackground": plasmoid.configuration.useTooltipBackground,
@@ -53,7 +61,7 @@ Item {
         "batInTooltipColor": plasmoid.configuration.batInTooltipColor
     }
 
-    property variant cfg_dataengine: AWActions.readDataEngineConfiguration()
+    property variant cfg_dataengine: awActions.readDataEngineConfiguration()
 
     Column {
         id: pageColumn
@@ -87,7 +95,7 @@ Item {
             QtControls.Button {
                 width: parent.width * 3 / 5
                 text: i18n("Edit scripts")
-                onClicked: AWKeys.editItem("extscript")
+                onClicked: awKeys.editItem("extscript")
             }
         }
 
@@ -128,7 +136,7 @@ Item {
             QtControls.ComboBox {
                 id: hdd
                 width: parent.width * 3 / 5
-                model: AWKeys.getHddDevices(true)
+                model: awKeys.getHddDevices(true)
                 Component.onCompleted: {
                     for (var i=0; i<model.length; i++) {
                         if (model[i] == cfg_dataengine["HDDDEV"]) {
@@ -247,7 +255,7 @@ Item {
             QtControls.Button {
                 width: parent.width * 3 / 5
                 text: i18n("Edit tickers")
-                onClicked: AWKeys.editItem("extquotes")
+                onClicked: awKeys.editItem("extquotes")
             }
         }
 
@@ -264,7 +272,7 @@ Item {
             QtControls.Button {
                 width: parent.width * 3 / 5
                 text: i18n("Edit command")
-                onClicked: AWKeys.editItem("extupgrade")
+                onClicked: awKeys.editItem("extupgrade")
             }
         }
     }
@@ -273,7 +281,7 @@ Item {
         if (debug) console.log("[dataengine::onCompleted]")
 
         // init submodule
-        AWKeys.initKeys(plasmoid.configuration.text)
+        awKeys.initKeys(plasmoid.configuration.text)
     }
 
     Component.onDestruction: {
@@ -283,6 +291,6 @@ Item {
         cfg_dataengine["HDDDEV"] = hdd.currentText
         cfg_dataengine["PLAYER"] = player.currentText
         cfg_dataengine["MPRIS"] = mpris.currentText
-        AWActions.writeDataEngineConfiguration(cfg_dataengine)
+        awActions.writeDataEngineConfiguration(cfg_dataengine)
     }
 }

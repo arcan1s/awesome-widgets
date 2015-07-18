@@ -51,12 +51,12 @@ public:
     AWKeys(QObject *parent = nullptr);
     ~AWKeys();
 
-    Q_INVOKABLE void initKeys();
+    Q_INVOKABLE void initKeys(const QString currentPattern);
     Q_INVOKABLE void initTooltip(const QVariantMap tooltipParams);
     Q_INVOKABLE void setPopupEnabled(const bool popup = false);
     Q_INVOKABLE void setWrapNewLines(const bool wrap = false);
     Q_INVOKABLE bool isDebugEnabled();
-    Q_INVOKABLE QString parsePattern(const QString currentPattern);
+    Q_INVOKABLE QString parsePattern();
     Q_INVOKABLE QString toolTipImage();
     Q_INVOKABLE QSize toolTipSize();
     // keys
@@ -94,8 +94,8 @@ private:
     int numberCpus();
     float temperature(const float temp, const QString units);
     // find methods
-    QStringList findGraphicalItems(const QString pattern);
-    QStringList findKeys(const QString pattern);
+    QStringList findGraphicalItems();
+    QStringList findKeys();
      // get methods
     // get methods
     QList<ExtQuotes *> getExtQuotes();
@@ -121,6 +121,7 @@ private:
     QList<ExtQuotes *> extQuotes;
     QList<ExtScript *> extScripts;
     QList<ExtUpgrade *> extUpgrade;
+    QString pattern;
     QStringList foundBars, foundKeys, keys;
     QMap<QString, QString> values;
     QStringList diskDevices, hddDevices, mountDevices, networkDevices, tempDevices;

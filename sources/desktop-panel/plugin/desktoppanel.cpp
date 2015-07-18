@@ -22,18 +22,9 @@
 #include "dpadds.h"
 
 
-static QObject *dpadds_singletontype_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
-{
-    Q_UNUSED(engine);
-    Q_UNUSED(scriptEngine);
-
-    return new DPAdds();
-}
-
-
 void DPPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("org.kde.plasma.private.desktoppanel"));
 
-    qmlRegisterSingletonType<DPAdds>(uri, 1, 0, "DPAdds", dpadds_singletontype_provider);
+    qmlRegisterType<DPAdds>(uri, 1, 0, "DPAdds");
 }

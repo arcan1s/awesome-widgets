@@ -23,28 +23,10 @@
 #include "awkeys.h"
 
 
-static QObject *awactions_singletontype_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
-{
-    Q_UNUSED(engine);
-    Q_UNUSED(scriptEngine);
-
-    return new AWActions();
-}
-
-
-static QObject *awkeys_singletontype_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
-{
-    Q_UNUSED(engine);
-    Q_UNUSED(scriptEngine);
-
-    return new AWKeys();
-}
-
-
 void AWPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("org.kde.plasma.private.awesomewidget"));
 
-    qmlRegisterSingletonType<AWActions>(uri, 1, 0, "AWActions", awactions_singletontype_provider);
-    qmlRegisterSingletonType<AWKeys>(uri, 1, 0, "AWKeys", awkeys_singletontype_provider);
+    qmlRegisterType<AWActions>(uri, 1, 0, "AWActions");
+    qmlRegisterType<AWKeys>(uri, 1, 0, "AWKeys");
 }

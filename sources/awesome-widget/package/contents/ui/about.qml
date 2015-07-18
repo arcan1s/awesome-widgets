@@ -24,12 +24,19 @@ import org.kde.plasma.private.awesomewidget 1.0
 
 Item {
     id: aboutPage
+    AWKeys {
+        id: awKeys;
+    }
+    AWActions {
+        id: awActions;
+    }
+
     width: childrenRect.width
     height: childrenRect.height
     implicitWidth: pageColumn.implicitWidth
     implicitHeight: pageColumn.implicitHeight
 
-    property bool debug: AWKeys.isDebugEnabled()
+    property bool debug: awKeys.isDebugEnabled()
 
 
     Column {
@@ -45,26 +52,26 @@ Item {
                     QtControls.Label {
                         QtLayouts.Layout.fillWidth: true
                         horizontalAlignment: Text.AlignHCenter
-                        text: AWActions.getAboutText("header")
+                        text: awActions.getAboutText("header")
                     }
 
                     QtControls.Label {
                         QtLayouts.Layout.fillWidth: true
                         horizontalAlignment: Text.AlignHCenter
-                        text: AWActions.getAboutText("version")
+                        text: awActions.getAboutText("version")
                     }
 
                     QtControls.Label {
                         QtLayouts.Layout.fillWidth: true
                         horizontalAlignment: Text.AlignJustify
-                        text: AWActions.getAboutText("description")
+                        text: awActions.getAboutText("description")
                     }
 
                     QtControls.Label {
                         QtLayouts.Layout.fillWidth: true
                         horizontalAlignment: Text.AlignLeft
                         textFormat: Text.RichText
-                        text: AWActions.getAboutText("links")
+                        text: awActions.getAboutText("links")
                         onLinkActivated: Qt.openUrlExternally(link);
                     }
 
@@ -75,7 +82,7 @@ Item {
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
                         textFormat: Text.RichText
-                        text: AWActions.getAboutText("copy")
+                        text: awActions.getAboutText("copy")
                     }
                 }
             }
@@ -88,7 +95,7 @@ Item {
                         QtLayouts.Layout.fillWidth: true
                         wrapMode: Text.WordWrap
                         horizontalAlignment: Text.AlignJustify
-                        text: AWActions.getAboutText("translators")
+                        text: awActions.getAboutText("translators")
                     }
 
                     QtControls.Label {
@@ -97,7 +104,7 @@ Item {
                         horizontalAlignment: Text.AlignJustify
                         verticalAlignment: Text.AlignTop
                         textFormat: Text.RichText
-                        text: AWActions.getAboutText("3rdparty")
+                        text: awActions.getAboutText("3rdparty")
                         onLinkActivated: Qt.openUrlExternally(link);
                     }
                 }

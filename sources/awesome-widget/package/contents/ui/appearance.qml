@@ -25,12 +25,17 @@ import org.kde.plasma.private.awesomewidget 1.0
 
 Item {
     id: appearancePage
+    // backend
+    AWKeys {
+        id: awKeys;
+    }
+
     width: childrenRect.width
     height: childrenRect.height
     implicitWidth: pageColumn.implicitWidth
     implicitHeight: pageColumn.implicitHeight
 
-    property bool debug: AWKeys.isDebugEnabled()
+    property bool debug: awKeys.isDebugEnabled()
     property variant weight: {
         25: 0,
         50: 1,

@@ -23,12 +23,17 @@ import org.kde.plasma.private.desktoppanel 1.0
 
 Item {
     id: widgetPage
+    // backend
+    DPAdds {
+        id: dpAdds;
+    }
+
     width: childrenRect.width
     height: childrenRect.height
     implicitWidth: pageColumn.implicitWidth
     implicitHeight: pageColumn.implicitHeight
 
-    property bool debug: DPAdds.isDebugEnabled()
+    property bool debug: dpAdds.isDebugEnabled()
 
     property alias cfg_text: textPattern.text
 
@@ -61,7 +66,7 @@ Item {
                         "family": plasmoid.configuration.fontFamily,
                         "size": plasmoid.configuration.fontSize
                     }
-                    var font = DPAdds.getFont(defaultFont)
+                    var font = dpAdds.getFont(defaultFont)
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
@@ -198,7 +203,7 @@ Item {
             QtControls.ComboBox {
                 id: tags
                 width: parent.width - addTagButton.width - showValueButton.width
-                model: DPAdds.dictKeys()
+                model: dpAdds.dictKeys()
             }
             QtControls.Button {
                 id: addTagButton
@@ -222,8 +227,8 @@ Item {
 
                     var message = i18n("Tag: %1", tags.currentText)
                     message += "<br>"
-                    message += i18n("Value: %1", DPAdds.valueByKey(tags.currentText))
-                    DPAdds.sendNotification("tag", message)
+                    message += i18n("Value: %1", dpAdds.valueByKey(tags.currentText))
+                    dpAdds.sendNotification("tag", message)
                 }
             }
         }

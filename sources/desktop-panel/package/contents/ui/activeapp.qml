@@ -25,12 +25,17 @@ import org.kde.plasma.private.desktoppanel 1.0
 
 Item {
     id: activeAppearancePage
+    // backend
+    DPAdds {
+        id: dpAdds;
+    }
+
     width: childrenRect.width
     height: childrenRect.height
     implicitWidth: pageColumn.implicitWidth
     implicitHeight: pageColumn.implicitHeight
 
-    property bool debug: DPAdds.isDebugEnabled()
+    property bool debug: dpAdds.isDebugEnabled()
     property variant weight: {
         25: 0,
         50: 1,

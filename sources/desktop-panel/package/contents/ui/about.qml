@@ -24,12 +24,17 @@ import org.kde.plasma.private.desktoppanel 1.0
 
 Item {
     id: aboutPage
+    // backend
+    DPAdds {
+        id: dpAdds;
+    }
+
     width: childrenRect.width
     height: childrenRect.height
     implicitWidth: pageColumn.implicitWidth
     implicitHeight: pageColumn.implicitHeight
 
-    property bool debug: DPAdds.isDebugEnabled()
+    property bool debug: dpAdds.isDebugEnabled()
 
 
     Column {
@@ -45,26 +50,26 @@ Item {
                     QtControls.Label {
                         QtLayouts.Layout.fillWidth: true
                         horizontalAlignment: Text.AlignHCenter
-                        text: DPAdds.getAboutText("header")
+                        text: dpAdds.getAboutText("header")
                     }
 
                     QtControls.Label {
                         QtLayouts.Layout.fillWidth: true
                         horizontalAlignment: Text.AlignHCenter
-                        text: DPAdds.getAboutText("version")
+                        text: dpAdds.getAboutText("version")
                     }
 
                     QtControls.Label {
                         QtLayouts.Layout.fillWidth: true
                         horizontalAlignment: Text.AlignJustify
-                        text: DPAdds.getAboutText("description")
+                        text: dpAdds.getAboutText("description")
                     }
 
                     QtControls.Label {
                         QtLayouts.Layout.fillWidth: true
                         horizontalAlignment: Text.AlignLeft
                         textFormat: Text.RichText
-                        text: DPAdds.getAboutText("links")
+                        text: dpAdds.getAboutText("links")
                         onLinkActivated: Qt.openUrlExternally(link);
                     }
 
@@ -75,7 +80,7 @@ Item {
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
                         textFormat: Text.RichText
-                        text: DPAdds.getAboutText("copy")
+                        text: dpAdds.getAboutText("copy")
                     }
                 }
             }
@@ -88,7 +93,7 @@ Item {
                         QtLayouts.Layout.fillWidth: true
                         wrapMode: Text.WordWrap
                         horizontalAlignment: Text.AlignJustify
-                        text: DPAdds.getAboutText("translators")
+                        text: dpAdds.getAboutText("translators")
                     }
 
                     QtControls.Label {
@@ -97,7 +102,7 @@ Item {
                         horizontalAlignment: Text.AlignJustify
                         verticalAlignment: Text.AlignTop
                         textFormat: Text.RichText
-                        text: DPAdds.getAboutText("3rdparty")
+                        text: dpAdds.getAboutText("3rdparty")
                         onLinkActivated: Qt.openUrlExternally(link);
                     }
                 }

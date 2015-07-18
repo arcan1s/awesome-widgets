@@ -86,7 +86,7 @@ AWKeys::~AWKeys()
 }
 
 
-void AWKeys::initKeys()
+void AWKeys::initKeys(const QString currentPattern)
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -100,6 +100,7 @@ void AWKeys::initKeys()
     foundKeys.clear();
 
     // init
+    pattern = currentPattern;
     extQuotes = getExtQuotes();
     extScripts = getExtScripts();
     extUpgrade = getExtUpgrade();
@@ -145,18 +146,12 @@ bool AWKeys::isDebugEnabled()
 }
 
 
-QString AWKeys::parsePattern(const QString currentPattern)
+QString AWKeys::parsePattern()
 {
     if (debug) qDebug() << PDEBUG;
-    if (keys.isEmpty()) return currentPattern;
+    if (keys.isEmpty()) return pattern;
 
-    // get key data
-    if ((foundBars.isEmpty()) && (foundKeys.isEmpty())) {
-        foundBars = findGraphicalItems(currentPattern);
-        foundKeys = findKeys(currentPattern);
-    }
-
-    QString parsed = currentPattern;
+    QString parsed = pattern;
     parsed.replace(QString("$$"), QString("$\\$\\"));
     for (int i=0; i<foundKeys.count(); i++)
         parsed.replace(QString("$%1").arg(foundKeys[i]), htmlValue(foundKeys[i]));
@@ -854,6 +849,8 @@ void AWKeys::reinitKeys()
     if (debug) qDebug() << PDEBUG;
 
     keys = dictKeys();
+    foundBars = findGraphicalItems();
+    foundKeys = findKeys();
 }
 
 
@@ -1328,7 +1325,7 @@ float AWKeys::temperature(const float temp, const QString units)
 }
 
 
-QStringList AWKeys::findGraphicalItems(const QString pattern)
+QStringList AWKeys::findGraphicalItems()
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -1348,7 +1345,7 @@ QStringList AWKeys::findGraphicalItems(const QString pattern)
 }
 
 
-QStringList AWKeys::findKeys(const QString pattern)
+QStringList AWKeys::findKeys()
 {
     QStringList selectedKeys;
     for (int i=0; i<keys.count(); i++) {

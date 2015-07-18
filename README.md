@@ -35,7 +35,7 @@ Optional dependencies
 * proprietary video driver
 * hddtemp
 * smartmontools
-* music player (mpd or supported MPRIS)
+* music player (mpd or MPRIS supported)
 
 Make dependencies
 -----------------
@@ -53,7 +53,7 @@ Installation
         cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr ../
         make && sudo make install
 
-  **NOTE** on Plasma 5 it may require `-DKDE_INSTALL_USE_QT_SYS_PATHS=ON` flag
+  **NOTE** on Plasma 5 it very likely requires `-DKDE_INSTALL_USE_QT_SYS_PATHS=ON` flag
 
 Additional information
 ======================
