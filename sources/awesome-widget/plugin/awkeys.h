@@ -57,7 +57,6 @@ public:
     Q_INVOKABLE void setWrapNewLines(const bool wrap = false);
     Q_INVOKABLE bool isDebugEnabled();
     Q_INVOKABLE QString parsePattern();
-    Q_INVOKABLE QString toolTipImage();
     Q_INVOKABLE QSize toolTipSize();
     // keys
     Q_INVOKABLE void addDevice(const QString source);
@@ -74,9 +73,12 @@ public:
 
 signals:
     void dropSourceFromDataengine(const QString source);
+    void needTextToBeUpdated(const QString newText);
+    void needToolTipToBeUpdated(const QString newText);
     void needToBeUpdated();
 
 private slots:
+    void dataUpdate();
     void loadKeysFromCache();
     void reinitKeys();
     // editor
@@ -93,10 +95,10 @@ private:
     QString htmlValue(QString key);
     int numberCpus();
     float temperature(const float temp, const QString units);
+    QString toolTipImage();
     // find methods
     QStringList findGraphicalItems();
     QStringList findKeys();
-     // get methods
     // get methods
     QList<ExtQuotes *> getExtQuotes();
     QList<ExtScript *> getExtScripts();

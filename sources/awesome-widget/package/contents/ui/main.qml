@@ -66,7 +66,8 @@ Item {
     }
 
     signal dropSource(string sourceName)
-    signal needUpdate
+    signal needTextUpdate(string newText)
+    signal needToolTipUpdate(string newText)
     signal sizeUpdate
 
 
@@ -91,7 +92,7 @@ Item {
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)
             // FIXME: ugly workaround to make some sources working
-            systemmonitorDE.interval = plasmoid.configuration.interval
+//             systemmonitorDE.interval = plasmoid.configuration.interval
 
             awKeys.setDataBySource(sourceName, data, settings)
         }
@@ -112,7 +113,7 @@ Item {
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)
             // FIXME: ugly workaround to make some sources working
-            extsysmonDE.interval = plasmoid.configuration.interval
+//             extsysmonDE.interval = plasmoid.configuration.interval
 
             awKeys.setDataBySource(sourceName, data, settings)
         }
@@ -175,7 +176,8 @@ Item {
         Plasmoid.userConfiguringChanged(false)
         // connect data
         awKeys.dropSourceFromDataengine.connect(dropSource)
-        awKeys.needToBeUpdated.connect(needUpdate)
+        awKeys.needTextToBeUpdated.connect(needTextUpdate)
+        awKeys.needToolTipToBeUpdated.connect(needToolTipUpdate)
     }
 
     onDropSource: {
@@ -185,13 +187,17 @@ Item {
         systemmonitorDE.disconnectSource(sourceName)
     }
 
-    onNeedUpdate: {
-        if (debug) console.log("[main::onNeedUpdate]")
+    onNeedTextUpdate: {
+        if (debug) console.log("[main::onNeedTextUpdate]")
 
-        text.text = awKeys.parsePattern()
-        tooltip.text = awKeys.toolTipImage()
-
+        text.text = newText
         sizeUpdate()
+    }
+
+    onNeedToolTipUpdate: {
+        if (debug) console.log("[main::onNeedToolTipUpdate]")
+
+        tooltip.text = newText
     }
 
     onSizeUpdate: {
@@ -223,7 +229,7 @@ Item {
         awKeys.setPopupEnabled(plasmoid.configuration.notify)
         awKeys.setWrapNewLines(plasmoid.configuration.wrapNewLines)
 
-        needUpdate()
+        needTextUpdate(plasmoid.configuration.text)
     }
 
     function action_checkUpdates() {

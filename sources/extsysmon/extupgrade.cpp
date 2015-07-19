@@ -146,12 +146,12 @@ void ExtUpgrade::setApiVersion(const int _apiVersion)
 }
 
 
-void ExtUpgrade::setActive(const bool state)
+void ExtUpgrade::setActive(const bool _state)
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "State" << state;
+    if (debug) qDebug() << PDEBUG << ":" << "State" << _state;
 
-    m_active = state;
+    m_active = _state;
 }
 
 
@@ -251,7 +251,7 @@ int ExtUpgrade::run()
     if (!m_active) return value;
 
     if ((times == 1) && (process->state() == QProcess::NotRunning))
-        process->start(QString("bash -c \"%1\"").arg(m_executable));
+        process->start(QString("sh -c \"%1\"").arg(m_executable));
     else if (times >= m_interval)
         times = 0;
     times++;

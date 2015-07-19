@@ -52,7 +52,8 @@ public:
     };
 
     explicit GraphicalItem(QWidget *parent = nullptr, const QString desktopName = QString(),
-                           const QStringList directories = QStringList(), const bool debugCmd = false);
+                           const QStringList directories = QStringList(),
+                           const bool debugCmd = false);
     ~GraphicalItem();
     QString fileName();
     QString image(const float value);

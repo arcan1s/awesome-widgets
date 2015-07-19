@@ -333,14 +333,14 @@ QVariantMap ExtendedSysMon::getBattery(const QString acpiPath)
             (fullLevelFile.open(QIODevice::ReadOnly))) {
             float batCurrent = QString(currentLevelFile.readLine()).trimmed().toFloat();
             float batFull = QString(fullLevelFile.readLine()).trimmed().toFloat();
-            battery[QString("bat%1").arg(i)] = 100 * batCurrent / batFull;
+            battery[QString("bat%1").arg(i)] = static_cast<int>(100 * batCurrent / batFull);
             currentLevel += batCurrent;
             fullLevel += batFull;
         }
         currentLevelFile.close();
         fullLevelFile.close();
     }
-    battery[QString("bat")] = 100 * currentLevel / fullLevel;
+    battery[QString("bat")] = static_cast<int>(100 * currentLevel / fullLevel);
 
     return battery;
 }

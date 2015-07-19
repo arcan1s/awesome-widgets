@@ -151,12 +151,12 @@ void ExtQuotes::setApiVersion(const int _apiVersion)
 }
 
 
-void ExtQuotes::setActive(const bool state)
+void ExtQuotes::setActive(const bool _state)
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "State" << state;
+    if (debug) qDebug() << PDEBUG << ":" << "State" << _state;
 
-    m_active = state;
+    m_active = _state;
 }
 
 

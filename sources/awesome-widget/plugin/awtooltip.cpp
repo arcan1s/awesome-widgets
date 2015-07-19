@@ -33,7 +33,7 @@ AWToolTip::AWToolTip(QObject *parent, QVariantMap settings)
     QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
     debug = (debugEnv == QString("yes"));
 
-    toolTipScene = new QGraphicsScene();
+    toolTipScene = new QGraphicsScene(nullptr);
     toolTipView = new QGraphicsView(toolTipScene);
     toolTipView->setStyleSheet(QString("background: transparent"));
     toolTipView->setContentsMargins(0, 0, 0, 0);
@@ -72,7 +72,6 @@ AWToolTip::~AWToolTip()
 {
     if (debug) qDebug() << PDEBUG;
 
-    delete toolTipView;
     delete toolTipScene;
 }
 
@@ -94,10 +93,9 @@ QPixmap AWToolTip::image()
     toolTipScene->clear();
     QPen pen = QPen();
     // background
-    if (configuration[QString("useTooltipBackground")].toBool())
-        toolTipScene->setBackgroundBrush(QBrush(QColor(configuration[QString("tooltipBackground")].toString())));
-    else
-        toolTipScene->setBackgroundBrush(QBrush(Qt::NoBrush));
+    toolTipScene->setBackgroundBrush(configuration[QString("useTooltipBackground")].toBool() ?
+                                     QBrush(QColor(configuration[QString("tooltipBackground")].toString())) :
+                                     QBrush(Qt::NoBrush));
     bool down = false;
     for (int i=0; i<requiredKeys.count(); i++) {
         float normX = 100.0 / static_cast<float>(data[requiredKeys[i]].count());

@@ -196,12 +196,12 @@ void ExtScript::setApiVersion(const int _apiVersion)
 }
 
 
-void ExtScript::setActive(const bool state)
+void ExtScript::setActive(const bool _state)
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "State" << state;
+    if (debug) qDebug() << PDEBUG << ":" << "State" << _state;
 
-    m_active = state;
+    m_active = _state;
 }
 
 
@@ -519,7 +519,7 @@ void ExtScript::updateValue()
         if (debug) qDebug() << PDEBUG << ":" << "Output" << qoutput;
         break;
     case stderr2stdout:
-        value = QString("%1\t%2").arg(qdebug).arg(qoutput);
+        value = QString("%1\n%2").arg(qdebug).arg(qoutput);
         break;
     case nothing:
     default:

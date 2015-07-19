@@ -215,7 +215,8 @@ void AWActions::showUpdates(QString version)
     text += i18n("New version : %1", version) + QString("\n\n");
     text += i18n("Click \"Ok\" to download");
 
-    int select = QMessageBox::information(0, i18n("There are updates"), text, QMessageBox::Ok | QMessageBox::Cancel);
+    int select = QMessageBox::information(nullptr, i18n("There are updates"), text,
+                                          QMessageBox::Ok | QMessageBox::Cancel);
     switch (select) {
     case QMessageBox::Ok:
         QDesktopServices::openUrl(QString(RELEASES) + version);

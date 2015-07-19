@@ -51,6 +51,9 @@ AWKeys::AWKeys(QObject *parent)
     QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
     debug = (debugEnv == QString("yes"));
 
+    // backend
+    connect(this, SIGNAL(needToBeUpdated()), this, SLOT(dataUpdate()));
+
     // init dialog
     dialog = new QDialog(nullptr);
     widgetDialog = new QListWidget(dialog);
@@ -73,11 +76,6 @@ AWKeys::~AWKeys()
     if (debug) qDebug() << PDEBUG;
 
     delete toolTip;
-    delete createButton;
-    delete copyButton;
-    delete deleteButton;
-    delete dialogButtons;
-    delete widgetDialog;
     delete dialog;
 
     graphicalItems.clear();
@@ -162,22 +160,6 @@ QString AWKeys::parsePattern()
     if (wrapNewLines) parsed.replace(QString("\n"), QString("<br>"));
 
     return parsed;
-}
-
-
-QString AWKeys::toolTipImage()
-{
-    if(debug) qDebug() << PDEBUG;
-    if (toolTip == nullptr) return QString("");
-
-    if (keys.isEmpty()) return QString();
-
-    QPixmap tooltip = toolTip->image();
-    QByteArray byteArray;
-    QBuffer buffer(&byteArray);
-    tooltip.save(&buffer, "PNG");
-
-    return QString("<img src=\"data:image/png;base64,%1\"/>").arg(QString(byteArray.toBase64()));
 }
 
 
@@ -327,6 +309,10 @@ QStringList AWKeys::dictKeys(const bool sorted)
     allKeys.append(QString("desktop"));
     allKeys.append(QString("ndesktop"));
     allKeys.append(QString("tdesktops"));
+    // load average
+    allKeys.append(QString("la15"));
+    allKeys.append(QString("la5"));
+    allKeys.append(QString("la1"));
     // bars
     QStringList graphicalItemsKeys;
     for (int i=0; i<graphicalItems.count(); i++)
@@ -362,13 +348,10 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Source" << sourceName;
 
-    if (sourceName == QString("update")) {
-        emit(needToBeUpdated());
-        return;
-    }
+    if (sourceName == QString("update")) return emit(needToBeUpdated());
 
     // checking
-    if (!checkKeys(data)) return;
+//     if (!checkKeys(data)) return;
     if (keys.isEmpty()) return;
 
     // regular expressions
@@ -517,6 +500,11 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
                         temperature(data[data.keys()[i]].toFloat(), params[QString("tempUnits")].toString()), 4, 'f', 1);
                     break;
                 }
+    } else if (sourceName.startsWith(QString("cpu/system/loadavg"))) {
+        // load average
+        QString time = sourceName;
+        time.remove(QString("cpu/system/loadavg"));
+        values[QString("la%1").arg(time)] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 2);
     } else if (sourceName == QString("mem/physical/application")) {
         // app memory
         values[QString("memmb")] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 5, 'f', 0);
@@ -639,8 +627,8 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         for (int i=0; i<tempDevices.count(); i++)
             if (sourceName == tempDevices[i]) {
                 float temp = data[QString("units")].toString() == QString("°C") ?
-                    temperature(data[QString("value")].toFloat(), params[QString("tempUnits")].toString())
-                    : data[QString("value")].toFloat();
+                    temperature(data[QString("value")].toFloat(), params[QString("tempUnits")].toString()) :
+                    data[QString("value")].toFloat();
                 values[QString("temp%1").arg(i)] = QString("%1").arg(temp, 4, 'f', 1);
                 break;
             }
@@ -794,6 +782,15 @@ void AWKeys::editItem(const QString type)
     int ret = dialog->exec();
     if (debug) qDebug() << PDEBUG << ":" << "Dialog returns" << ret;
     requestedItem = Nothing;
+}
+
+
+void AWKeys::dataUpdate()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    emit(needTextToBeUpdated(parsePattern()));
+    emit(needToolTipToBeUpdated(toolTipImage()));
 }
 
 
@@ -1322,6 +1319,22 @@ float AWKeys::temperature(const float temp, const QString units)
         converted = (temp + 273.15) * 1.98;
 
     return converted;
+}
+
+
+QString AWKeys::toolTipImage()
+{
+    if(debug) qDebug() << PDEBUG;
+    if (toolTip == nullptr) return QString("");
+
+    if (keys.isEmpty()) return QString();
+
+    QPixmap tooltip = toolTip->image();
+    QByteArray byteArray;
+    QBuffer buffer(&byteArray);
+    tooltip.save(&buffer, "PNG");
+
+    return QString("<img src=\"data:image/png;base64,%1\"/>").arg(QString(byteArray.toBase64()));
 }
 
 
