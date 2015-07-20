@@ -67,6 +67,25 @@ void AWActions::checkUpdates()
 }
 
 
+bool AWActions::dropCache()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QString fileName = QString("%1/awesomewidgets.ndx")
+                       .arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
+
+    return QFile(fileName).remove();
+}
+
+
+bool AWActions::isDebugEnabled()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return debug;
+}
+
+
 void AWActions::runCmd(const QString cmd)
 {
     if (debug) qDebug() << PDEBUG;

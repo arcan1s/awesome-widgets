@@ -35,6 +35,8 @@ public:
     ~AWActions();
 
     Q_INVOKABLE void checkUpdates();
+    Q_INVOKABLE bool dropCache();
+    Q_INVOKABLE bool isDebugEnabled();
     Q_INVOKABLE void runCmd(const QString cmd = QString("/usr/bin/true"));
     Q_INVOKABLE void sendEmail();
     Q_INVOKABLE void showReadme();

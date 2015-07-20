@@ -55,7 +55,6 @@ public:
     Q_INVOKABLE void initTooltip(const QVariantMap tooltipParams);
     Q_INVOKABLE void setPopupEnabled(const bool popup = false);
     Q_INVOKABLE void setWrapNewLines(const bool wrap = false);
-    Q_INVOKABLE bool isDebugEnabled();
     Q_INVOKABLE QString parsePattern();
     Q_INVOKABLE QSize toolTipSize();
     // keys

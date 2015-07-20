@@ -37,7 +37,7 @@ Item {
     implicitWidth: pageColumn.implicitWidth
     implicitHeight: pageColumn.implicitHeight
 
-    property bool debug: awKeys.isDebugEnabled()
+    property bool debug: awActions.isDebugEnabled()
     property variant settings: {
         "customTime": plasmoid.configuration.customTime,
         "customUptime": plasmoid.configuration.customUptime,

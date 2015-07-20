@@ -24,8 +24,8 @@ import org.kde.plasma.private.awesomewidget 1.0
 Item {
     id: advancedPage
     // backend
-    AWKeys {
-        id: awKeys;
+    AWActions {
+        id: awActions;
     }
 
     width: childrenRect.width
@@ -33,7 +33,7 @@ Item {
     implicitWidth: pageColumn.implicitWidth
     implicitHeight: pageColumn.implicitHeight
 
-    property bool debug: awKeys.isDebugEnabled()
+    property bool debug: awActions.isDebugEnabled()
 
     property alias cfg_height: widgetHeight.value
     property alias cfg_width: widgetWidth.value
@@ -252,6 +252,24 @@ Item {
                 id: acOffline
                 width: parent.width * 3 / 5
                 text: plasmoid.configuration.acOffline
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.height
+                width: parent.width * 2 / 5
+//                 horizontalAlignment: Text.AlignRight
+//                 verticalAlignment: Text.AlignVCenter
+//                 text: i18n("Font")
+            }
+            QtControls.Button {
+                id: selectFont
+                width: parent.width * 3 / 5
+                text: i18n("Drop key cache")
+                onClicked: awActions.dropCache()
             }
         }
     }

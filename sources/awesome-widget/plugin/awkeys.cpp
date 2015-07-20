@@ -136,14 +136,6 @@ void AWKeys::setWrapNewLines(const bool wrap)
 }
 
 
-bool AWKeys::isDebugEnabled()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return debug;
-}
-
-
 QString AWKeys::parsePattern()
 {
     if (debug) qDebug() << PDEBUG;
@@ -799,7 +791,7 @@ void AWKeys::loadKeysFromCache()
     if (debug) qDebug() << PDEBUG;
 
     QString fileName = QString("%1/awesomewidgets.ndx")
-                        .arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
+                       .arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
     if (debug) qDebug() << PDEBUG << ":" << "Cache file" << fileName;
     QSettings cache(fileName, QSettings::IniFormat);
     QStringList cachedKeys;

@@ -39,7 +39,7 @@ Item {
     implicitWidth: pageColumn.implicitWidth
     implicitHeight: pageColumn.implicitHeight
 
-    property bool debug: awKeys.isDebugEnabled()
+    property bool debug: awActions.isDebugEnabled()
     property variant tooltipSettings: {
         "tooltipNumber": plasmoid.configuration.tooltipNumber,
         "useTooltipBackground": plasmoid.configuration.useTooltipBackground,

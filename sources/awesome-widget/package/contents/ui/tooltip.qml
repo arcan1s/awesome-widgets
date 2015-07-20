@@ -26,8 +26,8 @@ import org.kde.plasma.private.awesomewidget 1.0
 Item {
     id: tooltipPage
     // backend
-    AWKeys {
-        id: awKeys;
+    AWActions {
+        id: awActions;
     }
 
     width: childrenRect.width
@@ -35,7 +35,7 @@ Item {
     implicitWidth: pageColumn.implicitWidth
     implicitHeight: pageColumn.implicitHeight
 
-    property bool debug: awKeys.isDebugEnabled()
+    property bool debug: awActions.isDebugEnabled()
 
     property alias cfg_tooltipNumber: tooltipNumber.value
     property alias cfg_useTooltipBackground: useTooltipBackground.checked
