@@ -24,6 +24,7 @@
 class ExtQuotes;
 class ExtScript;
 class ExtUpgrade;
+class ExtWeather;
 
 class ExtendedSysMon : public Plasma::DataEngine
 {
@@ -59,6 +60,7 @@ private:
     QList<ExtQuotes *> externalQuotes;
     QList<ExtScript *> externalScripts;
     QList<ExtUpgrade *> externalUpgrade;
+    QList<ExtWeather *> externalWeather;
     bool debug;
     // reread configuration
     QStringList allHddDevices;
@@ -68,6 +70,7 @@ private:
     void initQuotes();
     void initScripts();
     void initUpgrade();
+    void initWeather();
     void readConfiguration();
     QMap<QString, QString> updateConfiguration(QMap<QString, QString> rawConfig);
 };

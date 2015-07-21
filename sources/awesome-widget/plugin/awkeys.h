@@ -33,6 +33,7 @@ class AWToolTip;
 class ExtQuotes;
 class ExtScript;
 class ExtUpgrade;
+class ExtWeather;
 class GraphicalItem;
 
 class AWKeys : public QObject
@@ -44,7 +45,8 @@ class AWKeys : public QObject
         RequestedGraphicalItem,
         RequestedExtQuotes,
         RequestedExtScript,
-        RequestedExtUpgrade
+        RequestedExtUpgrade,
+        RequestedExtWeather
     };
 
 public:
@@ -86,6 +88,7 @@ private slots:
     void copyQuotes(const QString original);
     void copyScript(const QString original);
     void copyUpgrade(const QString original);
+    void copyWeather(const QString original);
 
 private:
     // methods
@@ -102,6 +105,7 @@ private:
     QList<ExtQuotes *> getExtQuotes();
     QList<ExtScript *> getExtScripts();
     QList<ExtUpgrade *> getExtUpgrade();
+    QList<ExtWeather *> getExtWeather();
     QList<GraphicalItem *> getGraphicalItems();
     GraphicalItem *getItemByTag(const QString tag);
     QStringList getTimeKeys();
@@ -122,6 +126,7 @@ private:
     QList<ExtQuotes *> extQuotes;
     QList<ExtScript *> extScripts;
     QList<ExtUpgrade *> extUpgrade;
+    QList<ExtWeather *> extWeather;
     QString pattern;
     QStringList foundBars, foundKeys, keys;
     QMap<QString, QString> values;

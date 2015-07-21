@@ -275,6 +275,23 @@ Item {
                 onClicked: awKeys.editItem("extupgrade")
             }
         }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.height
+                width: parent.width * 2 / 5
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+                text: i18n("Weather")
+            }
+            QtControls.Button {
+                width: parent.width * 3 / 5
+                text: i18n("Edit weather")
+                onClicked: awKeys.editItem("extweather")
+            }
+        }
     }
 
     Component.onCompleted: {

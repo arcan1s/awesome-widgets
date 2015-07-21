@@ -15,22 +15,22 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef EXTQUOTES_H
-#define EXTQUOTES_H
+#ifndef EXTWEATHER_H
+#define EXTWEATHER_H
 
 #include <QDialog>
 #include <QMap>
 #include <QNetworkReply>
-#include <QTimer>
 
-#define YAHOO_URL "https://query.yahooapis.com/v1/public/yql?q=select * from yahoo.finance.quotes where symbol=\"$TICKER\"&env=store://datatables.org/alltableswithkeys&format=json"
+#define OWM_URL "http://api.openweathermap.org/data/2.5/weather?q=$CITY,$COUNTRY&units=metric"
+#define OWM_FORECAST_URL "http://api.openweathermap.org/data/2.5/forecast?q=$CITY,$COUNTRY&units=metric"
 
 
 namespace Ui {
-    class ExtQuotes;
+    class ExtWeather;
 }
 
-class ExtQuotes : public QDialog
+class ExtWeather : public QDialog
 {
     Q_OBJECT
     Q_PROPERTY(int apiVersion READ apiVersion WRITE setApiVersion)
@@ -39,12 +39,15 @@ class ExtQuotes : public QDialog
     Q_PROPERTY(int interval READ interval WRITE setInterval)
     Q_PROPERTY(bool active READ isActive WRITE setActive)
     Q_PROPERTY(int number READ number WRITE setNumber)
-    Q_PROPERTY(QString ticker READ ticker WRITE setTicker)
+    Q_PROPERTY(QString city READ city WRITE setCity)
+    Q_PROPERTY(QString country READ country WRITE setCountry)
+    Q_PROPERTY(int ts READ ts WRITE setTs)
 
 public:
-    explicit ExtQuotes(QWidget *parent = nullptr, const QString quotesName = QString(),
+    explicit ExtWeather(QWidget *parent = nullptr, const QString weatherName = QString(),
                         const QStringList directories = QStringList(), const bool debugCmd = false);
-    ~ExtQuotes();
+    ~ExtWeather();
+    QString weatherFromInt(const int _id);
     // get methods
     int apiVersion();
     QString comment();
@@ -53,8 +56,10 @@ public:
     bool isActive();
     QString name();
     int number();
-    QString tag(const QString _type = QString("price"));
-    QString ticker();
+    QString tag(const QString _type = QString("temperature"));
+    QString city();
+    QString country();
+    int ts();
     // set methods
     void setApiVersion(const int _apiVersion = 0);
     void setActive(const bool _state = true);
@@ -62,17 +67,19 @@ public:
     void setInterval(const int _interval = 0);
     void setName(const QString _name = QString("none"));
     void setNumber(int _number = -1);
-    void setTicker(const QString _ticker = QString("EURUSD=X"));
+    void setCity(const QString _city = QString("New York"));
+    void setCountry(const QString _country = QString("us"));
+    void setTs(const int _ts = 0);
 
 public slots:
     void readConfiguration();
-    QMap<QString, float> run();
+    QVariantMap run();
     int showConfiguration();
     bool tryDelete();
     void writeConfiguration();
 
 private slots:
-    void quotesReplyReceived(QNetworkReply *reply);
+    void weatherReplyReceived(QNetworkReply *reply);
 
 private:
     QString m_fileName;
@@ -80,20 +87,23 @@ private:
     bool debug;
     QNetworkAccessManager *manager;
     bool isRunning = false;
-    Ui::ExtQuotes *ui;
-    QString url();
+    Ui::ExtWeather *ui;
+    QVariantMap parseSingleJson(const QVariantMap json);
+    QString url(const bool isForecast = false);
     // properties
     int m_apiVersion = 0;
     bool m_active = true;
     QString m_comment = QString("empty");
-    int m_interval = 60;
+    int m_interval = 3600;
     QString m_name = QString("none");
     int m_number = -1;
-    QString m_ticker = QString("EURUSD=X");
+    QString m_city = QString("New York");
+    QString m_country = QString("us");
+    int m_ts = 0;
     // values
     int times = 0;
-    QMap<QString, float> values;
+    QVariantMap values;
 };
 
 
-#endif /* EXTQUOTES_H */
+#endif /* EXTWEATHER_H */

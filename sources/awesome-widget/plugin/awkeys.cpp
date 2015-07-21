@@ -39,6 +39,7 @@
 #include "extquotes.h"
 #include "extscript.h"
 #include "extupgrade.h"
+#include "extweather.h"
 #include "graphicalitem.h"
 #include "version.h"
 
@@ -81,6 +82,7 @@ AWKeys::~AWKeys()
     graphicalItems.clear();
     extScripts.clear();
     extUpgrade.clear();
+    extWeather.clear();
 }
 
 
@@ -102,6 +104,7 @@ void AWKeys::initKeys(const QString currentPattern)
     extQuotes = getExtQuotes();
     extScripts = getExtScripts();
     extUpgrade = getExtUpgrade();
+    extWeather = getExtWeather();
     graphicalItems = getGraphicalItems();
     // update network and hdd list
     addKeyToCache(QString("Hdd"));
@@ -305,6 +308,15 @@ QStringList AWKeys::dictKeys(const bool sorted)
     allKeys.append(QString("la15"));
     allKeys.append(QString("la5"));
     allKeys.append(QString("la1"));
+    // weather
+    for (int i=extWeather.count()-1; i>=0; i--) {
+        allKeys.append(extWeather[i]->tag(QString("weatherId")));
+        allKeys.append(extWeather[i]->tag(QString("weather")));
+        allKeys.append(extWeather[i]->tag(QString("humidity")));
+        allKeys.append(extWeather[i]->tag(QString("pressure")));
+        allKeys.append(extWeather[i]->tag(QString("temperature")));
+        allKeys.append(extWeather[i]->tag(QString("timestamp")));
+    }
     // bars
     QStringList graphicalItemsKeys;
     for (int i=0; i<graphicalItems.count(); i++)
@@ -488,7 +500,7 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         for (int i=0; i<data.keys().count(); i++)
             for (int j=0; j<hddDevices.count(); j++)
                 if (hddDevices[j] == data.keys()[i]) {
-                    values[QString("hddtemp") + QString::number(j)] = QString("%1").arg(
+                    values[QString("hddtemp%1").arg(j)] = QString("%1").arg(
                         temperature(data[data.keys()[i]].toFloat(), params[QString("tempUnits")].toString()), 4, 'f', 1);
                     break;
                 }
@@ -650,6 +662,20 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         values[QString("cuptime")].replace(QString("$h"), QString("%1").arg(hours));
         values[QString("cuptime")].replace(QString("$mm"), QString("%1").arg(minutes, 2, 10, QChar('0')));
         values[QString("cuptime")].replace(QString("$m"), QString("%1").arg(minutes));
+    } else if (sourceName == QString("weather")) {
+        for (int i=0; i<data.keys().count(); i++) {
+            if (data.keys()[i].startsWith(QString("weatherId")))
+                values[data.keys()[i]] = QString("%1").arg(data[data.keys()[i]].toInt());
+            else if (data.keys()[i].startsWith(QString("weather")))
+                values[data.keys()[i]] = data[data.keys()[i]].toString();
+            else if (data.keys()[i].startsWith(QString("humidity")))
+                values[data.keys()[i]] = QString("%1").arg(data[data.keys()[i]].toInt(), 3);
+            else if (data.keys()[i].startsWith(QString("pressure")))
+                values[data.keys()[i]] = QString("%1").arg(data[data.keys()[i]].toFloat(), 0, 'f', 1);
+            else if (data.keys()[i].startsWith(QString("temperature")))
+                values[data.keys()[i]] = QString("%1").arg(
+                    temperature(data[data.keys()[i]].toFloat(), params[QString("tempUnits")].toString()), 4, 'f', 1);
+        }
     } else {
         if (debug) qDebug() << PDEBUG << ":" << "Source" << sourceName << "not found";
         emit(dropSourceFromDataengine(sourceName));
@@ -662,7 +688,7 @@ void AWKeys::graphicalValueByKey()
     if (debug) qDebug() << PDEBUG;
 
     bool ok;
-    QString tag = QInputDialog::getItem(0, i18n("Select tag"), i18n("Tag"),
+    QString tag = QInputDialog::getItem(nullptr, i18n("Select tag"), i18n("Tag"),
                                         dictKeys(true), 0, false, &ok);
 
     if ((!ok) || (tag.isEmpty())) return;
@@ -769,6 +795,19 @@ void AWKeys::editItem(const QString type)
             item->setToolTip(tooltip.join(QChar('\n')));
             widgetDialog->addItem(item);
         }
+    } else if (type == QString("extweather")) {
+        requestedItem = RequestedExtWeather;
+        for (int i=0; i<extWeather.count(); i++) {
+            QListWidgetItem *item = new QListWidgetItem(extWeather[i]->fileName());
+            QStringList tooltip;
+            tooltip.append(i18n("Name: %1", extWeather[i]->name()));
+            tooltip.append(i18n("Comment: %1", extWeather[i]->comment()));
+            tooltip.append(i18n("City: %1", extWeather[i]->city()));
+            tooltip.append(i18n("Country: %1", extWeather[i]->country()));
+            tooltip.append(i18n("Time: %1", extWeather[i]->ts()));
+            item->setToolTip(tooltip.join(QChar('\n')));
+            widgetDialog->addItem(item);
+        }
     }
 
     int ret = dialog->exec();
@@ -861,6 +900,9 @@ void AWKeys::editItemButtonPressed(QAbstractButton *button)
         case RequestedExtUpgrade:
             copyUpgrade(current);
             break;
+        case RequestedExtWeather:
+            copyWeather(current);
+            break;
         case RequestedGraphicalItem:
             copyBar(current);
             break;
@@ -878,6 +920,9 @@ void AWKeys::editItemButtonPressed(QAbstractButton *button)
             break;
         case RequestedExtUpgrade:
             copyUpgrade(QString(""));
+            break;
+        case RequestedExtWeather:
+            copyWeather(QString(""));
             break;
         case RequestedGraphicalItem:
             copyBar(QString(""));
@@ -923,6 +968,17 @@ void AWKeys::editItemButtonPressed(QAbstractButton *button)
                 break;
             }
             break;
+        case RequestedExtWeather:
+            for (int i=0; i<extWeather.count(); i++) {
+                if (extWeather[i]->fileName() != current) continue;
+                if (extWeather[i]->tryDelete()) {
+                    widgetDialog->takeItem(widgetDialog->row(item));
+                    extWeather.clear();
+                    extWeather = getExtWeather();
+                }
+                break;
+            }
+            break;
         case RequestedGraphicalItem:
             for (int i=0; i<graphicalItems.count(); i++) {
                 if (graphicalItems[i]->fileName() != current) continue;
@@ -963,6 +1019,13 @@ void AWKeys::editItemButtonPressed(QAbstractButton *button)
                 break;
             }
             break;
+        case RequestedExtWeather:
+            for (int i=0; i<extWeather.count(); i++) {
+                if (extWeather[i]->fileName() != current) continue;
+                extWeather[i]->showConfiguration();
+                break;
+            }
+            break;
         case RequestedGraphicalItem:
             for (int i=0; i<graphicalItems.count(); i++) {
                 if (graphicalItems[i]->fileName() != current) continue;
@@ -993,7 +1056,7 @@ void AWKeys::copyBar(const QString original)
                                                  QString("awesomewidgets/desktops"),
                                                  QStandardPaths::LocateDirectory);
     bool ok;
-    QString name = QInputDialog::getText(0, i18n("Enter file name"),
+    QString name = QInputDialog::getText(nullptr, i18n("Enter file name"),
                                          i18n("File name"), QLineEdit::Normal,
                                          QString(""), &ok);
     if ((!ok) || (name.isEmpty())) return;
@@ -1014,7 +1077,7 @@ void AWKeys::copyBar(const QString original)
         originalItem = i;
         break;
     }
-    GraphicalItem *item = new GraphicalItem(0, name, dirs, debug);
+    GraphicalItem *item = new GraphicalItem(nullptr, name, dirs, debug);
     item->setApiVersion(AWGIAPI);
     item->setName(QString("bar%1").arg(number));
     if (originalItem != -1) {
@@ -1058,7 +1121,7 @@ void AWKeys::copyQuotes(const QString original)
                                                  QString("awesomewidgets/quotes"),
                                                  QStandardPaths::LocateDirectory);
     bool ok;
-    QString name = QInputDialog::getText(0, i18n("Enter file name"),
+    QString name = QInputDialog::getText(nullptr, i18n("Enter file name"),
                                          i18n("File name"), QLineEdit::Normal,
                                          QString(""), &ok);
     if ((!ok) || (name.isEmpty())) return;
@@ -1072,7 +1135,7 @@ void AWKeys::copyQuotes(const QString original)
         originalItem = i;
         break;
     }
-    ExtQuotes *quotes = new ExtQuotes(0, name, dirs, debug);
+    ExtQuotes *quotes = new ExtQuotes(nullptr, name, dirs, debug);
     quotes->setApiVersion(AWEQAPI);
     quotes->setNumber(number);
     if (originalItem != -1) {
@@ -1115,7 +1178,7 @@ void AWKeys::copyScript(const QString original)
                                                  QString("awesomewidgets/scripts"),
                                                  QStandardPaths::LocateDirectory);
     bool ok;
-    QString name = QInputDialog::getText(0, i18n("Enter file name"),
+    QString name = QInputDialog::getText(nullptr, i18n("Enter file name"),
                                          i18n("File name"), QLineEdit::Normal,
                                          QString(""), &ok);
     if ((!ok) || (name.isEmpty())) return;
@@ -1129,7 +1192,7 @@ void AWKeys::copyScript(const QString original)
         originalItem = i;
         break;
     }
-    ExtScript *script = new ExtScript(0, name, dirs, debug);
+    ExtScript *script = new ExtScript(nullptr, name, dirs, debug);
     script->setApiVersion(AWESAPI);
     script->setNumber(number);
     if (originalItem != -1) {
@@ -1174,7 +1237,7 @@ void AWKeys::copyUpgrade(const QString original)
                                                  QString("awesomewidgets/upgrade"),
                                                  QStandardPaths::LocateDirectory);
     bool ok;
-    QString name = QInputDialog::getText(0, i18n("Enter file name"),
+    QString name = QInputDialog::getText(nullptr, i18n("Enter file name"),
                                          i18n("File name"), QLineEdit::Normal,
                                          QString(""), &ok);
     if ((!ok) || (name.isEmpty())) return;
@@ -1188,7 +1251,7 @@ void AWKeys::copyUpgrade(const QString original)
         originalItem = i;
         break;
     }
-    ExtUpgrade *upgrade = new ExtUpgrade(0, name, dirs, debug);
+    ExtUpgrade *upgrade = new ExtUpgrade(nullptr, name, dirs, debug);
     upgrade->setApiVersion(AWEUAPI);
     upgrade->setNumber(number);
     if (originalItem != -1) {
@@ -1213,6 +1276,66 @@ void AWKeys::copyUpgrade(const QString original)
         widgetDialog->sortItems();
     }
     delete upgrade;
+}
+
+
+void AWKeys::copyWeather(const QString original)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QList<int> tagList;
+    for (int i=0; i<extWeather.count(); i++)
+        tagList.append(extWeather[i]->number());
+    int number = 0;
+    while (tagList.contains(number))
+        number++;
+
+    QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
+                                                 QString("awesomewidgets/weather"),
+                                                 QStandardPaths::LocateDirectory);
+    bool ok;
+    QString name = QInputDialog::getText(nullptr, i18n("Enter file name"),
+                                         i18n("File name"), QLineEdit::Normal,
+                                         QString(""), &ok);
+    if ((!ok) || (name.isEmpty())) return;
+    if (!name.endsWith(QString(".desktop"))) name += QString(".desktop");
+
+    int originalItem = -1;
+    for (int i=0; i<extWeather.count(); i++) {
+        if ((extWeather[i]->fileName() != original) ||
+            (extWeather[i]->fileName() != name))
+            continue;
+        originalItem = i;
+        break;
+    }
+    ExtWeather *weather = new ExtWeather(nullptr, name, dirs, debug);
+    weather->setApiVersion(AWEUAPI);
+    weather->setNumber(number);
+    if (originalItem != -1) {
+        weather->setActive(extWeather[originalItem]->isActive());
+        weather->setComment(extWeather[originalItem]->comment());
+        weather->setName(extWeather[originalItem]->name());
+        weather->setInterval(extWeather[originalItem]->interval());
+        weather->setCity(extWeather[originalItem]->city());
+        weather->setCountry(extWeather[originalItem]->country());
+        weather->setTs(extWeather[originalItem]->ts());
+    }
+
+    if (weather->showConfiguration() == 1) {
+        extWeather.clear();
+        extWeather = getExtWeather();
+        QListWidgetItem *widgetItem = new QListWidgetItem(weather->fileName());
+        QStringList tooltip;
+        tooltip.append(i18n("Name: %1", weather->name()));
+        tooltip.append(i18n("Comment: %1", weather->comment()));
+        tooltip.append(i18n("City: %1", weather->city()));
+        tooltip.append(i18n("Country: %1", weather->country()));
+        tooltip.append(i18n("Time: %1", weather->ts()));
+        widgetItem->setToolTip(tooltip.join(QChar('\n')));
+        widgetDialog->addItem(widgetItem);
+        widgetDialog->sortItems();
+    }
+    delete weather;
 }
 
 
@@ -1388,7 +1511,7 @@ QList<ExtQuotes *> AWKeys::getExtQuotes()
             if (names.contains(files[j])) continue;
             if (debug) qDebug() << PDEBUG << ":" << "Found file" << files[j] << "in" << dirs[i];
             names.append(files[j]);
-            externalQuotes.append(new ExtQuotes(0, files[j], dirs, debug));
+            externalQuotes.append(new ExtQuotes(nullptr, files[j], dirs, debug));
         }
     }
 
@@ -1419,7 +1542,7 @@ QList<ExtScript *> AWKeys::getExtScripts()
             if (names.contains(files[j])) continue;
             if (debug) qDebug() << PDEBUG << ":" << "Found file" << files[j] << "in" << dirs[i];
             names.append(files[j]);
-            externalScripts.append(new ExtScript(0, files[j], dirs, debug));
+            externalScripts.append(new ExtScript(nullptr, files[j], dirs, debug));
         }
     }
 
@@ -1450,11 +1573,42 @@ QList<ExtUpgrade *> AWKeys::getExtUpgrade()
             if (names.contains(files[j])) continue;
             if (debug) qDebug() << PDEBUG << ":" << "Found file" << files[j] << "in" << dirs[i];
             names.append(files[j]);
-            externalUpgrade.append(new ExtUpgrade(0, files[j], dirs, debug));
+            externalUpgrade.append(new ExtUpgrade(nullptr, files[j], dirs, debug));
         }
     }
 
     return externalUpgrade;
+}
+
+
+QList<ExtWeather *> AWKeys::getExtWeather()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QList<ExtWeather *> externalWeather;
+    // create directory at $HOME
+    QString localDir = QString("%1/awesomewidgets/weather")
+                        .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
+    QDir localDirectory;
+    if ((!localDirectory.exists(localDir)) && (localDirectory.mkpath(localDir)))
+        if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
+
+    QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
+                                                 QString("awesomewidgets/weather"),
+                                                 QStandardPaths::LocateDirectory);
+    QStringList names;
+    for (int i=0; i<dirs.count(); i++) {
+        QStringList files = QDir(dirs[i]).entryList(QDir::Files, QDir::Name);
+        for (int j=0; j<files.count(); j++) {
+            if (!files[j].endsWith(QString(".desktop"))) continue;
+            if (names.contains(files[j])) continue;
+            if (debug) qDebug() << PDEBUG << ":" << "Found file" << files[j] << "in" << dirs[i];
+            names.append(files[j]);
+            externalWeather.append(new ExtWeather(nullptr, files[j], dirs, debug));
+        }
+    }
+
+    return externalWeather;
 }
 
 
@@ -1481,7 +1635,7 @@ QList<GraphicalItem *> AWKeys::getGraphicalItems()
             if (names.contains(files[j])) continue;
             if (debug) qDebug() << PDEBUG << ":" << "Found file" << files[j] << "in" << dirs[i];
             names.append(files[j]);
-            items.append(new GraphicalItem(0, files[j], dirs, debug));
+            items.append(new GraphicalItem(nullptr, files[j], dirs, debug));
         }
     }
 

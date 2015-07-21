@@ -21,9 +21,11 @@ include_directories (${CMAKE_SOURCE_DIR}
 
 # task source is required by extscripts
 file (GLOB_RECURSE SUBPROJECT_SOURCE *.cpp ${PROJECT_TRDPARTY_DIR}/fontdialog/*.cpp
+                                     ${PROJECT_TRDPARTY_DIR}/qreplytimeout/*.cpp
                                      ../../extsysmon/extquotes.cpp
                                      ../../extsysmon/extscript.cpp
-                                     ../../extsysmon/extupgrade.cpp)
+                                     ../../extsysmon/extupgrade.cpp
+                                     ../../extsysmon/extweather.cpp)
 file (GLOB SUBPROJECT_UI *.ui)
 file (GLOB SUBPROJECT_NOTIFY *.notifyrc)
 set (SUBPROJECT_DESKTOP ${CMAKE_CURRENT_SOURCE_DIR}/desktops)

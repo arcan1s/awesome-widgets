@@ -32,7 +32,8 @@
 #include "version.h"
 
 
-ExtScript::ExtScript(QWidget *parent, const QString scriptName, const QStringList directories, const bool debugCmd)
+ExtScript::ExtScript(QWidget *parent, const QString scriptName,
+                     const QStringList directories, const bool debugCmd)
     : QDialog(parent),
       m_fileName(scriptName),
       m_dirs(directories),

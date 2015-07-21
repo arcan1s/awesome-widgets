@@ -17,6 +17,8 @@
 #define AWESAPI 3
 // extupgrade api version
 #define AWEUAPI 2
+// extweather api version
+#define AWEWAPI 1
 
 // links
 #define HOMEPAGE "http://arcanis.name/projects/awesome-widgets/"

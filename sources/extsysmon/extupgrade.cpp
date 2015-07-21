@@ -29,7 +29,8 @@
 #include "version.h"
 
 
-ExtUpgrade::ExtUpgrade(QWidget *parent, const QString upgradeName, const QStringList directories, const bool debugCmd)
+ExtUpgrade::ExtUpgrade(QWidget *parent, const QString upgradeName,
+                       const QStringList directories, const bool debugCmd)
     : QDialog(parent),
       m_fileName(upgradeName),
       m_dirs(directories),

@@ -261,9 +261,6 @@ Item {
             QtControls.Label {
                 height: parent.height
                 width: parent.width * 2 / 5
-//                 horizontalAlignment: Text.AlignRight
-//                 verticalAlignment: Text.AlignVCenter
-//                 text: i18n("Font")
             }
             QtControls.Button {
                 id: selectFont

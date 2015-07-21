@@ -1,10 +1,12 @@
 Ver.2.3.4:
++ add support of weather items
 + add support of load average (la1, la5, la15 tags)
 + add "drop key cache" button
 - fix bug with invalid network data calculation
 * improve work with data updating (#57)
 * move plugin part back to private
 * cast plugin as type, not signleton (#57)
+* change logic in data building inside DataEngine
 
 Ver.2.3.3:
 * change text rendering from Qt to native
