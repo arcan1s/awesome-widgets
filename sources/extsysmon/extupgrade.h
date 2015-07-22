@@ -18,78 +18,51 @@
 #ifndef EXTUPGRADE_H
 #define EXTUPGRADE_H
 
-#include <QDialog>
 #include <QProcess>
+
+#include "abstractextitem.h"
 
 
 namespace Ui {
     class ExtUpgrade;
 }
 
-class ExtUpgrade : public QDialog
+class ExtUpgrade : public AbstractExtItem
 {
     Q_OBJECT
-    Q_PROPERTY(int apiVersion READ apiVersion WRITE setApiVersion)
-    Q_PROPERTY(QString name READ name WRITE setName)
-    Q_PROPERTY(QString comment READ comment WRITE setComment)
     Q_PROPERTY(QString executable READ executable WRITE setExecutable)
     Q_PROPERTY(int null READ null WRITE setNull)
-    Q_PROPERTY(int number READ number WRITE setNumber)
-    Q_PROPERTY(bool active READ isActive WRITE setActive)
-    Q_PROPERTY(int interval READ interval WRITE setInterval)
 
 public:
     explicit ExtUpgrade(QWidget *parent = nullptr, const QString upgradeName = QString(),
                         const QStringList directories = QStringList(), const bool debugCmd = false);
     ~ExtUpgrade();
     // get methods
-    int apiVersion();
-    QString comment();
     QString executable();
-    QString fileName();
-    int interval();
-    QString name();
     int null();
-    int number();
-    QString tag();
-    bool isActive();
     // set methods
-    void setApiVersion(const int _apiVersion = 0);
-    void setActive(const bool _state = true);
-    void setComment(const QString _comment = QString("empty"));
     void setExecutable(const QString _executable = QString("/usr/bin/true"));
-    void setName(const QString _name = QString("none"));
     void setNull(const int _null = 0);
-    void setNumber(int _number = -1);
-    void setInterval(const int _interval = 0);
 
 public slots:
     void readConfiguration();
-    int run();
+    QVariantMap run();
     int showConfiguration();
-    bool tryDelete();
     void writeConfiguration();
 
 private slots:
     void updateValue();
 
 private:
-    QString m_fileName;
-    QStringList m_dirs;
     bool debug;
     QProcess *process = nullptr;
     Ui::ExtUpgrade *ui;
     // properties
-    int m_apiVersion = 0;
-    bool m_active = true;
-    QString m_comment = QString("empty");
     QString m_executable = QString("/usr/bin/true");
-    QString m_name = QString("none");
     int m_null = 0;
-    int m_number = -1;
-    int m_interval = 3600;
+    // internal properties
     int times = 0;
-    int value = 0;
+    QVariantMap value;
 };
 
 

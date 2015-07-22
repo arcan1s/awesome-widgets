@@ -2,7 +2,9 @@ Ver.2.3.4:
 + add support of weather items
 + add support of load average (la1, la5, la15 tags)
 + add "drop key cache" button
++ add support of clang building
 - fix bug with invalid network data calculation
+* rewrite ExtItems to use own abstract class
 * improve work with data updating (#57)
 * move plugin part back to private
 * cast plugin as type, not signleton (#57)

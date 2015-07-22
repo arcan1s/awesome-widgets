@@ -25,7 +25,6 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QSettings>
-#include <QTime>
 
 #include <pdebug/pdebug.h>
 #include <qreplytimeout/qreplytimeout.h>
@@ -35,13 +34,10 @@
 
 ExtWeather::ExtWeather(QWidget *parent, const QString weatherName,
                        const QStringList directories, const bool debugCmd)
-    : QDialog(parent),
-      m_fileName(weatherName),
-      m_dirs(directories),
+    : AbstractExtItem(parent, weatherName, directories, debugCmd),
       debug(debugCmd),
       ui(new Ui::ExtWeather)
 {
-    m_name = m_fileName;
     readConfiguration();
     ui->setupUi(this);
 
@@ -53,7 +49,7 @@ ExtWeather::ExtWeather(QWidget *parent, const QString weatherName,
 
     manager = new QNetworkAccessManager(this);
     connect(manager, SIGNAL(finished(QNetworkReply *)),
-            this, SLOT(weatherReplyReceived(QNetworkReply*)));
+            this, SLOT(weatherReplyReceived(QNetworkReply *)));
 }
 
 
@@ -169,71 +165,6 @@ QString ExtWeather::weatherFromInt(const int _id)
 }
 
 
-int ExtWeather::apiVersion()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return m_apiVersion;
-}
-
-
-QString ExtWeather::comment()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return m_comment;
-}
-
-
-QString ExtWeather::fileName()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return m_fileName;
-}
-
-
-int ExtWeather::interval()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return m_interval;
-}
-
-
-bool ExtWeather::isActive()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return m_active;
-}
-
-
-QString ExtWeather::name()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return m_name;
-}
-
-
-int ExtWeather::number()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return m_number;
-}
-
-
-QString ExtWeather::tag(const QString _type)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Tag type" << _type;
-
-    return QString("%1%2").arg(_type).arg(m_number);
-}
-
-
 QString ExtWeather::city()
 {
     if (debug) qDebug() << PDEBUG;
@@ -258,66 +189,6 @@ int ExtWeather::ts()
 }
 
 
-void ExtWeather::setApiVersion(const int _apiVersion)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Version" << _apiVersion;
-
-    m_apiVersion = _apiVersion;
-}
-
-
-void ExtWeather::setActive(const bool _state)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "State" << _state;
-
-    m_active = _state;
-}
-
-
-void ExtWeather::setComment(const QString _comment)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Comment" << _comment;
-
-    m_comment = _comment;
-}
-
-
-void ExtWeather::setInterval(const int _interval)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Interval" << _interval;
-
-    m_interval = _interval;
-}
-
-
-void ExtWeather::setName(const QString _name)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Name" << _name;
-
-    m_name = _name;
-}
-
-
-void ExtWeather::setNumber(int _number)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Number" << _number;
-    if (_number == -1) {
-        if (debug) qDebug() << PDEBUG << ":" << "Number is empty, generate new one";
-        qsrand(QTime::currentTime().msec());
-        _number = qrand() % 1000;
-        if (debug) qDebug() << PDEBUG << ":" << "Generated number is" << _number;
-    }
-
-    m_number = _number;
-}
-
-
 void ExtWeather::setCity(const QString _city)
 {
     if (debug) qDebug() << PDEBUG;
@@ -325,7 +196,6 @@ void ExtWeather::setCity(const QString _city)
 
     m_city = _city;
 }
-
 
 
 void ExtWeather::setCountry(const QString _country)
@@ -350,25 +220,19 @@ void ExtWeather::readConfiguration()
 {
     if (debug) qDebug() << PDEBUG;
 
-    for (int i=m_dirs.count()-1; i>=0; i--) {
-        if (!QDir(m_dirs[i]).entryList(QDir::Files).contains(m_fileName)) continue;
-        QSettings settings(QString("%1/%2").arg(m_dirs[i]).arg(m_fileName), QSettings::IniFormat);
+    for (int i=directories().count()-1; i>=0; i--) {
+        if (!QDir(directories()[i]).entryList(QDir::Files).contains(fileName())) continue;
+        QSettings settings(QString("%1/%2").arg(directories()[i]).arg(fileName()), QSettings::IniFormat);
 
         settings.beginGroup(QString("Desktop Entry"));
-        setName(settings.value(QString("Name"), m_name).toString());
-        setComment(settings.value(QString("Comment"), m_comment).toString());
-        setApiVersion(settings.value(QString("X-AW-ApiVersion"), m_apiVersion).toInt());
         setCity(settings.value(QString("X-AW-City"), m_city).toString());
         setCountry(settings.value(QString("X-AW-Country"), m_country).toString());
         setTs(settings.value(QString("X-AW-TS"), m_ts).toInt());
-        setActive(settings.value(QString("X-AW-Active"), QVariant(m_active)).toString() == QString("true"));
-        setInterval(settings.value(QString("X-AW-Interval"), m_interval).toInt());
-        setNumber(settings.value(QString("X-AW-Number"), m_number).toInt());
         settings.endGroup();
     }
 
     // update for current API
-    if ((m_apiVersion > 0) && (m_apiVersion < AWEWAPI)) {
+    if ((apiVersion() > 0) && (apiVersion() < AWEWAPI)) {
         setApiVersion(AWEWAPI);
         writeConfiguration();
     }
@@ -378,7 +242,7 @@ void ExtWeather::readConfiguration()
 QVariantMap ExtWeather::run()
 {
     if (debug) qDebug() << PDEBUG;
-    if ((!m_active) || (isRunning)) return values;
+    if ((!isActive()) || (isRunning)) return values;
 
     if (times == 1) {
         if (debug) qDebug() << PDEBUG << ":" << "Send request";
@@ -388,7 +252,7 @@ QVariantMap ExtWeather::run()
     }
 
     // update value
-    if (times >= m_interval) times = 0;
+    if (times >= interval()) times = 0;
     times++;
 
     return values;
@@ -399,14 +263,14 @@ int ExtWeather::showConfiguration()
 {
     if (debug) qDebug() << PDEBUG;
 
-    ui->lineEdit_name->setText(m_name);
-    ui->lineEdit_comment->setText(m_comment);
-    ui->label_numberValue->setText(QString("%1").arg(m_number));
+    ui->lineEdit_name->setText(name());
+    ui->lineEdit_comment->setText(comment());
+    ui->label_numberValue->setText(QString("%1").arg(number()));
     ui->lineEdit_city->setText(m_city);
     ui->lineEdit_country->setText(m_country);
     ui->spinBox_timestamp->setValue(m_ts);
-    ui->checkBox_active->setCheckState(m_active ? Qt::Checked : Qt::Unchecked);
-    ui->spinBox_interval->setValue(m_interval);
+    ui->checkBox_active->setCheckState(isActive() ? Qt::Checked : Qt::Unchecked);
+    ui->spinBox_interval->setValue(interval());
 
     int ret = exec();
     if (ret != 1) return ret;
@@ -425,39 +289,17 @@ int ExtWeather::showConfiguration()
 }
 
 
-bool ExtWeather::tryDelete()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    for (int i=0; i<m_dirs.count(); i++)
-        if (debug) qDebug() << PDEBUG << ":" << "Remove file" << QString("%1/%2").arg(m_dirs[i]).arg(m_fileName) <<
-                               QFile::remove(QString("%1/%2").arg(m_dirs[i]).arg(m_fileName));
-
-    // check if exists
-    for (int i=0; i<m_dirs.count(); i++)
-        if (QFile::exists(QString("%1/%2").arg(m_dirs[i]).arg(m_fileName))) return false;
-    return true;
-}
-
-
 void ExtWeather::writeConfiguration()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QSettings settings(QString("%1/%2").arg(m_dirs[0]).arg(m_fileName), QSettings::IniFormat);
+    QSettings settings(QString("%1/%2").arg(directories()[0]).arg(fileName()), QSettings::IniFormat);
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("Encoding"), QString("UTF-8"));
-    settings.setValue(QString("Name"), m_name);
-    settings.setValue(QString("Comment"), m_comment);
     settings.setValue(QString("X-AW-City"), m_city);
     settings.setValue(QString("X-AW-Country"), m_country);
     settings.setValue(QString("X-AW-TS"), m_ts);
-    settings.setValue(QString("X-AW-ApiVersion"), m_apiVersion);
-    settings.setValue(QString("X-AW-Active"), QVariant(m_active).toString());
-    settings.setValue(QString("X-AW-Interval"), m_interval);
-    settings.setValue(QString("X-AW-Number"), m_number);
     settings.endGroup();
 
     settings.sync();

@@ -25,7 +25,6 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QSettings>
-#include <QTime>
 
 #include <pdebug/pdebug.h>
 #include <qreplytimeout/qreplytimeout.h>
@@ -35,13 +34,10 @@
 
 ExtQuotes::ExtQuotes(QWidget *parent, const QString quotesName,
                      const QStringList directories, const bool debugCmd)
-    : QDialog(parent),
-      m_fileName(quotesName),
-      m_dirs(directories),
+    : AbstractExtItem(parent, quotesName, directories, debugCmd),
       debug(debugCmd),
       ui(new Ui::ExtQuotes)
 {
-    m_name = m_fileName;
     readConfiguration();
     ui->setupUi(this);
 
@@ -56,7 +52,8 @@ ExtQuotes::ExtQuotes(QWidget *parent, const QString quotesName,
     values[QString("percpricechg")] = 0.0;
 
     manager = new QNetworkAccessManager(this);
-    connect(manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(quotesReplyReceived(QNetworkReply *)));
+    connect(manager, SIGNAL(finished(QNetworkReply *)),
+            this, SLOT(quotesReplyReceived(QNetworkReply *)));
 }
 
 
@@ -71,136 +68,11 @@ ExtQuotes::~ExtQuotes()
 }
 
 
-int ExtQuotes::apiVersion()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return m_apiVersion;
-}
-
-
-QString ExtQuotes::comment()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return m_comment;
-}
-
-
-QString ExtQuotes::fileName()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return m_fileName;
-}
-
-
-int ExtQuotes::interval()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return m_interval;
-}
-
-
-bool ExtQuotes::isActive()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return m_active;
-}
-
-
-QString ExtQuotes::name()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return m_name;
-}
-
-
-int ExtQuotes::number()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return m_number;
-}
-
-
-QString ExtQuotes::tag(const QString _type)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Tag type" << _type;
-
-    return QString("%1%2").arg(_type).arg(m_number);
-}
-
-
 QString ExtQuotes::ticker()
 {
     if (debug) qDebug() << PDEBUG;
 
     return m_ticker;
-}
-
-
-void ExtQuotes::setApiVersion(const int _apiVersion)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Version" << _apiVersion;
-
-    m_apiVersion = _apiVersion;
-}
-
-
-void ExtQuotes::setActive(const bool _state)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "State" << _state;
-
-    m_active = _state;
-}
-
-
-void ExtQuotes::setComment(const QString _comment)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Comment" << _comment;
-
-    m_comment = _comment;
-}
-
-
-void ExtQuotes::setInterval(const int _interval)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Interval" << _interval;
-
-    m_interval = _interval;
-}
-
-
-void ExtQuotes::setName(const QString _name)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Name" << _name;
-
-    m_name = _name;
-}
-
-
-void ExtQuotes::setNumber(int _number)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Number" << _number;
-    if (_number == -1) {
-        if (debug) qDebug() << PDEBUG << ":" << "Number is empty, generate new one";
-        qsrand(QTime::currentTime().msec());
-        _number = qrand() % 1000;
-        if (debug) qDebug() << PDEBUG << ":" << "Generated number is" << _number;
-    }
-
-    m_number = _number;
 }
 
 
@@ -217,33 +89,27 @@ void ExtQuotes::readConfiguration()
 {
     if (debug) qDebug() << PDEBUG;
 
-    for (int i=m_dirs.count()-1; i>=0; i--) {
-        if (!QDir(m_dirs[i]).entryList(QDir::Files).contains(m_fileName)) continue;
-        QSettings settings(QString("%1/%2").arg(m_dirs[i]).arg(m_fileName), QSettings::IniFormat);
+    for (int i=directories().count()-1; i>=0; i--) {
+        if (!QDir(directories()[i]).entryList(QDir::Files).contains(fileName())) continue;
+        QSettings settings(QString("%1/%2").arg(directories()[i]).arg(fileName()), QSettings::IniFormat);
 
         settings.beginGroup(QString("Desktop Entry"));
-        setName(settings.value(QString("Name"), m_name).toString());
-        setComment(settings.value(QString("Comment"), m_comment).toString());
-        setApiVersion(settings.value(QString("X-AW-ApiVersion"), m_apiVersion).toInt());
         setTicker(settings.value(QString("X-AW-Ticker"), m_ticker).toString());
-        setActive(settings.value(QString("X-AW-Active"), QVariant(m_active)).toString() == QString("true"));
-        setInterval(settings.value(QString("X-AW-Interval"), m_interval).toInt());
-        setNumber(settings.value(QString("X-AW-Number"), m_number).toInt());
         settings.endGroup();
     }
 
     // update for current API
-    if ((m_apiVersion > 0) && (m_apiVersion < AWEQAPI)) {
+    if ((apiVersion() > 0) && (apiVersion() < AWEQAPI)) {
         setApiVersion(AWEQAPI);
         writeConfiguration();
     }
 }
 
 
-QMap<QString, float> ExtQuotes::run()
+QVariantMap ExtQuotes::run()
 {
     if (debug) qDebug() << PDEBUG;
-    if ((!m_active) || (isRunning)) return values;
+    if ((!isActive()) || (isRunning)) return values;
 
     if (times == 1) {
         if (debug) qDebug() << PDEBUG << ":" << "Send request";
@@ -253,7 +119,7 @@ QMap<QString, float> ExtQuotes::run()
     }
 
     // update value
-    if (times >= m_interval) times = 0;
+    if (times >= interval()) times = 0;
     times++;
 
     return values;
@@ -264,12 +130,12 @@ int ExtQuotes::showConfiguration()
 {
     if (debug) qDebug() << PDEBUG;
 
-    ui->lineEdit_name->setText(m_name);
-    ui->lineEdit_comment->setText(m_comment);
-    ui->label_numberValue->setText(QString("%1").arg(m_number));
+    ui->lineEdit_name->setText(name());
+    ui->lineEdit_comment->setText(comment());
+    ui->label_numberValue->setText(QString("%1").arg(number()));
     ui->lineEdit_ticker->setText(m_ticker);
-    ui->checkBox_active->setCheckState(m_active ? Qt::Checked : Qt::Unchecked);
-    ui->spinBox_interval->setValue(m_interval);
+    ui->checkBox_active->setCheckState(isActive() ? Qt::Checked : Qt::Unchecked);
+    ui->spinBox_interval->setValue(interval());
 
     int ret = exec();
     if (ret != 1) return ret;
@@ -286,37 +152,15 @@ int ExtQuotes::showConfiguration()
 }
 
 
-bool ExtQuotes::tryDelete()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    for (int i=0; i<m_dirs.count(); i++)
-        if (debug) qDebug() << PDEBUG << ":" << "Remove file" << QString("%1/%2").arg(m_dirs[i]).arg(m_fileName) <<
-                               QFile::remove(QString("%1/%2").arg(m_dirs[i]).arg(m_fileName));
-
-    // check if exists
-    for (int i=0; i<m_dirs.count(); i++)
-        if (QFile::exists(QString("%1/%2").arg(m_dirs[i]).arg(m_fileName))) return false;
-    return true;
-}
-
-
 void ExtQuotes::writeConfiguration()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QSettings settings(QString("%1/%2").arg(m_dirs[0]).arg(m_fileName), QSettings::IniFormat);
+    QSettings settings(QString("%1/%2").arg(directories()[0]).arg(fileName()), QSettings::IniFormat);
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("Encoding"), QString("UTF-8"));
-    settings.setValue(QString("Name"), m_name);
-    settings.setValue(QString("Comment"), m_comment);
     settings.setValue(QString("X-AW-Ticker"), m_ticker);
-    settings.setValue(QString("X-AW-ApiVersion"), m_apiVersion);
-    settings.setValue(QString("X-AW-Active"), QVariant(m_active).toString());
-    settings.setValue(QString("X-AW-Interval"), m_interval);
-    settings.setValue(QString("X-AW-Number"), m_number);
     settings.endGroup();
 
     settings.sync();
@@ -343,20 +187,23 @@ void ExtQuotes::quotesReplyReceived(QNetworkReply *reply)
 
     // ask
     value = jsonQuotes[QString("Ask")].toString().toFloat();
-    values[QString("askchg")] = values[QString("ask")] == 0 ? 0.0 : value - values[QString("ask")];
-    values[QString("percaskchg")] = 100 * values[QString("askchg")] / values[QString("ask")];
+    values[QString("askchg")] = values[QString("ask")].toFloat() == 0.0 ? 0.0 :
+                                value - values[QString("ask")].toFloat();
+    values[QString("percaskchg")] = 100.0 * values[QString("askchg")].toFloat() / values[QString("ask")].toFloat();
     values[QString("ask")] = value;
 
     // bid
     value = jsonQuotes[QString("Bid")].toString().toFloat();
-    values[QString("bidchg")] = values[QString("bid")] == 0 ? 0.0 : value - values[QString("bid")];
-    values[QString("percbidchg")] = 100 * values[QString("bidchg")] / values[QString("bid")];
+    values[QString("bidchg")] = values[QString("bid")].toFloat() == 0.0 ? 0.0 :
+                                value - values[QString("bid")].toFloat();
+    values[QString("percbidchg")] = 100.0 * values[QString("bidchg")].toFloat() / values[QString("bid")].toFloat();
     values[QString("bid")] = value;
 
     // last trade
     value = jsonQuotes[QString("LastTradePriceOnly")].toString().toFloat();
-    values[QString("pricechg")] = values[QString("price")] == 0 ? 0.0 : value - values[QString("price")];
-    values[QString("percpricechg")] = 100 * values[QString("pricechg")] / values[QString("price")];
+    values[QString("pricechg")] = values[QString("price")].toFloat() == 0.0 ? 0.0 :
+                                  value - values[QString("price")].toFloat();
+    values[QString("percpricechg")] = 100.0 * values[QString("pricechg")].toFloat() / values[QString("price")].toFloat();
     values[QString("price")] = value;
 }
 

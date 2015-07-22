@@ -701,10 +701,8 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
         for (int i=0; i<battery.keys().count(); i++)
             setData(source, battery.keys()[i], battery[battery.keys()[i]]);
     } else if (source == QString("custom")) {
-        for (int i=0; i<externalScripts.count(); i++) {
-            if (!externalScripts[i]->isActive()) continue;
-            setData(source, externalScripts[i]->tag(), externalScripts[i]->run());
-        }
+        for (int i=0; i<externalScripts.count(); i++)
+            setData(source, externalScripts[i]->tag(QString("custom")), externalScripts[i]->run()[QString("value")]);
     } else if (source == QString("desktop")) {
         QVariantMap desktop = getCurrentDesktop();
         for (int i=0; i<desktop.keys().count(); i++)
@@ -725,10 +723,8 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     } else if (source == QString("netdev")) {
         setData(source, QString("value"), getNetworkDevice());
     } else if (source == QString("pkg")) {
-        for (int i=0; i<externalUpgrade.count(); i++) {
-            if (!externalUpgrade[i]->isActive()) continue;
-            setData(source, externalUpgrade[i]->tag(), externalUpgrade[i]->run());
-        }
+        for (int i=0; i<externalUpgrade.count(); i++)
+            setData(source, externalUpgrade[i]->tag(QString("pkgcount")), externalUpgrade[i]->run()[QString("value")]);
     } else if (source == QString("player")) {
         QVariantMap player = getPlayerInfo(configuration[QString("PLAYER")],
                                            configuration[QString("MPDADDRESS")],
@@ -742,8 +738,7 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
             setData(source, ps.keys()[i], ps[ps.keys()[i]]);
     } else if (source == QString("quotes")) {
         for (int i=0; i<externalQuotes.count(); i++) {
-            if (!externalQuotes[i]->isActive()) continue;
-            QMap<QString, float> data = externalQuotes[i]->run();
+            QVariantMap data = externalQuotes[i]->run();
             for (int j=0; j<data.keys().count(); j++)
                 setData(source, externalQuotes[i]->tag(data.keys()[j]), data[data.keys()[j]]);
         }
@@ -751,7 +746,6 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
         setData(source, QString("value"), true);
     } else if (source == QString("weather")) {
         for (int i=0; i<externalWeather.count(); i++) {
-            if (!externalWeather[i]->isActive()) continue;
             QVariantMap data = externalWeather[i]->run();
             for (int j=0; j<data.keys().count(); j++)
                 setData(source, externalWeather[i]->tag(data.keys()[j]), data[data.keys()[j]]);

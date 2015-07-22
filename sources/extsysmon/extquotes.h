@@ -18,10 +18,10 @@
 #ifndef EXTQUOTES_H
 #define EXTQUOTES_H
 
-#include <QDialog>
 #include <QMap>
 #include <QNetworkReply>
-#include <QTimer>
+
+#include "abstractextitem.h"
 
 #define YAHOO_URL "https://query.yahooapis.com/v1/public/yql?q=select * from yahoo.finance.quotes where symbol=\"$TICKER\"&env=store://datatables.org/alltableswithkeys&format=json"
 
@@ -30,15 +30,9 @@ namespace Ui {
     class ExtQuotes;
 }
 
-class ExtQuotes : public QDialog
+class ExtQuotes : public AbstractExtItem
 {
     Q_OBJECT
-    Q_PROPERTY(int apiVersion READ apiVersion WRITE setApiVersion)
-    Q_PROPERTY(QString name READ name WRITE setName)
-    Q_PROPERTY(QString comment READ comment WRITE setComment)
-    Q_PROPERTY(int interval READ interval WRITE setInterval)
-    Q_PROPERTY(bool active READ isActive WRITE setActive)
-    Q_PROPERTY(int number READ number WRITE setNumber)
     Q_PROPERTY(QString ticker READ ticker WRITE setTicker)
 
 public:
@@ -46,53 +40,30 @@ public:
                         const QStringList directories = QStringList(), const bool debugCmd = false);
     ~ExtQuotes();
     // get methods
-    int apiVersion();
-    QString comment();
-    QString fileName();
-    int interval();
-    bool isActive();
-    QString name();
-    int number();
-    QString tag(const QString _type = QString("price"));
     QString ticker();
     // set methods
-    void setApiVersion(const int _apiVersion = 0);
-    void setActive(const bool _state = true);
-    void setComment(const QString _comment = QString("empty"));
-    void setInterval(const int _interval = 0);
-    void setName(const QString _name = QString("none"));
-    void setNumber(int _number = -1);
     void setTicker(const QString _ticker = QString("EURUSD=X"));
 
 public slots:
     void readConfiguration();
-    QMap<QString, float> run();
+    QVariantMap run();
     int showConfiguration();
-    bool tryDelete();
     void writeConfiguration();
 
 private slots:
     void quotesReplyReceived(QNetworkReply *reply);
 
 private:
-    QString m_fileName;
-    QStringList m_dirs;
     bool debug;
     QNetworkAccessManager *manager;
     bool isRunning = false;
     Ui::ExtQuotes *ui;
     QString url();
     // properties
-    int m_apiVersion = 0;
-    bool m_active = true;
-    QString m_comment = QString("empty");
-    int m_interval = 60;
-    QString m_name = QString("none");
-    int m_number = -1;
     QString m_ticker = QString("EURUSD=X");
     // values
     int times = 0;
-    QMap<QString, float> values;
+    QVariantMap values;
 };
 
 

@@ -283,10 +283,13 @@ QStringList AWKeys::dictKeys(const bool sorted)
     allKeys.append(QString("pstotal"));
     allKeys.append(QString("ps"));
     // package manager
-    for (int i=extUpgrade.count()-1; i>=0; i--)
-        allKeys.append(extUpgrade[i]->tag());
+    for (int i=extUpgrade.count()-1; i>=0; i--) {
+        if (!extUpgrade[i]->isActive()) continue;
+        allKeys.append(extUpgrade[i]->tag(QString("pkgcount")));
+    }
     // quotes
     for (int i=extQuotes.count()-1; i>=0; i--) {
+        if (!extQuotes[i]->isActive()) continue;
         allKeys.append(extQuotes[i]->tag(QString("ask")));
         allKeys.append(extQuotes[i]->tag(QString("askchg")));
         allKeys.append(extQuotes[i]->tag(QString("percaskchg")));
@@ -298,8 +301,10 @@ QStringList AWKeys::dictKeys(const bool sorted)
         allKeys.append(extQuotes[i]->tag(QString("percpricechg")));
     }
     // custom
-    for (int i=extScripts.count()-1; i>=0; i--)
-        allKeys.append(extScripts[i]->tag());
+    for (int i=extScripts.count()-1; i>=0; i--) {
+        if (!extScripts[i]->isActive()) continue;
+        allKeys.append(extScripts[i]->tag(QString("custom")));
+    }
     // desktop
     allKeys.append(QString("desktop"));
     allKeys.append(QString("ndesktop"));
@@ -310,6 +315,7 @@ QStringList AWKeys::dictKeys(const bool sorted)
     allKeys.append(QString("la1"));
     // weather
     for (int i=extWeather.count()-1; i>=0; i--) {
+        if (!extWeather[i]->isActive()) continue;
         allKeys.append(extWeather[i]->tag(QString("weatherId")));
         allKeys.append(extWeather[i]->tag(QString("weather")));
         allKeys.append(extWeather[i]->tag(QString("humidity")));
@@ -708,7 +714,7 @@ QString AWKeys::infoByKey(QString key)
     key.remove(QRegExp(QString("^bar[0-9]{1,}")));
     if (key.startsWith(QString("custom")))
         for (int i=0; i<extScripts.count(); i++) {
-            if (extScripts[i]->tag() != key) continue;
+            if (extScripts[i]->tag(QString("custom")) != key) continue;
             return extScripts[i]->executable();
         }
     else if (key.contains(QRegExp(QString("^hdd[rw]"))))
@@ -721,7 +727,7 @@ QString AWKeys::infoByKey(QString key)
         return QString("%1").arg(networkDevices[key.remove(QRegExp(QString("^(down|up)"))).toInt()]);
     else if (key.startsWith(QString("pkgcount")))
         for (int i=0; i<extUpgrade.count(); i++) {
-            if (extUpgrade[i]->tag() != key) continue;
+            if (extUpgrade[i]->tag(QString("pkgcount")) != key) continue;
             return extUpgrade[i]->executable();
         }
     else if (key.contains(QRegExp(QString("(^|perc)(ask|bid|price)(chg|)"))))
