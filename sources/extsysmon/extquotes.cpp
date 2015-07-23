@@ -68,7 +68,7 @@ ExtQuotes::~ExtQuotes()
 }
 
 
-QString ExtQuotes::ticker()
+QString ExtQuotes::ticker() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -88,6 +88,7 @@ void ExtQuotes::setTicker(const QString _ticker)
 void ExtQuotes::readConfiguration()
 {
     if (debug) qDebug() << PDEBUG;
+    AbstractExtItem::readConfiguration();
 
     for (int i=directories().count()-1; i>=0; i--) {
         if (!QDir(directories()[i]).entryList(QDir::Files).contains(fileName())) continue;
@@ -126,8 +127,9 @@ QVariantMap ExtQuotes::run()
 }
 
 
-int ExtQuotes::showConfiguration()
+int ExtQuotes::showConfiguration(const QVariant args)
 {
+    Q_UNUSED(args)
     if (debug) qDebug() << PDEBUG;
 
     ui->lineEdit_name->setText(name());
@@ -152,9 +154,10 @@ int ExtQuotes::showConfiguration()
 }
 
 
-void ExtQuotes::writeConfiguration()
+void ExtQuotes::writeConfiguration() const
 {
     if (debug) qDebug() << PDEBUG;
+    AbstractExtItem::writeConfiguration();
 
     QSettings settings(QString("%1/%2").arg(directories()[0]).arg(fileName()), QSettings::IniFormat);
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << settings.fileName();
@@ -208,7 +211,7 @@ void ExtQuotes::quotesReplyReceived(QNetworkReply *reply)
 }
 
 
-QString ExtQuotes::url()
+QString ExtQuotes::url() const
 {
     if (debug) qDebug() << PDEBUG;
 

@@ -55,7 +55,7 @@ ExtUpgrade::~ExtUpgrade()
 }
 
 
-QString ExtUpgrade::executable()
+QString ExtUpgrade::executable() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -63,7 +63,7 @@ QString ExtUpgrade::executable()
 }
 
 
-int ExtUpgrade::null()
+int ExtUpgrade::null() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -93,6 +93,7 @@ void ExtUpgrade::setNull(const int _null)
 void ExtUpgrade::readConfiguration()
 {
     if (debug) qDebug() << PDEBUG;
+    AbstractExtItem::readConfiguration();
 
     for (int i=directories().count()-1; i>=0; i--) {
         if (!QDir(directories()[i]).entryList(QDir::Files).contains(fileName())) continue;
@@ -127,8 +128,9 @@ QVariantMap ExtUpgrade::run()
 }
 
 
-int ExtUpgrade::showConfiguration()
+int ExtUpgrade::showConfiguration(const QVariant args)
 {
+    Q_UNUSED(args)
     if (debug) qDebug() << PDEBUG;
 
     ui->lineEdit_name->setText(name());
@@ -155,9 +157,10 @@ int ExtUpgrade::showConfiguration()
 }
 
 
-void ExtUpgrade::writeConfiguration()
+void ExtUpgrade::writeConfiguration() const
 {
     if (debug) qDebug() << PDEBUG;
+    AbstractExtItem::writeConfiguration();
 
     QSettings settings(QString("%1/%2").arg(directories()[0]).arg(fileName()), QSettings::IniFormat);
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << settings.fileName();

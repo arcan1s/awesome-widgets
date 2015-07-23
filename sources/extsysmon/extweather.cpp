@@ -65,7 +65,7 @@ ExtWeather::~ExtWeather()
 }
 
 
-QString ExtWeather::weatherFromInt(const int _id)
+QString ExtWeather::weatherFromInt(const int _id) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "ID" << _id;
@@ -165,7 +165,7 @@ QString ExtWeather::weatherFromInt(const int _id)
 }
 
 
-QString ExtWeather::city()
+QString ExtWeather::city() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -173,7 +173,7 @@ QString ExtWeather::city()
 }
 
 
-QString ExtWeather::country()
+QString ExtWeather::country() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -181,7 +181,7 @@ QString ExtWeather::country()
 }
 
 
-int ExtWeather::ts()
+int ExtWeather::ts() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -219,6 +219,7 @@ void ExtWeather::setTs(const int _ts)
 void ExtWeather::readConfiguration()
 {
     if (debug) qDebug() << PDEBUG;
+    AbstractExtItem::readConfiguration();
 
     for (int i=directories().count()-1; i>=0; i--) {
         if (!QDir(directories()[i]).entryList(QDir::Files).contains(fileName())) continue;
@@ -259,8 +260,9 @@ QVariantMap ExtWeather::run()
 }
 
 
-int ExtWeather::showConfiguration()
+int ExtWeather::showConfiguration(const QVariant args)
 {
+    Q_UNUSED(args)
     if (debug) qDebug() << PDEBUG;
 
     ui->lineEdit_name->setText(name());
@@ -289,9 +291,10 @@ int ExtWeather::showConfiguration()
 }
 
 
-void ExtWeather::writeConfiguration()
+void ExtWeather::writeConfiguration() const
 {
     if (debug) qDebug() << PDEBUG;
+    AbstractExtItem::writeConfiguration();
 
     QSettings settings(QString("%1/%2").arg(directories()[0]).arg(fileName()), QSettings::IniFormat);
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << settings.fileName();
@@ -341,7 +344,7 @@ void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
 }
 
 
-QVariantMap ExtWeather::parseSingleJson(const QVariantMap json)
+QVariantMap ExtWeather::parseSingleJson(const QVariantMap json) const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -367,7 +370,7 @@ QVariantMap ExtWeather::parseSingleJson(const QVariantMap json)
 }
 
 
-QString ExtWeather::url(const bool isForecast)
+QString ExtWeather::url(const bool isForecast) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << "Is forecast" << isForecast;

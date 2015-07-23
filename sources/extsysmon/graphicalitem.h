@@ -19,19 +19,17 @@
 #define GRAPHICALITEM_H
 
 #include <QColor>
-#include <QDialog>
+
+#include "abstractextitem.h"
 
 
 namespace Ui {
     class GraphicalItem;
 }
 
-class GraphicalItem : public QDialog
+class GraphicalItem : public AbstractExtItem
 {
     Q_OBJECT
-    Q_PROPERTY(int apiVersion READ apiVersion WRITE setApiVersion)
-    Q_PROPERTY(QString name READ name WRITE setName)
-    Q_PROPERTY(QString comment READ comment WRITE setComment)
     Q_PROPERTY(QString bar READ bar WRITE setBar)
     Q_PROPERTY(QString activeColor READ activeColor WRITE setActiveColor)
     Q_PROPERTY(QString inactiveColor READ inactiveColor WRITE setInactiveColor)
@@ -55,25 +53,18 @@ public:
                            const QStringList directories = QStringList(),
                            const bool debugCmd = false);
     ~GraphicalItem();
-    QString fileName();
-    QString image(const float value);
+    QString image(const float value) const;
     // get methods
-    int apiVersion();
-    QString name();
-    QString comment();
-    QString bar();
-    QString activeColor();
-    QString inactiveColor();
-    Type type();
-    QString strType();
-    Direction direction();
-    QString strDirection();
-    int height();
-    int width();
+    QString bar() const;
+    QString activeColor() const;
+    QString inactiveColor() const;
+    Type type() const;
+    QString strType() const;
+    Direction direction() const;
+    QString strDirection() const;
+    int height() const;
+    int width() const;
     // set methods
-    void setApiVersion(const int _apiVersion = 0);
-    void setName(const QString _name = QString("none"));
-    void setComment(const QString _comment = QString("empty"));
     void setBar(const QString _bar = QString("cpu"));
     void setActiveColor(const QString _color = QString("0,0,0,130"));
     void setInactiveColor(const QString _color = QString("255,255,255,130"));
@@ -86,15 +77,15 @@ public:
 
 public slots:
     void readConfiguration();
-    int showConfiguration(const QStringList tags = QStringList());
-    bool tryDelete();
-    void writeConfiguration();
+    QVariantMap run();
+    int showConfiguration(const QVariant args = QVariant());
+    void writeConfiguration() const;
 
 private slots:
     void changeColor();
 
 private:
-    QColor stringToColor(const QString _color);
+    QColor stringToColor(const QString _color) const;
     QString m_fileName;
     QStringList m_dirs;
     bool debug;

@@ -38,8 +38,8 @@ public:
                         const QStringList directories = QStringList(), const bool debugCmd = false);
     ~ExtUpgrade();
     // get methods
-    QString executable();
-    int null();
+    QString executable() const;
+    int null() const;
     // set methods
     void setExecutable(const QString _executable = QString("/usr/bin/true"));
     void setNull(const int _null = 0);
@@ -47,8 +47,8 @@ public:
 public slots:
     void readConfiguration();
     QVariantMap run();
-    int showConfiguration();
-    void writeConfiguration();
+    int showConfiguration(const QVariant args = QVariant());
+    void writeConfiguration() const;
 
 private slots:
     void updateValue();

@@ -18,8 +18,6 @@
 #include "graphicalitem.h"
 #include "ui_graphicalitem.h"
 
-#include <KI18n/KLocalizedString>
-
 #include <QBuffer>
 #include <QColorDialog>
 #include <QDebug>
@@ -34,10 +32,9 @@
 #include "version.h"
 
 
-GraphicalItem::GraphicalItem(QWidget *parent, const QString desktopName, const QStringList directories, const bool debugCmd)
-    : QDialog(parent),
-      m_fileName(desktopName),
-      m_dirs(directories),
+GraphicalItem::GraphicalItem(QWidget *parent, const QString desktopName,
+                             const QStringList directories, const bool debugCmd)
+    : AbstractExtItem(parent, desktopName, directories, debugCmd),
       debug(debugCmd),
       ui(new Ui::GraphicalItem)
 {
@@ -57,7 +54,7 @@ GraphicalItem::~GraphicalItem()
 }
 
 
-QString GraphicalItem::image(const float value)
+QString GraphicalItem::image(const float value) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Value" << value;
@@ -137,39 +134,7 @@ QString GraphicalItem::image(const float value)
 }
 
 
-QString GraphicalItem::fileName()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return m_fileName;
-}
-
-
-int GraphicalItem::apiVersion()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return m_apiVersion;
-}
-
-
-QString GraphicalItem::name()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return m_name;
-}
-
-
-QString GraphicalItem::comment()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return m_comment;
-}
-
-
-QString GraphicalItem::bar()
+QString GraphicalItem::bar() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -177,7 +142,7 @@ QString GraphicalItem::bar()
 }
 
 
-QString GraphicalItem::activeColor()
+QString GraphicalItem::activeColor() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -185,7 +150,7 @@ QString GraphicalItem::activeColor()
 }
 
 
-QString GraphicalItem::inactiveColor()
+QString GraphicalItem::inactiveColor() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -193,7 +158,7 @@ QString GraphicalItem::inactiveColor()
 }
 
 
-GraphicalItem::Type GraphicalItem::type()
+GraphicalItem::Type GraphicalItem::type() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -201,7 +166,7 @@ GraphicalItem::Type GraphicalItem::type()
 }
 
 
-QString GraphicalItem::strType()
+QString GraphicalItem::strType() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -222,7 +187,7 @@ QString GraphicalItem::strType()
 }
 
 
-GraphicalItem::Direction GraphicalItem::direction()
+GraphicalItem::Direction GraphicalItem::direction() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -230,7 +195,7 @@ GraphicalItem::Direction GraphicalItem::direction()
 }
 
 
-QString GraphicalItem::strDirection()
+QString GraphicalItem::strDirection() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -248,7 +213,7 @@ QString GraphicalItem::strDirection()
 }
 
 
-int GraphicalItem::height()
+int GraphicalItem::height() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -256,38 +221,11 @@ int GraphicalItem::height()
 }
 
 
-int GraphicalItem::width()
+int GraphicalItem::width() const
 {
     if (debug) qDebug() << PDEBUG;
 
     return m_width;
-}
-
-
-void GraphicalItem::setApiVersion(const int _apiVersion)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Version" << _apiVersion;
-
-    m_apiVersion = _apiVersion;
-}
-
-
-void GraphicalItem::setName(const QString _name)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Name" << _name;
-
-    m_name = _name;
-}
-
-
-void GraphicalItem::setComment(const QString _comment)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Comment" << _comment;
-
-    m_comment = _comment;
 }
 
 
@@ -393,15 +331,13 @@ void GraphicalItem::setWidth(const int _width)
 void GraphicalItem::readConfiguration()
 {
     if (debug) qDebug() << PDEBUG;
+    AbstractExtItem::readConfiguration();
 
-    for (int i=m_dirs.count()-1; i>=0; i--) {
-        if (!QDir(m_dirs[i]).entryList(QDir::Files).contains(m_fileName)) continue;
-        QSettings settings(QString("%1/%2").arg(m_dirs[i]).arg(m_fileName), QSettings::IniFormat);
+    for (int i=directories().count()-1; i>=0; i--) {
+        if (!QDir(directories()[i]).entryList(QDir::Files).contains(fileName())) continue;
+        QSettings settings(QString("%1/%2").arg(directories()[i]).arg(fileName()), QSettings::IniFormat);
 
         settings.beginGroup(QString("Desktop Entry"));
-        setName(settings.value(QString("Name"), m_name).toString());
-        setComment(settings.value(QString("Comment"), m_comment).toString());
-        setApiVersion(settings.value(QString("X-AW-ApiVersion"), AWGIAPI).toInt());
         setBar(settings.value(QString("X-AW-Value"), m_bar).toString());
         setActiveColor(settings.value(QString("X-AW-ActiveColor"), m_activeColor).toString());
         setInactiveColor(settings.value(QString("X-AW-InactiveColor"), m_inactiveColor).toString());
@@ -414,12 +350,22 @@ void GraphicalItem::readConfiguration()
 }
 
 
-int GraphicalItem::showConfiguration(const QStringList tags)
+QVariantMap GraphicalItem::run()
 {
     if (debug) qDebug() << PDEBUG;
 
-    ui->label_nameValue->setText(m_name);
-    ui->lineEdit_comment->setText(m_comment);
+    // required by abstract class
+    return QVariantMap();
+}
+
+
+int GraphicalItem::showConfiguration(const QVariant args)
+{
+    if (debug) qDebug() << PDEBUG;
+    QStringList tags = args.toStringList();
+
+    ui->label_nameValue->setText(name());
+    ui->lineEdit_comment->setText(comment());
     ui->comboBox_value->addItems(tags);
     ui->comboBox_value->addItem(m_bar);
     ui->comboBox_value->setCurrentIndex(ui->comboBox_value->count() - 1);
@@ -449,32 +395,15 @@ int GraphicalItem::showConfiguration(const QStringList tags)
 }
 
 
-bool GraphicalItem::tryDelete()
+void GraphicalItem::writeConfiguration() const
 {
     if (debug) qDebug() << PDEBUG;
+    AbstractExtItem::writeConfiguration();
 
-    for (int i=0; i<m_dirs.count(); i++)
-        if (debug) qDebug() << PDEBUG << ":" << "Remove file" << QString("%1/%2").arg(m_dirs[i]).arg(m_fileName) <<
-                               QFile::remove(QString("%1/%2").arg(m_dirs[i]).arg(m_fileName));
-
-    // check if exists
-    for (int i=0; i<m_dirs.count(); i++)
-        if (QFile::exists(QString("%1/%2").arg(m_dirs[i]).arg(m_fileName))) return false;
-    return true;
-}
-
-
-void GraphicalItem::writeConfiguration()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    QSettings settings(QString("%1/%2").arg(m_dirs[0]).arg(m_fileName), QSettings::IniFormat);
+    QSettings settings(QString("%1/%2").arg(directories()[0]).arg(fileName()), QSettings::IniFormat);
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("Encoding"), QString("UTF-8"));
-    settings.setValue(QString("Name"), m_name);
-    settings.setValue(QString("Comment"), m_comment);
     settings.setValue(QString("X-AW-ApiVersion"), m_apiVersion);
     settings.setValue(QString("X-AW-Value"), m_bar);
     settings.setValue(QString("X-AW-ActiveColor"), m_activeColor);
@@ -494,7 +423,7 @@ void GraphicalItem::changeColor()
     if (debug) qDebug() << PDEBUG;
 
     QColor color = stringToColor((dynamic_cast<QPushButton *>(sender()))->text());
-    QColor newColor = QColorDialog::getColor(color, 0, i18n("Select color"),
+    QColor newColor = QColorDialog::getColor(color, 0, tr("Select color"),
                                              QColorDialog::ShowAlphaChannel);
     if (!newColor.isValid()) return;
 
@@ -507,7 +436,7 @@ void GraphicalItem::changeColor()
 }
 
 
-QColor GraphicalItem::stringToColor(const QString _color)
+QColor GraphicalItem::stringToColor(const QString _color) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Color" << _color;

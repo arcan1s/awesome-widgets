@@ -42,11 +42,11 @@ public:
     explicit ExtWeather(QWidget *parent = nullptr, const QString weatherName = QString(),
                         const QStringList directories = QStringList(), const bool debugCmd = false);
     ~ExtWeather();
-    QString weatherFromInt(const int _id);
+    QString weatherFromInt(const int _id) const;
     // get methods
-    QString city();
-    QString country();
-    int ts();
+    QString city() const;
+    QString country() const;
+    int ts() const;
     // set methods
     void setCity(const QString _city = QString("London"));
     void setCountry(const QString _country = QString("uk"));
@@ -55,8 +55,8 @@ public:
 public slots:
     void readConfiguration();
     QVariantMap run();
-    int showConfiguration();
-    void writeConfiguration();
+    int showConfiguration(const QVariant args = QVariant());
+    void writeConfiguration() const;
 
 private slots:
     void weatherReplyReceived(QNetworkReply *reply);
@@ -66,8 +66,8 @@ private:
     QNetworkAccessManager *manager;
     bool isRunning = false;
     Ui::ExtWeather *ui;
-    QVariantMap parseSingleJson(const QVariantMap json);
-    QString url(const bool isForecast = false);
+    QVariantMap parseSingleJson(const QVariantMap json) const;
+    QString url(const bool isForecast = false) const;
     // properties
     QString m_city = QString("London");
     QString m_country = QString("uk");

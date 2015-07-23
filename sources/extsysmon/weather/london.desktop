@@ -1,0 +1,11 @@
+[Desktop Entry]
+Comment=London current weather
+Encoding=UTF-8
+Name=London current
+X-AW-Active=false
+X-AW-ApiVersion=1
+X-AW-City=London
+X-AW-Country=uk
+X-AW-Interval=3600
+X-AW-Number=0
+X-AW-TS=0

@@ -48,13 +48,13 @@ public:
                        const QStringList directories = QStringList(), const bool debugCmd = false);
     ~ExtScript();
     // get methods
-    QString executable();
-    QStringList filters();
-    bool hasOutput();
-    QString prefix();
-    Redirect redirect();
+    QString executable() const;
+    QStringList filters() const;
+    bool hasOutput() const;
+    QString prefix() const;
+    Redirect redirect() const;
     // derivatives
-    QString strRedirect();
+    QString strRedirect() const;
     // set methods
     void setExecutable(const QString _executable = QString("/usr/bin/true"));
     void setFilters(const QStringList _filters = QStringList());
@@ -63,15 +63,15 @@ public:
     void setRedirect(const Redirect _redirect = nothing);
     void setStrRedirect(const QString _redirect = QString("nothing"));
     // filters
-    QString applyFilters(QString _value);
+    QString applyFilters(QString _value) const;
     void updateFilter(const QString _filter, const bool _add = true);
 
 public slots:
     void readConfiguration();
     void readJsonFilters();
     QVariantMap run();
-    int showConfiguration();
-    void writeConfiguration();
+    int showConfiguration(const QVariant args = QVariant());
+    void writeConfiguration() const;
 
 private slots:
     void updateValue();

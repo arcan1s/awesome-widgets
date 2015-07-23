@@ -45,7 +45,7 @@ AbstractExtItem::~AbstractExtItem()
 }
 
 
-int AbstractExtItem::apiVersion()
+int AbstractExtItem::apiVersion() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -53,7 +53,7 @@ int AbstractExtItem::apiVersion()
 }
 
 
-QString AbstractExtItem::comment()
+QString AbstractExtItem::comment() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -61,7 +61,7 @@ QString AbstractExtItem::comment()
 }
 
 
-QStringList AbstractExtItem::directories()
+QStringList AbstractExtItem::directories() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -69,7 +69,7 @@ QStringList AbstractExtItem::directories()
 }
 
 
-QString AbstractExtItem::fileName()
+QString AbstractExtItem::fileName() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -77,7 +77,7 @@ QString AbstractExtItem::fileName()
 }
 
 
-int AbstractExtItem::interval()
+int AbstractExtItem::interval() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -85,7 +85,7 @@ int AbstractExtItem::interval()
 }
 
 
-bool AbstractExtItem::isActive()
+bool AbstractExtItem::isActive() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -93,7 +93,7 @@ bool AbstractExtItem::isActive()
 }
 
 
-QString AbstractExtItem::name()
+QString AbstractExtItem::name() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -101,7 +101,7 @@ QString AbstractExtItem::name()
 }
 
 
-int AbstractExtItem::number()
+int AbstractExtItem::number() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -109,7 +109,7 @@ int AbstractExtItem::number()
 }
 
 
-QString AbstractExtItem::tag(const QString _type)
+QString AbstractExtItem::tag(const QString _type) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Tag type" << _type;
@@ -142,6 +142,24 @@ void AbstractExtItem::setComment(const QString _comment)
     if (debug) qDebug() << PDEBUG << ":" << "Comment" << _comment;
 
     m_comment = _comment;
+}
+
+
+void AbstractExtItem::setDirectories(QStringList _directories)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Directories" << _directories;
+
+    m_dirs = _directories;
+}
+
+
+void AbstractExtItem::setFileName(const QString _fileName)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Filename" << _fileName;
+
+    m_fileName = _fileName;
 }
 
 
@@ -199,7 +217,7 @@ void AbstractExtItem::readConfiguration()
 }
 
 
-bool AbstractExtItem::tryDelete()
+bool AbstractExtItem::tryDelete() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -214,7 +232,7 @@ bool AbstractExtItem::tryDelete()
 }
 
 
-void AbstractExtItem::writeConfiguration()
+void AbstractExtItem::writeConfiguration() const
 {
     if (debug) qDebug() << PDEBUG;
 

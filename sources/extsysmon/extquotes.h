@@ -40,15 +40,15 @@ public:
                         const QStringList directories = QStringList(), const bool debugCmd = false);
     ~ExtQuotes();
     // get methods
-    QString ticker();
+    QString ticker() const;
     // set methods
     void setTicker(const QString _ticker = QString("EURUSD=X"));
 
 public slots:
     void readConfiguration();
     QVariantMap run();
-    int showConfiguration();
-    void writeConfiguration();
+    int showConfiguration(const QVariant args = QVariant());
+    void writeConfiguration() const;
 
 private slots:
     void quotesReplyReceived(QNetworkReply *reply);
@@ -58,7 +58,7 @@ private:
     QNetworkAccessManager *manager;
     bool isRunning = false;
     Ui::ExtQuotes *ui;
-    QString url();
+    QString url() const;
     // properties
     QString m_ticker = QString("EURUSD=X");
     // values

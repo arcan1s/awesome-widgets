@@ -41,7 +41,7 @@ ExtScript::ExtScript(QWidget *parent, const QString scriptName,
     readJsonFilters();
     ui->setupUi(this);
 
-    value[QString("value")] = QString();
+    value[QString("value")] = QString("");
 
     process = new QProcess(this);
     connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(updateValue()));
@@ -59,7 +59,7 @@ ExtScript::~ExtScript()
 }
 
 
-QString ExtScript::executable()
+QString ExtScript::executable() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -67,7 +67,7 @@ QString ExtScript::executable()
 }
 
 
-QStringList ExtScript::filters()
+QStringList ExtScript::filters() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -75,7 +75,7 @@ QStringList ExtScript::filters()
 }
 
 
-bool ExtScript::hasOutput()
+bool ExtScript::hasOutput() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -83,7 +83,7 @@ bool ExtScript::hasOutput()
 }
 
 
-QString ExtScript::prefix()
+QString ExtScript::prefix() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -91,7 +91,7 @@ QString ExtScript::prefix()
 }
 
 
-ExtScript::Redirect ExtScript::redirect()
+ExtScript::Redirect ExtScript::redirect() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -99,7 +99,7 @@ ExtScript::Redirect ExtScript::redirect()
 }
 
 
-QString ExtScript::strRedirect()
+QString ExtScript::strRedirect() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -181,7 +181,7 @@ void ExtScript::setStrRedirect(const QString _redirect)
 }
 
 
-QString ExtScript::applyFilters(QString _value)
+QString ExtScript::applyFilters(QString _value) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Value" << _value;
@@ -219,6 +219,7 @@ void ExtScript::updateFilter(const QString _filter, const bool _add)
 void ExtScript::readConfiguration()
 {
     if (debug) qDebug() << PDEBUG;
+    AbstractExtItem::readConfiguration();
 
     for (int i=directories().count()-1; i>=0; i--) {
         if (!QDir(directories()[i]).entryList(QDir::Files).contains(fileName())) continue;
@@ -289,8 +290,9 @@ QVariantMap ExtScript::run()
 }
 
 
-int ExtScript::showConfiguration()
+int ExtScript::showConfiguration(const QVariant args)
 {
+    Q_UNUSED(args)
     if (debug) qDebug() << PDEBUG;
 
     ui->lineEdit_name->setText(name());
@@ -329,9 +331,10 @@ int ExtScript::showConfiguration()
 }
 
 
-void ExtScript::writeConfiguration()
+void ExtScript::writeConfiguration() const
 {
     if (debug) qDebug() << PDEBUG;
+    AbstractExtItem::writeConfiguration();
 
     QSettings settings(QString("%1/%2").arg(directories()[0]).arg(fileName()), QSettings::IniFormat);
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << settings.fileName();
