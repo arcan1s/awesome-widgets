@@ -35,7 +35,7 @@ public:
     AWToolTip(QObject *parent = nullptr, QVariantMap settings = QVariantMap());
     ~AWToolTip();
 
-    QSize getSize();
+    QSize getSize() const;
     QPixmap image();
     void setData(const QString source, float value,
                  const bool ac = true);

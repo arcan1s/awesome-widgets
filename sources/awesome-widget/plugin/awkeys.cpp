@@ -139,7 +139,7 @@ void AWKeys::setWrapNewLines(const bool wrap)
 }
 
 
-QString AWKeys::parsePattern()
+QString AWKeys::parsePattern() const
 {
     if (debug) qDebug() << PDEBUG;
     if (keys.isEmpty()) return pattern;
@@ -158,7 +158,7 @@ QString AWKeys::parsePattern()
 }
 
 
-QSize AWKeys::toolTipSize()
+QSize AWKeys::toolTipSize() const
 {
     if (debug) qDebug() << PDEBUG;
     if (toolTip == nullptr) return QSize();
@@ -190,7 +190,7 @@ void AWKeys::addDevice(const QString source)
 }
 
 
-QStringList AWKeys::dictKeys(const bool sorted)
+QStringList AWKeys::dictKeys(const bool sorted) const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -339,7 +339,7 @@ QStringList AWKeys::dictKeys(const bool sorted)
 }
 
 
-QStringList AWKeys::getHddDevices()
+QStringList AWKeys::getHddDevices() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -689,7 +689,7 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
 }
 
 
-void AWKeys::graphicalValueByKey()
+void AWKeys::graphicalValueByKey() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -706,7 +706,7 @@ void AWKeys::graphicalValueByKey()
 }
 
 
-QString AWKeys::infoByKey(QString key)
+QString AWKeys::infoByKey(QString key) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Requested key" << key;
@@ -742,7 +742,7 @@ QString AWKeys::infoByKey(QString key)
 }
 
 
-QString AWKeys::valueByKey(QString key)
+QString AWKeys::valueByKey(QString key) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Requested key" << key;
@@ -822,7 +822,7 @@ void AWKeys::editItem(const QString type)
 }
 
 
-void AWKeys::dataUpdate()
+void AWKeys::dataUpdate() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -1390,7 +1390,7 @@ void AWKeys::addKeyToCache(const QString type, const QString key)
 }
 
 
-bool AWKeys::checkKeys(const QVariantMap data)
+bool AWKeys::checkKeys(const QVariantMap data) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Data" << data;
@@ -1399,7 +1399,7 @@ bool AWKeys::checkKeys(const QVariantMap data)
 }
 
 
-QString AWKeys::htmlValue(QString key)
+QString AWKeys::htmlValue(QString key) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Requested key" << key;
@@ -1411,7 +1411,7 @@ QString AWKeys::htmlValue(QString key)
 }
 
 
-int AWKeys::numberCpus()
+int AWKeys::numberCpus() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -1419,7 +1419,7 @@ int AWKeys::numberCpus()
 }
 
 
-float AWKeys::temperature(const float temp, const QString units)
+float AWKeys::temperature(const float temp, const QString units) const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -1443,7 +1443,7 @@ float AWKeys::temperature(const float temp, const QString units)
 }
 
 
-QString AWKeys::toolTipImage()
+QString AWKeys::toolTipImage() const
 {
     if(debug) qDebug() << PDEBUG;
     if (toolTip == nullptr) return QString("");
@@ -1459,7 +1459,7 @@ QString AWKeys::toolTipImage()
 }
 
 
-QStringList AWKeys::findGraphicalItems()
+QStringList AWKeys::findGraphicalItems() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -1479,7 +1479,7 @@ QStringList AWKeys::findGraphicalItems()
 }
 
 
-QStringList AWKeys::findKeys()
+QStringList AWKeys::findKeys() const
 {
     QStringList selectedKeys;
     for (int i=0; i<keys.count(); i++) {
@@ -1649,7 +1649,7 @@ QList<GraphicalItem *> AWKeys::getGraphicalItems()
 }
 
 
-GraphicalItem *AWKeys::getItemByTag(const QString tag)
+GraphicalItem *AWKeys::getItemByTag(const QString tag) const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -1664,7 +1664,7 @@ GraphicalItem *AWKeys::getItemByTag(const QString tag)
 }
 
 
-QStringList AWKeys::getTimeKeys()
+QStringList AWKeys::getTimeKeys() const
 {
     if (debug) qDebug() << PDEBUG;
 

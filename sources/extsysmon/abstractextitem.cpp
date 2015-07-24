@@ -145,24 +145,6 @@ void AbstractExtItem::setComment(const QString _comment)
 }
 
 
-void AbstractExtItem::setDirectories(QStringList _directories)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Directories" << _directories;
-
-    m_dirs = _directories;
-}
-
-
-void AbstractExtItem::setFileName(const QString _fileName)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Filename" << _fileName;
-
-    m_fileName = _fileName;
-}
-
-
 void AbstractExtItem::setInterval(const int _interval)
 {
     if (debug) qDebug() << PDEBUG;

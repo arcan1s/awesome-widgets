@@ -19,6 +19,7 @@
 #define ABSTRACTEXTITEM_H
 
 #include <QDialog>
+#include <QInputDialog>
 #include <QVariant>
 
 
@@ -28,15 +29,14 @@ class AbstractExtItem : public QDialog
     Q_PROPERTY(bool active READ isActive WRITE setActive)
     Q_PROPERTY(int apiVersion READ apiVersion WRITE setApiVersion)
     Q_PROPERTY(QString comment READ comment WRITE setComment)
-    Q_PROPERTY(QStringList directories READ directories WRITE setDirectories)
-    Q_PROPERTY(QString fileName READ fileName WRITE setFileName)
+    Q_PROPERTY(QStringList directories READ directories)
+    Q_PROPERTY(QString fileName READ fileName)
     Q_PROPERTY(int interval READ interval WRITE setInterval)
     Q_PROPERTY(QString name READ name WRITE setName)
     Q_PROPERTY(int number READ number WRITE setNumber)
 
 public:
-    explicit AbstractExtItem(QWidget *parent = nullptr,
-                             const QString desktopName = QString(),
+    explicit AbstractExtItem(QWidget *parent = nullptr, const QString desktopName = QString(),
                              const QStringList directories = QStringList(),
                              const bool debugCmd = false);
     virtual ~AbstractExtItem();
@@ -54,8 +54,6 @@ public:
     void setApiVersion(const int _apiVersion = 0);
     void setActive(const bool _state = true);
     void setComment(const QString _comment = QString("empty"));
-    void setDirectories(const QStringList _directories);
-    void setFileName(const QString _fileName);
     void setInterval(const int _interval = 1);
     void setName(const QString _name = QString("none"));
     void setNumber(int _number = -1);

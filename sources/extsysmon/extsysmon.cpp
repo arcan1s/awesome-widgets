@@ -75,7 +75,7 @@ ExtendedSysMon::~ExtendedSysMon()
 }
 
 
-QString ExtendedSysMon::getAllHdd()
+QStringList ExtendedSysMon::getAllHdd() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -85,11 +85,11 @@ QString ExtendedSysMon::getAllHdd()
         devices[i] = QString("/dev/%1").arg(devices[i]);
 
     if (debug) qDebug() << PDEBUG << ":" << "Device list" << devices;
-    return devices.join(QChar(','));
+    return devices;
 }
 
 
-QString ExtendedSysMon::getAutoGpu()
+QString ExtendedSysMon::getAutoGpu() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -108,7 +108,7 @@ QString ExtendedSysMon::getAutoGpu()
 }
 
 
-QString ExtendedSysMon::getAutoMpris()
+QString ExtendedSysMon::getAutoMpris() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -293,7 +293,7 @@ void ExtendedSysMon::readConfiguration()
 }
 
 
-QMap<QString, QString> ExtendedSysMon::updateConfiguration(QMap<QString, QString> rawConfig)
+QMap<QString, QString> ExtendedSysMon::updateConfiguration(QMap<QString, QString> rawConfig) const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -306,7 +306,7 @@ QMap<QString, QString> ExtendedSysMon::updateConfiguration(QMap<QString, QString
         (rawConfig[QString("GPUDEV")] != QString("nvidia")))
         rawConfig[QString("GPUDEV")] = getAutoGpu();
     // hdddev
-    allHddDevices = getAllHdd().split(QChar(','), QString::SkipEmptyParts);
+    QStringList allHddDevices = getAllHdd();
     if (rawConfig[QString("HDDDEV")] == QString("all"))
         rawConfig[QString("HDDDEV")] = allHddDevices.join(QChar(','));
     else if (rawConfig[QString("HDDDEV")] == QString("disable"))
@@ -336,7 +336,7 @@ QMap<QString, QString> ExtendedSysMon::updateConfiguration(QMap<QString, QString
 }
 
 
-QVariantMap ExtendedSysMon::getBattery(const QString acpiPath)
+QVariantMap ExtendedSysMon::getBattery(const QString acpiPath) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "ACPI path" << acpiPath;
@@ -379,7 +379,7 @@ QVariantMap ExtendedSysMon::getBattery(const QString acpiPath)
 }
 
 
-QVariantMap ExtendedSysMon::getCurrentDesktop()
+QVariantMap ExtendedSysMon::getCurrentDesktop() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -398,7 +398,7 @@ QVariantMap ExtendedSysMon::getCurrentDesktop()
 }
 
 
-float ExtendedSysMon::getGpu(const QString device)
+float ExtendedSysMon::getGpu(const QString device) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Device" << device;
@@ -441,7 +441,7 @@ float ExtendedSysMon::getGpu(const QString device)
 }
 
 
-float ExtendedSysMon::getGpuTemp(const QString device)
+float ExtendedSysMon::getGpuTemp(const QString device) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Device" << device;
@@ -482,7 +482,7 @@ float ExtendedSysMon::getGpuTemp(const QString device)
 }
 
 
-float ExtendedSysMon::getHddTemp(const QString cmd, const QString device)
+float ExtendedSysMon::getHddTemp(const QString cmd, const QString device) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
@@ -516,7 +516,7 @@ float ExtendedSysMon::getHddTemp(const QString cmd, const QString device)
 }
 
 
-QString ExtendedSysMon::getNetworkDevice()
+QString ExtendedSysMon::getNetworkDevice() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -535,7 +535,7 @@ QString ExtendedSysMon::getNetworkDevice()
 
 
 QVariantMap ExtendedSysMon::getPlayerInfo(const QString playerName, const QString mpdAddress,
-                                          const QString mpdPort, QString mpris)
+                                          const QString mpdPort, QString mpris) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "player" << playerName;
@@ -563,7 +563,7 @@ QVariantMap ExtendedSysMon::getPlayerInfo(const QString playerName, const QStrin
 }
 
 
-QVariantMap ExtendedSysMon::getPlayerMpdInfo(const QString mpdAddress, const QString mpdPort)
+QVariantMap ExtendedSysMon::getPlayerMpdInfo(const QString mpdAddress, const QString mpdPort) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "MPD" << QString("%1:%2").arg(mpdAddress).arg(mpdPort);
@@ -604,7 +604,7 @@ QVariantMap ExtendedSysMon::getPlayerMpdInfo(const QString mpdAddress, const QSt
 }
 
 
-QVariantMap ExtendedSysMon::getPlayerMprisInfo(const QString mpris)
+QVariantMap ExtendedSysMon::getPlayerMprisInfo(const QString mpris) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << "MPRIS" << mpris;
@@ -654,7 +654,7 @@ QVariantMap ExtendedSysMon::getPlayerMprisInfo(const QString mpris)
 }
 
 
-QVariantMap ExtendedSysMon::getPsStats()
+QVariantMap ExtendedSysMon::getPsStats() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -712,14 +712,12 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     } else if (source == QString("gputemp")) {
         setData(source, QString("value"), getGpuTemp(configuration[QString("GPUDEV")]));
     } else if (source == QString("hddtemp")) {
-        // fill empty list
-        for (int i=0; i<allHddDevices.count(); i++)
-            setData(source, allHddDevices[i], 0.0);
         QStringList deviceList = configuration[QString("HDDDEV")].split(QChar(','), QString::SkipEmptyParts);
-        for (int i=0; i<deviceList.count(); i++) {
-            setData(source, deviceList[i],
-                    getHddTemp(configuration[QString("HDDTEMPCMD")], deviceList[i]));
-        }
+        QStringList allHddDevices = getAllHdd();
+        for (int i=0; i<allHddDevices.count(); i++)
+            setData(source, allHddDevices[i], deviceList.contains(allHddDevices[i]) ?
+                    getHddTemp(configuration[QString("HDDTEMPCMD")], allHddDevices[i]) :
+                    0.0);
     } else if (source == QString("netdev")) {
         setData(source, QString("value"), getNetworkDevice());
     } else if (source == QString("pkg")) {

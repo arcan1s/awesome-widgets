@@ -76,7 +76,7 @@ AWToolTip::~AWToolTip()
 }
 
 
-QSize AWToolTip::getSize()
+QSize AWToolTip::getSize() const
 {
     if (debug) qDebug() << PDEBUG;
 

@@ -57,29 +57,29 @@ public:
     Q_INVOKABLE void initTooltip(const QVariantMap tooltipParams);
     Q_INVOKABLE void setPopupEnabled(const bool popup = false);
     Q_INVOKABLE void setWrapNewLines(const bool wrap = false);
-    Q_INVOKABLE QString parsePattern();
-    Q_INVOKABLE QSize toolTipSize();
+    Q_INVOKABLE QString parsePattern() const;
+    Q_INVOKABLE QSize toolTipSize() const;
     // keys
     Q_INVOKABLE void addDevice(const QString source);
-    Q_INVOKABLE QStringList dictKeys(const bool sorted = false);
-    Q_INVOKABLE QStringList getHddDevices();
+    Q_INVOKABLE QStringList dictKeys(const bool sorted = false) const;
+    Q_INVOKABLE QStringList getHddDevices() const;
     Q_INVOKABLE void setDataBySource(const QString sourceName, const QVariantMap data,
                                      const QVariantMap params);
     // values
-    Q_INVOKABLE void graphicalValueByKey();
-    Q_INVOKABLE QString infoByKey(QString key);
-    Q_INVOKABLE QString valueByKey(QString key);
+    Q_INVOKABLE void graphicalValueByKey() const;
+    Q_INVOKABLE QString infoByKey(QString key) const;
+    Q_INVOKABLE QString valueByKey(QString key) const;
     // configuration
     Q_INVOKABLE void editItem(const QString type);
 
 signals:
     void dropSourceFromDataengine(const QString source);
-    void needTextToBeUpdated(const QString newText);
-    void needToolTipToBeUpdated(const QString newText);
+    void needTextToBeUpdated(const QString newText) const;
+    void needToolTipToBeUpdated(const QString newText) const;
     void needToBeUpdated();
 
 private slots:
-    void dataUpdate();
+    void dataUpdate() const;
     void loadKeysFromCache();
     void reinitKeys();
     // editor
@@ -93,22 +93,22 @@ private slots:
 private:
     // methods
     void addKeyToCache(const QString type, const QString key = QString(""));
-    bool checkKeys(const QVariantMap data);
-    QString htmlValue(QString key);
-    int numberCpus();
-    float temperature(const float temp, const QString units);
-    QString toolTipImage();
+    bool checkKeys(const QVariantMap data) const;
+    QString htmlValue(QString key) const;
+    int numberCpus() const;
+    float temperature(const float temp, const QString units) const;
+    QString toolTipImage() const;
     // find methods
-    QStringList findGraphicalItems();
-    QStringList findKeys();
+    QStringList findGraphicalItems() const;
+    QStringList findKeys() const;
     // get methods
     QList<ExtQuotes *> getExtQuotes();
     QList<ExtScript *> getExtScripts();
     QList<ExtUpgrade *> getExtUpgrade();
     QList<ExtWeather *> getExtWeather();
     QList<GraphicalItem *> getGraphicalItems();
-    GraphicalItem *getItemByTag(const QString tag);
-    QStringList getTimeKeys();
+    GraphicalItem *getItemByTag(const QString tag) const;
+    QStringList getTimeKeys() const;
     AWToolTip *toolTip = nullptr;
     // graphical elements
     QDialog *dialog = nullptr;

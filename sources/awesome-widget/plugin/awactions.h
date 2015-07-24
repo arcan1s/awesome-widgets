@@ -35,25 +35,25 @@ public:
     ~AWActions();
 
     Q_INVOKABLE void checkUpdates();
-    Q_INVOKABLE bool dropCache();
-    Q_INVOKABLE bool isDebugEnabled();
-    Q_INVOKABLE void runCmd(const QString cmd = QString("/usr/bin/true"));
-    Q_INVOKABLE void sendEmail();
-    Q_INVOKABLE void showReadme();
+    Q_INVOKABLE bool dropCache() const;
+    Q_INVOKABLE bool isDebugEnabled() const;
+    Q_INVOKABLE void runCmd(const QString cmd = QString("/usr/bin/true")) const;
+    Q_INVOKABLE void sendEmail() const;
+    Q_INVOKABLE void showReadme() const;
     // configuration slots
-    Q_INVOKABLE QString getAboutText(const QString type = QString("header"));
-    Q_INVOKABLE QVariantMap getFont(const QVariantMap defaultFont);
+    Q_INVOKABLE QString getAboutText(const QString type = QString("header")) const;
+    Q_INVOKABLE QVariantMap getFont(const QVariantMap defaultFont) const;
     // dataengine
-    Q_INVOKABLE QVariantMap readDataEngineConfiguration();
-    Q_INVOKABLE void writeDataEngineConfiguration(const QVariantMap configuration);
+    Q_INVOKABLE QVariantMap readDataEngineConfiguration() const;
+    Q_INVOKABLE void writeDataEngineConfiguration(const QVariantMap configuration) const;
 
 public slots:
     Q_INVOKABLE static void sendNotification(const QString eventId, const QString message,
                                              const bool enablePopup = false);
 
 private slots:
-    void showUpdates(QString version);
-    void versionReplyRecieved(QNetworkReply *reply);
+    void showUpdates(QString version) const;
+    void versionReplyRecieved(QNetworkReply *reply) const;
 
 private:
     // variables

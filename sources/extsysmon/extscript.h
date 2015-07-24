@@ -45,7 +45,8 @@ public:
     };
 
     explicit ExtScript(QWidget *parent = nullptr, const QString scriptName = QString(),
-                       const QStringList directories = QStringList(), const bool debugCmd = false);
+                       const QStringList directories = QStringList(),
+                       const bool debugCmd = false);
     ~ExtScript();
     // get methods
     QString executable() const;

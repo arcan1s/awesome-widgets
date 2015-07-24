@@ -67,7 +67,7 @@ void AWActions::checkUpdates()
 }
 
 
-bool AWActions::dropCache()
+bool AWActions::dropCache() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -78,7 +78,7 @@ bool AWActions::dropCache()
 }
 
 
-bool AWActions::isDebugEnabled()
+bool AWActions::isDebugEnabled() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -86,7 +86,7 @@ bool AWActions::isDebugEnabled()
 }
 
 
-void AWActions::runCmd(const QString cmd)
+void AWActions::runCmd(const QString cmd) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Cmd" << cmd;
@@ -98,13 +98,13 @@ void AWActions::runCmd(const QString cmd)
 }
 
 
-void AWActions::sendEmail()
+void AWActions::sendEmail() const
 {
     if (debug) qDebug() << PDEBUG;
 }
 
 
-void AWActions::showReadme()
+void AWActions::showReadme() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -112,7 +112,7 @@ void AWActions::showReadme()
 }
 
 
-QString AWActions::getAboutText(const QString type)
+QString AWActions::getAboutText(const QString type) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Type" << type;
@@ -151,7 +151,7 @@ QString AWActions::getAboutText(const QString type)
 }
 
 
-QVariantMap AWActions::getFont(const QVariantMap defaultFont)
+QVariantMap AWActions::getFont(const QVariantMap defaultFont) const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -169,7 +169,7 @@ QVariantMap AWActions::getFont(const QVariantMap defaultFont)
 }
 
 
-QVariantMap AWActions::readDataEngineConfiguration()
+QVariantMap AWActions::readDataEngineConfiguration() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -193,7 +193,7 @@ QVariantMap AWActions::readDataEngineConfiguration()
 }
 
 
-void AWActions::writeDataEngineConfiguration(const QVariantMap configuration)
+void AWActions::writeDataEngineConfiguration(const QVariantMap configuration) const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -216,7 +216,8 @@ void AWActions::writeDataEngineConfiguration(const QVariantMap configuration)
 }
 
 
-void AWActions::sendNotification(const QString eventId, const QString message, const bool enablePopup)
+void AWActions::sendNotification(const QString eventId, const QString message,
+                                 const bool enablePopup)
 {
     if ((eventId == QString("event")) && (!enablePopup)) return;
 
@@ -225,7 +226,7 @@ void AWActions::sendNotification(const QString eventId, const QString message, c
 }
 
 
-void AWActions::showUpdates(QString version)
+void AWActions::showUpdates(QString version) const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -244,7 +245,7 @@ void AWActions::showUpdates(QString version)
 }
 
 
-void AWActions::versionReplyRecieved(QNetworkReply *reply)
+void AWActions::versionReplyRecieved(QNetworkReply *reply) const
 {
     if (debug) qDebug() << PDEBUG;
 

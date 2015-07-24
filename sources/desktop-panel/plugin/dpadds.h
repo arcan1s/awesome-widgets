@@ -46,39 +46,39 @@ public:
     DPAdds(QObject *parent = nullptr);
     ~DPAdds();
 
-    Q_INVOKABLE bool isDebugEnabled();
-    Q_INVOKABLE int currentDesktop();
-    Q_INVOKABLE QStringList dictKeys();
-    Q_INVOKABLE int numberOfDesktops();
-    Q_INVOKABLE QString toolTipImage(const int desktop);
-    Q_INVOKABLE QString parsePattern(const QString pattern, const int desktop);
+    Q_INVOKABLE bool isDebugEnabled() const;
+    Q_INVOKABLE int currentDesktop() const;
+    Q_INVOKABLE QStringList dictKeys() const;
+    Q_INVOKABLE int numberOfDesktops() const;
+    Q_INVOKABLE QString toolTipImage(const int desktop) const;
+    Q_INVOKABLE QString parsePattern(const QString pattern, const int desktop) const;
     // values
     Q_INVOKABLE void setMark(const QString newMark);
     Q_INVOKABLE void setPanelsToControl(const QString newPanels);
     Q_INVOKABLE void setToolTipData(const QVariantMap tooltipData);
-    Q_INVOKABLE QString valueByKey(const QString key, int desktop = -1);
+    Q_INVOKABLE QString valueByKey(const QString key, int desktop = -1) const;
     // configuration slots
     Q_INVOKABLE QString editPanelsToContol(const QString current);
-    Q_INVOKABLE QString getAboutText(const QString type = "header");
-    Q_INVOKABLE QVariantMap getFont(const QVariantMap defaultFont);
+    Q_INVOKABLE QString getAboutText(const QString type = "header") const;
+    Q_INVOKABLE QVariantMap getFont(const QVariantMap defaultFont) const;
 
 signals:
-    void desktopChanged();
-    void windowListChanged();
+    void desktopChanged() const;
+    void windowListChanged() const;
 
 public slots:
-    Q_INVOKABLE void changePanelsState();
+    Q_INVOKABLE void changePanelsState() const;
     Q_INVOKABLE static void sendNotification(const QString eventId, const QString message);
-    Q_INVOKABLE void setCurrentDesktop(const int desktop);
+    Q_INVOKABLE void setCurrentDesktop(const int desktop) const;
 
 private slots:
-    void changeDesktop(const int desktop);
-    void changeWindowList(const WId window);
+    void changeDesktop(const int desktop) const;
+    void changeWindowList(const WId window) const;
 
 private:
-    DesktopWindowsInfo getInfoByDesktop(const int desktop);
-    QList<Plasma::Containment *> getPanels();
-    QString panelLocationToStr(Plasma::Types::Location location);
+    DesktopWindowsInfo getInfoByDesktop(const int desktop) const;
+    QList<Plasma::Containment *> getPanels() const;
+    QString panelLocationToStr(Plasma::Types::Location location) const;
     // variables
     bool debug = false;
     int oldState, tooltipWidth = 200;

@@ -59,7 +59,7 @@ DPAdds::~DPAdds()
 }
 
 
-bool DPAdds::isDebugEnabled()
+bool DPAdds::isDebugEnabled() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -67,7 +67,7 @@ bool DPAdds::isDebugEnabled()
 }
 
 
-int DPAdds::currentDesktop()
+int DPAdds::currentDesktop() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -75,7 +75,7 @@ int DPAdds::currentDesktop()
 }
 
 
-QStringList DPAdds::dictKeys()
+QStringList DPAdds::dictKeys() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -89,7 +89,7 @@ QStringList DPAdds::dictKeys()
 }
 
 
-int DPAdds::numberOfDesktops()
+int DPAdds::numberOfDesktops() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -97,7 +97,7 @@ int DPAdds::numberOfDesktops()
 }
 
 
-QString DPAdds::toolTipImage(const int desktop)
+QString DPAdds::toolTipImage(const int desktop) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Desktop" << desktop;
@@ -180,7 +180,7 @@ QString DPAdds::toolTipImage(const int desktop)
 }
 
 
-QString DPAdds::parsePattern(const QString pattern, const int desktop)
+QString DPAdds::parsePattern(const QString pattern, const int desktop) const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -231,7 +231,7 @@ void DPAdds::setToolTipData(const QVariantMap tooltipData)
 }
 
 
-QString DPAdds::valueByKey(const QString key, int desktop)
+QString DPAdds::valueByKey(const QString key, int desktop) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Requested key" << key;
@@ -302,7 +302,7 @@ QString DPAdds::editPanelsToContol(const QString current)
 }
 
 
-QString DPAdds::getAboutText(const QString type)
+QString DPAdds::getAboutText(const QString type) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Type" << type;
@@ -341,7 +341,7 @@ QString DPAdds::getAboutText(const QString type)
 }
 
 
-QVariantMap DPAdds::getFont(const QVariantMap defaultFont)
+QVariantMap DPAdds::getFont(const QVariantMap defaultFont) const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -359,7 +359,7 @@ QVariantMap DPAdds::getFont(const QVariantMap defaultFont)
 }
 
 
-void DPAdds::changePanelsState()
+void DPAdds::changePanelsState() const
 {
     if (debug) qDebug() << PDEBUG;
     if (panelsToControl.isEmpty()) return;
@@ -393,7 +393,7 @@ void DPAdds::sendNotification(const QString eventId, const QString message)
 }
 
 
-void DPAdds::setCurrentDesktop(const int desktop)
+void DPAdds::setCurrentDesktop(const int desktop) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Desktop" << desktop;
@@ -402,7 +402,7 @@ void DPAdds::setCurrentDesktop(const int desktop)
 }
 
 
-void DPAdds::changeDesktop(const int desktop)
+void DPAdds::changeDesktop(const int desktop) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Desktop" << desktop;
@@ -411,7 +411,7 @@ void DPAdds::changeDesktop(const int desktop)
 }
 
 
-void DPAdds::changeWindowList(const WId window)
+void DPAdds::changeWindowList(const WId window) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Window" << window;
@@ -420,7 +420,7 @@ void DPAdds::changeWindowList(const WId window)
 }
 
 
-DPAdds::DesktopWindowsInfo DPAdds::getInfoByDesktop(const int desktop)
+DPAdds::DesktopWindowsInfo DPAdds::getInfoByDesktop(const int desktop) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Desktop" << desktop;
@@ -452,7 +452,7 @@ DPAdds::DesktopWindowsInfo DPAdds::getInfoByDesktop(const int desktop)
 }
 
 
-QList<Plasma::Containment *> DPAdds::getPanels()
+QList<Plasma::Containment *> DPAdds::getPanels() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -467,7 +467,7 @@ QList<Plasma::Containment *> DPAdds::getPanels()
 }
 
 
-QString DPAdds::panelLocationToStr(Plasma::Types::Location location)
+QString DPAdds::panelLocationToStr(Plasma::Types::Location location) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Location" << location;

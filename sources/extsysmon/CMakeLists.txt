@@ -2,6 +2,7 @@
 set (SUBPROJECT plasma_dataengine_extsysmon)
 set (PLUGIN_NAME ${SUBPROJECT})
 message (STATUS "Subproject ${SUBPROJECT}")
+add_definitions(-DTRANSLATION_DOMAIN=\"plasma_applet_org.kde.plasma.awesomewidget\")
 
 # find required libaries
 find_package (Qt5 REQUIRED COMPONENTS DBus Network Widgets)
