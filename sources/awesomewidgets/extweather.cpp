@@ -65,6 +65,26 @@ ExtWeather::~ExtWeather()
 }
 
 
+ExtWeather *ExtWeather::copy(const QString fileName, const int number)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    ExtWeather *item = new ExtWeather(static_cast<QWidget *>(parent()), fileName,
+                                      directories(), debug);
+    item->setActive(isActive());
+    item->setApiVersion(apiVersion());
+    item->setCity(city());
+    item->setComment(comment());
+    item->setCountry(country());
+    item->setInterval(interval());
+    item->setName(name());
+    item->setNumber(number);
+    item->setTs(ts());
+
+    return item;
+}
+
+
 QString ExtWeather::weatherFromInt(const int _id) const
 {
     if (debug) qDebug() << PDEBUG;
@@ -186,6 +206,14 @@ int ExtWeather::ts() const
     if (debug) qDebug() << PDEBUG;
 
     return m_ts;
+}
+
+
+QString ExtWeather::uniq() const
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return QString("%1 (%2) at %3").arg(m_city).arg(m_country).arg(m_ts);
 }
 
 

@@ -20,6 +20,8 @@
 
 #include <Plasma/DataEngine>
 
+#include "extitemaggregator.h"
+
 
 class ExtQuotes;
 class ExtScript;
@@ -57,19 +59,15 @@ protected:
 private:
     // configuration
     QMap<QString, QString> configuration;
-    QList<ExtQuotes *> externalQuotes;
-    QList<ExtScript *> externalScripts;
-    QList<ExtUpgrade *> externalUpgrade;
-    QList<ExtWeather *> externalWeather;
+    ExtItemAggregator<ExtQuotes> *externalQuotes;
+    ExtItemAggregator<ExtScript> *externalScripts;
+    ExtItemAggregator<ExtUpgrade> *externalUpgrade;
+    ExtItemAggregator<ExtWeather> *externalWeather;
     bool debug;
     // reread configuration
     QStringList getAllHdd() const;
     QString getAutoGpu() const;
     QString getAutoMpris() const;
-    void initQuotes();
-    void initScripts();
-    void initUpgrade();
-    void initWeather();
     void readConfiguration();
     QMap<QString, QString> updateConfiguration(QMap<QString, QString> rawConfig) const;
 };

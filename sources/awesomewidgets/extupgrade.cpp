@@ -55,6 +55,25 @@ ExtUpgrade::~ExtUpgrade()
 }
 
 
+ExtUpgrade *ExtUpgrade::copy(const QString fileName, const int number)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    ExtUpgrade *item = new ExtUpgrade(static_cast<QWidget *>(parent()), fileName,
+                                      directories(), debug);
+    item->setActive(isActive());
+    item->setApiVersion(apiVersion());
+    item->setComment(comment());
+    item->setExecutable(executable());
+    item->setInterval(interval());
+    item->setName(name());
+    item->setNumber(number);
+    item->setNull(null());
+
+    return item;
+}
+
+
 QString ExtUpgrade::executable() const
 {
     if (debug) qDebug() << PDEBUG;
@@ -68,6 +87,14 @@ int ExtUpgrade::null() const
     if (debug) qDebug() << PDEBUG;
 
     return m_null;
+}
+
+
+QString ExtUpgrade::uniq() const
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return m_executable;
 }
 
 

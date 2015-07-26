@@ -13,27 +13,19 @@ include_directories (${CMAKE_SOURCE_DIR}
                      ${CMAKE_BINARY_DIR}
                      ${CMAKE_CURRENT_BINARY_DIR}
                      ${CMAKE_CURRENT_BINARY_DIR}/../
+                     ${CMAKE_CURRENT_SOURCE_DIR}/../../${PROJECT_LIBRARY}/
                      ${PROJECT_TRDPARTY_DIR}
-                     ../../extsysmon
-                     ${CMAKE_CURRENT_BINARY_DIR}/../../extsysmon
                      ${Qt_INCLUDE}
                      ${Kf5_INCLUDE})
 
 # task source is required by extscripts
-file (GLOB_RECURSE SUBPROJECT_SOURCE *.cpp ${PROJECT_TRDPARTY_DIR}/fontdialog/*.cpp
-                                     ${PROJECT_TRDPARTY_DIR}/qreplytimeout/*.cpp
-                                     ../../extsysmon/abstractextitem.cpp
-                                     ../../extsysmon/extquotes.cpp
-                                     ../../extsysmon/extscript.cpp
-                                     ../../extsysmon/extupgrade.cpp
-                                     ../../extsysmon/extweather.cpp
-                                     ../../extsysmon/graphicalitem.cpp)
+file (GLOB_RECURSE SUBPROJECT_SOURCE *.cpp ${PROJECT_TRDPARTY_DIR}/fontdialog/*.cpp)
 file (GLOB SUBPROJECT_UI *.ui)
 file (GLOB SUBPROJECT_NOTIFY *.notifyrc)
 
 qt5_wrap_ui (SUBPROJECT_UI_HEADER ${SUBPROJECT_UI})
 add_library (${PLUGIN_NAME} SHARED ${SUBPROJECT_SOURCE} ${SUBPROJECT_UI_HEADER})
-target_link_libraries (${PLUGIN_NAME} ${Qt_LIBRARIES} ${Kf5_LIBRARIES})
+target_link_libraries (${PLUGIN_NAME} ${PROJECT_LIBRARY} ${Qt_LIBRARIES} ${Kf5_LIBRARIES})
 
 install (TARGETS ${PLUGIN_NAME} DESTINATION ${QML_INSTALL_DIR}/org/kde/plasma/private/awesomewidget)
 install (FILES qmldir DESTINATION ${QML_INSTALL_DIR}/org/kde/plasma/private/awesomewidget)

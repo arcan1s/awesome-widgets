@@ -45,6 +45,18 @@ AbstractExtItem::~AbstractExtItem()
 }
 
 
+template <class T>
+T *AbstractExtItem::copy(const QString fileName, const int number)
+{
+    Q_UNUSED(fileName)
+    Q_UNUSED(number)
+
+    // an analog of pure virtual method
+    return new T();
+}
+
+
+
 int AbstractExtItem::apiVersion() const
 {
     if (debug) qDebug() << PDEBUG;

@@ -34,12 +34,14 @@ class AbstractExtItem : public QDialog
     Q_PROPERTY(int interval READ interval WRITE setInterval)
     Q_PROPERTY(QString name READ name WRITE setName)
     Q_PROPERTY(int number READ number WRITE setNumber)
+    Q_PROPERTY(QString uniq READ uniq)
 
 public:
     explicit AbstractExtItem(QWidget *parent = nullptr, const QString desktopName = QString(),
                              const QStringList directories = QStringList(),
                              const bool debugCmd = false);
     virtual ~AbstractExtItem();
+    template <class T> T *copy(const QString fileName, const int number);
     // get methods
     int apiVersion() const;
     QString comment() const;
@@ -50,6 +52,7 @@ public:
     QString name() const;
     int number() const;
     QString tag(const QString _type) const;
+    virtual QString uniq() const = 0;
     // set methods
     void setApiVersion(const int _apiVersion = 0);
     void setActive(const bool _state = true);

@@ -15,43 +15,37 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef EXTWEATHER_H
-#define EXTWEATHER_H
+#ifndef EXTUPGRADE_H
+#define EXTUPGRADE_H
 
-#include <QMap>
-#include <QNetworkReply>
+#include <QProcess>
 
 #include "abstractextitem.h"
 
-#define OWM_URL "http://api.openweathermap.org/data/2.5/weather?q=$CITY,$COUNTRY&units=metric"
-#define OWM_FORECAST_URL "http://api.openweathermap.org/data/2.5/forecast?q=$CITY,$COUNTRY&units=metric"
-
 
 namespace Ui {
-    class ExtWeather;
+    class ExtUpgrade;
 }
 
-class ExtWeather : public AbstractExtItem
+class ExtUpgrade : public AbstractExtItem
 {
     Q_OBJECT
-    Q_PROPERTY(QString city READ city WRITE setCity)
-    Q_PROPERTY(QString country READ country WRITE setCountry)
-    Q_PROPERTY(int ts READ ts WRITE setTs)
+    Q_PROPERTY(QString executable READ executable WRITE setExecutable)
+    Q_PROPERTY(int null READ null WRITE setNull)
 
 public:
-    explicit ExtWeather(QWidget *parent = nullptr, const QString weatherName = QString(),
+    explicit ExtUpgrade(QWidget *parent = nullptr, const QString upgradeName = QString(),
                         const QStringList directories = QStringList(),
                         const bool debugCmd = false);
-    ~ExtWeather();
-    QString weatherFromInt(const int _id) const;
+    ~ExtUpgrade();
+    ExtUpgrade *copy(const QString fileName, const int number);
     // get methods
-    QString city() const;
-    QString country() const;
-    int ts() const;
+    QString executable() const;
+    int null() const;
+    QString uniq() const;
     // set methods
-    void setCity(const QString _city = QString("London"));
-    void setCountry(const QString _country = QString("uk"));
-    void setTs(const int _ts = 0);
+    void setExecutable(const QString _executable = QString("/usr/bin/true"));
+    void setNull(const int _null = 0);
 
 public slots:
     void readConfiguration();
@@ -60,23 +54,19 @@ public slots:
     void writeConfiguration() const;
 
 private slots:
-    void weatherReplyReceived(QNetworkReply *reply);
+    void updateValue();
 
 private:
     bool debug;
-    QNetworkAccessManager *manager;
-    bool isRunning = false;
-    Ui::ExtWeather *ui;
-    QVariantMap parseSingleJson(const QVariantMap json) const;
-    QString url(const bool isForecast = false) const;
+    QProcess *process = nullptr;
+    Ui::ExtUpgrade *ui;
     // properties
-    QString m_city = QString("London");
-    QString m_country = QString("uk");
-    int m_ts = 0;
-    // values
+    QString m_executable = QString("/usr/bin/true");
+    int m_null = 0;
+    // internal properties
     int times = 0;
-    QVariantMap values;
+    QVariantMap value;
 };
 
 
-#endif /* EXTWEATHER_H */
+#endif /* EXTUPGRADE_H */

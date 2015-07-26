@@ -15,38 +15,63 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef EXTUPGRADE_H
-#define EXTUPGRADE_H
+#ifndef EXTSCRIPT_H
+#define EXTSCRIPT_H
 
+#include <QMap>
 #include <QProcess>
 
 #include "abstractextitem.h"
 
 
 namespace Ui {
-    class ExtUpgrade;
+    class ExtScript;
 }
 
-class ExtUpgrade : public AbstractExtItem
+class ExtScript : public AbstractExtItem
 {
     Q_OBJECT
     Q_PROPERTY(QString executable READ executable WRITE setExecutable)
-    Q_PROPERTY(int null READ null WRITE setNull)
+    Q_PROPERTY(QStringList filters READ filters WRITE setFilters)
+    Q_PROPERTY(bool output READ hasOutput WRITE setHasOutput)
+    Q_PROPERTY(QString prefix READ prefix WRITE setPrefix)
+    Q_PROPERTY(Redirect redirect READ redirect WRITE setRedirect)
 
 public:
-    explicit ExtUpgrade(QWidget *parent = nullptr, const QString upgradeName = QString(),
-                        const QStringList directories = QStringList(),
-                        const bool debugCmd = false);
-    ~ExtUpgrade();
+    enum Redirect {
+        stdout2stderr = 0,
+        nothing,
+        stderr2stdout
+    };
+
+    explicit ExtScript(QWidget *parent = nullptr, const QString scriptName = QString(),
+                       const QStringList directories = QStringList(),
+                       const bool debugCmd = false);
+    ~ExtScript();
+    ExtScript *copy(const QString fileName, const int number);
     // get methods
     QString executable() const;
-    int null() const;
+    QStringList filters() const;
+    bool hasOutput() const;
+    QString prefix() const;
+    Redirect redirect() const;
+    QString uniq() const;
+    // derivatives
+    QString strRedirect() const;
     // set methods
     void setExecutable(const QString _executable = QString("/usr/bin/true"));
-    void setNull(const int _null = 0);
+    void setFilters(const QStringList _filters = QStringList());
+    void setHasOutput(const bool _state = true);
+    void setPrefix(const QString _prefix = QString(""));
+    void setRedirect(const Redirect _redirect = nothing);
+    void setStrRedirect(const QString _redirect = QString("nothing"));
+    // filters
+    QString applyFilters(QString _value) const;
+    void updateFilter(const QString _filter, const bool _add = true);
 
 public slots:
     void readConfiguration();
+    void readJsonFilters();
     QVariantMap run();
     int showConfiguration(const QVariant args = QVariant());
     void writeConfiguration() const;
@@ -57,14 +82,19 @@ private slots:
 private:
     bool debug;
     QProcess *process = nullptr;
-    Ui::ExtUpgrade *ui;
+    Ui::ExtScript *ui;
     // properties
     QString m_executable = QString("/usr/bin/true");
-    int m_null = 0;
+    QStringList m_filters = QStringList();
+    bool m_output = true;
+    QString m_prefix = QString("");
+    Redirect m_redirect = nothing;
     // internal properties
+    Q_PID childProcess = 0;
+    QVariantMap jsonFilters = QVariantMap();
     int times = 0;
     QVariantMap value;
 };
 
 
-#endif /* EXTUPGRADE_H */
+#endif /* EXTSCRIPT_H */

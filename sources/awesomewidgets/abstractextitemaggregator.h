@@ -15,57 +15,42 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef EXTQUOTES_H
-#define EXTQUOTES_H
+#ifndef ABSTRACTEXTITEMAGGREGATOR_H
+#define ABSTRACTEXTITEMAGGREGATOR_H
 
-#include <QMap>
-#include <QNetworkReply>
+#include <QDialog>
+#include <QDialogButtonBox>
+#include <QListWidget>
+#include <QObject>
+#include <QPushButton>
+#include <QWidget>
 
-#include "abstractextitem.h"
 
-#define YAHOO_URL "https://query.yahooapis.com/v1/public/yql?q=select * from yahoo.finance.quotes where symbol=\"$TICKER\"&env=store://datatables.org/alltableswithkeys&format=json"
-
-
-namespace Ui {
-    class ExtQuotes;
-}
-
-class ExtQuotes : public AbstractExtItem
+class AbstractExtItemAggregator : public QWidget
 {
     Q_OBJECT
-    Q_PROPERTY(QString ticker READ ticker WRITE setTicker)
-
 public:
-    explicit ExtQuotes(QWidget *parent = nullptr, const QString quotesName = QString(),
-                       const QStringList directories = QStringList(),
-                       const bool debugCmd = false);
-    ~ExtQuotes();
-    // get methods
-    QString ticker() const;
-    // set methods
-    void setTicker(const QString _ticker = QString("EURUSD=X"));
-
-public slots:
-    void readConfiguration();
-    QVariantMap run();
-    int showConfiguration(const QVariant args = QVariant());
-    void writeConfiguration() const;
+    AbstractExtItemAggregator(QWidget *parent = nullptr, const bool debugCmd = false);
+    virtual ~AbstractExtItemAggregator();
+    // ui
+    QDialog *dialog = nullptr;
+    QListWidget *widgetDialog = nullptr;
+    QDialogButtonBox *dialogButtons = nullptr;
+    QPushButton *copyButton = nullptr;
+    QPushButton *createButton = nullptr;
+    QPushButton *deleteButton = nullptr;
 
 private slots:
-    void quotesReplyReceived(QNetworkReply *reply);
+    void editItemButtonPressed(QAbstractButton *button);
 
 private:
     bool debug;
-    QNetworkAccessManager *manager;
-    bool isRunning = false;
-    Ui::ExtQuotes *ui;
-    QString url() const;
-    // properties
-    QString m_ticker = QString("EURUSD=X");
-    // values
-    int times = 0;
-    QVariantMap values;
+    // methods
+    virtual void copyItem() = 0;
+    virtual void createItem() = 0;
+    virtual void deleteItem() = 0;
+    virtual void editItem() = 0;
 };
 
 
-#endif /* EXTQUOTES_H */
+#endif /* ABSTRACTEXTITEMAGGREGATOR_H */

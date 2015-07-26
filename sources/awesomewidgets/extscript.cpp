@@ -59,6 +59,27 @@ ExtScript::~ExtScript()
 }
 
 
+ExtScript *ExtScript::copy(const QString fileName, const int number)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    ExtScript *item = new ExtScript(static_cast<QWidget *>(parent()), fileName,
+                                    directories(), debug);
+    item->setActive(isActive());
+    item->setApiVersion(apiVersion());
+    item->setComment(comment());
+    item->setExecutable(executable());
+    item->setHasOutput(hasOutput());
+    item->setInterval(interval());
+    item->setName(name());
+    item->setNumber(number);
+    item->setPrefix(prefix());
+    item->setRedirect(redirect());
+
+    return item;
+}
+
+
 QString ExtScript::executable() const
 {
     if (debug) qDebug() << PDEBUG;
@@ -96,6 +117,14 @@ ExtScript::Redirect ExtScript::redirect() const
     if (debug) qDebug() << PDEBUG;
 
     return m_redirect;
+}
+
+
+QString ExtScript::uniq() const
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return m_executable;
 }
 
 

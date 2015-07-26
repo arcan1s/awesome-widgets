@@ -53,6 +53,7 @@ public:
                            const QStringList directories = QStringList(),
                            const bool debugCmd = false);
     ~GraphicalItem();
+    GraphicalItem *copy(const QString fileName, const int number);
     QString image(const float value) const;
     // get methods
     QString bar() const;
@@ -64,6 +65,7 @@ public:
     QString strDirection() const;
     int height() const;
     int width() const;
+    QString uniq() const;
     // set methods
     void setBar(const QString _bar = QString("cpu"));
     void setActiveColor(const QString _color = QString("0,0,0,130"));

@@ -54,6 +54,30 @@ GraphicalItem::~GraphicalItem()
 }
 
 
+GraphicalItem *GraphicalItem::copy(const QString fileName, const int number)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    GraphicalItem *item = new GraphicalItem(static_cast<QWidget *>(parent()),
+                                            fileName, directories(), debug);
+    item->setActive(isActive());
+    item->setActiveColor(activeColor());
+    item->setApiVersion(apiVersion());
+    item->setBar(bar());
+    item->setComment(comment());
+    item->setDirection(direction());
+    item->setHeight(height());
+    item->setInactiveColor(inactiveColor());
+    item->setInterval(interval());
+    item->setName(QString("bar%1").arg(number));
+    item->setNumber(number);
+    item->setType(type());
+    item->setWidth(width());
+
+    return item;
+}
+
+
 QString GraphicalItem::image(const float value) const
 {
     if (debug) qDebug() << PDEBUG;
@@ -226,6 +250,14 @@ int GraphicalItem::width() const
     if (debug) qDebug() << PDEBUG;
 
     return m_width;
+}
+
+
+QString GraphicalItem::uniq() const
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return m_bar;
 }
 
 

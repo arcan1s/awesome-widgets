@@ -68,7 +68,33 @@ ExtQuotes::~ExtQuotes()
 }
 
 
+ExtQuotes *ExtQuotes::copy(const QString fileName, const int number)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    ExtQuotes *item = new ExtQuotes(static_cast<QWidget *>(parent()), fileName,
+                                    directories(), debug);
+    item->setActive(isActive());
+    item->setApiVersion(apiVersion());
+    item->setComment(comment());
+    item->setInterval(interval());
+    item->setName(name());
+    item->setNumber(number);
+    item->setTicker(ticker());
+
+    return item;
+}
+
+
 QString ExtQuotes::ticker() const
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return m_ticker;
+}
+
+
+QString ExtQuotes::uniq() const
 {
     if (debug) qDebug() << PDEBUG;
 

@@ -45,7 +45,9 @@ endif ()
 
 configure_file (${CMAKE_SOURCE_DIR}/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/version.h)
 set (PROJECT_TRDPARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty)
+set (PROJECT_LIBRARY awesomewidgets)
 
+add_subdirectory (awesomewidgets)
 add_subdirectory (extsysmon)
 add_subdirectory (awesome-widget)
 add_subdirectory (desktop-panel)

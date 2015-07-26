@@ -57,10 +57,11 @@ ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList &args)
 
     setMinimumPollingInterval(333);
     readConfiguration();
-    initQuotes();
-    initScripts();
-    initUpgrade();
-    initWeather();
+
+    externalQuotes = new ExtItemAggregator<ExtQuotes>(nullptr, QString("quotes"), debug);
+    externalScripts = new ExtItemAggregator<ExtScript>(nullptr, QString("scripts"), debug);
+    externalUpgrade = new ExtItemAggregator<ExtUpgrade>(nullptr, QString("upgrade"), debug);
+    externalWeather = new ExtItemAggregator<ExtWeather>(nullptr, QString("weather"), debug);
 }
 
 
@@ -68,10 +69,10 @@ ExtendedSysMon::~ExtendedSysMon()
 {
     if (debug) qDebug() << PDEBUG;
 
-    externalQuotes.clear();
-    externalScripts.clear();
-    externalUpgrade.clear();
-    externalWeather.clear();
+    delete externalQuotes;
+    delete externalScripts;
+    delete externalUpgrade;
+    delete externalWeather;
 }
 
 
@@ -125,122 +126,6 @@ QString ExtendedSysMon::getAutoMpris() const
     }
 
     return QString();
-}
-
-
-void ExtendedSysMon::initQuotes()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    // create directory at $HOME and create dirs list
-    QString localDir = QString("%1/awesomewidgets/quotes")
-                        .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
-    QDir localDirectory;
-    if ((!localDirectory.exists(localDir)) && (localDirectory.mkpath(localDir)))
-        if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
-
-    QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
-                                                 QString("awesomewidgets/quotes"),
-                                                 QStandardPaths::LocateDirectory);
-
-    QStringList names;
-    for (int i=0; i<dirs.count(); i++) {
-        QStringList files = QDir(dirs[i]).entryList(QDir::Files, QDir::Name);
-        for (int j=0; j<files.count(); j++) {
-            if (!files[j].endsWith(QString(".desktop"))) continue;
-            if (names.contains(files[j])) continue;
-            if (debug) qDebug() << PDEBUG << ":" << "Found file" << files[j] << "in" << dirs[i];
-            names.append(files[j]);
-            externalQuotes.append(new ExtQuotes(nullptr, files[j], dirs, debug));
-        }
-    }
-}
-
-
-void ExtendedSysMon::initScripts()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    // create directory at $HOME and create dirs list
-    QString localDir = QString("%1/awesomewidgets/scripts")
-                        .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
-    QDir localDirectory;
-    if ((!localDirectory.exists(localDir)) && (localDirectory.mkpath(localDir)))
-        if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
-
-    QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
-                                                 QString("awesomewidgets/scripts"),
-                                                 QStandardPaths::LocateDirectory);
-
-    QStringList names;
-    for (int i=0; i<dirs.count(); i++) {
-        QStringList files = QDir(dirs[i]).entryList(QDir::Files, QDir::Name);
-        for (int j=0; j<files.count(); j++) {
-            if (!files[j].endsWith(QString(".desktop"))) continue;
-            if (names.contains(files[j])) continue;
-            if (debug) qDebug() << PDEBUG << ":" << "Found file" << files[j] << "in" << dirs[i];
-            names.append(files[j]);
-            externalScripts.append(new ExtScript(nullptr, files[j], dirs, debug));
-        }
-    }
-}
-
-
-void ExtendedSysMon::initUpgrade()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    // create directory at $HOME and create dirs list
-    QString localDir = QString("%1/awesomewidgets/upgrade")
-                        .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
-    QDir localDirectory;
-    if ((!localDirectory.exists(localDir)) && (localDirectory.mkpath(localDir)))
-        if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
-
-    QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
-                                                 QString("awesomewidgets/upgrade"),
-                                                 QStandardPaths::LocateDirectory);
-
-    QStringList names;
-    for (int i=0; i<dirs.count(); i++) {
-        QStringList files = QDir(dirs[i]).entryList(QDir::Files, QDir::Name);
-        for (int j=0; j<files.count(); j++) {
-            if (!files[j].endsWith(QString(".desktop"))) continue;
-            if (names.contains(files[j])) continue;
-            if (debug) qDebug() << PDEBUG << ":" << "Found file" << files[j] << "in" << dirs[i];
-            names.append(files[j]);
-            externalUpgrade.append(new ExtUpgrade(nullptr, files[j], dirs, debug));
-        }
-    }
-}
-
-
-void ExtendedSysMon::initWeather()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    // create directory at $HOME and create dirs list
-    QString localDir = QString("%1/awesomewidgets/weather")
-                        .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
-    QDir localDirectory;
-    if ((!localDirectory.exists(localDir)) && (localDirectory.mkpath(localDir)))
-        if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
-
-    QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
-                                                 QString("awesomewidgets/weather"),
-                                                 QStandardPaths::LocateDirectory);
-
-    QStringList names;
-    for (int i=0; i<dirs.count(); i++) {
-        QStringList files = QDir(dirs[i]).entryList(QDir::Files, QDir::Name);
-        for (int j=0; j<files.count(); j++) {
-            if (!files[j].endsWith(QString(".desktop"))) continue;
-            if (names.contains(files[j])) continue;
-            if (debug) qDebug() << PDEBUG << ":" << "Found file" << files[j] << "in" << dirs[i];
-            names.append(files[j]);
-            externalWeather.append(new ExtWeather(nullptr, files[j], dirs, debug));
-        }
-    }
 }
 
 
@@ -701,8 +586,9 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
         for (int i=0; i<battery.keys().count(); i++)
             setData(source, battery.keys()[i], battery[battery.keys()[i]]);
     } else if (source == QString("custom")) {
-        for (int i=0; i<externalScripts.count(); i++)
-            setData(source, externalScripts[i]->tag(QString("custom")), externalScripts[i]->run()[QString("value")]);
+        for (int i=0; i<externalScripts->items().count(); i++)
+            setData(source, externalScripts->items()[i]->tag(QString("custom")),
+                    externalScripts->items()[i]->run()[QString("value")]);
     } else if (source == QString("desktop")) {
         QVariantMap desktop = getCurrentDesktop();
         for (int i=0; i<desktop.keys().count(); i++)
@@ -721,8 +607,9 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     } else if (source == QString("netdev")) {
         setData(source, QString("value"), getNetworkDevice());
     } else if (source == QString("pkg")) {
-        for (int i=0; i<externalUpgrade.count(); i++)
-            setData(source, externalUpgrade[i]->tag(QString("pkgcount")), externalUpgrade[i]->run()[QString("value")]);
+        for (int i=0; i<externalUpgrade->items().count(); i++)
+            setData(source, externalUpgrade->items()[i]->tag(QString("pkgcount")),
+                    externalUpgrade->items()[i]->run()[QString("value")]);
     } else if (source == QString("player")) {
         QVariantMap player = getPlayerInfo(configuration[QString("PLAYER")],
                                            configuration[QString("MPDADDRESS")],
@@ -735,18 +622,20 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
         for (int i=0; i<ps.keys().count(); i++)
             setData(source, ps.keys()[i], ps[ps.keys()[i]]);
     } else if (source == QString("quotes")) {
-        for (int i=0; i<externalQuotes.count(); i++) {
-            QVariantMap data = externalQuotes[i]->run();
+        for (int i=0; i<externalQuotes->items().count(); i++) {
+            QVariantMap data = externalQuotes->items()[i]->run();
             for (int j=0; j<data.keys().count(); j++)
-                setData(source, externalQuotes[i]->tag(data.keys()[j]), data[data.keys()[j]]);
+                setData(source, externalQuotes->items()[i]->tag(data.keys()[j]),
+                        data[data.keys()[j]]);
         }
     } else if (source == QString("update")) {
         setData(source, QString("value"), true);
     } else if (source == QString("weather")) {
-        for (int i=0; i<externalWeather.count(); i++) {
-            QVariantMap data = externalWeather[i]->run();
+        for (int i=0; i<externalWeather->items().count(); i++) {
+            QVariantMap data = externalWeather->items()[i]->run();
             for (int j=0; j<data.keys().count(); j++)
-                setData(source, externalWeather[i]->tag(data.keys()[j]), data[data.keys()[j]]);
+                setData(source, externalWeather->items()[i]->tag(data.keys()[j]),
+                        data[data.keys()[j]]);
         }
     }
 
