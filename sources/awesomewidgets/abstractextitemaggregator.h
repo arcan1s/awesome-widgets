@@ -29,9 +29,12 @@
 class AbstractExtItemAggregator : public QWidget
 {
     Q_OBJECT
+    Q_PROPERTY(QVariant configArgs READ configArgs WRITE setConfigArgs)
+
 public:
     AbstractExtItemAggregator(QWidget *parent = nullptr, const bool debugCmd = false);
     virtual ~AbstractExtItemAggregator();
+    QString getName();
     // ui
     QDialog *dialog = nullptr;
     QListWidget *widgetDialog = nullptr;
@@ -39,12 +42,18 @@ public:
     QPushButton *copyButton = nullptr;
     QPushButton *createButton = nullptr;
     QPushButton *deleteButton = nullptr;
+    // get methods
+    QVariant configArgs() const;
+    // set methods
+    void setConfigArgs(const QVariant _configArgs);
 
 private slots:
+    void editItemActivated(QListWidgetItem *item);
     void editItemButtonPressed(QAbstractButton *button);
 
 private:
     bool debug;
+    QVariant m_configArgs;
     // methods
     virtual void copyItem() = 0;
     virtual void createItem() = 0;

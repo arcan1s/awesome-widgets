@@ -377,7 +377,15 @@ void GraphicalItem::readConfiguration()
         setStrDirection(settings.value(QString("X-AW-Direction"), strDirection()).toString());
         setHeight(settings.value(QString("X-AW-Height"), m_height).toInt());
         setWidth(settings.value(QString("X-AW-Width"), m_width).toInt());
+        // api == 2
+        if (apiVersion() < 2) setNumber(bar().remove(QString("bar")).toInt());
         settings.endGroup();
+    }
+
+    // update for current API
+    if ((apiVersion() > 0) && (apiVersion() < AWGIAPI)) {
+        setApiVersion(AWGIAPI);
+        writeConfiguration();
     }
 }
 
@@ -436,7 +444,6 @@ void GraphicalItem::writeConfiguration() const
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("X-AW-ApiVersion"), m_apiVersion);
     settings.setValue(QString("X-AW-Value"), m_bar);
     settings.setValue(QString("X-AW-ActiveColor"), m_activeColor);
     settings.setValue(QString("X-AW-InactiveColor"), m_inactiveColor);
@@ -454,8 +461,8 @@ void GraphicalItem::changeColor()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QColor color = stringToColor((dynamic_cast<QPushButton *>(sender()))->text());
-    QColor newColor = QColorDialog::getColor(color, 0, tr("Select color"),
+    QColor color = stringToColor((static_cast<QPushButton *>(sender()))->text());
+    QColor newColor = QColorDialog::getColor(color, this, tr("Select color"),
                                              QColorDialog::ShowAlphaChannel);
     if (!newColor.isValid()) return;
 
@@ -464,7 +471,7 @@ void GraphicalItem::changeColor()
     colorText.append(QString("%1").arg(newColor.green()));
     colorText.append(QString("%1").arg(newColor.blue()));
     colorText.append(QString("%1").arg(newColor.alpha()));
-    dynamic_cast<QPushButton *>(sender())->setText(colorText.join(QChar(',')));
+    static_cast<QPushButton *>(sender())->setText(colorText.join(QChar(',')));
 }
 
 

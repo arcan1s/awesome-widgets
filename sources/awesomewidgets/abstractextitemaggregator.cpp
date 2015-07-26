@@ -19,6 +19,8 @@
 
 #include <QDebug>
 #include <QHBoxLayout>
+#include <QInputDialog>
+#include <QLineEdit>
 
 #include <pdebug/pdebug.h>
 
@@ -42,6 +44,8 @@ AbstractExtItemAggregator::AbstractExtItemAggregator(QWidget *parent, const bool
     connect(dialogButtons, SIGNAL(clicked(QAbstractButton *)),
             this, SLOT(editItemButtonPressed(QAbstractButton *)));
     connect(dialogButtons, SIGNAL(rejected()), dialog, SLOT(reject()));
+    connect(widgetDialog, SIGNAL(itemActivated(QListWidgetItem *)),
+            this, SLOT(editItemActivated(QListWidgetItem *)));
 }
 
 
@@ -53,6 +57,47 @@ AbstractExtItemAggregator::~AbstractExtItemAggregator()
 }
 
 
+QString AbstractExtItemAggregator::getName()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    bool ok;
+    QString name = QInputDialog::getText(this, tr("Enter file name"),
+                                         tr("File name"), QLineEdit::Normal,
+                                         QString(""), &ok);
+    if ((!ok) || (name.isEmpty())) return QString("");
+    if (!name.endsWith(QString(".desktop"))) name += QString(".desktop");
+
+    return name;
+}
+
+
+QVariant AbstractExtItemAggregator::configArgs() const
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return m_configArgs;
+}
+
+
+void AbstractExtItemAggregator::setConfigArgs(const QVariant _configArgs)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Configuration arguments" << _configArgs;
+
+    m_configArgs = _configArgs;
+}
+
+
+void AbstractExtItemAggregator::editItemActivated(QListWidgetItem *item)
+{
+    Q_UNUSED(item)
+    if (debug) qDebug() << PDEBUG;
+
+    return editItem();
+}
+
+
 void AbstractExtItemAggregator::editItemButtonPressed(QAbstractButton *button)
 {
     if (debug) qDebug() << PDEBUG;
@@ -61,7 +106,7 @@ void AbstractExtItemAggregator::editItemButtonPressed(QAbstractButton *button)
         return copyItem();
     else if (static_cast<QPushButton *>(button) == createButton)
         return createItem();
-    else if (dynamic_cast<QPushButton *>(button) == deleteButton)
+    else if (static_cast<QPushButton *>(button) == deleteButton)
         return deleteItem();
     else if (dialogButtons->buttonRole(button) == QDialogButtonBox::AcceptRole)
         return editItem();

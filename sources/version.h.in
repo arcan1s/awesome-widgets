@@ -10,7 +10,7 @@
 #define LICENSE "@PROJECT_LICENSE@"
 #define TRDPARTY_LICENSE "tasks,BSD,https://github.com/mhogomchungu/tasks"
 // graphical items api version
-#define AWGIAPI 1
+#define AWGIAPI 2
 // extquotes api version
 #define AWEQAPI 2
 // extscript api version

@@ -20,8 +20,6 @@
 
 #include <QDebug>
 #include <QDir>
-#include <QInputDialog>
-#include <QLineEdit>
 #include <QSettings>
 #include <QStandardPaths>
 
@@ -30,7 +28,8 @@
 #include "abstractextitemaggregator.h"
 
 
-template <class T> class ExtItemAggregator : public AbstractExtItemAggregator
+template <class T>
+class ExtItemAggregator : public AbstractExtItemAggregator
 {
 public:
     explicit ExtItemAggregator(QWidget *parent, const QString type,
@@ -48,20 +47,6 @@ public:
 
         m_items.clear();
     }
-
-    QString getName() const
-    {
-        if (debug) qDebug() << PDEBUG;
-
-        bool ok;
-        QString name = QInputDialog::getText(nullptr, tr("Enter file name"),
-                                             tr("File name"), QLineEdit::Normal,
-                                             QString(""), &ok);
-        if ((!ok) || (name.isEmpty())) return QString("");
-        if (!name.endsWith(QString(".desktop"))) name += QString(".desktop");
-
-        return name;
-    };
 
     void editItems()
     {
@@ -122,6 +107,7 @@ private:
     bool debug;
     QList<T *> m_items;
     QString m_type;
+
     // init method
     QList<T *> getItems()
     {
@@ -167,6 +153,7 @@ private:
             widgetDialog->addItem(item);
         }
     };
+
     // methods
     void copyItem()
     {
@@ -178,7 +165,7 @@ private:
         if ((source == nullptr) || (fileName.isEmpty())) return;
 
         T *newItem = source->copy(fileName, number);
-        if (newItem->showConfiguration() == 1) {
+        if (newItem->showConfiguration(configArgs()) == 1) {
             initItems();
             repaint();
         }
@@ -197,7 +184,7 @@ private:
 
         T *newItem = new T(this, fileName, dirs, debug);
         newItem->setNumber(number);
-        if (newItem->showConfiguration() == 1) {
+        if (newItem->showConfiguration(configArgs()) == 1) {
             initItems();
             repaint();
         }
@@ -223,7 +210,7 @@ private:
         T *source = itemFromWidget();
         if (source == nullptr) return;
 
-        if (source->showConfiguration() == 1) {
+        if (source->showConfiguration(configArgs()) == 1) {
             initItems();
             repaint();
         }

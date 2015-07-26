@@ -19,14 +19,12 @@
 #ifndef AWKEYS_H
 #define AWKEYS_H
 
-#include <QDialog>
-#include <QDialogButtonBox>
-#include <QListWidget>
 #include <QMap>
 #include <QObject>
 #include <QStringList>
-#include <QPushButton>
 #include <QVariant>
+
+#include "extitemaggregator.h"
 
 
 class AWToolTip;
@@ -39,15 +37,6 @@ class GraphicalItem;
 class AWKeys : public QObject
 {
     Q_OBJECT
-
-    enum RequestedItem {
-        Nothing,
-        RequestedGraphicalItem,
-        RequestedExtQuotes,
-        RequestedExtScript,
-        RequestedExtUpgrade,
-        RequestedExtWeather
-    };
 
 public:
     AWKeys(QObject *parent = nullptr);
@@ -82,13 +71,6 @@ private slots:
     void dataUpdate() const;
     void loadKeysFromCache();
     void reinitKeys();
-    // editor
-    void editItemButtonPressed(QAbstractButton *button);
-    void copyBar(const QString original);
-    void copyQuotes(const QString original);
-    void copyScript(const QString original);
-    void copyUpgrade(const QString original);
-    void copyWeather(const QString original);
 
 private:
     // methods
@@ -102,31 +84,17 @@ private:
     QStringList findGraphicalItems() const;
     QStringList findKeys() const;
     // get methods
-    QList<ExtQuotes *> getExtQuotes();
-    QList<ExtScript *> getExtScripts();
-    QList<ExtUpgrade *> getExtUpgrade();
-    QList<ExtWeather *> getExtWeather();
-    QList<GraphicalItem *> getGraphicalItems();
     GraphicalItem *getItemByTag(const QString tag) const;
     QStringList getTimeKeys() const;
     AWToolTip *toolTip = nullptr;
-    // graphical elements
-    QDialog *dialog = nullptr;
-    QListWidget *widgetDialog = nullptr;
-    QDialogButtonBox *dialogButtons = nullptr;
-    QPushButton *copyButton = nullptr;
-    QPushButton *createButton = nullptr;
-    QPushButton *deleteButton = nullptr;
-    RequestedItem requestedItem = Nothing;
-    // variables
     bool debug = false;
     bool enablePopup = false;
     bool wrapNewLines = false;
-    QList<GraphicalItem *> graphicalItems;
-    QList<ExtQuotes *> extQuotes;
-    QList<ExtScript *> extScripts;
-    QList<ExtUpgrade *> extUpgrade;
-    QList<ExtWeather *> extWeather;
+    ExtItemAggregator<GraphicalItem> *graphicalItems;
+    ExtItemAggregator<ExtQuotes> *extQuotes;
+    ExtItemAggregator<ExtScript> *extScripts;
+    ExtItemAggregator<ExtUpgrade> *extUpgrade;
+    ExtItemAggregator<ExtWeather> *extWeather;
     QString pattern;
     QStringList foundBars, foundKeys, keys;
     QMap<QString, QString> values;
