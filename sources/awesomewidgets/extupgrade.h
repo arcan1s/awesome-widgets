@@ -60,6 +60,7 @@ private:
     bool debug;
     QProcess *process = nullptr;
     Ui::ExtUpgrade *ui;
+    void translate();
     // properties
     QString m_executable = QString("/usr/bin/true");
     int m_null = 0;

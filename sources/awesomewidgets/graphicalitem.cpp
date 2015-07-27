@@ -18,6 +18,8 @@
 #include "graphicalitem.h"
 #include "ui_graphicalitem.h"
 
+#include <KI18n/KLocalizedString>
+
 #include <QBuffer>
 #include <QColorDialog>
 #include <QDebug>
@@ -39,8 +41,9 @@ GraphicalItem::GraphicalItem(QWidget *parent, const QString desktopName,
       ui(new Ui::GraphicalItem)
 {
     readConfiguration();
-
     ui->setupUi(this);
+    translate();
+
     connect(ui->pushButton_activeColor, SIGNAL(clicked()), this, SLOT(changeColor()));
     connect(ui->pushButton_inactiveColor, SIGNAL(clicked()), this, SLOT(changeColor()));
 }
@@ -490,4 +493,20 @@ QColor GraphicalItem::stringToColor(const QString _color) const
     qcolor.setAlpha(listColor[3].toInt());
 
     return qcolor;
+}
+
+
+void GraphicalItem::translate()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    ui->label_name->setText(i18n("Name"));
+    ui->label_comment->setText(i18n("Comment"));
+    ui->label_value->setText(i18n("Value"));
+    ui->label_activeColor->setText(i18n("Active color"));
+    ui->label_inactiveColor->setText(i18n("Inactive color"));
+    ui->label_type->setText(i18n("Type"));
+    ui->label_direction->setText(i18n("Direction"));
+    ui->label_height->setText(i18n("Height"));
+    ui->label_width->setText(i18n("Width"));
 }

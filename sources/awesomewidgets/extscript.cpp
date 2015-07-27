@@ -18,6 +18,8 @@
 #include "extscript.h"
 #include "ui_extscript.h"
 
+#include <KI18n/KLocalizedString>
+
 #include <QDebug>
 #include <QDir>
 #include <QJsonDocument>
@@ -40,6 +42,7 @@ ExtScript::ExtScript(QWidget *parent, const QString scriptName,
     readConfiguration();
     readJsonFilters();
     ui->setupUi(this);
+    translate();
 
     value[QString("value")] = QString("");
 
@@ -406,4 +409,24 @@ void ExtScript::updateValue()
 
     // filters
     value[QString("value")] = applyFilters(value[QString("value")].toString());
+}
+
+
+void ExtScript::translate()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    ui->label_name->setText(i18n("Name"));
+    ui->label_comment->setText(i18n("Comment"));
+    ui->label_number->setText(i18n("Tag"));
+    ui->label_command->setText(i18n("Command"));
+    ui->label_prefix->setText(i18n("Prefix"));
+    ui->checkBox_active->setText(i18n("Active"));
+    ui->checkBox_output->setText(i18n("Has output"));
+    ui->label_redirect->setText(i18n("Redirect"));
+    ui->label_interval->setText(i18n("Interval"));
+    ui->groupBox_filters->setTitle(i18n("Additional filters"));
+    ui->checkBox_colorFilter->setText(i18n("Wrap colors"));
+    ui->checkBox_linesFilter->setText(i18n("Wrap new lines"));
+    ui->checkBox_spaceFilter->setText(i18n("Wrap spaces"));
 }

@@ -26,6 +26,7 @@
 #include <QWidget>
 
 
+// additinal class since QObject macro does not allow class templates
 class AbstractExtItemAggregator : public QWidget
 {
     Q_OBJECT

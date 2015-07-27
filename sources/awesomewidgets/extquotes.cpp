@@ -18,6 +18,8 @@
 #include "extquotes.h"
 #include "ui_extquotes.h"
 
+#include <KI18n/KLocalizedString>
+
 #include <QDebug>
 #include <QDir>
 #include <QJsonDocument>
@@ -40,6 +42,7 @@ ExtQuotes::ExtQuotes(QWidget *parent, const QString quotesName,
 {
     readConfiguration();
     ui->setupUi(this);
+    translate();
 
     values[QString("ask")] = 0.0;
     values[QString("askchg")] = 0.0;
@@ -234,6 +237,20 @@ void ExtQuotes::quotesReplyReceived(QNetworkReply *reply)
                                   value - values[QString("price")].toFloat();
     values[QString("percpricechg")] = 100.0 * values[QString("pricechg")].toFloat() / values[QString("price")].toFloat();
     values[QString("price")] = value;
+}
+
+
+void ExtQuotes::translate()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    ui->label_name->setText(i18n("Name"));
+    ui->label_comment->setText(i18n("Comment"));
+    ui->label_number->setText(i18n("Tag"));
+    ui->label->setText(i18n("<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</span></a></p></body></html>"));
+    ui->label_ticker->setText(i18n("Ticker"));
+    ui->checkBox_active->setText(i18n("Active"));
+    ui->label_interval->setText(i18n("Interval"));
 }
 
 

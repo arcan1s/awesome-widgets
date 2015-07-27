@@ -18,6 +18,8 @@
 #include "extweather.h"
 #include "ui_extweather.h"
 
+#include <KI18n/KLocalizedString>
+
 #include <QDebug>
 #include <QDir>
 #include <QJsonDocument>
@@ -40,6 +42,7 @@ ExtWeather::ExtWeather(QWidget *parent, const QString weatherName,
 {
     readConfiguration();
     ui->setupUi(this);
+    translate();
 
     values[QString("weatherId")] = 0;
     values[QString("weather")] = QString("");
@@ -395,6 +398,21 @@ QVariantMap ExtWeather::parseSingleJson(const QVariantMap json) const
     }
 
     return output;
+}
+
+
+void ExtWeather::translate()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    ui->label_name->setText(i18n("Name"));
+    ui->label_comment->setText(i18n("Comment"));
+    ui->label_number->setText(i18n("Tag"));
+    ui->label_city->setText(i18n("City"));
+    ui->label_country->setText(i18n("Country"));
+    ui->label_timestamp->setText(i18n("Timestamp"));
+    ui->checkBox_active->setText(i18n("Active"));
+    ui->label_interval->setText(i18n("Interval"));
 }
 
 

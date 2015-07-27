@@ -70,6 +70,7 @@ private:
     bool isRunning = false;
     Ui::ExtWeather *ui;
     QVariantMap parseSingleJson(const QVariantMap json) const;
+    void translate();
     QString url(const bool isForecast = false) const;
     // properties
     QString m_city = QString("London");

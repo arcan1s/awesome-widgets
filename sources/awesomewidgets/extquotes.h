@@ -61,6 +61,7 @@ private:
     QNetworkAccessManager *manager;
     bool isRunning = false;
     Ui::ExtQuotes *ui;
+    void translate();
     QString url() const;
     // properties
     QString m_ticker = QString("EURUSD=X");

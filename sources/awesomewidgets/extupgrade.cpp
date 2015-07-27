@@ -18,6 +18,8 @@
 #include "extupgrade.h"
 #include "ui_extupgrade.h"
 
+#include <KI18n/KLocalizedString>
+
 #include <QDebug>
 #include <QDir>
 #include <QSettings>
@@ -36,6 +38,7 @@ ExtUpgrade::ExtUpgrade(QWidget *parent, const QString upgradeName,
 {
     readConfiguration();
     ui->setupUi(this);
+    translate();
 
     value[QString("value")] = 0;
 
@@ -210,4 +213,18 @@ void ExtUpgrade::updateValue()
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process->readAllStandardOutput()).trimmed();
     value[QString("value")] = qoutput.split(QChar('\n'), QString::SkipEmptyParts).count() - m_null;
+}
+
+
+void ExtUpgrade::translate()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    ui->label_name->setText(i18n("Name"));
+    ui->label_comment->setText(i18n("Comment"));
+    ui->label_number->setText(i18n("Tag"));
+    ui->label_command->setText(i18n("Command"));
+    ui->checkBox_active->setText(i18n("Active"));
+    ui->label_null->setText(i18n("Null"));
+    ui->label_interval->setText(i18n("Interval"));
 }

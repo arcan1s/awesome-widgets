@@ -87,11 +87,12 @@ private slots:
     void changeColor();
 
 private:
-    QColor stringToColor(const QString _color) const;
     QString m_fileName;
     QStringList m_dirs;
     bool debug;
     Ui::GraphicalItem *ui;
+    QColor stringToColor(const QString _color) const;
+    void translate();
     // properties
     int m_apiVersion = 0;
     QString m_name = QString("none");

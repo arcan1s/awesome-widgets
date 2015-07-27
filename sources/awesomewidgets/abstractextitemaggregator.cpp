@@ -17,6 +17,8 @@
 
 #include "abstractextitemaggregator.h"
 
+#include <KI18n/KLocalizedString>
+
 #include <QDebug>
 #include <QHBoxLayout>
 #include <QInputDialog>
@@ -33,9 +35,9 @@ AbstractExtItemAggregator::AbstractExtItemAggregator(QWidget *parent, const bool
     widgetDialog = new QListWidget(dialog);
     dialogButtons = new QDialogButtonBox(QDialogButtonBox::Open | QDialogButtonBox::Close,
                                          Qt::Vertical, dialog);
-    copyButton = dialogButtons->addButton(tr("Copy"), QDialogButtonBox::ActionRole);
-    createButton = dialogButtons->addButton(tr("Create"), QDialogButtonBox::ActionRole);
-    deleteButton = dialogButtons->addButton(tr("Remove"), QDialogButtonBox::ActionRole);
+    copyButton = dialogButtons->addButton(i18n("Copy"), QDialogButtonBox::ActionRole);
+    createButton = dialogButtons->addButton(i18n("Create"), QDialogButtonBox::ActionRole);
+    deleteButton = dialogButtons->addButton(i18n("Remove"), QDialogButtonBox::ActionRole);
     QHBoxLayout *layout = new QHBoxLayout(dialog);
     layout->addWidget(widgetDialog);
     layout->addWidget(dialogButtons);
@@ -62,8 +64,8 @@ QString AbstractExtItemAggregator::getName()
     if (debug) qDebug() << PDEBUG;
 
     bool ok;
-    QString name = QInputDialog::getText(this, tr("Enter file name"),
-                                         tr("File name"), QLineEdit::Normal,
+    QString name = QInputDialog::getText(this, i18n("Enter file name"),
+                                         i18n("File name"), QLineEdit::Normal,
                                          QString(""), &ok);
     if ((!ok) || (name.isEmpty())) return QString("");
     if (!name.endsWith(QString(".desktop"))) name += QString(".desktop");

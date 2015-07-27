@@ -83,6 +83,7 @@ private:
     bool debug;
     QProcess *process = nullptr;
     Ui::ExtScript *ui;
+    void translate();
     // properties
     QString m_executable = QString("/usr/bin/true");
     QStringList m_filters = QStringList();

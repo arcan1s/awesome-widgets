@@ -18,6 +18,8 @@
 #ifndef EXTITEMAGGREGATOR_H
 #define EXTITEMAGGREGATOR_H
 
+#include <KI18n/KLocalizedString>
+
 #include <QDebug>
 #include <QDir>
 #include <QSettings>
@@ -146,9 +148,9 @@ private:
         for (int i=0; i<m_items.count(); i++) {
             QListWidgetItem *item = new QListWidgetItem(m_items[i]->fileName(), widgetDialog);
             QStringList tooltip;
-            tooltip.append(tr("Name: %1").arg(m_items[i]->name()));
-            tooltip.append(tr("Comment: %1").arg(m_items[i]->comment()));
-            tooltip.append(tr("Identity: %1").arg(m_items[i]->uniq()));
+            tooltip.append(i18n("Name: %1", m_items[i]->name()));
+            tooltip.append(i18n("Comment: %1", m_items[i]->comment()));
+            tooltip.append(i18n("Identity: %1", m_items[i]->uniq()));
             item->setToolTip(tooltip.join(QChar('\n')));
             widgetDialog->addItem(item);
         }
