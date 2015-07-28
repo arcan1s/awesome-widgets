@@ -34,16 +34,23 @@ class AWToolTip : public QObject
 public:
     AWToolTip(QObject *parent = nullptr, QVariantMap settings = QVariantMap());
     ~AWToolTip();
-
     QSize getSize() const;
+    QString htmlImage();
     QPixmap image();
-    void setData(const QString source, float value,
-                 const bool ac = true);
+
+signals:
+    void updateData(QMap<QString, QString> values);
+    void toolTipPainted(QString image);
+
+private slots:
+    void dataUpdate(QMap<QString, QString> values);
 
 private:
     // ui
     QGraphicsScene *toolTipScene = nullptr;
     QGraphicsView *toolTipView = nullptr;
+    void setData(const QString source, float value,
+                 const bool ac = true);
     // variables
     bool debug = false;
     int counts = 0;

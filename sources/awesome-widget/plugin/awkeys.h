@@ -79,7 +79,6 @@ private:
     QString htmlValue(QString key) const;
     int numberCpus() const;
     float temperature(const float temp, const QString units) const;
-    QString toolTipImage() const;
     // find methods
     QStringList findGraphicalItems() const;
     QStringList findKeys() const;

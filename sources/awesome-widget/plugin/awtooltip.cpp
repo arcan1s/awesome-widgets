@@ -17,6 +17,7 @@
 
 #include "awtooltip.h"
 
+#include <QBuffer>
 #include <QDebug>
 #include <QProcessEnvironment>
 #include <math.h>
@@ -65,6 +66,9 @@ AWToolTip::AWToolTip(QObject *parent, QVariantMap settings)
     if (configuration[QString("downTooltip")].toBool()) requiredKeys.append(QString("downTooltip"));
     if (configuration[QString("upTooltip")].toBool()) requiredKeys.append(QString("upTooltip"));
     if (configuration[QString("batTooltip")].toBool()) requiredKeys.append(QString("batTooltip"));
+
+    connect(this, SIGNAL(updateData(QMap<QString, QString>)),
+            this, SLOT(dataUpdate(QMap<QString, QString>)));
 }
 
 
@@ -76,11 +80,46 @@ AWToolTip::~AWToolTip()
 }
 
 
+void AWToolTip::dataUpdate(QMap<QString, QString> values)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    // battery update requires info is AC online or not
+    setData(QString("batTooltip"), values[QString("bat")].toFloat(),
+            values[QString("ac")] == configuration[QString("acOnline")]);
+    // usual case
+    setData(QString("cpuTooltip"), values[QString("cpu")].toFloat());
+    setData(QString("cpuclTooltip"), values[QString("cpucl")].toFloat());
+    setData(QString("memTooltip"), values[QString("mem")].toFloat());
+    setData(QString("swapTooltip"), values[QString("swap")].toFloat());
+    // network may be showed as float (MB/s) or as int (KB/s)
+    setData(QString("downTooltip"), values[QString("down")].contains(QChar('.')) ?
+            values[QString("down")].toFloat() * 1024.0 : values[QString("down")].toFloat());
+    setData(QString("upTooltip"), values[QString("up")].contains(QChar('.')) ?
+            values[QString("up")].toFloat() * 1024.0 : values[QString("up")].toFloat());
+
+    emit(toolTipPainted(htmlImage()));
+}
+
+
 QSize AWToolTip::getSize() const
 {
     if (debug) qDebug() << PDEBUG;
 
     return size;
+}
+
+
+QString AWToolTip::htmlImage()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QPixmap rawImage = image();
+    QByteArray byteArray;
+    QBuffer buffer(&byteArray);
+    rawImage.save(&buffer, "PNG");
+
+    return QString("<img src=\"data:image/png;base64,%1\"/>").arg(QString(byteArray.toBase64()));
 }
 
 
