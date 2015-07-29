@@ -1,14 +1,6 @@
 set (PLUGIN_NAME awplugin)
 add_definitions(-DTRANSLATION_DOMAIN=\"plasma_applet_org.kde.plasma.awesomewidget\")
 
-add_definitions (${Qt5Core_DEFINITIONS} ${Qt5Network_DEFINITIONS})
-set (Qt_INCLUDE ${Qt5Core_INCLUDE_DIRS} ${Qt5Network_INCLUDE_DIRS} ${Qt5Qml_INCLUDE_DIRS})
-set (Qt_LIBRARIES ${Qt5Core_LIBRARIES} ${Qt5Network_LIBRARIES} ${Qt5Qml_LIBRARIES})
-set (Kf5_INCLUDE ${I18n_INCLUDE_DIR}
-                 ${Notifications_INCLUDE_DIR})
-set (Kf5_LIBRARIES KF5::I18n
-                   KF5::Notifications)
-
 include_directories (${CMAKE_SOURCE_DIR}
                      ${CMAKE_BINARY_DIR}
                      ${CMAKE_CURRENT_BINARY_DIR}

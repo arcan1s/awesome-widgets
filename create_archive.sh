@@ -9,15 +9,6 @@ VERSION="${MAJOR}.${MINOR}.${PATCH}"
 # update submodules
 git submodule update --init --recursive
 
-# build dataengine
-ARCHIVE="extsysmon"
-# create archive
-[[ -e ${ARCHIVE}-${VERSION}-src.tar.xz ]] && rm -f ${ARCHIVE}-${VERSION}-src.tar.xz
-[[ -d ${ARCHIVE} ]] && rm -rf "${ARCHIVE}"
-cp -r "${SRCDIR}/${ARCHIVE}" "${ARCHIVE}"
-tar cJf "${ARCHIVE}-${VERSION}-src.tar.xz" "${ARCHIVE}"
-rm -rf "${ARCHIVE}"
-
 # build widget
 ARCHIVE="awesome-widgets"
 FILES="AUTHORS CHANGELOG CHANGELOG-RU COPYING"

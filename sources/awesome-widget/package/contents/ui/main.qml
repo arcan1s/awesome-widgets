@@ -62,7 +62,9 @@ Item {
         "downTooltipColor": plasmoid.configuration.downTooltipColor,
         "upTooltipColor": plasmoid.configuration.upTooltipColor,
         "batTooltipColor": plasmoid.configuration.batTooltipColor,
-        "batInTooltipColor": plasmoid.configuration.batInTooltipColor
+        "batInTooltipColor": plasmoid.configuration.batInTooltipColor,
+        // additinal field to parse AC status
+        "acOnline": plasmoid.configuration.acOnline
     }
 
     signal dropSource(string sourceName)

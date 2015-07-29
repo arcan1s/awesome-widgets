@@ -4,22 +4,6 @@ set (PLUGIN_NAME ${SUBPROJECT})
 message (STATUS "Subproject ${SUBPROJECT}")
 add_definitions(-DTRANSLATION_DOMAIN=\"plasma_applet_org.kde.plasma.awesomewidget\")
 
-# find required libaries
-find_package (Qt5 REQUIRED COMPONENTS DBus Network)
-find_package (ECM 0.0.11 REQUIRED NO_MODULE)
-set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
-find_package (KF5 REQUIRED COMPONENTS Plasma Service WindowSystem)
-
-include (KDEInstallDirs)
-include (KDECMakeSettings)
-include (KDECompilerSettings)
-
-add_definitions (${Qt5Core_DEFINITIONS} ${Qt5DBus_DEFINITIONS}
-                 ${Qt5Network_DEFINITIONS})
-set (Qt_INCLUDE ${Qt5Core_INCLUDE_DIRS} ${Qt5DBus_INCLUDE_DIRS}
-                ${Qt5Network_INCLUDE_DIRS})
-set (KDE_INCLUDE ${Plasma_INCLUDE_DIR})
-
 include_directories (${CMAKE_SOURCE_DIR}
                      ${CMAKE_BINARY_DIR}
                      ${CMAKE_CURRENT_BINARY_DIR}
@@ -27,7 +11,7 @@ include_directories (${CMAKE_SOURCE_DIR}
                      ${CMAKE_CURRENT_SOURCE_DIR}/../${PROJECT_LIBRARY}/
                      ${PROJECT_TRDPARTY_DIR}
                      ${Qt_INCLUDE}
-                     ${KDE_INCLUDE})
+                     ${Kf5_INCLUDE})
 
 file (GLOB SUBPROJECT_DESKTOP_IN *.desktop)
 file (RELATIVE_PATH SUBPROJECT_DESKTOP ${CMAKE_SOURCE_DIR} ${SUBPROJECT_DESKTOP_IN})
@@ -42,8 +26,7 @@ configure_file (${SUBPROJECT_DESKTOP_IN} ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJEC
 qt5_wrap_cpp (TASK_MOC_SOURCE ${TASK_HEADER})
 qt5_wrap_ui (SUBPROJECT_UI_HEADER ${SUBPROJECT_UI})
 add_library (${PLUGIN_NAME} MODULE ${SUBPROJECT_SOURCE} ${SUBPROJECT_UI_HEADER} ${TASK_MOC_SOURCE})
-target_link_libraries (${PLUGIN_NAME} ${PROJECT_LIBRARY} ${Plasma_LIBRARIES} KF5::WindowSystem
-                       ${Qt5DBus_LIBRARIES} ${Qt5Network_LIBRARIES})
+target_link_libraries (${PLUGIN_NAME} ${PROJECT_LIBRARY} ${Qt_LIBRARIES} ${Kf5_LIBRARIES})
 kcoreaddons_desktop_to_json (${PLUGIN_NAME} ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT_DESKTOP})
 
 # install
