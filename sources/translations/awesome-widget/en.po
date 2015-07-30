@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-07-20 20:43+0300\n"
-"PO-Revision-Date: 2015-07-20 20:44+0300\n"
+"POT-Creation-Date: 2015-07-26 20:21+0300\n"
+"PO-Revision-Date: 2015-07-26 20:22+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: English <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -60,6 +60,7 @@ msgid "Enable notifications"
 msgstr "Enable notifications"
 
 #: awesome-widget/package/contents/ui/advanced.qml:117
+#: awesomewidgets/extscript.cpp:430
 msgid "Wrap new lines"
 msgstr "Wrap new lines"
 
@@ -115,7 +116,7 @@ msgstr "AC online tag"
 msgid "AC offline tag"
 msgstr "AC offline tag"
 
-#: awesome-widget/package/contents/ui/advanced.qml:271
+#: awesome-widget/package/contents/ui/advanced.qml:268
 msgid "Drop key cache"
 msgstr "Drop key cache"
 
@@ -242,15 +243,23 @@ msgstr "Package manager"
 msgid "Edit command"
 msgstr "Edit command"
 
-#: awesome-widget/package/contents/ui/main.qml:171
+#: awesome-widget/package/contents/ui/dataengine.qml:287
+msgid "Weather"
+msgstr "Weather"
+
+#: awesome-widget/package/contents/ui/dataengine.qml:291
+msgid "Edit weather"
+msgstr "Edit weather"
+
+#: awesome-widget/package/contents/ui/main.qml:167
 msgid "Request key"
 msgstr "Request key"
 
-#: awesome-widget/package/contents/ui/main.qml:172
+#: awesome-widget/package/contents/ui/main.qml:168
 msgid "Show README"
 msgstr "Show README"
 
-#: awesome-widget/package/contents/ui/main.qml:173
+#: awesome-widget/package/contents/ui/main.qml:169
 msgid "Check updates"
 msgstr "Check updates"
 
@@ -319,13 +328,12 @@ msgid "Show value"
 msgstr "Show value"
 
 #: awesome-widget/package/contents/ui/widget.qml:258
-#: awesome-widget/plugin/awkeys.cpp:669 awesome-widget/plugin/awkeys.cpp:734
-#: awesome-widget/plugin/awkeys.cpp:1036
+#: awesome-widget/plugin/awkeys.cpp:681
 msgid "Tag: %1"
 msgstr "Tag: %1"
 
 #: awesome-widget/package/contents/ui/widget.qml:260
-#: awesome-widget/plugin/awkeys.cpp:671
+#: awesome-widget/plugin/awkeys.cpp:683
 msgid "Value: %1"
 msgstr "Value: %1"
 
@@ -393,109 +401,205 @@ msgstr "This software uses: %1"
 msgid "Select font"
 msgstr "Select font"
 
-#: awesome-widget/plugin/awactions.cpp:233
+#: awesome-widget/plugin/awactions.cpp:234
 msgid "Current version : %1"
 msgstr "Current version : %1"
 
-#: awesome-widget/plugin/awactions.cpp:234
+#: awesome-widget/plugin/awactions.cpp:235
 msgid "New version : %1"
 msgstr "New version : %1"
 
-#: awesome-widget/plugin/awactions.cpp:235
+#: awesome-widget/plugin/awactions.cpp:236
 msgid "Click \"Ok\" to download"
 msgstr "Click \"Ok\" to download"
 
-#: awesome-widget/plugin/awactions.cpp:237
+#: awesome-widget/plugin/awactions.cpp:238
 msgid "There are updates"
 msgstr "There are updates"
 
-#: awesome-widget/plugin/awkeys.cpp:62
-msgid "Copy"
-msgstr "Copy"
-
-#: awesome-widget/plugin/awkeys.cpp:63
-msgid "Create"
-msgstr "Create"
-
-#: awesome-widget/plugin/awkeys.cpp:64
-msgid "Remove"
-msgstr "Remove"
-
-#: awesome-widget/plugin/awkeys.cpp:368
+#: awesome-widget/plugin/awkeys.cpp:366
 msgid "AC online"
 msgstr "AC online"
 
-#: awesome-widget/plugin/awkeys.cpp:370
+#: awesome-widget/plugin/awkeys.cpp:368
 msgid "AC offline"
 msgstr "AC offline"
 
-#: awesome-widget/plugin/awkeys.cpp:388
+#: awesome-widget/plugin/awkeys.cpp:386
 msgid "High CPU load"
 msgstr "High CPU load"
 
-#: awesome-widget/plugin/awkeys.cpp:437
+#: awesome-widget/plugin/awkeys.cpp:435
 msgid "High GPU load"
 msgstr "High GPU load"
 
-#: awesome-widget/plugin/awkeys.cpp:451
+#: awesome-widget/plugin/awkeys.cpp:449
 msgid "Free space on %1 less than 10%"
 msgstr "Free space on %1 less than 10%"
 
-#: awesome-widget/plugin/awkeys.cpp:521
+#: awesome-widget/plugin/awkeys.cpp:519
 msgid "High memory usage"
 msgstr "High memory usage"
 
-#: awesome-widget/plugin/awkeys.cpp:529
+#: awesome-widget/plugin/awkeys.cpp:527
 msgid "Network device has been changed to %1"
 msgstr "Network device has been changed to %1"
 
-#: awesome-widget/plugin/awkeys.cpp:613
+#: awesome-widget/plugin/awkeys.cpp:611
 msgid "Swap is used"
 msgstr "Swap is used"
 
-#: awesome-widget/plugin/awkeys.cpp:665
+#: awesome-widget/plugin/awkeys.cpp:677
 msgid "Select tag"
 msgstr "Select tag"
 
-#: awesome-widget/plugin/awkeys.cpp:665
+#: awesome-widget/plugin/awkeys.cpp:677 awesomewidgets/extquotes.cpp:249
+#: awesomewidgets/extscript.cpp:421 awesomewidgets/extupgrade.cpp:225
+#: awesomewidgets/extweather.cpp:410
 msgid "Tag"
 msgstr "Tag"
 
-#: awesome-widget/plugin/awkeys.cpp:735 awesome-widget/plugin/awkeys.cpp:745
-#: awesome-widget/plugin/awkeys.cpp:756 awesome-widget/plugin/awkeys.cpp:767
-#: awesome-widget/plugin/awkeys.cpp:1037 awesome-widget/plugin/awkeys.cpp:1092
-#: awesome-widget/plugin/awkeys.cpp:1152 awesome-widget/plugin/awkeys.cpp:1209
-msgid "Comment: %1"
-msgstr "Comment: %1"
+#: awesomewidgets/abstractextitemaggregator.cpp:38
+msgid "Copy"
+msgstr "Copy"
 
-#: awesome-widget/plugin/awkeys.cpp:744 awesome-widget/plugin/awkeys.cpp:755
-#: awesome-widget/plugin/awkeys.cpp:766 awesome-widget/plugin/awkeys.cpp:1091
-#: awesome-widget/plugin/awkeys.cpp:1151 awesome-widget/plugin/awkeys.cpp:1208
-msgid "Name: %1"
-msgstr "Name: %1"
+#: awesomewidgets/abstractextitemaggregator.cpp:39
+msgid "Create"
+msgstr "Create"
 
-#: awesome-widget/plugin/awkeys.cpp:746 awesome-widget/plugin/awkeys.cpp:1093
-msgid "Ticker: %1"
-msgstr "Ticker: %1"
+#: awesomewidgets/abstractextitemaggregator.cpp:40
+msgid "Remove"
+msgstr "Remove"
 
-#: awesome-widget/plugin/awkeys.cpp:757 awesome-widget/plugin/awkeys.cpp:768
-#: awesome-widget/plugin/awkeys.cpp:1153 awesome-widget/plugin/awkeys.cpp:1210
-msgid "Exec: %1"
-msgstr "Exec: %1"
-
-#: awesome-widget/plugin/awkeys.cpp:996 awesome-widget/plugin/awkeys.cpp:1061
-#: awesome-widget/plugin/awkeys.cpp:1118 awesome-widget/plugin/awkeys.cpp:1177
+#: awesomewidgets/abstractextitemaggregator.cpp:67
 msgid "Enter file name"
 msgstr "Enter file name"
 
-#: awesome-widget/plugin/awkeys.cpp:997 awesome-widget/plugin/awkeys.cpp:1062
-#: awesome-widget/plugin/awkeys.cpp:1119 awesome-widget/plugin/awkeys.cpp:1178
+#: awesomewidgets/abstractextitemaggregator.cpp:68
 msgid "File name"
 msgstr "File name"
 
-#: awesome-widget/plugin/graphicalitem.cpp:497
-msgid "Select color"
-msgstr "Select color"
+#: awesomewidgets/extitemaggregator.h:151
+msgid "Name: %1"
+msgstr "Name: %1"
+
+#: awesomewidgets/extitemaggregator.h:152
+msgid "Comment: %1"
+msgstr "Comment: %1"
+
+#: awesomewidgets/extitemaggregator.h:153
+msgid "Identity: %1"
+msgstr "Identity: %1"
+
+#: awesomewidgets/extquotes.cpp:247 awesomewidgets/extscript.cpp:419
+#: awesomewidgets/extupgrade.cpp:223 awesomewidgets/extweather.cpp:408
+#: awesomewidgets/graphicalitem.cpp:503
+msgid "Name"
+msgstr "Name"
+
+#: awesomewidgets/extquotes.cpp:248 awesomewidgets/extscript.cpp:420
+#: awesomewidgets/extupgrade.cpp:224 awesomewidgets/extweather.cpp:409
+#: awesomewidgets/graphicalitem.cpp:504
+msgid "Comment"
+msgstr "Comment"
+
+#: awesomewidgets/extquotes.cpp:250
+msgid ""
+"<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
+"instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
+"text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</"
+"span></a></p></body></html>"
+msgstr ""
+"<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
+"instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
+"text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</"
+"span></a></p></body></html>"
+
+#: awesomewidgets/extquotes.cpp:251
+msgid "Ticker"
+msgstr "Ticker"
+
+#: awesomewidgets/extquotes.cpp:252 awesomewidgets/extscript.cpp:424
+#: awesomewidgets/extupgrade.cpp:227 awesomewidgets/extweather.cpp:414
+msgid "Active"
+msgstr "Active"
+
+#: awesomewidgets/extquotes.cpp:253 awesomewidgets/extscript.cpp:427
+#: awesomewidgets/extupgrade.cpp:229 awesomewidgets/extweather.cpp:415
+msgid "Interval"
+msgstr "Interval"
+
+#: awesomewidgets/extscript.cpp:422 awesomewidgets/extupgrade.cpp:226
+msgid "Command"
+msgstr "Command"
+
+#: awesomewidgets/extscript.cpp:423
+msgid "Prefix"
+msgstr "Prefix"
+
+#: awesomewidgets/extscript.cpp:425
+msgid "Has output"
+msgstr "Has output"
+
+#: awesomewidgets/extscript.cpp:426
+msgid "Redirect"
+msgstr "Redirect"
+
+#: awesomewidgets/extscript.cpp:428
+msgid "Additional filters"
+msgstr "Additional filters"
+
+#: awesomewidgets/extscript.cpp:429
+msgid "Wrap colors"
+msgstr "Wrap colors"
+
+#: awesomewidgets/extscript.cpp:431
+msgid "Wrap spaces"
+msgstr "Wrap spaces"
+
+#: awesomewidgets/extupgrade.cpp:228
+msgid "Null"
+msgstr "Null"
+
+#: awesomewidgets/extweather.cpp:411
+msgid "City"
+msgstr "City"
+
+#: awesomewidgets/extweather.cpp:412
+msgid "Country"
+msgstr "Country"
+
+#: awesomewidgets/extweather.cpp:413
+msgid "Timestamp"
+msgstr "Timestamp"
+
+#: awesomewidgets/graphicalitem.cpp:505
+msgid "Value"
+msgstr "Value"
+
+#: awesomewidgets/graphicalitem.cpp:506
+msgid "Active color"
+msgstr "Active color"
+
+#: awesomewidgets/graphicalitem.cpp:507
+msgid "Inactive color"
+msgstr "Inactive color"
+
+#: awesomewidgets/graphicalitem.cpp:508
+msgid "Type"
+msgstr "Type"
+
+#: awesomewidgets/graphicalitem.cpp:509
+msgid "Direction"
+msgstr "Direction"
+
+#: awesomewidgets/graphicalitem.cpp:510
+msgid "Height"
+msgstr "Height"
+
+#: awesomewidgets/graphicalitem.cpp:511
+msgid "Width"
+msgstr "Width"
 
 #: translations/awesome-widget/rc.cpp:1 rc.cpp:1
 msgctxt "NAME OF TRANSLATORS"
@@ -506,6 +610,15 @@ msgstr "Evgeniy Alekseev"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "esalexeev@gmail.com"
+
+#~ msgid "Ticker: %1"
+#~ msgstr "Ticker: %1"
+
+#~ msgid "Exec: %1"
+#~ msgstr "Exec: %1"
+
+#~ msgid "Select color"
+#~ msgstr "Select color"
 
 #~ msgid "Run ksysguard"
 #~ msgstr "Run ksysguard"
@@ -614,33 +727,6 @@ msgstr "esalexeev@gmail.com"
 #~ msgid "Configuration"
 #~ msgstr "Configuration"
 
-#~ msgid "Name"
-#~ msgstr "Name"
-
-#~ msgid "Comment"
-#~ msgstr "Comment"
-
-#~ msgid "Value"
-#~ msgstr "Value"
-
-#~ msgid "Active color"
-#~ msgstr "Active color"
-
-#~ msgid "Inactive color"
-#~ msgstr "Inactive color"
-
-#~ msgid "Type"
-#~ msgstr "Type"
-
-#~ msgid "Direction"
-#~ msgstr "Direction"
-
-#~ msgid "Height"
-#~ msgstr "Height"
-
-#~ msgid "Width"
-#~ msgstr "Width"
-
 #~ msgid "Ctrl+B"
 #~ msgstr "Ctrl+B"
 
@@ -649,41 +735,6 @@ msgstr "esalexeev@gmail.com"
 
 #~ msgid "Ctrl+U"
 #~ msgstr "Ctrl+U"
-
-#~ msgid ""
-#~ "<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
-#~ "instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
-#~ "text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</"
-#~ "span></a></p></body></html>"
-#~ msgstr ""
-#~ "<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
-#~ "instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
-#~ "text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</"
-#~ "span></a></p></body></html>"
-
-#~ msgid "Ticker"
-#~ msgstr "Ticker"
-
-#~ msgid "Active"
-#~ msgstr "Active"
-
-#~ msgid "Interval"
-#~ msgstr "Interval"
-
-#~ msgid "Command"
-#~ msgstr "Command"
-
-#~ msgid "Prefix"
-#~ msgstr "Prefix"
-
-#~ msgid "Has output"
-#~ msgstr "Has output"
-
-#~ msgid "Redirect"
-#~ msgstr "Redirect"
-
-#~ msgid "Null"
-#~ msgstr "Null"
 
 #~ msgid "Null lines"
 #~ msgstr "Null lines"
@@ -736,9 +787,6 @@ msgstr "esalexeev@gmail.com"
 
 #~ msgid "Custom command to run"
 #~ msgstr "Custom command to run"
-
-#~ msgid "Time"
-#~ msgstr "Time"
 
 #~ msgid ""
 #~ "$time - time in default format\n"
