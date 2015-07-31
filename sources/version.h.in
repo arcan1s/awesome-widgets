@@ -37,5 +37,6 @@
 // cmake properties
 #define CMAKE_BUILD_TYPE "@CMAKE_BUILD_TYPE@"
 #define CMAKE_INSTALL_PREFIX "@CMAKE_INSTALL_PREFIX@"
+#define BUILD_PLASMOIDS "@BUILD_PLASMOIDS@"
 
 #endif /* VERSION_H */
