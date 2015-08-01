@@ -1,298 +1,257 @@
 # Copyright (C) 2014
 # This file is distributed under the same license as the PyTextMonitor package.
 #
-# Evgeniy Alekseev <esalexeev@gmail.com>, 2014.
+# Evgeniy Alekseev <esalexeev@gmail.com>, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-07-26 20:21+0300\n"
-"PO-Revision-Date: 2014-12-24 00:04+0300\n"
+"POT-Creation-Date: 2015-08-01 22:13+0300\n"
+"PO-Revision-Date: 2015-07-31 22:21+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
-"Language-Team: Brazilian Portuguese <kde-russian@lists.kde.ru>\n"
+"Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 "X-Language: pt_BR\n"
 "X-Source-Language: en\n"
 
-#: awesome-widget/package/contents/config/config.qml:25
+#, kde-format
 msgid "Widget"
 msgstr "Widget"
 
-#: awesome-widget/package/contents/config/config.qml:31
+#, kde-format
 msgid "Advanced"
 msgstr "Avançado"
 
-#: awesome-widget/package/contents/config/config.qml:37
+#, kde-format
 msgid "Tooltip"
 msgstr "Dica de contexto"
 
-#: awesome-widget/package/contents/config/config.qml:43
+#, kde-format
 msgid "Appearance"
 msgstr "Aparência"
 
-#: awesome-widget/package/contents/config/config.qml:49
+#, kde-format
 msgid "DataEngine"
 msgstr "Engine de dados"
 
-#: awesome-widget/package/contents/config/config.qml:55
-#: awesome-widget/package/contents/ui/about.qml:46
+#, kde-format
 msgid "About"
 msgstr "Sobre"
 
-#: awesome-widget/package/contents/ui/about.qml:88
-#, fuzzy
+#, kde-format
 msgid "Acknowledgment"
 msgstr "Confirmação"
 
-#: awesome-widget/package/contents/ui/advanced.qml:61
-#, fuzzy
+#, kde-format
 msgid "Widget height, px"
 msgstr "Altura do widget, px"
 
-#: awesome-widget/package/contents/ui/advanced.qml:81
-#, fuzzy
+#, kde-format
 msgid "Widget width, px"
 msgstr "Largura do widget, px"
 
-#: awesome-widget/package/contents/ui/advanced.qml:103
-#, fuzzy
+#, kde-format
 msgid "Enable notifications"
 msgstr "Ativar notificações"
 
-#: awesome-widget/package/contents/ui/advanced.qml:117
-#: awesomewidgets/extscript.cpp:430
-#, fuzzy
+#, kde-format
 msgid "Wrap new lines"
 msgstr "Cobrir novas linhas"
 
-#: awesome-widget/package/contents/ui/advanced.qml:131
+#, kde-format
 msgid "Enable background"
 msgstr "Ativar plano de fundo"
 
-#: awesome-widget/package/contents/ui/advanced.qml:143
+#, kde-format
 msgid "Custom time format"
 msgstr "Formato de hora personalizado"
 
-#: awesome-widget/package/contents/ui/advanced.qml:160
+#, kde-format
 msgid "Custom uptime format"
 msgstr "Tempo em atividade com formato personalizado"
 
-#: awesome-widget/package/contents/ui/advanced.qml:177
+#, kde-format
 msgid "Temperature units"
 msgstr "Unidades de temperatura"
 
-#: awesome-widget/package/contents/ui/advanced.qml:185
-#, fuzzy
+#, kde-format
 msgid "Celsius"
 msgstr "Celsius"
 
-#: awesome-widget/package/contents/ui/advanced.qml:189
-#, fuzzy
+#, kde-format
 msgid "Fahrenheit"
 msgstr "Fahrenheit"
 
-#: awesome-widget/package/contents/ui/advanced.qml:193
-#, fuzzy
+#, kde-format
 msgid "Kelvin"
 msgstr "Kelvin"
 
-#: awesome-widget/package/contents/ui/advanced.qml:197
-#, fuzzy
+#, kde-format
 msgid "Reaumur"
 msgstr "Reaumur"
 
-#: awesome-widget/package/contents/ui/advanced.qml:201
-#, fuzzy
+#, kde-format
 msgid "cm^-1"
 msgstr "cm^-1"
 
-#: awesome-widget/package/contents/ui/advanced.qml:205
-#, fuzzy
+#, kde-format
 msgid "kJ/mol"
 msgstr "KJ/mol"
 
-#: awesome-widget/package/contents/ui/advanced.qml:209
-#, fuzzy
+#, kde-format
 msgid "kcal/mol"
 msgstr "kcal/mol"
 
-#: awesome-widget/package/contents/ui/advanced.qml:232
+#, kde-format
 msgid "AC online tag"
 msgstr "Rótulo com carregador conectado"
 
-#: awesome-widget/package/contents/ui/advanced.qml:249
+#, kde-format
 msgid "AC offline tag"
 msgstr "Rótulo com carregador desconectado"
 
-#: awesome-widget/package/contents/ui/advanced.qml:268
+#, kde-format
 msgid "Drop key cache"
 msgstr ""
 
-#: awesome-widget/package/contents/ui/appearance.qml:66
+#, kde-format
 msgid "Time interval"
 msgstr "Intervalo de tempo"
 
-#: awesome-widget/package/contents/ui/appearance.qml:86
-#: awesome-widget/package/contents/ui/widget.qml:89
+#, kde-format
 msgid "Font"
 msgstr "Tamanho da fonte"
 
-#: awesome-widget/package/contents/ui/appearance.qml:104
+#, kde-format
 msgid "Font size"
 msgstr "Tamanho da fonte"
 
-#: awesome-widget/package/contents/ui/appearance.qml:124
+#, kde-format
 msgid "Font weight"
 msgstr "Grossura da fonte"
 
-#: awesome-widget/package/contents/ui/appearance.qml:132
-#, fuzzy
+#, kde-format
 msgid "light"
 msgstr "leve"
 
-#: awesome-widget/package/contents/ui/appearance.qml:136
-#: awesome-widget/package/contents/ui/appearance.qml:179
-#, fuzzy
+#, kde-format
 msgid "normal"
 msgstr "normal"
 
-#: awesome-widget/package/contents/ui/appearance.qml:140
-#, fuzzy
+#, kde-format
 msgid "demi bold"
 msgstr "demi negrito"
 
-#: awesome-widget/package/contents/ui/appearance.qml:144
-#, fuzzy
+#, kde-format
 msgid "bold"
 msgstr "negrito"
 
-#: awesome-widget/package/contents/ui/appearance.qml:148
-#, fuzzy
+#, kde-format
 msgid "black"
 msgstr "preto"
 
-#: awesome-widget/package/contents/ui/appearance.qml:171
+#, kde-format
 msgid "Font style"
 msgstr "Estilo da fonte"
 
-#: awesome-widget/package/contents/ui/appearance.qml:183
-#, fuzzy
+#, kde-format
 msgid "italic"
 msgstr "itálico"
 
-#: awesome-widget/package/contents/ui/appearance.qml:206
+#, kde-format
 msgid "Font color"
 msgstr "Cor da fonte"
 
-#: awesome-widget/package/contents/ui/appearance.qml:224
-#: awesome-widget/package/contents/ui/tooltip.qml:136
-#: awesome-widget/package/contents/ui/tooltip.qml:188
-#: awesome-widget/package/contents/ui/tooltip.qml:240
-#: awesome-widget/package/contents/ui/tooltip.qml:292
-#: awesome-widget/package/contents/ui/tooltip.qml:344
-#: awesome-widget/package/contents/ui/tooltip.qml:396
-#: awesome-widget/package/contents/ui/tooltip.qml:426
-#: awesome-widget/package/contents/ui/tooltip.qml:478
-#: awesome-widget/package/contents/ui/tooltip.qml:508
-#, fuzzy
+#, kde-format
 msgid "Select a color"
 msgstr "Selecionar uma cor"
 
-#: awesome-widget/package/contents/ui/appearance.qml:231
-#, fuzzy
+#, kde-format
 msgid "Select a font"
 msgstr "Selecionar uma fonte"
 
-#: awesome-widget/package/contents/ui/dataengine.qml:77
+#, kde-format
 msgid "ACPI path"
 msgstr "Caminho ACPI"
 
-#: awesome-widget/package/contents/ui/dataengine.qml:93
+#, kde-format
 msgid "Custom scripts"
 msgstr "Scripts customizados"
 
-#: awesome-widget/package/contents/ui/dataengine.qml:97
-#, fuzzy
+#, kde-format
 msgid "Edit scripts"
 msgstr "Editar scripts"
 
-#: awesome-widget/package/contents/ui/dataengine.qml:110
+#, kde-format
 msgid "GPU device"
 msgstr "Dispositivo GPU"
 
-#: awesome-widget/package/contents/ui/dataengine.qml:134
+#, kde-format
 msgid "HDD"
 msgstr "HDD"
 
-#: awesome-widget/package/contents/ui/dataengine.qml:158
-#, fuzzy
+#, kde-format
 msgid "hddtemp cmd"
 msgstr "comando hddtemp"
 
-#: awesome-widget/package/contents/ui/dataengine.qml:174
+#, kde-format
 msgid "MPD address"
 msgstr "Endereço do MPD"
 
-#: awesome-widget/package/contents/ui/dataengine.qml:190
+#, kde-format
 msgid "MPD port"
 msgstr "Porta do MPD"
 
-#: awesome-widget/package/contents/ui/dataengine.qml:209
+#, kde-format
 msgid "MPRIS player name"
 msgstr "Nome do player MPRIS"
 
-#: awesome-widget/package/contents/ui/dataengine.qml:229
+#, kde-format
 msgid "Music player"
 msgstr "Reprodutor de áudio"
 
-#: awesome-widget/package/contents/ui/dataengine.qml:253
-#, fuzzy
+#, kde-format
 msgid "Quotes monitor"
 msgstr "Monitor de citações"
 
-#: awesome-widget/package/contents/ui/dataengine.qml:257
-#, fuzzy
+#, kde-format
 msgid "Edit tickers"
 msgstr "Editar relógios"
 
-#: awesome-widget/package/contents/ui/dataengine.qml:270
+#, kde-format
 msgid "Package manager"
 msgstr "Gerenciador de pacotes"
 
-#: awesome-widget/package/contents/ui/dataengine.qml:274
-#, fuzzy
+#, kde-format
 msgid "Edit command"
 msgstr "Editar comandos"
 
-#: awesome-widget/package/contents/ui/dataengine.qml:287
+#, kde-format
 msgid "Weather"
 msgstr ""
 
-#: awesome-widget/package/contents/ui/dataengine.qml:291
-#, fuzzy
+#, fuzzy, kde-format
 msgid "Edit weather"
 msgstr "Editar relógios"
 
-#: awesome-widget/package/contents/ui/main.qml:167
-#, fuzzy
+#, kde-format
 msgid "Request key"
 msgstr "Solicitar chave"
 
-#: awesome-widget/package/contents/ui/main.qml:168
+#, kde-format
 msgid "Show README"
 msgstr "Mostrar README"
 
-#: awesome-widget/package/contents/ui/main.qml:169
-#, fuzzy
+#, kde-format
 msgid "Check updates"
 msgstr "Checar por atualizações"
 
-#: awesome-widget/package/contents/ui/tooltip.qml:67
+#, kde-format
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
 "To enable them just make needed checkbox fully checked."
@@ -300,47 +259,47 @@ msgstr ""
 "Os rótulos de CPU, frequência de GPU, memória, swap e rede suportam dica de "
 "contexto gráfica. Para ativá-los, basta selecionar a caixa necessária."
 
-#: awesome-widget/package/contents/ui/tooltip.qml:78
+#, kde-format
 msgid "Number of values for tooltips"
 msgstr "Número de valores para dicas de contexto"
 
-#: awesome-widget/package/contents/ui/tooltip.qml:98
+#, kde-format
 msgid "Background"
 msgstr "Plano de fundo"
 
-#: awesome-widget/package/contents/ui/tooltip.qml:150
+#, kde-format
 msgid "CPU color"
 msgstr "Cor da CPU"
 
-#: awesome-widget/package/contents/ui/tooltip.qml:202
+#, kde-format
 msgid "CPU clock color"
 msgstr "Cor do relógio da CPU"
 
-#: awesome-widget/package/contents/ui/tooltip.qml:254
+#, kde-format
 msgid "Memory color"
 msgstr "Cor da memória"
 
-#: awesome-widget/package/contents/ui/tooltip.qml:306
+#, kde-format
 msgid "Swap color"
 msgstr "Cor da swap"
 
-#: awesome-widget/package/contents/ui/tooltip.qml:358
+#, kde-format
 msgid "Download speed color"
 msgstr "Cor da velocidade de download"
 
-#: awesome-widget/package/contents/ui/tooltip.qml:410
+#, kde-format
 msgid "Upload speed color"
 msgstr "Cor da velocidade de upload"
 
-#: awesome-widget/package/contents/ui/tooltip.qml:440
+#, kde-format
 msgid "Battery active color"
 msgstr "Cor da bateria ativa"
 
-#: awesome-widget/package/contents/ui/tooltip.qml:492
+#, kde-format
 msgid "Battery inactive color"
 msgstr "Cor da bateria inativa"
 
-#: awesome-widget/package/contents/ui/widget.qml:80
+#, kde-format
 msgid ""
 "Detailed information may be found on <a href=\"http://arcanis.name/projects/"
 "awesome-widgets/\">project homepage</a>"
@@ -348,210 +307,183 @@ msgstr ""
 "Informações detalhadas podem ser encontradas na <a href=\"http://arcanis."
 "name/projects/awesome-widgets/\">página do projeto</a>"
 
-#: awesome-widget/package/contents/ui/widget.qml:240
+#, kde-format
 msgid "Add"
 msgstr "Adicionar"
 
-#: awesome-widget/package/contents/ui/widget.qml:253
-#, fuzzy
+#, kde-format
 msgid "Show value"
 msgstr "Mostrar valor"
 
-#: awesome-widget/package/contents/ui/widget.qml:258
-#: awesome-widget/plugin/awkeys.cpp:681
+#, kde-format
 msgid "Tag: %1"
 msgstr "Tag: %1"
 
-#: awesome-widget/package/contents/ui/widget.qml:260
-#: awesome-widget/plugin/awkeys.cpp:683
-#, fuzzy
+#, kde-format
 msgid "Value: %1"
 msgstr "Valor: %1"
 
-#: awesome-widget/package/contents/ui/widget.qml:262
-#, fuzzy
+#, kde-format
 msgid "Info: %1"
 msgstr "Info: %1"
 
-#: awesome-widget/package/contents/ui/widget.qml:273
-#, fuzzy
+#, kde-format
 msgid "Edit bars"
 msgstr "Editar barras"
 
-#: awesome-widget/plugin/awactions.cpp:95
-#, fuzzy
+#, kde-format
 msgid "Run %1"
 msgstr "Rodar %1"
 
-#: awesome-widget/plugin/awactions.cpp:124
-#, fuzzy
+#, kde-format
 msgid "Version %1 (build date %2)"
 msgstr "Versão: %1 (data de compilação %2)"
 
-#: awesome-widget/plugin/awactions.cpp:126
+#, kde-format
 msgid "A set of minimalistic plasmoid widgets"
 msgstr "Um conjunto de widgets plasmoid minimalistas."
 
-#: awesome-widget/plugin/awactions.cpp:128
+#, kde-format
 msgid "Links:"
 msgstr "Links:"
 
-#: awesome-widget/plugin/awactions.cpp:129
+#, kde-format
 msgid "Homepage"
 msgstr "Homepage"
 
-#: awesome-widget/plugin/awactions.cpp:130
+#, kde-format
 msgid "Repository"
 msgstr "Repositório"
 
-#: awesome-widget/plugin/awactions.cpp:131
+#, kde-format
 msgid "Bugtracker"
 msgstr "Bugtracker"
 
-#: awesome-widget/plugin/awactions.cpp:132
+#, kde-format
 msgid "Translation issue"
 msgstr "Problema na tradução"
 
-#: awesome-widget/plugin/awactions.cpp:133
+#, kde-format
 msgid "AUR packages"
 msgstr "Pacotes AUR"
 
-#: awesome-widget/plugin/awactions.cpp:134
-#, fuzzy
+#, kde-format
 msgid "openSUSE packages"
 msgstr "Pacotes openSUSE"
 
-#: awesome-widget/plugin/awactions.cpp:137
+#, kde-format
 msgid "This software is licensed under %1"
 msgstr "Este software é licenciado sob %1"
 
-#: awesome-widget/plugin/awactions.cpp:139
+#, kde-format
 msgid "Translators: %1"
 msgstr "Tradutores: %1"
 
-#: awesome-widget/plugin/awactions.cpp:147
+#, kde-format
 msgid "This software uses: %1"
 msgstr "Este software usa: %1"
 
-#: awesome-widget/plugin/awactions.cpp:162
+#, kde-format
 msgid "Select font"
 msgstr "Selecionar fonte"
 
-#: awesome-widget/plugin/awactions.cpp:234
+#, kde-format
 msgid "Current version : %1"
 msgstr "Versão atual: %1"
 
-#: awesome-widget/plugin/awactions.cpp:235
+#, kde-format
 msgid "New version : %1"
 msgstr "Nova versão: %1"
 
-#: awesome-widget/plugin/awactions.cpp:236
+#, kde-format
 msgid "Click \"Ok\" to download"
 msgstr "Clique \"Ok\" para baixar"
 
-#: awesome-widget/plugin/awactions.cpp:238
+#, kde-format
 msgid "There are updates"
 msgstr "Há atualizações disponíveis"
 
-#: awesome-widget/plugin/awkeys.cpp:366
-#, fuzzy
+#, kde-format
 msgid "AC online"
 msgstr "Carregador conectado"
 
-#: awesome-widget/plugin/awkeys.cpp:368
-#, fuzzy
+#, kde-format
 msgid "AC offline"
 msgstr "Carregador desconectado"
 
-#: awesome-widget/plugin/awkeys.cpp:386
-#, fuzzy
+#, kde-format
 msgid "High CPU load"
 msgstr "Alta carga da CPU"
 
-#: awesome-widget/plugin/awkeys.cpp:435
-#, fuzzy
+#, kde-format
 msgid "High GPU load"
 msgstr "Alta carga da GPU"
 
-#: awesome-widget/plugin/awkeys.cpp:449
-#, fuzzy
+#, kde-format
 msgid "Free space on %1 less than 10%"
 msgstr "O espaço livre em %1 é menor que 10%"
 
-#: awesome-widget/plugin/awkeys.cpp:519
-#, fuzzy
+#, kde-format
 msgid "High memory usage"
 msgstr "Alto uso de memória"
 
-#: awesome-widget/plugin/awkeys.cpp:527
-#, fuzzy
+#, kde-format
 msgid "Network device has been changed to %1"
 msgstr "O dispositivo de rede mudou para %1"
 
-#: awesome-widget/plugin/awkeys.cpp:611
-#, fuzzy
+#, kde-format
 msgid "Swap is used"
 msgstr "Swap está sendo usado"
 
-#: awesome-widget/plugin/awkeys.cpp:677
-#, fuzzy
+#, kde-format
 msgid "Select tag"
 msgstr "Selecionar tag"
 
-#: awesome-widget/plugin/awkeys.cpp:677 awesomewidgets/extquotes.cpp:249
-#: awesomewidgets/extscript.cpp:421 awesomewidgets/extupgrade.cpp:225
-#: awesomewidgets/extweather.cpp:410
-#, fuzzy
+#, kde-format
 msgid "Tag"
 msgstr "Tag"
 
-#: awesomewidgets/abstractextitemaggregator.cpp:38
+#, kde-format
 msgid "Copy"
 msgstr "Copiar"
 
-#: awesomewidgets/abstractextitemaggregator.cpp:39
-#, fuzzy
+#, kde-format
 msgid "Create"
 msgstr "Criar"
 
-#: awesomewidgets/abstractextitemaggregator.cpp:40
+#, kde-format
 msgid "Remove"
 msgstr "Remover"
 
-#: awesomewidgets/abstractextitemaggregator.cpp:67
+#, kde-format
 msgid "Enter file name"
 msgstr "Digite o nome de arquivo"
 
-#: awesomewidgets/abstractextitemaggregator.cpp:68
+#, kde-format
 msgid "File name"
 msgstr "Nome de arquivo"
 
-#: awesomewidgets/extitemaggregator.h:151
+#, kde-format
 msgid "Name: %1"
 msgstr "Nome: %1"
 
-#: awesomewidgets/extitemaggregator.h:152
+#, kde-format
 msgid "Comment: %1"
 msgstr "Comentário: %1"
 
-#: awesomewidgets/extitemaggregator.h:153
-#, fuzzy
+#, kde-format
 msgid "Identity: %1"
 msgstr "Comentário: %1"
 
-#: awesomewidgets/extquotes.cpp:247 awesomewidgets/extscript.cpp:419
-#: awesomewidgets/extupgrade.cpp:223 awesomewidgets/extweather.cpp:408
-#: awesomewidgets/graphicalitem.cpp:503
+#, kde-format
 msgid "Name"
 msgstr "NOme"
 
-#: awesomewidgets/extquotes.cpp:248 awesomewidgets/extscript.cpp:420
-#: awesomewidgets/extupgrade.cpp:224 awesomewidgets/extweather.cpp:409
-#: awesomewidgets/graphicalitem.cpp:504
+#, kde-format
 msgid "Comment"
 msgstr "Comentário"
 
-#: awesomewidgets/extquotes.cpp:250
+#, kde-format
 msgid ""
 "<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
 "instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
@@ -559,104 +491,160 @@ msgid ""
 "span></a></p></body></html>"
 msgstr ""
 
-#: awesomewidgets/extquotes.cpp:251
-#, fuzzy
+#, fuzzy, kde-format
 msgid "Ticker"
 msgstr "Relógio: %1"
 
-#: awesomewidgets/extquotes.cpp:252 awesomewidgets/extscript.cpp:424
-#: awesomewidgets/extupgrade.cpp:227 awesomewidgets/extweather.cpp:414
-#, fuzzy
+#, kde-format
 msgid "Active"
 msgstr "Cor ativa"
 
-#: awesomewidgets/extquotes.cpp:253 awesomewidgets/extscript.cpp:427
-#: awesomewidgets/extupgrade.cpp:229 awesomewidgets/extweather.cpp:415
-#, fuzzy
+#, kde-format
 msgid "Interval"
 msgstr "Intervalo de tempo"
 
-#: awesomewidgets/extscript.cpp:422 awesomewidgets/extupgrade.cpp:226
-#, fuzzy
+#, kde-format
 msgid "Command"
 msgstr "Comentário"
 
-#: awesomewidgets/extscript.cpp:423
+#, kde-format
 msgid "Prefix"
 msgstr ""
 
-#: awesomewidgets/extscript.cpp:425
+#, kde-format
 msgid "Has output"
 msgstr ""
 
-#: awesomewidgets/extscript.cpp:426
+#, kde-format
 msgid "Redirect"
 msgstr ""
 
-#: awesomewidgets/extscript.cpp:428
+#, kde-format
 msgid "Additional filters"
 msgstr ""
 
-#: awesomewidgets/extscript.cpp:429
-#, fuzzy
+#, kde-format
 msgid "Wrap colors"
 msgstr "Cor da swap"
 
-#: awesomewidgets/extscript.cpp:431
+#, kde-format
 msgid "Wrap spaces"
 msgstr ""
 
-#: awesomewidgets/extupgrade.cpp:228
+#, kde-format
 msgid "Null"
 msgstr ""
 
-#: awesomewidgets/extweather.cpp:411
+#, kde-format
 msgid "City"
 msgstr ""
 
-#: awesomewidgets/extweather.cpp:412
+#, kde-format
 msgid "Country"
 msgstr ""
 
-#: awesomewidgets/extweather.cpp:413
-#, fuzzy
+#, kde-format
 msgid "Timestamp"
 msgstr "Hora"
 
-#: awesomewidgets/graphicalitem.cpp:505
+#, kde-format
 msgid "Value"
 msgstr "Valor"
 
-#: awesomewidgets/graphicalitem.cpp:506
+#, kde-format
 msgid "Active color"
 msgstr "Cor ativa"
 
-#: awesomewidgets/graphicalitem.cpp:507
+#, kde-format
 msgid "Inactive color"
 msgstr "Cor inativa"
 
-#: awesomewidgets/graphicalitem.cpp:508
+#, kde-format
 msgid "Type"
 msgstr "Tipo"
 
-#: awesomewidgets/graphicalitem.cpp:509
+#, kde-format
 msgid "Direction"
 msgstr "Direção"
 
-#: awesomewidgets/graphicalitem.cpp:510
+#, kde-format
 msgid "Height"
 msgstr "Altura"
 
-#: awesomewidgets/graphicalitem.cpp:511
+#, kde-format
 msgid "Width"
 msgstr "Largura"
 
-#: translations/awesome-widget/rc.cpp:1 rc.cpp:1
+#, kde-format
+msgid "Active desktop"
+msgstr "Desktop ativo"
+
+#, kde-format
+msgid "Inactive desktop"
+msgstr "Desktop inativo"
+
+#, kde-format
+msgid "Tooltip type"
+msgstr "Tipo de dica de contexto"
+
+#, kde-format
+msgid "contours"
+msgstr "Contornos"
+
+#, kde-format
+msgid "windows"
+msgstr "Janelas"
+
+#, kde-format
+msgid "clean desktop"
+msgstr "Limpar desktop"
+
+#, kde-format
+msgid "names"
+msgstr "nomes"
+
+#, kde-format
+msgid "none"
+msgstr "nenhum"
+
+#, kde-format
+msgid "Tooltip width"
+msgstr "Largura da dica de contexto"
+
+#, kde-format
+msgid "Vertical layout"
+msgstr "Layout vertical"
+
+#, kde-format
+msgid "Mark"
+msgstr "Marca"
+
+#, kde-format
+msgid "Top Edge"
+msgstr "Canto do topo"
+
+#, kde-format
+msgid "Bottom Edge"
+msgstr "Canto de baixo"
+
+#, kde-format
+msgid "Left Edge"
+msgstr "Canto esquerdo"
+
+#, kde-format
+msgid "Right Edge"
+msgstr "Canto direito"
+
+#, kde-format
+msgid "Unknown location (%1)"
+msgstr "Localização desconhecida (%1)"
+
+#, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "under"
 
-#: translations/awesome-widget/rc.cpp:2 rc.cpp:2
+#, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "under@insicuri.net"
@@ -798,9 +786,6 @@ msgstr "under@insicuri.net"
 
 #~ msgid "\"/sys/class/power_supply/BAT0/capacity\" by default"
 #~ msgstr "\"/sys/class/power_supply/BAT0/capacity\" por padrão"
-
-#~ msgid "Vertical layout"
-#~ msgstr "Layout vertical"
 
 #~ msgid "Add stretch to left/top of the layout"
 #~ msgstr "Adicionar esticamento à esquerda/topo do layout"
