@@ -17,7 +17,7 @@ optdepends=("amarok: for music player monitor"
             "mpd: for music player monitor"
             "nvidia-utils: for GPU monitor"
             "qmmp: for music player monitor")
-makedepends=('cmake' 'extra-cmake-modules')
+makedepends=('cmake' 'extra-cmake-modules' 'git')
 source=(${_pkgname}::git+https://github.com/arcan1s/awesome-widgets/)
 install=${pkgname}.install
 md5sums=('SKIP')

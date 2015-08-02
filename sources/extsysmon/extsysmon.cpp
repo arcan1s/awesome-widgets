@@ -35,6 +35,7 @@
 #include <QStandardPaths>
 
 #include <pdebug/pdebug.h>
+#include <pdebug/pdebug-time.h>
 #include <task/taskadds.h>
 
 #include "extquotes.h"
@@ -48,6 +49,7 @@ ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList &args)
     : Plasma::DataEngine(parent, args)
 {
     Q_UNUSED(args)
+    qInstallMessageHandler(debugString);
 
     // debug
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
@@ -82,7 +84,7 @@ QStringList ExtendedSysMon::getAllHdd() const
     QStringList allDevices = QDir(QString("/dev")).entryList(QDir::System, QDir::Name);
     QStringList devices = allDevices.filter(QRegExp(QString("^[hms]d[a-z]$")));
     for (int i=0; i<devices.count(); i++)
-        devices[i] = QString("/dev/%1").arg(devices[i]);
+        devices[i] = QString("/dev/%1").arg(devices.at(i));
 
     if (debug) qDebug() << PDEBUG << ":" << "Device list" << devices;
     return devices;
@@ -114,12 +116,12 @@ QString ExtendedSysMon::getAutoMpris() const
 
     QDBusMessage listServices = QDBusConnection::sessionBus().interface()->call(QDBus::BlockWithGui, QString("ListNames"));
     if (listServices.arguments().isEmpty()) return QString();
-    QStringList arguments = listServices.arguments()[0].toStringList();
+    QStringList arguments = listServices.arguments().at(0).toStringList();
 
     for (int i=0; i<arguments.count(); i++) {
-        if (debug) qDebug() << PDEBUG << ":" << "Service found" << arguments[i];
-        if (!arguments[i].startsWith(QString("org.mpris.MediaPlayer2."))) continue;
-        QString service = arguments[i];
+        if (debug) qDebug() << PDEBUG << ":" << "Service found" << arguments.at(i);
+        if (!arguments.at(i).startsWith(QString("org.mpris.MediaPlayer2."))) continue;
+        QString service = arguments.at(i);
         service.remove(QString("org.mpris.MediaPlayer2."));
         return service;
     }
@@ -160,7 +162,7 @@ void ExtendedSysMon::readConfiguration()
                                               QString("plasma-dataengine-extsysmon.conf"));
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
     QSettings settings(fileName, QSettings::IniFormat);
-    QMap<QString, QString> rawConfig;
+    QHash<QString, QString> rawConfig;
 
     settings.beginGroup(QString("Configuration"));
     rawConfig[QString("ACPIPATH")] = settings.value(QString("ACPIPATH"), QString("/sys/class/power_supply/")).toString();
@@ -177,7 +179,7 @@ void ExtendedSysMon::readConfiguration()
 }
 
 
-QMap<QString, QString> ExtendedSysMon::updateConfiguration(QMap<QString, QString> rawConfig) const
+QHash<QString, QString> ExtendedSysMon::updateConfiguration(QHash<QString, QString> rawConfig) const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -200,9 +202,9 @@ QMap<QString, QString> ExtendedSysMon::updateConfiguration(QMap<QString, QString
         QStringList devices;
         QRegExp diskRegexp = QRegExp("^/dev/[hms]d[a-z]$");
         for (int i=0; i<deviceList.count(); i++)
-            if ((QFile::exists(deviceList[i])) &&
-                (diskRegexp.indexIn(deviceList[i]) > -1))
-                devices.append(deviceList[i]);
+            if ((QFile::exists(deviceList.at(i))) &&
+                (diskRegexp.indexIn(deviceList.at(i)) > -1))
+                devices.append(deviceList.at(i));
         if (devices.isEmpty())
             rawConfig[QString("HDDDEV")] = allHddDevices.join(QChar(','));
         else
@@ -215,17 +217,17 @@ QMap<QString, QString> ExtendedSysMon::updateConfiguration(QMap<QString, QString
 
     for (int i=0; i<rawConfig.keys().count(); i++)
         if (debug) qDebug() << PDEBUG << ":" <<
-            rawConfig.keys()[i] + QString("=") + rawConfig[rawConfig.keys()[i]];
+            rawConfig.keys().at(i) + QString("=") + rawConfig[rawConfig.keys().at(i)];
     return rawConfig;
 }
 
 
-QVariantMap ExtendedSysMon::getBattery(const QString acpiPath) const
+QVariantHash ExtendedSysMon::getBattery(const QString acpiPath) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "ACPI path" << acpiPath;
 
-    QVariantMap battery;
+    QVariantHash battery;
     battery[QString("ac")] = false;
     battery[QString("bat")] = 0;
 
@@ -244,8 +246,8 @@ QVariantMap ExtendedSysMon::getBattery(const QString acpiPath) const
                                                       QDir::Dirs | QDir::NoDotAndDotDot,
                                                       QDir::Name);
     for (int i=0; i<batDevices.count(); i++) {
-        QFile currentLevelFile(QString("%1/%2/energy_now").arg(acpiPath).arg(batDevices[i]));
-        QFile fullLevelFile(QString("%1/%2/energy_full").arg(acpiPath).arg(batDevices[i]));
+        QFile currentLevelFile(QString("%1/%2/energy_now").arg(acpiPath).arg(batDevices.at(i)));
+        QFile fullLevelFile(QString("%1/%2/energy_full").arg(acpiPath).arg(batDevices.at(i)));
         if ((currentLevelFile.open(QIODevice::ReadOnly)) &&
             (fullLevelFile.open(QIODevice::ReadOnly))) {
             float batCurrent = QString(currentLevelFile.readLine()).trimmed().toFloat();
@@ -263,19 +265,18 @@ QVariantMap ExtendedSysMon::getBattery(const QString acpiPath) const
 }
 
 
-QVariantMap ExtendedSysMon::getCurrentDesktop() const
+QVariantHash ExtendedSysMon::getCurrentDesktop() const
 {
     if (debug) qDebug() << PDEBUG;
 
     int number = KWindowSystem::currentDesktop();
     int total = KWindowSystem::numberOfDesktops();
-    QVariantMap currentDesktop;
+    QVariantHash currentDesktop;
     currentDesktop[QString("currentName")] = KWindowSystem::desktopName(number);
     currentDesktop[QString("currentNumber")] = number;
-    QStringList list;
+    currentDesktop[QString("list")] = QStringList();
     for (int i=1; i<total+1; i++)
-        list.append(KWindowSystem::desktopName(i));
-    currentDesktop[QString("list")] = list.join(QString(";;"));
+        currentDesktop[QString("list")].toStringList().append(KWindowSystem::desktopName(i));
     currentDesktop[QString("number")] = total;
 
     return currentDesktop;
@@ -303,7 +304,7 @@ float ExtendedSysMon::getGpu(const QString device) const
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     if (configuration[QString("GPUDEV")] == QString("nvidia"))
         for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
-            if (qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i].contains(QString("<gpu_util>"))) {
+            if (qoutput.split(QChar('\n'), QString::SkipEmptyParts).at(i).contains(QString("<gpu_util>"))) {
                 QString load = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i]
                         .remove(QString("<gpu_util>"))
                         .remove(QString("</gpu_util>"))
@@ -313,8 +314,8 @@ float ExtendedSysMon::getGpu(const QString device) const
         }
     else if (configuration[QString("GPUDEV")] == QString("ati"))
         for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
-            if (qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i].contains(QString("load"))) {
-                QString load = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i]
+            if (qoutput.split(QChar('\n'), QString::SkipEmptyParts).at(i).contains(QString("load"))) {
+                QString load = qoutput.split(QChar('\n'), QString::SkipEmptyParts).at(i)
                         .split(QChar(' '), QString::SkipEmptyParts)[3]
                         .remove(QChar('%'));
                 value = load.toFloat();
@@ -346,7 +347,7 @@ float ExtendedSysMon::getGpuTemp(const QString device) const
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output);
     if (configuration[QString("GPUDEV")] == QString("nvidia"))
         for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
-            if (qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i].contains(QString("<gpu_temp>"))) {
+            if (qoutput.split(QChar('\n'), QString::SkipEmptyParts).at(i).contains(QString("<gpu_temp>"))) {
                 QString temp = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i]
                         .remove(QString("<gpu_temp>"))
                         .remove(QString("C</gpu_temp>"));
@@ -355,9 +356,9 @@ float ExtendedSysMon::getGpuTemp(const QString device) const
         }
     else if (configuration[QString("GPUDEV")] == QString("ati"))
         for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
-            if (qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i].contains(QString("Temperature"))) {
-                QString temp = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i]
-                        .split(QChar(' '), QString::SkipEmptyParts)[4];
+            if (qoutput.split(QChar('\n'), QString::SkipEmptyParts).at(i).contains(QString("Temperature"))) {
+                QString temp = qoutput.split(QChar('\n'), QString::SkipEmptyParts).at(i)
+                        .split(QChar(' '), QString::SkipEmptyParts).at(4);
                 value = temp.toFloat();
             }
         }
@@ -383,14 +384,14 @@ float ExtendedSysMon::getHddTemp(const QString cmd, const QString device) const
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     if (smartctl) {
         for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
-            if (!qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i].startsWith(QString("194"))) continue;
-            if (qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i].split(QChar(' '), QString::SkipEmptyParts).count() < 9) break;
-            value = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i].split(QChar(' '), QString::SkipEmptyParts)[9].toFloat();
+            if (!qoutput.split(QChar('\n'), QString::SkipEmptyParts).at(i).startsWith(QString("194"))) continue;
+            if (qoutput.split(QChar('\n'), QString::SkipEmptyParts).at(i).split(QChar(' '), QString::SkipEmptyParts).count() < 9) break;
+            value = qoutput.split(QChar('\n'), QString::SkipEmptyParts).at(i).split(QChar(' '), QString::SkipEmptyParts).at(9).toFloat();
             break;
         }
     } else {
         if (qoutput.split(QChar(':'), QString::SkipEmptyParts).count() >= 3) {
-            QString temp = qoutput.split(QChar(':'), QString::SkipEmptyParts)[2];
+            QString temp = qoutput.split(QChar(':'), QString::SkipEmptyParts).at(2);
             temp.remove(QChar(0260)).remove(QChar('C'));
             value = temp.toFloat();
         }
@@ -407,10 +408,10 @@ QString ExtendedSysMon::getNetworkDevice() const
     QString device = QString("lo");
     QList<QNetworkInterface> rawInterfaceList = QNetworkInterface::allInterfaces();
     for (int i=0; i<rawInterfaceList.count(); i++)
-        if ((rawInterfaceList[i].flags().testFlag(QNetworkInterface::IsUp)) &&
-            (!rawInterfaceList[i].flags().testFlag(QNetworkInterface::IsLoopBack)) &&
-            (!rawInterfaceList[i].flags().testFlag(QNetworkInterface::IsPointToPoint))) {
-            device = rawInterfaceList[i].name();
+        if ((rawInterfaceList.at(i).flags().testFlag(QNetworkInterface::IsUp)) &&
+            (!rawInterfaceList.at(i).flags().testFlag(QNetworkInterface::IsLoopBack)) &&
+            (!rawInterfaceList.at(i).flags().testFlag(QNetworkInterface::IsPointToPoint))) {
+            device = rawInterfaceList.at(i).name();
             break;
         }
 
@@ -418,7 +419,7 @@ QString ExtendedSysMon::getNetworkDevice() const
 }
 
 
-QVariantMap ExtendedSysMon::getPlayerInfo(const QString playerName, const QString mpdAddress,
+QVariantHash ExtendedSysMon::getPlayerInfo(const QString playerName, const QString mpdAddress,
                                           const QString mpdPort, QString mpris) const
 {
     if (debug) qDebug() << PDEBUG;
@@ -426,7 +427,7 @@ QVariantMap ExtendedSysMon::getPlayerInfo(const QString playerName, const QStrin
     if (debug) qDebug() << PDEBUG << ":" << "MPD" << QString("%1:%2").arg(mpdAddress).arg(mpdPort);
     if (debug) qDebug() << PDEBUG << ":" << "MPRIS" << mpris;
 
-    QVariantMap info;
+    QVariantHash info;
     info[QString("album")] = QString("unknown");
     info[QString("artist")] = QString("unknown");
     info[QString("duration")] = QString("0");
@@ -447,12 +448,12 @@ QVariantMap ExtendedSysMon::getPlayerInfo(const QString playerName, const QStrin
 }
 
 
-QVariantMap ExtendedSysMon::getPlayerMpdInfo(const QString mpdAddress, const QString mpdPort) const
+QVariantHash ExtendedSysMon::getPlayerMpdInfo(const QString mpdAddress, const QString mpdPort) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "MPD" << QString("%1:%2").arg(mpdAddress).arg(mpdPort);
 
-    QVariantMap info;
+    QVariantHash info;
     info[QString("album")] = QString("unknown");
     info[QString("artist")] = QString("unknown");
     info[QString("duration")] = QString("0");
@@ -470,16 +471,16 @@ QVariantMap ExtendedSysMon::getPlayerMpdInfo(const QString mpdAddress, const QSt
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     QString qstr = QString("");
     for (int i=0; i<qoutput.split(QChar('\n'), QString::SkipEmptyParts).count(); i++) {
-        qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts)[i];
+        qstr = qoutput.split(QChar('\n'), QString::SkipEmptyParts).at(i);
         if (qstr.split(QString(": "), QString::SkipEmptyParts).count() > 1) {
-            if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("Album"))
+            if (qstr.split(QString(": "), QString::SkipEmptyParts).at(0) == QString("Album"))
                 info[QString("album")] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
-            else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("Artist"))
+            else if (qstr.split(QString(": "), QString::SkipEmptyParts).at(0) == QString("Artist"))
                 info[QString("artist")] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
-            else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("time")) {
+            else if (qstr.split(QString(": "), QString::SkipEmptyParts).at(0) == QString("time")) {
                 info[QString("duration")] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed().split(QString(":"))[0];
                 info[QString("progress")] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed().split(QString(":"))[1];
-            } else if (qstr.split(QString(": "), QString::SkipEmptyParts)[0] == QString("Title"))
+            } else if (qstr.split(QString(": "), QString::SkipEmptyParts).at(0) == QString("Title"))
                 info[QString("title")] = qstr.split(QString(": "), QString::SkipEmptyParts)[1].trimmed();
         }
     }
@@ -488,57 +489,60 @@ QVariantMap ExtendedSysMon::getPlayerMpdInfo(const QString mpdAddress, const QSt
 }
 
 
-QVariantMap ExtendedSysMon::getPlayerMprisInfo(const QString mpris) const
+QVariantHash ExtendedSysMon::getPlayerMprisInfo(const QString mpris) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << "MPRIS" << mpris;
 
-    QVariantMap info;
+    QVariantHash info;
     info[QString("album")] = QString("unknown");
     info[QString("artist")] = QString("unknown");
     info[QString("duration")] = 0;
     info[QString("progress")] = 0;
     info[QString("title")] = QString("unknown");
 
-    // init
-    QDBusArgument arg;
     QDBusConnection bus = QDBusConnection::sessionBus();
-    QDBusMessage response, request;
-    QVariantMap map;
-
-    // general information
-    request = QDBusMessage::createMethodCall(QString("org.mpris.MediaPlayer2.%1").arg(mpris),
-                                             QString("/Player"),
-                                             QString(""),
-                                             QString("GetMetadata"));
-    response = bus.call(request, QDBus::BlockWithGui);
-    if (response.arguments().size() == 0) {
+    // comes from the following request:
+    // qdbus org.mpris.MediaPlayer2.vlc /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get org.mpris.MediaPlayer2.Player Metadata
+    // or the same but using dbus-send:
+    // dbus-send --print-reply --session --dest=org.mpris.MediaPlayer2.vlc /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get string:'org.mpris.MediaPlayer2.Player' string:'Metadata'
+    QVariantList args = QVariantList() << QString("org.mpris.MediaPlayer2.Player") << QString("Metadata");
+    QDBusMessage request = QDBusMessage::createMethodCall(QString("org.mpris.MediaPlayer2.%1").arg(mpris),
+                                                          QString("/org/mpris/MediaPlayer2"),
+                                                          QString(""),
+                                                          QString("Get"));
+    request.setArguments(args);
+    QDBusMessage response = bus.call(request, QDBus::BlockWithGui);
+    if ((response.type() != QDBusMessage::ReplyMessage) || (response.arguments().isEmpty())) {
         if (debug) qDebug() << PDEBUG << ":" << "Error message" << response.errorMessage();
     } else {
-        arg = response.arguments()[0].value<QDBusArgument>();
-        arg >> map;
-        info[QString("album")] = map[QString("album")];
-        info[QString("artist")] = map[QString("artist")];
-        info[QString("duration")] = map[QString("time")];
-        info[QString("title")] = map[QString("title")];
+        // another portion of dirty magic
+        QVariantHash map = qdbus_cast<QVariantHash>(response.arguments().at(0)
+                                                            .value<QDBusVariant>().variant()
+                                                            .value<QDBusArgument>());
+        info[QString("album")] = map.value(QString("xesam:album"), QString("unknown"));
+        // artist is array
+        info[QString("artist")] = map.value(QString("xesam:artist"), QString("unknown")).toString();
+        info[QString("duration")] = map.value(QString("mpris:length"), 0).toInt() / (1000 * 1000);
+        info[QString("title")] = map.value(QString("xesam:title"), QString("unknown"));
     }
 
     // position
-    request = QDBusMessage::createMethodCall(QString("org.mpris.MediaPlayer2.%1").arg(mpris),
-                                             QString("/Player"),
-                                             QString(""),
-                                             QString("PositionGet"));
+    args[1] = QString("Position");
+    request.setArguments(args);
     response = bus.call(request, QDBus::BlockWithGui);
-    if (response.arguments().size() == 0) {
+    if ((response.type() != QDBusMessage::ReplyMessage) || (response.arguments().isEmpty())) {
         if (debug) qDebug() << PDEBUG << ":" << "Error message" << response.errorMessage();
     } else
-        info[QString("progress")] = response.arguments()[0].toInt() / 1000;
+        // this cast is simpler than the previous one ;)
+        info[QString("progress")] =  response.arguments().at(0).value<QDBusVariant>()
+                                             .variant().toLongLong() / (1000 * 1000);
 
     return info;
 }
 
 
-QVariantMap ExtendedSysMon::getPsStats() const
+QVariantHash ExtendedSysMon::getPsStats() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -548,16 +552,16 @@ QVariantMap ExtendedSysMon::getPsStats() const
     QStringList running;
 
     for (int i=0; i<directories.count(); i++) {
-        QFile statusFile(QString("/proc/%1/status").arg(directories[i]));
+        QFile statusFile(QString("/proc/%1/status").arg(directories.at(i)));
         if (!statusFile.open(QIODevice::ReadOnly)) continue;
-        QFile cmdFile(QString("/proc/%1/cmdline").arg(directories[i]));
+        QFile cmdFile(QString("/proc/%1/cmdline").arg(directories.at(i)));
         if (!cmdFile.open(QIODevice::ReadOnly)) continue;
 
         QString output = statusFile.readAll();
         if (output.contains(QString("running"))) running.append(cmdFile.readAll());
     }
 
-    QVariantMap psStats;
+    QVariantHash psStats;
     psStats[QString("pscount")] = running.count();
     psStats[QString("ps")] = running.join(QString(","));
     psStats[QString("pstotal")] = directories.count();
@@ -581,17 +585,17 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     if (debug) qDebug() << PDEBUG << ":" << "Source" << source;
 
     if (source == QString("battery")) {
-        QVariantMap battery = getBattery(configuration[QString("ACPIPATH")]);
+        QVariantHash battery = getBattery(configuration[QString("ACPIPATH")]);
         for (int i=0; i<battery.keys().count(); i++)
-            setData(source, battery.keys()[i], battery[battery.keys()[i]]);
+            setData(source, battery.keys().at(i), battery[battery.keys().at(i)]);
     } else if (source == QString("custom")) {
         for (int i=0; i<externalScripts->items().count(); i++)
-            setData(source, externalScripts->items()[i]->tag(QString("custom")),
-                    externalScripts->items()[i]->run()[QString("value")]);
+            setData(source, externalScripts->items().at(i)->tag(QString("custom")),
+                    externalScripts->items().at(i)->run()[QString("value")]);
     } else if (source == QString("desktop")) {
-        QVariantMap desktop = getCurrentDesktop();
+        QVariantHash desktop = getCurrentDesktop();
         for (int i=0; i<desktop.keys().count(); i++)
-            setData(source, desktop.keys()[i], desktop[desktop.keys()[i]]);
+            setData(source, desktop.keys().at(i), desktop[desktop.keys().at(i)]);
     } else if (source == QString("gpu")) {
         setData(source, QString("value"), getGpu(configuration[QString("GPUDEV")]));
     } else if (source == QString("gputemp")) {
@@ -600,40 +604,40 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
         QStringList deviceList = configuration[QString("HDDDEV")].split(QChar(','), QString::SkipEmptyParts);
         QStringList allHddDevices = getAllHdd();
         for (int i=0; i<allHddDevices.count(); i++)
-            setData(source, allHddDevices[i], deviceList.contains(allHddDevices[i]) ?
-                    getHddTemp(configuration[QString("HDDTEMPCMD")], allHddDevices[i]) :
+            setData(source, allHddDevices.at(i), deviceList.contains(allHddDevices.at(i)) ?
+                    getHddTemp(configuration[QString("HDDTEMPCMD")], allHddDevices.at(i)) :
                     0.0);
     } else if (source == QString("netdev")) {
         setData(source, QString("value"), getNetworkDevice());
     } else if (source == QString("pkg")) {
         for (int i=0; i<externalUpgrade->items().count(); i++)
-            setData(source, externalUpgrade->items()[i]->tag(QString("pkgcount")),
-                    externalUpgrade->items()[i]->run()[QString("value")]);
+            setData(source, externalUpgrade->items().at(i)->tag(QString("pkgcount")),
+                    externalUpgrade->items().at(i)->run()[QString("value")]);
     } else if (source == QString("player")) {
-        QVariantMap player = getPlayerInfo(configuration[QString("PLAYER")],
-                                           configuration[QString("MPDADDRESS")],
-                                           configuration[QString("MPDPORT")],
-                                           configuration[QString("MPRIS")]);
+        QVariantHash player = getPlayerInfo(configuration[QString("PLAYER")],
+                                            configuration[QString("MPDADDRESS")],
+                                            configuration[QString("MPDPORT")],
+                                            configuration[QString("MPRIS")]);
         for (int i=0; i<player.keys().count(); i++)
-            setData(source, player.keys()[i], player[player.keys()[i]]);
+            setData(source, player.keys().at(i), player[player.keys().at(i)]);
     } else if (source == QString("ps")) {
-        QVariantMap ps = getPsStats();
+        QVariantHash ps = getPsStats();
         for (int i=0; i<ps.keys().count(); i++)
-            setData(source, ps.keys()[i], ps[ps.keys()[i]]);
+            setData(source, ps.keys().at(i), ps[ps.keys().at(i)]);
     } else if (source == QString("quotes")) {
         for (int i=0; i<externalQuotes->items().count(); i++) {
-            QVariantMap data = externalQuotes->items()[i]->run();
+            QVariantMap data = externalQuotes->items().at(i)->run();
             for (int j=0; j<data.keys().count(); j++)
-                setData(source, externalQuotes->items()[i]->tag(data.keys()[j]),
+                setData(source, externalQuotes->items().at(i)->tag(data.keys()[j]),
                         data[data.keys()[j]]);
         }
     } else if (source == QString("update")) {
         setData(source, QString("value"), true);
     } else if (source == QString("weather")) {
         for (int i=0; i<externalWeather->items().count(); i++) {
-            QVariantMap data = externalWeather->items()[i]->run();
+            QVariantMap data = externalWeather->items().at(i)->run();
             for (int j=0; j<data.keys().count(); j++)
-                setData(source, externalWeather->items()[i]->tag(data.keys()[j]),
+                setData(source, externalWeather->items().at(i)->tag(data.keys()[j]),
                         data[data.keys()[j]]);
         }
     }

@@ -36,20 +36,20 @@ public:
     explicit ExtendedSysMon(QObject *parent, const QVariantList &args);
     ~ExtendedSysMon();
     // update functions
-    QVariantMap getBattery(const QString acpiPath) const;
-    QVariantMap getCurrentDesktop() const;
+    QVariantHash getBattery(const QString acpiPath) const;
+    QVariantHash getCurrentDesktop() const;
     float getGpu(const QString device) const;
     float getGpuTemp(const QString device) const;
     float getHddTemp(const QString cmd, const QString device) const;
     QString getNetworkDevice() const;
-    QVariantMap getPlayerInfo(const QString playerName,
-                              const QString mpdAddress = QString(),
-                              const QString mpdPort = QString(),
-                              const QString mpris = QString()) const;
-    QVariantMap getPlayerMpdInfo(const QString mpdAddress = QString(),
-                                 const QString mpdPort = QString()) const;
-    QVariantMap getPlayerMprisInfo(const QString mpris = QString()) const;
-    QVariantMap getPsStats() const;
+    QVariantHash getPlayerInfo(const QString playerName,
+                               const QString mpdAddress = QString(),
+                               const QString mpdPort = QString(),
+                               const QString mpris = QString()) const;
+    QVariantHash getPlayerMpdInfo(const QString mpdAddress = QString(),
+                                  const QString mpdPort = QString()) const;
+    QVariantHash getPlayerMprisInfo(const QString mpris = QString()) const;
+    QVariantHash getPsStats() const;
 
 protected:
     bool sourceRequestEvent(const QString &source);
@@ -58,7 +58,7 @@ protected:
 
 private:
     // configuration
-    QMap<QString, QString> configuration;
+    QHash<QString, QString> configuration;
     ExtItemAggregator<ExtQuotes> *externalQuotes;
     ExtItemAggregator<ExtScript> *externalScripts;
     ExtItemAggregator<ExtUpgrade> *externalUpgrade;
@@ -69,7 +69,7 @@ private:
     QString getAutoGpu() const;
     QString getAutoMpris() const;
     void readConfiguration();
-    QMap<QString, QString> updateConfiguration(QMap<QString, QString> rawConfig) const;
+    QHash<QString, QString> updateConfiguration(QHash<QString, QString> rawConfig) const;
 };
 
 
