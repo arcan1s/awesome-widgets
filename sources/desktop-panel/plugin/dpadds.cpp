@@ -35,6 +35,7 @@
 
 #include <fontdialog/fontdialog.h>
 #include <pdebug/pdebug.h>
+#include <pdebug/pdebug-time.h>
 
 #include "version.h"
 
@@ -42,6 +43,8 @@
 DPAdds::DPAdds(QObject *parent)
     : QObject(parent)
 {
+    qInstallMessageHandler(debugString);
+
     // debug
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
     QString debugEnv = environment.value(QString("DEBUG"), QString("no"));

@@ -21,7 +21,7 @@
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
-#include <QMap>
+#include <QHash>
 #include <QObject>
 #include <QPixmap>
 #include <QVariant>
@@ -39,11 +39,11 @@ public:
     QPixmap image();
 
 signals:
-    void updateData(QMap<QString, QString> values);
+    void updateData(QHash<QString, QString> values);
     void toolTipPainted(QString image);
 
 private slots:
-    void dataUpdate(QMap<QString, QString> values);
+    void dataUpdate(QHash<QString, QString> values);
 
 private:
     // ui
@@ -55,8 +55,8 @@ private:
     bool debug = false;
     int counts = 0;
     QVariantMap configuration;
-    QMap<QString, float> boundaries;
-    QMap<QString, QList<float>> data;
+    QHash<QString, float> boundaries;
+    QHash<QString, QList<float>> data;
     QStringList requiredKeys;
     QSize size;
 };

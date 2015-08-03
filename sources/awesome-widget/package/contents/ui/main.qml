@@ -93,6 +93,7 @@ Item {
 
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)
+            systemmonitorDE.interval = plasmoid.configuration.interval
 
             awKeys.setDataBySource(sourceName, data, settings)
         }
@@ -112,6 +113,7 @@ Item {
 
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)
+            extsysmonDE.interval = plasmoid.configuration.interval
 
             awKeys.setDataBySource(sourceName, data, settings)
         }

@@ -346,7 +346,6 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
     if (sourceName == QString("update")) return emit(needToBeUpdated());
 
     // checking
-//     if (!checkKeys(data)) return;
     if (keys.isEmpty()) return;
 
     // regular expressions
@@ -863,15 +862,6 @@ void AWKeys::addKeyToCache(const QString type, const QString key)
     cache.sync();
     loadKeysFromCache();
     return reinitKeys();
-}
-
-
-bool AWKeys::checkKeys(const QVariantMap data) const
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Data" << data;
-
-    return (data.count() != 0);
 }
 
 

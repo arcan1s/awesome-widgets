@@ -11,7 +11,8 @@ include_directories(
     ${Kf5_INCLUDE}
 )
 
-file(GLOB_RECURSE SUBPROJECT_SOURCE *.cpp ${PROJECT_TRDPARTY_DIR}/fontdialog/*.cpp)
+file(GLOB_RECURSE SUBPROJECT_SOURCE *.cpp ${PROJECT_TRDPARTY_DIR}/fontdialog/*.cpp
+                                          ${PROJECT_TRDPARTY_DIR}/pdebug/*.cpp)
 file(GLOB SUBPROJECT_NOTIFY *.notifyrc)
 
 add_library(${PLUGIN_NAME} SHARED ${SUBPROJECT_SOURCE})

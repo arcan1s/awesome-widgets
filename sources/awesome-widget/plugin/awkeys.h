@@ -19,7 +19,7 @@
 #ifndef AWKEYS_H
 #define AWKEYS_H
 
-#include <QMap>
+#include <QHash>
 #include <QObject>
 #include <QStringList>
 #include <QVariant>
@@ -75,7 +75,6 @@ private slots:
 private:
     // methods
     void addKeyToCache(const QString type, const QString key = QString(""));
-    bool checkKeys(const QVariantMap data) const;
     QString htmlValue(QString key) const;
     int numberCpus() const;
     float temperature(const float temp, const QString units) const;
@@ -96,7 +95,7 @@ private:
     ExtItemAggregator<ExtWeather> *extWeather;
     QString pattern;
     QStringList foundBars, foundKeys, keys;
-    QMap<QString, QString> values;
+    QHash<QString, QString> values;
     QStringList diskDevices, hddDevices, mountDevices, networkDevices, tempDevices;
 };
 

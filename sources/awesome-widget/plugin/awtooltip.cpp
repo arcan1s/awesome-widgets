@@ -67,8 +67,8 @@ AWToolTip::AWToolTip(QObject *parent, QVariantMap settings)
     if (configuration[QString("upTooltip")].toBool()) requiredKeys.append(QString("upTooltip"));
     if (configuration[QString("batTooltip")].toBool()) requiredKeys.append(QString("batTooltip"));
 
-    connect(this, SIGNAL(updateData(QMap<QString, QString>)),
-            this, SLOT(dataUpdate(QMap<QString, QString>)));
+    connect(this, SIGNAL(updateData(QHash<QString, QString>)),
+            this, SLOT(dataUpdate(QHash<QString, QString>)));
 }
 
 
@@ -80,7 +80,7 @@ AWToolTip::~AWToolTip()
 }
 
 
-void AWToolTip::dataUpdate(QMap<QString, QString> values)
+void AWToolTip::dataUpdate(QHash<QString, QString> values)
 {
     if (debug) qDebug() << PDEBUG;
 
