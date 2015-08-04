@@ -212,7 +212,8 @@ QHash<QString, QString> ExtendedSysMon::updateConfiguration(QHash<QString, QStri
     }
     // player
     if ((rawConfig[QString("PLAYER")] != QString("mpd")) &&
-        (rawConfig[QString("PLAYER")] != QString("mpris")))
+        (rawConfig[QString("PLAYER")] != QString("mpris")) &&
+        (rawConfig[QString("PLAYER")] != QString("disable")))
         rawConfig[QString("PLAYER")] = QString("mpris");
 
     for (int i=0; i<rawConfig.keys().count(); i++)
