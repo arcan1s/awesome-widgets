@@ -63,7 +63,7 @@ public:
 
 public slots:
     virtual void readConfiguration();
-    virtual QVariantMap run() = 0;
+    virtual QVariantHash run() = 0;
     virtual int showConfiguration(const QVariant args = QVariant()) = 0;
     bool tryDelete() const;
     virtual void writeConfiguration() const;

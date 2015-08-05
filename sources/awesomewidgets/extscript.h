@@ -72,7 +72,7 @@ public:
 public slots:
     void readConfiguration();
     void readJsonFilters();
-    QVariantMap run();
+    QVariantHash run();
     int showConfiguration(const QVariant args = QVariant());
     void writeConfiguration() const;
 
@@ -94,7 +94,7 @@ private:
     Q_PID childProcess = 0;
     QVariantMap jsonFilters = QVariantMap();
     int times = 0;
-    QVariantMap value;
+    QVariantHash value;
 };
 
 

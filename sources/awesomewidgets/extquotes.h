@@ -49,7 +49,7 @@ public:
 
 public slots:
     void readConfiguration();
-    QVariantMap run();
+    QVariantHash run();
     int showConfiguration(const QVariant args = QVariant());
     void writeConfiguration() const;
 
@@ -67,7 +67,7 @@ private:
     QString m_ticker = QString("EURUSD=X");
     // values
     int times = 0;
-    QVariantMap values;
+    QVariantHash values;
 };
 
 

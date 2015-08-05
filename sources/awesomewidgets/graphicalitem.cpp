@@ -393,12 +393,12 @@ void GraphicalItem::readConfiguration()
 }
 
 
-QVariantMap GraphicalItem::run()
+QVariantHash GraphicalItem::run()
 {
     if (debug) qDebug() << PDEBUG;
 
     // required by abstract class
-    return QVariantMap();
+    return QVariantHash();
 }
 
 

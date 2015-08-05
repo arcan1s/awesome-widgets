@@ -215,9 +215,11 @@ bool AbstractExtItem::tryDelete() const
 {
     if (debug) qDebug() << PDEBUG;
 
-    for (int i=0; i<m_dirs.count(); i++)
-        if (debug) qDebug() << PDEBUG << ":" << "Remove file" << QString("%1/%2").arg(m_dirs[i]).arg(m_fileName) <<
-                               QFile::remove(QString("%1/%2").arg(m_dirs[i]).arg(m_fileName));
+    for (int i=0; i<m_dirs.count(); i++) {
+        bool status = QFile::remove(QString("%1/%2").arg(m_dirs[i]).arg(m_fileName));
+        if (debug) qDebug() << PDEBUG << ":" << "Remove file" << QString("%1/%2").arg(m_dirs[i]).arg(m_fileName) << status;
+    }
+
 
     // check if exists
     for (int i=0; i<m_dirs.count(); i++)

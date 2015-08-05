@@ -49,7 +49,7 @@ public:
 
 public slots:
     void readConfiguration();
-    QVariantMap run();
+    QVariantHash run();
     int showConfiguration(const QVariant args = QVariant());
     void writeConfiguration() const;
 
@@ -66,7 +66,7 @@ private:
     int m_null = 0;
     // internal properties
     int times = 0;
-    QVariantMap value;
+    QVariantHash value;
 };
 
 

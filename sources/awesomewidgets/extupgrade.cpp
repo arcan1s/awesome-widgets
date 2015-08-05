@@ -40,7 +40,7 @@ ExtUpgrade::ExtUpgrade(QWidget *parent, const QString upgradeName,
     ui->setupUi(this);
     translate();
 
-    value[QString("value")] = 0;
+    value[tag(QString("pkgcount"))] = 0;
 
     process = new QProcess(this);
     connect(process, SIGNAL(finished(int)), this, SLOT(updateValue()));
@@ -143,7 +143,7 @@ void ExtUpgrade::readConfiguration()
 }
 
 
-QVariantMap ExtUpgrade::run()
+QVariantHash ExtUpgrade::run()
 {
     if (debug) qDebug() << PDEBUG;
     if (!isActive()) return value;
@@ -212,7 +212,7 @@ void ExtUpgrade::updateValue()
     if (debug) qDebug() << PDEBUG << ":" << "Error" << process->readAllStandardError();
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process->readAllStandardOutput()).trimmed();
-    value[QString("value")] = qoutput.split(QChar('\n'), QString::SkipEmptyParts).count() - m_null;
+    value[tag(QString("pkgcount"))] = qoutput.split(QChar('\n'), QString::SkipEmptyParts).count() - m_null;
 }
 
 

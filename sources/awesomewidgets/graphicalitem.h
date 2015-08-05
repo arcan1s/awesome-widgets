@@ -79,7 +79,7 @@ public:
 
 public slots:
     void readConfiguration();
-    QVariantMap run();
+    QVariantHash run();
     int showConfiguration(const QVariant args = QVariant());
     void writeConfiguration() const;
 

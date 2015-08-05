@@ -590,9 +590,11 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
         for (int i=0; i<battery.keys().count(); i++)
             setData(source, battery.keys().at(i), battery[battery.keys().at(i)]);
     } else if (source == QString("custom")) {
-        for (int i=0; i<externalScripts->items().count(); i++)
-            setData(source, externalScripts->items().at(i)->tag(QString("custom")),
-                    externalScripts->items().at(i)->run()[QString("value")]);
+        for (int i=0; i<externalScripts->items().count(); i++) {
+            QVariantHash data = externalScripts->items().at(i)->run();
+            for (int j=0; j<data.keys().count(); j++)
+                setData(source, data.keys().at(j), data[data.keys().at(j)]);
+        }
     } else if (source == QString("desktop")) {
         QVariantHash desktop = getCurrentDesktop();
         for (int i=0; i<desktop.keys().count(); i++)
@@ -611,9 +613,11 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     } else if (source == QString("netdev")) {
         setData(source, QString("value"), getNetworkDevice());
     } else if (source == QString("pkg")) {
-        for (int i=0; i<externalUpgrade->items().count(); i++)
-            setData(source, externalUpgrade->items().at(i)->tag(QString("pkgcount")),
-                    externalUpgrade->items().at(i)->run()[QString("value")]);
+        for (int i=0; i<externalUpgrade->items().count(); i++) {
+            QVariantHash data = externalUpgrade->items().at(i)->run();
+            for (int j=0; j<data.keys().count(); j++)
+                setData(source, data.keys().at(j), data[data.keys().at(j)]);
+        }
     } else if (source == QString("player")) {
         QVariantHash player = getPlayerInfo(configuration[QString("PLAYER")],
                                             configuration[QString("MPDADDRESS")],
@@ -627,19 +631,17 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
             setData(source, ps.keys().at(i), ps[ps.keys().at(i)]);
     } else if (source == QString("quotes")) {
         for (int i=0; i<externalQuotes->items().count(); i++) {
-            QVariantMap data = externalQuotes->items().at(i)->run();
+            QVariantHash data = externalQuotes->items().at(i)->run();
             for (int j=0; j<data.keys().count(); j++)
-                setData(source, externalQuotes->items().at(i)->tag(data.keys()[j]),
-                        data[data.keys()[j]]);
+                setData(source, data.keys().at(j), data[data.keys().at(j)]);
         }
     } else if (source == QString("update")) {
         setData(source, QString("value"), true);
     } else if (source == QString("weather")) {
         for (int i=0; i<externalWeather->items().count(); i++) {
-            QVariantMap data = externalWeather->items().at(i)->run();
+            QVariantHash data = externalWeather->items().at(i)->run();
             for (int j=0; j<data.keys().count(); j++)
-                setData(source, externalWeather->items().at(i)->tag(data.keys()[j]),
-                        data[data.keys()[j]]);
+                setData(source, data.keys().at(j), data[data.keys().at(j)]);
         }
     }
 

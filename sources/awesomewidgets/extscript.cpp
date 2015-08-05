@@ -44,7 +44,7 @@ ExtScript::ExtScript(QWidget *parent, const QString scriptName,
     ui->setupUi(this);
     translate();
 
-    value[QString("value")] = QString("");
+    value[tag(QString("custom"))] = QString("");
 
     process = new QProcess(this);
     connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(updateValue()));
@@ -295,15 +295,14 @@ void ExtScript::readJsonFilters()
     QJsonParseError error;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonText.toUtf8(), &error);
     if (debug) qDebug() << PDEBUG << ":" << "Json parse error" << error.errorString();
-    if (error.error != QJsonParseError::NoError)
-        return;
+    if (error.error != QJsonParseError::NoError) return;
     jsonFilters = jsonDoc.toVariant().toMap();
 
     if (debug) qDebug() << PDEBUG << ":" << "Filters" << jsonFilters;
 }
 
 
-QVariantMap ExtScript::run()
+QVariantHash ExtScript::run()
 {
     if (debug) qDebug() << PDEBUG;
     if (!isActive()) return value;
@@ -391,6 +390,7 @@ void ExtScript::updateValue()
     QString qdebug = QTextCodec::codecForMib(106)->toUnicode(process->readAllStandardError()).trimmed();
     if (debug) qDebug() << PDEBUG << ":" << "Error" << qdebug;
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process->readAllStandardOutput()).trimmed();
+    QString strValue;
 
     switch (m_redirect) {
     case stdout2stderr:
@@ -398,17 +398,17 @@ void ExtScript::updateValue()
         if (debug) qDebug() << PDEBUG << ":" << "Output" << qoutput;
         break;
     case stderr2stdout:
-        value[QString("value")] = QString("%1\n%2").arg(qdebug).arg(qoutput);
+        strValue = QString("%1\n%2").arg(qdebug).arg(qoutput);
         break;
     case nothing:
     default:
         if (debug) qDebug() << PDEBUG << ":" << "Debug" << qdebug;
-        value[QString("value")] = qoutput;
+        strValue = qoutput;
         break;
     }
 
     // filters
-    value[QString("value")] = applyFilters(value[QString("value")].toString());
+    value[tag(QString("custom"))] = applyFilters(strValue);
 }
 
 

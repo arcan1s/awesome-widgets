@@ -57,7 +57,7 @@ public:
 
 public slots:
     void readConfiguration();
-    QVariantMap run();
+    QVariantHash run();
     int showConfiguration(const QVariant args = QVariant());
     void writeConfiguration() const;
 
@@ -69,7 +69,7 @@ private:
     QNetworkAccessManager *manager;
     bool isRunning = false;
     Ui::ExtWeather *ui;
-    QVariantMap parseSingleJson(const QVariantMap json) const;
+    QVariantHash parseSingleJson(const QVariantMap json) const;
     void translate();
     QString url(const bool isForecast = false) const;
     // properties
@@ -78,7 +78,7 @@ private:
     int m_ts = 0;
     // values
     int times = 0;
-    QVariantMap values;
+    QVariantHash values;
 };
 
 

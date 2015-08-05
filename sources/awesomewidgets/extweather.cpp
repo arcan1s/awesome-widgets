@@ -44,11 +44,11 @@ ExtWeather::ExtWeather(QWidget *parent, const QString weatherName,
     ui->setupUi(this);
     translate();
 
-    values[QString("weatherId")] = 0;
-    values[QString("weather")] = QString("");
-    values[QString("humidity")] = 0;
-    values[QString("pressure")] = 0.0;
-    values[QString("temperature")] = 0.0;
+    values[tag(QString("weatherId"))] = 0;
+    values[tag(QString("weather"))] = QString("");
+    values[tag(QString("humidity"))] = 0;
+    values[tag(QString("pressure"))] = 0.0;
+    values[tag(QString("temperature"))] = 0.0;
 
     manager = new QNetworkAccessManager(this);
     connect(manager, SIGNAL(finished(QNetworkReply *)),
@@ -271,7 +271,7 @@ void ExtWeather::readConfiguration()
 }
 
 
-QVariantMap ExtWeather::run()
+QVariantHash ExtWeather::run()
 {
     if (debug) qDebug() << PDEBUG;
     if ((!isActive()) || (isRunning)) return values;
@@ -363,7 +363,7 @@ void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
         return;
     }
 
-    QVariantMap data;
+    QVariantHash data;
     if (m_ts == 0)
         data = parseSingleJson(json);
     else {
@@ -371,15 +371,15 @@ void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
         data = parseSingleJson(list.count() <= m_ts ? list[m_ts-1].toMap() : list.last().toMap());
     }
     for (int i=0; i<data.keys().count(); i++)
-        values[data.keys()[i]] = data[data.keys()[i]];
+        values[tag(data.keys()[i])] = data[data.keys()[i]];
 }
 
 
-QVariantMap ExtWeather::parseSingleJson(const QVariantMap json) const
+QVariantHash ExtWeather::parseSingleJson(const QVariantMap json) const
 {
     if (debug) qDebug() << PDEBUG;
 
-    QVariantMap output;
+    QVariantHash output;
 
     // weather status
     QVariantList weather = json[QString("weather")].toList();
