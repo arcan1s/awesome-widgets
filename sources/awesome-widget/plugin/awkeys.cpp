@@ -131,10 +131,10 @@ QString AWKeys::parsePattern() const
 
     QString parsed = pattern;
     parsed.replace(QString("$$"), QString("$\\$\\"));
-    for (int i=0; i<foundKeys.count(); i++)
-        parsed.replace(QString("$%1").arg(foundKeys[i]), htmlValue(foundKeys[i]));
-    for (int i=0; i<foundBars.count(); i++)
-        parsed.replace(QString("$%1").arg(foundBars[i]), getItemByTag(foundBars[i])->image(valueByKey(foundBars[i]).toFloat()));
+    foreach(QString key, foundKeys)
+        parsed.replace(QString("$%1").arg(key), htmlValue(key));
+    foreach(QString bar, foundBars)
+        parsed.replace(QString("$%1").arg(bar), getItemByTag(bar)->image(valueByKey(bar).toFloat()));
     parsed.replace(QString("$\\$\\"), QString("$$"));
     // wrap new lines if required
     if (wrapNewLines) parsed.replace(QString("\n"), QString("<br>"));
@@ -269,26 +269,26 @@ QStringList AWKeys::dictKeys(const bool sorted) const
     allKeys.append(QString("ps"));
     // package manager
     for (int i=extUpgrade->items().count()-1; i>=0; i--) {
-        if (!extUpgrade->items()[i]->isActive()) continue;
-        allKeys.append(extUpgrade->items()[i]->tag(QString("pkgcount")));
+        if (!extUpgrade->items().at(i)->isActive()) continue;
+        allKeys.append(extUpgrade->items().at(i)->tag(QString("pkgcount")));
     }
     // quotes
     for (int i=extQuotes->items().count()-1; i>=0; i--) {
-        if (!extQuotes->items()[i]->isActive()) continue;
-        allKeys.append(extQuotes->items()[i]->tag(QString("ask")));
-        allKeys.append(extQuotes->items()[i]->tag(QString("askchg")));
-        allKeys.append(extQuotes->items()[i]->tag(QString("percaskchg")));
-        allKeys.append(extQuotes->items()[i]->tag(QString("bid")));
-        allKeys.append(extQuotes->items()[i]->tag(QString("bidchg")));
-        allKeys.append(extQuotes->items()[i]->tag(QString("percbidchg")));
-        allKeys.append(extQuotes->items()[i]->tag(QString("price")));
-        allKeys.append(extQuotes->items()[i]->tag(QString("pricechg")));
-        allKeys.append(extQuotes->items()[i]->tag(QString("percpricechg")));
+        if (!extQuotes->items().at(i)->isActive()) continue;
+        allKeys.append(extQuotes->items().at(i)->tag(QString("ask")));
+        allKeys.append(extQuotes->items().at(i)->tag(QString("askchg")));
+        allKeys.append(extQuotes->items().at(i)->tag(QString("percaskchg")));
+        allKeys.append(extQuotes->items().at(i)->tag(QString("bid")));
+        allKeys.append(extQuotes->items().at(i)->tag(QString("bidchg")));
+        allKeys.append(extQuotes->items().at(i)->tag(QString("percbidchg")));
+        allKeys.append(extQuotes->items().at(i)->tag(QString("price")));
+        allKeys.append(extQuotes->items().at(i)->tag(QString("pricechg")));
+        allKeys.append(extQuotes->items().at(i)->tag(QString("percpricechg")));
     }
     // custom
     for (int i=extScripts->items().count()-1; i>=0; i--) {
-        if (!extScripts->items()[i]->isActive()) continue;
-        allKeys.append(extScripts->items()[i]->tag(QString("custom")));
+        if (!extScripts->items().at(i)->isActive()) continue;
+        allKeys.append(extScripts->items().at(i)->tag(QString("custom")));
     }
     // desktop
     allKeys.append(QString("desktop"));
@@ -300,22 +300,21 @@ QStringList AWKeys::dictKeys(const bool sorted) const
     allKeys.append(QString("la1"));
     // weather
     for (int i=extWeather->items().count()-1; i>=0; i--) {
-        if (!extWeather->items()[i]->isActive()) continue;
-        allKeys.append(extWeather->items()[i]->tag(QString("weatherId")));
-        allKeys.append(extWeather->items()[i]->tag(QString("weather")));
-        allKeys.append(extWeather->items()[i]->tag(QString("humidity")));
-        allKeys.append(extWeather->items()[i]->tag(QString("pressure")));
-        allKeys.append(extWeather->items()[i]->tag(QString("temperature")));
-        allKeys.append(extWeather->items()[i]->tag(QString("timestamp")));
+        if (!extWeather->items().at(i)->isActive()) continue;
+        allKeys.append(extWeather->items().at(i)->tag(QString("weatherId")));
+        allKeys.append(extWeather->items().at(i)->tag(QString("weather")));
+        allKeys.append(extWeather->items().at(i)->tag(QString("humidity")));
+        allKeys.append(extWeather->items().at(i)->tag(QString("pressure")));
+        allKeys.append(extWeather->items().at(i)->tag(QString("temperature")));
+        allKeys.append(extWeather->items().at(i)->tag(QString("timestamp")));
     }
     // bars
     QStringList graphicalItemsKeys;
-    for (int i=0; i<graphicalItems->items().count(); i++)
-        graphicalItemsKeys.append(QString("%1%2").arg(graphicalItems->items()[i]->name())
-                                                 .arg(graphicalItems->items()[i]->bar()));
+    foreach(GraphicalItem *item, graphicalItems->items())
+        graphicalItemsKeys.append(QString("%1%2").arg(item->name()).arg(item->bar()));
     graphicalItemsKeys.sort();
     for (int i=graphicalItemsKeys.count()-1; i>=0; i--)
-        allKeys.append(graphicalItemsKeys[i]);
+        allKeys.append(graphicalItemsKeys.at(i));
 
     // sort if required
     if (sorted) allKeys.sort();
@@ -342,6 +341,7 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Source" << sourceName;
+    if (debug) qDebug() << PDEBUG << ":" << "Data" << data;
 
     if (sourceName == QString("update")) return emit(needToBeUpdated());
 
@@ -362,8 +362,8 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
 
     if (sourceName == QString("battery")) {
         // battery
-        for (int i=0; i<data.keys().count(); i++) {
-            if (data.keys()[i] == QString("ac")) {
+        foreach(QString key, data.keys()) {
+            if (key == QString("ac")) {
                 // notification
                 if ((values[QString("ac")] == params[QString("acOnline")].toString()) != data[QString("ac")].toBool()) {
                     if (data[QString("ac")].toBool())
@@ -372,13 +372,12 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
                         AWActions::sendNotification(QString("event"), i18n("AC offline"), enablePopup);
                 }
                 // value
-                values[QString("ac")] = data.keys()[i];
                 if (data[QString("ac")].toBool())
                     values[QString("ac")] = params[QString("acOnline")].toString();
                 else
                     values[QString("ac")] = params[QString("acOffline")].toString();
             } else
-                values[data.keys()[i]] = QString("%1").arg(data[data.keys()[i]].toFloat(), 3, 'f', 0);
+                values[key] = QString("%1").arg(data[key].toFloat(), 3, 'f', 0);
         }
     } else if (sourceName == QString("cpu/system/TotalLoad")) {
         // cpu
@@ -402,8 +401,7 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         values[QString("cpucl") + number] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
     } else if (sourceName == QString("custom")) {
         // custom
-        for (int i=0; i<data.keys().count(); i++)
-            values[data.keys()[i]] = data[data.keys()[i]].toString();
+        foreach(QString key, data.keys()) values[key] = data[key].toString();
     } else if (sourceName == QString("desktop")) {
         // desktops
         values[QString("desktop")] = data[QString("currentName")].toString();
@@ -413,20 +411,20 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         // read speed
         QString device = sourceName;
         device.remove(QString("/Rate/rblk"));
-        for (int i=0; i<diskDevices.count(); i++)
-            if (diskDevices[i] == device) {
-                values[QString("hddr%1").arg(i)] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 0);
-                break;
-            }
+        for (int i=0; i<diskDevices.count(); i++) {
+            if (diskDevices.at(i) != device) continue;
+            values[QString("hddr%1").arg(i)] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 0);
+            break;
+        }
     } else if (sourceName.contains(hddwRegExp)) {
         // write speed
         QString device = sourceName;
         device.remove(QString("/Rate/wblk"));
-        for (int i=0; i<diskDevices.count(); i++)
-            if (diskDevices[i] == device) {
-                values[QString("hddw%1").arg(i)] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 0);
-                break;
-            }
+        for (int i=0; i<diskDevices.count(); i++) {
+            if (diskDevices.at(i) != device) continue;
+            values[QString("hddw%1").arg(i)] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 0);
+            break;
+        }
     } else if (sourceName == QString("gpu")) {
         // gpu load
         // notification
@@ -442,53 +440,53 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         // fill level
         QString mount = sourceName;
         mount.remove(QString("partitions")).remove(QString("/filllevel"));
-        for (int i=0; i<mountDevices.count(); i++)
-            if (mountDevices[i] == mount) {
-                if ((data[QString("value")].toFloat() >= 90.0) && (values[QString("hdd%1").arg(i)].toFloat() < 90.0))
-                    AWActions::sendNotification(QString("event"), i18n("Free space on %1 less than 10%", mount), enablePopup);
-                values[QString("hdd%1").arg(i)] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
-                break;
-            }
+        for (int i=0; i<mountDevices.count(); i++) {
+            if (mountDevices.at(i) != mount) continue;
+            if ((data[QString("value")].toFloat() >= 90.0) && (values[QString("hdd%1").arg(i)].toFloat() < 90.0))
+                AWActions::sendNotification(QString("event"), i18n("Free space on %1 less than 10%", mount), enablePopup);
+            values[QString("hdd%1").arg(i)] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
+            break;
+        }
     } else if (sourceName.contains(mountFreeRegExp)) {
         // free space
         QString mount = sourceName;
         mount.remove(QString("partitions")).remove(QString("/freespace"));
-        for (int i=0; i<mountDevices.count(); i++)
-            if (mountDevices[i] == mount) {
-                values[QString("hddfreemb%1").arg(i)] = QString("%1").arg(
-                    data[QString("value")].toFloat() / 1024.0, 5, 'f', 0);
-                values[QString("hddfreegb%1").arg(i)] = QString("%1").arg(
-                    data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
-                break;
-            }
+        for (int i=0; i<mountDevices.count(); i++) {
+            if (mountDevices.at(i) != mount) continue;
+            values[QString("hddfreemb%1").arg(i)] = QString("%1").arg(
+                data[QString("value")].toFloat() / 1024.0, 5, 'f', 0);
+            values[QString("hddfreegb%1").arg(i)] = QString("%1").arg(
+                data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
+            break;
+        }
     } else if (sourceName.contains(mountUsedRegExp)) {
         // used
         QString mount = sourceName;
         mount.remove(QString("partitions")).remove(QString("/usedspace"));
-        for (int i=0; i<mountDevices.count(); i++)
-            if (mountDevices[i] == mount) {
-                values[QString("hddmb%1").arg(i)] = QString("%1").arg(
-                    data[QString("value")].toFloat() / 1024.0, 5, 'f', 0);
-                values[QString("hddgb%1").arg(i)] = QString("%1").arg(
-                    data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
-                // total
-                values[QString("hddtotmb%1").arg(i)] = QString("%1").arg(
-                    values[QString("hddfreemb%1").arg(i)].toInt() +
-                    values[QString("hddmb%1").arg(i)].toInt());
-                values[QString("hddtotgb%1").arg(i)] = QString("%1").arg(
-                    values[QString("hddfreegb%1").arg(i)].toFloat() +
-                    values[QString("hddgb%1").arg(i)].toFloat(), 5, 'f', 1);
-                break;
-            }
+        for (int i=0; i<mountDevices.count(); i++) {
+            if (mountDevices.at(i) != mount) continue;
+            values[QString("hddmb%1").arg(i)] = QString("%1").arg(
+                data[QString("value")].toFloat() / 1024.0, 5, 'f', 0);
+            values[QString("hddgb%1").arg(i)] = QString("%1").arg(
+                data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
+            // total
+            values[QString("hddtotmb%1").arg(i)] = QString("%1").arg(
+                values[QString("hddfreemb%1").arg(i)].toInt() +
+                values[QString("hddmb%1").arg(i)].toInt());
+            values[QString("hddtotgb%1").arg(i)] = QString("%1").arg(
+                values[QString("hddfreegb%1").arg(i)].toFloat() +
+                values[QString("hddgb%1").arg(i)].toFloat(), 5, 'f', 1);
+            break;
+        }
     } else if (sourceName == QString("hddtemp")) {
         // hdd temperature
-        for (int i=0; i<data.keys().count(); i++)
-            for (int j=0; j<hddDevices.count(); j++)
-                if (hddDevices[j] == data.keys()[i]) {
-                    values[QString("hddtemp%1").arg(j)] = QString("%1").arg(
-                        temperature(data[data.keys()[i]].toFloat(), params[QString("tempUnits")].toString()), 4, 'f', 1);
-                    break;
-                }
+        foreach(QString key, data.keys())
+            for (int i=0; i<hddDevices.count(); i++) {
+                if (hddDevices.at(i) != key) continue;
+                values[QString("hddtemp%1").arg(i)] = QString("%1").arg(
+                    temperature(data[key].toFloat(), params[QString("tempUnits")].toString()), 4, 'f', 1);
+                break;
+            }
     } else if (sourceName.startsWith(QString("cpu/system/loadavg"))) {
         // load average
         QString time = sourceName;
@@ -534,7 +532,7 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         device.remove(QString("network/interfaces/")).remove(QString("/receiver/data"));
         QStringList allNetworkDevices = networkDevices;
         for (int i=0; i<allNetworkDevices.count(); i++) {
-            if (allNetworkDevices[i] != device) continue;
+            if (allNetworkDevices.at(i) != device) continue;
             if (value > 1000.0)
                 values[QString("down%1").arg(i)] = QString("%1").arg(value / 1024.0, 4, 'f', 1);
             else
@@ -554,7 +552,7 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         device.remove(QString("network/interfaces/")).remove(QString("/transmitter/data"));
         QStringList allNetworkDevices = networkDevices;
         for (int i=0; i<allNetworkDevices.count(); i++) {
-            if (allNetworkDevices[i] != device) continue;
+            if (allNetworkDevices.at(i) != device) continue;
             if (value > 1000.0)
                 values[QString("up%1").arg(i)] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 4, 'f', 1);
             else
@@ -569,8 +567,7 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         }
     } else if (sourceName == QString("pkg")) {
         // package manager
-        for (int i=0; i<data.keys().count(); i++)
-            values[data.keys()[i]] = QString("%1").arg(data[data.keys()[i]].toInt(), 2);
+        foreach(QString key, data.keys()) values[key] = QString("%1").arg(data[key].toInt(), 2);
     } else if (sourceName == QString("player")) {
         // player
         values[QString("album")] = data[QString("album")].toString();
@@ -585,8 +582,7 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         values[QString("pstotal")] = QString("%1").arg(data[QString("pstotal")].toInt(), 3);
     } else if (sourceName == QString("quotes")) {
         // quotes
-        for (int i=0; i<data.keys().count(); i++)
-            values[data.keys()[i]] = QString("%1").arg(data[data.keys()[i]].toFloat(), 7, 'f');
+        foreach(QString key, data.keys()) values[key] = QString("%1").arg(data[key].toFloat(), 7, 'f');
     } else if (sourceName == QString("mem/swap/free")) {
         // free swap
         values[QString("swapfreemb")] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 5, 'f', 0);
@@ -609,25 +605,24 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         values[QString("swap")] = QString("%1").arg(value, 5, 'f', 1);
     } else if (sourceName.contains(tempRegExp)) {
         // temperature devices
-        for (int i=0; i<tempDevices.count(); i++)
-            if (sourceName == tempDevices[i]) {
-                float temp = data[QString("units")].toString() == QString("°C") ?
-                    temperature(data[QString("value")].toFloat(), params[QString("tempUnits")].toString()) :
-                    data[QString("value")].toFloat();
-                values[QString("temp%1").arg(i)] = QString("%1").arg(temp, 4, 'f', 1);
-                break;
-            }
+        for (int i=0; i<tempDevices.count(); i++) {
+            if (sourceName != tempDevices.at(i)) continue;
+            float temp = data[QString("units")].toString() == QString("°C") ?
+                temperature(data[QString("value")].toFloat(), params[QString("tempUnits")].toString()) :
+                data[QString("value")].toFloat();
+            values[QString("temp%1").arg(i)] = QString("%1").arg(temp, 4, 'f', 1);
+            break;
+        }
     } else if (sourceName == QString("Local")) {
         // time
         values[QString("time")] = data[QString("DateTime")].toDateTime().toString(Qt::TextDate);
         values[QString("isotime")] = data[QString("DateTime")].toDateTime().toString(Qt::ISODate);
         values[QString("shorttime")] = data[QString("DateTime")].toDateTime().toString(Qt::SystemLocaleShortDate);
         values[QString("longtime")] = data[QString("DateTime")].toDateTime().toString(Qt::SystemLocaleLongDate);
-        QStringList _timeKeys = getTimeKeys();
         values[QString("ctime")] = params[QString("customTime")].toString();
-        for (int i=0; i<_timeKeys.count(); i++)
-            values[QString("ctime")].replace(QString("$") + _timeKeys[i],
-                                             data[QString("DateTime")].toDateTime().toString(_timeKeys[i]));
+        foreach(QString key, getTimeKeys())
+            values[QString("ctime")].replace(QString("$%1").arg(key),
+                                             data[QString("DateTime")].toDateTime().toString(key));
     } else if (sourceName == QString("system/uptime")) {
         // uptime
         int uptime = data[QString("value")].toFloat();
@@ -644,18 +639,18 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         values[QString("cuptime")].replace(QString("$mm"), QString("%1").arg(minutes, 2, 10, QChar('0')));
         values[QString("cuptime")].replace(QString("$m"), QString("%1").arg(minutes));
     } else if (sourceName == QString("weather")) {
-        for (int i=0; i<data.keys().count(); i++) {
-            if (data.keys()[i].startsWith(QString("weatherId")))
-                values[data.keys()[i]] = QString("%1").arg(data[data.keys()[i]].toInt());
-            else if (data.keys()[i].startsWith(QString("weather")))
-                values[data.keys()[i]] = data[data.keys()[i]].toString();
-            else if (data.keys()[i].startsWith(QString("humidity")))
-                values[data.keys()[i]] = QString("%1").arg(data[data.keys()[i]].toInt(), 3);
-            else if (data.keys()[i].startsWith(QString("pressure")))
-                values[data.keys()[i]] = QString("%1").arg(data[data.keys()[i]].toFloat(), 0, 'f', 1);
-            else if (data.keys()[i].startsWith(QString("temperature")))
-                values[data.keys()[i]] = QString("%1").arg(
-                    temperature(data[data.keys()[i]].toFloat(), params[QString("tempUnits")].toString()), 4, 'f', 1);
+        foreach(QString key, data.keys()) {
+            if (key.startsWith(QString("weatherId")))
+                values[key] = QString("%1").arg(data[key].toInt());
+            else if (key.startsWith(QString("weather")))
+                values[key] = data[key].toString();
+            else if (key.startsWith(QString("humidity")))
+                values[key] = QString("%1").arg(data[key].toInt(), 3);
+            else if (key.startsWith(QString("pressure")))
+                values[key] = QString("%1").arg(data[key].toFloat(), 0, 'f', 1);
+            else if (key.startsWith(QString("temperature")))
+                values[key] = QString("%1").arg(
+                    temperature(data[key].toFloat(), params[QString("tempUnits")].toString()), 4, 'f', 1);
         }
     } else {
         if (debug) qDebug() << PDEBUG << ":" << "Source" << sourceName << "not found";
@@ -688,9 +683,9 @@ QString AWKeys::infoByKey(QString key) const
 
     key.remove(QRegExp(QString("^bar[0-9]{1,}")));
     if (key.startsWith(QString("custom")))
-        for (int i=0; i<extScripts->items().count(); i++) {
-            if (extScripts->items()[i]->tag(QString("custom")) != key) continue;
-            return extScripts->items()[i]->executable();
+        foreach(ExtScript *item, extScripts->items()) {
+            if (item->tag(QString("custom")) != key) continue;
+            return item->executable();
         }
     else if (key.contains(QRegExp(QString("^hdd[rw]"))))
         return QString("%1").arg(diskDevices[key.remove(QRegExp(QString("hdd[rw]"))).toInt()]);
@@ -701,14 +696,14 @@ QString AWKeys::infoByKey(QString key) const
     else if (key.contains(QRegExp(QString("^(down|up)[0-9]"))))
         return QString("%1").arg(networkDevices[key.remove(QRegExp(QString("^(down|up)"))).toInt()]);
     else if (key.startsWith(QString("pkgcount")))
-        for (int i=0; i<extUpgrade->items().count(); i++) {
-            if (extUpgrade->items()[i]->tag(QString("pkgcount")) != key) continue;
-            return extUpgrade->items()[i]->executable();
+        foreach(ExtUpgrade *item, extUpgrade->items()) {
+            if (item->tag(QString("pkgcount")) != key) continue;
+            return item->executable();
         }
     else if (key.contains(QRegExp(QString("(^|perc)(ask|bid|price)(chg|)"))))
-        for (int i=0; i<extQuotes->items().count(); i++) {
-            if (extQuotes->items()[i]->number() != key.remove(QRegExp(QString("(^|perc)(ask|bid|price)(chg|)"))).toInt()) continue;
-            return extQuotes->items()[i]->ticker();
+        foreach(ExtQuotes *item, extQuotes->items()) {
+            if (item->number() != key.remove(QRegExp(QString("(^|perc)(ask|bid|price)(chg|)"))).toInt()) continue;
+            return item->ticker();
         }
     else if (key.startsWith(QString("temp")))
         return QString("%1").arg(tempDevices[key.remove(QString("temp")).toInt()]);
@@ -771,41 +766,35 @@ void AWKeys::loadKeysFromCache()
                        .arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
     if (debug) qDebug() << PDEBUG << ":" << "Cache file" << fileName;
     QSettings cache(fileName, QSettings::IniFormat);
-    QStringList cachedKeys;
 
     cache.beginGroup(QString("Disk"));
     diskDevices.clear();
-    cachedKeys = cache.allKeys();
-    for (int i=0; i<cachedKeys.count(); i++)
-        diskDevices.append(cache.value(cachedKeys[i]).toString());
+    foreach(QString key, cache.allKeys())
+        diskDevices.append(cache.value(key).toString());
     cache.endGroup();
 
     cache.beginGroup(QString("Hdd"));
     hddDevices.clear();
-    cachedKeys = cache.allKeys();
-    for (int i=0; i<cachedKeys.count(); i++)
-        hddDevices.append(cache.value(cachedKeys[i]).toString());
+    foreach(QString key, cache.allKeys())
+        hddDevices.append(cache.value(key).toString());
     cache.endGroup();
 
     cache.beginGroup(QString("Mount"));
     mountDevices.clear();
-    cachedKeys = cache.allKeys();
-    for (int i=0; i<cachedKeys.count(); i++)
-        mountDevices.append(cache.value(cachedKeys[i]).toString());
+    foreach(QString key, cache.allKeys())
+        mountDevices.append(cache.value(key).toString());
     cache.endGroup();
 
     cache.beginGroup(QString("Network"));
     networkDevices.clear();
-    cachedKeys = cache.allKeys();
-    for (int i=0; i<cachedKeys.count(); i++)
-        networkDevices.append(cache.value(cachedKeys[i]).toString());
+    foreach(QString key, cache.allKeys())
+        networkDevices.append(cache.value(key).toString());
     cache.endGroup();
 
     cache.beginGroup(QString("Temp"));
     tempDevices.clear();
-    cachedKeys = cache.allKeys();
-    for (int i=0; i<cachedKeys.count(); i++)
-        tempDevices.append(cache.value(cachedKeys[i]).toString());
+    foreach(QString key, cache.allKeys())
+        tempDevices.append(cache.value(key).toString());
     cache.endGroup();
 }
 
@@ -832,22 +821,22 @@ void AWKeys::addKeyToCache(const QString type, const QString key)
 
     cache.beginGroup(type);
     QStringList cachedValues;
-    for (int i=0; i<cache.allKeys().count(); i++)
-        cachedValues.append(cache.value(cache.allKeys()[i]).toString());
+    foreach(QString key, cache.allKeys())
+        cachedValues.append(cache.value(key).toString());
 
     if (type == QString("Hdd")) {
         QStringList allDevices = QDir(QString("/dev")).entryList(QDir::System, QDir::Name);
         QStringList devices = allDevices.filter(QRegExp(QString("^[hms]d[a-z]$")));
-        for (int i=0; i<devices.count(); i++) {
-            QString device = QString("/dev/%1").arg(devices[i]);
+        foreach(QString dev, devices) {
+            QString device = QString("/dev/%1").arg(dev);
             if (cachedValues.contains(device)) continue;
             if (debug) qDebug() << PDEBUG << ":" << "Found new key" << device << "for type" << type;
             cache.setValue(QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), device);
         }
     } else if (type == QString("Network")) {
         QList<QNetworkInterface> rawInterfaceList = QNetworkInterface::allInterfaces();
-        for (int i=0; i<rawInterfaceList.count(); i++) {
-            QString device = rawInterfaceList[i].name();
+        foreach(QNetworkInterface interface, rawInterfaceList) {
+            QString device = interface.name();
             if (cachedValues.contains(device)) continue;
             if (debug) qDebug() << PDEBUG << ":" << "Found new key" << device << "for type" << type;
             cache.setValue(QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), device);
@@ -914,15 +903,15 @@ QStringList AWKeys::findGraphicalItems() const
     if (debug) qDebug() << PDEBUG;
 
     QStringList orderedKeys;
-    for (int i=0; i<graphicalItems->items().count(); i++)
-        orderedKeys.append(graphicalItems->items()[i]->name() + graphicalItems->items()[i]->bar());
+    foreach(GraphicalItem *item, graphicalItems->items())
+        orderedKeys.append(item->name() + item->bar());
     orderedKeys.sort();
 
     QStringList selectedKeys;
     for (int i=orderedKeys.count()-1; i>=0; i--)
-        if (pattern.contains(QString("$%1").arg(orderedKeys[i]))) {
-            if (debug) qDebug() << PDEBUG << ":" << "Found key" << orderedKeys[i];
-            selectedKeys.append(orderedKeys[i]);
+        if (pattern.contains(QString("$%1").arg(orderedKeys.at(i)))) {
+            if (debug) qDebug() << PDEBUG << ":" << "Found key" << orderedKeys.at(i);
+            selectedKeys.append(orderedKeys.at(i));
         }
 
     return selectedKeys;
@@ -932,11 +921,11 @@ QStringList AWKeys::findGraphicalItems() const
 QStringList AWKeys::findKeys() const
 {
     QStringList selectedKeys;
-    for (int i=0; i<keys.count(); i++) {
-        if (keys[i].startsWith(QString("bar"))) continue;
-        if (pattern.contains(QString("$%1").arg(keys[i]))) {
-            if (debug) qDebug() << PDEBUG << ":" << "Found key" << keys[i];
-            selectedKeys.append(keys[i]);
+    foreach(QString key, keys) {
+        if (key.startsWith(QString("bar"))) continue;
+        if (pattern.contains(QString("$%1").arg(key))) {
+            if (debug) qDebug() << PDEBUG << ":" << "Found key" << key;
+            selectedKeys.append(key);
         }
     }
 
@@ -949,9 +938,9 @@ GraphicalItem *AWKeys::getItemByTag(const QString tag) const
     if (debug) qDebug() << PDEBUG;
 
     GraphicalItem *item = nullptr;
-    for (int i=0; i< graphicalItems->items().count(); i++) {
-        if ((graphicalItems->items()[i]->name() + graphicalItems->items()[i]->bar()) != tag) continue;
-        item = graphicalItems->items()[i];
+    foreach(GraphicalItem *gitem, graphicalItems->items()) {
+        if ((gitem->name() + gitem->bar()) != tag) continue;
+        item = gitem;
         break;
     }
 

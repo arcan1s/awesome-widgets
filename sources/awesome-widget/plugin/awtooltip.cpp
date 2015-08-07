@@ -27,7 +27,7 @@
 
 AWToolTip::AWToolTip(QObject *parent, QVariantMap settings)
     : QObject(parent),
-      configuration(settings)
+      configuration(qvariant_cast<QVariantHash>(settings))
 {
     // debug
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
@@ -137,26 +137,26 @@ QPixmap AWToolTip::image()
                                      QBrush(Qt::NoBrush));
     bool down = false;
     for (int i=0; i<requiredKeys.count(); i++) {
-        float normX = 100.0 / static_cast<float>(data[requiredKeys[i]].count());
-        float normY = 100.0 / (1.5 * boundaries[requiredKeys[i]]);
-        if (requiredKeys[i] != QString("batTooltip"))
-            pen.setColor(QColor(configuration[QString("%1Color").arg(requiredKeys[i])].toString()));
+        float normX = 100.0 / static_cast<float>(data[requiredKeys.at(i)].count());
+        float normY = 100.0 / (1.5 * boundaries[requiredKeys.at(i)]);
+        if (requiredKeys.at(i) != QString("batTooltip"))
+            pen.setColor(QColor(configuration[QString("%1Color").arg(requiredKeys.at(i))].toString()));
         float shift = i * 100.0;
         if (down) shift -= 100.0;
-        for (int j=0; j<data[requiredKeys[i]].count()-1; j++) {
+        for (int j=0; j<data[requiredKeys.at(i)].count()-1; j++) {
             float x1 = j * normX + shift;
-            float y1 = - fabs(data[requiredKeys[i]][j]) * normY + 5.0;
+            float y1 = - fabs(data[requiredKeys.at(i)].at(j)) * normY + 5.0;
             float x2 = (j + 1) * normX + shift;
-            float y2 = - fabs(data[requiredKeys[i]][j+1]) * normY + 5.0;
-            if (requiredKeys[i] == QString("batTooltip")) {
-                if (data[requiredKeys[i]][j+1] > 0)
+            float y2 = - fabs(data[requiredKeys.at(i)].at(j+1)) * normY + 5.0;
+            if (requiredKeys.at(i) == QString("batTooltip")) {
+                if (data[requiredKeys.at(i)].at(j+1) > 0)
                     pen.setColor(QColor(configuration[QString("batTooltipColor")].toString()));
                 else
                     pen.setColor(QColor(configuration[QString("batInTooltipColor")].toString()));
             }
             toolTipScene->addLine(x1, y1, x2, y2, pen);
         }
-        if (requiredKeys[i] == QString("downTooltip")) down = true;
+        if (requiredKeys.at(i) == QString("downTooltip")) down = true;
     }
 
     return toolTipView->grab();
@@ -179,12 +179,12 @@ void AWToolTip::setData(const QString source, float value, const bool ac)
         data[source].append(-value);
 
     if ((source == QString("downTooltip")) || (source == QString("upTooltip"))) {
-        for (int i=0; i<data[QString("downTooltip")].count(); i++)
-            if (boundaries[QString("downTooltip")] < data[QString("downTooltip")][i])
-                boundaries[QString("downTooltip")] = data[QString("downTooltip")][i];
-        for (int i=0; i<data[QString("upTooltip")].count(); i++)
-            if (boundaries[QString("downTooltip")] < data[QString("upTooltip")][i])
-                boundaries[QString("downTooltip")] = data[QString("upTooltip")][i];
+        foreach(float val, data[QString("downTooltip")])
+            if (boundaries[QString("downTooltip")] < val)
+                boundaries[QString("downTooltip")] = val;
+        foreach(float val, data[QString("upTooltip")])
+            if (boundaries[QString("downTooltip")] < val)
+                boundaries[QString("downTooltip")] = val;
         boundaries[QString("downTooltip")] *= 1.2;
         boundaries[QString("upTooltip")] = boundaries[QString("downTooltip")];
     }

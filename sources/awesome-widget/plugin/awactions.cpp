@@ -23,6 +23,8 @@
 #include <QDebug>
 #include <QDesktopServices>
 #include <QDir>
+#include <QJsonDocument>
+#include <QJsonParseError>
 #include <QMessageBox>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
@@ -141,9 +143,9 @@ QString AWActions::getAboutText(const QString type) const
         QStringList trdPartyList = QString(TRDPARTY_LICENSE).split(QChar(';'), QString::SkipEmptyParts);
         for (int i=0; i<trdPartyList.count(); i++)
             trdPartyList[i] = QString("<a href=\"%3\">%1</a> (%2 license)")
-                    .arg(trdPartyList[i].split(QChar(','))[0])
-                    .arg(trdPartyList[i].split(QChar(','))[1])
-                    .arg(trdPartyList[i].split(QChar(','))[2]);
+                    .arg(trdPartyList.at(i).split(QChar(','))[0])
+                    .arg(trdPartyList.at(i).split(QChar(','))[1])
+                    .arg(trdPartyList.at(i).split(QChar(','))[2]);
         text = i18n("This software uses: %1", trdPartyList.join(QString(", ")));
     }
 
@@ -249,26 +251,28 @@ void AWActions::versionReplyRecieved(QNetworkReply *reply) const
 {
     if (debug) qDebug() << PDEBUG;
 
-    QString answer = reply->readAll();
-    if (!answer.contains(QString("tag_name"))) return;
-    QString version = QString(VERSION);
-    if (debug) qDebug() << PDEBUG << answer;
-    for (int i=0; i<answer.split(QString("tag_name")).count(); i++) {
-        version = answer.split(QString("tag_name"))[1].split(QChar(','))[0];
-        version.remove(QChar('"'));
-        version.remove(QChar(':'));
-        version.remove(QString("V."));
-        break;
+    QJsonParseError error;
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll(), &error);
+    reply->deleteLater();
+    if (debug) qDebug() << PDEBUG << ":" << "Json parse error" << error.errorString();
+    if ((reply->error() != QNetworkReply::NoError) ||
+        (error.error != QJsonParseError::NoError)) {
+        return;
     }
 
-    int old_major = QString(VERSION).split(QChar('.'))[0].toInt();
-    int old_minor = QString(VERSION).split(QChar('.'))[1].toInt();
-    int old_patch = QString(VERSION).split(QChar('.'))[2].toInt();
-    int new_major = QString(version).split(QChar('.'))[0].toInt();
-    int new_minor = QString(version).split(QChar('.'))[1].toInt();
-    int new_patch = QString(version).split(QChar('.'))[2].toInt();
+    // convert to map
+    QVariantMap firstRelease = jsonDoc.toVariant().toList().first().toMap();
+    QString version = firstRelease[QString("tag_name")].toString();
+    version.remove(QString("V."));
+
+    int old_major = QString(VERSION).split(QChar('.')).at(0).toInt();
+    int old_minor = QString(VERSION).split(QChar('.')).at(1).toInt();
+    int old_patch = QString(VERSION).split(QChar('.')).at(2).toInt();
+    int new_major = QString(version).split(QChar('.')).at(0).toInt();
+    int new_minor = QString(version).split(QChar('.')).at(1).toInt();
+    int new_patch = QString(version).split(QChar('.')).at(2).toInt();
     if ((old_major < new_major) ||
         ((old_major == new_major) && (old_minor < new_minor)) ||
         ((old_major == new_major) && (old_minor == new_minor) && (old_patch < new_patch)))
-        showUpdates(version);
+        return showUpdates(version);
 }

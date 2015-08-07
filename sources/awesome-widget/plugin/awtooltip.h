@@ -54,7 +54,7 @@ private:
     // variables
     bool debug = false;
     int counts = 0;
-    QVariantMap configuration;
+    QVariantHash configuration;
     QHash<QString, float> boundaries;
     QHash<QString, QList<float>> data;
     QStringList requiredKeys;

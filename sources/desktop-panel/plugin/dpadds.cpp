@@ -110,8 +110,7 @@ QString DPAdds::toolTipImage(const int desktop) const
     DesktopWindowsInfo info = getInfoByDesktop(desktop);
     if (tooltipType == QString("names")) {
         QStringList windowList;
-        for (int i=0; i<info.windowsData.count(); i++)
-            windowList.append(info.windowsData[i].name);
+        foreach(WindowData data, info.windowsData) windowList.append(data.name);
         return QString("<ul><li>%1</li></ul>").arg(windowList.join(QString("</li><li>")));
     }
     // init
@@ -139,8 +138,8 @@ QString DPAdds::toolTipImage(const int desktop) const
         QPen pen = QPen();
         pen.setWidthF(2.0 * info.desktop.width() / 400.0);
         pen.setColor(QColor(tooltipColor));
-        for (int i=0; i<info.windowsData.count(); i++) {
-            QRect rect = info.windowsData[i].rect;
+        foreach(WindowData data, info.windowsData) {
+            QRect rect = data.rect;
             toolTipScene->addLine(rect.left() + margin, rect.bottom() + margin,
                                   rect.left() + margin, rect.top() + margin, pen);
             toolTipScene->addLine(rect.left() + margin, rect.top() + margin,
@@ -152,22 +151,19 @@ QString DPAdds::toolTipImage(const int desktop) const
         }
     } else if (tooltipType == QString("clean")) {
         QScreen *screen = QGuiApplication::primaryScreen();
-        for (int i=0; i<info.desktopsData.count(); i++) {
-            QPixmap desktop = screen->grabWindow(info.desktopsData[i].id);
-            toolTipScene->addPixmap(desktop)
-                        ->setOffset(info.desktopsData[i].rect.left(), info.desktopsData[i].rect.top());
+        foreach(WindowData data, info.desktopsData) {
+            QPixmap desktop = screen->grabWindow(data.id);
+            toolTipScene->addPixmap(desktop)->setOffset(data.rect.left(), data.rect.top());
         }
     } else if (tooltipType == QString("windows")) {
         QScreen *screen = QGuiApplication::primaryScreen();
-        for (int i=0; i<info.desktopsData.count(); i++) {
-            QPixmap desktop = screen->grabWindow(info.desktopsData[i].id);
-            toolTipScene->addPixmap(desktop)
-                        ->setOffset(info.desktopsData[i].rect.left(), info.desktopsData[i].rect.top());
+        foreach(WindowData data, info.desktopsData) {
+            QPixmap desktop = screen->grabWindow(data.id);
+            toolTipScene->addPixmap(desktop)->setOffset(data.rect.left(), data.rect.top());
         }
-        for (int i=0; i<info.windowsData.count(); i++) {
-            QPixmap window = screen->grabWindow(info.windowsData[i].id);
-            toolTipScene->addPixmap(window)
-                        ->setOffset(info.windowsData[i].rect.left(), info.windowsData[i].rect.top());
+        foreach(WindowData data, info.windowsData) {
+            QPixmap window = screen->grabWindow(data.id);
+            toolTipScene->addPixmap(window)->setOffset(data.rect.left(), data.rect.top());
         }
     }
 
@@ -188,10 +184,9 @@ QString DPAdds::parsePattern(const QString pattern, const int desktop) const
     if (debug) qDebug() << PDEBUG;
 
     QString parsed = pattern;
-    QStringList keys = dictKeys();
     parsed.replace(QString("$$"), QString("$\\$\\"));
-    for (int i=0; i<keys.count(); i++)
-        parsed.replace(QString("$%1").arg(keys[i]), valueByKey(keys[i], desktop));
+    foreach(QString key, dictKeys())
+        parsed.replace(QString("$%1").arg(key), valueByKey(key, desktop));
     parsed.replace(QString("$\\$\\"), QString("$$"));
 
     return parsed;
@@ -218,8 +213,8 @@ void DPAdds::setPanelsToControl(const QString newPanels)
         for (int i=0; i<count; i++)
           panelsToControl.append(i);
     } else
-        for (int i=0; i<newPanels.split(QChar(',')).count(); i++)
-            panelsToControl.append(newPanels.split(QChar(','))[i].toInt());
+        foreach(QString panel, newPanels.split(QChar(',')))
+            panelsToControl.append(panel.toInt());
 }
 
 
@@ -274,7 +269,7 @@ QString DPAdds::editPanelsToContol(const QString current)
     // fill
     QList<Plasma::Containment *> panels = getPanels();
     for (int i=0; i<panels.count(); i++) {
-        QListWidgetItem *item = new QListWidgetItem(panelLocationToStr(panels[i]->location()), widget);
+        QListWidgetItem *item = new QListWidgetItem(panelLocationToStr(panels.at(i)->location()), widget);
         if ((current.split(QChar(',')).contains(QString::number(i))) ||
             (current == QString("-1")))
             item->setCheckState(Qt::Checked);
@@ -334,9 +329,9 @@ QString DPAdds::getAboutText(const QString type) const
         QStringList trdPartyList = QString(TRDPARTY_LICENSE).split(QChar(';'), QString::SkipEmptyParts);
         for (int i=0; i<trdPartyList.count(); i++)
             trdPartyList[i] = QString("<a href=\"%3\">%1</a> (%2 license)")
-                    .arg(trdPartyList[i].split(QChar(','))[0])
-                    .arg(trdPartyList[i].split(QChar(','))[1])
-                    .arg(trdPartyList[i].split(QChar(','))[2]);
+                    .arg(trdPartyList.at(i).split(QChar(',')).at(0))
+                    .arg(trdPartyList.at(i).split(QChar(',')).at(1))
+                    .arg(trdPartyList.at(i).split(QChar(',')).at(2));
         text = i18n("This software uses: %1", trdPartyList.join(QString(", ")));
     }
 
@@ -370,16 +365,16 @@ void DPAdds::changePanelsState() const
 //     QList<Plasma::Containment *> panels = getPanels();
 //     for (int i=0; i<panels.count(); i++) {
 //         if (!panelsToControl.contains(i)) continue;
-//         bool wasVisible = panels[i]->view()->isVisible();
-//         int winId = panels[i]->view()->winId();
+//         bool wasVisible = panels.at(i)->view()->isVisible();
+//         int winId = panels.at(i)->view()->winId();
 //         if (wasVisible) {
 //             if (debug) qDebug() << PDEBUG << ":" << "Hide panel";
 //             KWindowInfo oldInfo = KWindowSystem::windowInfo(winId, NET::WMState);
 //             oldState = oldInfo.state();
-//             panels[i]->view()->setVisible(false);
+//             panels.at(i)->view()->setVisible(false);
 //         } else {
 //             if (debug) qDebug() << PDEBUG << ":" << "Show panel";
-//             panels[i]->view()->setVisible(true);
+//             panels.at(i)->view()->setVisible(true);
 //             KWindowSystem::clearState(winId, NET::KeepAbove);
 //             KWindowSystem::setState(winId, oldState | NET::StaysOnTop);
 //             KWindowSystem::setOnAllDesktops(winId, true);
@@ -432,15 +427,14 @@ DPAdds::DesktopWindowsInfo DPAdds::getInfoByDesktop(const int desktop) const
     DesktopWindowsInfo info;
     info.desktop = KWindowSystem::workArea(desktop);
 
-    QList<WId> windows = KWindowSystem::windows();
-    for (int i=0; i<windows.count(); i++) {
-        KWindowInfo winInfo = KWindowInfo(windows[i],
+    foreach(WId id, KWindowSystem::windows()) {
+        KWindowInfo winInfo = KWindowInfo(id,
                                           NET::Property::WMDesktop | NET::Property::WMGeometry |
                                           NET::Property::WMState | NET::Property::WMWindowType |
                                           NET::Property::WMVisibleName);
         if (!winInfo.isOnDesktop(desktop)) continue;
         WindowData data;
-        data.id = windows[i];
+        data.id = id;
         data.name = winInfo.visibleName();
         data.rect = winInfo.geometry();
         if (winInfo.windowType(NET::WindowTypeMask::NormalMask) == NET::WindowType::Normal) {
@@ -461,9 +455,10 @@ QList<Plasma::Containment *> DPAdds::getPanels() const
 
 //     Plasma::Corona *corona = new Plasma::Corona(this);
     QList<Plasma::Containment *> panels;
-//     for (int i=0; i<corona->containments().count(); i++)
-//         if (corona->containments()[i]->containmentType() == Plasma::Types::ContainmentType::PanelContainment)
-//             panels.append(corona->containments()[i]);
+//     foreach(Plasma::Containment *cont, corona->containments()) {
+//         if (cont->containmentType() != Plasma::Types::ContainmentType::PanelContainment) continue
+//         panels.append(cont);
+//     }
 //     delete corona;
 
     return panels;
