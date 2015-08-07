@@ -167,8 +167,8 @@ void ExtScript::setFilters(const QStringList _filters)
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Filters" << _filters;
 
-    for (int i=0; i<_filters.count(); i++)
-        updateFilter(_filters[i]);
+    foreach(QString filter, _filters)
+        updateFilter(filter);
 }
 
 
@@ -218,15 +218,15 @@ QString ExtScript::applyFilters(QString _value) const
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Value" << _value;
 
-    for (int i=0; i<m_filters.count(); i++) {
-        if (debug) qDebug() << PDEBUG << ":" << "Found filter" << m_filters[i];
-        QVariantMap filter = jsonFilters[m_filters[i]].toMap();
+    foreach(QString filt, m_filters) {
+        if (debug) qDebug() << PDEBUG << ":" << "Found filter" << filt;
+        QVariantMap filter = jsonFilters[filt].toMap();
         if (filter.isEmpty()) {
             if (debug) qDebug() << PDEBUG << ":" << "Could not find filter in the json";
             continue;
         }
-        for (int j=0; j<filter.keys().count(); j++)
-            _value.replace(filter.keys()[j], filter[filter.keys()[j]].toString());
+        foreach(QString f, filter.keys())
+            _value.replace(f, filter[f].toString());
     }
 
     return _value;
@@ -254,8 +254,8 @@ void ExtScript::readConfiguration()
     AbstractExtItem::readConfiguration();
 
     for (int i=directories().count()-1; i>=0; i--) {
-        if (!QDir(directories()[i]).entryList(QDir::Files).contains(fileName())) continue;
-        QSettings settings(QString("%1/%2").arg(directories()[i]).arg(fileName()), QSettings::IniFormat);
+        if (!QDir(directories().at(i)).entryList(QDir::Files).contains(fileName())) continue;
+        QSettings settings(QString("%1/%2").arg(directories().at(i)).arg(fileName()), QSettings::IniFormat);
 
         settings.beginGroup(QString("Desktop Entry"));
         setExecutable(settings.value(QString("Exec"), m_executable).toString());
@@ -367,7 +367,7 @@ void ExtScript::writeConfiguration() const
     if (debug) qDebug() << PDEBUG;
     AbstractExtItem::writeConfiguration();
 
-    QSettings settings(QString("%1/%2").arg(directories()[0]).arg(fileName()), QSettings::IniFormat);
+    QSettings settings(QString("%1/%2").arg(directories().first()).arg(fileName()), QSettings::IniFormat);
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));

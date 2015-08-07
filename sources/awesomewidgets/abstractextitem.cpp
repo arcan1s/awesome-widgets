@@ -196,8 +196,8 @@ void AbstractExtItem::readConfiguration()
     if (debug) qDebug() << PDEBUG;
 
     for (int i=m_dirs.count()-1; i>=0; i--) {
-        if (!QDir(m_dirs[i]).entryList(QDir::Files).contains(m_fileName)) continue;
-        QSettings settings(QString("%1/%2").arg(m_dirs[i]).arg(m_fileName), QSettings::IniFormat);
+        if (!QDir(m_dirs.at(i)).entryList(QDir::Files).contains(m_fileName)) continue;
+        QSettings settings(QString("%1/%2").arg(m_dirs.at(i)).arg(m_fileName), QSettings::IniFormat);
 
         settings.beginGroup(QString("Desktop Entry"));
         setName(settings.value(QString("Name"), m_name).toString());
@@ -215,15 +215,14 @@ bool AbstractExtItem::tryDelete() const
 {
     if (debug) qDebug() << PDEBUG;
 
-    for (int i=0; i<m_dirs.count(); i++) {
-        bool status = QFile::remove(QString("%1/%2").arg(m_dirs[i]).arg(m_fileName));
-        if (debug) qDebug() << PDEBUG << ":" << "Remove file" << QString("%1/%2").arg(m_dirs[i]).arg(m_fileName) << status;
+    foreach(QString dir, m_dirs) {
+        bool status = QFile::remove(QString("%1/%2").arg(dir).arg(m_fileName));
+        if (debug) qDebug() << PDEBUG << ":" << "Remove file" << QString("%1/%2").arg(dir).arg(m_fileName) << status;
     }
 
-
     // check if exists
-    for (int i=0; i<m_dirs.count(); i++)
-        if (QFile::exists(QString("%1/%2").arg(m_dirs[i]).arg(m_fileName))) return false;
+    foreach(QString dir, m_dirs)
+        if (QFile::exists(QString("%1/%2").arg(dir).arg(m_fileName))) return false;
     return true;
 }
 
@@ -232,7 +231,7 @@ void AbstractExtItem::writeConfiguration() const
 {
     if (debug) qDebug() << PDEBUG;
 
-    QSettings settings(QString("%1/%2").arg(m_dirs[0]).arg(m_fileName), QSettings::IniFormat);
+    QSettings settings(QString("%1/%2").arg(m_dirs.first()).arg(m_fileName), QSettings::IniFormat);
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));

@@ -76,7 +76,7 @@ public:
 
         int originalItem = -1;
         for (int i=0; i<m_items.count(); i++) {
-            if (m_items[i]->fileName() != item->text()) continue;
+            if (m_items.at(i)->fileName() != item->text()) continue;
             originalItem = i;
             break;
         }
@@ -96,11 +96,9 @@ public:
         if (debug) qDebug() << PDEBUG;
 
         QList<int> tagList;
-        for (int i=0; i<m_items.count(); i++)
-            tagList.append(m_items[i]->number());
+        foreach(T *item, m_items) tagList.append(item->number());
         int number = 0;
-        while (tagList.contains(number))
-            number++;
+        while (tagList.contains(number)) number++;
 
         return number;
     };
@@ -128,14 +126,14 @@ private:
                            QStandardPaths::LocateDirectory);
         QStringList names;
         QList<T *> items;
-        for (int i=0; i<dirs.count(); i++) {
-            QStringList files = QDir(dirs[i]).entryList(QDir::Files, QDir::Name);
-            for (int j=0; j<files.count(); j++) {
-                if (!files[j].endsWith(QString(".desktop"))) continue;
-                if (names.contains(files[j])) continue;
-                if (debug) qDebug() << PDEBUG << ":" << "Found file" << files[j] << "in" << dirs[i];
-                names.append(files[j]);
-                items.append(new T(this, files[j], dirs, debug));
+        foreach(QString dir, dirs) {
+            QStringList files = QDir(dir).entryList(QDir::Files, QDir::Name);
+            foreach(QString file, files) {
+                if (!file.endsWith(QString(".desktop"))) continue;
+                if (names.contains(file)) continue;
+                if (debug) qDebug() << PDEBUG << ":" << "Found file" << file << "in" << dir;
+                names.append(file);
+                items.append(new T(this, file, dirs, debug));
             }
         }
 
@@ -145,12 +143,12 @@ private:
     void repaint()
     {
         widgetDialog->clear();
-        for (int i=0; i<m_items.count(); i++) {
-            QListWidgetItem *item = new QListWidgetItem(m_items[i]->fileName(), widgetDialog);
+        foreach(T *_item, m_items) {
+            QListWidgetItem *item = new QListWidgetItem(_item->fileName(), widgetDialog);
             QStringList tooltip;
-            tooltip.append(i18n("Name: %1", m_items[i]->name()));
-            tooltip.append(i18n("Comment: %1", m_items[i]->comment()));
-            tooltip.append(i18n("Identity: %1", m_items[i]->uniq()));
+            tooltip.append(i18n("Name: %1", _item->name()));
+            tooltip.append(i18n("Comment: %1", _item->comment()));
+            tooltip.append(i18n("Identity: %1", _item->uniq()));
             item->setToolTip(tooltip.join(QChar('\n')));
             widgetDialog->addItem(item);
         }

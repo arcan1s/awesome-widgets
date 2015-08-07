@@ -253,8 +253,8 @@ void ExtWeather::readConfiguration()
     AbstractExtItem::readConfiguration();
 
     for (int i=directories().count()-1; i>=0; i--) {
-        if (!QDir(directories()[i]).entryList(QDir::Files).contains(fileName())) continue;
-        QSettings settings(QString("%1/%2").arg(directories()[i]).arg(fileName()), QSettings::IniFormat);
+        if (!QDir(directories().at(i)).entryList(QDir::Files).contains(fileName())) continue;
+        QSettings settings(QString("%1/%2").arg(directories().at(i)).arg(fileName()), QSettings::IniFormat);
 
         settings.beginGroup(QString("Desktop Entry"));
         setCity(settings.value(QString("X-AW-City"), m_city).toString());
@@ -327,7 +327,7 @@ void ExtWeather::writeConfiguration() const
     if (debug) qDebug() << PDEBUG;
     AbstractExtItem::writeConfiguration();
 
-    QSettings settings(QString("%1/%2").arg(directories()[0]).arg(fileName()), QSettings::IniFormat);
+    QSettings settings(QString("%1/%2").arg(directories().first()).arg(fileName()), QSettings::IniFormat);
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
@@ -368,10 +368,9 @@ void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
         data = parseSingleJson(json);
     else {
         QVariantList list = json[QString("list")].toList();
-        data = parseSingleJson(list.count() <= m_ts ? list[m_ts-1].toMap() : list.last().toMap());
+        data = parseSingleJson(list.count() <= m_ts ? list.at(m_ts-1).toMap() : list.last().toMap());
     }
-    for (int i=0; i<data.keys().count(); i++)
-        values[tag(data.keys()[i])] = data[data.keys()[i]];
+    foreach(QString key, data.keys()) values[tag(key)] = data[key];
 }
 
 
@@ -383,15 +382,15 @@ QVariantHash ExtWeather::parseSingleJson(const QVariantMap json) const
 
     // weather status
     QVariantList weather = json[QString("weather")].toList();
-    if (weather.count() > 0) {
-        int _id = weather[0].toMap()[QString("id")].toInt();
+    if (!weather.isEmpty()) {
+        int _id = weather.first().toMap()[QString("id")].toInt();
         output[QString("weatherId")] = _id;
         output[QString("weather")] = weatherFromInt(_id);
     }
 
     // main data
     QVariantMap mainWeather = json[QString("main")].toMap();
-    if (weather.count() > 0) {
+    if (!weather.isEmpty()) {
         output[QString("humidity")] = mainWeather[QString("humidity")].toFloat();
         output[QString("pressure")] = mainWeather[QString("pressure")].toFloat();
         output[QString("temperature")] = mainWeather[QString("temp")].toFloat();

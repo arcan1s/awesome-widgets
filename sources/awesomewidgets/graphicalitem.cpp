@@ -369,8 +369,8 @@ void GraphicalItem::readConfiguration()
     AbstractExtItem::readConfiguration();
 
     for (int i=directories().count()-1; i>=0; i--) {
-        if (!QDir(directories()[i]).entryList(QDir::Files).contains(fileName())) continue;
-        QSettings settings(QString("%1/%2").arg(directories()[i]).arg(fileName()), QSettings::IniFormat);
+        if (!QDir(directories().at(i)).entryList(QDir::Files).contains(fileName())) continue;
+        QSettings settings(QString("%1/%2").arg(directories().at(i)).arg(fileName()), QSettings::IniFormat);
 
         settings.beginGroup(QString("Desktop Entry"));
         setBar(settings.value(QString("X-AW-Value"), m_bar).toString());
@@ -443,7 +443,7 @@ void GraphicalItem::writeConfiguration() const
     if (debug) qDebug() << PDEBUG;
     AbstractExtItem::writeConfiguration();
 
-    QSettings settings(QString("%1/%2").arg(directories()[0]).arg(fileName()), QSettings::IniFormat);
+    QSettings settings(QString("%1/%2").arg(directories().first()).arg(fileName()), QSettings::IniFormat);
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
@@ -487,10 +487,10 @@ QColor GraphicalItem::stringToColor(const QString _color) const
     QStringList listColor = _color.split(QChar(','));
     while (listColor.count() < 4)
         listColor.append(QString("0"));
-    qcolor.setRed(listColor[0].toInt());
-    qcolor.setGreen(listColor[1].toInt());
-    qcolor.setBlue(listColor[2].toInt());
-    qcolor.setAlpha(listColor[3].toInt());
+    qcolor.setRed(listColor.at(0).toInt());
+    qcolor.setGreen(listColor.at(1).toInt());
+    qcolor.setBlue(listColor.at(2).toInt());
+    qcolor.setAlpha(listColor.at(3).toInt());
 
     return qcolor;
 }
