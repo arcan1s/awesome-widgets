@@ -641,13 +641,13 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
     } else if (sourceName == QString("weather")) {
         foreach(QString key, data.keys()) {
             if (key.startsWith(QString("weatherId")))
-                values[key] = QString("%1").arg(data[key].toInt());
+                values[key] = QString("%1").arg(data[key].toInt(), 3);
             else if (key.startsWith(QString("weather")))
                 values[key] = data[key].toString();
             else if (key.startsWith(QString("humidity")))
                 values[key] = QString("%1").arg(data[key].toInt(), 3);
             else if (key.startsWith(QString("pressure")))
-                values[key] = QString("%1").arg(data[key].toFloat(), 0, 'f', 1);
+                values[key] = QString("%1").arg(data[key].toInt(), 4);
             else if (key.startsWith(QString("temperature")))
                 values[key] = QString("%1").arg(
                     temperature(data[key].toFloat(), params[QString("tempUnits")].toString()), 4, 'f', 1);

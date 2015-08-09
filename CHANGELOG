@@ -1,14 +1,24 @@
-Ver.2.3.4:
+Ver.2.4.0:
 + add support of weather items
 + add support of load average (la1, la5, la15 tags)
 + add "drop key cache" button
 + add support of clang building
++ create ExtItems aggregator
++ add time to debug information
++ add ability to disable player monitor
 - fix bug with invalid network data calculation
+- fix warning with fond dialog init
 * rewrite ExtItems to use own abstract class
 * improve work with data updating (#57)
+* move to signal-slot interface painting
 * move plugin part back to private
 * cast plugin as type, not signleton (#57)
 * change logic in data building inside DataEngine
+* edit build and drop different DataEngine packaging
+* rewrite QMap to QHash if possible
+* rewrite to use iterators if possible
+* list of desktops is now represented as QStringList
+* refactoring
 
 Ver.2.3.3:
 * change text rendering from Qt to native

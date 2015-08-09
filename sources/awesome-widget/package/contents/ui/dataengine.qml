@@ -231,7 +231,7 @@ Item {
             QtControls.ComboBox {
                 id: player
                 width: parent.width * 3 / 5
-                model: ["mpris", "mpd"]
+                model: ["disable", "mpris", "mpd"]
                 Component.onCompleted: {
                     for (var i=0; i<model.length; i++) {
                         if (model[i] == cfg_dataengine["PLAYER"]) {
