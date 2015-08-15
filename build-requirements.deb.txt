@@ -1,0 +1,11 @@
+cmake
+extra-cmake-modules
+g++
+git
+libkf5i18n-dev
+libkf5notifications-dev
+libkf5service-dev
+libkf5windowsystem-dev
+plasma-framework-dev
+qtbase5-deb
+qtdeclarative5-dev
