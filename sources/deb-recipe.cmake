@@ -1,4 +1,5 @@
 set(CPACK_GENERATOR "DEB")
+set(CPACK_OUTPUT_CONFIG_FILE "${CMAKE_BINARY_DIR}/DebPackageConfig.cmake")
 
 # versioning and naming
 set(CPACK_PACKAGE_NAME "plasma-widget-awesome-widgets")
@@ -19,3 +20,4 @@ set(CPACK_PACKAGING_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
 # go go go!
 include(CPack)
+add_custom_target(deb COMMAND "${CMAKE_CPACK_COMMAND}" "-C" "$<CONFIGURATION>" "--config" "${CPACK_OUTPUT_CONFIG_FILE}")

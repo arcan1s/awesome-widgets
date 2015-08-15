@@ -27,6 +27,7 @@ message(STATUS "Build date: ${CURRENT_DATE}")
 
 option(BUILD_PLASMOIDS "Build plasmoids" ON)
 option(BUILD_DEB_PACKAGE "Build deb package" OFF)
+option(BUILD_RPM_PACKAGE "Build rpm package" OFF)
 
 # flags
 if(CMAKE_COMPILER_IS_GNUCXX)
@@ -65,4 +66,7 @@ endif()
 
 if(BUILD_DEB_PACKAGE)
     include(deb-recipe.cmake)
+endif()
+if(BUILD_RPM_PACKAGE)
+    include(rpm-recipe.cmake)
 endif()
