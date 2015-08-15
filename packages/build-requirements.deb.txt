@@ -7,5 +7,5 @@ libkf5notifications-dev
 libkf5service-dev
 libkf5windowsystem-dev
 plasma-framework-dev
-qtbase5-deb
+qtbase5-dev
 qtdeclarative5-dev
