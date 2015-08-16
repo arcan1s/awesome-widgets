@@ -1,3 +1,4 @@
 cmake
 g++
 git
+kdelibs5-dev
