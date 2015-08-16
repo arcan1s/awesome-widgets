@@ -21,6 +21,9 @@ message (STATUS "Project: ${PROJECT_NAME}")
 message (STATUS "Version: ${PROJECT_VERSION}")
 message (STATUS "Build date: ${CURRENT_DATE}")
 
+option(BUILD_DEB_PACKAGE "Build deb package" OFF)
+option(BUILD_RPM_PACKAGE "Build rpm package" OFF)
+
 # flags
 if (CMAKE_COMPILER_IS_GNUCXX)
   set (CMAKE_CXX_FLAGS "-Wall -Wno-cpp -std=c++11")
@@ -41,3 +44,5 @@ add_subdirectory (desktop-panel)
 
 # translations
 add_subdirectory (translations)
+
+include(packages-recipe.cmake)
