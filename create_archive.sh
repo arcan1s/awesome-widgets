@@ -25,8 +25,8 @@ rm -rf "${ARCHIVE}"
 
 # update md5sum
 MD5SUMS=$(md5sum ${ARCHIVE}-${VERSION}-src.tar.xz | awk '{print $1}')
-sed -i "/md5sums=('[0-9A-Fa-f]*/s/[^'][^)]*/md5sums=('${MD5SUMS}'/" arch/PKGBUILD
-sed -i "s/pkgver=[0-9.]*/pkgver=${VERSION}/" arch/PKGBUILD
+sed -i "/md5sums=('[0-9A-Fa-f]*/s/[^'][^)]*/md5sums=('${MD5SUMS}'/" packages/PKGBUILD
+sed -i "s/pkgver=[0-9.]*/pkgver=${VERSION}/" packages/PKGBUILD
 # clear
 find . -type f -name '*src.tar.xz' -not -name "*${VERSION}-src.tar.xz" -exec rm -rf {} \;
-find arch -type l -xtype l -exec rm -rf {} \;
+find packages -type l -xtype l -exec rm -rf {} \;
