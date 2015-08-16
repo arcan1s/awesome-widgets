@@ -18,7 +18,7 @@ set(CPACK_PACKAGE_RELEASE "1")
 set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${CPACK_PACKAGE_RELEASE}.${CMAKE_SYSTEM_PROCESSOR}")
 
 # deb specific
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "plasma-framework")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "kdebase-workspace, lm-sensors")
 set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Collection of minimalistic Plasmoids which look like Awesome WM widgets (ex-PyTextMonitor)")
 set(CPACK_DEBIAN_PACKAGE_ENHANCES "mpd, smartmontools")
 set(CPACK_DEBIAN_PACKAGE_HOMEPAGE "https://arcanis.name/projects/awesome-widgets")
@@ -28,7 +28,7 @@ set(CPACK_DEBIAN_PACKAGE_SECTION "KDE")
 set(CPACK_RPM_PACKAGE_DESCRIPTION "Collection of minimalistic Plasmoids which look like Awesome WM widgets (ex-PyTextMonitor)")
 set(CPACK_RPM_PACKAGE_GROUP "User Interface/Desktops")
 set(CPACK_RPM_PACKAGE_LICENSE "${PROJECT_LICENSE}")
-set(CPACK_RPM_PACKAGE_REQUIRES "plasma-framework")
+set(CPACK_RPM_PACKAGE_REQUIRES "kdebase4-workspace, sensors")
 set(CPACK_RPM_PACKAGE_SUGGESTS "mpd, smartmontools")
 set(CPACK_RPM_PACKAGE_URL "https://arcanis.name/projects/awesome-widgets")
 
