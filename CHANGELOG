@@ -1,3 +1,6 @@
++ add tags upunits, downunits
+- fix warning for empty tooltip image
+
 Ver.2.4.0:
 + add support of weather items
 + add support of load average (la1, la5, la15 tags)

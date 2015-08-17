@@ -119,7 +119,8 @@ QString AWToolTip::htmlImage()
     QBuffer buffer(&byteArray);
     rawImage.save(&buffer, "PNG");
 
-    return QString("<img src=\"data:image/png;base64,%1\"/>").arg(QString(byteArray.toBase64()));
+    return byteArray.isEmpty() ? QString() :
+           QString("<img src=\"data:image/png;base64,%1\"/>").arg(QString(byteArray.toBase64()));
 }
 
 

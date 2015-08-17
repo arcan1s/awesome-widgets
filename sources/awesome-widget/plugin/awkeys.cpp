@@ -242,9 +242,13 @@ QStringList AWKeys::dictKeys(const bool sorted) const
         allKeys.append(QString("hddtemp%1").arg(i));
     // network
     for (int i=networkDevices.count()-1; i>=0; i--) {
+        allKeys.append(QString("downunits%1").arg(i));
+        allKeys.append(QString("upunits%1").arg(i));
         allKeys.append(QString("down%1").arg(i));
         allKeys.append(QString("up%1").arg(i));
     }
+    allKeys.append(QString("downunits"));
+    allKeys.append(QString("upunits"));
     allKeys.append(QString("down"));
     allKeys.append(QString("up"));
     allKeys.append(QString("netdev"));
@@ -530,40 +534,50 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         QString device = sourceName;
         float value = data[QString("value")].toFloat();
         device.remove(QString("network/interfaces/")).remove(QString("/receiver/data"));
-        QStringList allNetworkDevices = networkDevices;
-        for (int i=0; i<allNetworkDevices.count(); i++) {
-            if (allNetworkDevices.at(i) != device) continue;
-            if (value > 1000.0)
+        for (int i=0; i<networkDevices.count(); i++) {
+            if (networkDevices.at(i) != device) continue;
+            if (value > 1000.0) {
                 values[QString("down%1").arg(i)] = QString("%1").arg(value / 1024.0, 4, 'f', 1);
-            else
+                values[QString("downunits%1").arg(i)] = i18n("MB/s");
+            } else {
                 values[QString("down%1").arg(i)] = QString("%1").arg(value, 4, 'f', 0);
+                values[QString("downunits%1").arg(i)] = i18n("KB/s");
+            }
             break;
         }
         if (device == values[QString("netdev")]) {
-            if (value > 1000.0)
+            if (value > 1000.0) {
                 values[QString("down")] = QString("%1").arg(value / 1024.0, 4, 'f', 1);
-            else
+                values[QString("downunits")] = i18n("MB/s");
+            } else {
                 values[QString("down")] = QString("%1").arg(value, 4, 'f', 0);
+                values[QString("downunits")] = i18n("KB/s");
+            }
         }
     } else if (sourceName.contains(netTransRegExp)) {
         // upload speed
         QString device = sourceName;
         float value = data[QString("value")].toFloat();
         device.remove(QString("network/interfaces/")).remove(QString("/transmitter/data"));
-        QStringList allNetworkDevices = networkDevices;
-        for (int i=0; i<allNetworkDevices.count(); i++) {
-            if (allNetworkDevices.at(i) != device) continue;
-            if (value > 1000.0)
+        for (int i=0; i<networkDevices.count(); i++) {
+            if (networkDevices.at(i) != device) continue;
+            if (value > 1000.0) {
                 values[QString("up%1").arg(i)] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 4, 'f', 1);
-            else
+                values[QString("upunits%1").arg(i)] = i18n("MB/s");
+            } else {
                 values[QString("up%1").arg(i)] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
+                values[QString("upunits%1").arg(i)] = i18n("KB/s");
+            }
             break;
         }
         if (device == values[QString("netdev")]) {
-            if (value > 1000.0)
+            if (value > 1000.0) {
                 values[QString("up")] = QString("%1").arg(value / 1024.0, 4, 'f', 1);
-            else
+                values[QString("upunits")] = i18n("MB/s");
+            } else {
                 values[QString("up")] = QString("%1").arg(value, 4, 'f', 0);
+                values[QString("upunits")] = i18n("KB/s");
+            }
         }
     } else if (sourceName == QString("pkg")) {
         // package manager
