@@ -26,6 +26,7 @@
 #include <QNetworkInterface>
 #include <QProcessEnvironment>
 #include <QRegExp>
+#include <QScriptEngine>
 #include <QSettings>
 #include <QStandardPaths>
 #include <QThread>
@@ -131,6 +132,8 @@ QString AWKeys::parsePattern() const
 
     QString parsed = pattern;
     parsed.replace(QString("$$"), QString("$\\$\\"));
+    foreach(QString key, foundLambdas)
+        parsed.replace(QString("${{%1}}").arg(key), calculateLambda(key));
     foreach(QString key, foundKeys)
         parsed.replace(QString("$%1").arg(key), htmlValue(key));
     foreach(QString bar, foundBars)
@@ -820,6 +823,7 @@ void AWKeys::reinitKeys()
     keys = dictKeys();
     foundBars = findGraphicalItems();
     foundKeys = findKeys();
+    foundLambdas = findLambdas();
 }
 
 
@@ -865,6 +869,27 @@ void AWKeys::addKeyToCache(const QString type, const QString key)
     cache.sync();
     loadKeysFromCache();
     return reinitKeys();
+}
+
+
+QString AWKeys::calculateLambda(QString key) const
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Lambda key" << key;
+
+    QScriptEngine engine;
+    foreach(QString lambdaKey, foundKeys)
+        key.replace(QString("$%1").arg(lambdaKey), values[lambdaKey]);
+    if (debug) qDebug() << PDEBUG << ":" << "Expression" << key;
+
+    QScriptValue result = engine.evaluate(key);
+    if (engine.hasUncaughtException()) {
+        int line = engine.uncaughtExceptionLineNumber();
+        if (debug) qDebug() << PDEBUG << ":" << "Uncaught exception at line"
+                            << line << ":" << result.toString();
+        return QString();
+    } else
+        return result.toString();
 }
 
 
@@ -934,6 +959,8 @@ QStringList AWKeys::findGraphicalItems() const
 
 QStringList AWKeys::findKeys() const
 {
+    if (debug) qDebug() << PDEBUG;
+
     QStringList selectedKeys;
     foreach(QString key, keys) {
         if (key.startsWith(QString("bar"))) continue;
@@ -941,6 +968,31 @@ QStringList AWKeys::findKeys() const
             if (debug) qDebug() << PDEBUG << ":" << "Found key" << key;
             selectedKeys.append(key);
         }
+    }
+
+    return selectedKeys;
+}
+
+
+QStringList AWKeys::findLambdas() const
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QStringList selectedKeys;
+    // substring inside ${{ }} (with brackets) which should not contain ${{
+    QRegularExpression lambdaRegexp(QString("\\$\\{\\{((?!\\$\\{\\{).)*?\\}\\}"));
+    lambdaRegexp.setPatternOptions(QRegularExpression::DotMatchesEverythingOption);
+
+    QRegularExpressionMatchIterator it = lambdaRegexp.globalMatch(pattern);
+    while (it.hasNext()) {
+        QRegularExpressionMatch match = it.next();
+        QString lambda = match.captured();
+        // drop brakets
+        lambda.remove(QRegExp(QString("^\\$\\{\\{")));
+        lambda.remove(QRegExp(QString("\\}\\}$")));
+        // append
+        if (debug) qDebug() << PDEBUG << ":" << "Found lambda" << lambda;
+        selectedKeys.append(lambda);
     }
 
     return selectedKeys;

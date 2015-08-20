@@ -29,7 +29,7 @@ Item {
     DPAdds {
         id: dpAdds;
     }
-    
+
     width: childrenRect.width
     height: childrenRect.height
     implicitWidth: pageColumn.implicitWidth

@@ -67,21 +67,35 @@ public:
         m_items = getItems();
     };
 
+    T *itemByTagNumber(const int _number) const
+    {
+        if (debug) qDebug() << PDEBUG;
+
+        T *found = nullptr;
+        foreach(T *item, m_items) {
+            if (item->number() != _number) continue;
+            found = item;
+            break;
+        }
+
+        return found;
+    }
+
     T *itemFromWidget() const
     {
         if (debug) qDebug() << PDEBUG;
 
-        QListWidgetItem *item = widgetDialog->currentItem();
-        if (item == nullptr) return nullptr;
+        QListWidgetItem *widgetItem = widgetDialog->currentItem();
+        if (widgetItem == nullptr) return nullptr;
 
-        int originalItem = -1;
-        for (int i=0; i<m_items.count(); i++) {
-            if (m_items.at(i)->fileName() != item->text()) continue;
-            originalItem = i;
+        T *found = nullptr;
+        foreach(T *item, m_items) {
+            if (item->fileName() != widgetItem->text()) continue;
+            found = item;
             break;
         }
 
-        return originalItem == -1 ? nullptr : m_items[originalItem];
+        return found;
     };
 
     QList<T *> items() const

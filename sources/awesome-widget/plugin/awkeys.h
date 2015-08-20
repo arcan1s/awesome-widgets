@@ -75,12 +75,14 @@ private slots:
 private:
     // methods
     void addKeyToCache(const QString type, const QString key = QString(""));
+    QString calculateLambda(QString key) const;
     QString htmlValue(QString key) const;
     int numberCpus() const;
     float temperature(const float temp, const QString units) const;
     // find methods
     QStringList findGraphicalItems() const;
     QStringList findKeys() const;
+    QStringList findLambdas() const;
     // get methods
     GraphicalItem *getItemByTag(const QString tag) const;
     QStringList getTimeKeys() const;
@@ -94,7 +96,7 @@ private:
     ExtItemAggregator<ExtUpgrade> *extUpgrade;
     ExtItemAggregator<ExtWeather> *extWeather;
     QString pattern;
-    QStringList foundBars, foundKeys, keys;
+    QStringList foundBars, foundKeys, foundLambdas, keys;
     QHash<QString, QString> values;
     QStringList diskDevices, hddDevices, mountDevices, networkDevices, tempDevices;
 };
