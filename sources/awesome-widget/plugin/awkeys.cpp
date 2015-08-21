@@ -40,7 +40,6 @@
 #include "extupgrade.h"
 #include "extweather.h"
 #include "graphicalitem.h"
-#include "version.h"
 
 
 AWKeys::AWKeys(QObject *parent)
@@ -137,7 +136,8 @@ QString AWKeys::parsePattern() const
     foreach(QString key, foundKeys)
         parsed.replace(QString("$%1").arg(key), htmlValue(key));
     foreach(QString bar, foundBars)
-        parsed.replace(QString("$%1").arg(bar), getItemByTag(bar)->image(valueByKey(bar).toFloat()));
+        parsed.replace(QString("$%1").arg(bar),
+                       graphicalItems->itemByTag(bar)->image(valueByKey(bar).toFloat()));
     parsed.replace(QString("$\\$\\"), QString("$$"));
     // wrap new lines if required
     if (wrapNewLines) parsed.replace(QString("\n"), QString("<br>"));
@@ -637,7 +637,7 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         values[QString("shorttime")] = data[QString("DateTime")].toDateTime().toString(Qt::SystemLocaleShortDate);
         values[QString("longtime")] = data[QString("DateTime")].toDateTime().toString(Qt::SystemLocaleLongDate);
         values[QString("ctime")] = params[QString("customTime")].toString();
-        foreach(QString key, getTimeKeys())
+        foreach(QString key, timeKeys)
             values[QString("ctime")].replace(QString("$%1").arg(key),
                                              data[QString("DateTime")].toDateTime().toString(key));
     } else if (sourceName == QString("system/uptime")) {
@@ -943,7 +943,7 @@ QStringList AWKeys::findGraphicalItems() const
 
     QStringList orderedKeys;
     foreach(GraphicalItem *item, graphicalItems->items())
-        orderedKeys.append(item->name() + item->bar());
+        orderedKeys.append(item->tag());
     orderedKeys.sort();
 
     QStringList selectedKeys;
@@ -996,45 +996,4 @@ QStringList AWKeys::findLambdas() const
     }
 
     return selectedKeys;
-}
-
-
-GraphicalItem *AWKeys::getItemByTag(const QString tag) const
-{
-    if (debug) qDebug() << PDEBUG;
-
-    GraphicalItem *item = nullptr;
-    foreach(GraphicalItem *gitem, graphicalItems->items()) {
-        if ((gitem->name() + gitem->bar()) != tag) continue;
-        item = gitem;
-        break;
-    }
-
-    return item;
-}
-
-
-QStringList AWKeys::getTimeKeys() const
-{
-    if (debug) qDebug() << PDEBUG;
-
-    QStringList keys;
-    keys.append(QString("dddd"));
-    keys.append(QString("ddd"));
-    keys.append(QString("dd"));
-    keys.append(QString("d"));
-    keys.append(QString("MMMM"));
-    keys.append(QString("MMM"));
-    keys.append(QString("MM"));
-    keys.append(QString("M"));
-    keys.append(QString("yyyy"));
-    keys.append(QString("yy"));
-    keys.append(QString("hh"));
-    keys.append(QString("h"));
-    keys.append(QString("mm"));
-    keys.append(QString("m"));
-    keys.append(QString("ss"));
-    keys.append(QString("s"));
-
-    return keys;
 }

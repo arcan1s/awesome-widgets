@@ -1,43 +1,45 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Steve Lemuel <wlemuel@hotmail.com>, 2014.
+# Translators:
+# Heimen Stoffels <vistausss@outlook.com>, 2015.
 # Evgeniy Alekseev <esalexeev@gmail.com>, 2015.
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
 "POT-Creation-Date: 2015-08-22 00:36+0300\n"
-"PO-Revision-Date: 2015-07-31 22:24+0300\n"
+"PO-Revision-Date: 2015-08-20 22:52+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
-"Language-Team: Russian <kde-russian@lists.kde.ru>\n"
-"Language: en_US\n"
+"Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
+"Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"widgets/language/nl_NL/)\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 2.0\n"
 
 msgid "Widget"
-msgstr "窗口小部件"
+msgstr "Widget"
 
 msgid "Advanced"
-msgstr "高级设置"
+msgstr "Geavanceerd"
 
 msgid "Tooltip"
-msgstr "提示"
+msgstr "Opmerkingsballon"
 
 msgid "Appearance"
-msgstr "外观"
+msgstr "Uiterlijk"
 
 msgid "DataEngine"
-msgstr "数据引擎"
+msgstr "DataEngine"
 
 msgid "About"
-msgstr ""
+msgstr "Over"
 
 msgid "Acknowledgment"
-msgstr ""
+msgstr "Erkenning"
 
 msgid "Widget height, px"
 msgstr ""
@@ -52,293 +54,291 @@ msgid "Wrap new lines"
 msgstr ""
 
 msgid "Enable background"
-msgstr "启用背景"
+msgstr "Achtergrond inschakelen"
 
 msgid "Custom time format"
-msgstr "自定义时间格式"
+msgstr "Aangepaste tijdsopmaak"
 
 msgid "Custom uptime format"
-msgstr "自定义启动时间显示格式"
+msgstr "Aangepast uptime-opmaak"
 
 msgid "Temperature units"
-msgstr "温度单位"
+msgstr "Temperatuureenheden"
 
 msgid "Celsius"
-msgstr ""
+msgstr "Celsius"
 
 msgid "Fahrenheit"
-msgstr ""
+msgstr "Fahrenheit"
 
 msgid "Kelvin"
-msgstr ""
+msgstr "Kelvin"
 
 msgid "Reaumur"
-msgstr ""
+msgstr "Reaumur"
 
 msgid "cm^-1"
-msgstr ""
+msgstr "cm^-1"
 
 msgid "kJ/mol"
-msgstr ""
+msgstr "kJ/mol"
 
 msgid "kcal/mol"
-msgstr ""
+msgstr "kcal/mol"
 
 msgid "AC online tag"
-msgstr "外接电源使用中标签"
+msgstr "AC online-sleutelwoord"
 
 msgid "AC offline tag"
-msgstr "外接电源未使用标签"
+msgstr "AC offline-sleutelwoord"
 
 msgid "Drop key cache"
 msgstr ""
 
 msgid "Time interval"
-msgstr "时间周期"
+msgstr "Tijdstussenpose"
 
 msgid "Font"
-msgstr "字体"
+msgstr "Lettertype"
 
 msgid "Font size"
-msgstr "字体大小"
+msgstr "Lettertypegrootte"
 
 msgid "Font weight"
-msgstr "字体宽度"
+msgstr "Lettertypeopmaak"
 
 msgid "light"
-msgstr ""
+msgstr "licht"
 
 msgid "normal"
-msgstr ""
+msgstr "normaal"
 
 msgid "demi bold"
-msgstr ""
+msgstr "semi-donker"
 
 msgid "bold"
-msgstr ""
+msgstr "donker"
 
 msgid "black"
-msgstr ""
+msgstr "zwart"
 
 msgid "Font style"
-msgstr "字体样式"
+msgstr "Lettertypestijl"
 
 msgid "italic"
-msgstr ""
+msgstr "Cursief"
 
 msgid "Font color"
-msgstr "字体颜色"
+msgstr "Lettertypekleur"
 
-#, fuzzy
 msgid "Select a color"
-msgstr "选择字体"
+msgstr "Selecteer een kleur"
 
-#, fuzzy
 msgid "Select a font"
-msgstr "选择字体"
+msgstr "Selecteer een lettertype"
 
 msgid "ACPI path"
-msgstr ""
+msgstr "ACPI-pad"
 
 msgid "Custom scripts"
-msgstr ""
+msgstr "Aangepaste scripts"
 
 msgid "Edit scripts"
-msgstr ""
+msgstr "Scripts bewerken"
 
 msgid "GPU device"
-msgstr "GPU 设备"
+msgstr "GPU-apparaat"
 
 msgid "HDD"
-msgstr "硬盘"
+msgstr "HDD"
 
 msgid "hddtemp cmd"
-msgstr "硬盘温度显示命令"
+msgstr "hddtemp cmd"
 
 msgid "MPD address"
-msgstr "MPD 地址"
+msgstr "MPD-adres"
 
 msgid "MPD port"
-msgstr "MPD 端口"
+msgstr "MPD-poort"
 
 msgid "MPRIS player name"
-msgstr "MPRIS 播放器名"
+msgstr "MPRIS-mediaspelernaam"
 
 msgid "Music player"
-msgstr "音乐播放器"
+msgstr "Muziekspeler"
 
 msgid "Quotes monitor"
 msgstr ""
 
 #, fuzzy
 msgid "Edit tickers"
-msgstr "可编辑的"
+msgstr "Balken bewerken"
 
 msgid "Package manager"
-msgstr "包管理器"
+msgstr "Pakketbeheerder"
 
-#, fuzzy
 msgid "Edit command"
-msgstr "自定义命令"
+msgstr "Commando bewerken"
 
 msgid "Weather"
 msgstr ""
 
 #, fuzzy
 msgid "Edit weather"
-msgstr "可编辑的"
+msgstr "Balken bewerken"
 
 msgid "Request key"
-msgstr ""
+msgstr "Sleutel aanvragen"
 
 msgid "Show README"
-msgstr "显示帮助文档"
+msgstr "README weergeven"
 
 msgid "Check updates"
-msgstr ""
+msgstr "Controleren op updates"
 
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
 "To enable them just make needed checkbox fully checked."
 msgstr ""
-"CPU， CPU 时钟，内存，虚拟内存和网络连接标签均支持图形化提示显示。 请在相应复"
-"选框中勾选以启用该功能。 "
+"CPU, CPU-klok, geheugen, swap en netwerklabels-ondersteuning in een "
+"grafische opmerkingsballon. Vink ze aan om ze in te schakelen."
 
 msgid "Number of values for tooltips"
-msgstr "提示的数值"
+msgstr "Aantal waarden voor de opmerkingsballonnen"
 
 msgid "Background"
-msgstr "背景"
+msgstr "Achtergrond"
 
 msgid "CPU color"
-msgstr "CPU 颜色"
+msgstr "CPU-kleur"
 
 msgid "CPU clock color"
-msgstr "CPU 时钟颜色"
+msgstr "CPU-klokkleur"
 
 msgid "Memory color"
-msgstr "内存显示颜色"
+msgstr "Geheugenkleur"
 
 msgid "Swap color"
-msgstr "虚拟内存颜色"
+msgstr "Swap-kleur"
 
 msgid "Download speed color"
-msgstr "下载速度颜色"
+msgstr "Kleur van downloadsnelheid"
 
 msgid "Upload speed color"
-msgstr "上传速度颜色"
+msgstr "Kleur van uploadsnelheid"
 
 msgid "Battery active color"
-msgstr "电池使用状态提示颜色"
+msgstr "Kleur van actieve accu"
 
 msgid "Battery inactive color"
-msgstr "电池未使用状态提示颜色"
+msgstr "Kleur van inactieve accu"
 
 msgid ""
 "Detailed information may be found on <a href=\"http://arcanis.name/projects/"
 "awesome-widgets/\">project homepage</a>"
 msgstr ""
-"详情请参照 <a href=\"http://arcanis.name/projects/ awesome-widgets/\">项目主"
-"页</a>"
+"Gedetailleerde informatie kan worden gevonden op de <a href=\"http://arcanis."
+"name/projects/awesome-widgets/\">projectwebsite</a>"
 
 msgid "Add"
-msgstr "添加"
+msgstr "Toevoegen"
 
 msgid "Show value"
-msgstr ""
+msgstr "Waarde weergeven"
 
 msgid "Tag: %1"
-msgstr ""
+msgstr "Sleutelwoord: %1"
 
 msgid "Value: %1"
-msgstr ""
+msgstr "Waarde: %1"
 
 msgid "Info: %1"
-msgstr ""
+msgstr "Informatie: %1"
 
 msgid "Add lambda"
 msgstr ""
 
-#, fuzzy
 msgid "Edit bars"
-msgstr "可编辑的"
+msgstr "Balken bewerken"
 
 msgid "Run %1"
-msgstr ""
+msgstr "%1 uitvoeren"
 
+#, fuzzy
 msgid "Version %1 (build date %2)"
 msgstr ""
+"Versie %1\n"
+"(bouwdatum %2)"
 
 msgid "A set of minimalistic plasmoid widgets"
-msgstr ""
+msgstr "Een set van minimalistische plasmoid-widgets"
 
 msgid "Links:"
-msgstr ""
+msgstr "Links:"
 
 msgid "Homepage"
-msgstr ""
+msgstr "Website"
 
 msgid "Repository"
-msgstr ""
+msgstr "Pakketbron"
 
 msgid "Bugtracker"
-msgstr ""
+msgstr "Bugtracker"
 
 msgid "Translation issue"
-msgstr ""
+msgstr "Probleem met de vertaling"
 
 msgid "AUR packages"
-msgstr ""
+msgstr "AUR-pakketten"
 
 msgid "openSUSE packages"
-msgstr ""
+msgstr "openSUSE-pakketten"
 
 msgid "This software is licensed under %1"
-msgstr ""
+msgstr "Deze software is gelicenseerd onder %1"
 
 msgid "Translators: %1"
-msgstr ""
+msgstr "Vertalers: %1"
 
 msgid "This software uses: %1"
-msgstr ""
+msgstr "Deze software gebruikt: %1"
 
 msgid "Select font"
-msgstr "选择字体"
+msgstr "Lettertype selecteren"
 
 msgid "Current version : %1"
-msgstr ""
+msgstr "Huidige versie: %1"
 
 msgid "New version : %1"
-msgstr ""
+msgstr "Nieuwe versie: %1"
 
 msgid "Click \"Ok\" to download"
-msgstr ""
+msgstr "Klik op \"OK\" om te downloaden"
 
 msgid "There are updates"
-msgstr ""
+msgstr "Er zijn updates"
 
-#, fuzzy
 msgid "AC online"
-msgstr "外接电源使用中标签"
+msgstr "AC online"
 
-#, fuzzy
 msgid "AC offline"
-msgstr "外接电源未使用标签"
+msgstr "AC offline"
 
 msgid "High CPU load"
-msgstr ""
+msgstr "Hoog CPU-verbruik"
 
+#, fuzzy
 msgid "High GPU load"
-msgstr ""
+msgstr "Hoog CPU-verbruik"
 
 msgid "Free space on %1 less than 10%"
-msgstr ""
+msgstr "De vrije ruimte op %1 is minder dan 10%"
 
 msgid "High memory usage"
-msgstr ""
+msgstr "Hoog geheugenverbruik"
 
 msgid "Network device has been changed to %1"
-msgstr ""
+msgstr "Het netwerkapparaat is gewijzigd naar %1"
 
 msgid "MB/s"
 msgstr ""
@@ -347,45 +347,44 @@ msgid "KB/s"
 msgstr ""
 
 msgid "Swap is used"
-msgstr ""
+msgstr "Swap wordt gebruikt"
 
-#, fuzzy
 msgid "Select tag"
-msgstr "选择字体"
+msgstr "Sleutelwoord selecteren"
 
 msgid "Tag"
-msgstr ""
+msgstr "Sleutelwoord"
 
 msgid "Copy"
-msgstr ""
+msgstr "Kopiëren"
 
 msgid "Create"
-msgstr ""
+msgstr "Creëren"
 
 msgid "Remove"
-msgstr "移除"
+msgstr "Verwijderen"
 
 msgid "Enter file name"
-msgstr ""
+msgstr "Vul bestandsnaam i"
 
 msgid "File name"
-msgstr ""
+msgstr "Bestandsnaam"
 
 msgid "Name: %1"
-msgstr ""
+msgstr "Naam: %1"
 
 msgid "Comment: %1"
-msgstr ""
-
-msgid "Identity: %1"
-msgstr ""
-
-msgid "Name"
-msgstr ""
+msgstr "Commentaar: %1"
 
 #, fuzzy
+msgid "Identity: %1"
+msgstr "Commentaar: %1"
+
+msgid "Name"
+msgstr "Naam"
+
 msgid "Comment"
-msgstr "自定义命令"
+msgstr "Commentaar"
 
 msgid ""
 "<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
@@ -399,15 +398,15 @@ msgstr ""
 
 #, fuzzy
 msgid "Active"
-msgstr "电池使用状态提示颜色"
+msgstr "Actieve kleur"
 
 #, fuzzy
 msgid "Interval"
-msgstr "时间周期"
+msgstr "Tijdstussenpose"
 
 #, fuzzy
 msgid "Command"
-msgstr "自定义命令"
+msgstr "Commentaar"
 
 msgid "Prefix"
 msgstr ""
@@ -423,7 +422,7 @@ msgstr ""
 
 #, fuzzy
 msgid "Wrap colors"
-msgstr "虚拟内存颜色"
+msgstr "Swap-kleur"
 
 msgid "Wrap spaces"
 msgstr ""
@@ -441,104 +440,108 @@ msgid "Timestamp"
 msgstr ""
 
 msgid "Value"
-msgstr ""
+msgstr "Waarde"
 
-#, fuzzy
 msgid "Active color"
-msgstr "电池使用状态提示颜色"
+msgstr "Actieve kleur"
 
-#, fuzzy
 msgid "Inactive color"
-msgstr "电池未使用状态提示颜色"
+msgstr "Inactieve kleur"
 
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 msgid "Direction"
-msgstr ""
+msgstr "Richting"
 
 msgid "Height"
-msgstr ""
+msgstr "Hoogte"
 
 msgid "Width"
-msgstr ""
+msgstr "Breedte"
 
+#, fuzzy
 msgid "Active desktop"
-msgstr "当前激活桌面"
+msgstr "Actieve kleur"
 
+#, fuzzy
 msgid "Inactive desktop"
-msgstr "未激活桌面"
+msgstr "Inactieve kleur"
 
 #, fuzzy
 msgid "Tooltip type"
-msgstr "提示"
+msgstr "Opmerkingsballon"
 
 msgid "contours"
-msgstr ""
+msgstr "contouren"
 
 msgid "windows"
-msgstr ""
+msgstr "vensters"
 
 msgid "clean desktop"
-msgstr ""
+msgstr "opgeruimd bureaublad"
 
-#, fuzzy
 msgid "names"
-msgstr "用户名"
+msgstr "namen"
 
 msgid "none"
-msgstr ""
+msgstr "geen"
 
-#, fuzzy
 msgid "Tooltip width"
-msgstr "提示"
+msgstr "Opmerkingsballonbreedte"
 
 msgid "Vertical layout"
-msgstr ""
+msgstr "Verticale layout"
 
 msgid "Mark"
-msgstr "标记"
+msgstr "Markeren"
 
 msgid "Top Edge"
-msgstr "顶部边缘"
+msgstr "Bovenrand"
 
 msgid "Bottom Edge"
-msgstr "底部边缘"
+msgstr "Onderrand"
 
 msgid "Left Edge"
-msgstr "左端边缘"
+msgstr "Linkerrand"
 
-#, fuzzy
 msgid "Right Edge"
-msgstr "未知位置（%1)"
+msgstr "Linkerrand"
 
 msgid "Unknown location (%1)"
-msgstr ""
+msgstr "Onbekende positie (%1)"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "用户名"
+msgstr "Heimen Stoffels"
 
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "用户邮箱"
-
-#, fuzzy
-#~ msgid "Select color"
-#~ msgstr "选择字体"
+msgstr "vistausss@outlook.com"
 
 #~ msgid "Run ksysguard"
-#~ msgstr "运行任务管理器"
+#~ msgstr "ksysguard openen"
 
 #~ msgid "Update text"
-#~ msgstr "刷新文本"
+#~ msgstr "Tekst bijwerken"
 
-#, fuzzy
+#~ msgid "Check for updates"
+#~ msgstr "Controleren op updates"
+
+#~ msgid "Exec: %1"
+#~ msgstr "Uitvoeren: %1"
+
 #~ msgid "Edit"
-#~ msgstr "可编辑的"
+#~ msgstr "Bewerken"
+
+#~ msgid "Select color"
+#~ msgstr "Kleur selecteren"
+
+#~ msgid "Bars"
+#~ msgstr "Balken"
 
 #~ msgid "Enable popup on mouse click"
-#~ msgstr "鼠标点击时弹出对话框"
+#~ msgstr "Pop-up bij muisklik inschakelen"
 
 #~ msgid ""
 #~ "$dddd - long weekday\n"
@@ -558,22 +561,22 @@ msgstr "用户邮箱"
 #~ "$ss - seconds\n"
 #~ "$s - seconds w\\o zero"
 #~ msgstr ""
-#~ "$dddd - 详细工作日\n"
-#~ "$ddd - 简短工作日\n"
-#~ "$dd - 日\n"
-#~ "$d - 日 w\\o 零\n"
-#~ "$MMMM - 详细月份\n"
-#~ "$MMM - 简短月份\n"
-#~ "$MM - 月\n"
-#~ "$M - 月 w\\o 零\n"
-#~ "$yyyy - 年\n"
-#~ "$yy - 简短年份\n"
-#~ "$hh - 小时 (24 小时制)\n"
-#~ "$h - 小时 w\\o 零 (24 小时制)\n"
-#~ "$mm - 分\n"
-#~ "$m - 分 w\\o 零\n"
-#~ "$ss - 秒\n"
-#~ "$s - 秒 w\\o 零"
+#~ "$dddd - weekdag (lang)\n"
+#~ "$ddd - weekdag (kort)\n"
+#~ "$dd - dag\n"
+#~ "$d - dag zonder nul\n"
+#~ "$MMMM - maand (lang)\n"
+#~ "$MMM - maand (kort)\n"
+#~ "$MM - maand\n"
+#~ "$M - month zonder nul\n"
+#~ "$yyyy - jaar\n"
+#~ "$yy - jaar (kort)\n"
+#~ "$hh - uren (alleen 24)\n"
+#~ "$h - uren zonder nul (alleen 24)\n"
+#~ "$mm - minuten\n"
+#~ "$m - minuten zonder nul\n"
+#~ "$ss - seconden\n"
+#~ "$s - seconden zonder nul"
 
 #~ msgid ""
 #~ "$dd - uptime days\n"
@@ -583,50 +586,53 @@ msgstr "用户邮箱"
 #~ "$mm - uptime minutes\n"
 #~ "$m - uptime minutes without zero"
 #~ msgstr ""
-#~ "$dd - 运行天数\n"
-#~ "$d - 运行天数（不显示0）\n"
-#~ "$hh - 运行小时数\n"
-#~ "$h - 运行小时数（不显示0）\n"
-#~ "$mm - 运行分钟数\n"
-#~ "$m - 运行分钟数（不显示0）"
+#~ "$dd - uptime-dagen\n"
+#~ "$d - uptime-dagen zonder nul\n"
+#~ "$hh - uptime-uren\n"
+#~ "$h - uptime-uren zonder nul\n"
+#~ "$mm - uptime-minuten\n"
+#~ "$m - uptime minuten zonder nul"
 
 #~ msgid "Temperature devices"
-#~ msgstr "温度传感器"
+#~ msgstr "Temperatuurapparaten"
 
 #~ msgid "Editable"
-#~ msgstr "可编辑的"
+#~ msgstr "Bewerkbaar"
 
-#, fuzzy
 #~ msgid "Fan devices"
-#~ msgstr "外界电源设备"
+#~ msgstr "Koelingsapparaten"
 
 #~ msgid "Mount points"
-#~ msgstr "挂载点"
+#~ msgstr "Aankoppelpunten"
 
 #~ msgid "HDD devices (speed)"
-#~ msgstr "硬盘（高速）"
+#~ msgstr "HDD-apparaten (snelheid)"
 
 #~ msgid "HDD devices (temp)"
-#~ msgstr "硬盘（临时）"
+#~ msgstr "HDD-apparaten (temp)"
 
 #~ msgid "Disable auto select device and set specified device"
-#~ msgstr "禁用自动选择设备和设置特殊设备"
+#~ msgstr ""
+#~ "Apparaat automatisch selecteren uitschakelen en specifiek apparaat "
+#~ "instellen"
 
 #~ msgid "Set network device"
-#~ msgstr "设置网络设备"
+#~ msgstr "Netwerkapparaat instellen"
 
 #~ msgid "Line, which returns when AC is online"
-#~ msgstr "外接电源使用时显示线条"
+#~ msgstr "Lijn. welke terugkeert wanneer AC online is"
 
 #~ msgid "Line, which returns when AC is offline"
-#~ msgstr "外接电源未使用时显示线条"
+#~ msgstr "Lijn, welke terugkeert wanneer AC offline is"
 
-#, fuzzy
 #~ msgid "\"/sys/class/power_supply/\" by default"
-#~ msgstr "默认为 \"/sys/class/power_supply/AC/online\""
+#~ msgstr "\"/sys/class/power_supply/\" standaard"
 
 #~ msgid "<b>NOTE:</b> Player DBus interface should be an active"
-#~ msgstr "<b>提示:</b> 播放器 DBus 应当处于激活状态"
+#~ msgstr "<b>LET OP:</b> De DBus-interface van de speler moet actief zijn"
+
+#~ msgid "Configuration"
+#~ msgstr "Configuratie"
 
 #~ msgid "Ctrl+B"
 #~ msgstr "Ctrl+B"
@@ -636,22 +642,3 @@ msgstr "用户邮箱"
 
 #~ msgid "Ctrl+U"
 #~ msgstr "Ctrl+U"
-
-#~ msgid "Null lines"
-#~ msgstr "空行"
-
-#~ msgid ""
-#~ "Editable\n"
-#~ "del - remove item"
-#~ msgstr ""
-#~ "可编辑的\n"
-#~ "del - 移除项目"
-
-#~ msgid "Desktop check cmd"
-#~ msgstr "检测桌面命令"
-
-#~ msgid "Battery device"
-#~ msgstr "电池设备"
-
-#~ msgid "\"/sys/class/power_supply/BAT0/capacity\" by default"
-#~ msgstr "默认为 \"/sys/class/power_supply/BAT0/capacity\""

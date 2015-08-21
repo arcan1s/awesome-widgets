@@ -59,6 +59,7 @@ public:
     QString bar() const;
     QString activeColor() const;
     QString inactiveColor() const;
+    QString tag() const;
     Type type() const;
     QString strType() const;
     Direction direction() const;
@@ -94,9 +95,6 @@ private:
     QColor stringToColor(const QString _color) const;
     void translate();
     // properties
-    int m_apiVersion = 0;
-    QString m_name = QString("none");
-    QString m_comment = QString("empty");
     QString m_bar = QString("cpu");
     QString m_activeColor = QString("0,0,0,130");
     QString m_inactiveColor = QString("255,255,255,130");

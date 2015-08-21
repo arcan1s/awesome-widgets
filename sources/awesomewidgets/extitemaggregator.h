@@ -67,6 +67,20 @@ public:
         m_items = getItems();
     };
 
+    T *itemByTag(const QString _tag) const
+    {
+        if (debug) qDebug() << PDEBUG;
+
+        T *found = nullptr;
+        foreach(T *item, m_items) {
+            if (item->tag() != _tag) continue;
+            found = item;
+            break;
+        }
+
+        return found;
+    }
+
     T *itemByTagNumber(const int _number) const
     {
         if (debug) qDebug() << PDEBUG;

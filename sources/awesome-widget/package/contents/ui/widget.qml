@@ -233,7 +233,7 @@ Item {
             width: parent.width
             QtControls.ComboBox {
                 id: tags
-                width: parent.width - addTagButton.width - showValueButton.width
+                width: parent.width - addTagButton.width - showValueButton.width - addLambdaButton.width
             }
             QtControls.Button {
                 id: addTagButton
@@ -261,6 +261,19 @@ Item {
                     message += "<br>"
                     message += i18n("Info: %1", awKeys.infoByKey(tags.currentText))
                     awActions.sendNotification("tag", message)
+                }
+            }
+            QtControls.Button {
+                id: addLambdaButton
+                text: i18n("Add lambda")
+
+                onClicked: {
+                    if (debug) console.log("[widget::onClicked] : Lambda button")
+
+                    var pos = textPattern.cursorPosition
+                    var selected = textPattern.selectedText
+                    textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
+                    textPattern.insert(pos, selected + "${{}}")
                 }
             }
         }

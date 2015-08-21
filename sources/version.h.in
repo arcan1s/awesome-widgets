@@ -5,10 +5,12 @@
 #define NAME "Awesome Widgets"
 #define VERSION "@PROJECT_VERSION@"
 #define AUTHOR "@PROJECT_AUTHOR@"
-#define TRANSLATORS "Ernesto Aviles Vzqz (Spanish), Mermouy (French), underr (Brazillian Portuguese), Viktor Slobodyan (Ukrainian), Lemueler (Chinese)"
+#define TRANSLATORS "Ernesto Aviles Vzqz (Spanish), Mermouy (French), underr (Brazillian Portuguese), Viktor Slobodyan (Ukrainian), Lemueler (Chinese), Heimen Stoffels (Dutch)"
 #define EMAIL "@PROJECT_CONTACT@"
 #define LICENSE "@PROJECT_LICENSE@"
 #define TRDPARTY_LICENSE "tasks,BSD,https://github.com/mhogomchungu/tasks"
+
+// configuraion
 // graphical items api version
 #define AWGIAPI 2
 // extquotes api version
@@ -19,9 +21,11 @@
 #define AWEUAPI 2
 // extweather api version
 #define AWEWAPI 1
+// available time keys
+#define TIME_KEYS "dddd,ddd,dd,d,MMMM,MMM,MM,M,yyyy,yy,hh,h,HH,H,mm,m,ss,s,t,ap,a,AP,A"
 
 // links
-#define HOMEPAGE "http://arcanis.name/projects/awesome-widgets/"
+#define HOMEPAGE "https://arcanis.name/projects/awesome-widgets/"
 #define REPOSITORY "https://github.com/arcan1s/awesome-widgets"
 #define RELEASES "https://github.com/arcan1s/awesome-widgets/releases/tag/V."
 #define VERSION_API "https://api.github.com/repos/arcan1s/awesome-widgets/releases"

@@ -1,9 +1,9 @@
 #!/bin/bash
 
 SRCDIR="sources"
-MAJOR=$(grep -m1 PROJECT_VERSION_MAJOR sources/CMakeLists.txt | awk '{print $2}' | sed 's/.$//g')
-MINOR=$(grep -m1 PROJECT_VERSION_MINOR sources/CMakeLists.txt | awk '{print $2}' | sed 's/.$//g')
-PATCH=$(grep -m1 PROJECT_VERSION_PATCH sources/CMakeLists.txt | awk '{print $2}' | sed 's/.$//g')
+MAJOR=$(grep -m1 PROJECT_VERSION_MAJOR sources/CMakeLists.txt | awk '{print $2}' | sed 's/^.\(.*\)..$/\1/')
+MINOR=$(grep -m1 PROJECT_VERSION_MINOR sources/CMakeLists.txt | awk '{print $2}' | sed 's/^.\(.*\)..$/\1/')
+PATCH=$(grep -m1 PROJECT_VERSION_PATCH sources/CMakeLists.txt | awk '{print $2}' | sed 's/^.\(.*\)..$/\1/')
 VERSION="${MAJOR}.${MINOR}.${PATCH}"
 
 # update submodules
@@ -20,7 +20,7 @@ cp -r "${SRCDIR}" "${ARCHIVE}"
 for FILE in ${FILES[*]}; do cp -r "$FILE" "${ARCHIVE}"; done
 for FILE in ${IGNORELIST[*]}; do rm -rf "${ARCHIVE}/${FILE}"; done
 tar cJf "${ARCHIVE}-${VERSION}-src.tar.xz" "${ARCHIVE}"
-ln -sf "../${ARCHIVE}-${VERSION}-src.tar.xz" arch
+ln -sf "../${ARCHIVE}-${VERSION}-src.tar.xz" packages
 rm -rf "${ARCHIVE}"
 
 # update md5sum

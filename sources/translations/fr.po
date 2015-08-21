@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-08-01 22:13+0300\n"
+"POT-Creation-Date: 2015-08-22 00:36+0300\n"
 "PO-Revision-Date: 2015-07-31 22:16+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: French <kde-russian@lists.kde.ru>\n"
@@ -20,239 +20,181 @@ msgstr ""
 "X-Generator: Lokalize 2.0\n"
 "X-Language: fr-FR\n"
 
-#, kde-format
 msgid "Widget"
 msgstr "Composant"
 
-#, kde-format
 msgid "Advanced"
 msgstr "Avancé"
 
-#, kde-format
 msgid "Tooltip"
 msgstr "Conseil"
 
-#, kde-format
 msgid "Appearance"
 msgstr "Apparence"
 
-#, kde-format
 msgid "DataEngine"
 msgstr "Moteur de données"
 
-#, kde-format
 msgid "About"
 msgstr "À propos"
 
-#, kde-format
 msgid "Acknowledgment"
 msgstr "À savoir"
 
-#, kde-format
 msgid "Widget height, px"
 msgstr "Paramètres du composant"
 
-#, kde-format
 msgid "Widget width, px"
 msgstr "Largeur de l'applet"
 
-#, kde-format
 msgid "Enable notifications"
 msgstr "Activer les notifications"
 
-#, kde-format
 msgid "Wrap new lines"
 msgstr "Couper les lignes supplémentaires"
 
-#, kde-format
 msgid "Enable background"
 msgstr "Activer le fond"
 
-#, kde-format
 msgid "Custom time format"
 msgstr "Format de l'heure personnalisé"
 
-#, kde-format
 msgid "Custom uptime format"
 msgstr "Temps de fonctionnement personalisé"
 
-#, kde-format
 msgid "Temperature units"
 msgstr "Unités de température"
 
-#, kde-format
 msgid "Celsius"
 msgstr "Celsius"
 
-#, kde-format
 msgid "Fahrenheit"
 msgstr "Fahrenheit"
 
-#, kde-format
 msgid "Kelvin"
 msgstr "Kelvin"
 
-#, kde-format
 msgid "Reaumur"
 msgstr "Reaumur"
 
-#, kde-format
 msgid "cm^-1"
 msgstr "cm^-1"
 
-#, kde-format
 msgid "kJ/mol"
 msgstr "kJ/mol"
 
-#, kde-format
 msgid "kcal/mol"
 msgstr "kcal/mol"
 
-#, kde-format
 msgid "AC online tag"
 msgstr "Étiquette alimentation branchée"
 
-#, kde-format
 msgid "AC offline tag"
 msgstr "Étiquette alimentation débranchée"
 
-#, kde-format
 msgid "Drop key cache"
 msgstr ""
 
-#, kde-format
 msgid "Time interval"
 msgstr "Intervalle"
 
-#, kde-format
 msgid "Font"
 msgstr "Police"
 
-#, kde-format
 msgid "Font size"
 msgstr "Taille de la police"
 
-#, kde-format
 msgid "Font weight"
 msgstr "Épaisseur de la police"
 
-#, kde-format
 msgid "light"
 msgstr "léger"
 
-#, kde-format
 msgid "normal"
 msgstr "normal"
 
-#, kde-format
 msgid "demi bold"
 msgstr "mi-gras"
 
-#, kde-format
 msgid "bold"
 msgstr "gras"
 
-#, kde-format
 msgid "black"
 msgstr "noir"
 
-#, kde-format
 msgid "Font style"
 msgstr "Style de la police"
 
-#, kde-format
 msgid "italic"
 msgstr "italique"
 
-#, kde-format
 msgid "Font color"
 msgstr "Couleur de la police"
 
-#, kde-format
 msgid "Select a color"
 msgstr "Sélectionner une couleur"
 
-#, kde-format
 msgid "Select a font"
 msgstr "Sélectionner une police"
 
-#, kde-format
 msgid "ACPI path"
 msgstr "chemin ACPI"
 
-#, kde-format
 msgid "Custom scripts"
 msgstr "Scripts personnalisés"
 
-#, kde-format
 msgid "Edit scripts"
 msgstr "Modifier les scripts"
 
-#, kde-format
 msgid "GPU device"
 msgstr "Périphérique graphique"
 
-#, kde-format
 msgid "HDD"
 msgstr "Disque dur"
 
-#, kde-format
 msgid "hddtemp cmd"
 msgstr "Cmd de température disques"
 
-#, kde-format
 msgid "MPD address"
 msgstr "Adresse MPD"
 
-#, kde-format
 msgid "MPD port"
 msgstr "Port MPD"
 
-#, kde-format
 msgid "MPRIS player name"
 msgstr "Nom du lecteur MPRIS"
 
-#, kde-format
 msgid "Music player"
 msgstr "Lecteur audio"
 
-#, kde-format
 msgid "Quotes monitor"
 msgstr "Moniteur de citations"
 
-#, kde-format
 msgid "Edit tickers"
 msgstr "Modifier les tickers"
 
-#, kde-format
 msgid "Package manager"
 msgstr "Gestionnaire de paquets"
 
-#, kde-format
 msgid "Edit command"
 msgstr "Modifier la commande"
 
-#, kde-format
 msgid "Weather"
 msgstr ""
 
-#, fuzzy, kde-format
+#, fuzzy
 msgid "Edit weather"
 msgstr "Modifier les tickers"
 
-#, kde-format
 msgid "Request key"
 msgstr "Demander une clé"
 
-#, kde-format
 msgid "Show README"
 msgstr "Voir le README"
 
-#, kde-format
 msgid "Check updates"
 msgstr "Vérifier les mises à jour"
 
-#, kde-format
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
 "To enable them just make needed checkbox fully checked."
@@ -261,47 +203,36 @@ msgstr ""
 "conseils visuels. Pour les activer cochez simplement les cases "
 "correspondantes."
 
-#, kde-format
 msgid "Number of values for tooltips"
 msgstr "Nombre d'éléments pour les conseils"
 
-#, kde-format
 msgid "Background"
 msgstr "Fond"
 
-#, kde-format
 msgid "CPU color"
 msgstr "Couleur processeur"
 
-#, kde-format
 msgid "CPU clock color"
 msgstr "Couleur de l'horloge processeur"
 
-#, kde-format
 msgid "Memory color"
 msgstr "Couleur de la mémoire"
 
-#, kde-format
 msgid "Swap color"
 msgstr "Couleur de la mémoire d'échange"
 
-#, kde-format
 msgid "Download speed color"
 msgstr "Couleur de la vitesse de téléchargement"
 
-#, kde-format
 msgid "Upload speed color"
 msgstr "Couleur du téléversement"
 
-#, kde-format
 msgid "Battery active color"
 msgstr "Couleur active batterie"
 
-#, kde-format
 msgid "Battery inactive color"
 msgstr "Couleur batterie inactive"
 
-#, kde-format
 msgid ""
 "Detailed information may be found on <a href=\"http://arcanis.name/projects/"
 "awesome-widgets/\">project homepage</a>"
@@ -309,183 +240,152 @@ msgstr ""
 "D'avantage d'informations se trouvent sur <a href=\"http://arcanis.name/"
 "projects/awesome-widgets/\">la page du projet</a>"
 
-#, kde-format
 msgid "Add"
 msgstr "Ajouter"
 
-#, kde-format
 msgid "Show value"
 msgstr "Afficher la valeur"
 
-#, kde-format
 msgid "Tag: %1"
 msgstr "Etiquette: %1"
 
-#, kde-format
 msgid "Value: %1"
 msgstr "Valeur: %1"
 
-#, kde-format
 msgid "Info: %1"
 msgstr "Info: %1"
 
-#, kde-format
+msgid "Add lambda"
+msgstr ""
+
 msgid "Edit bars"
 msgstr "Modifier les barres"
 
-#, kde-format
 msgid "Run %1"
 msgstr "Éxecuter %1"
 
-#, kde-format
 msgid "Version %1 (build date %2)"
 msgstr "Version %1 (build date %2)"
 
-#, kde-format
 msgid "A set of minimalistic plasmoid widgets"
 msgstr "Un jeu de composants plasmoïds minimalistes"
 
-#, kde-format
 msgid "Links:"
 msgstr "Liens:"
 
-#, kde-format
 msgid "Homepage"
 msgstr "Page d'accueil"
 
-#, kde-format
 msgid "Repository"
 msgstr "Dépôt"
 
-#, kde-format
 msgid "Bugtracker"
 msgstr "Suivi des bugs"
 
-#, kde-format
 msgid "Translation issue"
 msgstr "Traductions"
 
-#, kde-format
 msgid "AUR packages"
 msgstr "Paquets depuis AUR"
 
-#, kde-format
 msgid "openSUSE packages"
 msgstr "Paquets openSUSE"
 
-#, kde-format
 msgid "This software is licensed under %1"
 msgstr "Ce programme est publié sous la licence %1"
 
-#, kde-format
 msgid "Translators: %1"
 msgstr "Traducteurs: %1"
 
-#, kde-format
 msgid "This software uses: %1"
 msgstr "Ce logiciel utilise: %1"
 
-#, kde-format
 msgid "Select font"
 msgstr "Sélectionner une couleur"
 
-#, fuzzy, kde-format
+#, fuzzy
 msgid "Current version : %1"
 msgstr "Version actuelle"
 
-#, fuzzy, kde-format
+#, fuzzy
 msgid "New version : %1"
 msgstr "Nouvelle version"
 
-#, kde-format
 msgid "Click \"Ok\" to download"
 msgstr "Cliquer sur \"Valider\" pour télécharger"
 
-#, kde-format
 msgid "There are updates"
 msgstr "Des mises à jour sont disponibles"
 
-#, kde-format
 msgid "AC online"
 msgstr "Alimentation branchée"
 
-#, kde-format
 msgid "AC offline"
 msgstr "Alimentation débranchée"
 
-#, kde-format
 msgid "High CPU load"
 msgstr "Haute charge CPU"
 
-#, kde-format
 msgid "High GPU load"
 msgstr "Haute charge GPU"
 
-#, kde-format
 msgid "Free space on %1 less than 10%"
 msgstr "Espace libre sur %1 inférieur à 10%"
 
-#, kde-format
 msgid "High memory usage"
 msgstr "Haute utilisation mémoire"
 
-#, kde-format
 msgid "Network device has been changed to %1"
 msgstr "L'interface réseau à été changée en %1"
 
-#, kde-format
+msgid "MB/s"
+msgstr ""
+
+msgid "KB/s"
+msgstr ""
+
 msgid "Swap is used"
 msgstr "Fichier d'échange utilisé"
 
-#, kde-format
 msgid "Select tag"
 msgstr "Sélectionner l'étiquette"
 
-#, kde-format
 msgid "Tag"
 msgstr "Étiquette"
 
-#, kde-format
 msgid "Copy"
 msgstr "Copier"
 
-#, kde-format
 msgid "Create"
 msgstr "Créer"
 
-#, kde-format
 msgid "Remove"
 msgstr "Supprimer"
 
-#, kde-format
 msgid "Enter file name"
 msgstr "Entrer le nom du fichier"
 
-#, kde-format
 msgid "File name"
 msgstr "Nom du fichier"
 
-#, kde-format
 msgid "Name: %1"
 msgstr "Nom: %1"
 
-#, kde-format
 msgid "Comment: %1"
 msgstr "Commentaire: %1"
 
-#, fuzzy, kde-format
+#, fuzzy
 msgid "Identity: %1"
 msgstr "Commentaire: %1"
 
-#, fuzzy, kde-format
+#, fuzzy
 msgid "Name"
 msgstr "Nom: %1"
 
-#, fuzzy, kde-format
+#, fuzzy
 msgid "Comment"
 msgstr "Commentaire: %1"
 
-#, kde-format
 msgid ""
 "<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
 "instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
@@ -493,160 +393,131 @@ msgid ""
 "span></a></p></body></html>"
 msgstr ""
 
-#, fuzzy, kde-format
+#, fuzzy
 msgid "Ticker"
 msgstr "Ticker: %1"
 
-#, fuzzy, kde-format
+#, fuzzy
 msgid "Active"
 msgstr "Batterie"
 
-#, fuzzy, kde-format
+#, fuzzy
 msgid "Interval"
 msgstr "Intervalle"
 
-#, fuzzy, kde-format
+#, fuzzy
 msgid "Command"
 msgstr "Commande personnalisée"
 
-#, kde-format
 msgid "Prefix"
 msgstr ""
 
-#, kde-format
 msgid "Has output"
 msgstr ""
 
-#, kde-format
 msgid "Redirect"
 msgstr ""
 
-#, kde-format
 msgid "Additional filters"
 msgstr ""
 
-#, fuzzy, kde-format
+#, fuzzy
 msgid "Wrap colors"
 msgstr "Couleur de la mémoire d'échange"
 
-#, kde-format
 msgid "Wrap spaces"
 msgstr ""
 
-#, kde-format
 msgid "Null"
 msgstr ""
 
-#, kde-format
 msgid "City"
 msgstr ""
 
-#, kde-format
 msgid "Country"
 msgstr ""
 
-#, fuzzy, kde-format
+#, fuzzy
 msgid "Timestamp"
 msgstr "Durée"
 
-#, fuzzy, kde-format
+#, fuzzy
 msgid "Value"
 msgstr "Valeur: %1"
 
-#, fuzzy, kde-format
+#, fuzzy
 msgid "Active color"
 msgstr "Batterie"
 
-#, fuzzy, kde-format
+#, fuzzy
 msgid "Inactive color"
 msgstr "Batterie"
 
-#, kde-format
 msgid "Type"
 msgstr ""
 
-#, kde-format
 msgid "Direction"
 msgstr ""
 
-#, fuzzy, kde-format
+#, fuzzy
 msgid "Height"
 msgstr "léger"
 
-#, kde-format
 msgid "Width"
 msgstr ""
 
-#, kde-format
 msgid "Active desktop"
 msgstr "Bureau actif"
 
-#, kde-format
 msgid "Inactive desktop"
 msgstr "Bureau inactif"
 
-#, kde-format
 msgid "Tooltip type"
 msgstr "Type d'infobulle"
 
-#, kde-format
 msgid "contours"
 msgstr "contours"
 
-#, kde-format
 msgid "windows"
 msgstr "fenêtres"
 
-#, kde-format
 msgid "clean desktop"
 msgstr "nettoyer le bureau"
 
-#, kde-format
 msgid "names"
 msgstr "noms"
 
-#, kde-format
 msgid "none"
 msgstr "Aucun"
 
-#, kde-format
 msgid "Tooltip width"
 msgstr "Largeur de l'infobulle"
 
-#, kde-format
 msgid "Vertical layout"
 msgstr "Positionnement vertical"
 
-#, kde-format
 msgid "Mark"
 msgstr "Marquer"
 
-#, kde-format
 msgid "Top Edge"
 msgstr "Bord du haut"
 
-#, kde-format
 msgid "Bottom Edge"
 msgstr "Bord du bas"
 
-#, kde-format
 msgid "Left Edge"
 msgstr "Bord gauche"
 
-#, kde-format
 msgid "Right Edge"
 msgstr "Bord droit"
 
-#, kde-format
 msgid "Unknown location (%1)"
 msgstr "Position inconnue (%1)"
 
-#, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Evgeniy Alekseev MerMouY"
 
-#, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "esalexeev@gmail.com mermouy@gmail.com"

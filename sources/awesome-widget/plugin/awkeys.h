@@ -25,6 +25,7 @@
 #include <QVariant>
 
 #include "extitemaggregator.h"
+#include "version.h"
 
 
 class AWToolTip;
@@ -84,8 +85,6 @@ private:
     QStringList findKeys() const;
     QStringList findLambdas() const;
     // get methods
-    GraphicalItem *getItemByTag(const QString tag) const;
-    QStringList getTimeKeys() const;
     AWToolTip *toolTip = nullptr;
     bool debug = false;
     bool enablePopup = false;
@@ -97,6 +96,7 @@ private:
     ExtItemAggregator<ExtWeather> *extWeather;
     QString pattern;
     QStringList foundBars, foundKeys, foundLambdas, keys;
+    QStringList timeKeys = QString(TIME_KEYS).split(QChar(','));
     QHash<QString, QString> values;
     QStringList diskDevices, hddDevices, mountDevices, networkDevices, tempDevices;
 };

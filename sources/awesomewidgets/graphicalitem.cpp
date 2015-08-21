@@ -185,6 +185,14 @@ QString GraphicalItem::inactiveColor() const
 }
 
 
+QString GraphicalItem::tag() const
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return name() + m_bar;
+}
+
+
 GraphicalItem::Type GraphicalItem::type() const
 {
     if (debug) qDebug() << PDEBUG;
