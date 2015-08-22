@@ -16,7 +16,7 @@ echo 'i18nc("EMAIL OF TRANSLATORS","Your emails");' >> "${WORKDIR}/rc.cpp"
 find "${BASEDIR}" -name '*.cpp' -o -name '*.h' -o -name '*.qml' | sort > "${WORKDIR}/infiles.list"
 echo "rc.cpp" >> "${WORKDIR}/infiles.list"
 
-xgettext -C --no-location --msgid-bugs-address="${BUGADDR}" "${TAGS}" \
+xgettext -C --no-location --msgid-bugs-address="${BUGADDR}" ${TAGS} \
 --files-from="infiles.list" -D "${BASEDIR}" -D "${WORKDIR}" -o "${PROJECT}.pot" || exit 1
 
 TRANSLATIONS=$(find . -name '*.po')

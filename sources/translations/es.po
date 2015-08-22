@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-08-22 00:36+0300\n"
+"POT-Creation-Date: 2015-08-22 14:06+0300\n"
 "PO-Revision-Date: 2015-07-31 22:13+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Spanish <kde-russian@lists.kde.ru>\n"
@@ -89,6 +89,14 @@ msgstr "Etiqueta para alimentación conectada"
 
 msgid "AC offline tag"
 msgstr "Etiqueta para la alimentación desconectada"
+
+#, fuzzy
+msgid "Check updates on startup"
+msgstr "Comprobar actualizaciones"
+
+#, fuzzy
+msgid "Translate strings"
+msgstr "Problemas de traducción"
 
 msgid "Drop key cache"
 msgstr ""

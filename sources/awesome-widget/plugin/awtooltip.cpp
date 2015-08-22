@@ -92,11 +92,8 @@ void AWToolTip::dataUpdate(QHash<QString, QString> values)
     setData(QString("cpuclTooltip"), values[QString("cpucl")].toFloat());
     setData(QString("memTooltip"), values[QString("mem")].toFloat());
     setData(QString("swapTooltip"), values[QString("swap")].toFloat());
-    // network may be showed as float (MB/s) or as int (KB/s)
-    setData(QString("downTooltip"), values[QString("down")].contains(QChar('.')) ?
-            values[QString("down")].toFloat() * 1024.0 : values[QString("down")].toFloat());
-    setData(QString("upTooltip"), values[QString("up")].contains(QChar('.')) ?
-            values[QString("up")].toFloat() * 1024.0 : values[QString("up")].toFloat());
+    setData(QString("downTooltip"), values[QString("downkb")].toFloat());
+    setData(QString("upTooltip"), values[QString("upkb")].toFloat());
 
     emit(toolTipPainted(htmlImage()));
 }

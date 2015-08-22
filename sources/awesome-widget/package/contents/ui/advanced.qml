@@ -45,6 +45,8 @@ Item {
     property string cfg_tempUnits: tempUnits.currentText
     property alias cfg_acOnline: acOnline.text
     property alias cfg_acOffline: acOffline.text
+    property alias cfg_checkUpdates: updates.checked
+    property alias cfg_translateStrings: translate.checked
 
 
     Column {
@@ -252,6 +254,34 @@ Item {
                 id: acOffline
                 width: parent.width * 3 / 5
                 text: plasmoid.configuration.acOffline
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.heigth
+                width: parent.width * 2 / 5
+            }
+            QtControls.CheckBox {
+                id: updates
+                width: parent.width * 3 / 5
+                text: i18n("Check updates on startup")
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.heigth
+                width: parent.width * 2 / 5
+            }
+            QtControls.CheckBox {
+                id: translate
+                width: parent.width * 3 / 5
+                text: i18n("Translate strings")
             }
         }
 

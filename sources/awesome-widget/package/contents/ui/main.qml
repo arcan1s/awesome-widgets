@@ -178,6 +178,8 @@ Item {
         awKeys.dropSourceFromDataengine.connect(dropSource)
         awKeys.needTextToBeUpdated.connect(needTextUpdate)
         awKeys.needToolTipToBeUpdated.connect(needToolTipUpdate)
+        // check updates if required
+        if (plasmoid.configuration.checkUpdates) return action_checkUpdates()
     }
 
     onDropSource: {
@@ -227,6 +229,7 @@ Item {
         awKeys.initKeys(plasmoid.configuration.text)
         awKeys.initTooltip(tooltipSettings)
         awKeys.setPopupEnabled(plasmoid.configuration.notify)
+        awKeys.setTranslateStrings(plasmoid.configuration.translateStrings)
         awKeys.setWrapNewLines(plasmoid.configuration.wrapNewLines)
 
         needTextUpdate(plasmoid.configuration.text)
@@ -235,24 +238,24 @@ Item {
     function action_checkUpdates() {
         if (debug) console.log("[main::action_checkUpdates]")
 
-        awActions.checkUpdates()
+        return awActions.checkUpdates()
     }
 
     function action_showReadme() {
         if (debug) console.log("[main::action_showReadme]")
 
-        awActions.showReadme()
+        return awActions.showReadme()
     }
 
     function action_report() {
         if (debug) console.log("[main::action_report]")
 
-        awActions.sendEmail()
+        return awActions.sendEmail()
     }
 
     function action_requestKey() {
         if (debug) console.log("[main::action_requestKey]")
 
-        awKeys.graphicalValueByKey()
+        return awKeys.graphicalValueByKey()
     }
 }

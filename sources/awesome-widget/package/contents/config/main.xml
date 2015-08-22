@@ -47,6 +47,9 @@
     <entry name="checkUpdates" type="bool">
       <default>true</default>
     </entry>
+    <entry name="translateStrings" type="bool">
+      <default>true</default>
+    </entry>
   </group>
 
   <group name="Tooltip">

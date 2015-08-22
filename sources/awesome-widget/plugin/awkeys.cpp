@@ -23,6 +23,7 @@
 #include <QDebug>
 #include <QDir>
 #include <QInputDialog>
+#include <QLocale>
 #include <QNetworkInterface>
 #include <QProcessEnvironment>
 #include <QRegExp>
@@ -113,6 +114,14 @@ void AWKeys::setPopupEnabled(const bool popup)
     if (debug) qDebug() << PDEBUG;
 
     enablePopup = popup;
+}
+
+
+void AWKeys::setTranslateStrings(const bool translate)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    translateStrings = translate;
 }
 
 
@@ -247,12 +256,16 @@ QStringList AWKeys::dictKeys(const bool sorted) const
     for (int i=networkDevices.count()-1; i>=0; i--) {
         allKeys.append(QString("downunits%1").arg(i));
         allKeys.append(QString("upunits%1").arg(i));
+        allKeys.append(QString("downkb%1").arg(i));
         allKeys.append(QString("down%1").arg(i));
+        allKeys.append(QString("upkb%1").arg(i));
         allKeys.append(QString("up%1").arg(i));
     }
     allKeys.append(QString("downunits"));
     allKeys.append(QString("upunits"));
+    allKeys.append(QString("downkb"));
     allKeys.append(QString("down"));
+    allKeys.append(QString("upkb"));
     allKeys.append(QString("up"));
     allKeys.append(QString("netdev"));
     // battery
@@ -363,8 +376,7 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
     QRegExp mountFillRegExp = QRegExp(QString("partitions/.*/filllevel"));
     QRegExp mountFreeRegExp = QRegExp(QString("partitions/.*/freespace"));
     QRegExp mountUsedRegExp = QRegExp(QString("partitions/.*/usedspace"));
-    QRegExp netRecRegExp = QRegExp(QString("network/interfaces/.*/receiver/data"));
-    QRegExp netTransRegExp = QRegExp(QString("network/interfaces/.*/transmitter/data"));
+    QRegExp netRegExp = QRegExp(QString("network/interfaces/.*/(receiver|transmitter)/data$"));
     QRegExp tempRegExp = QRegExp(QString("lmsensors/.*"));
 
     if (sourceName == QString("battery")) {
@@ -532,55 +544,34 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
                                         enablePopup);
         // value
         values[QString("netdev")] = data[QString("value")].toString();
-    } else if (sourceName.contains(netRecRegExp)) {
-        // download speed
-        QString device = sourceName;
+    } else if (sourceName.contains(netRegExp)) {
+        // network speed
+        QString type = sourceName.contains(QString("receiver")) ? QString("down") : QString("up");
+        // device name
+        QString device = sourceName.split(QChar('/'))[2];
+        // values
         float value = data[QString("value")].toFloat();
-        device.remove(QString("network/interfaces/")).remove(QString("/receiver/data"));
+        QString simplifiedValue = value > 1000.0 ?
+            QString("%1").arg(value / 1024.0, 4, 'f', 1) :
+            QString("%1").arg(value, 4, 'f', 0);
+        // units
+        QString units;
+        if (translateStrings)
+            units = value > 1000.0 ? i18n("MB/s") : i18n("KB/s");
+        else
+            units = value > 1000.0 ? QString("MB/s") : QString("KB/s");
+        // update
         for (int i=0; i<networkDevices.count(); i++) {
             if (networkDevices.at(i) != device) continue;
-            if (value > 1000.0) {
-                values[QString("down%1").arg(i)] = QString("%1").arg(value / 1024.0, 4, 'f', 1);
-                values[QString("downunits%1").arg(i)] = i18n("MB/s");
-            } else {
-                values[QString("down%1").arg(i)] = QString("%1").arg(value, 4, 'f', 0);
-                values[QString("downunits%1").arg(i)] = i18n("KB/s");
-            }
+            values[QString("%1kb%2").arg(type).arg(i)] = QString("%1").arg(value,  4, 'f', 0);
+            values[QString("%1%2").arg(type).arg(i)] = simplifiedValue;
+            values[QString("%1units%2").arg(type).arg(i)] = units;
             break;
         }
         if (device == values[QString("netdev")]) {
-            if (value > 1000.0) {
-                values[QString("down")] = QString("%1").arg(value / 1024.0, 4, 'f', 1);
-                values[QString("downunits")] = i18n("MB/s");
-            } else {
-                values[QString("down")] = QString("%1").arg(value, 4, 'f', 0);
-                values[QString("downunits")] = i18n("KB/s");
-            }
-        }
-    } else if (sourceName.contains(netTransRegExp)) {
-        // upload speed
-        QString device = sourceName;
-        float value = data[QString("value")].toFloat();
-        device.remove(QString("network/interfaces/")).remove(QString("/transmitter/data"));
-        for (int i=0; i<networkDevices.count(); i++) {
-            if (networkDevices.at(i) != device) continue;
-            if (value > 1000.0) {
-                values[QString("up%1").arg(i)] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 4, 'f', 1);
-                values[QString("upunits%1").arg(i)] = i18n("MB/s");
-            } else {
-                values[QString("up%1").arg(i)] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
-                values[QString("upunits%1").arg(i)] = i18n("KB/s");
-            }
-            break;
-        }
-        if (device == values[QString("netdev")]) {
-            if (value > 1000.0) {
-                values[QString("up")] = QString("%1").arg(value / 1024.0, 4, 'f', 1);
-                values[QString("upunits")] = i18n("MB/s");
-            } else {
-                values[QString("up")] = QString("%1").arg(value, 4, 'f', 0);
-                values[QString("upunits")] = i18n("KB/s");
-            }
+            values[QString("%1kb").arg(type)] = QString("%1").arg(value, 4, 'f', 0);
+            values[type] = simplifiedValue;
+            values[QString("%1units").arg(type)] = units;
         }
     } else if (sourceName == QString("pkg")) {
         // package manager
@@ -631,15 +622,17 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
             break;
         }
     } else if (sourceName == QString("Local")) {
+        // init locale
+        QLocale loc = translateStrings ? QLocale::system() : QLocale::c();
+        QDateTime dt = data[QString("DateTime")].toDateTime();
         // time
-        values[QString("time")] = data[QString("DateTime")].toDateTime().toString(Qt::TextDate);
-        values[QString("isotime")] = data[QString("DateTime")].toDateTime().toString(Qt::ISODate);
-        values[QString("shorttime")] = data[QString("DateTime")].toDateTime().toString(Qt::SystemLocaleShortDate);
-        values[QString("longtime")] = data[QString("DateTime")].toDateTime().toString(Qt::SystemLocaleLongDate);
+        values[QString("time")] = dt.toString(Qt::TextDate);
+        values[QString("isotime")] = dt.toString(Qt::ISODate);
+        values[QString("shorttime")] = loc.toString(dt, QLocale::ShortFormat);
+        values[QString("longtime")] = loc.toString(dt, QLocale::LongFormat);
         values[QString("ctime")] = params[QString("customTime")].toString();
         foreach(QString key, timeKeys)
-            values[QString("ctime")].replace(QString("$%1").arg(key),
-                                             data[QString("DateTime")].toDateTime().toString(key));
+            values[QString("ctime")].replace(QString("$%1").arg(key), loc.toString(dt, key));
     } else if (sourceName == QString("system/uptime")) {
         // uptime
         int uptime = data[QString("value")].toFloat();

@@ -46,6 +46,7 @@ public:
     Q_INVOKABLE void initKeys(const QString currentPattern);
     Q_INVOKABLE void initTooltip(const QVariantMap tooltipParams);
     Q_INVOKABLE void setPopupEnabled(const bool popup = false);
+    Q_INVOKABLE void setTranslateStrings(const bool translate = false);
     Q_INVOKABLE void setWrapNewLines(const bool wrap = false);
     Q_INVOKABLE QString parsePattern() const;
     Q_INVOKABLE QSize toolTipSize() const;
@@ -88,6 +89,7 @@ private:
     AWToolTip *toolTip = nullptr;
     bool debug = false;
     bool enablePopup = false;
+    bool translateStrings = false;
     bool wrapNewLines = false;
     ExtItemAggregator<GraphicalItem> *graphicalItems;
     ExtItemAggregator<ExtQuotes> *extQuotes;
