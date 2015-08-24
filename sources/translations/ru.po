@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-08-22 14:06+0300\n"
-"PO-Revision-Date: 2015-08-22 14:08+0300\n"
+"POT-Creation-Date: 2015-08-24 21:54+0300\n"
+"PO-Revision-Date: 2015-08-24 21:55+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -242,6 +242,39 @@ msgid ""
 msgstr ""
 "Подробная информация может быть найдена на <a href=\"http://arcanis.name/ru/"
 "projects/awesome-widgets/\">домашней странице проекта</a>"
+
+msgid "AC"
+msgstr "Адаптор питания"
+
+msgid "Bars"
+msgstr "Бары"
+
+msgid "CPU"
+msgstr "CPU"
+
+msgid "Desktops"
+msgstr "Рабочие столы"
+
+msgid "Memory"
+msgstr "Память"
+
+msgid "Network"
+msgstr "Сеть"
+
+msgid "Scripts"
+msgstr "Скрипты"
+
+msgid "Time"
+msgstr "Время"
+
+msgid "Quotes"
+msgstr "Котировоки"
+
+msgid "Upgrades"
+msgstr "Обновления"
+
+msgid "Weathers"
+msgstr "Погода"
 
 msgid "Add"
 msgstr "Добавить"
@@ -535,9 +568,6 @@ msgstr "esalexeev@gmail.com"
 #~ msgid "Edit"
 #~ msgstr "Править"
 
-#~ msgid "Bars"
-#~ msgstr "Бары"
-
 #~ msgid "Enable popup on mouse click"
 #~ msgstr "Включить сообщения по клику мыши"
 
@@ -711,9 +741,6 @@ msgstr "esalexeev@gmail.com"
 #~ "$uptime - время работы\n"
 #~ "$custom - свой формат"
 
-#~ msgid "CPU"
-#~ msgstr "CPU"
-
 #~ msgid ""
 #~ "$cpu - total load CPU, %\n"
 #~ "$cpu0 - load CPU for core 0, %\n"
@@ -765,9 +792,6 @@ msgstr "esalexeev@gmail.com"
 
 #~ msgid "$gputemp - physical temperature on GPU"
 #~ msgstr "$gputemp - физическая температура на GPU"
-
-#~ msgid "Memory"
-#~ msgstr "Память"
 
 #~ msgid ""
 #~ "$mem - RAM usage, %\n"
@@ -828,9 +852,6 @@ msgstr "esalexeev@gmail.com"
 #~ msgid ""
 #~ "$hddtempN - physical temperature on device N (from 0). Example: $hddtemp0"
 #~ msgstr "$hddtempN - температура на устройстве N (от 0). Пример: $hddtemp0"
-
-#~ msgid "Network"
-#~ msgstr "Сеть"
 
 #~ msgid ""
 #~ "$down - download speed, KB/s\n"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-08-22 14:06+0300\n"
+"POT-Creation-Date: 2015-08-24 21:54+0300\n"
 "PO-Revision-Date: 2015-07-31 22:13+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Spanish <kde-russian@lists.kde.ru>\n"
@@ -245,6 +245,43 @@ msgid ""
 msgstr ""
 "Puedes encontrar información detallada en el <a href=\"http://arcanis.name/"
 "projects/awesome-widgets/\">sitio del proyecto</a>"
+
+msgid "AC"
+msgstr ""
+
+msgid "Bars"
+msgstr "Barras"
+
+msgid "CPU"
+msgstr "CPU"
+
+msgid "Desktops"
+msgstr ""
+
+msgid "Memory"
+msgstr "Memoria"
+
+msgid "Network"
+msgstr "Red"
+
+#, fuzzy
+msgid "Scripts"
+msgstr "Editar scripts"
+
+#, fuzzy
+msgid "Time"
+msgstr "Hora"
+
+#, fuzzy
+msgid "Quotes"
+msgstr "Monitor de citas"
+
+msgid "Upgrades"
+msgstr ""
+
+#, fuzzy
+msgid "Weathers"
+msgstr "Editar tickets"
 
 msgid "Add"
 msgstr "Añadir"
@@ -538,9 +575,6 @@ msgstr "Tu correo electrónico"
 #~ msgid "Edit"
 #~ msgstr "Editar"
 
-#~ msgid "Bars"
-#~ msgstr "Barras"
-
 #~ msgid "Enable popup on mouse click"
 #~ msgstr "Habilitar ventana emergente al hacer clic"
 
@@ -701,9 +735,6 @@ msgstr "Tu correo electrónico"
 #~ "$uptime - tiempo de actividad del sistema\n"
 #~ "$custom - formato personalizado"
 
-#~ msgid "CPU"
-#~ msgstr "CPU"
-
 #~ msgid ""
 #~ "$cpu - total load CPU, %\n"
 #~ "$cpu0 - load CPU for core 0, %\n"
@@ -756,9 +787,6 @@ msgstr "Tu correo electrónico"
 
 #~ msgid "$gputemp - physical temperature on GPU"
 #~ msgstr "$gputemp - temperatura física de la GPU"
-
-#~ msgid "Memory"
-#~ msgstr "Memoria"
 
 #~ msgid ""
 #~ "$mem - RAM usage, %\n"
@@ -828,9 +856,6 @@ msgstr "Tu correo electrónico"
 #~ msgstr ""
 #~ "$hddtempN - temperatura física en el dispositivo N (a partir de 0). "
 #~ "Ejemplo: $hddtemp0"
-
-#~ msgid "Network"
-#~ msgstr "Red"
 
 #~ msgid ""
 #~ "$down - download speed, KB/s\n"

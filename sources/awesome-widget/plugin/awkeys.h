@@ -52,7 +52,8 @@ public:
     Q_INVOKABLE QSize toolTipSize() const;
     // keys
     Q_INVOKABLE void addDevice(const QString source);
-    Q_INVOKABLE QStringList dictKeys(const bool sorted = false) const;
+    Q_INVOKABLE QStringList dictKeys(const bool sorted = false,
+                                     const QString regexp = QString()) const;
     Q_INVOKABLE QStringList getHddDevices() const;
     Q_INVOKABLE void setDataBySource(const QString sourceName, const QVariantMap data,
                                      const QVariantMap params);

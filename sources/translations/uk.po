@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-08-22 14:06+0300\n"
+"POT-Creation-Date: 2015-08-24 21:54+0300\n"
 "PO-Revision-Date: 2015-07-31 22:23+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Ukrainian <kde-russian@lists.kde.ru>\n"
@@ -245,6 +245,43 @@ msgid ""
 msgstr ""
 "Детальна інформація може бути знайдена на <a href=\"http://arcanis.name/"
 "projects/awesome-widgets/\">домашній сторінці проекту</a>"
+
+msgid "AC"
+msgstr ""
+
+msgid "Bars"
+msgstr "Бари"
+
+msgid "CPU"
+msgstr "CPU"
+
+msgid "Desktops"
+msgstr ""
+
+msgid "Memory"
+msgstr "Пам’ять"
+
+msgid "Network"
+msgstr "Мережа"
+
+#, fuzzy
+msgid "Scripts"
+msgstr "Редагувати скрипти"
+
+#, fuzzy
+msgid "Time"
+msgstr "Час"
+
+#, fuzzy
+msgid "Quotes"
+msgstr "Монітор котирувань"
+
+msgid "Upgrades"
+msgstr ""
+
+#, fuzzy
+msgid "Weathers"
+msgstr "Редагувати тікети"
 
 msgid "Add"
 msgstr "Додати"
@@ -541,9 +578,6 @@ msgstr "sarumyan@i.ua"
 #~ msgid "Edit"
 #~ msgstr "Редагувати"
 
-#~ msgid "Bars"
-#~ msgstr "Бари"
-
 #~ msgid "Enable popup on mouse click"
 #~ msgstr "Включити спливаючі підказки при натисканні клавіші миші"
 
@@ -704,9 +738,6 @@ msgstr "sarumyan@i.ua"
 #~ "$uptime - час роботи\n"
 #~ "$custom - свій формат"
 
-#~ msgid "CPU"
-#~ msgstr "CPU"
-
 #~ msgid ""
 #~ "$cpu - total load CPU, %\n"
 #~ "$cpu0 - load CPU for core 0, %\n"
@@ -757,9 +788,6 @@ msgstr "sarumyan@i.ua"
 
 #~ msgid "$gputemp - physical temperature on GPU"
 #~ msgstr "$gputemp - фізична температура на GPU"
-
-#~ msgid "Memory"
-#~ msgstr "Пам’ять"
 
 #~ msgid ""
 #~ "$mem - RAM usage, %\n"
@@ -818,9 +846,6 @@ msgstr "sarumyan@i.ua"
 #~ "$hddtempN - physical temperature on device N (from 0). Example: $hddtemp0"
 #~ msgstr ""
 #~ "$hddtempN - фізична температура на пристрої N (від 0). Приклад: $hddtemp"
-
-#~ msgid "Network"
-#~ msgstr "Мережа"
 
 #~ msgid ""
 #~ "$down - download speed, KB/s\n"

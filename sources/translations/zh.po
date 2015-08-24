@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-08-22 14:06+0300\n"
+"POT-Creation-Date: 2015-08-24 21:54+0300\n"
 "PO-Revision-Date: 2015-07-31 22:24+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -246,6 +246,41 @@ msgid ""
 msgstr ""
 "详情请参照 <a href=\"http://arcanis.name/projects/ awesome-widgets/\">项目主"
 "页</a>"
+
+msgid "AC"
+msgstr ""
+
+msgid "Bars"
+msgstr ""
+
+msgid "CPU"
+msgstr ""
+
+msgid "Desktops"
+msgstr ""
+
+#, fuzzy
+msgid "Memory"
+msgstr "内存显示颜色"
+
+msgid "Network"
+msgstr ""
+
+msgid "Scripts"
+msgstr ""
+
+msgid "Time"
+msgstr ""
+
+msgid "Quotes"
+msgstr ""
+
+msgid "Upgrades"
+msgstr ""
+
+#, fuzzy
+msgid "Weathers"
+msgstr "可编辑的"
 
 msgid "Add"
 msgstr "添加"

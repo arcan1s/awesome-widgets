@@ -171,25 +171,26 @@ void AWKeys::addDevice(const QString source)
 
     QRegExp diskRegexp = QRegExp(QString("disk/(?:md|sd|hd)[a-z|0-9]_.*/Rate/(?:rblk)"));
     QRegExp mountRegexp = QRegExp(QString("partitions/.*/filllevel"));
-    QRegExp tempRegexp = QRegExp(QString("lmsensors/.*"));
 
-    if (diskRegexp.indexIn(source) > -1) {
+    if (source.contains(diskRegexp)) {
         QString device = source;
         device.remove(QString("/Rate/rblk"));
         addKeyToCache(QString("Disk"), device);
-    } else if (mountRegexp.indexIn(source) > -1) {
+    } else if (source.contains(mountRegexp)) {
         QString device = source;
         device.remove(QString("partitions")).remove(QString("/filllevel"));
         addKeyToCache(QString("Mount"), device);
-    } else if (tempRegexp.indexIn(source) > -1) {
+    } else if (source.startsWith(QString("lmsensors"))) {
         addKeyToCache(QString("Temp"), source);
     }
 }
 
 
-QStringList AWKeys::dictKeys(const bool sorted) const
+QStringList AWKeys::dictKeys(const bool sorted, const QString regexp) const
 {
     if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Should be sorted" << sorted;
+    if (debug) qDebug() << PDEBUG << ":" << "Filter" << regexp;
 
     QStringList allKeys;
     // time
@@ -339,7 +340,7 @@ QStringList AWKeys::dictKeys(const bool sorted) const
     // sort if required
     if (sorted) allKeys.sort();
 
-    return allKeys;
+    return allKeys.filter(QRegExp(regexp));
 }
 
 
@@ -377,7 +378,6 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
     QRegExp mountFreeRegExp = QRegExp(QString("partitions/.*/freespace"));
     QRegExp mountUsedRegExp = QRegExp(QString("partitions/.*/usedspace"));
     QRegExp netRegExp = QRegExp(QString("network/interfaces/.*/(receiver|transmitter)/data$"));
-    QRegExp tempRegExp = QRegExp(QString("lmsensors/.*"));
 
     if (sourceName == QString("battery")) {
         // battery
@@ -611,7 +611,7 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
             AWActions::sendNotification(QString("event"), i18n("Swap is used"), enablePopup);
         // value
         values[QString("swap")] = QString("%1").arg(value, 5, 'f', 1);
-    } else if (sourceName.contains(tempRegExp)) {
+    } else if (sourceName.startsWith(QString("lmsensors/"))) {
         // temperature devices
         for (int i=0; i<tempDevices.count(); i++) {
             if (sourceName != tempDevices.at(i)) continue;

@@ -19,5 +19,8 @@ Name=GCC
 Path=gcc
 Type=GCC
 
+[Launch]
+Launch Configurations=
+
 [Project]
 VersionControlSupport=kdevgit

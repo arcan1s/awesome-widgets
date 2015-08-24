@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-08-22 14:06+0300\n"
+"POT-Creation-Date: 2015-08-24 21:54+0300\n"
 "PO-Revision-Date: 2015-07-31 22:16+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: French <kde-russian@lists.kde.ru>\n"
@@ -247,6 +247,43 @@ msgid ""
 msgstr ""
 "D'avantage d'informations se trouvent sur <a href=\"http://arcanis.name/"
 "projects/awesome-widgets/\">la page du projet</a>"
+
+msgid "AC"
+msgstr ""
+
+msgid "Bars"
+msgstr ""
+
+msgid "CPU"
+msgstr "CPU"
+
+msgid "Desktops"
+msgstr ""
+
+msgid "Memory"
+msgstr "Mémoire"
+
+msgid "Network"
+msgstr "Réseau"
+
+#, fuzzy
+msgid "Scripts"
+msgstr "Modifier les scripts"
+
+#, fuzzy
+msgid "Time"
+msgstr "Durée"
+
+#, fuzzy
+msgid "Quotes"
+msgstr "Moniteur de citations"
+
+msgid "Upgrades"
+msgstr ""
+
+#, fuzzy
+msgid "Weathers"
+msgstr "Modifier les tickers"
 
 msgid "Add"
 msgstr "Ajouter"
@@ -702,9 +739,6 @@ msgstr "esalexeev@gmail.com mermouy@gmail.com"
 #~ "$uptime - temps de fonctionnement\n"
 #~ "$custom - format personnalisé"
 
-#~ msgid "CPU"
-#~ msgstr "CPU"
-
 #~ msgid ""
 #~ "$cpu - total load CPU, %\n"
 #~ "$cpu0 - load CPU for core 0, %\n"
@@ -753,9 +787,6 @@ msgstr "esalexeev@gmail.com mermouy@gmail.com"
 
 #~ msgid "$gputemp - physical temperature on GPU"
 #~ msgstr "$gputemp - Température physique du processeur graphique"
-
-#~ msgid "Memory"
-#~ msgstr "Mémoire"
 
 #~ msgid ""
 #~ "$mem - RAM usage, %\n"
@@ -823,9 +854,6 @@ msgstr "esalexeev@gmail.com mermouy@gmail.com"
 #~ msgstr ""
 #~ "$hddtempN - température physique du périphérique N (à partir de 0). "
 #~ "Exemple: $hddtemp0"
-
-#~ msgid "Network"
-#~ msgstr "Réseau"
 
 #~ msgid ""
 #~ "$down - download speed, KB/s\n"

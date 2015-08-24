@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-08-22 14:06+0300\n"
-"PO-Revision-Date: 2015-08-22 14:08+0300\n"
+"POT-Creation-Date: 2015-08-24 21:54+0300\n"
+"PO-Revision-Date: 2015-08-24 21:55+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: English <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -241,6 +241,39 @@ msgid ""
 msgstr ""
 "Detailed information may be found on <a href=\"http://arcanis.name/projects/"
 "awesome-widgets/\">project homepage</a>"
+
+msgid "AC"
+msgstr "AC"
+
+msgid "Bars"
+msgstr "Bars"
+
+msgid "CPU"
+msgstr "CPU"
+
+msgid "Desktops"
+msgstr "Desktops"
+
+msgid "Memory"
+msgstr "Memory"
+
+msgid "Network"
+msgstr "Network"
+
+msgid "Scripts"
+msgstr "Scripts"
+
+msgid "Time"
+msgstr "Time"
+
+msgid "Quotes"
+msgstr "Quotes"
+
+msgid "Upgrades"
+msgstr "Upgrades"
+
+msgid "Weathers"
+msgstr "Weathers"
 
 msgid "Add"
 msgstr "Add"
@@ -534,9 +567,6 @@ msgstr "esalexeev@gmail.com"
 #~ msgid "Edit"
 #~ msgstr "Edit"
 
-#~ msgid "Bars"
-#~ msgstr "Bars"
-
 #~ msgid "Enable popup on mouse click"
 #~ msgstr "Enable popup on mouse click"
 
@@ -710,9 +740,6 @@ msgstr "esalexeev@gmail.com"
 #~ "$uptime - system uptime\n"
 #~ "$custom - custom format"
 
-#~ msgid "CPU"
-#~ msgstr "CPU"
-
 #~ msgid ""
 #~ "$cpu - total load CPU, %\n"
 #~ "$cpu0 - load CPU for core 0, %\n"
@@ -763,9 +790,6 @@ msgstr "esalexeev@gmail.com"
 
 #~ msgid "$gputemp - physical temperature on GPU"
 #~ msgstr "$gputemp - physical temperature on GPU"
-
-#~ msgid "Memory"
-#~ msgstr "Memory"
 
 #~ msgid ""
 #~ "$mem - RAM usage, %\n"
@@ -828,9 +852,6 @@ msgstr "esalexeev@gmail.com"
 #~ "$hddtempN - physical temperature on device N (from 0). Example: $hddtemp0"
 #~ msgstr ""
 #~ "$hddtempN - physical temperature on device N (from 0). Example: $hddtemp0"
-
-#~ msgid "Network"
-#~ msgstr "Network"
 
 #~ msgid ""
 #~ "$down - download speed, KB/s\n"

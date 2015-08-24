@@ -232,14 +232,77 @@ Item {
             height: implicitHeight
             width: parent.width
             QtControls.ComboBox {
+                width: (parent.width - addTagButton.width - showValueButton.width - addLambdaButton.width) / 2
+                textRole: "label"
+                model: [
+                    {
+                        'label': i18n("AC"),
+                        'regexp': "^(ac|bat).*"
+                    },
+                    {
+                        'label': i18n("Bars"),
+                        'regexp': "^bar.*"
+                    },
+                    {
+                        'label': i18n("CPU"),
+                        'regexp': "^(cpu|gpu|la|ps|temp(?!erature)).*"
+                    },
+                    {
+                        'label': i18n("Desktops"),
+                        'regexp': "^(n|t)?desktop(s)?"
+                    },
+                    {
+                        'label': i18n("HDD"),
+                        'regexp': "^hdd.*"
+                    },
+                    {
+                        'label': i18n("Memory"),
+                        'regexp': "^(mem|swap).*"
+                    },
+                    {
+                        'label': i18n("Network"),
+                        'regexp': "^(netdev|(down|up(?!time)).*)"
+                    },
+                    {
+                        'label': i18n("Music player"),
+                        'regexp': "^(album|artist|duration|progress|title)"
+                    },
+                    {
+                        'label': i18n("Scripts"),
+                        'regexp': "^custom.*"
+                    },
+                    {
+                        'label': i18n("Time"),
+                        'regexp': ".*time$"
+                    },
+                    {
+                        'label': i18n("Quotes"),
+                        'regexp': "^(perc)?(ask|bid|price)(chg)?.*"
+                    },
+                    {
+                        'label': i18n("Upgrades"),
+                        'regexp': "^pkgcount.*"
+                    },
+                    {
+                        'label': i18n("Weathers"),
+                        'regexp': "^(weather(Id)?|humidity|pressure|temperature|timestamp)"
+                    }
+                ]
+                onCurrentIndexChanged: {
+                    tags.model = awKeys.dictKeys(true, model[currentIndex]["regexp"])
+                    tags.currentIndex = -1
+                }
+            }
+            QtControls.ComboBox {
                 id: tags
-                width: parent.width - addTagButton.width - showValueButton.width - addLambdaButton.width
+                width: (parent.width - addTagButton.width - showValueButton.width - addLambdaButton.width) / 2
             }
             QtControls.Button {
                 id: addTagButton
                 text: i18n("Add")
 
                 onClicked: {
+                    if (!tags.currentText) return
                     if (debug) console.log("[widget::onClicked] : Add tag button")
 
                     var pos = textPattern.cursorPosition
@@ -253,6 +316,7 @@ Item {
                 text: i18n("Show value")
 
                 onClicked: {
+                    if (!tags.currentText) return
                     if (debug) console.log("[widget::onClicked] : Show tag button")
 
                     var message = i18n("Tag: %1", tags.currentText)
@@ -273,7 +337,7 @@ Item {
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
-                    textPattern.insert(pos, selected + "${{}}")
+                    textPattern.insert(pos, selected + "${{\n\n}}")
                 }
             }
         }
@@ -343,6 +407,5 @@ Item {
 
         // init submodule
         awKeys.initKeys(plasmoid.configuration.text)
-        tags.model = awKeys.dictKeys(true)
     }
 }
