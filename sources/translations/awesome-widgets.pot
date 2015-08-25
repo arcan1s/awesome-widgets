@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-08-24 21:54+0300\n"
+"POT-Creation-Date: 2015-08-24 23:21+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -446,6 +446,9 @@ msgid "Wrap colors"
 msgstr ""
 
 msgid "Wrap spaces"
+msgstr ""
+
+msgid "Filter"
 msgstr ""
 
 msgid "Null"

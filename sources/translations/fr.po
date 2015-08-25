@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-08-24 21:54+0300\n"
+"POT-Creation-Date: 2015-08-24 23:21+0300\n"
 "PO-Revision-Date: 2015-07-31 22:16+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: French <kde-russian@lists.kde.ru>\n"
@@ -471,6 +471,9 @@ msgid "Wrap colors"
 msgstr "Couleur de la mémoire d'échange"
 
 msgid "Wrap spaces"
+msgstr ""
+
+msgid "Filter"
 msgstr ""
 
 msgid "Null"

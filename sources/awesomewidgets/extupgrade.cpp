@@ -22,6 +22,7 @@
 
 #include <QDebug>
 #include <QDir>
+#include <QRegExp>
 #include <QSettings>
 #include <QTextCodec>
 
@@ -68,6 +69,7 @@ ExtUpgrade *ExtUpgrade::copy(const QString fileName, const int number)
     item->setApiVersion(apiVersion());
     item->setComment(comment());
     item->setExecutable(executable());
+    item->setFilter(filter());
     item->setInterval(interval());
     item->setName(name());
     item->setNumber(number);
@@ -82,6 +84,14 @@ QString ExtUpgrade::executable() const
     if (debug) qDebug() << PDEBUG;
 
     return m_executable;
+}
+
+
+QString ExtUpgrade::filter() const
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return m_filter;
 }
 
 
@@ -110,6 +120,15 @@ void ExtUpgrade::setExecutable(const QString _executable)
 }
 
 
+void ExtUpgrade::setFilter(const QString _filter)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Filter" << _filter;
+
+    m_filter = _filter;
+}
+
+
 void ExtUpgrade::setNull(const int _null)
 {
     if (debug) qDebug() << PDEBUG;
@@ -132,6 +151,8 @@ void ExtUpgrade::readConfiguration()
         settings.beginGroup(QString("Desktop Entry"));
         setExecutable(settings.value(QString("Exec"), m_executable).toString());
         setNull(settings.value(QString("X-AW-Null"), m_null).toInt());
+        // api == 3
+        setFilter(settings.value(QString("X-AW-Filter"), m_filter).toString());
         settings.endGroup();
     }
 
@@ -167,6 +188,7 @@ int ExtUpgrade::showConfiguration(const QVariant args)
     ui->lineEdit_comment->setText(comment());
     ui->label_numberValue->setText(QString("%1").arg(number()));
     ui->lineEdit_command->setText(m_executable);
+    ui->lineEdit_filter->setText(m_filter);
     ui->checkBox_active->setCheckState(isActive() ? Qt::Checked : Qt::Unchecked);
     ui->spinBox_null->setValue(m_null);
     ui->spinBox_interval->setValue(interval());
@@ -178,6 +200,7 @@ int ExtUpgrade::showConfiguration(const QVariant args)
     setNumber(ui->label_numberValue->text().toInt());
     setApiVersion(AWEUAPI);
     setExecutable(ui->lineEdit_command->text());
+    setFilter(ui->lineEdit_filter->text());
     setActive(ui->checkBox_active->checkState() == Qt::Checked);
     setNull(ui->spinBox_null->value());
     setInterval(ui->spinBox_interval->value());
@@ -197,6 +220,7 @@ void ExtUpgrade::writeConfiguration() const
 
     settings.beginGroup(QString("Desktop Entry"));
     settings.setValue(QString("Exec"), m_executable);
+    settings.setValue(QString("X-AW-Filter"), m_filter);
     settings.setValue(QString("X-AW-Null"), m_null);
     settings.endGroup();
 
@@ -212,7 +236,9 @@ void ExtUpgrade::updateValue()
     if (debug) qDebug() << PDEBUG << ":" << "Error" << process->readAllStandardError();
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process->readAllStandardOutput()).trimmed();
-    value[tag(QString("pkgcount"))] = qoutput.split(QChar('\n'), QString::SkipEmptyParts).count() - m_null;
+    value[tag(QString("pkgcount"))] = m_filter.isEmpty() ?
+        qoutput.split(QChar('\n'), QString::SkipEmptyParts).count() - m_null :
+        qoutput.split(QChar('\n'), QString::SkipEmptyParts).filter(QRegExp(m_filter)).count();
 }
 
 
@@ -224,6 +250,7 @@ void ExtUpgrade::translate()
     ui->label_comment->setText(i18n("Comment"));
     ui->label_number->setText(i18n("Tag"));
     ui->label_command->setText(i18n("Command"));
+    ui->label_filter->setText(i18n("Filter"));
     ui->checkBox_active->setText(i18n("Active"));
     ui->label_null->setText(i18n("Null"));
     ui->label_interval->setText(i18n("Interval"));

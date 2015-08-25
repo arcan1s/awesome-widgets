@@ -31,6 +31,7 @@ class ExtUpgrade : public AbstractExtItem
 {
     Q_OBJECT
     Q_PROPERTY(QString executable READ executable WRITE setExecutable)
+    Q_PROPERTY(QString filter READ filter WRITE setFilter)
     Q_PROPERTY(int null READ null WRITE setNull)
 
 public:
@@ -41,10 +42,12 @@ public:
     ExtUpgrade *copy(const QString fileName, const int number);
     // get methods
     QString executable() const;
+    QString filter() const;
     int null() const;
     QString uniq() const;
     // set methods
     void setExecutable(const QString _executable = QString("/usr/bin/true"));
+    void setFilter(const QString _filter = QString());
     void setNull(const int _null = 0);
 
 public slots:
@@ -63,6 +66,7 @@ private:
     void translate();
     // properties
     QString m_executable = QString("/usr/bin/true");
+    QString m_filter = QString("");
     int m_null = 0;
     // internal properties
     int times = 0;
