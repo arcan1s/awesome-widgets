@@ -59,10 +59,10 @@ protected:
 private:
     // configuration
     QHash<QString, QString> configuration;
-    ExtItemAggregator<ExtQuotes> *externalQuotes;
-    ExtItemAggregator<ExtScript> *externalScripts;
-    ExtItemAggregator<ExtUpgrade> *externalUpgrade;
-    ExtItemAggregator<ExtWeather> *externalWeather;
+    ExtItemAggregator<ExtQuotes> *extQuotes;
+    ExtItemAggregator<ExtScript> *extScripts;
+    ExtItemAggregator<ExtUpgrade> *extUpgrade;
+    ExtItemAggregator<ExtWeather> *extWeather;
     bool debug;
     // reread configuration
     QStringList getAllHdd() const;

@@ -48,7 +48,6 @@ public:
     Q_INVOKABLE void setPopupEnabled(const bool popup = false);
     Q_INVOKABLE void setTranslateStrings(const bool translate = false);
     Q_INVOKABLE void setWrapNewLines(const bool wrap = false);
-    Q_INVOKABLE QString parsePattern() const;
     Q_INVOKABLE QSize toolTipSize() const;
     // keys
     Q_INVOKABLE void addDevice(const QString source);
@@ -78,9 +77,7 @@ private slots:
 private:
     // methods
     void addKeyToCache(const QString type, const QString key = QString(""));
-    QString calculateLambda(QString key) const;
-    QString htmlValue(QString key) const;
-    int numberCpus() const;
+    QString parsePattern() const;
     float temperature(const float temp, const QString units) const;
     // find methods
     QStringList findGraphicalItems() const;
@@ -98,7 +95,7 @@ private:
     ExtItemAggregator<ExtUpgrade> *extUpgrade;
     ExtItemAggregator<ExtWeather> *extWeather;
     QString pattern;
-    QStringList foundBars, foundKeys, foundLambdas, keys;
+    QStringList foundBars, foundKeys, foundLambdas;
     QStringList timeKeys = QString(TIME_KEYS).split(QChar(','));
     QHash<QString, QString> values;
     QStringList diskDevices, hddDevices, mountDevices, networkDevices, tempDevices;

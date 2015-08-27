@@ -50,9 +50,9 @@ DPAdds::DPAdds(QObject *parent)
     QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
     debug = (debugEnv == QString("yes"));
 
-    connect(KWindowSystem::self(), SIGNAL(currentDesktopChanged(int)), this, SLOT(changeDesktop(int)));
-    connect(KWindowSystem::self(), SIGNAL(windowAdded(WId)), this, SLOT(changeWindowList(WId)));
-    connect(KWindowSystem::self(), SIGNAL(windowRemoved(WId)), this, SLOT(changeWindowList(WId)));
+    connect(KWindowSystem::self(), SIGNAL(currentDesktopChanged(int)), this, SIGNAL(desktopChanged()));
+    connect(KWindowSystem::self(), SIGNAL(windowAdded(WId)), this, SIGNAL(windowListChanged()));
+    connect(KWindowSystem::self(), SIGNAL(windowRemoved(WId)), this, SIGNAL(windowListChanged()));
 }
 
 
@@ -397,24 +397,6 @@ void DPAdds::setCurrentDesktop(const int desktop) const
     if (debug) qDebug() << PDEBUG << ":" << "Desktop" << desktop;
 
     KWindowSystem::setCurrentDesktop(desktop);
-}
-
-
-void DPAdds::changeDesktop(const int desktop) const
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Desktop" << desktop;
-
-    emit(desktopChanged());
-}
-
-
-void DPAdds::changeWindowList(const WId window) const
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Window" << window;
-
-    emit(windowListChanged());
 }
 
 

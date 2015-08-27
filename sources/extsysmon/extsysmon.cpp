@@ -59,10 +59,10 @@ ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList &args)
     setMinimumPollingInterval(333);
     readConfiguration();
 
-    externalQuotes = new ExtItemAggregator<ExtQuotes>(nullptr, QString("quotes"), debug);
-    externalScripts = new ExtItemAggregator<ExtScript>(nullptr, QString("scripts"), debug);
-    externalUpgrade = new ExtItemAggregator<ExtUpgrade>(nullptr, QString("upgrade"), debug);
-    externalWeather = new ExtItemAggregator<ExtWeather>(nullptr, QString("weather"), debug);
+    extQuotes = new ExtItemAggregator<ExtQuotes>(nullptr, QString("quotes"), debug);
+    extScripts = new ExtItemAggregator<ExtScript>(nullptr, QString("scripts"), debug);
+    extUpgrade = new ExtItemAggregator<ExtUpgrade>(nullptr, QString("upgrade"), debug);
+    extWeather = new ExtItemAggregator<ExtWeather>(nullptr, QString("weather"), debug);
 }
 
 
@@ -70,10 +70,10 @@ ExtendedSysMon::~ExtendedSysMon()
 {
     if (debug) qDebug() << PDEBUG;
 
-    delete externalQuotes;
-    delete externalScripts;
-    delete externalUpgrade;
-    delete externalWeather;
+    delete extQuotes;
+    delete extScripts;
+    delete extUpgrade;
+    delete extWeather;
 }
 
 
@@ -579,7 +579,7 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
         QVariantHash battery = getBattery(configuration[QString("ACPIPATH")]);
         foreach(QString key, battery.keys()) setData(source, key, battery[key]);
     } else if (source == QString("custom")) {
-        foreach(ExtScript *script, externalScripts->items()) {
+        foreach(ExtScript *script, extScripts->items()) {
             QVariantHash data = script->run();
             foreach(QString key, data.keys()) setData(source, key, data[key]);
         }
@@ -599,7 +599,7 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     } else if (source == QString("netdev")) {
         setData(source, QString("value"), getNetworkDevice());
     } else if (source == QString("pkg")) {
-        foreach(ExtUpgrade *upgrade, externalUpgrade->items()) {
+        foreach(ExtUpgrade *upgrade, extUpgrade->items()) {
             QVariantHash data = upgrade->run();
             foreach(QString key, data.keys()) setData(source, key, data[key]);
         }
@@ -613,14 +613,14 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
         QVariantHash ps = getPsStats();
         foreach(QString key, ps.keys()) setData(source, key, ps[key]);
     } else if (source == QString("quotes")) {
-        foreach(ExtQuotes *quote, externalQuotes->items()) {
+        foreach(ExtQuotes *quote, extQuotes->items()) {
             QVariantHash data = quote->run();
             foreach(QString key, data.keys()) setData(source, key, data[key]);
         }
     } else if (source == QString("update")) {
         setData(source, QString("value"), true);
     } else if (source == QString("weather")) {
-        foreach(ExtWeather *weather, externalWeather->items()) {
+        foreach(ExtWeather *weather, extWeather->items()) {
             QVariantHash data = weather->run();
             foreach(QString key, data.keys()) setData(source, key, data[key]);
         }

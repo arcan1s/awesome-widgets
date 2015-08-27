@@ -71,10 +71,6 @@ public slots:
     Q_INVOKABLE static void sendNotification(const QString eventId, const QString message);
     Q_INVOKABLE void setCurrentDesktop(const int desktop) const;
 
-private slots:
-    void changeDesktop(const int desktop) const;
-    void changeWindowList(const WId window) const;
-
 private:
     DesktopWindowsInfo getInfoByDesktop(const int desktop) const;
     QList<Plasma::Containment *> getPanels() const;

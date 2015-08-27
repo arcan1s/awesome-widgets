@@ -79,11 +79,6 @@ void AWKeys::initKeys(const QString currentPattern)
 {
     if (debug) qDebug() << PDEBUG;
 
-    // clear
-    keys.clear();
-    foundBars.clear();
-    foundKeys.clear();
-
     // init
     pattern = currentPattern;
     // update network and hdd list
@@ -130,28 +125,6 @@ void AWKeys::setWrapNewLines(const bool wrap)
     if (debug) qDebug() << PDEBUG;
 
     wrapNewLines = wrap;
-}
-
-
-QString AWKeys::parsePattern() const
-{
-    if (debug) qDebug() << PDEBUG;
-    if (keys.isEmpty()) return pattern;
-
-    QString parsed = pattern;
-    parsed.replace(QString("$$"), QString("$\\$\\"));
-    foreach(QString key, foundLambdas)
-        parsed.replace(QString("${{%1}}").arg(key), calculateLambda(key));
-    foreach(QString key, foundKeys)
-        parsed.replace(QString("$%1").arg(key), htmlValue(key));
-    foreach(QString bar, foundBars)
-        parsed.replace(QString("$%1").arg(bar),
-                       graphicalItems->itemByTag(bar)->image(valueByKey(bar).toFloat()));
-    parsed.replace(QString("$\\$\\"), QString("$$"));
-    // wrap new lines if required
-    if (wrapNewLines) parsed.replace(QString("\n"), QString("<br>"));
-
-    return parsed;
 }
 
 
@@ -202,13 +175,12 @@ QStringList AWKeys::dictKeys(const bool sorted, const QString regexp) const
     // uptime
     allKeys.append(QString("uptime"));
     allKeys.append(QString("cuptime"));
-    // cpuclock
-    for (int i=numberCpus()-1; i>=0; i--)
+    // cpuclock & cpu
+    for (int i=QThread::idealThreadCount()-1; i>=0; i--) {
         allKeys.append(QString("cpucl%1").arg(i));
-    allKeys.append(QString("cpucl"));
-    // cpu
-    for (int i=numberCpus()-1; i>=0; i--)
         allKeys.append(QString("cpu%1").arg(i));
+    }
+    allKeys.append(QString("cpucl"));
     allKeys.append(QString("cpu"));
     // temperature
     for (int i=tempDevices.count()-1; i>=0; i--)
@@ -365,9 +337,6 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
     if (debug) qDebug() << PDEBUG << ":" << "Data" << data;
 
     if (sourceName == QString("update")) return emit(needToBeUpdated());
-
-    // checking
-    if (keys.isEmpty()) return;
 
     // regular expressions
     QRegExp cpuRegExp = QRegExp(QString("cpu/cpu.*/TotalLoad"));
@@ -738,14 +707,7 @@ void AWKeys::editItem(const QString type)
     if (debug) qDebug() << PDEBUG;
 
     if (type == QString("graphicalitem")) {
-        QStringList bars;
-        bars.append(keys.filter((QRegExp(QString("^cpu(?!cl).*")))));
-        bars.append(keys.filter((QRegExp(QString("^gpu$")))));
-        bars.append(keys.filter((QRegExp(QString("^mem$")))));
-        bars.append(keys.filter((QRegExp(QString("^swap$")))));
-        bars.append(keys.filter((QRegExp(QString("^hdd[0-9].*")))));
-        bars.append(keys.filter((QRegExp(QString("^bat.*")))));
-        graphicalItems->setConfigArgs(bars);
+        graphicalItems->setConfigArgs(dictKeys(true, QString("^(cpu(?!cl).*|gpu$|mem$|swap$|hdd[0-9].*|bat.*)")));
         return graphicalItems->editItems();
     } else if (type == QString("extquotes")) {
         return extQuotes->editItems();
@@ -813,7 +775,6 @@ void AWKeys::reinitKeys()
 {
     if (debug) qDebug() << PDEBUG;
 
-    keys = dictKeys();
     foundBars = findGraphicalItems();
     foundKeys = findKeys();
     foundLambdas = findLambdas();
@@ -865,44 +826,41 @@ void AWKeys::addKeyToCache(const QString type, const QString key)
 }
 
 
-QString AWKeys::calculateLambda(QString key) const
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Lambda key" << key;
-
-    QScriptEngine engine;
-    foreach(QString lambdaKey, foundKeys)
-        key.replace(QString("$%1").arg(lambdaKey), values[lambdaKey]);
-    if (debug) qDebug() << PDEBUG << ":" << "Expression" << key;
-
-    QScriptValue result = engine.evaluate(key);
-    if (engine.hasUncaughtException()) {
-        int line = engine.uncaughtExceptionLineNumber();
-        if (debug) qDebug() << PDEBUG << ":" << "Uncaught exception at line"
-                            << line << ":" << result.toString();
-        return QString();
-    } else
-        return result.toString();
-}
-
-
-QString AWKeys::htmlValue(QString key) const
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Requested key" << key;
-
-    QString value = values[key];
-    if (!key.startsWith(QString("custom")))
-        value.replace(QString(" "), QString("&nbsp;"));
-    return value;
-}
-
-
-int AWKeys::numberCpus() const
+QString AWKeys::parsePattern() const
 {
     if (debug) qDebug() << PDEBUG;
 
-    return QThread::idealThreadCount();
+    QString parsed = pattern;
+    parsed.replace(QString("$$"), QString("$\\$\\"));
+    foreach(QString key, foundLambdas)
+        parsed.replace(QString("${{%1}}").arg(key), [this](QString key) {
+            QScriptEngine engine;
+            foreach(QString lambdaKey, foundKeys)
+                key.replace(QString("$%1").arg(lambdaKey), values[lambdaKey]);
+            if (debug) qDebug() << PDEBUG << ":" << "Expression" << key;
+            QScriptValue result = engine.evaluate(key);
+            if (engine.hasUncaughtException()) {
+                int line = engine.uncaughtExceptionLineNumber();
+                if (debug) qDebug() << PDEBUG << ":" << "Uncaught exception at line"
+                                    << line << ":" << result.toString();
+                return QString();
+            } else
+                return result.toString();
+        }(key));
+    foreach(QString key, foundKeys)
+        parsed.replace(QString("$%1").arg(key), [](QString key, QString value) {
+            if (!key.startsWith(QString("custom")))
+                value.replace(QString(" "), QString("&nbsp;"));
+            return value;
+        }(key, values[key]));
+    foreach(QString bar, foundBars)
+        parsed.replace(QString("$%1").arg(bar),
+                       graphicalItems->itemByTag(bar)->image(valueByKey(bar).toFloat()));
+    parsed.replace(QString("$\\$\\"), QString("$$"));
+    // wrap new lines if required
+    if (wrapNewLines) parsed.replace(QString("\n"), QString("<br>"));
+
+    return parsed;
 }
 
 
@@ -955,7 +913,7 @@ QStringList AWKeys::findKeys() const
     if (debug) qDebug() << PDEBUG;
 
     QStringList selectedKeys;
-    foreach(QString key, keys) {
+    foreach(QString key, dictKeys()) {
         if (key.startsWith(QString("bar"))) continue;
         if (pattern.contains(QString("$%1").arg(key))) {
             if (debug) qDebug() << PDEBUG << ":" << "Found key" << key;
