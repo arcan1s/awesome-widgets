@@ -90,7 +90,7 @@ Item {
                 iconName: "font"
 
                 onClicked: {
-                    if (debug) console.log("[widget::onClicked] : Font button")
+                    if (debug) console.log("Font button")
 
                     var defaultFont = {
                         "color": plasmoid.configuration.fontColor,
@@ -112,7 +112,7 @@ Item {
                 iconName: "format-indent-more"
 
                 onClicked: {
-                    if (debug) console.log("[widget::onClicked] : Indent button")
+                    if (debug) console.log("Indent button")
 
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
@@ -126,7 +126,7 @@ Item {
                 iconName: "format-text-bold"
 
                 onClicked: {
-                    if (debug) console.log("[widget::onClicked] : Bold button")
+                    if (debug) console.log("Bold button")
 
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
@@ -139,7 +139,7 @@ Item {
                 iconName: "format-text-italic"
 
                 onClicked: {
-                    if (debug) console.log("[widget::onClicked] : Italic button")
+                    if (debug) console.log("Italic button")
 
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
@@ -152,7 +152,7 @@ Item {
                 iconName: "format-text-underline"
 
                 onClicked: {
-                    if (debug) console.log("[widget::onClicked] : Underline button")
+                    if (debug) console.log("Underline button")
 
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
@@ -165,7 +165,7 @@ Item {
                 iconName: "format-text-strikethrough"
 
                 onClicked: {
-                    if (debug) console.log("[widget::onClicked] : Strike button")
+                    if (debug) console.log("Strike button")
 
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
@@ -179,7 +179,7 @@ Item {
                 iconName: "format-justify-left"
 
                 onClicked: {
-                    if (debug) console.log("[widget::onClicked] : Left button")
+                    if (debug) console.log("Left button")
 
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
@@ -192,7 +192,7 @@ Item {
                 iconName: "format-justify-center"
 
                 onClicked: {
-                    if (debug) console.log("[widget::onClicked] : Center button")
+                    if (debug) console.log("Center button")
 
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
@@ -205,7 +205,7 @@ Item {
                 iconName: "format-justify-right"
 
                 onClicked: {
-                    if (debug) console.log("[widget::onClicked] : Right button")
+                    if (debug) console.log("Right button")
 
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
@@ -218,7 +218,7 @@ Item {
                 iconName: "format-justify-fill"
 
                 onClicked: {
-                    if (debug) console.log("[widget::onClicked] : Justify button")
+                    if (debug) console.log("Justify button")
 
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
@@ -303,7 +303,7 @@ Item {
 
                 onClicked: {
                     if (!tags.currentText) return
-                    if (debug) console.log("[widget::onClicked] : Add tag button")
+                    if (debug) console.log("Add tag button")
 
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
@@ -317,7 +317,7 @@ Item {
 
                 onClicked: {
                     if (!tags.currentText) return
-                    if (debug) console.log("[widget::onClicked] : Show tag button")
+                    if (debug) console.log("Show tag button")
 
                     var message = i18n("Tag: %1", tags.currentText)
                     message += "<br>"
@@ -332,7 +332,7 @@ Item {
                 text: i18n("Add lambda")
 
                 onClicked: {
-                    if (debug) console.log("[widget::onClicked] : Lambda button")
+                    if (debug) console.log("Lambda button")
 
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
@@ -370,7 +370,7 @@ Item {
         interval: 5000
 
         onNewData: {
-            if (debug) console.log("[widget::onNewData] : Update source " + sourceName)
+            if (debug) console.log("Update source " + sourceName)
 
             awKeys.setDataBySource(sourceName, data, settings)
         }
@@ -383,7 +383,7 @@ Item {
         interval: 5000
 
         onNewData: {
-            if (debug) console.log("[widget::onNewData] : Update source " + sourceName)
+            if (debug) console.log("Update source " + sourceName)
 
             awKeys.setDataBySource(sourceName, data, settings)
         }
@@ -396,14 +396,14 @@ Item {
         interval: 5000
 
         onNewData: {
-            if (debug) console.log("[widget::onNewData] : Update source " + sourceName)
+            if (debug) console.log("Update source " + sourceName)
 
             awKeys.setDataBySource(sourceName, data, settings)
         }
     }
 
     Component.onCompleted: {
-        if (debug) console.log("[widget::onCompleted]")
+        if (debug) console.log("")
 
         // init submodule
         awKeys.initKeys(plasmoid.configuration.text)

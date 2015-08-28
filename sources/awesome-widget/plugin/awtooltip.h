@@ -52,7 +52,6 @@ private:
     void setData(const QString source, float value,
                  const bool ac = true);
     // variables
-    bool debug = false;
     int counts = 0;
     QVariantHash configuration;
     QHash<QString, float> boundaries;

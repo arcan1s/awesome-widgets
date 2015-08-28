@@ -39,7 +39,7 @@ public:
     explicit ExtQuotes(QWidget *parent = nullptr, const QString quotesName = QString(),
                        const QStringList directories = QStringList(),
                        const bool debugCmd = false);
-    ~ExtQuotes();
+    virtual ~ExtQuotes();
     ExtQuotes *copy(const QString fileName, const int number);
     // get methods
     QString ticker() const;
@@ -57,7 +57,6 @@ private slots:
     void quotesReplyReceived(QNetworkReply *reply);
 
 private:
-    bool debug;
     QNetworkAccessManager *manager;
     bool isRunning = false;
     Ui::ExtQuotes *ui;

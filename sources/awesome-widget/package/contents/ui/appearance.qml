@@ -251,6 +251,6 @@ Item {
     }
 
     Component.onCompleted: {
-        if (debug) console.log("[appearance::onCompleted]")
+        if (debug) console.log("")
     }
 }

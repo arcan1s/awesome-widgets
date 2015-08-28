@@ -63,7 +63,6 @@ private:
     ExtItemAggregator<ExtScript> *extScripts;
     ExtItemAggregator<ExtUpgrade> *extUpgrade;
     ExtItemAggregator<ExtWeather> *extWeather;
-    bool debug;
     // reread configuration
     QStringList getAllHdd() const;
     QString getAutoGpu() const;

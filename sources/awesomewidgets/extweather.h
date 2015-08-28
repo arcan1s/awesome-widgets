@@ -65,7 +65,6 @@ private slots:
     void weatherReplyReceived(QNetworkReply *reply);
 
 private:
-    bool debug;
     QNetworkAccessManager *manager;
     bool isRunning = false;
     Ui::ExtWeather *ui;

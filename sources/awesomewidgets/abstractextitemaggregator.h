@@ -53,7 +53,6 @@ private slots:
     void editItemButtonPressed(QAbstractButton *button);
 
 private:
-    bool debug;
     QVariant m_configArgs;
     // methods
     virtual void copyItem() = 0;

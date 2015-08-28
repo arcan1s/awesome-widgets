@@ -22,24 +22,25 @@
 
 #include <QBuffer>
 #include <QColorDialog>
-#include <QDebug>
 #include <QDir>
 #include <QGraphicsEllipseItem>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QSettings>
 
-#include <pdebug/pdebug.h>
-
+#include "awdebug.h"
 #include "version.h"
 
 
 GraphicalItem::GraphicalItem(QWidget *parent, const QString desktopName,
                              const QStringList directories, const bool debugCmd)
     : AbstractExtItem(parent, desktopName, directories, debugCmd),
-      debug(debugCmd),
       ui(new Ui::GraphicalItem)
 {
+    // logging
+    const_cast<QLoggingCategory &>(LOG_ESM()).setEnabled(QtMsgType::QtDebugMsg, debugCmd);
+    qSetMessagePattern(LOG_FORMAT);
+
     readConfiguration();
     ui->setupUi(this);
     translate();
@@ -51,7 +52,7 @@ GraphicalItem::GraphicalItem(QWidget *parent, const QString desktopName,
 
 GraphicalItem::~GraphicalItem()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     delete ui;
 }
@@ -59,10 +60,10 @@ GraphicalItem::~GraphicalItem()
 
 GraphicalItem *GraphicalItem::copy(const QString fileName, const int number)
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     GraphicalItem *item = new GraphicalItem(static_cast<QWidget *>(parent()),
-                                            fileName, directories(), debug);
+                                            fileName, directories(), LOG_ESM().isDebugEnabled());
     item->setActive(isActive());
     item->setActiveColor(activeColor());
     item->setApiVersion(apiVersion());
@@ -83,8 +84,8 @@ GraphicalItem *GraphicalItem::copy(const QString fileName, const int number)
 
 QString GraphicalItem::image(const float value) const
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Value" << value;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Value" << value;
     if (m_bar == QString("none")) return QString("");
 
     QColor active = stringToColor(m_activeColor);
@@ -163,7 +164,7 @@ QString GraphicalItem::image(const float value) const
 
 QString GraphicalItem::bar() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_bar;
 }
@@ -171,7 +172,7 @@ QString GraphicalItem::bar() const
 
 QString GraphicalItem::activeColor() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_activeColor;
 }
@@ -179,7 +180,7 @@ QString GraphicalItem::activeColor() const
 
 QString GraphicalItem::inactiveColor() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_inactiveColor;
 }
@@ -187,7 +188,7 @@ QString GraphicalItem::inactiveColor() const
 
 QString GraphicalItem::tag() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return name() + m_bar;
 }
@@ -195,7 +196,7 @@ QString GraphicalItem::tag() const
 
 GraphicalItem::Type GraphicalItem::type() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_type;
 }
@@ -203,7 +204,7 @@ GraphicalItem::Type GraphicalItem::type() const
 
 QString GraphicalItem::strType() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     QString value;
     switch (m_type) {
@@ -224,7 +225,7 @@ QString GraphicalItem::strType() const
 
 GraphicalItem::Direction GraphicalItem::direction() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_direction;
 }
@@ -232,7 +233,7 @@ GraphicalItem::Direction GraphicalItem::direction() const
 
 QString GraphicalItem::strDirection() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     QString value;
     switch (m_direction) {
@@ -250,7 +251,7 @@ QString GraphicalItem::strDirection() const
 
 int GraphicalItem::height() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_height;
 }
@@ -258,7 +259,7 @@ int GraphicalItem::height() const
 
 int GraphicalItem::width() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_width;
 }
@@ -266,7 +267,7 @@ int GraphicalItem::width() const
 
 QString GraphicalItem::uniq() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_bar;
 }
@@ -274,8 +275,8 @@ QString GraphicalItem::uniq() const
 
 void GraphicalItem::setBar(const QString _bar)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Bar" << _bar;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Bar" << _bar;
 
     if ((!_bar.contains(QRegExp(QString("cpu(?!cl).*")))) &&
         (!_bar.contains(QRegExp(QString("gpu")))) &&
@@ -291,8 +292,8 @@ void GraphicalItem::setBar(const QString _bar)
 
 void GraphicalItem::setActiveColor(const QString _color)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Color" << _color;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Color" << _color;
 
     m_activeColor = _color;
 }
@@ -300,8 +301,8 @@ void GraphicalItem::setActiveColor(const QString _color)
 
 void GraphicalItem::setInactiveColor(const QString _color)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Color" << _color;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Color" << _color;
 
     m_inactiveColor = _color;
 }
@@ -309,8 +310,8 @@ void GraphicalItem::setInactiveColor(const QString _color)
 
 void GraphicalItem::setType(const Type _type)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Type" << _type;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Type" << _type;
 
     m_type = _type;
 }
@@ -318,8 +319,8 @@ void GraphicalItem::setType(const Type _type)
 
 void GraphicalItem::setStrType(const QString _type)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Type" << _type;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Type" << _type;
 
     if (_type == QString("Vertical"))
         setType(Vertical);
@@ -332,8 +333,8 @@ void GraphicalItem::setStrType(const QString _type)
 
 void GraphicalItem::setDirection(const Direction _direction)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Direction" << _direction;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Direction" << _direction;
 
     m_direction = _direction;
 }
@@ -341,8 +342,8 @@ void GraphicalItem::setDirection(const Direction _direction)
 
 void GraphicalItem::setStrDirection(const QString _direction)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Direction" << _direction;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Direction" << _direction;
 
     if (_direction == QString("RightToLeft"))
         setDirection(RightToLeft);
@@ -353,8 +354,8 @@ void GraphicalItem::setStrDirection(const QString _direction)
 
 void GraphicalItem::setHeight(const int _height)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Height" << _height;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Height" << _height;
     if (_height <= 0) return;
 
     m_height = _height;
@@ -363,8 +364,8 @@ void GraphicalItem::setHeight(const int _height)
 
 void GraphicalItem::setWidth(const int _width)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Width" << _width;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Width" << _width;
     if (_width <= 0) return;
 
     m_width = _width;
@@ -373,7 +374,7 @@ void GraphicalItem::setWidth(const int _width)
 
 void GraphicalItem::readConfiguration()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
     AbstractExtItem::readConfiguration();
 
     for (int i=directories().count()-1; i>=0; i--) {
@@ -403,7 +404,7 @@ void GraphicalItem::readConfiguration()
 
 QVariantHash GraphicalItem::run()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     // required by abstract class
     return QVariantHash();
@@ -412,7 +413,7 @@ QVariantHash GraphicalItem::run()
 
 int GraphicalItem::showConfiguration(const QVariant args)
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
     QStringList tags = args.toStringList();
 
     ui->label_nameValue->setText(name());
@@ -448,11 +449,11 @@ int GraphicalItem::showConfiguration(const QVariant args)
 
 void GraphicalItem::writeConfiguration() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
     AbstractExtItem::writeConfiguration();
 
     QSettings settings(QString("%1/%2").arg(directories().first()).arg(fileName()), QSettings::IniFormat);
-    if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << settings.fileName();
+    qCDebug(LOG_ESM) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
     settings.setValue(QString("X-AW-Value"), m_bar);
@@ -470,7 +471,7 @@ void GraphicalItem::writeConfiguration() const
 
 void GraphicalItem::changeColor()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     QColor color = stringToColor((static_cast<QPushButton *>(sender()))->text());
     QColor newColor = QColorDialog::getColor(color, this, tr("Select color"),
@@ -482,14 +483,15 @@ void GraphicalItem::changeColor()
     colorText.append(QString("%1").arg(newColor.green()));
     colorText.append(QString("%1").arg(newColor.blue()));
     colorText.append(QString("%1").arg(newColor.alpha()));
-    static_cast<QPushButton *>(sender())->setText(colorText.join(QChar(',')));
+
+    return static_cast<QPushButton *>(sender())->setText(colorText.join(QChar(',')));
 }
 
 
 QColor GraphicalItem::stringToColor(const QString _color) const
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Color" << _color;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Color" << _color;
 
     QColor qcolor;
     QStringList listColor = _color.split(QChar(','));
@@ -506,7 +508,7 @@ QColor GraphicalItem::stringToColor(const QString _color) const
 
 void GraphicalItem::translate()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));

@@ -302,6 +302,6 @@ Item {
     }
 
     Component.onCompleted: {
-        if (debug) console.log("[advanced::onCompleted]")
+        if (debug) console.log("")
     }
 }

@@ -16,46 +16,26 @@
  ***************************************************************************/
 
 
-#ifndef AWACTIONS_H
-#define AWACTIONS_H
+#ifndef AWDEBUG_H
+#define AWDEBUG_H
 
-#include <QObject>
-#include <QVariant>
+#include <QLoggingCategory>
 
+#ifndef LOG_FORMAT
+#define LOG_FORMAT "[%{time yyyy-MM-ddTHH:mm:ss.zzzZ}][%{if-debug}DD%{endif}%{if-info}II%{endif}%{if-warning}WW%{endif}%{if-critical}CC%{endif}%{if-fatal}FF%{endif}][%{category}][%{function}] %{message}"
+#endif /* LOG_FORMAT */
 
-class QNetworkReply;
+// define info log level
+#define isInfoEnabled isDebugEnabled
+#if QT_VERSION < QT_VERSION_CHECK(5, 5, 0)
+#ifndef qCInfo
+#define qCInfo qCDebug
+#endif /* qCInfo */
+#endif /* QT_VERSION */
 
-class AWActions : public QObject
-{
-    Q_OBJECT
-
-public:
-    AWActions(QObject *parent = nullptr);
-    ~AWActions();
-
-    Q_INVOKABLE void checkUpdates();
-    Q_INVOKABLE bool dropCache() const;
-    Q_INVOKABLE bool isDebugEnabled() const;
-    Q_INVOKABLE void runCmd(const QString cmd = QString("/usr/bin/true")) const;
-    Q_INVOKABLE void sendEmail() const;
-    Q_INVOKABLE void showReadme() const;
-    // configuration slots
-    Q_INVOKABLE QString getAboutText(const QString type = QString("header")) const;
-    Q_INVOKABLE QVariantMap getFont(const QVariantMap defaultFont) const;
-    // dataengine
-    Q_INVOKABLE QVariantMap readDataEngineConfiguration() const;
-    Q_INVOKABLE void writeDataEngineConfiguration(const QVariantMap configuration) const;
-
-public slots:
-    Q_INVOKABLE static void sendNotification(const QString eventId, const QString message,
-                                             const bool enablePopup = false);
-
-private slots:
-    void showUpdates(QString version) const;
-    void versionReplyRecieved(QNetworkReply *reply) const;
-
-private:
-};
+Q_DECLARE_LOGGING_CATEGORY(LOG_AW)
+Q_DECLARE_LOGGING_CATEGORY(LOG_DP)
+Q_DECLARE_LOGGING_CATEGORY(LOG_ESM)
 
 
-#endif /* AWACTIONS_H */
+#endif /* AWDEBUG_H */

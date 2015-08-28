@@ -92,14 +92,14 @@ Item {
         interval: plasmoid.configuration.interval
 
         onNewData: {
-            if (debug) console.log("[main::onNewData] : Update source " + sourceName)
+            if (debug) console.log("Update source " + sourceName)
             systemmonitorDE.interval = plasmoid.configuration.interval
 
             awKeys.setDataBySource(sourceName, data, settings)
         }
 
         onSourceAdded: {
-            if (debug) console.log("[main::onSourceAdded] : Source " + source)
+            if (debug) console.log("Source " + source)
 
             awKeys.addDevice(source)
         }
@@ -112,7 +112,7 @@ Item {
         interval: plasmoid.configuration.interval
 
         onNewData: {
-            if (debug) console.log("[main::onNewData] : Update source " + sourceName)
+            if (debug) console.log("Update source " + sourceName)
             extsysmonDE.interval = plasmoid.configuration.interval
 
             awKeys.setDataBySource(sourceName, data, settings)
@@ -126,7 +126,7 @@ Item {
         interval: 1000
 
         onNewData: {
-            if (debug) console.log("[main::onNewData] : Update source " + sourceName)
+            if (debug) console.log("Update source " + sourceName)
 
             awKeys.setDataBySource(sourceName, data, settings)
         }
@@ -165,7 +165,7 @@ Item {
     }
 
     Component.onCompleted: {
-        if (debug) console.log("[main::onCompleted]")
+        if (debug) console.log("")
 
         // actions
         plasmoid.setAction("requestKey", i18n("Request key"), "utilities-system-monitor")
@@ -183,27 +183,26 @@ Item {
     }
 
     onDropSource: {
-        if (debug) console.log("[main::onDropSource]")
-        if (debug) console.log("[main::onDropSource] : Source " + sourceName)
+        if (debug) console.log("Source " + sourceName)
 
         systemmonitorDE.disconnectSource(sourceName)
     }
 
     onNeedTextUpdate: {
-        if (debug) console.log("[main::onNeedTextUpdate]")
+        if (debug) console.log("")
 
         text.text = newText
         sizeUpdate()
     }
 
     onNeedToolTipUpdate: {
-        if (debug) console.log("[main::onNeedToolTipUpdate]")
+        if (debug) console.log("")
 
         tooltip.text = newText
     }
 
     onSizeUpdate: {
-        if (debug) console.log("[main::onSizeUpdate]")
+        if (debug) console.log("")
 
         if (plasmoid.configuration.height == 0) {
             Layout.minimumHeight = text.contentHeight
@@ -223,7 +222,7 @@ Item {
 
     Plasmoid.onUserConfiguringChanged: {
         if (plasmoid.userConfiguring) return
-        if (debug) console.log("[main::onUserConfiguringChanged]")
+        if (debug) console.log("")
 
         // init submodule
         awKeys.initKeys(plasmoid.configuration.text)
@@ -236,25 +235,25 @@ Item {
     }
 
     function action_checkUpdates() {
-        if (debug) console.log("[main::action_checkUpdates]")
+        if (debug) console.log("")
 
         return awActions.checkUpdates()
     }
 
     function action_showReadme() {
-        if (debug) console.log("[main::action_showReadme]")
+        if (debug) console.log("")
 
         return awActions.showReadme()
     }
 
     function action_report() {
-        if (debug) console.log("[main::action_report]")
+        if (debug) console.log("")
 
         return awActions.sendEmail()
     }
 
     function action_requestKey() {
-        if (debug) console.log("[main::action_requestKey]")
+        if (debug) console.log("")
 
         return awKeys.graphicalValueByKey()
     }

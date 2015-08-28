@@ -108,11 +108,11 @@ Item {
     }
 
     onNeedUpdate: {
-        if (debug) console.log("[main::onNeedUpdate]")
+        if (debug) console.log("")
 
         for (var i=0; i<repeater.count; i++) {
             if (!repeater.itemAt(i)) {
-                if (debug) console.log("[main::onNeedUpdate] : Nothing to do here " + i)
+                if (debug) console.log("Nothing to do here " + i)
                 timer.start()
                 return
             }
@@ -138,7 +138,7 @@ Item {
     }
 
     onNeedTooltipUpdate: {
-        if (debug) console.log("[main::onNeedTooltipUpdate]")
+        if (debug) console.log("")
 
         for (var i=0; i<repeater.count; i++) {
             repeater.itemAt(i).tooltip.text = dpAdds.toolTipImage(i + 1)
@@ -146,7 +146,7 @@ Item {
     }
 
     onSizeUpdate: {
-        if (debug) console.log("[main::onSizeUpdate]")
+        if (debug) console.log("")
 
         if (plasmoid.configuration.height == 0) {
             var newHeight = 0
@@ -171,14 +171,14 @@ Item {
     }
 
     Plasmoid.onActivated: {
-        if (debug) console.log("[main::onActivated]")
+        if (debug) console.log("")
 
 //         dpAdds.changePanelsState()
     }
 
     Plasmoid.onUserConfiguringChanged: {
         if (plasmoid.userConfiguring) return
-        if (debug) console.log("[main::onUserConfiguringChanged]")
+        if (debug) console.log("")
 
         dpAdds.setMark(plasmoid.configuration.mark)
         dpAdds.setPanelsToControl(plasmoid.configuration.panels)
@@ -188,7 +188,7 @@ Item {
     }
 
     Component.onCompleted: {
-        if (debug) console.log("[main::onCompleted]")
+        if (debug) console.log("")
 
         // init submodule
         Plasmoid.userConfiguringChanged(false)

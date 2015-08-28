@@ -19,18 +19,20 @@
 
 #include <KI18n/KLocalizedString>
 
-#include <QDebug>
 #include <QHBoxLayout>
 #include <QInputDialog>
 #include <QLineEdit>
 
-#include <pdebug/pdebug.h>
+#include "awdebug.h"
 
 
 AbstractExtItemAggregator::AbstractExtItemAggregator(QWidget *parent, const bool debugCmd)
-    : QWidget(parent),
-      debug(debugCmd)
+    : QWidget(parent)
 {
+    // logging
+    const_cast<QLoggingCategory &>(LOG_ESM()).setEnabled(QtMsgType::QtDebugMsg, debugCmd);
+    qSetMessagePattern(LOG_FORMAT);
+
     dialog = new QDialog(this);
     widgetDialog = new QListWidget(dialog);
     dialogButtons = new QDialogButtonBox(QDialogButtonBox::Open | QDialogButtonBox::Close,
@@ -53,7 +55,7 @@ AbstractExtItemAggregator::AbstractExtItemAggregator(QWidget *parent, const bool
 
 AbstractExtItemAggregator::~AbstractExtItemAggregator()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     delete dialog;
 }
@@ -61,7 +63,7 @@ AbstractExtItemAggregator::~AbstractExtItemAggregator()
 
 QString AbstractExtItemAggregator::getName()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     bool ok;
     QString name = QInputDialog::getText(this, i18n("Enter file name"),
@@ -76,7 +78,7 @@ QString AbstractExtItemAggregator::getName()
 
 QVariant AbstractExtItemAggregator::configArgs() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_configArgs;
 }
@@ -84,8 +86,8 @@ QVariant AbstractExtItemAggregator::configArgs() const
 
 void AbstractExtItemAggregator::setConfigArgs(const QVariant _configArgs)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Configuration arguments" << _configArgs;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Configuration arguments" << _configArgs;
 
     m_configArgs = _configArgs;
 }
@@ -94,7 +96,7 @@ void AbstractExtItemAggregator::setConfigArgs(const QVariant _configArgs)
 void AbstractExtItemAggregator::editItemActivated(QListWidgetItem *item)
 {
     Q_UNUSED(item)
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return editItem();
 }
@@ -102,7 +104,7 @@ void AbstractExtItemAggregator::editItemActivated(QListWidgetItem *item)
 
 void AbstractExtItemAggregator::editItemButtonPressed(QAbstractButton *button)
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     if (static_cast<QPushButton *>(button) == copyButton)
         return copyItem();

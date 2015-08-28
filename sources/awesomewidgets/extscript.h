@@ -80,7 +80,6 @@ private slots:
     void updateValue();
 
 private:
-    bool debug;
     QProcess *process = nullptr;
     Ui::ExtScript *ui;
     void translate();

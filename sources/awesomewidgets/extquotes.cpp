@@ -20,7 +20,6 @@
 
 #include <KI18n/KLocalizedString>
 
-#include <QDebug>
 #include <QDir>
 #include <QJsonDocument>
 #include <QJsonParseError>
@@ -28,18 +27,21 @@
 #include <QNetworkRequest>
 #include <QSettings>
 
-#include <pdebug/pdebug.h>
 #include <qreplytimeout/qreplytimeout.h>
 
+#include "awdebug.h"
 #include "version.h"
 
 
 ExtQuotes::ExtQuotes(QWidget *parent, const QString quotesName,
                      const QStringList directories, const bool debugCmd)
     : AbstractExtItem(parent, quotesName, directories, debugCmd),
-      debug(debugCmd),
       ui(new Ui::ExtQuotes)
 {
+    // logging
+    const_cast<QLoggingCategory &>(LOG_ESM()).setEnabled(QtMsgType::QtDebugMsg, debugCmd);
+    qSetMessagePattern(LOG_FORMAT);
+
     readConfiguration();
     ui->setupUi(this);
     translate();
@@ -62,7 +64,7 @@ ExtQuotes::ExtQuotes(QWidget *parent, const QString quotesName,
 
 ExtQuotes::~ExtQuotes()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     disconnect(manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(quotesReplyReceived(QNetworkReply *)));
 
@@ -73,10 +75,10 @@ ExtQuotes::~ExtQuotes()
 
 ExtQuotes *ExtQuotes::copy(const QString fileName, const int number)
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     ExtQuotes *item = new ExtQuotes(static_cast<QWidget *>(parent()), fileName,
-                                    directories(), debug);
+                                    directories(), LOG_ESM().isDebugEnabled());
     item->setActive(isActive());
     item->setApiVersion(apiVersion());
     item->setComment(comment());
@@ -91,7 +93,7 @@ ExtQuotes *ExtQuotes::copy(const QString fileName, const int number)
 
 QString ExtQuotes::ticker() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_ticker;
 }
@@ -99,7 +101,7 @@ QString ExtQuotes::ticker() const
 
 QString ExtQuotes::uniq() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_ticker;
 }
@@ -107,8 +109,8 @@ QString ExtQuotes::uniq() const
 
 void ExtQuotes::setTicker(const QString _ticker)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Ticker" << _ticker;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Ticker" << _ticker;
 
     m_ticker = _ticker;
 }
@@ -116,7 +118,7 @@ void ExtQuotes::setTicker(const QString _ticker)
 
 void ExtQuotes::readConfiguration()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
     AbstractExtItem::readConfiguration();
 
     for (int i=directories().count()-1; i>=0; i--) {
@@ -138,11 +140,11 @@ void ExtQuotes::readConfiguration()
 
 QVariantHash ExtQuotes::run()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
     if ((!isActive()) || (isRunning)) return values;
 
     if (times == 1) {
-        if (debug) qDebug() << PDEBUG << ":" << "Send request";
+        qCDebug(LOG_ESM) << "Send request";
         isRunning = true;
         QNetworkReply *reply = manager->get(QNetworkRequest(QUrl(url())));
         new QReplyTimeout(reply, 1000);
@@ -159,7 +161,7 @@ QVariantHash ExtQuotes::run()
 int ExtQuotes::showConfiguration(const QVariant args)
 {
     Q_UNUSED(args)
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -185,11 +187,11 @@ int ExtQuotes::showConfiguration(const QVariant args)
 
 void ExtQuotes::writeConfiguration() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
     AbstractExtItem::writeConfiguration();
 
     QSettings settings(QString("%1/%2").arg(directories().first()).arg(fileName()), QSettings::IniFormat);
-    if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << settings.fileName();
+    qCDebug(LOG_ESM) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
     settings.setValue(QString("X-AW-Ticker"), m_ticker);
@@ -200,17 +202,17 @@ void ExtQuotes::writeConfiguration() const
 
 void ExtQuotes::quotesReplyReceived(QNetworkReply *reply)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Return code" << reply->error();
-    if (debug) qDebug() << PDEBUG << ":" << "Reply error message" << reply->errorString();
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Return code" << reply->error();
+    qCDebug(LOG_ESM) << "Reply error message" << reply->errorString();
 
     isRunning = false;
     QJsonParseError error;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll(), &error);
     reply->deleteLater();
-    if (debug) qDebug() << PDEBUG << ":" << "Json parse error" << error.errorString();
     if ((reply->error() != QNetworkReply::NoError) ||
         (error.error != QJsonParseError::NoError)) {
+        qCWarning(LOG_ESM) << "Parse error" << error.errorString();
         return;
     }
     QVariantMap jsonQuotes = jsonDoc.toVariant().toMap()[QString("query")].toMap();
@@ -242,7 +244,7 @@ void ExtQuotes::quotesReplyReceived(QNetworkReply *reply)
 
 void ExtQuotes::translate()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
@@ -256,11 +258,11 @@ void ExtQuotes::translate()
 
 QString ExtQuotes::url() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     QString apiUrl = QString(YAHOO_URL);
     apiUrl.replace(QString("$TICKER"), m_ticker);
-    if (debug) qDebug() << PDEBUG << ":" << "API url" << apiUrl;
+    qCDebug(LOG_ESM) << "API url" << apiUrl;
 
     return apiUrl;
 }

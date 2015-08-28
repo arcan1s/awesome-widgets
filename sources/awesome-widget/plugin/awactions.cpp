@@ -20,7 +20,6 @@
 #include <KI18n/KLocalizedString>
 #include <KNotifications/KNotification>
 
-#include <QDebug>
 #include <QDesktopServices>
 #include <QDir>
 #include <QJsonDocument>
@@ -35,10 +34,8 @@
 #include <QStandardPaths>
 
 #include <fontdialog/fontdialog.h>
-#include <pdebug/pdebug.h>
 
-#include "extscript.h"
-#include "graphicalitem.h"
+#include "awdebug.h"
 #include "version.h"
 
 
@@ -48,19 +45,24 @@ AWActions::AWActions(QObject *parent)
     // debug
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
     QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
-    debug = (debugEnv == QString("yes"));
+    bool debug = (debugEnv == QString("yes"));
+
+    // logging
+    const_cast<QLoggingCategory &>(LOG_AW()).setEnabled(QtMsgType::QtDebugMsg, debug);
+    qSetMessagePattern(LOG_FORMAT);
+    qCInfo(LOG_AW) << "simple test" << QT_VERSION_CHECK(5, 5, 0) << QT_VERSION;
 }
 
 
 AWActions::~AWActions()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_AW);
 }
 
 
 void AWActions::checkUpdates()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_AW);
 
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
     connect(manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(versionReplyRecieved(QNetworkReply *)));
@@ -71,7 +73,7 @@ void AWActions::checkUpdates()
 
 bool AWActions::dropCache() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_AW);
 
     QString fileName = QString("%1/awesomewidgets.ndx")
                        .arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
@@ -82,16 +84,16 @@ bool AWActions::dropCache() const
 
 bool AWActions::isDebugEnabled() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_AW);
 
-    return debug;
+    return LOG_AW().isDebugEnabled();
 }
 
 
 void AWActions::runCmd(const QString cmd) const
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Cmd" << cmd;
+    qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << "Cmd" << cmd;
 
     QProcess command;
     sendNotification(QString("Info"), i18n("Run %1", cmd));
@@ -102,13 +104,13 @@ void AWActions::runCmd(const QString cmd) const
 
 void AWActions::sendEmail() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_AW);
 }
 
 
 void AWActions::showReadme() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_AW);
 
     QDesktopServices::openUrl(QString(HOMEPAGE));
 }
@@ -116,8 +118,8 @@ void AWActions::showReadme() const
 
 QString AWActions::getAboutText(const QString type) const
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Type" << type;
+    qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << "Type" << type;
 
     QString text;
     if (type == QString("header"))
@@ -155,7 +157,7 @@ QString AWActions::getAboutText(const QString type) const
 
 QVariantMap AWActions::getFont(const QVariantMap defaultFont) const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_AW);
 
     QVariantMap fontMap;
     CFont defaultCFont = CFont(defaultFont[QString("family")].toString(),
@@ -173,10 +175,10 @@ QVariantMap AWActions::getFont(const QVariantMap defaultFont) const
 
 QVariantMap AWActions::readDataEngineConfiguration() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_AW);
 
     QString fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation, QString("plasma-dataengine-extsysmon.conf"));
-    if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
+    qCDebug(LOG_AW) << "Configuration file" << fileName;
     QSettings settings(fileName, QSettings::IniFormat);
     QVariantMap configuration;
 
@@ -197,11 +199,11 @@ QVariantMap AWActions::readDataEngineConfiguration() const
 
 void AWActions::writeDataEngineConfiguration(const QVariantMap configuration) const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_AW);
 
     QString fileName = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + QString("/plasma-dataengine-extsysmon.conf");
     QSettings settings(fileName, QSettings::IniFormat);
-    if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << settings.fileName();
+    qCDebug(LOG_AW) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Configuration"));
     settings.setValue(QString("ACPIPATH"), configuration[QString("ACPIPATH")]);
@@ -221,6 +223,9 @@ void AWActions::writeDataEngineConfiguration(const QVariantMap configuration) co
 void AWActions::sendNotification(const QString eventId, const QString message,
                                  const bool enablePopup)
 {
+    qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << "Event" << eventId;
+    qCDebug(LOG_AW) << "Message" << message;
     if ((eventId == QString("event")) && (!enablePopup)) return;
 
     KNotification *notification = KNotification::event(eventId, QString("Awesome Widget ::: %1").arg(eventId), message);
@@ -230,7 +235,7 @@ void AWActions::sendNotification(const QString eventId, const QString message,
 
 void AWActions::showUpdates(QString version) const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_AW);
 
     QString text;
     text += i18n("Current version : %1", QString(VERSION)) + QString("\n");
@@ -249,14 +254,16 @@ void AWActions::showUpdates(QString version) const
 
 void AWActions::versionReplyRecieved(QNetworkReply *reply) const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << "Return code" << reply->error();
+    qCDebug(LOG_AW) << "Reply error message" << reply->errorString();
 
     QJsonParseError error;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll(), &error);
     reply->deleteLater();
-    if (debug) qDebug() << PDEBUG << ":" << "Json parse error" << error.errorString();
     if ((reply->error() != QNetworkReply::NoError) ||
         (error.error != QJsonParseError::NoError)) {
+        qCWarning(LOG_AW) << "Parse error" << error.errorString();
         return;
     }
 

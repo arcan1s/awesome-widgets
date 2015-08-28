@@ -12,7 +12,7 @@ include_directories(
     ${Kf5_INCLUDE}
 )
 
-file(GLOB_RECURSE SUBPROJECT_SOURCE *.cpp ${PROJECT_TRDPARTY_DIR}/fontdialog/*.cpp)
+file(GLOB SUBPROJECT_SOURCE *.cpp ${PROJECT_TRDPARTY_DIR}/fontdialog/*.cpp ${CMAKE_SOURCE_DIR}/*.cpp)
 file(GLOB SUBPROJECT_UI *.ui)
 file(GLOB SUBPROJECT_NOTIFY *.notifyrc)
 

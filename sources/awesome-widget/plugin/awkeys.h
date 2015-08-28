@@ -85,7 +85,6 @@ private:
     QStringList findLambdas() const;
     // get methods
     AWToolTip *toolTip = nullptr;
-    bool debug = false;
     bool enablePopup = false;
     bool translateStrings = false;
     bool wrapNewLines = false;

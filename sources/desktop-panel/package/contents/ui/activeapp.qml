@@ -230,6 +230,6 @@ Item {
     }
 
     Component.onCompleted: {
-        if (debug) console.log("[activeapp::onCompleted]")
+        if (debug) console.log("")
     }
 }

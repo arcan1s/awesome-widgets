@@ -76,7 +76,6 @@ private:
     QList<Plasma::Containment *> getPanels() const;
     QString panelLocationToStr(Plasma::Types::Location location) const;
     // variables
-    bool debug = false;
     int oldState, tooltipWidth = 200;
     QString mark = QString("*");
     QString tooltipColor = QString("#000000");

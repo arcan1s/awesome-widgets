@@ -20,12 +20,11 @@
 
 #include <KI18n/KLocalizedString>
 
-#include <QDebug>
 #include <QDir>
 #include <QSettings>
 #include <QStandardPaths>
 
-#include <pdebug/pdebug.h>
+#include "awdebug.h"
 
 #include "abstractextitemaggregator.h"
 
@@ -37,31 +36,34 @@ public:
     explicit ExtItemAggregator(QWidget *parent, const QString type,
                                const bool debugCmd = false)
         : AbstractExtItemAggregator(parent, debugCmd),
-          debug(debugCmd),
           m_type(type)
     {
+        // logging
+        const_cast<QLoggingCategory &>(LOG_ESM()).setEnabled(QtMsgType::QtDebugMsg, debugCmd);
+        qSetMessagePattern(LOG_FORMAT);
+
         initItems();
     };
 
-    ~ExtItemAggregator()
+    virtual ~ExtItemAggregator()
     {
-        if (debug) qDebug() << PDEBUG;
+        qCDebug(LOG_ESM);
 
         m_items.clear();
     }
 
     void editItems()
     {
-        if (debug) qDebug() << PDEBUG;
+        qCDebug(LOG_ESM);
 
         repaint();
         int ret = dialog->exec();
-        if (debug) qDebug() << PDEBUG << ":" << "Dialog returns" << ret;
+        qCDebug(LOG_ESM) << "Dialog returns" << ret;
     };
 
     void initItems()
     {
-        if (debug) qDebug() << PDEBUG;
+        qCDebug(LOG_ESM);
 
         m_items.clear();
         m_items = getItems();
@@ -69,7 +71,7 @@ public:
 
     T *itemByTag(const QString _tag) const
     {
-        if (debug) qDebug() << PDEBUG;
+        qCDebug(LOG_ESM);
 
         T *found = nullptr;
         foreach(T *item, m_items) {
@@ -83,7 +85,7 @@ public:
 
     T *itemByTagNumber(const int _number) const
     {
-        if (debug) qDebug() << PDEBUG;
+        qCDebug(LOG_ESM);
 
         T *found = nullptr;
         foreach(T *item, m_items) {
@@ -97,7 +99,7 @@ public:
 
     T *itemFromWidget() const
     {
-        if (debug) qDebug() << PDEBUG;
+        qCDebug(LOG_ESM);
 
         QListWidgetItem *widgetItem = widgetDialog->currentItem();
         if (widgetItem == nullptr) return nullptr;
@@ -114,14 +116,14 @@ public:
 
     QList<T *> items() const
     {
-        if (debug) qDebug() << PDEBUG;
+        qCDebug(LOG_ESM);
 
         return m_items;
     };
 
     int uniqNumber() const
     {
-        if (debug) qDebug() << PDEBUG;
+        qCDebug(LOG_ESM);
 
         QList<int> tagList;
         foreach(T *item, m_items) tagList.append(item->number());
@@ -132,14 +134,13 @@ public:
     };
 
 private:
-    bool debug;
     QList<T *> m_items;
     QString m_type;
 
     // init method
     QList<T *> getItems()
     {
-        if (debug) qDebug() << PDEBUG;
+        qCDebug(LOG_ESM);
 
         // create directory at $HOME
         QString localDir = QString("%1/awesomewidgets/%2")
@@ -147,7 +148,7 @@ private:
                            .arg(m_type);
         QDir localDirectory;
         if (localDirectory.mkpath(localDir))
-            if (debug) qDebug() << PDEBUG << ":" << "Created directory" << localDir;
+            qCDebug(LOG_ESM) << "Created directory" << localDir;
 
         QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
                            QString("awesomewidgets/%1").arg(m_type),
@@ -159,9 +160,9 @@ private:
             foreach(QString file, files) {
                 if (!file.endsWith(QString(".desktop"))) continue;
                 if (names.contains(file)) continue;
-                if (debug) qDebug() << PDEBUG << ":" << "Found file" << file << "in" << dir;
+                qCDebug(LOG_ESM) << "Found file" << file << "in" << dir;
                 names.append(file);
-                items.append(new T(this, file, dirs, debug));
+                items.append(new T(this, file, dirs, LOG_ESM().isDebugEnabled()));
             }
         }
 
@@ -185,7 +186,7 @@ private:
     // methods
     void copyItem()
     {
-        if (debug) qDebug() << PDEBUG;
+        qCDebug(LOG_ESM);
 
         T *source = itemFromWidget();
         QString fileName = getName();
@@ -201,7 +202,7 @@ private:
 
     void createItem()
     {
-        if (debug) qDebug() << PDEBUG;
+        qCDebug(LOG_ESM);
 
         QString fileName = getName();
         int number = uniqNumber();
@@ -210,7 +211,7 @@ private:
                            QStandardPaths::LocateDirectory);
         if (fileName.isEmpty()) return;
 
-        T *newItem = new T(this, fileName, dirs, debug);
+        T *newItem = new T(this, fileName, dirs, LOG_ESM().isDebugEnabled());
         newItem->setNumber(number);
         if (newItem->showConfiguration(configArgs()) == 1) {
             initItems();
@@ -220,7 +221,7 @@ private:
 
     void deleteItem()
     {
-        if (debug) qDebug() << PDEBUG;
+        qCDebug(LOG_ESM);
 
         T *source = itemFromWidget();
         if (source == nullptr) return;
@@ -233,7 +234,7 @@ private:
 
     void editItem()
     {
-        if (debug) qDebug() << PDEBUG;
+        qCDebug(LOG_ESM);
 
         T *source = itemFromWidget();
         if (source == nullptr) return;

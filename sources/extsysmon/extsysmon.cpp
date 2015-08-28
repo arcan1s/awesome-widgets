@@ -24,7 +24,6 @@
 #include <QDBusConnection>
 #include <QDBusConnectionInterface>
 #include <QDBusMessage>
-#include <QDebug>
 #include <QDir>
 #include <QFile>
 #include <QNetworkInterface>
@@ -34,10 +33,9 @@
 #include <QSettings>
 #include <QStandardPaths>
 
-#include <pdebug/pdebug.h>
-#include <pdebug/pdebug-time.h>
 #include <task/taskadds.h>
 
+#include "awdebug.h"
 #include "extquotes.h"
 #include "extscript.h"
 #include "extupgrade.h"
@@ -49,12 +47,15 @@ ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList &args)
     : Plasma::DataEngine(parent, args)
 {
     Q_UNUSED(args)
-    qInstallMessageHandler(debugString);
 
     // debug
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
     QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
-    debug = (debugEnv == QString("yes"));
+    bool debug = (debugEnv == QString("yes"));
+
+    // logging
+    const_cast<QLoggingCategory &>(LOG_ESM()).setEnabled(QtMsgType::QtDebugMsg, debug);
+    qSetMessagePattern(LOG_FORMAT);
 
     setMinimumPollingInterval(333);
     readConfiguration();
@@ -68,7 +69,7 @@ ExtendedSysMon::ExtendedSysMon(QObject* parent, const QVariantList &args)
 
 ExtendedSysMon::~ExtendedSysMon()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     delete extQuotes;
     delete extScripts;
@@ -79,21 +80,21 @@ ExtendedSysMon::~ExtendedSysMon()
 
 QStringList ExtendedSysMon::getAllHdd() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     QStringList allDevices = QDir(QString("/dev")).entryList(QDir::System, QDir::Name);
     QStringList devices = allDevices.filter(QRegExp(QString("^[hms]d[a-z]$")));
     for (int i=0; i<devices.count(); i++)
         devices[i] = QString("/dev/%1").arg(devices.at(i));
 
-    if (debug) qDebug() << PDEBUG << ":" << "Device list" << devices;
+    qCDebug(LOG_ESM) << "Device list" << devices;
     return devices;
 }
 
 
 QString ExtendedSysMon::getAutoGpu() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     QString gpu = QString("disable");
     QFile moduleFile(QString("/proc/modules"));
@@ -105,21 +106,21 @@ QString ExtendedSysMon::getAutoGpu() const
     else if (output.contains(QString("nvidia")))
         gpu = QString("nvidia");
 
-    if (debug) qDebug() << PDEBUG << ":" << "Device" << gpu;
+    qCDebug(LOG_ESM) << "Device" << gpu;
     return gpu;
 }
 
 
 QString ExtendedSysMon::getAutoMpris() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     QDBusMessage listServices = QDBusConnection::sessionBus().interface()->call(QDBus::BlockWithGui, QString("ListNames"));
     if (listServices.arguments().isEmpty()) return QString();
     QStringList arguments = listServices.arguments().first().toStringList();
 
     foreach(QString arg, arguments) {
-        if (debug) qDebug() << PDEBUG << ":" << "Service found" << arg;
+        qCDebug(LOG_ESM) << "Service found" << arg;
         if (!arg.startsWith(QString("org.mpris.MediaPlayer2."))) continue;
         QString service = arg;
         service.remove(QString("org.mpris.MediaPlayer2."));
@@ -132,7 +133,7 @@ QString ExtendedSysMon::getAutoMpris() const
 
 QStringList ExtendedSysMon::sources() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     QStringList source;
     source.append(QString("battery"));
@@ -149,18 +150,18 @@ QStringList ExtendedSysMon::sources() const
     source.append(QString("update"));
     source.append(QString("weather"));
 
-    if (debug) qDebug() << PDEBUG << ":" << "Sources" << source;
+    qCDebug(LOG_ESM) << "Sources" << source;
     return source;
 }
 
 
 void ExtendedSysMon::readConfiguration()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     QString fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation,
                                               QString("plasma-dataengine-extsysmon.conf"));
-    if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
+    qCDebug(LOG_ESM) << "Configuration file" << fileName;
     QSettings settings(fileName, QSettings::IniFormat);
     QHash<QString, QString> rawConfig;
 
@@ -181,7 +182,7 @@ void ExtendedSysMon::readConfiguration()
 
 QHash<QString, QString> ExtendedSysMon::updateConfiguration(QHash<QString, QString> rawConfig) const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     // gpudev
     if (rawConfig[QString("GPUDEV")] == QString("disable"))
@@ -216,15 +217,15 @@ QHash<QString, QString> ExtendedSysMon::updateConfiguration(QHash<QString, QStri
         rawConfig[QString("PLAYER")] = QString("mpris");
 
     foreach(QString key, rawConfig.keys())
-        if (debug) qDebug() << PDEBUG << ":" << key << "=" << rawConfig[key];
+        qCDebug(LOG_ESM) << key << "=" << rawConfig[key];
     return rawConfig;
 }
 
 
 QVariantHash ExtendedSysMon::getBattery(const QString acpiPath) const
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "ACPI path" << acpiPath;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "ACPI path" << acpiPath;
 
     QVariantHash battery;
     battery[QString("ac")] = false;
@@ -266,7 +267,7 @@ QVariantHash ExtendedSysMon::getBattery(const QString acpiPath) const
 
 QVariantHash ExtendedSysMon::getCurrentDesktop() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     int number = KWindowSystem::currentDesktop();
     int total = KWindowSystem::numberOfDesktops();
@@ -284,8 +285,8 @@ QVariantHash ExtendedSysMon::getCurrentDesktop() const
 
 float ExtendedSysMon::getGpu(const QString device) const
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Device" << device;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Device" << device;
 
     float value = 0.0;
     if ((device != QString("nvidia")) && (device != QString("ati")))
@@ -295,10 +296,10 @@ float ExtendedSysMon::getGpu(const QString device) const
         cmd = QString("nvidia-smi -q -x");
     else if (device == QString("ati"))
         cmd = QString("aticonfig --od-getclocks");
-    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
+    qCDebug(LOG_ESM) << "cmd" << cmd;
     TaskResult process = runTask(cmd);
-    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-    if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+    qCDebug(LOG_ESM) << "Cmd returns" << process.exitCode;
+    qCDebug(LOG_ESM) << "Error" << process.error;
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     if (configuration[QString("GPUDEV")] == QString("nvidia"))
@@ -324,8 +325,8 @@ float ExtendedSysMon::getGpu(const QString device) const
 
 float ExtendedSysMon::getGpuTemp(const QString device) const
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Device" << device;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Device" << device;
 
     float value = 0.0;
     if ((device != QString("nvidia")) && (device != QString("ati")))
@@ -335,10 +336,10 @@ float ExtendedSysMon::getGpuTemp(const QString device) const
         cmd = QString("nvidia-smi -q -x");
     else if (device == QString("ati"))
         cmd = QString("aticonfig --od-gettemperature");
-    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
+    qCDebug(LOG_ESM) << "cmd" << cmd;
     TaskResult process = runTask(cmd);
-    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-    if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+    qCDebug(LOG_ESM) << "Cmd returns" << process.exitCode;
+    qCDebug(LOG_ESM) << "Error" << process.error;
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output);
     if (configuration[QString("GPUDEV")] == QString("nvidia"))
@@ -362,17 +363,17 @@ float ExtendedSysMon::getGpuTemp(const QString device) const
 
 float ExtendedSysMon::getHddTemp(const QString cmd, const QString device) const
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
-    if (debug) qDebug() << PDEBUG << ":" << "Device" << device;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "cmd" << cmd;
+    qCDebug(LOG_ESM) << "Device" << device;
 
     float value = 0.0;
     TaskResult process = runTask(QString("%1 %2").arg(cmd).arg(device));
-    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-    if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+    qCDebug(LOG_ESM) << "Cmd returns" << process.exitCode;
+    qCDebug(LOG_ESM) << "Error" << process.error;
 
     bool smartctl = cmd.contains(QString("smartctl"));
-    if (debug) qDebug() << PDEBUG << ":" << "Define smartctl" << smartctl;
+    qCDebug(LOG_ESM) << "Define smartctl" << smartctl;
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     if (smartctl) {
@@ -396,7 +397,7 @@ float ExtendedSysMon::getHddTemp(const QString cmd, const QString device) const
 
 QString ExtendedSysMon::getNetworkDevice() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     QString device = QString("lo");
     QList<QNetworkInterface> rawInterfaceList = QNetworkInterface::allInterfaces();
@@ -415,10 +416,10 @@ QString ExtendedSysMon::getNetworkDevice() const
 QVariantHash ExtendedSysMon::getPlayerInfo(const QString playerName, const QString mpdAddress,
                                           const QString mpdPort, QString mpris) const
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "player" << playerName;
-    if (debug) qDebug() << PDEBUG << ":" << "MPD" << QString("%1:%2").arg(mpdAddress).arg(mpdPort);
-    if (debug) qDebug() << PDEBUG << ":" << "MPRIS" << mpris;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "player" << playerName;
+    qCDebug(LOG_ESM) << "MPD" << QString("%1:%2").arg(mpdAddress).arg(mpdPort);
+    qCDebug(LOG_ESM) << "MPRIS" << mpris;
 
     QVariantHash info;
     info[QString("album")] = QString("unknown");
@@ -443,8 +444,8 @@ QVariantHash ExtendedSysMon::getPlayerInfo(const QString playerName, const QStri
 
 QVariantHash ExtendedSysMon::getPlayerMpdInfo(const QString mpdAddress, const QString mpdPort) const
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "MPD" << QString("%1:%2").arg(mpdAddress).arg(mpdPort);
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "MPD" << QString("%1:%2").arg(mpdAddress).arg(mpdPort);
 
     QVariantHash info;
     info[QString("album")] = QString("unknown");
@@ -456,10 +457,10 @@ QVariantHash ExtendedSysMon::getPlayerMpdInfo(const QString mpdAddress, const QS
     QString cmd = QString("bash -c \"echo 'currentsong\nstatus\nclose' | curl --connect-timeout 1 -fsm 3 telnet://%1:%2\"")
                     .arg(mpdAddress)
                     .arg(mpdPort);
-    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
+    qCDebug(LOG_ESM) << "cmd" << cmd;
     TaskResult process = runTask(cmd);
-    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-    if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+    qCDebug(LOG_ESM) << "Cmd returns" << process.exitCode;
+    qCDebug(LOG_ESM) << "Error" << process.error;
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     foreach(QString str, qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
@@ -482,8 +483,8 @@ QVariantHash ExtendedSysMon::getPlayerMpdInfo(const QString mpdAddress, const QS
 
 QVariantHash ExtendedSysMon::getPlayerMprisInfo(const QString mpris) const
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << "MPRIS" << mpris;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "MPRIS" << mpris;
 
     QVariantHash info;
     info[QString("album")] = QString("unknown");
@@ -505,7 +506,7 @@ QVariantHash ExtendedSysMon::getPlayerMprisInfo(const QString mpris) const
     request.setArguments(args);
     QDBusMessage response = bus.call(request, QDBus::BlockWithGui);
     if ((response.type() != QDBusMessage::ReplyMessage) || (response.arguments().isEmpty())) {
-        if (debug) qDebug() << PDEBUG << ":" << "Error message" << response.errorMessage();
+        qCDebug(LOG_ESM) << "Error message" << response.errorMessage();
     } else {
         // another portion of dirty magic
         QVariantHash map = qdbus_cast<QVariantHash>(response.arguments().first()
@@ -523,7 +524,7 @@ QVariantHash ExtendedSysMon::getPlayerMprisInfo(const QString mpris) const
     request.setArguments(args);
     response = bus.call(request, QDBus::BlockWithGui);
     if ((response.type() != QDBusMessage::ReplyMessage) || (response.arguments().isEmpty())) {
-        if (debug) qDebug() << PDEBUG << ":" << "Error message" << response.errorMessage();
+        qCDebug(LOG_ESM) << "Error message" << response.errorMessage();
     } else
         // this cast is simpler than the previous one ;)
         info[QString("progress")] =  response.arguments().first().value<QDBusVariant>()
@@ -535,7 +536,7 @@ QVariantHash ExtendedSysMon::getPlayerMprisInfo(const QString mpris) const
 
 QVariantHash ExtendedSysMon::getPsStats() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     QStringList allDirectories = QDir(QString("/proc")).entryList(QDir::Dirs | QDir::NoDotAndDotDot,
                                                                   QDir::Name);
@@ -563,8 +564,8 @@ QVariantHash ExtendedSysMon::getPsStats() const
 
 bool ExtendedSysMon::sourceRequestEvent(const QString &source)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Source" << source;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Source" << source;
 
     return updateSourceEvent(source);
 }
@@ -572,8 +573,8 @@ bool ExtendedSysMon::sourceRequestEvent(const QString &source)
 
 bool ExtendedSysMon::updateSourceEvent(const QString &source)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Source" << source;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Source" << source;
 
     if (source == QString("battery")) {
         QVariantHash battery = getBattery(configuration[QString("ACPIPATH")]);

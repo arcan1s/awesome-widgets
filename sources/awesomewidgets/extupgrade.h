@@ -60,7 +60,6 @@ private slots:
     void updateValue();
 
 private:
-    bool debug;
     QProcess *process = nullptr;
     Ui::ExtUpgrade *ui;
     void translate();

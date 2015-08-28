@@ -90,7 +90,6 @@ private slots:
 private:
     QString m_fileName;
     QStringList m_dirs;
-    bool debug;
     Ui::GraphicalItem *ui;
     QColor stringToColor(const QString _color) const;
     void translate();

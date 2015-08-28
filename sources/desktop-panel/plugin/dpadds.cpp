@@ -22,7 +22,6 @@
 #include <KWindowSystem/KWindowSystem>
 
 #include <QBuffer>
-#include <QDebug>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsScene>
 #include <QGraphicsView>
@@ -34,21 +33,22 @@
 #include <QScreen>
 
 #include <fontdialog/fontdialog.h>
-#include <pdebug/pdebug.h>
-#include <pdebug/pdebug-time.h>
 
+#include "awdebug.h"
 #include "version.h"
 
 
 DPAdds::DPAdds(QObject *parent)
     : QObject(parent)
 {
-    qInstallMessageHandler(debugString);
-
     // debug
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
     QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
-    debug = (debugEnv == QString("yes"));
+    bool debug = (debugEnv == QString("yes"));
+
+    // logging
+    const_cast<QLoggingCategory &>(LOG_DP()).setEnabled(QtMsgType::QtDebugMsg, debug);
+    qSetMessagePattern(LOG_FORMAT);
 
     connect(KWindowSystem::self(), SIGNAL(currentDesktopChanged(int)), this, SIGNAL(desktopChanged()));
     connect(KWindowSystem::self(), SIGNAL(windowAdded(WId)), this, SIGNAL(windowListChanged()));
@@ -58,21 +58,21 @@ DPAdds::DPAdds(QObject *parent)
 
 DPAdds::~DPAdds()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_DP);
 }
 
 
 bool DPAdds::isDebugEnabled() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_DP);
 
-    return debug;
+    return LOG_DP().isDebugEnabled();
 }
 
 
 int DPAdds::currentDesktop() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_DP);
 
     return KWindowSystem::currentDesktop();
 }
@@ -80,7 +80,7 @@ int DPAdds::currentDesktop() const
 
 QStringList DPAdds::dictKeys() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_DP);
 
     QStringList allKeys;
     allKeys.append(QString("mark"));
@@ -94,7 +94,7 @@ QStringList DPAdds::dictKeys() const
 
 int DPAdds::numberOfDesktops() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_DP);
 
     return KWindowSystem::numberOfDesktops();
 }
@@ -102,8 +102,8 @@ int DPAdds::numberOfDesktops() const
 
 QString DPAdds::toolTipImage(const int desktop) const
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Desktop" << desktop;
+    qCDebug(LOG_DP);
+    qCDebug(LOG_DP) << "Desktop" << desktop;
     if (tooltipType == QString("none")) return QString();
 
     // prepare
@@ -181,7 +181,7 @@ QString DPAdds::toolTipImage(const int desktop) const
 
 QString DPAdds::parsePattern(const QString pattern, const int desktop) const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_DP);
 
     QString parsed = pattern;
     parsed.replace(QString("$$"), QString("$\\$\\"));
@@ -195,8 +195,8 @@ QString DPAdds::parsePattern(const QString pattern, const int desktop) const
 
 void DPAdds::setMark(const QString newMark)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Mark" << newMark;
+    qCDebug(LOG_DP);
+    qCDebug(LOG_DP) << "Mark" << newMark;
 
     mark = newMark;
 }
@@ -204,8 +204,8 @@ void DPAdds::setMark(const QString newMark)
 
 void DPAdds::setPanelsToControl(const QString newPanels)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Panels" << newPanels;
+    qCDebug(LOG_DP);
+    qCDebug(LOG_DP) << "Panels" << newPanels;
 
     panelsToControl.clear();
     if (newPanels == QString("-1")) {
@@ -220,8 +220,8 @@ void DPAdds::setPanelsToControl(const QString newPanels)
 
 void DPAdds::setToolTipData(const QVariantMap tooltipData)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Data" << tooltipData;
+    qCDebug(LOG_DP);
+    qCDebug(LOG_DP) << "Data" << tooltipData;
 
     tooltipColor = tooltipData[QString("tooltipColor")].toString();
     tooltipType = tooltipData[QString("tooltipType")].toString();
@@ -231,8 +231,8 @@ void DPAdds::setToolTipData(const QVariantMap tooltipData)
 
 QString DPAdds::valueByKey(const QString key, int desktop) const
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Requested key" << key;
+    qCDebug(LOG_DP);
+    qCDebug(LOG_DP) << "Requested key" << key;
     if (desktop == -1) desktop = currentDesktop();
 
     QString currentMark = currentDesktop() == desktop ? mark : QString("");
@@ -252,7 +252,7 @@ QString DPAdds::valueByKey(const QString key, int desktop) const
 
 QString DPAdds::editPanelsToContol(const QString current)
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_DP);
 
     // paint
     QDialog *dialog = new QDialog(nullptr);
@@ -302,8 +302,8 @@ QString DPAdds::editPanelsToContol(const QString current)
 
 QString DPAdds::getAboutText(const QString type) const
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Type" << type;
+    qCDebug(LOG_DP);
+    qCDebug(LOG_DP) << "Type" << type;
 
     QString text;
     if (type == QString("header"))
@@ -341,7 +341,7 @@ QString DPAdds::getAboutText(const QString type) const
 
 QVariantMap DPAdds::getFont(const QVariantMap defaultFont) const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_DP);
 
     QVariantMap fontMap;
     CFont defaultCFont = CFont(defaultFont[QString("family")].toString(),
@@ -359,7 +359,7 @@ QVariantMap DPAdds::getFont(const QVariantMap defaultFont) const
 
 void DPAdds::changePanelsState() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_DP);
     if (panelsToControl.isEmpty()) return;
 
 //     QList<Plasma::Containment *> panels = getPanels();
@@ -368,12 +368,12 @@ void DPAdds::changePanelsState() const
 //         bool wasVisible = panels.at(i)->view()->isVisible();
 //         int winId = panels.at(i)->view()->winId();
 //         if (wasVisible) {
-//             if (debug) qDebug() << PDEBUG << ":" << "Hide panel";
+//             qCDebug(LOG_DP) << "Hide panel";
 //             KWindowInfo oldInfo = KWindowSystem::windowInfo(winId, NET::WMState);
 //             oldState = oldInfo.state();
 //             panels.at(i)->view()->setVisible(false);
 //         } else {
-//             if (debug) qDebug() << PDEBUG << ":" << "Show panel";
+//             qCDebug(LOG_DP) << "Show panel";
 //             panels.at(i)->view()->setVisible(true);
 //             KWindowSystem::clearState(winId, NET::KeepAbove);
 //             KWindowSystem::setState(winId, oldState | NET::StaysOnTop);
@@ -386,6 +386,10 @@ void DPAdds::changePanelsState() const
 
 void DPAdds::sendNotification(const QString eventId, const QString message)
 {
+    qCDebug(LOG_DP);
+    qCDebug(LOG_DP) << "Event" << eventId;
+    qCDebug(LOG_DP) << "Message" << message;
+
     KNotification *notification = KNotification::event(eventId, QString("Desktop Panel ::: %1").arg(eventId), message);
     notification->setComponentName(QString("plasma-applet-org.kde.plasma.desktop-panel"));
 }
@@ -393,8 +397,8 @@ void DPAdds::sendNotification(const QString eventId, const QString message)
 
 void DPAdds::setCurrentDesktop(const int desktop) const
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Desktop" << desktop;
+    qCDebug(LOG_DP);
+    qCDebug(LOG_DP) << "Desktop" << desktop;
 
     KWindowSystem::setCurrentDesktop(desktop);
 }
@@ -402,8 +406,8 @@ void DPAdds::setCurrentDesktop(const int desktop) const
 
 DPAdds::DesktopWindowsInfo DPAdds::getInfoByDesktop(const int desktop) const
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Desktop" << desktop;
+    qCDebug(LOG_DP);
+    qCDebug(LOG_DP) << "Desktop" << desktop;
 
 
     DesktopWindowsInfo info;
@@ -433,7 +437,7 @@ DPAdds::DesktopWindowsInfo DPAdds::getInfoByDesktop(const int desktop) const
 
 QList<Plasma::Containment *> DPAdds::getPanels() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_DP);
 
 //     Plasma::Corona *corona = new Plasma::Corona(this);
     QList<Plasma::Containment *> panels;
@@ -449,8 +453,8 @@ QList<Plasma::Containment *> DPAdds::getPanels() const
 
 QString DPAdds::panelLocationToStr(Plasma::Types::Location location) const
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Location" << location;
+    qCDebug(LOG_DP);
+    qCDebug(LOG_DP) << "Location" << location;
 
     switch (location) {
     case Plasma::Types::Location::TopEdge:

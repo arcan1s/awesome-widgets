@@ -16,8 +16,7 @@ include_directories(
 
 file(GLOB SUBPROJECT_DESKTOP_IN *.desktop)
 file(RELATIVE_PATH SUBPROJECT_DESKTOP ${CMAKE_SOURCE_DIR} ${SUBPROJECT_DESKTOP_IN})
-file(GLOB_RECURSE SUBPROJECT_SOURCE *.cpp ${PROJECT_TRDPARTY_DIR}/task/*.cpp
-                                          ${PROJECT_TRDPARTY_DIR}/pdebug/*.cpp)
+file(GLOB SUBPROJECT_SOURCE *.cpp ${PROJECT_TRDPARTY_DIR}/task/*.cpp ${CMAKE_SOURCE_DIR}/*.cpp)
 set(TASK_HEADER ${PROJECT_TRDPARTY_DIR}/task/task.h)
 file(GLOB SUBPROJECT_CONF *.conf)
 

@@ -513,6 +513,6 @@ Item {
     }
 
     Component.onCompleted: {
-        if (debug) console.log("[tooltip::onCompleted]")
+        if (debug) console.log("")
     }
 }

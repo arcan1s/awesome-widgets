@@ -18,11 +18,10 @@
 #include "awtooltip.h"
 
 #include <QBuffer>
-#include <QDebug>
 #include <QProcessEnvironment>
 #include <math.h>
 
-#include <pdebug/pdebug.h>
+#include "awdebug.h"
 
 
 AWToolTip::AWToolTip(QObject *parent, QVariantMap settings)
@@ -32,7 +31,11 @@ AWToolTip::AWToolTip(QObject *parent, QVariantMap settings)
     // debug
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
     QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
-    debug = (debugEnv == QString("yes"));
+    bool debug = (debugEnv == QString("yes"));
+
+    // logging
+    const_cast<QLoggingCategory &>(LOG_AW()).setEnabled(QtMsgType::QtDebugMsg, debug);
+    qSetMessagePattern(LOG_FORMAT);
 
     toolTipScene = new QGraphicsScene(nullptr);
     toolTipView = new QGraphicsView(toolTipScene);
@@ -74,7 +77,7 @@ AWToolTip::AWToolTip(QObject *parent, QVariantMap settings)
 
 AWToolTip::~AWToolTip()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_AW);
 
     delete toolTipScene;
 }
@@ -82,7 +85,7 @@ AWToolTip::~AWToolTip()
 
 void AWToolTip::dataUpdate(QHash<QString, QString> values)
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_AW);
 
     // battery update requires info is AC online or not
     setData(QString("batTooltip"), values[QString("bat")].toFloat(),
@@ -101,7 +104,7 @@ void AWToolTip::dataUpdate(QHash<QString, QString> values)
 
 QSize AWToolTip::getSize() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_AW);
 
     return size;
 }
@@ -109,7 +112,7 @@ QSize AWToolTip::getSize() const
 
 QString AWToolTip::htmlImage()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_AW);
 
     QPixmap rawImage = image();
     QByteArray byteArray;
@@ -123,7 +126,7 @@ QString AWToolTip::htmlImage()
 
 QPixmap AWToolTip::image()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_AW);
 
     toolTipView->resize(size);
     // create image
@@ -163,7 +166,7 @@ QPixmap AWToolTip::image()
 
 void AWToolTip::setData(const QString source, float value, const bool ac)
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_AW);
 
     if (data[source].count() == 0)
         data[source].append(0.0);

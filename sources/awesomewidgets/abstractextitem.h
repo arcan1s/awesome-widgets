@@ -71,7 +71,6 @@ public slots:
 private:
     QString m_fileName;
     QStringList m_dirs;
-    bool debug;
     virtual void translate() = 0;
     // properties
     int m_apiVersion = 0;

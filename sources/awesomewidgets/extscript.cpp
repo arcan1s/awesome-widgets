@@ -20,7 +20,6 @@
 
 #include <KI18n/KLocalizedString>
 
-#include <QDebug>
 #include <QDir>
 #include <QJsonDocument>
 #include <QJsonParseError>
@@ -28,17 +27,19 @@
 #include <QStandardPaths>
 #include <QTextCodec>
 
-#include <pdebug/pdebug.h>
-
+#include "awdebug.h"
 #include "version.h"
 
 
 ExtScript::ExtScript(QWidget *parent, const QString scriptName,
                      const QStringList directories, const bool debugCmd)
     : AbstractExtItem(parent, scriptName, directories, debugCmd),
-      debug(debugCmd),
       ui(new Ui::ExtScript)
 {
+    // logging
+    const_cast<QLoggingCategory &>(LOG_ESM()).setEnabled(QtMsgType::QtDebugMsg, debugCmd);
+    qSetMessagePattern(LOG_FORMAT);
+
     readConfiguration();
     readJsonFilters();
     ui->setupUi(this);
@@ -54,7 +55,7 @@ ExtScript::ExtScript(QWidget *parent, const QString scriptName,
 
 ExtScript::~ExtScript()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     process->kill();
     delete process;
@@ -64,10 +65,10 @@ ExtScript::~ExtScript()
 
 ExtScript *ExtScript::copy(const QString fileName, const int number)
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     ExtScript *item = new ExtScript(static_cast<QWidget *>(parent()), fileName,
-                                    directories(), debug);
+                                    directories(), LOG_ESM().isDebugEnabled());
     item->setActive(isActive());
     item->setApiVersion(apiVersion());
     item->setComment(comment());
@@ -85,7 +86,7 @@ ExtScript *ExtScript::copy(const QString fileName, const int number)
 
 QString ExtScript::executable() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_executable;
 }
@@ -93,7 +94,7 @@ QString ExtScript::executable() const
 
 QStringList ExtScript::filters() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_filters;
 }
@@ -101,7 +102,7 @@ QStringList ExtScript::filters() const
 
 bool ExtScript::hasOutput() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_output;
 }
@@ -109,7 +110,7 @@ bool ExtScript::hasOutput() const
 
 QString ExtScript::prefix() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_prefix;
 }
@@ -117,7 +118,7 @@ QString ExtScript::prefix() const
 
 ExtScript::Redirect ExtScript::redirect() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_redirect;
 }
@@ -125,7 +126,7 @@ ExtScript::Redirect ExtScript::redirect() const
 
 QString ExtScript::uniq() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_executable;
 }
@@ -133,7 +134,7 @@ QString ExtScript::uniq() const
 
 QString ExtScript::strRedirect() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     QString value;
     switch (m_redirect) {
@@ -155,8 +156,8 @@ QString ExtScript::strRedirect() const
 
 void ExtScript::setExecutable(const QString _executable)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Executable" << _executable;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Executable" << _executable;
 
     m_executable = _executable;
 }
@@ -164,8 +165,8 @@ void ExtScript::setExecutable(const QString _executable)
 
 void ExtScript::setFilters(const QStringList _filters)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Filters" << _filters;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Filters" << _filters;
 
     foreach(QString filter, _filters)
         updateFilter(filter);
@@ -174,8 +175,8 @@ void ExtScript::setFilters(const QStringList _filters)
 
 void ExtScript::setHasOutput(const bool _state)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "State" << _state;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "State" << _state;
 
     m_output = _state;
 }
@@ -183,8 +184,8 @@ void ExtScript::setHasOutput(const bool _state)
 
 void ExtScript::setPrefix(const QString _prefix)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Prefix" << _prefix;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Prefix" << _prefix;
 
     m_prefix = _prefix;
 }
@@ -192,8 +193,8 @@ void ExtScript::setPrefix(const QString _prefix)
 
 void ExtScript::setRedirect(const Redirect _redirect)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Redirect" << _redirect;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Redirect" << _redirect;
 
     m_redirect = _redirect;
 }
@@ -201,8 +202,8 @@ void ExtScript::setRedirect(const Redirect _redirect)
 
 void ExtScript::setStrRedirect(const QString _redirect)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Redirect" << _redirect;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Redirect" << _redirect;
 
     if (_redirect == QString("stdout2sdterr"))
         m_redirect = stdout2stderr;
@@ -215,14 +216,14 @@ void ExtScript::setStrRedirect(const QString _redirect)
 
 QString ExtScript::applyFilters(QString _value) const
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Value" << _value;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Value" << _value;
 
     foreach(QString filt, m_filters) {
-        if (debug) qDebug() << PDEBUG << ":" << "Found filter" << filt;
+        qCDebug(LOG_ESM) << "Found filter" << filt;
         QVariantMap filter = jsonFilters[filt].toMap();
         if (filter.isEmpty()) {
-            if (debug) qDebug() << PDEBUG << ":" << "Could not find filter in the json";
+            qCWarning(LOG_ESM) << "Could not find filter in the json";
             continue;
         }
         foreach(QString f, filter.keys())
@@ -235,9 +236,9 @@ QString ExtScript::applyFilters(QString _value) const
 
 void ExtScript::updateFilter(const QString _filter, const bool _add)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Filter" << _filter;
-    if (debug) qDebug() << PDEBUG << ":" << "Should be added" << _add;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Filter" << _filter;
+    qCDebug(LOG_ESM) << "Should be added" << _add;
 
     if (_add) {
         if (m_filters.contains(_filter)) return;
@@ -250,7 +251,7 @@ void ExtScript::updateFilter(const QString _filter, const bool _add)
 
 void ExtScript::readConfiguration()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
     AbstractExtItem::readConfiguration();
 
     for (int i=directories().count()-1; i>=0; i--) {
@@ -281,11 +282,11 @@ void ExtScript::readConfiguration()
 
 void ExtScript::readJsonFilters()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     QString fileName = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
                                               QString("awesomewidgets/scripts/awesomewidgets-extscripts-filters.json"));
-    if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
+    qCDebug(LOG_ESM) << "Configuration file" << fileName;
     QFile jsonFile(fileName);
     if (!jsonFile.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
@@ -294,24 +295,26 @@ void ExtScript::readJsonFilters()
 
     QJsonParseError error;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonText.toUtf8(), &error);
-    if (debug) qDebug() << PDEBUG << ":" << "Json parse error" << error.errorString();
-    if (error.error != QJsonParseError::NoError) return;
+    if (error.error != QJsonParseError::NoError) {
+        qCWarning(LOG_ESM) << "Json parse error" << error.errorString();
+        return;
+    }
     jsonFilters = jsonDoc.toVariant().toMap();
 
-    if (debug) qDebug() << PDEBUG << ":" << "Filters" << jsonFilters;
+    qCDebug(LOG_ESM) << "Filters" << jsonFilters;
 }
 
 
 QVariantHash ExtScript::run()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
     if (!isActive()) return value;
 
     if ((times == 1) && (process->state() == QProcess::NotRunning)) {
         QStringList cmdList;
         if (!m_prefix.isEmpty()) cmdList.append(m_prefix);
         cmdList.append(m_executable);
-        if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmdList.join(QChar(' '));
+        qCDebug(LOG_ESM) << "cmd" << cmdList.join(QChar(' '));
         process->start(cmdList.join(QChar(' ')));
     } else if (times >= interval())
         times = 0;
@@ -324,7 +327,7 @@ QVariantHash ExtScript::run()
 int ExtScript::showConfiguration(const QVariant args)
 {
     Q_UNUSED(args)
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -364,11 +367,11 @@ int ExtScript::showConfiguration(const QVariant args)
 
 void ExtScript::writeConfiguration() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
     AbstractExtItem::writeConfiguration();
 
     QSettings settings(QString("%1/%2").arg(directories().first()).arg(fileName()), QSettings::IniFormat);
-    if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << settings.fileName();
+    qCDebug(LOG_ESM) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
     settings.setValue(QString("Exec"), m_executable);
@@ -384,25 +387,23 @@ void ExtScript::writeConfiguration() const
 
 void ExtScript::updateValue()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
-    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process->exitCode();
+    qCDebug(LOG_ESM) << "Cmd returns" << process->exitCode();
     QString qdebug = QTextCodec::codecForMib(106)->toUnicode(process->readAllStandardError()).trimmed();
-    if (debug) qDebug() << PDEBUG << ":" << "Error" << qdebug;
+    qCDebug(LOG_ESM) << "Error" << qdebug;
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process->readAllStandardOutput()).trimmed();
+    qCDebug(LOG_ESM) << "Error" << qoutput;
     QString strValue;
 
     switch (m_redirect) {
     case stdout2stderr:
-        if (debug) qDebug() << PDEBUG << ":" << "Debug" << qdebug;
-        if (debug) qDebug() << PDEBUG << ":" << "Output" << qoutput;
         break;
     case stderr2stdout:
         strValue = QString("%1\n%2").arg(qdebug).arg(qoutput);
         break;
     case nothing:
     default:
-        if (debug) qDebug() << PDEBUG << ":" << "Debug" << qdebug;
         strValue = qoutput;
         break;
     }
@@ -414,7 +415,7 @@ void ExtScript::updateValue()
 
 void ExtScript::translate()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));

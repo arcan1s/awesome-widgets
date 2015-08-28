@@ -20,23 +20,24 @@
 
 #include <KI18n/KLocalizedString>
 
-#include <QDebug>
 #include <QDir>
 #include <QRegExp>
 #include <QSettings>
 #include <QTextCodec>
 
-#include <pdebug/pdebug.h>
-
+#include "awdebug.h"
 #include "version.h"
 
 
 ExtUpgrade::ExtUpgrade(QWidget *parent, const QString upgradeName,
                        const QStringList directories, const bool debugCmd)
     : AbstractExtItem(parent, upgradeName, directories, debugCmd),
-      debug(debugCmd),
       ui(new Ui::ExtUpgrade)
 {
+    // logging
+    const_cast<QLoggingCategory &>(LOG_ESM()).setEnabled(QtMsgType::QtDebugMsg, debugCmd);
+    qSetMessagePattern(LOG_FORMAT);
+
     readConfiguration();
     ui->setupUi(this);
     translate();
@@ -51,7 +52,7 @@ ExtUpgrade::ExtUpgrade(QWidget *parent, const QString upgradeName,
 
 ExtUpgrade::~ExtUpgrade()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     process->kill();
     delete process;
@@ -61,10 +62,10 @@ ExtUpgrade::~ExtUpgrade()
 
 ExtUpgrade *ExtUpgrade::copy(const QString fileName, const int number)
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     ExtUpgrade *item = new ExtUpgrade(static_cast<QWidget *>(parent()), fileName,
-                                      directories(), debug);
+                                      directories(), LOG_ESM().isDebugEnabled());
     item->setActive(isActive());
     item->setApiVersion(apiVersion());
     item->setComment(comment());
@@ -81,7 +82,7 @@ ExtUpgrade *ExtUpgrade::copy(const QString fileName, const int number)
 
 QString ExtUpgrade::executable() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_executable;
 }
@@ -89,7 +90,7 @@ QString ExtUpgrade::executable() const
 
 QString ExtUpgrade::filter() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_filter;
 }
@@ -97,7 +98,7 @@ QString ExtUpgrade::filter() const
 
 int ExtUpgrade::null() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_null;
 }
@@ -105,7 +106,7 @@ int ExtUpgrade::null() const
 
 QString ExtUpgrade::uniq() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_executable;
 }
@@ -113,8 +114,8 @@ QString ExtUpgrade::uniq() const
 
 void ExtUpgrade::setExecutable(const QString _executable)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Executable" << _executable;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Executable" << _executable;
 
     m_executable = _executable;
 }
@@ -122,8 +123,8 @@ void ExtUpgrade::setExecutable(const QString _executable)
 
 void ExtUpgrade::setFilter(const QString _filter)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Filter" << _filter;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Filter" << _filter;
 
     m_filter = _filter;
 }
@@ -131,8 +132,8 @@ void ExtUpgrade::setFilter(const QString _filter)
 
 void ExtUpgrade::setNull(const int _null)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Null lines" << _null;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Null lines" << _null;
     if (_null < 0) return;
 
     m_null = _null;
@@ -141,7 +142,7 @@ void ExtUpgrade::setNull(const int _null)
 
 void ExtUpgrade::readConfiguration()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
     AbstractExtItem::readConfiguration();
 
     for (int i=directories().count()-1; i>=0; i--) {
@@ -166,7 +167,7 @@ void ExtUpgrade::readConfiguration()
 
 QVariantHash ExtUpgrade::run()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
     if (!isActive()) return value;
 
     if ((times == 1) && (process->state() == QProcess::NotRunning))
@@ -182,7 +183,7 @@ QVariantHash ExtUpgrade::run()
 int ExtUpgrade::showConfiguration(const QVariant args)
 {
     Q_UNUSED(args)
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -212,11 +213,11 @@ int ExtUpgrade::showConfiguration(const QVariant args)
 
 void ExtUpgrade::writeConfiguration() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
     AbstractExtItem::writeConfiguration();
 
     QSettings settings(QString("%1/%2").arg(directories().first()).arg(fileName()), QSettings::IniFormat);
-    if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << settings.fileName();
+    qCDebug(LOG_ESM) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
     settings.setValue(QString("Exec"), m_executable);
@@ -230,21 +231,23 @@ void ExtUpgrade::writeConfiguration() const
 
 void ExtUpgrade::updateValue()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
-    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process->exitCode();
-    if (debug) qDebug() << PDEBUG << ":" << "Error" << process->readAllStandardError();
+    qCDebug(LOG_ESM) << "Cmd returns" << process->exitCode();
+    qCDebug(LOG_ESM) << "Error" << process->readAllStandardError();
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process->readAllStandardOutput()).trimmed();
-    value[tag(QString("pkgcount"))] = m_filter.isEmpty() ?
-        qoutput.split(QChar('\n'), QString::SkipEmptyParts).count() - m_null :
-        qoutput.split(QChar('\n'), QString::SkipEmptyParts).filter(QRegExp(m_filter)).count();
+    value[tag(QString("pkgcount"))] = [this](QString output) {
+        return m_filter.isEmpty() ?
+            output.split(QChar('\n'), QString::SkipEmptyParts).count() - m_null :
+            output.split(QChar('\n'), QString::SkipEmptyParts).filter(QRegExp(m_filter)).count();
+    }(qoutput);
 }
 
 
 void ExtUpgrade::translate()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));

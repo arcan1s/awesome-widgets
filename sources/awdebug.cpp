@@ -16,46 +16,9 @@
  ***************************************************************************/
 
 
-#ifndef AWACTIONS_H
-#define AWACTIONS_H
-
-#include <QObject>
-#include <QVariant>
+#include "awdebug.h"
 
 
-class QNetworkReply;
-
-class AWActions : public QObject
-{
-    Q_OBJECT
-
-public:
-    AWActions(QObject *parent = nullptr);
-    ~AWActions();
-
-    Q_INVOKABLE void checkUpdates();
-    Q_INVOKABLE bool dropCache() const;
-    Q_INVOKABLE bool isDebugEnabled() const;
-    Q_INVOKABLE void runCmd(const QString cmd = QString("/usr/bin/true")) const;
-    Q_INVOKABLE void sendEmail() const;
-    Q_INVOKABLE void showReadme() const;
-    // configuration slots
-    Q_INVOKABLE QString getAboutText(const QString type = QString("header")) const;
-    Q_INVOKABLE QVariantMap getFont(const QVariantMap defaultFont) const;
-    // dataengine
-    Q_INVOKABLE QVariantMap readDataEngineConfiguration() const;
-    Q_INVOKABLE void writeDataEngineConfiguration(const QVariantMap configuration) const;
-
-public slots:
-    Q_INVOKABLE static void sendNotification(const QString eventId, const QString message,
-                                             const bool enablePopup = false);
-
-private slots:
-    void showUpdates(QString version) const;
-    void versionReplyRecieved(QNetworkReply *reply) const;
-
-private:
-};
-
-
-#endif /* AWACTIONS_H */
+Q_LOGGING_CATEGORY(LOG_AW, "org.kde.plasma.awesomewidget")
+Q_LOGGING_CATEGORY(LOG_DP, "org.kde.plasma.desktoppanel")
+Q_LOGGING_CATEGORY(LOG_ESM, "org.kde.plasma.extsysmon")

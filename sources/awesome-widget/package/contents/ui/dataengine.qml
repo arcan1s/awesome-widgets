@@ -295,14 +295,14 @@ Item {
     }
 
     Component.onCompleted: {
-        if (debug) console.log("[dataengine::onCompleted]")
+        if (debug) console.log("")
 
         // init submodule
         awKeys.initKeys(plasmoid.configuration.text)
     }
 
     Component.onDestruction: {
-        if (debug) console.log("[dataengine::onDestruction]")
+        if (debug) console.log("")
 
         cfg_dataengine["GPUDEV"] = gpuDev.currentText
         cfg_dataengine["HDDDEV"] = hdd.currentText

@@ -12,7 +12,7 @@ include_directories(
     ${Kf5_INCLUDE}
 )
 
-file(GLOB_RECURSE SUBPROJECT_SOURCE *.cpp ${PROJECT_TRDPARTY_DIR}/qreplytimeout/*.cpp)
+file(GLOB SUBPROJECT_SOURCE *.cpp ${PROJECT_TRDPARTY_DIR}/qreplytimeout/*.cpp ${CMAKE_SOURCE_DIR}/*.cpp)
 file(GLOB SUBPROJECT_HEADER *.h ${PROJECT_TRDPARTY_DIR}/qreplytimeout/*.h)
 file(GLOB SUBPROJECT_UI *.ui)
 set(SUBPROJECT_GRAPHITEMS ${CMAKE_CURRENT_SOURCE_DIR}/desktops)

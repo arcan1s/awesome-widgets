@@ -17,14 +17,12 @@
 
 #include "abstractextitem.h"
 
-#include <QDebug>
 #include <QDir>
 #include <QSettings>
 #include <QStandardPaths>
 #include <QTime>
 
-#include <pdebug/pdebug.h>
-
+#include "awdebug.h"
 #include "version.h"
 
 
@@ -32,16 +30,19 @@ AbstractExtItem::AbstractExtItem(QWidget *parent, const QString desktopName,
                                  const QStringList directories, const bool debugCmd)
     : QDialog(parent),
       m_fileName(desktopName),
-      m_dirs(directories),
-      debug(debugCmd)
+      m_dirs(directories)
 {
+    // logging
+    const_cast<QLoggingCategory &>(LOG_ESM()).setEnabled(QtMsgType::QtDebugMsg, debugCmd);
+    qSetMessagePattern(LOG_FORMAT);
+
     m_name = m_fileName;
 }
 
 
 AbstractExtItem::~AbstractExtItem()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 }
 
 
@@ -50,6 +51,7 @@ T *AbstractExtItem::copy(const QString fileName, const int number)
 {
     Q_UNUSED(fileName)
     Q_UNUSED(number)
+    qCDebug(LOG_ESM);
 
     // an analog of pure virtual method
     return new T();
@@ -59,7 +61,7 @@ T *AbstractExtItem::copy(const QString fileName, const int number)
 
 int AbstractExtItem::apiVersion() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_apiVersion;
 }
@@ -67,7 +69,7 @@ int AbstractExtItem::apiVersion() const
 
 QString AbstractExtItem::comment() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_comment;
 }
@@ -75,7 +77,7 @@ QString AbstractExtItem::comment() const
 
 QStringList AbstractExtItem::directories() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_dirs;
 }
@@ -83,7 +85,7 @@ QStringList AbstractExtItem::directories() const
 
 QString AbstractExtItem::fileName() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_fileName;
 }
@@ -91,7 +93,7 @@ QString AbstractExtItem::fileName() const
 
 int AbstractExtItem::interval() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_interval;
 }
@@ -99,7 +101,7 @@ int AbstractExtItem::interval() const
 
 bool AbstractExtItem::isActive() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_active;
 }
@@ -107,7 +109,7 @@ bool AbstractExtItem::isActive() const
 
 QString AbstractExtItem::name() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_name;
 }
@@ -115,7 +117,7 @@ QString AbstractExtItem::name() const
 
 int AbstractExtItem::number() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     return m_number;
 }
@@ -123,8 +125,8 @@ int AbstractExtItem::number() const
 
 QString AbstractExtItem::tag(const QString _type) const
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Tag type" << _type;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Tag type" << _type;
 
     return QString("%1%2").arg(_type).arg(m_number);
 }
@@ -132,8 +134,8 @@ QString AbstractExtItem::tag(const QString _type) const
 
 void AbstractExtItem::setApiVersion(const int _apiVersion)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Version" << _apiVersion;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Version" << _apiVersion;
 
     m_apiVersion = _apiVersion;
 }
@@ -141,8 +143,8 @@ void AbstractExtItem::setApiVersion(const int _apiVersion)
 
 void AbstractExtItem::setActive(const bool _state)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "State" << _state;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "State" << _state;
 
     m_active = _state;
 }
@@ -150,8 +152,8 @@ void AbstractExtItem::setActive(const bool _state)
 
 void AbstractExtItem::setComment(const QString _comment)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Comment" << _comment;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Comment" << _comment;
 
     m_comment = _comment;
 }
@@ -159,8 +161,8 @@ void AbstractExtItem::setComment(const QString _comment)
 
 void AbstractExtItem::setInterval(const int _interval)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Interval" << _interval;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Interval" << _interval;
     if (_interval <= 0) return;
 
     m_interval = _interval;
@@ -169,8 +171,8 @@ void AbstractExtItem::setInterval(const int _interval)
 
 void AbstractExtItem::setName(const QString _name)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Name" << _name;
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Name" << _name;
 
     m_name = _name;
 }
@@ -178,14 +180,16 @@ void AbstractExtItem::setName(const QString _name)
 
 void AbstractExtItem::setNumber(int _number)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Number" << _number;
-    if (_number == -1) {
-        if (debug) qDebug() << PDEBUG << ":" << "Number is empty, generate new one";
-        qsrand(QTime::currentTime().msec());
-        _number = qrand() % 1000;
-        if (debug) qDebug() << PDEBUG << ":" << "Generated number is" << _number;
-    }
+    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Number" << _number;
+    if (_number == -1)
+        _number = []() {
+            qCWarning(LOG_ESM) << "Number is empty, generate new one";
+            qsrand(QTime::currentTime().msec());
+            int n = qrand() % 1000;
+            qCDebug(LOG_ESM) << "Generated number is" << n;
+            return n;
+        }();
 
     m_number = _number;
 }
@@ -193,7 +197,7 @@ void AbstractExtItem::setNumber(int _number)
 
 void AbstractExtItem::readConfiguration()
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     for (int i=m_dirs.count()-1; i>=0; i--) {
         if (!QDir(m_dirs.at(i)).entryList(QDir::Files).contains(m_fileName)) continue;
@@ -213,11 +217,11 @@ void AbstractExtItem::readConfiguration()
 
 bool AbstractExtItem::tryDelete() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     foreach(QString dir, m_dirs) {
         bool status = QFile::remove(QString("%1/%2").arg(dir).arg(m_fileName));
-        if (debug) qDebug() << PDEBUG << ":" << "Remove file" << QString("%1/%2").arg(dir).arg(m_fileName) << status;
+        qCDebug(LOG_ESM) << "Remove file" << QString("%1/%2").arg(dir).arg(m_fileName) << status;
     }
 
     // check if exists
@@ -229,10 +233,10 @@ bool AbstractExtItem::tryDelete() const
 
 void AbstractExtItem::writeConfiguration() const
 {
-    if (debug) qDebug() << PDEBUG;
+    qCDebug(LOG_ESM);
 
     QSettings settings(QString("%1/%2").arg(m_dirs.first()).arg(m_fileName), QSettings::IniFormat);
-    if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << settings.fileName();
+    qCDebug(LOG_ESM) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
     settings.setValue(QString("Encoding"), QString("UTF-8"));
