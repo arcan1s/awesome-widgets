@@ -502,7 +502,7 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         // percentage
         float value = 100.0 * values[QString("memmb")].toFloat() / values[QString("memtotmb")].toFloat();
         // notification
-        if ((value >= 90.0) && (values[QString("mem")].toFloat() < 90.0))
+        if ((!isnan(value)) && (value >= 90.0) && (values[QString("mem")].toFloat() < 90.0))
             AWActions::sendNotification(QString("event"), i18n("High memory usage"), enablePopup);
         // value
         values[QString("mem")] = QString("%1").arg(value, 5, 'f', 1);
@@ -578,7 +578,7 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         // percentage
         float value = 100.0 * values[QString("swapmb")].toFloat() / values[QString("swaptotmb")].toFloat();
         // notification
-        if ((value > 0.0) && (values[QString("swap")].toFloat() == 0.0))
+        if ((!isnan(value)) && (value > 0.0) && (values[QString("swap")].toFloat() == 0.0))
             AWActions::sendNotification(QString("event"), i18n("Swap is used"), enablePopup);
         // value
         values[QString("swap")] = QString("%1").arg(value, 5, 'f', 1);
