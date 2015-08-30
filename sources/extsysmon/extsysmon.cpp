@@ -49,9 +49,6 @@ ExtendedSysMon::ExtendedSysMon(QObject *parent, const QVariantList &args)
     qCDebug(LOG_ESM);
 
     // logging
-#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
-    const_cast<QLoggingCategory &>(LOG_ESM()).setEnabled(QtMsgType::QtInfoMsg, false);
-#endif /* QT_VERSION */
     qSetMessagePattern(LOG_FORMAT);
 
     setMinimumPollingInterval(333);

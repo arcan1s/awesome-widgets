@@ -288,7 +288,7 @@ void ExtScript::readJsonFilters()
 
     QString fileName = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
                                               QString("awesomewidgets/scripts/awesomewidgets-extscripts-filters.json"));
-    qCInfo(LOG_LIB) << "Configuration file" << fileName;
+    qCInfo(LOG_LIB) << "Filters file" << fileName;
     QFile jsonFile(fileName);
     if (!jsonFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qCWarning(LOG_LIB) << "Could not open" << fileName;
@@ -305,7 +305,7 @@ void ExtScript::readJsonFilters()
     }
     jsonFilters = jsonDoc.toVariant().toMap();
 
-    qCDebug(LOG_LIB) << "Filters" << jsonFilters;
+    qCInfo(LOG_LIB) << "Filters" << jsonFilters;
 }
 
 

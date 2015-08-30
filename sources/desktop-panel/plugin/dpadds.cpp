@@ -43,9 +43,6 @@ DPAdds::DPAdds(QObject *parent)
     qCDebug(LOG_DP);
 
     // logging
-#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
-    const_cast<QLoggingCategory &>(LOG_DP()).setEnabled(QtMsgType::QtInfoMsg, false);
-#endif /* QT_VERSION */
     qSetMessagePattern(LOG_FORMAT);
 
     connect(KWindowSystem::self(), SIGNAL(currentDesktopChanged(int)), this, SIGNAL(desktopChanged()));

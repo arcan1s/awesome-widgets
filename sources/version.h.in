@@ -20,7 +20,7 @@
 // extupgrade api version
 #define AWEUAPI 3
 // extweather api version
-#define AWEWAPI 1
+#define AWEWAPI 2
 // available time keys
 #define TIME_KEYS "dddd,ddd,dd,d,MMMM,MMM,MM,M,yyyy,yy,hh,h,HH,H,mm,m,ss,s,t,ap,a,AP,A"
 

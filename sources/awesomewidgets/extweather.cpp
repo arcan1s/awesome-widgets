@@ -26,6 +26,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QSettings>
+#include <QStandardPaths>
 
 #include <qreplytimeout/qreplytimeout.h>
 
@@ -41,6 +42,7 @@ ExtWeather::ExtWeather(QWidget *parent, const QString weatherName,
     qCDebug(LOG_LIB);
 
     readConfiguration();
+    readJsonMap();
     ui->setupUi(this);
     translate();
 
@@ -81,6 +83,7 @@ ExtWeather *ExtWeather::copy(const QString _fileName, const int _number)
     item->setComment(comment());
     item->setCountry(country());
     item->setInterval(interval());
+    item->setImage(image());
     item->setName(name());
     item->setNumber(_number);
     item->setTs(ts());
@@ -92,100 +95,10 @@ ExtWeather *ExtWeather::copy(const QString _fileName, const int _number)
 QString ExtWeather::weatherFromInt(const int _id) const
 {
     qCDebug(LOG_LIB);
-    qCDebug(LOG_LIB) << "ID" << _id;
-    // refer to http://openweathermap.org/weather-conditions
+    qCDebug(LOG_LIB) << "Weather ID" << _id;
 
-    QString weather;
-    switch (_id) {
-    case 800:
-        // 01d
-        weather = QString("\u2600");
-        break;
-    case 801:
-        // 02d
-        weather = QString("\u26C5");
-        break;
-    case 802:
-    case 803:
-        // 03d
-        weather = QString("\u2601");
-        break;
-    case 804:
-        // 04d
-        weather = QString("\u2601");
-        break;
-    case 300:
-    case 301:
-    case 302:
-    case 310:
-    case 311:
-    case 312:
-    case 313:
-    case 314:
-    case 321:
-    case 520:
-    case 521:
-    case 522:
-    case 531:
-        // 09d
-        weather = QString("\u2602");
-        break;
-    case 500:
-    case 501:
-    case 502:
-    case 503:
-    case 504:
-        // 10d
-        weather = QString("\u2614");
-        break;
-    case 200:
-    case 201:
-    case 202:
-    case 210:
-    case 211:
-    case 212:
-    case 221:
-    case 230:
-    case 231:
-    case 232:
-        // 11d
-        weather = QString("\u2608");
-        break;
-    case 511:
-    case 600:
-    case 601:
-    case 602:
-    case 611:
-    case 612:
-    case 615:
-    case 616:
-    case 620:
-    case 621:
-    case 622:
-        // 13d
-        weather = QString("\u2603");
-//         weather = QString("\u26C4");
-        break;
-    case 701:
-    case 711:
-    case 721:
-    case 731:
-    case 741:
-    case 751:
-    case 761:
-    case 762:
-    case 771:
-    case 781:
-        // 50d
-        weather = QString("\u26C5");
-        break;
-    default:
-        // extreme other conditions
-        weather = QString("\u2604");
-        break;
-    }
-
-    return weather;
+    QVariantMap map = jsonMap[m_image ? QString("image") : QString("text")].toMap();
+    return map.value(QString::number(_id), map[QString("default")]).toString();
 }
 
 
@@ -202,6 +115,14 @@ QString ExtWeather::country() const
     qCDebug(LOG_LIB);
 
     return m_country;
+}
+
+
+bool ExtWeather::image() const
+{
+    qCDebug(LOG_LIB);
+
+    return m_image;
 }
 
 
@@ -239,6 +160,15 @@ void ExtWeather::setCountry(const QString _country)
 }
 
 
+void ExtWeather::setImage(const bool _image)
+{
+    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << "Use image" << _image;
+
+    m_image = _image;
+}
+
+
 void ExtWeather::setTs(const int _ts)
 {
     qCDebug(LOG_LIB);
@@ -261,6 +191,8 @@ void ExtWeather::readConfiguration()
         setCity(settings.value(QString("X-AW-City"), m_city).toString());
         setCountry(settings.value(QString("X-AW-Country"), m_country).toString());
         setTs(settings.value(QString("X-AW-TS"), m_ts).toInt());
+        // api == 2
+        setImage(settings.value(QString("X-AW-Image"), QVariant(m_image)).toString() == QString("true"));
         settings.endGroup();
     }
 
@@ -270,6 +202,33 @@ void ExtWeather::readConfiguration()
         setApiVersion(AWEWAPI);
         writeConfiguration();
     }
+}
+
+
+void ExtWeather::readJsonMap()
+{
+    qCDebug(LOG_LIB);
+
+    QString fileName = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
+                                              QString("awesomewidgets/weather/awesomewidgets-extweather-ids.json"));
+    qCInfo(LOG_LIB) << "Map file" << fileName;
+    QFile jsonFile(fileName);
+    if (!jsonFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qCWarning(LOG_LIB) << "Could not open" << fileName;
+        return;
+    }
+    QString jsonText = jsonFile.readAll();
+    jsonFile.close();
+
+    QJsonParseError error;
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonText.toUtf8(), &error);
+    if (error.error != QJsonParseError::NoError) {
+        qCWarning(LOG_LIB) << "Parse error" << error.errorString();
+        return;
+    }
+    jsonMap = jsonDoc.toVariant().toMap();
+
+    qCInfo(LOG_LIB) << "Weather map" << jsonMap;
 }
 
 
@@ -304,6 +263,7 @@ int ExtWeather::showConfiguration(const QVariant args)
     ui->lineEdit_city->setText(m_city);
     ui->lineEdit_country->setText(m_country);
     ui->spinBox_timestamp->setValue(m_ts);
+    ui->checkBox_image->setCheckState(m_image ? Qt::Checked : Qt::Unchecked);
     ui->checkBox_active->setCheckState(isActive() ? Qt::Checked : Qt::Unchecked);
     ui->spinBox_interval->setValue(interval());
 
@@ -316,6 +276,7 @@ int ExtWeather::showConfiguration(const QVariant args)
     setCity(ui->lineEdit_city->text());
     setCountry(ui->lineEdit_country->text());
     setTs(ui->spinBox_timestamp->value());
+    setImage(ui->checkBox_image->checkState() == Qt::Checked);
     setActive(ui->checkBox_active->checkState() == Qt::Checked);
     setInterval(ui->spinBox_interval->value());
 
@@ -335,6 +296,7 @@ void ExtWeather::writeConfiguration() const
     settings.beginGroup(QString("Desktop Entry"));
     settings.setValue(QString("X-AW-City"), m_city);
     settings.setValue(QString("X-AW-Country"), m_country);
+    settings.setValue(QString("X-AW-Image"), m_image);
     settings.setValue(QString("X-AW-TS"), m_ts);
     settings.endGroup();
 
@@ -413,6 +375,7 @@ void ExtWeather::translate()
     ui->label_city->setText(i18n("City"));
     ui->label_country->setText(i18n("Country"));
     ui->label_timestamp->setText(i18n("Timestamp"));
+    ui->checkBox_image->setText(i18n("Use images"));
     ui->checkBox_active->setText(i18n("Active"));
     ui->label_interval->setText(i18n("Interval"));
 }

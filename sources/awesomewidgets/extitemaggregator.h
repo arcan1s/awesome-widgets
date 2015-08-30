@@ -40,10 +40,6 @@ public:
         qCDebug(LOG_LIB);
         qCDebug(LOG_LIB) << "Type" << type;
 
-        // disable info because QtMsgType has invalid enum order
-#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
-        const_cast<QLoggingCategory &>(LOG_LIB()).setEnabled(QtMsgType::QtInfoMsg, false);
-#endif /* QT_VERSION */
         qSetMessagePattern(LOG_FORMAT);
 
         initItems();

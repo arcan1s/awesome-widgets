@@ -36,6 +36,7 @@ class ExtWeather : public AbstractExtItem
     Q_OBJECT
     Q_PROPERTY(QString city READ city WRITE setCity)
     Q_PROPERTY(QString country READ country WRITE setCountry)
+    Q_PROPERTY(bool image READ image WRITE setImage)
     Q_PROPERTY(int ts READ ts WRITE setTs)
 
 public:
@@ -47,15 +48,18 @@ public:
     // get methods
     QString city() const;
     QString country() const;
+    bool image() const;
     int ts() const;
     QString uniq() const;
     // set methods
     void setCity(const QString _city = QString("London"));
     void setCountry(const QString _country = QString("uk"));
+    void setImage(const bool _image = false);
     void setTs(const int _ts = 0);
 
 public slots:
     void readConfiguration();
+    void readJsonMap();
     QVariantHash run();
     int showConfiguration(const QVariant args = QVariant());
     void writeConfiguration() const;
@@ -73,7 +77,9 @@ private:
     // properties
     QString m_city = QString("London");
     QString m_country = QString("uk");
+    bool m_image = false;
     int m_ts = 0;
+    QVariantMap jsonMap = QVariantMap();
     // values
     int times = 0;
     QVariantHash values;

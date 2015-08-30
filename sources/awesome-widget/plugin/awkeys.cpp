@@ -46,10 +46,6 @@ AWKeys::AWKeys(QObject *parent)
     qCDebug(LOG_AW);
 
     // logging
-    // disable info because QtMsgType has invalid enum order
-#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
-    const_cast<QLoggingCategory &>(LOG_AW()).setEnabled(QtMsgType::QtInfoMsg, false);
-#endif /* QT_VERSION */
     qSetMessagePattern(LOG_FORMAT);
 
     // backend
@@ -172,6 +168,16 @@ QStringList AWKeys::dictKeys(const bool sorted, const QString regexp) const
     qCDebug(LOG_AW) << "Filter" << regexp;
 
     QStringList allKeys;
+    // weather
+    for (int i=extWeather->items().count()-1; i>=0; i--) {
+        if (!extWeather->items().at(i)->isActive()) continue;
+        allKeys.append(extWeather->items().at(i)->tag(QString("weatherId")));
+        allKeys.append(extWeather->items().at(i)->tag(QString("weather")));
+        allKeys.append(extWeather->items().at(i)->tag(QString("humidity")));
+        allKeys.append(extWeather->items().at(i)->tag(QString("pressure")));
+        allKeys.append(extWeather->items().at(i)->tag(QString("temperature")));
+        allKeys.append(extWeather->items().at(i)->tag(QString("timestamp")));
+    }
     // time
     allKeys.append(QString("time"));
     allKeys.append(QString("isotime"));
@@ -297,16 +303,6 @@ QStringList AWKeys::dictKeys(const bool sorted, const QString regexp) const
     allKeys.append(QString("la15"));
     allKeys.append(QString("la5"));
     allKeys.append(QString("la1"));
-    // weather
-    for (int i=extWeather->items().count()-1; i>=0; i--) {
-        if (!extWeather->items().at(i)->isActive()) continue;
-        allKeys.append(extWeather->items().at(i)->tag(QString("weatherId")));
-        allKeys.append(extWeather->items().at(i)->tag(QString("weather")));
-        allKeys.append(extWeather->items().at(i)->tag(QString("humidity")));
-        allKeys.append(extWeather->items().at(i)->tag(QString("pressure")));
-        allKeys.append(extWeather->items().at(i)->tag(QString("temperature")));
-        allKeys.append(extWeather->items().at(i)->tag(QString("timestamp")));
-    }
     // bars
     QStringList graphicalItemsKeys;
     foreach(GraphicalItem *item, graphicalItems->items())
@@ -905,7 +901,8 @@ QString AWKeys::parsePattern() const
     // main keys
     foreach(QString key, foundKeys)
         parsed.replace(QString("$%1").arg(key), [](QString key, QString value) {
-            if (!key.startsWith(QString("custom")))
+            if ((!key.startsWith(QString("custom"))) &&
+                (!key.startsWith(QString("weather"))))
                 value.replace(QString(" "), QString("&nbsp;"));
             return value;
         }(key, values[key]));
