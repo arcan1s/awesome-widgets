@@ -33,7 +33,7 @@ class AbstractExtItemAggregator : public QWidget
     Q_PROPERTY(QVariant configArgs READ configArgs WRITE setConfigArgs)
 
 public:
-    AbstractExtItemAggregator(QWidget *parent = nullptr, const bool debugCmd = false);
+    explicit AbstractExtItemAggregator(QWidget *parent = nullptr);
     virtual ~AbstractExtItemAggregator();
     QString getName();
     // ui

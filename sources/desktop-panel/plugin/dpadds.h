@@ -43,8 +43,8 @@ class DPAdds : public QObject
     } DesktopWindowsInfo;
 
 public:
-    DPAdds(QObject *parent = nullptr);
-    ~DPAdds();
+    explicit DPAdds(QObject *parent = nullptr);
+    virtual ~DPAdds();
 
     Q_INVOKABLE bool isDebugEnabled() const;
     Q_INVOKABLE int currentDesktop() const;

@@ -128,8 +128,10 @@ Item {
                 ]
                 onCurrentIndexChanged: cfg_tooltipType = model[currentIndex]["name"]
                 Component.onCompleted: {
+                    if (debug) console.debug()
                     for (var i = 0; i < model.length; i++) {
                         if (model[i]["name"] == plasmoid.configuration.tooltipType) {
+                            if (debug) console.info("Found", model[i]["name"], "on", i)
                             tooltipType.currentIndex = i;
                         }
                     }
@@ -255,6 +257,6 @@ Item {
     }
 
     Component.onCompleted: {
-        if (debug) console.log("")
+        if (debug) console.debug()
     }
 }

@@ -42,15 +42,7 @@
 AWActions::AWActions(QObject *parent)
     : QObject(parent)
 {
-    // debug
-    QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
-    QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
-    bool debug = (debugEnv == QString("yes"));
-
-    // logging
-    const_cast<QLoggingCategory &>(LOG_AW()).setEnabled(QtMsgType::QtDebugMsg, debug);
-    qSetMessagePattern(LOG_FORMAT);
-    qCInfo(LOG_AW) << "simple test" << QT_VERSION_CHECK(5, 5, 0) << QT_VERSION;
+    qCDebug(LOG_AW);
 }
 
 
@@ -158,6 +150,7 @@ QString AWActions::getAboutText(const QString type) const
 QVariantMap AWActions::getFont(const QVariantMap defaultFont) const
 {
     qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << "Default font is" << defaultFont;
 
     QVariantMap fontMap;
     CFont defaultCFont = CFont(defaultFont[QString("family")].toString(),
@@ -178,7 +171,7 @@ QVariantMap AWActions::readDataEngineConfiguration() const
     qCDebug(LOG_AW);
 
     QString fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation, QString("plasma-dataengine-extsysmon.conf"));
-    qCDebug(LOG_AW) << "Configuration file" << fileName;
+    qCInfo(LOG_AW) << "Configuration file" << fileName;
     QSettings settings(fileName, QSettings::IniFormat);
     QVariantMap configuration;
 
@@ -203,7 +196,7 @@ void AWActions::writeDataEngineConfiguration(const QVariantMap configuration) co
 
     QString fileName = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + QString("/plasma-dataengine-extsysmon.conf");
     QSettings settings(fileName, QSettings::IniFormat);
-    qCDebug(LOG_AW) << "Configuration file" << settings.fileName();
+    qCInfo(LOG_AW) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Configuration"));
     settings.setValue(QString("ACPIPATH"), configuration[QString("ACPIPATH")]);
@@ -271,6 +264,7 @@ void AWActions::versionReplyRecieved(QNetworkReply *reply) const
     QVariantMap firstRelease = jsonDoc.toVariant().toList().first().toMap();
     QString version = firstRelease[QString("tag_name")].toString();
     version.remove(QString("V."));
+    qCInfo(LOG_AW) << "Found version" << version;
 
     int old_major = QString(VERSION).split(QChar('.')).at(0).toInt();
     int old_minor = QString(VERSION).split(QChar('.')).at(1).toInt();

@@ -114,8 +114,10 @@ Item {
                 width: parent.width * 3 / 5
                 model: ["auto", "disable", "ati", "nvidia"]
                 Component.onCompleted: {
+                    if (debug) console.debug()
                     for (var i=0; i<model.length; i++) {
                         if (model[i] == cfg_dataengine["GPUDEV"]) {
+                            if (debug) console.info("Found", model[i], "on", i)
                             currentIndex = i;
                         }
                     }
@@ -138,8 +140,10 @@ Item {
                 width: parent.width * 3 / 5
                 model: awKeys.getHddDevices(true)
                 Component.onCompleted: {
+                    if (debug) console.debug()
                     for (var i=0; i<model.length; i++) {
                         if (model[i] == cfg_dataengine["HDDDEV"]) {
+                            if (debug) console.info("Found", model[i], "on", i)
                             hdd.currentIndex = i;
                         }
                     }
@@ -233,8 +237,10 @@ Item {
                 width: parent.width * 3 / 5
                 model: ["disable", "mpris", "mpd"]
                 Component.onCompleted: {
+                    if (debug) console.debug()
                     for (var i=0; i<model.length; i++) {
                         if (model[i] == cfg_dataengine["PLAYER"]) {
+                            if (debug) console.info("Found", model[i], "on", i)
                             player.currentIndex = i;
                         }
                     }
@@ -295,14 +301,14 @@ Item {
     }
 
     Component.onCompleted: {
-        if (debug) console.log("")
+        if (debug) console.debug()
 
         // init submodule
         awKeys.initKeys(plasmoid.configuration.text)
     }
 
     Component.onDestruction: {
-        if (debug) console.log("")
+        if (debug) console.debug()
 
         cfg_dataengine["GPUDEV"] = gpuDev.currentText
         cfg_dataengine["HDDDEV"] = hdd.currentText

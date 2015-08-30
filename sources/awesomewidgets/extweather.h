@@ -40,10 +40,9 @@ class ExtWeather : public AbstractExtItem
 
 public:
     explicit ExtWeather(QWidget *parent = nullptr, const QString weatherName = QString(),
-                        const QStringList directories = QStringList(),
-                        const bool debugCmd = false);
-    ~ExtWeather();
-    ExtWeather *copy(const QString fileName, const int number);
+                        const QStringList directories = QStringList());
+    virtual ~ExtWeather();
+    ExtWeather *copy(const QString _fileName, const int _number);
     QString weatherFromInt(const int _id) const;
     // get methods
     QString city() const;

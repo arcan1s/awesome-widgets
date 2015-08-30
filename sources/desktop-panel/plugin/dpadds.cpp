@@ -29,7 +29,6 @@
 #include <QListWidget>
 #include <QMessageBox>
 #include <QPixmap>
-#include <QProcessEnvironment>
 #include <QScreen>
 
 #include <fontdialog/fontdialog.h>
@@ -41,13 +40,12 @@
 DPAdds::DPAdds(QObject *parent)
     : QObject(parent)
 {
-    // debug
-    QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
-    QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
-    bool debug = (debugEnv == QString("yes"));
+    qCDebug(LOG_DP);
 
     // logging
-    const_cast<QLoggingCategory &>(LOG_DP()).setEnabled(QtMsgType::QtDebugMsg, debug);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
+    const_cast<QLoggingCategory &>(LOG_DP()).setEnabled(QtMsgType::QtInfoMsg, false);
+#endif /* QT_VERSION */
     qSetMessagePattern(LOG_FORMAT);
 
     connect(KWindowSystem::self(), SIGNAL(currentDesktopChanged(int)), this, SIGNAL(desktopChanged()));
@@ -110,7 +108,8 @@ QString DPAdds::toolTipImage(const int desktop) const
     DesktopWindowsInfo info = getInfoByDesktop(desktop);
     if (tooltipType == QString("names")) {
         QStringList windowList;
-        foreach(WindowData data, info.windowsData) windowList.append(data.name);
+        std::for_each(info.windowsData.cbegin(), info.windowsData.cend(),
+                      [&windowList](WindowData data) { windowList.append(data.name); });
         return QString("<ul><li>%1</li></ul>").arg(windowList.join(QString("</li><li>")));
     }
     // init
@@ -151,20 +150,23 @@ QString DPAdds::toolTipImage(const int desktop) const
         }
     } else if (tooltipType == QString("clean")) {
         QScreen *screen = QGuiApplication::primaryScreen();
-        foreach(WindowData data, info.desktopsData) {
-            QPixmap desktop = screen->grabWindow(data.id);
-            toolTipScene->addPixmap(desktop)->setOffset(data.rect.left(), data.rect.top());
-        }
+        std::for_each(info.desktopsData.cbegin(), info.desktopsData.cend(),
+                      [&toolTipScene, &screen](WindowData data) {
+                          QPixmap desktop = screen->grabWindow(data.id);
+                          toolTipScene->addPixmap(desktop)->setOffset(data.rect.left(), data.rect.top());
+        });
     } else if (tooltipType == QString("windows")) {
         QScreen *screen = QGuiApplication::primaryScreen();
-        foreach(WindowData data, info.desktopsData) {
-            QPixmap desktop = screen->grabWindow(data.id);
-            toolTipScene->addPixmap(desktop)->setOffset(data.rect.left(), data.rect.top());
-        }
-        foreach(WindowData data, info.windowsData) {
-            QPixmap window = screen->grabWindow(data.id);
-            toolTipScene->addPixmap(window)->setOffset(data.rect.left(), data.rect.top());
-        }
+        std::for_each(info.desktopsData.cbegin(), info.desktopsData.cend(),
+                      [&toolTipScene, &screen](WindowData data) {
+                          QPixmap desktop = screen->grabWindow(data.id);
+                          toolTipScene->addPixmap(desktop)->setOffset(data.rect.left(), data.rect.top());
+        });
+        std::for_each(info.windowsData.cbegin(), info.windowsData.cend(),
+                      [&toolTipScene, &screen](WindowData data) {
+                          QPixmap window = screen->grabWindow(data.id);
+                          toolTipScene->addPixmap(window)->setOffset(data.rect.left(), data.rect.top());
+        });
     }
 
     QPixmap image = toolTipView->grab().scaledToWidth(tooltipWidth);
@@ -182,6 +184,8 @@ QString DPAdds::toolTipImage(const int desktop) const
 QString DPAdds::parsePattern(const QString pattern, const int desktop) const
 {
     qCDebug(LOG_DP);
+    qCDebug(LOG_DP) << "Pattern" << pattern;
+    qCDebug(LOG_DP) << "Desktop number" << desktop;
 
     QString parsed = pattern;
     parsed.replace(QString("$$"), QString("$\\$\\"));
@@ -211,7 +215,7 @@ void DPAdds::setPanelsToControl(const QString newPanels)
     if (newPanels == QString("-1")) {
         int count = getPanels().count();
         for (int i=0; i<count; i++)
-          panelsToControl.append(i);
+            panelsToControl.append(i);
     } else
         foreach(QString panel, newPanels.split(QChar(',')))
             panelsToControl.append(panel.toInt());
@@ -233,6 +237,7 @@ QString DPAdds::valueByKey(const QString key, int desktop) const
 {
     qCDebug(LOG_DP);
     qCDebug(LOG_DP) << "Requested key" << key;
+    qCDebug(LOG_DP) << "Desktop number" << desktop;
     if (desktop == -1) desktop = currentDesktop();
 
     QString currentMark = currentDesktop() == desktop ? mark : QString("");
@@ -253,6 +258,7 @@ QString DPAdds::valueByKey(const QString key, int desktop) const
 QString DPAdds::editPanelsToContol(const QString current)
 {
     qCDebug(LOG_DP);
+    qCDebug(LOG_DP) << "Current panels" << current;
 
     // paint
     QDialog *dialog = new QDialog(nullptr);
@@ -342,6 +348,7 @@ QString DPAdds::getAboutText(const QString type) const
 QVariantMap DPAdds::getFont(const QVariantMap defaultFont) const
 {
     qCDebug(LOG_DP);
+    qCDebug(LOG_DP) << "Default font is" << defaultFont;
 
     QVariantMap fontMap;
     CFont defaultCFont = CFont(defaultFont[QString("family")].toString(),
@@ -466,6 +473,7 @@ QString DPAdds::panelLocationToStr(Plasma::Types::Location location) const
     case Plasma::Types::Location::RightEdge:
         return i18n("Right Edge");
     default:
+        qCWarning(LOG_DP) << "Unknown location" << location;
         return i18n("Unknown location (%1)", location);
     }
 }

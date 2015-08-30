@@ -45,10 +45,9 @@ public:
     };
 
     explicit ExtScript(QWidget *parent = nullptr, const QString scriptName = QString(),
-                       const QStringList directories = QStringList(),
-                       const bool debugCmd = false);
-    ~ExtScript();
-    ExtScript *copy(const QString fileName, const int number);
+                       const QStringList directories = QStringList());
+    virtual ~ExtScript();
+    ExtScript *copy(const QString _fileName, const int _number);
     // get methods
     QString executable() const;
     QStringList filters() const;

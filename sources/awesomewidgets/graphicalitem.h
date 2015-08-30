@@ -50,10 +50,9 @@ public:
     };
 
     explicit GraphicalItem(QWidget *parent = nullptr, const QString desktopName = QString(),
-                           const QStringList directories = QStringList(),
-                           const bool debugCmd = false);
-    ~GraphicalItem();
-    GraphicalItem *copy(const QString fileName, const int number);
+                           const QStringList directories = QStringList());
+    virtual ~GraphicalItem();
+    GraphicalItem *copy(const QString _fileName, const int _number);
     QString image(const float value) const;
     // get methods
     QString bar() const;

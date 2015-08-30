@@ -30,13 +30,11 @@
 
 
 ExtUpgrade::ExtUpgrade(QWidget *parent, const QString upgradeName,
-                       const QStringList directories, const bool debugCmd)
-    : AbstractExtItem(parent, upgradeName, directories, debugCmd),
+                       const QStringList directories)
+    : AbstractExtItem(parent, upgradeName, directories),
       ui(new Ui::ExtUpgrade)
 {
-    // logging
-    const_cast<QLoggingCategory &>(LOG_ESM()).setEnabled(QtMsgType::QtDebugMsg, debugCmd);
-    qSetMessagePattern(LOG_FORMAT);
+    qCDebug(LOG_LIB);
 
     readConfiguration();
     ui->setupUi(this);
@@ -52,7 +50,7 @@ ExtUpgrade::ExtUpgrade(QWidget *parent, const QString upgradeName,
 
 ExtUpgrade::~ExtUpgrade()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     process->kill();
     delete process;
@@ -60,12 +58,13 @@ ExtUpgrade::~ExtUpgrade()
 }
 
 
-ExtUpgrade *ExtUpgrade::copy(const QString fileName, const int number)
+ExtUpgrade *ExtUpgrade::copy(const QString _fileName, const int _number)
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << "File" << _fileName;
+    qCDebug(LOG_LIB) << "Number" << _number;
 
-    ExtUpgrade *item = new ExtUpgrade(static_cast<QWidget *>(parent()), fileName,
-                                      directories(), LOG_ESM().isDebugEnabled());
+    ExtUpgrade *item = new ExtUpgrade(static_cast<QWidget *>(parent()), _fileName, directories());
     item->setActive(isActive());
     item->setApiVersion(apiVersion());
     item->setComment(comment());
@@ -73,7 +72,7 @@ ExtUpgrade *ExtUpgrade::copy(const QString fileName, const int number)
     item->setFilter(filter());
     item->setInterval(interval());
     item->setName(name());
-    item->setNumber(number);
+    item->setNumber(_number);
     item->setNull(null());
 
     return item;
@@ -82,7 +81,7 @@ ExtUpgrade *ExtUpgrade::copy(const QString fileName, const int number)
 
 QString ExtUpgrade::executable() const
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     return m_executable;
 }
@@ -90,7 +89,7 @@ QString ExtUpgrade::executable() const
 
 QString ExtUpgrade::filter() const
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     return m_filter;
 }
@@ -98,7 +97,7 @@ QString ExtUpgrade::filter() const
 
 int ExtUpgrade::null() const
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     return m_null;
 }
@@ -106,7 +105,7 @@ int ExtUpgrade::null() const
 
 QString ExtUpgrade::uniq() const
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     return m_executable;
 }
@@ -114,8 +113,8 @@ QString ExtUpgrade::uniq() const
 
 void ExtUpgrade::setExecutable(const QString _executable)
 {
-    qCDebug(LOG_ESM);
-    qCDebug(LOG_ESM) << "Executable" << _executable;
+    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << "Executable" << _executable;
 
     m_executable = _executable;
 }
@@ -123,8 +122,8 @@ void ExtUpgrade::setExecutable(const QString _executable)
 
 void ExtUpgrade::setFilter(const QString _filter)
 {
-    qCDebug(LOG_ESM);
-    qCDebug(LOG_ESM) << "Filter" << _filter;
+    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << "Filter" << _filter;
 
     m_filter = _filter;
 }
@@ -132,8 +131,8 @@ void ExtUpgrade::setFilter(const QString _filter)
 
 void ExtUpgrade::setNull(const int _null)
 {
-    qCDebug(LOG_ESM);
-    qCDebug(LOG_ESM) << "Null lines" << _null;
+    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << "Null lines" << _null;
     if (_null < 0) return;
 
     m_null = _null;
@@ -142,7 +141,7 @@ void ExtUpgrade::setNull(const int _null)
 
 void ExtUpgrade::readConfiguration()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
     AbstractExtItem::readConfiguration();
 
     for (int i=directories().count()-1; i>=0; i--) {
@@ -159,6 +158,7 @@ void ExtUpgrade::readConfiguration()
 
     // update for current API
     if ((apiVersion() > 0) && (apiVersion() < AWEUAPI)) {
+        qCWarning(LOG_LIB) << "Bump API version from" << apiVersion() << "to" << AWEUAPI;
         setApiVersion(AWEUAPI);
         writeConfiguration();
     }
@@ -167,12 +167,14 @@ void ExtUpgrade::readConfiguration()
 
 QVariantHash ExtUpgrade::run()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
     if (!isActive()) return value;
 
-    if ((times == 1) && (process->state() == QProcess::NotRunning))
-        process->start(QString("sh -c \"%1\"").arg(m_executable));
-    else if (times >= interval())
+    if ((times == 1) && (process->state() == QProcess::NotRunning)) {
+        QString cmd = QString("sh -c \"%1\"").arg(m_executable);
+        qCInfo(LOG_LIB) << "Run cmd" << cmd;
+        process->start(cmd);
+    } else if (times >= interval())
         times = 0;
     times++;
 
@@ -183,7 +185,7 @@ QVariantHash ExtUpgrade::run()
 int ExtUpgrade::showConfiguration(const QVariant args)
 {
     Q_UNUSED(args)
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -213,11 +215,11 @@ int ExtUpgrade::showConfiguration(const QVariant args)
 
 void ExtUpgrade::writeConfiguration() const
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
     AbstractExtItem::writeConfiguration();
 
     QSettings settings(QString("%1/%2").arg(directories().first()).arg(fileName()), QSettings::IniFormat);
-    qCDebug(LOG_ESM) << "Configuration file" << settings.fileName();
+    qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
     settings.setValue(QString("Exec"), m_executable);
@@ -231,10 +233,10 @@ void ExtUpgrade::writeConfiguration() const
 
 void ExtUpgrade::updateValue()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
-    qCDebug(LOG_ESM) << "Cmd returns" << process->exitCode();
-    qCDebug(LOG_ESM) << "Error" << process->readAllStandardError();
+    qCInfo(LOG_LIB) << "Cmd returns" << process->exitCode();
+    qCInfo(LOG_LIB) << "Error" << process->readAllStandardError();
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process->readAllStandardOutput()).trimmed();
     value[tag(QString("pkgcount"))] = [this](QString output) {
@@ -247,7 +249,7 @@ void ExtUpgrade::updateValue()
 
 void ExtUpgrade::translate()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));

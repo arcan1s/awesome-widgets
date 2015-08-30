@@ -18,7 +18,6 @@
 #include "awtooltip.h"
 
 #include <QBuffer>
-#include <QProcessEnvironment>
 #include <math.h>
 
 #include "awdebug.h"
@@ -28,14 +27,7 @@ AWToolTip::AWToolTip(QObject *parent, QVariantMap settings)
     : QObject(parent),
       configuration(qvariant_cast<QVariantHash>(settings))
 {
-    // debug
-    QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
-    QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
-    bool debug = (debugEnv == QString("yes"));
-
-    // logging
-    const_cast<QLoggingCategory &>(LOG_AW()).setEnabled(QtMsgType::QtDebugMsg, debug);
-    qSetMessagePattern(LOG_FORMAT);
+    qCDebug(LOG_AW);
 
     toolTipScene = new QGraphicsScene(nullptr);
     toolTipView = new QGraphicsView(toolTipScene);
@@ -145,6 +137,7 @@ QPixmap AWToolTip::image()
         float shift = i * 100.0;
         if (down) shift -= 100.0;
         for (int j=0; j<data[requiredKeys.at(i)].count()-1; j++) {
+            // some magic here
             float x1 = j * normX + shift;
             float y1 = - fabs(data[requiredKeys.at(i)].at(j)) * normY + 5.0;
             float x2 = (j + 1) * normX + shift;
@@ -164,9 +157,12 @@ QPixmap AWToolTip::image()
 }
 
 
-void AWToolTip::setData(const QString source, float value, const bool ac)
+void AWToolTip::setData(const QString source, float value, const bool dontInvert)
 {
     qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << "Source" << source;
+    qCDebug(LOG_AW) << "Value" << value;
+    qCDebug(LOG_AW) << "Do not invert value" << dontInvert;
 
     if (data[source].count() == 0)
         data[source].append(0.0);
@@ -174,19 +170,12 @@ void AWToolTip::setData(const QString source, float value, const bool ac)
         data[source].takeFirst();
     if (isnan(value)) value = 0.0;
 
-    if (ac)
-        data[source].append(value);
-    else
-        data[source].append(-value);
+    // invert values for different battery colours
+    data[source].append(dontInvert ? value : -value);
 
-    if ((source == QString("downTooltip")) || (source == QString("upTooltip"))) {
-        foreach(float val, data[QString("downTooltip")])
-            if (boundaries[QString("downTooltip")] < val)
-                boundaries[QString("downTooltip")] = val;
-        foreach(float val, data[QString("upTooltip")])
-            if (boundaries[QString("downTooltip")] < val)
-                boundaries[QString("downTooltip")] = val;
-        boundaries[QString("downTooltip")] *= 1.2;
+    if (source == QString("downTooltip")) {
+        QList<float> netValues = data[QString("downTooltip")] + data[QString("upTooltip")];
+        boundaries[QString("downTooltip")] = 1.2 * *std::max_element(netValues.cbegin(), netValues.cend());
         boundaries[QString("upTooltip")] = boundaries[QString("downTooltip")];
     }
 }

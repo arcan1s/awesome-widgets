@@ -34,7 +34,7 @@ class ExtendedSysMon : public Plasma::DataEngine
 
 public:
     explicit ExtendedSysMon(QObject *parent, const QVariantList &args);
-    ~ExtendedSysMon();
+    virtual ~ExtendedSysMon();
     // update functions
     QVariantHash getBattery(const QString acpiPath) const;
     QVariantHash getCurrentDesktop() const;

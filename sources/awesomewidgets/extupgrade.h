@@ -36,10 +36,9 @@ class ExtUpgrade : public AbstractExtItem
 
 public:
     explicit ExtUpgrade(QWidget *parent = nullptr, const QString upgradeName = QString(),
-                        const QStringList directories = QStringList(),
-                        const bool debugCmd = false);
-    ~ExtUpgrade();
-    ExtUpgrade *copy(const QString fileName, const int number);
+                        const QStringList directories = QStringList());
+    virtual ~ExtUpgrade();
+    ExtUpgrade *copy(const QString _fileName, const int _number);
     // get methods
     QString executable() const;
     QString filter() const;

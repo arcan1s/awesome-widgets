@@ -34,13 +34,11 @@
 
 
 ExtQuotes::ExtQuotes(QWidget *parent, const QString quotesName,
-                     const QStringList directories, const bool debugCmd)
-    : AbstractExtItem(parent, quotesName, directories, debugCmd),
+                     const QStringList directories)
+    : AbstractExtItem(parent, quotesName, directories),
       ui(new Ui::ExtQuotes)
 {
-    // logging
-    const_cast<QLoggingCategory &>(LOG_ESM()).setEnabled(QtMsgType::QtDebugMsg, debugCmd);
-    qSetMessagePattern(LOG_FORMAT);
+    qCDebug(LOG_LIB);
 
     readConfiguration();
     ui->setupUi(this);
@@ -64,7 +62,7 @@ ExtQuotes::ExtQuotes(QWidget *parent, const QString quotesName,
 
 ExtQuotes::~ExtQuotes()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     disconnect(manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(quotesReplyReceived(QNetworkReply *)));
 
@@ -73,18 +71,19 @@ ExtQuotes::~ExtQuotes()
 }
 
 
-ExtQuotes *ExtQuotes::copy(const QString fileName, const int number)
+ExtQuotes *ExtQuotes::copy(const QString _fileName, const int _number)
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << "File" << _fileName;
+    qCDebug(LOG_LIB) << "Number" << _number;
 
-    ExtQuotes *item = new ExtQuotes(static_cast<QWidget *>(parent()), fileName,
-                                    directories(), LOG_ESM().isDebugEnabled());
+    ExtQuotes *item = new ExtQuotes(static_cast<QWidget *>(parent()), _fileName, directories());
     item->setActive(isActive());
     item->setApiVersion(apiVersion());
     item->setComment(comment());
     item->setInterval(interval());
     item->setName(name());
-    item->setNumber(number);
+    item->setNumber(_number);
     item->setTicker(ticker());
 
     return item;
@@ -93,7 +92,7 @@ ExtQuotes *ExtQuotes::copy(const QString fileName, const int number)
 
 QString ExtQuotes::ticker() const
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     return m_ticker;
 }
@@ -101,7 +100,7 @@ QString ExtQuotes::ticker() const
 
 QString ExtQuotes::uniq() const
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     return m_ticker;
 }
@@ -109,8 +108,8 @@ QString ExtQuotes::uniq() const
 
 void ExtQuotes::setTicker(const QString _ticker)
 {
-    qCDebug(LOG_ESM);
-    qCDebug(LOG_ESM) << "Ticker" << _ticker;
+    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << "Ticker" << _ticker;
 
     m_ticker = _ticker;
 }
@@ -118,7 +117,7 @@ void ExtQuotes::setTicker(const QString _ticker)
 
 void ExtQuotes::readConfiguration()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
     AbstractExtItem::readConfiguration();
 
     for (int i=directories().count()-1; i>=0; i--) {
@@ -132,6 +131,7 @@ void ExtQuotes::readConfiguration()
 
     // update for current API
     if ((apiVersion() > 0) && (apiVersion() < AWEQAPI)) {
+        qCWarning(LOG_LIB) << "Bump API version from" << apiVersion() << "to" << AWEQAPI;
         setApiVersion(AWEQAPI);
         writeConfiguration();
     }
@@ -140,11 +140,11 @@ void ExtQuotes::readConfiguration()
 
 QVariantHash ExtQuotes::run()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
     if ((!isActive()) || (isRunning)) return values;
 
     if (times == 1) {
-        qCDebug(LOG_ESM) << "Send request";
+        qCInfo(LOG_LIB) << "Send request";
         isRunning = true;
         QNetworkReply *reply = manager->get(QNetworkRequest(QUrl(url())));
         new QReplyTimeout(reply, 1000);
@@ -161,7 +161,7 @@ QVariantHash ExtQuotes::run()
 int ExtQuotes::showConfiguration(const QVariant args)
 {
     Q_UNUSED(args)
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -187,11 +187,11 @@ int ExtQuotes::showConfiguration(const QVariant args)
 
 void ExtQuotes::writeConfiguration() const
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
     AbstractExtItem::writeConfiguration();
 
     QSettings settings(QString("%1/%2").arg(directories().first()).arg(fileName()), QSettings::IniFormat);
-    qCDebug(LOG_ESM) << "Configuration file" << settings.fileName();
+    qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
     settings.setValue(QString("X-AW-Ticker"), m_ticker);
@@ -202,9 +202,9 @@ void ExtQuotes::writeConfiguration() const
 
 void ExtQuotes::quotesReplyReceived(QNetworkReply *reply)
 {
-    qCDebug(LOG_ESM);
-    qCDebug(LOG_ESM) << "Return code" << reply->error();
-    qCDebug(LOG_ESM) << "Reply error message" << reply->errorString();
+    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << "Return code" << reply->error();
+    qCDebug(LOG_LIB) << "Reply error message" << reply->errorString();
 
     isRunning = false;
     QJsonParseError error;
@@ -212,7 +212,7 @@ void ExtQuotes::quotesReplyReceived(QNetworkReply *reply)
     reply->deleteLater();
     if ((reply->error() != QNetworkReply::NoError) ||
         (error.error != QJsonParseError::NoError)) {
-        qCWarning(LOG_ESM) << "Parse error" << error.errorString();
+        qCWarning(LOG_LIB) << "Parse error" << error.errorString();
         return;
     }
     QVariantMap jsonQuotes = jsonDoc.toVariant().toMap()[QString("query")].toMap();
@@ -222,21 +222,21 @@ void ExtQuotes::quotesReplyReceived(QNetworkReply *reply)
     // ask
     value = jsonQuotes[QString("Ask")].toString().toFloat();
     values[tag(QString("askchg"))] = values[QString("ask")].toFloat() == 0.0 ? 0.0 :
-                                value - values[QString("ask")].toFloat();
+                                     value - values[QString("ask")].toFloat();
     values[tag(QString("percaskchg"))] = 100.0 * values[QString("askchg")].toFloat() / values[QString("ask")].toFloat();
     values[tag(QString("ask"))] = value;
 
     // bid
     value = jsonQuotes[QString("Bid")].toString().toFloat();
     values[tag(QString("bidchg"))] = values[QString("bid")].toFloat() == 0.0 ? 0.0 :
-                                value - values[QString("bid")].toFloat();
+                                     value - values[QString("bid")].toFloat();
     values[tag(QString("percbidchg"))] = 100.0 * values[QString("bidchg")].toFloat() / values[QString("bid")].toFloat();
     values[tag(QString("bid"))] = value;
 
     // last trade
     value = jsonQuotes[QString("LastTradePriceOnly")].toString().toFloat();
     values[tag(QString("pricechg"))] = values[QString("price")].toFloat() == 0.0 ? 0.0 :
-                                value - values[QString("price")].toFloat();
+                                       value - values[QString("price")].toFloat();
     values[tag(QString("percpricechg"))] = 100.0 * values[QString("pricechg")].toFloat() / values[QString("price")].toFloat();
     values[tag(QString("price"))] = value;
 }
@@ -244,7 +244,7 @@ void ExtQuotes::quotesReplyReceived(QNetworkReply *reply)
 
 void ExtQuotes::translate()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
@@ -258,11 +258,11 @@ void ExtQuotes::translate()
 
 QString ExtQuotes::url() const
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     QString apiUrl = QString(YAHOO_URL);
     apiUrl.replace(QString("$TICKER"), m_ticker);
-    qCDebug(LOG_ESM) << "API url" << apiUrl;
+    qCInfo(LOG_LIB) << "API url" << apiUrl;
 
     return apiUrl;
 }

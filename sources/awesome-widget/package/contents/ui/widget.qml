@@ -90,8 +90,7 @@ Item {
                 iconName: "font"
 
                 onClicked: {
-                    if (debug) console.log("Font button")
-
+                    if (debug) console.debug("Font button")
                     var defaultFont = {
                         "color": plasmoid.configuration.fontColor,
                         "family": plasmoid.configuration.fontFamily,
@@ -112,8 +111,7 @@ Item {
                 iconName: "format-indent-more"
 
                 onClicked: {
-                    if (debug) console.log("Indent button")
-
+                    if (debug) console.debug("Indent button")
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
@@ -126,8 +124,7 @@ Item {
                 iconName: "format-text-bold"
 
                 onClicked: {
-                    if (debug) console.log("Bold button")
-
+                    if (debug) console.debug("Bold button")
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
@@ -139,8 +136,7 @@ Item {
                 iconName: "format-text-italic"
 
                 onClicked: {
-                    if (debug) console.log("Italic button")
-
+                    if (debug) console.debug("Italic button")
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
@@ -152,8 +148,7 @@ Item {
                 iconName: "format-text-underline"
 
                 onClicked: {
-                    if (debug) console.log("Underline button")
-
+                    if (debug) console.debug("Underline button")
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
@@ -165,8 +160,7 @@ Item {
                 iconName: "format-text-strikethrough"
 
                 onClicked: {
-                    if (debug) console.log("Strike button")
-
+                    if (debug) console.debug("Strike button")
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
@@ -179,8 +173,7 @@ Item {
                 iconName: "format-justify-left"
 
                 onClicked: {
-                    if (debug) console.log("Left button")
-
+                    if (debug) console.debug("Left button")
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
@@ -192,8 +185,7 @@ Item {
                 iconName: "format-justify-center"
 
                 onClicked: {
-                    if (debug) console.log("Center button")
-
+                    if (debug) console.debug("Center button")
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
@@ -205,8 +197,7 @@ Item {
                 iconName: "format-justify-right"
 
                 onClicked: {
-                    if (debug) console.log("Right button")
-
+                    if (debug) console.debug("Right button")
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
@@ -218,8 +209,7 @@ Item {
                 iconName: "format-justify-fill"
 
                 onClicked: {
-                    if (debug) console.log("Justify button")
-
+                    if (debug) console.debug("Justify button")
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
@@ -289,7 +279,9 @@ Item {
                     }
                 ]
                 onCurrentIndexChanged: {
+                    if (debug) console.debug()
                     tags.model = awKeys.dictKeys(true, model[currentIndex]["regexp"])
+                    if (debug) console.info("Init model", tags.model, "for", model[currentIndex]["label"])
                     tags.currentIndex = -1
                 }
             }
@@ -303,8 +295,7 @@ Item {
 
                 onClicked: {
                     if (!tags.currentText) return
-                    if (debug) console.log("Add tag button")
-
+                    if (debug) console.debug("Add tag button")
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
@@ -317,8 +308,7 @@ Item {
 
                 onClicked: {
                     if (!tags.currentText) return
-                    if (debug) console.log("Show tag button")
-
+                    if (debug) console.debug("Show tag button")
                     var message = i18n("Tag: %1", tags.currentText)
                     message += "<br>"
                     message += i18n("Value: %1", awKeys.valueByKey(tags.currentText))
@@ -332,8 +322,7 @@ Item {
                 text: i18n("Add lambda")
 
                 onClicked: {
-                    if (debug) console.log("Lambda button")
-
+                    if (debug) console.debug("Lambda button")
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
@@ -370,8 +359,7 @@ Item {
         interval: 5000
 
         onNewData: {
-            if (debug) console.log("Update source " + sourceName)
-
+            if (debug) console.debug("Update source", sourceName)
             awKeys.setDataBySource(sourceName, data, settings)
         }
     }
@@ -383,8 +371,7 @@ Item {
         interval: 5000
 
         onNewData: {
-            if (debug) console.log("Update source " + sourceName)
-
+            if (debug) console.debug("Update source", sourceName)
             awKeys.setDataBySource(sourceName, data, settings)
         }
     }
@@ -396,14 +383,13 @@ Item {
         interval: 5000
 
         onNewData: {
-            if (debug) console.log("Update source " + sourceName)
-
+            if (debug) console.debug("Update source", sourceName)
             awKeys.setDataBySource(sourceName, data, settings)
         }
     }
 
     Component.onCompleted: {
-        if (debug) console.log("")
+        if (debug) console.debug()
 
         // init submodule
         awKeys.initKeys(plasmoid.configuration.text)

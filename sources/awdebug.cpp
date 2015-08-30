@@ -19,6 +19,7 @@
 #include "awdebug.h"
 
 
-Q_LOGGING_CATEGORY(LOG_AW, "org.kde.plasma.awesomewidget")
-Q_LOGGING_CATEGORY(LOG_DP, "org.kde.plasma.desktoppanel")
-Q_LOGGING_CATEGORY(LOG_ESM, "org.kde.plasma.extsysmon")
+Q_LOGGING_CATEGORY(LOG_AW, "org.kde.plasma.awesomewidget", QtMsgType::QtWarningMsg)
+Q_LOGGING_CATEGORY(LOG_DP, "org.kde.plasma.desktoppanel", QtMsgType::QtWarningMsg)
+Q_LOGGING_CATEGORY(LOG_ESM, "org.kde.plasma.extsysmon", QtMsgType::QtWarningMsg)
+Q_LOGGING_CATEGORY(LOG_LIB, "org.kde.plasma.awesomewidgets", QtMsgType::QtWarningMsg)

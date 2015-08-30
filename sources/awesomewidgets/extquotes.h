@@ -37,10 +37,9 @@ class ExtQuotes : public AbstractExtItem
 
 public:
     explicit ExtQuotes(QWidget *parent = nullptr, const QString quotesName = QString(),
-                       const QStringList directories = QStringList(),
-                       const bool debugCmd = false);
+                       const QStringList directories = QStringList());
     virtual ~ExtQuotes();
-    ExtQuotes *copy(const QString fileName, const int number);
+    ExtQuotes *copy(const QString _fileName, const int _number);
     // get methods
     QString ticker() const;
     QString uniq() const;

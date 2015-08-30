@@ -32,8 +32,8 @@ class AWToolTip : public QObject
     Q_OBJECT
 
 public:
-    AWToolTip(QObject *parent = nullptr, QVariantMap settings = QVariantMap());
-    ~AWToolTip();
+    explicit AWToolTip(QObject *parent = nullptr, QVariantMap settings = QVariantMap());
+    virtual ~AWToolTip();
     QSize getSize() const;
     QString htmlImage();
     QPixmap image();
@@ -50,7 +50,7 @@ private:
     QGraphicsScene *toolTipScene = nullptr;
     QGraphicsView *toolTipView = nullptr;
     void setData(const QString source, float value,
-                 const bool ac = true);
+                 const bool dontInvert = true);
     // variables
     int counts = 0;
     QVariantHash configuration;

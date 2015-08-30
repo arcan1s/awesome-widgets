@@ -111,6 +111,6 @@ Item {
     }
 
     Component.onCompleted: {
-        if (debug) console.log("")
+        if (debug) console.debug()
     }
 }

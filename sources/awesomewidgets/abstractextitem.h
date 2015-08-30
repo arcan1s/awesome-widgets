@@ -38,10 +38,9 @@ class AbstractExtItem : public QDialog
 
 public:
     explicit AbstractExtItem(QWidget *parent = nullptr, const QString desktopName = QString(),
-                             const QStringList directories = QStringList(),
-                             const bool debugCmd = false);
+                             const QStringList directories = QStringList());
     virtual ~AbstractExtItem();
-    template <class T> T *copy(const QString fileName, const int number);
+    template <class T> T *copy(const QString _fileName, const int _number);
     // get methods
     int apiVersion() const;
     QString comment() const;

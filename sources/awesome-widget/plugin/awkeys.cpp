@@ -24,7 +24,6 @@
 #include <QInputDialog>
 #include <QLocale>
 #include <QNetworkInterface>
-#include <QProcessEnvironment>
 #include <QRegExp>
 #include <QScriptEngine>
 #include <QSettings>
@@ -44,21 +43,21 @@
 AWKeys::AWKeys(QObject *parent)
     : QObject(parent)
 {
-    // debug
-    QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
-    QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
-    bool debug = (debugEnv == QString("yes"));
+    qCDebug(LOG_AW);
 
     // logging
-    const_cast<QLoggingCategory &>(LOG_AW()).setEnabled(QtMsgType::QtDebugMsg, debug);
+    // disable info because QtMsgType has invalid enum order
+#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
+    const_cast<QLoggingCategory &>(LOG_AW()).setEnabled(QtMsgType::QtInfoMsg, false);
+#endif /* QT_VERSION */
     qSetMessagePattern(LOG_FORMAT);
 
     // backend
-    graphicalItems = new ExtItemAggregator<GraphicalItem>(nullptr, QString("desktops"), debug);
-    extQuotes = new ExtItemAggregator<ExtQuotes>(nullptr, QString("quotes"), debug);
-    extScripts = new ExtItemAggregator<ExtScript>(nullptr, QString("scripts"), debug);
-    extUpgrade = new ExtItemAggregator<ExtUpgrade>(nullptr, QString("upgrade"), debug);
-    extWeather = new ExtItemAggregator<ExtWeather>(nullptr, QString("weather"), debug);
+    graphicalItems = new ExtItemAggregator<GraphicalItem>(nullptr, QString("desktops"));
+    extQuotes = new ExtItemAggregator<ExtQuotes>(nullptr, QString("quotes"));
+    extScripts = new ExtItemAggregator<ExtScript>(nullptr, QString("scripts"));
+    extUpgrade = new ExtItemAggregator<ExtUpgrade>(nullptr, QString("upgrade"));
+    extWeather = new ExtItemAggregator<ExtWeather>(nullptr, QString("weather"));
     connect(this, SIGNAL(needToBeUpdated()), this, SLOT(dataUpdate()));
 }
 
@@ -80,6 +79,7 @@ AWKeys::~AWKeys()
 void AWKeys::initKeys(const QString currentPattern)
 {
     qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << "Pattern" << currentPattern;
 
     // init
     pattern = currentPattern;
@@ -94,6 +94,7 @@ void AWKeys::initKeys(const QString currentPattern)
 void AWKeys::initTooltip(const QVariantMap tooltipParams)
 {
     qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << "Tooltip parameters" << tooltipParams;
 
     if (toolTip != nullptr) {
         disconnect(toolTip, SIGNAL(toolTipPainted(QString)), this, SIGNAL(needToolTipToBeUpdated(QString)));
@@ -109,6 +110,7 @@ void AWKeys::initTooltip(const QVariantMap tooltipParams)
 void AWKeys::setPopupEnabled(const bool popup)
 {
     qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << "Is popup enabled" << popup;
 
     enablePopup = popup;
 }
@@ -117,6 +119,7 @@ void AWKeys::setPopupEnabled(const bool popup)
 void AWKeys::setTranslateStrings(const bool translate)
 {
     qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << "Is translation enabled" << translate;
 
     translateStrings = translate;
 }
@@ -125,6 +128,7 @@ void AWKeys::setTranslateStrings(const bool translate)
 void AWKeys::setWrapNewLines(const bool wrap)
 {
     qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << "Is wrapping enabled" << wrap;
 
     wrapNewLines = wrap;
 }
@@ -698,15 +702,14 @@ QString AWKeys::valueByKey(QString key) const
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Requested key" << key;
 
-    key.remove(QRegExp(QString("^bar[0-9]{1,}")));
-
-    return values[key];
+    return values[key.remove(QRegExp(QString("^bar[0-9]{1,}")))];
 }
 
 
 void AWKeys::editItem(const QString type)
 {
     qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << "Item type" << type;
 
     if (type == QString("graphicalitem")) {
         graphicalItems->setConfigArgs(dictKeys(true, QString("^(cpu(?!cl).*|gpu$|mem$|swap$|hdd[0-9].*|bat.*)")));
@@ -738,7 +741,7 @@ void AWKeys::loadKeysFromCache()
 
     QString fileName = QString("%1/awesomewidgets.ndx")
                        .arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
-    qCDebug(LOG_AW) << "Cache file" << fileName;
+    qCInfo(LOG_AW) << "Cache file" << fileName;
     QSettings cache(fileName, QSettings::IniFormat);
 
     cache.beginGroup(QString("Disk"));
@@ -777,9 +780,57 @@ void AWKeys::reinitKeys()
 {
     qCDebug(LOG_AW);
 
-    foundBars = findGraphicalItems();
-    foundKeys = findKeys();
-    foundLambdas = findLambdas();
+    // init
+    QStringList allKeys = dictKeys();
+
+    // append lists
+    // bars
+    foundBars = [allKeys](QString pattern) {
+        QStringList selectedKeys;
+        foreach(QString key, allKeys)
+            if ((key.startsWith(QString("bar"))) &&
+                (pattern.contains(QString("$%1").arg(key)))) {
+                qCInfo(LOG_AW) << "Found bar" << key;
+                selectedKeys.append(key);
+            }
+        if (selectedKeys.isEmpty()) qCWarning(LOG_AW) << "No bars found";
+        return selectedKeys;
+    }(pattern);
+
+    // main key list
+    foundKeys = [allKeys](QString pattern) {
+        QStringList selectedKeys;
+        foreach(QString key, allKeys)
+            if ((!key.startsWith(QString("bar"))) &&
+                (pattern.contains(QString("$%1").arg(key)))) {
+                qCInfo(LOG_AW) << "Found key" << key;
+                selectedKeys.append(key);
+            }
+        if (selectedKeys.isEmpty()) qCWarning(LOG_AW) << "No keys found";
+        return selectedKeys;
+    }(pattern);
+
+    // lambdas
+    foundLambdas = [](QString pattern) {
+        QStringList selectedKeys;
+        // substring inside ${{ }} (with brackets) which should not contain ${{
+        QRegularExpression lambdaRegexp(QString("\\$\\{\\{((?!\\$\\{\\{).)*?\\}\\}"));
+        lambdaRegexp.setPatternOptions(QRegularExpression::DotMatchesEverythingOption);
+
+        QRegularExpressionMatchIterator it = lambdaRegexp.globalMatch(pattern);
+        while (it.hasNext()) {
+            QRegularExpressionMatch match = it.next();
+            QString lambda = match.captured();
+            // drop brakets
+            lambda.remove(QRegExp(QString("^\\$\\{\\{")));
+            lambda.remove(QRegExp(QString("\\}\\}$")));
+            // append
+            qCInfo(LOG_AW) << "Found lambda" << lambda;
+            selectedKeys.append(lambda);
+        }
+        if (selectedKeys.isEmpty()) qCWarning(LOG_AW) << "No lambdas found";
+        return selectedKeys;
+    }(pattern);
 }
 
 
@@ -790,7 +841,7 @@ void AWKeys::addKeyToCache(const QString type, const QString key)
     qCDebug(LOG_AW) << "Key" << key;
 
     QString fileName = QString("%1/awesomewidgets.ndx").arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
-    qCDebug(LOG_AW) << "Cache file" << fileName;
+    qCInfo(LOG_AW) << "Cache file" << fileName;
     QSettings cache(fileName, QSettings::IniFormat);
 
     cache.beginGroup(type);
@@ -804,7 +855,7 @@ void AWKeys::addKeyToCache(const QString type, const QString key)
         foreach(QString dev, devices) {
             QString device = QString("/dev/%1").arg(dev);
             if (cachedValues.contains(device)) continue;
-            qCDebug(LOG_AW) << "Found new key" << device << "for type" << type;
+            qCInfo(LOG_AW) << "Found new key" << device << "for type" << type;
             cache.setValue(QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), device);
         }
     } else if (type == QString("Network")) {
@@ -812,12 +863,12 @@ void AWKeys::addKeyToCache(const QString type, const QString key)
         foreach(QNetworkInterface interface, rawInterfaceList) {
             QString device = interface.name();
             if (cachedValues.contains(device)) continue;
-            qCDebug(LOG_AW) << "Found new key" << device << "for type" << type;
+            qCInfo(LOG_AW) << "Found new key" << device << "for type" << type;
             cache.setValue(QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), device);
         }
     } else {
         if (cachedValues.contains(key)) return;
-        qCDebug(LOG_AW) << "Found new key" << key << "for type" << type;
+        qCInfo(LOG_AW) << "Found new key" << key << "for type" << type;
         cache.setValue(QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), key);
     }
     cache.endGroup();
@@ -834,12 +885,14 @@ QString AWKeys::parsePattern() const
 
     QString parsed = pattern;
     parsed.replace(QString("$$"), QString("$\\$\\"));
+
+    // lambdas
     foreach(QString key, foundLambdas)
         parsed.replace(QString("${{%1}}").arg(key), [this](QString key) {
             QScriptEngine engine;
             foreach(QString lambdaKey, foundKeys)
                 key.replace(QString("$%1").arg(lambdaKey), values[lambdaKey]);
-            qCDebug(LOG_AW) << "Expression" << key;
+            qCInfo(LOG_AW) << "Expression" << key;
             QScriptValue result = engine.evaluate(key);
             if (engine.hasUncaughtException()) {
                 int line = engine.uncaughtExceptionLineNumber();
@@ -848,17 +901,22 @@ QString AWKeys::parsePattern() const
             } else
                 return result.toString();
         }(key));
+
+    // main keys
     foreach(QString key, foundKeys)
         parsed.replace(QString("$%1").arg(key), [](QString key, QString value) {
             if (!key.startsWith(QString("custom")))
                 value.replace(QString(" "), QString("&nbsp;"));
             return value;
         }(key, values[key]));
+
+    // bars
     foreach(QString bar, foundBars)
         parsed.replace(QString("$%1").arg(bar),
                        graphicalItems->itemByTag(bar)->image(valueByKey(bar).toFloat()));
+
+    // prepare strings
     parsed.replace(QString("$\\$\\"), QString("$$"));
-    // wrap new lines if required
     if (wrapNewLines) parsed.replace(QString("\n"), QString("<br>"));
 
     return parsed;
@@ -868,6 +926,8 @@ QString AWKeys::parsePattern() const
 float AWKeys::temperature(const float temp, const QString units) const
 {
     qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << "Temperature value" << temp;
+    qCDebug(LOG_AW) << "Temperature units" << units;
 
     float converted = temp;
     if (units == QString("Celsius"))
@@ -886,66 +946,4 @@ float AWKeys::temperature(const float temp, const QString units) const
         converted = (temp + 273.15) * 1.98;
 
     return converted;
-}
-
-
-QStringList AWKeys::findGraphicalItems() const
-{
-    qCDebug(LOG_AW);
-
-    QStringList orderedKeys;
-    foreach(GraphicalItem *item, graphicalItems->items())
-        orderedKeys.append(item->tag());
-    orderedKeys.sort();
-
-    QStringList selectedKeys;
-    for (int i=orderedKeys.count()-1; i>=0; i--)
-        if (pattern.contains(QString("$%1").arg(orderedKeys.at(i)))) {
-            qCDebug(LOG_AW) << "Found bar" << orderedKeys.at(i);
-            selectedKeys.append(orderedKeys.at(i));
-        }
-
-    return selectedKeys;
-}
-
-
-QStringList AWKeys::findKeys() const
-{
-    qCDebug(LOG_AW);
-
-    QStringList selectedKeys;
-    foreach(QString key, dictKeys()) {
-        if (key.startsWith(QString("bar"))) continue;
-        if (pattern.contains(QString("$%1").arg(key))) {
-            qCDebug(LOG_AW) << "Found key" << key;
-            selectedKeys.append(key);
-        }
-    }
-
-    return selectedKeys;
-}
-
-
-QStringList AWKeys::findLambdas() const
-{
-    qCDebug(LOG_AW);
-
-    QStringList selectedKeys;
-    // substring inside ${{ }} (with brackets) which should not contain ${{
-    QRegularExpression lambdaRegexp(QString("\\$\\{\\{((?!\\$\\{\\{).)*?\\}\\}"));
-    lambdaRegexp.setPatternOptions(QRegularExpression::DotMatchesEverythingOption);
-
-    QRegularExpressionMatchIterator it = lambdaRegexp.globalMatch(pattern);
-    while (it.hasNext()) {
-        QRegularExpressionMatch match = it.next();
-        QString lambda = match.captured();
-        // drop brakets
-        lambda.remove(QRegExp(QString("^\\$\\{\\{")));
-        lambda.remove(QRegExp(QString("\\}\\}$")));
-        // append
-        qCDebug(LOG_AW) << "Found lambda" << lambda;
-        selectedKeys.append(lambda);
-    }
-
-    return selectedKeys;
 }

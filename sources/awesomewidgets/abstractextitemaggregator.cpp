@@ -26,12 +26,10 @@
 #include "awdebug.h"
 
 
-AbstractExtItemAggregator::AbstractExtItemAggregator(QWidget *parent, const bool debugCmd)
+AbstractExtItemAggregator::AbstractExtItemAggregator(QWidget *parent)
     : QWidget(parent)
 {
-    // logging
-    const_cast<QLoggingCategory &>(LOG_ESM()).setEnabled(QtMsgType::QtDebugMsg, debugCmd);
-    qSetMessagePattern(LOG_FORMAT);
+    qCDebug(LOG_LIB);
 
     dialog = new QDialog(this);
     widgetDialog = new QListWidget(dialog);
@@ -55,7 +53,7 @@ AbstractExtItemAggregator::AbstractExtItemAggregator(QWidget *parent, const bool
 
 AbstractExtItemAggregator::~AbstractExtItemAggregator()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     delete dialog;
 }
@@ -63,7 +61,7 @@ AbstractExtItemAggregator::~AbstractExtItemAggregator()
 
 QString AbstractExtItemAggregator::getName()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     bool ok;
     QString name = QInputDialog::getText(this, i18n("Enter file name"),
@@ -78,7 +76,7 @@ QString AbstractExtItemAggregator::getName()
 
 QVariant AbstractExtItemAggregator::configArgs() const
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     return m_configArgs;
 }
@@ -86,8 +84,8 @@ QVariant AbstractExtItemAggregator::configArgs() const
 
 void AbstractExtItemAggregator::setConfigArgs(const QVariant _configArgs)
 {
-    qCDebug(LOG_ESM);
-    qCDebug(LOG_ESM) << "Configuration arguments" << _configArgs;
+    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << "Configuration arguments" << _configArgs;
 
     m_configArgs = _configArgs;
 }
@@ -96,7 +94,7 @@ void AbstractExtItemAggregator::setConfigArgs(const QVariant _configArgs)
 void AbstractExtItemAggregator::editItemActivated(QListWidgetItem *item)
 {
     Q_UNUSED(item)
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     return editItem();
 }
@@ -104,7 +102,7 @@ void AbstractExtItemAggregator::editItemActivated(QListWidgetItem *item)
 
 void AbstractExtItemAggregator::editItemButtonPressed(QAbstractButton *button)
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     if (static_cast<QPushButton *>(button) == copyButton)
         return copyItem();

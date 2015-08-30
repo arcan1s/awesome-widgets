@@ -26,16 +26,17 @@
 #endif /* LOG_FORMAT */
 
 // define info log level
-#define isInfoEnabled isDebugEnabled
 #if QT_VERSION < QT_VERSION_CHECK(5, 5, 0)
 #ifndef qCInfo
 #define qCInfo qCDebug
 #endif /* qCInfo */
 #endif /* QT_VERSION */
 
+
 Q_DECLARE_LOGGING_CATEGORY(LOG_AW)
 Q_DECLARE_LOGGING_CATEGORY(LOG_DP)
 Q_DECLARE_LOGGING_CATEGORY(LOG_ESM)
+Q_DECLARE_LOGGING_CATEGORY(LOG_LIB)
 
 
 #endif /* AWDEBUG_H */

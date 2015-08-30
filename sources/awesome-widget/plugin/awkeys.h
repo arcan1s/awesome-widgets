@@ -40,8 +40,8 @@ class AWKeys : public QObject
     Q_OBJECT
 
 public:
-    AWKeys(QObject *parent = nullptr);
-    ~AWKeys();
+    explicit AWKeys(QObject *parent = nullptr);
+    virtual ~AWKeys();
 
     Q_INVOKABLE void initKeys(const QString currentPattern);
     Q_INVOKABLE void initTooltip(const QVariantMap tooltipParams);
@@ -79,10 +79,6 @@ private:
     void addKeyToCache(const QString type, const QString key = QString(""));
     QString parsePattern() const;
     float temperature(const float temp, const QString units) const;
-    // find methods
-    QStringList findGraphicalItems() const;
-    QStringList findKeys() const;
-    QStringList findLambdas() const;
     // get methods
     AWToolTip *toolTip = nullptr;
     bool enablePopup = false;

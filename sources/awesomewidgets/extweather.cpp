@@ -34,13 +34,11 @@
 
 
 ExtWeather::ExtWeather(QWidget *parent, const QString weatherName,
-                       const QStringList directories, const bool debugCmd)
-    : AbstractExtItem(parent, weatherName, directories, debugCmd),
+                       const QStringList directories)
+    : AbstractExtItem(parent, weatherName, directories),
       ui(new Ui::ExtWeather)
 {
-    // logging
-    const_cast<QLoggingCategory &>(LOG_ESM()).setEnabled(QtMsgType::QtDebugMsg, debugCmd);
-    qSetMessagePattern(LOG_FORMAT);
+    qCDebug(LOG_LIB);
 
     readConfiguration();
     ui->setupUi(this);
@@ -60,7 +58,7 @@ ExtWeather::ExtWeather(QWidget *parent, const QString weatherName,
 
 ExtWeather::~ExtWeather()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     disconnect(manager, SIGNAL(finished(QNetworkReply *)),
                this, SLOT(weatherReplyReceived(QNetworkReply *)));
@@ -70,12 +68,13 @@ ExtWeather::~ExtWeather()
 }
 
 
-ExtWeather *ExtWeather::copy(const QString fileName, const int number)
+ExtWeather *ExtWeather::copy(const QString _fileName, const int _number)
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << "File" << _fileName;
+    qCDebug(LOG_LIB) << "Number" << _number;
 
-    ExtWeather *item = new ExtWeather(static_cast<QWidget *>(parent()), fileName,
-                                      directories(), LOG_ESM().isDebugEnabled());
+    ExtWeather *item = new ExtWeather(static_cast<QWidget *>(parent()), _fileName, directories());
     item->setActive(isActive());
     item->setApiVersion(apiVersion());
     item->setCity(city());
@@ -83,7 +82,7 @@ ExtWeather *ExtWeather::copy(const QString fileName, const int number)
     item->setCountry(country());
     item->setInterval(interval());
     item->setName(name());
-    item->setNumber(number);
+    item->setNumber(_number);
     item->setTs(ts());
 
     return item;
@@ -92,8 +91,8 @@ ExtWeather *ExtWeather::copy(const QString fileName, const int number)
 
 QString ExtWeather::weatherFromInt(const int _id) const
 {
-    qCDebug(LOG_ESM);
-    qCDebug(LOG_ESM) << "ID" << _id;
+    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << "ID" << _id;
     // refer to http://openweathermap.org/weather-conditions
 
     QString weather;
@@ -192,7 +191,7 @@ QString ExtWeather::weatherFromInt(const int _id) const
 
 QString ExtWeather::city() const
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     return m_city;
 }
@@ -200,7 +199,7 @@ QString ExtWeather::city() const
 
 QString ExtWeather::country() const
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     return m_country;
 }
@@ -208,7 +207,7 @@ QString ExtWeather::country() const
 
 int ExtWeather::ts() const
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     return m_ts;
 }
@@ -216,7 +215,7 @@ int ExtWeather::ts() const
 
 QString ExtWeather::uniq() const
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     return QString("%1 (%2) at %3").arg(m_city).arg(m_country).arg(m_ts);
 }
@@ -224,8 +223,8 @@ QString ExtWeather::uniq() const
 
 void ExtWeather::setCity(const QString _city)
 {
-    qCDebug(LOG_ESM);
-    qCDebug(LOG_ESM) << "City" << _city;
+    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << "City" << _city;
 
     m_city = _city;
 }
@@ -233,8 +232,8 @@ void ExtWeather::setCity(const QString _city)
 
 void ExtWeather::setCountry(const QString _country)
 {
-    qCDebug(LOG_ESM);
-    qCDebug(LOG_ESM) << "Country" << _country;
+    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << "Country" << _country;
 
     m_country = _country;
 }
@@ -242,8 +241,8 @@ void ExtWeather::setCountry(const QString _country)
 
 void ExtWeather::setTs(const int _ts)
 {
-    qCDebug(LOG_ESM);
-    qCDebug(LOG_ESM) << "Timestamp" << _ts;
+    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << "Timestamp" << _ts;
 
     m_ts = _ts;
 }
@@ -251,7 +250,7 @@ void ExtWeather::setTs(const int _ts)
 
 void ExtWeather::readConfiguration()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
     AbstractExtItem::readConfiguration();
 
     for (int i=directories().count()-1; i>=0; i--) {
@@ -267,6 +266,7 @@ void ExtWeather::readConfiguration()
 
     // update for current API
     if ((apiVersion() > 0) && (apiVersion() < AWEWAPI)) {
+        qCWarning(LOG_LIB) << "Bump API version from" << apiVersion() << "to" << AWEWAPI;
         setApiVersion(AWEWAPI);
         writeConfiguration();
     }
@@ -275,11 +275,11 @@ void ExtWeather::readConfiguration()
 
 QVariantHash ExtWeather::run()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
     if ((!isActive()) || (isRunning)) return values;
 
     if (times == 1) {
-        qCDebug(LOG_ESM) << "Send request";
+        qCInfo(LOG_LIB) << "Send request";
         isRunning = true;
         QNetworkReply *reply = manager->get(QNetworkRequest(QUrl(url(m_ts != 0))));
         new QReplyTimeout(reply, 1000);
@@ -296,7 +296,7 @@ QVariantHash ExtWeather::run()
 int ExtWeather::showConfiguration(const QVariant args)
 {
     Q_UNUSED(args)
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -326,11 +326,11 @@ int ExtWeather::showConfiguration(const QVariant args)
 
 void ExtWeather::writeConfiguration() const
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
     AbstractExtItem::writeConfiguration();
 
     QSettings settings(QString("%1/%2").arg(directories().first()).arg(fileName()), QSettings::IniFormat);
-    qCDebug(LOG_ESM) << "Configuration file" << settings.fileName();
+    qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
     settings.setValue(QString("X-AW-City"), m_city);
@@ -344,9 +344,9 @@ void ExtWeather::writeConfiguration() const
 
 void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
 {
-    qCDebug(LOG_ESM);
-    qCDebug(LOG_ESM) << "Return code" << reply->error();
-    qCDebug(LOG_ESM) << "Reply error message" << reply->errorString();
+    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << "Return code" << reply->error();
+    qCDebug(LOG_LIB) << "Reply error message" << reply->errorString();
 
     isRunning = false;
     QJsonParseError error;
@@ -354,14 +354,14 @@ void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
     reply->deleteLater();
     if ((reply->error() != QNetworkReply::NoError) ||
         (error.error != QJsonParseError::NoError)) {
-        qCWarning(LOG_ESM) << "Parse error" << error.errorString();
+        qCWarning(LOG_LIB) << "Parse error" << error.errorString();
         return;
     }
 
     // convert to map
     QVariantMap json = jsonDoc.toVariant().toMap();
     if (json[QString("cod")].toInt() != 200) {
-        qCWarning(LOG_ESM) << "Invalid return code";
+        qCWarning(LOG_LIB) << "Invalid return code";
         return;
     }
 
@@ -378,7 +378,8 @@ void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
 
 QVariantHash ExtWeather::parseSingleJson(const QVariantMap json) const
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << "Single json data" << json;
 
     QVariantHash output;
 
@@ -404,7 +405,7 @@ QVariantHash ExtWeather::parseSingleJson(const QVariantMap json) const
 
 void ExtWeather::translate()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
@@ -419,13 +420,13 @@ void ExtWeather::translate()
 
 QString ExtWeather::url(const bool isForecast) const
 {
-    qCDebug(LOG_ESM);
-    qCDebug(LOG_ESM) << "Is forecast" << isForecast;
+    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << "Is forecast" << isForecast;
 
     QString apiUrl = isForecast ? QString(OWM_FORECAST_URL) : QString(OWM_URL);
     apiUrl.replace(QString("$CITY"), m_city);
     apiUrl.replace(QString("$COUNTRY"), m_country);
-    qCDebug(LOG_ESM) << "API url" << apiUrl;
+    qCInfo(LOG_LIB) << "API url" << apiUrl;
 
     return apiUrl;
 }

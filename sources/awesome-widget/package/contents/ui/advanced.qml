@@ -214,8 +214,10 @@ Item {
                 ]
                 onCurrentIndexChanged: cfg_tempUnits = model[currentIndex]["name"]
                 Component.onCompleted: {
+                    if (debug) console.debug()
                     for (var i = 0; i < model.length; i++) {
                         if (model[i]["name"] == plasmoid.configuration.tempUnits) {
+                            if (debug) console.info("Found", model[i]["name"], "on", i)
                             tempUnits.currentIndex = i;
                         }
                     }
@@ -302,6 +304,6 @@ Item {
     }
 
     Component.onCompleted: {
-        if (debug) console.log("")
+        if (debug) console.debug()
     }
 }

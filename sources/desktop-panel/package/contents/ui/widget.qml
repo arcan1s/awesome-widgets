@@ -59,8 +59,7 @@ Item {
                 iconName: "font"
 
                 onClicked: {
-                    if (debug) console.log("Font button")
-
+                    if (debug) console.debug("Font button")
                     var defaultFont = {
                         "color": plasmoid.configuration.fontColor,
                         "family": plasmoid.configuration.fontFamily,
@@ -81,8 +80,7 @@ Item {
                 iconName: "format-indent-more"
 
                 onClicked: {
-                    if (debug) console.log("Indent button")
-
+                    if (debug) console.debug("Indent button")
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
@@ -95,8 +93,7 @@ Item {
                 iconName: "format-text-bold"
 
                 onClicked: {
-                    if (debug) console.log("Bold button")
-
+                    if (debug) console.debug("Bold button")
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
@@ -108,8 +105,7 @@ Item {
                 iconName: "format-text-italic"
 
                 onClicked: {
-                    if (debug) console.log("Italic button")
-
+                    if (debug) console.debug("Italic button")
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
@@ -121,8 +117,7 @@ Item {
                 iconName: "format-text-underline"
 
                 onClicked: {
-                    if (debug) console.log("Underline button")
-
+                    if (debug) console.debug("Underline button")
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
@@ -134,8 +129,7 @@ Item {
                 iconName: "format-text-strikethrough"
 
                 onClicked: {
-                    if (debug) console.log("Strike button")
-
+                    if (debug) console.debug("Strike button")
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
@@ -148,8 +142,7 @@ Item {
                 iconName: "format-justify-left"
 
                 onClicked: {
-                    if (debug) console.log("Left button")
-
+                    if (debug) console.debug("Left button")
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
@@ -161,8 +154,7 @@ Item {
                 iconName: "format-justify-center"
 
                 onClicked: {
-                    if (debug) console.log("Center button")
-
+                    if (debug) console.debug("Center button")
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
@@ -174,8 +166,7 @@ Item {
                 iconName: "format-justify-right"
 
                 onClicked: {
-                    if (debug) console.log("Right button")
-
+                    if (debug) console.debug("Right button")
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
@@ -187,8 +178,7 @@ Item {
                 iconName: "format-justify-fill"
 
                 onClicked: {
-                    if (debug) console.log("Justify button")
-
+                    if (debug) console.debug("Justify button")
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
@@ -210,8 +200,7 @@ Item {
                 text: i18n("Add")
 
                 onClicked: {
-                    if (debug) console.log("Add tag button")
-
+                    if (debug) console.debug("Add tag button")
                     var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
@@ -223,8 +212,7 @@ Item {
                 text: i18n("Show value")
 
                 onClicked: {
-                    if (debug) console.log("Show tag button")
-
+                    if (debug) console.debug("Show tag button")
                     var message = i18n("Tag: %1", tags.currentText)
                     message += "<br>"
                     message += i18n("Value: %1", dpAdds.valueByKey(tags.currentText))
@@ -244,6 +232,6 @@ Item {
 
 
     Component.onCompleted: {
-        if (debug) console.log("")
+        if (debug) console.debug()
     }
 }

@@ -69,6 +69,7 @@ Item {
                 width: parent.width * 2 / 3
                 text: plasmoid.configuration.fontFamily
                 onClicked: {
+                    if (debug) console.debug()
                     fontDialog.setFont()
                     fontDialog.visible = true
                 }
@@ -133,8 +134,10 @@ Item {
                 ]
                 onCurrentIndexChanged: cfg_fontWeight = model[currentIndex]["name"]
                 Component.onCompleted: {
+                    if (debug) console.debug()
                     for (var i = 0; i < model.length; i++) {
                         if (model[i]["name"] == plasmoid.configuration.fontWeight) {
+                            if (debug) console.info("Found", model[i]["name"], "on", i)
                             fontWeight.currentIndex = i;
                         }
                     }
@@ -168,8 +171,10 @@ Item {
                 ]
                 onCurrentIndexChanged: cfg_fontStyle = model[currentIndex]["name"]
                 Component.onCompleted: {
+                    if (debug) console.debug()
                     for (var i = 0; i < model.length; i++) {
                         if (model[i]["name"] == plasmoid.configuration.fontStyle) {
+                            if (debug) console.info("Found", model[i]["name"], "on", i)
                             fontStyle.currentIndex = i;
                         }
                     }
@@ -214,12 +219,14 @@ Item {
         signal setFont
 
         onAccepted: {
+            if (debug) console.debug()
             selectFont.text = fontDialog.font.family
             fontSize.value = fontDialog.font.pointSize
             fontStyle.currentIndex = fontDialog.font.italic ? 1 : 0
             fontWeight.currentIndex = weight[fontDialog.font.weight]
         }
         onSetFont: {
+            if (debug) console.debug()
             fontDialog.font = Qt.font({
                 family: selectFont.text,
                 pointSize: fontSize.value > 0 ? fontSize.value : 12,
@@ -230,6 +237,6 @@ Item {
     }
 
     Component.onCompleted: {
-        if (debug) console.log("")
+        if (debug) console.debug()
     }
 }

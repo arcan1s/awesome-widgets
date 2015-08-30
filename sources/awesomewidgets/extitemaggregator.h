@@ -33,13 +33,17 @@ template <class T>
 class ExtItemAggregator : public AbstractExtItemAggregator
 {
 public:
-    explicit ExtItemAggregator(QWidget *parent, const QString type,
-                               const bool debugCmd = false)
-        : AbstractExtItemAggregator(parent, debugCmd),
+    explicit ExtItemAggregator(QWidget *parent, const QString type)
+        : AbstractExtItemAggregator(parent),
           m_type(type)
     {
-        // logging
-        const_cast<QLoggingCategory &>(LOG_ESM()).setEnabled(QtMsgType::QtDebugMsg, debugCmd);
+        qCDebug(LOG_LIB);
+        qCDebug(LOG_LIB) << "Type" << type;
+
+        // disable info because QtMsgType has invalid enum order
+#if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
+        const_cast<QLoggingCategory &>(LOG_LIB()).setEnabled(QtMsgType::QtInfoMsg, false);
+#endif /* QT_VERSION */
         qSetMessagePattern(LOG_FORMAT);
 
         initItems();
@@ -47,23 +51,23 @@ public:
 
     virtual ~ExtItemAggregator()
     {
-        qCDebug(LOG_ESM);
+        qCDebug(LOG_LIB);
 
         m_items.clear();
     }
 
     void editItems()
     {
-        qCDebug(LOG_ESM);
+        qCDebug(LOG_LIB);
 
         repaint();
         int ret = dialog->exec();
-        qCDebug(LOG_ESM) << "Dialog returns" << ret;
+        qCInfo(LOG_LIB) << "Dialog returns" << ret;
     };
 
     void initItems()
     {
-        qCDebug(LOG_ESM);
+        qCDebug(LOG_LIB);
 
         m_items.clear();
         m_items = getItems();
@@ -71,7 +75,8 @@ public:
 
     T *itemByTag(const QString _tag) const
     {
-        qCDebug(LOG_ESM);
+        qCDebug(LOG_LIB);
+        qCDebug(LOG_LIB) << "Tag" << _tag;
 
         T *found = nullptr;
         foreach(T *item, m_items) {
@@ -79,13 +84,16 @@ public:
             found = item;
             break;
         }
+        if (found == nullptr)
+            qCWarning(LOG_LIB) << "Could not find item by tag" << _tag;
 
         return found;
     }
 
     T *itemByTagNumber(const int _number) const
     {
-        qCDebug(LOG_ESM);
+        qCDebug(LOG_LIB);
+        qCDebug(LOG_LIB) << "Number" << _number;
 
         T *found = nullptr;
         foreach(T *item, m_items) {
@@ -93,13 +101,15 @@ public:
             found = item;
             break;
         }
+        if (found == nullptr)
+            qCWarning(LOG_LIB) << "Could not find item by number" << _number;
 
         return found;
     }
 
     T *itemFromWidget() const
     {
-        qCDebug(LOG_ESM);
+        qCDebug(LOG_LIB);
 
         QListWidgetItem *widgetItem = widgetDialog->currentItem();
         if (widgetItem == nullptr) return nullptr;
@@ -110,20 +120,22 @@ public:
             found = item;
             break;
         }
+        if (found == nullptr)
+            qCWarning(LOG_LIB) << "Could not find item by name" << widgetItem->text();
 
         return found;
     };
 
     QList<T *> items() const
     {
-        qCDebug(LOG_ESM);
+        qCDebug(LOG_LIB);
 
         return m_items;
     };
 
     int uniqNumber() const
     {
-        qCDebug(LOG_ESM);
+        qCDebug(LOG_LIB);
 
         QList<int> tagList;
         foreach(T *item, m_items) tagList.append(item->number());
@@ -140,7 +152,7 @@ private:
     // init method
     QList<T *> getItems()
     {
-        qCDebug(LOG_ESM);
+        qCDebug(LOG_LIB);
 
         // create directory at $HOME
         QString localDir = QString("%1/awesomewidgets/%2")
@@ -148,7 +160,7 @@ private:
                            .arg(m_type);
         QDir localDirectory;
         if (localDirectory.mkpath(localDir))
-            qCDebug(LOG_ESM) << "Created directory" << localDir;
+            qCInfo(LOG_LIB) << "Created directory" << localDir;
 
         QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
                            QString("awesomewidgets/%1").arg(m_type),
@@ -160,9 +172,9 @@ private:
             foreach(QString file, files) {
                 if (!file.endsWith(QString(".desktop"))) continue;
                 if (names.contains(file)) continue;
-                qCDebug(LOG_ESM) << "Found file" << file << "in" << dir;
+                qCInfo(LOG_LIB) << "Found file" << file << "in" << dir;
                 names.append(file);
-                items.append(new T(this, file, dirs, LOG_ESM().isDebugEnabled()));
+                items.append(new T(this, file, dirs));
             }
         }
 
@@ -171,6 +183,8 @@ private:
 
     void repaint()
     {
+        qCDebug(LOG_LIB);
+
         widgetDialog->clear();
         foreach(T *_item, m_items) {
             QListWidgetItem *item = new QListWidgetItem(_item->fileName(), widgetDialog);
@@ -186,12 +200,15 @@ private:
     // methods
     void copyItem()
     {
-        qCDebug(LOG_ESM);
+        qCDebug(LOG_LIB);
 
         T *source = itemFromWidget();
         QString fileName = getName();
         int number = uniqNumber();
-        if ((source == nullptr) || (fileName.isEmpty())) return;
+        if ((source == nullptr) || (fileName.isEmpty())) {
+            qCWarning(LOG_LIB) << "Nothing to copy";
+            return;
+        }
 
         T *newItem = source->copy(fileName, number);
         if (newItem->showConfiguration(configArgs()) == 1) {
@@ -202,16 +219,19 @@ private:
 
     void createItem()
     {
-        qCDebug(LOG_ESM);
+        qCDebug(LOG_LIB);
 
         QString fileName = getName();
         int number = uniqNumber();
         QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
                            QString("awesomewidgets/%1").arg(m_type),
                            QStandardPaths::LocateDirectory);
-        if (fileName.isEmpty()) return;
+        if (fileName.isEmpty()) {
+            qCWarning(LOG_LIB) << "Nothing to create";
+            return;
+        };
 
-        T *newItem = new T(this, fileName, dirs, LOG_ESM().isDebugEnabled());
+        T *newItem = new T(this, fileName, dirs);
         newItem->setNumber(number);
         if (newItem->showConfiguration(configArgs()) == 1) {
             initItems();
@@ -221,10 +241,13 @@ private:
 
     void deleteItem()
     {
-        qCDebug(LOG_ESM);
+        qCDebug(LOG_LIB);
 
         T *source = itemFromWidget();
-        if (source == nullptr) return;
+        if (source == nullptr) {
+            qCWarning(LOG_LIB) << "Nothing to delete";
+            return;
+        };
 
         if (source->tryDelete()) {
             initItems();
@@ -234,10 +257,13 @@ private:
 
     void editItem()
     {
-        qCDebug(LOG_ESM);
+        qCDebug(LOG_LIB);
 
         T *source = itemFromWidget();
-        if (source == nullptr) return;
+        if (source == nullptr) {
+            qCWarning(LOG_LIB) << "Nothing to edit";
+            return;
+        };
 
         if (source->showConfiguration(configArgs()) == 1) {
             initItems();

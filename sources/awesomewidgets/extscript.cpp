@@ -32,13 +32,11 @@
 
 
 ExtScript::ExtScript(QWidget *parent, const QString scriptName,
-                     const QStringList directories, const bool debugCmd)
-    : AbstractExtItem(parent, scriptName, directories, debugCmd),
+                     const QStringList directories)
+    : AbstractExtItem(parent, scriptName, directories),
       ui(new Ui::ExtScript)
 {
-    // logging
-    const_cast<QLoggingCategory &>(LOG_ESM()).setEnabled(QtMsgType::QtDebugMsg, debugCmd);
-    qSetMessagePattern(LOG_FORMAT);
+    qCDebug(LOG_LIB);
 
     readConfiguration();
     readJsonFilters();
@@ -55,7 +53,7 @@ ExtScript::ExtScript(QWidget *parent, const QString scriptName,
 
 ExtScript::~ExtScript()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     process->kill();
     delete process;
@@ -63,12 +61,13 @@ ExtScript::~ExtScript()
 }
 
 
-ExtScript *ExtScript::copy(const QString fileName, const int number)
+ExtScript *ExtScript::copy(const QString _fileName, const int _number)
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << "File" << _fileName;
+    qCDebug(LOG_LIB) << "Number" << _number;
 
-    ExtScript *item = new ExtScript(static_cast<QWidget *>(parent()), fileName,
-                                    directories(), LOG_ESM().isDebugEnabled());
+    ExtScript *item = new ExtScript(static_cast<QWidget *>(parent()), _fileName, directories());
     item->setActive(isActive());
     item->setApiVersion(apiVersion());
     item->setComment(comment());
@@ -76,7 +75,7 @@ ExtScript *ExtScript::copy(const QString fileName, const int number)
     item->setHasOutput(hasOutput());
     item->setInterval(interval());
     item->setName(name());
-    item->setNumber(number);
+    item->setNumber(_number);
     item->setPrefix(prefix());
     item->setRedirect(redirect());
 
@@ -86,7 +85,7 @@ ExtScript *ExtScript::copy(const QString fileName, const int number)
 
 QString ExtScript::executable() const
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     return m_executable;
 }
@@ -94,7 +93,7 @@ QString ExtScript::executable() const
 
 QStringList ExtScript::filters() const
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     return m_filters;
 }
@@ -102,7 +101,7 @@ QStringList ExtScript::filters() const
 
 bool ExtScript::hasOutput() const
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     return m_output;
 }
@@ -110,7 +109,7 @@ bool ExtScript::hasOutput() const
 
 QString ExtScript::prefix() const
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     return m_prefix;
 }
@@ -118,7 +117,7 @@ QString ExtScript::prefix() const
 
 ExtScript::Redirect ExtScript::redirect() const
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     return m_redirect;
 }
@@ -126,7 +125,7 @@ ExtScript::Redirect ExtScript::redirect() const
 
 QString ExtScript::uniq() const
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     return m_executable;
 }
@@ -134,7 +133,7 @@ QString ExtScript::uniq() const
 
 QString ExtScript::strRedirect() const
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     QString value;
     switch (m_redirect) {
@@ -156,8 +155,8 @@ QString ExtScript::strRedirect() const
 
 void ExtScript::setExecutable(const QString _executable)
 {
-    qCDebug(LOG_ESM);
-    qCDebug(LOG_ESM) << "Executable" << _executable;
+    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << "Executable" << _executable;
 
     m_executable = _executable;
 }
@@ -165,18 +164,20 @@ void ExtScript::setExecutable(const QString _executable)
 
 void ExtScript::setFilters(const QStringList _filters)
 {
-    qCDebug(LOG_ESM);
-    qCDebug(LOG_ESM) << "Filters" << _filters;
+    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << "Filters" << _filters;
 
-    foreach(QString filter, _filters)
-        updateFilter(filter);
+    std::for_each(_filters.cbegin(), _filters.cend(),
+                  [this](QString filter) { return updateFilter(filter); });
+//     foreach(QString filter, _filters)
+//         updateFilter(filter);
 }
 
 
 void ExtScript::setHasOutput(const bool _state)
 {
-    qCDebug(LOG_ESM);
-    qCDebug(LOG_ESM) << "State" << _state;
+    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << "State" << _state;
 
     m_output = _state;
 }
@@ -184,8 +185,8 @@ void ExtScript::setHasOutput(const bool _state)
 
 void ExtScript::setPrefix(const QString _prefix)
 {
-    qCDebug(LOG_ESM);
-    qCDebug(LOG_ESM) << "Prefix" << _prefix;
+    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << "Prefix" << _prefix;
 
     m_prefix = _prefix;
 }
@@ -193,8 +194,8 @@ void ExtScript::setPrefix(const QString _prefix)
 
 void ExtScript::setRedirect(const Redirect _redirect)
 {
-    qCDebug(LOG_ESM);
-    qCDebug(LOG_ESM) << "Redirect" << _redirect;
+    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << "Redirect" << _redirect;
 
     m_redirect = _redirect;
 }
@@ -202,8 +203,8 @@ void ExtScript::setRedirect(const Redirect _redirect)
 
 void ExtScript::setStrRedirect(const QString _redirect)
 {
-    qCDebug(LOG_ESM);
-    qCDebug(LOG_ESM) << "Redirect" << _redirect;
+    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << "Redirect" << _redirect;
 
     if (_redirect == QString("stdout2sdterr"))
         m_redirect = stdout2stderr;
@@ -216,14 +217,14 @@ void ExtScript::setStrRedirect(const QString _redirect)
 
 QString ExtScript::applyFilters(QString _value) const
 {
-    qCDebug(LOG_ESM);
-    qCDebug(LOG_ESM) << "Value" << _value;
+    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << "Value" << _value;
 
     foreach(QString filt, m_filters) {
-        qCDebug(LOG_ESM) << "Found filter" << filt;
+        qCInfo(LOG_LIB) << "Found filter" << filt;
         QVariantMap filter = jsonFilters[filt].toMap();
         if (filter.isEmpty()) {
-            qCWarning(LOG_ESM) << "Could not find filter in the json";
+            qCWarning(LOG_LIB) << "Could not find filter" << _value << "in the json";
             continue;
         }
         foreach(QString f, filter.keys())
@@ -236,9 +237,9 @@ QString ExtScript::applyFilters(QString _value) const
 
 void ExtScript::updateFilter(const QString _filter, const bool _add)
 {
-    qCDebug(LOG_ESM);
-    qCDebug(LOG_ESM) << "Filter" << _filter;
-    qCDebug(LOG_ESM) << "Should be added" << _add;
+    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << "Filter" << _filter;
+    qCDebug(LOG_LIB) << "Should be added" << _add;
 
     if (_add) {
         if (m_filters.contains(_filter)) return;
@@ -251,7 +252,7 @@ void ExtScript::updateFilter(const QString _filter, const bool _add)
 
 void ExtScript::readConfiguration()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
     AbstractExtItem::readConfiguration();
 
     for (int i=directories().count()-1; i>=0; i--) {
@@ -274,6 +275,7 @@ void ExtScript::readConfiguration()
 
     // update for current API
     if ((apiVersion() > 0) && (apiVersion() < AWESAPI)) {
+        qCWarning(LOG_LIB) << "Bump API version from" << apiVersion() << "to" << AWESAPI;
         setApiVersion(AWESAPI);
         writeConfiguration();
     }
@@ -282,39 +284,41 @@ void ExtScript::readConfiguration()
 
 void ExtScript::readJsonFilters()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     QString fileName = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
                                               QString("awesomewidgets/scripts/awesomewidgets-extscripts-filters.json"));
-    qCDebug(LOG_ESM) << "Configuration file" << fileName;
+    qCInfo(LOG_LIB) << "Configuration file" << fileName;
     QFile jsonFile(fileName);
-    if (!jsonFile.open(QIODevice::ReadOnly | QIODevice::Text))
+    if (!jsonFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qCWarning(LOG_LIB) << "Could not open" << fileName;
         return;
+    }
     QString jsonText = jsonFile.readAll();
     jsonFile.close();
 
     QJsonParseError error;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonText.toUtf8(), &error);
     if (error.error != QJsonParseError::NoError) {
-        qCWarning(LOG_ESM) << "Json parse error" << error.errorString();
+        qCWarning(LOG_LIB) << "Parse error" << error.errorString();
         return;
     }
     jsonFilters = jsonDoc.toVariant().toMap();
 
-    qCDebug(LOG_ESM) << "Filters" << jsonFilters;
+    qCDebug(LOG_LIB) << "Filters" << jsonFilters;
 }
 
 
 QVariantHash ExtScript::run()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
     if (!isActive()) return value;
 
     if ((times == 1) && (process->state() == QProcess::NotRunning)) {
         QStringList cmdList;
         if (!m_prefix.isEmpty()) cmdList.append(m_prefix);
         cmdList.append(m_executable);
-        qCDebug(LOG_ESM) << "cmd" << cmdList.join(QChar(' '));
+        qCInfo(LOG_LIB) << "Run cmd" << cmdList.join(QChar(' '));
         process->start(cmdList.join(QChar(' ')));
     } else if (times >= interval())
         times = 0;
@@ -327,7 +331,7 @@ QVariantHash ExtScript::run()
 int ExtScript::showConfiguration(const QVariant args)
 {
     Q_UNUSED(args)
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -367,11 +371,11 @@ int ExtScript::showConfiguration(const QVariant args)
 
 void ExtScript::writeConfiguration() const
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
     AbstractExtItem::writeConfiguration();
 
     QSettings settings(QString("%1/%2").arg(directories().first()).arg(fileName()), QSettings::IniFormat);
-    qCDebug(LOG_ESM) << "Configuration file" << settings.fileName();
+    qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
     settings.setValue(QString("Exec"), m_executable);
@@ -387,13 +391,13 @@ void ExtScript::writeConfiguration() const
 
 void ExtScript::updateValue()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
-    qCDebug(LOG_ESM) << "Cmd returns" << process->exitCode();
+    qCInfo(LOG_LIB) << "Cmd returns" << process->exitCode();
     QString qdebug = QTextCodec::codecForMib(106)->toUnicode(process->readAllStandardError()).trimmed();
-    qCDebug(LOG_ESM) << "Error" << qdebug;
+    qCInfo(LOG_LIB) << "Error" << qdebug;
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process->readAllStandardOutput()).trimmed();
-    qCDebug(LOG_ESM) << "Error" << qoutput;
+    qCInfo(LOG_LIB) << "Error" << qoutput;
     QString strValue;
 
     switch (m_redirect) {
@@ -415,7 +419,7 @@ void ExtScript::updateValue()
 
 void ExtScript::translate()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_LIB);
 
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));

@@ -30,8 +30,8 @@ class AWActions : public QObject
     Q_OBJECT
 
 public:
-    AWActions(QObject *parent = nullptr);
-    ~AWActions();
+    explicit AWActions(QObject *parent = nullptr);
+    virtual ~AWActions();
 
     Q_INVOKABLE void checkUpdates();
     Q_INVOKABLE bool dropCache() const;
