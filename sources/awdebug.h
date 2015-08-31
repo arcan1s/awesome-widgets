@@ -31,8 +31,8 @@
 // redefine info because it doesn't log properly
 #ifdef qCInfo
 #undef qCInfo
-#define qCInfo qCDebug
 #endif /* qCInfo */
+#define qCInfo qCDebug
 // #endif /* QT_VERSION */
 
 
