@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-08-30 16:30+0300\n"
+"POT-Creation-Date: 2015-08-31 21:39+0300\n"
 "PO-Revision-Date: 2015-07-31 22:13+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Spanish <kde-russian@lists.kde.ru>\n"
@@ -540,21 +540,6 @@ msgstr "Orientación vertical"
 msgid "Mark"
 msgstr "Marca"
 
-msgid "Top Edge"
-msgstr "Borde superior"
-
-msgid "Bottom Edge"
-msgstr "Borde inferior"
-
-msgid "Left Edge"
-msgstr "Borde izquierdo"
-
-msgid "Right Edge"
-msgstr "Borde derecho"
-
-msgid "Unknown location (%1)"
-msgstr "Ubicación desconocida (%1)"
-
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Tu nombre"
@@ -562,6 +547,21 @@ msgstr "Tu nombre"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "Tu correo electrónico"
+
+#~ msgid "Top Edge"
+#~ msgstr "Borde superior"
+
+#~ msgid "Bottom Edge"
+#~ msgstr "Borde inferior"
+
+#~ msgid "Left Edge"
+#~ msgstr "Borde izquierdo"
+
+#~ msgid "Right Edge"
+#~ msgstr "Borde derecho"
+
+#~ msgid "Unknown location (%1)"
+#~ msgstr "Ubicación desconocida (%1)"
 
 #~ msgid "Exec: %1"
 #~ msgstr "Ejecutar: %1"

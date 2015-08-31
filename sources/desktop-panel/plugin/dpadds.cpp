@@ -203,22 +203,6 @@ void DPAdds::setMark(const QString newMark)
 }
 
 
-void DPAdds::setPanelsToControl(const QString newPanels)
-{
-    qCDebug(LOG_DP);
-    qCDebug(LOG_DP) << "Panels" << newPanels;
-
-    panelsToControl.clear();
-    if (newPanels == QString("-1")) {
-        int count = getPanels().count();
-        for (int i=0; i<count; i++)
-            panelsToControl.append(i);
-    } else
-        foreach(QString panel, newPanels.split(QChar(',')))
-            panelsToControl.append(panel.toInt());
-}
-
-
 void DPAdds::setToolTipData(const QVariantMap tooltipData)
 {
     qCDebug(LOG_DP);
@@ -249,57 +233,6 @@ QString DPAdds::valueByKey(const QString key, int desktop) const
         return QString::number(numberOfDesktops());
     else
         return QString();
-}
-
-
-QString DPAdds::editPanelsToContol(const QString current)
-{
-    qCDebug(LOG_DP);
-    qCDebug(LOG_DP) << "Current panels" << current;
-
-    // paint
-    QDialog *dialog = new QDialog(nullptr);
-    QListWidget *widget = new QListWidget(dialog);
-    QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Open | QDialogButtonBox::Close,
-                                                     Qt::Vertical, dialog);
-    QHBoxLayout *layout = new QHBoxLayout(dialog);
-    layout->addWidget(widget);
-    layout->addWidget(buttons);
-    dialog->setLayout(layout);
-    connect(buttons, SIGNAL(rejected()), dialog, SLOT(reject()));
-    connect(buttons, SIGNAL(accepted()), dialog, SLOT(accept()));
-
-    // fill
-    QList<Plasma::Containment *> panels = getPanels();
-    for (int i=0; i<panels.count(); i++) {
-        QListWidgetItem *item = new QListWidgetItem(panelLocationToStr(panels.at(i)->location()), widget);
-        if ((current.split(QChar(',')).contains(QString::number(i))) ||
-            (current == QString("-1")))
-            item->setCheckState(Qt::Checked);
-        else
-            item->setCheckState(Qt::Unchecked);
-    }
-
-    // exec
-    QString value;
-    QStringList indexes;
-    int ret = dialog->exec();
-    switch (ret) {
-    case QDialog::Accepted:
-        for (int i=0; i<widget->count(); i++)
-            if (widget->item(i)->checkState() == Qt::Checked)
-                indexes.append(QString::number(i));
-        if (indexes.count() == widget->count())
-            value = QString("-1");
-        else
-            value = indexes.join(QChar(','));
-        break;
-    default:
-        value = current;
-        break;
-    }
-
-    return value;
 }
 
 
@@ -361,33 +294,6 @@ QVariantMap DPAdds::getFont(const QVariantMap defaultFont) const
 }
 
 
-void DPAdds::changePanelsState() const
-{
-    qCDebug(LOG_DP);
-    if (panelsToControl.isEmpty()) return;
-
-//     QList<Plasma::Containment *> panels = getPanels();
-//     for (int i=0; i<panels.count(); i++) {
-//         if (!panelsToControl.contains(i)) continue;
-//         bool wasVisible = panels.at(i)->view()->isVisible();
-//         int winId = panels.at(i)->view()->winId();
-//         if (wasVisible) {
-//             qCDebug(LOG_DP) << "Hide panel";
-//             KWindowInfo oldInfo = KWindowSystem::windowInfo(winId, NET::WMState);
-//             oldState = oldInfo.state();
-//             panels.at(i)->view()->setVisible(false);
-//         } else {
-//             qCDebug(LOG_DP) << "Show panel";
-//             panels.at(i)->view()->setVisible(true);
-//             KWindowSystem::clearState(winId, NET::KeepAbove);
-//             KWindowSystem::setState(winId, oldState | NET::StaysOnTop);
-//             KWindowSystem::setOnAllDesktops(winId, true);
-//         }
-//     }
-//     panels.clear();
-}
-
-
 void DPAdds::sendNotification(const QString eventId, const QString message)
 {
     qCDebug(LOG_DP);
@@ -436,41 +342,4 @@ DPAdds::DesktopWindowsInfo DPAdds::getInfoByDesktop(const int desktop) const
     }
 
     return info;
-}
-
-
-QList<Plasma::Containment *> DPAdds::getPanels() const
-{
-    qCDebug(LOG_DP);
-
-//     Plasma::Corona *corona = new Plasma::Corona(this);
-    QList<Plasma::Containment *> panels;
-//     foreach(Plasma::Containment *cont, corona->containments()) {
-//         if (cont->containmentType() != Plasma::Types::ContainmentType::PanelContainment) continue
-//         panels.append(cont);
-//     }
-//     delete corona;
-
-    return panels;
-}
-
-
-QString DPAdds::panelLocationToStr(Plasma::Types::Location location) const
-{
-    qCDebug(LOG_DP);
-    qCDebug(LOG_DP) << "Location" << location;
-
-    switch (location) {
-    case Plasma::Types::Location::TopEdge:
-        return i18n("Top Edge");
-    case Plasma::Types::Location::BottomEdge:
-        return i18n("Bottom Edge");
-    case Plasma::Types::Location::LeftEdge:
-        return i18n("Left Edge");
-    case Plasma::Types::Location::RightEdge:
-        return i18n("Right Edge");
-    default:
-        qCWarning(LOG_DP) << "Unknown location" << location;
-        return i18n("Unknown location (%1)", location);
-    }
 }

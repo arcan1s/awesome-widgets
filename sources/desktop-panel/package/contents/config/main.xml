@@ -38,9 +38,6 @@
     <entry name="mark" type="string">
       <default>¤</default>
     </entry>
-    <entry name="panels" type="int">
-      <default>-1</default>
-    </entry>
   </group>
 
   <group name="Appearance">

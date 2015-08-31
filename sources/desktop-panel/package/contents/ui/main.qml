@@ -170,18 +170,11 @@ Item {
         }
     }
 
-    Plasmoid.onActivated: {
-        if (debug) console.debug()
-
-//         dpAdds.changePanelsState()
-    }
-
     Plasmoid.onUserConfiguringChanged: {
         if (plasmoid.userConfiguring) return
         if (debug) console.debug()
 
         dpAdds.setMark(plasmoid.configuration.mark)
-        dpAdds.setPanelsToControl(plasmoid.configuration.panels)
         dpAdds.setToolTipData(tooltipSettings)
 
         needUpdate()

@@ -54,11 +54,9 @@ public:
     Q_INVOKABLE QString parsePattern(const QString pattern, const int desktop) const;
     // values
     Q_INVOKABLE void setMark(const QString newMark);
-    Q_INVOKABLE void setPanelsToControl(const QString newPanels);
     Q_INVOKABLE void setToolTipData(const QVariantMap tooltipData);
     Q_INVOKABLE QString valueByKey(const QString key, int desktop = -1) const;
     // configuration slots
-    Q_INVOKABLE QString editPanelsToContol(const QString current);
     Q_INVOKABLE QString getAboutText(const QString type = "header") const;
     Q_INVOKABLE QVariantMap getFont(const QVariantMap defaultFont) const;
 
@@ -67,20 +65,16 @@ signals:
     void windowListChanged() const;
 
 public slots:
-    Q_INVOKABLE void changePanelsState() const;
     Q_INVOKABLE static void sendNotification(const QString eventId, const QString message);
     Q_INVOKABLE void setCurrentDesktop(const int desktop) const;
 
 private:
     DesktopWindowsInfo getInfoByDesktop(const int desktop) const;
-    QList<Plasma::Containment *> getPanels() const;
-    QString panelLocationToStr(Plasma::Types::Location location) const;
     // variables
-    int oldState, tooltipWidth = 200;
+    int tooltipWidth = 200;
     QString mark = QString("*");
     QString tooltipColor = QString("#000000");
     QString tooltipType = QString("none");
-    QList<int> panelsToControl;
 };
 
 

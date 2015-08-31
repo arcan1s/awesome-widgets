@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-08-30 16:30+0300\n"
+"POT-Creation-Date: 2015-08-31 21:39+0300\n"
 "PO-Revision-Date: 2015-08-30 16:30+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: English <kde-russian@lists.kde.ru>\n"
@@ -529,21 +529,6 @@ msgstr "Vertical layout"
 msgid "Mark"
 msgstr "Mark"
 
-msgid "Top Edge"
-msgstr "Top Edge"
-
-msgid "Bottom Edge"
-msgstr "Bottom Edge"
-
-msgid "Left Edge"
-msgstr "Left Edge"
-
-msgid "Right Edge"
-msgstr "Right Edge"
-
-msgid "Unknown location (%1)"
-msgstr "Unknown location (%1)"
-
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Evgeniy Alekseev"
@@ -551,6 +536,21 @@ msgstr "Evgeniy Alekseev"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "esalexeev@gmail.com"
+
+#~ msgid "Top Edge"
+#~ msgstr "Top Edge"
+
+#~ msgid "Bottom Edge"
+#~ msgstr "Bottom Edge"
+
+#~ msgid "Left Edge"
+#~ msgstr "Left Edge"
+
+#~ msgid "Right Edge"
+#~ msgstr "Right Edge"
+
+#~ msgid "Unknown location (%1)"
+#~ msgstr "Unknown location (%1)"
 
 #~ msgid "Ticker: %1"
 #~ msgstr "Ticker: %1"

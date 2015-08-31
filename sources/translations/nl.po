@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-08-30 16:30+0300\n"
+"POT-Creation-Date: 2015-08-31 21:39+0300\n"
 "PO-Revision-Date: 2015-08-20 22:52+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
@@ -546,21 +546,6 @@ msgstr "Verticale layout"
 msgid "Mark"
 msgstr "Markeren"
 
-msgid "Top Edge"
-msgstr "Bovenrand"
-
-msgid "Bottom Edge"
-msgstr "Onderrand"
-
-msgid "Left Edge"
-msgstr "Linkerrand"
-
-msgid "Right Edge"
-msgstr "Linkerrand"
-
-msgid "Unknown location (%1)"
-msgstr "Onbekende positie (%1)"
-
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Heimen Stoffels"
@@ -568,6 +553,21 @@ msgstr "Heimen Stoffels"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "vistausss@outlook.com"
+
+#~ msgid "Top Edge"
+#~ msgstr "Bovenrand"
+
+#~ msgid "Bottom Edge"
+#~ msgstr "Onderrand"
+
+#~ msgid "Left Edge"
+#~ msgstr "Linkerrand"
+
+#~ msgid "Right Edge"
+#~ msgstr "Linkerrand"
+
+#~ msgid "Unknown location (%1)"
+#~ msgstr "Onbekende positie (%1)"
 
 #~ msgid "Run ksysguard"
 #~ msgstr "ksysguard openen"

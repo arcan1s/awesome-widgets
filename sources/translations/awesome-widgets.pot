@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-08-30 16:30+0300\n"
+"POT-Creation-Date: 2015-08-31 21:39+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -518,21 +518,6 @@ msgid "Vertical layout"
 msgstr ""
 
 msgid "Mark"
-msgstr ""
-
-msgid "Top Edge"
-msgstr ""
-
-msgid "Bottom Edge"
-msgstr ""
-
-msgid "Left Edge"
-msgstr ""
-
-msgid "Right Edge"
-msgstr ""
-
-msgid "Unknown location (%1)"
 msgstr ""
 
 msgctxt "NAME OF TRANSLATORS"
