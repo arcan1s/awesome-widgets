@@ -1,5 +1,5 @@
 find_package(Gettext REQUIRED)
-find_package(Qt5 REQUIRED COMPONENTS Core DBus Network Qml Widgets)
+find_package(Qt5 REQUIRED COMPONENTS Core DBus Network Script Qml Widgets)
 find_package(ECM 0.0.11 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
 find_package(KF5 REQUIRED COMPONENTS I18n Notifications Plasma Service WindowSystem)
