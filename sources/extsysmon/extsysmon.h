@@ -52,22 +52,25 @@ public:
     QVariantHash getPsStats() const;
 
 protected:
+    QStringList sources() const;
     bool sourceRequestEvent(const QString &source);
     bool updateSourceEvent(const QString &source);
-    QStringList sources() const;
 
 private:
     // configuration
     QHash<QString, QString> configuration;
+    int symbols = 10;
     ExtItemAggregator<ExtQuotes> *extQuotes;
     ExtItemAggregator<ExtScript> *extScripts;
     ExtItemAggregator<ExtUpgrade> *extUpgrade;
     ExtItemAggregator<ExtWeather> *extWeather;
-    // reread configuration
+    // methods
+    QString buildString(const QString current, const QString value, const int s) const;
     QStringList getAllHdd() const;
     QString getAutoGpu() const;
     QString getAutoMpris() const;
     void readConfiguration();
+    QString stripString(const QString value, const int s) const;
     QHash<QString, QString> updateConfiguration(QHash<QString, QString> rawConfig) const;
 };
 

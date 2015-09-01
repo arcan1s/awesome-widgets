@@ -204,16 +204,18 @@ Item {
 
     onSizeUpdate: {
         if (debug) console.debug()
+        // 16 is a magic number
+        // in other case plasmoid will increase own size on each update
 
         if (plasmoid.configuration.height == 0) {
-            Layout.minimumHeight = text.contentHeight
+            Layout.minimumHeight = text.contentHeight - 16
             Layout.maximumHeight = -1
         } else {
             Layout.minimumHeight = plasmoid.configuration.height
             Layout.maximumHeight = plasmoid.configuration.height
         }
         if (plasmoid.configuration.width == 0) {
-            Layout.minimumWidth = text.contentWidth
+            Layout.minimumWidth = text.contentWidth - 16
             Layout.maximumWidth = -1
         } else {
             Layout.minimumWidth = plasmoid.configuration.width

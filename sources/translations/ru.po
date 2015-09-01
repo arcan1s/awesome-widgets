@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-08-31 21:39+0300\n"
+"POT-Creation-Date: 2015-09-02 00:03+0300\n"
 "PO-Revision-Date: 2015-08-30 16:31+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -144,12 +144,6 @@ msgstr "Выберете шрифт"
 msgid "ACPI path"
 msgstr "Пусть к ACPI"
 
-msgid "Custom scripts"
-msgstr "Свои скрипты"
-
-msgid "Edit scripts"
-msgstr "Редактировать скрипты"
-
 msgid "GPU device"
 msgstr "Устройство GPU"
 
@@ -170,6 +164,15 @@ msgstr "Имя плеера в MPRIS"
 
 msgid "Music player"
 msgstr "Музыкальный плеер"
+
+msgid "Player data symbols"
+msgstr ""
+
+msgid "Custom scripts"
+msgstr "Свои скрипты"
+
+msgid "Edit scripts"
+msgstr "Редактировать скрипты"
 
 msgid "Quotes monitor"
 msgstr "Монитор котировок"

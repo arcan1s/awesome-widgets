@@ -268,6 +268,12 @@ QStringList AWKeys::dictKeys(const bool sorted, const QString regexp) const
     allKeys.append(QString("duration"));
     allKeys.append(QString("progress"));
     allKeys.append(QString("title"));
+    allKeys.append(QString("dalbum"));
+    allKeys.append(QString("dartist"));
+    allKeys.append(QString("dtitle"));
+    allKeys.append(QString("salbum"));
+    allKeys.append(QString("sartist"));
+    allKeys.append(QString("stitle"));
     // ps
     allKeys.append(QString("pscount"));
     allKeys.append(QString("pstotal"));
@@ -549,11 +555,7 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         foreach(QString key, data.keys()) values[key] = QString("%1").arg(data[key].toInt(), 2);
     } else if (sourceName == QString("player")) {
         // player
-        values[QString("album")] = data[QString("album")].toString();
-        values[QString("artist")] = data[QString("artist")].toString();
-        values[QString("duration")] = data[QString("duration")].toString();
-        values[QString("progress")] = data[QString("progress")].toString();
-        values[QString("title")] = data[QString("title")].toString();
+        foreach(QString key, data.keys()) values[key] = data[key].toString();
     } else if (sourceName == QString("ps")) {
         // ps
         values[QString("ps")] = data[QString("ps")].toString();

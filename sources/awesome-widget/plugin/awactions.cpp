@@ -184,6 +184,7 @@ QVariantMap AWActions::readDataEngineConfiguration() const
     configuration[QString("MPDPORT")] = settings.value(QString("MPDPORT"), QString("6600"));
     configuration[QString("MPRIS")] = settings.value(QString("MPRIS"), QString("auto"));
     configuration[QString("PLAYER")] = settings.value(QString("PLAYER"), QString("mpris"));
+    configuration[QString("PLAYERSYMBOLS")] = settings.value(QString("PLAYERSYMBOLS"), QString("10"));
     settings.endGroup();
 
     return configuration;
@@ -207,6 +208,7 @@ void AWActions::writeDataEngineConfiguration(const QVariantMap configuration) co
     settings.setValue(QString("MPDPORT"), configuration[QString("MPDPORT")]);
     settings.setValue(QString("MPRIS"), configuration[QString("MPRIS")]);
     settings.setValue(QString("PLAYER"), configuration[QString("PLAYER")]);
+    settings.setValue(QString("PLAYERSYMBOLS"), configuration[QString("PLAYERSYMBOLS")]);
     settings.endGroup();
 
     settings.sync();

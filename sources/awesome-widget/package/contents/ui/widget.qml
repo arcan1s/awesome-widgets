@@ -255,7 +255,7 @@ Item {
                     },
                     {
                         'label': i18n("Music player"),
-                        'regexp': "^(album|artist|duration|progress|title)"
+                        'regexp': "(^|d|s)(album|artist|duration|progress|title)"
                     },
                     {
                         'label': i18n("Scripts"),

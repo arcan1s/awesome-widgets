@@ -1,6 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=Extended SystemMonitor DataEngine
+Name=Extended SystemMonitor
 Comment=Adds some additional functions to System DataEngine
 ServiceTypes=Plasma/DataEngine
 Type=Service

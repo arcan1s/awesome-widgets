@@ -40,26 +40,6 @@ Item {
     implicitHeight: pageColumn.implicitHeight
 
     property bool debug: awActions.isDebugEnabled()
-    property variant tooltipSettings: {
-        "tooltipNumber": plasmoid.configuration.tooltipNumber,
-        "useTooltipBackground": plasmoid.configuration.useTooltipBackground,
-        "tooltipBackgroung": plasmoid.configuration.tooltipBackgroung,
-        "cpuTooltip": plasmoid.configuration.cpuTooltip,
-        "cpuclTooltip": plasmoid.configuration.cpuclTooltip,
-        "memTooltip": plasmoid.configuration.memTooltip,
-        "swapTooltip": plasmoid.configuration.swapTooltip,
-        "downTooltip": plasmoid.configuration.downTooltip,
-        "upTooltip": plasmoid.configuration.downTooltip,
-        "batTooltip": plasmoid.configuration.batTooltip,
-        "cpuTooltipColor": plasmoid.configuration.cpuTooltipColor,
-        "cpuclTooltipColor": plasmoid.configuration.cpuclTooltipColor,
-        "memTooltipColor": plasmoid.configuration.memTooltipColor,
-        "swapTooltipColor": plasmoid.configuration.swapTooltipColor,
-        "downTooltipColor": plasmoid.configuration.downTooltipColor,
-        "upTooltipColor": plasmoid.configuration.upTooltipColor,
-        "batTooltipColor": plasmoid.configuration.batTooltipColor,
-        "batInTooltipColor": plasmoid.configuration.batInTooltipColor
-    }
 
     property variant cfg_dataengine: awActions.readDataEngineConfiguration()
 
@@ -79,23 +59,7 @@ Item {
             QtControls.TextField {
                 width: parent.width * 3 / 5
                 text: cfg_dataengine["ACPIPATH"]
-            }
-        }
-
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Custom scripts")
-            }
-            QtControls.Button {
-                width: parent.width * 3 / 5
-                text: i18n("Edit scripts")
-                onClicked: awKeys.editItem("extscript")
+                onEditingFinished: cfg_dataengine["ACPIPATH"] = text
             }
         }
 
@@ -164,6 +128,7 @@ Item {
             QtControls.TextField {
                 width: parent.width * 3 / 5
                 text: cfg_dataengine["HDDTEMPCMD"]
+                onEditingFinished: cfg_dataengine["HDDTEMPCMD"] = text
             }
         }
 
@@ -180,6 +145,7 @@ Item {
             QtControls.TextField {
                 width: parent.width * 3 / 5
                 text: cfg_dataengine["MPDADDRESS"]
+                onEditingFinished: cfg_dataengine["MPDADDRESS"] = text
             }
         }
 
@@ -199,6 +165,7 @@ Item {
                 maximumValue: 65535
                 stepSize: 1
                 value: cfg_dataengine["MPDPORT"]
+                onEditingFinished: cfg_dataengine["MPDPORT"] = value
             }
         }
 
@@ -245,6 +212,43 @@ Item {
                         }
                     }
                 }
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.height
+                width: parent.width * 2 / 5
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+                text: i18n("Player data symbols")
+            }
+            QtControls.SpinBox {
+                width: parent.width * 3 / 5
+                minimumValue: 1
+                maximumValue: 100
+                stepSize: 1
+                value: cfg_dataengine["PLAYERSYMBOLS"]
+                onEditingFinished: cfg_dataengine["PLAYERSYMBOLS"] = value
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.height
+                width: parent.width * 2 / 5
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+                text: i18n("Custom scripts")
+            }
+            QtControls.Button {
+                width: parent.width * 3 / 5
+                text: i18n("Edit scripts")
+                onClicked: awKeys.editItem("extscript")
             }
         }
 
