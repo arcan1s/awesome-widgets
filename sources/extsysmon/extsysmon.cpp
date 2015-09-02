@@ -533,7 +533,7 @@ QString ExtendedSysMon::buildString(const QString current, const QString value,
     qCDebug(LOG_ESM) << "Strip after" << s;
 
     int index = value.indexOf(current);
-    if ((index == -1) || ((index + s + 1) > value.count()))
+    if ((current.isEmpty()) || ((index + s + 1) > value.count()))
         return QString("%1").arg(value.left(s), s, QLatin1Char(' '));
     else
         return QString("%1").arg(value.mid(index + 1, s), s, QLatin1Char(' '));

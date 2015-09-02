@@ -150,8 +150,6 @@ Item {
         font.pointSize: plasmoid.configuration.fontSize
         font.weight: general.fontWeight[plasmoid.configuration.fontWeight]
 
-        text: plasmoid.configuration.text
-
         PlasmaCore.ToolTipArea {
             height: tooltip.height
             width: tooltip.width
@@ -233,8 +231,6 @@ Item {
         awKeys.setPopupEnabled(plasmoid.configuration.notify)
         awKeys.setTranslateStrings(plasmoid.configuration.translateStrings)
         awKeys.setWrapNewLines(plasmoid.configuration.wrapNewLines)
-
-        needTextUpdate(plasmoid.configuration.text)
     }
 
     function action_checkUpdates() {

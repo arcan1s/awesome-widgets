@@ -70,13 +70,14 @@ signals:
     void needToBeUpdated();
 
 private slots:
-    void dataUpdate() const;
+    void dataUpdate();
     void loadKeysFromCache();
     void reinitKeys();
 
 private:
     // methods
     void addKeyToCache(const QString type, const QString key = QString(""));
+    void calculateLambdas();
     QString parsePattern() const;
     float temperature(const float temp, const QString units) const;
     // get methods

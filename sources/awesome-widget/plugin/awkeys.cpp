@@ -724,10 +724,11 @@ void AWKeys::editItem(const QString type)
 }
 
 
-void AWKeys::dataUpdate() const
+void AWKeys::dataUpdate()
 {
     qCDebug(LOG_AW);
 
+    calculateLambdas();
     emit(needTextToBeUpdated(parsePattern()));
     if (toolTip != nullptr) emit(toolTip->updateData(values));
 }
@@ -877,17 +878,15 @@ void AWKeys::addKeyToCache(const QString type, const QString key)
 }
 
 
-QString AWKeys::parsePattern() const
+void AWKeys::calculateLambdas()
 {
     qCDebug(LOG_AW);
 
-    QString parsed = pattern;
-    parsed.replace(QString("$$"), QString("$\\$\\"));
-
-    // lambdas
     foreach(QString key, foundLambdas)
-        parsed.replace(QString("${{%1}}").arg(key), [this](QString key) {
+        values[key] = [this](QString key) {
             QScriptEngine engine;
+            // apply $this values
+            key.replace(QString("$this"), values[key]);
             foreach(QString lambdaKey, foundKeys)
                 key.replace(QString("$%1").arg(lambdaKey), values[lambdaKey]);
             qCInfo(LOG_AW) << "Expression" << key;
@@ -898,7 +897,20 @@ QString AWKeys::parsePattern() const
                 return QString();
             } else
                 return result.toString();
-        }(key));
+        }(key);
+}
+
+
+QString AWKeys::parsePattern() const
+{
+    qCDebug(LOG_AW);
+
+    QString parsed = pattern;
+    parsed.replace(QString("$$"), QString("$\\$\\"));
+
+    // lambdas
+    foreach(QString key, foundLambdas)
+        parsed.replace(QString("${{%1}}").arg(key), values[key]);
 
     // main keys
     foreach(QString key, foundKeys)
