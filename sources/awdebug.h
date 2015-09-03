@@ -22,7 +22,7 @@
 #include <QLoggingCategory>
 
 #ifndef LOG_FORMAT
-#define LOG_FORMAT "[%{time yyyy-MM-ddTHH:mm:ss.zzzZ}][%{if-debug}DD%{endif}%{if-info}II%{endif}%{if-warning}WW%{endif}%{if-critical}CC%{endif}%{if-fatal}FF%{endif}][%{category}][%{function}] %{message}"
+#define LOG_FORMAT "[%{time yyyy-MM-ddTHH:mm:ss.zzz}][%{if-debug}DD%{endif}%{if-info}II%{endif}%{if-warning}WW%{endif}%{if-critical}CC%{endif}%{if-fatal}FF%{endif}][%{category}][%{function}] %{message}"
 #endif /* LOG_FORMAT */
 
 // define info log level
