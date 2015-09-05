@@ -8,7 +8,7 @@
 #define TRANSLATORS "Ernesto Aviles Vzqz (Spanish), Mermouy (French), underr (Brazillian Portuguese), Viktor Slobodyan (Ukrainian), Lemueler (Chinese), Heimen Stoffels (Dutch)"
 #define EMAIL "@PROJECT_CONTACT@"
 #define LICENSE "@PROJECT_LICENSE@"
-#define TRDPARTY_LICENSE "tasks,BSD,https://github.com/mhogomchungu/tasks"
+#define TRDPARTY_LICENSE "tasks,BSD,https://github.com/mhogomchungu/tasks;QReplyTimeout wrapper,no,http://codereview.stackexchange.com/questions/30031/qnetworkreply-network-reply-timeout-helper"
 
 // configuraion
 // graphical items api version
@@ -23,8 +23,7 @@
 #define AWEWAPI 2
 // available time keys
 #define TIME_KEYS "dddd,ddd,dd,d,MMMM,MMM,MM,M,yyyy,yy,hh,h,HH,H,mm,m,ss,s,t,ap,a,AP,A"
-// messages queue limit
-#define QUEUE_LIMIT 10
+#cmakedefine BUILD_FUTURE
 
 // links
 #define HOMEPAGE "https://arcanis.name/projects/awesome-widgets/"
@@ -33,7 +32,7 @@
 #define VERSION_API "https://api.github.com/repos/arcan1s/awesome-widgets/releases"
 #define BUGTRACKER "https://github.com/arcan1s/awesome-widgets/issues"
 #define TRANSLATION "https://github.com/arcan1s/awesome-widgets/issues/14"
-#define AUR_PACKAGES "https://aur.archlinux.org/packages/kdeplasma-applets-awesome-widgets/"
+#define AUR_PACKAGES "https://aur.archlinux.org/packages/plasma5-applet-awesome-widgets/"
 #define OPENSUSE_PACKAGES "http://software.opensuse.org/package/awesome-widgets"
 
 // build information
@@ -44,5 +43,6 @@
 #define CMAKE_BUILD_TYPE "@CMAKE_BUILD_TYPE@"
 #define CMAKE_INSTALL_PREFIX "@CMAKE_INSTALL_PREFIX@"
 #define BUILD_PLASMOIDS "@BUILD_PLASMOIDS@"
+#define QUEUE_LIMIT @QUEUE_LIMIT@
 
 #endif /* VERSION_H */

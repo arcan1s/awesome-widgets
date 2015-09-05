@@ -64,7 +64,7 @@ Item {
           horizontalAlignment: Text.AlignHCenter
           verticalAlignment: Text.AlignVCenter
           wrapMode: Text.WordWrap
-          text: i18n("CPU, CPU clock, memory, swap and network labels support graphical tooltip. To enable them just make needed checkbox fully checked.")
+          text: i18n("CPU, CPU clock, memory, swap and network labels support graphical tooltip. To enable them just make needed checkbox checked.")
         }
 
         Row {
@@ -87,427 +87,328 @@ Item {
             }
         }
 
-        Row {
+        QtControls.GroupBox {
+            id: useTooltipBackground
             height: implicitHeight
             width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5 - useTooltipBackground.width
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Background")
-            }
-            QtControls.CheckBox {
-                id: useTooltipBackground
-                height: parent.height
-                width: implicitWidth
-                style: QtStyles.CheckBoxStyle {
-                    indicator: Rectangle {
-                        implicitWidth: 16
-                        implicitHeight: 16
-                        radius: 3
-                        border.width: 1
-                        border.color: control.activeFocus ? "darkblue" : "gray"
-                        Rectangle {
-                            visible: control.checked
-                            radius: 1
-                            anchors.fill: parent
-                            anchors.margins: 4
-                            color: "#555555"
-                            border.color: "#333333"
+            checkable: true
+            title: i18n("Background")
+            Row {
+                height: implicitHeight
+                width: parent.width
+                QtControls.Label {
+                    height: parent.height
+                    width: parent.width * 2 / 5
+                    horizontalAlignment: Text.AlignRight
+                    verticalAlignment: Text.AlignVCenter
+                    text: i18n("Background color")
+                }
+                QtControls.Button {
+                    id: tooltipBackground
+                    width: parent.width * 3 / 5
+                    style: QtStyles.ButtonStyle {
+                        background: Rectangle {
+                            color: plasmoid.configuration.tooltipBackground
                         }
                     }
+                    text: plasmoid.configuration.tooltipBackground
+                    onClicked: tooltipBackgroundDialog.visible = true
                 }
-            }
-            QtControls.Button {
-                id: tooltipBackground
-                width: parent.width * 3 / 5
-                style: QtStyles.ButtonStyle {
-                    background: Rectangle {
-                        color: plasmoid.configuration.tooltipBackground
-                    }
-                }
-                text: plasmoid.configuration.tooltipBackground
-                onClicked: tooltipBackgroundDialog.visible = true
-            }
 
-            QtDialogs.ColorDialog {
-                id: tooltipBackgroundDialog
-                title: i18n("Select a color")
-                color: tooltipBackground.text
-                onAccepted: tooltipBackground.text = tooltipBackgroundDialog.color
+                QtDialogs.ColorDialog {
+                    id: tooltipBackgroundDialog
+                    title: i18n("Select a color")
+                    color: tooltipBackground.text
+                    onAccepted: tooltipBackground.text = tooltipBackgroundDialog.color
+                }
             }
         }
 
-        Row {
+        QtControls.GroupBox {
+            id: cpuTooltip
             height: implicitHeight
             width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5 - cpuTooltip.width
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("CPU color")
-            }
-            QtControls.CheckBox {
-                id: cpuTooltip
-                height: parent.height
-                width: implicitWidth
-                style: QtStyles.CheckBoxStyle {
-                    indicator: Rectangle {
-                        implicitWidth: 16
-                        implicitHeight: 16
-                        radius: 3
-                        border.width: 1
-                        border.color: control.activeFocus ? "darkblue" : "gray"
-                        Rectangle {
-                            visible: control.checked
-                            radius: 1
-                            anchors.fill: parent
-                            anchors.margins: 4
-                            color: "#555555"
-                            border.color: "#333333"
+            checkable: true
+            title: i18n("CPU")
+            Row {
+                height: implicitHeight
+                width: parent.width
+                QtControls.Label {
+                    height: parent.height
+                    width: parent.width * 2 / 5
+                    horizontalAlignment: Text.AlignRight
+                    verticalAlignment: Text.AlignVCenter
+                    text: i18n("CPU color")
+                }
+                QtControls.Button {
+                    id: cpuTooltipColor
+                    width: parent.width * 3 / 5
+                    style: QtStyles.ButtonStyle {
+                        background: Rectangle {
+                            color: plasmoid.configuration.cpuTooltipColor
                         }
                     }
+                    text: plasmoid.configuration.cpuTooltipColor
+                    onClicked: cpuTooltipColorDialog.visible = true
                 }
-            }
-            QtControls.Button {
-                id: cpuTooltipColor
-                width: parent.width * 3 / 5
-                style: QtStyles.ButtonStyle {
-                    background: Rectangle {
-                        color: plasmoid.configuration.cpuTooltipColor
-                    }
-                }
-                text: plasmoid.configuration.cpuTooltipColor
-                onClicked: cpuTooltipColorDialog.visible = true
-            }
 
-            QtDialogs.ColorDialog {
-                id: cpuTooltipColorDialog
-                title: i18n("Select a color")
-                color: cpuTooltipColor.text
-                onAccepted: cpuTooltipColor.text = cpuTooltipColorDialog.color
+                QtDialogs.ColorDialog {
+                    id: cpuTooltipColorDialog
+                    title: i18n("Select a color")
+                    color: cpuTooltipColor.text
+                    onAccepted: cpuTooltipColor.text = cpuTooltipColorDialog.color
+                }
             }
         }
 
-        Row {
+        QtControls.GroupBox {
+            id: cpuclTooltip
             height: implicitHeight
             width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5 - cpuclTooltip.width
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("CPU clock color")
-            }
-            QtControls.CheckBox {
-                id: cpuclTooltip
-                height: parent.height
-                width: implicitWidth
-                style: QtStyles.CheckBoxStyle {
-                    indicator: Rectangle {
-                        implicitWidth: 16
-                        implicitHeight: 16
-                        radius: 3
-                        border.width: 1
-                        border.color: control.activeFocus ? "darkblue" : "gray"
-                        Rectangle {
-                            visible: control.checked
-                            radius: 1
-                            anchors.fill: parent
-                            anchors.margins: 4
-                            color: "#555555"
-                            border.color: "#333333"
+            checkable: true
+            title: i18n("CPU clock")
+            Row {
+                height: implicitHeight
+                width: parent.width
+                QtControls.Label {
+                    height: parent.height
+                    width: parent.width * 2 / 5
+                    horizontalAlignment: Text.AlignRight
+                    verticalAlignment: Text.AlignVCenter
+                    text: i18n("CPU clock color")
+                }
+                QtControls.Button {
+                    id: cpuclTooltipColor
+                    width: parent.width * 3 / 5
+                    style: QtStyles.ButtonStyle {
+                        background: Rectangle {
+                            color: plasmoid.configuration.cpuclTooltipColor
                         }
                     }
+                    text: plasmoid.configuration.cpuclTooltipColor
+                    onClicked: cpuclTooltipColorDialog.visible = true
                 }
-            }
-            QtControls.Button {
-                id: cpuclTooltipColor
-                width: parent.width * 3 / 5
-                style: QtStyles.ButtonStyle {
-                    background: Rectangle {
-                        color: plasmoid.configuration.cpuclTooltipColor
-                    }
-                }
-                text: plasmoid.configuration.cpuclTooltipColor
-                onClicked: cpuclTooltipColorDialog.visible = true
-            }
 
-            QtDialogs.ColorDialog {
-                id: cpuclTooltipColorDialog
-                title: i18n("Select a color")
-                color: cpuclTooltipColor.text
-                onAccepted: cpuclTooltipColor.text = cpuclTooltipColorDialog.color
+                QtDialogs.ColorDialog {
+                    id: cpuclTooltipColorDialog
+                    title: i18n("Select a color")
+                    color: cpuclTooltipColor.text
+                    onAccepted: cpuclTooltipColor.text = cpuclTooltipColorDialog.color
+                }
             }
         }
 
-        Row {
+        QtControls.GroupBox {
+            id: memTooltip
             height: implicitHeight
             width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5 - memTooltip.width
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Memory color")
-            }
-            QtControls.CheckBox {
-                id: memTooltip
-                height: parent.height
-                width: implicitWidth
-                style: QtStyles.CheckBoxStyle {
-                    indicator: Rectangle {
-                        implicitWidth: 16
-                        implicitHeight: 16
-                        radius: 3
-                        border.width: 1
-                        border.color: control.activeFocus ? "darkblue" : "gray"
-                        Rectangle {
-                            visible: control.checked
-                            radius: 1
-                            anchors.fill: parent
-                            anchors.margins: 4
-                            color: "#555555"
-                            border.color: "#333333"
+            checkable: true
+            title: i18n("Memory")
+            Row {
+                height: implicitHeight
+                width: parent.width
+                QtControls.Label {
+                    height: parent.height
+                    width: parent.width * 2 / 5
+                    horizontalAlignment: Text.AlignRight
+                    verticalAlignment: Text.AlignVCenter
+                    text: i18n("Memory color")
+                }
+                QtControls.Button {
+                    id: memTooltipColor
+                    width: parent.width * 3 / 5
+                    style: QtStyles.ButtonStyle {
+                        background: Rectangle {
+                            color: plasmoid.configuration.memTooltipColor
                         }
                     }
+                    text: plasmoid.configuration.memTooltipColor
+                    onClicked: memTooltipColorDialog.visible = true
                 }
-            }
-            QtControls.Button {
-                id: memTooltipColor
-                width: parent.width * 3 / 5
-                style: QtStyles.ButtonStyle {
-                    background: Rectangle {
-                        color: plasmoid.configuration.memTooltipColor
-                    }
-                }
-                text: plasmoid.configuration.memTooltipColor
-                onClicked: memTooltipColorDialog.visible = true
-            }
 
-            QtDialogs.ColorDialog {
-                id: memTooltipColorDialog
-                title: i18n("Select a color")
-                color: memTooltipColor.text
-                onAccepted: memTooltipColor.text = memTooltipColorDialog.color
+                QtDialogs.ColorDialog {
+                    id: memTooltipColorDialog
+                    title: i18n("Select a color")
+                    color: memTooltipColor.text
+                    onAccepted: memTooltipColor.text = memTooltipColorDialog.color
+                }
             }
         }
 
-        Row {
+        QtControls.GroupBox {
+            id: swapTooltip
             height: implicitHeight
             width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5 - swapTooltip.width
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Swap color")
-            }
-            QtControls.CheckBox {
-                id: swapTooltip
-                height: parent.height
-                width: implicitWidth
-                style: QtStyles.CheckBoxStyle {
-                    indicator: Rectangle {
-                        implicitWidth: 16
-                        implicitHeight: 16
-                        radius: 3
-                        border.width: 1
-                        border.color: control.activeFocus ? "darkblue" : "gray"
-                        Rectangle {
-                            visible: control.checked
-                            radius: 1
-                            anchors.fill: parent
-                            anchors.margins: 4
-                            color: "#555555"
-                            border.color: "#333333"
+            checkable: true
+            title: i18n("Swap")
+            Row {
+                height: implicitHeight
+                width: parent.width
+                QtControls.Label {
+                    height: parent.height
+                    width: parent.width * 2 / 5
+                    horizontalAlignment: Text.AlignRight
+                    verticalAlignment: Text.AlignVCenter
+                    text: i18n("Swap color")
+                }
+                QtControls.Button {
+                    id: swapTooltipColor
+                    width: parent.width * 3 / 5
+                    style: QtStyles.ButtonStyle {
+                        background: Rectangle {
+                            color: plasmoid.configuration.swapTooltipColor
                         }
                     }
+                    text: plasmoid.configuration.swapTooltipColor
+                    onClicked: swapTooltipColorDialog.visible = true
                 }
-            }
-            QtControls.Button {
-                id: swapTooltipColor
-                width: parent.width * 3 / 5
-                style: QtStyles.ButtonStyle {
-                    background: Rectangle {
-                        color: plasmoid.configuration.swapTooltipColor
-                    }
-                }
-                text: plasmoid.configuration.swapTooltipColor
-                onClicked: swapTooltipColorDialog.visible = true
-            }
 
-            QtDialogs.ColorDialog {
-                id: swapTooltipColorDialog
-                title: i18n("Select a color")
-                color: swapTooltipColor.text
-                onAccepted: swapTooltipColor.text = swapTooltipColorDialog.color
+                QtDialogs.ColorDialog {
+                    id: swapTooltipColorDialog
+                    title: i18n("Select a color")
+                    color: swapTooltipColor.text
+                    onAccepted: swapTooltipColor.text = swapTooltipColorDialog.color
+                }
             }
         }
 
-        Row {
+        QtControls.GroupBox {
+            id: downTooltip
             height: implicitHeight
             width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5 - downTooltip.width
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Download speed color")
-            }
-            QtControls.CheckBox {
-                id: downTooltip
-                height: parent.height
-                width: implicitWidth
-                style: QtStyles.CheckBoxStyle {
-                    indicator: Rectangle {
-                        implicitWidth: 16
-                        implicitHeight: 16
-                        radius: 3
-                        border.width: 1
-                        border.color: control.activeFocus ? "darkblue" : "gray"
-                        Rectangle {
-                            visible: control.checked
-                            radius: 1
-                            anchors.fill: parent
-                            anchors.margins: 4
-                            color: "#555555"
-                            border.color: "#333333"
+            checkable: true
+            title: i18n("Network")
+            Column {
+                height: implicitHeight
+                width: parent.width
+                Row {
+                    height: implicitHeight
+                    width: parent.width
+                    QtControls.Label {
+                        height: parent.height
+                        width: parent.width * 2 / 5
+                        horizontalAlignment: Text.AlignRight
+                        verticalAlignment: Text.AlignVCenter
+                        text: i18n("Download speed color")
+                    }
+                    QtControls.Button {
+                        id: downTooltipColor
+                        width: parent.width * 3 / 5
+                        style: QtStyles.ButtonStyle {
+                            background: Rectangle {
+                                color: plasmoid.configuration.downTooltipColor
+                            }
                         }
+                        text: plasmoid.configuration.downTooltipColor
+                        onClicked: downTooltipColorDialog.visible = true
+                    }
+
+                    QtDialogs.ColorDialog {
+                        id: downTooltipColorDialog
+                        title: i18n("Select a color")
+                        color: downTooltipColor.text
+                        onAccepted: downTooltipColor.text = downTooltipColorDialog.color
                     }
                 }
-            }
-            QtControls.Button {
-                id: downTooltipColor
-                width: parent.width * 3 / 5
-                style: QtStyles.ButtonStyle {
-                    background: Rectangle {
-                        color: plasmoid.configuration.downTooltipColor
+                Row {
+                    height: implicitHeight
+                    width: parent.width
+                    QtControls.Label {
+                        height: parent.height
+                        width: parent.width * 2 / 5
+                        horizontalAlignment: Text.AlignRight
+                        verticalAlignment: Text.AlignVCenter
+                        text: i18n("Upload speed color")
                     }
-                }
-                text: plasmoid.configuration.downTooltipColor
-                onClicked: downTooltipColorDialog.visible = true
-            }
-
-            QtDialogs.ColorDialog {
-                id: downTooltipColorDialog
-                title: i18n("Select a color")
-                color: downTooltipColor.text
-                onAccepted: downTooltipColor.text = downTooltipColorDialog.color
-            }
-        }
-
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Upload speed color")
-            }
-            QtControls.Button {
-                id: upTooltipColor
-                width: parent.width * 3 / 5
-                style: QtStyles.ButtonStyle {
-                    background: Rectangle {
-                        color: plasmoid.configuration.upTooltipColor
-                    }
-                }
-                text: plasmoid.configuration.upTooltipColor
-                onClicked: upTooltipColorDialog.visible = true
-            }
-
-            QtDialogs.ColorDialog {
-                id: upTooltipColorDialog
-                title: i18n("Select a color")
-                color: upTooltipColor.text
-                onAccepted: upTooltipColor.text = upTooltipColorDialog.color
-            }
-        }
-
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5 - batTooltip.width
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Battery active color")
-            }
-            QtControls.CheckBox {
-                id: batTooltip
-                height: parent.height
-                width: implicitWidth
-                style: QtStyles.CheckBoxStyle {
-                    indicator: Rectangle {
-                        implicitWidth: 16
-                        implicitHeight: 16
-                        radius: 3
-                        border.width: 1
-                        border.color: control.activeFocus ? "darkblue" : "gray"
-                        Rectangle {
-                            visible: control.checked
-                            radius: 1
-                            anchors.fill: parent
-                            anchors.margins: 4
-                            color: "#555555"
-                            border.color: "#333333"
+                    QtControls.Button {
+                        id: upTooltipColor
+                        width: parent.width * 3 / 5
+                        style: QtStyles.ButtonStyle {
+                            background: Rectangle {
+                                color: plasmoid.configuration.upTooltipColor
+                            }
                         }
+                        text: plasmoid.configuration.upTooltipColor
+                        onClicked: upTooltipColorDialog.visible = true
                     }
-                }
-            }
-            QtControls.Button {
-                id: batTooltipColor
-                width: parent.width * 3 / 5
-                style: QtStyles.ButtonStyle {
-                    background: Rectangle {
-                        color: plasmoid.configuration.batTooltipColor
-                    }
-                }
-                text: plasmoid.configuration.batTooltipColor
-                onClicked: batTooltipColorDialog.visible = true
-            }
 
-            QtDialogs.ColorDialog {
-                id: batTooltipColorDialog
-                title: i18n("Select a color")
-                color: batTooltipColor.text
-                onAccepted: batTooltipColor.text = batTooltipColorDialog.color
+                    QtDialogs.ColorDialog {
+                        id: upTooltipColorDialog
+                        title: i18n("Select a color")
+                        color: upTooltipColor.text
+                        onAccepted: upTooltipColor.text = upTooltipColorDialog.color
+                    }
+                }
             }
         }
 
-        Row {
+        QtControls.GroupBox {
+            id: batTooltip
             height: implicitHeight
             width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Battery inactive color")
-            }
-            QtControls.Button {
-                id: batInTooltipColor
-                width: parent.width * 3 / 5
-                style: QtStyles.ButtonStyle {
-                    background: Rectangle {
-                        color: plasmoid.configuration.batInTooltipColor
+            checkable: true
+            title: i18n("Battery")
+            Column {
+                height: implicitHeight
+                width: parent.width
+                Row {
+                    height: implicitHeight
+                    width: parent.width
+                    QtControls.Label {
+                        height: parent.height
+                        width: parent.width * 2 / 5
+                        horizontalAlignment: Text.AlignRight
+                        verticalAlignment: Text.AlignVCenter
+                        text: i18n("Battery active color")
+                    }
+                    QtControls.Button {
+                        id: batTooltipColor
+                        width: parent.width * 3 / 5
+                        style: QtStyles.ButtonStyle {
+                            background: Rectangle {
+                                color: plasmoid.configuration.batTooltipColor
+                            }
+                        }
+                        text: plasmoid.configuration.batTooltipColor
+                        onClicked: batTooltipColorDialog.visible = true
+                    }
+
+                    QtDialogs.ColorDialog {
+                        id: batTooltipColorDialog
+                        title: i18n("Select a color")
+                        color: batTooltipColor.text
+                        onAccepted: batTooltipColor.text = batTooltipColorDialog.color
                     }
                 }
-                text: plasmoid.configuration.batInTooltipColor
-                onClicked: batInTooltipColorDialog.visible = true
-            }
+                Row {
+                    height: implicitHeight
+                    width: parent.width
+                    QtControls.Label {
+                        height: parent.height
+                        width: parent.width * 2 / 5
+                        horizontalAlignment: Text.AlignRight
+                        verticalAlignment: Text.AlignVCenter
+                        text: i18n("Battery inactive color")
+                    }
+                    QtControls.Button {
+                        id: batInTooltipColor
+                        width: parent.width * 3 / 5
+                        style: QtStyles.ButtonStyle {
+                            background: Rectangle {
+                                color: plasmoid.configuration.batInTooltipColor
+                            }
+                        }
+                        text: plasmoid.configuration.batInTooltipColor
+                        onClicked: batInTooltipColorDialog.visible = true
+                    }
 
-            QtDialogs.ColorDialog {
-                id: batInTooltipColorDialog
-                title: i18n("Select a color")
-                color: batInTooltipColor.text
-                onAccepted: batInTooltipColor.text = batInTooltipColorDialog.color
+                    QtDialogs.ColorDialog {
+                        id: batInTooltipColorDialog
+                        title: i18n("Select a color")
+                        color: batInTooltipColor.text
+                        onAccepted: batInTooltipColor.text = batInTooltipColorDialog.color
+                    }
+                }
             }
         }
     }

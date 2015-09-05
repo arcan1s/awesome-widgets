@@ -93,7 +93,7 @@ Item {
 
         onNewData: {
             if (debug) console.debug("Update source", sourceName)
-            systemmonitorDE.interval = plasmoid.configuration.interval
+//             systemmonitorDE.interval = plasmoid.configuration.interval
 
             awKeys.dataUpdateReceived(sourceName, data, settings)
         }
@@ -113,7 +113,7 @@ Item {
 
         onNewData: {
             if (debug) console.debug("Update source", sourceName)
-            extsysmonDE.interval = plasmoid.configuration.interval
+//             extsysmonDE.interval = plasmoid.configuration.interval
 
             awKeys.dataUpdateReceived(sourceName, data, settings)
         }
@@ -169,7 +169,6 @@ Item {
         plasmoid.setAction("requestKey", i18n("Request key"), "utilities-system-monitor")
         plasmoid.setAction("showReadme", i18n("Show README"), "text-x-readme")
         plasmoid.setAction("checkUpdates", i18n("Check updates"), "system-software-update")
-//         plasmoid.setAction("report", i18n("Mail to developers"), "email")
         // init submodule
         Plasmoid.userConfiguringChanged(false)
         // connect data
@@ -243,12 +242,6 @@ Item {
         if (debug) console.debug()
 
         return awActions.showReadme()
-    }
-
-    function action_report() {
-        if (debug) console.debug()
-
-        return awActions.sendEmail()
     }
 
     function action_requestKey() {
