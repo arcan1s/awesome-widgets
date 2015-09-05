@@ -68,6 +68,8 @@ Item {
 
     property alias cfg_text: textPattern.text
 
+    signal dropSource(string sourceName)
+
 
     Column {
         id: pageColumn
@@ -360,7 +362,7 @@ Item {
 
         onNewData: {
             if (debug) console.debug("Update source", sourceName)
-            awKeys.setDataBySource(sourceName, data, settings)
+            awKeys.dataUpdateReceived(sourceName, data, settings)
         }
     }
 
@@ -372,7 +374,7 @@ Item {
 
         onNewData: {
             if (debug) console.debug("Update source", sourceName)
-            awKeys.setDataBySource(sourceName, data, settings)
+            awKeys.dataUpdateReceived(sourceName, data, settings)
         }
     }
 
@@ -384,14 +386,22 @@ Item {
 
         onNewData: {
             if (debug) console.debug("Update source", sourceName)
-            awKeys.setDataBySource(sourceName, data, settings)
+            awKeys.dataUpdateReceived(sourceName, data, settings)
         }
     }
 
     Component.onCompleted: {
         if (debug) console.debug()
 
+        awKeys.dropSourceFromDataengine.connect(dropSource)
         // init submodule
         awKeys.initKeys(plasmoid.configuration.text)
+    }
+
+    onDropSource: {
+        if (debug) console.debug()
+        if (debug) console.debug("Source", sourceName)
+
+        systemmonitorDE.disconnectSource(sourceName)
     }
 }

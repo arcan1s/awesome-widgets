@@ -54,8 +54,8 @@ public:
     Q_INVOKABLE QStringList dictKeys(const bool sorted = false,
                                      const QString regexp = QString()) const;
     Q_INVOKABLE QStringList getHddDevices() const;
-    Q_INVOKABLE void setDataBySource(const QString sourceName, const QVariantMap data,
-                                     const QVariantMap params);
+    Q_INVOKABLE void dataUpdateReceived(const QString sourceName, const QVariantMap data,
+                                        const QVariantMap params);
     // values
     Q_INVOKABLE void graphicalValueByKey() const;
     Q_INVOKABLE QString infoByKey(QString key) const;
@@ -79,8 +79,9 @@ private:
     void addKeyToCache(const QString type, const QString key = QString(""));
     void calculateLambdas();
     QString parsePattern() const;
+    void setDataBySource(const QString sourceName, const QVariantMap data,
+                         const QVariantMap params);
     float temperature(const float temp, const QString units) const;
-    // get methods
     AWToolTip *toolTip = nullptr;
     bool enablePopup = false;
     bool translateStrings = false;
@@ -90,6 +91,7 @@ private:
     ExtItemAggregator<ExtScript> *extScripts;
     ExtItemAggregator<ExtUpgrade> *extUpgrade;
     ExtItemAggregator<ExtWeather> *extWeather;
+    int queue = 0;
     QString pattern;
     QStringList foundBars, foundKeys, foundLambdas;
     QStringList timeKeys = QString(TIME_KEYS).split(QChar(','));

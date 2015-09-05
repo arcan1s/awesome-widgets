@@ -19,6 +19,7 @@
 
 #include <KI18n/KLocalizedString>
 
+#include <QtConcurrent/QtConcurrent>
 #include <QDateTime>
 #include <QDir>
 #include <QInputDialog>
@@ -337,6 +338,311 @@ QStringList AWKeys::getHddDevices() const
 }
 
 
+void AWKeys::dataUpdateReceived(const QString sourceName, const QVariantMap data,
+                                const QVariantMap params)
+{
+    qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << "Source" << sourceName;
+    qCDebug(LOG_AW) << "Data" << data;
+
+    QtConcurrent::run([this, sourceName, data, params]() {
+        return setDataBySource(sourceName, data, params);
+    });
+}
+
+
+void AWKeys::graphicalValueByKey() const
+{
+    qCDebug(LOG_AW);
+
+    bool ok;
+    QString tag = QInputDialog::getItem(nullptr, i18n("Select tag"), i18n("Tag"),
+                                        dictKeys(true), 0, true, &ok);
+
+    if ((!ok) || (tag.isEmpty())) return;
+    QString message = i18n("Tag: %1", tag);
+    message += QString("<br>");
+    message += i18n("Value: %1", valueByKey(tag));
+
+    return AWActions::sendNotification(QString("tag"), message);
+}
+
+
+QString AWKeys::infoByKey(QString key) const
+{
+    qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << "Requested key" << key;
+
+    key.remove(QRegExp(QString("^bar[0-9]{1,}")));
+    if (key.startsWith(QString("custom")))
+        foreach(ExtScript *item, extScripts->items()) {
+            if (item->tag(QString("custom")) != key) continue;
+            return item->executable();
+        }
+    else if (key.contains(QRegExp(QString("^hdd[rw]"))))
+        return QString("%1").arg(diskDevices[key.remove(QRegExp(QString("hdd[rw]"))).toInt()]);
+    else if (key.contains(QRegExp(QString("^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)"))))
+        return QString("%1").arg(mountDevices[key.remove(QRegExp(QString("^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)"))).toInt()]);
+    else if (key.startsWith(QString("hddtemp")))
+        return QString("%1").arg(hddDevices[key.remove(QString("hddtemp")).toInt()]);
+    else if (key.contains(QRegExp(QString("^(down|up)[0-9]"))))
+        return QString("%1").arg(networkDevices[key.remove(QRegExp(QString("^(down|up)"))).toInt()]);
+    else if (key.startsWith(QString("pkgcount")))
+        foreach(ExtUpgrade *item, extUpgrade->items()) {
+            if (item->tag(QString("pkgcount")) != key) continue;
+            return item->executable();
+        }
+    else if (key.contains(QRegExp(QString("(^|perc)(ask|bid|price)(chg|)"))))
+        foreach(ExtQuotes *item, extQuotes->items()) {
+            if (item->number() != key.remove(QRegExp(QString("(^|perc)(ask|bid|price)(chg|)"))).toInt()) continue;
+            return item->ticker();
+        }
+    else if (key.startsWith(QString("temp")))
+        return QString("%1").arg(tempDevices[key.remove(QString("temp")).toInt()]);
+
+    return QString("(none)");
+}
+
+
+QString AWKeys::valueByKey(QString key) const
+{
+    qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << "Requested key" << key;
+
+    return values[key.remove(QRegExp(QString("^bar[0-9]{1,}")))];
+}
+
+
+void AWKeys::editItem(const QString type)
+{
+    qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << "Item type" << type;
+
+    if (type == QString("graphicalitem")) {
+        graphicalItems->setConfigArgs(dictKeys(true, QString("^(cpu(?!cl).*|gpu$|mem$|swap$|hdd[0-9].*|bat.*)")));
+        return graphicalItems->editItems();
+    } else if (type == QString("extquotes")) {
+        return extQuotes->editItems();
+    } else if (type == QString("extscript")) {
+        return extScripts->editItems();
+    } else if (type == QString("extupgrade")) {
+        return extUpgrade->editItems();
+    } else if (type == QString("extweather")) {
+        return extWeather->editItems();
+    }
+}
+
+
+void AWKeys::dataUpdate()
+{
+    qCDebug(LOG_AW);
+
+    calculateLambdas();
+    emit(needTextToBeUpdated(parsePattern()));
+    if (toolTip != nullptr) emit(toolTip->updateData(values));
+}
+
+
+void AWKeys::loadKeysFromCache()
+{
+    qCDebug(LOG_AW);
+
+    QString fileName = QString("%1/awesomewidgets.ndx")
+                       .arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
+    qCInfo(LOG_AW) << "Cache file" << fileName;
+    QSettings cache(fileName, QSettings::IniFormat);
+
+    cache.beginGroup(QString("Disk"));
+    diskDevices.clear();
+    foreach(QString key, cache.allKeys())
+        diskDevices.append(cache.value(key).toString());
+    cache.endGroup();
+
+    cache.beginGroup(QString("Hdd"));
+    hddDevices.clear();
+    foreach(QString key, cache.allKeys())
+        hddDevices.append(cache.value(key).toString());
+    cache.endGroup();
+
+    cache.beginGroup(QString("Mount"));
+    mountDevices.clear();
+    foreach(QString key, cache.allKeys())
+        mountDevices.append(cache.value(key).toString());
+    cache.endGroup();
+
+    cache.beginGroup(QString("Network"));
+    networkDevices.clear();
+    foreach(QString key, cache.allKeys())
+        networkDevices.append(cache.value(key).toString());
+    cache.endGroup();
+
+    cache.beginGroup(QString("Temp"));
+    tempDevices.clear();
+    foreach(QString key, cache.allKeys())
+        tempDevices.append(cache.value(key).toString());
+    cache.endGroup();
+}
+
+
+void AWKeys::reinitKeys()
+{
+    qCDebug(LOG_AW);
+
+    // init
+    QStringList allKeys = dictKeys();
+
+    // append lists
+    // bars
+    foundBars = [allKeys](QString pattern) {
+        QStringList selectedKeys;
+        foreach(QString key, allKeys)
+            if ((key.startsWith(QString("bar"))) &&
+                (pattern.contains(QString("$%1").arg(key)))) {
+                qCInfo(LOG_AW) << "Found bar" << key;
+                selectedKeys.append(key);
+            }
+        if (selectedKeys.isEmpty()) qCWarning(LOG_AW) << "No bars found";
+        return selectedKeys;
+    }(pattern);
+
+    // main key list
+    foundKeys = [allKeys](QString pattern) {
+        QStringList selectedKeys;
+        foreach(QString key, allKeys)
+            if ((!key.startsWith(QString("bar"))) &&
+                (pattern.contains(QString("$%1").arg(key)))) {
+                qCInfo(LOG_AW) << "Found key" << key;
+                selectedKeys.append(key);
+            }
+        if (selectedKeys.isEmpty()) qCWarning(LOG_AW) << "No keys found";
+        return selectedKeys;
+    }(pattern);
+
+    // lambdas
+    foundLambdas = [](QString pattern) {
+        QStringList selectedKeys;
+        // substring inside ${{ }} (with brackets) which should not contain ${{
+        QRegularExpression lambdaRegexp(QString("\\$\\{\\{((?!\\$\\{\\{).)*?\\}\\}"));
+        lambdaRegexp.setPatternOptions(QRegularExpression::DotMatchesEverythingOption);
+
+        QRegularExpressionMatchIterator it = lambdaRegexp.globalMatch(pattern);
+        while (it.hasNext()) {
+            QRegularExpressionMatch match = it.next();
+            QString lambda = match.captured();
+            // drop brakets
+            lambda.remove(QRegExp(QString("^\\$\\{\\{")));
+            lambda.remove(QRegExp(QString("\\}\\}$")));
+            // append
+            qCInfo(LOG_AW) << "Found lambda" << lambda;
+            selectedKeys.append(lambda);
+        }
+        if (selectedKeys.isEmpty()) qCWarning(LOG_AW) << "No lambdas found";
+        return selectedKeys;
+    }(pattern);
+}
+
+
+void AWKeys::addKeyToCache(const QString type, const QString key)
+{
+    qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << "Key type" << type;
+    qCDebug(LOG_AW) << "Key" << key;
+
+    QString fileName = QString("%1/awesomewidgets.ndx").arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
+    qCInfo(LOG_AW) << "Cache file" << fileName;
+    QSettings cache(fileName, QSettings::IniFormat);
+
+    cache.beginGroup(type);
+    QStringList cachedValues;
+    foreach(QString key, cache.allKeys())
+        cachedValues.append(cache.value(key).toString());
+
+    if (type == QString("Hdd")) {
+        QStringList allDevices = QDir(QString("/dev")).entryList(QDir::System, QDir::Name);
+        QStringList devices = allDevices.filter(QRegExp(QString("^[hms]d[a-z]$")));
+        foreach(QString dev, devices) {
+            QString device = QString("/dev/%1").arg(dev);
+            if (cachedValues.contains(device)) continue;
+            qCInfo(LOG_AW) << "Found new key" << device << "for type" << type;
+            cache.setValue(QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), device);
+        }
+    } else if (type == QString("Network")) {
+        QList<QNetworkInterface> rawInterfaceList = QNetworkInterface::allInterfaces();
+        foreach(QNetworkInterface interface, rawInterfaceList) {
+            QString device = interface.name();
+            if (cachedValues.contains(device)) continue;
+            qCInfo(LOG_AW) << "Found new key" << device << "for type" << type;
+            cache.setValue(QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), device);
+        }
+    } else {
+        if (cachedValues.contains(key)) return;
+        qCInfo(LOG_AW) << "Found new key" << key << "for type" << type;
+        cache.setValue(QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), key);
+    }
+    cache.endGroup();
+
+    cache.sync();
+    loadKeysFromCache();
+    return reinitKeys();
+}
+
+
+void AWKeys::calculateLambdas()
+{
+    qCDebug(LOG_AW);
+
+    foreach(QString key, foundLambdas)
+        values[key] = [this](QString key) {
+            QScriptEngine engine;
+            // apply $this values
+            key.replace(QString("$this"), values[key]);
+            foreach(QString lambdaKey, foundKeys)
+                key.replace(QString("$%1").arg(lambdaKey), values[lambdaKey]);
+            qCInfo(LOG_AW) << "Expression" << key;
+            QScriptValue result = engine.evaluate(key);
+            if (engine.hasUncaughtException()) {
+                int line = engine.uncaughtExceptionLineNumber();
+                qCWarning(LOG_AW) << "Uncaught exception at line" << line << ":" << result.toString();
+                return QString();
+            } else
+                return result.toString();
+        }(key);
+}
+
+
+QString AWKeys::parsePattern() const
+{
+    qCDebug(LOG_AW);
+
+    QString parsed = pattern;
+    parsed.replace(QString("$$"), QString("$\\$\\"));
+
+    // lambdas
+    foreach(QString key, foundLambdas)
+        parsed.replace(QString("${{%1}}").arg(key), values[key]);
+
+    // main keys
+    foreach(QString key, foundKeys)
+        parsed.replace(QString("$%1").arg(key), [](QString key, QString value) {
+            if ((!key.startsWith(QString("custom"))) &&
+                (!key.startsWith(QString("weather"))))
+                value.replace(QString(" "), QString("&nbsp;"));
+            return value;
+        }(key, values[key]));
+
+    // bars
+    foreach(QString bar, foundBars)
+        parsed.replace(QString("$%1").arg(bar),
+                       graphicalItems->itemByTag(bar)->image(valueByKey(bar).toFloat()));
+
+    // prepare strings
+    parsed.replace(QString("$\\$\\"), QString("$$"));
+    if (wrapNewLines) parsed.replace(QString("\n"), QString("<br>"));
+
+    return parsed;
+}
+
+
 void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
                              const QVariantMap params)
 {
@@ -345,6 +651,10 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
     qCDebug(LOG_AW) << "Data" << data;
 
     if (sourceName == QString("update")) return emit(needToBeUpdated());
+    if (++queue > QUEUE_LIMIT) {
+        qCWarning(LOG_AW) << "Messages queue" << queue-- << "more than limits" << QUEUE_LIMIT;
+        return;
+    }
 
     // regular expressions
     QRegExp cpuRegExp = QRegExp(QString("cpu/cpu.*/TotalLoad"));
@@ -639,298 +949,8 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         qCDebug(LOG_AW) << "Source" << sourceName << "not found";
         emit(dropSourceFromDataengine(sourceName));
     }
-}
 
-
-void AWKeys::graphicalValueByKey() const
-{
-    qCDebug(LOG_AW);
-
-    bool ok;
-    QString tag = QInputDialog::getItem(nullptr, i18n("Select tag"), i18n("Tag"),
-                                        dictKeys(true), 0, true, &ok);
-
-    if ((!ok) || (tag.isEmpty())) return;
-    QString message = i18n("Tag: %1", tag);
-    message += QString("<br>");
-    message += i18n("Value: %1", valueByKey(tag));
-
-    return AWActions::sendNotification(QString("tag"), message);
-}
-
-
-QString AWKeys::infoByKey(QString key) const
-{
-    qCDebug(LOG_AW);
-    qCDebug(LOG_AW) << "Requested key" << key;
-
-    key.remove(QRegExp(QString("^bar[0-9]{1,}")));
-    if (key.startsWith(QString("custom")))
-        foreach(ExtScript *item, extScripts->items()) {
-            if (item->tag(QString("custom")) != key) continue;
-            return item->executable();
-        }
-    else if (key.contains(QRegExp(QString("^hdd[rw]"))))
-        return QString("%1").arg(diskDevices[key.remove(QRegExp(QString("hdd[rw]"))).toInt()]);
-    else if (key.contains(QRegExp(QString("^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)"))))
-        return QString("%1").arg(mountDevices[key.remove(QRegExp(QString("^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)"))).toInt()]);
-    else if (key.startsWith(QString("hddtemp")))
-        return QString("%1").arg(hddDevices[key.remove(QString("hddtemp")).toInt()]);
-    else if (key.contains(QRegExp(QString("^(down|up)[0-9]"))))
-        return QString("%1").arg(networkDevices[key.remove(QRegExp(QString("^(down|up)"))).toInt()]);
-    else if (key.startsWith(QString("pkgcount")))
-        foreach(ExtUpgrade *item, extUpgrade->items()) {
-            if (item->tag(QString("pkgcount")) != key) continue;
-            return item->executable();
-        }
-    else if (key.contains(QRegExp(QString("(^|perc)(ask|bid|price)(chg|)"))))
-        foreach(ExtQuotes *item, extQuotes->items()) {
-            if (item->number() != key.remove(QRegExp(QString("(^|perc)(ask|bid|price)(chg|)"))).toInt()) continue;
-            return item->ticker();
-        }
-    else if (key.startsWith(QString("temp")))
-        return QString("%1").arg(tempDevices[key.remove(QString("temp")).toInt()]);
-
-    return QString("(none)");
-}
-
-
-QString AWKeys::valueByKey(QString key) const
-{
-    qCDebug(LOG_AW);
-    qCDebug(LOG_AW) << "Requested key" << key;
-
-    return values[key.remove(QRegExp(QString("^bar[0-9]{1,}")))];
-}
-
-
-void AWKeys::editItem(const QString type)
-{
-    qCDebug(LOG_AW);
-    qCDebug(LOG_AW) << "Item type" << type;
-
-    if (type == QString("graphicalitem")) {
-        graphicalItems->setConfigArgs(dictKeys(true, QString("^(cpu(?!cl).*|gpu$|mem$|swap$|hdd[0-9].*|bat.*)")));
-        return graphicalItems->editItems();
-    } else if (type == QString("extquotes")) {
-        return extQuotes->editItems();
-    } else if (type == QString("extscript")) {
-        return extScripts->editItems();
-    } else if (type == QString("extupgrade")) {
-        return extUpgrade->editItems();
-    } else if (type == QString("extweather")) {
-        return extWeather->editItems();
-    }
-}
-
-
-void AWKeys::dataUpdate()
-{
-    qCDebug(LOG_AW);
-
-    calculateLambdas();
-    emit(needTextToBeUpdated(parsePattern()));
-    if (toolTip != nullptr) emit(toolTip->updateData(values));
-}
-
-
-void AWKeys::loadKeysFromCache()
-{
-    qCDebug(LOG_AW);
-
-    QString fileName = QString("%1/awesomewidgets.ndx")
-                       .arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
-    qCInfo(LOG_AW) << "Cache file" << fileName;
-    QSettings cache(fileName, QSettings::IniFormat);
-
-    cache.beginGroup(QString("Disk"));
-    diskDevices.clear();
-    foreach(QString key, cache.allKeys())
-        diskDevices.append(cache.value(key).toString());
-    cache.endGroup();
-
-    cache.beginGroup(QString("Hdd"));
-    hddDevices.clear();
-    foreach(QString key, cache.allKeys())
-        hddDevices.append(cache.value(key).toString());
-    cache.endGroup();
-
-    cache.beginGroup(QString("Mount"));
-    mountDevices.clear();
-    foreach(QString key, cache.allKeys())
-        mountDevices.append(cache.value(key).toString());
-    cache.endGroup();
-
-    cache.beginGroup(QString("Network"));
-    networkDevices.clear();
-    foreach(QString key, cache.allKeys())
-        networkDevices.append(cache.value(key).toString());
-    cache.endGroup();
-
-    cache.beginGroup(QString("Temp"));
-    tempDevices.clear();
-    foreach(QString key, cache.allKeys())
-        tempDevices.append(cache.value(key).toString());
-    cache.endGroup();
-}
-
-
-void AWKeys::reinitKeys()
-{
-    qCDebug(LOG_AW);
-
-    // init
-    QStringList allKeys = dictKeys();
-
-    // append lists
-    // bars
-    foundBars = [allKeys](QString pattern) {
-        QStringList selectedKeys;
-        foreach(QString key, allKeys)
-            if ((key.startsWith(QString("bar"))) &&
-                (pattern.contains(QString("$%1").arg(key)))) {
-                qCInfo(LOG_AW) << "Found bar" << key;
-                selectedKeys.append(key);
-            }
-        if (selectedKeys.isEmpty()) qCWarning(LOG_AW) << "No bars found";
-        return selectedKeys;
-    }(pattern);
-
-    // main key list
-    foundKeys = [allKeys](QString pattern) {
-        QStringList selectedKeys;
-        foreach(QString key, allKeys)
-            if ((!key.startsWith(QString("bar"))) &&
-                (pattern.contains(QString("$%1").arg(key)))) {
-                qCInfo(LOG_AW) << "Found key" << key;
-                selectedKeys.append(key);
-            }
-        if (selectedKeys.isEmpty()) qCWarning(LOG_AW) << "No keys found";
-        return selectedKeys;
-    }(pattern);
-
-    // lambdas
-    foundLambdas = [](QString pattern) {
-        QStringList selectedKeys;
-        // substring inside ${{ }} (with brackets) which should not contain ${{
-        QRegularExpression lambdaRegexp(QString("\\$\\{\\{((?!\\$\\{\\{).)*?\\}\\}"));
-        lambdaRegexp.setPatternOptions(QRegularExpression::DotMatchesEverythingOption);
-
-        QRegularExpressionMatchIterator it = lambdaRegexp.globalMatch(pattern);
-        while (it.hasNext()) {
-            QRegularExpressionMatch match = it.next();
-            QString lambda = match.captured();
-            // drop brakets
-            lambda.remove(QRegExp(QString("^\\$\\{\\{")));
-            lambda.remove(QRegExp(QString("\\}\\}$")));
-            // append
-            qCInfo(LOG_AW) << "Found lambda" << lambda;
-            selectedKeys.append(lambda);
-        }
-        if (selectedKeys.isEmpty()) qCWarning(LOG_AW) << "No lambdas found";
-        return selectedKeys;
-    }(pattern);
-}
-
-
-void AWKeys::addKeyToCache(const QString type, const QString key)
-{
-    qCDebug(LOG_AW);
-    qCDebug(LOG_AW) << "Key type" << type;
-    qCDebug(LOG_AW) << "Key" << key;
-
-    QString fileName = QString("%1/awesomewidgets.ndx").arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
-    qCInfo(LOG_AW) << "Cache file" << fileName;
-    QSettings cache(fileName, QSettings::IniFormat);
-
-    cache.beginGroup(type);
-    QStringList cachedValues;
-    foreach(QString key, cache.allKeys())
-        cachedValues.append(cache.value(key).toString());
-
-    if (type == QString("Hdd")) {
-        QStringList allDevices = QDir(QString("/dev")).entryList(QDir::System, QDir::Name);
-        QStringList devices = allDevices.filter(QRegExp(QString("^[hms]d[a-z]$")));
-        foreach(QString dev, devices) {
-            QString device = QString("/dev/%1").arg(dev);
-            if (cachedValues.contains(device)) continue;
-            qCInfo(LOG_AW) << "Found new key" << device << "for type" << type;
-            cache.setValue(QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), device);
-        }
-    } else if (type == QString("Network")) {
-        QList<QNetworkInterface> rawInterfaceList = QNetworkInterface::allInterfaces();
-        foreach(QNetworkInterface interface, rawInterfaceList) {
-            QString device = interface.name();
-            if (cachedValues.contains(device)) continue;
-            qCInfo(LOG_AW) << "Found new key" << device << "for type" << type;
-            cache.setValue(QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), device);
-        }
-    } else {
-        if (cachedValues.contains(key)) return;
-        qCInfo(LOG_AW) << "Found new key" << key << "for type" << type;
-        cache.setValue(QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), key);
-    }
-    cache.endGroup();
-
-    cache.sync();
-    loadKeysFromCache();
-    return reinitKeys();
-}
-
-
-void AWKeys::calculateLambdas()
-{
-    qCDebug(LOG_AW);
-
-    foreach(QString key, foundLambdas)
-        values[key] = [this](QString key) {
-            QScriptEngine engine;
-            // apply $this values
-            key.replace(QString("$this"), values[key]);
-            foreach(QString lambdaKey, foundKeys)
-                key.replace(QString("$%1").arg(lambdaKey), values[lambdaKey]);
-            qCInfo(LOG_AW) << "Expression" << key;
-            QScriptValue result = engine.evaluate(key);
-            if (engine.hasUncaughtException()) {
-                int line = engine.uncaughtExceptionLineNumber();
-                qCWarning(LOG_AW) << "Uncaught exception at line" << line << ":" << result.toString();
-                return QString();
-            } else
-                return result.toString();
-        }(key);
-}
-
-
-QString AWKeys::parsePattern() const
-{
-    qCDebug(LOG_AW);
-
-    QString parsed = pattern;
-    parsed.replace(QString("$$"), QString("$\\$\\"));
-
-    // lambdas
-    foreach(QString key, foundLambdas)
-        parsed.replace(QString("${{%1}}").arg(key), values[key]);
-
-    // main keys
-    foreach(QString key, foundKeys)
-        parsed.replace(QString("$%1").arg(key), [](QString key, QString value) {
-            if ((!key.startsWith(QString("custom"))) &&
-                (!key.startsWith(QString("weather"))))
-                value.replace(QString(" "), QString("&nbsp;"));
-            return value;
-        }(key, values[key]));
-
-    // bars
-    foreach(QString bar, foundBars)
-        parsed.replace(QString("$%1").arg(bar),
-                       graphicalItems->itemByTag(bar)->image(valueByKey(bar).toFloat()));
-
-    // prepare strings
-    parsed.replace(QString("$\\$\\"), QString("$$"));
-    if (wrapNewLines) parsed.replace(QString("\n"), QString("<br>"));
-
-    return parsed;
+    queue--;
 }
 
 
