@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-09-02 00:03+0300\n"
-"PO-Revision-Date: 2015-09-02 00:19+0300\n"
+"POT-Creation-Date: 2015-09-06 21:11+0300\n"
+"PO-Revision-Date: 2015-09-06 21:12+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -203,11 +203,10 @@ msgstr "Проверить обновления"
 
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
-"To enable them just make needed checkbox fully checked."
+"To enable them just make needed checkbox checked."
 msgstr ""
 "Поля \"CPU\", \"Частота CPU\", \"Память\", \"Swap\", \"Сеть\" поддерживают "
-"графический тултип. Чтобы включить его, просто сделайте требуемые чекбоксы "
-"полностью чекнутыми."
+"графический тултип. Чтобы включить его, просто выделите требуемые чекбоксы."
 
 msgid "Number of values for tooltips"
 msgstr "Число хранящихся значений"
@@ -215,23 +214,44 @@ msgstr "Число хранящихся значений"
 msgid "Background"
 msgstr "Фон"
 
+msgid "Background color"
+msgstr "Цвет фона"
+
+msgid "CPU"
+msgstr "CPU"
+
 msgid "CPU color"
 msgstr "Цвет CPU"
+
+msgid "CPU clock"
+msgstr "Частота CPU"
 
 msgid "CPU clock color"
 msgstr "Цвет частоты CPU"
 
+msgid "Memory"
+msgstr "Память"
+
 msgid "Memory color"
 msgstr "Цвет памяти"
 
+msgid "Swap"
+msgstr "Swap"
+
 msgid "Swap color"
 msgstr "Цвет swap"
+
+msgid "Network"
+msgstr "Сеть"
 
 msgid "Download speed color"
 msgstr "Цвет скорости загрузки"
 
 msgid "Upload speed color"
 msgstr "Цвет скорости отдачи"
+
+msgid "Battery"
+msgstr "Батарея"
 
 msgid "Battery active color"
 msgstr "Цвет заряжаемой батареи"
@@ -252,17 +272,8 @@ msgstr "Адаптор питания"
 msgid "Bars"
 msgstr "Бары"
 
-msgid "CPU"
-msgstr "CPU"
-
 msgid "Desktops"
 msgstr "Рабочие столы"
-
-msgid "Memory"
-msgstr "Память"
-
-msgid "Network"
-msgstr "Сеть"
 
 msgid "Scripts"
 msgstr "Скрипты"
@@ -342,6 +353,12 @@ msgstr "Данное приложение использует: %1"
 msgid "Select font"
 msgstr "Выберете шрифт"
 
+msgid "You are using the actual version %1"
+msgstr "Вы используете актуальную версию %1"
+
+msgid "No new version found"
+msgstr "Обновления не найдены"
+
 msgid "Current version : %1"
 msgstr "Текущая версия : %1"
 
@@ -353,6 +370,12 @@ msgstr "Нажмите \"Ok\" для загрузки"
 
 msgid "There are updates"
 msgstr "Найдены обновления"
+
+msgid "Select tag"
+msgstr "Выберете тег"
+
+msgid "Tag"
+msgstr "Тег"
 
 msgid "AC online"
 msgstr "AC подключен"
@@ -383,12 +406,6 @@ msgstr "КБ/с"
 
 msgid "Swap is used"
 msgstr "Используется своп"
-
-msgid "Select tag"
-msgstr "Выберете тег"
-
-msgid "Tag"
-msgstr "Тег"
 
 msgid "Copy"
 msgstr "Копировать"
@@ -765,9 +782,6 @@ msgstr "esalexeev@gmail.com"
 #~ "...\n"
 #~ "$cpuN - загрузка CPU для ядра N, %"
 
-#~ msgid "CPU Clock"
-#~ msgstr "Частота CPU"
-
 #~ msgid ""
 #~ "$cpucl - average CPU clock, MHz\n"
 #~ "$cpucl0 - CPU clock for core 0, MHz\n"
@@ -814,9 +828,6 @@ msgstr "esalexeev@gmail.com"
 #~ "$memgb - использование RAM, GB\n"
 #~ "$memtotmb - RAM, MB\n"
 #~ "$memtotgb - RAM, GB"
-
-#~ msgid "Swap"
-#~ msgstr "Swap"
 
 #~ msgid ""
 #~ "$swap - swap usage, %\n"
@@ -870,9 +881,6 @@ msgstr "esalexeev@gmail.com"
 #~ "$down - скорость скачки, KB/s\n"
 #~ "$up - скорость загрузки, KB/s\n"
 #~ "$netdev - текущее устройство"
-
-#~ msgid "Battery"
-#~ msgstr "Батарея"
 
 #~ msgid ""
 #~ "$bat - battery charge, %\n"

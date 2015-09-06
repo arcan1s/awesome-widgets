@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-09-02 00:03+0300\n"
+"POT-Creation-Date: 2015-09-06 21:11+0300\n"
 "PO-Revision-Date: 2015-07-31 22:23+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Ukrainian <kde-russian@lists.kde.ru>\n"
@@ -204,9 +204,10 @@ msgstr "Показати README"
 msgid "Check updates"
 msgstr "Шукати оновлення"
 
+#, fuzzy
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
-"To enable them just make needed checkbox fully checked."
+"To enable them just make needed checkbox checked."
 msgstr ""
 "Поля \"CPU\", \"Частота CPU\", \"Пам’ять\", \"Swap\" та \"Мережа\" "
 "підтримують графічні підказки. Щоб їх задіяти, просто зробіть необхідні "
@@ -218,23 +219,46 @@ msgstr "Кількість значень для підказки"
 msgid "Background"
 msgstr "Фон"
 
+#, fuzzy
+msgid "Background color"
+msgstr "Фон"
+
+msgid "CPU"
+msgstr "CPU"
+
 msgid "CPU color"
 msgstr "Колір CPU"
+
+#, fuzzy
+msgid "CPU clock"
+msgstr "Частота CPU"
 
 msgid "CPU clock color"
 msgstr "Колір частоти CPU"
 
+msgid "Memory"
+msgstr "Пам’ять"
+
 msgid "Memory color"
 msgstr "Колір пам’яті"
 
+msgid "Swap"
+msgstr "Swap"
+
 msgid "Swap color"
 msgstr "Колір swap"
+
+msgid "Network"
+msgstr "Мережа"
 
 msgid "Download speed color"
 msgstr "Колір швидкості скачування"
 
 msgid "Upload speed color"
 msgstr "Колір швидкості віддачі"
+
+msgid "Battery"
+msgstr "Батарея"
 
 msgid "Battery active color"
 msgstr "Колір батареї, що заряджається"
@@ -255,17 +279,8 @@ msgstr ""
 msgid "Bars"
 msgstr "Бари"
 
-msgid "CPU"
-msgstr "CPU"
-
 msgid "Desktops"
 msgstr ""
-
-msgid "Memory"
-msgstr "Пам’ять"
-
-msgid "Network"
-msgstr "Мережа"
 
 #, fuzzy
 msgid "Scripts"
@@ -349,6 +364,13 @@ msgstr "Ця програма використовує: %1"
 msgid "Select font"
 msgstr "Оберіть шрифт"
 
+msgid "You are using the actual version %1"
+msgstr ""
+
+#, fuzzy
+msgid "No new version found"
+msgstr "Нова версія : %1"
+
 msgid "Current version : %1"
 msgstr "Поточна версія : %1"
 
@@ -360,6 +382,12 @@ msgstr "Натисніть \"Ok\" для завантаження"
 
 msgid "There are updates"
 msgstr "Знайдені оновлення"
+
+msgid "Select tag"
+msgstr "Оберіть тег"
+
+msgid "Tag"
+msgstr "Тег"
 
 msgid "AC online"
 msgstr "AC підключений"
@@ -390,12 +418,6 @@ msgstr ""
 
 msgid "Swap is used"
 msgstr "Використовується swap"
-
-msgid "Select tag"
-msgstr "Оберіть тег"
-
-msgid "Tag"
-msgstr "Тег"
 
 msgid "Copy"
 msgstr "Копіювати"
@@ -762,9 +784,6 @@ msgstr "sarumyan@i.ua"
 #~ "...\n"
 #~ "$cpuN - завантаження CPU для ядра N, %"
 
-#~ msgid "CPU Clock"
-#~ msgstr "Частота CPU"
-
 #~ msgid ""
 #~ "$cpucl - average CPU clock, MHz\n"
 #~ "$cpucl0 - CPU clock for core 0, MHz\n"
@@ -808,9 +827,6 @@ msgstr "sarumyan@i.ua"
 #~ "$mem - використання RAM, %\n"
 #~ "$memmb - використання RAM, MB\n"
 #~ "$memgb - використання RAM, GB"
-
-#~ msgid "Swap"
-#~ msgstr "Swap"
 
 #~ msgid ""
 #~ "$swap - swap usage, %\n"
@@ -864,9 +880,6 @@ msgstr "sarumyan@i.ua"
 #~ "$down - швидкість скачування, KB/s\n"
 #~ "$up - швидкість віддачі, KB/s\n"
 #~ "$netdev - поточний мережевий пристрій"
-
-#~ msgid "Battery"
-#~ msgstr "Батарея"
 
 #~ msgid ""
 #~ "$bat - battery charge, %\n"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-09-02 00:03+0300\n"
+"POT-Creation-Date: 2015-09-06 21:11+0300\n"
 "PO-Revision-Date: 2015-08-20 22:52+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
@@ -207,9 +207,10 @@ msgstr "README weergeven"
 msgid "Check updates"
 msgstr "Controleren op updates"
 
+#, fuzzy
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
-"To enable them just make needed checkbox fully checked."
+"To enable them just make needed checkbox checked."
 msgstr ""
 "CPU, CPU-klok, geheugen, swap en netwerklabels-ondersteuning in een "
 "grafische opmerkingsballon. Vink ze aan om ze in te schakelen."
@@ -220,23 +221,47 @@ msgstr "Aantal waarden voor de opmerkingsballonnen"
 msgid "Background"
 msgstr "Achtergrond"
 
+#, fuzzy
+msgid "Background color"
+msgstr "Achtergrond"
+
+msgid "CPU"
+msgstr ""
+
 msgid "CPU color"
+msgstr "CPU-kleur"
+
+#, fuzzy
+msgid "CPU clock"
 msgstr "CPU-kleur"
 
 msgid "CPU clock color"
 msgstr "CPU-klokkleur"
 
+#, fuzzy
+msgid "Memory"
+msgstr "Geheugenkleur"
+
 msgid "Memory color"
 msgstr "Geheugenkleur"
 
+msgid "Swap"
+msgstr ""
+
 msgid "Swap color"
 msgstr "Swap-kleur"
+
+msgid "Network"
+msgstr ""
 
 msgid "Download speed color"
 msgstr "Kleur van downloadsnelheid"
 
 msgid "Upload speed color"
 msgstr "Kleur van uploadsnelheid"
+
+msgid "Battery"
+msgstr ""
 
 msgid "Battery active color"
 msgstr "Kleur van actieve accu"
@@ -257,17 +282,7 @@ msgstr ""
 msgid "Bars"
 msgstr "Balken"
 
-msgid "CPU"
-msgstr ""
-
 msgid "Desktops"
-msgstr ""
-
-#, fuzzy
-msgid "Memory"
-msgstr "Geheugenkleur"
-
-msgid "Network"
 msgstr ""
 
 #, fuzzy
@@ -353,6 +368,13 @@ msgstr "Deze software gebruikt: %1"
 msgid "Select font"
 msgstr "Lettertype selecteren"
 
+msgid "You are using the actual version %1"
+msgstr ""
+
+#, fuzzy
+msgid "No new version found"
+msgstr "Nieuwe versie: %1"
+
 msgid "Current version : %1"
 msgstr "Huidige versie: %1"
 
@@ -364,6 +386,12 @@ msgstr "Klik op \"OK\" om te downloaden"
 
 msgid "There are updates"
 msgstr "Er zijn updates"
+
+msgid "Select tag"
+msgstr "Sleutelwoord selecteren"
+
+msgid "Tag"
+msgstr "Sleutelwoord"
 
 msgid "AC online"
 msgstr "AC online"
@@ -395,12 +423,6 @@ msgstr ""
 
 msgid "Swap is used"
 msgstr "Swap wordt gebruikt"
-
-msgid "Select tag"
-msgstr "Sleutelwoord selecteren"
-
-msgid "Tag"
-msgstr "Sleutelwoord"
 
 msgid "Copy"
 msgstr "Kopiëren"

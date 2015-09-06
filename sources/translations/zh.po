@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-09-02 00:03+0300\n"
+"POT-Creation-Date: 2015-09-06 21:11+0300\n"
 "PO-Revision-Date: 2015-07-31 22:24+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -206,9 +206,10 @@ msgstr "显示帮助文档"
 msgid "Check updates"
 msgstr ""
 
+#, fuzzy
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
-"To enable them just make needed checkbox fully checked."
+"To enable them just make needed checkbox checked."
 msgstr ""
 "CPU， CPU 时钟，内存，虚拟内存和网络连接标签均支持图形化提示显示。 请在相应复"
 "选框中勾选以启用该功能。 "
@@ -219,23 +220,48 @@ msgstr "提示的数值"
 msgid "Background"
 msgstr "背景"
 
+#, fuzzy
+msgid "Background color"
+msgstr "背景"
+
+msgid "CPU"
+msgstr ""
+
 msgid "CPU color"
+msgstr "CPU 颜色"
+
+#, fuzzy
+msgid "CPU clock"
 msgstr "CPU 颜色"
 
 msgid "CPU clock color"
 msgstr "CPU 时钟颜色"
 
+#, fuzzy
+msgid "Memory"
+msgstr "内存显示颜色"
+
 msgid "Memory color"
 msgstr "内存显示颜色"
 
+msgid "Swap"
+msgstr ""
+
 msgid "Swap color"
 msgstr "虚拟内存颜色"
+
+msgid "Network"
+msgstr ""
 
 msgid "Download speed color"
 msgstr "下载速度颜色"
 
 msgid "Upload speed color"
 msgstr "上传速度颜色"
+
+#, fuzzy
+msgid "Battery"
+msgstr "电池设备"
 
 msgid "Battery active color"
 msgstr "电池使用状态提示颜色"
@@ -256,17 +282,7 @@ msgstr ""
 msgid "Bars"
 msgstr ""
 
-msgid "CPU"
-msgstr ""
-
 msgid "Desktops"
-msgstr ""
-
-#, fuzzy
-msgid "Memory"
-msgstr "内存显示颜色"
-
-msgid "Network"
 msgstr ""
 
 msgid "Scripts"
@@ -349,6 +365,12 @@ msgstr ""
 msgid "Select font"
 msgstr "选择字体"
 
+msgid "You are using the actual version %1"
+msgstr ""
+
+msgid "No new version found"
+msgstr ""
+
 msgid "Current version : %1"
 msgstr ""
 
@@ -359,6 +381,13 @@ msgid "Click \"Ok\" to download"
 msgstr ""
 
 msgid "There are updates"
+msgstr ""
+
+#, fuzzy
+msgid "Select tag"
+msgstr "选择字体"
+
+msgid "Tag"
 msgstr ""
 
 #, fuzzy
@@ -391,13 +420,6 @@ msgid "KB/s"
 msgstr ""
 
 msgid "Swap is used"
-msgstr ""
-
-#, fuzzy
-msgid "Select tag"
-msgstr "选择字体"
-
-msgid "Tag"
 msgstr ""
 
 msgid "Copy"
@@ -696,9 +718,6 @@ msgstr "用户邮箱"
 
 #~ msgid "Desktop check cmd"
 #~ msgstr "检测桌面命令"
-
-#~ msgid "Battery device"
-#~ msgstr "电池设备"
 
 #~ msgid "\"/sys/class/power_supply/BAT0/capacity\" by default"
 #~ msgstr "默认为 \"/sys/class/power_supply/BAT0/capacity\""

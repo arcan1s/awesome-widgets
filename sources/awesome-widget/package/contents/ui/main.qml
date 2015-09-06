@@ -93,7 +93,7 @@ Item {
 
         onNewData: {
             if (debug) console.debug("Update source", sourceName)
-//             systemmonitorDE.interval = plasmoid.configuration.interval
+            systemmonitorDE.interval = plasmoid.configuration.interval
 
             awKeys.dataUpdateReceived(sourceName, data, settings)
         }
@@ -113,7 +113,7 @@ Item {
 
         onNewData: {
             if (debug) console.debug("Update source", sourceName)
-//             extsysmonDE.interval = plasmoid.configuration.interval
+            extsysmonDE.interval = plasmoid.configuration.interval
 
             awKeys.dataUpdateReceived(sourceName, data, settings)
         }
@@ -176,7 +176,7 @@ Item {
         awKeys.needTextToBeUpdated.connect(needTextUpdate)
         awKeys.needToolTipToBeUpdated.connect(needToolTipUpdate)
         // check updates if required
-        if (plasmoid.configuration.checkUpdates) return action_checkUpdates()
+        if (plasmoid.configuration.checkUpdates) return awActions.checkUpdates(false)
     }
 
     onDropSource: {
@@ -235,7 +235,7 @@ Item {
     function action_checkUpdates() {
         if (debug) console.debug()
 
-        return awActions.checkUpdates()
+        return awActions.checkUpdates(true)
     }
 
     function action_showReadme() {

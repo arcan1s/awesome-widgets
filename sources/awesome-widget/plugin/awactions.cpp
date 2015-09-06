@@ -52,12 +52,15 @@ AWActions::~AWActions()
 }
 
 
-void AWActions::checkUpdates()
+void AWActions::checkUpdates(const bool showAnyway)
 {
     qCDebug(LOG_AW);
 
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
-    connect(manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(versionReplyRecieved(QNetworkReply *)));
+    connect(manager, &QNetworkAccessManager::finished,
+            [showAnyway, this](QNetworkReply *reply) {
+                return versionReplyRecieved(reply, showAnyway);
+            });
 
     manager->get(QNetworkRequest(QUrl(VERSION_API)));
 }
@@ -91,12 +94,6 @@ void AWActions::runCmd(const QString cmd) const
     sendNotification(QString("Info"), i18n("Run %1", cmd));
 
     command.startDetached(cmd);
-}
-
-
-void AWActions::sendEmail() const
-{
-    qCDebug(LOG_AW);
 }
 
 
@@ -228,9 +225,21 @@ void AWActions::sendNotification(const QString eventId, const QString message,
 }
 
 
-void AWActions::showUpdates(QString version) const
+void AWActions::showInfo(const QString version) const
 {
     qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << "Version" << version;
+
+    QString text = i18n("You are using the actual version %1", version);
+    QMessageBox::information(nullptr, i18n("No new version found"), text);
+}
+
+
+
+void AWActions::showUpdates(const QString version) const
+{
+    qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << "Version" << version;
 
     QString text;
     text += i18n("Current version : %1", QString(VERSION)) + QString("\n");
@@ -247,7 +256,7 @@ void AWActions::showUpdates(QString version) const
 }
 
 
-void AWActions::versionReplyRecieved(QNetworkReply *reply) const
+void AWActions::versionReplyRecieved(QNetworkReply *reply, const bool showAnyway) const
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Return code" << reply->error();
@@ -278,4 +287,6 @@ void AWActions::versionReplyRecieved(QNetworkReply *reply) const
         ((old_major == new_major) && (old_minor < new_minor)) ||
         ((old_major == new_major) && (old_minor == new_minor) && (old_patch < new_patch)))
         return showUpdates(version);
+    else if (showAnyway)
+        return showInfo(version);
 }

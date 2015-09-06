@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-09-02 00:03+0300\n"
-"PO-Revision-Date: 2015-09-02 00:18+0300\n"
+"POT-Creation-Date: 2015-09-06 21:11+0300\n"
+"PO-Revision-Date: 2015-09-06 21:11+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: English <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -203,10 +203,10 @@ msgstr "Check updates"
 
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
-"To enable them just make needed checkbox fully checked."
+"To enable them just make needed checkbox checked."
 msgstr ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
-"To enable them just make needed checkbox fully checked."
+"To enable them just make needed checkbox checked."
 
 msgid "Number of values for tooltips"
 msgstr "Number of values for tooltips"
@@ -214,23 +214,44 @@ msgstr "Number of values for tooltips"
 msgid "Background"
 msgstr "Background"
 
+msgid "Background color"
+msgstr "Background color"
+
+msgid "CPU"
+msgstr "CPU"
+
 msgid "CPU color"
 msgstr "CPU color"
+
+msgid "CPU clock"
+msgstr "CPU clock"
 
 msgid "CPU clock color"
 msgstr "CPU clock color"
 
+msgid "Memory"
+msgstr "Memory"
+
 msgid "Memory color"
 msgstr "Memory color"
 
+msgid "Swap"
+msgstr "Swap"
+
 msgid "Swap color"
 msgstr "Swap color"
+
+msgid "Network"
+msgstr "Network"
 
 msgid "Download speed color"
 msgstr "Download speed color"
 
 msgid "Upload speed color"
 msgstr "Upload speed color"
+
+msgid "Battery"
+msgstr "Battery"
 
 msgid "Battery active color"
 msgstr "Battery active color"
@@ -251,17 +272,8 @@ msgstr "AC"
 msgid "Bars"
 msgstr "Bars"
 
-msgid "CPU"
-msgstr "CPU"
-
 msgid "Desktops"
 msgstr "Desktops"
-
-msgid "Memory"
-msgstr "Memory"
-
-msgid "Network"
-msgstr "Network"
 
 msgid "Scripts"
 msgstr "Scripts"
@@ -341,6 +353,12 @@ msgstr "This software uses: %1"
 msgid "Select font"
 msgstr "Select font"
 
+msgid "You are using the actual version %1"
+msgstr "You are using the actual version %1"
+
+msgid "No new version found"
+msgstr "No new version found"
+
 msgid "Current version : %1"
 msgstr "Current version : %1"
 
@@ -352,6 +370,12 @@ msgstr "Click \"Ok\" to download"
 
 msgid "There are updates"
 msgstr "There are updates"
+
+msgid "Select tag"
+msgstr "Select tag"
+
+msgid "Tag"
+msgstr "Tag"
 
 msgid "AC online"
 msgstr "AC online"
@@ -382,12 +406,6 @@ msgstr "KB/s"
 
 msgid "Swap is used"
 msgstr "Swap is used"
-
-msgid "Select tag"
-msgstr "Select tag"
-
-msgid "Tag"
-msgstr "Tag"
 
 msgid "Copy"
 msgstr "Copy"
@@ -764,9 +782,6 @@ msgstr "esalexeev@gmail.com"
 #~ "...\n"
 #~ "$cpuN - load CPU for core N, %"
 
-#~ msgid "CPU Clock"
-#~ msgstr "CPU Clock"
-
 #~ msgid ""
 #~ "$cpucl - average CPU clock, MHz\n"
 #~ "$cpucl0 - CPU clock for core 0, MHz\n"
@@ -812,9 +827,6 @@ msgstr "esalexeev@gmail.com"
 #~ "$memgb - RAM usage, GB\n"
 #~ "$memtotmb - total RAM, MB\n"
 #~ "$memtotgb - total RAM, GB"
-
-#~ msgid "Swap"
-#~ msgstr "Swap"
 
 #~ msgid ""
 #~ "$swap - swap usage, %\n"
@@ -870,9 +882,6 @@ msgstr "esalexeev@gmail.com"
 #~ "$down - download speed, KB/s\n"
 #~ "$up - upload speed, KB/s\n"
 #~ "$netdev - current network device"
-
-#~ msgid "Battery"
-#~ msgstr "Battery"
 
 #~ msgid ""
 #~ "$bat - battery charge, %\n"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-09-02 00:03+0300\n"
+"POT-Creation-Date: 2015-09-06 21:11+0300\n"
 "PO-Revision-Date: 2015-07-31 22:21+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -205,9 +205,10 @@ msgstr "Mostrar README"
 msgid "Check updates"
 msgstr "Checar por atualizações"
 
+#, fuzzy
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
-"To enable them just make needed checkbox fully checked."
+"To enable them just make needed checkbox checked."
 msgstr ""
 "Os rótulos de CPU, frequência de GPU, memória, swap e rede suportam dica de "
 "contexto gráfica. Para ativá-los, basta selecionar a caixa necessária."
@@ -218,23 +219,46 @@ msgstr "Número de valores para dicas de contexto"
 msgid "Background"
 msgstr "Plano de fundo"
 
+#, fuzzy
+msgid "Background color"
+msgstr "Plano de fundo"
+
+msgid "CPU"
+msgstr "CPU"
+
 msgid "CPU color"
 msgstr "Cor da CPU"
+
+#, fuzzy
+msgid "CPU clock"
+msgstr "Frequência da CPU "
 
 msgid "CPU clock color"
 msgstr "Cor do relógio da CPU"
 
+msgid "Memory"
+msgstr "Memória"
+
 msgid "Memory color"
 msgstr "Cor da memória"
 
+msgid "Swap"
+msgstr "Swap"
+
 msgid "Swap color"
 msgstr "Cor da swap"
+
+msgid "Network"
+msgstr "Rede"
 
 msgid "Download speed color"
 msgstr "Cor da velocidade de download"
 
 msgid "Upload speed color"
 msgstr "Cor da velocidade de upload"
+
+msgid "Battery"
+msgstr "Bateria"
 
 msgid "Battery active color"
 msgstr "Cor da bateria ativa"
@@ -255,17 +279,8 @@ msgstr ""
 msgid "Bars"
 msgstr "Barras"
 
-msgid "CPU"
-msgstr "CPU"
-
 msgid "Desktops"
 msgstr ""
-
-msgid "Memory"
-msgstr "Memória"
-
-msgid "Network"
-msgstr "Rede"
 
 #, fuzzy
 msgid "Scripts"
@@ -349,6 +364,13 @@ msgstr "Este software usa: %1"
 msgid "Select font"
 msgstr "Selecionar fonte"
 
+msgid "You are using the actual version %1"
+msgstr ""
+
+#, fuzzy
+msgid "No new version found"
+msgstr "Nova versão: %1"
+
 msgid "Current version : %1"
 msgstr "Versão atual: %1"
 
@@ -360,6 +382,12 @@ msgstr "Clique \"Ok\" para baixar"
 
 msgid "There are updates"
 msgstr "Há atualizações disponíveis"
+
+msgid "Select tag"
+msgstr "Selecionar tag"
+
+msgid "Tag"
+msgstr "Tag"
 
 msgid "AC online"
 msgstr "Carregador conectado"
@@ -390,12 +418,6 @@ msgstr ""
 
 msgid "Swap is used"
 msgstr "Swap está sendo usado"
-
-msgid "Select tag"
-msgstr "Selecionar tag"
-
-msgid "Tag"
-msgstr "Tag"
 
 msgid "Copy"
 msgstr "Copiar"
@@ -751,9 +773,6 @@ msgstr "under@insicuri.net"
 #~ "...\n"
 #~ "$cpuN - carga total para o núcleo N da CPU, %"
 
-#~ msgid "CPU Clock"
-#~ msgstr "Frequência da CPU "
-
 #~ msgid ""
 #~ "$cpucl - average CPU clock, MHz\n"
 #~ "$cpucl0 - CPU clock for core 0, MHz\n"
@@ -801,9 +820,6 @@ msgstr "under@insicuri.net"
 #~ "$memgb - uso de RAM, GB\n"
 #~ "$memtotmb - RAM total, MB\n"
 #~ "$memtotgb - RAM total, GB"
-
-#~ msgid "Swap"
-#~ msgstr "Swap"
 
 #~ msgid ""
 #~ "$swap - swap usage, %\n"
@@ -865,9 +881,6 @@ msgstr "under@insicuri.net"
 #~ "$down - velocidade de download, KB/s\n"
 #~ "$up - velocidade de upload, KB/s\n"
 #~ "$netdev - dispositivo de rede atual"
-
-#~ msgid "Battery"
-#~ msgstr "Bateria"
 
 #~ msgid ""
 #~ "$bat - battery charge, %\n"

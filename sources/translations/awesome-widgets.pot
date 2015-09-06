@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-09-02 00:03+0300\n"
+"POT-Creation-Date: 2015-09-06 21:11+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -202,7 +202,7 @@ msgstr ""
 
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
-"To enable them just make needed checkbox fully checked."
+"To enable them just make needed checkbox checked."
 msgstr ""
 
 msgid "Number of values for tooltips"
@@ -211,22 +211,43 @@ msgstr ""
 msgid "Background"
 msgstr ""
 
+msgid "Background color"
+msgstr ""
+
+msgid "CPU"
+msgstr ""
+
 msgid "CPU color"
+msgstr ""
+
+msgid "CPU clock"
 msgstr ""
 
 msgid "CPU clock color"
 msgstr ""
 
+msgid "Memory"
+msgstr ""
+
 msgid "Memory color"
 msgstr ""
 
+msgid "Swap"
+msgstr ""
+
 msgid "Swap color"
+msgstr ""
+
+msgid "Network"
 msgstr ""
 
 msgid "Download speed color"
 msgstr ""
 
 msgid "Upload speed color"
+msgstr ""
+
+msgid "Battery"
 msgstr ""
 
 msgid "Battery active color"
@@ -246,16 +267,7 @@ msgstr ""
 msgid "Bars"
 msgstr ""
 
-msgid "CPU"
-msgstr ""
-
 msgid "Desktops"
-msgstr ""
-
-msgid "Memory"
-msgstr ""
-
-msgid "Network"
 msgstr ""
 
 msgid "Scripts"
@@ -336,6 +348,12 @@ msgstr ""
 msgid "Select font"
 msgstr ""
 
+msgid "You are using the actual version %1"
+msgstr ""
+
+msgid "No new version found"
+msgstr ""
+
 msgid "Current version : %1"
 msgstr ""
 
@@ -346,6 +364,12 @@ msgid "Click \"Ok\" to download"
 msgstr ""
 
 msgid "There are updates"
+msgstr ""
+
+msgid "Select tag"
+msgstr ""
+
+msgid "Tag"
 msgstr ""
 
 msgid "AC online"
@@ -376,12 +400,6 @@ msgid "KB/s"
 msgstr ""
 
 msgid "Swap is used"
-msgstr ""
-
-msgid "Select tag"
-msgstr ""
-
-msgid "Tag"
 msgstr ""
 
 msgid "Copy"

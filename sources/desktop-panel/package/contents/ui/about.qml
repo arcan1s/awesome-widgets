@@ -99,6 +99,7 @@ Item {
                     QtControls.Label {
                         QtLayouts.Layout.fillHeight: true
                         QtLayouts.Layout.fillWidth: true
+                        wrapMode: Text.WordWrap
                         horizontalAlignment: Text.AlignJustify
                         verticalAlignment: Text.AlignTop
                         textFormat: Text.RichText
