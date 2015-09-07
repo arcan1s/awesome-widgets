@@ -50,7 +50,15 @@ public:
         qCDebug(LOG_LIB);
 
         m_items.clear();
-    }
+        m_activeItems.clear();
+    };
+
+    QList<T *> activeItems()
+    {
+        qCDebug(LOG_LIB);
+
+        return m_activeItems;
+    };
 
     void editItems()
     {
@@ -59,14 +67,6 @@ public:
         repaint();
         int ret = dialog->exec();
         qCInfo(LOG_LIB) << "Dialog returns" << ret;
-    };
-
-    void initItems()
-    {
-        qCDebug(LOG_LIB);
-
-        m_items.clear();
-        m_items = getItems();
     };
 
     T *itemByTag(const QString _tag) const
@@ -84,7 +84,7 @@ public:
             qCWarning(LOG_LIB) << "Could not find item by tag" << _tag;
 
         return found;
-    }
+    };
 
     T *itemByTagNumber(const int _number) const
     {
@@ -101,7 +101,7 @@ public:
             qCWarning(LOG_LIB) << "Could not find item by number" << _number;
 
         return found;
-    }
+    };
 
     T *itemFromWidget() const
     {
@@ -143,6 +143,7 @@ public:
 
 private:
     QList<T *> m_items;
+    QList<T *> m_activeItems;
     QString m_type;
 
     // init method
@@ -179,6 +180,18 @@ private:
             return lhs->number() < rhs->number();
         });
         return items;
+    };
+
+    void initItems()
+    {
+        qCDebug(LOG_LIB);
+
+        m_items.clear();
+        m_activeItems.clear();
+
+        m_items = getItems();
+        foreach(T *item, m_items)
+            if (item->isActive()) m_activeItems.append(item);
     };
 
     void repaint()

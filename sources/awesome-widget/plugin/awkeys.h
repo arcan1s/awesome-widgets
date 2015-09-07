@@ -91,6 +91,7 @@ private:
     ExtItemAggregator<ExtScript> *extScripts;
     ExtItemAggregator<ExtUpgrade> *extUpgrade;
     ExtItemAggregator<ExtWeather> *extWeather;
+    bool lock = false;
     int queue = 0;
     QString pattern;
     QStringList foundBars, foundKeys, foundLambdas;
