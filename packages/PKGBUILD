@@ -2,39 +2,53 @@
 
 pkgname=plasma5-applet-awesome-widgets
 _pkgname=awesome-widgets
-pkgver=2.4.0
+pkgver=2.4.0.r34.gbe26033
 pkgrel=1
-pkgdesc="Collection of minimalistic Plasmoids which look like Awesome WM widgets (ex-PyTextMonitor)"
+pkgdesc="Collection of minimalistic Plasmoids which look like Awesome WM widgets (ex-PyTextMonitor). Git version"
 arch=('i686' 'x86_64')
 url="http://arcanis.name/projects/awesome-widgets"
 license=('GPL3')
 depends=('plasma-framework')
-optdepends=("catalyst: for GPU monitor"
+optdepends=("amarok: for music player monitor"
+            "clementine: for music player monitor"
+            "catalyst: for GPU monitor"
             "hddtemp: for HDD temperature monitor"
             "smartmontools: for HDD temperature monitor"
             "mpd: for music player monitor"
-            "nvidia-utils: for GPU monitor")
-makedepends=('cmake' 'extra-cmake-modules')
-source=(https://github.com/arcan1s/awesome-widgets/releases/download/V.${pkgver}/${_pkgname}-${pkgver}-src.tar.xz)
+            "nvidia-utils: for GPU monitor"
+            "qmmp: for music player monitor")
+makedepends=('cmake' 'extra-cmake-modules' 'git')
+source=(${_pkgname}::git+https://github.com/arcan1s/awesome-widgets.git#branch=release-2.4.0)
 install=${pkgname}.install
-md5sums=('9b870da6ecefef584f11b6ba6bf9a397')
+md5sums=('SKIP')
 backup=('etc/xdg/plasma-dataengine-extsysmon.conf')
 
+pkgver() {
+  cd "${srcdir}/${_pkgname}"
+  git describe --tags --long | sed 's/V\.//' | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
 prepare() {
-  rm -rf "${srcdir}/build"
-  mkdir "${srcdir}/build"
+  rm -rf "${srcdir}/${_pkgname}/build"
+  mkdir "${srcdir}/${_pkgname}/build"
+
+  # update submobules
+  cd "${srcdir}/${_pkgname}"
+  git submodule init
+  git submodule update --recursive
+  echo "$pkgver"
 }
 
 build () {
-  cd "${srcdir}/build"
+  cd "${srcdir}/${_pkgname}/build"
   cmake -DKDE_INSTALL_USE_QT_SYS_PATHS=ON \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=/usr \
-        "../${_pkgname}"
+        "../sources"
   make
 }
 
 package() {
-  cd "${srcdir}/build"
+  cd "${srcdir}/${_pkgname}/build"
   make DESTDIR="${pkgdir}" install
 }
