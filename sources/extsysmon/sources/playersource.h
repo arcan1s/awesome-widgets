@@ -45,6 +45,7 @@ private:
     QString m_mpris;
     QString m_player;
     int m_symbols;
+    QStringList m_metadata = QStringList() << QString("album") << QString("artist") << QString("title");
     QVariantHash values;
 };
 

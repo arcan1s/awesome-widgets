@@ -31,7 +31,7 @@ HDDTemperatureSource::HDDTemperatureSource(QObject *parent, const QStringList ar
     Q_ASSERT(args.count() == 2);
     qCDebug(LOG_ESM);
 
-    m_devices = args.at(0).split(QChar(','));
+    m_devices = args.at(0).split(QChar(','), QString::SkipEmptyParts);
     m_cmd = args.at(1);
 
     m_smartctl = m_cmd.contains(QString("smartctl"));

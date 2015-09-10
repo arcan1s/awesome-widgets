@@ -644,10 +644,6 @@ QString AWKeys::parsePattern() const
 void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
                              const QVariantMap params)
 {
-    if (lock) {
-        lock = (queue > 1);
-        return;
-    }
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Source" << sourceName;
     qCDebug(LOG_AW) << "Data" << data;
@@ -669,25 +665,24 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
     QRegExp mountUsedRegExp = QRegExp(QString("partitions/.*/usedspace"));
     QRegExp netRegExp = QRegExp(QString("network/interfaces/.*/(receiver|transmitter)/data$"));
 
-    if (sourceName == QString("battery")) {
-        // battery
-        foreach(QString key, data.keys()) {
-            if (key == QString("ac")) {
-                // notification
-                if ((values[QString("ac")] == params[QString("acOnline")].toString()) != data[QString("ac")].toBool()) {
-                    if (data[QString("ac")].toBool())
-                        AWActions::sendNotification(QString("event"), i18n("AC online"), enablePopup);
-                    else
-                        AWActions::sendNotification(QString("event"), i18n("AC offline"), enablePopup);
-                }
-                // value
-                if (data[QString("ac")].toBool())
-                    values[QString("ac")] = params[QString("acOnline")].toString();
-                else
-                    values[QString("ac")] = params[QString("acOffline")].toString();
-            } else
-                values[key] = QString("%1").arg(data[key].toFloat(), 3, 'f', 0);
+    if (sourceName == QString("battery/ac")) {
+        // AC
+        if ((values[QString("ac")] == params[QString("acOnline")].toString()) != data[QString("value")].toBool()) {
+            if (data[QString("value")].toBool())
+                AWActions::sendNotification(QString("event"), i18n("AC online"), enablePopup);
+            else
+                AWActions::sendNotification(QString("event"), i18n("AC offline"), enablePopup);
         }
+        // value
+        if (data[QString("value")].toBool())
+            values[QString("ac")] = params[QString("acOnline")].toString();
+        else
+            values[QString("ac")] = params[QString("acOffline")].toString();
+    } else if (sourceName.startsWith(QString("battery/"))) {
+        // battery stats
+        QString key = sourceName;
+        key.remove(QString("battery/"));
+        values[key] = QString("%1").arg(data[QString("value")].toInt(), 3);
     } else if (sourceName == QString("cpu/system/TotalLoad")) {
         // cpu
         // notification
@@ -708,14 +703,20 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         QString number = sourceName;
         number.remove(QString("cpu/cpu")).remove(QString("/clock"));
         values[QString("cpucl") + number] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
-    } else if (sourceName == QString("custom")) {
+    } else if (sourceName.startsWith(QString("custom"))) {
         // custom
-        foreach(QString key, data.keys()) values[key] = data[key].toString();
-    } else if (sourceName == QString("desktop")) {
-        // desktops
-        values[QString("desktop")] = data[QString("currentName")].toString();
-        values[QString("ndesktop")] = QString("%1").arg(data[QString("currentNumber")].toInt());
-        values[QString("tdesktops")] = QString("%1").arg(data[QString("number")].toInt());
+        QString key = sourceName;
+        key.remove(QString("custom/"));
+        values[key] = data[QString("value")].toString();
+    } else if (sourceName == QString("desktop/current/name")) {
+        // current desktop name
+        values[QString("desktop")] = data[QString("value")].toString();
+    } else if (sourceName == QString("desktop/current/number")) {
+        // current desktop number
+        values[QString("ndesktop")] = QString("%1").arg(data[QString("value")].toInt());
+    } else if (sourceName == QString("desktop/total/number")) {
+        // desktop count
+        values[QString("tdesktops")] = QString("%1").arg(data[QString("value")].toInt());
     } else if (sourceName.contains(hddrRegExp)) {
         // read speed
         QString device = sourceName;
@@ -728,14 +729,14 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         device.remove(QString("/Rate/wblk"));
         int index = diskDevices.indexOf(device);
         values[QString("hddw%1").arg(index)] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 0);
-    } else if (sourceName == QString("gpu")) {
+    } else if (sourceName == QString("gpu/load")) {
         // gpu load
         // notification
         if ((data[QString("value")].toFloat() >= 75.0) && (values[QString("gpu")].toFloat() < 75.0))
             AWActions::sendNotification(QString("event"), i18n("High GPU load"), enablePopup);
         // value
         values[QString("gpu")] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
-    } else if (sourceName == QString("gputemp")) {
+    } else if (sourceName == QString("gpu/temperature")) {
         // gpu temperature
         values[QString("gputemp")] = QString("%1").arg(
             temperature(data[QString("value")].toFloat(), params[QString("tempUnits")].toString()), 4, 'f', 1);
@@ -772,13 +773,13 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         values[QString("hddtotgb%1").arg(index)] = QString("%1").arg(
             values[QString("hddfreegb%1").arg(index)].toFloat() +
             values[QString("hddgb%1").arg(index)].toFloat(), 5, 'f', 1);
-    } else if (sourceName == QString("hddtemp")) {
+    } else if (sourceName.startsWith(QString("hdd/temperature"))) {
         // hdd temperature
-        foreach(QString key, data.keys()) {
-            int index = hddDevices.indexOf(key);
-            values[QString("hddtemp%1").arg(index)] = QString("%1").arg(
-                temperature(data[key].toFloat(), params[QString("tempUnits")].toString()), 4, 'f', 1);
-        }
+        QString device = sourceName;
+        device.remove(QString("hdd/temperature"));
+        int index = hddDevices.indexOf(device);
+        values[QString("hddtemp%1").arg(index)] = QString("%1").arg(
+            temperature(data[QString("value")].toFloat(), params[QString("tempUnits")].toString()), 4, 'f', 1);
     } else if (sourceName.startsWith(QString("cpu/system/loadavg"))) {
         // load average
         QString time = sourceName;
@@ -808,7 +809,7 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
             AWActions::sendNotification(QString("event"), i18n("High memory usage"), enablePopup);
         // value
         values[QString("mem")] = QString("%1").arg(value, 5, 'f', 1);
-    } else if (sourceName == QString("netdev")) {
+    } else if (sourceName == QString("network/current/name")) {
         // network device
         // notification
         if (values[QString("netdev")] != data[QString("value")].toString())
@@ -843,20 +844,30 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
             values[type] = simplifiedValue;
             values[QString("%1units").arg(type)] = units;
         }
-    } else if (sourceName == QString("pkg")) {
+    } else if (sourceName.startsWith(QString("upgrade"))) {
         // package manager
-        foreach(QString key, data.keys()) values[key] = QString("%1").arg(data[key].toInt(), 2);
-    } else if (sourceName == QString("player")) {
+        QString key = sourceName;
+        key.remove(QString("upgrade/"));
+        values[key] = QString("%1").arg(data[QString("value")].toInt(), 2);
+    } else if (sourceName.startsWith(QString("player"))) {
         // player
-        foreach(QString key, data.keys()) values[key] = data[key].toString();
-    } else if (sourceName == QString("ps")) {
-        // ps
-        values[QString("ps")] = data[QString("ps")].toString();
-        values[QString("pscount")] = QString("%1").arg(data[QString("pscount")].toInt(), 2);
-        values[QString("pstotal")] = QString("%1").arg(data[QString("pstotal")].toInt(), 3);
-    } else if (sourceName == QString("quotes")) {
+        QString key = sourceName;
+        key.remove(QString("player/"));
+        values[key] = data[QString("value")].toString();
+    } else if (sourceName == QString("ps/running/count")) {
+        // running processes count
+        values[QString("pscount")] = QString("%1").arg(data[QString("value")].toInt(), 2);
+    } else if (sourceName == QString("ps/running/list")) {
+        // list of running processes
+        values[QString("ps")] = data[QString("value")].toStringList().join(QChar(','));
+    } else if (sourceName == QString("ps/total/count")) {
+        // total processes count
+        values[QString("pstotal")] = QString("%1").arg(data[QString("value")].toInt(), 3);
+    } else if (sourceName.startsWith(QString("quotes"))) {
         // quotes
-        foreach(QString key, data.keys()) values[key] = QString("%1").arg(data[key].toFloat(), 7, 'f');
+        QString key = sourceName;
+        key.remove(QString("quotes/"));
+        values[key] = QString("%1").arg(data[QString("value")].toFloat(), 7, 'f');
     } else if (sourceName == QString("mem/swap/free")) {
         // free swap
         values[QString("swapfreemb")] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 5, 'f', 0);
@@ -911,20 +922,33 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
         values[QString("cuptime")].replace(QString("$h"), QString("%1").arg(hours));
         values[QString("cuptime")].replace(QString("$mm"), QString("%1").arg(minutes, 2, 10, QChar('0')));
         values[QString("cuptime")].replace(QString("$m"), QString("%1").arg(minutes));
-    } else if (sourceName == QString("weather")) {
-        foreach(QString key, data.keys()) {
-            if (key.startsWith(QString("weatherId")))
-                values[key] = QString("%1").arg(data[key].toInt(), 3);
-            else if (key.startsWith(QString("weather")))
-                values[key] = data[key].toString();
-            else if (key.startsWith(QString("humidity")))
-                values[key] = QString("%1").arg(data[key].toInt(), 3);
-            else if (key.startsWith(QString("pressure")))
-                values[key] = QString("%1").arg(data[key].toInt(), 4);
-            else if (key.startsWith(QString("temperature")))
-                values[key] = QString("%1").arg(
-                    temperature(data[key].toFloat(), params[QString("tempUnits")].toString()), 4, 'f', 1);
-        }
+    } else if (sourceName.startsWith(QString("weather/weatherId"))) {
+        // weather ID
+        QString key = sourceName;
+        key.remove(QString("weather/"));
+        values[key] = QString("%1").arg(data[QString("value")].toInt(), 3);
+    } else if (sourceName.startsWith(QString("weather/weather"))) {
+        // weather
+        QString key = sourceName;
+        key.remove(QString("weather/"));
+        values[key] = data[QString("value")].toString();
+    } else if (sourceName.startsWith(QString("weather/humidity"))) {
+        // humidity
+        QString key = sourceName;
+        key.remove(QString("weather/"));
+        values[key] = QString("%1").arg(data[QString("value")].toInt(), 3);
+    } else if (sourceName.startsWith(QString("weather/pressure"))) {
+        // pressure
+        QString key = sourceName;
+        key.remove(QString("weather/"));
+        values[key] = QString("%1").arg(data[QString("value")].toInt(), 4);
+    } else if (sourceName.startsWith(QString("weather/temperature"))) {
+        // temperature
+        QString key = sourceName;
+        key.remove(QString("weather/"));
+        values[key] = QString("%1").arg(temperature(data[QString("value")].toFloat(),
+                                                    params[QString("tempUnits")].toString()),
+                                        4, 'f', 1);
     } else {
         qCDebug(LOG_AW) << "Source" << sourceName << "not found";
         emit(dropSourceFromDataengine(sourceName));

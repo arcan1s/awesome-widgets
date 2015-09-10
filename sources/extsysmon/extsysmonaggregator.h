@@ -32,6 +32,7 @@ public:
     virtual ~ExtSysMonAggregator();
     QVariant data(const QString source) const;
     AbstractExtSysMonSource *engine(const QString source);
+    bool hasSource(const QString source) const;
     QVariantMap initialData(const QString source) const;
     QStringList sources() const;
 

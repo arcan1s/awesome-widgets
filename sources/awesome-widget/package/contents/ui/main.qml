@@ -93,14 +93,11 @@ Item {
 
         onNewData: {
             if (debug) console.debug("Update source", sourceName)
-            systemmonitorDE.interval = plasmoid.configuration.interval
-
             awKeys.dataUpdateReceived(sourceName, data, settings)
         }
 
         onSourceAdded: {
             if (debug) console.debug("Source", source)
-
             awKeys.addDevice(source)
         }
     }
@@ -113,8 +110,7 @@ Item {
 
         onNewData: {
             if (debug) console.debug("Update source", sourceName)
-            extsysmonDE.interval = plasmoid.configuration.interval
-
+//             extsysmonDE.interval = plasmoid.configuration.interval
             awKeys.dataUpdateReceived(sourceName, data, settings)
         }
     }
@@ -127,7 +123,6 @@ Item {
 
         onNewData: {
             if (debug) console.debug("Update source", sourceName)
-
             awKeys.dataUpdateReceived(sourceName, data, settings)
         }
     }

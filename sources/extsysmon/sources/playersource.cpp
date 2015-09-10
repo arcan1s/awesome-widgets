@@ -235,15 +235,16 @@ QVariantHash PlayerSource::getPlayerMpdInfo(const QString mpdAddress) const
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     foreach(QString str, qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
-        if (str.split(QString(": "), QString::SkipEmptyParts).count() == 1) {
+        if (str.split(QString(": "), QString::SkipEmptyParts).count() == 2) {
             // "Metadata: data"
             QString metadata = str.split(QString(": "), QString::SkipEmptyParts).first().toLower();
             QString data = str.split(QString(": "), QString::SkipEmptyParts).last().trimmed();
-            if (metadata == QString("time")) {
+            // there are one more time...
+            if ((metadata == QString("time")) && (data.contains(QChar(':')))) {
                 QStringList times = data.split(QString(":"));
                 info[QString("player/duration")] = times.at(0).toInt();
                 info[QString("player/progress")] = times.at(1).toInt();
-            } else if (metadata == QString("Title")) {
+            } else if (m_metadata.contains(metadata)) {
                 info[QString("player/%1").arg(metadata)] = data;
             }
         }

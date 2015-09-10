@@ -20,13 +20,8 @@
 
 #include <Plasma/DataEngine>
 
-#include "extitemaggregator.h"
 
-
-class ExtQuotes;
-class ExtScript;
-class ExtUpgrade;
-class ExtWeather;
+class ExtSysMonAggregator;
 
 class ExtendedSysMon : public Plasma::DataEngine
 {
@@ -35,21 +30,6 @@ class ExtendedSysMon : public Plasma::DataEngine
 public:
     explicit ExtendedSysMon(QObject *parent, const QVariantList &args);
     virtual ~ExtendedSysMon();
-    // update functions
-    QVariantHash getBattery(const QString acpiPath) const;
-    QVariantHash getCurrentDesktop() const;
-    float getGpu(const QString device) const;
-    float getGpuTemp(const QString device) const;
-    float getHddTemp(const QString cmd, const QString device) const;
-    QString getNetworkDevice() const;
-    QVariantHash getPlayerInfo(const QString playerName,
-                               const QString mpdAddress = QString(),
-                               const QString mpdPort = QString(),
-                               const QString mpris = QString()) const;
-    QVariantHash getPlayerMpdInfo(const QString mpdAddress = QString(),
-                                  const QString mpdPort = QString()) const;
-    QVariantHash getPlayerMprisInfo(const QString mpris = QString()) const;
-    QVariantHash getPsStats() const;
 
 protected:
     QStringList sources() const;
@@ -58,19 +38,12 @@ protected:
 
 private:
     // configuration
+    ExtSysMonAggregator *aggregator = nullptr;
     QHash<QString, QString> configuration;
-    int symbols = 10;
-    ExtItemAggregator<ExtQuotes> *extQuotes;
-    ExtItemAggregator<ExtScript> *extScripts;
-    ExtItemAggregator<ExtUpgrade> *extUpgrade;
-    ExtItemAggregator<ExtWeather> *extWeather;
     // methods
-    QString buildString(const QString current, const QString value, const int s) const;
     QStringList getAllHdd() const;
     QString getAutoGpu() const;
-    QString getAutoMpris() const;
     void readConfiguration();
-    QString stripString(const QString value, const int s) const;
     QHash<QString, QString> updateConfiguration(QHash<QString, QString> rawConfig) const;
 };
 

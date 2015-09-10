@@ -50,7 +50,7 @@ QVariantMap UpdateSource::initialData(QString source) const
     qCDebug(LOG_ESM) << "Source" << source;
 
     QVariantMap data;
-    if (source == QString("desktop/current/name")) {
+    if (source == QString("update")) {
         data[QString("min")] = true;
         data[QString("max")] = true;
         data[QString("name")] = QString("Simple value which is always true");

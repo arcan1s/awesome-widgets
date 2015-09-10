@@ -71,7 +71,7 @@ QVariantMap BatterySource::initialData(QString source) const
     } else {
         data[QString("min")] = 0;
         data[QString("max")] = 100;
-        data[QString("name")] = QString("Battery %1 usage").arg(source.remove(QString("battery/bat")));
+        data[QString("name")] = QString("Battery %1 usage").arg(index(source));
         data[QString("type")] = QString("integer");
         data[QString("units")] = QString("%");
     }

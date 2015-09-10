@@ -78,7 +78,7 @@ QVariantMap WeatherSource::initialData(QString source) const
         data[QString("name")] = QString("Humidity for '%1'").arg(extWeather->itemByTagNumber(ind)->uniq());
         data[QString("type")] = QString("integer");
         data[QString("units")] = QString("%");
-    } else if (source.startsWith(QString("weather/humidity"))) {
+    } else if (source.startsWith(QString("weather/pressure"))) {
         data[QString("min")] = 0;
         data[QString("max")] = 0;
         data[QString("name")] = QString("Atmospheric pressure for '%1'").arg(extWeather->itemByTagNumber(ind)->uniq());
