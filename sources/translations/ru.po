@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-09-06 21:11+0300\n"
-"PO-Revision-Date: 2015-09-06 21:12+0300\n"
+"POT-Creation-Date: 2015-09-11 22:03+0300\n"
+"PO-Revision-Date: 2015-09-11 22:03+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -50,6 +50,9 @@ msgstr "Включить уведомления "
 
 msgid "Wrap new lines"
 msgstr "Заменить символ перевода строки"
+
+msgid "Enable word wrap"
+msgstr "Включить перенос слов"
 
 msgid "Enable background"
 msgstr "Включить фон"
@@ -192,6 +195,18 @@ msgstr "Погода"
 msgid "Edit weather"
 msgstr "Редактировать погоду"
 
+msgid "Select tag"
+msgstr "Выберете тег"
+
+msgid "Tag: %1"
+msgstr "Тег: %1"
+
+msgid "Value: %1"
+msgstr "Значение: %1"
+
+msgid "Info: %1"
+msgstr "Информация: %1"
+
 msgid "Request key"
 msgstr "Показать ключ"
 
@@ -296,15 +311,6 @@ msgstr "Добавить"
 msgid "Show value"
 msgstr "Показать значение"
 
-msgid "Tag: %1"
-msgstr "Тег: %1"
-
-msgid "Value: %1"
-msgstr "Значение: %1"
-
-msgid "Info: %1"
-msgstr "Информация: %1"
-
 msgid "Add lambda"
 msgstr "Добавить лямбду"
 
@@ -371,12 +377,6 @@ msgstr "Нажмите \"Ok\" для загрузки"
 msgid "There are updates"
 msgstr "Найдены обновления"
 
-msgid "Select tag"
-msgstr "Выберете тег"
-
-msgid "Tag"
-msgstr "Тег"
-
 msgid "AC online"
 msgstr "AC подключен"
 
@@ -386,14 +386,14 @@ msgstr "AC отключен"
 msgid "High CPU load"
 msgstr "Высокая загрузка CPU"
 
-msgid "High GPU load"
-msgstr "Высокая загрузка GPU"
-
-msgid "Free space on %1 less than 10%"
-msgstr "Свободное место на диске %1 меньше 10%"
-
 msgid "High memory usage"
 msgstr "Большое потребление памяти"
+
+msgid "Swap is used"
+msgstr "Используется своп"
+
+msgid "High GPU load"
+msgstr "Высокая загрузка GPU"
 
 msgid "Network device has been changed to %1"
 msgstr "Сетевое устройство было изменено на %1"
@@ -403,9 +403,6 @@ msgstr "МБ/с"
 
 msgid "KB/s"
 msgstr "КБ/с"
-
-msgid "Swap is used"
-msgstr "Используется своп"
 
 msgid "Copy"
 msgstr "Копировать"
@@ -437,6 +434,9 @@ msgstr "Имя"
 msgid "Comment"
 msgstr "Комментарий"
 
+msgid "Tag"
+msgstr "Тег"
+
 msgid ""
 "<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
 "instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
@@ -462,9 +462,6 @@ msgstr "Команда"
 
 msgid "Prefix"
 msgstr "Префикс"
-
-msgid "Has output"
-msgstr "Имеет сообщения"
 
 msgid "Redirect"
 msgstr "Перенаправление"
@@ -557,6 +554,12 @@ msgstr "Evgeniy Alekseev"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "esalexeev@gmail.com"
+
+#~ msgid "Free space on %1 less than 10%"
+#~ msgstr "Свободное место на диске %1 меньше 10%"
+
+#~ msgid "Has output"
+#~ msgstr "Имеет сообщения"
 
 #~ msgid "Top Edge"
 #~ msgstr "Верхняя грань"

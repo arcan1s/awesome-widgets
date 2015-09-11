@@ -49,17 +49,20 @@ QString AWKeysAggregator::formater(const QVariant data, const QString key) const
     QLocale loc = m_translate ? QLocale::system() : QLocale::c();
     // case block
     switch (m_formater[key]) {
+    case Float:
+        output = QString("%1").arg(data.toFloat(), 5, 'f', 1);
+        break;
+    case FloatTwoSymbols:
+        output = QString("%1").arg(data.toFloat(), 5, 'f', 2);
+        break;
     case Integer:
         output = QString("%1").arg(data.toFloat(), 4, 'f', 0);
         break;
     case IntegerThree:
         output = QString("%1").arg(data.toFloat(), 3, 'f', 0);
         break;
-    case Float:
-        output = QString("%1").arg(data.toFloat(), 5, 'f', 1);
-        break;
-    case FloatTwoSymbols:
-        output = QString("%1").arg(data.toFloat(), 5, 'f', 2);
+    case List:
+        output = data.toStringList().join(QChar(','));
         break;
     case ACFormat:
         output = data.toBool() ? m_acOnline : m_acOffline;
@@ -86,6 +89,9 @@ QString AWKeysAggregator::formater(const QVariant data, const QString key) const
         break;
     case Temperature:
         output = QString("%1").arg(temperature(data.toFloat()), 5, 'f', 1);
+        break;
+    case Time:
+        output = data.toDateTime().toString();
         break;
     case TimeCustom:
         output = m_customTime;
@@ -201,8 +207,8 @@ void AWKeysAggregator::setTranslate(const bool translate)
 }
 
 
-// TODO calculate: down, up, downunits, upunits, mem, swap
-void AWKeysAggregator::registerSource(const QString source, const QString units)
+// HACK units required to define should the value be calculated as temperature or fan data
+QStringList AWKeysAggregator::registerSource(const QString source, const QString units)
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Source" << source;
@@ -245,7 +251,8 @@ void AWKeysAggregator::registerSource(const QString source, const QString units)
     } else if (source.contains(cpuclRegExp)) {
         // cpucls
         QString key = source;
-        key.remove(QString("cpu/")).remove(QString("/clock"));
+        key.remove(QString("cpu/cpu")).remove(QString("/clock"));
+        key = QString("cpucl%1").arg(key);
         m_map[source] = key;
         m_formater[key] = Integer;
     } else if (source.startsWith(QString("custom"))) {
@@ -270,16 +277,22 @@ void AWKeysAggregator::registerSource(const QString source, const QString units)
         // read speed
         QString device = source;
         device.remove(QString("/Rate/rblk"));
-        QString key = QString("hddr%1").arg(m_devices[QString("disk")].indexOf(device));
-        m_map[source] = key;
-        m_formater[key] = Integer;
+        int index = m_devices[QString("disk")].indexOf(device);
+        if (index > -1) {
+            QString key = QString("hddr%1").arg(index);
+            m_map[source] = key;
+            m_formater[key] = Integer;
+        }
     } else if (source.contains(hddwRegExp)) {
         // write speed
         QString device = source;
         device.remove(QString("/Rate/wblk"));
-        QString key = QString("hddw%1").arg(m_devices[QString("disk")].indexOf(device));
-        m_map[source] = key;
-        m_formater[key] = Integer;
+        int index = m_devices[QString("disk")].indexOf(device);
+        if (index > -1) {
+            QString key = QString("hddw%1").arg(index);
+            m_map[source] = key;
+            m_formater[key] = Integer;
+        }
     } else if (source == QString("gpu/load")) {
         // gpu load
         m_map[source] = QString("gpu");
@@ -292,42 +305,52 @@ void AWKeysAggregator::registerSource(const QString source, const QString units)
         // fill level
         QString device = source;
         device.remove(QString("partitions")).remove(QString("/filllevel"));
-        QString key = QString("hdd%1").arg(m_devices[QString("mount")].indexOf(device));
-        m_map[source] = key;
-        m_formater[key] = Float;
+        int index = m_devices[QString("mount")].indexOf(device);
+        if (index > -1) {
+            QString key = QString("hdd%1").arg(index);
+            m_map[source] = key;
+            m_formater[key] = Float;
+        }
     } else if (source.contains(mountFreeRegExp)) {
         // free space
         QString device = source;
         device.remove(QString("partitions")).remove(QString("/freespace"));
         int index = m_devices[QString("mount")].indexOf(device);
-        // mb
-        QString key = QString("hddfreemb%1").arg(index);
-        m_map[source] = key;
-        m_formater[key] = MemMBFormat;
-        // gb
-        key = QString("hddfreegb%1").arg(index);
-        m_map.insertMulti(source, key);
-        m_formater[key] = MemGBFormat;
+        if (index > -1) {
+            // mb
+            QString key = QString("hddfreemb%1").arg(index);
+            m_map[source] = key;
+            m_formater[key] = MemMBFormat;
+            // gb
+            key = QString("hddfreegb%1").arg(index);
+            m_map.insertMulti(source, key);
+            m_formater[key] = MemGBFormat;
+        }
     } else if (source.contains(mountUsedRegExp)) {
         // used
         QString device = source;
         device.remove(QString("partitions")).remove(QString("/usedspace"));
         int index = m_devices[QString("mount")].indexOf(device);
-        // mb
-        QString key = QString("hddmb%1").arg(index);
-        m_map[source] = key;
-        m_formater[key] = MemMBFormat;
-        // gb
-        key = QString("hddgb%1").arg(index);
-        m_map.insertMulti(source, key);
-        m_formater[key] = MemGBFormat;
+        if (index > -1) {
+            // mb
+            QString key = QString("hddmb%1").arg(index);
+            m_map[source] = key;
+            m_formater[key] = MemMBFormat;
+            // gb
+            key = QString("hddgb%1").arg(index);
+            m_map.insertMulti(source, key);
+            m_formater[key] = MemGBFormat;
+        }
     } else if (source.startsWith(QString("hdd/temperature"))) {
         // hdd temperature
         QString device = source;
         device.remove(QString("hdd/temperature"));
-        QString key = QString("hddtemp%1").arg(m_devices[QString("hdd")].indexOf(device));
-        m_map[source] = key;
-        m_formater[key] = Temperature;
+        int index = m_devices[QString("hdd")].indexOf(device);
+        if (index > -1) {
+            QString key = QString("hddtemp%1").arg(index);
+            m_map[source] = key;
+            m_formater[key] = Temperature;
+        }
     } else if (source.startsWith(QString("cpu/system/loadavg"))) {
         // load average
         QString time = source;
@@ -366,20 +389,21 @@ void AWKeysAggregator::registerSource(const QString source, const QString units)
     } else if (source.contains(netRegExp)) {
         // network speed
         QString type = source.contains(QString("receiver")) ? QString("down") : QString("up");
-        // device name
         int index = m_devices[QString("net")].indexOf(source.split(QChar('/'))[2]);
-        // kb
-        QString key = QString("%1kb%2").arg(type).arg(index);
-        m_map[source] = key;
-        m_formater[key] = Integer;
-        // smart
-        key = QString("%1%2").arg(type).arg(index);
-        m_map.insertMulti(source, key);
-        m_formater[key] = NetSmartFormat;
-        // units
-        key = QString("%1units%2").arg(type).arg(index);
-        m_map.insertMulti(source, key);
-        m_formater[key] = NetSmartUnits;
+        if (index > -1) {
+            // kb
+            QString key = QString("%1kb%2").arg(type).arg(index);
+            m_map[source] = key;
+            m_formater[key] = Integer;
+            // smart
+            key = QString("%1%2").arg(type).arg(index);
+            m_map.insertMulti(source, key);
+            m_formater[key] = NetSmartFormat;
+            // units
+            key = QString("%1units%2").arg(type).arg(index);
+            m_map.insertMulti(source, key);
+            m_formater[key] = NetSmartUnits;
+        }
     } else if (source.startsWith(QString("upgrade"))) {
         // package manager
         QString key = source;
@@ -399,7 +423,7 @@ void AWKeysAggregator::registerSource(const QString source, const QString units)
     } else if (source == QString("ps/running/list")) {
         // list of running processes
         m_map[source] = QString("ps");
-        m_formater[QString("ps")] = NoFormat;
+        m_formater[QString("ps")] = List;
     } else if (source == QString("ps/total/count")) {
         // total processes count
         m_map[source] = QString("pstotal");
@@ -427,14 +451,19 @@ void AWKeysAggregator::registerSource(const QString source, const QString units)
         m_map.insertMulti(source, QString("swapgb"));
         m_formater[QString("swapgb")] = MemGBFormat;
     } else if (source.startsWith(QString("lmsensors/"))) {
-        // temperature m_devices
-        QString key = QString("temp%1").arg(m_devices[QString("temp")].indexOf(source));
-        m_map[source] = key;
-        m_formater[key] = units == QString("°C") ? Temperature : Float;
+        // temperature
+        int index = m_devices[QString("temp")].indexOf(source);
+        // FIXME on DE initialization there are no units key
+        if (units.isEmpty()) return QStringList() << QString("temp%1").arg(index);
+        if (index > -1) {
+            QString key = QString("temp%1").arg(index);
+            m_map[source] = key;
+            m_formater[key] = units == QString("°C") ? Temperature : Integer;
+        }
     } else if (source == QString("Local")) {
         // time
         m_map[source] = QString("time");
-        m_formater[QString("time")] = NoFormat;
+        m_formater[QString("time")] = Time;
         // custom time
         m_map.insertMulti(source, QString("ctime"));
         m_formater[QString("ctime")] = TimeCustom;
@@ -467,6 +496,8 @@ void AWKeysAggregator::registerSource(const QString source, const QString units)
         m_map[source] = key;
         m_formater[key] = NoFormat;
     }
+
+    return keyFromSource(source);
 }
 
 

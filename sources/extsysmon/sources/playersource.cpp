@@ -143,12 +143,13 @@ void PlayerSource::run()
     // initial data
     if (m_player == QString("mpd")) {
         // mpd
-        values = getPlayerMpdInfo(m_mpdAddress);
+        QHash<QString, QVariant> data = getPlayerMpdInfo(m_mpdAddress);
+        foreach(QString key, data.keys()) values[key] = data[key];
     } else if (m_player == QString("mpris")) {
         // players which supports mpris
         QString mpris = m_mpris == QString("auto") ? getAutoMpris() : m_mpris;
-        if (mpris.isEmpty()) return;
-        values = getPlayerMprisInfo(mpris);
+        QHash<QString, QVariant> data = getPlayerMprisInfo(mpris);
+        foreach(QString key, data.keys()) values[key] = data[key];
     }
 
     // dymanic properties
@@ -193,6 +194,19 @@ QStringList PlayerSource::sources() const
 }
 
 
+QVariantHash PlayerSource::defaultInfo() const
+{
+    QVariantHash info;
+    info[QString("player/album")] = QString("unknown");
+    info[QString("player/artist")] = QString("unknown");
+    info[QString("player/duration")] = 0;
+    info[QString("player/progress")] = 0;
+    info[QString("player/title")] = QString("unknown");
+
+    return info;
+}
+
+
 QString PlayerSource::getAutoMpris() const
 {
     qCDebug(LOG_ESM);
@@ -218,12 +232,7 @@ QVariantHash PlayerSource::getPlayerMpdInfo(const QString mpdAddress) const
     qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "MPD" << mpdAddress;
 
-    QVariantHash info;
-    info[QString("player/album")] = QString("unknown");
-    info[QString("player/artist")] = QString("unknown");
-    info[QString("player/duration")] = 0;
-    info[QString("player/progress")] = 0;
-    info[QString("player/title")] = QString("unknown");
+    QVariantHash info = defaultInfo();
 
     // build cmd
     QString cmd = QString("bash -c \"echo 'currentsong\nstatus\nclose' | curl --connect-timeout 1 -fsm 3 telnet://%1\"")
@@ -259,12 +268,8 @@ QVariantHash PlayerSource::getPlayerMprisInfo(const QString mpris) const
     qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "MPRIS" << mpris;
 
-    QVariantHash info;
-    info[QString("player/album")] = QString("unknown");
-    info[QString("player/artist")] = QString("unknown");
-    info[QString("player/duration")] = 0;
-    info[QString("player/progress")] = 0;
-    info[QString("player/title")] = QString("unknown");
+    QVariantHash info = defaultInfo();
+    if (mpris.isEmpty()) return info;
 
     QDBusConnection bus = QDBusConnection::sessionBus();
     // comes from the following request:
@@ -318,7 +323,7 @@ QString PlayerSource::buildString(const QString current, const QString value,
 
     int index = value.indexOf(current);
     if ((current.isEmpty()) || ((index + s + 1) > value.count()))
-        return value.leftJustified(s, QLatin1Char(' '));
+        return QString("%1").arg(value.left(s), s, QLatin1Char(' '));
     else
         return QString("%1").arg(value.mid(index + 1, s), s, QLatin1Char(' '));
 }

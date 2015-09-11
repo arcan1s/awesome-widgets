@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-09-06 21:11+0300\n"
+"POT-Creation-Date: 2015-09-11 22:03+0300\n"
 "PO-Revision-Date: 2015-08-20 22:52+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
@@ -51,6 +51,9 @@ msgid "Enable notifications"
 msgstr ""
 
 msgid "Wrap new lines"
+msgstr ""
+
+msgid "Enable word wrap"
 msgstr ""
 
 msgid "Enable background"
@@ -198,6 +201,18 @@ msgstr ""
 msgid "Edit weather"
 msgstr "Balken bewerken"
 
+msgid "Select tag"
+msgstr "Sleutelwoord selecteren"
+
+msgid "Tag: %1"
+msgstr "Sleutelwoord: %1"
+
+msgid "Value: %1"
+msgstr "Waarde: %1"
+
+msgid "Info: %1"
+msgstr "Informatie: %1"
+
 msgid "Request key"
 msgstr "Sleutel aanvragen"
 
@@ -308,15 +323,6 @@ msgstr "Toevoegen"
 msgid "Show value"
 msgstr "Waarde weergeven"
 
-msgid "Tag: %1"
-msgstr "Sleutelwoord: %1"
-
-msgid "Value: %1"
-msgstr "Waarde: %1"
-
-msgid "Info: %1"
-msgstr "Informatie: %1"
-
 msgid "Add lambda"
 msgstr ""
 
@@ -387,12 +393,6 @@ msgstr "Klik op \"OK\" om te downloaden"
 msgid "There are updates"
 msgstr "Er zijn updates"
 
-msgid "Select tag"
-msgstr "Sleutelwoord selecteren"
-
-msgid "Tag"
-msgstr "Sleutelwoord"
-
 msgid "AC online"
 msgstr "AC online"
 
@@ -402,15 +402,15 @@ msgstr "AC offline"
 msgid "High CPU load"
 msgstr "Hoog CPU-verbruik"
 
+msgid "High memory usage"
+msgstr "Hoog geheugenverbruik"
+
+msgid "Swap is used"
+msgstr "Swap wordt gebruikt"
+
 #, fuzzy
 msgid "High GPU load"
 msgstr "Hoog CPU-verbruik"
-
-msgid "Free space on %1 less than 10%"
-msgstr "De vrije ruimte op %1 is minder dan 10%"
-
-msgid "High memory usage"
-msgstr "Hoog geheugenverbruik"
 
 msgid "Network device has been changed to %1"
 msgstr "Het netwerkapparaat is gewijzigd naar %1"
@@ -420,9 +420,6 @@ msgstr ""
 
 msgid "KB/s"
 msgstr ""
-
-msgid "Swap is used"
-msgstr "Swap wordt gebruikt"
 
 msgid "Copy"
 msgstr "Kopiëren"
@@ -455,6 +452,9 @@ msgstr "Naam"
 msgid "Comment"
 msgstr "Commentaar"
 
+msgid "Tag"
+msgstr "Sleutelwoord"
+
 msgid ""
 "<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
 "instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
@@ -478,9 +478,6 @@ msgid "Command"
 msgstr "Commentaar"
 
 msgid "Prefix"
-msgstr ""
-
-msgid "Has output"
 msgstr ""
 
 msgid "Redirect"
@@ -578,6 +575,9 @@ msgstr "Heimen Stoffels"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "vistausss@outlook.com"
+
+#~ msgid "Free space on %1 less than 10%"
+#~ msgstr "De vrije ruimte op %1 is minder dan 10%"
 
 #~ msgid "Top Edge"
 #~ msgstr "Bovenrand"

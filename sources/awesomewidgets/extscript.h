@@ -33,7 +33,6 @@ class ExtScript : public AbstractExtItem
     Q_OBJECT
     Q_PROPERTY(QString executable READ executable WRITE setExecutable)
     Q_PROPERTY(QStringList filters READ filters WRITE setFilters)
-    Q_PROPERTY(bool output READ hasOutput WRITE setHasOutput)
     Q_PROPERTY(QString prefix READ prefix WRITE setPrefix)
     Q_PROPERTY(Redirect redirect READ redirect WRITE setRedirect)
 
@@ -41,7 +40,8 @@ public:
     enum Redirect {
         stdout2stderr = 0,
         nothing,
-        stderr2stdout
+        stderr2stdout,
+        swap
     };
 
     explicit ExtScript(QWidget *parent = nullptr, const QString scriptName = QString(),
@@ -51,7 +51,6 @@ public:
     // get methods
     QString executable() const;
     QStringList filters() const;
-    bool hasOutput() const;
     QString prefix() const;
     Redirect redirect() const;
     QString uniq() const;
@@ -60,7 +59,6 @@ public:
     // set methods
     void setExecutable(const QString _executable = QString("/usr/bin/true"));
     void setFilters(const QStringList _filters = QStringList());
-    void setHasOutput(const bool _state = true);
     void setPrefix(const QString _prefix = QString(""));
     void setRedirect(const Redirect _redirect = nothing);
     void setStrRedirect(const QString _redirect = QString("nothing"));
@@ -85,7 +83,6 @@ private:
     // properties
     QString m_executable = QString("/usr/bin/true");
     QStringList m_filters = QStringList();
-    bool m_output = true;
     QString m_prefix = QString("");
     Redirect m_redirect = nothing;
     // internal properties

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-09-06 21:11+0300\n"
+"POT-Creation-Date: 2015-09-11 22:03+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -48,6 +48,9 @@ msgid "Enable notifications"
 msgstr ""
 
 msgid "Wrap new lines"
+msgstr ""
+
+msgid "Enable word wrap"
 msgstr ""
 
 msgid "Enable background"
@@ -191,6 +194,18 @@ msgstr ""
 msgid "Edit weather"
 msgstr ""
 
+msgid "Select tag"
+msgstr ""
+
+msgid "Tag: %1"
+msgstr ""
+
+msgid "Value: %1"
+msgstr ""
+
+msgid "Info: %1"
+msgstr ""
+
 msgid "Request key"
 msgstr ""
 
@@ -291,15 +306,6 @@ msgstr ""
 msgid "Show value"
 msgstr ""
 
-msgid "Tag: %1"
-msgstr ""
-
-msgid "Value: %1"
-msgstr ""
-
-msgid "Info: %1"
-msgstr ""
-
 msgid "Add lambda"
 msgstr ""
 
@@ -366,12 +372,6 @@ msgstr ""
 msgid "There are updates"
 msgstr ""
 
-msgid "Select tag"
-msgstr ""
-
-msgid "Tag"
-msgstr ""
-
 msgid "AC online"
 msgstr ""
 
@@ -381,13 +381,13 @@ msgstr ""
 msgid "High CPU load"
 msgstr ""
 
-msgid "High GPU load"
-msgstr ""
-
-msgid "Free space on %1 less than 10%"
-msgstr ""
-
 msgid "High memory usage"
+msgstr ""
+
+msgid "Swap is used"
+msgstr ""
+
+msgid "High GPU load"
 msgstr ""
 
 msgid "Network device has been changed to %1"
@@ -397,9 +397,6 @@ msgid "MB/s"
 msgstr ""
 
 msgid "KB/s"
-msgstr ""
-
-msgid "Swap is used"
 msgstr ""
 
 msgid "Copy"
@@ -432,6 +429,9 @@ msgstr ""
 msgid "Comment"
 msgstr ""
 
+msgid "Tag"
+msgstr ""
+
 msgid ""
 "<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
 "instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
@@ -452,9 +452,6 @@ msgid "Command"
 msgstr ""
 
 msgid "Prefix"
-msgstr ""
-
-msgid "Has output"
 msgstr ""
 
 msgid "Redirect"

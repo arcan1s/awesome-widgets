@@ -34,6 +34,7 @@ public:
     QStringList sources() const;
 
 private:
+    inline QVariantHash defaultInfo() const;
     QString getAutoMpris() const;
     QVariantHash getPlayerMpdInfo(const QString mpdAddress) const;
     QVariantHash getPlayerMprisInfo(const QString mpris) const;

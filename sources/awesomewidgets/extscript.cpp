@@ -72,7 +72,6 @@ ExtScript *ExtScript::copy(const QString _fileName, const int _number)
     item->setApiVersion(apiVersion());
     item->setComment(comment());
     item->setExecutable(executable());
-    item->setHasOutput(hasOutput());
     item->setInterval(interval());
     item->setName(name());
     item->setNumber(_number);
@@ -96,14 +95,6 @@ QStringList ExtScript::filters() const
     qCDebug(LOG_LIB);
 
     return m_filters;
-}
-
-
-bool ExtScript::hasOutput() const
-{
-    qCDebug(LOG_LIB);
-
-    return m_output;
 }
 
 
@@ -143,6 +134,9 @@ QString ExtScript::strRedirect() const
     case stderr2stdout:
         value = QString("stderr2stdout");
         break;
+    case swap:
+        value = QString("swap");
+        break;
     case nothing:
     default:
         value = QString("nothing");
@@ -167,19 +161,9 @@ void ExtScript::setFilters(const QStringList _filters)
     qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Filters" << _filters;
 
-    std::for_each(_filters.cbegin(), _filters.cend(),
-                  [this](QString filter) { return updateFilter(filter); });
-//     foreach(QString filter, _filters)
-//         updateFilter(filter);
-}
-
-
-void ExtScript::setHasOutput(const bool _state)
-{
-    qCDebug(LOG_LIB);
-    qCDebug(LOG_LIB) << "State" << _state;
-
-    m_output = _state;
+    std::for_each(_filters.cbegin(), _filters.cend(), [this](QString filter) {
+        return updateFilter(filter);
+    });
 }
 
 
@@ -210,6 +194,8 @@ void ExtScript::setStrRedirect(const QString _redirect)
         m_redirect = stdout2stderr;
     else if (_redirect == QString("stderr2sdtout"))
         m_redirect = stderr2stdout;
+    else if (_redirect == QString("swap"))
+        m_redirect = swap;
     else
         m_redirect = nothing;
 }
@@ -262,16 +248,12 @@ void ExtScript::readConfiguration()
         settings.beginGroup(QString("Desktop Entry"));
         setExecutable(settings.value(QString("Exec"), m_executable).toString());
         setPrefix(settings.value(QString("X-AW-Prefix"), m_prefix).toString());
-        setHasOutput(settings.value(QString("X-AW-Output"), QVariant(m_output)).toString() == QString("true"));
         setStrRedirect(settings.value(QString("X-AW-Redirect"), strRedirect()).toString());
         // api == 3
         setFilters(settings.value(QString("X-AW-Filters"), m_filters).toString()
                                                                      .split(QChar(','), QString::SkipEmptyParts));
         settings.endGroup();
     }
-
-    if (!m_output)
-        setRedirect(stdout2stderr);
 
     // update for current API
     if ((apiVersion() > 0) && (apiVersion() < AWESAPI)) {
@@ -339,7 +321,6 @@ int ExtScript::showConfiguration(const QVariant args)
     ui->lineEdit_command->setText(m_executable);
     ui->lineEdit_prefix->setText(m_prefix);
     ui->checkBox_active->setCheckState(isActive() ? Qt::Checked : Qt::Unchecked);
-    ui->checkBox_output->setCheckState(m_output ? Qt::Checked : Qt::Unchecked);
     ui->comboBox_redirect->setCurrentIndex(static_cast<int>(m_redirect));
     ui->spinBox_interval->setValue(interval());
     // filters
@@ -356,7 +337,6 @@ int ExtScript::showConfiguration(const QVariant args)
     setExecutable(ui->lineEdit_command->text());
     setPrefix(ui->lineEdit_prefix->text());
     setActive(ui->checkBox_active->checkState() == Qt::Checked);
-    setHasOutput(ui->checkBox_output->checkState() == Qt::Checked);
     setStrRedirect(ui->comboBox_redirect->currentText());
     setInterval(ui->spinBox_interval->value());
     // filters
@@ -380,7 +360,6 @@ void ExtScript::writeConfiguration() const
     settings.beginGroup(QString("Desktop Entry"));
     settings.setValue(QString("Exec"), m_executable);
     settings.setValue(QString("X-AW-Prefix"), m_prefix);
-    settings.setValue(QString("X-AW-Output"), QVariant(m_output).toString());
     settings.setValue(QString("X-AW-Redirect"), strRedirect());
     settings.setValue(QString("X-AW-Filters"), m_filters.join(QChar(',')));
     settings.endGroup();
@@ -397,7 +376,7 @@ void ExtScript::updateValue()
     QString qdebug = QTextCodec::codecForMib(106)->toUnicode(process->readAllStandardError()).trimmed();
     qCInfo(LOG_LIB) << "Error" << qdebug;
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process->readAllStandardOutput()).trimmed();
-    qCInfo(LOG_LIB) << "Error" << qoutput;
+    qCInfo(LOG_LIB) << "Output" << qoutput;
     QString strValue;
 
     switch (m_redirect) {
@@ -405,6 +384,9 @@ void ExtScript::updateValue()
         break;
     case stderr2stdout:
         strValue = QString("%1\n%2").arg(qdebug).arg(qoutput);
+        break;
+    case swap:
+        strValue = qdebug;
         break;
     case nothing:
     default:
@@ -427,7 +409,6 @@ void ExtScript::translate()
     ui->label_command->setText(i18n("Command"));
     ui->label_prefix->setText(i18n("Prefix"));
     ui->checkBox_active->setText(i18n("Active"));
-    ui->checkBox_output->setText(i18n("Has output"));
     ui->label_redirect->setText(i18n("Redirect"));
     ui->label_interval->setText(i18n("Interval"));
     ui->groupBox_filters->setTitle(i18n("Additional filters"));

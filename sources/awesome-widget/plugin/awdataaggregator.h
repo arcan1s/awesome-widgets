@@ -27,16 +27,16 @@
 #include <QVariant>
 
 
-class AWToolTip : public QObject
+class AWDataAggregator : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit AWToolTip(QObject *parent = nullptr, QVariantMap settings = QVariantMap());
-    virtual ~AWToolTip();
-    QSize getSize() const;
-    QString htmlImage();
-    QPixmap image();
+    explicit AWDataAggregator(QObject *parent = nullptr, QVariantMap settings = QVariantMap());
+    virtual ~AWDataAggregator();
+    QSize getTooltipSize() const;
+    QString htmlImage(const QPixmap source);
+    QPixmap tooltipImage();
 
 signals:
     void updateData(QHash<QString, QString> values);
@@ -49,13 +49,21 @@ private:
     // ui
     QGraphicsScene *toolTipScene = nullptr;
     QGraphicsView *toolTipView = nullptr;
-    void setData(const QString source, float value,
-                 const bool dontInvert = true);
+    void checkValue(const QString source, const float value, const float extremum) const;
+    void checkValue(const QString source,  const QString current, const QString received) const;
+    QString notificationText(const QString source, const float value) const;
+    QString notificationText(const QString source, const QString value) const;
+    void setData(const QString source, float value, const float extremum = -1.0);
+    // different signature for battery device
+    void setData(const bool dontInvert, const QString source, float value);
     // variables
     int counts = 0;
     QVariantHash configuration;
+    float currentGPULoad = 0.0;
+    QString currentNetworkDevice;
     QHash<QString, float> boundaries;
     QHash<QString, QList<float>> data;
+    bool enablePopup = false;
     QStringList requiredKeys;
     QSize size;
 };

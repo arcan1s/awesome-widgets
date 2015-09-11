@@ -38,10 +38,11 @@ class AWKeysAggregator : public QObject
     enum FormaterType {
         // general formaters
         NoFormat = 0,
-        Integer,
-        IntegerThree,
         Float,
         FloatTwoSymbols,
+        Integer,
+        IntegerThree,
+        List,
         // unit specific formaters
         ACFormat,
         MemGBFormat,
@@ -49,6 +50,7 @@ class AWKeysAggregator : public QObject
         NetSmartFormat,
         NetSmartUnits,
         Temperature,
+        Time,
         TimeCustom,
         TimeISO,
         TimeLong,
@@ -73,7 +75,7 @@ public:
     void setTranslate(const bool translate);
 
 public slots:
-    void registerSource(const QString source, const QString units);
+    QStringList registerSource(const QString source, const QString units);
 
 private:
     float temperature(const float temp) const;

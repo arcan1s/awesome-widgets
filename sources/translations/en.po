@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-09-06 21:11+0300\n"
-"PO-Revision-Date: 2015-09-06 21:11+0300\n"
+"POT-Creation-Date: 2015-09-11 22:03+0300\n"
+"PO-Revision-Date: 2015-09-11 22:03+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: English <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -50,6 +50,9 @@ msgstr "Enable notifications"
 
 msgid "Wrap new lines"
 msgstr "Wrap new lines"
+
+msgid "Enable word wrap"
+msgstr "Enable word wrap"
 
 msgid "Enable background"
 msgstr "Enable background"
@@ -192,6 +195,18 @@ msgstr "Weather"
 msgid "Edit weather"
 msgstr "Edit weather"
 
+msgid "Select tag"
+msgstr "Select tag"
+
+msgid "Tag: %1"
+msgstr "Tag: %1"
+
+msgid "Value: %1"
+msgstr "Value: %1"
+
+msgid "Info: %1"
+msgstr "Info: %1"
+
 msgid "Request key"
 msgstr "Request key"
 
@@ -296,15 +311,6 @@ msgstr "Add"
 msgid "Show value"
 msgstr "Show value"
 
-msgid "Tag: %1"
-msgstr "Tag: %1"
-
-msgid "Value: %1"
-msgstr "Value: %1"
-
-msgid "Info: %1"
-msgstr "Info: %1"
-
 msgid "Add lambda"
 msgstr "Add lambda"
 
@@ -371,12 +377,6 @@ msgstr "Click \"Ok\" to download"
 msgid "There are updates"
 msgstr "There are updates"
 
-msgid "Select tag"
-msgstr "Select tag"
-
-msgid "Tag"
-msgstr "Tag"
-
 msgid "AC online"
 msgstr "AC online"
 
@@ -386,14 +386,14 @@ msgstr "AC offline"
 msgid "High CPU load"
 msgstr "High CPU load"
 
-msgid "High GPU load"
-msgstr "High GPU load"
-
-msgid "Free space on %1 less than 10%"
-msgstr "Free space on %1 less than 10%"
-
 msgid "High memory usage"
 msgstr "High memory usage"
+
+msgid "Swap is used"
+msgstr "Swap is used"
+
+msgid "High GPU load"
+msgstr "High GPU load"
 
 msgid "Network device has been changed to %1"
 msgstr "Network device has been changed to %1"
@@ -403,9 +403,6 @@ msgstr "MB/s"
 
 msgid "KB/s"
 msgstr "KB/s"
-
-msgid "Swap is used"
-msgstr "Swap is used"
 
 msgid "Copy"
 msgstr "Copy"
@@ -437,6 +434,9 @@ msgstr "Name"
 msgid "Comment"
 msgstr "Comment"
 
+msgid "Tag"
+msgstr "Tag"
+
 msgid ""
 "<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
 "instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
@@ -462,9 +462,6 @@ msgstr "Command"
 
 msgid "Prefix"
 msgstr "Prefix"
-
-msgid "Has output"
-msgstr "Has output"
 
 msgid "Redirect"
 msgstr "Redirect"
@@ -557,6 +554,12 @@ msgstr "Evgeniy Alekseev"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "esalexeev@gmail.com"
+
+#~ msgid "Free space on %1 less than 10%"
+#~ msgstr "Free space on %1 less than 10%"
+
+#~ msgid "Has output"
+#~ msgstr "Has output"
 
 #~ msgid "Top Edge"
 #~ msgstr "Top Edge"

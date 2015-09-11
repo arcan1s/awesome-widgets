@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-09-06 21:11+0300\n"
+"POT-Creation-Date: 2015-09-11 22:03+0300\n"
 "PO-Revision-Date: 2015-07-31 22:24+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -49,6 +49,9 @@ msgid "Enable notifications"
 msgstr ""
 
 msgid "Wrap new lines"
+msgstr ""
+
+msgid "Enable word wrap"
 msgstr ""
 
 msgid "Enable background"
@@ -197,6 +200,19 @@ msgstr ""
 msgid "Edit weather"
 msgstr "可编辑的"
 
+#, fuzzy
+msgid "Select tag"
+msgstr "选择字体"
+
+msgid "Tag: %1"
+msgstr ""
+
+msgid "Value: %1"
+msgstr ""
+
+msgid "Info: %1"
+msgstr ""
+
 msgid "Request key"
 msgstr ""
 
@@ -307,15 +323,6 @@ msgstr "添加"
 msgid "Show value"
 msgstr ""
 
-msgid "Tag: %1"
-msgstr ""
-
-msgid "Value: %1"
-msgstr ""
-
-msgid "Info: %1"
-msgstr ""
-
 msgid "Add lambda"
 msgstr ""
 
@@ -384,13 +391,6 @@ msgid "There are updates"
 msgstr ""
 
 #, fuzzy
-msgid "Select tag"
-msgstr "选择字体"
-
-msgid "Tag"
-msgstr ""
-
-#, fuzzy
 msgid "AC online"
 msgstr "外接电源使用中标签"
 
@@ -401,13 +401,13 @@ msgstr "外接电源未使用标签"
 msgid "High CPU load"
 msgstr ""
 
-msgid "High GPU load"
-msgstr ""
-
-msgid "Free space on %1 less than 10%"
-msgstr ""
-
 msgid "High memory usage"
+msgstr ""
+
+msgid "Swap is used"
+msgstr ""
+
+msgid "High GPU load"
 msgstr ""
 
 msgid "Network device has been changed to %1"
@@ -417,9 +417,6 @@ msgid "MB/s"
 msgstr ""
 
 msgid "KB/s"
-msgstr ""
-
-msgid "Swap is used"
 msgstr ""
 
 msgid "Copy"
@@ -453,6 +450,9 @@ msgstr ""
 msgid "Comment"
 msgstr "自定义命令"
 
+msgid "Tag"
+msgstr ""
+
 msgid ""
 "<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
 "instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
@@ -476,9 +476,6 @@ msgid "Command"
 msgstr "自定义命令"
 
 msgid "Prefix"
-msgstr ""
-
-msgid "Has output"
 msgstr ""
 
 msgid "Redirect"
