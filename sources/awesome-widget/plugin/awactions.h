@@ -46,8 +46,7 @@ public:
     Q_INVOKABLE void writeDataEngineConfiguration(const QVariantMap configuration) const;
 
 public slots:
-    Q_INVOKABLE static void sendNotification(const QString eventId, const QString message,
-                                             const bool enablePopup = false);
+    Q_INVOKABLE static void sendNotification(const QString eventId, const QString message);
 
 private slots:
     void showInfo(const QString version) const;

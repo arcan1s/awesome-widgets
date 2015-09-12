@@ -21,14 +21,13 @@
 
 #include <QHash>
 #include <QObject>
-#include <QStringList>
 #include <QVariant>
 
 #include "extitemaggregator.h"
-#include "version.h"
 
 
-class AWToolTip;
+class AWDataAggregator;
+class AWKeysAggregator;
 class ExtQuotes;
 class ExtScript;
 class ExtUpgrade;
@@ -44,9 +43,9 @@ public:
     virtual ~AWKeys();
 
     Q_INVOKABLE void initKeys(const QString currentPattern);
-    Q_INVOKABLE void initTooltip(const QVariantMap tooltipParams);
+    Q_INVOKABLE void initDataAggregator(const QVariantMap tooltipParams);
+    Q_INVOKABLE void setAggregatorProperty(const QString key, const QVariant value);
     Q_INVOKABLE void setPopupEnabled(const bool popup = false);
-    Q_INVOKABLE void setTranslateStrings(const bool translate = false);
     Q_INVOKABLE void setWrapNewLines(const bool wrap = false);
     Q_INVOKABLE QSize toolTipSize() const;
     // keys
@@ -54,10 +53,8 @@ public:
     Q_INVOKABLE QStringList dictKeys(const bool sorted = false,
                                      const QString regexp = QString()) const;
     Q_INVOKABLE QStringList getHddDevices() const;
-    Q_INVOKABLE void dataUpdateReceived(const QString sourceName, const QVariantMap data,
-                                        const QVariantMap params);
+    Q_INVOKABLE void dataUpdateReceived(const QString sourceName, const QVariantMap data);
     // values
-    Q_INVOKABLE void graphicalValueByKey() const;
     Q_INVOKABLE QString infoByKey(QString key) const;
     Q_INVOKABLE QString valueByKey(QString key) const;
     // configuration
@@ -78,23 +75,22 @@ private:
     // methods
     void addKeyToCache(const QString type, const QString key = QString(""));
     void calculateLambdas();
+    void calculateValues();
     QString parsePattern() const;
-    void setDataBySource(const QString sourceName, const QVariantMap data,
-                         const QVariantMap params);
-    float temperature(const float temp, const QString units) const;
-    AWToolTip *toolTip = nullptr;
+    void setDataBySource(const QString sourceName, const QVariantMap data);
+    AWKeysAggregator *aggregator = nullptr;
+    AWDataAggregator *dataAggregator = nullptr;
     bool enablePopup = false;
-    bool translateStrings = false;
     bool wrapNewLines = false;
     ExtItemAggregator<GraphicalItem> *graphicalItems;
     ExtItemAggregator<ExtQuotes> *extQuotes;
     ExtItemAggregator<ExtScript> *extScripts;
     ExtItemAggregator<ExtUpgrade> *extUpgrade;
     ExtItemAggregator<ExtWeather> *extWeather;
+    bool lock = false;
     int queue = 0;
     QString pattern;
     QStringList foundBars, foundKeys, foundLambdas;
-    QStringList timeKeys = QString(TIME_KEYS).split(QChar(','));
     QHash<QString, QString> values;
     QStringList diskDevices, hddDevices, mountDevices, networkDevices, tempDevices;
 };

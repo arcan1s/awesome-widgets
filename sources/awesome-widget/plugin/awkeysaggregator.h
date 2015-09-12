@@ -49,6 +49,7 @@ class AWKeysAggregator : public QObject
         MemMBFormat,
         NetSmartFormat,
         NetSmartUnits,
+        Quotes,
         Temperature,
         Time,
         TimeCustom,

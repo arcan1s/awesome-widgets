@@ -212,13 +212,11 @@ void AWActions::writeDataEngineConfiguration(const QVariantMap configuration) co
 }
 
 
-void AWActions::sendNotification(const QString eventId, const QString message,
-                                 const bool enablePopup)
+void AWActions::sendNotification(const QString eventId, const QString message)
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Event" << eventId;
     qCDebug(LOG_AW) << "Message" << message;
-    if ((eventId == QString("event")) && (!enablePopup)) return;
 
     KNotification *notification = KNotification::event(eventId, QString("Awesome Widget ::: %1").arg(eventId), message);
     notification->setComponentName(QString("plasma-applet-org.kde.plasma.awesome-widget"));

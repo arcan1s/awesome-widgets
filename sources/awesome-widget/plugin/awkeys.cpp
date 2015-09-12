@@ -17,13 +17,9 @@
 
 #include "awkeys.h"
 
-#include <KI18n/KLocalizedString>
-
 #include <QtConcurrent/QtConcurrent>
-#include <QDateTime>
 #include <QDir>
 #include <QInputDialog>
-#include <QLocale>
 #include <QNetworkInterface>
 #include <QRegExp>
 #include <QScriptEngine>
@@ -31,9 +27,9 @@
 #include <QStandardPaths>
 #include <QThread>
 
-#include "awactions.h"
 #include "awdebug.h"
-#include "awtooltip.h"
+#include "awkeysaggregator.h"
+#include "awdataaggregator.h"
 #include "extquotes.h"
 #include "extscript.h"
 #include "extupgrade.h"
@@ -49,6 +45,8 @@ AWKeys::AWKeys(QObject *parent)
     // logging
     qSetMessagePattern(LOG_FORMAT);
 
+    aggregator = new AWKeysAggregator(this);
+
     // backend
     graphicalItems = new ExtItemAggregator<GraphicalItem>(nullptr, QString("desktops"));
     extQuotes = new ExtItemAggregator<ExtQuotes>(nullptr, QString("quotes"));
@@ -63,13 +61,32 @@ AWKeys::~AWKeys()
 {
     qCDebug(LOG_AW);
 
-    if (toolTip != nullptr)  delete toolTip;
+    if (dataAggregator != nullptr)  delete dataAggregator;
 
+    delete aggregator;
     delete graphicalItems;
     delete extQuotes;
     delete extScripts;
     delete extUpgrade;
     delete extWeather;
+}
+
+
+void AWKeys::initDataAggregator(const QVariantMap tooltipParams)
+{
+    qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << "Tooltip parameters" << tooltipParams;
+
+    if (dataAggregator != nullptr) {
+        disconnect(dataAggregator, SIGNAL(toolTipPainted(QString)),
+                   this, SIGNAL(needToolTipToBeUpdated(QString)));
+        delete dataAggregator;
+    }
+
+    dataAggregator = new AWDataAggregator(this, tooltipParams);
+    // transfer signal from AWDataAggregator object to QML ui
+    connect(dataAggregator, SIGNAL(toolTipPainted(QString)),
+            this, SIGNAL(needToolTipToBeUpdated(QString)));
 }
 
 
@@ -84,24 +101,16 @@ void AWKeys::initKeys(const QString currentPattern)
     addKeyToCache(QString("Hdd"));
     addKeyToCache(QString("Network"));
     loadKeysFromCache();
-    reinitKeys();
 }
 
 
-void AWKeys::initTooltip(const QVariantMap tooltipParams)
+void AWKeys::setAggregatorProperty(const QString key, const QVariant value)
 {
     qCDebug(LOG_AW);
-    qCDebug(LOG_AW) << "Tooltip parameters" << tooltipParams;
 
-    if (toolTip != nullptr) {
-        disconnect(toolTip, SIGNAL(toolTipPainted(QString)), this, SIGNAL(needToolTipToBeUpdated(QString)));
-        delete toolTip;
-    }
-
-    toolTip = new AWToolTip(this, tooltipParams);
-    // transfer signal from AWToolTip object to QML ui
-    connect(toolTip, SIGNAL(toolTipPainted(QString)), this, SIGNAL(needToolTipToBeUpdated(QString)));
+    aggregator->setProperty(key.toUtf8().constData(), value);
 }
+
 
 
 void AWKeys::setPopupEnabled(const bool popup)
@@ -110,15 +119,6 @@ void AWKeys::setPopupEnabled(const bool popup)
     qCDebug(LOG_AW) << "Is popup enabled" << popup;
 
     enablePopup = popup;
-}
-
-
-void AWKeys::setTranslateStrings(const bool translate)
-{
-    qCDebug(LOG_AW);
-    qCDebug(LOG_AW) << "Is translation enabled" << translate;
-
-    translateStrings = translate;
 }
 
 
@@ -134,9 +134,9 @@ void AWKeys::setWrapNewLines(const bool wrap)
 QSize AWKeys::toolTipSize() const
 {
     qCDebug(LOG_AW);
-    if (toolTip == nullptr) return QSize();
+    if (dataAggregator == nullptr) return QSize();
 
-    return toolTip->getSize();
+    return dataAggregator->getTooltipSize();
 }
 
 
@@ -332,37 +332,17 @@ QStringList AWKeys::getHddDevices() const
 }
 
 
-void AWKeys::dataUpdateReceived(const QString sourceName, const QVariantMap data,
-                                const QVariantMap params)
+void AWKeys::dataUpdateReceived(const QString sourceName, const QVariantMap data)
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Source" << sourceName;
     qCDebug(LOG_AW) << "Data" << data;
 
-#ifdef BUILD_FUTURE
-    QtConcurrent::run([this, sourceName, data, params]() {
-        return setDataBySource(sourceName, data, params);
+    if (sourceName == QString("update")) return emit(needToBeUpdated());
+
+    QtConcurrent::run([this, sourceName, data]() {
+        return setDataBySource(sourceName, data);
     });
-#else
-    return setDataBySource(sourceName, data, params);
-#endif
-}
-
-
-void AWKeys::graphicalValueByKey() const
-{
-    qCDebug(LOG_AW);
-
-    bool ok;
-    QString tag = QInputDialog::getItem(nullptr, i18n("Select tag"), i18n("Tag"),
-                                        dictKeys(true), 0, true, &ok);
-
-    if ((!ok) || (tag.isEmpty())) return;
-    QString message = i18n("Tag: %1", tag);
-    message += QString("<br>");
-    message += i18n("Value: %1", valueByKey(tag));
-
-    return AWActions::sendNotification(QString("tag"), message);
 }
 
 
@@ -407,7 +387,7 @@ QString AWKeys::valueByKey(QString key) const
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Requested key" << key;
 
-    return values[key.remove(QRegExp(QString("^bar[0-9]{1,}")))];
+    return values.value(key.remove(QRegExp(QString("^bar[0-9]{1,}"))), QString(""));
 }
 
 
@@ -435,9 +415,10 @@ void AWKeys::dataUpdate()
 {
     qCDebug(LOG_AW);
 
+    calculateValues();
     calculateLambdas();
     emit(needTextToBeUpdated(parsePattern()));
-    if (toolTip != nullptr) emit(toolTip->updateData(values));
+    if (dataAggregator != nullptr) emit(dataAggregator->updateData(values));
 }
 
 
@@ -479,6 +460,8 @@ void AWKeys::loadKeysFromCache()
     foreach(QString key, cache.allKeys())
         tempDevices.append(cache.value(key).toString());
     cache.endGroup();
+
+    return reinitKeys();
 }
 
 
@@ -488,6 +471,14 @@ void AWKeys::reinitKeys()
 
     // init
     QStringList allKeys = dictKeys();
+
+    // not documented feature - place all available tags
+    pattern = pattern.replace(QString("$ALL"), [allKeys](){
+        QStringList strings;
+        foreach(QString tag, allKeys)
+            strings.append(QString("%1: $%1").arg(tag));
+        return strings.join(QString(" | "));
+    }());
 
     // append lists
     // bars
@@ -537,6 +528,17 @@ void AWKeys::reinitKeys()
         if (selectedKeys.isEmpty()) qCWarning(LOG_AW) << "No lambdas found";
         return selectedKeys;
     }(pattern);
+
+    // set key data to aggregator
+    aggregator->setDevices([this]() {
+        QHash<QString, QStringList> deviceList;
+        deviceList[QString("disk")] = diskDevices;
+        deviceList[QString("hdd")] = hddDevices;
+        deviceList[QString("mount")] = mountDevices;
+        deviceList[QString("net")] = networkDevices;
+        deviceList[QString("temp")] = tempDevices;
+        return deviceList;
+    }());
 }
 
 
@@ -580,8 +582,7 @@ void AWKeys::addKeyToCache(const QString type, const QString key)
     cache.endGroup();
 
     cache.sync();
-    loadKeysFromCache();
-    return reinitKeys();
+    return loadKeysFromCache();
 }
 
 
@@ -605,6 +606,54 @@ void AWKeys::calculateLambdas()
             } else
                 return result.toString();
         }(key);
+}
+
+
+// HACK this method is required since I could not define some values by using
+// specified pattern. Usually they are values which depend on several others
+void AWKeys::calculateValues()
+{
+    qCDebug(LOG_AW);
+
+    // hddtot*
+    foreach(QString device, hddDevices) {
+        int index = hddDevices.indexOf(device);
+        values[QString("hddtotmb%1").arg(index)] = QString("%1").arg(
+            values[QString("hddfreemb%1").arg(index)].toFloat() +
+            values[QString("hddmb%1").arg(index)].toFloat(), 5, 'f', 0);
+        values[QString("hddtotgb%1").arg(index)] = QString("%1").arg(
+            values[QString("hddfreegb%1").arg(index)].toFloat() +
+            values[QString("hddgb%1").arg(index)].toFloat(), 5, 'f', 1);
+    }
+
+    // memtot*
+    values[QString("memtotmb")] = QString("%1").arg(
+        values[QString("memusedmb")].toInt() + values[QString("memfreemb")].toInt(), 5);
+    values[QString("memtotgb")] = QString("%1").arg(
+        values[QString("memusedgb")].toFloat() + values[QString("memfreegb")].toFloat(), 5, 'f', 1);
+    // mem
+    values[QString("mem")] = QString("%1").arg(
+        100.0 * values[QString("memmb")].toFloat() / values[QString("memtotmb")].toFloat(),
+        5, 'f', 1);
+
+    // up, down, upkb, downkb, upunits, downunits
+    int netIndex = networkDevices.indexOf(values[QString("netdev")]);
+    values[QString("down")] = values[QString("down%1").arg(netIndex)];
+    values[QString("downkb")] = values[QString("downkb%1").arg(netIndex)];
+    values[QString("downunits")] = values[QString("downunits%1").arg(netIndex)];
+    values[QString("up")] = values[QString("up%1").arg(netIndex)];
+    values[QString("upkb")] = values[QString("upkb%1").arg(netIndex)];
+    values[QString("upunits")] = values[QString("upunits%1").arg(netIndex)];
+
+    // swaptot*
+    values[QString("swaptotmb")] = QString("%1").arg(
+        values[QString("swapmb")].toInt() + values[QString("swapfreemb")].toInt(), 5);
+    values[QString("swaptotgb")] = QString("%1").arg(
+        values[QString("swapgb")].toFloat() + values[QString("swapfreegb")].toFloat(), 5, 'f', 1);
+    // swap
+    values[QString("swap")] = QString("%1").arg(
+        100.0 * values[QString("swapmb")].toFloat() / values[QString("swaptotmb")].toFloat(),
+        5, 'f', 1);
 }
 
 
@@ -641,344 +690,39 @@ QString AWKeys::parsePattern() const
 }
 
 
-void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data,
-                             const QVariantMap params)
+void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data)
 {
+    // check if data stream is locked
+    lock = ((lock) && (queue > 0));
+    if (lock) return;
+
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Source" << sourceName;
     qCDebug(LOG_AW) << "Data" << data;
 
-    if (sourceName == QString("update")) return emit(needToBeUpdated());
     // drop if limits are reached
     if (++queue > QUEUE_LIMIT) {
-        qCWarning(LOG_AW) << "Messages queue" << queue-- << "more than limits" << QUEUE_LIMIT;
+        qCWarning(LOG_AW) << "Messages queue" << queue-- << "more than limits" << QUEUE_LIMIT << ", lock";
+        lock = true;
         return;
     }
 
-    // regular expressions
-    QRegExp cpuRegExp = QRegExp(QString("cpu/cpu.*/TotalLoad"));
-    QRegExp cpuclRegExp = QRegExp(QString("cpu/cpu.*/clock"));
-    QRegExp hddrRegExp = QRegExp(QString("disk/.*/Rate/rblk"));
-    QRegExp hddwRegExp = QRegExp(QString("disk/.*/Rate/wblk"));
-    QRegExp mountFillRegExp = QRegExp(QString("partitions/.*/filllevel"));
-    QRegExp mountFreeRegExp = QRegExp(QString("partitions/.*/freespace"));
-    QRegExp mountUsedRegExp = QRegExp(QString("partitions/.*/usedspace"));
-    QRegExp netRegExp = QRegExp(QString("network/interfaces/.*/(receiver|transmitter)/data$"));
+    // first list init
+    QStringList tags = aggregator->keyFromSource(sourceName);
+    if (tags.isEmpty())
+        tags = aggregator->registerSource(sourceName, data[QString("units")].toString());
 
-    if (sourceName == QString("battery/ac")) {
-        // AC
-        if ((values[QString("ac")] == params[QString("acOnline")].toString()) != data[QString("value")].toBool()) {
-            if (data[QString("value")].toBool())
-                AWActions::sendNotification(QString("event"), i18n("AC online"), enablePopup);
-            else
-                AWActions::sendNotification(QString("event"), i18n("AC offline"), enablePopup);
-        }
-        // value
-        if (data[QString("value")].toBool())
-            values[QString("ac")] = params[QString("acOnline")].toString();
-        else
-            values[QString("ac")] = params[QString("acOffline")].toString();
-    } else if (sourceName.startsWith(QString("battery/"))) {
-        // battery stats
-        QString key = sourceName;
-        key.remove(QString("battery/"));
-        values[key] = QString("%1").arg(data[QString("value")].toInt(), 3);
-    } else if (sourceName == QString("cpu/system/TotalLoad")) {
-        // cpu
-        // notification
-        if ((data[QString("value")].toFloat() >= 90.0) && (values[QString("cpu")].toFloat() < 90.0))
-            AWActions::sendNotification(QString("event"), i18n("High CPU load"), enablePopup);
-        // value
-        values[QString("cpu")] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
-    } else if (sourceName.contains(cpuRegExp)) {
-        // cpus
-        QString number = sourceName;
-        number.remove(QString("cpu/cpu")).remove(QString("/TotalLoad"));
-        values[QString("cpu") + number] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
-    } else if (sourceName == QString("cpu/system/AverageClock")) {
-        // cpucl
-        values[QString("cpucl")] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
-    } else if (sourceName.contains(cpuclRegExp)) {
-        // cpucls
-        QString number = sourceName;
-        number.remove(QString("cpu/cpu")).remove(QString("/clock"));
-        values[QString("cpucl") + number] = QString("%1").arg(data[QString("value")].toFloat(), 4, 'f', 0);
-    } else if (sourceName.startsWith(QString("custom"))) {
-        // custom
-        QString key = sourceName;
-        key.remove(QString("custom/"));
-        values[key] = data[QString("value")].toString();
-    } else if (sourceName == QString("desktop/current/name")) {
-        // current desktop name
-        values[QString("desktop")] = data[QString("value")].toString();
-    } else if (sourceName == QString("desktop/current/number")) {
-        // current desktop number
-        values[QString("ndesktop")] = QString("%1").arg(data[QString("value")].toInt());
-    } else if (sourceName == QString("desktop/total/number")) {
-        // desktop count
-        values[QString("tdesktops")] = QString("%1").arg(data[QString("value")].toInt());
-    } else if (sourceName.contains(hddrRegExp)) {
-        // read speed
-        QString device = sourceName;
-        device.remove(QString("/Rate/rblk"));
-        int index = diskDevices.indexOf(device);
-        values[QString("hddr%1").arg(index)] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 0);
-    } else if (sourceName.contains(hddwRegExp)) {
-        // write speed
-        QString device = sourceName;
-        device.remove(QString("/Rate/wblk"));
-        int index = diskDevices.indexOf(device);
-        values[QString("hddw%1").arg(index)] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 0);
-    } else if (sourceName == QString("gpu/load")) {
-        // gpu load
-        // notification
-        if ((data[QString("value")].toFloat() >= 75.0) && (values[QString("gpu")].toFloat() < 75.0))
-            AWActions::sendNotification(QString("event"), i18n("High GPU load"), enablePopup);
-        // value
-        values[QString("gpu")] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
-    } else if (sourceName == QString("gpu/temperature")) {
-        // gpu temperature
-        values[QString("gputemp")] = QString("%1").arg(
-            temperature(data[QString("value")].toFloat(), params[QString("tempUnits")].toString()), 4, 'f', 1);
-    } else if (sourceName.contains(mountFillRegExp)) {
-        // fill level
-        QString mount = sourceName;
-        mount.remove(QString("partitions")).remove(QString("/filllevel"));
-        int index = mountDevices.indexOf(mount);
-        if ((data[QString("value")].toFloat() >= 90.0) && (values[QString("hdd%1").arg(index)].toFloat() < 90.0))
-            AWActions::sendNotification(QString("event"), i18n("Free space on %1 less than 10%", mount), enablePopup);
-        values[QString("hdd%1").arg(index)] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 1);
-    } else if (sourceName.contains(mountFreeRegExp)) {
-        // free space
-        QString mount = sourceName;
-        mount.remove(QString("partitions")).remove(QString("/freespace"));
-        int index = mountDevices.indexOf(mount);
-        values[QString("hddfreemb%1").arg(index)] = QString("%1").arg(
-            data[QString("value")].toFloat() / 1024.0, 5, 'f', 0);
-        values[QString("hddfreegb%1").arg(index)] = QString("%1").arg(
-            data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
-    } else if (sourceName.contains(mountUsedRegExp)) {
-        // used
-        QString mount = sourceName;
-        mount.remove(QString("partitions")).remove(QString("/usedspace"));
-        int index = mountDevices.indexOf(mount);
-        values[QString("hddmb%1").arg(index)] = QString("%1").arg(
-            data[QString("value")].toFloat() / 1024.0, 5, 'f', 0);
-        values[QString("hddgb%1").arg(index)] = QString("%1").arg(
-            data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
-        // total
-        values[QString("hddtotmb%1").arg(index)] = QString("%1").arg(
-            values[QString("hddfreemb%1").arg(index)].toInt() +
-            values[QString("hddmb%1").arg(index)].toInt());
-        values[QString("hddtotgb%1").arg(index)] = QString("%1").arg(
-            values[QString("hddfreegb%1").arg(index)].toFloat() +
-            values[QString("hddgb%1").arg(index)].toFloat(), 5, 'f', 1);
-    } else if (sourceName.startsWith(QString("hdd/temperature"))) {
-        // hdd temperature
-        QString device = sourceName;
-        device.remove(QString("hdd/temperature"));
-        int index = hddDevices.indexOf(device);
-        values[QString("hddtemp%1").arg(index)] = QString("%1").arg(
-            temperature(data[QString("value")].toFloat(), params[QString("tempUnits")].toString()), 4, 'f', 1);
-    } else if (sourceName.startsWith(QString("cpu/system/loadavg"))) {
-        // load average
-        QString time = sourceName;
-        time.remove(QString("cpu/system/loadavg"));
-        values[QString("la%1").arg(time)] = QString("%1").arg(data[QString("value")].toFloat(), 5, 'f', 2);
-    } else if (sourceName == QString("mem/physical/application")) {
-        // app memory
-        values[QString("memmb")] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 5, 'f', 0);
-        values[QString("memgb")] = QString("%1").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
-    } else if (sourceName == QString("mem/physical/free")) {
-        // free memory
-        values[QString("memfreemb")] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 5, 'f', 0);
-        values[QString("memfreegb")] = QString("%1").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0), 4, 'f', 1);
-    } else if (sourceName == QString("mem/physical/used")) {
-        // used memory
-        values[QString("memusedmb")] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 0, 'f', 0);
-        values[QString("memusedgb")] = QString("%1").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0), 4, 'f', 1);
-        // total
-        values[QString("memtotmb")] = QString("%1").arg(
-            values[QString("memusedmb")].toInt() + values[QString("memfreemb")].toInt(), 5);
-        values[QString("memtotgb")] = QString("%1").arg(
-            values[QString("memusedgb")].toFloat() + values[QString("memfreegb")].toFloat(), 4, 'f', 1);
-        // percentage
-        float value = 100.0 * values[QString("memmb")].toFloat() / values[QString("memtotmb")].toFloat();
-        // notification
-        if ((!isnan(value)) && (value >= 90.0) && (values[QString("mem")].toFloat() < 90.0))
-            AWActions::sendNotification(QString("event"), i18n("High memory usage"), enablePopup);
-        // value
-        values[QString("mem")] = QString("%1").arg(value, 5, 'f', 1);
-    } else if (sourceName == QString("network/current/name")) {
-        // network device
-        // notification
-        if (values[QString("netdev")] != data[QString("value")].toString())
-            AWActions::sendNotification(QString("event"), i18n("Network device has been changed to %1",
-                                                               data[QString("value")].toString()),
-                                        enablePopup);
-        // value
-        values[QString("netdev")] = data[QString("value")].toString();
-    } else if (sourceName.contains(netRegExp)) {
-        // network speed
-        QString type = sourceName.contains(QString("receiver")) ? QString("down") : QString("up");
-        // device name
-        QString device = sourceName.split(QChar('/'))[2];
-        // values
-        float value = data[QString("value")].toFloat();
-        QString simplifiedValue = value > 1000.0 ?
-            QString("%1").arg(value / 1024.0, 4, 'f', 1) :
-            QString("%1").arg(value, 4, 'f', 0);
-        // units
-        QString units;
-        if (translateStrings)
-            units = value > 1000.0 ? i18n("MB/s") : i18n("KB/s");
-        else
-            units = value > 1000.0 ? QString("MB/s") : QString("KB/s");
-        // update
-        int index = networkDevices.indexOf(device);
-        values[QString("%1kb%2").arg(type).arg(index)] = QString("%1").arg(value,  4, 'f', 0);
-        values[QString("%1%2").arg(type).arg(index)] = simplifiedValue;
-        values[QString("%1units%2").arg(type).arg(index)] = units;
-        if (device == values[QString("netdev")]) {
-            values[QString("%1kb").arg(type)] = QString("%1").arg(value, 4, 'f', 0);
-            values[type] = simplifiedValue;
-            values[QString("%1units").arg(type)] = units;
-        }
-    } else if (sourceName.startsWith(QString("upgrade"))) {
-        // package manager
-        QString key = sourceName;
-        key.remove(QString("upgrade/"));
-        values[key] = QString("%1").arg(data[QString("value")].toInt(), 2);
-    } else if (sourceName.startsWith(QString("player"))) {
-        // player
-        QString key = sourceName;
-        key.remove(QString("player/"));
-        values[key] = data[QString("value")].toString();
-    } else if (sourceName == QString("ps/running/count")) {
-        // running processes count
-        values[QString("pscount")] = QString("%1").arg(data[QString("value")].toInt(), 2);
-    } else if (sourceName == QString("ps/running/list")) {
-        // list of running processes
-        values[QString("ps")] = data[QString("value")].toStringList().join(QChar(','));
-    } else if (sourceName == QString("ps/total/count")) {
-        // total processes count
-        values[QString("pstotal")] = QString("%1").arg(data[QString("value")].toInt(), 3);
-    } else if (sourceName.startsWith(QString("quotes"))) {
-        // quotes
-        QString key = sourceName;
-        key.remove(QString("quotes/"));
-        values[key] = QString("%1").arg(data[QString("value")].toFloat(), 7, 'f');
-    } else if (sourceName == QString("mem/swap/free")) {
-        // free swap
-        values[QString("swapfreemb")] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 5, 'f', 0);
-        values[QString("swapfreegb")] = QString("%1").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0), 4, 'f', 1);
-    } else if (sourceName == QString("mem/swap/used")) {
-        // used swap
-        values[QString("swapmb")] = QString("%1").arg(data[QString("value")].toFloat() / 1024.0, 5, 'f', 0);
-        values[QString("swapgb")] = QString("%1").arg(data[QString("value")].toFloat() / (1024.0 * 1024.0), 4, 'f', 1);
-        // total
-        values[QString("swaptotmb")] = QString("%1").arg(
-            values[QString("swapmb")].toInt() + values[QString("swapfreemb")].toInt(), 5);
-        values[QString("swaptotgb")] = QString("%1").arg(
-            values[QString("swapgb")].toFloat() + values[QString("swapfreegb")].toFloat(), 4, 'f', 1);
-        // percentage
-        float value = 100.0 * values[QString("swapmb")].toFloat() / values[QString("swaptotmb")].toFloat();
-        // notification
-        if ((!isnan(value)) && (value > 0.0) && (values[QString("swap")].toFloat() == 0.0))
-            AWActions::sendNotification(QString("event"), i18n("Swap is used"), enablePopup);
-        // value
-        values[QString("swap")] = QString("%1").arg(value, 5, 'f', 1);
-    } else if (sourceName.startsWith(QString("lmsensors/"))) {
-        // temperature devices
-        int index = tempDevices.indexOf(sourceName);
-        float temp = data[QString("units")].toString() == QString("°C") ?
-                     temperature(data[QString("value")].toFloat(), params[QString("tempUnits")].toString()) :
-                     data[QString("value")].toFloat();
-        values[QString("temp%1").arg(index)] = QString("%1").arg(temp, 4, 'f', 1);
-    } else if (sourceName == QString("Local")) {
-        // init locale
-        QLocale loc = translateStrings ? QLocale::system() : QLocale::c();
-        QDateTime dt = data[QString("DateTime")].toDateTime();
-        // time
-        values[QString("time")] = dt.toString(Qt::TextDate);
-        values[QString("isotime")] = dt.toString(Qt::ISODate);
-        values[QString("shorttime")] = loc.toString(dt, QLocale::ShortFormat);
-        values[QString("longtime")] = loc.toString(dt, QLocale::LongFormat);
-        values[QString("ctime")] = params[QString("customTime")].toString();
-        foreach(QString key, timeKeys)
-            values[QString("ctime")].replace(QString("$%1").arg(key), loc.toString(dt, key));
-    } else if (sourceName == QString("system/uptime")) {
-        // uptime
-        int uptime = data[QString("value")].toFloat();
-        int seconds = uptime - uptime % 60;
-        int minutes = seconds / 60 % 60;
-        int hours = ((seconds / 60) - minutes) / 60 % 24;
-        int days = (((seconds / 60) - minutes) / 60 - hours) / 24;
-        values[QString("uptime")] = QString("%1d%2h%3m").arg(days, 3).arg(hours, 2).arg(minutes, 2);
-        values[QString("cuptime")] = params[QString("customUptime")].toString();
-        values[QString("cuptime")].replace(QString("$dd"), QString("%1").arg(days, 3, 10, QChar('0')));
-        values[QString("cuptime")].replace(QString("$d"), QString("%1").arg(days));
-        values[QString("cuptime")].replace(QString("$hh"), QString("%1").arg(hours, 2, 10, QChar('0')));
-        values[QString("cuptime")].replace(QString("$h"), QString("%1").arg(hours));
-        values[QString("cuptime")].replace(QString("$mm"), QString("%1").arg(minutes, 2, 10, QChar('0')));
-        values[QString("cuptime")].replace(QString("$m"), QString("%1").arg(minutes));
-    } else if (sourceName.startsWith(QString("weather/weatherId"))) {
-        // weather ID
-        QString key = sourceName;
-        key.remove(QString("weather/"));
-        values[key] = QString("%1").arg(data[QString("value")].toInt(), 3);
-    } else if (sourceName.startsWith(QString("weather/weather"))) {
-        // weather
-        QString key = sourceName;
-        key.remove(QString("weather/"));
-        values[key] = data[QString("value")].toString();
-    } else if (sourceName.startsWith(QString("weather/humidity"))) {
-        // humidity
-        QString key = sourceName;
-        key.remove(QString("weather/"));
-        values[key] = QString("%1").arg(data[QString("value")].toInt(), 3);
-    } else if (sourceName.startsWith(QString("weather/pressure"))) {
-        // pressure
-        QString key = sourceName;
-        key.remove(QString("weather/"));
-        values[key] = QString("%1").arg(data[QString("value")].toInt(), 4);
-    } else if (sourceName.startsWith(QString("weather/temperature"))) {
-        // temperature
-        QString key = sourceName;
-        key.remove(QString("weather/"));
-        values[key] = QString("%1").arg(temperature(data[QString("value")].toFloat(),
-                                                    params[QString("tempUnits")].toString()),
-                                        4, 'f', 1);
-    } else {
+    // update data or drop source if there are no matches
+    if (tags.isEmpty()) {
         qCDebug(LOG_AW) << "Source" << sourceName << "not found";
         emit(dropSourceFromDataengine(sourceName));
+    } else {
+        // HACK workaround for time values which are stored in the different path
+        QVariant value = sourceName == QString("Local") ? data[QString("DateTime")] : data[QString("value")];
+        std::for_each(tags.cbegin(), tags.cend(), [this, value](const QString tag){
+            values[tag] = aggregator->formater(value, tag);
+        });
     }
 
     queue--;
-}
-
-
-float AWKeys::temperature(const float temp, const QString units) const
-{
-    qCDebug(LOG_AW);
-    qCDebug(LOG_AW) << "Temperature value" << temp;
-    qCDebug(LOG_AW) << "Temperature units" << units;
-
-    float converted = temp;
-    if (units == QString("Celsius"))
-        ;
-    else if (units == QString("Fahrenheit"))
-        converted = temp * 9.0 / 5.0 + 32.0;
-    else if (units == QString("Kelvin"))
-        converted = temp + 273.15;
-    else if (units == QString("Reaumur"))
-        converted = temp * 0.8;
-    else if (units == QString("cm^-1"))
-        converted = (temp + 273.15) * 0.695;
-    else if (units == QString("kJ/mol"))
-        converted = (temp + 273.15) * 8.31;
-    else if (units == QString("kcal/mol"))
-        converted = (temp + 273.15) * 1.98;
-
-    return converted;
 }

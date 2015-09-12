@@ -87,6 +87,11 @@ QString AWKeysAggregator::formater(const QVariant data, const QString key) const
         else
             output = m_translate ? i18n("KB/s") : QString("KB/s");
         break;
+    case Quotes:
+        // first cast
+        output = QString("%1").arg(data.toDouble(), 0, 'f');
+        output = output.leftJustified(8, QLatin1Char(' '), true);
+        break;
     case Temperature:
         output = QString("%1").arg(temperature(data.toFloat()), 5, 'f', 1);
         break;
@@ -433,7 +438,7 @@ QStringList AWKeysAggregator::registerSource(const QString source, const QString
         QString key = source;
         key.remove(QString("quotes/"));
         m_map[source] = key;
-        m_formater[key] = NoFormat;
+        m_formater[key] = Quotes;
     } else if (source == QString("mem/swap/free")) {
         // free swap
         // mb
