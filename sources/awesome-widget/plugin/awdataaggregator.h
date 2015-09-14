@@ -35,17 +35,16 @@ public:
     explicit AWDataAggregator(QObject *parent = nullptr);
     virtual ~AWDataAggregator();
     QList<float> getData(const QString key) const;
-    QSize getTooltipSize() const;
     QString htmlImage(const QPixmap source) const;
     void setParameters(QVariantMap settings);
     QPixmap tooltipImage();
 
 signals:
-    void updateData(QHash<QString, QString> values);
-    void toolTipPainted(QString image);
+    void updateData(const QHash<QString, QString> values);
+    void toolTipPainted(const QString image) const;
 
 private slots:
-    void dataUpdate(QHash<QString, QString> values);
+    void dataUpdate(const QHash<QString, QString> values);
 
 private:
     // ui
@@ -66,9 +65,8 @@ private:
     QString currentNetworkDevice = QString("lo");
     QHash<QString, float> boundaries;
     QHash<QString, QList<float>> data;
-    bool enablePopup = false;
+    bool m_enablePopup = false;
     QStringList requiredKeys;
-    QSize size;
 };
 
 

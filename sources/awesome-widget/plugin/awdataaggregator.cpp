@@ -34,8 +34,8 @@ AWDataAggregator::AWDataAggregator(QObject *parent)
 
     initScene();
 
-    connect(this, SIGNAL(updateData(QHash<QString, QString>)),
-            this, SLOT(dataUpdate(QHash<QString, QString>)));
+    connect(this, SIGNAL(const updateData(QHash<QString, QString>)),
+            this, SLOT(const dataUpdate(QHash<QString, QString>)));
 }
 
 
@@ -53,14 +53,6 @@ QList<float> AWDataAggregator::getData(const QString key) const
     qCDebug(LOG_AW) << "Key" << key;
 
     return data[QString("%1Tooltip").arg(key)];
-}
-
-
-QSize AWDataAggregator::getTooltipSize() const
-{
-    qCDebug(LOG_AW);
-
-    return size;
 }
 
 
@@ -82,9 +74,10 @@ void AWDataAggregator::setParameters(QVariantMap settings)
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Settings" << settings;
 
+    // cast from QVariantMap to QVariantHash without data lost
     configuration = qvariant_cast<QVariantHash>(settings);
 
-    enablePopup = configuration[QString("notify")].toBool();
+    m_enablePopup = configuration[QString("notify")].toBool();
 
     counts += configuration[QString("cpuTooltip")].toInt();
     counts += configuration[QString("cpuclTooltip")].toInt();
@@ -92,6 +85,8 @@ void AWDataAggregator::setParameters(QVariantMap settings)
     counts += configuration[QString("swapTooltip")].toInt();
     counts += configuration[QString("downTooltip")].toInt();
     counts += configuration[QString("batTooltip")].toInt();
+    // resize tooltip image
+    toolTipView->resize(100.0 * counts, 105.0);
 
     boundaries[QString("cpuTooltip")] = 100.0;
     boundaries[QString("cpuclTooltip")] = 4000.0;
@@ -100,8 +95,6 @@ void AWDataAggregator::setParameters(QVariantMap settings)
     boundaries[QString("downTooltip")] = 1.0;
     boundaries[QString("upTooltip")] = 1.0;
     boundaries[QString("batTooltip")] = 100.0;
-    size.setHeight(105.0);
-    size.setWidth(100.0 * counts);
 
     if (configuration[QString("cpuTooltip")].toBool()) requiredKeys.append(QString("cpuTooltip"));
     if (configuration[QString("cpuclTooltip")].toBool()) requiredKeys.append(QString("cpuclTooltip"));
@@ -122,10 +115,9 @@ QPixmap AWDataAggregator::tooltipImage()
 {
     qCDebug(LOG_AW);
 
-    toolTipView->resize(size);
     // create image
     toolTipScene->clear();
-    QPen pen = QPen();
+    QPen pen;
     bool down = false;
     foreach(QString key, requiredKeys) {
         // create frame
@@ -158,7 +150,7 @@ QPixmap AWDataAggregator::tooltipImage()
 }
 
 
-void AWDataAggregator::dataUpdate(QHash<QString, QString> values)
+void AWDataAggregator::dataUpdate(const QHash<QString, QString> values)
 {
     qCDebug(LOG_AW);
 
@@ -187,7 +179,8 @@ void AWDataAggregator::dataUpdate(QHash<QString, QString> values)
 }
 
 
-void AWDataAggregator::checkValue(const QString source, const float value, const float extremum) const
+void AWDataAggregator::checkValue(const QString source, const float value,
+                                  const float extremum) const
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Notification source" << source;
@@ -195,23 +188,24 @@ void AWDataAggregator::checkValue(const QString source, const float value, const
     qCDebug(LOG_AW) << "Called with extremum" << extremum;
 
     if (value >= 0.0) {
-        if ((enablePopup) && (value > extremum) && (data[source].last() < extremum))
+        if ((m_enablePopup) && (value > extremum) && (data[source].last() < extremum))
             return AWActions::sendNotification(QString("event"), notificationText(source, value));
     } else {
-        if ((enablePopup) && (value < extremum) && (data[source].last() > extremum))
+        if ((m_enablePopup) && (value < extremum) && (data[source].last() > extremum))
             return AWActions::sendNotification(QString("event"), notificationText(source, value));
     }
 }
 
 
-void AWDataAggregator::checkValue(const QString source, const QString current, const QString received) const
+void AWDataAggregator::checkValue(const QString source, const QString current,
+                                  const QString received) const
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Notification source" << source;
     qCDebug(LOG_AW) << "Current value" << current;
     qCDebug(LOG_AW) << "Received value" << received;
 
-    if ((enablePopup) && (current != received))
+    if ((m_enablePopup) && (current != received))
         return AWActions::sendNotification(QString("event"), notificationText(source, received));
 }
 
@@ -238,10 +232,7 @@ QString AWDataAggregator::notificationText(const QString source, const float val
 
     QString output;
     if (source == QString("batTooltip")) {
-        if (value > 0.0)
-            output = i18n("AC online");
-        else
-            output = i18n("AC offline");
+        output = value > 0.0 ? i18n("AC online") : i18n("AC offline");
     } else if (source == QString("cpuTooltip")) {
         output = i18n("High CPU load");
     } else if (source == QString("memTooltip")) {

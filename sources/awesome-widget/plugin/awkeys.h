@@ -42,12 +42,10 @@ public:
     explicit AWKeys(QObject *parent = nullptr);
     virtual ~AWKeys();
 
-    Q_INVOKABLE void initKeys(const QString currentPattern);
     Q_INVOKABLE void initDataAggregator(const QVariantMap tooltipParams);
+    Q_INVOKABLE void initKeys(const QString currentPattern);
     Q_INVOKABLE void setAggregatorProperty(const QString key, const QVariant value);
-    Q_INVOKABLE void setPopupEnabled(const bool popup = false);
     Q_INVOKABLE void setWrapNewLines(const bool wrap = false);
-    Q_INVOKABLE QSize toolTipSize() const;
     // keys
     Q_INVOKABLE void addDevice(const QString source);
     Q_INVOKABLE QStringList dictKeys(const bool sorted = false,
@@ -74,14 +72,12 @@ private slots:
 private:
     // methods
     void addKeyToCache(const QString type, const QString key = QString(""));
-    void calculateLambdas();
     void calculateValues();
-    QString parsePattern() const;
+    QString parsePattern(QString pattern) const;
     void setDataBySource(const QString sourceName, const QVariantMap data);
     AWKeysAggregator *aggregator = nullptr;
     AWDataAggregator *dataAggregator = nullptr;
-    bool enablePopup = false;
-    bool wrapNewLines = false;
+    bool m_wrapNewLines = false;
     ExtItemAggregator<GraphicalItem> *graphicalItems = nullptr;
     ExtItemAggregator<ExtQuotes> *extQuotes = nullptr;
     ExtItemAggregator<ExtScript> *extScripts = nullptr;
@@ -89,10 +85,10 @@ private:
     ExtItemAggregator<ExtWeather> *extWeather = nullptr;
     bool lock = false;
     int queue = 0;
-    QString pattern;
-    QStringList foundBars, foundKeys, foundLambdas;
+    QString m_pattern;
+    QStringList m_foundBars, m_foundKeys, m_foundLambdas;
     QHash<QString, QString> values;
-    QStringList diskDevices, hddDevices, mountDevices, networkDevices, tempDevices;
+    QHash<QString, QStringList> m_devices;
 };
 
 

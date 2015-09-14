@@ -65,7 +65,7 @@ public:
     virtual ~AWKeysAggregator();
     // get methods
     QString formater(const QVariant data, const QString key) const;
-    QStringList keyFromSource(const QString source) const;
+    QStringList keysFromSource(const QString source) const;
     // set methods
     void setAcOffline(const QString inactive);
     void setAcOnline(const QString active);

@@ -49,8 +49,8 @@ AWKeys::AWKeys(QObject *parent)
     dataAggregator = new AWDataAggregator(this);
     connect(this, SIGNAL(needToBeUpdated()), this, SLOT(dataUpdate()));
     // transfer signal from AWDataAggregator object to QML ui
-    connect(dataAggregator, SIGNAL(toolTipPainted(QString)),
-            this, SIGNAL(needToolTipToBeUpdated(QString)));
+    connect(dataAggregator, SIGNAL(toolTipPainted(const QString)),
+            this, SIGNAL(needToolTipToBeUpdated(const QString)));
 }
 
 
@@ -84,10 +84,10 @@ void AWKeys::initKeys(const QString currentPattern)
     qCDebug(LOG_AW) << "Pattern" << currentPattern;
 
     // init
-    pattern = currentPattern;
+    m_pattern = currentPattern;
     // update network and hdd list
-    addKeyToCache(QString("Hdd"));
-    addKeyToCache(QString("Network"));
+    addKeyToCache(QString("hdd"));
+    addKeyToCache(QString("net"));
     loadKeysFromCache();
 }
 
@@ -100,30 +100,12 @@ void AWKeys::setAggregatorProperty(const QString key, const QVariant value)
 }
 
 
-
-void AWKeys::setPopupEnabled(const bool popup)
-{
-    qCDebug(LOG_AW);
-    qCDebug(LOG_AW) << "Is popup enabled" << popup;
-
-    enablePopup = popup;
-}
-
-
 void AWKeys::setWrapNewLines(const bool wrap)
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Is wrapping enabled" << wrap;
 
-    wrapNewLines = wrap;
-}
-
-
-QSize AWKeys::toolTipSize() const
-{
-    qCDebug(LOG_AW);
-
-    return dataAggregator->getTooltipSize();
+    m_wrapNewLines = wrap;
 }
 
 
@@ -138,13 +120,13 @@ void AWKeys::addDevice(const QString source)
     if (source.contains(diskRegexp)) {
         QString device = source;
         device.remove(QString("/Rate/rblk"));
-        addKeyToCache(QString("Disk"), device);
+        addKeyToCache(QString("disk"), device);
     } else if (source.contains(mountRegexp)) {
         QString device = source;
         device.remove(QString("partitions")).remove(QString("/filllevel"));
-        addKeyToCache(QString("Mount"), device);
+        addKeyToCache(QString("mount"), device);
     } else if (source.startsWith(QString("lmsensors"))) {
-        addKeyToCache(QString("Temp"), source);
+        addKeyToCache(QString("temp"), source);
     }
 }
 
@@ -182,7 +164,7 @@ QStringList AWKeys::dictKeys(const bool sorted, const QString regexp) const
     allKeys.append(QString("cpucl"));
     allKeys.append(QString("cpu"));
     // temperature
-    for (int i=tempDevices.count()-1; i>=0; i--)
+    for (int i=m_devices[QString("temp")].count()-1; i>=0; i--)
         allKeys.append(QString("temp%1").arg(i));
     // gputemp
     allKeys.append(QString("gputemp"));
@@ -207,7 +189,7 @@ QStringList AWKeys::dictKeys(const bool sorted, const QString regexp) const
     allKeys.append(QString("swaptotgb"));
     allKeys.append(QString("swap"));
     // hdd
-    for (int i=mountDevices.count()-1; i>=0; i--) {
+    for (int i=m_devices[QString("mount")].count()-1; i>=0; i--) {
         allKeys.append(QString("hddmb%1").arg(i));
         allKeys.append(QString("hddgb%1").arg(i));
         allKeys.append(QString("hddfreemb%1").arg(i));
@@ -217,15 +199,15 @@ QStringList AWKeys::dictKeys(const bool sorted, const QString regexp) const
         allKeys.append(QString("hdd%1").arg(i));
     }
     // hdd speed
-    for (int i=diskDevices.count()-1; i>=0; i--) {
+    for (int i=m_devices[QString("disk")].count()-1; i>=0; i--) {
         allKeys.append(QString("hddr%1").arg(i));
         allKeys.append(QString("hddw%1").arg(i));
     }
     // hdd temp
-    for (int i=hddDevices.count()-1; i>=0; i--)
+    for (int i=m_devices[QString("hdd")].count()-1; i>=0; i--)
         allKeys.append(QString("hddtemp%1").arg(i));
     // network
-    for (int i=networkDevices.count()-1; i>=0; i--) {
+    for (int i=m_devices[QString("net")].count()-1; i>=0; i--) {
         allKeys.append(QString("downunits%1").arg(i));
         allKeys.append(QString("upunits%1").arg(i));
         allKeys.append(QString("downkb%1").arg(i));
@@ -310,8 +292,8 @@ QStringList AWKeys::getHddDevices() const
 {
     qCDebug(LOG_AW);
 
-    QStringList devices = hddDevices;
-    // required by ui interface
+    QStringList devices = m_devices[QString("hdd")];
+    // required by selector in the UI
     devices.insert(0, QString("disable"));
     devices.insert(0, QString("auto"));
 
@@ -325,11 +307,14 @@ void AWKeys::dataUpdateReceived(const QString sourceName, const QVariantMap data
     qCDebug(LOG_AW) << "Source" << sourceName;
     qCDebug(LOG_AW) << "Data" << data;
 
-    if (sourceName == QString("update")) return emit(needToBeUpdated());
-
+    // run concurrent data update
+#ifdef BUILD_FUTURE
     QtConcurrent::run([this, sourceName, data]() {
         return setDataBySource(sourceName, data);
     });
+#else /* BUILD_FUTURE */
+    return setDataBySource(sourceName, data);
+#endif /* BUILD_FUTURE */
 }
 
 
@@ -340,35 +325,29 @@ QString AWKeys::infoByKey(QString key) const
 
     key.remove(QRegExp(QString("^bar[0-9]{1,}")));
     if (key.startsWith(QString("custom")))
-        foreach(ExtScript *item, extScripts->items()) {
-            if (item->tag(QString("custom")) != key) continue;
-            return item->executable();
-        }
+        return extScripts->itemByTagNumber(key.remove(QString("custom")).toInt())->uniq();
     else if (key.contains(QRegExp(QString("^hdd[rw]"))))
-        return QString("%1").arg(diskDevices[key.remove(QRegExp(QString("hdd[rw]"))).toInt()]);
+        return QString("%1").arg(m_devices[QString("disk")][key.remove(QRegExp(QString("hdd[rw]"))).toInt()]);
     else if (key.contains(QRegExp(QString("^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)"))))
-        return QString("%1").arg(mountDevices[key.remove(QRegExp(QString("^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)"))).toInt()]);
+        return QString("%1").arg(m_devices[QString("mount")][key.remove(QRegExp(QString("^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)"))).toInt()]);
     else if (key.startsWith(QString("hddtemp")))
-        return QString("%1").arg(hddDevices[key.remove(QString("hddtemp")).toInt()]);
+        return QString("%1").arg(m_devices[QString("hdd")][key.remove(QString("hddtemp")).toInt()]);
     else if (key.contains(QRegExp(QString("^(down|up)[0-9]"))))
-        return QString("%1").arg(networkDevices[key.remove(QRegExp(QString("^(down|up)"))).toInt()]);
+        return QString("%1").arg(m_devices[QString("net")][key.remove(QRegExp(QString("^(down|up)"))).toInt()]);
     else if (key.startsWith(QString("pkgcount")))
-        foreach(ExtUpgrade *item, extUpgrade->items()) {
-            if (item->tag(QString("pkgcount")) != key) continue;
-            return item->executable();
-        }
+        return extUpgrade->itemByTagNumber(key.remove(QString("pkgcount")).toInt())->uniq();
     else if (key.contains(QRegExp(QString("(^|perc)(ask|bid|price)(chg|)"))))
-        foreach(ExtQuotes *item, extQuotes->items()) {
-            if (item->number() != key.remove(QRegExp(QString("(^|perc)(ask|bid|price)(chg|)"))).toInt()) continue;
-            return item->ticker();
-        }
+        return extQuotes->itemByTagNumber(key.remove(QRegExp(QString("(^|perc)(ask|bid|price)(chg|)"))).toInt())->uniq();
+    else if (key.contains(QRegExp(QString("(weather|weatherId|humidity|pressure|temperature)"))))
+        return extWeather->itemByTagNumber(key.remove(QRegExp(QString("(weather|weatherId|humidity|pressure|temperature)"))).toInt())->uniq();
     else if (key.startsWith(QString("temp")))
-        return QString("%1").arg(tempDevices[key.remove(QString("temp")).toInt()]);
+        return QString("%1").arg(m_devices[QString("temp")][key.remove(QString("temp")).toInt()]);
 
     return QString("(none)");
 }
 
 
+// HACK this method requires to define tag value from bar from UI interface
 QString AWKeys::valueByKey(QString key) const
 {
     qCDebug(LOG_AW);
@@ -403,8 +382,7 @@ void AWKeys::dataUpdate()
     qCDebug(LOG_AW);
 
     calculateValues();
-    calculateLambdas();
-    emit(needTextToBeUpdated(parsePattern()));
+    emit(needTextToBeUpdated(parsePattern(m_pattern)));
     emit(dataAggregator->updateData(values));
 }
 
@@ -418,35 +396,13 @@ void AWKeys::loadKeysFromCache()
     qCInfo(LOG_AW) << "Cache file" << fileName;
     QSettings cache(fileName, QSettings::IniFormat);
 
-    cache.beginGroup(QString("Disk"));
-    diskDevices.clear();
-    foreach(QString key, cache.allKeys())
-        diskDevices.append(cache.value(key).toString());
-    cache.endGroup();
-
-    cache.beginGroup(QString("Hdd"));
-    hddDevices.clear();
-    foreach(QString key, cache.allKeys())
-        hddDevices.append(cache.value(key).toString());
-    cache.endGroup();
-
-    cache.beginGroup(QString("Mount"));
-    mountDevices.clear();
-    foreach(QString key, cache.allKeys())
-        mountDevices.append(cache.value(key).toString());
-    cache.endGroup();
-
-    cache.beginGroup(QString("Network"));
-    networkDevices.clear();
-    foreach(QString key, cache.allKeys())
-        networkDevices.append(cache.value(key).toString());
-    cache.endGroup();
-
-    cache.beginGroup(QString("Temp"));
-    tempDevices.clear();
-    foreach(QString key, cache.allKeys())
-        tempDevices.append(cache.value(key).toString());
-    cache.endGroup();
+    foreach(QString group, cache.childGroups()) {
+        cache.beginGroup(group);
+        m_devices.remove(group);
+        foreach(QString key, cache.allKeys())
+            m_devices[group].append(cache.value(key).toString());
+        cache.endGroup();
+    }
 
     return reinitKeys();
 }
@@ -474,7 +430,7 @@ void AWKeys::reinitKeys()
     QStringList allKeys = dictKeys();
 
     // not documented feature - place all available tags
-    pattern = pattern.replace(QString("$ALL"), [allKeys](){
+    m_pattern = m_pattern.replace(QString("$ALL"), [allKeys](){
         QStringList strings;
         foreach(QString tag, allKeys)
             strings.append(QString("%1: $%1").arg(tag));
@@ -483,7 +439,7 @@ void AWKeys::reinitKeys()
 
     // append lists
     // bars
-    foundBars = [allKeys](QString pattern) {
+    m_foundBars = [allKeys](QString pattern) {
         QStringList selectedKeys;
         foreach(QString key, allKeys)
             if ((key.startsWith(QString("bar"))) &&
@@ -493,10 +449,10 @@ void AWKeys::reinitKeys()
             }
         if (selectedKeys.isEmpty()) qCWarning(LOG_AW) << "No bars found";
         return selectedKeys;
-    }(pattern);
+    }(m_pattern);
 
     // main key list
-    foundKeys = [allKeys](QString pattern) {
+    m_foundKeys = [allKeys](QString pattern) {
         QStringList selectedKeys;
         foreach(QString key, allKeys)
             if ((!key.startsWith(QString("bar"))) &&
@@ -506,10 +462,10 @@ void AWKeys::reinitKeys()
             }
         if (selectedKeys.isEmpty()) qCWarning(LOG_AW) << "No keys found";
         return selectedKeys;
-    }(pattern);
+    }(m_pattern);
 
     // lambdas
-    foundLambdas = [](QString pattern) {
+    m_foundLambdas = [](QString pattern) {
         QStringList selectedKeys;
         // substring inside ${{ }} (with brackets) which should not contain ${{
         QRegularExpression lambdaRegexp(QString("\\$\\{\\{((?!\\$\\{\\{).)*?\\}\\}"));
@@ -528,18 +484,10 @@ void AWKeys::reinitKeys()
         }
         if (selectedKeys.isEmpty()) qCWarning(LOG_AW) << "No lambdas found";
         return selectedKeys;
-    }(pattern);
+    }(m_pattern);
 
     // set key data to aggregator
-    aggregator->setDevices([this]() {
-        QHash<QString, QStringList> deviceList;
-        deviceList[QString("disk")] = diskDevices;
-        deviceList[QString("hdd")] = hddDevices;
-        deviceList[QString("mount")] = mountDevices;
-        deviceList[QString("net")] = networkDevices;
-        deviceList[QString("temp")] = tempDevices;
-        return deviceList;
-    }());
+    aggregator->setDevices(m_devices);
 }
 
 
@@ -558,7 +506,7 @@ void AWKeys::addKeyToCache(const QString type, const QString key)
     foreach(QString key, cache.allKeys())
         cachedValues.append(cache.value(key).toString());
 
-    if (type == QString("Hdd")) {
+    if (type == QString("hdd")) {
         QStringList allDevices = QDir(QString("/dev")).entryList(QDir::System, QDir::Name);
         QStringList devices = allDevices.filter(QRegExp(QString("^[hms]d[a-z]$")));
         foreach(QString dev, devices) {
@@ -567,7 +515,7 @@ void AWKeys::addKeyToCache(const QString type, const QString key)
             qCInfo(LOG_AW) << "Found new key" << device << "for type" << type;
             cache.setValue(QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), device);
         }
-    } else if (type == QString("Network")) {
+    } else if (type == QString("net")) {
         QList<QNetworkInterface> rawInterfaceList = QNetworkInterface::allInterfaces();
         foreach(QNetworkInterface interface, rawInterfaceList) {
             QString device = interface.name();
@@ -587,29 +535,6 @@ void AWKeys::addKeyToCache(const QString type, const QString key)
 }
 
 
-void AWKeys::calculateLambdas()
-{
-    qCDebug(LOG_AW);
-
-    foreach(QString key, foundLambdas)
-        values[key] = [this](QString key) {
-            QScriptEngine engine;
-            // apply $this values
-            key.replace(QString("$this"), values[key]);
-            foreach(QString lambdaKey, foundKeys)
-                key.replace(QString("$%1").arg(lambdaKey), values[lambdaKey]);
-            qCInfo(LOG_AW) << "Expression" << key;
-            QScriptValue result = engine.evaluate(key);
-            if (engine.hasUncaughtException()) {
-                int line = engine.uncaughtExceptionLineNumber();
-                qCWarning(LOG_AW) << "Uncaught exception at line" << line << ":" << result.toString();
-                return QString();
-            } else
-                return result.toString();
-        }(key);
-}
-
-
 // HACK this method is required since I could not define some values by using
 // specified pattern. Usually they are values which depend on several others
 void AWKeys::calculateValues()
@@ -617,8 +542,8 @@ void AWKeys::calculateValues()
     qCDebug(LOG_AW);
 
     // hddtot*
-    foreach(QString device, hddDevices) {
-        int index = hddDevices.indexOf(device);
+    foreach(QString device, m_devices[QString("mount")]) {
+        int index = m_devices[QString("mount")].indexOf(device);
         values[QString("hddtotmb%1").arg(index)] = QString("%1").arg(
             values[QString("hddfreemb%1").arg(index)].toFloat() +
             values[QString("hddmb%1").arg(index)].toFloat(), 5, 'f', 0);
@@ -638,7 +563,7 @@ void AWKeys::calculateValues()
         5, 'f', 1);
 
     // up, down, upkb, downkb, upunits, downunits
-    int netIndex = networkDevices.indexOf(values[QString("netdev")]);
+    int netIndex = m_devices[QString("net")].indexOf(values[QString("netdev")]);
     values[QString("down")] = values[QString("down%1").arg(netIndex)];
     values[QString("downkb")] = values[QString("downkb%1").arg(netIndex)];
     values[QString("downunits")] = values[QString("downunits%1").arg(netIndex)];
@@ -655,23 +580,41 @@ void AWKeys::calculateValues()
     values[QString("swap")] = QString("%1").arg(
         100.0 * values[QString("swapmb")].toFloat() / values[QString("swaptotmb")].toFloat(),
         5, 'f', 1);
+
+    // lambdas
+    foreach(QString key, m_foundLambdas)
+        values[key] = [this](QString key) {
+            QScriptEngine engine;
+            // apply $this values
+            key.replace(QString("$this"), values[key]);
+            foreach(QString lambdaKey, m_foundKeys)
+                key.replace(QString("$%1").arg(lambdaKey), values[lambdaKey]);
+            qCInfo(LOG_AW) << "Expression" << key;
+            QScriptValue result = engine.evaluate(key);
+            if (engine.hasUncaughtException()) {
+                int line = engine.uncaughtExceptionLineNumber();
+                qCWarning(LOG_AW) << "Uncaught exception at line" << line << ":" << result.toString();
+                return QString();
+            } else
+                return result.toString();
+        }(key);
 }
 
 
-QString AWKeys::parsePattern() const
+QString AWKeys::parsePattern(QString pattern) const
 {
     qCDebug(LOG_AW);
 
-    QString parsed = pattern;
-    parsed.replace(QString("$$"), QString("$\\$\\"));
+    // screen sign
+    pattern.replace(QString("$$"), QString("$\\$\\"));
 
     // lambdas
-    foreach(QString key, foundLambdas)
-        parsed.replace(QString("${{%1}}").arg(key), values[key]);
+    foreach(QString key, m_foundLambdas)
+        pattern.replace(QString("${{%1}}").arg(key), values[key]);
 
     // main keys
-    foreach(QString key, foundKeys)
-        parsed.replace(QString("$%1").arg(key), [](QString key, QString value) {
+    foreach(QString key, m_foundKeys)
+        pattern.replace(QString("$%1").arg(key), [](QString key, QString value) {
             if ((!key.startsWith(QString("custom"))) &&
                 (!key.startsWith(QString("weather"))))
                 value.replace(QString(" "), QString("&nbsp;"));
@@ -679,36 +622,40 @@ QString AWKeys::parsePattern() const
         }(key, values[key]));
 
     // bars
-    foreach(QString bar, foundBars) {
+    foreach(QString bar,m_foundBars) {
         GraphicalItem *item = graphicalItems->itemByTag(bar);
         QString key = bar;
         key.remove(QRegExp(QString("^bar[0-9]{1,}")));
         if (item->type() == GraphicalItem::Graph)
-            parsed.replace(QString("$%1").arg(bar), item->image([](const QList<float> data) {
+            pattern.replace(QString("$%1").arg(bar), item->image([](const QList<float> data) {
                 return QVariant::fromValue<QList<float>>(data);
             }(dataAggregator->getData(key))));
         else
-            parsed.replace(QString("$%1").arg(bar), item->image(values[key]));
+            pattern.replace(QString("$%1").arg(bar), item->image(values[key]));
     }
 
-
     // prepare strings
-    parsed.replace(QString("$\\$\\"), QString("$$"));
-    if (wrapNewLines) parsed.replace(QString("\n"), QString("<br>"));
+    pattern.replace(QString("$\\$\\"), QString("$$"));
+    if (m_wrapNewLines) pattern.replace(QString("\n"), QString("<br>"));
 
-    return parsed;
+    return pattern;
 }
 
 
 void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data)
 {
+#ifdef BUILD_FUTURE
     // check if data stream is locked
     lock = ((lock) && (queue > 0));
     if (lock) return;
+#endif /* BUILD_FUTURE */
 
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Source" << sourceName;
     qCDebug(LOG_AW) << "Data" << data;
+
+    // update
+    if (sourceName == QString("update")) return emit(needToBeUpdated());
 
     // drop if limits are reached
     if (++queue > QUEUE_LIMIT) {
@@ -718,7 +665,7 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data)
     }
 
     // first list init
-    QStringList tags = aggregator->keyFromSource(sourceName);
+    QStringList tags = aggregator->keysFromSource(sourceName);
     if (tags.isEmpty())
         tags = aggregator->registerSource(sourceName, data[QString("units")].toString());
 

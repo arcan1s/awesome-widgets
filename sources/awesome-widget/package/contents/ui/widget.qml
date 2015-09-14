@@ -17,6 +17,7 @@
 
 import QtQuick 2.0
 import QtQuick.Controls 1.3 as QtControls
+import QtQuick.Dialogs 1.2 as QtDialogs
 import org.kde.plasma.core 2.0 as PlasmaCore
 
 import org.kde.plasma.private.awesomewidget 1.0
@@ -42,6 +43,7 @@ Item {
     property alias cfg_text: textPattern.text
 
     signal dropSource(string sourceName)
+    signal needTextUpdate(string newText)
 
 
     Column {
@@ -197,7 +199,7 @@ Item {
             height: implicitHeight
             width: parent.width
             QtControls.ComboBox {
-                width: (parent.width - addTagButton.width - showValueButton.width - addLambdaButton.width) / 2
+                width: parent.width * 1 / 5
                 textRole: "label"
                 model: [
                     {
@@ -262,10 +264,10 @@ Item {
             }
             QtControls.ComboBox {
                 id: tags
-                width: (parent.width - addTagButton.width - showValueButton.width - addLambdaButton.width) / 2
+                width: parent.width * 1 / 5
             }
             QtControls.Button {
-                id: addTagButton
+                width: parent.width * 1 / 5
                 text: i18n("Add")
 
                 onClicked: {
@@ -278,7 +280,7 @@ Item {
                 }
             }
             QtControls.Button {
-                id: showValueButton
+                width: parent.width * 1 / 5
                 text: i18n("Show value")
 
                 onClicked: {
@@ -293,7 +295,7 @@ Item {
                 }
             }
             QtControls.Button {
-                id: addLambdaButton
+                width: parent.width * 1 / 5
                 text: i18n("Add lambda")
 
                 onClicked: {
@@ -310,9 +312,17 @@ Item {
             height: implicitHeight
             width: parent.width
             QtControls.Button {
-                width: parent.width
+                width: parent.width * 3 / 5
                 text: i18n("Edit bars")
                 onClicked: awKeys.editItem("graphicalitem")
+            }
+            QtControls.Button {
+                width: parent.width * 2 / 5
+                text: i18n("Preview")
+                onClicked: {
+                    awKeys.initKeys(textPattern.text)
+                    awKeys.needToBeUpdated()
+                }
             }
         }
 
@@ -323,6 +333,12 @@ Item {
             textFormat: TextEdit.PlainText
             text: plasmoid.configuration.text
         }
+    }
+
+    QtDialogs.MessageDialog {
+        id: compiledText
+        modality: Qt.NonModal
+        title: i18n("Preview")
     }
 
     // we need to initializate DataEngines here too
@@ -346,6 +362,8 @@ Item {
         interval: 5000
 
         onNewData: {
+            // even after a disconnect it is possible that we'll receive an update
+            if (sourceName == "update") return
             if (debug) console.debug("Update source", sourceName)
             awKeys.dataUpdateReceived(sourceName, data)
         }
@@ -369,6 +387,7 @@ Item {
         // drop "update" source which does not required by this page
         extsysmonDE.disconnectSource("update")
         awKeys.dropSourceFromDataengine.connect(dropSource)
+        awKeys.needTextToBeUpdated.connect(needTextUpdate)
         // init submodule
         awKeys.initKeys(plasmoid.configuration.text)
         awKeys.setAggregatorProperty("acOffline", plasmoid.configuration.acOffline)
@@ -384,5 +403,12 @@ Item {
         if (debug) console.debug("Source", sourceName)
 
         systemmonitorDE.disconnectSource(sourceName)
+    }
+
+    onNeedTextUpdate: {
+        if (debug) console.debug()
+
+        compiledText.text = newText.replace(/&nbsp;/g, " ")
+        compiledText.open()
     }
 }

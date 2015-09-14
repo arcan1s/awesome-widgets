@@ -55,7 +55,10 @@ AWActions::~AWActions()
 void AWActions::checkUpdates(const bool showAnyway)
 {
     qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << "Show anyway" << showAnyway;
 
+    // showAnyway options requires to show message if no updates found on direct
+    // request. In case of automatic check no message will be shown
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
     connect(manager, &QNetworkAccessManager::finished,
             [showAnyway, this](QNetworkReply *reply) {
@@ -77,6 +80,7 @@ bool AWActions::dropCache() const
 }
 
 
+// HACK: since QML could not use QLoggingCategory I need this hack
 bool AWActions::isDebugEnabled() const
 {
     qCDebug(LOG_AW);
@@ -85,18 +89,18 @@ bool AWActions::isDebugEnabled() const
 }
 
 
-void AWActions::runCmd(const QString cmd) const
+bool AWActions::runCmd(const QString cmd) const
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Cmd" << cmd;
 
-    QProcess command;
     sendNotification(QString("Info"), i18n("Run %1", cmd));
 
-    command.startDetached(cmd);
+    return QProcess::startDetached(cmd);
 }
 
 
+// HACK: this method uses variable from version.h
 void AWActions::showReadme() const
 {
     qCDebug(LOG_AW);
@@ -105,6 +109,7 @@ void AWActions::showReadme() const
 }
 
 
+// HACK: this method uses variables from version.h
 QString AWActions::getAboutText(const QString type) const
 {
     qCDebug(LOG_AW);
@@ -184,6 +189,8 @@ QVariantMap AWActions::readDataEngineConfiguration() const
     configuration[QString("PLAYERSYMBOLS")] = settings.value(QString("PLAYERSYMBOLS"), QString("10"));
     settings.endGroup();
 
+    qCInfo(LOG_AW) << "Configuration" << configuration;
+
     return configuration;
 }
 
@@ -212,6 +219,7 @@ void AWActions::writeDataEngineConfiguration(const QVariantMap configuration) co
 }
 
 
+// to avoid additional object definition this method is static
 void AWActions::sendNotification(const QString eventId, const QString message)
 {
     qCDebug(LOG_AW);
@@ -259,6 +267,7 @@ void AWActions::versionReplyRecieved(QNetworkReply *reply, const bool showAnyway
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Return code" << reply->error();
     qCDebug(LOG_AW) << "Reply error message" << reply->errorString();
+    qCDebug(LOG_AW) << "Show anyway" << showAnyway;
 
     QJsonParseError error;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll(), &error);
@@ -275,6 +284,7 @@ void AWActions::versionReplyRecieved(QNetworkReply *reply, const bool showAnyway
     version.remove(QString("V."));
     qCInfo(LOG_AW) << "Found version" << version;
 
+    // FIXME: possible there is a better way to check versions
     int old_major = QString(VERSION).split(QChar('.')).at(0).toInt();
     int old_minor = QString(VERSION).split(QChar('.')).at(1).toInt();
     int old_patch = QString(VERSION).split(QChar('.')).at(2).toInt();

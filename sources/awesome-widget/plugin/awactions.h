@@ -36,7 +36,7 @@ public:
     Q_INVOKABLE void checkUpdates(const bool showAnyway = false);
     Q_INVOKABLE bool dropCache() const;
     Q_INVOKABLE bool isDebugEnabled() const;
-    Q_INVOKABLE void runCmd(const QString cmd = QString("/usr/bin/true")) const;
+    Q_INVOKABLE bool runCmd(const QString cmd = QString("/usr/bin/true")) const;
     Q_INVOKABLE void showReadme() const;
     // configuration slots
     Q_INVOKABLE QString getAboutText(const QString type = QString("header")) const;
@@ -52,8 +52,6 @@ private slots:
     void showInfo(const QString version) const;
     void showUpdates(const QString version) const;
     void versionReplyRecieved(QNetworkReply *reply, const bool showAnyway) const;
-
-private:
 };
 
 

@@ -90,7 +90,7 @@ QString AWKeysAggregator::formater(const QVariant data, const QString key) const
     case Quotes:
         // first cast
         output = QString("%1").arg(data.toDouble(), 0, 'f');
-        output = output.leftJustified(8, QLatin1Char(' '), true);
+        output = output.rightJustified(8, QLatin1Char(' '), true);
         break;
     case Temperature:
         output = QString("%1").arg(temperature(data.toFloat()), 5, 'f', 1);
@@ -140,7 +140,7 @@ QString AWKeysAggregator::formater(const QVariant data, const QString key) const
 }
 
 
-QStringList AWKeysAggregator::keyFromSource(const QString source) const
+QStringList AWKeysAggregator::keysFromSource(const QString source) const
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Search for source" << source;
@@ -502,7 +502,7 @@ QStringList AWKeysAggregator::registerSource(const QString source, const QString
         m_formater[key] = NoFormat;
     }
 
-    return keyFromSource(source);
+    return keysFromSource(source);
 }
 
 
