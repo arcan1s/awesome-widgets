@@ -46,14 +46,11 @@ AWKeys::AWKeys(QObject *parent)
     qSetMessagePattern(LOG_FORMAT);
 
     aggregator = new AWKeysAggregator(this);
-
-    // backend
-    graphicalItems = new ExtItemAggregator<GraphicalItem>(nullptr, QString("desktops"));
-    extQuotes = new ExtItemAggregator<ExtQuotes>(nullptr, QString("quotes"));
-    extScripts = new ExtItemAggregator<ExtScript>(nullptr, QString("scripts"));
-    extUpgrade = new ExtItemAggregator<ExtUpgrade>(nullptr, QString("upgrade"));
-    extWeather = new ExtItemAggregator<ExtWeather>(nullptr, QString("weather"));
+    dataAggregator = new AWDataAggregator(this);
     connect(this, SIGNAL(needToBeUpdated()), this, SLOT(dataUpdate()));
+    // transfer signal from AWDataAggregator object to QML ui
+    connect(dataAggregator, SIGNAL(toolTipPainted(QString)),
+            this, SIGNAL(needToolTipToBeUpdated(QString)));
 }
 
 
@@ -61,14 +58,14 @@ AWKeys::~AWKeys()
 {
     qCDebug(LOG_AW);
 
-    if (dataAggregator != nullptr)  delete dataAggregator;
+    if (graphicalItems != nullptr) delete graphicalItems;
+    if (extQuotes != nullptr) delete extQuotes;
+    if (extScripts != nullptr) delete extScripts;
+    if (extUpgrade != nullptr) delete extUpgrade;
+    if (extWeather != nullptr) delete extWeather;
 
     delete aggregator;
-    delete graphicalItems;
-    delete extQuotes;
-    delete extScripts;
-    delete extUpgrade;
-    delete extWeather;
+    delete dataAggregator;
 }
 
 
@@ -77,16 +74,7 @@ void AWKeys::initDataAggregator(const QVariantMap tooltipParams)
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Tooltip parameters" << tooltipParams;
 
-    if (dataAggregator != nullptr) {
-        disconnect(dataAggregator, SIGNAL(toolTipPainted(QString)),
-                   this, SIGNAL(needToolTipToBeUpdated(QString)));
-        delete dataAggregator;
-    }
-
-    dataAggregator = new AWDataAggregator(this, tooltipParams);
-    // transfer signal from AWDataAggregator object to QML ui
-    connect(dataAggregator, SIGNAL(toolTipPainted(QString)),
-            this, SIGNAL(needToolTipToBeUpdated(QString)));
+    dataAggregator->setParameters(tooltipParams);
 }
 
 
@@ -134,7 +122,6 @@ void AWKeys::setWrapNewLines(const bool wrap)
 QSize AWKeys::toolTipSize() const
 {
     qCDebug(LOG_AW);
-    if (dataAggregator == nullptr) return QSize();
 
     return dataAggregator->getTooltipSize();
 }
@@ -418,7 +405,7 @@ void AWKeys::dataUpdate()
     calculateValues();
     calculateLambdas();
     emit(needTextToBeUpdated(parsePattern()));
-    if (dataAggregator != nullptr) emit(dataAggregator->updateData(values));
+    emit(dataAggregator->updateData(values));
 }
 
 
@@ -468,6 +455,20 @@ void AWKeys::loadKeysFromCache()
 void AWKeys::reinitKeys()
 {
     qCDebug(LOG_AW);
+
+    // renew extensions
+    // delete them if any
+    if (graphicalItems != nullptr) delete graphicalItems;
+    if (extQuotes != nullptr) delete extQuotes;
+    if (extScripts != nullptr) delete extScripts;
+    if (extUpgrade != nullptr) delete extUpgrade;
+    if (extWeather != nullptr) delete extWeather;
+    // create
+    graphicalItems = new ExtItemAggregator<GraphicalItem>(nullptr, QString("desktops"));
+    extQuotes = new ExtItemAggregator<ExtQuotes>(nullptr, QString("quotes"));
+    extScripts = new ExtItemAggregator<ExtScript>(nullptr, QString("scripts"));
+    extUpgrade = new ExtItemAggregator<ExtUpgrade>(nullptr, QString("upgrade"));
+    extWeather = new ExtItemAggregator<ExtWeather>(nullptr, QString("weather"));
 
     // init
     QStringList allKeys = dictKeys();
@@ -678,9 +679,18 @@ QString AWKeys::parsePattern() const
         }(key, values[key]));
 
     // bars
-    foreach(QString bar, foundBars)
-        parsed.replace(QString("$%1").arg(bar),
-                       graphicalItems->itemByTag(bar)->image(valueByKey(bar).toFloat()));
+    foreach(QString bar, foundBars) {
+        GraphicalItem *item = graphicalItems->itemByTag(bar);
+        QString key = bar;
+        key.remove(QRegExp(QString("^bar[0-9]{1,}")));
+        if (item->type() == GraphicalItem::Graph)
+            parsed.replace(QString("$%1").arg(bar), item->image([](const QList<float> data) {
+                return QVariant::fromValue<QList<float>>(data);
+            }(dataAggregator->getData(key))));
+        else
+            parsed.replace(QString("$%1").arg(bar), item->image(values[key]));
+    }
+
 
     // prepare strings
     parsed.replace(QString("$\\$\\"), QString("$$"));

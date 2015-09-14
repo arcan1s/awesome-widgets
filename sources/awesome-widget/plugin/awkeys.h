@@ -82,11 +82,11 @@ private:
     AWDataAggregator *dataAggregator = nullptr;
     bool enablePopup = false;
     bool wrapNewLines = false;
-    ExtItemAggregator<GraphicalItem> *graphicalItems;
-    ExtItemAggregator<ExtQuotes> *extQuotes;
-    ExtItemAggregator<ExtScript> *extScripts;
-    ExtItemAggregator<ExtUpgrade> *extUpgrade;
-    ExtItemAggregator<ExtWeather> *extWeather;
+    ExtItemAggregator<GraphicalItem> *graphicalItems = nullptr;
+    ExtItemAggregator<ExtQuotes> *extQuotes = nullptr;
+    ExtItemAggregator<ExtScript> *extScripts = nullptr;
+    ExtItemAggregator<ExtUpgrade> *extUpgrade = nullptr;
+    ExtItemAggregator<ExtWeather> *extWeather = nullptr;
     bool lock = false;
     int queue = 0;
     QString pattern;

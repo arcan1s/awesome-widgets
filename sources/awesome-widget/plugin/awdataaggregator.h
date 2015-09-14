@@ -32,10 +32,12 @@ class AWDataAggregator : public QObject
     Q_OBJECT
 
 public:
-    explicit AWDataAggregator(QObject *parent = nullptr, QVariantMap settings = QVariantMap());
+    explicit AWDataAggregator(QObject *parent = nullptr);
     virtual ~AWDataAggregator();
+    QList<float> getData(const QString key) const;
     QSize getTooltipSize() const;
-    QString htmlImage(const QPixmap source);
+    QString htmlImage(const QPixmap source) const;
+    void setParameters(QVariantMap settings);
     QPixmap tooltipImage();
 
 signals:
@@ -50,7 +52,8 @@ private:
     QGraphicsScene *toolTipScene = nullptr;
     QGraphicsView *toolTipView = nullptr;
     void checkValue(const QString source, const float value, const float extremum) const;
-    void checkValue(const QString source,  const QString current, const QString received) const;
+    void checkValue(const QString source, const QString current, const QString received) const;
+    void initScene();
     QString notificationText(const QString source, const float value) const;
     QString notificationText(const QString source, const QString value) const;
     void setData(const QString source, float value, const float extremum = -1.0);
@@ -60,7 +63,7 @@ private:
     int counts = 0;
     QVariantHash configuration;
     float currentGPULoad = 0.0;
-    QString currentNetworkDevice;
+    QString currentNetworkDevice = QString("lo");
     QHash<QString, float> boundaries;
     QHash<QString, QList<float>> data;
     bool enablePopup = false;

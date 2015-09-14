@@ -47,6 +47,7 @@ Item {
     property alias cfg_acOffline: acOffline.text
     property alias cfg_checkUpdates: updates.checked
     property alias cfg_translateStrings: translate.checked
+    property alias cfg_wrapText: wordWrap.checked
 
 
     Column {
@@ -117,6 +118,20 @@ Item {
                 id: wrapNewLines
                 width: parent.width * 3 / 5
                 text: i18n("Wrap new lines")
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.heigth
+                width: parent.width * 2 / 5
+            }
+            QtControls.CheckBox {
+                id: wordWrap
+                width: parent.width * 3 / 5
+                text: i18n("Enable word wrap")
             }
         }
 

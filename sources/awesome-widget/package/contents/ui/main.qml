@@ -17,6 +17,7 @@
 
 import QtQuick 2.4
 import QtQuick.Controls 1.3 as QtControls
+import QtQuick.Dialogs 1.2 as QtDialogs
 import QtQuick.Layouts 1.1
 import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
@@ -37,13 +38,6 @@ Item {
     }
 
     property bool debug: awActions.isDebugEnabled()
-    property variant settings: {
-        "customTime": plasmoid.configuration.customTime,
-        "customUptime": plasmoid.configuration.customUptime,
-        "tempUnits": plasmoid.configuration.tempUnits,
-        "acOnline": plasmoid.configuration.acOnline,
-        "acOffline": plasmoid.configuration.acOffline
-    }
     property variant tooltipSettings: {
         "tooltipNumber": plasmoid.configuration.tooltipNumber,
         "useTooltipBackground": plasmoid.configuration.useTooltipBackground,
@@ -63,8 +57,10 @@ Item {
         "upTooltipColor": plasmoid.configuration.upTooltipColor,
         "batTooltipColor": plasmoid.configuration.batTooltipColor,
         "batInTooltipColor": plasmoid.configuration.batInTooltipColor,
-        // additinal field to parse AC status
-        "acOnline": plasmoid.configuration.acOnline
+        // additional field to parse AC status
+        "acOnline": plasmoid.configuration.acOnline,
+        // additional field to send notifications
+        "notify": plasmoid.configuration.notify
     }
 
     signal dropSource(string sourceName)
@@ -93,7 +89,7 @@ Item {
 
         onNewData: {
             if (debug) console.debug("Update source", sourceName)
-            awKeys.dataUpdateReceived(sourceName, data, settings)
+            awKeys.dataUpdateReceived(sourceName, data)
         }
 
         onSourceAdded: {
@@ -110,8 +106,7 @@ Item {
 
         onNewData: {
             if (debug) console.debug("Update source", sourceName)
-//             extsysmonDE.interval = plasmoid.configuration.interval
-            awKeys.dataUpdateReceived(sourceName, data, settings)
+            awKeys.dataUpdateReceived(sourceName, data)
         }
     }
 
@@ -123,7 +118,7 @@ Item {
 
         onNewData: {
             if (debug) console.debug("Update source", sourceName)
-            awKeys.dataUpdateReceived(sourceName, data, settings)
+            awKeys.dataUpdateReceived(sourceName, data)
         }
     }
 
@@ -134,7 +129,7 @@ Item {
         anchors.fill: parent
         renderType: Text.NativeRendering
         textFormat: Text.RichText
-        wrapMode: Text.NoWrap
+        wrapMode: plasmoid.configuration.wrapText ? Text.WordWrap : Text.NoWrap
 
         horizontalAlignment: general.align[plasmoid.configuration.textAlign]
         verticalAlignment: Text.AlignVCenter
@@ -154,6 +149,27 @@ Item {
                 width: contentWidth
                 textFormat: Text.RichText
             }
+        }
+    }
+
+    QtDialogs.Dialog {
+        id: tagSelector
+        title: i18n("Select tag")
+
+        QtControls.ComboBox {
+            id: tagSelectorBox
+            width: parent.width
+            editable: true
+        }
+
+        onAccepted: {
+            var tag = tagSelectorBox.editText
+            var message = i18n("Tag: %1", tag)
+            message += "<br>"
+            message += i18n("Value: %1", awKeys.valueByKey(tag))
+            message += "<br>"
+            message += i18n("Info: %1", awKeys.infoByKey(tag))
+            awActions.sendNotification("tag", message)
         }
     }
 
@@ -221,10 +237,15 @@ Item {
 
         // init submodule
         awKeys.initKeys(plasmoid.configuration.text)
-        awKeys.initTooltip(tooltipSettings)
-        awKeys.setPopupEnabled(plasmoid.configuration.notify)
-        awKeys.setTranslateStrings(plasmoid.configuration.translateStrings)
+        awKeys.initDataAggregator(tooltipSettings)
         awKeys.setWrapNewLines(plasmoid.configuration.wrapNewLines)
+        // configure aggregator
+        awKeys.setAggregatorProperty("acOffline", plasmoid.configuration.acOffline)
+        awKeys.setAggregatorProperty("acOnline", plasmoid.configuration.acOnline)
+        awKeys.setAggregatorProperty("customTime", plasmoid.configuration.customTime)
+        awKeys.setAggregatorProperty("customUptime", plasmoid.configuration.customUptime)
+        awKeys.setAggregatorProperty("tempUnits", plasmoid.configuration.tempUnits)
+        awKeys.setAggregatorProperty("translate", plasmoid.configuration.translateStrings)
     }
 
     function action_checkUpdates() {
@@ -242,6 +263,7 @@ Item {
     function action_requestKey() {
         if (debug) console.debug()
 
-        return awKeys.graphicalValueByKey()
+        tagSelectorBox.model = awKeys.dictKeys(true)
+        return tagSelector.open()
     }
 }

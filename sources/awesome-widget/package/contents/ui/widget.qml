@@ -38,33 +38,6 @@ Item {
     implicitHeight: pageColumn.implicitHeight
 
     property bool debug: awActions.isDebugEnabled()
-    property variant settings: {
-        "customTime": plasmoid.configuration.customTime,
-        "customUptime": plasmoid.configuration.customUptime,
-        "tempUnits": plasmoid.configuration.tempUnits,
-        "acOnline": plasmoid.configuration.acOnline,
-        "acOffline": plasmoid.configuration.acOffline
-    }
-    property variant tooltipSettings: {
-        "tooltipNumber": plasmoid.configuration.tooltipNumber,
-        "useTooltipBackground": plasmoid.configuration.useTooltipBackground,
-        "tooltipBackgroung": plasmoid.configuration.tooltipBackgroung,
-        "cpuTooltip": plasmoid.configuration.cpuTooltip,
-        "cpuclTooltip": plasmoid.configuration.cpuclTooltip,
-        "memTooltip": plasmoid.configuration.memTooltip,
-        "swapTooltip": plasmoid.configuration.swapTooltip,
-        "downTooltip": plasmoid.configuration.downTooltip,
-        "upTooltip": plasmoid.configuration.downTooltip,
-        "batTooltip": plasmoid.configuration.batTooltip,
-        "cpuTooltipColor": plasmoid.configuration.cpuTooltipColor,
-        "cpuclTooltipColor": plasmoid.configuration.cpuclTooltipColor,
-        "memTooltipColor": plasmoid.configuration.memTooltipColor,
-        "swapTooltipColor": plasmoid.configuration.swapTooltipColor,
-        "downTooltipColor": plasmoid.configuration.downTooltipColor,
-        "upTooltipColor": plasmoid.configuration.upTooltipColor,
-        "batTooltipColor": plasmoid.configuration.batTooltipColor,
-        "batInTooltipColor": plasmoid.configuration.batInTooltipColor
-    }
 
     property alias cfg_text: textPattern.text
 
@@ -362,7 +335,7 @@ Item {
 
         onNewData: {
             if (debug) console.debug("Update source", sourceName)
-            awKeys.dataUpdateReceived(sourceName, data, settings)
+            awKeys.dataUpdateReceived(sourceName, data)
         }
     }
 
@@ -374,7 +347,7 @@ Item {
 
         onNewData: {
             if (debug) console.debug("Update source", sourceName)
-            awKeys.dataUpdateReceived(sourceName, data, settings)
+            awKeys.dataUpdateReceived(sourceName, data)
         }
     }
 
@@ -386,16 +359,24 @@ Item {
 
         onNewData: {
             if (debug) console.debug("Update source", sourceName)
-            awKeys.dataUpdateReceived(sourceName, data, settings)
+            awKeys.dataUpdateReceived(sourceName, data)
         }
     }
 
     Component.onCompleted: {
         if (debug) console.debug()
 
+        // drop "update" source which does not required by this page
+        extsysmonDE.disconnectSource("update")
         awKeys.dropSourceFromDataengine.connect(dropSource)
         // init submodule
         awKeys.initKeys(plasmoid.configuration.text)
+        awKeys.setAggregatorProperty("acOffline", plasmoid.configuration.acOffline)
+        awKeys.setAggregatorProperty("acOnline", plasmoid.configuration.acOnline)
+        awKeys.setAggregatorProperty("customTime", plasmoid.configuration.customTime)
+        awKeys.setAggregatorProperty("customUptime", plasmoid.configuration.customUptime)
+        awKeys.setAggregatorProperty("tempUnits", plasmoid.configuration.tempUnits)
+        awKeys.setAggregatorProperty("translate", plasmoid.configuration.translateStrings)
     }
 
     onDropSource: {

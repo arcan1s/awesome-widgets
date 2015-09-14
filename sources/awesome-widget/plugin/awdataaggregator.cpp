@@ -20,25 +20,69 @@
 #include <KI18n/KLocalizedString>
 
 #include <QBuffer>
+
 #include <math.h>
 
 #include "awactions.h"
 #include "awdebug.h"
 
 
-AWDataAggregator::AWDataAggregator(QObject *parent, QVariantMap settings)
-    : QObject(parent),
-      configuration(qvariant_cast<QVariantHash>(settings))
+AWDataAggregator::AWDataAggregator(QObject *parent)
+    : QObject(parent)
 {
     qCDebug(LOG_AW);
 
-    toolTipScene = new QGraphicsScene(nullptr);
-    toolTipView = new QGraphicsView(toolTipScene);
-    toolTipView->setStyleSheet(QString("background: transparent"));
-    toolTipView->setContentsMargins(0, 0, 0, 0);
-    toolTipView->setFrameShape(QFrame::NoFrame);
-    toolTipView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    toolTipView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    initScene();
+
+    connect(this, SIGNAL(updateData(QHash<QString, QString>)),
+            this, SLOT(dataUpdate(QHash<QString, QString>)));
+}
+
+
+AWDataAggregator::~AWDataAggregator()
+{
+    qCDebug(LOG_AW);
+
+    delete toolTipScene;
+}
+
+
+QList<float> AWDataAggregator::getData(const QString key) const
+{
+    qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << "Key" << key;
+
+    return data[QString("%1Tooltip").arg(key)];
+}
+
+
+QSize AWDataAggregator::getTooltipSize() const
+{
+    qCDebug(LOG_AW);
+
+    return size;
+}
+
+
+QString AWDataAggregator::htmlImage(const QPixmap source) const
+{
+    qCDebug(LOG_AW);
+
+    QByteArray byteArray;
+    QBuffer buffer(&byteArray);
+    source.save(&buffer, "PNG");
+
+    return byteArray.isEmpty() ? QString() :
+           QString("<img src=\"data:image/png;base64,%1\"/>").arg(QString(byteArray.toBase64()));
+}
+
+
+void AWDataAggregator::setParameters(QVariantMap settings)
+{
+    qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << "Settings" << settings;
+
+    configuration = qvariant_cast<QVariantHash>(settings);
 
     enablePopup = configuration[QString("notify")].toBool();
 
@@ -67,66 +111,10 @@ AWDataAggregator::AWDataAggregator(QObject *parent, QVariantMap settings)
     if (configuration[QString("upTooltip")].toBool()) requiredKeys.append(QString("upTooltip"));
     if (configuration[QString("batTooltip")].toBool()) requiredKeys.append(QString("batTooltip"));
 
-    connect(this, SIGNAL(updateData(QHash<QString, QString>)),
-            this, SLOT(dataUpdate(QHash<QString, QString>)));
-}
-
-
-AWDataAggregator::~AWDataAggregator()
-{
-    qCDebug(LOG_AW);
-
-    delete toolTipScene;
-}
-
-
-void AWDataAggregator::dataUpdate(QHash<QString, QString> values)
-{
-    qCDebug(LOG_AW);
-
-    // battery update requires info is AC online or not
-    setData(values[QString("ac")] == configuration[QString("acOnline")],
-            QString("batTooltip"), values[QString("bat")].toFloat());
-    // usual case
-    setData(QString("cpuTooltip"), values[QString("cpu")].toFloat(), 90.0);
-    setData(QString("cpuclTooltip"), values[QString("cpucl")].toFloat());
-    setData(QString("memTooltip"), values[QString("mem")].toFloat(), 90.0);
-    setData(QString("swapTooltip"), values[QString("swap")].toFloat(), 0.0);
-    setData(QString("downTooltip"), values[QString("downkb")].toFloat());
-    setData(QString("upTooltip"), values[QString("upkb")].toFloat());
-    // additional check for network device
-    [this](const QString value) {
-        checkValue(QString("netdev"), currentNetworkDevice, value);
-        currentNetworkDevice = value;
-    }(values[QString("netdev")]);
-    // additional check for GPU load
-    [this](const float value) {
-        checkValue(QString("gpu"), value, 90.0);
-        currentGPULoad = value;
-    }(values[QString("gpu")].toFloat());
-
-    emit(toolTipPainted(htmlImage(tooltipImage())));
-}
-
-
-QSize AWDataAggregator::getTooltipSize() const
-{
-    qCDebug(LOG_AW);
-
-    return size;
-}
-
-
-QString AWDataAggregator::htmlImage(const QPixmap source)
-{
-    qCDebug(LOG_AW);
-
-    QByteArray byteArray;
-    QBuffer buffer(&byteArray);
-    source.save(&buffer, "PNG");
-
-    return byteArray.isEmpty() ? QString() :
-           QString("<img src=\"data:image/png;base64,%1\"/>").arg(QString(byteArray.toBase64()));
+    // background
+    toolTipScene->setBackgroundBrush(configuration[QString("useTooltipBackground")].toBool() ?
+                                     QBrush(QColor(configuration[QString("tooltipBackground")].toString())) :
+                                     QBrush(Qt::NoBrush));
 }
 
 
@@ -138,10 +126,6 @@ QPixmap AWDataAggregator::tooltipImage()
     // create image
     toolTipScene->clear();
     QPen pen = QPen();
-    // background
-    toolTipScene->setBackgroundBrush(configuration[QString("useTooltipBackground")].toBool() ?
-                                     QBrush(QColor(configuration[QString("tooltipBackground")].toString())) :
-                                     QBrush(Qt::NoBrush));
     bool down = false;
     foreach(QString key, requiredKeys) {
         // create frame
@@ -174,6 +158,35 @@ QPixmap AWDataAggregator::tooltipImage()
 }
 
 
+void AWDataAggregator::dataUpdate(QHash<QString, QString> values)
+{
+    qCDebug(LOG_AW);
+
+    // battery update requires info is AC online or not
+    setData(values[QString("ac")] == configuration[QString("acOnline")],
+            QString("batTooltip"), values[QString("bat")].toFloat());
+    // usual case
+    setData(QString("cpuTooltip"), values[QString("cpu")].toFloat(), 90.0);
+    setData(QString("cpuclTooltip"), values[QString("cpucl")].toFloat());
+    setData(QString("memTooltip"), values[QString("mem")].toFloat(), 90.0);
+    setData(QString("swapTooltip"), values[QString("swap")].toFloat(), 0.0);
+    setData(QString("downTooltip"), values[QString("downkb")].toFloat());
+    setData(QString("upTooltip"), values[QString("upkb")].toFloat());
+    // additional check for network device
+    [this](const QString value) {
+        checkValue(QString("netdev"), currentNetworkDevice, value);
+        currentNetworkDevice = value;
+    }(values[QString("netdev")]);
+    // additional check for GPU load
+    [this](const float value) {
+        checkValue(QString("gpu"), value, 90.0);
+        currentGPULoad = value;
+    }(values[QString("gpu")].toFloat());
+
+    emit(toolTipPainted(htmlImage(tooltipImage())));
+}
+
+
 void AWDataAggregator::checkValue(const QString source, const float value, const float extremum) const
 {
     qCDebug(LOG_AW);
@@ -181,8 +194,13 @@ void AWDataAggregator::checkValue(const QString source, const float value, const
     qCDebug(LOG_AW) << "Value" << value;
     qCDebug(LOG_AW) << "Called with extremum" << extremum;
 
-    if ((enablePopup) && (value > extremum) && (data[source].last() < extremum))
-        return AWActions::sendNotification(QString("event"), notificationText(source, value));
+    if (value >= 0.0) {
+        if ((enablePopup) && (value > extremum) && (data[source].last() < extremum))
+            return AWActions::sendNotification(QString("event"), notificationText(source, value));
+    } else {
+        if ((enablePopup) && (value < extremum) && (data[source].last() > extremum))
+            return AWActions::sendNotification(QString("event"), notificationText(source, value));
+    }
 }
 
 
@@ -195,6 +213,20 @@ void AWDataAggregator::checkValue(const QString source, const QString current, c
 
     if ((enablePopup) && (current != received))
         return AWActions::sendNotification(QString("event"), notificationText(source, received));
+}
+
+
+void AWDataAggregator::initScene()
+{
+    qCDebug(LOG_AW);
+
+    toolTipScene = new QGraphicsScene(nullptr);
+    toolTipView = new QGraphicsView(toolTipScene);
+    toolTipView->setStyleSheet(QString("background: transparent"));
+    toolTipView->setContentsMargins(0, 0, 0, 0);
+    toolTipView->setFrameShape(QFrame::NoFrame);
+    toolTipView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    toolTipView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
 

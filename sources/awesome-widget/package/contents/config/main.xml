@@ -50,6 +50,9 @@
     <entry name="translateStrings" type="bool">
       <default>true</default>
     </entry>
+    <entry name="wrapText" type="bool">
+      <default>false</default>
+    </entry>
   </group>
 
   <group name="Tooltip">
