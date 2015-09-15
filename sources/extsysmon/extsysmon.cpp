@@ -40,7 +40,7 @@ ExtendedSysMon::ExtendedSysMon(QObject *parent, const QVariantList &args)
     setMinimumPollingInterval(333);
     readConfiguration();
 
-    // aggregator init
+    // init aggregator
     aggregator = new ExtSysMonAggregator(this, configuration);
     foreach(QString source, aggregator->sources())
         setData(source, aggregator->initialData(source));

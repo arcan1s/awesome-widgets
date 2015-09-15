@@ -41,7 +41,7 @@ private:
     // configuration and values
     ExtItemAggregator<ExtQuotes> *extQuotes;
     QStringList m_sources;
-    QHash<QString, QVariantHash> values;
+    QVariantHash values;
 };
 
 

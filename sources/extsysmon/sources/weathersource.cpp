@@ -46,10 +46,12 @@ QVariant WeatherSource::data(QString source)
     qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
-    if (source.startsWith(QString("weather/weatherId")))
-        values[source] = extWeather->itemByTagNumber(index(source))->run();
-    QString base = QString(source).remove(QString("weather/"));
-    return values[source][base];
+    if (source.startsWith(QString("weather/weatherId"))) {
+        QVariantHash data = extWeather->itemByTagNumber(index(source))->run();
+        foreach(QString key, data.keys()) values[key] = data[key];
+    }
+    QString key = QString(source).remove(QString("weather/"));
+    return values[key];
 }
 
 

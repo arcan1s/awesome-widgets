@@ -46,10 +46,12 @@ QVariant QuotesSource::data(QString source)
     qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
-    if (source.startsWith(QString("quotes/percpricechg")))
-        values[source] = extQuotes->itemByTagNumber(index(source))->run();
-    QString base = QString(source).remove(QString("quotes/"));
-    return values[source][base];
+    if (source.startsWith(QString("quotes/percpricechg"))) {
+        QVariantHash data = extQuotes->itemByTagNumber(index(source))->run();
+        foreach(QString key, data.keys()) values[key] = data[key];
+    }
+    QString key = QString(source).remove(QString("quotes/"));
+    return values[key];
 }
 
 
@@ -64,55 +66,55 @@ QVariantMap QuotesSource::initialData(QString source) const
         data[QString("min")] = 0.0;
         data[QString("max")] = 0.0;
         data[QString("name")] = QString("Absolute ask changes for '%1'").arg(extQuotes->itemByTagNumber(ind)->uniq());
-        data[QString("type")] = QString("float");
+        data[QString("type")] = QString("double");
         data[QString("units")] = QString("");
     } else if (source.startsWith(QString("quotes/ask"))) {
         data[QString("min")] = 0.0;
         data[QString("max")] = 0.0;
         data[QString("name")] = QString("Ask for '%1'").arg(extQuotes->itemByTagNumber(ind)->uniq());
-        data[QString("type")] = QString("float");
+        data[QString("type")] = QString("double");
         data[QString("units")] = QString("");
     } else if (source.startsWith(QString("quotes/percaskchg"))) {
         data[QString("min")] = -100.0;
         data[QString("max")] = 100.0;
         data[QString("name")] = QString("Ask changes for '%1'").arg(extQuotes->itemByTagNumber(ind)->uniq());
-        data[QString("type")] = QString("float");
+        data[QString("type")] = QString("double");
         data[QString("units")] = QString("");
     } else if (source.startsWith(QString("quotes/bidchg"))) {
         data[QString("min")] = 0.0;
         data[QString("max")] = 0.0;
         data[QString("name")] = QString("Absolute bid changes for '%1'").arg(extQuotes->itemByTagNumber(ind)->uniq());
-        data[QString("type")] = QString("float");
+        data[QString("type")] = QString("double");
         data[QString("units")] = QString("");
     } else if (source.startsWith(QString("quotes/bid"))) {
         data[QString("min")] = 0.0;
         data[QString("max")] = 0.0;
         data[QString("name")] = QString("Bid for '%1'").arg(extQuotes->itemByTagNumber(ind)->uniq());
-        data[QString("type")] = QString("float");
+        data[QString("type")] = QString("double");
         data[QString("units")] = QString("");
     } else if (source.startsWith(QString("quotes/percbidchg"))) {
         data[QString("min")] = -100.0;
         data[QString("max")] = 100.0;
         data[QString("name")] = QString("Bid changes for '%1'").arg(extQuotes->itemByTagNumber(ind)->uniq());
-        data[QString("type")] = QString("float");
+        data[QString("type")] = QString("double");
         data[QString("units")] = QString("");
     } else if (source.startsWith(QString("quotes/pricechg"))) {
         data[QString("min")] = 0.0;
         data[QString("max")] = 0.0;
         data[QString("name")] = QString("Absolute prie changes for '%1'").arg(extQuotes->itemByTagNumber(ind)->uniq());
-        data[QString("type")] = QString("float");
+        data[QString("type")] = QString("double");
         data[QString("units")] = QString("");
     } else if (source.startsWith(QString("quotes/price"))) {
         data[QString("min")] = 0.0;
         data[QString("max")] = 0.0;
         data[QString("name")] = QString("Price for '%1'").arg(extQuotes->itemByTagNumber(ind)->uniq());
-        data[QString("type")] = QString("float");
+        data[QString("type")] = QString("double");
         data[QString("units")] = QString("");
     } else if (source.startsWith(QString("quotes/percpricechg"))) {
         data[QString("min")] = -100.0;
         data[QString("max")] = 100.0;
         data[QString("name")] = QString("Price changes for '%1'").arg(extQuotes->itemByTagNumber(ind)->uniq());
-        data[QString("type")] = QString("float");
+        data[QString("type")] = QString("double");
         data[QString("units")] = QString("");
     }
 
