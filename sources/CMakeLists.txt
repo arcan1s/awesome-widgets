@@ -29,7 +29,7 @@ option(BUILD_FUTURE "Build with the features which will be marked as stable late
 option(BUILD_PLASMOIDS "Build plasmoids" ON)
 option(BUILD_DEB_PACKAGE "Build deb package" OFF)
 option(BUILD_RPM_PACKAGE "Build rpm package" OFF)
-set(QUEUE_LIMIT 10 CACHE INTEGER "Limit data queue to this value")
+set(QUEUE_LIMIT 0 CACHE INTEGER "Limit data queue to this value")
 
 # flags
 if(CMAKE_COMPILER_IS_GNUCXX)

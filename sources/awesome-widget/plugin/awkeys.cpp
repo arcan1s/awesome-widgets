@@ -20,12 +20,11 @@
 #include <QtConcurrent/QtConcurrent>
 #include <QDir>
 #include <QInputDialog>
+#include <QJSEngine>
 #include <QNetworkInterface>
 #include <QRegExp>
-#include <QScriptEngine>
 #include <QSettings>
 #include <QStandardPaths>
-#include <QThread>
 
 #include "awdebug.h"
 #include "awkeysaggregator.h"
@@ -584,16 +583,16 @@ void AWKeys::calculateValues()
     // lambdas
     foreach(QString key, m_foundLambdas)
         values[key] = [this](QString key) {
-            QScriptEngine engine;
+            QJSEngine engine;
             // apply $this values
             key.replace(QString("$this"), values[key]);
             foreach(QString lambdaKey, m_foundKeys)
                 key.replace(QString("$%1").arg(lambdaKey), values[lambdaKey]);
             qCInfo(LOG_AW) << "Expression" << key;
-            QScriptValue result = engine.evaluate(key);
-            if (engine.hasUncaughtException()) {
-                int line = engine.uncaughtExceptionLineNumber();
-                qCWarning(LOG_AW) << "Uncaught exception at line" << line << ":" << result.toString();
+            QJSValue result = engine.evaluate(key);
+            if (result.isError()) {
+                qCWarning(LOG_AW) << "Uncaught exception at line" << result.property("lineNumber").toInt()
+                                  << ":" << result.toString();
                 return QString();
             } else
                 return result.toString();
@@ -646,8 +645,7 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data)
 {
 #ifdef BUILD_FUTURE
     // check if data stream is locked
-    lock = ((lock) && (queue > 0));
-    if (lock) return;
+//     if ((lock = ((lock) && (queue > 0)))) return;
 #endif /* BUILD_FUTURE */
 
     qCDebug(LOG_AW);
@@ -658,9 +656,11 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data)
     if (sourceName == QString("update")) return emit(needToBeUpdated());
 
     // drop if limits are reached
-    if (++queue > QUEUE_LIMIT) {
-        qCWarning(LOG_AW) << "Messages queue" << queue-- << "more than limits" << QUEUE_LIMIT << ", lock";
-        lock = true;
+//     qDebug() << ++queue;
+//     if (queue > queueLimit) {
+    if (++queue > queueLimit) {
+        qCWarning(LOG_AW) << "Messages queue" << queue-- << "more than limits" << queueLimit;
+//         lock = true;
         return;
     }
 
@@ -681,5 +681,9 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data)
         });
     }
 
+//     volatile float n = 1.0;
+//     for (volatile float i=1.0; i<100000.0; i++)
+//         n *= i;
+//     qDebug() << queue-- << queueLimit;
     queue--;
 }

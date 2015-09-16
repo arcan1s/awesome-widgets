@@ -19,11 +19,11 @@
 #ifndef AWKEYS_H
 #define AWKEYS_H
 
-#include <QHash>
 #include <QObject>
-#include <QVariant>
+#include <QThread>
 
 #include "extitemaggregator.h"
+#include "version.h"
 
 
 class AWDataAggregator;
@@ -75,20 +75,27 @@ private:
     void calculateValues();
     QString parsePattern(QString pattern) const;
     void setDataBySource(const QString sourceName, const QVariantMap data);
+    // objects
     AWKeysAggregator *aggregator = nullptr;
     AWDataAggregator *dataAggregator = nullptr;
-    bool m_wrapNewLines = false;
     ExtItemAggregator<GraphicalItem> *graphicalItems = nullptr;
     ExtItemAggregator<ExtQuotes> *extQuotes = nullptr;
     ExtItemAggregator<ExtScript> *extScripts = nullptr;
     ExtItemAggregator<ExtUpgrade> *extUpgrade = nullptr;
     ExtItemAggregator<ExtWeather> *extWeather = nullptr;
+    // variables
+    QHash<QString, QStringList> m_devices;
+    QStringList m_foundBars, m_foundKeys, m_foundLambdas;
+    QString m_pattern;
+    QHash<QString, QString> values;
+    bool m_wrapNewLines = false;
+    // queue and stream lock properties
     bool lock = false;
     int queue = 0;
-    QString m_pattern;
-    QStringList m_foundBars, m_foundKeys, m_foundLambdas;
-    QHash<QString, QString> values;
-    QHash<QString, QStringList> m_devices;
+    // queue limit. It may be configured by using QUEUE_LIMIT cmake limit flag.
+    // In other hand since I'm using global thread pool, it makes sense to limit
+    // queue by QThread::idealThreadCount() value
+    const int queueLimit = QUEUE_LIMIT == 0 ? QThread::idealThreadCount() : QUEUE_LIMIT;
 };
 
 

@@ -19,11 +19,9 @@
 #ifndef DPADDS_H
 #define DPADDS_H
 
-#include <Plasma/Containment>
-
-#include <QMap>
-#include <QObject>
-#include <QVariant>
+// ui library required by WId definition
+#include <QGuiApplication>
+#include <QRect>
 
 
 class DPAdds : public QObject
@@ -71,10 +69,10 @@ public slots:
 private:
     DesktopWindowsInfo getInfoByDesktop(const int desktop) const;
     // variables
-    int tooltipWidth = 200;
-    QString mark = QString("*");
-    QString tooltipColor = QString("#000000");
-    QString tooltipType = QString("none");
+    int m_tooltipWidth = 200;
+    QString m_mark = QString("*");
+    QString m_tooltipColor = QString("#000000");
+    QString m_tooltipType = QString("none");
 };
 
 

@@ -21,10 +21,8 @@
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
-#include <QHash>
 #include <QObject>
 #include <QPixmap>
-#include <QVariant>
 
 
 class AWDataAggregator : public QObject

@@ -34,8 +34,8 @@ AWDataAggregator::AWDataAggregator(QObject *parent)
 
     initScene();
 
-    connect(this, SIGNAL(const updateData(QHash<QString, QString>)),
-            this, SLOT(const dataUpdate(QHash<QString, QString>)));
+    connect(this, SIGNAL(updateData(const QHash<QString, QString>)),
+            this, SLOT(dataUpdate(const QHash<QString, QString>)));
 }
 
 

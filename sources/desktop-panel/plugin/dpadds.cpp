@@ -57,6 +57,7 @@ DPAdds::~DPAdds()
 }
 
 
+// HACK: since QML could not use QLoggingCategory I need this hack
 bool DPAdds::isDebugEnabled() const
 {
     qCDebug(LOG_DP);
@@ -99,11 +100,13 @@ QString DPAdds::toolTipImage(const int desktop) const
 {
     qCDebug(LOG_DP);
     qCDebug(LOG_DP) << "Desktop" << desktop;
-    if (tooltipType == QString("none")) return QString();
+    // drop if no tooltip required
+    if (m_tooltipType == QString("none")) return QString();
 
     // prepare
     DesktopWindowsInfo info = getInfoByDesktop(desktop);
-    if (tooltipType == QString("names")) {
+    // special tooltip format for names
+    if (m_tooltipType == QString("names")) {
         QStringList windowList;
         std::for_each(info.windowsData.cbegin(), info.windowsData.cend(),
                       [&windowList](WindowData data) { windowList.append(data.name); });
@@ -130,10 +133,10 @@ QString DPAdds::toolTipImage(const int desktop) const
                           info.desktop.width() + 2.0 * margin, 0);
     toolTipScene->addLine(info.desktop.width() + 2.0 * margin, 0, 0, 0);
 
-    if (tooltipType == QString("contours")) {
+    if (m_tooltipType == QString("contours")) {
         QPen pen = QPen();
         pen.setWidthF(2.0 * info.desktop.width() / 400.0);
-        pen.setColor(QColor(tooltipColor));
+        pen.setColor(QColor(m_tooltipColor));
         foreach(WindowData data, info.windowsData) {
             QRect rect = data.rect;
             toolTipScene->addLine(rect.left() + margin, rect.bottom() + margin,
@@ -145,14 +148,14 @@ QString DPAdds::toolTipImage(const int desktop) const
             toolTipScene->addLine(rect.right() + margin, rect.bottom() + margin,
                                   rect.left() + margin, rect.bottom() + margin, pen);
         }
-    } else if (tooltipType == QString("clean")) {
+    } else if (m_tooltipType == QString("clean")) {
         QScreen *screen = QGuiApplication::primaryScreen();
         std::for_each(info.desktopsData.cbegin(), info.desktopsData.cend(),
                       [&toolTipScene, &screen](WindowData data) {
                           QPixmap desktop = screen->grabWindow(data.id);
                           toolTipScene->addPixmap(desktop)->setOffset(data.rect.left(), data.rect.top());
         });
-    } else if (tooltipType == QString("windows")) {
+    } else if (m_tooltipType == QString("windows")) {
         QScreen *screen = QGuiApplication::primaryScreen();
         std::for_each(info.desktopsData.cbegin(), info.desktopsData.cend(),
                       [&toolTipScene, &screen](WindowData data) {
@@ -166,7 +169,7 @@ QString DPAdds::toolTipImage(const int desktop) const
         });
     }
 
-    QPixmap image = toolTipView->grab().scaledToWidth(tooltipWidth);
+    QPixmap image = toolTipView->grab().scaledToWidth(m_tooltipWidth);
     QByteArray byteArray;
     QBuffer buffer(&byteArray);
     image.save(&buffer, "PNG");
@@ -199,7 +202,7 @@ void DPAdds::setMark(const QString newMark)
     qCDebug(LOG_DP);
     qCDebug(LOG_DP) << "Mark" << newMark;
 
-    mark = newMark;
+    m_mark = newMark;
 }
 
 
@@ -208,9 +211,9 @@ void DPAdds::setToolTipData(const QVariantMap tooltipData)
     qCDebug(LOG_DP);
     qCDebug(LOG_DP) << "Data" << tooltipData;
 
-    tooltipColor = tooltipData[QString("tooltipColor")].toString();
-    tooltipType = tooltipData[QString("tooltipType")].toString();
-    tooltipWidth = tooltipData[QString("tooltipWidth")].toInt();
+    m_tooltipColor = tooltipData[QString("tooltipColor")].toString();
+    m_tooltipType = tooltipData[QString("tooltipType")].toString();
+    m_tooltipWidth = tooltipData[QString("tooltipWidth")].toInt();
 }
 
 
@@ -221,9 +224,9 @@ QString DPAdds::valueByKey(const QString key, int desktop) const
     qCDebug(LOG_DP) << "Desktop number" << desktop;
     if (desktop == -1) desktop = currentDesktop();
 
-    QString currentMark = currentDesktop() == desktop ? mark : QString("");
+    QString currentMark = currentDesktop() == desktop ? m_mark : QString("");
     if (key == QString("mark"))
-        return QString("%1").arg(currentMark, mark.count(), QLatin1Char(' '))
+        return QString("%1").arg(currentMark, m_mark.count(), QLatin1Char(' '))
                             .replace(QString(" "), QString("&nbsp;"));
     else if (key == QString("name"))
         return KWindowSystem::desktopName(desktop).replace(QString(" "), QString("&nbsp;"));
@@ -236,6 +239,7 @@ QString DPAdds::valueByKey(const QString key, int desktop) const
 }
 
 
+// HACK: this method uses variables from version.h
 QString DPAdds::getAboutText(const QString type) const
 {
     qCDebug(LOG_DP);
@@ -294,6 +298,7 @@ QVariantMap DPAdds::getFont(const QVariantMap defaultFont) const
 }
 
 
+// to avoid additional object definition this method is static
 void DPAdds::sendNotification(const QString eventId, const QString message)
 {
     qCDebug(LOG_DP);
@@ -305,6 +310,7 @@ void DPAdds::sendNotification(const QString eventId, const QString message)
 }
 
 
+// slot for mouse click
 void DPAdds::setCurrentDesktop(const int desktop) const
 {
     qCDebug(LOG_DP);

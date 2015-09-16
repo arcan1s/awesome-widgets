@@ -19,8 +19,8 @@
 #ifndef AWKEYSAGGREGATOR_H
 #define AWKEYSAGGREGATOR_H
 
+#include <QHash>
 #include <QObject>
-#include <QVariant>
 
 #include "version.h"
 
