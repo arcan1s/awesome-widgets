@@ -25,6 +25,8 @@
 #include <QRegExp>
 #include <QSettings>
 #include <QStandardPaths>
+#include <QThread>
+#include <QThreadPool>
 
 #include "awdebug.h"
 #include "awkeysaggregator.h"
@@ -34,6 +36,7 @@
 #include "extupgrade.h"
 #include "extweather.h"
 #include "graphicalitem.h"
+#include "version.h"
 
 
 AWKeys::AWKeys(QObject *parent)
@@ -50,6 +53,15 @@ AWKeys::AWKeys(QObject *parent)
     // transfer signal from AWDataAggregator object to QML ui
     connect(dataAggregator, SIGNAL(toolTipPainted(const QString)),
             this, SIGNAL(needToolTipToBeUpdated(const QString)));
+#ifdef BUILD_FUTURE
+    // queue limit. It may be configured by using QUEUE_LIMIT cmake limit flag.
+    // In other hand since I'm using global thread pool, it makes sense to limit
+    // queue by QThread::idealThreadCount() value
+    queueLimit = QUEUE_LIMIT == 0 ? QThread::idealThreadCount() : QUEUE_LIMIT;
+    // thread pool
+    threadPool = new QThreadPool(this);
+    threadPool->setMaxThreadCount(queueLimit);
+#endif /* BUILD_FUTURE */
 }
 
 
@@ -63,6 +75,7 @@ AWKeys::~AWKeys()
     if (extUpgrade != nullptr) delete extUpgrade;
     if (extWeather != nullptr) delete extWeather;
 
+    delete threadPool;
     delete aggregator;
     delete dataAggregator;
 }
@@ -308,7 +321,7 @@ void AWKeys::dataUpdateReceived(const QString sourceName, const QVariantMap data
 
     // run concurrent data update
 #ifdef BUILD_FUTURE
-    QtConcurrent::run([this, sourceName, data]() {
+    QtConcurrent::run(threadPool, [this, sourceName, data]() {
         return setDataBySource(sourceName, data);
     });
 #else /* BUILD_FUTURE */
@@ -643,26 +656,20 @@ QString AWKeys::parsePattern(QString pattern) const
 
 void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data)
 {
-#ifdef BUILD_FUTURE
-    // check if data stream is locked
-//     if ((lock = ((lock) && (queue > 0)))) return;
-#endif /* BUILD_FUTURE */
-
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Source" << sourceName;
     qCDebug(LOG_AW) << "Data" << data;
 
-    // update
-    if (sourceName == QString("update")) return emit(needToBeUpdated());
-
+#ifdef BUILD_FUTURE
+    // check if data stream is locked
+    if ((lock = ((lock) && (queue > 0)))) return;
     // drop if limits are reached
-//     qDebug() << ++queue;
-//     if (queue > queueLimit) {
     if (++queue > queueLimit) {
         qCWarning(LOG_AW) << "Messages queue" << queue-- << "more than limits" << queueLimit;
-//         lock = true;
+        lock = true;
         return;
     }
+#endif /* BUILD_FUTURE */
 
     // first list init
     QStringList tags = aggregator->keysFromSource(sourceName);
@@ -670,7 +677,9 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data)
         tags = aggregator->registerSource(sourceName, data[QString("units")].toString());
 
     // update data or drop source if there are no matches
-    if (tags.isEmpty()) {
+    if (sourceName == QString("update")) {
+        emit(needToBeUpdated());
+    } else if (tags.isEmpty()) {
         qCDebug(LOG_AW) << "Source" << sourceName << "not found";
         emit(dropSourceFromDataengine(sourceName));
     } else {
@@ -681,9 +690,7 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data)
         });
     }
 
-//     volatile float n = 1.0;
-//     for (volatile float i=1.0; i<100000.0; i++)
-//         n *= i;
-//     qDebug() << queue-- << queueLimit;
+#ifdef BUILD_FUTURE
     queue--;
+#endif /* BUILD_FUTURE */
 }

@@ -21,7 +21,6 @@
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QListWidget>
-#include <QObject>
 #include <QPushButton>
 #include <QWidget>
 

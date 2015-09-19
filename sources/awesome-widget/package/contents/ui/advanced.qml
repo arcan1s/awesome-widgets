@@ -35,6 +35,7 @@ Item {
 
     property bool debug: awActions.isDebugEnabled()
 
+    property alias cfg_interval: update.value
     property alias cfg_height: widgetHeight.value
     property alias cfg_width: widgetWidth.value
     property alias cfg_notify: notify.checked
@@ -53,6 +54,26 @@ Item {
     Column {
         id: pageColumn
         anchors.fill: parent
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.height
+                width: parent.width * 2 / 5
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+                text: i18n("Time interval")
+            }
+            QtControls.SpinBox {
+                id: update
+                width: parent.width * 3 / 5
+                minimumValue: 1000
+                maximumValue: 10000
+                stepSize: 500
+                value: plasmoid.configuration.interval
+            }
+        }
+
         Row {
             height: implicitHeight
             width: parent.width

@@ -20,10 +20,8 @@
 #define AWKEYS_H
 
 #include <QObject>
-#include <QThread>
 
 #include "extitemaggregator.h"
-#include "version.h"
 
 
 class AWDataAggregator;
@@ -33,6 +31,7 @@ class ExtScript;
 class ExtUpgrade;
 class ExtWeather;
 class GraphicalItem;
+class QThreadPool;
 
 class AWKeys : public QObject
 {
@@ -91,11 +90,8 @@ private:
     bool m_wrapNewLines = false;
     // queue and stream lock properties
     bool lock = false;
-    int queue = 0;
-    // queue limit. It may be configured by using QUEUE_LIMIT cmake limit flag.
-    // In other hand since I'm using global thread pool, it makes sense to limit
-    // queue by QThread::idealThreadCount() value
-    const int queueLimit = QUEUE_LIMIT == 0 ? QThread::idealThreadCount() : QUEUE_LIMIT;
+    QThreadPool *threadPool = nullptr;
+    int queueLimit, queue = 0;
 };
 
 

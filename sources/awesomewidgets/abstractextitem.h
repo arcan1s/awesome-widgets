@@ -19,7 +19,6 @@
 #define ABSTRACTEXTITEM_H
 
 #include <QDialog>
-#include <QInputDialog>
 #include <QVariant>
 
 

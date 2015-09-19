@@ -25,7 +25,7 @@ message(STATUS "Project: ${PROJECT_NAME}")
 message(STATUS "Version: ${PROJECT_VERSION}")
 message(STATUS "Build date: ${CURRENT_DATE}")
 
-option(BUILD_FUTURE "Build with the features which will be marked as stable later" ON)
+option(BUILD_FUTURE "Build with the features which will be marked as stable later" OFF)
 option(BUILD_PLASMOIDS "Build plasmoids" ON)
 option(BUILD_DEB_PACKAGE "Build deb package" OFF)
 option(BUILD_RPM_PACKAGE "Build rpm package" OFF)

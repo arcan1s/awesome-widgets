@@ -44,7 +44,6 @@ Item {
         87: 5
     }
 
-    property alias cfg_interval: update.value
     property alias cfg_fontFamily: selectFont.text
     property alias cfg_fontSize: fontSize.value
     property string cfg_fontWeight: fontWeight.currentText
@@ -55,26 +54,6 @@ Item {
     Column {
         id: pageColumn
         anchors.fill: parent
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width / 3
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Time interval")
-            }
-            QtControls.SpinBox {
-                id: update
-                width: parent.width * 2 / 3
-                minimumValue: 1000
-                maximumValue: 10000
-                stepSize: 500
-                value: plasmoid.configuration.interval
-            }
-        }
-
         Row {
             height: implicitHeight
             width: parent.width
