@@ -23,6 +23,9 @@
 #include "abstractextitem.h"
 
 
+class QGraphicsScene;
+class QGraphicsView;
+
 namespace Ui {
     class GraphicalItem;
 }
@@ -46,14 +49,15 @@ public:
     enum Type {
         Horizontal = 0,
         Vertical,
-        Circle
+        Circle,
+        Graph
     };
 
     explicit GraphicalItem(QWidget *parent = nullptr, const QString desktopName = QString(),
                            const QStringList directories = QStringList());
     virtual ~GraphicalItem();
     GraphicalItem *copy(const QString _fileName, const int _number);
-    QString image(const float value) const;
+    QString image(const QVariant value);
     // get methods
     QString bar() const;
     QString activeColor() const;
@@ -89,7 +93,16 @@ private slots:
 private:
     QString m_fileName;
     QStringList m_dirs;
+    QGraphicsScene *m_scene = nullptr;
+    QGraphicsView *m_view = nullptr;
     Ui::GraphicalItem *ui;
+    void initScene();
+    // paint methods
+    void paintCircle(const float value);
+    void paintGraph(const QList<float> value);
+    void paintHorizontal(const float value);
+    void paintVertical(const float value);
+    // additional method
     QColor stringToColor(const QString _color) const;
     void translate();
     // properties

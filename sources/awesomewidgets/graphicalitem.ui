@@ -150,6 +150,11 @@
          <string notr="true">Circle</string>
         </property>
        </item>
+       <item>
+        <property name="text">
+         <string notr="true">Graph</string>
+        </property>
+       </item>
       </widget>
      </item>
     </layout>

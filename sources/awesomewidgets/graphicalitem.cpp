@@ -28,6 +28,8 @@
 #include <QGraphicsView>
 #include <QSettings>
 
+#include <math.h>
+
 #include "awdebug.h"
 #include "version.h"
 
@@ -43,6 +45,8 @@ GraphicalItem::GraphicalItem(QWidget *parent, const QString desktopName,
     ui->setupUi(this);
     translate();
 
+    initScene();
+
     connect(ui->pushButton_activeColor, SIGNAL(clicked()), this, SLOT(changeColor()));
     connect(ui->pushButton_inactiveColor, SIGNAL(clicked()), this, SLOT(changeColor()));
 }
@@ -52,6 +56,7 @@ GraphicalItem::~GraphicalItem()
 {
     qCDebug(LOG_LIB);
 
+    delete m_scene;
     delete ui;
 }
 
@@ -81,81 +86,45 @@ GraphicalItem *GraphicalItem::copy(const QString _fileName, const int _number)
 }
 
 
-QString GraphicalItem::image(const float value) const
+QString GraphicalItem::image(const QVariant value)
 {
     qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Value" << value;
     if (m_bar == QString("none")) return QString("");
 
-    QColor active = stringToColor(m_activeColor);
-    QColor inactive = stringToColor(m_inactiveColor);
-    float percent = value / 100.0;
+    m_scene->clear();
     int scale[2] = { 1, 1 };
-    QPen pen = QPen();
-    QGraphicsScene *scene = new QGraphicsScene();
-    scene->setBackgroundBrush(QBrush(Qt::NoBrush));
-    QGraphicsView *view = new QGraphicsView(scene);
-    view->setStyleSheet(QString("background: transparent"));
-    view->setContentsMargins(0, 0, 0, 0);
-    view->setFrameShape(QFrame::NoFrame);
-    view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    view->resize(m_width + 5.0, m_height + 5.0);
 
     // paint
     switch (m_type) {
     case Vertical:
-        pen.setWidth(m_width);
-        // inactive
-        pen.setColor(inactive);
-        scene->addLine(0.5 * m_width, -0.5 * m_width, 0.5 * m_width,
-                       (1.0 - percent) * m_height - 0.5 * m_width, pen);
-        // active
-        pen.setColor(active);
-        scene->addLine(0.5 * m_width, (1.0 - percent) * m_height + 0.5 * m_width,
-                       0.5 * m_width, m_height + 0.5 * m_width, pen);
+        paintVertical(value.toFloat());
         // scale
         scale[1] = -2 * static_cast<int>(m_direction) + 1;
         break;
     case Circle:
-        QGraphicsEllipseItem *circle;
-        pen.setWidth(1.0);
-        // inactive
-        pen.setColor(inactive);
-        circle = scene->addEllipse(0.0, 0.0, m_width, m_height, pen, QBrush(inactive, Qt::SolidPattern));
-        circle->setSpanAngle(- (1.0 - percent) * 360.0 * 16.0);
-        circle->setStartAngle(90.0 * 16.0 - percent * 360.0 * 16.0);
-        // active
-        pen.setColor(active);
-        circle = scene->addEllipse(0.0, 0.0, m_width, m_height, pen, QBrush(active, Qt::SolidPattern));
-        circle->setSpanAngle(- percent * 360.0 * 16.0);
-        circle->setStartAngle(90.0 * 16.0);
+        paintCircle(value.toFloat());
         // scale
         scale[0] = -2 * static_cast<int>(m_direction) + 1;
         break;
+    case Graph:
+        paintGraph(value.value<QList<float>>());
+        // direction option is not recognized by this GI type
+        break;
+    case Horizontal:
     default:
-        pen.setWidth(m_height);
-        // inactive
-        pen.setColor(inactive);
-        scene->addLine(percent * m_width + 0.5 * m_height, 0.5 * m_height,
-                       m_width + 0.5 * m_height, 0.5 * m_height, pen);
-        // active
-        pen.setColor(active);
-        scene->addLine(-0.5 * m_height, 0.5 * m_height,
-                       percent * m_width - 0.5 * m_height, 0.5 * m_height, pen);
+        paintHorizontal(value.toFloat());
         // scale
         scale[0] = -2 * static_cast<int>(m_direction) + 1;
         break;
     }
 
     // convert
-    QPixmap pixmap = view->grab().transformed(QTransform().scale(scale[0], scale[1]));
+    QPixmap pixmap = m_view->grab().transformed(QTransform().scale(scale[0], scale[1]));
     QByteArray byteArray;
     QBuffer buffer(&byteArray);
     pixmap.save(&buffer, "PNG");
     QString url = QString("<img src=\"data:image/png;base64,%1\"/>").arg(QString(byteArray.toBase64()));
-    delete view;
-    delete scene;
 
     return url;
 }
@@ -189,7 +158,7 @@ QString GraphicalItem::tag() const
 {
     qCDebug(LOG_LIB);
 
-    return name() + m_bar;
+    return QString("bar%1%2").arg(number()).arg(m_bar);
 }
 
 
@@ -213,10 +182,14 @@ QString GraphicalItem::strType() const
     case Circle:
         value = QString("Circle");
         break;
+    case Graph:
+        value = QString("Graph");
+        break;
+    case Horizontal:
     default:
         value = QString("Horizontal");
         break;
-    }\
+    }
 
     return value;
 }
@@ -239,6 +212,7 @@ QString GraphicalItem::strDirection() const
     case RightToLeft:
         value = QString("RightToLeft");
         break;
+    case LeftToRight:
     default:
         value = QString("LeftToRight");
         break;
@@ -321,6 +295,8 @@ void GraphicalItem::setStrType(const QString _type)
         setType(Vertical);
     else if (_type == QString("Circle"))
         setType(Circle);
+    else if (_type == QString("Graph"))
+        setType(Graph);
     else
         setType(Horizontal);
 }
@@ -483,6 +459,114 @@ void GraphicalItem::changeColor()
     colorText.append(QString("%1").arg(newColor.alpha()));
 
     return static_cast<QPushButton *>(sender())->setText(colorText.join(QChar(',')));
+}
+
+
+void GraphicalItem::initScene()
+{
+    qCDebug(LOG_LIB);
+
+    // init scene
+    m_scene = new QGraphicsScene();
+    if (m_type == Graph)
+        m_scene->setBackgroundBrush(stringToColor(m_inactiveColor));
+    else
+        m_scene->setBackgroundBrush(QBrush(Qt::NoBrush));
+    // init view
+    m_view = new QGraphicsView(m_scene);
+    m_view->setStyleSheet(QString("background: transparent"));
+    m_view->setContentsMargins(0, 0, 0, 0);
+    m_view->setFrameShape(QFrame::NoFrame);
+    m_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_view->resize(m_width + 5.0, m_height + 5.0);
+}
+
+
+void GraphicalItem::paintCircle(const float value)
+{
+    qCDebug(LOG_LIB);
+
+    QPen pen;
+    pen.setWidth(1.0);
+    float percent = value / 100.0;
+    QGraphicsEllipseItem *circle;
+
+    QColor inactive = stringToColor(m_inactiveColor);
+    QColor active = stringToColor(m_activeColor);
+
+    // inactive
+    pen.setColor(inactive);
+    circle = m_scene->addEllipse(0.0, 0.0, m_width, m_height, pen,
+                                 QBrush(inactive, Qt::SolidPattern));
+    circle->setSpanAngle(- (1.0 - percent) * 360.0 * 16.0);
+    circle->setStartAngle(90.0 * 16.0 - percent * 360.0 * 16.0);
+    // active
+    pen.setColor(active);
+    circle = m_scene->addEllipse(0.0, 0.0, m_width, m_height, pen,
+                                 QBrush(active, Qt::SolidPattern));
+    circle->setSpanAngle(- percent * 360.0 * 16.0);
+    circle->setStartAngle(90.0 * 16.0);
+}
+
+
+void GraphicalItem::paintGraph(const QList<float> value)
+{
+    qCDebug(LOG_LIB);
+
+    QPen pen;
+    pen.setColor(stringToColor(m_activeColor));
+
+    // default norms
+    float normX = static_cast<float>(m_width) / static_cast<float>(value.count());
+    float normY = static_cast<float>(m_height) / (1.5 * 100.0);
+    // paint graph
+    for (int i=0; i<value.count()-1; i++) {
+        // some magic here
+        float x1 = i * normX;
+        float y1 = - fabs(value.at(i)) * normY + 5.0;
+        float x2 = (i + 1) * normX;
+        float y2 = - fabs(value.at(i+1)) * normY + 5.0;
+        m_scene->addLine(x1, y1, x2, y2, pen);
+    }
+}
+
+
+void GraphicalItem::paintHorizontal(const float value)
+{
+    qCDebug(LOG_LIB);
+
+    QPen pen;
+    float percent = value / 100.0;
+
+    pen.setWidth(m_height);
+    // inactive
+    pen.setColor(stringToColor(m_inactiveColor));
+    m_scene->addLine(percent * m_width + 0.5 * m_height, 0.5 * m_height,
+                     m_width + 0.5 * m_height, 0.5 * m_height, pen);
+    // active
+    pen.setColor(stringToColor(m_activeColor));
+    m_scene->addLine(-0.5 * m_height, 0.5 * m_height,
+                     percent * m_width - 0.5 * m_height, 0.5 * m_height, pen);
+}
+
+
+void GraphicalItem::paintVertical(const float value)
+{
+    qCDebug(LOG_LIB);
+
+    QPen pen;
+    float percent = value / 100.0;
+
+    pen.setWidth(m_width);
+    // inactive
+    pen.setColor(stringToColor(m_inactiveColor));
+    m_scene->addLine(0.5 * m_width, -0.5 * m_width, 0.5 * m_width,
+                     (1.0 - percent) * m_height - 0.5 * m_width, pen);
+    // active
+    pen.setColor(stringToColor(m_activeColor));
+    m_scene->addLine(0.5 * m_width, (1.0 - percent) * m_height + 0.5 * m_width,
+                     0.5 * m_width, m_height + 0.5 * m_width, pen);
 }
 
 
