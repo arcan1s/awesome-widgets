@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-09-14 10:03+0300\n"
-"PO-Revision-Date: 2015-09-14 10:04+0300\n"
+"POT-Creation-Date: 2015-09-21 20:49+0300\n"
+"PO-Revision-Date: 2015-09-21 10:27+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -39,14 +39,11 @@ msgstr "О программе"
 msgid "Acknowledgment"
 msgstr "Благодарности"
 
-msgid "Widget height, px"
-msgstr "Высота виджета, пиксели"
+msgid "Enable background"
+msgstr "Включить фон"
 
-msgid "Widget width, px"
-msgstr "Ширина виджета, пиксели"
-
-msgid "Enable notifications"
-msgstr "Включить уведомления "
+msgid "Translate strings"
+msgstr "Переводить строки"
 
 msgid "Wrap new lines"
 msgstr "Заменить символ перевода строки"
@@ -54,14 +51,23 @@ msgstr "Заменить символ перевода строки"
 msgid "Enable word wrap"
 msgstr "Включить перенос слов"
 
-msgid "Enable background"
-msgstr "Включить фон"
+msgid "Enable notifications"
+msgstr "Включить уведомления "
 
-msgid "Custom time format"
-msgstr "Свой формат времени"
+msgid "Check updates on startup"
+msgstr "Проверять обновления при запуске"
 
-msgid "Custom uptime format"
-msgstr "Свой формат аптайма"
+msgid "Widget height, px"
+msgstr "Высота виджета, пиксели"
+
+msgid "Widget width, px"
+msgstr "Ширина виджета, пиксели"
+
+msgid "Time interval"
+msgstr "Интервал обновления"
+
+msgid "Messages queue limit"
+msgstr "Ограничение очереди сообщений"
 
 msgid "Temperature units"
 msgstr "Температурные единицы"
@@ -87,23 +93,20 @@ msgstr "кДж/моль"
 msgid "kcal/mol"
 msgstr "ккал/моль"
 
+msgid "Custom time format"
+msgstr "Свой формат времени"
+
+msgid "Custom uptime format"
+msgstr "Свой формат аптайма"
+
 msgid "AC online tag"
 msgstr "AC подключен"
 
 msgid "AC offline tag"
 msgstr "AC отключен"
 
-msgid "Check updates on startup"
-msgstr "Проверять обновления при запуске"
-
-msgid "Translate strings"
-msgstr "Переводить строки"
-
 msgid "Drop key cache"
 msgstr "Сбросить кеш ключей"
-
-msgid "Time interval"
-msgstr "Интервал обновления"
 
 msgid "Font"
 msgstr "Шрифт"
@@ -144,11 +147,20 @@ msgstr "Выберете цвет"
 msgid "Select a font"
 msgstr "Выберете шрифт"
 
+msgid "ACPI"
+msgstr "ACPI"
+
 msgid "ACPI path"
 msgstr "Пусть к ACPI"
 
+msgid "GPU"
+msgstr "GPU"
+
 msgid "GPU device"
 msgstr "Устройство GPU"
+
+msgid "HDD temperature"
+msgstr "Температура HDD"
 
 msgid "HDD"
 msgstr "HDD"
@@ -156,20 +168,26 @@ msgstr "HDD"
 msgid "hddtemp cmd"
 msgstr "Команда hddtemp"
 
+msgid "Player"
+msgstr "Проигрыватель"
+
+msgid "Player data symbols"
+msgstr "Символы в информации о плеере"
+
+msgid "Music player"
+msgstr "Музыкальный плеер"
+
+msgid "MPRIS player name"
+msgstr "Имя плеера в MPRIS"
+
 msgid "MPD address"
 msgstr "Адрес сервера MPD"
 
 msgid "MPD port"
 msgstr "Порт сервера MPD"
 
-msgid "MPRIS player name"
-msgstr "Имя плеера в MPRIS"
-
-msgid "Music player"
-msgstr "Музыкальный плеер"
-
-msgid "Player data symbols"
-msgstr "Символы в информации о плеере"
+msgid "Extensions"
+msgstr "Расширения"
 
 msgid "Custom scripts"
 msgstr "Свои скрипты"
@@ -523,6 +541,12 @@ msgstr "Активный рабочий стол"
 msgid "Inactive desktop"
 msgstr "Неактивный рабочий стол"
 
+msgid "Vertical layout"
+msgstr "Вертикальная разметка"
+
+msgid "Mark"
+msgstr "Метка"
+
 msgid "Tooltip type"
 msgstr "Тип тултипа"
 
@@ -543,12 +567,6 @@ msgstr "ничего"
 
 msgid "Tooltip width"
 msgstr "Ширина тултипа"
-
-msgid "Vertical layout"
-msgstr "Вертикальная разметка"
-
-msgid "Mark"
-msgstr "Метка"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
@@ -803,15 +821,9 @@ msgstr "esalexeev@gmail.com"
 #~ "...\n"
 #~ "$cpuclN - частота CPU для ядра N, MHz"
 
-#~ msgid "Temperature"
-#~ msgstr "Температура"
-
 #~ msgid "$tempN - physical temperature on device N (from 0). Example: $temp0"
 #~ msgstr ""
 #~ "$tempN - физическая температура на устройстве N (от 0). Пример: $temp0"
-
-#~ msgid "GPU"
-#~ msgstr "GPU"
 
 #~ msgid "$gpu - gpu usage, %"
 #~ msgstr "$gpu - использование GPU, %"

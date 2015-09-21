@@ -173,6 +173,7 @@ Item {
         }
     }
 
+
     Component.onCompleted: {
         if (debug) console.debug()
 
@@ -236,7 +237,7 @@ Item {
         if (debug) console.debug()
 
         // init submodule
-        awKeys.initKeys(plasmoid.configuration.text)
+        awKeys.initKeys(plasmoid.configuration.text, plasmoid.configuration.queueLimit)
         awKeys.initDataAggregator(tooltipSettings)
         awKeys.setWrapNewLines(plasmoid.configuration.wrapNewLines)
         // configure aggregator
@@ -247,6 +248,7 @@ Item {
         awKeys.setAggregatorProperty("tempUnits", plasmoid.configuration.tempUnits)
         awKeys.setAggregatorProperty("translate", plasmoid.configuration.translateStrings)
     }
+
 
     function action_checkUpdates() {
         if (debug) console.debug()

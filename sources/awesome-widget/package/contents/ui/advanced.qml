@@ -35,20 +35,21 @@ Item {
 
     property bool debug: awActions.isDebugEnabled()
 
-    property alias cfg_interval: update.value
+    property alias cfg_background: background.checked
+    property alias cfg_translateStrings: translate.checked
+    property alias cfg_wrapNewLines: wrapNewLines.checked
+    property alias cfg_wrapText: wordWrap.checked
+    property alias cfg_notify: notify.checked
+    property alias cfg_checkUpdates: updates.checked
     property alias cfg_height: widgetHeight.value
     property alias cfg_width: widgetWidth.value
-    property alias cfg_notify: notify.checked
-    property alias cfg_wrapNewLines: wrapNewLines.checked
-    property alias cfg_background: background.checked
+    property alias cfg_interval: update.value
+    property alias cfg_queueLimit: queueLimit.value
+    property string cfg_tempUnits: tempUnits.currentText
     property alias cfg_customTime: customTime.text
     property alias cfg_customUptime: customUptime.text
-    property string cfg_tempUnits: tempUnits.currentText
     property alias cfg_acOnline: acOnline.text
     property alias cfg_acOffline: acOffline.text
-    property alias cfg_checkUpdates: updates.checked
-    property alias cfg_translateStrings: translate.checked
-    property alias cfg_wrapText: wordWrap.checked
 
 
     Column {
@@ -58,19 +59,83 @@ Item {
             height: implicitHeight
             width: parent.width
             QtControls.Label {
-                height: parent.height
+                height: parent.heigth
                 width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Time interval")
             }
-            QtControls.SpinBox {
-                id: update
+            QtControls.CheckBox {
+                id: background
                 width: parent.width * 3 / 5
-                minimumValue: 1000
-                maximumValue: 10000
-                stepSize: 500
-                value: plasmoid.configuration.interval
+                text: i18n("Enable background")
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.heigth
+                width: parent.width * 2 / 5
+            }
+            QtControls.CheckBox {
+                id: translate
+                width: parent.width * 3 / 5
+                text: i18n("Translate strings")
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.heigth
+                width: parent.width * 2 / 5
+            }
+            QtControls.CheckBox {
+                id: wrapNewLines
+                width: parent.width * 3 / 5
+                text: i18n("Wrap new lines")
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.heigth
+                width: parent.width * 2 / 5
+            }
+            QtControls.CheckBox {
+                id: wordWrap
+                width: parent.width * 3 / 5
+                text: i18n("Enable word wrap")
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.heigth
+                width: parent.width * 2 / 5
+            }
+            QtControls.CheckBox {
+                id: notify
+                width: parent.width * 3 / 5
+                text: i18n("Enable notifications")
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.heigth
+                width: parent.width * 2 / 5
+            }
+            QtControls.CheckBox {
+                id: updates
+                width: parent.width * 3 / 5
+                text: i18n("Check updates on startup")
             }
         }
 
@@ -118,55 +183,19 @@ Item {
             height: implicitHeight
             width: parent.width
             QtControls.Label {
-                height: parent.heigth
+                height: parent.height
                 width: parent.width * 2 / 5
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+                text: i18n("Time interval")
             }
-            QtControls.CheckBox {
-                id: notify
+            QtControls.SpinBox {
+                id: update
                 width: parent.width * 3 / 5
-                text: i18n("Enable notifications")
-            }
-        }
-
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.heigth
-                width: parent.width * 2 / 5
-            }
-            QtControls.CheckBox {
-                id: wrapNewLines
-                width: parent.width * 3 / 5
-                text: i18n("Wrap new lines")
-            }
-        }
-
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.heigth
-                width: parent.width * 2 / 5
-            }
-            QtControls.CheckBox {
-                id: wordWrap
-                width: parent.width * 3 / 5
-                text: i18n("Enable word wrap")
-            }
-        }
-
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.heigth
-                width: parent.width * 2 / 5
-            }
-            QtControls.CheckBox {
-                id: background
-                width: parent.width * 3 / 5
-                text: i18n("Enable background")
+                minimumValue: 1000
+                maximumValue: 10000
+                stepSize: 500
+                value: plasmoid.configuration.interval
             }
         }
 
@@ -178,29 +207,15 @@ Item {
                 width: parent.width * 2 / 5
                 horizontalAlignment: Text.AlignRight
                 verticalAlignment: Text.AlignVCenter
-                text: i18n("Custom time format")
+                text: i18n("Messages queue limit")
             }
-            QtControls.TextField {
-                id: customTime
+            QtControls.SpinBox {
+                id: queueLimit
                 width: parent.width * 3 / 5
-                text: plasmoid.configuration.customTime
-            }
-        }
-
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Custom uptime format")
-            }
-            QtControls.TextField {
-                id: customUptime
-                width: parent.width * 3 / 5
-                text: plasmoid.configuration.customUptime
+                minimumValue: 0
+                maximumValue: 99
+                stepSize: 1
+                value: plasmoid.configuration.queueLimit
             }
         }
 
@@ -269,6 +284,40 @@ Item {
                 width: parent.width * 2 / 5
                 horizontalAlignment: Text.AlignRight
                 verticalAlignment: Text.AlignVCenter
+                text: i18n("Custom time format")
+            }
+            QtControls.TextField {
+                id: customTime
+                width: parent.width * 3 / 5
+                text: plasmoid.configuration.customTime
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.height
+                width: parent.width * 2 / 5
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+                text: i18n("Custom uptime format")
+            }
+            QtControls.TextField {
+                id: customUptime
+                width: parent.width * 3 / 5
+                text: plasmoid.configuration.customUptime
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.height
+                width: parent.width * 2 / 5
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
                 text: i18n("AC online tag")
             }
             QtControls.TextField {
@@ -299,34 +348,6 @@ Item {
             height: implicitHeight
             width: parent.width
             QtControls.Label {
-                height: parent.heigth
-                width: parent.width * 2 / 5
-            }
-            QtControls.CheckBox {
-                id: updates
-                width: parent.width * 3 / 5
-                text: i18n("Check updates on startup")
-            }
-        }
-
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.heigth
-                width: parent.width * 2 / 5
-            }
-            QtControls.CheckBox {
-                id: translate
-                width: parent.width * 3 / 5
-                text: i18n("Translate strings")
-            }
-        }
-
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
                 height: parent.height
                 width: parent.width * 2 / 5
             }
@@ -338,6 +359,7 @@ Item {
             }
         }
     }
+
 
     Component.onCompleted: {
         if (debug) console.debug()

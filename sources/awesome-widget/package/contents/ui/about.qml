@@ -43,6 +43,7 @@ Item {
             height: parent.height
             width: parent.width
             QtControls.Tab {
+                anchors.margins: 10.0
                 title: i18n("About")
 
                 QtLayouts.ColumnLayout {
@@ -85,6 +86,7 @@ Item {
             }
 
             QtControls.Tab {
+                anchors.margins: 10.0
                 title: i18n("Acknowledgment")
 
                 QtLayouts.ColumnLayout {
@@ -109,6 +111,7 @@ Item {
             }
         }
     }
+
 
     Component.onCompleted: {
         if (debug) console.debug()

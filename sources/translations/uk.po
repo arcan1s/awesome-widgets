@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-09-14 10:03+0300\n"
+"POT-Creation-Date: 2015-09-21 20:49+0300\n"
 "PO-Revision-Date: 2015-07-31 22:23+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Ukrainian <kde-russian@lists.kde.ru>\n"
@@ -39,14 +39,12 @@ msgstr "Про програму"
 msgid "Acknowledgment"
 msgstr "Подяка"
 
-msgid "Widget height, px"
-msgstr "Висота віджету, пікселі"
+msgid "Enable background"
+msgstr "Включити фон"
 
-msgid "Widget width, px"
-msgstr "Ширина віджету, пікселі"
-
-msgid "Enable notifications"
-msgstr "Включити повідомлення"
+#, fuzzy
+msgid "Translate strings"
+msgstr "Тікет перекладу"
 
 msgid "Wrap new lines"
 msgstr "Замінити символ переводу рядка"
@@ -54,14 +52,24 @@ msgstr "Замінити символ переводу рядка"
 msgid "Enable word wrap"
 msgstr ""
 
-msgid "Enable background"
-msgstr "Включити фон"
+msgid "Enable notifications"
+msgstr "Включити повідомлення"
 
-msgid "Custom time format"
-msgstr "Свій формат часу"
+#, fuzzy
+msgid "Check updates on startup"
+msgstr "Шукати оновлення"
 
-msgid "Custom uptime format"
-msgstr "Свій формат аптайму (uptime)"
+msgid "Widget height, px"
+msgstr "Висота віджету, пікселі"
+
+msgid "Widget width, px"
+msgstr "Ширина віджету, пікселі"
+
+msgid "Time interval"
+msgstr "Інтервал оновлення"
+
+msgid "Messages queue limit"
+msgstr ""
 
 msgid "Temperature units"
 msgstr "Одиниці виміру температури"
@@ -87,25 +95,20 @@ msgstr "кДж/моль"
 msgid "kcal/mol"
 msgstr "ккал/моль"
 
+msgid "Custom time format"
+msgstr "Свій формат часу"
+
+msgid "Custom uptime format"
+msgstr "Свій формат аптайму (uptime)"
+
 msgid "AC online tag"
 msgstr "AC підключений"
 
 msgid "AC offline tag"
 msgstr "AC відключений"
 
-#, fuzzy
-msgid "Check updates on startup"
-msgstr "Шукати оновлення"
-
-#, fuzzy
-msgid "Translate strings"
-msgstr "Тікет перекладу"
-
 msgid "Drop key cache"
 msgstr ""
-
-msgid "Time interval"
-msgstr "Інтервал оновлення"
 
 msgid "Font"
 msgstr "Шрифт"
@@ -146,11 +149,22 @@ msgstr "Оберіть колір"
 msgid "Select a font"
 msgstr "Оберіть шрифт"
 
+#, fuzzy
+msgid "ACPI"
+msgstr "Шлях до ICPI"
+
 msgid "ACPI path"
 msgstr "Шлях до ICPI"
 
+msgid "GPU"
+msgstr "GPU"
+
 msgid "GPU device"
 msgstr "Пристій GPU"
+
+#, fuzzy
+msgid "HDD temperature"
+msgstr "Температура"
 
 msgid "HDD"
 msgstr "HDD"
@@ -158,19 +172,25 @@ msgstr "HDD"
 msgid "hddtemp cmd"
 msgstr "Команда hddtemp"
 
+msgid "Player"
+msgstr ""
+
+msgid "Player data symbols"
+msgstr ""
+
+msgid "Music player"
+msgstr "Музичний плеєр"
+
+msgid "MPRIS player name"
+msgstr "Ім’я плеєру в MPRIS"
+
 msgid "MPD address"
 msgstr "Адреса сервера MPD"
 
 msgid "MPD port"
 msgstr "Порт сервера MPD"
 
-msgid "MPRIS player name"
-msgstr "Ім’я плеєру в MPRIS"
-
-msgid "Music player"
-msgstr "Музичний плеєр"
-
-msgid "Player data symbols"
+msgid "Extensions"
 msgstr ""
 
 msgid "Custom scripts"
@@ -540,6 +560,12 @@ msgstr "Активний робочий стіл"
 msgid "Inactive desktop"
 msgstr "Неактивний робочий стіл"
 
+msgid "Vertical layout"
+msgstr "Вертикальна розмітка"
+
+msgid "Mark"
+msgstr "Позначка"
+
 msgid "Tooltip type"
 msgstr "Тип підказки"
 
@@ -560,12 +586,6 @@ msgstr "немає"
 
 msgid "Tooltip width"
 msgstr "Ширина підказки"
-
-msgid "Vertical layout"
-msgstr "Вертикальна розмітка"
-
-msgid "Mark"
-msgstr "Позначка"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
@@ -802,14 +822,8 @@ msgstr "sarumyan@i.ua"
 #~ "...\n"
 #~ "$cpuclN - частота CPU для ядра N, MHz"
 
-#~ msgid "Temperature"
-#~ msgstr "Температура"
-
 #~ msgid "$tempN - physical temperature on device N (from 0). Example: $temp0"
 #~ msgstr "$tempN - фізична температура на пристрої N (від 0). Приклад: $temp0"
-
-#~ msgid "GPU"
-#~ msgstr "GPU"
 
 #~ msgid "$gpu - gpu usage, %"
 #~ msgstr "$gpu - використання gpu, %"

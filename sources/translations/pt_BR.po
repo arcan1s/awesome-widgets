@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-09-14 10:03+0300\n"
+"POT-Creation-Date: 2015-09-21 20:49+0300\n"
 "PO-Revision-Date: 2015-07-31 22:21+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -40,14 +40,12 @@ msgstr "Sobre"
 msgid "Acknowledgment"
 msgstr "Confirmação"
 
-msgid "Widget height, px"
-msgstr "Altura do widget, px"
+msgid "Enable background"
+msgstr "Ativar plano de fundo"
 
-msgid "Widget width, px"
-msgstr "Largura do widget, px"
-
-msgid "Enable notifications"
-msgstr "Ativar notificações"
+#, fuzzy
+msgid "Translate strings"
+msgstr "Problema na tradução"
 
 msgid "Wrap new lines"
 msgstr "Cobrir novas linhas"
@@ -55,14 +53,24 @@ msgstr "Cobrir novas linhas"
 msgid "Enable word wrap"
 msgstr ""
 
-msgid "Enable background"
-msgstr "Ativar plano de fundo"
+msgid "Enable notifications"
+msgstr "Ativar notificações"
 
-msgid "Custom time format"
-msgstr "Formato de hora personalizado"
+#, fuzzy
+msgid "Check updates on startup"
+msgstr "Checar por atualizações"
 
-msgid "Custom uptime format"
-msgstr "Tempo em atividade com formato personalizado"
+msgid "Widget height, px"
+msgstr "Altura do widget, px"
+
+msgid "Widget width, px"
+msgstr "Largura do widget, px"
+
+msgid "Time interval"
+msgstr "Intervalo de tempo"
+
+msgid "Messages queue limit"
+msgstr ""
 
 msgid "Temperature units"
 msgstr "Unidades de temperatura"
@@ -88,25 +96,20 @@ msgstr "KJ/mol"
 msgid "kcal/mol"
 msgstr "kcal/mol"
 
+msgid "Custom time format"
+msgstr "Formato de hora personalizado"
+
+msgid "Custom uptime format"
+msgstr "Tempo em atividade com formato personalizado"
+
 msgid "AC online tag"
 msgstr "Rótulo com carregador conectado"
 
 msgid "AC offline tag"
 msgstr "Rótulo com carregador desconectado"
 
-#, fuzzy
-msgid "Check updates on startup"
-msgstr "Checar por atualizações"
-
-#, fuzzy
-msgid "Translate strings"
-msgstr "Problema na tradução"
-
 msgid "Drop key cache"
 msgstr ""
-
-msgid "Time interval"
-msgstr "Intervalo de tempo"
 
 msgid "Font"
 msgstr "Tamanho da fonte"
@@ -147,11 +150,22 @@ msgstr "Selecionar uma cor"
 msgid "Select a font"
 msgstr "Selecionar uma fonte"
 
+#, fuzzy
+msgid "ACPI"
+msgstr "Caminho ACPI"
+
 msgid "ACPI path"
 msgstr "Caminho ACPI"
 
+msgid "GPU"
+msgstr "GPU"
+
 msgid "GPU device"
 msgstr "Dispositivo GPU"
+
+#, fuzzy
+msgid "HDD temperature"
+msgstr "Temperatura "
 
 msgid "HDD"
 msgstr "HDD"
@@ -159,19 +173,25 @@ msgstr "HDD"
 msgid "hddtemp cmd"
 msgstr "comando hddtemp"
 
+msgid "Player"
+msgstr ""
+
+msgid "Player data symbols"
+msgstr ""
+
+msgid "Music player"
+msgstr "Reprodutor de áudio"
+
+msgid "MPRIS player name"
+msgstr "Nome do player MPRIS"
+
 msgid "MPD address"
 msgstr "Endereço do MPD"
 
 msgid "MPD port"
 msgstr "Porta do MPD"
 
-msgid "MPRIS player name"
-msgstr "Nome do player MPRIS"
-
-msgid "Music player"
-msgstr "Reprodutor de áudio"
-
-msgid "Player data symbols"
+msgid "Extensions"
 msgstr ""
 
 msgid "Custom scripts"
@@ -532,6 +552,12 @@ msgstr "Desktop ativo"
 msgid "Inactive desktop"
 msgstr "Desktop inativo"
 
+msgid "Vertical layout"
+msgstr "Layout vertical"
+
+msgid "Mark"
+msgstr "Marca"
+
 msgid "Tooltip type"
 msgstr "Tipo de dica de contexto"
 
@@ -552,12 +578,6 @@ msgstr "nenhum"
 
 msgid "Tooltip width"
 msgstr "Largura da dica de contexto"
-
-msgid "Vertical layout"
-msgstr "Layout vertical"
-
-msgid "Mark"
-msgstr "Marca"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
@@ -791,16 +811,10 @@ msgstr "under@insicuri.net"
 #~ "...\n"
 #~ "$cpuclN - frequência da CPU para o núcleo N, MHz"
 
-#~ msgid "Temperature"
-#~ msgstr "Temperatura "
-
 #~ msgid "$tempN - physical temperature on device N (from 0). Example: $temp0"
 #~ msgstr ""
 #~ "$hddtempN - temperatura física no dispositivo N (começando por 0). "
 #~ "Exemplo: $hddtemp0"
-
-#~ msgid "GPU"
-#~ msgstr "GPU"
 
 #~ msgid "$gpu - gpu usage, %"
 #~ msgstr "$gpu - uso da GPU, %"

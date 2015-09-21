@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-09-14 10:03+0300\n"
-"PO-Revision-Date: 2015-09-14 10:04+0300\n"
+"POT-Creation-Date: 2015-09-21 20:49+0300\n"
+"PO-Revision-Date: 2015-09-21 10:26+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: English <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -39,14 +39,11 @@ msgstr "About"
 msgid "Acknowledgment"
 msgstr "Acknowledgment"
 
-msgid "Widget height, px"
-msgstr "Widget height, px"
+msgid "Enable background"
+msgstr "Enable background"
 
-msgid "Widget width, px"
-msgstr "Widget width, px"
-
-msgid "Enable notifications"
-msgstr "Enable notifications"
+msgid "Translate strings"
+msgstr "Translate strings"
 
 msgid "Wrap new lines"
 msgstr "Wrap new lines"
@@ -54,14 +51,23 @@ msgstr "Wrap new lines"
 msgid "Enable word wrap"
 msgstr "Enable word wrap"
 
-msgid "Enable background"
-msgstr "Enable background"
+msgid "Enable notifications"
+msgstr "Enable notifications"
 
-msgid "Custom time format"
-msgstr "Custom time format"
+msgid "Check updates on startup"
+msgstr "Check updates on startup"
 
-msgid "Custom uptime format"
-msgstr "Custom uptime format"
+msgid "Widget height, px"
+msgstr "Widget height, px"
+
+msgid "Widget width, px"
+msgstr "Widget width, px"
+
+msgid "Time interval"
+msgstr "Time interval"
+
+msgid "Messages queue limit"
+msgstr "Messages queue limit"
 
 msgid "Temperature units"
 msgstr "Temperature units"
@@ -87,23 +93,20 @@ msgstr "kJ/mol"
 msgid "kcal/mol"
 msgstr "kcal/mol"
 
+msgid "Custom time format"
+msgstr "Custom time format"
+
+msgid "Custom uptime format"
+msgstr "Custom uptime format"
+
 msgid "AC online tag"
 msgstr "AC online tag"
 
 msgid "AC offline tag"
 msgstr "AC offline tag"
 
-msgid "Check updates on startup"
-msgstr "Check updates on startup"
-
-msgid "Translate strings"
-msgstr "Translate strings"
-
 msgid "Drop key cache"
 msgstr "Drop key cache"
-
-msgid "Time interval"
-msgstr "Time interval"
 
 msgid "Font"
 msgstr "Font"
@@ -144,11 +147,20 @@ msgstr "Select a color"
 msgid "Select a font"
 msgstr "Select a font"
 
+msgid "ACPI"
+msgstr "ACPI"
+
 msgid "ACPI path"
 msgstr "ACPI path"
 
+msgid "GPU"
+msgstr "GPU"
+
 msgid "GPU device"
 msgstr "GPU device"
+
+msgid "HDD temperature"
+msgstr "HDD temperature"
 
 msgid "HDD"
 msgstr "HDD"
@@ -156,20 +168,26 @@ msgstr "HDD"
 msgid "hddtemp cmd"
 msgstr "hddtemp cmd"
 
+msgid "Player"
+msgstr "Player"
+
+msgid "Player data symbols"
+msgstr "Player data symbols"
+
+msgid "Music player"
+msgstr "Music player"
+
+msgid "MPRIS player name"
+msgstr "MPRIS player name"
+
 msgid "MPD address"
 msgstr "MPD address"
 
 msgid "MPD port"
 msgstr "MPD port"
 
-msgid "MPRIS player name"
-msgstr "MPRIS player name"
-
-msgid "Music player"
-msgstr "Music player"
-
-msgid "Player data symbols"
-msgstr "Player data symbols"
+msgid "Extensions"
+msgstr "Extensions"
 
 msgid "Custom scripts"
 msgstr "Custom scripts"
@@ -523,6 +541,12 @@ msgstr "Active desktop"
 msgid "Inactive desktop"
 msgstr "Inactive desktop"
 
+msgid "Vertical layout"
+msgstr "Vertical layout"
+
+msgid "Mark"
+msgstr "Mark"
+
 msgid "Tooltip type"
 msgstr "Tooltip type"
 
@@ -543,12 +567,6 @@ msgstr "none"
 
 msgid "Tooltip width"
 msgstr "Tooltip width"
-
-msgid "Vertical layout"
-msgstr "Vertical layout"
-
-msgid "Mark"
-msgstr "Mark"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
@@ -803,14 +821,8 @@ msgstr "esalexeev@gmail.com"
 #~ "...\n"
 #~ "$cpuclN - CPU clock for core N, MHz"
 
-#~ msgid "Temperature"
-#~ msgstr "Temperature"
-
 #~ msgid "$tempN - physical temperature on device N (from 0). Example: $temp0"
 #~ msgstr "$tempN - physical temperature on device N (from 0). Example: $temp0"
-
-#~ msgid "GPU"
-#~ msgstr "GPU"
 
 #~ msgid "$gpu - gpu usage, %"
 #~ msgstr "$gpu - gpu usage, %"

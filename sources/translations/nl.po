@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-09-14 10:03+0300\n"
+"POT-Creation-Date: 2015-09-21 20:49+0300\n"
 "PO-Revision-Date: 2015-08-20 22:52+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
@@ -41,14 +41,12 @@ msgstr "Over"
 msgid "Acknowledgment"
 msgstr "Erkenning"
 
-msgid "Widget height, px"
-msgstr ""
+msgid "Enable background"
+msgstr "Achtergrond inschakelen"
 
-msgid "Widget width, px"
-msgstr ""
-
-msgid "Enable notifications"
-msgstr ""
+#, fuzzy
+msgid "Translate strings"
+msgstr "Probleem met de vertaling"
 
 msgid "Wrap new lines"
 msgstr ""
@@ -56,14 +54,24 @@ msgstr ""
 msgid "Enable word wrap"
 msgstr ""
 
-msgid "Enable background"
-msgstr "Achtergrond inschakelen"
+msgid "Enable notifications"
+msgstr ""
 
-msgid "Custom time format"
-msgstr "Aangepaste tijdsopmaak"
+#, fuzzy
+msgid "Check updates on startup"
+msgstr "Controleren op updates"
 
-msgid "Custom uptime format"
-msgstr "Aangepast uptime-opmaak"
+msgid "Widget height, px"
+msgstr ""
+
+msgid "Widget width, px"
+msgstr ""
+
+msgid "Time interval"
+msgstr "Tijdstussenpose"
+
+msgid "Messages queue limit"
+msgstr ""
 
 msgid "Temperature units"
 msgstr "Temperatuureenheden"
@@ -89,25 +97,20 @@ msgstr "kJ/mol"
 msgid "kcal/mol"
 msgstr "kcal/mol"
 
+msgid "Custom time format"
+msgstr "Aangepaste tijdsopmaak"
+
+msgid "Custom uptime format"
+msgstr "Aangepast uptime-opmaak"
+
 msgid "AC online tag"
 msgstr "AC online-sleutelwoord"
 
 msgid "AC offline tag"
 msgstr "AC offline-sleutelwoord"
 
-#, fuzzy
-msgid "Check updates on startup"
-msgstr "Controleren op updates"
-
-#, fuzzy
-msgid "Translate strings"
-msgstr "Probleem met de vertaling"
-
 msgid "Drop key cache"
 msgstr ""
-
-msgid "Time interval"
-msgstr "Tijdstussenpose"
 
 msgid "Font"
 msgstr "Lettertype"
@@ -148,11 +151,22 @@ msgstr "Selecteer een kleur"
 msgid "Select a font"
 msgstr "Selecteer een lettertype"
 
+#, fuzzy
+msgid "ACPI"
+msgstr "ACPI-pad"
+
 msgid "ACPI path"
 msgstr "ACPI-pad"
 
+msgid "GPU"
+msgstr ""
+
 msgid "GPU device"
 msgstr "GPU-apparaat"
+
+#, fuzzy
+msgid "HDD temperature"
+msgstr "Temperatuureenheden"
 
 msgid "HDD"
 msgstr "HDD"
@@ -160,19 +174,25 @@ msgstr "HDD"
 msgid "hddtemp cmd"
 msgstr "hddtemp cmd"
 
+msgid "Player"
+msgstr ""
+
+msgid "Player data symbols"
+msgstr ""
+
+msgid "Music player"
+msgstr "Muziekspeler"
+
+msgid "MPRIS player name"
+msgstr "MPRIS-mediaspelernaam"
+
 msgid "MPD address"
 msgstr "MPD-adres"
 
 msgid "MPD port"
 msgstr "MPD-poort"
 
-msgid "MPRIS player name"
-msgstr "MPRIS-mediaspelernaam"
-
-msgid "Music player"
-msgstr "Muziekspeler"
-
-msgid "Player data symbols"
+msgid "Extensions"
 msgstr ""
 
 msgid "Custom scripts"
@@ -543,6 +563,12 @@ msgstr "Actieve kleur"
 msgid "Inactive desktop"
 msgstr "Inactieve kleur"
 
+msgid "Vertical layout"
+msgstr "Verticale layout"
+
+msgid "Mark"
+msgstr "Markeren"
+
 #, fuzzy
 msgid "Tooltip type"
 msgstr "Opmerkingsballon"
@@ -564,12 +590,6 @@ msgstr "geen"
 
 msgid "Tooltip width"
 msgstr "Opmerkingsballonbreedte"
-
-msgid "Vertical layout"
-msgstr "Verticale layout"
-
-msgid "Mark"
-msgstr "Markeren"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"

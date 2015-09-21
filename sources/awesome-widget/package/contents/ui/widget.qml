@@ -341,6 +341,7 @@ Item {
         title: i18n("Preview")
     }
 
+
     // we need to initializate DataEngines here too
     // because we need to get keys and values
     PlasmaCore.DataSource {
@@ -381,6 +382,7 @@ Item {
         }
     }
 
+
     Component.onCompleted: {
         if (debug) console.debug()
 
@@ -389,7 +391,7 @@ Item {
         awKeys.dropSourceFromDataengine.connect(dropSource)
         awKeys.needTextToBeUpdated.connect(needTextUpdate)
         // init submodule
-        awKeys.initKeys(plasmoid.configuration.text)
+        awKeys.initKeys(plasmoid.configuration.text, plasmoid.configuration.queueLimit)
         awKeys.setAggregatorProperty("acOffline", plasmoid.configuration.acOffline)
         awKeys.setAggregatorProperty("acOnline", plasmoid.configuration.acOnline)
         awKeys.setAggregatorProperty("customTime", plasmoid.configuration.customTime)

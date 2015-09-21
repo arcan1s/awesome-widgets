@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-09-14 10:03+0300\n"
+"POT-Creation-Date: 2015-09-21 20:49+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,13 +38,10 @@ msgstr ""
 msgid "Acknowledgment"
 msgstr ""
 
-msgid "Widget height, px"
+msgid "Enable background"
 msgstr ""
 
-msgid "Widget width, px"
-msgstr ""
-
-msgid "Enable notifications"
+msgid "Translate strings"
 msgstr ""
 
 msgid "Wrap new lines"
@@ -53,13 +50,22 @@ msgstr ""
 msgid "Enable word wrap"
 msgstr ""
 
-msgid "Enable background"
+msgid "Enable notifications"
 msgstr ""
 
-msgid "Custom time format"
+msgid "Check updates on startup"
 msgstr ""
 
-msgid "Custom uptime format"
+msgid "Widget height, px"
+msgstr ""
+
+msgid "Widget width, px"
+msgstr ""
+
+msgid "Time interval"
+msgstr ""
+
+msgid "Messages queue limit"
 msgstr ""
 
 msgid "Temperature units"
@@ -86,22 +92,19 @@ msgstr ""
 msgid "kcal/mol"
 msgstr ""
 
+msgid "Custom time format"
+msgstr ""
+
+msgid "Custom uptime format"
+msgstr ""
+
 msgid "AC online tag"
 msgstr ""
 
 msgid "AC offline tag"
 msgstr ""
 
-msgid "Check updates on startup"
-msgstr ""
-
-msgid "Translate strings"
-msgstr ""
-
 msgid "Drop key cache"
-msgstr ""
-
-msgid "Time interval"
 msgstr ""
 
 msgid "Font"
@@ -143,10 +146,19 @@ msgstr ""
 msgid "Select a font"
 msgstr ""
 
+msgid "ACPI"
+msgstr ""
+
 msgid "ACPI path"
 msgstr ""
 
+msgid "GPU"
+msgstr ""
+
 msgid "GPU device"
+msgstr ""
+
+msgid "HDD temperature"
 msgstr ""
 
 msgid "HDD"
@@ -155,19 +167,25 @@ msgstr ""
 msgid "hddtemp cmd"
 msgstr ""
 
+msgid "Player"
+msgstr ""
+
+msgid "Player data symbols"
+msgstr ""
+
+msgid "Music player"
+msgstr ""
+
+msgid "MPRIS player name"
+msgstr ""
+
 msgid "MPD address"
 msgstr ""
 
 msgid "MPD port"
 msgstr ""
 
-msgid "MPRIS player name"
-msgstr ""
-
-msgid "Music player"
-msgstr ""
-
-msgid "Player data symbols"
+msgid "Extensions"
 msgstr ""
 
 msgid "Custom scripts"
@@ -514,6 +532,12 @@ msgstr ""
 msgid "Inactive desktop"
 msgstr ""
 
+msgid "Vertical layout"
+msgstr ""
+
+msgid "Mark"
+msgstr ""
+
 msgid "Tooltip type"
 msgstr ""
 
@@ -533,12 +557,6 @@ msgid "none"
 msgstr ""
 
 msgid "Tooltip width"
-msgstr ""
-
-msgid "Vertical layout"
-msgstr ""
-
-msgid "Mark"
 msgstr ""
 
 msgctxt "NAME OF TRANSLATORS"

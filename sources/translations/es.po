@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-09-14 10:03+0300\n"
+"POT-Creation-Date: 2015-09-21 20:49+0300\n"
 "PO-Revision-Date: 2015-07-31 22:13+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Spanish <kde-russian@lists.kde.ru>\n"
@@ -39,14 +39,12 @@ msgstr "Acerca de"
 msgid "Acknowledgment"
 msgstr "Reconocimiento"
 
-msgid "Widget height, px"
-msgstr "Alto del widget, px"
+msgid "Enable background"
+msgstr "Habilitar fondo"
 
-msgid "Widget width, px"
-msgstr "Ancho del widget, px"
-
-msgid "Enable notifications"
-msgstr "Habilitar notificaciones"
+#, fuzzy
+msgid "Translate strings"
+msgstr "Problemas de traducción"
 
 msgid "Wrap new lines"
 msgstr "Ajustar las nuevas líneas"
@@ -54,14 +52,24 @@ msgstr "Ajustar las nuevas líneas"
 msgid "Enable word wrap"
 msgstr ""
 
-msgid "Enable background"
-msgstr "Habilitar fondo"
+msgid "Enable notifications"
+msgstr "Habilitar notificaciones"
 
-msgid "Custom time format"
-msgstr "Formato personalizado de hora"
+#, fuzzy
+msgid "Check updates on startup"
+msgstr "Comprobar actualizaciones"
 
-msgid "Custom uptime format"
-msgstr "Formato personalizado de actividad del sistema"
+msgid "Widget height, px"
+msgstr "Alto del widget, px"
+
+msgid "Widget width, px"
+msgstr "Ancho del widget, px"
+
+msgid "Time interval"
+msgstr "Intervalo de tiempo"
+
+msgid "Messages queue limit"
+msgstr ""
 
 msgid "Temperature units"
 msgstr "Unidades de temperatura"
@@ -87,25 +95,20 @@ msgstr "kJ/mol"
 msgid "kcal/mol"
 msgstr "kcal/mol"
 
+msgid "Custom time format"
+msgstr "Formato personalizado de hora"
+
+msgid "Custom uptime format"
+msgstr "Formato personalizado de actividad del sistema"
+
 msgid "AC online tag"
 msgstr "Etiqueta para alimentación conectada"
 
 msgid "AC offline tag"
 msgstr "Etiqueta para la alimentación desconectada"
 
-#, fuzzy
-msgid "Check updates on startup"
-msgstr "Comprobar actualizaciones"
-
-#, fuzzy
-msgid "Translate strings"
-msgstr "Problemas de traducción"
-
 msgid "Drop key cache"
 msgstr ""
-
-msgid "Time interval"
-msgstr "Intervalo de tiempo"
 
 msgid "Font"
 msgstr "Tipo de letra"
@@ -146,11 +149,22 @@ msgstr "Elige un color"
 msgid "Select a font"
 msgstr "Elige un tipo de letra"
 
+#, fuzzy
+msgid "ACPI"
+msgstr "Ruta ACPI"
+
 msgid "ACPI path"
 msgstr "Ruta ACPI"
 
+msgid "GPU"
+msgstr "GPU"
+
 msgid "GPU device"
 msgstr "Dispositivo de GPU"
+
+#, fuzzy
+msgid "HDD temperature"
+msgstr "Temperatura"
 
 msgid "HDD"
 msgstr "Disco duro"
@@ -158,19 +172,25 @@ msgstr "Disco duro"
 msgid "hddtemp cmd"
 msgstr "Comando hddtemp"
 
+msgid "Player"
+msgstr ""
+
+msgid "Player data symbols"
+msgstr ""
+
+msgid "Music player"
+msgstr "Reproductor de música"
+
+msgid "MPRIS player name"
+msgstr "Nombre del reproductor MPRIS"
+
 msgid "MPD address"
 msgstr "Dirección de MPD"
 
 msgid "MPD port"
 msgstr "Puerto de MPD"
 
-msgid "MPRIS player name"
-msgstr "Nombre del reproductor MPRIS"
-
-msgid "Music player"
-msgstr "Reproductor de música"
-
-msgid "Player data symbols"
+msgid "Extensions"
 msgstr ""
 
 msgid "Custom scripts"
@@ -538,6 +558,12 @@ msgstr "Escritorio activo"
 msgid "Inactive desktop"
 msgstr "Escritorio inactivo"
 
+msgid "Vertical layout"
+msgstr "Orientación vertical"
+
+msgid "Mark"
+msgstr "Marca"
+
 msgid "Tooltip type"
 msgstr "Tipo de ventana emergente"
 
@@ -558,12 +584,6 @@ msgstr "ninguno"
 
 msgid "Tooltip width"
 msgstr "Ancho de la ventana emergente"
-
-msgid "Vertical layout"
-msgstr "Orientación vertical"
-
-msgid "Mark"
-msgstr "Marca"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
@@ -799,16 +819,10 @@ msgstr "Tu correo electrónico"
 #~ "...\n"
 #~ "$cpuclN - frecuencia de la CPU para el núcleo N, MHz"
 
-#~ msgid "Temperature"
-#~ msgstr "Temperatura"
-
 #~ msgid "$tempN - physical temperature on device N (from 0). Example: $temp0"
 #~ msgstr ""
 #~ "$tempN - temperatura física en el dispositivo N (a partir de 0). Ejemplo: "
 #~ "$temp0"
-
-#~ msgid "GPU"
-#~ msgstr "GPU"
 
 #~ msgid "$gpu - gpu usage, %"
 #~ msgstr "$gpu - uso de la GPU, %"

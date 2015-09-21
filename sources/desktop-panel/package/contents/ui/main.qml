@@ -101,6 +101,7 @@ Item {
         }
     }
 
+    
     Timer {
         id: timer
         interval: 1000
