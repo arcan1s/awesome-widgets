@@ -4,6 +4,6 @@ Name=VIX
 Comment=Volatility S&P 500
 X-AW-Ticker="^VIX"
 X-AW-Active=false
-X-AW-ApiVersion=2
+X-AW-ApiVersion=3
 X-AW-Interval=60
 X-AW-Number=7

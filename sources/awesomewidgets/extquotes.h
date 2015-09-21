@@ -18,7 +18,6 @@
 #ifndef EXTQUOTES_H
 #define EXTQUOTES_H
 
-#include <QMap>
 #include <QNetworkReply>
 
 #include "abstractextitem.h"

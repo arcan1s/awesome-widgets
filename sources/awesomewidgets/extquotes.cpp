@@ -217,27 +217,27 @@ void ExtQuotes::quotesReplyReceived(QNetworkReply *reply)
     }
     QVariantMap jsonQuotes = jsonDoc.toVariant().toMap()[QString("query")].toMap();
     jsonQuotes = jsonQuotes[QString("results")].toMap()[QString("quote")].toMap();
-    float value;
+    double value;
 
     // ask
-    value = jsonQuotes[QString("Ask")].toString().toFloat();
-    values[tag(QString("askchg"))] = values[QString("ask")].toFloat() == 0.0 ? 0.0 :
-                                     value - values[QString("ask")].toFloat();
-    values[tag(QString("percaskchg"))] = 100.0 * values[QString("askchg")].toFloat() / values[QString("ask")].toFloat();
+    value = jsonQuotes[QString("Ask")].toString().toDouble();
+    values[tag(QString("askchg"))] = values[QString("ask")].toDouble() == 0.0 ? 0.0 :
+                                     value - values[QString("ask")].toDouble();
+    values[tag(QString("percaskchg"))] = 100.0 * values[QString("askchg")].toDouble() / values[QString("ask")].toDouble();
     values[tag(QString("ask"))] = value;
 
     // bid
-    value = jsonQuotes[QString("Bid")].toString().toFloat();
-    values[tag(QString("bidchg"))] = values[QString("bid")].toFloat() == 0.0 ? 0.0 :
-                                     value - values[QString("bid")].toFloat();
-    values[tag(QString("percbidchg"))] = 100.0 * values[QString("bidchg")].toFloat() / values[QString("bid")].toFloat();
+    value = jsonQuotes[QString("Bid")].toString().toDouble();
+    values[tag(QString("bidchg"))] = values[QString("bid")].toDouble() == 0.0 ? 0.0 :
+                                     value - values[QString("bid")].toDouble();
+    values[tag(QString("percbidchg"))] = 100.0 * values[QString("bidchg")].toDouble() / values[QString("bid")].toDouble();
     values[tag(QString("bid"))] = value;
 
     // last trade
-    value = jsonQuotes[QString("LastTradePriceOnly")].toString().toFloat();
-    values[tag(QString("pricechg"))] = values[QString("price")].toFloat() == 0.0 ? 0.0 :
-                                       value - values[QString("price")].toFloat();
-    values[tag(QString("percpricechg"))] = 100.0 * values[QString("pricechg")].toFloat() / values[QString("price")].toFloat();
+    value = jsonQuotes[QString("LastTradePriceOnly")].toString().toDouble();
+    values[tag(QString("pricechg"))] = values[QString("price")].toDouble() == 0.0 ? 0.0 :
+                                       value - values[QString("price")].toDouble();
+    values[tag(QString("percpricechg"))] = 100.0 * values[QString("pricechg")].toDouble() / values[QString("price")].toDouble();
     values[tag(QString("price"))] = value;
 }
 

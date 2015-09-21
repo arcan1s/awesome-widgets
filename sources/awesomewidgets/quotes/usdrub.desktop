@@ -4,6 +4,6 @@ Name=USD/RUB
 Comment=USD/RUB
 X-AW-Ticker="USDRUB=X"
 X-AW-Active=false
-X-AW-ApiVersion=2
+X-AW-ApiVersion=3
 X-AW-Interval=60
 X-AW-Number=8
