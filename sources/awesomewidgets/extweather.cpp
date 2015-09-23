@@ -323,7 +323,7 @@ void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
     // convert to map
     QVariantMap json = jsonDoc.toVariant().toMap();
     if (json[QString("cod")].toInt() != 200) {
-        qCWarning(LOG_LIB) << "Invalid return code";
+        qCWarning(LOG_LIB) << "Invalid OpenWeatherMap return code" << json[QString("cod")].toInt();
         return;
     }
 

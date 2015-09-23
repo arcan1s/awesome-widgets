@@ -18,7 +18,6 @@
 #ifndef EXTSCRIPT_H
 #define EXTSCRIPT_H
 
-#include <QMap>
 #include <QProcess>
 
 #include "abstractextitem.h"

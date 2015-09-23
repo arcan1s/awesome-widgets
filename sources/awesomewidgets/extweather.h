@@ -18,7 +18,6 @@
 #ifndef EXTWEATHER_H
 #define EXTWEATHER_H
 
-#include <QMap>
 #include <QNetworkReply>
 
 #include "abstractextitem.h"

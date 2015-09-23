@@ -12,11 +12,11 @@
 
 // configuraion
 // graphical items api version
-#define AWGIAPI 2
+#define AWGIAPI 3
 // extquotes api version
-#define AWEQAPI 2
+#define AWEQAPI 3
 // extscript api version
-#define AWESAPI 3
+#define AWESAPI 4
 // extupgrade api version
 #define AWEUAPI 3
 // extweather api version
@@ -43,6 +43,5 @@
 #define CMAKE_BUILD_TYPE "@CMAKE_BUILD_TYPE@"
 #define CMAKE_INSTALL_PREFIX "@CMAKE_INSTALL_PREFIX@"
 #define BUILD_PLASMOIDS "@BUILD_PLASMOIDS@"
-#define QUEUE_LIMIT @QUEUE_LIMIT@
 
 #endif /* VERSION_H */
