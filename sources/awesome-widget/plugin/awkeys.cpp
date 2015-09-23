@@ -26,7 +26,6 @@
 #include <QSettings>
 #include <QStandardPaths>
 #include <QThread>
-#include <QThreadPool>
 
 #include "awdebug.h"
 #include "awkeysaggregator.h"
@@ -47,21 +46,19 @@ AWKeys::AWKeys(QObject *parent)
     // logging
     qSetMessagePattern(LOG_FORMAT);
 
-    aggregator = new AWKeysAggregator(this);
-    dataAggregator = new AWDataAggregator(this);
-    connect(this, SIGNAL(needToBeUpdated()), this, SLOT(dataUpdate()));
-    // transfer signal from AWDataAggregator object to QML ui
-    connect(dataAggregator, SIGNAL(toolTipPainted(const QString)),
-            this, SIGNAL(needToolTipToBeUpdated(const QString)));
 #ifdef BUILD_FUTURE
-    // queue limit. It may be configured by using QUEUE_LIMIT cmake limit flag.
-    // In other hand since I'm using global thread pool, it makes sense to limit
-    // queue by QThread::idealThreadCount() value
-    queueLimit = QUEUE_LIMIT == 0 ? QThread::idealThreadCount() : QUEUE_LIMIT;
     // thread pool
+    queueLimit = QThread::idealThreadCount();
     threadPool = new QThreadPool(this);
     threadPool->setMaxThreadCount(queueLimit);
 #endif /* BUILD_FUTURE */
+
+    aggregator = new AWKeysAggregator(this);
+    dataAggregator = new AWDataAggregator(this, threadPool);
+    // transfer signal from AWDataAggregator object to QML ui
+    connect(dataAggregator, SIGNAL(toolTipPainted(const QString)),
+            this, SIGNAL(needToolTipToBeUpdated(const QString)));
+    connect(this, SIGNAL(needToBeUpdated()), this, SLOT(dataUpdate()));
 }
 
 
@@ -69,13 +66,15 @@ AWKeys::~AWKeys()
 {
     qCDebug(LOG_AW);
 
+    // extensions
     if (graphicalItems != nullptr) delete graphicalItems;
     if (extQuotes != nullptr) delete extQuotes;
     if (extScripts != nullptr) delete extScripts;
     if (extUpgrade != nullptr) delete extUpgrade;
     if (extWeather != nullptr) delete extWeather;
 
-    delete threadPool;
+    // core
+    if (threadPool != nullptr) delete threadPool;
     delete aggregator;
     delete dataAggregator;
 }
@@ -90,17 +89,23 @@ void AWKeys::initDataAggregator(const QVariantMap tooltipParams)
 }
 
 
-void AWKeys::initKeys(const QString currentPattern)
+void AWKeys::initKeys(const QString currentPattern, const int limit)
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Pattern" << currentPattern;
 
     // init
     m_pattern = currentPattern;
+#ifdef BUILD_FUTURE
+    // queue limit. It may be configured by using QUEUE_LIMIT cmake limit flag.
+    // In other hand since I'm using global thread pool, it makes sense to limit
+    // queue by QThread::idealThreadCount() value
+    queueLimit = limit == 0 ? QThread::idealThreadCount() : limit;
+    threadPool->setMaxThreadCount(queueLimit);
+#endif /* BUILD_FUTURE */
     // update network and hdd list
     addKeyToCache(QString("hdd"));
     addKeyToCache(QString("net"));
-    loadKeysFromCache();
 }
 
 
@@ -319,8 +324,12 @@ void AWKeys::dataUpdateReceived(const QString sourceName, const QVariantMap data
     qCDebug(LOG_AW) << "Source" << sourceName;
     qCDebug(LOG_AW) << "Data" << data;
 
-    // run concurrent data update
+    // we will update text even if queue limit is reached
+    if (sourceName == QString("update")) return emit(needToBeUpdated());
+
 #ifdef BUILD_FUTURE
+    // run concurrent data update
+    if ((lock = ((lock) && (queue > 0)))) return;
     QtConcurrent::run(threadPool, [this, sourceName, data]() {
         return setDataBySource(sourceName, data);
     });
@@ -393,8 +402,16 @@ void AWKeys::dataUpdate()
 {
     qCDebug(LOG_AW);
 
+#ifdef BUILD_FUTURE
+    QFuture<QString> text = QtConcurrent::run(threadPool, [this]() {
+        calculateValues();
+        return parsePattern(m_pattern);
+    });
+#else /* BUILD_FUTURE */
     calculateValues();
-    emit(needTextToBeUpdated(parsePattern(m_pattern)));
+    QString text = parsePattern(m_pattern);
+#endif /* BUILD_FUTURE */
+    emit(needTextToBeUpdated(text));
     emit(dataAggregator->updateData(values));
 }
 
@@ -442,7 +459,7 @@ void AWKeys::reinitKeys()
     QStringList allKeys = dictKeys();
 
     // not documented feature - place all available tags
-    m_pattern = m_pattern.replace(QString("$ALL"), [allKeys](){
+    m_pattern = m_pattern.replace(QString("$ALL"), [allKeys]() {
         QStringList strings;
         foreach(QString tag, allKeys)
             strings.append(QString("%1: $%1").arg(tag));
@@ -661,8 +678,6 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data)
     qCDebug(LOG_AW) << "Data" << data;
 
 #ifdef BUILD_FUTURE
-    // check if data stream is locked
-    if ((lock = ((lock) && (queue > 0)))) return;
     // drop if limits are reached
     if (++queue > queueLimit) {
         qCWarning(LOG_AW) << "Messages queue" << queue-- << "more than limits" << queueLimit;
@@ -677,15 +692,13 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data)
         tags = aggregator->registerSource(sourceName, data[QString("units")].toString());
 
     // update data or drop source if there are no matches
-    if (sourceName == QString("update")) {
-        emit(needToBeUpdated());
-    } else if (tags.isEmpty()) {
+    if (tags.isEmpty()) {
         qCDebug(LOG_AW) << "Source" << sourceName << "not found";
         emit(dropSourceFromDataengine(sourceName));
     } else {
         // HACK workaround for time values which are stored in the different path
         QVariant value = sourceName == QString("Local") ? data[QString("DateTime")] : data[QString("value")];
-        std::for_each(tags.cbegin(), tags.cend(), [this, value](const QString tag){
+        std::for_each(tags.cbegin(), tags.cend(), [this, value](const QString tag) {
             values[tag] = aggregator->formater(value, tag);
         });
     }

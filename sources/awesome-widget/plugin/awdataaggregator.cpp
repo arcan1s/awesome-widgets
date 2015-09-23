@@ -19,7 +19,11 @@
 
 #include <KI18n/KLocalizedString>
 
+#include <QtConcurrent/QtConcurrent>
 #include <QBuffer>
+#include <QGraphicsScene>
+#include <QGraphicsView>
+#include <QPixmap>
 
 #include <math.h>
 
@@ -27,10 +31,13 @@
 #include "awdebug.h"
 
 
-AWDataAggregator::AWDataAggregator(QObject *parent)
-    : QObject(parent)
+AWDataAggregator::AWDataAggregator(QObject *parent, QThreadPool *pThreadPool)
+    : QObject(parent),
+      threadPool(pThreadPool)
 {
     qCDebug(LOG_AW);
+    // required by signals
+    qRegisterMetaType<QHash<QString, QString>>("QHash<QString, QString>");
 
     initScene();
 
@@ -154,27 +161,13 @@ void AWDataAggregator::dataUpdate(const QHash<QString, QString> values)
 {
     qCDebug(LOG_AW);
 
-    // battery update requires info is AC online or not
-    setData(values[QString("ac")] == configuration[QString("acOnline")],
-            QString("batTooltip"), values[QString("bat")].toFloat());
-    // usual case
-    setData(QString("cpuTooltip"), values[QString("cpu")].toFloat(), 90.0);
-    setData(QString("cpuclTooltip"), values[QString("cpucl")].toFloat());
-    setData(QString("memTooltip"), values[QString("mem")].toFloat(), 90.0);
-    setData(QString("swapTooltip"), values[QString("swap")].toFloat(), 0.0);
-    setData(QString("downTooltip"), values[QString("downkb")].toFloat());
-    setData(QString("upTooltip"), values[QString("upkb")].toFloat());
-    // additional check for network device
-    [this](const QString value) {
-        checkValue(QString("netdev"), currentNetworkDevice, value);
-        currentNetworkDevice = value;
-    }(values[QString("netdev")]);
-    // additional check for GPU load
-    [this](const float value) {
-        checkValue(QString("gpu"), value, 90.0);
-        currentGPULoad = value;
-    }(values[QString("gpu")].toFloat());
-
+#ifdef BUILD_FUTURE
+    QtConcurrent::run(threadPool, [this, values]() {
+        setData(values);
+    });
+#else /* BUILD_FUTURE */
+    setData(values);
+#endif /* BUILD_FUTURE */
     emit(toolTipPainted(htmlImage(tooltipImage())));
 }
 
@@ -205,7 +198,7 @@ void AWDataAggregator::checkValue(const QString source, const QString current,
     qCDebug(LOG_AW) << "Current value" << current;
     qCDebug(LOG_AW) << "Received value" << received;
 
-    if ((m_enablePopup) && (current != received))
+    if ((m_enablePopup) && (current != received) && (!received.isEmpty()))
         return AWActions::sendNotification(QString("event"), notificationText(source, received));
 }
 
@@ -259,6 +252,33 @@ QString AWDataAggregator::notificationText(const QString source, const QString v
     }
 
     return output;
+}
+
+
+void AWDataAggregator::setData(const QHash< QString, QString > values)
+{
+    qCDebug(LOG_AW);
+
+    // battery update requires info is AC online or not
+    setData(values[QString("ac")] == configuration[QString("acOnline")],
+            QString("batTooltip"), values[QString("bat")].toFloat());
+    // usual case
+    setData(QString("cpuTooltip"), values[QString("cpu")].toFloat(), 90.0);
+    setData(QString("cpuclTooltip"), values[QString("cpucl")].toFloat());
+    setData(QString("memTooltip"), values[QString("mem")].toFloat(), 90.0);
+    setData(QString("swapTooltip"), values[QString("swap")].toFloat(), 0.0);
+    setData(QString("downTooltip"), values[QString("downkb")].toFloat());
+    setData(QString("upTooltip"), values[QString("upkb")].toFloat());
+    // additional check for network device
+    [this](const QString value) {
+        checkValue(QString("netdev"), currentNetworkDevice, value);
+        currentNetworkDevice = value;
+    }(values[QString("netdev")]);
+    // additional check for GPU load
+    [this](const float value) {
+        checkValue(QString("gpu"), value, 90.0);
+        currentGPULoad = value;
+    }(values[QString("gpu")].toFloat());
 }
 
 

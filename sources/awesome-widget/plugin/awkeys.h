@@ -42,7 +42,7 @@ public:
     virtual ~AWKeys();
 
     Q_INVOKABLE void initDataAggregator(const QVariantMap tooltipParams);
-    Q_INVOKABLE void initKeys(const QString currentPattern);
+    Q_INVOKABLE void initKeys(const QString currentPattern, const int limit);
     Q_INVOKABLE void setAggregatorProperty(const QString key, const QVariant value);
     Q_INVOKABLE void setWrapNewLines(const bool wrap = false);
     // keys

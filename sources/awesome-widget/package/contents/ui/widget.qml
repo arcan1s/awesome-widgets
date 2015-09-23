@@ -320,7 +320,7 @@ Item {
                 width: parent.width * 2 / 5
                 text: i18n("Preview")
                 onClicked: {
-                    awKeys.initKeys(textPattern.text)
+                    awKeys.initKeys(textPattern.text, plasmoid.configuration.queueLimit)
                     awKeys.needToBeUpdated()
                 }
             }
