@@ -50,11 +50,10 @@ AWKeys::AWKeys(QObject *parent)
     // thread pool
     queueLimit = QThread::idealThreadCount();
     threadPool = new QThreadPool(this);
-    threadPool->setMaxThreadCount(queueLimit);
 #endif /* BUILD_FUTURE */
 
     aggregator = new AWKeysAggregator(this);
-    dataAggregator = new AWDataAggregator(this, threadPool);
+    dataAggregator = new AWDataAggregator(this);
     // transfer signal from AWDataAggregator object to QML ui
     connect(dataAggregator, SIGNAL(toolTipPainted(const QString)),
             this, SIGNAL(needToolTipToBeUpdated(const QString)));
@@ -123,6 +122,14 @@ void AWKeys::setWrapNewLines(const bool wrap)
     qCDebug(LOG_AW) << "Is wrapping enabled" << wrap;
 
     m_wrapNewLines = wrap;
+}
+
+
+void AWKeys::unlock()
+{
+    qCDebug(LOG_AW);
+
+    lock = false;
 }
 
 
@@ -324,12 +331,11 @@ void AWKeys::dataUpdateReceived(const QString sourceName, const QVariantMap data
     qCDebug(LOG_AW) << "Source" << sourceName;
     qCDebug(LOG_AW) << "Data" << data;
 
-    // we will update text even if queue limit is reached
+    if (lock) return;
     if (sourceName == QString("update")) return emit(needToBeUpdated());
 
 #ifdef BUILD_FUTURE
     // run concurrent data update
-    if ((lock = ((lock) && (queue > 0)))) return;
     QtConcurrent::run(threadPool, [this, sourceName, data]() {
         return setDataBySource(sourceName, data);
     });
@@ -682,6 +688,7 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data)
     if (++queue > queueLimit) {
         qCWarning(LOG_AW) << "Messages queue" << queue-- << "more than limits" << queueLimit;
         lock = true;
+        emit(disconnectPlugin());
         return;
     }
 #endif /* BUILD_FUTURE */

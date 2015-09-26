@@ -31,9 +31,8 @@
 #include "awdebug.h"
 
 
-AWDataAggregator::AWDataAggregator(QObject *parent, QThreadPool *pThreadPool)
-    : QObject(parent),
-      threadPool(pThreadPool)
+AWDataAggregator::AWDataAggregator(QObject *parent)
+    : QObject(parent)
 {
     qCDebug(LOG_AW);
     // required by signals
@@ -86,6 +85,7 @@ void AWDataAggregator::setParameters(QVariantMap settings)
 
     m_enablePopup = configuration[QString("notify")].toBool();
 
+    counts = 0;
     counts += configuration[QString("cpuTooltip")].toInt();
     counts += configuration[QString("cpuclTooltip")].toInt();
     counts += configuration[QString("memTooltip")].toInt();
@@ -103,6 +103,7 @@ void AWDataAggregator::setParameters(QVariantMap settings)
     boundaries[QString("upTooltip")] = 1.0;
     boundaries[QString("batTooltip")] = 100.0;
 
+    requiredKeys.clear();
     if (configuration[QString("cpuTooltip")].toBool()) requiredKeys.append(QString("cpuTooltip"));
     if (configuration[QString("cpuclTooltip")].toBool()) requiredKeys.append(QString("cpuclTooltip"));
     if (configuration[QString("memTooltip")].toBool()) requiredKeys.append(QString("memTooltip"));
@@ -161,13 +162,7 @@ void AWDataAggregator::dataUpdate(const QHash<QString, QString> values)
 {
     qCDebug(LOG_AW);
 
-#ifdef BUILD_FUTURE
-    QtConcurrent::run(threadPool, [this, values]() {
-        setData(values);
-    });
-#else /* BUILD_FUTURE */
     setData(values);
-#endif /* BUILD_FUTURE */
     emit(toolTipPainted(htmlImage(tooltipImage())));
 }
 

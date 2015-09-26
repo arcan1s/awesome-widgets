@@ -45,6 +45,7 @@ public:
     Q_INVOKABLE void initKeys(const QString currentPattern, const int limit);
     Q_INVOKABLE void setAggregatorProperty(const QString key, const QVariant value);
     Q_INVOKABLE void setWrapNewLines(const bool wrap = false);
+    Q_INVOKABLE void unlock();
     // keys
     Q_INVOKABLE void addDevice(const QString source);
     Q_INVOKABLE QStringList dictKeys(const bool sorted = false,
@@ -58,6 +59,7 @@ public:
     Q_INVOKABLE void editItem(const QString type);
 
 signals:
+    void disconnectPlugin() const;
     void dropSourceFromDataengine(const QString source);
     void needTextToBeUpdated(const QString newText) const;
     void needToolTipToBeUpdated(const QString newText) const;
@@ -89,8 +91,8 @@ private:
     QHash<QString, QString> values;
     bool m_wrapNewLines = false;
     // queue and stream lock properties
-    bool lock = false;
     QThreadPool *threadPool = nullptr;
+    bool lock = true;
     int queueLimit, queue = 0;
 };
 

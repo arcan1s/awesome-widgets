@@ -33,7 +33,7 @@ class AWDataAggregator : public QObject
     Q_OBJECT
 
 public:
-    explicit AWDataAggregator(QObject *parent = nullptr, QThreadPool *pThreadPool = nullptr);
+    explicit AWDataAggregator(QObject *parent = nullptr);
     virtual ~AWDataAggregator();
     QList<float> getData(const QString key) const;
     QString htmlImage(const QPixmap source) const;
@@ -70,7 +70,6 @@ private:
     QHash<QString, QList<float>> data;
     bool m_enablePopup = false;
     QStringList requiredKeys;
-    QThreadPool *threadPool = nullptr;
 };
 
 

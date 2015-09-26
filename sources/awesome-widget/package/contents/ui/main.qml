@@ -63,6 +63,8 @@ Item {
         "notify": plasmoid.configuration.notify
     }
 
+    signal connectPlugin
+    signal disconnectPlugin
     signal dropSource(string sourceName)
     signal needTextUpdate(string newText)
     signal needToolTipUpdate(string newText)
@@ -87,11 +89,6 @@ Item {
         connectedSources: systemmonitorDE.sources
         interval: plasmoid.configuration.interval
 
-        onNewData: {
-            if (debug) console.debug("Update source", sourceName)
-            awKeys.dataUpdateReceived(sourceName, data)
-        }
-
         onSourceAdded: {
             if (debug) console.debug("Source", source)
             awKeys.addDevice(source)
@@ -103,11 +100,6 @@ Item {
         engine: "extsysmon"
         connectedSources: extsysmonDE.sources
         interval: plasmoid.configuration.interval
-
-        onNewData: {
-            if (debug) console.debug("Update source", sourceName)
-            awKeys.dataUpdateReceived(sourceName, data)
-        }
     }
 
     PlasmaCore.DataSource {
@@ -115,11 +107,6 @@ Item {
         engine: "time"
         connectedSources: ["Local"]
         interval: 1000
-
-        onNewData: {
-            if (debug) console.debug("Update source", sourceName)
-            awKeys.dataUpdateReceived(sourceName, data)
-        }
     }
 
 
@@ -173,6 +160,12 @@ Item {
         }
     }
 
+    Timer {
+        id: timer
+        interval: 5 * plasmoid.configuration.interval
+        onTriggered: connectPlugin()
+    }
+
 
     Component.onCompleted: {
         if (debug) console.debug()
@@ -184,11 +177,33 @@ Item {
         // init submodule
         Plasmoid.userConfiguringChanged(false)
         // connect data
+        awKeys.disconnectPlugin.connect(disconnectPlugin)
         awKeys.dropSourceFromDataengine.connect(dropSource)
         awKeys.needTextToBeUpdated.connect(needTextUpdate)
         awKeys.needToolTipToBeUpdated.connect(needToolTipUpdate)
+        connectPlugin()
         // check updates if required
         if (plasmoid.configuration.checkUpdates) return awActions.checkUpdates(false)
+    }
+
+    onConnectPlugin: {
+        if (debug) console.debug()
+
+        systemmonitorDE.newData.connect(awKeys.dataUpdateReceived)
+        extsysmonDE.newData.connect(awKeys.dataUpdateReceived)
+        timeDE.newData.connect(awKeys.dataUpdateReceived)
+
+        return awKeys.unlock()
+    }
+
+    onDisconnectPlugin: {
+        if (debug) console.debug()
+
+        systemmonitorDE.newData.disconnect(awKeys.dataUpdateReceived)
+        extsysmonDE.newData.disconnect(awKeys.dataUpdateReceived)
+        timeDE.newData.disconnect(awKeys.dataUpdateReceived)
+
+        return timer.start()
     }
 
     onDropSource: {
