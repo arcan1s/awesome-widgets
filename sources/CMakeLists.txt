@@ -17,6 +17,9 @@ set(PROJECT_VERSION_MAJOR "2")
 set(PROJECT_VERSION_MINOR "4")
 set(PROJECT_VERSION_PATCH "0")
 set(PROJECT_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
+set(PROJECT_COMMIT_SHA "Commit hash" CACHE INTERNAL "")
+# append git version if any
+include(checkgit.cmake)
 
 string(TIMESTAMP CURRENT_DATE "%Y-%m-%d %H:%M" UTC)
 string(TIMESTAMP CURRENT_YEAR "%Y")
@@ -25,10 +28,13 @@ message(STATUS "Project: ${PROJECT_NAME}")
 message(STATUS "Version: ${PROJECT_VERSION}")
 message(STATUS "Build date: ${CURRENT_DATE}")
 
-option(BUILD_FUTURE "Build with the features which will be marked as stable later" OFF)
+# components
 option(BUILD_PLASMOIDS "Build plasmoids" ON)
 option(BUILD_DEB_PACKAGE "Build deb package" OFF)
 option(BUILD_RPM_PACKAGE "Build rpm package" OFF)
+# build details
+option(BUILD_FUTURE "Build with the features which will be marked as stable later" OFF)
+option(BUILD_TEST "Build with additional test abilities" OFF)
 
 # flags
 if(CMAKE_COMPILER_IS_GNUCXX)

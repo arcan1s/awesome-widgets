@@ -4,6 +4,7 @@
 // information
 #define NAME "Awesome Widgets"
 #define VERSION "@PROJECT_VERSION@"
+#define COMMIT_SHA "@PROJECT_COMMIT_SHA@"
 #define AUTHOR "@PROJECT_AUTHOR@"
 #define TRANSLATORS "Ernesto Aviles Vzqz (Spanish), Mermouy (French), underr (Brazillian Portuguese), Viktor Slobodyan (Ukrainian), Lemueler (Chinese), Heimen Stoffels (Dutch)"
 #define EMAIL "@PROJECT_CONTACT@"
@@ -24,6 +25,7 @@
 // available time keys
 #define TIME_KEYS "dddd,ddd,dd,d,MMMM,MMM,MM,M,yyyy,yy,hh,h,HH,H,mm,m,ss,s,t,ap,a,AP,A"
 #cmakedefine BUILD_FUTURE
+#cmakedefine BUILD_TEST
 
 // links
 #define HOMEPAGE "https://arcanis.name/projects/awesome-widgets/"
@@ -42,6 +44,12 @@
 // cmake properties
 #define CMAKE_BUILD_TYPE "@CMAKE_BUILD_TYPE@"
 #define CMAKE_INSTALL_PREFIX "@CMAKE_INSTALL_PREFIX@"
+// components
 #define BUILD_PLASMOIDS "@BUILD_PLASMOIDS@"
+#define BUILD_DEB_PACKAGE "@BUILD_DEB_PACKAGE@"
+#define BUILD_RPM_PACKAGE "@BUILD_RPM_PACKAGE@"
+// additional functions
+#define PROP_FUTURE "@BUILD_FUTURE@"
+#define PROP_TEST "@BUILD_TEST@"
 
 #endif /* VERSION_H */

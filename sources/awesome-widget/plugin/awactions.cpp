@@ -118,9 +118,10 @@ QString AWActions::getAboutText(const QString type) const
     QString text;
     if (type == QString("header"))
         text = QString(NAME);
-    else if (type == QString("version"))
+    else if (type == QString("version")) {
         text = i18n("Version %1 (build date %2)", QString(VERSION), QString(BUILD_DATE));
-    else if (type == QString("description"))
+        if (!QString(COMMIT_SHA).isEmpty()) text += QString(" (%1)").arg(QString(COMMIT_SHA));
+    } else if (type == QString("description"))
         text = i18n("A set of minimalistic plasmoid widgets");
     else if (type == QString("links"))
         text = i18n("Links:") + QString("<br>") +
@@ -237,6 +238,7 @@ void AWActions::showInfo(const QString version) const
     qCDebug(LOG_AW) << "Version" << version;
 
     QString text = i18n("You are using the actual version %1", version);
+    if (!QString(COMMIT_SHA).isEmpty()) text += QString(" (%1)").arg(QString(COMMIT_SHA));
     QMessageBox::information(nullptr, i18n("No new version found"), text);
 }
 
@@ -248,7 +250,8 @@ void AWActions::showUpdates(const QString version) const
     qCDebug(LOG_AW) << "Version" << version;
 
     QString text;
-    text += i18n("Current version : %1", QString(VERSION)) + QString("\n");
+    text += i18n("Current version : %1", QString(VERSION));
+    text += QString(COMMIT_SHA).isEmpty() ? QString("\n") : QString(" (%1)\n").arg(QString(COMMIT_SHA));
     text += i18n("New version : %1", version) + QString("\n\n");
     text += i18n("Click \"Ok\" to download");
 

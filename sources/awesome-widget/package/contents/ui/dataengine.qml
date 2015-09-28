@@ -345,7 +345,7 @@ Item {
         if (debug) console.debug()
 
         // init submodule
-        awKeys.initKeys(plasmoid.configuration.text)
+        awKeys.initKeys(plasmoid.configuration.text, plasmoid.configuration.queueLimit)
     }
 
     Component.onDestruction: {

@@ -176,7 +176,7 @@ private:
         }
 
         // sort items
-        std::sort(items.begin(), items.end(), [](const T *lhs, const T *rhs){
+        std::sort(items.begin(), items.end(), [](const T *lhs, const T *rhs) {
             return lhs->number() < rhs->number();
         });
         return items;

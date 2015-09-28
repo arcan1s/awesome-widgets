@@ -349,11 +349,7 @@ Item {
         engine: "systemmonitor"
         connectedSources: systemmonitorDE.sources
         interval: 5000
-
-        onNewData: {
-            if (debug) console.debug("Update source", sourceName)
-            awKeys.dataUpdateReceived(sourceName, data)
-        }
+        onNewData: awKeys.dataUpdateReceived(sourceName, data)
     }
 
     PlasmaCore.DataSource {
@@ -365,7 +361,6 @@ Item {
         onNewData: {
             // even after a disconnect it is possible that we'll receive an update
             if (sourceName == "update") return
-            if (debug) console.debug("Update source", sourceName)
             awKeys.dataUpdateReceived(sourceName, data)
         }
     }
@@ -375,11 +370,7 @@ Item {
         engine: "time"
         connectedSources: ["Local"]
         interval: 5000
-
-        onNewData: {
-            if (debug) console.debug("Update source", sourceName)
-            awKeys.dataUpdateReceived(sourceName, data)
-        }
+        onNewData: awKeys.dataUpdateReceived(sourceName, data)
     }
 
 
@@ -398,6 +389,7 @@ Item {
         awKeys.setAggregatorProperty("customUptime", plasmoid.configuration.customUptime)
         awKeys.setAggregatorProperty("tempUnits", plasmoid.configuration.tempUnits)
         awKeys.setAggregatorProperty("translate", plasmoid.configuration.translateStrings)
+        awKeys.unlock()
     }
 
     onDropSource: {

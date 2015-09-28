@@ -464,6 +464,7 @@ void AWKeys::reinitKeys()
     // init
     QStringList allKeys = dictKeys();
 
+#ifdef BUILD_TEST
     // not documented feature - place all available tags
     m_pattern = m_pattern.replace(QString("$ALL"), [allKeys]() {
         QStringList strings;
@@ -471,6 +472,7 @@ void AWKeys::reinitKeys()
             strings.append(QString("%1: $%1").arg(tag));
         return strings.join(QString(" | "));
     }());
+#endif /* BUILD_TEST */
 
     // append lists
     // bars
