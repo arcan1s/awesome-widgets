@@ -7,15 +7,15 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
 "POT-Creation-Date: 2015-09-21 20:49+0300\n"
-"PO-Revision-Date: 2015-07-31 22:23+0300\n"
+"PO-Revision-Date: 2015-09-27 12:37+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Ukrainian <kde-russian@lists.kde.ru>\n"
 "Language: ua\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
+"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 2.0\n"
 
 msgid "Widget"
@@ -44,20 +44,20 @@ msgstr "Включити фон"
 
 #, fuzzy
 msgid "Translate strings"
-msgstr "Тікет перекладу"
+msgstr "Перекладати рядки"
 
 msgid "Wrap new lines"
 msgstr "Замінити символ переводу рядка"
 
 msgid "Enable word wrap"
-msgstr ""
+msgstr "Включити перенос слів"
 
 msgid "Enable notifications"
 msgstr "Включити повідомлення"
 
 #, fuzzy
 msgid "Check updates on startup"
-msgstr "Шукати оновлення"
+msgstr "Перевіряти оновлення при запуску"
 
 msgid "Widget height, px"
 msgstr "Висота віджету, пікселі"
@@ -69,7 +69,7 @@ msgid "Time interval"
 msgstr "Інтервал оновлення"
 
 msgid "Messages queue limit"
-msgstr ""
+msgstr "Обмеження черги повідомлень"
 
 msgid "Temperature units"
 msgstr "Одиниці виміру температури"
@@ -108,7 +108,7 @@ msgid "AC offline tag"
 msgstr "AC відключений"
 
 msgid "Drop key cache"
-msgstr ""
+msgstr "Скинути кеш ключів"
 
 msgid "Font"
 msgstr "Шрифт"
@@ -151,10 +151,10 @@ msgstr "Оберіть шрифт"
 
 #, fuzzy
 msgid "ACPI"
-msgstr "Шлях до ICPI"
+msgstr "Шлях до ACPI"
 
 msgid "ACPI path"
-msgstr "Шлях до ICPI"
+msgstr "Шлях до ACPI"
 
 msgid "GPU"
 msgstr "GPU"
@@ -164,7 +164,7 @@ msgstr "Пристій GPU"
 
 #, fuzzy
 msgid "HDD temperature"
-msgstr "Температура"
+msgstr "Температура HDD"
 
 msgid "HDD"
 msgstr "HDD"
@@ -173,10 +173,10 @@ msgid "hddtemp cmd"
 msgstr "Команда hddtemp"
 
 msgid "Player"
-msgstr ""
+msgstr "Плеєр"
 
 msgid "Player data symbols"
-msgstr ""
+msgstr "Символи в інформації про плеєр"
 
 msgid "Music player"
 msgstr "Музичний плеєр"
@@ -191,7 +191,7 @@ msgid "MPD port"
 msgstr "Порт сервера MPD"
 
 msgid "Extensions"
-msgstr ""
+msgstr "Розширення"
 
 msgid "Custom scripts"
 msgstr "Свої скрипти"
@@ -212,11 +212,11 @@ msgid "Edit command"
 msgstr "Редагувати команду"
 
 msgid "Weather"
-msgstr ""
+msgstr "Погода"
 
 #, fuzzy
 msgid "Edit weather"
-msgstr "Редагувати тікети"
+msgstr "Редагувати погоду"
 
 msgid "Select tag"
 msgstr "Оберіть тег"
@@ -256,7 +256,7 @@ msgstr "Фон"
 
 #, fuzzy
 msgid "Background color"
-msgstr "Фон"
+msgstr "Колір фону"
 
 msgid "CPU"
 msgstr "CPU"
@@ -309,17 +309,17 @@ msgstr ""
 "projects/awesome-widgets/\">домашній сторінці проекту</a>"
 
 msgid "AC"
-msgstr ""
+msgstr "Адаптер живлення"
 
 msgid "Bars"
 msgstr "Бари"
 
 msgid "Desktops"
-msgstr ""
+msgstr "Робочі столи"
 
 #, fuzzy
 msgid "Scripts"
-msgstr "Редагувати скрипти"
+msgstr "Скрипти"
 
 #, fuzzy
 msgid "Time"
@@ -327,14 +327,14 @@ msgstr "Час"
 
 #, fuzzy
 msgid "Quotes"
-msgstr "Монітор котирувань"
+msgstr "Котирування"
 
 msgid "Upgrades"
-msgstr ""
+msgstr "Оновлення"
 
 #, fuzzy
 msgid "Weathers"
-msgstr "Редагувати тікети"
+msgstr "Погода"
 
 msgid "Add"
 msgstr "Додати"
@@ -343,13 +343,13 @@ msgid "Show value"
 msgstr "Показати значення"
 
 msgid "Add lambda"
-msgstr ""
+msgstr "Додати лямбду"
 
 msgid "Edit bars"
 msgstr "Редагувати бари"
 
 msgid "Preview"
-msgstr ""
+msgstr "Попередній перегляд"
 
 msgid "Run %1"
 msgstr "Запуск %1"
@@ -394,11 +394,11 @@ msgid "Select font"
 msgstr "Оберіть шрифт"
 
 msgid "You are using the actual version %1"
-msgstr ""
+msgstr "Ви використовуєте актуальну версію %1"
 
 #, fuzzy
 msgid "No new version found"
-msgstr "Нова версія : %1"
+msgstr "Оновлень не знайдено"
 
 msgid "Current version : %1"
 msgstr "Поточна версія : %1"
@@ -434,10 +434,10 @@ msgid "Network device has been changed to %1"
 msgstr "Мережевий пристрій було змінено на %1"
 
 msgid "MB/s"
-msgstr ""
+msgstr "МБ/с"
 
 msgid "KB/s"
-msgstr ""
+msgstr "КБ/с"
 
 msgid "Copy"
 msgstr "Копіювати"
@@ -462,7 +462,7 @@ msgstr "Коментар: %1"
 
 #, fuzzy
 msgid "Identity: %1"
-msgstr "Коментар: %1"
+msgstr "Ідентифікатор: %1"
 
 msgid "Name"
 msgstr "Ім’я"
@@ -479,6 +479,10 @@ msgid ""
 "text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</"
 "span></a></p></body></html>"
 msgstr ""
+"<html><head/><body><p>Використовуйте тікеры YAHOO! finance, щоб отримати "
+"котирування по інструменту. Див. <a href=\"http://finance.yahoo.com/\"><span "
+"style=\" text-decoration: underline; color:#0057ae;\">http://finance.yahoo."
+"com/</span></a></p></body></html>"
 
 #, fuzzy
 msgid "Ticker"
@@ -486,50 +490,50 @@ msgstr "Тікер: %1"
 
 #, fuzzy
 msgid "Active"
-msgstr "Активний колір"
+msgstr "Активний"
 
 #, fuzzy
 msgid "Interval"
-msgstr "Інтервал оновлення"
+msgstr "Інтервал"
 
 #, fuzzy
 msgid "Command"
-msgstr "Коментар"
+msgstr "Команда"
 
 msgid "Prefix"
-msgstr ""
+msgstr "Префікс"
 
 msgid "Redirect"
-msgstr ""
+msgstr "Перенаправлення"
 
 msgid "Additional filters"
-msgstr ""
+msgstr "Додаткові фільтри"
 
 #, fuzzy
 msgid "Wrap colors"
-msgstr "Колір swap"
+msgstr "Обробити кольори"
 
 msgid "Wrap spaces"
-msgstr ""
+msgstr "Обробити пробіли"
 
 msgid "Filter"
-msgstr ""
+msgstr "Фільтр"
 
 msgid "Null"
-msgstr ""
+msgstr "Пусті рядки"
 
 msgid "City"
-msgstr ""
+msgstr "Місто"
 
 msgid "Country"
-msgstr ""
+msgstr "Країна"
 
 #, fuzzy
 msgid "Timestamp"
-msgstr "Час"
+msgstr "Відмітка часу"
 
 msgid "Use images"
-msgstr ""
+msgstr "Використовувати зображення"
 
 msgid "Value"
 msgstr "Значення"
@@ -570,10 +574,10 @@ msgid "Tooltip type"
 msgstr "Тип підказки"
 
 msgid "contours"
-msgstr "Контури"
+msgstr "контури"
 
 msgid "windows"
-msgstr "Вікна"
+msgstr "вікна"
 
 msgid "clean desktop"
 msgstr "пустий робочий стіл"
@@ -582,7 +586,7 @@ msgid "names"
 msgstr "назви"
 
 msgid "none"
-msgstr "немає"
+msgstr "нічого"
 
 msgid "Tooltip width"
 msgstr "Ширина підказки"
