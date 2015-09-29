@@ -500,6 +500,12 @@ QStringList AWKeysAggregator::registerSource(const QString source, const QString
         key.remove(QString("weather/"));
         m_map[source] = key;
         m_formater[key] = NoFormat;
+    } else if (source.startsWith(QString("load/load"))) {
+        // load source
+        QString key = source;
+        key.remove(QString("load/"));
+        m_map[source] = key;
+        m_formater[key] = Temperature;
     }
 
     return keysFromSource(source);
