@@ -1,22 +1,23 @@
-# Copyright (C) 2014
-# This file is distributed under the same license as the PyTextMonitor package.
-#
-# Ernesto Avilés Vázquez <whippiii@gmail.com>, 2014.
-# Evgeniy Alekseev <esalexeev@gmail.com>, 2014, 2015.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Ernesto Avilés Vázquez <whippiii@gmail.com>, 2014-2015
+# Evgeniy Alekseev <esalexeev@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
 "POT-Creation-Date: 2015-09-21 20:49+0300\n"
-"PO-Revision-Date: 2015-07-31 22:13+0300\n"
-"Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
-"Language-Team: Spanish <kde-russian@lists.kde.ru>\n"
-"Language: es\n"
+"PO-Revision-Date: 2015-09-26 22:07+0000\n"
+"Last-Translator: Ernesto Avilés Vázquez <whippiii@gmail.com>\n"
+"Language-Team: Spanish (http://www.transifex.com/arcanis/awesome-widgets/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 2.0\n"
 
 msgid "Widget"
 msgstr "Widget"
@@ -42,22 +43,20 @@ msgstr "Reconocimiento"
 msgid "Enable background"
 msgstr "Habilitar fondo"
 
-#, fuzzy
 msgid "Translate strings"
-msgstr "Problemas de traducción"
+msgstr "Traducir cadenas"
 
 msgid "Wrap new lines"
 msgstr "Ajustar las nuevas líneas"
 
 msgid "Enable word wrap"
-msgstr ""
+msgstr "Habilitar ajuste de línea"
 
 msgid "Enable notifications"
 msgstr "Habilitar notificaciones"
 
-#, fuzzy
 msgid "Check updates on startup"
-msgstr "Comprobar actualizaciones"
+msgstr "Comprobar actualizaciones al inicio"
 
 msgid "Widget height, px"
 msgstr "Alto del widget, px"
@@ -69,7 +68,7 @@ msgid "Time interval"
 msgstr "Intervalo de tiempo"
 
 msgid "Messages queue limit"
-msgstr ""
+msgstr "Límite de la cola de mensajes"
 
 msgid "Temperature units"
 msgstr "Unidades de temperatura"
@@ -108,7 +107,7 @@ msgid "AC offline tag"
 msgstr "Etiqueta para la alimentación desconectada"
 
 msgid "Drop key cache"
-msgstr ""
+msgstr "Borrar caché de claves"
 
 msgid "Font"
 msgstr "Tipo de letra"
@@ -149,9 +148,8 @@ msgstr "Elige un color"
 msgid "Select a font"
 msgstr "Elige un tipo de letra"
 
-#, fuzzy
 msgid "ACPI"
-msgstr "Ruta ACPI"
+msgstr "ACPI"
 
 msgid "ACPI path"
 msgstr "Ruta ACPI"
@@ -162,9 +160,8 @@ msgstr "GPU"
 msgid "GPU device"
 msgstr "Dispositivo de GPU"
 
-#, fuzzy
 msgid "HDD temperature"
-msgstr "Temperatura"
+msgstr "Temperatura del disco duro"
 
 msgid "HDD"
 msgstr "Disco duro"
@@ -173,10 +170,10 @@ msgid "hddtemp cmd"
 msgstr "Comando hddtemp"
 
 msgid "Player"
-msgstr ""
+msgstr "Reproductor"
 
 msgid "Player data symbols"
-msgstr ""
+msgstr "Símbolos de dato del reproductor"
 
 msgid "Music player"
 msgstr "Reproductor de música"
@@ -191,7 +188,7 @@ msgid "MPD port"
 msgstr "Puerto de MPD"
 
 msgid "Extensions"
-msgstr ""
+msgstr "Extensiones"
 
 msgid "Custom scripts"
 msgstr "Scripts personalizados"
@@ -200,7 +197,7 @@ msgid "Edit scripts"
 msgstr "Editar scripts"
 
 msgid "Quotes monitor"
-msgstr "Monitor de citas"
+msgstr "Monitor de cotizaciones"
 
 msgid "Edit tickers"
 msgstr "Editar tickets"
@@ -212,11 +209,10 @@ msgid "Edit command"
 msgstr "Editar orden"
 
 msgid "Weather"
-msgstr ""
+msgstr "Tiempo"
 
-#, fuzzy
 msgid "Edit weather"
-msgstr "Editar tickets"
+msgstr "Editar tiempo"
 
 msgid "Select tag"
 msgstr "Elegir etiqueta"
@@ -239,14 +235,10 @@ msgstr "Mostrar el README"
 msgid "Check updates"
 msgstr "Comprobar actualizaciones"
 
-#, fuzzy
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
 "To enable them just make needed checkbox checked."
-msgstr ""
-"Las etiquetas para CPU, frecuencia de la CPU, memoria, swap  y red soportan "
-"ventanas emergentes. Para habilitarlas marca respectivas las cajas de "
-"selección necesarias."
+msgstr "Las etiquetas para CPU, reloj de CPU, memoria, swap y red soportan ventanas emergentes. Para habilitarlas, simplemente marca las casillas correspondientes."
 
 msgid "Number of values for tooltips"
 msgstr "Número de valores para las ventanas emergentes"
@@ -254,9 +246,8 @@ msgstr "Número de valores para las ventanas emergentes"
 msgid "Background"
 msgstr "Fondo"
 
-#, fuzzy
 msgid "Background color"
-msgstr "Fondo"
+msgstr "Color de fondo"
 
 msgid "CPU"
 msgstr "CPU"
@@ -264,9 +255,8 @@ msgstr "CPU"
 msgid "CPU color"
 msgstr "Color de la CPU"
 
-#, fuzzy
 msgid "CPU clock"
-msgstr "Frecuencia de la CPU"
+msgstr "Reloj de CPU"
 
 msgid "CPU clock color"
 msgstr "Color de la frecuencia de la CPU"
@@ -302,39 +292,33 @@ msgid "Battery inactive color"
 msgstr "Color de la batería inactiva"
 
 msgid ""
-"Detailed information may be found on <a href=\"http://arcanis.name/projects/"
-"awesome-widgets/\">project homepage</a>"
-msgstr ""
-"Puedes encontrar información detallada en el <a href=\"http://arcanis.name/"
-"projects/awesome-widgets/\">sitio del proyecto</a>"
+"Detailed information may be found on <a href=\"http://arcanis.name/projects"
+"/awesome-widgets/\">project homepage</a>"
+msgstr "Puedes encontrar información detallada en el <a href=\"http://arcanis.name/projects/awesome-widgets/\">sitio del proyecto</a>"
 
 msgid "AC"
-msgstr ""
+msgstr "CA"
 
 msgid "Bars"
 msgstr "Barras"
 
 msgid "Desktops"
-msgstr ""
+msgstr "Escritorios"
 
-#, fuzzy
 msgid "Scripts"
-msgstr "Editar scripts"
+msgstr "Guiones"
 
-#, fuzzy
 msgid "Time"
 msgstr "Hora"
 
-#, fuzzy
 msgid "Quotes"
-msgstr "Monitor de citas"
+msgstr "Cotizaciones"
 
 msgid "Upgrades"
-msgstr ""
+msgstr "Actualizaciones"
 
-#, fuzzy
 msgid "Weathers"
-msgstr "Editar tickets"
+msgstr "Tiempo"
 
 msgid "Add"
 msgstr "Añadir"
@@ -343,13 +327,13 @@ msgid "Show value"
 msgstr "Mostrar valor"
 
 msgid "Add lambda"
-msgstr ""
+msgstr "Añadir lambda"
 
 msgid "Edit bars"
 msgstr "Editar barras"
 
 msgid "Preview"
-msgstr ""
+msgstr "Vista previa"
 
 msgid "Run %1"
 msgstr "Ejecutar %1"
@@ -394,11 +378,10 @@ msgid "Select font"
 msgstr "Elegir tipo de letra"
 
 msgid "You are using the actual version %1"
-msgstr ""
+msgstr "Estás usando al versión actual %1"
 
-#, fuzzy
 msgid "No new version found"
-msgstr "Nueva versión: %1"
+msgstr "No se encontraron nuevas versiones"
 
 msgid "Current version : %1"
 msgstr "Versión actual: %1"
@@ -434,10 +417,10 @@ msgid "Network device has been changed to %1"
 msgstr "El dispositivo de red ha sido cambiado a %1"
 
 msgid "MB/s"
-msgstr ""
+msgstr "MB/s"
 
 msgid "KB/s"
-msgstr ""
+msgstr "KB/s"
 
 msgid "Copy"
 msgstr "Copiar"
@@ -460,9 +443,8 @@ msgstr "Nombre: %1"
 msgid "Comment: %1"
 msgstr "Comentario: %1"
 
-#, fuzzy
 msgid "Identity: %1"
-msgstr "Comentario: %1"
+msgstr "Identidad: %1"
 
 msgid "Name"
 msgstr "Nombre"
@@ -476,60 +458,54 @@ msgstr "Etiqueta"
 msgid ""
 "<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
 "instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
-"text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</"
-"span></a></p></body></html>"
-msgstr ""
+"text-decoration: underline; "
+"color:#0057ae;\">http://finance.yahoo.com/</span></a></p></body></html>"
+msgstr "<html><head/><body><p>Usa el tablero electrónico de YAHOO! para obtener la cotización del medio. Dirígete a <a href=\"http://finance.yahoo.com/\"><span style=\" text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</span></a></p></body></html>"
 
-#, fuzzy
 msgid "Ticker"
-msgstr "Reloj: %1"
+msgstr "Tablero"
 
-#, fuzzy
 msgid "Active"
-msgstr "Color de activo"
+msgstr "Activo"
 
-#, fuzzy
 msgid "Interval"
-msgstr "Intervalo de tiempo"
+msgstr "Intervalo"
 
-#, fuzzy
 msgid "Command"
-msgstr "Comentario"
+msgstr "Orden"
 
 msgid "Prefix"
-msgstr ""
+msgstr "Prefijo"
 
 msgid "Redirect"
-msgstr ""
+msgstr "Redireccionar"
 
 msgid "Additional filters"
-msgstr ""
+msgstr "Filtros adicionales"
 
-#, fuzzy
 msgid "Wrap colors"
-msgstr "Color de la swap"
+msgstr "Tratamiento de colores"
 
 msgid "Wrap spaces"
-msgstr ""
+msgstr "Tratamiento de espacios"
 
 msgid "Filter"
-msgstr ""
+msgstr "Filtro"
 
 msgid "Null"
-msgstr ""
+msgstr "Líneas en blanco"
 
 msgid "City"
-msgstr ""
+msgstr "Ciudad"
 
 msgid "Country"
-msgstr ""
+msgstr "País"
 
-#, fuzzy
 msgid "Timestamp"
-msgstr "Hora"
+msgstr "Marca de tiempo"
 
 msgid "Use images"
-msgstr ""
+msgstr "Usar imágenes"
 
 msgid "Value"
 msgstr "Valor"
@@ -592,381 +568,3 @@ msgstr "Tu nombre"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "Tu correo electrónico"
-
-#~ msgid "Free space on %1 less than 10%"
-#~ msgstr "Espacio libre en %1 es menos del 10%"
-
-#~ msgid "Top Edge"
-#~ msgstr "Borde superior"
-
-#~ msgid "Bottom Edge"
-#~ msgstr "Borde inferior"
-
-#~ msgid "Left Edge"
-#~ msgstr "Borde izquierdo"
-
-#~ msgid "Right Edge"
-#~ msgstr "Borde derecho"
-
-#~ msgid "Unknown location (%1)"
-#~ msgstr "Ubicación desconocida (%1)"
-
-#~ msgid "Exec: %1"
-#~ msgstr "Ejecutar: %1"
-
-#~ msgid "Select color"
-#~ msgstr "Elegir color"
-
-#~ msgid "Run ksysguard"
-#~ msgstr "Ejecutar ksysguard"
-
-#~ msgid "Update text"
-#~ msgstr "Actualizar texto"
-
-#~ msgid "Check for updates"
-#~ msgstr "Comprobar actualizaciones"
-
-#~ msgid "Edit"
-#~ msgstr "Editar"
-
-#~ msgid "Enable popup on mouse click"
-#~ msgstr "Habilitar ventana emergente al hacer clic"
-
-#~ msgid ""
-#~ "$dddd - long weekday\n"
-#~ "$ddd - short weekday\n"
-#~ "$dd - day\n"
-#~ "$d - day w\\o zero\n"
-#~ "$MMMM - long month\n"
-#~ "$MMM - short month\n"
-#~ "$MM - month\n"
-#~ "$M - month w\\o zero\n"
-#~ "$yyyy - year\n"
-#~ "$yy - short year\n"
-#~ "$hh - hours (24 only)\n"
-#~ "$h - hours w\\o zero (24 only)\n"
-#~ "$mm - minutes\n"
-#~ "$m - minutes w\\o zero\n"
-#~ "$ss - seconds\n"
-#~ "$s - seconds w\\o zero"
-#~ msgstr ""
-#~ "$dddd - día de la semana en formato largo\n"
-#~ "$ddd - día de la semana en formato corto\n"
-#~ "$dd - día\n"
-#~ "$d - día (sin ceros)\n"
-#~ "$MMMM - mes en formato largo\n"
-#~ "$MMM - mes en formato corto\n"
-#~ "$MM - mes\n"
-#~ "$M - mes (sin ceros)\n"
-#~ "$yyyy - año\n"
-#~ "$yy - año en formato largo\n"
-#~ "$hh - horas (solo formato de 24 horas)\n"
-#~ "$h - horas (sin ceros, solo formato de 24 horas)\n"
-#~ "$mm - minutos\n"
-#~ "$m - minutos (sin ceros)\n"
-#~ "$ss - segundos\n"
-#~ "$s - segundos (sin ceros)"
-
-#~ msgid ""
-#~ "$dd - uptime days\n"
-#~ "$d - uptime days without zero\n"
-#~ "$hh - uptime hours\n"
-#~ "$h - uptime hours without zero\n"
-#~ "$mm - uptime minutes\n"
-#~ "$m - uptime minutes without zero"
-#~ msgstr ""
-#~ "$dd - días\n"
-#~ "$d - días (sin ceros)\n"
-#~ "$hh - horas\n"
-#~ "$h - horas (sin ceros)\n"
-#~ "$mm - minutos\n"
-#~ "$m - minutos (sin ceros)"
-
-#~ msgid "Temperature devices"
-#~ msgstr "Dispositivos de temperatura"
-
-#~ msgid "Editable"
-#~ msgstr "Editable"
-
-#~ msgid "Fan devices"
-#~ msgstr "Dispositivos de ventilación"
-
-#~ msgid "Mount points"
-#~ msgstr "Puntos de montaje"
-
-#~ msgid "HDD devices (speed)"
-#~ msgstr "Discos duros (velocidad)"
-
-#~ msgid "HDD devices (temp)"
-#~ msgstr "Discos duros (temperatura)"
-
-#~ msgid "Disable auto select device and set specified device"
-#~ msgstr "Inhabilitar selección automática del dispositivo y especificar uno"
-
-#~ msgid "Set network device"
-#~ msgstr "Establecer dispositivo de red"
-
-#~ msgid "Line, which returns when AC is online"
-#~ msgstr "Línea devuelta si la alimentación está conectada"
-
-#~ msgid "Line, which returns when AC is offline"
-#~ msgstr "Línea devuelta si la alimentación está desconectada"
-
-#, fuzzy
-#~ msgid "\"/sys/class/power_supply/\" by default"
-#~ msgstr "\"/sys/class/power_supply/AC/online\" por defecto"
-
-#~ msgid "<b>NOTE:</b> Player DBus interface should be an active"
-#~ msgstr ""
-#~ "<b>NOTA:</b> La interfaz DBus del reproductor debería estar activada"
-
-#~ msgid "Configuration"
-#~ msgstr "Configuración"
-
-#~ msgid "Ctrl+B"
-#~ msgstr "Ctrl+B"
-
-#~ msgid "Ctrl+I"
-#~ msgstr "Ctrl+I"
-
-#~ msgid "Ctrl+U"
-#~ msgstr "Ctrl+U"
-
-#~ msgid "Null lines"
-#~ msgstr "Número de líneas nulas"
-
-#~ msgid ""
-#~ "Editable\n"
-#~ "del - remove item"
-#~ msgstr ""
-#~ "Editable\n"
-#~ "del - eliminar elemento"
-
-#~ msgid "Battery device"
-#~ msgstr "Dispositivo de batería"
-
-#~ msgid "\"/sys/class/power_supply/BAT0/capacity\" by default"
-#~ msgstr "\"/sys/class/power_supply/BAT0/capacity\" por defecto"
-
-#~ msgid "Add stretch to left/top of the layout"
-#~ msgstr "Añadir extensión a la izquierda/superior de la distribución"
-
-#~ msgid "Add stretch to right/bottom of the layout"
-#~ msgstr "Añadir extensión a la derecha/inferior de la distribución"
-
-#~ msgid "Form"
-#~ msgstr "Formulario"
-
-#~ msgid "Network directory"
-#~ msgstr "Directorio de la red"
-
-#~ msgid "\"/sys/class/net\" by default"
-#~ msgstr "\"/sys/class/net\" por defecto"
-
-#~ msgid "Custom command to run"
-#~ msgstr "Comando personalizado para ejecutar"
-
-#~ msgid ""
-#~ "$time - time in default format\n"
-#~ "$isotime - time in ISO format\n"
-#~ "$shorttime - time in short format\n"
-#~ "$longtime - time in log format\n"
-#~ "$custom - custom time format"
-#~ msgstr ""
-#~ "$time - hora en el  formato por defecto\n"
-#~ "$isotime - hora en formato ISO\n"
-#~ "$shorttime - hora en formato corto\n"
-#~ "$longtime - hora en formato largo\n"
-#~ "$custom - hora en formato personalizado"
-
-#~ msgid "Uptime"
-#~ msgstr "Tiempo de actividad"
-
-#~ msgid ""
-#~ "$uptime - system uptime\n"
-#~ "$custom - custom format"
-#~ msgstr ""
-#~ "$uptime - tiempo de actividad del sistema\n"
-#~ "$custom - formato personalizado"
-
-#~ msgid ""
-#~ "$cpu - total load CPU, %\n"
-#~ "$cpu0 - load CPU for core 0, %\n"
-#~ "...\n"
-#~ "$cpu9 - load CPU for core 9, %\n"
-#~ "...\n"
-#~ "$cpuN - load CPU for core N, %"
-#~ msgstr ""
-#~ "$cpu - carga total de la CPU, %\n"
-#~ "$cpu0 - carga de la CPU para el núcleo 0, %\n"
-#~ "...\n"
-#~ "$cpu9 - carga de la CPU para el núcleo 9, %\n"
-#~ "...\n"
-#~ "$cpuN - carga de la CPU para el núcleo N, %"
-
-#~ msgid ""
-#~ "$cpucl - average CPU clock, MHz\n"
-#~ "$cpucl0 - CPU clock for core 0, MHz\n"
-#~ "...\n"
-#~ "$cpucl9 - CPU clock for core 9, MHz\n"
-#~ "...\n"
-#~ "$cpuclN - CPU clock for core N, MHz"
-#~ msgstr ""
-#~ "$cpucl - frecuencia de la CPU promedio, MHz\n"
-#~ "$cpucl0 - frecuencia de la CPU para el núcleo 0, MHz\n"
-#~ "...\n"
-#~ "$cpucl9 - frecuencia de la CPU para el núcleo 9, MHz\n"
-#~ "...\n"
-#~ "$cpuclN - frecuencia de la CPU para el núcleo N, MHz"
-
-#~ msgid "$tempN - physical temperature on device N (from 0). Example: $temp0"
-#~ msgstr ""
-#~ "$tempN - temperatura física en el dispositivo N (a partir de 0). Ejemplo: "
-#~ "$temp0"
-
-#~ msgid "$gpu - gpu usage, %"
-#~ msgstr "$gpu - uso de la GPU, %"
-
-#~ msgid "GPU Temp"
-#~ msgstr "Temperatura de la GPU"
-
-#~ msgid "$gputemp - physical temperature on GPU"
-#~ msgstr "$gputemp - temperatura física de la GPU"
-
-#~ msgid ""
-#~ "$mem - RAM usage, %\n"
-#~ "$memmb - RAM usage, MB\n"
-#~ "$memgb - RAM usage, GB\n"
-#~ "$memtotmb - total RAM, MB\n"
-#~ "$memtotgb - total RAM, GB"
-#~ msgstr ""
-#~ "$mem - uso de la RAM, %\n"
-#~ "$memmb - uso de la RAM, MB\n"
-#~ "$memgb - uso de la RAM, GB\n"
-#~ "$memtotmb - uso total de la RAM, MB\n"
-#~ "$memtotgb - uso total de la RAM, GB"
-
-#~ msgid ""
-#~ "$swap - swap usage, %\n"
-#~ "$swapmb - swap usage, MB\n"
-#~ "$swapgb - swap usage, GB\n"
-#~ "$swaptotmb - total swap, MB\n"
-#~ "$swaptotgb - total swap, GB"
-#~ msgstr ""
-#~ "$swap - uso de la swap, %\n"
-#~ "$swapmb - uso de la swap, MB\n"
-#~ "$swapgb - uso de la swap, GB\n"
-#~ "$swaptotmb - uso total de la swap, MB\n"
-#~ "$swaptotgb - uso total de la swap, GB"
-
-#~ msgid ""
-#~ "$hddN - usage for mount point N (from 0), %. Example: $hdd0\n"
-#~ "$hddmbN - usage for mount point N (from 0), MB. Example: $hddmb0\n"
-#~ "$hddgbN - usage for mount point N (from 0), GB. Example: $hddgb0\n"
-#~ "$hddtotmbN - total size of mount point N (from 0), MB. Example: "
-#~ "$hddtotmb0\n"
-#~ "$hddtotgbN - total size of mount point N (from 0), GB. Example: $hddtotgb0"
-#~ msgstr ""
-#~ "$hddN - uso para el punto de montaje N (a partir de 0), %. Ejemplo: "
-#~ "$hdd0\n"
-#~ "$hddmbN - uso para el punto de montaje N (a partir de 0), MB. Ejemplo: "
-#~ "$hddmb0\n"
-#~ "$hddgbN - uso para el punto de montaje N (a partir de 0), GB. Ejemplo: "
-#~ "$hddgb0\n"
-#~ "$hddtotmbN - uso total para el punto de montaje N (a partir de 0), MB. "
-#~ "Ejemplo: $hddtotmb0\n"
-#~ "$hddtotgbN - uso total para el punto de montaje N (a partir de 0), GB. "
-#~ "Ejemplo: $hddtotgb0"
-
-#~ msgid "HDD speed"
-#~ msgstr "Velocidad del disco duro"
-
-#~ msgid ""
-#~ "$hddrN - read speed HDD N (from 0), KB/s. Example: $hddr0\n"
-#~ "$hddwN - write speed HDD N (from 0), KB/s. Example: $hddw0"
-#~ msgstr ""
-#~ "$hddrN - velocidad de lectura del disco N (a partir de 0), KB/s. Por "
-#~ "ejemplo: $hddr0\n"
-#~ "$hddwN - velocidad de escritura del disco N (a partir de 0), KB/s. Por "
-#~ "ejemplo: $hddw0"
-
-#~ msgid "HDD temp"
-#~ msgstr "Temperatura del disco duro"
-
-#~ msgid ""
-#~ "$hddtempN - physical temperature on device N (from 0). Example: $hddtemp0"
-#~ msgstr ""
-#~ "$hddtempN - temperatura física en el dispositivo N (a partir de 0). "
-#~ "Ejemplo: $hddtemp0"
-
-#~ msgid ""
-#~ "$down - download speed, KB/s\n"
-#~ "$up - upload speed, KB/s\n"
-#~ "$netdev - current network device"
-#~ msgstr ""
-#~ "$down - velocidad de recepción, KB/s\n"
-#~ "$up - velocidad de envío, KB/s\n"
-#~ "$netdev - dispositivo de red actual"
-
-#~ msgid ""
-#~ "$bat - battery charge, %\n"
-#~ "$ac - AC status"
-#~ msgstr ""
-#~ "$bat - carga de la batería, %\n"
-#~ "$ac - estado de la alimentación"
-
-#~ msgid ""
-#~ "$album - song album\n"
-#~ "$artist - song artist\n"
-#~ "$progress - song progress\n"
-#~ "$time - song duration\n"
-#~ "$title - song title"
-#~ msgstr ""
-#~ "$album - álbum de la canción\n"
-#~ "$artist - artista de la canción\n"
-#~ "$progress - progreso de la canción\n"
-#~ "$time - duración de la canción\n"
-#~ "$title - título de la canción"
-
-#~ msgid "Processes"
-#~ msgstr "Procesos"
-
-#~ msgid ""
-#~ "$pscount - number of running processes\n"
-#~ "$pstotal - total number of running processes\n"
-#~ "$ps - list of running processes comma separated"
-#~ msgstr ""
-#~ "$pscount - número de procesos en ejecución\n"
-#~ "$pstotal - total de procesos en ejecución\n"
-#~ "$ps - listado de procesos en ejecución separados por coma"
-
-#~ msgid ""
-#~ "$pkgcountN - number of packages which are available for updates, command "
-#~ "N. For example $pkgcount0"
-#~ msgstr ""
-#~ "$pkgcountN - número de paquetes con actualizaciones disponibles, comando "
-#~ "N. Por ejemplo $pkgcount0"
-
-#~ msgid ""
-#~ "$customN - get output from custom command N (from N). Example `$custom0`"
-#~ msgstr ""
-#~ "$customN - obtener la salida de ejecución del comando personalizado N (a "
-#~ "partir de 0). Por ejemplo: $custom0"
-
-#~ msgid "pacman -Qu"
-#~ msgstr "pacman -Qu"
-
-#~ msgid "apt-show-versions -u -b"
-#~ msgstr "apt-show-versions -u -b"
-
-#~ msgid "aptitude search '~U'"
-#~ msgstr "aptitude search '~U'"
-
-#~ msgid "yum list updates"
-#~ msgstr "yum list updates"
-
-#~ msgid "pkg_version -I -l '<'"
-#~ msgstr "pkg_version -I -l '<'"
-
-#~ msgid "urpmq --auto-select"
-#~ msgstr "urpmq --auto-select"
