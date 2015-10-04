@@ -63,9 +63,6 @@ Item {
         "notify": plasmoid.configuration.notify
     }
 
-    signal connectPlugin
-    signal disconnectPlugin
-    signal dropSource(string sourceName)
     signal needTextUpdate(string newText)
     signal needToolTipUpdate(string newText)
     signal sizeUpdate
@@ -82,32 +79,6 @@ Item {
     Plasmoid.icon: "utilities-system-monitor"
     Plasmoid.backgroundHints: plasmoid.configuration.background ? "DefaultBackground" : "NoBackground"
     Plasmoid.associatedApplication: "ksysguard"
-
-    PlasmaCore.DataSource {
-        id: systemmonitorDE
-        engine: "systemmonitor"
-        connectedSources: systemmonitorDE.sources
-        interval: plasmoid.configuration.interval
-
-        onSourceAdded: {
-            if (debug) console.debug("Source", source)
-            awKeys.addDevice(source)
-        }
-    }
-
-    PlasmaCore.DataSource {
-        id: extsysmonDE
-        engine: "extsysmon"
-        connectedSources: extsysmonDE.sources
-        interval: plasmoid.configuration.interval
-    }
-
-    PlasmaCore.DataSource {
-        id: timeDE
-        engine: "time"
-        connectedSources: ["Local"]
-        interval: 1000
-    }
 
 
     // ui
@@ -160,12 +131,6 @@ Item {
         }
     }
 
-    Timer {
-        id: timer
-        interval: 5 * plasmoid.configuration.interval
-        onTriggered: connectPlugin()
-    }
-
 
     Component.onCompleted: {
         if (debug) console.debug()
@@ -177,40 +142,10 @@ Item {
         // init submodule
         Plasmoid.userConfiguringChanged(false)
         // connect data
-        awKeys.disconnectPlugin.connect(disconnectPlugin)
-        awKeys.dropSourceFromDataengine.connect(dropSource)
         awKeys.needTextToBeUpdated.connect(needTextUpdate)
         awKeys.needToolTipToBeUpdated.connect(needToolTipUpdate)
-        connectPlugin()
         // check updates if required
         if (plasmoid.configuration.checkUpdates) return awActions.checkUpdates(false)
-    }
-
-    onConnectPlugin: {
-        if (debug) console.debug()
-
-        systemmonitorDE.newData.connect(awKeys.dataUpdateReceived)
-        extsysmonDE.newData.connect(awKeys.dataUpdateReceived)
-        timeDE.newData.connect(awKeys.dataUpdateReceived)
-
-        return awKeys.unlock()
-    }
-
-    onDisconnectPlugin: {
-        if (debug) console.debug()
-
-        systemmonitorDE.newData.disconnect(awKeys.dataUpdateReceived)
-        extsysmonDE.newData.disconnect(awKeys.dataUpdateReceived)
-        timeDE.newData.disconnect(awKeys.dataUpdateReceived)
-
-        return timer.start()
-    }
-
-    onDropSource: {
-        if (debug) console.debug()
-        if (debug) console.debug("Source", sourceName)
-
-        systemmonitorDE.disconnectSource(sourceName)
     }
 
     onNeedTextUpdate: {
@@ -252,7 +187,8 @@ Item {
         if (debug) console.debug()
 
         // init submodule
-        awKeys.initKeys(plasmoid.configuration.text, plasmoid.configuration.queueLimit)
+        awKeys.initKeys(plasmoid.configuration.text, plasmoid.configuration.interval,
+                        plasmoid.configuration.queueLimit)
         awKeys.initDataAggregator(tooltipSettings)
         awKeys.setWrapNewLines(plasmoid.configuration.wrapNewLines)
         // configure aggregator

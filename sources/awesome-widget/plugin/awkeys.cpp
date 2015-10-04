@@ -27,9 +27,10 @@
 #include <QStandardPaths>
 #include <QThread>
 
+#include "awdataaggregator.h"
+#include "awdataengineaggregator.h"
 #include "awdebug.h"
 #include "awkeysaggregator.h"
-#include "awdataaggregator.h"
 #include "extquotes.h"
 #include "extscript.h"
 #include "extupgrade.h"
@@ -57,7 +58,7 @@ AWKeys::AWKeys(QObject *parent)
     // transfer signal from AWDataAggregator object to QML ui
     connect(dataAggregator, SIGNAL(toolTipPainted(const QString)),
             this, SIGNAL(needToolTipToBeUpdated(const QString)));
-    connect(this, SIGNAL(needToBeUpdated()), this, SLOT(dataUpdate()));
+    connect(this, SIGNAL(needToBeUpdated()), this, SLOT(updateTextData()));
 }
 
 
@@ -73,9 +74,18 @@ AWKeys::~AWKeys()
     if (extWeather != nullptr) delete extWeather;
 
     // core
+    if (dataEngineAggregator != nullptr) delete dataEngineAggregator;
     if (threadPool != nullptr) delete threadPool;
     delete aggregator;
     delete dataAggregator;
+}
+
+
+void AWKeys::unlock()
+{
+    qCDebug(LOG_AW);
+
+    lock = false;
 }
 
 
@@ -88,13 +98,21 @@ void AWKeys::initDataAggregator(const QVariantMap tooltipParams)
 }
 
 
-void AWKeys::initKeys(const QString currentPattern, const int limit)
+void AWKeys::initKeys(const QString currentPattern, const int interval, const int limit)
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Pattern" << currentPattern;
+    qCDebug(LOG_AW) << "Interval" << interval;
+    qCDebug(LOG_AW) << "Queue limit" << limit;
 
     // init
     m_pattern = currentPattern;
+    if (dataEngineAggregator == nullptr) {
+        dataEngineAggregator = new AWDataEngineAggregator(this, interval);
+        connect(this, SIGNAL(dropSourceFromDataengine(QString)),
+                dataEngineAggregator, SLOT(dropSource(QString)));
+    } else
+        dataEngineAggregator->setInterval(interval);
 #ifdef BUILD_FUTURE
     // queue limit. It may be configured by using QUEUE_LIMIT cmake limit flag.
     // In other hand since I'm using global thread pool, it makes sense to limit
@@ -102,9 +120,9 @@ void AWKeys::initKeys(const QString currentPattern, const int limit)
     queueLimit = limit == 0 ? QThread::idealThreadCount() : limit;
     threadPool->setMaxThreadCount(queueLimit);
 #endif /* BUILD_FUTURE */
-    // update network and hdd list
-    addKeyToCache(QString("hdd"));
-    addKeyToCache(QString("net"));
+    updateCache();
+
+    return dataEngineAggregator->reconnectSources();
 }
 
 
@@ -125,33 +143,13 @@ void AWKeys::setWrapNewLines(const bool wrap)
 }
 
 
-void AWKeys::unlock()
+void AWKeys::updateCache()
 {
     qCDebug(LOG_AW);
 
-    lock = false;
-}
-
-
-void AWKeys::addDevice(const QString source)
-{
-    qCDebug(LOG_AW);
-    qCDebug(LOG_AW) << "Source" << source;
-
-    QRegExp diskRegexp = QRegExp(QString("disk/(?:md|sd|hd)[a-z|0-9]_.*/Rate/(?:rblk)"));
-    QRegExp mountRegexp = QRegExp(QString("partitions/.*/filllevel"));
-
-    if (source.contains(diskRegexp)) {
-        QString device = source;
-        device.remove(QString("/Rate/rblk"));
-        addKeyToCache(QString("disk"), device);
-    } else if (source.contains(mountRegexp)) {
-        QString device = source;
-        device.remove(QString("partitions")).remove(QString("/filllevel"));
-        addKeyToCache(QString("mount"), device);
-    } else if (source.startsWith(QString("lmsensors"))) {
-        addKeyToCache(QString("temp"), source);
-    }
+    // update network and hdd list
+    addKeyToCache(QString("hdd"));
+    addKeyToCache(QString("net"));
 }
 
 
@@ -325,26 +323,6 @@ QStringList AWKeys::getHddDevices() const
 }
 
 
-void AWKeys::dataUpdateReceived(const QString sourceName, const QVariantMap data)
-{
-    qCDebug(LOG_AW);
-    qCDebug(LOG_AW) << "Source" << sourceName;
-    qCDebug(LOG_AW) << "Data" << data;
-
-    if (lock) return;
-    if (sourceName == QString("update")) return emit(needToBeUpdated());
-
-#ifdef BUILD_FUTURE
-    // run concurrent data update
-    QtConcurrent::run(threadPool, [this, sourceName, data]() {
-        return setDataBySource(sourceName, data);
-    });
-#else /* BUILD_FUTURE */
-    return setDataBySource(sourceName, data);
-#endif /* BUILD_FUTURE */
-}
-
-
 QString AWKeys::infoByKey(QString key) const
 {
     qCDebug(LOG_AW);
@@ -404,21 +382,45 @@ void AWKeys::editItem(const QString type)
 }
 
 
-void AWKeys::dataUpdate()
+void AWKeys::addDevice(const QString source)
 {
     qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << "Source" << source;
+
+    QRegExp diskRegexp = QRegExp(QString("disk/(?:md|sd|hd)[a-z|0-9]_.*/Rate/(?:rblk)"));
+    QRegExp mountRegexp = QRegExp(QString("partitions/.*/filllevel"));
+
+    if (source.contains(diskRegexp)) {
+        QString device = source;
+        device.remove(QString("/Rate/rblk"));
+        addKeyToCache(QString("disk"), device);
+    } else if (source.contains(mountRegexp)) {
+        QString device = source;
+        device.remove(QString("partitions")).remove(QString("/filllevel"));
+        addKeyToCache(QString("mount"), device);
+    } else if (source.startsWith(QString("lmsensors"))) {
+        addKeyToCache(QString("temp"), source);
+    }
+}
+
+
+void AWKeys::dataUpdated(const QString sourceName, const QVariantHash data)
+{
+    qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << "Source" << sourceName;
+    qCDebug(LOG_AW) << "Data" << data;
+
+    if (lock) return;
+    if (sourceName == QString("update")) return emit(needToBeUpdated());
 
 #ifdef BUILD_FUTURE
-    QFuture<QString> text = QtConcurrent::run(threadPool, [this]() {
-        calculateValues();
-        return parsePattern(m_pattern);
+    // run concurrent data update
+    QtConcurrent::run(threadPool, [this, sourceName, data]() {
+        return setDataBySource(sourceName, data);
     });
 #else /* BUILD_FUTURE */
-    calculateValues();
-    QString text = parsePattern(m_pattern);
+    return setDataBySource(sourceName, data);
 #endif /* BUILD_FUTURE */
-    emit(needTextToBeUpdated(text));
-    emit(dataAggregator->updateData(values));
 }
 
 
@@ -464,7 +466,7 @@ void AWKeys::reinitKeys()
     // init
     QStringList allKeys = dictKeys();
 
-#ifdef BUILD_TEST
+#ifdef BUILD_TESTING
     // not documented feature - place all available tags
     m_pattern = m_pattern.replace(QString("$ALL"), [allKeys]() {
         QStringList strings;
@@ -472,7 +474,7 @@ void AWKeys::reinitKeys()
             strings.append(QString("%1: $%1").arg(tag));
         return strings.join(QString(" | "));
     }());
-#endif /* BUILD_TEST */
+#endif /* BUILD_TESTING */
 
     // append lists
     // bars
@@ -525,6 +527,24 @@ void AWKeys::reinitKeys()
 
     // set key data to aggregator
     aggregator->setDevices(m_devices);
+}
+
+
+void AWKeys::updateTextData()
+{
+    qCDebug(LOG_AW);
+
+#ifdef BUILD_FUTURE
+    QFuture<QString> text = QtConcurrent::run(threadPool, [this]() {
+        calculateValues();
+        return parsePattern(m_pattern);
+    });
+#else /* BUILD_FUTURE */
+    calculateValues();
+    QString text = parsePattern(m_pattern);
+#endif /* BUILD_FUTURE */
+    emit(needTextToBeUpdated(text));
+    emit(dataAggregator->updateData(values));
 }
 
 
@@ -679,7 +699,7 @@ QString AWKeys::parsePattern(QString pattern) const
 }
 
 
-void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data)
+void AWKeys::setDataBySource(const QString sourceName, const QVariantHash data)
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Source" << sourceName;
@@ -690,8 +710,7 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data)
     if (++queue > queueLimit) {
         qCWarning(LOG_AW) << "Messages queue" << queue-- << "more than limits" << queueLimit;
         lock = true;
-        emit(disconnectPlugin());
-        return;
+        return dataEngineAggregator->disconnectVisualization();
     }
 #endif /* BUILD_FUTURE */
 

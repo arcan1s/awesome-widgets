@@ -18,7 +18,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.3 as QtControls
 import QtQuick.Dialogs 1.2 as QtDialogs
-import org.kde.plasma.core 2.0 as PlasmaCore
 
 import org.kde.plasma.private.awesomewidget 1.0
 
@@ -41,8 +40,8 @@ Item {
     property bool debug: awActions.isDebugEnabled()
 
     property alias cfg_text: textPattern.text
+    property bool lock: true
 
-    signal dropSource(string sourceName)
     signal needTextUpdate(string newText)
 
 
@@ -320,7 +319,9 @@ Item {
                 width: parent.width * 2 / 5
                 text: i18n("Preview")
                 onClicked: {
-                    awKeys.initKeys(textPattern.text, plasmoid.configuration.queueLimit)
+                    lock = false
+                    awKeys.initKeys(textPattern.text, plasmoid.configuration.interval,
+                                    plasmoid.configuration.queueLimit)
                     awKeys.needToBeUpdated()
                 }
             }
@@ -342,67 +343,27 @@ Item {
     }
 
 
-    // we need to initializate DataEngines here too
-    // because we need to get keys and values
-    PlasmaCore.DataSource {
-        id: systemmonitorDE
-        engine: "systemmonitor"
-        connectedSources: systemmonitorDE.sources
-        interval: 5000
-        onNewData: awKeys.dataUpdateReceived(sourceName, data)
-    }
-
-    PlasmaCore.DataSource {
-        id: extsysmonDE
-        engine: "extsysmon"
-        connectedSources: extsysmonDE.sources
-        interval: 5000
-
-        onNewData: {
-            // even after a disconnect it is possible that we'll receive an update
-            if (sourceName == "update") return
-            awKeys.dataUpdateReceived(sourceName, data)
-        }
-    }
-
-    PlasmaCore.DataSource {
-        id: timeDE
-        engine: "time"
-        connectedSources: ["Local"]
-        interval: 5000
-        onNewData: awKeys.dataUpdateReceived(sourceName, data)
-    }
-
-
     Component.onCompleted: {
         if (debug) console.debug()
 
-        // drop "update" source which does not required by this page
-        extsysmonDE.disconnectSource("update")
-        awKeys.dropSourceFromDataengine.connect(dropSource)
         awKeys.needTextToBeUpdated.connect(needTextUpdate)
         // init submodule
-        awKeys.initKeys(plasmoid.configuration.text, plasmoid.configuration.queueLimit)
+        awKeys.initKeys(plasmoid.configuration.text, plasmoid.configuration.interval,
+                        plasmoid.configuration.queueLimit)
         awKeys.setAggregatorProperty("acOffline", plasmoid.configuration.acOffline)
         awKeys.setAggregatorProperty("acOnline", plasmoid.configuration.acOnline)
         awKeys.setAggregatorProperty("customTime", plasmoid.configuration.customTime)
         awKeys.setAggregatorProperty("customUptime", plasmoid.configuration.customUptime)
         awKeys.setAggregatorProperty("tempUnits", plasmoid.configuration.tempUnits)
         awKeys.setAggregatorProperty("translate", plasmoid.configuration.translateStrings)
-        awKeys.unlock()
-    }
-
-    onDropSource: {
-        if (debug) console.debug()
-        if (debug) console.debug("Source", sourceName)
-
-        systemmonitorDE.disconnectSource(sourceName)
     }
 
     onNeedTextUpdate: {
+        if (lock) return
         if (debug) console.debug()
 
         compiledText.text = newText.replace(/&nbsp;/g, " ")
         compiledText.open()
+        lock = true;
     }
 }

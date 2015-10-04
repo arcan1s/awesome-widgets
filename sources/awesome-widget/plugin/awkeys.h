@@ -25,6 +25,7 @@
 
 
 class AWDataAggregator;
+class AWDataEngineAggregator;
 class AWKeysAggregator;
 class ExtQuotes;
 class ExtScript;
@@ -40,45 +41,48 @@ class AWKeys : public QObject
 public:
     explicit AWKeys(QObject *parent = nullptr);
     virtual ~AWKeys();
-
     Q_INVOKABLE void initDataAggregator(const QVariantMap tooltipParams);
-    Q_INVOKABLE void initKeys(const QString currentPattern, const int limit);
+    Q_INVOKABLE void initKeys(const QString currentPattern, const int interval,
+                              const int limit);
     Q_INVOKABLE void setAggregatorProperty(const QString key, const QVariant value);
     Q_INVOKABLE void setWrapNewLines(const bool wrap = false);
     Q_INVOKABLE void unlock();
+    Q_INVOKABLE void updateCache();
     // keys
-    Q_INVOKABLE void addDevice(const QString source);
     Q_INVOKABLE QStringList dictKeys(const bool sorted = false,
                                      const QString regexp = QString()) const;
     Q_INVOKABLE QStringList getHddDevices() const;
-    Q_INVOKABLE void dataUpdateReceived(const QString sourceName, const QVariantMap data);
     // values
     Q_INVOKABLE QString infoByKey(QString key) const;
     Q_INVOKABLE QString valueByKey(QString key) const;
     // configuration
     Q_INVOKABLE void editItem(const QString type);
 
+public slots:
+    void addDevice(const QString source);
+    void dataUpdated(const QString sourceName, const QVariantHash data);
+
 signals:
-    void disconnectPlugin() const;
     void dropSourceFromDataengine(const QString source);
     void needTextToBeUpdated(const QString newText) const;
     void needToolTipToBeUpdated(const QString newText) const;
     void needToBeUpdated();
 
 private slots:
-    void dataUpdate();
     void loadKeysFromCache();
     void reinitKeys();
+    void updateTextData();
 
 private:
     // methods
     void addKeyToCache(const QString type, const QString key = QString(""));
     void calculateValues();
     QString parsePattern(QString pattern) const;
-    void setDataBySource(const QString sourceName, const QVariantMap data);
+    void setDataBySource(const QString sourceName, const QVariantHash data);
     // objects
-    AWKeysAggregator *aggregator = nullptr;
     AWDataAggregator *dataAggregator = nullptr;
+    AWDataEngineAggregator *dataEngineAggregator = nullptr;
+    AWKeysAggregator *aggregator = nullptr;
     ExtItemAggregator<GraphicalItem> *graphicalItems = nullptr;
     ExtItemAggregator<ExtQuotes> *extQuotes = nullptr;
     ExtItemAggregator<ExtScript> *extScripts = nullptr;
@@ -92,8 +96,8 @@ private:
     bool m_wrapNewLines = false;
     // queue and stream lock properties
     QThreadPool *threadPool = nullptr;
-    bool lock = true;
     int queueLimit, queue = 0;
+    bool lock = true;
 };
 
 

@@ -118,16 +118,6 @@ Item {
                     QtControls.ComboBox {
                         id: hdd
                         width: parent.width * 3 / 5
-                        model: awKeys.getHddDevices(true)
-                        Component.onCompleted: {
-                            if (debug) console.debug()
-                            for (var i=0; i<model.length; i++) {
-                                if (model[i] == cfg_dataengine["HDDDEV"]) {
-                                    if (debug) console.info("Found", model[i], "on", i)
-                                    hdd.currentIndex = i;
-                                }
-                            }
-                        }
                     }
                 }
 
@@ -345,7 +335,16 @@ Item {
         if (debug) console.debug()
 
         // init submodule
-        awKeys.initKeys(plasmoid.configuration.text, plasmoid.configuration.queueLimit)
+        awKeys.updateCache()
+
+        // update hdd model
+        hdd.model = awKeys.getHddDevices()
+        for (var i=0; i<model.length; i++) {
+            if (model[i] == cfg_dataengine["HDDDEV"]) {
+                if (debug) console.info("Found", model[i], "on", i)
+                hdd.currentIndex = i;
+            }
+        }
     }
 
     Component.onDestruction: {
