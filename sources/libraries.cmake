@@ -1,4 +1,4 @@
-# required by translation packae
+# required by translation package
 find_package(Gettext REQUIRED)
 
 # main qt libraries

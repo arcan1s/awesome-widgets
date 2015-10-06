@@ -17,8 +17,8 @@ set(PROJECT_VERSION_MAJOR "2")
 set(PROJECT_VERSION_MINOR "4")
 set(PROJECT_VERSION_PATCH "0")
 set(PROJECT_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
-set(PROJECT_COMMIT_SHA "Commit hash" CACHE INTERNAL "")
 # append git version if any
+set(PROJECT_COMMIT_SHA "Commit hash" CACHE INTERNAL "")
 include(checkgit.cmake)
 
 string(TIMESTAMP CURRENT_DATE "%Y-%m-%d %H:%M" UTC)
@@ -34,7 +34,7 @@ option(BUILD_DEB_PACKAGE "Build deb package" OFF)
 option(BUILD_RPM_PACKAGE "Build rpm package" OFF)
 # build details
 option(BUILD_FUTURE "Build with the features which will be marked as stable later" OFF)
-option(BUILD_TEST "Build with additional test abilities" OFF)
+option(BUILD_TESTING "Build with additional test abilities" OFF)
 
 # flags
 if(CMAKE_COMPILER_IS_GNUCXX)

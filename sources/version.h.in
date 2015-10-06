@@ -25,7 +25,7 @@
 // available time keys
 #define TIME_KEYS "dddd,ddd,dd,d,MMMM,MMM,MM,M,yyyy,yy,hh,h,HH,H,mm,m,ss,s,t,ap,a,AP,A"
 #cmakedefine BUILD_FUTURE
-#cmakedefine BUILD_TEST
+#cmakedefine BUILD_TESTING
 
 // links
 #define HOMEPAGE "https://arcanis.name/projects/awesome-widgets/"
@@ -50,6 +50,6 @@
 #define BUILD_RPM_PACKAGE "@BUILD_RPM_PACKAGE@"
 // additional functions
 #define PROP_FUTURE "@BUILD_FUTURE@"
-#define PROP_TEST "@BUILD_TEST@"
+#define PROP_TEST "@BUILD_TESTING@"
 
 #endif /* VERSION_H */

@@ -60,7 +60,7 @@ public:
 
 public slots:
     void addDevice(const QString source);
-    void dataUpdated(const QString sourceName, const QVariantHash data);
+    void dataUpdated(const QString sourceName, const QVariantMap data);
 
 signals:
     void dropSourceFromDataengine(const QString source);
@@ -78,7 +78,7 @@ private:
     void addKeyToCache(const QString type, const QString key = QString(""));
     void calculateValues();
     QString parsePattern(QString pattern) const;
-    void setDataBySource(const QString sourceName, const QVariantHash data);
+    void setDataBySource(const QString sourceName, const QVariantMap data);
     // objects
     AWDataAggregator *dataAggregator = nullptr;
     AWDataEngineAggregator *dataEngineAggregator = nullptr;

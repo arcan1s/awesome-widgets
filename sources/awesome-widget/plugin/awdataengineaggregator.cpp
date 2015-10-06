@@ -57,8 +57,8 @@ void AWDataEngineAggregator::connectVisualization()
 {
     qCDebug(LOG_AW);
 
-    connect(this, SIGNAL(updateData(QString, QVariantHash)),
-            parent(), SLOT(dataUpdated(QString, QVariantHash)));
+    connect(this, SIGNAL(updateData(QString, QVariantMap)),
+            parent(), SLOT(dataUpdated(QString, QVariantMap)));
 
     return static_cast<AWKeys *>(parent())->unlock();
 }
@@ -68,8 +68,8 @@ void AWDataEngineAggregator::disconnectVisualization()
 {
     qCDebug(LOG_AW);
 
-    disconnect(this, SIGNAL(updateData(QString, QVariantHash)),
-               parent(), SLOT(dataUpdated(QString, QVariantHash)));
+    disconnect(this, SIGNAL(updateData(QString, QVariantMap)),
+               parent(), SLOT(dataUpdated(QString, QVariantMap)));
 
     return QTimer::singleShot(5 * m_interval, this, SLOT(connectVisualization()));
 }
@@ -101,7 +101,7 @@ void AWDataEngineAggregator::dataUpdated(const QString sourceName, const Plasma:
     qCDebug(LOG_AW) << "Source" << sourceName;
     qCDebug(LOG_AW) << "Data" << data;
 
-    return emit(updateData(QString(sourceName), qvariant_cast<QVariantHash>(data)));
+    return emit(updateData(sourceName, data));
 }
 
 

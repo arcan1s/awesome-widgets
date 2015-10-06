@@ -47,10 +47,8 @@ AbstractExtItem::~AbstractExtItem()
 
 
 template <class T>
-T *AbstractExtItem::copy(const QString _fileName, const int _number)
+T *AbstractExtItem::copy(const QString, const int)
 {
-    Q_UNUSED(_fileName)
-    Q_UNUSED(_number)
     qCDebug(LOG_LIB);
 
     // an analog of pure virtual method

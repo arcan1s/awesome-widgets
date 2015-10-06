@@ -85,6 +85,7 @@ void AWKeys::unlock()
 {
     qCDebug(LOG_AW);
 
+    qCWarning(LOG_AW) << "Unlock stream";
     lock = false;
 }
 
@@ -404,7 +405,7 @@ void AWKeys::addDevice(const QString source)
 }
 
 
-void AWKeys::dataUpdated(const QString sourceName, const QVariantHash data)
+void AWKeys::dataUpdated(const QString sourceName, const QVariantMap data)
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Source" << sourceName;
@@ -699,7 +700,7 @@ QString AWKeys::parsePattern(QString pattern) const
 }
 
 
-void AWKeys::setDataBySource(const QString sourceName, const QVariantHash data)
+void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data)
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Source" << sourceName;

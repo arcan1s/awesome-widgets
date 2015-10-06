@@ -35,7 +35,7 @@ public:
     void setInterval(const int _interval);
 
 signals:
-    void updateData(const QString sourceName, const QVariantHash sdata);
+    void updateData(const QString sourceName, const QVariantMap sdata);
 
 public slots:
     // additional methods to control this and visualization
