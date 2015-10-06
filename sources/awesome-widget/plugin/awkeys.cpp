@@ -49,7 +49,7 @@ AWKeys::AWKeys(QObject *parent)
 
 #ifdef BUILD_FUTURE
     // thread pool
-    queueLimit = QThread::idealThreadCount();
+    queueLimit = 2 * QThread::idealThreadCount();
     threadPool = new QThreadPool(this);
 #endif /* BUILD_FUTURE */
 
@@ -115,11 +115,9 @@ void AWKeys::initKeys(const QString currentPattern, const int interval, const in
     } else
         dataEngineAggregator->setInterval(interval);
 #ifdef BUILD_FUTURE
-    // queue limit. It may be configured by using QUEUE_LIMIT cmake limit flag.
-    // In other hand since I'm using global thread pool, it makes sense to limit
-    // queue by QThread::idealThreadCount() value
-    queueLimit = limit == 0 ? QThread::idealThreadCount() : limit;
-    threadPool->setMaxThreadCount(queueLimit);
+    int rawLimit = (limit == 0 ? QThread::idealThreadCount() : limit);
+    queueLimit = 2 * rawLimit;
+    threadPool->setMaxThreadCount(rawLimit);
 #endif /* BUILD_FUTURE */
     updateCache();
 

@@ -30,9 +30,16 @@ AWDataEngineAggregator::AWDataEngineAggregator(QObject *parent, const int interv
 {
     qCDebug(LOG_AW);
 
+    // timer events
+    m_timer = new QTimer(this);
+    m_timer->setSingleShot(true);
+
     setInterval(interval);
     initDataEngines();
     connectVisualization();
+
+    connect(this, SIGNAL(startTimer()), m_timer, SLOT(start()));
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(connectVisualization()));
 }
 
 
@@ -41,6 +48,7 @@ AWDataEngineAggregator::~AWDataEngineAggregator()
     qCDebug(LOG_AW);
 
     m_dataEngines.clear();
+    if (m_timer != nullptr) delete m_timer;
 }
 
 
@@ -50,6 +58,7 @@ void AWDataEngineAggregator::setInterval(const int _interval)
     qCDebug(LOG_AW) << "Interval" << _interval;
 
     m_interval = _interval;
+    m_timer->setInterval(5 * _interval);
 }
 
 
@@ -57,6 +66,7 @@ void AWDataEngineAggregator::connectVisualization()
 {
     qCDebug(LOG_AW);
 
+//     reconnectSources();
     connect(this, SIGNAL(updateData(QString, QVariantMap)),
             parent(), SLOT(dataUpdated(QString, QVariantMap)));
 
@@ -70,8 +80,11 @@ void AWDataEngineAggregator::disconnectVisualization()
 
     disconnect(this, SIGNAL(updateData(QString, QVariantMap)),
                parent(), SLOT(dataUpdated(QString, QVariantMap)));
+//     m_dataEngines.clear();
 
-    return QTimer::singleShot(5 * m_interval, this, SLOT(connectVisualization()));
+    // HACK run timer in the main thread since a timer could not be started from
+    // the different thread
+    return emit(startTimer());
 }
 
 

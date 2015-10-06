@@ -23,6 +23,8 @@
 #include <QObject>
 
 
+class QTimer;
+
 class AWDataEngineAggregator : public QObject
 {
     Q_OBJECT
@@ -35,6 +37,7 @@ public:
     void setInterval(const int _interval);
 
 signals:
+    void startTimer();
     void updateData(const QString sourceName, const QVariantMap sdata);
 
 public slots:
@@ -52,6 +55,7 @@ private:
     void initDataEngines();
     QHash<QString, Plasma::DataEngine *> m_dataEngines;
     int m_interval;
+    QTimer *m_timer = nullptr;
 };
 
 
