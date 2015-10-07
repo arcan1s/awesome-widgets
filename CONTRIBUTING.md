@@ -25,11 +25,13 @@ for more details. Some additional detail see below.
     * Any header should have [include guard](https://en.wikipedia.org/wiki/Include_guard)
       named as `CLASSNAMECAPS_H`
 * If any `#if` directive is used condition should be mentioned in `#endif`:
+
   ```
   #if (FOO)
   someCodeInside();
   #endif /* FOO */
   ```
+
 * `Q_PROPERTY` macro is allowed and recommended for QObject based classes.
 * Qt macros (e.g. `signals`, `slots`, `Q_OBJECT`, etc) are allowed.
 * Current project standard is **C++11**.
@@ -40,11 +42,13 @@ for more details. Some additional detail see below.
       of `reinterpret_cast` is not recommended. It is highly recommended to use
       `dynamic_Cast` with the exception catching. It is also possible to use
       `qvariant_cast` if required. Exception is class constructors, e.g.:
+
       ```
       char c = 'c';
       std::string s = "string";
       qDebug() << QString("some string") << QChar(c) << QString(s);
       ```
+
     * C-like `NULL`, use `nullptr` instead.
 * It is highly recommended to avoid implicit casts.
 * Abstract classes (which has at least one pure virtual method) are allowed.
@@ -103,11 +107,13 @@ Development
 * For experimental features development new branch `feature-foo` creation is allowed
   and recommended.
 * Experimental features should be added inside `BUILD_FUTURE` definition:
+
   ```
   #ifdef BUILD_FUTURE
   someTestFunctionInside();
   #endif /* BUILD_FUTURE */
   ```
+
 * Any project specific build variable should be mentioned inside `version.h` as
   well.
 
@@ -152,48 +158,53 @@ Tools
 
 * For QString concatenation use `QString::arg` method.
 * Any source file should have license header:
+
   ```
-/***************************************************************************
- *   This file is part of awesome-widgets                                  *
- *                                                                         *
- *   awesome-widgets is free software: you can redistribute it and/or      *
- *   modify it under the terms of the GNU General Public License as        *
- *   published by the Free Software Foundation, either version 3 of the    *
- *   License, or (at your option) any later version.                       *
- *                                                                         *
- *   awesome-widgets is distributed in the hope that it will be useful,    *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
- ***************************************************************************/
+  /***************************************************************************
+  *   This file is part of awesome-widgets                                  *
+  *                                                                         *
+  *   awesome-widgets is free software: you can redistribute it and/or      *
+  *   modify it under the terms of the GNU General Public License as        *
+  *   published by the Free Software Foundation, either version 3 of the    *
+  *   License, or (at your option) any later version.                       *
+  *                                                                         *
+  *   awesome-widgets is distributed in the hope that it will be useful,    *
+  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+  *   GNU General Public License for more details.                          *
+  *                                                                         *
+  *   You should have received a copy of the GNU General Public License     *
+  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
+  ***************************************************************************/
   ```
+
 * Recommended class constructor for QObject based classes:
+
   ```
-FooClass::FooClass(QObject *parent, const QVariant var)
-    : QObject(parent),
-      m_var(var)
-{
-    qCDebug(LOG_AW);
-    // some code below if any
-}
+  FooClass::FooClass(QObject *parent, const QVariant var)
+      : QObject(parent),
+        m_var(var)
+  {
+      qCDebug(LOG_AW);
+      // some code below if any
+  }
   ```
+
 * Property usage:
+
   ```
-    Q_PROPERTY(bool prop READ prop WRITE setProp);
-public:
-    bool prop() const
-    {
-        return m_prop;
-    };
-    void setProp(const bool _prop)
-    {
-        // error checking if required
-        m_prop = _prop
-    }
-private:
-    // declare with default value
-    bool m_prop = false;
+        Q_PROPERTY(bool prop READ prop WRITE setProp);
+  public:
+        bool prop() const
+        {
+            return m_prop;
+        };
+        void setProp(const bool _prop)
+        {
+            // error checking if required
+            m_prop = _prop
+        }
+  private:
+        // declare with default value
+        bool m_prop = false;
   ```
