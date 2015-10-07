@@ -93,8 +93,10 @@ void AWDataEngineAggregator::dropSource(const QString source)
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Source" << source;
 
-    // this method is only used for systemmonitor dataengine
+    // FIXME there is no possiblibity to check to which dataengine source connected
+    // we will try to disconnet it from systemmonitor and extsysmon
     m_dataEngines[QString("systemmonitor")]->disconnectSource(source, this);
+    m_dataEngines[QString("extsysmon")]->disconnectSource(source, this);
 }
 
 
