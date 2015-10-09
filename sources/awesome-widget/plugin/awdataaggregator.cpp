@@ -39,7 +39,6 @@ AWDataAggregator::AWDataAggregator(QObject *parent)
     qRegisterMetaType<QHash<QString, QString>>("QHash<QString, QString>");
 
     initScene();
-
     connect(this, SIGNAL(updateData(const QHash<QString, QString>)),
             this, SLOT(dataUpdate(const QHash<QString, QString>)));
 }
@@ -70,8 +69,9 @@ QString AWDataAggregator::htmlImage(const QPixmap source) const
     QBuffer buffer(&byteArray);
     source.save(&buffer, "PNG");
 
-    return byteArray.isEmpty() ? QString() :
-           QString("<img src=\"data:image/png;base64,%1\"/>").arg(QString(byteArray.toBase64()));
+    return byteArray.isEmpty() ? QString()
+                               : QString("<img src=\"data:image/png;base64,%1\"/>").
+                                     arg(QString(byteArray.toBase64()));
 }
 
 
@@ -113,9 +113,9 @@ void AWDataAggregator::setParameters(QVariantMap settings)
     if (configuration[QString("batTooltip")].toBool()) requiredKeys.append(QString("batTooltip"));
 
     // background
-    toolTipScene->setBackgroundBrush(configuration[QString("useTooltipBackground")].toBool() ?
-                                     QBrush(QColor(configuration[QString("tooltipBackground")].toString())) :
-                                     QBrush(Qt::NoBrush));
+    toolTipScene->setBackgroundBrush(configuration[QString("useTooltipBackground")].toBool()
+                                     ? QBrush(QColor(configuration[QString("tooltipBackground")].toString()))
+                                     : QBrush(Qt::NoBrush));
 }
 
 
@@ -132,7 +132,8 @@ QPixmap AWDataAggregator::tooltipImage()
         float normX = 100.0 / static_cast<float>(data[key].count());
         float normY = 100.0 / (1.5 * boundaries[key]);
         float shift = requiredKeys.indexOf(key) * 100.0;
-        if (down) shift -= 100.0;
+        if (down)
+            shift -= 100.0;
         // apply pen color
         if (key != QString("batTooltip"))
             pen.setColor(QColor(configuration[QString("%1Color").arg(key)].toString()));
@@ -151,7 +152,8 @@ QPixmap AWDataAggregator::tooltipImage()
             }
             toolTipScene->addLine(x1, y1, x2, y2, pen);
         }
-        if (key == QString("downTooltip")) down = true;
+        if (key == QString("downTooltip"))
+            down = true;
     }
 
     return toolTipView->grab();
@@ -219,17 +221,16 @@ QString AWDataAggregator::notificationText(const QString source, const float val
     qCDebug(LOG_AW) << "Value" << value;
 
     QString output;
-    if (source == QString("batTooltip")) {
+    if (source == QString("batTooltip"))
         output = value > 0.0 ? i18n("AC online") : i18n("AC offline");
-    } else if (source == QString("cpuTooltip")) {
+    else if (source == QString("cpuTooltip"))
         output = i18n("High CPU load");
-    } else if (source == QString("memTooltip")) {
+    else if (source == QString("memTooltip"))
         output = i18n("High memory usage");
-    } else if (source == QString("swapTooltip")) {
+    else if (source == QString("swapTooltip"))
         output = i18n("Swap is used");
-    } else if (source == QString("gpu")) {
+    else if (source == QString("gpu"))
         output = i18n("High GPU load");
-    }
 
     return output;
 }
@@ -242,9 +243,8 @@ QString AWDataAggregator::notificationText(const QString source, const QString v
     qCDebug(LOG_AW) << "Value" << value;
 
     QString output;
-    if (source == QString("netdev")) {
+    if (source == QString("netdev"))
         output = i18n("Network device has been changed to %1", value);
-    }
 
     return output;
 }
@@ -288,7 +288,8 @@ void AWDataAggregator::setData(const QString source, float value, const float ex
         data[source].append(0.0);
     else if (data[source].count() > configuration[QString("tooltipNumber")].toInt())
         data[source].removeFirst();
-    if (isnan(value)) value = 0.0;
+    if (isnan(value))
+        value = 0.0;
 
     // notifications
     checkValue(source, value, extremum);

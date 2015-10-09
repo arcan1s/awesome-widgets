@@ -76,7 +76,8 @@ public:
 
         T *found = nullptr;
         foreach(T *item, m_items) {
-            if (item->tag() != _tag) continue;
+            if (item->tag() != _tag)
+                continue;
             found = item;
             break;
         }
@@ -93,7 +94,8 @@ public:
 
         T *found = nullptr;
         foreach(T *item, m_items) {
-            if (item->number() != _number) continue;
+            if (item->number() != _number)
+                continue;
             found = item;
             break;
         }
@@ -108,11 +110,13 @@ public:
         qCDebug(LOG_LIB);
 
         QListWidgetItem *widgetItem = widgetDialog->currentItem();
-        if (widgetItem == nullptr) return nullptr;
+        if (widgetItem == nullptr)
+            return nullptr;
 
         T *found = nullptr;
         foreach(T *item, m_items) {
-            if (item->fileName() != widgetItem->text()) continue;
+            if (item->fileName() != widgetItem->text())
+                continue;
             found = item;
             break;
         }
@@ -136,7 +140,8 @@ public:
         QList<int> tagList;
         foreach(T *item, m_items) tagList.append(item->number());
         int number = 0;
-        while (tagList.contains(number)) number++;
+        while (tagList.contains(number))
+            number++;
 
         return number;
     };
@@ -152,23 +157,24 @@ private:
         qCDebug(LOG_LIB);
 
         // create directory at $HOME
-        QString localDir = QString("%1/awesomewidgets/%2")
-                           .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation))
-                           .arg(m_type);
+        QString localDir = QString("%1/awesomewidgets/%2").
+            arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation)).
+            arg(m_type);
         QDir localDirectory;
         if (localDirectory.mkpath(localDir))
             qCInfo(LOG_LIB) << "Created directory" << localDir;
 
         QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
-                           QString("awesomewidgets/%1").arg(m_type),
-                           QStandardPaths::LocateDirectory);
+                                                     QString("awesomewidgets/%1").arg(m_type),
+                                                     QStandardPaths::LocateDirectory);
         QStringList names;
         QList<T *> items;
         foreach(QString dir, dirs) {
             QStringList files = QDir(dir).entryList(QDir::Files, QDir::Name);
             foreach(QString file, files) {
-                if (!file.endsWith(QString(".desktop"))) continue;
-                if (names.contains(file)) continue;
+                if ((!file.endsWith(QString(".desktop")))
+                    || (names.contains(file)))
+                    continue;
                 qCInfo(LOG_LIB) << "Found file" << file << "in" << dir;
                 names.append(file);
                 items.append(new T(this, file, dirs));
@@ -190,8 +196,11 @@ private:
         m_activeItems.clear();
 
         m_items = getItems();
-        foreach(T *item, m_items)
-            if (item->isActive()) m_activeItems.append(item);
+        foreach(T *item, m_items) {
+            if (!item->isActive())
+                continue;
+            m_activeItems.append(item);
+        }
     };
 
     void repaint()
@@ -218,7 +227,8 @@ private:
         T *source = itemFromWidget();
         QString fileName = getName();
         int number = uniqNumber();
-        if ((source == nullptr) || (fileName.isEmpty())) {
+        if ((source == nullptr)
+            || (fileName.isEmpty())) {
             qCWarning(LOG_LIB) << "Nothing to copy";
             return;
         }
@@ -237,8 +247,8 @@ private:
         QString fileName = getName();
         int number = uniqNumber();
         QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
-                           QString("awesomewidgets/%1").arg(m_type),
-                           QStandardPaths::LocateDirectory);
+                                                     QString("awesomewidgets/%1").arg(m_type),
+                                                     QStandardPaths::LocateDirectory);
         if (fileName.isEmpty()) {
             qCWarning(LOG_LIB) << "Nothing to create";
             return;

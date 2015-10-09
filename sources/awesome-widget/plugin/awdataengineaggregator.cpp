@@ -119,7 +119,8 @@ void AWDataEngineAggregator::dataUpdated(const QString sourceName, const Plasma:
     // HACK "deep copy" of data to avoid plasma crash on Data object destruction
     QString units = data[QString("units")].toString();
     // HACK workaround for time values which are stored in the different path
-    QVariant value = sourceName == QString("Local") ? data[QString("DateTime")] : data[QString("value")];
+    QVariant value = sourceName == QString("Local") ? data[QString("DateTime")]
+                                                    : data[QString("value")];
 
     emit(updateData(sourceName, value, units));
 }

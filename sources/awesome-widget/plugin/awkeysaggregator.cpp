@@ -518,22 +518,22 @@ float AWKeysAggregator::temperature(const float temp) const
     qCDebug(LOG_AW) << "Temperature value" << temp;
 
     float converted = temp;
-    if (m_tempUnits == QString("Celsius"))
-        ;
-    else if (m_tempUnits == QString("Fahrenheit"))
+    if (m_tempUnits == QString("Celsius")) {
+    } else if (m_tempUnits == QString("Fahrenheit")) {
         converted = temp * 9.0 / 5.0 + 32.0;
-    else if (m_tempUnits == QString("Kelvin"))
+    } else if (m_tempUnits == QString("Kelvin")) {
         converted = temp + 273.15;
-    else if (m_tempUnits == QString("Reaumur"))
+    } else if (m_tempUnits == QString("Reaumur")) {
         converted = temp * 0.8;
-    else if (m_tempUnits == QString("cm^-1"))
+    } else if (m_tempUnits == QString("cm^-1")) {
         converted = (temp + 273.15) * 0.695;
-    else if (m_tempUnits == QString("kJ/mol"))
+    } else if (m_tempUnits == QString("kJ/mol")) {
         converted = (temp + 273.15) * 8.31;
-    else if (m_tempUnits == QString("kcal/mol"))
+    } else if (m_tempUnits == QString("kcal/mol")) {
         converted = (temp + 273.15) * 1.98;
-    else
+    } else {
         qCWarning(LOG_AW) << "Invalid units" << m_tempUnits;
+    }
 
     return converted;
 }

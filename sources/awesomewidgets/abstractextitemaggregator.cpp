@@ -67,8 +67,10 @@ QString AbstractExtItemAggregator::getName()
     QString name = QInputDialog::getText(this, i18n("Enter file name"),
                                          i18n("File name"), QLineEdit::Normal,
                                          QString(""), &ok);
-    if ((!ok) || (name.isEmpty())) return QString("");
-    if (!name.endsWith(QString(".desktop"))) name += QString(".desktop");
+    if ((!ok) || (name.isEmpty()))
+        return QString("");
+    if (!name.endsWith(QString(".desktop")))
+        name += QString(".desktop");
 
     return name;
 }

@@ -73,8 +73,8 @@ bool AWActions::dropCache() const
 {
     qCDebug(LOG_AW);
 
-    QString fileName = QString("%1/awesomewidgets.ndx")
-                       .arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
+    QString fileName = QString("%1/awesomewidgets.ndx").
+        arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
 
     return QFile(fileName).remove();
 }
@@ -116,33 +116,35 @@ QString AWActions::getAboutText(const QString type) const
     qCDebug(LOG_AW) << "Type" << type;
 
     QString text;
-    if (type == QString("header"))
+    if (type == QString("header")) {
         text = QString(NAME);
-    else if (type == QString("version")) {
+    } else if (type == QString("version")) {
         text = i18n("Version %1 (build date %2)", QString(VERSION), QString(BUILD_DATE));
         if (!QString(COMMIT_SHA).isEmpty()) text += QString(" (%1)").arg(QString(COMMIT_SHA));
-    } else if (type == QString("description"))
+    } else if (type == QString("description")) {
         text = i18n("A set of minimalistic plasmoid widgets");
-    else if (type == QString("links"))
-        text = i18n("Links:") + QString("<br>") +
-               QString("<a href=\"%1\">%2</a><br>").arg(QString(HOMEPAGE)).arg(i18n("Homepage")) +
-               QString("<a href=\"%1\">%2</a><br>").arg(QString(REPOSITORY)).arg(i18n("Repository")) +
-               QString("<a href=\"%1\">%2</a><br>").arg(QString(BUGTRACKER)).arg(i18n("Bugtracker")) +
-               QString("<a href=\"%1\">%2</a><br>").arg(QString(TRANSLATION)).arg(i18n("Translation issue")) +
-               QString("<a href=\"%1\">%2</a><br>").arg(QString(AUR_PACKAGES)).arg(i18n("AUR packages")) +
-               QString("<a href=\"%1\">%2</a>").arg(QString(OPENSUSE_PACKAGES)).arg(i18n("openSUSE packages"));
-    else if (type == QString("copy"))
-        text = QString("<small>&copy; %1 <a href=\"mailto:%2\">%3</a><br>").arg(QString(DATE)).arg(QString(EMAIL)).arg(QString(AUTHOR)) +
-               i18n("This software is licensed under %1", QString(LICENSE)) + QString("</small>");
-    else if (type == QString("translators"))
+    } else if (type == QString("links")) {
+        text = i18n("Links:") + QString("<br>")
+            + QString("<a href=\"%1\">%2</a><br>").arg(QString(HOMEPAGE)).arg(i18n("Homepage"))
+            + QString("<a href=\"%1\">%2</a><br>").arg(QString(REPOSITORY)).arg(i18n("Repository"))
+            + QString("<a href=\"%1\">%2</a><br>").arg(QString(BUGTRACKER)).arg(i18n("Bugtracker"))
+            + QString("<a href=\"%1\">%2</a><br>").arg(QString(TRANSLATION)).arg(i18n("Translation issue"))
+            + QString("<a href=\"%1\">%2</a><br>").arg(QString(AUR_PACKAGES)).arg(i18n("AUR packages"))
+            + QString("<a href=\"%1\">%2</a>").arg(QString(OPENSUSE_PACKAGES)).arg(i18n("openSUSE packages"));
+    } else if (type == QString("copy")) {
+        text = QString("<small>&copy; %1 <a href=\"mailto:%2\">%3</a><br>").
+            arg(QString(DATE)).arg(QString(EMAIL)).arg(QString(AUTHOR))
+            + i18n("This software is licensed under %1", QString(LICENSE))
+            + QString("</small>");
+    } else if (type == QString("translators")) {
         text = i18n("Translators: %1", QString(TRANSLATORS));
-    else if (type == QString("3rdparty")) {
+    } else if (type == QString("3rdparty")) {
         QStringList trdPartyList = QString(TRDPARTY_LICENSE).split(QChar(';'), QString::SkipEmptyParts);
         for (int i=0; i<trdPartyList.count(); i++)
-            trdPartyList[i] = QString("<a href=\"%3\">%1</a> (%2 license)")
-                    .arg(trdPartyList.at(i).split(QChar(','))[0])
-                    .arg(trdPartyList.at(i).split(QChar(','))[1])
-                    .arg(trdPartyList.at(i).split(QChar(','))[2]);
+            trdPartyList[i] = QString("<a href=\"%3\">%1</a> (%2 license)").
+                arg(trdPartyList.at(i).split(QChar(','))[0]).
+                arg(trdPartyList.at(i).split(QChar(','))[1]).
+                arg(trdPartyList.at(i).split(QChar(','))[2]);
         text = i18n("This software uses: %1", trdPartyList.join(QString(", ")));
     }
 
@@ -173,7 +175,8 @@ QVariantMap AWActions::readDataEngineConfiguration() const
 {
     qCDebug(LOG_AW);
 
-    QString fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation, QString("plasma-dataengine-extsysmon.conf"));
+    QString fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation,
+                                              QString("plasma-dataengine-extsysmon.conf"));
     qCInfo(LOG_AW) << "Configuration file" << fileName;
     QSettings settings(fileName, QSettings::IniFormat);
     QVariantMap configuration;
@@ -200,7 +203,8 @@ void AWActions::writeDataEngineConfiguration(const QVariantMap configuration) co
 {
     qCDebug(LOG_AW);
 
-    QString fileName = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + QString("/plasma-dataengine-extsysmon.conf");
+    QString fileName = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation)
+        + QString("/plasma-dataengine-extsysmon.conf");
     QSettings settings(fileName, QSettings::IniFormat);
     qCInfo(LOG_AW) << "Configuration file" << settings.fileName();
 
@@ -227,7 +231,9 @@ void AWActions::sendNotification(const QString eventId, const QString message)
     qCDebug(LOG_AW) << "Event" << eventId;
     qCDebug(LOG_AW) << "Message" << message;
 
-    KNotification *notification = KNotification::event(eventId, QString("Awesome Widget ::: %1").arg(eventId), message);
+    KNotification *notification = KNotification::event(eventId,
+                                                       QString("Awesome Widget ::: %1").arg(eventId),
+                                                       message);
     notification->setComponentName(QString("plasma-applet-org.kde.plasma.awesome-widget"));
 }
 
@@ -238,7 +244,8 @@ void AWActions::showInfo(const QString version) const
     qCDebug(LOG_AW) << "Version" << version;
 
     QString text = i18n("You are using the actual version %1", version);
-    if (!QString(COMMIT_SHA).isEmpty()) text += QString(" (%1)").arg(QString(COMMIT_SHA));
+    if (!QString(COMMIT_SHA).isEmpty())
+        text += QString(" (%1)").arg(QString(COMMIT_SHA));
     QMessageBox::information(nullptr, i18n("No new version found"), text);
 }
 
@@ -261,6 +268,9 @@ void AWActions::showUpdates(const QString version) const
     case QMessageBox::Ok:
         QDesktopServices::openUrl(QString(RELEASES) + version);
         break;
+    case QMessageBox::Cancel:
+    default:
+        break;
     }
 }
 
@@ -275,8 +285,8 @@ void AWActions::versionReplyRecieved(QNetworkReply *reply, const bool showAnyway
     QJsonParseError error;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll(), &error);
     reply->deleteLater();
-    if ((reply->error() != QNetworkReply::NoError) ||
-        (error.error != QJsonParseError::NoError)) {
+    if ((reply->error() != QNetworkReply::NoError)
+        || (error.error != QJsonParseError::NoError)) {
         qCWarning(LOG_AW) << "Parse error" << error.errorString();
         return;
     }
@@ -294,9 +304,9 @@ void AWActions::versionReplyRecieved(QNetworkReply *reply, const bool showAnyway
     int new_major = QString(version).split(QChar('.')).at(0).toInt();
     int new_minor = QString(version).split(QChar('.')).at(1).toInt();
     int new_patch = QString(version).split(QChar('.')).at(2).toInt();
-    if ((old_major < new_major) ||
-        ((old_major == new_major) && (old_minor < new_minor)) ||
-        ((old_major == new_major) && (old_minor == new_minor) && (old_patch < new_patch)))
+    if ((old_major < new_major)
+        || ((old_major == new_major) && (old_minor < new_minor))
+        || ((old_major == new_major) && (old_minor == new_minor) && (old_patch < new_patch)))
         return showUpdates(version);
     else if (showAnyway)
         return showInfo(version);

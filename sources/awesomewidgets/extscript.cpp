@@ -67,7 +67,8 @@ ExtScript *ExtScript::copy(const QString _fileName, const int _number)
     qCDebug(LOG_LIB) << "File" << _fileName;
     qCDebug(LOG_LIB) << "Number" << _number;
 
-    ExtScript *item = new ExtScript(static_cast<QWidget *>(parent()), _fileName, directories());
+    ExtScript *item = new ExtScript(static_cast<QWidget *>(parent()),
+                                    _fileName, directories());
     item->setActive(isActive());
     item->setApiVersion(apiVersion());
     item->setComment(comment());
@@ -228,7 +229,8 @@ void ExtScript::updateFilter(const QString _filter, const bool _add)
     qCDebug(LOG_LIB) << "Should be added" << _add;
 
     if (_add) {
-        if (m_filters.contains(_filter)) return;
+        if (m_filters.contains(_filter))
+            return;
         m_filters.append(_filter);
     } else {
         m_filters.removeOne(_filter);
@@ -242,7 +244,8 @@ void ExtScript::readConfiguration()
     AbstractExtItem::readConfiguration();
 
     for (int i=directories().count()-1; i>=0; i--) {
-        if (!QDir(directories().at(i)).entryList(QDir::Files).contains(fileName())) continue;
+        if (!QDir(directories().at(i)).entryList(QDir::Files).contains(fileName()))
+            continue;
         QSettings settings(QString("%1/%2").arg(directories().at(i)).arg(fileName()), QSettings::IniFormat);
 
         settings.beginGroup(QString("Desktop Entry"));
@@ -250,8 +253,8 @@ void ExtScript::readConfiguration()
         setPrefix(settings.value(QString("X-AW-Prefix"), m_prefix).toString());
         setStrRedirect(settings.value(QString("X-AW-Redirect"), strRedirect()).toString());
         // api == 3
-        setFilters(settings.value(QString("X-AW-Filters"), m_filters).toString()
-                                                                     .split(QChar(','), QString::SkipEmptyParts));
+        setFilters(settings.value(QString("X-AW-Filters"), m_filters).toString().
+            split(QChar(','), QString::SkipEmptyParts));
         settings.endGroup();
     }
 
@@ -294,16 +297,19 @@ void ExtScript::readJsonFilters()
 QVariantHash ExtScript::run()
 {
     qCDebug(LOG_LIB);
-    if (!isActive()) return value;
+    if (!isActive())
+        return value;
 
     if ((times == 1) && (process->state() == QProcess::NotRunning)) {
         QStringList cmdList;
-        if (!m_prefix.isEmpty()) cmdList.append(m_prefix);
+        if (!m_prefix.isEmpty())
+            cmdList.append(m_prefix);
         cmdList.append(m_executable);
         qCInfo(LOG_LIB) << "Run cmd" << cmdList.join(QChar(' '));
         process->start(cmdList.join(QChar(' ')));
-    } else if (times >= interval())
+    } else if (times >= interval()) {
         times = 0;
+    }
     times++;
 
     return value;
@@ -324,12 +330,19 @@ int ExtScript::showConfiguration(const QVariant args)
     ui->comboBox_redirect->setCurrentIndex(static_cast<int>(m_redirect));
     ui->spinBox_interval->setValue(interval());
     // filters
-    ui->checkBox_colorFilter->setCheckState(m_filters.contains(QString("color")) ? Qt::Checked : Qt::Unchecked);
-    ui->checkBox_linesFilter->setCheckState(m_filters.contains(QString("newline")) ? Qt::Checked : Qt::Unchecked);
-    ui->checkBox_spaceFilter->setCheckState(m_filters.contains(QString("space")) ? Qt::Checked : Qt::Unchecked);
+    ui->checkBox_colorFilter->setCheckState(m_filters.contains(QString("color"))
+                                            ? Qt::Checked
+                                            : Qt::Unchecked);
+    ui->checkBox_linesFilter->setCheckState(m_filters.contains(QString("newline"))
+                                            ? Qt::Checked
+                                            : Qt::Unchecked);
+    ui->checkBox_spaceFilter->setCheckState(m_filters.contains(QString("space"))
+                                            ? Qt::Checked
+                                            : Qt::Unchecked);
 
     int ret = exec();
-    if (ret != 1) return ret;
+    if (ret != 1)
+        return ret;
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
     setNumber(ui->label_numberValue->text().toInt());
@@ -354,7 +367,8 @@ void ExtScript::writeConfiguration() const
     qCDebug(LOG_LIB);
     AbstractExtItem::writeConfiguration();
 
-    QSettings settings(QString("%1/%2").arg(directories().first()).arg(fileName()), QSettings::IniFormat);
+    QSettings settings(QString("%1/%2").arg(directories().first()).arg(fileName()),
+                       QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));

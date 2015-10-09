@@ -64,7 +64,8 @@ ExtUpgrade *ExtUpgrade::copy(const QString _fileName, const int _number)
     qCDebug(LOG_LIB) << "File" << _fileName;
     qCDebug(LOG_LIB) << "Number" << _number;
 
-    ExtUpgrade *item = new ExtUpgrade(static_cast<QWidget *>(parent()), _fileName, directories());
+    ExtUpgrade *item = new ExtUpgrade(static_cast<QWidget *>(parent()),
+                                      _fileName, directories());
     item->setActive(isActive());
     item->setApiVersion(apiVersion());
     item->setComment(comment());
@@ -145,8 +146,10 @@ void ExtUpgrade::readConfiguration()
     AbstractExtItem::readConfiguration();
 
     for (int i=directories().count()-1; i>=0; i--) {
-        if (!QDir(directories().at(i)).entryList(QDir::Files).contains(fileName())) continue;
-        QSettings settings(QString("%1/%2").arg(directories().at(i)).arg(fileName()), QSettings::IniFormat);
+        if (!QDir(directories().at(i)).entryList(QDir::Files).contains(fileName()))
+            continue;
+        QSettings settings(QString("%1/%2").arg(directories().at(i)).arg(fileName()),
+                           QSettings::IniFormat);
 
         settings.beginGroup(QString("Desktop Entry"));
         setExecutable(settings.value(QString("Exec"), m_executable).toString());
@@ -168,14 +171,16 @@ void ExtUpgrade::readConfiguration()
 QVariantHash ExtUpgrade::run()
 {
     qCDebug(LOG_LIB);
-    if (!isActive()) return value;
+    if (!isActive())
+        return value;
 
     if ((times == 1) && (process->state() == QProcess::NotRunning)) {
         QString cmd = QString("sh -c \"%1\"").arg(m_executable);
         qCInfo(LOG_LIB) << "Run cmd" << cmd;
         process->start(cmd);
-    } else if (times >= interval())
+    } else if (times >= interval()) {
         times = 0;
+    }
     times++;
 
     return value;
@@ -197,7 +202,8 @@ int ExtUpgrade::showConfiguration(const QVariant args)
     ui->spinBox_interval->setValue(interval());
 
     int ret = exec();
-    if (ret != 1) return ret;
+    if (ret != 1)
+        return ret;
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
     setNumber(ui->label_numberValue->text().toInt());
@@ -218,7 +224,8 @@ void ExtUpgrade::writeConfiguration() const
     qCDebug(LOG_LIB);
     AbstractExtItem::writeConfiguration();
 
-    QSettings settings(QString("%1/%2").arg(directories().first()).arg(fileName()), QSettings::IniFormat);
+    QSettings settings(QString("%1/%2").arg(directories().first()).arg(fileName()),
+                       QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
@@ -240,9 +247,9 @@ void ExtUpgrade::updateValue()
 
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process->readAllStandardOutput()).trimmed();
     value[tag(QString("pkgcount"))] = [this](QString output) {
-        return m_filter.isEmpty() ?
-            output.split(QChar('\n'), QString::SkipEmptyParts).count() - m_null :
-            output.split(QChar('\n'), QString::SkipEmptyParts).filter(QRegExp(m_filter)).count();
+        return m_filter.isEmpty()
+               ? output.split(QChar('\n'), QString::SkipEmptyParts).count() - m_null
+               : output.split(QChar('\n'), QString::SkipEmptyParts).filter(QRegExp(m_filter)).count();
     }(qoutput);
 }
 

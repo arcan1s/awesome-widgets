@@ -76,7 +76,8 @@ ExtWeather *ExtWeather::copy(const QString _fileName, const int _number)
     qCDebug(LOG_LIB) << "File" << _fileName;
     qCDebug(LOG_LIB) << "Number" << _number;
 
-    ExtWeather *item = new ExtWeather(static_cast<QWidget *>(parent()), _fileName, directories());
+    ExtWeather *item = new ExtWeather(static_cast<QWidget *>(parent()),
+                                      _fileName, directories());
     item->setActive(isActive());
     item->setApiVersion(apiVersion());
     item->setCity(city());
@@ -184,8 +185,10 @@ void ExtWeather::readConfiguration()
     AbstractExtItem::readConfiguration();
 
     for (int i=directories().count()-1; i>=0; i--) {
-        if (!QDir(directories().at(i)).entryList(QDir::Files).contains(fileName())) continue;
-        QSettings settings(QString("%1/%2").arg(directories().at(i)).arg(fileName()), QSettings::IniFormat);
+        if (!QDir(directories().at(i)).entryList(QDir::Files).contains(fileName()))
+            continue;
+        QSettings settings(QString("%1/%2").arg(directories().at(i)).arg(fileName()),
+                           QSettings::IniFormat);
 
         settings.beginGroup(QString("Desktop Entry"));
         setCity(settings.value(QString("X-AW-City"), m_city).toString());
@@ -235,7 +238,8 @@ void ExtWeather::readJsonMap()
 QVariantHash ExtWeather::run()
 {
     qCDebug(LOG_LIB);
-    if ((!isActive()) || (isRunning)) return values;
+    if ((!isActive()) || (isRunning))
+        return values;
 
     if (times == 1) {
         qCInfo(LOG_LIB) << "Send request";
@@ -245,7 +249,8 @@ QVariantHash ExtWeather::run()
     }
 
     // update value
-    if (times >= interval()) times = 0;
+    if (times >= interval())
+        times = 0;
     times++;
 
     return values;
@@ -268,7 +273,8 @@ int ExtWeather::showConfiguration(const QVariant args)
     ui->spinBox_interval->setValue(interval());
 
     int ret = exec();
-    if (ret != 1) return ret;
+    if (ret != 1)
+        return ret;
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
     setNumber(ui->label_numberValue->text().toInt());
@@ -290,7 +296,8 @@ void ExtWeather::writeConfiguration() const
     qCDebug(LOG_LIB);
     AbstractExtItem::writeConfiguration();
 
-    QSettings settings(QString("%1/%2").arg(directories().first()).arg(fileName()), QSettings::IniFormat);
+    QSettings settings(QString("%1/%2").arg(directories().first()).arg(fileName()),
+                       QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
@@ -314,8 +321,8 @@ void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
     QJsonParseError error;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll(), &error);
     reply->deleteLater();
-    if ((reply->error() != QNetworkReply::NoError) ||
-        (error.error != QJsonParseError::NoError)) {
+    if ((reply->error() != QNetworkReply::NoError)
+        || (error.error != QJsonParseError::NoError)) {
         qCWarning(LOG_LIB) << "Parse error" << error.errorString();
         return;
     }
@@ -328,13 +335,16 @@ void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
     }
 
     QVariantHash data;
-    if (m_ts == 0)
+    if (m_ts == 0) {
         data = parseSingleJson(json);
-    else {
+    } else {
         QVariantList list = json[QString("list")].toList();
-        data = parseSingleJson(list.count() <= m_ts ? list.at(m_ts-1).toMap() : list.last().toMap());
+        data = parseSingleJson(list.count() <= m_ts
+               ? list.at(m_ts-1).toMap()
+               : list.last().toMap());
     }
-    foreach(QString key, data.keys()) values[tag(key)] = data[key];
+    foreach(QString key, data.keys())
+        values[tag(key)] = data[key];
 }
 
 

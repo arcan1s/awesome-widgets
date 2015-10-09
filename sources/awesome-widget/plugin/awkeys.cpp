@@ -245,10 +245,10 @@ QStringList AWKeys::dictKeys(const bool sorted, const QString regexp) const
     allKeys.append(QString("netdev"));
     // battery
     allKeys.append(QString("ac"));
-    QStringList allBatteryDevices = QDir(QString("/sys/class/power_supply"))
-                                        .entryList(QStringList() << QString("BAT*"),
-                                                   QDir::Dirs | QDir::NoDotAndDotDot,
-                                                   QDir::Name);
+    QStringList allBatteryDevices = QDir(QString("/sys/class/power_supply")).
+        entryList(QStringList() << QString("BAT*"),
+                  QDir::Dirs | QDir::NoDotAndDotDot,
+                  QDir::Name);
     for (int i=allBatteryDevices.count()-1; i>=0; i--)
         allKeys.append(QString("bat%1").arg(i));
     allKeys.append(QString("bat"));
@@ -303,7 +303,8 @@ QStringList AWKeys::dictKeys(const bool sorted, const QString regexp) const
         allKeys.append(graphicalItemsKeys.at(i));
 
     // sort if required
-    if (sorted) allKeys.sort();
+    if (sorted)
+        allKeys.sort();
 
     return allKeys.filter(QRegExp(regexp));
 }
@@ -409,8 +410,10 @@ void AWKeys::dataUpdated(const QString sourceName, const QVariant value, const Q
     qCDebug(LOG_AW) << "Source" << sourceName;
     qCDebug(LOG_AW) << "Data" << value << units;
 
-    if (lock) return;
-    if (sourceName == QString("update")) return emit(needToBeUpdated());
+    if (lock)
+        return;
+    if (sourceName == QString("update"))
+        return emit(needToBeUpdated());
 
 #ifdef BUILD_FUTURE
     // run concurrent data update
@@ -425,8 +428,8 @@ void AWKeys::loadKeysFromCache()
 {
     qCDebug(LOG_AW);
 
-    QString fileName = QString("%1/awesomewidgets.ndx")
-                       .arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
+    QString fileName = QString("%1/awesomewidgets.ndx").
+        arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
     qCInfo(LOG_AW) << "Cache file" << fileName;
     QSettings cache(fileName, QSettings::IniFormat);
 
@@ -483,7 +486,8 @@ void AWKeys::reinitKeys()
                 qCInfo(LOG_AW) << "Found bar" << key;
                 selectedKeys.append(key);
             }
-        if (selectedKeys.isEmpty()) qCWarning(LOG_AW) << "No bars found";
+        if (selectedKeys.isEmpty())
+            qCWarning(LOG_AW) << "No bars found";
         return selectedKeys;
     }(m_pattern);
 
@@ -496,7 +500,8 @@ void AWKeys::reinitKeys()
                 qCInfo(LOG_AW) << "Found key" << key;
                 selectedKeys.append(key);
             }
-        if (selectedKeys.isEmpty()) qCWarning(LOG_AW) << "No keys found";
+        if (selectedKeys.isEmpty())
+            qCWarning(LOG_AW) << "No keys found";
         return selectedKeys;
     }(m_pattern);
 
@@ -518,7 +523,8 @@ void AWKeys::reinitKeys()
             qCInfo(LOG_AW) << "Found lambda" << lambda;
             selectedKeys.append(lambda);
         }
-        if (selectedKeys.isEmpty()) qCWarning(LOG_AW) << "No lambdas found";
+        if (selectedKeys.isEmpty())
+            qCWarning(LOG_AW) << "No lambdas found";
         return selectedKeys;
     }(m_pattern);
 
@@ -551,7 +557,8 @@ void AWKeys::addKeyToCache(const QString type, const QString key)
     qCDebug(LOG_AW) << "Key type" << type;
     qCDebug(LOG_AW) << "Key" << key;
 
-    QString fileName = QString("%1/awesomewidgets.ndx").arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
+    QString fileName = QString("%1/awesomewidgets.ndx").
+        arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
     qCInfo(LOG_AW) << "Cache file" << fileName;
     QSettings cache(fileName, QSettings::IniFormat);
 
@@ -565,7 +572,8 @@ void AWKeys::addKeyToCache(const QString type, const QString key)
         QStringList devices = allDevices.filter(QRegExp(QString("^[hms]d[a-z]$")));
         foreach(QString dev, devices) {
             QString device = QString("/dev/%1").arg(dev);
-            if (cachedValues.contains(device)) continue;
+            if (cachedValues.contains(device))
+                continue;
             qCInfo(LOG_AW) << "Found new key" << device << "for type" << type;
             cache.setValue(QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), device);
         }
@@ -573,12 +581,14 @@ void AWKeys::addKeyToCache(const QString type, const QString key)
         QList<QNetworkInterface> rawInterfaceList = QNetworkInterface::allInterfaces();
         foreach(QNetworkInterface interface, rawInterfaceList) {
             QString device = interface.name();
-            if (cachedValues.contains(device)) continue;
+            if (cachedValues.contains(device))
+                continue;
             qCInfo(LOG_AW) << "Found new key" << device << "for type" << type;
             cache.setValue(QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), device);
         }
     } else {
-        if (cachedValues.contains(key)) return;
+        if (cachedValues.contains(key))
+            return;
         qCInfo(LOG_AW) << "Found new key" << key << "for type" << type;
         cache.setValue(QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), key);
     }
@@ -598,23 +608,23 @@ void AWKeys::calculateValues()
     // hddtot*
     foreach(QString device, m_devices[QString("mount")]) {
         int index = m_devices[QString("mount")].indexOf(device);
-        values[QString("hddtotmb%1").arg(index)] = QString("%1").arg(
-            values[QString("hddfreemb%1").arg(index)].toFloat() +
-            values[QString("hddmb%1").arg(index)].toFloat(), 5, 'f', 0);
-        values[QString("hddtotgb%1").arg(index)] = QString("%1").arg(
-            values[QString("hddfreegb%1").arg(index)].toFloat() +
-            values[QString("hddgb%1").arg(index)].toFloat(), 5, 'f', 1);
+        values[QString("hddtotmb%1").arg(index)] = QString("%1").
+            arg(values[QString("hddfreemb%1").arg(index)].toFloat()
+                + values[QString("hddmb%1").arg(index)].toFloat(), 5, 'f', 0);
+        values[QString("hddtotgb%1").arg(index)] = QString("%1").
+            arg(values[QString("hddfreegb%1").arg(index)].toFloat()
+                + values[QString("hddgb%1").arg(index)].toFloat(), 5, 'f', 1);
     }
 
     // memtot*
-    values[QString("memtotmb")] = QString("%1").arg(
-        values[QString("memusedmb")].toInt() + values[QString("memfreemb")].toInt(), 5);
-    values[QString("memtotgb")] = QString("%1").arg(
-        values[QString("memusedgb")].toFloat() + values[QString("memfreegb")].toFloat(), 5, 'f', 1);
+    values[QString("memtotmb")] = QString("%1").
+        arg(values[QString("memusedmb")].toInt() + values[QString("memfreemb")].toInt(), 5);
+    values[QString("memtotgb")] = QString("%1").
+        arg(values[QString("memusedgb")].toFloat() + values[QString("memfreegb")].toFloat(), 5, 'f', 1);
     // mem
-    values[QString("mem")] = QString("%1").arg(
-        100.0 * values[QString("memmb")].toFloat() / values[QString("memtotmb")].toFloat(),
-        5, 'f', 1);
+    values[QString("mem")] = QString("%1").
+        arg(100.0 * values[QString("memmb")].toFloat() / values[QString("memtotmb")].toFloat(),
+            5, 'f', 1);
 
     // up, down, upkb, downkb, upunits, downunits
     int netIndex = m_devices[QString("net")].indexOf(values[QString("netdev")]);
@@ -626,14 +636,14 @@ void AWKeys::calculateValues()
     values[QString("upunits")] = values[QString("upunits%1").arg(netIndex)];
 
     // swaptot*
-    values[QString("swaptotmb")] = QString("%1").arg(
-        values[QString("swapmb")].toInt() + values[QString("swapfreemb")].toInt(), 5);
-    values[QString("swaptotgb")] = QString("%1").arg(
-        values[QString("swapgb")].toFloat() + values[QString("swapfreegb")].toFloat(), 5, 'f', 1);
+    values[QString("swaptotmb")] = QString("%1").
+        arg(values[QString("swapmb")].toInt() + values[QString("swapfreemb")].toInt(), 5);
+    values[QString("swaptotgb")] = QString("%1").
+        arg(values[QString("swapgb")].toFloat() + values[QString("swapfreegb")].toFloat(), 5, 'f', 1);
     // swap
-    values[QString("swap")] = QString("%1").arg(
-        100.0 * values[QString("swapmb")].toFloat() / values[QString("swaptotmb")].toFloat(),
-        5, 'f', 1);
+    values[QString("swap")] = QString("%1").
+        arg(100.0 * values[QString("swapmb")].toFloat() / values[QString("swaptotmb")].toFloat(),
+            5, 'f', 1);
 
     // lambdas
     foreach(QString key, m_foundLambdas)
@@ -649,8 +659,9 @@ void AWKeys::calculateValues()
                 qCWarning(LOG_AW) << "Uncaught exception at line" << result.property("lineNumber").toInt()
                                   << ":" << result.toString();
                 return QString();
-            } else
+            } else {
                 return result.toString();
+            }
         }(key);
 }
 
@@ -669,8 +680,8 @@ QString AWKeys::parsePattern(QString pattern) const
     // main keys
     foreach(QString key, m_foundKeys)
         pattern.replace(QString("$%1").arg(key), [](QString key, QString value) {
-            if ((!key.startsWith(QString("custom"))) &&
-                (!key.startsWith(QString("weather"))))
+            if ((!key.startsWith(QString("custom")))
+                && (!key.startsWith(QString("weather"))))
                 value.replace(QString(" "), QString("&nbsp;"));
             return value;
         }(key, values[key]));
@@ -690,7 +701,8 @@ QString AWKeys::parsePattern(QString pattern) const
 
     // prepare strings
     pattern.replace(QString("$\\$\\"), QString("$$"));
-    if (m_wrapNewLines) pattern.replace(QString("\n"), QString("<br>"));
+    if (m_wrapNewLines)
+        pattern.replace(QString("\n"), QString("<br>"));
 
     return pattern;
 }

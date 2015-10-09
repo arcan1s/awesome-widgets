@@ -161,7 +161,8 @@ void AbstractExtItem::setInterval(const int _interval)
 {
     qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Interval" << _interval;
-    if (_interval <= 0) return;
+    if (_interval <= 0)
+        return;
 
     m_interval = _interval;
 }
@@ -198,8 +199,10 @@ void AbstractExtItem::readConfiguration()
     qCDebug(LOG_LIB);
 
     for (int i=m_dirs.count()-1; i>=0; i--) {
-        if (!QDir(m_dirs.at(i)).entryList(QDir::Files).contains(m_fileName)) continue;
-        QSettings settings(QString("%1/%2").arg(m_dirs.at(i)).arg(m_fileName), QSettings::IniFormat);
+        if (!QDir(m_dirs.at(i)).entryList(QDir::Files).contains(m_fileName))
+            continue;
+        QSettings settings(QString("%1/%2").arg(m_dirs.at(i)).arg(m_fileName),
+                           QSettings::IniFormat);
 
         settings.beginGroup(QString("Desktop Entry"));
         setName(settings.value(QString("Name"), m_name).toString());
@@ -224,7 +227,8 @@ bool AbstractExtItem::tryDelete() const
 
     // check if exists
     foreach(QString dir, m_dirs)
-        if (QFile::exists(QString("%1/%2").arg(dir).arg(m_fileName))) return false;
+        if (QFile::exists(QString("%1/%2").arg(dir).arg(m_fileName)))
+            return false;
     return true;
 }
 

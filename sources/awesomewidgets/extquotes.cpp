@@ -64,7 +64,8 @@ ExtQuotes::~ExtQuotes()
 {
     qCDebug(LOG_LIB);
 
-    disconnect(manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(quotesReplyReceived(QNetworkReply *)));
+    disconnect(manager, SIGNAL(finished(QNetworkReply *)),
+               this, SLOT(quotesReplyReceived(QNetworkReply *)));
 
     delete manager;
     delete ui;
@@ -77,7 +78,8 @@ ExtQuotes *ExtQuotes::copy(const QString _fileName, const int _number)
     qCDebug(LOG_LIB) << "File" << _fileName;
     qCDebug(LOG_LIB) << "Number" << _number;
 
-    ExtQuotes *item = new ExtQuotes(static_cast<QWidget *>(parent()), _fileName, directories());
+    ExtQuotes *item = new ExtQuotes(static_cast<QWidget *>(parent()),
+                                    _fileName, directories());
     item->setActive(isActive());
     item->setApiVersion(apiVersion());
     item->setComment(comment());
@@ -121,8 +123,10 @@ void ExtQuotes::readConfiguration()
     AbstractExtItem::readConfiguration();
 
     for (int i=directories().count()-1; i>=0; i--) {
-        if (!QDir(directories().at(i)).entryList(QDir::Files).contains(fileName())) continue;
-        QSettings settings(QString("%1/%2").arg(directories().at(i)).arg(fileName()), QSettings::IniFormat);
+        if (!QDir(directories().at(i)).entryList(QDir::Files).contains(fileName()))
+            continue;
+        QSettings settings(QString("%1/%2").arg(directories().at(i)).arg(fileName()),
+                           QSettings::IniFormat);
 
         settings.beginGroup(QString("Desktop Entry"));
         setTicker(settings.value(QString("X-AW-Ticker"), m_ticker).toString());
@@ -141,7 +145,8 @@ void ExtQuotes::readConfiguration()
 QVariantHash ExtQuotes::run()
 {
     qCDebug(LOG_LIB);
-    if ((!isActive()) || (isRunning)) return values;
+    if ((!isActive()) || (isRunning))
+        return values;
 
     if (times == 1) {
         qCInfo(LOG_LIB) << "Send request";
@@ -151,7 +156,8 @@ QVariantHash ExtQuotes::run()
     }
 
     // update value
-    if (times >= interval()) times = 0;
+    if (times >= interval())
+        times = 0;
     times++;
 
     return values;
@@ -171,7 +177,8 @@ int ExtQuotes::showConfiguration(const QVariant args)
     ui->spinBox_interval->setValue(interval());
 
     int ret = exec();
-    if (ret != 1) return ret;
+    if (ret != 1)
+        return ret;
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
     setNumber(ui->label_numberValue->text().toInt());
@@ -190,7 +197,8 @@ void ExtQuotes::writeConfiguration() const
     qCDebug(LOG_LIB);
     AbstractExtItem::writeConfiguration();
 
-    QSettings settings(QString("%1/%2").arg(directories().first()).arg(fileName()), QSettings::IniFormat);
+    QSettings settings(QString("%1/%2").arg(directories().first()).arg(fileName()),
+                       QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
@@ -210,8 +218,8 @@ void ExtQuotes::quotesReplyReceived(QNetworkReply *reply)
     QJsonParseError error;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll(), &error);
     reply->deleteLater();
-    if ((reply->error() != QNetworkReply::NoError) ||
-        (error.error != QJsonParseError::NoError)) {
+    if ((reply->error() != QNetworkReply::NoError)
+        || (error.error != QJsonParseError::NoError)) {
         qCWarning(LOG_LIB) << "Parse error" << error.errorString();
         return;
     }
@@ -221,23 +229,29 @@ void ExtQuotes::quotesReplyReceived(QNetworkReply *reply)
 
     // ask
     value = jsonQuotes[QString("Ask")].toString().toDouble();
-    values[tag(QString("askchg"))] = values[QString("ask")].toDouble() == 0.0 ? 0.0 :
-                                     value - values[QString("ask")].toDouble();
-    values[tag(QString("percaskchg"))] = 100.0 * values[QString("askchg")].toDouble() / values[QString("ask")].toDouble();
+    values[tag(QString("askchg"))] = values[QString("ask")].toDouble() == 0.0
+                                     ? 0.0
+                                     : value - values[QString("ask")].toDouble();
+    values[tag(QString("percaskchg"))] = 100.0 * values[QString("askchg")].toDouble()
+        / values[QString("ask")].toDouble();
     values[tag(QString("ask"))] = value;
 
     // bid
     value = jsonQuotes[QString("Bid")].toString().toDouble();
-    values[tag(QString("bidchg"))] = values[QString("bid")].toDouble() == 0.0 ? 0.0 :
-                                     value - values[QString("bid")].toDouble();
-    values[tag(QString("percbidchg"))] = 100.0 * values[QString("bidchg")].toDouble() / values[QString("bid")].toDouble();
+    values[tag(QString("bidchg"))] = values[QString("bid")].toDouble() == 0.0
+                                     ? 0.0
+                                     : value - values[QString("bid")].toDouble();
+    values[tag(QString("percbidchg"))] = 100.0 * values[QString("bidchg")].toDouble()
+        / values[QString("bid")].toDouble();
     values[tag(QString("bid"))] = value;
 
     // last trade
     value = jsonQuotes[QString("LastTradePriceOnly")].toString().toDouble();
-    values[tag(QString("pricechg"))] = values[QString("price")].toDouble() == 0.0 ? 0.0 :
-                                       value - values[QString("price")].toDouble();
-    values[tag(QString("percpricechg"))] = 100.0 * values[QString("pricechg")].toDouble() / values[QString("price")].toDouble();
+    values[tag(QString("pricechg"))] = values[QString("price")].toDouble() == 0.0
+                                       ? 0.0
+                                       : value - values[QString("price")].toDouble();
+    values[tag(QString("percpricechg"))] = 100.0 * values[QString("pricechg")].toDouble()
+        / values[QString("price")].toDouble();
     values[tag(QString("price"))] = value;
 }
 
@@ -249,7 +263,10 @@ void ExtQuotes::translate()
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
     ui->label_number->setText(i18n("Tag"));
-    ui->label->setText(i18n("<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</span></a></p></body></html>"));
+    ui->label->setText(i18n("<html><head/><body><p>Use YAHOO! finance ticker to \
+get quotes for the instrument. Refer to <a href=\"http://finance.yahoo.com/\">\
+<span style=\" text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/\
+</span></a></p></body></html>"));
     ui->label_ticker->setText(i18n("Ticker"));
     ui->checkBox_active->setText(i18n("Active"));
     ui->label_interval->setText(i18n("Interval"));

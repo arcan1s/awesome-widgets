@@ -67,7 +67,8 @@ GraphicalItem *GraphicalItem::copy(const QString _fileName, const int _number)
     qCDebug(LOG_LIB) << "File" << _fileName;
     qCDebug(LOG_LIB) << "Number" << _number;
 
-    GraphicalItem *item = new GraphicalItem(static_cast<QWidget *>(parent()), _fileName, directories());
+    GraphicalItem *item = new GraphicalItem(static_cast<QWidget *>(parent()),
+                                            _fileName, directories());
     item->setActive(isActive());
     item->setActiveColor(activeColor());
     item->setApiVersion(apiVersion());
@@ -124,7 +125,8 @@ QString GraphicalItem::image(const QVariant value)
     QByteArray byteArray;
     QBuffer buffer(&byteArray);
     pixmap.save(&buffer, "PNG");
-    QString url = QString("<img src=\"data:image/png;base64,%1\"/>").arg(QString(byteArray.toBase64()));
+    QString url = QString("<img src=\"data:image/png;base64,%1\"/>").
+        arg(QString(byteArray.toBase64()));
 
     return url;
 }
@@ -254,8 +256,9 @@ void GraphicalItem::setBar(const QString _bar)
     if (!_bar.contains(QRegExp(QString("^(cpu(?!cl).*|gpu$|mem$|swap$|hdd[0-9].*|bat.*)")))) {
         qCWarning(LOG_LIB) << "Unsupported bar type" << _bar;
         m_bar = QString("none");
-    } else
+    } else {
         m_bar = _bar;
+    }
 }
 
 
@@ -327,7 +330,8 @@ void GraphicalItem::setHeight(const int _height)
 {
     qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Height" << _height;
-    if (_height <= 0) return;
+    if (_height <= 0)
+        return;
 
     m_height = _height;
 }
@@ -337,7 +341,8 @@ void GraphicalItem::setWidth(const int _width)
 {
     qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Width" << _width;
-    if (_width <= 0) return;
+    if (_width <= 0)
+        return;
 
     m_width = _width;
 }
@@ -349,8 +354,10 @@ void GraphicalItem::readConfiguration()
     AbstractExtItem::readConfiguration();
 
     for (int i=directories().count()-1; i>=0; i--) {
-        if (!QDir(directories().at(i)).entryList(QDir::Files).contains(fileName())) continue;
-        QSettings settings(QString("%1/%2").arg(directories().at(i)).arg(fileName()), QSettings::IniFormat);
+        if (!QDir(directories().at(i)).entryList(QDir::Files).contains(fileName()))
+            continue;
+        QSettings settings(QString("%1/%2").arg(directories().at(i)).arg(fileName()),
+                           QSettings::IniFormat);
 
         settings.beginGroup(QString("Desktop Entry"));
         setBar(settings.value(QString("X-AW-Value"), m_bar).toString());
@@ -361,7 +368,8 @@ void GraphicalItem::readConfiguration()
         setHeight(settings.value(QString("X-AW-Height"), m_height).toInt());
         setWidth(settings.value(QString("X-AW-Width"), m_width).toInt());
         // api == 2
-        if (apiVersion() < 2) setNumber(bar().remove(QString("bar")).toInt());
+        if (apiVersion() < 2)
+            setNumber(bar().remove(QString("bar")).toInt());
         settings.endGroup();
     }
 
@@ -402,8 +410,8 @@ int GraphicalItem::showConfiguration(const QVariant args)
     ui->spinBox_width->setValue(m_width);
 
     int ret = exec();
-    if (ret != 1) return ret;
-
+    if (ret != 1)
+        return ret;
     setName(ui->label_nameValue->text());
     setComment(ui->lineEdit_comment->text());
     setApiVersion(AWGIAPI);
@@ -425,7 +433,8 @@ void GraphicalItem::writeConfiguration() const
     qCDebug(LOG_LIB);
     AbstractExtItem::writeConfiguration();
 
-    QSettings settings(QString("%1/%2").arg(directories().first()).arg(fileName()), QSettings::IniFormat);
+    QSettings settings(QString("%1/%2").arg(directories().first()).arg(fileName()),
+                       QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
@@ -449,7 +458,8 @@ void GraphicalItem::changeColor()
     QColor color = stringToColor((static_cast<QPushButton *>(sender()))->text());
     QColor newColor = QColorDialog::getColor(color, this, tr("Select color"),
                                              QColorDialog::ShowAlphaChannel);
-    if (!newColor.isValid()) return;
+    if (!newColor.isValid())
+        return;
     qCInfo(LOG_LIB) << "Selected color" << newColor;
 
     QStringList colorText;
