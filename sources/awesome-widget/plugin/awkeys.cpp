@@ -403,22 +403,20 @@ void AWKeys::addDevice(const QString source)
 }
 
 
-void AWKeys::dataUpdated(const QString sourceName, const QVariantMap data)
+void AWKeys::dataUpdated(const QString sourceName, const QVariant value, const QString units)
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Source" << sourceName;
-    qCDebug(LOG_AW) << "Data" << data;
+    qCDebug(LOG_AW) << "Data" << value << units;
 
     if (lock) return;
     if (sourceName == QString("update")) return emit(needToBeUpdated());
 
 #ifdef BUILD_FUTURE
     // run concurrent data update
-    QtConcurrent::run(threadPool, [this, sourceName, data]() {
-        return setDataBySource(sourceName, data);
-    });
+    QtConcurrent::run(threadPool, this, &AWKeys::setDataBySource, sourceName, value, units);
 #else /* BUILD_FUTURE */
-    return setDataBySource(sourceName, data);
+    return setDataBySource(sourceName, value, units);
 #endif /* BUILD_FUTURE */
 }
 
@@ -698,11 +696,11 @@ QString AWKeys::parsePattern(QString pattern) const
 }
 
 
-void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data)
+void AWKeys::setDataBySource(const QString sourceName, const QVariant value, const QString units)
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Source" << sourceName;
-    qCDebug(LOG_AW) << "Data" << data;
+    qCDebug(LOG_AW) << "Data" << value << units;
 
 #ifdef BUILD_FUTURE
     // drop if limits are reached
@@ -716,15 +714,13 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariantMap data)
     // first list init
     QStringList tags = aggregator->keysFromSource(sourceName);
     if (tags.isEmpty())
-        tags = aggregator->registerSource(sourceName, data[QString("units")].toString());
+        tags = aggregator->registerSource(sourceName, units);
 
     // update data or drop source if there are no matches
     if (tags.isEmpty()) {
         qCDebug(LOG_AW) << "Source" << sourceName << "not found";
         emit(dropSourceFromDataengine(sourceName));
     } else {
-        // HACK workaround for time values which are stored in the different path
-        QVariant value = sourceName == QString("Local") ? data[QString("DateTime")] : data[QString("value")];
         std::for_each(tags.cbegin(), tags.cend(), [this, value](const QString tag) {
             values[tag] = aggregator->formater(value, tag);
         });

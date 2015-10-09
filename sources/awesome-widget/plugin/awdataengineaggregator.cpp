@@ -67,8 +67,8 @@ void AWDataEngineAggregator::connectVisualization()
     qCDebug(LOG_AW);
 
 //     reconnectSources();
-    connect(this, SIGNAL(updateData(QString, QVariantMap)),
-            parent(), SLOT(dataUpdated(QString, QVariantMap)));
+    connect(this, SIGNAL(updateData(QString, QVariant, QString )),
+            parent(), SLOT(dataUpdated(QString, QVariant, QString)));
 
     return static_cast<AWKeys *>(parent())->unlock();
 }
@@ -78,8 +78,8 @@ void AWDataEngineAggregator::disconnectVisualization()
 {
     qCDebug(LOG_AW);
 
-    disconnect(this, SIGNAL(updateData(QString, QVariantMap)),
-               parent(), SLOT(dataUpdated(QString, QVariantMap)));
+    disconnect(this, SIGNAL(updateData(QString, QVariant, QString)),
+               parent(), SLOT(dataUpdated(QString, QVariant, QString)));
 //     m_dataEngines.clear();
 
     // HACK run timer in the main thread since a timer could not be started from
@@ -94,7 +94,7 @@ void AWDataEngineAggregator::dropSource(const QString source)
     qCDebug(LOG_AW) << "Source" << source;
 
     // FIXME there is no possiblibity to check to which dataengine source connected
-    // we will try to disconnet it from systemmonitor and extsysmon
+    // we will try to disconnect it from systemmonitor and extsysmon
     m_dataEngines[QString("systemmonitor")]->disconnectSource(source, this);
     m_dataEngines[QString("extsysmon")]->disconnectSource(source, this);
 }
@@ -116,7 +116,12 @@ void AWDataEngineAggregator::dataUpdated(const QString sourceName, const Plasma:
     qCDebug(LOG_AW) << "Source" << sourceName;
     qCDebug(LOG_AW) << "Data" << data;
 
-    return emit(updateData(sourceName, data));
+    // HACK "deep copy" of data to avoid plasma crash on Data object destruction
+    QString units = data[QString("units")].toString();
+    // HACK workaround for time values which are stored in the different path
+    QVariant value = sourceName == QString("Local") ? data[QString("DateTime")] : data[QString("value")];
+
+    emit(updateData(sourceName, value, units));
 }
 
 

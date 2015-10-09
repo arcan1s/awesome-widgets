@@ -38,7 +38,7 @@ public:
 
 signals:
     void startTimer();
-    void updateData(const QString sourceName, const QVariantMap sdata);
+    void updateData(const QString sourceName, const QVariant value, const QString units);
 
 public slots:
     // additional methods to control this and visualization
