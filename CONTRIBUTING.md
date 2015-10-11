@@ -63,7 +63,7 @@ for more details. Some additional detail see below.
   recommended.
 * New lines rules:
     * One line after license header.
-    * One line between header group declaration (see above).
+    * One line between header group declaration (see above) (only for source files).
     * Two lines after header declaration and before declaration at the end of a
       file.
     * One line after class and types forward declaration in headers.
@@ -75,6 +75,9 @@ for more details. Some additional detail see below.
 * Class constructor should have default arguments. Use `QObject *parent` property
   for QObject based classes.
 * QObject based classes constructors should have explicit modifier.
+* Create one file (source and header) per class.
+* `else if` construction is allowed and recommended.
+* 'true ? foo : bar' construction is allowed and recommended for one-line assignment.
 
 Comments
 --------

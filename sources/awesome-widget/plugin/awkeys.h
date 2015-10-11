@@ -19,6 +19,7 @@
 #ifndef AWKEYS_H
 #define AWKEYS_H
 
+#include <QMutex>
 #include <QObject>
 
 #include "extitemaggregator.h"
@@ -95,9 +96,10 @@ private:
     QHash<QString, QString> values;
     bool m_wrapNewLines = false;
     // queue and stream lock properties
-    QThreadPool *threadPool = nullptr;
-    int queueLimit, queue = 0;
-    bool lock = true;
+    QThreadPool *m_threadPool = nullptr;
+    QMutex m_mutex;
+    int m_queueLimit, m_queue = 0;
+    bool m_lock = true;
 };
 
 
