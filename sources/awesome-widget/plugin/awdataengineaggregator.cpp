@@ -19,8 +19,6 @@
 
 #include <Plasma/DataEngineConsumer>
 
-#include <QTimer>
-
 #include "awdebug.h"
 #include "awkeys.h"
 
@@ -30,16 +28,8 @@ AWDataEngineAggregator::AWDataEngineAggregator(QObject *parent, const int interv
 {
     qCDebug(LOG_AW);
 
-    // timer events
-    m_timer = new QTimer(this);
-    m_timer->setSingleShot(true);
-
     setInterval(interval);
     initDataEngines();
-    connectVisualization();
-
-    connect(this, SIGNAL(startTimer()), m_timer, SLOT(start()));
-    connect(m_timer, SIGNAL(timeout()), this, SLOT(connectVisualization()));
 }
 
 
@@ -48,7 +38,6 @@ AWDataEngineAggregator::~AWDataEngineAggregator()
     qCDebug(LOG_AW);
 
     m_dataEngines.clear();
-    if (m_timer != nullptr) delete m_timer;
 }
 
 
@@ -58,33 +47,6 @@ void AWDataEngineAggregator::setInterval(const int _interval)
     qCDebug(LOG_AW) << "Interval" << _interval;
 
     m_interval = _interval;
-    m_timer->setInterval(5 * _interval);
-}
-
-
-void AWDataEngineAggregator::connectVisualization()
-{
-    qCDebug(LOG_AW);
-
-//     reconnectSources();
-    connect(this, SIGNAL(updateData(QString, QVariant, QString )),
-            parent(), SLOT(dataUpdated(QString, QVariant, QString)));
-
-    return static_cast<AWKeys *>(parent())->unlock();
-}
-
-
-void AWDataEngineAggregator::disconnectVisualization()
-{
-    qCDebug(LOG_AW);
-
-    disconnect(this, SIGNAL(updateData(QString, QVariant, QString)),
-               parent(), SLOT(dataUpdated(QString, QVariant, QString)));
-//     m_dataEngines.clear();
-
-    // HACK run timer in the main thread since a timer could not be started from
-    // the different thread
-    return emit(startTimer());
 }
 
 
@@ -119,8 +81,9 @@ void AWDataEngineAggregator::dataUpdated(const QString sourceName, const Plasma:
     // HACK "deep copy" of data to avoid plasma crash on Data object destruction
     QString units = data[QString("units")].toString();
     // HACK workaround for time values which are stored in the different path
-    QVariant value = sourceName == QString("Local") ? data[QString("DateTime")]
-                                                    : data[QString("value")];
+    QVariant value = sourceName == QString("Local")
+        ? data[QString("DateTime")]
+        : data[QString("value")];
 
     emit(updateData(sourceName, value, units));
 }
@@ -141,4 +104,7 @@ void AWDataEngineAggregator::initDataEngines()
                 static_cast<AWKeys *>(parent())->addDevice(source);
                 m_dataEngines[QString("systemmonitor")]->connectSource(source, this, m_interval);
             });
+
+    connect(this, SIGNAL(updateData(QString, QVariant, QString)),
+            parent(), SLOT(dataUpdated(QString, QVariant, QString)));
 }

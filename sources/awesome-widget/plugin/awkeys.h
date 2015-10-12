@@ -47,7 +47,6 @@ public:
                               const int limit);
     Q_INVOKABLE void setAggregatorProperty(const QString key, const QVariant value);
     Q_INVOKABLE void setWrapNewLines(const bool wrap = false);
-    Q_INVOKABLE void unlock();
     Q_INVOKABLE void updateCache();
     // keys
     Q_INVOKABLE QStringList dictKeys(const bool sorted = false,
@@ -95,11 +94,9 @@ private:
     QString m_pattern;
     QHash<QString, QString> values;
     bool m_wrapNewLines = false;
-    // queue and stream lock properties
+    // multithread features
     QThreadPool *m_threadPool = nullptr;
     QMutex m_mutex;
-    int m_queueLimit, m_queue = 0;
-    bool m_lock = true;
 };
 
 

@@ -49,7 +49,6 @@ AWKeys::AWKeys(QObject *parent)
 
 #ifdef BUILD_FUTURE
     // thread pool
-    m_queueLimit = 2 * QThread::idealThreadCount();
     m_threadPool = new QThreadPool(this);
 #endif /* BUILD_FUTURE */
 
@@ -81,15 +80,6 @@ AWKeys::~AWKeys()
 }
 
 
-void AWKeys::unlock()
-{
-    qCDebug(LOG_AW);
-
-    qCWarning(LOG_AW) << "Unm_lock stream";
-    m_lock = false;
-}
-
-
 void AWKeys::initDataAggregator(const QVariantMap tooltipParams)
 {
     qCDebug(LOG_AW);
@@ -115,9 +105,7 @@ void AWKeys::initKeys(const QString currentPattern, const int interval, const in
     } else
         dataEngineAggregator->setInterval(interval);
 #ifdef BUILD_FUTURE
-    int rawLimit = limit == 0 ? QThread::idealThreadCount() : limit;
-    m_queueLimit = 2 * rawLimit;
-    m_threadPool->setMaxThreadCount(rawLimit);
+    m_threadPool->setMaxThreadCount(limit == 0 ? QThread::idealThreadCount() : limit);
 #endif /* BUILD_FUTURE */
     updateCache();
 
@@ -177,7 +165,7 @@ QStringList AWKeys::dictKeys(const bool sorted, const QString regexp) const
     // uptime
     allKeys.append(QString("uptime"));
     allKeys.append(QString("cuptime"));
-    // cpucm_lock & cpu
+    // cpuclock & cpu
     for (int i=QThread::idealThreadCount()-1; i>=0; i--) {
         allKeys.append(QString("cpucl%1").arg(i));
         allKeys.append(QString("cpu%1").arg(i));
@@ -410,8 +398,6 @@ void AWKeys::dataUpdated(const QString sourceName, const QVariant value, const Q
     qCDebug(LOG_AW) << "Source" << sourceName;
     qCDebug(LOG_AW) << "Data" << value << units;
 
-    if (m_lock)
-        return;
     if (sourceName == QString("update"))
         return emit(needToBeUpdated());
 
@@ -714,15 +700,6 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariant value, con
     qCDebug(LOG_AW) << "Source" << sourceName;
     qCDebug(LOG_AW) << "Data" << value << units;
 
-#ifdef BUILD_FUTURE
-    // drop if limits are reached
-    if (++m_queue > m_queueLimit) {
-        qCWarning(LOG_AW) << "Messages m_queue" << m_queue-- << "more than limits" << m_queueLimit;
-        m_lock = true;
-        return dataEngineAggregator->disconnectVisualization();
-    }
-#endif /* BUILD_FUTURE */
-
     // first list init
     QStringList tags = aggregator->keysFromSource(sourceName);
     if (tags.isEmpty())
@@ -733,14 +710,14 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariant value, con
         qCDebug(LOG_AW) << "Source" << sourceName << "not found";
         emit(dropSourceFromDataengine(sourceName));
     } else {
+#ifdef BUILD_FUTURE
         m_mutex.lock();
+#endif /* BUILD_FUTURE */
         std::for_each(tags.cbegin(), tags.cend(), [this, value](const QString tag) {
             values[tag] = aggregator->formater(value, tag);
         });
-        m_mutex.unlock();
-    }
-
 #ifdef BUILD_FUTURE
-    m_queue--;
+        m_mutex.unlock();
 #endif /* BUILD_FUTURE */
+    }
 }
