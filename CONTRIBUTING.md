@@ -119,6 +119,7 @@ Development
 
 * Any project specific build variable should be mentioned inside `version.h` as
   well.
+* Recommended compiler is `clang`.
 
 HIG
 ---
@@ -211,3 +212,7 @@ Tools
         // declare with default value
         bool m_prop = false;
   ```
+* Use `cppcheck` to avoid common errors in the code. Refer to `utils` for more
+  details.
+* Use `clang-format` to apply valid code format. Refer to `utils` for more
+  details.
