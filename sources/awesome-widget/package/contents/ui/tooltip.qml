@@ -27,7 +27,7 @@ Item {
     id: tooltipPage
     // backend
     AWActions {
-        id: awActions;
+        id: awActions
     }
 
     width: childrenRect.width

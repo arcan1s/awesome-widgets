@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-09-21 20:49+0300\n"
+"POT-Creation-Date: 2015-10-16 20:22+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -105,6 +105,12 @@ msgid "AC offline tag"
 msgstr ""
 
 msgid "Drop key cache"
+msgstr ""
+
+msgid "Export configuration"
+msgstr ""
+
+msgid "Import configuration"
 msgstr ""
 
 msgid "Font"
@@ -391,6 +397,21 @@ msgid "Click \"Ok\" to download"
 msgstr ""
 
 msgid "There are updates"
+msgstr ""
+
+msgid "Export"
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Import plasmoid settings"
+msgstr ""
+
+msgid "Import extensions"
+msgstr ""
+
+msgid "Import additional files"
 msgstr ""
 
 msgid "AC online"

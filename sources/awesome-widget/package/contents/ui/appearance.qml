@@ -27,7 +27,7 @@ Item {
     id: appearancePage
     // backend
     AWActions {
-        id: awActions;
+        id: awActions
     }
 
     width: childrenRect.width

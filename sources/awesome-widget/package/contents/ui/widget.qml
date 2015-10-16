@@ -26,10 +26,10 @@ Item {
     id: widgetPage
     // backend
     AWKeys {
-        id: awKeys;
+        id: awKeys
     }
     AWActions {
-        id: awActions;
+        id: awActions
     }
 
     width: childrenRect.width

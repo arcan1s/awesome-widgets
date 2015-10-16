@@ -25,7 +25,10 @@ Item {
     id: advancedPage
     // backend
     AWActions {
-        id: awActions;
+        id: awActions
+    }
+    AWConfigHelper {
+        id: awConfig
     }
 
     width: childrenRect.width
@@ -368,7 +371,7 @@ Item {
             QtControls.Button {
                 width: parent.width * 3 / 5
                 text: i18n("Export configuration")
-                onClicked: awActions.exportConfiguration(plasmoid.configuration)
+                onClicked: awConfig.exportConfiguration(plasmoid.configuration)
             }
         }
 
@@ -383,7 +386,10 @@ Item {
                 width: parent.width * 3 / 5
                 text: i18n("Import configuration")
                 onClicked: {
-                    console.log(awActions.importConfiguration())
+                    if (debug) console.debug()
+                    var importConfig = awConfig.importConfiguration()
+                    for (var key in importConfig)
+                        plasmoid.configuration[key] = importConfig[key]
                 }
             }
         }

@@ -20,6 +20,7 @@
 #include <QtQml>
 
 #include "awactions.h"
+#include "awconfighelper.h"
 #include "awkeys.h"
 
 
@@ -28,5 +29,6 @@ void AWPlugin::registerTypes(const char *uri)
     Q_ASSERT(uri == QLatin1String("org.kde.plasma.private.awesomewidget"));
 
     qmlRegisterType<AWActions>(uri, 1, 0, "AWActions");
+    qmlRegisterType<AWConfigHelper>(uri, 1, 0, "AWConfigHelper");
     qmlRegisterType<AWKeys>(uri, 1, 0, "AWKeys");
 }

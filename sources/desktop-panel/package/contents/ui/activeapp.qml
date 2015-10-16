@@ -27,7 +27,7 @@ Item {
     id: activeAppearancePage
     // backend
     DPAdds {
-        id: dpAdds;
+        id: dpAdds
     }
 
     width: childrenRect.width

@@ -26,10 +26,13 @@ Item {
     id: dataenginePage
     // backend
     AWKeys {
-        id: awKeys;
+        id: awKeys
     }
     AWActions {
-        id: awActions;
+        id: awActions
+    }
+    AWConfigHelper {
+        id: awConfig
     }
 
     width: childrenRect.width
@@ -39,7 +42,7 @@ Item {
 
     property bool debug: awActions.isDebugEnabled()
 
-    property variant cfg_dataengine: awActions.readDataEngineConfiguration()
+    property variant cfg_dataengine: awConfig.readDataEngineConfiguration()
 
 
     Column {
@@ -354,6 +357,6 @@ Item {
         cfg_dataengine["HDDDEV"] = hdd.currentText
         cfg_dataengine["PLAYER"] = player.currentText
         cfg_dataengine["MPRIS"] = mpris.currentText
-        awActions.writeDataEngineConfiguration(cfg_dataengine)
+        awConfig.writeDataEngineConfiguration(cfg_dataengine)
     }
 }

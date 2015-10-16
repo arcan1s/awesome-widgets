@@ -20,10 +20,7 @@
 #include <KI18n/KLocalizedString>
 #include <KNotifications/KNotification>
 
-#include <QCheckBox>
 #include <QDesktopServices>
-#include <QDir>
-#include <QFileDialog>
 #include <QJsonDocument>
 #include <QJsonParseError>
 #include <QMessageBox>
@@ -32,10 +29,7 @@
 #include <QNetworkReply>
 #include <QProcess>
 #include <QProcessEnvironment>
-#include <QQmlPropertyMap>
-#include <QSettings>
 #include <QStandardPaths>
-#include <QVBoxLayout>
 
 #include <fontdialog/fontdialog.h>
 
@@ -73,17 +67,6 @@ void AWActions::checkUpdates(const bool showAnyway)
 }
 
 
-bool AWActions::dropCache() const
-{
-    qCDebug(LOG_AW);
-
-    QString fileName = QString("%1/awesomewidgets.ndx").
-        arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
-
-    return QFile(fileName).remove();
-}
-
-
 // HACK: since QML could not use QLoggingCategory I need this hack
 bool AWActions::isDebugEnabled() const
 {
@@ -110,78 +93,6 @@ void AWActions::showReadme() const
     qCDebug(LOG_AW);
 
     QDesktopServices::openUrl(QString(HOMEPAGE));
-}
-
-
-void AWActions::exportConfiguration(QObject *nativeConfig) const
-{
-    qCDebug(LOG_AW);
-
-    // get file path and init settings object
-    QString fileName = QFileDialog::getSaveFileName(nullptr, i18n("Export"));
-    if (fileName.isEmpty())
-        return;
-    qCInfo(LOG_AW) << "Selected filename" << fileName;
-    QSettings settings(fileName, QSettings::IniFormat);
-    // additional parameters
-    QString baseDir = QString("%1/awesomewidgets").
-        arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
-    QStringList dirs = QStringList() << QString("desktops") << QString("quotes")
-        << QString("scripts") << QString("upgrade") << QString("weather");
-
-    // plasmoid configuration
-    QQmlPropertyMap *configuration = static_cast<QQmlPropertyMap *>(nativeConfig);
-    settings.beginGroup(QString("plasmoid"));
-    foreach(QString key, configuration->keys()) {
-        QVariant value = configuration->value(key);
-        if (!value.isValid())
-            continue;
-        settings.setValue(key, value);
-    }
-    settings.endGroup();
-
-    // extenstions
-    foreach(QString item, dirs) {
-        QStringList items = QDir(QString("%1/%2").arg(baseDir).arg(item)).entryList(
-            QStringList() << QString("*.desktop"), QDir::Files);
-        settings.beginGroup(item);
-        foreach(QString it, items) {
-            qCInfo(LOG_AW) << "Processing file" << it;
-            settings.beginGroup(it);
-            QSettings itemSettings(QString("%1/%2/%3").arg(baseDir).arg(item).arg(it), QSettings::IniFormat);
-            itemSettings.beginGroup(QString("Desktop Entry"));
-            foreach(QString key, itemSettings.childKeys())
-                settings.setValue(key, itemSettings.value(key));
-            itemSettings.endGroup();
-            settings.endGroup();
-        }
-        settings.endGroup();
-    }
-
-    // additional files
-    settings.beginGroup(QString("json"));
-    // script filters
-    QFile filterFile(QString("%1/scripts/awesomewidgets-extscripts-filters.json").arg(baseDir));
-    if (filterFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QString filterText = filterFile.readAll();
-        filterFile.close();
-        settings.setValue(QString("filters"), filterText);
-    } else {
-        qCWarning(LOG_LIB) << "Could not open" << filterFile.fileName();
-    }
-    // weather icon settings
-    QFile weatherIdFile(QString("%1/weather/awesomewidgets-extweather-ids.json").arg(baseDir));
-    if (weatherIdFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QString weatherIdText = weatherIdFile.readAll();
-        weatherIdFile.close();
-        settings.setValue(QString("weathers"), weatherIdText);
-    } else {
-        qCWarning(LOG_LIB) << "Could not open" << weatherIdFile.fileName();
-    }
-    settings.endGroup();
-
-    // sync settings
-    settings.sync();
 }
 
 
@@ -246,166 +157,6 @@ QVariantMap AWActions::getFont(const QVariantMap defaultFont) const
     return fontMap;
 }
 
-
-QQmlPropertyMap* AWActions::importConfiguration() const
-{
-    qCDebug(LOG_AW);
-
-    QQmlPropertyMap *configuration = new QQmlPropertyMap();
-    // get file path and init settings object
-    QString fileName = QFileDialog::getOpenFileName(nullptr, i18n("Import"));
-    if (fileName.isEmpty())
-        return configuration;
-    qCInfo(LOG_AW) << "Selected filename" << fileName;
-    QSettings settings(fileName, QSettings::IniFormat);
-    // additional parameters
-    QString baseDir = QString("%1/awesomewidgets").
-        arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
-    QStringList dirs = QStringList() << QString("desktops") << QString("quotes")
-        << QString("scripts") << QString("upgrade") << QString("weather");
-
-    // check what should be exported
-    QDialog *dialog = new QDialog(nullptr);
-    QCheckBox *importPlasmoidSettings = new QCheckBox(i18n("Import plasmoid settings"), dialog);
-    QCheckBox *importExtensionsSettings = new QCheckBox(i18n("Import extenstions"), dialog);
-    QCheckBox *importAddsSettings = new QCheckBox(i18n("Import additional files"), dialog);
-    QDialogButtonBox *dialogButtons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
-                                                           Qt::Horizontal, dialog);
-    QVBoxLayout *layout = new QVBoxLayout(dialog);
-    layout->addWidget(importPlasmoidSettings);
-    layout->addWidget(importExtensionsSettings);
-    layout->addWidget(importAddsSettings);
-    layout->addWidget(dialogButtons);
-    connect(dialogButtons, SIGNAL(accepted()), dialog, SLOT(accept()));
-    connect(dialogButtons, SIGNAL(rejected()), dialog, SLOT(reject()));
-    // get parameters
-    bool importPlasmoid = false;
-    bool importExtensions = false;
-    bool importAdds = false;
-    switch(int ret = dialog->exec()) {
-    case QDialog::Accepted:
-        importPlasmoid = importPlasmoidSettings->isChecked();
-        importExtensions = importExtensionsSettings->isChecked();
-        importAdds = importAddsSettings->isChecked();
-        break;
-    case QDialog::Rejected:
-    default:
-        break;
-    }
-    dialog->deleteLater();
-
-    // extenstions
-    if (importExtensions) {
-        foreach(QString item, dirs) {
-            settings.beginGroup(item);
-            qDebug() << settings.childGroups();
-            foreach(QString it, settings.childGroups()) {
-                qCInfo(LOG_AW) << "Processing file" << it;
-                settings.beginGroup(it);
-                QSettings itemSettings(QString("%1/%2/%3").arg(baseDir).arg(item).arg(it), QSettings::IniFormat);
-                itemSettings.beginGroup(QString("Desktop Entry"));
-                foreach(QString key, settings.childKeys())
-                    itemSettings.setValue(key, settings.value(key));
-                itemSettings.endGroup();
-                itemSettings.sync();
-                settings.endGroup();
-            }
-            settings.endGroup();
-        }
-    }
-
-    // additional files
-    if (importAdds) {
-        settings.beginGroup(QString("json"));
-        // script filters
-        if (settings.contains(QString("filters"))) {
-            QFile filterFile(QString("%1/scripts/awesomewidgets-extscripts-filters.json").arg(baseDir));
-            if (filterFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                QDataStream out(&filterFile);
-                out << settings.value(QString("filters")).toString();
-                filterFile.close();
-            } else {
-                qCWarning(LOG_LIB) << "Could not open" << filterFile.fileName();
-            }
-        }
-        // weather icon settings
-        if (settings.contains(QString("weathers"))) {
-            QFile weatherIdFile(QString("%1/weather/awesomewidgets-extweather-ids.json").arg(baseDir));
-            if (weatherIdFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                QDataStream out(&weatherIdFile);
-                out << settings.value(QString("weathers")).toString();
-                weatherIdFile.close();
-            } else {
-                qCWarning(LOG_LIB) << "Could not open" << weatherIdFile.fileName();
-            }
-        }
-        settings.endGroup();
-    }
-
-    // plasmoid configuration
-    if (importPlasmoid) {
-        settings.beginGroup(QString("plasmoid"));
-        foreach(QString key, settings.childKeys())
-            configuration->insert(key, settings.value(key));
-        configuration->insert(QString("valid"), true);
-        settings.endGroup();
-    }
-
-    return configuration;
-}
-
-
-QVariantMap AWActions::readDataEngineConfiguration() const
-{
-    qCDebug(LOG_AW);
-
-    QString fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation,
-                                              QString("plasma-dataengine-extsysmon.conf"));
-    qCInfo(LOG_AW) << "Configuration file" << fileName;
-    QSettings settings(fileName, QSettings::IniFormat);
-    QVariantMap configuration;
-
-    settings.beginGroup(QString("Configuration"));
-    configuration[QString("ACPIPATH")] = settings.value(QString("ACPIPATH"), QString("/sys/class/power_supply/"));
-    configuration[QString("GPUDEV")] = settings.value(QString("GPUDEV"), QString("auto"));
-    configuration[QString("HDDDEV")] = settings.value(QString("HDDDEV"), QString("all"));
-    configuration[QString("HDDTEMPCMD")] = settings.value(QString("HDDTEMPCMD"), QString("sudo smartctl -a"));
-    configuration[QString("MPDADDRESS")] = settings.value(QString("MPDADDRESS"), QString("localhost"));
-    configuration[QString("MPDPORT")] = settings.value(QString("MPDPORT"), QString("6600"));
-    configuration[QString("MPRIS")] = settings.value(QString("MPRIS"), QString("auto"));
-    configuration[QString("PLAYER")] = settings.value(QString("PLAYER"), QString("mpris"));
-    configuration[QString("PLAYERSYMBOLS")] = settings.value(QString("PLAYERSYMBOLS"), QString("10"));
-    settings.endGroup();
-
-    qCInfo(LOG_AW) << "Configuration" << configuration;
-
-    return configuration;
-}
-
-
-void AWActions::writeDataEngineConfiguration(const QVariantMap configuration) const
-{
-    qCDebug(LOG_AW);
-
-    QString fileName = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation)
-        + QString("/plasma-dataengine-extsysmon.conf");
-    QSettings settings(fileName, QSettings::IniFormat);
-    qCInfo(LOG_AW) << "Configuration file" << settings.fileName();
-
-    settings.beginGroup(QString("Configuration"));
-    settings.setValue(QString("ACPIPATH"), configuration[QString("ACPIPATH")]);
-    settings.setValue(QString("GPUDEV"), configuration[QString("GPUDEV")]);
-    settings.setValue(QString("HDDDEV"), configuration[QString("HDDDEV")]);
-    settings.setValue(QString("HDDTEMPCMD"), configuration[QString("HDDTEMPCMD")]);
-    settings.setValue(QString("MPDADDRESS"), configuration[QString("MPDADDRESS")]);
-    settings.setValue(QString("MPDPORT"), configuration[QString("MPDPORT")]);
-    settings.setValue(QString("MPRIS"), configuration[QString("MPRIS")]);
-    settings.setValue(QString("PLAYER"), configuration[QString("PLAYER")]);
-    settings.setValue(QString("PLAYERSYMBOLS"), configuration[QString("PLAYERSYMBOLS")]);
-    settings.endGroup();
-
-    settings.sync();
-}
 
 
 // to avoid additional object definition this method is static

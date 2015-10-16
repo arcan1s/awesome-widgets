@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-09-21 20:49+0300\n"
-"PO-Revision-Date: 2015-09-21 10:26+0300\n"
+"POT-Creation-Date: 2015-10-16 20:22+0300\n"
+"PO-Revision-Date: 2015-10-16 20:22+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: English <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
+"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 2.0\n"
 
 msgid "Widget"
@@ -107,6 +107,12 @@ msgstr "AC offline tag"
 
 msgid "Drop key cache"
 msgstr "Drop key cache"
+
+msgid "Export configuration"
+msgstr "Export configuration"
+
+msgid "Import configuration"
+msgstr "Import configuration"
 
 msgid "Font"
 msgstr "Font"
@@ -397,6 +403,21 @@ msgstr "Click \"Ok\" to download"
 
 msgid "There are updates"
 msgstr "There are updates"
+
+msgid "Export"
+msgstr "Export"
+
+msgid "Import"
+msgstr "Import"
+
+msgid "Import plasmoid settings"
+msgstr "Import plasmoid settings"
+
+msgid "Import extensions"
+msgstr "Import extensions"
+
+msgid "Import additional files"
+msgstr "Import additional files"
 
 msgid "AC online"
 msgstr "AC online"
@@ -749,9 +770,6 @@ msgstr "esalexeev@gmail.com"
 
 #~ msgid "Appearance configuration"
 #~ msgstr "Appearance configuration"
-
-#~ msgid "Tooltip configuration"
-#~ msgstr "Tooltip configuration"
 
 #~ msgid "Widget configuration"
 #~ msgstr "Widget configuration"

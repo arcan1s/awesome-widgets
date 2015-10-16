@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-09-21 20:49+0300\n"
+"POT-Creation-Date: 2015-10-16 20:22+0300\n"
 "PO-Revision-Date: 2015-09-27 12:37+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Ukrainian <kde-russian@lists.kde.ru>\n"
@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
-"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 2.0\n"
 
 msgid "Widget"
@@ -109,6 +109,14 @@ msgstr "AC відключений"
 
 msgid "Drop key cache"
 msgstr "Скинути кеш ключів"
+
+#, fuzzy
+msgid "Export configuration"
+msgstr "Налаштування"
+
+#, fuzzy
+msgid "Import configuration"
+msgstr "Налаштування"
 
 msgid "Font"
 msgstr "Шрифт"
@@ -411,6 +419,23 @@ msgstr "Натисніть \"Ok\" для завантаження"
 
 msgid "There are updates"
 msgstr "Знайдені оновлення"
+
+msgid "Export"
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Import plasmoid settings"
+msgstr ""
+
+#, fuzzy
+msgid "Import extensions"
+msgstr "Розширення"
+
+#, fuzzy
+msgid "Import additional files"
+msgstr "Додаткові фільтри"
 
 msgid "AC online"
 msgstr "AC підключений"
@@ -726,9 +751,6 @@ msgstr "sarumyan@i.ua"
 
 #~ msgid "<b>NOTE:</b> Player DBus interface should be an active"
 #~ msgstr "<b>УВАГА:</b> DBus інтерфейс плеєра має бути активним"
-
-#~ msgid "Configuration"
-#~ msgstr "Налаштування"
 
 #~ msgid "Ctrl+B"
 #~ msgstr "Ctrl+B"

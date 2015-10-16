@@ -25,7 +25,7 @@ Item {
     id: widgetPage
     // backend
     DPAdds {
-        id: dpAdds;
+        id: dpAdds
     }
 
     width: childrenRect.width

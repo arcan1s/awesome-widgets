@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-09-21 20:49+0300\n"
+"POT-Creation-Date: 2015-10-16 20:22+0300\n"
 "PO-Revision-Date: 2015-07-31 22:24+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -106,6 +106,12 @@ msgid "AC offline tag"
 msgstr "外接电源未使用标签"
 
 msgid "Drop key cache"
+msgstr ""
+
+msgid "Export configuration"
+msgstr ""
+
+msgid "Import configuration"
 msgstr ""
 
 msgid "Font"
@@ -410,6 +416,21 @@ msgid "Click \"Ok\" to download"
 msgstr ""
 
 msgid "There are updates"
+msgstr ""
+
+msgid "Export"
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Import plasmoid settings"
+msgstr ""
+
+msgid "Import extensions"
+msgstr ""
+
+msgid "Import additional files"
 msgstr ""
 
 #, fuzzy

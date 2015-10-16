@@ -31,10 +31,10 @@ Item {
     id: main
     // backend
     AWKeys {
-        id: awKeys;
+        id: awKeys
     }
     AWActions {
-        id: awActions;
+        id: awActions
     }
 
     property bool debug: awActions.isDebugEnabled()

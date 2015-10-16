@@ -25,7 +25,7 @@ import org.kde.plasma.private.awesomewidget 1.0
 Item {
     id: aboutPage
     AWActions {
-        id: awActions;
+        id: awActions
     }
 
     width: childrenRect.width

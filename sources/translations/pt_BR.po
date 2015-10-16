@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-09-21 20:49+0300\n"
+"POT-Creation-Date: 2015-10-16 20:22+0300\n"
 "PO-Revision-Date: 2015-07-31 22:21+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -110,6 +110,14 @@ msgstr "Rótulo com carregador desconectado"
 
 msgid "Drop key cache"
 msgstr ""
+
+#, fuzzy
+msgid "Export configuration"
+msgstr "Configuração"
+
+#, fuzzy
+msgid "Import configuration"
+msgstr "Configuração"
 
 msgid "Font"
 msgstr "Tamanho da fonte"
@@ -412,6 +420,21 @@ msgstr "Clique \"Ok\" para baixar"
 msgid "There are updates"
 msgstr "Há atualizações disponíveis"
 
+msgid "Export"
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Import plasmoid settings"
+msgstr ""
+
+msgid "Import extensions"
+msgstr ""
+
+msgid "Import additional files"
+msgstr ""
+
 msgid "AC online"
 msgstr "Carregador conectado"
 
@@ -711,9 +734,6 @@ msgstr "under@insicuri.net"
 
 #~ msgid "<b>NOTE:</b> Player DBus interface should be an active"
 #~ msgstr "<b>NOTA:</> Interface do player DBus deverá ser uma ativa"
-
-#~ msgid "Configuration"
-#~ msgstr "Configuração"
 
 #~ msgid "Ctrl+B"
 #~ msgstr "Ctrl+B"

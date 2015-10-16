@@ -30,7 +30,7 @@ Item {
     id: main
     // backend
     DPAdds {
-        id: dpAdds;
+        id: dpAdds
     }
 
     property bool debug: dpAdds.isDebugEnabled()

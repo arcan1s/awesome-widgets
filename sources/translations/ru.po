@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-09-21 20:49+0300\n"
-"PO-Revision-Date: 2015-09-26 21:53+0300\n"
+"POT-Creation-Date: 2015-10-16 20:22+0300\n"
+"PO-Revision-Date: 2015-10-16 20:23+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -107,6 +107,12 @@ msgstr "AC отключен"
 
 msgid "Drop key cache"
 msgstr "Сбросить кеш ключей"
+
+msgid "Export configuration"
+msgstr "Экспорт настроек"
+
+msgid "Import configuration"
+msgstr "Импорт настроек"
 
 msgid "Font"
 msgstr "Шрифт"
@@ -397,6 +403,21 @@ msgstr "Нажмите \"Ok\" для загрузки"
 
 msgid "There are updates"
 msgstr "Найдены обновления"
+
+msgid "Export"
+msgstr "Экспорт"
+
+msgid "Import"
+msgstr "Импорт"
+
+msgid "Import plasmoid settings"
+msgstr "Импорт настроек плазмоида"
+
+msgid "Import extensions"
+msgstr "Импорт расширений"
+
+msgid "Import additional files"
+msgstr "Импорт дополнительных файлов"
 
 msgid "AC online"
 msgstr "AC подключен"
@@ -749,9 +770,6 @@ msgstr "esalexeev@gmail.com"
 
 #~ msgid "Appearance configuration"
 #~ msgstr "Настройка внешнего вида"
-
-#~ msgid "Tooltip configuration"
-#~ msgstr "Настройка тултипа"
 
 #~ msgid "Widget configuration"
 #~ msgstr "Настройка виджета"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-09-21 20:49+0300\n"
+"POT-Creation-Date: 2015-10-16 20:22+0300\n"
 "PO-Revision-Date: 2015-08-20 22:52+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
@@ -111,6 +111,14 @@ msgstr "AC offline-sleutelwoord"
 
 msgid "Drop key cache"
 msgstr ""
+
+#, fuzzy
+msgid "Export configuration"
+msgstr "Configuratie"
+
+#, fuzzy
+msgid "Import configuration"
+msgstr "Configuratie"
 
 msgid "Font"
 msgstr "Lettertype"
@@ -415,6 +423,21 @@ msgstr "Klik op \"OK\" om te downloaden"
 
 msgid "There are updates"
 msgstr "Er zijn updates"
+
+msgid "Export"
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Import plasmoid settings"
+msgstr ""
+
+msgid "Import extensions"
+msgstr ""
+
+msgid "Import additional files"
+msgstr ""
 
 msgid "AC online"
 msgstr "AC online"
@@ -725,9 +748,6 @@ msgstr "vistausss@outlook.com"
 
 #~ msgid "<b>NOTE:</b> Player DBus interface should be an active"
 #~ msgstr "<b>LET OP:</b> De DBus-interface van de speler moet actief zijn"
-
-#~ msgid "Configuration"
-#~ msgstr "Configuratie"
 
 #~ msgid "Ctrl+B"
 #~ msgstr "Ctrl+B"

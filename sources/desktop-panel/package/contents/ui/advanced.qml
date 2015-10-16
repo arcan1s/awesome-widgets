@@ -27,7 +27,7 @@ Item {
     id: advancedPage
     // backend
     DPAdds {
-        id: dpAdds;
+        id: dpAdds
     }
 
     width: childrenRect.width

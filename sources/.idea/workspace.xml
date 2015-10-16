@@ -14,13 +14,47 @@
       <config projectName="awesomewidgets" targetName="aw_pofiles" />
     </generated>
   </component>
-  <component name="CMakeSettings" AUTO_RELOAD="false" GENERATION_PASS_SYSTEM_ENVIRONMENT="true">
+  <component name="CMakeSettings" AUTO_RELOAD="false" GENERATION_OPTIONS="-DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DKDE_INSTALL_USE_QT_SYS_PATHS=ON -DBUILD_FUTURE=ON" GENERATION_PASS_SYSTEM_ENVIRONMENT="true" BUILD_OUTPUT_DIR="../build" ADDITIONAL_BUILD_OPTIONS="-j2">
     <ADDITIONAL_GENERATION_ENVIRONMENT>
       <envs />
     </ADDITIONAL_GENERATION_ENVIRONMENT>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0d97362a-408a-4c06-bd78-89983a3d619c" name="Default" comment="" />
+    <list default="true" id="2abf8d0d-47d8-4127-8499-2d7068a74152" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CHANGELOG-RU" afterPath="$PROJECT_DIR$/../CHANGELOG-RU" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../CHANGELOG" afterPath="$PROJECT_DIR$/../CHANGELOG" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../packages/PKGBUILD" afterPath="$PROJECT_DIR$/../packages/PKGBUILD" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/awesome-widget/package/contents/ui/about.qml" afterPath="$PROJECT_DIR$/awesome-widget/package/contents/ui/about.qml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/awesome-widget/package/contents/ui/advanced.qml" afterPath="$PROJECT_DIR$/awesome-widget/package/contents/ui/advanced.qml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/awesome-widget/package/contents/ui/appearance.qml" afterPath="$PROJECT_DIR$/awesome-widget/package/contents/ui/appearance.qml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/awesome-widget/plugin/awactions.cpp" afterPath="$PROJECT_DIR$/awesome-widget/plugin/awactions.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/awesome-widget/plugin/awactions.h" afterPath="$PROJECT_DIR$/awesome-widget/plugin/awactions.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/awesome-widget/plugin/awesomewidget.cpp" afterPath="$PROJECT_DIR$/awesome-widget/plugin/awesomewidget.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.kdev4/awesomewidgets.kdev4" afterPath="$PROJECT_DIR$/.kdev4/awesomewidgets.kdev4" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extsysmon/sources/batterysource.cpp" afterPath="$PROJECT_DIR$/extsysmon/sources/batterysource.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/awesome-widget/package/contents/ui/dataengine.qml" afterPath="$PROJECT_DIR$/awesome-widget/package/contents/ui/dataengine.qml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/desktop-panel/plugin/dpadds.cpp" afterPath="$PROJECT_DIR$/desktop-panel/plugin/dpadds.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/desktop-panel/plugin/dpadds.h" afterPath="$PROJECT_DIR$/desktop-panel/plugin/dpadds.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extsysmon/extsysmon.cpp" afterPath="$PROJECT_DIR$/extsysmon/extsysmon.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/awesomewidgets/extupgrade.cpp" afterPath="$PROJECT_DIR$/awesomewidgets/extupgrade.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/awesomewidgets/extweather.cpp" afterPath="$PROJECT_DIR$/awesomewidgets/extweather.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extsysmon/sources/gpuloadsource.cpp" afterPath="$PROJECT_DIR$/extsysmon/sources/gpuloadsource.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extsysmon/sources/gputempsource.cpp" afterPath="$PROJECT_DIR$/extsysmon/sources/gputempsource.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extsysmon/sources/hddtempsource.cpp" afterPath="$PROJECT_DIR$/extsysmon/sources/hddtempsource.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extsysmon/sources/loadsource.cpp" afterPath="$PROJECT_DIR$/extsysmon/sources/loadsource.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/awesome-widget/package/contents/ui/main.qml" afterPath="$PROJECT_DIR$/awesome-widget/package/contents/ui/main.qml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extsysmon/sources/networksource.cpp" afterPath="$PROJECT_DIR$/extsysmon/sources/networksource.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extsysmon/sources/playersource.cpp" afterPath="$PROJECT_DIR$/extsysmon/sources/playersource.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extsysmon/sources/processessource.cpp" afterPath="$PROJECT_DIR$/extsysmon/sources/processessource.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extsysmon/sources/quotessource.cpp" afterPath="$PROJECT_DIR$/extsysmon/sources/quotessource.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/sources.iml" afterPath="$PROJECT_DIR$/.idea/sources.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/awesome-widget/package/contents/ui/tooltip.qml" afterPath="$PROJECT_DIR$/awesome-widget/package/contents/ui/tooltip.qml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extsysmon/sources/weathersource.cpp" afterPath="$PROJECT_DIR$/extsysmon/sources/weathersource.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/awesome-widget/package/contents/ui/widget.qml" afterPath="$PROJECT_DIR$/awesome-widget/package/contents/ui/widget.qml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="sources.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -40,21 +74,35 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="awactions.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/awesome-widget/plugin/awactions.cpp">
+      <file leaf-file-name="awconfighelper.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/awesome-widget/plugin/awconfighelper.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
+              <caret line="143" column="33" selection-start-line="143" selection-start-column="33" selection-end-line="143" selection-end-column="33" />
+              <folding>
+                <element signature="e#1234#1261#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="awactions.h" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/awesome-widget/plugin/awactions.h">
+      <file leaf-file-name="awconfighelper.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/awesome-widget/plugin/awconfighelper.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6508951">
-              <caret line="41" column="76" selection-start-line="41" selection-start-column="76" selection-end-line="41" selection-end-column="76" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+              <folding>
+                <element signature="e#1286#1304#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="advanced.qml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/awesome-widget/package/contents/ui/advanced.qml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="8.986733">
+              <caret line="391" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="402" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -62,10 +110,16 @@
       </file>
     </leaf>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/awesome-widget/plugin/awactions.h" />
+        <option value="$PROJECT_DIR$/awesome-widget/plugin/awdataaggregator.cpp" />
+        <option value="$PROJECT_DIR$/awesome-widget/plugin/awconfighelper.h" />
+        <option value="$PROJECT_DIR$/awesome-widget/plugin/awconfighelper.cpp" />
+        <option value="$PROJECT_DIR$/awesome-widget/package/contents/ui/advanced.qml" />
       </list>
     </option>
   </component>
@@ -77,10 +131,10 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1920" />
-    <option name="y" value="23" />
-    <option name="width" value="1600" />
-    <option name="height" value="877" />
+    <option name="x" value="1280" />
+    <option name="y" value="21" />
+    <option name="width" value="1366" />
+    <option name="height" value="747" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -89,7 +143,7 @@
     <OptionsSetting value="true" id="Update" />
     <OptionsSetting value="true" id="Status" />
     <OptionsSetting value="true" id="Edit" />
-    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="1" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectView">
@@ -151,6 +205,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="awesomewidgets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sources" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="awesome-widget" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -177,20 +249,101 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sources" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="awesome-widget" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="package" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sources" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="awesome-widget" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="package" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="contents" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sources" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="awesome-widget" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="package" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="contents" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../.." />
     <property name="recentsLimit" value="5" />
-    <property name="FullScreen" value="false" />
+    <property name="restartRequiresConfirmation" value="true" />
   </component>
-  <component name="RunManager" selected="Application.Build All">
+  <component name="RunManager" selected="Application.Release">
     <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS="FALSE" PROJECT_NAME="awesomewidgets" TARGET_NAME="uninstall" CONFIG_NAME="Debug">
       <envs />
       <method />
     </configuration>
-    <configuration default="false" name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS="FALSE" CONFIG_NAME="Debug" EXPLICIT_BUILD_TARGET_NAME="all">
+    <configuration default="false" name="Release" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS="FALSE" CONFIG_NAME="Release" EXPLICIT_BUILD_TARGET_NAME="all">
       <envs />
       <method />
     </configuration>
@@ -235,7 +388,7 @@
       <method />
     </configuration>
     <list size="11">
-      <item index="0" class="java.lang.String" itemvalue="Application.Build All" />
+      <item index="0" class="java.lang.String" itemvalue="Application.Release" />
       <item index="1" class="java.lang.String" itemvalue="Application.uninstall" />
       <item index="2" class="java.lang.String" itemvalue="Application.awplugin" />
       <item index="3" class="java.lang.String" itemvalue="Application.awplugin_automoc" />
@@ -254,34 +407,34 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="0d97362a-408a-4c06-bd78-89983a3d619c" name="Default" comment="" />
-      <created>1444961890223</created>
+      <changelist id="2abf8d0d-47d8-4127-8499-2d7068a74152" name="Default" comment="" />
+      <created>1445013689481</created>
       <option name="number" value="Default" />
-      <updated>1444961890223</updated>
+      <updated>1445013689481</updated>
     </task>
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1920" y="23" width="1600" height="877" extended-state="6" />
+    <frame x="1280" y="21" width="1366" height="747" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24981412" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32880098" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32857144" sideWeight="0.4944238" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32857144" sideWeight="0.5055762" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -302,13 +455,39 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.18286446">
-          <caret line="11" column="19" selection-start-line="11" selection-start-column="19" selection-end-line="11" selection-end-column="19" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/awesome-widget/plugin/awkeys.cpp">
+    <entry file="file://$PROJECT_DIR$/awesome-widget/plugin/awdataaggregator.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.74242425">
+          <caret line="21" column="15" selection-start-line="21" selection-start-column="15" selection-end-line="21" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/awesome-widget/plugin/awdataaggregator.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.3466003">
+          <caret line="68" column="31" selection-start-line="68" selection-start-column="31" selection-end-line="68" selection-end-column="31" />
+          <folding>
+            <element signature="e#1234#1263#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/awesomewidgets/extscript.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="389" column="104" selection-start-line="389" selection-start-column="21" selection-end-line="389" selection-end-column="104" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/awesome-widget/package/contents/ui/appearance.qml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -316,26 +495,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/awesome-widget/plugin/awkeys.h">
+    <entry file="file://$PROJECT_DIR$/awesome-widget/plugin/awconfighelper.h">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding>
+            <element signature="e#1286#1304#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/awesome-widget/plugin/awactions.cpp">
+    <entry file="file://$PROJECT_DIR$/awesome-widget/plugin/awconfighelper.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <caret line="143" column="33" selection-start-line="143" selection-start-column="33" selection-end-line="143" selection-end-column="33" />
+          <folding>
+            <element signature="e#1234#1261#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/awesome-widget/plugin/awactions.h">
+    <entry file="file://$PROJECT_DIR$/awesome-widget/package/contents/ui/advanced.qml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6508951">
-          <caret line="41" column="76" selection-start-line="41" selection-start-column="76" selection-end-line="41" selection-end-column="76" />
+        <state vertical-scroll-proportion="8.986733">
+          <caret line="391" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="402" selection-end-column="0" />
           <folding />
         </state>
       </provider>
