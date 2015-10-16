@@ -19,6 +19,7 @@
 #ifndef AWKEYS_H
 #define AWKEYS_H
 
+#include <Plasma/DataEngine>
 #include <QMutex>
 #include <QObject>
 
@@ -60,7 +61,9 @@ public:
 
 public slots:
     void addDevice(const QString source);
-    void dataUpdated(const QString sourceName, const QVariant value, const QString units);
+    void dataUpdated(const QString &sourceName, const Plasma::DataEngine::Data &data);
+    // dummy method required by DataEngine connections
+    void modelChanged(QString, QAbstractItemModel *) {};
 
 signals:
     void dropSourceFromDataengine(const QString source);
@@ -78,7 +81,7 @@ private:
     void addKeyToCache(const QString type, const QString key = QString(""));
     void calculateValues();
     QString parsePattern(QString pattern) const;
-    void setDataBySource(const QString sourceName, const QVariant value, const QString units);
+    void setDataBySource(const QString &sourceName, const QVariantMap &data);
     // objects
     AWDataAggregator *dataAggregator = nullptr;
     AWDataEngineAggregator *dataEngineAggregator = nullptr;

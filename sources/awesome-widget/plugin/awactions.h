@@ -23,6 +23,7 @@
 
 
 class QNetworkReply;
+class QQmlPropertyMap;
 
 class AWActions : public QObject
 {
@@ -37,8 +38,10 @@ public:
     Q_INVOKABLE bool runCmd(const QString cmd = QString("/usr/bin/true")) const;
     Q_INVOKABLE void showReadme() const;
     // configuration slots
+    Q_INVOKABLE void exportConfiguration(QObject *nativeConfig) const;
     Q_INVOKABLE QString getAboutText(const QString type = QString("header")) const;
     Q_INVOKABLE QVariantMap getFont(const QVariantMap defaultFont) const;
+    Q_INVOKABLE QQmlPropertyMap *importConfiguration() const;
     // dataengine
     Q_INVOKABLE QVariantMap readDataEngineConfiguration() const;
     Q_INVOKABLE void writeDataEngineConfiguration(const QVariantMap configuration) const;

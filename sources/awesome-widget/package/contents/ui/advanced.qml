@@ -352,10 +352,39 @@ Item {
                 width: parent.width * 2 / 5
             }
             QtControls.Button {
-                id: selectFont
                 width: parent.width * 3 / 5
                 text: i18n("Drop key cache")
                 onClicked: awActions.dropCache()
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.height
+                width: parent.width * 2 / 5
+            }
+            QtControls.Button {
+                width: parent.width * 3 / 5
+                text: i18n("Export configuration")
+                onClicked: awActions.exportConfiguration(plasmoid.configuration)
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.height
+                width: parent.width * 2 / 5
+            }
+            QtControls.Button {
+                width: parent.width * 3 / 5
+                text: i18n("Import configuration")
+                onClicked: {
+                    console.log(awActions.importConfiguration())
+                }
             }
         }
     }

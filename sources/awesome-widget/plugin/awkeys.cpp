@@ -392,20 +392,20 @@ void AWKeys::addDevice(const QString source)
 }
 
 
-void AWKeys::dataUpdated(const QString sourceName, const QVariant value, const QString units)
+void AWKeys::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Data &data)
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Source" << sourceName;
-    qCDebug(LOG_AW) << "Data" << value << units;
+    qCDebug(LOG_AW) << "Data" << data;
 
     if (sourceName == QString("update"))
         return emit(needToBeUpdated());
 
 #ifdef BUILD_FUTURE
     // run concurrent data update
-    QtConcurrent::run(m_threadPool, this, &AWKeys::setDataBySource, sourceName, value, units);
+    QtConcurrent::run(m_threadPool, this, &AWKeys::setDataBySource, sourceName, data);
 #else /* BUILD_FUTURE */
-    return setDataBySource(sourceName, value, units);
+    return setDataBySource(sourceName, data);
 #endif /* BUILD_FUTURE */
 }
 
@@ -686,16 +686,16 @@ QString AWKeys::parsePattern(QString pattern) const
 }
 
 
-void AWKeys::setDataBySource(const QString sourceName, const QVariant value, const QString units)
+void AWKeys::setDataBySource(const QString &sourceName, const QVariantMap &data)
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Source" << sourceName;
-    qCDebug(LOG_AW) << "Data" << value << units;
+    qCDebug(LOG_AW) << "Data" << data;
 
     // first list init
     QStringList tags = aggregator->keysFromSource(sourceName);
     if (tags.isEmpty())
-        tags = aggregator->registerSource(sourceName, units);
+        tags = aggregator->registerSource(sourceName, data[QString("units")].toString());
 
     // update data or drop source if there are no matches
     if (tags.isEmpty()) {
@@ -705,6 +705,8 @@ void AWKeys::setDataBySource(const QString sourceName, const QVariant value, con
 #ifdef BUILD_FUTURE
         m_mutex.lock();
 #endif /* BUILD_FUTURE */
+        // HACK workaround for time values which are stored in the different path
+        QVariant value = sourceName == QString("Local") ? data[QString("DateTime")] : data[QString("value")];
         std::for_each(tags.cbegin(), tags.cend(), [this, value](const QString tag) {
             values[tag] = aggregator->formater(value, tag);
         });

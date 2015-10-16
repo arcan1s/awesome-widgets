@@ -57,8 +57,8 @@ void AWDataEngineAggregator::dropSource(const QString source)
 
     // FIXME there is no possiblibity to check to which dataengine source connected
     // we will try to disconnect it from systemmonitor and extsysmon
-    m_dataEngines[QString("systemmonitor")]->disconnectSource(source, this);
-    m_dataEngines[QString("extsysmon")]->disconnectSource(source, this);
+    m_dataEngines[QString("systemmonitor")]->disconnectSource(source, parent());
+    m_dataEngines[QString("extsysmon")]->disconnectSource(source, parent());
 }
 
 
@@ -66,26 +66,9 @@ void AWDataEngineAggregator::reconnectSources()
 {
     qCDebug(LOG_AW);
 
-    m_dataEngines[QString("systemmonitor")]->connectAllSources(this, m_interval);
-    m_dataEngines[QString("extsysmon")]->connectAllSources(this, m_interval);
-    m_dataEngines[QString("time")]->connectSource(QString("Local"), this, 1000);
-}
-
-
-void AWDataEngineAggregator::dataUpdated(const QString sourceName, const Plasma::DataEngine::Data data)
-{
-    qCDebug(LOG_AW);
-    qCDebug(LOG_AW) << "Source" << sourceName;
-    qCDebug(LOG_AW) << "Data" << data;
-
-    // HACK "deep copy" of data to avoid plasma crash on Data object destruction
-    QString units = data[QString("units")].toString();
-    // HACK workaround for time values which are stored in the different path
-    QVariant value = sourceName == QString("Local")
-        ? data[QString("DateTime")]
-        : data[QString("value")];
-
-    emit(updateData(sourceName, value, units));
+    m_dataEngines[QString("systemmonitor")]->connectAllSources(parent(), m_interval);
+    m_dataEngines[QString("extsysmon")]->connectAllSources(parent(), m_interval);
+    m_dataEngines[QString("time")]->connectSource(QString("Local"), parent(), 1000);
 }
 
 
@@ -102,9 +85,6 @@ void AWDataEngineAggregator::initDataEngines()
     connect(m_dataEngines[QString("systemmonitor")], &Plasma::DataEngine::sourceAdded,
             [this](const QString source) {
                 static_cast<AWKeys *>(parent())->addDevice(source);
-                m_dataEngines[QString("systemmonitor")]->connectSource(source, this, m_interval);
+                m_dataEngines[QString("systemmonitor")]->connectSource(source, parent(), m_interval);
             });
-
-    connect(this, SIGNAL(updateData(QString, QVariant, QString)),
-            parent(), SLOT(dataUpdated(QString, QVariant, QString)));
 }

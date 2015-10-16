@@ -34,16 +34,9 @@ public:
     // properties
     void setInterval(const int _interval);
 
-signals:
-    void updateData(const QString sourceName, const QVariant value, const QString units);
-
 public slots:
     void dropSource(const QString source);
     void reconnectSources();
-    // data engines operations
-    void dataUpdated(const QString sourceName, const Plasma::DataEngine::Data data);
-    // dummy method required by DataEngine connections
-    void modelChanged(QString, QAbstractItemModel *) {};
 
 private:
     void initDataEngines();
