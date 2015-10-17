@@ -44,13 +44,16 @@ QVariant NetworkSource::data(QString source)
 
     if (source == QString("network/current/name")) {
         QString device = QString("lo");
-        QList<QNetworkInterface> rawInterfaceList = QNetworkInterface::allInterfaces();
+        QList<QNetworkInterface> rawInterfaceList
+            = QNetworkInterface::allInterfaces();
         qCInfo(LOG_ESM) << "Devices" << rawInterfaceList;
-        foreach(QNetworkInterface interface, rawInterfaceList) {
-            if ((interface.flags().testFlag(QNetworkInterface::IsLoopBack)) ||
-                (interface.flags().testFlag(QNetworkInterface::IsPointToPoint)))
+        foreach (QNetworkInterface interface, rawInterfaceList) {
+            if ((interface.flags().testFlag(QNetworkInterface::IsLoopBack))
+                || (interface.flags().testFlag(
+                       QNetworkInterface::IsPointToPoint)))
                 continue;
-            if (interface.addressEntries().isEmpty()) continue;
+            if (interface.addressEntries().isEmpty())
+                continue;
             device = interface.name();
             break;
         }

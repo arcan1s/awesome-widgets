@@ -44,7 +44,8 @@ private:
     QStringList getAllHdd() const;
     QString getAutoGpu() const;
     void readConfiguration();
-    QHash<QString, QString> updateConfiguration(QHash<QString, QString> rawConfig) const;
+    QHash<QString, QString>
+    updateConfiguration(QHash<QString, QString> rawConfig) const;
 };
 
 

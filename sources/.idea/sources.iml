@@ -66,6 +66,8 @@
       <sourceFolder url="file://$MODULE_DIR$/awesomewidgets/graphicalitem.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/awesomewidgets/graphicalitem.ui" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/checkgit.cmake" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/clang-format.cmake" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cppcheck.cmake" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/desktop-panel/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/desktop-panel/metadata.desktop" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/desktop-panel/plugin/CMakeLists.txt" isTestSource="false" />

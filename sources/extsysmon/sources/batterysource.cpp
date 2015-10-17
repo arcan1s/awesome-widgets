@@ -45,7 +45,8 @@ QVariant BatterySource::data(QString source)
     qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
-    if (source == QString("battery/ac")) run();
+    if (source == QString("battery/ac"))
+        run();
     return values[source];
 }
 
@@ -87,27 +88,34 @@ void BatterySource::run()
     // adaptor
     QFile acFile(QString("%1/AC/online").arg(m_acpiPath));
     if (acFile.open(QIODevice::ReadOnly))
-        values[QString("battery/ac")] = (QString(acFile.readLine()).trimmed().toInt() == 1);
+        values[QString("battery/ac")]
+            = (QString(acFile.readLine()).trimmed().toInt() == 1);
     acFile.close();
 
     // batterites
     float currentLevel = 0.0;
     float fullLevel = 0.0;
-    for (int i=0; i<m_batteriesCount; i++) {
-        QFile currentLevelFile(QString("%1/BAT%2/energy_now").arg(m_acpiPath).arg(i));
-        QFile fullLevelFile(QString("%1/BAT%2/energy_full").arg(m_acpiPath).arg(i));
-        if ((currentLevelFile.open(QIODevice::ReadOnly)) &&
-            (fullLevelFile.open(QIODevice::ReadOnly))) {
-            float batCurrent = QString(currentLevelFile.readLine()).trimmed().toFloat();
-            float batFull = QString(fullLevelFile.readLine()).trimmed().toFloat();
-            values[QString("battery/bat%1").arg(i)] = static_cast<int>(100 * batCurrent / batFull);
+    for (int i = 0; i < m_batteriesCount; i++) {
+        QFile currentLevelFile(
+            QString("%1/BAT%2/energy_now").arg(m_acpiPath).arg(i));
+        QFile fullLevelFile(
+            QString("%1/BAT%2/energy_full").arg(m_acpiPath).arg(i));
+        if ((currentLevelFile.open(QIODevice::ReadOnly))
+            && (fullLevelFile.open(QIODevice::ReadOnly))) {
+            float batCurrent
+                = QString(currentLevelFile.readLine()).trimmed().toFloat();
+            float batFull
+                = QString(fullLevelFile.readLine()).trimmed().toFloat();
+            values[QString("battery/bat%1").arg(i)]
+                = static_cast<int>(100 * batCurrent / batFull);
             currentLevel += batCurrent;
             fullLevel += batFull;
         }
         currentLevelFile.close();
         fullLevelFile.close();
     }
-    values[QString("battery/bat")] = static_cast<int>(100 * currentLevel / fullLevel);
+    values[QString("battery/bat")]
+        = static_cast<int>(100 * currentLevel / fullLevel);
 }
 
 
@@ -126,13 +134,15 @@ QStringList BatterySource::getSources()
     QStringList sources;
     sources.append(QString("battery/ac"));
     sources.append(QString("battery/bat"));
-    m_batteriesCount = QDir(m_acpiPath).entryList(QStringList() << QString("BAT*"),
-                                                  QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name).count();
+    m_batteriesCount
+        = QDir(m_acpiPath)
+              .entryList(QStringList() << QString("BAT*"),
+                         QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name)
+              .count();
     qCInfo(LOG_ESM) << "Init batteries count as" << m_batteriesCount;
-    for (int i=0; i<m_batteriesCount; i++)
+    for (int i = 0; i < m_batteriesCount; i++)
         sources.append(QString("battery/bat%1").arg(i));
 
     qCInfo(LOG_ESM) << "Sources list" << sources;
-
     return sources;
 }

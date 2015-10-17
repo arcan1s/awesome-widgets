@@ -23,7 +23,8 @@
 #include "awkeys.h"
 
 
-AWDataEngineAggregator::AWDataEngineAggregator(QObject *parent, const int interval)
+AWDataEngineAggregator::AWDataEngineAggregator(QObject *parent,
+                                               const int interval)
     : QObject(parent)
 {
     qCDebug(LOG_AW);
@@ -37,7 +38,19 @@ AWDataEngineAggregator::~AWDataEngineAggregator()
 {
     qCDebug(LOG_AW);
 
+    // disconnect sources first
+    disconnectSources();
     m_dataEngines.clear();
+}
+
+
+void AWDataEngineAggregator::disconnectSources()
+{
+    qCDebug(LOG_AW);
+
+    foreach (QString dataengine, m_dataEngines.keys())
+        foreach (QString source, m_dataEngines[dataengine]->sources())
+            m_dataEngines[dataengine]->disconnectSource(source, parent());
 }
 
 
@@ -55,7 +68,8 @@ void AWDataEngineAggregator::dropSource(const QString source)
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Source" << source;
 
-    // FIXME there is no possiblibity to check to which dataengine source connected
+    // FIXME there is no possibility to check to which dataengine source
+    // connected
     // we will try to disconnect it from systemmonitor and extsysmon
     m_dataEngines[QString("systemmonitor")]->disconnectSource(source, parent());
     m_dataEngines[QString("extsysmon")]->disconnectSource(source, parent());
@@ -66,9 +80,12 @@ void AWDataEngineAggregator::reconnectSources()
 {
     qCDebug(LOG_AW);
 
-    m_dataEngines[QString("systemmonitor")]->connectAllSources(parent(), m_interval);
-    m_dataEngines[QString("extsysmon")]->connectAllSources(parent(), m_interval);
-    m_dataEngines[QString("time")]->connectSource(QString("Local"), parent(), 1000);
+    m_dataEngines[QString("systemmonitor")]->connectAllSources(parent(),
+                                                               m_interval);
+    m_dataEngines[QString("extsysmon")]->connectAllSources(parent(),
+                                                           m_interval);
+    m_dataEngines[QString("time")]->connectSource(QString("Local"), parent(),
+                                                  1000);
 }
 
 
@@ -77,14 +94,17 @@ void AWDataEngineAggregator::initDataEngines()
     qCDebug(LOG_AW);
 
     Plasma::DataEngineConsumer *deConsumer = new Plasma::DataEngineConsumer();
-    m_dataEngines[QString("systemmonitor")] = deConsumer->dataEngine(QString("systemmonitor"));
-    m_dataEngines[QString("extsysmon")] = deConsumer->dataEngine(QString("extsysmon"));
+    m_dataEngines[QString("systemmonitor")]
+        = deConsumer->dataEngine(QString("systemmonitor"));
+    m_dataEngines[QString("extsysmon")]
+        = deConsumer->dataEngine(QString("extsysmon"));
     m_dataEngines[QString("time")] = deConsumer->dataEngine(QString("time"));
 
     // additional method required by systemmonitor structure
-    connect(m_dataEngines[QString("systemmonitor")], &Plasma::DataEngine::sourceAdded,
-            [this](const QString source) {
+    connect(m_dataEngines[QString("systemmonitor")],
+            &Plasma::DataEngine::sourceAdded, [this](const QString source) {
                 static_cast<AWKeys *>(parent())->addDevice(source);
-                m_dataEngines[QString("systemmonitor")]->connectSource(source, parent(), m_interval);
+                m_dataEngines[QString("systemmonitor")]->connectSource(
+                    source, parent(), m_interval);
             });
 }

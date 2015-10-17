@@ -1,10 +1,10 @@
 # generators
-if(BUILD_DEB_PACKAGE)
+if (BUILD_DEB_PACKAGE)
     set(CPACK_GENERATOR ${CPACK_GENERATOR} "DEB")
-endif()
-if(BUILD_RPM_PACKAGE)
+endif ()
+if (BUILD_RPM_PACKAGE)
     set(CPACK_GENERATOR ${CPACK_GENERATOR} "RPM")
-endif()
+endif ()
 
 # build properties
 set(CPACK_PACKAGING_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
@@ -32,6 +32,6 @@ set(CPACK_RPM_PACKAGE_REQUIRES "plasma-framework")
 set(CPACK_RPM_PACKAGE_SUGGESTS "mpd, smartmontools")
 set(CPACK_RPM_PACKAGE_URL "https://arcanis.name/projects/awesome-widgets")
 
-if(BUILD_DEB_PACKAGE OR BUILD_RPM_PACKAGE)
+if (BUILD_DEB_PACKAGE OR BUILD_RPM_PACKAGE)
     include(CPack)
-endif()
+endif ()

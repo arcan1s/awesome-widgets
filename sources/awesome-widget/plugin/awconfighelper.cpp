@@ -48,8 +48,9 @@ bool AWConfigHelper::dropCache() const
 {
     qCDebug(LOG_AW);
 
-    QString fileName = QString("%1/awesomewidgets.ndx").
-        arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
+    QString fileName = QString("%1/awesomewidgets.ndx")
+                           .arg(QStandardPaths::writableLocation(
+                               QStandardPaths::GenericCacheLocation));
 
     return QFile(fileName).remove();
 }
@@ -67,9 +68,10 @@ void AWConfigHelper::exportConfiguration(QObject *nativeConfig) const
     QSettings settings(fileName, QSettings::IniFormat);
 
     // plasmoid configuration
-    QQmlPropertyMap *configuration = static_cast<QQmlPropertyMap *>(nativeConfig);
+    QQmlPropertyMap *configuration
+        = static_cast<QQmlPropertyMap *>(nativeConfig);
     settings.beginGroup(QString("plasmoid"));
-    foreach(QString key, configuration->keys()) {
+    foreach (QString key, configuration->keys()) {
         QVariant value = configuration->value(key);
         if (!value.isValid())
             continue;
@@ -77,12 +79,14 @@ void AWConfigHelper::exportConfiguration(QObject *nativeConfig) const
     }
     settings.endGroup();
 
-    // extenstions
-    foreach(QString item, m_dirs) {
-        QStringList items = QDir(QString("%1/%2").arg(m_baseDir).arg(item)).entryList(
-            QStringList() << QString("*.desktop"), QDir::Files);
+    // extensions
+    foreach (QString item, m_dirs) {
+        QStringList items
+            = QDir(QString("%1/%2").arg(m_baseDir).arg(item))
+                  .entryList(QStringList() << QString("*.desktop"),
+                             QDir::Files);
         settings.beginGroup(item);
-        foreach(QString it, items)
+        foreach (QString it, items)
             copyExtensions(it, item, settings, false);
         settings.endGroup();
     }
@@ -91,10 +95,12 @@ void AWConfigHelper::exportConfiguration(QObject *nativeConfig) const
     settings.beginGroup(QString("json"));
     // script filters
     readFile(settings, QString("filters"),
-             QString("%1/scripts/awesomewidgets-extscripts-filters.json").arg(m_baseDir));
+             QString("%1/scripts/awesomewidgets-extscripts-filters.json")
+                 .arg(m_baseDir));
     // weather icon settings
     readFile(settings, QString("weathers"),
-             QString("%1/weather/awesomewidgets-extweather-ids.json").arg(m_baseDir));
+             QString("%1/weather/awesomewidgets-extweather-ids.json")
+                 .arg(m_baseDir));
     settings.endGroup();
 
     // sync settings
@@ -115,11 +121,11 @@ QVariantMap AWConfigHelper::importConfiguration() const
     QSettings settings(fileName, QSettings::IniFormat);
     QHash<QString, bool> selection = selectImport();
 
-    // extenstions
-    if (selection[QString("extenstions")]) {
-        foreach(QString item, m_dirs) {
+    // extensions
+    if (selection[QString("extensions")]) {
+        foreach (QString item, m_dirs) {
             settings.beginGroup(item);
-            foreach(QString it, settings.childGroups())
+            foreach (QString it, settings.childGroups())
                 copyExtensions(it, item, settings, true);
             settings.endGroup();
         }
@@ -130,17 +136,19 @@ QVariantMap AWConfigHelper::importConfiguration() const
         settings.beginGroup(QString("json"));
         // script filters
         writeFile(settings, QString("filters"),
-                  QString("%1/scripts/awesomewidgets-extscripts-filters.json").arg(m_baseDir));
+                  QString("%1/scripts/awesomewidgets-extscripts-filters.json")
+                      .arg(m_baseDir));
         // weather icon settings
         writeFile(settings, QString("weathers"),
-                  QString("%1/weather/awesomewidgets-extweather-ids.json").arg(m_baseDir));
+                  QString("%1/weather/awesomewidgets-extweather-ids.json")
+                      .arg(m_baseDir));
         settings.endGroup();
     }
 
     // plasmoid configuration
     if (selection[QString("plasmoid")]) {
         settings.beginGroup(QString("plasmoid"));
-        foreach(QString key, settings.childKeys())
+        foreach (QString key, settings.childKeys())
             configuration[key] = settings.value(key);
         settings.endGroup();
     }
@@ -153,22 +161,32 @@ QVariantMap AWConfigHelper::readDataEngineConfiguration() const
 {
     qCDebug(LOG_AW);
 
-    QString fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation,
-                                              QString("plasma-dataengine-extsysmon.conf"));
+    QString fileName
+        = QStandardPaths::locate(QStandardPaths::ConfigLocation,
+                                 QString("plasma-dataengine-extsysmon.conf"));
     qCInfo(LOG_AW) << "Configuration file" << fileName;
     QSettings settings(fileName, QSettings::IniFormat);
     QVariantMap configuration;
 
     settings.beginGroup(QString("Configuration"));
-    configuration[QString("ACPIPATH")] = settings.value(QString("ACPIPATH"), QString("/sys/class/power_supply/"));
-    configuration[QString("GPUDEV")] = settings.value(QString("GPUDEV"), QString("auto"));
-    configuration[QString("HDDDEV")] = settings.value(QString("HDDDEV"), QString("all"));
-    configuration[QString("HDDTEMPCMD")] = settings.value(QString("HDDTEMPCMD"), QString("sudo smartctl -a"));
-    configuration[QString("MPDADDRESS")] = settings.value(QString("MPDADDRESS"), QString("localhost"));
-    configuration[QString("MPDPORT")] = settings.value(QString("MPDPORT"), QString("6600"));
-    configuration[QString("MPRIS")] = settings.value(QString("MPRIS"), QString("auto"));
-    configuration[QString("PLAYER")] = settings.value(QString("PLAYER"), QString("mpris"));
-    configuration[QString("PLAYERSYMBOLS")] = settings.value(QString("PLAYERSYMBOLS"), QString("10"));
+    configuration[QString("ACPIPATH")] = settings.value(
+        QString("ACPIPATH"), QString("/sys/class/power_supply/"));
+    configuration[QString("GPUDEV")]
+        = settings.value(QString("GPUDEV"), QString("auto"));
+    configuration[QString("HDDDEV")]
+        = settings.value(QString("HDDDEV"), QString("all"));
+    configuration[QString("HDDTEMPCMD")]
+        = settings.value(QString("HDDTEMPCMD"), QString("sudo smartctl -a"));
+    configuration[QString("MPDADDRESS")]
+        = settings.value(QString("MPDADDRESS"), QString("localhost"));
+    configuration[QString("MPDPORT")]
+        = settings.value(QString("MPDPORT"), QString("6600"));
+    configuration[QString("MPRIS")]
+        = settings.value(QString("MPRIS"), QString("auto"));
+    configuration[QString("PLAYER")]
+        = settings.value(QString("PLAYER"), QString("mpris"));
+    configuration[QString("PLAYERSYMBOLS")]
+        = settings.value(QString("PLAYERSYMBOLS"), QString("10"));
     settings.endGroup();
 
     qCInfo(LOG_AW) << "Configuration" << configuration;
@@ -177,12 +195,14 @@ QVariantMap AWConfigHelper::readDataEngineConfiguration() const
 }
 
 
-void AWConfigHelper::writeDataEngineConfiguration(const QVariantMap configuration) const
+void AWConfigHelper::writeDataEngineConfiguration(
+    const QVariantMap configuration) const
 {
     qCDebug(LOG_AW);
 
-    QString fileName = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation)
-        + QString("/plasma-dataengine-extsysmon.conf");
+    QString fileName
+        = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation)
+          + QString("/plasma-dataengine-extsysmon.conf");
     QSettings settings(fileName, QSettings::IniFormat);
     qCInfo(LOG_AW) << "Configuration file" << settings.fileName();
 
@@ -190,12 +210,15 @@ void AWConfigHelper::writeDataEngineConfiguration(const QVariantMap configuratio
     settings.setValue(QString("ACPIPATH"), configuration[QString("ACPIPATH")]);
     settings.setValue(QString("GPUDEV"), configuration[QString("GPUDEV")]);
     settings.setValue(QString("HDDDEV"), configuration[QString("HDDDEV")]);
-    settings.setValue(QString("HDDTEMPCMD"), configuration[QString("HDDTEMPCMD")]);
-    settings.setValue(QString("MPDADDRESS"), configuration[QString("MPDADDRESS")]);
+    settings.setValue(QString("HDDTEMPCMD"),
+                      configuration[QString("HDDTEMPCMD")]);
+    settings.setValue(QString("MPDADDRESS"),
+                      configuration[QString("MPDADDRESS")]);
     settings.setValue(QString("MPDPORT"), configuration[QString("MPDPORT")]);
     settings.setValue(QString("MPRIS"), configuration[QString("MPRIS")]);
     settings.setValue(QString("PLAYER"), configuration[QString("PLAYER")]);
-    settings.setValue(QString("PLAYERSYMBOLS"), configuration[QString("PLAYERSYMBOLS")]);
+    settings.setValue(QString("PLAYERSYMBOLS"),
+                      configuration[QString("PLAYERSYMBOLS")]);
     settings.endGroup();
 
     settings.sync();
@@ -203,7 +226,8 @@ void AWConfigHelper::writeDataEngineConfiguration(const QVariantMap configuratio
 
 
 void AWConfigHelper::copyExtensions(const QString item, const QString type,
-                                    QSettings &settings, const bool inverse) const
+                                    QSettings &settings,
+                                    const bool inverse) const
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Extension" << item;
@@ -211,7 +235,9 @@ void AWConfigHelper::copyExtensions(const QString item, const QString type,
     qCDebug(LOG_AW) << "Inverse" << inverse;
 
     settings.beginGroup(item);
-    QSettings itemSettings(QString("%1/%2/%3").arg(m_baseDir).arg(type).arg(item), QSettings::IniFormat);
+    QSettings itemSettings(
+        QString("%1/%2/%3").arg(m_baseDir).arg(type).arg(item),
+        QSettings::IniFormat);
     itemSettings.beginGroup(QString("Desktop Entry"));
     if (inverse)
         copySettings(settings, itemSettings);
@@ -229,12 +255,13 @@ void AWConfigHelper::copySettings(QSettings &from, QSettings &to) const
 {
     qCDebug(LOG_AW);
 
-    foreach(QString key, from.childKeys())
+    foreach (QString key, from.childKeys())
         to.setValue(key, from.value(key));
 }
 
 
-void AWConfigHelper::readFile(QSettings &settings, const QString key, const QString fileName) const
+void AWConfigHelper::readFile(QSettings &settings, const QString key,
+                              const QString fileName) const
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Key" << key;
@@ -256,14 +283,18 @@ QHash<QString, bool> AWConfigHelper::selectImport() const
     qCDebug(LOG_AW);
 
     QDialog *dialog = new QDialog(nullptr);
-    QCheckBox *importPlasmoidSettings = new QCheckBox(i18n("Import plasmoid settings"), dialog);
+    QCheckBox *importPlasmoidSettings
+        = new QCheckBox(i18n("Import plasmoid settings"), dialog);
     importPlasmoidSettings->setChecked(true);
-    QCheckBox *importExtensionsSettings = new QCheckBox(i18n("Import extenstions"), dialog);
+    QCheckBox *importExtensionsSettings
+        = new QCheckBox(i18n("Import extensions"), dialog);
     importExtensionsSettings->setChecked(true);
-    QCheckBox *importAddsSettings = new QCheckBox(i18n("Import additional files"), dialog);
+    QCheckBox *importAddsSettings
+        = new QCheckBox(i18n("Import additional files"), dialog);
     importAddsSettings->setChecked(true);
-    QDialogButtonBox *dialogButtons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
-                                                           Qt::Horizontal, dialog);
+    QDialogButtonBox *dialogButtons
+        = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
+                               Qt::Horizontal, dialog);
     QVBoxLayout *layout = new QVBoxLayout(dialog);
     layout->addWidget(importPlasmoidSettings);
     layout->addWidget(importExtensionsSettings);
@@ -275,12 +306,12 @@ QHash<QString, bool> AWConfigHelper::selectImport() const
     // get parameters
     QHash<QString, bool> import;
     import[QString("plasmoid")] = false;
-    import[QString("extenstions")] = false;
+    import[QString("extensions")] = false;
     import[QString("adds")] = false;
-    switch(int ret = dialog->exec()) {
+    switch (int ret = dialog->exec()) {
     case QDialog::Accepted:
         import[QString("plasmoid")] = importPlasmoidSettings->isChecked();
-        import[QString("extenstions")] = importExtensionsSettings->isChecked();
+        import[QString("extensions")] = importExtensionsSettings->isChecked();
         import[QString("adds")] = importAddsSettings->isChecked();
         break;
     case QDialog::Rejected:
@@ -293,7 +324,8 @@ QHash<QString, bool> AWConfigHelper::selectImport() const
 }
 
 
-void AWConfigHelper::writeFile(QSettings &settings, const QString key, const QString fileName) const
+void AWConfigHelper::writeFile(QSettings &settings, const QString key,
+                               const QString fileName) const
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Key" << key;

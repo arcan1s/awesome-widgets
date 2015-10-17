@@ -23,8 +23,9 @@
 #include "abstractextitem.h"
 
 
-namespace Ui {
-    class ExtScript;
+namespace Ui
+{
+class ExtScript;
 }
 
 class ExtScript : public AbstractExtItem
@@ -36,14 +37,10 @@ class ExtScript : public AbstractExtItem
     Q_PROPERTY(Redirect redirect READ redirect WRITE setRedirect)
 
 public:
-    enum Redirect {
-        stdout2stderr = 0,
-        nothing,
-        stderr2stdout,
-        swap
-    };
+    enum Redirect { stdout2stderr = 0, nothing, stderr2stdout, swap };
 
-    explicit ExtScript(QWidget *parent = nullptr, const QString scriptName = QString(),
+    explicit ExtScript(QWidget *parent = nullptr,
+                       const QString scriptName = QString(),
                        const QStringList directories = QStringList());
     virtual ~ExtScript();
     ExtScript *copy(const QString _fileName, const int _number);

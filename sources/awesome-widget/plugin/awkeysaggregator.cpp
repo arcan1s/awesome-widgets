@@ -39,7 +39,8 @@ AWKeysAggregator::~AWKeysAggregator()
 }
 
 
-QString AWKeysAggregator::formater(const QVariant data, const QString key) const
+QString AWKeysAggregator::formater(const QVariant &data,
+                                   const QString &key) const
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Data" << data;
@@ -68,7 +69,8 @@ QString AWKeysAggregator::formater(const QVariant data, const QString key) const
         output = data.toBool() ? m_acOnline : m_acOffline;
         break;
     case MemGBFormat:
-        output = QString("%1").arg(data.toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
+        output
+            = QString("%1").arg(data.toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
         break;
     case MemMBFormat:
         output = QString("%1").arg(data.toFloat() / 1024.0, 5, 'f', 0);
@@ -101,7 +103,7 @@ QString AWKeysAggregator::formater(const QVariant data, const QString key) const
     case TimeCustom:
         output = m_customTime;
         [&output, loc, this](const QDateTime dt) {
-            foreach(QString key, timeKeys)
+            foreach (QString key, timeKeys)
                 output.replace(QString("$%1").arg(key), loc.toString(dt, key));
         }(data.toDateTime());
         break;
@@ -116,19 +118,25 @@ QString AWKeysAggregator::formater(const QVariant data, const QString key) const
         break;
     case Uptime:
     case UptimeCustom:
-        output = [](QString source, const int uptime) {
-            int seconds = uptime - uptime % 60;
-            int minutes = seconds / 60 % 60;
-            int hours = ((seconds / 60) - minutes) / 60 % 24;
-            int days = (((seconds / 60) - minutes) / 60 - hours) / 24;
-            source.replace(QString("$dd"), QString("%1").arg(days, 3, 10, QChar('0')));
-            source.replace(QString("$d"), QString("%1").arg(days));
-            source.replace(QString("$hh"), QString("%1").arg(hours, 2, 10, QChar('0')));
-            source.replace(QString("$h"), QString("%1").arg(hours));
-            source.replace(QString("$mm"), QString("%1").arg(minutes, 2, 10, QChar('0')));
-            source.replace(QString("$m"), QString("%1").arg(minutes));
-            return source;
-        }(m_formater[key] == Uptime ? QString("$ddd$hhh$mmm") : m_customUptime, data.toFloat());
+        output =
+            [](QString source, const int uptime) {
+                int seconds = uptime - uptime % 60;
+                int minutes = seconds / 60 % 60;
+                int hours = ((seconds / 60) - minutes) / 60 % 24;
+                int days = (((seconds / 60) - minutes) / 60 - hours) / 24;
+                source.replace(QString("$dd"),
+                               QString("%1").arg(days, 3, 10, QChar('0')));
+                source.replace(QString("$d"), QString("%1").arg(days));
+                source.replace(QString("$hh"),
+                               QString("%1").arg(hours, 2, 10, QChar('0')));
+                source.replace(QString("$h"), QString("%1").arg(hours));
+                source.replace(QString("$mm"),
+                               QString("%1").arg(minutes, 2, 10, QChar('0')));
+                source.replace(QString("$m"), QString("%1").arg(minutes));
+                return source;
+            }(m_formater[key] == Uptime ? QString("$ddd$hhh$mmm")
+                                        : m_customUptime,
+              data.toFloat());
         break;
     case NoFormat:
     default:
@@ -140,7 +148,7 @@ QString AWKeysAggregator::formater(const QVariant data, const QString key) const
 }
 
 
-QStringList AWKeysAggregator::keysFromSource(const QString source) const
+QStringList AWKeysAggregator::keysFromSource(const QString &source) const
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Search for source" << source;
@@ -212,8 +220,10 @@ void AWKeysAggregator::setTranslate(const bool translate)
 }
 
 
-// HACK units required to define should the value be calculated as temperature or fan data
-QStringList AWKeysAggregator::registerSource(const QString source, const QString units)
+// HACK units required to define should the value be calculated as temperature
+// or fan data
+QStringList AWKeysAggregator::registerSource(const QString &source,
+                                             const QString &units)
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Source" << source;
@@ -227,7 +237,8 @@ QStringList AWKeysAggregator::registerSource(const QString source, const QString
     QRegExp mountFillRegExp = QRegExp(QString("partitions/.*/filllevel"));
     QRegExp mountFreeRegExp = QRegExp(QString("partitions/.*/freespace"));
     QRegExp mountUsedRegExp = QRegExp(QString("partitions/.*/usedspace"));
-    QRegExp netRegExp = QRegExp(QString("network/interfaces/.*/(receiver|transmitter)/data$"));
+    QRegExp netRegExp = QRegExp(
+        QString("network/interfaces/.*/(receiver|transmitter)/data$"));
 
     if (source == QString("battery/ac")) {
         // AC
@@ -393,8 +404,10 @@ QStringList AWKeysAggregator::registerSource(const QString source, const QString
         m_formater[QString("netdev")] = NoFormat;
     } else if (source.contains(netRegExp)) {
         // network speed
-        QString type = source.contains(QString("receiver")) ? QString("down") : QString("up");
-        int index = m_devices[QString("net")].indexOf(source.split(QChar('/'))[2]);
+        QString type = source.contains(QString("receiver")) ? QString("down")
+                                                            : QString("up");
+        int index
+            = m_devices[QString("net")].indexOf(source.split(QChar('/'))[2]);
         if (index > -1) {
             // kb
             QString key = QString("%1kb%2").arg(type).arg(index);
@@ -459,7 +472,8 @@ QStringList AWKeysAggregator::registerSource(const QString source, const QString
         // temperature
         int index = m_devices[QString("temp")].indexOf(source);
         // FIXME on DE initialization there are no units key
-        if (units.isEmpty()) return QStringList() << QString("temp%1").arg(index);
+        if (units.isEmpty())
+            return QStringList() << QString("temp%1").arg(index);
         if (index > -1) {
             QString key = QString("temp%1").arg(index);
             m_map[source] = key;

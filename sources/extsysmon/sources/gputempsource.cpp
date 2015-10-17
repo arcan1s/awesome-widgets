@@ -25,7 +25,8 @@
 #include "awdebug.h"
 
 
-GPUTemperatureSource::GPUTemperatureSource(QObject *parent, const QStringList args)
+GPUTemperatureSource::GPUTemperatureSource(QObject *parent,
+                                           const QStringList args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 1);
@@ -51,27 +52,37 @@ QVariant GPUTemperatureSource::data(QString source)
         if ((m_device != QString("nvidia")) && (m_device != QString("ati")))
             return value;
         // build cmd
-        QString cmd = m_device == QString("nvidia") ? QString("nvidia-smi -q -x") : QString("aticonfig --od-gettemperature");
+        QString cmd = m_device == QString("nvidia")
+                          ? QString("nvidia-smi -q -x")
+                          : QString("aticonfig --od-gettemperature");
         qCInfo(LOG_ESM) << "cmd" << cmd;
         TaskResult process = runTask(cmd);
         qCInfo(LOG_ESM) << "Cmd returns" << process.exitCode;
         qCInfo(LOG_ESM) << "Error" << process.error;
         // parse
-        QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
-        if (m_device == QString("nvidia"))
-            foreach(QString str, qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
-                if (!str.contains(QString("<gpu_temp>"))) continue;
-                QString temp = str.remove(QString("<gpu_temp>")).remove(QString("C</gpu_temp>"));
+        QString qoutput
+            = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
+        if (m_device == QString("nvidia")) {
+            foreach (QString str,
+                     qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
+                if (!str.contains(QString("<gpu_temp>")))
+                    continue;
+                QString temp = str.remove(QString("<gpu_temp>"))
+                                   .remove(QString("C</gpu_temp>"));
                 value = temp.toFloat();
                 break;
             }
-        else if (m_device == QString("ati"))
-            foreach(QString str, qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
-                if (!str.contains(QString("Temperature"))) continue;
-                QString temp = str.split(QChar(' '), QString::SkipEmptyParts).at(4);
+        } else if (m_device == QString("ati")) {
+            foreach (QString str,
+                     qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
+                if (!str.contains(QString("Temperature")))
+                    continue;
+                QString temp
+                    = str.split(QChar(' '), QString::SkipEmptyParts).at(4);
                 value = temp.toFloat();
                 break;
             }
+        }
         // return
         return value;
     }

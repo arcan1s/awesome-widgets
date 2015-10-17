@@ -30,7 +30,7 @@ public:
     virtual ~UpdateSource();
     QVariant data(QString source);
     QVariantMap initialData(QString source) const;
-    void run() {};
+    void run(){};
     QStringList sources() const;
 };
 

@@ -36,7 +36,8 @@ class AbstractExtItem : public QDialog
     Q_PROPERTY(QString uniq READ uniq)
 
 public:
-    explicit AbstractExtItem(QWidget *parent = nullptr, const QString desktopName = QString(),
+    explicit AbstractExtItem(QWidget *parent = nullptr,
+                             const QString desktopName = QString(),
                              const QStringList directories = QStringList());
     virtual ~AbstractExtItem();
     template <class T> T *copy(const QString, const int);

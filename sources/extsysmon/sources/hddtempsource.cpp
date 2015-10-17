@@ -25,7 +25,8 @@
 #include "awdebug.h"
 
 
-HDDTemperatureSource::HDDTemperatureSource(QObject *parent, const QStringList args)
+HDDTemperatureSource::HDDTemperatureSource(QObject *parent,
+                                           const QStringList args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 2);
@@ -58,17 +59,24 @@ QVariant HDDTemperatureSource::data(QString source)
     qCInfo(LOG_ESM) << "Error" << process.error;
 
     // parse
-    QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
+    QString qoutput
+        = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     if (m_smartctl) {
-        foreach(QString str, qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
-            if (!str.startsWith(QString("194"))) continue;
-            if (str.split(QChar(' '), QString::SkipEmptyParts).count() < 9) break;
-            value = str.split(QChar(' '), QString::SkipEmptyParts).at(9).toFloat();
+        foreach (QString str,
+                 qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
+            if (!str.startsWith(QString("194")))
+                continue;
+            if (str.split(QChar(' '), QString::SkipEmptyParts).count() < 9)
+                break;
+            value = str.split(QChar(' '), QString::SkipEmptyParts)
+                        .at(9)
+                        .toFloat();
             break;
         }
     } else {
         if (qoutput.split(QChar(':'), QString::SkipEmptyParts).count() >= 3) {
-            QString temp = qoutput.split(QChar(':'), QString::SkipEmptyParts).at(2);
+            QString temp
+                = qoutput.split(QChar(':'), QString::SkipEmptyParts).at(2);
             temp.remove(QChar(0260)).remove(QChar('C'));
             value = temp.toFloat();
         }
@@ -100,7 +108,7 @@ QStringList HDDTemperatureSource::sources() const
     qCDebug(LOG_ESM);
 
     QStringList sources;
-    foreach(QString device, m_devices)
+    foreach (QString device, m_devices)
         sources.append(QString("hdd/temperature%1").arg(device));
 
     return sources;

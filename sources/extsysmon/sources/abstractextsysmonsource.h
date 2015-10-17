@@ -26,8 +26,9 @@
 class AbstractExtSysMonSource : public QObject
 {
 public:
-    explicit AbstractExtSysMonSource(QObject *parent, const QStringList) : QObject(parent) {};
-    virtual ~AbstractExtSysMonSource() {};
+    explicit AbstractExtSysMonSource(QObject *parent, const QStringList)
+        : QObject(parent){};
+    virtual ~AbstractExtSysMonSource(){};
     virtual QVariant data(QString source) = 0;
     virtual QVariantMap initialData(QString source) const = 0;
     virtual void run() = 0;

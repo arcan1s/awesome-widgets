@@ -36,8 +36,8 @@
 
 GraphicalItem::GraphicalItem(QWidget *parent, const QString desktopName,
                              const QStringList directories)
-    : AbstractExtItem(parent, desktopName, directories),
-      ui(new Ui::GraphicalItem)
+    : AbstractExtItem(parent, desktopName, directories)
+    , ui(new Ui::GraphicalItem)
 {
     qCDebug(LOG_LIB);
 
@@ -47,8 +47,10 @@ GraphicalItem::GraphicalItem(QWidget *parent, const QString desktopName,
 
     initScene();
 
-    connect(ui->pushButton_activeColor, SIGNAL(clicked()), this, SLOT(changeColor()));
-    connect(ui->pushButton_inactiveColor, SIGNAL(clicked()), this, SLOT(changeColor()));
+    connect(ui->pushButton_activeColor, SIGNAL(clicked()), this,
+            SLOT(changeColor()));
+    connect(ui->pushButton_inactiveColor, SIGNAL(clicked()), this,
+            SLOT(changeColor()));
 }
 
 
@@ -91,10 +93,11 @@ QString GraphicalItem::image(const QVariant value)
 {
     qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Value" << value;
-    if (m_bar == QString("none")) return QString("");
+    if (m_bar == QString("none"))
+        return QString("");
 
     m_scene->clear();
-    int scale[2] = { 1, 1 };
+    int scale[2] = {1, 1};
 
     // paint
     switch (m_type) {
@@ -121,12 +124,13 @@ QString GraphicalItem::image(const QVariant value)
     }
 
     // convert
-    QPixmap pixmap = m_view->grab().transformed(QTransform().scale(scale[0], scale[1]));
+    QPixmap pixmap
+        = m_view->grab().transformed(QTransform().scale(scale[0], scale[1]));
     QByteArray byteArray;
     QBuffer buffer(&byteArray);
     pixmap.save(&buffer, "PNG");
-    QString url = QString("<img src=\"data:image/png;base64,%1\"/>").
-        arg(QString(byteArray.toBase64()));
+    QString url = QString("<img src=\"data:image/png;base64,%1\"/>")
+                      .arg(QString(byteArray.toBase64()));
 
     return url;
 }
@@ -253,7 +257,8 @@ void GraphicalItem::setBar(const QString _bar)
     qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Bar" << _bar;
 
-    if (!_bar.contains(QRegExp(QString("^(cpu(?!cl).*|gpu$|mem$|swap$|hdd[0-9].*|bat.*)")))) {
+    if (!_bar.contains(QRegExp(
+            QString("^(cpu(?!cl).*|gpu$|mem$|swap$|hdd[0-9].*|bat.*)")))) {
         qCWarning(LOG_LIB) << "Unsupported bar type" << _bar;
         m_bar = QString("none");
     } else {
@@ -353,18 +358,27 @@ void GraphicalItem::readConfiguration()
     qCDebug(LOG_LIB);
     AbstractExtItem::readConfiguration();
 
-    for (int i=directories().count()-1; i>=0; i--) {
-        if (!QDir(directories().at(i)).entryList(QDir::Files).contains(fileName()))
+    for (int i = directories().count() - 1; i >= 0; i--) {
+        if (!QDir(directories().at(i))
+                 .entryList(QDir::Files)
+                 .contains(fileName()))
             continue;
-        QSettings settings(QString("%1/%2").arg(directories().at(i)).arg(fileName()),
-                           QSettings::IniFormat);
+        QSettings settings(
+            QString("%1/%2").arg(directories().at(i)).arg(fileName()),
+            QSettings::IniFormat);
 
         settings.beginGroup(QString("Desktop Entry"));
         setBar(settings.value(QString("X-AW-Value"), m_bar).toString());
-        setActiveColor(settings.value(QString("X-AW-ActiveColor"), m_activeColor).toString());
-        setInactiveColor(settings.value(QString("X-AW-InactiveColor"), m_inactiveColor).toString());
+        setActiveColor(
+            settings.value(QString("X-AW-ActiveColor"), m_activeColor)
+                .toString());
+        setInactiveColor(
+            settings.value(QString("X-AW-InactiveColor"), m_inactiveColor)
+                .toString());
         setStrType(settings.value(QString("X-AW-Type"), strType()).toString());
-        setStrDirection(settings.value(QString("X-AW-Direction"), strDirection()).toString());
+        setStrDirection(
+            settings.value(QString("X-AW-Direction"), strDirection())
+                .toString());
         setHeight(settings.value(QString("X-AW-Height"), m_height).toInt());
         setWidth(settings.value(QString("X-AW-Width"), m_width).toInt());
         // api == 2
@@ -375,7 +389,8 @@ void GraphicalItem::readConfiguration()
 
     // update for current API
     if ((apiVersion() > 0) && (apiVersion() < AWGIAPI)) {
-        qCWarning(LOG_LIB) << "Bump API version from" << apiVersion() << "to" << AWGIAPI;
+        qCWarning(LOG_LIB) << "Bump API version from" << apiVersion() << "to"
+                           << AWGIAPI;
         setApiVersion(AWGIAPI);
         writeConfiguration();
     }
@@ -433,8 +448,9 @@ void GraphicalItem::writeConfiguration() const
     qCDebug(LOG_LIB);
     AbstractExtItem::writeConfiguration();
 
-    QSettings settings(QString("%1/%2").arg(directories().first()).arg(fileName()),
-                       QSettings::IniFormat);
+    QSettings settings(
+        QString("%1/%2").arg(directories().first()).arg(fileName()),
+        QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
@@ -455,7 +471,8 @@ void GraphicalItem::changeColor()
 {
     qCDebug(LOG_LIB);
 
-    QColor color = stringToColor((static_cast<QPushButton *>(sender()))->text());
+    QColor color
+        = stringToColor((static_cast<QPushButton *>(sender()))->text());
     QColor newColor = QColorDialog::getColor(color, this, tr("Select color"),
                                              QColorDialog::ShowAlphaChannel);
     if (!newColor.isValid())
@@ -468,7 +485,8 @@ void GraphicalItem::changeColor()
     colorText.append(QString("%1").arg(newColor.blue()));
     colorText.append(QString("%1").arg(newColor.alpha()));
 
-    return static_cast<QPushButton *>(sender())->setText(colorText.join(QChar(',')));
+    return static_cast<QPushButton *>(sender())
+        ->setText(colorText.join(QChar(',')));
 }
 
 
@@ -509,13 +527,13 @@ void GraphicalItem::paintCircle(const float value)
     pen.setColor(inactive);
     circle = m_scene->addEllipse(0.0, 0.0, m_width, m_height, pen,
                                  QBrush(inactive, Qt::SolidPattern));
-    circle->setSpanAngle(- (1.0 - percent) * 360.0 * 16.0);
+    circle->setSpanAngle(-(1.0 - percent) * 360.0 * 16.0);
     circle->setStartAngle(90.0 * 16.0 - percent * 360.0 * 16.0);
     // active
     pen.setColor(active);
     circle = m_scene->addEllipse(0.0, 0.0, m_width, m_height, pen,
                                  QBrush(active, Qt::SolidPattern));
-    circle->setSpanAngle(- percent * 360.0 * 16.0);
+    circle->setSpanAngle(-percent * 360.0 * 16.0);
     circle->setStartAngle(90.0 * 16.0);
 }
 
@@ -528,15 +546,16 @@ void GraphicalItem::paintGraph(const QList<float> value)
     pen.setColor(stringToColor(m_activeColor));
 
     // default norms
-    float normX = static_cast<float>(m_width) / static_cast<float>(value.count());
+    float normX
+        = static_cast<float>(m_width) / static_cast<float>(value.count());
     float normY = static_cast<float>(m_height) / (1.5 * 100.0);
     // paint graph
-    for (int i=0; i<value.count()-1; i++) {
+    for (int i = 0; i < value.count() - 1; i++) {
         // some magic here
         float x1 = i * normX;
-        float y1 = - fabs(value.at(i)) * normY + 5.0;
+        float y1 = -fabs(value.at(i)) * normY + 5.0;
         float x2 = (i + 1) * normX;
-        float y2 = - fabs(value.at(i+1)) * normY + 5.0;
+        float y2 = -fabs(value.at(i + 1)) * normY + 5.0;
         m_scene->addLine(x1, y1, x2, y2, pen);
     }
 }

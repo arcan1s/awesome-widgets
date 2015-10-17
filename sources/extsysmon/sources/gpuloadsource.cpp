@@ -51,29 +51,39 @@ QVariant GPULoadSource::data(QString source)
         if ((m_device != QString("nvidia")) && (m_device != QString("ati")))
             return value;
         // build cmd
-        QString cmd = m_device == QString("nvidia") ? QString("nvidia-smi -q -x") : QString("aticonfig --od-getclocks");
+        QString cmd = m_device == QString("nvidia")
+                          ? QString("nvidia-smi -q -x")
+                          : QString("aticonfig --od-getclocks");
         qCInfo(LOG_ESM) << "cmd" << cmd;
         TaskResult process = runTask(cmd);
         qCInfo(LOG_ESM) << "Cmd returns" << process.exitCode;
         qCInfo(LOG_ESM) << "Error" << process.error;
         // parse
-        QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
-        if (m_device == QString("nvidia"))
-            foreach(QString str, qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
-                if (!str.contains(QString("<gpu_util>"))) continue;
-                QString load = str.remove(QString("<gpu_util>")).remove(QString("</gpu_util>"))
-                                  .remove(QChar('%'));
+        QString qoutput
+            = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
+        if (m_device == QString("nvidia")) {
+            foreach (QString str,
+                     qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
+                if (!str.contains(QString("<gpu_util>")))
+                    continue;
+                QString load = str.remove(QString("<gpu_util>"))
+                                   .remove(QString("</gpu_util>"))
+                                   .remove(QChar('%'));
                 value = load.toFloat();
                 break;
             }
-        else if (m_device == QString("ati"))
-            foreach(QString str, qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
-                if (!str.contains(QString("load"))) continue;
-                QString load = str.split(QChar(' '), QString::SkipEmptyParts)[3]
-                                  .remove(QChar('%'));
+        } else if (m_device == QString("ati")) {
+            foreach (QString str,
+                     qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
+                if (!str.contains(QString("load")))
+                    continue;
+                QString load
+                    = str.split(QChar(' '), QString::SkipEmptyParts)[3].remove(
+                        QChar('%'));
                 value = load.toFloat();
                 break;
             }
+        }
         // return
         return value;
     }

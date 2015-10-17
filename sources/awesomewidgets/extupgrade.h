@@ -23,8 +23,9 @@
 #include "abstractextitem.h"
 
 
-namespace Ui {
-    class ExtUpgrade;
+namespace Ui
+{
+class ExtUpgrade;
 }
 
 class ExtUpgrade : public AbstractExtItem
@@ -35,7 +36,8 @@ class ExtUpgrade : public AbstractExtItem
     Q_PROPERTY(int null READ null WRITE setNull)
 
 public:
-    explicit ExtUpgrade(QWidget *parent = nullptr, const QString upgradeName = QString(),
+    explicit ExtUpgrade(QWidget *parent = nullptr,
+                        const QString upgradeName = QString(),
                         const QStringList directories = QStringList());
     virtual ~ExtUpgrade();
     ExtUpgrade *copy(const QString _fileName, const int _number);

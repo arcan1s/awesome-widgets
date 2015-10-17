@@ -59,7 +59,9 @@ QVariantMap UpgradeSource::initialData(QString source) const
     QVariantMap data;
     data[QString("min")] = QString("");
     data[QString("max")] = QString("");
-    data[QString("name")] = QString("Package manager '%1' metadata").arg(extUpgrade->itemByTagNumber(index(source))->uniq());
+    data[QString("name")]
+        = QString("Package manager '%1' metadata")
+              .arg(extUpgrade->itemByTagNumber(index(source))->uniq());
     data[QString("type")] = QString("QString");
     data[QString("units")] = QString("");
 
@@ -80,8 +82,9 @@ QStringList UpgradeSource::getSources()
     qCDebug(LOG_ESM);
 
     QStringList sources;
-    foreach(ExtUpgrade *item, extUpgrade->activeItems())
-        sources.append(QString("upgrade/%1").arg(item->tag(QString("pkgcount"))));
+    foreach (ExtUpgrade *item, extUpgrade->activeItems())
+        sources.append(
+            QString("upgrade/%1").arg(item->tag(QString("pkgcount"))));
 
     return sources;
 }

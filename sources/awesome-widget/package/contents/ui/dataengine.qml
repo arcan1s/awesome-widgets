@@ -342,9 +342,9 @@ Item {
 
         // update hdd model
         hdd.model = awKeys.getHddDevices()
-        for (var i=0; i<model.length; i++) {
-            if (model[i] == cfg_dataengine["HDDDEV"]) {
-                if (debug) console.info("Found", model[i], "on", i)
+        for (var i=0; i<hdd.model.length; i++) {
+            if (hdd.model[i] == cfg_dataengine["HDDDEV"]) {
+                if (debug) console.info("Found", hdd.model[i], "on", i)
                 hdd.currentIndex = i;
             }
         }

@@ -30,7 +30,7 @@ public:
     virtual ~GPUTemperatureSource();
     QVariant data(QString source);
     QVariantMap initialData(QString source) const;
-    void run() {};
+    void run(){};
     QStringList sources() const;
 
 private:

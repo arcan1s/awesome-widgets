@@ -39,14 +39,17 @@ private:
     QVariantHash getPlayerMpdInfo(const QString mpdAddress) const;
     QVariantHash getPlayerMprisInfo(const QString mpris) const;
     // additional method to build dynamic tags
-    QString buildString(const QString current, const QString value, const int s) const;
+    QString buildString(const QString current, const QString value,
+                        const int s) const;
     QString stripString(const QString value, const int s) const;
     // configuration and values
     QString m_mpdAddress;
     QString m_mpris;
     QString m_player;
     int m_symbols;
-    QStringList m_metadata = QStringList() << QString("album") << QString("artist") << QString("title");
+    QStringList m_metadata = QStringList() << QString("album")
+                                           << QString("artist")
+                                           << QString("title");
     QVariantHash values;
 };
 

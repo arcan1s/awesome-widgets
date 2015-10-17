@@ -22,11 +22,16 @@
 
 #include "abstractextitem.h"
 
-#define YAHOO_URL "https://query.yahooapis.com/v1/public/yql?q=select * from yahoo.finance.quotes where symbol=\"$TICKER\"&env=store://datatables.org/alltableswithkeys&format=json"
+#define YAHOO_URL                                                              \
+    "https://query.yahooapis.com/v1/public/yql?q=select * from "               \
+    "yahoo.finance.quotes where "                                              \
+    "symbol=\"$TICKER\"&env=store://datatables.org/"                           \
+    "alltableswithkeys&format=json"
 
 
-namespace Ui {
-    class ExtQuotes;
+namespace Ui
+{
+class ExtQuotes;
 }
 
 class ExtQuotes : public AbstractExtItem
@@ -35,7 +40,8 @@ class ExtQuotes : public AbstractExtItem
     Q_PROPERTY(QString ticker READ ticker WRITE setTicker)
 
 public:
-    explicit ExtQuotes(QWidget *parent = nullptr, const QString quotesName = QString(),
+    explicit ExtQuotes(QWidget *parent = nullptr,
+                       const QString quotesName = QString(),
                        const QStringList directories = QStringList());
     virtual ~ExtQuotes();
     ExtQuotes *copy(const QString _fileName, const int _number);

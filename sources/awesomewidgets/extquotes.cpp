@@ -35,8 +35,8 @@
 
 ExtQuotes::ExtQuotes(QWidget *parent, const QString quotesName,
                      const QStringList directories)
-    : AbstractExtItem(parent, quotesName, directories),
-      ui(new Ui::ExtQuotes)
+    : AbstractExtItem(parent, quotesName, directories)
+    , ui(new Ui::ExtQuotes)
 {
     qCDebug(LOG_LIB);
 
@@ -54,9 +54,11 @@ ExtQuotes::ExtQuotes(QWidget *parent, const QString quotesName,
     values[tag(QString("pricechg"))] = 0.0;
     values[tag(QString("percpricechg"))] = 0.0;
 
-    manager = new QNetworkAccessManager(this);
-    connect(manager, SIGNAL(finished(QNetworkReply *)),
-            this, SLOT(quotesReplyReceived(QNetworkReply *)));
+    // HACK declare as child of nullptr to avoid crash with plasmawindowed
+    // in the destructor
+    manager = new QNetworkAccessManager(nullptr);
+    connect(manager, SIGNAL(finished(QNetworkReply *)), this,
+            SLOT(quotesReplyReceived(QNetworkReply *)));
 }
 
 
@@ -64,10 +66,10 @@ ExtQuotes::~ExtQuotes()
 {
     qCDebug(LOG_LIB);
 
-    disconnect(manager, SIGNAL(finished(QNetworkReply *)),
-               this, SLOT(quotesReplyReceived(QNetworkReply *)));
+    disconnect(manager, SIGNAL(finished(QNetworkReply *)), this,
+               SLOT(quotesReplyReceived(QNetworkReply *)));
 
-    delete manager;
+    manager->deleteLater();
     delete ui;
 }
 
@@ -78,8 +80,8 @@ ExtQuotes *ExtQuotes::copy(const QString _fileName, const int _number)
     qCDebug(LOG_LIB) << "File" << _fileName;
     qCDebug(LOG_LIB) << "Number" << _number;
 
-    ExtQuotes *item = new ExtQuotes(static_cast<QWidget *>(parent()),
-                                    _fileName, directories());
+    ExtQuotes *item = new ExtQuotes(static_cast<QWidget *>(parent()), _fileName,
+                                    directories());
     item->setActive(isActive());
     item->setApiVersion(apiVersion());
     item->setComment(comment());
@@ -122,11 +124,14 @@ void ExtQuotes::readConfiguration()
     qCDebug(LOG_LIB);
     AbstractExtItem::readConfiguration();
 
-    for (int i=directories().count()-1; i>=0; i--) {
-        if (!QDir(directories().at(i)).entryList(QDir::Files).contains(fileName()))
+    for (int i = directories().count() - 1; i >= 0; i--) {
+        if (!QDir(directories().at(i))
+                 .entryList(QDir::Files)
+                 .contains(fileName()))
             continue;
-        QSettings settings(QString("%1/%2").arg(directories().at(i)).arg(fileName()),
-                           QSettings::IniFormat);
+        QSettings settings(
+            QString("%1/%2").arg(directories().at(i)).arg(fileName()),
+            QSettings::IniFormat);
 
         settings.beginGroup(QString("Desktop Entry"));
         setTicker(settings.value(QString("X-AW-Ticker"), m_ticker).toString());
@@ -135,7 +140,8 @@ void ExtQuotes::readConfiguration()
 
     // update for current API
     if ((apiVersion() > 0) && (apiVersion() < AWEQAPI)) {
-        qCWarning(LOG_LIB) << "Bump API version from" << apiVersion() << "to" << AWEQAPI;
+        qCWarning(LOG_LIB) << "Bump API version from" << apiVersion() << "to"
+                           << AWEQAPI;
         setApiVersion(AWEQAPI);
         writeConfiguration();
     }
@@ -173,7 +179,8 @@ int ExtQuotes::showConfiguration(const QVariant args)
     ui->lineEdit_comment->setText(comment());
     ui->label_numberValue->setText(QString("%1").arg(number()));
     ui->lineEdit_ticker->setText(m_ticker);
-    ui->checkBox_active->setCheckState(isActive() ? Qt::Checked : Qt::Unchecked);
+    ui->checkBox_active->setCheckState(isActive() ? Qt::Checked
+                                                  : Qt::Unchecked);
     ui->spinBox_interval->setValue(interval());
 
     int ret = exec();
@@ -197,8 +204,9 @@ void ExtQuotes::writeConfiguration() const
     qCDebug(LOG_LIB);
     AbstractExtItem::writeConfiguration();
 
-    QSettings settings(QString("%1/%2").arg(directories().first()).arg(fileName()),
-                       QSettings::IniFormat);
+    QSettings settings(
+        QString("%1/%2").arg(directories().first()).arg(fileName()),
+        QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
@@ -223,35 +231,43 @@ void ExtQuotes::quotesReplyReceived(QNetworkReply *reply)
         qCWarning(LOG_LIB) << "Parse error" << error.errorString();
         return;
     }
-    QVariantMap jsonQuotes = jsonDoc.toVariant().toMap()[QString("query")].toMap();
-    jsonQuotes = jsonQuotes[QString("results")].toMap()[QString("quote")].toMap();
+    QVariantMap jsonQuotes
+        = jsonDoc.toVariant().toMap()[QString("query")].toMap();
+    jsonQuotes
+        = jsonQuotes[QString("results")].toMap()[QString("quote")].toMap();
     double value;
 
     // ask
     value = jsonQuotes[QString("Ask")].toString().toDouble();
-    values[tag(QString("askchg"))] = values[QString("ask")].toDouble() == 0.0
-                                     ? 0.0
-                                     : value - values[QString("ask")].toDouble();
-    values[tag(QString("percaskchg"))] = 100.0 * values[QString("askchg")].toDouble()
-        / values[QString("ask")].toDouble();
+    values[tag(QString("askchg"))]
+        = values[QString("ask")].toDouble() == 0.0
+              ? 0.0
+              : value - values[QString("ask")].toDouble();
+    values[tag(QString("percaskchg"))] = 100.0
+                                         * values[QString("askchg")].toDouble()
+                                         / values[QString("ask")].toDouble();
     values[tag(QString("ask"))] = value;
 
     // bid
     value = jsonQuotes[QString("Bid")].toString().toDouble();
-    values[tag(QString("bidchg"))] = values[QString("bid")].toDouble() == 0.0
-                                     ? 0.0
-                                     : value - values[QString("bid")].toDouble();
-    values[tag(QString("percbidchg"))] = 100.0 * values[QString("bidchg")].toDouble()
-        / values[QString("bid")].toDouble();
+    values[tag(QString("bidchg"))]
+        = values[QString("bid")].toDouble() == 0.0
+              ? 0.0
+              : value - values[QString("bid")].toDouble();
+    values[tag(QString("percbidchg"))] = 100.0
+                                         * values[QString("bidchg")].toDouble()
+                                         / values[QString("bid")].toDouble();
     values[tag(QString("bid"))] = value;
 
     // last trade
     value = jsonQuotes[QString("LastTradePriceOnly")].toString().toDouble();
-    values[tag(QString("pricechg"))] = values[QString("price")].toDouble() == 0.0
-                                       ? 0.0
-                                       : value - values[QString("price")].toDouble();
-    values[tag(QString("percpricechg"))] = 100.0 * values[QString("pricechg")].toDouble()
-        / values[QString("price")].toDouble();
+    values[tag(QString("pricechg"))]
+        = values[QString("price")].toDouble() == 0.0
+              ? 0.0
+              : value - values[QString("price")].toDouble();
+    values[tag(QString("percpricechg"))]
+        = 100.0 * values[QString("pricechg")].toDouble()
+          / values[QString("price")].toDouble();
     values[tag(QString("price"))] = value;
 }
 
@@ -263,7 +279,8 @@ void ExtQuotes::translate()
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
     ui->label_number->setText(i18n("Tag"));
-    ui->label->setText(i18n("<html><head/><body><p>Use YAHOO! finance ticker to \
+    ui->label->setText(
+        i18n("<html><head/><body><p>Use YAHOO! finance ticker to \
 get quotes for the instrument. Refer to <a href=\"http://finance.yahoo.com/\">\
 <span style=\" text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/\
 </span></a></p></body></html>"));

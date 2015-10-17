@@ -55,8 +55,8 @@ AWKeys::AWKeys(QObject *parent)
     aggregator = new AWKeysAggregator(this);
     dataAggregator = new AWDataAggregator(this);
     // transfer signal from AWDataAggregator object to QML ui
-    connect(dataAggregator, SIGNAL(toolTipPainted(const QString)),
-            this, SIGNAL(needToolTipToBeUpdated(const QString)));
+    connect(dataAggregator, SIGNAL(toolTipPainted(const QString)), this,
+            SIGNAL(needToolTipToBeUpdated(const QString)));
     connect(this, SIGNAL(needToBeUpdated()), this, SLOT(updateTextData()));
 }
 
@@ -66,15 +66,22 @@ AWKeys::~AWKeys()
     qCDebug(LOG_AW);
 
     // extensions
-    if (graphicalItems != nullptr) delete graphicalItems;
-    if (extQuotes != nullptr) delete extQuotes;
-    if (extScripts != nullptr) delete extScripts;
-    if (extUpgrade != nullptr) delete extUpgrade;
-    if (extWeather != nullptr) delete extWeather;
+    if (graphicalItems != nullptr)
+        delete graphicalItems;
+    if (extQuotes != nullptr)
+        delete extQuotes;
+    if (extScripts != nullptr)
+        delete extScripts;
+    if (extUpgrade != nullptr)
+        delete extUpgrade;
+    if (extWeather != nullptr)
+        delete extWeather;
 
     // core
-    if (dataEngineAggregator != nullptr) delete dataEngineAggregator;
-    if (m_threadPool != nullptr) delete m_threadPool;
+    if (dataEngineAggregator != nullptr)
+        delete dataEngineAggregator;
+    if (m_threadPool != nullptr)
+        delete m_threadPool;
     delete aggregator;
     delete dataAggregator;
 }
@@ -89,7 +96,8 @@ void AWKeys::initDataAggregator(const QVariantMap tooltipParams)
 }
 
 
-void AWKeys::initKeys(const QString currentPattern, const int interval, const int limit)
+void AWKeys::initKeys(const QString currentPattern, const int interval,
+                      const int limit)
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Pattern" << currentPattern;
@@ -105,7 +113,8 @@ void AWKeys::initKeys(const QString currentPattern, const int interval, const in
     } else
         dataEngineAggregator->setInterval(interval);
 #ifdef BUILD_FUTURE
-    m_threadPool->setMaxThreadCount(limit == 0 ? QThread::idealThreadCount() : limit);
+    m_threadPool->setMaxThreadCount(limit == 0 ? QThread::idealThreadCount()
+                                               : limit);
 #endif /* BUILD_FUTURE */
     updateCache();
 
@@ -148,13 +157,19 @@ QStringList AWKeys::dictKeys(const bool sorted, const QString regexp) const
 
     QStringList allKeys;
     // weather
-    for (int i=extWeather->activeItems().count()-1; i>=0; i--) {
-        allKeys.append(extWeather->activeItems().at(i)->tag(QString("weatherId")));
-        allKeys.append(extWeather->activeItems().at(i)->tag(QString("weather")));
-        allKeys.append(extWeather->activeItems().at(i)->tag(QString("humidity")));
-        allKeys.append(extWeather->activeItems().at(i)->tag(QString("pressure")));
-        allKeys.append(extWeather->activeItems().at(i)->tag(QString("temperature")));
-        allKeys.append(extWeather->activeItems().at(i)->tag(QString("timestamp")));
+    for (int i = extWeather->activeItems().count() - 1; i >= 0; i--) {
+        allKeys.append(
+            extWeather->activeItems().at(i)->tag(QString("weatherId")));
+        allKeys.append(
+            extWeather->activeItems().at(i)->tag(QString("weather")));
+        allKeys.append(
+            extWeather->activeItems().at(i)->tag(QString("humidity")));
+        allKeys.append(
+            extWeather->activeItems().at(i)->tag(QString("pressure")));
+        allKeys.append(
+            extWeather->activeItems().at(i)->tag(QString("temperature")));
+        allKeys.append(
+            extWeather->activeItems().at(i)->tag(QString("timestamp")));
     }
     // time
     allKeys.append(QString("time"));
@@ -166,14 +181,14 @@ QStringList AWKeys::dictKeys(const bool sorted, const QString regexp) const
     allKeys.append(QString("uptime"));
     allKeys.append(QString("cuptime"));
     // cpuclock & cpu
-    for (int i=QThread::idealThreadCount()-1; i>=0; i--) {
+    for (int i = QThread::idealThreadCount() - 1; i >= 0; i--) {
         allKeys.append(QString("cpucl%1").arg(i));
         allKeys.append(QString("cpu%1").arg(i));
     }
     allKeys.append(QString("cpucl"));
     allKeys.append(QString("cpu"));
     // temperature
-    for (int i=m_devices[QString("temp")].count()-1; i>=0; i--)
+    for (int i = m_devices[QString("temp")].count() - 1; i >= 0; i--)
         allKeys.append(QString("temp%1").arg(i));
     // gputemp
     allKeys.append(QString("gputemp"));
@@ -198,7 +213,7 @@ QStringList AWKeys::dictKeys(const bool sorted, const QString regexp) const
     allKeys.append(QString("swaptotgb"));
     allKeys.append(QString("swap"));
     // hdd
-    for (int i=m_devices[QString("mount")].count()-1; i>=0; i--) {
+    for (int i = m_devices[QString("mount")].count() - 1; i >= 0; i--) {
         allKeys.append(QString("hddmb%1").arg(i));
         allKeys.append(QString("hddgb%1").arg(i));
         allKeys.append(QString("hddfreemb%1").arg(i));
@@ -208,15 +223,15 @@ QStringList AWKeys::dictKeys(const bool sorted, const QString regexp) const
         allKeys.append(QString("hdd%1").arg(i));
     }
     // hdd speed
-    for (int i=m_devices[QString("disk")].count()-1; i>=0; i--) {
+    for (int i = m_devices[QString("disk")].count() - 1; i >= 0; i--) {
         allKeys.append(QString("hddr%1").arg(i));
         allKeys.append(QString("hddw%1").arg(i));
     }
     // hdd temp
-    for (int i=m_devices[QString("hdd")].count()-1; i>=0; i--)
+    for (int i = m_devices[QString("hdd")].count() - 1; i >= 0; i--)
         allKeys.append(QString("hddtemp%1").arg(i));
     // network
-    for (int i=m_devices[QString("net")].count()-1; i>=0; i--) {
+    for (int i = m_devices[QString("net")].count() - 1; i >= 0; i--) {
         allKeys.append(QString("downunits%1").arg(i));
         allKeys.append(QString("upunits%1").arg(i));
         allKeys.append(QString("downkb%1").arg(i));
@@ -233,11 +248,11 @@ QStringList AWKeys::dictKeys(const bool sorted, const QString regexp) const
     allKeys.append(QString("netdev"));
     // battery
     allKeys.append(QString("ac"));
-    QStringList allBatteryDevices = QDir(QString("/sys/class/power_supply")).
-        entryList(QStringList() << QString("BAT*"),
-                  QDir::Dirs | QDir::NoDotAndDotDot,
-                  QDir::Name);
-    for (int i=allBatteryDevices.count()-1; i>=0; i--)
+    QStringList allBatteryDevices
+        = QDir(QString("/sys/class/power_supply"))
+              .entryList(QStringList() << QString("BAT*"),
+                         QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
+    for (int i = allBatteryDevices.count() - 1; i >= 0; i--)
         allKeys.append(QString("bat%1").arg(i));
     allKeys.append(QString("bat"));
     // player
@@ -257,22 +272,27 @@ QStringList AWKeys::dictKeys(const bool sorted, const QString regexp) const
     allKeys.append(QString("pstotal"));
     allKeys.append(QString("ps"));
     // package manager
-    for (int i=extUpgrade->activeItems().count()-1; i>=0; i--)
-        allKeys.append(extUpgrade->activeItems().at(i)->tag(QString("pkgcount")));
+    for (int i = extUpgrade->activeItems().count() - 1; i >= 0; i--)
+        allKeys.append(
+            extUpgrade->activeItems().at(i)->tag(QString("pkgcount")));
     // quotes
-    for (int i=extQuotes->activeItems().count()-1; i>=0; i--) {
+    for (int i = extQuotes->activeItems().count() - 1; i >= 0; i--) {
         allKeys.append(extQuotes->activeItems().at(i)->tag(QString("ask")));
         allKeys.append(extQuotes->activeItems().at(i)->tag(QString("askchg")));
-        allKeys.append(extQuotes->activeItems().at(i)->tag(QString("percaskchg")));
+        allKeys.append(
+            extQuotes->activeItems().at(i)->tag(QString("percaskchg")));
         allKeys.append(extQuotes->activeItems().at(i)->tag(QString("bid")));
         allKeys.append(extQuotes->activeItems().at(i)->tag(QString("bidchg")));
-        allKeys.append(extQuotes->activeItems().at(i)->tag(QString("percbidchg")));
+        allKeys.append(
+            extQuotes->activeItems().at(i)->tag(QString("percbidchg")));
         allKeys.append(extQuotes->activeItems().at(i)->tag(QString("price")));
-        allKeys.append(extQuotes->activeItems().at(i)->tag(QString("pricechg")));
-        allKeys.append(extQuotes->activeItems().at(i)->tag(QString("percpricechg")));
+        allKeys.append(
+            extQuotes->activeItems().at(i)->tag(QString("pricechg")));
+        allKeys.append(
+            extQuotes->activeItems().at(i)->tag(QString("percpricechg")));
     }
     // custom
-    for (int i=extScripts->activeItems().count()-1; i>=0; i--)
+    for (int i = extScripts->activeItems().count() - 1; i >= 0; i--)
         allKeys.append(extScripts->activeItems().at(i)->tag(QString("custom")));
     // desktop
     allKeys.append(QString("desktop"));
@@ -284,10 +304,10 @@ QStringList AWKeys::dictKeys(const bool sorted, const QString regexp) const
     allKeys.append(QString("la1"));
     // bars
     QStringList graphicalItemsKeys;
-    foreach(GraphicalItem *item, graphicalItems->items())
+    foreach (GraphicalItem *item, graphicalItems->items())
         graphicalItemsKeys.append(item->tag());
     graphicalItemsKeys.sort();
-    for (int i=graphicalItemsKeys.count()-1; i>=0; i--)
+    for (int i = graphicalItemsKeys.count() - 1; i >= 0; i--)
         allKeys.append(graphicalItemsKeys.at(i));
 
     // sort if required
@@ -318,23 +338,47 @@ QString AWKeys::infoByKey(QString key) const
 
     key.remove(QRegExp(QString("^bar[0-9]{1,}")));
     if (key.startsWith(QString("custom")))
-        return extScripts->itemByTagNumber(key.remove(QString("custom")).toInt())->uniq();
+        return extScripts->itemByTagNumber(
+                             key.remove(QString("custom")).toInt())
+            ->uniq();
     else if (key.contains(QRegExp(QString("^hdd[rw]"))))
-        return QString("%1").arg(m_devices[QString("disk")][key.remove(QRegExp(QString("hdd[rw]"))).toInt()]);
-    else if (key.contains(QRegExp(QString("^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)"))))
-        return QString("%1").arg(m_devices[QString("mount")][key.remove(QRegExp(QString("^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)"))).toInt()]);
+        return QString("%1").arg(m_devices[QString(
+            "disk")][key.remove(QRegExp(QString("hdd[rw]"))).toInt()]);
+    else if (key.contains(QRegExp(
+                 QString("^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)"))))
+        return QString("%1").arg(m_devices[QString(
+            "mount")][key
+                          .remove(QRegExp(QString(
+                              "^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)")))
+                          .toInt()]);
     else if (key.startsWith(QString("hddtemp")))
-        return QString("%1").arg(m_devices[QString("hdd")][key.remove(QString("hddtemp")).toInt()]);
+        return QString("%1").arg(
+            m_devices[QString("hdd")][key.remove(QString("hddtemp")).toInt()]);
     else if (key.contains(QRegExp(QString("^(down|up)[0-9]"))))
-        return QString("%1").arg(m_devices[QString("net")][key.remove(QRegExp(QString("^(down|up)"))).toInt()]);
+        return QString("%1").arg(m_devices[QString(
+            "net")][key.remove(QRegExp(QString("^(down|up)"))).toInt()]);
     else if (key.startsWith(QString("pkgcount")))
-        return extUpgrade->itemByTagNumber(key.remove(QString("pkgcount")).toInt())->uniq();
+        return extUpgrade->itemByTagNumber(
+                             key.remove(QString("pkgcount")).toInt())
+            ->uniq();
     else if (key.contains(QRegExp(QString("(^|perc)(ask|bid|price)(chg|)"))))
-        return extQuotes->itemByTagNumber(key.remove(QRegExp(QString("(^|perc)(ask|bid|price)(chg|)"))).toInt())->uniq();
-    else if (key.contains(QRegExp(QString("(weather|weatherId|humidity|pressure|temperature)"))))
-        return extWeather->itemByTagNumber(key.remove(QRegExp(QString("(weather|weatherId|humidity|pressure|temperature)"))).toInt())->uniq();
+        return extQuotes->itemByTagNumber(
+                            key.remove(QRegExp(QString(
+                                           "(^|perc)(ask|bid|price)(chg|)")))
+                                .toInt())
+            ->uniq();
+    else if (key.contains(QRegExp(
+                 QString("(weather|weatherId|humidity|pressure|temperature)"))))
+        return extWeather
+            ->itemByTagNumber(
+                key
+                    .remove(QRegExp(QString(
+                        "(weather|weatherId|humidity|pressure|temperature)")))
+                    .toInt())
+            ->uniq();
     else if (key.startsWith(QString("temp")))
-        return QString("%1").arg(m_devices[QString("temp")][key.remove(QString("temp")).toInt()]);
+        return QString("%1").arg(
+            m_devices[QString("temp")][key.remove(QString("temp")).toInt()]);
 
     return QString("(none)");
 }
@@ -346,7 +390,8 @@ QString AWKeys::valueByKey(QString key) const
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Requested key" << key;
 
-    return values.value(key.remove(QRegExp(QString("^bar[0-9]{1,}"))), QString(""));
+    return values.value(key.remove(QRegExp(QString("^bar[0-9]{1,}"))),
+                        QString(""));
 }
 
 
@@ -356,7 +401,8 @@ void AWKeys::editItem(const QString type)
     qCDebug(LOG_AW) << "Item type" << type;
 
     if (type == QString("graphicalitem")) {
-        graphicalItems->setConfigArgs(dictKeys(true, QString("^(cpu(?!cl).*|gpu$|mem$|swap$|hdd[0-9].*|bat.*)")));
+        graphicalItems->setConfigArgs(dictKeys(
+            true, QString("^(cpu(?!cl).*|gpu$|mem$|swap$|hdd[0-9].*|bat.*)")));
         return graphicalItems->editItems();
     } else if (type == QString("extquotes")) {
         return extQuotes->editItems();
@@ -375,7 +421,8 @@ void AWKeys::addDevice(const QString source)
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Source" << source;
 
-    QRegExp diskRegexp = QRegExp(QString("disk/(?:md|sd|hd)[a-z|0-9]_.*/Rate/(?:rblk)"));
+    QRegExp diskRegexp
+        = QRegExp(QString("disk/(?:md|sd|hd)[a-z|0-9]_.*/Rate/(?:rblk)"));
     QRegExp mountRegexp = QRegExp(QString("partitions/.*/filllevel"));
 
     if (source.contains(diskRegexp)) {
@@ -392,7 +439,8 @@ void AWKeys::addDevice(const QString source)
 }
 
 
-void AWKeys::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Data &data)
+void AWKeys::dataUpdated(const QString &sourceName,
+                         const Plasma::DataEngine::Data &data)
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Source" << sourceName;
@@ -403,8 +451,9 @@ void AWKeys::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Da
 
 #ifdef BUILD_FUTURE
     // run concurrent data update
-    QtConcurrent::run(m_threadPool, this, &AWKeys::setDataBySource, sourceName, data);
-#else /* BUILD_FUTURE */
+    QtConcurrent::run(m_threadPool, this, &AWKeys::setDataBySource, sourceName,
+                      data);
+#else  /* BUILD_FUTURE */
     return setDataBySource(sourceName, data);
 #endif /* BUILD_FUTURE */
 }
@@ -414,15 +463,16 @@ void AWKeys::loadKeysFromCache()
 {
     qCDebug(LOG_AW);
 
-    QString fileName = QString("%1/awesomewidgets.ndx").
-        arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
+    QString fileName = QString("%1/awesomewidgets.ndx")
+                           .arg(QStandardPaths::writableLocation(
+                               QStandardPaths::GenericCacheLocation));
     qCInfo(LOG_AW) << "Cache file" << fileName;
     QSettings cache(fileName, QSettings::IniFormat);
 
-    foreach(QString group, cache.childGroups()) {
+    foreach (QString group, cache.childGroups()) {
         cache.beginGroup(group);
         m_devices.remove(group);
-        foreach(QString key, cache.allKeys())
+        foreach (QString key, cache.allKeys())
             m_devices[group].append(cache.value(key).toString());
         cache.endGroup();
     }
@@ -437,13 +487,19 @@ void AWKeys::reinitKeys()
 
     // renew extensions
     // delete them if any
-    if (graphicalItems != nullptr) delete graphicalItems;
-    if (extQuotes != nullptr) delete extQuotes;
-    if (extScripts != nullptr) delete extScripts;
-    if (extUpgrade != nullptr) delete extUpgrade;
-    if (extWeather != nullptr) delete extWeather;
+    if (graphicalItems != nullptr)
+        delete graphicalItems;
+    if (extQuotes != nullptr)
+        delete extQuotes;
+    if (extScripts != nullptr)
+        delete extScripts;
+    if (extUpgrade != nullptr)
+        delete extUpgrade;
+    if (extWeather != nullptr)
+        delete extWeather;
     // create
-    graphicalItems = new ExtItemAggregator<GraphicalItem>(nullptr, QString("desktops"));
+    graphicalItems
+        = new ExtItemAggregator<GraphicalItem>(nullptr, QString("desktops"));
     extQuotes = new ExtItemAggregator<ExtQuotes>(nullptr, QString("quotes"));
     extScripts = new ExtItemAggregator<ExtScript>(nullptr, QString("scripts"));
     extUpgrade = new ExtItemAggregator<ExtUpgrade>(nullptr, QString("upgrade"));
@@ -456,7 +512,7 @@ void AWKeys::reinitKeys()
     // not documented feature - place all available tags
     m_pattern = m_pattern.replace(QString("$ALL"), [allKeys]() {
         QStringList strings;
-        foreach(QString tag, allKeys)
+        foreach (QString tag, allKeys)
             strings.append(QString("%1: $%1").arg(tag));
         return strings.join(QString(" | "));
     }());
@@ -466,9 +522,9 @@ void AWKeys::reinitKeys()
     // bars
     m_foundBars = [allKeys](QString pattern) {
         QStringList selectedKeys;
-        foreach(QString key, allKeys)
-            if ((key.startsWith(QString("bar"))) &&
-                (pattern.contains(QString("$%1").arg(key)))) {
+        foreach (QString key, allKeys)
+            if ((key.startsWith(QString("bar")))
+                && (pattern.contains(QString("$%1").arg(key)))) {
                 qCInfo(LOG_AW) << "Found bar" << key;
                 selectedKeys.append(key);
             }
@@ -480,9 +536,9 @@ void AWKeys::reinitKeys()
     // main key list
     m_foundKeys = [allKeys](QString pattern) {
         QStringList selectedKeys;
-        foreach(QString key, allKeys)
-            if ((!key.startsWith(QString("bar"))) &&
-                (pattern.contains(QString("$%1").arg(key)))) {
+        foreach (QString key, allKeys)
+            if ((!key.startsWith(QString("bar")))
+                && (pattern.contains(QString("$%1").arg(key)))) {
                 qCInfo(LOG_AW) << "Found key" << key;
                 selectedKeys.append(key);
             }
@@ -495,8 +551,10 @@ void AWKeys::reinitKeys()
     m_foundLambdas = [](QString pattern) {
         QStringList selectedKeys;
         // substring inside ${{ }} (with brackets) which should not contain ${{
-        QRegularExpression lambdaRegexp(QString("\\$\\{\\{((?!\\$\\{\\{).)*?\\}\\}"));
-        lambdaRegexp.setPatternOptions(QRegularExpression::DotMatchesEverythingOption);
+        QRegularExpression lambdaRegexp(
+            QString("\\$\\{\\{((?!\\$\\{\\{).)*?\\}\\}"));
+        lambdaRegexp.setPatternOptions(
+            QRegularExpression::DotMatchesEverythingOption);
 
         QRegularExpressionMatchIterator it = lambdaRegexp.globalMatch(pattern);
         while (it.hasNext()) {
@@ -535,40 +593,49 @@ void AWKeys::addKeyToCache(const QString type, const QString key)
     qCDebug(LOG_AW) << "Key type" << type;
     qCDebug(LOG_AW) << "Key" << key;
 
-    QString fileName = QString("%1/awesomewidgets.ndx").
-        arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
+    QString fileName = QString("%1/awesomewidgets.ndx")
+                           .arg(QStandardPaths::writableLocation(
+                               QStandardPaths::GenericCacheLocation));
     qCInfo(LOG_AW) << "Cache file" << fileName;
     QSettings cache(fileName, QSettings::IniFormat);
 
     cache.beginGroup(type);
     QStringList cachedValues;
-    foreach(QString key, cache.allKeys())
+    foreach (QString key, cache.allKeys())
         cachedValues.append(cache.value(key).toString());
 
     if (type == QString("hdd")) {
-        QStringList allDevices = QDir(QString("/dev")).entryList(QDir::System, QDir::Name);
-        QStringList devices = allDevices.filter(QRegExp(QString("^[hms]d[a-z]$")));
-        foreach(QString dev, devices) {
+        QStringList allDevices
+            = QDir(QString("/dev")).entryList(QDir::System, QDir::Name);
+        QStringList devices
+            = allDevices.filter(QRegExp(QString("^[hms]d[a-z]$")));
+        foreach (QString dev, devices) {
             QString device = QString("/dev/%1").arg(dev);
             if (cachedValues.contains(device))
                 continue;
             qCInfo(LOG_AW) << "Found new key" << device << "for type" << type;
-            cache.setValue(QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), device);
+            cache.setValue(
+                QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')),
+                device);
         }
     } else if (type == QString("net")) {
-        QList<QNetworkInterface> rawInterfaceList = QNetworkInterface::allInterfaces();
-        foreach(QNetworkInterface interface, rawInterfaceList) {
+        QList<QNetworkInterface> rawInterfaceList
+            = QNetworkInterface::allInterfaces();
+        foreach (QNetworkInterface interface, rawInterfaceList) {
             QString device = interface.name();
             if (cachedValues.contains(device))
                 continue;
             qCInfo(LOG_AW) << "Found new key" << device << "for type" << type;
-            cache.setValue(QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), device);
+            cache.setValue(
+                QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')),
+                device);
         }
     } else {
         if (cachedValues.contains(key))
             return;
         qCInfo(LOG_AW) << "Found new key" << key << "for type" << type;
-        cache.setValue(QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), key);
+        cache.setValue(
+            QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), key);
     }
     cache.endGroup();
 
@@ -584,25 +651,32 @@ void AWKeys::calculateValues()
     qCDebug(LOG_AW);
 
     // hddtot*
-    foreach(QString device, m_devices[QString("mount")]) {
+    foreach (QString device, m_devices[QString("mount")]) {
         int index = m_devices[QString("mount")].indexOf(device);
-        values[QString("hddtotmb%1").arg(index)] = QString("%1").
-            arg(values[QString("hddfreemb%1").arg(index)].toFloat()
-                + values[QString("hddmb%1").arg(index)].toFloat(), 5, 'f', 0);
-        values[QString("hddtotgb%1").arg(index)] = QString("%1").
-            arg(values[QString("hddfreegb%1").arg(index)].toFloat()
-                + values[QString("hddgb%1").arg(index)].toFloat(), 5, 'f', 1);
+        values[QString("hddtotmb%1").arg(index)] = QString("%1").arg(
+            values[QString("hddfreemb%1").arg(index)].toFloat()
+                + values[QString("hddmb%1").arg(index)].toFloat(),
+            5, 'f', 0);
+        values[QString("hddtotgb%1").arg(index)] = QString("%1").arg(
+            values[QString("hddfreegb%1").arg(index)].toFloat()
+                + values[QString("hddgb%1").arg(index)].toFloat(),
+            5, 'f', 1);
     }
 
     // memtot*
-    values[QString("memtotmb")] = QString("%1").
-        arg(values[QString("memusedmb")].toInt() + values[QString("memfreemb")].toInt(), 5);
-    values[QString("memtotgb")] = QString("%1").
-        arg(values[QString("memusedgb")].toFloat() + values[QString("memfreegb")].toFloat(), 5, 'f', 1);
+    values[QString("memtotmb")]
+        = QString("%1").arg(values[QString("memusedmb")].toInt()
+                                + values[QString("memfreemb")].toInt(),
+                            5);
+    values[QString("memtotgb")]
+        = QString("%1").arg(values[QString("memusedgb")].toFloat()
+                                + values[QString("memfreegb")].toFloat(),
+                            5, 'f', 1);
     // mem
-    values[QString("mem")] = QString("%1").
-        arg(100.0 * values[QString("memmb")].toFloat() / values[QString("memtotmb")].toFloat(),
-            5, 'f', 1);
+    values[QString("mem")]
+        = QString("%1").arg(100.0 * values[QString("memmb")].toFloat()
+                                / values[QString("memtotmb")].toFloat(),
+                            5, 'f', 1);
 
     // up, down, upkb, downkb, upunits, downunits
     int netIndex = m_devices[QString("net")].indexOf(values[QString("netdev")]);
@@ -614,27 +688,33 @@ void AWKeys::calculateValues()
     values[QString("upunits")] = values[QString("upunits%1").arg(netIndex)];
 
     // swaptot*
-    values[QString("swaptotmb")] = QString("%1").
-        arg(values[QString("swapmb")].toInt() + values[QString("swapfreemb")].toInt(), 5);
-    values[QString("swaptotgb")] = QString("%1").
-        arg(values[QString("swapgb")].toFloat() + values[QString("swapfreegb")].toFloat(), 5, 'f', 1);
+    values[QString("swaptotmb")]
+        = QString("%1").arg(values[QString("swapmb")].toInt()
+                                + values[QString("swapfreemb")].toInt(),
+                            5);
+    values[QString("swaptotgb")]
+        = QString("%1").arg(values[QString("swapgb")].toFloat()
+                                + values[QString("swapfreegb")].toFloat(),
+                            5, 'f', 1);
     // swap
-    values[QString("swap")] = QString("%1").
-        arg(100.0 * values[QString("swapmb")].toFloat() / values[QString("swaptotmb")].toFloat(),
-            5, 'f', 1);
+    values[QString("swap")]
+        = QString("%1").arg(100.0 * values[QString("swapmb")].toFloat()
+                                / values[QString("swaptotmb")].toFloat(),
+                            5, 'f', 1);
 
     // lambdas
-    foreach(QString key, m_foundLambdas)
+    foreach (QString key, m_foundLambdas)
         values[key] = [this](QString key) {
             QJSEngine engine;
             // apply $this values
             key.replace(QString("$this"), values[key]);
-            foreach(QString lambdaKey, m_foundKeys)
+            foreach (QString lambdaKey, m_foundKeys)
                 key.replace(QString("$%1").arg(lambdaKey), values[lambdaKey]);
             qCInfo(LOG_AW) << "Expression" << key;
             QJSValue result = engine.evaluate(key);
             if (result.isError()) {
-                qCWarning(LOG_AW) << "Uncaught exception at line" << result.property("lineNumber").toInt()
+                qCWarning(LOG_AW) << "Uncaught exception at line"
+                                  << result.property("lineNumber").toInt()
                                   << ":" << result.toString();
                 return QString();
             } else {
@@ -652,27 +732,29 @@ QString AWKeys::parsePattern(QString pattern) const
     pattern.replace(QString("$$"), QString("$\\$\\"));
 
     // lambdas
-    foreach(QString key, m_foundLambdas)
+    foreach (QString key, m_foundLambdas)
         pattern.replace(QString("${{%1}}").arg(key), values[key]);
 
     // main keys
-    foreach(QString key, m_foundKeys)
-        pattern.replace(QString("$%1").arg(key), [](QString key, QString value) {
-            if ((!key.startsWith(QString("custom")))
-                && (!key.startsWith(QString("weather"))))
-                value.replace(QString(" "), QString("&nbsp;"));
-            return value;
-        }(key, values[key]));
+    foreach (QString key, m_foundKeys)
+        pattern.replace(QString("$%1").arg(key),
+                        [](QString key, QString value) {
+                            if ((!key.startsWith(QString("custom")))
+                                && (!key.startsWith(QString("weather"))))
+                                value.replace(QString(" "), QString("&nbsp;"));
+                            return value;
+                        }(key, values[key]));
 
     // bars
-    foreach(QString bar,m_foundBars) {
+    foreach (QString bar, m_foundBars) {
         GraphicalItem *item = graphicalItems->itemByTag(bar);
         QString key = bar;
         key.remove(QRegExp(QString("^bar[0-9]{1,}")));
         if (item->type() == GraphicalItem::Graph)
-            pattern.replace(QString("$%1").arg(bar), item->image([](const QList<float> data) {
-                return QVariant::fromValue<QList<float>>(data);
-            }(dataAggregator->getData(key))));
+            pattern.replace(QString("$%1").arg(bar),
+                            item->image([](const QList<float> data) {
+                                return QVariant::fromValue<QList<float>>(data);
+                            }(dataAggregator->getData(key))));
         else
             pattern.replace(QString("$%1").arg(bar), item->image(values[key]));
     }
@@ -695,7 +777,8 @@ void AWKeys::setDataBySource(const QString &sourceName, const QVariantMap &data)
     // first list init
     QStringList tags = aggregator->keysFromSource(sourceName);
     if (tags.isEmpty())
-        tags = aggregator->registerSource(sourceName, data[QString("units")].toString());
+        tags = aggregator->registerSource(sourceName,
+                                          data[QString("units")].toString());
 
     // update data or drop source if there are no matches
     if (tags.isEmpty()) {
@@ -705,11 +788,15 @@ void AWKeys::setDataBySource(const QString &sourceName, const QVariantMap &data)
 #ifdef BUILD_FUTURE
         m_mutex.lock();
 #endif /* BUILD_FUTURE */
-        // HACK workaround for time values which are stored in the different path
-        QVariant value = sourceName == QString("Local") ? data[QString("DateTime")] : data[QString("value")];
-        std::for_each(tags.cbegin(), tags.cend(), [this, value](const QString tag) {
-            values[tag] = aggregator->formater(value, tag);
-        });
+        // HACK workaround for time values which are stored in the different
+        // path
+        QVariant value = sourceName == QString("Local")
+                             ? data[QString("DateTime")]
+                             : data[QString("value")];
+        std::for_each(tags.cbegin(), tags.cend(),
+                      [this, value](const QString tag) {
+                          values[tag] = aggregator->formater(value, tag);
+                      });
 #ifdef BUILD_FUTURE
         m_mutex.unlock();
 #endif /* BUILD_FUTURE */

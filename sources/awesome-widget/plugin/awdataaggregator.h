@@ -36,31 +36,34 @@ public:
     explicit AWDataAggregator(QObject *parent = nullptr);
     virtual ~AWDataAggregator();
     QList<float> getData(const QString key) const;
-    QString htmlImage(const QPixmap source) const;
+    QString htmlImage(const QPixmap &source) const;
     void setParameters(QVariantMap settings);
     QPixmap tooltipImage();
 
 signals:
-    void updateData(const QHash<QString, QString> values);
+    void updateData(const QHash<QString, QString> &values);
     void toolTipPainted(const QString image) const;
 
 public slots:
-    void dataUpdate(const QHash<QString, QString> values);
+    void dataUpdate(const QHash<QString, QString> &values);
 
 private:
     // ui
     QGraphicsScene *toolTipScene = nullptr;
     QGraphicsView *toolTipView = nullptr;
-    void checkValue(const QString source, const float value, const float extremum) const;
-    void checkValue(const QString source, const QString current, const QString received) const;
+    void checkValue(const QString source, const float value,
+                    const float extremum) const;
+    void checkValue(const QString source, const QString current,
+                    const QString received) const;
     void initScene();
     QString notificationText(const QString source, const float value) const;
     QString notificationText(const QString source, const QString value) const;
     // main method
-    void setData(const QHash<QString, QString> values);
-    void setData(const QString source, float value, const float extremum = -1.0);
+    void setData(const QHash<QString, QString> &values);
+    void setData(const QString &source, float value,
+                 const float extremum = -1.0);
     // different signature for battery device
-    void setData(const bool dontInvert, const QString source, float value);
+    void setData(const bool dontInvert, const QString &source, float value);
     // variables
     int counts = 0;
     QVariantHash configuration;

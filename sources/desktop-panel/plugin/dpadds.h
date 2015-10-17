@@ -43,13 +43,13 @@ class DPAdds : public QObject
 public:
     explicit DPAdds(QObject *parent = nullptr);
     virtual ~DPAdds();
-
     Q_INVOKABLE bool isDebugEnabled() const;
     Q_INVOKABLE int currentDesktop() const;
     Q_INVOKABLE QStringList dictKeys() const;
     Q_INVOKABLE int numberOfDesktops() const;
     Q_INVOKABLE QString toolTipImage(const int desktop) const;
-    Q_INVOKABLE QString parsePattern(const QString pattern, const int desktop) const;
+    Q_INVOKABLE QString parsePattern(const QString pattern,
+                                     const int desktop) const;
     // values
     Q_INVOKABLE void setMark(const QString newMark);
     Q_INVOKABLE void setToolTipData(const QVariantMap tooltipData);
@@ -63,7 +63,8 @@ signals:
     void windowListChanged() const;
 
 public slots:
-    Q_INVOKABLE static void sendNotification(const QString eventId, const QString message);
+    Q_INVOKABLE static void sendNotification(const QString eventId,
+                                             const QString message);
     Q_INVOKABLE void setCurrentDesktop(const int desktop) const;
 
 private:

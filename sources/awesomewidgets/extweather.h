@@ -22,12 +22,17 @@
 
 #include "abstractextitem.h"
 
-#define OWM_URL "http://api.openweathermap.org/data/2.5/weather?q=$CITY,$COUNTRY&units=metric"
-#define OWM_FORECAST_URL "http://api.openweathermap.org/data/2.5/forecast?q=$CITY,$COUNTRY&units=metric"
+#define OWM_URL                                                                \
+    "http://api.openweathermap.org/data/2.5/"                                  \
+    "weather?q=$CITY,$COUNTRY&units=metric"
+#define OWM_FORECAST_URL                                                       \
+    "http://api.openweathermap.org/data/2.5/"                                  \
+    "forecast?q=$CITY,$COUNTRY&units=metric"
 
 
-namespace Ui {
-    class ExtWeather;
+namespace Ui
+{
+class ExtWeather;
 }
 
 class ExtWeather : public AbstractExtItem
@@ -39,7 +44,8 @@ class ExtWeather : public AbstractExtItem
     Q_PROPERTY(int ts READ ts WRITE setTs)
 
 public:
-    explicit ExtWeather(QWidget *parent = nullptr, const QString weatherName = QString(),
+    explicit ExtWeather(QWidget *parent = nullptr,
+                        const QString weatherName = QString(),
                         const QStringList directories = QStringList());
     virtual ~ExtWeather();
     ExtWeather *copy(const QString _fileName, const int _number);

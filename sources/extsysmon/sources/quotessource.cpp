@@ -48,7 +48,8 @@ QVariant QuotesSource::data(QString source)
 
     if (source.startsWith(QString("quotes/percpricechg"))) {
         QVariantHash data = extQuotes->itemByTagNumber(index(source))->run();
-        foreach(QString key, data.keys()) values[key] = data[key];
+        foreach (QString key, data.keys())
+            values[key] = data[key];
     }
     QString key = QString(source).remove(QString("quotes/"));
     return values[key];
@@ -65,55 +66,73 @@ QVariantMap QuotesSource::initialData(QString source) const
     if (source.startsWith(QString("quotes/askchg"))) {
         data[QString("min")] = 0.0;
         data[QString("max")] = 0.0;
-        data[QString("name")] = QString("Absolute ask changes for '%1'").arg(extQuotes->itemByTagNumber(ind)->uniq());
+        data[QString("name")]
+            = QString("Absolute ask changes for '%1'")
+                  .arg(extQuotes->itemByTagNumber(ind)->uniq());
         data[QString("type")] = QString("double");
         data[QString("units")] = QString("");
     } else if (source.startsWith(QString("quotes/ask"))) {
         data[QString("min")] = 0.0;
         data[QString("max")] = 0.0;
-        data[QString("name")] = QString("Ask for '%1'").arg(extQuotes->itemByTagNumber(ind)->uniq());
+        data[QString("name")]
+            = QString("Ask for '%1'")
+                  .arg(extQuotes->itemByTagNumber(ind)->uniq());
         data[QString("type")] = QString("double");
         data[QString("units")] = QString("");
     } else if (source.startsWith(QString("quotes/percaskchg"))) {
         data[QString("min")] = -100.0;
         data[QString("max")] = 100.0;
-        data[QString("name")] = QString("Ask changes for '%1'").arg(extQuotes->itemByTagNumber(ind)->uniq());
+        data[QString("name")]
+            = QString("Ask changes for '%1'")
+                  .arg(extQuotes->itemByTagNumber(ind)->uniq());
         data[QString("type")] = QString("double");
         data[QString("units")] = QString("");
     } else if (source.startsWith(QString("quotes/bidchg"))) {
         data[QString("min")] = 0.0;
         data[QString("max")] = 0.0;
-        data[QString("name")] = QString("Absolute bid changes for '%1'").arg(extQuotes->itemByTagNumber(ind)->uniq());
+        data[QString("name")]
+            = QString("Absolute bid changes for '%1'")
+                  .arg(extQuotes->itemByTagNumber(ind)->uniq());
         data[QString("type")] = QString("double");
         data[QString("units")] = QString("");
     } else if (source.startsWith(QString("quotes/bid"))) {
         data[QString("min")] = 0.0;
         data[QString("max")] = 0.0;
-        data[QString("name")] = QString("Bid for '%1'").arg(extQuotes->itemByTagNumber(ind)->uniq());
+        data[QString("name")]
+            = QString("Bid for '%1'")
+                  .arg(extQuotes->itemByTagNumber(ind)->uniq());
         data[QString("type")] = QString("double");
         data[QString("units")] = QString("");
     } else if (source.startsWith(QString("quotes/percbidchg"))) {
         data[QString("min")] = -100.0;
         data[QString("max")] = 100.0;
-        data[QString("name")] = QString("Bid changes for '%1'").arg(extQuotes->itemByTagNumber(ind)->uniq());
+        data[QString("name")]
+            = QString("Bid changes for '%1'")
+                  .arg(extQuotes->itemByTagNumber(ind)->uniq());
         data[QString("type")] = QString("double");
         data[QString("units")] = QString("");
     } else if (source.startsWith(QString("quotes/pricechg"))) {
         data[QString("min")] = 0.0;
         data[QString("max")] = 0.0;
-        data[QString("name")] = QString("Absolute prie changes for '%1'").arg(extQuotes->itemByTagNumber(ind)->uniq());
+        data[QString("name")]
+            = QString("Absolute prie changes for '%1'")
+                  .arg(extQuotes->itemByTagNumber(ind)->uniq());
         data[QString("type")] = QString("double");
         data[QString("units")] = QString("");
     } else if (source.startsWith(QString("quotes/price"))) {
         data[QString("min")] = 0.0;
         data[QString("max")] = 0.0;
-        data[QString("name")] = QString("Price for '%1'").arg(extQuotes->itemByTagNumber(ind)->uniq());
+        data[QString("name")]
+            = QString("Price for '%1'")
+                  .arg(extQuotes->itemByTagNumber(ind)->uniq());
         data[QString("type")] = QString("double");
         data[QString("units")] = QString("");
     } else if (source.startsWith(QString("quotes/percpricechg"))) {
         data[QString("min")] = -100.0;
         data[QString("max")] = 100.0;
-        data[QString("name")] = QString("Price changes for '%1'").arg(extQuotes->itemByTagNumber(ind)->uniq());
+        data[QString("name")]
+            = QString("Price changes for '%1'")
+                  .arg(extQuotes->itemByTagNumber(ind)->uniq());
         data[QString("type")] = QString("double");
         data[QString("units")] = QString("");
     }
@@ -135,16 +154,20 @@ QStringList QuotesSource::getSources()
     qCDebug(LOG_ESM);
 
     QStringList sources;
-    foreach(ExtQuotes *item, extQuotes->activeItems()) {
+    foreach (ExtQuotes *item, extQuotes->activeItems()) {
         sources.append(QString("quotes/%1").arg(item->tag(QString("ask"))));
         sources.append(QString("quotes/%1").arg(item->tag(QString("askchg"))));
-        sources.append(QString("quotes/%1").arg(item->tag(QString("percaskchg"))));
+        sources.append(
+            QString("quotes/%1").arg(item->tag(QString("percaskchg"))));
         sources.append(QString("quotes/%1").arg(item->tag(QString("bid"))));
         sources.append(QString("quotes/%1").arg(item->tag(QString("bidchg"))));
-        sources.append(QString("quotes/%1").arg(item->tag(QString("percbidchg"))));
+        sources.append(
+            QString("quotes/%1").arg(item->tag(QString("percbidchg"))));
         sources.append(QString("quotes/%1").arg(item->tag(QString("price"))));
-        sources.append(QString("quotes/%1").arg(item->tag(QString("pricechg"))));
-        sources.append(QString("quotes/%1").arg(item->tag(QString("percpricechg"))));
+        sources.append(
+            QString("quotes/%1").arg(item->tag(QString("pricechg"))));
+        sources.append(
+            QString("quotes/%1").arg(item->tag(QString("percpricechg"))));
     }
 
     return sources;

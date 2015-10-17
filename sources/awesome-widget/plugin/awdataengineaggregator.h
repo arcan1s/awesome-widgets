@@ -29,8 +29,10 @@ class AWDataEngineAggregator : public QObject
     Q_PROPERTY(int interval MEMBER m_interval WRITE setInterval);
 
 public:
-    explicit AWDataEngineAggregator(QObject *parent = nullptr, const int interval = 1000);
+    explicit AWDataEngineAggregator(QObject *parent = nullptr,
+                                    const int interval = 1000);
     virtual ~AWDataEngineAggregator();
+    void disconnectSources();
     // properties
     void setInterval(const int _interval);
 

@@ -36,16 +36,19 @@ public:
     Q_INVOKABLE bool runCmd(const QString cmd = QString("/usr/bin/true")) const;
     Q_INVOKABLE void showReadme() const;
     // configuration slots
-    Q_INVOKABLE QString getAboutText(const QString type = QString("header")) const;
+    Q_INVOKABLE QString getAboutText(const QString type
+                                     = QString("header")) const;
     Q_INVOKABLE QVariantMap getFont(const QVariantMap defaultFont) const;
 
 public slots:
-    Q_INVOKABLE static void sendNotification(const QString eventId, const QString message);
+    Q_INVOKABLE static void sendNotification(const QString eventId,
+                                             const QString message);
 
 private slots:
     void showInfo(const QString version) const;
     void showUpdates(const QString version) const;
-    void versionReplyRecieved(QNetworkReply *reply, const bool showAnyway) const;
+    void versionReplyRecieved(QNetworkReply *reply,
+                              const bool showAnyway) const;
 };
 
 

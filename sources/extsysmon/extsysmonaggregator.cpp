@@ -35,7 +35,8 @@
 #include "sources/weathersource.h"
 
 
-ExtSysMonAggregator::ExtSysMonAggregator(QObject *parent, const QHash<QString, QString> config)
+ExtSysMonAggregator::ExtSysMonAggregator(QObject *parent,
+                                         const QHash<QString, QString> config)
     : QObject(parent)
 {
     qCDebug(LOG_ESM);
@@ -61,15 +62,6 @@ QVariant ExtSysMonAggregator::data(const QString source) const
 }
 
 
-AbstractExtSysMonSource *ExtSysMonAggregator::engine(const QString source)
-{
-    qCDebug(LOG_ESM);
-    qCDebug(LOG_ESM) << "Source" << source;
-
-    return hasSource(source) ? m_map[source] : nullptr;
-}
-
-
 bool ExtSysMonAggregator::hasSource(const QString source) const
 {
     return m_map.contains(source);
@@ -81,7 +73,8 @@ QVariantMap ExtSysMonAggregator::initialData(const QString source) const
     qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
-    return hasSource(source) ? m_map[source]->initialData(source) : QVariantMap();
+    return hasSource(source) ? m_map[source]->initialData(source)
+                             : QVariantMap();
 }
 
 
@@ -100,64 +93,75 @@ void ExtSysMonAggregator::init(const QHash<QString, QString> config)
     qCDebug(LOG_ESM);
 
     // battery
-    AbstractExtSysMonSource *batteryItem = new BatterySource(this, QStringList() << config[QString("ACPIPATH")]);
-    foreach(QString source, batteryItem->sources())
+    AbstractExtSysMonSource *batteryItem
+        = new BatterySource(this, QStringList() << config[QString("ACPIPATH")]);
+    foreach (QString source, batteryItem->sources())
         m_map[source] = batteryItem;
     // custom
     AbstractExtSysMonSource *customItem = new CustomSource(this, QStringList());
-    foreach(QString source, customItem->sources())
+    foreach (QString source, customItem->sources())
         m_map[source] = customItem;
     // desktop
-    AbstractExtSysMonSource *desktopItem = new DesktopSource(this, QStringList());
-    foreach(QString source, desktopItem->sources())
+    AbstractExtSysMonSource *desktopItem
+        = new DesktopSource(this, QStringList());
+    foreach (QString source, desktopItem->sources())
         m_map[source] = desktopItem;
     // gpu load
-    AbstractExtSysMonSource *gpuLoadItem = new GPULoadSource(this, QStringList() << config[QString("GPUDEV")]);
-    foreach(QString source, gpuLoadItem->sources())
+    AbstractExtSysMonSource *gpuLoadItem
+        = new GPULoadSource(this, QStringList() << config[QString("GPUDEV")]);
+    foreach (QString source, gpuLoadItem->sources())
         m_map[source] = gpuLoadItem;
     // gpu temperature
-    AbstractExtSysMonSource *gpuTempItem = new GPUTemperatureSource(this, QStringList() << config[QString("GPUDEV")]);
-    foreach(QString source, gpuTempItem->sources())
+    AbstractExtSysMonSource *gpuTempItem = new GPUTemperatureSource(
+        this, QStringList() << config[QString("GPUDEV")]);
+    foreach (QString source, gpuTempItem->sources())
         m_map[source] = gpuTempItem;
     // hdd temperature
-    AbstractExtSysMonSource *hddTempItem = new HDDTemperatureSource(this,
-        QStringList() << config[QString("HDDDEV")] << config[QString("HDDTEMPCMD")]);
-    foreach(QString source, hddTempItem->sources())
+    AbstractExtSysMonSource *hddTempItem = new HDDTemperatureSource(
+        this, QStringList() << config[QString("HDDDEV")]
+                            << config[QString("HDDTEMPCMD")]);
+    foreach (QString source, hddTempItem->sources())
         m_map[source] = hddTempItem;
     // network
-    AbstractExtSysMonSource *networkItem = new NetworkSource(this, QStringList());
-    foreach(QString source, networkItem->sources())
+    AbstractExtSysMonSource *networkItem
+        = new NetworkSource(this, QStringList());
+    foreach (QString source, networkItem->sources())
         m_map[source] = networkItem;
     // player
-    AbstractExtSysMonSource *playerItem = new PlayerSource(this,
-        QStringList() << config[QString("PLAYER")] << config[QString("MPDADDRESS")]
-        << config[QString("MPDPORT")] << config[QString("MPRIS")] << config[QString("PLAYERSYMBOLS")]);
-    foreach(QString source, playerItem->sources())
+    AbstractExtSysMonSource *playerItem = new PlayerSource(
+        this, QStringList()
+                  << config[QString("PLAYER")] << config[QString("MPDADDRESS")]
+                  << config[QString("MPDPORT")] << config[QString("MPRIS")]
+                  << config[QString("PLAYERSYMBOLS")]);
+    foreach (QString source, playerItem->sources())
         m_map[source] = playerItem;
     // processes
-    AbstractExtSysMonSource *processesItem = new ProcessesSource(this, QStringList());
-    foreach(QString source, processesItem->sources())
+    AbstractExtSysMonSource *processesItem
+        = new ProcessesSource(this, QStringList());
+    foreach (QString source, processesItem->sources())
         m_map[source] = processesItem;
     // quotes
     AbstractExtSysMonSource *quotesItem = new QuotesSource(this, QStringList());
-    foreach(QString source, quotesItem->sources())
+    foreach (QString source, quotesItem->sources())
         m_map[source] = quotesItem;
     // update
     AbstractExtSysMonSource *updateItem = new UpdateSource(this, QStringList());
-    foreach(QString source, updateItem->sources())
+    foreach (QString source, updateItem->sources())
         m_map[source] = updateItem;
     // upgrade
-    AbstractExtSysMonSource *upgradeItem = new UpgradeSource(this, QStringList());
-    foreach(QString source, upgradeItem->sources())
+    AbstractExtSysMonSource *upgradeItem
+        = new UpgradeSource(this, QStringList());
+    foreach (QString source, upgradeItem->sources())
         m_map[source] = upgradeItem;
     // weather
-    AbstractExtSysMonSource *weatherItem = new WeatherSource(this, QStringList());
-    foreach(QString source, weatherItem->sources())
+    AbstractExtSysMonSource *weatherItem
+        = new WeatherSource(this, QStringList());
+    foreach (QString source, weatherItem->sources())
         m_map[source] = weatherItem;
 #ifdef BUILD_TESTING
     // additional load source
     AbstractExtSysMonSource *loadItem = new LoadSource(this, QStringList());
-    foreach(QString source, loadItem->sources())
+    foreach (QString source, loadItem->sources())
         m_map[source] = loadItem;
 #endif /* BUILD_TESTING */
 }

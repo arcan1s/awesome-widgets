@@ -33,8 +33,8 @@
 
 ExtScript::ExtScript(QWidget *parent, const QString scriptName,
                      const QStringList directories)
-    : AbstractExtItem(parent, scriptName, directories),
-      ui(new Ui::ExtScript)
+    : AbstractExtItem(parent, scriptName, directories)
+    , ui(new Ui::ExtScript)
 {
     qCDebug(LOG_LIB);
 
@@ -46,7 +46,8 @@ ExtScript::ExtScript(QWidget *parent, const QString scriptName,
     value[tag(QString("custom"))] = QString("");
 
     process = new QProcess(this);
-    connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(updateValue()));
+    connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this,
+            SLOT(updateValue()));
     process->waitForFinished(0);
 }
 
@@ -67,8 +68,8 @@ ExtScript *ExtScript::copy(const QString _fileName, const int _number)
     qCDebug(LOG_LIB) << "File" << _fileName;
     qCDebug(LOG_LIB) << "Number" << _number;
 
-    ExtScript *item = new ExtScript(static_cast<QWidget *>(parent()),
-                                    _fileName, directories());
+    ExtScript *item = new ExtScript(static_cast<QWidget *>(parent()), _fileName,
+                                    directories());
     item->setActive(isActive());
     item->setApiVersion(apiVersion());
     item->setComment(comment());
@@ -162,9 +163,8 @@ void ExtScript::setFilters(const QStringList _filters)
     qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Filters" << _filters;
 
-    std::for_each(_filters.cbegin(), _filters.cend(), [this](QString filter) {
-        return updateFilter(filter);
-    });
+    std::for_each(_filters.cbegin(), _filters.cend(),
+                  [this](QString filter) { return updateFilter(filter); });
 }
 
 
@@ -207,14 +207,15 @@ QString ExtScript::applyFilters(QString _value) const
     qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Value" << _value;
 
-    foreach(QString filt, m_filters) {
+    foreach (QString filt, m_filters) {
         qCInfo(LOG_LIB) << "Found filter" << filt;
         QVariantMap filter = jsonFilters[filt].toMap();
         if (filter.isEmpty()) {
-            qCWarning(LOG_LIB) << "Could not find filter" << _value << "in the json";
+            qCWarning(LOG_LIB) << "Could not find filter" << _value
+                               << "in the json";
             continue;
         }
-        foreach(QString f, filter.keys())
+        foreach (QString f, filter.keys())
             _value.replace(f, filter[f].toString());
     }
 
@@ -243,24 +244,31 @@ void ExtScript::readConfiguration()
     qCDebug(LOG_LIB);
     AbstractExtItem::readConfiguration();
 
-    for (int i=directories().count()-1; i>=0; i--) {
-        if (!QDir(directories().at(i)).entryList(QDir::Files).contains(fileName()))
+    for (int i = directories().count() - 1; i >= 0; i--) {
+        if (!QDir(directories().at(i))
+                 .entryList(QDir::Files)
+                 .contains(fileName()))
             continue;
-        QSettings settings(QString("%1/%2").arg(directories().at(i)).arg(fileName()), QSettings::IniFormat);
+        QSettings settings(
+            QString("%1/%2").arg(directories().at(i)).arg(fileName()),
+            QSettings::IniFormat);
 
         settings.beginGroup(QString("Desktop Entry"));
         setExecutable(settings.value(QString("Exec"), m_executable).toString());
         setPrefix(settings.value(QString("X-AW-Prefix"), m_prefix).toString());
-        setStrRedirect(settings.value(QString("X-AW-Redirect"), strRedirect()).toString());
+        setStrRedirect(
+            settings.value(QString("X-AW-Redirect"), strRedirect()).toString());
         // api == 3
-        setFilters(settings.value(QString("X-AW-Filters"), m_filters).toString().
-            split(QChar(','), QString::SkipEmptyParts));
+        setFilters(settings.value(QString("X-AW-Filters"), m_filters)
+                       .toString()
+                       .split(QChar(','), QString::SkipEmptyParts));
         settings.endGroup();
     }
 
     // update for current API
     if ((apiVersion() > 0) && (apiVersion() < AWESAPI)) {
-        qCWarning(LOG_LIB) << "Bump API version from" << apiVersion() << "to" << AWESAPI;
+        qCWarning(LOG_LIB) << "Bump API version from" << apiVersion() << "to"
+                           << AWESAPI;
         setApiVersion(AWESAPI);
         writeConfiguration();
     }
@@ -271,8 +279,10 @@ void ExtScript::readJsonFilters()
 {
     qCDebug(LOG_LIB);
 
-    QString fileName = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                                              QString("awesomewidgets/scripts/awesomewidgets-extscripts-filters.json"));
+    QString fileName = QStandardPaths::locate(
+        QStandardPaths::GenericDataLocation,
+        QString(
+            "awesomewidgets/scripts/awesomewidgets-extscripts-filters.json"));
     qCInfo(LOG_LIB) << "Filters file" << fileName;
     QFile jsonFile(fileName);
     if (!jsonFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -326,19 +336,17 @@ int ExtScript::showConfiguration(const QVariant args)
     ui->label_numberValue->setText(QString("%1").arg(number()));
     ui->lineEdit_command->setText(m_executable);
     ui->lineEdit_prefix->setText(m_prefix);
-    ui->checkBox_active->setCheckState(isActive() ? Qt::Checked : Qt::Unchecked);
+    ui->checkBox_active->setCheckState(isActive() ? Qt::Checked
+                                                  : Qt::Unchecked);
     ui->comboBox_redirect->setCurrentIndex(static_cast<int>(m_redirect));
     ui->spinBox_interval->setValue(interval());
     // filters
-    ui->checkBox_colorFilter->setCheckState(m_filters.contains(QString("color"))
-                                            ? Qt::Checked
-                                            : Qt::Unchecked);
-    ui->checkBox_linesFilter->setCheckState(m_filters.contains(QString("newline"))
-                                            ? Qt::Checked
-                                            : Qt::Unchecked);
-    ui->checkBox_spaceFilter->setCheckState(m_filters.contains(QString("space"))
-                                            ? Qt::Checked
-                                            : Qt::Unchecked);
+    ui->checkBox_colorFilter->setCheckState(
+        m_filters.contains(QString("color")) ? Qt::Checked : Qt::Unchecked);
+    ui->checkBox_linesFilter->setCheckState(
+        m_filters.contains(QString("newline")) ? Qt::Checked : Qt::Unchecked);
+    ui->checkBox_spaceFilter->setCheckState(
+        m_filters.contains(QString("space")) ? Qt::Checked : Qt::Unchecked);
 
     int ret = exec();
     if (ret != 1)
@@ -353,9 +361,12 @@ int ExtScript::showConfiguration(const QVariant args)
     setStrRedirect(ui->comboBox_redirect->currentText());
     setInterval(ui->spinBox_interval->value());
     // filters
-    updateFilter(QString("color"), ui->checkBox_colorFilter->checkState() == Qt::Checked);
-    updateFilter(QString("newline"), ui->checkBox_linesFilter->checkState() == Qt::Checked);
-    updateFilter(QString("space"), ui->checkBox_spaceFilter->checkState() == Qt::Checked);
+    updateFilter(QString("color"),
+                 ui->checkBox_colorFilter->checkState() == Qt::Checked);
+    updateFilter(QString("newline"),
+                 ui->checkBox_linesFilter->checkState() == Qt::Checked);
+    updateFilter(QString("space"),
+                 ui->checkBox_spaceFilter->checkState() == Qt::Checked);
 
     writeConfiguration();
     return ret;
@@ -367,8 +378,9 @@ void ExtScript::writeConfiguration() const
     qCDebug(LOG_LIB);
     AbstractExtItem::writeConfiguration();
 
-    QSettings settings(QString("%1/%2").arg(directories().first()).arg(fileName()),
-                       QSettings::IniFormat);
+    QSettings settings(
+        QString("%1/%2").arg(directories().first()).arg(fileName()),
+        QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
@@ -387,9 +399,13 @@ void ExtScript::updateValue()
     qCDebug(LOG_LIB);
 
     qCInfo(LOG_LIB) << "Cmd returns" << process->exitCode();
-    QString qdebug = QTextCodec::codecForMib(106)->toUnicode(process->readAllStandardError()).trimmed();
+    QString qdebug = QTextCodec::codecForMib(106)
+                         ->toUnicode(process->readAllStandardError())
+                         .trimmed();
     qCInfo(LOG_LIB) << "Error" << qdebug;
-    QString qoutput = QTextCodec::codecForMib(106)->toUnicode(process->readAllStandardOutput()).trimmed();
+    QString qoutput = QTextCodec::codecForMib(106)
+                          ->toUnicode(process->readAllStandardOutput())
+                          .trimmed();
     qCInfo(LOG_LIB) << "Output" << qoutput;
     QString strValue;
 

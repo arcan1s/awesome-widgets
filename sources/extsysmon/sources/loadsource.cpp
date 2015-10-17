@@ -68,8 +68,8 @@ QStringList LoadSource::sources() const
     qCDebug(LOG_ESM);
 
     QStringList sources;
-    for (int i=0; i<1000; i++)
-      sources.append(QString("load/load%1").arg(i));
+    for (int i = 0; i < 1000; i++)
+        sources.append(QString("load/load%1").arg(i));
 
     return sources;
 }

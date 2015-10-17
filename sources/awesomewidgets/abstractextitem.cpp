@@ -28,9 +28,9 @@
 
 AbstractExtItem::AbstractExtItem(QWidget *parent, const QString desktopName,
                                  const QStringList directories)
-    : QDialog(parent),
-      m_fileName(desktopName),
-      m_dirs(directories)
+    : QDialog(parent)
+    , m_fileName(desktopName)
+    , m_dirs(directories)
 {
     qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Desktop name" << desktopName;
@@ -46,15 +46,13 @@ AbstractExtItem::~AbstractExtItem()
 }
 
 
-template <class T>
-T *AbstractExtItem::copy(const QString, const int)
+template <class T> T *AbstractExtItem::copy(const QString, const int)
 {
     qCDebug(LOG_LIB);
 
     // an analog of pure virtual method
     return new T();
 }
-
 
 
 int AbstractExtItem::apiVersion() const
@@ -198,7 +196,7 @@ void AbstractExtItem::readConfiguration()
 {
     qCDebug(LOG_LIB);
 
-    for (int i=m_dirs.count()-1; i>=0; i--) {
+    for (int i = m_dirs.count() - 1; i >= 0; i--) {
         if (!QDir(m_dirs.at(i)).entryList(QDir::Files).contains(m_fileName))
             continue;
         QSettings settings(QString("%1/%2").arg(m_dirs.at(i)).arg(m_fileName),
@@ -207,9 +205,13 @@ void AbstractExtItem::readConfiguration()
         settings.beginGroup(QString("Desktop Entry"));
         setName(settings.value(QString("Name"), m_name).toString());
         setComment(settings.value(QString("Comment"), m_comment).toString());
-        setApiVersion(settings.value(QString("X-AW-ApiVersion"), m_apiVersion).toInt());
-        setActive(settings.value(QString("X-AW-Active"), QVariant(m_active)).toString() == QString("true"));
-        setInterval(settings.value(QString("X-AW-Interval"), m_interval).toInt());
+        setApiVersion(
+            settings.value(QString("X-AW-ApiVersion"), m_apiVersion).toInt());
+        setActive(settings.value(QString("X-AW-Active"), QVariant(m_active))
+                      .toString()
+                  == QString("true"));
+        setInterval(
+            settings.value(QString("X-AW-Interval"), m_interval).toInt());
         setNumber(settings.value(QString("X-AW-Number"), m_number).toInt());
         settings.endGroup();
     }
@@ -220,13 +222,14 @@ bool AbstractExtItem::tryDelete() const
 {
     qCDebug(LOG_LIB);
 
-    foreach(QString dir, m_dirs) {
+    foreach (QString dir, m_dirs) {
         bool status = QFile::remove(QString("%1/%2").arg(dir).arg(m_fileName));
-        qCInfo(LOG_LIB) << "Remove file" << QString("%1/%2").arg(dir).arg(m_fileName) << status;
+        qCInfo(LOG_LIB) << "Remove file"
+                        << QString("%1/%2").arg(dir).arg(m_fileName) << status;
     }
 
     // check if exists
-    foreach(QString dir, m_dirs)
+    foreach (QString dir, m_dirs)
         if (QFile::exists(QString("%1/%2").arg(dir).arg(m_fileName)))
             return false;
     return true;
@@ -237,7 +240,8 @@ void AbstractExtItem::writeConfiguration() const
 {
     qCDebug(LOG_LIB);
 
-    QSettings settings(QString("%1/%2").arg(m_dirs.first()).arg(m_fileName), QSettings::IniFormat);
+    QSettings settings(QString("%1/%2").arg(m_dirs.first()).arg(m_fileName),
+                       QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));

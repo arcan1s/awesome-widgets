@@ -59,7 +59,9 @@ QVariantMap CustomSource::initialData(QString source) const
     QVariantMap data;
     data[QString("min")] = QString("");
     data[QString("max")] = QString("");
-    data[QString("name")] = QString("Custom command '%1' output").arg(extScripts->itemByTagNumber(index(source))->uniq());
+    data[QString("name")]
+        = QString("Custom command '%1' output")
+              .arg(extScripts->itemByTagNumber(index(source))->uniq());
     data[QString("type")] = QString("QString");
     data[QString("units")] = QString("");
 
@@ -80,7 +82,7 @@ QStringList CustomSource::getSources()
     qCDebug(LOG_ESM);
 
     QStringList sources;
-    foreach(ExtScript *item, extScripts->activeItems())
+    foreach (ExtScript *item, extScripts->activeItems())
         sources.append(QString("custom/%1").arg(item->tag(QString("custom"))));
 
     return sources;

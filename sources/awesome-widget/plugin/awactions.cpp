@@ -57,7 +57,7 @@ void AWActions::checkUpdates(const bool showAnyway)
 
     // showAnyway options requires to show message if no updates found on direct
     // request. In case of automatic check no message will be shown
-    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+    QNetworkAccessManager *manager = new QNetworkAccessManager(nullptr);
     connect(manager, &QNetworkAccessManager::finished,
             [showAnyway, this](QNetworkReply *reply) {
                 return versionReplyRecieved(reply, showAnyway);
@@ -106,32 +106,50 @@ QString AWActions::getAboutText(const QString type) const
     if (type == QString("header")) {
         text = QString(NAME);
     } else if (type == QString("version")) {
-        text = i18n("Version %1 (build date %2)", QString(VERSION), QString(BUILD_DATE));
-        if (!QString(COMMIT_SHA).isEmpty()) text += QString(" (%1)").arg(QString(COMMIT_SHA));
+        text = i18n("Version %1 (build date %2)", QString(VERSION),
+                    QString(BUILD_DATE));
+        if (!QString(COMMIT_SHA).isEmpty())
+            text += QString(" (%1)").arg(QString(COMMIT_SHA));
     } else if (type == QString("description")) {
         text = i18n("A set of minimalistic plasmoid widgets");
     } else if (type == QString("links")) {
         text = i18n("Links:") + QString("<br>")
-            + QString("<a href=\"%1\">%2</a><br>").arg(QString(HOMEPAGE)).arg(i18n("Homepage"))
-            + QString("<a href=\"%1\">%2</a><br>").arg(QString(REPOSITORY)).arg(i18n("Repository"))
-            + QString("<a href=\"%1\">%2</a><br>").arg(QString(BUGTRACKER)).arg(i18n("Bugtracker"))
-            + QString("<a href=\"%1\">%2</a><br>").arg(QString(TRANSLATION)).arg(i18n("Translation issue"))
-            + QString("<a href=\"%1\">%2</a><br>").arg(QString(AUR_PACKAGES)).arg(i18n("AUR packages"))
-            + QString("<a href=\"%1\">%2</a>").arg(QString(OPENSUSE_PACKAGES)).arg(i18n("openSUSE packages"));
+               + QString("<a href=\"%1\">%2</a><br>")
+                     .arg(QString(HOMEPAGE))
+                     .arg(i18n("Homepage"))
+               + QString("<a href=\"%1\">%2</a><br>")
+                     .arg(QString(REPOSITORY))
+                     .arg(i18n("Repository"))
+               + QString("<a href=\"%1\">%2</a><br>")
+                     .arg(QString(BUGTRACKER))
+                     .arg(i18n("Bugtracker"))
+               + QString("<a href=\"%1\">%2</a><br>")
+                     .arg(QString(TRANSLATION))
+                     .arg(i18n("Translation issue"))
+               + QString("<a href=\"%1\">%2</a><br>")
+                     .arg(QString(AUR_PACKAGES))
+                     .arg(i18n("AUR packages"))
+               + QString("<a href=\"%1\">%2</a>")
+                     .arg(QString(OPENSUSE_PACKAGES))
+                     .arg(i18n("openSUSE packages"));
     } else if (type == QString("copy")) {
-        text = QString("<small>&copy; %1 <a href=\"mailto:%2\">%3</a><br>").
-            arg(QString(DATE)).arg(QString(EMAIL)).arg(QString(AUTHOR))
-            + i18n("This software is licensed under %1", QString(LICENSE))
-            + QString("</small>");
+        text = QString("<small>&copy; %1 <a href=\"mailto:%2\">%3</a><br>")
+                   .arg(QString(DATE))
+                   .arg(QString(EMAIL))
+                   .arg(QString(AUTHOR))
+               + i18n("This software is licensed under %1", QString(LICENSE))
+               + QString("</small>");
     } else if (type == QString("translators")) {
         text = i18n("Translators: %1", QString(TRANSLATORS));
     } else if (type == QString("3rdparty")) {
-        QStringList trdPartyList = QString(TRDPARTY_LICENSE).split(QChar(';'), QString::SkipEmptyParts);
-        for (int i=0; i<trdPartyList.count(); i++)
-            trdPartyList[i] = QString("<a href=\"%3\">%1</a> (%2 license)").
-                arg(trdPartyList.at(i).split(QChar(','))[0]).
-                arg(trdPartyList.at(i).split(QChar(','))[1]).
-                arg(trdPartyList.at(i).split(QChar(','))[2]);
+        QStringList trdPartyList
+            = QString(TRDPARTY_LICENSE)
+                  .split(QChar(';'), QString::SkipEmptyParts);
+        for (int i = 0; i < trdPartyList.count(); i++)
+            trdPartyList[i] = QString("<a href=\"%3\">%1</a> (%2 license)")
+                                  .arg(trdPartyList.at(i).split(QChar(','))[0])
+                                  .arg(trdPartyList.at(i).split(QChar(','))[1])
+                                  .arg(trdPartyList.at(i).split(QChar(','))[2]);
         text = i18n("This software uses: %1", trdPartyList.join(QString(", ")));
     }
 
@@ -146,17 +164,16 @@ QVariantMap AWActions::getFont(const QVariantMap defaultFont) const
 
     QVariantMap fontMap;
     CFont defaultCFont = CFont(defaultFont[QString("family")].toString(),
-                               defaultFont[QString("size")].toInt(),
-                               400, false, defaultFont[QString("color")].toString());
-    CFont font = CFontDialog::getFont(i18n("Select font"), defaultCFont,
-                                      false, false);
+                               defaultFont[QString("size")].toInt(), 400, false,
+                               defaultFont[QString("color")].toString());
+    CFont font
+        = CFontDialog::getFont(i18n("Select font"), defaultCFont, false, false);
     fontMap[QString("color")] = font.color().name();
     fontMap[QString("family")] = font.family();
     fontMap[QString("size")] = font.pointSize();
 
     return fontMap;
 }
-
 
 
 // to avoid additional object definition this method is static
@@ -166,10 +183,10 @@ void AWActions::sendNotification(const QString eventId, const QString message)
     qCDebug(LOG_AW) << "Event" << eventId;
     qCDebug(LOG_AW) << "Message" << message;
 
-    KNotification *notification = KNotification::event(eventId,
-                                                       QString("Awesome Widget ::: %1").arg(eventId),
-                                                       message);
-    notification->setComponentName(QString("plasma-applet-org.kde.plasma.awesome-widget"));
+    KNotification *notification = KNotification::event(
+        eventId, QString("Awesome Widget ::: %1").arg(eventId), message);
+    notification->setComponentName(
+        QString("plasma-applet-org.kde.plasma.awesome-widget"));
 }
 
 
@@ -185,7 +202,6 @@ void AWActions::showInfo(const QString version) const
 }
 
 
-
 void AWActions::showUpdates(const QString version) const
 {
     qCDebug(LOG_AW);
@@ -193,12 +209,15 @@ void AWActions::showUpdates(const QString version) const
 
     QString text;
     text += i18n("Current version : %1", QString(VERSION));
-    text += QString(COMMIT_SHA).isEmpty() ? QString("\n") : QString(" (%1)\n").arg(QString(COMMIT_SHA));
+    text += QString(COMMIT_SHA).isEmpty()
+                ? QString("\n")
+                : QString(" (%1)\n").arg(QString(COMMIT_SHA));
     text += i18n("New version : %1", version) + QString("\n\n");
     text += i18n("Click \"Ok\" to download");
 
-    int select = QMessageBox::information(nullptr, i18n("There are updates"), text,
-                                          QMessageBox::Ok | QMessageBox::Cancel);
+    int select
+        = QMessageBox::information(nullptr, i18n("There are updates"), text,
+                                   QMessageBox::Ok | QMessageBox::Cancel);
     switch (select) {
     case QMessageBox::Ok:
         QDesktopServices::openUrl(QString(RELEASES) + version);
@@ -210,7 +229,8 @@ void AWActions::showUpdates(const QString version) const
 }
 
 
-void AWActions::versionReplyRecieved(QNetworkReply *reply, const bool showAnyway) const
+void AWActions::versionReplyRecieved(QNetworkReply *reply,
+                                     const bool showAnyway) const
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Return code" << reply->error();
@@ -241,7 +261,8 @@ void AWActions::versionReplyRecieved(QNetworkReply *reply, const bool showAnyway
     int new_patch = QString(version).split(QChar('.')).at(2).toInt();
     if ((old_major < new_major)
         || ((old_major == new_major) && (old_minor < new_minor))
-        || ((old_major == new_major) && (old_minor == new_minor) && (old_patch < new_patch)))
+        || ((old_major == new_major) && (old_minor == new_minor)
+            && (old_patch < new_patch)))
         return showUpdates(version);
     else if (showAnyway)
         return showInfo(version);

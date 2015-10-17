@@ -45,9 +45,12 @@ DPAdds::DPAdds(QObject *parent)
     // logging
     qSetMessagePattern(LOG_FORMAT);
 
-    connect(KWindowSystem::self(), SIGNAL(currentDesktopChanged(int)), this, SIGNAL(desktopChanged()));
-    connect(KWindowSystem::self(), SIGNAL(windowAdded(WId)), this, SIGNAL(windowListChanged()));
-    connect(KWindowSystem::self(), SIGNAL(windowRemoved(WId)), this, SIGNAL(windowListChanged()));
+    connect(KWindowSystem::self(), SIGNAL(currentDesktopChanged(int)), this,
+            SIGNAL(desktopChanged()));
+    connect(KWindowSystem::self(), SIGNAL(windowAdded(WId)), this,
+            SIGNAL(windowListChanged()));
+    connect(KWindowSystem::self(), SIGNAL(windowRemoved(WId)), this,
+            SIGNAL(windowListChanged()));
 }
 
 
@@ -101,16 +104,19 @@ QString DPAdds::toolTipImage(const int desktop) const
     qCDebug(LOG_DP);
     qCDebug(LOG_DP) << "Desktop" << desktop;
     // drop if no tooltip required
-    if (m_tooltipType == QString("none")) return QString();
+    if (m_tooltipType == QString("none"))
+        return QString();
 
     // prepare
     DesktopWindowsInfo info = getInfoByDesktop(desktop);
     // special tooltip format for names
     if (m_tooltipType == QString("names")) {
         QStringList windowList;
-        std::for_each(info.windowsData.cbegin(), info.windowsData.cend(),
-                      [&windowList](WindowData data) { windowList.append(data.name); });
-        return QString("<ul><li>%1</li></ul>").arg(windowList.join(QString("</li><li>")));
+        std::for_each(
+            info.windowsData.cbegin(), info.windowsData.cend(),
+            [&windowList](WindowData data) { windowList.append(data.name); });
+        return QString("<ul><li>%1</li></ul>")
+            .arg(windowList.join(QString("</li><li>")));
     }
     // init
     QGraphicsScene *toolTipScene = new QGraphicsScene();
@@ -122,14 +128,17 @@ QString DPAdds::toolTipImage(const int desktop) const
     toolTipView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     // update
     float margin = 5.0 * info.desktop.width() / 400.0;
-    toolTipView->resize(info.desktop.width() + 2.0 * margin, info.desktop.height() + 2.0 * margin);
+    toolTipView->resize(info.desktop.width() + 2.0 * margin,
+                        info.desktop.height() + 2.0 * margin);
     toolTipScene->clear();
     toolTipScene->setBackgroundBrush(QBrush(Qt::NoBrush));
     // borders
     toolTipScene->addLine(0, 0, 0, info.desktop.height() + 2.0 * margin);
     toolTipScene->addLine(0, info.desktop.height() + 2.0 * margin,
-                          info.desktop.width() + 2.0 * margin, info.desktop.height() + 2.0 * margin);
-    toolTipScene->addLine(info.desktop.width() + 2.0 * margin, info.desktop.height() + 2.0 * margin,
+                          info.desktop.width() + 2.0 * margin,
+                          info.desktop.height() + 2.0 * margin);
+    toolTipScene->addLine(info.desktop.width() + 2.0 * margin,
+                          info.desktop.height() + 2.0 * margin,
                           info.desktop.width() + 2.0 * margin, 0);
     toolTipScene->addLine(info.desktop.width() + 2.0 * margin, 0, 0, 0);
 
@@ -137,36 +146,43 @@ QString DPAdds::toolTipImage(const int desktop) const
         QPen pen = QPen();
         pen.setWidthF(2.0 * info.desktop.width() / 400.0);
         pen.setColor(QColor(m_tooltipColor));
-        foreach(WindowData data, info.windowsData) {
+        foreach (WindowData data, info.windowsData) {
             QRect rect = data.rect;
             toolTipScene->addLine(rect.left() + margin, rect.bottom() + margin,
-                                  rect.left() + margin, rect.top() + margin, pen);
+                                  rect.left() + margin, rect.top() + margin,
+                                  pen);
             toolTipScene->addLine(rect.left() + margin, rect.top() + margin,
-                                  rect.right() + margin, rect.top() + margin, pen);
+                                  rect.right() + margin, rect.top() + margin,
+                                  pen);
             toolTipScene->addLine(rect.right() + margin, rect.top() + margin,
-                                  rect.right() + margin, rect.bottom() + margin, pen);
+                                  rect.right() + margin, rect.bottom() + margin,
+                                  pen);
             toolTipScene->addLine(rect.right() + margin, rect.bottom() + margin,
-                                  rect.left() + margin, rect.bottom() + margin, pen);
+                                  rect.left() + margin, rect.bottom() + margin,
+                                  pen);
         }
     } else if (m_tooltipType == QString("clean")) {
         QScreen *screen = QGuiApplication::primaryScreen();
         std::for_each(info.desktopsData.cbegin(), info.desktopsData.cend(),
                       [&toolTipScene, &screen](WindowData data) {
                           QPixmap desktop = screen->grabWindow(data.id);
-                          toolTipScene->addPixmap(desktop)->setOffset(data.rect.left(), data.rect.top());
-        });
+                          toolTipScene->addPixmap(desktop)
+                              ->setOffset(data.rect.left(), data.rect.top());
+                      });
     } else if (m_tooltipType == QString("windows")) {
         QScreen *screen = QGuiApplication::primaryScreen();
         std::for_each(info.desktopsData.cbegin(), info.desktopsData.cend(),
                       [&toolTipScene, &screen](WindowData data) {
                           QPixmap desktop = screen->grabWindow(data.id);
-                          toolTipScene->addPixmap(desktop)->setOffset(data.rect.left(), data.rect.top());
-        });
+                          toolTipScene->addPixmap(desktop)
+                              ->setOffset(data.rect.left(), data.rect.top());
+                      });
         std::for_each(info.windowsData.cbegin(), info.windowsData.cend(),
                       [&toolTipScene, &screen](WindowData data) {
                           QPixmap window = screen->grabWindow(data.id);
-                          toolTipScene->addPixmap(window)->setOffset(data.rect.left(), data.rect.top());
-        });
+                          toolTipScene->addPixmap(window)
+                              ->setOffset(data.rect.left(), data.rect.top());
+                      });
     }
 
     QPixmap image = toolTipView->grab().scaledToWidth(m_tooltipWidth);
@@ -177,7 +193,8 @@ QString DPAdds::toolTipImage(const int desktop) const
     delete toolTipView;
     delete toolTipScene;
 
-    return QString("<img src=\"data:image/png;base64,%1\"/>").arg(QString(byteArray.toBase64()));
+    return QString("<img src=\"data:image/png;base64,%1\"/>")
+        .arg(QString(byteArray.toBase64()));
 }
 
 
@@ -189,7 +206,7 @@ QString DPAdds::parsePattern(const QString pattern, const int desktop) const
 
     QString parsed = pattern;
     parsed.replace(QString("$$"), QString("$\\$\\"));
-    foreach(QString key, dictKeys())
+    foreach (QString key, dictKeys())
         parsed.replace(QString("$%1").arg(key), valueByKey(key, desktop));
     parsed.replace(QString("$\\$\\"), QString("$$"));
 
@@ -222,14 +239,17 @@ QString DPAdds::valueByKey(const QString key, int desktop) const
     qCDebug(LOG_DP);
     qCDebug(LOG_DP) << "Requested key" << key;
     qCDebug(LOG_DP) << "Desktop number" << desktop;
-    if (desktop == -1) desktop = currentDesktop();
+    if (desktop == -1)
+        desktop = currentDesktop();
 
     QString currentMark = currentDesktop() == desktop ? m_mark : QString("");
     if (key == QString("mark"))
-        return QString("%1").arg(currentMark, m_mark.count(), QLatin1Char(' '))
-                            .replace(QString(" "), QString("&nbsp;"));
+        return QString("%1")
+            .arg(currentMark, m_mark.count(), QLatin1Char(' '))
+            .replace(QString(" "), QString("&nbsp;"));
     else if (key == QString("name"))
-        return KWindowSystem::desktopName(desktop).replace(QString(" "), QString("&nbsp;"));
+        return KWindowSystem::desktopName(desktop)
+            .replace(QString(" "), QString("&nbsp;"));
     else if (key == QString("number"))
         return QString::number(desktop);
     else if (key == QString("total"))
@@ -246,33 +266,54 @@ QString DPAdds::getAboutText(const QString type) const
     qCDebug(LOG_DP) << "Type" << type;
 
     QString text;
-    if (type == QString("header"))
+    if (type == QString("header")) {
         text = QString(NAME);
-    else if (type == QString("version")) {
-        text = i18n("Version %1 (build date %2)", QString(VERSION), QString(BUILD_DATE));
-        if (!QString(COMMIT_SHA).isEmpty()) text += QString(" (%1)").arg(QString(COMMIT_SHA));
-    } else if (type == QString("description"))
+    } else if (type == QString("version")) {
+        text = i18n("Version %1 (build date %2)", QString(VERSION),
+                    QString(BUILD_DATE));
+        if (!QString(COMMIT_SHA).isEmpty())
+            text += QString(" (%1)").arg(QString(COMMIT_SHA));
+    } else if (type == QString("description")) {
         text = i18n("A set of minimalistic plasmoid widgets");
-    else if (type == QString("links"))
-        text = i18n("Links:") + QString("<br>") +
-               QString("<a href=\"%1\">%2</a><br>").arg(QString(HOMEPAGE)).arg(i18n("Homepage")) +
-               QString("<a href=\"%1\">%2</a><br>").arg(QString(REPOSITORY)).arg(i18n("Repository")) +
-               QString("<a href=\"%1\">%2</a><br>").arg(QString(BUGTRACKER)).arg(i18n("Bugtracker")) +
-               QString("<a href=\"%1\">%2</a><br>").arg(QString(TRANSLATION)).arg(i18n("Translation issue")) +
-               QString("<a href=\"%1\">%2</a><br>").arg(QString(AUR_PACKAGES)).arg(i18n("AUR packages")) +
-               QString("<a href=\"%1\">%2</a>").arg(QString(OPENSUSE_PACKAGES)).arg(i18n("openSUSE packages"));
-    else if (type == QString("copy"))
-        text = QString("<small>&copy; %1 <a href=\"mailto:%2\">%3</a><br>").arg(QString(DATE)).arg(QString(EMAIL)).arg(QString(AUTHOR)) +
-               i18n("This software is licensed under %1", QString(LICENSE)) + QString("</small>");
-    else if (type == QString("translators"))
+    } else if (type == QString("links")) {
+        text = i18n("Links:") + QString("<br>")
+               + QString("<a href=\"%1\">%2</a><br>")
+                     .arg(QString(HOMEPAGE))
+                     .arg(i18n("Homepage"))
+               + QString("<a href=\"%1\">%2</a><br>")
+                     .arg(QString(REPOSITORY))
+                     .arg(i18n("Repository"))
+               + QString("<a href=\"%1\">%2</a><br>")
+                     .arg(QString(BUGTRACKER))
+                     .arg(i18n("Bugtracker"))
+               + QString("<a href=\"%1\">%2</a><br>")
+                     .arg(QString(TRANSLATION))
+                     .arg(i18n("Translation issue"))
+               + QString("<a href=\"%1\">%2</a><br>")
+                     .arg(QString(AUR_PACKAGES))
+                     .arg(i18n("AUR packages"))
+               + QString("<a href=\"%1\">%2</a>")
+                     .arg(QString(OPENSUSE_PACKAGES))
+                     .arg(i18n("openSUSE packages"));
+    } else if (type == QString("copy")) {
+        text = QString("<small>&copy; %1 <a href=\"mailto:%2\">%3</a><br>")
+                   .arg(QString(DATE))
+                   .arg(QString(EMAIL))
+                   .arg(QString(AUTHOR))
+               + i18n("This software is licensed under %1", QString(LICENSE))
+               + QString("</small>");
+    } else if (type == QString("translators")) {
         text = i18n("Translators: %1", QString(TRANSLATORS));
-    else if (type == QString("3rdparty")) {
-        QStringList trdPartyList = QString(TRDPARTY_LICENSE).split(QChar(';'), QString::SkipEmptyParts);
-        for (int i=0; i<trdPartyList.count(); i++)
-            trdPartyList[i] = QString("<a href=\"%3\">%1</a> (%2 license)")
-                    .arg(trdPartyList.at(i).split(QChar(',')).at(0))
-                    .arg(trdPartyList.at(i).split(QChar(',')).at(1))
-                    .arg(trdPartyList.at(i).split(QChar(',')).at(2));
+    } else if (type == QString("3rdparty")) {
+        QStringList trdPartyList
+            = QString(TRDPARTY_LICENSE)
+                  .split(QChar(';'), QString::SkipEmptyParts);
+        for (int i = 0; i < trdPartyList.count(); i++)
+            trdPartyList[i]
+                = QString("<a href=\"%3\">%1</a> (%2 license)")
+                      .arg(trdPartyList.at(i).split(QChar(',')).at(0))
+                      .arg(trdPartyList.at(i).split(QChar(',')).at(1))
+                      .arg(trdPartyList.at(i).split(QChar(',')).at(2));
         text = i18n("This software uses: %1", trdPartyList.join(QString(", ")));
     }
 
@@ -287,10 +328,10 @@ QVariantMap DPAdds::getFont(const QVariantMap defaultFont) const
 
     QVariantMap fontMap;
     CFont defaultCFont = CFont(defaultFont[QString("family")].toString(),
-                               defaultFont[QString("size")].toInt(),
-                               400, false, defaultFont[QString("color")].toString());
-    CFont font = CFontDialog::getFont(i18n("Select font"), defaultCFont,
-                                      false, false);
+                               defaultFont[QString("size")].toInt(), 400, false,
+                               defaultFont[QString("color")].toString());
+    CFont font
+        = CFontDialog::getFont(i18n("Select font"), defaultCFont, false, false);
     fontMap[QString("color")] = font.color().name();
     fontMap[QString("family")] = font.family();
     fontMap[QString("size")] = font.pointSize();
@@ -306,8 +347,10 @@ void DPAdds::sendNotification(const QString eventId, const QString message)
     qCDebug(LOG_DP) << "Event" << eventId;
     qCDebug(LOG_DP) << "Message" << message;
 
-    KNotification *notification = KNotification::event(eventId, QString("Desktop Panel ::: %1").arg(eventId), message);
-    notification->setComponentName(QString("plasma-applet-org.kde.plasma.desktop-panel"));
+    KNotification *notification = KNotification::event(
+        eventId, QString("Desktop Panel ::: %1").arg(eventId), message);
+    notification->setComponentName(
+        QString("plasma-applet-org.kde.plasma.desktop-panel"));
 }
 
 
@@ -330,20 +373,24 @@ DPAdds::DesktopWindowsInfo DPAdds::getInfoByDesktop(const int desktop) const
     DesktopWindowsInfo info;
     info.desktop = KWindowSystem::workArea(desktop);
 
-    foreach(WId id, KWindowSystem::windows()) {
-        KWindowInfo winInfo = KWindowInfo(id,
-                                          NET::Property::WMDesktop | NET::Property::WMGeometry |
-                                          NET::Property::WMState | NET::Property::WMWindowType |
-                                          NET::Property::WMVisibleName);
-        if (!winInfo.isOnDesktop(desktop)) continue;
+    foreach (WId id, KWindowSystem::windows()) {
+        KWindowInfo winInfo = KWindowInfo(
+            id, NET::Property::WMDesktop | NET::Property::WMGeometry
+                    | NET::Property::WMState | NET::Property::WMWindowType
+                    | NET::Property::WMVisibleName);
+        if (!winInfo.isOnDesktop(desktop))
+            continue;
         WindowData data;
         data.id = id;
         data.name = winInfo.visibleName();
         data.rect = winInfo.geometry();
-        if (winInfo.windowType(NET::WindowTypeMask::NormalMask) == NET::WindowType::Normal) {
-            if (winInfo.isMinimized()) continue;
+        if (winInfo.windowType(NET::WindowTypeMask::NormalMask)
+            == NET::WindowType::Normal) {
+            if (winInfo.isMinimized())
+                continue;
             info.windowsData.append(data);
-        } else if (winInfo.windowType(NET::WindowTypeMask::DesktopMask) == NET::WindowType::Desktop) {
+        } else if (winInfo.windowType(NET::WindowTypeMask::DesktopMask)
+                   == NET::WindowType::Desktop) {
             info.desktopsData.append(data);
         }
     }

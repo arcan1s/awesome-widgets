@@ -126,6 +126,12 @@ HIG
 
 The recommended HIG is [KDE one](https://techbase.kde.org/Projects/Usability/HIG).
 
+Licensing
+---------
+
+All files should be licensed under GPLv3, the owner of the license should be the
+project (i.e. **awesome-widgets**). See **Tools** section for more details.
+
 Logging
 -------
 
@@ -212,7 +218,7 @@ Tools
         // declare with default value
         bool m_prop = false;
   ```
-* Use `cppcheck` to avoid common errors in the code. Refer to `utils` for more
-  details.
-* Use `clang-format` to apply valid code format. Refer to `utils` for more
-  details.
+* Use `cppcheck` to avoid common errors in the code. To start application just
+  run `make cppcheck`.
+* Use `clang-format` to apply valid code format. To start application just run
+  `make clangformat`.

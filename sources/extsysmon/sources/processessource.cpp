@@ -42,7 +42,8 @@ QVariant ProcessesSource::data(QString source)
     qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
-    if (source == QString("ps/running/count")) run();
+    if (source == QString("ps/running/count"))
+        run();
     return values[source];
 }
 
@@ -81,19 +82,23 @@ void ProcessesSource::run()
 {
     qCDebug(LOG_ESM);
 
-    QStringList allDirectories = QDir(QString("/proc")).entryList(QDir::Dirs | QDir::NoDotAndDotDot,
-                                                                  QDir::Name);
+    QStringList allDirectories
+        = QDir(QString("/proc"))
+              .entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
     QStringList directories = allDirectories.filter(QRegExp(QString("(\\d+)")));
     QStringList running;
 
-    foreach(QString dir, directories) {
+    foreach (QString dir, directories) {
         QFile statusFile(QString("/proc/%1/status").arg(dir));
-        if (!statusFile.open(QIODevice::ReadOnly)) continue;
+        if (!statusFile.open(QIODevice::ReadOnly))
+            continue;
         QFile cmdFile(QString("/proc/%1/cmdline").arg(dir));
-        if (!cmdFile.open(QIODevice::ReadOnly)) continue;
+        if (!cmdFile.open(QIODevice::ReadOnly))
+            continue;
 
         QString output = statusFile.readAll();
-        if (output.contains(QString("running"))) running.append(cmdFile.readAll());
+        if (output.contains(QString("running")))
+            running.append(cmdFile.readAll());
     }
 
     values[QString("ps/running/count")] = running.count();

@@ -31,7 +31,8 @@ class AWKeysAggregator : public QObject
     Q_PROPERTY(QString acOffline MEMBER m_acOffline WRITE setAcOffline);
     Q_PROPERTY(QString acOnline MEMBER m_acOnline WRITE setAcOnline);
     Q_PROPERTY(QString customTime MEMBER m_customTime WRITE setCustomTime);
-    Q_PROPERTY(QString customUptime MEMBER m_customUptime WRITE setCustomUptime);
+    Q_PROPERTY(
+        QString customUptime MEMBER m_customUptime WRITE setCustomUptime);
     Q_PROPERTY(QString tempUnits MEMBER m_tempUnits WRITE setTempUnits);
     Q_PROPERTY(bool translate MEMBER m_translate WRITE setTranslate);
 
@@ -64,8 +65,8 @@ public:
     explicit AWKeysAggregator(QObject *parent = nullptr);
     virtual ~AWKeysAggregator();
     // get methods
-    QString formater(const QVariant data, const QString key) const;
-    QStringList keysFromSource(const QString source) const;
+    QString formater(const QVariant &data, const QString &key) const;
+    QStringList keysFromSource(const QString &source) const;
     // set methods
     void setAcOffline(const QString inactive);
     void setAcOnline(const QString active);
@@ -76,7 +77,7 @@ public:
     void setTranslate(const bool translate);
 
 public slots:
-    QStringList registerSource(const QString source, const QString units);
+    QStringList registerSource(const QString &source, const QString &units);
 
 private:
     float temperature(const float temp) const;
@@ -90,7 +91,7 @@ private:
     QHash<QString, FormaterType> m_formater;
     QHash<QString, QString> m_map;
     QString m_tempUnits;
-    bool m_translate;
+    bool m_translate = false;
 };
 
 

@@ -33,21 +33,24 @@ AbstractExtItemAggregator::AbstractExtItemAggregator(QWidget *parent)
 
     dialog = new QDialog(this);
     widgetDialog = new QListWidget(dialog);
-    dialogButtons = new QDialogButtonBox(QDialogButtonBox::Open | QDialogButtonBox::Close,
-                                         Qt::Vertical, dialog);
-    copyButton = dialogButtons->addButton(i18n("Copy"), QDialogButtonBox::ActionRole);
-    createButton = dialogButtons->addButton(i18n("Create"), QDialogButtonBox::ActionRole);
-    deleteButton = dialogButtons->addButton(i18n("Remove"), QDialogButtonBox::ActionRole);
+    dialogButtons = new QDialogButtonBox(
+        QDialogButtonBox::Open | QDialogButtonBox::Close, Qt::Vertical, dialog);
+    copyButton
+        = dialogButtons->addButton(i18n("Copy"), QDialogButtonBox::ActionRole);
+    createButton = dialogButtons->addButton(i18n("Create"),
+                                            QDialogButtonBox::ActionRole);
+    deleteButton = dialogButtons->addButton(i18n("Remove"),
+                                            QDialogButtonBox::ActionRole);
     QHBoxLayout *layout = new QHBoxLayout(dialog);
     layout->addWidget(widgetDialog);
     layout->addWidget(dialogButtons);
     dialog->setLayout(layout);
 
-    connect(dialogButtons, SIGNAL(clicked(QAbstractButton *)),
-            this, SLOT(editItemButtonPressed(QAbstractButton *)));
+    connect(dialogButtons, SIGNAL(clicked(QAbstractButton *)), this,
+            SLOT(editItemButtonPressed(QAbstractButton *)));
     connect(dialogButtons, SIGNAL(rejected()), dialog, SLOT(reject()));
-    connect(widgetDialog, SIGNAL(itemActivated(QListWidgetItem *)),
-            this, SLOT(editItemActivated(QListWidgetItem *)));
+    connect(widgetDialog, SIGNAL(itemActivated(QListWidgetItem *)), this,
+            SLOT(editItemActivated(QListWidgetItem *)));
 }
 
 

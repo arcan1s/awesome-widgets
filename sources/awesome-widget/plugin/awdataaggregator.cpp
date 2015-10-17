@@ -39,8 +39,8 @@ AWDataAggregator::AWDataAggregator(QObject *parent)
     qRegisterMetaType<QHash<QString, QString>>("QHash<QString, QString>");
 
     initScene();
-    connect(this, SIGNAL(updateData(const QHash<QString, QString>)),
-            this, SLOT(dataUpdate(const QHash<QString, QString>)));
+    connect(this, SIGNAL(updateData(const QHash<QString, QString> &)), this,
+            SLOT(dataUpdate(const QHash<QString, QString> &)));
 }
 
 
@@ -61,7 +61,7 @@ QList<float> AWDataAggregator::getData(const QString key) const
 }
 
 
-QString AWDataAggregator::htmlImage(const QPixmap source) const
+QString AWDataAggregator::htmlImage(const QPixmap &source) const
 {
     qCDebug(LOG_AW);
 
@@ -70,8 +70,9 @@ QString AWDataAggregator::htmlImage(const QPixmap source) const
     source.save(&buffer, "PNG");
 
     return byteArray.isEmpty()
-        ? QString()
-        : QString("<img src=\"data:image/png;base64,%1\"/>").arg(QString(byteArray.toBase64()));
+               ? QString()
+               : QString("<img src=\"data:image/png;base64,%1\"/>")
+                     .arg(QString(byteArray.toBase64()));
 }
 
 
@@ -104,18 +105,27 @@ void AWDataAggregator::setParameters(QVariantMap settings)
     boundaries[QString("batTooltip")] = 100.0;
 
     requiredKeys.clear();
-    if (configuration[QString("cpuTooltip")].toBool()) requiredKeys.append(QString("cpuTooltip"));
-    if (configuration[QString("cpuclTooltip")].toBool()) requiredKeys.append(QString("cpuclTooltip"));
-    if (configuration[QString("memTooltip")].toBool()) requiredKeys.append(QString("memTooltip"));
-    if (configuration[QString("swapTooltip")].toBool()) requiredKeys.append(QString("swapTooltip"));
-    if (configuration[QString("downTooltip")].toBool()) requiredKeys.append(QString("downTooltip"));
-    if (configuration[QString("upTooltip")].toBool()) requiredKeys.append(QString("upTooltip"));
-    if (configuration[QString("batTooltip")].toBool()) requiredKeys.append(QString("batTooltip"));
+    if (configuration[QString("cpuTooltip")].toBool())
+        requiredKeys.append(QString("cpuTooltip"));
+    if (configuration[QString("cpuclTooltip")].toBool())
+        requiredKeys.append(QString("cpuclTooltip"));
+    if (configuration[QString("memTooltip")].toBool())
+        requiredKeys.append(QString("memTooltip"));
+    if (configuration[QString("swapTooltip")].toBool())
+        requiredKeys.append(QString("swapTooltip"));
+    if (configuration[QString("downTooltip")].toBool())
+        requiredKeys.append(QString("downTooltip"));
+    if (configuration[QString("upTooltip")].toBool())
+        requiredKeys.append(QString("upTooltip"));
+    if (configuration[QString("batTooltip")].toBool())
+        requiredKeys.append(QString("batTooltip"));
 
     // background
-    toolTipScene->setBackgroundBrush(configuration[QString("useTooltipBackground")].toBool()
-                                     ? QBrush(QColor(configuration[QString("tooltipBackground")].toString()))
-                                     : QBrush(Qt::NoBrush));
+    toolTipScene->setBackgroundBrush(
+        configuration[QString("useTooltipBackground")].toBool()
+            ? QBrush(QColor(
+                  configuration[QString("tooltipBackground")].toString()))
+            : QBrush(Qt::NoBrush));
 }
 
 
@@ -127,7 +137,7 @@ QPixmap AWDataAggregator::tooltipImage()
     toolTipScene->clear();
     QPen pen;
     bool down = false;
-    foreach(QString key, requiredKeys) {
+    foreach (QString key, requiredKeys) {
         // create frame
         float normX = 100.0 / static_cast<float>(data[key].count());
         float normY = 100.0 / (1.5 * boundaries[key]);
@@ -136,19 +146,23 @@ QPixmap AWDataAggregator::tooltipImage()
             shift -= 100.0;
         // apply pen color
         if (key != QString("batTooltip"))
-            pen.setColor(QColor(configuration[QString("%1Color").arg(key)].toString()));
+            pen.setColor(
+                QColor(configuration[QString("%1Color").arg(key)].toString()));
         // paint data inside frame
-        for (int j=0; j<data[key].count()-1; j++) {
+        for (int j = 0; j < data[key].count() - 1; j++) {
             // some magic here
             float x1 = j * normX + shift;
-            float y1 = - fabs(data[key].at(j)) * normY + 5.0;
+            float y1 = -fabs(data[key].at(j)) * normY + 5.0;
             float x2 = (j + 1) * normX + shift;
-            float y2 = - fabs(data[key].at(j+1)) * normY + 5.0;
+            float y2 = -fabs(data[key].at(j + 1)) * normY + 5.0;
             if (key == QString("batTooltip")) {
-                if (data[key].at(j+1) > 0)
-                    pen.setColor(QColor(configuration[QString("batTooltipColor")].toString()));
+                if (data[key].at(j + 1) > 0)
+                    pen.setColor(QColor(
+                        configuration[QString("batTooltipColor")].toString()));
                 else
-                    pen.setColor(QColor(configuration[QString("batInTooltipColor")].toString()));
+                    pen.setColor(
+                        QColor(configuration[QString("batInTooltipColor")]
+                                   .toString()));
             }
             toolTipScene->addLine(x1, y1, x2, y2, pen);
         }
@@ -160,7 +174,7 @@ QPixmap AWDataAggregator::tooltipImage()
 }
 
 
-void AWDataAggregator::dataUpdate(const QHash<QString, QString> values)
+void AWDataAggregator::dataUpdate(const QHash<QString, QString> &values)
 {
     qCDebug(LOG_AW);
 
@@ -178,11 +192,15 @@ void AWDataAggregator::checkValue(const QString source, const float value,
     qCDebug(LOG_AW) << "Called with extremum" << extremum;
 
     if (value >= 0.0) {
-        if ((m_enablePopup) && (value > extremum) && (data[source].last() < extremum))
-            return AWActions::sendNotification(QString("event"), notificationText(source, value));
+        if ((m_enablePopup) && (value > extremum)
+            && (data[source].last() < extremum))
+            return AWActions::sendNotification(QString("event"),
+                                               notificationText(source, value));
     } else {
-        if ((m_enablePopup) && (value < extremum) && (data[source].last() > extremum))
-            return AWActions::sendNotification(QString("event"), notificationText(source, value));
+        if ((m_enablePopup) && (value < extremum)
+            && (data[source].last() > extremum))
+            return AWActions::sendNotification(QString("event"),
+                                               notificationText(source, value));
     }
 }
 
@@ -196,7 +214,8 @@ void AWDataAggregator::checkValue(const QString source, const QString current,
     qCDebug(LOG_AW) << "Received value" << received;
 
     if ((m_enablePopup) && (current != received) && (!received.isEmpty()))
-        return AWActions::sendNotification(QString("event"), notificationText(source, received));
+        return AWActions::sendNotification(QString("event"),
+                                           notificationText(source, received));
 }
 
 
@@ -214,7 +233,8 @@ void AWDataAggregator::initScene()
 }
 
 
-QString AWDataAggregator::notificationText(const QString source, const float value) const
+QString AWDataAggregator::notificationText(const QString source,
+                                           const float value) const
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Notification source" << source;
@@ -236,7 +256,8 @@ QString AWDataAggregator::notificationText(const QString source, const float val
 }
 
 
-QString AWDataAggregator::notificationText(const QString source, const QString value) const
+QString AWDataAggregator::notificationText(const QString source,
+                                           const QString value) const
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Notification source" << source;
@@ -250,7 +271,7 @@ QString AWDataAggregator::notificationText(const QString source, const QString v
 }
 
 
-void AWDataAggregator::setData(const QHash< QString, QString > values)
+void AWDataAggregator::setData(const QHash<QString, QString> &values)
 {
     qCDebug(LOG_AW);
 
@@ -277,7 +298,8 @@ void AWDataAggregator::setData(const QHash< QString, QString > values)
 }
 
 
-void AWDataAggregator::setData(const QString source, float value, const float extremum)
+void AWDataAggregator::setData(const QString &source, float value,
+                               const float extremum)
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Source" << source;
@@ -286,7 +308,8 @@ void AWDataAggregator::setData(const QString source, float value, const float ex
 
     if (data[source].count() == 0)
         data[source].append(0.0);
-    else if (data[source].count() > configuration[QString("tooltipNumber")].toInt())
+    else if (data[source].count()
+             > configuration[QString("tooltipNumber")].toInt())
         data[source].removeFirst();
     if (isnan(value))
         value = 0.0;
@@ -296,14 +319,17 @@ void AWDataAggregator::setData(const QString source, float value, const float ex
 
     data[source].append(value);
     if (source == QString("downTooltip")) {
-        QList<float> netValues = data[QString("downTooltip")] + data[QString("upTooltip")];
-        boundaries[QString("downTooltip")] = 1.2 * *std::max_element(netValues.cbegin(), netValues.cend());
+        QList<float> netValues
+            = data[QString("downTooltip")] + data[QString("upTooltip")];
+        boundaries[QString("downTooltip")]
+            = 1.2 * *std::max_element(netValues.cbegin(), netValues.cend());
         boundaries[QString("upTooltip")] = boundaries[QString("downTooltip")];
     }
 }
 
 
-void AWDataAggregator::setData(const bool dontInvert, const QString source, float value)
+void AWDataAggregator::setData(const bool dontInvert, const QString &source,
+                               float value)
 {
     qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Do not invert value" << dontInvert;

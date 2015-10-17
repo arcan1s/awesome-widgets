@@ -36,8 +36,8 @@
 
 ExtWeather::ExtWeather(QWidget *parent, const QString weatherName,
                        const QStringList directories)
-    : AbstractExtItem(parent, weatherName, directories),
-      ui(new Ui::ExtWeather)
+    : AbstractExtItem(parent, weatherName, directories)
+    , ui(new Ui::ExtWeather)
 {
     qCDebug(LOG_LIB);
 
@@ -52,9 +52,11 @@ ExtWeather::ExtWeather(QWidget *parent, const QString weatherName,
     values[tag(QString("pressure"))] = 0.0;
     values[tag(QString("temperature"))] = 0.0;
 
-    manager = new QNetworkAccessManager(this);
-    connect(manager, SIGNAL(finished(QNetworkReply *)),
-            this, SLOT(weatherReplyReceived(QNetworkReply *)));
+    // HACK declare as child of nullptr to avoid crash with plasmawindowed
+    // in the destructor
+    manager = new QNetworkAccessManager(nullptr);
+    connect(manager, SIGNAL(finished(QNetworkReply *)), this,
+            SLOT(weatherReplyReceived(QNetworkReply *)));
 }
 
 
@@ -62,10 +64,10 @@ ExtWeather::~ExtWeather()
 {
     qCDebug(LOG_LIB);
 
-    disconnect(manager, SIGNAL(finished(QNetworkReply *)),
-               this, SLOT(weatherReplyReceived(QNetworkReply *)));
+    disconnect(manager, SIGNAL(finished(QNetworkReply *)), this,
+               SLOT(weatherReplyReceived(QNetworkReply *)));
 
-    delete manager;
+    manager->deleteLater();
     delete ui;
 }
 
@@ -98,7 +100,8 @@ QString ExtWeather::weatherFromInt(const int _id) const
     qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Weather ID" << _id;
 
-    QVariantMap map = jsonMap[m_image ? QString("image") : QString("text")].toMap();
+    QVariantMap map
+        = jsonMap[m_image ? QString("image") : QString("text")].toMap();
     return map.value(QString::number(_id), map[QString("default")]).toString();
 }
 
@@ -184,24 +187,31 @@ void ExtWeather::readConfiguration()
     qCDebug(LOG_LIB);
     AbstractExtItem::readConfiguration();
 
-    for (int i=directories().count()-1; i>=0; i--) {
-        if (!QDir(directories().at(i)).entryList(QDir::Files).contains(fileName()))
+    for (int i = directories().count() - 1; i >= 0; i--) {
+        if (!QDir(directories().at(i))
+                 .entryList(QDir::Files)
+                 .contains(fileName()))
             continue;
-        QSettings settings(QString("%1/%2").arg(directories().at(i)).arg(fileName()),
-                           QSettings::IniFormat);
+        QSettings settings(
+            QString("%1/%2").arg(directories().at(i)).arg(fileName()),
+            QSettings::IniFormat);
 
         settings.beginGroup(QString("Desktop Entry"));
         setCity(settings.value(QString("X-AW-City"), m_city).toString());
-        setCountry(settings.value(QString("X-AW-Country"), m_country).toString());
+        setCountry(
+            settings.value(QString("X-AW-Country"), m_country).toString());
         setTs(settings.value(QString("X-AW-TS"), m_ts).toInt());
         // api == 2
-        setImage(settings.value(QString("X-AW-Image"), QVariant(m_image)).toString() == QString("true"));
+        setImage(
+            settings.value(QString("X-AW-Image"), QVariant(m_image)).toString()
+            == QString("true"));
         settings.endGroup();
     }
 
     // update for current API
     if ((apiVersion() > 0) && (apiVersion() < AWEWAPI)) {
-        qCWarning(LOG_LIB) << "Bump API version from" << apiVersion() << "to" << AWEWAPI;
+        qCWarning(LOG_LIB) << "Bump API version from" << apiVersion() << "to"
+                           << AWEWAPI;
         setApiVersion(AWEWAPI);
         writeConfiguration();
     }
@@ -212,8 +222,9 @@ void ExtWeather::readJsonMap()
 {
     qCDebug(LOG_LIB);
 
-    QString fileName = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                                              QString("awesomewidgets/weather/awesomewidgets-extweather-ids.json"));
+    QString fileName = QStandardPaths::locate(
+        QStandardPaths::GenericDataLocation,
+        QString("awesomewidgets/weather/awesomewidgets-extweather-ids.json"));
     qCInfo(LOG_LIB) << "Map file" << fileName;
     QFile jsonFile(fileName);
     if (!jsonFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -244,7 +255,8 @@ QVariantHash ExtWeather::run()
     if (times == 1) {
         qCInfo(LOG_LIB) << "Send request";
         isRunning = true;
-        QNetworkReply *reply = manager->get(QNetworkRequest(QUrl(url(m_ts != 0))));
+        QNetworkReply *reply
+            = manager->get(QNetworkRequest(QUrl(url(m_ts != 0))));
         new QReplyTimeout(reply, 1000);
     }
 
@@ -269,7 +281,8 @@ int ExtWeather::showConfiguration(const QVariant args)
     ui->lineEdit_country->setText(m_country);
     ui->spinBox_timestamp->setValue(m_ts);
     ui->checkBox_image->setCheckState(m_image ? Qt::Checked : Qt::Unchecked);
-    ui->checkBox_active->setCheckState(isActive() ? Qt::Checked : Qt::Unchecked);
+    ui->checkBox_active->setCheckState(isActive() ? Qt::Checked
+                                                  : Qt::Unchecked);
     ui->spinBox_interval->setValue(interval());
 
     int ret = exec();
@@ -296,8 +309,9 @@ void ExtWeather::writeConfiguration() const
     qCDebug(LOG_LIB);
     AbstractExtItem::writeConfiguration();
 
-    QSettings settings(QString("%1/%2").arg(directories().first()).arg(fileName()),
-                       QSettings::IniFormat);
+    QSettings settings(
+        QString("%1/%2").arg(directories().first()).arg(fileName()),
+        QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
@@ -330,7 +344,8 @@ void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
     // convert to map
     QVariantMap json = jsonDoc.toVariant().toMap();
     if (json[QString("cod")].toInt() != 200) {
-        qCWarning(LOG_LIB) << "Invalid OpenWeatherMap return code" << json[QString("cod")].toInt();
+        qCWarning(LOG_LIB) << "Invalid OpenWeatherMap return code"
+                           << json[QString("cod")].toInt();
         return;
     }
 
@@ -339,11 +354,10 @@ void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
         data = parseSingleJson(json);
     } else {
         QVariantList list = json[QString("list")].toList();
-        data = parseSingleJson(list.count() <= m_ts
-               ? list.at(m_ts-1).toMap()
-               : list.last().toMap());
+        data = parseSingleJson(list.count() <= m_ts ? list.at(m_ts - 1).toMap()
+                                                    : list.last().toMap());
     }
-    foreach(QString key, data.keys())
+    foreach (QString key, data.keys())
         values[tag(key)] = data[key];
 }
 
@@ -366,8 +380,10 @@ QVariantHash ExtWeather::parseSingleJson(const QVariantMap json) const
     // main data
     QVariantMap mainWeather = json[QString("main")].toMap();
     if (!weather.isEmpty()) {
-        output[QString("humidity")] = mainWeather[QString("humidity")].toFloat();
-        output[QString("pressure")] = mainWeather[QString("pressure")].toFloat();
+        output[QString("humidity")]
+            = mainWeather[QString("humidity")].toFloat();
+        output[QString("pressure")]
+            = mainWeather[QString("pressure")].toFloat();
         output[QString("temperature")] = mainWeather[QString("temp")].toFloat();
     }
 

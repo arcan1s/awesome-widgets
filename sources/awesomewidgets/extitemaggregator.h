@@ -29,13 +29,12 @@
 #include "abstractextitemaggregator.h"
 
 
-template <class T>
-class ExtItemAggregator : public AbstractExtItemAggregator
+template <class T> class ExtItemAggregator : public AbstractExtItemAggregator
 {
 public:
     explicit ExtItemAggregator(QWidget *parent, const QString type)
-        : AbstractExtItemAggregator(parent),
-          m_type(type)
+        : AbstractExtItemAggregator(parent)
+        , m_type(type)
     {
         qCDebug(LOG_LIB);
         qCDebug(LOG_LIB) << "Type" << type;
@@ -75,7 +74,7 @@ public:
         qCDebug(LOG_LIB) << "Tag" << _tag;
 
         T *found = nullptr;
-        foreach(T *item, m_items) {
+        foreach (T *item, m_items) {
             if (item->tag() != _tag)
                 continue;
             found = item;
@@ -93,7 +92,7 @@ public:
         qCDebug(LOG_LIB) << "Number" << _number;
 
         T *found = nullptr;
-        foreach(T *item, m_items) {
+        foreach (T *item, m_items) {
             if (item->number() != _number)
                 continue;
             found = item;
@@ -114,14 +113,15 @@ public:
             return nullptr;
 
         T *found = nullptr;
-        foreach(T *item, m_items) {
+        foreach (T *item, m_items) {
             if (item->fileName() != widgetItem->text())
                 continue;
             found = item;
             break;
         }
         if (found == nullptr)
-            qCWarning(LOG_LIB) << "Could not find item by name" << widgetItem->text();
+            qCWarning(LOG_LIB) << "Could not find item by name"
+                               << widgetItem->text();
 
         return found;
     };
@@ -138,7 +138,8 @@ public:
         qCDebug(LOG_LIB);
 
         QList<int> tagList;
-        foreach(T *item, m_items) tagList.append(item->number());
+        foreach (T *item, m_items)
+            tagList.append(item->number());
         int number = 0;
         while (tagList.contains(number))
             number++;
@@ -157,21 +158,23 @@ private:
         qCDebug(LOG_LIB);
 
         // create directory at $HOME
-        QString localDir = QString("%1/awesomewidgets/%2").
-            arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation)).
-            arg(m_type);
+        QString localDir = QString("%1/awesomewidgets/%2")
+                               .arg(QStandardPaths::writableLocation(
+                                   QStandardPaths::GenericDataLocation))
+                               .arg(m_type);
         QDir localDirectory;
         if (localDirectory.mkpath(localDir))
             qCInfo(LOG_LIB) << "Created directory" << localDir;
 
-        QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
-                                                     QString("awesomewidgets/%1").arg(m_type),
-                                                     QStandardPaths::LocateDirectory);
+        QStringList dirs = QStandardPaths::locateAll(
+            QStandardPaths::GenericDataLocation,
+            QString("awesomewidgets/%1").arg(m_type),
+            QStandardPaths::LocateDirectory);
         QStringList names;
         QList<T *> items;
-        foreach(QString dir, dirs) {
+        foreach (QString dir, dirs) {
             QStringList files = QDir(dir).entryList(QDir::Files, QDir::Name);
-            foreach(QString file, files) {
+            foreach (QString file, files) {
                 if ((!file.endsWith(QString(".desktop")))
                     || (names.contains(file)))
                     continue;
@@ -196,7 +199,7 @@ private:
         m_activeItems.clear();
 
         m_items = getItems();
-        foreach(T *item, m_items) {
+        foreach (T *item, m_items) {
             if (!item->isActive())
                 continue;
             m_activeItems.append(item);
@@ -208,8 +211,9 @@ private:
         qCDebug(LOG_LIB);
 
         widgetDialog->clear();
-        foreach(T *_item, m_items) {
-            QListWidgetItem *item = new QListWidgetItem(_item->fileName(), widgetDialog);
+        foreach (T *_item, m_items) {
+            QListWidgetItem *item
+                = new QListWidgetItem(_item->fileName(), widgetDialog);
             QStringList tooltip;
             tooltip.append(i18n("Name: %1", _item->name()));
             tooltip.append(i18n("Comment: %1", _item->comment()));
@@ -227,8 +231,7 @@ private:
         T *source = itemFromWidget();
         QString fileName = getName();
         int number = uniqNumber();
-        if ((source == nullptr)
-            || (fileName.isEmpty())) {
+        if ((source == nullptr) || (fileName.isEmpty())) {
             qCWarning(LOG_LIB) << "Nothing to copy";
             return;
         }
@@ -246,9 +249,10 @@ private:
 
         QString fileName = getName();
         int number = uniqNumber();
-        QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
-                                                     QString("awesomewidgets/%1").arg(m_type),
-                                                     QStandardPaths::LocateDirectory);
+        QStringList dirs = QStandardPaths::locateAll(
+            QStandardPaths::GenericDataLocation,
+            QString("awesomewidgets/%1").arg(m_type),
+            QStandardPaths::LocateDirectory);
         if (fileName.isEmpty()) {
             qCWarning(LOG_LIB) << "Nothing to create";
             return;

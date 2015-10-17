@@ -26,8 +26,9 @@
 class QGraphicsScene;
 class QGraphicsView;
 
-namespace Ui {
-    class GraphicalItem;
+namespace Ui
+{
+class GraphicalItem;
 }
 
 class GraphicalItem : public AbstractExtItem
@@ -42,18 +43,11 @@ class GraphicalItem : public AbstractExtItem
     Q_PROPERTY(int width READ width WRITE setWidth)
 
 public:
-    enum Direction {
-        LeftToRight = 0,
-        RightToLeft
-    };
-    enum Type {
-        Horizontal = 0,
-        Vertical,
-        Circle,
-        Graph
-    };
+    enum Direction { LeftToRight = 0, RightToLeft };
+    enum Type { Horizontal = 0, Vertical, Circle, Graph };
 
-    explicit GraphicalItem(QWidget *parent = nullptr, const QString desktopName = QString(),
+    explicit GraphicalItem(QWidget *parent = nullptr,
+                           const QString desktopName = QString(),
                            const QStringList directories = QStringList());
     virtual ~GraphicalItem();
     GraphicalItem *copy(const QString _fileName, const int _number);

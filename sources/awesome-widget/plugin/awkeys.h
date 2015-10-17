@@ -46,7 +46,8 @@ public:
     Q_INVOKABLE void initDataAggregator(const QVariantMap tooltipParams);
     Q_INVOKABLE void initKeys(const QString currentPattern, const int interval,
                               const int limit);
-    Q_INVOKABLE void setAggregatorProperty(const QString key, const QVariant value);
+    Q_INVOKABLE void setAggregatorProperty(const QString key,
+                                           const QVariant value);
     Q_INVOKABLE void setWrapNewLines(const bool wrap = false);
     Q_INVOKABLE void updateCache();
     // keys
@@ -61,9 +62,10 @@ public:
 
 public slots:
     void addDevice(const QString source);
-    void dataUpdated(const QString &sourceName, const Plasma::DataEngine::Data &data);
+    void dataUpdated(const QString &sourceName,
+                     const Plasma::DataEngine::Data &data);
     // dummy method required by DataEngine connections
-    void modelChanged(QString, QAbstractItemModel *) {};
+    void modelChanged(QString, QAbstractItemModel *){};
 
 signals:
     void dropSourceFromDataengine(const QString source);

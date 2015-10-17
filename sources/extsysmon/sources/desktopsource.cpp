@@ -51,7 +51,7 @@ QVariant DesktopSource::data(QString source)
         return current;
     } else if (source == QString("desktop/total/name")) {
         QStringList desktops;
-        for (int i=1; i<total+1; i++)
+        for (int i = 1; i < total + 1; i++)
             desktops.append(KWindowSystem::desktopName(i));
         return desktops;
     } else if (source == QString("desktop/total/number")) {

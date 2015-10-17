@@ -37,21 +37,27 @@ public:
     Q_INVOKABLE QVariantMap importConfiguration() const;
     // dataengine
     Q_INVOKABLE QVariantMap readDataEngineConfiguration() const;
-    Q_INVOKABLE void writeDataEngineConfiguration(const QVariantMap configuration) const;
+    Q_INVOKABLE void
+    writeDataEngineConfiguration(const QVariantMap configuration) const;
 
 private:
     // methods
     void copyExtensions(const QString item, const QString type,
                         QSettings &settings, const bool inverse) const;
     void copySettings(QSettings &from, QSettings &to) const;
-    void readFile(QSettings &settings, const QString key, const QString fileName) const;
+    void readFile(QSettings &settings, const QString key,
+                  const QString fileName) const;
     QHash<QString, bool> selectImport() const;
-    void writeFile(QSettings &settings, const QString key, const QString fileName) const;
+    void writeFile(QSettings &settings, const QString key,
+                   const QString fileName) const;
     // properties
-    QString m_baseDir = QString("%1/awesomewidgets").
-        arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
-    QStringList m_dirs = QStringList() << QString("desktops") << QString("quotes")
-        << QString("scripts") << QString("upgrade") << QString("weather");
+    QString m_baseDir = QString("%1/awesomewidgets")
+                            .arg(QStandardPaths::writableLocation(
+                                QStandardPaths::GenericDataLocation));
+    QStringList m_dirs = QStringList()
+                         << QString("desktops") << QString("quotes")
+                         << QString("scripts") << QString("upgrade")
+                         << QString("weather");
 };
 
 
