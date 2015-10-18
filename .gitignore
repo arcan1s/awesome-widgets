@@ -44,4 +44,5 @@ build
 src
 pkg
 
-sources/.idea/workspace.xml
+# clion settings
+.idea
