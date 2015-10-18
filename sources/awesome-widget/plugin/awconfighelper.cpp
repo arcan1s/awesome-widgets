@@ -269,7 +269,7 @@ void AWConfigHelper::readFile(QSettings &settings, const QString key,
 
     QFile file(fileName);
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QString text = QTextCodec::codecForMib(106)->toUnicode(file.readAll());
+        QString text = QString::fromUtf8(file.readAll());
         file.close();
         settings.setValue(key, text);
     } else {
@@ -331,14 +331,17 @@ void AWConfigHelper::writeFile(QSettings &settings, const QString key,
     qCDebug(LOG_AW) << "Key" << key;
     qCDebug(LOG_AW) << "File" << fileName;
 
-    if (settings.contains(key)) {
-        QFile file(fileName);
-        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            QDataStream out(&file);
-            out << settings.value(key).toString().toUtf8();
-            file.close();
-        } else {
-            qCWarning(LOG_LIB) << "Could not open" << file.fileName();
-        }
+    if (!settings.contains(key))
+        return;
+
+    QFile file(fileName);
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QTextStream out(&file);
+        out.setCodec("UTF-8");
+        out << settings.value(key).toString().toUtf8();
+        out.flush();
+        file.close();
+    } else {
+        qCWarning(LOG_LIB) << "Could not open" << file.fileName();
     }
 }
