@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-10-16 20:22+0300\n"
-"PO-Revision-Date: 2015-10-16 20:22+0300\n"
+"POT-Creation-Date: 2015-10-20 01:21+0300\n"
+"PO-Revision-Date: 2015-10-20 01:21+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: English <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -407,6 +407,18 @@ msgstr "There are updates"
 msgid "Export"
 msgstr "Export"
 
+msgid "Success"
+msgstr "Success"
+
+msgid "Please note that binary files were not copied"
+msgstr "Please note that binary files were not copied"
+
+msgid "Ooops..."
+msgstr "Ooops..."
+
+msgid "Could not save configuration file"
+msgstr "Could not save configuration file"
+
 msgid "Import"
 msgstr "Import"
 
@@ -764,9 +776,6 @@ msgstr "esalexeev@gmail.com"
 
 #~ msgid "Add stretch to right/bottom of the layout"
 #~ msgstr "Add stretch to right/bottom of the layout"
-
-#~ msgid "Advanced configuration"
-#~ msgstr "Advanced configuration"
 
 #~ msgid "Appearance configuration"
 #~ msgstr "Appearance configuration"

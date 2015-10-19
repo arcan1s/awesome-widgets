@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-10-16 20:22+0300\n"
+"POT-Creation-Date: 2015-10-20 01:21+0300\n"
 "PO-Revision-Date: 2015-08-20 22:52+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
@@ -426,6 +426,19 @@ msgstr "Er zijn updates"
 
 msgid "Export"
 msgstr ""
+
+msgid "Success"
+msgstr ""
+
+msgid "Please note that binary files were not copied"
+msgstr ""
+
+msgid "Ooops..."
+msgstr ""
+
+#, fuzzy
+msgid "Could not save configuration file"
+msgstr "Configuratie"
 
 msgid "Import"
 msgstr ""

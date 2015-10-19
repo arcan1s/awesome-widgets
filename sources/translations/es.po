@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-10-16 20:22+0300\n"
+"POT-Creation-Date: 2015-10-20 01:21+0300\n"
 "PO-Revision-Date: 2015-09-26 22:07+0000\n"
 "Last-Translator: Ernesto Avilés Vázquez <whippiii@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/arcanis/awesome-widgets/"
@@ -408,6 +408,18 @@ msgid "There are updates"
 msgstr "Hay actualizaciones disponibles"
 
 msgid "Export"
+msgstr ""
+
+msgid "Success"
+msgstr ""
+
+msgid "Please note that binary files were not copied"
+msgstr ""
+
+msgid "Ooops..."
+msgstr ""
+
+msgid "Could not save configuration file"
 msgstr ""
 
 msgid "Import"

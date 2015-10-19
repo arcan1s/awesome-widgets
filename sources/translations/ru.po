@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-10-16 20:22+0300\n"
-"PO-Revision-Date: 2015-10-16 20:23+0300\n"
+"POT-Creation-Date: 2015-10-20 01:21+0300\n"
+"PO-Revision-Date: 2015-10-20 01:22+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -407,6 +407,18 @@ msgstr "Найдены обновления"
 msgid "Export"
 msgstr "Экспорт"
 
+msgid "Success"
+msgstr "Успешно"
+
+msgid "Please note that binary files were not copied"
+msgstr "Пожалуйста, обратите внимание, что бинарные файлы не были скопированы"
+
+msgid "Ooops..."
+msgstr "Ууупс..."
+
+msgid "Could not save configuration file"
+msgstr "Не могу сохранить файл настроек"
+
 msgid "Import"
 msgstr "Импорт"
 
@@ -764,9 +776,6 @@ msgstr "esalexeev@gmail.com"
 
 #~ msgid "Add stretch to right/bottom of the layout"
 #~ msgstr "Добавить пустое место справа/внизу виджета"
-
-#~ msgid "Advanced configuration"
-#~ msgstr "Расширенная настройка"
 
 #~ msgid "Appearance configuration"
 #~ msgstr "Настройка внешнего вида"
