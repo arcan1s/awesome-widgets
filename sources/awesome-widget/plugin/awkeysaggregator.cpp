@@ -29,20 +29,19 @@
 AWKeysAggregator::AWKeysAggregator(QObject *parent)
     : QObject(parent)
 {
-    qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 }
 
 
 AWKeysAggregator::~AWKeysAggregator()
 {
-    qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 }
 
 
 QString AWKeysAggregator::formater(const QVariant &data,
                                    const QString &key) const
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Data" << data;
     qCDebug(LOG_AW) << "Key" << key;
 
@@ -150,7 +149,6 @@ QString AWKeysAggregator::formater(const QVariant &data,
 
 QStringList AWKeysAggregator::keysFromSource(const QString &source) const
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Search for source" << source;
 
     return m_map.values(source);
@@ -159,7 +157,6 @@ QStringList AWKeysAggregator::keysFromSource(const QString &source) const
 
 void AWKeysAggregator::setAcOffline(const QString inactive)
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Inactive AC string" << inactive;
 
     m_acOffline = inactive;
@@ -168,7 +165,6 @@ void AWKeysAggregator::setAcOffline(const QString inactive)
 
 void AWKeysAggregator::setAcOnline(const QString active)
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Active AC string" << active;
 
     m_acOnline = active;
@@ -177,7 +173,6 @@ void AWKeysAggregator::setAcOnline(const QString active)
 
 void AWKeysAggregator::setCustomTime(const QString customTime)
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Format" << customTime;
 
     m_customTime = customTime;
@@ -186,7 +181,6 @@ void AWKeysAggregator::setCustomTime(const QString customTime)
 
 void AWKeysAggregator::setCustomUptime(const QString customUptime)
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Format" << customUptime;
 
     m_customUptime = customUptime;
@@ -195,7 +189,6 @@ void AWKeysAggregator::setCustomUptime(const QString customUptime)
 
 void AWKeysAggregator::setDevices(const QHash<QString, QStringList> devices)
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Devices" << devices;
 
     m_devices = devices;
@@ -204,7 +197,6 @@ void AWKeysAggregator::setDevices(const QHash<QString, QStringList> devices)
 
 void AWKeysAggregator::setTempUnits(const QString units)
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Units" << units;
 
     m_tempUnits = units;
@@ -213,7 +205,6 @@ void AWKeysAggregator::setTempUnits(const QString units)
 
 void AWKeysAggregator::setTranslate(const bool translate)
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Translate" << translate;
 
     m_translate = translate;
@@ -225,7 +216,6 @@ void AWKeysAggregator::setTranslate(const bool translate)
 QStringList AWKeysAggregator::registerSource(const QString &source,
                                              const QString &units)
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Source" << source;
     qCDebug(LOG_AW) << "Units" << units;
 
@@ -528,7 +518,6 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
 
 float AWKeysAggregator::temperature(const float temp) const
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Temperature value" << temp;
 
     float converted = temp;

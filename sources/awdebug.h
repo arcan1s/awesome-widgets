@@ -23,8 +23,7 @@
 
 #ifndef LOG_FORMAT
 #define LOG_FORMAT                                                             \
-    "[%{time "                                                                 \
-    "yyyy-MM-ddTHH:mm:ss.zzz}][%{if-debug}DD%{endif}%{if-info}II%{endif}%{if-" \
+    "[%{time process}][%{if-debug}DD%{endif}%{if-info}II%{endif}%{if-"         \
     "warning}WW%{endif}%{if-critical}CC%{endif}%{if-fatal}FF%{endif}][%{"      \
     "category}][%{function}] %{message}"
 #endif /* LOG_FORMAT */
@@ -44,6 +43,8 @@ Q_DECLARE_LOGGING_CATEGORY(LOG_AW)
 Q_DECLARE_LOGGING_CATEGORY(LOG_DP)
 Q_DECLARE_LOGGING_CATEGORY(LOG_ESM)
 Q_DECLARE_LOGGING_CATEGORY(LOG_LIB)
+
+const QStringList getBuildData();
 
 
 #endif /* AWDEBUG_H */

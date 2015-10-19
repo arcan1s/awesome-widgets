@@ -42,10 +42,10 @@
 AWKeys::AWKeys(QObject *parent)
     : QObject(parent)
 {
-    qCDebug(LOG_AW);
-
-    // logging
     qSetMessagePattern(LOG_FORMAT);
+    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+    foreach (const QString metadata, getBuildData())
+        qCDebug(LOG_AW) << metadata;
 
 #ifdef BUILD_FUTURE
     // thread pool
@@ -63,7 +63,7 @@ AWKeys::AWKeys(QObject *parent)
 
 AWKeys::~AWKeys()
 {
-    qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
     // extensions
     if (graphicalItems != nullptr)
@@ -89,7 +89,6 @@ AWKeys::~AWKeys()
 
 void AWKeys::initDataAggregator(const QVariantMap tooltipParams)
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Tooltip parameters" << tooltipParams;
 
     dataAggregator->setParameters(tooltipParams);
@@ -99,7 +98,6 @@ void AWKeys::initDataAggregator(const QVariantMap tooltipParams)
 void AWKeys::initKeys(const QString currentPattern, const int interval,
                       const int limit)
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Pattern" << currentPattern;
     qCDebug(LOG_AW) << "Interval" << interval;
     qCDebug(LOG_AW) << "Queue limit" << limit;
@@ -124,7 +122,8 @@ void AWKeys::initKeys(const QString currentPattern, const int interval,
 
 void AWKeys::setAggregatorProperty(const QString key, const QVariant value)
 {
-    qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << "Key" << key;
+    qCDebug(LOG_AW) << "Value" << value;
 
     aggregator->setProperty(key.toUtf8().constData(), value);
 }
@@ -132,7 +131,6 @@ void AWKeys::setAggregatorProperty(const QString key, const QVariant value)
 
 void AWKeys::setWrapNewLines(const bool wrap)
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Is wrapping enabled" << wrap;
 
     m_wrapNewLines = wrap;
@@ -141,8 +139,6 @@ void AWKeys::setWrapNewLines(const bool wrap)
 
 void AWKeys::updateCache()
 {
-    qCDebug(LOG_AW);
-
     // update network and hdd list
     addKeyToCache(QString("hdd"));
     addKeyToCache(QString("net"));
@@ -151,7 +147,6 @@ void AWKeys::updateCache()
 
 QStringList AWKeys::dictKeys(const bool sorted, const QString regexp) const
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Should be sorted" << sorted;
     qCDebug(LOG_AW) << "Filter" << regexp;
 
@@ -320,8 +315,6 @@ QStringList AWKeys::dictKeys(const bool sorted, const QString regexp) const
 
 QStringList AWKeys::getHddDevices() const
 {
-    qCDebug(LOG_AW);
-
     QStringList devices = m_devices[QString("hdd")];
     // required by selector in the UI
     devices.insert(0, QString("disable"));
@@ -333,7 +326,6 @@ QStringList AWKeys::getHddDevices() const
 
 QString AWKeys::infoByKey(QString key) const
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Requested key" << key;
 
     key.remove(QRegExp(QString("^bar[0-9]{1,}")));
@@ -387,7 +379,6 @@ QString AWKeys::infoByKey(QString key) const
 // HACK this method requires to define tag value from bar from UI interface
 QString AWKeys::valueByKey(QString key) const
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Requested key" << key;
 
     return values.value(key.remove(QRegExp(QString("^bar[0-9]{1,}"))),
@@ -397,7 +388,6 @@ QString AWKeys::valueByKey(QString key) const
 
 void AWKeys::editItem(const QString type)
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Item type" << type;
 
     if (type == QString("graphicalitem")) {
@@ -418,7 +408,6 @@ void AWKeys::editItem(const QString type)
 
 void AWKeys::addDevice(const QString source)
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Source" << source;
 
     QRegExp diskRegexp
@@ -442,12 +431,11 @@ void AWKeys::addDevice(const QString source)
 void AWKeys::dataUpdated(const QString &sourceName,
                          const Plasma::DataEngine::Data &data)
 {
-    qCDebug(LOG_AW);
-    qCDebug(LOG_AW) << "Source" << sourceName;
-    qCDebug(LOG_AW) << "Data" << data;
-
-    if (sourceName == QString("update"))
+    // do not log these parameters
+    if (sourceName == QString("update")) {
+        qCInfo(LOG_AW) << "Update data";
         return emit(needToBeUpdated());
+    }
 
 #ifdef BUILD_FUTURE
     // run concurrent data update
@@ -461,8 +449,6 @@ void AWKeys::dataUpdated(const QString &sourceName,
 
 void AWKeys::loadKeysFromCache()
 {
-    qCDebug(LOG_AW);
-
     QString fileName = QString("%1/awesomewidgets.ndx")
                            .arg(QStandardPaths::writableLocation(
                                QStandardPaths::GenericCacheLocation));
@@ -483,8 +469,6 @@ void AWKeys::loadKeysFromCache()
 
 void AWKeys::reinitKeys()
 {
-    qCDebug(LOG_AW);
-
     // renew extensions
     // delete them if any
     if (graphicalItems != nullptr)
@@ -579,8 +563,6 @@ void AWKeys::reinitKeys()
 
 void AWKeys::updateTextData()
 {
-    qCDebug(LOG_AW);
-
     calculateValues();
     emit(needTextToBeUpdated(parsePattern(m_pattern)));
     emit(dataAggregator->updateData(values));
@@ -589,7 +571,6 @@ void AWKeys::updateTextData()
 
 void AWKeys::addKeyToCache(const QString type, const QString key)
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Key type" << type;
     qCDebug(LOG_AW) << "Key" << key;
 
@@ -648,8 +629,6 @@ void AWKeys::addKeyToCache(const QString type, const QString key)
 // specified pattern. Usually they are values which depend on several others
 void AWKeys::calculateValues()
 {
-    qCDebug(LOG_AW);
-
     // hddtot*
     foreach (QString device, m_devices[QString("mount")]) {
         int index = m_devices[QString("mount")].indexOf(device);
@@ -726,8 +705,6 @@ void AWKeys::calculateValues()
 
 QString AWKeys::parsePattern(QString pattern) const
 {
-    qCDebug(LOG_AW);
-
     // screen sign
     pattern.replace(QString("$$"), QString("$\\$\\"));
 
@@ -770,7 +747,6 @@ QString AWKeys::parsePattern(QString pattern) const
 
 void AWKeys::setDataBySource(const QString &sourceName, const QVariantMap &data)
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Source" << sourceName;
     qCDebug(LOG_AW) << "Data" << data;
 

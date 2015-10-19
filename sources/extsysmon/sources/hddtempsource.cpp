@@ -30,7 +30,7 @@ HDDTemperatureSource::HDDTemperatureSource(QObject *parent,
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 2);
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 
     m_devices = args.at(0).split(QChar(','), QString::SkipEmptyParts);
     m_cmd = args.at(1);
@@ -42,13 +42,12 @@ HDDTemperatureSource::HDDTemperatureSource(QObject *parent,
 
 HDDTemperatureSource::~HDDTemperatureSource()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 }
 
 
 QVariant HDDTemperatureSource::data(QString source)
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
     QString device = source.remove(QString("hdd/temperature"));
@@ -88,7 +87,6 @@ QVariant HDDTemperatureSource::data(QString source)
 
 QVariantMap HDDTemperatureSource::initialData(QString source) const
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
     QString device = source.remove(QString("hdd/temperature"));
@@ -105,8 +103,6 @@ QVariantMap HDDTemperatureSource::initialData(QString source) const
 
 QStringList HDDTemperatureSource::sources() const
 {
-    qCDebug(LOG_ESM);
-
     QStringList sources;
     foreach (QString device, m_devices)
         sources.append(QString("hdd/temperature%1").arg(device));

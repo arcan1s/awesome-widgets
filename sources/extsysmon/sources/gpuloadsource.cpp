@@ -29,7 +29,7 @@ GPULoadSource::GPULoadSource(QObject *parent, const QStringList args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 1);
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 
     m_device = args.at(0);
 }
@@ -37,13 +37,12 @@ GPULoadSource::GPULoadSource(QObject *parent, const QStringList args)
 
 GPULoadSource::~GPULoadSource()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 }
 
 
 QVariant GPULoadSource::data(QString source)
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
     if (source == QString("gpu/load")) {
@@ -94,7 +93,6 @@ QVariant GPULoadSource::data(QString source)
 
 QVariantMap GPULoadSource::initialData(QString source) const
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
     QVariantMap data;
@@ -112,8 +110,6 @@ QVariantMap GPULoadSource::initialData(QString source) const
 
 QStringList GPULoadSource::sources() const
 {
-    qCDebug(LOG_ESM);
-
     QStringList sources;
     sources.append(QString("gpu/load"));
 

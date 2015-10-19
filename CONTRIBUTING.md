@@ -2,15 +2,18 @@ Code style
 ----------
 
 The recommended code style is Qt one. See [this document](https://wiki.qt.io/Qt_Coding_Style)
-for more details. Some additional detail see below.
+for more details. To avoid manual labor there is automatic cmake target named
+`clangformat` (see below). Some additional detail see below.
 
 * Indent is only spaces. 4 spaces.
 * It is highly recommended to name private variables with `m_` prefix (`m_foo`).
+  There is no exceptions for properties.
 * Avoid to create a large methods. Exception: if method contains lambda functions.
 * If some method is called only once, it is recommended to use lambda functions.
   Exception is `Q_INVOKABLE` methods.
-* STL containers are not recommended, use Qt one instead.
-* In other hand Qt specific variables (`qint`, `qfloat`, etc) are not recommended.
+* STL containers are not recommended, use Qt ones instead.
+* In other hand Qt specific variables types (`qint`, `qfloat`, etc) are not
+  recommended.
 * Do not repeat yourself ([DRY](https://en.wikipedia.org/wiki/Don't_repeat_yourself)).
 * Headers declaration:
     * Include only those headers which are strictly necessary inside headers. Use
@@ -51,22 +54,22 @@ for more details. Some additional detail see below.
 
     * C-like `NULL`, use `nullptr` instead.
 * It is highly recommended to avoid implicit casts.
-* Abstract classes (which has at least one pure virtual method) are allowed.
-* Templates are allowed and recommended. Templates usually should be desribed
+* Abstract classes (which have at least one pure virtual method) are allowed.
+* Templates are allowed and recommended. Templates usually should be described
   inside header not source code file.
 * Hardcode is not recommended. But it is possible to use cmake variables to
   configure some items during build time.
-* Build should not require any addition system variable declaration/changing.
+* Build should not require any additional system variable declaration/changing.
 * Any line should not end with space.
 * Do not hesitate move public methods to private one if possible.
 * Do not hesitate use `const` modifier. In other hand `volatile` modifier is not
   recommended.
 * New lines rules:
     * One line after license header.
-    * One line between header group declaration (see above) (only for source files).
+    * One line between header group declaration (see above).
     * Two lines after header declaration and before declaration at the end of a
       file.
-    * One line after class and types forward declaration in headers.
+    * One line after class and types forward declarations in headers.
     * One line before each method modifiers (`public`, `public slots`, etc).
     * Two lines between methods inside source code (`*.cpp`).
     * One line after `qCDebug()` information (see below).
@@ -91,7 +94,7 @@ blocks). Comments also may use the following keywords:
 * **HACK** - hacks inside code which requires to avoid some restrictions and/or
   which adds additional non-obvious optimizations.
 
-Do not use dots at the end of the commend line.
+Do not use dots at the end of the comment line.
 
 Development
 -----------
@@ -137,9 +140,9 @@ Logging
 
 For logging please use [QLoggingCategory](http://doc.qt.io/qt-5/qloggingcategory.html).
 Available categories should be declared in `awdebug.*` files. The following log
-level should be used:
+levels should be used:
 
-* **debug** (`qCDebug()`) - method arguments information, method calls notifications.
+* **debug** (`qCDebug()`) - method arguments information.
 * **info** (`qCInfo()`) - additional information inside methods.
 * **warning** (`qCWarning()`) - not critical information, which may be caused by
   mistakes in configuration for example.
@@ -147,6 +150,10 @@ level should be used:
   should have own callback methods.
 * **critical** (`qCCritical()`) - a critical error. After this error program will
   be terminated.
+
+The empty log string (e.g. `qCDebug();`) is not allowed because the method names
+will be stripped by compiler with `Release` build type. To log class constructor
+and destructor use `__PRETTY_FUNCTION__` macro.
 
 Testing
 -------
@@ -157,8 +164,7 @@ Testing
 * Test builds should be:
     1. `-DCMAKE_BUILD_TYPE=Debug`.
     2. `-DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=ON`.
-    3. `-DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON`.
-    4. `-DCMAKE_BUILD_TYPE=Release`.
+    3. `-DCMAKE_BUILD_TYPE=Release`.
 * It is recommended to create addition test if possible.
 * Addition test functions should be declated and used only inside `BUILD_TESTING`
   definition.
@@ -192,10 +198,10 @@ Tools
 
   ```
   FooClass::FooClass(QObject *parent, const QVariant var)
-      : QObject(parent),
-        m_var(var)
+      : QObject(parent)
+      , m_var(var)
   {
-      qCDebug(LOG_AW);
+      qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
       // some code below if any
   }
   ```

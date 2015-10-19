@@ -32,10 +32,10 @@ ExtendedSysMon::ExtendedSysMon(QObject *parent, const QVariantList &args)
     : Plasma::DataEngine(parent, args)
 {
     Q_UNUSED(args)
-    qCDebug(LOG_ESM);
-
-    // logging
     qSetMessagePattern(LOG_FORMAT);
+    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
+    foreach (const QString metadata, getBuildData())
+        qCDebug(LOG_ESM) << metadata;
 
     setMinimumPollingInterval(333);
     readConfiguration();
@@ -49,7 +49,7 @@ ExtendedSysMon::ExtendedSysMon(QObject *parent, const QVariantList &args)
 
 ExtendedSysMon::~ExtendedSysMon()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 
     delete aggregator;
 }
@@ -57,15 +57,12 @@ ExtendedSysMon::~ExtendedSysMon()
 
 QStringList ExtendedSysMon::sources() const
 {
-    qCDebug(LOG_ESM);
-
     return aggregator->sources();
 }
 
 
 bool ExtendedSysMon::sourceRequestEvent(const QString &source)
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
     return updateSourceEvent(source);
@@ -74,7 +71,6 @@ bool ExtendedSysMon::sourceRequestEvent(const QString &source)
 
 bool ExtendedSysMon::updateSourceEvent(const QString &source)
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
     if (aggregator->hasSource(source)) {
@@ -90,8 +86,6 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
 
 QStringList ExtendedSysMon::getAllHdd() const
 {
-    qCDebug(LOG_ESM);
-
     QStringList allDevices
         = QDir(QString("/dev")).entryList(QDir::System, QDir::Name);
     QStringList devices = allDevices.filter(QRegExp(QString("^[hms]d[a-z]$")));
@@ -105,8 +99,6 @@ QStringList ExtendedSysMon::getAllHdd() const
 
 QString ExtendedSysMon::getAutoGpu() const
 {
-    qCDebug(LOG_ESM);
-
     QString gpu = QString("disable");
     QFile moduleFile(QString("/proc/modules"));
     if (!moduleFile.open(QIODevice::ReadOnly))
@@ -125,8 +117,6 @@ QString ExtendedSysMon::getAutoGpu() const
 
 void ExtendedSysMon::readConfiguration()
 {
-    qCDebug(LOG_ESM);
-
     QString fileName
         = QStandardPaths::locate(QStandardPaths::ConfigLocation,
                                  QString("plasma-dataengine-extsysmon.conf"));
@@ -166,7 +156,6 @@ void ExtendedSysMon::readConfiguration()
 QHash<QString, QString>
 ExtendedSysMon::updateConfiguration(QHash<QString, QString> rawConfig) const
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Raw configuration" << rawConfig;
 
     // gpudev

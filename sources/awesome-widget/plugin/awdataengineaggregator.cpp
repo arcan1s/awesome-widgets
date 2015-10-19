@@ -27,7 +27,7 @@ AWDataEngineAggregator::AWDataEngineAggregator(QObject *parent,
                                                const int interval)
     : QObject(parent)
 {
-    qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
     setInterval(interval);
     initDataEngines();
@@ -36,7 +36,7 @@ AWDataEngineAggregator::AWDataEngineAggregator(QObject *parent,
 
 AWDataEngineAggregator::~AWDataEngineAggregator()
 {
-    qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
     // disconnect sources first
     disconnectSources();
@@ -46,8 +46,6 @@ AWDataEngineAggregator::~AWDataEngineAggregator()
 
 void AWDataEngineAggregator::disconnectSources()
 {
-    qCDebug(LOG_AW);
-
     foreach (QString dataengine, m_dataEngines.keys())
         foreach (QString source, m_dataEngines[dataengine]->sources())
             m_dataEngines[dataengine]->disconnectSource(source, parent());
@@ -56,7 +54,6 @@ void AWDataEngineAggregator::disconnectSources()
 
 void AWDataEngineAggregator::setInterval(const int _interval)
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Interval" << _interval;
 
     m_interval = _interval;
@@ -65,7 +62,6 @@ void AWDataEngineAggregator::setInterval(const int _interval)
 
 void AWDataEngineAggregator::dropSource(const QString source)
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Source" << source;
 
     // FIXME there is no possibility to check to which dataengine source
@@ -77,8 +73,6 @@ void AWDataEngineAggregator::dropSource(const QString source)
 
 void AWDataEngineAggregator::reconnectSources()
 {
-    qCDebug(LOG_AW);
-
     m_dataEngines[QString("systemmonitor")]->connectAllSources(parent(),
                                                                m_interval);
     m_dataEngines[QString("extsysmon")]->connectAllSources(parent(),
@@ -90,8 +84,6 @@ void AWDataEngineAggregator::reconnectSources()
 
 void AWDataEngineAggregator::initDataEngines()
 {
-    qCDebug(LOG_AW);
-
     Plasma::DataEngineConsumer *deConsumer = new Plasma::DataEngineConsumer();
     m_dataEngines[QString("systemmonitor")]
         = deConsumer->dataEngine(QString("systemmonitor"));

@@ -27,19 +27,18 @@ DesktopSource::DesktopSource(QObject *parent, const QStringList args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 0);
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 }
 
 
 DesktopSource::~DesktopSource()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 }
 
 
 QVariant DesktopSource::data(QString source)
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
     int current = KWindowSystem::currentDesktop();
@@ -64,7 +63,6 @@ QVariant DesktopSource::data(QString source)
 
 QVariantMap DesktopSource::initialData(QString source) const
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
     QVariantMap data;
@@ -100,8 +98,6 @@ QVariantMap DesktopSource::initialData(QString source) const
 
 QStringList DesktopSource::sources() const
 {
-    qCDebug(LOG_ESM);
-
     QStringList sources;
     sources.append(QString("desktop/current/name"));
     sources.append(QString("desktop/current/number"));

@@ -26,7 +26,7 @@ UpgradeSource::UpgradeSource(QObject *parent, const QStringList args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 0);
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 
     extUpgrade = new ExtItemAggregator<ExtUpgrade>(nullptr, QString("upgrade"));
     m_sources = getSources();
@@ -35,7 +35,7 @@ UpgradeSource::UpgradeSource(QObject *parent, const QStringList args)
 
 UpgradeSource::~UpgradeSource()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 
     delete extUpgrade;
 }
@@ -43,7 +43,6 @@ UpgradeSource::~UpgradeSource()
 
 QVariant UpgradeSource::data(QString source)
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
     // there are only one value
@@ -53,7 +52,6 @@ QVariant UpgradeSource::data(QString source)
 
 QVariantMap UpgradeSource::initialData(QString source) const
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
     QVariantMap data;
@@ -71,16 +69,12 @@ QVariantMap UpgradeSource::initialData(QString source) const
 
 QStringList UpgradeSource::sources() const
 {
-    qCDebug(LOG_ESM);
-
     return m_sources;
 }
 
 
 QStringList UpgradeSource::getSources()
 {
-    qCDebug(LOG_ESM);
-
     QStringList sources;
     foreach (ExtUpgrade *item, extUpgrade->activeItems())
         sources.append(

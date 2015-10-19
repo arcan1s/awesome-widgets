@@ -25,19 +25,18 @@ UpdateSource::UpdateSource(QObject *parent, const QStringList args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 0);
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 }
 
 
 UpdateSource::~UpdateSource()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 }
 
 
 QVariant UpdateSource::data(QString source)
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
     return true;
@@ -46,7 +45,6 @@ QVariant UpdateSource::data(QString source)
 
 QVariantMap UpdateSource::initialData(QString source) const
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
     QVariantMap data;
@@ -64,8 +62,6 @@ QVariantMap UpdateSource::initialData(QString source) const
 
 QStringList UpdateSource::sources() const
 {
-    qCDebug(LOG_ESM);
-
     QStringList sources;
     sources.append(QString("update"));
 

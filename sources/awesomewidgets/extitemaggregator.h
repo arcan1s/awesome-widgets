@@ -24,9 +24,8 @@
 #include <QSettings>
 #include <QStandardPaths>
 
-#include "awdebug.h"
-
 #include "abstractextitemaggregator.h"
+#include "awdebug.h"
 
 
 template <class T> class ExtItemAggregator : public AbstractExtItemAggregator
@@ -36,33 +35,27 @@ public:
         : AbstractExtItemAggregator(parent)
         , m_type(type)
     {
-        qCDebug(LOG_LIB);
-        qCDebug(LOG_LIB) << "Type" << type;
-
         qSetMessagePattern(LOG_FORMAT);
+        qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
+        foreach (const QString metadata, getBuildData())
+            qCDebug(LOG_LIB) << metadata;
+        qCDebug(LOG_LIB) << "Type" << type;
 
         initItems();
     };
 
     virtual ~ExtItemAggregator()
     {
-        qCDebug(LOG_LIB);
+        qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
         m_items.clear();
         m_activeItems.clear();
     };
 
-    QList<T *> activeItems()
-    {
-        qCDebug(LOG_LIB);
-
-        return m_activeItems;
-    };
+    QList<T *> activeItems() { return m_activeItems; };
 
     void editItems()
     {
-        qCDebug(LOG_LIB);
-
         repaint();
         int ret = dialog->exec();
         qCInfo(LOG_LIB) << "Dialog returns" << ret;
@@ -70,7 +63,6 @@ public:
 
     T *itemByTag(const QString _tag) const
     {
-        qCDebug(LOG_LIB);
         qCDebug(LOG_LIB) << "Tag" << _tag;
 
         T *found = nullptr;
@@ -88,7 +80,6 @@ public:
 
     T *itemByTagNumber(const int _number) const
     {
-        qCDebug(LOG_LIB);
         qCDebug(LOG_LIB) << "Number" << _number;
 
         T *found = nullptr;
@@ -106,8 +97,6 @@ public:
 
     T *itemFromWidget() const
     {
-        qCDebug(LOG_LIB);
-
         QListWidgetItem *widgetItem = widgetDialog->currentItem();
         if (widgetItem == nullptr)
             return nullptr;
@@ -126,17 +115,10 @@ public:
         return found;
     };
 
-    QList<T *> items() const
-    {
-        qCDebug(LOG_LIB);
-
-        return m_items;
-    };
+    QList<T *> items() const { return m_items; };
 
     int uniqNumber() const
     {
-        qCDebug(LOG_LIB);
-
         QList<int> tagList;
         foreach (T *item, m_items)
             tagList.append(item->number());
@@ -155,8 +137,6 @@ private:
     // init method
     QList<T *> getItems()
     {
-        qCDebug(LOG_LIB);
-
         // create directory at $HOME
         QString localDir = QString("%1/awesomewidgets/%2")
                                .arg(QStandardPaths::writableLocation(
@@ -193,8 +173,6 @@ private:
 
     void initItems()
     {
-        qCDebug(LOG_LIB);
-
         m_items.clear();
         m_activeItems.clear();
 
@@ -208,8 +186,6 @@ private:
 
     void repaint()
     {
-        qCDebug(LOG_LIB);
-
         widgetDialog->clear();
         foreach (T *_item, m_items) {
             QListWidgetItem *item
@@ -226,8 +202,6 @@ private:
     // methods
     void copyItem()
     {
-        qCDebug(LOG_LIB);
-
         T *source = itemFromWidget();
         QString fileName = getName();
         int number = uniqNumber();
@@ -245,8 +219,6 @@ private:
 
     void createItem()
     {
-        qCDebug(LOG_LIB);
-
         QString fileName = getName();
         int number = uniqNumber();
         QStringList dirs = QStandardPaths::locateAll(
@@ -268,8 +240,6 @@ private:
 
     void deleteItem()
     {
-        qCDebug(LOG_LIB);
-
         T *source = itemFromWidget();
         if (source == nullptr) {
             qCWarning(LOG_LIB) << "Nothing to delete";
@@ -284,8 +254,6 @@ private:
 
     void editItem()
     {
-        qCDebug(LOG_LIB);
-
         T *source = itemFromWidget();
         if (source == nullptr) {
             qCWarning(LOG_LIB) << "Nothing to edit";

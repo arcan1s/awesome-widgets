@@ -25,19 +25,18 @@ LoadSource::LoadSource(QObject *parent, const QStringList args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 0);
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 }
 
 
 LoadSource::~LoadSource()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 }
 
 
 QVariant LoadSource::data(QString source)
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
     source.remove(QString("load/load"));
@@ -47,7 +46,6 @@ QVariant LoadSource::data(QString source)
 
 QVariantMap LoadSource::initialData(QString source) const
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
     QVariantMap data;
@@ -65,8 +63,6 @@ QVariantMap LoadSource::initialData(QString source) const
 
 QStringList LoadSource::sources() const
 {
-    qCDebug(LOG_ESM);
-
     QStringList sources;
     for (int i = 0; i < 1000; i++)
         sources.append(QString("load/load%1").arg(i));

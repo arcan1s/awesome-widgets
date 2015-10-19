@@ -40,19 +40,18 @@
 AWActions::AWActions(QObject *parent)
     : QObject(parent)
 {
-    qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 }
 
 
 AWActions::~AWActions()
 {
-    qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 }
 
 
 void AWActions::checkUpdates(const bool showAnyway)
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Show anyway" << showAnyway;
 
     // showAnyway options requires to show message if no updates found on direct
@@ -70,15 +69,12 @@ void AWActions::checkUpdates(const bool showAnyway)
 // HACK: since QML could not use QLoggingCategory I need this hack
 bool AWActions::isDebugEnabled() const
 {
-    qCDebug(LOG_AW);
-
     return LOG_AW().isDebugEnabled();
 }
 
 
 bool AWActions::runCmd(const QString cmd) const
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Cmd" << cmd;
 
     sendNotification(QString("Info"), i18n("Run %1", cmd));
@@ -90,8 +86,6 @@ bool AWActions::runCmd(const QString cmd) const
 // HACK: this method uses variable from version.h
 void AWActions::showReadme() const
 {
-    qCDebug(LOG_AW);
-
     QDesktopServices::openUrl(QString(HOMEPAGE));
 }
 
@@ -99,7 +93,6 @@ void AWActions::showReadme() const
 // HACK: this method uses variables from version.h
 QString AWActions::getAboutText(const QString type) const
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Type" << type;
 
     QString text;
@@ -159,7 +152,6 @@ QString AWActions::getAboutText(const QString type) const
 
 QVariantMap AWActions::getFont(const QVariantMap defaultFont) const
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Default font is" << defaultFont;
 
     QVariantMap fontMap;
@@ -179,7 +171,6 @@ QVariantMap AWActions::getFont(const QVariantMap defaultFont) const
 // to avoid additional object definition this method is static
 void AWActions::sendNotification(const QString eventId, const QString message)
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Event" << eventId;
     qCDebug(LOG_AW) << "Message" << message;
 
@@ -192,7 +183,6 @@ void AWActions::sendNotification(const QString eventId, const QString message)
 
 void AWActions::showInfo(const QString version) const
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Version" << version;
 
     QString text = i18n("You are using the actual version %1", version);
@@ -204,7 +194,6 @@ void AWActions::showInfo(const QString version) const
 
 void AWActions::showUpdates(const QString version) const
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Version" << version;
 
     QString text;
@@ -232,7 +221,6 @@ void AWActions::showUpdates(const QString version) const
 void AWActions::versionReplyRecieved(QNetworkReply *reply,
                                      const bool showAnyway) const
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Return code" << reply->error();
     qCDebug(LOG_AW) << "Reply error message" << reply->errorString();
     qCDebug(LOG_AW) << "Show anyway" << showAnyway;

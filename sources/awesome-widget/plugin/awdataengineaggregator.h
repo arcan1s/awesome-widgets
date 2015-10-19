@@ -20,6 +20,7 @@
 #define AWDATAENGINEAGGREGATOR_H
 
 #include <Plasma/DataEngine>
+
 #include <QObject>
 
 

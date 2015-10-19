@@ -39,7 +39,7 @@ GraphicalItem::GraphicalItem(QWidget *parent, const QString desktopName,
     : AbstractExtItem(parent, desktopName, directories)
     , ui(new Ui::GraphicalItem)
 {
-    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     readConfiguration();
     ui->setupUi(this);
@@ -56,7 +56,7 @@ GraphicalItem::GraphicalItem(QWidget *parent, const QString desktopName,
 
 GraphicalItem::~GraphicalItem()
 {
-    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     delete m_scene;
     delete ui;
@@ -65,7 +65,6 @@ GraphicalItem::~GraphicalItem()
 
 GraphicalItem *GraphicalItem::copy(const QString _fileName, const int _number)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "File" << _fileName;
     qCDebug(LOG_LIB) << "Number" << _number;
 
@@ -91,7 +90,6 @@ GraphicalItem *GraphicalItem::copy(const QString _fileName, const int _number)
 
 QString GraphicalItem::image(const QVariant value)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Value" << value;
     if (m_bar == QString("none"))
         return QString("");
@@ -138,48 +136,36 @@ QString GraphicalItem::image(const QVariant value)
 
 QString GraphicalItem::bar() const
 {
-    qCDebug(LOG_LIB);
-
     return m_bar;
 }
 
 
 QString GraphicalItem::activeColor() const
 {
-    qCDebug(LOG_LIB);
-
     return m_activeColor;
 }
 
 
 QString GraphicalItem::inactiveColor() const
 {
-    qCDebug(LOG_LIB);
-
     return m_inactiveColor;
 }
 
 
 QString GraphicalItem::tag() const
 {
-    qCDebug(LOG_LIB);
-
     return QString("bar%1%2").arg(number()).arg(m_bar);
 }
 
 
 GraphicalItem::Type GraphicalItem::type() const
 {
-    qCDebug(LOG_LIB);
-
     return m_type;
 }
 
 
 QString GraphicalItem::strType() const
 {
-    qCDebug(LOG_LIB);
-
     QString value;
     switch (m_type) {
     case Vertical:
@@ -203,16 +189,12 @@ QString GraphicalItem::strType() const
 
 GraphicalItem::Direction GraphicalItem::direction() const
 {
-    qCDebug(LOG_LIB);
-
     return m_direction;
 }
 
 
 QString GraphicalItem::strDirection() const
 {
-    qCDebug(LOG_LIB);
-
     QString value;
     switch (m_direction) {
     case RightToLeft:
@@ -230,31 +212,24 @@ QString GraphicalItem::strDirection() const
 
 int GraphicalItem::height() const
 {
-    qCDebug(LOG_LIB);
-
     return m_height;
 }
 
 
 int GraphicalItem::width() const
 {
-    qCDebug(LOG_LIB);
-
     return m_width;
 }
 
 
 QString GraphicalItem::uniq() const
 {
-    qCDebug(LOG_LIB);
-
     return m_bar;
 }
 
 
 void GraphicalItem::setBar(const QString _bar)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Bar" << _bar;
 
     if (!_bar.contains(QRegExp(
@@ -269,7 +244,6 @@ void GraphicalItem::setBar(const QString _bar)
 
 void GraphicalItem::setActiveColor(const QString _color)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Color" << _color;
 
     m_activeColor = _color;
@@ -278,7 +252,6 @@ void GraphicalItem::setActiveColor(const QString _color)
 
 void GraphicalItem::setInactiveColor(const QString _color)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Color" << _color;
 
     m_inactiveColor = _color;
@@ -287,7 +260,6 @@ void GraphicalItem::setInactiveColor(const QString _color)
 
 void GraphicalItem::setType(const Type _type)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Type" << _type;
 
     m_type = _type;
@@ -296,7 +268,6 @@ void GraphicalItem::setType(const Type _type)
 
 void GraphicalItem::setStrType(const QString _type)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Type" << _type;
 
     if (_type == QString("Vertical"))
@@ -312,7 +283,6 @@ void GraphicalItem::setStrType(const QString _type)
 
 void GraphicalItem::setDirection(const Direction _direction)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Direction" << _direction;
 
     m_direction = _direction;
@@ -321,7 +291,6 @@ void GraphicalItem::setDirection(const Direction _direction)
 
 void GraphicalItem::setStrDirection(const QString _direction)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Direction" << _direction;
 
     if (_direction == QString("RightToLeft"))
@@ -333,7 +302,6 @@ void GraphicalItem::setStrDirection(const QString _direction)
 
 void GraphicalItem::setHeight(const int _height)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Height" << _height;
     if (_height <= 0)
         return;
@@ -344,7 +312,6 @@ void GraphicalItem::setHeight(const int _height)
 
 void GraphicalItem::setWidth(const int _width)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Width" << _width;
     if (_width <= 0)
         return;
@@ -355,7 +322,6 @@ void GraphicalItem::setWidth(const int _width)
 
 void GraphicalItem::readConfiguration()
 {
-    qCDebug(LOG_LIB);
     AbstractExtItem::readConfiguration();
 
     for (int i = directories().count() - 1; i >= 0; i--) {
@@ -399,8 +365,6 @@ void GraphicalItem::readConfiguration()
 
 QVariantHash GraphicalItem::run()
 {
-    qCDebug(LOG_LIB);
-
     // required by abstract class
     return QVariantHash();
 }
@@ -408,7 +372,6 @@ QVariantHash GraphicalItem::run()
 
 int GraphicalItem::showConfiguration(const QVariant args)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Combobox arguments" << args;
     QStringList tags = args.toStringList();
 
@@ -445,7 +408,6 @@ int GraphicalItem::showConfiguration(const QVariant args)
 
 void GraphicalItem::writeConfiguration() const
 {
-    qCDebug(LOG_LIB);
     AbstractExtItem::writeConfiguration();
 
     QSettings settings(
@@ -469,8 +431,6 @@ void GraphicalItem::writeConfiguration() const
 
 void GraphicalItem::changeColor()
 {
-    qCDebug(LOG_LIB);
-
     QColor color
         = stringToColor((static_cast<QPushButton *>(sender()))->text());
     QColor newColor = QColorDialog::getColor(color, this, tr("Select color"),
@@ -492,8 +452,6 @@ void GraphicalItem::changeColor()
 
 void GraphicalItem::initScene()
 {
-    qCDebug(LOG_LIB);
-
     // init scene
     m_scene = new QGraphicsScene();
     if (m_type == Graph)
@@ -513,8 +471,6 @@ void GraphicalItem::initScene()
 
 void GraphicalItem::paintCircle(const float value)
 {
-    qCDebug(LOG_LIB);
-
     QPen pen;
     pen.setWidth(1.0);
     float percent = value / 100.0;
@@ -540,8 +496,6 @@ void GraphicalItem::paintCircle(const float value)
 
 void GraphicalItem::paintGraph(const QList<float> value)
 {
-    qCDebug(LOG_LIB);
-
     QPen pen;
     pen.setColor(stringToColor(m_activeColor));
 
@@ -563,8 +517,6 @@ void GraphicalItem::paintGraph(const QList<float> value)
 
 void GraphicalItem::paintHorizontal(const float value)
 {
-    qCDebug(LOG_LIB);
-
     QPen pen;
     float percent = value / 100.0;
 
@@ -582,8 +534,6 @@ void GraphicalItem::paintHorizontal(const float value)
 
 void GraphicalItem::paintVertical(const float value)
 {
-    qCDebug(LOG_LIB);
-
     QPen pen;
     float percent = value / 100.0;
 
@@ -601,7 +551,6 @@ void GraphicalItem::paintVertical(const float value)
 
 QColor GraphicalItem::stringToColor(const QString _color) const
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Color" << _color;
 
     QColor qcolor;
@@ -619,8 +568,6 @@ QColor GraphicalItem::stringToColor(const QString _color) const
 
 void GraphicalItem::translate()
 {
-    qCDebug(LOG_LIB);
-
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
     ui->label_value->setText(i18n("Value"));

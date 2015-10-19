@@ -33,7 +33,7 @@ PlayerSource::PlayerSource(QObject *parent, const QStringList args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 5);
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 
     m_player = args.at(0);
     m_mpdAddress = QString("%1:%2").arg(args.at(1)).arg(args.at(2));
@@ -44,13 +44,12 @@ PlayerSource::PlayerSource(QObject *parent, const QStringList args)
 
 PlayerSource::~PlayerSource()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 }
 
 
 QVariant PlayerSource::data(QString source)
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
     if (source == QString("player/title"))
@@ -61,7 +60,6 @@ QVariant PlayerSource::data(QString source)
 
 QVariantMap PlayerSource::initialData(QString source) const
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
     QVariantMap data;
@@ -148,8 +146,6 @@ QVariantMap PlayerSource::initialData(QString source) const
 
 void PlayerSource::run()
 {
-    qCDebug(LOG_ESM);
-
     // initial data
     if (m_player == QString("mpd")) {
         // mpd
@@ -187,8 +183,6 @@ void PlayerSource::run()
 
 QStringList PlayerSource::sources() const
 {
-    qCDebug(LOG_ESM);
-
     QStringList sources;
     sources.append(QString("player/album"));
     sources.append(QString("player/dalbum"));
@@ -221,8 +215,6 @@ QVariantHash PlayerSource::defaultInfo() const
 
 QString PlayerSource::getAutoMpris() const
 {
-    qCDebug(LOG_ESM);
-
     QDBusMessage listServices = QDBusConnection::sessionBus().interface()->call(
         QDBus::BlockWithGui, QString("ListNames"));
     if (listServices.arguments().isEmpty())
@@ -244,7 +236,6 @@ QString PlayerSource::getAutoMpris() const
 
 QVariantHash PlayerSource::getPlayerMpdInfo(const QString mpdAddress) const
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "MPD" << mpdAddress;
 
     QVariantHash info = defaultInfo();
@@ -286,7 +277,6 @@ QVariantHash PlayerSource::getPlayerMpdInfo(const QString mpdAddress) const
 
 QVariantHash PlayerSource::getPlayerMprisInfo(const QString mpris) const
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "MPRIS" << mpris;
 
     QVariantHash info = defaultInfo();
@@ -356,7 +346,6 @@ QVariantHash PlayerSource::getPlayerMprisInfo(const QString mpris) const
 QString PlayerSource::buildString(const QString current, const QString value,
                                   const int s) const
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Current value" << current;
     qCDebug(LOG_ESM) << "New value" << value;
     qCDebug(LOG_ESM) << "Strip after" << s;
@@ -372,7 +361,6 @@ QString PlayerSource::buildString(const QString current, const QString value,
 
 QString PlayerSource::stripString(const QString value, const int s) const
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "New value" << value;
     qCDebug(LOG_ESM) << "Strip after" << s;
 

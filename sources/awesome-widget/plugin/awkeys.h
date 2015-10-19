@@ -20,6 +20,7 @@
 #define AWKEYS_H
 
 #include <Plasma/DataEngine>
+
 #include <QMutex>
 #include <QObject>
 

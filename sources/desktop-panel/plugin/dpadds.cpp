@@ -40,10 +40,10 @@
 DPAdds::DPAdds(QObject *parent)
     : QObject(parent)
 {
-    qCDebug(LOG_DP);
-
-    // logging
     qSetMessagePattern(LOG_FORMAT);
+    qCDebug(LOG_DP) << __PRETTY_FUNCTION__;
+    foreach (const QString metadata, getBuildData())
+        qCDebug(LOG_DP) << metadata;
 
     connect(KWindowSystem::self(), SIGNAL(currentDesktopChanged(int)), this,
             SIGNAL(desktopChanged()));
@@ -56,31 +56,25 @@ DPAdds::DPAdds(QObject *parent)
 
 DPAdds::~DPAdds()
 {
-    qCDebug(LOG_DP);
+    qCDebug(LOG_DP) << __PRETTY_FUNCTION__;
 }
 
 
 // HACK: since QML could not use QLoggingCategory I need this hack
 bool DPAdds::isDebugEnabled() const
 {
-    qCDebug(LOG_DP);
-
     return LOG_DP().isDebugEnabled();
 }
 
 
 int DPAdds::currentDesktop() const
 {
-    qCDebug(LOG_DP);
-
     return KWindowSystem::currentDesktop();
 }
 
 
 QStringList DPAdds::dictKeys() const
 {
-    qCDebug(LOG_DP);
-
     QStringList allKeys;
     allKeys.append(QString("mark"));
     allKeys.append(QString("name"));
@@ -93,15 +87,12 @@ QStringList DPAdds::dictKeys() const
 
 int DPAdds::numberOfDesktops() const
 {
-    qCDebug(LOG_DP);
-
     return KWindowSystem::numberOfDesktops();
 }
 
 
 QString DPAdds::toolTipImage(const int desktop) const
 {
-    qCDebug(LOG_DP);
     qCDebug(LOG_DP) << "Desktop" << desktop;
     // drop if no tooltip required
     if (m_tooltipType == QString("none"))
@@ -200,7 +191,6 @@ QString DPAdds::toolTipImage(const int desktop) const
 
 QString DPAdds::parsePattern(const QString pattern, const int desktop) const
 {
-    qCDebug(LOG_DP);
     qCDebug(LOG_DP) << "Pattern" << pattern;
     qCDebug(LOG_DP) << "Desktop number" << desktop;
 
@@ -216,7 +206,6 @@ QString DPAdds::parsePattern(const QString pattern, const int desktop) const
 
 void DPAdds::setMark(const QString newMark)
 {
-    qCDebug(LOG_DP);
     qCDebug(LOG_DP) << "Mark" << newMark;
 
     m_mark = newMark;
@@ -225,7 +214,6 @@ void DPAdds::setMark(const QString newMark)
 
 void DPAdds::setToolTipData(const QVariantMap tooltipData)
 {
-    qCDebug(LOG_DP);
     qCDebug(LOG_DP) << "Data" << tooltipData;
 
     m_tooltipColor = tooltipData[QString("tooltipColor")].toString();
@@ -236,7 +224,6 @@ void DPAdds::setToolTipData(const QVariantMap tooltipData)
 
 QString DPAdds::valueByKey(const QString key, int desktop) const
 {
-    qCDebug(LOG_DP);
     qCDebug(LOG_DP) << "Requested key" << key;
     qCDebug(LOG_DP) << "Desktop number" << desktop;
     if (desktop == -1)
@@ -262,7 +249,6 @@ QString DPAdds::valueByKey(const QString key, int desktop) const
 // HACK: this method uses variables from version.h
 QString DPAdds::getAboutText(const QString type) const
 {
-    qCDebug(LOG_DP);
     qCDebug(LOG_DP) << "Type" << type;
 
     QString text;
@@ -323,7 +309,6 @@ QString DPAdds::getAboutText(const QString type) const
 
 QVariantMap DPAdds::getFont(const QVariantMap defaultFont) const
 {
-    qCDebug(LOG_DP);
     qCDebug(LOG_DP) << "Default font is" << defaultFont;
 
     QVariantMap fontMap;
@@ -343,7 +328,6 @@ QVariantMap DPAdds::getFont(const QVariantMap defaultFont) const
 // to avoid additional object definition this method is static
 void DPAdds::sendNotification(const QString eventId, const QString message)
 {
-    qCDebug(LOG_DP);
     qCDebug(LOG_DP) << "Event" << eventId;
     qCDebug(LOG_DP) << "Message" << message;
 
@@ -357,7 +341,6 @@ void DPAdds::sendNotification(const QString eventId, const QString message)
 // slot for mouse click
 void DPAdds::setCurrentDesktop(const int desktop) const
 {
-    qCDebug(LOG_DP);
     qCDebug(LOG_DP) << "Desktop" << desktop;
 
     KWindowSystem::setCurrentDesktop(desktop);
@@ -366,7 +349,6 @@ void DPAdds::setCurrentDesktop(const int desktop) const
 
 DPAdds::DesktopWindowsInfo DPAdds::getInfoByDesktop(const int desktop) const
 {
-    qCDebug(LOG_DP);
     qCDebug(LOG_DP) << "Desktop" << desktop;
 
 

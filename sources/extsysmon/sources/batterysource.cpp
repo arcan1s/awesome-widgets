@@ -27,7 +27,7 @@ BatterySource::BatterySource(QObject *parent, const QStringList args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 1);
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 
     m_acpiPath = args.at(0);
     m_sources = getSources();
@@ -36,13 +36,12 @@ BatterySource::BatterySource(QObject *parent, const QStringList args)
 
 BatterySource::~BatterySource()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 }
 
 
 QVariant BatterySource::data(QString source)
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
     if (source == QString("battery/ac"))
@@ -53,7 +52,6 @@ QVariant BatterySource::data(QString source)
 
 QVariantMap BatterySource::initialData(QString source) const
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
     QVariantMap data;
@@ -83,8 +81,6 @@ QVariantMap BatterySource::initialData(QString source) const
 
 void BatterySource::run()
 {
-    qCDebug(LOG_ESM);
-
     // adaptor
     QFile acFile(QString("%1/AC/online").arg(m_acpiPath));
     if (acFile.open(QIODevice::ReadOnly))
@@ -121,16 +117,12 @@ void BatterySource::run()
 
 QStringList BatterySource::sources() const
 {
-    qCDebug(LOG_ESM);
-
     return m_sources;
 }
 
 
 QStringList BatterySource::getSources()
 {
-    qCDebug(LOG_ESM);
-
     QStringList sources;
     sources.append(QString("battery/ac"));
     sources.append(QString("battery/bat"));

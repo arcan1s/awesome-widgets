@@ -23,6 +23,7 @@
 #include <QDialogButtonBox>
 #include <QDir>
 #include <QFileDialog>
+#include <QMessageBox>
 #include <QQmlPropertyMap>
 #include <QSettings>
 #include <QTextCodec>
@@ -34,20 +35,18 @@
 AWConfigHelper::AWConfigHelper(QObject *parent)
     : QObject(parent)
 {
-    qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 }
 
 
 AWConfigHelper::~AWConfigHelper()
 {
-    qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 }
 
 
 bool AWConfigHelper::dropCache() const
 {
-    qCDebug(LOG_AW);
-
     QString fileName = QString("%1/awesomewidgets.ndx")
                            .arg(QStandardPaths::writableLocation(
                                QStandardPaths::GenericCacheLocation));
@@ -58,8 +57,6 @@ bool AWConfigHelper::dropCache() const
 
 void AWConfigHelper::exportConfiguration(QObject *nativeConfig) const
 {
-    qCDebug(LOG_AW);
-
     // get file path and init settings object
     QString fileName = QFileDialog::getSaveFileName(nullptr, i18n("Export"));
     if (fileName.isEmpty())
@@ -105,13 +102,23 @@ void AWConfigHelper::exportConfiguration(QObject *nativeConfig) const
 
     // sync settings
     settings.sync();
+    // show additional message
+    switch (settings.status()) {
+    case QSettings::NoError:
+        QMessageBox::information(
+            nullptr, i18n("Success"),
+            i18n("Please note that binary files were not copied"));
+        break;
+    default:
+        QMessageBox::critical(nullptr, i18n("Ooops..."),
+                              i18n("Could not save configuration file"));
+        break;
+    }
 }
 
 
 QVariantMap AWConfigHelper::importConfiguration() const
 {
-    qCDebug(LOG_AW);
-
     QVariantMap configuration;
     // get file path and init settings object
     QString fileName = QFileDialog::getOpenFileName(nullptr, i18n("Import"));
@@ -159,8 +166,6 @@ QVariantMap AWConfigHelper::importConfiguration() const
 
 QVariantMap AWConfigHelper::readDataEngineConfiguration() const
 {
-    qCDebug(LOG_AW);
-
     QString fileName
         = QStandardPaths::locate(QStandardPaths::ConfigLocation,
                                  QString("plasma-dataengine-extsysmon.conf"));
@@ -198,7 +203,7 @@ QVariantMap AWConfigHelper::readDataEngineConfiguration() const
 void AWConfigHelper::writeDataEngineConfiguration(
     const QVariantMap configuration) const
 {
-    qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << "Configuration" << configuration;
 
     QString fileName
         = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation)
@@ -229,7 +234,6 @@ void AWConfigHelper::copyExtensions(const QString item, const QString type,
                                     QSettings &settings,
                                     const bool inverse) const
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Extension" << item;
     qCDebug(LOG_AW) << "Type" << type;
     qCDebug(LOG_AW) << "Inverse" << inverse;
@@ -253,8 +257,6 @@ void AWConfigHelper::copyExtensions(const QString item, const QString type,
 
 void AWConfigHelper::copySettings(QSettings &from, QSettings &to) const
 {
-    qCDebug(LOG_AW);
-
     foreach (QString key, from.childKeys())
         to.setValue(key, from.value(key));
 }
@@ -263,7 +265,6 @@ void AWConfigHelper::copySettings(QSettings &from, QSettings &to) const
 void AWConfigHelper::readFile(QSettings &settings, const QString key,
                               const QString fileName) const
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Key" << key;
     qCDebug(LOG_AW) << "File" << fileName;
 
@@ -280,8 +281,6 @@ void AWConfigHelper::readFile(QSettings &settings, const QString key,
 
 QHash<QString, bool> AWConfigHelper::selectImport() const
 {
-    qCDebug(LOG_AW);
-
     QDialog *dialog = new QDialog(nullptr);
     QCheckBox *importPlasmoidSettings
         = new QCheckBox(i18n("Import plasmoid settings"), dialog);
@@ -308,7 +307,7 @@ QHash<QString, bool> AWConfigHelper::selectImport() const
     import[QString("plasmoid")] = false;
     import[QString("extensions")] = false;
     import[QString("adds")] = false;
-    switch (int ret = dialog->exec()) {
+    switch (dialog->exec()) {
     case QDialog::Accepted:
         import[QString("plasmoid")] = importPlasmoidSettings->isChecked();
         import[QString("extensions")] = importExtensionsSettings->isChecked();
@@ -327,7 +326,6 @@ QHash<QString, bool> AWConfigHelper::selectImport() const
 void AWConfigHelper::writeFile(QSettings &settings, const QString key,
                                const QString fileName) const
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Key" << key;
     qCDebug(LOG_AW) << "File" << fileName;
 

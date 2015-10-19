@@ -30,7 +30,7 @@ GPUTemperatureSource::GPUTemperatureSource(QObject *parent,
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 1);
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 
     m_device = args.at(0);
 }
@@ -38,13 +38,12 @@ GPUTemperatureSource::GPUTemperatureSource(QObject *parent,
 
 GPUTemperatureSource::~GPUTemperatureSource()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 }
 
 
 QVariant GPUTemperatureSource::data(QString source)
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
     if (source == QString("gpu/temperature")) {
@@ -93,7 +92,6 @@ QVariant GPUTemperatureSource::data(QString source)
 
 QVariantMap GPUTemperatureSource::initialData(QString source) const
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
     QVariantMap data;
@@ -111,8 +109,6 @@ QVariantMap GPUTemperatureSource::initialData(QString source) const
 
 QStringList GPUTemperatureSource::sources() const
 {
-    qCDebug(LOG_ESM);
-
     QStringList sources;
     sources.append(QString("gpu/temperature"));
 

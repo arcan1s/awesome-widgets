@@ -26,7 +26,7 @@ QuotesSource::QuotesSource(QObject *parent, const QStringList args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 0);
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 
     extQuotes = new ExtItemAggregator<ExtQuotes>(nullptr, QString("quotes"));
     m_sources = getSources();
@@ -35,7 +35,7 @@ QuotesSource::QuotesSource(QObject *parent, const QStringList args)
 
 QuotesSource::~QuotesSource()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 
     delete extQuotes;
 }
@@ -43,7 +43,6 @@ QuotesSource::~QuotesSource()
 
 QVariant QuotesSource::data(QString source)
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
     if (source.startsWith(QString("quotes/percpricechg"))) {
@@ -58,7 +57,6 @@ QVariant QuotesSource::data(QString source)
 
 QVariantMap QuotesSource::initialData(QString source) const
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
     int ind = index(source);
@@ -143,16 +141,12 @@ QVariantMap QuotesSource::initialData(QString source) const
 
 QStringList QuotesSource::sources() const
 {
-    qCDebug(LOG_ESM);
-
     return m_sources;
 }
 
 
 QStringList QuotesSource::getSources()
 {
-    qCDebug(LOG_ESM);
-
     QStringList sources;
     foreach (ExtQuotes *item, extQuotes->activeItems()) {
         sources.append(QString("quotes/%1").arg(item->tag(QString("ask"))));

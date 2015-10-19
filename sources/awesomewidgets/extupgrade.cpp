@@ -34,7 +34,7 @@ ExtUpgrade::ExtUpgrade(QWidget *parent, const QString upgradeName,
     : AbstractExtItem(parent, upgradeName, directories)
     , ui(new Ui::ExtUpgrade)
 {
-    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     readConfiguration();
     ui->setupUi(this);
@@ -42,7 +42,7 @@ ExtUpgrade::ExtUpgrade(QWidget *parent, const QString upgradeName,
 
     value[tag(QString("pkgcount"))] = 0;
 
-    process = new QProcess(this);
+    process = new QProcess(nullptr);
     connect(process, SIGNAL(finished(int)), this, SLOT(updateValue()));
     process->waitForFinished(0);
 }
@@ -50,17 +50,16 @@ ExtUpgrade::ExtUpgrade(QWidget *parent, const QString upgradeName,
 
 ExtUpgrade::~ExtUpgrade()
 {
-    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     process->kill();
-    delete process;
+    process->deleteLater();
     delete ui;
 }
 
 
 ExtUpgrade *ExtUpgrade::copy(const QString _fileName, const int _number)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "File" << _fileName;
     qCDebug(LOG_LIB) << "Number" << _number;
 
@@ -82,39 +81,30 @@ ExtUpgrade *ExtUpgrade::copy(const QString _fileName, const int _number)
 
 QString ExtUpgrade::executable() const
 {
-    qCDebug(LOG_LIB);
-
     return m_executable;
 }
 
 
 QString ExtUpgrade::filter() const
 {
-    qCDebug(LOG_LIB);
-
     return m_filter;
 }
 
 
 int ExtUpgrade::null() const
 {
-    qCDebug(LOG_LIB);
-
     return m_null;
 }
 
 
 QString ExtUpgrade::uniq() const
 {
-    qCDebug(LOG_LIB);
-
     return m_executable;
 }
 
 
 void ExtUpgrade::setExecutable(const QString _executable)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Executable" << _executable;
 
     m_executable = _executable;
@@ -123,7 +113,6 @@ void ExtUpgrade::setExecutable(const QString _executable)
 
 void ExtUpgrade::setFilter(const QString _filter)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Filter" << _filter;
 
     m_filter = _filter;
@@ -132,7 +121,6 @@ void ExtUpgrade::setFilter(const QString _filter)
 
 void ExtUpgrade::setNull(const int _null)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Null lines" << _null;
     if (_null < 0)
         return;
@@ -143,7 +131,6 @@ void ExtUpgrade::setNull(const int _null)
 
 void ExtUpgrade::readConfiguration()
 {
-    qCDebug(LOG_LIB);
     AbstractExtItem::readConfiguration();
 
     for (int i = directories().count() - 1; i >= 0; i--) {
@@ -175,7 +162,6 @@ void ExtUpgrade::readConfiguration()
 
 QVariantHash ExtUpgrade::run()
 {
-    qCDebug(LOG_LIB);
     if (!isActive())
         return value;
 
@@ -195,7 +181,6 @@ QVariantHash ExtUpgrade::run()
 int ExtUpgrade::showConfiguration(const QVariant args)
 {
     Q_UNUSED(args)
-    qCDebug(LOG_LIB);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -227,7 +212,6 @@ int ExtUpgrade::showConfiguration(const QVariant args)
 
 void ExtUpgrade::writeConfiguration() const
 {
-    qCDebug(LOG_LIB);
     AbstractExtItem::writeConfiguration();
 
     QSettings settings(
@@ -247,8 +231,6 @@ void ExtUpgrade::writeConfiguration() const
 
 void ExtUpgrade::updateValue()
 {
-    qCDebug(LOG_LIB);
-
     qCInfo(LOG_LIB) << "Cmd returns" << process->exitCode();
     qCInfo(LOG_LIB) << "Error" << process->readAllStandardError();
 
@@ -268,8 +250,6 @@ void ExtUpgrade::updateValue()
 
 void ExtUpgrade::translate()
 {
-    qCDebug(LOG_LIB);
-
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
     ui->label_number->setText(i18n("Tag"));

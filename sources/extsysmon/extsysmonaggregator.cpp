@@ -18,7 +18,6 @@
 #include "extsysmonaggregator.h"
 
 #include "awdebug.h"
-#include "version.h"
 #include "sources/batterysource.h"
 #include "sources/customsource.h"
 #include "sources/desktopsource.h"
@@ -33,13 +32,14 @@
 #include "sources/updatesource.h"
 #include "sources/upgradesource.h"
 #include "sources/weathersource.h"
+#include "version.h"
 
 
 ExtSysMonAggregator::ExtSysMonAggregator(QObject *parent,
                                          const QHash<QString, QString> config)
     : QObject(parent)
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 
     init(config);
 }
@@ -47,7 +47,7 @@ ExtSysMonAggregator::ExtSysMonAggregator(QObject *parent,
 
 ExtSysMonAggregator::~ExtSysMonAggregator()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 
     m_map.clear();
 }
@@ -55,7 +55,6 @@ ExtSysMonAggregator::~ExtSysMonAggregator()
 
 QVariant ExtSysMonAggregator::data(const QString source) const
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
     return hasSource(source) ? m_map[source]->data(source) : QVariant();
@@ -70,7 +69,6 @@ bool ExtSysMonAggregator::hasSource(const QString source) const
 
 QVariantMap ExtSysMonAggregator::initialData(const QString source) const
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
     return hasSource(source) ? m_map[source]->initialData(source)
@@ -80,8 +78,6 @@ QVariantMap ExtSysMonAggregator::initialData(const QString source) const
 
 QStringList ExtSysMonAggregator::sources() const
 {
-    qCDebug(LOG_ESM);
-
     QStringList sorted = m_map.keys();
     sorted.sort();
     return sorted;
@@ -90,7 +86,7 @@ QStringList ExtSysMonAggregator::sources() const
 
 void ExtSysMonAggregator::init(const QHash<QString, QString> config)
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << "Configuration" << config;
 
     // battery
     AbstractExtSysMonSource *batteryItem

@@ -39,7 +39,7 @@ ExtWeather::ExtWeather(QWidget *parent, const QString weatherName,
     : AbstractExtItem(parent, weatherName, directories)
     , ui(new Ui::ExtWeather)
 {
-    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     readConfiguration();
     readJsonMap();
@@ -62,7 +62,7 @@ ExtWeather::ExtWeather(QWidget *parent, const QString weatherName,
 
 ExtWeather::~ExtWeather()
 {
-    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     disconnect(manager, SIGNAL(finished(QNetworkReply *)), this,
                SLOT(weatherReplyReceived(QNetworkReply *)));
@@ -74,7 +74,6 @@ ExtWeather::~ExtWeather()
 
 ExtWeather *ExtWeather::copy(const QString _fileName, const int _number)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "File" << _fileName;
     qCDebug(LOG_LIB) << "Number" << _number;
 
@@ -97,7 +96,6 @@ ExtWeather *ExtWeather::copy(const QString _fileName, const int _number)
 
 QString ExtWeather::weatherFromInt(const int _id) const
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Weather ID" << _id;
 
     QVariantMap map
@@ -108,47 +106,36 @@ QString ExtWeather::weatherFromInt(const int _id) const
 
 QString ExtWeather::city() const
 {
-    qCDebug(LOG_LIB);
-
     return m_city;
 }
 
 
 QString ExtWeather::country() const
 {
-    qCDebug(LOG_LIB);
-
     return m_country;
 }
 
 
 bool ExtWeather::image() const
 {
-    qCDebug(LOG_LIB);
-
     return m_image;
 }
 
 
 int ExtWeather::ts() const
 {
-    qCDebug(LOG_LIB);
-
     return m_ts;
 }
 
 
 QString ExtWeather::uniq() const
 {
-    qCDebug(LOG_LIB);
-
     return QString("%1 (%2) at %3").arg(m_city).arg(m_country).arg(m_ts);
 }
 
 
 void ExtWeather::setCity(const QString _city)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "City" << _city;
 
     m_city = _city;
@@ -157,7 +144,6 @@ void ExtWeather::setCity(const QString _city)
 
 void ExtWeather::setCountry(const QString _country)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Country" << _country;
 
     m_country = _country;
@@ -166,7 +152,6 @@ void ExtWeather::setCountry(const QString _country)
 
 void ExtWeather::setImage(const bool _image)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Use image" << _image;
 
     m_image = _image;
@@ -175,7 +160,6 @@ void ExtWeather::setImage(const bool _image)
 
 void ExtWeather::setTs(const int _ts)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Timestamp" << _ts;
 
     m_ts = _ts;
@@ -184,7 +168,6 @@ void ExtWeather::setTs(const int _ts)
 
 void ExtWeather::readConfiguration()
 {
-    qCDebug(LOG_LIB);
     AbstractExtItem::readConfiguration();
 
     for (int i = directories().count() - 1; i >= 0; i--) {
@@ -220,8 +203,6 @@ void ExtWeather::readConfiguration()
 
 void ExtWeather::readJsonMap()
 {
-    qCDebug(LOG_LIB);
-
     QString fileName = QStandardPaths::locate(
         QStandardPaths::GenericDataLocation,
         QString("awesomewidgets/weather/awesomewidgets-extweather-ids.json"));
@@ -248,7 +229,6 @@ void ExtWeather::readJsonMap()
 
 QVariantHash ExtWeather::run()
 {
-    qCDebug(LOG_LIB);
     if ((!isActive()) || (isRunning))
         return values;
 
@@ -272,7 +252,6 @@ QVariantHash ExtWeather::run()
 int ExtWeather::showConfiguration(const QVariant args)
 {
     Q_UNUSED(args)
-    qCDebug(LOG_LIB);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -306,7 +285,6 @@ int ExtWeather::showConfiguration(const QVariant args)
 
 void ExtWeather::writeConfiguration() const
 {
-    qCDebug(LOG_LIB);
     AbstractExtItem::writeConfiguration();
 
     QSettings settings(
@@ -327,7 +305,6 @@ void ExtWeather::writeConfiguration() const
 
 void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Return code" << reply->error();
     qCDebug(LOG_LIB) << "Reply error message" << reply->errorString();
 
@@ -364,7 +341,6 @@ void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
 
 QVariantHash ExtWeather::parseSingleJson(const QVariantMap json) const
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Single json data" << json;
 
     QVariantHash output;
@@ -393,8 +369,6 @@ QVariantHash ExtWeather::parseSingleJson(const QVariantMap json) const
 
 void ExtWeather::translate()
 {
-    qCDebug(LOG_LIB);
-
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
     ui->label_number->setText(i18n("Tag"));
@@ -409,7 +383,6 @@ void ExtWeather::translate()
 
 QString ExtWeather::url(const bool isForecast) const
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Is forecast" << isForecast;
 
     QString apiUrl = isForecast ? QString(OWM_FORECAST_URL) : QString(OWM_URL);

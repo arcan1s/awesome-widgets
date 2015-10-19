@@ -27,19 +27,18 @@ NetworkSource::NetworkSource(QObject *parent, const QStringList args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 0);
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 }
 
 
 NetworkSource::~NetworkSource()
 {
-    qCDebug(LOG_ESM);
+    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 }
 
 
 QVariant NetworkSource::data(QString source)
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
     if (source == QString("network/current/name")) {
@@ -66,7 +65,6 @@ QVariant NetworkSource::data(QString source)
 
 QVariantMap NetworkSource::initialData(QString source) const
 {
-    qCDebug(LOG_ESM);
     qCDebug(LOG_ESM) << "Source" << source;
 
     QVariantMap data;
@@ -84,8 +82,6 @@ QVariantMap NetworkSource::initialData(QString source) const
 
 QStringList NetworkSource::sources() const
 {
-    qCDebug(LOG_ESM);
-
     QStringList sources;
     sources.append(QString("network/current/name"));
 

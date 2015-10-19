@@ -38,7 +38,7 @@ ExtQuotes::ExtQuotes(QWidget *parent, const QString quotesName,
     : AbstractExtItem(parent, quotesName, directories)
     , ui(new Ui::ExtQuotes)
 {
-    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     readConfiguration();
     ui->setupUi(this);
@@ -64,7 +64,7 @@ ExtQuotes::ExtQuotes(QWidget *parent, const QString quotesName,
 
 ExtQuotes::~ExtQuotes()
 {
-    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     disconnect(manager, SIGNAL(finished(QNetworkReply *)), this,
                SLOT(quotesReplyReceived(QNetworkReply *)));
@@ -76,7 +76,6 @@ ExtQuotes::~ExtQuotes()
 
 ExtQuotes *ExtQuotes::copy(const QString _fileName, const int _number)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "File" << _fileName;
     qCDebug(LOG_LIB) << "Number" << _number;
 
@@ -96,23 +95,18 @@ ExtQuotes *ExtQuotes::copy(const QString _fileName, const int _number)
 
 QString ExtQuotes::ticker() const
 {
-    qCDebug(LOG_LIB);
-
     return m_ticker;
 }
 
 
 QString ExtQuotes::uniq() const
 {
-    qCDebug(LOG_LIB);
-
     return m_ticker;
 }
 
 
 void ExtQuotes::setTicker(const QString _ticker)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Ticker" << _ticker;
 
     m_ticker = _ticker;
@@ -121,7 +115,6 @@ void ExtQuotes::setTicker(const QString _ticker)
 
 void ExtQuotes::readConfiguration()
 {
-    qCDebug(LOG_LIB);
     AbstractExtItem::readConfiguration();
 
     for (int i = directories().count() - 1; i >= 0; i--) {
@@ -150,7 +143,6 @@ void ExtQuotes::readConfiguration()
 
 QVariantHash ExtQuotes::run()
 {
-    qCDebug(LOG_LIB);
     if ((!isActive()) || (isRunning))
         return values;
 
@@ -173,7 +165,6 @@ QVariantHash ExtQuotes::run()
 int ExtQuotes::showConfiguration(const QVariant args)
 {
     Q_UNUSED(args)
-    qCDebug(LOG_LIB);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -201,7 +192,6 @@ int ExtQuotes::showConfiguration(const QVariant args)
 
 void ExtQuotes::writeConfiguration() const
 {
-    qCDebug(LOG_LIB);
     AbstractExtItem::writeConfiguration();
 
     QSettings settings(
@@ -218,7 +208,6 @@ void ExtQuotes::writeConfiguration() const
 
 void ExtQuotes::quotesReplyReceived(QNetworkReply *reply)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Return code" << reply->error();
     qCDebug(LOG_LIB) << "Reply error message" << reply->errorString();
 
@@ -274,8 +263,6 @@ void ExtQuotes::quotesReplyReceived(QNetworkReply *reply)
 
 void ExtQuotes::translate()
 {
-    qCDebug(LOG_LIB);
-
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
     ui->label_number->setText(i18n("Tag"));
@@ -292,8 +279,6 @@ get quotes for the instrument. Refer to <a href=\"http://finance.yahoo.com/\">\
 
 QString ExtQuotes::url() const
 {
-    qCDebug(LOG_LIB);
-
     QString apiUrl = QString(YAHOO_URL);
     apiUrl.replace(QString("$TICKER"), m_ticker);
     qCInfo(LOG_LIB) << "API url" << apiUrl;

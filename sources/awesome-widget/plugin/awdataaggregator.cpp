@@ -34,7 +34,7 @@
 AWDataAggregator::AWDataAggregator(QObject *parent)
     : QObject(parent)
 {
-    qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
     // required by signals
     qRegisterMetaType<QHash<QString, QString>>("QHash<QString, QString>");
 
@@ -46,7 +46,7 @@ AWDataAggregator::AWDataAggregator(QObject *parent)
 
 AWDataAggregator::~AWDataAggregator()
 {
-    qCDebug(LOG_AW);
+    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
     delete toolTipScene;
 }
@@ -54,7 +54,6 @@ AWDataAggregator::~AWDataAggregator()
 
 QList<float> AWDataAggregator::getData(const QString key) const
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Key" << key;
 
     return data[QString("%1Tooltip").arg(key)];
@@ -63,8 +62,6 @@ QList<float> AWDataAggregator::getData(const QString key) const
 
 QString AWDataAggregator::htmlImage(const QPixmap &source) const
 {
-    qCDebug(LOG_AW);
-
     QByteArray byteArray;
     QBuffer buffer(&byteArray);
     source.save(&buffer, "PNG");
@@ -78,7 +75,6 @@ QString AWDataAggregator::htmlImage(const QPixmap &source) const
 
 void AWDataAggregator::setParameters(QVariantMap settings)
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Settings" << settings;
 
     // cast from QVariantMap to QVariantHash without data lost
@@ -131,8 +127,6 @@ void AWDataAggregator::setParameters(QVariantMap settings)
 
 QPixmap AWDataAggregator::tooltipImage()
 {
-    qCDebug(LOG_AW);
-
     // create image
     toolTipScene->clear();
     QPen pen;
@@ -176,8 +170,7 @@ QPixmap AWDataAggregator::tooltipImage()
 
 void AWDataAggregator::dataUpdate(const QHash<QString, QString> &values)
 {
-    qCDebug(LOG_AW);
-
+    // do not log these arguments
     setData(values);
     emit(toolTipPainted(htmlImage(tooltipImage())));
 }
@@ -186,7 +179,6 @@ void AWDataAggregator::dataUpdate(const QHash<QString, QString> &values)
 void AWDataAggregator::checkValue(const QString source, const float value,
                                   const float extremum) const
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Notification source" << source;
     qCDebug(LOG_AW) << "Value" << value;
     qCDebug(LOG_AW) << "Called with extremum" << extremum;
@@ -208,7 +200,6 @@ void AWDataAggregator::checkValue(const QString source, const float value,
 void AWDataAggregator::checkValue(const QString source, const QString current,
                                   const QString received) const
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Notification source" << source;
     qCDebug(LOG_AW) << "Current value" << current;
     qCDebug(LOG_AW) << "Received value" << received;
@@ -221,8 +212,6 @@ void AWDataAggregator::checkValue(const QString source, const QString current,
 
 void AWDataAggregator::initScene()
 {
-    qCDebug(LOG_AW);
-
     toolTipScene = new QGraphicsScene(nullptr);
     toolTipView = new QGraphicsView(toolTipScene);
     toolTipView->setStyleSheet(QString("background: transparent"));
@@ -236,7 +225,6 @@ void AWDataAggregator::initScene()
 QString AWDataAggregator::notificationText(const QString source,
                                            const float value) const
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Notification source" << source;
     qCDebug(LOG_AW) << "Value" << value;
 
@@ -259,7 +247,6 @@ QString AWDataAggregator::notificationText(const QString source,
 QString AWDataAggregator::notificationText(const QString source,
                                            const QString value) const
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Notification source" << source;
     qCDebug(LOG_AW) << "Value" << value;
 
@@ -273,8 +260,7 @@ QString AWDataAggregator::notificationText(const QString source,
 
 void AWDataAggregator::setData(const QHash<QString, QString> &values)
 {
-    qCDebug(LOG_AW);
-
+    // do not log these arguments
     // battery update requires info is AC online or not
     setData(values[QString("ac")] == configuration[QString("acOnline")],
             QString("batTooltip"), values[QString("bat")].toFloat());
@@ -301,7 +287,6 @@ void AWDataAggregator::setData(const QHash<QString, QString> &values)
 void AWDataAggregator::setData(const QString &source, float value,
                                const float extremum)
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Source" << source;
     qCDebug(LOG_AW) << "Value" << value;
     qCDebug(LOG_AW) << "Called with extremum" << extremum;
@@ -331,8 +316,9 @@ void AWDataAggregator::setData(const QString &source, float value,
 void AWDataAggregator::setData(const bool dontInvert, const QString &source,
                                float value)
 {
-    qCDebug(LOG_AW);
     qCDebug(LOG_AW) << "Do not invert value" << dontInvert;
+    qCDebug(LOG_AW) << "Source" << source;
+    qCDebug(LOG_AW) << "Value" << value;
 
     // invert values for different battery colours
     value = dontInvert ? value : -value;

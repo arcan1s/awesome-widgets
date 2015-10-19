@@ -32,7 +32,7 @@ AbstractExtItem::AbstractExtItem(QWidget *parent, const QString desktopName,
     , m_fileName(desktopName)
     , m_dirs(directories)
 {
-    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
     qCDebug(LOG_LIB) << "Desktop name" << desktopName;
     qCDebug(LOG_LIB) << "Directories" << directories;
 
@@ -42,14 +42,12 @@ AbstractExtItem::AbstractExtItem(QWidget *parent, const QString desktopName,
 
 AbstractExtItem::~AbstractExtItem()
 {
-    qCDebug(LOG_LIB);
+    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 }
 
 
 template <class T> T *AbstractExtItem::copy(const QString, const int)
 {
-    qCDebug(LOG_LIB);
-
     // an analog of pure virtual method
     return new T();
 }
@@ -57,71 +55,54 @@ template <class T> T *AbstractExtItem::copy(const QString, const int)
 
 int AbstractExtItem::apiVersion() const
 {
-    qCDebug(LOG_LIB);
-
     return m_apiVersion;
 }
 
 
 QString AbstractExtItem::comment() const
 {
-    qCDebug(LOG_LIB);
-
     return m_comment;
 }
 
 
 QStringList AbstractExtItem::directories() const
 {
-    qCDebug(LOG_LIB);
-
     return m_dirs;
 }
 
 
 QString AbstractExtItem::fileName() const
 {
-    qCDebug(LOG_LIB);
-
     return m_fileName;
 }
 
 
 int AbstractExtItem::interval() const
 {
-    qCDebug(LOG_LIB);
-
     return m_interval;
 }
 
 
 bool AbstractExtItem::isActive() const
 {
-    qCDebug(LOG_LIB);
-
     return m_active;
 }
 
 
 QString AbstractExtItem::name() const
 {
-    qCDebug(LOG_LIB);
-
     return m_name;
 }
 
 
 int AbstractExtItem::number() const
 {
-    qCDebug(LOG_LIB);
-
     return m_number;
 }
 
 
 QString AbstractExtItem::tag(const QString _type) const
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Tag type" << _type;
 
     return QString("%1%2").arg(_type).arg(m_number);
@@ -130,7 +111,6 @@ QString AbstractExtItem::tag(const QString _type) const
 
 void AbstractExtItem::setApiVersion(const int _apiVersion)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Version" << _apiVersion;
 
     m_apiVersion = _apiVersion;
@@ -139,7 +119,6 @@ void AbstractExtItem::setApiVersion(const int _apiVersion)
 
 void AbstractExtItem::setActive(const bool _state)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "State" << _state;
 
     m_active = _state;
@@ -148,7 +127,6 @@ void AbstractExtItem::setActive(const bool _state)
 
 void AbstractExtItem::setComment(const QString _comment)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Comment" << _comment;
 
     m_comment = _comment;
@@ -157,7 +135,6 @@ void AbstractExtItem::setComment(const QString _comment)
 
 void AbstractExtItem::setInterval(const int _interval)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Interval" << _interval;
     if (_interval <= 0)
         return;
@@ -168,7 +145,6 @@ void AbstractExtItem::setInterval(const int _interval)
 
 void AbstractExtItem::setName(const QString _name)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Name" << _name;
 
     m_name = _name;
@@ -177,7 +153,6 @@ void AbstractExtItem::setName(const QString _name)
 
 void AbstractExtItem::setNumber(int _number)
 {
-    qCDebug(LOG_LIB);
     qCDebug(LOG_LIB) << "Number" << _number;
     if (_number == -1)
         _number = []() {
@@ -194,8 +169,6 @@ void AbstractExtItem::setNumber(int _number)
 
 void AbstractExtItem::readConfiguration()
 {
-    qCDebug(LOG_LIB);
-
     for (int i = m_dirs.count() - 1; i >= 0; i--) {
         if (!QDir(m_dirs.at(i)).entryList(QDir::Files).contains(m_fileName))
             continue;
@@ -220,8 +193,6 @@ void AbstractExtItem::readConfiguration()
 
 bool AbstractExtItem::tryDelete() const
 {
-    qCDebug(LOG_LIB);
-
     foreach (QString dir, m_dirs) {
         bool status = QFile::remove(QString("%1/%2").arg(dir).arg(m_fileName));
         qCInfo(LOG_LIB) << "Remove file"
@@ -238,8 +209,6 @@ bool AbstractExtItem::tryDelete() const
 
 void AbstractExtItem::writeConfiguration() const
 {
-    qCDebug(LOG_LIB);
-
     QSettings settings(QString("%1/%2").arg(m_dirs.first()).arg(m_fileName),
                        QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
