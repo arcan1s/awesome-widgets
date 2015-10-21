@@ -17,7 +17,7 @@ optdepends=("catalyst: for GPU monitor"
 makedepends=('cmake' 'extra-cmake-modules')
 source=(https://github.com/arcan1s/awesome-widgets/releases/download/V.${pkgver}/${_pkgname}-${pkgver}-src.tar.xz)
 install=${pkgname}.install
-md5sums=('5cd55e19ac19794eb95fb31fc713b6a6')
+md5sums=('4878899f092ee12ad8f935f0551ef6b2')
 backup=('etc/xdg/plasma-dataengine-extsysmon.conf')
 
 prepare() {

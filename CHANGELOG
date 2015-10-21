@@ -24,7 +24,7 @@ Ver.3.0.0:
 * more pretty configuration ui
 * improve logging, change format to Qt5 style
 * switch to concurrent data update
-* some more optiomization
+* some more optimization
 * better network device definition
 * quotes values now have double type (ApiVer == 3)
 * better quotes output
@@ -32,6 +32,7 @@ Ver.3.0.0:
 * more Qt code style
 * move update interval to another group
 * move DataEnignes operations to plugin
+* change DataEngine data format (breaking changes)
 
 Ver.2.4.0:
 + add support of weather items
