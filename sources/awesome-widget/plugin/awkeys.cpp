@@ -563,8 +563,17 @@ void AWKeys::reinitKeys()
 
 void AWKeys::updateTextData()
 {
+#ifdef BUILD_FUTURE
+    QFuture<QString> text = QtConcurrent::run(m_threadPool, [this]() {
+        calculateValues();
+        return parsePattern(m_pattern);
+    });
+#else  /* BUILD_FUTURE */
     calculateValues();
-    emit(needTextToBeUpdated(parsePattern(m_pattern)));
+    QString text = parsePattern(m_pattern);
+#endif /* BUILD_FUTURE */
+
+    emit(needTextToBeUpdated(text));
     emit(dataAggregator->updateData(values));
 }
 

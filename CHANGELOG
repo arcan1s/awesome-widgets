@@ -1,5 +1,37 @@
-+ add tags upunits, downunits
+Ver.3.0.0:
++ add tags upunits, downunits, upkb, downkb
++ add tags dalbum, dartist, dtitle, salbum, sartist, stitle
++ add support of lambda functions
++ add Dutch translation (thanks to Heimen Stoffels)
++ add check for update function on startup (optional)
++ add ability to disable string tags translations
++ add filtering to ExtUpgrade (ApiVer == 3)
++ add ability to change weather icons (ApiVer == 2)
++ show message if no updates found on direct request
++ add swap redirect type to ExtScript (ApiVer == 4)
++ add ability to wrap words
++ add support of graphs to GraphicalItems (ApiVer == 3)
++ add ability to show preview from configuration
++ add configuration export and import functions
 - fix warning for empty tooltip image
+- fix bug with widget auto resizing
+- fix bug with no settings saving in DE
+- fix bug with large start size
+- fix bug with no possibility use more than 10 ext tags
+- drop HDD free space notifications
+- drop X-AW-Output key for ExtScript (ApiVer == 4)
+- fix possible crash on web sources destruction
+* more pretty configuration ui
+* improve logging, change format to Qt5 style
+* switch to concurrent data update
+* some more optiomization
+* better network device definition
+* quotes values now have double type (ApiVer == 3)
+* better quotes output
+* more comments inside code
+* more Qt code style
+* move update interval to another group
+* move DataEnignes operations to plugin
 
 Ver.2.4.0:
 + add support of weather items
