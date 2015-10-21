@@ -19,15 +19,11 @@
 
 #include <KI18n/KLocalizedString>
 
-#include <QCheckBox>
-#include <QDialogButtonBox>
 #include <QDir>
-#include <QFileDialog>
 #include <QMessageBox>
 #include <QQmlPropertyMap>
 #include <QSettings>
 #include <QTextCodec>
-#include <QVBoxLayout>
 
 #include "awdebug.h"
 
@@ -55,13 +51,11 @@ bool AWConfigHelper::dropCache() const
 }
 
 
-void AWConfigHelper::exportConfiguration(QObject *nativeConfig) const
+bool AWConfigHelper::exportConfiguration(QObject *nativeConfig,
+                                         const QString fileName) const
 {
-    // get file path and init settings object
-    QString fileName = QFileDialog::getSaveFileName(nullptr, i18n("Export"));
-    if (fileName.isEmpty())
-        return;
-    qCInfo(LOG_AW) << "Selected filename" << fileName;
+    qCDebug(LOG_AW) << "Selected filename" << fileName;
+
     QSettings settings(fileName, QSettings::IniFormat);
 
     // plasmoid configuration
@@ -103,33 +97,22 @@ void AWConfigHelper::exportConfiguration(QObject *nativeConfig) const
     // sync settings
     settings.sync();
     // show additional message
-    switch (settings.status()) {
-    case QSettings::NoError:
-        QMessageBox::information(
-            nullptr, i18n("Success"),
-            i18n("Please note that binary files were not copied"));
-        break;
-    default:
-        QMessageBox::critical(nullptr, i18n("Ooops..."),
-                              i18n("Could not save configuration file"));
-        break;
-    }
+    return settings.status() == QSettings::NoError;
 }
 
 
-QVariantMap AWConfigHelper::importConfiguration() const
+QVariantMap AWConfigHelper::importConfiguration(const QString fileName,
+                                                const bool importPlasmoid,
+                                                const bool importExtensions,
+                                                const bool importAdds) const
 {
+    qCDebug(LOG_AW) << "Selected filename" << fileName;
+
     QVariantMap configuration;
-    // get file path and init settings object
-    QString fileName = QFileDialog::getOpenFileName(nullptr, i18n("Import"));
-    if (fileName.isEmpty())
-        return configuration;
-    qCInfo(LOG_AW) << "Selected filename" << fileName;
     QSettings settings(fileName, QSettings::IniFormat);
-    QHash<QString, bool> selection = selectImport();
 
     // extensions
-    if (selection[QString("extensions")]) {
+    if (importExtensions) {
         foreach (QString item, m_dirs) {
             settings.beginGroup(item);
             foreach (QString it, settings.childGroups())
@@ -139,7 +122,7 @@ QVariantMap AWConfigHelper::importConfiguration() const
     }
 
     // additional files
-    if (selection[QString("adds")]) {
+    if (importAdds) {
         settings.beginGroup(QString("json"));
         // script filters
         writeFile(settings, QString("filters"),
@@ -153,7 +136,7 @@ QVariantMap AWConfigHelper::importConfiguration() const
     }
 
     // plasmoid configuration
-    if (selection[QString("plasmoid")]) {
+    if (importPlasmoid) {
         settings.beginGroup(QString("plasmoid"));
         foreach (QString key, settings.childKeys())
             configuration[key] = settings.value(key);
@@ -276,50 +259,6 @@ void AWConfigHelper::readFile(QSettings &settings, const QString key,
     } else {
         qCWarning(LOG_LIB) << "Could not open" << file.fileName();
     }
-}
-
-
-QHash<QString, bool> AWConfigHelper::selectImport() const
-{
-    QDialog *dialog = new QDialog(nullptr);
-    QCheckBox *importPlasmoidSettings
-        = new QCheckBox(i18n("Import plasmoid settings"), dialog);
-    importPlasmoidSettings->setChecked(true);
-    QCheckBox *importExtensionsSettings
-        = new QCheckBox(i18n("Import extensions"), dialog);
-    importExtensionsSettings->setChecked(true);
-    QCheckBox *importAddsSettings
-        = new QCheckBox(i18n("Import additional files"), dialog);
-    importAddsSettings->setChecked(true);
-    QDialogButtonBox *dialogButtons
-        = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
-                               Qt::Horizontal, dialog);
-    QVBoxLayout *layout = new QVBoxLayout(dialog);
-    layout->addWidget(importPlasmoidSettings);
-    layout->addWidget(importExtensionsSettings);
-    layout->addWidget(importAddsSettings);
-    layout->addWidget(dialogButtons);
-    connect(dialogButtons, SIGNAL(accepted()), dialog, SLOT(accept()));
-    connect(dialogButtons, SIGNAL(rejected()), dialog, SLOT(reject()));
-
-    // get parameters
-    QHash<QString, bool> import;
-    import[QString("plasmoid")] = false;
-    import[QString("extensions")] = false;
-    import[QString("adds")] = false;
-    switch (dialog->exec()) {
-    case QDialog::Accepted:
-        import[QString("plasmoid")] = importPlasmoidSettings->isChecked();
-        import[QString("extensions")] = importExtensionsSettings->isChecked();
-        import[QString("adds")] = importAddsSettings->isChecked();
-        break;
-    case QDialog::Rejected:
-    default:
-        break;
-    }
-    dialog->deleteLater();
-
-    return import;
 }
 
 
