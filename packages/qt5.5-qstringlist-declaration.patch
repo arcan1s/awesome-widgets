@@ -1,0 +1,12 @@
+diff --git a/sources/awesome-widget/plugin/awkeysaggregator.h b/sources/awesome-widget/plugin/awkeysaggregator.h
+index f808d03..a056b3f 100644
+--- a/sources/awesome-widget/plugin/awkeysaggregator.h
++++ b/sources/awesome-widget/plugin/awkeysaggregator.h
+@@ -21,6 +21,7 @@
+ 
+ #include <QHash>
+ #include <QObject>
++#include <QStringList>
+ 
+ #include "version.h"
+ 

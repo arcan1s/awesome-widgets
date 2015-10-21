@@ -128,6 +128,8 @@ HIG
 ---
 
 The recommended HIG is [KDE one](https://techbase.kde.org/Projects/Usability/HIG).
+Avoid to paint interfaces inside plugin because QML and C++ parts may have different
+theming.
 
 Licensing
 ---------

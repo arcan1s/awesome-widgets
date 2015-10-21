@@ -1,0 +1,85 @@
+diff --git a/sources/awesome-widget/package/contents/ui/main.qml b/sources/awesome-widget/package/contents/ui/main.qml
+index 23e9690..ec83b91 100644
+--- a/sources/awesome-widget/package/contents/ui/main.qml
++++ b/sources/awesome-widget/package/contents/ui/main.qml
+@@ -17,7 +17,6 @@
+ 
+ import QtQuick 2.4
+ import QtQuick.Controls 1.3 as QtControls
+-import QtQuick.Dialogs 1.2 as QtDialogs
+ import QtQuick.Layouts 1.1
+ import org.kde.plasma.plasmoid 2.0
+ import org.kde.plasma.core 2.0 as PlasmaCore
+@@ -110,27 +109,6 @@ Item {
+         }
+     }
+ 
+-    QtDialogs.Dialog {
+-        id: tagSelector
+-        title: i18n("Select tag")
+-
+-        QtControls.ComboBox {
+-            id: tagSelectorBox
+-            width: parent.width
+-            editable: true
+-        }
+-
+-        onAccepted: {
+-            var tag = tagSelectorBox.editText
+-            var message = i18n("Tag: %1", tag)
+-            message += "<br>"
+-            message += i18n("Value: %1", awKeys.valueByKey(tag))
+-            message += "<br>"
+-            message += i18n("Info: %1", awKeys.infoByKey(tag))
+-            awActions.sendNotification("tag", message)
+-        }
+-    }
+-
+ 
+     Component.onCompleted: {
+         if (debug) console.debug()
+@@ -216,7 +194,12 @@ Item {
+     function action_requestKey() {
+         if (debug) console.debug()
+ 
+-        tagSelectorBox.model = awKeys.dictKeys(true)
+-        return tagSelector.open()
++        var tag = awKeys.graphicalKey()
++        var message = i18n("Tag: %1", tag)
++        message += "<br>"
++        message += i18n("Value: %1", awKeys.valueByKey(tag))
++        message += "<br>"
++        message += i18n("Info: %1", awKeys.infoByKey(tag))
++        awActions.sendNotification("tag", message)
+     }
+ }
+diff --git a/sources/awesome-widget/plugin/awkeys.cpp b/sources/awesome-widget/plugin/awkeys.cpp
+index e5b9861..039d24e 100644
+--- a/sources/awesome-widget/plugin/awkeys.cpp
++++ b/sources/awesome-widget/plugin/awkeys.cpp
+@@ -324,6 +324,13 @@ QStringList AWKeys::getHddDevices() const
+ }
+ 
+ 
++QString AWKeys::graphicalKey() const
++{
++    return QInputDialog::getItem(nullptr, i18n("Select tag"), QString(),
++                                 dictKeys(true), 0, true);
++}
++
++
+ QString AWKeys::infoByKey(QString key) const
+ {
+     qCDebug(LOG_AW) << "Requested key" << key;
+diff --git a/sources/awesome-widget/plugin/awkeys.h b/sources/awesome-widget/plugin/awkeys.h
+index a8300f1..8edc3bd 100644
+--- a/sources/awesome-widget/plugin/awkeys.h
++++ b/sources/awesome-widget/plugin/awkeys.h
+@@ -55,6 +55,7 @@ public:
+     Q_INVOKABLE QStringList dictKeys(const bool sorted = false,
+                                      const QString regexp = QString()) const;
+     Q_INVOKABLE QStringList getHddDevices() const;
++    Q_INVOKABLE QString graphicalKey() const;
+     // values
+     Q_INVOKABLE QString infoByKey(QString key) const;
+     Q_INVOKABLE QString valueByKey(QString key) const;
