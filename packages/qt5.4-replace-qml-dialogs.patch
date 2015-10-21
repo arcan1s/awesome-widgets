@@ -83,3 +83,268 @@ index a8300f1..8edc3bd 100644
      // values
      Q_INVOKABLE QString infoByKey(QString key) const;
      Q_INVOKABLE QString valueByKey(QString key) const;
+diff --git a/sources/awesome-widget/package/contents/ui/advanced.qml b/sources/awesome-widget/package/contents/ui/advanced.qml
+index 01bcd58..1ec7ba6 100644
+--- a/sources/awesome-widget/package/contents/ui/advanced.qml
++++ b/sources/awesome-widget/package/contents/ui/advanced.qml
+@@ -17,7 +17,6 @@
+ 
+ import QtQuick 2.0
+ import QtQuick.Controls 1.3 as QtControls
+-import QtQuick.Dialogs 1.2 as QtDialogs
+ 
+ import org.kde.plasma.private.awesomewidget 1.0
+ 
+@@ -372,31 +371,7 @@ Item {
+             QtControls.Button {
+                 width: parent.width * 3 / 5
+                 text: i18n("Export configuration")
+-                onClicked: saveConfigAs.open()
+-            }
+-
+-            QtDialogs.FileDialog {
+-                id: saveConfigAs
+-                selectExisting: false
+-                title: i18n("Export")
+-                onAccepted: {
+-                    var status = awConfig.exportConfiguration(
+-                        plasmoid.configuration,
+-                        saveConfigAs.fileUrl.toString().replace("file://", ""))
+-                    if (status) {
+-                        messageDialog.title = i18n("Success")
+-                        messageDialog.text = i18n("Please note that binary files were not copied")
+-                    } else {
+-                        messageDialog.title = i18n("Ooops...")
+-                        messageDialog.text = i18n("Could not save configuration file")
+-                    }
+-                    messageDialog.open()
+-                }
+-            }
+-
+-            QtDialogs.MessageDialog {
+-                id: messageDialog
+-                standardButtons: QtDialogs.StandardButton.Ok
++                onClicked: awConfig.exportConfiguration(plasmoid.configuration)
+             }
+         }
+ 
+@@ -410,41 +385,9 @@ Item {
+             QtControls.Button {
+                 width: parent.width * 3 / 5
+                 text: i18n("Import configuration")
+-                onClicked: openConfig.open()
+-            }
+-
+-            QtDialogs.FileDialog {
+-                id: openConfig
+-                title: i18n("Import")
+-                onAccepted: importSelection.open()
+-            }
+-
+-            QtDialogs.Dialog {
+-                id: importSelection
+-
+-                Column {
+-                    QtControls.CheckBox {
+-                        id: importPlasmoid
+-                        text: i18n("Import plasmoid settings")
+-                    }
+-
+-                    QtControls.CheckBox {
+-                        id: importExtensions
+-                        text: i18n("Import extensions")
+-                    }
+-
+-                    QtControls.CheckBox {
+-                        id: importAdds
+-                        text: i18n("Import additional files")
+-                    }
+-                }
+-
+-                onAccepted: {
++                onClicked: {
+                     if (debug) console.debug()
+-                    var importConfig = awConfig.importConfiguration(
+-                        openConfig.fileUrl.toString().replace("file://", ""),
+-                        importPlasmoid.checked, importExtensions.checked,
+-                        importAdds.checked)
++                    var importConfig = awConfig.importConfiguration()
+                     for (var key in importConfig)
+                         plasmoid.configuration[key] = importConfig[key]
+                 }
+diff --git a/sources/awesome-widget/plugin/awconfighelper.cpp b/sources/awesome-widget/plugin/awconfighelper.cpp
+index 5901fc8..5f61d2a 100644
+--- a/sources/awesome-widget/plugin/awconfighelper.cpp
++++ b/sources/awesome-widget/plugin/awconfighelper.cpp
+@@ -19,11 +19,15 @@
+ 
+ #include <KI18n/KLocalizedString>
+ 
++#include <QCheckBox>
++#include <QDialogButtonBox>
+ #include <QDir>
++#include <QFileDialog>
+ #include <QMessageBox>
+ #include <QQmlPropertyMap>
+ #include <QSettings>
+ #include <QTextCodec>
++#include <QVBoxLayout>
+ 
+ #include "awdebug.h"
+ 
+@@ -51,11 +55,13 @@ bool AWConfigHelper::dropCache() const
+ }
+ 
+ 
+-bool AWConfigHelper::exportConfiguration(QObject *nativeConfig,
+-                                         const QString fileName) const
++void AWConfigHelper::exportConfiguration(QObject *nativeConfig) const
+ {
+-    qCDebug(LOG_AW) << "Selected filename" << fileName;
+-
++    // get file path and init settings object
++    QString fileName = QFileDialog::getSaveFileName(nullptr, i18n("Export"));
++    if (fileName.isEmpty())
++        return;
++    qCInfo(LOG_AW) << "Selected filename" << fileName;
+     QSettings settings(fileName, QSettings::IniFormat);
+ 
+     // plasmoid configuration
+@@ -97,22 +103,33 @@ bool AWConfigHelper::exportConfiguration(QObject *nativeConfig,
+     // sync settings
+     settings.sync();
+     // show additional message
+-    return settings.status() == QSettings::NoError;
++    switch (settings.status()) {
++    case QSettings::NoError:
++        QMessageBox::information(
++            nullptr, i18n("Success"),
++            i18n("Please note that binary files were not copied"));
++        break;
++    default:
++        QMessageBox::critical(nullptr, i18n("Ooops..."),
++                              i18n("Could not save configuration file"));
++        break;
++    }
+ }
+ 
+ 
+-QVariantMap AWConfigHelper::importConfiguration(const QString fileName,
+-                                                const bool importPlasmoid,
+-                                                const bool importExtensions,
+-                                                const bool importAdds) const
++QVariantMap AWConfigHelper::importConfiguration() const
+ {
+-    qCDebug(LOG_AW) << "Selected filename" << fileName;
+-
+     QVariantMap configuration;
++    // get file path and init settings object
++    QString fileName = QFileDialog::getOpenFileName(nullptr, i18n("Import"));
++    if (fileName.isEmpty())
++        return configuration;
++    qCInfo(LOG_AW) << "Selected filename" << fileName;
+     QSettings settings(fileName, QSettings::IniFormat);
++    QHash<QString, bool> selection = selectImport();
+ 
+     // extensions
+-    if (importExtensions) {
++    if (selection[QString("extensions")]) {
+         foreach (QString item, m_dirs) {
+             settings.beginGroup(item);
+             foreach (QString it, settings.childGroups())
+@@ -122,7 +139,7 @@ QVariantMap AWConfigHelper::importConfiguration(const QString fileName,
+     }
+ 
+     // additional files
+-    if (importAdds) {
++    if (selection[QString("adds")]) {
+         settings.beginGroup(QString("json"));
+         // script filters
+         writeFile(settings, QString("filters"),
+@@ -136,7 +153,7 @@ QVariantMap AWConfigHelper::importConfiguration(const QString fileName,
+     }
+ 
+     // plasmoid configuration
+-    if (importPlasmoid) {
++    if (selection[QString("plasmoid")]) {
+         settings.beginGroup(QString("plasmoid"));
+         foreach (QString key, settings.childKeys())
+             configuration[key] = settings.value(key);
+@@ -262,6 +279,50 @@ void AWConfigHelper::readFile(QSettings &settings, const QString key,
+ }
+ 
+ 
++QHash<QString, bool> AWConfigHelper::selectImport() const
++{
++    QDialog *dialog = new QDialog(nullptr);
++    QCheckBox *importPlasmoidSettings
++        = new QCheckBox(i18n("Import plasmoid settings"), dialog);
++    importPlasmoidSettings->setChecked(true);
++    QCheckBox *importExtensionsSettings
++        = new QCheckBox(i18n("Import extensions"), dialog);
++    importExtensionsSettings->setChecked(true);
++    QCheckBox *importAddsSettings
++        = new QCheckBox(i18n("Import additional files"), dialog);
++    importAddsSettings->setChecked(true);
++    QDialogButtonBox *dialogButtons
++        = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
++                               Qt::Horizontal, dialog);
++    QVBoxLayout *layout = new QVBoxLayout(dialog);
++    layout->addWidget(importPlasmoidSettings);
++    layout->addWidget(importExtensionsSettings);
++    layout->addWidget(importAddsSettings);
++    layout->addWidget(dialogButtons);
++    connect(dialogButtons, SIGNAL(accepted()), dialog, SLOT(accept()));
++    connect(dialogButtons, SIGNAL(rejected()), dialog, SLOT(reject()));
++
++    // get parameters
++    QHash<QString, bool> import;
++    import[QString("plasmoid")] = false;
++    import[QString("extensions")] = false;
++    import[QString("adds")] = false;
++    switch (dialog->exec()) {
++    case QDialog::Accepted:
++        import[QString("plasmoid")] = importPlasmoidSettings->isChecked();
++        import[QString("extensions")] = importExtensionsSettings->isChecked();
++        import[QString("adds")] = importAddsSettings->isChecked();
++        break;
++    case QDialog::Rejected:
++    default:
++        break;
++    }
++    dialog->deleteLater();
++
++    return import;
++}
++
++
+ void AWConfigHelper::writeFile(QSettings &settings, const QString key,
+                                const QString fileName) const
+ {
+diff --git a/sources/awesome-widget/plugin/awconfighelper.h b/sources/awesome-widget/plugin/awconfighelper.h
+index 912ac3d..dc51dfb 100644
+--- a/sources/awesome-widget/plugin/awconfighelper.h
++++ b/sources/awesome-widget/plugin/awconfighelper.h
+@@ -33,12 +33,8 @@ public:
+     explicit AWConfigHelper(QObject *parent = nullptr);
+     virtual ~AWConfigHelper();
+     Q_INVOKABLE bool dropCache() const;
+-    Q_INVOKABLE bool exportConfiguration(QObject *nativeConfig,
+-                                         const QString fileName) const;
+-    Q_INVOKABLE QVariantMap importConfiguration(const QString fileName,
+-                                                const bool importPlasmoid,
+-                                                const bool importExtensions,
+-                                                const bool importAdds) const;
++    Q_INVOKABLE void exportConfiguration(QObject *nativeConfig) const;
++    Q_INVOKABLE QVariantMap importConfiguration() const;
+     // dataengine
+     Q_INVOKABLE QVariantMap readDataEngineConfiguration() const;
+     Q_INVOKABLE void
+@@ -51,6 +47,7 @@ private:
+     void copySettings(QSettings &from, QSettings &to) const;
+     void readFile(QSettings &settings, const QString key,
+                   const QString fileName) const;
++    QHash<QString, bool> selectImport() const;
+     void writeFile(QSettings &settings, const QString key,
+                    const QString fileName) const;
+     // properties
