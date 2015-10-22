@@ -66,22 +66,15 @@ AWKeys::~AWKeys()
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
     // extensions
-    if (graphicalItems != nullptr)
-        delete graphicalItems;
-    if (extQuotes != nullptr)
-        delete extQuotes;
-    if (extScripts != nullptr)
-        delete extScripts;
-    if (extUpgrade != nullptr)
-        delete extUpgrade;
-    if (extWeather != nullptr)
-        delete extWeather;
+    delete graphicalItems;
+    delete extQuotes;
+    delete extScripts;
+    delete extUpgrade;
+    delete extWeather;
 
     // core
-    if (dataEngineAggregator != nullptr)
-        delete dataEngineAggregator;
-    if (m_threadPool != nullptr)
-        delete m_threadPool;
+    delete dataEngineAggregator;
+    delete m_threadPool;
     delete aggregator;
     delete dataAggregator;
 }
@@ -471,16 +464,16 @@ void AWKeys::reinitKeys()
 {
     // renew extensions
     // delete them if any
-    if (graphicalItems != nullptr)
-        delete graphicalItems;
-    if (extQuotes != nullptr)
-        delete extQuotes;
-    if (extScripts != nullptr)
-        delete extScripts;
-    if (extUpgrade != nullptr)
-        delete extUpgrade;
-    if (extWeather != nullptr)
-        delete extWeather;
+    delete graphicalItems;
+    graphicalItems = nullptr;
+    delete extQuotes;
+    extQuotes = nullptr;
+    delete extScripts;
+    extScripts = nullptr;
+    delete extUpgrade;
+    extUpgrade = nullptr;
+    delete extWeather;
+    extWeather = nullptr;
     // create
     graphicalItems
         = new ExtItemAggregator<GraphicalItem>(nullptr, QString("desktops"));

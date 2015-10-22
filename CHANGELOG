@@ -1,3 +1,8 @@
+Ver.3.0.1:
++ add patches for old Qt versions
+- drop `nullptr` checking
+* move dialogs to QML part
+
 Ver.3.0.0:
 + add tags upunits, downunits, upkb, downkb
 + add tags dalbum, dartist, dtitle, salbum, sartist, stitle
