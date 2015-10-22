@@ -33,8 +33,12 @@ public:
     explicit AWConfigHelper(QObject *parent = nullptr);
     virtual ~AWConfigHelper();
     Q_INVOKABLE bool dropCache() const;
-    Q_INVOKABLE void exportConfiguration(QObject *nativeConfig) const;
-    Q_INVOKABLE QVariantMap importConfiguration() const;
+    Q_INVOKABLE bool exportConfiguration(QObject *nativeConfig,
+                                         const QString fileName) const;
+    Q_INVOKABLE QVariantMap importConfiguration(const QString fileName,
+                                                const bool importPlasmoid,
+                                                const bool importExtensions,
+                                                const bool importAdds) const;
     // dataengine
     Q_INVOKABLE QVariantMap readDataEngineConfiguration() const;
     Q_INVOKABLE void
@@ -47,7 +51,6 @@ private:
     void copySettings(QSettings &from, QSettings &to) const;
     void readFile(QSettings &settings, const QString key,
                   const QString fileName) const;
-    QHash<QString, bool> selectImport() const;
     void writeFile(QSettings &settings, const QString key,
                    const QString fileName) const;
     // properties

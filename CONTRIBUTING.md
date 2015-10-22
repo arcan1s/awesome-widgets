@@ -81,6 +81,8 @@ for more details. To avoid manual labor there is automatic cmake target named
 * Create one file (source and header) per class.
 * `else if` construction is allowed and recommended.
 * 'true ? foo : bar' construction is allowed and recommended for one-line assignment.
+* any global pointer should be assign to `nullptr` after deletion and before
+  initialization. Exception: if object is deleted into class destructor.
 
 Comments
 --------
@@ -101,7 +103,7 @@ Development
 
 * Officially the latest libraries versions should be used. In addition it is
   possible to add workarounds for all versions (usually by using preprocessor
-  directives).
+  directives); in this case patches should be placed to `packages` directory.
 * Build should not contain any warning.
 * Try to minimize message in Release build with logging disabled. It is highly
   recommended to fix KDE/Qt specific warning if possible
@@ -128,6 +130,8 @@ HIG
 ---
 
 The recommended HIG is [KDE one](https://techbase.kde.org/Projects/Usability/HIG).
+Avoid to paint interfaces inside plugin because QML and C++ parts may have different
+theming.
 
 Licensing
 ---------

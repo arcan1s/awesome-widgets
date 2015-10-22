@@ -1,3 +1,8 @@
+Вер.3.0.1:
++ добавлены патчи для старых версий Qt
+- убрана проверка на nullptr
+* диалоги перемещены в QML
+
 Вер.3.0.0:
 + добавлены теги upunits, downunits, upkb, downkb
 + добавлены теги dalbum, dartist, dtitle, salbum, sartist, stitle

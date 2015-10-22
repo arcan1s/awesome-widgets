@@ -4,8 +4,6 @@ add_definitions(-DTRANSLATION_DOMAIN=\"plasma_applet_org.kde.plasma.desktoppanel
 include_directories(
         ${CMAKE_SOURCE_DIR}
         ${CMAKE_BINARY_DIR}
-        ${CMAKE_CURRENT_BINARY_DIR}
-        ${CMAKE_CURRENT_BINARY_DIR}/../
         ${PROJECT_TRDPARTY_DIR}
         ${Qt_INCLUDE}
         ${Kf5_INCLUDE}

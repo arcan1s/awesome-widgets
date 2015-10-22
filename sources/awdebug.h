@@ -28,15 +28,11 @@
     "category}][%{function}] %{message}"
 #endif /* LOG_FORMAT */
 
-// define info log level
-// #if QT_VERSION < QT_VERSION_CHECK(5, 5, 0)
-// #ifndef qCInfo
 // redefine info because it doesn't log properly
 #ifdef qCInfo
 #undef qCInfo
 #endif /* qCInfo */
 #define qCInfo qCDebug
-// #endif /* QT_VERSION */
 
 
 Q_DECLARE_LOGGING_CATEGORY(LOG_AW)
