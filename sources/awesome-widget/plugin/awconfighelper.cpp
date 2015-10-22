@@ -20,7 +20,6 @@
 #include <KI18n/KLocalizedString>
 
 #include <QDir>
-#include <QMessageBox>
 #include <QQmlPropertyMap>
 #include <QSettings>
 #include <QTextCodec>

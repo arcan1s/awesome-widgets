@@ -4,8 +4,6 @@ add_definitions(-DTRANSLATION_DOMAIN=\"plasma_applet_org.kde.plasma.awesomewidge
 include_directories(
         ${CMAKE_SOURCE_DIR}
         ${CMAKE_BINARY_DIR}
-        ${CMAKE_CURRENT_BINARY_DIR}
-        ${CMAKE_CURRENT_BINARY_DIR}/../
         ${CMAKE_CURRENT_SOURCE_DIR}/../../${PROJECT_LIBRARY}/
         ${PROJECT_TRDPARTY_DIR}
         ${Qt_INCLUDE}
