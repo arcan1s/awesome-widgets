@@ -2,7 +2,7 @@ sudo: required
 dist: trusty
 
 install:
-  - sudo apt-add-repository ppa:kubuntu-ppa/backports
+  - sudo apt-add-repository -y ppa:kubuntu-ppa/backports
   - sudo apt-get update -qq
   - sudo apt-get install -y cmake extra-cmake-modules g++ git libkf5i18n-dev libkf5notifications-dev libkf5service-dev libkf5windowsystem-dev plasma-framework-dev qtbase5-dev qtdeclarative5-dev
   - rm -rf build
