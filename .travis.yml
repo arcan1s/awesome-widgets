@@ -4,8 +4,8 @@ dist: trusty
 install:
   - sudo apt-add-repository -y ppa:kubuntu-ppa/backports
   - sudo apt-get update -qq
-  - sudo apt-get dist-upgrade -y
-  - sudo apt-get install -y cmake extra-cmake-modules g++ git libkf5i18n-dev libkf5notifications-dev libkf5service-dev libkf5windowsystem-dev plasma-framework-dev qtbase5-dev qtdeclarative5-dev
+  - sudo apt-get -y -q -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confnew dist-upgrade
+  - sudo apt-get install -y -q cmake extra-cmake-modules g++ git libkf5i18n-dev libkf5notifications-dev libkf5service-dev libkf5windowsystem-dev plasma-framework-dev qtbase5-dev qtdeclarative5-dev
   - rm -rf build
   - mkdir build
 
