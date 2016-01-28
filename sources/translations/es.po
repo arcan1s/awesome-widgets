@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-10-20 01:21+0300\n"
+"POT-Creation-Date: 2016-01-26 21:48+0300\n"
 "PO-Revision-Date: 2015-09-26 22:07+0000\n"
 "Last-Translator: Ernesto Avilés Vázquez <whippiii@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/arcanis/awesome-widgets/"
@@ -113,8 +113,37 @@ msgstr "Borrar caché de claves"
 msgid "Export configuration"
 msgstr ""
 
+msgid "Export"
+msgstr ""
+
+msgid "Success"
+msgstr ""
+
+msgid "Please note that binary files were not copied"
+msgstr ""
+
+msgid "Ooops..."
+msgstr ""
+
+msgid "Could not save configuration file"
+msgstr ""
+
 msgid "Import configuration"
 msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Import plasmoid settings"
+msgstr ""
+
+#, fuzzy
+msgid "Import extensions"
+msgstr "Extensiones"
+
+#, fuzzy
+msgid "Import additional files"
+msgstr "Filtros adicionales"
 
 msgid "Font"
 msgstr "Tipo de letra"
@@ -386,6 +415,9 @@ msgstr "Traductores: %1"
 msgid "This software uses: %1"
 msgstr "Este software usa: %1"
 
+msgid "Special thanks to %1"
+msgstr ""
+
 msgid "Select font"
 msgstr "Elegir tipo de letra"
 
@@ -406,35 +438,6 @@ msgstr "Haz clic en «Ok» para descargar"
 
 msgid "There are updates"
 msgstr "Hay actualizaciones disponibles"
-
-msgid "Export"
-msgstr ""
-
-msgid "Success"
-msgstr ""
-
-msgid "Please note that binary files were not copied"
-msgstr ""
-
-msgid "Ooops..."
-msgstr ""
-
-msgid "Could not save configuration file"
-msgstr ""
-
-msgid "Import"
-msgstr ""
-
-msgid "Import plasmoid settings"
-msgstr ""
-
-#, fuzzy
-msgid "Import extensions"
-msgstr "Extensiones"
-
-#, fuzzy
-msgid "Import additional files"
-msgstr "Filtros adicionales"
 
 msgid "AC online"
 msgstr "Alimentación conectada"

@@ -22,12 +22,10 @@
 
 #include "abstractextitem.h"
 
-#define OWM_URL                                                                \
-    "http://api.openweathermap.org/data/2.5/"                                  \
-    "weather?q=$CITY,$COUNTRY&units=metric"
-#define OWM_FORECAST_URL                                                       \
-    "http://api.openweathermap.org/data/2.5/"                                  \
-    "forecast?q=$CITY,$COUNTRY&units=metric"
+#define YAHOO_WEATHER_URL                                                      \
+    "https://query.yahooapis.com/v1/public/yql?format=json&q=select * from "   \
+    "weather.forecast where u='c' and woeid in (select woeid from "            \
+    "geo.places(1) where text='%1, %2')"
 
 
 namespace Ui
@@ -76,9 +74,8 @@ private:
     QNetworkAccessManager *manager;
     bool isRunning = false;
     Ui::ExtWeather *ui;
-    QVariantHash parseSingleJson(const QVariantMap json) const;
     void translate();
-    QString url(const bool isForecast = false) const;
+    QString url() const;
     // properties
     QString m_city = QString("London");
     QString m_country = QString("uk");

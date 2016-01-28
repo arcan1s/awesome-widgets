@@ -17,8 +17,6 @@
 
 #include "awdataengineaggregator.h"
 
-#include <Plasma/DataEngineConsumer>
-
 #include "awdebug.h"
 #include "awkeys.h"
 
@@ -41,6 +39,7 @@ AWDataEngineAggregator::~AWDataEngineAggregator()
     // disconnect sources first
     disconnectSources();
     m_dataEngines.clear();
+    delete m_consumer;
 }
 
 
@@ -84,12 +83,12 @@ void AWDataEngineAggregator::reconnectSources()
 
 void AWDataEngineAggregator::initDataEngines()
 {
-    Plasma::DataEngineConsumer *deConsumer = new Plasma::DataEngineConsumer();
+    m_consumer = new Plasma::DataEngineConsumer();
     m_dataEngines[QString("systemmonitor")]
-        = deConsumer->dataEngine(QString("systemmonitor"));
+        = m_consumer->dataEngine(QString("systemmonitor"));
     m_dataEngines[QString("extsysmon")]
-        = deConsumer->dataEngine(QString("extsysmon"));
-    m_dataEngines[QString("time")] = deConsumer->dataEngine(QString("time"));
+        = m_consumer->dataEngine(QString("extsysmon"));
+    m_dataEngines[QString("time")] = m_consumer->dataEngine(QString("time"));
 
     // additional method required by systemmonitor structure
     connect(m_dataEngines[QString("systemmonitor")],

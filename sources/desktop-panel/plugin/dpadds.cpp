@@ -301,6 +301,14 @@ QString DPAdds::getAboutText(const QString type) const
                       .arg(trdPartyList.at(i).split(QChar(',')).at(1))
                       .arg(trdPartyList.at(i).split(QChar(',')).at(2));
         text = i18n("This software uses: %1", trdPartyList.join(QString(", ")));
+    } else if (type == QString("thanks")) {
+        QStringList thanks = QString(SPECIAL_THANKS)
+                                 .split(QChar(';'), QString::SkipEmptyParts);
+        for (int i = 0; i < thanks.count(); i++)
+            thanks[i] = QString("<a href=\"%2\">%1</a>")
+                            .arg(thanks.at(i).split(QChar(','))[0])
+                            .arg(thanks.at(i).split(QChar(','))[1]);
+        text = i18n("Special thanks to %1", thanks.join(QString(", ")));
     }
 
     return text;

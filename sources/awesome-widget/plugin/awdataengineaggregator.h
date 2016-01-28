@@ -20,6 +20,7 @@
 #define AWDATAENGINEAGGREGATOR_H
 
 #include <Plasma/DataEngine>
+#include <Plasma/DataEngineConsumer>
 
 #include <QObject>
 
@@ -43,6 +44,7 @@ public slots:
 
 private:
     void initDataEngines();
+    Plasma::DataEngineConsumer *m_consumer = nullptr;
     QHash<QString, Plasma::DataEngine *> m_dataEngines;
     int m_interval;
 };
