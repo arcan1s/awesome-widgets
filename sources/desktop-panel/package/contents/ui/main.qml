@@ -113,7 +113,7 @@ Item {
 
         for (var i=0; i<repeater.count; i++) {
             if (!repeater.itemAt(i)) {
-                if (debug) console.info("Nothing to do here", i)
+                if (debug) console.info("Nothing to do here yet", i)
                 timer.start()
                 return
             }
@@ -143,6 +143,12 @@ Item {
 
         for (var i=0; i<repeater.count; i++) {
             repeater.itemAt(i).tooltip.text = dpAdds.toolTipImage(i + 1)
+            // resize text tooltip to content size
+            // this hack does not work for images-based tooltips
+            if (tooltipSettings.tooltipType == "names") {
+                repeater.itemAt(i).tooltip.height = repeater.itemAt(i).tooltip.implicitHeight
+                repeater.itemAt(i).tooltip.width = repeater.itemAt(i).tooltip.implicitWidth
+            }
         }
     }
 

@@ -43,6 +43,7 @@ build
 *pkg.tar.[gx]z
 src
 pkg
+*.deb
 
 # clion settings
 .idea
