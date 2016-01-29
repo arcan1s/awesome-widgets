@@ -150,13 +150,13 @@ void PlayerSource::run()
     if (m_player == QString("mpd")) {
         // mpd
         QHash<QString, QVariant> data = getPlayerMpdInfo(m_mpdAddress);
-        foreach (QString key, data.keys())
+        for (auto key : data.keys())
             values[key] = data[key];
     } else if (m_player == QString("mpris")) {
         // players which supports mpris
         QString mpris = m_mpris == QString("auto") ? getAutoMpris() : m_mpris;
         QHash<QString, QVariant> data = getPlayerMprisInfo(mpris);
-        foreach (QString key, data.keys())
+        for (auto key : data.keys())
             values[key] = data[key];
     }
 
@@ -221,7 +221,7 @@ QString PlayerSource::getAutoMpris() const
         return QString();
     QStringList arguments = listServices.arguments().first().toStringList();
 
-    foreach (QString arg, arguments) {
+    for (auto arg : arguments) {
         if (!arg.startsWith(QString("org.mpris.MediaPlayer2.")))
             continue;
         qCInfo(LOG_ESM) << "Service found" << arg;
@@ -251,7 +251,7 @@ QVariantHash PlayerSource::getPlayerMpdInfo(const QString mpdAddress) const
 
     QString qoutput
         = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
-    foreach (QString str, qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
+    for (auto str : qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
         if (str.split(QString(": "), QString::SkipEmptyParts).count() == 2) {
             // "Metadata: data"
             QString metadata = str.split(QString(": "), QString::SkipEmptyParts)

@@ -44,13 +44,11 @@ AWKeys::AWKeys(QObject *parent)
 {
     qSetMessagePattern(LOG_FORMAT);
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
-    foreach (const QString metadata, getBuildData())
+    for (auto metadata : getBuildData())
         qCDebug(LOG_AW) << metadata;
 
-#ifdef BUILD_FUTURE
     // thread pool
     m_threadPool = new QThreadPool(this);
-#endif /* BUILD_FUTURE */
 
     aggregator = new AWKeysAggregator(this);
     dataAggregator = new AWDataAggregator(this);
@@ -103,10 +101,8 @@ void AWKeys::initKeys(const QString currentPattern, const int interval,
                 dataEngineAggregator, SLOT(dropSource(QString)));
     } else
         dataEngineAggregator->setInterval(interval);
-#ifdef BUILD_FUTURE
     m_threadPool->setMaxThreadCount(limit == 0 ? QThread::idealThreadCount()
                                                : limit);
-#endif /* BUILD_FUTURE */
     updateCache();
 
     return dataEngineAggregator->reconnectSources();
@@ -292,7 +288,7 @@ QStringList AWKeys::dictKeys(const bool sorted, const QString regexp) const
     allKeys.append(QString("la1"));
     // bars
     QStringList graphicalItemsKeys;
-    foreach (GraphicalItem *item, graphicalItems->items())
+    for (auto item : graphicalItems->items())
         graphicalItemsKeys.append(item->tag());
     graphicalItemsKeys.sort();
     for (int i = graphicalItemsKeys.count() - 1; i >= 0; i--)
@@ -430,13 +426,9 @@ void AWKeys::dataUpdated(const QString &sourceName,
         return emit(needToBeUpdated());
     }
 
-#ifdef BUILD_FUTURE
     // run concurrent data update
     QtConcurrent::run(m_threadPool, this, &AWKeys::setDataBySource, sourceName,
                       data);
-#else  /* BUILD_FUTURE */
-    return setDataBySource(sourceName, data);
-#endif /* BUILD_FUTURE */
 }
 
 
@@ -448,10 +440,10 @@ void AWKeys::loadKeysFromCache()
     qCInfo(LOG_AW) << "Cache file" << fileName;
     QSettings cache(fileName, QSettings::IniFormat);
 
-    foreach (QString group, cache.childGroups()) {
+    for (auto group : cache.childGroups()) {
         cache.beginGroup(group);
         m_devices.remove(group);
-        foreach (QString key, cache.allKeys())
+        for (auto key : cache.allKeys())
             m_devices[group].append(cache.value(key).toString());
         cache.endGroup();
     }
@@ -489,17 +481,24 @@ void AWKeys::reinitKeys()
     // not documented feature - place all available tags
     m_pattern = m_pattern.replace(QString("$ALL"), [allKeys]() {
         QStringList strings;
-        foreach (QString tag, allKeys)
+        for (auto tag : allKeys)
             strings.append(QString("%1: $%1").arg(tag));
         return strings.join(QString(" | "));
     }());
 #endif /* BUILD_TESTING */
 
+    // apply aw_* functions
+    m_pattern = insertKeyCount(m_pattern);
+    m_pattern = insertKeyNames(m_pattern);
+    m_pattern = insertKeys(m_pattern);
+    // wrap templates
+    expandTemplates();
+
     // append lists
     // bars
-    m_foundBars = [allKeys](QString pattern) {
+    m_foundBars = [allKeys](const QString pattern) {
         QStringList selectedKeys;
-        foreach (QString key, allKeys)
+        for (auto key : allKeys)
             if ((key.startsWith(QString("bar")))
                 && (pattern.contains(QString("$%1").arg(key)))) {
                 qCInfo(LOG_AW) << "Found bar" << key;
@@ -511,9 +510,9 @@ void AWKeys::reinitKeys()
     }(m_pattern);
 
     // main key list
-    m_foundKeys = [allKeys](QString pattern) {
+    m_foundKeys = [allKeys](const QString pattern) {
         QStringList selectedKeys;
-        foreach (QString key, allKeys)
+        for (auto key : allKeys)
             if ((!key.startsWith(QString("bar")))
                 && (pattern.contains(QString("$%1").arg(key)))) {
                 qCInfo(LOG_AW) << "Found key" << key;
@@ -525,7 +524,7 @@ void AWKeys::reinitKeys()
     }(m_pattern);
 
     // lambdas
-    m_foundLambdas = [](QString pattern) {
+    m_foundLambdas = [](const QString pattern) {
         QStringList selectedKeys;
         // substring inside ${{ }} (with brackets) which should not contain ${{
         QRegularExpression lambdaRegexp(
@@ -556,15 +555,10 @@ void AWKeys::reinitKeys()
 
 void AWKeys::updateTextData()
 {
-#ifdef BUILD_FUTURE
     QFuture<QString> text = QtConcurrent::run(m_threadPool, [this]() {
         calculateValues();
         return parsePattern(m_pattern);
     });
-#else  /* BUILD_FUTURE */
-    calculateValues();
-    QString text = parsePattern(m_pattern);
-#endif /* BUILD_FUTURE */
 
     emit(needTextToBeUpdated(text));
     emit(dataAggregator->updateData(values));
@@ -584,7 +578,7 @@ void AWKeys::addKeyToCache(const QString type, const QString key)
 
     cache.beginGroup(type);
     QStringList cachedValues;
-    foreach (QString key, cache.allKeys())
+    for (auto key : cache.allKeys())
         cachedValues.append(cache.value(key).toString());
 
     if (type == QString("hdd")) {
@@ -592,7 +586,7 @@ void AWKeys::addKeyToCache(const QString type, const QString key)
             = QDir(QString("/dev")).entryList(QDir::System, QDir::Name);
         QStringList devices
             = allDevices.filter(QRegExp(QString("^[hms]d[a-z]$")));
-        foreach (QString dev, devices) {
+        for (auto dev : devices) {
             QString device = QString("/dev/%1").arg(dev);
             if (cachedValues.contains(device))
                 continue;
@@ -604,7 +598,7 @@ void AWKeys::addKeyToCache(const QString type, const QString key)
     } else if (type == QString("net")) {
         QList<QNetworkInterface> rawInterfaceList
             = QNetworkInterface::allInterfaces();
-        foreach (QNetworkInterface interface, rawInterfaceList) {
+        for (auto interface : rawInterfaceList) {
             QString device = interface.name();
             if (cachedValues.contains(device))
                 continue;
@@ -632,7 +626,7 @@ void AWKeys::addKeyToCache(const QString type, const QString key)
 void AWKeys::calculateValues()
 {
     // hddtot*
-    foreach (QString device, m_devices[QString("mount")]) {
+    for (auto device : m_devices[QString("mount")]) {
         int index = m_devices[QString("mount")].indexOf(device);
         values[QString("hddtotmb%1").arg(index)] = QString("%1").arg(
             values[QString("hddfreemb%1").arg(index)].toFloat()
@@ -684,12 +678,12 @@ void AWKeys::calculateValues()
                             5, 'f', 1);
 
     // lambdas
-    foreach (QString key, m_foundLambdas)
+    for (auto key : m_foundLambdas)
         values[key] = [this](QString key) {
             QJSEngine engine;
             // apply $this values
             key.replace(QString("$this"), values[key]);
-            foreach (QString lambdaKey, m_foundKeys)
+            for (auto lambdaKey : m_foundKeys)
                 key.replace(QString("$%1").arg(lambdaKey), values[lambdaKey]);
             qCInfo(LOG_AW) << "Expression" << key;
             QJSValue result = engine.evaluate(key);
@@ -705,17 +699,147 @@ void AWKeys::calculateValues()
 }
 
 
+void AWKeys::expandTemplates()
+{
+    // match the following construction $template{{some code here}}
+    QRegularExpression templatesRegexp(
+        QString("\\$template\\{\\{((?!\\$template\\{\\{).)*?\\}\\}"));
+    templatesRegexp.setPatternOptions(
+        QRegularExpression::DotMatchesEverythingOption);
+
+    QRegularExpressionMatchIterator it = templatesRegexp.globalMatch(m_pattern);
+    while (it.hasNext()) {
+        QRegularExpressionMatch match = it.next();
+        QString fullTemplate = match.captured();
+
+        // drop additional markers
+        QString templ = fullTemplate;
+        templ.remove(QRegExp(QString("^\\$template\\{\\{")));
+        templ.remove(QRegExp(QString("\\}\\}$")));
+
+        QJSEngine engine;
+        qCInfo(LOG_AW) << "Expression" << templ;
+        QJSValue result = engine.evaluate(templ);
+        QString templateResult = QString("");
+        if (result.isError()) {
+            qCWarning(LOG_AW) << "Uncaught exception at line"
+                              << result.property("lineNumber").toInt() << ":"
+                              << result.toString();
+        } else {
+            templateResult = result.toString();
+        }
+
+        // replace template
+        m_pattern.replace(fullTemplate, templateResult);
+    }
+}
+
+
+QString AWKeys::insertKeyCount(QString code) const
+{
+    qCDebug(LOG_AW) << "Looking for count in code" << code;
+
+    QRegularExpression countRegexp(QString("aw_count\\(((?!\\aw_count\\().)*?\\)"));
+    countRegexp.setPatternOptions(
+        QRegularExpression::DotMatchesEverythingOption);
+
+    QRegularExpressionMatchIterator it = countRegexp.globalMatch(code);
+    while (it.hasNext()) {
+        QRegularExpressionMatch match = it.next();
+        QString count = match.captured();
+
+        // get regexp to search
+        QString regex = count;
+        regex.remove(QRegExp(QString("^aw_count\\(")));
+        regex.remove(QRegExp(QString("\\)$")));
+        qCInfo(LOG_AW) << "Looking for" << regex;
+
+        code.replace(count, QString::number(dictKeys(false, regex).count()));
+    }
+
+    return code;
+}
+
+
+QString AWKeys::insertKeyNames(QString code) const
+{
+    qCDebug(LOG_AW) << "Looking for keys in code" << code;
+
+    QRegularExpression keysRegexp(QString("aw_names\\(((?!\\aw_names\\().)*?\\)"));
+    keysRegexp.setPatternOptions(
+        QRegularExpression::DotMatchesEverythingOption);
+
+    QRegularExpressionMatchIterator it = keysRegexp.globalMatch(code);
+    while (it.hasNext()) {
+        QRegularExpressionMatch match = it.next();
+        QString keys = match.captured();
+
+        // get regexp to search
+        QString condition = keys;
+        condition.remove(QRegExp(QString("^aw_names\\(")));
+        condition.remove(QRegExp(QString("\\)$")));
+        QStringList conditionList = condition.split(QChar(','));
+        // regexp
+        QString regex = conditionList.at(0);
+        // separator to join
+        QString separator = conditionList.size() == 1 ? QString("") : conditionList.at(1);
+        qCInfo(LOG_AW) << "Looking for" << regex << "with separator" << separator;
+
+        code.replace(keys, dictKeys(true, regex).join(separator));
+    }
+
+    return code;
+}
+
+
+QString AWKeys::insertKeys(QString code) const
+{
+    qCDebug(LOG_AW) << "Looking for keys in code" << code;
+
+    QRegularExpression keysRegexp(QString("aw_keys\\(((?!\\aw_keys\\().)*?\\)"));
+    keysRegexp.setPatternOptions(
+        QRegularExpression::DotMatchesEverythingOption);
+
+    QRegularExpressionMatchIterator it = keysRegexp.globalMatch(code);
+    while (it.hasNext()) {
+        QRegularExpressionMatch match = it.next();
+        QString keys = match.captured();
+
+        // get regexp to search
+        QString condition = keys;
+        condition.remove(QRegExp(QString("^aw_keys\\(")));
+        condition.remove(QRegExp(QString("\\)$")));
+        QStringList conditionList = condition.split(QChar(','));
+        // regexp
+        QString regex = conditionList.at(0);
+        // separator to join
+        QString separator = conditionList.size() == 1 ? QString("") : conditionList.at(1);
+        qCInfo(LOG_AW) << "Looking for" << regex << "with separator" << separator;
+
+        // find keys and add $ at the beginning of the line
+        QStringList foundKeys = dictKeys(true, regex);
+        std::for_each(foundKeys.begin(), foundKeys.end(), [](QString &value) {
+            value = QString("$%1").arg(value);
+        });
+
+        code.replace(keys, foundKeys.join(separator));
+    }
+
+    return code;
+}
+
+
 QString AWKeys::parsePattern(QString pattern) const
 {
     // screen sign
     pattern.replace(QString("$$"), QString("$\\$\\"));
 
     // lambdas
-    foreach (QString key, m_foundLambdas)
+    for (auto key : m_foundLambdas)
         pattern.replace(QString("${{%1}}").arg(key), values[key]);
 
     // main keys
-    foreach (QString key, m_foundKeys)
+    for (auto key : m_foundKeys)
         pattern.replace(QString("$%1").arg(key),
                         [](QString key, QString value) {
                             if ((!key.startsWith(QString("custom")))
@@ -725,7 +849,7 @@ QString AWKeys::parsePattern(QString pattern) const
                         }(key, values[key]));
 
     // bars
-    foreach (QString bar, m_foundBars) {
+    for (auto bar : m_foundBars) {
         GraphicalItem *item = graphicalItems->itemByTag(bar);
         QString key = bar;
         key.remove(QRegExp(QString("^bar[0-9]{1,}")));
@@ -763,9 +887,7 @@ void AWKeys::setDataBySource(const QString &sourceName, const QVariantMap &data)
         qCDebug(LOG_AW) << "Source" << sourceName << "not found";
         emit(dropSourceFromDataengine(sourceName));
     } else {
-#ifdef BUILD_FUTURE
         m_mutex.lock();
-#endif /* BUILD_FUTURE */
         // HACK workaround for time values which are stored in the different
         // path
         QVariant value = sourceName == QString("Local")
@@ -775,8 +897,6 @@ void AWKeys::setDataBySource(const QString &sourceName, const QVariantMap &data)
                       [this, value](const QString tag) {
                           values[tag] = aggregator->formater(value, tag);
                       });
-#ifdef BUILD_FUTURE
         m_mutex.unlock();
-#endif /* BUILD_FUTURE */
     }
 }

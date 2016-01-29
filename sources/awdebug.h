@@ -28,12 +28,6 @@
     "category}][%{function}] %{message}"
 #endif /* LOG_FORMAT */
 
-// redefine info because it doesn't log properly
-#ifdef qCInfo
-#undef qCInfo
-#endif /* qCInfo */
-#define qCInfo qCDebug
-
 
 Q_DECLARE_LOGGING_CATEGORY(LOG_AW)
 Q_DECLARE_LOGGING_CATEGORY(LOG_DP)

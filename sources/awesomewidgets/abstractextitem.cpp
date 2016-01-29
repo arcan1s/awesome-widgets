@@ -193,14 +193,14 @@ void AbstractExtItem::readConfiguration()
 
 bool AbstractExtItem::tryDelete() const
 {
-    foreach (QString dir, m_dirs) {
+    for (auto dir : m_dirs) {
         bool status = QFile::remove(QString("%1/%2").arg(dir).arg(m_fileName));
         qCInfo(LOG_LIB) << "Remove file"
                         << QString("%1/%2").arg(dir).arg(m_fileName) << status;
     }
 
     // check if exists
-    foreach (QString dir, m_dirs)
+    for (auto dir : m_dirs)
         if (QFile::exists(QString("%1/%2").arg(dir).arg(m_fileName)))
             return false;
     return true;

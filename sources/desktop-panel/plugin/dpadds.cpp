@@ -42,7 +42,7 @@ DPAdds::DPAdds(QObject *parent)
 {
     qSetMessagePattern(LOG_FORMAT);
     qCDebug(LOG_DP) << __PRETTY_FUNCTION__;
-    foreach (const QString metadata, getBuildData())
+    for (auto metadata : getBuildData())
         qCDebug(LOG_DP) << metadata;
 
     connect(KWindowSystem::self(), SIGNAL(currentDesktopChanged(int)), this,
@@ -137,7 +137,7 @@ QString DPAdds::toolTipImage(const int desktop) const
         QPen pen = QPen();
         pen.setWidthF(2.0 * info.desktop.width() / 400.0);
         pen.setColor(QColor(m_tooltipColor));
-        foreach (WindowData data, info.windowsData) {
+        for (auto data : info.windowsData) {
             QRect rect = data.rect;
             toolTipScene->addLine(rect.left() + margin, rect.bottom() + margin,
                                   rect.left() + margin, rect.top() + margin,
@@ -196,7 +196,7 @@ QString DPAdds::parsePattern(const QString pattern, const int desktop) const
 
     QString parsed = pattern;
     parsed.replace(QString("$$"), QString("$\\$\\"));
-    foreach (QString key, dictKeys())
+    for (auto key : dictKeys())
         parsed.replace(QString("$%1").arg(key), valueByKey(key, desktop));
     parsed.replace(QString("$\\$\\"), QString("$$"));
 
@@ -363,7 +363,7 @@ DPAdds::DesktopWindowsInfo DPAdds::getInfoByDesktop(const int desktop) const
     DesktopWindowsInfo info;
     info.desktop = KWindowSystem::workArea(desktop);
 
-    foreach (WId id, KWindowSystem::windows()) {
+    for (auto id : KWindowSystem::windows()) {
         KWindowInfo winInfo = KWindowInfo(
             id, NET::Property::WMDesktop | NET::Property::WMGeometry
                     | NET::Property::WMState | NET::Property::WMWindowType

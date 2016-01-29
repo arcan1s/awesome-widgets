@@ -188,7 +188,7 @@ QString ExtScript::applyFilters(QString _value) const
 {
     qCDebug(LOG_LIB) << "Value" << _value;
 
-    foreach (QString filt, m_filters) {
+    for (auto filt : m_filters) {
         qCInfo(LOG_LIB) << "Found filter" << filt;
         QVariantMap filter = jsonFilters[filt].toMap();
         if (filter.isEmpty()) {
@@ -196,7 +196,7 @@ QString ExtScript::applyFilters(QString _value) const
                                << "in the json";
             continue;
         }
-        foreach (QString f, filter.keys())
+        for (auto f : filter.keys())
             _value.replace(f, filter[f].toString());
     }
 

@@ -62,8 +62,8 @@ QVariant GPUTemperatureSource::data(QString source)
         QString qoutput
             = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
         if (m_device == QString("nvidia")) {
-            foreach (QString str,
-                     qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
+            for (auto str :
+                 qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
                 if (!str.contains(QString("<gpu_temp>")))
                     continue;
                 QString temp = str.remove(QString("<gpu_temp>"))
@@ -72,8 +72,8 @@ QVariant GPUTemperatureSource::data(QString source)
                 break;
             }
         } else if (m_device == QString("ati")) {
-            foreach (QString str,
-                     qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
+            for (auto str :
+                 qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
                 if (!str.contains(QString("Temperature")))
                     continue;
                 QString temp

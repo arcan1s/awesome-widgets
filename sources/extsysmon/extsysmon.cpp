@@ -34,7 +34,7 @@ ExtendedSysMon::ExtendedSysMon(QObject *parent, const QVariantList &args)
     Q_UNUSED(args)
     qSetMessagePattern(LOG_FORMAT);
     qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
-    foreach (const QString metadata, getBuildData())
+    for (auto metadata : getBuildData())
         qCDebug(LOG_ESM) << metadata;
 
     setMinimumPollingInterval(333);
@@ -42,7 +42,7 @@ ExtendedSysMon::ExtendedSysMon(QObject *parent, const QVariantList &args)
 
     // init aggregator
     aggregator = new ExtSysMonAggregator(this, configuration);
-    foreach (QString source, aggregator->sources())
+    for (auto source : aggregator->sources())
         setData(source, aggregator->initialData(source));
 }
 
@@ -177,7 +177,7 @@ ExtendedSysMon::updateConfiguration(QHash<QString, QString> rawConfig) const
             QChar(','), QString::SkipEmptyParts);
         QStringList devices;
         QRegExp diskRegexp = QRegExp("^/dev/[hms]d[a-z]$");
-        foreach (QString device, deviceList)
+        for (auto device : deviceList)
             if ((QFile::exists(device)) && (device.contains(diskRegexp)))
                 devices.append(device);
         if (devices.isEmpty())
@@ -194,7 +194,7 @@ ExtendedSysMon::updateConfiguration(QHash<QString, QString> rawConfig) const
     if (rawConfig[QString("PLAYERSYMBOLS")].toInt() <= 0)
         rawConfig[QString("PLAYERSYMBOLS")] = QString("10");
 
-    foreach (QString key, rawConfig.keys())
+    for (auto key : rawConfig.keys())
         qCInfo(LOG_ESM) << key << "=" << rawConfig[key];
     return rawConfig;
 }

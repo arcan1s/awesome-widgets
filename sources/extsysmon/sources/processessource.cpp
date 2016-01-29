@@ -84,7 +84,7 @@ void ProcessesSource::run()
     QStringList directories = allDirectories.filter(QRegExp(QString("(\\d+)")));
     QStringList running;
 
-    foreach (QString dir, directories) {
+    for (auto dir : directories) {
         QFile statusFile(QString("/proc/%1/status").arg(dir));
         if (!statusFile.open(QIODevice::ReadOnly))
             continue;

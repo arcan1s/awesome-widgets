@@ -61,7 +61,7 @@ bool AWConfigHelper::exportConfiguration(QObject *nativeConfig,
     QQmlPropertyMap *configuration
         = static_cast<QQmlPropertyMap *>(nativeConfig);
     settings.beginGroup(QString("plasmoid"));
-    foreach (QString key, configuration->keys()) {
+    for (auto key : configuration->keys()) {
         QVariant value = configuration->value(key);
         if (!value.isValid())
             continue;
@@ -70,13 +70,13 @@ bool AWConfigHelper::exportConfiguration(QObject *nativeConfig,
     settings.endGroup();
 
     // extensions
-    foreach (QString item, m_dirs) {
+    for (auto item : m_dirs) {
         QStringList items
             = QDir(QString("%1/%2").arg(m_baseDir).arg(item))
                   .entryList(QStringList() << QString("*.desktop"),
                              QDir::Files);
         settings.beginGroup(item);
-        foreach (QString it, items)
+        for (auto it : items)
             copyExtensions(it, item, settings, false);
         settings.endGroup();
     }
@@ -112,9 +112,9 @@ QVariantMap AWConfigHelper::importConfiguration(const QString fileName,
 
     // extensions
     if (importExtensions) {
-        foreach (QString item, m_dirs) {
+        for (auto item : m_dirs) {
             settings.beginGroup(item);
-            foreach (QString it, settings.childGroups())
+            for (auto it : settings.childGroups())
                 copyExtensions(it, item, settings, true);
             settings.endGroup();
         }
@@ -137,7 +137,7 @@ QVariantMap AWConfigHelper::importConfiguration(const QString fileName,
     // plasmoid configuration
     if (importPlasmoid) {
         settings.beginGroup(QString("plasmoid"));
-        foreach (QString key, settings.childKeys())
+        for (auto key : settings.childKeys())
             configuration[key] = settings.value(key);
         settings.endGroup();
     }
@@ -239,7 +239,7 @@ void AWConfigHelper::copyExtensions(const QString item, const QString type,
 
 void AWConfigHelper::copySettings(QSettings &from, QSettings &to) const
 {
-    foreach (QString key, from.childKeys())
+    for (auto key : from.childKeys())
         to.setValue(key, from.value(key));
 }
 

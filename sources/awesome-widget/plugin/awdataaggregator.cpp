@@ -131,7 +131,7 @@ QPixmap AWDataAggregator::tooltipImage()
     toolTipScene->clear();
     QPen pen;
     bool down = false;
-    foreach (QString key, requiredKeys) {
+    for (auto key : requiredKeys) {
         // create frame
         float normX = 100.0 / static_cast<float>(data[key].count());
         float normY = 100.0 / (1.5 * boundaries[key]);

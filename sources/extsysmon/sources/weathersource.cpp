@@ -47,7 +47,7 @@ QVariant WeatherSource::data(QString source)
 
     if (source.startsWith(QString("weather/weatherId"))) {
         QVariantHash data = extWeather->itemByTagNumber(index(source))->run();
-        foreach (QString key, data.keys())
+        for (auto key : data.keys())
             values[key] = data[key];
     }
     QString key = QString(source).remove(QString("weather/"));
@@ -124,7 +124,7 @@ QStringList WeatherSource::sources() const
 QStringList WeatherSource::getSources()
 {
     QStringList sources;
-    foreach (ExtWeather *item, extWeather->activeItems()) {
+    for (auto item : extWeather->activeItems()) {
         sources.append(
             QString("weather/%1").arg(item->tag(QString("weatherId"))));
         sources.append(

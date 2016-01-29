@@ -102,7 +102,7 @@ QString AWKeysAggregator::formater(const QVariant &data,
     case TimeCustom:
         output = m_customTime;
         [&output, loc, this](const QDateTime dt) {
-            foreach (QString key, timeKeys)
+            for (auto key : timeKeys)
                 output.replace(QString("$%1").arg(key), loc.toString(dt, key));
         }(data.toDateTime());
         break;

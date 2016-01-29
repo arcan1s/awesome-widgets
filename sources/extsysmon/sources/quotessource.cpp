@@ -47,7 +47,7 @@ QVariant QuotesSource::data(QString source)
 
     if (source.startsWith(QString("quotes/percpricechg"))) {
         QVariantHash data = extQuotes->itemByTagNumber(index(source))->run();
-        foreach (QString key, data.keys())
+        for (auto key : data.keys())
             values[key] = data[key];
     }
     QString key = QString(source).remove(QString("quotes/"));
@@ -148,7 +148,7 @@ QStringList QuotesSource::sources() const
 QStringList QuotesSource::getSources()
 {
     QStringList sources;
-    foreach (ExtQuotes *item, extQuotes->activeItems()) {
+    for (auto item : extQuotes->activeItems()) {
         sources.append(QString("quotes/%1").arg(item->tag(QString("ask"))));
         sources.append(QString("quotes/%1").arg(item->tag(QString("askchg"))));
         sources.append(

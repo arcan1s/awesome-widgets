@@ -61,8 +61,7 @@ QVariant HDDTemperatureSource::data(QString source)
     QString qoutput
         = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
     if (m_smartctl) {
-        foreach (QString str,
-                 qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
+        for (auto str : qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
             if (!str.startsWith(QString("194")))
                 continue;
             if (str.split(QChar(' '), QString::SkipEmptyParts).count() < 9)
@@ -104,7 +103,7 @@ QVariantMap HDDTemperatureSource::initialData(QString source) const
 QStringList HDDTemperatureSource::sources() const
 {
     QStringList sources;
-    foreach (QString device, m_devices)
+    for (auto device : m_devices)
         sources.append(QString("hdd/temperature%1").arg(device));
 
     return sources;

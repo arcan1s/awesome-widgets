@@ -45,8 +45,8 @@ AWDataEngineAggregator::~AWDataEngineAggregator()
 
 void AWDataEngineAggregator::disconnectSources()
 {
-    foreach (QString dataengine, m_dataEngines.keys())
-        foreach (QString source, m_dataEngines[dataengine]->sources())
+    for (auto dataengine : m_dataEngines.keys())
+        for (auto source : m_dataEngines[dataengine]->sources())
             m_dataEngines[dataengine]->disconnectSource(source, parent());
 }
 

@@ -83,6 +83,10 @@ private:
     // methods
     void addKeyToCache(const QString type, const QString key = QString(""));
     void calculateValues();
+    void expandTemplates();
+    QString insertKeyCount(QString code) const;
+    QString insertKeyNames(QString code) const;
+    QString insertKeys(QString code) const;
     QString parsePattern(QString pattern) const;
     void setDataBySource(const QString &sourceName, const QVariantMap &data);
     // objects
