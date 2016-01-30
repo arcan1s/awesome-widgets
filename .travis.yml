@@ -8,26 +8,12 @@ os:
 before_install:
   - sudo sed -i 's/trusty/wily/g' /etc/apt/sources.list
   - sudo apt-get update -qq
-  - sudo apt-get -y -q -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confnew upgrade
-
-addons:
-  apt:
-    sources:
-      - kubuntu-backports
-    packages:
-      - cmake
-      - extra-cmake-modules
-      - g++
-      - git
-      - libkf5i18n-dev
-      - libkf5notifications-dev
-      - libkf5service-dev
-      - libkf5windowsystem-dev
-      - plasma-framework-dev
-      - qtbase5-dev
-      - qtdeclarative5-dev
+  - sudo apt-get -y -qq -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confnew upgrade
 
 before_script:
+  - sudo apt-add-repository -y ppa:kubuntu-ppa/backports
+  - sudo sed -i 's/trusty/wily/g' /etc/apt/sources.list.d/kubuntu-ppa-backports-trusty.list
+  - sudo apt-get -y -qq install libkf5i18n-dev libkf5notifications-dev libkf5service-dev libkf5windowsystem-dev plasma-framework-dev qtbase5-dev qtdeclarative5-dev extra-cmake-modules cmake g++
   - rm -rf build
   - mkdir build
 
