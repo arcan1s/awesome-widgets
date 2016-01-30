@@ -235,12 +235,12 @@ void AWActions::versionReplyRecieved(QNetworkReply *reply,
 
     QJsonParseError error;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll(), &error);
-    reply->deleteLater();
     if ((reply->error() != QNetworkReply::NoError)
         || (error.error != QJsonParseError::NoError)) {
         qCWarning(LOG_AW) << "Parse error" << error.errorString();
         return;
     }
+    reply->deleteLater();
 
     // convert to map
     QVariantMap firstRelease = jsonDoc.toVariant().toList().first().toMap();
@@ -252,9 +252,9 @@ void AWActions::versionReplyRecieved(QNetworkReply *reply,
     int old_major = QString(VERSION).split(QChar('.')).at(0).toInt();
     int old_minor = QString(VERSION).split(QChar('.')).at(1).toInt();
     int old_patch = QString(VERSION).split(QChar('.')).at(2).toInt();
-    int new_major = QString(version).split(QChar('.')).at(0).toInt();
-    int new_minor = QString(version).split(QChar('.')).at(1).toInt();
-    int new_patch = QString(version).split(QChar('.')).at(2).toInt();
+    int new_major = version.split(QChar('.')).at(0).toInt();
+    int new_minor = version.split(QChar('.')).at(1).toInt();
+    int new_patch = version.split(QChar('.')).at(2).toInt();
     if ((old_major < new_major)
         || ((old_major == new_major) && (old_minor < new_minor))
         || ((old_major == new_major) && (old_minor == new_minor)

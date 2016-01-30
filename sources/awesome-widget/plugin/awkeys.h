@@ -24,17 +24,11 @@
 #include <QMutex>
 #include <QObject>
 
-#include "extitemaggregator.h"
-
 
 class AWDataAggregator;
 class AWDataEngineAggregator;
+class AWKeyOperations;
 class AWKeysAggregator;
-class ExtQuotes;
-class ExtScript;
-class ExtUpgrade;
-class ExtWeather;
-class GraphicalItem;
 class QThreadPool;
 
 class AWKeys : public QObject
@@ -50,6 +44,8 @@ public:
     Q_INVOKABLE void setAggregatorProperty(const QString key,
                                            const QVariant value);
     Q_INVOKABLE void setWrapNewLines(const bool wrap = false);
+    // additional method to force load keys from Qml UI. Used in some
+    // configuration pages
     Q_INVOKABLE void updateCache();
     // keys
     Q_INVOKABLE QStringList dictKeys(const bool sorted = false,
@@ -75,33 +71,21 @@ signals:
     void needToBeUpdated();
 
 private slots:
-    void loadKeysFromCache();
-    void reinitKeys();
+    void reinitKeys(const QStringList currentKeys);
     void updateTextData();
 
 private:
     // methods
-    void addKeyToCache(const QString type, const QString key = QString(""));
     void calculateValues();
-    void expandTemplates();
-    QString insertKeyCount(QString code) const;
-    QString insertKeyNames(QString code) const;
-    QString insertKeys(QString code) const;
     QString parsePattern(QString pattern) const;
     void setDataBySource(const QString &sourceName, const QVariantMap &data);
     // objects
     AWDataAggregator *dataAggregator = nullptr;
     AWDataEngineAggregator *dataEngineAggregator = nullptr;
     AWKeysAggregator *aggregator = nullptr;
-    ExtItemAggregator<GraphicalItem> *graphicalItems = nullptr;
-    ExtItemAggregator<ExtQuotes> *extQuotes = nullptr;
-    ExtItemAggregator<ExtScript> *extScripts = nullptr;
-    ExtItemAggregator<ExtUpgrade> *extUpgrade = nullptr;
-    ExtItemAggregator<ExtWeather> *extWeather = nullptr;
+    AWKeyOperations *keyOperator = nullptr;
     // variables
-    QHash<QString, QStringList> m_devices;
     QStringList m_foundBars, m_foundKeys, m_foundLambdas;
-    QString m_pattern;
     QHash<QString, QString> values;
     bool m_wrapNewLines = false;
     // multithread features
