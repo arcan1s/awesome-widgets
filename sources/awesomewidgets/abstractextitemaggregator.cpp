@@ -91,10 +91,8 @@ void AbstractExtItemAggregator::setConfigArgs(const QVariant _configArgs)
 }
 
 
-void AbstractExtItemAggregator::editItemActivated(QListWidgetItem *item)
+void AbstractExtItemAggregator::editItemActivated(QListWidgetItem *)
 {
-    Q_UNUSED(item)
-
     return editItem();
 }
 

@@ -37,8 +37,9 @@ public:
     {
         qSetMessagePattern(LOG_FORMAT);
         qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
-        foreach (const QString metadata, getBuildData())
+        for (auto metadata : getBuildData())
             qCDebug(LOG_LIB) << metadata;
+
         qCDebug(LOG_LIB) << "Type" << type;
 
         initItems();
@@ -66,7 +67,7 @@ public:
         qCDebug(LOG_LIB) << "Tag" << _tag;
 
         T *found = nullptr;
-        foreach (T *item, m_items) {
+        for (auto item : m_items) {
             if (item->tag() != _tag)
                 continue;
             found = item;
@@ -83,7 +84,7 @@ public:
         qCDebug(LOG_LIB) << "Number" << _number;
 
         T *found = nullptr;
-        foreach (T *item, m_items) {
+        for (auto item : m_items) {
             if (item->number() != _number)
                 continue;
             found = item;
@@ -102,7 +103,7 @@ public:
             return nullptr;
 
         T *found = nullptr;
-        foreach (T *item, m_items) {
+        for (auto item : m_items) {
             if (item->fileName() != widgetItem->text())
                 continue;
             found = item;
@@ -120,7 +121,7 @@ public:
     int uniqNumber() const
     {
         QList<int> tagList;
-        foreach (T *item, m_items)
+        for (auto item : m_items)
             tagList.append(item->number());
         int number = 0;
         while (tagList.contains(number))
@@ -152,9 +153,9 @@ private:
             QStandardPaths::LocateDirectory);
         QStringList names;
         QList<T *> items;
-        foreach (QString dir, dirs) {
+        for (auto dir : dirs) {
             QStringList files = QDir(dir).entryList(QDir::Files, QDir::Name);
-            foreach (QString file, files) {
+            for (auto file : files) {
                 if ((!file.endsWith(QString(".desktop")))
                     || (names.contains(file)))
                     continue;
@@ -177,7 +178,7 @@ private:
         m_activeItems.clear();
 
         m_items = getItems();
-        foreach (T *item, m_items) {
+        for (auto item : m_items) {
             if (!item->isActive())
                 continue;
             m_activeItems.append(item);
@@ -187,7 +188,7 @@ private:
     void repaint()
     {
         widgetDialog->clear();
-        foreach (T *_item, m_items) {
+        for (auto _item : m_items) {
             QListWidgetItem *item
                 = new QListWidgetItem(_item->fileName(), widgetDialog);
             QStringList tooltip;

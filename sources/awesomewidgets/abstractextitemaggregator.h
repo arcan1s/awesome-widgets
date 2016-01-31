@@ -48,7 +48,7 @@ public:
     void setConfigArgs(const QVariant _configArgs);
 
 private slots:
-    void editItemActivated(QListWidgetItem *item);
+    void editItemActivated(QListWidgetItem *);
     void editItemButtonPressed(QAbstractButton *button);
 
 private:

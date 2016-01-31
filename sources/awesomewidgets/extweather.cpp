@@ -74,8 +74,7 @@ ExtWeather::~ExtWeather()
 
 ExtWeather *ExtWeather::copy(const QString _fileName, const int _number)
 {
-    qCDebug(LOG_LIB) << "File" << _fileName;
-    qCDebug(LOG_LIB) << "Number" << _number;
+    qCDebug(LOG_LIB) << "File" << _fileName << "number" << _number;
 
     ExtWeather *item = new ExtWeather(static_cast<QWidget *>(parent()),
                                       _fileName, directories());
@@ -236,7 +235,7 @@ QVariantHash ExtWeather::run()
         qCInfo(LOG_LIB) << "Send request";
         isRunning = true;
         QNetworkReply *reply = manager->get(QNetworkRequest(QUrl(url())));
-        new QReplyTimeout(reply, 5000);
+        new QReplyTimeout(reply, REQUEST_TIMEOUT);
     }
 
     // update value
@@ -304,7 +303,7 @@ void ExtWeather::writeConfiguration() const
 
 void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
 {
-    qCDebug(LOG_LIB) << "Return code" << reply->error();
+    qCDebug(LOG_LIB) << "Return code" << reply->error() << "with messa";
     qCDebug(LOG_LIB) << "Reply error message" << reply->errorString();
 
     isRunning = false;

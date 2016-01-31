@@ -45,7 +45,6 @@ class AWKeyOperations : public QObject
 public:
     explicit AWKeyOperations(QObject *parent = nullptr);
     virtual ~AWKeyOperations();
-    void addDevice(const QString source);
     QStringList devices(const QString type) const;
     QHash<QString, QStringList> devices() const;
     void updateCache();
@@ -61,6 +60,9 @@ public:
 
 signals:
     void updateKeys(const QStringList currentKeys);
+
+public slots:
+    void addDevice(const QString &source);
 
 private:
     // methods

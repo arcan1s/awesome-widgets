@@ -33,8 +33,9 @@ AbstractExtItem::AbstractExtItem(QWidget *parent, const QString desktopName,
     , m_dirs(directories)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
-    qCDebug(LOG_LIB) << "Desktop name" << desktopName;
-    qCDebug(LOG_LIB) << "Directories" << directories;
+
+    qCDebug(LOG_LIB) << "Desktop name" << desktopName << "directories"
+                     << directories;
 
     m_name = m_fileName;
 }

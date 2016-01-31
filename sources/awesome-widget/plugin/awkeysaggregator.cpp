@@ -42,8 +42,7 @@ AWKeysAggregator::~AWKeysAggregator()
 QString AWKeysAggregator::formater(const QVariant &data,
                                    const QString &key) const
 {
-    qCDebug(LOG_AW) << "Data" << data;
-    qCDebug(LOG_AW) << "Key" << key;
+    qCDebug(LOG_AW) << "Data" << data << "for key" << key;
 
     QString output;
     QLocale loc = m_translate ? QLocale::system() : QLocale::c();
@@ -135,7 +134,7 @@ QString AWKeysAggregator::formater(const QVariant &data,
                 return source;
             }(m_formater[key] == Uptime ? QString("$ddd$hhh$mmm")
                                         : m_customUptime,
-              data.toFloat());
+              static_cast<int>(data.toFloat()));
         break;
     case NoFormat:
     default:
@@ -152,6 +151,15 @@ QStringList AWKeysAggregator::keysFromSource(const QString &source) const
     qCDebug(LOG_AW) << "Search for source" << source;
 
     return m_map.values(source);
+}
+
+
+QStringList
+AWKeysAggregator::requiredByKeysFromSource(const QString &source) const
+{
+    qCDebug(LOG_AW) << "Search for source" << source;
+
+    return m_requiredByMap.values(source);
 }
 
 
@@ -216,8 +224,7 @@ void AWKeysAggregator::setTranslate(const bool translate)
 QStringList AWKeysAggregator::registerSource(const QString &source,
                                              const QString &units)
 {
-    qCDebug(LOG_AW) << "Source" << source;
-    qCDebug(LOG_AW) << "Units" << units;
+    qCDebug(LOG_AW) << "Source" << source << "with units" << units;
 
     // regular expressions
     QRegExp cpuRegExp = QRegExp(QString("cpu/cpu.*/TotalLoad"));
@@ -331,6 +338,11 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
             key = QString("hddfreegb%1").arg(index);
             m_map.insertMulti(source, key);
             m_formater[key] = MemGBFormat;
+            // fill required by list
+            m_requiredByMap.insertMulti(source,
+                                        QString("hddtotmb%1").arg(index));
+            m_requiredByMap.insertMulti(source,
+                                        QString("hddtotgb%1").arg(index));
         }
     } else if (source.contains(mountUsedRegExp)) {
         // used
@@ -346,6 +358,11 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
             key = QString("hddgb%1").arg(index);
             m_map.insertMulti(source, key);
             m_formater[key] = MemGBFormat;
+            // fill required by list
+            m_requiredByMap.insertMulti(source,
+                                        QString("hddtotmb%1").arg(index));
+            m_requiredByMap.insertMulti(source,
+                                        QString("hddtotgb%1").arg(index));
         }
     } else if (source.startsWith(QString("hdd/temperature"))) {
         // hdd temperature
@@ -372,6 +389,8 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
         // gb
         m_map.insertMulti(source, QString("memgb"));
         m_formater[QString("memgb")] = MemGBFormat;
+        // fill required by list
+        m_requiredByMap.insertMulti(source, QString("mem"));
     } else if (source == QString("mem/physical/free")) {
         // free memory
         // mb
@@ -380,6 +399,10 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
         // gb
         m_map.insertMulti(source, QString("memfreegb"));
         m_formater[QString("memfreegb")] = MemGBFormat;
+        // fill required by list
+        m_requiredByMap.insertMulti(source, QString("memtotmb"));
+        m_requiredByMap.insertMulti(source, QString("memtotgb"));
+        m_requiredByMap.insertMulti(source, QString("mem"));
     } else if (source == QString("mem/physical/used")) {
         // used memory
         // mb
@@ -388,10 +411,21 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
         // gb
         m_map.insertMulti(source, QString("memusedgb"));
         m_formater[QString("memusedgb")] = MemGBFormat;
+        // fill required by list
+        m_requiredByMap.insertMulti(source, QString("memtotmb"));
+        m_requiredByMap.insertMulti(source, QString("memtotgb"));
+        m_requiredByMap.insertMulti(source, QString("mem"));
     } else if (source == QString("network/current/name")) {
         // network device
         m_map[source] = QString("netdev");
         m_formater[QString("netdev")] = NoFormat;
+        // fill required by list
+        m_requiredByMap.insertMulti(source, QString("down"));
+        m_requiredByMap.insertMulti(source, QString("downkb"));
+        m_requiredByMap.insertMulti(source, QString("downunits"));
+        m_requiredByMap.insertMulti(source, QString("up"));
+        m_requiredByMap.insertMulti(source, QString("upkb"));
+        m_requiredByMap.insertMulti(source, QString("upunits"));
     } else if (source.contains(netRegExp)) {
         // network speed
         QString type = source.contains(QString("receiver")) ? QString("down")
@@ -412,6 +446,13 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
             m_map.insertMulti(source, key);
             m_formater[key] = NetSmartUnits;
         }
+        // fill required by list
+        m_requiredByMap.insertMulti(source, QString("%1").arg(type));
+        m_requiredByMap.insertMulti(source, QString("%1kb").arg(type));
+        m_requiredByMap.insertMulti(source, QString("%1units").arg(type));
+        m_requiredByMap.insertMulti(source, QString("%1").arg(type));
+        m_requiredByMap.insertMulti(source, QString("%1kb").arg(type));
+        m_requiredByMap.insertMulti(source, QString("%1units").arg(type));
     } else if (source.startsWith(QString("upgrade"))) {
         // package manager
         QString key = source;
@@ -450,6 +491,10 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
         // gb
         m_map.insertMulti(source, QString("swapfreegb"));
         m_formater[QString("swapfreegb")] = MemGBFormat;
+        // fill required by list
+        m_requiredByMap.insertMulti(source, QString("swaptotmb"));
+        m_requiredByMap.insertMulti(source, QString("swaptotgb"));
+        m_requiredByMap.insertMulti(source, QString("swap"));
     } else if (source == QString("mem/swap/used")) {
         // used swap
         // mb
@@ -458,6 +503,10 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
         // gb
         m_map.insertMulti(source, QString("swapgb"));
         m_formater[QString("swapgb")] = MemGBFormat;
+        // fill required by list
+        m_requiredByMap.insertMulti(source, QString("swaptotmb"));
+        m_requiredByMap.insertMulti(source, QString("swaptotgb"));
+        m_requiredByMap.insertMulti(source, QString("swap"));
     } else if (source.startsWith(QString("lmsensors/"))) {
         // temperature
         int index = m_devices[QString("temp")].indexOf(source);

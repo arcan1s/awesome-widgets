@@ -60,8 +60,7 @@ ExtUpgrade::~ExtUpgrade()
 
 ExtUpgrade *ExtUpgrade::copy(const QString _fileName, const int _number)
 {
-    qCDebug(LOG_LIB) << "File" << _fileName;
-    qCDebug(LOG_LIB) << "Number" << _number;
+    qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
     ExtUpgrade *item = new ExtUpgrade(static_cast<QWidget *>(parent()),
                                       _fileName, directories());

@@ -26,10 +26,9 @@
 #include "awdebug.h"
 
 
-void AWKeyCache::addKeyToCache(const QString type, const QString key)
+bool AWKeyCache::addKeyToCache(const QString type, const QString key)
 {
-    qCDebug(LOG_AW) << "Key type" << type;
-    qCDebug(LOG_AW) << "Key" << key;
+    qCDebug(LOG_AW) << "Key" << key << "with type" << type;
 
     QString fileName = QString("%1/awesomewidgets.ndx")
                            .arg(QStandardPaths::writableLocation(
@@ -70,7 +69,7 @@ void AWKeyCache::addKeyToCache(const QString type, const QString key)
         }
     } else {
         if (cachedValues.contains(key))
-            return;
+            return false;
         qCInfo(LOG_AW) << "Found new key" << key << "for type" << type;
         cache.setValue(
             QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), key);
@@ -78,6 +77,7 @@ void AWKeyCache::addKeyToCache(const QString type, const QString key)
     cache.endGroup();
 
     cache.sync();
+    return true;
 }
 
 

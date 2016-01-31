@@ -58,7 +58,6 @@ public:
     Q_INVOKABLE void editItem(const QString type);
 
 public slots:
-    void addDevice(const QString source);
     void dataUpdated(const QString &sourceName,
                      const Plasma::DataEngine::Data &data);
     // dummy method required by DataEngine connections

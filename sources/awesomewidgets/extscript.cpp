@@ -64,8 +64,7 @@ ExtScript::~ExtScript()
 
 ExtScript *ExtScript::copy(const QString _fileName, const int _number)
 {
-    qCDebug(LOG_LIB) << "File" << _fileName;
-    qCDebug(LOG_LIB) << "Number" << _number;
+    qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
     ExtScript *item = new ExtScript(static_cast<QWidget *>(parent()), _fileName,
                                     directories());
@@ -206,8 +205,7 @@ QString ExtScript::applyFilters(QString _value) const
 
 void ExtScript::updateFilter(const QString _filter, const bool _add)
 {
-    qCDebug(LOG_LIB) << "Filter" << _filter;
-    qCDebug(LOG_LIB) << "Should be added" << _add;
+    qCDebug(LOG_LIB) << "Should be added filters" << _add << "from" << _filter;
 
     if (_add) {
         if (m_filters.contains(_filter))

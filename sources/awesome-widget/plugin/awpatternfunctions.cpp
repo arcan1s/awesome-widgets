@@ -28,8 +28,15 @@ QVariantList AWPatternFunctions::findFunctionCalls(const QString function,
 {
     qCDebug(LOG_AW) << "Looking for function" << function << "in" << code;
 
+    // I suggest the following regex for the internal functions
+    // $aw_function_name<some args here if any>{{function body}}
+    // * args should be always comma separated (e.g. commas are not supported
+    // in this field if they are not screened by $, i.e. '$,'
+    // * body depends on the function name, double brackets (i.e. {{ or }}) are
+    // not supported
     QRegularExpression regex(
-        QString("%1\\<(?<args>.*?)\\>\\((?<body>.*?)\\)").arg(function));
+        QString("\\$%1\\<(?<args>.*?)\\>\\{\\{(?<body>.*?)\\}\\}")
+            .arg(function));
     regex.setPatternOptions(QRegularExpression::DotMatchesEverythingOption);
 
     QVariantList foundFunctions;
@@ -38,8 +45,20 @@ QVariantList AWPatternFunctions::findFunctionCalls(const QString function,
         QRegularExpressionMatch match = it.next();
 
         QVariantHash metadata;
-        metadata[QString("args")]
-            = match.captured(QString("args")).split(QChar(','));
+        // work with args
+        QString argsString = match.captured(QString("args"));
+        if (argsString.isEmpty()) {
+            metadata[QString("args")] = QStringList();
+        } else {
+            // replace '$,' to 0x1d
+            argsString.replace(QString("$,"), QString(0x1d));
+            QStringList args = argsString.split(QChar(','));
+            std::for_each(args.begin(), args.end(), [](QString &arg) {
+                arg.replace(QString(0x1d), QString(","));
+            });
+            metadata[QString("args")] = args;
+        }
+        // other variables
         metadata[QString("body")] = match.captured(QString("body"));
         metadata[QString("what")] = match.captured();
         foundFunctions.append(metadata);
@@ -51,27 +70,22 @@ QVariantList AWPatternFunctions::findFunctionCalls(const QString function,
 
 QString AWPatternFunctions::expandTemplates(QString code)
 {
-    qCDebug(LOG_AW) << "Expand tempaltes in" << code;
+    qCDebug(LOG_AW) << "Expand templates in" << code;
 
     // match the following construction $template{{some code here}}
     QRegularExpression templatesRegexp(
-        QString("\\$template\\{\\{((?!\\$template\\{\\{).)*?\\}\\}"));
+        QString("\\$template\\{\\{(?<body>.*?)\\}\\}"));
     templatesRegexp.setPatternOptions(
         QRegularExpression::DotMatchesEverythingOption);
 
     QRegularExpressionMatchIterator it = templatesRegexp.globalMatch(code);
     while (it.hasNext()) {
         QRegularExpressionMatch match = it.next();
-        QString fullTemplate = match.captured();
-
-        // drop additional markers
-        QString templ = fullTemplate;
-        templ.remove(QRegExp(QString("^\\$template\\{\\{")));
-        templ.remove(QRegExp(QString("\\}\\}$")));
+        QString body = match.captured(QString("body"));
 
         QJSEngine engine;
-        qCInfo(LOG_AW) << "Expression" << templ;
-        QJSValue result = engine.evaluate(templ);
+        qCInfo(LOG_AW) << "Expression" << body;
+        QJSValue result = engine.evaluate(body);
         QString templateResult = QString("");
         if (result.isError()) {
             qCWarning(LOG_AW) << "Uncaught exception at line"
@@ -82,7 +96,34 @@ QString AWPatternFunctions::expandTemplates(QString code)
         }
 
         // replace template
-        code.replace(fullTemplate, templateResult);
+        code.replace(match.captured(), templateResult);
+    }
+
+    return code;
+}
+
+
+QString AWPatternFunctions::insertAllKeys(QString code, const QStringList keys)
+{
+    qCDebug(LOG_AW) << "Looking for keys in code" << code << "using list"
+                    << keys;
+
+    QVariantList found
+        = AWPatternFunctions::findFunctionCalls(QString("aw_all"), code);
+    for (auto function : found) {
+        QVariantHash metadata = function.toHash();
+        QString separator
+            = metadata[QString("args")].toStringList().isEmpty()
+                  ? QString(",")
+                  : metadata[QString("args")].toStringList().at(0);
+        QStringList required
+            = keys.filter(QRegExp(metadata[QString("body")].toString()));
+        std::for_each(required.begin(), required.end(), [](QString &value) {
+            value = QString("%1: $%1").arg(value);
+        });
+
+        code.replace(metadata[QString("what")].toString(),
+                     required.join(separator));
     }
 
     return code;
@@ -111,7 +152,7 @@ QString AWPatternFunctions::insertKeyCount(QString code, const QStringList keys)
 
 QString AWPatternFunctions::insertKeyNames(QString code, const QStringList keys)
 {
-    qCDebug(LOG_AW) << "Looking for keys in code" << code << "using list"
+    qCDebug(LOG_AW) << "Looking for key names in code" << code << "using list"
                     << keys;
 
     QVariantList found
@@ -157,4 +198,70 @@ QString AWPatternFunctions::insertKeys(QString code, const QStringList keys)
     }
 
     return code;
+}
+
+
+QStringList AWPatternFunctions::findBars(const QString code,
+                                         const QStringList keys)
+{
+    qCDebug(LOG_AW) << "Looking for bars in code" << code << "using list"
+                    << keys;
+
+    QStringList selectedKeys;
+    for (auto key : keys)
+        if ((key.startsWith(QString("bar")))
+            && (code.contains(QString("$%1").arg(key)))) {
+            qCInfo(LOG_AW) << "Found bar" << key;
+            selectedKeys.append(key);
+        }
+    if (selectedKeys.isEmpty())
+        qCWarning(LOG_AW) << "No bars found";
+
+    return selectedKeys;
+}
+
+
+QStringList AWPatternFunctions::findKeys(const QString code,
+                                         const QStringList keys)
+{
+    qCDebug(LOG_AW) << "Looking for keys in code" << code << "using list"
+                    << keys;
+
+    QStringList selectedKeys;
+    for (auto key : keys)
+        if ((!key.startsWith(QString("bar")))
+            && (code.contains(QString("$%1").arg(key)))) {
+            qCInfo(LOG_AW) << "Found key" << key;
+            selectedKeys.append(key);
+        }
+    if (selectedKeys.isEmpty())
+        qCWarning(LOG_AW) << "No keys found";
+
+    return selectedKeys;
+}
+
+
+QStringList AWPatternFunctions::findLambdas(const QString code)
+{
+    qCDebug(LOG_AW) << "Looking for lambdas in code" << code;
+
+    QStringList selectedKeys;
+    // match the following construction ${{some code here}}
+    QRegularExpression lambdaRegexp(QString("\\$\\{\\{(?<body>.*?)\\}\\}"));
+    lambdaRegexp.setPatternOptions(
+        QRegularExpression::DotMatchesEverythingOption);
+
+    QRegularExpressionMatchIterator it = lambdaRegexp.globalMatch(code);
+    while (it.hasNext()) {
+        QRegularExpressionMatch match = it.next();
+        QString lambda = match.captured(QString("body"));
+
+        // append
+        qCInfo(LOG_AW) << "Found lambda" << lambda;
+        selectedKeys.append(lambda);
+    }
+    if (selectedKeys.isEmpty())
+        qCWarning(LOG_AW) << "No lambdas found";
+
+    return selectedKeys;
 }

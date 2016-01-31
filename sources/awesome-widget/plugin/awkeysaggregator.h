@@ -67,6 +67,7 @@ public:
     // get methods
     QString formater(const QVariant &data, const QString &key) const;
     QStringList keysFromSource(const QString &source) const;
+    QStringList requiredByKeysFromSource(const QString &source) const;
     // set methods
     void setAcOffline(const QString inactive);
     void setAcOnline(const QString active);
@@ -90,6 +91,7 @@ private:
     QHash<QString, QStringList> m_devices;
     QHash<QString, FormaterType> m_formater;
     QHash<QString, QString> m_map;
+    QHash<QString, QString> m_requiredByMap;
     QString m_tempUnits;
     bool m_translate = false;
 };

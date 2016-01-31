@@ -54,28 +54,6 @@ AWKeyOperations::~AWKeyOperations()
 }
 
 
-void AWKeyOperations::addDevice(const QString source)
-{
-    qCDebug(LOG_AW) << "Source" << source;
-
-    QRegExp diskRegexp
-        = QRegExp(QString("disk/(?:md|sd|hd)[a-z|0-9]_.*/Rate/(?:rblk)"));
-    QRegExp mountRegexp = QRegExp(QString("partitions/.*/filllevel"));
-
-    if (source.contains(diskRegexp)) {
-        QString device = source;
-        device.remove(QString("/Rate/rblk"));
-        addKeyToCache(QString("disk"), device);
-    } else if (source.contains(mountRegexp)) {
-        QString device = source;
-        device.remove(QString("partitions")).remove(QString("/filllevel"));
-        addKeyToCache(QString("mount"), device);
-    } else if (source.startsWith(QString("lmsensors"))) {
-        addKeyToCache(QString("temp"), source);
-    }
-}
-
-
 QStringList AWKeyOperations::devices(const QString type) const
 {
     qCDebug(LOG_AW) << "Looking for type" << type;
@@ -259,6 +237,8 @@ QStringList AWKeyOperations::dictKeys() const
 }
 
 
+// this method is required to provide GraphicalItem functions (e.g. paint()) to
+// parent classes
 GraphicalItem *AWKeyOperations::giByKey(const QString key) const
 {
     qCDebug(LOG_AW) << "Looking for item" << key;
@@ -355,14 +335,36 @@ void AWKeyOperations::editItem(const QString type)
 }
 
 
+void AWKeyOperations::addDevice(const QString &source)
+{
+    qCDebug(LOG_AW) << "Source" << source;
+
+    QRegExp diskRegexp
+        = QRegExp(QString("disk/(?:md|sd|hd)[a-z|0-9]_.*/Rate/(?:rblk)"));
+    QRegExp mountRegexp = QRegExp(QString("partitions/.*/filllevel"));
+
+    if (source.contains(diskRegexp)) {
+        QString device = source;
+        device.remove(QString("/Rate/rblk"));
+        addKeyToCache(QString("disk"), device);
+    } else if (source.contains(mountRegexp)) {
+        QString device = source;
+        device.remove(QString("partitions")).remove(QString("/filllevel"));
+        addKeyToCache(QString("mount"), device);
+    } else if (source.startsWith(QString("lmsensors"))) {
+        addKeyToCache(QString("temp"), source);
+    }
+}
+
+
 void AWKeyOperations::addKeyToCache(const QString type, const QString key)
 {
-    qCDebug(LOG_AW) << "Key type" << type;
-    qCDebug(LOG_AW) << "Key" << key;
+    qCDebug(LOG_AW) << "Key" << key << "with type" << type;
 
-    AWKeyCache::addKeyToCache(type, key);
-    m_devices = AWKeyCache::loadKeysFromCache();
-    reinitKeys();
+    if (AWKeyCache::addKeyToCache(type, key)) {
+        m_devices = AWKeyCache::loadKeysFromCache();
+        reinitKeys();
+    }
 }
 
 
@@ -391,17 +393,8 @@ void AWKeyOperations::reinitKeys()
     // init
     QStringList allKeys = dictKeys();
 
-#ifdef BUILD_TESTING
-    // not documented feature - place all available tags
-    m_pattern = m_pattern.replace(QString("$ALL"), [allKeys]() {
-        QStringList strings;
-        for (auto tag : allKeys)
-            strings.append(QString("%1: $%1").arg(tag));
-        return strings.join(QString(" | "));
-    }());
-#endif /* BUILD_TESTING */
-
     // apply aw_* functions
+    m_pattern = AWPatternFunctions::insertAllKeys(m_pattern, allKeys);
     m_pattern = AWPatternFunctions::insertKeyCount(m_pattern, allKeys);
     m_pattern = AWPatternFunctions::insertKeyNames(m_pattern, allKeys);
     m_pattern = AWPatternFunctions::insertKeys(m_pattern, allKeys);

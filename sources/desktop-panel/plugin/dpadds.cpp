@@ -191,8 +191,7 @@ QString DPAdds::toolTipImage(const int desktop) const
 
 QString DPAdds::parsePattern(const QString pattern, const int desktop) const
 {
-    qCDebug(LOG_DP) << "Pattern" << pattern;
-    qCDebug(LOG_DP) << "Desktop number" << desktop;
+    qCDebug(LOG_DP) << "Pattern" << pattern << "for desktop" << desktop;
 
     QString parsed = pattern;
     parsed.replace(QString("$$"), QString("$\\$\\"));
@@ -224,8 +223,7 @@ void DPAdds::setToolTipData(const QVariantMap tooltipData)
 
 QString DPAdds::valueByKey(const QString key, int desktop) const
 {
-    qCDebug(LOG_DP) << "Requested key" << key;
-    qCDebug(LOG_DP) << "Desktop number" << desktop;
+    qCDebug(LOG_DP) << "Requested key" << key << "for desktop" << desktop;
     if (desktop == -1)
         desktop = currentDesktop();
 
@@ -336,8 +334,7 @@ QVariantMap DPAdds::getFont(const QVariantMap defaultFont) const
 // to avoid additional object definition this method is static
 void DPAdds::sendNotification(const QString eventId, const QString message)
 {
-    qCDebug(LOG_DP) << "Event" << eventId;
-    qCDebug(LOG_DP) << "Message" << message;
+    qCDebug(LOG_DP) << "Event" << eventId << "with message" << message;
 
     KNotification *notification = KNotification::event(
         eventId, QString("Desktop Panel ::: %1").arg(eventId), message);

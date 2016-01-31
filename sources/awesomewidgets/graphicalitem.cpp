@@ -65,8 +65,7 @@ GraphicalItem::~GraphicalItem()
 
 GraphicalItem *GraphicalItem::copy(const QString _fileName, const int _number)
 {
-    qCDebug(LOG_LIB) << "File" << _fileName;
-    qCDebug(LOG_LIB) << "Number" << _number;
+    qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
     GraphicalItem *item = new GraphicalItem(static_cast<QWidget *>(parent()),
                                             _fileName, directories());

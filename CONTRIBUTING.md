@@ -147,13 +147,12 @@ For logging please use [QLoggingCategory](http://doc.qt.io/qt-5/qloggingcategory
 Available categories should be declared in `awdebug.*` files. The following log
 levels should be used:
 
-* **debug** (`qCDebug()`) - method arguments information.
+* **debug** (`qCDebug()`) - method arguments information. Please note that it
+  is recommended to logging all arguments in the one line.
 * **info** (`qCInfo()`) - additional information inside methods.
 * **warning** (`qCWarning()`) - not critical information, which may be caused by
   mistakes in configuration for example.
-* **error** (`qCError()`) - an error which has been captured in runtime. All errors
-  should have own callback methods.
-* **critical** (`qCCritical()`) - a critical error. After this error program will
+* **critical** (`qCCritical()`) - a critical error. After this error program may
   be terminated.
 
 The empty log string (e.g. `qCDebug();`) is not allowed because the method names

@@ -216,9 +216,8 @@ void AWConfigHelper::copyExtensions(const QString item, const QString type,
                                     QSettings &settings,
                                     const bool inverse) const
 {
-    qCDebug(LOG_AW) << "Extension" << item;
-    qCDebug(LOG_AW) << "Type" << type;
-    qCDebug(LOG_AW) << "Inverse" << inverse;
+    qCDebug(LOG_AW) << "Extension" << item << "has type" << type
+                    << "inverse copying" << inverse;
 
     settings.beginGroup(item);
     QSettings itemSettings(
@@ -247,8 +246,7 @@ void AWConfigHelper::copySettings(QSettings &from, QSettings &to) const
 void AWConfigHelper::readFile(QSettings &settings, const QString key,
                               const QString fileName) const
 {
-    qCDebug(LOG_AW) << "Key" << key;
-    qCDebug(LOG_AW) << "File" << fileName;
+    qCDebug(LOG_AW) << "Key" << key << "from file" << fileName;
 
     QFile file(fileName);
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -264,8 +262,7 @@ void AWConfigHelper::readFile(QSettings &settings, const QString key,
 void AWConfigHelper::writeFile(QSettings &settings, const QString key,
                                const QString fileName) const
 {
-    qCDebug(LOG_AW) << "Key" << key;
-    qCDebug(LOG_AW) << "File" << fileName;
+    qCDebug(LOG_AW) << "Key" << key << "to file" << fileName;
 
     if (!settings.contains(key))
         return;

@@ -179,8 +179,7 @@ QVariantMap AWActions::getFont(const QVariantMap defaultFont) const
 // to avoid additional object definition this method is static
 void AWActions::sendNotification(const QString eventId, const QString message)
 {
-    qCDebug(LOG_AW) << "Event" << eventId;
-    qCDebug(LOG_AW) << "Message" << message;
+    qCDebug(LOG_AW) << "Event" << eventId << "with message" << message;
 
     KNotification *notification = KNotification::event(
         eventId, QString("Awesome Widget ::: %1").arg(eventId), message);
@@ -229,9 +228,8 @@ void AWActions::showUpdates(const QString version) const
 void AWActions::versionReplyRecieved(QNetworkReply *reply,
                                      const bool showAnyway) const
 {
-    qCDebug(LOG_AW) << "Return code" << reply->error();
-    qCDebug(LOG_AW) << "Reply error message" << reply->errorString();
-    qCDebug(LOG_AW) << "Show anyway" << showAnyway;
+    qCDebug(LOG_AW) << "Return code" << reply->error() << "with message"
+                    << reply->errorString() << "and show anyway" << showAnyway;
 
     QJsonParseError error;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll(), &error);

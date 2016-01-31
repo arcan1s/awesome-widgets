@@ -21,6 +21,7 @@
 
 #include "awactions.h"
 #include "awconfighelper.h"
+#include "awdataengineaggregator.h"
 #include "awkeys.h"
 
 

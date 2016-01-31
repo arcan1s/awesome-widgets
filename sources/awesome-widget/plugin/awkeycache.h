@@ -25,7 +25,7 @@
 
 namespace AWKeyCache
 {
-void addKeyToCache(const QString type, const QString key = QString(""));
+bool addKeyToCache(const QString type, const QString key = QString(""));
 QHash<QString, QStringList> loadKeysFromCache();
 };
 

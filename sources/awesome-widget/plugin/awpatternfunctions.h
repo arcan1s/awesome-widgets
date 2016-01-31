@@ -25,11 +25,17 @@
 
 namespace AWPatternFunctions
 {
+// insert methods
 QString expandTemplates(QString code);
 QVariantList findFunctionCalls(const QString function, const QString code);
+QString insertAllKeys(QString code, const QStringList keys);
 QString insertKeyCount(QString code, const QStringList keys);
 QString insertKeyNames(QString code, const QStringList keys);
 QString insertKeys(QString code, const QStringList keys);
+// find methods
+QStringList findBars(const QString code, const QStringList keys);
+QStringList findKeys(const QString code, const QStringList keys);
+QStringList findLambdas(const QString code);
 };
 
 

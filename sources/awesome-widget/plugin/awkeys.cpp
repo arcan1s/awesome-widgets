@@ -27,6 +27,7 @@
 #include "awdebug.h"
 #include "awkeyoperations.h"
 #include "awkeysaggregator.h"
+#include "awpatternfunctions.h"
 #include "graphicalitem.h"
 #include "version.h"
 
@@ -79,9 +80,8 @@ void AWKeys::initDataAggregator(const QVariantMap tooltipParams)
 void AWKeys::initKeys(const QString currentPattern, const int interval,
                       const int limit)
 {
-    qCDebug(LOG_AW) << "Pattern" << currentPattern;
-    qCDebug(LOG_AW) << "Interval" << interval;
-    qCDebug(LOG_AW) << "Queue limit" << limit;
+    qCDebug(LOG_AW) << "Pattern" << currentPattern << "with interval"
+                    << interval << "and queue limit" << limit;
 
     // init
     keyOperator->setPattern(currentPattern);
@@ -89,6 +89,9 @@ void AWKeys::initKeys(const QString currentPattern, const int interval,
         dataEngineAggregator = new AWDataEngineAggregator(this, interval);
         connect(this, SIGNAL(dropSourceFromDataengine(QString)),
                 dataEngineAggregator, SLOT(dropSource(QString)));
+        // transfer signal from dataengine to update source list
+        connect(dataEngineAggregator, SIGNAL(deviceAdded(const QString &)),
+                keyOperator, SLOT(addDevice(const QString &)));
     } else
         dataEngineAggregator->setInterval(interval);
     m_threadPool->setMaxThreadCount(limit == 0 ? QThread::idealThreadCount()
@@ -101,8 +104,7 @@ void AWKeys::initKeys(const QString currentPattern, const int interval,
 
 void AWKeys::setAggregatorProperty(const QString key, const QVariant value)
 {
-    qCDebug(LOG_AW) << "Key" << key;
-    qCDebug(LOG_AW) << "Value" << value;
+    qCDebug(LOG_AW) << "Key" << key << "with value" << value;
 
     aggregator->setProperty(key.toUtf8().constData(), value);
 }
@@ -124,8 +126,8 @@ void AWKeys::updateCache()
 
 QStringList AWKeys::dictKeys(const bool sorted, const QString regexp) const
 {
-    qCDebug(LOG_AW) << "Should be sorted" << sorted;
-    qCDebug(LOG_AW) << "Filter" << regexp;
+    qCDebug(LOG_AW) << "Should be sorted" << sorted << "and filter applied"
+                    << regexp;
 
     QStringList allKeys = keyOperator->dictKeys();
     // sort if required
@@ -149,7 +151,7 @@ QStringList AWKeys::getHddDevices() const
 
 QString AWKeys::infoByKey(QString key) const
 {
-    qCDebug(LOG_AW) << "Requested key" << key;
+    qCDebug(LOG_AW) << "Requested info for key" << key;
 
     return keyOperator->infoByKey(key);
 }
@@ -158,7 +160,7 @@ QString AWKeys::infoByKey(QString key) const
 // HACK this method requires to define tag value from bar from UI interface
 QString AWKeys::valueByKey(QString key) const
 {
-    qCDebug(LOG_AW) << "Requested key" << key;
+    qCDebug(LOG_AW) << "Requested value for key" << key;
 
     return values.value(key.remove(QRegExp(QString("^bar[0-9]{1,}"))),
                         QString(""));
@@ -170,14 +172,6 @@ void AWKeys::editItem(const QString type)
     qCDebug(LOG_AW) << "Item type" << type;
 
     return keyOperator->editItem(type);
-}
-
-
-void AWKeys::addDevice(const QString source)
-{
-    qCDebug(LOG_AW) << "Source" << source;
-
-    return keyOperator->addDevice(source);
 }
 
 
@@ -201,58 +195,11 @@ void AWKeys::reinitKeys(const QStringList currentKeys)
     qCDebug(LOG_AW) << "Update found keys by using list" << currentKeys;
 
     // append lists
-    // bars
-    m_foundBars = [currentKeys](const QString pattern) {
-        QStringList selectedKeys;
-        for (auto key : currentKeys)
-            if ((key.startsWith(QString("bar")))
-                && (pattern.contains(QString("$%1").arg(key)))) {
-                qCInfo(LOG_AW) << "Found bar" << key;
-                selectedKeys.append(key);
-            }
-        if (selectedKeys.isEmpty())
-            qCWarning(LOG_AW) << "No bars found";
-        return selectedKeys;
-    }(keyOperator->pattern());
-
-    // main key list
-    m_foundKeys = [currentKeys](const QString pattern) {
-        QStringList selectedKeys;
-        for (auto key : currentKeys)
-            if ((!key.startsWith(QString("bar")))
-                && (pattern.contains(QString("$%1").arg(key)))) {
-                qCInfo(LOG_AW) << "Found key" << key;
-                selectedKeys.append(key);
-            }
-        if (selectedKeys.isEmpty())
-            qCWarning(LOG_AW) << "No keys found";
-        return selectedKeys;
-    }(keyOperator->pattern());
-
-    // lambdas
-    m_foundLambdas = [](const QString pattern) {
-        QStringList selectedKeys;
-        // substring inside ${{ }} (with brackets) which should not contain ${{
-        QRegularExpression lambdaRegexp(
-            QString("\\$\\{\\{((?!\\$\\{\\{).)*?\\}\\}"));
-        lambdaRegexp.setPatternOptions(
-            QRegularExpression::DotMatchesEverythingOption);
-
-        QRegularExpressionMatchIterator it = lambdaRegexp.globalMatch(pattern);
-        while (it.hasNext()) {
-            QRegularExpressionMatch match = it.next();
-            QString lambda = match.captured();
-            // drop brackets
-            lambda.remove(QRegExp(QString("^\\$\\{\\{")));
-            lambda.remove(QRegExp(QString("\\}\\}$")));
-            // append
-            qCInfo(LOG_AW) << "Found lambda" << lambda;
-            selectedKeys.append(lambda);
-        }
-        if (selectedKeys.isEmpty())
-            qCWarning(LOG_AW) << "No lambdas found";
-        return selectedKeys;
-    }(keyOperator->pattern());
+    m_foundBars
+        = AWPatternFunctions::findBars(keyOperator->pattern(), currentKeys);
+    m_foundKeys
+        = AWPatternFunctions::findKeys(keyOperator->pattern(), currentKeys);
+    m_foundLambdas = AWPatternFunctions::findLambdas(keyOperator->pattern());
 
     // set key data to aggregator
     aggregator->setDevices(keyOperator->devices());
@@ -354,7 +301,7 @@ void AWKeys::calculateValues()
 QString AWKeys::parsePattern(QString pattern) const
 {
     // screen sign
-    pattern.replace(QString("$$"), QString("$\\$\\"));
+    pattern.replace(QString("$$"), QString(0x1d));
 
     // lambdas
     for (auto key : m_foundLambdas)
@@ -385,7 +332,7 @@ QString AWKeys::parsePattern(QString pattern) const
     }
 
     // prepare strings
-    pattern.replace(QString("$\\$\\"), QString("$$"));
+    pattern.replace(QString(0x1d), QString("$"));
     if (m_wrapNewLines)
         pattern.replace(QString("\n"), QString("<br>"));
 
@@ -395,8 +342,7 @@ QString AWKeys::parsePattern(QString pattern) const
 
 void AWKeys::setDataBySource(const QString &sourceName, const QVariantMap &data)
 {
-    qCDebug(LOG_AW) << "Source" << sourceName;
-    qCDebug(LOG_AW) << "Data" << data;
+    qCDebug(LOG_AW) << "Source" << sourceName << "with data" << data;
 
     // first list init
     QStringList tags = aggregator->keysFromSource(sourceName);
@@ -404,21 +350,18 @@ void AWKeys::setDataBySource(const QString &sourceName, const QVariantMap &data)
         tags = aggregator->registerSource(sourceName,
                                           data[QString("units")].toString());
 
-    // update data or drop source if there are no matches
+    // update data or drop source if there are no matches and exit
     if (tags.isEmpty()) {
-        qCDebug(LOG_AW) << "Source" << sourceName << "not found";
-        emit(dropSourceFromDataengine(sourceName));
-    } else {
-        m_mutex.lock();
-        // HACK workaround for time values which are stored in the different
-        // path
-        QVariant value = sourceName == QString("Local")
-                             ? data[QString("DateTime")]
-                             : data[QString("value")];
-        std::for_each(tags.cbegin(), tags.cend(),
-                      [this, value](const QString tag) {
-                          values[tag] = aggregator->formater(value, tag);
-                      });
-        m_mutex.unlock();
+        qCInfo(LOG_AW) << "Source" << sourceName << "not found";
+        return emit(dropSourceFromDataengine(sourceName));
     }
+
+    m_mutex.lock();
+    // HACK workaround for time values which are stored in the different path
+    QVariant value = sourceName == QString("Local") ? data[QString("DateTime")]
+                                                    : data[QString("value")];
+    std::for_each(tags.cbegin(), tags.cend(), [this, value](const QString tag) {
+        values[tag] = aggregator->formater(value, tag);
+    });
+    m_mutex.unlock();
 }

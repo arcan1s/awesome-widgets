@@ -346,9 +346,8 @@ QVariantHash PlayerSource::getPlayerMprisInfo(const QString mpris) const
 QString PlayerSource::buildString(const QString current, const QString value,
                                   const int s) const
 {
-    qCDebug(LOG_ESM) << "Current value" << current;
-    qCDebug(LOG_ESM) << "New value" << value;
-    qCDebug(LOG_ESM) << "Strip after" << s;
+    qCDebug(LOG_ESM) << "Current value" << current << "received" << value
+                     << "will be stripped after" << s;
 
     int index = value.indexOf(current);
     if ((current.isEmpty()) || ((index + s + 1) > value.count())) {
@@ -361,8 +360,7 @@ QString PlayerSource::buildString(const QString current, const QString value,
 
 QString PlayerSource::stripString(const QString value, const int s) const
 {
-    qCDebug(LOG_ESM) << "New value" << value;
-    qCDebug(LOG_ESM) << "Strip after" << s;
+    qCDebug(LOG_ESM) << "New value" << value << "will be stripped after" << s;
 
     return value.count() > s ? QString("%1\u2026").arg(value.left(s - 1))
                              : value.leftJustified(s, QLatin1Char(' '));

@@ -45,9 +45,9 @@ AWDataEngineAggregator::~AWDataEngineAggregator()
 
 void AWDataEngineAggregator::disconnectSources()
 {
-    for (auto dataengine : m_dataEngines.keys())
-        for (auto source : m_dataEngines[dataengine]->sources())
-            m_dataEngines[dataengine]->disconnectSource(source, parent());
+    for (auto dataengine : m_dataEngines.values())
+        for (auto source : dataengine->sources())
+            dataengine->disconnectSource(source, parent());
 }
 
 
@@ -93,7 +93,7 @@ void AWDataEngineAggregator::initDataEngines()
     // additional method required by systemmonitor structure
     connect(m_dataEngines[QString("systemmonitor")],
             &Plasma::DataEngine::sourceAdded, [this](const QString source) {
-                static_cast<AWKeys *>(parent())->addDevice(source);
+                emit(deviceAdded(source));
                 m_dataEngines[QString("systemmonitor")]->connectSource(
                     source, parent(), m_interval);
             });

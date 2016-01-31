@@ -24,6 +24,8 @@
 #define AWEUAPI 3
 // extweather api version
 #define AWEWAPI 2
+// network requests timeout, ms
+#define REQUEST_TIMEOUT 5000
 // available time keys
 #define TIME_KEYS "dddd,ddd,dd,d,MMMM,MMM,MM,M,yyyy,yy,hh,h,HH,H,mm,m,ss,s,t,ap,a,AP,A"
 #cmakedefine BUILD_FUTURE
