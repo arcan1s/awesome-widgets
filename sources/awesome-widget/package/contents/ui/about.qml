@@ -98,13 +98,22 @@ Item {
                     }
 
                     QtControls.Label {
+                        QtLayouts.Layout.fillWidth: true
+                        wrapMode: Text.WordWrap
+                        horizontalAlignment: Text.AlignJustify
+                        textFormat: Text.RichText
+                        text: awActions.getAboutText("3rdparty")
+                        onLinkActivated: Qt.openUrlExternally(link);
+                    }
+
+                    QtControls.Label {
                         QtLayouts.Layout.fillHeight: true
                         QtLayouts.Layout.fillWidth: true
                         wrapMode: Text.WordWrap
                         horizontalAlignment: Text.AlignJustify
                         verticalAlignment: Text.AlignTop
                         textFormat: Text.RichText
-                        text: awActions.getAboutText("3rdparty")
+                        text: awActions.getAboutText("thanks")
                         onLinkActivated: Qt.openUrlExternally(link);
                     }
                 }

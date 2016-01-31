@@ -144,6 +144,14 @@ QString AWActions::getAboutText(const QString type) const
                                   .arg(trdPartyList.at(i).split(QChar(','))[1])
                                   .arg(trdPartyList.at(i).split(QChar(','))[2]);
         text = i18n("This software uses: %1", trdPartyList.join(QString(", ")));
+    } else if (type == QString("thanks")) {
+        QStringList thanks = QString(SPECIAL_THANKS)
+                                 .split(QChar(';'), QString::SkipEmptyParts);
+        for (int i = 0; i < thanks.count(); i++)
+            thanks[i] = QString("<a href=\"%2\">%1</a>")
+                            .arg(thanks.at(i).split(QChar(','))[0])
+                            .arg(thanks.at(i).split(QChar(','))[1]);
+        text = i18n("Special thanks to %1", thanks.join(QString(", ")));
     }
 
     return text;
@@ -171,8 +179,7 @@ QVariantMap AWActions::getFont(const QVariantMap defaultFont) const
 // to avoid additional object definition this method is static
 void AWActions::sendNotification(const QString eventId, const QString message)
 {
-    qCDebug(LOG_AW) << "Event" << eventId;
-    qCDebug(LOG_AW) << "Message" << message;
+    qCDebug(LOG_AW) << "Event" << eventId << "with message" << message;
 
     KNotification *notification = KNotification::event(
         eventId, QString("Awesome Widget ::: %1").arg(eventId), message);
@@ -221,18 +228,17 @@ void AWActions::showUpdates(const QString version) const
 void AWActions::versionReplyRecieved(QNetworkReply *reply,
                                      const bool showAnyway) const
 {
-    qCDebug(LOG_AW) << "Return code" << reply->error();
-    qCDebug(LOG_AW) << "Reply error message" << reply->errorString();
-    qCDebug(LOG_AW) << "Show anyway" << showAnyway;
+    qCDebug(LOG_AW) << "Return code" << reply->error() << "with message"
+                    << reply->errorString() << "and show anyway" << showAnyway;
 
     QJsonParseError error;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll(), &error);
-    reply->deleteLater();
     if ((reply->error() != QNetworkReply::NoError)
         || (error.error != QJsonParseError::NoError)) {
         qCWarning(LOG_AW) << "Parse error" << error.errorString();
         return;
     }
+    reply->deleteLater();
 
     // convert to map
     QVariantMap firstRelease = jsonDoc.toVariant().toList().first().toMap();
@@ -244,9 +250,9 @@ void AWActions::versionReplyRecieved(QNetworkReply *reply,
     int old_major = QString(VERSION).split(QChar('.')).at(0).toInt();
     int old_minor = QString(VERSION).split(QChar('.')).at(1).toInt();
     int old_patch = QString(VERSION).split(QChar('.')).at(2).toInt();
-    int new_major = QString(version).split(QChar('.')).at(0).toInt();
-    int new_minor = QString(version).split(QChar('.')).at(1).toInt();
-    int new_patch = QString(version).split(QChar('.')).at(2).toInt();
+    int new_major = version.split(QChar('.')).at(0).toInt();
+    int new_minor = version.split(QChar('.')).at(1).toInt();
+    int new_patch = version.split(QChar('.')).at(2).toInt();
     if ((old_major < new_major)
         || ((old_major == new_major) && (old_minor < new_minor))
         || ((old_major == new_major) && (old_minor == new_minor)

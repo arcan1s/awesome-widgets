@@ -1,13 +1,13 @@
 # Copyright (C) 2014
 # This file is distributed under the same license as the PyTextMonitor package.
 #
-# Evgeniy Alekseev <esalexeev@gmail.com>, 2014, 2015.
+# Evgeniy Alekseev <esalexeev@gmail.com>, 2014, 2015, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-10-20 01:21+0300\n"
-"PO-Revision-Date: 2015-10-20 01:22+0300\n"
+"POT-Creation-Date: 2016-01-26 21:48+0300\n"
+"PO-Revision-Date: 2016-01-26 21:49+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -111,8 +111,35 @@ msgstr "Сбросить кеш ключей"
 msgid "Export configuration"
 msgstr "Экспорт настроек"
 
+msgid "Export"
+msgstr "Экспорт"
+
+msgid "Success"
+msgstr "Успешно"
+
+msgid "Please note that binary files were not copied"
+msgstr "Пожалуйста, обратите внимание, что бинарные файлы не были скопированы"
+
+msgid "Ooops..."
+msgstr "Ууупс..."
+
+msgid "Could not save configuration file"
+msgstr "Не могу сохранить файл настроек"
+
 msgid "Import configuration"
 msgstr "Импорт настроек"
+
+msgid "Import"
+msgstr "Импорт"
+
+msgid "Import plasmoid settings"
+msgstr "Импорт настроек плазмоида"
+
+msgid "Import extensions"
+msgstr "Импорт расширений"
+
+msgid "Import additional files"
+msgstr "Импорт дополнительных файлов"
 
 msgid "Font"
 msgstr "Шрифт"
@@ -383,6 +410,9 @@ msgstr "Переводчики: %1"
 msgid "This software uses: %1"
 msgstr "Данное приложение использует: %1"
 
+msgid "Special thanks to %1"
+msgstr "Отдельно спасибо %1"
+
 msgid "Select font"
 msgstr "Выберете шрифт"
 
@@ -403,33 +433,6 @@ msgstr "Нажмите \"Ok\" для загрузки"
 
 msgid "There are updates"
 msgstr "Найдены обновления"
-
-msgid "Export"
-msgstr "Экспорт"
-
-msgid "Success"
-msgstr "Успешно"
-
-msgid "Please note that binary files were not copied"
-msgstr "Пожалуйста, обратите внимание, что бинарные файлы не были скопированы"
-
-msgid "Ooops..."
-msgstr "Ууупс..."
-
-msgid "Could not save configuration file"
-msgstr "Не могу сохранить файл настроек"
-
-msgid "Import"
-msgstr "Импорт"
-
-msgid "Import plasmoid settings"
-msgstr "Импорт настроек плазмоида"
-
-msgid "Import extensions"
-msgstr "Импорт расширений"
-
-msgid "Import additional files"
-msgstr "Импорт дополнительных файлов"
 
 msgid "AC online"
 msgstr "AC подключен"

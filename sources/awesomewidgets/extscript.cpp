@@ -64,8 +64,7 @@ ExtScript::~ExtScript()
 
 ExtScript *ExtScript::copy(const QString _fileName, const int _number)
 {
-    qCDebug(LOG_LIB) << "File" << _fileName;
-    qCDebug(LOG_LIB) << "Number" << _number;
+    qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
     ExtScript *item = new ExtScript(static_cast<QWidget *>(parent()), _fileName,
                                     directories());
@@ -188,7 +187,7 @@ QString ExtScript::applyFilters(QString _value) const
 {
     qCDebug(LOG_LIB) << "Value" << _value;
 
-    foreach (QString filt, m_filters) {
+    for (auto filt : m_filters) {
         qCInfo(LOG_LIB) << "Found filter" << filt;
         QVariantMap filter = jsonFilters[filt].toMap();
         if (filter.isEmpty()) {
@@ -196,7 +195,7 @@ QString ExtScript::applyFilters(QString _value) const
                                << "in the json";
             continue;
         }
-        foreach (QString f, filter.keys())
+        for (auto f : filter.keys())
             _value.replace(f, filter[f].toString());
     }
 
@@ -206,8 +205,7 @@ QString ExtScript::applyFilters(QString _value) const
 
 void ExtScript::updateFilter(const QString _filter, const bool _add)
 {
-    qCDebug(LOG_LIB) << "Filter" << _filter;
-    qCDebug(LOG_LIB) << "Should be added" << _add;
+    qCDebug(LOG_LIB) << "Should be added filters" << _add << "from" << _filter;
 
     if (_add) {
         if (m_filters.contains(_filter))

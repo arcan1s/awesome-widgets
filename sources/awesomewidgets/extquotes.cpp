@@ -150,7 +150,7 @@ QVariantHash ExtQuotes::run()
         qCInfo(LOG_LIB) << "Send request";
         isRunning = true;
         QNetworkReply *reply = manager->get(QNetworkRequest(QUrl(url())));
-        new QReplyTimeout(reply, 1000);
+        new QReplyTimeout(reply, REQUEST_TIMEOUT);
     }
 
     // update value
@@ -208,8 +208,8 @@ void ExtQuotes::writeConfiguration() const
 
 void ExtQuotes::quotesReplyReceived(QNetworkReply *reply)
 {
-    qCDebug(LOG_LIB) << "Return code" << reply->error();
-    qCDebug(LOG_LIB) << "Reply error message" << reply->errorString();
+    qCDebug(LOG_LIB) << "Return code" << reply->error() << "with message"
+                     << reply->errorString();
 
     isRunning = false;
     QJsonParseError error;
@@ -279,8 +279,7 @@ get quotes for the instrument. Refer to <a href=\"http://finance.yahoo.com/\">\
 
 QString ExtQuotes::url() const
 {
-    QString apiUrl = QString(YAHOO_URL);
-    apiUrl.replace(QString("$TICKER"), m_ticker);
+    QString apiUrl = QString(YAHOO_QUOTES_URL).arg(m_ticker);
     qCInfo(LOG_LIB) << "API url" << apiUrl;
 
     return apiUrl;

@@ -22,10 +22,10 @@
 
 #include "abstractextitem.h"
 
-#define YAHOO_URL                                                              \
+#define YAHOO_QUOTES_URL                                                       \
     "https://query.yahooapis.com/v1/public/yql?q=select * from "               \
     "yahoo.finance.quotes where "                                              \
-    "symbol=\"$TICKER\"&env=store://datatables.org/"                           \
+    "symbol=\"%1\"&env=store://datatables.org/"                                \
     "alltableswithkeys&format=json"
 
 

@@ -90,7 +90,7 @@ void AWDataAggregator::setParameters(QVariantMap settings)
     counts += configuration[QString("downTooltip")].toInt();
     counts += configuration[QString("batTooltip")].toInt();
     // resize tooltip image
-    toolTipView->resize(100.0 * counts, 105.0);
+    toolTipView->resize(100 * counts, 105);
 
     boundaries[QString("cpuTooltip")] = 100.0;
     boundaries[QString("cpuclTooltip")] = 4000.0;
@@ -131,7 +131,7 @@ QPixmap AWDataAggregator::tooltipImage()
     toolTipScene->clear();
     QPen pen;
     bool down = false;
-    foreach (QString key, requiredKeys) {
+    for (auto key : requiredKeys) {
         // create frame
         float normX = 100.0 / static_cast<float>(data[key].count());
         float normY = 100.0 / (1.5 * boundaries[key]);
@@ -179,9 +179,8 @@ void AWDataAggregator::dataUpdate(const QHash<QString, QString> &values)
 void AWDataAggregator::checkValue(const QString source, const float value,
                                   const float extremum) const
 {
-    qCDebug(LOG_AW) << "Notification source" << source;
-    qCDebug(LOG_AW) << "Value" << value;
-    qCDebug(LOG_AW) << "Called with extremum" << extremum;
+    qCDebug(LOG_AW) << "Notification source" << source << "with value" << value
+                    << "called with extremum" << extremum;
 
     if (value >= 0.0) {
         if ((m_enablePopup) && (value > extremum)
@@ -200,9 +199,8 @@ void AWDataAggregator::checkValue(const QString source, const float value,
 void AWDataAggregator::checkValue(const QString source, const QString current,
                                   const QString received) const
 {
-    qCDebug(LOG_AW) << "Notification source" << source;
-    qCDebug(LOG_AW) << "Current value" << current;
-    qCDebug(LOG_AW) << "Received value" << received;
+    qCDebug(LOG_AW) << "Notification source" << source << "with current value"
+                    << current << "and received one" << received;
 
     if ((m_enablePopup) && (current != received) && (!received.isEmpty()))
         return AWActions::sendNotification(QString("event"),
@@ -225,8 +223,7 @@ void AWDataAggregator::initScene()
 QString AWDataAggregator::notificationText(const QString source,
                                            const float value) const
 {
-    qCDebug(LOG_AW) << "Notification source" << source;
-    qCDebug(LOG_AW) << "Value" << value;
+    qCDebug(LOG_AW) << "Notification source" << source << "with value" << value;
 
     QString output;
     if (source == QString("batTooltip"))
@@ -247,8 +244,7 @@ QString AWDataAggregator::notificationText(const QString source,
 QString AWDataAggregator::notificationText(const QString source,
                                            const QString value) const
 {
-    qCDebug(LOG_AW) << "Notification source" << source;
-    qCDebug(LOG_AW) << "Value" << value;
+    qCDebug(LOG_AW) << "Notification source" << source << "with value" << value;
 
     QString output;
     if (source == QString("netdev"))
@@ -287,9 +283,8 @@ void AWDataAggregator::setData(const QHash<QString, QString> &values)
 void AWDataAggregator::setData(const QString &source, float value,
                                const float extremum)
 {
-    qCDebug(LOG_AW) << "Source" << source;
-    qCDebug(LOG_AW) << "Value" << value;
-    qCDebug(LOG_AW) << "Called with extremum" << extremum;
+    qCDebug(LOG_AW) << "Source" << source << "to value" << value
+                    << "with extremum" << extremum;
 
     if (data[source].count() == 0)
         data[source].append(0.0);
@@ -316,9 +311,8 @@ void AWDataAggregator::setData(const QString &source, float value,
 void AWDataAggregator::setData(const bool dontInvert, const QString &source,
                                float value)
 {
-    qCDebug(LOG_AW) << "Do not invert value" << dontInvert;
-    qCDebug(LOG_AW) << "Source" << source;
-    qCDebug(LOG_AW) << "Value" << value;
+    qCDebug(LOG_AW) << "Do not invert" << dontInvert << "value" << value
+                    << "for source" << source;
 
     // invert values for different battery colours
     value = dontInvert ? value : -value;

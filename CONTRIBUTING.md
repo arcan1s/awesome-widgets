@@ -36,14 +36,15 @@ for more details. To avoid manual labor there is automatic cmake target named
   ```
 
 * `Q_PROPERTY` macro is allowed and recommended for QObject based classes.
-* Qt macros (e.g. `signals`, `slots`, `Q_OBJECT`, etc) are allowed.
+* Qt macros (e.g. `signals`, `slots`, `Q_OBJECT`, etc) are allowed. In other hand
+`Q_FOREACH` (`foreach`) is not allowed use `for (auto foo : bar)` instead.
 * Current project standard is **C++11**.
 * Do not use C-like code:
-    * C-like style iteration if possible. Use `Q_FOREACH` (`foreach`) and
+    * C-like style iteration if possible. Use `for (auto foo : bar)` and
       `std::for_each` instead if possible. It is also recommended to use iterators.
     * C-like casts, use `const_cast`, `static_cast`, `dymanic_Cast` instead. Using
       of `reinterpret_cast` is not recommended. It is highly recommended to use
-      `dynamic_Cast` with the exception catching. It is also possible to use
+      `dynamic_cast` with the exception catching. It is also possible to use
       `qvariant_cast` if required. Exception is class constructors, e.g.:
 
       ```
@@ -81,7 +82,7 @@ for more details. To avoid manual labor there is automatic cmake target named
 * Create one file (source and header) per class.
 * `else if` construction is allowed and recommended.
 * 'true ? foo : bar' construction is allowed and recommended for one-line assignment.
-* any global pointer should be assign to `nullptr` after deletion and before
+* Any global pointer should be assign to `nullptr` after deletion and before
   initialization. Exception: if object is deleted into class destructor.
 
 Comments
@@ -146,13 +147,12 @@ For logging please use [QLoggingCategory](http://doc.qt.io/qt-5/qloggingcategory
 Available categories should be declared in `awdebug.*` files. The following log
 levels should be used:
 
-* **debug** (`qCDebug()`) - method arguments information.
+* **debug** (`qCDebug()`) - method arguments information. Please note that it
+  is recommended to logging all arguments in the one line.
 * **info** (`qCInfo()`) - additional information inside methods.
 * **warning** (`qCWarning()`) - not critical information, which may be caused by
   mistakes in configuration for example.
-* **error** (`qCError()`) - an error which has been captured in runtime. All errors
-  should have own callback methods.
-* **critical** (`qCCritical()`) - a critical error. After this error program will
+* **critical** (`qCCritical()`) - a critical error. After this error program may
   be terminated.
 
 The empty log string (e.g. `qCDebug();`) is not allowed because the method names

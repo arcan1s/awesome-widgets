@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-10-20 01:21+0300\n"
+"POT-Creation-Date: 2016-01-26 21:48+0300\n"
 "PO-Revision-Date: 2015-08-20 22:52+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
@@ -116,9 +116,37 @@ msgstr ""
 msgid "Export configuration"
 msgstr "Configuratie"
 
+msgid "Export"
+msgstr ""
+
+msgid "Success"
+msgstr ""
+
+msgid "Please note that binary files were not copied"
+msgstr ""
+
+msgid "Ooops..."
+msgstr ""
+
+#, fuzzy
+msgid "Could not save configuration file"
+msgstr "Configuratie"
+
 #, fuzzy
 msgid "Import configuration"
 msgstr "Configuratie"
+
+msgid "Import"
+msgstr ""
+
+msgid "Import plasmoid settings"
+msgstr ""
+
+msgid "Import extensions"
+msgstr ""
+
+msgid "Import additional files"
+msgstr ""
 
 msgid "Font"
 msgstr "Lettertype"
@@ -402,6 +430,9 @@ msgstr "Vertalers: %1"
 msgid "This software uses: %1"
 msgstr "Deze software gebruikt: %1"
 
+msgid "Special thanks to %1"
+msgstr ""
+
 msgid "Select font"
 msgstr "Lettertype selecteren"
 
@@ -423,34 +454,6 @@ msgstr "Klik op \"OK\" om te downloaden"
 
 msgid "There are updates"
 msgstr "Er zijn updates"
-
-msgid "Export"
-msgstr ""
-
-msgid "Success"
-msgstr ""
-
-msgid "Please note that binary files were not copied"
-msgstr ""
-
-msgid "Ooops..."
-msgstr ""
-
-#, fuzzy
-msgid "Could not save configuration file"
-msgstr "Configuratie"
-
-msgid "Import"
-msgstr ""
-
-msgid "Import plasmoid settings"
-msgstr ""
-
-msgid "Import extensions"
-msgstr ""
-
-msgid "Import additional files"
-msgstr ""
 
 msgid "AC online"
 msgstr "AC online"

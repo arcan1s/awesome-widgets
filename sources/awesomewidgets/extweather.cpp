@@ -74,8 +74,7 @@ ExtWeather::~ExtWeather()
 
 ExtWeather *ExtWeather::copy(const QString _fileName, const int _number)
 {
-    qCDebug(LOG_LIB) << "File" << _fileName;
-    qCDebug(LOG_LIB) << "Number" << _number;
+    qCDebug(LOG_LIB) << "File" << _fileName << "number" << _number;
 
     ExtWeather *item = new ExtWeather(static_cast<QWidget *>(parent()),
                                       _fileName, directories());
@@ -235,9 +234,8 @@ QVariantHash ExtWeather::run()
     if (times == 1) {
         qCInfo(LOG_LIB) << "Send request";
         isRunning = true;
-        QNetworkReply *reply
-            = manager->get(QNetworkRequest(QUrl(url(m_ts != 0))));
-        new QReplyTimeout(reply, 1000);
+        QNetworkReply *reply = manager->get(QNetworkRequest(QUrl(url())));
+        new QReplyTimeout(reply, REQUEST_TIMEOUT);
     }
 
     // update value
@@ -305,7 +303,7 @@ void ExtWeather::writeConfiguration() const
 
 void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
 {
-    qCDebug(LOG_LIB) << "Return code" << reply->error();
+    qCDebug(LOG_LIB) << "Return code" << reply->error() << "with messa";
     qCDebug(LOG_LIB) << "Reply error message" << reply->errorString();
 
     isRunning = false;
@@ -319,51 +317,52 @@ void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
     }
 
     // convert to map
-    QVariantMap json = jsonDoc.toVariant().toMap();
-    if (json[QString("cod")].toInt() != 200) {
-        qCWarning(LOG_LIB) << "Invalid OpenWeatherMap return code"
-                           << json[QString("cod")].toInt();
+    QVariantMap json = jsonDoc.toVariant().toMap()[QString("query")].toMap();
+    if (json[QString("count")].toInt() != 1) {
+        qCWarning(LOG_LIB) << "Found data count"
+                           << json[QString("count")].toInt() << "is not 1";
         return;
     }
+    QVariantMap results
+        = json[QString("results")].toMap()[QString("channel")].toMap();
+    QVariantMap item = results[QString("item")].toMap();
 
-    QVariantHash data;
     if (m_ts == 0) {
-        data = parseSingleJson(json);
+        // current weather
+        int id = item[QString("condition")].toMap()[QString("code")].toInt();
+        values[tag(QString("weatherId"))] = id;
+        values[tag(QString("weather"))] = weatherFromInt(id);
+        values[tag(QString("temperature"))]
+            = item[QString("condition")].toMap()[QString("temp")].toInt();
+        values[tag(QString("timestamp"))]
+            = item[QString("condition")].toMap()[QString("date")].toString();
+        values[tag(QString("humidity"))] = results[QString("atmosphere")]
+                                               .toMap()[QString("humidity")]
+                                               .toInt();
+        values[tag(QString("pressure"))]
+            = static_cast<int>(results[QString("atmosphere")]
+                                   .toMap()[QString("pressure")]
+                                   .toFloat());
     } else {
-        QVariantList list = json[QString("list")].toList();
-        data = parseSingleJson(list.count() <= m_ts ? list.at(m_ts - 1).toMap()
-                                                    : list.last().toMap());
+        // forecast weather
+        QVariantList weatherList = item[QString("forecast")].toList();
+        QVariantMap weatherMap = weatherList.count() < m_ts
+                                     ? weatherList.last().toMap()
+                                     : weatherList.at(m_ts).toMap();
+        int id = weatherMap[QString("code")].toInt();
+        values[tag(QString("weatherId"))] = id;
+        values[tag(QString("weather"))] = weatherFromInt(id);
+        values[tag(QString("timestamp"))]
+            = weatherMap[QString("date")].toString();
+        // yahoo provides high and low temperatures. Lets calculate average one
+        values[tag(QString("temperature"))]
+            = (weatherMap[QString("high")].toFloat()
+               + weatherMap[QString("low")].toFloat())
+              / 2.0;
+        // ... and no forecast data for humidity and pressure
+        values[tag(QString("humidity"))] = 0;
+        values[tag(QString("pressure"))] = 0.0;
     }
-    foreach (QString key, data.keys())
-        values[tag(key)] = data[key];
-}
-
-
-QVariantHash ExtWeather::parseSingleJson(const QVariantMap json) const
-{
-    qCDebug(LOG_LIB) << "Single json data" << json;
-
-    QVariantHash output;
-
-    // weather status
-    QVariantList weather = json[QString("weather")].toList();
-    if (!weather.isEmpty()) {
-        int _id = weather.first().toMap()[QString("id")].toInt();
-        output[QString("weatherId")] = _id;
-        output[QString("weather")] = weatherFromInt(_id);
-    }
-
-    // main data
-    QVariantMap mainWeather = json[QString("main")].toMap();
-    if (!weather.isEmpty()) {
-        output[QString("humidity")]
-            = mainWeather[QString("humidity")].toFloat();
-        output[QString("pressure")]
-            = mainWeather[QString("pressure")].toFloat();
-        output[QString("temperature")] = mainWeather[QString("temp")].toFloat();
-    }
-
-    return output;
 }
 
 
@@ -381,13 +380,10 @@ void ExtWeather::translate()
 }
 
 
-QString ExtWeather::url(const bool isForecast) const
+QString ExtWeather::url() const
 {
-    qCDebug(LOG_LIB) << "Is forecast" << isForecast;
 
-    QString apiUrl = isForecast ? QString(OWM_FORECAST_URL) : QString(OWM_URL);
-    apiUrl.replace(QString("$CITY"), m_city);
-    apiUrl.replace(QString("$COUNTRY"), m_country);
+    QString apiUrl = QString(YAHOO_WEATHER_URL).arg(m_city).arg(m_country);
     qCInfo(LOG_LIB) << "API url" << apiUrl;
 
     return apiUrl;

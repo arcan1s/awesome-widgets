@@ -1,13 +1,13 @@
 # Copyright (C) 2014
 # This file is distributed under the same license as the PyTextMonitor package.
 #
-# Evgeniy Alekseev <esalexeev@gmail.com>, 2014, 2015.
+# Evgeniy Alekseev <esalexeev@gmail.com>, 2014, 2015, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-10-20 01:21+0300\n"
-"PO-Revision-Date: 2015-10-20 01:21+0300\n"
+"POT-Creation-Date: 2016-01-26 21:48+0300\n"
+"PO-Revision-Date: 2016-01-26 21:48+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: English <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -111,8 +111,35 @@ msgstr "Drop key cache"
 msgid "Export configuration"
 msgstr "Export configuration"
 
+msgid "Export"
+msgstr "Export"
+
+msgid "Success"
+msgstr "Success"
+
+msgid "Please note that binary files were not copied"
+msgstr "Please note that binary files were not copied"
+
+msgid "Ooops..."
+msgstr "Ooops..."
+
+msgid "Could not save configuration file"
+msgstr "Could not save configuration file"
+
 msgid "Import configuration"
 msgstr "Import configuration"
+
+msgid "Import"
+msgstr "Import"
+
+msgid "Import plasmoid settings"
+msgstr "Import plasmoid settings"
+
+msgid "Import extensions"
+msgstr "Import extensions"
+
+msgid "Import additional files"
+msgstr "Import additional files"
 
 msgid "Font"
 msgstr "Font"
@@ -383,6 +410,9 @@ msgstr "Translators: %1"
 msgid "This software uses: %1"
 msgstr "This software uses: %1"
 
+msgid "Special thanks to %1"
+msgstr "Special thanks to %1"
+
 msgid "Select font"
 msgstr "Select font"
 
@@ -403,33 +433,6 @@ msgstr "Click \"Ok\" to download"
 
 msgid "There are updates"
 msgstr "There are updates"
-
-msgid "Export"
-msgstr "Export"
-
-msgid "Success"
-msgstr "Success"
-
-msgid "Please note that binary files were not copied"
-msgstr "Please note that binary files were not copied"
-
-msgid "Ooops..."
-msgstr "Ooops..."
-
-msgid "Could not save configuration file"
-msgstr "Could not save configuration file"
-
-msgid "Import"
-msgstr "Import"
-
-msgid "Import plasmoid settings"
-msgstr "Import plasmoid settings"
-
-msgid "Import extensions"
-msgstr "Import extensions"
-
-msgid "Import additional files"
-msgstr "Import additional files"
 
 msgid "AC online"
 msgstr "AC online"

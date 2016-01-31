@@ -61,8 +61,8 @@ QVariant GPULoadSource::data(QString source)
         QString qoutput
             = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
         if (m_device == QString("nvidia")) {
-            foreach (QString str,
-                     qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
+            for (auto str :
+                 qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
                 if (!str.contains(QString("<gpu_util>")))
                     continue;
                 QString load = str.remove(QString("<gpu_util>"))
@@ -72,8 +72,8 @@ QVariant GPULoadSource::data(QString source)
                 break;
             }
         } else if (m_device == QString("ati")) {
-            foreach (QString str,
-                     qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
+            for (auto str :
+                 qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
                 if (!str.contains(QString("load")))
                     continue;
                 QString load

@@ -47,7 +47,7 @@ QVariant WeatherSource::data(QString source)
 
     if (source.startsWith(QString("weather/weatherId"))) {
         QVariantHash data = extWeather->itemByTagNumber(index(source))->run();
-        foreach (QString key, data.keys())
+        for (auto key : data.keys())
             values[key] = data[key];
     }
     QString key = QString(source).remove(QString("weather/"));
@@ -92,7 +92,7 @@ QVariantMap WeatherSource::initialData(QString source) const
             = QString("Atmospheric pressure for '%1'")
                   .arg(extWeather->itemByTagNumber(ind)->uniq());
         data[QString("type")] = QString("integer");
-        data[QString("units")] = QString("hPa");
+        data[QString("units")] = QString("mb");
     } else if (source.startsWith(QString("weather/temperature"))) {
         data[QString("min")] = 0.0;
         data[QString("max")] = 0.0;
@@ -101,6 +101,14 @@ QVariantMap WeatherSource::initialData(QString source) const
                   .arg(extWeather->itemByTagNumber(ind)->uniq());
         data[QString("type")] = QString("float");
         data[QString("units")] = QString("°C");
+    } else if (source.startsWith(QString("weather/timestamp"))) {
+        data[QString("min")] = QString("");
+        data[QString("max")] = QString("");
+        data[QString("name")]
+            = QString("Timestamp for '%1'")
+                  .arg(extWeather->itemByTagNumber(ind)->uniq());
+        data[QString("type")] = QString("QString");
+        data[QString("units")] = QString("");
     }
 
     return data;
@@ -116,7 +124,7 @@ QStringList WeatherSource::sources() const
 QStringList WeatherSource::getSources()
 {
     QStringList sources;
-    foreach (ExtWeather *item, extWeather->activeItems()) {
+    for (auto item : extWeather->activeItems()) {
         sources.append(
             QString("weather/%1").arg(item->tag(QString("weatherId"))));
         sources.append(
@@ -127,6 +135,8 @@ QStringList WeatherSource::getSources()
             QString("weather/%1").arg(item->tag(QString("pressure"))));
         sources.append(
             QString("weather/%1").arg(item->tag(QString("temperature"))));
+        sources.append(
+            QString("weather/%1").arg(item->tag(QString("timestamp"))));
     }
 
     return sources;

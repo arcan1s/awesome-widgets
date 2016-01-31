@@ -150,13 +150,13 @@ void PlayerSource::run()
     if (m_player == QString("mpd")) {
         // mpd
         QHash<QString, QVariant> data = getPlayerMpdInfo(m_mpdAddress);
-        foreach (QString key, data.keys())
+        for (auto key : data.keys())
             values[key] = data[key];
     } else if (m_player == QString("mpris")) {
         // players which supports mpris
         QString mpris = m_mpris == QString("auto") ? getAutoMpris() : m_mpris;
         QHash<QString, QVariant> data = getPlayerMprisInfo(mpris);
-        foreach (QString key, data.keys())
+        for (auto key : data.keys())
             values[key] = data[key];
     }
 
@@ -221,7 +221,7 @@ QString PlayerSource::getAutoMpris() const
         return QString();
     QStringList arguments = listServices.arguments().first().toStringList();
 
-    foreach (QString arg, arguments) {
+    for (auto arg : arguments) {
         if (!arg.startsWith(QString("org.mpris.MediaPlayer2.")))
             continue;
         qCInfo(LOG_ESM) << "Service found" << arg;
@@ -251,7 +251,7 @@ QVariantHash PlayerSource::getPlayerMpdInfo(const QString mpdAddress) const
 
     QString qoutput
         = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
-    foreach (QString str, qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
+    for (auto str : qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
         if (str.split(QString(": "), QString::SkipEmptyParts).count() == 2) {
             // "Metadata: data"
             QString metadata = str.split(QString(": "), QString::SkipEmptyParts)
@@ -346,9 +346,8 @@ QVariantHash PlayerSource::getPlayerMprisInfo(const QString mpris) const
 QString PlayerSource::buildString(const QString current, const QString value,
                                   const int s) const
 {
-    qCDebug(LOG_ESM) << "Current value" << current;
-    qCDebug(LOG_ESM) << "New value" << value;
-    qCDebug(LOG_ESM) << "Strip after" << s;
+    qCDebug(LOG_ESM) << "Current value" << current << "received" << value
+                     << "will be stripped after" << s;
 
     int index = value.indexOf(current);
     if ((current.isEmpty()) || ((index + s + 1) > value.count())) {
@@ -361,8 +360,7 @@ QString PlayerSource::buildString(const QString current, const QString value,
 
 QString PlayerSource::stripString(const QString value, const int s) const
 {
-    qCDebug(LOG_ESM) << "New value" << value;
-    qCDebug(LOG_ESM) << "Strip after" << s;
+    qCDebug(LOG_ESM) << "New value" << value << "will be stripped after" << s;
 
     return value.count() > s ? QString("%1\u2026").arg(value.left(s - 1))
                              : value.leftJustified(s, QLatin1Char(' '));

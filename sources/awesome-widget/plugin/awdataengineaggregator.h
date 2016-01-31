@@ -20,6 +20,7 @@
 #define AWDATAENGINEAGGREGATOR_H
 
 #include <Plasma/DataEngine>
+#include <Plasma/DataEngineConsumer>
 
 #include <QObject>
 
@@ -37,12 +38,16 @@ public:
     // properties
     void setInterval(const int _interval);
 
+signals:
+    void deviceAdded(const QString &source);
+
 public slots:
     void dropSource(const QString source);
     void reconnectSources();
 
 private:
     void initDataEngines();
+    Plasma::DataEngineConsumer *m_consumer = nullptr;
     QHash<QString, Plasma::DataEngine *> m_dataEngines;
     int m_interval;
 };

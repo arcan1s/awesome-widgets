@@ -42,7 +42,7 @@ DPAdds::DPAdds(QObject *parent)
 {
     qSetMessagePattern(LOG_FORMAT);
     qCDebug(LOG_DP) << __PRETTY_FUNCTION__;
-    foreach (const QString metadata, getBuildData())
+    for (auto metadata : getBuildData())
         qCDebug(LOG_DP) << metadata;
 
     connect(KWindowSystem::self(), SIGNAL(currentDesktopChanged(int)), this,
@@ -137,7 +137,7 @@ QString DPAdds::toolTipImage(const int desktop) const
         QPen pen = QPen();
         pen.setWidthF(2.0 * info.desktop.width() / 400.0);
         pen.setColor(QColor(m_tooltipColor));
-        foreach (WindowData data, info.windowsData) {
+        for (auto data : info.windowsData) {
             QRect rect = data.rect;
             toolTipScene->addLine(rect.left() + margin, rect.bottom() + margin,
                                   rect.left() + margin, rect.top() + margin,
@@ -191,12 +191,11 @@ QString DPAdds::toolTipImage(const int desktop) const
 
 QString DPAdds::parsePattern(const QString pattern, const int desktop) const
 {
-    qCDebug(LOG_DP) << "Pattern" << pattern;
-    qCDebug(LOG_DP) << "Desktop number" << desktop;
+    qCDebug(LOG_DP) << "Pattern" << pattern << "for desktop" << desktop;
 
     QString parsed = pattern;
     parsed.replace(QString("$$"), QString("$\\$\\"));
-    foreach (QString key, dictKeys())
+    for (auto key : dictKeys())
         parsed.replace(QString("$%1").arg(key), valueByKey(key, desktop));
     parsed.replace(QString("$\\$\\"), QString("$$"));
 
@@ -224,8 +223,7 @@ void DPAdds::setToolTipData(const QVariantMap tooltipData)
 
 QString DPAdds::valueByKey(const QString key, int desktop) const
 {
-    qCDebug(LOG_DP) << "Requested key" << key;
-    qCDebug(LOG_DP) << "Desktop number" << desktop;
+    qCDebug(LOG_DP) << "Requested key" << key << "for desktop" << desktop;
     if (desktop == -1)
         desktop = currentDesktop();
 
@@ -301,6 +299,14 @@ QString DPAdds::getAboutText(const QString type) const
                       .arg(trdPartyList.at(i).split(QChar(',')).at(1))
                       .arg(trdPartyList.at(i).split(QChar(',')).at(2));
         text = i18n("This software uses: %1", trdPartyList.join(QString(", ")));
+    } else if (type == QString("thanks")) {
+        QStringList thanks = QString(SPECIAL_THANKS)
+                                 .split(QChar(';'), QString::SkipEmptyParts);
+        for (int i = 0; i < thanks.count(); i++)
+            thanks[i] = QString("<a href=\"%2\">%1</a>")
+                            .arg(thanks.at(i).split(QChar(','))[0])
+                            .arg(thanks.at(i).split(QChar(','))[1]);
+        text = i18n("Special thanks to %1", thanks.join(QString(", ")));
     }
 
     return text;
@@ -328,8 +334,7 @@ QVariantMap DPAdds::getFont(const QVariantMap defaultFont) const
 // to avoid additional object definition this method is static
 void DPAdds::sendNotification(const QString eventId, const QString message)
 {
-    qCDebug(LOG_DP) << "Event" << eventId;
-    qCDebug(LOG_DP) << "Message" << message;
+    qCDebug(LOG_DP) << "Event" << eventId << "with message" << message;
 
     KNotification *notification = KNotification::event(
         eventId, QString("Desktop Panel ::: %1").arg(eventId), message);
@@ -355,7 +360,7 @@ DPAdds::DesktopWindowsInfo DPAdds::getInfoByDesktop(const int desktop) const
     DesktopWindowsInfo info;
     info.desktop = KWindowSystem::workArea(desktop);
 
-    foreach (WId id, KWindowSystem::windows()) {
+    for (auto id : KWindowSystem::windows()) {
         KWindowInfo winInfo = KWindowInfo(
             id, NET::Property::WMDesktop | NET::Property::WMGeometry
                     | NET::Property::WMState | NET::Property::WMWindowType

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2015-10-20 01:21+0300\n"
+"POT-Creation-Date: 2016-01-26 21:48+0300\n"
 "PO-Revision-Date: 2015-07-31 22:24+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -111,7 +111,34 @@ msgstr ""
 msgid "Export configuration"
 msgstr ""
 
+msgid "Export"
+msgstr ""
+
+msgid "Success"
+msgstr ""
+
+msgid "Please note that binary files were not copied"
+msgstr ""
+
+msgid "Ooops..."
+msgstr ""
+
+msgid "Could not save configuration file"
+msgstr ""
+
 msgid "Import configuration"
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Import plasmoid settings"
+msgstr ""
+
+msgid "Import extensions"
+msgstr ""
+
+msgid "Import additional files"
 msgstr ""
 
 msgid "Font"
@@ -397,6 +424,9 @@ msgstr ""
 msgid "This software uses: %1"
 msgstr ""
 
+msgid "Special thanks to %1"
+msgstr ""
+
 msgid "Select font"
 msgstr "选择字体"
 
@@ -416,33 +446,6 @@ msgid "Click \"Ok\" to download"
 msgstr ""
 
 msgid "There are updates"
-msgstr ""
-
-msgid "Export"
-msgstr ""
-
-msgid "Success"
-msgstr ""
-
-msgid "Please note that binary files were not copied"
-msgstr ""
-
-msgid "Ooops..."
-msgstr ""
-
-msgid "Could not save configuration file"
-msgstr ""
-
-msgid "Import"
-msgstr ""
-
-msgid "Import plasmoid settings"
-msgstr ""
-
-msgid "Import extensions"
-msgstr ""
-
-msgid "Import additional files"
 msgstr ""
 
 #, fuzzy

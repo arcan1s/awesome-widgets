@@ -198,7 +198,7 @@ Item {
             height: implicitHeight
             width: parent.width
             QtControls.ComboBox {
-                width: parent.width * 1 / 5
+                width: parent.width * 2 / 5
                 textRole: "label"
                 model: [
                     {
@@ -252,11 +252,20 @@ Item {
                     {
                         'label': i18n("Weathers"),
                         'regexp': "^(weather(Id)?|humidity|pressure|temperature|timestamp)"
+                    },
+                    {
+                        'label': i18n("Functions"),
+                        'regexp': "functions"
                     }
                 ]
                 onCurrentIndexChanged: {
                     if (debug) console.debug()
-                    tags.model = awKeys.dictKeys(true, model[currentIndex]["regexp"])
+                    if (model[currentIndex]["regexp"] == "functions")
+                        tags.model = ["{{\n\n}}", "template{{\n\n}}",
+                            "aw_all<>()", "aw_count<>()", "aw_keys<>()",
+                            "aw_names<>()"]
+                    else
+                        tags.model = awKeys.dictKeys(true, model[currentIndex]["regexp"])
                     if (debug) console.info("Init model", tags.model, "for", model[currentIndex]["label"])
                     tags.currentIndex = -1
                 }
@@ -291,18 +300,6 @@ Item {
                     message += "<br>"
                     message += i18n("Info: %1", awKeys.infoByKey(tags.currentText))
                     awActions.sendNotification("tag", message)
-                }
-            }
-            QtControls.Button {
-                width: parent.width * 1 / 5
-                text: i18n("Add lambda")
-
-                onClicked: {
-                    if (debug) console.debug("Lambda button")
-                    var pos = textPattern.cursorPosition
-                    var selected = textPattern.selectedText
-                    textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
-                    textPattern.insert(pos, selected + "${{\n\n}}")
                 }
             }
         }

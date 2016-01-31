@@ -33,8 +33,9 @@ AbstractExtItem::AbstractExtItem(QWidget *parent, const QString desktopName,
     , m_dirs(directories)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
-    qCDebug(LOG_LIB) << "Desktop name" << desktopName;
-    qCDebug(LOG_LIB) << "Directories" << directories;
+
+    qCDebug(LOG_LIB) << "Desktop name" << desktopName << "directories"
+                     << directories;
 
     m_name = m_fileName;
 }
@@ -193,14 +194,14 @@ void AbstractExtItem::readConfiguration()
 
 bool AbstractExtItem::tryDelete() const
 {
-    foreach (QString dir, m_dirs) {
+    for (auto dir : m_dirs) {
         bool status = QFile::remove(QString("%1/%2").arg(dir).arg(m_fileName));
         qCInfo(LOG_LIB) << "Remove file"
                         << QString("%1/%2").arg(dir).arg(m_fileName) << status;
     }
 
     // check if exists
-    foreach (QString dir, m_dirs)
+    for (auto dir : m_dirs)
         if (QFile::exists(QString("%1/%2").arg(dir).arg(m_fileName)))
             return false;
     return true;
