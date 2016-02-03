@@ -16,37 +16,37 @@
  ***************************************************************************/
 
 
-#ifndef AWACTIONS_H
-#define AWACTIONS_H
+#ifndef AWUPDATEHELPER_H
+#define AWUPDATEHELPER_H
 
+#include <QMessageBox>
 #include <QObject>
 
 
-class AWUpdateHelper;
+class QNetworkReply;
 
-class AWActions : public QObject
+class AWUpdateHelper : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit AWActions(QObject *parent = nullptr);
-    virtual ~AWActions();
-    Q_INVOKABLE void checkUpdates(const bool showAnyway = false);
-    Q_INVOKABLE bool isDebugEnabled() const;
-    Q_INVOKABLE bool runCmd(const QString cmd = QString("/usr/bin/true")) const;
-    Q_INVOKABLE void showReadme() const;
-    // configuration slots
-    Q_INVOKABLE QString getAboutText(const QString type
-                                     = QString("header")) const;
-    Q_INVOKABLE QVariantMap getFont(const QVariantMap defaultFont) const;
+    explicit AWUpdateHelper(QObject *parent = nullptr);
+    virtual ~AWUpdateHelper();
+    void checkUpdates(const bool showAnyway = false);
+    bool checkVersion();
 
-public slots:
-    Q_INVOKABLE static void sendNotification(const QString eventId,
-                                             const QString message);
+private slots:
+    void showInfo(const QString version);
+    void showUpdates(const QString version);
+    void userReplyOnUpdates(QAbstractButton *button);
+    void versionReplyRecieved(QNetworkReply *reply, const bool showAnyway);
 
 private:
-    AWUpdateHelper *m_updateHelper = nullptr;
+    QMessageBox *genMessageBox(const QString title, const QString body,
+                               const QMessageBox::StandardButtons buttons);
+    QString m_foundVersion;
+    QString m_genericConfig;
 };
 
 
-#endif /* AWACTIONS_H */
+#endif /* AWUPDATEHELPER_H */

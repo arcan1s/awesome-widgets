@@ -21,19 +21,13 @@
 #include <KNotifications/KNotification>
 
 #include <QDesktopServices>
-#include <QJsonDocument>
-#include <QJsonParseError>
-#include <QMessageBox>
-#include <QNetworkAccessManager>
-#include <QNetworkRequest>
-#include <QNetworkReply>
 #include <QProcess>
-#include <QProcessEnvironment>
-#include <QStandardPaths>
+#include <QUrl>
 
 #include <fontdialog/fontdialog.h>
 
 #include "awdebug.h"
+#include "awupdatehelper.h"
 #include "version.h"
 
 
@@ -41,12 +35,16 @@ AWActions::AWActions(QObject *parent)
     : QObject(parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+
+    m_updateHelper = new AWUpdateHelper(this);
 }
 
 
 AWActions::~AWActions()
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+
+    delete m_updateHelper;
 }
 
 
@@ -54,15 +52,8 @@ void AWActions::checkUpdates(const bool showAnyway)
 {
     qCDebug(LOG_AW) << "Show anyway" << showAnyway;
 
-    // showAnyway options requires to show message if no updates found on direct
-    // request. In case of automatic check no message will be shown
-    QNetworkAccessManager *manager = new QNetworkAccessManager(nullptr);
-    connect(manager, &QNetworkAccessManager::finished,
-            [showAnyway, this](QNetworkReply *reply) {
-                return versionReplyRecieved(reply, showAnyway);
-            });
-
-    manager->get(QNetworkRequest(QUrl(VERSION_API)));
+    if (!m_updateHelper->checkVersion())
+        m_updateHelper->checkUpdates(showAnyway);
 }
 
 
@@ -86,7 +77,7 @@ bool AWActions::runCmd(const QString cmd) const
 // HACK: this method uses variable from version.h
 void AWActions::showReadme() const
 {
-    QDesktopServices::openUrl(QString(HOMEPAGE));
+    QDesktopServices::openUrl(QUrl(HOMEPAGE));
 }
 
 
@@ -185,79 +176,4 @@ void AWActions::sendNotification(const QString eventId, const QString message)
         eventId, QString("Awesome Widget ::: %1").arg(eventId), message);
     notification->setComponentName(
         QString("plasma-applet-org.kde.plasma.awesome-widget"));
-}
-
-
-void AWActions::showInfo(const QString version) const
-{
-    qCDebug(LOG_AW) << "Version" << version;
-
-    QString text = i18n("You are using the actual version %1", version);
-    if (!QString(COMMIT_SHA).isEmpty())
-        text += QString(" (%1)").arg(QString(COMMIT_SHA));
-    QMessageBox::information(nullptr, i18n("No new version found"), text);
-}
-
-
-void AWActions::showUpdates(const QString version) const
-{
-    qCDebug(LOG_AW) << "Version" << version;
-
-    QString text;
-    text += i18n("Current version : %1", QString(VERSION));
-    text += QString(COMMIT_SHA).isEmpty()
-                ? QString("\n")
-                : QString(" (%1)\n").arg(QString(COMMIT_SHA));
-    text += i18n("New version : %1", version) + QString("\n\n");
-    text += i18n("Click \"Ok\" to download");
-
-    int select
-        = QMessageBox::information(nullptr, i18n("There are updates"), text,
-                                   QMessageBox::Ok | QMessageBox::Cancel);
-    switch (select) {
-    case QMessageBox::Ok:
-        QDesktopServices::openUrl(QString(RELEASES) + version);
-        break;
-    case QMessageBox::Cancel:
-    default:
-        break;
-    }
-}
-
-
-void AWActions::versionReplyRecieved(QNetworkReply *reply,
-                                     const bool showAnyway) const
-{
-    qCDebug(LOG_AW) << "Return code" << reply->error() << "with message"
-                    << reply->errorString() << "and show anyway" << showAnyway;
-
-    QJsonParseError error;
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll(), &error);
-    if ((reply->error() != QNetworkReply::NoError)
-        || (error.error != QJsonParseError::NoError)) {
-        qCWarning(LOG_AW) << "Parse error" << error.errorString();
-        return;
-    }
-    reply->deleteLater();
-
-    // convert to map
-    QVariantMap firstRelease = jsonDoc.toVariant().toList().first().toMap();
-    QString version = firstRelease[QString("tag_name")].toString();
-    version.remove(QString("V."));
-    qCInfo(LOG_AW) << "Found version" << version;
-
-    // FIXME: possible there is a better way to check versions
-    int old_major = QString(VERSION).split(QChar('.')).at(0).toInt();
-    int old_minor = QString(VERSION).split(QChar('.')).at(1).toInt();
-    int old_patch = QString(VERSION).split(QChar('.')).at(2).toInt();
-    int new_major = version.split(QChar('.')).at(0).toInt();
-    int new_minor = version.split(QChar('.')).at(1).toInt();
-    int new_patch = version.split(QChar('.')).at(2).toInt();
-    if ((old_major < new_major)
-        || ((old_major == new_major) && (old_minor < new_minor))
-        || ((old_major == new_major) && (old_minor == new_minor)
-            && (old_patch < new_patch)))
-        return showUpdates(version);
-    else if (showAnyway)
-        return showInfo(version);
 }

@@ -12,6 +12,7 @@
 #define LICENSE "@PROJECT_LICENSE@"
 #define TRDPARTY_LICENSE "tasks,BSD,https://github.com/mhogomchungu/tasks;QReplyTimeout wrapper,no,http://codereview.stackexchange.com/questions/30031/qnetworkreply-network-reply-timeout-helper"
 #define SPECIAL_THANKS "Yahoo! Finance,https://finance.yahoo.com/;Yahoo! Weather,https://weather.yahoo.com/;JetBrains,https://www.jetbrains.com/"
+#define CHANGELOG "@PROJECT_CHANGELOG@"
 
 // configuraion
 // graphical items api version

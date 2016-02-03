@@ -39,6 +39,10 @@ option(BUILD_TESTING "Build with additional test abilities" OFF)
 set(CLANGFORMAT_EXECUTABLE "/usr/bin/clang-format" CACHE STRING "Path to clang-format executable")
 set(CPPCHECK_EXECUTABLE "/usr/bin/cppcheck" CACHE STRING "Path to cppcheck executable")
 
+# generate changelog
+set(PROJECT_CHANGELOG "Changelog" CACHE INTERNAL "")
+include(changelog.cmake)
+
 # flags
 if (CMAKE_COMPILER_IS_GNUCXX)
     set(CMAKE_CXX_FLAGS "-Wall -Wno-cpp -std=c++14")
