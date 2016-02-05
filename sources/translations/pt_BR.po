@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-01-26 21:48+0300\n"
+"POT-Creation-Date: 2016-02-03 23:02+0700\n"
 "PO-Revision-Date: 2015-07-31 22:21+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -59,6 +59,9 @@ msgstr "Ativar notificações"
 #, fuzzy
 msgid "Check updates on startup"
 msgstr "Checar por atualizações"
+
+msgid "Optimize subscription"
+msgstr ""
 
 msgid "Widget height, px"
 msgstr "Altura do widget, px"
@@ -372,14 +375,14 @@ msgstr ""
 msgid "Weathers"
 msgstr "Editar relógios"
 
+msgid "Functions"
+msgstr ""
+
 msgid "Add"
 msgstr "Adicionar"
 
 msgid "Show value"
 msgstr "Mostrar valor"
-
-msgid "Add lambda"
-msgstr ""
 
 msgid "Edit bars"
 msgstr "Editar barras"
@@ -432,25 +435,6 @@ msgstr ""
 msgid "Select font"
 msgstr "Selecionar fonte"
 
-msgid "You are using the actual version %1"
-msgstr ""
-
-#, fuzzy
-msgid "No new version found"
-msgstr "Nova versão: %1"
-
-msgid "Current version : %1"
-msgstr "Versão atual: %1"
-
-msgid "New version : %1"
-msgstr "Nova versão: %1"
-
-msgid "Click \"Ok\" to download"
-msgstr "Clique \"Ok\" para baixar"
-
-msgid "There are updates"
-msgstr "Há atualizações disponíveis"
-
 msgid "AC online"
 msgstr "Carregador conectado"
 
@@ -477,6 +461,28 @@ msgstr ""
 
 msgid "KB/s"
 msgstr ""
+
+msgid "Changelog of %1"
+msgstr ""
+
+msgid "You are using the actual version %1"
+msgstr ""
+
+#, fuzzy
+msgid "No new version found"
+msgstr "Nova versão: %1"
+
+msgid "Current version : %1"
+msgstr "Versão atual: %1"
+
+msgid "New version : %1"
+msgstr "Nova versão: %1"
+
+msgid "Click \"Ok\" to download"
+msgstr "Clique \"Ok\" para baixar"
+
+msgid "There are updates"
+msgstr "Há atualizações disponíveis"
 
 msgid "Copy"
 msgstr "Copiar"

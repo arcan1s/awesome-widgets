@@ -32,6 +32,9 @@
         <entry name="checkUpdates" type="bool">
             <default>true</default>
         </entry>
+        <entry name="optimize" type="bool">
+            <default>true</default>
+        </entry>
         <entry name="height" type="int">
             <default>0</default>
         </entry>
@@ -95,13 +98,13 @@
         <entry name="swapTooltipColor" type="string">
             <default>#ffff00</default>
         </entry>
-        <entry name="downTooltip" type="bool">
+        <entry name="downkbTooltip" type="bool">
             <default>true</default>
         </entry>
-        <entry name="downTooltipColor" type="string">
+        <entry name="downkbTooltipColor" type="string">
             <default>#00ffff</default>
         </entry>
-        <entry name="upTooltipColor" type="string">
+        <entry name="upkbTooltipColor" type="string">
             <default>#ff00ff</default>
         </entry>
         <entry name="batTooltip" type="bool">

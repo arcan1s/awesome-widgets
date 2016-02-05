@@ -45,6 +45,7 @@ Item {
     property alias cfg_wrapText: wordWrap.checked
     property alias cfg_notify: notify.checked
     property alias cfg_checkUpdates: updates.checked
+    property alias cfg_optimize: optimize.checked
     property alias cfg_height: widgetHeight.value
     property alias cfg_width: widgetWidth.value
     property alias cfg_interval: update.value
@@ -140,6 +141,20 @@ Item {
                 id: updates
                 width: parent.width * 3 / 5
                 text: i18n("Check updates on startup")
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.heigth
+                width: parent.width * 2 / 5
+            }
+            QtControls.CheckBox {
+                id: optimize
+                width: parent.width * 3 / 5
+                text: i18n("Optimize subscription")
             }
         }
 

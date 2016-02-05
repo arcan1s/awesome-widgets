@@ -25,6 +25,7 @@
 #include "awdataaggregator.h"
 #include "awdataengineaggregator.h"
 #include "awdebug.h"
+#include "awkeycache.h"
 #include "awkeyoperations.h"
 #include "awkeysaggregator.h"
 #include "awpatternfunctions.h"
@@ -45,7 +46,9 @@ AWKeys::AWKeys(QObject *parent)
 
     aggregator = new AWKeysAggregator(this);
     dataAggregator = new AWDataAggregator(this);
+    dataEngineAggregator = new AWDataEngineAggregator(this);
     keyOperator = new AWKeyOperations(this);
+
     // update key data if required
     connect(keyOperator, SIGNAL(updateKeys(QStringList)), this,
             SLOT(reinitKeys(QStringList)));
@@ -53,6 +56,11 @@ AWKeys::AWKeys(QObject *parent)
     connect(dataAggregator, SIGNAL(toolTipPainted(const QString)), this,
             SIGNAL(needToolTipToBeUpdated(const QString)));
     connect(this, SIGNAL(needToBeUpdated()), this, SLOT(updateTextData()));
+    connect(this, SIGNAL(dropSourceFromDataengine(QString)),
+            dataEngineAggregator, SLOT(dropSource(QString)));
+    // transfer signal from dataengine to update source list
+    connect(dataEngineAggregator, SIGNAL(deviceAdded(const QString &)),
+            keyOperator, SLOT(addDevice(const QString &)));
 }
 
 
@@ -73,32 +81,29 @@ void AWKeys::initDataAggregator(const QVariantMap tooltipParams)
 {
     qCDebug(LOG_AW) << "Tooltip parameters" << tooltipParams;
 
-    dataAggregator->setParameters(tooltipParams);
+    // store parameters to generate m_requiredKeys
+    m_tooltipParams = tooltipParams;
+    dataAggregator->setParameters(m_tooltipParams);
 }
 
 
 void AWKeys::initKeys(const QString currentPattern, const int interval,
-                      const int limit)
+                      const int limit, const bool optimize)
 {
     qCDebug(LOG_AW) << "Pattern" << currentPattern << "with interval"
-                    << interval << "and queue limit" << limit;
+                    << interval << "and queue limit" << limit
+                    << "with optimization" << optimize;
 
     // init
-    keyOperator->setPattern(currentPattern);
-    if (dataEngineAggregator == nullptr) {
-        dataEngineAggregator = new AWDataEngineAggregator(this, interval);
-        connect(this, SIGNAL(dropSourceFromDataengine(QString)),
-                dataEngineAggregator, SLOT(dropSource(QString)));
-        // transfer signal from dataengine to update source list
-        connect(dataEngineAggregator, SIGNAL(deviceAdded(const QString &)),
-                keyOperator, SLOT(addDevice(const QString &)));
-    } else
-        dataEngineAggregator->setInterval(interval);
+    m_optimize = optimize;
     m_threadPool->setMaxThreadCount(limit == 0 ? QThread::idealThreadCount()
                                                : limit);
+    // child objects
+    keyOperator->setPattern(currentPattern);
     keyOperator->updateCache();
+    dataEngineAggregator->clear();
 
-    return dataEngineAggregator->reconnectSources();
+    return dataEngineAggregator->initDataEngines(interval);
 }
 
 
@@ -200,6 +205,11 @@ void AWKeys::reinitKeys(const QStringList currentKeys)
     m_foundKeys
         = AWPatternFunctions::findKeys(keyOperator->pattern(), currentKeys);
     m_foundLambdas = AWPatternFunctions::findLambdas(keyOperator->pattern());
+    // get required keys
+    m_requiredKeys
+        = m_optimize ? AWKeyCache::getRequiredKeys(m_foundKeys, m_foundBars,
+                                                   m_tooltipParams, currentKeys)
+                     : QStringList();
 
     // set key data to aggregator
     aggregator->setDevices(keyOperator->devices());
@@ -347,8 +357,8 @@ void AWKeys::setDataBySource(const QString &sourceName, const QVariantMap &data)
     // first list init
     QStringList tags = aggregator->keysFromSource(sourceName);
     if (tags.isEmpty())
-        tags = aggregator->registerSource(sourceName,
-                                          data[QString("units")].toString());
+        tags = aggregator->registerSource(
+            sourceName, data[QString("units")].toString(), m_requiredKeys);
 
     // update data or drop source if there are no matches and exit
     if (tags.isEmpty()) {

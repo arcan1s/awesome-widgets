@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-01-26 21:48+0300\n"
+"POT-Creation-Date: 2016-02-03 23:02+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,6 +54,9 @@ msgid "Enable notifications"
 msgstr ""
 
 msgid "Check updates on startup"
+msgstr ""
+
+msgid "Optimize subscription"
 msgstr ""
 
 msgid "Widget height, px"
@@ -351,13 +354,13 @@ msgstr ""
 msgid "Weathers"
 msgstr ""
 
+msgid "Functions"
+msgstr ""
+
 msgid "Add"
 msgstr ""
 
 msgid "Show value"
-msgstr ""
-
-msgid "Add lambda"
 msgstr ""
 
 msgid "Edit bars"
@@ -411,24 +414,6 @@ msgstr ""
 msgid "Select font"
 msgstr ""
 
-msgid "You are using the actual version %1"
-msgstr ""
-
-msgid "No new version found"
-msgstr ""
-
-msgid "Current version : %1"
-msgstr ""
-
-msgid "New version : %1"
-msgstr ""
-
-msgid "Click \"Ok\" to download"
-msgstr ""
-
-msgid "There are updates"
-msgstr ""
-
 msgid "AC online"
 msgstr ""
 
@@ -454,6 +439,27 @@ msgid "MB/s"
 msgstr ""
 
 msgid "KB/s"
+msgstr ""
+
+msgid "Changelog of %1"
+msgstr ""
+
+msgid "You are using the actual version %1"
+msgstr ""
+
+msgid "No new version found"
+msgstr ""
+
+msgid "Current version : %1"
+msgstr ""
+
+msgid "New version : %1"
+msgstr ""
+
+msgid "Click \"Ok\" to download"
+msgstr ""
+
+msgid "There are updates"
 msgstr ""
 
 msgid "Copy"

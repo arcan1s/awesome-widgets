@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-01-26 21:48+0300\n"
+"POT-Creation-Date: 2016-02-03 23:02+0700\n"
 "PO-Revision-Date: 2015-09-26 22:07+0000\n"
 "Last-Translator: Ernesto Avilés Vázquez <whippiii@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/arcanis/awesome-widgets/"
@@ -58,6 +58,9 @@ msgstr "Habilitar notificaciones"
 
 msgid "Check updates on startup"
 msgstr "Comprobar actualizaciones al inicio"
+
+msgid "Optimize subscription"
+msgstr ""
 
 msgid "Widget height, px"
 msgstr "Alto del widget, px"
@@ -361,14 +364,14 @@ msgstr "Actualizaciones"
 msgid "Weathers"
 msgstr "Tiempo"
 
+msgid "Functions"
+msgstr ""
+
 msgid "Add"
 msgstr "Añadir"
 
 msgid "Show value"
 msgstr "Mostrar valor"
-
-msgid "Add lambda"
-msgstr "Añadir lambda"
 
 msgid "Edit bars"
 msgstr "Editar barras"
@@ -421,24 +424,6 @@ msgstr ""
 msgid "Select font"
 msgstr "Elegir tipo de letra"
 
-msgid "You are using the actual version %1"
-msgstr "Estás usando al versión actual %1"
-
-msgid "No new version found"
-msgstr "No se encontraron nuevas versiones"
-
-msgid "Current version : %1"
-msgstr "Versión actual: %1"
-
-msgid "New version : %1"
-msgstr "Nueva versión: %1"
-
-msgid "Click \"Ok\" to download"
-msgstr "Haz clic en «Ok» para descargar"
-
-msgid "There are updates"
-msgstr "Hay actualizaciones disponibles"
-
 msgid "AC online"
 msgstr "Alimentación conectada"
 
@@ -465,6 +450,27 @@ msgstr "MB/s"
 
 msgid "KB/s"
 msgstr "KB/s"
+
+msgid "Changelog of %1"
+msgstr ""
+
+msgid "You are using the actual version %1"
+msgstr "Estás usando al versión actual %1"
+
+msgid "No new version found"
+msgstr "No se encontraron nuevas versiones"
+
+msgid "Current version : %1"
+msgstr "Versión actual: %1"
+
+msgid "New version : %1"
+msgstr "Nueva versión: %1"
+
+msgid "Click \"Ok\" to download"
+msgstr "Haz clic en «Ok» para descargar"
+
+msgid "There are updates"
+msgstr "Hay actualizaciones disponibles"
 
 msgid "Copy"
 msgstr "Copiar"
@@ -616,3 +622,6 @@ msgstr "Tu nombre"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "Tu correo electrónico"
+
+#~ msgid "Add lambda"
+#~ msgstr "Añadir lambda"

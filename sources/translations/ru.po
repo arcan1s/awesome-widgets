@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-01-26 21:48+0300\n"
-"PO-Revision-Date: 2016-01-26 21:49+0300\n"
+"POT-Creation-Date: 2016-02-03 23:02+0700\n"
+"PO-Revision-Date: 2016-02-03 23:04+0700\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -56,6 +56,9 @@ msgstr "Включить уведомления "
 
 msgid "Check updates on startup"
 msgstr "Проверять обновления при запуске"
+
+msgid "Optimize subscription"
+msgstr "Оптимизировать подписку"
 
 msgid "Widget height, px"
 msgstr "Высота виджета, пиксели"
@@ -356,14 +359,14 @@ msgstr "Обновления"
 msgid "Weathers"
 msgstr "Погода"
 
+msgid "Functions"
+msgstr "Функции"
+
 msgid "Add"
 msgstr "Добавить"
 
 msgid "Show value"
 msgstr "Показать значение"
-
-msgid "Add lambda"
-msgstr "Добавить лямбду"
 
 msgid "Edit bars"
 msgstr "Редактировать бары"
@@ -411,28 +414,10 @@ msgid "This software uses: %1"
 msgstr "Данное приложение использует: %1"
 
 msgid "Special thanks to %1"
-msgstr "Отдельно спасибо %1"
+msgstr "Отдельное спасибо %1"
 
 msgid "Select font"
 msgstr "Выберете шрифт"
-
-msgid "You are using the actual version %1"
-msgstr "Вы используете актуальную версию %1"
-
-msgid "No new version found"
-msgstr "Обновления не найдены"
-
-msgid "Current version : %1"
-msgstr "Текущая версия : %1"
-
-msgid "New version : %1"
-msgstr "Новая версия : %1"
-
-msgid "Click \"Ok\" to download"
-msgstr "Нажмите \"Ok\" для загрузки"
-
-msgid "There are updates"
-msgstr "Найдены обновления"
 
 msgid "AC online"
 msgstr "AC подключен"
@@ -460,6 +445,27 @@ msgstr "МБ/с"
 
 msgid "KB/s"
 msgstr "КБ/с"
+
+msgid "Changelog of %1"
+msgstr "Список изменений %1"
+
+msgid "You are using the actual version %1"
+msgstr "Вы используете актуальную версию %1"
+
+msgid "No new version found"
+msgstr "Обновления не найдены"
+
+msgid "Current version : %1"
+msgstr "Текущая версия : %1"
+
+msgid "New version : %1"
+msgstr "Новая версия : %1"
+
+msgid "Click \"Ok\" to download"
+msgstr "Нажмите \"Ok\" для загрузки"
+
+msgid "There are updates"
+msgstr "Найдены обновления"
 
 msgid "Copy"
 msgstr "Копировать"
@@ -611,6 +617,9 @@ msgstr "Evgeniy Alekseev"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "esalexeev@gmail.com"
+
+#~ msgid "Add lambda"
+#~ msgstr "Добавить лямбду"
 
 #~ msgid "Free space on %1 less than 10%"
 #~ msgstr "Свободное место на диске %1 меньше 10%"

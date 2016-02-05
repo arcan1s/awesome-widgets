@@ -318,7 +318,7 @@ Item {
                 onClicked: {
                     lock = false
                     awKeys.initKeys(textPattern.text, plasmoid.configuration.interval,
-                                    plasmoid.configuration.queueLimit)
+                                    plasmoid.configuration.queueLimit, false)
                     awKeys.needToBeUpdated()
                 }
             }
@@ -346,7 +346,7 @@ Item {
         awKeys.needTextToBeUpdated.connect(needTextUpdate)
         // init submodule
         awKeys.initKeys(plasmoid.configuration.text, plasmoid.configuration.interval,
-                        plasmoid.configuration.queueLimit)
+                        plasmoid.configuration.queueLimit, false)
         awKeys.setAggregatorProperty("acOffline", plasmoid.configuration.acOffline)
         awKeys.setAggregatorProperty("acOnline", plasmoid.configuration.acOnline)
         awKeys.setAggregatorProperty("customTime", plasmoid.configuration.customTime)

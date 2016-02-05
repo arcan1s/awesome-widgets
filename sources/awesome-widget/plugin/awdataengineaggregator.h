@@ -28,28 +28,24 @@
 class AWDataEngineAggregator : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(int interval MEMBER m_interval WRITE setInterval);
 
 public:
-    explicit AWDataEngineAggregator(QObject *parent = nullptr,
-                                    const int interval = 1000);
+    explicit AWDataEngineAggregator(QObject *parent = nullptr);
     virtual ~AWDataEngineAggregator();
+    void clear();
     void disconnectSources();
-    // properties
-    void setInterval(const int _interval);
+    void initDataEngines(const int interval);
 
 signals:
     void deviceAdded(const QString &source);
 
 public slots:
     void dropSource(const QString source);
-    void reconnectSources();
+    void reconnectSources(const int interval);
 
 private:
-    void initDataEngines();
     Plasma::DataEngineConsumer *m_consumer = nullptr;
     QHash<QString, Plasma::DataEngine *> m_dataEngines;
-    int m_interval;
 };
 
 

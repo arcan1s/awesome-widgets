@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-01-26 21:48+0300\n"
+"POT-Creation-Date: 2016-02-03 23:02+0700\n"
 "PO-Revision-Date: 2015-07-31 22:24+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -55,6 +55,9 @@ msgid "Enable notifications"
 msgstr ""
 
 msgid "Check updates on startup"
+msgstr ""
+
+msgid "Optimize subscription"
 msgstr ""
 
 msgid "Widget height, px"
@@ -369,13 +372,13 @@ msgstr ""
 msgid "Weathers"
 msgstr "可编辑的"
 
+msgid "Functions"
+msgstr ""
+
 msgid "Add"
 msgstr "添加"
 
 msgid "Show value"
-msgstr ""
-
-msgid "Add lambda"
 msgstr ""
 
 #, fuzzy
@@ -430,24 +433,6 @@ msgstr ""
 msgid "Select font"
 msgstr "选择字体"
 
-msgid "You are using the actual version %1"
-msgstr ""
-
-msgid "No new version found"
-msgstr ""
-
-msgid "Current version : %1"
-msgstr ""
-
-msgid "New version : %1"
-msgstr ""
-
-msgid "Click \"Ok\" to download"
-msgstr ""
-
-msgid "There are updates"
-msgstr ""
-
 #, fuzzy
 msgid "AC online"
 msgstr "外接电源使用中标签"
@@ -475,6 +460,27 @@ msgid "MB/s"
 msgstr ""
 
 msgid "KB/s"
+msgstr ""
+
+msgid "Changelog of %1"
+msgstr ""
+
+msgid "You are using the actual version %1"
+msgstr ""
+
+msgid "No new version found"
+msgstr ""
+
+msgid "Current version : %1"
+msgstr ""
+
+msgid "New version : %1"
+msgstr ""
+
+msgid "Click \"Ok\" to download"
+msgstr ""
+
+msgid "There are updates"
 msgstr ""
 
 msgid "Copy"

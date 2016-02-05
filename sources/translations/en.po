@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-01-26 21:48+0300\n"
-"PO-Revision-Date: 2016-01-26 21:48+0300\n"
+"POT-Creation-Date: 2016-02-03 23:02+0700\n"
+"PO-Revision-Date: 2016-02-03 23:03+0700\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: English <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -56,6 +56,9 @@ msgstr "Enable notifications"
 
 msgid "Check updates on startup"
 msgstr "Check updates on startup"
+
+msgid "Optimize subscription"
+msgstr "Optimize subscription"
 
 msgid "Widget height, px"
 msgstr "Widget height, px"
@@ -356,14 +359,14 @@ msgstr "Upgrades"
 msgid "Weathers"
 msgstr "Weathers"
 
+msgid "Functions"
+msgstr "Functions"
+
 msgid "Add"
 msgstr "Add"
 
 msgid "Show value"
 msgstr "Show value"
-
-msgid "Add lambda"
-msgstr "Add lambda"
 
 msgid "Edit bars"
 msgstr "Edit bars"
@@ -416,24 +419,6 @@ msgstr "Special thanks to %1"
 msgid "Select font"
 msgstr "Select font"
 
-msgid "You are using the actual version %1"
-msgstr "You are using the actual version %1"
-
-msgid "No new version found"
-msgstr "No new version found"
-
-msgid "Current version : %1"
-msgstr "Current version : %1"
-
-msgid "New version : %1"
-msgstr "New version : %1"
-
-msgid "Click \"Ok\" to download"
-msgstr "Click \"Ok\" to download"
-
-msgid "There are updates"
-msgstr "There are updates"
-
 msgid "AC online"
 msgstr "AC online"
 
@@ -460,6 +445,27 @@ msgstr "MB/s"
 
 msgid "KB/s"
 msgstr "KB/s"
+
+msgid "Changelog of %1"
+msgstr "Changelog of %1"
+
+msgid "You are using the actual version %1"
+msgstr "You are using the actual version %1"
+
+msgid "No new version found"
+msgstr "No new version found"
+
+msgid "Current version : %1"
+msgstr "Current version : %1"
+
+msgid "New version : %1"
+msgstr "New version : %1"
+
+msgid "Click \"Ok\" to download"
+msgstr "Click \"Ok\" to download"
+
+msgid "There are updates"
+msgstr "There are updates"
 
 msgid "Copy"
 msgstr "Copy"
@@ -611,6 +617,9 @@ msgstr "Evgeniy Alekseev"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "esalexeev@gmail.com"
+
+#~ msgid "Add lambda"
+#~ msgstr "Add lambda"
 
 #~ msgid "Free space on %1 less than 10%"
 #~ msgstr "Free space on %1 less than 10%"

@@ -48,9 +48,9 @@ Item {
     property alias cfg_memTooltipColor: memTooltipColor.text
     property alias cfg_swapTooltip: swapTooltip.checked
     property alias cfg_swapTooltipColor: swapTooltipColor.text
-    property alias cfg_downTooltip: downTooltip.checked
-    property alias cfg_downTooltipColor: downTooltipColor.text
-    property alias cfg_upTooltipColor: upTooltipColor.text
+    property alias cfg_downkbTooltip: downkbTooltip.checked
+    property alias cfg_downkbTooltipColor: downkbTooltipColor.text
+    property alias cfg_upkbTooltipColor: upkbTooltipColor.text
     property alias cfg_batTooltip: batTooltip.checked
     property alias cfg_batTooltipColor: batTooltipColor.text
     property alias cfg_batInTooltipColor: batInTooltipColor.text
@@ -273,7 +273,7 @@ Item {
         }
 
         QtControls.GroupBox {
-            id: downTooltip
+            id: downkbTooltip
             height: implicitHeight
             width: parent.width
             checkable: true
@@ -292,22 +292,22 @@ Item {
                         text: i18n("Download speed color")
                     }
                     QtControls.Button {
-                        id: downTooltipColor
+                        id: downkbTooltipColor
                         width: parent.width * 3 / 5
                         style: QtStyles.ButtonStyle {
                             background: Rectangle {
-                                color: plasmoid.configuration.downTooltipColor
+                                color: plasmoid.configuration.downkbTooltipColor
                             }
                         }
-                        text: plasmoid.configuration.downTooltipColor
-                        onClicked: downTooltipColorDialog.visible = true
+                        text: plasmoid.configuration.downkbTooltipColor
+                        onClicked: downkbTooltipColorDialog.visible = true
                     }
 
                     QtDialogs.ColorDialog {
-                        id: downTooltipColorDialog
+                        id: downkbTooltipColorDialog
                         title: i18n("Select a color")
-                        color: downTooltipColor.text
-                        onAccepted: downTooltipColor.text = downTooltipColorDialog.color
+                        color: downkbTooltipColor.text
+                        onAccepted: downkbTooltipColor.text = downkbTooltipColorDialog.color
                     }
                 }
                 Row {
@@ -321,22 +321,22 @@ Item {
                         text: i18n("Upload speed color")
                     }
                     QtControls.Button {
-                        id: upTooltipColor
+                        id: upkbTooltipColor
                         width: parent.width * 3 / 5
                         style: QtStyles.ButtonStyle {
                             background: Rectangle {
-                                color: plasmoid.configuration.upTooltipColor
+                                color: plasmoid.configuration.upkbTooltipColor
                             }
                         }
-                        text: plasmoid.configuration.upTooltipColor
-                        onClicked: upTooltipColorDialog.visible = true
+                        text: plasmoid.configuration.upkbTooltipColor
+                        onClicked: upkbTooltipColorDialog.visible = true
                     }
 
                     QtDialogs.ColorDialog {
-                        id: upTooltipColorDialog
+                        id: upkbTooltipColorDialog
                         title: i18n("Select a color")
-                        color: upTooltipColor.text
-                        onAccepted: upTooltipColor.text = upTooltipColorDialog.color
+                        color: upkbTooltipColor.text
+                        onAccepted: upkbTooltipColor.text = upkbTooltipColorDialog.color
                     }
                 }
             }
