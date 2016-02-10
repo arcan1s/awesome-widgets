@@ -36,11 +36,11 @@ AWDataAggregator::AWDataAggregator(QObject *parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
     // required by signals
-    qRegisterMetaType<QHash<QString, QString>>("QHash<QString, QString>");
+    //    qRegisterMetaType<QHash<QString, QString>>("QHash<QString, QString>");
 
     initScene();
-    connect(this, SIGNAL(updateData(const QHash<QString, QString> &)), this,
-            SLOT(dataUpdate(const QHash<QString, QString> &)));
+    connect(this, SIGNAL(updateData(const QVariantHash &)), this,
+            SLOT(dataUpdate(const QVariantHash &)));
 }
 
 
@@ -168,7 +168,7 @@ QPixmap AWDataAggregator::tooltipImage()
 }
 
 
-void AWDataAggregator::dataUpdate(const QHash<QString, QString> &values)
+void AWDataAggregator::dataUpdate(const QVariantHash &values)
 {
     // do not log these arguments
     setData(values);
@@ -254,11 +254,12 @@ QString AWDataAggregator::notificationText(const QString source,
 }
 
 
-void AWDataAggregator::setData(const QHash<QString, QString> &values)
+void AWDataAggregator::setData(const QVariantHash &values)
 {
     // do not log these arguments
     // battery update requires info is AC online or not
-    setData(values[QString("ac")] == configuration[QString("acOnline")],
+    setData(values[QString("ac")].toString()
+                == configuration[QString("acOnline")],
             QString("batTooltip"), values[QString("bat")].toFloat());
     // usual case
     setData(QString("cpuTooltip"), values[QString("cpu")].toFloat(), 90.0);
@@ -271,7 +272,7 @@ void AWDataAggregator::setData(const QHash<QString, QString> &values)
     [this](const QString value) {
         checkValue(QString("netdev"), currentNetworkDevice, value);
         currentNetworkDevice = value;
-    }(values[QString("netdev")]);
+    }(values[QString("netdev")].toString());
     // additional check for GPU load
     [this](const float value) {
         checkValue(QString("gpu"), value, 90.0);
@@ -302,7 +303,7 @@ void AWDataAggregator::setData(const QString &source, float value,
         QList<float> netValues
             = data[QString("downkbTooltip")] + data[QString("upkbTooltip")];
         boundaries[QString("downkbTooltip")]
-            = 1.2 * *std::max_element(netValues.cbegin(), netValues.cend());
+            = 1.2f * *std::max_element(netValues.cbegin(), netValues.cend());
         boundaries[QString("upkbTooltip")]
             = boundaries[QString("downkbTooltip")];
     }

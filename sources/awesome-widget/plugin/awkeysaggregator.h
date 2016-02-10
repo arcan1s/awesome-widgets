@@ -42,6 +42,7 @@ class AWKeysAggregator : public QObject
         Float,
         FloatTwoSymbols,
         Integer,
+        IntegerFive,
         IntegerThree,
         List,
         // unit specific formaters
@@ -78,7 +79,7 @@ public:
 
 public slots:
     QStringList registerSource(const QString &source, const QString &units,
-                               const QStringList &keys = QStringList());
+                               const QStringList &keys);
 
 private:
     float temperature(const float temp) const;

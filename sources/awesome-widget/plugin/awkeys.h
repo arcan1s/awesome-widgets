@@ -86,7 +86,7 @@ private:
     // variables
     QVariantMap m_tooltipParams;
     QStringList m_foundBars, m_foundKeys, m_foundLambdas, m_requiredKeys;
-    QHash<QString, QString> values;
+    QVariantHash values;
     bool m_optimize = false;
     bool m_wrapNewLines = false;
     // multithread features

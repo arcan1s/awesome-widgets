@@ -41,11 +41,11 @@ public:
     QPixmap tooltipImage();
 
 signals:
-    void updateData(const QHash<QString, QString> &values);
+    void updateData(const QVariantHash &values);
     void toolTipPainted(const QString image) const;
 
 public slots:
-    void dataUpdate(const QHash<QString, QString> &values);
+    void dataUpdate(const QVariantHash &values);
 
 private:
     // ui
@@ -59,9 +59,9 @@ private:
     QString notificationText(const QString source, const float value) const;
     QString notificationText(const QString source, const QString value) const;
     // main method
-    void setData(const QHash<QString, QString> &values);
+    void setData(const QVariantHash &values);
     void setData(const QString &source, float value,
-                 const float extremum = -1.0);
+                 const float extremum = -1.0f);
     // different signature for battery device
     void setData(const bool dontInvert, const QString &source, float value);
     // variables

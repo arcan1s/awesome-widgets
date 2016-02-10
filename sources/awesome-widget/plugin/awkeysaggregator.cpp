@@ -30,6 +30,23 @@ AWKeysAggregator::AWKeysAggregator(QObject *parent)
     : QObject(parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+
+    // default formaters
+    // memory
+    m_formater[QString("mem")] = Float;
+    m_formater[QString("memtotmb")] = IntegerFive;
+    m_formater[QString("memtotgb")] = Float;
+    // network
+    m_formater[QString("down")] = NetSmartFormat;
+    m_formater[QString("downkb")] = Integer;
+    m_formater[QString("downunits")] = NetSmartUnits;
+    m_formater[QString("up")] = NetSmartFormat;
+    m_formater[QString("upkb")] = Integer;
+    m_formater[QString("upunits")] = NetSmartUnits;
+    // swap
+    m_formater[QString("swap")] = Float;
+    m_formater[QString("swaptotmb")] = IntegerFive;
+    m_formater[QString("swaptotgb")] = Float;
 }
 
 
@@ -56,6 +73,9 @@ QString AWKeysAggregator::formater(const QVariant &data,
         break;
     case Integer:
         output = QString("%1").arg(data.toFloat(), 4, 'f', 0);
+        break;
+    case IntegerFive:
+        output = QString("%1").arg(data.toFloat(), 5, 'f', 0);
         break;
     case IntegerThree:
         output = QString("%1").arg(data.toFloat(), 3, 'f', 0);
@@ -137,8 +157,10 @@ QString AWKeysAggregator::formater(const QVariant &data,
               static_cast<int>(data.toFloat()));
         break;
     case NoFormat:
-    default:
         output = data.toString();
+        break;
+    default:
+        output = QString();
         break;
     }
 
@@ -315,6 +337,9 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
             QString key = QString("hdd%1").arg(index);
             m_map[source] = key;
             m_formater[key] = Float;
+            // additional keys
+            m_formater[QString("hddtotmb%1").arg(index)] = IntegerFive;
+            m_formater[QString("hddtotgb%1").arg(index)] = Float;
         }
     } else if (source.contains(mountFreeRegExp)) {
         // free space
