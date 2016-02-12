@@ -40,7 +40,8 @@ public:
                              const QString desktopName = QString(),
                              const QStringList directories = QStringList());
     virtual ~AbstractExtItem();
-    template <class T> T *copy(const QString, const int);
+    virtual AbstractExtItem *copy(const QString _fileName, const int _number) = 0;
+    void copyDefaults(AbstractExtItem *_other) const;
     // get methods
     int apiVersion() const;
     QString comment() const;

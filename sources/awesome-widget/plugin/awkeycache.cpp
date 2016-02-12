@@ -91,11 +91,7 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &keys,
 
     // initial copy
     QSet<QString> used = QSet<QString>::fromList(keys);
-    // insert bars
-    for (auto bar : bars) {
-        bar.remove(QRegExp(QString("^bar[0-9]{1,}")));
-        used << bar;
-    }
+    used.unite(QSet<QString>::fromList(bars));
     // insert keys from tooltip
     for (auto key : tooltip.keys()) {
         if ((key.endsWith(QString("Tooltip"))) && (tooltip[key].toBool())) {

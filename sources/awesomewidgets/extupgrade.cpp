@@ -64,13 +64,9 @@ ExtUpgrade *ExtUpgrade::copy(const QString _fileName, const int _number)
 
     ExtUpgrade *item = new ExtUpgrade(static_cast<QWidget *>(parent()),
                                       _fileName, directories());
-    item->setActive(isActive());
-    item->setApiVersion(apiVersion());
-    item->setComment(comment());
+    copyDefaults(item);
     item->setExecutable(executable());
     item->setFilter(filter());
-    item->setInterval(interval());
-    item->setName(name());
     item->setNumber(_number);
     item->setNull(null());
 

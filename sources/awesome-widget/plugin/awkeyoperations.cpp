@@ -226,12 +226,8 @@ QStringList AWKeyOperations::dictKeys() const
     allKeys.append(QString("la5"));
     allKeys.append(QString("la1"));
     // bars
-    QStringList graphicalItemsKeys;
-    for (auto item : graphicalItems->items())
-        graphicalItemsKeys.append(item->tag());
-    graphicalItemsKeys.sort();
-    for (int i = graphicalItemsKeys.count() - 1; i >= 0; i--)
-        allKeys.append(graphicalItemsKeys.at(i));
+    for (int i = graphicalItems->activeItems().count() -1; i >= 0; i--)
+        allKeys.append(graphicalItems->activeItems().at(i)->tag(QString("bar")));
 
     return allKeys;
 }
@@ -243,7 +239,7 @@ GraphicalItem *AWKeyOperations::giByKey(const QString key) const
 {
     qCDebug(LOG_AW) << "Looking for item" << key;
 
-    return graphicalItems->itemByTag(key);
+    return graphicalItems->itemByTag(key, QString("bar"));
 }
 
 
@@ -251,11 +247,10 @@ QString AWKeyOperations::infoByKey(QString key) const
 {
     qCDebug(LOG_AW) << "Requested key" << key;
 
-    key.remove(QRegExp(QString("^bar[0-9]{1,}")));
-    if (key.startsWith(QString("custom")))
-        return extScripts->itemByTagNumber(
-                             key.remove(QString("custom")).toInt())
-            ->uniq();
+    if (key.startsWith(QString("bar")))
+        return graphicalItems->itemByTag(key, QString("bar"))->uniq();
+    else if (key.startsWith(QString("custom")))
+        return extScripts->itemByTag(key, QString("custom"))->uniq();
     else if (key.contains(QRegExp(QString("^hdd[rw]"))))
         return QString("%1").arg(m_devices[QString(
             "disk")][key.remove(QRegExp(QString("hdd[rw]"))).toInt()]);
@@ -273,24 +268,12 @@ QString AWKeyOperations::infoByKey(QString key) const
         return QString("%1").arg(m_devices[QString(
             "net")][key.remove(QRegExp(QString("^(down|up)"))).toInt()]);
     else if (key.startsWith(QString("pkgcount")))
-        return extUpgrade->itemByTagNumber(
-                             key.remove(QString("pkgcount")).toInt())
-            ->uniq();
+        return extUpgrade->itemByTag(key, QString("pkgcount"))->uniq();
     else if (key.contains(QRegExp(QString("(^|perc)(ask|bid|price)(chg|)"))))
-        return extQuotes->itemByTagNumber(
-                            key.remove(QRegExp(QString(
-                                           "(^|perc)(ask|bid|price)(chg|)")))
-                                .toInt())
-            ->uniq();
+        return extQuotes->itemByTag(key, QString("ask"))->uniq();
     else if (key.contains(QRegExp(
                  QString("(weather|weatherId|humidity|pressure|temperature)"))))
-        return extWeather
-            ->itemByTagNumber(
-                key
-                    .remove(QRegExp(QString(
-                        "(weather|weatherId|humidity|pressure|temperature)")))
-                    .toInt())
-            ->uniq();
+        return extWeather->itemByTag(key, QString("weather"))->uniq();
     else if (key.startsWith(QString("temp")))
         return QString("%1").arg(
             m_devices[QString("temp")][key.remove(QString("temp")).toInt()]);

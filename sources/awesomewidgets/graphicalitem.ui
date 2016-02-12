@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>416</width>
-    <height>325</height>
+    <height>461</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,6 +18,12 @@
     <layout class="QHBoxLayout" name="layout_name">
      <item>
       <widget class="QLabel" name="label_name">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>Name</string>
        </property>
@@ -27,11 +33,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_nameValue">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
+      <widget class="QLineEdit" name="lineEdit_name"/>
      </item>
     </layout>
    </item>
@@ -59,11 +61,96 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="layout_value">
+    <widget class="Line" name="line_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="layout_custom">
      <item>
-      <widget class="QLabel" name="label_value">
+      <spacer name="spacer_custom">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="checkBox_custom">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
-        <string>Value</string>
+        <string>Use custom formula</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QWidget" name="widget_value" native="true">
+     <layout class="QHBoxLayout" name="layout_value">
+      <item>
+       <widget class="QLabel" name="label_value">
+        <property name="text">
+         <string>Value</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBox_value">
+        <property name="editable">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="widget_customValue" native="true">
+     <layout class="QHBoxLayout" name="layout_customValue">
+      <item>
+       <widget class="QLabel" name="label_customValue">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Value</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit_customValue"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="layout_max">
+     <item>
+      <widget class="QLabel" name="label_max">
+       <property name="text">
+        <string>Max value</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -71,13 +158,41 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="comboBox_value">
-       <property name="editable">
-        <bool>false</bool>
+      <widget class="QDoubleSpinBox" name="doubleSpinBox_max">
+       <property name="maximum">
+        <double>9999.989999999999782</double>
        </property>
       </widget>
      </item>
     </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="layout_min">
+     <item>
+      <widget class="QLabel" name="label_min">
+       <property name="text">
+        <string>Min value</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDoubleSpinBox" name="doubleSpinBox_min">
+       <property name="maximum">
+        <double>9999.989999999999782</double>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
    </item>
    <item>
     <layout class="QHBoxLayout" name="layout_activeColor">

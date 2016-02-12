@@ -539,7 +539,8 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
     // drop key from dictionary if no one user requested key required it
     QStringList foundKeys = keysFromSource(source);
     qCInfo(LOG_AW) << "Looking for keys" << foundKeys << "in" << keys;
-    // let required if key list is empty no one use it
+    // this source is required if list is empty (which means skip checking)
+    // or if key in required key list
     bool required
         = keys.isEmpty() || std::any_of(foundKeys.cbegin(), foundKeys.cend(),
                                         [&keys](const QString &key) {

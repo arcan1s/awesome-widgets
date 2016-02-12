@@ -205,9 +205,19 @@ void AWKeys::reinitKeys(const QStringList currentKeys)
     m_foundKeys
         = AWPatternFunctions::findKeys(keyOperator->pattern(), currentKeys);
     m_foundLambdas = AWPatternFunctions::findLambdas(keyOperator->pattern());
+    // generate list of required keys for bars
+    QStringList barKeys;
+    for (auto bar : m_foundBars) {
+        GraphicalItem *item = keyOperator->giByKey(bar);
+        if (item->isCustom())
+            item->setUsedKeys(AWPatternFunctions::findKeys(item->bar(), currentKeys));
+        else
+            item->setUsedKeys(QStringList() << item->bar());
+        barKeys.append(item->usedKeys());
+    }
     // get required keys
     m_requiredKeys
-        = m_optimize ? AWKeyCache::getRequiredKeys(m_foundKeys, m_foundBars,
+        = m_optimize ? AWKeyCache::getRequiredKeys(m_foundKeys, barKeys,
                                                    m_tooltipParams, currentKeys)
                      : QStringList();
 
@@ -318,16 +328,29 @@ QString AWKeys::parsePattern(QString pattern) const
     // bars
     for (auto bar : m_foundBars) {
         GraphicalItem *item = keyOperator->giByKey(bar);
-        QString key = bar;
-        key.remove(QRegExp(QString("^bar[0-9]{1,}")));
         if (item->type() == GraphicalItem::Graph)
             pattern.replace(QString("$%1").arg(bar),
-                            item->image([](const QList<float> data) {
-                                return QVariant::fromValue<QList<float>>(data);
-                            }(dataAggregator->getData(key))));
-        else
-            pattern.replace(QString("$%1").arg(bar),
-                            item->image(values[key].toFloat()));
+                            item->image(QVariant::fromValue<QList<float>>(dataAggregator->getData(item->bar()))));
+        else {
+            if (item->isCustom())
+                pattern.replace(QString("$%1").arg(bar),item->image([this, item](QString bar ){
+                    QJSEngine engine;
+                    for (auto key : item->usedKeys())
+                        bar.replace(QString("$%1").arg(key), aggregator->formater(values[key], key));
+                    qCInfo(LOG_AW) << "Expression" << bar;
+                    QJSValue result = engine.evaluate(bar);
+                    if (result.isError()) {
+                        qCWarning(LOG_AW) << "Uncaught exception at line"
+                                          << result.property("lineNumber").toInt()
+                                          << ":" << result.toString();
+                        return QString();
+                    } else {
+                        return result.toString();
+                    }
+                }(item->bar())));
+            else
+                pattern.replace(QString("$%1").arg(bar),item->image(values[item->bar()]));
+        }
     }
 
     // prepare strings

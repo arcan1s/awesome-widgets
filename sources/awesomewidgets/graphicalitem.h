@@ -36,10 +36,14 @@ class GraphicalItem : public AbstractExtItem
     Q_OBJECT
     Q_PROPERTY(QString bar READ bar WRITE setBar)
     Q_PROPERTY(QString activeColor READ activeColor WRITE setActiveColor)
+    Q_PROPERTY(bool custom READ isCustom WRITE setCustom)
     Q_PROPERTY(QString inactiveColor READ inactiveColor WRITE setInactiveColor)
     Q_PROPERTY(Type type READ type WRITE setType)
     Q_PROPERTY(Direction direction READ direction WRITE setDirection)
     Q_PROPERTY(int height READ height WRITE setHeight)
+    Q_PROPERTY(float maxValue READ maxValue WRITE setMaxValue)
+    Q_PROPERTY(float minValue READ minValue WRITE setMinValue)
+    Q_PROPERTY(QStringList usedKeys READ usedKeys WRITE setUsedKeys)
     Q_PROPERTY(int width READ width WRITE setWidth)
 
 public:
@@ -51,28 +55,35 @@ public:
                            const QStringList directories = QStringList());
     virtual ~GraphicalItem();
     GraphicalItem *copy(const QString _fileName, const int _number);
-    QString image(const QVariant value);
+    QString image(const QVariant &value);
     // get methods
     QString bar() const;
     QString activeColor() const;
     QString inactiveColor() const;
-    QString tag() const;
+    bool isCustom() const;
+    float minValue() const;
+    float maxValue() const;
     Type type() const;
     QString strType() const;
     Direction direction() const;
     QString strDirection() const;
     int height() const;
+    QStringList usedKeys() const;
     int width() const;
     QString uniq() const;
     // set methods
     void setBar(const QString _bar = QString("cpu"));
     void setActiveColor(const QString _color = QString("0,0,0,130"));
+    void setCustom(const bool _custom);
     void setInactiveColor(const QString _color = QString("255,255,255,130"));
+    void setMinValue(const float _value);
+    void setMaxValue(const float _value);
     void setType(const Type _type = Horizontal);
     void setStrType(const QString _type = QString("Horizontal"));
     void setDirection(const Direction _direction = LeftToRight);
     void setStrDirection(const QString _direction = QString("LeftToRight"));
     void setHeight(const int _height = 100);
+    void setUsedKeys(const QStringList _usedKeys = QStringList());
     void setWidth(const int _width = 100);
 
 public slots:
@@ -83,10 +94,9 @@ public slots:
 
 private slots:
     void changeColor();
+    void changeValue(const int state);
 
 private:
-    QString m_fileName;
-    QStringList m_dirs;
     QGraphicsScene *m_scene = nullptr;
     QGraphicsView *m_view = nullptr;
     Ui::GraphicalItem *ui;
@@ -101,11 +111,15 @@ private:
     void translate();
     // properties
     QString m_bar = QString("cpu");
+    bool m_custom = false;
     QString m_activeColor = QString("0,0,0,130");
     QString m_inactiveColor = QString("255,255,255,130");
+    float m_minValue = 0.0f;
+    float m_maxValue = 100.0f;
     Type m_type = Horizontal;
     Direction m_direction = LeftToRight;
     int m_height = 100;
+    QStringList m_usedKeys;
     int m_width = 100;
 };
 

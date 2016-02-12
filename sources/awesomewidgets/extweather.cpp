@@ -78,14 +78,10 @@ ExtWeather *ExtWeather::copy(const QString _fileName, const int _number)
 
     ExtWeather *item = new ExtWeather(static_cast<QWidget *>(parent()),
                                       _fileName, directories());
-    item->setActive(isActive());
-    item->setApiVersion(apiVersion());
+    copyDefaults(item);
     item->setCity(city());
-    item->setComment(comment());
     item->setCountry(country());
-    item->setInterval(interval());
     item->setImage(image());
-    item->setName(name());
     item->setNumber(_number);
     item->setTs(ts());
 

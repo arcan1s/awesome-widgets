@@ -24,6 +24,7 @@
 
 #include "awdebug.h"
 #include "version.h"
+#include "abstractextitemaggregator.h"
 
 
 AbstractExtItem::AbstractExtItem(QWidget *parent, const QString desktopName,
@@ -47,10 +48,13 @@ AbstractExtItem::~AbstractExtItem()
 }
 
 
-template <class T> T *AbstractExtItem::copy(const QString, const int)
+void AbstractExtItem::copyDefaults(AbstractExtItem *_other) const
 {
-    // an analog of pure virtual method
-    return new T();
+    _other->setActive(m_active);
+    _other->setApiVersion(m_apiVersion);
+    _other->setComment(m_comment);
+    _other->setInterval(m_interval);
+    _other->setName(m_name);
 }
 
 

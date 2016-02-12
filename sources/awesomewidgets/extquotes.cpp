@@ -81,11 +81,7 @@ ExtQuotes *ExtQuotes::copy(const QString _fileName, const int _number)
 
     ExtQuotes *item = new ExtQuotes(static_cast<QWidget *>(parent()), _fileName,
                                     directories());
-    item->setActive(isActive());
-    item->setApiVersion(apiVersion());
-    item->setComment(comment());
-    item->setInterval(interval());
-    item->setName(name());
+    copyDefaults(item);
     item->setNumber(_number);
     item->setTicker(ticker());
 

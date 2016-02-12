@@ -47,6 +47,8 @@ GraphicalItem::GraphicalItem(QWidget *parent, const QString desktopName,
 
     initScene();
 
+    connect(ui->checkBox_custom, SIGNAL(stateChanged(int)), this,
+            SLOT(changeValue(int)));
     connect(ui->pushButton_activeColor, SIGNAL(clicked()), this,
             SLOT(changeColor()));
     connect(ui->pushButton_inactiveColor, SIGNAL(clicked()), this,
@@ -69,29 +71,26 @@ GraphicalItem *GraphicalItem::copy(const QString _fileName, const int _number)
 
     GraphicalItem *item = new GraphicalItem(static_cast<QWidget *>(parent()),
                                             _fileName, directories());
-    item->setActive(isActive());
-    item->setActiveColor(activeColor());
-    item->setApiVersion(apiVersion());
-    item->setBar(bar());
-    item->setComment(comment());
-    item->setDirection(direction());
-    item->setHeight(height());
-    item->setInactiveColor(inactiveColor());
-    item->setInterval(interval());
-    item->setName(QString("bar%1").arg(_number));
+    copyDefaults(item);
+    item->setActiveColor(m_activeColor);
+    item->setBar(m_bar);
+    item->setCustom(m_custom);
+    item->setDirection(m_direction);
+    item->setHeight(m_height);
+    item->setInactiveColor(m_inactiveColor);
+    item->setMaxValue(m_maxValue);
+    item->setMinValue(m_minValue);
     item->setNumber(_number);
-    item->setType(type());
-    item->setWidth(width());
+    item->setType(m_type);
+    item->setWidth(m_width);
 
     return item;
 }
 
 
-QString GraphicalItem::image(const QVariant value)
+QString GraphicalItem::image(const QVariant &value)
 {
     qCDebug(LOG_LIB) << "Value" << value;
-    if (m_bar == QString("none"))
-        return QString("");
 
     m_scene->clear();
     int scale[2] = {1, 1};
@@ -151,9 +150,21 @@ QString GraphicalItem::inactiveColor() const
 }
 
 
-QString GraphicalItem::tag() const
+bool GraphicalItem::isCustom() const
 {
-    return QString("bar%1%2").arg(number()).arg(m_bar);
+    return m_custom;
+}
+
+
+float GraphicalItem::maxValue() const
+{
+    return m_maxValue;
+}
+
+
+float GraphicalItem::minValue() const
+{
+    return m_minValue;
 }
 
 
@@ -215,6 +226,12 @@ int GraphicalItem::height() const
 }
 
 
+QStringList GraphicalItem::usedKeys() const
+{
+    return m_usedKeys;
+}
+
+
 int GraphicalItem::width() const
 {
     return m_width;
@@ -231,13 +248,7 @@ void GraphicalItem::setBar(const QString _bar)
 {
     qCDebug(LOG_LIB) << "Bar" << _bar;
 
-    if (!_bar.contains(QRegExp(
-            QString("^(cpu(?!cl).*|gpu$|mem$|swap$|hdd[0-9].*|bat.*)")))) {
-        qCWarning(LOG_LIB) << "Unsupported bar type" << _bar;
-        m_bar = QString("none");
-    } else {
-        m_bar = _bar;
-    }
+    m_bar = _bar;
 }
 
 
@@ -249,11 +260,35 @@ void GraphicalItem::setActiveColor(const QString _color)
 }
 
 
+void GraphicalItem::setCustom(const bool _custom)
+{
+    qCDebug(LOG_LIB) << "Use custom tag" << _custom;
+
+    m_custom = _custom;
+}
+
+
 void GraphicalItem::setInactiveColor(const QString _color)
 {
     qCDebug(LOG_LIB) << "Color" << _color;
 
     m_inactiveColor = _color;
+}
+
+
+void GraphicalItem::setMaxValue(const float _value)
+{
+    qCDebug(LOG_LIB) << "Max value" << _value;
+
+    m_maxValue = _value;
+}
+
+
+void GraphicalItem::setMinValue(const float _value)
+{
+    qCDebug(LOG_LIB) << "Min value" << _value;
+
+    m_minValue = _value;
 }
 
 
@@ -309,6 +344,15 @@ void GraphicalItem::setHeight(const int _height)
 }
 
 
+void GraphicalItem::setUsedKeys(const QStringList _usedKeys)
+{
+    qCDebug(LOG_LIB) << "Used keys" << _usedKeys;
+
+    // remove dubs
+    m_usedKeys = QSet<QString>::fromList(_usedKeys).toList();
+}
+
+
 void GraphicalItem::setWidth(const int _width)
 {
     qCDebug(LOG_LIB) << "Width" << _width;
@@ -333,7 +377,10 @@ void GraphicalItem::readConfiguration()
             QSettings::IniFormat);
 
         settings.beginGroup(QString("Desktop Entry"));
+        setCustom(settings.value(QString("X-AW-Custom"), m_custom).toBool());
         setBar(settings.value(QString("X-AW-Value"), m_bar).toString());
+        setMaxValue(settings.value(QString("X-AW-Max"), m_maxValue).toFloat());
+        setMinValue(settings.value(QString("X-AW-Min"), m_minValue).toFloat());
         setActiveColor(
             settings.value(QString("X-AW-ActiveColor"), m_activeColor)
                 .toString());
@@ -374,11 +421,18 @@ int GraphicalItem::showConfiguration(const QVariant args)
     qCDebug(LOG_LIB) << "Combobox arguments" << args;
     QStringList tags = args.toStringList();
 
-    ui->label_nameValue->setText(name());
+    ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
+    ui->checkBox_custom->setChecked(m_custom);
     ui->comboBox_value->addItems(tags);
-    ui->comboBox_value->addItem(m_bar);
-    ui->comboBox_value->setCurrentIndex(ui->comboBox_value->count() - 1);
+    if (m_custom) {
+        ui->lineEdit_customValue->setText(m_bar);
+    } else {
+        ui->comboBox_value->addItem(m_bar);
+        ui->comboBox_value->setCurrentIndex(ui->comboBox_value->count() - 1);
+    }
+    ui->doubleSpinBox_max->setValue(m_maxValue);
+    ui->doubleSpinBox_min->setValue(m_minValue);
     ui->pushButton_activeColor->setText(m_activeColor);
     ui->pushButton_inactiveColor->setText(m_inactiveColor);
     ui->comboBox_type->setCurrentIndex(static_cast<int>(m_type));
@@ -389,10 +443,13 @@ int GraphicalItem::showConfiguration(const QVariant args)
     int ret = exec();
     if (ret != 1)
         return ret;
-    setName(ui->label_nameValue->text());
+    setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
     setApiVersion(AWGIAPI);
-    setBar(ui->comboBox_value->currentText());
+    setCustom(ui->checkBox_custom->isChecked());
+    setBar(m_custom ? ui->lineEdit_customValue->text() : ui->comboBox_value->currentText());
+    setMaxValue(ui->doubleSpinBox_max->value());
+    setMinValue(ui->doubleSpinBox_min->value());
     setActiveColor(ui->pushButton_activeColor->text().remove(QChar('&')));
     setInactiveColor(ui->pushButton_inactiveColor->text().remove(QChar('&')));
     setStrType(ui->comboBox_type->currentText());
@@ -416,6 +473,9 @@ void GraphicalItem::writeConfiguration() const
 
     settings.beginGroup(QString("Desktop Entry"));
     settings.setValue(QString("X-AW-Value"), m_bar);
+    settings.setValue(QString("X-AW-Custom"), m_custom);
+    settings.setValue(QString("X-AW-Max"), m_maxValue);
+    settings.setValue(QString("X-AW-Min"), m_minValue);
     settings.setValue(QString("X-AW-ActiveColor"), m_activeColor);
     settings.setValue(QString("X-AW-InactiveColor"), m_inactiveColor);
     settings.setValue(QString("X-AW-Type"), strType());
@@ -449,6 +509,15 @@ void GraphicalItem::changeColor()
 }
 
 
+void GraphicalItem::changeValue(const int state)
+{
+    qCDebug(LOG_LIB) << "Current state is" << state;
+
+    ui->widget_value->setHidden(state == Qt::Unchecked);
+    ui->widget_customValue->setHidden(state != Qt::Unchecked);
+}
+
+
 void GraphicalItem::initScene()
 {
     // init scene
@@ -464,15 +533,15 @@ void GraphicalItem::initScene()
     m_view->setFrameShape(QFrame::NoFrame);
     m_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_view->resize(m_width + 5.0, m_height + 5.0);
+    m_view->resize(m_width + 5, m_height + 5);
 }
 
 
 void GraphicalItem::paintCircle(const float value)
 {
     QPen pen;
-    pen.setWidth(1.0);
-    float percent = value / 100.0;
+    pen.setWidth(1);
+    float percent = (value - m_minValue) / (m_maxValue - m_minValue);
     QGraphicsEllipseItem *circle;
 
     QColor inactive = stringToColor(m_inactiveColor);
@@ -482,14 +551,14 @@ void GraphicalItem::paintCircle(const float value)
     pen.setColor(inactive);
     circle = m_scene->addEllipse(0.0, 0.0, m_width, m_height, pen,
                                  QBrush(inactive, Qt::SolidPattern));
-    circle->setSpanAngle(-(1.0 - percent) * 360.0 * 16.0);
-    circle->setStartAngle(90.0 * 16.0 - percent * 360.0 * 16.0);
+    circle->setSpanAngle(-(1.0f - percent) * 360.0f * 16.0f);
+    circle->setStartAngle(90.0f * 16.0f - percent * 360.0f * 16.0f);
     // active
     pen.setColor(active);
     circle = m_scene->addEllipse(0.0, 0.0, m_width, m_height, pen,
                                  QBrush(active, Qt::SolidPattern));
-    circle->setSpanAngle(-percent * 360.0 * 16.0);
-    circle->setStartAngle(90.0 * 16.0);
+    circle->setSpanAngle(-percent * 360.0f * 16.0f);
+    circle->setStartAngle(90.0f * 16.0f);
 }
 
 
@@ -501,14 +570,14 @@ void GraphicalItem::paintGraph(const QList<float> value)
     // default norms
     float normX
         = static_cast<float>(m_width) / static_cast<float>(value.count());
-    float normY = static_cast<float>(m_height) / (1.5 * 100.0);
+    float normY = static_cast<float>(m_height) / (1.5f * 100.0f);
     // paint graph
     for (int i = 0; i < value.count() - 1; i++) {
         // some magic here
         float x1 = i * normX;
-        float y1 = -fabs(value.at(i)) * normY + 5.0;
+        float y1 = -fabs(value.at(i)) * normY + 5.0f;
         float x2 = (i + 1) * normX;
-        float y2 = -fabs(value.at(i + 1)) * normY + 5.0;
+        float y2 = -fabs(value.at(i + 1)) * normY + 5.0f;
         m_scene->addLine(x1, y1, x2, y2, pen);
     }
 }
@@ -517,7 +586,7 @@ void GraphicalItem::paintGraph(const QList<float> value)
 void GraphicalItem::paintHorizontal(const float value)
 {
     QPen pen;
-    float percent = value / 100.0;
+    float percent = (value - m_minValue) / (m_maxValue - m_minValue);
 
     pen.setWidth(m_height);
     // inactive
@@ -534,7 +603,7 @@ void GraphicalItem::paintHorizontal(const float value)
 void GraphicalItem::paintVertical(const float value)
 {
     QPen pen;
-    float percent = value / 100.0;
+    float percent = (value - m_minValue) / (m_maxValue - m_minValue);
 
     pen.setWidth(m_width);
     // inactive
@@ -569,7 +638,11 @@ void GraphicalItem::translate()
 {
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
+    ui->checkBox_custom->setText(i18n("Use custom formula"));
     ui->label_value->setText(i18n("Value"));
+    ui->label_customValue->setText(i18n("Value"));
+    ui->label_max->setText(i18n("Max value"));
+    ui->label_min->setText(i18n("Min value"));
     ui->label_activeColor->setText(i18n("Active color"));
     ui->label_inactiveColor->setText(i18n("Inactive color"));
     ui->label_type->setText(i18n("Type"));
