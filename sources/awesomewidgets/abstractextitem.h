@@ -40,7 +40,8 @@ public:
                              const QString desktopName = QString(),
                              const QStringList directories = QStringList());
     virtual ~AbstractExtItem();
-    virtual AbstractExtItem *copy(const QString _fileName, const int _number) = 0;
+    virtual AbstractExtItem *copy(const QString _fileName, const int _number)
+        = 0;
     void copyDefaults(AbstractExtItem *_other) const;
     // get methods
     int apiVersion() const;

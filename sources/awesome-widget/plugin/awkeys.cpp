@@ -210,7 +210,8 @@ void AWKeys::reinitKeys(const QStringList currentKeys)
     for (auto bar : m_foundBars) {
         GraphicalItem *item = keyOperator->giByKey(bar);
         if (item->isCustom())
-            item->setUsedKeys(AWPatternFunctions::findKeys(item->bar(), currentKeys));
+            item->setUsedKeys(
+                AWPatternFunctions::findKeys(item->bar(), currentKeys));
         else
             item->setUsedKeys(QStringList() << item->bar());
         barKeys.append(item->usedKeys());
@@ -330,26 +331,32 @@ QString AWKeys::parsePattern(QString pattern) const
         GraphicalItem *item = keyOperator->giByKey(bar);
         if (item->type() == GraphicalItem::Graph)
             pattern.replace(QString("$%1").arg(bar),
-                            item->image(QVariant::fromValue<QList<float>>(dataAggregator->getData(item->bar()))));
+                            item->image(QVariant::fromValue<QList<float>>(
+                                dataAggregator->getData(item->bar()))));
         else {
             if (item->isCustom())
-                pattern.replace(QString("$%1").arg(bar),item->image([this, item](QString bar ){
-                    QJSEngine engine;
-                    for (auto key : item->usedKeys())
-                        bar.replace(QString("$%1").arg(key), aggregator->formater(values[key], key));
-                    qCInfo(LOG_AW) << "Expression" << bar;
-                    QJSValue result = engine.evaluate(bar);
-                    if (result.isError()) {
-                        qCWarning(LOG_AW) << "Uncaught exception at line"
-                                          << result.property("lineNumber").toInt()
-                                          << ":" << result.toString();
-                        return QString();
-                    } else {
-                        return result.toString();
-                    }
-                }(item->bar())));
+                pattern.replace(
+                    QString("$%1").arg(bar),
+                    item->image([this, item](QString bar) {
+                        QJSEngine engine;
+                        for (auto key : item->usedKeys())
+                            bar.replace(QString("$%1").arg(key),
+                                        aggregator->formater(values[key], key));
+                        qCInfo(LOG_AW) << "Expression" << bar;
+                        QJSValue result = engine.evaluate(bar);
+                        if (result.isError()) {
+                            qCWarning(LOG_AW)
+                                << "Uncaught exception at line"
+                                << result.property("lineNumber").toInt() << ":"
+                                << result.toString();
+                            return QString();
+                        } else {
+                            return result.toString();
+                        }
+                    }(item->bar())));
             else
-                pattern.replace(QString("$%1").arg(bar),item->image(values[item->bar()]));
+                pattern.replace(QString("$%1").arg(bar),
+                                item->image(values[item->bar()]));
         }
     }
 

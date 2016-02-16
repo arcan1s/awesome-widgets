@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-02-03 23:02+0700\n"
+"POT-Creation-Date: 2016-02-15 11:43+0300\n"
 "PO-Revision-Date: 2015-07-31 22:21+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -570,8 +570,20 @@ msgstr "Hora"
 msgid "Use images"
 msgstr ""
 
+#, fuzzy
+msgid "Use custom formula"
+msgstr "Formato de hora personalizado"
+
 msgid "Value"
 msgstr "Valor"
+
+#, fuzzy
+msgid "Max value"
+msgstr "Mostrar valor"
+
+#, fuzzy
+msgid "Min value"
+msgstr "Mostrar valor"
 
 msgid "Active color"
 msgstr "Cor ativa"

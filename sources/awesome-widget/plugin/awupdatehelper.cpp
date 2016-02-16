@@ -38,7 +38,7 @@ AWUpdateHelper::AWUpdateHelper(QObject *parent)
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
     m_foundVersion = QString(VERSION);
-    m_genericConfig = QString("%1/awesomewidgets/generic.ini")
+    m_genericConfig = QString("%1/awesomewidgets/general.ini")
                           .arg(QStandardPaths::writableLocation(
                               QStandardPaths::GenericDataLocation));
 }

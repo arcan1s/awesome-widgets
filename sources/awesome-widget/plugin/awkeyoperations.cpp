@@ -226,8 +226,9 @@ QStringList AWKeyOperations::dictKeys() const
     allKeys.append(QString("la5"));
     allKeys.append(QString("la1"));
     // bars
-    for (int i = graphicalItems->activeItems().count() -1; i >= 0; i--)
-        allKeys.append(graphicalItems->activeItems().at(i)->tag(QString("bar")));
+    for (int i = graphicalItems->activeItems().count() - 1; i >= 0; i--)
+        allKeys.append(
+            graphicalItems->activeItems().at(i)->tag(QString("bar")));
 
     return allKeys;
 }

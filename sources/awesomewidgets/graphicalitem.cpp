@@ -447,7 +447,8 @@ int GraphicalItem::showConfiguration(const QVariant args)
     setComment(ui->lineEdit_comment->text());
     setApiVersion(AWGIAPI);
     setCustom(ui->checkBox_custom->isChecked());
-    setBar(m_custom ? ui->lineEdit_customValue->text() : ui->comboBox_value->currentText());
+    setBar(m_custom ? ui->lineEdit_customValue->text()
+                    : ui->comboBox_value->currentText());
     setMaxValue(ui->doubleSpinBox_max->value());
     setMinValue(ui->doubleSpinBox_min->value());
     setActiveColor(ui->pushButton_activeColor->text().remove(QChar('&')));
