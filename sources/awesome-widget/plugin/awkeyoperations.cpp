@@ -94,47 +94,14 @@ QStringList AWKeyOperations::dictKeys() const
         allKeys.append(
             extWeather->activeItems().at(i)->tag(QString("timestamp")));
     }
-    // time
-    allKeys.append(QString("time"));
-    allKeys.append(QString("isotime"));
-    allKeys.append(QString("shorttime"));
-    allKeys.append(QString("longtime"));
-    allKeys.append(QString("ctime"));
-    // uptime
-    allKeys.append(QString("uptime"));
-    allKeys.append(QString("cuptime"));
     // cpuclock & cpu
     for (int i = QThread::idealThreadCount() - 1; i >= 0; i--) {
         allKeys.append(QString("cpucl%1").arg(i));
         allKeys.append(QString("cpu%1").arg(i));
     }
-    allKeys.append(QString("cpucl"));
-    allKeys.append(QString("cpu"));
     // temperature
     for (int i = m_devices[QString("temp")].count() - 1; i >= 0; i--)
         allKeys.append(QString("temp%1").arg(i));
-    // gputemp
-    allKeys.append(QString("gputemp"));
-    // gpu
-    allKeys.append(QString("gpu"));
-    // memory
-    allKeys.append(QString("memmb"));
-    allKeys.append(QString("memgb"));
-    allKeys.append(QString("memfreemb"));
-    allKeys.append(QString("memfreegb"));
-    allKeys.append(QString("memtotmb"));
-    allKeys.append(QString("memtotgb"));
-    allKeys.append(QString("memusedmb"));
-    allKeys.append(QString("memusedgb"));
-    allKeys.append(QString("mem"));
-    // swap
-    allKeys.append(QString("swapmb"));
-    allKeys.append(QString("swapgb"));
-    allKeys.append(QString("swapfreemb"));
-    allKeys.append(QString("swapfreegb"));
-    allKeys.append(QString("swaptotmb"));
-    allKeys.append(QString("swaptotgb"));
-    allKeys.append(QString("swap"));
     // hdd
     for (int i = m_devices[QString("mount")].count() - 1; i >= 0; i--) {
         allKeys.append(QString("hddmb%1").arg(i));
@@ -162,38 +129,13 @@ QStringList AWKeyOperations::dictKeys() const
         allKeys.append(QString("upkb%1").arg(i));
         allKeys.append(QString("up%1").arg(i));
     }
-    allKeys.append(QString("downunits"));
-    allKeys.append(QString("upunits"));
-    allKeys.append(QString("downkb"));
-    allKeys.append(QString("down"));
-    allKeys.append(QString("upkb"));
-    allKeys.append(QString("up"));
-    allKeys.append(QString("netdev"));
     // battery
-    allKeys.append(QString("ac"));
     QStringList allBatteryDevices
         = QDir(QString("/sys/class/power_supply"))
               .entryList(QStringList() << QString("BAT*"),
                          QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
     for (int i = allBatteryDevices.count() - 1; i >= 0; i--)
         allKeys.append(QString("bat%1").arg(i));
-    allKeys.append(QString("bat"));
-    // player
-    allKeys.append(QString("album"));
-    allKeys.append(QString("artist"));
-    allKeys.append(QString("duration"));
-    allKeys.append(QString("progress"));
-    allKeys.append(QString("title"));
-    allKeys.append(QString("dalbum"));
-    allKeys.append(QString("dartist"));
-    allKeys.append(QString("dtitle"));
-    allKeys.append(QString("salbum"));
-    allKeys.append(QString("sartist"));
-    allKeys.append(QString("stitle"));
-    // ps
-    allKeys.append(QString("pscount"));
-    allKeys.append(QString("pstotal"));
-    allKeys.append(QString("ps"));
     // package manager
     for (int i = extUpgrade->activeItems().count() - 1; i >= 0; i--)
         allKeys.append(
@@ -217,18 +159,14 @@ QStringList AWKeyOperations::dictKeys() const
     // custom
     for (int i = extScripts->activeItems().count() - 1; i >= 0; i--)
         allKeys.append(extScripts->activeItems().at(i)->tag(QString("custom")));
-    // desktop
-    allKeys.append(QString("desktop"));
-    allKeys.append(QString("ndesktop"));
-    allKeys.append(QString("tdesktops"));
-    // load average
-    allKeys.append(QString("la15"));
-    allKeys.append(QString("la5"));
-    allKeys.append(QString("la1"));
     // bars
     for (int i = graphicalItems->activeItems().count() - 1; i >= 0; i--)
         allKeys.append(
             graphicalItems->activeItems().at(i)->tag(QString("bar")));
+    // static keys
+    QStringList staticKeys = QString(STATIC_KEYS).split(QChar(','));
+    std::for_each(staticKeys.cbegin(), staticKeys.cend(),
+                  [&allKeys](const QString &key) { allKeys.append(key); });
 
     return allKeys;
 }

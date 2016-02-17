@@ -7,11 +7,19 @@
 #define VERSION "@PROJECT_VERSION@"
 #define COMMIT_SHA "@PROJECT_COMMIT_SHA@"
 #define AUTHOR "@PROJECT_AUTHOR@"
-#define TRANSLATORS "Ernesto Aviles Vzqz (Spanish), Mermouy (French), underr (Brazillian Portuguese), Viktor Slobodyan (Ukrainian), Lemueler (Chinese), Heimen Stoffels (Dutch)"
+#define TRANSLATORS                                                            \
+    "Ernesto Aviles Vzqz (Spanish), Mermouy (French), underr (Brazillian "     \
+    "Portuguese), Viktor Slobodyan (Ukrainian), Lemueler (Chinese), Heimen "   \
+    "Stoffels (Dutch)"
 #define EMAIL "@PROJECT_CONTACT@"
 #define LICENSE "@PROJECT_LICENSE@"
-#define TRDPARTY_LICENSE "tasks,BSD,https://github.com/mhogomchungu/tasks;QReplyTimeout wrapper,no,http://codereview.stackexchange.com/questions/30031/qnetworkreply-network-reply-timeout-helper"
-#define SPECIAL_THANKS "Yahoo! Finance,https://finance.yahoo.com/;Yahoo! Weather,https://weather.yahoo.com/;JetBrains,https://www.jetbrains.com/"
+#define TRDPARTY_LICENSE                                                       \
+    "tasks,BSD,https://github.com/mhogomchungu/tasks;QReplyTimeout "           \
+    "wrapper,no,http://codereview.stackexchange.com/questions/30031/"          \
+    "qnetworkreply-network-reply-timeout-helper"
+#define SPECIAL_THANKS                                                         \
+    "Yahoo! Finance,https://finance.yahoo.com/;Yahoo! "                        \
+    "Weather,https://weather.yahoo.com/;JetBrains,https://www.jetbrains.com/"
 #define CHANGELOG "@PROJECT_CHANGELOG@"
 
 // configuraion
@@ -28,7 +36,16 @@
 // network requests timeout, ms
 #define REQUEST_TIMEOUT 5000
 // available time keys
-#define TIME_KEYS "dddd,ddd,dd,d,MMMM,MMM,MM,M,yyyy,yy,hh,h,HH,H,mm,m,ss,s,t,ap,a,AP,A"
+#define TIME_KEYS                                                              \
+    "dddd,ddd,dd,d,MMMM,MMM,MM,M,yyyy,yy,hh,h,HH,H,mm,m,ss,s,t,ap,a,AP,A"
+// static keys
+#define STATIC_KEYS                                                            \
+    "time,isotime,shorttime,longtime,ctime,uptime,cuptime,cpucl,cpu,gputemp,"  \
+    "gpu,memmb,memgb,memfreemb,memfreegb,memtotmb,memtotgb,memusedmb,"         \
+    "memusedgb,mem,swapmb,swapgb,swapfreemb,swapfreegb,swaptotmb,swaptotgb,"   \
+    "swap,downunits,upunits,downkb,down,upkb,up,netdev,ac,bat,album,artist,"   \
+    "duration,progress,title,dalbum,dartist,dtitle,salbum,sartist,stitle,"     \
+    "pscount,pstotal,ps,desktop,ndesktop,tdesktops,la15,la5,la1"
 #cmakedefine BUILD_FUTURE
 #cmakedefine BUILD_TESTING
 
@@ -36,10 +53,12 @@
 #define HOMEPAGE "https://arcanis.name/projects/awesome-widgets/"
 #define REPOSITORY "https://github.com/arcan1s/awesome-widgets"
 #define RELEASES "https://github.com/arcan1s/awesome-widgets/releases/tag/V."
-#define VERSION_API "https://api.github.com/repos/arcan1s/awesome-widgets/releases"
+#define VERSION_API                                                            \
+    "https://api.github.com/repos/arcan1s/awesome-widgets/releases"
 #define BUGTRACKER "https://github.com/arcan1s/awesome-widgets/issues"
 #define TRANSLATION "https://github.com/arcan1s/awesome-widgets/issues/14"
-#define AUR_PACKAGES "https://aur.archlinux.org/packages/plasma5-applet-awesome-widgets/"
+#define AUR_PACKAGES                                                           \
+    "https://aur.archlinux.org/packages/plasma5-applet-awesome-widgets/"
 #define OPENSUSE_PACKAGES "http://software.opensuse.org/package/awesome-widgets"
 
 // build information

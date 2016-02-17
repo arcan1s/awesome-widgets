@@ -23,9 +23,14 @@
 #include <QVariant>
 
 
+class AWKeysAggregator;
+
 namespace AWPatternFunctions
 {
 // insert methods
+QString expandLambdas(QString code, AWKeysAggregator *aggregator,
+                      const QVariantHash &metadata,
+                      const QStringList &usedKeys);
 QString expandTemplates(QString code);
 QVariantList findFunctionCalls(const QString function, const QString code);
 QString insertAllKeys(QString code, const QStringList keys);

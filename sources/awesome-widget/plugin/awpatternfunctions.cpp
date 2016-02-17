@@ -21,6 +21,69 @@
 #include <QRegularExpression>
 
 #include "awdebug.h"
+#include "awkeysaggregator.h"
+
+
+QString AWPatternFunctions::expandLambdas(QString code,
+                                          AWKeysAggregator *aggregator,
+                                          const QVariantHash &metadata,
+                                          const QStringList &usedKeys)
+{
+    qCDebug(LOG_AW) << "Expand lamdas in" << code;
+
+    QJSEngine engine;
+    // apply $this values
+    code.replace(QString("$this"), metadata[code].toString());
+    // parsed values
+    for (auto lambdaKey : usedKeys)
+        code.replace(QString("$%1").arg(lambdaKey),
+                     aggregator->formater(metadata[lambdaKey], lambdaKey));
+    qCInfo(LOG_AW) << "Expression" << code;
+    QJSValue result = engine.evaluate(code);
+    if (result.isError()) {
+        qCWarning(LOG_AW) << "Uncaught exception at line"
+                          << result.property("lineNumber").toInt() << ":"
+                          << result.toString();
+        return QString();
+    } else {
+        return result.toString();
+    }
+}
+
+
+QString AWPatternFunctions::expandTemplates(QString code)
+{
+    qCDebug(LOG_AW) << "Expand templates in" << code;
+
+    // match the following construction $template{{some code here}}
+    QRegularExpression templatesRegexp(
+        QString("\\$template\\{\\{(?<body>.*?)\\}\\}"));
+    templatesRegexp.setPatternOptions(
+        QRegularExpression::DotMatchesEverythingOption);
+
+    QRegularExpressionMatchIterator it = templatesRegexp.globalMatch(code);
+    while (it.hasNext()) {
+        QRegularExpressionMatch match = it.next();
+        QString body = match.captured(QString("body"));
+
+        QJSEngine engine;
+        qCInfo(LOG_AW) << "Expression" << body;
+        QJSValue result = engine.evaluate(body);
+        QString templateResult = QString("");
+        if (result.isError()) {
+            qCWarning(LOG_AW) << "Uncaught exception at line"
+                              << result.property("lineNumber").toInt() << ":"
+                              << result.toString();
+        } else {
+            templateResult = result.toString();
+        }
+
+        // replace template
+        code.replace(match.captured(), templateResult);
+    }
+
+    return code;
+}
 
 
 QVariantList AWPatternFunctions::findFunctionCalls(const QString function,
@@ -65,41 +128,6 @@ QVariantList AWPatternFunctions::findFunctionCalls(const QString function,
     }
 
     return foundFunctions;
-}
-
-
-QString AWPatternFunctions::expandTemplates(QString code)
-{
-    qCDebug(LOG_AW) << "Expand templates in" << code;
-
-    // match the following construction $template{{some code here}}
-    QRegularExpression templatesRegexp(
-        QString("\\$template\\{\\{(?<body>.*?)\\}\\}"));
-    templatesRegexp.setPatternOptions(
-        QRegularExpression::DotMatchesEverythingOption);
-
-    QRegularExpressionMatchIterator it = templatesRegexp.globalMatch(code);
-    while (it.hasNext()) {
-        QRegularExpressionMatch match = it.next();
-        QString body = match.captured(QString("body"));
-
-        QJSEngine engine;
-        qCInfo(LOG_AW) << "Expression" << body;
-        QJSValue result = engine.evaluate(body);
-        QString templateResult = QString("");
-        if (result.isError()) {
-            qCWarning(LOG_AW) << "Uncaught exception at line"
-                              << result.property("lineNumber").toInt() << ":"
-                              << result.toString();
-        } else {
-            templateResult = result.toString();
-        }
-
-        // replace template
-        code.replace(match.captured(), templateResult);
-    }
-
-    return code;
 }
 
 

@@ -285,24 +285,8 @@ void AWKeys::calculateValues()
 
     // lambdas
     for (auto key : m_foundLambdas)
-        values[key] = [this](QString key) {
-            QJSEngine engine;
-            // apply $this values
-            key.replace(QString("$this"), values[key].toString());
-            for (auto lambdaKey : m_foundKeys)
-                key.replace(QString("$%1").arg(lambdaKey),
-                            aggregator->formater(values[lambdaKey], lambdaKey));
-            qCInfo(LOG_AW) << "Expression" << key;
-            QJSValue result = engine.evaluate(key);
-            if (result.isError()) {
-                qCWarning(LOG_AW) << "Uncaught exception at line"
-                                  << result.property("lineNumber").toInt()
-                                  << ":" << result.toString();
-                return QString();
-            } else {
-                return result.toString();
-            }
-        }(key);
+        values[key] = AWPatternFunctions::expandLambdas(key, aggregator, values,
+                                                        m_foundKeys);
 }
 
 
@@ -329,31 +313,16 @@ QString AWKeys::parsePattern(QString pattern) const
     // bars
     for (auto bar : m_foundBars) {
         GraphicalItem *item = keyOperator->giByKey(bar);
-        if (item->type() == GraphicalItem::Graph)
+        if (item->type() == GraphicalItem::Graph) {
             pattern.replace(QString("$%1").arg(bar),
                             item->image(QVariant::fromValue<QList<float>>(
                                 dataAggregator->getData(item->bar()))));
-        else {
+        } else {
             if (item->isCustom())
                 pattern.replace(
                     QString("$%1").arg(bar),
-                    item->image([this, item](QString bar) {
-                        QJSEngine engine;
-                        for (auto key : item->usedKeys())
-                            bar.replace(QString("$%1").arg(key),
-                                        aggregator->formater(values[key], key));
-                        qCInfo(LOG_AW) << "Expression" << bar;
-                        QJSValue result = engine.evaluate(bar);
-                        if (result.isError()) {
-                            qCWarning(LOG_AW)
-                                << "Uncaught exception at line"
-                                << result.property("lineNumber").toInt() << ":"
-                                << result.toString();
-                            return QString();
-                        } else {
-                            return result.toString();
-                        }
-                    }(item->bar())));
+                    item->image(AWPatternFunctions::expandLambdas(
+                        item->bar(), aggregator, values, item->usedKeys())));
             else
                 pattern.replace(QString("$%1").arg(bar),
                                 item->image(values[item->bar()]));
