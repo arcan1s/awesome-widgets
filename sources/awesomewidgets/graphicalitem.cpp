@@ -23,14 +23,12 @@
 #include <QBuffer>
 #include <QColorDialog>
 #include <QDir>
-#include <QGraphicsEllipseItem>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QSettings>
 
-#include <math.h>
-
 #include "awdebug.h"
+#include "graphicalitemhelper.h"
 #include "version.h"
 
 
@@ -72,12 +70,12 @@ GraphicalItem *GraphicalItem::copy(const QString _fileName, const int _number)
     GraphicalItem *item = new GraphicalItem(static_cast<QWidget *>(parent()),
                                             _fileName, directories());
     copyDefaults(item);
-    item->setActiveColor(m_activeColor);
+    item->setActiveColor(activeColor());
     item->setBar(m_bar);
     item->setCustom(m_custom);
     item->setDirection(m_direction);
     item->setHeight(m_height);
-    item->setInactiveColor(m_inactiveColor);
+    item->setInactiveColor(inactiveColor());
     item->setMaxValue(m_maxValue);
     item->setMinValue(m_minValue);
     item->setNumber(_number);
@@ -98,22 +96,33 @@ QString GraphicalItem::image(const QVariant &value)
     // paint
     switch (m_type) {
     case Vertical:
-        paintVertical(value.toFloat());
+        GraphicalItemHelper::paintVertical(
+            GraphicalItemHelper::getPercents(value.toFloat(), m_minValue,
+                                             m_maxValue),
+            m_inactiveColor, m_activeColor, m_width, m_height, m_scene);
         // scale
         scale[1] = -2 * static_cast<int>(m_direction) + 1;
         break;
     case Circle:
-        paintCircle(value.toFloat());
+        GraphicalItemHelper::paintCircle(
+            GraphicalItemHelper::getPercents(value.toFloat(), m_minValue,
+                                             m_maxValue),
+            m_inactiveColor, m_activeColor, m_width, m_height, m_scene);
         // scale
         scale[0] = -2 * static_cast<int>(m_direction) + 1;
         break;
     case Graph:
-        paintGraph(value.value<QList<float>>());
+        GraphicalItemHelper::paintGraph(value.value<QList<float>>(),
+                                        m_activeColor, m_width, m_height,
+                                        m_scene);
         // direction option is not recognized by this GI type
         break;
     case Horizontal:
     default:
-        paintHorizontal(value.toFloat());
+        GraphicalItemHelper::paintHorizontal(
+            GraphicalItemHelper::getPercents(value.toFloat(), m_minValue,
+                                             m_maxValue),
+            m_inactiveColor, m_activeColor, m_width, m_height, m_scene);
         // scale
         scale[0] = -2 * static_cast<int>(m_direction) + 1;
         break;
@@ -140,13 +149,13 @@ QString GraphicalItem::bar() const
 
 QString GraphicalItem::activeColor() const
 {
-    return m_activeColor;
+    return GraphicalItemHelper::colorToString(m_activeColor);
 }
 
 
 QString GraphicalItem::inactiveColor() const
 {
-    return m_inactiveColor;
+    return GraphicalItemHelper::colorToString(m_inactiveColor);
 }
 
 
@@ -256,7 +265,7 @@ void GraphicalItem::setActiveColor(const QString _color)
 {
     qCDebug(LOG_LIB) << "Color" << _color;
 
-    m_activeColor = _color;
+    m_activeColor = GraphicalItemHelper::stringToColor(_color);
 }
 
 
@@ -272,7 +281,7 @@ void GraphicalItem::setInactiveColor(const QString _color)
 {
     qCDebug(LOG_LIB) << "Color" << _color;
 
-    m_inactiveColor = _color;
+    m_inactiveColor = GraphicalItemHelper::stringToColor(_color);
 }
 
 
@@ -382,10 +391,10 @@ void GraphicalItem::readConfiguration()
         setMaxValue(settings.value(QString("X-AW-Max"), m_maxValue).toFloat());
         setMinValue(settings.value(QString("X-AW-Min"), m_minValue).toFloat());
         setActiveColor(
-            settings.value(QString("X-AW-ActiveColor"), m_activeColor)
+            settings.value(QString("X-AW-ActiveColor"), activeColor())
                 .toString());
         setInactiveColor(
-            settings.value(QString("X-AW-InactiveColor"), m_inactiveColor)
+            settings.value(QString("X-AW-InactiveColor"), inactiveColor())
                 .toString());
         setStrType(settings.value(QString("X-AW-Type"), strType()).toString());
         setStrDirection(
@@ -433,8 +442,8 @@ int GraphicalItem::showConfiguration(const QVariant args)
     }
     ui->doubleSpinBox_max->setValue(m_maxValue);
     ui->doubleSpinBox_min->setValue(m_minValue);
-    ui->pushButton_activeColor->setText(m_activeColor);
-    ui->pushButton_inactiveColor->setText(m_inactiveColor);
+    ui->pushButton_activeColor->setText(activeColor());
+    ui->pushButton_inactiveColor->setText(inactiveColor());
     ui->comboBox_type->setCurrentIndex(static_cast<int>(m_type));
     ui->comboBox_direction->setCurrentIndex(static_cast<int>(m_direction));
     ui->spinBox_height->setValue(m_height);
@@ -477,8 +486,8 @@ void GraphicalItem::writeConfiguration() const
     settings.setValue(QString("X-AW-Custom"), m_custom);
     settings.setValue(QString("X-AW-Max"), m_maxValue);
     settings.setValue(QString("X-AW-Min"), m_minValue);
-    settings.setValue(QString("X-AW-ActiveColor"), m_activeColor);
-    settings.setValue(QString("X-AW-InactiveColor"), m_inactiveColor);
+    settings.setValue(QString("X-AW-ActiveColor"), activeColor());
+    settings.setValue(QString("X-AW-InactiveColor"), inactiveColor());
     settings.setValue(QString("X-AW-Type"), strType());
     settings.setValue(QString("X-AW-Direction"), strDirection());
     settings.setValue(QString("X-AW-Height"), m_height);
@@ -491,8 +500,8 @@ void GraphicalItem::writeConfiguration() const
 
 void GraphicalItem::changeColor()
 {
-    QColor color
-        = stringToColor((static_cast<QPushButton *>(sender()))->text());
+    QColor color = GraphicalItemHelper::stringToColor(
+        (static_cast<QPushButton *>(sender()))->text());
     QColor newColor = QColorDialog::getColor(color, this, tr("Select color"),
                                              QColorDialog::ShowAlphaChannel);
     if (!newColor.isValid())
@@ -524,7 +533,7 @@ void GraphicalItem::initScene()
     // init scene
     m_scene = new QGraphicsScene();
     if (m_type == Graph)
-        m_scene->setBackgroundBrush(stringToColor(m_inactiveColor));
+        m_scene->setBackgroundBrush(m_inactiveColor);
     else
         m_scene->setBackgroundBrush(QBrush(Qt::NoBrush));
     // init view
@@ -535,103 +544,6 @@ void GraphicalItem::initScene()
     m_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_view->resize(m_width + 5, m_height + 5);
-}
-
-
-void GraphicalItem::paintCircle(const float value)
-{
-    QPen pen;
-    pen.setWidth(1);
-    float percent = (value - m_minValue) / (m_maxValue - m_minValue);
-    QGraphicsEllipseItem *circle;
-
-    QColor inactive = stringToColor(m_inactiveColor);
-    QColor active = stringToColor(m_activeColor);
-
-    // inactive
-    pen.setColor(inactive);
-    circle = m_scene->addEllipse(0.0, 0.0, m_width, m_height, pen,
-                                 QBrush(inactive, Qt::SolidPattern));
-    circle->setSpanAngle(-(1.0f - percent) * 360.0f * 16.0f);
-    circle->setStartAngle(90.0f * 16.0f - percent * 360.0f * 16.0f);
-    // active
-    pen.setColor(active);
-    circle = m_scene->addEllipse(0.0, 0.0, m_width, m_height, pen,
-                                 QBrush(active, Qt::SolidPattern));
-    circle->setSpanAngle(-percent * 360.0f * 16.0f);
-    circle->setStartAngle(90.0f * 16.0f);
-}
-
-
-void GraphicalItem::paintGraph(const QList<float> value)
-{
-    QPen pen;
-    pen.setColor(stringToColor(m_activeColor));
-
-    // default norms
-    float normX
-        = static_cast<float>(m_width) / static_cast<float>(value.count());
-    float normY = static_cast<float>(m_height) / (1.5f * 100.0f);
-    // paint graph
-    for (int i = 0; i < value.count() - 1; i++) {
-        // some magic here
-        float x1 = i * normX;
-        float y1 = -fabs(value.at(i)) * normY + 5.0f;
-        float x2 = (i + 1) * normX;
-        float y2 = -fabs(value.at(i + 1)) * normY + 5.0f;
-        m_scene->addLine(x1, y1, x2, y2, pen);
-    }
-}
-
-
-void GraphicalItem::paintHorizontal(const float value)
-{
-    QPen pen;
-    float percent = (value - m_minValue) / (m_maxValue - m_minValue);
-
-    pen.setWidth(m_height);
-    // inactive
-    pen.setColor(stringToColor(m_inactiveColor));
-    m_scene->addLine(percent * m_width + 0.5 * m_height, 0.5 * m_height,
-                     m_width + 0.5 * m_height, 0.5 * m_height, pen);
-    // active
-    pen.setColor(stringToColor(m_activeColor));
-    m_scene->addLine(-0.5 * m_height, 0.5 * m_height,
-                     percent * m_width - 0.5 * m_height, 0.5 * m_height, pen);
-}
-
-
-void GraphicalItem::paintVertical(const float value)
-{
-    QPen pen;
-    float percent = (value - m_minValue) / (m_maxValue - m_minValue);
-
-    pen.setWidth(m_width);
-    // inactive
-    pen.setColor(stringToColor(m_inactiveColor));
-    m_scene->addLine(0.5 * m_width, -0.5 * m_width, 0.5 * m_width,
-                     (1.0 - percent) * m_height - 0.5 * m_width, pen);
-    // active
-    pen.setColor(stringToColor(m_activeColor));
-    m_scene->addLine(0.5 * m_width, (1.0 - percent) * m_height + 0.5 * m_width,
-                     0.5 * m_width, m_height + 0.5 * m_width, pen);
-}
-
-
-QColor GraphicalItem::stringToColor(const QString _color) const
-{
-    qCDebug(LOG_LIB) << "Color" << _color;
-
-    QColor qcolor;
-    QStringList listColor = _color.split(QChar(','));
-    while (listColor.count() < 4)
-        listColor.append(QString("0"));
-    qcolor.setRed(listColor.at(0).toInt());
-    qcolor.setGreen(listColor.at(1).toInt());
-    qcolor.setBlue(listColor.at(2).toInt());
-    qcolor.setAlpha(listColor.at(3).toInt());
-
-    return qcolor;
 }
 
 

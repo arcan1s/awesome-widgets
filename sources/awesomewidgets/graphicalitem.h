@@ -74,10 +74,10 @@ public:
     // set methods
     void setBar(const QString _bar = QString("cpu"));
     void setActiveColor(const QString _color = QString("0,0,0,130"));
-    void setCustom(const bool _custom);
+    void setCustom(const bool _custom = false);
     void setInactiveColor(const QString _color = QString("255,255,255,130"));
-    void setMinValue(const float _value);
-    void setMaxValue(const float _value);
+    void setMinValue(const float _value = 0.0);
+    void setMaxValue(const float _value = 100.0);
     void setType(const Type _type = Horizontal);
     void setStrType(const QString _type = QString("Horizontal"));
     void setDirection(const Direction _direction = LeftToRight);
@@ -101,19 +101,12 @@ private:
     QGraphicsView *m_view = nullptr;
     Ui::GraphicalItem *ui;
     void initScene();
-    // paint methods
-    void paintCircle(const float value);
-    void paintGraph(const QList<float> value);
-    void paintHorizontal(const float value);
-    void paintVertical(const float value);
-    // additional method
-    QColor stringToColor(const QString _color) const;
     void translate();
     // properties
     QString m_bar = QString("cpu");
     bool m_custom = false;
-    QString m_activeColor = QString("0,0,0,130");
-    QString m_inactiveColor = QString("255,255,255,130");
+    QColor m_activeColor = QColor(0, 0, 0, 130);
+    QColor m_inactiveColor = QColor(255, 255, 255, 130);
     float m_minValue = 0.0f;
     float m_maxValue = 100.0f;
     Type m_type = Horizontal;
