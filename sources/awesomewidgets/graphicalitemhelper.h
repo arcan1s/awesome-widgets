@@ -19,28 +19,36 @@
 #define GRAPHICALITEMHELPER_H
 
 #include <QColor>
+#include <QObject>
 
 
 class QGraphicsScene;
 
-namespace GraphicalItemHelper
+class GraphicalItemHelper : public QObject
 {
-// paint methods
-void paintCircle(const float &percent, const QColor &inactive,
-                 const QColor &active, const int &width, const int &height,
-                 QGraphicsScene *scene);
-void paintGraph(const QList<float> &value, const QColor &active,
-                const int &width, const int &height, QGraphicsScene *scene);
-void paintHorizontal(const float &percent, const QColor &inactive,
-                     const QColor &active, const int &width, const int &height,
-                     QGraphicsScene *scene);
-void paintVertical(const float &percent, const QColor &inactive,
-                   const QColor &active, const int &width, const int &height,
-                   QGraphicsScene *scene);
-// additional conversion methods
-QString colorToString(const QColor &color);
-float getPercents(const float &value, const float &min, const float &max);
-QColor stringToColor(const QString &color);
+public:
+    explicit GraphicalItemHelper(QObject *parent = nullptr,
+                                 QGraphicsScene *scene = nullptr);
+    virtual ~GraphicalItemHelper();
+    // parameters
+    void setParameters(const QColor active, const QColor inactive,
+                       const int width, const int height);
+    // paint methods
+    void paintCircle(const float &percent);
+    void paintGraph(const QList<float> &value);
+    void paintHorizontal(const float &percent);
+    void paintVertical(const float &percent);
+    // additional conversion methods
+    QString colorToString(const QColor &color);
+    float getPercents(const float &value, const float &min, const float &max);
+    QColor stringToColor(const QString &color);
+
+private:
+    QGraphicsScene *m_scene = nullptr;
+    QColor m_activeColor;
+    QColor m_inactiveColor;
+    int m_width;
+    int m_height;
 };
 
 

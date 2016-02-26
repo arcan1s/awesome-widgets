@@ -264,7 +264,7 @@ void AWDataAggregator::setData(const QVariantHash &values)
     // usual case
     setData(QString("cpuTooltip"), values[QString("cpu")].toFloat(), 90.0);
     setData(QString("cpuclTooltip"), values[QString("cpucl")].toFloat());
-    setData(QString("memTooltip"), values[QString("mem")].toFloat(), 90.0);
+    setData(QString("memTooltip"), values[QString("mem")].toFloat(), 80.0);
     setData(QString("swapTooltip"), values[QString("swap")].toFloat(), 0.0);
     setData(QString("downkbTooltip"), values[QString("downkb")].toFloat());
     setData(QString("upkbTooltip"), values[QString("upkb")].toFloat());

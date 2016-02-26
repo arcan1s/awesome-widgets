@@ -17,6 +17,7 @@
 
 #include "graphicalitemhelper.h"
 
+#include <QColor>
 #include <QGraphicsEllipseItem>
 #include <QGraphicsScene>
 
@@ -25,40 +26,68 @@
 #include "awdebug.h"
 
 
-void GraphicalItemHelper::paintCircle(const float &percent,
-                                      const QColor &inactive,
-                                      const QColor &active, const int &width,
-                                      const int &height, QGraphicsScene *scene)
+GraphicalItemHelper::GraphicalItemHelper(QObject *parent, QGraphicsScene *scene)
+    : QObject(parent)
+    , m_scene(scene)
 {
+    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
+}
+
+
+GraphicalItemHelper::~GraphicalItemHelper()
+{
+    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
+}
+
+
+void GraphicalItemHelper::setParameters(const QColor active,
+                                        const QColor inactive, const int width,
+                                        const int height)
+{
+    qCDebug(LOG_LIB) << "Use active color" << active << ", inactive" << inactive
+                     << ", width" << width << ", height" << height;
+
+    m_activeColor = active;
+    m_inactiveColor = inactive;
+    m_width = width;
+    m_height = height;
+}
+
+
+void GraphicalItemHelper::paintCircle(const float &percent)
+{
+    qCDebug(LOG_LIB) << "Paint with percent" << percent;
+
     QPen pen;
     pen.setWidth(1);
     QGraphicsEllipseItem *circle;
 
     // inactive
-    pen.setColor(inactive);
-    circle = scene->addEllipse(0.0, 0.0, width, height, pen,
-                               QBrush(inactive, Qt::SolidPattern));
+    pen.setColor(m_inactiveColor);
+    circle = m_scene->addEllipse(0.0, 0.0, m_width, m_height, pen,
+                                 QBrush(m_inactiveColor, Qt::SolidPattern));
     circle->setSpanAngle(-(1.0f - percent) * 360.0f * 16.0f);
     circle->setStartAngle(90.0f * 16.0f - percent * 360.0f * 16.0f);
     // active
-    pen.setColor(active);
-    circle = scene->addEllipse(0.0, 0.0, width, height, pen,
-                               QBrush(active, Qt::SolidPattern));
+    pen.setColor(m_activeColor);
+    circle = m_scene->addEllipse(0.0, 0.0, m_width, m_height, pen,
+                                 QBrush(m_activeColor, Qt::SolidPattern));
     circle->setSpanAngle(-percent * 360.0f * 16.0f);
     circle->setStartAngle(90.0f * 16.0f);
 }
 
 
-void GraphicalItemHelper::paintGraph(const QList<float> &value,
-                                     const QColor &active, const int &width,
-                                     const int &height, QGraphicsScene *scene)
+void GraphicalItemHelper::paintGraph(const QList<float> &value)
 {
+    qCDebug(LOG_LIB) << "Paint with value" << value;
+
     QPen pen;
-    pen.setColor(active);
+    pen.setColor(m_activeColor);
 
     // default norms
-    float normX = static_cast<float>(width) / static_cast<float>(value.count());
-    float normY = static_cast<float>(height) / (1.5f * 100.0f);
+    float normX
+        = static_cast<float>(m_width) / static_cast<float>(value.count());
+    float normY = static_cast<float>(m_height) / (1.5f * 100.0f);
     // paint graph
     for (int i = 0; i < value.count() - 1; i++) {
         // some magic here
@@ -66,46 +95,42 @@ void GraphicalItemHelper::paintGraph(const QList<float> &value,
         float y1 = -fabs(value.at(i)) * normY + 5.0f;
         float x2 = (i + 1) * normX;
         float y2 = -fabs(value.at(i + 1)) * normY + 5.0f;
-        scene->addLine(x1, y1, x2, y2, pen);
+        m_scene->addLine(x1, y1, x2, y2, pen);
     }
 }
 
 
-void GraphicalItemHelper::paintHorizontal(const float &percent,
-                                          const QColor &inactive,
-                                          const QColor &active,
-                                          const int &width, const int &height,
-                                          QGraphicsScene *scene)
+void GraphicalItemHelper::paintHorizontal(const float &percent)
 {
+    qCDebug(LOG_LIB) << "Paint with percent" << percent;
+
     QPen pen;
-    pen.setWidth(height);
+    pen.setWidth(m_height);
     // inactive
-    pen.setColor(inactive);
-    scene->addLine(percent * width + 0.5 * height, 0.5 * height,
-                   width + 0.5 * height, 0.5 * height, pen);
+    pen.setColor(m_inactiveColor);
+    m_scene->addLine(percent * m_width + 0.5 * m_height, 0.5 * m_height,
+                     m_width + 0.5 * m_height, 0.5 * m_height, pen);
     // active
-    pen.setColor(active);
-    scene->addLine(-0.5 * height, 0.5 * height, percent * width - 0.5 * height,
-                   0.5 * height, pen);
+    pen.setColor(m_activeColor);
+    m_scene->addLine(-0.5 * m_height, 0.5 * m_height,
+                     percent * m_width - 0.5 * m_height, 0.5 * m_height, pen);
 }
 
 
-void GraphicalItemHelper::paintVertical(const float &percent,
-                                        const QColor &inactive,
-                                        const QColor &active, const int &width,
-                                        const int &height,
-                                        QGraphicsScene *scene)
+void GraphicalItemHelper::paintVertical(const float &percent)
 {
+    qCDebug(LOG_LIB) << "Paint with percent" << percent;
+
     QPen pen;
-    pen.setWidth(width);
+    pen.setWidth(m_width);
     // inactive
-    pen.setColor(inactive);
-    scene->addLine(0.5 * width, -0.5 * width, 0.5 * width,
-                   (1.0 - percent) * height - 0.5 * width, pen);
+    pen.setColor(m_inactiveColor);
+    m_scene->addLine(0.5 * m_width, -0.5 * m_width, 0.5 * m_width,
+                     (1.0 - percent) * m_height - 0.5 * m_width, pen);
     // active
-    pen.setColor(active);
-    scene->addLine(0.5 * width, (1.0 - percent) * height + 0.5 * width,
-                   0.5 * width, height + 0.5 * width, pen);
+    pen.setColor(m_activeColor);
+    m_scene->addLine(0.5 * m_width, (1.0 - percent) * m_height + 0.5 * m_width,
+                     0.5 * m_width, m_height + 0.5 * m_width, pen);
 }
 
 

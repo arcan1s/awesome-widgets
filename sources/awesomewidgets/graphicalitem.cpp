@@ -60,6 +60,7 @@ GraphicalItem::~GraphicalItem()
 
     delete m_scene;
     delete ui;
+    delete m_helper;
 }
 
 
@@ -89,6 +90,7 @@ GraphicalItem *GraphicalItem::copy(const QString _fileName, const int _number)
 QString GraphicalItem::image(const QVariant &value)
 {
     qCDebug(LOG_LIB) << "Value" << value;
+    qDebug() << "Value" << value;
 
     m_scene->clear();
     int scale[2] = {1, 1};
@@ -96,33 +98,25 @@ QString GraphicalItem::image(const QVariant &value)
     // paint
     switch (m_type) {
     case Vertical:
-        GraphicalItemHelper::paintVertical(
-            GraphicalItemHelper::getPercents(value.toFloat(), m_minValue,
-                                             m_maxValue),
-            m_inactiveColor, m_activeColor, m_width, m_height, m_scene);
+        m_helper->paintVertical(
+            m_helper->getPercents(value.toFloat(), m_minValue, m_maxValue));
         // scale
         scale[1] = -2 * static_cast<int>(m_direction) + 1;
         break;
     case Circle:
-        GraphicalItemHelper::paintCircle(
-            GraphicalItemHelper::getPercents(value.toFloat(), m_minValue,
-                                             m_maxValue),
-            m_inactiveColor, m_activeColor, m_width, m_height, m_scene);
+        m_helper->paintCircle(
+            m_helper->getPercents(value.toFloat(), m_minValue, m_maxValue));
         // scale
         scale[0] = -2 * static_cast<int>(m_direction) + 1;
         break;
     case Graph:
-        GraphicalItemHelper::paintGraph(value.value<QList<float>>(),
-                                        m_activeColor, m_width, m_height,
-                                        m_scene);
+        m_helper->paintGraph(value.value<QList<float>>());
         // direction option is not recognized by this GI type
         break;
     case Horizontal:
     default:
-        GraphicalItemHelper::paintHorizontal(
-            GraphicalItemHelper::getPercents(value.toFloat(), m_minValue,
-                                             m_maxValue),
-            m_inactiveColor, m_activeColor, m_width, m_height, m_scene);
+        m_helper->paintHorizontal(
+            m_helper->getPercents(value.toFloat(), m_minValue, m_maxValue));
         // scale
         scale[0] = -2 * static_cast<int>(m_direction) + 1;
         break;
@@ -137,6 +131,7 @@ QString GraphicalItem::image(const QVariant &value)
     QString url = QString("<img src=\"data:image/png;base64,%1\"/>")
                       .arg(QString(byteArray.toBase64()));
 
+    qDebug() << url;
     return url;
 }
 
@@ -149,13 +144,13 @@ QString GraphicalItem::bar() const
 
 QString GraphicalItem::activeColor() const
 {
-    return GraphicalItemHelper::colorToString(m_activeColor);
+    return m_helper->colorToString(m_activeColor);
 }
 
 
 QString GraphicalItem::inactiveColor() const
 {
-    return GraphicalItemHelper::colorToString(m_inactiveColor);
+    return m_helper->colorToString(m_inactiveColor);
 }
 
 
@@ -265,7 +260,7 @@ void GraphicalItem::setActiveColor(const QString _color)
 {
     qCDebug(LOG_LIB) << "Color" << _color;
 
-    m_activeColor = GraphicalItemHelper::stringToColor(_color);
+    m_activeColor = m_helper->stringToColor(_color);
 }
 
 
@@ -281,7 +276,7 @@ void GraphicalItem::setInactiveColor(const QString _color)
 {
     qCDebug(LOG_LIB) << "Color" << _color;
 
-    m_inactiveColor = GraphicalItemHelper::stringToColor(_color);
+    m_inactiveColor = m_helper->stringToColor(_color);
 }
 
 
@@ -500,7 +495,7 @@ void GraphicalItem::writeConfiguration() const
 
 void GraphicalItem::changeColor()
 {
-    QColor color = GraphicalItemHelper::stringToColor(
+    QColor color = m_helper->stringToColor(
         (static_cast<QPushButton *>(sender()))->text());
     QColor newColor = QColorDialog::getColor(color, this, tr("Select color"),
                                              QColorDialog::ShowAlphaChannel);
@@ -544,6 +539,10 @@ void GraphicalItem::initScene()
     m_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_view->resize(m_width + 5, m_height + 5);
+
+    // init helper
+    m_helper = new GraphicalItemHelper(this, m_scene);
+    m_helper->setParameters(m_activeColor, m_inactiveColor, m_width, m_height);
 }
 
 

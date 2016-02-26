@@ -44,7 +44,7 @@ signals:
     void updateData(const QVariantHash &values);
     void toolTipPainted(const QString image) const;
 
-public slots:
+private slots:
     void dataUpdate(const QVariantHash &values);
 
 private:

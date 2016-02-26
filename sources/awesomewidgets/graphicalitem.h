@@ -23,6 +23,7 @@
 #include "abstractextitem.h"
 
 
+class GraphicalItemHelper;
 class QGraphicsScene;
 class QGraphicsView;
 
@@ -97,6 +98,7 @@ private slots:
     void changeValue(const int state);
 
 private:
+    GraphicalItemHelper *m_helper = nullptr;
     QGraphicsScene *m_scene = nullptr;
     QGraphicsView *m_view = nullptr;
     Ui::GraphicalItem *ui;
