@@ -229,10 +229,9 @@ void AWKeys::reinitKeys(const QStringList currentKeys)
 
 void AWKeys::updateTextData()
 {
-    QFuture<QString> text = QtConcurrent::run(m_threadPool, [this]() {
-        calculateValues();
-        return parsePattern(keyOperator->pattern());
-    });
+    // do not do it in parallel to avoid race condition
+    calculateValues();
+    QString text = parsePattern(keyOperator->pattern());
 
     emit(needTextToBeUpdated(text));
     emit(dataAggregator->updateData(values));

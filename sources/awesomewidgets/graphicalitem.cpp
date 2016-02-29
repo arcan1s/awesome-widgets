@@ -90,7 +90,6 @@ GraphicalItem *GraphicalItem::copy(const QString _fileName, const int _number)
 QString GraphicalItem::image(const QVariant &value)
 {
     qCDebug(LOG_LIB) << "Value" << value;
-    qDebug() << "Value" << value;
 
     m_scene->clear();
     int scale[2] = {1, 1};
@@ -131,7 +130,6 @@ QString GraphicalItem::image(const QVariant &value)
     QString url = QString("<img src=\"data:image/png;base64,%1\"/>")
                       .arg(QString(byteArray.toBase64()));
 
-    qDebug() << url;
     return url;
 }
 
