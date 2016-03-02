@@ -34,64 +34,64 @@ msgid "DataEngine"
 msgstr "数据引擎"
 
 msgid "About"
-msgstr ""
+msgstr "关于"
 
 msgid "Acknowledgment"
-msgstr ""
+msgstr "感谢"
 
 msgid "Enable background"
 msgstr "启用背景"
 
 msgid "Translate strings"
-msgstr ""
+msgstr "译文"
 
 msgid "Wrap new lines"
-msgstr ""
+msgstr "自动换行"
 
 msgid "Enable word wrap"
-msgstr ""
+msgstr "启用自动换行"
 
 msgid "Enable notifications"
-msgstr ""
+msgstr "启用通知"
 
 msgid "Check updates on startup"
-msgstr ""
+msgstr "启动时检查更新"
 
 msgid "Widget height, px"
-msgstr ""
+msgstr "高度, px"
 
 msgid "Widget width, px"
-msgstr ""
+msgstr "宽度, px"
 
 msgid "Time interval"
 msgstr "时间周期"
 
 msgid "Messages queue limit"
-msgstr ""
+msgstr "消息队列长度限制"
 
 msgid "Temperature units"
 msgstr "温度单位"
 
 msgid "Celsius"
-msgstr ""
+msgstr "摄氏度"
 
 msgid "Fahrenheit"
-msgstr ""
+msgstr "华氏温度"
 
 msgid "Kelvin"
-msgstr ""
+msgstr "绝度温度"
 
 msgid "Reaumur"
-msgstr ""
+msgstr "列氏温度"
 
 msgid "cm^-1"
-msgstr ""
+msgstr "厘米^-1"
 
 msgid "kJ/mol"
-msgstr ""
+msgstr "千焦/摩尔"
 
 msgid "kcal/mol"
-msgstr ""
+msgstr "千卡/摩尔"
 
 msgid "Custom time format"
 msgstr "自定义时间格式"
@@ -106,40 +106,40 @@ msgid "AC offline tag"
 msgstr "外接电源未使用标签"
 
 msgid "Drop key cache"
-msgstr ""
+msgstr "清空缓存"
 
 msgid "Export configuration"
-msgstr ""
+msgstr "导出配置"
 
 msgid "Export"
-msgstr ""
+msgstr "导出"
 
 msgid "Success"
-msgstr ""
+msgstr "成功"
 
 msgid "Please note that binary files were not copied"
-msgstr ""
+msgstr "请注意，二进制文件将不会被复制"
 
 msgid "Ooops..."
-msgstr ""
+msgstr "哎哟..."
 
 msgid "Could not save configuration file"
-msgstr ""
+msgstr "无法保存配置文件"
 
 msgid "Import configuration"
-msgstr ""
+msgstr "导入配置"
 
 msgid "Import"
-msgstr ""
+msgstr "导入"
 
 msgid "Import plasmoid settings"
-msgstr ""
+msgstr "导入[plasmoid]配置"
 
 msgid "Import extensions"
-msgstr ""
+msgstr "导入插件"
 
 msgid "Import additional files"
-msgstr ""
+msgstr "导入其他文件"
 
 msgid "Font"
 msgstr "字体"
@@ -151,52 +151,49 @@ msgid "Font weight"
 msgstr "字体宽度"
 
 msgid "light"
-msgstr ""
+msgstr "细体"
 
 msgid "normal"
-msgstr ""
+msgstr "正常"
 
 msgid "demi bold"
-msgstr ""
+msgstr "较粗"
 
 msgid "bold"
-msgstr ""
+msgstr "粗体"
 
 msgid "black"
-msgstr ""
+msgstr "黑体"
 
 msgid "Font style"
 msgstr "字体样式"
 
 msgid "italic"
-msgstr ""
+msgstr "斜体"
 
 msgid "Font color"
 msgstr "字体颜色"
 
-#, fuzzy
 msgid "Select a color"
-msgstr "选择字体"
+msgstr "选择颜色"
 
-#, fuzzy
 msgid "Select a font"
 msgstr "选择字体"
 
 msgid "ACPI"
-msgstr ""
+msgstr "电源"
 
 msgid "ACPI path"
-msgstr ""
+msgstr "电源路径"
 
 msgid "GPU"
-msgstr ""
+msgstr "GPU"
 
 msgid "GPU device"
 msgstr "GPU 设备"
 
-#, fuzzy
 msgid "HDD temperature"
-msgstr "温度单位"
+msgstr "硬盘温度"
 
 msgid "HDD"
 msgstr "硬盘"
@@ -205,10 +202,10 @@ msgid "hddtemp cmd"
 msgstr "硬盘温度显示命令"
 
 msgid "Player"
-msgstr ""
+msgstr "播放器"
 
 msgid "Player data symbols"
-msgstr ""
+msgstr "播放器图标"
 
 msgid "Music player"
 msgstr "音乐播放器"
@@ -223,58 +220,53 @@ msgid "MPD port"
 msgstr "MPD 端口"
 
 msgid "Extensions"
-msgstr ""
+msgstr "插件"
 
 msgid "Custom scripts"
-msgstr ""
+msgstr "自定义脚本"
 
 msgid "Edit scripts"
-msgstr ""
+msgstr "编辑脚本"
 
 msgid "Quotes monitor"
-msgstr ""
+msgstr "引用监视器"
 
-#, fuzzy
 msgid "Edit tickers"
-msgstr "可编辑的"
+msgstr "编辑股票更新周期"
 
 msgid "Package manager"
 msgstr "包管理器"
 
-#, fuzzy
 msgid "Edit command"
-msgstr "自定义命令"
+msgstr "编辑命令"
 
 msgid "Weather"
-msgstr ""
+msgstr "天气"
 
-#, fuzzy
 msgid "Edit weather"
-msgstr "可编辑的"
+msgstr "编辑天气"
 
-#, fuzzy
 msgid "Select tag"
-msgstr "选择字体"
+msgstr "选择标签"
 
 msgid "Tag: %1"
-msgstr ""
+msgstr "标签: %1"
 
 msgid "Value: %1"
-msgstr ""
+msgstr "值: %1"
 
 msgid "Info: %1"
-msgstr ""
+msgstr "信息: %1"
 
 msgid "Request key"
-msgstr ""
+msgstr "秘钥"
 
 msgid "Show README"
 msgstr "显示帮助文档"
 
 msgid "Check updates"
-msgstr ""
+msgstr "检查更新"
 
-#, fuzzy
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
 "To enable them just make needed checkbox checked."
@@ -288,38 +280,35 @@ msgstr "提示的数值"
 msgid "Background"
 msgstr "背景"
 
-#, fuzzy
 msgid "Background color"
-msgstr "背景"
+msgstr "背景颜色"
 
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 msgid "CPU color"
 msgstr "CPU 颜色"
 
-#, fuzzy
 msgid "CPU clock"
-msgstr "CPU 颜色"
+msgstr "CPU 时钟"
 
 msgid "CPU clock color"
 msgstr "CPU 时钟颜色"
 
-#, fuzzy
 msgid "Memory"
-msgstr "内存显示颜色"
+msgstr "内存"
 
 msgid "Memory color"
-msgstr "内存显示颜色"
+msgstr "内存颜色"
 
 msgid "Swap"
-msgstr ""
+msgstr "虚拟内存"
 
 msgid "Swap color"
 msgstr "虚拟内存颜色"
 
 msgid "Network"
-msgstr ""
+msgstr "网络"
 
 msgid "Download speed color"
 msgstr "下载速度颜色"
@@ -327,9 +316,8 @@ msgstr "下载速度颜色"
 msgid "Upload speed color"
 msgstr "上传速度颜色"
 
-#, fuzzy
 msgid "Battery"
-msgstr "电池设备"
+msgstr "电池"
 
 msgid "Battery active color"
 msgstr "电池使用状态提示颜色"
@@ -345,171 +333,166 @@ msgstr ""
 "页</a>"
 
 msgid "AC"
-msgstr ""
+msgstr "电源"
 
 msgid "Bars"
-msgstr ""
+msgstr "工具栏"
 
 msgid "Desktops"
-msgstr ""
+msgstr "桌面"
 
 msgid "Scripts"
-msgstr ""
+msgstr "脚本"
 
 msgid "Time"
-msgstr ""
+msgstr "时间"
 
 msgid "Quotes"
-msgstr ""
+msgstr "引用"
 
 msgid "Upgrades"
-msgstr ""
+msgstr "更新"
 
-#, fuzzy
 msgid "Weathers"
-msgstr "可编辑的"
+msgstr "天气"
 
 msgid "Add"
 msgstr "添加"
 
 msgid "Show value"
-msgstr ""
+msgstr "显示值"
 
 msgid "Add lambda"
-msgstr ""
+msgstr "添加 lambda"
 
-#, fuzzy
 msgid "Edit bars"
-msgstr "可编辑的"
+msgstr "编辑工具栏"
 
 msgid "Preview"
-msgstr ""
+msgstr "预览"
 
 msgid "Run %1"
-msgstr ""
+msgstr "运行 %1"
 
 msgid "Version %1 (build date %2)"
-msgstr ""
+msgstr "版本 %1 (编译时间 %2)"
 
 msgid "A set of minimalistic plasmoid widgets"
-msgstr ""
+msgstr "一系列 plasmoid 窗口小部件"
 
 msgid "Links:"
-msgstr ""
+msgstr "链接:"
 
 msgid "Homepage"
-msgstr ""
+msgstr "主页"
 
 msgid "Repository"
-msgstr ""
+msgstr "软件源"
 
 msgid "Bugtracker"
-msgstr ""
+msgstr "BUG反馈"
 
 msgid "Translation issue"
-msgstr ""
+msgstr "翻译相关"
 
 msgid "AUR packages"
-msgstr ""
+msgstr "AUR 包"
 
 msgid "openSUSE packages"
-msgstr ""
+msgstr "openSUSE 包"
 
 msgid "This software is licensed under %1"
-msgstr ""
+msgstr "该软件使用以下授权 %1"
 
 msgid "Translators: %1"
-msgstr ""
+msgstr "翻译: %1"
 
 msgid "This software uses: %1"
-msgstr ""
+msgstr "该软件使用: %1"
 
 msgid "Special thanks to %1"
-msgstr ""
+msgstr "特别感谢 %1"
 
 msgid "Select font"
 msgstr "选择字体"
 
 msgid "You are using the actual version %1"
-msgstr ""
+msgstr "你正在使用最新版本 %1"
 
 msgid "No new version found"
-msgstr ""
+msgstr "没有新版本"
 
 msgid "Current version : %1"
-msgstr ""
+msgstr "当前版本 : %1"
 
 msgid "New version : %1"
-msgstr ""
+msgstr "新版本 : %1"
 
 msgid "Click \"Ok\" to download"
-msgstr ""
+msgstr "点击 \"Ok\" 下载"
 
 msgid "There are updates"
-msgstr ""
+msgstr "有新的更新"
 
-#, fuzzy
 msgid "AC online"
-msgstr "外接电源使用中标签"
+msgstr "外接电源使用中"
 
-#, fuzzy
 msgid "AC offline"
-msgstr "外接电源未使用标签"
+msgstr "外接电源未使用"
 
 msgid "High CPU load"
-msgstr ""
+msgstr "高 CPU 使用"
 
 msgid "High memory usage"
-msgstr ""
+msgstr "高内存使用"
 
 msgid "Swap is used"
-msgstr ""
+msgstr "虚拟内存使用"
 
 msgid "High GPU load"
-msgstr ""
+msgstr "高 GPU 使用"
 
 msgid "Network device has been changed to %1"
-msgstr ""
+msgstr "网络设备变更为 %1"
 
 msgid "MB/s"
-msgstr ""
+msgstr "MB/s"
 
 msgid "KB/s"
-msgstr ""
+msgstr "KB/s"
 
 msgid "Copy"
-msgstr ""
+msgstr "复制"
 
 msgid "Create"
-msgstr ""
+msgstr "新建"
 
 msgid "Remove"
 msgstr "移除"
 
 msgid "Enter file name"
-msgstr ""
+msgstr "输入文件名"
 
 msgid "File name"
-msgstr ""
+msgstr "文件名"
 
 msgid "Name: %1"
-msgstr ""
+msgstr "命名: %1"
 
 msgid "Comment: %1"
-msgstr ""
+msgstr "评论: %1"
 
 msgid "Identity: %1"
-msgstr ""
+msgstr "身份: %1"
 
 msgid "Name"
-msgstr ""
+msgstr "命名"
 
-#, fuzzy
 msgid "Comment"
-msgstr "自定义命令"
+msgstr "评论"
 
 msgid "Tag"
-msgstr ""
+msgstr "标签"
 
 msgid ""
 "<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
@@ -517,78 +500,76 @@ msgid ""
 "text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</"
 "span></a></p></body></html>"
 msgstr ""
+"<html><head/><body><p>使用 YAHOO（雅虎）! 获取最新的金融股票行情 "
+". 请点击链接 <a href=\"http://finance.yahoo.com/\"><span style=\" "
+"text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</"
+"span></a></p></body></html>"
 
 msgid "Ticker"
-msgstr ""
+msgstr "金融股市"
 
-#, fuzzy
 msgid "Active"
-msgstr "电池使用状态提示颜色"
+msgstr "使用"
 
-#, fuzzy
 msgid "Interval"
 msgstr "时间周期"
 
-#, fuzzy
 msgid "Command"
-msgstr "自定义命令"
+msgstr "命令"
 
 msgid "Prefix"
-msgstr ""
+msgstr "前缀"
 
 msgid "Redirect"
-msgstr ""
+msgstr "重定向"
 
 msgid "Additional filters"
-msgstr ""
+msgstr "附加过滤规则"
 
-#, fuzzy
 msgid "Wrap colors"
-msgstr "虚拟内存颜色"
+msgstr "换行颜色"
 
 msgid "Wrap spaces"
-msgstr ""
+msgstr "换行空格"
 
 msgid "Filter"
-msgstr ""
+msgstr "过滤"
 
 msgid "Null"
-msgstr ""
+msgstr "空"
 
 msgid "City"
-msgstr ""
+msgstr "城市"
 
 msgid "Country"
-msgstr ""
+msgstr "国家"
 
 msgid "Timestamp"
-msgstr ""
+msgstr "时间"
 
 msgid "Use images"
-msgstr ""
+msgstr "使用图片"
 
 msgid "Value"
-msgstr ""
+msgstr "值"
 
-#, fuzzy
 msgid "Active color"
-msgstr "电池使用状态提示颜色"
+msgstr "使用状态提示颜色"
 
-#, fuzzy
 msgid "Inactive color"
-msgstr "电池未使用状态提示颜色"
+msgstr "未使用状态提示颜色"
 
 msgid "Type"
-msgstr ""
+msgstr "类型"
 
 msgid "Direction"
-msgstr ""
+msgstr "方向"
 
 msgid "Height"
-msgstr ""
+msgstr "高度"
 
 msgid "Width"
-msgstr ""
+msgstr "宽度"
 
 msgid "Active desktop"
 msgstr "当前激活桌面"
@@ -597,34 +578,31 @@ msgid "Inactive desktop"
 msgstr "未激活桌面"
 
 msgid "Vertical layout"
-msgstr ""
+msgstr "纵向布局"
 
 msgid "Mark"
 msgstr "标记"
 
-#, fuzzy
 msgid "Tooltip type"
-msgstr "提示"
+msgstr "提示类型"
 
 msgid "contours"
-msgstr ""
+msgstr "等高线"
 
 msgid "windows"
-msgstr ""
+msgstr "窗口"
 
 msgid "clean desktop"
-msgstr ""
+msgstr "清理桌面"
 
-#, fuzzy
 msgid "names"
 msgstr "用户名"
 
 msgid "none"
-msgstr ""
+msgstr "无"
 
-#, fuzzy
 msgid "Tooltip width"
-msgstr "提示"
+msgstr "提示信息宽度"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
