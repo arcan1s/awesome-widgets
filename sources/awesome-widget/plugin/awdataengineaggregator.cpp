@@ -86,6 +86,7 @@ void AWDataEngineAggregator::dropSource(const QString source)
     // connected we will try to disconnect it from systemmonitor and extsysmon
     m_dataEngines[QString("systemmonitor")]->disconnectSource(source, parent());
     m_dataEngines[QString("extsysmon")]->disconnectSource(source, parent());
+    m_dataEngines[QString("time")]->disconnectSource(source, parent());
 }
 
 

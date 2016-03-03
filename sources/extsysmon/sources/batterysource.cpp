@@ -88,7 +88,7 @@ void BatterySource::run()
             = (QString(acFile.readLine()).trimmed().toInt() == 1);
     acFile.close();
 
-    // batterites
+    // batteries
     float currentLevel = 0.0;
     float fullLevel = 0.0;
     for (int i = 0; i < m_batteriesCount; i++) {
