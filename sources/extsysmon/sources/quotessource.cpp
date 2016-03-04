@@ -45,13 +45,15 @@ QVariant QuotesSource::data(QString source)
 {
     qCDebug(LOG_ESM) << "Source" << source;
 
-    if (source.startsWith(QString("quotes/percpricechg"))) {
-        QVariantHash data = extQuotes->itemByTagNumber(index(source))->run();
+    int ind = index(source);
+    source.remove(QString("quotes/"));
+    if (!values.contains(source)) {
+        QVariantHash data = extQuotes->itemByTagNumber(ind)->run();
         for (auto key : data.keys())
             values[key] = data[key];
     }
-    QString key = QString(source).remove(QString("quotes/"));
-    return values[key];
+    QVariant value = values.take(source);
+    return value;
 }
 
 

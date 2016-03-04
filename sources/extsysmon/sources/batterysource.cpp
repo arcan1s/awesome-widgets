@@ -44,9 +44,10 @@ QVariant BatterySource::data(QString source)
 {
     qCDebug(LOG_ESM) << "Source" << source;
 
-    if (source == QString("battery/ac"))
+    if (!values.contains(source))
         run();
-    return values[source];
+    QVariant value = values.take(source);
+    return value;
 }
 
 
