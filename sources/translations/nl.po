@@ -344,7 +344,7 @@ msgid "Battery inactive color"
 msgstr "Kleur van inactieve accu"
 
 msgid ""
-"Detailed information may be found on <a href=\"http://arcanis.name/projects/"
+"Detailed information may be found on <a href=\"https://arcanis.me/projects/"
 "awesome-widgets/\">project homepage</a>"
 msgstr ""
 "Gedetailleerde informatie kan worden gevonden op de <a href=\"http://arcanis."
