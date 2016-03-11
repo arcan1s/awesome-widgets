@@ -329,10 +329,10 @@ msgid "Battery inactive color"
 msgstr "Цвет разряжаемой батареи"
 
 msgid ""
-"Detailed information may be found on <a href=\"http://arcanis.name/projects/"
+"Detailed information may be found on <a href=\"https://arcanis.me/projects/"
 "awesome-widgets/\">project homepage</a>"
 msgstr ""
-"Подробная информация может быть найдена на <a href=\"http://arcanis.name/ru/"
+"Подробная информация может быть найдена на <a href=\"https://arcanis.me/ru/"
 "projects/awesome-widgets/\">домашней странице проекта</a>"
 
 msgid "AC"

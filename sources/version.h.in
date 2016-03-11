@@ -50,7 +50,7 @@
 #cmakedefine BUILD_TESTING
 
 // links
-#define HOMEPAGE "https://arcanis.name/projects/awesome-widgets/"
+#define HOMEPAGE "https://arcanis.me/projects/awesome-widgets/"
 #define REPOSITORY "https://github.com/arcan1s/awesome-widgets"
 #define RELEASES "https://github.com/arcan1s/awesome-widgets/releases/tag/V."
 #define VERSION_API                                                            \

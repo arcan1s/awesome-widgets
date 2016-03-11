@@ -341,10 +341,10 @@ msgid "Battery inactive color"
 msgstr "电池未使用状态提示颜色"
 
 msgid ""
-"Detailed information may be found on <a href=\"http://arcanis.name/projects/"
+"Detailed information may be found on <a href=\"https://arcanis.me/projects/"
 "awesome-widgets/\">project homepage</a>"
 msgstr ""
-"详情请参照 <a href=\"http://arcanis.name/projects/ awesome-widgets/\">项目主"
+"详情请参照 <a href=\"https://arcanis.me/projects/ awesome-widgets/\">项目主"
 "页</a>"
 
 msgid "AC"
