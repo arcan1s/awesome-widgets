@@ -40,6 +40,25 @@ AWConfigHelper::~AWConfigHelper()
 }
 
 
+QString AWConfigHelper::configurationDirectory() const
+{
+    // get readable directory
+    QString localDir = QString("%1/awesomewidgets/configs")
+                           .arg(QStandardPaths::writableLocation(
+                               QStandardPaths::GenericDataLocation));
+
+    // create directory and copy files from default settings
+    QDir localDirectory;
+    if ((!localDirectory.exists(localDir))
+        && (localDirectory.mkpath(localDir))) {
+        qCInfo(LOG_AW) << "Created directory" << localDir;
+        copyConfigs(localDir);
+    }
+
+    return localDir;
+}
+
+
 bool AWConfigHelper::dropCache() const
 {
     QString fileName = QString("%1/awesomewidgets.ndx")
@@ -209,6 +228,28 @@ void AWConfigHelper::writeDataEngineConfiguration(
     settings.endGroup();
 
     settings.sync();
+}
+
+
+void AWConfigHelper::copyConfigs(const QString localDir) const
+{
+    qCDebug(LOG_AW) << "Local directory" << localDir;
+
+    QStringList dirs = QStandardPaths::locateAll(
+        QStandardPaths::GenericDataLocation, QString("awesomewidgets/configs"),
+        QStandardPaths::LocateDirectory);
+    for (auto dir : dirs) {
+        if (dir == localDir)
+            continue;
+        QStringList files = QDir(dir).entryList(QDir::Files);
+        for (auto source : files) {
+            QString destination = QString("%1/%2").arg(localDir).arg(source);
+            bool status = QFile::copy(QString("%1/%2").arg(dir).arg(source),
+                                      destination);
+            qCInfo(LOG_AW) << "File" << source << "has been copied to"
+                           << destination << "with status" << status;
+        }
+    }
 }
 
 

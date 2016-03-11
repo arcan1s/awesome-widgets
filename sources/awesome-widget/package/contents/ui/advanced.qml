@@ -394,6 +394,7 @@ Item {
                 id: saveConfigAs
                 selectExisting: false
                 title: i18n("Export")
+                folder: awConfig.configurationDirectory()
                 onAccepted: {
                     var status = awConfig.exportConfiguration(
                         plasmoid.configuration,
@@ -431,6 +432,7 @@ Item {
             QtDialogs.FileDialog {
                 id: openConfig
                 title: i18n("Import")
+                folder: awConfig.configurationDirectory()
                 onAccepted: importSelection.open()
             }
 

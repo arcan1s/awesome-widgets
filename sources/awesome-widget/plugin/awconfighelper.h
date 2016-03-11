@@ -32,6 +32,7 @@ class AWConfigHelper : public QObject
 public:
     explicit AWConfigHelper(QObject *parent = nullptr);
     virtual ~AWConfigHelper();
+    Q_INVOKABLE QString configurationDirectory() const;
     Q_INVOKABLE bool dropCache() const;
     Q_INVOKABLE bool exportConfiguration(QObject *nativeConfig,
                                          const QString fileName) const;
@@ -46,6 +47,7 @@ public:
 
 private:
     // methods
+    void copyConfigs(const QString localDir) const;
     void copyExtensions(const QString item, const QString type,
                         QSettings &settings, const bool inverse) const;
     void copySettings(QSettings &from, QSettings &to) const;
