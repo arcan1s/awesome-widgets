@@ -25,7 +25,7 @@
 #include <QGraphicsView>
 #include <QPixmap>
 
-#include <math.h>
+#include <cmath>
 
 #include "awactions.h"
 #include "awdebug.h"
@@ -35,8 +35,14 @@ AWDataAggregator::AWDataAggregator(QObject *parent)
     : QObject(parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
-    // required by signals
-    //    qRegisterMetaType<QHash<QString, QString>>("QHash<QString, QString>");
+
+    boundaries[QString("cpuTooltip")] = 100.0;
+    boundaries[QString("cpuclTooltip")] = 4000.0;
+    boundaries[QString("memTooltip")] = 100.0;
+    boundaries[QString("swapTooltip")] = 100.0;
+    boundaries[QString("downkbTooltip")] = 1.0;
+    boundaries[QString("upkbTooltip")] = 1.0;
+    boundaries[QString("batTooltip")] = 100.0;
 
     initScene();
     connect(this, SIGNAL(updateData(const QVariantHash &)), this,
@@ -91,14 +97,6 @@ void AWDataAggregator::setParameters(QVariantMap settings)
     counts += configuration[QString("batTooltip")].toInt();
     // resize tooltip image
     toolTipView->resize(100 * counts, 105);
-
-    boundaries[QString("cpuTooltip")] = 100.0;
-    boundaries[QString("cpuclTooltip")] = 4000.0;
-    boundaries[QString("memTooltip")] = 100.0;
-    boundaries[QString("swapTooltip")] = 100.0;
-    boundaries[QString("downkbTooltip")] = 1.0;
-    boundaries[QString("upkbTooltip")] = 1.0;
-    boundaries[QString("batTooltip")] = 100.0;
 
     requiredKeys.clear();
     if (configuration[QString("cpuTooltip")].toBool())
@@ -302,6 +300,8 @@ void AWDataAggregator::setData(const QString &source, float value,
     if (source == QString("downkbTooltip")) {
         QList<float> netValues
             = data[QString("downkbTooltip")] + data[QString("upkbTooltip")];
+        // to avoid inf value of normY
+        netValues << 1.0;
         boundaries[QString("downkbTooltip")]
             = 1.2f * *std::max_element(netValues.cbegin(), netValues.cend());
         boundaries[QString("upkbTooltip")]

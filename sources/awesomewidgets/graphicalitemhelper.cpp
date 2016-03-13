@@ -21,7 +21,7 @@
 #include <QGraphicsEllipseItem>
 #include <QGraphicsScene>
 
-#include <math.h>
+#include <cmath>
 
 #include "awdebug.h"
 
@@ -150,6 +150,9 @@ float GraphicalItemHelper::getPercents(const float &value, const float &min,
                                        const float &max)
 {
     qCDebug(LOG_LIB) << "Get percent value from" << value;
+    // newest Qt crashes here if value is nan
+    if (isnan(value))
+        return 0.0;
 
     return (value - min) / (max - min);
 }
