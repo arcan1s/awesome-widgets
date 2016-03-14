@@ -312,20 +312,14 @@ QString AWKeys::parsePattern(QString pattern) const
     // bars
     for (auto bar : m_foundBars) {
         GraphicalItem *item = keyOperator->giByKey(bar);
-        if (item->type() == GraphicalItem::Graph) {
+        if (item->isCustom())
+            pattern.replace(
+                QString("$%1").arg(bar),
+                item->image(AWPatternFunctions::expandLambdas(
+                    item->bar(), aggregator, values, item->usedKeys())));
+        else
             pattern.replace(QString("$%1").arg(bar),
-                            item->image(QVariant::fromValue<QList<float>>(
-                                dataAggregator->getData(item->bar()))));
-        } else {
-            if (item->isCustom())
-                pattern.replace(
-                    QString("$%1").arg(bar),
-                    item->image(AWPatternFunctions::expandLambdas(
-                        item->bar(), aggregator, values, item->usedKeys())));
-            else
-                pattern.replace(QString("$%1").arg(bar),
-                                item->image(values[item->bar()]));
-        }
+                            item->image(values[item->bar()]));
     }
 
     // prepare strings

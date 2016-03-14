@@ -47,6 +47,8 @@ GraphicalItem::GraphicalItem(QWidget *parent, const QString desktopName,
 
     connect(ui->checkBox_custom, SIGNAL(stateChanged(int)), this,
             SLOT(changeValue(int)));
+    connect(ui->comboBox_type, SIGNAL(currentIndexChanged(int)), this,
+            SLOT(changeCountState(int)));
     connect(ui->pushButton_activeColor, SIGNAL(clicked()), this,
             SLOT(changeColor()));
     connect(ui->pushButton_inactiveColor, SIGNAL(clicked()), this,
@@ -73,6 +75,7 @@ GraphicalItem *GraphicalItem::copy(const QString _fileName, const int _number)
     copyDefaults(item);
     item->setActiveColor(activeColor());
     item->setBar(m_bar);
+    item->setCount(m_count);
     item->setCustom(m_custom);
     item->setDirection(m_direction);
     item->setHeight(m_height);
@@ -93,29 +96,28 @@ QString GraphicalItem::image(const QVariant &value)
 
     m_scene->clear();
     int scale[2] = {1, 1};
+    float converted
+        = m_helper->getPercents(value.toFloat(), m_minValue, m_maxValue);
 
     // paint
     switch (m_type) {
     case Vertical:
-        m_helper->paintVertical(
-            m_helper->getPercents(value.toFloat(), m_minValue, m_maxValue));
+        m_helper->paintVertical(converted);
         // scale
         scale[1] = -2 * static_cast<int>(m_direction) + 1;
         break;
     case Circle:
-        m_helper->paintCircle(
-            m_helper->getPercents(value.toFloat(), m_minValue, m_maxValue));
+        m_helper->paintCircle(converted);
         // scale
         scale[0] = -2 * static_cast<int>(m_direction) + 1;
         break;
     case Graph:
-        m_helper->paintGraph(value.value<QList<float>>());
+        m_helper->paintGraph(converted);
         // direction option is not recognized by this GI type
         break;
     case Horizontal:
     default:
-        m_helper->paintHorizontal(
-            m_helper->getPercents(value.toFloat(), m_minValue, m_maxValue));
+        m_helper->paintHorizontal(converted);
         // scale
         scale[0] = -2 * static_cast<int>(m_direction) + 1;
         break;
@@ -149,6 +151,12 @@ QString GraphicalItem::activeColor() const
 QString GraphicalItem::inactiveColor() const
 {
     return m_helper->colorToString(m_inactiveColor);
+}
+
+
+int GraphicalItem::count() const
+{
+    return m_count;
 }
 
 
@@ -259,6 +267,16 @@ void GraphicalItem::setActiveColor(const QString _color)
     qCDebug(LOG_LIB) << "Color" << _color;
 
     m_activeColor = m_helper->stringToColor(_color);
+}
+
+
+void GraphicalItem::setCount(const int _count)
+{
+    qCDebug(LOG_LIB) << "Count" << _count;
+    if (_count <= 1)
+        return;
+
+    m_count = _count;
 }
 
 
@@ -379,6 +397,7 @@ void GraphicalItem::readConfiguration()
             QSettings::IniFormat);
 
         settings.beginGroup(QString("Desktop Entry"));
+        setCount(settings.value(QString("X-AW-Count"), m_count).toInt());
         setCustom(settings.value(QString("X-AW-Custom"), m_custom).toBool());
         setBar(settings.value(QString("X-AW-Value"), m_bar).toString());
         setMaxValue(settings.value(QString("X-AW-Max"), m_maxValue).toFloat());
@@ -435,6 +454,7 @@ int GraphicalItem::showConfiguration(const QVariant args)
     }
     ui->doubleSpinBox_max->setValue(m_maxValue);
     ui->doubleSpinBox_min->setValue(m_minValue);
+    ui->spinBox_count->setValue(m_count);
     ui->pushButton_activeColor->setText(activeColor());
     ui->pushButton_inactiveColor->setText(inactiveColor());
     ui->comboBox_type->setCurrentIndex(static_cast<int>(m_type));
@@ -442,12 +462,17 @@ int GraphicalItem::showConfiguration(const QVariant args)
     ui->spinBox_height->setValue(m_height);
     ui->spinBox_width->setValue(m_width);
 
+    // update UI
+    changeCountState(ui->comboBox_type->currentIndex());
+    changeValue(ui->checkBox_custom->checkState());
+
     int ret = exec();
     if (ret != 1)
         return ret;
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
     setApiVersion(AWGIAPI);
+    setCount(ui->spinBox_count->value());
     setCustom(ui->checkBox_custom->isChecked());
     setBar(m_custom ? ui->lineEdit_customValue->text()
                     : ui->comboBox_value->currentText());
@@ -476,6 +501,7 @@ void GraphicalItem::writeConfiguration() const
 
     settings.beginGroup(QString("Desktop Entry"));
     settings.setValue(QString("X-AW-Value"), m_bar);
+    settings.setValue(QString("X-AW-Count"), m_count);
     settings.setValue(QString("X-AW-Custom"), m_custom);
     settings.setValue(QString("X-AW-Max"), m_maxValue);
     settings.setValue(QString("X-AW-Min"), m_minValue);
@@ -512,6 +538,15 @@ void GraphicalItem::changeColor()
 }
 
 
+void GraphicalItem::changeCountState(const int state)
+{
+    qCDebug(LOG_LIB) << "Current state is" << state;
+
+    // 3 is magic number. Actually 3 is Graph mode
+    ui->widget_count->setHidden(state != 3);
+}
+
+
 void GraphicalItem::changeValue(const int state)
 {
     qCDebug(LOG_LIB) << "Current state is" << state;
@@ -540,7 +575,8 @@ void GraphicalItem::initScene()
 
     // init helper
     m_helper = new GraphicalItemHelper(this, m_scene);
-    m_helper->setParameters(m_activeColor, m_inactiveColor, m_width, m_height);
+    m_helper->setParameters(m_activeColor, m_inactiveColor, m_width, m_height,
+                            m_count);
 }
 
 
@@ -548,6 +584,7 @@ void GraphicalItem::translate()
 {
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
+    ui->label_count->setText(i18n("Points count"));
     ui->checkBox_custom->setText(i18n("Use custom formula"));
     ui->label_value->setText(i18n("Value"));
     ui->label_customValue->setText(i18n("Value"));

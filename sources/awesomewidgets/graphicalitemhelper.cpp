@@ -42,15 +42,17 @@ GraphicalItemHelper::~GraphicalItemHelper()
 
 void GraphicalItemHelper::setParameters(const QColor active,
                                         const QColor inactive, const int width,
-                                        const int height)
+                                        const int height, const int count)
 {
     qCDebug(LOG_LIB) << "Use active color" << active << ", inactive" << inactive
-                     << ", width" << width << ", height" << height;
+                     << ", width" << width << ", height" << height << ", count"
+                     << count;
 
     m_activeColor = active;
     m_inactiveColor = inactive;
     m_width = width;
     m_height = height;
+    m_count = count;
 }
 
 
@@ -77,24 +79,25 @@ void GraphicalItemHelper::paintCircle(const float &percent)
 }
 
 
-void GraphicalItemHelper::paintGraph(const QList<float> &value)
+void GraphicalItemHelper::paintGraph(const float &value)
 {
     qCDebug(LOG_LIB) << "Paint with value" << value;
 
+    storeValue(value);
     QPen pen;
     pen.setColor(m_activeColor);
 
     // default norms
     float normX
-        = static_cast<float>(m_width) / static_cast<float>(value.count());
-    float normY = static_cast<float>(m_height) / (1.5f * 100.0f);
+        = static_cast<float>(m_width) / static_cast<float>(m_values.count());
+    float normY = static_cast<float>(m_height) / 1.5f;
     // paint graph
-    for (int i = 0; i < value.count() - 1; i++) {
+    for (int i = 0; i < m_values.count() - 1; i++) {
         // some magic here
         float x1 = i * normX;
-        float y1 = -fabs(value.at(i)) * normY + 5.0f;
+        float y1 = -fabs(m_values.at(i)) * normY + 5.0f;
         float x2 = (i + 1) * normX;
-        float y2 = -fabs(value.at(i + 1)) * normY + 5.0f;
+        float y2 = -fabs(m_values.at(i + 1)) * normY + 5.0f;
         m_scene->addLine(x1, y1, x2, y2, pen);
     }
 }
@@ -172,4 +175,17 @@ QColor GraphicalItemHelper::stringToColor(const QString &color)
     qColor.setAlpha(listColor.at(3).toInt());
 
     return qColor;
+}
+
+
+void GraphicalItemHelper::storeValue(const float &value)
+{
+    qCDebug(LOG_LIB) << "Save value to array" << value;
+
+    if (m_values.count() == 0)
+        m_values.append(0.0);
+    else if (m_values.count() > m_count)
+        m_values.removeFirst();
+
+    m_values.append(value);
 }

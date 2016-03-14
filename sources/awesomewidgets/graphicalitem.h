@@ -37,6 +37,7 @@ class GraphicalItem : public AbstractExtItem
     Q_OBJECT
     Q_PROPERTY(QString bar READ bar WRITE setBar)
     Q_PROPERTY(QString activeColor READ activeColor WRITE setActiveColor)
+    Q_PROPERTY(int count READ count WRITE setCount)
     Q_PROPERTY(bool custom READ isCustom WRITE setCustom)
     Q_PROPERTY(QString inactiveColor READ inactiveColor WRITE setInactiveColor)
     Q_PROPERTY(Type type READ type WRITE setType)
@@ -61,6 +62,7 @@ public:
     QString bar() const;
     QString activeColor() const;
     QString inactiveColor() const;
+    int count() const;
     bool isCustom() const;
     float minValue() const;
     float maxValue() const;
@@ -75,6 +77,7 @@ public:
     // set methods
     void setBar(const QString _bar = QString("cpu"));
     void setActiveColor(const QString _color = QString("0,0,0,130"));
+    void setCount(const int _count = 100);
     void setCustom(const bool _custom = false);
     void setInactiveColor(const QString _color = QString("255,255,255,130"));
     void setMinValue(const float _value = 0.0);
@@ -95,6 +98,7 @@ public slots:
 
 private slots:
     void changeColor();
+    void changeCountState(const int state);
     void changeValue(const int state);
 
 private:
@@ -106,6 +110,7 @@ private:
     void translate();
     // properties
     QString m_bar = QString("cpu");
+    int m_count = 100;
     bool m_custom = false;
     QColor m_activeColor = QColor(0, 0, 0, 130);
     QColor m_inactiveColor = QColor(255, 255, 255, 130);

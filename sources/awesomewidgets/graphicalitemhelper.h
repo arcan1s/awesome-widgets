@@ -32,10 +32,10 @@ public:
     virtual ~GraphicalItemHelper();
     // parameters
     void setParameters(const QColor active, const QColor inactive,
-                       const int width, const int height);
+                       const int width, const int height, const int count);
     // paint methods
     void paintCircle(const float &percent);
-    void paintGraph(const QList<float> &value);
+    void paintGraph(const float &value);
     void paintHorizontal(const float &percent);
     void paintVertical(const float &percent);
     // additional conversion methods
@@ -44,11 +44,15 @@ public:
     QColor stringToColor(const QString &color);
 
 private:
+    void storeValue(const float &value);
     QGraphicsScene *m_scene = nullptr;
+    int m_count;
     QColor m_activeColor;
     QColor m_inactiveColor;
     int m_width;
     int m_height;
+    // list of values which will be used to store data for graph type only
+    QList<float> m_values;
 };
 
 
