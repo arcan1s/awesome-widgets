@@ -551,8 +551,8 @@ void GraphicalItem::changeValue(const int state)
 {
     qCDebug(LOG_LIB) << "Current state is" << state;
 
-    ui->widget_value->setHidden(state == Qt::Unchecked);
-    ui->widget_customValue->setHidden(state != Qt::Unchecked);
+    ui->widget_value->setHidden(state != Qt::Unchecked);
+    ui->widget_customValue->setHidden(state == Qt::Unchecked);
 }
 
 
