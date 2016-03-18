@@ -90,14 +90,14 @@ void GraphicalItemHelper::paintGraph(const float &value)
     // default norms
     float normX
         = static_cast<float>(m_width) / static_cast<float>(m_values.count());
-    float normY = static_cast<float>(m_height) / 1.5f;
+    float normY = static_cast<float>(m_height - 1);
     // paint graph
     for (int i = 0; i < m_values.count() - 1; i++) {
         // some magic here
         float x1 = i * normX;
-        float y1 = -fabs(m_values.at(i)) * normY + 5.0f;
+        float y1 = -fabs(m_values.at(i)) * normY + 0.5f;
         float x2 = (i + 1) * normX;
-        float y2 = -fabs(m_values.at(i + 1)) * normY + 5.0f;
+        float y2 = -fabs(m_values.at(i + 1)) * normY + 0.5f;
         m_scene->addLine(x1, y1, x2, y2, pen);
     }
 }
@@ -183,7 +183,7 @@ void GraphicalItemHelper::storeValue(const float &value)
     qCDebug(LOG_LIB) << "Save value to array" << value;
 
     if (m_values.count() == 0)
-        m_values.append(0.0);
+        m_values.append(1.0);
     else if (m_values.count() > m_count)
         m_values.removeFirst();
 

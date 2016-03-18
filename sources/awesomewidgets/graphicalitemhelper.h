@@ -46,11 +46,11 @@ public:
 private:
     void storeValue(const float &value);
     QGraphicsScene *m_scene = nullptr;
-    int m_count;
+    int m_count = 100;
     QColor m_activeColor;
     QColor m_inactiveColor;
-    int m_width;
-    int m_height;
+    int m_width = 100;
+    int m_height = 100;
     // list of values which will be used to store data for graph type only
     QList<float> m_values;
 };
