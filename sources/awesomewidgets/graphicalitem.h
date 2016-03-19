@@ -92,13 +92,15 @@ public:
 
 public slots:
     void readConfiguration();
-    QVariantHash run();
+    QVariantHash run() { return QVariantHash(); };
     int showConfiguration(const QVariant args = QVariant());
     void writeConfiguration() const;
 
 private slots:
     void changeColor();
+    void changeColorState(const int state);
     void changeCountState(const int state);
+    void changeImage();
     void changeValue(const int state);
 
 private:
@@ -112,8 +114,8 @@ private:
     QString m_bar = QString("cpu");
     int m_count = 100;
     bool m_custom = false;
-    QColor m_activeColor = QColor(0, 0, 0, 130);
-    QColor m_inactiveColor = QColor(255, 255, 255, 130);
+    QString m_activeColor;
+    QString m_inactiveColor;
     float m_minValue = 0.0f;
     float m_maxValue = 100.0f;
     Type m_type = Horizontal;

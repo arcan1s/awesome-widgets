@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>416</width>
-    <height>481</height>
+    <height>606</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,7 +25,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Name</string>
+        <string>&amp;Name</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -48,7 +48,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Comment</string>
+        <string>&amp;Comment</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -100,10 +100,22 @@
    <item>
     <widget class="QWidget" name="widget_value" native="true">
      <layout class="QHBoxLayout" name="layout_value">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
       <item>
        <widget class="QLabel" name="label_value">
         <property name="text">
-         <string>Value</string>
+         <string>&amp;Value</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -123,6 +135,18 @@
    <item>
     <widget class="QWidget" name="widget_customValue" native="true">
      <layout class="QHBoxLayout" name="layout_customValue">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
       <item>
        <widget class="QLabel" name="label_customValue">
         <property name="sizePolicy">
@@ -132,7 +156,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Value</string>
+         <string>Va&amp;lue</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -150,7 +174,7 @@
      <item>
       <widget class="QLabel" name="label_max">
        <property name="text">
-        <string>Max value</string>
+        <string>&amp;Max value</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -171,7 +195,7 @@
      <item>
       <widget class="QLabel" name="label_min">
        <property name="text">
-        <string>Min value</string>
+        <string>Min val&amp;ue</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -190,10 +214,22 @@
    <item>
     <widget class="QWidget" name="widget_count" native="true">
      <layout class="QHBoxLayout" name="layout_count">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
       <item>
        <widget class="QLabel" name="label_count">
         <property name="text">
-         <string>Points count</string>
+         <string>&amp;Points count</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -221,53 +257,211 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="layout_activeColor">
+    <layout class="QHBoxLayout" name="layout_activeCheck">
      <item>
-      <widget class="QLabel" name="label_activeColor">
-       <property name="text">
-        <string>Active color</string>
+      <spacer name="spacer_activeCheck">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
        </property>
-      </widget>
+      </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_activeColor">
+      <widget class="QCheckBox" name="checkBox_activeCheck">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
-        <string notr="true"/>
+        <string>Use image for active</string>
        </property>
       </widget>
      </item>
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="layout_inactiveColor">
+    <widget class="QWidget" name="widget_activeColor" native="true">
+     <layout class="QHBoxLayout" name="layout_activeColor">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="label_activeColor">
+        <property name="text">
+         <string>Activ&amp;e color</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_activeColor">
+        <property name="text">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="widget_activeImage" native="true">
+     <layout class="QHBoxLayout" name="layout_activeImage">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="label_activeImage">
+        <property name="text">
+         <string>&amp;Active image</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_activeImage">
+        <property name="text">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="layout_inactiveCheck">
      <item>
-      <widget class="QLabel" name="label_inactiveColor">
-       <property name="text">
-        <string>Inactive color</string>
+      <spacer name="spacer_inactiveCheck">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
        </property>
-      </widget>
+      </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_inactiveColor">
+      <widget class="QCheckBox" name="checkBox_inactiveCheck">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
-        <string notr="true"/>
+        <string>Use image for inactive</string>
        </property>
       </widget>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="QWidget" name="widget_inactiveColor" native="true">
+     <layout class="QHBoxLayout" name="layout_inactiveColor">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="label_inactiveColor">
+        <property name="text">
+         <string>&amp;Inactive color</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_inactiveColor">
+        <property name="text">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="widget_inactiveImage" native="true">
+     <layout class="QHBoxLayout" name="layout_inactiveImage">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="label_inactiveImage">
+        <property name="text">
+         <string>Inactive image</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_inactiveImage">
+        <property name="text">
+         <string notr="true"/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </item>
    <item>
     <layout class="QHBoxLayout" name="layout_type">
      <item>
       <widget class="QLabel" name="label_type">
        <property name="text">
-        <string>Type</string>
+        <string>&amp;Type</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -305,7 +499,7 @@
      <item>
       <widget class="QLabel" name="label_direction">
        <property name="text">
-        <string>Direction</string>
+        <string>&amp;Direction</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -333,7 +527,7 @@
      <item>
       <widget class="QLabel" name="label_height">
        <property name="text">
-        <string>Height</string>
+        <string>&amp;Height</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -357,7 +551,7 @@
      <item>
       <widget class="QLabel" name="label_width">
        <property name="text">
-        <string>Width</string>
+        <string>&amp;Width</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

@@ -19,6 +19,7 @@
 #define GRAPHICALITEMHELPER_H
 
 #include <QColor>
+#include <QPixmap>
 #include <QObject>
 
 
@@ -31,7 +32,7 @@ public:
                                  QGraphicsScene *scene = nullptr);
     virtual ~GraphicalItemHelper();
     // parameters
-    void setParameters(const QColor active, const QColor inactive,
+    void setParameters(const QString active, const QString inactive,
                        const int width, const int height, const int count);
     // paint methods
     void paintCircle(const float &percent);
@@ -47,8 +48,10 @@ private:
     void storeValue(const float &value);
     QGraphicsScene *m_scene = nullptr;
     int m_count = 100;
-    QColor m_activeColor;
-    QColor m_inactiveColor;
+    QColor m_activeColor = QColor(0, 0, 0, 130);
+    QColor m_inactiveColor = QColor(255, 255, 255, 130);
+    QPixmap m_activeImage;
+    QPixmap m_inactiveImage;
     int m_width = 100;
     int m_height = 100;
     // list of values which will be used to store data for graph type only

@@ -40,16 +40,30 @@ GraphicalItemHelper::~GraphicalItemHelper()
 }
 
 
-void GraphicalItemHelper::setParameters(const QColor active,
-                                        const QColor inactive, const int width,
+void GraphicalItemHelper::setParameters(const QString active,
+                                        const QString inactive, const int width,
                                         const int height, const int count)
 {
     qCDebug(LOG_LIB) << "Use active color" << active << ", inactive" << inactive
                      << ", width" << width << ", height" << height << ", count"
                      << count;
 
-    m_activeColor = active;
-    m_inactiveColor = inactive;
+    if (active.startsWith(QString("/"))) {
+        qCInfo(LOG_LIB) << "Found path, trying to load Pixmap from" << active;
+        m_activeImage = QPixmap(active);
+        if (m_activeImage.isNull())
+            qCInfo(LOG_LIB) << "Invalid pixmap found" << active;
+    } else {
+        m_activeColor = stringToColor(active);
+    }
+    if (inactive.startsWith(QString("/"))) {
+        qCInfo(LOG_LIB) << "Found path, trying to load Pixmap from" << inactive;
+        m_inactiveImage = QPixmap(inactive);
+        if (m_inactiveImage.isNull())
+            qCInfo(LOG_LIB) << "Invalid pixmap found" << inactive;
+    } else {
+        m_inactiveColor = stringToColor(inactive);
+    }
     m_width = width;
     m_height = height;
     m_count = count;
@@ -63,6 +77,8 @@ void GraphicalItemHelper::paintCircle(const float &percent)
     QPen pen;
     pen.setWidth(1);
     QGraphicsEllipseItem *circle;
+    // 16 is because of qt. From Qt documentation:
+    // Returns the start angle for an ellipse segment in 16ths of a degree
 
     // inactive
     pen.setColor(m_inactiveColor);
@@ -75,13 +91,20 @@ void GraphicalItemHelper::paintCircle(const float &percent)
     circle = m_scene->addEllipse(0.0, 0.0, m_width, m_height, pen,
                                  QBrush(m_activeColor, Qt::SolidPattern));
     circle->setSpanAngle(-percent * 360.0f * 16.0f);
-    circle->setStartAngle(90.0f * 16.0f);
+    circle->setStartAngle(90 * 16);
 }
 
 
 void GraphicalItemHelper::paintGraph(const float &value)
 {
     qCDebug(LOG_LIB) << "Paint with value" << value;
+
+    // refresh background image
+    if (m_inactiveImage.isNull())
+        m_scene->setBackgroundBrush(QBrush(m_inactiveColor));
+    else
+        m_scene->setBackgroundBrush(
+            QBrush(m_inactiveImage.scaled(m_width, m_height)));
 
     storeValue(value);
     QPen pen;

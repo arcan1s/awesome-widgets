@@ -23,6 +23,7 @@
 #include <QBuffer>
 #include <QColorDialog>
 #include <QDir>
+#include <QFileDialog>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QSettings>
@@ -47,12 +48,20 @@ GraphicalItem::GraphicalItem(QWidget *parent, const QString desktopName,
 
     connect(ui->checkBox_custom, SIGNAL(stateChanged(int)), this,
             SLOT(changeValue(int)));
+    connect(ui->checkBox_activeCheck, SIGNAL(stateChanged(int)), this,
+            SLOT(changeColorState(int)));
+    connect(ui->checkBox_inactiveCheck, SIGNAL(stateChanged(int)), this,
+            SLOT(changeColorState(int)));
     connect(ui->comboBox_type, SIGNAL(currentIndexChanged(int)), this,
             SLOT(changeCountState(int)));
     connect(ui->pushButton_activeColor, SIGNAL(clicked()), this,
             SLOT(changeColor()));
     connect(ui->pushButton_inactiveColor, SIGNAL(clicked()), this,
             SLOT(changeColor()));
+    connect(ui->pushButton_activeImage, SIGNAL(clicked()), this,
+            SLOT(changeImage()));
+    connect(ui->pushButton_inactiveImage, SIGNAL(clicked()), this,
+            SLOT(changeImage()));
 }
 
 
@@ -73,13 +82,13 @@ GraphicalItem *GraphicalItem::copy(const QString _fileName, const int _number)
     GraphicalItem *item = new GraphicalItem(static_cast<QWidget *>(parent()),
                                             _fileName, directories());
     copyDefaults(item);
-    item->setActiveColor(activeColor());
+    item->setActiveColor(m_activeColor);
     item->setBar(m_bar);
     item->setCount(m_count);
     item->setCustom(m_custom);
     item->setDirection(m_direction);
     item->setHeight(m_height);
-    item->setInactiveColor(inactiveColor());
+    item->setInactiveColor(m_inactiveColor);
     item->setMaxValue(m_maxValue);
     item->setMinValue(m_minValue);
     item->setNumber(_number);
@@ -144,13 +153,13 @@ QString GraphicalItem::bar() const
 
 QString GraphicalItem::activeColor() const
 {
-    return m_helper->colorToString(m_activeColor);
+    return m_activeColor;
 }
 
 
 QString GraphicalItem::inactiveColor() const
 {
-    return m_helper->colorToString(m_inactiveColor);
+    return m_inactiveColor;
 }
 
 
@@ -266,7 +275,7 @@ void GraphicalItem::setActiveColor(const QString _color)
 {
     qCDebug(LOG_LIB) << "Color" << _color;
 
-    m_activeColor = m_helper->stringToColor(_color);
+    m_activeColor = _color;
 }
 
 
@@ -292,7 +301,7 @@ void GraphicalItem::setInactiveColor(const QString _color)
 {
     qCDebug(LOG_LIB) << "Color" << _color;
 
-    m_inactiveColor = m_helper->stringToColor(_color);
+    m_inactiveColor = _color;
 }
 
 
@@ -403,10 +412,10 @@ void GraphicalItem::readConfiguration()
         setMaxValue(settings.value(QString("X-AW-Max"), m_maxValue).toFloat());
         setMinValue(settings.value(QString("X-AW-Min"), m_minValue).toFloat());
         setActiveColor(
-            settings.value(QString("X-AW-ActiveColor"), activeColor())
+            settings.value(QString("X-AW-ActiveColor"), m_activeColor)
                 .toString());
         setInactiveColor(
-            settings.value(QString("X-AW-InactiveColor"), inactiveColor())
+            settings.value(QString("X-AW-InactiveColor"), m_inactiveColor)
                 .toString());
         setStrType(settings.value(QString("X-AW-Type"), strType()).toString());
         setStrDirection(
@@ -430,13 +439,6 @@ void GraphicalItem::readConfiguration()
 }
 
 
-QVariantHash GraphicalItem::run()
-{
-    // required by abstract class
-    return QVariantHash();
-}
-
-
 int GraphicalItem::showConfiguration(const QVariant args)
 {
     qCDebug(LOG_LIB) << "Combobox arguments" << args;
@@ -455,8 +457,8 @@ int GraphicalItem::showConfiguration(const QVariant args)
     ui->doubleSpinBox_max->setValue(m_maxValue);
     ui->doubleSpinBox_min->setValue(m_minValue);
     ui->spinBox_count->setValue(m_count);
-    ui->pushButton_activeColor->setText(activeColor());
-    ui->pushButton_inactiveColor->setText(inactiveColor());
+    ui->pushButton_activeColor->setText(m_activeColor);
+    ui->pushButton_inactiveColor->setText(m_inactiveColor);
     ui->comboBox_type->setCurrentIndex(static_cast<int>(m_type));
     ui->comboBox_direction->setCurrentIndex(static_cast<int>(m_direction));
     ui->spinBox_height->setValue(m_height);
@@ -505,8 +507,8 @@ void GraphicalItem::writeConfiguration() const
     settings.setValue(QString("X-AW-Custom"), m_custom);
     settings.setValue(QString("X-AW-Max"), m_maxValue);
     settings.setValue(QString("X-AW-Min"), m_minValue);
-    settings.setValue(QString("X-AW-ActiveColor"), activeColor());
-    settings.setValue(QString("X-AW-InactiveColor"), inactiveColor());
+    settings.setValue(QString("X-AW-ActiveColor"), m_activeColor);
+    settings.setValue(QString("X-AW-InactiveColor"), m_inactiveColor);
     settings.setValue(QString("X-AW-Type"), strType());
     settings.setValue(QString("X-AW-Direction"), strDirection());
     settings.setValue(QString("X-AW-Height"), m_height);
@@ -538,12 +540,42 @@ void GraphicalItem::changeColor()
 }
 
 
+void GraphicalItem::changeColorState(const int state)
+{
+    qCDebug(LOG_LIB) << "Current color state is" << state;
+
+    if (sender() == ui->checkBox_activeCheck) {
+        qCInfo(LOG_LIB) << "Change active color state";
+        ui->widget_activeColor->setHidden(state == Qt::Unchecked);
+        ui->widget_activeImage->setHidden(state != Qt::Unchecked);
+    } else if (sender() == ui->checkBox_inactiveCheck) {
+        qCInfo(LOG_LIB) << "Change inactive color state";
+        ui->widget_inactiveColor->setHidden(state == Qt::Unchecked);
+        ui->widget_inactiveImage->setHidden(state != Qt::Unchecked);
+    }
+}
+
+
 void GraphicalItem::changeCountState(const int state)
 {
     qCDebug(LOG_LIB) << "Current state is" << state;
 
     // 3 is magic number. Actually 3 is Graph mode
     ui->widget_count->setHidden(state != 3);
+}
+
+
+void GraphicalItem::changeImage()
+{
+    QString path = static_cast<QPushButton *>(sender())->text();
+    QString directory = QFileInfo(path).absolutePath();
+    QString newPath = QFileDialog::getOpenFileName(
+        this, tr("Select path"), directory,
+        tr("Images (*.png *.bpm *.jpg);;All files (*.*)"));
+
+    qCInfo(LOG_LIB) << "Selected path" << newPath;
+
+    return static_cast<QPushButton *>(sender())->setText(newPath);
 }
 
 
@@ -560,10 +592,7 @@ void GraphicalItem::initScene()
 {
     // init scene
     m_scene = new QGraphicsScene();
-    if (m_type == Graph)
-        m_scene->setBackgroundBrush(m_inactiveColor);
-    else
-        m_scene->setBackgroundBrush(QBrush(Qt::NoBrush));
+    m_scene->setBackgroundBrush(QBrush(Qt::NoBrush));
     // init view
     m_view = new QGraphicsView(m_scene);
     m_view->setStyleSheet(QString("background: transparent"));
@@ -590,8 +619,12 @@ void GraphicalItem::translate()
     ui->label_customValue->setText(i18n("Value"));
     ui->label_max->setText(i18n("Max value"));
     ui->label_min->setText(i18n("Min value"));
+    ui->checkBox_activeCheck->setText(i18n("Use image for active"));
     ui->label_activeColor->setText(i18n("Active color"));
+    ui->label_activeImage->setText(i18n("Active image"));
+    ui->checkBox_inactiveCheck->setText(i18n("Use image for inactive"));
     ui->label_inactiveColor->setText(i18n("Inactive color"));
+    ui->label_inactiveImage->setText(i18n("Inactive image"));
     ui->label_type->setText(i18n("Type"));
     ui->label_direction->setText(i18n("Direction"));
     ui->label_height->setText(i18n("Height"));
