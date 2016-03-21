@@ -63,6 +63,7 @@ Item {
         "notify": plasmoid.configuration.notify
     }
 
+    signal initWidget
     signal needTextUpdate(string newText)
     signal needToolTipUpdate(string newText)
     signal sizeUpdate
@@ -131,8 +132,20 @@ Item {
         }
     }
 
+    Timer {
+        id: timer
+        interval: 3000
+        onTriggered: initWidget()
+    }
+
 
     Component.onCompleted: {
+        if (debug) console.debug()
+
+        timer.start()
+    }
+
+    onInitWidget: {
         if (debug) console.debug()
 
         // actions
