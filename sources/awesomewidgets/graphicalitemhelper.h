@@ -19,8 +19,8 @@
 #define GRAPHICALITEMHELPER_H
 
 #include <QColor>
-#include <QPixmap>
 #include <QObject>
+#include <QPen>
 
 
 class QGraphicsScene;
@@ -40,7 +40,6 @@ public:
     void paintHorizontal(const float &percent);
     void paintVertical(const float &percent);
     // additional conversion methods
-    QString colorToString(const QColor &color);
     float getPercents(const float &value, const float &min, const float &max);
     QColor stringToColor(const QString &color);
 
@@ -48,10 +47,8 @@ private:
     void storeValue(const float &value);
     QGraphicsScene *m_scene = nullptr;
     int m_count = 100;
-    QColor m_activeColor = QColor(0, 0, 0, 130);
-    QColor m_inactiveColor = QColor(255, 255, 255, 130);
-    QPixmap m_activeImage;
-    QPixmap m_inactiveImage;
+    QPen m_activePen;
+    QPen m_inactivePen;
     int m_width = 100;
     int m_height = 100;
     // list of values which will be used to store data for graph type only

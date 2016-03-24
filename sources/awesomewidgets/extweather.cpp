@@ -299,8 +299,8 @@ void ExtWeather::writeConfiguration() const
 
 void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
 {
-    qCDebug(LOG_LIB) << "Return code" << reply->error() << "with messa";
-    qCDebug(LOG_LIB) << "Reply error message" << reply->errorString();
+    qCDebug(LOG_LIB) << "Return code" << reply->error() << "with message"
+                     << reply->errorString();
 
     isRunning = false;
     QJsonParseError error;
