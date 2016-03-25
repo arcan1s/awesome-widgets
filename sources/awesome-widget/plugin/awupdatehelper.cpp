@@ -77,7 +77,7 @@ bool AWUpdateHelper::checkVersion()
 
     qCInfo(LOG_AW) << "Found version" << version << "actual one is" << VERSION;
     if (version != QString(VERSION)) {
-        genMessageBox(i18n("Changelog of %1", VERSION),
+        genMessageBox(i18n("Changelog of %1", QString(VERSION)),
                       QString(CHANGELOG).replace(QChar('@'), QChar('\n')),
                       QMessageBox::Ok)
             ->open();
