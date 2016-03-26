@@ -351,11 +351,10 @@ QString PlayerSource::buildString(const QString current, const QString value,
                      << "will be stripped after" << s;
 
     int index = value.indexOf(current);
-    if ((current.isEmpty()) || ((index + s + 1) > value.count())) {
+    if ((current.isEmpty()) || ((index + s + 1) > value.count()))x
         return QString("%1").arg(value.left(s), s, QLatin1Char(' '));
-    } else {
+    else
         return QString("%1").arg(value.mid(index + 1, s), s, QLatin1Char(' '));
-    }
 }
 
 

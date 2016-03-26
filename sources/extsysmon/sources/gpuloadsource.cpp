@@ -18,9 +18,8 @@
 
 #include "gpuloadsource.h"
 
+#include <QProcess>
 #include <QTextCodec>
-
-#include <task/taskadds.h>
 
 #include "awdebug.h"
 
@@ -32,12 +31,23 @@ GPULoadSource::GPULoadSource(QObject *parent, const QStringList args)
     qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 
     m_device = args.at(0);
+
+    m_process = new QProcess(nullptr);
+    // fucking magic from http://doc.qt.io/qt-5/qprocess.html#finished
+    connect(m_process,
+            static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(
+                &QProcess::finished),
+            [this](int, QProcess::ExitStatus) { return updateValue(); });
+    m_process->waitForFinished(0);
 }
 
 
 GPULoadSource::~GPULoadSource()
 {
     qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
+
+    m_process->kill();
+    m_process->deleteLater();
 }
 
 
@@ -45,49 +55,10 @@ QVariant GPULoadSource::data(QString source)
 {
     qCDebug(LOG_ESM) << "Source" << source;
 
-    if (source == QString("gpu/load")) {
-        float value = 0.0;
-        if ((m_device != QString("nvidia")) && (m_device != QString("ati")))
-            return value;
-        // build cmd
-        QString cmd = m_device == QString("nvidia")
-                          ? QString("nvidia-smi -q -x")
-                          : QString("aticonfig --od-getclocks");
-        qCInfo(LOG_ESM) << "cmd" << cmd;
-        TaskResult process = runTask(cmd);
-        qCInfo(LOG_ESM) << "Cmd returns" << process.exitCode;
-        qCInfo(LOG_ESM) << "Error" << process.error;
-        // parse
-        QString qoutput
-            = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
-        if (m_device == QString("nvidia")) {
-            for (auto str :
-                 qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
-                if (!str.contains(QString("<gpu_util>")))
-                    continue;
-                QString load = str.remove(QString("<gpu_util>"))
-                                   .remove(QString("</gpu_util>"))
-                                   .remove(QChar('%'));
-                value = load.toFloat();
-                break;
-            }
-        } else if (m_device == QString("ati")) {
-            for (auto str :
-                 qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
-                if (!str.contains(QString("load")))
-                    continue;
-                QString load
-                    = str.split(QChar(' '), QString::SkipEmptyParts)[3].remove(
-                        QChar('%'));
-                value = load.toFloat();
-                break;
-            }
-        }
-        // return
-        return value;
-    }
+    if (source == QString("gpu/load"))
+        run();
 
-    return QVariant();
+    return m_value;
 }
 
 
@@ -108,10 +79,60 @@ QVariantMap GPULoadSource::initialData(QString source) const
 }
 
 
+void GPULoadSource::run()
+{
+    if ((m_device != QString("nvidia")) && (m_device != QString("ati")))
+        return;
+    // build cmd
+    QString cmd = m_device == QString("nvidia")
+                      ? QString("nvidia-smi -q -x")
+                      : QString("aticonfig --od-getclocks");
+    qCInfo(LOG_ESM) << "cmd" << cmd;
+
+    m_process->start(cmd);
+}
+
+
 QStringList GPULoadSource::sources() const
 {
     QStringList sources;
     sources.append(QString("gpu/load"));
 
     return sources;
+}
+
+
+void GPULoadSource::updateValue()
+{
+    qCInfo(LOG_LIB) << "Cmd returns" << m_process->exitCode();
+    QString qdebug = QTextCodec::codecForMib(106)
+                         ->toUnicode(m_process->readAllStandardError())
+                         .trimmed();
+    qCInfo(LOG_LIB) << "Error" << qdebug;
+    QString qoutput = QTextCodec::codecForMib(106)
+                          ->toUnicode(m_process->readAllStandardOutput())
+                          .trimmed();
+    qCInfo(LOG_LIB) << "Output" << qoutput;
+
+    if (m_device == QString("nvidia")) {
+        for (auto str : qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
+            if (!str.contains(QString("<gpu_util>")))
+                continue;
+            QString load = str.remove(QString("<gpu_util>"))
+                               .remove(QString("</gpu_util>"))
+                               .remove(QChar('%'));
+            m_value = load.toFloat();
+            break;
+        }
+    } else if (m_device == QString("ati")) {
+        for (auto str : qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
+            if (!str.contains(QString("load")))
+                continue;
+            QString load
+                = str.split(QChar(' '), QString::SkipEmptyParts)[3].remove(
+                    QChar('%'));
+            m_value = load.toFloat();
+            break;
+        }
+    }
 }
