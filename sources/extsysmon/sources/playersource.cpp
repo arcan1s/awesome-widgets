@@ -22,9 +22,8 @@
 #include <QDBusConnection>
 #include <QDBusConnectionInterface>
 #include <QDBusMessage>
+#include <QProcess>
 #include <QTextCodec>
-
-#include <task/taskadds.h>
 
 #include "awdebug.h"
 
@@ -39,12 +38,24 @@ PlayerSource::PlayerSource(QObject *parent, const QStringList args)
     m_mpdAddress = QString("%1:%2").arg(args.at(1)).arg(args.at(2));
     m_mpris = args.at(3);
     m_symbols = args.at(4).toInt();
+
+    m_mpdProcess = new QProcess(nullptr);
+    // fucking magic from http://doc.qt.io/qt-5/qprocess.html#finished
+    connect(m_mpdProcess,
+            static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(
+                &QProcess::finished),
+            [this](int, QProcess::ExitStatus) { return updateValue(); });
+    m_mpdProcess->waitForFinished(0);
+    m_mpdCached = defaultInfo();
 }
 
 
 PlayerSource::~PlayerSource()
 {
     qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
+
+    m_mpdProcess->kill();
+    m_mpdProcess->deleteLater();
 }
 
 
@@ -52,9 +63,9 @@ QVariant PlayerSource::data(QString source)
 {
     qCDebug(LOG_ESM) << "Source" << source;
 
-    if (!values.contains(source))
+    if (!m_values.contains(source))
         run();
-    QVariant value = values.take(source);
+    QVariant value = m_values.take(source);
     return value;
 }
 
@@ -152,33 +163,33 @@ void PlayerSource::run()
         // mpd
         QHash<QString, QVariant> data = getPlayerMpdInfo(m_mpdAddress);
         for (auto key : data.keys())
-            values[key] = data[key];
+            m_values[key] = data[key];
     } else if (m_player == QString("mpris")) {
         // players which supports mpris
         QString mpris = m_mpris == QString("auto") ? getAutoMpris() : m_mpris;
         QHash<QString, QVariant> data = getPlayerMprisInfo(mpris);
         for (auto key : data.keys())
-            values[key] = data[key];
+            m_values[key] = data[key];
     }
 
     // dymanic properties
     // solid
-    values[QString("player/salbum")]
-        = stripString(values[QString("player/album")].toString(), m_symbols);
-    values[QString("player/sartist")]
-        = stripString(values[QString("player/artist")].toString(), m_symbols);
-    values[QString("player/stitle")]
-        = stripString(values[QString("player/title")].toString(), m_symbols);
+    m_values[QString("player/salbum")]
+        = stripString(m_values[QString("player/album")].toString(), m_symbols);
+    m_values[QString("player/sartist")]
+        = stripString(m_values[QString("player/artist")].toString(), m_symbols);
+    m_values[QString("player/stitle")]
+        = stripString(m_values[QString("player/title")].toString(), m_symbols);
     // dynamic
-    values[QString("player/dalbum")]
-        = buildString(values[QString("player/dalbum")].toString(),
-                      values[QString("player/album")].toString(), m_symbols);
-    values[QString("player/dartist")]
-        = buildString(values[QString("player/dartist")].toString(),
-                      values[QString("player/artist")].toString(), m_symbols);
-    values[QString("player/dtitle")]
-        = buildString(values[QString("player/dtitle")].toString(),
-                      values[QString("player/title")].toString(), m_symbols);
+    m_values[QString("player/dalbum")]
+        = buildString(m_values[QString("player/dalbum")].toString(),
+                      m_values[QString("player/album")].toString(), m_symbols);
+    m_values[QString("player/dartist")]
+        = buildString(m_values[QString("player/dartist")].toString(),
+                      m_values[QString("player/artist")].toString(), m_symbols);
+    m_values[QString("player/dtitle")]
+        = buildString(m_values[QString("player/dtitle")].toString(),
+                      m_values[QString("player/title")].toString(), m_symbols);
 }
 
 
@@ -198,6 +209,40 @@ QStringList PlayerSource::sources() const
     sources.append(QString("player/stitle"));
 
     return sources;
+}
+
+
+void PlayerSource::updateValue()
+{
+    qCInfo(LOG_LIB) << "Cmd returns" << m_mpdProcess->exitCode();
+    QString qdebug = QTextCodec::codecForMib(106)
+                         ->toUnicode(m_mpdProcess->readAllStandardError())
+                         .trimmed();
+    qCInfo(LOG_LIB) << "Error" << qdebug;
+    QString qoutput = QTextCodec::codecForMib(106)
+                          ->toUnicode(m_mpdProcess->readAllStandardOutput())
+                          .trimmed();
+    qCInfo(LOG_LIB) << "Output" << qoutput;
+
+    for (auto str : qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
+        if (str.split(QString(": "), QString::SkipEmptyParts).count() == 2) {
+            // "Metadata: data"
+            QString metadata = str.split(QString(": "), QString::SkipEmptyParts)
+                                   .first()
+                                   .toLower();
+            QString data = str.split(QString(": "), QString::SkipEmptyParts)
+                               .last()
+                               .trimmed();
+            // there are one more time...
+            if ((metadata == QString("time")) && (data.contains(QChar(':')))) {
+                QStringList times = data.split(QString(":"));
+                m_mpdCached[QString("player/duration")] = times.at(0).toInt();
+                m_mpdCached[QString("player/progress")] = times.at(1).toInt();
+            } else if (m_metadata.contains(metadata)) {
+                m_mpdCached[QString("player/%1").arg(metadata)] = data;
+            }
+        }
+    }
 }
 
 
@@ -239,40 +284,14 @@ QVariantHash PlayerSource::getPlayerMpdInfo(const QString mpdAddress) const
 {
     qCDebug(LOG_ESM) << "MPD" << mpdAddress;
 
-    QVariantHash info = defaultInfo();
-
     // build cmd
     QString cmd = QString("bash -c \"echo 'currentsong\nstatus\nclose' | curl "
                           "--connect-timeout 1 -fsm 3 telnet://%1\"")
                       .arg(mpdAddress);
     qCInfo(LOG_ESM) << "cmd" << cmd;
-    TaskResult process = runTask(cmd);
-    qCInfo(LOG_ESM) << "Cmd returns" << process.exitCode;
-    qCInfo(LOG_ESM) << "Error" << process.error;
+    m_mpdProcess->start(cmd);
 
-    QString qoutput
-        = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
-    for (auto str : qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
-        if (str.split(QString(": "), QString::SkipEmptyParts).count() == 2) {
-            // "Metadata: data"
-            QString metadata = str.split(QString(": "), QString::SkipEmptyParts)
-                                   .first()
-                                   .toLower();
-            QString data = str.split(QString(": "), QString::SkipEmptyParts)
-                               .last()
-                               .trimmed();
-            // there are one more time...
-            if ((metadata == QString("time")) && (data.contains(QChar(':')))) {
-                QStringList times = data.split(QString(":"));
-                info[QString("player/duration")] = times.at(0).toInt();
-                info[QString("player/progress")] = times.at(1).toInt();
-            } else if (m_metadata.contains(metadata)) {
-                info[QString("player/%1").arg(metadata)] = data;
-            }
-        }
-    }
-
-    return info;
+    return m_mpdCached;
 }
 
 
@@ -351,7 +370,7 @@ QString PlayerSource::buildString(const QString current, const QString value,
                      << "will be stripped after" << s;
 
     int index = value.indexOf(current);
-    if ((current.isEmpty()) || ((index + s + 1) > value.count()))x
+    if ((current.isEmpty()) || ((index + s + 1) > value.count()))
         return QString("%1").arg(value.left(s), s, QLatin1Char(' '));
     else
         return QString("%1").arg(value.mid(index + 1, s), s, QLatin1Char(' '));

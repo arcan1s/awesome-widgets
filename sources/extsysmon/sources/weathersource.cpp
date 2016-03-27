@@ -47,12 +47,12 @@ QVariant WeatherSource::data(QString source)
 
     int ind = index(source);
     source.remove(QString("weather/"));
-    if (!values.contains(source)) {
+    if (!m_values.contains(source)) {
         QVariantHash data = extWeather->itemByTagNumber(ind)->run();
         for (auto key : data.keys())
-            values[key] = data[key];
+            m_values[key] = data[key];
     }
-    QVariant value = values.take(source);
+    QVariant value = m_values.take(source);
     return value;
 }
 

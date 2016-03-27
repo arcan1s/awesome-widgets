@@ -14,7 +14,7 @@
 #define EMAIL "@PROJECT_CONTACT@"
 #define LICENSE "@PROJECT_LICENSE@"
 #define TRDPARTY_LICENSE                                                       \
-    "tasks,BSD,https://github.com/mhogomchungu/tasks;QReplyTimeout "           \
+    "QReplyTimeout "                                                           \
     "wrapper,no,http://codereview.stackexchange.com/questions/30031/"          \
     "qnetworkreply-network-reply-timeout-helper"
 #define SPECIAL_THANKS                                                         \

@@ -13,16 +13,14 @@ include_directories(
 
 file(GLOB SUBPROJECT_DESKTOP_IN *.desktop)
 file(RELATIVE_PATH SUBPROJECT_DESKTOP ${CMAKE_SOURCE_DIR} ${SUBPROJECT_DESKTOP_IN})
-file(GLOB SUBPROJECT_SOURCE *.cpp sources/*.cpp ${PROJECT_TRDPARTY_DIR}/task/*.cpp ${CMAKE_SOURCE_DIR}/*.cpp)
-set(TASK_HEADER ${PROJECT_TRDPARTY_DIR}/task/task.h)
+file(GLOB SUBPROJECT_SOURCE *.cpp sources/*.cpp ${CMAKE_SOURCE_DIR}/*.cpp)
 file(GLOB SUBPROJECT_CONF *.conf)
 
 # prepare
 configure_file(${SUBPROJECT_DESKTOP_IN} ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT_DESKTOP})
 
 # make
-qt5_wrap_cpp(TASK_MOC_SOURCE ${TASK_HEADER})
-add_library(${SUBPROJECT} MODULE ${SUBPROJECT_SOURCE} ${TASK_MOC_SOURCE})
+add_library(${SUBPROJECT} MODULE ${SUBPROJECT_SOURCE})
 target_link_libraries(${SUBPROJECT} ${PROJECT_LIBRARY} ${Qt_LIBRARIES} ${Kf5_LIBRARIES})
 kcoreaddons_desktop_to_json(${SUBPROJECT} ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT_DESKTOP}
                             SERVICE_TYPES plasma-dataengine.desktop)

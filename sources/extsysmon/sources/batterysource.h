@@ -39,7 +39,7 @@ private:
     int m_batteriesCount = 0;
     QString m_acpiPath;
     QStringList m_sources;
-    QVariantHash values;
+    QVariantHash m_values;
 };
 
 

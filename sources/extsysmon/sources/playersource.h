@@ -23,6 +23,8 @@
 #include "abstractextsysmonsource.h"
 
 
+class QProcess;
+
 class PlayerSource : public AbstractExtSysMonSource
 {
 public:
@@ -32,6 +34,9 @@ public:
     QVariantMap initialData(QString source) const;
     void run();
     QStringList sources() const;
+
+private slots:
+    void updateValue();
 
 private:
     inline QVariantHash defaultInfo() const;
@@ -44,13 +49,15 @@ private:
     QString stripString(const QString value, const int s) const;
     // configuration and values
     QString m_mpdAddress;
+    QVariantHash m_mpdCached;
+    QProcess *m_mpdProcess = nullptr;
     QString m_mpris;
     QString m_player;
     int m_symbols;
     QStringList m_metadata = QStringList() << QString("album")
                                            << QString("artist")
                                            << QString("title");
-    QVariantHash values;
+    QVariantHash m_values;
 };
 
 
