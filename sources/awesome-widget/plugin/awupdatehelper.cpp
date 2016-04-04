@@ -37,7 +37,7 @@ AWUpdateHelper::AWUpdateHelper(QObject *parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
-    m_foundVersion = QString(VERSION);
+    m_foundVersion = QVersionNumber::fromString(VERSION);
     m_genericConfig = QString("%1/awesomewidgets/general.ini")
                           .arg(QStandardPaths::writableLocation(
                               QStandardPaths::GenericDataLocation));
@@ -69,14 +69,14 @@ void AWUpdateHelper::checkUpdates(const bool showAnyway)
 bool AWUpdateHelper::checkVersion()
 {
     QSettings settings(m_genericConfig, QSettings::IniFormat);
-    QString version
-        = settings.value(QString("Version"), QString(VERSION)).toString();
+    QVersionNumber version
+        = QVersionNumber::fromString(settings.value(QString("Version"), QString(VERSION)).toString());
     // update version
     settings.setValue(QString("Version"), QString(VERSION));
     settings.sync();
 
     qCInfo(LOG_AW) << "Found version" << version << "actual one is" << VERSION;
-    if (version != QString(VERSION)) {
+    if (version != QVersionNumber::fromString(VERSION)) {
         genMessageBox(i18n("Changelog of %1", QString(VERSION)),
                       QString(CHANGELOG).replace(QChar('@'), QChar('\n')),
                       QMessageBox::Ok)
@@ -90,11 +90,11 @@ bool AWUpdateHelper::checkVersion()
 }
 
 
-void AWUpdateHelper::showInfo(const QString version)
+void AWUpdateHelper::showInfo(const QVersionNumber version)
 {
     qCDebug(LOG_AW) << "Version" << version;
 
-    QString text = i18n("You are using the actual version %1", version);
+    QString text = i18n("You are using the actual version %1", version.toString());
     if (!QString(COMMIT_SHA).isEmpty())
         text += QString(" (%1)").arg(QString(COMMIT_SHA));
     return genMessageBox(i18n("No new version found"), text, QMessageBox::Ok)
@@ -102,7 +102,7 @@ void AWUpdateHelper::showInfo(const QString version)
 }
 
 
-void AWUpdateHelper::showUpdates(const QString version)
+void AWUpdateHelper::showUpdates(const QVersionNumber version)
 {
     qCDebug(LOG_AW) << "Version" << version;
 
@@ -111,7 +111,7 @@ void AWUpdateHelper::showUpdates(const QString version)
     text += QString(COMMIT_SHA).isEmpty()
                 ? QString("\n")
                 : QString(" (%1)\n").arg(QString(COMMIT_SHA));
-    text += i18n("New version : %1", version) + QString("\n\n");
+    text += i18n("New version : %1", version.toString()) + QString("\n\n");
     text += i18n("Click \"Ok\" to download");
 
     genMessageBox(i18n("There are updates"), text,
@@ -127,7 +127,7 @@ void AWUpdateHelper::userReplyOnUpdates(QAbstractButton *button)
 
     switch (ret) {
     case QMessageBox::Ok:
-        QDesktopServices::openUrl(QString(RELEASES) + m_foundVersion);
+        QDesktopServices::openUrl(QString(RELEASES) + m_foundVersion.toString());
         break;
     case QMessageBox::Cancel:
     default:
@@ -155,23 +155,14 @@ void AWUpdateHelper::versionReplyRecieved(QNetworkReply *reply,
     QVariantMap firstRelease = jsonDoc.toVariant().toList().first().toMap();
     QString version = firstRelease[QString("tag_name")].toString();
     version.remove(QString("V."));
-    m_foundVersion = version;
+    m_foundVersion = QVersionNumber::fromString(version);
     qCInfo(LOG_AW) << "Update found version to" << m_foundVersion;
 
-    // FIXME: possible there is a better way to check versions
-    int old_major = QString(VERSION).split(QChar('.')).at(0).toInt();
-    int old_minor = QString(VERSION).split(QChar('.')).at(1).toInt();
-    int old_patch = QString(VERSION).split(QChar('.')).at(2).toInt();
-    int new_major = version.split(QChar('.')).at(0).toInt();
-    int new_minor = version.split(QChar('.')).at(1).toInt();
-    int new_patch = version.split(QChar('.')).at(2).toInt();
-    if ((old_major < new_major)
-        || ((old_major == new_major) && (old_minor < new_minor))
-        || ((old_major == new_major) && (old_minor == new_minor)
-            && (old_patch < new_patch)))
-        return showUpdates(version);
+    QVersionNumber oldVersion = QVersionNumber::fromString(VERSION);
+    if (oldVersion < m_foundVersion)
+        return showUpdates(m_foundVersion);
     else if (showAnyway)
-        return showInfo(version);
+        return showInfo(m_foundVersion);
 }
 
 

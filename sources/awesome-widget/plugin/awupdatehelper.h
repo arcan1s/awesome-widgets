@@ -21,6 +21,7 @@
 
 #include <QMessageBox>
 #include <QObject>
+#include <QVersionNumber>
 
 
 class QNetworkReply;
@@ -36,15 +37,15 @@ public:
     bool checkVersion();
 
 private slots:
-    void showInfo(const QString version);
-    void showUpdates(const QString version);
+    void showInfo(const QVersionNumber version);
+    void showUpdates(const QVersionNumber version);
     void userReplyOnUpdates(QAbstractButton *button);
     void versionReplyRecieved(QNetworkReply *reply, const bool showAnyway);
 
 private:
     QMessageBox *genMessageBox(const QString title, const QString body,
                                const QMessageBox::StandardButtons buttons);
-    QString m_foundVersion;
+    QVersionNumber m_foundVersion;
     QString m_genericConfig;
 };
 
