@@ -69,8 +69,8 @@ void AWUpdateHelper::checkUpdates(const bool showAnyway)
 bool AWUpdateHelper::checkVersion()
 {
     QSettings settings(m_genericConfig, QSettings::IniFormat);
-    QVersionNumber version
-        = QVersionNumber::fromString(settings.value(QString("Version"), QString(VERSION)).toString());
+    QVersionNumber version = QVersionNumber::fromString(
+        settings.value(QString("Version"), QString(VERSION)).toString());
     // update version
     settings.setValue(QString("Version"), QString(VERSION));
     settings.sync();
@@ -94,7 +94,8 @@ void AWUpdateHelper::showInfo(const QVersionNumber version)
 {
     qCDebug(LOG_AW) << "Version" << version;
 
-    QString text = i18n("You are using the actual version %1", version.toString());
+    QString text
+        = i18n("You are using the actual version %1", version.toString());
     if (!QString(COMMIT_SHA).isEmpty())
         text += QString(" (%1)").arg(QString(COMMIT_SHA));
     return genMessageBox(i18n("No new version found"), text, QMessageBox::Ok)
@@ -127,7 +128,8 @@ void AWUpdateHelper::userReplyOnUpdates(QAbstractButton *button)
 
     switch (ret) {
     case QMessageBox::Ok:
-        QDesktopServices::openUrl(QString(RELEASES) + m_foundVersion.toString());
+        QDesktopServices::openUrl(QString(RELEASES)
+                                  + m_foundVersion.toString());
         break;
     case QMessageBox::Cancel:
     default:

@@ -23,9 +23,9 @@
 #include "abstractextitem.h"
 
 #define YAHOO_WEATHER_URL                                                      \
-    "https://query.yahooapis.com/v1/public/yql?format=json&q=select * from "   \
-    "weather.forecast where u='c' and woeid in (select woeid from "            \
-    "geo.places(1) where text='%1, %2')"
+    "https://query.yahooapis.com/v1/public/yql?format=json&env=store://"       \
+    "datatables.org/alltableswithkeys&q=select * from weather.forecast where " \
+    "u='c' and woeid in (select woeid from geo.places(1) where text='%1, %2')"
 
 
 namespace Ui
