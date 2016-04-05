@@ -14,8 +14,8 @@ set(PROJECT_AUTHOR "Evgeniy Alekseev")
 set(PROJECT_CONTACT "esalexeev@gmail.com")
 set(PROJECT_LICENSE "GPL3")
 set(PROJECT_VERSION_MAJOR "3")
-set(PROJECT_VERSION_MINOR "0")
-set(PROJECT_VERSION_PATCH "1")
+set(PROJECT_VERSION_MINOR "1")
+set(PROJECT_VERSION_PATCH "0")
 set(PROJECT_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
 # append git version if any
 set(PROJECT_COMMIT_SHA "Commit hash" CACHE INTERNAL "")
@@ -38,6 +38,10 @@ option(BUILD_TESTING "Build with additional test abilities" OFF)
 # some additional targets
 set(CLANGFORMAT_EXECUTABLE "/usr/bin/clang-format" CACHE STRING "Path to clang-format executable")
 set(CPPCHECK_EXECUTABLE "/usr/bin/cppcheck" CACHE STRING "Path to cppcheck executable")
+
+# generate changelog
+set(PROJECT_CHANGELOG "Changelog" CACHE INTERNAL "")
+include(changelog.cmake)
 
 # flags
 if (CMAKE_COMPILER_IS_GNUCXX)

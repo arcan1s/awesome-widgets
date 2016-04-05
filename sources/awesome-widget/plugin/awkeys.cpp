@@ -25,6 +25,7 @@
 #include "awdataaggregator.h"
 #include "awdataengineaggregator.h"
 #include "awdebug.h"
+#include "awkeycache.h"
 #include "awkeyoperations.h"
 #include "awkeysaggregator.h"
 #include "awpatternfunctions.h"
@@ -45,7 +46,9 @@ AWKeys::AWKeys(QObject *parent)
 
     aggregator = new AWKeysAggregator(this);
     dataAggregator = new AWDataAggregator(this);
+    dataEngineAggregator = new AWDataEngineAggregator(this);
     keyOperator = new AWKeyOperations(this);
+
     // update key data if required
     connect(keyOperator, SIGNAL(updateKeys(QStringList)), this,
             SLOT(reinitKeys(QStringList)));
@@ -53,6 +56,11 @@ AWKeys::AWKeys(QObject *parent)
     connect(dataAggregator, SIGNAL(toolTipPainted(const QString)), this,
             SIGNAL(needToolTipToBeUpdated(const QString)));
     connect(this, SIGNAL(needToBeUpdated()), this, SLOT(updateTextData()));
+    connect(this, SIGNAL(dropSourceFromDataengine(QString)),
+            dataEngineAggregator, SLOT(dropSource(QString)));
+    // transfer signal from dataengine to update source list
+    connect(dataEngineAggregator, SIGNAL(deviceAdded(const QString &)),
+            keyOperator, SLOT(addDevice(const QString &)));
 }
 
 
@@ -73,32 +81,29 @@ void AWKeys::initDataAggregator(const QVariantMap tooltipParams)
 {
     qCDebug(LOG_AW) << "Tooltip parameters" << tooltipParams;
 
-    dataAggregator->setParameters(tooltipParams);
+    // store parameters to generate m_requiredKeys
+    m_tooltipParams = tooltipParams;
+    dataAggregator->setParameters(m_tooltipParams);
 }
 
 
 void AWKeys::initKeys(const QString currentPattern, const int interval,
-                      const int limit)
+                      const int limit, const bool optimize)
 {
     qCDebug(LOG_AW) << "Pattern" << currentPattern << "with interval"
-                    << interval << "and queue limit" << limit;
+                    << interval << "and queue limit" << limit
+                    << "with optimization" << optimize;
 
     // init
-    keyOperator->setPattern(currentPattern);
-    if (dataEngineAggregator == nullptr) {
-        dataEngineAggregator = new AWDataEngineAggregator(this, interval);
-        connect(this, SIGNAL(dropSourceFromDataengine(QString)),
-                dataEngineAggregator, SLOT(dropSource(QString)));
-        // transfer signal from dataengine to update source list
-        connect(dataEngineAggregator, SIGNAL(deviceAdded(const QString &)),
-                keyOperator, SLOT(addDevice(const QString &)));
-    } else
-        dataEngineAggregator->setInterval(interval);
+    m_optimize = optimize;
     m_threadPool->setMaxThreadCount(limit == 0 ? QThread::idealThreadCount()
                                                : limit);
+    // child objects
+    keyOperator->setPattern(currentPattern);
     keyOperator->updateCache();
+    dataEngineAggregator->clear();
 
-    return dataEngineAggregator->reconnectSources();
+    return dataEngineAggregator->initDataEngines(interval);
 }
 
 
@@ -162,8 +167,8 @@ QString AWKeys::valueByKey(QString key) const
 {
     qCDebug(LOG_AW) << "Requested value for key" << key;
 
-    return values.value(key.remove(QRegExp(QString("^bar[0-9]{1,}"))),
-                        QString(""));
+    key.remove(QRegExp(QString("^bar[0-9]{1,}")));
+    return aggregator->formater(values[key], key);
 }
 
 
@@ -200,6 +205,22 @@ void AWKeys::reinitKeys(const QStringList currentKeys)
     m_foundKeys
         = AWPatternFunctions::findKeys(keyOperator->pattern(), currentKeys);
     m_foundLambdas = AWPatternFunctions::findLambdas(keyOperator->pattern());
+    // generate list of required keys for bars
+    QStringList barKeys;
+    for (auto bar : m_foundBars) {
+        GraphicalItem *item = keyOperator->giByKey(bar);
+        if (item->isCustom())
+            item->setUsedKeys(
+                AWPatternFunctions::findKeys(item->bar(), currentKeys));
+        else
+            item->setUsedKeys(QStringList() << item->bar());
+        barKeys.append(item->usedKeys());
+    }
+    // get required keys
+    m_requiredKeys
+        = m_optimize ? AWKeyCache::getRequiredKeys(m_foundKeys, barKeys,
+                                                   m_tooltipParams, currentKeys)
+                     : QStringList();
 
     // set key data to aggregator
     aggregator->setDevices(keyOperator->devices());
@@ -208,10 +229,9 @@ void AWKeys::reinitKeys(const QStringList currentKeys)
 
 void AWKeys::updateTextData()
 {
-    QFuture<QString> text = QtConcurrent::run(m_threadPool, [this]() {
-        calculateValues();
-        return parsePattern(keyOperator->pattern());
-    });
+    // do not do it in parallel to avoid race condition
+    calculateValues();
+    QString text = parsePattern(keyOperator->pattern());
 
     emit(needTextToBeUpdated(text));
     emit(dataAggregator->updateData(values));
@@ -226,34 +246,26 @@ void AWKeys::calculateValues()
     QStringList mountDevices = keyOperator->devices(QString("mount"));
     for (auto device : mountDevices) {
         int index = mountDevices.indexOf(device);
-        values[QString("hddtotmb%1").arg(index)] = QString("%1").arg(
-            values[QString("hddfreemb%1").arg(index)].toFloat()
-                + values[QString("hddmb%1").arg(index)].toFloat(),
-            5, 'f', 0);
-        values[QString("hddtotgb%1").arg(index)] = QString("%1").arg(
-            values[QString("hddfreegb%1").arg(index)].toFloat()
-                + values[QString("hddgb%1").arg(index)].toFloat(),
-            5, 'f', 1);
+        values[QString("hddtotmb%1").arg(index)]
+            = values[QString("hddfreemb%1").arg(index)].toFloat()
+              + values[QString("hddmb%1").arg(index)].toFloat();
+        values[QString("hddtotgb%1").arg(index)]
+            = values[QString("hddfreegb%1").arg(index)].toFloat()
+              + values[QString("hddgb%1").arg(index)].toFloat();
     }
 
     // memtot*
-    values[QString("memtotmb")]
-        = QString("%1").arg(values[QString("memusedmb")].toInt()
-                                + values[QString("memfreemb")].toInt(),
-                            5);
-    values[QString("memtotgb")]
-        = QString("%1").arg(values[QString("memusedgb")].toFloat()
-                                + values[QString("memfreegb")].toFloat(),
-                            5, 'f', 1);
+    values[QString("memtotmb")] = values[QString("memusedmb")].toInt()
+                                  + values[QString("memfreemb")].toInt();
+    values[QString("memtotgb")] = values[QString("memusedgb")].toFloat()
+                                  + values[QString("memfreegb")].toFloat();
     // mem
-    values[QString("mem")]
-        = QString("%1").arg(100.0 * values[QString("memmb")].toFloat()
-                                / values[QString("memtotmb")].toFloat(),
-                            5, 'f', 1);
+    values[QString("mem")] = 100.0f * values[QString("memmb")].toFloat()
+                             / values[QString("memtotmb")].toFloat();
 
     // up, down, upkb, downkb, upunits, downunits
     int netIndex = keyOperator->devices(QString("net"))
-                       .indexOf(values[QString("netdev")]);
+                       .indexOf(values[QString("netdev")].toString());
     values[QString("down")] = values[QString("down%1").arg(netIndex)];
     values[QString("downkb")] = values[QString("downkb%1").arg(netIndex)];
     values[QString("downunits")] = values[QString("downunits%1").arg(netIndex)];
@@ -262,39 +274,18 @@ void AWKeys::calculateValues()
     values[QString("upunits")] = values[QString("upunits%1").arg(netIndex)];
 
     // swaptot*
-    values[QString("swaptotmb")]
-        = QString("%1").arg(values[QString("swapmb")].toInt()
-                                + values[QString("swapfreemb")].toInt(),
-                            5);
-    values[QString("swaptotgb")]
-        = QString("%1").arg(values[QString("swapgb")].toFloat()
-                                + values[QString("swapfreegb")].toFloat(),
-                            5, 'f', 1);
+    values[QString("swaptotmb")] = values[QString("swapmb")].toInt()
+                                   + values[QString("swapfreemb")].toInt();
+    values[QString("swaptotgb")] = values[QString("swapgb")].toFloat()
+                                   + values[QString("swapfreegb")].toFloat();
     // swap
-    values[QString("swap")]
-        = QString("%1").arg(100.0 * values[QString("swapmb")].toFloat()
-                                / values[QString("swaptotmb")].toFloat(),
-                            5, 'f', 1);
+    values[QString("swap")] = 100.0f * values[QString("swapmb")].toFloat()
+                              / values[QString("swaptotmb")].toFloat();
 
     // lambdas
     for (auto key : m_foundLambdas)
-        values[key] = [this](QString key) {
-            QJSEngine engine;
-            // apply $this values
-            key.replace(QString("$this"), values[key]);
-            for (auto lambdaKey : m_foundKeys)
-                key.replace(QString("$%1").arg(lambdaKey), values[lambdaKey]);
-            qCInfo(LOG_AW) << "Expression" << key;
-            QJSValue result = engine.evaluate(key);
-            if (result.isError()) {
-                qCWarning(LOG_AW) << "Uncaught exception at line"
-                                  << result.property("lineNumber").toInt()
-                                  << ":" << result.toString();
-                return QString();
-            } else {
-                return result.toString();
-            }
-        }(key);
+        values[key] = AWPatternFunctions::expandLambdas(key, aggregator, values,
+                                                        m_foundKeys);
 }
 
 
@@ -305,30 +296,30 @@ QString AWKeys::parsePattern(QString pattern) const
 
     // lambdas
     for (auto key : m_foundLambdas)
-        pattern.replace(QString("${{%1}}").arg(key), values[key]);
+        pattern.replace(QString("${{%1}}").arg(key), values[key].toString());
 
     // main keys
     for (auto key : m_foundKeys)
-        pattern.replace(QString("$%1").arg(key),
-                        [](QString key, QString value) {
-                            if ((!key.startsWith(QString("custom")))
-                                && (!key.startsWith(QString("weather"))))
-                                value.replace(QString(" "), QString("&nbsp;"));
-                            return value;
-                        }(key, values[key]));
+        pattern.replace(QString("$%1").arg(key), [this](const QString &tag,
+                                                        const QVariant &value) {
+            QString strValue = aggregator->formater(value, tag);
+            if ((!tag.startsWith(QString("custom")))
+                && (!tag.startsWith(QString("weather"))))
+                strValue.replace(QString(" "), QString("&nbsp;"));
+            return strValue;
+        }(key, values[key]));
 
     // bars
     for (auto bar : m_foundBars) {
         GraphicalItem *item = keyOperator->giByKey(bar);
-        QString key = bar;
-        key.remove(QRegExp(QString("^bar[0-9]{1,}")));
-        if (item->type() == GraphicalItem::Graph)
-            pattern.replace(QString("$%1").arg(bar),
-                            item->image([](const QList<float> data) {
-                                return QVariant::fromValue<QList<float>>(data);
-                            }(dataAggregator->getData(key))));
+        if (item->isCustom())
+            pattern.replace(
+                QString("$%1").arg(bar),
+                item->image(AWPatternFunctions::expandLambdas(
+                    item->bar(), aggregator, values, item->usedKeys())));
         else
-            pattern.replace(QString("$%1").arg(bar), item->image(values[key]));
+            pattern.replace(QString("$%1").arg(bar),
+                            item->image(values[item->bar()]));
     }
 
     // prepare strings
@@ -347,8 +338,8 @@ void AWKeys::setDataBySource(const QString &sourceName, const QVariantMap &data)
     // first list init
     QStringList tags = aggregator->keysFromSource(sourceName);
     if (tags.isEmpty())
-        tags = aggregator->registerSource(sourceName,
-                                          data[QString("units")].toString());
+        tags = aggregator->registerSource(
+            sourceName, data[QString("units")].toString(), m_requiredKeys);
 
     // update data or drop source if there are no matches and exit
     if (tags.isEmpty()) {
@@ -358,10 +349,11 @@ void AWKeys::setDataBySource(const QString &sourceName, const QVariantMap &data)
 
     m_mutex.lock();
     // HACK workaround for time values which are stored in the different path
-    QVariant value = sourceName == QString("Local") ? data[QString("DateTime")]
-                                                    : data[QString("value")];
-    std::for_each(tags.cbegin(), tags.cend(), [this, value](const QString tag) {
-        values[tag] = aggregator->formater(value, tag);
-    });
+    std::for_each(tags.cbegin(), tags.cend(),
+                  [this, &data, &sourceName](const QString &tag) {
+                      values[tag] = sourceName == QString("Local")
+                                        ? data[QString("DateTime")]
+                                        : data[QString("value")];
+                  });
     m_mutex.unlock();
 }

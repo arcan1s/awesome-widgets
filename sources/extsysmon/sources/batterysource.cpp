@@ -44,9 +44,10 @@ QVariant BatterySource::data(QString source)
 {
     qCDebug(LOG_ESM) << "Source" << source;
 
-    if (source == QString("battery/ac"))
+    if (!m_values.contains(source))
         run();
-    return values[source];
+    QVariant value = m_values.take(source);
+    return value;
 }
 
 
@@ -84,11 +85,11 @@ void BatterySource::run()
     // adaptor
     QFile acFile(QString("%1/AC/online").arg(m_acpiPath));
     if (acFile.open(QIODevice::ReadOnly))
-        values[QString("battery/ac")]
+        m_values[QString("battery/ac")]
             = (QString(acFile.readLine()).trimmed().toInt() == 1);
     acFile.close();
 
-    // batterites
+    // batteries
     float currentLevel = 0.0;
     float fullLevel = 0.0;
     for (int i = 0; i < m_batteriesCount; i++) {
@@ -102,7 +103,7 @@ void BatterySource::run()
                 = QString(currentLevelFile.readLine()).trimmed().toFloat();
             float batFull
                 = QString(fullLevelFile.readLine()).trimmed().toFloat();
-            values[QString("battery/bat%1").arg(i)]
+            m_values[QString("battery/bat%1").arg(i)]
                 = static_cast<int>(100 * batCurrent / batFull);
             currentLevel += batCurrent;
             fullLevel += batFull;
@@ -110,7 +111,7 @@ void BatterySource::run()
         currentLevelFile.close();
         fullLevelFile.close();
     }
-    values[QString("battery/bat")]
+    m_values[QString("battery/bat")]
         = static_cast<int>(100 * currentLevel / fullLevel);
 }
 

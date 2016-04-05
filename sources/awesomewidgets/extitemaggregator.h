@@ -62,13 +62,13 @@ public:
         qCInfo(LOG_LIB) << "Dialog returns" << ret;
     };
 
-    T *itemByTag(const QString _tag) const
+    T *itemByTag(const QString _tag, const QString _type) const
     {
-        qCDebug(LOG_LIB) << "Tag" << _tag;
+        qCDebug(LOG_LIB) << "Tag" << _tag << "with used type" << _type;
 
         T *found = nullptr;
         for (auto item : m_items) {
-            if (item->tag() != _tag)
+            if (item->tag(_type) != _tag)
                 continue;
             found = item;
             break;
@@ -211,7 +211,7 @@ private:
             return;
         }
 
-        T *newItem = source->copy(fileName, number);
+        T *newItem = static_cast<T *>(source->copy(fileName, number));
         if (newItem->showConfiguration(configArgs()) == 1) {
             initItems();
             repaint();

@@ -66,9 +66,9 @@ See [milestones](https://github.com/arcan1s/awesome-widgets/milestones) for more
 Links
 -----
 
-* [Homepage](http://arcanis.name/projects/awesome-widgets/)
-* [Migration to 2.*](http://arcanis.name/en/2014/09/04/migration-to-v2/)
-* [Scripts and bars](http://arcanis.name/en/2014/12/19/aw-v21-bells-and-whistles/)
+* [Homepage](https://arcanis.me/projects/awesome-widgets/)
+* [Migration to 2.*](https://arcanis.me/en/2014/09/04/migration-to-v2/)
+* [Scripts and bars](https://arcanis.me/en/2014/12/19/aw-v21-bells-and-whistles/)
 * Plasmoid on [kde-look](http://kde-look.org/content/show.php/Awesome+Widgets?content=157124)
 * DataEngine on [kde-look](http://kde-look.org/content/show.php/Extended+Systemmonitor+DataEngine?content=158773)
 * Archlinux [AUR](https://aur.archlinux.org/packages/plasma5-applet-awesome-widgets/) package

@@ -35,7 +35,7 @@ public:
 
 private:
     // configuration and values
-    QVariantHash values;
+    QVariantHash m_values;
 };
 
 

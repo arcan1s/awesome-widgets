@@ -53,7 +53,7 @@ Item {
           horizontalAlignment: Text.AlignHCenter
           verticalAlignment: Text.AlignVCenter
           wrapMode: Text.WordWrap
-          text: i18n("Detailed information may be found on <a href=\"http://arcanis.name/projects/awesome-widgets/\">project homepage</a>")
+          text: i18n("Detailed information may be found on <a href=\"https://arcanis.me/projects/awesome-widgets/\">project homepage</a>")
           onLinkActivated: Qt.openUrlExternally(link);
         }
 
@@ -262,8 +262,8 @@ Item {
                     if (debug) console.debug()
                     if (model[currentIndex]["regexp"] == "functions")
                         tags.model = ["{{\n\n}}", "template{{\n\n}}",
-                            "aw_all<>()", "aw_count<>()", "aw_keys<>()",
-                            "aw_names<>()"]
+                            "aw_all<>{{}}", "aw_count<>{{}}", "aw_keys<>{{}}",
+                            "aw_names<>{{}}"]
                     else
                         tags.model = awKeys.dictKeys(true, model[currentIndex]["regexp"])
                     if (debug) console.info("Init model", tags.model, "for", model[currentIndex]["label"])
@@ -318,7 +318,7 @@ Item {
                 onClicked: {
                     lock = false
                     awKeys.initKeys(textPattern.text, plasmoid.configuration.interval,
-                                    plasmoid.configuration.queueLimit)
+                                    plasmoid.configuration.queueLimit, false)
                     awKeys.needToBeUpdated()
                 }
             }
@@ -346,7 +346,7 @@ Item {
         awKeys.needTextToBeUpdated.connect(needTextUpdate)
         // init submodule
         awKeys.initKeys(plasmoid.configuration.text, plasmoid.configuration.interval,
-                        plasmoid.configuration.queueLimit)
+                        plasmoid.configuration.queueLimit, false)
         awKeys.setAggregatorProperty("acOffline", plasmoid.configuration.acOffline)
         awKeys.setAggregatorProperty("acOnline", plasmoid.configuration.acOnline)
         awKeys.setAggregatorProperty("customTime", plasmoid.configuration.customTime)

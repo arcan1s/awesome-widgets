@@ -15,32 +15,39 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef BATTERYSOURCE_H
-#define BATTERYSOURCE_H
 
+#ifndef AWUPDATEHELPER_H
+#define AWUPDATEHELPER_H
+
+#include <QMessageBox>
 #include <QObject>
+#include <QVersionNumber>
 
-#include "abstractextsysmonsource.h"
 
+class QNetworkReply;
 
-class BatterySource : public AbstractExtSysMonSource
+class AWUpdateHelper : public QObject
 {
+    Q_OBJECT
+
 public:
-    explicit BatterySource(QObject *parent, const QStringList args);
-    virtual ~BatterySource();
-    QVariant data(QString source);
-    QVariantMap initialData(QString source) const;
-    void run();
-    QStringList sources() const;
+    explicit AWUpdateHelper(QObject *parent = nullptr);
+    virtual ~AWUpdateHelper();
+    void checkUpdates(const bool showAnyway = false);
+    bool checkVersion();
+
+private slots:
+    void showInfo(const QVersionNumber version);
+    void showUpdates(const QVersionNumber version);
+    void userReplyOnUpdates(QAbstractButton *button);
+    void versionReplyRecieved(QNetworkReply *reply, const bool showAnyway);
 
 private:
-    QStringList getSources();
-    // configuration and values
-    int m_batteriesCount = 0;
-    QString m_acpiPath;
-    QStringList m_sources;
-    QVariantHash m_values;
+    QMessageBox *genMessageBox(const QString title, const QString body,
+                               const QMessageBox::StandardButtons buttons);
+    QVersionNumber m_foundVersion;
+    QString m_genericConfig;
 };
 
 
-#endif /* BATTERYSOURCE_H */
+#endif /* AWUPDATEHELPER_H */

@@ -42,6 +42,7 @@ class AWKeysAggregator : public QObject
         Float,
         FloatTwoSymbols,
         Integer,
+        IntegerFive,
         IntegerThree,
         List,
         // unit specific formaters
@@ -67,7 +68,6 @@ public:
     // get methods
     QString formater(const QVariant &data, const QString &key) const;
     QStringList keysFromSource(const QString &source) const;
-    QStringList requiredByKeysFromSource(const QString &source) const;
     // set methods
     void setAcOffline(const QString inactive);
     void setAcOnline(const QString active);
@@ -78,7 +78,8 @@ public:
     void setTranslate(const bool translate);
 
 public slots:
-    QStringList registerSource(const QString &source, const QString &units);
+    QStringList registerSource(const QString &source, const QString &units,
+                               const QStringList &keys);
 
 private:
     float temperature(const float temp) const;
@@ -91,7 +92,6 @@ private:
     QHash<QString, QStringList> m_devices;
     QHash<QString, FormaterType> m_formater;
     QHash<QString, QString> m_map;
-    QHash<QString, QString> m_requiredByMap;
     QString m_tempUnits;
     bool m_translate = false;
 };

@@ -11,8 +11,8 @@ git submodule update --init --recursive
 
 # build widget
 ARCHIVE="awesome-widgets"
-FILES="AUTHORS CHANGELOG CHANGELOG-RU COPYING patches"
-IGNORELIST="build usr .kdev4 *.kdev4 .idea"
+FILES="AUTHORS CHANGELOG CHANGELOG-RU COPYING packages patches"
+IGNORELIST="build usr .kdev4 *.kdev4 .idea packages/*src.tar.xz"
 # create archive
 [[ -e ${ARCHIVE}-${VERSION}-src.tar.xz ]] && rm -f "${ARCHIVE}-${VERSION}-src.tar.xz"
 [[ -d ${ARCHIVE} ]] && rm -rf "${ARCHIVE}"

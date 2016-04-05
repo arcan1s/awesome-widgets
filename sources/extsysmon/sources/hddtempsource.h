@@ -23,6 +23,8 @@
 #include "abstractextsysmonsource.h"
 
 
+class QProcess;
+
 class HDDTemperatureSource : public AbstractExtSysMonSource
 {
 public:
@@ -33,11 +35,17 @@ public:
     void run(){};
     QStringList sources() const;
 
+private slots:
+    void updateValue(const QString &device);
+
 private:
+    // properties
+    QHash<QString, QProcess *> m_processes;
     // configuration and values
     QString m_cmd;
     QStringList m_devices;
     bool m_smartctl;
+    QHash<QString, QVariant> m_values;
 };
 
 

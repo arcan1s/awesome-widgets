@@ -78,14 +78,10 @@ ExtWeather *ExtWeather::copy(const QString _fileName, const int _number)
 
     ExtWeather *item = new ExtWeather(static_cast<QWidget *>(parent()),
                                       _fileName, directories());
-    item->setActive(isActive());
-    item->setApiVersion(apiVersion());
+    copyDefaults(item);
     item->setCity(city());
-    item->setComment(comment());
     item->setCountry(country());
-    item->setInterval(interval());
     item->setImage(image());
-    item->setName(name());
     item->setNumber(_number);
     item->setTs(ts());
 
@@ -303,8 +299,8 @@ void ExtWeather::writeConfiguration() const
 
 void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
 {
-    qCDebug(LOG_LIB) << "Return code" << reply->error() << "with messa";
-    qCDebug(LOG_LIB) << "Reply error message" << reply->errorString();
+    qCDebug(LOG_LIB) << "Return code" << reply->error() << "with message"
+                     << reply->errorString();
 
     isRunning = false;
     QJsonParseError error;

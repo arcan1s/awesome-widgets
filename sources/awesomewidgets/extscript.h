@@ -82,7 +82,6 @@ private:
     QString m_prefix = QString("");
     Redirect m_redirect = nothing;
     // internal properties
-    Q_PID childProcess = 0;
     QVariantMap jsonFilters = QVariantMap();
     int times = 0;
     QVariantHash value;

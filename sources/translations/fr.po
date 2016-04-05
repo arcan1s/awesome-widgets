@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-01-26 21:48+0300\n"
+"POT-Creation-Date: 2016-02-15 11:43+0300\n"
 "PO-Revision-Date: 2015-07-31 22:16+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: French <kde-russian@lists.kde.ru>\n"
@@ -60,6 +60,9 @@ msgstr "Activer les notifications"
 #, fuzzy
 msgid "Check updates on startup"
 msgstr "Vérifier les mises à jour"
+
+msgid "Optimize subscription"
+msgstr ""
 
 msgid "Widget height, px"
 msgstr "Paramètres du composant"
@@ -337,10 +340,10 @@ msgid "Battery inactive color"
 msgstr "Couleur batterie inactive"
 
 msgid ""
-"Detailed information may be found on <a href=\"http://arcanis.name/projects/"
+"Detailed information may be found on <a href=\"https://arcanis.me/projects/"
 "awesome-widgets/\">project homepage</a>"
 msgstr ""
-"D'avantage d'informations se trouvent sur <a href=\"http://arcanis.name/"
+"D'avantage d'informations se trouvent sur <a href=\"https://arcanis.me/"
 "projects/awesome-widgets/\">la page du projet</a>"
 
 msgid "AC"
@@ -371,14 +374,14 @@ msgstr ""
 msgid "Weathers"
 msgstr "Modifier les tickers"
 
+msgid "Functions"
+msgstr ""
+
 msgid "Add"
 msgstr "Ajouter"
 
 msgid "Show value"
 msgstr "Afficher la valeur"
-
-msgid "Add lambda"
-msgstr ""
 
 msgid "Edit bars"
 msgstr "Modifier les barres"
@@ -431,27 +434,6 @@ msgstr ""
 msgid "Select font"
 msgstr "Sélectionner une couleur"
 
-msgid "You are using the actual version %1"
-msgstr ""
-
-#, fuzzy
-msgid "No new version found"
-msgstr "Nouvelle version"
-
-#, fuzzy
-msgid "Current version : %1"
-msgstr "Version actuelle"
-
-#, fuzzy
-msgid "New version : %1"
-msgstr "Nouvelle version"
-
-msgid "Click \"Ok\" to download"
-msgstr "Cliquer sur \"Valider\" pour télécharger"
-
-msgid "There are updates"
-msgstr "Des mises à jour sont disponibles"
-
 msgid "AC online"
 msgstr "Alimentation branchée"
 
@@ -478,6 +460,30 @@ msgstr ""
 
 msgid "KB/s"
 msgstr ""
+
+msgid "Changelog of %1"
+msgstr ""
+
+msgid "You are using the actual version %1"
+msgstr ""
+
+#, fuzzy
+msgid "No new version found"
+msgstr "Nouvelle version"
+
+#, fuzzy
+msgid "Current version : %1"
+msgstr "Version actuelle"
+
+#, fuzzy
+msgid "New version : %1"
+msgstr "Nouvelle version"
+
+msgid "Click \"Ok\" to download"
+msgstr "Cliquer sur \"Valider\" pour télécharger"
+
+msgid "There are updates"
+msgstr "Des mises à jour sont disponibles"
 
 msgid "Copy"
 msgstr "Copier"
@@ -574,8 +580,20 @@ msgid "Use images"
 msgstr ""
 
 #, fuzzy
+msgid "Use custom formula"
+msgstr "Format de l'heure personnalisé"
+
+#, fuzzy
 msgid "Value"
 msgstr "Valeur: %1"
+
+#, fuzzy
+msgid "Max value"
+msgstr "Afficher la valeur"
+
+#, fuzzy
+msgid "Min value"
+msgstr "Afficher la valeur"
 
 #, fuzzy
 msgid "Active color"

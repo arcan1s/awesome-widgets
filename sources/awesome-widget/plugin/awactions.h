@@ -22,7 +22,7 @@
 #include <QObject>
 
 
-class QNetworkReply;
+class AWUpdateHelper;
 
 class AWActions : public QObject
 {
@@ -44,11 +44,8 @@ public slots:
     Q_INVOKABLE static void sendNotification(const QString eventId,
                                              const QString message);
 
-private slots:
-    void showInfo(const QString version) const;
-    void showUpdates(const QString version) const;
-    void versionReplyRecieved(QNetworkReply *reply,
-                              const bool showAnyway) const;
+private:
+    AWUpdateHelper *m_updateHelper = nullptr;
 };
 
 

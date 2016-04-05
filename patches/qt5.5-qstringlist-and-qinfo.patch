@@ -11,19 +11,21 @@ index f808d03..a056b3f 100644
  #include "version.h"
  
 diff --git a/sources/awdebug.h b/sources/awdebug.h
-index 48dc580..530c0d6 100644
+index 43944ce..c679281 100644
 --- a/sources/awdebug.h
 +++ b/sources/awdebug.h
-@@ -23,9 +23,9 @@
+@@ -21,9 +21,13 @@
  
+ #include <QLoggingCategory>
+ 
++#ifndef qCInfo
++#define qCInfo qCDebug
++#endif
++
  #ifndef LOG_FORMAT
  #define LOG_FORMAT                                                             \
 -    "[%{time process}][%{if-debug}DD%{endif}%{if-info}II%{endif}%{if-"         \
--    "warning}WW%{endif}%{if-critical}CC%{endif}%{if-fatal}FF%{endif}][%{"      \
--    "category}][%{function}] %{message}"
-+    "[%{time process}][%{if-debug}DD%{endif}%{if-warning}WW%{endif}%{if-"      \
-+    "critical}CC%{endif}%{if-fatal}FF%{endif}][%{category}][%{function}] "     \
-+    "%{message}"
++    "[%{time process}][%{if-debug}DD%{endif}%{if-"         \
+     "warning}WW%{endif}%{if-critical}CC%{endif}%{if-fatal}FF%{endif}][%{"      \
+     "category}][%{function}] %{message}"
  #endif /* LOG_FORMAT */
- 
- // redefine info because it doesn't log properly

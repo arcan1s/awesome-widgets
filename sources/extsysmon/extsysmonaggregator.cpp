@@ -57,12 +57,14 @@ QVariant ExtSysMonAggregator::data(const QString source) const
 {
     qCDebug(LOG_ESM) << "Source" << source;
 
-    return hasSource(source) ? m_map[source]->data(source) : QVariant();
+    return m_map[source]->data(source);
 }
 
 
 bool ExtSysMonAggregator::hasSource(const QString source) const
 {
+    qCDebug(LOG_ESM) << "Source" << source;
+
     return m_map.contains(source);
 }
 
@@ -78,9 +80,7 @@ QVariantMap ExtSysMonAggregator::initialData(const QString source) const
 
 QStringList ExtSysMonAggregator::sources() const
 {
-    QStringList sorted = m_map.keys();
-    sorted.sort();
-    return sorted;
+    return m_map.keys();
 }
 
 

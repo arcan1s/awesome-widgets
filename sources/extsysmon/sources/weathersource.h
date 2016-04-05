@@ -41,7 +41,7 @@ private:
     // configuration and values
     ExtItemAggregator<ExtWeather> *extWeather;
     QStringList m_sources;
-    QVariantHash values;
+    QVariantHash m_values;
 };
 
 

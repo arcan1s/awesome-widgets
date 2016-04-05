@@ -40,7 +40,7 @@ public:
     virtual ~AWKeys();
     Q_INVOKABLE void initDataAggregator(const QVariantMap tooltipParams);
     Q_INVOKABLE void initKeys(const QString currentPattern, const int interval,
-                              const int limit);
+                              const int limit, const bool optimize);
     Q_INVOKABLE void setAggregatorProperty(const QString key,
                                            const QVariant value);
     Q_INVOKABLE void setWrapNewLines(const bool wrap = false);
@@ -84,8 +84,10 @@ private:
     AWKeysAggregator *aggregator = nullptr;
     AWKeyOperations *keyOperator = nullptr;
     // variables
-    QStringList m_foundBars, m_foundKeys, m_foundLambdas;
-    QHash<QString, QString> values;
+    QVariantMap m_tooltipParams;
+    QStringList m_foundBars, m_foundKeys, m_foundLambdas, m_requiredKeys;
+    QVariantHash values;
+    bool m_optimize = false;
     bool m_wrapNewLines = false;
     // multithread features
     QThreadPool *m_threadPool = nullptr;

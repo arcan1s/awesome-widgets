@@ -15,32 +15,45 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef BATTERYSOURCE_H
-#define BATTERYSOURCE_H
+#ifndef GRAPHICALITEMHELPER_H
+#define GRAPHICALITEMHELPER_H
 
+#include <QColor>
 #include <QObject>
+#include <QPen>
 
-#include "abstractextsysmonsource.h"
 
+class QGraphicsScene;
 
-class BatterySource : public AbstractExtSysMonSource
+class GraphicalItemHelper : public QObject
 {
 public:
-    explicit BatterySource(QObject *parent, const QStringList args);
-    virtual ~BatterySource();
-    QVariant data(QString source);
-    QVariantMap initialData(QString source) const;
-    void run();
-    QStringList sources() const;
+    explicit GraphicalItemHelper(QObject *parent = nullptr,
+                                 QGraphicsScene *scene = nullptr);
+    virtual ~GraphicalItemHelper();
+    // parameters
+    void setParameters(const QString active, const QString inactive,
+                       const int width, const int height, const int count);
+    // paint methods
+    void paintCircle(const float &percent);
+    void paintGraph(const float &value);
+    void paintHorizontal(const float &percent);
+    void paintVertical(const float &percent);
+    // additional conversion methods
+    float getPercents(const float &value, const float &min, const float &max);
+    QColor stringToColor(const QString &color);
 
 private:
-    QStringList getSources();
-    // configuration and values
-    int m_batteriesCount = 0;
-    QString m_acpiPath;
-    QStringList m_sources;
-    QVariantHash m_values;
+    void storeValue(const float &value);
+    QGraphicsScene *m_scene = nullptr;
+    int m_count = 100;
+    QPen m_activePen;
+    QPen m_inactivePen;
+    int m_width = 100;
+    int m_height = 100;
+    // list of values which will be used to store data for graph type only
+    QList<float> m_values;
 };
 
 
-#endif /* BATTERYSOURCE_H */
+#endif /* GRAPHICALITEMHELPER_H */

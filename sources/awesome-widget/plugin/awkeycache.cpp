@@ -81,6 +81,89 @@ bool AWKeyCache::addKeyToCache(const QString type, const QString key)
 }
 
 
+QStringList AWKeyCache::getRequiredKeys(const QStringList &keys,
+                                        const QStringList &bars,
+                                        const QVariantMap &tooltip,
+                                        const QStringList &allKeys)
+{
+    qCDebug(LOG_AW) << "Looking for required keys in" << keys << bars
+                    << "using tooltip settings" << tooltip;
+
+    // initial copy
+    QSet<QString> used = QSet<QString>::fromList(keys);
+    used.unite(QSet<QString>::fromList(bars));
+    // insert keys from tooltip
+    for (auto key : tooltip.keys()) {
+        if ((key.endsWith(QString("Tooltip"))) && (tooltip[key].toBool())) {
+            key.remove(QString("Tooltip"));
+            used << key;
+        }
+    }
+
+    // insert depending keys, refer to AWKeys::calculateValues()
+    // hddtotmb*
+    for (auto key : allKeys.filter(QRegExp(QString("^hddtotmb")))) {
+        if (!used.contains(key))
+            continue;
+        key.remove(QString("hddtotmb"));
+        int index = key.toInt();
+        used << QString("hddfreemb%1").arg(index)
+             << QString("hddmb%1").arg(index);
+    }
+    // hddtotgb*
+    for (auto key : allKeys.filter(QRegExp(QString("^hddtotgb")))) {
+        if (!used.contains(key))
+            continue;
+        key.remove(QString("hddtotgb"));
+        int index = key.toInt();
+        used << QString("hddfreegb%1").arg(index)
+             << QString("hddgb%1").arg(index);
+    }
+    // mem
+    if (used.contains(QString("mem")))
+        used << QString("memmb") << QString("memtotmb");
+    // memtotmb
+    if (used.contains(QString("memtotmb")))
+        used << QString("memusedmb") << QString("memfreemb");
+    // memtotgb
+    if (used.contains(QString("memtotgb")))
+        used << QString("memusedgb") << QString("memfreegb");
+    // swap
+    if (used.contains(QString("swap")))
+        used << QString("swapmb") << QString("swaptotmb");
+    // swaptotmb
+    if (used.contains(QString("swaptotmb")))
+        used << QString("swapmb") << QString("swapfreemb");
+    // memtotgb
+    if (used.contains(QString("swaptotgb")))
+        used << QString("swapgb") << QString("swapfreegb");
+    // network keys
+    QStringList netKeys(QStringList() << QString("up") << QString("upkb")
+                                      << QString("upunits") << QString("down")
+                                      << QString("downkb")
+                                      << QString("downunits"));
+    for (auto key : netKeys) {
+        if (!used.contains(key))
+            continue;
+        QStringList filt
+            = allKeys.filter(QRegExp(QString("^%1[0-9]{1,}").arg(key)));
+        for (auto filtered : filt)
+            used << filtered;
+    }
+    // netdev key
+    if (std::any_of(netKeys.cbegin(), netKeys.cend(),
+                    [&used](const QString &key) { return used.contains(key); }))
+        used << QString("netdev");
+
+    // HACK append dummy if there are no other keys. This hack is required
+    // because empty list leads to the same behaviour as skip checking
+    if (used.isEmpty())
+        used << QString("dummy");
+
+    return used.toList();
+}
+
+
 QHash<QString, QStringList> AWKeyCache::loadKeysFromCache()
 {
     QString fileName = QString("%1/awesomewidgets.ndx")

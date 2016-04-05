@@ -68,12 +68,8 @@ ExtScript *ExtScript::copy(const QString _fileName, const int _number)
 
     ExtScript *item = new ExtScript(static_cast<QWidget *>(parent()), _fileName,
                                     directories());
-    item->setActive(isActive());
-    item->setApiVersion(apiVersion());
-    item->setComment(comment());
+    copyDefaults(item);
     item->setExecutable(executable());
-    item->setInterval(interval());
-    item->setName(name());
     item->setNumber(_number);
     item->setPrefix(prefix());
     item->setRedirect(redirect());

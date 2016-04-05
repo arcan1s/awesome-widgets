@@ -23,14 +23,13 @@
 #include <QBuffer>
 #include <QColorDialog>
 #include <QDir>
-#include <QGraphicsEllipseItem>
+#include <QFileDialog>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QSettings>
 
-#include <math.h>
-
 #include "awdebug.h"
+#include "graphicalitemhelper.h"
 #include "version.h"
 
 
@@ -47,10 +46,22 @@ GraphicalItem::GraphicalItem(QWidget *parent, const QString desktopName,
 
     initScene();
 
+    connect(ui->checkBox_custom, SIGNAL(stateChanged(int)), this,
+            SLOT(changeValue(int)));
+    connect(ui->checkBox_activeCheck, SIGNAL(stateChanged(int)), this,
+            SLOT(changeColorState(int)));
+    connect(ui->checkBox_inactiveCheck, SIGNAL(stateChanged(int)), this,
+            SLOT(changeColorState(int)));
+    connect(ui->comboBox_type, SIGNAL(currentIndexChanged(int)), this,
+            SLOT(changeCountState(int)));
     connect(ui->pushButton_activeColor, SIGNAL(clicked()), this,
             SLOT(changeColor()));
     connect(ui->pushButton_inactiveColor, SIGNAL(clicked()), this,
             SLOT(changeColor()));
+    connect(ui->pushButton_activeImage, SIGNAL(clicked()), this,
+            SLOT(changeImage()));
+    connect(ui->pushButton_inactiveImage, SIGNAL(clicked()), this,
+            SLOT(changeImage()));
 }
 
 
@@ -60,6 +71,7 @@ GraphicalItem::~GraphicalItem()
 
     delete m_scene;
     delete ui;
+    delete m_helper;
 }
 
 
@@ -69,52 +81,52 @@ GraphicalItem *GraphicalItem::copy(const QString _fileName, const int _number)
 
     GraphicalItem *item = new GraphicalItem(static_cast<QWidget *>(parent()),
                                             _fileName, directories());
-    item->setActive(isActive());
-    item->setActiveColor(activeColor());
-    item->setApiVersion(apiVersion());
-    item->setBar(bar());
-    item->setComment(comment());
-    item->setDirection(direction());
-    item->setHeight(height());
-    item->setInactiveColor(inactiveColor());
-    item->setInterval(interval());
-    item->setName(QString("bar%1").arg(_number));
+    copyDefaults(item);
+    item->setActiveColor(m_activeColor);
+    item->setBar(m_bar);
+    item->setCount(m_count);
+    item->setCustom(m_custom);
+    item->setDirection(m_direction);
+    item->setHeight(m_height);
+    item->setInactiveColor(m_inactiveColor);
+    item->setMaxValue(m_maxValue);
+    item->setMinValue(m_minValue);
     item->setNumber(_number);
-    item->setType(type());
-    item->setWidth(width());
+    item->setType(m_type);
+    item->setWidth(m_width);
 
     return item;
 }
 
 
-QString GraphicalItem::image(const QVariant value)
+QString GraphicalItem::image(const QVariant &value)
 {
     qCDebug(LOG_LIB) << "Value" << value;
-    if (m_bar == QString("none"))
-        return QString("");
 
     m_scene->clear();
     int scale[2] = {1, 1};
+    float converted
+        = m_helper->getPercents(value.toFloat(), m_minValue, m_maxValue);
 
     // paint
     switch (m_type) {
     case Vertical:
-        paintVertical(value.toFloat());
+        m_helper->paintVertical(converted);
         // scale
         scale[1] = -2 * static_cast<int>(m_direction) + 1;
         break;
     case Circle:
-        paintCircle(value.toFloat());
+        m_helper->paintCircle(converted);
         // scale
         scale[0] = -2 * static_cast<int>(m_direction) + 1;
         break;
     case Graph:
-        paintGraph(value.value<QList<float>>());
+        m_helper->paintGraph(converted);
         // direction option is not recognized by this GI type
         break;
     case Horizontal:
     default:
-        paintHorizontal(value.toFloat());
+        m_helper->paintHorizontal(converted);
         // scale
         scale[0] = -2 * static_cast<int>(m_direction) + 1;
         break;
@@ -151,9 +163,27 @@ QString GraphicalItem::inactiveColor() const
 }
 
 
-QString GraphicalItem::tag() const
+int GraphicalItem::count() const
 {
-    return QString("bar%1%2").arg(number()).arg(m_bar);
+    return m_count;
+}
+
+
+bool GraphicalItem::isCustom() const
+{
+    return m_custom;
+}
+
+
+float GraphicalItem::maxValue() const
+{
+    return m_maxValue;
+}
+
+
+float GraphicalItem::minValue() const
+{
+    return m_minValue;
 }
 
 
@@ -215,6 +245,12 @@ int GraphicalItem::height() const
 }
 
 
+QStringList GraphicalItem::usedKeys() const
+{
+    return m_usedKeys;
+}
+
+
 int GraphicalItem::width() const
 {
     return m_width;
@@ -231,13 +267,7 @@ void GraphicalItem::setBar(const QString _bar)
 {
     qCDebug(LOG_LIB) << "Bar" << _bar;
 
-    if (!_bar.contains(QRegExp(
-            QString("^(cpu(?!cl).*|gpu$|mem$|swap$|hdd[0-9].*|bat.*)")))) {
-        qCWarning(LOG_LIB) << "Unsupported bar type" << _bar;
-        m_bar = QString("none");
-    } else {
-        m_bar = _bar;
-    }
+    m_bar = _bar;
 }
 
 
@@ -249,11 +279,45 @@ void GraphicalItem::setActiveColor(const QString _color)
 }
 
 
+void GraphicalItem::setCount(const int _count)
+{
+    qCDebug(LOG_LIB) << "Count" << _count;
+    if (_count <= 1)
+        return;
+
+    m_count = _count;
+}
+
+
+void GraphicalItem::setCustom(const bool _custom)
+{
+    qCDebug(LOG_LIB) << "Use custom tag" << _custom;
+
+    m_custom = _custom;
+}
+
+
 void GraphicalItem::setInactiveColor(const QString _color)
 {
     qCDebug(LOG_LIB) << "Color" << _color;
 
     m_inactiveColor = _color;
+}
+
+
+void GraphicalItem::setMaxValue(const float _value)
+{
+    qCDebug(LOG_LIB) << "Max value" << _value;
+
+    m_maxValue = _value;
+}
+
+
+void GraphicalItem::setMinValue(const float _value)
+{
+    qCDebug(LOG_LIB) << "Min value" << _value;
+
+    m_minValue = _value;
 }
 
 
@@ -309,6 +373,15 @@ void GraphicalItem::setHeight(const int _height)
 }
 
 
+void GraphicalItem::setUsedKeys(const QStringList _usedKeys)
+{
+    qCDebug(LOG_LIB) << "Used keys" << _usedKeys;
+
+    // remove dubs
+    m_usedKeys = QSet<QString>::fromList(_usedKeys).toList();
+}
+
+
 void GraphicalItem::setWidth(const int _width)
 {
     qCDebug(LOG_LIB) << "Width" << _width;
@@ -333,7 +406,11 @@ void GraphicalItem::readConfiguration()
             QSettings::IniFormat);
 
         settings.beginGroup(QString("Desktop Entry"));
+        setCount(settings.value(QString("X-AW-Count"), m_count).toInt());
+        setCustom(settings.value(QString("X-AW-Custom"), m_custom).toBool());
         setBar(settings.value(QString("X-AW-Value"), m_bar).toString());
+        setMaxValue(settings.value(QString("X-AW-Max"), m_maxValue).toFloat());
+        setMinValue(settings.value(QString("X-AW-Min"), m_minValue).toFloat());
         setActiveColor(
             settings.value(QString("X-AW-ActiveColor"), m_activeColor)
                 .toString());
@@ -362,23 +439,24 @@ void GraphicalItem::readConfiguration()
 }
 
 
-QVariantHash GraphicalItem::run()
-{
-    // required by abstract class
-    return QVariantHash();
-}
-
-
 int GraphicalItem::showConfiguration(const QVariant args)
 {
     qCDebug(LOG_LIB) << "Combobox arguments" << args;
     QStringList tags = args.toStringList();
 
-    ui->label_nameValue->setText(name());
+    ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
+    ui->checkBox_custom->setChecked(m_custom);
     ui->comboBox_value->addItems(tags);
-    ui->comboBox_value->addItem(m_bar);
-    ui->comboBox_value->setCurrentIndex(ui->comboBox_value->count() - 1);
+    if (m_custom) {
+        ui->lineEdit_customValue->setText(m_bar);
+    } else {
+        ui->comboBox_value->addItem(m_bar);
+        ui->comboBox_value->setCurrentIndex(ui->comboBox_value->count() - 1);
+    }
+    ui->doubleSpinBox_max->setValue(m_maxValue);
+    ui->doubleSpinBox_min->setValue(m_minValue);
+    ui->spinBox_count->setValue(m_count);
     ui->pushButton_activeColor->setText(m_activeColor);
     ui->pushButton_inactiveColor->setText(m_inactiveColor);
     ui->comboBox_type->setCurrentIndex(static_cast<int>(m_type));
@@ -386,13 +464,22 @@ int GraphicalItem::showConfiguration(const QVariant args)
     ui->spinBox_height->setValue(m_height);
     ui->spinBox_width->setValue(m_width);
 
+    // update UI
+    changeCountState(ui->comboBox_type->currentIndex());
+    changeValue(ui->checkBox_custom->checkState());
+
     int ret = exec();
     if (ret != 1)
         return ret;
-    setName(ui->label_nameValue->text());
+    setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
     setApiVersion(AWGIAPI);
-    setBar(ui->comboBox_value->currentText());
+    setCount(ui->spinBox_count->value());
+    setCustom(ui->checkBox_custom->isChecked());
+    setBar(m_custom ? ui->lineEdit_customValue->text()
+                    : ui->comboBox_value->currentText());
+    setMaxValue(ui->doubleSpinBox_max->value());
+    setMinValue(ui->doubleSpinBox_min->value());
     setActiveColor(ui->pushButton_activeColor->text().remove(QChar('&')));
     setInactiveColor(ui->pushButton_inactiveColor->text().remove(QChar('&')));
     setStrType(ui->comboBox_type->currentText());
@@ -416,6 +503,10 @@ void GraphicalItem::writeConfiguration() const
 
     settings.beginGroup(QString("Desktop Entry"));
     settings.setValue(QString("X-AW-Value"), m_bar);
+    settings.setValue(QString("X-AW-Count"), m_count);
+    settings.setValue(QString("X-AW-Custom"), m_custom);
+    settings.setValue(QString("X-AW-Max"), m_maxValue);
+    settings.setValue(QString("X-AW-Min"), m_minValue);
     settings.setValue(QString("X-AW-ActiveColor"), m_activeColor);
     settings.setValue(QString("X-AW-InactiveColor"), m_inactiveColor);
     settings.setValue(QString("X-AW-Type"), strType());
@@ -430,8 +521,8 @@ void GraphicalItem::writeConfiguration() const
 
 void GraphicalItem::changeColor()
 {
-    QColor color
-        = stringToColor((static_cast<QPushButton *>(sender()))->text());
+    QColor color = m_helper->stringToColor(
+        (static_cast<QPushButton *>(sender()))->text());
     QColor newColor = QColorDialog::getColor(color, this, tr("Select color"),
                                              QColorDialog::ShowAlphaChannel);
     if (!newColor.isValid())
@@ -449,14 +540,59 @@ void GraphicalItem::changeColor()
 }
 
 
+void GraphicalItem::changeColorState(const int state)
+{
+    qCDebug(LOG_LIB) << "Current color state is" << state;
+
+    if (sender() == ui->checkBox_activeCheck) {
+        qCInfo(LOG_LIB) << "Change active color state";
+        ui->widget_activeColor->setHidden(state == Qt::Unchecked);
+        ui->widget_activeImage->setHidden(state != Qt::Unchecked);
+    } else if (sender() == ui->checkBox_inactiveCheck) {
+        qCInfo(LOG_LIB) << "Change inactive color state";
+        ui->widget_inactiveColor->setHidden(state == Qt::Unchecked);
+        ui->widget_inactiveImage->setHidden(state != Qt::Unchecked);
+    }
+}
+
+
+void GraphicalItem::changeCountState(const int state)
+{
+    qCDebug(LOG_LIB) << "Current state is" << state;
+
+    // 3 is magic number. Actually 3 is Graph mode
+    ui->widget_count->setHidden(state != 3);
+}
+
+
+void GraphicalItem::changeImage()
+{
+    QString path = static_cast<QPushButton *>(sender())->text();
+    QString directory = QFileInfo(path).absolutePath();
+    QString newPath = QFileDialog::getOpenFileName(
+        this, tr("Select path"), directory,
+        tr("Images (*.png *.bpm *.jpg);;All files (*.*)"));
+
+    qCInfo(LOG_LIB) << "Selected path" << newPath;
+
+    return static_cast<QPushButton *>(sender())->setText(newPath);
+}
+
+
+void GraphicalItem::changeValue(const int state)
+{
+    qCDebug(LOG_LIB) << "Current state is" << state;
+
+    ui->widget_value->setHidden(state != Qt::Unchecked);
+    ui->widget_customValue->setHidden(state == Qt::Unchecked);
+}
+
+
 void GraphicalItem::initScene()
 {
     // init scene
     m_scene = new QGraphicsScene();
-    if (m_type == Graph)
-        m_scene->setBackgroundBrush(stringToColor(m_inactiveColor));
-    else
-        m_scene->setBackgroundBrush(QBrush(Qt::NoBrush));
+    m_scene->setBackgroundBrush(QBrush(Qt::NoBrush));
     // init view
     m_view = new QGraphicsView(m_scene);
     m_view->setStyleSheet(QString("background: transparent"));
@@ -464,104 +600,12 @@ void GraphicalItem::initScene()
     m_view->setFrameShape(QFrame::NoFrame);
     m_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_view->resize(m_width + 5.0, m_height + 5.0);
-}
+    m_view->resize(m_width + 5, m_height + 5);
 
-
-void GraphicalItem::paintCircle(const float value)
-{
-    QPen pen;
-    pen.setWidth(1.0);
-    float percent = value / 100.0;
-    QGraphicsEllipseItem *circle;
-
-    QColor inactive = stringToColor(m_inactiveColor);
-    QColor active = stringToColor(m_activeColor);
-
-    // inactive
-    pen.setColor(inactive);
-    circle = m_scene->addEllipse(0.0, 0.0, m_width, m_height, pen,
-                                 QBrush(inactive, Qt::SolidPattern));
-    circle->setSpanAngle(-(1.0 - percent) * 360.0 * 16.0);
-    circle->setStartAngle(90.0 * 16.0 - percent * 360.0 * 16.0);
-    // active
-    pen.setColor(active);
-    circle = m_scene->addEllipse(0.0, 0.0, m_width, m_height, pen,
-                                 QBrush(active, Qt::SolidPattern));
-    circle->setSpanAngle(-percent * 360.0 * 16.0);
-    circle->setStartAngle(90.0 * 16.0);
-}
-
-
-void GraphicalItem::paintGraph(const QList<float> value)
-{
-    QPen pen;
-    pen.setColor(stringToColor(m_activeColor));
-
-    // default norms
-    float normX
-        = static_cast<float>(m_width) / static_cast<float>(value.count());
-    float normY = static_cast<float>(m_height) / (1.5 * 100.0);
-    // paint graph
-    for (int i = 0; i < value.count() - 1; i++) {
-        // some magic here
-        float x1 = i * normX;
-        float y1 = -fabs(value.at(i)) * normY + 5.0;
-        float x2 = (i + 1) * normX;
-        float y2 = -fabs(value.at(i + 1)) * normY + 5.0;
-        m_scene->addLine(x1, y1, x2, y2, pen);
-    }
-}
-
-
-void GraphicalItem::paintHorizontal(const float value)
-{
-    QPen pen;
-    float percent = value / 100.0;
-
-    pen.setWidth(m_height);
-    // inactive
-    pen.setColor(stringToColor(m_inactiveColor));
-    m_scene->addLine(percent * m_width + 0.5 * m_height, 0.5 * m_height,
-                     m_width + 0.5 * m_height, 0.5 * m_height, pen);
-    // active
-    pen.setColor(stringToColor(m_activeColor));
-    m_scene->addLine(-0.5 * m_height, 0.5 * m_height,
-                     percent * m_width - 0.5 * m_height, 0.5 * m_height, pen);
-}
-
-
-void GraphicalItem::paintVertical(const float value)
-{
-    QPen pen;
-    float percent = value / 100.0;
-
-    pen.setWidth(m_width);
-    // inactive
-    pen.setColor(stringToColor(m_inactiveColor));
-    m_scene->addLine(0.5 * m_width, -0.5 * m_width, 0.5 * m_width,
-                     (1.0 - percent) * m_height - 0.5 * m_width, pen);
-    // active
-    pen.setColor(stringToColor(m_activeColor));
-    m_scene->addLine(0.5 * m_width, (1.0 - percent) * m_height + 0.5 * m_width,
-                     0.5 * m_width, m_height + 0.5 * m_width, pen);
-}
-
-
-QColor GraphicalItem::stringToColor(const QString _color) const
-{
-    qCDebug(LOG_LIB) << "Color" << _color;
-
-    QColor qcolor;
-    QStringList listColor = _color.split(QChar(','));
-    while (listColor.count() < 4)
-        listColor.append(QString("0"));
-    qcolor.setRed(listColor.at(0).toInt());
-    qcolor.setGreen(listColor.at(1).toInt());
-    qcolor.setBlue(listColor.at(2).toInt());
-    qcolor.setAlpha(listColor.at(3).toInt());
-
-    return qcolor;
+    // init helper
+    m_helper = new GraphicalItemHelper(this, m_scene);
+    m_helper->setParameters(m_activeColor, m_inactiveColor, m_width, m_height,
+                            m_count);
 }
 
 
@@ -569,9 +613,18 @@ void GraphicalItem::translate()
 {
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
+    ui->label_count->setText(i18n("Points count"));
+    ui->checkBox_custom->setText(i18n("Use custom formula"));
     ui->label_value->setText(i18n("Value"));
+    ui->label_customValue->setText(i18n("Value"));
+    ui->label_max->setText(i18n("Max value"));
+    ui->label_min->setText(i18n("Min value"));
+    ui->checkBox_activeCheck->setText(i18n("Use image for active"));
     ui->label_activeColor->setText(i18n("Active color"));
+    ui->label_activeImage->setText(i18n("Active image"));
+    ui->checkBox_inactiveCheck->setText(i18n("Use image for inactive"));
     ui->label_inactiveColor->setText(i18n("Inactive color"));
+    ui->label_inactiveImage->setText(i18n("Inactive image"));
     ui->label_type->setText(i18n("Type"));
     ui->label_direction->setText(i18n("Direction"));
     ui->label_height->setText(i18n("Height"));

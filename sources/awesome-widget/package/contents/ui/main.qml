@@ -46,15 +46,15 @@ Item {
         "cpuclTooltip": plasmoid.configuration.cpuclTooltip,
         "memTooltip": plasmoid.configuration.memTooltip,
         "swapTooltip": plasmoid.configuration.swapTooltip,
-        "downTooltip": plasmoid.configuration.downTooltip,
-        "upTooltip": plasmoid.configuration.downTooltip,
+        "downkbTooltip": plasmoid.configuration.downkbTooltip,
+        "upkbTooltip": plasmoid.configuration.downkbTooltip,
         "batTooltip": plasmoid.configuration.batTooltip,
         "cpuTooltipColor": plasmoid.configuration.cpuTooltipColor,
         "cpuclTooltipColor": plasmoid.configuration.cpuclTooltipColor,
         "memTooltipColor": plasmoid.configuration.memTooltipColor,
         "swapTooltipColor": plasmoid.configuration.swapTooltipColor,
-        "downTooltipColor": plasmoid.configuration.downTooltipColor,
-        "upTooltipColor": plasmoid.configuration.upTooltipColor,
+        "downkbTooltipColor": plasmoid.configuration.downkbTooltipColor,
+        "upkbTooltipColor": plasmoid.configuration.upkbTooltipColor,
         "batTooltipColor": plasmoid.configuration.batTooltipColor,
         "batInTooltipColor": plasmoid.configuration.batInTooltipColor,
         // additional field to parse AC status
@@ -136,7 +136,9 @@ Item {
         if (debug) console.debug()
 
         // actions
-        plasmoid.setAction("requestKey", i18n("Request key"), "utilities-system-monitor")
+        // it makes no sense to use this field with optimization enable
+        if (!plasmoid.configuration.optimize)
+            plasmoid.setAction("requestKey", i18n("Request key"), "utilities-system-monitor")
         plasmoid.setAction("showReadme", i18n("Show README"), "text-x-readme")
         plasmoid.setAction("checkUpdates", i18n("Check updates"), "system-software-update")
         // init submodule
@@ -187,9 +189,9 @@ Item {
         if (debug) console.debug()
 
         // init submodule
-        awKeys.initKeys(plasmoid.configuration.text, plasmoid.configuration.interval,
-                        plasmoid.configuration.queueLimit)
         awKeys.initDataAggregator(tooltipSettings)
+        awKeys.initKeys(plasmoid.configuration.text, plasmoid.configuration.interval,
+                        plasmoid.configuration.queueLimit, plasmoid.configuration.optimize)
         awKeys.setWrapNewLines(plasmoid.configuration.wrapNewLines)
         // configure aggregator
         awKeys.setAggregatorProperty("acOffline", plasmoid.configuration.acOffline)

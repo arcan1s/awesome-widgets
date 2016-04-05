@@ -23,6 +23,8 @@
 #include "abstractextsysmonsource.h"
 
 
+class QProcess;
+
 class GPULoadSource : public AbstractExtSysMonSource
 {
 public:
@@ -30,12 +32,17 @@ public:
     virtual ~GPULoadSource();
     QVariant data(QString source);
     QVariantMap initialData(QString source) const;
-    void run(){};
+    void run();
     QStringList sources() const;
+
+private slots:
+    void updateValue();
 
 private:
     // configuration and values
     QString m_device;
+    QProcess *m_process = nullptr;
+    QVariant m_value;
 };
 
 

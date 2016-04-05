@@ -18,9 +18,8 @@
 
 #include "hddtempsource.h"
 
+#include <QProcess>
 #include <QTextCodec>
-
-#include <task/taskadds.h>
 
 #include "awdebug.h"
 
@@ -37,12 +36,29 @@ HDDTemperatureSource::HDDTemperatureSource(QObject *parent,
 
     m_smartctl = m_cmd.contains(QString("smartctl"));
     qCInfo(LOG_ESM) << "Parse as smartctl" << m_smartctl;
+
+    for (auto device : m_devices) {
+        m_processes[device] = new QProcess(nullptr);
+        // fucking magic from http://doc.qt.io/qt-5/qprocess.html#finished
+        connect(m_processes[device],
+                static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(
+                    &QProcess::finished),
+                [this, device](int, QProcess::ExitStatus) {
+                    return updateValue(device);
+                });
+        m_processes[device]->waitForFinished(0);
+    }
 }
 
 
 HDDTemperatureSource::~HDDTemperatureSource()
 {
     qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
+
+    for (auto device : m_devices) {
+        m_processes[device]->kill();
+        m_processes[device]->deleteLater();
+    }
 }
 
 
@@ -51,36 +67,11 @@ QVariant HDDTemperatureSource::data(QString source)
     qCDebug(LOG_ESM) << "Source" << source;
 
     QString device = source.remove(QString("hdd/temperature"));
-    float value = 0.0;
     // run cmd
-    TaskResult process = runTask(QString("%1 %2").arg(m_cmd).arg(device));
-    qCInfo(LOG_ESM) << "Cmd returns" << process.exitCode;
-    qCInfo(LOG_ESM) << "Error" << process.error;
+    if (m_processes[device]->state() == QProcess::NotRunning)
+        m_processes[device]->start(QString("%1 %2").arg(m_cmd).arg(device));
 
-    // parse
-    QString qoutput
-        = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
-    if (m_smartctl) {
-        for (auto str : qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
-            if (!str.startsWith(QString("194")))
-                continue;
-            if (str.split(QChar(' '), QString::SkipEmptyParts).count() < 9)
-                break;
-            value = str.split(QChar(' '), QString::SkipEmptyParts)
-                        .at(9)
-                        .toFloat();
-            break;
-        }
-    } else {
-        if (qoutput.split(QChar(':'), QString::SkipEmptyParts).count() >= 3) {
-            QString temp
-                = qoutput.split(QChar(':'), QString::SkipEmptyParts).at(2);
-            temp.remove(QChar(0260)).remove(QChar('C'));
-            value = temp.toFloat();
-        }
-    }
-
-    return value;
+    return m_values[device];
 }
 
 
@@ -107,4 +98,43 @@ QStringList HDDTemperatureSource::sources() const
         sources.append(QString("hdd/temperature%1").arg(device));
 
     return sources;
+}
+
+
+void HDDTemperatureSource::updateValue(const QString &device)
+{
+    qCDebug(LOG_LIB) << "Called with device" << device;
+
+    qCInfo(LOG_LIB) << "Cmd returns" << m_processes[device]->exitCode();
+    QString qdebug
+        = QTextCodec::codecForMib(106)
+              ->toUnicode(m_processes[device]->readAllStandardError())
+              .trimmed();
+    qCInfo(LOG_LIB) << "Error" << qdebug;
+    QString qoutput
+        = QTextCodec::codecForMib(106)
+              ->toUnicode(m_processes[device]->readAllStandardOutput())
+              .trimmed();
+    qCInfo(LOG_LIB) << "Output" << qoutput;
+
+    // parse
+    if (m_smartctl) {
+        for (auto str : qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
+            if (!str.startsWith(QString("194")))
+                continue;
+            if (str.split(QChar(' '), QString::SkipEmptyParts).count() < 9)
+                continue;
+            m_values[device] = str.split(QChar(' '), QString::SkipEmptyParts)
+                                   .at(9)
+                                   .toFloat();
+            break;
+        }
+    } else {
+        if (qoutput.split(QChar(':'), QString::SkipEmptyParts).count() >= 3) {
+            QString temp
+                = qoutput.split(QChar(':'), QString::SkipEmptyParts).at(2);
+            temp.remove(QChar(0260)).remove(QChar('C'));
+            m_values[device] = temp.toFloat();
+        }
+    }
 }

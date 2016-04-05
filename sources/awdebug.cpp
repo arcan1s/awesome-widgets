@@ -78,7 +78,7 @@ const QStringList getBuildData()
     metadata.append(
         QString("    CPPCHECK_EXECUTABLE: %1").arg(CPPCHECK_EXECUTABLE));
     metadata.append(QString("    PROP_FUTURE: %1").arg(PROP_FUTURE));
-    metadata.append(QString("    PROP_FUTURE: %1").arg(PROP_FUTURE));
+    metadata.append(QString("    PROP_TEST: %1").arg(PROP_TEST));
 
     return metadata;
 }

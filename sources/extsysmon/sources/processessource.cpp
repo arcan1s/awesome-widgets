@@ -41,9 +41,10 @@ QVariant ProcessesSource::data(QString source)
 {
     qCDebug(LOG_ESM) << "Source" << source;
 
-    if (source == QString("ps/running/count"))
+    if (!m_values.contains(source))
         run();
-    return values[source];
+    QVariant value = m_values.take(source);
+    return value;
 }
 
 
@@ -97,9 +98,9 @@ void ProcessesSource::run()
             running.append(cmdFile.readAll());
     }
 
-    values[QString("ps/running/count")] = running.count();
-    values[QString("ps/running/list")] = running;
-    values[QString("ps/total/count")] = directories.count();
+    m_values[QString("ps/running/count")] = running.count();
+    m_values[QString("ps/running/list")] = running;
+    m_values[QString("ps/total/count")] = directories.count();
 }
 
 
