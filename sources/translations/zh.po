@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-02-15 11:43+0300\n"
+"POT-Creation-Date: 2016-01-26 21:48+0300\n"
 "PO-Revision-Date: 2015-07-31 22:24+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -56,9 +56,6 @@ msgstr "启用通知"
 
 msgid "Check updates on startup"
 msgstr "启动时检查更新"
-
-msgid "Optimize subscription"
-msgstr ""
 
 msgid "Widget height, px"
 msgstr "高度, px"
@@ -329,10 +326,10 @@ msgid "Battery inactive color"
 msgstr "电池未使用状态提示颜色"
 
 msgid ""
-"Detailed information may be found on <a href=\"https://arcanis.me/projects/"
+"Detailed information may be found on <a href=\"http://arcanis.name/projects/"
 "awesome-widgets/\">project homepage</a>"
 msgstr ""
-"详情请参照 <a href=\"https://arcanis.me/projects/ awesome-widgets/\">项目主"
+"详情请参照 <a href=\"http://arcanis.name/projects/ awesome-widgets/\">项目主"
 "页</a>"
 
 msgid "AC"
@@ -359,22 +356,15 @@ msgstr "更新"
 msgid "Weathers"
 msgstr "天气"
 
-msgid "Functions"
-msgstr ""
-
 msgid "Add"
 msgstr "添加"
 
 msgid "Show value"
 msgstr "显示值"
 
-<<<<<<< HEAD
 msgid "Add lambda"
 msgstr "添加 lambda"
 
-=======
-#, fuzzy
->>>>>>> development
 msgid "Edit bars"
 msgstr "编辑工具栏"
 
@@ -426,7 +416,6 @@ msgstr "特别感谢 %1"
 msgid "Select font"
 msgstr "选择字体"
 
-<<<<<<< HEAD
 msgid "You are using the actual version %1"
 msgstr "你正在使用最新版本 %1"
 
@@ -445,9 +434,6 @@ msgstr "点击 \"Ok\" 下载"
 msgid "There are updates"
 msgstr "有新的更新"
 
-=======
-#, fuzzy
->>>>>>> development
 msgid "AC online"
 msgstr "外接电源使用中"
 
@@ -474,27 +460,6 @@ msgstr "MB/s"
 
 msgid "KB/s"
 msgstr "KB/s"
-
-msgid "Changelog of %1"
-msgstr ""
-
-msgid "You are using the actual version %1"
-msgstr ""
-
-msgid "No new version found"
-msgstr ""
-
-msgid "Current version : %1"
-msgstr ""
-
-msgid "New version : %1"
-msgstr ""
-
-msgid "Click \"Ok\" to download"
-msgstr ""
-
-msgid "There are updates"
-msgstr ""
 
 msgid "Copy"
 msgstr "复制"
@@ -585,23 +550,9 @@ msgstr "时间"
 msgid "Use images"
 msgstr "使用图片"
 
-#, fuzzy
-msgid "Use custom formula"
-msgstr "自定义时间格式"
-
 msgid "Value"
 msgstr "值"
 
-<<<<<<< HEAD
-=======
-msgid "Max value"
-msgstr ""
-
-msgid "Min value"
-msgstr ""
-
-#, fuzzy
->>>>>>> development
 msgid "Active color"
 msgstr "使用状态提示颜色"
 
