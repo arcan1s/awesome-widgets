@@ -1,3 +1,24 @@
+Ver.3.1.0:
++ implement templates support (#71)
++ implement special functions (#71)
++ special directory for configs (#72)
++ custom bar images (#80)
++ custom bar values (#80)
++ show changelog after updates
++ add Polish translation (thanks to Mariusz Kocoń)
++ use Qt-5.6 features
+- fix invalid tooltip resize in desktop panel (#74)
+- fix graphical items blinking (#81)
+- drop tasks and move to native QProcess to avoid crash (#83)
+- the newest Qt (5.6) fixes
+- the newest Plasma fixes
+* move from OWM to Yahoo! Weather (#73)
+* improve performance by using optimized subscriptions (#75)
+* improve performance by storing QVariant instead of frequent casting (#75)
+* change bar names semantic to the simplest one (#80, breaking changes)
+* high memory usage notifications have been changed from 90 to 80 perc
+* a large part of refactoring
+
 Ver.3.0.1:
 + add patches for old Qt versions
 - drop `nullptr` checking

@@ -10,7 +10,7 @@ index 01bcd58..1ec7ba6 100644
  
  import org.kde.plasma.private.awesomewidget 1.0
  
-@@ -372,31 +371,7 @@ Item {
+@@ -372,32 +371,7 @@ Item {
              QtControls.Button {
                  width: parent.width * 3 / 5
                  text: i18n("Export configuration")
@@ -21,6 +21,7 @@ index 01bcd58..1ec7ba6 100644
 -                id: saveConfigAs
 -                selectExisting: false
 -                title: i18n("Export")
+-                folder: awConfig.configurationDirectory()
 -                onAccepted: {
 -                    var status = awConfig.exportConfiguration(
 -                        plasmoid.configuration,
@@ -43,7 +44,7 @@ index 01bcd58..1ec7ba6 100644
              }
          }
  
-@@ -410,41 +385,9 @@ Item {
+@@ -410,42 +385,9 @@ Item {
              QtControls.Button {
                  width: parent.width * 3 / 5
                  text: i18n("Import configuration")
@@ -53,6 +54,7 @@ index 01bcd58..1ec7ba6 100644
 -            QtDialogs.FileDialog {
 -                id: openConfig
 -                title: i18n("Import")
+-                folder: awConfig.configurationDirectory()
 -                onAccepted: importSelection.open()
 -            }
 -
@@ -219,9 +221,9 @@ index 6263b30..5f61d2a 100644
      // extensions
 -    if (importExtensions) {
 +    if (selection[QString("extensions")]) {
-         foreach (QString item, m_dirs) {
+         for (auto item : m_dirs) {
              settings.beginGroup(item);
-             foreach (QString it, settings.childGroups())
+             for (auto it : settings.childGroups())
 @@ -121,7 +139,7 @@ QVariantMap AWConfigHelper::importConfiguration(const QString fileName,
      }
  
@@ -238,7 +240,7 @@ index 6263b30..5f61d2a 100644
 -    if (importPlasmoid) {
 +    if (selection[QString("plasmoid")]) {
          settings.beginGroup(QString("plasmoid"));
-         foreach (QString key, settings.childKeys())
+         for (auto key : settings.childKeys())
              configuration[key] = settings.value(key);
 @@ -261,6 +279,50 @@ void AWConfigHelper::readFile(QSettings &settings, const QString key,
  }
@@ -295,9 +297,10 @@ diff --git a/sources/awesome-widget/plugin/awconfighelper.h b/sources/awesome-wi
 index 912ac3d..dc51dfb 100644
 --- a/sources/awesome-widget/plugin/awconfighelper.h
 +++ b/sources/awesome-widget/plugin/awconfighelper.h
-@@ -33,12 +33,8 @@ public:
+@@ -33,13 +33,9 @@ public:
      explicit AWConfigHelper(QObject *parent = nullptr);
      virtual ~AWConfigHelper();
+     Q_INVOKABLE QString configurationDirectory() const;
      Q_INVOKABLE bool dropCache() const;
 -    Q_INVOKABLE bool exportConfiguration(QObject *nativeConfig,
 -                                         const QString fileName) const;
@@ -322,10 +325,11 @@ diff --git a/sources/awesome-widget/plugin/awkeys.cpp b/sources/awesome-widget/p
 index e5b9861..039d24e 100644
 --- a/sources/awesome-widget/plugin/awkeys.cpp
 +++ b/sources/awesome-widget/plugin/awkeys.cpp
-@@ -324,6 +324,13 @@ QStringList AWKeys::getHddDevices() const
+@@ -324,6 +324,14 @@ QStringList AWKeys::getHddDevices() const
  }
  
  
++#include <QInputDialog>
 +QString AWKeys::graphicalKey() const
 +{
 +    return QInputDialog::getItem(nullptr, i18n("Select tag"), QString(),
@@ -335,7 +339,7 @@ index e5b9861..039d24e 100644
 +
  QString AWKeys::infoByKey(QString key) const
  {
-     qCDebug(LOG_AW) << "Requested key" << key;
+     qCDebug(LOG_AW) << "Requested info for key" << key;
 diff --git a/sources/awesome-widget/plugin/awkeys.h b/sources/awesome-widget/plugin/awkeys.h
 index a8300f1..8edc3bd 100644
 --- a/sources/awesome-widget/plugin/awkeys.h
