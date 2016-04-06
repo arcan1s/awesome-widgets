@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-02-15 11:43+0300\n"
+"POT-Creation-Date: 2016-04-06 14:39+0300\n"
 "PO-Revision-Date: 2015-09-26 22:07+0000\n"
 "Last-Translator: Ernesto Avilés Vázquez <whippiii@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/arcanis/awesome-widgets/"
@@ -561,6 +561,9 @@ msgstr "Marca de tiempo"
 msgid "Use images"
 msgstr "Usar imágenes"
 
+msgid "Points count"
+msgstr ""
+
 #, fuzzy
 msgid "Use custom formula"
 msgstr "Formato personalizado de hora"
@@ -576,11 +579,26 @@ msgstr "Mostrar valor"
 msgid "Min value"
 msgstr "Mostrar valor"
 
+#, fuzzy
+msgid "Use image for active"
+msgstr "Usar imágenes"
+
 msgid "Active color"
 msgstr "Color de activo"
 
+#, fuzzy
+msgid "Active image"
+msgstr "Activo"
+
+msgid "Use image for inactive"
+msgstr ""
+
 msgid "Inactive color"
 msgstr "Color de inactivo"
+
+#, fuzzy
+msgid "Inactive image"
+msgstr "Escritorio inactivo"
 
 msgid "Type"
 msgstr "Tipo"

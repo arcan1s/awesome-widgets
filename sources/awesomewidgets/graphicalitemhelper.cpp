@@ -164,7 +164,7 @@ float GraphicalItemHelper::getPercents(const float &value, const float &min,
 {
     qCDebug(LOG_LIB) << "Get percent value from" << value;
     // newest Qt crashes here if value is nan
-    if (isnan(value))
+    if (std::isnan(value))
         return 0.0;
 
     return (value - min) / (max - min);
