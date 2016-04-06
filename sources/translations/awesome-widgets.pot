@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-02-15 11:43+0300\n"
+"POT-Creation-Date: 2016-04-06 14:39+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -547,6 +547,9 @@ msgstr ""
 msgid "Use images"
 msgstr ""
 
+msgid "Points count"
+msgstr ""
+
 msgid "Use custom formula"
 msgstr ""
 
@@ -559,10 +562,22 @@ msgstr ""
 msgid "Min value"
 msgstr ""
 
+msgid "Use image for active"
+msgstr ""
+
 msgid "Active color"
 msgstr ""
 
+msgid "Active image"
+msgstr ""
+
+msgid "Use image for inactive"
+msgstr ""
+
 msgid "Inactive color"
+msgstr ""
+
+msgid "Inactive image"
 msgstr ""
 
 msgid "Type"

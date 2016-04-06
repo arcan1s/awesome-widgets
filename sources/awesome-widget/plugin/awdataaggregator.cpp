@@ -290,7 +290,7 @@ void AWDataAggregator::setData(const QString &source, float value,
     else if (data[source].count()
              > configuration[QString("tooltipNumber")].toInt())
         data[source].removeFirst();
-    if (isnan(value))
+    if (std::isnan(value))
         value = 0.0;
 
     // notifications

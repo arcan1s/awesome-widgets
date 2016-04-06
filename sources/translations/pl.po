@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-01-26 21:48+0300\n"
+"POT-Creation-Date: 2016-04-06 14:39+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,6 +55,9 @@ msgstr "Włącz powiadomienia"
 
 msgid "Check updates on startup"
 msgstr "Sprawdź aktualizacje przy uruchomieniu"
+
+msgid "Optimize subscription"
+msgstr ""
 
 msgid "Widget height, px"
 msgstr "Wysokość widżetu, px"
@@ -269,7 +272,8 @@ msgstr "Sprawdź aktualizacje"
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
 "To enable them just make needed checkbox checked."
-msgstr "CPU, zegar CPU, pamięć, opisy swap i sieci obsługują podpowiedź graficzną."
+msgstr ""
+"CPU, zegar CPU, pamięć, opisy swap i sieci obsługują podpowiedź graficzną."
 "Aby je włączyć po prostu zaznacz odpowiednią opcję."
 
 msgid "Number of values for tooltips"
@@ -323,11 +327,13 @@ msgstr "Kolor baterii aktywnej"
 msgid "Battery inactive color"
 msgstr "Kolor baterii nie aktywnej"
 
+#, fuzzy
 msgid ""
-"Detailed information may be found on <a href=\"http://arcanis.name/projects/"
+"Detailed information may be found on <a href=\"https://arcanis.me/projects/"
 "awesome-widgets/\">project homepage</a>"
-msgstr "Szczegóły znajdziesz na <a href=\"http://arcanis.name/projects/"
-"awesome-widgets/\">stronie  projektu</a>"
+msgstr ""
+"Szczegóły znajdziesz na <a href=\"http://arcanis.name/projects/awesome-"
+"widgets/\">stronie  projektu</a>"
 
 msgid "AC"
 msgstr "Zasialnie zewnętrzne"
@@ -353,14 +359,14 @@ msgstr "Aktualizacje"
 msgid "Weathers"
 msgstr "Pogoda"
 
+msgid "Functions"
+msgstr ""
+
 msgid "Add"
 msgstr "Dodaj"
 
 msgid "Show value"
 msgstr "Pokaż wartość"
-
-msgid "Add lambda"
-msgstr "Dodaj różnicę"
 
 msgid "Edit bars"
 msgstr "Edytuj paski postępu"
@@ -413,24 +419,6 @@ msgstr "Specjalnie podziękowania dla %1"
 msgid "Select font"
 msgstr "Wybierz czcionkę"
 
-msgid "You are using the actual version %1"
-msgstr "Używasz wersji %1"
-
-msgid "No new version found"
-msgstr "Nie znalazłem nowszej wersji"
-
-msgid "Current version : %1"
-msgstr "Aktualna wersja: %1"
-
-msgid "New version : %1"
-msgstr "Nowa wersja: %$1"
-
-msgid "Click \"Ok\" to download"
-msgstr "Kliknij \"Ok\" aby pobrać"
-
-msgid "There are updates"
-msgstr "Aktualizacje są"
-
 msgid "AC online"
 msgstr "Zasilanie zewnętrzne podłączone"
 
@@ -457,6 +445,27 @@ msgstr "MB/s"
 
 msgid "KB/s"
 msgstr "KB/s"
+
+msgid "Changelog of %1"
+msgstr ""
+
+msgid "You are using the actual version %1"
+msgstr "Używasz wersji %1"
+
+msgid "No new version found"
+msgstr "Nie znalazłem nowszej wersji"
+
+msgid "Current version : %1"
+msgstr "Aktualna wersja: %1"
+
+msgid "New version : %1"
+msgstr "Nowa wersja: %$1"
+
+msgid "Click \"Ok\" to download"
+msgstr "Kliknij \"Ok\" aby pobrać"
+
+msgid "There are updates"
+msgstr "Aktualizacje są"
 
 msgid "Copy"
 msgstr "Kopiuj"
@@ -497,10 +506,9 @@ msgid ""
 "text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</"
 "span></a></p></body></html>"
 msgstr ""
-"<html><head/><body><p>Użyj usług finansowych YAHOO!"
-"Przjdź na  <a href=\"http://finance.yahoo.com/\"><span style=\" "
-"text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</"
-"span></a></p></body></html>"
+"<html><head/><body><p>Użyj usług finansowych YAHOO!Przjdź na  <a href="
+"\"http://finance.yahoo.com/\"><span style=\" text-decoration: underline; "
+"color:#0057ae;\">http://finance.yahoo.com/</span></a></p></body></html>"
 
 msgid "Ticker"
 msgstr "Znacznik czasowy"
@@ -547,14 +555,44 @@ msgstr "Znacznik czasu"
 msgid "Use images"
 msgstr "Użyj obrazków"
 
+msgid "Points count"
+msgstr ""
+
+#, fuzzy
+msgid "Use custom formula"
+msgstr "Twój format czasu"
+
 msgid "Value"
 msgstr "Wartość"
+
+#, fuzzy
+msgid "Max value"
+msgstr "Pokaż wartość"
+
+#, fuzzy
+msgid "Min value"
+msgstr "Pokaż wartość"
+
+#, fuzzy
+msgid "Use image for active"
+msgstr "Użyj obrazków"
 
 msgid "Active color"
 msgstr "Kolor aktywnego"
 
+#, fuzzy
+msgid "Active image"
+msgstr "Aktywny"
+
+msgid "Use image for inactive"
+msgstr ""
+
 msgid "Inactive color"
 msgstr "Kolor nieaktywnego"
+
+#, fuzzy
+msgid "Inactive image"
+msgstr "Nie aktywny pulpit"
 
 msgid "Type"
 msgstr "Typ"
@@ -608,3 +646,6 @@ msgstr "Terminus"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "terminus@linux.pl"
+
+#~ msgid "Add lambda"
+#~ msgstr "Dodaj różnicę"
