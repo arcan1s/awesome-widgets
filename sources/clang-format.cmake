@@ -1,4 +1,5 @@
 # additional target to perform clang-format run, requires clang-format
+set(CLANGFORMAT_EXECUTABLE "/usr/bin/clang-format" CACHE STRING "Path to clang-format executable")
 
 # get all project files
 file(GLOB_RECURSE ALL_SOURCE_FILES *.cpp *.h *.h.in)
