@@ -22,11 +22,9 @@
 
 #include "abstractextitem.h"
 
-#define YAHOO_QUOTES_URL                                                       \
-    "https://query.yahooapis.com/v1/public/yql?q=select * from "               \
-    "yahoo.finance.quotes where "                                              \
-    "symbol=\"%1\"&env=store://datatables.org/"                                \
-    "alltableswithkeys&format=json"
+#define YAHOO_QUOTES_URL "https://query.yahooapis.com/v1/public/yql"
+#define YAHOO_QUOTES_QUERY                                                     \
+    "select * from yahoo.finance.quotes where symbol='%1'"
 
 
 namespace Ui
@@ -61,11 +59,11 @@ private slots:
     void quotesReplyReceived(QNetworkReply *reply);
 
 private:
-    QNetworkAccessManager *manager;
+    QNetworkAccessManager *m_manager;
+    QUrl m_url;
     bool isRunning = false;
     Ui::ExtQuotes *ui;
     void translate();
-    QString url() const;
     // properties
     QString m_ticker = QString("EURUSD=X");
     // values
