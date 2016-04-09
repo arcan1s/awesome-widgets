@@ -123,7 +123,8 @@ void AWUpdateHelper::showUpdates(const QVersionNumber version)
 
 void AWUpdateHelper::userReplyOnUpdates(QAbstractButton *button)
 {
-    QMessageBox::ButtonRole ret = static_cast<QMessageBox *>(sender())->buttonRole(button);
+    QMessageBox::ButtonRole ret
+        = static_cast<QMessageBox *>(sender())->buttonRole(button);
     qCInfo(LOG_AW) << "User select" << ret;
 
     switch (ret) {

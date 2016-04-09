@@ -98,9 +98,7 @@ public slots:
 
 private slots:
     void changeColor();
-    void changeColorState(const int state);
     void changeCountState(const int state);
-    void changeImage();
     void changeValue(const int state);
 
 private:
