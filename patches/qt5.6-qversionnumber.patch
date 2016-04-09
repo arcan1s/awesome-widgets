@@ -132,3 +132,16 @@ index 359cdb2..9c6a42d 100644
      QString m_genericConfig;
  };
  
+diff --git a/sources/libraries.cmake b/sources/libraries.cmake
+index 33192f7..339bb58 100644
+--- a/sources/libraries.cmake
++++ b/sources/libraries.cmake
+@@ -2,7 +2,7 @@
+ find_package(Gettext REQUIRED)
+ 
+ # main qt libraries
+-find_package(Qt5 5.6.0 REQUIRED COMPONENTS Core DBus Network Qml Widgets)
++find_package(Qt5 5.4.0 REQUIRED COMPONENTS Core DBus Network Qml Widgets)
+ add_definitions(
+         ${Qt5Core_DEFINITIONS} ${Qt5DBus_DEFINITIONS} ${Qt5Network_DEFINITIONS}
+         ${Qt5Qml_DEFINITIONS} ${Qt5Widgets_DEFINITIONS}

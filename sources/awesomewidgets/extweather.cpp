@@ -27,6 +27,7 @@
 #include <QNetworkRequest>
 #include <QSettings>
 #include <QStandardPaths>
+#include <QUrlQuery>
 
 #include <qreplytimeout/qreplytimeout.h>
 
@@ -54,8 +55,8 @@ ExtWeather::ExtWeather(QWidget *parent, const QString weatherName,
 
     // HACK declare as child of nullptr to avoid crash with plasmawindowed
     // in the destructor
-    manager = new QNetworkAccessManager(nullptr);
-    connect(manager, SIGNAL(finished(QNetworkReply *)), this,
+    m_manager = new QNetworkAccessManager(nullptr);
+    connect(m_manager, SIGNAL(finished(QNetworkReply *)), this,
             SLOT(weatherReplyReceived(QNetworkReply *)));
 }
 
@@ -64,10 +65,10 @@ ExtWeather::~ExtWeather()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    disconnect(manager, SIGNAL(finished(QNetworkReply *)), this,
+    disconnect(m_manager, SIGNAL(finished(QNetworkReply *)), this,
                SLOT(weatherReplyReceived(QNetworkReply *)));
 
-    manager->deleteLater();
+    m_manager->deleteLater();
     delete ui;
 }
 
@@ -94,7 +95,7 @@ QString ExtWeather::weatherFromInt(const int _id) const
     qCDebug(LOG_LIB) << "Weather ID" << _id;
 
     QVariantMap map
-        = jsonMap[m_image ? QString("image") : QString("text")].toMap();
+        = m_jsonMap[m_image ? QString("image") : QString("text")].toMap();
     return map.value(QString::number(_id), map[QString("default")]).toString();
 }
 
@@ -193,6 +194,16 @@ void ExtWeather::readConfiguration()
         setApiVersion(AWEWAPI);
         writeConfiguration();
     }
+
+    // init query
+    m_url = QUrl(YAHOO_WEATHER_URL);
+    QUrlQuery params;
+    params.addQueryItem(QString("format"), QString("json"));
+    params.addQueryItem(QString("env"),
+                        QString("store://datatables.org/alltableswithkeys"));
+    params.addQueryItem(QString("q"),
+                        QString(YAHOO_WEATHER_QUERY).arg(m_city, m_country));
+    m_url.setQuery(params);
 }
 
 
@@ -216,9 +227,9 @@ void ExtWeather::readJsonMap()
         qCWarning(LOG_LIB) << "Parse error" << error.errorString();
         return;
     }
-    jsonMap = jsonDoc.toVariant().toMap();
+    m_jsonMap = jsonDoc.toVariant().toMap();
 
-    qCInfo(LOG_LIB) << "Weather map" << jsonMap;
+    qCInfo(LOG_LIB) << "Weather map" << m_jsonMap;
 }
 
 
@@ -230,7 +241,7 @@ QVariantHash ExtWeather::run()
     if (times == 1) {
         qCInfo(LOG_LIB) << "Send request";
         isRunning = true;
-        QNetworkReply *reply = manager->get(QNetworkRequest(QUrl(url())));
+        QNetworkReply *reply = m_manager->get(QNetworkRequest(m_url));
         new QReplyTimeout(reply, REQUEST_TIMEOUT);
     }
 
@@ -373,14 +384,4 @@ void ExtWeather::translate()
     ui->checkBox_image->setText(i18n("Use images"));
     ui->checkBox_active->setText(i18n("Active"));
     ui->label_interval->setText(i18n("Interval"));
-}
-
-
-QString ExtWeather::url() const
-{
-
-    QString apiUrl = QString(YAHOO_WEATHER_URL).arg(m_city).arg(m_country);
-    qCInfo(LOG_LIB) << "API url" << apiUrl;
-
-    return apiUrl;
 }

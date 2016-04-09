@@ -1,4 +1,5 @@
 # additional target to perform cppcheck run, requires cppcheck
+set(CPPCHECK_EXECUTABLE "/usr/bin/cppcheck" CACHE STRING "Path to cppcheck executable")
 
 # get all project files
 # HACK this workaround is required to avoid qml files checking ^_^

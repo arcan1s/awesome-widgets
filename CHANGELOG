@@ -1,3 +1,7 @@
+Ver.3.1.1:
+- fix broken gcc build (#87)
+* translation update
+
 Ver.3.1.0:
 + implement templates support (#71)
 + implement special functions (#71)

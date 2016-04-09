@@ -123,15 +123,16 @@ void AWUpdateHelper::showUpdates(const QVersionNumber version)
 
 void AWUpdateHelper::userReplyOnUpdates(QAbstractButton *button)
 {
-    int ret = static_cast<QMessageBox *>(sender())->buttonRole(button);
+    QMessageBox::ButtonRole ret
+        = static_cast<QMessageBox *>(sender())->buttonRole(button);
     qCInfo(LOG_AW) << "User select" << ret;
 
     switch (ret) {
-    case QMessageBox::Ok:
+    case QMessageBox::AcceptRole:
         QDesktopServices::openUrl(QString(RELEASES)
                                   + m_foundVersion.toString());
         break;
-    case QMessageBox::Cancel:
+    case QMessageBox::RejectRole:
     default:
         break;
     }

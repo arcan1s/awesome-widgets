@@ -22,10 +22,10 @@
 
 #include "abstractextitem.h"
 
-#define YAHOO_WEATHER_URL                                                      \
-    "https://query.yahooapis.com/v1/public/yql?format=json&env=store://"       \
-    "datatables.org/alltableswithkeys&q=select * from weather.forecast where " \
-    "u='c' and woeid in (select woeid from geo.places(1) where text='%1, %2')"
+#define YAHOO_WEATHER_URL "https://query.yahooapis.com/v1/public/yql"
+#define YAHOO_WEATHER_QUERY                                                    \
+    "select * from weather.forecast where u='c' and woeid in (select woeid "   \
+    "from geo.places(1) where text='%1, %2')"
 
 
 namespace Ui
@@ -71,17 +71,17 @@ private slots:
     void weatherReplyReceived(QNetworkReply *reply);
 
 private:
-    QNetworkAccessManager *manager;
+    QNetworkAccessManager *m_manager;
+    QUrl m_url;
     bool isRunning = false;
     Ui::ExtWeather *ui;
     void translate();
-    QString url() const;
     // properties
     QString m_city = QString("London");
     QString m_country = QString("uk");
     bool m_image = false;
     int m_ts = 0;
-    QVariantMap jsonMap = QVariantMap();
+    QVariantMap m_jsonMap = QVariantMap();
     // values
     int times = 0;
     QVariantHash values;

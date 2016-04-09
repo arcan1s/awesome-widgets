@@ -35,9 +35,6 @@ option(BUILD_RPM_PACKAGE "Build rpm package" OFF)
 # build details
 option(BUILD_FUTURE "Build with the features which will be marked as stable later" OFF)
 option(BUILD_TESTING "Build with additional test abilities" OFF)
-# some additional targets
-set(CLANGFORMAT_EXECUTABLE "/usr/bin/clang-format" CACHE STRING "Path to clang-format executable")
-set(CPPCHECK_EXECUTABLE "/usr/bin/cppcheck" CACHE STRING "Path to cppcheck executable")
 
 # generate changelog
 set(PROJECT_CHANGELOG "Changelog" CACHE INTERNAL "")
@@ -72,6 +69,7 @@ set(PROJECT_LIBRARY awesomewidgets)
 include(libraries.cmake)
 include(clang-format.cmake)
 include(cppcheck.cmake)
+include(coverity.cmake)
 
 get_directory_property(CMAKE_DEFINITIONS COMPILE_DEFINITIONS)
 configure_file(${CMAKE_SOURCE_DIR}/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/version.h)

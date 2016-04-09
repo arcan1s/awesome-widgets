@@ -26,6 +26,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QSettings>
+#include <QUrlQuery>
 
 #include <qreplytimeout/qreplytimeout.h>
 
@@ -56,8 +57,8 @@ ExtQuotes::ExtQuotes(QWidget *parent, const QString quotesName,
 
     // HACK declare as child of nullptr to avoid crash with plasmawindowed
     // in the destructor
-    manager = new QNetworkAccessManager(nullptr);
-    connect(manager, SIGNAL(finished(QNetworkReply *)), this,
+    m_manager = new QNetworkAccessManager(nullptr);
+    connect(m_manager, SIGNAL(finished(QNetworkReply *)), this,
             SLOT(quotesReplyReceived(QNetworkReply *)));
 }
 
@@ -66,10 +67,10 @@ ExtQuotes::~ExtQuotes()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    disconnect(manager, SIGNAL(finished(QNetworkReply *)), this,
+    disconnect(m_manager, SIGNAL(finished(QNetworkReply *)), this,
                SLOT(quotesReplyReceived(QNetworkReply *)));
 
-    manager->deleteLater();
+    m_manager->deleteLater();
     delete ui;
 }
 
@@ -134,6 +135,16 @@ void ExtQuotes::readConfiguration()
         setApiVersion(AWEQAPI);
         writeConfiguration();
     }
+
+    // init query
+    m_url = QUrl(YAHOO_QUOTES_URL);
+    QUrlQuery params;
+    params.addQueryItem(QString("format"), QString("json"));
+    params.addQueryItem(QString("env"),
+                        QString("store://datatables.org/alltableswithkeys"));
+    params.addQueryItem(QString("q"),
+                        QString(YAHOO_QUOTES_QUERY).arg(m_ticker));
+    m_url.setQuery(params);
 }
 
 
@@ -145,7 +156,7 @@ QVariantHash ExtQuotes::run()
     if (times == 1) {
         qCInfo(LOG_LIB) << "Send request";
         isRunning = true;
-        QNetworkReply *reply = manager->get(QNetworkRequest(QUrl(url())));
+        QNetworkReply *reply = m_manager->get(QNetworkRequest(m_url));
         new QReplyTimeout(reply, REQUEST_TIMEOUT);
     }
 
@@ -270,13 +281,4 @@ get quotes for the instrument. Refer to <a href=\"http://finance.yahoo.com/\">\
     ui->label_ticker->setText(i18n("Ticker"));
     ui->checkBox_active->setText(i18n("Active"));
     ui->label_interval->setText(i18n("Interval"));
-}
-
-
-QString ExtQuotes::url() const
-{
-    QString apiUrl = QString(YAHOO_QUOTES_URL).arg(m_ticker);
-    qCInfo(LOG_LIB) << "API url" << apiUrl;
-
-    return apiUrl;
 }

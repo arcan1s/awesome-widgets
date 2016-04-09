@@ -48,20 +48,12 @@ GraphicalItem::GraphicalItem(QWidget *parent, const QString desktopName,
 
     connect(ui->checkBox_custom, SIGNAL(stateChanged(int)), this,
             SLOT(changeValue(int)));
-    connect(ui->checkBox_activeCheck, SIGNAL(stateChanged(int)), this,
-            SLOT(changeColorState(int)));
-    connect(ui->checkBox_inactiveCheck, SIGNAL(stateChanged(int)), this,
-            SLOT(changeColorState(int)));
     connect(ui->comboBox_type, SIGNAL(currentIndexChanged(int)), this,
             SLOT(changeCountState(int)));
     connect(ui->pushButton_activeColor, SIGNAL(clicked()), this,
             SLOT(changeColor()));
     connect(ui->pushButton_inactiveColor, SIGNAL(clicked()), this,
             SLOT(changeColor()));
-    connect(ui->pushButton_activeImage, SIGNAL(clicked()), this,
-            SLOT(changeImage()));
-    connect(ui->pushButton_inactiveImage, SIGNAL(clicked()), this,
-            SLOT(changeImage()));
 }
 
 
@@ -457,7 +449,11 @@ int GraphicalItem::showConfiguration(const QVariant args)
     ui->doubleSpinBox_max->setValue(m_maxValue);
     ui->doubleSpinBox_min->setValue(m_minValue);
     ui->spinBox_count->setValue(m_count);
+    ui->checkBox_activeCheck->setChecked(
+        m_activeColor.startsWith(QString("/")));
     ui->pushButton_activeColor->setText(m_activeColor);
+    ui->checkBox_inactiveCheck->setChecked(
+        m_inactiveColor.startsWith(QString("/")));
     ui->pushButton_inactiveColor->setText(m_inactiveColor);
     ui->comboBox_type->setCurrentIndex(static_cast<int>(m_type));
     ui->comboBox_direction->setCurrentIndex(static_cast<int>(m_direction));
@@ -465,8 +461,9 @@ int GraphicalItem::showConfiguration(const QVariant args)
     ui->spinBox_width->setValue(m_width);
 
     // update UI
-    changeCountState(ui->comboBox_type->currentIndex());
-    changeValue(ui->checkBox_custom->checkState());
+    emit(ui->comboBox_type->currentIndexChanged(
+        ui->comboBox_type->currentIndex()));
+    emit(ui->checkBox_custom->stateChanged(ui->checkBox_custom->checkState()));
 
     int ret = exec();
     if (ret != 1)
@@ -521,38 +518,38 @@ void GraphicalItem::writeConfiguration() const
 
 void GraphicalItem::changeColor()
 {
-    QColor color = m_helper->stringToColor(
-        (static_cast<QPushButton *>(sender()))->text());
-    QColor newColor = QColorDialog::getColor(color, this, tr("Select color"),
-                                             QColorDialog::ShowAlphaChannel);
-    if (!newColor.isValid())
-        return;
-    qCInfo(LOG_LIB) << "Selected color" << newColor;
+    QString outputColor;
+    bool imageRequired = sender() == ui->pushButton_activeColor
+                             ? ui->checkBox_activeCheck->isChecked()
+                             : ui->checkBox_inactiveCheck->isChecked();
 
-    QStringList colorText;
-    colorText.append(QString("%1").arg(newColor.red()));
-    colorText.append(QString("%1").arg(newColor.green()));
-    colorText.append(QString("%1").arg(newColor.blue()));
-    colorText.append(QString("%1").arg(newColor.alpha()));
+    if (imageRequired) {
+        QString path = static_cast<QPushButton *>(sender())->text();
+        QString directory = QFileInfo(path).absolutePath();
+        outputColor = QFileDialog::getOpenFileName(
+            this, tr("Select path"), directory,
+            tr("Images (*.png *.bpm *.jpg);;All files (*.*)"));
 
-    return static_cast<QPushButton *>(sender())
-        ->setText(colorText.join(QChar(',')));
-}
+        qCInfo(LOG_LIB) << "Selected path" << outputColor;
+    } else {
+        QColor color = m_helper->stringToColor(
+            (static_cast<QPushButton *>(sender()))->text());
+        QColor newColor = QColorDialog::getColor(
+            color, this, tr("Select color"), QColorDialog::ShowAlphaChannel);
+        if (!newColor.isValid())
+            return;
+        qCInfo(LOG_LIB) << "Selected color" << newColor;
 
+        QStringList colorText;
+        colorText.append(QString("%1").arg(newColor.red()));
+        colorText.append(QString("%1").arg(newColor.green()));
+        colorText.append(QString("%1").arg(newColor.blue()));
+        colorText.append(QString("%1").arg(newColor.alpha()));
 
-void GraphicalItem::changeColorState(const int state)
-{
-    qCDebug(LOG_LIB) << "Current color state is" << state;
-
-    if (sender() == ui->checkBox_activeCheck) {
-        qCInfo(LOG_LIB) << "Change active color state";
-        ui->widget_activeColor->setHidden(state == Qt::Unchecked);
-        ui->widget_activeImage->setHidden(state != Qt::Unchecked);
-    } else if (sender() == ui->checkBox_inactiveCheck) {
-        qCInfo(LOG_LIB) << "Change inactive color state";
-        ui->widget_inactiveColor->setHidden(state == Qt::Unchecked);
-        ui->widget_inactiveImage->setHidden(state != Qt::Unchecked);
+        outputColor = colorText.join(QChar(','));
     }
+
+    return static_cast<QPushButton *>(sender())->setText(outputColor);
 }
 
 
@@ -562,20 +559,6 @@ void GraphicalItem::changeCountState(const int state)
 
     // 3 is magic number. Actually 3 is Graph mode
     ui->widget_count->setHidden(state != 3);
-}
-
-
-void GraphicalItem::changeImage()
-{
-    QString path = static_cast<QPushButton *>(sender())->text();
-    QString directory = QFileInfo(path).absolutePath();
-    QString newPath = QFileDialog::getOpenFileName(
-        this, tr("Select path"), directory,
-        tr("Images (*.png *.bpm *.jpg);;All files (*.*)"));
-
-    qCInfo(LOG_LIB) << "Selected path" << newPath;
-
-    return static_cast<QPushButton *>(sender())->setText(newPath);
 }
 
 
@@ -621,10 +604,8 @@ void GraphicalItem::translate()
     ui->label_min->setText(i18n("Min value"));
     ui->checkBox_activeCheck->setText(i18n("Use image for active"));
     ui->label_activeColor->setText(i18n("Active color"));
-    ui->label_activeImage->setText(i18n("Active image"));
     ui->checkBox_inactiveCheck->setText(i18n("Use image for inactive"));
     ui->label_inactiveColor->setText(i18n("Inactive color"));
-    ui->label_inactiveImage->setText(i18n("Inactive image"));
     ui->label_type->setText(i18n("Type"));
     ui->label_direction->setText(i18n("Direction"));
     ui->label_height->setText(i18n("Height"));

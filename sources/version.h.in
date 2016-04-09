@@ -10,7 +10,7 @@
 #define TRANSLATORS                                                            \
     "Ernesto Aviles Vzqz (Spanish), Mermouy (French), underr (Brazillian "     \
     "Portuguese), Viktor Slobodyan (Ukrainian), Lemueler (Chinese), Heimen "   \
-    "Stoffels (Dutch)"
+    "Stoffels (Dutch), Mariusz Kocoń (Polish)"
 #define EMAIL "@PROJECT_CONTACT@"
 #define LICENSE "@PROJECT_LICENSE@"
 #define TRDPARTY_LICENSE                                                       \
