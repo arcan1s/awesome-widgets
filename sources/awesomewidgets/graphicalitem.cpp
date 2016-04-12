@@ -50,9 +50,9 @@ GraphicalItem::GraphicalItem(QWidget *parent, const QString desktopName,
             SLOT(changeValue(int)));
     connect(ui->comboBox_type, SIGNAL(currentIndexChanged(int)), this,
             SLOT(changeCountState(int)));
-    connect(ui->pushButton_activeColor, SIGNAL(clicked()), this,
+    connect(ui->toolButton_activeColor, SIGNAL(clicked()), this,
             SLOT(changeColor()));
-    connect(ui->pushButton_inactiveColor, SIGNAL(clicked()), this,
+    connect(ui->toolButton_inactiveColor, SIGNAL(clicked()), this,
             SLOT(changeColor()));
 }
 
@@ -415,9 +415,18 @@ void GraphicalItem::readConfiguration()
                 .toString());
         setHeight(settings.value(QString("X-AW-Height"), m_height).toInt());
         setWidth(settings.value(QString("X-AW-Width"), m_width).toInt());
-        // api == 2
-        if (apiVersion() < 2)
-            setNumber(bar().remove(QString("bar")).toInt());
+        // api == 5
+        if (apiVersion() < 5) {
+            QString prefix;
+            prefix = m_activeColor.startsWith(QString("/"))
+                         ? QString("file://%1")
+                         : QString("color://%1");
+            m_activeColor = prefix.arg(m_activeColor);
+            prefix = m_inactiveColor.startsWith(QString("/"))
+                         ? QString("file://%1")
+                         : QString("color://%1");
+            m_inactiveColor = prefix.arg(m_inactiveColor);
+        }
         settings.endGroup();
     }
 
@@ -449,12 +458,16 @@ int GraphicalItem::showConfiguration(const QVariant args)
     ui->doubleSpinBox_max->setValue(m_maxValue);
     ui->doubleSpinBox_min->setValue(m_minValue);
     ui->spinBox_count->setValue(m_count);
-    ui->checkBox_activeCheck->setChecked(
-        m_activeColor.startsWith(QString("/")));
-    ui->pushButton_activeColor->setText(m_activeColor);
-    ui->checkBox_inactiveCheck->setChecked(
-        m_inactiveColor.startsWith(QString("/")));
-    ui->pushButton_inactiveColor->setText(m_inactiveColor);
+    if (m_helper->isColor(m_activeColor))
+        ui->comboBox_activeImageType->setCurrentIndex(0);
+    else
+        ui->comboBox_activeImageType->setCurrentIndex(1);
+    ui->lineEdit_activeColor->setText(m_activeColor);
+    if (m_helper->isColor(m_inactiveColor))
+        ui->comboBox_inactiveImageType->setCurrentIndex(0);
+    else
+        ui->comboBox_inactiveImageType->setCurrentIndex(1);
+    ui->lineEdit_inactiveColor->setText(m_inactiveColor);
     ui->comboBox_type->setCurrentIndex(static_cast<int>(m_type));
     ui->comboBox_direction->setCurrentIndex(static_cast<int>(m_direction));
     ui->spinBox_height->setValue(m_height);
@@ -477,8 +490,8 @@ int GraphicalItem::showConfiguration(const QVariant args)
                     : ui->comboBox_value->currentText());
     setMaxValue(ui->doubleSpinBox_max->value());
     setMinValue(ui->doubleSpinBox_min->value());
-    setActiveColor(ui->pushButton_activeColor->text().remove(QChar('&')));
-    setInactiveColor(ui->pushButton_inactiveColor->text().remove(QChar('&')));
+    setActiveColor(ui->lineEdit_activeColor->text());
+    setInactiveColor(ui->lineEdit_inactiveColor->text());
     setStrType(ui->comboBox_type->currentText());
     setStrDirection(ui->comboBox_direction->currentText());
     setHeight(ui->spinBox_height->value());
@@ -518,22 +531,20 @@ void GraphicalItem::writeConfiguration() const
 
 void GraphicalItem::changeColor()
 {
-    QString outputColor;
-    bool imageRequired = sender() == ui->pushButton_activeColor
-                             ? ui->checkBox_activeCheck->isChecked()
-                             : ui->checkBox_inactiveCheck->isChecked();
-
-    if (imageRequired) {
-        QString path = static_cast<QPushButton *>(sender())->text();
-        QString directory = QFileInfo(path).absolutePath();
-        outputColor = QFileDialog::getOpenFileName(
-            this, tr("Select path"), directory,
-            tr("Images (*.png *.bpm *.jpg);;All files (*.*)"));
-
-        qCInfo(LOG_LIB) << "Selected path" << outputColor;
+    QLineEdit *lineEdit;
+    int state;
+    if (sender() == ui->toolButton_activeColor) {
+        lineEdit = ui->lineEdit_activeColor;
+        state = ui->comboBox_activeImageType->currentIndex();
     } else {
-        QColor color = m_helper->stringToColor(
-            (static_cast<QPushButton *>(sender()))->text());
+        lineEdit = ui->lineEdit_inactiveColor;
+        state = ui->comboBox_inactiveImageType->currentIndex();
+    }
+    qCInfo(LOG_LIB) << "Using state" << state << "and lineEdit" << lineEdit;
+
+    QString outputColor;
+    if (state == 0) {
+        QColor color = m_helper->stringToColor(lineEdit->text());
         QColor newColor = QColorDialog::getColor(
             color, this, tr("Select color"), QColorDialog::ShowAlphaChannel);
         if (!newColor.isValid())
@@ -546,10 +557,23 @@ void GraphicalItem::changeColor()
         colorText.append(QString("%1").arg(newColor.blue()));
         colorText.append(QString("%1").arg(newColor.alpha()));
 
-        outputColor = colorText.join(QChar(','));
+        outputColor = QString("color://%1").arg(colorText.join(QChar(',')));
+    } else if (state == 1) {
+        QString path = lineEdit->text();
+        QString directory = QFileInfo(path).absolutePath();
+        outputColor = QFileDialog::getOpenFileUrl(
+            this, tr("Select path"), directory,
+            tr("Images (*.png *.bpm *.jpg);;All files (*.*)"))
+            .toString();
+
+        qCInfo(LOG_LIB) << "Selected path" << outputColor;
     }
 
-    return static_cast<QPushButton *>(sender())->setText(outputColor);
+    if (outputColor.isEmpty()) {
+        qCWarning(LOG_LIB) << "Empty color selected, skipping";
+        return;
+    }
+    return lineEdit->setText(outputColor);
 }
 
 
@@ -602,12 +626,17 @@ void GraphicalItem::translate()
     ui->label_customValue->setText(i18n("Value"));
     ui->label_max->setText(i18n("Max value"));
     ui->label_min->setText(i18n("Min value"));
-    ui->checkBox_activeCheck->setText(i18n("Use image for active"));
-    ui->label_activeColor->setText(i18n("Active color"));
-    ui->checkBox_inactiveCheck->setText(i18n("Use image for inactive"));
-    ui->label_inactiveColor->setText(i18n("Inactive color"));
+    ui->label_activeImageType->setText(i18n("Active image type"));
+    ui->label_inactiveImageType->setText(i18n("Inctive image type"));
     ui->label_type->setText(i18n("Type"));
     ui->label_direction->setText(i18n("Direction"));
     ui->label_height->setText(i18n("Height"));
     ui->label_width->setText(i18n("Width"));
+
+    ui->comboBox_activeImageType->clear();
+    ui->comboBox_activeImageType->addItem(i18n("color"));
+    ui->comboBox_activeImageType->addItem(i18n("image"));
+    ui->comboBox_inactiveImageType->clear();
+    ui->comboBox_inactiveImageType->addItem(i18n("color"));
+    ui->comboBox_inactiveImageType->addItem(i18n("image"));
 }

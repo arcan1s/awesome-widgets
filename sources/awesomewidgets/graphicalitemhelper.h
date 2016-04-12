@@ -41,6 +41,7 @@ public:
     void paintVertical(const float &percent);
     // additional conversion methods
     float getPercents(const float &value, const float &min, const float &max);
+    bool isColor(const QString &input);
     QColor stringToColor(const QString &color);
 
 private:

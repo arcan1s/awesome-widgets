@@ -50,7 +50,9 @@ void GraphicalItemHelper::setParameters(const QString active,
 
     // put images to pens if any otherwise set pen colors
     // Images resize to content here as well
-    if (active.startsWith(QString("/"))) {
+    if (isColor(active)) {
+        m_activePen.setColor(stringToColor(active));
+    } else {
         qCInfo(LOG_LIB) << "Found path, trying to load Pixmap from" << active;
         QPixmap pixmap = QPixmap(active);
         if (pixmap.isNull()) {
@@ -59,10 +61,10 @@ void GraphicalItemHelper::setParameters(const QString active,
         } else {
             m_activePen.setBrush(QBrush(pixmap.scaled(width, height)));
         }
-    } else {
-        m_activePen.setColor(stringToColor(active));
     }
-    if (inactive.startsWith(QString("/"))) {
+    if (isColor(inactive)) {
+        m_inactivePen.setColor(stringToColor(inactive));
+    } else {
         qCInfo(LOG_LIB) << "Found path, trying to load Pixmap from" << inactive;
         QPixmap pixmap = QPixmap(inactive);
         if (pixmap.isNull()) {
@@ -71,8 +73,6 @@ void GraphicalItemHelper::setParameters(const QString active,
         } else {
             m_inactivePen.setBrush(QBrush(pixmap.scaled(width, height)));
         }
-    } else {
-        m_inactivePen.setColor(stringToColor(inactive));
     }
     m_width = width;
     m_height = height;
@@ -171,14 +171,25 @@ float GraphicalItemHelper::getPercents(const float &value, const float &min,
 }
 
 
+bool GraphicalItemHelper::isColor(const QString &input)
+{
+    qCDebug(LOG_LIB) << "Define input type in" << input;
+
+    return input.startsWith(QString("color://"));
+}
+
+
 QColor GraphicalItemHelper::stringToColor(const QString &color)
 {
     qCDebug(LOG_LIB) << "Color" << color;
 
-    QColor qColor;
     QStringList listColor = color.split(QChar(','));
     while (listColor.count() < 4)
         listColor.append(QString("0"));
+    // remove prefix
+    listColor[0].remove(QString("color://"));
+    // init color
+    QColor qColor;
     qColor.setRed(listColor.at(0).toInt());
     qColor.setGreen(listColor.at(1).toInt());
     qColor.setBlue(listColor.at(2).toInt());

@@ -24,7 +24,7 @@
 
 // configuraion
 // graphical items api version
-#define AWGIAPI 4
+#define AWGIAPI 5
 // extquotes api version
 #define AWEQAPI 3
 // extscript api version

@@ -76,10 +76,11 @@ public:
     QString uniq() const;
     // set methods
     void setBar(const QString _bar = QString("cpu"));
-    void setActiveColor(const QString _color = QString("0,0,0,130"));
+    void setActiveColor(const QString _color = QString("color://0,0,0,130"));
     void setCount(const int _count = 100);
     void setCustom(const bool _custom = false);
-    void setInactiveColor(const QString _color = QString("255,255,255,130"));
+    void setInactiveColor(const QString _color
+                          = QString("color://255,255,255,130"));
     void setMinValue(const float _value = 0.0);
     void setMaxValue(const float _value = 100.0);
     void setType(const Type _type = Horizontal);
@@ -112,8 +113,8 @@ private:
     QString m_bar = QString("cpu");
     int m_count = 100;
     bool m_custom = false;
-    QString m_activeColor;
-    QString m_inactiveColor;
+    QString m_activeColor = QString("color://0,0,0,130");
+    QString m_inactiveColor = QString("color://255,255,255,130");
     float m_minValue = 0.0f;
     float m_maxValue = 100.0f;
     Type m_type = Horizontal;
