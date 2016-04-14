@@ -370,7 +370,13 @@ void GraphicalItem::setUsedKeys(const QStringList _usedKeys)
     qCDebug(LOG_LIB) << "Used keys" << _usedKeys;
 
     // remove dubs
-    m_usedKeys = QSet<QString>::fromList(_usedKeys).toList();
+    // HACK converting to set may break order
+    m_usedKeys.clear();
+    for (auto key : _usedKeys) {
+        if (m_usedKeys.contains(key))
+            continue;
+        m_usedKeys.append(key);
+    }
 }
 
 
@@ -447,6 +453,7 @@ int GraphicalItem::showConfiguration(const QVariant args)
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
+    ui->label_numberValue->setText(QString("%1").arg(number()));
     ui->checkBox_custom->setChecked(m_custom);
     ui->comboBox_value->addItems(tags);
     if (m_custom) {
@@ -562,9 +569,9 @@ void GraphicalItem::changeColor()
         QString path = lineEdit->text();
         QString directory = QFileInfo(path).absolutePath();
         outputColor = QFileDialog::getOpenFileUrl(
-            this, tr("Select path"), directory,
-            tr("Images (*.png *.bpm *.jpg);;All files (*.*)"))
-            .toString();
+                          this, tr("Select path"), directory,
+                          tr("Images (*.png *.bpm *.jpg);;All files (*.*)"))
+                          .toString();
 
         qCInfo(LOG_LIB) << "Selected path" << outputColor;
     }
@@ -620,7 +627,7 @@ void GraphicalItem::translate()
 {
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
-    ui->label_count->setText(i18n("Points count"));
+    ui->label_number->setText(i18n("Tag"));
     ui->checkBox_custom->setText(i18n("Use custom formula"));
     ui->label_value->setText(i18n("Value"));
     ui->label_customValue->setText(i18n("Value"));
@@ -629,6 +636,7 @@ void GraphicalItem::translate()
     ui->label_activeImageType->setText(i18n("Active image type"));
     ui->label_inactiveImageType->setText(i18n("Inctive image type"));
     ui->label_type->setText(i18n("Type"));
+    ui->label_count->setText(i18n("Points count"));
     ui->label_direction->setText(i18n("Direction"));
     ui->label_height->setText(i18n("Height"));
     ui->label_width->setText(i18n("Width"));
