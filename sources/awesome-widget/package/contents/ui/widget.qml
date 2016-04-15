@@ -73,13 +73,13 @@ Item {
                         "size": plasmoid.configuration.fontSize
                     }
                     var font = awActions.getFont(defaultFont)
-                    var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
-                    textPattern.insert(pos, "<span style=\"color:" + font.color +
-                                            "; font-family:'" + font.family +
-                                            "'; font-size:" + font.size + "pt;\">" +
-                                            selected + "</span>")
+                    textPattern.insert(textPattern.cursorPosition,
+                        "<span style=\"color:" + font.color +
+                        "; font-family:'" + font.family +
+                        "'; font-size:" + font.size + "pt;\">" +
+                        selected + "</span>")
                 }
             }
             QtControls.Button {
@@ -88,10 +88,9 @@ Item {
 
                 onClicked: {
                     if (debug) console.debug("Indent button")
-                    var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
-                    textPattern.insert(pos, selected + "<br>\n")
+                    textPattern.insert(textPattern.cursorPosition, selected + "<br>\n")
                 }
             }
 
@@ -101,10 +100,9 @@ Item {
 
                 onClicked: {
                     if (debug) console.debug("Bold button")
-                    var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
-                    textPattern.insert(pos, "<b>" + selected + "</b>")
+                    textPattern.insert(textPattern.cursorPosition, "<b>" + selected + "</b>")
                 }
             }
             QtControls.Button {
@@ -113,10 +111,9 @@ Item {
 
                 onClicked: {
                     if (debug) console.debug("Italic button")
-                    var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
-                    textPattern.insert(pos, "<i>" + selected + "</i>")
+                    textPattern.insert(textPattern.cursorPosition, "<i>" + selected + "</i>")
                 }
             }
             QtControls.Button {
@@ -125,10 +122,9 @@ Item {
 
                 onClicked: {
                     if (debug) console.debug("Underline button")
-                    var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
-                    textPattern.insert(pos, "<u>" + selected + "</u>")
+                    textPattern.insert(textPattern.cursorPosition, "<u>" + selected + "</u>")
                 }
             }
             QtControls.Button {
@@ -137,10 +133,9 @@ Item {
 
                 onClicked: {
                     if (debug) console.debug("Strike button")
-                    var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
-                    textPattern.insert(pos, "<s>" + selected + "</s>")
+                    textPattern.insert(textPattern.cursorPosition, "<s>" + selected + "</s>")
                 }
             }
 
@@ -150,10 +145,9 @@ Item {
 
                 onClicked: {
                     if (debug) console.debug("Left button")
-                    var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
-                    textPattern.insert(pos, "<p align=\"left\">" + selected + "</p>")
+                    textPattern.insert(textPattern.cursorPosition, "<p align=\"left\">" + selected + "</p>")
                 }
             }
             QtControls.Button {
@@ -162,10 +156,9 @@ Item {
 
                 onClicked: {
                     if (debug) console.debug("Center button")
-                    var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
-                    textPattern.insert(pos, "<p align=\"center\">" + selected + "</p>")
+                    textPattern.insert(textPattern.cursorPosition, "<p align=\"center\">" + selected + "</p>")
                 }
             }
             QtControls.Button {
@@ -174,10 +167,9 @@ Item {
 
                 onClicked: {
                     if (debug) console.debug("Right button")
-                    var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
-                    textPattern.insert(pos, "<p align=\"right\">" + selected + "</p>")
+                    textPattern.insert(textPattern.cursorPosition, "<p align=\"right\">" + selected + "</p>")
                 }
             }
             QtControls.Button {
@@ -186,10 +178,9 @@ Item {
 
                 onClicked: {
                     if (debug) console.debug("Justify button")
-                    var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
-                    textPattern.insert(pos, "<p align=\"justify\">" + selected + "</p>")
+                    textPattern.insert(textPattern.cursorPosition, "<p align=\"justify\">" + selected + "</p>")
                 }
             }
         }
