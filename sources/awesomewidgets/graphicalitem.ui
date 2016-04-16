@@ -325,6 +325,11 @@
          <string notr="true">Graph</string>
         </property>
        </item>
+       <item>
+        <property name="text">
+         <string notr="true">Bars</string>
+        </property>
+       </item>
       </widget>
      </item>
     </layout>

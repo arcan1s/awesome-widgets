@@ -51,25 +51,25 @@ void GraphicalItemHelper::setParameters(const QString active,
     // put images to pens if any otherwise set pen colors
     // Images resize to content here as well
     if (isColor(active)) {
-        m_activePen.setColor(stringToColor(active));
+        m_activePen.setBrush(QBrush(stringToColor(active)));
     } else {
         qCInfo(LOG_LIB) << "Found path, trying to load Pixmap from" << active;
         QPixmap pixmap = QPixmap(active);
         if (pixmap.isNull()) {
             qCInfo(LOG_LIB) << "Invalid pixmap found" << active;
-            m_activePen.setColor(QColor(0, 0, 0, 130));
+            m_activePen.setBrush(QBrush(QColor(0, 0, 0, 130)));
         } else {
             m_activePen.setBrush(QBrush(pixmap.scaled(width, height)));
         }
     }
     if (isColor(inactive)) {
-        m_inactivePen.setColor(stringToColor(inactive));
+        m_inactivePen.setBrush(QBrush(stringToColor(inactive)));
     } else {
         qCInfo(LOG_LIB) << "Found path, trying to load Pixmap from" << inactive;
         QPixmap pixmap = QPixmap(inactive);
         if (pixmap.isNull()) {
             qCInfo(LOG_LIB) << "Invalid pixmap found" << inactive;
-            m_inactivePen.setColor(QColor(255, 255, 255, 130));
+            m_inactivePen.setBrush(QBrush(QColor(255, 255, 255, 130)));
         } else {
             m_inactivePen.setBrush(QBrush(pixmap.scaled(width, height)));
         }
@@ -77,6 +77,30 @@ void GraphicalItemHelper::setParameters(const QString active,
     m_width = width;
     m_height = height;
     m_count = count;
+}
+
+
+void GraphicalItemHelper::paintBars(const float &value)
+{
+    qCDebug(LOG_LIB) << "Paint with value" << value;
+
+    // refresh background image
+    m_scene->setBackgroundBrush(m_inactivePen.brush());
+
+    storeValue(value);
+
+    // default norms
+    float normX
+        = static_cast<float>(m_width) / static_cast<float>(m_values.count());
+    float normY = static_cast<float>(m_height - 1);
+    // paint graph
+    for (int i = 0; i < m_values.count(); i++) {
+        float x = i * normX;
+        float y = 0.5f;
+        float width = normX;
+        float height = m_values.at(i) * normY + 0.5f;
+        m_scene->addRect(x, y, width, height, m_activePen, m_activePen.brush());
+    }
 }
 
 
@@ -120,9 +144,9 @@ void GraphicalItemHelper::paintGraph(const float &value)
     for (int i = 0; i < m_values.count() - 1; i++) {
         // some magic here
         float x1 = i * normX;
-        float y1 = -fabs(m_values.at(i)) * normY + 0.5f;
+        float y1 = -m_values.at(i) * normY + 0.5f;
         float x2 = (i + 1) * normX;
-        float y2 = -fabs(m_values.at(i + 1)) * normY + 0.5f;
+        float y2 = -m_values.at(i + 1) * normY + 0.5f;
         m_scene->addLine(x1, y1, x2, y2, m_activePen);
     }
 }

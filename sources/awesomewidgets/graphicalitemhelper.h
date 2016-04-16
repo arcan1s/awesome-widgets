@@ -35,6 +35,7 @@ public:
     void setParameters(const QString active, const QString inactive,
                        const int width, const int height, const int count);
     // paint methods
+    void paintBars(const float &value);
     void paintCircle(const float &percent);
     void paintGraph(const float &value);
     void paintHorizontal(const float &percent);

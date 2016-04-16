@@ -116,6 +116,11 @@ QString GraphicalItem::image(const QVariant &value)
         m_helper->paintGraph(converted);
         // direction option is not recognized by this GI type
         break;
+    case Bars:
+        m_helper->paintBars(converted);
+        // direction option is not recognized by this GI type
+        scale[1] = -1;
+        break;
     case Horizontal:
     default:
         m_helper->paintHorizontal(converted);
@@ -197,6 +202,9 @@ QString GraphicalItem::strType() const
         break;
     case Graph:
         value = QString("Graph");
+        break;
+    case Bars:
+        value = QString("Bars");
         break;
     case Horizontal:
     default:
@@ -331,6 +339,8 @@ void GraphicalItem::setStrType(const QString _type)
         setType(Circle);
     else if (_type == QString("Graph"))
         setType(Graph);
+    else if (_type == QString("Bars"))
+        setType(Bars);
     else
         setType(Horizontal);
 }
