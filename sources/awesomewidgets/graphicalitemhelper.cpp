@@ -144,9 +144,9 @@ void GraphicalItemHelper::paintGraph(const float &value)
     for (int i = 0; i < m_values.count() - 1; i++) {
         // some magic here
         float x1 = i * normX;
-        float y1 = -m_values.at(i) * normY + 0.5f;
+        float y1 = m_values.at(i) * normY + 0.5f;
         float x2 = (i + 1) * normX;
-        float y2 = -m_values.at(i + 1) * normY + 0.5f;
+        float y2 = m_values.at(i + 1) * normY + 0.5f;
         m_scene->addLine(x1, y1, x2, y2, m_activePen);
     }
 }

@@ -36,7 +36,7 @@ class AWKeysAggregator : public QObject
     Q_PROPERTY(QString tempUnits MEMBER m_tempUnits WRITE setTempUnits);
     Q_PROPERTY(bool translate MEMBER m_translate WRITE setTranslate);
 
-    enum FormaterType {
+    enum class FormaterType {
         // general formaters
         NoFormat = 0,
         Float,

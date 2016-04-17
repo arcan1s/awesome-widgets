@@ -102,27 +102,27 @@ QString GraphicalItem::image(const QVariant &value)
 
     // paint
     switch (m_type) {
-    case Vertical:
+    case Type::Vertical:
         m_helper->paintVertical(converted);
         // scale
         scale[1] = -2 * static_cast<int>(m_direction) + 1;
         break;
-    case Circle:
+    case Type::Circle:
         m_helper->paintCircle(converted);
         // scale
         scale[0] = -2 * static_cast<int>(m_direction) + 1;
         break;
-    case Graph:
+    case Type::Graph:
         m_helper->paintGraph(converted);
-        // direction option is not recognized by this GI type
-        break;
-    case Bars:
-        m_helper->paintBars(converted);
-        // direction option is not recognized by this GI type
+        scale[0] = -2 * static_cast<int>(m_direction) + 1;
         scale[1] = -1;
         break;
-    case Horizontal:
-    default:
+    case Type::Bars:
+        m_helper->paintBars(converted);
+        scale[0] = -2 * static_cast<int>(m_direction) + 1;
+        scale[1] = -1;
+        break;
+    case Type::Horizontal:
         m_helper->paintHorizontal(converted);
         // scale
         scale[0] = -2 * static_cast<int>(m_direction) + 1;
@@ -194,20 +194,19 @@ QString GraphicalItem::strType() const
 {
     QString value;
     switch (m_type) {
-    case Vertical:
+    case Type::Vertical:
         value = QString("Vertical");
         break;
-    case Circle:
+    case Type::Circle:
         value = QString("Circle");
         break;
-    case Graph:
+    case Type::Graph:
         value = QString("Graph");
         break;
-    case Bars:
+    case Type::Bars:
         value = QString("Bars");
         break;
-    case Horizontal:
-    default:
+    case Type::Horizontal:
         value = QString("Horizontal");
         break;
     }
@@ -226,11 +225,10 @@ QString GraphicalItem::strDirection() const
 {
     QString value;
     switch (m_direction) {
-    case RightToLeft:
+    case Direction::RightToLeft:
         value = QString("RightToLeft");
         break;
-    case LeftToRight:
-    default:
+    case Direction::LeftToRight:
         value = QString("LeftToRight");
         break;
     }
@@ -323,7 +321,7 @@ void GraphicalItem::setMinValue(const float _value)
 
 void GraphicalItem::setType(const Type _type)
 {
-    qCDebug(LOG_LIB) << "Type" << _type;
+    qCDebug(LOG_LIB) << "Type" << static_cast<int>(_type);
 
     m_type = _type;
 }
@@ -334,21 +332,21 @@ void GraphicalItem::setStrType(const QString _type)
     qCDebug(LOG_LIB) << "Type" << _type;
 
     if (_type == QString("Vertical"))
-        setType(Vertical);
+        setType(Type::Vertical);
     else if (_type == QString("Circle"))
-        setType(Circle);
+        setType(Type::Circle);
     else if (_type == QString("Graph"))
-        setType(Graph);
+        setType(Type::Graph);
     else if (_type == QString("Bars"))
-        setType(Bars);
+        setType(Type::Bars);
     else
-        setType(Horizontal);
+        setType(Type::Horizontal);
 }
 
 
 void GraphicalItem::setDirection(const Direction _direction)
 {
-    qCDebug(LOG_LIB) << "Direction" << _direction;
+    qCDebug(LOG_LIB) << "Direction" << static_cast<int>(_direction);
 
     m_direction = _direction;
 }
@@ -359,9 +357,9 @@ void GraphicalItem::setStrDirection(const QString _direction)
     qCDebug(LOG_LIB) << "Direction" << _direction;
 
     if (_direction == QString("RightToLeft"))
-        setDirection(RightToLeft);
+        setDirection(Direction::RightToLeft);
     else
-        setDirection(LeftToRight);
+        setDirection(Direction::LeftToRight);
 }
 
 

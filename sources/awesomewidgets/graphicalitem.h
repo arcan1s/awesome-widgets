@@ -49,8 +49,8 @@ class GraphicalItem : public AbstractExtItem
     Q_PROPERTY(int width READ width WRITE setWidth)
 
 public:
-    enum Direction { LeftToRight = 0, RightToLeft };
-    enum Type { Horizontal = 0, Vertical, Circle, Graph, Bars };
+    enum class Direction { LeftToRight = 0, RightToLeft = 1 };
+    enum class Type { Horizontal = 0, Vertical, Circle, Graph, Bars };
 
     explicit GraphicalItem(QWidget *parent = nullptr,
                            const QString desktopName = QString(),
@@ -83,9 +83,9 @@ public:
                           = QString("color://255,255,255,130"));
     void setMinValue(const float _value = 0.0);
     void setMaxValue(const float _value = 100.0);
-    void setType(const Type _type = Horizontal);
+    void setType(const Type _type = Type::Horizontal);
     void setStrType(const QString _type = QString("Horizontal"));
-    void setDirection(const Direction _direction = LeftToRight);
+    void setDirection(const Direction _direction = Direction::LeftToRight);
     void setStrDirection(const QString _direction = QString("LeftToRight"));
     void setHeight(const int _height = 100);
     void setUsedKeys(const QStringList _usedKeys = QStringList());
@@ -117,8 +117,8 @@ private:
     QString m_inactiveColor = QString("color://255,255,255,130");
     float m_minValue = 0.0f;
     float m_maxValue = 100.0f;
-    Type m_type = Horizontal;
-    Direction m_direction = LeftToRight;
+    Type m_type = Type::Horizontal;
+    Direction m_direction = Direction::LeftToRight;
     int m_height = 100;
     QStringList m_usedKeys;
     int m_width = 100;

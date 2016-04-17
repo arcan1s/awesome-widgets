@@ -37,7 +37,7 @@ class ExtScript : public AbstractExtItem
     Q_PROPERTY(Redirect redirect READ redirect WRITE setRedirect)
 
 public:
-    enum Redirect { stdout2stderr = 0, nothing, stderr2stdout, swap };
+    enum class Redirect { stdout2stderr = 0, nothing, stderr2stdout, swap };
 
     explicit ExtScript(QWidget *parent = nullptr,
                        const QString scriptName = QString(),
@@ -56,7 +56,7 @@ public:
     void setExecutable(const QString _executable = QString("/usr/bin/true"));
     void setFilters(const QStringList _filters = QStringList());
     void setPrefix(const QString _prefix = QString(""));
-    void setRedirect(const Redirect _redirect = nothing);
+    void setRedirect(const Redirect _redirect = Redirect::nothing);
     void setStrRedirect(const QString _redirect = QString("nothing"));
     // filters
     QString applyFilters(QString _value) const;
@@ -80,7 +80,7 @@ private:
     QString m_executable = QString("/usr/bin/true");
     QStringList m_filters = QStringList();
     QString m_prefix = QString("");
-    Redirect m_redirect = nothing;
+    Redirect m_redirect = Redirect::nothing;
     // internal properties
     QVariantMap jsonFilters = QVariantMap();
     int times = 0;

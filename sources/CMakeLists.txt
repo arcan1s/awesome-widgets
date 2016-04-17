@@ -42,14 +42,14 @@ include(changelog.cmake)
 
 # flags
 if (CMAKE_COMPILER_IS_GNUCXX)
-    set(CMAKE_CXX_FLAGS "-Wall -Wno-cpp -std=c++14")
+    set(CMAKE_CXX_FLAGS "-Wall -Wno-cpp -std=c++11")
     set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
     set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
     set(CMAKE_CXX_FLAGS_OPTIMIZATION "-Ofast -DNDEBUG")
     # avoid newer gcc warnings
     add_definitions(-D_DEFAULT_SOURCE)
 elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    set(CMAKE_CXX_FLAGS "-Wall -std=c++14 -stdlib=libc++")
+    set(CMAKE_CXX_FLAGS "-Wall -std=c++11 -stdlib=libc++")
     set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
     set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
     set(CMAKE_CXX_FLAGS_OPTIMIZATION "-Ofast -DNDEBUG")
