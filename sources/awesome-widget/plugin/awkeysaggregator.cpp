@@ -34,8 +34,8 @@ AWKeysAggregator::AWKeysAggregator(QObject *parent)
     // default formaters
     // memory
     m_formater[QString("mem")] = FormaterType::Float;
-    m_formater[QString("memtotmb")] = FormaterType::IntegerFive;
-    m_formater[QString("memtotgb")] = FormaterType::Float;
+    m_formater[QString("memtotmb")] = FormaterType::MemMBFormat;
+    m_formater[QString("memtotgb")] = FormaterType::MemGBFormat;
     // network
     m_formater[QString("down")] = FormaterType::NetSmartFormat;
     m_formater[QString("downkb")] = FormaterType::Integer;
@@ -45,8 +45,8 @@ AWKeysAggregator::AWKeysAggregator(QObject *parent)
     m_formater[QString("upunits")] = FormaterType::NetSmartUnits;
     // swap
     m_formater[QString("swap")] = FormaterType::Float;
-    m_formater[QString("swaptotmb")] = FormaterType::IntegerFive;
-    m_formater[QString("swaptotgb")] = FormaterType::Float;
+    m_formater[QString("swaptotmb")] = FormaterType::MemMBFormat;
+    m_formater[QString("swaptotgb")] = FormaterType::MemGBFormat;
 }
 
 
@@ -336,8 +336,9 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
             m_formater[key] = FormaterType::Float;
             // additional keys
             m_formater[QString("hddtotmb%1").arg(index)]
-                = FormaterType::IntegerFive;
-            m_formater[QString("hddtotgb%1").arg(index)] = FormaterType::Float;
+                = FormaterType::MemMBFormat;
+            m_formater[QString("hddtotgb%1").arg(index)]
+                = FormaterType::MemGBFormat;
         }
     } else if (source.contains(mountFreeRegExp)) {
         // free space
