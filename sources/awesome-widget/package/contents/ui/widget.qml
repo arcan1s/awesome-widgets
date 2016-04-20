@@ -73,6 +73,11 @@ Item {
                         "size": plasmoid.configuration.fontSize
                     }
                     var font = awActions.getFont(defaultFont)
+                    if (font.applied != 1) {
+                        if (debug) console.debug("No font selected")
+                        return
+                    }
+
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
                     textPattern.insert(textPattern.cursorPosition,
