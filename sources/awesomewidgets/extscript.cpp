@@ -112,17 +112,16 @@ QString ExtScript::strRedirect() const
 {
     QString value;
     switch (m_redirect) {
-    case stdout2stderr:
+    case Redirect::stdout2stderr:
         value = QString("stdout2stderr");
         break;
-    case stderr2stdout:
+    case Redirect::stderr2stdout:
         value = QString("stderr2stdout");
         break;
-    case swap:
+    case Redirect::swap:
         value = QString("swap");
         break;
-    case nothing:
-    default:
+    case Redirect::nothing:
         value = QString("nothing");
         break;
     }
@@ -158,7 +157,7 @@ void ExtScript::setPrefix(const QString _prefix)
 
 void ExtScript::setRedirect(const Redirect _redirect)
 {
-    qCDebug(LOG_LIB) << "Redirect" << _redirect;
+    qCDebug(LOG_LIB) << "Redirect" << static_cast<int>(_redirect);
 
     m_redirect = _redirect;
 }
@@ -169,13 +168,13 @@ void ExtScript::setStrRedirect(const QString _redirect)
     qCDebug(LOG_LIB) << "Redirect" << _redirect;
 
     if (_redirect == QString("stdout2sdterr"))
-        m_redirect = stdout2stderr;
+        m_redirect = Redirect::stdout2stderr;
     else if (_redirect == QString("stderr2sdtout"))
-        m_redirect = stderr2stdout;
+        m_redirect = Redirect::stderr2stdout;
     else if (_redirect == QString("swap"))
-        m_redirect = swap;
+        m_redirect = Redirect::swap;
     else
-        m_redirect = nothing;
+        m_redirect = Redirect::nothing;
 }
 
 
@@ -376,16 +375,15 @@ void ExtScript::updateValue()
     QString strValue;
 
     switch (m_redirect) {
-    case stdout2stderr:
+    case Redirect::stdout2stderr:
         break;
-    case stderr2stdout:
+    case Redirect::stderr2stdout:
         strValue = QString("%1\n%2").arg(qdebug).arg(qoutput);
         break;
-    case swap:
+    case Redirect::swap:
         strValue = qdebug;
         break;
-    case nothing:
-    default:
+    case Redirect::nothing:
         strValue = qoutput;
         break;
     }

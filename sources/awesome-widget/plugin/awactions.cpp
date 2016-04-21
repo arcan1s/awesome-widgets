@@ -154,11 +154,14 @@ QVariantMap AWActions::getFont(const QVariantMap defaultFont) const
     qCDebug(LOG_AW) << "Default font is" << defaultFont;
 
     QVariantMap fontMap;
+    int ret = 0;
     CFont defaultCFont = CFont(defaultFont[QString("family")].toString(),
                                defaultFont[QString("size")].toInt(), 400, false,
                                defaultFont[QString("color")].toString());
-    CFont font
-        = CFontDialog::getFont(i18n("Select font"), defaultCFont, false, false);
+    CFont font = CFontDialog::getFont(i18n("Select font"), defaultCFont, false,
+                                      false, &ret);
+
+    fontMap[QString("applied")] = ret;
     fontMap[QString("color")] = font.color().name();
     fontMap[QString("family")] = font.family();
     fontMap[QString("size")] = font.pointSize();

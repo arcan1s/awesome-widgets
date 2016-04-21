@@ -84,7 +84,7 @@ Item {
     // ui
     Text {
         id: text
-        anchors.fill: parent
+        anchors.fill: Layout
         renderType: Text.NativeRendering
         textFormat: Text.RichText
         wrapMode: plasmoid.configuration.wrapText ? Text.WordWrap : Text.NoWrap

@@ -74,13 +74,17 @@ bool AWUpdateHelper::checkVersion()
     // update version
     settings.setValue(QString("Version"), QString(VERSION));
     settings.sync();
+    qCInfo(LOG_AW) << "Found version" << version << "actual one is"
+                   << m_foundVersion;
 
-    qCInfo(LOG_AW) << "Found version" << version << "actual one is" << VERSION;
-    if (version != QVersionNumber::fromString(VERSION)) {
+    if ((version != m_foundVersion) && (!QString(CHANGELOG).isEmpty())) {
         genMessageBox(i18n("Changelog of %1", QString(VERSION)),
                       QString(CHANGELOG).replace(QChar('@'), QChar('\n')),
                       QMessageBox::Ok)
             ->open();
+        return true;
+    } else if (version != m_foundVersion) {
+        qCWarning(LOG_AW) << "No changelog information provided";
         return true;
     } else {
         qCInfo(LOG_AW) << "No need to update version";
