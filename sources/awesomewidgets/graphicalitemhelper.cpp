@@ -20,6 +20,7 @@
 #include <QColor>
 #include <QGraphicsEllipseItem>
 #include <QGraphicsScene>
+#include <QUrl>
 
 #include <cmath>
 
@@ -54,9 +55,9 @@ void GraphicalItemHelper::setParameters(const QString active,
         m_activePen.setBrush(QBrush(stringToColor(active)));
     } else {
         qCInfo(LOG_LIB) << "Found path, trying to load Pixmap from" << active;
-        QPixmap pixmap = QPixmap(active);
+        QPixmap pixmap = QPixmap(QUrl(active).toLocalFile());
         if (pixmap.isNull()) {
-            qCInfo(LOG_LIB) << "Invalid pixmap found" << active;
+            qCWarning(LOG_LIB) << "Invalid pixmap found" << active;
             m_activePen.setBrush(QBrush(QColor(0, 0, 0, 130)));
         } else {
             m_activePen.setBrush(QBrush(pixmap.scaled(width, height)));
@@ -66,9 +67,9 @@ void GraphicalItemHelper::setParameters(const QString active,
         m_inactivePen.setBrush(QBrush(stringToColor(inactive)));
     } else {
         qCInfo(LOG_LIB) << "Found path, trying to load Pixmap from" << inactive;
-        QPixmap pixmap = QPixmap(inactive);
+        QPixmap pixmap = QPixmap(QUrl(inactive).toLocalFile());
         if (pixmap.isNull()) {
-            qCInfo(LOG_LIB) << "Invalid pixmap found" << inactive;
+            qCWarning(LOG_LIB) << "Invalid pixmap found" << inactive;
             m_inactivePen.setBrush(QBrush(QColor(255, 255, 255, 130)));
         } else {
             m_inactivePen.setBrush(QBrush(pixmap.scaled(width, height)));
