@@ -268,9 +268,14 @@ void AWKeys::calculateValues()
                        .indexOf(values[QString("netdev")].toString());
     values[QString("down")] = values[QString("down%1").arg(netIndex)];
     values[QString("downkb")] = values[QString("downkb%1").arg(netIndex)];
+    values[QString("downtotal")] = values[QString("downtotal%1").arg(netIndex)];
+    values[QString("downtotalkb")]
+        = values[QString("downtotalkb%1").arg(netIndex)];
     values[QString("downunits")] = values[QString("downunits%1").arg(netIndex)];
     values[QString("up")] = values[QString("up%1").arg(netIndex)];
     values[QString("upkb")] = values[QString("upkb%1").arg(netIndex)];
+    values[QString("uptotal")] = values[QString("uptotal%1").arg(netIndex)];
+    values[QString("uptotalkb")] = values[QString("uptotalkb%1").arg(netIndex)];
     values[QString("upunits")] = values[QString("upunits%1").arg(netIndex)];
 
     // swaptot*

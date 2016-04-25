@@ -247,6 +247,8 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
     QRegExp mountUsedRegExp = QRegExp(QString("partitions/.*/usedspace"));
     QRegExp netRegExp = QRegExp(
         QString("network/interfaces/.*/(receiver|transmitter)/data$"));
+    QRegExp netTotalRegExp = QRegExp(
+        QString("network/interfaces/.*/(receiver|transmitter)/dataTotal$"));
 
     if (source == QString("battery/ac")) {
         // AC
@@ -434,6 +436,22 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
             key = QString("%1units%2").arg(type).arg(index);
             m_map.insertMulti(source, key);
             m_formater[key] = FormaterType::NetSmartUnits;
+        }
+    } else if (source.contains(netTotalRegExp)) {
+        // network data total
+        QString type = source.contains(QString("receiver")) ? QString("down")
+                                                            : QString("up");
+        int index
+            = m_devices[QString("net")].indexOf(source.split(QChar('/'))[2]);
+        if (index > -1) {
+            // kb
+            QString key = QString("%1totalkb%2").arg(type).arg(index);
+            m_map[source] = key;
+            m_formater[key] = FormaterType::Integer;
+            // mb
+            key = QString("%1total%2").arg(type).arg(index);
+            m_map.insertMulti(source, key);
+            m_formater[key] = FormaterType::MemMBFormat;
         }
     } else if (source.startsWith(QString("upgrade"))) {
         // package manager
