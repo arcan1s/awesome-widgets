@@ -21,6 +21,7 @@
 #include <QJSEngine>
 #include <QRegExp>
 #include <QThread>
+#include <QTimer>
 
 #include "awdataaggregator.h"
 #include "awdataengineaggregator.h"
@@ -49,13 +50,16 @@ AWKeys::AWKeys(QObject *parent)
     dataEngineAggregator = new AWDataEngineAggregator(this);
     keyOperator = new AWKeyOperations(this);
 
+    m_timer = new QTimer(this);
+    m_timer->setSingleShot(false);
+
     // update key data if required
     connect(keyOperator, SIGNAL(updateKeys(QStringList)), this,
             SLOT(reinitKeys(QStringList)));
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(updateTextData()));
     // transfer signal from AWDataAggregator object to QML ui
     connect(dataAggregator, SIGNAL(toolTipPainted(const QString)), this,
             SIGNAL(needToolTipToBeUpdated(const QString)));
-    connect(this, SIGNAL(needToBeUpdated()), this, SLOT(updateTextData()));
     connect(this, SIGNAL(dropSourceFromDataengine(QString)),
             dataEngineAggregator, SLOT(dropSource(QString)));
     // transfer signal from dataengine to update source list
@@ -67,6 +71,9 @@ AWKeys::AWKeys(QObject *parent)
 AWKeys::~AWKeys()
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+
+    m_timer->stop();
+    delete m_timer;
 
     // core
     delete dataEngineAggregator;
@@ -103,7 +110,11 @@ void AWKeys::initKeys(const QString currentPattern, const int interval,
     keyOperator->updateCache();
     dataEngineAggregator->clear();
 
-    return dataEngineAggregator->initDataEngines(interval);
+    dataEngineAggregator->initDataEngines(interval);
+
+    // timer
+    m_timer->setInterval(interval);
+    m_timer->start();
 }
 
 
@@ -183,12 +194,6 @@ void AWKeys::editItem(const QString type)
 void AWKeys::dataUpdated(const QString &sourceName,
                          const Plasma::DataEngine::Data &data)
 {
-    // do not log these parameters
-    if (sourceName == QString("update")) {
-        qCInfo(LOG_AW) << "Update data";
-        return emit(needToBeUpdated());
-    }
-
     // run concurrent data update
     QtConcurrent::run(m_threadPool, this, &AWKeys::setDataBySource, sourceName,
                       data);

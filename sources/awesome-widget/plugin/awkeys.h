@@ -30,6 +30,7 @@ class AWDataEngineAggregator;
 class AWKeyOperations;
 class AWKeysAggregator;
 class QThreadPool;
+class QTimer;
 
 class AWKeys : public QObject
 {
@@ -67,7 +68,6 @@ signals:
     void dropSourceFromDataengine(const QString source);
     void needTextToBeUpdated(const QString newText) const;
     void needToolTipToBeUpdated(const QString newText) const;
-    void needToBeUpdated();
 
 private slots:
     void reinitKeys(const QStringList currentKeys);
@@ -83,6 +83,7 @@ private:
     AWDataEngineAggregator *dataEngineAggregator = nullptr;
     AWKeysAggregator *aggregator = nullptr;
     AWKeyOperations *keyOperator = nullptr;
+    QTimer *m_timer = nullptr;
     // variables
     QVariantMap m_tooltipParams;
     QStringList m_foundBars, m_foundKeys, m_foundLambdas, m_requiredKeys;
