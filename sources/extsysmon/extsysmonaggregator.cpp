@@ -29,7 +29,6 @@
 #include "sources/playersource.h"
 #include "sources/processessource.h"
 #include "sources/quotessource.h"
-#include "sources/updatesource.h"
 #include "sources/upgradesource.h"
 #include "sources/weathersource.h"
 #include "version.h"
@@ -140,10 +139,6 @@ void ExtSysMonAggregator::init(const QHash<QString, QString> config)
     AbstractExtSysMonSource *quotesItem = new QuotesSource(this, QStringList());
     for (auto source : quotesItem->sources())
         m_map[source] = quotesItem;
-    // update
-    AbstractExtSysMonSource *updateItem = new UpdateSource(this, QStringList());
-    for (auto source : updateItem->sources())
-        m_map[source] = updateItem;
     // upgrade
     AbstractExtSysMonSource *upgradeItem
         = new UpgradeSource(this, QStringList());

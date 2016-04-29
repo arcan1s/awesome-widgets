@@ -71,7 +71,9 @@ Item {
                     title: i18n("Select a color")
                     onAccepted: {
                         var text = textPattern.text
-                        textPattern.text = "<body bgcolor=\"" + backgroundDialog.color + "\">" + text + "</body>"
+                        textPattern.text = "<body bgcolor=\"" +
+                                           backgroundDialog.color + "\">" +
+                                           text + "</body>"
                     }
                 }
             }
@@ -292,10 +294,9 @@ Item {
                 onClicked: {
                     if (!tags.currentText) return
                     if (debug) console.debug("Add tag button")
-                    var pos = textPattern.cursorPosition
                     var selected = textPattern.selectedText
                     textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
-                    textPattern.insert(pos, selected + "$" + tags.currentText)
+                    textPattern.insert(textPattern.cursorPosition, selected + "$" + tags.currentText)
                 }
             }
             QtControls.Button {

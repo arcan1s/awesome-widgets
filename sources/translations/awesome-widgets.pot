@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-04-06 14:39+0300\n"
+"POT-Creation-Date: 2016-04-29 12:21+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -330,6 +330,9 @@ msgid ""
 "awesome-widgets/\">project homepage</a>"
 msgstr ""
 
+msgid "Bgcolor"
+msgstr ""
+
 msgid "AC"
 msgstr ""
 
@@ -547,9 +550,6 @@ msgstr ""
 msgid "Use images"
 msgstr ""
 
-msgid "Points count"
-msgstr ""
-
 msgid "Use custom formula"
 msgstr ""
 
@@ -562,25 +562,16 @@ msgstr ""
 msgid "Min value"
 msgstr ""
 
-msgid "Use image for active"
+msgid "Active filling type"
 msgstr ""
 
-msgid "Active color"
-msgstr ""
-
-msgid "Active image"
-msgstr ""
-
-msgid "Use image for inactive"
-msgstr ""
-
-msgid "Inactive color"
-msgstr ""
-
-msgid "Inactive image"
+msgid "Inctive filling type"
 msgstr ""
 
 msgid "Type"
+msgstr ""
+
+msgid "Points count"
 msgstr ""
 
 msgid "Direction"
@@ -590,6 +581,12 @@ msgid "Height"
 msgstr ""
 
 msgid "Width"
+msgstr ""
+
+msgid "color"
+msgstr ""
+
+msgid "image"
 msgstr ""
 
 msgid "Active desktop"

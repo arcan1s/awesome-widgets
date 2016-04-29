@@ -138,10 +138,12 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &keys,
     if (used.contains(QString("swaptotgb")))
         used << QString("swapgb") << QString("swapfreegb");
     // network keys
-    QStringList netKeys(QStringList() << QString("up") << QString("upkb")
-                                      << QString("upunits") << QString("down")
-                                      << QString("downkb")
-                                      << QString("downunits"));
+    QStringList netKeys(QStringList()
+                        << QString("up") << QString("upkb")
+                        << QString("uptotal") << QString("uptotalkb")
+                        << QString("upunits") << QString("down")
+                        << QString("downkb") << QString("downtotal")
+                        << QString("downtotalkb") << QString("downunits"));
     for (auto key : netKeys) {
         if (!used.contains(key))
             continue;

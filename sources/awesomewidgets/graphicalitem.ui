@@ -226,7 +226,7 @@
      <item>
       <widget class="QLabel" name="label_activeImageType">
        <property name="text">
-        <string>Active image type</string>
+        <string>Active filling type</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -261,7 +261,7 @@
      <item>
       <widget class="QLabel" name="label_inactiveImageType">
        <property name="text">
-        <string>Inactive image type</string>
+        <string>Inactive filling type</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

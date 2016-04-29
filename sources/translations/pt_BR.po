@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-04-06 14:39+0300\n"
+"POT-Creation-Date: 2016-04-29 12:21+0300\n"
 "PO-Revision-Date: 2015-07-31 22:21+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -347,6 +347,10 @@ msgstr ""
 "Informações detalhadas podem ser encontradas na <a href=\"http://arcanis."
 "name/projects/awesome-widgets/\">página do projeto</a>"
 
+#, fuzzy
+msgid "Bgcolor"
+msgstr "Cor da CPU"
+
 msgid "AC"
 msgstr ""
 
@@ -570,9 +574,6 @@ msgstr "Hora"
 msgid "Use images"
 msgstr ""
 
-msgid "Points count"
-msgstr ""
-
 #, fuzzy
 msgid "Use custom formula"
 msgstr "Formato de hora personalizado"
@@ -588,28 +589,19 @@ msgstr "Mostrar valor"
 msgid "Min value"
 msgstr "Mostrar valor"
 
-msgid "Use image for active"
-msgstr ""
-
-msgid "Active color"
+#, fuzzy
+msgid "Active filling type"
 msgstr "Cor ativa"
 
 #, fuzzy
-msgid "Active image"
-msgstr "Cor ativa"
-
-msgid "Use image for inactive"
-msgstr ""
-
-msgid "Inactive color"
-msgstr "Cor inativa"
-
-#, fuzzy
-msgid "Inactive image"
+msgid "Inctive filling type"
 msgstr "Desktop inativo"
 
 msgid "Type"
 msgstr "Tipo"
+
+msgid "Points count"
+msgstr ""
 
 msgid "Direction"
 msgstr "Direção"
@@ -619,6 +611,13 @@ msgstr "Altura"
 
 msgid "Width"
 msgstr "Largura"
+
+#, fuzzy
+msgid "color"
+msgstr "Cor da CPU"
+
+msgid "image"
+msgstr ""
 
 msgid "Active desktop"
 msgstr "Desktop ativo"
@@ -660,6 +659,12 @@ msgstr "under"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "under@insicuri.net"
+
+#~ msgid "Active color"
+#~ msgstr "Cor ativa"
+
+#~ msgid "Inactive color"
+#~ msgstr "Cor inativa"
 
 #~ msgid "Free space on %1 less than 10%"
 #~ msgstr "O espaço livre em %1 é menor que 10%"

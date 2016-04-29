@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-04-06 14:39+0300\n"
-"PO-Revision-Date: 2016-04-06 14:40+0300\n"
+"POT-Creation-Date: 2016-04-29 12:21+0300\n"
+"PO-Revision-Date: 2016-04-29 12:21+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: English <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -335,6 +335,9 @@ msgstr ""
 "Detailed information may be found on <a href=\"https://arcanis.me/projects/"
 "awesome-widgets/\">project homepage</a>"
 
+msgid "Bgcolor"
+msgstr "Bgcolor"
+
 msgid "AC"
 msgstr "AC"
 
@@ -556,9 +559,6 @@ msgstr "Timestamp"
 msgid "Use images"
 msgstr "Use images"
 
-msgid "Points count"
-msgstr "Points count"
-
 msgid "Use custom formula"
 msgstr "Use custom formula"
 
@@ -571,26 +571,17 @@ msgstr "Max value"
 msgid "Min value"
 msgstr "Min value"
 
-msgid "Use image for active"
-msgstr "Use image for active"
+msgid "Active filling type"
+msgstr "Active filling type"
 
-msgid "Active color"
-msgstr "Active color"
-
-msgid "Active image"
-msgstr "Active image"
-
-msgid "Use image for inactive"
-msgstr "Use image for inactive"
-
-msgid "Inactive color"
-msgstr "Inactive color"
-
-msgid "Inactive image"
-msgstr "Inactive image"
+msgid "Inctive filling type"
+msgstr "Inctive filling type"
 
 msgid "Type"
 msgstr "Type"
+
+msgid "Points count"
+msgstr "Points count"
 
 msgid "Direction"
 msgstr "Direction"
@@ -600,6 +591,12 @@ msgstr "Height"
 
 msgid "Width"
 msgstr "Width"
+
+msgid "color"
+msgstr "color"
+
+msgid "image"
+msgstr "image"
 
 msgid "Active desktop"
 msgstr "Active desktop"
@@ -641,6 +638,18 @@ msgstr "Evgeniy Alekseev"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "esalexeev@gmail.com"
+
+#~ msgid "Use image for active"
+#~ msgstr "Use image for active"
+
+#~ msgid "Active color"
+#~ msgstr "Active color"
+
+#~ msgid "Use image for inactive"
+#~ msgstr "Use image for inactive"
+
+#~ msgid "Inactive color"
+#~ msgstr "Inactive color"
 
 #~ msgid "Add lambda"
 #~ msgstr "Add lambda"

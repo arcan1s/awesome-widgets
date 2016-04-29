@@ -57,7 +57,7 @@ Item {
 
     // ui
     GridLayout {
-        anchors.fill: parent
+        anchors.fill: Plasmoid.Layout
         columns: plasmoid.configuration.verticalLayout ? 1 : dpAdds.numberOfDesktops()
         rows: plasmoid.configuration.verticalLayout ? dpAdds.numberOfDesktops() : 1
 

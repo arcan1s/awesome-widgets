@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-04-06 14:39+0300\n"
+"POT-Creation-Date: 2016-04-29 12:21+0300\n"
 "PO-Revision-Date: 2015-09-27 12:37+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Ukrainian <kde-russian@lists.kde.ru>\n"
@@ -349,6 +349,10 @@ msgstr ""
 "Детальна інформація може бути знайдена на <a href=\"https://arcanis.me/"
 "projects/awesome-widgets/\">домашній сторінці проекту</a>"
 
+#, fuzzy
+msgid "Bgcolor"
+msgstr "Колір CPU"
+
 msgid "AC"
 msgstr "Адаптер живлення"
 
@@ -582,9 +586,6 @@ msgstr "Відмітка часу"
 msgid "Use images"
 msgstr "Використовувати зображення"
 
-msgid "Points count"
-msgstr ""
-
 #, fuzzy
 msgid "Use custom formula"
 msgstr "Свій формат часу"
@@ -601,30 +602,18 @@ msgid "Min value"
 msgstr "Показати значення"
 
 #, fuzzy
-msgid "Use image for active"
-msgstr "Використовувати зображення"
-
-#, fuzzy
-msgid "Active color"
-msgstr "Активний колір"
-
-#, fuzzy
-msgid "Active image"
+msgid "Active filling type"
 msgstr "Активний"
 
-msgid "Use image for inactive"
-msgstr ""
-
 #, fuzzy
-msgid "Inactive color"
-msgstr "Неактивний колір"
-
-#, fuzzy
-msgid "Inactive image"
+msgid "Inctive filling type"
 msgstr "Неактивний робочий стіл"
 
 msgid "Type"
 msgstr "Тип"
+
+msgid "Points count"
+msgstr ""
 
 msgid "Direction"
 msgstr "Напрямок"
@@ -634,6 +623,14 @@ msgstr "Висота"
 
 msgid "Width"
 msgstr "Ширина"
+
+#, fuzzy
+msgid "color"
+msgstr "Колір CPU"
+
+#, fuzzy
+msgid "image"
+msgstr "Використовувати зображення"
 
 msgid "Active desktop"
 msgstr "Активний робочий стіл"
@@ -675,6 +672,18 @@ msgstr "Slobodyan Victor"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "sarumyan@i.ua"
+
+#, fuzzy
+#~ msgid "Use image for active"
+#~ msgstr "Використовувати зображення"
+
+#, fuzzy
+#~ msgid "Active color"
+#~ msgstr "Активний колір"
+
+#, fuzzy
+#~ msgid "Inactive color"
+#~ msgstr "Неактивний колір"
 
 #~ msgid "Add lambda"
 #~ msgstr "Додати лямбду"

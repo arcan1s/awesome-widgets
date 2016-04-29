@@ -641,8 +641,8 @@ void GraphicalItem::translate()
     ui->label_customValue->setText(i18n("Value"));
     ui->label_max->setText(i18n("Max value"));
     ui->label_min->setText(i18n("Min value"));
-    ui->label_activeImageType->setText(i18n("Active image type"));
-    ui->label_inactiveImageType->setText(i18n("Inctive image type"));
+    ui->label_activeImageType->setText(i18n("Active filling type"));
+    ui->label_inactiveImageType->setText(i18n("Inctive filling type"));
     ui->label_type->setText(i18n("Type"));
     ui->label_count->setText(i18n("Points count"));
     ui->label_direction->setText(i18n("Direction"));
