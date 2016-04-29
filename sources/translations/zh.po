@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-04-06 14:39+0300\n"
+"POT-Creation-Date: 2016-04-29 12:21+0300\n"
 "PO-Revision-Date: 2015-07-31 22:24+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -336,6 +336,10 @@ msgstr ""
 "详情请参照 <a href=\"http://arcanis.name/projects/ awesome-widgets/\">项目主"
 "页</a>"
 
+#, fuzzy
+msgid "Bgcolor"
+msgstr "CPU 颜色"
+
 msgid "AC"
 msgstr "电源"
 
@@ -557,9 +561,6 @@ msgstr "时间"
 msgid "Use images"
 msgstr "使用图片"
 
-msgid "Points count"
-msgstr ""
-
 #, fuzzy
 msgid "Use custom formula"
 msgstr "自定义时间格式"
@@ -576,28 +577,18 @@ msgid "Min value"
 msgstr "显示值"
 
 #, fuzzy
-msgid "Use image for active"
-msgstr "使用图片"
-
-msgid "Active color"
-msgstr "使用状态提示颜色"
-
-#, fuzzy
-msgid "Active image"
+msgid "Active filling type"
 msgstr "使用"
 
-msgid "Use image for inactive"
-msgstr ""
-
-msgid "Inactive color"
-msgstr "未使用状态提示颜色"
-
 #, fuzzy
-msgid "Inactive image"
+msgid "Inctive filling type"
 msgstr "未激活桌面"
 
 msgid "Type"
 msgstr "类型"
+
+msgid "Points count"
+msgstr ""
 
 msgid "Direction"
 msgstr "方向"
@@ -607,6 +598,14 @@ msgstr "高度"
 
 msgid "Width"
 msgstr "宽度"
+
+#, fuzzy
+msgid "color"
+msgstr "CPU 颜色"
+
+#, fuzzy
+msgid "image"
+msgstr "使用图片"
 
 msgid "Active desktop"
 msgstr "当前激活桌面"
@@ -648,6 +647,16 @@ msgstr "用户名"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "用户邮箱"
+
+#, fuzzy
+#~ msgid "Use image for active"
+#~ msgstr "使用图片"
+
+#~ msgid "Active color"
+#~ msgstr "使用状态提示颜色"
+
+#~ msgid "Inactive color"
+#~ msgstr "未使用状态提示颜色"
 
 #~ msgid "Add lambda"
 #~ msgstr "添加 lambda"

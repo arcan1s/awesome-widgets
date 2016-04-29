@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-04-06 14:39+0300\n"
+"POT-Creation-Date: 2016-04-29 12:21+0300\n"
 "PO-Revision-Date: 2015-08-20 22:52+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
@@ -350,6 +350,10 @@ msgstr ""
 "Gedetailleerde informatie kan worden gevonden op de <a href=\"http://arcanis."
 "name/projects/awesome-widgets/\">projectwebsite</a>"
 
+#, fuzzy
+msgid "Bgcolor"
+msgstr "CPU-kleur"
+
 msgid "AC"
 msgstr ""
 
@@ -579,9 +583,6 @@ msgstr ""
 msgid "Use images"
 msgstr ""
 
-msgid "Points count"
-msgstr ""
-
 #, fuzzy
 msgid "Use custom formula"
 msgstr "Aangepaste tijdsopmaak"
@@ -597,28 +598,19 @@ msgstr "Waarde weergeven"
 msgid "Min value"
 msgstr "Waarde weergeven"
 
-msgid "Use image for active"
-msgstr ""
-
-msgid "Active color"
+#, fuzzy
+msgid "Active filling type"
 msgstr "Actieve kleur"
 
 #, fuzzy
-msgid "Active image"
-msgstr "Actieve kleur"
-
-msgid "Use image for inactive"
-msgstr ""
-
-msgid "Inactive color"
-msgstr "Inactieve kleur"
-
-#, fuzzy
-msgid "Inactive image"
+msgid "Inctive filling type"
 msgstr "Inactieve kleur"
 
 msgid "Type"
 msgstr "Type"
+
+msgid "Points count"
+msgstr ""
 
 msgid "Direction"
 msgstr "Richting"
@@ -628,6 +620,13 @@ msgstr "Hoogte"
 
 msgid "Width"
 msgstr "Breedte"
+
+#, fuzzy
+msgid "color"
+msgstr "CPU-kleur"
+
+msgid "image"
+msgstr ""
 
 #, fuzzy
 msgid "Active desktop"
@@ -672,6 +671,12 @@ msgstr "Heimen Stoffels"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "vistausss@outlook.com"
+
+#~ msgid "Active color"
+#~ msgstr "Actieve kleur"
+
+#~ msgid "Inactive color"
+#~ msgstr "Inactieve kleur"
 
 #~ msgid "Free space on %1 less than 10%"
 #~ msgstr "De vrije ruimte op %1 is minder dan 10%"

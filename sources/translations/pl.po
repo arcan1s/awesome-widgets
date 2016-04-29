@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-04-06 14:39+0300\n"
+"POT-Creation-Date: 2016-04-29 12:21+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -335,6 +335,10 @@ msgstr ""
 "Szczegóły znajdziesz na <a href=\"http://arcanis.name/projects/awesome-"
 "widgets/\">stronie  projektu</a>"
 
+#, fuzzy
+msgid "Bgcolor"
+msgstr "Kolor procesora"
+
 msgid "AC"
 msgstr "Zasialnie zewnętrzne"
 
@@ -555,9 +559,6 @@ msgstr "Znacznik czasu"
 msgid "Use images"
 msgstr "Użyj obrazków"
 
-msgid "Points count"
-msgstr ""
-
 #, fuzzy
 msgid "Use custom formula"
 msgstr "Twój format czasu"
@@ -574,28 +575,18 @@ msgid "Min value"
 msgstr "Pokaż wartość"
 
 #, fuzzy
-msgid "Use image for active"
-msgstr "Użyj obrazków"
-
-msgid "Active color"
-msgstr "Kolor aktywnego"
-
-#, fuzzy
-msgid "Active image"
+msgid "Active filling type"
 msgstr "Aktywny"
 
-msgid "Use image for inactive"
-msgstr ""
-
-msgid "Inactive color"
-msgstr "Kolor nieaktywnego"
-
 #, fuzzy
-msgid "Inactive image"
+msgid "Inctive filling type"
 msgstr "Nie aktywny pulpit"
 
 msgid "Type"
 msgstr "Typ"
+
+msgid "Points count"
+msgstr ""
 
 msgid "Direction"
 msgstr "Kierunek"
@@ -605,6 +596,14 @@ msgstr "Wysokość"
 
 msgid "Width"
 msgstr "Szerokość"
+
+#, fuzzy
+msgid "color"
+msgstr "Kolor procesora"
+
+#, fuzzy
+msgid "image"
+msgstr "Użyj obrazków"
 
 msgid "Active desktop"
 msgstr "AKtywny pulpit"
@@ -646,6 +645,16 @@ msgstr "Terminus"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "terminus@linux.pl"
+
+#, fuzzy
+#~ msgid "Use image for active"
+#~ msgstr "Użyj obrazków"
+
+#~ msgid "Active color"
+#~ msgstr "Kolor aktywnego"
+
+#~ msgid "Inactive color"
+#~ msgstr "Kolor nieaktywnego"
 
 #~ msgid "Add lambda"
 #~ msgstr "Dodaj różnicę"
