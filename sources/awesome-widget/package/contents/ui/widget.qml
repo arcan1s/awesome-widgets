@@ -331,7 +331,6 @@ Item {
                     lock = false
                     awKeys.initKeys(textPattern.text, plasmoid.configuration.interval,
                                     plasmoid.configuration.queueLimit, false)
-                    awKeys.needToBeUpdated()
                 }
             }
         }
