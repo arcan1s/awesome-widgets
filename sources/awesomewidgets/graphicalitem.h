@@ -50,7 +50,7 @@ class GraphicalItem : public AbstractExtItem
 
 public:
     enum class Direction { LeftToRight = 0, RightToLeft = 1 };
-    enum class Type { Horizontal = 0, Vertical, Circle, Graph, Bars };
+    enum class Type { Horizontal, Vertical, Circle, Graph, Bars };
 
     explicit GraphicalItem(QWidget *parent = nullptr,
                            const QString desktopName = QString(),

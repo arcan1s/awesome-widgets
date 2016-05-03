@@ -179,7 +179,7 @@ QString AWKeys::valueByKey(QString key) const
     qCDebug(LOG_AW) << "Requested value for key" << key;
 
     key.remove(QRegExp(QString("^bar[0-9]{1,}")));
-    return aggregator->formater(values[key], key);
+    return aggregator->formatter(values[key], key);
 }
 
 
@@ -312,7 +312,7 @@ QString AWKeys::parsePattern(QString pattern) const
     for (auto key : m_foundKeys)
         pattern.replace(QString("$%1").arg(key), [this](const QString &tag,
                                                         const QVariant &value) {
-            QString strValue = aggregator->formater(value, tag);
+            QString strValue = aggregator->formatter(value, tag);
             if ((!tag.startsWith(QString("custom")))
                 && (!tag.startsWith(QString("weather"))))
                 strValue.replace(QString(" "), QString("&nbsp;"));

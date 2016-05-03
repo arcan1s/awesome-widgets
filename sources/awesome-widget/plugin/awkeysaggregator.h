@@ -25,6 +25,8 @@
 #include "version.h"
 
 
+class AWFormatterHelper;
+
 class AWKeysAggregator : public QObject
 {
     Q_OBJECT
@@ -36,16 +38,17 @@ class AWKeysAggregator : public QObject
     Q_PROPERTY(QString tempUnits MEMBER m_tempUnits WRITE setTempUnits);
     Q_PROPERTY(bool translate MEMBER m_translate WRITE setTranslate);
 
-    enum class FormaterType {
-        // general formaters
-        NoFormat = 0,
+    enum class FormatterType {
+        // general formatters
+        Custom,
+        NoFormat,
         Float,
         FloatTwoSymbols,
         Integer,
         IntegerFive,
         IntegerThree,
         List,
-        // unit specific formaters
+        // unit specific formatters
         ACFormat,
         MemGBFormat,
         MemMBFormat,
@@ -66,7 +69,7 @@ public:
     explicit AWKeysAggregator(QObject *parent = nullptr);
     virtual ~AWKeysAggregator();
     // get methods
-    QString formater(const QVariant &data, const QString &key) const;
+    QString formatter(const QVariant &data, const QString &key) const;
     QStringList keysFromSource(const QString &source) const;
     // set methods
     void setAcOffline(const QString inactive);
@@ -83,6 +86,7 @@ public slots:
 
 private:
     float temperature(const float temp) const;
+    AWFormatterHelper *m_customFormatters = nullptr;
     QStringList timeKeys = QString(TIME_KEYS).split(QChar(','));
     // variables
     QString m_acOffline;
@@ -90,7 +94,7 @@ private:
     QString m_customTime;
     QString m_customUptime;
     QHash<QString, QStringList> m_devices;
-    QHash<QString, FormaterType> m_formater;
+    QHash<QString, FormatterType> m_formatter;
     QHash<QString, QString> m_map;
     QString m_tempUnits;
     bool m_translate = false;
