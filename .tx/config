@@ -1,0 +1,8 @@
+[main]
+host = https://www.transifex.com
+
+[awesome-widgets.awesome-widgetspot]
+source_file = sources/translations/awesome-widgets.pot
+source_lang = en
+type = PO
+file_filter = sources/translations/<lang>.po
