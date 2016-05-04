@@ -17,7 +17,6 @@
 
 
 #include "awdebug.h"
-#include "version.h"
 
 
 Q_LOGGING_CATEGORY(LOG_AW, "org.kde.plasma.awesomewidget",

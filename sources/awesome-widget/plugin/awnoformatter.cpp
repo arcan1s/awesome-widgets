@@ -16,27 +16,44 @@
  ***************************************************************************/
 
 
-#ifndef AWDEBUG_H
-#define AWDEBUG_H
+#include "awnoformatter.h"
 
-#include <QLoggingCategory>
-
-#include "version.h"
-
-#ifndef LOG_FORMAT
-#define LOG_FORMAT                                                             \
-    "[%{time process}][%{if-debug}DD%{endif}%{if-info}II%{endif}%{if-"         \
-    "warning}WW%{endif}%{if-critical}CC%{endif}%{if-fatal}FF%{endif}][%{"      \
-    "category}][%{function}] %{message}"
-#endif /* LOG_FORMAT */
+#include "awdebug.h"
 
 
-Q_DECLARE_LOGGING_CATEGORY(LOG_AW)
-Q_DECLARE_LOGGING_CATEGORY(LOG_DP)
-Q_DECLARE_LOGGING_CATEGORY(LOG_ESM)
-Q_DECLARE_LOGGING_CATEGORY(LOG_LIB)
+AWNoFormatter::AWNoFormatter(QObject *parent, const QString filename,
+                             const QString section)
+    : AWAbstractFormatter(parent, filename, section)
+{
+    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
-const QStringList getBuildData();
+    init(filename, section);
+}
 
 
-#endif /* AWDEBUG_H */
+AWNoFormatter::AWNoFormatter(QObject *parent)
+    : AWAbstractFormatter(parent)
+{
+    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+}
+
+
+AWNoFormatter::~AWNoFormatter()
+{
+    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+}
+
+
+QString AWNoFormatter::convert(const QVariant &value) const
+{
+    qCDebug(LOG_AW) << "Convert value" << value;
+
+    return value.toString();
+}
+
+
+void AWNoFormatter::init(const QString filename, const QString section)
+{
+    qCDebug(LOG_AW) << "Looking for section" << section << "in" << filename;
+    // dummy method for future references
+}
