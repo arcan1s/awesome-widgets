@@ -31,7 +31,6 @@
 #include "sources/quotessource.h"
 #include "sources/upgradesource.h"
 #include "sources/weathersource.h"
-#include "version.h"
 
 
 ExtSysMonAggregator::ExtSysMonAggregator(QObject *parent,

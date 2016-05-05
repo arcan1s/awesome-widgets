@@ -29,7 +29,6 @@
 #include <QSettings>
 
 #include "awdebug.h"
-#include "version.h"
 
 
 AWUpdateHelper::AWUpdateHelper(QObject *parent)

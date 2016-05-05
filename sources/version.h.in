@@ -40,8 +40,8 @@
     "dddd,ddd,dd,d,MMMM,MMM,MM,M,yyyy,yy,hh,h,HH,H,mm,m,ss,s,t,ap,a,AP,A"
 // static keys
 #define STATIC_KEYS                                                            \
-    "time,isotime,shorttime,longtime,ctime,uptime,cuptime,cpucl,cpu,gputemp,"  \
-    "gpu,memmb,memgb,memfreemb,memfreegb,memtotmb,memtotgb,memusedmb,"         \
+    "time,isotime,shorttime,longtime,tstime,ctime,uptime,cuptime,cpucl,cpu,"   \
+    "gputemp,gpu,memmb,memgb,memfreemb,memfreegb,memtotmb,memtotgb,memusedmb," \
     "memusedgb,mem,swapmb,swapgb,swapfreemb,swapfreegb,swaptotmb,swaptotgb,"   \
     "swap,downunits,upunits,downkb,downtotalkb,downtotal,down,uptotalkb,"      \
     "uptotal,upkb,up,netdev,ac,bat,album,artist,duration,progress,title,"      \

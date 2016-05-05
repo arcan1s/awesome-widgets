@@ -23,7 +23,6 @@
 #include <QTime>
 
 #include "awdebug.h"
-#include "version.h"
 #include "abstractextitemaggregator.h"
 
 

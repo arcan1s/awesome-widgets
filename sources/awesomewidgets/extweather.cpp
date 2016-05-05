@@ -32,7 +32,6 @@
 #include <qreplytimeout/qreplytimeout.h>
 
 #include "awdebug.h"
-#include "version.h"
 
 
 ExtWeather::ExtWeather(QWidget *parent, const QString weatherName,

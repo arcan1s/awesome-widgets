@@ -61,6 +61,7 @@ class AWKeysAggregator : public QObject
         TimeISO,
         TimeLong,
         TimeShort,
+        Timestamp,
         Uptime,
         UptimeCustom
     };

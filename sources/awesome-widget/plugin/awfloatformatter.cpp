@@ -35,7 +35,8 @@ AWFloatFormatter::AWFloatFormatter(QObject *parent, const QString filename,
 
 AWFloatFormatter::AWFloatFormatter(QObject *parent, const QChar fillChar,
                                    const char format, const double multiplier,
-                                   const int precision, const int width)
+                                   const int precision, const double summand,
+                                   const int width)
     : AWAbstractFormatter(parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
@@ -44,6 +45,7 @@ AWFloatFormatter::AWFloatFormatter(QObject *parent, const QChar fillChar,
     setFormat(format);
     setMultiplier(multiplier);
     setPrecision(precision);
+    setSummand(summand);
     setWidth(width);
 }
 
@@ -58,8 +60,8 @@ QString AWFloatFormatter::convert(const QVariant &value) const
 {
     qCDebug(LOG_AW) << "Convert value" << value;
 
-    return QString("%1").arg(value.toDouble() * m_multiplier, m_width, m_format,
-                             m_precision, m_fillChar);
+    return QString("%1").arg(value.toDouble() * m_multiplier + m_summand,
+                             m_width, m_format, m_precision, m_fillChar);
 }
 
 
@@ -84,6 +86,12 @@ double AWFloatFormatter::multiplier() const
 int AWFloatFormatter::precision() const
 {
     return m_precision;
+}
+
+
+double AWFloatFormatter::summand() const
+{
+    return m_summand;
 }
 
 
@@ -131,6 +139,14 @@ void AWFloatFormatter::setPrecision(const int _precision)
 }
 
 
+void AWFloatFormatter::setSummand(const double _summand)
+{
+    qCDebug(LOG_AW) << "Set summand" << _summand;
+
+    m_summand = _summand;
+}
+
+
 void AWFloatFormatter::setWidth(const int _width)
 {
     qCDebug(LOG_AW) << "Set width" << _width;
@@ -154,6 +170,7 @@ void AWFloatFormatter::init(const QString filename, const QString section)
                   .toLatin1());
     setMultiplier(settings.value(QString("Multiplier"), 1.0).toDouble());
     setPrecision(settings.value(QString("Precision"), -1).toInt());
+    setSummand(settings.value(QString("Summand"), 0.0).toDouble());
     setWidth(settings.value(QString("Width"), 0).toInt());
     settings.endGroup();
 }

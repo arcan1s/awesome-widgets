@@ -30,7 +30,6 @@
 
 #include "awdebug.h"
 #include "graphicalitemhelper.h"
-#include "version.h"
 
 
 GraphicalItem::GraphicalItem(QWidget *parent, const QString desktopName,

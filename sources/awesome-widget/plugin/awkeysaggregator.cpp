@@ -139,6 +139,10 @@ QString AWKeysAggregator::formatter(const QVariant &data,
     case FormatterType::TimeShort:
         output = loc.toString(data.toDateTime(), QLocale::ShortFormat);
         break;
+    case FormatterType::Timestamp:
+        output = QString("%1").arg(
+            data.toDateTime().toMSecsSinceEpoch() / 1000.0, 10, 'f', 0);
+        break;
     case FormatterType::Uptime:
     case FormatterType::UptimeCustom:
         output =
@@ -537,6 +541,9 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
         // short time
         m_map.insertMulti(source, QString("shorttime"));
         m_formatter[QString("shorttime")] = FormatterType::TimeShort;
+        // timestamp
+        m_map.insertMulti(source, QString("tstime"));
+        m_formatter[QString("tstime")] = FormatterType::Timestamp;
     } else if (source == QString("system/uptime")) {
         // uptime
         m_map[source] = QString("uptime");

@@ -34,7 +34,6 @@
 #include <fontdialog/fontdialog.h>
 
 #include "awdebug.h"
-#include "version.h"
 
 
 DPAdds::DPAdds(QObject *parent)

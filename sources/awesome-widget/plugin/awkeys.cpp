@@ -31,7 +31,6 @@
 #include "awkeysaggregator.h"
 #include "awpatternfunctions.h"
 #include "graphicalitem.h"
-#include "version.h"
 
 
 AWKeys::AWKeys(QObject *parent)

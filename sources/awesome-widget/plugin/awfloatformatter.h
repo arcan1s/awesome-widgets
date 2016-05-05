@@ -28,6 +28,7 @@ class AWFloatFormatter : public AWAbstractFormatter
     Q_PROPERTY(char format READ format WRITE setFormat)
     Q_PROPERTY(double multiplier READ multiplier WRITE setMultiplier)
     Q_PROPERTY(int precision READ precision WRITE setPrecision)
+    Q_PROPERTY(double summand READ summand WRITE setSummand)
     Q_PROPERTY(int width READ width WRITE setWidth)
 
 public:
@@ -35,7 +36,8 @@ public:
                               const QString section);
     explicit AWFloatFormatter(QObject *parent, const QChar fillChar,
                               const char format, const double multiplier,
-                              const int precision, const int width);
+                              const int precision, const double summand,
+                              const int width);
     virtual ~AWFloatFormatter();
     QString convert(const QVariant &value) const;
     // properties
@@ -43,11 +45,13 @@ public:
     char format() const;
     double multiplier() const;
     int precision() const;
+    double summand() const;
     int width() const;
     void setFillChar(const QChar _fillChar);
     void setFormat(char _format);
     void setMultiplier(const double _multiplier);
     void setPrecision(const int _precision);
+    void setSummand(const double _summand);
     void setWidth(const int _width);
 
 private:
@@ -57,6 +61,7 @@ private:
     char m_format;
     double m_multiplier;
     int m_precision;
+    double m_summand;
     int m_width;
 };
 
