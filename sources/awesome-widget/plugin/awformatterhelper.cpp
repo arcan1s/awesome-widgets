@@ -24,6 +24,7 @@
 #include "awdatetimeformatter.h"
 #include "awfloatformatter.h"
 #include "awnoformatter.h"
+#include "awscriptformatter.h"
 
 
 AWFormatterHelper::AWFormatterHelper(QObject *parent)
@@ -77,10 +78,12 @@ AWFormatterHelper::defineFormatterClass(const QString name) const
     settings.endGroup();
 
     FormatterClass formatter = FormatterClass::NoFormat;
-    if (stringType == QString("Float"))
-        formatter = FormatterClass::Float;
-    else if (stringType == QString("DateTime"))
+    if (stringType == QString("DateTime"))
         formatter = FormatterClass::DateTime;
+    else if (stringType == QString("Float"))
+        formatter = FormatterClass::Float;
+    else if (stringType == QString("Script"))
+        formatter = FormatterClass::Script;
     else
         qCWarning(LOG_AW) << "Unknown formatter" << stringType;
 
@@ -101,13 +104,17 @@ void AWFormatterHelper::init()
                        << "defined as" << static_cast<int>(formatter);
 
         switch (formatter) {
+        case FormatterClass::DateTime:
+            m_formatters[key]
+                = new AWDateTimeFormatter(this, m_genericConfig, name);
+            break;
         case FormatterClass::Float:
             m_formatters[key]
                 = new AWFloatFormatter(this, m_genericConfig, name);
             break;
-        case FormatterClass::DateTime:
+        case FormatterClass::Script:
             m_formatters[key]
-                = new AWDateTimeFormatter(this, m_genericConfig, name);
+                = new AWScriptFormatter(this, m_genericConfig, name);
             break;
         case FormatterClass::NoFormat:
             m_formatters[key] = new AWNoFormatter(this, m_genericConfig, name);

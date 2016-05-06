@@ -15,35 +15,45 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef AWFORMATTERHELPER_H
-#define AWFORMATTERHELPER_H
-
-#include <QObject>
+#ifndef AWSCRIPTFORMATTER_H
+#define AWSCRIPTFORMATTER_H
 
 #include "awabstractformatter.h"
 
 
-class AWFormatterHelper : public QObject
+class AWScriptFormatter : public AWAbstractFormatter
 {
     Q_OBJECT
+    Q_PROPERTY(bool appendCode READ appendCode WRITE setAppendCode)
+    Q_PROPERTY(QString code READ code WRITE setCode)
+    Q_PROPERTY(bool hasReturn READ hasReturn WRITE setHasReturn)
+    Q_PROPERTY(QString program READ program)
 
 public:
-    enum class FormatterClass { DateTime, Float, Script, NoFormat };
-
-    explicit AWFormatterHelper(QObject *parent = nullptr);
-    virtual ~AWFormatterHelper();
-    QString convert(const QVariant &value, const QString name) const;
-    QStringList definedFormatters() const;
+    explicit AWScriptFormatter(QObject *parent, const QString filename,
+                               const QString section);
+    explicit AWScriptFormatter(QObject *parent, const bool appendCode,
+                               const QString code, const bool hasReturn);
+    virtual ~AWScriptFormatter();
+    QString convert(const QVariant &value) const;
+    // properties
+    bool appendCode() const;
+    QString code() const;
+    bool hasReturn() const;
+    QString program() const;
+    void setAppendCode(const bool _appendCode);
+    void setCode(const QString _code);
+    void setHasReturn(const bool _hasReturn);
 
 private:
-    AWFormatterHelper::FormatterClass
-    defineFormatterClass(const QString name) const;
-    void init();
+    void init(const QString filename, const QString section);
+    void initProgram();
     // properties
-    QString m_genericConfig;
-    QHash<QString, AWAbstractFormatter *> m_formatters;
+    bool m_appendCode;
+    QString m_code;
+    bool m_hasReturn;
+    QString m_program;
 };
 
 
-#endif /* AWFORMATTERHELPER_H */
+#endif /* AWSCRIPTFORMATTER_H */
