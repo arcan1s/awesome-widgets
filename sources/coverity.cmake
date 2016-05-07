@@ -5,7 +5,6 @@ set(COVERITY_EMAIL "" CACHE STRING "Coverity user email")
 set(COVERITY_EXECUTABLE "cov-build" CACHE STRING "Path to coverity build tool")
 set(COVERITY_TOKEN "" CACHE STRING "Coverity token")
 set(COVERITY_URL "https://scan.coverity.com/builds?project=Awesome+Widgets" CACHE STRING "Coverity project url")
-set(CURL_EXECUTABLE "/usr/bin/curl" CACHE STRING "Path to curl executable")
 
 add_custom_target(
         coverity
@@ -19,7 +18,7 @@ add_custom_target(
 
 add_custom_target(
         coverity-upload
-        COMMAND ${CURL_EXECUTABLE}
+        COMMAND curl
         --form token=${COVERITY_TOKEN}
         --form email=${COVERITY_EMAIL}
         --form file=@${PROJECT_NAME}.zip

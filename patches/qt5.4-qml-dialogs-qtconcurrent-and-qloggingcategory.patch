@@ -352,3 +352,48 @@ index a8300f1..8edc3bd 100644
      // values
      Q_INVOKABLE QString infoByKey(QString key) const;
      Q_INVOKABLE QString valueByKey(QString key) const;
+diff --git a/sources/awdebug.cpp b/sources/awdebug.cpp
+index eee61e1..9da8dad 100644
+--- a/sources/awdebug.cpp
++++ b/sources/awdebug.cpp
+@@ -20,13 +20,10 @@
+ #include "awdebug.h"
+ 
+ 
+-Q_LOGGING_CATEGORY(LOG_AW, "org.kde.plasma.awesomewidget",
+-                   QtMsgType::QtWarningMsg)
+-Q_LOGGING_CATEGORY(LOG_DP, "org.kde.plasma.desktoppanel",
+-                   QtMsgType::QtWarningMsg)
+-Q_LOGGING_CATEGORY(LOG_ESM, "org.kde.plasma.extsysmon", QtMsgType::QtWarningMsg)
+-Q_LOGGING_CATEGORY(LOG_LIB, "org.kde.plasma.awesomewidgets",
+-                   QtMsgType::QtWarningMsg)
++Q_LOGGING_CATEGORY(LOG_AW, "org.kde.plasma.awesomewidget")
++Q_LOGGING_CATEGORY(LOG_DP, "org.kde.plasma.desktoppanel")
++Q_LOGGING_CATEGORY(LOG_ESM, "org.kde.plasma.extsysmon")
++Q_LOGGING_CATEGORY(LOG_LIB, "org.kde.plasma.awesomewidgets")
+ 
+ 
+ const QStringList getBuildData()
+diff --git a/sources/awesome-widget/plugin/awkeys.cpp b/sources/awesome-widget/plugin/awkeys.cpp
+index e5b9861..eb73073 100644
+--- a/sources/awesome-widget/plugin/awkeys.cpp
++++ b/sources/awesome-widget/plugin/awkeys.cpp
+@@ -439,4 +439,4 @@ void AWKeys::dataUpdated(const QString &sourceName,
+ {
+     // run concurrent data update
+-    QtConcurrent::run(m_threadPool, this, &AWKeys::setDataBySource, sourceName,
++    QtConcurrent::run(this, &AWKeys::setDataBySource, sourceName,
+                       data);
+diff --git a/sources/libraries.cmake b/sources/libraries.cmake
+index 33192f7..46e2b1e 100644
+--- a/sources/libraries.cmake
++++ b/sources/libraries.cmake
+@@ -2,7 +2,7 @@
+ find_package(Gettext REQUIRED)
+ 
+ # main qt libraries
+-find_package(Qt5 5.4.0 REQUIRED COMPONENTS Core DBus Network Qml Widgets)
++find_package(Qt5 5.3.0 REQUIRED COMPONENTS Core DBus Network Qml Widgets)
+ add_definitions(
+         ${Qt5Core_DEFINITIONS} ${Qt5DBus_DEFINITIONS} ${Qt5Network_DEFINITIONS}
+         ${Qt5Qml_DEFINITIONS} ${Qt5Widgets_DEFINITIONS}

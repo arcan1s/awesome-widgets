@@ -16,7 +16,7 @@ index 43944ce..c679281 100644
 +++ b/sources/awdebug.h
 @@ -21,9 +21,13 @@
  
- #include <QLoggingCategory>
+ #include "version.h"
  
 +#ifndef qCInfo
 +#define qCInfo qCDebug

@@ -1,6 +1,9 @@
 awesome-widgets (ex-pytextmonitor)
 ==================================
 
+[![Build Status](https://travis-ci.org/arcan1s/awesome-widgets.svg?branch=development)](https://travis-ci.org/arcan1s/awesome-widgets)
+[![Coverity Scan Build Status](https://scan.coverity.com/projects/8254/badge.svg)](https://scan.coverity.com/projects/awesome-widgets)
+
 Information
 -----------
 
