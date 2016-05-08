@@ -28,7 +28,6 @@
 
 #include "awdebug.h"
 #include "awupdatehelper.h"
-#include "version.h"
 
 
 AWActions::AWActions(QObject *parent)

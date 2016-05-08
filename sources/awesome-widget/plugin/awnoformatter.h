@@ -15,28 +15,27 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
+#ifndef AWNOFORMATTER_H
+#define AWNOFORMATTER_H
 
-#ifndef AWDEBUG_H
-#define AWDEBUG_H
-
-#include <QLoggingCategory>
-
-#include "version.h"
-
-#ifndef LOG_FORMAT
-#define LOG_FORMAT                                                             \
-    "[%{time process}][%{if-debug}DD%{endif}%{if-info}II%{endif}%{if-"         \
-    "warning}WW%{endif}%{if-critical}CC%{endif}%{if-fatal}FF%{endif}][%{"      \
-    "category}][%{function}] %{message}"
-#endif /* LOG_FORMAT */
+#include "awabstractformatter.h"
 
 
-Q_DECLARE_LOGGING_CATEGORY(LOG_AW)
-Q_DECLARE_LOGGING_CATEGORY(LOG_DP)
-Q_DECLARE_LOGGING_CATEGORY(LOG_ESM)
-Q_DECLARE_LOGGING_CATEGORY(LOG_LIB)
+class AWNoFormatter : public AWAbstractFormatter
+{
+    Q_OBJECT
 
-const QStringList getBuildData();
+public:
+    explicit AWNoFormatter(QObject *parent, const QString filename,
+                           const QString section);
+    explicit AWNoFormatter(QObject *parent);
+    virtual ~AWNoFormatter();
+    QString convert(const QVariant &value) const;
+
+private:
+    void init(const QString filename, const QString section);
+    // properties
+};
 
 
-#endif /* AWDEBUG_H */
+#endif /* AWNOFORMATTER_H */

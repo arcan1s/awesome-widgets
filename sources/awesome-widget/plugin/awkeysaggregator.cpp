@@ -24,6 +24,7 @@
 #include <QRegExp>
 
 #include "awdebug.h"
+#include "awformatterhelper.h"
 
 
 AWKeysAggregator::AWKeysAggregator(QObject *parent)
@@ -31,69 +32,73 @@ AWKeysAggregator::AWKeysAggregator(QObject *parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
-    // default formaters
+    // default formatters
     // memory
-    m_formater[QString("mem")] = FormaterType::Float;
-    m_formater[QString("memtotmb")] = FormaterType::MemMBFormat;
-    m_formater[QString("memtotgb")] = FormaterType::MemGBFormat;
+    m_formatter[QString("mem")] = FormatterType::Float;
+    m_formatter[QString("memtotmb")] = FormatterType::MemMBFormat;
+    m_formatter[QString("memtotgb")] = FormatterType::MemGBFormat;
     // network
-    m_formater[QString("down")] = FormaterType::NetSmartFormat;
-    m_formater[QString("downkb")] = FormaterType::Integer;
-    m_formater[QString("downunits")] = FormaterType::NetSmartUnits;
-    m_formater[QString("up")] = FormaterType::NetSmartFormat;
-    m_formater[QString("upkb")] = FormaterType::Integer;
-    m_formater[QString("upunits")] = FormaterType::NetSmartUnits;
+    m_formatter[QString("down")] = FormatterType::NetSmartFormat;
+    m_formatter[QString("downkb")] = FormatterType::Integer;
+    m_formatter[QString("downunits")] = FormatterType::NetSmartUnits;
+    m_formatter[QString("up")] = FormatterType::NetSmartFormat;
+    m_formatter[QString("upkb")] = FormatterType::Integer;
+    m_formatter[QString("upunits")] = FormatterType::NetSmartUnits;
     // swap
-    m_formater[QString("swap")] = FormaterType::Float;
-    m_formater[QString("swaptotmb")] = FormaterType::MemMBFormat;
-    m_formater[QString("swaptotgb")] = FormaterType::MemGBFormat;
+    m_formatter[QString("swap")] = FormatterType::Float;
+    m_formatter[QString("swaptotmb")] = FormatterType::MemMBFormat;
+    m_formatter[QString("swaptotgb")] = FormatterType::MemGBFormat;
+
+    m_customFormatters = new AWFormatterHelper(this);
 }
 
 
 AWKeysAggregator::~AWKeysAggregator()
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+
+    delete m_customFormatters;
 }
 
 
-QString AWKeysAggregator::formater(const QVariant &data,
-                                   const QString &key) const
+QString AWKeysAggregator::formatter(const QVariant &data,
+                                    const QString &key) const
 {
     qCDebug(LOG_AW) << "Data" << data << "for key" << key;
 
     QString output;
     QLocale loc = m_translate ? QLocale::system() : QLocale::c();
     // case block
-    switch (m_formater[key]) {
-    case FormaterType::Float:
+    switch (m_formatter[key]) {
+    case FormatterType::Float:
         output = QString("%1").arg(data.toFloat(), 5, 'f', 1);
         break;
-    case FormaterType::FloatTwoSymbols:
+    case FormatterType::FloatTwoSymbols:
         output = QString("%1").arg(data.toFloat(), 5, 'f', 2);
         break;
-    case FormaterType::Integer:
+    case FormatterType::Integer:
         output = QString("%1").arg(data.toFloat(), 4, 'f', 0);
         break;
-    case FormaterType::IntegerFive:
+    case FormatterType::IntegerFive:
         output = QString("%1").arg(data.toFloat(), 5, 'f', 0);
         break;
-    case FormaterType::IntegerThree:
+    case FormatterType::IntegerThree:
         output = QString("%1").arg(data.toFloat(), 3, 'f', 0);
         break;
-    case FormaterType::List:
+    case FormatterType::List:
         output = data.toStringList().join(QChar(','));
         break;
-    case FormaterType::ACFormat:
+    case FormatterType::ACFormat:
         output = data.toBool() ? m_acOnline : m_acOffline;
         break;
-    case FormaterType::MemGBFormat:
+    case FormatterType::MemGBFormat:
         output
             = QString("%1").arg(data.toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
         break;
-    case FormaterType::MemMBFormat:
+    case FormatterType::MemMBFormat:
         output = QString("%1").arg(data.toFloat() / 1024.0, 5, 'f', 0);
         break;
-    case FormaterType::NetSmartFormat:
+    case FormatterType::NetSmartFormat:
         output = [](const float value) {
             if (value > 1024.0)
                 return QString("%1").arg(value / 1024.0, 4, 'f', 1);
@@ -101,41 +106,45 @@ QString AWKeysAggregator::formater(const QVariant &data,
                 return QString("%1").arg(value, 4, 'f', 0);
         }(data.toFloat());
         break;
-    case FormaterType::NetSmartUnits:
+    case FormatterType::NetSmartUnits:
         if (data.toFloat() > 1024.0)
             output = m_translate ? i18n("MB/s") : QString("MB/s");
         else
             output = m_translate ? i18n("KB/s") : QString("KB/s");
         break;
-    case FormaterType::Quotes:
+    case FormatterType::Quotes:
         // first cast
         output = QString("%1").arg(data.toDouble(), 0, 'f');
         output = output.rightJustified(8, QLatin1Char(' '), true);
         break;
-    case FormaterType::Temperature:
+    case FormatterType::Temperature:
         output = QString("%1").arg(temperature(data.toFloat()), 5, 'f', 1);
         break;
-    case FormaterType::Time:
+    case FormatterType::Time:
         output = data.toDateTime().toString();
         break;
-    case FormaterType::TimeCustom:
+    case FormatterType::TimeCustom:
         output = m_customTime;
         [&output, loc, this](const QDateTime dt) {
             for (auto key : timeKeys)
                 output.replace(QString("$%1").arg(key), loc.toString(dt, key));
         }(data.toDateTime());
         break;
-    case FormaterType::TimeISO:
+    case FormatterType::TimeISO:
         output = data.toDateTime().toString(Qt::ISODate);
         break;
-    case FormaterType::TimeLong:
+    case FormatterType::TimeLong:
         output = loc.toString(data.toDateTime(), QLocale::LongFormat);
         break;
-    case FormaterType::TimeShort:
+    case FormatterType::TimeShort:
         output = loc.toString(data.toDateTime(), QLocale::ShortFormat);
         break;
-    case FormaterType::Uptime:
-    case FormaterType::UptimeCustom:
+    case FormatterType::Timestamp:
+        output = QString("%1").arg(
+            data.toDateTime().toMSecsSinceEpoch() / 1000.0, 10, 'f', 0);
+        break;
+    case FormatterType::Uptime:
+    case FormatterType::UptimeCustom:
         output =
             [](QString source, const int uptime) {
                 int seconds = uptime - uptime % 60;
@@ -152,12 +161,16 @@ QString AWKeysAggregator::formater(const QVariant &data,
                                QString("%1").arg(minutes, 2, 10, QChar('0')));
                 source.replace(QString("$m"), QString("%1").arg(minutes));
                 return source;
-            }(m_formater[key] == FormaterType::Uptime ? QString("$ddd$hhh$mmm")
-                                                      : m_customUptime,
+            }(m_formatter[key] == FormatterType::Uptime
+                  ? QString("$ddd$hhh$mmm")
+                  : m_customUptime,
               static_cast<int>(data.toFloat()));
         break;
-    case FormaterType::NoFormat:
+    case FormatterType::NoFormat:
         output = data.toString();
+        break;
+    case FormatterType::Custom:
+        output = m_customFormatters->convert(data, key);
         break;
     }
 
@@ -253,52 +266,52 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
     if (source == QString("battery/ac")) {
         // AC
         m_map[source] = QString("ac");
-        m_formater[QString("ac")] = FormaterType::ACFormat;
+        m_formatter[QString("ac")] = FormatterType::ACFormat;
     } else if (source.startsWith(QString("battery/"))) {
         // battery stats
         QString key = source;
         key.remove(QString("battery/"));
         m_map[source] = key;
-        m_formater[key] = FormaterType::IntegerThree;
+        m_formatter[key] = FormatterType::IntegerThree;
     } else if (source == QString("cpu/system/TotalLoad")) {
         // cpu
         m_map[source] = QString("cpu");
-        m_formater[QString("cpu")] = FormaterType::Float;
+        m_formatter[QString("cpu")] = FormatterType::Float;
     } else if (source.contains(cpuRegExp)) {
         // cpus
         QString key = source;
         key.remove(QString("cpu/")).remove(QString("/TotalLoad"));
         m_map[source] = key;
-        m_formater[key] = FormaterType::Float;
+        m_formatter[key] = FormatterType::Float;
     } else if (source == QString("cpu/system/AverageClock")) {
         // cpucl
         m_map[source] = QString("cpucl");
-        m_formater[QString("cpucl")] = FormaterType::Integer;
+        m_formatter[QString("cpucl")] = FormatterType::Integer;
     } else if (source.contains(cpuclRegExp)) {
         // cpucls
         QString key = source;
         key.remove(QString("cpu/cpu")).remove(QString("/clock"));
         key = QString("cpucl%1").arg(key);
         m_map[source] = key;
-        m_formater[key] = FormaterType::Integer;
+        m_formatter[key] = FormatterType::Integer;
     } else if (source.startsWith(QString("custom"))) {
         // custom
         QString key = source;
         key.remove(QString("custom/"));
         m_map[source] = key;
-        m_formater[key] = FormaterType::NoFormat;
+        m_formatter[key] = FormatterType::NoFormat;
     } else if (source == QString("desktop/current/name")) {
         // current desktop name
         m_map[source] = QString("desktop");
-        m_formater[QString("desktop")] = FormaterType::NoFormat;
+        m_formatter[QString("desktop")] = FormatterType::NoFormat;
     } else if (source == QString("desktop/current/number")) {
         // current desktop number
         m_map[source] = QString("ndesktop");
-        m_formater[QString("ndesktop")] = FormaterType::NoFormat;
+        m_formatter[QString("ndesktop")] = FormatterType::NoFormat;
     } else if (source == QString("desktop/total/number")) {
         // desktop count
         m_map[source] = QString("tdesktops");
-        m_formater[QString("tdesktops")] = FormaterType::NoFormat;
+        m_formatter[QString("tdesktops")] = FormatterType::NoFormat;
     } else if (source.contains(hddrRegExp)) {
         // read speed
         QString device = source;
@@ -307,7 +320,7 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
         if (index > -1) {
             QString key = QString("hddr%1").arg(index);
             m_map[source] = key;
-            m_formater[key] = FormaterType::Integer;
+            m_formatter[key] = FormatterType::Integer;
         }
     } else if (source.contains(hddwRegExp)) {
         // write speed
@@ -317,16 +330,16 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
         if (index > -1) {
             QString key = QString("hddw%1").arg(index);
             m_map[source] = key;
-            m_formater[key] = FormaterType::Integer;
+            m_formatter[key] = FormatterType::Integer;
         }
     } else if (source == QString("gpu/load")) {
         // gpu load
         m_map[source] = QString("gpu");
-        m_formater[QString("gpu")] = FormaterType::Float;
+        m_formatter[QString("gpu")] = FormatterType::Float;
     } else if (source == QString("gpu/temperature")) {
         // gpu temperature
         m_map[source] = QString("gputemp");
-        m_formater[QString("gputemp")] = FormaterType::Temperature;
+        m_formatter[QString("gputemp")] = FormatterType::Temperature;
     } else if (source.contains(mountFillRegExp)) {
         // fill level
         QString device = source;
@@ -335,12 +348,12 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
         if (index > -1) {
             QString key = QString("hdd%1").arg(index);
             m_map[source] = key;
-            m_formater[key] = FormaterType::Float;
+            m_formatter[key] = FormatterType::Float;
             // additional keys
-            m_formater[QString("hddtotmb%1").arg(index)]
-                = FormaterType::MemMBFormat;
-            m_formater[QString("hddtotgb%1").arg(index)]
-                = FormaterType::MemGBFormat;
+            m_formatter[QString("hddtotmb%1").arg(index)]
+                = FormatterType::MemMBFormat;
+            m_formatter[QString("hddtotgb%1").arg(index)]
+                = FormatterType::MemGBFormat;
         }
     } else if (source.contains(mountFreeRegExp)) {
         // free space
@@ -351,11 +364,11 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
             // mb
             QString key = QString("hddfreemb%1").arg(index);
             m_map[source] = key;
-            m_formater[key] = FormaterType::MemMBFormat;
+            m_formatter[key] = FormatterType::MemMBFormat;
             // gb
             key = QString("hddfreegb%1").arg(index);
             m_map.insertMulti(source, key);
-            m_formater[key] = FormaterType::MemGBFormat;
+            m_formatter[key] = FormatterType::MemGBFormat;
         }
     } else if (source.contains(mountUsedRegExp)) {
         // used
@@ -366,11 +379,11 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
             // mb
             QString key = QString("hddmb%1").arg(index);
             m_map[source] = key;
-            m_formater[key] = FormaterType::MemMBFormat;
+            m_formatter[key] = FormatterType::MemMBFormat;
             // gb
             key = QString("hddgb%1").arg(index);
             m_map.insertMulti(source, key);
-            m_formater[key] = FormaterType::MemGBFormat;
+            m_formatter[key] = FormatterType::MemGBFormat;
         }
     } else if (source.startsWith(QString("hdd/temperature"))) {
         // hdd temperature
@@ -380,7 +393,7 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
         if (index > -1) {
             QString key = QString("hddtemp%1").arg(index);
             m_map[source] = key;
-            m_formater[key] = FormaterType::Temperature;
+            m_formatter[key] = FormatterType::Temperature;
         }
     } else if (source.startsWith(QString("cpu/system/loadavg"))) {
         // load average
@@ -388,35 +401,35 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
         time.remove(QString("cpu/system/loadavg"));
         QString key = QString("la%1").arg(time);
         m_map[source] = key;
-        m_formater[key] = FormaterType::FloatTwoSymbols;
+        m_formatter[key] = FormatterType::FloatTwoSymbols;
     } else if (source == QString("mem/physical/application")) {
         // app memory
         // mb
         m_map[source] = QString("memmb");
-        m_formater[QString("memmb")] = FormaterType::MemMBFormat;
+        m_formatter[QString("memmb")] = FormatterType::MemMBFormat;
         // gb
         m_map.insertMulti(source, QString("memgb"));
-        m_formater[QString("memgb")] = FormaterType::MemGBFormat;
+        m_formatter[QString("memgb")] = FormatterType::MemGBFormat;
     } else if (source == QString("mem/physical/free")) {
         // free memory
         // mb
         m_map[source] = QString("memfreemb");
-        m_formater[QString("memfreemb")] = FormaterType::MemMBFormat;
+        m_formatter[QString("memfreemb")] = FormatterType::MemMBFormat;
         // gb
         m_map.insertMulti(source, QString("memfreegb"));
-        m_formater[QString("memfreegb")] = FormaterType::MemGBFormat;
+        m_formatter[QString("memfreegb")] = FormatterType::MemGBFormat;
     } else if (source == QString("mem/physical/used")) {
         // used memory
         // mb
         m_map[source] = QString("memusedmb");
-        m_formater[QString("memusedmb")] = FormaterType::MemMBFormat;
+        m_formatter[QString("memusedmb")] = FormatterType::MemMBFormat;
         // gb
         m_map.insertMulti(source, QString("memusedgb"));
-        m_formater[QString("memusedgb")] = FormaterType::MemGBFormat;
+        m_formatter[QString("memusedgb")] = FormatterType::MemGBFormat;
     } else if (source == QString("network/current/name")) {
         // network device
         m_map[source] = QString("netdev");
-        m_formater[QString("netdev")] = FormaterType::NoFormat;
+        m_formatter[QString("netdev")] = FormatterType::NoFormat;
     } else if (source.contains(netRegExp)) {
         // network speed
         QString type = source.contains(QString("receiver")) ? QString("down")
@@ -427,15 +440,15 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
             // kb
             QString key = QString("%1kb%2").arg(type).arg(index);
             m_map[source] = key;
-            m_formater[key] = FormaterType::Integer;
+            m_formatter[key] = FormatterType::Integer;
             // smart
             key = QString("%1%2").arg(type).arg(index);
             m_map.insertMulti(source, key);
-            m_formater[key] = FormaterType::NetSmartFormat;
+            m_formatter[key] = FormatterType::NetSmartFormat;
             // units
             key = QString("%1units%2").arg(type).arg(index);
             m_map.insertMulti(source, key);
-            m_formater[key] = FormaterType::NetSmartUnits;
+            m_formatter[key] = FormatterType::NetSmartUnits;
         }
     } else if (source.contains(netTotalRegExp)) {
         // network data total
@@ -447,58 +460,58 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
             // kb
             QString key = QString("%1totalkb%2").arg(type).arg(index);
             m_map[source] = key;
-            m_formater[key] = FormaterType::Integer;
+            m_formatter[key] = FormatterType::Integer;
             // mb
             key = QString("%1total%2").arg(type).arg(index);
             m_map.insertMulti(source, key);
-            m_formater[key] = FormaterType::MemMBFormat;
+            m_formatter[key] = FormatterType::MemMBFormat;
         }
     } else if (source.startsWith(QString("upgrade"))) {
         // package manager
         QString key = source;
         key.remove(QString("upgrade/"));
         m_map[source] = key;
-        m_formater[key] = FormaterType::IntegerThree;
+        m_formatter[key] = FormatterType::IntegerThree;
     } else if (source.startsWith(QString("player"))) {
         // player
         QString key = source;
         key.remove(QString("player/"));
         m_map[source] = key;
-        m_formater[key] = FormaterType::NoFormat;
+        m_formatter[key] = FormatterType::NoFormat;
     } else if (source == QString("ps/running/count")) {
         // running processes count
         m_map[source] = QString("pscount");
-        m_formater[QString("pscount")] = FormaterType::NoFormat;
+        m_formatter[QString("pscount")] = FormatterType::NoFormat;
     } else if (source == QString("ps/running/list")) {
         // list of running processes
         m_map[source] = QString("ps");
-        m_formater[QString("ps")] = FormaterType::List;
+        m_formatter[QString("ps")] = FormatterType::List;
     } else if (source == QString("ps/total/count")) {
         // total processes count
         m_map[source] = QString("pstotal");
-        m_formater[QString("pstotal")] = FormaterType::NoFormat;
+        m_formatter[QString("pstotal")] = FormatterType::NoFormat;
     } else if (source.startsWith(QString("quotes"))) {
         // quotes
         QString key = source;
         key.remove(QString("quotes/"));
         m_map[source] = key;
-        m_formater[key] = FormaterType::Quotes;
+        m_formatter[key] = FormatterType::Quotes;
     } else if (source == QString("mem/swap/free")) {
         // free swap
         // mb
         m_map[source] = QString("swapfreemb");
-        m_formater[QString("swapfreemb")] = FormaterType::MemMBFormat;
+        m_formatter[QString("swapfreemb")] = FormatterType::MemMBFormat;
         // gb
         m_map.insertMulti(source, QString("swapfreegb"));
-        m_formater[QString("swapfreegb")] = FormaterType::MemGBFormat;
+        m_formatter[QString("swapfreegb")] = FormatterType::MemGBFormat;
     } else if (source == QString("mem/swap/used")) {
         // used swap
         // mb
         m_map[source] = QString("swapmb");
-        m_formater[QString("swapmb")] = FormaterType::MemMBFormat;
+        m_formatter[QString("swapmb")] = FormatterType::MemMBFormat;
         // gb
         m_map.insertMulti(source, QString("swapgb"));
-        m_formater[QString("swapgb")] = FormaterType::MemGBFormat;
+        m_formatter[QString("swapgb")] = FormatterType::MemGBFormat;
     } else if (source.startsWith(QString("lmsensors/"))) {
         // temperature
         int index = m_devices[QString("temp")].indexOf(source);
@@ -508,64 +521,80 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
         if (index > -1) {
             QString key = QString("temp%1").arg(index);
             m_map[source] = key;
-            m_formater[key] = units == QString("°C") ? FormaterType::Temperature
-                                                     : FormaterType::Integer;
+            m_formatter[key] = units == QString("°C")
+                                   ? FormatterType::Temperature
+                                   : FormatterType::Integer;
         }
     } else if (source == QString("Local")) {
         // time
         m_map[source] = QString("time");
-        m_formater[QString("time")] = FormaterType::Time;
+        m_formatter[QString("time")] = FormatterType::Time;
         // custom time
         m_map.insertMulti(source, QString("ctime"));
-        m_formater[QString("ctime")] = FormaterType::TimeCustom;
+        m_formatter[QString("ctime")] = FormatterType::TimeCustom;
         // ISO time
         m_map.insertMulti(source, QString("isotime"));
-        m_formater[QString("isotime")] = FormaterType::TimeISO;
+        m_formatter[QString("isotime")] = FormatterType::TimeISO;
         // long time
         m_map.insertMulti(source, QString("longtime"));
-        m_formater[QString("longtime")] = FormaterType::TimeLong;
+        m_formatter[QString("longtime")] = FormatterType::TimeLong;
         // short time
         m_map.insertMulti(source, QString("shorttime"));
-        m_formater[QString("shorttime")] = FormaterType::TimeShort;
+        m_formatter[QString("shorttime")] = FormatterType::TimeShort;
+        // timestamp
+        m_map.insertMulti(source, QString("tstime"));
+        m_formatter[QString("tstime")] = FormatterType::Timestamp;
     } else if (source == QString("system/uptime")) {
         // uptime
         m_map[source] = QString("uptime");
-        m_formater[QString("uptime")] = FormaterType::Uptime;
+        m_formatter[QString("uptime")] = FormatterType::Uptime;
         // custom uptime
         m_map.insertMulti(source, QString("cuptime"));
-        m_formater[QString("cuptime")] = FormaterType::UptimeCustom;
+        m_formatter[QString("cuptime")] = FormatterType::UptimeCustom;
     } else if (source.startsWith(QString("weather/temperature"))) {
         // temperature
         QString key = source;
         key.remove(QString("weather/"));
         m_map[source] = key;
-        m_formater[key] = FormaterType::Temperature;
+        m_formatter[key] = FormatterType::Temperature;
     } else if (source.startsWith(QString("weather/"))) {
         // other weather
         QString key = source;
         key.remove(QString("weather/"));
         m_map[source] = key;
-        m_formater[key] = FormaterType::NoFormat;
+        m_formatter[key] = FormatterType::NoFormat;
     } else if (source.startsWith(QString("load/load"))) {
         // load source
         QString key = source;
         key.remove(QString("load/"));
         m_map[source] = key;
-        m_formater[key] = FormaterType::Temperature;
+        m_formatter[key] = FormatterType::Temperature;
+    }
+
+    QStringList foundKeys = keysFromSource(source);
+
+    // rewrite formatters for custom ones
+    QStringList customFormattersKeys = m_customFormatters->definedFormatters();
+    qCInfo(LOG_AW) << "Looking for fprmatters" << foundKeys << "in"
+                   << customFormattersKeys;
+    for (auto key : foundKeys) {
+        if (!customFormattersKeys.contains(key))
+            continue;
+        m_formatter[key] = FormatterType::Custom;
     }
 
     // drop key from dictionary if no one user requested key required it
-    QStringList foundKeys = keysFromSource(source);
     qCInfo(LOG_AW) << "Looking for keys" << foundKeys << "in" << keys;
-    // this source is required if list is empty (which means skip checking)
-    // or if key in required key list
     bool required
         = keys.isEmpty() || std::any_of(foundKeys.cbegin(), foundKeys.cend(),
                                         [&keys](const QString &key) {
                                             return keys.contains(key);
                                         });
-    if (!required)
+    if (!required) {
         m_map.remove(source);
+        for (auto key : foundKeys)
+            m_formatter.remove(key);
+    }
 
     return keysFromSource(source);
 }

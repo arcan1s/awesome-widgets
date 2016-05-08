@@ -40,8 +40,8 @@
     "dddd,ddd,dd,d,MMMM,MMM,MM,M,yyyy,yy,hh,h,HH,H,mm,m,ss,s,t,ap,a,AP,A"
 // static keys
 #define STATIC_KEYS                                                            \
-    "time,isotime,shorttime,longtime,ctime,uptime,cuptime,cpucl,cpu,gputemp,"  \
-    "gpu,memmb,memgb,memfreemb,memfreegb,memtotmb,memtotgb,memusedmb,"         \
+    "time,isotime,shorttime,longtime,tstime,ctime,uptime,cuptime,cpucl,cpu,"   \
+    "gputemp,gpu,memmb,memgb,memfreemb,memfreegb,memtotmb,memtotgb,memusedmb," \
     "memusedgb,mem,swapmb,swapgb,swapfreemb,swapfreegb,swaptotmb,swaptotgb,"   \
     "swap,downunits,upunits,downkb,downtotalkb,downtotal,down,uptotalkb,"      \
     "uptotal,upkb,up,netdev,ac,bat,album,artist,duration,progress,title,"      \
@@ -78,10 +78,16 @@
 #define CMAKE_MODULE_LINKER_FLAGS "@CMAKE_MODULE_LINKER_FLAGS@"
 #define CMAKE_SHARED_LINKER_FLAGS "@CMAKE_SHARED_LINKER_FLAGS@"
 // components
+#define BUILD_COVERAGE "@BUILD_COVERAGE@"
 #define BUILD_PLASMOIDS "@BUILD_PLASMOIDS@"
 #define BUILD_DEB_PACKAGE "@BUILD_DEB_PACKAGE@"
 #define BUILD_RPM_PACKAGE "@BUILD_RPM_PACKAGE@"
 #define CLANGFORMAT_EXECUTABLE "@CLANGFORMAT_EXECUTABLE@"
+#define COVERITY_COMMENT "@COVERITY_COMMENT@"
+#define COVERITY_DIRECTORY "@COVERITY_DIRECTORY@"
+#define COVERITY_EMAIL "@COVERITY_EMAIL@"
+#define COVERITY_EXECUTABLE "@COVERITY_EXECUTABLE@"
+#define COVERITY_URL "@COVERITY_URL@"
 #define CPPCHECK_EXECUTABLE "@CPPCHECK_EXECUTABLE@"
 // additional functions
 #define PROP_FUTURE "@BUILD_FUTURE@"

@@ -25,7 +25,6 @@
 
 #include "awdebug.h"
 #include "extsysmonaggregator.h"
-#include "version.h"
 
 
 ExtendedSysMon::ExtendedSysMon(QObject *parent, const QVariantList &args)

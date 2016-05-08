@@ -31,7 +31,6 @@
 #include <qreplytimeout/qreplytimeout.h>
 
 #include "awdebug.h"
-#include "version.h"
 
 
 ExtQuotes::ExtQuotes(QWidget *parent, const QString quotesName,

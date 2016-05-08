@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
 "POT-Creation-Date: 2016-04-29 12:21+0300\n"
-"PO-Revision-Date: 2015-09-27 12:37+0300\n"
+"PO-Revision-Date: 2016-05-05 17:18+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Ukrainian <kde-russian@lists.kde.ru>\n"
-"Language: ua\n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 msgid "Widget"
 msgstr "Віджет"
@@ -42,7 +42,6 @@ msgstr "Подяка"
 msgid "Enable background"
 msgstr "Включити фон"
 
-#, fuzzy
 msgid "Translate strings"
 msgstr "Перекладати рядки"
 
@@ -55,12 +54,11 @@ msgstr "Включити перенос слів"
 msgid "Enable notifications"
 msgstr "Включити повідомлення"
 
-#, fuzzy
 msgid "Check updates on startup"
 msgstr "Перевіряти оновлення при запуску"
 
 msgid "Optimize subscription"
-msgstr ""
+msgstr "Оптимізувати підписку"
 
 msgid "Widget height, px"
 msgstr "Висота віджету, пікселі"
@@ -113,43 +111,38 @@ msgstr "AC відключений"
 msgid "Drop key cache"
 msgstr "Скинути кеш ключів"
 
-#, fuzzy
 msgid "Export configuration"
-msgstr "Налаштування"
+msgstr "Експорт налаштувань"
 
 msgid "Export"
-msgstr ""
+msgstr "Експорт"
 
 msgid "Success"
-msgstr ""
+msgstr "Успішно"
 
 msgid "Please note that binary files were not copied"
-msgstr ""
+msgstr "Будь ласка, зверніть увагу, що бінарні файли не були скопійовані"
 
 msgid "Ooops..."
-msgstr ""
+msgstr "Ууупс..."
 
-#, fuzzy
 msgid "Could not save configuration file"
-msgstr "Налаштування"
+msgstr "Не можу зберегти файл налаштувань"
 
-#, fuzzy
 msgid "Import configuration"
-msgstr "Налаштування"
+msgstr "Імпорт налаштувань"
 
 msgid "Import"
-msgstr ""
+msgstr "Імпорт"
 
 msgid "Import plasmoid settings"
-msgstr ""
+msgstr "Імпорт налаштувань плазмоїда"
 
-#, fuzzy
 msgid "Import extensions"
-msgstr "Розширення"
+msgstr "Імпорт розширень"
 
-#, fuzzy
 msgid "Import additional files"
-msgstr "Додаткові фільтри"
+msgstr "Імпорт додаткових файлів"
 
 msgid "Font"
 msgstr "Шрифт"
@@ -190,9 +183,8 @@ msgstr "Оберіть колір"
 msgid "Select a font"
 msgstr "Оберіть шрифт"
 
-#, fuzzy
 msgid "ACPI"
-msgstr "Шлях до ACPI"
+msgstr "ACPI"
 
 msgid "ACPI path"
 msgstr "Шлях до ACPI"
@@ -203,7 +195,6 @@ msgstr "GPU"
 msgid "GPU device"
 msgstr "Пристій GPU"
 
-#, fuzzy
 msgid "HDD temperature"
 msgstr "Температура HDD"
 
@@ -255,7 +246,6 @@ msgstr "Редагувати команду"
 msgid "Weather"
 msgstr "Погода"
 
-#, fuzzy
 msgid "Edit weather"
 msgstr "Редагувати погоду"
 
@@ -280,14 +270,13 @@ msgstr "Показати README"
 msgid "Check updates"
 msgstr "Шукати оновлення"
 
-#, fuzzy
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
 "To enable them just make needed checkbox checked."
 msgstr ""
 "Поля \"CPU\", \"Частота CPU\", \"Пам’ять\", \"Swap\" та \"Мережа\" "
-"підтримують графічні підказки. Щоб їх задіяти, просто зробіть необхідні "
-"чекбокси повністю чекнутими."
+"підтримують графічні підказки. Щоб їх задіяти, просто виділіть необхідні "
+"чекбокси."
 
 msgid "Number of values for tooltips"
 msgstr "Кількість значень для підказки"
@@ -295,7 +284,6 @@ msgstr "Кількість значень для підказки"
 msgid "Background"
 msgstr "Фон"
 
-#, fuzzy
 msgid "Background color"
 msgstr "Колір фону"
 
@@ -305,7 +293,6 @@ msgstr "CPU"
 msgid "CPU color"
 msgstr "Колір CPU"
 
-#, fuzzy
 msgid "CPU clock"
 msgstr "Частота CPU"
 
@@ -349,9 +336,8 @@ msgstr ""
 "Детальна інформація може бути знайдена на <a href=\"https://arcanis.me/"
 "projects/awesome-widgets/\">домашній сторінці проекту</a>"
 
-#, fuzzy
 msgid "Bgcolor"
-msgstr "Колір CPU"
+msgstr "Колір фону"
 
 msgid "AC"
 msgstr "Адаптер живлення"
@@ -362,27 +348,23 @@ msgstr "Бари"
 msgid "Desktops"
 msgstr "Робочі столи"
 
-#, fuzzy
 msgid "Scripts"
 msgstr "Скрипти"
 
-#, fuzzy
 msgid "Time"
 msgstr "Час"
 
-#, fuzzy
 msgid "Quotes"
 msgstr "Котирування"
 
 msgid "Upgrades"
 msgstr "Оновлення"
 
-#, fuzzy
 msgid "Weathers"
 msgstr "Погода"
 
 msgid "Functions"
-msgstr ""
+msgstr "Функції"
 
 msgid "Add"
 msgstr "Додати"
@@ -436,7 +418,7 @@ msgid "This software uses: %1"
 msgstr "Ця програма використовує: %1"
 
 msgid "Special thanks to %1"
-msgstr ""
+msgstr "Особлива подяка %1"
 
 msgid "Select font"
 msgstr "Оберіть шрифт"
@@ -469,12 +451,11 @@ msgid "KB/s"
 msgstr "КБ/с"
 
 msgid "Changelog of %1"
-msgstr ""
+msgstr "Список змін %1"
 
 msgid "You are using the actual version %1"
 msgstr "Ви використовуєте актуальну версію %1"
 
-#, fuzzy
 msgid "No new version found"
 msgstr "Оновлень не знайдено"
 
@@ -511,7 +492,6 @@ msgstr "Ім’я: %1"
 msgid "Comment: %1"
 msgstr "Коментар: %1"
 
-#, fuzzy
 msgid "Identity: %1"
 msgstr "Ідентифікатор: %1"
 
@@ -535,19 +515,15 @@ msgstr ""
 "style=\" text-decoration: underline; color:#0057ae;\">http://finance.yahoo."
 "com/</span></a></p></body></html>"
 
-#, fuzzy
 msgid "Ticker"
-msgstr "Тікер: %1"
+msgstr "Тікер"
 
-#, fuzzy
 msgid "Active"
 msgstr "Активний"
 
-#, fuzzy
 msgid "Interval"
 msgstr "Інтервал"
 
-#, fuzzy
 msgid "Command"
 msgstr "Команда"
 
@@ -560,7 +536,6 @@ msgstr "Перенаправлення"
 msgid "Additional filters"
 msgstr "Додаткові фільтри"
 
-#, fuzzy
 msgid "Wrap colors"
 msgstr "Обробити кольори"
 
@@ -579,41 +554,35 @@ msgstr "Місто"
 msgid "Country"
 msgstr "Країна"
 
-#, fuzzy
 msgid "Timestamp"
 msgstr "Відмітка часу"
 
 msgid "Use images"
 msgstr "Використовувати зображення"
 
-#, fuzzy
 msgid "Use custom formula"
-msgstr "Свій формат часу"
+msgstr "Використовувати свою формулу"
 
 msgid "Value"
 msgstr "Значення"
 
-#, fuzzy
 msgid "Max value"
-msgstr "Показати значення"
+msgstr "Максимальне значення"
 
-#, fuzzy
 msgid "Min value"
-msgstr "Показати значення"
+msgstr "Мінімальне значення"
 
-#, fuzzy
 msgid "Active filling type"
-msgstr "Активний"
+msgstr "Тип активного заповнення"
 
-#, fuzzy
 msgid "Inctive filling type"
-msgstr "Неактивний робочий стіл"
+msgstr "Тип неактивного заповнення"
 
 msgid "Type"
 msgstr "Тип"
 
 msgid "Points count"
-msgstr ""
+msgstr "Кількість точок"
 
 msgid "Direction"
 msgstr "Напрямок"
@@ -624,13 +593,11 @@ msgstr "Висота"
 msgid "Width"
 msgstr "Ширина"
 
-#, fuzzy
 msgid "color"
-msgstr "Колір CPU"
+msgstr "колір"
 
-#, fuzzy
 msgid "image"
-msgstr "Використовувати зображення"
+msgstr "зображення"
 
 msgid "Active desktop"
 msgstr "Активний робочий стіл"

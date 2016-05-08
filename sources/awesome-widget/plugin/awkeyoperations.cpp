@@ -25,7 +25,6 @@
 #include "awdebug.h"
 #include "awkeycache.h"
 #include "awpatternfunctions.h"
-#include "version.h"
 // extensions
 #include "extquotes.h"
 #include "extscript.h"

@@ -26,7 +26,6 @@
 #include <QTextCodec>
 
 #include "awdebug.h"
-#include "version.h"
 
 
 ExtUpgrade::ExtUpgrade(QWidget *parent, const QString upgradeName,

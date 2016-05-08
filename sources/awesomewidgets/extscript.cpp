@@ -28,7 +28,6 @@
 #include <QTextCodec>
 
 #include "awdebug.h"
-#include "version.h"
 
 
 ExtScript::ExtScript(QWidget *parent, const QString scriptName,

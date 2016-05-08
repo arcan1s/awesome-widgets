@@ -1,3 +1,25 @@
+Ver.3.1.2:
++ add standalone widget configuration example
++ new tag tstime
++ new tags uptotal* and downtotal*
++ add background configuration button
++ allow X-AW-Direction property works with graphs and bars (graphical items)
++ add bars support to Graphical Items
++ add integration with transifex
++ add integration with coverity
+- drop update source (breaking changes if you are using it as developer)
+- fix pen generation from file image (graphical items)
+- fix bug with which font html parameters will be pasted even if there cancel clicked
+- fix bug with invalid total memory formating
+- fix bug in configuration UI with which there is no selected text pasted
+- fixes in graphical item configuration UI and behaviour
+- fix changelog building
+- fix invalid cast (found by coverity)
+* change text update mechanism
+* grahical item improvements
+* code improvements
+* translation update
+
 Ver.3.1.1:
 - fix broken gcc build (#87)
 * translation update

@@ -15,28 +15,32 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
+#ifndef AWDATETIMEFORMATTER_H
+#define AWDATETIMEFORMATTER_H
 
-#ifndef AWDEBUG_H
-#define AWDEBUG_H
-
-#include <QLoggingCategory>
-
-#include "version.h"
-
-#ifndef LOG_FORMAT
-#define LOG_FORMAT                                                             \
-    "[%{time process}][%{if-debug}DD%{endif}%{if-info}II%{endif}%{if-"         \
-    "warning}WW%{endif}%{if-critical}CC%{endif}%{if-fatal}FF%{endif}][%{"      \
-    "category}][%{function}] %{message}"
-#endif /* LOG_FORMAT */
+#include "awabstractformatter.h"
 
 
-Q_DECLARE_LOGGING_CATEGORY(LOG_AW)
-Q_DECLARE_LOGGING_CATEGORY(LOG_DP)
-Q_DECLARE_LOGGING_CATEGORY(LOG_ESM)
-Q_DECLARE_LOGGING_CATEGORY(LOG_LIB)
+class AWDateTimeFormatter : public AWAbstractFormatter
+{
+    Q_OBJECT
+    Q_PROPERTY(QString format READ format WRITE setFormat)
 
-const QStringList getBuildData();
+public:
+    explicit AWDateTimeFormatter(QObject *parent, const QString filename,
+                                 const QString section);
+    explicit AWDateTimeFormatter(QObject *parent, const QString format);
+    virtual ~AWDateTimeFormatter();
+    QString convert(const QVariant &value) const;
+    // properties
+    QString format() const;
+    void setFormat(const QString _format);
+
+private:
+    void init(const QString filename, const QString section);
+    // properties
+    QString m_format;
+};
 
 
-#endif /* AWDEBUG_H */
+#endif /* AWDATETIMEFORMATTER_H */

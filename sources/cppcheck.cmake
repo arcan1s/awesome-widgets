@@ -16,6 +16,7 @@ add_custom_target(
         COMMAND ${CPPCHECK_EXECUTABLE}
         --enable=warning,performance,portability,information,missingInclude
         --std=c++11
+        --language=c++
         --library=qt.cfg
         --template="[{severity}][{id}] {message} {callstack} \(On {file}:{line}\)"
         --verbose

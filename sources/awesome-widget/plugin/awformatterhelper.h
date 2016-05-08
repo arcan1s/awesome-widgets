@@ -16,27 +16,34 @@
  ***************************************************************************/
 
 
-#ifndef AWDEBUG_H
-#define AWDEBUG_H
+#ifndef AWFORMATTERHELPER_H
+#define AWFORMATTERHELPER_H
 
-#include <QLoggingCategory>
+#include <QObject>
 
-#include "version.h"
-
-#ifndef LOG_FORMAT
-#define LOG_FORMAT                                                             \
-    "[%{time process}][%{if-debug}DD%{endif}%{if-info}II%{endif}%{if-"         \
-    "warning}WW%{endif}%{if-critical}CC%{endif}%{if-fatal}FF%{endif}][%{"      \
-    "category}][%{function}] %{message}"
-#endif /* LOG_FORMAT */
+#include "awabstractformatter.h"
 
 
-Q_DECLARE_LOGGING_CATEGORY(LOG_AW)
-Q_DECLARE_LOGGING_CATEGORY(LOG_DP)
-Q_DECLARE_LOGGING_CATEGORY(LOG_ESM)
-Q_DECLARE_LOGGING_CATEGORY(LOG_LIB)
+class AWFormatterHelper : public QObject
+{
+    Q_OBJECT
 
-const QStringList getBuildData();
+public:
+    enum class FormatterClass { DateTime, Float, Script, NoFormat };
+
+    explicit AWFormatterHelper(QObject *parent = nullptr);
+    virtual ~AWFormatterHelper();
+    QString convert(const QVariant &value, const QString name) const;
+    QStringList definedFormatters() const;
+
+private:
+    AWFormatterHelper::FormatterClass
+    defineFormatterClass(const QString name) const;
+    void init();
+    // properties
+    QString m_genericConfig;
+    QHash<QString, AWAbstractFormatter *> m_formatters;
+};
 
 
-#endif /* AWDEBUG_H */
+#endif /* AWFORMATTERHELPER_H */

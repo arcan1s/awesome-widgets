@@ -37,7 +37,7 @@ class ExtScript : public AbstractExtItem
     Q_PROPERTY(Redirect redirect READ redirect WRITE setRedirect)
 
 public:
-    enum class Redirect { stdout2stderr = 0, nothing, stderr2stdout, swap };
+    enum class Redirect { stdout2stderr, nothing, stderr2stdout, swap };
 
     explicit ExtScript(QWidget *parent = nullptr,
                        const QString scriptName = QString(),

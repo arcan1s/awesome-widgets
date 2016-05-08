@@ -17,7 +17,6 @@
 
 
 #include "awdebug.h"
-#include "version.h"
 
 
 Q_LOGGING_CATEGORY(LOG_AW, "org.kde.plasma.awesomewidget",
@@ -46,6 +45,7 @@ const QStringList getBuildData()
     metadata.append(QString("    AWEUAPI: %1").arg(AWEUAPI));
     metadata.append(QString("    AWEWAPI: %1").arg(AWEWAPI));
     metadata.append(QString("    TIME_KEYS: %1").arg(TIME_KEYS));
+    metadata.append(QString("    STATIC_KEYS: %1").arg(STATIC_KEYS));
     // cmake properties
     metadata.append(QString("cmake properties:"));
     metadata.append(QString("    CMAKE_BUILD_TYPE: %1").arg(CMAKE_BUILD_TYPE));
@@ -68,6 +68,7 @@ const QStringList getBuildData()
                         .arg(CMAKE_SHARED_LINKER_FLAGS));
     // components
     metadata.append(QString("Components data:"));
+    metadata.append(QString("    BUILD_COVERAGE: %1").arg(BUILD_COVERAGE));
     metadata.append(QString("    BUILD_PLASMOIDS: %1").arg(BUILD_PLASMOIDS));
     metadata.append(
         QString("    BUILD_DEB_PACKAGE: %1").arg(BUILD_DEB_PACKAGE));
@@ -75,8 +76,16 @@ const QStringList getBuildData()
         QString("    BUILD_RPM_PACKAGE: %1").arg(BUILD_RPM_PACKAGE));
     metadata.append(
         QString("    CLANGFORMAT_EXECUTABLE: %1").arg(CLANGFORMAT_EXECUTABLE));
+    metadata.append(QString("    COVERITY_COMMENT: %1").arg(COVERITY_COMMENT));
+    metadata.append(
+        QString("    COVERITY_DIRECTORY: %1").arg(COVERITY_DIRECTORY));
+    metadata.append(QString("    COVERITY_EMAIL: %1").arg(COVERITY_EMAIL));
+    metadata.append(
+        QString("    COVERITY_EXECUTABLE: %1").arg(COVERITY_EXECUTABLE));
+    metadata.append(QString("    COVERITY_URL: %1").arg(COVERITY_URL));
     metadata.append(
         QString("    CPPCHECK_EXECUTABLE: %1").arg(CPPCHECK_EXECUTABLE));
+    // additional functions
     metadata.append(QString("    PROP_FUTURE: %1").arg(PROP_FUTURE));
     metadata.append(QString("    PROP_TEST: %1").arg(PROP_TEST));
 
