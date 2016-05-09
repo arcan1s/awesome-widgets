@@ -17,44 +17,69 @@
 
 
 #include "awdatetimeformatter.h"
+#include "ui_awdatetimeformatter.h"
+
+#include <KI18n/KLocalizedString>
 
 #include <QDateTime>
+#include <QDir>
 #include <QSettings>
 
 #include "awdebug.h"
 
 
-AWDateTimeFormatter::AWDateTimeFormatter(QObject *parent,
-                                         const QString filename,
-                                         const QString section)
-    : AWAbstractFormatter(parent, filename, section)
+AWDateTimeFormatter::AWDateTimeFormatter(QWidget *parent,
+                                         const QString filePath)
+    : AWAbstractFormatter(parent, filePath)
+    , ui(new Ui::AWDateTimeFormatter)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
-    init(filename, section);
+    readConfiguration();
+    ui->setupUi(this);
+    translate();
 }
 
 
-AWDateTimeFormatter::AWDateTimeFormatter(QObject *parent, const QString format)
+AWDateTimeFormatter::AWDateTimeFormatter(const QString format, QWidget *parent)
     : AWAbstractFormatter(parent)
+    , ui(new Ui::AWDateTimeFormatter)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
     setFormat(format);
+
+    ui->setupUi(this);
+    translate();
 }
 
 
 AWDateTimeFormatter::~AWDateTimeFormatter()
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+
+    delete ui;
 }
 
 
-QString AWDateTimeFormatter::convert(const QVariant &value) const
+QString AWDateTimeFormatter::convert(const QVariant &_value) const
 {
-    qCDebug(LOG_AW) << "Convert value" << value;
+    qCDebug(LOG_AW) << "Convert value" << _value;
 
-    return value.toDateTime().toString(m_format);
+    return _value.toDateTime().toString(m_format);
+}
+
+
+AWDateTimeFormatter *AWDateTimeFormatter::copy(const QString _fileName)
+{
+    qCDebug(LOG_LIB) << "File" << _fileName;
+
+    AWDateTimeFormatter *item
+        = new AWDateTimeFormatter(static_cast<QWidget *>(parent()), _fileName);
+    copyDefaults(item);
+    item->setFormat(format());
+
+    return item;
 }
 
 
@@ -72,13 +97,59 @@ void AWDateTimeFormatter::setFormat(const QString _format)
 }
 
 
-void AWDateTimeFormatter::init(const QString filename, const QString section)
+void AWDateTimeFormatter::readConfiguration()
 {
-    qCDebug(LOG_AW) << "Looking for section" << section << "in" << filename;
+    AWAbstractFormatter::readConfiguration();
 
-    QSettings settings(filename, QSettings::IniFormat);
+    QSettings settings(fileName(), QSettings::IniFormat);
 
-    settings.beginGroup(section);
-    setFormat(settings.value(QString("Format"), QString()).toString());
+    settings.beginGroup(QString("Desktop Entry"));
+    setFormat(settings.value(QString("Format"), m_format).toString());
     settings.endGroup();
+}
+
+
+int AWDateTimeFormatter::showConfiguration(const QVariant args)
+{
+    Q_UNUSED(args)
+
+    ui->lineEdit_name->setText(name());
+    ui->lineEdit_comment->setText(comment());
+    ui->label_typeValue->setText(QString("DateTime"));
+    ui->lineEdit_format->setText(m_format);
+
+    int ret = exec();
+    if (ret != 1)
+        return ret;
+    setName(ui->lineEdit_name->text());
+    setComment(ui->lineEdit_comment->text());
+    setType(ui->label_typeValue->text());
+    setFormat(ui->lineEdit_format->text());
+
+    writeConfiguration();
+    return ret;
+}
+
+
+void AWDateTimeFormatter::writeConfiguration() const
+{
+    AWAbstractFormatter::writeConfiguration();
+
+    QSettings settings(writtableConfig(), QSettings::IniFormat);
+    qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
+
+    settings.beginGroup(QString("Desktop Entry"));
+    settings.setValue(QString("Format"), m_format);
+    settings.endGroup();
+
+    settings.sync();
+}
+
+
+void AWDateTimeFormatter::translate()
+{
+    ui->label_name->setText(i18n("Name"));
+    ui->label_comment->setText(i18n("Comment"));
+    ui->label_type->setText(i18n("Type"));
+    ui->label_format->setText(i18n("Format"));
 }

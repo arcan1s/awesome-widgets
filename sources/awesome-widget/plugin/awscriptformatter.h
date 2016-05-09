@@ -21,6 +21,11 @@
 #include "awabstractformatter.h"
 
 
+namespace Ui
+{
+class AWScriptFormatter;
+}
+
 class AWScriptFormatter : public AWAbstractFormatter
 {
     Q_OBJECT
@@ -30,12 +35,12 @@ class AWScriptFormatter : public AWAbstractFormatter
     Q_PROPERTY(QString program READ program)
 
 public:
-    explicit AWScriptFormatter(QObject *parent, const QString filename,
-                               const QString section);
-    explicit AWScriptFormatter(QObject *parent, const bool appendCode,
-                               const QString code, const bool hasReturn);
+    explicit AWScriptFormatter(QWidget *parent, const QString filePath);
+    explicit AWScriptFormatter(const bool appendCode, const QString code,
+                               const bool hasReturn, QWidget *parent);
     virtual ~AWScriptFormatter();
-    QString convert(const QVariant &value) const;
+    QString convert(const QVariant &_value) const;
+    AWScriptFormatter *copy(const QString _fileName);
     // properties
     bool appendCode() const;
     QString code() const;
@@ -45,13 +50,19 @@ public:
     void setCode(const QString _code);
     void setHasReturn(const bool _hasReturn);
 
+public slots:
+    void readConfiguration();
+    int showConfiguration(const QVariant args = QVariant());
+    void writeConfiguration() const;
+
 private:
-    void init(const QString filename, const QString section);
+    Ui::AWScriptFormatter *ui;
     void initProgram();
+    void translate();
     // properties
-    bool m_appendCode;
-    QString m_code;
-    bool m_hasReturn;
+    bool m_appendCode = true;
+    QString m_code = QString();
+    bool m_hasReturn = false;
     QString m_program;
 };
 

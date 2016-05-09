@@ -21,19 +21,28 @@
 #include "awabstractformatter.h"
 
 
+namespace Ui
+{
+class AWNoFormatter;
+}
+
 class AWNoFormatter : public AWAbstractFormatter
 {
     Q_OBJECT
 
 public:
-    explicit AWNoFormatter(QObject *parent, const QString filename,
-                           const QString section);
-    explicit AWNoFormatter(QObject *parent);
+    explicit AWNoFormatter(QWidget *parent, const QString filePath);
+    explicit AWNoFormatter(QWidget *parent);
     virtual ~AWNoFormatter();
-    QString convert(const QVariant &value) const;
+    QString convert(const QVariant &_value) const;
+    AWNoFormatter *copy(const QString _fileName);
+
+public slots:
+    int showConfiguration(const QVariant args = QVariant());
 
 private:
-    void init(const QString filename, const QString section);
+    Ui::AWNoFormatter *ui;
+    void translate();
     // properties
 };
 

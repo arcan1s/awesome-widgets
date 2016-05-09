@@ -35,14 +35,21 @@ public:
     virtual ~AWFormatterHelper();
     QString convert(const QVariant &value, const QString name) const;
     QStringList definedFormatters() const;
+    QStringList knownFormatters() const;
 
 private:
     AWFormatterHelper::FormatterClass
-    defineFormatterClass(const QString name) const;
-    void init();
+    defineFormatterClass(const QString stringType) const;
+    void initFormatters();
+    void initKeys();
+    void installDirectories();
+    QPair<QString, AWFormatterHelper::FormatterClass>
+    readMetadata(const QString filePath) const;
     // properties
-    QString m_genericConfig;
+    QStringList m_directories;
+    QString m_formatterConfig;
     QHash<QString, AWAbstractFormatter *> m_formatters;
+    QHash<QString, AWAbstractFormatter *> m_formattersClasses;
 };
 
 

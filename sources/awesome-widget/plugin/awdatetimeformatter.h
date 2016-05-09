@@ -21,25 +21,36 @@
 #include "awabstractformatter.h"
 
 
+namespace Ui
+{
+class AWDateTimeFormatter;
+}
+
 class AWDateTimeFormatter : public AWAbstractFormatter
 {
     Q_OBJECT
     Q_PROPERTY(QString format READ format WRITE setFormat)
 
 public:
-    explicit AWDateTimeFormatter(QObject *parent, const QString filename,
-                                 const QString section);
-    explicit AWDateTimeFormatter(QObject *parent, const QString format);
+    explicit AWDateTimeFormatter(QWidget *parent, const QString filePath);
+    explicit AWDateTimeFormatter(const QString format, QWidget *parent);
     virtual ~AWDateTimeFormatter();
-    QString convert(const QVariant &value) const;
+    QString convert(const QVariant &_value) const;
+    AWDateTimeFormatter *copy(const QString _fileName);
     // properties
     QString format() const;
     void setFormat(const QString _format);
 
+public slots:
+    void readConfiguration();
+    int showConfiguration(const QVariant args = QVariant());
+    void writeConfiguration() const;
+
 private:
-    void init(const QString filename, const QString section);
+    Ui::AWDateTimeFormatter *ui;
+    void translate();
     // properties
-    QString m_format;
+    QString m_format = QString();
 };
 
 

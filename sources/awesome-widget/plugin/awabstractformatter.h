@@ -18,19 +18,48 @@
 #ifndef AWABSTRACTFORMATTER_H
 #define AWABSTRACTFORMATTER_H
 
-#include <QObject>
+#include <QDialog>
 #include <QVariant>
 
 
-class AWAbstractFormatter : public QObject
+class AWAbstractFormatter : public QDialog
 {
+    Q_OBJECT
+    Q_PROPERTY(QString comment READ comment WRITE setComment)
+    Q_PROPERTY(QString fileName READ fileName)
+    Q_PROPERTY(QString name READ name WRITE setName)
+    Q_PROPERTY(QString type READ type WRITE setType)
+
 public:
-    explicit AWAbstractFormatter(QObject *parent, const QString, const QString)
-        : QObject(parent){};
-    explicit AWAbstractFormatter(QObject *parent)
-        : QObject(parent){};
-    virtual ~AWAbstractFormatter(){};
-    virtual QString convert(const QVariant &value) const = 0;
+    explicit AWAbstractFormatter(QWidget *parent = nullptr,
+                                 const QString filePath = QString());
+    virtual ~AWAbstractFormatter();
+    virtual AWAbstractFormatter *copy(const QString _fileName) = 0;
+    void copyDefaults(AWAbstractFormatter *_other) const;
+    virtual QString convert(const QVariant &_value) const = 0;
+    QString writtableConfig() const;
+    // properties
+    QString comment() const;
+    QString fileName() const;
+    QString name() const;
+    QString type() const;
+    void setComment(const QString _comment = QString("empty"));
+    void setName(const QString _name = QString("none"));
+    void setType(const QString _type = QString("NoFormat"));
+
+public slots:
+    virtual void readConfiguration();
+    virtual int showConfiguration(const QVariant args = QVariant()) = 0;
+    bool tryDelete() const;
+    virtual void writeConfiguration() const;
+
+private:
+    QString m_fileName;
+    virtual void translate() = 0;
+    // properties
+    QString m_comment = QString("empty");
+    QString m_name = QString("none");
+    QString m_type = QString("NoFormat");
 };
 
 

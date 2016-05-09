@@ -17,6 +17,7 @@
 
 #include "awformatterhelper.h"
 
+#include <QDir>
 #include <QSettings>
 #include <QStandardPaths>
 
@@ -32,11 +33,10 @@ AWFormatterHelper::AWFormatterHelper(QObject *parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
-    m_genericConfig = QString("%1/awesomewidgets/general.ini")
-                          .arg(QStandardPaths::writableLocation(
-                              QStandardPaths::GenericDataLocation));
 #ifdef BUILD_FUTURE
-    init();
+    installDirectories();
+    initFormatters();
+    initKeys();
 #endif /* BUILD_FUTURE */
 }
 
@@ -46,6 +46,7 @@ AWFormatterHelper::~AWFormatterHelper()
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
     m_formatters.clear();
+    m_formattersClasses.clear();
 }
 
 
@@ -65,17 +66,16 @@ QStringList AWFormatterHelper::definedFormatters() const
 }
 
 
-AWFormatterHelper::FormatterClass
-AWFormatterHelper::defineFormatterClass(const QString name) const
+QStringList AWFormatterHelper::knownFormatters() const
 {
-    qCDebug(LOG_AW) << "Define formatter class for" << name;
+    return m_formattersClasses.keys();
+}
 
-    QSettings settings(m_genericConfig, QSettings::IniFormat);
 
-    settings.beginGroup(name);
-    QString stringType
-        = settings.value(QString("Type"), QString("NoFormat")).toString();
-    settings.endGroup();
+AWFormatterHelper::FormatterClass
+AWFormatterHelper::defineFormatterClass(const QString stringType) const
+{
+    qCDebug(LOG_AW) << "Define formatter class for" << stringType;
 
     FormatterClass formatter = FormatterClass::NoFormat;
     if (stringType == QString("DateTime"))
@@ -91,35 +91,97 @@ AWFormatterHelper::defineFormatterClass(const QString name) const
 }
 
 
-void AWFormatterHelper::init()
+void AWFormatterHelper::initFormatters()
 {
-    QSettings settings(m_genericConfig, QSettings::IniFormat);
+    m_formattersClasses.clear();
 
+    for (int i = m_directories.count() - 1; i >= 0; i--) {
+        QStringList files
+            = QDir(m_directories.at(i)).entryList(QDir::Files, QDir::Name);
+        for (auto file : files) {
+            if (!file.endsWith(QString(".desktop")))
+                continue;
+            qCInfo(LOG_LIB) << "Found file" << file << "in"
+                            << m_directories.at(i);
+            QString filePath
+                = QString("%1/%2").arg(m_directories.at(i)).arg(file);
+            auto metadata = readMetadata(filePath);
+            QString name = metadata.first;
+            if (m_formattersClasses.contains(name))
+                continue;
+
+
+            switch (metadata.second) {
+            case FormatterClass::DateTime:
+                m_formattersClasses[name]
+                    = new AWDateTimeFormatter(nullptr, filePath);
+                break;
+            case FormatterClass::Float:
+                m_formattersClasses[name]
+                    = new AWFloatFormatter(nullptr, filePath);
+                break;
+            case FormatterClass::Script:
+                m_formattersClasses[name]
+                    = new AWScriptFormatter(nullptr, filePath);
+                break;
+            case FormatterClass::NoFormat:
+                m_formattersClasses[name]
+                    = new AWNoFormatter(nullptr, filePath);
+                break;
+            }
+        }
+    }
+}
+
+
+void AWFormatterHelper::initKeys()
+{
+    m_formatters.clear();
+
+    QSettings settings(m_formatterConfig, QSettings::IniFormat);
     settings.beginGroup(QString("Formatters"));
     QStringList keys = settings.childKeys();
     for (auto key : keys) {
         QString name = settings.value(key).toString();
-        FormatterClass formatter = defineFormatterClass(name);
-        qCInfo(LOG_AW) << "Found formatter" << name << "for key" << key
-                       << "defined as" << static_cast<int>(formatter);
-
-        switch (formatter) {
-        case FormatterClass::DateTime:
-            m_formatters[key]
-                = new AWDateTimeFormatter(this, m_genericConfig, name);
-            break;
-        case FormatterClass::Float:
-            m_formatters[key]
-                = new AWFloatFormatter(this, m_genericConfig, name);
-            break;
-        case FormatterClass::Script:
-            m_formatters[key]
-                = new AWScriptFormatter(this, m_genericConfig, name);
-            break;
-        case FormatterClass::NoFormat:
-            m_formatters[key] = new AWNoFormatter(this, m_genericConfig, name);
-            break;
-        }
+        qCInfo(LOG_AW) << "Found formatter" << name << "for key" << key;
+        m_formatters[key] = m_formattersClasses[name];
     }
     settings.endGroup();
+}
+
+
+void AWFormatterHelper::installDirectories()
+{
+    // create directory at $HOME
+    QString localDir = QString("%1/awesomewidgets/formatters")
+                           .arg(QStandardPaths::writableLocation(
+                               QStandardPaths::GenericDataLocation));
+    QDir localDirectory;
+    if (localDirectory.mkpath(localDir))
+        qCInfo(LOG_LIB) << "Created directory" << localDir;
+
+    m_directories = QStandardPaths::locateAll(
+        QStandardPaths::GenericDataLocation,
+        QString("awesomewidgets/formatters"), QStandardPaths::LocateDirectory);
+
+    m_formatterConfig = QString("%1/awesomewidgets/formatters/formatters.ini")
+                            .arg(QStandardPaths::writableLocation(
+                                QStandardPaths::GenericDataLocation));
+}
+
+
+QPair<QString, AWFormatterHelper::FormatterClass>
+AWFormatterHelper::readMetadata(const QString filePath) const
+{
+    qCDebug(LOG_AW) << "Read initial parameters from" << filePath;
+
+    QSettings settings(filePath, QSettings::IniFormat);
+    settings.beginGroup(QString("Desktop Entry"));
+    QString name = settings.value(QString("Name"), filePath).toString();
+    QString type
+        = settings.value(QString("Type"), QString("NoFormat")).toString();
+    FormatterClass formatter = defineFormatterClass(type);
+    settings.endGroup();
+
+    return QPair<QString, AWFormatterHelper::FormatterClass>(name, formatter);
 }

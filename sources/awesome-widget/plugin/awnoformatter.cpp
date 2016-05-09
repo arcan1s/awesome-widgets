@@ -17,43 +17,87 @@
 
 
 #include "awnoformatter.h"
+#include "ui_awnoformatter.h"
+
+#include <KI18n/KLocalizedString>
 
 #include "awdebug.h"
 
 
-AWNoFormatter::AWNoFormatter(QObject *parent, const QString filename,
-                             const QString section)
-    : AWAbstractFormatter(parent, filename, section)
+AWNoFormatter::AWNoFormatter(QWidget *parent, const QString filePath)
+    : AWAbstractFormatter(parent, filePath)
+    , ui(new Ui::AWNoFormatter)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
-    init(filename, section);
+    readConfiguration();
+    ui->setupUi(this);
+    translate();
 }
 
 
-AWNoFormatter::AWNoFormatter(QObject *parent)
+AWNoFormatter::AWNoFormatter(QWidget *parent)
     : AWAbstractFormatter(parent)
+    , ui(new Ui::AWNoFormatter)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+
+    ui->setupUi(this);
+    translate();
 }
 
 
 AWNoFormatter::~AWNoFormatter()
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+
+    delete ui;
 }
 
 
-QString AWNoFormatter::convert(const QVariant &value) const
+QString AWNoFormatter::convert(const QVariant &_value) const
 {
-    qCDebug(LOG_AW) << "Convert value" << value;
+    qCDebug(LOG_AW) << "Convert value" << _value;
 
-    return value.toString();
+    return _value.toString();
 }
 
 
-void AWNoFormatter::init(const QString filename, const QString section)
+AWNoFormatter *AWNoFormatter::copy(const QString _fileName)
 {
-    qCDebug(LOG_AW) << "Looking for section" << section << "in" << filename;
-    // dummy method for future references
+    qCDebug(LOG_LIB) << "File" << _fileName;
+
+    AWNoFormatter *item
+        = new AWNoFormatter(static_cast<QWidget *>(parent()), _fileName);
+    copyDefaults(item);
+
+    return item;
+}
+
+
+int AWNoFormatter::showConfiguration(const QVariant args)
+{
+    Q_UNUSED(args)
+
+    ui->lineEdit_name->setText(name());
+    ui->lineEdit_comment->setText(comment());
+    ui->label_typeValue->setText(QString("NoFormat"));
+
+    int ret = exec();
+    if (ret != 1)
+        return ret;
+    setName(ui->lineEdit_name->text());
+    setComment(ui->lineEdit_comment->text());
+    setType(ui->label_typeValue->text());
+
+    writeConfiguration();
+    return ret;
+}
+
+
+void AWNoFormatter::translate()
+{
+    ui->label_name->setText(i18n("Name"));
+    ui->label_comment->setText(i18n("Comment"));
+    ui->label_type->setText(i18n("Type"));
 }

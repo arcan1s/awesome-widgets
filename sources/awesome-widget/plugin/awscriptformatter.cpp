@@ -17,27 +17,33 @@
 
 
 #include "awscriptformatter.h"
+#include "ui_awscriptformatter.h"
 
+#include <KI18n/KLocalizedString>
+
+#include <QDir>
 #include <QJSEngine>
 #include <QSettings>
 
 #include "awdebug.h"
 
 
-AWScriptFormatter::AWScriptFormatter(QObject *parent, const QString filename,
-                                     const QString section)
-    : AWAbstractFormatter(parent, filename, section)
+AWScriptFormatter::AWScriptFormatter(QWidget *parent, const QString filePath)
+    : AWAbstractFormatter(parent, filePath)
+    , ui(new Ui::AWScriptFormatter)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
-    init(filename, section);
-    initProgram();
+    readConfiguration();
+    ui->setupUi(this);
+    translate();
 }
 
 
-AWScriptFormatter::AWScriptFormatter(QObject *parent, const bool appendCode,
-                                     const QString code, const bool hasReturn)
+AWScriptFormatter::AWScriptFormatter(const bool appendCode, const QString code,
+                                     const bool hasReturn, QWidget *parent)
     : AWAbstractFormatter(parent)
+    , ui(new Ui::AWScriptFormatter)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
@@ -45,23 +51,28 @@ AWScriptFormatter::AWScriptFormatter(QObject *parent, const bool appendCode,
     setCode(code);
     setHasReturn(hasReturn);
     initProgram();
+
+    ui->setupUi(this);
+    translate();
 }
 
 
 AWScriptFormatter::~AWScriptFormatter()
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+
+    delete ui;
 }
 
 
-QString AWScriptFormatter::convert(const QVariant &value) const
+QString AWScriptFormatter::convert(const QVariant &_value) const
 {
-    qCDebug(LOG_AW) << "Convert value" << value;
+    qCDebug(LOG_AW) << "Convert value" << _value;
 
     // init engine
     QJSEngine engine;
     QJSValue fn = engine.evaluate(m_program);
-    QJSValueList args = QJSValueList() << value.toString();
+    QJSValueList args = QJSValueList() << _value.toString();
     QJSValue result = fn.call(args);
 
     if (result.isError()) {
@@ -72,6 +83,21 @@ QString AWScriptFormatter::convert(const QVariant &value) const
     } else {
         return result.toString();
     }
+}
+
+
+AWScriptFormatter *AWScriptFormatter::copy(const QString _fileName)
+{
+    qCDebug(LOG_LIB) << "File" << _fileName;
+
+    AWScriptFormatter *item
+        = new AWScriptFormatter(static_cast<QWidget *>(parent()), _fileName);
+    copyDefaults(item);
+    item->setAppendCode(appendCode());
+    item->setCode(code());
+    item->setHasReturn(hasReturn());
+
+    return item;
 }
 
 
@@ -123,17 +149,65 @@ void AWScriptFormatter::setHasReturn(const bool _hasReturn)
 }
 
 
-void AWScriptFormatter::init(const QString filename, const QString section)
+void AWScriptFormatter::readConfiguration()
 {
-    qCDebug(LOG_AW) << "Looking for section" << section << "in" << filename;
+    AWAbstractFormatter::readConfiguration();
 
-    QSettings settings(filename, QSettings::IniFormat);
+    QSettings settings(fileName(), QSettings::IniFormat);
 
-    settings.beginGroup(section);
-    setAppendCode(settings.value(QString("AppendCode"), true).toBool());
-    setCode(settings.value(QString("Code"), QString()).toString());
-    setHasReturn(settings.value(QString("HasReturn"), false).toBool());
+    settings.beginGroup(QString("Desktop Entry"));
+    setAppendCode(settings.value(QString("AppendCode"), m_appendCode).toBool());
+    setCode(settings.value(QString("Code"), m_code).toString());
+    setHasReturn(settings.value(QString("HasReturn"), m_hasReturn).toBool());
     settings.endGroup();
+
+    initProgram();
+}
+
+
+int AWScriptFormatter::showConfiguration(const QVariant args)
+{
+    Q_UNUSED(args)
+
+    ui->lineEdit_name->setText(name());
+    ui->lineEdit_comment->setText(comment());
+    ui->label_typeValue->setText(QString("Script"));
+    ui->checkBox_appendCode->setCheckState(m_appendCode ? Qt::Checked
+                                                        : Qt::Unchecked);
+    ui->checkBox_hasReturn->setCheckState(m_hasReturn ? Qt::Checked
+                                                      : Qt::Unchecked);
+    ui->textEdit_code->setPlainText(m_code);
+
+    int ret = exec();
+    if (ret != 1)
+        return ret;
+    setName(ui->lineEdit_name->text());
+    setComment(ui->lineEdit_comment->text());
+    setType(ui->label_typeValue->text());
+    setAppendCode(ui->checkBox_appendCode->checkState() == Qt::Checked);
+    setHasReturn(ui->checkBox_hasReturn->checkState() == Qt::Checked);
+    setCode(ui->textEdit_code->toPlainText());
+    initProgram();
+
+    writeConfiguration();
+    return ret;
+}
+
+
+void AWScriptFormatter::writeConfiguration() const
+{
+    AWAbstractFormatter::writeConfiguration();
+
+    QSettings settings(writtableConfig(), QSettings::IniFormat);
+    qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
+
+    settings.beginGroup(QString("Desktop Entry"));
+    settings.setValue(QString("AppendCode"), m_appendCode);
+    settings.setValue(QString("Code"), m_code);
+    settings.setValue(QString("HasReturn"), m_hasReturn);
+    settings.endGroup();
+
+    settings.sync();
 }
 
 
@@ -148,4 +222,15 @@ void AWScriptFormatter::initProgram()
         m_program = m_code;
 
     qCInfo(LOG_AW) << "Create JS engine with code" << m_program;
+}
+
+
+void AWScriptFormatter::translate()
+{
+    ui->label_name->setText(i18n("Name"));
+    ui->label_comment->setText(i18n("Comment"));
+    ui->label_type->setText(i18n("Type"));
+    ui->checkBox_appendCode->setText(i18n("Append code"));
+    ui->checkBox_hasReturn->setText(i18n("Has return"));
+    ui->label_code->setText(i18n("Code"));
 }

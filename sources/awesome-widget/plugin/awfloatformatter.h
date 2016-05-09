@@ -21,48 +21,59 @@
 #include "awabstractformatter.h"
 
 
+namespace Ui
+{
+class AWFloatFormatter;
+}
+
 class AWFloatFormatter : public AWAbstractFormatter
 {
     Q_OBJECT
+    Q_PROPERTY(int count READ count WRITE setCount)
     Q_PROPERTY(QChar fillChar READ fillChar WRITE setFillChar)
     Q_PROPERTY(char format READ format WRITE setFormat)
     Q_PROPERTY(double multiplier READ multiplier WRITE setMultiplier)
     Q_PROPERTY(int precision READ precision WRITE setPrecision)
     Q_PROPERTY(double summand READ summand WRITE setSummand)
-    Q_PROPERTY(int width READ width WRITE setWidth)
 
 public:
-    explicit AWFloatFormatter(QObject *parent, const QString filename,
-                              const QString section);
-    explicit AWFloatFormatter(QObject *parent, const QChar fillChar,
+    explicit AWFloatFormatter(QWidget *parent, const QString filePath);
+    explicit AWFloatFormatter(const int count, const QChar fillChar,
                               const char format, const double multiplier,
                               const int precision, const double summand,
-                              const int width);
+                              QWidget *parent);
     virtual ~AWFloatFormatter();
-    QString convert(const QVariant &value) const;
+    QString convert(const QVariant &_value) const;
+    AWFloatFormatter *copy(const QString _fileName);
     // properties
+    int count() const;
     QChar fillChar() const;
     char format() const;
     double multiplier() const;
     int precision() const;
     double summand() const;
-    int width() const;
+    void setCount(const int _count);
     void setFillChar(const QChar _fillChar);
     void setFormat(char _format);
     void setMultiplier(const double _multiplier);
     void setPrecision(const int _precision);
     void setSummand(const double _summand);
-    void setWidth(const int _width);
+
+public slots:
+    void readConfiguration();
+    int showConfiguration(const QVariant args = QVariant());
+    void writeConfiguration() const;
 
 private:
-    void init(const QString filename, const QString section);
+    Ui::AWFloatFormatter *ui;
+    void translate();
     // properties
-    QChar m_fillChar;
-    char m_format;
-    double m_multiplier;
-    int m_precision;
-    double m_summand;
-    int m_width;
+    int m_count = 0;
+    QChar m_fillChar = QChar();
+    char m_format = 'f';
+    double m_multiplier = 1.0;
+    int m_precision = -1;
+    double m_summand = 0.0;
 };
 
 
