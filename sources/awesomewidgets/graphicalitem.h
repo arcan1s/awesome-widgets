@@ -53,8 +53,7 @@ public:
     enum class Type { Horizontal, Vertical, Circle, Graph, Bars };
 
     explicit GraphicalItem(QWidget *parent = nullptr,
-                           const QString desktopName = QString(),
-                           const QStringList directories = QStringList());
+                           const QString filePath = QString());
     virtual ~GraphicalItem();
     GraphicalItem *copy(const QString _fileName, const int _number);
     QString image(const QVariant &value);

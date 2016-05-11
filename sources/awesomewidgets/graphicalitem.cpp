@@ -32,9 +32,8 @@
 #include "graphicalitemhelper.h"
 
 
-GraphicalItem::GraphicalItem(QWidget *parent, const QString desktopName,
-                             const QStringList directories)
-    : AbstractExtItem(parent, desktopName, directories)
+GraphicalItem::GraphicalItem(QWidget *parent, const QString filePath)
+    : AbstractExtItem(parent, filePath)
     , ui(new Ui::GraphicalItem)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
@@ -70,8 +69,8 @@ GraphicalItem *GraphicalItem::copy(const QString _fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    GraphicalItem *item = new GraphicalItem(static_cast<QWidget *>(parent()),
-                                            _fileName, directories());
+    GraphicalItem *item
+        = new GraphicalItem(static_cast<QWidget *>(parent()), _fileName);
     copyDefaults(item);
     item->setActiveColor(m_activeColor);
     item->setBar(m_bar);
@@ -401,47 +400,36 @@ void GraphicalItem::readConfiguration()
 {
     AbstractExtItem::readConfiguration();
 
-    for (int i = directories().count() - 1; i >= 0; i--) {
-        if (!QDir(directories().at(i))
-                 .entryList(QDir::Files)
-                 .contains(fileName()))
-            continue;
-        QSettings settings(
-            QString("%1/%2").arg(directories().at(i)).arg(fileName()),
-            QSettings::IniFormat);
+    QSettings settings(fileName(), QSettings::IniFormat);
 
-        settings.beginGroup(QString("Desktop Entry"));
-        setCount(settings.value(QString("X-AW-Count"), m_count).toInt());
-        setCustom(settings.value(QString("X-AW-Custom"), m_custom).toBool());
-        setBar(settings.value(QString("X-AW-Value"), m_bar).toString());
-        setMaxValue(settings.value(QString("X-AW-Max"), m_maxValue).toFloat());
-        setMinValue(settings.value(QString("X-AW-Min"), m_minValue).toFloat());
-        setActiveColor(
-            settings.value(QString("X-AW-ActiveColor"), m_activeColor)
-                .toString());
-        setInactiveColor(
-            settings.value(QString("X-AW-InactiveColor"), m_inactiveColor)
-                .toString());
-        setStrType(settings.value(QString("X-AW-Type"), strType()).toString());
-        setStrDirection(
-            settings.value(QString("X-AW-Direction"), strDirection())
-                .toString());
-        setHeight(settings.value(QString("X-AW-Height"), m_height).toInt());
-        setWidth(settings.value(QString("X-AW-Width"), m_width).toInt());
-        // api == 5
-        if (apiVersion() < 5) {
-            QString prefix;
-            prefix = m_activeColor.startsWith(QString("/"))
-                         ? QString("file://%1")
-                         : QString("color://%1");
-            m_activeColor = prefix.arg(m_activeColor);
-            prefix = m_inactiveColor.startsWith(QString("/"))
-                         ? QString("file://%1")
-                         : QString("color://%1");
-            m_inactiveColor = prefix.arg(m_inactiveColor);
-        }
-        settings.endGroup();
+    settings.beginGroup(QString("Desktop Entry"));
+    setCount(settings.value(QString("X-AW-Count"), m_count).toInt());
+    setCustom(settings.value(QString("X-AW-Custom"), m_custom).toBool());
+    setBar(settings.value(QString("X-AW-Value"), m_bar).toString());
+    setMaxValue(settings.value(QString("X-AW-Max"), m_maxValue).toFloat());
+    setMinValue(settings.value(QString("X-AW-Min"), m_minValue).toFloat());
+    setActiveColor(
+        settings.value(QString("X-AW-ActiveColor"), m_activeColor).toString());
+    setInactiveColor(
+        settings.value(QString("X-AW-InactiveColor"), m_inactiveColor)
+            .toString());
+    setStrType(settings.value(QString("X-AW-Type"), strType()).toString());
+    setStrDirection(
+        settings.value(QString("X-AW-Direction"), strDirection()).toString());
+    setHeight(settings.value(QString("X-AW-Height"), m_height).toInt());
+    setWidth(settings.value(QString("X-AW-Width"), m_width).toInt());
+    // api == 5
+    if (apiVersion() < 5) {
+        QString prefix;
+        prefix = m_activeColor.startsWith(QString("/")) ? QString("file://%1")
+                                                        : QString("color://%1");
+        m_activeColor = prefix.arg(m_activeColor);
+        prefix = m_inactiveColor.startsWith(QString("/"))
+                     ? QString("file://%1")
+                     : QString("color://%1");
+        m_inactiveColor = prefix.arg(m_inactiveColor);
     }
+    settings.endGroup();
 
     // update for current API
     if ((apiVersion() > 0) && (apiVersion() < AWGIAPI)) {
@@ -520,9 +508,7 @@ void GraphicalItem::writeConfiguration() const
 {
     AbstractExtItem::writeConfiguration();
 
-    QSettings settings(
-        QString("%1/%2").arg(directories().first()).arg(fileName()),
-        QSettings::IniFormat);
+    QSettings settings(writtableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));

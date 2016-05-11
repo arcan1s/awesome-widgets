@@ -34,9 +34,8 @@
 #include "awdebug.h"
 
 
-ExtWeather::ExtWeather(QWidget *parent, const QString weatherName,
-                       const QStringList directories)
-    : AbstractExtItem(parent, weatherName, directories)
+ExtWeather::ExtWeather(QWidget *parent, const QString filePath)
+    : AbstractExtItem(parent, filePath)
     , ui(new Ui::ExtWeather)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
@@ -76,8 +75,8 @@ ExtWeather *ExtWeather::copy(const QString _fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "number" << _number;
 
-    ExtWeather *item = new ExtWeather(static_cast<QWidget *>(parent()),
-                                      _fileName, directories());
+    ExtWeather *item
+        = new ExtWeather(static_cast<QWidget *>(parent()), _fileName);
     copyDefaults(item);
     item->setCity(city());
     item->setCountry(country());
@@ -165,26 +164,16 @@ void ExtWeather::readConfiguration()
 {
     AbstractExtItem::readConfiguration();
 
-    for (int i = directories().count() - 1; i >= 0; i--) {
-        if (!QDir(directories().at(i))
-                 .entryList(QDir::Files)
-                 .contains(fileName()))
-            continue;
-        QSettings settings(
-            QString("%1/%2").arg(directories().at(i)).arg(fileName()),
-            QSettings::IniFormat);
+    QSettings settings(fileName(), QSettings::IniFormat);
 
-        settings.beginGroup(QString("Desktop Entry"));
-        setCity(settings.value(QString("X-AW-City"), m_city).toString());
-        setCountry(
-            settings.value(QString("X-AW-Country"), m_country).toString());
-        setTs(settings.value(QString("X-AW-TS"), m_ts).toInt());
-        // api == 2
-        setImage(
-            settings.value(QString("X-AW-Image"), QVariant(m_image)).toString()
-            == QString("true"));
-        settings.endGroup();
-    }
+    settings.beginGroup(QString("Desktop Entry"));
+    setCity(settings.value(QString("X-AW-City"), m_city).toString());
+    setCountry(settings.value(QString("X-AW-Country"), m_country).toString());
+    setTs(settings.value(QString("X-AW-TS"), m_ts).toInt());
+    // api == 2
+    setImage(settings.value(QString("X-AW-Image"), QVariant(m_image)).toString()
+             == QString("true"));
+    settings.endGroup();
 
     // update for current API
     if ((apiVersion() > 0) && (apiVersion() < AWEWAPI)) {
@@ -291,9 +280,7 @@ void ExtWeather::writeConfiguration() const
 {
     AbstractExtItem::writeConfiguration();
 
-    QSettings settings(
-        QString("%1/%2").arg(directories().first()).arg(fileName()),
-        QSettings::IniFormat);
+    QSettings settings(writtableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));

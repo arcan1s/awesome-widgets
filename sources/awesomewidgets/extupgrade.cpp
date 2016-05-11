@@ -28,9 +28,8 @@
 #include "awdebug.h"
 
 
-ExtUpgrade::ExtUpgrade(QWidget *parent, const QString upgradeName,
-                       const QStringList directories)
-    : AbstractExtItem(parent, upgradeName, directories)
+ExtUpgrade::ExtUpgrade(QWidget *parent, const QString filePath)
+    : AbstractExtItem(parent, filePath)
     , ui(new Ui::ExtUpgrade)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
@@ -61,8 +60,8 @@ ExtUpgrade *ExtUpgrade::copy(const QString _fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    ExtUpgrade *item = new ExtUpgrade(static_cast<QWidget *>(parent()),
-                                      _fileName, directories());
+    ExtUpgrade *item
+        = new ExtUpgrade(static_cast<QWidget *>(parent()), _fileName);
     copyDefaults(item);
     item->setExecutable(executable());
     item->setFilter(filter());
@@ -127,22 +126,14 @@ void ExtUpgrade::readConfiguration()
 {
     AbstractExtItem::readConfiguration();
 
-    for (int i = directories().count() - 1; i >= 0; i--) {
-        if (!QDir(directories().at(i))
-                 .entryList(QDir::Files)
-                 .contains(fileName()))
-            continue;
-        QSettings settings(
-            QString("%1/%2").arg(directories().at(i)).arg(fileName()),
-            QSettings::IniFormat);
+    QSettings settings(fileName(), QSettings::IniFormat);
 
-        settings.beginGroup(QString("Desktop Entry"));
-        setExecutable(settings.value(QString("Exec"), m_executable).toString());
-        setNull(settings.value(QString("X-AW-Null"), m_null).toInt());
-        // api == 3
-        setFilter(settings.value(QString("X-AW-Filter"), m_filter).toString());
-        settings.endGroup();
-    }
+    settings.beginGroup(QString("Desktop Entry"));
+    setExecutable(settings.value(QString("Exec"), m_executable).toString());
+    setNull(settings.value(QString("X-AW-Null"), m_null).toInt());
+    // api == 3
+    setFilter(settings.value(QString("X-AW-Filter"), m_filter).toString());
+    settings.endGroup();
 
     // update for current API
     if ((apiVersion() > 0) && (apiVersion() < AWEUAPI)) {
@@ -208,9 +199,7 @@ void ExtUpgrade::writeConfiguration() const
 {
     AbstractExtItem::writeConfiguration();
 
-    QSettings settings(
-        QString("%1/%2").arg(directories().first()).arg(fileName()),
-        QSettings::IniFormat);
+    QSettings settings(writtableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));

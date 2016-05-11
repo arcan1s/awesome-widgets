@@ -33,9 +33,8 @@
 #include "awdebug.h"
 
 
-ExtQuotes::ExtQuotes(QWidget *parent, const QString quotesName,
-                     const QStringList directories)
-    : AbstractExtItem(parent, quotesName, directories)
+ExtQuotes::ExtQuotes(QWidget *parent, const QString filePath)
+    : AbstractExtItem(parent, filePath)
     , ui(new Ui::ExtQuotes)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
@@ -76,11 +75,10 @@ ExtQuotes::~ExtQuotes()
 
 ExtQuotes *ExtQuotes::copy(const QString _fileName, const int _number)
 {
-    qCDebug(LOG_LIB) << "File" << _fileName;
-    qCDebug(LOG_LIB) << "Number" << _number;
+    qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    ExtQuotes *item = new ExtQuotes(static_cast<QWidget *>(parent()), _fileName,
-                                    directories());
+    ExtQuotes *item
+        = new ExtQuotes(static_cast<QWidget *>(parent()), _fileName);
     copyDefaults(item);
     item->setNumber(_number);
     item->setTicker(ticker());
@@ -113,19 +111,11 @@ void ExtQuotes::readConfiguration()
 {
     AbstractExtItem::readConfiguration();
 
-    for (int i = directories().count() - 1; i >= 0; i--) {
-        if (!QDir(directories().at(i))
-                 .entryList(QDir::Files)
-                 .contains(fileName()))
-            continue;
-        QSettings settings(
-            QString("%1/%2").arg(directories().at(i)).arg(fileName()),
-            QSettings::IniFormat);
+    QSettings settings(fileName(), QSettings::IniFormat);
 
-        settings.beginGroup(QString("Desktop Entry"));
-        setTicker(settings.value(QString("X-AW-Ticker"), m_ticker).toString());
-        settings.endGroup();
-    }
+    settings.beginGroup(QString("Desktop Entry"));
+    setTicker(settings.value(QString("X-AW-Ticker"), m_ticker).toString());
+    settings.endGroup();
 
     // update for current API
     if ((apiVersion() > 0) && (apiVersion() < AWEQAPI)) {
@@ -200,9 +190,7 @@ void ExtQuotes::writeConfiguration() const
 {
     AbstractExtItem::writeConfiguration();
 
-    QSettings settings(
-        QString("%1/%2").arg(directories().first()).arg(fileName()),
-        QSettings::IniFormat);
+    QSettings settings(writtableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));

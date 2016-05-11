@@ -28,7 +28,6 @@ class AbstractExtItem : public QDialog
     Q_PROPERTY(bool active READ isActive WRITE setActive)
     Q_PROPERTY(int apiVersion READ apiVersion WRITE setApiVersion)
     Q_PROPERTY(QString comment READ comment WRITE setComment)
-    Q_PROPERTY(QStringList directories READ directories)
     Q_PROPERTY(QString fileName READ fileName)
     Q_PROPERTY(int interval READ interval WRITE setInterval)
     Q_PROPERTY(QString name READ name WRITE setName)
@@ -37,16 +36,15 @@ class AbstractExtItem : public QDialog
 
 public:
     explicit AbstractExtItem(QWidget *parent = nullptr,
-                             const QString desktopName = QString(),
-                             const QStringList directories = QStringList());
+                             const QString filePath = QString());
     virtual ~AbstractExtItem();
     virtual AbstractExtItem *copy(const QString _fileName, const int _number)
         = 0;
-    void copyDefaults(AbstractExtItem *_other) const;
+    virtual void copyDefaults(AbstractExtItem *_other) const;
+    QString writtableConfig() const;
     // get methods
     int apiVersion() const;
     QString comment() const;
-    QStringList directories() const;
     QString fileName() const;
     int interval() const;
     bool isActive() const;
@@ -71,7 +69,6 @@ public slots:
 
 private:
     QString m_fileName;
-    QStringList m_dirs;
     virtual void translate() = 0;
     // properties
     int m_apiVersion = 0;

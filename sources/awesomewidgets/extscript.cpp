@@ -30,9 +30,8 @@
 #include "awdebug.h"
 
 
-ExtScript::ExtScript(QWidget *parent, const QString scriptName,
-                     const QStringList directories)
-    : AbstractExtItem(parent, scriptName, directories)
+ExtScript::ExtScript(QWidget *parent, const QString filePath)
+    : AbstractExtItem(parent, filePath)
     , ui(new Ui::ExtScript)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
@@ -65,8 +64,8 @@ ExtScript *ExtScript::copy(const QString _fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    ExtScript *item = new ExtScript(static_cast<QWidget *>(parent()), _fileName,
-                                    directories());
+    ExtScript *item
+        = new ExtScript(static_cast<QWidget *>(parent()), _fileName);
     copyDefaults(item);
     item->setExecutable(executable());
     item->setNumber(_number);
@@ -215,26 +214,18 @@ void ExtScript::readConfiguration()
 {
     AbstractExtItem::readConfiguration();
 
-    for (int i = directories().count() - 1; i >= 0; i--) {
-        if (!QDir(directories().at(i))
-                 .entryList(QDir::Files)
-                 .contains(fileName()))
-            continue;
-        QSettings settings(
-            QString("%1/%2").arg(directories().at(i)).arg(fileName()),
-            QSettings::IniFormat);
+    QSettings settings(fileName(), QSettings::IniFormat);
 
-        settings.beginGroup(QString("Desktop Entry"));
-        setExecutable(settings.value(QString("Exec"), m_executable).toString());
-        setPrefix(settings.value(QString("X-AW-Prefix"), m_prefix).toString());
-        setStrRedirect(
-            settings.value(QString("X-AW-Redirect"), strRedirect()).toString());
-        // api == 3
-        setFilters(settings.value(QString("X-AW-Filters"), m_filters)
-                       .toString()
-                       .split(QChar(','), QString::SkipEmptyParts));
-        settings.endGroup();
-    }
+    settings.beginGroup(QString("Desktop Entry"));
+    setExecutable(settings.value(QString("Exec"), m_executable).toString());
+    setPrefix(settings.value(QString("X-AW-Prefix"), m_prefix).toString());
+    setStrRedirect(
+        settings.value(QString("X-AW-Redirect"), strRedirect()).toString());
+    // api == 3
+    setFilters(settings.value(QString("X-AW-Filters"), m_filters)
+                   .toString()
+                   .split(QChar(','), QString::SkipEmptyParts));
+    settings.endGroup();
 
     // update for current API
     if ((apiVersion() > 0) && (apiVersion() < AWESAPI)) {
@@ -344,9 +335,7 @@ void ExtScript::writeConfiguration() const
 {
     AbstractExtItem::writeConfiguration();
 
-    QSettings settings(
-        QString("%1/%2").arg(directories().first()).arg(fileName()),
-        QSettings::IniFormat);
+    QSettings settings(writtableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));

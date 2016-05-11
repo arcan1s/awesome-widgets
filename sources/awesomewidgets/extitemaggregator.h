@@ -57,7 +57,7 @@ public:
 
     void editItems()
     {
-        repaint();
+        repaintList();
         int ret = dialog->exec();
         qCInfo(LOG_LIB) << "Dialog returns" << ret;
     };
@@ -104,7 +104,8 @@ public:
 
         T *found = nullptr;
         for (auto item : m_items) {
-            if (item->fileName() != widgetItem->text())
+            QString fileName = QFileInfo(item->fileName()).fileName();
+            if (fileName != widgetItem->text())
                 continue;
             found = item;
             break;
@@ -135,7 +136,6 @@ private:
     QList<T *> m_activeItems;
     QString m_type;
 
-    // init method
     QList<T *> getItems()
     {
         // create directory at $HOME
@@ -161,7 +161,8 @@ private:
                     continue;
                 qCInfo(LOG_LIB) << "Found file" << file << "in" << dir;
                 names.append(file);
-                items.append(new T(this, file, dirs));
+                QString filePath = QString("%1/%2").arg(dir).arg(file);
+                items.append(new T(this, filePath));
             }
         }
 
@@ -185,12 +186,13 @@ private:
         }
     };
 
-    void repaint()
+    void repaintList()
     {
         widgetDialog->clear();
         for (auto _item : m_items) {
+            QString fileName = QFileInfo(_item->fileName()).fileName();
             QListWidgetItem *item
-                = new QListWidgetItem(_item->fileName(), widgetDialog);
+                = new QListWidgetItem(fileName, widgetDialog);
             QStringList tooltip;
             tooltip.append(i18n("Name: %1", _item->name()));
             tooltip.append(i18n("Comment: %1", _item->comment()));
@@ -206,15 +208,20 @@ private:
         T *source = itemFromWidget();
         QString fileName = getName();
         int number = uniqNumber();
+        QString dir = QString("%1/awesomewidgets/%2")
+            .arg(QStandardPaths::writableLocation(
+                QStandardPaths::GenericDataLocation))
+            .arg(m_type);
         if ((source == nullptr) || (fileName.isEmpty())) {
             qCWarning(LOG_LIB) << "Nothing to copy";
             return;
         }
+        QString filePath = QString("%1/%2").arg(dir).arg(fileName);
 
-        T *newItem = static_cast<T *>(source->copy(fileName, number));
+        T *newItem = static_cast<T *>(source->copy(filePath, number));
         if (newItem->showConfiguration(configArgs()) == 1) {
             initItems();
-            repaint();
+            repaintList();
         }
     };
 
@@ -222,20 +229,21 @@ private:
     {
         QString fileName = getName();
         int number = uniqNumber();
-        QStringList dirs = QStandardPaths::locateAll(
-            QStandardPaths::GenericDataLocation,
-            QString("awesomewidgets/%1").arg(m_type),
-            QStandardPaths::LocateDirectory);
+        QString dir = QString("%1/awesomewidgets/%2")
+                          .arg(QStandardPaths::writableLocation(
+                              QStandardPaths::GenericDataLocation))
+                          .arg(m_type);
         if (fileName.isEmpty()) {
             qCWarning(LOG_LIB) << "Nothing to create";
             return;
         };
+        QString filePath = QString("%1/%2").arg(dir).arg(fileName);
 
-        T *newItem = new T(this, fileName, dirs);
+        T *newItem = new T(this, filePath);
         newItem->setNumber(number);
         if (newItem->showConfiguration(configArgs()) == 1) {
             initItems();
-            repaint();
+            repaintList();
         }
     };
 
@@ -249,7 +257,7 @@ private:
 
         if (source->tryDelete()) {
             initItems();
-            repaint();
+            repaintList();
         }
     };
 
@@ -263,7 +271,7 @@ private:
 
         if (source->showConfiguration(configArgs()) == 1) {
             initItems();
-            repaint();
+            repaintList();
         }
     };
 };
