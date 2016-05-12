@@ -16,22 +16,17 @@
  ***************************************************************************/
 
 
-#include "awdatetimeformatter.h"
-#include "ui_awdatetimeformatter.h"
+#include "awnoformatter.h"
+#include "ui_awnoformatter.h"
 
 #include <KI18n/KLocalizedString>
-
-#include <QDateTime>
-#include <QDir>
-#include <QSettings>
 
 #include "awdebug.h"
 
 
-AWDateTimeFormatter::AWDateTimeFormatter(QWidget *parent,
-                                         const QString filePath)
+AWNoFormatter::AWNoFormatter(QWidget *parent, const QString filePath)
     : AWAbstractFormatter(parent, filePath)
-    , ui(new Ui::AWDateTimeFormatter)
+    , ui(new Ui::AWNoFormatter)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
@@ -41,20 +36,18 @@ AWDateTimeFormatter::AWDateTimeFormatter(QWidget *parent,
 }
 
 
-AWDateTimeFormatter::AWDateTimeFormatter(const QString format, QWidget *parent)
+AWNoFormatter::AWNoFormatter(QWidget *parent)
     : AWAbstractFormatter(parent)
-    , ui(new Ui::AWDateTimeFormatter)
+    , ui(new Ui::AWNoFormatter)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
-
-    setFormat(format);
 
     ui->setupUi(this);
     translate();
 }
 
 
-AWDateTimeFormatter::~AWDateTimeFormatter()
+AWNoFormatter::~AWNoFormatter()
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
@@ -62,61 +55,34 @@ AWDateTimeFormatter::~AWDateTimeFormatter()
 }
 
 
-QString AWDateTimeFormatter::convert(const QVariant &_value) const
+QString AWNoFormatter::convert(const QVariant &_value) const
 {
     qCDebug(LOG_AW) << "Convert value" << _value;
 
-    return _value.toDateTime().toString(m_format);
+    return _value.toString();
 }
 
 
-AWDateTimeFormatter *AWDateTimeFormatter::copy(const QString _fileName)
+AWNoFormatter *AWNoFormatter::copy(const QString _fileName, const int _number)
 {
-    qCDebug(LOG_LIB) << "File" << _fileName;
+    qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    AWDateTimeFormatter *item
-        = new AWDateTimeFormatter(static_cast<QWidget *>(parent()), _fileName);
-    copyDefaults(item);
-    item->setFormat(format());
+    AWNoFormatter *item
+        = new AWNoFormatter(static_cast<QWidget *>(parent()), _fileName);
+    AWAbstractFormatter::copyDefaults(item);
+    item->setNumber(_number);
 
     return item;
 }
 
 
-QString AWDateTimeFormatter::format() const
-{
-    return m_format;
-}
-
-
-void AWDateTimeFormatter::setFormat(const QString _format)
-{
-    qCDebug(LOG_AW) << "Set format" << _format;
-
-    m_format = _format;
-}
-
-
-void AWDateTimeFormatter::readConfiguration()
-{
-    AWAbstractFormatter::readConfiguration();
-
-    QSettings settings(fileName(), QSettings::IniFormat);
-
-    settings.beginGroup(QString("Desktop Entry"));
-    setFormat(settings.value(QString("Format"), m_format).toString());
-    settings.endGroup();
-}
-
-
-int AWDateTimeFormatter::showConfiguration(const QVariant args)
+int AWNoFormatter::showConfiguration(const QVariant args)
 {
     Q_UNUSED(args)
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
-    ui->label_typeValue->setText(QString("DateTime"));
-    ui->lineEdit_format->setText(m_format);
+    ui->label_typeValue->setText(QString("NoFormat"));
 
     int ret = exec();
     if (ret != 1)
@@ -124,32 +90,15 @@ int AWDateTimeFormatter::showConfiguration(const QVariant args)
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
     setType(ui->label_typeValue->text());
-    setFormat(ui->lineEdit_format->text());
 
     writeConfiguration();
     return ret;
 }
 
 
-void AWDateTimeFormatter::writeConfiguration() const
-{
-    AWAbstractFormatter::writeConfiguration();
-
-    QSettings settings(writtableConfig(), QSettings::IniFormat);
-    qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
-
-    settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("Format"), m_format);
-    settings.endGroup();
-
-    settings.sync();
-}
-
-
-void AWDateTimeFormatter::translate()
+void AWNoFormatter::translate()
 {
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
     ui->label_type->setText(i18n("Type"));
-    ui->label_format->setText(i18n("Format"));
 }

@@ -86,16 +86,18 @@ QString AWScriptFormatter::convert(const QVariant &_value) const
 }
 
 
-AWScriptFormatter *AWScriptFormatter::copy(const QString _fileName)
+AWScriptFormatter *AWScriptFormatter::copy(const QString _fileName,
+                                           const int _number)
 {
-    qCDebug(LOG_LIB) << "File" << _fileName;
+    qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
     AWScriptFormatter *item
         = new AWScriptFormatter(static_cast<QWidget *>(parent()), _fileName);
-    copyDefaults(item);
+    AWAbstractFormatter::copyDefaults(item);
     item->setAppendCode(appendCode());
     item->setCode(code());
     item->setHasReturn(hasReturn());
+    item->setNumber(_number);
 
     return item;
 }

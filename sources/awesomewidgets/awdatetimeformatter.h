@@ -15,40 +15,31 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef AWSCRIPTFORMATTER_H
-#define AWSCRIPTFORMATTER_H
+#ifndef AWDATETIMEFORMATTER_H
+#define AWDATETIMEFORMATTER_H
 
 #include "awabstractformatter.h"
 
 
 namespace Ui
 {
-class AWScriptFormatter;
+class AWDateTimeFormatter;
 }
 
-class AWScriptFormatter : public AWAbstractFormatter
+class AWDateTimeFormatter : public AWAbstractFormatter
 {
     Q_OBJECT
-    Q_PROPERTY(bool appendCode READ appendCode WRITE setAppendCode)
-    Q_PROPERTY(QString code READ code WRITE setCode)
-    Q_PROPERTY(bool hasReturn READ hasReturn WRITE setHasReturn)
-    Q_PROPERTY(QString program READ program)
+    Q_PROPERTY(QString format READ format WRITE setFormat)
 
 public:
-    explicit AWScriptFormatter(QWidget *parent, const QString filePath);
-    explicit AWScriptFormatter(const bool appendCode, const QString code,
-                               const bool hasReturn, QWidget *parent);
-    virtual ~AWScriptFormatter();
+    explicit AWDateTimeFormatter(QWidget *parent, const QString filePath);
+    explicit AWDateTimeFormatter(const QString format, QWidget *parent);
+    virtual ~AWDateTimeFormatter();
     QString convert(const QVariant &_value) const;
-    AWScriptFormatter *copy(const QString _fileName);
+    AWDateTimeFormatter *copy(const QString _fileName, const int _number);
     // properties
-    bool appendCode() const;
-    QString code() const;
-    bool hasReturn() const;
-    QString program() const;
-    void setAppendCode(const bool _appendCode);
-    void setCode(const QString _code);
-    void setHasReturn(const bool _hasReturn);
+    QString format() const;
+    void setFormat(const QString _format);
 
 public slots:
     void readConfiguration();
@@ -56,15 +47,11 @@ public slots:
     void writeConfiguration() const;
 
 private:
-    Ui::AWScriptFormatter *ui;
-    void initProgram();
+    Ui::AWDateTimeFormatter *ui;
     void translate();
     // properties
-    bool m_appendCode = true;
-    QString m_code = QString();
-    bool m_hasReturn = false;
-    QString m_program;
+    QString m_format = QString();
 };
 
 
-#endif /* AWSCRIPTFORMATTER_H */
+#endif /* AWDATETIMEFORMATTER_H */

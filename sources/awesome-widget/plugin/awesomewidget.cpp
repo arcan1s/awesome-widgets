@@ -21,7 +21,7 @@
 
 #include "awactions.h"
 #include "awconfighelper.h"
-#include "awdataengineaggregator.h"
+#include "awformatterhelper.h"
 #include "awkeys.h"
 
 
@@ -31,5 +31,6 @@ void AWPlugin::registerTypes(const char *uri)
 
     qmlRegisterType<AWActions>(uri, 1, 0, "AWActions");
     qmlRegisterType<AWConfigHelper>(uri, 1, 0, "AWConfigHelper");
+    qmlRegisterType<AWFormatterHelper>(uri, 1, 0, "AWFormatterHelper");
     qmlRegisterType<AWKeys>(uri, 1, 0, "AWKeys");
 }

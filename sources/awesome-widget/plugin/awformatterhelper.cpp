@@ -17,9 +17,11 @@
 
 #include "awformatterhelper.h"
 
+#include <KI18n/KLocalizedString>
+
 #include <QDir>
+#include <QInputDialog>
 #include <QSettings>
-#include <QStandardPaths>
 
 #include "awdebug.h"
 #include "awdatetimeformatter.h"
@@ -28,15 +30,13 @@
 #include "awscriptformatter.h"
 
 
-AWFormatterHelper::AWFormatterHelper(QObject *parent)
-    : QObject(parent)
+AWFormatterHelper::AWFormatterHelper(QWidget *parent)
+    : AbstractExtItemAggregator(parent, QString("formatters"))
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
 #ifdef BUILD_FUTURE
-    installDirectories();
-    initFormatters();
-    initKeys();
+    initItems();
 #endif /* BUILD_FUTURE */
 }
 
@@ -66,9 +66,27 @@ QStringList AWFormatterHelper::definedFormatters() const
 }
 
 
+QString AWFormatterHelper::formatterByTag(const QString tag) const
+{
+    qCDebug(LOG_AW) << "Looking for tag" << tag;
+
+    return m_formatters.contains(tag) ? m_formatters[tag]->name() : QString();
+}
+
+
 QStringList AWFormatterHelper::knownFormatters() const
 {
     return m_formattersClasses.keys();
+}
+
+
+QList<AbstractExtItem *> AWFormatterHelper::items() const
+{
+    QList<AbstractExtItem *> converted;
+    for (auto item : m_formattersClasses.values())
+        converted.append(item);
+
+    return converted;
 }
 
 
@@ -114,19 +132,18 @@ void AWFormatterHelper::initFormatters()
             switch (metadata.second) {
             case FormatterClass::DateTime:
                 m_formattersClasses[name]
-                    = new AWDateTimeFormatter(nullptr, filePath);
+                    = new AWDateTimeFormatter(this, filePath);
                 break;
             case FormatterClass::Float:
                 m_formattersClasses[name]
-                    = new AWFloatFormatter(nullptr, filePath);
+                    = new AWFloatFormatter(this, filePath);
                 break;
             case FormatterClass::Script:
                 m_formattersClasses[name]
-                    = new AWScriptFormatter(nullptr, filePath);
+                    = new AWScriptFormatter(this, filePath);
                 break;
             case FormatterClass::NoFormat:
-                m_formattersClasses[name]
-                    = new AWNoFormatter(nullptr, filePath);
+                m_formattersClasses[name] = new AWNoFormatter(this, filePath);
                 break;
             }
         }
@@ -184,4 +201,37 @@ AWFormatterHelper::readMetadata(const QString filePath) const
     settings.endGroup();
 
     return QPair<QString, AWFormatterHelper::FormatterClass>(name, formatter);
+}
+
+
+void AWFormatterHelper::doCreateItem()
+{
+    QStringList selection = QStringList()
+                            << QString("NoFormat") << QString("DateTime")
+                            << QString("Float") << QString("Script");
+    bool ok;
+    QString select = QInputDialog::getItem(
+        this, i18n("Select type"), i18n("Type:"), selection, 0, false, &ok);
+    if (!ok)
+        return;
+
+    FormatterClass formatter = defineFormatterClass(select);
+    switch (formatter) {
+    case FormatterClass::DateTime:
+        return createItem<AWDateTimeFormatter>();
+    case FormatterClass::Float:
+        return createItem<AWFloatFormatter>();
+    case FormatterClass::Script:
+        return createItem<AWScriptFormatter>();
+    case FormatterClass::NoFormat:
+        return createItem<AWNoFormatter>();
+    }
+}
+
+
+void AWFormatterHelper::initItems()
+{
+    installDirectories();
+    initFormatters();
+    initKeys();
 }

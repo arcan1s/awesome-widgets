@@ -15,43 +15,37 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef AWDATETIMEFORMATTER_H
-#define AWDATETIMEFORMATTER_H
+#ifndef AWABSTRACTFORMATTER_H
+#define AWABSTRACTFORMATTER_H
 
-#include "awabstractformatter.h"
+#include "abstractextitem.h"
 
 
-namespace Ui
-{
-class AWDateTimeFormatter;
-}
-
-class AWDateTimeFormatter : public AWAbstractFormatter
+class AWAbstractFormatter : public AbstractExtItem
 {
     Q_OBJECT
-    Q_PROPERTY(QString format READ format WRITE setFormat)
+    Q_PROPERTY(QString type READ type WRITE setType)
 
 public:
-    explicit AWDateTimeFormatter(QWidget *parent, const QString filePath);
-    explicit AWDateTimeFormatter(const QString format, QWidget *parent);
-    virtual ~AWDateTimeFormatter();
-    QString convert(const QVariant &_value) const;
-    AWDateTimeFormatter *copy(const QString _fileName);
+    explicit AWAbstractFormatter(QWidget *parent = nullptr,
+                                 const QString filePath = QString());
+    virtual ~AWAbstractFormatter();
+    void copyDefaults(AbstractExtItem *_other) const;
+    virtual QString convert(const QVariant &_value) const = 0;
+    QString uniq() const;
     // properties
-    QString format() const;
-    void setFormat(const QString _format);
+    QString type() const;
+    void setType(const QString _type = QString("NoFormat"));
 
 public slots:
-    void readConfiguration();
-    int showConfiguration(const QVariant args = QVariant());
-    void writeConfiguration() const;
+    virtual void readConfiguration();
+    QVariantHash run() { return QVariantHash(); };
+    virtual void writeConfiguration() const;
 
 private:
-    Ui::AWDateTimeFormatter *ui;
-    void translate();
     // properties
-    QString m_format = QString();
+    QString m_type = QString("NoFormat");
 };
 
 
-#endif /* AWDATETIMEFORMATTER_H */
+#endif /* AWABSTRACTFORMATTER_H */

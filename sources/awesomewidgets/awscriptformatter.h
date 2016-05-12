@@ -15,49 +15,40 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef AWFLOATFORMATTER_H
-#define AWFLOATFORMATTER_H
+#ifndef AWSCRIPTFORMATTER_H
+#define AWSCRIPTFORMATTER_H
 
 #include "awabstractformatter.h"
 
 
 namespace Ui
 {
-class AWFloatFormatter;
+class AWScriptFormatter;
 }
 
-class AWFloatFormatter : public AWAbstractFormatter
+class AWScriptFormatter : public AWAbstractFormatter
 {
     Q_OBJECT
-    Q_PROPERTY(int count READ count WRITE setCount)
-    Q_PROPERTY(QChar fillChar READ fillChar WRITE setFillChar)
-    Q_PROPERTY(char format READ format WRITE setFormat)
-    Q_PROPERTY(double multiplier READ multiplier WRITE setMultiplier)
-    Q_PROPERTY(int precision READ precision WRITE setPrecision)
-    Q_PROPERTY(double summand READ summand WRITE setSummand)
+    Q_PROPERTY(bool appendCode READ appendCode WRITE setAppendCode)
+    Q_PROPERTY(QString code READ code WRITE setCode)
+    Q_PROPERTY(bool hasReturn READ hasReturn WRITE setHasReturn)
+    Q_PROPERTY(QString program READ program)
 
 public:
-    explicit AWFloatFormatter(QWidget *parent, const QString filePath);
-    explicit AWFloatFormatter(const int count, const QChar fillChar,
-                              const char format, const double multiplier,
-                              const int precision, const double summand,
-                              QWidget *parent);
-    virtual ~AWFloatFormatter();
+    explicit AWScriptFormatter(QWidget *parent, const QString filePath);
+    explicit AWScriptFormatter(const bool appendCode, const QString code,
+                               const bool hasReturn, QWidget *parent);
+    virtual ~AWScriptFormatter();
     QString convert(const QVariant &_value) const;
-    AWFloatFormatter *copy(const QString _fileName);
+    AWScriptFormatter *copy(const QString _fileName, const int _number);
     // properties
-    int count() const;
-    QChar fillChar() const;
-    char format() const;
-    double multiplier() const;
-    int precision() const;
-    double summand() const;
-    void setCount(const int _count);
-    void setFillChar(const QChar _fillChar);
-    void setFormat(char _format);
-    void setMultiplier(const double _multiplier);
-    void setPrecision(const int _precision);
-    void setSummand(const double _summand);
+    bool appendCode() const;
+    QString code() const;
+    bool hasReturn() const;
+    QString program() const;
+    void setAppendCode(const bool _appendCode);
+    void setCode(const QString _code);
+    void setHasReturn(const bool _hasReturn);
 
 public slots:
     void readConfiguration();
@@ -65,16 +56,15 @@ public slots:
     void writeConfiguration() const;
 
 private:
-    Ui::AWFloatFormatter *ui;
+    Ui::AWScriptFormatter *ui;
+    void initProgram();
     void translate();
     // properties
-    int m_count = 0;
-    QChar m_fillChar = QChar();
-    char m_format = 'f';
-    double m_multiplier = 1.0;
-    int m_precision = -1;
-    double m_summand = 0.0;
+    bool m_appendCode = true;
+    QString m_code = QString();
+    bool m_hasReturn = false;
+    QString m_program;
 };
 
 
-#endif /* AWFLOATFORMATTER_H */
+#endif /* AWSCRIPTFORMATTER_H */

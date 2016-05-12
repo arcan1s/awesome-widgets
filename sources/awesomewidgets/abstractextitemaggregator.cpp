@@ -19,15 +19,16 @@
 
 #include <KI18n/KLocalizedString>
 
+#include <QFileInfo>
 #include <QHBoxLayout>
 #include <QInputDialog>
 #include <QLineEdit>
 
-#include "awdebug.h"
 
-
-AbstractExtItemAggregator::AbstractExtItemAggregator(QWidget *parent)
+AbstractExtItemAggregator::AbstractExtItemAggregator(QWidget *parent,
+                                                     const QString type)
     : QWidget(parent)
+    , m_type(type)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
@@ -62,6 +63,59 @@ AbstractExtItemAggregator::~AbstractExtItemAggregator()
 }
 
 
+void AbstractExtItemAggregator::copyItem()
+{
+    AbstractExtItem *source = itemFromWidget();
+    QString fileName = getName();
+    int number = uniqNumber();
+    QString dir = QString("%1/awesomewidgets/%2")
+                      .arg(QStandardPaths::writableLocation(
+                          QStandardPaths::GenericDataLocation))
+                      .arg(m_type);
+    if ((source == nullptr) || (fileName.isEmpty())) {
+        qCWarning(LOG_LIB) << "Nothing to copy";
+        return;
+    }
+    QString filePath = QString("%1/%2").arg(dir).arg(fileName);
+
+    AbstractExtItem *newItem = source->copy(filePath, number);
+    if (newItem->showConfiguration(configArgs()) == 1) {
+        initItems();
+        repaintList();
+    }
+}
+
+
+void AbstractExtItemAggregator::deleteItem()
+{
+    AbstractExtItem *source = itemFromWidget();
+    if (source == nullptr) {
+        qCWarning(LOG_LIB) << "Nothing to delete";
+        return;
+    };
+
+    if (source->tryDelete()) {
+        initItems();
+        repaintList();
+    }
+}
+
+
+void AbstractExtItemAggregator::editItem()
+{
+    AbstractExtItem *source = itemFromWidget();
+    if (source == nullptr) {
+        qCWarning(LOG_LIB) << "Nothing to edit";
+        return;
+    };
+
+    if (source->showConfiguration(configArgs()) == 1) {
+        initItems();
+        repaintList();
+    }
+}
+
+
 QString AbstractExtItemAggregator::getName()
 {
     bool ok;
@@ -77,9 +131,66 @@ QString AbstractExtItemAggregator::getName()
 }
 
 
+AbstractExtItem *AbstractExtItemAggregator::itemFromWidget()
+{
+    QListWidgetItem *widgetItem = widgetDialog->currentItem();
+    if (widgetItem == nullptr)
+        return nullptr;
+
+    AbstractExtItem *found = nullptr;
+    for (auto item : items()) {
+        QString fileName = QFileInfo(item->fileName()).fileName();
+        if (fileName != widgetItem->text())
+            continue;
+        found = item;
+        break;
+    }
+    if (found == nullptr)
+        qCWarning(LOG_LIB) << "Could not find item by name"
+                           << widgetItem->text();
+
+    return found;
+}
+
+
+void AbstractExtItemAggregator::repaintList()
+{
+    widgetDialog->clear();
+    for (auto _item : items()) {
+        QString fileName = QFileInfo(_item->fileName()).fileName();
+        QListWidgetItem *item = new QListWidgetItem(fileName, widgetDialog);
+        QStringList tooltip;
+        tooltip.append(i18n("Name: %1", _item->name()));
+        tooltip.append(i18n("Comment: %1", _item->comment()));
+        tooltip.append(i18n("Identity: %1", _item->uniq()));
+        item->setToolTip(tooltip.join(QChar('\n')));
+        widgetDialog->addItem(item);
+    }
+}
+
+
+int AbstractExtItemAggregator::uniqNumber() const
+{
+    QList<int> tagList;
+    for (auto item : items())
+        tagList.append(item->number());
+    int number = 0;
+    while (tagList.contains(number))
+        number++;
+
+    return number;
+}
+
+
 QVariant AbstractExtItemAggregator::configArgs() const
 {
     return m_configArgs;
+}
+
+
+QString AbstractExtItemAggregator::type() const
+{
+    return m_type;
 }
 
 
@@ -102,7 +213,7 @@ void AbstractExtItemAggregator::editItemButtonPressed(QAbstractButton *button)
     if (static_cast<QPushButton *>(button) == copyButton)
         return copyItem();
     else if (static_cast<QPushButton *>(button) == createButton)
-        return createItem();
+        return doCreateItem();
     else if (static_cast<QPushButton *>(button) == deleteButton)
         return deleteItem();
     else if (dialogButtons->buttonRole(button) == QDialogButtonBox::AcceptRole)

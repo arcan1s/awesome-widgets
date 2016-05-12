@@ -77,17 +77,19 @@ QString AWFloatFormatter::convert(const QVariant &_value) const
 }
 
 
-AWFloatFormatter *AWFloatFormatter::copy(const QString _fileName)
+AWFloatFormatter *AWFloatFormatter::copy(const QString _fileName,
+                                         const int _number)
 {
-    qCDebug(LOG_LIB) << "File" << _fileName;
+    qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
     AWFloatFormatter *item
         = new AWFloatFormatter(static_cast<QWidget *>(parent()), _fileName);
-    copyDefaults(item);
+    AWAbstractFormatter::copyDefaults(item);
     item->setCount(count());
     item->setFormat(format());
     item->setFillChar(fillChar());
     item->setMultiplier(multiplier());
+    item->setNumber(_number);
     item->setPrecision(precision());
     item->setSummand(summand());
 

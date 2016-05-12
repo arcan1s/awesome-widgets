@@ -22,7 +22,11 @@
 #include <QDialogButtonBox>
 #include <QListWidget>
 #include <QPushButton>
+#include <QStandardPaths>
 #include <QWidget>
+
+#include "abstractextitem.h"
+#include "awdebug.h"
 
 
 // additional class since QObject macro does not allow class templates
@@ -30,11 +34,40 @@ class AbstractExtItemAggregator : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(QVariant configArgs READ configArgs WRITE setConfigArgs)
+    Q_PROPERTY(QVariant type READ type)
 
 public:
-    explicit AbstractExtItemAggregator(QWidget *parent = nullptr);
+    explicit AbstractExtItemAggregator(QWidget *parent, const QString type);
     virtual ~AbstractExtItemAggregator();
+    // methods
+    void copyItem();
+    template <class T> void createItem()
+    {
+        QString fileName = getName();
+        int number = uniqNumber();
+        QString dir = QString("%1/awesomewidgets/%2")
+                          .arg(QStandardPaths::writableLocation(
+                              QStandardPaths::GenericDataLocation))
+                          .arg(m_type);
+        if (fileName.isEmpty()) {
+            qCWarning(LOG_LIB) << "Nothing to create";
+            return;
+        };
+        QString filePath = QString("%1/%2").arg(dir).arg(fileName);
+
+        T *newItem = new T(this, filePath);
+        newItem->setNumber(number);
+        if (newItem->showConfiguration(configArgs()) == 1) {
+            initItems();
+            repaintList();
+        };
+    };
+    void deleteItem();
+    void editItem();
     QString getName();
+    AbstractExtItem *itemFromWidget();
+    void repaintList();
+    int uniqNumber() const;
     // ui
     QDialog *dialog = nullptr;
     QListWidget *widgetDialog = nullptr;
@@ -44,6 +77,8 @@ public:
     QPushButton *deleteButton = nullptr;
     // get methods
     QVariant configArgs() const;
+    virtual QList<AbstractExtItem *> items() const = 0;
+    QString type() const;
     // set methods
     void setConfigArgs(const QVariant _configArgs);
 
@@ -53,11 +88,10 @@ private slots:
 
 private:
     QVariant m_configArgs;
-    // methods
-    virtual void copyItem() = 0;
-    virtual void createItem() = 0;
-    virtual void deleteItem() = 0;
-    virtual void editItem() = 0;
+    QString m_type;
+    // ui methods
+    virtual void doCreateItem() = 0;
+    virtual void initItems() = 0;
 };
 
 

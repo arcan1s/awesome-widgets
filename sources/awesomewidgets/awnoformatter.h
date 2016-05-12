@@ -35,7 +35,7 @@ public:
     explicit AWNoFormatter(QWidget *parent);
     virtual ~AWNoFormatter();
     QString convert(const QVariant &_value) const;
-    AWNoFormatter *copy(const QString _fileName);
+    AWNoFormatter *copy(const QString _fileName, const int _number);
 
 public slots:
     int showConfiguration(const QVariant args = QVariant());
