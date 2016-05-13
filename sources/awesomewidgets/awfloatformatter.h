@@ -65,7 +65,7 @@ public slots:
     void writeConfiguration() const;
 
 private:
-    Ui::AWFloatFormatter *ui;
+    Ui::AWFloatFormatter *ui = nullptr;
     void translate();
     // properties
     int m_count = 0;

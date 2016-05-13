@@ -28,7 +28,7 @@ AWNoFormatter::AWNoFormatter(QWidget *parent, const QString filePath)
     : AWAbstractFormatter(parent, filePath)
     , ui(new Ui::AWNoFormatter)
 {
-    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     readConfiguration();
     ui->setupUi(this);
@@ -40,7 +40,7 @@ AWNoFormatter::AWNoFormatter(QWidget *parent)
     : AWAbstractFormatter(parent)
     , ui(new Ui::AWNoFormatter)
 {
-    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     ui->setupUi(this);
     translate();
@@ -49,7 +49,7 @@ AWNoFormatter::AWNoFormatter(QWidget *parent)
 
 AWNoFormatter::~AWNoFormatter()
 {
-    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     delete ui;
 }
@@ -57,7 +57,7 @@ AWNoFormatter::~AWNoFormatter()
 
 QString AWNoFormatter::convert(const QVariant &_value) const
 {
-    qCDebug(LOG_AW) << "Convert value" << _value;
+    qCDebug(LOG_LIB) << "Convert value" << _value;
 
     return _value.toString();
 }

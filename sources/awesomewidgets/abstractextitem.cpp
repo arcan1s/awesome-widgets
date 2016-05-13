@@ -198,7 +198,7 @@ void AbstractExtItem::readConfiguration()
 bool AbstractExtItem::tryDelete() const
 {
     bool status = QFile::remove(m_fileName);
-    qCInfo(LOG_AW) << "Remove file" << m_fileName << status;
+    qCInfo(LOG_LIB) << "Remove file" << m_fileName << status;
 
     return status;
 }

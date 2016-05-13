@@ -39,7 +39,7 @@ public:
 private:
     QStringList getSources();
     // configuration and values
-    ExtItemAggregator<ExtWeather> *extWeather;
+    ExtItemAggregator<ExtWeather> *extWeather = nullptr;
     QStringList m_sources;
     QVariantHash m_values;
 };

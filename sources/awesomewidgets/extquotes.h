@@ -58,10 +58,10 @@ private slots:
     void quotesReplyReceived(QNetworkReply *reply);
 
 private:
-    QNetworkAccessManager *m_manager;
+    QNetworkAccessManager *m_manager = nullptr;
     QUrl m_url;
     bool isRunning = false;
-    Ui::ExtQuotes *ui;
+    Ui::ExtQuotes *ui = nullptr;
     void translate();
     // properties
     QString m_ticker = QString("EURUSD=X");

@@ -57,7 +57,7 @@ public:
     void editItems()
     {
         repaintList();
-        int ret = dialog->exec();
+        int ret = exec();
         qCInfo(LOG_LIB) << "Dialog returns" << ret;
     };
 

@@ -47,7 +47,7 @@ public slots:
     void writeConfiguration() const;
 
 private:
-    Ui::AWDateTimeFormatter *ui;
+    Ui::AWDateTimeFormatter *ui = nullptr;
     void translate();
     // properties
     QString m_format = QString();

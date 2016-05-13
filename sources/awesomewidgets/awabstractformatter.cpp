@@ -26,13 +26,13 @@ AWAbstractFormatter::AWAbstractFormatter(QWidget *parent,
                                          const QString filePath)
     : AbstractExtItem(parent, filePath)
 {
-    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 }
 
 
 AWAbstractFormatter::~AWAbstractFormatter()
 {
-    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 }
 
 
@@ -58,7 +58,7 @@ QString AWAbstractFormatter::type() const
 
 void AWAbstractFormatter::setType(const QString _type)
 {
-    qCDebug(LOG_AW) << "Type" << _type;
+    qCDebug(LOG_LIB) << "Type" << _type;
 
     m_type = _type;
 }
@@ -71,7 +71,7 @@ void AWAbstractFormatter::readConfiguration()
     QSettings settings(fileName(), QSettings::IniFormat);
 
     settings.beginGroup(QString("Desktop Entry"));
-    setType(settings.value(QString("Type"), m_type).toString());
+    setType(settings.value(QString("X-AW-Type"), m_type).toString());
     settings.endGroup();
 }
 
@@ -81,10 +81,10 @@ void AWAbstractFormatter::writeConfiguration() const
     AbstractExtItem::writeConfiguration();
 
     QSettings settings(writtableConfig(), QSettings::IniFormat);
-    qCInfo(LOG_AW) << "Configuration file" << settings.fileName();
+    qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("Type"), m_type);
+    settings.setValue(QString("X-AW-Type"), m_type);
     settings.endGroup();
 
     settings.sync();

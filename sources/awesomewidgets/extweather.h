@@ -70,10 +70,10 @@ private slots:
     void weatherReplyReceived(QNetworkReply *reply);
 
 private:
-    QNetworkAccessManager *m_manager;
+    QNetworkAccessManager *m_manager = nullptr;
     QUrl m_url;
     bool isRunning = false;
-    Ui::ExtWeather *ui;
+    Ui::ExtWeather *ui = nullptr;
     void translate();
     // properties
     QString m_city = QString("London");

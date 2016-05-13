@@ -56,7 +56,7 @@ public slots:
     void writeConfiguration() const;
 
 private:
-    Ui::AWScriptFormatter *ui;
+    Ui::AWScriptFormatter *ui = nullptr;
     void initProgram();
     void translate();
     // properties

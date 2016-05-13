@@ -31,7 +31,7 @@ AWFloatFormatter::AWFloatFormatter(QWidget *parent, const QString filePath)
     : AWAbstractFormatter(parent, filePath)
     , ui(new Ui::AWFloatFormatter)
 {
-    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     readConfiguration();
     ui->setupUi(this);
@@ -46,7 +46,7 @@ AWFloatFormatter::AWFloatFormatter(const int count, const QChar fillChar,
     : AWAbstractFormatter(parent)
     , ui(new Ui::AWFloatFormatter)
 {
-    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     setCount(count);
     setFillChar(fillChar);
@@ -62,7 +62,7 @@ AWFloatFormatter::AWFloatFormatter(const int count, const QChar fillChar,
 
 AWFloatFormatter::~AWFloatFormatter()
 {
-    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     delete ui;
 }
@@ -70,7 +70,7 @@ AWFloatFormatter::~AWFloatFormatter()
 
 QString AWFloatFormatter::convert(const QVariant &_value) const
 {
-    qCDebug(LOG_AW) << "Convert value" << _value;
+    qCDebug(LOG_LIB) << "Convert value" << _value;
 
     return QString("%1").arg(_value.toDouble() * m_multiplier + m_summand,
                              m_count, m_format, m_precision, m_fillChar);
@@ -135,7 +135,7 @@ double AWFloatFormatter::summand() const
 
 void AWFloatFormatter::setCount(const int _count)
 {
-    qCDebug(LOG_AW) << "Set width" << _count;
+    qCDebug(LOG_LIB) << "Set width" << _count;
 
     m_count = _count;
 }
@@ -143,7 +143,7 @@ void AWFloatFormatter::setCount(const int _count)
 
 void AWFloatFormatter::setFillChar(const QChar _fillChar)
 {
-    qCDebug(LOG_AW) << "Set char" << _fillChar;
+    qCDebug(LOG_LIB) << "Set char" << _fillChar;
 
     m_fillChar = _fillChar;
 }
@@ -151,11 +151,11 @@ void AWFloatFormatter::setFillChar(const QChar _fillChar)
 
 void AWFloatFormatter::setFormat(char _format)
 {
-    qCDebug(LOG_AW) << "Set format" << _format;
+    qCDebug(LOG_LIB) << "Set format" << _format;
     // http://doc.qt.io/qt-5/qstring.html#argument-formats
     if ((_format != 'e') && (_format != 'E') && (_format != 'f')
         && (_format != 'g') && (_format != 'G')) {
-        qCWarning(LOG_AW) << "Invalid format" << _format;
+        qCWarning(LOG_LIB) << "Invalid format" << _format;
         _format = 'f';
     }
 
@@ -165,7 +165,7 @@ void AWFloatFormatter::setFormat(char _format)
 
 void AWFloatFormatter::setMultiplier(const double _multiplier)
 {
-    qCDebug(LOG_AW) << "Set multiplier" << _multiplier;
+    qCDebug(LOG_LIB) << "Set multiplier" << _multiplier;
 
     m_multiplier = _multiplier;
 }
@@ -173,7 +173,7 @@ void AWFloatFormatter::setMultiplier(const double _multiplier)
 
 void AWFloatFormatter::setPrecision(const int _precision)
 {
-    qCDebug(LOG_AW) << "Set precision" << _precision;
+    qCDebug(LOG_LIB) << "Set precision" << _precision;
 
     m_precision = _precision;
 }
@@ -181,7 +181,7 @@ void AWFloatFormatter::setPrecision(const int _precision)
 
 void AWFloatFormatter::setSummand(const double _summand)
 {
-    qCDebug(LOG_AW) << "Set summand" << _summand;
+    qCDebug(LOG_LIB) << "Set summand" << _summand;
 
     m_summand = _summand;
 }
@@ -194,17 +194,18 @@ void AWFloatFormatter::readConfiguration()
     QSettings settings(fileName(), QSettings::IniFormat);
 
     settings.beginGroup(QString("Desktop Entry"));
-    setCount(settings.value(QString("Width"), m_count).toInt());
+    setCount(settings.value(QString("X-AW-Width"), m_count).toInt());
     setFillChar(
-        settings.value(QString("FillChar"), m_fillChar).toString().at(0));
-    setFormat(settings.value(QString("Format"), QString(m_format))
+        settings.value(QString("X-AW-FillChar"), m_fillChar).toString().at(0));
+    setFormat(settings.value(QString("X-AW-Format"), QString(m_format))
                   .toString()
                   .at(0)
                   .toLatin1());
     setMultiplier(
-        settings.value(QString("Multiplier"), m_multiplier).toDouble());
-    setPrecision(settings.value(QString("Precision"), m_precision).toInt());
-    setSummand(settings.value(QString("Summand"), m_summand).toDouble());
+        settings.value(QString("X-AW-Multiplier"), m_multiplier).toDouble());
+    setPrecision(
+        settings.value(QString("X-AW-Precision"), m_precision).toInt());
+    setSummand(settings.value(QString("X-AW-Summand"), m_summand).toDouble());
     settings.endGroup();
 }
 
@@ -250,12 +251,12 @@ void AWFloatFormatter::writeConfiguration() const
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("Width"), m_count);
-    settings.setValue(QString("FillChar"), m_fillChar);
-    settings.setValue(QString("Format"), m_format);
-    settings.setValue(QString("Multiplier"), m_multiplier);
-    settings.setValue(QString("Precision"), m_precision);
-    settings.setValue(QString("Summand"), m_summand);
+    settings.setValue(QString("X-AW-Width"), m_count);
+    settings.setValue(QString("X-AW-FillChar"), m_fillChar);
+    settings.setValue(QString("X-AW-Format"), m_format);
+    settings.setValue(QString("X-AW-Multiplier"), m_multiplier);
+    settings.setValue(QString("X-AW-Precision"), m_precision);
+    settings.setValue(QString("X-AW-Summand"), m_summand);
     settings.endGroup();
 
     settings.sync();

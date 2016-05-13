@@ -295,7 +295,7 @@ void AWConfigHelper::readFile(QSettings &settings, const QString key,
         file.close();
         settings.setValue(key, text);
     } else {
-        qCWarning(LOG_LIB) << "Could not open" << file.fileName();
+        qCWarning(LOG_AW) << "Could not open" << file.fileName();
     }
 }
 
@@ -316,6 +316,6 @@ void AWConfigHelper::writeFile(QSettings &settings, const QString key,
         out.flush();
         file.close();
     } else {
-        qCWarning(LOG_LIB) << "Could not open" << file.fileName();
+        qCWarning(LOG_AW) << "Could not open" << file.fileName();
     }
 }

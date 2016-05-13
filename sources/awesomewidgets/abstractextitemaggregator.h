@@ -19,18 +19,20 @@
 #define ABSTRACTEXTITEMAGGREGATOR_H
 
 #include <QDialog>
-#include <QDialogButtonBox>
-#include <QListWidget>
-#include <QPushButton>
 #include <QStandardPaths>
-#include <QWidget>
 
 #include "abstractextitem.h"
 #include "awdebug.h"
 
 
-// additional class since QObject macro does not allow class templates
-class AbstractExtItemAggregator : public QWidget
+class QAbstractButton;
+class QListWidgetItem;
+namespace Ui
+{
+class AbstractExtItemAggregator;
+}
+
+class AbstractExtItemAggregator : public QDialog
 {
     Q_OBJECT
     Q_PROPERTY(QVariant configArgs READ configArgs WRITE setConfigArgs)
@@ -68,13 +70,6 @@ public:
     AbstractExtItem *itemFromWidget();
     void repaintList();
     int uniqNumber() const;
-    // ui
-    QDialog *dialog = nullptr;
-    QListWidget *widgetDialog = nullptr;
-    QDialogButtonBox *dialogButtons = nullptr;
-    QPushButton *copyButton = nullptr;
-    QPushButton *createButton = nullptr;
-    QPushButton *deleteButton = nullptr;
     // get methods
     QVariant configArgs() const;
     virtual QList<AbstractExtItem *> items() const = 0;
@@ -87,6 +82,12 @@ private slots:
     void editItemButtonPressed(QAbstractButton *button);
 
 private:
+    // ui
+    Ui::AbstractExtItemAggregator *ui = nullptr;
+    QPushButton *copyButton = nullptr;
+    QPushButton *createButton = nullptr;
+    QPushButton *deleteButton = nullptr;
+    // properties
     QVariant m_configArgs;
     QString m_type;
     // ui methods

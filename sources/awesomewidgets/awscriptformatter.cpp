@@ -32,7 +32,7 @@ AWScriptFormatter::AWScriptFormatter(QWidget *parent, const QString filePath)
     : AWAbstractFormatter(parent, filePath)
     , ui(new Ui::AWScriptFormatter)
 {
-    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     readConfiguration();
     ui->setupUi(this);
@@ -45,7 +45,7 @@ AWScriptFormatter::AWScriptFormatter(const bool appendCode, const QString code,
     : AWAbstractFormatter(parent)
     , ui(new Ui::AWScriptFormatter)
 {
-    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     setAppendCode(appendCode);
     setCode(code);
@@ -59,7 +59,7 @@ AWScriptFormatter::AWScriptFormatter(const bool appendCode, const QString code,
 
 AWScriptFormatter::~AWScriptFormatter()
 {
-    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     delete ui;
 }
@@ -67,7 +67,7 @@ AWScriptFormatter::~AWScriptFormatter()
 
 QString AWScriptFormatter::convert(const QVariant &_value) const
 {
-    qCDebug(LOG_AW) << "Convert value" << _value;
+    qCDebug(LOG_LIB) << "Convert value" << _value;
 
     // init engine
     QJSEngine engine;
@@ -76,9 +76,9 @@ QString AWScriptFormatter::convert(const QVariant &_value) const
     QJSValue result = fn.call(args);
 
     if (result.isError()) {
-        qCWarning(LOG_AW) << "Uncaught exception at line"
-                          << result.property("lineNumber").toInt() << ":"
-                          << result.toString();
+        qCWarning(LOG_LIB) << "Uncaught exception at line"
+                           << result.property("lineNumber").toInt() << ":"
+                           << result.toString();
         return QString();
     } else {
         return result.toString();
@@ -129,7 +129,7 @@ QString AWScriptFormatter::program() const
 
 void AWScriptFormatter::setAppendCode(const bool _appendCode)
 {
-    qCDebug(LOG_AW) << "Set append code" << _appendCode;
+    qCDebug(LOG_LIB) << "Set append code" << _appendCode;
 
     m_appendCode = _appendCode;
 }
@@ -137,7 +137,7 @@ void AWScriptFormatter::setAppendCode(const bool _appendCode)
 
 void AWScriptFormatter::setCode(const QString _code)
 {
-    qCDebug(LOG_AW) << "Set code" << _code;
+    qCDebug(LOG_LIB) << "Set code" << _code;
 
     m_code = _code;
 }
@@ -145,7 +145,7 @@ void AWScriptFormatter::setCode(const QString _code)
 
 void AWScriptFormatter::setHasReturn(const bool _hasReturn)
 {
-    qCDebug(LOG_AW) << "Set has return" << _hasReturn;
+    qCDebug(LOG_LIB) << "Set has return" << _hasReturn;
 
     m_hasReturn = _hasReturn;
 }
@@ -158,9 +158,11 @@ void AWScriptFormatter::readConfiguration()
     QSettings settings(fileName(), QSettings::IniFormat);
 
     settings.beginGroup(QString("Desktop Entry"));
-    setAppendCode(settings.value(QString("AppendCode"), m_appendCode).toBool());
-    setCode(settings.value(QString("Code"), m_code).toString());
-    setHasReturn(settings.value(QString("HasReturn"), m_hasReturn).toBool());
+    setAppendCode(
+        settings.value(QString("X-AW-AppendCode"), m_appendCode).toBool());
+    setCode(settings.value(QString("X-AW-Code"), m_code).toString());
+    setHasReturn(
+        settings.value(QString("X-AW-HasReturn"), m_hasReturn).toBool());
     settings.endGroup();
 
     initProgram();
@@ -204,9 +206,9 @@ void AWScriptFormatter::writeConfiguration() const
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("AppendCode"), m_appendCode);
-    settings.setValue(QString("Code"), m_code);
-    settings.setValue(QString("HasReturn"), m_hasReturn);
+    settings.setValue(QString("X-AW-AppendCode"), m_appendCode);
+    settings.setValue(QString("X-AW-Code"), m_code);
+    settings.setValue(QString("X-AW-HasReturn"), m_hasReturn);
     settings.endGroup();
 
     settings.sync();
@@ -223,7 +225,7 @@ void AWScriptFormatter::initProgram()
     else
         m_program = m_code;
 
-    qCInfo(LOG_AW) << "Create JS engine with code" << m_program;
+    qCInfo(LOG_LIB) << "Create JS engine with code" << m_program;
 }
 
 

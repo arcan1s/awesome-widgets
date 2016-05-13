@@ -41,7 +41,7 @@ public slots:
     int showConfiguration(const QVariant args = QVariant());
 
 private:
-    Ui::AWNoFormatter *ui;
+    Ui::AWNoFormatter *ui = nullptr;
     void translate();
     // properties
 };

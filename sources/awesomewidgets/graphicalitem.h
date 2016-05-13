@@ -105,7 +105,7 @@ private:
     GraphicalItemHelper *m_helper = nullptr;
     QGraphicsScene *m_scene = nullptr;
     QGraphicsView *m_view = nullptr;
-    Ui::GraphicalItem *ui;
+    Ui::GraphicalItem *ui = nullptr;
     void initScene();
     void translate();
     // properties

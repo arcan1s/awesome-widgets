@@ -33,7 +33,7 @@ AWDateTimeFormatter::AWDateTimeFormatter(QWidget *parent,
     : AWAbstractFormatter(parent, filePath)
     , ui(new Ui::AWDateTimeFormatter)
 {
-    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     readConfiguration();
     ui->setupUi(this);
@@ -45,7 +45,7 @@ AWDateTimeFormatter::AWDateTimeFormatter(const QString format, QWidget *parent)
     : AWAbstractFormatter(parent)
     , ui(new Ui::AWDateTimeFormatter)
 {
-    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     setFormat(format);
 
@@ -56,7 +56,7 @@ AWDateTimeFormatter::AWDateTimeFormatter(const QString format, QWidget *parent)
 
 AWDateTimeFormatter::~AWDateTimeFormatter()
 {
-    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     delete ui;
 }
@@ -64,7 +64,7 @@ AWDateTimeFormatter::~AWDateTimeFormatter()
 
 QString AWDateTimeFormatter::convert(const QVariant &_value) const
 {
-    qCDebug(LOG_AW) << "Convert value" << _value;
+    qCDebug(LOG_LIB) << "Convert value" << _value;
 
     return _value.toDateTime().toString(m_format);
 }
@@ -93,7 +93,7 @@ QString AWDateTimeFormatter::format() const
 
 void AWDateTimeFormatter::setFormat(const QString _format)
 {
-    qCDebug(LOG_AW) << "Set format" << _format;
+    qCDebug(LOG_LIB) << "Set format" << _format;
 
     m_format = _format;
 }
@@ -106,7 +106,7 @@ void AWDateTimeFormatter::readConfiguration()
     QSettings settings(fileName(), QSettings::IniFormat);
 
     settings.beginGroup(QString("Desktop Entry"));
-    setFormat(settings.value(QString("Format"), m_format).toString());
+    setFormat(settings.value(QString("X-AW-Format"), m_format).toString());
     settings.endGroup();
 }
 
@@ -141,7 +141,7 @@ void AWDateTimeFormatter::writeConfiguration() const
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("Format"), m_format);
+    settings.setValue(QString("X-AW-Format"), m_format);
     settings.endGroup();
 
     settings.sync();

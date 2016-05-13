@@ -119,8 +119,8 @@ void AWFormatterHelper::initFormatters()
         for (auto file : files) {
             if (!file.endsWith(QString(".desktop")))
                 continue;
-            qCInfo(LOG_LIB) << "Found file" << file << "in"
-                            << m_directories.at(i);
+            qCInfo(LOG_AW) << "Found file" << file << "in"
+                           << m_directories.at(i);
             QString filePath
                 = QString("%1/%2").arg(m_directories.at(i)).arg(file);
             auto metadata = readMetadata(filePath);
@@ -161,6 +161,10 @@ void AWFormatterHelper::initKeys()
     for (auto key : keys) {
         QString name = settings.value(key).toString();
         qCInfo(LOG_AW) << "Found formatter" << name << "for key" << key;
+        if (!m_formattersClasses.contains(name)) {
+            qCWarning(LOG_AW) << "Invalid formatter" << name << "found in"
+                              << key;
+        }
         m_formatters[key] = m_formattersClasses[name];
     }
     settings.endGroup();
@@ -175,7 +179,7 @@ void AWFormatterHelper::installDirectories()
                                QStandardPaths::GenericDataLocation));
     QDir localDirectory;
     if (localDirectory.mkpath(localDir))
-        qCInfo(LOG_LIB) << "Created directory" << localDir;
+        qCInfo(LOG_AW) << "Created directory" << localDir;
 
     m_directories = QStandardPaths::locateAll(
         QStandardPaths::GenericDataLocation,
@@ -196,7 +200,7 @@ AWFormatterHelper::readMetadata(const QString filePath) const
     settings.beginGroup(QString("Desktop Entry"));
     QString name = settings.value(QString("Name"), filePath).toString();
     QString type
-        = settings.value(QString("Type"), QString("NoFormat")).toString();
+        = settings.value(QString("X-AW-Type"), QString("NoFormat")).toString();
     FormatterClass formatter = defineFormatterClass(type);
     settings.endGroup();
 
@@ -212,9 +216,12 @@ void AWFormatterHelper::doCreateItem()
     bool ok;
     QString select = QInputDialog::getItem(
         this, i18n("Select type"), i18n("Type:"), selection, 0, false, &ok);
-    if (!ok)
+    if (!ok) {
+        qCWarning(LOG_AW) << "No type selected";
         return;
+    }
 
+    qCInfo(LOG_AW) << "Selected type" << select;
     FormatterClass formatter = defineFormatterClass(select);
     switch (formatter) {
     case FormatterClass::DateTime:
