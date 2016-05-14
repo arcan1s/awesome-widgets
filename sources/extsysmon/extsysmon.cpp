@@ -125,8 +125,8 @@ void ExtendedSysMon::readConfiguration()
 
     settings.beginGroup(QString("Configuration"));
     rawConfig[QString("ACPIPATH")]
-        = settings
-              .value(QString("ACPIPATH"), QString("/sys/class/power_supply/"))
+        = settings.value(QString("ACPIPATH"),
+                         QString("/sys/class/power_supply/"))
               .toString();
     rawConfig[QString("GPUDEV")]
         = settings.value(QString("GPUDEV"), QString("auto")).toString();

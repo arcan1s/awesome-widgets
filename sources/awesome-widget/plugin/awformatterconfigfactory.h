@@ -16,47 +16,23 @@
  ***************************************************************************/
 
 
-#ifndef AWFORMATTERHELPER_H
-#define AWFORMATTERHELPER_H
+#ifndef AWFORMATTERCONFIGFACTORY_H
+#define AWFORMATTERCONFIGFACTORY_H
 
-#include "abstractextitemaggregator.h"
+#include <QObject>
 
 
-class AWAbstractFormatter;
-
-class AWFormatterHelper : public AbstractExtItemAggregator
+class AWFormatterConfigFactory : public QObject
 {
     Q_OBJECT
 
 public:
-    enum class FormatterClass { DateTime, Float, Script, NoFormat };
-
-    explicit AWFormatterHelper(QWidget *parent = nullptr);
-    virtual ~AWFormatterHelper();
-    QString convert(const QVariant &value, const QString name) const;
-    QStringList definedFormatters() const;
-    QHash<QString, QString> getFormatters() const;
-    QList<AbstractExtItem *> items() const;
-    QStringList knownFormatters() const;
-    bool writeFormatters(const QHash<QString, QString> configuration) const;
+    explicit AWFormatterConfigFactory(QObject *parent = nullptr);
+    virtual ~AWFormatterConfigFactory();
+    Q_INVOKABLE void showDialog(const QStringList keys);
 
 private:
-    // methods
-    AWFormatterHelper::FormatterClass
-    defineFormatterClass(const QString stringType) const;
-    void initFormatters();
-    void initKeys();
-    void installDirectories();
-    QPair<QString, AWFormatterHelper::FormatterClass>
-    readMetadata(const QString filePath) const;
-    // parent methods
-    void doCreateItem();
-    void initItems();
-    // properties
-    QStringList m_directories;
-    QHash<QString, AWAbstractFormatter *> m_formatters;
-    QHash<QString, AWAbstractFormatter *> m_formattersClasses;
 };
 
 
-#endif /* AWFORMATTERHELPER_H */
+#endif /* AWFORMATTERCONFIGFACTORY_H */

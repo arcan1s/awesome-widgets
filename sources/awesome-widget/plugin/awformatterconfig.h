@@ -16,47 +16,46 @@
  ***************************************************************************/
 
 
-#ifndef AWFORMATTERHELPER_H
-#define AWFORMATTERHELPER_H
+#ifndef AWFORMATTERCONFIG_H
+#define AWFORMATTERCONFIG_H
 
-#include "abstractextitemaggregator.h"
+#include <QDialog>
 
 
-class AWAbstractFormatter;
+class AWAbstractSelector;
+class AWFormatterHelper;
+namespace Ui
+{
+class AWFormatterConfig;
+}
 
-class AWFormatterHelper : public AbstractExtItemAggregator
+class AWFormatterConfig : public QDialog
 {
     Q_OBJECT
 
 public:
-    enum class FormatterClass { DateTime, Float, Script, NoFormat };
+    explicit AWFormatterConfig(QWidget *parent = nullptr,
+                               const QStringList keys = QStringList());
+    virtual ~AWFormatterConfig();
+    Q_INVOKABLE void showDialog();
 
-    explicit AWFormatterHelper(QWidget *parent = nullptr);
-    virtual ~AWFormatterHelper();
-    QString convert(const QVariant &value, const QString name) const;
-    QStringList definedFormatters() const;
-    QHash<QString, QString> getFormatters() const;
-    QList<AbstractExtItem *> items() const;
-    QStringList knownFormatters() const;
-    bool writeFormatters(const QHash<QString, QString> configuration) const;
+private slots:
+    void updateUi();
 
 private:
-    // methods
-    AWFormatterHelper::FormatterClass
-    defineFormatterClass(const QString stringType) const;
-    void initFormatters();
-    void initKeys();
-    void installDirectories();
-    QPair<QString, AWFormatterHelper::FormatterClass>
-    readMetadata(const QString filePath) const;
-    // parent methods
-    void doCreateItem();
-    void initItems();
+    Ui::AWFormatterConfig *ui = nullptr;
+    AWFormatterHelper *m_helper = nullptr;
+    QList<AWAbstractSelector *> m_selectors;
     // properties
-    QStringList m_directories;
-    QHash<QString, AWAbstractFormatter *> m_formatters;
-    QHash<QString, AWAbstractFormatter *> m_formattersClasses;
+    QStringList m_keys;
+    // methods
+    void addSelector(const QStringList &keys, const QStringList &values,
+                     const QPair<QString, QString> &current);
+    void clearSelectors();
+    void execDialog();
+    void init();
+    QPair<QStringList, QStringList> initKeys() const;
 };
 
 
-#endif /* AWFORMATTERHELPER_H */
+#endif /* AWFORMATTERCONFIG_H */

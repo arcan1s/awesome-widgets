@@ -15,23 +15,28 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#include "awesomewidget.h"
-
-#include <QtQml>
-
-#include "awactions.h"
-#include "awconfighelper.h"
 #include "awformatterconfigfactory.h"
-#include "awkeys.h"
+
+#include "awdebug.h"
+#include "awformatterconfig.h"
 
 
-void AWPlugin::registerTypes(const char *uri)
+AWFormatterConfigFactory::AWFormatterConfigFactory(QObject *parent)
+    : QObject(parent)
 {
-    Q_ASSERT(uri == QLatin1String("org.kde.plasma.private.awesomewidget"));
+    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+}
 
-    qmlRegisterType<AWActions>(uri, 1, 0, "AWActions");
-    qmlRegisterType<AWConfigHelper>(uri, 1, 0, "AWConfigHelper");
-    qmlRegisterType<AWFormatterConfigFactory>(uri, 1, 0,
-                                              "AWFormatterConfigFactory");
-    qmlRegisterType<AWKeys>(uri, 1, 0, "AWKeys");
+
+AWFormatterConfigFactory::~AWFormatterConfigFactory()
+{
+    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+}
+
+
+void AWFormatterConfigFactory::showDialog(const QStringList keys)
+{
+    AWFormatterConfig *config = new AWFormatterConfig(nullptr, keys);
+    config->showDialog();
+    config->deleteLater();
 }

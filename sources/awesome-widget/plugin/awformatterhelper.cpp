@@ -66,13 +66,23 @@ QStringList AWFormatterHelper::definedFormatters() const
 }
 
 
-QVariantMap AWFormatterHelper::getFormatters() const
+QHash<QString, QString> AWFormatterHelper::getFormatters() const
 {
-    QVariantMap map;
+    QHash<QString, QString> map;
     for (auto tag : m_formatters.keys())
         map[tag] = m_formatters[tag]->name();
 
     return map;
+}
+
+
+QList<AbstractExtItem *> AWFormatterHelper::items() const
+{
+    QList<AbstractExtItem *> converted;
+    for (auto item : m_formattersClasses.values())
+        converted.append(item);
+
+    return converted;
 }
 
 
@@ -82,8 +92,11 @@ QStringList AWFormatterHelper::knownFormatters() const
 }
 
 
-bool AWFormatterHelper::writeFormatters(const QVariantMap configuration) const
+bool AWFormatterHelper::writeFormatters(
+    const QHash<QString, QString> configuration) const
 {
+    qCDebug(LOG_AW) << "Write configuration" << configuration;
+
     QString fileName = QString("%1/awesomewidgets/formatters/formatters.ini")
                            .arg(QStandardPaths::writableLocation(
                                QStandardPaths::GenericDataLocation));
@@ -101,16 +114,6 @@ bool AWFormatterHelper::writeFormatters(const QVariantMap configuration) const
 }
 
 
-QList<AbstractExtItem *> AWFormatterHelper::items() const
-{
-    QList<AbstractExtItem *> converted;
-    for (auto item : m_formattersClasses.values())
-        converted.append(item);
-
-    return converted;
-}
-
-
 AWFormatterHelper::FormatterClass
 AWFormatterHelper::defineFormatterClass(const QString stringType) const
 {
@@ -121,6 +124,8 @@ AWFormatterHelper::defineFormatterClass(const QString stringType) const
         formatter = FormatterClass::DateTime;
     else if (stringType == QString("Float"))
         formatter = FormatterClass::Float;
+    else if (stringType == QString("NoFormat"))
+        ;
     else if (stringType == QString("Script"))
         formatter = FormatterClass::Script;
     else

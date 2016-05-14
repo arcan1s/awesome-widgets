@@ -31,6 +31,9 @@ Item {
     AWActions {
         id: awActions
     }
+    AWFormatterConfigFactory {
+        id: awFormatter
+    }
 
     width: childrenRect.width
     height: childrenRect.height
@@ -320,9 +323,14 @@ Item {
             height: implicitHeight
             width: parent.width
             QtControls.Button {
-                width: parent.width * 3 / 5
+                width: parent.width * 3 / 10
                 text: i18n("Edit bars")
                 onClicked: awKeys.editItem("graphicalitem")
+            }
+            QtControls.Button {
+                width: parent.width * 3 / 10
+                text: i18n("Formatters")
+                onClicked: awFormatter.showDialog(awKeys.dictKeys(true))
             }
             QtControls.Button {
                 width: parent.width * 2 / 5
