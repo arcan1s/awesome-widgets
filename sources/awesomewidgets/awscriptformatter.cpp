@@ -165,6 +165,9 @@ void AWScriptFormatter::readConfiguration()
         settings.value(QString("X-AW-HasReturn"), m_hasReturn).toBool());
     settings.endGroup();
 
+    bumpApi(AWEFAPI);
+
+    // init JS code
     initProgram();
 }
 

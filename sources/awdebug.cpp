@@ -44,6 +44,7 @@ const QStringList getBuildData()
     metadata.append(QString("    AWESAPI: %1").arg(AWESAPI));
     metadata.append(QString("    AWEUAPI: %1").arg(AWEUAPI));
     metadata.append(QString("    AWEWAPI: %1").arg(AWEWAPI));
+    metadata.append(QString("    AWEFAPI: %1").arg(AWEFAPI));
     metadata.append(QString("    TIME_KEYS: %1").arg(TIME_KEYS));
     metadata.append(QString("    STATIC_KEYS: %1").arg(STATIC_KEYS));
     // cmake properties

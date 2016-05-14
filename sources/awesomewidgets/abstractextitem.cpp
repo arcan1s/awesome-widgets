@@ -22,8 +22,8 @@
 #include <QStandardPaths>
 #include <QTime>
 
-#include "awdebug.h"
 #include "abstractextitemaggregator.h"
+#include "awdebug.h"
 
 
 AbstractExtItem::AbstractExtItem(QWidget *parent, const QString filePath)
@@ -41,6 +41,20 @@ AbstractExtItem::AbstractExtItem(QWidget *parent, const QString filePath)
 AbstractExtItem::~AbstractExtItem()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
+}
+
+
+void AbstractExtItem::bumpApi(const int _newVer)
+{
+    qCDebug(LOG_LIB) << "Bump API using new version" << _newVer;
+
+    // update for current API
+    if ((apiVersion() > 0) && (apiVersion() < _newVer)) {
+        qCWarning(LOG_LIB) << "Bump API version from" << apiVersion() << "to"
+                           << _newVer;
+        setApiVersion(_newVer);
+        writeConfiguration();
+    }
 }
 
 

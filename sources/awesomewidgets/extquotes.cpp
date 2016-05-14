@@ -125,6 +125,8 @@ void ExtQuotes::readConfiguration()
         writeConfiguration();
     }
 
+    bumpApi(AWEQAPI);
+
     // init query
     m_url = QUrl(YAHOO_QUOTES_URL);
     QUrlQuery params;

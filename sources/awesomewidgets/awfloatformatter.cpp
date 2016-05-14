@@ -207,6 +207,8 @@ void AWFloatFormatter::readConfiguration()
         settings.value(QString("X-AW-Precision"), m_precision).toInt());
     setSummand(settings.value(QString("X-AW-Summand"), m_summand).toDouble());
     settings.endGroup();
+
+    bumpApi(AWEFAPI);
 }
 
 

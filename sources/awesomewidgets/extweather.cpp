@@ -183,6 +183,8 @@ void ExtWeather::readConfiguration()
         writeConfiguration();
     }
 
+    bumpApi(AWEWAPI);
+
     // init query
     m_url = QUrl(YAHOO_WEATHER_URL);
     QUrlQuery params;

@@ -108,6 +108,8 @@ void AWDateTimeFormatter::readConfiguration()
     settings.beginGroup(QString("Desktop Entry"));
     setFormat(settings.value(QString("X-AW-Format"), m_format).toString());
     settings.endGroup();
+
+    bumpApi(AWEFAPI);
 }
 
 

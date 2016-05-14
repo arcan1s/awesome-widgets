@@ -227,13 +227,7 @@ void ExtScript::readConfiguration()
                    .split(QChar(','), QString::SkipEmptyParts));
     settings.endGroup();
 
-    // update for current API
-    if ((apiVersion() > 0) && (apiVersion() < AWESAPI)) {
-        qCWarning(LOG_LIB) << "Bump API version from" << apiVersion() << "to"
-                           << AWESAPI;
-        setApiVersion(AWESAPI);
-        writeConfiguration();
-    }
+    bumpApi(AWESAPI);
 }
 
 

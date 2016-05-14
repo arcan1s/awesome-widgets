@@ -431,13 +431,7 @@ void GraphicalItem::readConfiguration()
     }
     settings.endGroup();
 
-    // update for current API
-    if ((apiVersion() > 0) && (apiVersion() < AWGIAPI)) {
-        qCWarning(LOG_LIB) << "Bump API version from" << apiVersion() << "to"
-                           << AWGIAPI;
-        setApiVersion(AWGIAPI);
-        writeConfiguration();
-    }
+    bumpApi(AWGIAPI);
 }
 
 

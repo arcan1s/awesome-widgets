@@ -17,11 +17,11 @@
 
 #include "awkeys.h"
 
-#include <QtConcurrent/QtConcurrent>
 #include <QJSEngine>
 #include <QRegExp>
 #include <QThread>
 #include <QTimer>
+#include <QtConcurrent/QtConcurrent>
 
 #include "awdataaggregator.h"
 #include "awdataengineaggregator.h"

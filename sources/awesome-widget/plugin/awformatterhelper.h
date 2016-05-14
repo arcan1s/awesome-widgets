@@ -35,8 +35,9 @@ public:
     virtual ~AWFormatterHelper();
     QString convert(const QVariant &value, const QString name) const;
     Q_INVOKABLE QStringList definedFormatters() const;
-    Q_INVOKABLE QString formatterByTag(const QString tag) const;
+    Q_INVOKABLE QVariantMap getFormatters() const;
     Q_INVOKABLE QStringList knownFormatters() const;
+    Q_INVOKABLE bool writeFormatters(const QVariantMap configuration) const;
     QList<AbstractExtItem *> items() const;
 
 private:
@@ -53,7 +54,6 @@ private:
     void initItems();
     // properties
     QStringList m_directories;
-    QString m_formatterConfig;
     QHash<QString, AWAbstractFormatter *> m_formatters;
     QHash<QString, AWAbstractFormatter *> m_formattersClasses;
 };

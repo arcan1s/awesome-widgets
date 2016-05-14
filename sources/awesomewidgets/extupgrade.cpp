@@ -135,13 +135,7 @@ void ExtUpgrade::readConfiguration()
     setFilter(settings.value(QString("X-AW-Filter"), m_filter).toString());
     settings.endGroup();
 
-    // update for current API
-    if ((apiVersion() > 0) && (apiVersion() < AWEUAPI)) {
-        qCWarning(LOG_LIB) << "Bump API version from" << apiVersion() << "to"
-                           << AWEUAPI;
-        setApiVersion(AWEUAPI);
-        writeConfiguration();
-    }
+    bumpApi(AWEUAPI);
 }
 
 

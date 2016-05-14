@@ -201,7 +201,7 @@ QVariantMap AWConfigHelper::readDataEngineConfiguration() const
 }
 
 
-void AWConfigHelper::writeDataEngineConfiguration(
+bool AWConfigHelper::writeDataEngineConfiguration(
     const QVariantMap configuration) const
 {
     qCDebug(LOG_AW) << "Configuration" << configuration;
@@ -228,6 +228,8 @@ void AWConfigHelper::writeDataEngineConfiguration(
     settings.endGroup();
 
     settings.sync();
+
+    return (settings.status() == QSettings::NoError);
 }
 
 

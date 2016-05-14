@@ -38,6 +38,7 @@ public:
     explicit AbstractExtItem(QWidget *parent = nullptr,
                              const QString filePath = QString());
     virtual ~AbstractExtItem();
+    virtual void bumpApi(const int _newVer);
     virtual AbstractExtItem *copy(const QString _fileName, const int _number)
         = 0;
     virtual void copyDefaults(AbstractExtItem *_other) const;

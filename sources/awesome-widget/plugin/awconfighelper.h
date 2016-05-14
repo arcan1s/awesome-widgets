@@ -42,7 +42,7 @@ public:
                                                 const bool importAdds) const;
     // dataengine
     Q_INVOKABLE QVariantMap readDataEngineConfiguration() const;
-    Q_INVOKABLE void
+    Q_INVOKABLE bool
     writeDataEngineConfiguration(const QVariantMap configuration) const;
 
 private:

@@ -23,8 +23,8 @@
 #include <QInputDialog>
 #include <QSettings>
 
-#include "awdebug.h"
 #include "awdatetimeformatter.h"
+#include "awdebug.h"
 #include "awfloatformatter.h"
 #include "awnoformatter.h"
 #include "awscriptformatter.h"
@@ -66,17 +66,38 @@ QStringList AWFormatterHelper::definedFormatters() const
 }
 
 
-QString AWFormatterHelper::formatterByTag(const QString tag) const
+QVariantMap AWFormatterHelper::getFormatters() const
 {
-    qCDebug(LOG_AW) << "Looking for tag" << tag;
+    QVariantMap map;
+    for (auto tag : m_formatters.keys())
+        map[tag] = m_formatters[tag]->name();
 
-    return m_formatters.contains(tag) ? m_formatters[tag]->name() : QString();
+    return map;
 }
 
 
 QStringList AWFormatterHelper::knownFormatters() const
 {
     return m_formattersClasses.keys();
+}
+
+
+bool AWFormatterHelper::writeFormatters(const QVariantMap configuration) const
+{
+    QString fileName = QString("%1/awesomewidgets/formatters/formatters.ini")
+                           .arg(QStandardPaths::writableLocation(
+                               QStandardPaths::GenericDataLocation));
+    QSettings settings(fileName, QSettings::IniFormat);
+    qCInfo(LOG_AW) << "Configuration file" << fileName;
+
+    settings.beginGroup(QString("Formatters"));
+    for (auto key : configuration.keys())
+        settings.setValue(key, configuration[key]);
+    settings.endGroup();
+
+    settings.sync();
+
+    return (settings.status() == QSettings::NoError);
 }
 
 
@@ -155,19 +176,28 @@ void AWFormatterHelper::initKeys()
 {
     m_formatters.clear();
 
-    QSettings settings(m_formatterConfig, QSettings::IniFormat);
-    settings.beginGroup(QString("Formatters"));
-    QStringList keys = settings.childKeys();
-    for (auto key : keys) {
-        QString name = settings.value(key).toString();
-        qCInfo(LOG_AW) << "Found formatter" << name << "for key" << key;
-        if (!m_formattersClasses.contains(name)) {
-            qCWarning(LOG_AW) << "Invalid formatter" << name << "found in"
-                              << key;
+    QStringList configs = QStandardPaths::locateAll(
+        QStandardPaths::GenericDataLocation,
+        QString("awesomewidgets/formatters/formatters.ini"));
+
+    for (auto fileName : configs) {
+        QSettings settings(fileName, QSettings::IniFormat);
+        qCInfo(LOG_AW) << "Configuration file" << settings.fileName();
+
+        settings.beginGroup(QString("Formatters"));
+        QStringList keys = settings.childKeys();
+        for (auto key : keys) {
+            QString name = settings.value(key).toString();
+            qCInfo(LOG_AW) << "Found formatter" << name << "for key" << key
+                           << "in" << settings.fileName();
+            if (!m_formattersClasses.contains(name)) {
+                qCWarning(LOG_AW) << "Invalid formatter" << name << "found in"
+                                  << key;
+            }
+            m_formatters[key] = m_formattersClasses[name];
         }
-        m_formatters[key] = m_formattersClasses[name];
+        settings.endGroup();
     }
-    settings.endGroup();
 }
 
 
@@ -184,10 +214,6 @@ void AWFormatterHelper::installDirectories()
     m_directories = QStandardPaths::locateAll(
         QStandardPaths::GenericDataLocation,
         QString("awesomewidgets/formatters"), QStandardPaths::LocateDirectory);
-
-    m_formatterConfig = QString("%1/awesomewidgets/formatters/formatters.ini")
-                            .arg(QStandardPaths::writableLocation(
-                                QStandardPaths::GenericDataLocation));
 }
 
 
