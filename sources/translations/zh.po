@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-04-29 12:21+0300\n"
+"POT-Creation-Date: 2016-05-16 14:13+0300\n"
 "PO-Revision-Date: 2015-07-31 22:24+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -376,6 +376,9 @@ msgstr "显示值"
 msgid "Edit bars"
 msgstr "编辑工具栏"
 
+msgid "Formatters"
+msgstr ""
+
 msgid "Preview"
 msgstr "预览"
 
@@ -445,6 +448,14 @@ msgstr "高 GPU 使用"
 msgid "Network device has been changed to %1"
 msgstr "网络设备变更为 %1"
 
+#, fuzzy
+msgid "Select type"
+msgstr "选择标签"
+
+#, fuzzy
+msgid "Type:"
+msgstr "类型"
+
 msgid "MB/s"
 msgstr "MB/s"
 
@@ -501,6 +512,39 @@ msgstr "命名"
 
 msgid "Comment"
 msgstr "评论"
+
+msgid "Type"
+msgstr "类型"
+
+#, fuzzy
+msgid "Format"
+msgstr "正常"
+
+msgid "Precision"
+msgstr ""
+
+msgid "Width"
+msgstr "宽度"
+
+msgid "Fill char"
+msgstr ""
+
+msgid "Multiplier"
+msgstr ""
+
+#, fuzzy
+msgid "Summand"
+msgstr "命令"
+
+#, fuzzy
+msgid "Append code"
+msgstr "外观"
+
+msgid "Has return"
+msgstr ""
+
+msgid "Code"
+msgstr ""
 
 msgid "Tag"
 msgstr "标签"
@@ -584,9 +628,6 @@ msgstr "使用"
 msgid "Inctive filling type"
 msgstr "未激活桌面"
 
-msgid "Type"
-msgstr "类型"
-
 msgid "Points count"
 msgstr ""
 
@@ -595,9 +636,6 @@ msgstr "方向"
 
 msgid "Height"
 msgstr "高度"
-
-msgid "Width"
-msgstr "宽度"
 
 #, fuzzy
 msgid "color"

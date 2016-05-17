@@ -30,8 +30,8 @@ public:
     explicit AWAbstractFormatter(QWidget *parent = nullptr,
                                  const QString filePath = QString());
     virtual ~AWAbstractFormatter();
-    void copyDefaults(AbstractExtItem *_other) const;
     virtual QString convert(const QVariant &_value) const = 0;
+    void copyDefaults(AbstractExtItem *_other) const;
     QString uniq() const;
     // properties
     QString type() const;

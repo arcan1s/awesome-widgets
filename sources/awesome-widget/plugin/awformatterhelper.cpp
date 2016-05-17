@@ -35,9 +35,7 @@ AWFormatterHelper::AWFormatterHelper(QWidget *parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
-#ifdef BUILD_FUTURE
     initItems();
-#endif /* BUILD_FUTURE */
 }
 
 
@@ -51,7 +49,7 @@ AWFormatterHelper::~AWFormatterHelper()
 
 
 QString AWFormatterHelper::convert(const QVariant &value,
-                                   const QString name) const
+                                   const QString &name) const
 {
     qCDebug(LOG_AW) << "Convert value" << value << "for" << name;
 

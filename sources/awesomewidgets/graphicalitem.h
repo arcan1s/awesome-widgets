@@ -40,13 +40,13 @@ class GraphicalItem : public AbstractExtItem
     Q_PROPERTY(int count READ count WRITE setCount)
     Q_PROPERTY(bool custom READ isCustom WRITE setCustom)
     Q_PROPERTY(QString inactiveColor READ inactiveColor WRITE setInactiveColor)
+    Q_PROPERTY(int itemHeight READ itemHeight WRITE setItemHeight)
+    Q_PROPERTY(int itemWidth READ itemWidth WRITE setItemWidth)
     Q_PROPERTY(Type type READ type WRITE setType)
     Q_PROPERTY(Direction direction READ direction WRITE setDirection)
-    Q_PROPERTY(int height READ height WRITE setHeight)
     Q_PROPERTY(float maxValue READ maxValue WRITE setMaxValue)
     Q_PROPERTY(float minValue READ minValue WRITE setMinValue)
     Q_PROPERTY(QStringList usedKeys READ usedKeys WRITE setUsedKeys)
-    Q_PROPERTY(int width READ width WRITE setWidth)
 
 public:
     enum class Direction { LeftToRight = 0, RightToLeft = 1 };
@@ -60,18 +60,18 @@ public:
     // get methods
     QString bar() const;
     QString activeColor() const;
-    QString inactiveColor() const;
     int count() const;
+    QString inactiveColor() const;
     bool isCustom() const;
+    int itemHeight() const;
+    int itemWidth() const;
     float minValue() const;
     float maxValue() const;
     Type type() const;
     QString strType() const;
     Direction direction() const;
     QString strDirection() const;
-    int height() const;
     QStringList usedKeys() const;
-    int width() const;
     QString uniq() const;
     // set methods
     void setBar(const QString _bar = QString("cpu"));
@@ -80,15 +80,15 @@ public:
     void setCustom(const bool _custom = false);
     void setInactiveColor(const QString _color
                           = QString("color://255,255,255,130"));
+    void setItemHeight(const int _height = 100);
+    void setItemWidth(const int _width = 100);
     void setMinValue(const float _value = 0.0);
     void setMaxValue(const float _value = 100.0);
     void setType(const Type _type = Type::Horizontal);
     void setStrType(const QString _type = QString("Horizontal"));
     void setDirection(const Direction _direction = Direction::LeftToRight);
     void setStrDirection(const QString _direction = QString("LeftToRight"));
-    void setHeight(const int _height = 100);
     void setUsedKeys(const QStringList _usedKeys = QStringList());
-    void setWidth(const int _width = 100);
 
 public slots:
     void readConfiguration();

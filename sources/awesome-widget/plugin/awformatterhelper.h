@@ -33,7 +33,7 @@ public:
 
     explicit AWFormatterHelper(QWidget *parent = nullptr);
     virtual ~AWFormatterHelper();
-    QString convert(const QVariant &value, const QString name) const;
+    QString convert(const QVariant &value, const QString &name) const;
     QStringList definedFormatters() const;
     QHash<QString, QString> getFormatters() const;
     QList<AbstractExtItem *> items() const;

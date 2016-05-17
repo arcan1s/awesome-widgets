@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-04-29 12:21+0300\n"
-"PO-Revision-Date: 2016-04-29 12:21+0300\n"
+"POT-Creation-Date: 2016-05-16 14:13+0300\n"
+"PO-Revision-Date: 2016-05-16 14:14+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: English <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -374,6 +374,9 @@ msgstr "Show value"
 msgid "Edit bars"
 msgstr "Edit bars"
 
+msgid "Formatters"
+msgstr "Formatters"
+
 msgid "Preview"
 msgstr "Preview"
 
@@ -443,6 +446,12 @@ msgstr "High GPU load"
 msgid "Network device has been changed to %1"
 msgstr "Network device has been changed to %1"
 
+msgid "Select type"
+msgstr "Select type"
+
+msgid "Type:"
+msgstr "Type:"
+
 msgid "MB/s"
 msgstr "MB/s"
 
@@ -499,6 +508,36 @@ msgstr "Name"
 
 msgid "Comment"
 msgstr "Comment"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Format"
+msgstr "Format"
+
+msgid "Precision"
+msgstr "Precision"
+
+msgid "Width"
+msgstr "Width"
+
+msgid "Fill char"
+msgstr "Fill char"
+
+msgid "Multiplier"
+msgstr "Multiplier"
+
+msgid "Summand"
+msgstr "Summand"
+
+msgid "Append code"
+msgstr "Append code"
+
+msgid "Has return"
+msgstr "Has return"
+
+msgid "Code"
+msgstr "Code"
 
 msgid "Tag"
 msgstr "Tag"
@@ -577,9 +616,6 @@ msgstr "Active filling type"
 msgid "Inctive filling type"
 msgstr "Inctive filling type"
 
-msgid "Type"
-msgstr "Type"
-
 msgid "Points count"
 msgstr "Points count"
 
@@ -588,9 +624,6 @@ msgstr "Direction"
 
 msgid "Height"
 msgstr "Height"
-
-msgid "Width"
-msgstr "Width"
 
 msgid "color"
 msgstr "color"
@@ -656,9 +689,6 @@ msgstr "esalexeev@gmail.com"
 
 #~ msgid "Free space on %1 less than 10%"
 #~ msgstr "Free space on %1 less than 10%"
-
-#~ msgid "Has output"
-#~ msgstr "Has output"
 
 #~ msgid "Top Edge"
 #~ msgstr "Top Edge"
@@ -827,9 +857,6 @@ msgstr "esalexeev@gmail.com"
 
 #~ msgid "Widget configuration"
 #~ msgstr "Widget configuration"
-
-#~ msgid "Form"
-#~ msgstr "Form"
 
 #~ msgid "Network directory"
 #~ msgstr "Network directory"

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-04-29 12:21+0300\n"
-"PO-Revision-Date: 2016-04-29 12:22+0300\n"
+"POT-Creation-Date: 2016-05-16 14:13+0300\n"
+"PO-Revision-Date: 2016-05-16 14:15+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -374,6 +374,9 @@ msgstr "Показать значение"
 msgid "Edit bars"
 msgstr "Редактировать бары"
 
+msgid "Formatters"
+msgstr "Форматеры"
+
 msgid "Preview"
 msgstr "Предварительный просмотр"
 
@@ -443,6 +446,12 @@ msgstr "Высокая загрузка GPU"
 msgid "Network device has been changed to %1"
 msgstr "Сетевое устройство было изменено на %1"
 
+msgid "Select type"
+msgstr "Выберете тип"
+
+msgid "Type:"
+msgstr "Тип:"
+
 msgid "MB/s"
 msgstr "МБ/с"
 
@@ -499,6 +508,36 @@ msgstr "Имя"
 
 msgid "Comment"
 msgstr "Комментарий"
+
+msgid "Type"
+msgstr "Тип"
+
+msgid "Format"
+msgstr "Формат"
+
+msgid "Precision"
+msgstr "Точность"
+
+msgid "Width"
+msgstr "Ширина"
+
+msgid "Fill char"
+msgstr "Заполнение"
+
+msgid "Multiplier"
+msgstr "Множитель"
+
+msgid "Summand"
+msgstr "Слагаемое"
+
+msgid "Append code"
+msgstr "Дополнить код"
+
+msgid "Has return"
+msgstr "Имеет return"
+
+msgid "Code"
+msgstr "Код"
 
 msgid "Tag"
 msgstr "Тег"
@@ -577,9 +616,6 @@ msgstr "Тип активного наполнения"
 msgid "Inctive filling type"
 msgstr "Тип неактивного наполнения"
 
-msgid "Type"
-msgstr "Тип"
-
 msgid "Points count"
 msgstr "Количество точек"
 
@@ -588,9 +624,6 @@ msgstr "Направление"
 
 msgid "Height"
 msgstr "Высота"
-
-msgid "Width"
-msgstr "Ширина"
 
 msgid "color"
 msgstr "цвет"
@@ -656,9 +689,6 @@ msgstr "esalexeev@gmail.com"
 
 #~ msgid "Free space on %1 less than 10%"
 #~ msgstr "Свободное место на диске %1 меньше 10%"
-
-#~ msgid "Has output"
-#~ msgstr "Имеет сообщения"
 
 #~ msgid "Top Edge"
 #~ msgstr "Верхняя грань"
@@ -827,9 +857,6 @@ msgstr "esalexeev@gmail.com"
 
 #~ msgid "Widget configuration"
 #~ msgstr "Настройка виджета"
-
-#~ msgid "Form"
-#~ msgstr "Form"
 
 #~ msgid "Network directory"
 #~ msgstr "Путь к интерфейсам"

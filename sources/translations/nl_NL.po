@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-04-29 12:21+0300\n"
+"POT-Creation-Date: 2016-05-16 14:13+0300\n"
 "PO-Revision-Date: 2015-08-20 22:52+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
@@ -392,6 +392,9 @@ msgstr "Waarde weergeven"
 msgid "Edit bars"
 msgstr "Balken bewerken"
 
+msgid "Formatters"
+msgstr ""
+
 msgid "Preview"
 msgstr ""
 
@@ -465,6 +468,14 @@ msgstr "Hoog CPU-verbruik"
 msgid "Network device has been changed to %1"
 msgstr "Het netwerkapparaat is gewijzigd naar %1"
 
+#, fuzzy
+msgid "Select type"
+msgstr "Sleutelwoord selecteren"
+
+#, fuzzy
+msgid "Type:"
+msgstr "Type"
+
 msgid "MB/s"
 msgstr ""
 
@@ -523,6 +534,39 @@ msgstr "Naam"
 
 msgid "Comment"
 msgstr "Commentaar"
+
+msgid "Type"
+msgstr "Type"
+
+#, fuzzy
+msgid "Format"
+msgstr "normaal"
+
+msgid "Precision"
+msgstr ""
+
+msgid "Width"
+msgstr "Breedte"
+
+msgid "Fill char"
+msgstr ""
+
+msgid "Multiplier"
+msgstr ""
+
+#, fuzzy
+msgid "Summand"
+msgstr "Commentaar"
+
+#, fuzzy
+msgid "Append code"
+msgstr "Uiterlijk"
+
+msgid "Has return"
+msgstr ""
+
+msgid "Code"
+msgstr ""
 
 msgid "Tag"
 msgstr "Sleutelwoord"
@@ -606,9 +650,6 @@ msgstr "Actieve kleur"
 msgid "Inctive filling type"
 msgstr "Inactieve kleur"
 
-msgid "Type"
-msgstr "Type"
-
 msgid "Points count"
 msgstr ""
 
@@ -617,9 +658,6 @@ msgstr "Richting"
 
 msgid "Height"
 msgstr "Hoogte"
-
-msgid "Width"
-msgstr "Breedte"
 
 #, fuzzy
 msgid "color"

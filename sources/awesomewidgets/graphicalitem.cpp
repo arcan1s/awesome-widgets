@@ -77,13 +77,13 @@ GraphicalItem *GraphicalItem::copy(const QString _fileName, const int _number)
     item->setCount(m_count);
     item->setCustom(m_custom);
     item->setDirection(m_direction);
-    item->setHeight(m_height);
+    item->setItemHeight(m_height);
     item->setInactiveColor(m_inactiveColor);
     item->setMaxValue(m_maxValue);
     item->setMinValue(m_minValue);
     item->setNumber(_number);
     item->setType(m_type);
-    item->setWidth(m_width);
+    item->setItemWidth(m_width);
 
     return item;
 }
@@ -152,21 +152,33 @@ QString GraphicalItem::activeColor() const
 }
 
 
-QString GraphicalItem::inactiveColor() const
-{
-    return m_inactiveColor;
-}
-
-
 int GraphicalItem::count() const
 {
     return m_count;
 }
 
 
+QString GraphicalItem::inactiveColor() const
+{
+    return m_inactiveColor;
+}
+
+
 bool GraphicalItem::isCustom() const
 {
     return m_custom;
+}
+
+
+int GraphicalItem::itemHeight() const
+{
+    return m_height;
+}
+
+
+int GraphicalItem::itemWidth() const
+{
+    return m_width;
 }
 
 
@@ -235,21 +247,9 @@ QString GraphicalItem::strDirection() const
 }
 
 
-int GraphicalItem::height() const
-{
-    return m_height;
-}
-
-
 QStringList GraphicalItem::usedKeys() const
 {
     return m_usedKeys;
-}
-
-
-int GraphicalItem::width() const
-{
-    return m_width;
 }
 
 
@@ -298,6 +298,26 @@ void GraphicalItem::setInactiveColor(const QString _color)
     qCDebug(LOG_LIB) << "Color" << _color;
 
     m_inactiveColor = _color;
+}
+
+
+void GraphicalItem::setItemHeight(const int _height)
+{
+    qCDebug(LOG_LIB) << "Height" << _height;
+    if (_height <= 0)
+        return;
+
+    m_height = _height;
+}
+
+
+void GraphicalItem::setItemWidth(const int _width)
+{
+    qCDebug(LOG_LIB) << "Width" << _width;
+    if (_width <= 0)
+        return;
+
+    m_width = _width;
 }
 
 
@@ -361,16 +381,6 @@ void GraphicalItem::setStrDirection(const QString _direction)
 }
 
 
-void GraphicalItem::setHeight(const int _height)
-{
-    qCDebug(LOG_LIB) << "Height" << _height;
-    if (_height <= 0)
-        return;
-
-    m_height = _height;
-}
-
-
 void GraphicalItem::setUsedKeys(const QStringList _usedKeys)
 {
     qCDebug(LOG_LIB) << "Used keys" << _usedKeys;
@@ -383,16 +393,6 @@ void GraphicalItem::setUsedKeys(const QStringList _usedKeys)
             continue;
         m_usedKeys.append(key);
     }
-}
-
-
-void GraphicalItem::setWidth(const int _width)
-{
-    qCDebug(LOG_LIB) << "Width" << _width;
-    if (_width <= 0)
-        return;
-
-    m_width = _width;
 }
 
 
@@ -416,8 +416,8 @@ void GraphicalItem::readConfiguration()
     setStrType(settings.value(QString("X-AW-Type"), strType()).toString());
     setStrDirection(
         settings.value(QString("X-AW-Direction"), strDirection()).toString());
-    setHeight(settings.value(QString("X-AW-Height"), m_height).toInt());
-    setWidth(settings.value(QString("X-AW-Width"), m_width).toInt());
+    setItemHeight(settings.value(QString("X-AW-Height"), m_height).toInt());
+    setItemWidth(settings.value(QString("X-AW-Width"), m_width).toInt());
     // api == 5
     if (apiVersion() < 5) {
         QString prefix;
@@ -490,8 +490,8 @@ int GraphicalItem::showConfiguration(const QVariant args)
     setInactiveColor(ui->lineEdit_inactiveColor->text());
     setStrType(ui->comboBox_type->currentText());
     setStrDirection(ui->comboBox_direction->currentText());
-    setHeight(ui->spinBox_height->value());
-    setWidth(ui->spinBox_width->value());
+    setItemHeight(ui->spinBox_height->value());
+    setItemWidth(ui->spinBox_width->value());
 
     writeConfiguration();
     return ret;

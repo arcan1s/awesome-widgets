@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-04-29 12:21+0300\n"
+"POT-Creation-Date: 2016-05-16 14:13+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -369,6 +369,9 @@ msgstr ""
 msgid "Edit bars"
 msgstr ""
 
+msgid "Formatters"
+msgstr ""
+
 msgid "Preview"
 msgstr ""
 
@@ -438,6 +441,12 @@ msgstr ""
 msgid "Network device has been changed to %1"
 msgstr ""
 
+msgid "Select type"
+msgstr ""
+
+msgid "Type:"
+msgstr ""
+
 msgid "MB/s"
 msgstr ""
 
@@ -493,6 +502,36 @@ msgid "Name"
 msgstr ""
 
 msgid "Comment"
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "Format"
+msgstr ""
+
+msgid "Precision"
+msgstr ""
+
+msgid "Width"
+msgstr ""
+
+msgid "Fill char"
+msgstr ""
+
+msgid "Multiplier"
+msgstr ""
+
+msgid "Summand"
+msgstr ""
+
+msgid "Append code"
+msgstr ""
+
+msgid "Has return"
+msgstr ""
+
+msgid "Code"
 msgstr ""
 
 msgid "Tag"
@@ -568,9 +607,6 @@ msgstr ""
 msgid "Inctive filling type"
 msgstr ""
 
-msgid "Type"
-msgstr ""
-
 msgid "Points count"
 msgstr ""
 
@@ -578,9 +614,6 @@ msgid "Direction"
 msgstr ""
 
 msgid "Height"
-msgstr ""
-
-msgid "Width"
 msgstr ""
 
 msgid "color"
