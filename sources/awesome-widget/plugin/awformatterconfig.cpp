@@ -20,6 +20,8 @@
 
 #include <KI18n/KLocalizedString>
 
+#include <QPushButton>
+
 #include "awabstractselector.h"
 #include "awdebug.h"
 #include "awformatterhelper.h"
@@ -33,10 +35,13 @@ AWFormatterConfig::AWFormatterConfig(QWidget *parent, const QStringList keys)
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
     ui->setupUi(this);
+    editButton = ui->buttonBox->addButton(i18n("Edit"),
+                                          QDialogButtonBox::ActionRole);
     init();
 
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(ui->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(editButton, SIGNAL(clicked(bool)), this, SLOT(editFormatters()));
 }
 
 
@@ -53,18 +58,17 @@ AWFormatterConfig::~AWFormatterConfig()
 
 void AWFormatterConfig::showDialog()
 {
-    clearSelectors();
-    QHash<QString, QString> appliedFormatters = m_helper->getFormatters();
-    auto keys = initKeys();
-
-    for (auto key : appliedFormatters.keys())
-        addSelector(keys.first, keys.second,
-                    QPair<QString, QString>(key, appliedFormatters[key]));
-    // empty one
-    addSelector(keys.first, keys.second, QPair<QString, QString>());
-
+    // update dialog
+    updateDialog();
     // exec dialog
     return execDialog();
+}
+
+
+void AWFormatterConfig::editFormatters()
+{
+    m_helper->editItems();
+    updateDialog();
 }
 
 
@@ -108,9 +112,12 @@ void AWFormatterConfig::addSelector(const QStringList &keys,
 
 void AWFormatterConfig::clearSelectors()
 {
-    for (auto selector : m_selectors)
+    for (auto selector : m_selectors) {
         disconnect(selector, SIGNAL(selectionChanged()), this,
                    SLOT(updateUi()));
+        ui->verticalLayout->removeWidget(selector);
+        selector->deleteLater();
+    }
     m_selectors.clear();
 }
 
@@ -121,7 +128,7 @@ void AWFormatterConfig::execDialog()
     QHash<QString, QString> data;
     for (auto selector : m_selectors) {
         QPair<QString, QString> select = selector->current();
-        if ((select.first.isEmpty()) || (select.second.isEmpty()))
+        if (select.first.isEmpty())
             continue;
         data[select.first] = select.second;
     }
@@ -133,6 +140,7 @@ void AWFormatterConfig::execDialog()
     case 1:
     default:
         m_helper->writeFormatters(data);
+        m_helper->writeFormatters(data.keys());
         break;
     }
 }
@@ -156,4 +164,18 @@ QPair<QStringList, QStringList> AWFormatterConfig::initKeys() const
     knownFormatters.sort();
 
     return QPair<QStringList, QStringList>(keys, knownFormatters);
+}
+
+
+void AWFormatterConfig::updateDialog()
+{
+    clearSelectors();
+    QHash<QString, QString> appliedFormatters = m_helper->getFormatters();
+    auto keys = initKeys();
+
+    for (auto key : appliedFormatters.keys())
+        addSelector(keys.first, keys.second,
+                    QPair<QString, QString>(key, appliedFormatters[key]));
+    // empty one
+    addSelector(keys.first, keys.second, QPair<QString, QString>());
 }

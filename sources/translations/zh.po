@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-05-16 14:13+0300\n"
+"POT-Creation-Date: 2016-05-16 19:35+0300\n"
 "PO-Revision-Date: 2015-07-31 22:24+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -449,6 +449,10 @@ msgid "Network device has been changed to %1"
 msgstr "网络设备变更为 %1"
 
 #, fuzzy
+msgid "Edit"
+msgstr "可编辑的"
+
+#, fuzzy
 msgid "Select type"
 msgstr "选择标签"
 
@@ -721,10 +725,6 @@ msgstr "用户邮箱"
 
 #~ msgid "Update text"
 #~ msgstr "刷新文本"
-
-#, fuzzy
-#~ msgid "Edit"
-#~ msgstr "可编辑的"
 
 #~ msgid "Enable popup on mouse click"
 #~ msgstr "鼠标点击时弹出对话框"

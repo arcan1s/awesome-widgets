@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-05-16 14:13+0300\n"
+"POT-Creation-Date: 2016-05-16 19:35+0300\n"
 "PO-Revision-Date: 2015-08-20 22:52+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
@@ -468,6 +468,9 @@ msgstr "Hoog CPU-verbruik"
 msgid "Network device has been changed to %1"
 msgstr "Het netwerkapparaat is gewijzigd naar %1"
 
+msgid "Edit"
+msgstr "Bewerken"
+
 #, fuzzy
 msgid "Select type"
 msgstr "Sleutelwoord selecteren"
@@ -745,9 +748,6 @@ msgstr "vistausss@outlook.com"
 
 #~ msgid "Exec: %1"
 #~ msgstr "Uitvoeren: %1"
-
-#~ msgid "Edit"
-#~ msgstr "Bewerken"
 
 #~ msgid "Select color"
 #~ msgstr "Kleur selecteren"

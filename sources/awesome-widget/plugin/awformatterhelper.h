@@ -38,7 +38,11 @@ public:
     QHash<QString, QString> getFormatters() const;
     QList<AbstractExtItem *> items() const;
     QStringList knownFormatters() const;
+    bool writeFormatters(const QStringList keys) const;
     bool writeFormatters(const QHash<QString, QString> configuration) const;
+
+public slots:
+    void editItems();
 
 private:
     // methods

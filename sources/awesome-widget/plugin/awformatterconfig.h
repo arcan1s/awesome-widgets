@@ -40,9 +40,11 @@ public:
     Q_INVOKABLE void showDialog();
 
 private slots:
+    void editFormatters();
     void updateUi();
 
 private:
+    QPushButton *editButton = nullptr;
     Ui::AWFormatterConfig *ui = nullptr;
     AWFormatterHelper *m_helper = nullptr;
     QList<AWAbstractSelector *> m_selectors;
@@ -55,6 +57,7 @@ private:
     void execDialog();
     void init();
     QPair<QStringList, QStringList> initKeys() const;
+    void updateDialog();
 };
 
 

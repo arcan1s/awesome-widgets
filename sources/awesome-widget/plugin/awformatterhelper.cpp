@@ -90,6 +90,31 @@ QStringList AWFormatterHelper::knownFormatters() const
 }
 
 
+bool AWFormatterHelper::writeFormatters(const QStringList keys) const
+{
+    qCDebug(LOG_AW) << "Remove formatters" << keys;
+
+    QString fileName = QString("%1/awesomewidgets/formatters/formatters.ini")
+        .arg(QStandardPaths::writableLocation(
+            QStandardPaths::GenericDataLocation));
+    QSettings settings(fileName, QSettings::IniFormat);
+    qCInfo(LOG_AW) << "Configuration file" << fileName;
+
+    settings.beginGroup(QString("Formatters"));
+    QStringList foundKeys = settings.childKeys();
+    for (auto key : foundKeys) {
+        if (keys.contains(key))
+            continue;
+        settings.remove(key);
+    }
+    settings.endGroup();
+
+    settings.sync();
+
+    return (settings.status() == QSettings::NoError);
+}
+
+
 bool AWFormatterHelper::writeFormatters(
     const QHash<QString, QString> configuration) const
 {
@@ -109,6 +134,14 @@ bool AWFormatterHelper::writeFormatters(
     settings.sync();
 
     return (settings.status() == QSettings::NoError);
+}
+
+
+void AWFormatterHelper::editItems()
+{
+    repaintList();
+    int ret = exec();
+    qCInfo(LOG_AW) << "Dialog returns" << ret;
 }
 
 
@@ -193,9 +226,14 @@ void AWFormatterHelper::initKeys()
             QString name = settings.value(key).toString();
             qCInfo(LOG_AW) << "Found formatter" << name << "for key" << key
                            << "in" << settings.fileName();
+            if (name.isEmpty()) {
+                qCInfo(LOG_AW) << "Skip empty formatter for" << key;
+                continue;
+            }
             if (!m_formattersClasses.contains(name)) {
                 qCWarning(LOG_AW) << "Invalid formatter" << name << "found in"
                                   << key;
+                continue;
             }
             m_formatters[key] = m_formattersClasses[name];
         }
