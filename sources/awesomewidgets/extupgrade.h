@@ -36,7 +36,7 @@ class ExtUpgrade : public AbstractExtItem
     Q_PROPERTY(int null READ null WRITE setNull)
 
 public:
-    explicit ExtUpgrade(QWidget *parent = nullptr,
+    explicit ExtUpgrade(QWidget *parent,
                         const QString filePath = QString());
     virtual ~ExtUpgrade();
     ExtUpgrade *copy(const QString _fileName, const int _number);

@@ -52,7 +52,7 @@ public:
     enum class Direction { LeftToRight = 0, RightToLeft = 1 };
     enum class Type { Horizontal, Vertical, Circle, Graph, Bars };
 
-    explicit GraphicalItem(QWidget *parent = nullptr,
+    explicit GraphicalItem(QWidget *parent,
                            const QString filePath = QString());
     virtual ~GraphicalItem();
     GraphicalItem *copy(const QString _fileName, const int _number);

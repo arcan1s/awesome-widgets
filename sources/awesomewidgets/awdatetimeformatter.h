@@ -32,8 +32,7 @@ class AWDateTimeFormatter : public AWAbstractFormatter
     Q_PROPERTY(QString format READ format WRITE setFormat)
 
 public:
-    explicit AWDateTimeFormatter(QWidget *parent, const QString filePath);
-    explicit AWDateTimeFormatter(const QString format, QWidget *parent);
+    explicit AWDateTimeFormatter(QWidget *parent, const QString filePath = QString());
     virtual ~AWDateTimeFormatter();
     QString convert(const QVariant &_value) const;
     AWDateTimeFormatter *copy(const QString _fileName, const int _number);

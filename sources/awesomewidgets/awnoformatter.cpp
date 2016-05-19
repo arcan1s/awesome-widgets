@@ -30,18 +30,8 @@ AWNoFormatter::AWNoFormatter(QWidget *parent, const QString filePath)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    readConfiguration();
-    ui->setupUi(this);
-    translate();
-}
-
-
-AWNoFormatter::AWNoFormatter(QWidget *parent)
-    : AWAbstractFormatter(parent)
-    , ui(new Ui::AWNoFormatter)
-{
-    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
-
+    if (!filePath.isEmpty())
+        readConfiguration();
     ui->setupUi(this);
     translate();
 }

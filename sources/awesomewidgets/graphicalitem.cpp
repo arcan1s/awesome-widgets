@@ -38,7 +38,8 @@ GraphicalItem::GraphicalItem(QWidget *parent, const QString filePath)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    readConfiguration();
+    if (!filePath.isEmpty())
+        readConfiguration();
     ui->setupUi(this);
     translate();
 

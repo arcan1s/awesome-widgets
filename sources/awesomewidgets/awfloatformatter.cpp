@@ -33,28 +33,8 @@ AWFloatFormatter::AWFloatFormatter(QWidget *parent, const QString filePath)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    readConfiguration();
-    ui->setupUi(this);
-    translate();
-}
-
-
-AWFloatFormatter::AWFloatFormatter(const int count, const QChar fillChar,
-                                   const char format, const double multiplier,
-                                   const int precision, const double summand,
-                                   QWidget *parent)
-    : AWAbstractFormatter(parent)
-    , ui(new Ui::AWFloatFormatter)
-{
-    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
-
-    setCount(count);
-    setFillChar(fillChar);
-    setFormat(format);
-    setMultiplier(multiplier);
-    setPrecision(precision);
-    setSummand(summand);
-
+    if (!filePath.isEmpty())
+        readConfiguration();
     ui->setupUi(this);
     translate();
 }

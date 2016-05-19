@@ -34,24 +34,8 @@ AWScriptFormatter::AWScriptFormatter(QWidget *parent, const QString filePath)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    readConfiguration();
-    ui->setupUi(this);
-    translate();
-}
-
-
-AWScriptFormatter::AWScriptFormatter(const bool appendCode, const QString code,
-                                     const bool hasReturn, QWidget *parent)
-    : AWAbstractFormatter(parent)
-    , ui(new Ui::AWScriptFormatter)
-{
-    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
-
-    setAppendCode(appendCode);
-    setCode(code);
-    setHasReturn(hasReturn);
-    initProgram();
-
+    if (!filePath.isEmpty())
+        readConfiguration();
     ui->setupUi(this);
     translate();
 }

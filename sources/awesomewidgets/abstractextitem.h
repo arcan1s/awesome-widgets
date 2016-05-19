@@ -35,7 +35,7 @@ class AbstractExtItem : public QDialog
     Q_PROPERTY(QString uniq READ uniq)
 
 public:
-    explicit AbstractExtItem(QWidget *parent = nullptr,
+    explicit AbstractExtItem(QWidget *parent,
                              const QString filePath = QString());
     virtual ~AbstractExtItem();
     virtual void bumpApi(const int _newVer);

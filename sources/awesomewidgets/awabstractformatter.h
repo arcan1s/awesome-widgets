@@ -27,7 +27,7 @@ class AWAbstractFormatter : public AbstractExtItem
     Q_PROPERTY(QString type READ type WRITE setType)
 
 public:
-    explicit AWAbstractFormatter(QWidget *parent = nullptr,
+    explicit AWAbstractFormatter(QWidget *parent,
                                  const QString filePath = QString());
     virtual ~AWAbstractFormatter();
     virtual QString convert(const QVariant &_value) const = 0;

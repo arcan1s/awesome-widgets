@@ -35,20 +35,8 @@ AWDateTimeFormatter::AWDateTimeFormatter(QWidget *parent,
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    readConfiguration();
-    ui->setupUi(this);
-    translate();
-}
-
-
-AWDateTimeFormatter::AWDateTimeFormatter(const QString format, QWidget *parent)
-    : AWAbstractFormatter(parent)
-    , ui(new Ui::AWDateTimeFormatter)
-{
-    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
-
-    setFormat(format);
-
+    if (!filePath.isEmpty())
+        readConfiguration();
     ui->setupUi(this);
     translate();
 }

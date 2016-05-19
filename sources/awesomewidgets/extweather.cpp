@@ -40,7 +40,8 @@ ExtWeather::ExtWeather(QWidget *parent, const QString filePath)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    readConfiguration();
+    if (!filePath.isEmpty())
+        readConfiguration();
     readJsonMap();
     ui->setupUi(this);
     translate();

@@ -31,8 +31,7 @@ class AWNoFormatter : public AWAbstractFormatter
     Q_OBJECT
 
 public:
-    explicit AWNoFormatter(QWidget *parent, const QString filePath);
-    explicit AWNoFormatter(QWidget *parent);
+    explicit AWNoFormatter(QWidget *parent, const QString filePath = QString());
     virtual ~AWNoFormatter();
     QString convert(const QVariant &_value) const;
     AWNoFormatter *copy(const QString _fileName, const int _number);

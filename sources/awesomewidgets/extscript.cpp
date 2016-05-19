@@ -36,7 +36,8 @@ ExtScript::ExtScript(QWidget *parent, const QString filePath)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    readConfiguration();
+    if (!filePath.isEmpty())
+        readConfiguration();
     readJsonFilters();
     ui->setupUi(this);
     translate();
