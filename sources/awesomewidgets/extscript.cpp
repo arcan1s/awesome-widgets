@@ -271,9 +271,11 @@ QVariantHash ExtScript::run()
         cmdList.append(m_executable);
         qCInfo(LOG_LIB) << "Run cmd" << cmdList.join(QChar(' '));
         process->start(cmdList.join(QChar(' ')));
-    } else if (times >= interval()) {
-        times = 0;
     }
+
+    // update value
+    if (times >= interval())
+        times = 0;
     times++;
 
     return value;

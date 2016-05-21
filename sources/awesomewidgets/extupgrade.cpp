@@ -149,9 +149,11 @@ QVariantHash ExtUpgrade::run()
         QString cmd = QString("sh -c \"%1\"").arg(m_executable);
         qCInfo(LOG_LIB) << "Run cmd" << cmd;
         process->start(cmd);
-    } else if (times >= interval()) {
-        times = 0;
     }
+
+    // update value
+    if (times >= interval())
+        times = 0;
     times++;
 
     return value;
