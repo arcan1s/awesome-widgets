@@ -2,18 +2,18 @@
 find_package(Gettext REQUIRED)
 
 # main qt libraries
-find_package(Qt5 5.6.0 REQUIRED COMPONENTS Core DBus Network Qml Widgets)
+find_package(Qt5 5.6.0 REQUIRED COMPONENTS Core DBus Network Qml Test Widgets)
 add_definitions(
         ${Qt5Core_DEFINITIONS} ${Qt5DBus_DEFINITIONS} ${Qt5Network_DEFINITIONS}
-        ${Qt5Qml_DEFINITIONS} ${Qt5Widgets_DEFINITIONS}
+        ${Qt5Qml_DEFINITIONS} ${Qt5Test_DEFINITIONS} ${Qt5Widgets_DEFINITIONS}
 )
 set(Qt_INCLUDE
         ${Qt5Core_INCLUDE_DIRS} ${Qt5DBus_INCLUDE_DIRS} ${Qt5Network_INCLUDE_DIRS}
-        ${Qt5Qml_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS}
+        ${Qt5Qml_INCLUDE_DIRS} ${Qt5Test_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS}
 )
 set(Qt_LIBRARIES
         ${Qt5Core_LIBRARIES} ${Qt5DBus_LIBRARIES} ${Qt5Network_LIBRARIES}
-        ${Qt5Qml_LIBRARIES} ${Qt5Widgets_LIBRARIES}
+        ${Qt5Qml_LIBRARIES} ${Qt5Test_LIBRARIES} ${Qt5Widgets_LIBRARIES}
 )
 
 # kf5 libraries
