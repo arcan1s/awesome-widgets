@@ -95,8 +95,8 @@ bool AWFormatterHelper::writeFormatters(const QStringList keys) const
     qCDebug(LOG_AW) << "Remove formatters" << keys;
 
     QString fileName = QString("%1/awesomewidgets/formatters/formatters.ini")
-        .arg(QStandardPaths::writableLocation(
-            QStandardPaths::GenericDataLocation));
+                           .arg(QStandardPaths::writableLocation(
+                               QStandardPaths::GenericDataLocation));
     QSettings settings(fileName, QSettings::IniFormat);
     qCInfo(LOG_AW) << "Configuration file" << fileName;
 

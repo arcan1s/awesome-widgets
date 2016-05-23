@@ -194,12 +194,14 @@ QString AWKeyOperations::infoByKey(QString key) const
     else if (key.startsWith(QString("custom")))
         return extScripts->itemByTag(key, QString("custom"))->uniq();
     else if (key.contains(QRegExp(QString("^hdd[rw]"))))
-        return QString("%1").arg(m_devices[QString(
-            "disk")][key.remove(QRegExp(QString("hdd[rw]"))).toInt()]);
+        return QString("%1").arg(
+            m_devices[QString("disk")]
+                     [key.remove(QRegExp(QString("hdd[rw]"))).toInt()]);
     else if (key.contains(QRegExp(
                  QString("^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)"))))
-        return QString("%1").arg(m_devices[QString(
-            "mount")][key
+        return QString("%1").arg(
+            m_devices[QString("mount")]
+                     [key
                           .remove(QRegExp(QString(
                               "^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)")))
                           .toInt()]);
@@ -207,8 +209,9 @@ QString AWKeyOperations::infoByKey(QString key) const
         return QString("%1").arg(
             m_devices[QString("hdd")][key.remove(QString("hddtemp")).toInt()]);
     else if (key.contains(QRegExp(QString("^(down|up)[0-9]"))))
-        return QString("%1").arg(m_devices[QString(
-            "net")][key.remove(QRegExp(QString("^(down|up)"))).toInt()]);
+        return QString("%1").arg(
+            m_devices[QString("net")]
+                     [key.remove(QRegExp(QString("^(down|up)"))).toInt()]);
     else if (key.startsWith(QString("pkgcount")))
         return extUpgrade->itemByTag(key, QString("pkgcount"))->uniq();
     else if (key.contains(QRegExp(QString("(^|perc)(ask|bid|price)(chg|)"))))

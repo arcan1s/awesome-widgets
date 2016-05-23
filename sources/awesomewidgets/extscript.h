@@ -39,8 +39,7 @@ class ExtScript : public AbstractExtItem
 public:
     enum class Redirect { stdout2stderr, nothing, stderr2stdout, swap };
 
-    explicit ExtScript(QWidget *parent,
-                       const QString filePath = QString());
+    explicit ExtScript(QWidget *parent, const QString filePath = QString());
     virtual ~ExtScript();
     ExtScript *copy(const QString _fileName, const int _number);
     // get methods

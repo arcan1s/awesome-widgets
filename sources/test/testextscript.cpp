@@ -29,11 +29,12 @@ void TestExtScript::initTestCase()
     extScript = new ExtScript(nullptr);
     extScript->setInterval(1);
     extScript->setExecutable(QString("hello world"));
+    extScript->setNumber(0);
     extScript->setRedirect(ExtScript::Redirect::stderr2stdout);
     extScript->setPrefix(QString("echo"));
 
-    while (true)
-        qDebug() <<extScript->run();
+    QVariantHash value = extScript->run();
+    qDebug() << "Init values in first run" << value;
 }
 
 
@@ -46,26 +47,43 @@ void TestExtScript::cleanupTestCase()
 void TestExtScript::test_values()
 {
     QCOMPARE(extScript->interval(), 1);
+    QCOMPARE(extScript->number(), 0);
     QCOMPARE(extScript->executable(), QString("hello world"));
+    QCOMPARE(extScript->strRedirect(), QString("stderr2stdout"));
     QCOMPARE(extScript->prefix(), QString("echo"));
 }
 
 
-void TestExtScript::test_firstRun()
+void TestExtScript::test_run()
 {
+    // init spy
+    QSignalSpy spy(extScript, SIGNAL(dataReceived(const QVariantHash &)));
     QVariantHash firstValue = extScript->run();
-    qDebug() << firstValue;
-    QTest::qSleep(20000);
-    QCOMPARE(firstValue[extScript->tag(QString("custom"))].toString(), QString(""));
-    QTest::qSleep(20000);
+    QCOMPARE(firstValue[extScript->tag(QString("custom"))].toString(),
+             QString(""));
+
+    // check values
+    QVERIFY(spy.wait(5000));
+    QList<QVariant> arguments = spy.takeFirst();
+    QCOMPARE(
+        arguments.at(0).toHash()[extScript->tag(QString("custom"))].toString(),
+        QString("\nhello world"));
 }
 
 
-void TestExtScript::test_secondRun()
+void TestExtScript::test_filters()
 {
-    QVariantHash secondValue = extScript->run();
-    qDebug() << secondValue;
-    QCOMPARE(secondValue[extScript->tag(QString("custom"))].toString(), QString("hello world"));
+    extScript->setFilters(QStringList() << QString("newline"));
+    // init spy
+    QSignalSpy spy(extScript, SIGNAL(dataReceived(const QVariantHash &)));
+    extScript->run();
+
+    // check values
+    QVERIFY(spy.wait(5000));
+    QList<QVariant> arguments = spy.takeFirst();
+    QCOMPARE(
+        arguments.at(0).toHash()[extScript->tag(QString("custom"))].toString(),
+        QString("<br>hello world"));
 }
 
 

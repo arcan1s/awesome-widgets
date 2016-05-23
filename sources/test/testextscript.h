@@ -24,6 +24,7 @@
 
 
 class ExtScript;
+class QSignalSpy;
 
 class TestExtScript : public QObject
 {
@@ -35,8 +36,8 @@ private slots:
     void cleanupTestCase();
     // test
     void test_values();
-    void test_firstRun();
-    void test_secondRun();
+    void test_run();
+    void test_filters();
 
 private:
     ExtScript *extScript = nullptr;

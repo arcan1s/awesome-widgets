@@ -263,6 +263,9 @@ QVariantHash ExtScript::run()
 {
     if (!isActive())
         return value;
+    if (process->state() != QProcess::NotRunning)
+        qCWarning(LOG_LIB) << "Another process is already running"
+                           << process->state();
 
     if ((times == 1) && (process->state() == QProcess::NotRunning)) {
         QStringList cmdList;
@@ -375,6 +378,7 @@ void ExtScript::updateValue()
 
     // filters
     value[tag(QString("custom"))] = applyFilters(strValue);
+    emit(dataReceived(value));
 }
 
 

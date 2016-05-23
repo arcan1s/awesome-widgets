@@ -156,22 +156,22 @@ QString DPAdds::toolTipImage(const int desktop) const
         std::for_each(info.desktopsData.cbegin(), info.desktopsData.cend(),
                       [&toolTipScene, &screen](WindowData data) {
                           QPixmap desktop = screen->grabWindow(data.id);
-                          toolTipScene->addPixmap(desktop)
-                              ->setOffset(data.rect.left(), data.rect.top());
+                          toolTipScene->addPixmap(desktop)->setOffset(
+                              data.rect.left(), data.rect.top());
                       });
     } else if (m_tooltipType == QString("windows")) {
         QScreen *screen = QGuiApplication::primaryScreen();
         std::for_each(info.desktopsData.cbegin(), info.desktopsData.cend(),
                       [&toolTipScene, &screen](WindowData data) {
                           QPixmap desktop = screen->grabWindow(data.id);
-                          toolTipScene->addPixmap(desktop)
-                              ->setOffset(data.rect.left(), data.rect.top());
+                          toolTipScene->addPixmap(desktop)->setOffset(
+                              data.rect.left(), data.rect.top());
                       });
         std::for_each(info.windowsData.cbegin(), info.windowsData.cend(),
                       [&toolTipScene, &screen](WindowData data) {
                           QPixmap window = screen->grabWindow(data.id);
-                          toolTipScene->addPixmap(window)
-                              ->setOffset(data.rect.left(), data.rect.top());
+                          toolTipScene->addPixmap(window)->setOffset(
+                              data.rect.left(), data.rect.top());
                       });
     }
 
@@ -232,8 +232,8 @@ QString DPAdds::valueByKey(const QString key, int desktop) const
             .arg(currentMark, m_mark.count(), QLatin1Char(' '))
             .replace(QString(" "), QString("&nbsp;"));
     else if (key == QString("name"))
-        return KWindowSystem::desktopName(desktop)
-            .replace(QString(" "), QString("&nbsp;"));
+        return KWindowSystem::desktopName(desktop).replace(QString(" "),
+                                                           QString("&nbsp;"));
     else if (key == QString("number"))
         return QString::number(desktop);
     else if (key == QString("total"))

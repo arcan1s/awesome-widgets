@@ -61,6 +61,9 @@ public:
     void setName(const QString _name = QString("none"));
     void setNumber(int _number = -1);
 
+signals:
+    void dataReceived(const QVariantHash &data);
+
 public slots:
     virtual void readConfiguration();
     virtual QVariantHash run() = 0;

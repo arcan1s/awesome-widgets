@@ -38,8 +38,7 @@ class ExtQuotes : public AbstractExtItem
     Q_PROPERTY(QString ticker READ ticker WRITE setTicker)
 
 public:
-    explicit ExtQuotes(QWidget *parent,
-                       const QString filePath = QString());
+    explicit ExtQuotes(QWidget *parent, const QString filePath = QString());
     virtual ~ExtQuotes();
     ExtQuotes *copy(const QString _fileName, const int _number);
     // get methods

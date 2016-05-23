@@ -35,8 +35,8 @@ AWFormatterConfig::AWFormatterConfig(QWidget *parent, const QStringList keys)
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
     ui->setupUi(this);
-    editButton = ui->buttonBox->addButton(i18n("Edit"),
-                                          QDialogButtonBox::ActionRole);
+    editButton
+        = ui->buttonBox->addButton(i18n("Edit"), QDialogButtonBox::ActionRole);
     init();
 
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
