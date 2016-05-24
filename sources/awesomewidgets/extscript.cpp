@@ -72,6 +72,7 @@ ExtScript *ExtScript::copy(const QString _fileName, const int _number)
     item->setNumber(_number);
     item->setPrefix(prefix());
     item->setRedirect(redirect());
+    item->setFilters(filters());
 
     return item;
 }

@@ -21,7 +21,6 @@
 #include <QtTest>
 
 #include "extscript.h"
-#include "version.h"
 
 
 void TestExtScript::initTestCase()
@@ -42,6 +41,9 @@ void TestExtScript::cleanupTestCase()
 {
     delete extScript;
 }
+
+
+
 
 
 void TestExtScript::test_values()
@@ -84,6 +86,21 @@ void TestExtScript::test_filters()
     QCOMPARE(
         arguments.at(0).toHash()[extScript->tag(QString("custom"))].toString(),
         QString("<br>hello world"));
+}
+
+
+void TestExtScript::test_copy()
+{
+    ExtScript *newExtScript = extScript->copy(QString("/dev/null"), 1);
+
+    QCOMPARE(newExtScript->interval(), extScript->interval());
+    QCOMPARE(newExtScript->executable(), extScript->executable());
+    QCOMPARE(newExtScript->strRedirect(), extScript->strRedirect());
+    QCOMPARE(newExtScript->prefix(), extScript->prefix());
+    QCOMPARE(newExtScript->filters(), extScript->filters());
+    QCOMPARE(newExtScript->number(), 1);
+
+    delete newExtScript;
 }
 
 

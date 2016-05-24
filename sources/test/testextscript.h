@@ -38,6 +38,7 @@ private slots:
     void test_values();
     void test_run();
     void test_filters();
+    void test_copy();
 
 private:
     ExtScript *extScript = nullptr;
