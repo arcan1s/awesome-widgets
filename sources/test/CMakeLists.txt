@@ -9,15 +9,18 @@ include_directories(
         ${PROJECT_TRDPARTY_DIR}
         ${Qt_INCLUDE}
         ${Kf5_INCLUDE}
-        ${Qt5Test_INCLUDE_DIRS}
 )
 
 # extscript
-set (EXTSCRIPT_HEADERS testextscript.h)
-set (EXTSCRIPT_SOURCES testextscript.cpp)
-# qt5_wrap_cpp(EXTSCRIPT_MOC_SOURCES ${EXTSCRIPT_HEADERS})
-add_executable (${SUBPROJECT}-extscript ${EXTSCRIPT_HEADERS} ${EXTSCRIPT_SOURCES} ${EXTSCRIPT_MOC_SOURCES})
-target_link_libraries (${SUBPROJECT}-extscript ${PROJECT_LIBRARY} ${Qt_LIBRARIES} ${Qt5Test_LIBRARIES})
-add_test (NAME "ExtScript" COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT}-extscript
-          "-o" "../Testing/output-extscript.log")
+set(EXTSCRIPT_HEADERS testextscript.h)
+set(EXTSCRIPT_SOURCES testextscript.cpp)
+add_executable(${SUBPROJECT}-extscript ${EXTSCRIPT_HEADERS} ${EXTSCRIPT_SOURCES})
+target_link_libraries(${SUBPROJECT}-extscript ${PROJECT_LIBRARY} ${Qt_LIBRARIES} ${Qt5Test_LIBRARIES})
+add_test(NAME "ExtScript" COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT}-extscript)
+# extupgrade
+set(EXTUPGRADE_HEADERS testextupgrade.h)
+set(EXTUPGRADE_SOURCES testextupgrade.cpp)
+add_executable(${SUBPROJECT}-extupgrade ${EXTUPGRADE_HEADERS} ${EXTUPGRADE_SOURCES})
+target_link_libraries(${SUBPROJECT}-extupgrade ${PROJECT_LIBRARY} ${Qt_LIBRARIES} ${Qt5Test_LIBRARIES})
+add_test(NAME "ExtUpgrade" COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT}-extupgrade)
 

@@ -25,15 +25,16 @@
 
 void TestExtScript::initTestCase()
 {
+    generateRandomString();
+
     extScript = new ExtScript(nullptr);
     extScript->setInterval(1);
-    extScript->setExecutable(QString("hello world"));
+    extScript->setExecutable(randomString);
     extScript->setNumber(0);
     extScript->setRedirect(ExtScript::Redirect::stderr2stdout);
     extScript->setPrefix(QString("echo"));
 
-    QVariantHash value = extScript->run();
-    qDebug() << "Init values in first run" << value;
+    extScript->run();
 }
 
 
@@ -43,14 +44,11 @@ void TestExtScript::cleanupTestCase()
 }
 
 
-
-
-
 void TestExtScript::test_values()
 {
     QCOMPARE(extScript->interval(), 1);
     QCOMPARE(extScript->number(), 0);
-    QCOMPARE(extScript->executable(), QString("hello world"));
+    QCOMPARE(extScript->executable(), randomString);
     QCOMPARE(extScript->strRedirect(), QString("stderr2stdout"));
     QCOMPARE(extScript->prefix(), QString("echo"));
 }
@@ -69,7 +67,7 @@ void TestExtScript::test_run()
     QList<QVariant> arguments = spy.takeFirst();
     QCOMPARE(
         arguments.at(0).toHash()[extScript->tag(QString("custom"))].toString(),
-        QString("\nhello world"));
+        QString("\n%1").arg(randomString));
 }
 
 
@@ -85,7 +83,7 @@ void TestExtScript::test_filters()
     QList<QVariant> arguments = spy.takeFirst();
     QCOMPARE(
         arguments.at(0).toHash()[extScript->tag(QString("custom"))].toString(),
-        QString("<br>hello world"));
+        QString("<br>%1").arg(randomString));
 }
 
 
@@ -101,6 +99,19 @@ void TestExtScript::test_copy()
     QCOMPARE(newExtScript->number(), 1);
 
     delete newExtScript;
+}
+
+
+void TestExtScript::generateRandomString()
+{
+    randomString.clear();
+
+    int diff = 'Z' - 'A';
+    int count = rand() % 100 + 1;
+    for (int i = 0; i < count; i++) {
+        char c = 'A' + (rand() % diff);
+        randomString += QChar(c);
+    }
 }
 
 

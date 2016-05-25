@@ -13,7 +13,7 @@ set(Qt_INCLUDE
 )
 set(Qt_LIBRARIES
         ${Qt5Core_LIBRARIES} ${Qt5DBus_LIBRARIES} ${Qt5Network_LIBRARIES}
-        ${Qt5Qml_LIBRARIES} ${Qt5Test_LIBRARIES} ${Qt5Widgets_LIBRARIES}
+        ${Qt5Qml_LIBRARIES} ${Qt5Widgets_LIBRARIES}
 )
 
 # kf5 libraries

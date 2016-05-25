@@ -16,16 +16,16 @@
  ***************************************************************************/
 
 
-#ifndef TESTEXTSCRIPT_H
-#define TESTEXTSCRIPT_H
+#ifndef TESTEXTUPGRADE_H
+#define TESTEXTUPGRADE_H
 
 #include <QObject>
 #include <QVariant>
 
 
-class ExtScript;
+class ExtUpgrade;
 
-class TestExtScript : public QObject
+class TestExtUpgrade : public QObject
 {
     Q_OBJECT
 
@@ -36,14 +36,17 @@ private slots:
     // test
     void test_values();
     void test_run();
-    void test_filters();
+    void test_null();
+    void test_filter();
     void test_copy();
 
 private:
-    void generateRandomString();
-    ExtScript *extScript = nullptr;
-    QString randomString;
+    QString generateRandomString() const;
+    void generateRandomStrings();
+    ExtUpgrade *extUpgrade = nullptr;
+    QString cmd;
+    QStringList randomStrings;
 };
 
 
-#endif /* TESTEXTSCRIPT_H */
+#endif /* TESTEXTUPGRADE_H */

@@ -225,6 +225,8 @@ void ExtUpgrade::updateValue()
                          .filter(QRegExp(m_filter))
                          .count();
     }(qoutput);
+
+    emit(dataReceived(value));
 }
 
 
