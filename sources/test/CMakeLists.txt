@@ -17,6 +17,12 @@ set(EXTSCRIPT_SOURCES testextscript.cpp)
 add_executable(${SUBPROJECT}-extscript ${EXTSCRIPT_HEADERS} ${EXTSCRIPT_SOURCES})
 target_link_libraries(${SUBPROJECT}-extscript ${PROJECT_LIBRARY} ${Qt_LIBRARIES} ${Qt5Test_LIBRARIES})
 add_test(NAME "ExtScript" COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT}-extscript)
+# extquotes
+set(EXTQUOTES_HEADERS testextquotes.h)
+set(EXTQUOTES_SOURCES testextquotes.cpp)
+add_executable(${SUBPROJECT}-extquotes ${EXTQUOTES_HEADERS} ${EXTQUOTES_SOURCES})
+target_link_libraries(${SUBPROJECT}-extquotes ${PROJECT_LIBRARY} ${Qt_LIBRARIES} ${Qt5Test_LIBRARIES})
+add_test(NAME "ExtQuotes" COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT}-extquotes)
 # extupgrade
 set(EXTUPGRADE_HEADERS testextupgrade.h)
 set(EXTUPGRADE_SOURCES testextupgrade.cpp)

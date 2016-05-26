@@ -15,60 +15,39 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef EXTQUOTES_H
-#define EXTQUOTES_H
 
-#include <QNetworkReply>
+#ifndef TESTEXTQUOTES_H
+#define TESTEXTQUOTES_H
 
-#include "abstractextitem.h"
-
-#define YAHOO_QUOTES_URL "https://query.yahooapis.com/v1/public/yql"
-#define YAHOO_QUOTES_QUERY                                                     \
-    "select * from yahoo.finance.quotes where symbol='%1'"
+#include <QObject>
+#include <QVariant>
 
 
-namespace Ui
-{
 class ExtQuotes;
-}
 
-class ExtQuotes : public AbstractExtItem
+class TestExtQuotes : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString ticker READ ticker WRITE setTicker)
-
-public:
-    explicit ExtQuotes(QWidget *parent, const QString filePath = QString());
-    virtual ~ExtQuotes();
-    ExtQuotes *copy(const QString _fileName, const int _number);
-    // get methods
-    QString ticker() const;
-    QString uniq() const;
-    // set methods
-    void setTicker(const QString _ticker = QString("EURUSD=X"));
-
-public slots:
-    void readConfiguration();
-    QVariantHash run();
-    int showConfiguration(const QVariant args = QVariant());
-    void writeConfiguration() const;
 
 private slots:
-    void quotesReplyReceived(QNetworkReply *reply);
+    // initialization
+    void initTestCase();
+    void cleanupTestCase();
+    // test
+    void test_values();
+    void test_run();
+    void test_derivatives();
+    void test_copy();
 
 private:
-    QNetworkAccessManager *m_manager = nullptr;
-    QUrl m_url;
-    bool isRunning = false;
-    Ui::ExtQuotes *ui = nullptr;
-    void initUrl();
-    void translate();
-    // properties
-    QString m_ticker = QString("EURUSD=X");
-    // values
-    int times = 0;
-    QVariantHash values;
+    ExtQuotes *extQuotes = nullptr;
+    QVariantHash cache;
+    QString ticker = QString("EURUSD=X");
+    QStringList types = QStringList() << QString("ask") << QString("bid")
+                                      << QString("price");
+    // we assume that price will not be differ more than in 2 times
+    QPair<double, double> price = QPair<double, double>(0.5, 2.0);
 };
 
 
-#endif /* EXTQUOTES_H */
+#endif /* TESTEXTQUOTES_H */

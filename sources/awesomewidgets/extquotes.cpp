@@ -105,6 +105,7 @@ void ExtQuotes::setTicker(const QString _ticker)
     qCDebug(LOG_LIB) << "Ticker" << _ticker;
 
     m_ticker = _ticker;
+    initUrl();
 }
 
 
@@ -127,16 +128,6 @@ void ExtQuotes::readConfiguration()
     }
 
     bumpApi(AWEQAPI);
-
-    // init query
-    m_url = QUrl(YAHOO_QUOTES_URL);
-    QUrlQuery params;
-    params.addQueryItem(QString("format"), QString("json"));
-    params.addQueryItem(QString("env"),
-                        QString("store://datatables.org/alltableswithkeys"));
-    params.addQueryItem(QString("q"),
-                        QString(YAHOO_QUOTES_QUERY).arg(m_ticker));
-    m_url.setQuery(params);
 }
 
 
@@ -226,35 +217,51 @@ void ExtQuotes::quotesReplyReceived(QNetworkReply *reply)
     // ask
     value = jsonQuotes[QString("Ask")].toString().toDouble();
     values[tag(QString("askchg"))]
-        = values[QString("ask")].toDouble() == 0.0
+        = values[tag(QString("ask"))].toDouble() == 0.0
               ? 0.0
-              : value - values[QString("ask")].toDouble();
-    values[tag(QString("percaskchg"))] = 100.0
-                                         * values[QString("askchg")].toDouble()
-                                         / values[QString("ask")].toDouble();
+              : value - values[tag(QString("ask"))].toDouble();
+    values[tag(QString("percaskchg"))]
+        = 100.0 * values[tag(QString("askchg"))].toDouble()
+          / values[tag(QString("ask"))].toDouble();
     values[tag(QString("ask"))] = value;
 
     // bid
     value = jsonQuotes[QString("Bid")].toString().toDouble();
     values[tag(QString("bidchg"))]
-        = values[QString("bid")].toDouble() == 0.0
+        = values[tag(QString("bid"))].toDouble() == 0.0
               ? 0.0
-              : value - values[QString("bid")].toDouble();
-    values[tag(QString("percbidchg"))] = 100.0
-                                         * values[QString("bidchg")].toDouble()
-                                         / values[QString("bid")].toDouble();
+              : value - values[tag(QString("bid"))].toDouble();
+    values[tag(QString("percbidchg"))]
+        = 100.0 * values[tag(QString("bidchg"))].toDouble()
+          / values[tag(QString("bid"))].toDouble();
     values[tag(QString("bid"))] = value;
 
     // last trade
     value = jsonQuotes[QString("LastTradePriceOnly")].toString().toDouble();
     values[tag(QString("pricechg"))]
-        = values[QString("price")].toDouble() == 0.0
+        = values[tag(QString("price"))].toDouble() == 0.0
               ? 0.0
-              : value - values[QString("price")].toDouble();
+              : value - values[tag(QString("price"))].toDouble();
     values[tag(QString("percpricechg"))]
-        = 100.0 * values[QString("pricechg")].toDouble()
-          / values[QString("price")].toDouble();
+        = 100.0 * values[tag(QString("pricechg"))].toDouble()
+          / values[tag(QString("price"))].toDouble();
     values[tag(QString("price"))] = value;
+
+    emit(dataReceived(values));
+}
+
+
+void ExtQuotes::initUrl()
+{
+    // init query
+    m_url = QUrl(YAHOO_QUOTES_URL);
+    QUrlQuery params;
+    params.addQueryItem(QString("format"), QString("json"));
+    params.addQueryItem(QString("env"),
+                        QString("store://datatables.org/alltableswithkeys"));
+    params.addQueryItem(QString("q"),
+                        QString(YAHOO_QUOTES_QUERY).arg(m_ticker));
+    m_url.setQuery(params);
 }
 
 
