@@ -73,6 +73,7 @@ private:
     QUrl m_url;
     bool isRunning = false;
     Ui::ExtWeather *ui = nullptr;
+    void initUrl();
     void translate();
     // properties
     QString m_city = QString("London");

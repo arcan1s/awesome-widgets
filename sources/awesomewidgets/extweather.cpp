@@ -134,6 +134,7 @@ void ExtWeather::setCity(const QString _city)
     qCDebug(LOG_LIB) << "City" << _city;
 
     m_city = _city;
+    initUrl();
 }
 
 
@@ -142,6 +143,7 @@ void ExtWeather::setCountry(const QString _country)
     qCDebug(LOG_LIB) << "Country" << _country;
 
     m_country = _country;
+    initUrl();
 }
 
 
@@ -185,16 +187,6 @@ void ExtWeather::readConfiguration()
     }
 
     bumpApi(AWEWAPI);
-
-    // init query
-    m_url = QUrl(YAHOO_WEATHER_URL);
-    QUrlQuery params;
-    params.addQueryItem(QString("format"), QString("json"));
-    params.addQueryItem(QString("env"),
-                        QString("store://datatables.org/alltableswithkeys"));
-    params.addQueryItem(QString("q"),
-                        QString(YAHOO_WEATHER_QUERY).arg(m_city, m_country));
-    m_url.setQuery(params);
 }
 
 
@@ -359,6 +351,22 @@ void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
         values[tag(QString("humidity"))] = 0;
         values[tag(QString("pressure"))] = 0.0;
     }
+
+    emit(dataReceived(values));
+}
+
+
+void ExtWeather::initUrl()
+{
+    // init query
+    m_url = QUrl(YAHOO_WEATHER_URL);
+    QUrlQuery params;
+    params.addQueryItem(QString("format"), QString("json"));
+    params.addQueryItem(QString("env"),
+                        QString("store://datatables.org/alltableswithkeys"));
+    params.addQueryItem(QString("q"),
+                        QString(YAHOO_WEATHER_QUERY).arg(m_city, m_country));
+    m_url.setQuery(params);
 }
 
 
