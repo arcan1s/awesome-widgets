@@ -117,8 +117,8 @@ void TestExtWeather::test_image()
     QVERIFY(spy.wait(5000));
     QVariantHash arguments = spy.takeFirst().at(0).toHash();
     QVERIFY(
-            arguments[extWeather->tag(QString("weather"))].toString().startsWith(
-                    QString("<img")));
+        arguments[extWeather->tag(QString("weather"))].toString().startsWith(
+            QString("<img")));
 }
 
 

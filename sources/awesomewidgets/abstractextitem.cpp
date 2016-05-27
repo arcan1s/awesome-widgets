@@ -70,10 +70,10 @@ void AbstractExtItem::copyDefaults(AbstractExtItem *_other) const
 
 QString AbstractExtItem::writtableConfig() const
 {
-    QStringList paths = m_fileName.split(QChar('/'));
-
-    QString name = paths.takeLast();
-    QString dir = paths.takeLast();
+    QString path = m_fileName;
+    QString name = QFileInfo(path).fileName();
+    path.remove(path.count() - name.count() - 1, name.count() + 1);
+    QString dir = QFileInfo(path).fileName();
 
     return QString("%1/awesomewidgets/%2/%3")
         .arg(QStandardPaths::writableLocation(

@@ -72,7 +72,7 @@ public slots:
     virtual void writeConfiguration() const;
 
 private:
-    QString m_fileName;
+    QString m_fileName = QString("/dev/null");
     virtual void translate() = 0;
     // properties
     int m_apiVersion = 0;
