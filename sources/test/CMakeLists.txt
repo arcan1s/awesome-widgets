@@ -11,6 +11,7 @@ include_directories(
         ${Kf5_INCLUDE}
 )
 
+## extensions
 # abstractextitem
 set(ABSTRACTEXTITEM_HEADERS testabstractextitem.h)
 set(ABSTRACTEXTITEM_SOURCES testabstractextitem.cpp)
@@ -41,3 +42,16 @@ set(EXTWEATHER_SOURCES testextweather.cpp)
 add_executable(${SUBPROJECT}-extweather ${EXTWEATHER_HEADERS} ${EXTWEATHER_SOURCES})
 target_link_libraries(${SUBPROJECT}-extweather ${PROJECT_LIBRARY} ${Qt_LIBRARIES} ${Qt5Test_LIBRARIES})
 add_test(NAME "ExtWeather" COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT}-extweather)
+## formatters
+# float formatter
+set(FLOATFORMATTER_HEADERS testfloatformatter.h)
+set(FLOATFORMATTER_SOURCES testfloatformatter.cpp)
+add_executable(${SUBPROJECT}-floatformatter ${FLOATFORMATTER_HEADERS} ${FLOATFORMATTER_SOURCES})
+target_link_libraries(${SUBPROJECT}-floatformatter ${PROJECT_LIBRARY} ${Qt_LIBRARIES} ${Qt5Test_LIBRARIES})
+add_test(NAME "FloatFormatter" COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT}-floatformatter)
+# no formatter
+set(NOFORMATTER_HEADERS testnoformatter.h)
+set(NOFORMATTER_SOURCES testnoformatter.cpp)
+add_executable(${SUBPROJECT}-noformatter ${NOFORMATTER_HEADERS} ${NOFORMATTER_SOURCES})
+target_link_libraries(${SUBPROJECT}-noformatter ${PROJECT_LIBRARY} ${Qt_LIBRARIES} ${Qt5Test_LIBRARIES})
+add_test(NAME "NoFormatter" COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT}-noformatter)
