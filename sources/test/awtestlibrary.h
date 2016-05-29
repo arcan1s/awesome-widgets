@@ -16,33 +16,20 @@
  ***************************************************************************/
 
 
-#ifndef TESTEXTSCRIPT_H
-#define TESTEXTSCRIPT_H
+#ifndef AWTESTLIBRARY_H
+#define AWTESTLIBRARY_H
 
-#include <QObject>
-#include <QVariant>
+#include <QStringList>
 
 
-class ExtScript;
-
-class TestExtScript : public QObject
+namespace AWTestLibrary
 {
-    Q_OBJECT
-
-private slots:
-    // initialization
-    void initTestCase();
-    void cleanupTestCase();
-    // test
-    void test_values();
-    void test_run();
-    void test_filters();
-    void test_copy();
-
-private:
-    ExtScript *extScript = nullptr;
-    QString randomString;
+    char randomChar();
+    double randomDouble();
+    int randomInt(const int max = 100);
+    QString randomString(const int max = 100);
+    QStringList randomStringList(const int max = 100);
 };
 
 
-#endif /* TESTEXTSCRIPT_H */
+#endif /* AWTESTLIBRARY_H */

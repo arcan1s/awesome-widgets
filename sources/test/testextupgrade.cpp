@@ -20,12 +20,14 @@
 
 #include <QtTest>
 
+#include "awtestlibrary.h"
 #include "extupgrade.h"
 
 
 void TestExtUpgrade::initTestCase()
 {
-    generateRandomStrings();
+    randomStrings = AWTestLibrary::randomStringList();
+    cmd = QString("echo -e '%1'").arg(randomStrings.join(QString("\n")));
 
     extUpgrade = new ExtUpgrade(nullptr);
     extUpgrade->setInterval(1);
@@ -68,7 +70,7 @@ void TestExtUpgrade::test_run()
 
 void TestExtUpgrade::test_null()
 {
-    int null = rand() % randomStrings.count();
+    int null = AWTestLibrary::randomInt(randomStrings.count());
     extUpgrade->setNull(null);
     QSignalSpy spy(extUpgrade, SIGNAL(dataReceived(const QVariantHash &)));
     extUpgrade->run();
@@ -85,9 +87,9 @@ void TestExtUpgrade::test_null()
 void TestExtUpgrade::test_filter()
 {
     QSet<QString> filters;
-    int count = rand() % randomStrings.count();
+    int count = AWTestLibrary::randomInt(randomStrings.count());
     for (int i = 0; i < count; i++) {
-        int index = rand() % randomStrings.count();
+        int index = AWTestLibrary::randomInt(randomStrings.count());
         filters << randomStrings.at(index);
     }
 
@@ -117,31 +119,6 @@ void TestExtUpgrade::test_copy()
     QCOMPARE(newExtUpgrade->number(), 1);
 
     delete newExtUpgrade;
-}
-
-
-QString TestExtUpgrade::generateRandomString() const
-{
-    QString string;
-    int diff = 'Z' - 'A';
-    int count = rand() % 100 + 1;
-    for (int i = 0; i < count; i++) {
-        char c = 'A' + (rand() % diff);
-        string += QChar(c);
-    }
-
-    return string;
-}
-
-
-void TestExtUpgrade::generateRandomStrings()
-{
-    randomStrings.clear();
-
-    int count = rand() % 100 + 1;
-    for (int i = 0; i < count; i++)
-        randomStrings.append(generateRandomString());
-    cmd = QString("echo -e '%1'").arg(randomStrings.join(QString("\n")));
 }
 
 

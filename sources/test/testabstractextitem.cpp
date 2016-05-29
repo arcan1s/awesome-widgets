@@ -20,6 +20,7 @@
 
 #include <QtTest>
 
+#include "awtestlibrary.h"
 #include "extupgrade.h"
 
 
@@ -114,13 +115,10 @@ void TestAbstractExtItem::generateFilename()
     writeFileName = QString("%1/awesomewidgets/tmp/")
                         .arg(QStandardPaths::writableLocation(
                             QStandardPaths::GenericDataLocation));
-    int diff = 'Z' - 'A';
-    int count = rand() % 20 + 1;
-    for (int i = 0; i < count; i++) {
-        char c = 'A' + (rand() % diff);
-        fileName += QChar(c);
-        writeFileName += QChar(c);
-    }
+
+    QString name = AWTestLibrary::randomString(20);
+    fileName += name;
+    writeFileName += name;
 }
 
 

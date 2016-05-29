@@ -41,8 +41,6 @@ private slots:
     void test_copy();
 
 private:
-    QString generateRandomString() const;
-    void generateRandomStrings();
     ExtUpgrade *extUpgrade = nullptr;
     QString cmd;
     QStringList randomStrings;

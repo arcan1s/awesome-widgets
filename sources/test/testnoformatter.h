@@ -39,7 +39,6 @@ private slots:
     void test_copy();
 
 private:
-    QString generateRandomString();
     AWNoFormatter *formatter = nullptr;
 };
 

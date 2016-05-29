@@ -20,12 +20,13 @@
 
 #include <QtTest>
 
+#include "awtestlibrary.h"
 #include "extscript.h"
 
 
 void TestExtScript::initTestCase()
 {
-    generateRandomString();
+    randomString = AWTestLibrary::randomString();
 
     extScript = new ExtScript(nullptr);
     extScript->setInterval(1);
@@ -99,19 +100,6 @@ void TestExtScript::test_copy()
     QCOMPARE(newExtScript->number(), 1);
 
     delete newExtScript;
-}
-
-
-void TestExtScript::generateRandomString()
-{
-    randomString.clear();
-
-    int diff = 'Z' - 'A';
-    int count = rand() % 100 + 1;
-    for (int i = 0; i < count; i++) {
-        char c = 'A' + (rand() % diff);
-        randomString += QChar(c);
-    }
 }
 
 

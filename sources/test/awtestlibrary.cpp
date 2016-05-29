@@ -16,33 +16,46 @@
  ***************************************************************************/
 
 
-#ifndef TESTEXTSCRIPT_H
-#define TESTEXTSCRIPT_H
-
-#include <QObject>
-#include <QVariant>
+#include "awtestlibrary.h"
 
 
-class ExtScript;
-
-class TestExtScript : public QObject
+char AWTestLibrary::randomChar()
 {
-    Q_OBJECT
-
-private slots:
-    // initialization
-    void initTestCase();
-    void cleanupTestCase();
-    // test
-    void test_values();
-    void test_run();
-    void test_filters();
-    void test_copy();
-
-private:
-    ExtScript *extScript = nullptr;
-    QString randomString;
-};
+    return 'A' + (rand() % static_cast<int>('Z' - 'A'));
+}
 
 
-#endif /* TESTEXTSCRIPT_H */
+double AWTestLibrary::randomDouble()
+{
+    return static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
+}
+
+
+int AWTestLibrary::randomInt(const int max)
+{
+    return rand() % max;
+}
+
+
+QString AWTestLibrary::randomString(const int max)
+{
+    QString output;
+
+    int count = 1 + randomInt(max);
+    for (int i = 0; i < count; i++)
+        output += QChar(randomChar());
+
+    return output;
+}
+
+
+QStringList AWTestLibrary::randomStringList(const int max)
+{
+    QStringList output;
+
+    int count = 1 + randomInt(max);
+    for (int i = 0; i < count; i++)
+        output.append(randomString());
+
+    return output;
+}

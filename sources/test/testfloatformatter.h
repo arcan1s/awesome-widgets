@@ -45,7 +45,6 @@ private slots:
 
 private:
     void doRandom();
-    float getValue() const;
     AWFloatFormatter *formatter = nullptr;
 };
 

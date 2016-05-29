@@ -20,6 +20,7 @@
 
 #include <QtTest>
 
+#include "awtestlibrary.h"
 #include "awfloatformatter.h"
 
 
@@ -43,12 +44,12 @@ void TestAWFloatFormatter::test_values()
 void TestAWFloatFormatter::test_count()
 {
     // assign
-    int count = 10 + rand() % 200;
+    int count = 10 + AWTestLibrary::randomInt();
     formatter->setCount(count);
     QCOMPARE(formatter->count(), count);
 
     // test
-    float value = getValue();
+    double value = AWTestLibrary::randomDouble();
     QString output = formatter->convert(value);
     QCOMPARE(output.count(), count);
 
@@ -60,13 +61,13 @@ void TestAWFloatFormatter::test_count()
 void TestAWFloatFormatter::test_fillChar()
 {
     // assign
-    char c = 'A' + (rand() % static_cast<int>('Z' - 'A'));
+    char c = AWTestLibrary::randomChar();
     formatter->setFillChar(QChar(c));
     QCOMPARE(formatter->fillChar(), QChar(c));
     formatter->setCount(101);
 
     // test
-    int value = rand() % 100;
+    int value = AWTestLibrary::randomInt();
     QString output = formatter->convert(value);
     QVERIFY(output.startsWith(QChar(c)));
 
@@ -86,7 +87,7 @@ void TestAWFloatFormatter::test_format()
     QCOMPARE(formatter->format(), 'e');
 
     // test
-    float value = getValue();
+    double value = AWTestLibrary::randomDouble();
     QString output = formatter->convert(value);
     QVERIFY(output.contains('e'));
 
@@ -98,12 +99,12 @@ void TestAWFloatFormatter::test_format()
 void TestAWFloatFormatter::test_precision()
 {
     // assign
-    int precision = 1 + rand() % 5;
+    int precision = 1 + AWTestLibrary::randomInt(5);
     formatter->setPrecision(precision);
     QCOMPARE(formatter->precision(), precision);
 
     // test
-    float value = getValue();
+    double value = AWTestLibrary::randomDouble();
     QString output = formatter->convert(value);
     output.remove(QString("0."));
     QCOMPARE(output.count(), precision);
@@ -118,13 +119,14 @@ void TestAWFloatFormatter::test_multiplier()
     formatter->setPrecision(6);
 
     // assign
-    double multiplier = getValue();
+    double multiplier = AWTestLibrary::randomDouble();
     formatter->setMultiplier(multiplier);
     QCOMPARE(formatter->multiplier(), multiplier);
 
     // test
-    double value = getValue();
-    QCOMPARE(formatter->convert(value), QString::number(value * multiplier, 'f', 6));
+    double value = AWTestLibrary::randomDouble();
+    QCOMPARE(formatter->convert(value),
+             QString::number(value * multiplier, 'f', 6));
 
     // reset
     formatter->setMultiplier(1.0);
@@ -134,13 +136,14 @@ void TestAWFloatFormatter::test_multiplier()
 void TestAWFloatFormatter::test_summand()
 {
     // assign
-    double summand = getValue();
+    double summand = AWTestLibrary::randomDouble();
     formatter->setSummand(summand);
     QCOMPARE(formatter->summand(), summand);
 
     // test
-    double value = getValue();
-    QCOMPARE(formatter->convert(value), QString::number(value + summand, 'f', 6));
+    double value = AWTestLibrary::randomDouble();
+    QCOMPARE(formatter->convert(value),
+             QString::number(value + summand, 'f', 6));
 
     // reset
     formatter->setSummand(1.0);
@@ -166,18 +169,12 @@ void TestAWFloatFormatter::test_copy()
 
 void TestAWFloatFormatter::doRandom()
 {
-    formatter->setCount(rand() % 100);
-    formatter->setFillChar(QChar('A' + (rand() % static_cast<int>('Z' - 'A'))));
-    formatter->setFormat('A' + (rand() % static_cast<int>('Z' - 'A')));
-    formatter->setMultiplier(getValue());
-    formatter->setPrecision(rand() % 100);
-    formatter->setSummand(getValue());
-}
-
-
-float TestAWFloatFormatter::getValue() const
-{
-    return static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+    formatter->setCount(AWTestLibrary::randomInt());
+    formatter->setFillChar(QChar(AWTestLibrary::randomChar()));
+    formatter->setFormat(AWTestLibrary::randomChar());
+    formatter->setMultiplier(AWTestLibrary::randomDouble());
+    formatter->setPrecision(AWTestLibrary::randomInt());
+    formatter->setSummand(AWTestLibrary::randomDouble());
 }
 
 

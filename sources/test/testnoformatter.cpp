@@ -20,6 +20,7 @@
 
 #include <QtTest>
 
+#include "awtestlibrary.h"
 #include "awnoformatter.h"
 
 
@@ -43,12 +44,12 @@ void TestAWNoFormatter::test_values()
 void TestAWNoFormatter::test_conversion()
 {
     // integer
-    int randomInt = rand();
+    int randomInt = AWTestLibrary::randomInt();
     QCOMPARE(formatter->convert(randomInt), QString::number(randomInt));
     // float
     QWARN("Float conversion isn't tested here due to possible rounding errors");
     // string
-    QString randomString = generateRandomString();
+    QString randomString = AWTestLibrary::randomString();
     QCOMPARE(formatter->convert(randomString), randomString);
 }
 
@@ -60,21 +61,6 @@ void TestAWNoFormatter::test_copy()
     QCOMPARE(newFormatter->number(), 1);
 
     delete newFormatter;
-}
-
-
-QString TestAWNoFormatter::generateRandomString()
-{
-    QString string;
-
-    int diff = 'Z' - 'A';
-    int count = rand() % 100 + 1;
-    for (int i = 0; i < count; i++) {
-        char c = 'A' + (rand() % diff);
-        string += QChar(c);
-    }
-
-    return string;
 }
 
 
