@@ -20,8 +20,8 @@
 
 #include <QtTest>
 
-#include "awtestlibrary.h"
 #include "awnoformatter.h"
+#include "awtestlibrary.h"
 
 
 void TestAWNoFormatter::initTestCase()

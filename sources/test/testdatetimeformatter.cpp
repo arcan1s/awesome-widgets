@@ -16,21 +16,53 @@
  ***************************************************************************/
 
 
-#ifndef AWTESTLIBRARY_H
-#define AWTESTLIBRARY_H
+#include "testdatetimeformatter.h"
 
-#include <QStringList>
+#include <QtTest>
+
+#include "awdatetimeformatter.h"
+#include "awtestlibrary.h"
+#include "version.h"
 
 
-namespace AWTestLibrary
+void TestAWDateTimeFormatter::initTestCase()
 {
-char randomChar();
-double randomDouble();
-int randomInt(const int max = 100);
-QString randomString(const int max = 100);
-QStringList randomStringList(const int max = 100);
-QStringList randomSelect(const QStringList available);
-};
+    format = AWTestLibrary::randomSelect(QString(TIME_KEYS).split(QChar(','))).join(QChar(' '));
+
+    formatter = new AWDateTimeFormatter(nullptr);
+    formatter->setFormat(format);
+}
 
 
-#endif /* AWTESTLIBRARY_H */
+void TestAWDateTimeFormatter::cleanupTestCase()
+{
+    delete formatter;
+}
+
+
+void TestAWDateTimeFormatter::test_values()
+{
+    QCOMPARE(formatter->format(), format);
+}
+
+
+void TestAWDateTimeFormatter::test_conversion()
+{
+    QDateTime now = QDateTime::currentDateTime();
+    QCOMPARE(formatter->convert(now), now.toString(format));
+}
+
+
+void TestAWDateTimeFormatter::test_copy()
+{
+    AWDateTimeFormatter *newFormatter
+        = formatter->copy(QString("/dev/null"), 1);
+
+    QCOMPARE(newFormatter->format(), formatter->format());
+    QCOMPARE(newFormatter->number(), 1);
+
+    delete newFormatter;
+}
+
+
+QTEST_MAIN(TestAWDateTimeFormatter);

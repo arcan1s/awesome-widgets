@@ -20,7 +20,6 @@
 #define TESTFLOATFORMATTER_H
 
 #include <QObject>
-#include <QVariant>
 
 
 class AWFloatFormatter;

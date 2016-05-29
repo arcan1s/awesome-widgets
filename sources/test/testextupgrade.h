@@ -20,7 +20,6 @@
 #define TESTEXTUPGRADE_H
 
 #include <QObject>
-#include <QVariant>
 
 
 class ExtUpgrade;

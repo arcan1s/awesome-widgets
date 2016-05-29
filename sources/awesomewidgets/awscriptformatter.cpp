@@ -116,6 +116,7 @@ void AWScriptFormatter::setAppendCode(const bool _appendCode)
     qCDebug(LOG_LIB) << "Set append code" << _appendCode;
 
     m_appendCode = _appendCode;
+    initProgram();
 }
 
 
@@ -124,6 +125,7 @@ void AWScriptFormatter::setCode(const QString _code)
     qCDebug(LOG_LIB) << "Set code" << _code;
 
     m_code = _code;
+    initProgram();
 }
 
 
@@ -132,6 +134,7 @@ void AWScriptFormatter::setHasReturn(const bool _hasReturn)
     qCDebug(LOG_LIB) << "Set has return" << _hasReturn;
 
     m_hasReturn = _hasReturn;
+    initProgram();
 }
 
 
@@ -150,9 +153,6 @@ void AWScriptFormatter::readConfiguration()
     settings.endGroup();
 
     bumpApi(AWEFAPI);
-
-    // init JS code
-    initProgram();
 }
 
 
@@ -204,6 +204,7 @@ void AWScriptFormatter::writeConfiguration() const
 
 void AWScriptFormatter::initProgram()
 {
+    // init JS code
     if (m_appendCode)
         m_program
             = QString("(function(value) { %1%2 })")

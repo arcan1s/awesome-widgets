@@ -20,8 +20,8 @@
 
 #include <QtTest>
 
-#include "awtestlibrary.h"
 #include "awfloatformatter.h"
+#include "awtestlibrary.h"
 
 
 void TestAWFloatFormatter::initTestCase()

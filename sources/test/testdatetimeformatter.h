@@ -16,21 +16,31 @@
  ***************************************************************************/
 
 
-#ifndef AWTESTLIBRARY_H
-#define AWTESTLIBRARY_H
+#ifndef TESTDATETIMEFORMATTER_H
+#define TESTDATETIMEFORMATTER_H
 
-#include <QStringList>
+#include <QObject>
 
 
-namespace AWTestLibrary
+class AWDateTimeFormatter;
+
+class TestAWDateTimeFormatter : public QObject
 {
-char randomChar();
-double randomDouble();
-int randomInt(const int max = 100);
-QString randomString(const int max = 100);
-QStringList randomStringList(const int max = 100);
-QStringList randomSelect(const QStringList available);
+    Q_OBJECT
+
+private slots:
+    // initialization
+    void initTestCase();
+    void cleanupTestCase();
+    // test
+    void test_values();
+    void test_conversion();
+    void test_copy();
+
+private:
+    AWDateTimeFormatter *formatter = nullptr;
+    QString format;
 };
 
 
-#endif /* AWTESTLIBRARY_H */
+#endif /* TESTDATETIMEFORMATTER_H */

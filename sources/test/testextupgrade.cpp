@@ -86,15 +86,8 @@ void TestExtUpgrade::test_null()
 
 void TestExtUpgrade::test_filter()
 {
-    QSet<QString> filters;
-    int count = AWTestLibrary::randomInt(randomStrings.count());
-    for (int i = 0; i < count; i++) {
-        int index = AWTestLibrary::randomInt(randomStrings.count());
-        filters << randomStrings.at(index);
-    }
-
-    extUpgrade->setFilter(
-        QString("(^%1$)").arg(filters.toList().join(QString("$|^"))));
+    QStringList filters = AWTestLibrary::randomSelect(randomStrings);
+    extUpgrade->setFilter(QString("(^%1$)").arg(filters.join(QString("$|^"))));
     // init spy
     QSignalSpy spy(extUpgrade, SIGNAL(dataReceived(const QVariantHash &)));
     extUpgrade->run();

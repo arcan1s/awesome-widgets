@@ -18,6 +18,8 @@
 
 #include "awtestlibrary.h"
 
+#include <QSet>
+
 
 char AWTestLibrary::randomChar()
 {
@@ -58,4 +60,18 @@ QStringList AWTestLibrary::randomStringList(const int max)
         output.append(randomString());
 
     return output;
+}
+
+
+QStringList AWTestLibrary::randomSelect(const QStringList available)
+{
+    QSet<QString> output;
+
+    int count = 1 + randomInt(available.count());
+    for (int i = 0; i < count; i++) {
+        int index = randomInt(available.count());
+        output << available.at(index);
+    }
+
+    return output.toList();
 }

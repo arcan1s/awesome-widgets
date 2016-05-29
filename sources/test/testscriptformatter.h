@@ -16,21 +16,35 @@
  ***************************************************************************/
 
 
-#ifndef AWTESTLIBRARY_H
-#define AWTESTLIBRARY_H
+#ifndef TESTSCRIPTFORMATTER_H
+#define TESTSCRIPTFORMATTER_H
 
-#include <QStringList>
+#include <QObject>
 
 
-namespace AWTestLibrary
+class AWScriptFormatter;
+
+class TestAWScriptFormatter : public QObject
 {
-char randomChar();
-double randomDouble();
-int randomInt(const int max = 100);
-QString randomString(const int max = 100);
-QStringList randomStringList(const int max = 100);
-QStringList randomSelect(const QStringList available);
+    Q_OBJECT
+
+private slots:
+    // initialization
+    void initTestCase();
+    void cleanupTestCase();
+    // test
+    void test_values();
+    void test_conversion();
+    void test_appendCode();
+    void test_hasReturn();
+    void test_copy();
+
+private:
+    AWScriptFormatter *formatter = nullptr;
+    QString code = QString("output = value");
+    QString codeWithReturn = QString("%1; return output;").arg(code);
+    QString fullCode = QString("(function(value) { %1 })").arg(codeWithReturn);
 };
 
 
-#endif /* AWTESTLIBRARY_H */
+#endif /* TESTNOFORMATTER_H */

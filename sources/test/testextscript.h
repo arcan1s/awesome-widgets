@@ -20,7 +20,6 @@
 #define TESTEXTSCRIPT_H
 
 #include <QObject>
-#include <QVariant>
 
 
 class ExtScript;

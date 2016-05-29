@@ -20,7 +20,6 @@
 #define TESTABSTRACTEXTITEM_H
 
 #include <QObject>
-#include <QVariant>
 
 
 class ExtUpgrade;
