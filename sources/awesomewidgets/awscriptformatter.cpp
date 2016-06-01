@@ -174,7 +174,7 @@ int AWScriptFormatter::showConfiguration(const QVariant args)
         return ret;
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
-    setType(ui->label_typeValue->text());
+    setStrType(ui->label_typeValue->text());
     setAppendCode(ui->checkBox_appendCode->checkState() == Qt::Checked);
     setHasReturn(ui->checkBox_hasReturn->checkState() == Qt::Checked);
     setCode(ui->textEdit_code->toPlainText());

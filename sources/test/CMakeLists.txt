@@ -21,7 +21,7 @@ set(LIBRARY_TEST_SET ${SUBPROJECT}-awtest ${PROJECT_LIBRARY} ${Qt_LIBRARIES} ${Q
 ## modules
 set(TEST_MODULES
         abstractextitem extquotes extscript extupgrade extweather
-        datetimeformatter floatformatter noformatter scriptformatter)
+        abstractformatter datetimeformatter floatformatter noformatter scriptformatter)
 foreach (TEST_MODULE ${TEST_MODULES})
     set(${TEST_MODULE}_HEADERS test${TEST_MODULE}.h)
     set(${TEST_MODULE}_SOURCES test${TEST_MODULE}.cpp)

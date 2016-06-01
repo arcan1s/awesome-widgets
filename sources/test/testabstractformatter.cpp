@@ -16,54 +16,52 @@
  ***************************************************************************/
 
 
-#include "testdatetimeformatter.h"
+#include "testabstractformatter.h"
 
 #include <QtTest>
 
-#include "awdatetimeformatter.h"
+#include "awnoformatter.h"
 #include "awtestlibrary.h"
-#include "version.h"
 
 
-void TestAWDateTimeFormatter::initTestCase()
+void TestAbstractFormatter::initTestCase()
 {
-    format = AWTestLibrary::randomSelect(QString(TIME_KEYS).split(QChar(',')))
-                 .join(QChar(' '));
-
-    formatter = new AWDateTimeFormatter(nullptr);
-    formatter->setFormat(format);
+    formatter = new AWNoFormatter(nullptr);
 }
 
 
-void TestAWDateTimeFormatter::cleanupTestCase()
+void TestAbstractFormatter::cleanupTestCase()
 {
     delete formatter;
 }
 
 
-void TestAWDateTimeFormatter::test_values()
+void TestAbstractFormatter::test_values()
 {
-    QCOMPARE(formatter->format(), format);
 }
 
 
-void TestAWDateTimeFormatter::test_conversion()
+void TestAbstractFormatter::test_type()
 {
-    QDateTime now = QDateTime::currentDateTime();
-    QCOMPARE(formatter->convert(now), now.toString(format));
+    QString type = AWTestLibrary::randomString();
+    QEXPECT_FAIL("", "Will fail because of invalid format", Continue);
+    formatter->setStrType(type);
+    QCOMPARE(formatter->strType(), type);
+
+    formatter->setStrType(QString("NoFormat"));
+    QCOMPARE(formatter->strType(), QString("NoFormat"));
 }
 
 
-void TestAWDateTimeFormatter::test_copy()
+void TestAbstractFormatter::test_copy()
 {
-    AWDateTimeFormatter *newFormatter
-        = formatter->copy(QString("/dev/null"), 1);
+    AWNoFormatter *newFormatter = formatter->copy(QString("/dev/null"), 1);
 
-    QCOMPARE(newFormatter->format(), formatter->format());
-    QCOMPARE(newFormatter->number(), 1);
+    QCOMPARE(newFormatter->type(), formatter->type());
+    QCOMPARE(newFormatter->name(), formatter->name());
 
     delete newFormatter;
 }
 
 
-QTEST_MAIN(TestAWDateTimeFormatter);
+QTEST_MAIN(TestAbstractFormatter);

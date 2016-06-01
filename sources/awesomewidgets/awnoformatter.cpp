@@ -79,7 +79,7 @@ int AWNoFormatter::showConfiguration(const QVariant args)
         return ret;
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
-    setType(ui->label_typeValue->text());
+    setStrType(ui->label_typeValue->text());
 
     writeConfiguration();
     return ret;

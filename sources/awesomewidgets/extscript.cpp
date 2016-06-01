@@ -168,13 +168,13 @@ void ExtScript::setStrRedirect(const QString _redirect)
     qCDebug(LOG_LIB) << "Redirect" << _redirect;
 
     if (_redirect == QString("stdout2sdterr"))
-        m_redirect = Redirect::stdout2stderr;
+        setRedirect(Redirect::stdout2stderr);
     else if (_redirect == QString("stderr2sdtout"))
-        m_redirect = Redirect::stderr2stdout;
+        setRedirect(Redirect::stderr2stdout);
     else if (_redirect == QString("swap"))
-        m_redirect = Redirect::swap;
+        setRedirect(Redirect::swap);
     else
-        m_redirect = Redirect::nothing;
+        setRedirect(Redirect::nothing);
 }
 
 
@@ -317,7 +317,7 @@ int ExtScript::showConfiguration(const QVariant args)
     setExecutable(ui->lineEdit_command->text());
     setPrefix(ui->lineEdit_prefix->text());
     setActive(ui->checkBox_active->checkState() == Qt::Checked);
-    setStrRedirect(ui->comboBox_redirect->currentText());
+    setRedirect(static_cast<Redirect>(ui->comboBox_redirect->currentIndex()));
     setInterval(ui->spinBox_interval->value());
     // filters
     updateFilter(QString("color"),

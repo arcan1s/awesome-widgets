@@ -43,8 +43,6 @@ GraphicalItem::GraphicalItem(QWidget *parent, const QString filePath)
     ui->setupUi(this);
     translate();
 
-    initScene();
-
     connect(ui->checkBox_custom, SIGNAL(stateChanged(int)), this,
             SLOT(changeValue(int)));
     connect(ui->comboBox_type, SIGNAL(currentIndexChanged(int)), this,
@@ -138,6 +136,31 @@ QString GraphicalItem::image(const QVariant &value)
                       .arg(QString(byteArray.toBase64()));
 
     return url;
+}
+
+
+void GraphicalItem::initScene()
+{
+    // cleanup
+    delete m_helper;
+    delete m_scene;
+
+    // init scene
+    m_scene = new QGraphicsScene();
+    m_scene->setBackgroundBrush(QBrush(Qt::NoBrush));
+    // init view
+    m_view = new QGraphicsView(m_scene);
+    m_view->setStyleSheet(QString("background: transparent"));
+    m_view->setContentsMargins(0, 0, 0, 0);
+    m_view->setFrameShape(QFrame::NoFrame);
+    m_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_view->resize(m_width + 5, m_height + 5);
+
+    // init helper
+    m_helper = new GraphicalItemHelper(this, m_scene);
+    m_helper->setParameters(m_activeColor, m_inactiveColor, m_width, m_height,
+                            m_count);
 }
 
 
@@ -433,6 +456,7 @@ void GraphicalItem::readConfiguration()
     settings.endGroup();
 
     bumpApi(AWGIAPI);
+    initScene();
 }
 
 
@@ -489,8 +513,8 @@ int GraphicalItem::showConfiguration(const QVariant args)
     setMinValue(ui->doubleSpinBox_min->value());
     setActiveColor(ui->lineEdit_activeColor->text());
     setInactiveColor(ui->lineEdit_inactiveColor->text());
-    setStrType(ui->comboBox_type->currentText());
-    setStrDirection(ui->comboBox_direction->currentText());
+    setType(static_cast<Type>(ui->comboBox_type->currentIndex()));
+    setDirection(static_cast<Direction>(ui->comboBox_direction->currentIndex()));
     setItemHeight(ui->spinBox_height->value());
     setItemWidth(ui->spinBox_width->value());
 
@@ -587,27 +611,6 @@ void GraphicalItem::changeValue(const int state)
 
     ui->widget_value->setHidden(state != Qt::Unchecked);
     ui->widget_customValue->setHidden(state == Qt::Unchecked);
-}
-
-
-void GraphicalItem::initScene()
-{
-    // init scene
-    m_scene = new QGraphicsScene();
-    m_scene->setBackgroundBrush(QBrush(Qt::NoBrush));
-    // init view
-    m_view = new QGraphicsView(m_scene);
-    m_view->setStyleSheet(QString("background: transparent"));
-    m_view->setContentsMargins(0, 0, 0, 0);
-    m_view->setFrameShape(QFrame::NoFrame);
-    m_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_view->resize(m_width + 5, m_height + 5);
-
-    // init helper
-    m_helper = new GraphicalItemHelper(this, m_scene);
-    m_helper->setParameters(m_activeColor, m_inactiveColor, m_width, m_height,
-                            m_count);
 }
 
 

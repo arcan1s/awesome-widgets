@@ -46,19 +46,57 @@ void AWAbstractFormatter::copyDefaults(AbstractExtItem *_other) const
 
 QString AWAbstractFormatter::uniq() const
 {
-    return QString("%1(%2)").arg(name()).arg(m_type);
+    return QString("%1(%2)").arg(name()).arg(strType());
 }
 
 
-QString AWAbstractFormatter::type() const
+QString AWAbstractFormatter::strType() const
+{
+    QString value;
+    switch (m_type) {
+    case FormatterClass::DateTime:
+        value = QString("DateTime");
+        break;
+    case FormatterClass::Float:
+        value = QString("Float");
+        break;
+    case FormatterClass::Script:
+        value = QString("Script");
+        break;
+    case FormatterClass::NoFormat:
+        value = QString("NoFormat");
+        break;
+    }
+
+    return value;
+}
+
+
+AWAbstractFormatter::FormatterClass AWAbstractFormatter::type() const
 {
     return m_type;
 }
 
 
-void AWAbstractFormatter::setType(const QString _type)
+void AWAbstractFormatter::setStrType(const QString _type)
 {
     qCDebug(LOG_LIB) << "Type" << _type;
+
+    if (_type == QString("DateTime"))
+        m_type = FormatterClass::DateTime;
+    else if (_type == QString("Float"))
+        m_type = FormatterClass::Float;
+    else if (_type == QString("Script"))
+        m_type = FormatterClass::Script;
+    else
+        m_type = FormatterClass::NoFormat;
+}
+
+
+void AWAbstractFormatter::setType(
+    const AWAbstractFormatter::FormatterClass _type)
+{
+    qCDebug(LOG_LIB) << "Type" << static_cast<int>(_type);
 
     m_type = _type;
 }
@@ -71,7 +109,7 @@ void AWAbstractFormatter::readConfiguration()
     QSettings settings(fileName(), QSettings::IniFormat);
 
     settings.beginGroup(QString("Desktop Entry"));
-    setType(settings.value(QString("X-AW-Type"), m_type).toString());
+    setStrType(settings.value(QString("X-AW-Type"), strType()).toString());
     settings.endGroup();
 }
 
@@ -84,7 +122,7 @@ void AWAbstractFormatter::writeConfiguration() const
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("X-AW-Type"), m_type);
+    settings.setValue(QString("X-AW-Type"), strType());
     settings.endGroup();
 
     settings.sync();

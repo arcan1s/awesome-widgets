@@ -16,54 +16,30 @@
  ***************************************************************************/
 
 
-#include "testdatetimeformatter.h"
+#ifndef TESTABSTRACTFORMATTER_H
+#define TESTABSTRACTFORMATTER_H
 
-#include <QtTest>
-
-#include "awdatetimeformatter.h"
-#include "awtestlibrary.h"
-#include "version.h"
+#include <QObject>
 
 
-void TestAWDateTimeFormatter::initTestCase()
+class AWNoFormatter;
+
+class TestAbstractFormatter : public QObject
 {
-    format = AWTestLibrary::randomSelect(QString(TIME_KEYS).split(QChar(',')))
-                 .join(QChar(' '));
+    Q_OBJECT
 
-    formatter = new AWDateTimeFormatter(nullptr);
-    formatter->setFormat(format);
-}
+private slots:
+    // initialization
+    void initTestCase();
+    void cleanupTestCase();
+    // test
+    void test_values();
+    void test_type();
+    void test_copy();
 
-
-void TestAWDateTimeFormatter::cleanupTestCase()
-{
-    delete formatter;
-}
-
-
-void TestAWDateTimeFormatter::test_values()
-{
-    QCOMPARE(formatter->format(), format);
-}
+private:
+    AWNoFormatter *formatter = nullptr;
+};
 
 
-void TestAWDateTimeFormatter::test_conversion()
-{
-    QDateTime now = QDateTime::currentDateTime();
-    QCOMPARE(formatter->convert(now), now.toString(format));
-}
-
-
-void TestAWDateTimeFormatter::test_copy()
-{
-    AWDateTimeFormatter *newFormatter
-        = formatter->copy(QString("/dev/null"), 1);
-
-    QCOMPARE(newFormatter->format(), formatter->format());
-    QCOMPARE(newFormatter->number(), 1);
-
-    delete newFormatter;
-}
-
-
-QTEST_MAIN(TestAWDateTimeFormatter);
+#endif /* TESTABSTRACTFORMATTER_H */

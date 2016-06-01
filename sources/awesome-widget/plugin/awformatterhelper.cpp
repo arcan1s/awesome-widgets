@@ -145,20 +145,21 @@ void AWFormatterHelper::editItems()
 }
 
 
-AWFormatterHelper::FormatterClass
+AWAbstractFormatter::FormatterClass
 AWFormatterHelper::defineFormatterClass(const QString stringType) const
 {
     qCDebug(LOG_AW) << "Define formatter class for" << stringType;
 
-    FormatterClass formatter = FormatterClass::NoFormat;
+    AWAbstractFormatter::FormatterClass formatter
+        = AWAbstractFormatter::FormatterClass::NoFormat;
     if (stringType == QString("DateTime"))
-        formatter = FormatterClass::DateTime;
+        formatter = AWAbstractFormatter::FormatterClass::DateTime;
     else if (stringType == QString("Float"))
-        formatter = FormatterClass::Float;
+        formatter = AWAbstractFormatter::FormatterClass::Float;
     else if (stringType == QString("NoFormat"))
         ;
     else if (stringType == QString("Script"))
-        formatter = FormatterClass::Script;
+        formatter = AWAbstractFormatter::FormatterClass::Script;
     else
         qCWarning(LOG_AW) << "Unknown formatter" << stringType;
 
@@ -187,19 +188,19 @@ void AWFormatterHelper::initFormatters()
 
 
             switch (metadata.second) {
-            case FormatterClass::DateTime:
+            case AWAbstractFormatter::FormatterClass::DateTime:
                 m_formattersClasses[name]
                     = new AWDateTimeFormatter(this, filePath);
                 break;
-            case FormatterClass::Float:
+            case AWAbstractFormatter::FormatterClass::Float:
                 m_formattersClasses[name]
                     = new AWFloatFormatter(this, filePath);
                 break;
-            case FormatterClass::Script:
+            case AWAbstractFormatter::FormatterClass::Script:
                 m_formattersClasses[name]
                     = new AWScriptFormatter(this, filePath);
                 break;
-            case FormatterClass::NoFormat:
+            case AWAbstractFormatter::FormatterClass::NoFormat:
                 m_formattersClasses[name] = new AWNoFormatter(this, filePath);
                 break;
             }
@@ -258,7 +259,7 @@ void AWFormatterHelper::installDirectories()
 }
 
 
-QPair<QString, AWFormatterHelper::FormatterClass>
+QPair<QString, AWAbstractFormatter::FormatterClass>
 AWFormatterHelper::readMetadata(const QString filePath) const
 {
     qCDebug(LOG_AW) << "Read initial parameters from" << filePath;
@@ -268,10 +269,10 @@ AWFormatterHelper::readMetadata(const QString filePath) const
     QString name = settings.value(QString("Name"), filePath).toString();
     QString type
         = settings.value(QString("X-AW-Type"), QString("NoFormat")).toString();
-    FormatterClass formatter = defineFormatterClass(type);
+    AWAbstractFormatter::FormatterClass formatter = defineFormatterClass(type);
     settings.endGroup();
 
-    return QPair<QString, AWFormatterHelper::FormatterClass>(name, formatter);
+    return QPair<QString, AWAbstractFormatter::FormatterClass>(name, formatter);
 }
 
 
@@ -289,15 +290,16 @@ void AWFormatterHelper::doCreateItem()
     }
 
     qCInfo(LOG_AW) << "Selected type" << select;
-    FormatterClass formatter = defineFormatterClass(select);
+    AWAbstractFormatter::FormatterClass formatter
+        = defineFormatterClass(select);
     switch (formatter) {
-    case FormatterClass::DateTime:
+    case AWAbstractFormatter::FormatterClass::DateTime:
         return createItem<AWDateTimeFormatter>();
-    case FormatterClass::Float:
+    case AWAbstractFormatter::FormatterClass::Float:
         return createItem<AWFloatFormatter>();
-    case FormatterClass::Script:
+    case AWAbstractFormatter::FormatterClass::Script:
         return createItem<AWScriptFormatter>();
-    case FormatterClass::NoFormat:
+    case AWAbstractFormatter::FormatterClass::NoFormat:
         return createItem<AWNoFormatter>();
     }
 }

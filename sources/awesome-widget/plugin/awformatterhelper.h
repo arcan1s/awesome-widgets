@@ -21,6 +21,8 @@
 
 #include "abstractextitemaggregator.h"
 
+#include "awabstractformatter.h"
+
 
 class AWAbstractFormatter;
 
@@ -29,8 +31,6 @@ class AWFormatterHelper : public AbstractExtItemAggregator
     Q_OBJECT
 
 public:
-    enum class FormatterClass { DateTime, Float, Script, NoFormat };
-
     explicit AWFormatterHelper(QWidget *parent = nullptr);
     virtual ~AWFormatterHelper();
     QString convert(const QVariant &value, const QString &name) const;
@@ -46,12 +46,12 @@ public slots:
 
 private:
     // methods
-    AWFormatterHelper::FormatterClass
+    AWAbstractFormatter::FormatterClass
     defineFormatterClass(const QString stringType) const;
     void initFormatters();
     void initKeys();
     void installDirectories();
-    QPair<QString, AWFormatterHelper::FormatterClass>
+    QPair<QString, AWAbstractFormatter::FormatterClass>
     readMetadata(const QString filePath) const;
     // parent methods
     void doCreateItem();

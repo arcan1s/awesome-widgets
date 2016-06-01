@@ -24,9 +24,12 @@
 class AWAbstractFormatter : public AbstractExtItem
 {
     Q_OBJECT
-    Q_PROPERTY(QString type READ type WRITE setType)
+    Q_PROPERTY(FormatterClass type READ type WRITE setType)
+    Q_PROPERTY(QString strType READ strType WRITE setStrType)
 
 public:
+    enum class FormatterClass { DateTime, Float, Script, NoFormat };
+
     explicit AWAbstractFormatter(QWidget *parent,
                                  const QString filePath = QString());
     virtual ~AWAbstractFormatter();
@@ -34,8 +37,10 @@ public:
     void copyDefaults(AbstractExtItem *_other) const;
     QString uniq() const;
     // properties
-    QString type() const;
-    void setType(const QString _type = QString("NoFormat"));
+    QString strType() const;
+    FormatterClass type() const;
+    void setStrType(const QString type);
+    void setType(const FormatterClass _type = FormatterClass::NoFormat);
 
 public slots:
     virtual void readConfiguration();
@@ -44,7 +49,7 @@ public slots:
 
 private:
     // properties
-    QString m_type = QString("NoFormat");
+    FormatterClass m_type = FormatterClass::NoFormat;
 };
 
 

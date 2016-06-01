@@ -115,7 +115,7 @@ int AWDateTimeFormatter::showConfiguration(const QVariant args)
         return ret;
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
-    setType(ui->label_typeValue->text());
+    setStrType(ui->label_typeValue->text());
     setFormat(ui->lineEdit_format->text());
 
     writeConfiguration();

@@ -50,12 +50,13 @@ class GraphicalItem : public AbstractExtItem
 
 public:
     enum class Direction { LeftToRight = 0, RightToLeft = 1 };
-    enum class Type { Horizontal, Vertical, Circle, Graph, Bars };
+    enum class Type { Horizontal = 0, Vertical = 1, Circle = 2, Graph = 3, Bars = 4 };
 
     explicit GraphicalItem(QWidget *parent, const QString filePath = QString());
     virtual ~GraphicalItem();
     GraphicalItem *copy(const QString _fileName, const int _number);
     QString image(const QVariant &value);
+    void initScene();
     // get methods
     QString bar() const;
     QString activeColor() const;
@@ -105,7 +106,6 @@ private:
     QGraphicsScene *m_scene = nullptr;
     QGraphicsView *m_view = nullptr;
     Ui::GraphicalItem *ui = nullptr;
-    void initScene();
     void translate();
     // properties
     QString m_bar = QString("cpu");
