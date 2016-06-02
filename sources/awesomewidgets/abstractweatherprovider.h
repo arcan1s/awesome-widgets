@@ -15,43 +15,33 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef TESTEXTWEATHER_H
-#define TESTEXTWEATHER_H
+#ifndef ABSTRACTWEATHERPROVIDER_H
+#define ABSTRACTWEATHERPROVIDER_H
 
 #include <QObject>
+#include <QUrl>
 
 
-class ExtWeather;
-
-class TestExtWeather : public QObject
+class AbstractWeatherProvider : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(int number READ number)
 
-private slots:
-    // initialization
-    void initTestCase();
-    void cleanupTestCase();
-    // test
-    void test_values();
-    void test_runOWM();
-    void test_runYahoo();
-    void test_ts();
-    void test_image();
-    void test_copy();
+public:
+    explicit AbstractWeatherProvider(QObject *parent, const int number)
+        : QObject(parent)
+        , m_number(number){};
+    virtual ~AbstractWeatherProvider(){};
+    virtual void initUrl(const QString city, const QString country,
+                         const int ts)
+        = 0;
+    virtual QVariantHash parse(const QVariantMap &json) const = 0;
+    virtual QUrl url() const = 0;
+    int number() const { return m_number; };
 
 private:
-    void run();
-    ExtWeather *extWeather = nullptr;
-    QString city = QString("London");
-    QString country = QString("uk");
-    // humidity is in percents
-    QPair<int, int> humidity = QPair<int, int>(0, 100);
-    // pressure should be about 1 atm
-    QPair<float, float> pressure = QPair<float, float>(500.0f, 1500.0f);
-    // dont know about temperature, but I suppose it will be between -40 and 40
-    QPair<float, float> temp = QPair<float, float>(-40.0f, 40.0f);
+    int m_number;
 };
 
 
-#endif /* TESTEXTWEATHER_H */
+#endif /* ABSTRACTWEATHERPROVIDER_H */

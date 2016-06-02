@@ -30,6 +30,7 @@ void TestExtWeather::initTestCase()
     extWeather->setCity(city);
     extWeather->setCountry(country);
     extWeather->setNumber(0);
+    extWeather->setProvider(ExtWeather::Provider::OWM);
 
     extWeather->run();
 }
@@ -47,62 +48,28 @@ void TestExtWeather::test_values()
     QCOMPARE(extWeather->number(), 0);
     QCOMPARE(extWeather->city(), city);
     QCOMPARE(extWeather->country(), country);
+    QCOMPARE(extWeather->provider(), ExtWeather::Provider::OWM);
 }
 
 
-void TestExtWeather::test_run()
+void TestExtWeather::test_runOWM()
 {
-    // init spy
-    QSignalSpy spy(extWeather, SIGNAL(dataReceived(const QVariantHash &)));
-    QVariantHash firstValue = extWeather->run();
+    run();
+}
 
-    // check values
-    QVERIFY(spy.wait(5000));
-    QVariantHash arguments = spy.takeFirst().at(0).toHash();
-    QEXPECT_FAIL("", "WeatherID should not be 0", Continue);
-    QCOMPARE(arguments[extWeather->tag(QString("weatherId"))].toInt(), 0);
-    QVERIFY((arguments[extWeather->tag(QString("humidity"))].toInt()
-             > humidity.first)
-            && (arguments[extWeather->tag(QString("humidity"))].toInt()
-                < humidity.second));
-    QEXPECT_FAIL("", "https://yahoo.uservoice.com/forums/207813-us-weather/"
-                     "suggestions/14209233-invalid-pressure-calculation",
-                 Continue);
-    QVERIFY((arguments[extWeather->tag(QString("pressure"))].toFloat()
-             > pressure.first)
-            && (arguments[extWeather->tag(QString("pressure"))].toInt()
-                < pressure.second));
-    QVERIFY((arguments[extWeather->tag(QString("temperature"))].toFloat()
-             > temp.first)
-            && (arguments[extWeather->tag(QString("temperature"))].toInt()
-                < temp.second));
-    // image should be only one symbol here
-    QCOMPARE(arguments[extWeather->tag(QString("weather"))].toString().count(),
-             1);
+
+void TestExtWeather::test_runYahoo()
+{
+    extWeather->setProvider(ExtWeather::Provider::Yahoo);
+    run();
+    extWeather->setProvider(ExtWeather::Provider::OWM);
 }
 
 
 void TestExtWeather::test_ts()
 {
     extWeather->setTs(1);
-    // init spy
-    QSignalSpy spy(extWeather, SIGNAL(dataReceived(const QVariantHash &)));
-    QVariantHash firstValue = extWeather->run();
-
-    // check values
-    QVERIFY(spy.wait(5000));
-    QVariantHash arguments = spy.takeFirst().at(0).toHash();
-    QEXPECT_FAIL("", "WeatherID should not be 0", Continue);
-    QCOMPARE(arguments[extWeather->tag(QString("weatherId"))].toInt(), 0);
-    QCOMPARE(arguments[extWeather->tag(QString("humidity"))].toInt(), 0);
-    QCOMPARE(arguments[extWeather->tag(QString("pressure"))].toFloat(), 0.0f);
-    QVERIFY((arguments[extWeather->tag(QString("temperature"))].toFloat()
-             > temp.first)
-            && (arguments[extWeather->tag(QString("temperature"))].toInt()
-                < temp.second));
-    // image should be only one symbol here
-    QCOMPARE(arguments[extWeather->tag(QString("weather"))].toString().count(),
-             1);
+    run();
 }
 
 
@@ -131,9 +98,42 @@ void TestExtWeather::test_copy()
     QCOMPARE(newExtWeather->country(), extWeather->country());
     QCOMPARE(newExtWeather->ts(), extWeather->ts());
     QCOMPARE(newExtWeather->image(), extWeather->image());
+    QCOMPARE(newExtWeather->provider(), extWeather->provider());
     QCOMPARE(newExtWeather->number(), 1);
 
     delete newExtWeather;
+}
+
+
+void TestExtWeather::run()
+{
+    // init spy
+    QSignalSpy spy(extWeather, SIGNAL(dataReceived(const QVariantHash &)));
+    QVariantHash firstValue = extWeather->run();
+
+    // check values
+    QVERIFY(spy.wait(5000));
+    QVariantHash arguments = spy.takeFirst().at(0).toHash();
+    QEXPECT_FAIL("", "WeatherID should not be 0", Continue);
+    QCOMPARE(arguments[extWeather->tag(QString("weatherId"))].toInt(), 0);
+    QVERIFY((arguments[extWeather->tag(QString("humidity"))].toInt()
+             >= humidity.first)
+            && (arguments[extWeather->tag(QString("humidity"))].toInt()
+                <= humidity.second));
+    QWARN("May fail here for Yahoo! Weather, see "
+          "https://yahoo.uservoice.com/forums/207813-us-weather/suggestions/"
+          "14209233-invalid-pressure-calculation");
+    QVERIFY((arguments[extWeather->tag(QString("pressure"))].toFloat()
+             > pressure.first)
+            && (arguments[extWeather->tag(QString("pressure"))].toInt()
+                < pressure.second));
+    QVERIFY((arguments[extWeather->tag(QString("temperature"))].toFloat()
+             > temp.first)
+            && (arguments[extWeather->tag(QString("temperature"))].toInt()
+                < temp.second));
+    // image should be only one symbol here
+    QCOMPARE(arguments[extWeather->tag(QString("weather"))].toString().count(),
+             1);
 }
 
 

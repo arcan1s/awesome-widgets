@@ -514,7 +514,8 @@ int GraphicalItem::showConfiguration(const QVariant args)
     setActiveColor(ui->lineEdit_activeColor->text());
     setInactiveColor(ui->lineEdit_inactiveColor->text());
     setType(static_cast<Type>(ui->comboBox_type->currentIndex()));
-    setDirection(static_cast<Direction>(ui->comboBox_direction->currentIndex()));
+    setDirection(
+        static_cast<Direction>(ui->comboBox_direction->currentIndex()));
     setItemHeight(ui->spinBox_height->value());
     setItemWidth(ui->spinBox_width->value());
 

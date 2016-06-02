@@ -15,43 +15,29 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
+#ifndef OWMWEATHERPROVIDER_H
+#define OWMWEATHERPROVIDER_H
 
-#ifndef TESTEXTWEATHER_H
-#define TESTEXTWEATHER_H
+#include "abstractweatherprovider.h"
 
-#include <QObject>
+#define OWM_WEATHER_URL "http://arcanis.me/weather"
+#define OWM_FORECAST_URL "http://arcanis.me/forecast"
 
 
-class ExtWeather;
-
-class TestExtWeather : public QObject
+class OWMWeatherProvider : public AbstractWeatherProvider
 {
-    Q_OBJECT
-
-private slots:
-    // initialization
-    void initTestCase();
-    void cleanupTestCase();
-    // test
-    void test_values();
-    void test_runOWM();
-    void test_runYahoo();
-    void test_ts();
-    void test_image();
-    void test_copy();
+public:
+    explicit OWMWeatherProvider(QObject *parent, const int number);
+    virtual ~OWMWeatherProvider();
+    void initUrl(const QString city, const QString country, const int);
+    QVariantHash parse(const QVariantMap &json) const;
+    QUrl url() const;
 
 private:
-    void run();
-    ExtWeather *extWeather = nullptr;
-    QString city = QString("London");
-    QString country = QString("uk");
-    // humidity is in percents
-    QPair<int, int> humidity = QPair<int, int>(0, 100);
-    // pressure should be about 1 atm
-    QPair<float, float> pressure = QPair<float, float>(500.0f, 1500.0f);
-    // dont know about temperature, but I suppose it will be between -40 and 40
-    QPair<float, float> temp = QPair<float, float>(-40.0f, 40.0f);
+    QVariantHash parseSingleJson(const QVariantMap &json) const;
+    int m_ts = 0;
+    QUrl m_url;
 };
 
 
-#endif /* TESTEXTWEATHER_H */
+#endif /* OWMWEATHERPROVIDER_H */

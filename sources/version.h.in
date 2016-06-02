@@ -19,7 +19,8 @@
     "qnetworkreply-network-reply-timeout-helper"
 #define SPECIAL_THANKS                                                         \
     "Yahoo! Finance,https://finance.yahoo.com/;Yahoo! "                        \
-    "Weather,https://weather.yahoo.com/;JetBrains,https://www.jetbrains.com/"
+    "Weather,https://weather.yahoo.com/;JetBrains,https://www.jetbrains.com/"  \
+    ";OpenWeatherMap,http://openweathermap.org/"
 #define CHANGELOG "@PROJECT_CHANGELOG@"
 
 // configuraion
@@ -32,7 +33,7 @@
 // extupgrade api version
 #define AWEUAPI 3
 // extweather api version
-#define AWEWAPI 2
+#define AWEWAPI 3
 // formatter api version
 #define AWEFAPI 1
 // network requests timeout, ms

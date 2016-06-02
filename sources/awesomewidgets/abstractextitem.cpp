@@ -178,7 +178,7 @@ void AbstractExtItem::setName(const QString _name)
 void AbstractExtItem::setNumber(int _number)
 {
     qCDebug(LOG_LIB) << "Number" << _number;
-    if (_number == -1)
+    if (_number == -1) {
         _number = []() {
             qCWarning(LOG_LIB) << "Number is empty, generate new one";
             qsrand(QTime::currentTime().msec());
@@ -186,6 +186,8 @@ void AbstractExtItem::setNumber(int _number)
             qCInfo(LOG_LIB) << "Generated number is" << n;
             return n;
         }();
+        writeConfiguration();
+    }
 
     m_number = _number;
 }

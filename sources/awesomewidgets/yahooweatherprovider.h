@@ -15,43 +15,33 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
+#ifndef YAHOOWEATHERPROVIDER_H
+#define YAHOOWEATHERPROVIDER_H
 
-#ifndef TESTEXTWEATHER_H
-#define TESTEXTWEATHER_H
+#include "abstractweatherprovider.h"
 
-#include <QObject>
+#define YAHOO_WEATHER_URL "https://query.yahooapis.com/v1/public/yql"
+#define YAHOO_WEATHER_QUERY                                                    \
+    "select * from weather.forecast where u='c' and woeid in (select woeid "   \
+    "from geo.places(1) where text='%1, %2')"
 
 
-class ExtWeather;
-
-class TestExtWeather : public QObject
+class YahooWeatherProvider : public AbstractWeatherProvider
 {
-    Q_OBJECT
-
-private slots:
-    // initialization
-    void initTestCase();
-    void cleanupTestCase();
-    // test
-    void test_values();
-    void test_runOWM();
-    void test_runYahoo();
-    void test_ts();
-    void test_image();
-    void test_copy();
+public:
+    explicit YahooWeatherProvider(QObject *parent, const int number);
+    virtual ~YahooWeatherProvider();
+    void initUrl(const QString city, const QString country, const int);
+    QVariantHash parse(const QVariantMap &json) const;
+    QUrl url() const;
 
 private:
-    void run();
-    ExtWeather *extWeather = nullptr;
-    QString city = QString("London");
-    QString country = QString("uk");
-    // humidity is in percents
-    QPair<int, int> humidity = QPair<int, int>(0, 100);
-    // pressure should be about 1 atm
-    QPair<float, float> pressure = QPair<float, float>(500.0f, 1500.0f);
-    // dont know about temperature, but I suppose it will be between -40 and 40
-    QPair<float, float> temp = QPair<float, float>(-40.0f, 40.0f);
+    QVariantHash parseCurrent(const QVariantMap &json,
+                              const QVariantMap &atmosphere) const;
+    QVariantHash parseForecast(const QVariantMap &json) const;
+    int m_ts = 0;
+    QUrl m_url;
 };
 
 
-#endif /* TESTEXTWEATHER_H */
+#endif /* YAHOOWEATHERPROVIDER_H */

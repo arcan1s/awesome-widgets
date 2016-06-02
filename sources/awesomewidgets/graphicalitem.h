@@ -50,7 +50,13 @@ class GraphicalItem : public AbstractExtItem
 
 public:
     enum class Direction { LeftToRight = 0, RightToLeft = 1 };
-    enum class Type { Horizontal = 0, Vertical = 1, Circle = 2, Graph = 3, Bars = 4 };
+    enum class Type {
+        Horizontal = 0,
+        Vertical = 1,
+        Circle = 2,
+        Graph = 3,
+        Bars = 4
+    };
 
     explicit GraphicalItem(QWidget *parent, const QString filePath = QString());
     virtual ~GraphicalItem();
