@@ -19,6 +19,7 @@
 #include "awtestlibrary.h"
 
 #include <QSet>
+#include <QStandardPaths>
 
 
 char AWTestLibrary::randomChar()
@@ -30,6 +31,22 @@ char AWTestLibrary::randomChar()
 double AWTestLibrary::randomDouble()
 {
     return static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
+}
+
+
+QPair<QString, QString> AWTestLibrary::randomFilenames()
+{
+    QString fileName = QString("%1/").arg(
+        QStandardPaths::writableLocation(QStandardPaths::TempLocation));
+    QString writeFileName = QString("%1/awesomewidgets/tmp/")
+                                .arg(QStandardPaths::writableLocation(
+                                    QStandardPaths::GenericDataLocation));
+
+    QString name = randomString(20);
+    fileName += name;
+    writeFileName += name;
+
+    return QPair<QString, QString>(fileName, writeFileName);
 }
 
 

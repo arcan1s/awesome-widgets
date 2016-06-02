@@ -26,6 +26,7 @@ namespace AWTestLibrary
 {
 char randomChar();
 double randomDouble();
+QPair<QString, QString> randomFilenames();
 int randomInt(const int max = 100);
 QString randomString(const int max = 100);
 QStringList randomStringList(const int max = 100);

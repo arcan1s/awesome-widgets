@@ -2,12 +2,14 @@ set(SUBPROJECT awesomewidgets-test)
 message(STATUS "Subproject ${SUBPROJECT}")
 
 # find qt test package
+add_definitions(${Qt5Test_DEFINITIONS})
 include_directories(
         ${CMAKE_SOURCE_DIR}
         ${CMAKE_BINARY_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}/../${PROJECT_LIBRARY}/
         ${PROJECT_TRDPARTY_DIR}
         ${Qt_INCLUDE}
+        ${Qt5Test_INCLUDE_DIRS}
         ${Kf5_INCLUDE}
 )
 

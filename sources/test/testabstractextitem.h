@@ -41,7 +41,6 @@ private slots:
     void test_copy();
 
 private:
-    void generateFilename();
     ExtUpgrade *extItem = nullptr;
     QString comment = QString("A comment");
     QString name = QString("A name");

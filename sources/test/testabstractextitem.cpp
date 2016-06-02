@@ -26,7 +26,9 @@
 
 void TestAbstractExtItem::initTestCase()
 {
-    generateFilename();
+    auto names = AWTestLibrary::randomFilenames();
+    fileName = names.first;
+    writeFileName = names.second;
 
     extItem = new ExtUpgrade(nullptr, fileName);
     extItem->setActive(false);
@@ -105,20 +107,6 @@ void TestAbstractExtItem::test_copy()
     QCOMPARE(newExtItem->name(), extItem->name());
 
     delete newExtItem;
-}
-
-
-void TestAbstractExtItem::generateFilename()
-{
-    fileName = QString("%1/").arg(
-        QStandardPaths::writableLocation(QStandardPaths::TempLocation));
-    writeFileName = QString("%1/awesomewidgets/tmp/")
-                        .arg(QStandardPaths::writableLocation(
-                            QStandardPaths::GenericDataLocation));
-
-    QString name = AWTestLibrary::randomString(20);
-    fileName += name;
-    writeFileName += name;
 }
 
 
