@@ -15,38 +15,36 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef HDDTEMPSOURCE_H
-#define HDDTEMPSOURCE_H
+
+#ifndef TESTHDDTEMPSOURCE_H
+#define TESTHDDTEMPSOURCE_H
 
 #include <QObject>
 
-#include "abstractextsysmonsource.h"
 
+class HDDTemperatureSource;
 
-class QProcess;
-
-class HDDTemperatureSource : public AbstractExtSysMonSource
+class TestHDDTemperatureSource : public QObject
 {
-public:
-    explicit HDDTemperatureSource(QObject *parent, const QStringList args);
-    virtual ~HDDTemperatureSource();
-    QVariant data(QString source);
-    QVariantMap initialData(QString source) const;
-    void run(){};
-    QStringList sources() const;
+    Q_OBJECT
 
 private slots:
-    void updateValue(const QString &device);
+    // initialization
+    void initTestCase();
+    void cleanupTestCase();
+    // test
+    void test_sources();
+    void test_hddtemp();
+    void test_smartctl();
 
 private:
-    // properties
-    QHash<QString, QProcess *> m_processes;
-    // configuration and values
-    QString m_cmd;
-    QStringList m_devices;
-    bool m_smartctl;
-    QHash<QString, QVariant> m_values;
+    HDDTemperatureSource *hddtempSource = nullptr;
+    HDDTemperatureSource *smartctlSource = nullptr;
+    QStringList devices;
+    QString hddtempCmd = QString("sudo hddtemp");
+    QString smartctlCmd = QString("sudo smartctl -a");
+    QPair<float, float> temp = QPair<float, float>(0.0f, 40.0f);
 };
 
 
-#endif /* HDDTEMPSOURCE_H */
+#endif /* TESTHDDTEMPSOURCE_H */

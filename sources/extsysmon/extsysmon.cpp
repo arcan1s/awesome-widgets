@@ -17,7 +17,6 @@
 
 #include "extsysmon.h"
 
-#include <QDir>
 #include <QFile>
 #include <QRegExp>
 #include <QSettings>
@@ -25,6 +24,8 @@
 
 #include "awdebug.h"
 #include "extsysmonaggregator.h"
+#include "gputempsource.h"
+#include "hddtempsource.h"
 
 
 ExtendedSysMon::ExtendedSysMon(QObject *parent, const QVariantList &args)
@@ -83,37 +84,6 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
 }
 
 
-QStringList ExtendedSysMon::getAllHdd() const
-{
-    QStringList allDevices
-        = QDir(QString("/dev")).entryList(QDir::System, QDir::Name);
-    QStringList devices = allDevices.filter(QRegExp(QString("^[hms]d[a-z]$")));
-    for (int i = 0; i < devices.count(); i++)
-        devices[i] = QString("/dev/%1").arg(devices.at(i));
-
-    qCInfo(LOG_ESM) << "Device list" << devices;
-    return devices;
-}
-
-
-QString ExtendedSysMon::getAutoGpu() const
-{
-    QString gpu = QString("disable");
-    QFile moduleFile(QString("/proc/modules"));
-    if (!moduleFile.open(QIODevice::ReadOnly))
-        return gpu;
-
-    QString output = moduleFile.readAll();
-    if (output.contains(QString("fglrx")))
-        gpu = QString("ati");
-    else if (output.contains(QString("nvidia")))
-        gpu = QString("nvidia");
-
-    qCInfo(LOG_ESM) << "Device" << gpu;
-    return gpu;
-}
-
-
 void ExtendedSysMon::readConfiguration()
 {
     QString fileName
@@ -161,12 +131,12 @@ ExtendedSysMon::updateConfiguration(QHash<QString, QString> rawConfig) const
     if (rawConfig[QString("GPUDEV")] == QString("disable"))
         rawConfig[QString("GPUDEV")] = QString("disable");
     else if (rawConfig[QString("GPUDEV")] == QString("auto"))
-        rawConfig[QString("GPUDEV")] = getAutoGpu();
+        rawConfig[QString("GPUDEV")] = GPUTemperatureSource::autoGpu();
     else if ((rawConfig[QString("GPUDEV")] != QString("ati"))
              && (rawConfig[QString("GPUDEV")] != QString("nvidia")))
-        rawConfig[QString("GPUDEV")] = getAutoGpu();
+        rawConfig[QString("GPUDEV")] = GPUTemperatureSource::autoGpu();
     // hdddev
-    QStringList allHddDevices = getAllHdd();
+    QStringList allHddDevices = HDDTemperatureSource::allHdd();
     if (rawConfig[QString("HDDDEV")] == QString("all")) {
         rawConfig[QString("HDDDEV")] = allHddDevices.join(QChar(','));
     } else if (rawConfig[QString("HDDDEV")] == QString("disable")) {

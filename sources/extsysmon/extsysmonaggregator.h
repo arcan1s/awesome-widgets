@@ -20,7 +20,7 @@
 
 #include <QObject>
 
-#include "sources/abstractextsysmonsource.h"
+#include "abstractextsysmonsource.h"
 
 
 class ExtSysMonAggregator : public QObject

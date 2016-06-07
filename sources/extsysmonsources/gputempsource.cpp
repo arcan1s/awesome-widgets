@@ -16,19 +16,21 @@
  ***************************************************************************/
 
 
-#include "gpuloadsource.h"
+#include "gputempsource.h"
 
+#include <QFile>
 #include <QProcess>
 #include <QTextCodec>
 
 #include "awdebug.h"
 
 
-GPULoadSource::GPULoadSource(QObject *parent, const QStringList args)
+GPUTemperatureSource::GPUTemperatureSource(QObject *parent,
+                                           const QStringList args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 1);
-    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
     m_device = args.at(0);
 
@@ -42,96 +44,111 @@ GPULoadSource::GPULoadSource(QObject *parent, const QStringList args)
 }
 
 
-GPULoadSource::~GPULoadSource()
+GPUTemperatureSource::~GPUTemperatureSource()
 {
-    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
     m_process->kill();
     m_process->deleteLater();
 }
 
 
-QVariant GPULoadSource::data(QString source)
+QString GPUTemperatureSource::autoGpu()
 {
-    qCDebug(LOG_ESM) << "Source" << source;
+        QString gpu = QString("disable");
+        QFile moduleFile(QString("/proc/modules"));
+        if (!moduleFile.open(QIODevice::ReadOnly))
+            return gpu;
 
-    if (source == QString("gpu/load"))
+        QString output = moduleFile.readAll();
+        if (output.contains(QString("fglrx")))
+            gpu = QString("ati");
+        else if (output.contains(QString("nvidia")))
+            gpu = QString("nvidia");
+
+        qCInfo(LOG_ESM) << "Device" << gpu;
+        return gpu;
+}
+
+
+QVariant GPUTemperatureSource::data(QString source)
+{
+    qCDebug(LOG_ESS) << "Source" << source;
+
+    if (source == QString("gpu/temperature"))
         run();
 
     return m_value;
 }
 
 
-QVariantMap GPULoadSource::initialData(QString source) const
+QVariantMap GPUTemperatureSource::initialData(QString source) const
 {
-    qCDebug(LOG_ESM) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << source;
 
     QVariantMap data;
-    if (source == QString("gpu/load")) {
+    if (source == QString("gpu/temperature")) {
         data[QString("min")] = 0.0;
-        data[QString("max")] = 100.0;
-        data[QString("name")] = QString("GPU usage");
+        data[QString("max")] = 0.0;
+        data[QString("name")] = QString("GPU temperature");
         data[QString("type")] = QString("float");
-        data[QString("units")] = QString("%");
+        data[QString("units")] = QString("°C");
     }
 
     return data;
 }
 
 
-void GPULoadSource::run()
+void GPUTemperatureSource::run()
 {
     if ((m_device != QString("nvidia")) && (m_device != QString("ati")))
         return;
     // build cmd
     QString cmd = m_device == QString("nvidia")
                       ? QString("nvidia-smi -q -x")
-                      : QString("aticonfig --od-getclocks");
-    qCInfo(LOG_ESM) << "cmd" << cmd;
+                      : QString("aticonfig --od-gettemperature");
+    qCInfo(LOG_ESS) << "cmd" << cmd;
 
     m_process->start(cmd);
 }
 
 
-QStringList GPULoadSource::sources() const
+QStringList GPUTemperatureSource::sources() const
 {
     QStringList sources;
-    sources.append(QString("gpu/load"));
+    sources.append(QString("gpu/temperature"));
 
     return sources;
 }
 
 
-void GPULoadSource::updateValue()
+void GPUTemperatureSource::updateValue()
 {
-    qCInfo(LOG_LIB) << "Cmd returns" << m_process->exitCode();
+    qCInfo(LOG_ESS) << "Cmd returns" << m_process->exitCode();
     QString qdebug = QTextCodec::codecForMib(106)
                          ->toUnicode(m_process->readAllStandardError())
                          .trimmed();
-    qCInfo(LOG_LIB) << "Error" << qdebug;
+    qCInfo(LOG_ESS) << "Error" << qdebug;
     QString qoutput = QTextCodec::codecForMib(106)
                           ->toUnicode(m_process->readAllStandardOutput())
                           .trimmed();
-    qCInfo(LOG_LIB) << "Output" << qoutput;
+    qCInfo(LOG_ESS) << "Output" << qoutput;
 
     if (m_device == QString("nvidia")) {
         for (auto str : qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
-            if (!str.contains(QString("<gpu_util>")))
+            if (!str.contains(QString("<gpu_temp>")))
                 continue;
-            QString load = str.remove(QString("<gpu_util>"))
-                               .remove(QString("</gpu_util>"))
-                               .remove(QChar('%'));
-            m_value = load.toFloat();
+            QString temp = str.remove(QString("<gpu_temp>"))
+                               .remove(QString("C</gpu_temp>"));
+            m_value = temp.toFloat();
             break;
         }
     } else if (m_device == QString("ati")) {
         for (auto str : qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
-            if (!str.contains(QString("load")))
+            if (!str.contains(QString("Temperature")))
                 continue;
-            QString load
-                = str.split(QChar(' '), QString::SkipEmptyParts)[3].remove(
-                    QChar('%'));
-            m_value = load.toFloat();
+            QString temp = str.split(QChar(' '), QString::SkipEmptyParts).at(4);
+            m_value = temp.toFloat();
             break;
         }
     }

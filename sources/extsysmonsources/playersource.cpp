@@ -32,7 +32,7 @@ PlayerSource::PlayerSource(QObject *parent, const QStringList args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 5);
-    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
     m_player = args.at(0);
     m_mpdAddress = QString("%1:%2").arg(args.at(1)).arg(args.at(2));
@@ -52,7 +52,7 @@ PlayerSource::PlayerSource(QObject *parent, const QStringList args)
 
 PlayerSource::~PlayerSource()
 {
-    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
     m_mpdProcess->kill();
     m_mpdProcess->deleteLater();
@@ -61,7 +61,7 @@ PlayerSource::~PlayerSource()
 
 QVariant PlayerSource::data(QString source)
 {
-    qCDebug(LOG_ESM) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << source;
 
     if (!m_values.contains(source))
         run();
@@ -72,7 +72,7 @@ QVariant PlayerSource::data(QString source)
 
 QVariantMap PlayerSource::initialData(QString source) const
 {
-    qCDebug(LOG_ESM) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << source;
 
     QVariantMap data;
     if (source == QString("player/album")) {
@@ -214,15 +214,15 @@ QStringList PlayerSource::sources() const
 
 void PlayerSource::updateValue()
 {
-    qCInfo(LOG_LIB) << "Cmd returns" << m_mpdProcess->exitCode();
+    qCInfo(LOG_ESS) << "Cmd returns" << m_mpdProcess->exitCode();
     QString qdebug = QTextCodec::codecForMib(106)
                          ->toUnicode(m_mpdProcess->readAllStandardError())
                          .trimmed();
-    qCInfo(LOG_LIB) << "Error" << qdebug;
+    qCInfo(LOG_ESS) << "Error" << qdebug;
     QString qoutput = QTextCodec::codecForMib(106)
                           ->toUnicode(m_mpdProcess->readAllStandardOutput())
                           .trimmed();
-    qCInfo(LOG_LIB) << "Output" << qoutput;
+    qCInfo(LOG_ESS) << "Output" << qoutput;
 
     for (auto str : qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
         if (str.split(QString(": "), QString::SkipEmptyParts).count() == 2) {
@@ -270,7 +270,7 @@ QString PlayerSource::getAutoMpris() const
     for (auto arg : arguments) {
         if (!arg.startsWith(QString("org.mpris.MediaPlayer2.")))
             continue;
-        qCInfo(LOG_ESM) << "Service found" << arg;
+        qCInfo(LOG_ESS) << "Service found" << arg;
         QString service = arg;
         service.remove(QString("org.mpris.MediaPlayer2."));
         return service;
@@ -282,13 +282,13 @@ QString PlayerSource::getAutoMpris() const
 
 QVariantHash PlayerSource::getPlayerMpdInfo(const QString mpdAddress) const
 {
-    qCDebug(LOG_ESM) << "MPD" << mpdAddress;
+    qCDebug(LOG_ESS) << "MPD" << mpdAddress;
 
     // build cmd
     QString cmd = QString("bash -c \"echo 'currentsong\nstatus\nclose' | curl "
                           "--connect-timeout 1 -fsm 3 telnet://%1\"")
                       .arg(mpdAddress);
-    qCInfo(LOG_ESM) << "cmd" << cmd;
+    qCInfo(LOG_ESS) << "cmd" << cmd;
     m_mpdProcess->start(cmd);
 
     return m_mpdCached;
@@ -297,7 +297,7 @@ QVariantHash PlayerSource::getPlayerMpdInfo(const QString mpdAddress) const
 
 QVariantHash PlayerSource::getPlayerMprisInfo(const QString mpris) const
 {
-    qCDebug(LOG_ESM) << "MPRIS" << mpris;
+    qCDebug(LOG_ESS) << "MPRIS" << mpris;
 
     QVariantHash info = defaultInfo();
     if (mpris.isEmpty())
@@ -322,7 +322,7 @@ QVariantHash PlayerSource::getPlayerMprisInfo(const QString mpris) const
     QDBusMessage response = bus.call(request, QDBus::BlockWithGui);
     if ((response.type() != QDBusMessage::ReplyMessage)
         || (response.arguments().isEmpty())) {
-        qCWarning(LOG_ESM) << "Error message" << response.errorMessage();
+        qCWarning(LOG_ESS) << "Error message" << response.errorMessage();
     } else {
         // another portion of dirty magic
         QVariantHash map
@@ -348,7 +348,7 @@ QVariantHash PlayerSource::getPlayerMprisInfo(const QString mpris) const
     response = bus.call(request, QDBus::BlockWithGui);
     if ((response.type() != QDBusMessage::ReplyMessage)
         || (response.arguments().isEmpty())) {
-        qCWarning(LOG_ESM) << "Error message" << response.errorMessage();
+        qCWarning(LOG_ESS) << "Error message" << response.errorMessage();
     } else {
         // this cast is simpler than the previous one ;)
         info[QString("player/progress")] = response.arguments()
@@ -366,7 +366,7 @@ QVariantHash PlayerSource::getPlayerMprisInfo(const QString mpris) const
 QString PlayerSource::buildString(const QString current, const QString value,
                                   const int s) const
 {
-    qCDebug(LOG_ESM) << "Current value" << current << "received" << value
+    qCDebug(LOG_ESS) << "Current value" << current << "received" << value
                      << "will be stripped after" << s;
 
     int index = value.indexOf(current);
@@ -379,7 +379,7 @@ QString PlayerSource::buildString(const QString current, const QString value,
 
 QString PlayerSource::stripString(const QString value, const int s) const
 {
-    qCDebug(LOG_ESM) << "New value" << value << "will be stripped after" << s;
+    qCDebug(LOG_ESS) << "New value" << value << "will be stripped after" << s;
 
     return value.count() > s ? QString("%1\u2026").arg(value.left(s - 1))
                              : value.leftJustified(s, QLatin1Char(' '));

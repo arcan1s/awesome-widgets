@@ -27,7 +27,7 @@ BatterySource::BatterySource(QObject *parent, const QStringList args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 1);
-    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
     m_acpiPath = args.at(0);
     m_sources = getSources();
@@ -36,13 +36,13 @@ BatterySource::BatterySource(QObject *parent, const QStringList args)
 
 BatterySource::~BatterySource()
 {
-    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 }
 
 
 QVariant BatterySource::data(QString source)
 {
-    qCDebug(LOG_ESM) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << source;
 
     if (!m_values.contains(source))
         run();
@@ -53,7 +53,7 @@ QVariant BatterySource::data(QString source)
 
 QVariantMap BatterySource::initialData(QString source) const
 {
-    qCDebug(LOG_ESM) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << source;
 
     QVariantMap data;
     if (source == QString("battery/ac")) {
@@ -132,10 +132,10 @@ QStringList BatterySource::getSources()
               .entryList(QStringList() << QString("BAT*"),
                          QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name)
               .count();
-    qCInfo(LOG_ESM) << "Init batteries count as" << m_batteriesCount;
+    qCInfo(LOG_ESS) << "Init batteries count as" << m_batteriesCount;
     for (int i = 0; i < m_batteriesCount; i++)
         sources.append(QString("battery/bat%1").arg(i));
 
-    qCInfo(LOG_ESM) << "Sources list" << sources;
+    qCInfo(LOG_ESS) << "Sources list" << sources;
     return sources;
 }

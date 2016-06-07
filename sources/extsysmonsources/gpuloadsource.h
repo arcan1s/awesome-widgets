@@ -15,31 +15,36 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef TESTEXTITEMAGGREGATOR_H
-#define TESTEXTITEMAGGREGATOR_H
+#ifndef GPULOADSOURCE_H
+#define GPULOADSOURCE_H
 
 #include <QObject>
 
+#include "abstractextsysmonsource.h"
 
-class AWNoFormatter;
-template <class T> class ExtItemAggregator;
 
-class TestExtItemAggregator : public QObject
+class QProcess;
+
+class GPULoadSource : public AbstractExtSysMonSource
 {
-    Q_OBJECT
+public:
+    explicit GPULoadSource(QObject *parent, const QStringList args);
+    virtual ~GPULoadSource();
+    static QString autoGpu();
+    QVariant data(QString source);
+    QVariantMap initialData(QString source) const;
+    void run();
+    QStringList sources() const;
 
 private slots:
-    // initialization
-    void initTestCase();
-    void cleanupTestCase();
-    // test
-    void test_values();
+    void updateValue();
 
 private:
-    ExtItemAggregator<AWNoFormatter> *aggregator = nullptr;
-    QString type = QString("tmp");
+    // configuration and values
+    QString m_device;
+    QProcess *m_process = nullptr;
+    QVariant m_value;
 };
 
 
-#endif /* TESTEXTITEMAGGREGATOR_H */
+#endif /* GPULOADSOURCE_H */

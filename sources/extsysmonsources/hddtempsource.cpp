@@ -18,6 +18,7 @@
 
 #include "hddtempsource.h"
 
+#include <QDir>
 #include <QProcess>
 #include <QTextCodec>
 
@@ -29,13 +30,13 @@ HDDTemperatureSource::HDDTemperatureSource(QObject *parent,
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 2);
-    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
     m_devices = args.at(0).split(QChar(','), QString::SkipEmptyParts);
     m_cmd = args.at(1);
 
     m_smartctl = m_cmd.contains(QString("smartctl"));
-    qCInfo(LOG_ESM) << "Parse as smartctl" << m_smartctl;
+    qCInfo(LOG_ESS) << "Parse as smartctl" << m_smartctl;
 
     for (auto device : m_devices) {
         m_processes[device] = new QProcess(nullptr);
@@ -53,7 +54,7 @@ HDDTemperatureSource::HDDTemperatureSource(QObject *parent,
 
 HDDTemperatureSource::~HDDTemperatureSource()
 {
-    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
     for (auto device : m_devices) {
         m_processes[device]->kill();
@@ -62,9 +63,22 @@ HDDTemperatureSource::~HDDTemperatureSource()
 }
 
 
+QStringList HDDTemperatureSource::allHdd()
+{
+    QStringList allDevices
+        = QDir(QString("/dev")).entryList(QDir::System, QDir::Name);
+    QStringList devices = allDevices.filter(QRegExp(QString("^[hms]d[a-z]$")));
+    for (int i = 0; i < devices.count(); i++)
+        devices[i] = QString("/dev/%1").arg(devices.at(i));
+
+    qCInfo(LOG_ESS) << "Device list" << devices;
+    return devices;
+}
+
+
 QVariant HDDTemperatureSource::data(QString source)
 {
-    qCDebug(LOG_ESM) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << source;
 
     QString device = source.remove(QString("hdd/temperature"));
     // run cmd
@@ -77,7 +91,7 @@ QVariant HDDTemperatureSource::data(QString source)
 
 QVariantMap HDDTemperatureSource::initialData(QString source) const
 {
-    qCDebug(LOG_ESM) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << source;
 
     QString device = source.remove(QString("hdd/temperature"));
     QVariantMap data;
@@ -103,23 +117,24 @@ QStringList HDDTemperatureSource::sources() const
 
 void HDDTemperatureSource::updateValue(const QString &device)
 {
-    qCDebug(LOG_LIB) << "Called with device" << device;
+    qCDebug(LOG_ESS) << "Called with device" << device;
 
-    qCInfo(LOG_LIB) << "Cmd returns" << m_processes[device]->exitCode();
+    qCInfo(LOG_ESS) << "Cmd returns" << m_processes[device]->exitCode();
     QString qdebug
         = QTextCodec::codecForMib(106)
               ->toUnicode(m_processes[device]->readAllStandardError())
               .trimmed();
-    qCInfo(LOG_LIB) << "Error" << qdebug;
+    qCInfo(LOG_ESS) << "Error" << qdebug;
     QString qoutput
         = QTextCodec::codecForMib(106)
               ->toUnicode(m_processes[device]->readAllStandardOutput())
               .trimmed();
-    qCInfo(LOG_LIB) << "Output" << qoutput;
+    qCInfo(LOG_ESS) << "Output" << qoutput;
 
     // parse
     if (m_smartctl) {
-        for (auto str : qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
+        QStringList lines = qoutput.split(QChar('\n'), QString::SkipEmptyParts);
+        for (auto str : lines) {
             if (!str.startsWith(QString("194")))
                 continue;
             if (str.split(QChar(' '), QString::SkipEmptyParts).count() < 9)
@@ -130,11 +145,13 @@ void HDDTemperatureSource::updateValue(const QString &device)
             break;
         }
     } else {
-        if (qoutput.split(QChar(':'), QString::SkipEmptyParts).count() >= 3) {
-            QString temp
-                = qoutput.split(QChar(':'), QString::SkipEmptyParts).at(2);
+        QStringList lines = qoutput.split(QChar(':'), QString::SkipEmptyParts);
+        if (lines.count() >= 3) {
+            QString temp = lines.at(2);
             temp.remove(QChar(0260)).remove(QChar('C'));
             m_values[device] = temp.toFloat();
         }
     }
+
+    emit(dataReceived(m_values));
 }

@@ -15,57 +15,36 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
+#ifndef GPUTEMPSOURCE_H
+#define GPUTEMPSOURCE_H
 
-#include "loadsource.h"
+#include <QObject>
 
-#include "awdebug.h"
+#include "abstractextsysmonsource.h"
 
 
-LoadSource::LoadSource(QObject *parent, const QStringList args)
-    : AbstractExtSysMonSource(parent, args)
+class QProcess;
+
+class GPUTemperatureSource : public AbstractExtSysMonSource
 {
-    Q_ASSERT(args.count() == 0);
-    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
-}
+public:
+    explicit GPUTemperatureSource(QObject *parent, const QStringList args);
+    virtual ~GPUTemperatureSource();
+    static QString autoGpu();
+    QVariant data(QString source);
+    QVariantMap initialData(QString source) const;
+    void run();
+    QStringList sources() const;
+
+private slots:
+    void updateValue();
+
+private:
+    // configuration and values
+    QString m_device;
+    QProcess *m_process = nullptr;
+    QVariant m_value;
+};
 
 
-LoadSource::~LoadSource()
-{
-    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
-}
-
-
-QVariant LoadSource::data(QString source)
-{
-    qCDebug(LOG_ESM) << "Source" << source;
-
-    source.remove(QString("load/load"));
-    return source.toInt();
-}
-
-
-QVariantMap LoadSource::initialData(QString source) const
-{
-    qCDebug(LOG_ESM) << "Source" << source;
-
-    QVariantMap data;
-    if (source.startsWith(QString("load/load"))) {
-        data[QString("min")] = 0;
-        data[QString("max")] = 0;
-        data[QString("name")] = QString("Simple sources for load tests");
-        data[QString("type")] = QString("int");
-        data[QString("units")] = QString("");
-    }
-
-    return data;
-}
-
-
-QStringList LoadSource::sources() const
-{
-    QStringList sources;
-    for (int i = 0; i < 1000; i++)
-        sources.append(QString("load/load%1").arg(i));
-
-    return sources;
-}
+#endif /* GPUTEMPSOURCE_H */

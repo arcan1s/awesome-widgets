@@ -26,7 +26,7 @@ QuotesSource::QuotesSource(QObject *parent, const QStringList args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 0);
-    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
     extQuotes = new ExtItemAggregator<ExtQuotes>(nullptr, QString("quotes"));
     m_sources = getSources();
@@ -35,7 +35,7 @@ QuotesSource::QuotesSource(QObject *parent, const QStringList args)
 
 QuotesSource::~QuotesSource()
 {
-    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
     delete extQuotes;
 }
@@ -43,7 +43,7 @@ QuotesSource::~QuotesSource()
 
 QVariant QuotesSource::data(QString source)
 {
-    qCDebug(LOG_ESM) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << source;
 
     int ind = index(source);
     source.remove(QString("quotes/"));
@@ -59,7 +59,7 @@ QVariant QuotesSource::data(QString source)
 
 QVariantMap QuotesSource::initialData(QString source) const
 {
-    qCDebug(LOG_ESM) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << source;
 
     int ind = index(source);
     QVariantMap data;

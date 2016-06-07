@@ -27,19 +27,19 @@ ProcessesSource::ProcessesSource(QObject *parent, const QStringList args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 0);
-    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 }
 
 
 ProcessesSource::~ProcessesSource()
 {
-    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 }
 
 
 QVariant ProcessesSource::data(QString source)
 {
-    qCDebug(LOG_ESM) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << source;
 
     if (!m_values.contains(source))
         run();
@@ -50,7 +50,7 @@ QVariant ProcessesSource::data(QString source)
 
 QVariantMap ProcessesSource::initialData(QString source) const
 {
-    qCDebug(LOG_ESM) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << source;
 
     QVariantMap data;
     if (source == QString("ps/running/count")) {

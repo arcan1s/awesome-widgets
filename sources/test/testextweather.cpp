@@ -123,13 +123,13 @@ void TestExtWeather::run()
     QWARN("May fail here for Yahoo! Weather, see "
           "https://yahoo.uservoice.com/forums/207813-us-weather/suggestions/"
           "14209233-invalid-pressure-calculation");
-    QVERIFY((arguments[extWeather->tag(QString("pressure"))].toFloat()
+    QVERIFY((arguments[extWeather->tag(QString("pressure"))].toInt()
              > pressure.first)
             && (arguments[extWeather->tag(QString("pressure"))].toInt()
                 < pressure.second));
     QVERIFY((arguments[extWeather->tag(QString("temperature"))].toFloat()
              > temp.first)
-            && (arguments[extWeather->tag(QString("temperature"))].toInt()
+            && (arguments[extWeather->tag(QString("temperature"))].toFloat()
                 < temp.second));
     // image should be only one symbol here
     QCOMPARE(arguments[extWeather->tag(QString("weather"))].toString().count(),

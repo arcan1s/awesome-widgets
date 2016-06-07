@@ -15,8 +15,8 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef GPULOADSOURCE_H
-#define GPULOADSOURCE_H
+#ifndef HDDTEMPSOURCE_H
+#define HDDTEMPSOURCE_H
 
 #include <QObject>
 
@@ -25,25 +25,29 @@
 
 class QProcess;
 
-class GPULoadSource : public AbstractExtSysMonSource
+class HDDTemperatureSource : public AbstractExtSysMonSource
 {
 public:
-    explicit GPULoadSource(QObject *parent, const QStringList args);
-    virtual ~GPULoadSource();
+    explicit HDDTemperatureSource(QObject *parent, const QStringList args);
+    virtual ~HDDTemperatureSource();
+    static QStringList allHdd();
     QVariant data(QString source);
     QVariantMap initialData(QString source) const;
-    void run();
+    void run(){};
     QStringList sources() const;
 
 private slots:
-    void updateValue();
+    void updateValue(const QString &device);
 
 private:
+    // properties
+    QHash<QString, QProcess *> m_processes;
     // configuration and values
-    QString m_device;
-    QProcess *m_process = nullptr;
-    QVariant m_value;
+    QString m_cmd;
+    QStringList m_devices;
+    bool m_smartctl;
+    QHash<QString, QVariant> m_values;
 };
 
 
-#endif /* GPULOADSOURCE_H */
+#endif /* HDDTEMPSOURCE_H */

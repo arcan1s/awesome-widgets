@@ -26,7 +26,7 @@ WeatherSource::WeatherSource(QObject *parent, const QStringList args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 0);
-    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
     extWeather = new ExtItemAggregator<ExtWeather>(nullptr, QString("weather"));
     m_sources = getSources();
@@ -35,7 +35,7 @@ WeatherSource::WeatherSource(QObject *parent, const QStringList args)
 
 WeatherSource::~WeatherSource()
 {
-    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
     delete extWeather;
 }
@@ -43,7 +43,7 @@ WeatherSource::~WeatherSource()
 
 QVariant WeatherSource::data(QString source)
 {
-    qCDebug(LOG_ESM) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << source;
 
     int ind = index(source);
     source.remove(QString("weather/"));
@@ -59,7 +59,7 @@ QVariant WeatherSource::data(QString source)
 
 QVariantMap WeatherSource::initialData(QString source) const
 {
-    qCDebug(LOG_ESM) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << source;
 
     int ind = index(source);
     QVariantMap data;

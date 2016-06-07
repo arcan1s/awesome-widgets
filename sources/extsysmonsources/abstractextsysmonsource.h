@@ -25,6 +25,8 @@
 
 class AbstractExtSysMonSource : public QObject
 {
+    Q_OBJECT
+
 public:
     explicit AbstractExtSysMonSource(QObject *parent, const QStringList)
         : QObject(parent){};
@@ -40,6 +42,9 @@ public:
         rx.indexIn(source);
         return rx.cap().toInt();
     }
+
+signals:
+    void dataReceived(const QVariantHash &);
 };
 
 

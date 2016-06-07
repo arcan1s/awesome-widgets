@@ -26,7 +26,7 @@ CustomSource::CustomSource(QObject *parent, const QStringList args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 0);
-    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
     extScripts = new ExtItemAggregator<ExtScript>(nullptr, QString("scripts"));
     m_sources = getSources();
@@ -35,7 +35,7 @@ CustomSource::CustomSource(QObject *parent, const QStringList args)
 
 CustomSource::~CustomSource()
 {
-    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
     delete extScripts;
 }
@@ -43,7 +43,7 @@ CustomSource::~CustomSource()
 
 QVariant CustomSource::data(QString source)
 {
-    qCDebug(LOG_ESM) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << source;
 
     // there are only one value
     return extScripts->itemByTagNumber(index(source))->run().values().first();
@@ -52,7 +52,7 @@ QVariant CustomSource::data(QString source)
 
 QVariantMap CustomSource::initialData(QString source) const
 {
-    qCDebug(LOG_ESM) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << source;
 
     QVariantMap data;
     data[QString("min")] = QString("");
