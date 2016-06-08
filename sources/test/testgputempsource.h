@@ -15,36 +15,33 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef GPUTEMPSOURCE_H
-#define GPUTEMPSOURCE_H
+
+#ifndef TESTGPUTEMPSOURCE_H
+#define TESTGPUTEMPSOURCE_H
 
 #include <QObject>
 
-#include "abstractextsysmonsource.h"
 
+class GPUTemperatureSource;
 
-class QProcess;
-
-class GPUTemperatureSource : public AbstractExtSysMonSource
+class TestGPUTemperatureSource : public QObject
 {
-public:
-    explicit GPUTemperatureSource(QObject *parent, const QStringList args);
-    virtual ~GPUTemperatureSource();
-    static QString autoGpu();
-    QVariant data(QString source);
-    QVariantMap initialData(QString source) const;
-    void run();
-    QStringList sources() const;
+    Q_OBJECT
 
 private slots:
-    void updateValue();
+    // initialization
+    void initTestCase();
+    void cleanupTestCase();
+    // test
+    void test_sources();
+    void test_gputemp();
 
 private:
-    // configuration and values
-    QString m_device;
-    QProcess *m_process = nullptr;
-    QVariantHash m_values;
+    GPUTemperatureSource *gputempSource = nullptr;
+    QString device;
+    QString source = QString("gpu/temperature");
+    QPair<float, float> temp = QPair<float, float>(0.0f, 40.0f);
 };
 
 
-#endif /* GPUTEMPSOURCE_H */
+#endif /* TESTGPUTEMPSOURCE_H */

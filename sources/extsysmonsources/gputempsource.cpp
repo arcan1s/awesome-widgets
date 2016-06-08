@@ -55,19 +55,19 @@ GPUTemperatureSource::~GPUTemperatureSource()
 
 QString GPUTemperatureSource::autoGpu()
 {
-        QString gpu = QString("disable");
-        QFile moduleFile(QString("/proc/modules"));
-        if (!moduleFile.open(QIODevice::ReadOnly))
-            return gpu;
-
-        QString output = moduleFile.readAll();
-        if (output.contains(QString("fglrx")))
-            gpu = QString("ati");
-        else if (output.contains(QString("nvidia")))
-            gpu = QString("nvidia");
-
-        qCInfo(LOG_ESM) << "Device" << gpu;
+    QString gpu = QString("disable");
+    QFile moduleFile(QString("/proc/modules"));
+    if (!moduleFile.open(QIODevice::ReadOnly))
         return gpu;
+
+    QString output = moduleFile.readAll();
+    if (output.contains(QString("fglrx")))
+        gpu = QString("ati");
+    else if (output.contains(QString("nvidia")))
+        gpu = QString("nvidia");
+
+    qCInfo(LOG_ESM) << "Device" << gpu;
+    return gpu;
 }
 
 
@@ -78,7 +78,7 @@ QVariant GPUTemperatureSource::data(QString source)
     if (source == QString("gpu/temperature"))
         run();
 
-    return m_value;
+    return m_values[source];
 }
 
 
@@ -140,7 +140,7 @@ void GPUTemperatureSource::updateValue()
                 continue;
             QString temp = str.remove(QString("<gpu_temp>"))
                                .remove(QString("C</gpu_temp>"));
-            m_value = temp.toFloat();
+            m_values[QString("gpu/temperature")] = temp.toFloat();
             break;
         }
     } else if (m_device == QString("ati")) {
@@ -148,8 +148,10 @@ void GPUTemperatureSource::updateValue()
             if (!str.contains(QString("Temperature")))
                 continue;
             QString temp = str.split(QChar(' '), QString::SkipEmptyParts).at(4);
-            m_value = temp.toFloat();
+            m_values[QString("gpu/temperature")] = temp.toFloat();
             break;
         }
     }
+
+    emit(dataReceived(m_values));
 }

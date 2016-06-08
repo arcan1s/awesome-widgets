@@ -15,36 +15,50 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef GPUTEMPSOURCE_H
-#define GPUTEMPSOURCE_H
 
-#include <QObject>
+#include "testgputempsource.h"
 
-#include "abstractextsysmonsource.h"
+#include <QtTest>
+
+#include "awtestlibrary.h"
+#include "gputempsource.h"
 
 
-class QProcess;
-
-class GPUTemperatureSource : public AbstractExtSysMonSource
+void TestGPUTemperatureSource::initTestCase()
 {
-public:
-    explicit GPUTemperatureSource(QObject *parent, const QStringList args);
-    virtual ~GPUTemperatureSource();
-    static QString autoGpu();
-    QVariant data(QString source);
-    QVariantMap initialData(QString source) const;
-    void run();
-    QStringList sources() const;
+    device = GPUTemperatureSource::autoGpu();
+    QVERIFY(!device.isEmpty());
 
-private slots:
-    void updateValue();
-
-private:
-    // configuration and values
-    QString m_device;
-    QProcess *m_process = nullptr;
-    QVariantHash m_values;
-};
+    gputempSource = new GPUTemperatureSource(this, QStringList() << device);
+}
 
 
-#endif /* GPUTEMPSOURCE_H */
+void TestGPUTemperatureSource::cleanupTestCase()
+{
+    delete gputempSource;
+}
+
+
+void TestGPUTemperatureSource::test_sources()
+{
+    QCOMPARE(gputempSource->sources(), QStringList() << source);
+}
+
+
+void TestGPUTemperatureSource::test_gputemp()
+{
+    if (device == QString("disable"))
+        QSKIP("Not supported device, test will be skipped");
+
+    QSignalSpy spy(gputempSource, SIGNAL(dataReceived(const QVariantHash &)));
+    float firstValue = gputempSource->data(source).toFloat();
+    QCOMPARE(firstValue, 0.0f);
+
+    QVERIFY(spy.wait(5000));
+    QVariantHash arguments = spy.takeFirst().at(0).toHash();
+    float secondValue = arguments[source].toFloat();
+    QVERIFY((secondValue >= temp.first) && (secondValue <= temp.second));
+}
+
+
+QTEST_MAIN(TestGPUTemperatureSource);
