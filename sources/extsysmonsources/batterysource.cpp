@@ -40,6 +40,26 @@ BatterySource::~BatterySource()
 }
 
 
+
+QStringList BatterySource::getSources()
+{
+    QStringList sources;
+    sources.append(QString("battery/ac"));
+    sources.append(QString("battery/bat"));
+    m_batteriesCount
+            = QDir(m_acpiPath)
+            .entryList(QStringList() << QString("BAT*"),
+                       QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name)
+            .count();
+    qCInfo(LOG_ESS) << "Init batteries count as" << m_batteriesCount;
+    for (int i = 0; i < m_batteriesCount; i++)
+        sources.append(QString("battery/bat%1").arg(i));
+
+    qCInfo(LOG_ESS) << "Sources list" << sources;
+    return sources;
+}
+
+
 QVariant BatterySource::data(QString source)
 {
     qCDebug(LOG_ESS) << "Source" << source;
@@ -119,23 +139,4 @@ void BatterySource::run()
 QStringList BatterySource::sources() const
 {
     return m_sources;
-}
-
-
-QStringList BatterySource::getSources()
-{
-    QStringList sources;
-    sources.append(QString("battery/ac"));
-    sources.append(QString("battery/bat"));
-    m_batteriesCount
-        = QDir(m_acpiPath)
-              .entryList(QStringList() << QString("BAT*"),
-                         QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name)
-              .count();
-    qCInfo(LOG_ESS) << "Init batteries count as" << m_batteriesCount;
-    for (int i = 0; i < m_batteriesCount; i++)
-        sources.append(QString("battery/bat%1").arg(i));
-
-    qCInfo(LOG_ESS) << "Sources list" << sources;
-    return sources;
 }

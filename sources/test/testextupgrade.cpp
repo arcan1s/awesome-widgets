@@ -57,11 +57,12 @@ void TestExtUpgrade::test_run()
     // init spy
     QSignalSpy spy(extUpgrade, SIGNAL(dataReceived(const QVariantHash &)));
     QVariantHash firstValue = extUpgrade->run();
-    QCOMPARE(firstValue[extUpgrade->tag(QString("pkgcount"))].toInt(), 0);
 
     // check values
     QVERIFY(spy.wait(5000));
     QList<QVariant> arguments = spy.takeFirst();
+
+    QCOMPARE(firstValue[extUpgrade->tag(QString("pkgcount"))].toInt(), 0);
     QCOMPARE(
         arguments.at(0).toHash()[extUpgrade->tag(QString("pkgcount"))].toInt(),
         randomStrings.count());

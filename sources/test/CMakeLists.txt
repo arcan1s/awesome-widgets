@@ -26,7 +26,7 @@ set(TEST_MODULES
         abstractextitem extquotes extscript extupgrade extweather
         abstractformatter datetimeformatter floatformatter noformatter scriptformatter
         extitemaggregator
-        hddtempsource)
+        batterysource gpuloadsource gputempsource hddtempsource)
 foreach (TEST_MODULE ${TEST_MODULES})
     set(${TEST_MODULE}_HEADERS test${TEST_MODULE}.h)
     set(${TEST_MODULE}_SOURCES test${TEST_MODULE}.cpp)

@@ -43,7 +43,7 @@ private:
     // configuration and values
     QString m_device;
     QProcess *m_process = nullptr;
-    QVariant m_value;
+    QVariantHash m_values;
 };
 
 

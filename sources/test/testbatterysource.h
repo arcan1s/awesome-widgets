@@ -15,32 +15,32 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef BATTERYSOURCE_H
-#define BATTERYSOURCE_H
+
+#ifndef TESTBATTERYSOURCE_H
+#define TESTBATTERYSOURCE_H
 
 #include <QObject>
 
-#include "abstractextsysmonsource.h"
 
+class BatterySource;
 
-class BatterySource : public AbstractExtSysMonSource
+class TestBatterySource : public QObject
 {
-public:
-    explicit BatterySource(QObject *parent, const QStringList args);
-    virtual ~BatterySource();
-    QStringList getSources();
-    QVariant data(QString source);
-    QVariantMap initialData(QString source) const;
-    void run();
-    QStringList sources() const;
+    Q_OBJECT
+
+private slots:
+    // initialization
+    void initTestCase();
+    void cleanupTestCase();
+    // test
+    void test_sources();
+    void test_battery();
 
 private:
-    // configuration and values
-    int m_batteriesCount = 0;
-    QString m_acpiPath;
-    QStringList m_sources;
-    QVariantHash m_values;
+    BatterySource *source = nullptr;
+    QString acpiPath = QString("/sys/class/power_supply/");
+    QPair<int, int> battery = QPair<int, int>(0, 100);
 };
 
 
-#endif /* BATTERYSOURCE_H */
+#endif /* TESTBATTERYSOURCE_H */

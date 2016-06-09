@@ -60,12 +60,13 @@ void TestExtScript::test_run()
     // init spy
     QSignalSpy spy(extScript, SIGNAL(dataReceived(const QVariantHash &)));
     QVariantHash firstValue = extScript->run();
-    QCOMPARE(firstValue[extScript->tag(QString("custom"))].toString(),
-             QString(""));
 
     // check values
     QVERIFY(spy.wait(5000));
     QList<QVariant> arguments = spy.takeFirst();
+
+    QCOMPARE(firstValue[extScript->tag(QString("custom"))].toString(),
+             QString(""));
     QCOMPARE(
         arguments.at(0).toHash()[extScript->tag(QString("custom"))].toString(),
         QString("\n%1").arg(randomString));

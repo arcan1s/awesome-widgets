@@ -37,10 +37,10 @@ private slots:
     void test_gputemp();
 
 private:
-    GPUTemperatureSource *gputempSource = nullptr;
+    GPUTemperatureSource *source = nullptr;
     QString device;
-    QString source = QString("gpu/temperature");
-    QPair<float, float> temp = QPair<float, float>(0.0f, 40.0f);
+    QString src = QString("gpu/temperature");
+    QPair<float, float> temp = QPair<float, float>(0.0f, 120.0f);
 };
 
 

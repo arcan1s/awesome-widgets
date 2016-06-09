@@ -77,7 +77,7 @@ QVariant GPULoadSource::data(QString source)
     if (source == QString("gpu/load"))
         run();
 
-    return m_value;
+    return m_values[source];
 }
 
 
@@ -140,7 +140,7 @@ void GPULoadSource::updateValue()
             QString load = str.remove(QString("<gpu_util>"))
                                .remove(QString("</gpu_util>"))
                                .remove(QChar('%'));
-            m_value = load.toFloat();
+            m_values[QString("gpu/load")] = load.toFloat();
             break;
         }
     } else if (m_device == QString("ati")) {
@@ -150,7 +150,7 @@ void GPULoadSource::updateValue()
             QString load
                 = str.split(QChar(' '), QString::SkipEmptyParts)[3].remove(
                     QChar('%'));
-            m_value = load.toFloat();
+            m_values[QString("gpu/load")] = load.toFloat();
             break;
         }
     }

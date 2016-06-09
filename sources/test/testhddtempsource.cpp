@@ -60,12 +60,13 @@ void TestHDDTemperatureSource::test_hddtemp()
         QSignalSpy spy(hddtempSource,
                        SIGNAL(dataReceived(const QVariantHash &)));
         float firstValue = hddtempSource->data(device).toFloat();
-        QCOMPARE(firstValue, 0.0f);
 
         QVERIFY(spy.wait(5000));
         QVariantHash arguments = spy.takeFirst().at(0).toHash();
         device.remove(QString("hdd/temperature"));
         float secondValue = arguments[device].toFloat();
+
+        QCOMPARE(firstValue, 0.0f);
         QVERIFY((secondValue >= temp.first) && (secondValue <= temp.second));
     });
 }
@@ -77,12 +78,13 @@ void TestHDDTemperatureSource::test_smartctl()
         QSignalSpy spy(smartctlSource,
                        SIGNAL(dataReceived(const QVariantHash &)));
         float firstValue = smartctlSource->data(device).toFloat();
-        QCOMPARE(firstValue, 0.0f);
 
         QVERIFY(spy.wait(5000));
         QVariantHash arguments = spy.takeFirst().at(0).toHash();
         device.remove(QString("hdd/temperature"));
         float secondValue = arguments[device].toFloat();
+
+        QCOMPARE(firstValue, 0.0f);
         QVERIFY((secondValue >= temp.first) && (secondValue <= temp.second));
     });
 }

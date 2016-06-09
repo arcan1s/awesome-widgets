@@ -15,32 +15,47 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef BATTERYSOURCE_H
-#define BATTERYSOURCE_H
 
-#include <QObject>
+#include "testbatterysource.h"
 
-#include "abstractextsysmonsource.h"
+#include <QtTest>
+
+#include "awtestlibrary.h"
+#include "batterysource.h"
 
 
-class BatterySource : public AbstractExtSysMonSource
+void TestBatterySource::initTestCase()
 {
-public:
-    explicit BatterySource(QObject *parent, const QStringList args);
-    virtual ~BatterySource();
-    QStringList getSources();
-    QVariant data(QString source);
-    QVariantMap initialData(QString source) const;
-    void run();
-    QStringList sources() const;
-
-private:
-    // configuration and values
-    int m_batteriesCount = 0;
-    QString m_acpiPath;
-    QStringList m_sources;
-    QVariantHash m_values;
-};
+    source = new BatterySource(this, QStringList() << acpiPath);
+}
 
 
-#endif /* BATTERYSOURCE_H */
+void TestBatterySource::cleanupTestCase()
+{
+    delete source;
+}
+
+
+void TestBatterySource::test_sources()
+{
+    QVERIFY(source->sources().count() >= 2);
+}
+
+
+void TestBatterySource::test_battery()
+{
+    if (source->sources().count() == 2)
+        QSKIP("No battery found, test will be skipped");
+
+    QStringList batteries = source->sources();
+    std::for_each(batteries.begin(), batteries.end(), [this](const QString bat) {
+        QVariant value = source->data(bat);
+        if (bat == QString("battery/ac"))
+            QCOMPARE(value.type(), QVariant::Bool);
+        else
+            QVERIFY((value.toFloat() >= battery.first) && (value.toFloat() <= battery.second));
+    });
+}
+
+
+QTEST_MAIN(TestBatterySource);

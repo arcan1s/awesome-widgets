@@ -29,19 +29,19 @@ void TestGPUTemperatureSource::initTestCase()
     device = GPUTemperatureSource::autoGpu();
     QVERIFY(!device.isEmpty());
 
-    gputempSource = new GPUTemperatureSource(this, QStringList() << device);
+    source = new GPUTemperatureSource(this, QStringList() << device);
 }
 
 
 void TestGPUTemperatureSource::cleanupTestCase()
 {
-    delete gputempSource;
+    delete source;
 }
 
 
 void TestGPUTemperatureSource::test_sources()
 {
-    QCOMPARE(gputempSource->sources(), QStringList() << source);
+    QCOMPARE(source->sources(), QStringList() << src);
 }
 
 
@@ -50,13 +50,14 @@ void TestGPUTemperatureSource::test_gputemp()
     if (device == QString("disable"))
         QSKIP("Not supported device, test will be skipped");
 
-    QSignalSpy spy(gputempSource, SIGNAL(dataReceived(const QVariantHash &)));
-    float firstValue = gputempSource->data(source).toFloat();
-    QCOMPARE(firstValue, 0.0f);
+    QSignalSpy spy(source, SIGNAL(dataReceived(const QVariantHash &)));
+    float firstValue = source->data(src).toFloat();
 
     QVERIFY(spy.wait(5000));
     QVariantHash arguments = spy.takeFirst().at(0).toHash();
-    float secondValue = arguments[source].toFloat();
+    float secondValue = arguments[src].toFloat();
+
+    QCOMPARE(firstValue, 0.0f);
     QVERIFY((secondValue >= temp.first) && (secondValue <= temp.second));
 }
 

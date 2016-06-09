@@ -43,7 +43,7 @@ private:
     QStringList devices;
     QString hddtempCmd = QString("sudo hddtemp");
     QString smartctlCmd = QString("sudo smartctl -a");
-    QPair<float, float> temp = QPair<float, float>(0.0f, 40.0f);
+    QPair<float, float> temp = QPair<float, float>(0.0f, 120.0f);
 };
 
 

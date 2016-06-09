@@ -15,32 +15,33 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef BATTERYSOURCE_H
-#define BATTERYSOURCE_H
+
+#ifndef TESTGPULOADSOURCE_H
+#define TESTGPULOADSOURCE_H
 
 #include <QObject>
 
-#include "abstractextsysmonsource.h"
 
+class GPULoadSource;
 
-class BatterySource : public AbstractExtSysMonSource
+class TestGPULoadSource : public QObject
 {
-public:
-    explicit BatterySource(QObject *parent, const QStringList args);
-    virtual ~BatterySource();
-    QStringList getSources();
-    QVariant data(QString source);
-    QVariantMap initialData(QString source) const;
-    void run();
-    QStringList sources() const;
+    Q_OBJECT
+
+private slots:
+    // initialization
+    void initTestCase();
+    void cleanupTestCase();
+    // test
+    void test_sources();
+    void test_gpuload();
 
 private:
-    // configuration and values
-    int m_batteriesCount = 0;
-    QString m_acpiPath;
-    QStringList m_sources;
-    QVariantHash m_values;
+    GPULoadSource *source = nullptr;
+    QString device;
+    QString src = QString("gpu/load");
+    QPair<float, float> load = QPair<float, float>(0.0f, 100.0f);
 };
 
 
-#endif /* BATTERYSOURCE_H */
+#endif /* TESTGPULOADSOURCE_H */
