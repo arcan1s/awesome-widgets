@@ -161,15 +161,11 @@ void PlayerSource::run()
     // initial data
     if (m_player == QString("mpd")) {
         // mpd
-        QHash<QString, QVariant> data = getPlayerMpdInfo(m_mpdAddress);
-        for (auto key : data.keys())
-            m_values[key] = data[key];
+        m_values = getPlayerMpdInfo(m_mpdAddress);
     } else if (m_player == QString("mpris")) {
         // players which supports mpris
         QString mpris = m_mpris == QString("auto") ? getAutoMpris() : m_mpris;
-        QHash<QString, QVariant> data = getPlayerMprisInfo(mpris);
-        for (auto key : data.keys())
-            m_values[key] = data[key];
+        m_values = getPlayerMprisInfo(mpris);
     }
 
     // dymanic properties

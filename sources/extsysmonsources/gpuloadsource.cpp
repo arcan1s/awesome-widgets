@@ -154,4 +154,6 @@ void GPULoadSource::updateValue()
             break;
         }
     }
+
+    emit(dataReceived(m_values));
 }
