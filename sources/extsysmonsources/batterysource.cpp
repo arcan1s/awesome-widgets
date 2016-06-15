@@ -40,17 +40,16 @@ BatterySource::~BatterySource()
 }
 
 
-
 QStringList BatterySource::getSources()
 {
     QStringList sources;
     sources.append(QString("battery/ac"));
     sources.append(QString("battery/bat"));
     m_batteriesCount
-            = QDir(m_acpiPath)
-            .entryList(QStringList() << QString("BAT*"),
-                       QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name)
-            .count();
+        = QDir(m_acpiPath)
+              .entryList(QStringList() << QString("BAT*"),
+                         QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name)
+              .count();
     qCInfo(LOG_ESS) << "Init batteries count as" << m_batteriesCount;
     for (int i = 0; i < m_batteriesCount; i++)
         sources.append(QString("battery/bat%1").arg(i));

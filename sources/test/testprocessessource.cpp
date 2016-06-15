@@ -16,48 +16,42 @@
  ***************************************************************************/
 
 
-#include "testbatterysource.h"
+#include "testprocessessource.h"
 
 #include <QtTest>
 
 #include "awtestlibrary.h"
-#include "batterysource.h"
+#include "processessource.h"
 
 
-void TestBatterySource::initTestCase()
+void TestProcessesSource::initTestCase()
 {
-    source = new BatterySource(this, QStringList() << acpiPath);
+    source = new ProcessesSource(this, QStringList());
 }
 
 
-void TestBatterySource::cleanupTestCase()
+void TestProcessesSource::cleanupTestCase()
 {
     delete source;
 }
 
 
-void TestBatterySource::test_sources()
+void TestProcessesSource::test_sources()
 {
-    QVERIFY(source->sources().count() >= 2);
+    QCOMPARE(source->sources().count(), 3);
+    // FIXME there is segfault here sometimes o_0
+//    QVERIFY(std::all_of(
+//        source->sources().cbegin(), source->sources().cend(),
+//        [](const QString &src) { return src.startsWith(QString("ps/")); }));
 }
 
 
-void TestBatterySource::test_battery()
+void TestProcessesSource::test_values()
 {
-    if (source->sources().count() == 2)
-        QSKIP("No battery found, test will be skipped");
-
-    QStringList batteries = source->sources();
-    std::for_each(batteries.begin(), batteries.end(),
-                  [this](const QString bat) {
-                      QVariant value = source->data(bat);
-                      if (bat == QString("battery/ac"))
-                          QCOMPARE(value.type(), QVariant::Bool);
-                      else
-                          QVERIFY((value.toFloat() >= battery.first)
-                                  && (value.toFloat() <= battery.second));
-                  });
+    QVERIFY(source->data(QString("ps/running/count")).toInt() > 0);
+    QVERIFY(source->data(QString("ps/running/list")).toStringList().count() > 0);
+    QVERIFY(source->data(QString("ps/total/count")).toInt() > 0);
 }
 
 
-QTEST_MAIN(TestBatterySource);
+QTEST_MAIN(TestProcessesSource);

@@ -16,48 +16,45 @@
  ***************************************************************************/
 
 
-#include "testbatterysource.h"
+#include "testdesktopsource.h"
 
 #include <QtTest>
 
 #include "awtestlibrary.h"
-#include "batterysource.h"
+#include "desktopsource.h"
 
 
-void TestBatterySource::initTestCase()
+void TestDesktopSource::initTestCase()
 {
-    source = new BatterySource(this, QStringList() << acpiPath);
+    source = new DesktopSource(this, QStringList());
 }
 
 
-void TestBatterySource::cleanupTestCase()
+void TestDesktopSource::cleanupTestCase()
 {
     delete source;
 }
 
 
-void TestBatterySource::test_sources()
+void TestDesktopSource::test_sources()
 {
-    QVERIFY(source->sources().count() >= 2);
+    QCOMPARE(source->sources().count(), 4);
+    // FIXME there is segfault here sometimes o_0
+//    QVERIFY(std::all_of(
+//        source->sources().cbegin(), source->sources().cend(),
+//        [](const QString &src) { return src.startsWith(QString("desktop/")); }));
 }
 
 
-void TestBatterySource::test_battery()
+void TestDesktopSource::test_values()
 {
-    if (source->sources().count() == 2)
-        QSKIP("No battery found, test will be skipped");
-
-    QStringList batteries = source->sources();
-    std::for_each(batteries.begin(), batteries.end(),
-                  [this](const QString bat) {
-                      QVariant value = source->data(bat);
-                      if (bat == QString("battery/ac"))
-                          QCOMPARE(value.type(), QVariant::Bool);
-                      else
-                          QVERIFY((value.toFloat() >= battery.first)
-                                  && (value.toFloat() <= battery.second));
-                  });
+    QVERIFY(source->data(QString("desktop/current/name")).toString().count()
+            > 0);
+    QVERIFY(source->data(QString("desktop/current/number")).toInt() >= 0);
+    QVERIFY(source->data(QString("desktop/total/name")).toStringList().count()
+            > 0);
+    QVERIFY(source->data(QString("desktop/total/number")).toInt() > 0);
 }
 
 
-QTEST_MAIN(TestBatterySource);
+QTEST_MAIN(TestDesktopSource);

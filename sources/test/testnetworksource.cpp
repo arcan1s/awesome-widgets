@@ -16,48 +16,36 @@
  ***************************************************************************/
 
 
-#include "testbatterysource.h"
+#include "testnetworksource.h"
 
 #include <QtTest>
 
 #include "awtestlibrary.h"
-#include "batterysource.h"
+#include "networksource.h"
 
 
-void TestBatterySource::initTestCase()
+void TestNetworkSource::initTestCase()
 {
-    source = new BatterySource(this, QStringList() << acpiPath);
+    source = new NetworkSource(this, QStringList());
 }
 
 
-void TestBatterySource::cleanupTestCase()
+void TestNetworkSource::cleanupTestCase()
 {
     delete source;
 }
 
 
-void TestBatterySource::test_sources()
+void TestNetworkSource::test_sources()
 {
-    QVERIFY(source->sources().count() >= 2);
+    QCOMPARE(source->sources(), QStringList() << src);
 }
 
 
-void TestBatterySource::test_battery()
+void TestNetworkSource::test_values()
 {
-    if (source->sources().count() == 2)
-        QSKIP("No battery found, test will be skipped");
-
-    QStringList batteries = source->sources();
-    std::for_each(batteries.begin(), batteries.end(),
-                  [this](const QString bat) {
-                      QVariant value = source->data(bat);
-                      if (bat == QString("battery/ac"))
-                          QCOMPARE(value.type(), QVariant::Bool);
-                      else
-                          QVERIFY((value.toFloat() >= battery.first)
-                                  && (value.toFloat() <= battery.second));
-                  });
+    QVERIFY(source->data(src).toString().count() > 0);
 }
 
 
-QTEST_MAIN(TestBatterySource);
+QTEST_MAIN(TestNetworkSource);

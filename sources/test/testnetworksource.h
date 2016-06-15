@@ -16,48 +16,30 @@
  ***************************************************************************/
 
 
-#include "testbatterysource.h"
+#ifndef TESTNETWORKSOURCE_H
+#define TESTNETWORKSOURCE_H
 
-#include <QtTest>
-
-#include "awtestlibrary.h"
-#include "batterysource.h"
+#include <QObject>
 
 
-void TestBatterySource::initTestCase()
+class NetworkSource;
+
+class TestNetworkSource : public QObject
 {
-    source = new BatterySource(this, QStringList() << acpiPath);
-}
+    Q_OBJECT
+
+private slots:
+    // initialization
+    void initTestCase();
+    void cleanupTestCase();
+    // test
+    void test_sources();
+    void test_values();
+
+private:
+    NetworkSource *source = nullptr;
+    QString src = QString("network/current/name");
+};
 
 
-void TestBatterySource::cleanupTestCase()
-{
-    delete source;
-}
-
-
-void TestBatterySource::test_sources()
-{
-    QVERIFY(source->sources().count() >= 2);
-}
-
-
-void TestBatterySource::test_battery()
-{
-    if (source->sources().count() == 2)
-        QSKIP("No battery found, test will be skipped");
-
-    QStringList batteries = source->sources();
-    std::for_each(batteries.begin(), batteries.end(),
-                  [this](const QString bat) {
-                      QVariant value = source->data(bat);
-                      if (bat == QString("battery/ac"))
-                          QCOMPARE(value.type(), QVariant::Bool);
-                      else
-                          QVERIFY((value.toFloat() >= battery.first)
-                                  && (value.toFloat() <= battery.second));
-                  });
-}
-
-
-QTEST_MAIN(TestBatterySource);
+#endif /* TESTNETWORKSOURCE_H */
