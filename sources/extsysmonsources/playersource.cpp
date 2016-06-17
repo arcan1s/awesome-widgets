@@ -164,8 +164,12 @@ void PlayerSource::run()
         m_values = getPlayerMpdInfo(m_mpdAddress);
     } else if (m_player == QString("mpris")) {
         // players which supports mpris
-        QString mpris = m_mpris == QString("auto") ? getAutoMpris() : m_mpris;
-        m_values = getPlayerMprisInfo(mpris);
+        if (m_dbusMutex.tryLock()) {
+            QString mpris
+                = m_mpris == QString("auto") ? getAutoMpris() : m_mpris;
+            m_values = getPlayerMprisInfo(mpris);
+            m_dbusMutex.unlock();
+        }
     }
 
     // dymanic properties
@@ -258,7 +262,7 @@ QVariantHash PlayerSource::defaultInfo() const
 QString PlayerSource::getAutoMpris() const
 {
     QDBusMessage listServices = QDBusConnection::sessionBus().interface()->call(
-        QDBus::BlockWithGui, QString("ListNames"));
+        QDBus::BlockWithGui, QString("ListNames"), DBUS_CALL_TIMEOUT);
     if (listServices.arguments().isEmpty())
         return QString();
     QStringList arguments = listServices.arguments().first().toStringList();
@@ -315,7 +319,8 @@ QVariantHash PlayerSource::getPlayerMprisInfo(const QString mpris) const
         QString("org.mpris.MediaPlayer2.%1").arg(mpris),
         QString("/org/mpris/MediaPlayer2"), QString(""), QString("Get"));
     request.setArguments(args);
-    QDBusMessage response = bus.call(request, QDBus::BlockWithGui);
+    QDBusMessage response
+        = bus.call(request, QDBus::BlockWithGui, DBUS_CALL_TIMEOUT);
     if ((response.type() != QDBusMessage::ReplyMessage)
         || (response.arguments().isEmpty())) {
         qCWarning(LOG_ESS) << "Error message" << response.errorMessage();

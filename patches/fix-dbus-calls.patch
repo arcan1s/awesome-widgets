@@ -1,0 +1,89 @@
+diff --git a/sources/extsysmon/extsysmon.cpp b/sources/extsysmon/extsysmon.cpp
+index 69934c4..a48b8e7 100644
+--- a/sources/extsysmon/extsysmon.cpp
++++ b/sources/extsysmon/extsysmon.cpp
+@@ -74,7 +74,10 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
+     qCDebug(LOG_ESM) << "Source" << source;
+ 
+     if (aggregator->hasSource(source)) {
+-        setData(source, QString("value"), aggregator->data(source));
++        QVariant data = aggregator->data(source);
++        if (data.isNull())
++            return false;
++        setData(source, QString("value"), data);
+     } else {
+         qCWarning(LOG_ESM) << "Unknown source" << source;
+         return false;
+diff --git a/sources/extsysmon/sources/playersource.cpp b/sources/extsysmon/sources/playersource.cpp
+index 769ed9d..c51511c 100644
+--- a/sources/extsysmon/sources/playersource.cpp
++++ b/sources/extsysmon/sources/playersource.cpp
+@@ -164,12 +164,16 @@ void PlayerSource::run()
+         QHash<QString, QVariant> data = getPlayerMpdInfo(m_mpdAddress);
+         for (auto key : data.keys())
+             m_values[key] = data[key];
+     } else if (m_player == QString("mpris")) {
+         // players which supports mpris
+-        QString mpris = m_mpris == QString("auto") ? getAutoMpris() : m_mpris;
+-        QHash<QString, QVariant> data = getPlayerMprisInfo(mpris);
+-        for (auto key : data.keys())
+-            m_values[key] = data[key];
++        if (m_dbusMutex.tryLock()) {
++            QString mpris
++                = m_mpris == QString("auto") ? getAutoMpris() : m_mpris;
++            QHash<QString, QVariant> data = getPlayerMprisInfo(mpris);
++            for (auto key : data.keys())
++                m_values[key] = data[key];
++            m_dbusMutex.unlock();
++        }
+     }
+ 
+     // dymanic properties
+@@ -258,7 +262,7 @@ QVariantHash PlayerSource::defaultInfo() const
+ QString PlayerSource::getAutoMpris() const
+ {
+     QDBusMessage listServices = QDBusConnection::sessionBus().interface()->call(
+-        QDBus::BlockWithGui, QString("ListNames"));
++        QDBus::BlockWithGui, QString("ListNames"), DBUS_CALL_TIMEOUT);
+     if (listServices.arguments().isEmpty())
+         return QString();
+     QStringList arguments = listServices.arguments().first().toStringList();
+@@ -315,7 +319,8 @@ QVariantHash PlayerSource::getPlayerMprisInfo(const QString mpris) const
+         QString("org.mpris.MediaPlayer2.%1").arg(mpris),
+         QString("/org/mpris/MediaPlayer2"), QString(""), QString("Get"));
+     request.setArguments(args);
+-    QDBusMessage response = bus.call(request, QDBus::BlockWithGui);
++    QDBusMessage response
++        = bus.call(request, QDBus::BlockWithGui, DBUS_CALL_TIMEOUT);
+     if ((response.type() != QDBusMessage::ReplyMessage)
+         || (response.arguments().isEmpty())) {
+         qCWarning(LOG_ESS) << "Error message" << response.errorMessage();
+diff --git a/sources/extsysmon/sources/playersource.h b/sources/extsysmon/sources/playersource.h
+index 0d8bbfc..2164354 100644
+--- a/sources/extsysmon/sources/playersource.h
++++ b/sources/extsysmon/sources/playersource.h
+@@ -18,11 +18,16 @@
+ #ifndef PLAYERSOURCE_H
+ #define PLAYERSOURCE_H
+ 
++#include <QMutex>
+ #include <QObject>
+ 
+ #include "abstractextsysmonsource.h"
+ 
+ 
++#ifndef DBUS_CALL_TIMEOUT
++#define DBUS_CALL_TIMEOUT 3000
++#endif /* DBUS_CALL_TIMEOUT */
++
+ class QProcess;
+ 
+ class PlayerSource : public AbstractExtSysMonSource
+@@ -52,6 +57,7 @@ private:
+     QVariantHash m_mpdCached;
+     QProcess *m_mpdProcess = nullptr;
+     QString m_mpris;
++    QMutex m_dbusMutex;
+     QString m_player;
+     int m_symbols;
+     QStringList m_metadata = QStringList() << QString("album")

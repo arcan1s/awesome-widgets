@@ -74,7 +74,10 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
     qCDebug(LOG_ESM) << "Source" << source;
 
     if (aggregator->hasSource(source)) {
-        setData(source, QString("value"), aggregator->data(source));
+        QVariant data = aggregator->data(source);
+        if (data.isNull())
+            return false;
+        setData(source, QString("value"), data);
     } else {
         qCWarning(LOG_ESM) << "Unknown source" << source;
         return false;

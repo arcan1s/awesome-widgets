@@ -18,10 +18,15 @@
 #ifndef PLAYERSOURCE_H
 #define PLAYERSOURCE_H
 
+#include <QMutex>
 #include <QObject>
 
 #include "abstractextsysmonsource.h"
 
+
+#ifndef DBUS_CALL_TIMEOUT
+#define DBUS_CALL_TIMEOUT 3000
+#endif /* DBUS_CALL_TIMEOUT */
 
 class QProcess;
 
@@ -52,6 +57,7 @@ private:
     QVariantHash m_mpdCached;
     QProcess *m_mpdProcess = nullptr;
     QString m_mpris;
+    QMutex m_dbusMutex;
     QString m_player;
     int m_symbols;
     QStringList m_metadata = QStringList() << QString("album")
