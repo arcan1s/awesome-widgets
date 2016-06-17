@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-04-29 12:21+0300\n"
+"POT-Creation-Date: 2016-05-16 19:35+0300\n"
 "PO-Revision-Date: 2015-07-31 22:21+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -391,6 +391,9 @@ msgstr "Mostrar valor"
 msgid "Edit bars"
 msgstr "Editar barras"
 
+msgid "Formatters"
+msgstr ""
+
 msgid "Preview"
 msgstr ""
 
@@ -460,6 +463,17 @@ msgstr "Alta carga da GPU"
 msgid "Network device has been changed to %1"
 msgstr "O dispositivo de rede mudou para %1"
 
+msgid "Edit"
+msgstr "Editar"
+
+#, fuzzy
+msgid "Select type"
+msgstr "Selecionar tag"
+
+#, fuzzy
+msgid "Type:"
+msgstr "Tipo"
+
 msgid "MB/s"
 msgstr ""
 
@@ -517,6 +531,39 @@ msgstr "NOme"
 
 msgid "Comment"
 msgstr "Comentário"
+
+msgid "Type"
+msgstr "Tipo"
+
+#, fuzzy
+msgid "Format"
+msgstr "Forma"
+
+msgid "Precision"
+msgstr ""
+
+msgid "Width"
+msgstr "Largura"
+
+msgid "Fill char"
+msgstr ""
+
+msgid "Multiplier"
+msgstr ""
+
+#, fuzzy
+msgid "Summand"
+msgstr "Comentário"
+
+#, fuzzy
+msgid "Append code"
+msgstr "Aparência"
+
+msgid "Has return"
+msgstr ""
+
+msgid "Code"
+msgstr ""
 
 msgid "Tag"
 msgstr "Tag"
@@ -597,9 +644,6 @@ msgstr "Cor ativa"
 msgid "Inctive filling type"
 msgstr "Desktop inativo"
 
-msgid "Type"
-msgstr "Tipo"
-
 msgid "Points count"
 msgstr ""
 
@@ -608,9 +652,6 @@ msgstr "Direção"
 
 msgid "Height"
 msgstr "Altura"
-
-msgid "Width"
-msgstr "Largura"
 
 #, fuzzy
 msgid "color"
@@ -698,9 +739,6 @@ msgstr "under@insicuri.net"
 
 #~ msgid "Check for updates"
 #~ msgstr "Checar por atualizações"
-
-#~ msgid "Edit"
-#~ msgstr "Editar"
 
 #~ msgid "Enable popup on mouse click"
 #~ msgstr "Ativar popup no clique do mouse"
@@ -821,9 +859,6 @@ msgstr "under@insicuri.net"
 
 #~ msgid "Add stretch to right/bottom of the layout"
 #~ msgstr "Adicionar esticamento à direita/inferior do layout"
-
-#~ msgid "Form"
-#~ msgstr "Forma"
 
 #~ msgid "Network directory"
 #~ msgstr "Diretório de rede"

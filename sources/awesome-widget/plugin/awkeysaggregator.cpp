@@ -49,7 +49,7 @@ AWKeysAggregator::AWKeysAggregator(QObject *parent)
     m_formatter[QString("swaptotmb")] = FormatterType::MemMBFormat;
     m_formatter[QString("swaptotgb")] = FormatterType::MemGBFormat;
 
-    m_customFormatters = new AWFormatterHelper(this);
+    m_customFormatters = new AWFormatterHelper(nullptr);
 }
 
 

@@ -32,8 +32,7 @@ template <class T> class ExtItemAggregator : public AbstractExtItemAggregator
 {
 public:
     explicit ExtItemAggregator(QWidget *parent, const QString type)
-        : AbstractExtItemAggregator(parent)
-        , m_type(type)
+        : AbstractExtItemAggregator(parent, type)
     {
         qSetMessagePattern(LOG_FORMAT);
         qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
@@ -57,8 +56,8 @@ public:
 
     void editItems()
     {
-        repaint();
-        int ret = dialog->exec();
+        repaintList();
+        int ret = exec();
         qCInfo(LOG_LIB) << "Dialog returns" << ret;
     };
 
@@ -70,7 +69,7 @@ public:
         for (auto item : m_items) {
             if (item->tag(_type) != _tag)
                 continue;
-            found = item;
+            found = static_cast<T *>(item);
             break;
         }
         if (found == nullptr)
@@ -87,7 +86,7 @@ public:
         for (auto item : m_items) {
             if (item->number() != _number)
                 continue;
-            found = item;
+            found = static_cast<T *>(item);
             break;
         }
         if (found == nullptr)
@@ -96,63 +95,31 @@ public:
         return found;
     };
 
-    T *itemFromWidget() const
-    {
-        QListWidgetItem *widgetItem = widgetDialog->currentItem();
-        if (widgetItem == nullptr)
-            return nullptr;
-
-        T *found = nullptr;
-        for (auto item : m_items) {
-            if (item->fileName() != widgetItem->text())
-                continue;
-            found = item;
-            break;
-        }
-        if (found == nullptr)
-            qCWarning(LOG_LIB) << "Could not find item by name"
-                               << widgetItem->text();
-
-        return found;
-    };
-
-    QList<T *> items() const { return m_items; };
-
-    int uniqNumber() const
-    {
-        QList<int> tagList;
-        for (auto item : m_items)
-            tagList.append(item->number());
-        int number = 0;
-        while (tagList.contains(number))
-            number++;
-
-        return number;
-    };
+    QList<AbstractExtItem *> items() const { return m_items; };
 
 private:
-    QList<T *> m_items;
+    QList<AbstractExtItem *> m_items;
     QList<T *> m_activeItems;
-    QString m_type;
 
-    // init method
-    QList<T *> getItems()
+    void doCreateItem() { return createItem<T>(); }
+
+    QList<AbstractExtItem *> getItems()
     {
         // create directory at $HOME
         QString localDir = QString("%1/awesomewidgets/%2")
                                .arg(QStandardPaths::writableLocation(
                                    QStandardPaths::GenericDataLocation))
-                               .arg(m_type);
+                               .arg(type());
         QDir localDirectory;
         if (localDirectory.mkpath(localDir))
             qCInfo(LOG_LIB) << "Created directory" << localDir;
 
         QStringList dirs = QStandardPaths::locateAll(
             QStandardPaths::GenericDataLocation,
-            QString("awesomewidgets/%1").arg(m_type),
+            QString("awesomewidgets/%1").arg(type()),
             QStandardPaths::LocateDirectory);
         QStringList names;
-        QList<T *> items;
+        QList<AbstractExtItem *> items;
         for (auto dir : dirs) {
             QStringList files = QDir(dir).entryList(QDir::Files, QDir::Name);
             for (auto file : files) {
@@ -161,14 +128,16 @@ private:
                     continue;
                 qCInfo(LOG_LIB) << "Found file" << file << "in" << dir;
                 names.append(file);
-                items.append(new T(this, file, dirs));
+                QString filePath = QString("%1/%2").arg(dir).arg(file);
+                items.append(new T(this, filePath));
             }
         }
 
         // sort items
-        std::sort(items.begin(), items.end(), [](const T *lhs, const T *rhs) {
-            return lhs->number() < rhs->number();
-        });
+        std::sort(items.begin(), items.end(),
+                  [](const AbstractExtItem *lhs, const AbstractExtItem *rhs) {
+                      return lhs->number() < rhs->number();
+                  });
         return items;
     };
 
@@ -181,89 +150,7 @@ private:
         for (auto item : m_items) {
             if (!item->isActive())
                 continue;
-            m_activeItems.append(item);
-        }
-    };
-
-    void repaint()
-    {
-        widgetDialog->clear();
-        for (auto _item : m_items) {
-            QListWidgetItem *item
-                = new QListWidgetItem(_item->fileName(), widgetDialog);
-            QStringList tooltip;
-            tooltip.append(i18n("Name: %1", _item->name()));
-            tooltip.append(i18n("Comment: %1", _item->comment()));
-            tooltip.append(i18n("Identity: %1", _item->uniq()));
-            item->setToolTip(tooltip.join(QChar('\n')));
-            widgetDialog->addItem(item);
-        }
-    };
-
-    // methods
-    void copyItem()
-    {
-        T *source = itemFromWidget();
-        QString fileName = getName();
-        int number = uniqNumber();
-        if ((source == nullptr) || (fileName.isEmpty())) {
-            qCWarning(LOG_LIB) << "Nothing to copy";
-            return;
-        }
-
-        T *newItem = static_cast<T *>(source->copy(fileName, number));
-        if (newItem->showConfiguration(configArgs()) == 1) {
-            initItems();
-            repaint();
-        }
-    };
-
-    void createItem()
-    {
-        QString fileName = getName();
-        int number = uniqNumber();
-        QStringList dirs = QStandardPaths::locateAll(
-            QStandardPaths::GenericDataLocation,
-            QString("awesomewidgets/%1").arg(m_type),
-            QStandardPaths::LocateDirectory);
-        if (fileName.isEmpty()) {
-            qCWarning(LOG_LIB) << "Nothing to create";
-            return;
-        };
-
-        T *newItem = new T(this, fileName, dirs);
-        newItem->setNumber(number);
-        if (newItem->showConfiguration(configArgs()) == 1) {
-            initItems();
-            repaint();
-        }
-    };
-
-    void deleteItem()
-    {
-        T *source = itemFromWidget();
-        if (source == nullptr) {
-            qCWarning(LOG_LIB) << "Nothing to delete";
-            return;
-        };
-
-        if (source->tryDelete()) {
-            initItems();
-            repaint();
-        }
-    };
-
-    void editItem()
-    {
-        T *source = itemFromWidget();
-        if (source == nullptr) {
-            qCWarning(LOG_LIB) << "Nothing to edit";
-            return;
-        };
-
-        if (source->showConfiguration(configArgs()) == 1) {
-            initItems();
-            repaint();
+            m_activeItems.append(static_cast<T *>(item));
         }
     };
 };

@@ -41,8 +41,6 @@ private:
     ExtSysMonAggregator *aggregator = nullptr;
     QHash<QString, QString> configuration;
     // methods
-    QStringList getAllHdd() const;
-    QString getAutoGpu() const;
     void readConfiguration();
     QHash<QString, QString>
     updateConfiguration(QHash<QString, QString> rawConfig) const;

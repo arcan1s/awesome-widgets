@@ -27,21 +27,22 @@
 #include <QNetworkRequest>
 #include <QSettings>
 #include <QStandardPaths>
-#include <QUrlQuery>
 
 #include <qreplytimeout/qreplytimeout.h>
 
 #include "awdebug.h"
+#include "owmweatherprovider.h"
+#include "yahooweatherprovider.h"
 
 
-ExtWeather::ExtWeather(QWidget *parent, const QString weatherName,
-                       const QStringList directories)
-    : AbstractExtItem(parent, weatherName, directories)
+ExtWeather::ExtWeather(QWidget *parent, const QString filePath)
+    : AbstractExtItem(parent, filePath)
     , ui(new Ui::ExtWeather)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    readConfiguration();
+    if (!filePath.isEmpty())
+        readConfiguration();
     readJsonMap();
     ui->setupUi(this);
     translate();
@@ -68,6 +69,7 @@ ExtWeather::~ExtWeather()
                SLOT(weatherReplyReceived(QNetworkReply *)));
 
     m_manager->deleteLater();
+    delete m_providerObject;
     delete ui;
 }
 
@@ -76,13 +78,14 @@ ExtWeather *ExtWeather::copy(const QString _fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "number" << _number;
 
-    ExtWeather *item = new ExtWeather(static_cast<QWidget *>(parent()),
-                                      _fileName, directories());
+    ExtWeather *item
+        = new ExtWeather(static_cast<QWidget *>(parent()), _fileName);
     copyDefaults(item);
     item->setCity(city());
     item->setCountry(country());
     item->setImage(image());
     item->setNumber(_number);
+    item->setProvider(provider());
     item->setTs(ts());
 
     return item;
@@ -117,6 +120,28 @@ bool ExtWeather::image() const
 }
 
 
+ExtWeather::Provider ExtWeather::provider() const
+{
+    return m_provider;
+}
+
+
+QString ExtWeather::strProvider() const
+{
+    QString value;
+    switch (m_provider) {
+    case Provider::OWM:
+        value = QString("OWM");
+        break;
+    case Provider::Yahoo:
+        value = QString("Yahoo");
+        break;
+    }
+
+    return value;
+}
+
+
 int ExtWeather::ts() const
 {
     return m_ts;
@@ -134,6 +159,7 @@ void ExtWeather::setCity(const QString _city)
     qCDebug(LOG_LIB) << "City" << _city;
 
     m_city = _city;
+    initProvider();
 }
 
 
@@ -142,6 +168,7 @@ void ExtWeather::setCountry(const QString _country)
     qCDebug(LOG_LIB) << "Country" << _country;
 
     m_country = _country;
+    initProvider();
 }
 
 
@@ -153,11 +180,32 @@ void ExtWeather::setImage(const bool _image)
 }
 
 
+void ExtWeather::setProvider(const Provider _provider)
+{
+    qCDebug(LOG_LIB) << "Provider" << static_cast<int>(_provider);
+
+    m_provider = _provider;
+    initProvider();
+}
+
+
+void ExtWeather::setStrProvider(const QString _provider)
+{
+    qCDebug(LOG_LIB) << "Provider" << _provider;
+
+    if (_provider == QString("Yahoo"))
+        setProvider(Provider::Yahoo);
+    else
+        setProvider(Provider::OWM);
+}
+
+
 void ExtWeather::setTs(const int _ts)
 {
     qCDebug(LOG_LIB) << "Timestamp" << _ts;
 
     m_ts = _ts;
+    initProvider();
 }
 
 
@@ -165,44 +213,21 @@ void ExtWeather::readConfiguration()
 {
     AbstractExtItem::readConfiguration();
 
-    for (int i = directories().count() - 1; i >= 0; i--) {
-        if (!QDir(directories().at(i))
-                 .entryList(QDir::Files)
-                 .contains(fileName()))
-            continue;
-        QSettings settings(
-            QString("%1/%2").arg(directories().at(i)).arg(fileName()),
-            QSettings::IniFormat);
+    QSettings settings(fileName(), QSettings::IniFormat);
 
-        settings.beginGroup(QString("Desktop Entry"));
-        setCity(settings.value(QString("X-AW-City"), m_city).toString());
-        setCountry(
-            settings.value(QString("X-AW-Country"), m_country).toString());
-        setTs(settings.value(QString("X-AW-TS"), m_ts).toInt());
-        // api == 2
-        setImage(
-            settings.value(QString("X-AW-Image"), QVariant(m_image)).toString()
-            == QString("true"));
-        settings.endGroup();
-    }
+    settings.beginGroup(QString("Desktop Entry"));
+    setCity(settings.value(QString("X-AW-City"), m_city).toString());
+    setCountry(settings.value(QString("X-AW-Country"), m_country).toString());
+    setTs(settings.value(QString("X-AW-TS"), m_ts).toInt());
+    // api == 2
+    setImage(settings.value(QString("X-AW-Image"), QVariant(m_image)).toString()
+             == QString("true"));
+    // api == 3
+    setStrProvider(
+        settings.value(QString("X-AW-Provider"), strProvider()).toString());
+    settings.endGroup();
 
-    // update for current API
-    if ((apiVersion() > 0) && (apiVersion() < AWEWAPI)) {
-        qCWarning(LOG_LIB) << "Bump API version from" << apiVersion() << "to"
-                           << AWEWAPI;
-        setApiVersion(AWEWAPI);
-        writeConfiguration();
-    }
-
-    // init query
-    m_url = QUrl(YAHOO_WEATHER_URL);
-    QUrlQuery params;
-    params.addQueryItem(QString("format"), QString("json"));
-    params.addQueryItem(QString("env"),
-                        QString("store://datatables.org/alltableswithkeys"));
-    params.addQueryItem(QString("q"),
-                        QString(YAHOO_WEATHER_QUERY).arg(m_city, m_country));
-    m_url.setQuery(params);
+    bumpApi(AWEWAPI);
 }
 
 
@@ -240,7 +265,8 @@ QVariantHash ExtWeather::run()
     if (times == 1) {
         qCInfo(LOG_LIB) << "Send request";
         isRunning = true;
-        QNetworkReply *reply = m_manager->get(QNetworkRequest(m_url));
+        QNetworkReply *reply
+            = m_manager->get(QNetworkRequest(m_providerObject->url()));
         new QReplyTimeout(reply, REQUEST_TIMEOUT);
     }
 
@@ -260,6 +286,7 @@ int ExtWeather::showConfiguration(const QVariant args)
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
     ui->label_numberValue->setText(QString("%1").arg(number()));
+    ui->comboBox_provider->setCurrentIndex(static_cast<int>(m_provider));
     ui->lineEdit_city->setText(m_city);
     ui->lineEdit_country->setText(m_country);
     ui->spinBox_timestamp->setValue(m_ts);
@@ -277,6 +304,7 @@ int ExtWeather::showConfiguration(const QVariant args)
     setApiVersion(AWEWAPI);
     setCity(ui->lineEdit_city->text());
     setCountry(ui->lineEdit_country->text());
+    setProvider(static_cast<Provider>(ui->comboBox_provider->currentIndex()));
     setTs(ui->spinBox_timestamp->value());
     setImage(ui->checkBox_image->checkState() == Qt::Checked);
     setActive(ui->checkBox_active->checkState() == Qt::Checked);
@@ -291,15 +319,14 @@ void ExtWeather::writeConfiguration() const
 {
     AbstractExtItem::writeConfiguration();
 
-    QSettings settings(
-        QString("%1/%2").arg(directories().first()).arg(fileName()),
-        QSettings::IniFormat);
+    QSettings settings(writtableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
     settings.setValue(QString("X-AW-City"), m_city);
     settings.setValue(QString("X-AW-Country"), m_country);
     settings.setValue(QString("X-AW-Image"), m_image);
+    settings.setValue(QString("X-AW-Provider"), strProvider());
     settings.setValue(QString("X-AW-TS"), m_ts);
     settings.endGroup();
 
@@ -322,53 +349,31 @@ void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
         return;
     }
 
-    // convert to map
-    QVariantMap json = jsonDoc.toVariant().toMap()[QString("query")].toMap();
-    if (json[QString("count")].toInt() != 1) {
-        qCWarning(LOG_LIB) << "Found data count"
-                           << json[QString("count")].toInt() << "is not 1";
+    QVariantHash data = m_providerObject->parse(jsonDoc.toVariant().toMap());
+    if (data.isEmpty())
         return;
-    }
-    QVariantMap results
-        = json[QString("results")].toMap()[QString("channel")].toMap();
-    QVariantMap item = results[QString("item")].toMap();
+    values = data;
+    values[tag(QString("weather"))]
+        = weatherFromInt(values[tag(QString("weatherId"))].toInt());
 
-    if (m_ts == 0) {
-        // current weather
-        int id = item[QString("condition")].toMap()[QString("code")].toInt();
-        values[tag(QString("weatherId"))] = id;
-        values[tag(QString("weather"))] = weatherFromInt(id);
-        values[tag(QString("temperature"))]
-            = item[QString("condition")].toMap()[QString("temp")].toInt();
-        values[tag(QString("timestamp"))]
-            = item[QString("condition")].toMap()[QString("date")].toString();
-        values[tag(QString("humidity"))] = results[QString("atmosphere")]
-                                               .toMap()[QString("humidity")]
-                                               .toInt();
-        values[tag(QString("pressure"))]
-            = static_cast<int>(results[QString("atmosphere")]
-                                   .toMap()[QString("pressure")]
-                                   .toFloat());
-    } else {
-        // forecast weather
-        QVariantList weatherList = item[QString("forecast")].toList();
-        QVariantMap weatherMap = weatherList.count() < m_ts
-                                     ? weatherList.last().toMap()
-                                     : weatherList.at(m_ts).toMap();
-        int id = weatherMap[QString("code")].toInt();
-        values[tag(QString("weatherId"))] = id;
-        values[tag(QString("weather"))] = weatherFromInt(id);
-        values[tag(QString("timestamp"))]
-            = weatherMap[QString("date")].toString();
-        // yahoo provides high and low temperatures. Lets calculate average one
-        values[tag(QString("temperature"))]
-            = (weatherMap[QString("high")].toFloat()
-               + weatherMap[QString("low")].toFloat())
-              / 2.0;
-        // ... and no forecast data for humidity and pressure
-        values[tag(QString("humidity"))] = 0;
-        values[tag(QString("pressure"))] = 0.0;
+    emit(dataReceived(values));
+}
+
+
+void ExtWeather::initProvider()
+{
+    delete m_providerObject;
+
+    switch (m_provider) {
+    case Provider::OWM:
+        m_providerObject = new OWMWeatherProvider(this, number());
+        break;
+    case Provider::Yahoo:
+        m_providerObject = new YahooWeatherProvider(this, number());
+        break;
     }
+
+    return m_providerObject->initUrl(m_city, m_country, m_ts);
 }
 
 
@@ -377,6 +382,7 @@ void ExtWeather::translate()
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
     ui->label_number->setText(i18n("Tag"));
+    ui->label_provider->setText(i18n("Provider"));
     ui->label_city->setText(i18n("City"));
     ui->label_country->setText(i18n("Country"));
     ui->label_timestamp->setText(i18n("Timestamp"));

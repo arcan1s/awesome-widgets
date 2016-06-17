@@ -201,7 +201,7 @@ QVariantMap AWConfigHelper::readDataEngineConfiguration() const
 }
 
 
-void AWConfigHelper::writeDataEngineConfiguration(
+bool AWConfigHelper::writeDataEngineConfiguration(
     const QVariantMap configuration) const
 {
     qCDebug(LOG_AW) << "Configuration" << configuration;
@@ -228,6 +228,8 @@ void AWConfigHelper::writeDataEngineConfiguration(
     settings.endGroup();
 
     settings.sync();
+
+    return (settings.status() == QSettings::NoError);
 }
 
 
@@ -295,7 +297,7 @@ void AWConfigHelper::readFile(QSettings &settings, const QString key,
         file.close();
         settings.setValue(key, text);
     } else {
-        qCWarning(LOG_LIB) << "Could not open" << file.fileName();
+        qCWarning(LOG_AW) << "Could not open" << file.fileName();
     }
 }
 
@@ -316,6 +318,6 @@ void AWConfigHelper::writeFile(QSettings &settings, const QString key,
         out.flush();
         file.close();
     } else {
-        qCWarning(LOG_LIB) << "Could not open" << file.fileName();
+        qCWarning(LOG_AW) << "Could not open" << file.fileName();
     }
 }

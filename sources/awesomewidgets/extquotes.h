@@ -38,9 +38,7 @@ class ExtQuotes : public AbstractExtItem
     Q_PROPERTY(QString ticker READ ticker WRITE setTicker)
 
 public:
-    explicit ExtQuotes(QWidget *parent = nullptr,
-                       const QString quotesName = QString(),
-                       const QStringList directories = QStringList());
+    explicit ExtQuotes(QWidget *parent, const QString filePath = QString());
     virtual ~ExtQuotes();
     ExtQuotes *copy(const QString _fileName, const int _number);
     // get methods
@@ -59,10 +57,11 @@ private slots:
     void quotesReplyReceived(QNetworkReply *reply);
 
 private:
-    QNetworkAccessManager *m_manager;
+    QNetworkAccessManager *m_manager = nullptr;
     QUrl m_url;
     bool isRunning = false;
-    Ui::ExtQuotes *ui;
+    Ui::ExtQuotes *ui = nullptr;
+    void initUrl();
     void translate();
     // properties
     QString m_ticker = QString("EURUSD=X");

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-04-29 12:21+0300\n"
+"POT-Creation-Date: 2016-05-16 19:35+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -375,6 +375,9 @@ msgstr "Pokaż wartość"
 msgid "Edit bars"
 msgstr "Edytuj paski postępu"
 
+msgid "Formatters"
+msgstr ""
+
 msgid "Preview"
 msgstr "Przegląd"
 
@@ -444,6 +447,18 @@ msgstr "Wysokie obciążenie procesora graficznego"
 msgid "Network device has been changed to %1"
 msgstr "Urządznie sieciowe zamienione na %1"
 
+#, fuzzy
+msgid "Edit"
+msgstr "Edytuj paski postępu"
+
+#, fuzzy
+msgid "Select type"
+msgstr "Wybierz znacznik"
+
+#, fuzzy
+msgid "Type:"
+msgstr "Typ"
+
 msgid "MB/s"
 msgstr "MB/s"
 
@@ -500,6 +515,39 @@ msgstr "Nazwa"
 
 msgid "Comment"
 msgstr "Komentarz"
+
+msgid "Type"
+msgstr "Typ"
+
+#, fuzzy
+msgid "Format"
+msgstr "normalna"
+
+msgid "Precision"
+msgstr ""
+
+msgid "Width"
+msgstr "Szerokość"
+
+msgid "Fill char"
+msgstr ""
+
+msgid "Multiplier"
+msgstr ""
+
+#, fuzzy
+msgid "Summand"
+msgstr "Polecenie"
+
+#, fuzzy
+msgid "Append code"
+msgstr "Wygląd"
+
+msgid "Has return"
+msgstr ""
+
+msgid "Code"
+msgstr ""
 
 msgid "Tag"
 msgstr "Znacznik"
@@ -582,9 +630,6 @@ msgstr "Aktywny"
 msgid "Inctive filling type"
 msgstr "Nie aktywny pulpit"
 
-msgid "Type"
-msgstr "Typ"
-
 msgid "Points count"
 msgstr ""
 
@@ -593,9 +638,6 @@ msgstr "Kierunek"
 
 msgid "Height"
 msgstr "Wysokość"
-
-msgid "Width"
-msgstr "Szerokość"
 
 #, fuzzy
 msgid "color"

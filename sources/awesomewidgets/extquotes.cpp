@@ -33,14 +33,14 @@
 #include "awdebug.h"
 
 
-ExtQuotes::ExtQuotes(QWidget *parent, const QString quotesName,
-                     const QStringList directories)
-    : AbstractExtItem(parent, quotesName, directories)
+ExtQuotes::ExtQuotes(QWidget *parent, const QString filePath)
+    : AbstractExtItem(parent, filePath)
     , ui(new Ui::ExtQuotes)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    readConfiguration();
+    if (!filePath.isEmpty())
+        readConfiguration();
     ui->setupUi(this);
     translate();
 
@@ -76,11 +76,10 @@ ExtQuotes::~ExtQuotes()
 
 ExtQuotes *ExtQuotes::copy(const QString _fileName, const int _number)
 {
-    qCDebug(LOG_LIB) << "File" << _fileName;
-    qCDebug(LOG_LIB) << "Number" << _number;
+    qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    ExtQuotes *item = new ExtQuotes(static_cast<QWidget *>(parent()), _fileName,
-                                    directories());
+    ExtQuotes *item
+        = new ExtQuotes(static_cast<QWidget *>(parent()), _fileName);
     copyDefaults(item);
     item->setNumber(_number);
     item->setTicker(ticker());
@@ -106,6 +105,7 @@ void ExtQuotes::setTicker(const QString _ticker)
     qCDebug(LOG_LIB) << "Ticker" << _ticker;
 
     m_ticker = _ticker;
+    initUrl();
 }
 
 
@@ -113,19 +113,11 @@ void ExtQuotes::readConfiguration()
 {
     AbstractExtItem::readConfiguration();
 
-    for (int i = directories().count() - 1; i >= 0; i--) {
-        if (!QDir(directories().at(i))
-                 .entryList(QDir::Files)
-                 .contains(fileName()))
-            continue;
-        QSettings settings(
-            QString("%1/%2").arg(directories().at(i)).arg(fileName()),
-            QSettings::IniFormat);
+    QSettings settings(fileName(), QSettings::IniFormat);
 
-        settings.beginGroup(QString("Desktop Entry"));
-        setTicker(settings.value(QString("X-AW-Ticker"), m_ticker).toString());
-        settings.endGroup();
-    }
+    settings.beginGroup(QString("Desktop Entry"));
+    setTicker(settings.value(QString("X-AW-Ticker"), m_ticker).toString());
+    settings.endGroup();
 
     // update for current API
     if ((apiVersion() > 0) && (apiVersion() < AWEQAPI)) {
@@ -135,15 +127,7 @@ void ExtQuotes::readConfiguration()
         writeConfiguration();
     }
 
-    // init query
-    m_url = QUrl(YAHOO_QUOTES_URL);
-    QUrlQuery params;
-    params.addQueryItem(QString("format"), QString("json"));
-    params.addQueryItem(QString("env"),
-                        QString("store://datatables.org/alltableswithkeys"));
-    params.addQueryItem(QString("q"),
-                        QString(YAHOO_QUOTES_QUERY).arg(m_ticker));
-    m_url.setQuery(params);
+    bumpApi(AWEQAPI);
 }
 
 
@@ -200,9 +184,7 @@ void ExtQuotes::writeConfiguration() const
 {
     AbstractExtItem::writeConfiguration();
 
-    QSettings settings(
-        QString("%1/%2").arg(directories().first()).arg(fileName()),
-        QSettings::IniFormat);
+    QSettings settings(writtableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
@@ -235,35 +217,51 @@ void ExtQuotes::quotesReplyReceived(QNetworkReply *reply)
     // ask
     value = jsonQuotes[QString("Ask")].toString().toDouble();
     values[tag(QString("askchg"))]
-        = values[QString("ask")].toDouble() == 0.0
+        = values[tag(QString("ask"))].toDouble() == 0.0
               ? 0.0
-              : value - values[QString("ask")].toDouble();
-    values[tag(QString("percaskchg"))] = 100.0
-                                         * values[QString("askchg")].toDouble()
-                                         / values[QString("ask")].toDouble();
+              : value - values[tag(QString("ask"))].toDouble();
+    values[tag(QString("percaskchg"))]
+        = 100.0 * values[tag(QString("askchg"))].toDouble()
+          / values[tag(QString("ask"))].toDouble();
     values[tag(QString("ask"))] = value;
 
     // bid
     value = jsonQuotes[QString("Bid")].toString().toDouble();
     values[tag(QString("bidchg"))]
-        = values[QString("bid")].toDouble() == 0.0
+        = values[tag(QString("bid"))].toDouble() == 0.0
               ? 0.0
-              : value - values[QString("bid")].toDouble();
-    values[tag(QString("percbidchg"))] = 100.0
-                                         * values[QString("bidchg")].toDouble()
-                                         / values[QString("bid")].toDouble();
+              : value - values[tag(QString("bid"))].toDouble();
+    values[tag(QString("percbidchg"))]
+        = 100.0 * values[tag(QString("bidchg"))].toDouble()
+          / values[tag(QString("bid"))].toDouble();
     values[tag(QString("bid"))] = value;
 
     // last trade
     value = jsonQuotes[QString("LastTradePriceOnly")].toString().toDouble();
     values[tag(QString("pricechg"))]
-        = values[QString("price")].toDouble() == 0.0
+        = values[tag(QString("price"))].toDouble() == 0.0
               ? 0.0
-              : value - values[QString("price")].toDouble();
+              : value - values[tag(QString("price"))].toDouble();
     values[tag(QString("percpricechg"))]
-        = 100.0 * values[QString("pricechg")].toDouble()
-          / values[QString("price")].toDouble();
+        = 100.0 * values[tag(QString("pricechg"))].toDouble()
+          / values[tag(QString("price"))].toDouble();
     values[tag(QString("price"))] = value;
+
+    emit(dataReceived(values));
+}
+
+
+void ExtQuotes::initUrl()
+{
+    // init query
+    m_url = QUrl(YAHOO_QUOTES_URL);
+    QUrlQuery params;
+    params.addQueryItem(QString("format"), QString("json"));
+    params.addQueryItem(QString("env"),
+                        QString("store://datatables.org/alltableswithkeys"));
+    params.addQueryItem(QString("q"),
+                        QString(YAHOO_QUOTES_QUERY).arg(m_ticker));
+    m_url.setQuery(params);
 }
 
 

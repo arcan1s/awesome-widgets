@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-04-29 12:21+0300\n"
+"POT-Creation-Date: 2016-05-16 19:35+0300\n"
 "PO-Revision-Date: 2016-05-05 17:18+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Ukrainian <kde-russian@lists.kde.ru>\n"
@@ -375,6 +375,9 @@ msgstr "Показати значення"
 msgid "Edit bars"
 msgstr "Редагувати бари"
 
+msgid "Formatters"
+msgstr ""
+
 msgid "Preview"
 msgstr "Попередній перегляд"
 
@@ -444,6 +447,18 @@ msgstr "Високе завантаження GPU"
 msgid "Network device has been changed to %1"
 msgstr "Мережевий пристрій було змінено на %1"
 
+#, fuzzy
+msgid "Edit"
+msgstr "Редагувати"
+
+#, fuzzy
+msgid "Select type"
+msgstr "Оберіть тег"
+
+#, fuzzy
+msgid "Type:"
+msgstr "Тип"
+
 msgid "MB/s"
 msgstr "МБ/с"
 
@@ -500,6 +515,39 @@ msgstr "Ім’я"
 
 msgid "Comment"
 msgstr "Коментар"
+
+msgid "Type"
+msgstr "Тип"
+
+#, fuzzy
+msgid "Format"
+msgstr "Form"
+
+msgid "Precision"
+msgstr ""
+
+msgid "Width"
+msgstr "Ширина"
+
+msgid "Fill char"
+msgstr ""
+
+msgid "Multiplier"
+msgstr ""
+
+#, fuzzy
+msgid "Summand"
+msgstr "Команда"
+
+#, fuzzy
+msgid "Append code"
+msgstr "Зовнішній вигляд"
+
+msgid "Has return"
+msgstr ""
+
+msgid "Code"
+msgstr ""
 
 msgid "Tag"
 msgstr "Тег"
@@ -578,9 +626,6 @@ msgstr "Тип активного заповнення"
 msgid "Inctive filling type"
 msgstr "Тип неактивного заповнення"
 
-msgid "Type"
-msgstr "Тип"
-
 msgid "Points count"
 msgstr "Кількість точок"
 
@@ -589,9 +634,6 @@ msgstr "Напрямок"
 
 msgid "Height"
 msgstr "Висота"
-
-msgid "Width"
-msgstr "Ширина"
 
 msgid "color"
 msgstr "колір"
@@ -687,10 +729,6 @@ msgstr "sarumyan@i.ua"
 
 #~ msgid "Check for updates"
 #~ msgstr "Шукати оновлення"
-
-#, fuzzy
-#~ msgid "Edit"
-#~ msgstr "Редагувати"
 
 #~ msgid "Enable popup on mouse click"
 #~ msgstr "Включити спливаючі підказки при натисканні клавіші миші"
@@ -813,9 +851,6 @@ msgstr "sarumyan@i.ua"
 
 #~ msgid "Add stretch to right/bottom of the layout"
 #~ msgstr "Додати порожнє місце праворуч/внизу віджету"
-
-#~ msgid "Form"
-#~ msgstr "Form"
 
 #~ msgid "Network directory"
 #~ msgstr "Шлях до інтерфейсів"

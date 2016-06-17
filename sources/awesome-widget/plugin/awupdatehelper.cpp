@@ -19,14 +19,14 @@
 
 #include <KI18n/KLocalizedString>
 
-#include <QtConcurrent/QtConcurrent>
 #include <QDesktopServices>
 #include <QJsonDocument>
 #include <QJsonParseError>
 #include <QNetworkAccessManager>
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QSettings>
+#include <QtConcurrent/QtConcurrent>
 
 #include "awdebug.h"
 

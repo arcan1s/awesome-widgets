@@ -2,7 +2,7 @@
 find_package(Gettext REQUIRED)
 
 # main qt libraries
-find_package(Qt5 5.6.0 REQUIRED COMPONENTS Core DBus Network Qml Widgets)
+find_package(Qt5 5.6.0 REQUIRED COMPONENTS Core DBus Network Qml Test Widgets)
 add_definitions(
         ${Qt5Core_DEFINITIONS} ${Qt5DBus_DEFINITIONS} ${Qt5Network_DEFINITIONS}
         ${Qt5Qml_DEFINITIONS} ${Qt5Widgets_DEFINITIONS}

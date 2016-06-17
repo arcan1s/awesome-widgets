@@ -24,6 +24,8 @@ Q_LOGGING_CATEGORY(LOG_AW, "org.kde.plasma.awesomewidget",
 Q_LOGGING_CATEGORY(LOG_DP, "org.kde.plasma.desktoppanel",
                    QtMsgType::QtWarningMsg)
 Q_LOGGING_CATEGORY(LOG_ESM, "org.kde.plasma.extsysmon", QtMsgType::QtWarningMsg)
+Q_LOGGING_CATEGORY(LOG_ESS, "org.kde.plasma.extsysmonsources",
+                   QtMsgType::QtWarningMsg)
 Q_LOGGING_CATEGORY(LOG_LIB, "org.kde.plasma.awesomewidgets",
                    QtMsgType::QtWarningMsg)
 
@@ -44,6 +46,7 @@ const QStringList getBuildData()
     metadata.append(QString("    AWESAPI: %1").arg(AWESAPI));
     metadata.append(QString("    AWEUAPI: %1").arg(AWEUAPI));
     metadata.append(QString("    AWEWAPI: %1").arg(AWEWAPI));
+    metadata.append(QString("    AWEFAPI: %1").arg(AWEFAPI));
     metadata.append(QString("    TIME_KEYS: %1").arg(TIME_KEYS));
     metadata.append(QString("    STATIC_KEYS: %1").arg(STATIC_KEYS));
     // cmake properties
@@ -68,7 +71,6 @@ const QStringList getBuildData()
                         .arg(CMAKE_SHARED_LINKER_FLAGS));
     // components
     metadata.append(QString("Components data:"));
-    metadata.append(QString("    BUILD_COVERAGE: %1").arg(BUILD_COVERAGE));
     metadata.append(QString("    BUILD_PLASMOIDS: %1").arg(BUILD_PLASMOIDS));
     metadata.append(
         QString("    BUILD_DEB_PACKAGE: %1").arg(BUILD_DEB_PACKAGE));

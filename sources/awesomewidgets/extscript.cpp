@@ -30,14 +30,14 @@
 #include "awdebug.h"
 
 
-ExtScript::ExtScript(QWidget *parent, const QString scriptName,
-                     const QStringList directories)
-    : AbstractExtItem(parent, scriptName, directories)
+ExtScript::ExtScript(QWidget *parent, const QString filePath)
+    : AbstractExtItem(parent, filePath)
     , ui(new Ui::ExtScript)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    readConfiguration();
+    if (!filePath.isEmpty())
+        readConfiguration();
     readJsonFilters();
     ui->setupUi(this);
     translate();
@@ -65,13 +65,14 @@ ExtScript *ExtScript::copy(const QString _fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    ExtScript *item = new ExtScript(static_cast<QWidget *>(parent()), _fileName,
-                                    directories());
+    ExtScript *item
+        = new ExtScript(static_cast<QWidget *>(parent()), _fileName);
     copyDefaults(item);
     item->setExecutable(executable());
     item->setNumber(_number);
     item->setPrefix(prefix());
     item->setRedirect(redirect());
+    item->setFilters(filters());
 
     return item;
 }
@@ -167,13 +168,13 @@ void ExtScript::setStrRedirect(const QString _redirect)
     qCDebug(LOG_LIB) << "Redirect" << _redirect;
 
     if (_redirect == QString("stdout2sdterr"))
-        m_redirect = Redirect::stdout2stderr;
+        setRedirect(Redirect::stdout2stderr);
     else if (_redirect == QString("stderr2sdtout"))
-        m_redirect = Redirect::stderr2stdout;
+        setRedirect(Redirect::stderr2stdout);
     else if (_redirect == QString("swap"))
-        m_redirect = Redirect::swap;
+        setRedirect(Redirect::swap);
     else
-        m_redirect = Redirect::nothing;
+        setRedirect(Redirect::nothing);
 }
 
 
@@ -215,34 +216,20 @@ void ExtScript::readConfiguration()
 {
     AbstractExtItem::readConfiguration();
 
-    for (int i = directories().count() - 1; i >= 0; i--) {
-        if (!QDir(directories().at(i))
-                 .entryList(QDir::Files)
-                 .contains(fileName()))
-            continue;
-        QSettings settings(
-            QString("%1/%2").arg(directories().at(i)).arg(fileName()),
-            QSettings::IniFormat);
+    QSettings settings(fileName(), QSettings::IniFormat);
 
-        settings.beginGroup(QString("Desktop Entry"));
-        setExecutable(settings.value(QString("Exec"), m_executable).toString());
-        setPrefix(settings.value(QString("X-AW-Prefix"), m_prefix).toString());
-        setStrRedirect(
-            settings.value(QString("X-AW-Redirect"), strRedirect()).toString());
-        // api == 3
-        setFilters(settings.value(QString("X-AW-Filters"), m_filters)
-                       .toString()
-                       .split(QChar(','), QString::SkipEmptyParts));
-        settings.endGroup();
-    }
+    settings.beginGroup(QString("Desktop Entry"));
+    setExecutable(settings.value(QString("Exec"), m_executable).toString());
+    setPrefix(settings.value(QString("X-AW-Prefix"), m_prefix).toString());
+    setStrRedirect(
+        settings.value(QString("X-AW-Redirect"), strRedirect()).toString());
+    // api == 3
+    setFilters(settings.value(QString("X-AW-Filters"), m_filters)
+                   .toString()
+                   .split(QChar(','), QString::SkipEmptyParts));
+    settings.endGroup();
 
-    // update for current API
-    if ((apiVersion() > 0) && (apiVersion() < AWESAPI)) {
-        qCWarning(LOG_LIB) << "Bump API version from" << apiVersion() << "to"
-                           << AWESAPI;
-        setApiVersion(AWESAPI);
-        writeConfiguration();
-    }
+    bumpApi(AWESAPI);
 }
 
 
@@ -277,6 +264,9 @@ QVariantHash ExtScript::run()
 {
     if (!isActive())
         return value;
+    if (process->state() != QProcess::NotRunning)
+        qCWarning(LOG_LIB) << "Another process is already running"
+                           << process->state();
 
     if ((times == 1) && (process->state() == QProcess::NotRunning)) {
         QStringList cmdList;
@@ -285,9 +275,11 @@ QVariantHash ExtScript::run()
         cmdList.append(m_executable);
         qCInfo(LOG_LIB) << "Run cmd" << cmdList.join(QChar(' '));
         process->start(cmdList.join(QChar(' ')));
-    } else if (times >= interval()) {
-        times = 0;
     }
+
+    // update value
+    if (times >= interval())
+        times = 0;
     times++;
 
     return value;
@@ -325,7 +317,7 @@ int ExtScript::showConfiguration(const QVariant args)
     setExecutable(ui->lineEdit_command->text());
     setPrefix(ui->lineEdit_prefix->text());
     setActive(ui->checkBox_active->checkState() == Qt::Checked);
-    setStrRedirect(ui->comboBox_redirect->currentText());
+    setRedirect(static_cast<Redirect>(ui->comboBox_redirect->currentIndex()));
     setInterval(ui->spinBox_interval->value());
     // filters
     updateFilter(QString("color"),
@@ -344,9 +336,7 @@ void ExtScript::writeConfiguration() const
 {
     AbstractExtItem::writeConfiguration();
 
-    QSettings settings(
-        QString("%1/%2").arg(directories().first()).arg(fileName()),
-        QSettings::IniFormat);
+    QSettings settings(writtableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
@@ -389,6 +379,7 @@ void ExtScript::updateValue()
 
     // filters
     value[tag(QString("custom"))] = applyFilters(strValue);
+    emit(dataReceived(value));
 }
 
 

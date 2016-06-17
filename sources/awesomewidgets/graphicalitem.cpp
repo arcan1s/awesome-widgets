@@ -32,18 +32,16 @@
 #include "graphicalitemhelper.h"
 
 
-GraphicalItem::GraphicalItem(QWidget *parent, const QString desktopName,
-                             const QStringList directories)
-    : AbstractExtItem(parent, desktopName, directories)
+GraphicalItem::GraphicalItem(QWidget *parent, const QString filePath)
+    : AbstractExtItem(parent, filePath)
     , ui(new Ui::GraphicalItem)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    readConfiguration();
+    if (!filePath.isEmpty())
+        readConfiguration();
     ui->setupUi(this);
     translate();
-
-    initScene();
 
     connect(ui->checkBox_custom, SIGNAL(stateChanged(int)), this,
             SLOT(changeValue(int)));
@@ -70,21 +68,21 @@ GraphicalItem *GraphicalItem::copy(const QString _fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    GraphicalItem *item = new GraphicalItem(static_cast<QWidget *>(parent()),
-                                            _fileName, directories());
+    GraphicalItem *item
+        = new GraphicalItem(static_cast<QWidget *>(parent()), _fileName);
     copyDefaults(item);
     item->setActiveColor(m_activeColor);
     item->setBar(m_bar);
     item->setCount(m_count);
     item->setCustom(m_custom);
     item->setDirection(m_direction);
-    item->setHeight(m_height);
+    item->setItemHeight(m_height);
     item->setInactiveColor(m_inactiveColor);
     item->setMaxValue(m_maxValue);
     item->setMinValue(m_minValue);
     item->setNumber(_number);
     item->setType(m_type);
-    item->setWidth(m_width);
+    item->setItemWidth(m_width);
 
     return item;
 }
@@ -141,6 +139,31 @@ QString GraphicalItem::image(const QVariant &value)
 }
 
 
+void GraphicalItem::initScene()
+{
+    // cleanup
+    delete m_helper;
+    delete m_scene;
+
+    // init scene
+    m_scene = new QGraphicsScene();
+    m_scene->setBackgroundBrush(QBrush(Qt::NoBrush));
+    // init view
+    m_view = new QGraphicsView(m_scene);
+    m_view->setStyleSheet(QString("background: transparent"));
+    m_view->setContentsMargins(0, 0, 0, 0);
+    m_view->setFrameShape(QFrame::NoFrame);
+    m_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_view->resize(m_width + 5, m_height + 5);
+
+    // init helper
+    m_helper = new GraphicalItemHelper(this, m_scene);
+    m_helper->setParameters(m_activeColor, m_inactiveColor, m_width, m_height,
+                            m_count);
+}
+
+
 QString GraphicalItem::bar() const
 {
     return m_bar;
@@ -153,21 +176,33 @@ QString GraphicalItem::activeColor() const
 }
 
 
-QString GraphicalItem::inactiveColor() const
-{
-    return m_inactiveColor;
-}
-
-
 int GraphicalItem::count() const
 {
     return m_count;
 }
 
 
+QString GraphicalItem::inactiveColor() const
+{
+    return m_inactiveColor;
+}
+
+
 bool GraphicalItem::isCustom() const
 {
     return m_custom;
+}
+
+
+int GraphicalItem::itemHeight() const
+{
+    return m_height;
+}
+
+
+int GraphicalItem::itemWidth() const
+{
+    return m_width;
 }
 
 
@@ -236,21 +271,9 @@ QString GraphicalItem::strDirection() const
 }
 
 
-int GraphicalItem::height() const
-{
-    return m_height;
-}
-
-
 QStringList GraphicalItem::usedKeys() const
 {
     return m_usedKeys;
-}
-
-
-int GraphicalItem::width() const
-{
-    return m_width;
 }
 
 
@@ -299,6 +322,26 @@ void GraphicalItem::setInactiveColor(const QString _color)
     qCDebug(LOG_LIB) << "Color" << _color;
 
     m_inactiveColor = _color;
+}
+
+
+void GraphicalItem::setItemHeight(const int _height)
+{
+    qCDebug(LOG_LIB) << "Height" << _height;
+    if (_height <= 0)
+        return;
+
+    m_height = _height;
+}
+
+
+void GraphicalItem::setItemWidth(const int _width)
+{
+    qCDebug(LOG_LIB) << "Width" << _width;
+    if (_width <= 0)
+        return;
+
+    m_width = _width;
 }
 
 
@@ -362,16 +405,6 @@ void GraphicalItem::setStrDirection(const QString _direction)
 }
 
 
-void GraphicalItem::setHeight(const int _height)
-{
-    qCDebug(LOG_LIB) << "Height" << _height;
-    if (_height <= 0)
-        return;
-
-    m_height = _height;
-}
-
-
 void GraphicalItem::setUsedKeys(const QStringList _usedKeys)
 {
     qCDebug(LOG_LIB) << "Used keys" << _usedKeys;
@@ -387,69 +420,43 @@ void GraphicalItem::setUsedKeys(const QStringList _usedKeys)
 }
 
 
-void GraphicalItem::setWidth(const int _width)
-{
-    qCDebug(LOG_LIB) << "Width" << _width;
-    if (_width <= 0)
-        return;
-
-    m_width = _width;
-}
-
-
 void GraphicalItem::readConfiguration()
 {
     AbstractExtItem::readConfiguration();
 
-    for (int i = directories().count() - 1; i >= 0; i--) {
-        if (!QDir(directories().at(i))
-                 .entryList(QDir::Files)
-                 .contains(fileName()))
-            continue;
-        QSettings settings(
-            QString("%1/%2").arg(directories().at(i)).arg(fileName()),
-            QSettings::IniFormat);
+    QSettings settings(fileName(), QSettings::IniFormat);
 
-        settings.beginGroup(QString("Desktop Entry"));
-        setCount(settings.value(QString("X-AW-Count"), m_count).toInt());
-        setCustom(settings.value(QString("X-AW-Custom"), m_custom).toBool());
-        setBar(settings.value(QString("X-AW-Value"), m_bar).toString());
-        setMaxValue(settings.value(QString("X-AW-Max"), m_maxValue).toFloat());
-        setMinValue(settings.value(QString("X-AW-Min"), m_minValue).toFloat());
-        setActiveColor(
-            settings.value(QString("X-AW-ActiveColor"), m_activeColor)
-                .toString());
-        setInactiveColor(
-            settings.value(QString("X-AW-InactiveColor"), m_inactiveColor)
-                .toString());
-        setStrType(settings.value(QString("X-AW-Type"), strType()).toString());
-        setStrDirection(
-            settings.value(QString("X-AW-Direction"), strDirection())
-                .toString());
-        setHeight(settings.value(QString("X-AW-Height"), m_height).toInt());
-        setWidth(settings.value(QString("X-AW-Width"), m_width).toInt());
-        // api == 5
-        if (apiVersion() < 5) {
-            QString prefix;
-            prefix = m_activeColor.startsWith(QString("/"))
-                         ? QString("file://%1")
-                         : QString("color://%1");
-            m_activeColor = prefix.arg(m_activeColor);
-            prefix = m_inactiveColor.startsWith(QString("/"))
-                         ? QString("file://%1")
-                         : QString("color://%1");
-            m_inactiveColor = prefix.arg(m_inactiveColor);
-        }
-        settings.endGroup();
+    settings.beginGroup(QString("Desktop Entry"));
+    setCount(settings.value(QString("X-AW-Count"), m_count).toInt());
+    setCustom(settings.value(QString("X-AW-Custom"), m_custom).toBool());
+    setBar(settings.value(QString("X-AW-Value"), m_bar).toString());
+    setMaxValue(settings.value(QString("X-AW-Max"), m_maxValue).toFloat());
+    setMinValue(settings.value(QString("X-AW-Min"), m_minValue).toFloat());
+    setActiveColor(
+        settings.value(QString("X-AW-ActiveColor"), m_activeColor).toString());
+    setInactiveColor(
+        settings.value(QString("X-AW-InactiveColor"), m_inactiveColor)
+            .toString());
+    setStrType(settings.value(QString("X-AW-Type"), strType()).toString());
+    setStrDirection(
+        settings.value(QString("X-AW-Direction"), strDirection()).toString());
+    setItemHeight(settings.value(QString("X-AW-Height"), m_height).toInt());
+    setItemWidth(settings.value(QString("X-AW-Width"), m_width).toInt());
+    // api == 5
+    if (apiVersion() < 5) {
+        QString prefix;
+        prefix = m_activeColor.startsWith(QString("/")) ? QString("file://%1")
+                                                        : QString("color://%1");
+        m_activeColor = prefix.arg(m_activeColor);
+        prefix = m_inactiveColor.startsWith(QString("/"))
+                     ? QString("file://%1")
+                     : QString("color://%1");
+        m_inactiveColor = prefix.arg(m_inactiveColor);
     }
+    settings.endGroup();
 
-    // update for current API
-    if ((apiVersion() > 0) && (apiVersion() < AWGIAPI)) {
-        qCWarning(LOG_LIB) << "Bump API version from" << apiVersion() << "to"
-                           << AWGIAPI;
-        setApiVersion(AWGIAPI);
-        writeConfiguration();
-    }
+    bumpApi(AWGIAPI);
+    initScene();
 }
 
 
@@ -506,10 +513,11 @@ int GraphicalItem::showConfiguration(const QVariant args)
     setMinValue(ui->doubleSpinBox_min->value());
     setActiveColor(ui->lineEdit_activeColor->text());
     setInactiveColor(ui->lineEdit_inactiveColor->text());
-    setStrType(ui->comboBox_type->currentText());
-    setStrDirection(ui->comboBox_direction->currentText());
-    setHeight(ui->spinBox_height->value());
-    setWidth(ui->spinBox_width->value());
+    setType(static_cast<Type>(ui->comboBox_type->currentIndex()));
+    setDirection(
+        static_cast<Direction>(ui->comboBox_direction->currentIndex()));
+    setItemHeight(ui->spinBox_height->value());
+    setItemWidth(ui->spinBox_width->value());
 
     writeConfiguration();
     return ret;
@@ -520,9 +528,7 @@ void GraphicalItem::writeConfiguration() const
 {
     AbstractExtItem::writeConfiguration();
 
-    QSettings settings(
-        QString("%1/%2").arg(directories().first()).arg(fileName()),
-        QSettings::IniFormat);
+    QSettings settings(writtableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
@@ -606,27 +612,6 @@ void GraphicalItem::changeValue(const int state)
 
     ui->widget_value->setHidden(state != Qt::Unchecked);
     ui->widget_customValue->setHidden(state == Qt::Unchecked);
-}
-
-
-void GraphicalItem::initScene()
-{
-    // init scene
-    m_scene = new QGraphicsScene();
-    m_scene->setBackgroundBrush(QBrush(Qt::NoBrush));
-    // init view
-    m_view = new QGraphicsView(m_scene);
-    m_view->setStyleSheet(QString("background: transparent"));
-    m_view->setContentsMargins(0, 0, 0, 0);
-    m_view->setFrameShape(QFrame::NoFrame);
-    m_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_view->resize(m_width + 5, m_height + 5);
-
-    // init helper
-    m_helper = new GraphicalItemHelper(this, m_scene);
-    m_helper->setParameters(m_activeColor, m_inactiveColor, m_width, m_height,
-                            m_count);
 }
 
 

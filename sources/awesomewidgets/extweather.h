@@ -22,12 +22,8 @@
 
 #include "abstractextitem.h"
 
-#define YAHOO_WEATHER_URL "https://query.yahooapis.com/v1/public/yql"
-#define YAHOO_WEATHER_QUERY                                                    \
-    "select * from weather.forecast where u='c' and woeid in (select woeid "   \
-    "from geo.places(1) where text='%1, %2')"
 
-
+class AbstractWeatherProvider;
 namespace Ui
 {
 class ExtWeather;
@@ -39,12 +35,14 @@ class ExtWeather : public AbstractExtItem
     Q_PROPERTY(QString city READ city WRITE setCity)
     Q_PROPERTY(QString country READ country WRITE setCountry)
     Q_PROPERTY(bool image READ image WRITE setImage)
+    Q_PROPERTY(Provider povider READ provider WRITE setProvider)
+    Q_PROPERTY(QString strPovider READ strProvider WRITE setStrProvider)
     Q_PROPERTY(int ts READ ts WRITE setTs)
 
 public:
-    explicit ExtWeather(QWidget *parent = nullptr,
-                        const QString weatherName = QString(),
-                        const QStringList directories = QStringList());
+    enum class Provider { OWM = 0, Yahoo = 1 };
+
+    explicit ExtWeather(QWidget *parent, const QString filePath = QString());
     virtual ~ExtWeather();
     ExtWeather *copy(const QString _fileName, const int _number);
     QString weatherFromInt(const int _id) const;
@@ -52,12 +50,16 @@ public:
     QString city() const;
     QString country() const;
     bool image() const;
+    Provider provider() const;
+    QString strProvider() const;
     int ts() const;
     QString uniq() const;
     // set methods
     void setCity(const QString _city = QString("London"));
     void setCountry(const QString _country = QString("uk"));
     void setImage(const bool _image = false);
+    void setProvider(const Provider _provider = Provider::OWM);
+    void setStrProvider(const QString _provider = QString("OWM"));
     void setTs(const int _ts = 0);
 
 public slots:
@@ -71,15 +73,17 @@ private slots:
     void weatherReplyReceived(QNetworkReply *reply);
 
 private:
-    QNetworkAccessManager *m_manager;
-    QUrl m_url;
+    QNetworkAccessManager *m_manager = nullptr;
+    AbstractWeatherProvider *m_providerObject = nullptr;
     bool isRunning = false;
-    Ui::ExtWeather *ui;
+    Ui::ExtWeather *ui = nullptr;
+    void initProvider();
     void translate();
     // properties
     QString m_city = QString("London");
     QString m_country = QString("uk");
     bool m_image = false;
+    Provider m_provider = Provider::OWM;
     int m_ts = 0;
     QVariantMap m_jsonMap = QVariantMap();
     // values

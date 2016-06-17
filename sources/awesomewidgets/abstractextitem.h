@@ -28,7 +28,6 @@ class AbstractExtItem : public QDialog
     Q_PROPERTY(bool active READ isActive WRITE setActive)
     Q_PROPERTY(int apiVersion READ apiVersion WRITE setApiVersion)
     Q_PROPERTY(QString comment READ comment WRITE setComment)
-    Q_PROPERTY(QStringList directories READ directories)
     Q_PROPERTY(QString fileName READ fileName)
     Q_PROPERTY(int interval READ interval WRITE setInterval)
     Q_PROPERTY(QString name READ name WRITE setName)
@@ -36,17 +35,17 @@ class AbstractExtItem : public QDialog
     Q_PROPERTY(QString uniq READ uniq)
 
 public:
-    explicit AbstractExtItem(QWidget *parent = nullptr,
-                             const QString desktopName = QString(),
-                             const QStringList directories = QStringList());
+    explicit AbstractExtItem(QWidget *parent,
+                             const QString filePath = QString());
     virtual ~AbstractExtItem();
+    virtual void bumpApi(const int _newVer);
     virtual AbstractExtItem *copy(const QString _fileName, const int _number)
         = 0;
-    void copyDefaults(AbstractExtItem *_other) const;
+    virtual void copyDefaults(AbstractExtItem *_other) const;
+    QString writtableConfig() const;
     // get methods
     int apiVersion() const;
     QString comment() const;
-    QStringList directories() const;
     QString fileName() const;
     int interval() const;
     bool isActive() const;
@@ -62,6 +61,9 @@ public:
     void setName(const QString _name = QString("none"));
     void setNumber(int _number = -1);
 
+signals:
+    void dataReceived(const QVariantHash &data);
+
 public slots:
     virtual void readConfiguration();
     virtual QVariantHash run() = 0;
@@ -70,8 +72,7 @@ public slots:
     virtual void writeConfiguration() const;
 
 private:
-    QString m_fileName;
-    QStringList m_dirs;
+    QString m_fileName = QString("/dev/null");
     virtual void translate() = 0;
     // properties
     int m_apiVersion = 0;

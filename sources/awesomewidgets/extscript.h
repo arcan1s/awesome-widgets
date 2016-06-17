@@ -37,11 +37,14 @@ class ExtScript : public AbstractExtItem
     Q_PROPERTY(Redirect redirect READ redirect WRITE setRedirect)
 
 public:
-    enum class Redirect { stdout2stderr, nothing, stderr2stdout, swap };
+    enum class Redirect {
+        stdout2stderr = 0,
+        nothing = 1,
+        stderr2stdout = 2,
+        swap = 3
+    };
 
-    explicit ExtScript(QWidget *parent = nullptr,
-                       const QString scriptName = QString(),
-                       const QStringList directories = QStringList());
+    explicit ExtScript(QWidget *parent, const QString filePath = QString());
     virtual ~ExtScript();
     ExtScript *copy(const QString _fileName, const int _number);
     // get methods
@@ -74,7 +77,7 @@ private slots:
 
 private:
     QProcess *process = nullptr;
-    Ui::ExtScript *ui;
+    Ui::ExtScript *ui = nullptr;
     void translate();
     // properties
     QString m_executable = QString("/usr/bin/true");

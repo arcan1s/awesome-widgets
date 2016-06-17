@@ -17,11 +17,11 @@
 
 #include "awkeys.h"
 
-#include <QtConcurrent/QtConcurrent>
 #include <QJSEngine>
 #include <QRegExp>
 #include <QThread>
 #include <QTimer>
+#include <QtConcurrent/QtConcurrent>
 
 #include "awdataaggregator.h"
 #include "awdataengineaggregator.h"
@@ -234,8 +234,10 @@ void AWKeys::reinitKeys(const QStringList currentKeys)
 void AWKeys::updateTextData()
 {
     // do not do it in parallel to avoid race condition
+    m_mutex.lock();
     calculateValues();
     QString text = parsePattern(keyOperator->pattern());
+    m_mutex.unlock();
 
     emit(needTextToBeUpdated(text));
     emit(dataAggregator->updateData(values));

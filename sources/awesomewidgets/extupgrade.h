@@ -36,9 +36,7 @@ class ExtUpgrade : public AbstractExtItem
     Q_PROPERTY(int null READ null WRITE setNull)
 
 public:
-    explicit ExtUpgrade(QWidget *parent = nullptr,
-                        const QString upgradeName = QString(),
-                        const QStringList directories = QStringList());
+    explicit ExtUpgrade(QWidget *parent, const QString filePath = QString());
     virtual ~ExtUpgrade();
     ExtUpgrade *copy(const QString _fileName, const int _number);
     // get methods
@@ -62,7 +60,7 @@ private slots:
 
 private:
     QProcess *process = nullptr;
-    Ui::ExtUpgrade *ui;
+    Ui::ExtUpgrade *ui = nullptr;
     void translate();
     // properties
     QString m_executable = QString("/usr/bin/true");

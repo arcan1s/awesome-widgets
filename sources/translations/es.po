@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Ernesto Avilés Vázquez <whippiii@gmail.com>, 2014-2016
 # Evgeniy Alekseev <esalexeev@gmail.com>, 2014-2015
@@ -9,14 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-04-29 12:21+0300\n"
+"POT-Creation-Date: 2016-05-16 19:35+0300\n"
 "PO-Revision-Date: 2016-05-03 06:47+0000\n"
 "Last-Translator: Ernesto Avilés Vázquez <whippiii@gmail.com>\n"
-"Language-Team: Spanish (http://www.transifex.com/arcanis/awesome-widgets/language/es/)\n"
+"Language-Team: Spanish (http://www.transifex.com/arcanis/awesome-widgets/"
+"language/es/)\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Widget"
@@ -274,7 +275,10 @@ msgstr "Comprobar actualizaciones"
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
 "To enable them just make needed checkbox checked."
-msgstr "Las etiquetas para CPU, reloj de CPU, memoria, swap y red soportan ventanas emergentes. Para habilitarlas, simplemente marca las casillas correspondientes."
+msgstr ""
+"Las etiquetas para CPU, reloj de CPU, memoria, swap y red soportan ventanas "
+"emergentes. Para habilitarlas, simplemente marca las casillas "
+"correspondientes."
 
 msgid "Number of values for tooltips"
 msgstr "Número de valores para las ventanas emergentes"
@@ -328,9 +332,11 @@ msgid "Battery inactive color"
 msgstr "Color de la batería inactiva"
 
 msgid ""
-"Detailed information may be found on <a href=\"https://arcanis.me/projects"
-"/awesome-widgets/\">project homepage</a>"
-msgstr "Puedes encontrar información detallada en el <a href=\"https://arcanis.me/projects/awesome-widgets/\">sitio del proyecto</a>"
+"Detailed information may be found on <a href=\"https://arcanis.me/projects/"
+"awesome-widgets/\">project homepage</a>"
+msgstr ""
+"Puedes encontrar información detallada en el <a href=\"https://arcanis.me/"
+"projects/awesome-widgets/\">sitio del proyecto</a>"
 
 msgid "Bgcolor"
 msgstr "Color de fondo"
@@ -370,6 +376,9 @@ msgstr "Mostrar valor"
 
 msgid "Edit bars"
 msgstr "Editar barras"
+
+msgid "Formatters"
+msgstr ""
 
 msgid "Preview"
 msgstr "Vista previa"
@@ -440,6 +449,18 @@ msgstr "Carga alta de GPU"
 msgid "Network device has been changed to %1"
 msgstr "El dispositivo de red ha sido cambiado a %1"
 
+#, fuzzy
+msgid "Edit"
+msgstr "Editar barras"
+
+#, fuzzy
+msgid "Select type"
+msgstr "Elegir etiqueta"
+
+#, fuzzy
+msgid "Type:"
+msgstr "Tipo"
+
 msgid "MB/s"
 msgstr "MB/s"
 
@@ -497,15 +518,52 @@ msgstr "Nombre"
 msgid "Comment"
 msgstr "Comentario"
 
+msgid "Type"
+msgstr "Tipo"
+
+#, fuzzy
+msgid "Format"
+msgstr "normal"
+
+msgid "Precision"
+msgstr ""
+
+msgid "Width"
+msgstr "Ancho"
+
+msgid "Fill char"
+msgstr ""
+
+msgid "Multiplier"
+msgstr ""
+
+#, fuzzy
+msgid "Summand"
+msgstr "Orden"
+
+#, fuzzy
+msgid "Append code"
+msgstr "Apariencia"
+
+msgid "Has return"
+msgstr ""
+
+msgid "Code"
+msgstr ""
+
 msgid "Tag"
 msgstr "Etiqueta"
 
 msgid ""
 "<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
 "instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
-"text-decoration: underline; "
-"color:#0057ae;\">http://finance.yahoo.com/</span></a></p></body></html>"
-msgstr "<html><head/><body><p>Usa el tablero electrónico de YAHOO! para obtener la cotización del medio. Dirígete a <a href=\"http://finance.yahoo.com/\"><span style=\" text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</span></a></p></body></html>"
+"text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</"
+"span></a></p></body></html>"
+msgstr ""
+"<html><head/><body><p>Usa el tablero electrónico de YAHOO! para obtener la "
+"cotización del medio. Dirígete a <a href=\"http://finance.yahoo.com/\"><span "
+"style=\" text-decoration: underline; color:#0057ae;\">http://finance.yahoo."
+"com/</span></a></p></body></html>"
 
 msgid "Ticker"
 msgstr "Tablero"
@@ -570,9 +628,6 @@ msgstr "Activar tipo de relleno"
 msgid "Inctive filling type"
 msgstr "Inhabilitar tipo de relleno"
 
-msgid "Type"
-msgstr "Tipo"
-
 msgid "Points count"
 msgstr "Conteo de puntos"
 
@@ -581,9 +636,6 @@ msgstr "Dirección"
 
 msgid "Height"
 msgstr "Alto"
-
-msgid "Width"
-msgstr "Ancho"
 
 msgid "color"
 msgstr "color"
