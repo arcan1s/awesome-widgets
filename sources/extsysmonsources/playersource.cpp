@@ -44,7 +44,7 @@ PlayerSource::PlayerSource(QObject *parent, const QStringList args)
     connect(m_mpdProcess,
             static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(
                 &QProcess::finished),
-            [this](int, QProcess::ExitStatus) { return updateValue(); });
+            [this](int, QProcess::ExitStatus) { return updateMpdValue(); });
     m_mpdProcess->waitForFinished(0);
     m_mpdCached = defaultInfo();
 }
@@ -67,6 +67,27 @@ QVariant PlayerSource::data(QString source)
         run();
     QVariant value = m_values.take(source);
     return value;
+}
+
+
+QString PlayerSource::getAutoMpris() const
+{
+    QDBusMessage listServices = QDBusConnection::sessionBus().interface()->call(
+        QDBus::BlockWithGui, QString("ListNames"));
+    if (listServices.arguments().isEmpty())
+        return QString();
+    QStringList arguments = listServices.arguments().first().toStringList();
+
+    for (auto arg : arguments) {
+        if (!arg.startsWith(QString("org.mpris.MediaPlayer2.")))
+            continue;
+        qCInfo(LOG_ESS) << "Service found" << arg;
+        QString service = arg;
+        service.remove(QString("org.mpris.MediaPlayer2."));
+        return service;
+    }
+
+    return QString();
 }
 
 
@@ -212,7 +233,30 @@ QStringList PlayerSource::sources() const
 }
 
 
-void PlayerSource::updateValue()
+QString PlayerSource::buildString(const QString &current, const QString &value,
+                                  const int s)
+{
+    qCDebug(LOG_ESS) << "Current value" << current << "received" << value
+                     << "will be stripped after" << s;
+
+    int index = value.indexOf(current);
+    if ((current.isEmpty()) || ((index + s + 1) > value.count()))
+        return QString("%1").arg(value.left(s), s, QLatin1Char(' '));
+    else
+        return QString("%1").arg(value.mid(index + 1, s), s, QLatin1Char(' '));
+}
+
+
+QString PlayerSource::stripString(const QString &value, const int s)
+{
+    qCDebug(LOG_ESS) << "New value" << value << "will be stripped after" << s;
+
+    return value.count() > s ? QString("%1\u2026").arg(value.left(s - 1))
+                             : value.leftJustified(s, QLatin1Char(' '));
+}
+
+
+void PlayerSource::updateMpdValue()
 {
     qCInfo(LOG_ESS) << "Cmd returns" << m_mpdProcess->exitCode();
     QString qdebug = QTextCodec::codecForMib(106)
@@ -243,6 +287,8 @@ void PlayerSource::updateValue()
             }
         }
     }
+
+    emit(dataReceived(m_mpdCached));
 }
 
 
@@ -256,27 +302,6 @@ QVariantHash PlayerSource::defaultInfo() const
     info[QString("player/title")] = QString("unknown");
 
     return info;
-}
-
-
-QString PlayerSource::getAutoMpris() const
-{
-    QDBusMessage listServices = QDBusConnection::sessionBus().interface()->call(
-        QDBus::BlockWithGui, QString("ListNames"), DBUS_CALL_TIMEOUT);
-    if (listServices.arguments().isEmpty())
-        return QString();
-    QStringList arguments = listServices.arguments().first().toStringList();
-
-    for (auto arg : arguments) {
-        if (!arg.startsWith(QString("org.mpris.MediaPlayer2.")))
-            continue;
-        qCInfo(LOG_ESS) << "Service found" << arg;
-        QString service = arg;
-        service.remove(QString("org.mpris.MediaPlayer2."));
-        return service;
-    }
-
-    return QString();
 }
 
 
@@ -361,27 +386,4 @@ QVariantHash PlayerSource::getPlayerMprisInfo(const QString mpris) const
     }
 
     return info;
-}
-
-
-QString PlayerSource::buildString(const QString current, const QString value,
-                                  const int s) const
-{
-    qCDebug(LOG_ESS) << "Current value" << current << "received" << value
-                     << "will be stripped after" << s;
-
-    int index = value.indexOf(current);
-    if ((current.isEmpty()) || ((index + s + 1) > value.count()))
-        return QString("%1").arg(value.left(s), s, QLatin1Char(' '));
-    else
-        return QString("%1").arg(value.mid(index + 1, s), s, QLatin1Char(' '));
-}
-
-
-QString PlayerSource::stripString(const QString value, const int s) const
-{
-    qCDebug(LOG_ESS) << "New value" << value << "will be stripped after" << s;
-
-    return value.count() > s ? QString("%1\u2026").arg(value.left(s - 1))
-                             : value.leftJustified(s, QLatin1Char(' '));
 }

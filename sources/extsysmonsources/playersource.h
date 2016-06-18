@@ -36,22 +36,22 @@ public:
     explicit PlayerSource(QObject *parent, const QStringList args);
     virtual ~PlayerSource();
     QVariant data(QString source);
+    QString getAutoMpris() const;
     QVariantMap initialData(QString source) const;
     void run();
     QStringList sources() const;
+    // additional method to build dynamic tags
+    static QString buildString(const QString &current, const QString &value,
+                               const int s);
+    static QString stripString(const QString &value, const int s);
 
 private slots:
-    void updateValue();
+    void updateMpdValue();
 
 private:
     inline QVariantHash defaultInfo() const;
-    QString getAutoMpris() const;
     QVariantHash getPlayerMpdInfo(const QString mpdAddress) const;
     QVariantHash getPlayerMprisInfo(const QString mpris) const;
-    // additional method to build dynamic tags
-    QString buildString(const QString current, const QString value,
-                        const int s) const;
-    QString stripString(const QString value, const int s) const;
     // configuration and values
     QString m_mpdAddress;
     QVariantHash m_mpdCached;

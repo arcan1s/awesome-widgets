@@ -16,46 +16,34 @@
  ***************************************************************************/
 
 
-#include "testdesktopsource.h"
+#ifndef TESTPLAYERSOURCE_H
+#define TESTPLAYERSOURCE_H
 
-#include <QtTest>
-
-#include "awtestlibrary.h"
-#include "desktopsource.h"
+#include <QObject>
 
 
-void TestDesktopSource::initTestCase()
+class PlayerSource;
+
+class TestPlayerSource : public QObject
 {
-    source = new DesktopSource(this, QStringList());
-}
+    Q_OBJECT
+
+private slots:
+    // initialization
+    void initTestCase();
+    void cleanupTestCase();
+    // test
+    void _test_sources(const PlayerSource *source);
+    void test_buildString();
+    void test_stripString();
+    void test_autoMpris();
+    void test_mpd();
+    void test_mpris();
+
+private:
+    QString mpdAddress = QString("localhost");
+    int mpdPort = 6600;
+};
 
 
-void TestDesktopSource::cleanupTestCase()
-{
-    delete source;
-}
-
-
-void TestDesktopSource::test_sources()
-{
-    QCOMPARE(source->sources().count(), 4);
-    // FIXME there is segfault here sometimes o_0
-    //    QVERIFY(std::all_of(
-    //        source->sources().cbegin(), source->sources().cend(),
-    //        [](const QString &src) { return
-    //        src.startsWith(QString("desktop/")); }));
-}
-
-
-void TestDesktopSource::test_values()
-{
-    QVERIFY(source->data(QString("desktop/current/name")).toString().count()
-            > 0);
-    QVERIFY(source->data(QString("desktop/current/number")).toInt() >= 0);
-    QVERIFY(source->data(QString("desktop/total/name")).toStringList().count()
-            > 0);
-    QVERIFY(source->data(QString("desktop/total/number")).toInt() > 0);
-}
-
-
-QTEST_MAIN(TestDesktopSource);
+#endif /* TESTPLAYERSOURCE_H */
