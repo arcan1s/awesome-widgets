@@ -40,16 +40,18 @@ void TestProcessesSource::test_sources()
 {
     QCOMPARE(source->sources().count(), 3);
     // FIXME there is segfault here sometimes o_0
-//    QVERIFY(std::all_of(
-//        source->sources().cbegin(), source->sources().cend(),
-//        [](const QString &src) { return src.startsWith(QString("ps/")); }));
+    //    QVERIFY(std::all_of(
+    //        source->sources().cbegin(), source->sources().cend(),
+    //        [](const QString &src) { return src.startsWith(QString("ps/"));
+    //        }));
 }
 
 
 void TestProcessesSource::test_values()
 {
     QVERIFY(source->data(QString("ps/running/count")).toInt() > 0);
-    QVERIFY(source->data(QString("ps/running/list")).toStringList().count() > 0);
+    QVERIFY(source->data(QString("ps/running/list")).toStringList().count()
+            > 0);
     QVERIFY(source->data(QString("ps/total/count")).toInt() > 0);
 }
 
