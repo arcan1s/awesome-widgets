@@ -21,6 +21,7 @@
 
 #include <QObject>
 #include <QStandardPaths>
+#include <QVariant>
 
 
 class QSettings;
@@ -34,7 +35,7 @@ public:
     virtual ~AWConfigHelper();
     Q_INVOKABLE QString configurationDirectory() const;
     Q_INVOKABLE bool dropCache() const;
-    Q_INVOKABLE bool exportConfiguration(QObject *nativeConfig,
+    Q_INVOKABLE bool exportConfiguration(const QObject *nativeConfig,
                                          const QString fileName) const;
     Q_INVOKABLE QVariantMap importConfiguration(const QString fileName,
                                                 const bool importPlasmoid,

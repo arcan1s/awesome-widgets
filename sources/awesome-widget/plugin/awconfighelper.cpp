@@ -69,7 +69,7 @@ bool AWConfigHelper::dropCache() const
 }
 
 
-bool AWConfigHelper::exportConfiguration(QObject *nativeConfig,
+bool AWConfigHelper::exportConfiguration(const QObject *nativeConfig,
                                          const QString fileName) const
 {
     qCDebug(LOG_AW) << "Selected filename" << fileName;
@@ -77,8 +77,8 @@ bool AWConfigHelper::exportConfiguration(QObject *nativeConfig,
     QSettings settings(fileName, QSettings::IniFormat);
 
     // plasmoid configuration
-    QQmlPropertyMap *configuration
-        = static_cast<QQmlPropertyMap *>(nativeConfig);
+    const QQmlPropertyMap *configuration
+        = static_cast<const QQmlPropertyMap *>(nativeConfig);
     settings.beginGroup(QString("plasmoid"));
     for (auto key : configuration->keys()) {
         QVariant value = configuration->value(key);

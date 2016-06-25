@@ -30,14 +30,13 @@ set(TEST_MODULES
         abstractformatter datetimeformatter floatformatter noformatter scriptformatter
         extitemaggregator
         batterysource desktopsource gpuloadsource gputempsource hddtempsource networksource playersource processessource
-        awkeycache awpatternfunctions awupdatehelper
+        awconfighelper awkeycache awpatternfunctions awupdatehelper
         dpplugin)
 foreach (TEST_MODULE ${TEST_MODULES})
     set(${TEST_MODULE}_HEADERS test${TEST_MODULE}.h)
     set(${TEST_MODULE}_SOURCES test${TEST_MODULE}.cpp)
-    if (TEST_MODULE MATCHES "dpplugin")
-        set(${TEST_MODULE}_SOURCES ${${TEST_MODULE}_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/../desktop-panel/plugin/dpadds.cpp
-                ${PROJECT_TRDPARTY_DIR}/fontdialog/fontdialog.cpp)
+    if (TEST_MODULE MATCHES "awconfighelper")
+        set(${TEST_MODULE}_SOURCES ${${TEST_MODULE}_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awconfighelper.cpp)
     elseif (TEST_MODULE MATCHES "awkeycache")
         set(${TEST_MODULE}_SOURCES ${${TEST_MODULE}_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awkeycache.cpp)
     elseif (TEST_MODULE MATCHES "awpatternfunctions")
@@ -46,7 +45,10 @@ foreach (TEST_MODULE ${TEST_MODULES})
                 ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awpatternfunctions.cpp)
     elseif (TEST_MODULE MATCHES "awupdatehelper")
         set(${TEST_MODULE}_SOURCES ${${TEST_MODULE}_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awupdatehelper.cpp)
-    endif (TEST_MODULE MATCHES "dpplugin")
+    elseif (TEST_MODULE MATCHES "dpplugin")
+        set(${TEST_MODULE}_SOURCES ${${TEST_MODULE}_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/../desktop-panel/plugin/dpadds.cpp
+                ${PROJECT_TRDPARTY_DIR}/fontdialog/fontdialog.cpp)
+    endif (TEST_MODULE MATCHES "awconfighelper")
     add_executable(${SUBPROJECT}-${TEST_MODULE} ${${TEST_MODULE}_HEADERS} ${${TEST_MODULE}_SOURCES})
     target_link_libraries(${SUBPROJECT}-${TEST_MODULE} ${LIBRARY_TEST_SET})
     add_test(NAME ${TEST_MODULE} COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT}-${TEST_MODULE})
