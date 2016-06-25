@@ -30,7 +30,7 @@ set(TEST_MODULES
         abstractformatter datetimeformatter floatformatter noformatter scriptformatter
         extitemaggregator
         batterysource desktopsource gpuloadsource gputempsource hddtempsource networksource playersource processessource
-        awkeycache awupdatehelper
+        awkeycache awpatternfunctions awupdatehelper
         dpplugin)
 foreach (TEST_MODULE ${TEST_MODULES})
     set(${TEST_MODULE}_HEADERS test${TEST_MODULE}.h)
@@ -38,11 +38,15 @@ foreach (TEST_MODULE ${TEST_MODULES})
     if (TEST_MODULE MATCHES "dpplugin")
         set(${TEST_MODULE}_SOURCES ${${TEST_MODULE}_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/../desktop-panel/plugin/dpadds.cpp
                 ${PROJECT_TRDPARTY_DIR}/fontdialog/fontdialog.cpp)
-    elseif(TEST_MODULE MATCHES "awkeycache")
+    elseif (TEST_MODULE MATCHES "awkeycache")
         set(${TEST_MODULE}_SOURCES ${${TEST_MODULE}_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awkeycache.cpp)
-    elseif(TEST_MODULE MATCHES "awupdatehelper")
+    elseif (TEST_MODULE MATCHES "awpatternfunctions")
+        set(${TEST_MODULE}_SOURCES ${${TEST_MODULE}_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awformatterhelper.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awkeysaggregator.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awpatternfunctions.cpp)
+    elseif (TEST_MODULE MATCHES "awupdatehelper")
         set(${TEST_MODULE}_SOURCES ${${TEST_MODULE}_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awupdatehelper.cpp)
-    endif(TEST_MODULE MATCHES "dpplugin")
+    endif (TEST_MODULE MATCHES "dpplugin")
     add_executable(${SUBPROJECT}-${TEST_MODULE} ${${TEST_MODULE}_HEADERS} ${${TEST_MODULE}_SOURCES})
     target_link_libraries(${SUBPROJECT}-${TEST_MODULE} ${LIBRARY_TEST_SET})
     add_test(NAME ${TEST_MODULE} COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT}-${TEST_MODULE})

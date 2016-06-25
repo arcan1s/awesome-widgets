@@ -204,10 +204,10 @@ void AWKeys::reinitKeys(const QStringList currentKeys)
     qCDebug(LOG_AW) << "Update found keys by using list" << currentKeys;
 
     // append lists
-    m_foundBars
-        = AWPatternFunctions::findBars(keyOperator->pattern(), currentKeys);
-    m_foundKeys
-        = AWPatternFunctions::findKeys(keyOperator->pattern(), currentKeys);
+    m_foundBars = AWPatternFunctions::findKeys(keyOperator->pattern(),
+                                               currentKeys, true);
+    m_foundKeys = AWPatternFunctions::findKeys(keyOperator->pattern(),
+                                               currentKeys, false);
     m_foundLambdas = AWPatternFunctions::findLambdas(keyOperator->pattern());
     // generate list of required keys for bars
     QStringList barKeys;
@@ -215,7 +215,7 @@ void AWKeys::reinitKeys(const QStringList currentKeys)
         GraphicalItem *item = keyOperator->giByKey(bar);
         if (item->isCustom())
             item->setUsedKeys(
-                AWPatternFunctions::findKeys(item->bar(), currentKeys));
+                AWPatternFunctions::findKeys(item->bar(), currentKeys, false));
         else
             item->setUsedKeys(QStringList() << item->bar());
         barKeys.append(item->usedKeys());

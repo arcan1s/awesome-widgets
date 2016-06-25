@@ -16,38 +16,28 @@
  ***************************************************************************/
 
 
-#ifndef AWPATTERNFUNCTIONS_H
-#define AWPATTERNFUNCTIONS_H
+#ifndef TESTAWPATTERNFUNCTIONS_H
+#define TESTAWPATTERNFUNCTIONS_H
 
-#include <QString>
-#include <QVariant>
+#include <QObject>
 
 
-class AWKeysAggregator;
-
-namespace AWPatternFunctions
+class TestAWPatternFunctions : public QObject
 {
-typedef struct {
-    QStringList args;
-    QString body;
-    QString what;
-} AWFunction;
+    Q_OBJECT
 
-// insert methods
-QString expandLambdas(QString code, AWKeysAggregator *aggregator,
-                      const QVariantHash &metadata,
-                      const QStringList &usedKeys);
-QString expandTemplates(QString code);
-QList<AWFunction> findFunctionCalls(const QString function, const QString code);
-QString insertAllKeys(QString code, const QStringList keys);
-QString insertKeyCount(QString code, const QStringList keys);
-QString insertKeyNames(QString code, const QStringList keys);
-QString insertKeys(QString code, const QStringList keys);
-// find methods
-QStringList findKeys(const QString code, const QStringList keys,
-                     const bool isBars);
-QStringList findLambdas(const QString code);
+private slots:
+    // initialization
+    void initTestCase();
+    void cleanupTestCase();
+    // test
+    void test_findFunctionCalls();
+    void test_findKeys();
+    void test_findLambdas();
+    void test_expandTemplates();
+
+private:
 };
 
 
-#endif /* AWPATTERNFUNCTIONS_H */
+#endif /* TESTAWPATTERNFUNCTIONS_H */

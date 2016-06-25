@@ -20,8 +20,8 @@
 
 #include <QtTest>
 
-#include "awtestlibrary.h"
 #include "awkeycache.h"
+#include "awtestlibrary.h"
 
 
 void TestAWKeyCache::initTestCase()
