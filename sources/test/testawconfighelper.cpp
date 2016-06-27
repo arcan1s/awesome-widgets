@@ -64,4 +64,18 @@ void TestAWConfigHelper::test_importConfiguration()
 }
 
 
+void TestAWConfigHelper::test_readDataEngineConfiguration()
+{
+    deConfig = plugin->readDataEngineConfiguration();
+    QVERIFY(!deConfig.isEmpty());
+}
+
+
+void TestAWConfigHelper::test_writeDataEngineConfiguration()
+{
+    QVERIFY(plugin->writeDataEngineConfiguration(deConfig));
+    QCOMPARE(plugin->readDataEngineConfiguration(), deConfig);
+}
+
+
 QTEST_MAIN(TestAWConfigHelper);

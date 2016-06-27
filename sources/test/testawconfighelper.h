@@ -38,11 +38,14 @@ private slots:
     void test_configurationDirectory();
     void test_exportConfiguration();
     void test_importConfiguration();
+    void test_readDataEngineConfiguration();
+    void test_writeDataEngineConfiguration();
 
 private:
     AWConfigHelper *plugin = nullptr;
     QString filename;
     QQmlPropertyMap map;
+    QVariantMap deConfig;
 };
 
 
