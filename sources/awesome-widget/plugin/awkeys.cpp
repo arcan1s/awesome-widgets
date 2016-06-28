@@ -177,8 +177,10 @@ QString AWKeys::valueByKey(QString key) const
 {
     qCDebug(LOG_AW) << "Requested value for key" << key;
 
-    key.remove(QRegExp(QString("^bar[0-9]{1,}")));
-    return aggregator->formatter(values[key], key);
+    QString trueKey
+        = key.startsWith(QString("bar")) ? keyOperator->infoByKey(key) : key;
+
+    return aggregator->formatter(values[trueKey], trueKey);
 }
 
 

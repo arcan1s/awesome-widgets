@@ -20,8 +20,8 @@
 
 #include <QtTest>
 
-#include "awtestlibrary.h"
 #include "awconfighelper.h"
+#include "awtestlibrary.h"
 
 
 void TestAWConfigHelper::initTestCase()
@@ -55,7 +55,8 @@ void TestAWConfigHelper::test_exportConfiguration()
 
 void TestAWConfigHelper::test_importConfiguration()
 {
-    QVariantMap imported = plugin->importConfiguration(filename, true, true, true);
+    QVariantMap imported
+        = plugin->importConfiguration(filename, true, true, true);
     QVariantMap converted;
     for (auto key : map.keys())
         converted[key] = map.value(key);

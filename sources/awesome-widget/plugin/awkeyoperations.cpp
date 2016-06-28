@@ -189,10 +189,16 @@ QString AWKeyOperations::infoByKey(QString key) const
 {
     qCDebug(LOG_AW) << "Requested key" << key;
 
+    QString stripped = key;
+    stripped.remove(QRegExp(QString("\\d+")));
+
+    QString output = QString("(none)");
+
+    // FIXME undefined behaviour
     if (key.startsWith(QString("bar")))
-        return graphicalItems->itemByTag(key, QString("bar"))->uniq();
+        return graphicalItems->itemByTag(key, stripped)->uniq();
     else if (key.startsWith(QString("custom")))
-        return extScripts->itemByTag(key, QString("custom"))->uniq();
+        return extScripts->itemByTag(key, stripped)->uniq();
     else if (key.contains(QRegExp(QString("^hdd[rw]"))))
         return QString("%1").arg(
             m_devices[QString("disk")]
@@ -213,17 +219,17 @@ QString AWKeyOperations::infoByKey(QString key) const
             m_devices[QString("net")]
                      [key.remove(QRegExp(QString("^(down|up)"))).toInt()]);
     else if (key.startsWith(QString("pkgcount")))
-        return extUpgrade->itemByTag(key, QString("pkgcount"))->uniq();
+        return extUpgrade->itemByTag(key, stripped)->uniq();
     else if (key.contains(QRegExp(QString("(^|perc)(ask|bid|price)(chg|)"))))
-        return extQuotes->itemByTag(key, QString("ask"))->uniq();
+        return extQuotes->itemByTag(key, stripped)->uniq();
     else if (key.contains(QRegExp(
                  QString("(weather|weatherId|humidity|pressure|temperature)"))))
-        return extWeather->itemByTag(key, QString("weather"))->uniq();
+        return extWeather->itemByTag(key, stripped)->uniq();
     else if (key.startsWith(QString("temp")))
         return QString("%1").arg(
             m_devices[QString("temp")][key.remove(QString("temp")).toInt()]);
 
-    return QString("(none)");
+    return output;
 }
 
 

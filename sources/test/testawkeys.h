@@ -16,38 +16,36 @@
  ***************************************************************************/
 
 
-#ifndef AWACTIONS_H
-#define AWACTIONS_H
+#ifndef TESTAWKEYS_H
+#define TESTAWKEYS_H
 
-#include <QMap>
 #include <QObject>
 
 
-class AWUpdateHelper;
+class AWKeys;
 
-class AWActions : public QObject
+class TestAWKeys : public QObject
 {
     Q_OBJECT
 
-public:
-    explicit AWActions(QObject *parent = nullptr);
-    virtual ~AWActions();
-    Q_INVOKABLE void checkUpdates(const bool showAnyway = false);
-    Q_INVOKABLE bool isDebugEnabled() const;
-    Q_INVOKABLE bool runCmd(const QString cmd = QString("/usr/bin/true")) const;
-    Q_INVOKABLE void showReadme() const;
-    // configuration slots
-    Q_INVOKABLE QString getAboutText(const QString type
-                                     = QString("header")) const;
-    Q_INVOKABLE QVariantMap getFont(const QVariantMap defaultFont) const;
-
-public slots:
-    Q_INVOKABLE static void sendNotification(const QString eventId,
-                                             const QString message);
+private slots:
+    // initialization
+    void initTestCase();
+    void cleanupTestCase();
+    // test
+    void test_hddDevices();
+    void test_dictKeys();
+    void test_pattern();
+    void test_tooltip();
+    void test_wrapNewLines();
+    void test_infoByKey();
+    void test_valueByKey();
 
 private:
-    AWUpdateHelper *m_updateHelper = nullptr;
+    AWKeys *plugin = nullptr;
+    QString pattern;
+    int interval = 1000;
 };
 
 
-#endif /* AWACTIONS_H */
+#endif /* TESTAWKEYS_H */

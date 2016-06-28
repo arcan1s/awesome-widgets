@@ -30,7 +30,7 @@ set(TEST_MODULES
         abstractformatter datetimeformatter floatformatter noformatter scriptformatter
         extitemaggregator
         batterysource desktopsource gpuloadsource gputempsource hddtempsource networksource playersource processessource
-        awconfighelper awkeycache awpatternfunctions awupdatehelper
+        awconfighelper awkeycache awkeys awpatternfunctions awupdatehelper
         dpplugin)
 foreach (TEST_MODULE ${TEST_MODULES})
     set(${TEST_MODULE}_HEADERS test${TEST_MODULE}.h)
@@ -39,6 +39,18 @@ foreach (TEST_MODULE ${TEST_MODULES})
         set(${TEST_MODULE}_SOURCES ${${TEST_MODULE}_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awconfighelper.cpp)
     elseif (TEST_MODULE MATCHES "awkeycache")
         set(${TEST_MODULE}_SOURCES ${${TEST_MODULE}_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awkeycache.cpp)
+    elseif (TEST_MODULE MATCHES "awkeys")
+        set(${TEST_MODULE}_SOURCES ${${TEST_MODULE}_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awactions.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awdataaggregator.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awdataengineaggregator.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awformatterhelper.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awkeycache.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awkeyoperations.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awkeys.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awkeysaggregator.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awpatternfunctions.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awupdatehelper.cpp
+                ${PROJECT_TRDPARTY_DIR}/fontdialog/fontdialog.cpp)
     elseif (TEST_MODULE MATCHES "awpatternfunctions")
         set(${TEST_MODULE}_SOURCES ${${TEST_MODULE}_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awformatterhelper.cpp
                 ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awkeysaggregator.cpp
