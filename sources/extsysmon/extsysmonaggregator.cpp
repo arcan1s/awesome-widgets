@@ -148,10 +148,10 @@ void ExtSysMonAggregator::init(const QHash<QString, QString> config)
         = new WeatherSource(this, QStringList());
     for (auto source : weatherItem->sources())
         m_map[source] = weatherItem;
-#ifdef BUILD_TESTING
+#ifdef BUILD_LOAD
     // additional load source
     AbstractExtSysMonSource *loadItem = new LoadSource(this, QStringList());
     for (auto source : loadItem->sources())
         m_map[source] = loadItem;
-#endif /* BUILD_TESTING */
+#endif /* BUILD_LOAD */
 }

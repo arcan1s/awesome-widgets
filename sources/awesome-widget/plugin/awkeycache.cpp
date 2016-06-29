@@ -38,8 +38,8 @@ bool AWKeyCache::addKeyToCache(const QString type, const QString key)
 
     cache.beginGroup(type);
     QStringList cachedValues;
-    for (auto key : cache.allKeys())
-        cachedValues.append(cache.value(key).toString());
+    for (auto number : cache.allKeys())
+        cachedValues.append(cache.value(number).toString());
 
     if (type == QString("hdd")) {
         QStringList allDevices
@@ -51,6 +51,7 @@ bool AWKeyCache::addKeyToCache(const QString type, const QString key)
             if (cachedValues.contains(device))
                 continue;
             qCInfo(LOG_AW) << "Found new key" << device << "for type" << type;
+            cachedValues.append(device);
             cache.setValue(
                 QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')),
                 device);
@@ -63,6 +64,7 @@ bool AWKeyCache::addKeyToCache(const QString type, const QString key)
             if (cachedValues.contains(device))
                 continue;
             qCInfo(LOG_AW) << "Found new key" << device << "for type" << type;
+            cachedValues.append(device);
             cache.setValue(
                 QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')),
                 device);

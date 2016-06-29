@@ -24,10 +24,6 @@
 #include "abstractextsysmonsource.h"
 
 
-#ifndef DBUS_CALL_TIMEOUT
-#define DBUS_CALL_TIMEOUT 3000
-#endif /* DBUS_CALL_TIMEOUT */
-
 class QProcess;
 
 class PlayerSource : public AbstractExtSysMonSource

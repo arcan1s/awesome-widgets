@@ -345,7 +345,7 @@ QVariantHash PlayerSource::getPlayerMprisInfo(const QString mpris) const
         QString("/org/mpris/MediaPlayer2"), QString(""), QString("Get"));
     request.setArguments(args);
     QDBusMessage response
-        = bus.call(request, QDBus::BlockWithGui, DBUS_CALL_TIMEOUT);
+        = bus.call(request, QDBus::BlockWithGui, REQUEST_TIMEOUT);
     if ((response.type() != QDBusMessage::ReplyMessage)
         || (response.arguments().isEmpty())) {
         qCWarning(LOG_ESS) << "Error message" << response.errorMessage();

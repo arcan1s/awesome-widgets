@@ -47,6 +47,7 @@ const QStringList getBuildData()
     metadata.append(QString("    AWEUAPI: %1").arg(AWEUAPI));
     metadata.append(QString("    AWEWAPI: %1").arg(AWEWAPI));
     metadata.append(QString("    AWEFAPI: %1").arg(AWEFAPI));
+    metadata.append(QString("    REQUEST_TIMEOUT: %1").arg(REQUEST_TIMEOUT));
     metadata.append(QString("    TIME_KEYS: %1").arg(TIME_KEYS));
     metadata.append(QString("    STATIC_KEYS: %1").arg(STATIC_KEYS));
     // cmake properties
@@ -89,6 +90,7 @@ const QStringList getBuildData()
         QString("    CPPCHECK_EXECUTABLE: %1").arg(CPPCHECK_EXECUTABLE));
     // additional functions
     metadata.append(QString("    PROP_FUTURE: %1").arg(PROP_FUTURE));
+    metadata.append(QString("    PROP_LOAD: %1").arg(PROP_LOAD));
     metadata.append(QString("    PROP_TEST: %1").arg(PROP_TEST));
 
     return metadata;

@@ -34,6 +34,7 @@ option(BUILD_DEB_PACKAGE "Build deb package" OFF)
 option(BUILD_RPM_PACKAGE "Build rpm package" OFF)
 # build details
 option(BUILD_FUTURE "Build with the features which will be marked as stable later" OFF)
+option(BUILD_LOAD "Build with additional load" OFF)
 option(BUILD_TESTING "Build with additional test abilities" OFF)
 
 # generate changelog

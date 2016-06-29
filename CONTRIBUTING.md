@@ -54,7 +54,14 @@ for more details. To avoid manual labor there is automatic cmake target named
       ```
 
     * C-like `NULL`, use `nullptr` instead.
-* It is highly recommended to avoid implicit casts.
+* It is highly recommended to avoid implicit casts. Exception `nullptr` casts to
+  boolean, e.g.:
+
+  ```
+  if (nullptr)
+      qDebug() << "nullptr is true, wtf";
+  ```
+
 * Abstract classes (which have at least one pure virtual method) are allowed.
 * Templates are allowed and recommended. Templates usually should be described
   inside header not source code file.

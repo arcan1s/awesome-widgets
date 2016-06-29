@@ -96,6 +96,7 @@ void TestAWKeys::test_pattern()
     QSignalSpy spy(plugin, SIGNAL(needTextToBeUpdated(const QString)));
 
     QVERIFY(spy.wait(5 * interval));
+    QVERIFY(spy.wait(5 * interval));
     QString text = spy.takeFirst().at(0).toString();
 
     QEXPECT_FAIL("", "Pattern should be parsed", Continue);

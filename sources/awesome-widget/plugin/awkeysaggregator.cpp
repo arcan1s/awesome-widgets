@@ -515,7 +515,7 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
     } else if (source.startsWith(QString("lmsensors/"))) {
         // temperature
         int index = m_devices[QString("temp")].indexOf(source);
-        // FIXME on DE initialization there are no units key
+        // HACK on DE initialization there are no units key
         if (units.isEmpty())
             return QStringList() << QString("temp%1").arg(index);
         if (index > -1) {
