@@ -43,6 +43,7 @@ QString insertAllKeys(QString code, const QStringList keys);
 QString insertKeyCount(QString code, const QStringList keys);
 QString insertKeyNames(QString code, const QStringList keys);
 QString insertKeys(QString code, const QStringList keys);
+QString insertMacros(QString code);
 // find methods
 QStringList findKeys(const QString code, const QStringList keys,
                      const bool isBars);

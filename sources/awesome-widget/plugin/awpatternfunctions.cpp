@@ -212,6 +212,48 @@ QString AWPatternFunctions::insertKeys(QString code, const QStringList keys)
 }
 
 
+QString AWPatternFunctions::insertMacros(QString code)
+{
+    qCDebug(LOG_AW) << "Looking for macros in code" << code;
+
+    QList<AWPatternFunctions::AWFunction> found
+        = AWPatternFunctions::findFunctionCalls(QString("aw_macro"), code);
+    for (auto macro : found) {
+        // get macro params
+        if (macro.args.isEmpty()) {
+            qCWarning(LOG_AW) << "No macro name found for" << macro.what;
+            continue;
+        }
+        QString name = macro.args.takeFirst();
+        // find macro usage
+        QList<AWPatternFunctions::AWFunction> macroUsage
+            = AWPatternFunctions::findFunctionCalls(QString("aw_%1").arg(name),
+                                                    code);
+        for (auto function : macroUsage) {
+            if (function.args.count() != macro.args.count()) {
+                qCWarning(LOG_AW) << "Invalid args count found for call"
+                                  << function.what << "with macro"
+                                  << macro.what;
+                continue;
+            }
+            // generate body to replace
+            QString result = macro.body;
+            for (auto arg : macro.args) {
+                int index = macro.args.indexOf(arg);
+                result.replace(arg, function.args.at(index));
+            }
+            // do replace
+            code.replace(function.what, result);
+        }
+
+        // remove macro from source pattern
+        code.remove(macro.what);
+    }
+
+    return code;
+}
+
+
 QStringList AWPatternFunctions::findKeys(const QString code,
                                          const QStringList keys,
                                          const bool isBars)

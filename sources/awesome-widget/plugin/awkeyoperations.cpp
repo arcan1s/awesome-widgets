@@ -342,6 +342,7 @@ void AWKeyOperations::reinitKeys()
     m_pattern = AWPatternFunctions::insertKeyCount(m_pattern, allKeys);
     m_pattern = AWPatternFunctions::insertKeyNames(m_pattern, allKeys);
     m_pattern = AWPatternFunctions::insertKeys(m_pattern, allKeys);
+    m_pattern = AWPatternFunctions::insertMacros(m_pattern);
     // wrap templates
     m_pattern = AWPatternFunctions::expandTemplates(m_pattern);
 
