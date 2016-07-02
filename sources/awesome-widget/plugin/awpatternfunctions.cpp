@@ -96,8 +96,8 @@ AWPatternFunctions::findFunctionCalls(const QString function,
     // $aw_function_name<some args here if any>{{function body}}
     // * args should be always comma separated (e.g. commas are not supported
     // in this field if they are not screened by $, i.e. '$,'
-    // * body depends on the function name, double brackets (i.e. {{ or }}) are
-    // not supported
+    // * body depends on the function name, double brackets should be screened
+    // by using $, e.g. ${
     QRegularExpression regex(
         QString("\\$%1\\<(?<args>.*?)\\>\\{\\{(?<body>.*?)\\}\\}")
             .arg(function));
@@ -125,6 +125,9 @@ AWPatternFunctions::findFunctionCalls(const QString function,
         // other variables
         metadata.body = match.captured(QString("body"));
         metadata.what = match.captured();
+        // replace brackets
+        metadata.body.replace(QString("${"), QString("{"));
+        metadata.body.replace(QString("$}"), QString("}"));
         foundFunctions.append(metadata);
     }
 
@@ -238,10 +241,12 @@ QString AWPatternFunctions::insertMacros(QString code)
             }
             // generate body to replace
             QString result = macro.body;
-            for (auto arg : macro.args) {
-                int index = macro.args.indexOf(arg);
-                result.replace(arg, function.args.at(index));
-            }
+            std::for_each(macro.args.cbegin(), macro.args.cend(),
+                          [&result, macro, function](const QString &arg) {
+                              int index = macro.args.indexOf(arg);
+                              result.replace(QString("$%1").arg(arg),
+                                             function.args.at(index));
+                          });
             // do replace
             code.replace(function.what, result);
         }
