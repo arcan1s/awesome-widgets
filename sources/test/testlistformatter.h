@@ -15,42 +15,34 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef AWABSTRACTFORMATTER_H
-#define AWABSTRACTFORMATTER_H
 
-#include "abstractextitem.h"
+#ifndef TESTLISTFORMATTER_H
+#define TESTLISTFORMATTER_H
+
+#include <QObject>
 
 
-class AWAbstractFormatter : public AbstractExtItem
+class AWListFormatter;
+
+class TestAWListFormatter : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(FormatterClass type READ type WRITE setType)
-    Q_PROPERTY(QString strType READ strType WRITE setStrType)
 
-public:
-    enum class FormatterClass { DateTime, Float, Script, NoFormat, List };
-
-    explicit AWAbstractFormatter(QWidget *parent,
-                                 const QString filePath = QString());
-    virtual ~AWAbstractFormatter();
-    virtual QString convert(const QVariant &_value) const = 0;
-    void copyDefaults(AbstractExtItem *_other) const;
-    QString uniq() const;
-    // properties
-    QString strType() const;
-    FormatterClass type() const;
-    void setStrType(const QString type);
-    void setType(const FormatterClass _type = FormatterClass::NoFormat);
-
-public slots:
-    virtual void readConfiguration();
-    QVariantHash run() { return QVariantHash(); };
-    virtual void writeConfiguration() const;
+private slots:
+    // initialization
+    void initTestCase();
+    void cleanupTestCase();
+    // test
+    void test_values();
+    void test_conversion();
+    void test_sorted();
+    void test_filter();
+    void test_copy();
 
 private:
-    // properties
-    FormatterClass m_type = FormatterClass::NoFormat;
+    AWListFormatter *formatter = nullptr;
+    QString separator;
 };
 
 
-#endif /* AWABSTRACTFORMATTER_H */
+#endif /* TESTLISTFORMATTER_H */

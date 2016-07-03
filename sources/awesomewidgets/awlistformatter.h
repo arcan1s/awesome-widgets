@@ -15,42 +15,50 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef AWABSTRACTFORMATTER_H
-#define AWABSTRACTFORMATTER_H
+#ifndef AWLISTFORMATTER_H
+#define AWLISTFORMATTER_H
 
-#include "abstractextitem.h"
+#include "awabstractformatter.h"
 
 
-class AWAbstractFormatter : public AbstractExtItem
+namespace Ui
+{
+class AWListFormatter;
+}
+
+class AWListFormatter : public AWAbstractFormatter
 {
     Q_OBJECT
-    Q_PROPERTY(FormatterClass type READ type WRITE setType)
-    Q_PROPERTY(QString strType READ strType WRITE setStrType)
+    Q_PROPERTY(QString filter READ filter WRITE setFilter)
+    Q_PROPERTY(QString separator READ separator WRITE setSeparator)
+    Q_PROPERTY(bool sorted READ isSorted WRITE setSorted)
 
 public:
-    enum class FormatterClass { DateTime, Float, Script, NoFormat, List };
-
-    explicit AWAbstractFormatter(QWidget *parent,
-                                 const QString filePath = QString());
-    virtual ~AWAbstractFormatter();
-    virtual QString convert(const QVariant &_value) const = 0;
-    void copyDefaults(AbstractExtItem *_other) const;
-    QString uniq() const;
+    explicit AWListFormatter(QWidget *parent,
+                             const QString filePath = QString());
+    virtual ~AWListFormatter();
+    QString convert(const QVariant &_value) const;
+    AWListFormatter *copy(const QString _fileName, const int _number);
     // properties
-    QString strType() const;
-    FormatterClass type() const;
-    void setStrType(const QString type);
-    void setType(const FormatterClass _type = FormatterClass::NoFormat);
+    QString filter() const;
+    bool isSorted() const;
+    QString separator() const;
+    void setFilter(const QString _filter);
+    void setSeparator(const QString _separator);
+    void setSorted(const bool _sorted);
 
 public slots:
-    virtual void readConfiguration();
-    QVariantHash run() { return QVariantHash(); };
-    virtual void writeConfiguration() const;
+    int showConfiguration(const QVariant args = QVariant());
 
 private:
+    Ui::AWListFormatter *ui = nullptr;
+    void translate();
     // properties
-    FormatterClass m_type = FormatterClass::NoFormat;
+    QString m_filter = QString();
+    QString m_separator = QString();
+    bool m_sorted = false;
+    QRegExp m_regex;
 };
 
 
-#endif /* AWABSTRACTFORMATTER_H */
+#endif /* AWLISTFORMATTER_H */

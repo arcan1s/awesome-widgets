@@ -26,6 +26,7 @@
 #include "awdatetimeformatter.h"
 #include "awdebug.h"
 #include "awfloatformatter.h"
+#include "awlistformatter.h"
 #include "awnoformatter.h"
 #include "awscriptformatter.h"
 
@@ -160,6 +161,8 @@ AWFormatterHelper::defineFormatterClass(const QString stringType) const
         ;
     else if (stringType == QString("Script"))
         formatter = AWAbstractFormatter::FormatterClass::Script;
+    else if (stringType == QString("List"))
+        formatter = AWAbstractFormatter::FormatterClass::List;
     else
         qCWarning(LOG_AW) << "Unknown formatter" << stringType;
 
@@ -202,6 +205,9 @@ void AWFormatterHelper::initFormatters()
                 break;
             case AWAbstractFormatter::FormatterClass::NoFormat:
                 m_formattersClasses[name] = new AWNoFormatter(this, filePath);
+                break;
+            case AWAbstractFormatter::FormatterClass::List:
+                m_formattersClasses[name] = new AWListFormatter(this, filePath);
                 break;
             }
         }
@@ -280,7 +286,8 @@ void AWFormatterHelper::doCreateItem()
 {
     QStringList selection = QStringList()
                             << QString("NoFormat") << QString("DateTime")
-                            << QString("Float") << QString("Script");
+                            << QString("Float") << QString("Script")
+                            << QString("List");
     bool ok;
     QString select = QInputDialog::getItem(
         this, i18n("Select type"), i18n("Type:"), selection, 0, false, &ok);
@@ -301,6 +308,8 @@ void AWFormatterHelper::doCreateItem()
         return createItem<AWScriptFormatter>();
     case AWAbstractFormatter::FormatterClass::NoFormat:
         return createItem<AWNoFormatter>();
+    case AWAbstractFormatter::FormatterClass::List:
+        return createItem<AWListFormatter>();
     }
 }
 

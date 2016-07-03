@@ -66,6 +66,9 @@ QString AWAbstractFormatter::strType() const
     case FormatterClass::NoFormat:
         value = QString("NoFormat");
         break;
+    case FormatterClass::List:
+        value = QString("List");
+        break;
     }
 
     return value;
@@ -88,6 +91,8 @@ void AWAbstractFormatter::setStrType(const QString _type)
         m_type = FormatterClass::Float;
     else if (_type == QString("Script"))
         m_type = FormatterClass::Script;
+    else if (_type == QString("List"))
+        m_type = FormatterClass::List;
     else
         m_type = FormatterClass::NoFormat;
 }
