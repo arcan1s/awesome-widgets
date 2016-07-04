@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-05-16 19:35+0300\n"
+"POT-Creation-Date: 2016-07-04 16:21+0300\n"
 "PO-Revision-Date: 2016-05-05 17:18+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Ukrainian <kde-russian@lists.kde.ru>\n"
@@ -539,6 +539,15 @@ msgstr ""
 msgid "Summand"
 msgstr "Команда"
 
+msgid "Filter"
+msgstr "Фільтр"
+
+msgid "Separator"
+msgstr ""
+
+msgid "Sort"
+msgstr ""
+
 #, fuzzy
 msgid "Append code"
 msgstr "Зовнішній вигляд"
@@ -590,11 +599,11 @@ msgstr "Обробити кольори"
 msgid "Wrap spaces"
 msgstr "Обробити пробіли"
 
-msgid "Filter"
-msgstr "Фільтр"
-
 msgid "Null"
 msgstr "Пусті рядки"
+
+msgid "Provider"
+msgstr ""
 
 msgid "City"
 msgstr "Місто"
