@@ -96,7 +96,7 @@ QString ExtQuotes::ticker() const
 
 QString ExtQuotes::uniq() const
 {
-    return m_ticker;
+    return ticker();
 }
 
 
@@ -116,7 +116,7 @@ void ExtQuotes::readConfiguration()
     QSettings settings(fileName(), QSettings::IniFormat);
 
     settings.beginGroup(QString("Desktop Entry"));
-    setTicker(settings.value(QString("X-AW-Ticker"), m_ticker).toString());
+    setTicker(settings.value(QString("X-AW-Ticker"), ticker()).toString());
     settings.endGroup();
 
     // update for current API
@@ -159,7 +159,7 @@ int ExtQuotes::showConfiguration(const QVariant args)
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
     ui->label_numberValue->setText(QString("%1").arg(number()));
-    ui->lineEdit_ticker->setText(m_ticker);
+    ui->lineEdit_ticker->setText(ticker());
     ui->checkBox_active->setCheckState(isActive() ? Qt::Checked
                                                   : Qt::Unchecked);
     ui->spinBox_interval->setValue(interval());
@@ -188,7 +188,7 @@ void ExtQuotes::writeConfiguration() const
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("X-AW-Ticker"), m_ticker);
+    settings.setValue(QString("X-AW-Ticker"), ticker());
     settings.endGroup();
 
     settings.sync();
@@ -260,7 +260,7 @@ void ExtQuotes::initUrl()
     params.addQueryItem(QString("env"),
                         QString("store://datatables.org/alltableswithkeys"));
     params.addQueryItem(QString("q"),
-                        QString(YAHOO_QUOTES_QUERY).arg(m_ticker));
+                        QString(YAHOO_QUOTES_QUERY).arg(ticker()));
     m_url.setQuery(params);
 }
 

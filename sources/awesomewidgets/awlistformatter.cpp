@@ -21,6 +21,8 @@
 
 #include <KI18n/KLocalizedString>
 
+#include <QSettings>
+
 #include "awdebug.h"
 
 
@@ -117,6 +119,23 @@ void AWListFormatter::setSorted(const bool _sorted)
 }
 
 
+void AWListFormatter::readConfiguration()
+{
+    AWAbstractFormatter::readConfiguration();
+
+    QSettings settings(fileName(), QSettings::IniFormat);
+
+    settings.beginGroup(QString("Desktop Entry"));
+    setFilter(settings.value(QString("X-AW-Filter"), filter()).toString());
+    setSeparator(
+        settings.value(QString("X-AW-Separator"), separator()).toString());
+    setSorted(settings.value(QString("X-AW-Sort"), isSorted()).toBool());
+    settings.endGroup();
+
+    bumpApi(AWEFAPI);
+}
+
+
 int AWListFormatter::showConfiguration(const QVariant args)
 {
     Q_UNUSED(args)
@@ -141,6 +160,23 @@ int AWListFormatter::showConfiguration(const QVariant args)
 
     writeConfiguration();
     return ret;
+}
+
+
+void AWListFormatter::writeConfiguration() const
+{
+    AWAbstractFormatter::writeConfiguration();
+
+    QSettings settings(writtableConfig(), QSettings::IniFormat);
+    qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
+
+    settings.beginGroup(QString("Desktop Entry"));
+    settings.setValue(QString("X-AW-Filter"), filter());
+    settings.setValue(QString("X-AW-Separator"), separator());
+    settings.setValue(QString("X-AW-Sort"), isSorted());
+    settings.endGroup();
+
+    settings.sync();
 }
 
 

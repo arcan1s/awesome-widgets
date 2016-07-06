@@ -40,7 +40,7 @@ void AWAbstractFormatter::copyDefaults(AbstractExtItem *_other) const
 {
     AbstractExtItem::copyDefaults(_other);
 
-    static_cast<AWAbstractFormatter *>(_other)->setType(m_type);
+    static_cast<AWAbstractFormatter *>(_other)->setType(type());
 }
 
 

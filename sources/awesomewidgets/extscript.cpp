@@ -104,14 +104,14 @@ ExtScript::Redirect ExtScript::redirect() const
 
 QString ExtScript::uniq() const
 {
-    return m_executable;
+    return executable();
 }
 
 
 QString ExtScript::strRedirect() const
 {
     QString value;
-    switch (m_redirect) {
+    switch (redirect()) {
     case Redirect::stdout2stderr:
         value = QString("stdout2stderr");
         break;
@@ -182,7 +182,7 @@ QString ExtScript::applyFilters(QString _value) const
 {
     qCDebug(LOG_LIB) << "Value" << _value;
 
-    for (auto filt : m_filters) {
+    for (auto filt : filters()) {
         qCInfo(LOG_LIB) << "Found filter" << filt;
         QVariantMap filter = jsonFilters[filt].toMap();
         if (filter.isEmpty()) {
@@ -203,7 +203,7 @@ void ExtScript::updateFilter(const QString _filter, const bool _add)
     qCDebug(LOG_LIB) << "Should be added filters" << _add << "from" << _filter;
 
     if (_add) {
-        if (m_filters.contains(_filter))
+        if (filters().contains(_filter))
             return;
         m_filters.append(_filter);
     } else {
@@ -219,12 +219,12 @@ void ExtScript::readConfiguration()
     QSettings settings(fileName(), QSettings::IniFormat);
 
     settings.beginGroup(QString("Desktop Entry"));
-    setExecutable(settings.value(QString("Exec"), m_executable).toString());
-    setPrefix(settings.value(QString("X-AW-Prefix"), m_prefix).toString());
+    setExecutable(settings.value(QString("Exec"), executable()).toString());
+    setPrefix(settings.value(QString("X-AW-Prefix"), prefix()).toString());
     setStrRedirect(
         settings.value(QString("X-AW-Redirect"), strRedirect()).toString());
     // api == 3
-    setFilters(settings.value(QString("X-AW-Filters"), m_filters)
+    setFilters(settings.value(QString("X-AW-Filters"), filters())
                    .toString()
                    .split(QChar(','), QString::SkipEmptyParts));
     settings.endGroup();
@@ -270,9 +270,9 @@ QVariantHash ExtScript::run()
 
     if ((times == 1) && (process->state() == QProcess::NotRunning)) {
         QStringList cmdList;
-        if (!m_prefix.isEmpty())
-            cmdList.append(m_prefix);
-        cmdList.append(m_executable);
+        if (!prefix().isEmpty())
+            cmdList.append(prefix());
+        cmdList.append(executable());
         qCInfo(LOG_LIB) << "Run cmd" << cmdList.join(QChar(' '));
         process->start(cmdList.join(QChar(' ')));
     }
@@ -293,19 +293,19 @@ int ExtScript::showConfiguration(const QVariant args)
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
     ui->label_numberValue->setText(QString("%1").arg(number()));
-    ui->lineEdit_command->setText(m_executable);
-    ui->lineEdit_prefix->setText(m_prefix);
+    ui->lineEdit_command->setText(executable());
+    ui->lineEdit_prefix->setText(prefix());
     ui->checkBox_active->setCheckState(isActive() ? Qt::Checked
                                                   : Qt::Unchecked);
-    ui->comboBox_redirect->setCurrentIndex(static_cast<int>(m_redirect));
+    ui->comboBox_redirect->setCurrentIndex(static_cast<int>(redirect()));
     ui->spinBox_interval->setValue(interval());
     // filters
     ui->checkBox_colorFilter->setCheckState(
-        m_filters.contains(QString("color")) ? Qt::Checked : Qt::Unchecked);
+        filters().contains(QString("color")) ? Qt::Checked : Qt::Unchecked);
     ui->checkBox_linesFilter->setCheckState(
-        m_filters.contains(QString("newline")) ? Qt::Checked : Qt::Unchecked);
+        filters().contains(QString("newline")) ? Qt::Checked : Qt::Unchecked);
     ui->checkBox_spaceFilter->setCheckState(
-        m_filters.contains(QString("space")) ? Qt::Checked : Qt::Unchecked);
+        filters().contains(QString("space")) ? Qt::Checked : Qt::Unchecked);
 
     int ret = exec();
     if (ret != 1)
@@ -340,10 +340,10 @@ void ExtScript::writeConfiguration() const
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("Exec"), m_executable);
-    settings.setValue(QString("X-AW-Prefix"), m_prefix);
+    settings.setValue(QString("Exec"), executable());
+    settings.setValue(QString("X-AW-Prefix"), prefix());
     settings.setValue(QString("X-AW-Redirect"), strRedirect());
-    settings.setValue(QString("X-AW-Filters"), m_filters.join(QChar(',')));
+    settings.setValue(QString("X-AW-Filters"), filters().join(QChar(',')));
     settings.endGroup();
 
     settings.sync();
@@ -363,7 +363,7 @@ void ExtScript::updateValue()
     qCInfo(LOG_LIB) << "Output" << qoutput;
     QString strValue;
 
-    switch (m_redirect) {
+    switch (redirect()) {
     case Redirect::stdout2stderr:
         break;
     case Redirect::stderr2stdout:

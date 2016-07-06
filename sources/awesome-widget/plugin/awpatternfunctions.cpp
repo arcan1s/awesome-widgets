@@ -230,8 +230,8 @@ QString AWPatternFunctions::insertMacros(QString code)
         QString name = macro.args.takeFirst();
         // find macro usage
         QList<AWPatternFunctions::AWFunction> macroUsage
-            = AWPatternFunctions::findFunctionCalls(QString("aw_%1").arg(name),
-                                                    code);
+            = AWPatternFunctions::findFunctionCalls(
+                QString("aw_macro_%1").arg(name), code);
         for (auto function : macroUsage) {
             if (function.args.count() != macro.args.count()) {
                 qCWarning(LOG_AW) << "Invalid args count found for call"

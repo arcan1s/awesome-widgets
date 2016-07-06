@@ -60,11 +60,11 @@ void AbstractExtItem::bumpApi(const int _newVer)
 
 void AbstractExtItem::copyDefaults(AbstractExtItem *_other) const
 {
-    _other->setActive(m_active);
-    _other->setApiVersion(m_apiVersion);
-    _other->setComment(m_comment);
-    _other->setInterval(m_interval);
-    _other->setName(m_name);
+    _other->setActive(isActive());
+    _other->setApiVersion(apiVersion());
+    _other->setComment(comment());
+    _other->setInterval(interval());
+    _other->setName(name());
 }
 
 
@@ -129,7 +129,7 @@ QString AbstractExtItem::tag(const QString _type) const
 {
     qCDebug(LOG_LIB) << "Tag type" << _type;
 
-    return QString("%1%2").arg(_type).arg(m_number);
+    return QString("%1%2").arg(_type).arg(number());
 }
 
 
@@ -182,7 +182,8 @@ void AbstractExtItem::setNumber(int _number)
     if (generateNumber) {
         _number = []() {
             qCWarning(LOG_LIB) << "Number is empty, generate new one";
-            qsrand(QTime::currentTime().msec());
+            // we suppose that currentTIme().msec() is always valid time
+            qsrand(static_cast<uint>(QTime::currentTime().msec()));
             int n = qrand() % 1000;
             qCInfo(LOG_LIB) << "Generated number is" << n;
             return n;
@@ -200,15 +201,15 @@ void AbstractExtItem::readConfiguration()
     QSettings settings(m_fileName, QSettings::IniFormat);
 
     settings.beginGroup(QString("Desktop Entry"));
-    setName(settings.value(QString("Name"), m_name).toString());
-    setComment(settings.value(QString("Comment"), m_comment).toString());
+    setName(settings.value(QString("Name"), name()).toString());
+    setComment(settings.value(QString("Comment"), comment()).toString());
     setApiVersion(
-        settings.value(QString("X-AW-ApiVersion"), m_apiVersion).toInt());
+        settings.value(QString("X-AW-ApiVersion"), apiVersion()).toInt());
     setActive(
-        settings.value(QString("X-AW-Active"), QVariant(m_active)).toString()
+        settings.value(QString("X-AW-Active"), QVariant(isActive())).toString()
         == QString("true"));
-    setInterval(settings.value(QString("X-AW-Interval"), m_interval).toInt());
-    setNumber(settings.value(QString("X-AW-Number"), m_number).toInt());
+    setInterval(settings.value(QString("X-AW-Interval"), interval()).toInt());
+    setNumber(settings.value(QString("X-AW-Number"), number()).toInt());
     settings.endGroup();
 }
 
@@ -229,12 +230,12 @@ void AbstractExtItem::writeConfiguration() const
 
     settings.beginGroup(QString("Desktop Entry"));
     settings.setValue(QString("Encoding"), QString("UTF-8"));
-    settings.setValue(QString("Name"), m_name);
-    settings.setValue(QString("Comment"), m_comment);
-    settings.setValue(QString("X-AW-ApiVersion"), m_apiVersion);
-    settings.setValue(QString("X-AW-Active"), QVariant(m_active).toString());
-    settings.setValue(QString("X-AW-Interval"), m_interval);
-    settings.setValue(QString("X-AW-Number"), m_number);
+    settings.setValue(QString("Name"), name());
+    settings.setValue(QString("Comment"), comment());
+    settings.setValue(QString("X-AW-ApiVersion"), apiVersion());
+    settings.setValue(QString("X-AW-Active"), QVariant(isActive()).toString());
+    settings.setValue(QString("X-AW-Interval"), interval());
+    settings.setValue(QString("X-AW-Number"), number());
     settings.endGroup();
 
     settings.sync();

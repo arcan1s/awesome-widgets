@@ -48,7 +48,9 @@ public:
     void setSorted(const bool _sorted);
 
 public slots:
+    void readConfiguration();
     int showConfiguration(const QVariant args = QVariant());
+    void writeConfiguration() const;
 
 private:
     Ui::AWListFormatter *ui = nullptr;
