@@ -16,8 +16,8 @@
  ***************************************************************************/
 
 
-#include "awfloatformatter.h"
-#include "ui_awfloatformatter.h"
+#include "awstringformatter.h"
+#include "ui_awstringformatter.h"
 
 #include <KI18n/KLocalizedString>
 
@@ -27,9 +27,9 @@
 #include "awdebug.h"
 
 
-AWFloatFormatter::AWFloatFormatter(QWidget *parent, const QString filePath)
+AWStringFormatter::AWStringFormatter(QWidget *parent, const QString filePath)
     : AWAbstractFormatter(parent, filePath)
-    , ui(new Ui::AWFloatFormatter)
+    , ui(new Ui::AWStringFormatter)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
@@ -40,7 +40,7 @@ AWFloatFormatter::AWFloatFormatter(QWidget *parent, const QString filePath)
 }
 
 
-AWFloatFormatter::~AWFloatFormatter()
+AWStringFormatter::~AWStringFormatter()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
@@ -48,13 +48,11 @@ AWFloatFormatter::~AWFloatFormatter()
 }
 
 
-QString AWFloatFormatter::convert(const QVariant &_value) const
+QString AWStringFormatter::convert(const QVariant &_value) const
 {
     qCDebug(LOG_LIB) << "Convert value" << _value;
 
-    QString output
-        = QString("%1").arg(_value.toDouble() * multiplier() + summand(),
-                            count(), format(), precision(), fillChar());
+    QString output = QString("%1").arg(_value.toString(), count(), fillChar());
     if (forceWidth())
         output = output.left(count());
 
@@ -62,70 +60,42 @@ QString AWFloatFormatter::convert(const QVariant &_value) const
 }
 
 
-AWFloatFormatter *AWFloatFormatter::copy(const QString _fileName,
-                                         const int _number)
+AWStringFormatter *AWStringFormatter::copy(const QString _fileName,
+                                           const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    AWFloatFormatter *item
-        = new AWFloatFormatter(static_cast<QWidget *>(parent()), _fileName);
+    AWStringFormatter *item
+        = new AWStringFormatter(static_cast<QWidget *>(parent()), _fileName);
     AWAbstractFormatter::copyDefaults(item);
     item->setCount(count());
-    item->setFormat(format());
     item->setFillChar(fillChar());
     item->setForceWidth(forceWidth());
-    item->setMultiplier(multiplier());
     item->setNumber(_number);
-    item->setPrecision(precision());
-    item->setSummand(summand());
 
     return item;
 }
 
 
-int AWFloatFormatter::count() const
+int AWStringFormatter::count() const
 {
     return m_count;
 }
 
 
-QChar AWFloatFormatter::fillChar() const
+QChar AWStringFormatter::fillChar() const
 {
     return m_fillChar;
 }
 
 
-bool AWFloatFormatter::forceWidth() const
+bool AWStringFormatter::forceWidth() const
 {
     return m_forceWidth;
 }
 
 
-char AWFloatFormatter::format() const
-{
-    return m_format;
-}
-
-
-double AWFloatFormatter::multiplier() const
-{
-    return m_multiplier;
-}
-
-
-int AWFloatFormatter::precision() const
-{
-    return m_precision;
-}
-
-
-double AWFloatFormatter::summand() const
-{
-    return m_summand;
-}
-
-
-void AWFloatFormatter::setCount(const int _count)
+void AWStringFormatter::setCount(const int _count)
 {
     qCDebug(LOG_LIB) << "Set width" << _count;
 
@@ -133,7 +103,7 @@ void AWFloatFormatter::setCount(const int _count)
 }
 
 
-void AWFloatFormatter::setFillChar(const QChar _fillChar)
+void AWStringFormatter::setFillChar(const QChar _fillChar)
 {
     qCDebug(LOG_LIB) << "Set char" << _fillChar;
 
@@ -141,7 +111,7 @@ void AWFloatFormatter::setFillChar(const QChar _fillChar)
 }
 
 
-void AWFloatFormatter::setForceWidth(const bool _forceWidth)
+void AWStringFormatter::setForceWidth(const bool _forceWidth)
 {
     qCDebug(LOG_LIB) << "Set force strip" << _forceWidth;
 
@@ -149,45 +119,7 @@ void AWFloatFormatter::setForceWidth(const bool _forceWidth)
 }
 
 
-void AWFloatFormatter::setFormat(char _format)
-{
-    qCDebug(LOG_LIB) << "Set format" << _format;
-    // http://doc.qt.io/qt-5/qstring.html#argument-formats
-    if ((_format != 'e') && (_format != 'E') && (_format != 'f')
-        && (_format != 'g') && (_format != 'G')) {
-        qCWarning(LOG_LIB) << "Invalid format" << _format;
-        _format = 'f';
-    }
-
-    m_format = _format;
-}
-
-
-void AWFloatFormatter::setMultiplier(const double _multiplier)
-{
-    qCDebug(LOG_LIB) << "Set multiplier" << _multiplier;
-
-    m_multiplier = _multiplier;
-}
-
-
-void AWFloatFormatter::setPrecision(const int _precision)
-{
-    qCDebug(LOG_LIB) << "Set precision" << _precision;
-
-    m_precision = _precision;
-}
-
-
-void AWFloatFormatter::setSummand(const double _summand)
-{
-    qCDebug(LOG_LIB) << "Set summand" << _summand;
-
-    m_summand = _summand;
-}
-
-
-void AWFloatFormatter::readConfiguration()
+void AWStringFormatter::readConfiguration()
 {
     AWAbstractFormatter::readConfiguration();
 
@@ -199,37 +131,23 @@ void AWFloatFormatter::readConfiguration()
         settings.value(QString("X-AW-FillChar"), fillChar()).toString().at(0));
     setForceWidth(
         settings.value(QString("X-AW-ForceWidth"), forceWidth()).toBool());
-    setFormat(settings.value(QString("X-AW-Format"), QString(format()))
-                  .toString()
-                  .at(0)
-                  .toLatin1());
-    setMultiplier(
-        settings.value(QString("X-AW-Multiplier"), multiplier()).toDouble());
-    setPrecision(
-        settings.value(QString("X-AW-Precision"), precision()).toInt());
-    setSummand(settings.value(QString("X-AW-Summand"), summand()).toDouble());
     settings.endGroup();
 
     bumpApi(AWEFAPI);
 }
 
 
-int AWFloatFormatter::showConfiguration(const QVariant args)
+int AWStringFormatter::showConfiguration(const QVariant args)
 {
     Q_UNUSED(args)
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
-    ui->label_typeValue->setText(QString("Float"));
-    ui->comboBox_format->setCurrentIndex(
-        ui->comboBox_format->findText(QString(format())));
-    ui->spinBox_precision->setValue(precision());
+    ui->label_typeValue->setText(QString("String"));
     ui->spinBox_width->setValue(count());
     ui->lineEdit_fill->setText(QString(fillChar()));
     ui->checkBox_forceWidth->setCheckState(forceWidth() ? Qt::Checked
                                                         : Qt::Unchecked);
-    ui->doubleSpinBox_multiplier->setValue(multiplier());
-    ui->doubleSpinBox_summand->setValue(summand());
 
     int ret = exec();
     if (ret != 1)
@@ -237,20 +155,16 @@ int AWFloatFormatter::showConfiguration(const QVariant args)
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
     setStrType(ui->label_typeValue->text());
-    setFormat(ui->comboBox_format->currentText().at(0).toLatin1());
-    setPrecision(ui->spinBox_precision->value());
     setCount(ui->spinBox_width->value());
     setFillChar(ui->lineEdit_fill->text().at(0));
     setForceWidth(ui->checkBox_forceWidth->checkState() == Qt::Checked);
-    setMultiplier(ui->doubleSpinBox_multiplier->value());
-    setSummand(ui->doubleSpinBox_summand->value());
 
     writeConfiguration();
     return ret;
 }
 
 
-void AWFloatFormatter::writeConfiguration() const
+void AWStringFormatter::writeConfiguration() const
 {
     AWAbstractFormatter::writeConfiguration();
 
@@ -260,27 +174,19 @@ void AWFloatFormatter::writeConfiguration() const
     settings.beginGroup(QString("Desktop Entry"));
     settings.setValue(QString("X-AW-Width"), count());
     settings.setValue(QString("X-AW-FillChar"), fillChar());
-    settings.setValue(QString("X-AW-Format"), format());
     settings.setValue(QString("X-AW-ForceWidth"), forceWidth());
-    settings.setValue(QString("X-AW-Multiplier"), multiplier());
-    settings.setValue(QString("X-AW-Precision"), precision());
-    settings.setValue(QString("X-AW-Summand"), summand());
     settings.endGroup();
 
     settings.sync();
 }
 
 
-void AWFloatFormatter::translate()
+void AWStringFormatter::translate()
 {
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
     ui->label_type->setText(i18n("Type"));
-    ui->label_format->setText(i18n("Format"));
-    ui->label_precision->setText(i18n("Precision"));
     ui->label_width->setText(i18n("Width"));
     ui->label_fill->setText(i18n("Fill char"));
     ui->checkBox_forceWidth->setText(i18n("Force width"));
-    ui->label_multiplier->setText(i18n("Multiplier"));
-    ui->label_summand->setText(i18n("Summand"));
 }

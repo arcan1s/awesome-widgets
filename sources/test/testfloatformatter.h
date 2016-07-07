@@ -36,6 +36,7 @@ private slots:
     void test_values();
     void test_count();
     void test_fillChar();
+    void test_forceWidth();
     void test_format();
     void test_precision();
     void test_multiplier();
