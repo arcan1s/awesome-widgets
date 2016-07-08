@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-07-04 16:21+0300\n"
+"POT-Creation-Date: 2016-07-06 19:36+0300\n"
 "PO-Revision-Date: 2016-05-03 06:47+0000\n"
 "Last-Translator: Ernesto Avilés Vázquez <whippiii@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/arcanis/awesome-widgets/"
@@ -532,6 +532,9 @@ msgid "Width"
 msgstr "Ancho"
 
 msgid "Fill char"
+msgstr ""
+
+msgid "Force width"
 msgstr ""
 
 msgid "Multiplier"
