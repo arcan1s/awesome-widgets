@@ -19,6 +19,7 @@
 #ifndef AWACTIONS_H
 #define AWACTIONS_H
 
+#include <QMap>
 #include <QObject>
 
 

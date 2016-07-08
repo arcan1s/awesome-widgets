@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-05-16 19:35+0300\n"
+"POT-Creation-Date: 2016-07-06 19:36+0300\n"
 "PO-Revision-Date: 2016-05-03 06:47+0000\n"
 "Last-Translator: Ernesto Avilés Vázquez <whippiii@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/arcanis/awesome-widgets/"
@@ -534,12 +534,24 @@ msgstr "Ancho"
 msgid "Fill char"
 msgstr ""
 
+msgid "Force width"
+msgstr ""
+
 msgid "Multiplier"
 msgstr ""
 
 #, fuzzy
 msgid "Summand"
 msgstr "Orden"
+
+msgid "Filter"
+msgstr "Filtro"
+
+msgid "Separator"
+msgstr ""
+
+msgid "Sort"
+msgstr ""
 
 #, fuzzy
 msgid "Append code"
@@ -592,11 +604,11 @@ msgstr "Tratamiento de colores"
 msgid "Wrap spaces"
 msgstr "Tratamiento de espacios"
 
-msgid "Filter"
-msgstr "Filtro"
-
 msgid "Null"
 msgstr "Líneas en blanco"
+
+msgid "Provider"
+msgstr ""
 
 msgid "City"
 msgstr "Ciudad"

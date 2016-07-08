@@ -146,10 +146,10 @@ void AWScriptFormatter::readConfiguration()
 
     settings.beginGroup(QString("Desktop Entry"));
     setAppendCode(
-        settings.value(QString("X-AW-AppendCode"), m_appendCode).toBool());
-    setCode(settings.value(QString("X-AW-Code"), m_code).toString());
+        settings.value(QString("X-AW-AppendCode"), appendCode()).toBool());
+    setCode(settings.value(QString("X-AW-Code"), code()).toString());
     setHasReturn(
-        settings.value(QString("X-AW-HasReturn"), m_hasReturn).toBool());
+        settings.value(QString("X-AW-HasReturn"), hasReturn()).toBool());
     settings.endGroup();
 
     bumpApi(AWEFAPI);
@@ -163,11 +163,11 @@ int AWScriptFormatter::showConfiguration(const QVariant args)
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
     ui->label_typeValue->setText(QString("Script"));
-    ui->checkBox_appendCode->setCheckState(m_appendCode ? Qt::Checked
+    ui->checkBox_appendCode->setCheckState(appendCode() ? Qt::Checked
                                                         : Qt::Unchecked);
-    ui->checkBox_hasReturn->setCheckState(m_hasReturn ? Qt::Checked
+    ui->checkBox_hasReturn->setCheckState(hasReturn() ? Qt::Checked
                                                       : Qt::Unchecked);
-    ui->textEdit_code->setPlainText(m_code);
+    ui->textEdit_code->setPlainText(code());
 
     int ret = exec();
     if (ret != 1)
@@ -193,9 +193,9 @@ void AWScriptFormatter::writeConfiguration() const
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("X-AW-AppendCode"), m_appendCode);
-    settings.setValue(QString("X-AW-Code"), m_code);
-    settings.setValue(QString("X-AW-HasReturn"), m_hasReturn);
+    settings.setValue(QString("X-AW-AppendCode"), appendCode());
+    settings.setValue(QString("X-AW-Code"), code());
+    settings.setValue(QString("X-AW-HasReturn"), hasReturn());
     settings.endGroup();
 
     settings.sync();
@@ -205,13 +205,13 @@ void AWScriptFormatter::writeConfiguration() const
 void AWScriptFormatter::initProgram()
 {
     // init JS code
-    if (m_appendCode)
+    if (appendCode())
         m_program
             = QString("(function(value) { %1%2 })")
-                  .arg(m_code)
-                  .arg(m_hasReturn ? QString("") : QString("; return output;"));
+                  .arg(code())
+                  .arg(hasReturn() ? QString("") : QString("; return output;"));
     else
-        m_program = m_code;
+        m_program = code();
 
     qCInfo(LOG_LIB) << "Create JS engine with code" << m_program;
 }

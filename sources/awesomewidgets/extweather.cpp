@@ -150,7 +150,7 @@ int ExtWeather::ts() const
 
 QString ExtWeather::uniq() const
 {
-    return QString("%1 (%2) at %3").arg(m_city).arg(m_country).arg(m_ts);
+    return QString("%1 (%2) at %3").arg(city()).arg(country()).arg(ts());
 }
 
 
@@ -216,11 +216,11 @@ void ExtWeather::readConfiguration()
     QSettings settings(fileName(), QSettings::IniFormat);
 
     settings.beginGroup(QString("Desktop Entry"));
-    setCity(settings.value(QString("X-AW-City"), m_city).toString());
-    setCountry(settings.value(QString("X-AW-Country"), m_country).toString());
-    setTs(settings.value(QString("X-AW-TS"), m_ts).toInt());
+    setCity(settings.value(QString("X-AW-City"), city()).toString());
+    setCountry(settings.value(QString("X-AW-Country"), country()).toString());
+    setTs(settings.value(QString("X-AW-TS"), ts()).toInt());
     // api == 2
-    setImage(settings.value(QString("X-AW-Image"), QVariant(m_image)).toString()
+    setImage(settings.value(QString("X-AW-Image"), QVariant(image())).toString()
              == QString("true"));
     // api == 3
     setStrProvider(
@@ -286,11 +286,11 @@ int ExtWeather::showConfiguration(const QVariant args)
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
     ui->label_numberValue->setText(QString("%1").arg(number()));
-    ui->comboBox_provider->setCurrentIndex(static_cast<int>(m_provider));
-    ui->lineEdit_city->setText(m_city);
-    ui->lineEdit_country->setText(m_country);
-    ui->spinBox_timestamp->setValue(m_ts);
-    ui->checkBox_image->setCheckState(m_image ? Qt::Checked : Qt::Unchecked);
+    ui->comboBox_provider->setCurrentIndex(static_cast<int>(provider()));
+    ui->lineEdit_city->setText(city());
+    ui->lineEdit_country->setText(country());
+    ui->spinBox_timestamp->setValue(ts());
+    ui->checkBox_image->setCheckState(image() ? Qt::Checked : Qt::Unchecked);
     ui->checkBox_active->setCheckState(isActive() ? Qt::Checked
                                                   : Qt::Unchecked);
     ui->spinBox_interval->setValue(interval());
@@ -323,11 +323,11 @@ void ExtWeather::writeConfiguration() const
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("X-AW-City"), m_city);
-    settings.setValue(QString("X-AW-Country"), m_country);
-    settings.setValue(QString("X-AW-Image"), m_image);
+    settings.setValue(QString("X-AW-City"), city());
+    settings.setValue(QString("X-AW-Country"), country());
+    settings.setValue(QString("X-AW-Image"), image());
     settings.setValue(QString("X-AW-Provider"), strProvider());
-    settings.setValue(QString("X-AW-TS"), m_ts);
+    settings.setValue(QString("X-AW-TS"), ts());
     settings.endGroup();
 
     settings.sync();
@@ -373,7 +373,7 @@ void ExtWeather::initProvider()
         break;
     }
 
-    return m_providerObject->initUrl(m_city, m_country, m_ts);
+    return m_providerObject->initUrl(city(), country(), ts());
 }
 
 

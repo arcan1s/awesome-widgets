@@ -49,8 +49,7 @@ void TestAWFloatFormatter::test_count()
     QCOMPARE(formatter->count(), count);
 
     // test
-    double value = AWTestLibrary::randomDouble();
-    QString output = formatter->convert(value);
+    QString output = formatter->convert(AWTestLibrary::randomDouble());
     QCOMPARE(output.count(), count);
 
     // reset
@@ -67,12 +66,29 @@ void TestAWFloatFormatter::test_fillChar()
     formatter->setCount(101);
 
     // test
-    int value = AWTestLibrary::randomInt();
-    QString output = formatter->convert(value);
+    QString output = formatter->convert(AWTestLibrary::randomInt());
     QVERIFY(output.startsWith(QChar(c)));
 
     // reset
     formatter->setFillChar(QChar());
+    formatter->setCount(0);
+}
+
+
+void TestAWFloatFormatter::test_forceWidth()
+{
+    // assign
+    int count = AWTestLibrary::randomInt(6);
+    formatter->setForceWidth(true);
+    formatter->setCount(count);
+    QCOMPARE(formatter->forceWidth(), true);
+
+    // test
+    QString output = formatter->convert(AWTestLibrary::randomDouble());
+    QCOMPARE(output.count(), count);
+
+    // reset
+    formatter->setForceWidth(false);
     formatter->setCount(0);
 }
 
@@ -87,8 +103,7 @@ void TestAWFloatFormatter::test_format()
     QCOMPARE(formatter->format(), 'e');
 
     // test
-    double value = AWTestLibrary::randomDouble();
-    QString output = formatter->convert(value);
+    QString output = formatter->convert(AWTestLibrary::randomDouble());
     QVERIFY(output.contains('e'));
 
     // reset
@@ -104,8 +119,7 @@ void TestAWFloatFormatter::test_precision()
     QCOMPARE(formatter->precision(), precision);
 
     // test
-    double value = AWTestLibrary::randomDouble();
-    QString output = formatter->convert(value);
+    QString output = formatter->convert(AWTestLibrary::randomDouble());
     output.remove(QString("0."));
     QCOMPARE(output.count(), precision);
 
@@ -157,6 +171,7 @@ void TestAWFloatFormatter::test_copy()
 
     QCOMPARE(newFormatter->count(), formatter->count());
     QCOMPARE(newFormatter->fillChar(), formatter->fillChar());
+    QCOMPARE(newFormatter->forceWidth(), formatter->forceWidth());
     QCOMPARE(newFormatter->format(), formatter->format());
     QCOMPARE(newFormatter->multiplier(), formatter->multiplier());
     QCOMPARE(newFormatter->precision(), formatter->precision());
@@ -171,6 +186,7 @@ void TestAWFloatFormatter::doRandom()
 {
     formatter->setCount(AWTestLibrary::randomInt());
     formatter->setFillChar(QChar(AWTestLibrary::randomChar()));
+    formatter->setForceWidth(AWTestLibrary::randomInt() % 2);
     formatter->setFormat(AWTestLibrary::randomChar());
     formatter->setMultiplier(AWTestLibrary::randomDouble());
     formatter->setPrecision(AWTestLibrary::randomInt());

@@ -28,7 +28,14 @@ class AWAbstractFormatter : public AbstractExtItem
     Q_PROPERTY(QString strType READ strType WRITE setStrType)
 
 public:
-    enum class FormatterClass { DateTime, Float, Script, NoFormat };
+    enum class FormatterClass {
+        DateTime,
+        Float,
+        List,
+        Script,
+        String,
+        NoFormat
+    };
 
     explicit AWAbstractFormatter(QWidget *parent,
                                  const QString filePath = QString());

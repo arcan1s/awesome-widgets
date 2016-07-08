@@ -52,8 +52,13 @@ QString AWFloatFormatter::convert(const QVariant &_value) const
 {
     qCDebug(LOG_LIB) << "Convert value" << _value;
 
-    return QString("%1").arg(_value.toDouble() * m_multiplier + m_summand,
-                             m_count, m_format, m_precision, m_fillChar);
+    QString output
+        = QString("%1").arg(_value.toDouble() * multiplier() + summand(),
+                            count(), format(), precision(), fillChar());
+    if (forceWidth())
+        output = output.left(count());
+
+    return output;
 }
 
 
@@ -68,6 +73,7 @@ AWFloatFormatter *AWFloatFormatter::copy(const QString _fileName,
     item->setCount(count());
     item->setFormat(format());
     item->setFillChar(fillChar());
+    item->setForceWidth(forceWidth());
     item->setMultiplier(multiplier());
     item->setNumber(_number);
     item->setPrecision(precision());
@@ -86,6 +92,12 @@ int AWFloatFormatter::count() const
 QChar AWFloatFormatter::fillChar() const
 {
     return m_fillChar;
+}
+
+
+bool AWFloatFormatter::forceWidth() const
+{
+    return m_forceWidth;
 }
 
 
@@ -126,6 +138,14 @@ void AWFloatFormatter::setFillChar(const QChar _fillChar)
     qCDebug(LOG_LIB) << "Set char" << _fillChar;
 
     m_fillChar = _fillChar;
+}
+
+
+void AWFloatFormatter::setForceWidth(const bool _forceWidth)
+{
+    qCDebug(LOG_LIB) << "Set force strip" << _forceWidth;
+
+    m_forceWidth = _forceWidth;
 }
 
 
@@ -174,18 +194,20 @@ void AWFloatFormatter::readConfiguration()
     QSettings settings(fileName(), QSettings::IniFormat);
 
     settings.beginGroup(QString("Desktop Entry"));
-    setCount(settings.value(QString("X-AW-Width"), m_count).toInt());
+    setCount(settings.value(QString("X-AW-Width"), count()).toInt());
     setFillChar(
-        settings.value(QString("X-AW-FillChar"), m_fillChar).toString().at(0));
-    setFormat(settings.value(QString("X-AW-Format"), QString(m_format))
+        settings.value(QString("X-AW-FillChar"), fillChar()).toString().at(0));
+    setForceWidth(
+        settings.value(QString("X-AW-ForceWidth"), forceWidth()).toBool());
+    setFormat(settings.value(QString("X-AW-Format"), QString(format()))
                   .toString()
                   .at(0)
                   .toLatin1());
     setMultiplier(
-        settings.value(QString("X-AW-Multiplier"), m_multiplier).toDouble());
+        settings.value(QString("X-AW-Multiplier"), multiplier()).toDouble());
     setPrecision(
-        settings.value(QString("X-AW-Precision"), m_precision).toInt());
-    setSummand(settings.value(QString("X-AW-Summand"), m_summand).toDouble());
+        settings.value(QString("X-AW-Precision"), precision()).toInt());
+    setSummand(settings.value(QString("X-AW-Summand"), summand()).toDouble());
     settings.endGroup();
 
     bumpApi(AWEFAPI);
@@ -200,12 +222,14 @@ int AWFloatFormatter::showConfiguration(const QVariant args)
     ui->lineEdit_comment->setText(comment());
     ui->label_typeValue->setText(QString("Float"));
     ui->comboBox_format->setCurrentIndex(
-        ui->comboBox_format->findText(QString(m_format)));
-    ui->spinBox_precision->setValue(m_precision);
-    ui->spinBox_width->setValue(m_count);
-    ui->lineEdit_fill->setText(QString(m_fillChar));
-    ui->doubleSpinBox_multiplier->setValue(m_multiplier);
-    ui->doubleSpinBox_summand->setValue(m_summand);
+        ui->comboBox_format->findText(QString(format())));
+    ui->spinBox_precision->setValue(precision());
+    ui->spinBox_width->setValue(count());
+    ui->lineEdit_fill->setText(QString(fillChar()));
+    ui->checkBox_forceWidth->setCheckState(forceWidth() ? Qt::Checked
+                                                        : Qt::Unchecked);
+    ui->doubleSpinBox_multiplier->setValue(multiplier());
+    ui->doubleSpinBox_summand->setValue(summand());
 
     int ret = exec();
     if (ret != 1)
@@ -217,6 +241,7 @@ int AWFloatFormatter::showConfiguration(const QVariant args)
     setPrecision(ui->spinBox_precision->value());
     setCount(ui->spinBox_width->value());
     setFillChar(ui->lineEdit_fill->text().at(0));
+    setForceWidth(ui->checkBox_forceWidth->checkState() == Qt::Checked);
     setMultiplier(ui->doubleSpinBox_multiplier->value());
     setSummand(ui->doubleSpinBox_summand->value());
 
@@ -233,12 +258,13 @@ void AWFloatFormatter::writeConfiguration() const
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("X-AW-Width"), m_count);
-    settings.setValue(QString("X-AW-FillChar"), m_fillChar);
-    settings.setValue(QString("X-AW-Format"), m_format);
-    settings.setValue(QString("X-AW-Multiplier"), m_multiplier);
-    settings.setValue(QString("X-AW-Precision"), m_precision);
-    settings.setValue(QString("X-AW-Summand"), m_summand);
+    settings.setValue(QString("X-AW-Width"), count());
+    settings.setValue(QString("X-AW-FillChar"), fillChar());
+    settings.setValue(QString("X-AW-Format"), format());
+    settings.setValue(QString("X-AW-ForceWidth"), forceWidth());
+    settings.setValue(QString("X-AW-Multiplier"), multiplier());
+    settings.setValue(QString("X-AW-Precision"), precision());
+    settings.setValue(QString("X-AW-Summand"), summand());
     settings.endGroup();
 
     settings.sync();
@@ -254,6 +280,7 @@ void AWFloatFormatter::translate()
     ui->label_precision->setText(i18n("Precision"));
     ui->label_width->setText(i18n("Width"));
     ui->label_fill->setText(i18n("Fill char"));
+    ui->checkBox_forceWidth->setText(i18n("Force width"));
     ui->label_multiplier->setText(i18n("Multiplier"));
     ui->label_summand->setText(i18n("Summand"));
 }

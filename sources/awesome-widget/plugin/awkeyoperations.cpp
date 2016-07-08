@@ -189,41 +189,57 @@ QString AWKeyOperations::infoByKey(QString key) const
 {
     qCDebug(LOG_AW) << "Requested key" << key;
 
-    if (key.startsWith(QString("bar")))
-        return graphicalItems->itemByTag(key, QString("bar"))->uniq();
-    else if (key.startsWith(QString("custom")))
-        return extScripts->itemByTag(key, QString("custom"))->uniq();
-    else if (key.contains(QRegExp(QString("^hdd[rw]"))))
-        return QString("%1").arg(
-            m_devices[QString("disk")]
-                     [key.remove(QRegExp(QString("hdd[rw]"))).toInt()]);
-    else if (key.contains(QRegExp(
-                 QString("^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)"))))
-        return QString("%1").arg(
-            m_devices[QString("mount")]
-                     [key
-                          .remove(QRegExp(QString(
-                              "^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)")))
-                          .toInt()]);
-    else if (key.startsWith(QString("hddtemp")))
-        return QString("%1").arg(
-            m_devices[QString("hdd")][key.remove(QString("hddtemp")).toInt()]);
-    else if (key.contains(QRegExp(QString("^(down|up)[0-9]"))))
-        return QString("%1").arg(
-            m_devices[QString("net")]
-                     [key.remove(QRegExp(QString("^(down|up)"))).toInt()]);
-    else if (key.startsWith(QString("pkgcount")))
-        return extUpgrade->itemByTag(key, QString("pkgcount"))->uniq();
-    else if (key.contains(QRegExp(QString("(^|perc)(ask|bid|price)(chg|)"))))
-        return extQuotes->itemByTag(key, QString("ask"))->uniq();
-    else if (key.contains(QRegExp(
-                 QString("(weather|weatherId|humidity|pressure|temperature)"))))
-        return extWeather->itemByTag(key, QString("weather"))->uniq();
-    else if (key.startsWith(QString("temp")))
-        return QString("%1").arg(
-            m_devices[QString("temp")][key.remove(QString("temp")).toInt()]);
+    QString stripped = key;
+    stripped.remove(QRegExp(QString("\\d+")));
+    QString output;
 
-    return QString("(none)");
+    if (key.startsWith(QString("bar"))) {
+        AbstractExtItem *item = graphicalItems->itemByTag(key, stripped);
+        if (item)
+            output = item->uniq();
+    } else if (key.startsWith(QString("custom"))) {
+        AbstractExtItem *item = extScripts->itemByTag(key, stripped);
+        if (item)
+            output = item->uniq();
+    } else if (key.contains(QRegExp(QString("^hdd[rw]")))) {
+        output = m_devices[QString("disk")]
+                          [key.remove(QRegExp(QString("hdd[rw]"))).toInt()];
+    } else if (key.contains(QRegExp(
+                   QString("^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)")))) {
+        output
+            = m_devices[QString("mount")]
+                       [key
+                            .remove(QRegExp(QString(
+                                "^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)")))
+                            .toInt()];
+    } else if (key.startsWith(QString("hddtemp"))) {
+        output
+            = m_devices[QString("hdd")][key.remove(QString("hddtemp")).toInt()];
+    } else if (key.contains(QRegExp(QString("^(down|up)[0-9]")))) {
+        output = m_devices[QString("net")]
+                          [key.remove(QRegExp(QString("^(down|up)"))).toInt()];
+    } else if (key.startsWith(QString("pkgcount"))) {
+        AbstractExtItem *item = extUpgrade->itemByTag(key, stripped);
+        if (item)
+            output = item->uniq();
+    } else if (key.contains(
+                   QRegExp(QString("(^|perc)(ask|bid|price)(chg|)")))) {
+        AbstractExtItem *item = extQuotes->itemByTag(key, stripped);
+        if (item)
+            output = item->uniq();
+    } else if (key.contains(QRegExp(QString(
+                   "(weather|weatherId|humidity|pressure|temperature)")))) {
+        AbstractExtItem *item = extWeather->itemByTag(key, stripped);
+        if (item)
+            output = item->uniq();
+    } else if (key.startsWith(QString("temp"))) {
+        output
+            = m_devices[QString("temp")][key.remove(QString("temp")).toInt()];
+    } else {
+        output = QString("(none)");
+    }
+
+    return output;
 }
 
 
@@ -326,6 +342,7 @@ void AWKeyOperations::reinitKeys()
     m_pattern = AWPatternFunctions::insertKeyCount(m_pattern, allKeys);
     m_pattern = AWPatternFunctions::insertKeyNames(m_pattern, allKeys);
     m_pattern = AWPatternFunctions::insertKeys(m_pattern, allKeys);
+    m_pattern = AWPatternFunctions::insertMacros(m_pattern);
     // wrap templates
     m_pattern = AWPatternFunctions::expandTemplates(m_pattern);
 

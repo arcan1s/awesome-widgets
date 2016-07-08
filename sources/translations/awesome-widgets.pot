@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-05-16 19:35+0300\n"
+"POT-Creation-Date: 2016-07-06 19:36+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -522,10 +522,22 @@ msgstr ""
 msgid "Fill char"
 msgstr ""
 
+msgid "Force width"
+msgstr ""
+
 msgid "Multiplier"
 msgstr ""
 
 msgid "Summand"
+msgstr ""
+
+msgid "Filter"
+msgstr ""
+
+msgid "Separator"
+msgstr ""
+
+msgid "Sort"
 msgstr ""
 
 msgid "Append code"
@@ -574,10 +586,10 @@ msgstr ""
 msgid "Wrap spaces"
 msgstr ""
 
-msgid "Filter"
+msgid "Null"
 msgstr ""
 
-msgid "Null"
+msgid "Provider"
 msgstr ""
 
 msgid "City"

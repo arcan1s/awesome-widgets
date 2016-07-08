@@ -66,7 +66,7 @@ void AbstractExtItemAggregator::copyItem()
                       .arg(QStandardPaths::writableLocation(
                           QStandardPaths::GenericDataLocation))
                       .arg(m_type);
-    if ((source == nullptr) || (fileName.isEmpty())) {
+    if ((!source) || (fileName.isEmpty())) {
         qCWarning(LOG_LIB) << "Nothing to copy";
         return;
     }
@@ -83,7 +83,7 @@ void AbstractExtItemAggregator::copyItem()
 void AbstractExtItemAggregator::deleteItem()
 {
     AbstractExtItem *source = itemFromWidget();
-    if (source == nullptr) {
+    if (!source) {
         qCWarning(LOG_LIB) << "Nothing to delete";
         return;
     };
@@ -98,7 +98,7 @@ void AbstractExtItemAggregator::deleteItem()
 void AbstractExtItemAggregator::editItem()
 {
     AbstractExtItem *source = itemFromWidget();
-    if (source == nullptr) {
+    if (!source) {
         qCWarning(LOG_LIB) << "Nothing to edit";
         return;
     };
@@ -128,7 +128,7 @@ QString AbstractExtItemAggregator::getName()
 AbstractExtItem *AbstractExtItemAggregator::itemFromWidget()
 {
     QListWidgetItem *widgetItem = ui->listWidget->currentItem();
-    if (widgetItem == nullptr)
+    if (!widgetItem)
         return nullptr;
 
     AbstractExtItem *found = nullptr;
@@ -139,7 +139,7 @@ AbstractExtItem *AbstractExtItemAggregator::itemFromWidget()
         found = item;
         break;
     }
-    if (found == nullptr)
+    if (!found)
         qCWarning(LOG_LIB) << "Could not find item by name"
                            << widgetItem->text();
 

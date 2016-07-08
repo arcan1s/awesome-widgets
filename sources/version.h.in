@@ -37,7 +37,7 @@
 // formatter api version
 #define AWEFAPI 1
 // network requests timeout, ms
-#define REQUEST_TIMEOUT 5000
+#define REQUEST_TIMEOUT 3000
 // available time keys
 #define TIME_KEYS                                                              \
     "dddd,ddd,dd,d,MMMM,MMM,MM,M,yyyy,yy,hh,h,HH,H,mm,m,ss,s,t,ap,a,AP,A"
@@ -51,6 +51,7 @@
     "dalbum,dartist,dtitle,salbum,sartist,stitle,pscount,pstotal,ps,desktop,"  \
     "ndesktop,tdesktops,la15,la5,la1"
 #cmakedefine BUILD_FUTURE
+#cmakedefine BUILD_LOAD
 #cmakedefine BUILD_TESTING
 
 // links
@@ -94,6 +95,7 @@
 #define CPPCHECK_EXECUTABLE "@CPPCHECK_EXECUTABLE@"
 // additional functions
 #define PROP_FUTURE "@BUILD_FUTURE@"
+#define PROP_LOAD "@BUILD_LOAD@"
 #define PROP_TEST "@BUILD_TESTING@"
 
 

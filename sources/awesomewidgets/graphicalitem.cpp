@@ -71,18 +71,18 @@ GraphicalItem *GraphicalItem::copy(const QString _fileName, const int _number)
     GraphicalItem *item
         = new GraphicalItem(static_cast<QWidget *>(parent()), _fileName);
     copyDefaults(item);
-    item->setActiveColor(m_activeColor);
-    item->setBar(m_bar);
-    item->setCount(m_count);
-    item->setCustom(m_custom);
-    item->setDirection(m_direction);
-    item->setItemHeight(m_height);
-    item->setInactiveColor(m_inactiveColor);
-    item->setMaxValue(m_maxValue);
-    item->setMinValue(m_minValue);
+    item->setActiveColor(activeColor());
+    item->setBar(bar());
+    item->setCount(count());
+    item->setCustom(isCustom());
+    item->setDirection(direction());
+    item->setItemHeight(itemHeight());
+    item->setInactiveColor(inactiveColor());
+    item->setMaxValue(maxValue());
+    item->setMinValue(minValue());
     item->setNumber(_number);
-    item->setType(m_type);
-    item->setItemWidth(m_width);
+    item->setType(type());
+    item->setItemWidth(itemWidth());
 
     return item;
 }
@@ -95,34 +95,34 @@ QString GraphicalItem::image(const QVariant &value)
     m_scene->clear();
     int scale[2] = {1, 1};
     float converted
-        = m_helper->getPercents(value.toFloat(), m_minValue, m_maxValue);
+        = m_helper->getPercents(value.toFloat(), minValue(), maxValue());
 
     // paint
     switch (m_type) {
     case Type::Vertical:
         m_helper->paintVertical(converted);
         // scale
-        scale[1] = -2 * static_cast<int>(m_direction) + 1;
+        scale[1] = -2 * static_cast<int>(direction()) + 1;
         break;
     case Type::Circle:
         m_helper->paintCircle(converted);
         // scale
-        scale[0] = -2 * static_cast<int>(m_direction) + 1;
+        scale[0] = -2 * static_cast<int>(direction()) + 1;
         break;
     case Type::Graph:
         m_helper->paintGraph(converted);
-        scale[0] = -2 * static_cast<int>(m_direction) + 1;
+        scale[0] = -2 * static_cast<int>(direction()) + 1;
         scale[1] = -1;
         break;
     case Type::Bars:
         m_helper->paintBars(converted);
-        scale[0] = -2 * static_cast<int>(m_direction) + 1;
+        scale[0] = -2 * static_cast<int>(direction()) + 1;
         scale[1] = -1;
         break;
     case Type::Horizontal:
         m_helper->paintHorizontal(converted);
         // scale
-        scale[0] = -2 * static_cast<int>(m_direction) + 1;
+        scale[0] = -2 * static_cast<int>(direction()) + 1;
         break;
     }
 
@@ -159,8 +159,8 @@ void GraphicalItem::initScene()
 
     // init helper
     m_helper = new GraphicalItemHelper(this, m_scene);
-    m_helper->setParameters(m_activeColor, m_inactiveColor, m_width, m_height,
-                            m_count);
+    m_helper->setParameters(activeColor(), inactiveColor(), itemWidth(),
+                            itemHeight(), count());
 }
 
 
@@ -227,7 +227,7 @@ GraphicalItem::Type GraphicalItem::type() const
 QString GraphicalItem::strType() const
 {
     QString value;
-    switch (m_type) {
+    switch (type()) {
     case Type::Vertical:
         value = QString("Vertical");
         break;
@@ -258,7 +258,7 @@ GraphicalItem::Direction GraphicalItem::direction() const
 QString GraphicalItem::strDirection() const
 {
     QString value;
-    switch (m_direction) {
+    switch (direction()) {
     case Direction::RightToLeft:
         value = QString("RightToLeft");
         break;
@@ -279,7 +279,7 @@ QStringList GraphicalItem::usedKeys() const
 
 QString GraphicalItem::uniq() const
 {
-    return m_bar;
+    return bar();
 }
 
 
@@ -411,11 +411,11 @@ void GraphicalItem::setUsedKeys(const QStringList _usedKeys)
 
     // remove dubs
     // HACK converting to set may break order
-    m_usedKeys.clear();
+    usedKeys().clear();
     for (auto key : _usedKeys) {
-        if (m_usedKeys.contains(key))
+        if (usedKeys().contains(key))
             continue;
-        m_usedKeys.append(key);
+        usedKeys().append(key);
     }
 }
 
@@ -427,31 +427,31 @@ void GraphicalItem::readConfiguration()
     QSettings settings(fileName(), QSettings::IniFormat);
 
     settings.beginGroup(QString("Desktop Entry"));
-    setCount(settings.value(QString("X-AW-Count"), m_count).toInt());
-    setCustom(settings.value(QString("X-AW-Custom"), m_custom).toBool());
-    setBar(settings.value(QString("X-AW-Value"), m_bar).toString());
-    setMaxValue(settings.value(QString("X-AW-Max"), m_maxValue).toFloat());
-    setMinValue(settings.value(QString("X-AW-Min"), m_minValue).toFloat());
+    setCount(settings.value(QString("X-AW-Count"), count()).toInt());
+    setCustom(settings.value(QString("X-AW-Custom"), isCustom()).toBool());
+    setBar(settings.value(QString("X-AW-Value"), bar()).toString());
+    setMaxValue(settings.value(QString("X-AW-Max"), maxValue()).toFloat());
+    setMinValue(settings.value(QString("X-AW-Min"), minValue()).toFloat());
     setActiveColor(
-        settings.value(QString("X-AW-ActiveColor"), m_activeColor).toString());
+        settings.value(QString("X-AW-ActiveColor"), activeColor()).toString());
     setInactiveColor(
-        settings.value(QString("X-AW-InactiveColor"), m_inactiveColor)
+        settings.value(QString("X-AW-InactiveColor"), inactiveColor())
             .toString());
     setStrType(settings.value(QString("X-AW-Type"), strType()).toString());
     setStrDirection(
         settings.value(QString("X-AW-Direction"), strDirection()).toString());
-    setItemHeight(settings.value(QString("X-AW-Height"), m_height).toInt());
-    setItemWidth(settings.value(QString("X-AW-Width"), m_width).toInt());
+    setItemHeight(settings.value(QString("X-AW-Height"), itemHeight()).toInt());
+    setItemWidth(settings.value(QString("X-AW-Width"), itemWidth()).toInt());
     // api == 5
     if (apiVersion() < 5) {
         QString prefix;
-        prefix = m_activeColor.startsWith(QString("/")) ? QString("file://%1")
+        prefix = activeColor().startsWith(QString("/")) ? QString("file://%1")
                                                         : QString("color://%1");
-        m_activeColor = prefix.arg(m_activeColor);
-        prefix = m_inactiveColor.startsWith(QString("/"))
+        m_activeColor = prefix.arg(activeColor());
+        prefix = inactiveColor().startsWith(QString("/"))
                      ? QString("file://%1")
                      : QString("color://%1");
-        m_inactiveColor = prefix.arg(m_inactiveColor);
+        m_inactiveColor = prefix.arg(inactiveColor());
     }
     settings.endGroup();
 
@@ -468,31 +468,31 @@ int GraphicalItem::showConfiguration(const QVariant args)
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
     ui->label_numberValue->setText(QString("%1").arg(number()));
-    ui->checkBox_custom->setChecked(m_custom);
+    ui->checkBox_custom->setChecked(isCustom());
     ui->comboBox_value->addItems(tags);
-    if (m_custom) {
-        ui->lineEdit_customValue->setText(m_bar);
+    if (isCustom()) {
+        ui->lineEdit_customValue->setText(bar());
     } else {
-        ui->comboBox_value->addItem(m_bar);
+        ui->comboBox_value->addItem(bar());
         ui->comboBox_value->setCurrentIndex(ui->comboBox_value->count() - 1);
     }
-    ui->doubleSpinBox_max->setValue(m_maxValue);
-    ui->doubleSpinBox_min->setValue(m_minValue);
-    ui->spinBox_count->setValue(m_count);
-    if (m_helper->isColor(m_activeColor))
+    ui->doubleSpinBox_max->setValue(maxValue());
+    ui->doubleSpinBox_min->setValue(minValue());
+    ui->spinBox_count->setValue(count());
+    if (m_helper->isColor(activeColor()))
         ui->comboBox_activeImageType->setCurrentIndex(0);
     else
         ui->comboBox_activeImageType->setCurrentIndex(1);
-    ui->lineEdit_activeColor->setText(m_activeColor);
-    if (m_helper->isColor(m_inactiveColor))
+    ui->lineEdit_activeColor->setText(activeColor());
+    if (m_helper->isColor(inactiveColor()))
         ui->comboBox_inactiveImageType->setCurrentIndex(0);
     else
         ui->comboBox_inactiveImageType->setCurrentIndex(1);
-    ui->lineEdit_inactiveColor->setText(m_inactiveColor);
-    ui->comboBox_type->setCurrentIndex(static_cast<int>(m_type));
-    ui->comboBox_direction->setCurrentIndex(static_cast<int>(m_direction));
-    ui->spinBox_height->setValue(m_height);
-    ui->spinBox_width->setValue(m_width);
+    ui->lineEdit_inactiveColor->setText(inactiveColor());
+    ui->comboBox_type->setCurrentIndex(static_cast<int>(type()));
+    ui->comboBox_direction->setCurrentIndex(static_cast<int>(direction()));
+    ui->spinBox_height->setValue(itemHeight());
+    ui->spinBox_width->setValue(itemWidth());
 
     // update UI
     emit(ui->comboBox_type->currentIndexChanged(
@@ -532,17 +532,17 @@ void GraphicalItem::writeConfiguration() const
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("X-AW-Value"), m_bar);
-    settings.setValue(QString("X-AW-Count"), m_count);
-    settings.setValue(QString("X-AW-Custom"), m_custom);
-    settings.setValue(QString("X-AW-Max"), m_maxValue);
-    settings.setValue(QString("X-AW-Min"), m_minValue);
-    settings.setValue(QString("X-AW-ActiveColor"), m_activeColor);
-    settings.setValue(QString("X-AW-InactiveColor"), m_inactiveColor);
+    settings.setValue(QString("X-AW-Value"), bar());
+    settings.setValue(QString("X-AW-Count"), count());
+    settings.setValue(QString("X-AW-Custom"), isCustom());
+    settings.setValue(QString("X-AW-Max"), maxValue());
+    settings.setValue(QString("X-AW-Min"), minValue());
+    settings.setValue(QString("X-AW-ActiveColor"), activeColor());
+    settings.setValue(QString("X-AW-InactiveColor"), inactiveColor());
     settings.setValue(QString("X-AW-Type"), strType());
     settings.setValue(QString("X-AW-Direction"), strDirection());
-    settings.setValue(QString("X-AW-Height"), m_height);
-    settings.setValue(QString("X-AW-Width"), m_width);
+    settings.setValue(QString("X-AW-Height"), itemHeight());
+    settings.setValue(QString("X-AW-Width"), itemWidth());
     settings.endGroup();
 
     settings.sync();

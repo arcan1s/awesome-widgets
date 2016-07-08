@@ -94,7 +94,7 @@ void AWDateTimeFormatter::readConfiguration()
     QSettings settings(fileName(), QSettings::IniFormat);
 
     settings.beginGroup(QString("Desktop Entry"));
-    setFormat(settings.value(QString("X-AW-Format"), m_format).toString());
+    setFormat(settings.value(QString("X-AW-Format"), format()).toString());
     settings.endGroup();
 
     bumpApi(AWEFAPI);
@@ -108,7 +108,7 @@ int AWDateTimeFormatter::showConfiguration(const QVariant args)
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
     ui->label_typeValue->setText(QString("DateTime"));
-    ui->lineEdit_format->setText(m_format);
+    ui->lineEdit_format->setText(format());
 
     int ret = exec();
     if (ret != 1)
@@ -131,7 +131,7 @@ void AWDateTimeFormatter::writeConfiguration() const
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("X-AW-Format"), m_format);
+    settings.setValue(QString("X-AW-Format"), format());
     settings.endGroup();
 
     settings.sync();

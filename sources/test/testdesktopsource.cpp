@@ -39,11 +39,6 @@ void TestDesktopSource::cleanupTestCase()
 void TestDesktopSource::test_sources()
 {
     QCOMPARE(source->sources().count(), 4);
-    // FIXME there is segfault here sometimes o_0
-    //    QVERIFY(std::all_of(
-    //        source->sources().cbegin(), source->sources().cend(),
-    //        [](const QString &src) { return
-    //        src.startsWith(QString("desktop/")); }));
 }
 
 

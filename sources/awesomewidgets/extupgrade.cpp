@@ -93,7 +93,7 @@ int ExtUpgrade::null() const
 
 QString ExtUpgrade::uniq() const
 {
-    return m_executable;
+    return executable();
 }
 
 
@@ -130,10 +130,10 @@ void ExtUpgrade::readConfiguration()
     QSettings settings(fileName(), QSettings::IniFormat);
 
     settings.beginGroup(QString("Desktop Entry"));
-    setExecutable(settings.value(QString("Exec"), m_executable).toString());
-    setNull(settings.value(QString("X-AW-Null"), m_null).toInt());
+    setExecutable(settings.value(QString("Exec"), executable()).toString());
+    setNull(settings.value(QString("X-AW-Null"), null()).toInt());
     // api == 3
-    setFilter(settings.value(QString("X-AW-Filter"), m_filter).toString());
+    setFilter(settings.value(QString("X-AW-Filter"), filter()).toString());
     settings.endGroup();
 
     bumpApi(AWEUAPI);
@@ -146,7 +146,7 @@ QVariantHash ExtUpgrade::run()
         return value;
 
     if ((times == 1) && (process->state() == QProcess::NotRunning)) {
-        QString cmd = QString("sh -c \"%1\"").arg(m_executable);
+        QString cmd = QString("sh -c \"%1\"").arg(executable());
         qCInfo(LOG_LIB) << "Run cmd" << cmd;
         process->start(cmd);
     }
@@ -167,11 +167,11 @@ int ExtUpgrade::showConfiguration(const QVariant args)
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
     ui->label_numberValue->setText(QString("%1").arg(number()));
-    ui->lineEdit_command->setText(m_executable);
-    ui->lineEdit_filter->setText(m_filter);
+    ui->lineEdit_command->setText(executable());
+    ui->lineEdit_filter->setText(filter());
     ui->checkBox_active->setCheckState(isActive() ? Qt::Checked
                                                   : Qt::Unchecked);
-    ui->spinBox_null->setValue(m_null);
+    ui->spinBox_null->setValue(null());
     ui->spinBox_interval->setValue(interval());
 
     int ret = exec();
@@ -200,9 +200,9 @@ void ExtUpgrade::writeConfiguration() const
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("Exec"), m_executable);
-    settings.setValue(QString("X-AW-Filter"), m_filter);
-    settings.setValue(QString("X-AW-Null"), m_null);
+    settings.setValue(QString("Exec"), executable());
+    settings.setValue(QString("X-AW-Filter"), filter());
+    settings.setValue(QString("X-AW-Null"), null());
     settings.endGroup();
 
     settings.sync();
@@ -218,11 +218,11 @@ void ExtUpgrade::updateValue()
                           ->toUnicode(process->readAllStandardOutput())
                           .trimmed();
     value[tag(QString("pkgcount"))] = [this](QString output) {
-        return m_filter.isEmpty()
+        return filter().isEmpty()
                    ? output.split(QChar('\n'), QString::SkipEmptyParts).count()
-                         - m_null
+                         - null()
                    : output.split(QChar('\n'), QString::SkipEmptyParts)
-                         .filter(QRegExp(m_filter))
+                         .filter(QRegExp(filter()))
                          .count();
     }(qoutput);
 

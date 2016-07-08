@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-05-16 19:35+0300\n"
+"POT-Creation-Date: 2016-07-06 19:36+0300\n"
 "PO-Revision-Date: 2015-07-31 22:21+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -548,12 +548,24 @@ msgstr "Largura"
 msgid "Fill char"
 msgstr ""
 
+msgid "Force width"
+msgstr ""
+
 msgid "Multiplier"
 msgstr ""
 
 #, fuzzy
 msgid "Summand"
 msgstr "Comentário"
+
+msgid "Filter"
+msgstr ""
+
+msgid "Separator"
+msgstr ""
+
+msgid "Sort"
+msgstr ""
 
 #, fuzzy
 msgid "Append code"
@@ -603,10 +615,10 @@ msgstr "Cor da swap"
 msgid "Wrap spaces"
 msgstr ""
 
-msgid "Filter"
+msgid "Null"
 msgstr ""
 
-msgid "Null"
+msgid "Provider"
 msgstr ""
 
 msgid "City"

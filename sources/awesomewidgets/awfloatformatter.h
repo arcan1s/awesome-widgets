@@ -31,6 +31,7 @@ class AWFloatFormatter : public AWAbstractFormatter
     Q_OBJECT
     Q_PROPERTY(int count READ count WRITE setCount)
     Q_PROPERTY(QChar fillChar READ fillChar WRITE setFillChar)
+    Q_PROPERTY(bool forceWidth READ forceWidth WRITE setForceWidth)
     Q_PROPERTY(char format READ format WRITE setFormat)
     Q_PROPERTY(double multiplier READ multiplier WRITE setMultiplier)
     Q_PROPERTY(int precision READ precision WRITE setPrecision)
@@ -45,12 +46,14 @@ public:
     // properties
     int count() const;
     QChar fillChar() const;
+    bool forceWidth() const;
     char format() const;
     double multiplier() const;
     int precision() const;
     double summand() const;
     void setCount(const int _count);
     void setFillChar(const QChar _fillChar);
+    void setForceWidth(const bool _forceWidth);
     void setFormat(char _format);
     void setMultiplier(const double _multiplier);
     void setPrecision(const int _precision);
@@ -67,6 +70,7 @@ private:
     // properties
     int m_count = 0;
     QChar m_fillChar = QChar();
+    bool m_forceWidth = false;
     char m_format = 'f';
     double m_multiplier = 1.0;
     int m_precision = -1;
