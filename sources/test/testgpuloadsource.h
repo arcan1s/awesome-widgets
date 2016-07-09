@@ -20,6 +20,7 @@
 #define TESTGPULOADSOURCE_H
 
 #include <QObject>
+#include <QPair>
 
 
 class GPULoadSource;

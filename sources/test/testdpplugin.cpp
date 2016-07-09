@@ -42,7 +42,7 @@ void TestDPPlugin::test_desktops()
     int current = plugin->currentDesktop();
     int total = plugin->numberOfDesktops();
     QVERIFY(total != 0);
-    QVERIFY(current < total);
+    QVERIFY(current <= total);
 
     int number;
     if (total == 1)

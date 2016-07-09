@@ -20,6 +20,7 @@
 #define TESTBATTERYSOURCE_H
 
 #include <QObject>
+#include <QPair>
 
 
 class BatterySource;
