@@ -1,3 +1,17 @@
+Ver.3.2.0:
++ custom formatters (#91)
++ add backend tests (#95)
++ add OWM weather provider for ExtWeather. It can be switched by using X-AW-Provider (ApiVer 3)
++ add DBus timeout for calls (#96)
++ add macros support (`$aw_macro` and `$aw_macro_*` for calls)
+- fix vertical alignment (#94)
+- fix bug with invalid updates on `X-AW-Interval=1` for ExtScript and ExtUpgrade
+- fix bug with missing derivate vaules in ExtQuotes
+- fix possible plasma crash (#96)
+- fix possible undefined behaviour if no extensions was found by name
+* split dataengine sources to own library
+* allow to use screened double brakets inside functions
+
 Ver.3.1.2:
 + add standalone widget configuration example
 + new tag tstime
