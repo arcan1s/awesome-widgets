@@ -1,4 +1,4 @@
-diff --git a/sources/awesome-widget/package/contents/ui/advanced.qml b/sources/awesome-widget/package/contents/ui/advanced.qml
+    diff --git a/sources/awesome-widget/package/contents/ui/advanced.qml b/sources/awesome-widget/package/contents/ui/advanced.qml
 index 01bcd58..1ec7ba6 100644
 --- a/sources/awesome-widget/package/contents/ui/advanced.qml
 +++ b/sources/awesome-widget/package/contents/ui/advanced.qml
@@ -168,9 +168,9 @@ index 6263b30..5f61d2a 100644
  }
  
  
--bool AWConfigHelper::exportConfiguration(QObject *nativeConfig,
+-bool AWConfigHelper::exportConfiguration(const QObject *nativeConfig,
 -                                         const QString fileName) const
-+void AWConfigHelper::exportConfiguration(QObject *nativeConfig) const
++void AWConfigHelper::exportConfiguration(const QObject *nativeConfig) const
  {
 -    qCDebug(LOG_AW) << "Selected filename" << fileName;
 -
@@ -302,17 +302,17 @@ index 912ac3d..dc51dfb 100644
      virtual ~AWConfigHelper();
      Q_INVOKABLE QString configurationDirectory() const;
      Q_INVOKABLE bool dropCache() const;
--    Q_INVOKABLE bool exportConfiguration(QObject *nativeConfig,
+-    Q_INVOKABLE bool exportConfiguration(const QObject *nativeConfig,
 -                                         const QString fileName) const;
 -    Q_INVOKABLE QVariantMap importConfiguration(const QString fileName,
 -                                                const bool importPlasmoid,
 -                                                const bool importExtensions,
 -                                                const bool importAdds) const;
-+    Q_INVOKABLE void exportConfiguration(QObject *nativeConfig) const;
++    Q_INVOKABLE void exportConfiguration(const QObject *nativeConfig) const;
 +    Q_INVOKABLE QVariantMap importConfiguration() const;
      // dataengine
      Q_INVOKABLE QVariantMap readDataEngineConfiguration() const;
-     Q_INVOKABLE void
+     Q_INVOKABLE bool
 @@ -51,6 +47,7 @@ private:
      void copySettings(QSettings &from, QSettings &to) const;
      void readFile(QSettings &settings, const QString key,
@@ -356,7 +356,7 @@ diff --git a/sources/awdebug.cpp b/sources/awdebug.cpp
 index eee61e1..9da8dad 100644
 --- a/sources/awdebug.cpp
 +++ b/sources/awdebug.cpp
-@@ -20,13 +20,10 @@
+@@ -20,15 +20,11 @@
  #include "awdebug.h"
  
  
@@ -365,11 +365,14 @@ index eee61e1..9da8dad 100644
 -Q_LOGGING_CATEGORY(LOG_DP, "org.kde.plasma.desktoppanel",
 -                   QtMsgType::QtWarningMsg)
 -Q_LOGGING_CATEGORY(LOG_ESM, "org.kde.plasma.extsysmon", QtMsgType::QtWarningMsg)
+-Q_LOGGING_CATEGORY(LOG_ESS, "org.kde.plasma.extsysmonsources",
+-                   QtMsgType::QtWarningMsg)
 -Q_LOGGING_CATEGORY(LOG_LIB, "org.kde.plasma.awesomewidgets",
 -                   QtMsgType::QtWarningMsg)
 +Q_LOGGING_CATEGORY(LOG_AW, "org.kde.plasma.awesomewidget")
 +Q_LOGGING_CATEGORY(LOG_DP, "org.kde.plasma.desktoppanel")
 +Q_LOGGING_CATEGORY(LOG_ESM, "org.kde.plasma.extsysmon")
++Q_LOGGING_CATEGORY(LOG_ESM, "org.kde.plasma.extsysmonsources")
 +Q_LOGGING_CATEGORY(LOG_LIB, "org.kde.plasma.awesomewidgets")
  
  
@@ -392,8 +395,8 @@ index 33192f7..46e2b1e 100644
  find_package(Gettext REQUIRED)
  
  # main qt libraries
--find_package(Qt5 5.4.0 REQUIRED COMPONENTS Core DBus Network Qml Widgets)
-+find_package(Qt5 5.3.0 REQUIRED COMPONENTS Core DBus Network Qml Widgets)
+-find_package(Qt5 5.4.0 REQUIRED COMPONENTS Core DBus Network Qml Test Widgets)
++find_package(Qt5 5.3.0 REQUIRED COMPONENTS Core DBus Network Qml Test Widgets)
  add_definitions(
          ${Qt5Core_DEFINITIONS} ${Qt5DBus_DEFINITIONS} ${Qt5Network_DEFINITIONS}
          ${Qt5Qml_DEFINITIONS} ${Qt5Widgets_DEFINITIONS}

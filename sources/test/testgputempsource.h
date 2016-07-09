@@ -20,6 +20,7 @@
 #define TESTGPUTEMPSOURCE_H
 
 #include <QObject>
+#include <QPair>
 
 
 class GPUTemperatureSource;

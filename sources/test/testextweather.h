@@ -20,6 +20,7 @@
 #define TESTEXTWEATHER_H
 
 #include <QObject>
+#include <QPair>
 
 
 class ExtWeather;

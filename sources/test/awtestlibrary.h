@@ -19,6 +19,7 @@
 #ifndef AWTESTLIBRARY_H
 #define AWTESTLIBRARY_H
 
+#include <QPair>
 #include <QStringList>
 
 

@@ -20,6 +20,7 @@
 #define TESTHDDTEMPSOURCE_H
 
 #include <QObject>
+#include <QPair>
 
 
 class HDDTemperatureSource;
