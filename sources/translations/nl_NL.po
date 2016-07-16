@@ -1,24 +1,23 @@
+# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
-# Heimen Stoffels <vistausss@outlook.com>, 2015.
-# Evgeniy Alekseev <esalexeev@gmail.com>, 2015.
+# Evgeniy Alekseev <esalexeev@gmail.com>, 2015
+# Heimen Stoffels <vistausss@outlook.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
 "POT-Creation-Date: 2016-07-06 19:36+0300\n"
-"PO-Revision-Date: 2015-08-20 22:52+0300\n"
-"Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
-"Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
-"Language: nl_NL\n"
+"PO-Revision-Date: 2016-07-09 08:47+0000\n"
+"Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
+"Language-Team: Dutch (Netherlands) (http://www.transifex.com/arcanis/awesome-widgets/language/nl_NL/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"widgets/language/nl_NL/)\n"
+"Language: nl_NL\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 2.0\n"
 
 msgid "Widget"
 msgstr "Widget"
@@ -44,37 +43,35 @@ msgstr "Erkenning"
 msgid "Enable background"
 msgstr "Achtergrond inschakelen"
 
-#, fuzzy
 msgid "Translate strings"
-msgstr "Probleem met de vertaling"
+msgstr "Strings vertalen"
 
 msgid "Wrap new lines"
-msgstr ""
+msgstr "Nieuwe regels omslaan"
 
 msgid "Enable word wrap"
-msgstr ""
+msgstr "Woordomslag inschakelen"
 
 msgid "Enable notifications"
-msgstr ""
+msgstr "Meldingen inschakelen"
 
-#, fuzzy
 msgid "Check updates on startup"
-msgstr "Controleren op updates"
+msgstr "Controleren op updates bij opstarten"
 
 msgid "Optimize subscription"
-msgstr ""
+msgstr "Abonnement optimaliseren"
 
 msgid "Widget height, px"
-msgstr ""
+msgstr "Widget-hoogte, px"
 
 msgid "Widget width, px"
-msgstr ""
+msgstr "Widget-breedte, px"
 
 msgid "Time interval"
 msgstr "Tijdstussenpose"
 
 msgid "Messages queue limit"
-msgstr ""
+msgstr "Limiet van berichtenwachtrij"
 
 msgid "Temperature units"
 msgstr "Temperatuureenheden"
@@ -113,43 +110,40 @@ msgid "AC offline tag"
 msgstr "AC offline-sleutelwoord"
 
 msgid "Drop key cache"
-msgstr ""
+msgstr "Sleutelcache verwerpen"
 
-#, fuzzy
 msgid "Export configuration"
-msgstr "Configuratie"
+msgstr "Configuratie exporteren"
 
 msgid "Export"
-msgstr ""
+msgstr "Exporteren"
 
 msgid "Success"
-msgstr ""
+msgstr "Succesvol"
 
 msgid "Please note that binary files were not copied"
-msgstr ""
+msgstr "Let op: binaire bestanden zijn niet gekopieerd"
 
 msgid "Ooops..."
-msgstr ""
+msgstr "Oeps..."
 
-#, fuzzy
 msgid "Could not save configuration file"
-msgstr "Configuratie"
+msgstr "Het configuratiebestand kon niet worden opgeslagen"
 
-#, fuzzy
 msgid "Import configuration"
-msgstr "Configuratie"
+msgstr "Configuratie importeren"
 
 msgid "Import"
-msgstr ""
+msgstr "Importeren"
 
 msgid "Import plasmoid settings"
-msgstr ""
+msgstr "Plasmoid-instellingen importeren"
 
 msgid "Import extensions"
-msgstr ""
+msgstr "Extensies importeren"
 
 msgid "Import additional files"
-msgstr ""
+msgstr "Extra bestanden importeren"
 
 msgid "Font"
 msgstr "Lettertype"
@@ -190,22 +184,20 @@ msgstr "Selecteer een kleur"
 msgid "Select a font"
 msgstr "Selecteer een lettertype"
 
-#, fuzzy
 msgid "ACPI"
-msgstr "ACPI-pad"
+msgstr "ACPI"
 
 msgid "ACPI path"
 msgstr "ACPI-pad"
 
 msgid "GPU"
-msgstr ""
+msgstr "GPU"
 
 msgid "GPU device"
 msgstr "GPU-apparaat"
 
-#, fuzzy
 msgid "HDD temperature"
-msgstr "Temperatuureenheden"
+msgstr "HDD-temperatuur"
 
 msgid "HDD"
 msgstr "HDD"
@@ -214,10 +206,10 @@ msgid "hddtemp cmd"
 msgstr "hddtemp cmd"
 
 msgid "Player"
-msgstr ""
+msgstr "Speler"
 
 msgid "Player data symbols"
-msgstr ""
+msgstr "Speler-gegevenssymbolen"
 
 msgid "Music player"
 msgstr "Muziekspeler"
@@ -232,7 +224,7 @@ msgid "MPD port"
 msgstr "MPD-poort"
 
 msgid "Extensions"
-msgstr ""
+msgstr "Extensies"
 
 msgid "Custom scripts"
 msgstr "Aangepaste scripts"
@@ -241,11 +233,10 @@ msgid "Edit scripts"
 msgstr "Scripts bewerken"
 
 msgid "Quotes monitor"
-msgstr ""
+msgstr "Citaten-monitor"
 
-#, fuzzy
 msgid "Edit tickers"
-msgstr "Balken bewerken"
+msgstr "Tickers bewerken"
 
 msgid "Package manager"
 msgstr "Pakketbeheerder"
@@ -254,11 +245,10 @@ msgid "Edit command"
 msgstr "Commando bewerken"
 
 msgid "Weather"
-msgstr ""
+msgstr "Weer"
 
-#, fuzzy
 msgid "Edit weather"
-msgstr "Balken bewerken"
+msgstr "Weer bewerken"
 
 msgid "Select tag"
 msgstr "Sleutelwoord selecteren"
@@ -281,13 +271,10 @@ msgstr "README weergeven"
 msgid "Check updates"
 msgstr "Controleren op updates"
 
-#, fuzzy
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
 "To enable them just make needed checkbox checked."
-msgstr ""
-"CPU, CPU-klok, geheugen, swap en netwerklabels-ondersteuning in een "
-"grafische opmerkingsballon. Vink ze aan om ze in te schakelen."
+msgstr "CPU, CPU-klok, geheugen, swap en netwerklabels-ondersteuning in een grafische opmerkingsballon. Vink ze aan om ze in te schakelen."
 
 msgid "Number of values for tooltips"
 msgstr "Aantal waarden voor de opmerkingsballonnen"
@@ -295,38 +282,35 @@ msgstr "Aantal waarden voor de opmerkingsballonnen"
 msgid "Background"
 msgstr "Achtergrond"
 
-#, fuzzy
 msgid "Background color"
-msgstr "Achtergrond"
+msgstr "Achtergrondkleur"
 
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 msgid "CPU color"
 msgstr "CPU-kleur"
 
-#, fuzzy
 msgid "CPU clock"
-msgstr "CPU-kleur"
+msgstr "CPU-klok"
 
 msgid "CPU clock color"
 msgstr "CPU-klokkleur"
 
-#, fuzzy
 msgid "Memory"
-msgstr "Geheugenkleur"
+msgstr "Geheugen"
 
 msgid "Memory color"
 msgstr "Geheugenkleur"
 
 msgid "Swap"
-msgstr ""
+msgstr "SWAP"
 
 msgid "Swap color"
 msgstr "Swap-kleur"
 
 msgid "Network"
-msgstr ""
+msgstr "Netwerk"
 
 msgid "Download speed color"
 msgstr "Kleur van downloadsnelheid"
@@ -335,7 +319,7 @@ msgid "Upload speed color"
 msgstr "Kleur van uploadsnelheid"
 
 msgid "Battery"
-msgstr ""
+msgstr "Accu"
 
 msgid "Battery active color"
 msgstr "Kleur van actieve accu"
@@ -344,44 +328,39 @@ msgid "Battery inactive color"
 msgstr "Kleur van inactieve accu"
 
 msgid ""
-"Detailed information may be found on <a href=\"https://arcanis.me/projects/"
-"awesome-widgets/\">project homepage</a>"
-msgstr ""
-"Gedetailleerde informatie kan worden gevonden op de <a href=\"http://arcanis."
-"name/projects/awesome-widgets/\">projectwebsite</a>"
+"Detailed information may be found on <a href=\"https://arcanis.me/projects"
+"/awesome-widgets/\">project homepage</a>"
+msgstr "Gedetailleerde informatie kan worden gevonden op de <a href=\"http://arcanis.name/projects/awesome-widgets/\">projectwebsite</a>"
 
-#, fuzzy
 msgid "Bgcolor"
-msgstr "CPU-kleur"
+msgstr "Achtergrondkleur"
 
 msgid "AC"
-msgstr ""
+msgstr "AC"
 
 msgid "Bars"
 msgstr "Balken"
 
 msgid "Desktops"
-msgstr ""
+msgstr "Bureaubladen"
 
-#, fuzzy
 msgid "Scripts"
-msgstr "Scripts bewerken"
+msgstr "Scripts"
 
 msgid "Time"
-msgstr ""
+msgstr "Tijd"
 
 msgid "Quotes"
-msgstr ""
+msgstr "Citaten"
 
 msgid "Upgrades"
-msgstr ""
+msgstr "Upgrades"
 
-#, fuzzy
 msgid "Weathers"
-msgstr "Balken bewerken"
+msgstr "Weer"
 
 msgid "Functions"
-msgstr ""
+msgstr "Mogelijkheden"
 
 msgid "Add"
 msgstr "Toevoegen"
@@ -393,19 +372,16 @@ msgid "Edit bars"
 msgstr "Balken bewerken"
 
 msgid "Formatters"
-msgstr ""
+msgstr "Opmakers"
 
 msgid "Preview"
-msgstr ""
+msgstr "Voorbeeld"
 
 msgid "Run %1"
 msgstr "%1 uitvoeren"
 
-#, fuzzy
 msgid "Version %1 (build date %2)"
-msgstr ""
-"Versie %1\n"
-"(bouwdatum %2)"
+msgstr "Versie %1 (bouwdatum %2)"
 
 msgid "A set of minimalistic plasmoid widgets"
 msgstr "Een set van minimalistische plasmoid-widgets"
@@ -441,7 +417,7 @@ msgid "This software uses: %1"
 msgstr "Deze software gebruikt: %1"
 
 msgid "Special thanks to %1"
-msgstr ""
+msgstr "Veel dank aan %1"
 
 msgid "Select font"
 msgstr "Lettertype selecteren"
@@ -461,9 +437,8 @@ msgstr "Hoog geheugenverbruik"
 msgid "Swap is used"
 msgstr "Swap wordt gebruikt"
 
-#, fuzzy
 msgid "High GPU load"
-msgstr "Hoog CPU-verbruik"
+msgstr "Hoog GPU-verbruik"
 
 msgid "Network device has been changed to %1"
 msgstr "Het netwerkapparaat is gewijzigd naar %1"
@@ -471,29 +446,26 @@ msgstr "Het netwerkapparaat is gewijzigd naar %1"
 msgid "Edit"
 msgstr "Bewerken"
 
-#, fuzzy
 msgid "Select type"
-msgstr "Sleutelwoord selecteren"
+msgstr "Type selecteren"
 
-#, fuzzy
 msgid "Type:"
-msgstr "Type"
+msgstr "Type:"
 
 msgid "MB/s"
-msgstr ""
+msgstr "MB/s"
 
 msgid "KB/s"
-msgstr ""
+msgstr "KB/s"
 
 msgid "Changelog of %1"
-msgstr ""
+msgstr "Wijzigingslog van %1"
 
 msgid "You are using the actual version %1"
-msgstr ""
+msgstr "U gebruikt de actuele versie %1"
 
-#, fuzzy
 msgid "No new version found"
-msgstr "Nieuwe versie: %1"
+msgstr "Geen nieuwe versie gevonden"
 
 msgid "Current version : %1"
 msgstr "Huidige versie: %1"
@@ -528,9 +500,8 @@ msgstr "Naam: %1"
 msgid "Comment: %1"
 msgstr "Commentaar: %1"
 
-#, fuzzy
 msgid "Identity: %1"
-msgstr "Commentaar: %1"
+msgstr "Identiteit: %1"
 
 msgid "Name"
 msgstr "Naam"
@@ -541,47 +512,44 @@ msgstr "Commentaar"
 msgid "Type"
 msgstr "Type"
 
-#, fuzzy
 msgid "Format"
-msgstr "normaal"
+msgstr "Opmaak"
 
 msgid "Precision"
-msgstr ""
+msgstr "Precisie"
 
 msgid "Width"
 msgstr "Breedte"
 
 msgid "Fill char"
-msgstr ""
+msgstr "Karakters vullen"
 
 msgid "Force width"
-msgstr ""
+msgstr "Breedte forceren"
 
 msgid "Multiplier"
-msgstr ""
+msgstr "Vermenigvuldiger"
 
-#, fuzzy
 msgid "Summand"
-msgstr "Commentaar"
+msgstr "Lid"
 
 msgid "Filter"
-msgstr ""
+msgstr "Filter"
 
 msgid "Separator"
-msgstr ""
+msgstr "Scheidingslijn"
 
 msgid "Sort"
-msgstr ""
+msgstr "Sorteren"
 
-#, fuzzy
 msgid "Append code"
-msgstr "Uiterlijk"
+msgstr "Code toewijzen"
 
 msgid "Has return"
-msgstr ""
+msgstr "Heeft return"
 
 msgid "Code"
-msgstr ""
+msgstr "Code"
 
 msgid "Tag"
 msgstr "Sleutelwoord"
@@ -589,84 +557,75 @@ msgstr "Sleutelwoord"
 msgid ""
 "<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
 "instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
-"text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</"
-"span></a></p></body></html>"
-msgstr ""
+"text-decoration: underline; "
+"color:#0057ae;\">http://finance.yahoo.com/</span></a></p></body></html>"
+msgstr "<html><head/><body><p>Gebruik YAHOO! financiën-ticket om citaten te verkrijgen voor het instrument. Refereer naar <a href=\"http://finance.yahoo.com/\"><span style=\" text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</span></a></p></body></html>"
 
 msgid "Ticker"
-msgstr ""
+msgstr "Ticker"
 
-#, fuzzy
 msgid "Active"
-msgstr "Actieve kleur"
+msgstr "Actief"
 
-#, fuzzy
 msgid "Interval"
-msgstr "Tijdstussenpose"
+msgstr "Tussenpozen"
 
-#, fuzzy
 msgid "Command"
-msgstr "Commentaar"
+msgstr "Commando"
 
 msgid "Prefix"
-msgstr ""
+msgstr "Voorvoegsel"
 
 msgid "Redirect"
-msgstr ""
+msgstr "Doorsturen"
 
 msgid "Additional filters"
-msgstr ""
+msgstr "Extra filters"
 
-#, fuzzy
 msgid "Wrap colors"
-msgstr "Swap-kleur"
+msgstr "Omslagkleuren"
 
 msgid "Wrap spaces"
-msgstr ""
+msgstr "Omslagwitruimten"
 
 msgid "Null"
-msgstr ""
+msgstr "Null"
 
 msgid "Provider"
-msgstr ""
+msgstr "Dienst"
 
 msgid "City"
-msgstr ""
+msgstr "Stad"
 
 msgid "Country"
-msgstr ""
+msgstr "Land"
 
 msgid "Timestamp"
-msgstr ""
+msgstr "Tijdstempel"
 
 msgid "Use images"
-msgstr ""
+msgstr "Afbeeldingen gebruiken"
 
-#, fuzzy
 msgid "Use custom formula"
-msgstr "Aangepaste tijdsopmaak"
+msgstr "Aangepaste formule gebruiken"
 
 msgid "Value"
 msgstr "Waarde"
 
-#, fuzzy
 msgid "Max value"
-msgstr "Waarde weergeven"
+msgstr "Maximale waarde"
 
-#, fuzzy
 msgid "Min value"
-msgstr "Waarde weergeven"
+msgstr "Minimale waarde"
 
-#, fuzzy
 msgid "Active filling type"
-msgstr "Actieve kleur"
+msgstr "Actief vultype"
 
-#, fuzzy
 msgid "Inctive filling type"
-msgstr "Inactieve kleur"
+msgstr "Inactief vultype"
 
 msgid "Points count"
-msgstr ""
+msgstr "Puntentelling"
 
 msgid "Direction"
 msgstr "Richting"
@@ -674,20 +633,17 @@ msgstr "Richting"
 msgid "Height"
 msgstr "Hoogte"
 
-#, fuzzy
 msgid "color"
-msgstr "CPU-kleur"
+msgstr "kleur"
 
 msgid "image"
-msgstr ""
+msgstr "afbeelding"
 
-#, fuzzy
 msgid "Active desktop"
-msgstr "Actieve kleur"
+msgstr "Actief bureaublad"
 
-#, fuzzy
 msgid "Inactive desktop"
-msgstr "Inactieve kleur"
+msgstr "Inactief bureaublad"
 
 msgid "Vertical layout"
 msgstr "Verticale layout"
@@ -695,9 +651,8 @@ msgstr "Verticale layout"
 msgid "Mark"
 msgstr "Markeren"
 
-#, fuzzy
 msgid "Tooltip type"
-msgstr "Opmerkingsballon"
+msgstr "Opmerkingsballon-type"
 
 msgid "contours"
 msgstr "contouren"
@@ -724,142 +679,3 @@ msgstr "Heimen Stoffels"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "vistausss@outlook.com"
-
-#~ msgid "Active color"
-#~ msgstr "Actieve kleur"
-
-#~ msgid "Inactive color"
-#~ msgstr "Inactieve kleur"
-
-#~ msgid "Free space on %1 less than 10%"
-#~ msgstr "De vrije ruimte op %1 is minder dan 10%"
-
-#~ msgid "Top Edge"
-#~ msgstr "Bovenrand"
-
-#~ msgid "Bottom Edge"
-#~ msgstr "Onderrand"
-
-#~ msgid "Left Edge"
-#~ msgstr "Linkerrand"
-
-#~ msgid "Right Edge"
-#~ msgstr "Linkerrand"
-
-#~ msgid "Unknown location (%1)"
-#~ msgstr "Onbekende positie (%1)"
-
-#~ msgid "Run ksysguard"
-#~ msgstr "ksysguard openen"
-
-#~ msgid "Update text"
-#~ msgstr "Tekst bijwerken"
-
-#~ msgid "Check for updates"
-#~ msgstr "Controleren op updates"
-
-#~ msgid "Exec: %1"
-#~ msgstr "Uitvoeren: %1"
-
-#~ msgid "Select color"
-#~ msgstr "Kleur selecteren"
-
-#~ msgid "Enable popup on mouse click"
-#~ msgstr "Pop-up bij muisklik inschakelen"
-
-#~ msgid ""
-#~ "$dddd - long weekday\n"
-#~ "$ddd - short weekday\n"
-#~ "$dd - day\n"
-#~ "$d - day w\\o zero\n"
-#~ "$MMMM - long month\n"
-#~ "$MMM - short month\n"
-#~ "$MM - month\n"
-#~ "$M - month w\\o zero\n"
-#~ "$yyyy - year\n"
-#~ "$yy - short year\n"
-#~ "$hh - hours (24 only)\n"
-#~ "$h - hours w\\o zero (24 only)\n"
-#~ "$mm - minutes\n"
-#~ "$m - minutes w\\o zero\n"
-#~ "$ss - seconds\n"
-#~ "$s - seconds w\\o zero"
-#~ msgstr ""
-#~ "$dddd - weekdag (lang)\n"
-#~ "$ddd - weekdag (kort)\n"
-#~ "$dd - dag\n"
-#~ "$d - dag zonder nul\n"
-#~ "$MMMM - maand (lang)\n"
-#~ "$MMM - maand (kort)\n"
-#~ "$MM - maand\n"
-#~ "$M - month zonder nul\n"
-#~ "$yyyy - jaar\n"
-#~ "$yy - jaar (kort)\n"
-#~ "$hh - uren (alleen 24)\n"
-#~ "$h - uren zonder nul (alleen 24)\n"
-#~ "$mm - minuten\n"
-#~ "$m - minuten zonder nul\n"
-#~ "$ss - seconden\n"
-#~ "$s - seconden zonder nul"
-
-#~ msgid ""
-#~ "$dd - uptime days\n"
-#~ "$d - uptime days without zero\n"
-#~ "$hh - uptime hours\n"
-#~ "$h - uptime hours without zero\n"
-#~ "$mm - uptime minutes\n"
-#~ "$m - uptime minutes without zero"
-#~ msgstr ""
-#~ "$dd - uptime-dagen\n"
-#~ "$d - uptime-dagen zonder nul\n"
-#~ "$hh - uptime-uren\n"
-#~ "$h - uptime-uren zonder nul\n"
-#~ "$mm - uptime-minuten\n"
-#~ "$m - uptime minuten zonder nul"
-
-#~ msgid "Temperature devices"
-#~ msgstr "Temperatuurapparaten"
-
-#~ msgid "Editable"
-#~ msgstr "Bewerkbaar"
-
-#~ msgid "Fan devices"
-#~ msgstr "Koelingsapparaten"
-
-#~ msgid "Mount points"
-#~ msgstr "Aankoppelpunten"
-
-#~ msgid "HDD devices (speed)"
-#~ msgstr "HDD-apparaten (snelheid)"
-
-#~ msgid "HDD devices (temp)"
-#~ msgstr "HDD-apparaten (temp)"
-
-#~ msgid "Disable auto select device and set specified device"
-#~ msgstr ""
-#~ "Apparaat automatisch selecteren uitschakelen en specifiek apparaat "
-#~ "instellen"
-
-#~ msgid "Set network device"
-#~ msgstr "Netwerkapparaat instellen"
-
-#~ msgid "Line, which returns when AC is online"
-#~ msgstr "Lijn. welke terugkeert wanneer AC online is"
-
-#~ msgid "Line, which returns when AC is offline"
-#~ msgstr "Lijn, welke terugkeert wanneer AC offline is"
-
-#~ msgid "\"/sys/class/power_supply/\" by default"
-#~ msgstr "\"/sys/class/power_supply/\" standaard"
-
-#~ msgid "<b>NOTE:</b> Player DBus interface should be an active"
-#~ msgstr "<b>LET OP:</b> De DBus-interface van de speler moet actief zijn"
-
-#~ msgid "Ctrl+B"
-#~ msgstr "Ctrl+B"
-
-#~ msgid "Ctrl+I"
-#~ msgstr "Ctrl+I"
-
-#~ msgid "Ctrl+U"
-#~ msgstr "Ctrl+U"
