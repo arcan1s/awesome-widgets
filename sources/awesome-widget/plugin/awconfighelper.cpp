@@ -110,6 +110,9 @@ bool AWConfigHelper::exportConfiguration(const QObject *nativeConfig,
     readFile(settings, QString("weathers"),
              QString("%1/weather/awesomewidgets-extweather-ids.json")
                  .arg(m_baseDir));
+    // formatter settings
+    readFile(settings, QString("formatters"),
+             QString("%1/formatters/formatters.ini").arg(m_baseDir));
     settings.endGroup();
 
     // sync settings
@@ -150,6 +153,9 @@ QVariantMap AWConfigHelper::importConfiguration(const QString fileName,
         writeFile(settings, QString("weathers"),
                   QString("%1/weather/awesomewidgets-extweather-ids.json")
                       .arg(m_baseDir));
+        // formatter settings
+        writeFile(settings, QString("formatters"),
+                  QString("%1/formatters/formatters.ini").arg(m_baseDir));
         settings.endGroup();
     }
 
