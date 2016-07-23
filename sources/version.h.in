@@ -35,7 +35,7 @@
 // extweather api version
 #define AWEWAPI 3
 // formatter api version
-#define AWEFAPI 1
+#define AWEFAPI 2
 // network requests timeout, ms
 #define REQUEST_TIMEOUT 3000
 // available time keys

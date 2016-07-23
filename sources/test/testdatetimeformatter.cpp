@@ -56,10 +56,12 @@ void TestAWDateTimeFormatter::test_conversion()
 
 void TestAWDateTimeFormatter::test_copy()
 {
+    formatter->setTranslateString(false);
     AWDateTimeFormatter *newFormatter
         = formatter->copy(QString("/dev/null"), 1);
 
     QCOMPARE(newFormatter->format(), formatter->format());
+    QCOMPARE(newFormatter->translateString(), formatter->translateString());
     QCOMPARE(newFormatter->number(), 1);
 
     delete newFormatter;
