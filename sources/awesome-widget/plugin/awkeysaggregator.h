@@ -69,6 +69,7 @@ class AWKeysAggregator : public QObject
 public:
     explicit AWKeysAggregator(QObject *parent = nullptr);
     virtual ~AWKeysAggregator();
+    void initFormatters();
     // get methods
     QString formatter(const QVariant &data, const QString &key) const;
     QStringList keysFromSource(const QString &source) const;

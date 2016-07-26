@@ -105,10 +105,10 @@ void AWKeys::initKeys(const QString currentPattern, const int interval,
     m_threadPool->setMaxThreadCount(limit == 0 ? QThread::idealThreadCount()
                                                : limit);
     // child objects
+    aggregator->initFormatters();
     keyOperator->setPattern(currentPattern);
     keyOperator->updateCache();
     dataEngineAggregator->clear();
-
     dataEngineAggregator->initDataEngines(interval);
 
     // timer

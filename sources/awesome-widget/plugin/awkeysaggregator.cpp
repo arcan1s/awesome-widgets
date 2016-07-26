@@ -48,8 +48,6 @@ AWKeysAggregator::AWKeysAggregator(QObject *parent)
     m_formatter[QString("swap")] = FormatterType::Float;
     m_formatter[QString("swaptotmb")] = FormatterType::MemMBFormat;
     m_formatter[QString("swaptotgb")] = FormatterType::MemGBFormat;
-
-    m_customFormatters = new AWFormatterHelper(nullptr);
 }
 
 
@@ -58,6 +56,14 @@ AWKeysAggregator::~AWKeysAggregator()
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
     delete m_customFormatters;
+}
+
+
+void AWKeysAggregator::initFormatters()
+{
+    if (m_customFormatters)
+        delete m_customFormatters;
+    m_customFormatters = new AWFormatterHelper(nullptr);
 }
 
 
@@ -170,7 +176,8 @@ QString AWKeysAggregator::formatter(const QVariant &data,
         output = data.toString();
         break;
     case FormatterType::Custom:
-        output = m_customFormatters->convert(data, key);
+        if (m_customFormatters)
+            output = m_customFormatters->convert(data, key);
         break;
     }
 
@@ -574,7 +581,9 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
     QStringList foundKeys = keysFromSource(source);
 
     // rewrite formatters for custom ones
-    QStringList customFormattersKeys = m_customFormatters->definedFormatters();
+    QStringList customFormattersKeys;
+    if (m_customFormatters)
+        customFormattersKeys = m_customFormatters->definedFormatters();
     qCInfo(LOG_AW) << "Looking for fprmatters" << foundKeys << "in"
                    << customFormattersKeys;
     for (auto key : foundKeys) {
