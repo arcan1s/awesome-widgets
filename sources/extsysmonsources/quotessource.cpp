@@ -28,7 +28,7 @@ QuotesSource::QuotesSource(QObject *parent, const QStringList args)
     Q_ASSERT(args.count() == 0);
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
-    extQuotes = new ExtItemAggregator<ExtQuotes>(nullptr, QString("quotes"));
+    m_extQuotes = new ExtItemAggregator<ExtQuotes>(nullptr, QString("quotes"));
     m_sources = getSources();
 }
 
@@ -37,7 +37,7 @@ QuotesSource::~QuotesSource()
 {
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
-    delete extQuotes;
+    delete m_extQuotes;
 }
 
 
@@ -48,7 +48,7 @@ QVariant QuotesSource::data(QString source)
     int ind = index(source);
     source.remove(QString("quotes/"));
     if (!m_values.contains(source)) {
-        QVariantHash data = extQuotes->itemByTagNumber(ind)->run();
+        QVariantHash data = m_extQuotes->itemByTagNumber(ind)->run();
         for (auto key : data.keys())
             m_values[key] = data[key];
     }
@@ -68,7 +68,7 @@ QVariantMap QuotesSource::initialData(QString source) const
         data[QString("max")] = 0.0;
         data[QString("name")]
             = QString("Absolute ask changes for '%1'")
-                  .arg(extQuotes->itemByTagNumber(ind)->uniq());
+                  .arg(m_extQuotes->itemByTagNumber(ind)->uniq());
         data[QString("type")] = QString("double");
         data[QString("units")] = QString("");
     } else if (source.startsWith(QString("quotes/ask"))) {
@@ -76,7 +76,7 @@ QVariantMap QuotesSource::initialData(QString source) const
         data[QString("max")] = 0.0;
         data[QString("name")]
             = QString("Ask for '%1'")
-                  .arg(extQuotes->itemByTagNumber(ind)->uniq());
+                  .arg(m_extQuotes->itemByTagNumber(ind)->uniq());
         data[QString("type")] = QString("double");
         data[QString("units")] = QString("");
     } else if (source.startsWith(QString("quotes/percaskchg"))) {
@@ -84,7 +84,7 @@ QVariantMap QuotesSource::initialData(QString source) const
         data[QString("max")] = 100.0;
         data[QString("name")]
             = QString("Ask changes for '%1'")
-                  .arg(extQuotes->itemByTagNumber(ind)->uniq());
+                  .arg(m_extQuotes->itemByTagNumber(ind)->uniq());
         data[QString("type")] = QString("double");
         data[QString("units")] = QString("");
     } else if (source.startsWith(QString("quotes/bidchg"))) {
@@ -92,7 +92,7 @@ QVariantMap QuotesSource::initialData(QString source) const
         data[QString("max")] = 0.0;
         data[QString("name")]
             = QString("Absolute bid changes for '%1'")
-                  .arg(extQuotes->itemByTagNumber(ind)->uniq());
+                  .arg(m_extQuotes->itemByTagNumber(ind)->uniq());
         data[QString("type")] = QString("double");
         data[QString("units")] = QString("");
     } else if (source.startsWith(QString("quotes/bid"))) {
@@ -100,7 +100,7 @@ QVariantMap QuotesSource::initialData(QString source) const
         data[QString("max")] = 0.0;
         data[QString("name")]
             = QString("Bid for '%1'")
-                  .arg(extQuotes->itemByTagNumber(ind)->uniq());
+                  .arg(m_extQuotes->itemByTagNumber(ind)->uniq());
         data[QString("type")] = QString("double");
         data[QString("units")] = QString("");
     } else if (source.startsWith(QString("quotes/percbidchg"))) {
@@ -108,7 +108,7 @@ QVariantMap QuotesSource::initialData(QString source) const
         data[QString("max")] = 100.0;
         data[QString("name")]
             = QString("Bid changes for '%1'")
-                  .arg(extQuotes->itemByTagNumber(ind)->uniq());
+                  .arg(m_extQuotes->itemByTagNumber(ind)->uniq());
         data[QString("type")] = QString("double");
         data[QString("units")] = QString("");
     } else if (source.startsWith(QString("quotes/pricechg"))) {
@@ -116,7 +116,7 @@ QVariantMap QuotesSource::initialData(QString source) const
         data[QString("max")] = 0.0;
         data[QString("name")]
             = QString("Absolute prie changes for '%1'")
-                  .arg(extQuotes->itemByTagNumber(ind)->uniq());
+                  .arg(m_extQuotes->itemByTagNumber(ind)->uniq());
         data[QString("type")] = QString("double");
         data[QString("units")] = QString("");
     } else if (source.startsWith(QString("quotes/price"))) {
@@ -124,7 +124,7 @@ QVariantMap QuotesSource::initialData(QString source) const
         data[QString("max")] = 0.0;
         data[QString("name")]
             = QString("Price for '%1'")
-                  .arg(extQuotes->itemByTagNumber(ind)->uniq());
+                  .arg(m_extQuotes->itemByTagNumber(ind)->uniq());
         data[QString("type")] = QString("double");
         data[QString("units")] = QString("");
     } else if (source.startsWith(QString("quotes/percpricechg"))) {
@@ -132,7 +132,7 @@ QVariantMap QuotesSource::initialData(QString source) const
         data[QString("max")] = 100.0;
         data[QString("name")]
             = QString("Price changes for '%1'")
-                  .arg(extQuotes->itemByTagNumber(ind)->uniq());
+                  .arg(m_extQuotes->itemByTagNumber(ind)->uniq());
         data[QString("type")] = QString("double");
         data[QString("units")] = QString("");
     }
@@ -150,7 +150,7 @@ QStringList QuotesSource::sources() const
 QStringList QuotesSource::getSources()
 {
     QStringList sources;
-    for (auto item : extQuotes->activeItems()) {
+    for (auto item : m_extQuotes->activeItems()) {
         sources.append(QString("quotes/%1").arg(item->tag(QString("ask"))));
         sources.append(QString("quotes/%1").arg(item->tag(QString("askchg"))));
         sources.append(

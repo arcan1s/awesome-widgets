@@ -39,7 +39,7 @@ public:
 private:
     QStringList getSources();
     // configuration and values
-    ExtItemAggregator<ExtQuotes> *extQuotes = nullptr;
+    ExtItemAggregator<ExtQuotes> *m_extQuotes = nullptr;
     QStringList m_sources;
     QVariantHash m_values;
 };

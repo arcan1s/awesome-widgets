@@ -76,7 +76,7 @@ private slots:
     void updateValue();
 
 private:
-    QProcess *process = nullptr;
+    QProcess *m_process = nullptr;
     Ui::ExtScript *ui = nullptr;
     void translate();
     // properties
@@ -85,9 +85,9 @@ private:
     QString m_prefix = QString("");
     Redirect m_redirect = Redirect::nothing;
     // internal properties
-    QVariantMap jsonFilters = QVariantMap();
-    int times = 0;
-    QVariantHash value;
+    QVariantMap m_jsonFilters = QVariantMap();
+    int m_times = 0;
+    QVariantHash m_values;
 };
 
 

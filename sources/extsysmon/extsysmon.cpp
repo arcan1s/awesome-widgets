@@ -41,9 +41,9 @@ ExtendedSysMon::ExtendedSysMon(QObject *parent, const QVariantList &args)
     readConfiguration();
 
     // init aggregator
-    aggregator = new ExtSysMonAggregator(this, configuration);
-    for (auto source : aggregator->sources())
-        setData(source, aggregator->initialData(source));
+    m_aggregator = new ExtSysMonAggregator(this, m_configuration);
+    for (auto source : m_aggregator->sources())
+        setData(source, m_aggregator->initialData(source));
 }
 
 
@@ -51,13 +51,13 @@ ExtendedSysMon::~ExtendedSysMon()
 {
     qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 
-    delete aggregator;
+    delete m_aggregator;
 }
 
 
 QStringList ExtendedSysMon::sources() const
 {
-    return aggregator->sources();
+    return m_aggregator->sources();
 }
 
 
@@ -73,8 +73,8 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
 {
     qCDebug(LOG_ESM) << "Source" << source;
 
-    if (aggregator->hasSource(source)) {
-        QVariant data = aggregator->data(source);
+    if (m_aggregator->hasSource(source)) {
+        QVariant data = m_aggregator->data(source);
         if (data.isNull())
             return false;
         setData(source, QString("value"), data);
@@ -121,7 +121,7 @@ void ExtendedSysMon::readConfiguration()
         = settings.value(QString("PLAYERSYMBOLS"), QString("10")).toString();
     settings.endGroup();
 
-    configuration = updateConfiguration(rawConfig);
+    m_configuration = updateConfiguration(rawConfig);
 }
 
 

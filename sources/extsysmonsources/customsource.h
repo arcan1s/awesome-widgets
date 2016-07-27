@@ -39,7 +39,7 @@ public:
 private:
     QStringList getSources();
     // configuration and values
-    ExtItemAggregator<ExtScript> *extScripts = nullptr;
+    ExtItemAggregator<ExtScript> *m_extScripts = nullptr;
     QStringList m_sources;
 };
 

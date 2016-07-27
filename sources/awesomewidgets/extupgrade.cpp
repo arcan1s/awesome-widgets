@@ -39,11 +39,11 @@ ExtUpgrade::ExtUpgrade(QWidget *parent, const QString filePath)
     ui->setupUi(this);
     translate();
 
-    value[tag(QString("pkgcount"))] = 0;
+    m_values[tag(QString("pkgcount"))] = 0;
 
-    process = new QProcess(nullptr);
-    connect(process, SIGNAL(finished(int)), this, SLOT(updateValue()));
-    process->waitForFinished(0);
+    m_process = new QProcess(nullptr);
+    connect(m_process, SIGNAL(finished(int)), this, SLOT(updateValue()));
+    m_process->waitForFinished(0);
 }
 
 
@@ -51,8 +51,8 @@ ExtUpgrade::~ExtUpgrade()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    process->kill();
-    process->deleteLater();
+    m_process->kill();
+    m_process->deleteLater();
     delete ui;
 }
 
@@ -143,20 +143,20 @@ void ExtUpgrade::readConfiguration()
 QVariantHash ExtUpgrade::run()
 {
     if (!isActive())
-        return value;
+        return m_values;
 
-    if ((times == 1) && (process->state() == QProcess::NotRunning)) {
+    if ((m_times == 1) && (m_process->state() == QProcess::NotRunning)) {
         QString cmd = QString("sh -c \"%1\"").arg(executable());
         qCInfo(LOG_LIB) << "Run cmd" << cmd;
-        process->start(cmd);
+        m_process->start(cmd);
     }
 
     // update value
-    if (times >= interval())
-        times = 0;
-    times++;
+    if (m_times >= interval())
+        m_times = 0;
+    m_times++;
 
-    return value;
+    return m_values;
 }
 
 
@@ -211,13 +211,13 @@ void ExtUpgrade::writeConfiguration() const
 
 void ExtUpgrade::updateValue()
 {
-    qCInfo(LOG_LIB) << "Cmd returns" << process->exitCode();
-    qCInfo(LOG_LIB) << "Error" << process->readAllStandardError();
+    qCInfo(LOG_LIB) << "Cmd returns" << m_process->exitCode();
+    qCInfo(LOG_LIB) << "Error" << m_process->readAllStandardError();
 
     QString qoutput = QTextCodec::codecForMib(106)
-                          ->toUnicode(process->readAllStandardOutput())
+                          ->toUnicode(m_process->readAllStandardOutput())
                           .trimmed();
-    value[tag(QString("pkgcount"))] = [this](QString output) {
+    m_values[tag(QString("pkgcount"))] = [this](QString output) {
         return filter().isEmpty()
                    ? output.split(QChar('\n'), QString::SkipEmptyParts).count()
                          - null()
@@ -226,7 +226,7 @@ void ExtUpgrade::updateValue()
                          .count();
     }(qoutput);
 
-    emit(dataReceived(value));
+    emit(dataReceived(m_values));
 }
 
 

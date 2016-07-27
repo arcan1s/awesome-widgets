@@ -20,6 +20,8 @@
 
 #include "abstractweatherprovider.h"
 
+// we are using own server to pass requests to OpenWeatherMap because it
+// requires specific APPID which belongs to developer not user
 #define OWM_WEATHER_URL "http://arcanis.me/weather"
 #define OWM_FORECAST_URL "http://arcanis.me/forecast"
 

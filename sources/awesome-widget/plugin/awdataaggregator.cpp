@@ -36,13 +36,13 @@ AWDataAggregator::AWDataAggregator(QObject *parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
-    boundaries[QString("cpuTooltip")] = 100.0;
-    boundaries[QString("cpuclTooltip")] = 4000.0;
-    boundaries[QString("memTooltip")] = 100.0;
-    boundaries[QString("swapTooltip")] = 100.0;
-    boundaries[QString("downkbTooltip")] = 1.0;
-    boundaries[QString("upkbTooltip")] = 1.0;
-    boundaries[QString("batTooltip")] = 100.0;
+    m_boundaries[QString("cpuTooltip")] = 100.0;
+    m_boundaries[QString("cpuclTooltip")] = 4000.0;
+    m_boundaries[QString("memTooltip")] = 100.0;
+    m_boundaries[QString("swapTooltip")] = 100.0;
+    m_boundaries[QString("downkbTooltip")] = 1.0;
+    m_boundaries[QString("upkbTooltip")] = 1.0;
+    m_boundaries[QString("batTooltip")] = 100.0;
 
     initScene();
     connect(this, SIGNAL(updateData(const QVariantHash &)), this,
@@ -54,7 +54,7 @@ AWDataAggregator::~AWDataAggregator()
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
-    delete toolTipScene;
+    delete m_toolTipScene;
 }
 
 
@@ -62,7 +62,7 @@ QList<float> AWDataAggregator::getData(const QString key) const
 {
     qCDebug(LOG_AW) << "Key" << key;
 
-    return data[QString("%1Tooltip").arg(key)];
+    return m_values[QString("%1Tooltip").arg(key)];
 }
 
 
@@ -84,41 +84,41 @@ void AWDataAggregator::setParameters(QVariantMap settings)
     qCDebug(LOG_AW) << "Settings" << settings;
 
     // cast from QVariantMap to QVariantHash without data lost
-    configuration = qvariant_cast<QVariantHash>(settings);
+    m_configuration = qvariant_cast<QVariantHash>(settings);
 
-    m_enablePopup = configuration[QString("notify")].toBool();
+    m_enablePopup = m_configuration[QString("notify")].toBool();
 
-    counts = 0;
-    counts += configuration[QString("cpuTooltip")].toInt();
-    counts += configuration[QString("cpuclTooltip")].toInt();
-    counts += configuration[QString("memTooltip")].toInt();
-    counts += configuration[QString("swapTooltip")].toInt();
-    counts += configuration[QString("downkbTooltip")].toInt();
-    counts += configuration[QString("batTooltip")].toInt();
+    m_counts = 0;
+    m_counts += m_configuration[QString("cpuTooltip")].toInt();
+    m_counts += m_configuration[QString("cpuclTooltip")].toInt();
+    m_counts += m_configuration[QString("memTooltip")].toInt();
+    m_counts += m_configuration[QString("swapTooltip")].toInt();
+    m_counts += m_configuration[QString("downkbTooltip")].toInt();
+    m_counts += m_configuration[QString("batTooltip")].toInt();
     // resize tooltip image
-    toolTipView->resize(100 * counts, 105);
+    m_toolTipView->resize(100 * m_counts, 105);
 
     requiredKeys.clear();
-    if (configuration[QString("cpuTooltip")].toBool())
+    if (m_configuration[QString("cpuTooltip")].toBool())
         requiredKeys.append(QString("cpuTooltip"));
-    if (configuration[QString("cpuclTooltip")].toBool())
+    if (m_configuration[QString("cpuclTooltip")].toBool())
         requiredKeys.append(QString("cpuclTooltip"));
-    if (configuration[QString("memTooltip")].toBool())
+    if (m_configuration[QString("memTooltip")].toBool())
         requiredKeys.append(QString("memTooltip"));
-    if (configuration[QString("swapTooltip")].toBool())
+    if (m_configuration[QString("swapTooltip")].toBool())
         requiredKeys.append(QString("swapTooltip"));
-    if (configuration[QString("downkbTooltip")].toBool())
+    if (m_configuration[QString("downkbTooltip")].toBool())
         requiredKeys.append(QString("downkbTooltip"));
-    if (configuration[QString("upkbTooltip")].toBool())
+    if (m_configuration[QString("upkbTooltip")].toBool())
         requiredKeys.append(QString("upkbTooltip"));
-    if (configuration[QString("batTooltip")].toBool())
+    if (m_configuration[QString("batTooltip")].toBool())
         requiredKeys.append(QString("batTooltip"));
 
     // background
-    toolTipScene->setBackgroundBrush(
-        configuration[QString("useTooltipBackground")].toBool()
+    m_toolTipScene->setBackgroundBrush(
+        m_configuration[QString("useTooltipBackground")].toBool()
             ? QBrush(QColor(
-                  configuration[QString("tooltipBackground")].toString()))
+                  m_configuration[QString("tooltipBackground")].toString()))
             : QBrush(Qt::NoBrush));
 }
 
@@ -126,43 +126,44 @@ void AWDataAggregator::setParameters(QVariantMap settings)
 QPixmap AWDataAggregator::tooltipImage()
 {
     // create image
-    toolTipScene->clear();
+    m_toolTipScene->clear();
     QPen pen;
     bool down = false;
     for (auto key : requiredKeys) {
         // create frame
-        float normX = 100.0f / static_cast<float>(data[key].count());
-        float normY = 100.0f / (1.5f * boundaries[key]);
+        float normX = 100.0f / static_cast<float>(m_values[key].count());
+        float normY = 100.0f / (1.5f * m_boundaries[key]);
         float shift = requiredKeys.indexOf(key) * 100.0f;
         if (down)
             shift -= 100.0;
         // apply pen color
         if (key != QString("batTooltip"))
-            pen.setColor(
-                QColor(configuration[QString("%1Color").arg(key)].toString()));
+            pen.setColor(QColor(
+                m_configuration[QString("%1Color").arg(key)].toString()));
         // paint data inside frame
-        for (int j = 0; j < data[key].count() - 1; j++) {
+        for (int j = 0; j < m_values[key].count() - 1; j++) {
             // some magic here
             float x1 = j * normX + shift;
-            float y1 = -fabs(data[key].at(j)) * normY + 5.0f;
+            float y1 = -fabs(m_values[key].at(j)) * normY + 5.0f;
             float x2 = (j + 1) * normX + shift;
-            float y2 = -fabs(data[key].at(j + 1)) * normY + 5.0f;
+            float y2 = -fabs(m_values[key].at(j + 1)) * normY + 5.0f;
             if (key == QString("batTooltip")) {
-                if (data[key].at(j + 1) > 0)
-                    pen.setColor(QColor(
-                        configuration[QString("batTooltipColor")].toString()));
+                if (m_values[key].at(j + 1) > 0)
+                    pen.setColor(
+                        QColor(m_configuration[QString("batTooltipColor")]
+                                   .toString()));
                 else
                     pen.setColor(
-                        QColor(configuration[QString("batInTooltipColor")]
+                        QColor(m_configuration[QString("batInTooltipColor")]
                                    .toString()));
             }
-            toolTipScene->addLine(x1, y1, x2, y2, pen);
+            m_toolTipScene->addLine(x1, y1, x2, y2, pen);
         }
         if (key == QString("downkbTooltip"))
             down = true;
     }
 
-    return toolTipView->grab();
+    return m_toolTipView->grab();
 }
 
 
@@ -182,12 +183,12 @@ void AWDataAggregator::checkValue(const QString source, const float value,
 
     if (value >= 0.0) {
         if ((m_enablePopup) && (value > extremum)
-            && (data[source].last() < extremum))
+            && (m_values[source].last() < extremum))
             return AWActions::sendNotification(QString("event"),
                                                notificationText(source, value));
     } else {
         if ((m_enablePopup) && (value < extremum)
-            && (data[source].last() > extremum))
+            && (m_values[source].last() > extremum))
             return AWActions::sendNotification(QString("event"),
                                                notificationText(source, value));
     }
@@ -208,13 +209,13 @@ void AWDataAggregator::checkValue(const QString source, const QString current,
 
 void AWDataAggregator::initScene()
 {
-    toolTipScene = new QGraphicsScene(nullptr);
-    toolTipView = new QGraphicsView(toolTipScene);
-    toolTipView->setStyleSheet(QString("background: transparent"));
-    toolTipView->setContentsMargins(0, 0, 0, 0);
-    toolTipView->setFrameShape(QFrame::NoFrame);
-    toolTipView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    toolTipView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_toolTipScene = new QGraphicsScene(nullptr);
+    m_toolTipView = new QGraphicsView(m_toolTipScene);
+    m_toolTipView->setStyleSheet(QString("background: transparent"));
+    m_toolTipView->setContentsMargins(0, 0, 0, 0);
+    m_toolTipView->setFrameShape(QFrame::NoFrame);
+    m_toolTipView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_toolTipView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
 
@@ -257,7 +258,7 @@ void AWDataAggregator::setData(const QVariantHash &values)
     // do not log these arguments
     // battery update requires info is AC online or not
     setData(values[QString("ac")].toString()
-                == configuration[QString("acOnline")],
+                == m_configuration[QString("acOnline")],
             QString("batTooltip"), values[QString("bat")].toFloat());
     // usual case
     setData(QString("cpuTooltip"), values[QString("cpu")].toFloat(), 90.0);
@@ -268,13 +269,13 @@ void AWDataAggregator::setData(const QVariantHash &values)
     setData(QString("upkbTooltip"), values[QString("upkb")].toFloat());
     // additional check for network device
     [this](const QString value) {
-        checkValue(QString("netdev"), currentNetworkDevice, value);
-        currentNetworkDevice = value;
+        checkValue(QString("netdev"), m_currentNetworkDevice, value);
+        m_currentNetworkDevice = value;
     }(values[QString("netdev")].toString());
     // additional check for GPU load
     [this](const float value) {
         checkValue(QString("gpu"), value, 90.0);
-        currentGPULoad = value;
+        m_currentGPULoad = value;
     }(values[QString("gpu")].toFloat());
 }
 
@@ -285,27 +286,27 @@ void AWDataAggregator::setData(const QString &source, float value,
     qCDebug(LOG_AW) << "Source" << source << "to value" << value
                     << "with extremum" << extremum;
 
-    if (data[source].count() == 0)
-        data[source].append(0.0);
-    else if (data[source].count()
-             > configuration[QString("tooltipNumber")].toInt())
-        data[source].removeFirst();
+    if (m_values[source].count() == 0)
+        m_values[source].append(0.0);
+    else if (m_values[source].count()
+             > m_configuration[QString("tooltipNumber")].toInt())
+        m_values[source].removeFirst();
     if (std::isnan(value))
         value = 0.0;
 
     // notifications
     checkValue(source, value, extremum);
 
-    data[source].append(value);
+    m_values[source].append(value);
     if (source == QString("downkbTooltip")) {
-        QList<float> netValues
-            = data[QString("downkbTooltip")] + data[QString("upkbTooltip")];
+        QList<float> netValues = m_values[QString("downkbTooltip")]
+                                 + m_values[QString("upkbTooltip")];
         // to avoid inf value of normY
         netValues << 1.0;
-        boundaries[QString("downkbTooltip")]
+        m_boundaries[QString("downkbTooltip")]
             = 1.2f * *std::max_element(netValues.cbegin(), netValues.cend());
-        boundaries[QString("upkbTooltip")]
-            = boundaries[QString("downkbTooltip")];
+        m_boundaries[QString("upkbTooltip")]
+            = m_boundaries[QString("downkbTooltip")];
     }
 }
 

@@ -42,12 +42,12 @@ ExtScript::ExtScript(QWidget *parent, const QString filePath)
     ui->setupUi(this);
     translate();
 
-    value[tag(QString("custom"))] = QString("");
+    m_values[tag(QString("custom"))] = QString("");
 
-    process = new QProcess(nullptr);
-    connect(process, SIGNAL(finished(int, QProcess::ExitStatus)), this,
+    m_process = new QProcess(nullptr);
+    connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this,
             SLOT(updateValue()));
-    process->waitForFinished(0);
+    m_process->waitForFinished(0);
 }
 
 
@@ -55,8 +55,8 @@ ExtScript::~ExtScript()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    process->kill();
-    process->deleteLater();
+    m_process->kill();
+    m_process->deleteLater();
     delete ui;
 }
 
@@ -184,7 +184,7 @@ QString ExtScript::applyFilters(QString _value) const
 
     for (auto filt : filters()) {
         qCInfo(LOG_LIB) << "Found filter" << filt;
-        QVariantMap filter = jsonFilters[filt].toMap();
+        QVariantMap filter = m_jsonFilters[filt].toMap();
         if (filter.isEmpty()) {
             qCWarning(LOG_LIB) << "Could not find filter" << _value
                                << "in the json";
@@ -254,35 +254,35 @@ void ExtScript::readJsonFilters()
         qCWarning(LOG_LIB) << "Parse error" << error.errorString();
         return;
     }
-    jsonFilters = jsonDoc.toVariant().toMap();
+    m_jsonFilters = jsonDoc.toVariant().toMap();
 
-    qCInfo(LOG_LIB) << "Filters" << jsonFilters;
+    qCInfo(LOG_LIB) << "Filters" << m_jsonFilters;
 }
 
 
 QVariantHash ExtScript::run()
 {
     if (!isActive())
-        return value;
-    if (process->state() != QProcess::NotRunning)
+        return m_values;
+    if (m_process->state() != QProcess::NotRunning)
         qCWarning(LOG_LIB) << "Another process is already running"
-                           << process->state();
+                           << m_process->state();
 
-    if ((times == 1) && (process->state() == QProcess::NotRunning)) {
+    if ((m_times == 1) && (m_process->state() == QProcess::NotRunning)) {
         QStringList cmdList;
         if (!prefix().isEmpty())
             cmdList.append(prefix());
         cmdList.append(executable());
         qCInfo(LOG_LIB) << "Run cmd" << cmdList.join(QChar(' '));
-        process->start(cmdList.join(QChar(' ')));
+        m_process->start(cmdList.join(QChar(' ')));
     }
 
     // update value
-    if (times >= interval())
-        times = 0;
-    times++;
+    if (m_times >= interval())
+        m_times = 0;
+    m_times++;
 
-    return value;
+    return m_values;
 }
 
 
@@ -352,13 +352,13 @@ void ExtScript::writeConfiguration() const
 
 void ExtScript::updateValue()
 {
-    qCInfo(LOG_LIB) << "Cmd returns" << process->exitCode();
+    qCInfo(LOG_LIB) << "Cmd returns" << m_process->exitCode();
     QString qdebug = QTextCodec::codecForMib(106)
-                         ->toUnicode(process->readAllStandardError())
+                         ->toUnicode(m_process->readAllStandardError())
                          .trimmed();
     qCInfo(LOG_LIB) << "Error" << qdebug;
     QString qoutput = QTextCodec::codecForMib(106)
-                          ->toUnicode(process->readAllStandardOutput())
+                          ->toUnicode(m_process->readAllStandardOutput())
                           .trimmed();
     qCInfo(LOG_LIB) << "Output" << qoutput;
     QString strValue;
@@ -378,8 +378,8 @@ void ExtScript::updateValue()
     }
 
     // filters
-    value[tag(QString("custom"))] = applyFilters(strValue);
-    emit(dataReceived(value));
+    m_values[tag(QString("custom"))] = applyFilters(strValue);
+    emit(dataReceived(m_values));
 }
 
 

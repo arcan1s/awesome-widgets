@@ -89,7 +89,7 @@ public slots:
 private:
     float temperature(const float temp) const;
     AWFormatterHelper *m_customFormatters = nullptr;
-    QStringList timeKeys = QString(TIME_KEYS).split(QChar(','));
+    QStringList m_timeKeys = QString(TIME_KEYS).split(QChar(','));
     // variables
     QString m_acOffline;
     QString m_acOnline;

@@ -38,8 +38,8 @@ protected:
 
 private:
     // configuration
-    ExtSysMonAggregator *aggregator = nullptr;
-    QHash<QString, QString> configuration;
+    ExtSysMonAggregator *m_aggregator = nullptr;
+    QHash<QString, QString> m_configuration;
     // methods
     void readConfiguration();
     QHash<QString, QString>

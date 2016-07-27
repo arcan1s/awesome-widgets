@@ -39,7 +39,7 @@ public:
 private:
     QStringList getSources();
     // configuration and values
-    ExtItemAggregator<ExtUpgrade> *extUpgrade = nullptr;
+    ExtItemAggregator<ExtUpgrade> *m_extUpgrade = nullptr;
     QStringList m_sources;
 };
 

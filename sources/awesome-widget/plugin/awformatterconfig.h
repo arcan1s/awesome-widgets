@@ -44,7 +44,7 @@ private slots:
     void updateUi();
 
 private:
-    QPushButton *editButton = nullptr;
+    QPushButton *m_editButton = nullptr;
     Ui::AWFormatterConfig *ui = nullptr;
     AWFormatterHelper *m_helper = nullptr;
     QList<AWAbstractSelector *> m_selectors;

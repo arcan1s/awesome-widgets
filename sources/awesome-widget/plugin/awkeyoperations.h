@@ -69,11 +69,11 @@ private:
     void addKeyToCache(const QString type, const QString key = QString(""));
     void reinitKeys();
     // objects
-    ExtItemAggregator<GraphicalItem> *graphicalItems = nullptr;
-    ExtItemAggregator<ExtQuotes> *extQuotes = nullptr;
-    ExtItemAggregator<ExtScript> *extScripts = nullptr;
-    ExtItemAggregator<ExtUpgrade> *extUpgrade = nullptr;
-    ExtItemAggregator<ExtWeather> *extWeather = nullptr;
+    ExtItemAggregator<GraphicalItem> *m_graphicalItems = nullptr;
+    ExtItemAggregator<ExtQuotes> *m_extQuotes = nullptr;
+    ExtItemAggregator<ExtScript> *m_extScripts = nullptr;
+    ExtItemAggregator<ExtUpgrade> *m_extUpgrade = nullptr;
+    ExtItemAggregator<ExtWeather> *m_extWeather = nullptr;
     // variables
     QHash<QString, QStringList> m_devices;
     QString m_pattern;
