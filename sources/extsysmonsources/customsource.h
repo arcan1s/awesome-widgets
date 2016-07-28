@@ -28,6 +28,8 @@ class ExtScript;
 
 class CustomSource : public AbstractExtSysMonSource
 {
+    Q_OBJECT
+
 public:
     explicit CustomSource(QObject *parent, const QStringList args);
     virtual ~CustomSource();

@@ -27,6 +27,8 @@ class QProcess;
 
 class HDDTemperatureSource : public AbstractExtSysMonSource
 {
+    Q_OBJECT
+
 public:
     explicit HDDTemperatureSource(QObject *parent, const QStringList args);
     virtual ~HDDTemperatureSource();

@@ -25,6 +25,8 @@
 
 class ProcessesSource : public AbstractExtSysMonSource
 {
+    Q_OBJECT
+
 public:
     explicit ProcessesSource(QObject *parent, const QStringList args);
     virtual ~ProcessesSource();

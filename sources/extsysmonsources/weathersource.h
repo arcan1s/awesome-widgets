@@ -28,6 +28,8 @@ class ExtWeather;
 
 class WeatherSource : public AbstractExtSysMonSource
 {
+    Q_OBJECT
+
 public:
     explicit WeatherSource(QObject *parent, const QStringList args);
     virtual ~WeatherSource();

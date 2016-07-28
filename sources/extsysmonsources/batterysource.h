@@ -25,6 +25,8 @@
 
 class BatterySource : public AbstractExtSysMonSource
 {
+    Q_OBJECT
+
 public:
     explicit BatterySource(QObject *parent, const QStringList args);
     virtual ~BatterySource();

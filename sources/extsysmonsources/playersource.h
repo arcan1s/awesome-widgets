@@ -20,6 +20,7 @@
 
 #include <QMutex>
 #include <QObject>
+#include <QTcpSocket>
 
 #include "abstractextsysmonsource.h"
 
@@ -28,6 +29,8 @@ class QProcess;
 
 class PlayerSource : public AbstractExtSysMonSource
 {
+    Q_OBJECT
+
 public:
     explicit PlayerSource(QObject *parent, const QStringList args);
     virtual ~PlayerSource();
@@ -42,16 +45,19 @@ public:
     static QString stripString(const QString &value, const int s);
 
 private slots:
-    void updateMpdValue();
+    void mpdSocketConnected();
+    void mpdSocketReadyRead();
+    void mpdSocketWritten(const qint64 bytes);
 
 private:
     inline QVariantHash defaultInfo() const;
-    QVariantHash getPlayerMpdInfo(const QString mpdAddress) const;
+    QVariantHash getPlayerMpdInfo();
     QVariantHash getPlayerMprisInfo(const QString mpris) const;
+    QTcpSocket m_mpdSocket;
     // configuration and values
     QString m_mpdAddress;
+    int m_mpdPort;
     QVariantHash m_mpdCached;
-    QProcess *m_mpdProcess = nullptr;
     QString m_mpris;
     QMutex m_dbusMutex;
     QString m_player;

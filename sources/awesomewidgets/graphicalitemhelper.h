@@ -27,6 +27,8 @@ class QGraphicsScene;
 
 class GraphicalItemHelper : public QObject
 {
+    Q_OBJECT
+
 public:
     explicit GraphicalItemHelper(QObject *parent = nullptr,
                                  QGraphicsScene *scene = nullptr);

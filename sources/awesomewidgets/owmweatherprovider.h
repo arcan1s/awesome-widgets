@@ -28,6 +28,8 @@
 
 class OWMWeatherProvider : public AbstractWeatherProvider
 {
+    Q_OBJECT
+
 public:
     explicit OWMWeatherProvider(QObject *parent, const int number);
     virtual ~OWMWeatherProvider();

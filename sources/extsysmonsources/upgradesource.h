@@ -28,6 +28,8 @@ class ExtUpgrade;
 
 class UpgradeSource : public AbstractExtSysMonSource
 {
+    Q_OBJECT
+
 public:
     explicit UpgradeSource(QObject *parent, const QStringList args);
     virtual ~UpgradeSource();

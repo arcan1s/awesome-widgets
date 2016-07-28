@@ -28,6 +28,8 @@ class ExtQuotes;
 
 class QuotesSource : public AbstractExtSysMonSource
 {
+    Q_OBJECT
+
 public:
     explicit QuotesSource(QObject *parent, const QStringList args);
     virtual ~QuotesSource();
