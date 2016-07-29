@@ -24,6 +24,8 @@
 
 #include "abstractextsysmonsource.h"
 
+#define MPD_STATUS_REQUEST "currentsong\nstatus\n"
+
 
 class QProcess;
 

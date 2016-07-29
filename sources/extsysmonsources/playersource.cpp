@@ -322,7 +322,9 @@ QVariantHash PlayerSource::getPlayerMpdInfo()
         m_mpdSocket.connectToHost(m_mpdAddress, m_mpdPort);
     } else if (m_mpdSocket.state() == QAbstractSocket::ConnectedState) {
         // send request
-        m_mpdSocket.write("currentsong\nstatus\n");
+        if (m_mpdSocket.write(MPD_STATUS_REQUEST) == -1)
+            qCWarning(LOG_ESS) << "Could not write request to"
+                               << m_mpdSocket.peerName();
     }
 
     return m_mpdCached;
