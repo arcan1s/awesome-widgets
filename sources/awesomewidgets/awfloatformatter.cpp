@@ -260,7 +260,7 @@ void AWFloatFormatter::writeConfiguration() const
     settings.beginGroup(QString("Desktop Entry"));
     settings.setValue(QString("X-AW-Width"), count());
     settings.setValue(QString("X-AW-FillChar"), fillChar());
-    settings.setValue(QString("X-AW-Format"), format());
+    settings.setValue(QString("X-AW-Format"), QString(format()));
     settings.setValue(QString("X-AW-ForceWidth"), forceWidth());
     settings.setValue(QString("X-AW-Multiplier"), multiplier());
     settings.setValue(QString("X-AW-Precision"), precision());
