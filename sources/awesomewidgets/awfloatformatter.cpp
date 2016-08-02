@@ -236,6 +236,7 @@ int AWFloatFormatter::showConfiguration(const QVariant args)
         return ret;
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
+    setApiVersion(AWEFAPI);
     setStrType(ui->label_typeValue->text());
     setFormat(ui->comboBox_format->currentText().at(0).toLatin1());
     setPrecision(ui->spinBox_precision->value());

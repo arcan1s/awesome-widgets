@@ -119,14 +119,6 @@ void ExtQuotes::readConfiguration()
     setTicker(settings.value(QString("X-AW-Ticker"), ticker()).toString());
     settings.endGroup();
 
-    // update for current API
-    if ((apiVersion() > 0) && (apiVersion() < AWEQAPI)) {
-        qCWarning(LOG_LIB) << "Bump API version from" << apiVersion() << "to"
-                           << AWEQAPI;
-        setApiVersion(AWEQAPI);
-        writeConfiguration();
-    }
-
     bumpApi(AWEQAPI);
 }
 

@@ -154,6 +154,7 @@ int AWStringFormatter::showConfiguration(const QVariant args)
         return ret;
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
+    setApiVersion(AWEFAPI);
     setStrType(ui->label_typeValue->text());
     setCount(ui->spinBox_width->value());
     setFillChar(ui->lineEdit_fill->text().at(0));
