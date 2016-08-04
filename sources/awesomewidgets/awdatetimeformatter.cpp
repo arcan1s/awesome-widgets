@@ -173,5 +173,5 @@ void AWDateTimeFormatter::translate()
     ui->label_comment->setText(i18n("Comment"));
     ui->label_type->setText(i18n("Type"));
     ui->label_format->setText(i18n("Format"));
-    ui->checkBox_translate->setText(i18n("Transalte strings"));
+    ui->checkBox_translate->setText(i18n("Translate strings"));
 }
