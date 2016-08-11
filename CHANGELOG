@@ -1,3 +1,14 @@
+Ver.3.2.1:
++ add X-AW-Translate option to DateTime formatter
++ add formatters to configuration export and import
++ add macro fuction to selector
++ add default formatters
+- add translation reinit (fix #102)
+- fix invalid float formatter saving
+- fix missing ApiVersion for formatters
+* use sockets for MPD data
+* translation update
+
 Ver.3.2.0:
 + custom formatters (#91)
 + add backend tests (#95)
