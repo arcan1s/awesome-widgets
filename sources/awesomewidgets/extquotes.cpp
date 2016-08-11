@@ -44,15 +44,15 @@ ExtQuotes::ExtQuotes(QWidget *parent, const QString filePath)
     ui->setupUi(this);
     translate();
 
-    values[tag(QString("ask"))] = 0.0;
-    values[tag(QString("askchg"))] = 0.0;
-    values[tag(QString("percaskchg"))] = 0.0;
-    values[tag(QString("bid"))] = 0.0;
-    values[tag(QString("bidchg"))] = 0.0;
-    values[tag(QString("percbidchg"))] = 0.0;
-    values[tag(QString("price"))] = 0.0;
-    values[tag(QString("pricechg"))] = 0.0;
-    values[tag(QString("percpricechg"))] = 0.0;
+    m_values[tag(QString("ask"))] = 0.0;
+    m_values[tag(QString("askchg"))] = 0.0;
+    m_values[tag(QString("percaskchg"))] = 0.0;
+    m_values[tag(QString("bid"))] = 0.0;
+    m_values[tag(QString("bidchg"))] = 0.0;
+    m_values[tag(QString("percbidchg"))] = 0.0;
+    m_values[tag(QString("price"))] = 0.0;
+    m_values[tag(QString("pricechg"))] = 0.0;
+    m_values[tag(QString("percpricechg"))] = 0.0;
 
     // HACK declare as child of nullptr to avoid crash with plasmawindowed
     // in the destructor
@@ -119,36 +119,28 @@ void ExtQuotes::readConfiguration()
     setTicker(settings.value(QString("X-AW-Ticker"), ticker()).toString());
     settings.endGroup();
 
-    // update for current API
-    if ((apiVersion() > 0) && (apiVersion() < AWEQAPI)) {
-        qCWarning(LOG_LIB) << "Bump API version from" << apiVersion() << "to"
-                           << AWEQAPI;
-        setApiVersion(AWEQAPI);
-        writeConfiguration();
-    }
-
     bumpApi(AWEQAPI);
 }
 
 
 QVariantHash ExtQuotes::run()
 {
-    if ((!isActive()) || (isRunning))
-        return values;
+    if ((!isActive()) || (m_isRunning))
+        return m_values;
 
-    if (times == 1) {
+    if (m_times == 1) {
         qCInfo(LOG_LIB) << "Send request";
-        isRunning = true;
+        m_isRunning = true;
         QNetworkReply *reply = m_manager->get(QNetworkRequest(m_url));
         new QReplyTimeout(reply, REQUEST_TIMEOUT);
     }
 
     // update value
-    if (times >= interval())
-        times = 0;
-    times++;
+    if (m_times >= interval())
+        m_times = 0;
+    m_times++;
 
-    return values;
+    return m_values;
 }
 
 
@@ -199,7 +191,7 @@ void ExtQuotes::quotesReplyReceived(QNetworkReply *reply)
     qCDebug(LOG_LIB) << "Return code" << reply->error() << "with message"
                      << reply->errorString();
 
-    isRunning = false;
+    m_isRunning = false;
     QJsonParseError error;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll(), &error);
     reply->deleteLater();
@@ -216,38 +208,38 @@ void ExtQuotes::quotesReplyReceived(QNetworkReply *reply)
 
     // ask
     value = jsonQuotes[QString("Ask")].toString().toDouble();
-    values[tag(QString("askchg"))]
-        = values[tag(QString("ask"))].toDouble() == 0.0
+    m_values[tag(QString("askchg"))]
+        = m_values[tag(QString("ask"))].toDouble() == 0.0
               ? 0.0
-              : value - values[tag(QString("ask"))].toDouble();
-    values[tag(QString("percaskchg"))]
-        = 100.0 * values[tag(QString("askchg"))].toDouble()
-          / values[tag(QString("ask"))].toDouble();
-    values[tag(QString("ask"))] = value;
+              : value - m_values[tag(QString("ask"))].toDouble();
+    m_values[tag(QString("percaskchg"))]
+        = 100.0 * m_values[tag(QString("askchg"))].toDouble()
+          / m_values[tag(QString("ask"))].toDouble();
+    m_values[tag(QString("ask"))] = value;
 
     // bid
     value = jsonQuotes[QString("Bid")].toString().toDouble();
-    values[tag(QString("bidchg"))]
-        = values[tag(QString("bid"))].toDouble() == 0.0
+    m_values[tag(QString("bidchg"))]
+        = m_values[tag(QString("bid"))].toDouble() == 0.0
               ? 0.0
-              : value - values[tag(QString("bid"))].toDouble();
-    values[tag(QString("percbidchg"))]
-        = 100.0 * values[tag(QString("bidchg"))].toDouble()
-          / values[tag(QString("bid"))].toDouble();
-    values[tag(QString("bid"))] = value;
+              : value - m_values[tag(QString("bid"))].toDouble();
+    m_values[tag(QString("percbidchg"))]
+        = 100.0 * m_values[tag(QString("bidchg"))].toDouble()
+          / m_values[tag(QString("bid"))].toDouble();
+    m_values[tag(QString("bid"))] = value;
 
     // last trade
     value = jsonQuotes[QString("LastTradePriceOnly")].toString().toDouble();
-    values[tag(QString("pricechg"))]
-        = values[tag(QString("price"))].toDouble() == 0.0
+    m_values[tag(QString("pricechg"))]
+        = m_values[tag(QString("price"))].toDouble() == 0.0
               ? 0.0
-              : value - values[tag(QString("price"))].toDouble();
-    values[tag(QString("percpricechg"))]
-        = 100.0 * values[tag(QString("pricechg"))].toDouble()
-          / values[tag(QString("price"))].toDouble();
-    values[tag(QString("price"))] = value;
+              : value - m_values[tag(QString("price"))].toDouble();
+    m_values[tag(QString("percpricechg"))]
+        = 100.0 * m_values[tag(QString("pricechg"))].toDouble()
+          / m_values[tag(QString("price"))].toDouble();
+    m_values[tag(QString("price"))] = value;
 
-    emit(dataReceived(values));
+    emit(dataReceived(m_values));
 }
 
 

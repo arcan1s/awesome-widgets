@@ -1,0 +1,16 @@
+[Desktop%20Entry]
+Comment=Memory in GB formatter
+Encoding=UTF-8
+Name=MemGB
+X-AW-Active=true
+X-AW-ApiVersion=2
+X-AW-FillChar=@Variant(\0\0\0\a\0\0)
+X-AW-ForceWidth=false
+X-AW-Format=f
+X-AW-Interval=1
+X-AW-Multiplier=1048576
+X-AW-Number=6
+X-AW-Precision=1
+X-AW-Summand=0
+X-AW-Type=Float
+X-AW-Width=5

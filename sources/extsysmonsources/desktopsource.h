@@ -25,6 +25,8 @@
 
 class DesktopSource : public AbstractExtSysMonSource
 {
+    Q_OBJECT
+
 public:
     explicit DesktopSource(QObject *parent, const QStringList args);
     virtual ~DesktopSource();

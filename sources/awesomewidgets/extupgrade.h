@@ -59,7 +59,7 @@ private slots:
     void updateValue();
 
 private:
-    QProcess *process = nullptr;
+    QProcess *m_process = nullptr;
     Ui::ExtUpgrade *ui = nullptr;
     void translate();
     // properties
@@ -67,8 +67,8 @@ private:
     QString m_filter = QString("");
     int m_null = 0;
     // internal properties
-    int times = 0;
-    QVariantHash value;
+    int m_times = 0;
+    QVariantHash m_values;
 };
 
 

@@ -28,6 +28,8 @@
 
 class YahooWeatherProvider : public AbstractWeatherProvider
 {
+    Q_OBJECT
+
 public:
     explicit YahooWeatherProvider(QObject *parent, const int number);
     virtual ~YahooWeatherProvider();

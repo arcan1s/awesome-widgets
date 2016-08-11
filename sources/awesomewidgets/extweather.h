@@ -75,7 +75,7 @@ private slots:
 private:
     QNetworkAccessManager *m_manager = nullptr;
     AbstractWeatherProvider *m_providerObject = nullptr;
-    bool isRunning = false;
+    bool m_isRunning = false;
     Ui::ExtWeather *ui = nullptr;
     void initProvider();
     void translate();
@@ -87,8 +87,8 @@ private:
     int m_ts = 0;
     QVariantMap m_jsonMap = QVariantMap();
     // values
-    int times = 0;
-    QVariantHash values;
+    int m_times = 0;
+    QVariantHash m_values;
 };
 
 

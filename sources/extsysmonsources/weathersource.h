@@ -28,6 +28,8 @@ class ExtWeather;
 
 class WeatherSource : public AbstractExtSysMonSource
 {
+    Q_OBJECT
+
 public:
     explicit WeatherSource(QObject *parent, const QStringList args);
     virtual ~WeatherSource();
@@ -39,7 +41,7 @@ public:
 private:
     QStringList getSources();
     // configuration and values
-    ExtItemAggregator<ExtWeather> *extWeather = nullptr;
+    ExtItemAggregator<ExtWeather> *m_extWeather = nullptr;
     QStringList m_sources;
     QVariantHash m_values;
 };

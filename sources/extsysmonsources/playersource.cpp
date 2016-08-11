@@ -35,17 +35,17 @@ PlayerSource::PlayerSource(QObject *parent, const QStringList args)
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
     m_player = args.at(0);
-    m_mpdAddress = QString("%1:%2").arg(args.at(1)).arg(args.at(2));
+    m_mpdAddress = args.at(1);
+    m_mpdPort = args.at(2).toInt();
     m_mpris = args.at(3);
     m_symbols = args.at(4).toInt();
 
-    m_mpdProcess = new QProcess(nullptr);
-    // fucking magic from http://doc.qt.io/qt-5/qprocess.html#finished
-    connect(m_mpdProcess,
-            static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(
-                &QProcess::finished),
-            [this](int, QProcess::ExitStatus) { return updateMpdValue(); });
-    m_mpdProcess->waitForFinished(0);
+    connect(&m_mpdSocket, SIGNAL(connected()), this,
+            SLOT(mpdSocketConnected()));
+    connect(&m_mpdSocket, SIGNAL(readyRead()), this,
+            SLOT(mpdSocketReadyRead()));
+    connect(&m_mpdSocket, SIGNAL(bytesWritten(qint64)), this,
+            SLOT(mpdSocketWritten(const qint64)));
     m_mpdCached = defaultInfo();
 }
 
@@ -54,8 +54,7 @@ PlayerSource::~PlayerSource()
 {
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
-    m_mpdProcess->kill();
-    m_mpdProcess->deleteLater();
+    m_mpdSocket.close();
 }
 
 
@@ -182,7 +181,7 @@ void PlayerSource::run()
     // initial data
     if (m_player == QString("mpd")) {
         // mpd
-        m_values = getPlayerMpdInfo(m_mpdAddress);
+        m_values = getPlayerMpdInfo();
     } else if (m_player == QString("mpris")) {
         // players which supports mpris
         if (m_dbusMutex.tryLock()) {
@@ -256,18 +255,21 @@ QString PlayerSource::stripString(const QString &value, const int s)
 }
 
 
-void PlayerSource::updateMpdValue()
+void PlayerSource::mpdSocketConnected()
 {
-    qCInfo(LOG_ESS) << "Cmd returns" << m_mpdProcess->exitCode();
-    QString qdebug = QTextCodec::codecForMib(106)
-                         ->toUnicode(m_mpdProcess->readAllStandardError())
-                         .trimmed();
-    qCInfo(LOG_ESS) << "Error" << qdebug;
+    qCDebug(LOG_ESS) << "MPD socket connected to" << m_mpdSocket.peerName()
+                     << "with state" << m_mpdSocket.state();
+}
+
+
+void PlayerSource::mpdSocketReadyRead()
+{
     QString qoutput = QTextCodec::codecForMib(106)
-                          ->toUnicode(m_mpdProcess->readAllStandardOutput())
+                          ->toUnicode(m_mpdSocket.readAll())
                           .trimmed();
     qCInfo(LOG_ESS) << "Output" << qoutput;
 
+    // parse
     for (auto str : qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
         if (str.split(QString(": "), QString::SkipEmptyParts).count() == 2) {
             // "Metadata: data"
@@ -292,6 +294,13 @@ void PlayerSource::updateMpdValue()
 }
 
 
+void PlayerSource::mpdSocketWritten(const qint64 bytes)
+{
+    qCDebug(LOG_ESS) << "Bytes written" << bytes << "to"
+                     << m_mpdSocket.peerName();
+}
+
+
 QVariantHash PlayerSource::defaultInfo() const
 {
     QVariantHash info;
@@ -305,16 +314,18 @@ QVariantHash PlayerSource::defaultInfo() const
 }
 
 
-QVariantHash PlayerSource::getPlayerMpdInfo(const QString mpdAddress) const
+QVariantHash PlayerSource::getPlayerMpdInfo()
 {
-    qCDebug(LOG_ESS) << "MPD" << mpdAddress;
-
-    // build cmd
-    QString cmd = QString("bash -c \"echo 'currentsong\nstatus\nclose' | curl "
-                          "--connect-timeout 1 -fsm 3 telnet://%1\"")
-                      .arg(mpdAddress);
-    qCInfo(LOG_ESS) << "cmd" << cmd;
-    m_mpdProcess->start(cmd);
+    if (m_mpdSocket.state() == QAbstractSocket::UnconnectedState) {
+        // connect to host
+        qCInfo(LOG_ESS) << "Connect to" << m_mpdAddress << m_mpdPort;
+        m_mpdSocket.connectToHost(m_mpdAddress, m_mpdPort);
+    } else if (m_mpdSocket.state() == QAbstractSocket::ConnectedState) {
+        // send request
+        if (m_mpdSocket.write(MPD_STATUS_REQUEST) == -1)
+            qCWarning(LOG_ESS) << "Could not write request to"
+                               << m_mpdSocket.peerName();
+    }
 
     return m_mpdCached;
 }

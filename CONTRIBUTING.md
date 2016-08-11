@@ -6,8 +6,8 @@ for more details. To avoid manual labor there is automatic cmake target named
 `clangformat` (see below). Some additional detail see below.
 
 * Indent is only spaces. 4 spaces.
-* It is highly recommended to name private variables with `m_` prefix (`m_foo`).
-  There is no exceptions for properties.
+* Any private variable should start with `m_` prefix (`m_foo`). The only one
+  exception is `Ui` object which should be named as `ui`.
 * Avoid to create a large methods. Exception: if method contains lambda functions.
 * If some method is called only once, it is recommended to use lambda functions.
   Exception is `Q_INVOKABLE` methods.

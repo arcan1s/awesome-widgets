@@ -236,6 +236,7 @@ int AWFloatFormatter::showConfiguration(const QVariant args)
         return ret;
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
+    setApiVersion(AWEFAPI);
     setStrType(ui->label_typeValue->text());
     setFormat(ui->comboBox_format->currentText().at(0).toLatin1());
     setPrecision(ui->spinBox_precision->value());
@@ -260,7 +261,7 @@ void AWFloatFormatter::writeConfiguration() const
     settings.beginGroup(QString("Desktop Entry"));
     settings.setValue(QString("X-AW-Width"), count());
     settings.setValue(QString("X-AW-FillChar"), fillChar());
-    settings.setValue(QString("X-AW-Format"), format());
+    settings.setValue(QString("X-AW-Format"), QString(format()));
     settings.setValue(QString("X-AW-ForceWidth"), forceWidth());
     settings.setValue(QString("X-AW-Multiplier"), multiplier());
     settings.setValue(QString("X-AW-Precision"), precision());

@@ -79,15 +79,15 @@ private:
     QString parsePattern(QString pattern) const;
     void setDataBySource(const QString &sourceName, const QVariantMap &data);
     // objects
-    AWDataAggregator *dataAggregator = nullptr;
-    AWDataEngineAggregator *dataEngineAggregator = nullptr;
-    AWKeysAggregator *aggregator = nullptr;
-    AWKeyOperations *keyOperator = nullptr;
+    AWDataAggregator *m_dataAggregator = nullptr;
+    AWDataEngineAggregator *m_dataEngineAggregator = nullptr;
+    AWKeysAggregator *m_aggregator = nullptr;
+    AWKeyOperations *m_keyOperator = nullptr;
     QTimer *m_timer = nullptr;
     // variables
     QVariantMap m_tooltipParams;
     QStringList m_foundBars, m_foundKeys, m_foundLambdas, m_requiredKeys;
-    QVariantHash values;
+    QVariantHash m_values;
     bool m_optimize = false;
     bool m_wrapNewLines = false;
     // multithread features

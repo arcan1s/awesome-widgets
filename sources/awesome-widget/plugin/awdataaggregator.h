@@ -49,8 +49,8 @@ private slots:
 
 private:
     // ui
-    QGraphicsScene *toolTipScene = nullptr;
-    QGraphicsView *toolTipView = nullptr;
+    QGraphicsScene *m_toolTipScene = nullptr;
+    QGraphicsView *m_toolTipView = nullptr;
     void checkValue(const QString source, const float value,
                     const float extremum) const;
     void checkValue(const QString source, const QString current,
@@ -65,12 +65,12 @@ private:
     // different signature for battery device
     void setData(const bool dontInvert, const QString &source, float value);
     // variables
-    int counts = 0;
-    QVariantHash configuration;
-    float currentGPULoad = 0.0;
-    QString currentNetworkDevice = QString("lo");
-    QHash<QString, float> boundaries;
-    QHash<QString, QList<float>> data;
+    int m_counts = 0;
+    QVariantHash m_configuration;
+    float m_currentGPULoad = 0.0;
+    QString m_currentNetworkDevice = QString("lo");
+    QHash<QString, float> m_boundaries;
+    QHash<QString, QList<float>> m_values;
     bool m_enablePopup = false;
     QStringList requiredKeys;
 };

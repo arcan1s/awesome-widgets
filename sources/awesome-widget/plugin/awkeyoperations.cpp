@@ -45,11 +45,11 @@ AWKeyOperations::~AWKeyOperations()
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
     // extensions
-    delete graphicalItems;
-    delete extQuotes;
-    delete extScripts;
-    delete extUpgrade;
-    delete extWeather;
+    delete m_graphicalItems;
+    delete m_extQuotes;
+    delete m_extScripts;
+    delete m_extUpgrade;
+    delete m_extWeather;
 }
 
 
@@ -79,19 +79,19 @@ QStringList AWKeyOperations::dictKeys() const
 {
     QStringList allKeys;
     // weather
-    for (int i = extWeather->activeItems().count() - 1; i >= 0; i--) {
+    for (int i = m_extWeather->activeItems().count() - 1; i >= 0; i--) {
         allKeys.append(
-            extWeather->activeItems().at(i)->tag(QString("weatherId")));
+            m_extWeather->activeItems().at(i)->tag(QString("weatherId")));
         allKeys.append(
-            extWeather->activeItems().at(i)->tag(QString("weather")));
+            m_extWeather->activeItems().at(i)->tag(QString("weather")));
         allKeys.append(
-            extWeather->activeItems().at(i)->tag(QString("humidity")));
+            m_extWeather->activeItems().at(i)->tag(QString("humidity")));
         allKeys.append(
-            extWeather->activeItems().at(i)->tag(QString("pressure")));
+            m_extWeather->activeItems().at(i)->tag(QString("pressure")));
         allKeys.append(
-            extWeather->activeItems().at(i)->tag(QString("temperature")));
+            m_extWeather->activeItems().at(i)->tag(QString("temperature")));
         allKeys.append(
-            extWeather->activeItems().at(i)->tag(QString("timestamp")));
+            m_extWeather->activeItems().at(i)->tag(QString("timestamp")));
     }
     // cpuclock & cpu
     for (int i = QThread::idealThreadCount() - 1; i >= 0; i--) {
@@ -140,32 +140,35 @@ QStringList AWKeyOperations::dictKeys() const
     for (int i = allBatteryDevices.count() - 1; i >= 0; i--)
         allKeys.append(QString("bat%1").arg(i));
     // package manager
-    for (int i = extUpgrade->activeItems().count() - 1; i >= 0; i--)
+    for (int i = m_extUpgrade->activeItems().count() - 1; i >= 0; i--)
         allKeys.append(
-            extUpgrade->activeItems().at(i)->tag(QString("pkgcount")));
+            m_extUpgrade->activeItems().at(i)->tag(QString("pkgcount")));
     // quotes
-    for (int i = extQuotes->activeItems().count() - 1; i >= 0; i--) {
-        allKeys.append(extQuotes->activeItems().at(i)->tag(QString("ask")));
-        allKeys.append(extQuotes->activeItems().at(i)->tag(QString("askchg")));
+    for (int i = m_extQuotes->activeItems().count() - 1; i >= 0; i--) {
+        allKeys.append(m_extQuotes->activeItems().at(i)->tag(QString("ask")));
         allKeys.append(
-            extQuotes->activeItems().at(i)->tag(QString("percaskchg")));
-        allKeys.append(extQuotes->activeItems().at(i)->tag(QString("bid")));
-        allKeys.append(extQuotes->activeItems().at(i)->tag(QString("bidchg")));
+            m_extQuotes->activeItems().at(i)->tag(QString("askchg")));
         allKeys.append(
-            extQuotes->activeItems().at(i)->tag(QString("percbidchg")));
-        allKeys.append(extQuotes->activeItems().at(i)->tag(QString("price")));
+            m_extQuotes->activeItems().at(i)->tag(QString("percaskchg")));
+        allKeys.append(m_extQuotes->activeItems().at(i)->tag(QString("bid")));
         allKeys.append(
-            extQuotes->activeItems().at(i)->tag(QString("pricechg")));
+            m_extQuotes->activeItems().at(i)->tag(QString("bidchg")));
         allKeys.append(
-            extQuotes->activeItems().at(i)->tag(QString("percpricechg")));
+            m_extQuotes->activeItems().at(i)->tag(QString("percbidchg")));
+        allKeys.append(m_extQuotes->activeItems().at(i)->tag(QString("price")));
+        allKeys.append(
+            m_extQuotes->activeItems().at(i)->tag(QString("pricechg")));
+        allKeys.append(
+            m_extQuotes->activeItems().at(i)->tag(QString("percpricechg")));
     }
     // custom
-    for (int i = extScripts->activeItems().count() - 1; i >= 0; i--)
-        allKeys.append(extScripts->activeItems().at(i)->tag(QString("custom")));
-    // bars
-    for (int i = graphicalItems->activeItems().count() - 1; i >= 0; i--)
+    for (int i = m_extScripts->activeItems().count() - 1; i >= 0; i--)
         allKeys.append(
-            graphicalItems->activeItems().at(i)->tag(QString("bar")));
+            m_extScripts->activeItems().at(i)->tag(QString("custom")));
+    // bars
+    for (int i = m_graphicalItems->activeItems().count() - 1; i >= 0; i--)
+        allKeys.append(
+            m_graphicalItems->activeItems().at(i)->tag(QString("bar")));
     // static keys
     QStringList staticKeys = QString(STATIC_KEYS).split(QChar(','));
     std::for_each(staticKeys.cbegin(), staticKeys.cend(),
@@ -181,7 +184,7 @@ GraphicalItem *AWKeyOperations::giByKey(const QString key) const
 {
     qCDebug(LOG_AW) << "Looking for item" << key;
 
-    return graphicalItems->itemByTag(key, QString("bar"));
+    return m_graphicalItems->itemByTag(key, QString("bar"));
 }
 
 
@@ -194,11 +197,11 @@ QString AWKeyOperations::infoByKey(QString key) const
     QString output;
 
     if (key.startsWith(QString("bar"))) {
-        AbstractExtItem *item = graphicalItems->itemByTag(key, stripped);
+        AbstractExtItem *item = m_graphicalItems->itemByTag(key, stripped);
         if (item)
             output = item->uniq();
     } else if (key.startsWith(QString("custom"))) {
-        AbstractExtItem *item = extScripts->itemByTag(key, stripped);
+        AbstractExtItem *item = m_extScripts->itemByTag(key, stripped);
         if (item)
             output = item->uniq();
     } else if (key.contains(QRegExp(QString("^hdd[rw]")))) {
@@ -219,17 +222,17 @@ QString AWKeyOperations::infoByKey(QString key) const
         output = m_devices[QString("net")]
                           [key.remove(QRegExp(QString("^(down|up)"))).toInt()];
     } else if (key.startsWith(QString("pkgcount"))) {
-        AbstractExtItem *item = extUpgrade->itemByTag(key, stripped);
+        AbstractExtItem *item = m_extUpgrade->itemByTag(key, stripped);
         if (item)
             output = item->uniq();
     } else if (key.contains(
                    QRegExp(QString("(^|perc)(ask|bid|price)(chg|)")))) {
-        AbstractExtItem *item = extQuotes->itemByTag(key, stripped);
+        AbstractExtItem *item = m_extQuotes->itemByTag(key, stripped);
         if (item)
             output = item->uniq();
     } else if (key.contains(QRegExp(QString(
                    "(weather|weatherId|humidity|pressure|temperature)")))) {
-        AbstractExtItem *item = extWeather->itemByTag(key, stripped);
+        AbstractExtItem *item = m_extWeather->itemByTag(key, stripped);
         if (item)
             output = item->uniq();
     } else if (key.startsWith(QString("temp"))) {
@@ -265,16 +268,16 @@ void AWKeyOperations::editItem(const QString type)
         QStringList keys = dictKeys().filter(QRegExp(
             QString("^(cpu(?!cl).*|gpu$|mem$|swap$|hdd[0-9].*|bat.*)")));
         keys.sort();
-        graphicalItems->setConfigArgs(keys);
-        return graphicalItems->editItems();
+        m_graphicalItems->setConfigArgs(keys);
+        return m_graphicalItems->editItems();
     } else if (type == QString("extquotes")) {
-        return extQuotes->editItems();
+        return m_extQuotes->editItems();
     } else if (type == QString("extscript")) {
-        return extScripts->editItems();
+        return m_extScripts->editItems();
     } else if (type == QString("extupgrade")) {
-        return extUpgrade->editItems();
+        return m_extUpgrade->editItems();
     } else if (type == QString("extweather")) {
-        return extWeather->editItems();
+        return m_extWeather->editItems();
     }
 }
 
@@ -316,23 +319,26 @@ void AWKeyOperations::reinitKeys()
 {
     // renew extensions
     // delete them if any
-    delete graphicalItems;
-    graphicalItems = nullptr;
-    delete extQuotes;
-    extQuotes = nullptr;
-    delete extScripts;
-    extScripts = nullptr;
-    delete extUpgrade;
-    extUpgrade = nullptr;
-    delete extWeather;
-    extWeather = nullptr;
+    delete m_graphicalItems;
+    m_graphicalItems = nullptr;
+    delete m_extQuotes;
+    m_extQuotes = nullptr;
+    delete m_extScripts;
+    m_extScripts = nullptr;
+    delete m_extUpgrade;
+    m_extUpgrade = nullptr;
+    delete m_extWeather;
+    m_extWeather = nullptr;
     // create
-    graphicalItems
+    m_graphicalItems
         = new ExtItemAggregator<GraphicalItem>(nullptr, QString("desktops"));
-    extQuotes = new ExtItemAggregator<ExtQuotes>(nullptr, QString("quotes"));
-    extScripts = new ExtItemAggregator<ExtScript>(nullptr, QString("scripts"));
-    extUpgrade = new ExtItemAggregator<ExtUpgrade>(nullptr, QString("upgrade"));
-    extWeather = new ExtItemAggregator<ExtWeather>(nullptr, QString("weather"));
+    m_extQuotes = new ExtItemAggregator<ExtQuotes>(nullptr, QString("quotes"));
+    m_extScripts
+        = new ExtItemAggregator<ExtScript>(nullptr, QString("scripts"));
+    m_extUpgrade
+        = new ExtItemAggregator<ExtUpgrade>(nullptr, QString("upgrade"));
+    m_extWeather
+        = new ExtItemAggregator<ExtWeather>(nullptr, QString("weather"));
 
     // init
     QStringList allKeys = dictKeys();

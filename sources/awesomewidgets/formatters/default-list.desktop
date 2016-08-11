@@ -1,0 +1,12 @@
+[Desktop%20Entry]
+Comment=Default list formatter
+Encoding=UTF-8
+Name=List
+X-AW-Active=true
+X-AW-ApiVersion=2
+X-AW-Filter=
+X-AW-Interval=1
+X-AW-Number=5
+X-AW-Separator=","
+X-AW-Sort=false
+X-AW-Type=NoFormat

@@ -153,6 +153,7 @@ int AWListFormatter::showConfiguration(const QVariant args)
         return ret;
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
+    setApiVersion(AWEFAPI);
     setStrType(ui->label_typeValue->text());
     setFilter(ui->lineEdit_filter->text());
     setSeparator(ui->lineEdit_separator->text());

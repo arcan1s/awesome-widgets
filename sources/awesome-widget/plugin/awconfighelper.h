@@ -63,7 +63,7 @@ private:
     QStringList m_dirs = QStringList()
                          << QString("desktops") << QString("quotes")
                          << QString("scripts") << QString("upgrade")
-                         << QString("weather");
+                         << QString("weather") << QString("formatters");
 };
 
 

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
 "POT-Creation-Date: 2016-07-06 19:36+0300\n"
-"PO-Revision-Date: 2016-05-05 17:18+0300\n"
+"PO-Revision-Date: 2016-08-09 22:22+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Ukrainian <kde-russian@lists.kde.ru>\n"
 "Language: uk\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 1.8.8\n"
 
 msgid "Widget"
 msgstr "Віджет"
@@ -376,7 +376,7 @@ msgid "Edit bars"
 msgstr "Редагувати бари"
 
 msgid "Formatters"
-msgstr ""
+msgstr "Форматери"
 
 msgid "Preview"
 msgstr "Попередній перегляд"
@@ -447,17 +447,14 @@ msgstr "Високе завантаження GPU"
 msgid "Network device has been changed to %1"
 msgstr "Мережевий пристрій було змінено на %1"
 
-#, fuzzy
 msgid "Edit"
 msgstr "Редагувати"
 
-#, fuzzy
 msgid "Select type"
-msgstr "Оберіть тег"
+msgstr "Оберіть тип"
 
-#, fuzzy
 msgid "Type:"
-msgstr "Тип"
+msgstr "Тип:"
 
 msgid "MB/s"
 msgstr "МБ/с"
@@ -519,47 +516,44 @@ msgstr "Коментар"
 msgid "Type"
 msgstr "Тип"
 
-#, fuzzy
 msgid "Format"
-msgstr "Form"
+msgstr "Формат"
 
 msgid "Precision"
-msgstr ""
+msgstr "Точність"
 
 msgid "Width"
 msgstr "Ширина"
 
 msgid "Fill char"
-msgstr ""
+msgstr "Заповнення"
 
 msgid "Force width"
-msgstr ""
+msgstr "Зафіксувати ширину"
 
 msgid "Multiplier"
-msgstr ""
+msgstr "Множник"
 
-#, fuzzy
 msgid "Summand"
-msgstr "Команда"
+msgstr "Доданок"
 
 msgid "Filter"
 msgstr "Фільтр"
 
 msgid "Separator"
-msgstr ""
+msgstr "Роздільник"
 
 msgid "Sort"
-msgstr ""
+msgstr "Сортування"
 
-#, fuzzy
 msgid "Append code"
-msgstr "Зовнішній вигляд"
+msgstr "Доповнити код"
 
 msgid "Has return"
-msgstr ""
+msgstr "Має return"
 
 msgid "Code"
-msgstr ""
+msgstr "Код"
 
 msgid "Tag"
 msgstr "Тег"
@@ -606,7 +600,7 @@ msgid "Null"
 msgstr "Пусті рядки"
 
 msgid "Provider"
-msgstr ""
+msgstr "Провайдер"
 
 msgid "City"
 msgstr "Місто"

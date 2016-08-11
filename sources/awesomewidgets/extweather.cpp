@@ -47,11 +47,11 @@ ExtWeather::ExtWeather(QWidget *parent, const QString filePath)
     ui->setupUi(this);
     translate();
 
-    values[tag(QString("weatherId"))] = 0;
-    values[tag(QString("weather"))] = QString("");
-    values[tag(QString("humidity"))] = 0;
-    values[tag(QString("pressure"))] = 0.0;
-    values[tag(QString("temperature"))] = 0.0;
+    m_values[tag(QString("weatherId"))] = 0;
+    m_values[tag(QString("weather"))] = QString("");
+    m_values[tag(QString("humidity"))] = 0;
+    m_values[tag(QString("pressure"))] = 0.0;
+    m_values[tag(QString("temperature"))] = 0.0;
 
     // HACK declare as child of nullptr to avoid crash with plasmawindowed
     // in the destructor
@@ -259,23 +259,23 @@ void ExtWeather::readJsonMap()
 
 QVariantHash ExtWeather::run()
 {
-    if ((!isActive()) || (isRunning))
-        return values;
+    if ((!isActive()) || (m_isRunning))
+        return m_values;
 
-    if (times == 1) {
+    if (m_times == 1) {
         qCInfo(LOG_LIB) << "Send request";
-        isRunning = true;
+        m_isRunning = true;
         QNetworkReply *reply
             = m_manager->get(QNetworkRequest(m_providerObject->url()));
         new QReplyTimeout(reply, REQUEST_TIMEOUT);
     }
 
     // update value
-    if (times >= interval())
-        times = 0;
-    times++;
+    if (m_times >= interval())
+        m_times = 0;
+    m_times++;
 
-    return values;
+    return m_values;
 }
 
 
@@ -339,7 +339,7 @@ void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
     qCDebug(LOG_LIB) << "Return code" << reply->error() << "with message"
                      << reply->errorString();
 
-    isRunning = false;
+    m_isRunning = false;
     QJsonParseError error;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll(), &error);
     reply->deleteLater();
@@ -352,11 +352,11 @@ void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
     QVariantHash data = m_providerObject->parse(jsonDoc.toVariant().toMap());
     if (data.isEmpty())
         return;
-    values = data;
-    values[tag(QString("weather"))]
-        = weatherFromInt(values[tag(QString("weatherId"))].toInt());
+    m_values = data;
+    m_values[tag(QString("weather"))]
+        = weatherFromInt(m_values[tag(QString("weatherId"))].toInt());
 
-    emit(dataReceived(values));
+    emit(dataReceived(m_values));
 }
 
 

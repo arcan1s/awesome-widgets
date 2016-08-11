@@ -28,7 +28,8 @@ WeatherSource::WeatherSource(QObject *parent, const QStringList args)
     Q_ASSERT(args.count() == 0);
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
-    extWeather = new ExtItemAggregator<ExtWeather>(nullptr, QString("weather"));
+    m_extWeather
+        = new ExtItemAggregator<ExtWeather>(nullptr, QString("weather"));
     m_sources = getSources();
 }
 
@@ -37,7 +38,7 @@ WeatherSource::~WeatherSource()
 {
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
-    delete extWeather;
+    delete m_extWeather;
 }
 
 
@@ -48,7 +49,7 @@ QVariant WeatherSource::data(QString source)
     int ind = index(source);
     source.remove(QString("weather/"));
     if (!m_values.contains(source)) {
-        QVariantHash data = extWeather->itemByTagNumber(ind)->run();
+        QVariantHash data = m_extWeather->itemByTagNumber(ind)->run();
         for (auto key : data.keys())
             m_values[key] = data[key];
     }
@@ -68,7 +69,7 @@ QVariantMap WeatherSource::initialData(QString source) const
         data[QString("max")] = 1000;
         data[QString("name")]
             = QString("Numeric weather ID for '%1'")
-                  .arg(extWeather->itemByTagNumber(ind)->uniq());
+                  .arg(m_extWeather->itemByTagNumber(ind)->uniq());
         data[QString("type")] = QString("integer");
         data[QString("units")] = QString("");
     } else if (source.startsWith(QString("weather/weather"))) {
@@ -76,7 +77,7 @@ QVariantMap WeatherSource::initialData(QString source) const
         data[QString("max")] = QString("");
         data[QString("name")]
             = QString("ID string map for '%1'")
-                  .arg(extWeather->itemByTagNumber(ind)->uniq());
+                  .arg(m_extWeather->itemByTagNumber(ind)->uniq());
         data[QString("type")] = QString("QString");
         data[QString("units")] = QString("");
     } else if (source.startsWith(QString("weather/humidity"))) {
@@ -84,7 +85,7 @@ QVariantMap WeatherSource::initialData(QString source) const
         data[QString("max")] = 100;
         data[QString("name")]
             = QString("Humidity for '%1'")
-                  .arg(extWeather->itemByTagNumber(ind)->uniq());
+                  .arg(m_extWeather->itemByTagNumber(ind)->uniq());
         data[QString("type")] = QString("integer");
         data[QString("units")] = QString("%");
     } else if (source.startsWith(QString("weather/pressure"))) {
@@ -92,7 +93,7 @@ QVariantMap WeatherSource::initialData(QString source) const
         data[QString("max")] = 0;
         data[QString("name")]
             = QString("Atmospheric pressure for '%1'")
-                  .arg(extWeather->itemByTagNumber(ind)->uniq());
+                  .arg(m_extWeather->itemByTagNumber(ind)->uniq());
         data[QString("type")] = QString("integer");
         data[QString("units")] = QString("mb");
     } else if (source.startsWith(QString("weather/temperature"))) {
@@ -100,7 +101,7 @@ QVariantMap WeatherSource::initialData(QString source) const
         data[QString("max")] = 0.0;
         data[QString("name")]
             = QString("Temperature for '%1'")
-                  .arg(extWeather->itemByTagNumber(ind)->uniq());
+                  .arg(m_extWeather->itemByTagNumber(ind)->uniq());
         data[QString("type")] = QString("float");
         data[QString("units")] = QString("°C");
     } else if (source.startsWith(QString("weather/timestamp"))) {
@@ -108,7 +109,7 @@ QVariantMap WeatherSource::initialData(QString source) const
         data[QString("max")] = QString("");
         data[QString("name")]
             = QString("Timestamp for '%1'")
-                  .arg(extWeather->itemByTagNumber(ind)->uniq());
+                  .arg(m_extWeather->itemByTagNumber(ind)->uniq());
         data[QString("type")] = QString("QString");
         data[QString("units")] = QString("");
     }
@@ -126,7 +127,7 @@ QStringList WeatherSource::sources() const
 QStringList WeatherSource::getSources()
 {
     QStringList sources;
-    for (auto item : extWeather->activeItems()) {
+    for (auto item : m_extWeather->activeItems()) {
         sources.append(
             QString("weather/%1").arg(item->tag(QString("weatherId"))));
         sources.append(

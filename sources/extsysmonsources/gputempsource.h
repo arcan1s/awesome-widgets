@@ -27,6 +27,8 @@ class QProcess;
 
 class GPUTemperatureSource : public AbstractExtSysMonSource
 {
+    Q_OBJECT
+
 public:
     explicit GPUTemperatureSource(QObject *parent, const QStringList args);
     virtual ~GPUTemperatureSource();

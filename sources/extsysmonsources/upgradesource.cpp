@@ -28,7 +28,8 @@ UpgradeSource::UpgradeSource(QObject *parent, const QStringList args)
     Q_ASSERT(args.count() == 0);
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
-    extUpgrade = new ExtItemAggregator<ExtUpgrade>(nullptr, QString("upgrade"));
+    m_extUpgrade
+        = new ExtItemAggregator<ExtUpgrade>(nullptr, QString("upgrade"));
     m_sources = getSources();
 }
 
@@ -37,7 +38,7 @@ UpgradeSource::~UpgradeSource()
 {
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
-    delete extUpgrade;
+    delete m_extUpgrade;
 }
 
 
@@ -46,7 +47,7 @@ QVariant UpgradeSource::data(QString source)
     qCDebug(LOG_ESS) << "Source" << source;
 
     // there are only one value
-    return extUpgrade->itemByTagNumber(index(source))->run().values().first();
+    return m_extUpgrade->itemByTagNumber(index(source))->run().values().first();
 }
 
 
@@ -59,7 +60,7 @@ QVariantMap UpgradeSource::initialData(QString source) const
     data[QString("max")] = QString("");
     data[QString("name")]
         = QString("Package manager '%1' metadata")
-              .arg(extUpgrade->itemByTagNumber(index(source))->uniq());
+              .arg(m_extUpgrade->itemByTagNumber(index(source))->uniq());
     data[QString("type")] = QString("QString");
     data[QString("units")] = QString("");
 
@@ -76,7 +77,7 @@ QStringList UpgradeSource::sources() const
 QStringList UpgradeSource::getSources()
 {
     QStringList sources;
-    for (auto item : extUpgrade->activeItems())
+    for (auto item : m_extUpgrade->activeItems())
         sources.append(
             QString("upgrade/%1").arg(item->tag(QString("pkgcount"))));
 

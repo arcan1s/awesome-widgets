@@ -27,6 +27,8 @@ class QProcess;
 
 class GPULoadSource : public AbstractExtSysMonSource
 {
+    Q_OBJECT
+
 public:
     explicit GPULoadSource(QObject *parent, const QStringList args);
     virtual ~GPULoadSource();

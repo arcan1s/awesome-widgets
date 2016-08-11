@@ -25,6 +25,8 @@
 
 class NetworkSource : public AbstractExtSysMonSource
 {
+    Q_OBJECT
+
 public:
     explicit NetworkSource(QObject *parent, const QStringList args);
     virtual ~NetworkSource();

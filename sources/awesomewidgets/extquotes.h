@@ -59,15 +59,15 @@ private slots:
 private:
     QNetworkAccessManager *m_manager = nullptr;
     QUrl m_url;
-    bool isRunning = false;
+    bool m_isRunning = false;
     Ui::ExtQuotes *ui = nullptr;
     void initUrl();
     void translate();
     // properties
     QString m_ticker = QString("EURUSD=X");
     // values
-    int times = 0;
-    QVariantHash values;
+    int m_times = 0;
+    QVariantHash m_values;
 };
 
 

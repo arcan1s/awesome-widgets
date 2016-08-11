@@ -279,7 +279,7 @@ Item {
                     if (model[currentIndex]["regexp"] == "functions")
                         tags.model = ["{{\n\n}}", "template{{\n\n}}",
                             "aw_all<>{{}}", "aw_count<>{{}}", "aw_keys<>{{}}",
-                            "aw_names<>{{}}"]
+                            "aw_macro<>{{}}", "aw_names<>{{}}"]
                     else
                         tags.model = awKeys.dictKeys(true, model[currentIndex]["regexp"])
                     if (debug) console.info("Init model", tags.model, "for", model[currentIndex]["label"])

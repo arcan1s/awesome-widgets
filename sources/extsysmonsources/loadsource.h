@@ -25,6 +25,8 @@
 
 class LoadSource : public AbstractExtSysMonSource
 {
+    Q_OBJECT
+
 public:
     explicit LoadSource(QObject *parent, const QStringList args);
     virtual ~LoadSource();

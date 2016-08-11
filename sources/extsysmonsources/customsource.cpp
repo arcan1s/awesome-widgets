@@ -28,7 +28,8 @@ CustomSource::CustomSource(QObject *parent, const QStringList args)
     Q_ASSERT(args.count() == 0);
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
-    extScripts = new ExtItemAggregator<ExtScript>(nullptr, QString("scripts"));
+    m_extScripts
+        = new ExtItemAggregator<ExtScript>(nullptr, QString("scripts"));
     m_sources = getSources();
 }
 
@@ -37,7 +38,7 @@ CustomSource::~CustomSource()
 {
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
-    delete extScripts;
+    delete m_extScripts;
 }
 
 
@@ -46,7 +47,7 @@ QVariant CustomSource::data(QString source)
     qCDebug(LOG_ESS) << "Source" << source;
 
     // there are only one value
-    return extScripts->itemByTagNumber(index(source))->run().values().first();
+    return m_extScripts->itemByTagNumber(index(source))->run().values().first();
 }
 
 
@@ -59,7 +60,7 @@ QVariantMap CustomSource::initialData(QString source) const
     data[QString("max")] = QString("");
     data[QString("name")]
         = QString("Custom command '%1' output")
-              .arg(extScripts->itemByTagNumber(index(source))->uniq());
+              .arg(m_extScripts->itemByTagNumber(index(source))->uniq());
     data[QString("type")] = QString("QString");
     data[QString("units")] = QString("");
 
@@ -76,7 +77,7 @@ QStringList CustomSource::sources() const
 QStringList CustomSource::getSources()
 {
     QStringList sources;
-    for (auto item : extScripts->activeItems())
+    for (auto item : m_extScripts->activeItems())
         sources.append(QString("custom/%1").arg(item->tag(QString("custom"))));
 
     return sources;

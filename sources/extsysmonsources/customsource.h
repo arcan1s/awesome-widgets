@@ -28,6 +28,8 @@ class ExtScript;
 
 class CustomSource : public AbstractExtSysMonSource
 {
+    Q_OBJECT
+
 public:
     explicit CustomSource(QObject *parent, const QStringList args);
     virtual ~CustomSource();
@@ -39,7 +41,7 @@ public:
 private:
     QStringList getSources();
     // configuration and values
-    ExtItemAggregator<ExtScript> *extScripts = nullptr;
+    ExtItemAggregator<ExtScript> *m_extScripts = nullptr;
     QStringList m_sources;
 };
 
