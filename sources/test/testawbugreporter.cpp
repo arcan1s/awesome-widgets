@@ -15,25 +15,39 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#include "awesomewidget.h"
 
-#include <QtQml>
+#include "testawbugreporter.h"
 
-#include "awactions.h"
+#include <QtTest>
+
 #include "awbugreporter.h"
-#include "awconfighelper.h"
-#include "awformatterconfigfactory.h"
-#include "awkeys.h"
+#include "awtestlibrary.h"
 
 
-void AWPlugin::registerTypes(const char *uri)
+void TestAWBugReporter::initTestCase()
 {
-    Q_ASSERT(uri == QLatin1String("org.kde.plasma.private.awesomewidget"));
-
-    qmlRegisterType<AWActions>(uri, 1, 0, "AWActions");
-    qmlRegisterType<AWBugReporter>(uri, 1, 0, "AWBugReporter");
-    qmlRegisterType<AWConfigHelper>(uri, 1, 0, "AWConfigHelper");
-    qmlRegisterType<AWFormatterConfigFactory>(uri, 1, 0,
-                                              "AWFormatterConfigFactory");
-    qmlRegisterType<AWKeys>(uri, 1, 0, "AWKeys");
+    plugin = new AWBugReporter(this);
 }
+
+
+void TestAWBugReporter::cleanupTestCase()
+{
+    delete plugin;
+}
+
+
+void TestAWBugReporter::test_sendBugReport()
+{
+    QSignalSpy spy(plugin, SIGNAL(replyReceived(bool, QString)));
+    plugin->sendBugReport(AWTestLibrary::randomString(),
+                          AWTestLibrary::randomString());
+
+    QVERIFY(spy.wait(5000));
+    QVariantList arguments = spy.takeFirst();
+
+    QVERIFY(arguments.at(0).toBool());
+    QVERIFY(!arguments.at(1).toString().isEmpty());
+}
+
+
+QTEST_MAIN(TestAWBugReporter);

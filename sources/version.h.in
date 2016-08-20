@@ -61,6 +61,7 @@
 #define VERSION_API                                                            \
     "https://api.github.com/repos/arcan1s/awesome-widgets/releases"
 #define BUGTRACKER "https://github.com/arcan1s/awesome-widgets/issues"
+#define BUGTRACKER_API "http://arcanis.me/repos/arcan1s/awesome-widgets/issues"
 #define TRANSLATION "https://github.com/arcan1s/awesome-widgets/issues/14"
 #define AUR_PACKAGES                                                           \
     "https://aur.archlinux.org/packages/plasma5-applet-awesome-widgets/"

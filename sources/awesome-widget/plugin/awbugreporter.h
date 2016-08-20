@@ -15,25 +15,32 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#include "awesomewidget.h"
 
-#include <QtQml>
+#ifndef AWBUGREPORTER_H
+#define AWBUGREPORTER_H
 
-#include "awactions.h"
-#include "awbugreporter.h"
-#include "awconfighelper.h"
-#include "awformatterconfigfactory.h"
-#include "awkeys.h"
+#include <QObject>
 
 
-void AWPlugin::registerTypes(const char *uri)
+class QNetworkReply;
+
+class AWBugReporter : public QObject
 {
-    Q_ASSERT(uri == QLatin1String("org.kde.plasma.private.awesomewidget"));
+    Q_OBJECT
 
-    qmlRegisterType<AWActions>(uri, 1, 0, "AWActions");
-    qmlRegisterType<AWBugReporter>(uri, 1, 0, "AWBugReporter");
-    qmlRegisterType<AWConfigHelper>(uri, 1, 0, "AWConfigHelper");
-    qmlRegisterType<AWFormatterConfigFactory>(uri, 1, 0,
-                                              "AWFormatterConfigFactory");
-    qmlRegisterType<AWKeys>(uri, 1, 0, "AWKeys");
-}
+public:
+    explicit AWBugReporter(QObject *parent = nullptr);
+    virtual ~AWBugReporter();
+    Q_INVOKABLE void sendBugReport(const QString title, const QString body);
+
+signals:
+    void replyReceived(bool status, QString url);
+
+private slots:
+    void issueReplyRecieved(QNetworkReply *reply);
+
+private:
+};
+
+
+#endif /* AWBUGREPORTER_H */
