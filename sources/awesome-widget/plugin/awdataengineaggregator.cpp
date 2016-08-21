@@ -123,13 +123,19 @@ void AWDataEngineAggregator::createQueuedConnection()
             sources = m_dataEngines[dataEngine]->sources();
         // reconnect sources
         for (auto source : sources) {
-            Plasma::DataContainer *container =m_dataEngines[dataEngine]->containerForSource(source);
+            Plasma::DataContainer *container
+                = m_dataEngines[dataEngine]->containerForSource(source);
             // disconnect old connections first
-            disconnect(container, SIGNAL(dataUpdated(QString,Plasma::DataEngine::Data)),
-                       parent(), SLOT(dataUpdated(QString,Plasma::DataEngine::Data)));
+            disconnect(container,
+                       SIGNAL(dataUpdated(QString, Plasma::DataEngine::Data)),
+                       parent(),
+                       SLOT(dataUpdated(QString, Plasma::DataEngine::Data)));
             // and now reconnect with Qt::QueuedConnection type
-            connect(container, SIGNAL(dataUpdated(QString,Plasma::DataEngine::Data)),
-                    parent(), SLOT(dataUpdated(QString,Plasma::DataEngine::Data)), Qt::QueuedConnection);
+            connect(container,
+                    SIGNAL(dataUpdated(QString, Plasma::DataEngine::Data)),
+                    parent(),
+                    SLOT(dataUpdated(QString, Plasma::DataEngine::Data)),
+                    Qt::QueuedConnection);
         }
     }
 }
