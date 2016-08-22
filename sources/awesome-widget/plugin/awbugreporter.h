@@ -31,13 +31,17 @@ class AWBugReporter : public QObject
 public:
     explicit AWBugReporter(QObject *parent = nullptr);
     virtual ~AWBugReporter();
+    Q_INVOKABLE QString generateText(const QString description,
+                                     const QString reproduce,
+                                     const QString expected);
     Q_INVOKABLE void sendBugReport(const QString title, const QString body);
 
 signals:
-    void replyReceived(bool status, QString url);
+    void replyReceived(const int number, const QString url);
 
 private slots:
     void issueReplyRecieved(QNetworkReply *reply);
+    void showInformation(const int number, const QString url);
 
 private:
 };

@@ -33,10 +33,12 @@ private slots:
     void initTestCase();
     void cleanupTestCase();
     // test
+    void test_generateText();
     void test_sendBugReport();
 
 private:
     AWBugReporter *plugin = nullptr;
+    QStringList data;
 };
 
 

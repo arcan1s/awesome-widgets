@@ -17,8 +17,12 @@
 
 #include "awbugreporter.h"
 
+#include <KI18n/KLocalizedString>
+
+#include <QDesktopServices>
 #include <QJsonDocument>
 #include <QJsonParseError>
+#include <QMessageBox>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
@@ -30,6 +34,9 @@ AWBugReporter::AWBugReporter(QObject *parent)
     : QObject(parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+
+    connect(this, SIGNAL(replyReceived(const int, const QString)), this,
+            SLOT(showInformation(const int, const QString)));
 }
 
 
@@ -39,8 +46,30 @@ AWBugReporter::~AWBugReporter()
 }
 
 
+QString AWBugReporter::generateText(const QString description,
+                                    const QString reproduce,
+                                    const QString expected)
+{
+    qCDebug(LOG_AW) << "Generate text with description" << description
+                    << "steps" << reproduce << "and expected result"
+                    << expected;
+
+    QString output;
+    output += QString("**Description**\n\n%1\n").arg(description);
+    output += QString("**Step to reproduce**\n\n%1\n").arg(reproduce);
+    output += QString("**Expected result**\n\n%1\n").arg(expected);
+    output
+        += QString("**Version**\n\n%1").arg(getBuildData().join(QString("\n")));
+
+    return output;
+}
+
+
 void AWBugReporter::sendBugReport(const QString title, const QString body)
 {
+    qCDebug(LOG_AW) << "Send bug report with title" << title << "and body"
+                    << body;
+
     QNetworkAccessManager *manager = new QNetworkAccessManager(nullptr);
     connect(manager, SIGNAL(finished(QNetworkReply *)), this,
             SLOT(issueReplyRecieved(QNetworkReply *)));
@@ -68,20 +97,41 @@ void AWBugReporter::issueReplyRecieved(QNetworkReply *reply)
     if (reply->error() != QNetworkReply::NoError) {
         qCWarning(LOG_AW) << "An error occurs" << reply->error()
                           << "with message" << reply->errorString();
-        return emit(replyReceived(false, QString()));
+        return emit(replyReceived(0, QString()));
     }
 
     QJsonParseError error;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll(), &error);
     if (error.error != QJsonParseError::NoError) {
         qCWarning(LOG_AW) << "Parse error" << error.errorString();
-        return emit(replyReceived(false, QString()));
+        return emit(replyReceived(0, QString()));
     }
     reply->deleteLater();
 
     // convert to map
     QVariantMap response = jsonDoc.toVariant().toMap();
     QString url = response[QString("html_url")].toString();
+    int number = response[QString("number")].toInt();
 
-    return emit(replyReceived(true, url));
+    return emit(replyReceived(number, url));
+}
+
+
+void AWBugReporter::showInformation(const int number, const QString url)
+{
+    qCDebug(LOG_AW) << "Created issue with number" << number << "and url"
+                    << url;
+
+    QMessageBox *msgBox = new QMessageBox(nullptr);
+    msgBox->setAttribute(Qt::WA_DeleteOnClose);
+    msgBox->setModal(false);
+    msgBox->setWindowTitle(i18n("Issue created"));
+    msgBox->setText(i18n("Issue %1 has been created"));
+    msgBox->setStandardButtons(QMessageBox::Open | QMessageBox::Close);
+    msgBox->setIcon(QMessageBox::Information);
+
+    connect(msgBox, &QMessageBox::accepted,
+            [this, url]() { return QDesktopServices::openUrl(url); });
+
+    return msgBox->open();
 }

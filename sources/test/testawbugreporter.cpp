@@ -36,16 +36,27 @@ void TestAWBugReporter::cleanupTestCase()
 }
 
 
+void TestAWBugReporter::test_generateText()
+{
+    data = AWTestLibrary::randomStringList(3);
+    QString output = plugin->generateText(data.at(0), data.at(1), data.at(2));
+
+    for (auto string : data)
+        QVERIFY(output.contains(string));
+}
+
+
 void TestAWBugReporter::test_sendBugReport()
 {
     QSignalSpy spy(plugin, SIGNAL(replyReceived(bool, QString)));
-    plugin->sendBugReport(AWTestLibrary::randomString(),
-                          AWTestLibrary::randomString());
+    plugin->sendBugReport(
+        AWTestLibrary::randomString(),
+        plugin->generateText(data.at(0), data.at(1), data.at(2)));
 
     QVERIFY(spy.wait(5000));
     QVariantList arguments = spy.takeFirst();
 
-    QVERIFY(arguments.at(0).toBool());
+    QVERIFY(arguments.at(0).toInt() > 0);
     QVERIFY(!arguments.at(1).toString().isEmpty());
 }
 
