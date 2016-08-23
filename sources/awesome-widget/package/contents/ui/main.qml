@@ -36,6 +36,9 @@ Item {
     AWActions {
         id: awActions
     }
+    BugReport {
+        id: bugReport
+    }
 
     property bool debug: awActions.isDebugEnabled()
     property variant tooltipSettings: {
@@ -141,6 +144,7 @@ Item {
             plasmoid.setAction("requestKey", i18n("Request key"), "utilities-system-monitor")
         plasmoid.setAction("showReadme", i18n("Show README"), "text-x-readme")
         plasmoid.setAction("checkUpdates", i18n("Check updates"), "system-software-update")
+        plasmoid.setAction("reportBug", i18n("Report bug"), "tools-report-bug")
         // init submodule
         Plasmoid.userConfiguringChanged(false)
         // connect data
@@ -213,6 +217,13 @@ Item {
         if (debug) console.debug()
 
         return awActions.showReadme()
+    }
+
+    function action_reportBug() {
+        if (debug) console.debug()
+
+        bugReport.reset()
+        bugReport.open()
     }
 
     function action_requestKey() {
