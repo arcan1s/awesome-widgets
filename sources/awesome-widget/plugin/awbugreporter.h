@@ -22,6 +22,7 @@
 #include <QObject>
 
 
+class QAbstractButton;
 class QNetworkReply;
 
 class AWBugReporter : public QObject
@@ -31,9 +32,11 @@ class AWBugReporter : public QObject
 public:
     explicit AWBugReporter(QObject *parent = nullptr);
     virtual ~AWBugReporter();
+    Q_INVOKABLE void doConnect();
     Q_INVOKABLE QString generateText(const QString description,
                                      const QString reproduce,
-                                     const QString expected);
+                                     const QString expected,
+                                     const QString logs) const;
     Q_INVOKABLE void sendBugReport(const QString title, const QString body);
 
 signals:
@@ -42,8 +45,10 @@ signals:
 private slots:
     void issueReplyRecieved(QNetworkReply *reply);
     void showInformation(const int number, const QString url);
+    void userReplyOnBugReport(QAbstractButton *button);
 
 private:
+    QString m_lastBugUrl;
 };
 
 

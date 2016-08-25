@@ -38,8 +38,9 @@ void TestAWBugReporter::cleanupTestCase()
 
 void TestAWBugReporter::test_generateText()
 {
-    data = AWTestLibrary::randomStringList(3);
-    QString output = plugin->generateText(data.at(0), data.at(1), data.at(2));
+    data = AWTestLibrary::randomStringList(4);
+    QString output
+        = plugin->generateText(data.at(0), data.at(1), data.at(2), data.at(3));
 
     for (auto string : data)
         QVERIFY(output.contains(string));
@@ -51,7 +52,7 @@ void TestAWBugReporter::test_sendBugReport()
     QSignalSpy spy(plugin, SIGNAL(replyReceived(bool, QString)));
     plugin->sendBugReport(
         AWTestLibrary::randomString(),
-        plugin->generateText(data.at(0), data.at(1), data.at(2)));
+        plugin->generateText(data.at(0), data.at(1), data.at(2), data.at(3)));
 
     QVERIFY(spy.wait(5000));
     QVariantList arguments = spy.takeFirst();

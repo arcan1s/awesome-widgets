@@ -31,8 +31,8 @@ QtDialogs.Dialog {
         id: awBugReporter
     }
 
-    width: 640
-    height: 480
+    width: 480
+    height: 640
     property bool debug: awActions.isDebugEnabled()
 
 
@@ -52,7 +52,7 @@ QtDialogs.Dialog {
  
         QtControls.GroupBox {
             width: parent.width
-            height: parent.height / 3
+            height: parent.height / 5
             title: i18n("Description")
             QtControls.TextArea {
                 id: description
@@ -63,7 +63,7 @@ QtDialogs.Dialog {
         }
         QtControls.GroupBox {
             width: parent.width
-            height: parent.height / 3
+            height: parent.height / 5
             title: i18n("Steps to reproduce")
             QtControls.TextArea {
                 id: reproduce
@@ -74,7 +74,7 @@ QtDialogs.Dialog {
         }
         QtControls.GroupBox {
             width: parent.width
-            height: parent.height / 3
+            height: parent.height / 5
             title: i18n("Expected result")
             QtControls.TextArea {
                 id: expected
@@ -83,13 +83,56 @@ QtDialogs.Dialog {
                 textFormat: TextEdit.PlainText
             }
         }
+        QtControls.GroupBox {
+            width: parent.width
+            height: parent.height * 2 / 5
+            title: i18n("Logs")
+            Row {
+                id: debugCmdLabel
+                width: parent.width
+                QtControls.Label {
+                    width: parent.width * 2 / 5
+                    horizontalAlignment: Text.AlignJustify
+                    verticalAlignment: Text.AlignVCenter
+                    wrapMode: Text.WordWrap
+                    text: i18n("Use command")
+                }
+                QtControls.TextField {
+                    id: customTime
+                    width: parent.width * 3 / 5
+                    readOnly: true
+                    text: "QT_LOGGING_RULES=*=true plasmawindowed org.kde.plasma.awesomewidget"
+                }
+            }
+            QtControls.Button {
+                id: logButton
+                anchors.top: debugCmdLabel.bottom
+                width: parent.width
+                text: i18n("Load log file")
+                onClicked: logPath.open()
+            }
+            QtControls.TextArea {
+                anchors.top: logButton.bottom
+                anchors.bottom: parent.bottom
+                id: logBody
+                width: parent.width
+                textFormat: TextEdit.PlainText
+            }
+
+            QtDialogs.FileDialog {
+                id: logPath
+                title: i18n("Open log file")
+                onAccepted: 
+                    logBody.text = awActions.getFileContent(logPath.fileUrl.toString().replace("file://", ""))
+            }
+        }
     }
 
     onAccepted: {
         if (debug) console.debug()
 
         var text = awBugReporter.generateText(description.text, reproduce.text,
-                                              expected.text)
+                                              expected.text, logBody.text)
         awBugReporter.sendBugReport(title.text, text)
     }
 
@@ -104,6 +147,8 @@ QtDialogs.Dialog {
 
     Component.onCompleted: {
         if (debug) console.debug()
+
+        awBugReporter.doConnect()
     }
 }
 

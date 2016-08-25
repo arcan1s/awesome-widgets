@@ -33,6 +33,7 @@ public:
     explicit AWActions(QObject *parent = nullptr);
     virtual ~AWActions();
     Q_INVOKABLE void checkUpdates(const bool showAnyway = false);
+    Q_INVOKABLE QString getFileContent(const QString path) const;
     Q_INVOKABLE bool isDebugEnabled() const;
     Q_INVOKABLE bool runCmd(const QString cmd = QString("/usr/bin/true")) const;
     Q_INVOKABLE void showReadme() const;

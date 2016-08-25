@@ -21,6 +21,7 @@
 #include <KNotifications/KNotification>
 
 #include <QDesktopServices>
+#include <QFile>
 #include <QProcess>
 #include <QUrl>
 
@@ -53,6 +54,23 @@ void AWActions::checkUpdates(const bool showAnyway)
 
     if (!m_updateHelper->checkVersion())
         m_updateHelper->checkUpdates(showAnyway);
+}
+
+
+QString AWActions::getFileContent(const QString path) const
+{
+    qCDebug(LOG_AW) << "Get content from file" << path;
+
+    QFile inputFile(path);
+    if (!inputFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qCWarning(LOG_AW) << "Could not open file as text"
+                          << inputFile.fileName();
+        return QString();
+    }
+
+    QString output = inputFile.readAll();
+    inputFile.close();
+    return output;
 }
 
 

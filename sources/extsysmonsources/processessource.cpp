@@ -87,15 +87,17 @@ void ProcessesSource::run()
 
     for (auto dir : directories) {
         QFile statusFile(QString("/proc/%1/status").arg(dir));
-        if (!statusFile.open(QIODevice::ReadOnly))
+        if (!statusFile.open(QIODevice::ReadOnly | QIODevice::Text))
             continue;
         QFile cmdFile(QString("/proc/%1/cmdline").arg(dir));
-        if (!cmdFile.open(QIODevice::ReadOnly))
+        if (!cmdFile.open(QIODevice::ReadOnly | QIODevice::Text))
             continue;
 
         QString output = statusFile.readAll();
         if (output.contains(QString("running")))
             running.append(cmdFile.readAll());
+        statusFile.close();
+        cmdFile.close();
     }
 
     m_values[QString("ps/running/count")] = running.count();

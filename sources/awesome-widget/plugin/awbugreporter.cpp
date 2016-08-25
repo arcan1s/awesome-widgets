@@ -34,9 +34,6 @@ AWBugReporter::AWBugReporter(QObject *parent)
     : QObject(parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
-
-    connect(this, SIGNAL(replyReceived(const int, const QString)), this,
-            SLOT(showInformation(const int, const QString)));
 }
 
 
@@ -46,20 +43,32 @@ AWBugReporter::~AWBugReporter()
 }
 
 
+void AWBugReporter::doConnect()
+{
+    // additional method for testing needs
+    connect(this, SIGNAL(replyReceived(const int, const QString)), this,
+            SLOT(showInformation(const int, const QString)));
+}
+
+
 QString AWBugReporter::generateText(const QString description,
                                     const QString reproduce,
-                                    const QString expected)
+                                    const QString expected,
+                                    const QString logs) const
 {
+    // do not log logs here, it may have quite large size
     qCDebug(LOG_AW) << "Generate text with description" << description
                     << "steps" << reproduce << "and expected result"
                     << expected;
 
     QString output;
-    output += QString("**Description**\n\n%1\n").arg(description);
-    output += QString("**Step to reproduce**\n\n%1\n").arg(reproduce);
-    output += QString("**Expected result**\n\n%1\n").arg(expected);
-    output
-        += QString("**Version**\n\n%1").arg(getBuildData().join(QString("\n")));
+    output += QString("**Description**\n\n%1\n\n").arg(description);
+    output += QString("**Step to reproduce**\n\n%1\n\n").arg(reproduce);
+    output += QString("**Expected result**\n\n%1\n\n").arg(expected);
+    output += QString("**Version**\n\n%1\n\n")
+                  .arg(getBuildData().join(QString("\n")));
+    // append logs
+    output += QString("**Logs**\n\n%1").arg(logs);
 
     return output;
 }
@@ -122,16 +131,33 @@ void AWBugReporter::showInformation(const int number, const QString url)
     qCDebug(LOG_AW) << "Created issue with number" << number << "and url"
                     << url;
 
+    // cache url first
+    m_lastBugUrl = url;
+
     QMessageBox *msgBox = new QMessageBox(nullptr);
     msgBox->setAttribute(Qt::WA_DeleteOnClose);
     msgBox->setModal(false);
     msgBox->setWindowTitle(i18n("Issue created"));
-    msgBox->setText(i18n("Issue %1 has been created"));
+    msgBox->setText(i18n("Issue %1 has been created", number));
     msgBox->setStandardButtons(QMessageBox::Open | QMessageBox::Close);
     msgBox->setIcon(QMessageBox::Information);
 
-    connect(msgBox, &QMessageBox::accepted,
-            [this, url]() { return QDesktopServices::openUrl(url); });
+    msgBox->open(this, SLOT(userReplyOnBugReport(QAbstractButton *)));
+}
 
-    return msgBox->open();
+
+void AWBugReporter::userReplyOnBugReport(QAbstractButton *button)
+{
+    QMessageBox::ButtonRole ret
+            = static_cast<QMessageBox *>(sender())->buttonRole(button);
+    qCInfo(LOG_AW) << "User select" << ret;
+
+    switch (ret) {
+        case QMessageBox::AcceptRole:
+            QDesktopServices::openUrl(m_lastBugUrl);
+            break;
+        case QMessageBox::RejectRole:
+        default:
+            break;
+    }
 }
