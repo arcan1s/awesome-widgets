@@ -174,6 +174,10 @@ QStringList AWKeyOperations::dictKeys() const
     std::for_each(staticKeys.cbegin(), staticKeys.cend(),
                   [&allKeys](const QString &key) { allKeys.append(key); });
 
+    // sort in valid order
+    allKeys.sort();
+    std::reverse(allKeys.begin(), allKeys.end());
+
     return allKeys;
 }
 
