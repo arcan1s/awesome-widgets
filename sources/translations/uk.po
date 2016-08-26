@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-07-06 19:36+0300\n"
+"POT-Creation-Date: 2016-08-27 02:54+0300\n"
 "PO-Revision-Date: 2016-08-09 22:22+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Ukrainian <kde-russian@lists.kde.ru>\n"
@@ -35,6 +35,35 @@ msgstr "DataEngine"
 
 msgid "About"
 msgstr "Про програму"
+
+msgid "Report a bug"
+msgstr ""
+
+msgid "Report subject"
+msgstr ""
+
+#, fuzzy
+msgid "Description"
+msgstr "Напрямок"
+
+msgid "Steps to reproduce"
+msgstr ""
+
+msgid "Expected result"
+msgstr ""
+
+msgid "Logs"
+msgstr ""
+
+#, fuzzy
+msgid "Use command"
+msgstr "Редагувати команду"
+
+msgid "Load log file"
+msgstr ""
+
+msgid "Open log file"
+msgstr ""
 
 msgid "Acknowledgment"
 msgstr "Подяка"
@@ -270,6 +299,9 @@ msgstr "Показати README"
 msgid "Check updates"
 msgstr "Шукати оновлення"
 
+msgid "Report bug"
+msgstr ""
+
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
 "To enable them just make needed checkbox checked."
@@ -425,6 +457,12 @@ msgstr "Особлива подяка %1"
 
 msgid "Select font"
 msgstr "Оберіть шрифт"
+
+msgid "Issue created"
+msgstr ""
+
+msgid "Issue %1 has been created"
+msgstr ""
 
 msgid "AC online"
 msgstr "AC підключений"

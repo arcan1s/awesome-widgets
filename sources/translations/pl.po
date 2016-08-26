@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-07-06 19:36+0300\n"
+"POT-Creation-Date: 2016-08-27 02:54+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,6 +34,35 @@ msgstr "Silnik danych"
 
 msgid "About"
 msgstr "O..."
+
+msgid "Report a bug"
+msgstr ""
+
+msgid "Report subject"
+msgstr ""
+
+#, fuzzy
+msgid "Description"
+msgstr "Kierunek"
+
+msgid "Steps to reproduce"
+msgstr ""
+
+msgid "Expected result"
+msgstr ""
+
+msgid "Logs"
+msgstr ""
+
+#, fuzzy
+msgid "Use command"
+msgstr "Polecenie edycji"
+
+msgid "Load log file"
+msgstr ""
+
+msgid "Open log file"
+msgstr ""
 
 msgid "Acknowledgment"
 msgstr "Potwierdzenie"
@@ -269,6 +298,9 @@ msgstr "Pokaż README"
 msgid "Check updates"
 msgstr "Sprawdź aktualizacje"
 
+msgid "Report bug"
+msgstr ""
+
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
 "To enable them just make needed checkbox checked."
@@ -425,6 +457,12 @@ msgstr "Specjalnie podziękowania dla %1"
 
 msgid "Select font"
 msgstr "Wybierz czcionkę"
+
+msgid "Issue created"
+msgstr ""
+
+msgid "Issue %1 has been created"
+msgstr ""
 
 msgid "AC online"
 msgstr "Zasilanie zewnętrzne podłączone"
