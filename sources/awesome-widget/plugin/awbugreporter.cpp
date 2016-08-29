@@ -149,15 +149,15 @@ void AWBugReporter::showInformation(const int number, const QString url)
 void AWBugReporter::userReplyOnBugReport(QAbstractButton *button)
 {
     QMessageBox::ButtonRole ret
-            = static_cast<QMessageBox *>(sender())->buttonRole(button);
+        = static_cast<QMessageBox *>(sender())->buttonRole(button);
     qCInfo(LOG_AW) << "User select" << ret;
 
     switch (ret) {
-        case QMessageBox::AcceptRole:
-            QDesktopServices::openUrl(m_lastBugUrl);
-            break;
-        case QMessageBox::RejectRole:
-        default:
-            break;
+    case QMessageBox::AcceptRole:
+        QDesktopServices::openUrl(m_lastBugUrl);
+        break;
+    case QMessageBox::RejectRole:
+    default:
+        break;
     }
 }

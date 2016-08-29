@@ -32,6 +32,10 @@ AWKeysAggregator::AWKeysAggregator(QObject *parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
+    // sort time keys
+    m_timeKeys.sort();
+    std::reverse(m_timeKeys.begin(), m_timeKeys.end());
+
     // default formatters
     // memory
     m_formatter[QString("mem")] = FormatterType::Float;

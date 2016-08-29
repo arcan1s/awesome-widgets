@@ -40,7 +40,7 @@
 #define REQUEST_TIMEOUT 3000
 // available time keys
 #define TIME_KEYS                                                              \
-    "dddd,ddd,dd,d,MMMM,MMM,MM,M,yyyy,yy,hh,h,HH,H,mm,m,ss,s,t,ap,a,AP,A"
+    "d,dd,ddd,dddd,M,MM,MMM,MMMM,yy,yyyy,h,hh,H,HH,m,mm,s,ss,t,a,ap,A,AP"
 // static keys
 #define STATIC_KEYS                                                            \
     "time,isotime,shorttime,longtime,tstime,ctime,uptime,cuptime,cpucl,cpu,"   \
