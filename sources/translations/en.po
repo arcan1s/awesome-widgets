@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-08-27 02:54+0300\n"
+"POT-Creation-Date: 2016-09-01 15:36+0300\n"
 "PO-Revision-Date: 2016-07-06 19:37+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: English <kde-russian@lists.kde.ru>\n"
@@ -414,6 +414,12 @@ msgstr "Preview"
 
 msgid "Run %1"
 msgstr "Run %1"
+
+msgid "Not supported"
+msgstr ""
+
+msgid "You are using mammoth's Qt version, try to update it first!"
+msgstr ""
 
 msgid "Version %1 (build date %2)"
 msgstr "Version %1 (build date %2)"

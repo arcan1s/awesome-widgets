@@ -98,6 +98,20 @@ void AWActions::showReadme() const
 }
 
 
+void AWActions::showLegacyInfo() const
+{
+    QMessageBox *msgBox = new QMessageBox(nullptr);
+    msgBox->setAttribute(Qt::WA_DeleteOnClose);
+    msgBox->setModal(false);
+    msgBox->setWindowTitle(i18n("Not supported"));
+    msgBox->setText(i18n("You are using mammoth's Qt version, try to update it first!"));
+    msgBox->setStandardButtons(QMessageBox::Ok);
+    msgBox->setIcon(QMessageBox::Information);
+
+    msgBox->open();
+}
+
+
 // HACK: this method uses variables from version.h
 QString AWActions::getAboutText(const QString type) const
 {

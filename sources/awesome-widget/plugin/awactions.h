@@ -36,6 +36,7 @@ public:
     Q_INVOKABLE QString getFileContent(const QString path) const;
     Q_INVOKABLE bool isDebugEnabled() const;
     Q_INVOKABLE bool runCmd(const QString cmd = QString("/usr/bin/true")) const;
+    Q_INVOKABLE void showLegacyInfo() const;
     Q_INVOKABLE void showReadme() const;
     // configuration slots
     Q_INVOKABLE QString getAboutText(const QString type
