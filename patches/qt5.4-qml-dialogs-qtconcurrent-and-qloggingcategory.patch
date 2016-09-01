@@ -1,4 +1,4 @@
-    diff --git a/sources/awesome-widget/package/contents/ui/advanced.qml b/sources/awesome-widget/package/contents/ui/advanced.qml
+diff --git a/sources/awesome-widget/package/contents/ui/advanced.qml b/sources/awesome-widget/package/contents/ui/advanced.qml
 index 01bcd58..1ec7ba6 100644
 --- a/sources/awesome-widget/package/contents/ui/advanced.qml
 +++ b/sources/awesome-widget/package/contents/ui/advanced.qml
@@ -90,7 +90,7 @@ index 01bcd58..1ec7ba6 100644
                          plasmoid.configuration[key] = importConfig[key]
                  }
 diff --git a/sources/awesome-widget/package/contents/ui/main.qml b/sources/awesome-widget/package/contents/ui/main.qml
-index 23e9690..ec83b91 100644
+index 41abc9a..966cc43 100644
 --- a/sources/awesome-widget/package/contents/ui/main.qml
 +++ b/sources/awesome-widget/package/contents/ui/main.qml
 @@ -17,7 +17,6 @@
@@ -101,7 +101,17 @@ index 23e9690..ec83b91 100644
  import QtQuick.Layouts 1.1
  import org.kde.plasma.plasmoid 2.0
  import org.kde.plasma.core 2.0 as PlasmaCore
-@@ -110,27 +109,6 @@ Item {
+@@ -36,9 +35,6 @@ Item {
+     AWActions {
+         id: awActions
+     }
+-    BugReport {
+-        id: bugReport
+-    }
+ 
+     property bool debug: awActions.isDebugEnabled()
+     property variant tooltipSettings: {
+@@ -113,27 +109,6 @@ Item {
          }
      }
  
@@ -129,7 +139,15 @@ index 23e9690..ec83b91 100644
  
      Component.onCompleted: {
          if (debug) console.debug()
-@@ -216,7 +194,12 @@ Item {
+@@ -222,14 +197,18 @@ Item {
+     function action_reportBug() {
+         if (debug) console.debug()
+ 
+-        bugReport.reset()
+-        bugReport.open()
++        awActions.showLegacyInfo()
+     }
+ 
      function action_requestKey() {
          if (debug) console.debug()
  
@@ -144,6 +162,13 @@ index 23e9690..ec83b91 100644
 +        awActions.sendNotification("tag", message)
      }
  }
+diff --git a/sources/awesome-widget/package/contents/ui/qmldir b/sources/awesome-widget/package/contents/ui/qmldir
+index b31d53f..c5315a3 100644
+--- a/sources/awesome-widget/package/contents/ui/qmldir
++++ b/sources/awesome-widget/package/contents/ui/qmldir
+@@ -1,2 +1 @@
+ singleton general 1.0 general.qml
+-BugReport ./BugReport.qml
 diff --git a/sources/awesome-widget/plugin/awconfighelper.cpp b/sources/awesome-widget/plugin/awconfighelper.cpp
 index 6263b30..5f61d2a 100644
 --- a/sources/awesome-widget/plugin/awconfighelper.cpp
