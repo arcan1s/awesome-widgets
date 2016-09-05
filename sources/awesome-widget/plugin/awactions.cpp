@@ -104,7 +104,8 @@ void AWActions::showLegacyInfo() const
     msgBox->setAttribute(Qt::WA_DeleteOnClose);
     msgBox->setModal(false);
     msgBox->setWindowTitle(i18n("Not supported"));
-    msgBox->setText(i18n("You are using mammoth's Qt version, try to update it first!"));
+    msgBox->setText(
+        i18n("You are using mammoth's Qt version, try to update it first!"));
     msgBox->setStandardButtons(QMessageBox::Ok);
     msgBox->setIcon(QMessageBox::Information);
 
