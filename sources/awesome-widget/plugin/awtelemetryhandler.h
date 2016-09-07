@@ -15,27 +15,40 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#include "awesomewidget.h"
 
-#include <QtQml>
+#ifndef AWTELEMETRYHANDLER_H
+#define AWTELEMETRYHANDLER_H
 
-#include "awactions.h"
-#include "awbugreporter.h"
-#include "awconfighelper.h"
-#include "awformatterconfigfactory.h"
-#include "awkeys.h"
-#include "awtelemetryhandler.h"
+#include <QObject>
+#include <QtCore/QVariant>
 
 
-void AWPlugin::registerTypes(const char *uri)
+class QAbstractButton;
+class QNetworkReply;
+
+class AWTelemetryHandler : public QObject
 {
-    Q_ASSERT(uri == QLatin1String("org.kde.plasma.private.awesomewidget"));
+    Q_OBJECT
 
-    qmlRegisterType<AWActions>(uri, 1, 0, "AWActions");
-    qmlRegisterType<AWBugReporter>(uri, 1, 0, "AWBugReporter");
-    qmlRegisterType<AWConfigHelper>(uri, 1, 0, "AWConfigHelper");
-    qmlRegisterType<AWFormatterConfigFactory>(uri, 1, 0,
-                                              "AWFormatterConfigFactory");
-    qmlRegisterType<AWKeys>(uri, 1, 0, "AWKeys");
-    qmlRegisterType<AWTelemetryHandler>(uri, 1, 0, "AWTelemetryHandler");
-}
+public:
+    explicit AWTelemetryHandler(QObject *parent = nullptr);
+    virtual ~AWTelemetryHandler();
+    Q_INVOKABLE QStringList get(const QString group) const;
+    Q_INVOKABLE QString getLast(const QString group) const;
+    Q_INVOKABLE bool put(const QString group, const QString value) const;
+    Q_INVOKABLE bool rotate() const;
+
+private slots:
+
+private:
+    void init();
+    bool setConfiguration(const QString key, const QVariant value,
+                          const bool override) const;
+    QString m_clientId;
+    QString m_genericConfig;
+    QString m_localFile;
+    int m_storeCount = 0;
+};
+
+
+#endif /* AWTELEMETRYHANDLER_H */
