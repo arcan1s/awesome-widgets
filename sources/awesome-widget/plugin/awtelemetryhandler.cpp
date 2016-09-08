@@ -100,6 +100,7 @@ bool AWTelemetryHandler::put(const QString group, const QString value) const
 bool AWTelemetryHandler::rotate() const
 {
     QSettings settings(m_localFile, QSettings::IniFormat);
+
     for (auto group : settings.childGroups()) {
         QStringList data;
         settings.beginGroup(group);
@@ -154,7 +155,7 @@ bool AWTelemetryHandler::setConfiguration(const QString key,
 
     QSettings settings(m_genericConfig, QSettings::IniFormat);
     settings.beginGroup(QString("Telemetry"));
-    if (!settings.childKeys().contains(key) || !override)
+    if (settings.childKeys().contains(key) && !override)
         return true;
 
     settings.setValue(key, value);
