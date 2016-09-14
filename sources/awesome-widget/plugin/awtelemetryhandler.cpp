@@ -29,7 +29,7 @@
 #include "awdebug.h"
 
 
-AWTelemetryHandler::AWTelemetryHandler(QObject *parent)
+AWTelemetryHandler::AWTelemetryHandler(QObject *parent, const QString clientId)
     : QObject(parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
@@ -42,6 +42,9 @@ AWTelemetryHandler::AWTelemetryHandler(QObject *parent)
                           QStandardPaths::GenericDataLocation));
 
     init();
+    // override client id if any
+    if (!clientId.isEmpty())
+        m_clientId = clientId;
 }
 
 
@@ -82,49 +85,99 @@ bool AWTelemetryHandler::put(const QString group, const QString value) const
     QSettings settings(m_localFile, QSettings::IniFormat);
     settings.beginGroup(group);
     // values will be stored as num=value inside specified group
-    QString key
-        = QString("%1").arg(settings.childKeys().count(), 3, 10, QChar('0'));
-    settings.setValue(key, value);
-    settings.endGroup();
-
-    // sync settings
-    settings.sync();
-    // check status
-    if (settings.status() != QSettings::NoError)
+    // load all values to memory
+    QStringList saved;
+    for (auto key : settings.childKeys())
+        saved.append(settings.value(key).toString());
+    // check if this value is already saved
+    if (saved.contains(value)) {
+        qCInfo(LOG_AW) << "Configuration" << value << "for group" << group
+                       << "is already saved";
         return false;
-    // rotate
-    return rotate();
-}
-
-
-bool AWTelemetryHandler::rotate() const
-{
-    QSettings settings(m_localFile, QSettings::IniFormat);
-
-    for (auto group : settings.childGroups()) {
-        QStringList data;
-        settings.beginGroup(group);
-        // load current data
-        for (auto key : settings.childKeys())
-            data.append(settings.value(key).toString());
-        // remove first item from list
-        while (data.count() > m_storeCount)
-            data.takeFirst();
-        // clear values
-        settings.remove(QString(""));
-        // save new values
-        for (auto value : data) {
-            QString key = QString("%1").arg(settings.childKeys().count(), 3, 10,
-                                            QChar('0'));
-            settings.setValue(key, value);
-        }
-        settings.endGroup();
+    }
+    saved.append(value);
+    // remove old ones
+    while (saved.count() > m_storeCount)
+        saved.takeFirst();
+    // clear group
+    settings.remove(QString(""));
+    // and save now
+    for (auto value : saved) {
+        QString key = getKey(settings.childKeys().count());
+        settings.setValue(key, value);
     }
 
     // sync settings
+    settings.endGroup();
     settings.sync();
     // return status
-    return (settings.status() == QSettings::NoError);
+    return (settings.status() != QSettings::NoError);
+}
+
+
+void AWTelemetryHandler::uploadTelemetry(const QString group,
+                                         const QString value)
+{
+    qCDebug(LOG_AW) << "Upload data with group" << group << "and value"
+                    << value;
+    if (!m_uploadEnabled) {
+        qCInfo(LOG_AW) << "Upload disabled by configuration";
+        return;
+    }
+
+    QNetworkAccessManager *manager = new QNetworkAccessManager(nullptr);
+    connect(manager, SIGNAL(finished(QNetworkReply *)), this,
+            SLOT(telemetryReplyRecieved(QNetworkReply *)));
+
+    QUrl url(REMOTE_TELEMETRY_URL);
+    url.setPort(REMOTE_TELEMETRY_PORT);
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    // generate payload
+    QVariantMap payload;
+    payload[QString("api")] = AWTEAPI;
+    payload[QString("client_id")] = m_clientId;
+    payload[QString("metadata")] = value;
+    payload[QString("type")] = group;
+    // convert to QByteArray to send request
+    QByteArray data
+        = QJsonDocument::fromVariant(payload).toJson(QJsonDocument::Compact);
+    qCInfo(LOG_AW) << "Send request with body" << data.data() << "and size"
+                   << data.size();
+
+    manager->post(request, data);
+}
+
+
+void AWTelemetryHandler::telemetryReplyRecieved(QNetworkReply *reply)
+{
+    if (reply->error() != QNetworkReply::NoError) {
+        qCWarning(LOG_AW) << "An error occurs" << reply->error()
+                          << "with message" << reply->errorString();
+        return;
+    }
+
+    QJsonParseError error;
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll(), &error);
+    if (error.error != QJsonParseError::NoError) {
+        qCWarning(LOG_AW) << "Parse error" << error.errorString();
+        return;
+    }
+    reply->deleteLater();
+
+    // convert to map
+    QVariantMap response = jsonDoc.toVariant().toMap();
+    qCInfo(LOG_AW) << "Server reply on telemetry"
+                   << response[QString("message")].toString();
+}
+
+
+QString AWTelemetryHandler::getKey(const int count) const
+{
+    qCDebug(LOG_AW) << "Get key for keys count" << count;
+
+    return QString("%1").arg(count, 3, 10, QChar('0'));
 }
 
 
@@ -141,6 +194,9 @@ void AWTelemetryHandler::init()
     // count items to store
     m_storeCount = settings.value(QString("StoreHistory"), 100).toInt();
     setConfiguration(QString("StoreHistory"), m_storeCount, false);
+    // check if upload enabled
+    m_uploadEnabled = settings.value(QString("Upload"), false).toBool();
+    setConfiguration(QString("Upload"), m_uploadEnabled, false);
 
     settings.endGroup();
 }

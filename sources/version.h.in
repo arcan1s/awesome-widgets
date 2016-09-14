@@ -36,6 +36,8 @@
 #define AWEWAPI 3
 // formatter api version
 #define AWEFAPI 2
+// telemetry api version
+#define AWTEAPI 1
 // network requests timeout, ms
 #define REQUEST_TIMEOUT 3000
 // available time keys
