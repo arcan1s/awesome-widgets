@@ -93,7 +93,7 @@ Item {
                         for (var i=0; i<model.length; i++) {
                             if (model[i] == cfg_dataengine["GPUDEV"]) {
                                 if (debug) console.info("Found", model[i], "on", i)
-                                currentIndex = i;
+                                currentIndex = i
                             }
                         }
                     }
@@ -189,7 +189,7 @@ Item {
                             for (var i=0; i<model.length; i++) {
                                 if (model[i] == cfg_dataengine["PLAYER"]) {
                                     if (debug) console.info("Found", model[i], "on", i)
-                                    player.currentIndex = i;
+                                    player.currentIndex = i
                                 }
                             }
                         }
@@ -345,7 +345,7 @@ Item {
         for (var i=0; i<hdd.model.length; i++) {
             if (hdd.model[i] == cfg_dataengine["HDDDEV"]) {
                 if (debug) console.info("Found", hdd.model[i], "on", i)
-                hdd.currentIndex = i;
+                hdd.currentIndex = i
             }
         }
     }

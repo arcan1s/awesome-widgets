@@ -138,7 +138,7 @@ Item {
                     for (var i = 0; i < model.length; i++) {
                         if (model[i]["name"] == plasmoid.configuration.fontWeight) {
                             if (debug) console.info("Found", model[i]["name"], "on", i)
-                            fontWeight.currentIndex = i;
+                            fontWeight.currentIndex = i
                         }
                     }
                 }
@@ -175,7 +175,7 @@ Item {
                     for (var i = 0; i < model.length; i++) {
                         if (model[i]["name"] == plasmoid.configuration.fontStyle) {
                             if (debug) console.info("Found", model[i]["name"], "on", i)
-                            fontStyle.currentIndex = i;
+                            fontStyle.currentIndex = i
                         }
                     }
                 }

@@ -36,6 +36,9 @@ Item {
     AWActions {
         id: awActions
     }
+    AWTelemetryHandler {
+        id: awTelemetryHandler
+    }
     BugReport {
         id: bugReport
     }
@@ -204,6 +207,9 @@ Item {
         awKeys.setAggregatorProperty("customUptime", plasmoid.configuration.customUptime)
         awKeys.setAggregatorProperty("tempUnits", plasmoid.configuration.tempUnits)
         awKeys.setAggregatorProperty("translate", plasmoid.configuration.translateStrings)
+        // save telemetry
+        if (awTelemetryHandler.put("awwidgetconfig", plasmoid.configuration.text))
+            awTelemetryHandler.uploadTelemetry("awwidgetconfig", plasmoid.configuration.text)
     }
 
 
