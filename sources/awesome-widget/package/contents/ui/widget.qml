@@ -15,7 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-import QtQuick 2.0
+import QtQuick 2.2
 import QtQuick.Controls 1.3 as QtControls
 import QtQuick.Dialogs 1.2 as QtDialogs
 
@@ -336,12 +336,28 @@ Item {
                 onClicked: awFormatter.showDialog(awKeys.dictKeys(true))
             }
             QtControls.Button {
-                width: parent.width * 2 / 5
+                width: parent.width * 5 / 15
                 text: i18n("Preview")
                 onClicked: {
                     lock = false
                     awKeys.initKeys(textPattern.text, plasmoid.configuration.interval,
                                     plasmoid.configuration.queueLimit, false)
+                }
+            }
+            QtControls.Button {
+                width: parent.width / 15
+                iconName: "view-history"
+                menu: QtControls.Menu {
+                    id: historyConfig
+                    Instantiator {
+                        model: awTelemetryHandler.get("awwidgetconfig")
+                        QtControls.MenuItem {
+                            text: modelData
+                            onTriggered: textPattern.text = modelData
+                        }
+                        onObjectAdded: historyConfig.insertItem(index, object)
+                        onObjectRemoved: historyConfig.removeItem(object)
+                    }
                 }
             }
         }
