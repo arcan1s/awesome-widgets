@@ -83,7 +83,7 @@ void AWBugReporter::sendBugReport(const QString title, const QString body)
     connect(manager, SIGNAL(finished(QNetworkReply *)), this,
             SLOT(issueReplyRecieved(QNetworkReply *)));
 
-    QNetworkRequest request(QUrl(BUGTRACKER_API));
+    QNetworkRequest request = QNetworkRequest(QUrl(BUGTRACKER_API));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     // generate payload

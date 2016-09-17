@@ -54,6 +54,7 @@ for more details. To avoid manual labor there is automatic cmake target named
       ```
 
     * C-like `NULL`, use `nullptr` instead.
+    * C-like constant definition, use `const vartype foo = bar` definition instead.
 * It is highly recommended to avoid implicit casts. Exception `nullptr` casts to
   boolean, e.g.:
 

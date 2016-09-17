@@ -20,17 +20,17 @@
 
 #include "abstractweatherprovider.h"
 
-// we are using own server to pass requests to OpenWeatherMap because it
-// requires specific APPID which belongs to developer not user
-#define OWM_WEATHER_URL "http://arcanis.me/weather"
-#define OWM_FORECAST_URL "http://arcanis.me/forecast"
-
 
 class OWMWeatherProvider : public AbstractWeatherProvider
 {
     Q_OBJECT
 
 public:
+    // we are using own server to pass requests to OpenWeatherMap because it
+    // requires specific APPID which belongs to developer not user
+    const char *OWM_WEATHER_URL = "http://arcanis.me/weather";
+    const char *OWM_FORECAST_URL = "http://arcanis.me/forecast";
+
     explicit OWMWeatherProvider(QObject *parent, const int number);
     virtual ~OWMWeatherProvider();
     void initUrl(const QString city, const QString country, const int);

@@ -24,8 +24,6 @@
 
 #include "abstractextsysmonsource.h"
 
-#define MPD_STATUS_REQUEST "currentsong\nstatus\n"
-
 
 class QProcess;
 
@@ -34,6 +32,8 @@ class PlayerSource : public AbstractExtSysMonSource
     Q_OBJECT
 
 public:
+    const char *MPD_STATUS_REQUEST = "currentsong\nstatus\n";
+
     explicit PlayerSource(QObject *parent, const QStringList args);
     virtual ~PlayerSource();
     QVariant data(QString source);

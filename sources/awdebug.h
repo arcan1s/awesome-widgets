@@ -23,12 +23,11 @@
 
 #include "version.h"
 
-#ifndef LOG_FORMAT
-#define LOG_FORMAT                                                             \
-    "[%{time process}][%{if-debug}DD%{endif}%{if-info}II%{endif}%{if-"         \
-    "warning}WW%{endif}%{if-critical}CC%{endif}%{if-fatal}FF%{endif}][%{"      \
-    "category}][%{function}] %{message}"
-#endif /* LOG_FORMAT */
+const char LOG_FORMAT[] = "[%{time "
+                          "process}][%{if-debug}DD%{endif}%{if-info}II%{endif}%"
+                          "{if-warning}WW%{endif}%{if-critical}CC%{endif}%{if-"
+                          "fatal}FF%{endif}][%{category}][%{function}] "
+                          "%{message}";
 
 
 Q_DECLARE_LOGGING_CATEGORY(LOG_AW)
