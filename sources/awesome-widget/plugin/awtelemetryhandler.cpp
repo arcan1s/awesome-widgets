@@ -111,7 +111,7 @@ bool AWTelemetryHandler::put(const QString group, const QString value) const
     settings.endGroup();
     settings.sync();
     // return status
-    return (settings.status() != QSettings::NoError);
+    return (settings.status() == QSettings::NoError);
 }
 
 
@@ -168,8 +168,10 @@ void AWTelemetryHandler::telemetryReplyRecieved(QNetworkReply *reply)
 
     // convert to map
     QVariantMap response = jsonDoc.toVariant().toMap();
-    qCInfo(LOG_AW) << "Server reply on telemetry"
-                   << response[QString("message")].toString();
+    QString message = response[QString("message")].toString();
+    qCInfo(LOG_AW) << "Server reply on telemetry" << message;
+
+    return emit(replyReceived(message));
 }
 
 

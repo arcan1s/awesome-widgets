@@ -16,49 +16,35 @@
  ***************************************************************************/
 
 
-#ifndef AWTELEMETRYHANDLER_H
-#define AWTELEMETRYHANDLER_H
+#ifndef TESTAWTELEMETRYHANDLER_H
+#define TESTAWTELEMETRYHANDLER_H
 
 #include <QObject>
-#include <QtCore/QVariant>
 
 
-class QAbstractButton;
-class QNetworkReply;
+class AWTelemetryHandler;
 
-class AWTelemetryHandler : public QObject
+class TestAWTelemetryHandler : public QObject
 {
     Q_OBJECT
 
-public:
-    const char *REMOTE_TELEMETRY_URL = "http://arcanis.me/telemetry";
-    const int REMOTE_TELEMETRY_PORT = 8080;
-
-    explicit AWTelemetryHandler(QObject *parent = nullptr,
-                                const QString clientId = QString());
-    virtual ~AWTelemetryHandler();
-    Q_INVOKABLE QStringList get(const QString group) const;
-    Q_INVOKABLE QString getLast(const QString group) const;
-    Q_INVOKABLE bool put(const QString group, const QString value) const;
-    Q_INVOKABLE void uploadTelemetry(const QString group, const QString value);
-
-signals:
-    void replyReceived(QString message);
-
 private slots:
-    void telemetryReplyRecieved(QNetworkReply *reply);
+    // initialization
+    void initTestCase();
+    void cleanupTestCase();
+    // test
+    void test_put();
+    void test_get();
+    void test_getLast();
+    void test_uploadTelemetry();
 
 private:
-    QString getKey(const int count) const;
-    void init();
-    bool setConfiguration(const QString key, const QVariant value,
-                          const bool override) const;
-    QString m_clientId;
-    QString m_genericConfig;
-    QString m_localFile;
-    int m_storeCount = 0;
-    bool m_uploadEnabled = false;
+    AWTelemetryHandler *plugin = nullptr;
+    QString telemetryData;
+    QString telemetryGroup;
+    QString telemetryId = QString("autotest");
+    QString telemetryValidGroup = QString("awwidgetconfig");
 };
 
 
-#endif /* AWTELEMETRYHANDLER_H */
+#endif /* TESTAWTELEMETRYHANDLER_H */

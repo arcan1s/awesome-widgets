@@ -30,7 +30,7 @@ set(TEST_MODULES
         abstractformatter datetimeformatter floatformatter listformatter noformatter scriptformatter stringformatter
         extitemaggregator
         batterysource desktopsource gpuloadsource gputempsource hddtempsource networksource playersource processessource
-        awbugreporter awconfighelper awkeycache awkeys awpatternfunctions awupdatehelper
+        awbugreporter awconfighelper awkeycache awkeys awpatternfunctions awtelemetryhandler awupdatehelper
         dpplugin)
 foreach (TEST_MODULE ${TEST_MODULES})
     set(${TEST_MODULE}_HEADERS test${TEST_MODULE}.h)
@@ -57,6 +57,8 @@ foreach (TEST_MODULE ${TEST_MODULES})
         set(${TEST_MODULE}_SOURCES ${${TEST_MODULE}_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awformatterhelper.cpp
                 ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awkeysaggregator.cpp
                 ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awpatternfunctions.cpp)
+    elseif (TEST_MODULE MATCHES "awtelemetryhandler")
+        set(${TEST_MODULE}_SOURCES ${${TEST_MODULE}_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awtelemetryhandler.cpp)
     elseif (TEST_MODULE MATCHES "awupdatehelper")
         set(${TEST_MODULE}_SOURCES ${${TEST_MODULE}_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awupdatehelper.cpp)
     elseif (TEST_MODULE MATCHES "dpplugin")
