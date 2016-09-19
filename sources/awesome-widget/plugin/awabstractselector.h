@@ -32,7 +32,9 @@ class AWAbstractSelector : public QWidget
     Q_OBJECT
 
 public:
-    explicit AWAbstractSelector(QWidget *parent = nullptr);
+    explicit AWAbstractSelector(QWidget *parent = nullptr,
+                                const QPair<bool, bool> editable
+                                = {false, false});
     virtual ~AWAbstractSelector();
     QPair<QString, QString> current() const;
     void init(const QStringList keys, const QStringList values,
