@@ -38,7 +38,7 @@ public:
     QHash<QString, QString> getFormatters() const;
     QList<AbstractExtItem *> items() const;
     QStringList knownFormatters() const;
-    bool writeFormatters(const QStringList keys) const;
+    bool removeUnusedFormatters(const QStringList keys) const;
     bool writeFormatters(const QHash<QString, QString> configuration) const;
 
 public slots:
@@ -58,6 +58,7 @@ private:
     void initItems();
     // properties
     QStringList m_directories;
+    QString m_filePath;
     QHash<QString, AWAbstractFormatter *> m_formatters;
     QHash<QString, AWAbstractFormatter *> m_formattersClasses;
 };

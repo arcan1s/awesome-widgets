@@ -140,7 +140,7 @@ void AWFormatterConfig::execDialog()
     case 1:
     default:
         m_helper->writeFormatters(data);
-        m_helper->writeFormatters(data.keys());
+        m_helper->removeUnusedFormatters(data.keys());
         break;
     }
 }

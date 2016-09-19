@@ -37,6 +37,7 @@ AWFormatterHelper::AWFormatterHelper(QWidget *parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
+    m_filePath = QString("awesomewidgets/formatters/formatters.ini");
     initItems();
 }
 
@@ -92,13 +93,14 @@ QStringList AWFormatterHelper::knownFormatters() const
 }
 
 
-bool AWFormatterHelper::writeFormatters(const QStringList keys) const
+bool AWFormatterHelper::removeUnusedFormatters(const QStringList keys) const
 {
     qCDebug(LOG_AW) << "Remove formatters" << keys;
 
-    QString fileName = QString("%1/awesomewidgets/formatters/formatters.ini")
+    QString fileName = QString("%1/%2")
                            .arg(QStandardPaths::writableLocation(
-                               QStandardPaths::GenericDataLocation));
+                               QStandardPaths::GenericDataLocation))
+                           .arg(m_filePath);
     QSettings settings(fileName, QSettings::IniFormat);
     qCInfo(LOG_AW) << "Configuration file" << fileName;
 
@@ -122,9 +124,10 @@ bool AWFormatterHelper::writeFormatters(
 {
     qCDebug(LOG_AW) << "Write configuration" << configuration;
 
-    QString fileName = QString("%1/awesomewidgets/formatters/formatters.ini")
+    QString fileName = QString("%1/%2")
                            .arg(QStandardPaths::writableLocation(
-                               QStandardPaths::GenericDataLocation));
+                               QStandardPaths::GenericDataLocation))
+                           .arg(m_filePath);
     QSettings settings(fileName, QSettings::IniFormat);
     qCInfo(LOG_AW) << "Configuration file" << fileName;
 
@@ -227,8 +230,7 @@ void AWFormatterHelper::initKeys()
     m_formatters.clear();
 
     QStringList configs = QStandardPaths::locateAll(
-        QStandardPaths::GenericDataLocation,
-        QString("awesomewidgets/formatters/formatters.ini"));
+        QStandardPaths::GenericDataLocation, m_filePath);
 
     for (auto fileName : configs) {
         QSettings settings(fileName, QSettings::IniFormat);
