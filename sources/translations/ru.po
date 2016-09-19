@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-07-06 19:36+0300\n"
-"PO-Revision-Date: 2016-07-06 19:37+0300\n"
+"POT-Creation-Date: 2016-09-01 15:36+0300\n"
+"PO-Revision-Date: 2016-08-27 02:56+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
-"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 2.0\n"
 
 msgid "Widget"
@@ -35,6 +35,33 @@ msgstr "DataEngine"
 
 msgid "About"
 msgstr "О программе"
+
+msgid "Report a bug"
+msgstr "Сообщить об ошибке"
+
+msgid "Report subject"
+msgstr "Тема"
+
+msgid "Description"
+msgstr "Описание"
+
+msgid "Steps to reproduce"
+msgstr "Как воспроизвести"
+
+msgid "Expected result"
+msgstr "Ожидаемый результат"
+
+msgid "Logs"
+msgstr "Логи"
+
+msgid "Use command"
+msgstr "Используйте команду"
+
+msgid "Load log file"
+msgstr "Загрузить лог"
+
+msgid "Open log file"
+msgstr "Открыть лог"
 
 msgid "Acknowledgment"
 msgstr "Благодарности"
@@ -270,6 +297,9 @@ msgstr "Показать README"
 msgid "Check updates"
 msgstr "Проверить обновления"
 
+msgid "Report bug"
+msgstr "Сообщить об ошибке"
+
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
 "To enable them just make needed checkbox checked."
@@ -383,6 +413,12 @@ msgstr "Предварительный просмотр"
 msgid "Run %1"
 msgstr "Запуск %1"
 
+msgid "Not supported"
+msgstr ""
+
+msgid "You are using mammoth's Qt version, try to update it first!"
+msgstr ""
+
 msgid "Version %1 (build date %2)"
 msgstr "Версия %1 (дата сборки %2)"
 
@@ -424,6 +460,12 @@ msgstr "Отдельное спасибо %1"
 
 msgid "Select font"
 msgstr "Выберете шрифт"
+
+msgid "Issue created"
+msgstr "Сообщение создано"
+
+msgid "Issue %1 has been created"
+msgstr "Тикет %1 был создан"
 
 msgid "AC online"
 msgstr "AC подключен"

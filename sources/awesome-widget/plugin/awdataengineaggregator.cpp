@@ -17,6 +17,8 @@
 
 #include "awdataengineaggregator.h"
 
+#include <Plasma/DataContainer>
+
 #include "awdebug.h"
 #include "awkeys.h"
 
@@ -25,6 +27,9 @@ AWDataEngineAggregator::AWDataEngineAggregator(QObject *parent)
     : QObject(parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+
+    // required to define Qt::QueuedConnection for signal-slot connection
+    qRegisterMetaType<Plasma::DataEngine::Data>("Plasma::DataEngine::Data");
 }
 
 
@@ -98,4 +103,39 @@ void AWDataEngineAggregator::reconnectSources(const int interval)
     m_dataEngines[QString("extsysmon")]->connectAllSources(parent(), interval);
     m_dataEngines[QString("time")]->connectSource(QString("Local"), parent(),
                                                   1000);
+
+#ifdef BUILD_FUTURE
+    createQueuedConnection();
+#endif /* BUILD_FUTURE */
+}
+
+
+void AWDataEngineAggregator::createQueuedConnection()
+{
+    // HACK additional method which forces QueuedConnection instead of Auto one
+    // for more details refer to plasma-framework source code
+    for (auto dataEngine : m_dataEngines.keys()) {
+        // different source set for different engines
+        QStringList sources;
+        if (dataEngine == QString("time"))
+            sources.append(QString("Local"));
+        else
+            sources = m_dataEngines[dataEngine]->sources();
+        // reconnect sources
+        for (auto source : sources) {
+            Plasma::DataContainer *container
+                = m_dataEngines[dataEngine]->containerForSource(source);
+            // disconnect old connections first
+            disconnect(container,
+                       SIGNAL(dataUpdated(QString, Plasma::DataEngine::Data)),
+                       parent(),
+                       SLOT(dataUpdated(QString, Plasma::DataEngine::Data)));
+            // and now reconnect with Qt::QueuedConnection type
+            connect(container,
+                    SIGNAL(dataUpdated(QString, Plasma::DataEngine::Data)),
+                    parent(),
+                    SLOT(dataUpdated(QString, Plasma::DataEngine::Data)),
+                    Qt::QueuedConnection);
+        }
+    }
 }

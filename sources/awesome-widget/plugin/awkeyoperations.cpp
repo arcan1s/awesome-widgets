@@ -79,30 +79,24 @@ QStringList AWKeyOperations::dictKeys() const
 {
     QStringList allKeys;
     // weather
-    for (int i = m_extWeather->activeItems().count() - 1; i >= 0; i--) {
-        allKeys.append(
-            m_extWeather->activeItems().at(i)->tag(QString("weatherId")));
-        allKeys.append(
-            m_extWeather->activeItems().at(i)->tag(QString("weather")));
-        allKeys.append(
-            m_extWeather->activeItems().at(i)->tag(QString("humidity")));
-        allKeys.append(
-            m_extWeather->activeItems().at(i)->tag(QString("pressure")));
-        allKeys.append(
-            m_extWeather->activeItems().at(i)->tag(QString("temperature")));
-        allKeys.append(
-            m_extWeather->activeItems().at(i)->tag(QString("timestamp")));
+    for (auto item : m_extWeather->activeItems()) {
+        allKeys.append(item->tag(QString("weatherId")));
+        allKeys.append(item->tag(QString("weather")));
+        allKeys.append(item->tag(QString("humidity")));
+        allKeys.append(item->tag(QString("pressure")));
+        allKeys.append(item->tag(QString("temperature")));
+        allKeys.append(item->tag(QString("timestamp")));
     }
     // cpuclock & cpu
-    for (int i = QThread::idealThreadCount() - 1; i >= 0; i--) {
+    for (int i = 0; i < QThread::idealThreadCount(); i++) {
         allKeys.append(QString("cpucl%1").arg(i));
         allKeys.append(QString("cpu%1").arg(i));
     }
     // temperature
-    for (int i = m_devices[QString("temp")].count() - 1; i >= 0; i--)
+    for (int i = 0; i < m_devices[QString("temp")].count(); i++)
         allKeys.append(QString("temp%1").arg(i));
     // hdd
-    for (int i = m_devices[QString("mount")].count() - 1; i >= 0; i--) {
+    for (int i = 0; i < m_devices[QString("mount")].count(); i++) {
         allKeys.append(QString("hddmb%1").arg(i));
         allKeys.append(QString("hddgb%1").arg(i));
         allKeys.append(QString("hddfreemb%1").arg(i));
@@ -112,15 +106,15 @@ QStringList AWKeyOperations::dictKeys() const
         allKeys.append(QString("hdd%1").arg(i));
     }
     // hdd speed
-    for (int i = m_devices[QString("disk")].count() - 1; i >= 0; i--) {
+    for (int i = 0; i < m_devices[QString("disk")].count(); i++) {
         allKeys.append(QString("hddr%1").arg(i));
         allKeys.append(QString("hddw%1").arg(i));
     }
     // hdd temp
-    for (int i = m_devices[QString("hdd")].count() - 1; i >= 0; i--)
+    for (int i = 0; i < m_devices[QString("hdd")].count(); i++)
         allKeys.append(QString("hddtemp%1").arg(i));
     // network
-    for (int i = m_devices[QString("net")].count() - 1; i >= 0; i--) {
+    for (int i = 0; i < m_devices[QString("net")].count(); i++) {
         allKeys.append(QString("downunits%1").arg(i));
         allKeys.append(QString("upunits%1").arg(i));
         allKeys.append(QString("downtotalkb%1").arg(i));
@@ -137,42 +131,37 @@ QStringList AWKeyOperations::dictKeys() const
         = QDir(QString("/sys/class/power_supply"))
               .entryList(QStringList() << QString("BAT*"),
                          QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
-    for (int i = allBatteryDevices.count() - 1; i >= 0; i--)
+    for (int i = 0; i < allBatteryDevices.count(); i++)
         allKeys.append(QString("bat%1").arg(i));
     // package manager
-    for (int i = m_extUpgrade->activeItems().count() - 1; i >= 0; i--)
-        allKeys.append(
-            m_extUpgrade->activeItems().at(i)->tag(QString("pkgcount")));
+    for (auto item : m_extUpgrade->activeItems())
+        allKeys.append(item->tag(QString("pkgcount")));
     // quotes
-    for (int i = m_extQuotes->activeItems().count() - 1; i >= 0; i--) {
-        allKeys.append(m_extQuotes->activeItems().at(i)->tag(QString("ask")));
-        allKeys.append(
-            m_extQuotes->activeItems().at(i)->tag(QString("askchg")));
-        allKeys.append(
-            m_extQuotes->activeItems().at(i)->tag(QString("percaskchg")));
-        allKeys.append(m_extQuotes->activeItems().at(i)->tag(QString("bid")));
-        allKeys.append(
-            m_extQuotes->activeItems().at(i)->tag(QString("bidchg")));
-        allKeys.append(
-            m_extQuotes->activeItems().at(i)->tag(QString("percbidchg")));
-        allKeys.append(m_extQuotes->activeItems().at(i)->tag(QString("price")));
-        allKeys.append(
-            m_extQuotes->activeItems().at(i)->tag(QString("pricechg")));
-        allKeys.append(
-            m_extQuotes->activeItems().at(i)->tag(QString("percpricechg")));
+    for (auto item : m_extQuotes->activeItems()) {
+        allKeys.append(item->tag(QString("ask")));
+        allKeys.append(item->tag(QString("askchg")));
+        allKeys.append(item->tag(QString("percaskchg")));
+        allKeys.append(item->tag(QString("bid")));
+        allKeys.append(item->tag(QString("bidchg")));
+        allKeys.append(item->tag(QString("percbidchg")));
+        allKeys.append(item->tag(QString("price")));
+        allKeys.append(item->tag(QString("pricechg")));
+        allKeys.append(item->tag(QString("percpricechg")));
     }
     // custom
-    for (int i = m_extScripts->activeItems().count() - 1; i >= 0; i--)
-        allKeys.append(
-            m_extScripts->activeItems().at(i)->tag(QString("custom")));
+    for (auto item : m_extScripts->activeItems())
+        allKeys.append(item->tag(QString("custom")));
     // bars
-    for (int i = m_graphicalItems->activeItems().count() - 1; i >= 0; i--)
-        allKeys.append(
-            m_graphicalItems->activeItems().at(i)->tag(QString("bar")));
+    for (auto item : m_graphicalItems->activeItems())
+        allKeys.append(item->tag(QString("bar")));
     // static keys
     QStringList staticKeys = QString(STATIC_KEYS).split(QChar(','));
     std::for_each(staticKeys.cbegin(), staticKeys.cend(),
                   [&allKeys](const QString &key) { allKeys.append(key); });
+
+    // sort in valid order
+    allKeys.sort();
+    std::reverse(allKeys.begin(), allKeys.end());
 
     return allKeys;
 }

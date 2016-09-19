@@ -57,10 +57,14 @@ QString GPUTemperatureSource::autoGpu()
 {
     QString gpu = QString("disable");
     QFile moduleFile(QString("/proc/modules"));
-    if (!moduleFile.open(QIODevice::ReadOnly))
+    if (!moduleFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qCWarning(LOG_AW) << "Could not open file as text"
+                          << moduleFile.fileName();
         return gpu;
+    }
 
     QString output = moduleFile.readAll();
+    moduleFile.close();
     if (output.contains(QString("fglrx")))
         gpu = QString("ati");
     else if (output.contains(QString("nvidia")))

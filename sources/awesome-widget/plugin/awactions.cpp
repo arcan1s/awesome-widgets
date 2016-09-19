@@ -21,6 +21,7 @@
 #include <KNotifications/KNotification>
 
 #include <QDesktopServices>
+#include <QFile>
 #include <QProcess>
 #include <QUrl>
 
@@ -56,6 +57,23 @@ void AWActions::checkUpdates(const bool showAnyway)
 }
 
 
+QString AWActions::getFileContent(const QString path) const
+{
+    qCDebug(LOG_AW) << "Get content from file" << path;
+
+    QFile inputFile(path);
+    if (!inputFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qCWarning(LOG_AW) << "Could not open file as text"
+                          << inputFile.fileName();
+        return QString();
+    }
+
+    QString output = inputFile.readAll();
+    inputFile.close();
+    return output;
+}
+
+
 // HACK: since QML could not use QLoggingCategory I need this hack
 bool AWActions::isDebugEnabled() const
 {
@@ -77,6 +95,21 @@ bool AWActions::runCmd(const QString cmd) const
 void AWActions::showReadme() const
 {
     QDesktopServices::openUrl(QUrl(HOMEPAGE));
+}
+
+
+void AWActions::showLegacyInfo() const
+{
+    QMessageBox *msgBox = new QMessageBox(nullptr);
+    msgBox->setAttribute(Qt::WA_DeleteOnClose);
+    msgBox->setModal(false);
+    msgBox->setWindowTitle(i18n("Not supported"));
+    msgBox->setText(
+        i18n("You are using mammoth's Qt version, try to update it first!"));
+    msgBox->setStandardButtons(QMessageBox::Ok);
+    msgBox->setIcon(QMessageBox::Information);
+
+    msgBox->open();
 }
 
 

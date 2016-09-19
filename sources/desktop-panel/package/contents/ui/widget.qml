@@ -48,7 +48,7 @@ Item {
           verticalAlignment: Text.AlignVCenter
           wrapMode: Text.WordWrap
           text: i18n("Detailed information may be found on <a href=\"https://arcanis.me/projects/awesome-widgets/\">project homepage</a>")
-          onLinkActivated: Qt.openUrlExternally(link);
+          onLinkActivated: Qt.openUrlExternally(link)
         }
 
         Row {

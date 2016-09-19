@@ -103,7 +103,7 @@ void BatterySource::run()
 {
     // adaptor
     QFile acFile(QString("%1/AC/online").arg(m_acpiPath));
-    if (acFile.open(QIODevice::ReadOnly))
+    if (acFile.open(QIODevice::ReadOnly | QIODevice::Text))
         m_values[QString("battery/ac")]
             = (QString(acFile.readLine()).trimmed().toInt() == 1);
     acFile.close();
@@ -116,8 +116,8 @@ void BatterySource::run()
             QString("%1/BAT%2/energy_now").arg(m_acpiPath).arg(i));
         QFile fullLevelFile(
             QString("%1/BAT%2/energy_full").arg(m_acpiPath).arg(i));
-        if ((currentLevelFile.open(QIODevice::ReadOnly))
-            && (fullLevelFile.open(QIODevice::ReadOnly))) {
+        if ((currentLevelFile.open(QIODevice::ReadOnly | QIODevice::Text))
+            && (fullLevelFile.open(QIODevice::ReadOnly | QIODevice::Text))) {
             float batCurrent
                 = QString(currentLevelFile.readLine()).trimmed().toFloat();
             float batFull

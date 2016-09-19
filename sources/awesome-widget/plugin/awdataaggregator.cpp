@@ -23,7 +23,6 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QPixmap>
-#include <QtConcurrent/QtConcurrent>
 
 #include <cmath>
 

@@ -188,7 +188,7 @@ Item {
                             for (var i = 0; i < model.length; i++) {
                                 if (model[i]["name"] == plasmoid.configuration.tooltipType) {
                                     if (debug) console.info("Found", model[i]["name"], "on", i)
-                                    tooltipType.currentIndex = i;
+                                    tooltipType.currentIndex = i
                                 }
                             }
                         }

@@ -70,7 +70,7 @@ Item {
                         horizontalAlignment: Text.AlignLeft
                         textFormat: Text.RichText
                         text: awActions.getAboutText("links")
-                        onLinkActivated: Qt.openUrlExternally(link);
+                        onLinkActivated: Qt.openUrlExternally(link)
                     }
 
                     QtControls.Label {
@@ -103,7 +103,7 @@ Item {
                         horizontalAlignment: Text.AlignJustify
                         textFormat: Text.RichText
                         text: awActions.getAboutText("3rdparty")
-                        onLinkActivated: Qt.openUrlExternally(link);
+                        onLinkActivated: Qt.openUrlExternally(link)
                     }
 
                     QtControls.Label {
@@ -114,7 +114,7 @@ Item {
                         verticalAlignment: Text.AlignTop
                         textFormat: Text.RichText
                         text: awActions.getAboutText("thanks")
-                        onLinkActivated: Qt.openUrlExternally(link);
+                        onLinkActivated: Qt.openUrlExternally(link)
                     }
                 }
             }

@@ -16,40 +16,35 @@
  ***************************************************************************/
 
 
-#ifndef AWACTIONS_H
-#define AWACTIONS_H
+#ifndef TESTAWTELEMETRYHANDLER_H
+#define TESTAWTELEMETRYHANDLER_H
 
-#include <QMap>
 #include <QObject>
 
 
-class AWUpdateHelper;
+class AWTelemetryHandler;
 
-class AWActions : public QObject
+class TestAWTelemetryHandler : public QObject
 {
     Q_OBJECT
 
-public:
-    explicit AWActions(QObject *parent = nullptr);
-    virtual ~AWActions();
-    Q_INVOKABLE void checkUpdates(const bool showAnyway = false);
-    Q_INVOKABLE QString getFileContent(const QString path) const;
-    Q_INVOKABLE bool isDebugEnabled() const;
-    Q_INVOKABLE bool runCmd(const QString cmd = QString("/usr/bin/true")) const;
-    Q_INVOKABLE void showLegacyInfo() const;
-    Q_INVOKABLE void showReadme() const;
-    // configuration slots
-    Q_INVOKABLE QString getAboutText(const QString type
-                                     = QString("header")) const;
-    Q_INVOKABLE QVariantMap getFont(const QVariantMap defaultFont) const;
-
-public slots:
-    Q_INVOKABLE static void sendNotification(const QString eventId,
-                                             const QString message);
+private slots:
+    // initialization
+    void initTestCase();
+    void cleanupTestCase();
+    // test
+    void test_put();
+    void test_get();
+    void test_getLast();
+    void test_uploadTelemetry();
 
 private:
-    AWUpdateHelper *m_updateHelper = nullptr;
+    AWTelemetryHandler *plugin = nullptr;
+    QString telemetryData;
+    QString telemetryGroup;
+    QString telemetryId = QString("autotest");
+    QString telemetryValidGroup = QString("awwidgetconfig");
 };
 
 
-#endif /* AWACTIONS_H */
+#endif /* TESTAWTELEMETRYHANDLER_H */

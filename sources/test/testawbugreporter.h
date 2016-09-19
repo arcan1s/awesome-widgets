@@ -16,40 +16,30 @@
  ***************************************************************************/
 
 
-#ifndef AWACTIONS_H
-#define AWACTIONS_H
+#ifndef TESTAWBUGREPORTER_H
+#define TESTAWBUGREPORTER_H
 
-#include <QMap>
 #include <QObject>
 
 
-class AWUpdateHelper;
+class AWBugReporter;
 
-class AWActions : public QObject
+class TestAWBugReporter : public QObject
 {
     Q_OBJECT
 
-public:
-    explicit AWActions(QObject *parent = nullptr);
-    virtual ~AWActions();
-    Q_INVOKABLE void checkUpdates(const bool showAnyway = false);
-    Q_INVOKABLE QString getFileContent(const QString path) const;
-    Q_INVOKABLE bool isDebugEnabled() const;
-    Q_INVOKABLE bool runCmd(const QString cmd = QString("/usr/bin/true")) const;
-    Q_INVOKABLE void showLegacyInfo() const;
-    Q_INVOKABLE void showReadme() const;
-    // configuration slots
-    Q_INVOKABLE QString getAboutText(const QString type
-                                     = QString("header")) const;
-    Q_INVOKABLE QVariantMap getFont(const QVariantMap defaultFont) const;
-
-public slots:
-    Q_INVOKABLE static void sendNotification(const QString eventId,
-                                             const QString message);
+private slots:
+    // initialization
+    void initTestCase();
+    void cleanupTestCase();
+    // test
+    void test_generateText();
+    void test_sendBugReport();
 
 private:
-    AWUpdateHelper *m_updateHelper = nullptr;
+    AWBugReporter *plugin = nullptr;
+    QStringList data;
 };
 
 
-#endif /* AWACTIONS_H */
+#endif /* TESTAWBUGREPORTER_H */

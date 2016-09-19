@@ -36,11 +36,13 @@
 #define AWEWAPI 3
 // formatter api version
 #define AWEFAPI 2
+// telemetry api version
+#define AWTEAPI 1
 // network requests timeout, ms
 #define REQUEST_TIMEOUT 3000
 // available time keys
 #define TIME_KEYS                                                              \
-    "dddd,ddd,dd,d,MMMM,MMM,MM,M,yyyy,yy,hh,h,HH,H,mm,m,ss,s,t,ap,a,AP,A"
+    "d,dd,ddd,dddd,M,MM,MMM,MMMM,yy,yyyy,h,hh,H,HH,m,mm,s,ss,t,a,ap,A,AP"
 // static keys
 #define STATIC_KEYS                                                            \
     "time,isotime,shorttime,longtime,tstime,ctime,uptime,cuptime,cpucl,cpu,"   \
@@ -61,6 +63,7 @@
 #define VERSION_API                                                            \
     "https://api.github.com/repos/arcan1s/awesome-widgets/releases"
 #define BUGTRACKER "https://github.com/arcan1s/awesome-widgets/issues"
+#define BUGTRACKER_API "http://arcanis.me/repos/arcan1s/awesome-widgets/issues"
 #define TRANSLATION "https://github.com/arcan1s/awesome-widgets/issues/14"
 #define AUR_PACKAGES                                                           \
     "https://aur.archlinux.org/packages/plasma5-applet-awesome-widgets/"

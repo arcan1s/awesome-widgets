@@ -91,6 +91,7 @@ for more details. To avoid manual labor there is automatic cmake target named
 * 'true ? foo : bar' construction is allowed and recommended for one-line assignment.
 * Any global pointer should be assign to `nullptr` after deletion and before
   initialization. Exception: if object is deleted into class destructor.
+* Do not use semicolon in qml files unless it is required.
 
 Comments
 --------

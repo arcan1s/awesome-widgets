@@ -26,7 +26,6 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QSettings>
-#include <QtConcurrent/QtConcurrent>
 
 #include "awdebug.h"
 
@@ -145,13 +144,16 @@ void AWUpdateHelper::userReplyOnUpdates(QAbstractButton *button)
 void AWUpdateHelper::versionReplyRecieved(QNetworkReply *reply,
                                           const bool showAnyway)
 {
-    qCDebug(LOG_AW) << "Return code" << reply->error() << "with message"
-                    << reply->errorString() << "and show anyway" << showAnyway;
+    qCDebug(LOG_AW) << "Show message anyway" << showAnyway;
+    if (reply->error() != QNetworkReply::NoError) {
+        qCWarning(LOG_AW) << "An error occurs" << reply->error()
+                          << "with message" << reply->errorString();
+        return;
+    }
 
     QJsonParseError error;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll(), &error);
-    if ((reply->error() != QNetworkReply::NoError)
-        || (error.error != QJsonParseError::NoError)) {
+    if (error.error != QJsonParseError::NoError) {
         qCWarning(LOG_AW) << "Parse error" << error.errorString();
         return;
     }

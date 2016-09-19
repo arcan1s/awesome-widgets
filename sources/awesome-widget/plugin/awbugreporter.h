@@ -16,40 +16,40 @@
  ***************************************************************************/
 
 
-#ifndef AWACTIONS_H
-#define AWACTIONS_H
+#ifndef AWBUGREPORTER_H
+#define AWBUGREPORTER_H
 
-#include <QMap>
 #include <QObject>
 
 
-class AWUpdateHelper;
+class QAbstractButton;
+class QNetworkReply;
 
-class AWActions : public QObject
+class AWBugReporter : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit AWActions(QObject *parent = nullptr);
-    virtual ~AWActions();
-    Q_INVOKABLE void checkUpdates(const bool showAnyway = false);
-    Q_INVOKABLE QString getFileContent(const QString path) const;
-    Q_INVOKABLE bool isDebugEnabled() const;
-    Q_INVOKABLE bool runCmd(const QString cmd = QString("/usr/bin/true")) const;
-    Q_INVOKABLE void showLegacyInfo() const;
-    Q_INVOKABLE void showReadme() const;
-    // configuration slots
-    Q_INVOKABLE QString getAboutText(const QString type
-                                     = QString("header")) const;
-    Q_INVOKABLE QVariantMap getFont(const QVariantMap defaultFont) const;
+    explicit AWBugReporter(QObject *parent = nullptr);
+    virtual ~AWBugReporter();
+    Q_INVOKABLE void doConnect();
+    Q_INVOKABLE QString generateText(const QString description,
+                                     const QString reproduce,
+                                     const QString expected,
+                                     const QString logs) const;
+    Q_INVOKABLE void sendBugReport(const QString title, const QString body);
 
-public slots:
-    Q_INVOKABLE static void sendNotification(const QString eventId,
-                                             const QString message);
+signals:
+    void replyReceived(const int number, const QString url);
+
+private slots:
+    void issueReplyRecieved(QNetworkReply *reply);
+    void showInformation(const int number, const QString url);
+    void userReplyOnBugReport(QAbstractButton *button);
 
 private:
-    AWUpdateHelper *m_updateHelper = nullptr;
+    QString m_lastBugUrl;
 };
 
 
-#endif /* AWACTIONS_H */
+#endif /* AWBUGREPORTER_H */

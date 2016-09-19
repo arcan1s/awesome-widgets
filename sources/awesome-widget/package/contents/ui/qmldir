@@ -1,1 +1,2 @@
 singleton general 1.0 general.qml
+BugReport ./BugReport.qml

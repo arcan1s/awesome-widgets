@@ -16,40 +16,49 @@
  ***************************************************************************/
 
 
-#ifndef AWACTIONS_H
-#define AWACTIONS_H
+#ifndef AWTELEMETRYHANDLER_H
+#define AWTELEMETRYHANDLER_H
 
-#include <QMap>
 #include <QObject>
+#include <QtCore/QVariant>
 
 
-class AWUpdateHelper;
+class QAbstractButton;
+class QNetworkReply;
 
-class AWActions : public QObject
+class AWTelemetryHandler : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit AWActions(QObject *parent = nullptr);
-    virtual ~AWActions();
-    Q_INVOKABLE void checkUpdates(const bool showAnyway = false);
-    Q_INVOKABLE QString getFileContent(const QString path) const;
-    Q_INVOKABLE bool isDebugEnabled() const;
-    Q_INVOKABLE bool runCmd(const QString cmd = QString("/usr/bin/true")) const;
-    Q_INVOKABLE void showLegacyInfo() const;
-    Q_INVOKABLE void showReadme() const;
-    // configuration slots
-    Q_INVOKABLE QString getAboutText(const QString type
-                                     = QString("header")) const;
-    Q_INVOKABLE QVariantMap getFont(const QVariantMap defaultFont) const;
+    const char *REMOTE_TELEMETRY_URL = "http://arcanis.me/telemetry";
+    const int REMOTE_TELEMETRY_PORT = 8080;
 
-public slots:
-    Q_INVOKABLE static void sendNotification(const QString eventId,
-                                             const QString message);
+    explicit AWTelemetryHandler(QObject *parent = nullptr,
+                                const QString clientId = QString());
+    virtual ~AWTelemetryHandler();
+    Q_INVOKABLE QStringList get(const QString group) const;
+    Q_INVOKABLE QString getLast(const QString group) const;
+    Q_INVOKABLE bool put(const QString group, const QString value) const;
+    Q_INVOKABLE void uploadTelemetry(const QString group, const QString value);
+
+signals:
+    void replyReceived(QString message);
+
+private slots:
+    void telemetryReplyRecieved(QNetworkReply *reply);
 
 private:
-    AWUpdateHelper *m_updateHelper = nullptr;
+    QString getKey(const int count) const;
+    void init();
+    bool setConfiguration(const QString key, const QVariant value,
+                          const bool override) const;
+    QString m_clientId;
+    QString m_genericConfig;
+    QString m_localFile;
+    int m_storeCount = 0;
+    bool m_uploadEnabled = false;
 };
 
 
-#endif /* AWACTIONS_H */
+#endif /* AWTELEMETRYHANDLER_H */

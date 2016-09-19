@@ -16,40 +16,60 @@
  ***************************************************************************/
 
 
-#ifndef AWACTIONS_H
-#define AWACTIONS_H
+#include "testawtelemetryhandler.h"
 
-#include <QMap>
-#include <QObject>
+#include <QtTest>
+
+#include "awtelemetryhandler.h"
+#include "awtestlibrary.h"
 
 
-class AWUpdateHelper;
-
-class AWActions : public QObject
+void TestAWTelemetryHandler::initTestCase()
 {
-    Q_OBJECT
-
-public:
-    explicit AWActions(QObject *parent = nullptr);
-    virtual ~AWActions();
-    Q_INVOKABLE void checkUpdates(const bool showAnyway = false);
-    Q_INVOKABLE QString getFileContent(const QString path) const;
-    Q_INVOKABLE bool isDebugEnabled() const;
-    Q_INVOKABLE bool runCmd(const QString cmd = QString("/usr/bin/true")) const;
-    Q_INVOKABLE void showLegacyInfo() const;
-    Q_INVOKABLE void showReadme() const;
-    // configuration slots
-    Q_INVOKABLE QString getAboutText(const QString type
-                                     = QString("header")) const;
-    Q_INVOKABLE QVariantMap getFont(const QVariantMap defaultFont) const;
-
-public slots:
-    Q_INVOKABLE static void sendNotification(const QString eventId,
-                                             const QString message);
-
-private:
-    AWUpdateHelper *m_updateHelper = nullptr;
-};
+    plugin = new AWTelemetryHandler(this, telemetryId);
+    telemetryData = AWTestLibrary::randomString();
+    telemetryGroup = AWTestLibrary::randomString();
+}
 
 
-#endif /* AWACTIONS_H */
+void TestAWTelemetryHandler::cleanupTestCase()
+{
+    delete plugin;
+}
+
+
+void TestAWTelemetryHandler::test_put()
+{
+    QVERIFY(plugin->put(telemetryGroup, telemetryData));
+}
+
+
+void TestAWTelemetryHandler::test_get()
+{
+    QStringList output = plugin->get(telemetryGroup);
+
+    QVERIFY(!output.isEmpty());
+    QCOMPARE(QSet<QString>::fromList(output).count(), output.count());
+    QVERIFY(output.contains(telemetryData));
+}
+
+
+void TestAWTelemetryHandler::test_getLast()
+{
+    QCOMPARE(telemetryData, plugin->getLast(telemetryGroup));
+}
+
+
+void TestAWTelemetryHandler::test_uploadTelemetry()
+{
+    QSignalSpy spy(plugin, SIGNAL(replyReceived(QString)));
+    plugin->uploadTelemetry(telemetryValidGroup, telemetryData);
+
+    QVERIFY(spy.wait(5000));
+    QVariantList arguments = spy.takeFirst();
+
+    QCOMPARE(arguments.at(0).toString(), QString("saved"));
+}
+
+
+QTEST_MAIN(TestAWTelemetryHandler);

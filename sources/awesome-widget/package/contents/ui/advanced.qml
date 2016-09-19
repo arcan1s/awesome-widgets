@@ -288,7 +288,7 @@ Item {
                     for (var i = 0; i < model.length; i++) {
                         if (model[i]["name"] == plasmoid.configuration.tempUnits) {
                             if (debug) console.info("Found", model[i]["name"], "on", i)
-                            tempUnits.currentIndex = i;
+                            tempUnits.currentIndex = i
                         }
                     }
                 }

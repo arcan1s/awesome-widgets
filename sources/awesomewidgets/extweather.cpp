@@ -336,15 +336,17 @@ void ExtWeather::writeConfiguration() const
 
 void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
 {
-    qCDebug(LOG_LIB) << "Return code" << reply->error() << "with message"
-                     << reply->errorString();
+    if (reply->error() != QNetworkReply::NoError) {
+        qCWarning(LOG_AW) << "An error occurs" << reply->error()
+                          << "with message" << reply->errorString();
+        return;
+    }
 
     m_isRunning = false;
     QJsonParseError error;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll(), &error);
     reply->deleteLater();
-    if ((reply->error() != QNetworkReply::NoError)
-        || (error.error != QJsonParseError::NoError)) {
+    if (error.error != QJsonParseError::NoError) {
         qCWarning(LOG_LIB) << "Parse error" << error.errorString();
         return;
     }

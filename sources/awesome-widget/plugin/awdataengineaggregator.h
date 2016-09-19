@@ -44,6 +44,7 @@ public slots:
     void reconnectSources(const int interval);
 
 private:
+    void createQueuedConnection();
     Plasma::DataEngineConsumer *m_consumer = nullptr;
     QHash<QString, Plasma::DataEngine *> m_dataEngines;
 };

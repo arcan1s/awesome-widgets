@@ -16,40 +16,50 @@
  ***************************************************************************/
 
 
-#ifndef AWACTIONS_H
-#define AWACTIONS_H
+#include "testawbugreporter.h"
 
-#include <QMap>
-#include <QObject>
+#include <QtTest>
+
+#include "awbugreporter.h"
+#include "awtestlibrary.h"
 
 
-class AWUpdateHelper;
-
-class AWActions : public QObject
+void TestAWBugReporter::initTestCase()
 {
-    Q_OBJECT
-
-public:
-    explicit AWActions(QObject *parent = nullptr);
-    virtual ~AWActions();
-    Q_INVOKABLE void checkUpdates(const bool showAnyway = false);
-    Q_INVOKABLE QString getFileContent(const QString path) const;
-    Q_INVOKABLE bool isDebugEnabled() const;
-    Q_INVOKABLE bool runCmd(const QString cmd = QString("/usr/bin/true")) const;
-    Q_INVOKABLE void showLegacyInfo() const;
-    Q_INVOKABLE void showReadme() const;
-    // configuration slots
-    Q_INVOKABLE QString getAboutText(const QString type
-                                     = QString("header")) const;
-    Q_INVOKABLE QVariantMap getFont(const QVariantMap defaultFont) const;
-
-public slots:
-    Q_INVOKABLE static void sendNotification(const QString eventId,
-                                             const QString message);
-
-private:
-    AWUpdateHelper *m_updateHelper = nullptr;
-};
+    plugin = new AWBugReporter(this);
+}
 
 
-#endif /* AWACTIONS_H */
+void TestAWBugReporter::cleanupTestCase()
+{
+    delete plugin;
+}
+
+
+void TestAWBugReporter::test_generateText()
+{
+    data = AWTestLibrary::randomStringList(4);
+    QString output
+        = plugin->generateText(data.at(0), data.at(1), data.at(2), data.at(3));
+
+    for (auto string : data)
+        QVERIFY(output.contains(string));
+}
+
+
+void TestAWBugReporter::test_sendBugReport()
+{
+    QSignalSpy spy(plugin, SIGNAL(replyReceived(bool, QString)));
+    plugin->sendBugReport(
+        AWTestLibrary::randomString(),
+        plugin->generateText(data.at(0), data.at(1), data.at(2), data.at(3)));
+
+    QVERIFY(spy.wait(5000));
+    QVariantList arguments = spy.takeFirst();
+
+    QVERIFY(arguments.at(0).toInt() > 0);
+    QVERIFY(!arguments.at(1).toString().isEmpty());
+}
+
+
+QTEST_MAIN(TestAWBugReporter);

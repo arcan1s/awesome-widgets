@@ -83,7 +83,7 @@ Item {
                 MouseArea {
                     hoverEnabled: true
                     anchors.fill: parent
-                    onClicked: dpAdds.setCurrentDesktop(index + 1);
+                    onClicked: dpAdds.setCurrentDesktop(index + 1)
                     onEntered: needTooltipUpdate()
                 }
 

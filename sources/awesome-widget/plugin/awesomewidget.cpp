@@ -20,9 +20,11 @@
 #include <QtQml>
 
 #include "awactions.h"
+#include "awbugreporter.h"
 #include "awconfighelper.h"
 #include "awformatterconfigfactory.h"
 #include "awkeys.h"
+#include "awtelemetryhandler.h"
 
 
 void AWPlugin::registerTypes(const char *uri)
@@ -30,8 +32,10 @@ void AWPlugin::registerTypes(const char *uri)
     Q_ASSERT(uri == QLatin1String("org.kde.plasma.private.awesomewidget"));
 
     qmlRegisterType<AWActions>(uri, 1, 0, "AWActions");
+    qmlRegisterType<AWBugReporter>(uri, 1, 0, "AWBugReporter");
     qmlRegisterType<AWConfigHelper>(uri, 1, 0, "AWConfigHelper");
     qmlRegisterType<AWFormatterConfigFactory>(uri, 1, 0,
                                               "AWFormatterConfigFactory");
     qmlRegisterType<AWKeys>(uri, 1, 0, "AWKeys");
+    qmlRegisterType<AWTelemetryHandler>(uri, 1, 0, "AWTelemetryHandler");
 }
