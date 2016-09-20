@@ -15,48 +15,49 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#include "awformatterconfig.h"
-#include "ui_awformatterconfig.h"
+#include "awcustomkeys.h"
+#include "ui_awcustomkeys.h"
 
-#include <KI18n/KLocalizedString>
-
-#include <QPushButton>
+#include <QSet>
+#include <QSettings>
+#include <QStandardPaths>
 
 #include "awabstractselector.h"
 #include "awdebug.h"
-#include "awformatterhelper.h"
 
 
-AWFormatterConfig::AWFormatterConfig(QWidget *parent, const QStringList keys)
+AWCustomKeys::AWCustomKeys(QWidget *parent, const QStringList sources)
     : QDialog(parent)
-    , ui(new Ui::AWFormatterConfig)
-    , m_keys(keys)
+    , ui(new Ui::AWCustomKeys)
+    , m_sources(sources)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
+    m_filePath = QString("awesomewidgets/custom.ini");
     ui->setupUi(this);
-    m_editButton
-        = ui->buttonBox->addButton(i18n("Edit"), QDialogButtonBox::ActionRole);
-    init();
+    initKeys();
 
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(ui->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-    connect(m_editButton, SIGNAL(clicked(bool)), this, SLOT(editFormatters()));
 }
 
 
-AWFormatterConfig::~AWFormatterConfig()
+AWCustomKeys::~AWCustomKeys()
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
     clearSelectors();
-
-    delete m_helper;
     delete ui;
 }
 
 
-void AWFormatterConfig::showDialog()
+QStringList AWCustomKeys::customKeys() const
+{
+    return m_keys.keys();
+}
+
+
+void AWCustomKeys::showDialog()
 {
     // update dialog
     updateDialog();
@@ -65,14 +66,21 @@ void AWFormatterConfig::showDialog()
 }
 
 
-void AWFormatterConfig::editFormatters()
+QVariant AWCustomKeys::valueForKey(const QString &key, const QVariantHash &data)
 {
-    m_helper->editItems();
-    updateDialog();
+    qCDebug(LOG_AW) << "Find value for key" << key << "in data";
+
+    return data[m_keys[key]];
 }
 
 
-void AWFormatterConfig::updateUi()
+QStringList AWCustomKeys::usedSources() const
+{
+    return QSet<QString>::fromList(m_keys.values()).toList();
+}
+
+
+void AWCustomKeys::updateUi()
 {
     QPair<QString, QString> current
         = static_cast<AWAbstractSelector *>(sender())->current();
@@ -90,29 +98,25 @@ void AWFormatterConfig::updateUi()
         // add new selector if something changed
         if (sender() != m_selectors.last())
             return;
-        auto keys = initKeys();
-        addSelector(keys.first, keys.second, QPair<QString, QString>());
+        addSelector(QPair<QString, QString>());
     }
 }
 
 
-void AWFormatterConfig::addSelector(const QStringList &keys,
-                                    const QStringList &values,
-                                    const QPair<QString, QString> &current)
+void AWCustomKeys::addSelector(const QPair<QString, QString> &current)
 {
-    qCDebug(LOG_AW) << "Add selector with keys" << keys << "values" << values
-                    << "and current ones" << current;
+    qCDebug(LOG_AW) << "Add selector with current values" << current;
 
     AWAbstractSelector *selector
-        = new AWAbstractSelector(ui->scrollAreaWidgetContents);
-    selector->init(keys, values, current);
+        = new AWAbstractSelector(ui->scrollAreaWidgetContents, {true, false});
+    selector->init(QStringList(), m_sources, current);
     ui->verticalLayout->insertWidget(ui->verticalLayout->count() - 1, selector);
     connect(selector, SIGNAL(selectionChanged()), this, SLOT(updateUi()));
     m_selectors.append(selector);
 }
 
 
-void AWFormatterConfig::clearSelectors()
+void AWCustomKeys::clearSelectors()
 {
     for (auto selector : m_selectors) {
         disconnect(selector, SIGNAL(selectionChanged()), this,
@@ -124,15 +128,15 @@ void AWFormatterConfig::clearSelectors()
 }
 
 
-void AWFormatterConfig::execDialog()
+void AWCustomKeys::execDialog()
 {
     int ret = exec();
-    QHash<QString, QString> data;
+    m_keys.clear();
     for (auto selector : m_selectors) {
         QPair<QString, QString> select = selector->current();
         if (select.first.isEmpty())
             continue;
-        data[select.first] = select.second;
+        m_keys[select.first] = select.second;
     }
 
     // save configuration if required
@@ -141,43 +145,66 @@ void AWFormatterConfig::execDialog()
         break;
     case 1:
     default:
-        m_helper->writeFormatters(data);
-        m_helper->removeUnusedFormatters(data.keys());
+        writeKeys();
         break;
     }
 }
 
 
-void AWFormatterConfig::init()
+void AWCustomKeys::initKeys()
 {
-    delete m_helper;
-    m_helper = new AWFormatterHelper(this);
+    m_keys.clear();
+
+    QStringList configs = QStandardPaths::locateAll(
+        QStandardPaths::GenericDataLocation, m_filePath);
+
+    for (auto fileName : configs) {
+        QSettings settings(fileName, QSettings::IniFormat);
+        qCInfo(LOG_AW) << "Configuration file" << settings.fileName();
+
+        settings.beginGroup(QString("Custom"));
+        QStringList keys = settings.childKeys();
+        for (auto key : keys) {
+            QString source = settings.value(key).toString();
+            qCInfo(LOG_AW) << "Found custom key" << key << "for source"
+                           << source << "in" << settings.fileName();
+            if (source.isEmpty()) {
+                qCInfo(LOG_AW) << "Skip empty source for" << key;
+                continue;
+            }
+            m_keys[key] = source;
+        }
+        settings.endGroup();
+    }
 }
 
 
-QPair<QStringList, QStringList> AWFormatterConfig::initKeys() const
-{
-    // we are adding empty string at the start
-    QStringList keys = QStringList() << QString("");
-    keys.append(m_keys);
-    keys.sort();
-    QStringList knownFormatters = QStringList() << QString("");
-    knownFormatters.append(m_helper->knownFormatters());
-    knownFormatters.sort();
-
-    return QPair<QStringList, QStringList>(keys, knownFormatters);
-}
-
-
-void AWFormatterConfig::updateDialog()
+void AWCustomKeys::updateDialog()
 {
     clearSelectors();
-    QHash<QString, QString> appliedFormatters = m_helper->getFormatters();
-    auto keys = initKeys();
 
-    for (auto key : appliedFormatters.keys())
-        addSelector(keys.first, keys.second,
-                    QPair<QString, QString>(key, appliedFormatters[key]));
+    for (auto key : m_keys.keys())
+        addSelector(QPair<QString, QString>(key, m_keys[key]));
     // empty one
-    addSelector(keys.first, keys.second, QPair<QString, QString>());
+    addSelector(QPair<QString, QString>());
+}
+
+
+bool AWCustomKeys::writeKeys() const
+{
+    QString fileName = QString("%1/%2")
+                           .arg(QStandardPaths::writableLocation(
+                               QStandardPaths::GenericDataLocation))
+                           .arg(m_filePath);
+    QSettings settings(fileName, QSettings::IniFormat);
+    qCInfo(LOG_AW) << "Configuration file" << fileName;
+
+    settings.beginGroup(QString("Custom"));
+    for (auto key : m_keys.keys())
+        settings.setValue(key, m_keys[key]);
+    settings.endGroup();
+
+    settings.sync();
+
+    return (settings.status() == QSettings::NoError);
 }
