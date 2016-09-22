@@ -104,6 +104,9 @@ Item {
         font.pointSize: plasmoid.configuration.fontSize
         font.weight: general.fontWeight[plasmoid.configuration.fontWeight]
 
+        style: general.textStyle[plasmoid.configuration.textStyle]
+        styleColor: plasmoid.configuration.textStyleColor
+
         PlasmaCore.ToolTipArea {
             height: tooltip.height
             width: tooltip.width

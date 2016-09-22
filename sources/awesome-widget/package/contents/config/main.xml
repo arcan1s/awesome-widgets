@@ -138,6 +138,12 @@
         <entry name="fontStyle" type="string">
             <default>normal</default>
         </entry>
+        <entry name="textStyle" type="string">
+            <default>normal</default>
+        </entry>
+        <entry name="textStyleColor" type="string">
+            <default>#000000</default>
+        </entry>
     </group>
 
 </kcfg>
