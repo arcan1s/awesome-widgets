@@ -49,6 +49,8 @@ Item {
     property string cfg_currentFontWeight: fontWeight.currentText
     property string cfg_currentFontStyle: fontStyle.currentText
     property alias cfg_currentFontColor: selectColor.text
+    property alias cfg_currentTextStyleColor: selectStyleColor.text
+    property string cfg_currentTextStyle: textStyle.currentText
 
 
     Column {
@@ -204,6 +206,74 @@ Item {
                 onClicked: colorDialog.visible = true
             }
         }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.height
+                width: parent.width / 3
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+                text: i18n("Style")
+            }
+            QtControls.ComboBox {
+                id: textStyle
+                width: parent.width * 2 / 3
+                textRole: "label"
+                model: [
+                    {
+                        'label': i18n("normal"),
+                        'name': "normal"
+                    },
+                    {
+                        'label': i18n("outline"),
+                        'name': "outline"
+                    },
+                    {
+                        'label': i18n("raised"),
+                        'name': "raised"
+                    },
+                    {
+                        'label': i18n("sunken"),
+                        'name': "sunken"
+                    }
+                ]
+                onCurrentIndexChanged: cfg_currentTextStyle = model[currentIndex]["name"]
+                Component.onCompleted: {
+                    if (debug) console.debug()
+                    for (var i = 0; i < model.length; i++) {
+                        if (model[i]["name"] == plasmoid.configuration.currentTextStyle) {
+                            if (debug) console.info("Found", model[i]["name"], "on", i)
+                            textStyle.currentIndex = i
+                        }
+                    }
+                }
+            }
+        }
+
+        Row {
+            height: implicitHeight
+            width: parent.width
+            QtControls.Label {
+                height: parent.height
+                width: parent.width / 3
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
+                text: i18n("Style color")
+            }
+            QtControls.Button {
+                id: selectStyleColor
+                width: parent.width * 2 / 3
+                style: QtStyles.ButtonStyle {
+                    background: Rectangle {
+                        color: plasmoid.configuration.currentTextStyleColor
+                    }
+                }
+                text: plasmoid.configuration.currentTextStyleColor
+                onClicked: textStyleColorDialog.visible = true
+            }
+        }
     }
 
     QtDialogs.ColorDialog {
@@ -211,6 +281,13 @@ Item {
         title: i18n("Select a color")
         color: selectColor.text
         onAccepted: selectColor.text = colorDialog.color
+    }
+
+    QtDialogs.ColorDialog {
+        id: textStyleColorDialog
+        title: i18n("Select a color")
+        color: selectStyleColor.text
+        onAccepted: selectStyleColor.text = textStyleColorDialog.color
     }
 
     QtDialogs.FontDialog {

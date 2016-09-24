@@ -33,4 +33,10 @@ QtObject {
         "right": Text.AlignRight,
         "justify": Text.AlignJustify
     }
+    property variant textStyle: {
+        "normal": Text.Normal,
+        "outline": Text.Outline,
+        "raised": Text.Raised,
+        "sunken": Text.Sunken
+    }
 }
