@@ -60,102 +60,40 @@ Item {
     Column {
         id: pageColumn
         anchors.fill: parent
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.heigth
-                width: parent.width * 2 / 5
-            }
-            QtControls.CheckBox {
-                id: background
-                width: parent.width * 3 / 5
-                text: i18n("Enable background")
-            }
+
+        CheckBoxSelector {
+            id: background
+            text: i18n("Enable background")
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.heigth
-                width: parent.width * 2 / 5
-            }
-            QtControls.CheckBox {
-                id: translate
-                width: parent.width * 3 / 5
-                text: i18n("Translate strings")
-            }
+        CheckBoxSelector {
+            id: translate
+            text: i18n("Translate strings")
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.heigth
-                width: parent.width * 2 / 5
-            }
-            QtControls.CheckBox {
-                id: wrapNewLines
-                width: parent.width * 3 / 5
-                text: i18n("Wrap new lines")
-            }
+        CheckBoxSelector {
+            id: wrapNewLines
+            text: i18n("Wrap new lines")
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.heigth
-                width: parent.width * 2 / 5
-            }
-            QtControls.CheckBox {
-                id: wordWrap
-                width: parent.width * 3 / 5
-                text: i18n("Enable word wrap")
-            }
+        CheckBoxSelector {
+            id: wordWrap
+            text: i18n("Enable word wrap")
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.heigth
-                width: parent.width * 2 / 5
-            }
-            QtControls.CheckBox {
-                id: notify
-                width: parent.width * 3 / 5
-                text: i18n("Enable notifications")
-            }
+        CheckBoxSelector {
+            id: notify
+            text: i18n("Enable notifications")
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.heigth
-                width: parent.width * 2 / 5
-            }
-            QtControls.CheckBox {
-                id: updates
-                width: parent.width * 3 / 5
-                text: i18n("Check updates on startup")
-            }
+        CheckBoxSelector {
+            id: updates
+            text: i18n("Check updates on startup")
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.heigth
-                width: parent.width * 2 / 5
-            }
-            QtControls.CheckBox {
-                id: optimize
-                width: parent.width * 3 / 5
-                text: i18n("Optimize subscription")
-            }
+        CheckBoxSelector {
+            id: optimize
+            text: i18n("Optimize subscription")
         }
 
         Row {
