@@ -71,7 +71,7 @@ const char TRANSLATION[]
 const char AUR_PACKAGES[]
     = "https://aur.archlinux.org/packages/plasma5-applet-awesome-widgets/";
 const char OPENSUSE_PACKAGES[]
-    = "http://software.opensuse.org/package/awesome-widgets";
+    = "http://software.opensuse.org/package/plasma5-awesome-widgets";
 
 // build information
 const char BUILD_DATE[] = "@CURRENT_DATE@";
