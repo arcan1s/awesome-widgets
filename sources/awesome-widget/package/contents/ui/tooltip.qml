@@ -67,24 +67,13 @@ Item {
           text: i18n("CPU, CPU clock, memory, swap and network labels support graphical tooltip. To enable them just make needed checkbox checked.")
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Number of values for tooltips")
-            }
-            QtControls.SpinBox {
-                id: tooltipNumber
-                width: parent.width * 3 / 5
-                minimumValue: 50
-                maximumValue: 1000
-                stepSize: 25
-                value: plasmoid.configuration.tooltipNumber
-            }
+        IntegerSelector {
+            id: tooltipNumber
+            maximumValue: 1000
+            minimumValue: 50
+            stepSize: 25
+            text: i18n("Number of values for tooltips")
+            value: plasmoid.configuration.tooltipNumber
         }
 
         QtControls.GroupBox {

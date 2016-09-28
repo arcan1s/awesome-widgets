@@ -72,7 +72,7 @@ void TestAWKeys::cleanupTestCase()
 
 void TestAWKeys::test_hddDevices()
 {
-    QVERIFY(!plugin->getHddDevices().isEmpty());
+    QVERIFY(plugin->getHddDevices().count() > 2);
 }
 
 

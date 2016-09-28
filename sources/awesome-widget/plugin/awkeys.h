@@ -51,7 +51,7 @@ public:
     // keys
     Q_INVOKABLE QStringList dictKeys(const bool sorted = false,
                                      const QString regexp = QString()) const;
-    Q_INVOKABLE QStringList getHddDevices() const;
+    Q_INVOKABLE QVariantList getHddDevices() const;
     // values
     Q_INVOKABLE QString infoByKey(QString key) const;
     Q_INVOKABLE QString valueByKey(QString key) const;

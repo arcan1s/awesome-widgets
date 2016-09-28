@@ -46,11 +46,11 @@ Item {
 
     property alias cfg_fontFamily: selectFont.text
     property alias cfg_fontSize: fontSize.value
-    property string cfg_fontWeight: fontWeight.currentText
-    property string cfg_fontStyle: fontStyle.currentText
+    property string cfg_fontWeight: fontWeight.value
+    property string cfg_fontStyle: fontStyle.value
     property alias cfg_fontColor: selectColor.text
     property alias cfg_textStyleColor: selectStyleColor.text
-    property string cfg_textStyle: textStyle.currentText
+    property string cfg_textStyle: textStyle.value
 
 
     Column {
@@ -78,110 +78,59 @@ Item {
             }
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width / 3
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Font size")
-            }
-            QtControls.SpinBox {
-                id: fontSize
-                width: parent.width * 2 / 3
-                minimumValue: 8
-                maximumValue: 32
-                stepSize: 1
-                value: plasmoid.configuration.fontSize
-            }
+        IntegerSelector {
+            id: fontSize
+            maximumValue: 32
+            minimumValue: 8
+            stepSize: 1
+            text: i18n("Font size")
+            value: plasmoid.configuration.fontSize
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width / 3
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Font weight")
-            }
-            QtControls.ComboBox {
-                id: fontWeight
-                width: parent.width * 2 / 3
-                textRole: "label"
-                model: [
-                    {
-                        'label': i18n("light"),
-                        'name': "light"
-                    },
-                    {
-                        'label': i18n("normal"),
-                        'name': "normal"
-                    },
-                    {
-                        'label': i18n("demi bold"),
-                        'name': "demibold"
-                    },
-                    {
-                        'label': i18n("bold"),
-                        'name': "bold"
-                    },
-                    {
-                        'label': i18n("black"),
-                        'name': "black"
-                    }
-                ]
-                onCurrentIndexChanged: cfg_fontWeight = model[currentIndex]["name"]
-                Component.onCompleted: {
-                    if (debug) console.debug()
-                    for (var i = 0; i < model.length; i++) {
-                        if (model[i]["name"] == plasmoid.configuration.fontWeight) {
-                            if (debug) console.info("Found", model[i]["name"], "on", i)
-                            fontWeight.currentIndex = i
-                        }
-                    }
+        ComboBoxSelector {
+            id: fontWeight
+            model: [
+                {
+                    'label': i18n("light"),
+                    'name': "light"
+                },
+                {
+                    'label': i18n("normal"),
+                    'name': "normal"
+                },
+                {
+                    'label': i18n("demi bold"),
+                    'name': "demibold"
+                },
+                {
+                    'label': i18n("bold"),
+                    'name': "bold"
+                },
+                {
+                    'label': i18n("black"),
+                    'name': "black"
                 }
-            }
+            ]
+            text: i18n("Font weight")
+            value: plasmoid.configuration.fontWeight
+            onValueEdited: cfg_fontWeight = newValue
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width / 3
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Font style")
-            }
-            QtControls.ComboBox {
-                id: fontStyle
-                width: parent.width * 2 / 3
-                textRole: "label"
-                model: [
-                    {
-                        'label': i18n("normal"),
-                        'name': "normal"
-                    },
-                    {
-                        'label': i18n("italic"),
-                        'name': "italic"
-                    }
-                ]
-                onCurrentIndexChanged: cfg_fontStyle = model[currentIndex]["name"]
-                Component.onCompleted: {
-                    if (debug) console.debug()
-                    for (var i = 0; i < model.length; i++) {
-                        if (model[i]["name"] == plasmoid.configuration.fontStyle) {
-                            if (debug) console.info("Found", model[i]["name"], "on", i)
-                            fontStyle.currentIndex = i
-                        }
-                    }
+        ComboBoxSelector {
+            id: fontStyle
+            model: [
+                {
+                    'label': i18n("normal"),
+                    'name': "normal"
+                },
+                {
+                    'label': i18n("italic"),
+                    'name': "italic"
                 }
-            }
+            ]
+            text: i18n("Font style")
+            value: plasmoid.configuration.fontStyle
+            onValueEdited: cfg_fontStyle = newValue
         }
 
         Row {
@@ -207,49 +156,29 @@ Item {
             }
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width / 3
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Style")
-            }
-            QtControls.ComboBox {
-                id: textStyle
-                width: parent.width * 2 / 3
-                textRole: "label"
-                model: [
-                    {
-                        'label': i18n("normal"),
-                        'name': "normal"
-                    },
-                    {
-                        'label': i18n("outline"),
-                        'name': "outline"
-                    },
-                    {
-                        'label': i18n("raised"),
-                        'name': "raised"
-                    },
-                    {
-                        'label': i18n("sunken"),
-                        'name': "sunken"
-                    }
-                ]
-                onCurrentIndexChanged: cfg_textStyle = model[currentIndex]["name"]
-                Component.onCompleted: {
-                    if (debug) console.debug()
-                    for (var i = 0; i < model.length; i++) {
-                        if (model[i]["name"] == plasmoid.configuration.textStyle) {
-                            if (debug) console.info("Found", model[i]["name"], "on", i)
-                            textStyle.currentIndex = i
-                        }
-                    }
+        ComboBoxSelector {
+            id: textStyle
+            model: [
+                {
+                    'label': i18n("normal"),
+                    'name': "normal"
+                },
+                {
+                    'label': i18n("outline"),
+                    'name': "outline"
+                },
+                {
+                    'label': i18n("raised"),
+                    'name': "raised"
+                },
+                {
+                    'label': i18n("sunken"),
+                    'name': "sunken"
                 }
-            }
+            ]
+            text: i18n("Style")
+            value: plasmoid.configuration.textStyle
+            onValueEdited: cfg_textStyle = newValue
         }
 
         Row {

@@ -153,12 +153,21 @@ QStringList AWKeys::dictKeys(const bool sorted, const QString regexp) const
 }
 
 
-QStringList AWKeys::getHddDevices() const
+QVariantList AWKeys::getHddDevices() const
 {
-    QStringList devices = m_keyOperator->devices(QString("hdd"));
+    QStringList hddDevices = m_keyOperator->devices(QString("hdd"));
     // required by selector in the UI
-    devices.insert(0, QString("disable"));
-    devices.insert(0, QString("auto"));
+    hddDevices.insert(0, QString("disable"));
+    hddDevices.insert(0, QString("auto"));
+
+    // build model
+    QVariantList devices;
+    for (auto device : hddDevices) {
+        QVariantMap model;
+        model[QString("label")] = device;
+        model[QString("name")] = device;
+        devices.append(model);
+    }
 
     return devices;
 }

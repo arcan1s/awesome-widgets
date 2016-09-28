@@ -1,3 +1,6 @@
 singleton general 1.0 general.qml
 BugReport ./BugReport.qml
 CheckBoxSelector ./CheckBoxSelector.qml
+ComboBoxSelector ./ComboBoxSelector.qml
+IntegerSelector ./IntegerSelector.qml
+LineSelector ./LineSelector.qml

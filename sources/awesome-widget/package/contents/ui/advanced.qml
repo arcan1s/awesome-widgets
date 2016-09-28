@@ -50,11 +50,11 @@ Item {
     property alias cfg_width: widgetWidth.value
     property alias cfg_interval: update.value
     property alias cfg_queueLimit: queueLimit.value
-    property string cfg_tempUnits: tempUnits.currentText
-    property alias cfg_customTime: customTime.text
-    property alias cfg_customUptime: customUptime.text
-    property alias cfg_acOnline: acOnline.text
-    property alias cfg_acOffline: acOffline.text
+    property string cfg_tempUnits: tempUnits.value
+    property alias cfg_customTime: customTime.value
+    property alias cfg_customUptime: customUptime.value
+    property alias cfg_acOnline: acOnline.value
+    property alias cfg_acOffline: acOffline.value
 
 
     Column {
@@ -96,209 +96,101 @@ Item {
             text: i18n("Optimize subscription")
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Widget height, px")
-            }
-            QtControls.SpinBox {
-                id: widgetHeight
-                width: parent.width * 3 / 5
-                minimumValue: 0
-                maximumValue: 4096
-                stepSize: 50
-                value: plasmoid.configuration.height
-            }
+        IntegerSelector {
+            id: widgetHeight
+            maximumValue: 4096
+            minimumValue: 0
+            stepSize: 50
+            text: i18n("Widget height, px")
+            value: plasmoid.configuration.height
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Widget width, px")
-            }
-            QtControls.SpinBox {
-                id: widgetWidth
-                width: parent.width * 3 / 5
-                minimumValue: 0
-                maximumValue: 4096
-                stepSize: 50
-                value: plasmoid.configuration.width
-            }
+        IntegerSelector {
+            id: widgetWidth
+            maximumValue: 4096
+            minimumValue: 0
+            stepSize: 50
+            text: i18n("Widget width, px")
+            value: plasmoid.configuration.width
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Time interval")
-            }
-            QtControls.SpinBox {
-                id: update
-                width: parent.width * 3 / 5
-                minimumValue: 1000
-                maximumValue: 10000
-                stepSize: 500
-                value: plasmoid.configuration.interval
-            }
+        IntegerSelector {
+            id: update
+            maximumValue: 10000
+            minimumValue: 1000
+            stepSize: 500
+            text: i18n("Time interval")
+            value: plasmoid.configuration.interval
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Messages queue limit")
-            }
-            QtControls.SpinBox {
-                id: queueLimit
-                width: parent.width * 3 / 5
-                minimumValue: 0
-                maximumValue: 99
-                stepSize: 1
-                value: plasmoid.configuration.queueLimit
-            }
+        IntegerSelector {
+            id: queueLimit
+            maximumValue: 99
+            minimumValue: 0
+            stepSize: 1
+            text: i18n("Messages queue limit")
+            value: plasmoid.configuration.queueLimit
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Temperature units")
-            }
-            QtControls.ComboBox {
-                id: tempUnits
-                width: parent.width * 3 / 5
-                textRole: "label"
-                model: [
-                    {
-                        'label': i18n("Celsius"),
-                        'name': "Celsius"
-                    },
-                    {
-                        'label': i18n("Fahrenheit"),
-                        'name': "Fahrenheit"
-                    },
-                    {
-                        'label': i18n("Kelvin"),
-                        'name': "Kelvin"
-                    },
-                    {
-                        'label': i18n("Reaumur"),
-                        'name': "Reaumur"
-                    },
-                    {
-                        'label': i18n("cm^-1"),
-                        'name': "cm^-1"
-                    },
-                    {
-                        'label': i18n("kJ/mol"),
-                        'name': "kJ/mol"
-                    },
-                    {
-                        'label': i18n("kcal/mol"),
-                        'name': "kcal/mol"
-                    }
-                ]
-                onCurrentIndexChanged: cfg_tempUnits = model[currentIndex]["name"]
-                Component.onCompleted: {
-                    if (debug) console.debug()
-                    for (var i = 0; i < model.length; i++) {
-                        if (model[i]["name"] == plasmoid.configuration.tempUnits) {
-                            if (debug) console.info("Found", model[i]["name"], "on", i)
-                            tempUnits.currentIndex = i
-                        }
-                    }
+        ComboBoxSelector {
+            id: tempUnits
+            model: [
+                {
+                    'label': i18n("Celsius"),
+                    'name': "Celsius"
+                },
+                {
+                    'label': i18n("Fahrenheit"),
+                    'name': "Fahrenheit"
+                },
+                {
+                    'label': i18n("Kelvin"),
+                    'name': "Kelvin"
+                },
+                {
+                    'label': i18n("Reaumur"),
+                    'name': "Reaumur"
+                },
+                {
+                    'label': i18n("cm^-1"),
+                    'name': "cm^-1"
+                },
+                {
+                    'label': i18n("kJ/mol"),
+                    'name': "kJ/mol"
+                },
+                {
+                    'label': i18n("kcal/mol"),
+                    'name': "kcal/mol"
                 }
-            }
+            ]
+            text: i18n("Temperature units")
+            value: plasmoid.configuration.tempUnits
+            onValueEdited: cfg_tempUnits = newValue
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Custom time format")
-            }
-            QtControls.TextField {
-                id: customTime
-                width: parent.width * 3 / 5
-                text: plasmoid.configuration.customTime
-            }
+        LineSelector {
+            id: customTime
+            text: i18n("Custom time format")
+            value: plasmoid.configuration.customTime
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Custom uptime format")
-            }
-            QtControls.TextField {
-                id: customUptime
-                width: parent.width * 3 / 5
-                text: plasmoid.configuration.customUptime
-            }
+        LineSelector {
+            id: customUptime
+            text: i18n("Custom uptime format")
+            value: plasmoid.configuration.customUptime
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("AC online tag")
-            }
-            QtControls.TextField {
-                id: acOnline
-                width: parent.width * 3 / 5
-                text: plasmoid.configuration.acOnline
-            }
+        LineSelector {
+            id: acOnline
+            text: i18n("AC online tag")
+            value: plasmoid.configuration.acOnline
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("AC offline tag")
-            }
-            QtControls.TextField {
-                id: acOffline
-                width: parent.width * 3 / 5
-                text: plasmoid.configuration.acOffline
-            }
+        LineSelector {
+            id: acOffline
+            text: i18n("AC offline tag")
+            value: plasmoid.configuration.acOffline
         }
 
         Row {
