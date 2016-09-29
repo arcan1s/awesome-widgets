@@ -193,18 +193,9 @@ Item {
             value: plasmoid.configuration.acOffline
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-            }
-            QtControls.Button {
-                width: parent.width * 3 / 5
-                text: i18n("Drop key cache")
-                onClicked: awActions.dropCache()
-            }
+        ButtonSelector {
+            value: i18n("Drop key cache")
+            onButtonActivated: awActions.dropCache()
         }
 
         Row {

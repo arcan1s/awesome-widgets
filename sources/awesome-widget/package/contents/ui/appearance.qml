@@ -17,7 +17,6 @@
 
 import QtQuick 2.0
 import QtQuick.Controls 1.3 as QtControls
-import QtQuick.Controls.Styles 1.3 as QtStyles
 import QtQuick.Dialogs 1.1 as QtDialogs
 
 import org.kde.plasma.private.awesomewidget 1.0
@@ -48,8 +47,8 @@ Item {
     property alias cfg_fontSize: fontSize.value
     property string cfg_fontWeight: fontWeight.value
     property string cfg_fontStyle: fontStyle.value
-    property alias cfg_fontColor: selectColor.text
-    property alias cfg_textStyleColor: selectStyleColor.text
+    property alias cfg_fontColor: selectColor.value
+    property alias cfg_textStyleColor: selectStyleColor.value
     property string cfg_textStyle: textStyle.value
 
 
@@ -133,27 +132,10 @@ Item {
             onValueEdited: cfg_fontStyle = newValue
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width / 3
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Font color")
-            }
-            QtControls.Button {
-                id: selectColor
-                width: parent.width * 2 / 3
-                style: QtStyles.ButtonStyle {
-                    background: Rectangle {
-                        color: plasmoid.configuration.fontColor
-                    }
-                }
-                text: plasmoid.configuration.fontColor
-                onClicked: colorDialog.visible = true
-            }
+        ColorSelector {
+            id: selectColor
+            text: i18n("Font color")
+            value: plasmoid.configuration.fontColor
         }
 
         ComboBoxSelector {
@@ -181,42 +163,11 @@ Item {
             onValueEdited: cfg_textStyle = newValue
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width / 3
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Style color")
-            }
-            QtControls.Button {
-                id: selectStyleColor
-                width: parent.width * 2 / 3
-                style: QtStyles.ButtonStyle {
-                    background: Rectangle {
-                        color: plasmoid.configuration.textStyleColor
-                    }
-                }
-                text: plasmoid.configuration.textStyleColor
-                onClicked: textStyleColorDialog.visible = true
-            }
+        ColorSelector {
+            id: selectStyleColor
+            text: i18n("Style color")
+            value: plasmoid.configuration.textStyleColor
         }
-    }
-
-    QtDialogs.ColorDialog {
-        id: colorDialog
-        title: i18n("Select a color")
-        color: selectColor.text
-        onAccepted: selectColor.text = colorDialog.color
-    }
-
-    QtDialogs.ColorDialog {
-        id: textStyleColorDialog
-        title: i18n("Select a color")
-        color: selectStyleColor.text
-        onAccepted: selectStyleColor.text = textStyleColorDialog.color
     }
 
     QtDialogs.FontDialog {
