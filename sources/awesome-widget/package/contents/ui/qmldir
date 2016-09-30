@@ -4,5 +4,7 @@ ButtonSelector ./ButtonSelector.qml
 CheckBoxSelector ./CheckBoxSelector.qml
 ColorSelector ./ColorSelector.qml
 ComboBoxSelector ./ComboBoxSelector.qml
+ExportDialog ./ExportDialog.qml
+ImportDialog ./ImportDialog.qml
 IntegerSelector ./IntegerSelector.qml
 LineSelector ./LineSelector.qml

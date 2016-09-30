@@ -198,95 +198,27 @@ Item {
             onButtonActivated: awActions.dropCache()
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-            }
-            QtControls.Button {
-                width: parent.width * 3 / 5
-                text: i18n("Export configuration")
-                onClicked: saveConfigAs.open()
-            }
-
-            QtDialogs.FileDialog {
+        ButtonSelector {
+            ExportDialog {
                 id: saveConfigAs
-                selectExisting: false
-                title: i18n("Export")
-                folder: awConfig.configurationDirectory()
-                onAccepted: {
-                    var status = awConfig.exportConfiguration(
-                        plasmoid.configuration,
-                        saveConfigAs.fileUrl.toString().replace("file://", ""))
-                    if (status) {
-                        messageDialog.title = i18n("Success")
-                        messageDialog.text = i18n("Please note that binary files were not copied")
-                    } else {
-                        messageDialog.title = i18n("Ooops...")
-                        messageDialog.text = i18n("Could not save configuration file")
-                    }
-                    messageDialog.open()
-                }
+                configuration: plasmoid.configuration
             }
 
-            QtDialogs.MessageDialog {
-                id: messageDialog
-                standardButtons: QtDialogs.StandardButton.Ok
-            }
+            value: i18n("Export configuration")
+            onButtonActivated: saveConfigAs.open()
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-            }
-            QtControls.Button {
-                width: parent.width * 3 / 5
-                text: i18n("Import configuration")
-                onClicked: openConfig.open()
-            }
-
-            QtDialogs.FileDialog {
-                id: openConfig
-                title: i18n("Import")
-                folder: awConfig.configurationDirectory()
-                onAccepted: importSelection.open()
-            }
-
-            QtDialogs.Dialog {
-                id: importSelection
-
-                Column {
-                    QtControls.CheckBox {
-                        id: importPlasmoid
-                        text: i18n("Import plasmoid settings")
-                    }
-
-                    QtControls.CheckBox {
-                        id: importExtensions
-                        text: i18n("Import extensions")
-                    }
-
-                    QtControls.CheckBox {
-                        id: importAdds
-                        text: i18n("Import additional files")
-                    }
-                }
-
-                onAccepted: {
-                    if (debug) console.debug()
-                    var importConfig = awConfig.importConfiguration(
-                        openConfig.fileUrl.toString().replace("file://", ""),
-                        importPlasmoid.checked, importExtensions.checked,
-                        importAdds.checked)
-                    for (var key in importConfig)
-                        plasmoid.configuration[key] = importConfig[key]
+        ButtonSelector {
+            ImportDialog {
+                id: loadConfigFrom
+                onConfigurationReceived: {
+                    for (var key in configuration)
+                        plasmoid.configuration[key] = configuration[key]
                 }
             }
+
+            value: i18n("Import configuration")
+            onButtonActivated: loadConfigFrom.open()
         }
     }
 
