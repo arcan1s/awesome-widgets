@@ -215,72 +215,24 @@ Item {
             Column {
                 height: implicitHeight
                 width: parent.width
-                Row {
-                    height: implicitHeight
-                    width: parent.width
-                    QtControls.Label {
-                        height: parent.height
-                        width: parent.width * 2 / 5
-                        horizontalAlignment: Text.AlignRight
-                        verticalAlignment: Text.AlignVCenter
-                        text: i18n("Custom scripts")
-                    }
-                    QtControls.Button {
-                        width: parent.width * 3 / 5
-                        text: i18n("Edit scripts")
-                        onClicked: awKeys.editItem("extscript")
-                    }
+                ButtonSelector {
+                    value: i18n("Custom scripts")
+                    onButtonActivated: awKeys.editItem("extscript")
                 }
 
-                Row {
-                    height: implicitHeight
-                    width: parent.width
-                    QtControls.Label {
-                        height: parent.height
-                        width: parent.width * 2 / 5
-                        horizontalAlignment: Text.AlignRight
-                        verticalAlignment: Text.AlignVCenter
-                        text: i18n("Quotes monitor")
-                    }
-                    QtControls.Button {
-                        width: parent.width * 3 / 5
-                        text: i18n("Edit tickers")
-                        onClicked: awKeys.editItem("extquotes")
-                    }
+                ButtonSelector {
+                    value: i18n("Quotes monitor")
+                    onButtonActivated: awKeys.editItem("extquotes")
                 }
 
-                Row {
-                    height: implicitHeight
-                    width: parent.width
-                    QtControls.Label {
-                        height: parent.height
-                        width: parent.width * 2 / 5
-                        horizontalAlignment: Text.AlignRight
-                        verticalAlignment: Text.AlignVCenter
-                        text: i18n("Package manager")
-                    }
-                    QtControls.Button {
-                        width: parent.width * 3 / 5
-                        text: i18n("Edit command")
-                        onClicked: awKeys.editItem("extupgrade")
-                    }
+                ButtonSelector {
+                    value: i18n("Package manager")
+                    onButtonActivated: awKeys.editItem("extupgrade")
                 }
 
-                Row {
-                    height: implicitHeight
-                    width: parent.width
-                    QtControls.Label {
-                        height: parent.height
-                        width: parent.width * 2 / 5
-                        horizontalAlignment: Text.AlignRight
-                        verticalAlignment: Text.AlignVCenter
-                        text: i18n("Weather")
-                    }
-                    QtControls.Button {
-                        width: parent.width * 3 / 5
-                        text: i18n("Edit weather")
-                        onClicked: awKeys.editItem("extweather")
-                    }
+                ButtonSelector {
+                    value: i18n("Weather")
+                    onButtonActivated: awKeys.editItem("extweather")
                 }
             }
         }
