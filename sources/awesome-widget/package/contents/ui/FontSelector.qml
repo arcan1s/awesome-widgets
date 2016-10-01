@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 import QtQuick 2.0
-import QtQuick.Controls.Styles 1.3 as QtStyles
 import QtQuick.Dialogs 1.1 as QtDialogs
 
 
@@ -29,18 +28,27 @@ Row {
 
     ButtonSelector {
         id: selector
-        style: QtStyles.ButtonStyle {
-            background: Rectangle {
-                color: value
-            }
+        text: label.text
+        onButtonActivated: {
+            fontDialog.setFont()
+            fontDialog.visible = true
         }
-        onButtonActivated: colorDialog.visible = true
     }
 
-    QtDialogs.ColorDialog {
-        id: colorDialog
-        title: i18n("Select a color")
-        color: value
-        onAccepted: value = colorDialog.color
+    QtDialogs.FontDialog {
+        id: fontDialog
+        title: i18n("Select a font")
+
+        signal setFont
+
+        onAccepted: value = fontDialog.font.family
+        onSetFont: {
+            fontDialog.font = Qt.font({
+                family: value,
+                pointSize: 12,
+                italic: false,
+                weight: Font.Normal,
+            })
+        }
     }
 }

@@ -25,6 +25,7 @@ Row {
 
     property alias text: label.text
     property alias value: button.text
+    property alias style: button.style
 
     signal buttonActivated
 
@@ -32,6 +33,8 @@ Row {
         id: label
         height: parent.height
         width: parent.width * 2 / 5
+        horizontalAlignment: Text.AlignRight
+        verticalAlignment: Text.AlignVCenter
     }
     QtControls.Button {
         id: button

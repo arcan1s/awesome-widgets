@@ -5,6 +5,7 @@ CheckBoxSelector ./CheckBoxSelector.qml
 ColorSelector ./ColorSelector.qml
 ComboBoxSelector ./ComboBoxSelector.qml
 ExportDialog ./ExportDialog.qml
+FontSelector ./FontSelector.qml
 ImportDialog ./ImportDialog.qml
 IntegerSelector ./IntegerSelector.qml
 LineSelector ./LineSelector.qml

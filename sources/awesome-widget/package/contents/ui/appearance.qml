@@ -16,8 +16,6 @@
  ***************************************************************************/
 
 import QtQuick 2.0
-import QtQuick.Controls 1.3 as QtControls
-import QtQuick.Dialogs 1.1 as QtDialogs
 
 import org.kde.plasma.private.awesomewidget 1.0
 
@@ -43,7 +41,7 @@ Item {
         87: 5
     }
 
-    property alias cfg_fontFamily: selectFont.text
+    property alias cfg_fontFamily: font.value
     property alias cfg_fontSize: fontSize.value
     property string cfg_fontWeight: fontWeight.value
     property string cfg_fontStyle: fontStyle.value
@@ -55,26 +53,11 @@ Item {
     Column {
         id: pageColumn
         anchors.fill: parent
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width / 3
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Font")
-            }
-            QtControls.Button {
-                id: selectFont
-                width: parent.width * 2 / 3
-                text: plasmoid.configuration.fontFamily
-                onClicked: {
-                    if (debug) console.debug()
-                    fontDialog.setFont()
-                    fontDialog.visible = true
-                }
-            }
+
+        FontSelector {
+            id: font
+            text: i18n("Font")
+            value: plasmoid.configuration.fontFamily
         }
 
         IntegerSelector {
@@ -167,29 +150,6 @@ Item {
             id: selectStyleColor
             text: i18n("Style color")
             value: plasmoid.configuration.textStyleColor
-        }
-    }
-
-    QtDialogs.FontDialog {
-        id: fontDialog
-        title: i18n("Select a font")
-        signal setFont
-
-        onAccepted: {
-            if (debug) console.debug()
-            selectFont.text = fontDialog.font.family
-            fontSize.value = fontDialog.font.pointSize
-            fontStyle.currentIndex = fontDialog.font.italic ? 1 : 0
-            fontWeight.currentIndex = weight[fontDialog.font.weight]
-        }
-        onSetFont: {
-            if (debug) console.debug()
-            fontDialog.font = Qt.font({
-                family: selectFont.text,
-                pointSize: fontSize.value > 0 ? fontSize.value : 12,
-                italic: fontStyle.currentIndex == 1,
-                weight: Font.Normal,
-            })
         }
     }
 
