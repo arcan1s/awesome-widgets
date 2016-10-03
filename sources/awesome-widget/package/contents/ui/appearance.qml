@@ -18,6 +18,7 @@
 import QtQuick 2.0
 
 import org.kde.plasma.private.awesomewidget 1.0
+import "."
 
 
 Item {
@@ -71,28 +72,7 @@ Item {
 
         ComboBoxSelector {
             id: fontWeight
-            model: [
-                {
-                    'label': i18n("light"),
-                    'name': "light"
-                },
-                {
-                    'label': i18n("normal"),
-                    'name': "normal"
-                },
-                {
-                    'label': i18n("demi bold"),
-                    'name': "demibold"
-                },
-                {
-                    'label': i18n("bold"),
-                    'name': "bold"
-                },
-                {
-                    'label': i18n("black"),
-                    'name': "black"
-                }
-            ]
+            model: general.fontWeightModel
             text: i18n("Font weight")
             value: plasmoid.configuration.fontWeight
             onValueEdited: cfg_fontWeight = newValue
@@ -100,16 +80,7 @@ Item {
 
         ComboBoxSelector {
             id: fontStyle
-            model: [
-                {
-                    'label': i18n("normal"),
-                    'name': "normal"
-                },
-                {
-                    'label': i18n("italic"),
-                    'name': "italic"
-                }
-            ]
+            model: general.fontStyleModel
             text: i18n("Font style")
             value: plasmoid.configuration.fontStyle
             onValueEdited: cfg_fontStyle = newValue
@@ -123,24 +94,7 @@ Item {
 
         ComboBoxSelector {
             id: textStyle
-            model: [
-                {
-                    'label': i18n("normal"),
-                    'name': "normal"
-                },
-                {
-                    'label': i18n("outline"),
-                    'name': "outline"
-                },
-                {
-                    'label': i18n("raised"),
-                    'name': "raised"
-                },
-                {
-                    'label': i18n("sunken"),
-                    'name': "sunken"
-                }
-            ]
+            model: general.textStyleModel
             text: i18n("Style")
             value: plasmoid.configuration.textStyle
             onValueEdited: cfg_textStyle = newValue

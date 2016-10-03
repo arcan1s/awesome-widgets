@@ -39,4 +39,56 @@ QtObject {
         "raised": Text.Raised,
         "sunken": Text.Sunken
     }
+
+    // models
+    property variant fontStyleModel: [
+        {
+            'label': i18n("normal"),
+            'name': "normal"
+        },
+        {
+            'label': i18n("italic"),
+            'name': "italic"
+        }
+    ]
+    property variant fontWeightModel: [
+        {
+            'label': i18n("light"),
+            'name': "light"
+        },
+        {
+            'label': i18n("normal"),
+            'name': "normal"
+        },
+        {
+            'label': i18n("demi bold"),
+            'name': "demibold"
+        },
+        {
+            'label': i18n("bold"),
+            'name': "bold"
+        },
+        {
+            'label': i18n("black"),
+            'name': "black"
+        }
+    ]
+    property variant textStyleModel: [
+        {
+            'label': i18n("normal"),
+            'name': "normal"
+        },
+        {
+            'label': i18n("outline"),
+            'name': "outline"
+        },
+        {
+            'label': i18n("raised"),
+            'name': "raised"
+        },
+        {
+            'label': i18n("sunken"),
+            'name': "sunken"
+        }
+    ]
 }
