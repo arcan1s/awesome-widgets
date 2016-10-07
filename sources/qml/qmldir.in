@@ -1,5 +1,6 @@
 singleton general 1.0 general.qml
 
+AboutTab file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/AboutTab.qml
 BugReport file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/BugReport.qml
 ButtonSelector file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/ButtonSelector.qml
 CheckBoxSelector file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/CheckBoxSelector.qml
