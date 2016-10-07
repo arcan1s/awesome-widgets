@@ -1,1 +1,12 @@
 singleton general 1.0 general.qml
+
+BugReport file:///usr/share/awesomewidgets/qml/BugReport.qml
+ButtonSelector file:///usr/share/awesomewidgets/qml/ButtonSelector.qml
+CheckBoxSelector file:///usr/share/awesomewidgets/qml/CheckBoxSelector.qml
+ColorSelector file:///usr/share/awesomewidgets/qml/ColorSelector.qml
+ComboBoxSelector file:///usr/share/awesomewidgets/qml/ComboBoxSelector.qml
+ExportDialog file:///usr/share/awesomewidgets/qml/ExportDialog.qml
+FontSelector file:///usr/share/awesomewidgets/qml/FontSelector.qml
+ImportDialog file:///usr/share/awesomewidgets/qml/ImportDialog.qml
+IntegerSelector file:///usr/share/awesomewidgets/qml/IntegerSelector.qml
+LineSelector file:///usr/share/awesomewidgets/qml/LineSelector.qml

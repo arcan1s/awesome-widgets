@@ -1,0 +1,12 @@
+singleton general 1.0 general.qml
+
+BugReport file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/BugReport.qml
+ButtonSelector file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/ButtonSelector.qml
+CheckBoxSelector file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/CheckBoxSelector.qml
+ColorSelector file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/ColorSelector.qml
+ComboBoxSelector file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/ComboBoxSelector.qml
+ExportDialog file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/ExportDialog.qml
+FontSelector file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/FontSelector.qml
+ImportDialog file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/ImportDialog.qml
+IntegerSelector file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/IntegerSelector.qml
+LineSelector file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/LineSelector.qml
