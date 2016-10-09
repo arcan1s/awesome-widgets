@@ -41,211 +41,152 @@ Item {
     property alias cfg_verticalLayout: verticalLayout.checked
     property alias cfg_height: widgetHeight.value
     property alias cfg_width: widgetWidth.value
-    property string cfg_mark: mark.currentText
-    property string cfg_tooltipType: tooltipType.currentText
+    property string cfg_mark: mark.value
+    property string cfg_tooltipType: tooltipType.value
     property alias cfg_tooltipWidth: tooltipWidth.value
-    property alias cfg_tooltipColor: tooltipColor.text
+    property alias cfg_tooltipColor: tooltipColor.value
 
 
     Column {
         id: pageColumn
         anchors.fill: parent
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.heigth
-                width: parent.width * 2 / 5
-            }
-            QtControls.CheckBox {
-                id: background
-                width: parent.width * 3 / 5
-                text: i18n("Enable background")
-            }
+
+        CheckBoxSelector {
+            id: background
+            text: i18n("Enable background")
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.heigth
-                width: parent.width * 2 / 5
-            }
-            QtControls.CheckBox {
-                id: verticalLayout
-                width: parent.width * 3 / 5
-                text: i18n("Vertical layout")
-            }
+        CheckBoxSelector {
+            id: verticalLayout
+            text: i18n("Vertical layout")
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Widget height, px")
-            }
-            QtControls.SpinBox {
-                id: widgetHeight
-                width: parent.width * 3 / 5
-                minimumValue: 0
-                maximumValue: 4096
-                stepSize: 50
-                value: plasmoid.configuration.height
-            }
+        IntegerSelector {
+            id: widgetHeight
+            maximumValue: 4096
+            minimumValue: 0
+            stepSize: 50
+            text: i18n("Widget height, px")
+            value: plasmoid.configuration.height
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Widget width, px")
-            }
-            QtControls.SpinBox {
-                id: widgetWidth
-                width: parent.width * 3 / 5
-                minimumValue: 0
-                maximumValue: 4096
-                stepSize: 50
-                value: plasmoid.configuration.width
-            }
+        IntegerSelector {
+            id: widgetWidth
+            maximumValue: 4096
+            minimumValue: 0
+            stepSize: 50
+            text: i18n("Widget width, px")
+            value: plasmoid.configuration.width
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Mark")
-            }
-            QtControls.ComboBox {
-                id: mark
-                width: parent.width * 3 / 5
-                editable: true
-                model: ["#", "$", "%", "&", "*", "@", "¤", "¶", "·", "º",
-                        plasmoid.configuration.mark]
-                currentIndex: model.length - 1
-                onCurrentIndexChanged: cfg_mark = currentText
-            }
+        ComboBoxSelector {
+            id: mark
+            editable: true
+            model: [
+                {
+                    'label': '#',
+                    'name': '#'
+                },
+                {
+                    'label': '$',
+                    'name': '$'
+                },
+                {
+                    'label': '%',
+                    'name': '%'
+                },
+                {
+                    'label': '&',
+                    'name': '&'
+                },
+                {
+                    'label': '*',
+                    'name': '*'
+                },
+                {
+                    'label': '@',
+                    'name': '@'
+                },
+                {
+                    'label': '¤',
+                    'name': '¤'
+                },
+                {
+                    'label': '¶',
+                    'name': '¶'
+                },
+                {
+                    'label': '·',
+                    'name': '·'
+                },
+                {
+                    'label': 'º',
+                    'name': 'º'
+                },
+                {
+                    'label': plasmoid.configuration.mark,
+                    'name': plasmoid.configuration.mark
+                }
+            ]
+            text: i18n("Mark")
+            currentIndex: model.length - 1
+            onValueEdited: cfg_mark = newValue
         }
 
         QtControls.GroupBox {
             height: implicitHeight
             width: parent.width
             title: i18n("Tooltip")
+
             Column {
                 height: implicitHeight
                 width: parent.width
-                Row {
-                    height: implicitHeight
-                    width: parent.width
-                    QtControls.Label {
-                        height: parent.height
-                        width: parent.width * 2 / 5
-                        horizontalAlignment: Text.AlignRight
-                        verticalAlignment: Text.AlignVCenter
-                        text: i18n("Tooltip type")
-                    }
-                    QtControls.ComboBox {
-                        id: tooltipType
-                        width: parent.width * 3 / 5
-                        textRole: "label"
-                        model: [
-                            {
-                                'label': i18n("contours"),
-                                'name': "contours"
-                            },
-                            {
-                                'label': i18n("windows"),
-                                'name': "windows"
-                            },
-                            {
-                                'label': i18n("clean desktop"),
-                                'name': "clean"
-                            },
-                            {
-                                'label': i18n("names"),
-                                'name': "names"
-                            },
-                            {
-                                'label': i18n("none"),
-                                'name': "none"
-                            }
-                        ]
-                        onCurrentIndexChanged: cfg_tooltipType = model[currentIndex]["name"]
-                        Component.onCompleted: {
-                            if (debug) console.debug()
-                            for (var i = 0; i < model.length; i++) {
-                                if (model[i]["name"] == plasmoid.configuration.tooltipType) {
-                                    if (debug) console.info("Found", model[i]["name"], "on", i)
-                                    tooltipType.currentIndex = i
-                                }
-                            }
+
+                ComboBoxSelector {
+                    id: tooltipType
+                    model: [
+                        {
+                            'label': i18n("contours"),
+                            'name': "contours"
+                        },
+                        {
+                            'label': i18n("windows"),
+                            'name': "windows"
+                        },
+                        {
+                            'label': i18n("clean desktop"),
+                            'name': "clean"
+                        },
+                        {
+                            'label': i18n("names"),
+                            'name': "names"
+                        },
+                        {
+                            'label': i18n("none"),
+                            'name': "none"
                         }
-                    }
+                    ]
+                    text: i18n("Tooltip type")
+                    value: plasmoid.configuration.tooltipType
+                    onValueEdited: cfg_tooltipType = newValue
                 }
 
-                Row {
-                    height: implicitHeight
-                    width: parent.width
-                    QtControls.Label {
-                        height: parent.height
-                        width: parent.width * 2 / 5
-                        horizontalAlignment: Text.AlignRight
-                        verticalAlignment: Text.AlignVCenter
-                        text: i18n("Tooltip width")
-                    }
-                    QtControls.SpinBox {
-                        id: tooltipWidth
-                        width: parent.width * 3 / 5
-                        minimumValue: 100
-                        maximumValue: 1000
-                        stepSize: 50
-                        value: plasmoid.configuration.tooltipWidth
-                    }
+                IntegerSelector {
+                    id: tooltipWidth
+                    maximumValue: 1000
+                    minimumValue: 100
+                    stepSize: 50
+                    text: i18n("Tooltip width")
+                    value: plasmoid.configuration.tooltipWidth
                 }
 
-                Row {
-                    height: implicitHeight
-                    width: parent.width
-                    QtControls.Label {
-                        height: parent.height
-                        width: parent.width * 2 / 5
-                        horizontalAlignment: Text.AlignRight
-                        verticalAlignment: Text.AlignVCenter
-                        text: i18n("Font color")
-                    }
-                    QtControls.Button {
-                        id: tooltipColor
-                        width: parent.width * 3 / 5
-                        style: QtStyles.ButtonStyle {
-                            background: Rectangle {
-                                color: plasmoid.configuration.tooltipColor
-                            }
-                        }
-                        text: plasmoid.configuration.tooltipColor
-                        onClicked: colorDialog.visible = true
-                    }
+                ColorSelector {
+                    id: tooltipColor
+                    text: i18n("Font color")
+                    value: plasmoid.configuration.tooltipColor
                 }
             }
         }
-    }
-
-    QtDialogs.ColorDialog {
-        id: colorDialog
-        title: i18n("Select a color")
-        color: tooltipColor.text
-        onAccepted: tooltipColor.text = colorDialog.color
     }
 
     Component.onCompleted: {

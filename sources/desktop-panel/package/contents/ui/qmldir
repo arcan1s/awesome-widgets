@@ -1,4 +1,4 @@
-singleton general 1.0 general.qml
+singleton general 1.0 file:///usr/share/awesomewidgets/qml/general.qml
 
 AboutTab file:///usr/share/awesomewidgets/qml/AboutTab.qml
 BugReport file:///usr/share/awesomewidgets/qml/BugReport.qml

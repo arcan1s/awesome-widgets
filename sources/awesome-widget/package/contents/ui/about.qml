@@ -16,8 +16,6 @@
  ***************************************************************************/
 
 import QtQuick 2.0
-import QtQuick.Controls 1.3 as QtControls
-import QtQuick.Layouts 1.0 as QtLayouts
 
 import org.kde.plasma.private.awesomewidget 1.0
 
@@ -33,5 +31,9 @@ Item {
 
     AboutTab {
         textProvider: awActions
+    }
+
+    Component.onCompleted: {
+        if (debug) console.debug()
     }
 }
