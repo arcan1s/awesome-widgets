@@ -17,8 +17,6 @@
 
 import QtQuick 2.0
 import QtQuick.Controls 1.3 as QtControls
-import QtQuick.Controls.Styles 1.3 as QtStyles
-import QtQuick.Dialogs 1.1 as QtDialogs
 
 import org.kde.plasma.private.desktoppanel 1.0
 

@@ -22,6 +22,7 @@ import org.kde.plasma.private.desktoppanel 1.0
 
 Item {
     id: aboutPage
+    // backend
     DPAdds {
         id: dpAdds
     }

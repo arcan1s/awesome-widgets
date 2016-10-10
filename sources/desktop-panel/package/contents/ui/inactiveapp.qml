@@ -16,11 +16,9 @@
  ***************************************************************************/
 
 import QtQuick 2.0
-import QtQuick.Controls 1.3 as QtControls
-import QtQuick.Controls.Styles 1.3 as QtStyles
-import QtQuick.Dialogs 1.1 as QtDialogs
 
 import org.kde.plasma.private.desktoppanel 1.0
+import "."
 
 
 Item {
@@ -36,280 +34,69 @@ Item {
     implicitHeight: pageColumn.implicitHeight
 
     property bool debug: dpAdds.isDebugEnabled()
-    property variant weight: {
-        25: 0,
-        50: 1,
-        63: 3,
-        75: 4,
-        87: 5
-    }
 
-    property alias cfg_fontFamily: selectFont.text
+    property alias cfg_fontFamily: font.value
     property alias cfg_fontSize: fontSize.value
-    property string cfg_fontWeight: fontWeight.currentText
-    property string cfg_fontStyle: fontStyle.currentText
-    property alias cfg_fontColor: selectColor.text
-    property alias cfg_textStyleColor: selectStyleColor.text
-    property string cfg_textStyle: textStyle.currentText
+    property string cfg_fontWeight: fontWeight.value
+    property string cfg_fontStyle: fontStyle.value
+    property alias cfg_fontColor: selectColor.value
+    property alias cfg_textStyleColor: selectStyleColor.value
+    property string cfg_textStyle: textStyle.value
 
 
     Column {
         id: pageColumn
         anchors.fill: parent
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width / 3
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Font")
-            }
-            QtControls.Button {
-                id: selectFont
-                width: parent.width * 2 / 3
-                text: plasmoid.configuration.fontFamily
-                onClicked: {
-                    if (debug) console.debug()
-                    fontDialog.setFont()
-                    fontDialog.visible = true
-                }
-            }
+
+        FontSelector {
+            id: font
+            text: i18n("Font")
+            value: plasmoid.configuration.fontFamily
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width / 3
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Font size")
-            }
-            QtControls.SpinBox {
-                id: fontSize
-                width: parent.width * 2 / 3
-                minimumValue: 8
-                maximumValue: 32
-                stepSize: 1
-                value: plasmoid.configuration.fontSize
-            }
+        IntegerSelector {
+            id: fontSize
+            maximumValue: 32
+            minimumValue: 8
+            stepSize: 1
+            text: i18n("Font size")
+            value: plasmoid.configuration.fontSize
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width / 3
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Font weight")
-            }
-            QtControls.ComboBox {
-                id: fontWeight
-                width: parent.width * 2 / 3
-                textRole: "label"
-                model: [
-                    {
-                        'label': i18n("light"),
-                        'name': "light"
-                    },
-                    {
-                        'label': i18n("normal"),
-                        'name': "normal"
-                    },
-                    {
-                        'label': i18n("demi bold"),
-                        'name': "demibold"
-                    },
-                    {
-                        'label': i18n("bold"),
-                        'name': "bold"
-                    },
-                    {
-                        'label': i18n("black"),
-                        'name': "black"
-                    }
-                ]
-                onCurrentIndexChanged: cfg_fontWeight = model[currentIndex]["name"]
-                Component.onCompleted: {
-                    if (debug) console.debug()
-                    for (var i = 0; i < model.length; i++) {
-                        if (model[i]["name"] == plasmoid.configuration.fontWeight) {
-                            if (debug) console.info("Found", model[i]["name"], "on", i)
-                            fontWeight.currentIndex = i
-                        }
-                    }
-                }
-            }
+        ComboBoxSelector {
+            id: fontWeight
+            model: general.fontWeightModel
+            text: i18n("Font weight")
+            value: plasmoid.configuration.fontWeight
+            onValueEdited: cfg_fontWeight = newValue
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width / 3
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Font style")
-            }
-            QtControls.ComboBox {
-                id: fontStyle
-                width: parent.width * 2 / 3
-                textRole: "label"
-                model: [
-                    {
-                        'label': i18n("normal"),
-                        'name': "normal"
-                    },
-                    {
-                        'label': i18n("italic"),
-                        'name': "italic"
-                    }
-                ]
-                onCurrentIndexChanged: cfg_fontStyle = model[currentIndex]["name"]
-                Component.onCompleted: {
-                    if (debug) console.debug()
-                    for (var i = 0; i < model.length; i++) {
-                        if (model[i]["name"] == plasmoid.configuration.fontStyle) {
-                            if (debug) console.info("Found", model[i]["name"], "on", i)
-                            fontStyle.currentIndex = i
-                        }
-                    }
-                }
-            }
+        ComboBoxSelector {
+            id: fontStyle
+            model: general.fontStyleModel
+            text: i18n("Font style")
+            value: plasmoid.configuration.fontStyle
+            onValueEdited: cfg_fontStyle = newValue
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width / 3
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Font color")
-            }
-            QtControls.Button {
-                id: selectColor
-                width: parent.width * 2 / 3
-                style: QtStyles.ButtonStyle {
-                    background: Rectangle {
-                        color: plasmoid.configuration.fontColor
-                    }
-                }
-                text: plasmoid.configuration.fontColor
-                onClicked: colorDialog.visible = true
-            }
+        ColorSelector {
+            id: selectColor
+            text: i18n("Font color")
+            value: plasmoid.configuration.fontColor
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width / 3
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Style")
-            }
-            QtControls.ComboBox {
-                id: textStyle
-                width: parent.width * 2 / 3
-                textRole: "label"
-                model: [
-                    {
-                        'label': i18n("normal"),
-                        'name': "normal"
-                    },
-                    {
-                        'label': i18n("outline"),
-                        'name': "outline"
-                    },
-                    {
-                        'label': i18n("raised"),
-                        'name': "raised"
-                    },
-                    {
-                        'label': i18n("sunken"),
-                        'name': "sunken"
-                    }
-                ]
-                onCurrentIndexChanged: cfg_textStyle = model[currentIndex]["name"]
-                Component.onCompleted: {
-                    if (debug) console.debug()
-                    for (var i = 0; i < model.length; i++) {
-                        if (model[i]["name"] == plasmoid.configuration.textStyle) {
-                            if (debug) console.info("Found", model[i]["name"], "on", i)
-                            textStyle.currentIndex = i
-                        }
-                    }
-                }
-            }
+        ComboBoxSelector {
+            id: textStyle
+            model: general.textStyleModel
+            text: i18n("Style")
+            value: plasmoid.configuration.textStyle
+            onValueEdited: cfg_textStyle = newValue
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width / 3
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Style color")
-            }
-            QtControls.Button {
-                id: selectStyleColor
-                width: parent.width * 2 / 3
-                style: QtStyles.ButtonStyle {
-                    background: Rectangle {
-                        color: plasmoid.configuration.textStyleColor
-                    }
-                }
-                text: plasmoid.configuration.textStyleColor
-                onClicked: textStyleColorDialog.visible = true
-            }
-        }
-    }
-
-    QtDialogs.ColorDialog {
-        id: colorDialog
-        title: i18n("Select a color")
-        color: selectColor.text
-        onAccepted: selectColor.text = colorDialog.color
-    }
-
-    QtDialogs.ColorDialog {
-        id: textStyleColorDialog
-        title: i18n("Select a color")
-        color: selectStyleColor.text
-        onAccepted: selectStyleColor.text = textStyleColorDialog.color
-    }
-
-    QtDialogs.FontDialog {
-        id: fontDialog
-        title: i18n("Select a font")
-        signal setFont
-
-        onAccepted: {
-            if (debug) console.debug()
-            selectFont.text = fontDialog.font.family
-            fontSize.value = fontDialog.font.pointSize
-            fontStyle.currentIndex = fontDialog.font.italic ? 1 : 0
-            fontWeight.currentIndex = weight[fontDialog.font.weight]
-        }
-        onSetFont: {
-            if (debug) console.debug()
-            fontDialog.font = Qt.font({
-                family: selectFont.text,
-                pointSize: fontSize.value > 0 ? fontSize.value : 12,
-                italic: fontStyle.currentIndex == 1,
-                weight: Font.Normal,
-            })
+        ColorSelector {
+            id: selectStyleColor
+            text: i18n("Style color")
+            value: plasmoid.configuration.textStyleColor
         }
     }
 

@@ -22,6 +22,7 @@ import org.kde.plasma.private.awesomewidget 1.0
 
 Item {
     id: aboutPage
+    // backend
     AWActions {
         id: awActions
     }
