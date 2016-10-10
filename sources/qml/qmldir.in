@@ -1,5 +1,11 @@
+# Do not edit qmldir directly it will be overrided during compilation,
+# edit qml/qmldir.in file instead.
+
+
+# common QML constants
 singleton general 1.0 file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/general.qml
 
+# custom QML UI classes
 AboutTab file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/AboutTab.qml
 BugReport file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/BugReport.qml
 ButtonSelector file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/ButtonSelector.qml
