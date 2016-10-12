@@ -68,113 +68,68 @@ Item {
             textArea: textPattern
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.ComboBox {
-                width: parent.width * 2 / 5
-                textRole: "label"
-                model: [
-                    {
-                        'label': i18n("AC"),
-                        'regexp': "^(ac|bat).*"
-                    },
-                    {
-                        'label': i18n("Bars"),
-                        'regexp': "^bar.*"
-                    },
-                    {
-                        'label': i18n("CPU"),
-                        'regexp': "^(cpu|gpu|la|ps|temp(?!erature)).*"
-                    },
-                    {
-                        'label': i18n("Desktops"),
-                        'regexp': "^(n|t)?desktop(s)?"
-                    },
-                    {
-                        'label': i18n("HDD"),
-                        'regexp': "^hdd.*"
-                    },
-                    {
-                        'label': i18n("Memory"),
-                        'regexp': "^(mem|swap).*"
-                    },
-                    {
-                        'label': i18n("Network"),
-                        'regexp': "^(netdev|(down|up(?!time)).*)"
-                    },
-                    {
-                        'label': i18n("Music player"),
-                        'regexp': "(^|d|s)(album|artist|duration|progress|title)"
-                    },
-                    {
-                        'label': i18n("Scripts"),
-                        'regexp': "^custom.*"
-                    },
-                    {
-                        'label': i18n("Time"),
-                        'regexp': ".*time$"
-                    },
-                    {
-                        'label': i18n("Quotes"),
-                        'regexp': "^(perc)?(ask|bid|price)(chg)?.*"
-                    },
-                    {
-                        'label': i18n("Upgrades"),
-                        'regexp': "^pkgcount.*"
-                    },
-                    {
-                        'label': i18n("Weathers"),
-                        'regexp': "^(weather(Id)?|humidity|pressure|temperature|timestamp)"
-                    },
-                    {
-                        'label': i18n("Functions"),
-                        'regexp': "functions"
-                    }
-                ]
-                onCurrentIndexChanged: {
-                    if (debug) console.debug()
-                    if (model[currentIndex]["regexp"] == "functions")
-                        tags.model = ["{{\n\n}}", "template{{\n\n}}",
-                            "aw_all<>{{}}", "aw_count<>{{}}", "aw_keys<>{{}}",
-                            "aw_macro<>{{}}", "aw_names<>{{}}"]
-                    else
-                        tags.model = awKeys.dictKeys(true, model[currentIndex]["regexp"])
-                    if (debug) console.info("Init model", tags.model, "for", model[currentIndex]["label"])
-                    tags.currentIndex = -1
+        AWTagSelector {
+            backend: awKeys
+            notifyBackend: awActions
+            textArea: textPattern
+            groups: [
+                {
+                    'label': i18n("AC"),
+                    'regexp': "^(ac|bat).*"
+                },
+                {
+                    'label': i18n("Bars"),
+                    'regexp': "^bar.*"
+                },
+                {
+                    'label': i18n("CPU"),
+                    'regexp': "^(cpu|gpu|la|ps|temp(?!erature)).*"
+                },
+                {
+                    'label': i18n("Desktops"),
+                    'regexp': "^(n|t)?desktop(s)?"
+                },
+                {
+                    'label': i18n("HDD"),
+                    'regexp': "^hdd.*"
+                },
+                {
+                    'label': i18n("Memory"),
+                    'regexp': "^(mem|swap).*"
+                },
+                {
+                    'label': i18n("Network"),
+                    'regexp': "^(netdev|(down|up(?!time)).*)"
+                },
+                {
+                    'label': i18n("Music player"),
+                    'regexp': "(^|d|s)(album|artist|duration|progress|title)"
+                },
+                {
+                    'label': i18n("Scripts"),
+                    'regexp': "^custom.*"
+                },
+                {
+                    'label': i18n("Time"),
+                    'regexp': ".*time$"
+                },
+                {
+                    'label': i18n("Quotes"),
+                    'regexp': "^(perc)?(ask|bid|price)(chg)?.*"
+                },
+                {
+                    'label': i18n("Upgrades"),
+                    'regexp': "^pkgcount.*"
+                },
+                {
+                    'label': i18n("Weathers"),
+                    'regexp': "^(weather(Id)?|humidity|pressure|temperature|timestamp)"
+                },
+                {
+                    'label': i18n("Functions"),
+                    'regexp': "functions"
                 }
-            }
-            QtControls.ComboBox {
-                id: tags
-                width: parent.width * 1 / 5
-            }
-            QtControls.Button {
-                width: parent.width * 1 / 5
-                text: i18n("Add")
-
-                onClicked: {
-                    if (!tags.currentText) return
-                    if (debug) console.debug("Add tag button")
-                    var selected = textPattern.selectedText
-                    textPattern.remove(textPattern.selectionStart, textPattern.selectionEnd)
-                    textPattern.insert(textPattern.cursorPosition, selected + "$" + tags.currentText)
-                }
-            }
-            QtControls.Button {
-                width: parent.width * 1 / 5
-                text: i18n("Show value")
-
-                onClicked: {
-                    if (!tags.currentText) return
-                    if (debug) console.debug("Show tag button")
-                    var message = i18n("Tag: %1", tags.currentText)
-                    message += "<br>"
-                    message += i18n("Value: %1", awKeys.valueByKey(tags.currentText))
-                    message += "<br>"
-                    message += i18n("Info: %1", awKeys.infoByKey(tags.currentText))
-                    awActions.sendNotification("tag", message)
-                }
-            }
+            ]
         }
 
         Row {
