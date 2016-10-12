@@ -14,6 +14,10 @@ ColorSelector file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qm
 ComboBoxSelector file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/ComboBoxSelector.qml
 ExportDialog file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/ExportDialog.qml
 FontSelector file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/FontSelector.qml
+HtmlDefaultFunctionsBar file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/HtmlDefaultFunctionsBar.qml
+HtmlEditorButton file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/HtmlEditorButton.qml
+HtmlEditorColor file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/HtmlEditorColor.qml
+HtmlEditorFont file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/HtmlEditorFont.qml
 ImportDialog file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/ImportDialog.qml
 IntegerSelector file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/IntegerSelector.qml
 LineSelector file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/LineSelector.qml
