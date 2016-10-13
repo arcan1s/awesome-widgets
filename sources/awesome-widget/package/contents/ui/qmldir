@@ -7,6 +7,7 @@ singleton general 1.0 file:///usr/share/awesomewidgets/qml/general.qml
 
 # custom QML UI classes
 AboutTab file:///usr/share/awesomewidgets/qml/AboutTab.qml
+AWTagSelector file:///usr/share/awesomewidgets/qml/AWTagSelector.qml
 BugReport file:///usr/share/awesomewidgets/qml/BugReport.qml
 ButtonSelector file:///usr/share/awesomewidgets/qml/ButtonSelector.qml
 CheckBoxSelector file:///usr/share/awesomewidgets/qml/CheckBoxSelector.qml
