@@ -36,12 +36,7 @@ Row {
         textRole: "label"
 
         onCurrentIndexChanged: {
-            if (model[currentIndex]["regexp"] == "functions")
-                tags.model = ["{{\n\n}}", "template{{\n\n}}",
-                    "aw_all<>{{}}", "aw_count<>{{}}", "aw_keys<>{{}}",
-                    "aw_macro<>{{}}", "aw_names<>{{}}"]
-            else
-                tags.model = backend.dictKeys(true, model[currentIndex]["regexp"])
+            tags.model = backend.dictKeys(true, model[currentIndex]["regexp"])
             tags.currentIndex = -1
         }
     }

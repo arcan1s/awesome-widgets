@@ -41,54 +41,112 @@ QtObject {
     }
 
     // models
-    property variant fontStyleModel: [
+    property variant awTagRegexp: [
         {
-            'label': i18n("normal"),
-            'name': "normal"
+            "label": i18n("AC"),
+            "regexp": "^(ac|bat).*"
         },
         {
-            'label': i18n("italic"),
-            'name': "italic"
+            "label": i18n("Bars"),
+            "regexp": "^bar.*"
+        },
+        {
+            "label": i18n("CPU"),
+            "regexp": "^(cpu|gpu|la|ps|temp(?!erature)).*"
+        },
+        {
+            "label": i18n("Desktops"),
+            "regexp": "^(n|t)?desktop(s)?"
+        },
+        {
+            "label": i18n("HDD"),
+            "regexp": "^hdd.*"
+        },
+        {
+            "label": i18n("Memory"),
+            "regexp": "^(mem|swap).*"
+        },
+        {
+            "label": i18n("Network"),
+            "regexp": "^(netdev|(down|up(?!time)).*)"
+        },
+        {
+            "label": i18n("Music player"),
+            "regexp": "(^|d|s)(album|artist|duration|progress|title)"
+        },
+        {
+            "label": i18n("Scripts"),
+            "regexp": "^custom.*"
+        },
+        {
+            "label": i18n("Time"),
+            "regexp": ".*time$"
+        },
+        {
+            "label": i18n("Quotes"),
+            "regexp": "^(perc)?(ask|bid|price)(chg)?.*"
+        },
+        {
+            "label": i18n("Upgrades"),
+            "regexp": "^pkgcount.*"
+        },
+        {
+            "label": i18n("Weathers"),
+            "regexp": "^(weather(Id)?|humidity|pressure|temperature|timestamp)"
+        },
+        {
+            "label": i18n("Functions"),
+            "regexp": "functions"
+        }
+    ]
+    property variant fontStyleModel: [
+        {
+            "label": i18n("normal"),
+            "name": "normal"
+        },
+        {
+            "label": i18n("italic"),
+            "name": "italic"
         }
     ]
     property variant fontWeightModel: [
         {
-            'label': i18n("light"),
-            'name': "light"
+            "label": i18n("light"),
+            "name": "light"
         },
         {
-            'label': i18n("normal"),
-            'name': "normal"
+            "label": i18n("normal"),
+            "name": "normal"
         },
         {
-            'label': i18n("demi bold"),
-            'name': "demibold"
+            "label": i18n("demi bold"),
+            "name": "demibold"
         },
         {
-            'label': i18n("bold"),
-            'name': "bold"
+            "label": i18n("bold"),
+            "name": "bold"
         },
         {
-            'label': i18n("black"),
-            'name': "black"
+            "label": i18n("black"),
+            "name": "black"
         }
     ]
     property variant textStyleModel: [
         {
-            'label': i18n("normal"),
-            'name': "normal"
+            "label": i18n("normal"),
+            "name": "normal"
         },
         {
-            'label': i18n("outline"),
-            'name': "outline"
+            "label": i18n("outline"),
+            "name": "outline"
         },
         {
-            'label': i18n("raised"),
-            'name': "raised"
+            "label": i18n("raised"),
+            "name": "raised"
         },
         {
-            'label': i18n("sunken"),
-            'name': "sunken"
+            "label": i18n("sunken"),
+            "name": "sunken"
         }
     ]
 }

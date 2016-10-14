@@ -144,6 +144,10 @@ QStringList AWKeys::dictKeys(const bool sorted, const QString regexp) const
     qCDebug(LOG_AW) << "Should be sorted" << sorted << "and filter applied"
                     << regexp;
 
+    // check if functions asked
+    if (regexp == QString("functions"))
+        return QString(STATIC_FUNCTIONS).split(QChar(','));
+
     QStringList allKeys = m_keyOperator->dictKeys();
     // sort if required
     if (sorted)

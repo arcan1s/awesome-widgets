@@ -20,6 +20,7 @@ import QtQuick.Controls 1.3 as QtControls
 import QtQuick.Dialogs 1.2 as QtDialogs
 
 import org.kde.plasma.private.awesomewidget 1.0
+import "."
 
 
 Item {
@@ -72,64 +73,7 @@ Item {
             backend: awKeys
             notifyBackend: awActions
             textArea: textPattern
-            groups: [
-                {
-                    'label': i18n("AC"),
-                    'regexp': "^(ac|bat).*"
-                },
-                {
-                    'label': i18n("Bars"),
-                    'regexp': "^bar.*"
-                },
-                {
-                    'label': i18n("CPU"),
-                    'regexp': "^(cpu|gpu|la|ps|temp(?!erature)).*"
-                },
-                {
-                    'label': i18n("Desktops"),
-                    'regexp': "^(n|t)?desktop(s)?"
-                },
-                {
-                    'label': i18n("HDD"),
-                    'regexp': "^hdd.*"
-                },
-                {
-                    'label': i18n("Memory"),
-                    'regexp': "^(mem|swap).*"
-                },
-                {
-                    'label': i18n("Network"),
-                    'regexp': "^(netdev|(down|up(?!time)).*)"
-                },
-                {
-                    'label': i18n("Music player"),
-                    'regexp': "(^|d|s)(album|artist|duration|progress|title)"
-                },
-                {
-                    'label': i18n("Scripts"),
-                    'regexp': "^custom.*"
-                },
-                {
-                    'label': i18n("Time"),
-                    'regexp': ".*time$"
-                },
-                {
-                    'label': i18n("Quotes"),
-                    'regexp': "^(perc)?(ask|bid|price)(chg)?.*"
-                },
-                {
-                    'label': i18n("Upgrades"),
-                    'regexp': "^pkgcount.*"
-                },
-                {
-                    'label': i18n("Weathers"),
-                    'regexp': "^(weather(Id)?|humidity|pressure|temperature|timestamp)"
-                },
-                {
-                    'label': i18n("Functions"),
-                    'regexp': "functions"
-                }
-            ]
+            groups: general.awTagRegexp
         }
 
         Row {

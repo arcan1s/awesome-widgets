@@ -44,6 +44,9 @@ const int REQUEST_TIMEOUT = 3000;
 const char TIME_KEYS[]
     = "d,dd,ddd,dddd,M,MM,MMM,MMMM,yy,yyyy,h,hh,H,HH,m,mm,s,ss,t,a,ap,A,AP";
 // static keys
+const char STATIC_FUNCTIONS[] = "{{\n\n}},template{{\n\n}},aw_all<>{{}},aw_"
+                                "count<>{{}},aw_keys<>{{}},aw_macro<>{{}},aw_"
+                                "names<>{{}}";
 const char STATIC_KEYS[]
     = "time,isotime,shorttime,longtime,tstime,ctime,uptime,cuptime,cpucl,cpu,"
       "gputemp,gpu,memmb,memgb,memfreemb,memfreegb,memtotmb,memtotgb,memusedmb,"
