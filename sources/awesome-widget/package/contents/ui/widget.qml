@@ -32,9 +32,6 @@ Item {
     AWActions {
         id: awActions
     }
-    AWFormatterConfigFactory {
-        id: awFormatter
-    }
     AWTelemetryHandler {
         id: awTelemetryHandler
     }
@@ -76,44 +73,10 @@ Item {
             groups: general.awTagRegexp
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Button {
-                width: parent.width * 3 / 10
-                text: i18n("Edit bars")
-                onClicked: awKeys.editItem("graphicalitem")
-            }
-            QtControls.Button {
-                width: parent.width * 3 / 10
-                text: i18n("Formatters")
-                onClicked: awFormatter.showDialog(awKeys.dictKeys(true))
-            }
-            QtControls.Button {
-                width: parent.width * 5 / 15
-                text: i18n("Preview")
-                onClicked: {
-                    lock = false
-                    awKeys.initKeys(textPattern.text, plasmoid.configuration.interval,
-                                    plasmoid.configuration.queueLimit, false)
-                }
-            }
-            QtControls.Button {
-                width: parent.width / 15
-                iconName: "view-history"
-                menu: QtControls.Menu {
-                    id: historyConfig
-                    Instantiator {
-                        model: awTelemetryHandler.get("awwidgetconfig")
-                        QtControls.MenuItem {
-                            text: modelData
-                            onTriggered: textPattern.text = modelData
-                        }
-                        onObjectAdded: historyConfig.insertItem(index, object)
-                        onObjectRemoved: historyConfig.removeItem(object)
-                    }
-                }
-            }
+        AWExtensions {
+            backend: awKeys
+            textArea: textPattern
+            onUnlock: lock = false
         }
 
         QtControls.TextArea {
@@ -151,7 +114,7 @@ Item {
         if (lock) return
         if (debug) console.debug()
 
-        compiledText.text = newText.replace(/&nbsp;/g, " ")
+        compiledText.text = newText.replace("&nbsp;", " ")
         compiledText.open()
         lock = true
     }
