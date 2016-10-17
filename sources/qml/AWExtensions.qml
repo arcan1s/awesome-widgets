@@ -17,6 +17,7 @@
 
 import QtQuick 2.2
 import QtQuick.Controls 1.3 as QtControls
+import QtQuick.Dialogs 1.2 as QtDialogs
 
 import org.kde.plasma.private.awesomewidget 1.0
 
@@ -34,6 +35,7 @@ Row {
     property var textArea
 
     signal unlock
+    signal showMessage(string message)
 
     QtControls.Button {
         width: parent.width * 3 / 10
@@ -72,5 +74,16 @@ Row {
                 onObjectRemoved: historyConfig.removeItem(object)
             }
         }
+    }
+
+    QtDialogs.MessageDialog {
+        id: compiledText
+        modality: Qt.NonModal
+        title: i18n("Preview")
+    }
+
+    onShowMessage: {
+        compiledText.text = message.replace("&nbsp;", " ")
+        compiledText.open()
     }
 }

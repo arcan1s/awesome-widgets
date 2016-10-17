@@ -17,7 +17,6 @@
 
 import QtQuick 2.2
 import QtQuick.Controls 1.3 as QtControls
-import QtQuick.Dialogs 1.2 as QtDialogs
 
 import org.kde.plasma.private.awesomewidget 1.0
 import "."
@@ -53,14 +52,7 @@ Item {
         id: pageColumn
         anchors.fill: parent
 
-        QtControls.Label {
-          width: parent.width
-          horizontalAlignment: Text.AlignHCenter
-          verticalAlignment: Text.AlignVCenter
-          wrapMode: Text.WordWrap
-          text: i18n("Detailed information may be found on <a href=\"https://arcanis.me/projects/awesome-widgets/\">project homepage</a>")
-          onLinkActivated: Qt.openUrlExternally(link)
-        }
+        AWInfoLabel {}
 
         HtmlDefaultFunctionsBar {
             textArea: textPattern
@@ -74,6 +66,7 @@ Item {
         }
 
         AWExtensions {
+            id: extensions
             backend: awKeys
             textArea: textPattern
             onUnlock: lock = false
@@ -86,12 +79,6 @@ Item {
             textFormat: TextEdit.PlainText
             text: plasmoid.configuration.text
         }
-    }
-
-    QtDialogs.MessageDialog {
-        id: compiledText
-        modality: Qt.NonModal
-        title: i18n("Preview")
     }
 
 
@@ -114,8 +101,7 @@ Item {
         if (lock) return
         if (debug) console.debug()
 
-        compiledText.text = newText.replace("&nbsp;", " ")
-        compiledText.open()
+        extensions.showMessage(newText)
         lock = true
     }
 }
