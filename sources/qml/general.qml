@@ -99,6 +99,12 @@ QtObject {
             "regexp": "functions"
         }
     ]
+    property variant dpTagRegexp: [
+        {
+            "label": i18n("All"),
+            "regexp": ".*"
+        }
+    ]
     property variant fontStyleModel: [
         {
             "label": i18n("normal"),

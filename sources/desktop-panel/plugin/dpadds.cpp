@@ -72,7 +72,7 @@ int DPAdds::currentDesktop() const
 }
 
 
-QStringList DPAdds::dictKeys() const
+QStringList DPAdds::dictKeys(const bool, const QString) const
 {
     QStringList allKeys;
     allKeys.append(QString("mark"));
@@ -217,6 +217,14 @@ void DPAdds::setToolTipData(const QVariantMap tooltipData)
     m_tooltipColor = tooltipData[QString("tooltipColor")].toString();
     m_tooltipType = tooltipData[QString("tooltipType")].toString();
     m_tooltipWidth = tooltipData[QString("tooltipWidth")].toInt();
+}
+
+
+QString DPAdds::infoByKey(QString key) const
+{
+    qCDebug(LOG_AW) << "Requested info for key" << key;
+
+    return QString("(none)");
 }
 
 
