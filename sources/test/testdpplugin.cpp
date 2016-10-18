@@ -67,6 +67,13 @@ void TestDPPlugin::test_dictKeys()
 }
 
 
+void TestDPPlugin::test_infoByKey()
+{
+    // nothing to test here yet
+    QVERIFY(true);
+}
+
+
 void TestDPPlugin::test_parsePattern()
 {
     QString result = plugin->parsePattern(pattern, plugin->currentDesktop());
