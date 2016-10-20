@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 import QtQuick 2.2
-import QtQuick.Controls 1.3 as QtControls
 
 import org.kde.plasma.private.awesomewidget 1.0
 import "."
@@ -72,12 +71,8 @@ Item {
             onUnlock: lock = false
         }
 
-        QtControls.TextArea {
+        AWTextEditor {
             id: textPattern
-            width: parent.width
-            height: parent.height * 4 / 5
-            textFormat: TextEdit.PlainText
-            text: plasmoid.configuration.text
         }
     }
 

@@ -10,6 +10,7 @@ AboutTab file:///usr/share/awesomewidgets/qml/AboutTab.qml
 AWExtensions file:///usr/share/awesomewidgets/qml/AWExtensions.qml
 AWInfoLabel file:///usr/share/awesomewidgets/qml/AWInfoLabel.qml
 AWTagSelector file:///usr/share/awesomewidgets/qml/AWTagSelector.qml
+AWTextEditor file:///usr/share/awesomewidgets/qml/AWTextEditor.qml
 BugReport file:///usr/share/awesomewidgets/qml/BugReport.qml
 ButtonSelector file:///usr/share/awesomewidgets/qml/ButtonSelector.qml
 CheckBoxSelector file:///usr/share/awesomewidgets/qml/CheckBoxSelector.qml

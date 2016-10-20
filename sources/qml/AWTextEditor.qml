@@ -16,52 +16,12 @@
  ***************************************************************************/
 
 import QtQuick 2.0
-
-import org.kde.plasma.private.desktoppanel 1.0
-import "."
+import QtQuick.Controls 1.3 as QtControls
 
 
-Item {
-    id: widgetPage
-    // backend
-    DPAdds {
-        id: dpAdds
-    }
-
-    width: childrenRect.width
-    height: childrenRect.height
-    implicitWidth: pageColumn.implicitWidth
-    implicitHeight: pageColumn.implicitHeight
-
-    property bool debug: dpAdds.isDebugEnabled()
-
-    property alias cfg_text: textPattern.text
-
-
-    Column {
-        id: pageColumn
-        anchors.fill: parent
-
-        AWInfoLabel {}
-
-        HtmlDefaultFunctionsBar {
-            textArea: textPattern
-        }
-
-        AWTagSelector {
-            backend: dpAdds
-            notifyBackend: dpAdds
-            textArea: textPattern
-            groups: general.dpTagRegexp
-        }
-
-        AWTextEditor {
-            id: textPattern
-        }
-    }
-
-
-    Component.onCompleted: {
-        if (debug) console.debug()
-    }
+QtControls.TextArea {
+    width: parent.width
+    height: parent.height * 4 / 5
+    textFormat: TextEdit.PlainText
+    text: plasmoid.configuration.text
 }
