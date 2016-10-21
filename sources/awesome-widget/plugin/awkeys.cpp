@@ -17,7 +17,8 @@
 
 #include "awkeys.h"
 
-#include <QJSEngine>
+#include <QDBusConnection>
+#include <QDBusError>
 #include <QRegExp>
 #include <QThread>
 #include <QTimer>
@@ -25,6 +26,7 @@
 
 #include "awdataaggregator.h"
 #include "awdataengineaggregator.h"
+#include "awdbusadaptor.h"
 #include "awdebug.h"
 #include "awkeycache.h"
 #include "awkeyoperations.h"
@@ -52,6 +54,8 @@ AWKeys::AWKeys(QObject *parent)
     m_timer = new QTimer(this);
     m_timer->setSingleShot(false);
 
+    createDBusInterface();
+
     // update key data if required
     connect(m_keyOperator, SIGNAL(updateKeys(QStringList)), this,
             SLOT(reinitKeys(QStringList)));
@@ -73,6 +77,11 @@ AWKeys::~AWKeys()
 
     m_timer->stop();
     delete m_timer;
+
+    // delete dbus session
+    long id = reinterpret_cast<long>(this);
+    QDBusConnection::sessionBus().unregisterObject(QString("/%1").arg(id));
+    QDBusConnection::sessionBus().unregisterService(AWDBUS_SERVICE);
 
     // core
     delete m_dataEngineAggregator;
@@ -316,6 +325,23 @@ void AWKeys::calculateValues()
     for (auto key : m_foundLambdas)
         m_values[key] = AWPatternFunctions::expandLambdas(
             key, m_aggregator, m_values, m_foundKeys);
+}
+
+
+void AWKeys::createDBusInterface()
+{
+    // get this object id
+    long id = reinterpret_cast<long>(this);
+
+    // create session
+    QDBusConnection bus = QDBusConnection::sessionBus();
+    if (!bus.registerService(AWDBUS_SERVICE))
+        qCWarning(LOG_AW) << "Could not register DBus service, last error"
+                          << bus.lastError().message();
+    if (!bus.registerObject(QString("/%1").arg(id), new AWDBusAdaptor(this),
+                            QDBusConnection::ExportAllContents))
+        qCWarning(LOG_AW) << "Could not register DBus object, last error"
+                          << bus.lastError().message();
 }
 
 

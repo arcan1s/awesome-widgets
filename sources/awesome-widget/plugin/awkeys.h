@@ -76,6 +76,7 @@ private slots:
 private:
     // methods
     void calculateValues();
+    void createDBusInterface();
     QString parsePattern(QString pattern) const;
     void setDataBySource(const QString &sourceName, const QVariantMap &data);
     // objects

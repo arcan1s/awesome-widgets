@@ -45,7 +45,8 @@ public:
     virtual ~DPAdds();
     Q_INVOKABLE bool isDebugEnabled() const;
     Q_INVOKABLE int currentDesktop() const;
-    Q_INVOKABLE QStringList dictKeys(const bool = true, const QString = QString()) const;
+    Q_INVOKABLE QStringList dictKeys(const bool = true,
+                                     const QString = QString()) const;
     Q_INVOKABLE int numberOfDesktops() const;
     Q_INVOKABLE QString toolTipImage(const int desktop) const;
     Q_INVOKABLE QString parsePattern(const QString pattern,

@@ -45,6 +45,7 @@ foreach (TEST_MODULE ${TEST_MODULES})
         set(${TEST_MODULE}_SOURCES ${${TEST_MODULE}_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awactions.cpp
                 ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awdataaggregator.cpp
                 ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awdataengineaggregator.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awdbusadaptor.cpp
                 ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awformatterhelper.cpp
                 ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awkeycache.cpp
                 ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awkeyoperations.cpp

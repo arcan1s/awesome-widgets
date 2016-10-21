@@ -15,29 +15,27 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
+#include "awdbusadaptor.h"
 
-#ifndef AWDEBUG_H
-#define AWDEBUG_H
-
-#include <QLoggingCategory>
-
-#include "version.h"
-
-const char LOG_FORMAT[] = "[%{time "
-                          "process}][%{if-debug}DD%{endif}%{if-info}II%{endif}%"
-                          "{if-warning}WW%{endif}%{if-critical}CC%{endif}%{if-"
-                          "fatal}FF%{endif}][%{category}][%{function}] "
-                          "%{message}";
+#include "awdebug.h"
+#include "awkeys.h"
 
 
-Q_DECLARE_LOGGING_CATEGORY(LOG_AW)
-Q_DECLARE_LOGGING_CATEGORY(LOG_DBUS)
-Q_DECLARE_LOGGING_CATEGORY(LOG_DP)
-Q_DECLARE_LOGGING_CATEGORY(LOG_ESM)
-Q_DECLARE_LOGGING_CATEGORY(LOG_ESS)
-Q_DECLARE_LOGGING_CATEGORY(LOG_LIB)
-
-const QStringList getBuildData();
+AWDBusAdaptor::AWDBusAdaptor(AWKeys *parent)
+    : QDBusAbstractAdaptor(parent)
+    , m_plugin(parent)
+{
+    qCDebug(LOG_DBUS) << __PRETTY_FUNCTION__;
+}
 
 
-#endif /* AWDEBUG_H */
+AWDBusAdaptor::~AWDBusAdaptor()
+{
+    qCDebug(LOG_DBUS) << __PRETTY_FUNCTION__;
+}
+
+
+qlonglong AWDBusAdaptor::whoAmI() const
+{
+    return reinterpret_cast<qlonglong>(m_plugin);
+}

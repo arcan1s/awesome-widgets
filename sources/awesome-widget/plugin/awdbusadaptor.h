@@ -16,28 +16,31 @@
  ***************************************************************************/
 
 
-#ifndef AWDEBUG_H
-#define AWDEBUG_H
+#ifndef AWDBUSADAPTOR_H
+#define AWDBUSADAPTOR_H
 
-#include <QLoggingCategory>
+#include <QDBusAbstractAdaptor>
 
 #include "version.h"
 
-const char LOG_FORMAT[] = "[%{time "
-                          "process}][%{if-debug}DD%{endif}%{if-info}II%{endif}%"
-                          "{if-warning}WW%{endif}%{if-critical}CC%{endif}%{if-"
-                          "fatal}FF%{endif}][%{category}][%{function}] "
-                          "%{message}";
+
+class AWKeys;
+
+class AWDBusAdaptor : public QDBusAbstractAdaptor
+{
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", AWDBUS_SERVICE_NAME)
+
+public:
+    explicit AWDBusAdaptor(AWKeys *parent = nullptr);
+    ~AWDBusAdaptor();
+
+public slots:
+    qlonglong whoAmI() const;
+
+private:
+    AWKeys *m_plugin = nullptr;
+};
 
 
-Q_DECLARE_LOGGING_CATEGORY(LOG_AW)
-Q_DECLARE_LOGGING_CATEGORY(LOG_DBUS)
-Q_DECLARE_LOGGING_CATEGORY(LOG_DP)
-Q_DECLARE_LOGGING_CATEGORY(LOG_ESM)
-Q_DECLARE_LOGGING_CATEGORY(LOG_ESS)
-Q_DECLARE_LOGGING_CATEGORY(LOG_LIB)
-
-const QStringList getBuildData();
-
-
-#endif /* AWDEBUG_H */
+#endif /* AWDBUSADAPTOR_H */

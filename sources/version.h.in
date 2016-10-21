@@ -38,6 +38,10 @@ const int AWEWAPI = 3;
 const int AWEFAPI = 2;
 // telemetry api version
 const int AWTEAPI = 1;
+// dbus adaptor properties
+// use define here instead of normal const definition for moc
+#define AWDBUS_SERVICE_NAME "org.kde.plasma.awesomewidget"
+const char AWDBUS_SERVICE[] = AWDBUS_SERVICE_NAME;
 // network requests timeout, ms
 const int REQUEST_TIMEOUT = 3000;
 // available time keys

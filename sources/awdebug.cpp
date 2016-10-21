@@ -21,6 +21,7 @@
 
 Q_LOGGING_CATEGORY(LOG_AW, "org.kde.plasma.awesomewidget",
                    QtMsgType::QtWarningMsg)
+Q_LOGGING_CATEGORY(LOG_DBUS, "org.kde.plasma.awdbus", QtMsgType::QtWarningMsg)
 Q_LOGGING_CATEGORY(LOG_DP, "org.kde.plasma.desktoppanel",
                    QtMsgType::QtWarningMsg)
 Q_LOGGING_CATEGORY(LOG_ESM, "org.kde.plasma.extsysmon", QtMsgType::QtWarningMsg)
