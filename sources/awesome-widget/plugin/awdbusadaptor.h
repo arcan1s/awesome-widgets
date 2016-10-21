@@ -33,13 +33,24 @@ class AWDBusAdaptor : public QDBusAbstractAdaptor
 
 public:
     explicit AWDBusAdaptor(AWKeys *parent = nullptr);
-    ~AWDBusAdaptor();
+    virtual ~AWDBusAdaptor();
 
 public slots:
-    qlonglong whoAmI() const;
+    // get methods
+    QString Info(const QString key) const;
+    QStringList Keys(const QString regexp) const;
+    QString Value(const QString key) const;
+    qlonglong WhoAmI() const;
+    // set methods
+    void SetLogLevel(const QString what, const int level);
+    void SetLogLevel(const QString what, const QString level,
+                     const bool enabled);
 
 private:
     AWKeys *m_plugin = nullptr;
+    QStringList m_logLevels = QStringList()
+                              << QString("debug") << QString("info")
+                              << QString("warning") << QString("critical");
 };
 
 

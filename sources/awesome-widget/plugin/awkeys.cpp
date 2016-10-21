@@ -81,7 +81,6 @@ AWKeys::~AWKeys()
     // delete dbus session
     long id = reinterpret_cast<long>(this);
     QDBusConnection::sessionBus().unregisterObject(QString("/%1").arg(id));
-    QDBusConnection::sessionBus().unregisterService(AWDBUS_SERVICE);
 
     // core
     delete m_dataEngineAggregator;
