@@ -79,7 +79,7 @@ AWKeys::~AWKeys()
     delete m_timer;
 
     // delete dbus session
-    long id = reinterpret_cast<long>(this);
+    qlonglong id = reinterpret_cast<qlonglong>(this);
     QDBusConnection::sessionBus().unregisterObject(QString("/%1").arg(id));
 
     // core
@@ -330,7 +330,7 @@ void AWKeys::calculateValues()
 void AWKeys::createDBusInterface()
 {
     // get this object id
-    long id = reinterpret_cast<long>(this);
+    qlonglong id = reinterpret_cast<qlonglong>(this);
 
     // create session
     QDBusConnection bus = QDBusConnection::sessionBus();

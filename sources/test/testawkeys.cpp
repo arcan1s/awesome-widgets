@@ -18,10 +18,13 @@
 
 #include "testawkeys.h"
 
+#include <QDBusConnection>
+#include <QDBusMessage>
 #include <QtTest>
 
 #include "awkeys.h"
 #include "awtestlibrary.h"
+#include "version.h"
 
 
 void TestAWKeys::initTestCase()
@@ -156,6 +159,26 @@ void TestAWKeys::test_valueByKey()
             notEmpty++;
     }
     QVERIFY(notEmpty > 0);
+}
+
+
+void TestAWKeys::test_dbus()
+{
+    // get id
+    qlonglong id = reinterpret_cast<qlonglong>(plugin);
+
+    // create connection and message
+    QDBusConnection bus = QDBusConnection::sessionBus();
+    QDBusMessage request
+        = QDBusMessage::createMethodCall(AWDBUS_SERVICE, QString("/%1").arg(id),
+                                         AWDBUS_SERVICE, QString("WhoAmI"));
+    // send message to dbus
+    QDBusMessage response = bus.call(request, QDBus::BlockWithGui);
+
+    // parse result
+    QList<QVariant> arguments = response.arguments();
+    QVERIFY(!arguments.isEmpty());
+    QCOMPARE(arguments.at(0).toLongLong(), id);
 }
 
 
