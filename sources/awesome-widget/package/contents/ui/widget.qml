@@ -73,6 +73,7 @@ Item {
 
         AWTextEditor {
             id: textPattern
+            backend: awKeys
         }
     }
 

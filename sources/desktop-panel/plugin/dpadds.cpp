@@ -72,15 +72,21 @@ int DPAdds::currentDesktop() const
 }
 
 
-QStringList DPAdds::dictKeys(const bool, const QString) const
+QStringList DPAdds::dictKeys(const bool sorted, const QString regexp) const
 {
+    qCDebug(LOG_DP) << "Should be sorted" << sorted << "and filter applied"
+                    << regexp;
+
     QStringList allKeys;
     allKeys.append(QString("mark"));
     allKeys.append(QString("name"));
     allKeys.append(QString("number"));
     allKeys.append(QString("total"));
 
-    return allKeys;
+    if (sorted)
+        allKeys.sort();
+
+    return allKeys.filter(QRegExp(regexp));
 }
 
 

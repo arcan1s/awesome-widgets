@@ -155,9 +155,7 @@ QStringList AWKeyOperations::dictKeys() const
     for (auto item : m_graphicalItems->activeItems())
         allKeys.append(item->tag(QString("bar")));
     // static keys
-    QStringList staticKeys = QString(STATIC_KEYS).split(QChar(','));
-    std::for_each(staticKeys.cbegin(), staticKeys.cend(),
-                  [&allKeys](const QString &key) { allKeys.append(key); });
+    allKeys.append(QString(STATIC_KEYS).split(QChar(',')));
 
     // sort in valid order
     allKeys.sort();

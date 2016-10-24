@@ -57,6 +57,7 @@ Item {
 
         AWTextEditor {
             id: textPattern
+            backend: dpAdds
         }
     }
 
