@@ -33,6 +33,22 @@ Item {
 
         QtControls.ToolTip {
             id: tooltip
+
+            property string substring
+            property var tags: []
+            text: tags.join('\n')
+
+            bottomPadding: 0
+            topPadding: 0
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    var tagHeight = tooltip.height / tooltip.tags.length
+                    var pos = Math.round(mouse.y / tagHeight, 0)
+                    appendTag(tooltip.tags[pos], tooltip.substring)
+                }
+            }
         }
 
         onTextChanged: {
@@ -42,17 +58,16 @@ Item {
                 tooltip.visible = false
                 return
             }
-            var tags = backend.dictKeys(true, "^" + currentTag).join('\n')
-            // exit if no suggestion found
-            if (tags.length == 0) {
-                tooltip.visible = false
-                return
-            }
             // update tooltip and show it
-            tooltip.text = tags
+            tooltip.substring = currentTag
+            tooltip.tags = backend.dictKeys(true, "^" + tooltip.substring)
             changeTooltipPosition()
-            tooltip.visible = true
+            tooltip.visible = (tooltip.tags.length != 0)
         }
+    }
+
+    function appendTag(tag, substring) {
+        textArea.insert(textArea.cursorPosition, tag.substring(substring.length))
     }
 
     function changeTooltipPosition() {

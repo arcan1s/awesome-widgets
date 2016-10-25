@@ -49,7 +49,7 @@ QtDialogs.Dialog {
         width: parent.width
         anchors.top: title.bottom
         anchors.bottom: parent.bottom
- 
+
         QtControls.GroupBox {
             width: parent.width
             height: parent.height / 5
@@ -122,7 +122,7 @@ QtDialogs.Dialog {
             QtDialogs.FileDialog {
                 id: logPath
                 title: i18n("Open log file")
-                onAccepted: 
+                onAccepted:
                     logBody.text = awActions.getFileContent(logPath.fileUrl.toString().replace("file://", ""))
             }
         }
