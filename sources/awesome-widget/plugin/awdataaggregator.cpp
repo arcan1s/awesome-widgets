@@ -143,9 +143,9 @@ QPixmap AWDataAggregator::tooltipImage()
         for (int j = 0; j < m_values[key].count() - 1; j++) {
             // some magic here
             float x1 = j * normX + shift;
-            float y1 = -fabs(m_values[key].at(j)) * normY + 5.0f;
+            float y1 = -std::fabs(m_values[key].at(j)) * normY + 5.0f;
             float x2 = (j + 1) * normX + shift;
-            float y2 = -fabs(m_values[key].at(j + 1)) * normY + 5.0f;
+            float y2 = -std::fabs(m_values[key].at(j + 1)) * normY + 5.0f;
             if (key == QString("batTooltip")) {
                 if (m_values[key].at(j + 1) > 0)
                     pen.setColor(
