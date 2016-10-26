@@ -29,6 +29,9 @@ Item {
     QtControls.TextArea {
         id: textArea
         anchors.fill: parent
+        background: Rectangle {
+            color: "white"
+        }
         textFormat: TextEdit.PlainText
 
         QtControls.ToolTip {
