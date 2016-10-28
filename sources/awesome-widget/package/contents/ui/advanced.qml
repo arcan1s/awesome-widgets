@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 import QtQuick 2.0
+import QtQuick.Controls 1.3 as QtControls
 
 import org.kde.plasma.private.awesomewidget 1.0
 
@@ -25,9 +26,6 @@ Item {
     // backend
     AWActions {
         id: awActions
-    }
-    AWConfigHelper {
-        id: awConfig
     }
 
     width: childrenRect.width
@@ -53,6 +51,8 @@ Item {
     property alias cfg_customUptime: customUptime.value
     property alias cfg_acOnline: acOnline.value
     property alias cfg_acOffline: acOffline.value
+    property alias cfg_telemetry: telemetry.checked
+    property alias cfg_telemetryId: telemetryId.value
 
 
     Column {
@@ -191,37 +191,74 @@ Item {
             value: plasmoid.configuration.acOffline
         }
 
-        ButtonSelector {
-            value: i18n("Drop key cache")
-            onButtonActivated: awActions.dropCache()
-        }
+        QtControls.GroupBox {
+            height: implicitHeight
+            width: parent.width
+            title: i18n("Actions")
 
-        ButtonSelector {
-            ExportDialog {
-                id: saveConfigAs
-                configuration: plasmoid.configuration
-            }
-
-            value: i18n("Export configuration")
-            onButtonActivated: saveConfigAs.open()
-        }
-
-        ButtonSelector {
-            ImportDialog {
-                id: loadConfigFrom
-                onConfigurationReceived: {
-                    for (var key in configuration)
-                        plasmoid.configuration[key] = configuration[key]
+            Column {
+                height: implicitHeight
+                width: parent.width
+                ButtonSelector {
+                    value: i18n("Drop key cache")
+                    onButtonActivated: awActions.dropCache()
+                }
+                ButtonSelector {
+                    ExportDialog {
+                        id: saveConfigAs
+                        configuration: plasmoid.configuration
+                    }
+                    value: i18n("Export configuration")
+                    onButtonActivated: saveConfigAs.open()
+                }
+                ButtonSelector {
+                    ImportDialog {
+                        id: loadConfigFrom
+                        onConfigurationReceived: {
+                            for (var key in configuration)
+                                plasmoid.configuration[key] = configuration[key]
+                        }
+                    }
+                    value: i18n("Import configuration")
+                    onButtonActivated: loadConfigFrom.open()
                 }
             }
+        }
 
-            value: i18n("Import configuration")
-            onButtonActivated: loadConfigFrom.open()
+        QtControls.GroupBox {
+            height: implicitHeight
+            width: parent.width
+            title: i18n("Telemetry")
+
+            Column {
+                height: implicitHeight
+                width: parent.width
+                CheckBoxSelector {
+                    id: telemetry
+                    text: i18n("Enable remote telemetry")
+                }
+                LineSelector {
+                    id: telemetryId
+                    text: i18n("Telemetry ID")
+                    value: plasmoid.configuration.telemetryId
+                }
+            }
         }
     }
 
 
     Component.onCompleted: {
         if (debug) console.debug()
+
+        // generate UUID if missing
+        if (telemetryId.value.length == 0)
+            telemetryId.value = generateUuid()
+    }
+
+    function generateUuid() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+            return v.toString(16);
+        });
     }
 }

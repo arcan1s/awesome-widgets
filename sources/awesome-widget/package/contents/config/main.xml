@@ -62,6 +62,12 @@
         <entry name="acOffline" type="string">
             <default>( )</default>
         </entry>
+        <entry name="telemetry" type="bool">
+            <default>false</default>
+        </entry>
+        <entry name="telemetryId" type="string">
+            <default></default>
+        </entry>
     </group>
 
     <group name="Tooltip">
