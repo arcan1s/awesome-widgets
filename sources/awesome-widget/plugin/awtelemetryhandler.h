@@ -39,6 +39,7 @@ public:
     virtual ~AWTelemetryHandler();
     Q_INVOKABLE QStringList get(const QString group) const;
     Q_INVOKABLE QString getLast(const QString group) const;
+    Q_INVOKABLE void init(const int count, const bool enableRemote, const QString clientId);
     Q_INVOKABLE bool put(const QString group, const QString value) const;
     Q_INVOKABLE void uploadTelemetry(const QString group, const QString value);
 
@@ -50,11 +51,7 @@ private slots:
 
 private:
     QString getKey(const int count) const;
-    void init();
-    bool setConfiguration(const QString key, const QVariant value,
-                          const bool override) const;
     QString m_clientId;
-    QString m_genericConfig;
     QString m_localFile;
     int m_storeCount = 0;
     bool m_uploadEnabled = false;

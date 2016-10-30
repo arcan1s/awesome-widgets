@@ -210,7 +210,13 @@ Item {
         awKeys.setAggregatorProperty("customUptime", plasmoid.configuration.customUptime)
         awKeys.setAggregatorProperty("tempUnits", plasmoid.configuration.tempUnits)
         awKeys.setAggregatorProperty("translate", plasmoid.configuration.translateStrings)
+        // update telemetry ID
+        if (plasmoid.configuration.telemetryId.length == 0)
+            plasmoid.configuration.telemetryId = generateUuid()
         // save telemetry
+        awTelemetryHandler.init(plasmoid.configuration.telemetryCount,
+                                plasmoid.configuration.telemetryRemote,
+                                plasmoid.configuration.telemetryId)
         if (awTelemetryHandler.put("awwidgetconfig", plasmoid.configuration.text))
             awTelemetryHandler.uploadTelemetry("awwidgetconfig", plasmoid.configuration.text)
     }
@@ -240,5 +246,13 @@ Item {
 
         tagSelectorBox.model = awKeys.dictKeys(true)
         return tagSelector.open()
+    }
+
+    // code from http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+    function generateUuid() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
     }
 }

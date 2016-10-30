@@ -51,7 +51,8 @@ Item {
     property alias cfg_customUptime: customUptime.value
     property alias cfg_acOnline: acOnline.value
     property alias cfg_acOffline: acOffline.value
-    property alias cfg_telemetry: telemetry.checked
+    property alias cfg_telemetryCount: telemetryCount.value
+    property alias cfg_telemetryRemote: telemetryRemote.checked
     property alias cfg_telemetryId: telemetryId.value
 
 
@@ -234,8 +235,16 @@ Item {
                 height: implicitHeight
                 width: parent.width
                 CheckBoxSelector {
-                    id: telemetry
+                    id: telemetryRemote
                     text: i18n("Enable remote telemetry")
+                }
+                IntegerSelector {
+                    id: telemetryCount
+                    maximumValue: 10000
+                    minimumValue: 0
+                    stepSize: 50
+                    text: i18n("History count")
+                    value: plasmoid.configuration.telemetryCount
                 }
                 LineSelector {
                     id: telemetryId
@@ -249,17 +258,5 @@ Item {
 
     Component.onCompleted: {
         if (debug) console.debug()
-
-        // generate UUID if missing
-        if (telemetryId.value.length == 0)
-            telemetryId.value = generateUuid()
-    }
-
-    // code from http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
-    function generateUuid() {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-            return v.toString(16);
-        });
     }
 }

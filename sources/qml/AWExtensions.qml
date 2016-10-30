@@ -31,6 +31,9 @@ Row {
     AWFormatterConfigFactory {
         id: awFormatter
     }
+    AWTelemetryHandler {
+        id: awTelemetryHandler
+    }
     // parent object in which text will be replaced
     property var textArea
 

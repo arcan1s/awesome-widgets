@@ -62,7 +62,10 @@
         <entry name="acOffline" type="string">
             <default>( )</default>
         </entry>
-        <entry name="telemetry" type="bool">
+        <entry name="telemetryCount" type="int">
+            <default>100</default>
+        </entry>
+        <entry name="telemetryRemote" type="bool">
             <default>false</default>
         </entry>
         <entry name="telemetryId" type="string">

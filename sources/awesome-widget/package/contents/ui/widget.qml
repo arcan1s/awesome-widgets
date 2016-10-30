@@ -30,9 +30,6 @@ Item {
     AWActions {
         id: awActions
     }
-    AWTelemetryHandler {
-        id: awTelemetryHandler
-    }
 
     width: childrenRect.width
     height: childrenRect.height
