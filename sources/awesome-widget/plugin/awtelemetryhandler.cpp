@@ -74,9 +74,11 @@ QString AWTelemetryHandler::getLast(const QString group) const
 }
 
 
-void AWTelemetryHandler::init(const int count, const bool enableRemote, const QString clientId)
+void AWTelemetryHandler::init(const int count, const bool enableRemote,
+                              const QString clientId)
 {
-    qCDebug(LOG_AW) << "Init telemetry with count" << count << "enable remote" << enableRemote << "client ID" << clientId;
+    qCDebug(LOG_AW) << "Init telemetry with count" << count << "enable remote"
+                    << enableRemote << "client ID" << clientId;
 
     m_storeCount = count;
     m_uploadEnabled = enableRemote;

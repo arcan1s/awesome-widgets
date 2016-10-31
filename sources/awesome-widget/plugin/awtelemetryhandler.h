@@ -39,7 +39,8 @@ public:
     virtual ~AWTelemetryHandler();
     Q_INVOKABLE QStringList get(const QString group) const;
     Q_INVOKABLE QString getLast(const QString group) const;
-    Q_INVOKABLE void init(const int count, const bool enableRemote, const QString clientId);
+    Q_INVOKABLE void init(const int count, const bool enableRemote,
+                          const QString clientId);
     Q_INVOKABLE bool put(const QString group, const QString value) const;
     Q_INVOKABLE void uploadTelemetry(const QString group, const QString value);
 
