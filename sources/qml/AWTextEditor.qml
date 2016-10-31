@@ -34,22 +34,20 @@ Item {
         }
         textFormat: TextEdit.PlainText
 
-        QtControls.ToolTip {
+        Column {
             id: tooltip
 
             property string substring
-            property var tags: []
-            text: tags.join('\n')
 
-            bottomPadding: 0
-            topPadding: 0
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    var tagHeight = tooltip.height / tooltip.tags.length
-                    var pos = Math.round(mouse.y / tagHeight, 0)
-                    appendTag(tooltip.tags[pos], tooltip.substring)
+            Repeater {
+                id: tags
+                Text {
+                    id: text
+                    text: modelData
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: appendTag(text.text, tooltip.substring)
+                    }
                 }
             }
         }
@@ -63,9 +61,12 @@ Item {
             }
             // update tooltip and show it
             tooltip.substring = currentTag
-            tooltip.tags = backend.dictKeys(true, "^" + tooltip.substring)
+            tags.model = backend.dictKeys(true, "^" + tooltip.substring)
             changeTooltipPosition()
-            tooltip.visible = (tooltip.tags.length != 0)
+            // show tooltip if found more than 1 or current text does not match
+            // tag found
+            tooltip.visible = ((tags.count > 1)
+                               || ((tags.count == 1) && (tags.model[0] != tooltip.substring)))
         }
     }
 
@@ -74,8 +75,8 @@ Item {
     }
 
     function changeTooltipPosition() {
-        tooltip.x = textArea. cursorRectangle.x
-        tooltip.y = textArea. cursorRectangle.y
+        tooltip.x = textArea.cursorRectangle.x
+        tooltip.y = textArea.cursorRectangle.y
     }
 
     function getLastTag() {
