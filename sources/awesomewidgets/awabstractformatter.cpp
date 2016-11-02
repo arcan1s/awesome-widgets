@@ -69,6 +69,9 @@ QString AWAbstractFormatter::strType() const
     case FormatterClass::String:
         value = QString("String");
         break;
+    case FormatterClass::Json:
+        value = QString("Json");
+        break;
     case FormatterClass::NoFormat:
         value = QString("NoFormat");
         break;
@@ -98,6 +101,8 @@ void AWAbstractFormatter::setStrType(const QString _type)
         m_type = FormatterClass::Script;
     else if (_type == QString("String"))
         m_type = FormatterClass::String;
+    else if (_type == QString("Json"))
+        m_type = FormatterClass::Json;
     else
         m_type = FormatterClass::NoFormat;
 }

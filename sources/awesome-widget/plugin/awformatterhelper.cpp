@@ -26,6 +26,7 @@
 #include "awdatetimeformatter.h"
 #include "awdebug.h"
 #include "awfloatformatter.h"
+#include "awjsonformatter.h"
 #include "awlistformatter.h"
 #include "awnoformatter.h"
 #include "awscriptformatter.h"
@@ -169,6 +170,8 @@ AWFormatterHelper::defineFormatterClass(const QString stringType) const
         formatter = AWAbstractFormatter::FormatterClass::Script;
     else if (stringType == QString("String"))
         formatter = AWAbstractFormatter::FormatterClass::String;
+    else if (stringType == QString("Json"))
+        formatter = AWAbstractFormatter::FormatterClass::Json;
     else
         qCWarning(LOG_AW) << "Unknown formatter" << stringType;
 
@@ -215,6 +218,9 @@ void AWFormatterHelper::initFormatters()
             case AWAbstractFormatter::FormatterClass::String:
                 m_formattersClasses[name]
                     = new AWStringFormatter(this, filePath);
+                break;
+            case AWAbstractFormatter::FormatterClass::Json:
+                m_formattersClasses[name] = new AWJsonFormatter(this, filePath);
                 break;
             case AWAbstractFormatter::FormatterClass::NoFormat:
                 m_formattersClasses[name] = new AWNoFormatter(this, filePath);
@@ -296,7 +302,8 @@ void AWFormatterHelper::doCreateItem()
     QStringList selection = QStringList()
                             << QString("NoFormat") << QString("DateTime")
                             << QString("Float") << QString("List")
-                            << QString("Script") << QString("String");
+                            << QString("Script") << QString("String")
+                            << QString("Json");
     bool ok;
     QString select = QInputDialog::getItem(
         this, i18n("Select type"), i18n("Type:"), selection, 0, false, &ok);
@@ -319,6 +326,8 @@ void AWFormatterHelper::doCreateItem()
         return createItem<AWScriptFormatter>();
     case AWAbstractFormatter::FormatterClass::String:
         return createItem<AWStringFormatter>();
+    case AWAbstractFormatter::FormatterClass::Json:
+        return createItem<AWNoFormatter>();
     case AWAbstractFormatter::FormatterClass::NoFormat:
         return createItem<AWNoFormatter>();
     }

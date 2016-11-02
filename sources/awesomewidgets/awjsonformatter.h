@@ -15,50 +15,48 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef AWABSTRACTFORMATTER_H
-#define AWABSTRACTFORMATTER_H
+#ifndef AWJSONFORMATTER_H
+#define AWJSONFORMATTER_H
 
-#include "abstractextitem.h"
+#include "awabstractformatter.h"
 
 
-class AWAbstractFormatter : public AbstractExtItem
+namespace Ui
+{
+class AWJsonFormatter;
+}
+
+class AWJsonFormatter : public AWAbstractFormatter
 {
     Q_OBJECT
-    Q_PROPERTY(FormatterClass type READ type WRITE setType)
-    Q_PROPERTY(QString strType READ strType WRITE setStrType)
+    Q_PROPERTY(QString path READ path WRITE setPath)
 
 public:
-    enum class FormatterClass {
-        DateTime,
-        Float,
-        List,
-        Script,
-        String,
-        NoFormat,
-        Json
-    };
-
-    explicit AWAbstractFormatter(QWidget *parent,
-                                 const QString filePath = QString());
-    virtual ~AWAbstractFormatter();
-    virtual QString convert(const QVariant &_value) const = 0;
-    void copyDefaults(AbstractExtItem *_other) const;
-    QString uniq() const;
+    explicit AWJsonFormatter(QWidget *parent,
+                             const QString filePath = QString());
+    virtual ~AWJsonFormatter();
+    QString convert(const QVariant &_value) const;
+    AWJsonFormatter *copy(const QString _fileName, const int _number);
     // properties
-    QString strType() const;
-    FormatterClass type() const;
-    void setStrType(const QString type);
-    void setType(const FormatterClass _type = FormatterClass::NoFormat);
+    QString path() const;
+    void setPath(const QString _path);
 
 public slots:
-    virtual void readConfiguration();
-    QVariantHash run() { return QVariantHash(); };
-    virtual void writeConfiguration() const;
+    void readConfiguration();
+    int showConfiguration(const QVariant args = QVariant());
+    void writeConfiguration() const;
 
 private:
+    Ui::AWJsonFormatter *ui = nullptr;
+    QVariant getFromJson(const QVariant &value, const QVariant &element) const;
+    QVariant getFromList(const QVariant &value, const int index) const;
+    QVariant getFromMap(const QVariant &value, const QString &key) const;
+    void initPath();
+    void translate();
     // properties
-    FormatterClass m_type = FormatterClass::NoFormat;
+    QString m_path;
+    QVariantList m_splittedPath;
 };
 
 
-#endif /* AWABSTRACTFORMATTER_H */
+#endif /* AWJSONFORMATTER_H */
