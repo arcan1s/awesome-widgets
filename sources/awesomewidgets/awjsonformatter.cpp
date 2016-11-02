@@ -178,8 +178,8 @@ QVariant AWJsonFormatter::getFromMap(const QVariant &value,
 void AWJsonFormatter::initPath()
 {
     m_splittedPath.clear();
-    QStringList splittedByDot = m_path.split(QRegExp(QString("(\\.|\\[|\\])")),
-                                             QString::SkipEmptyParts);
+    QStringList splittedByDot
+        = m_path.split(QChar('.'), QString::SkipEmptyParts);
 
     for (auto &element : splittedByDot) {
         bool ok;

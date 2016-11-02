@@ -27,7 +27,7 @@ set(LIBRARY_TEST_SET ${SUBPROJECT}-awtest ${PROJECT_LIBRARY} ${PROJECT_MONITORSO
 # modules
 set(TEST_MODULES
         abstractextitem extquotes extscript extupgrade extweather
-        abstractformatter datetimeformatter floatformatter listformatter noformatter scriptformatter stringformatter
+        abstractformatter datetimeformatter floatformatter jsonformatter listformatter noformatter scriptformatter stringformatter
         extitemaggregator
         batterysource desktopsource gpuloadsource gputempsource hddtempsource networksource playersource processessource
         awbugreporter awconfighelper awkeycache awkeys awpatternfunctions awtelemetryhandler awupdatehelper

@@ -16,15 +16,16 @@
  ***************************************************************************/
 
 
-#ifndef TESTSCRIPTFORMATTER_H
-#define TESTSCRIPTFORMATTER_H
+#ifndef TESTJSONFORMATTER_H
+#define TESTJSONFORMATTER_H
 
 #include <QObject>
+#include <QVariant>
 
 
-class AWScriptFormatter;
+class AWJsonFormatter;
 
-class TestAWScriptFormatter : public QObject
+class TestAWJsonFormatter : public QObject
 {
     Q_OBJECT
 
@@ -35,16 +36,15 @@ private slots:
     // test
     void test_values();
     void test_conversion();
-    void test_appendCode();
-    void test_hasReturn();
     void test_copy();
 
 private:
-    AWScriptFormatter *formatter = nullptr;
-    QString code = QString("output = value");
-    QString codeWithReturn = QString("%1; return output;").arg(code);
-    QString fullCode = QString("(function(value) { %1 })").arg(codeWithReturn);
+    void generate();
+    AWJsonFormatter *formatter = nullptr;
+    QVariant json;
+    QString path;
+    QString value;
 };
 
 
-#endif /* TESTSCRIPTFORMATTER_H */
+#endif /* TESTJSONFORMATTER_Hl */
