@@ -227,7 +227,7 @@ void ExtWeather::readConfiguration()
         settings.value(QString("X-AW-Provider"), strProvider()).toString());
     settings.endGroup();
 
-    bumpApi(AWEWAPI);
+    bumpApi(AW_EXTWEATHER_API);
 }
 
 
@@ -301,7 +301,7 @@ int ExtWeather::showConfiguration(const QVariant args)
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
     setNumber(ui->label_numberValue->text().toInt());
-    setApiVersion(AWEWAPI);
+    setApiVersion(AW_EXTWEATHER_API);
     setCity(ui->lineEdit_city->text());
     setCountry(ui->lineEdit_country->text());
     setProvider(static_cast<Provider>(ui->comboBox_provider->currentIndex()));

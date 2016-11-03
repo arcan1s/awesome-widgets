@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=httpbin
+Comment=httpbin example
+X-AW-Ticker=https://httpbin.org/get
+X-AW-Active=false
+X-AW-ApiVersion=1
+X-AW-Interval=10
+X-AW-Number=0

@@ -15,22 +15,25 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#include "extupgrade.h"
-#include "ui_extupgrade.h"
+#include "extnetworkrequest.h"
+#include "ui_extnetworkrequest.h"
 
 #include <KI18n/KLocalizedString>
 
 #include <QDir>
-#include <QRegExp>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
 #include <QSettings>
 #include <QTextCodec>
+
+#include <qreplytimeout/qreplytimeout.h>
 
 #include "awdebug.h"
 
 
-ExtUpgrade::ExtUpgrade(QWidget *parent, const QString filePath)
+ExtNetworkRequest::ExtNetworkRequest(QWidget *parent, const QString filePath)
     : AbstractExtItem(parent, filePath)
-    , ui(new Ui::ExtUpgrade)
+    , ui(new Ui::ExtNetworkRequest)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
@@ -39,116 +42,88 @@ ExtUpgrade::ExtUpgrade(QWidget *parent, const QString filePath)
     ui->setupUi(this);
     translate();
 
-    m_values[tag(QString("pkgcount"))] = 0;
+    m_values[tag(QString("response"))] = QString();
 
-    m_process = new QProcess(nullptr);
-    connect(m_process, SIGNAL(finished(int)), this, SLOT(updateValue()));
-    m_process->waitForFinished(0);
+    // HACK declare as child of nullptr to avoid crash with plasmawindowed
+    // in the destructor
+    m_manager = new QNetworkAccessManager(nullptr);
+    connect(m_manager, SIGNAL(finished(QNetworkReply *)), this,
+            SLOT(networkReplyReceived(QNetworkReply *)));
 }
 
 
-ExtUpgrade::~ExtUpgrade()
+ExtNetworkRequest::~ExtNetworkRequest()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    m_process->kill();
-    m_process->deleteLater();
+    disconnect(m_manager, SIGNAL(finished(QNetworkReply *)), this,
+               SLOT(networkReplyReceived(QNetworkReply *)));
+
+    m_manager->deleteLater();
     delete ui;
 }
 
 
-ExtUpgrade *ExtUpgrade::copy(const QString _fileName, const int _number)
+ExtNetworkRequest *ExtNetworkRequest::copy(const QString _fileName,
+                                           const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    ExtUpgrade *item
-        = new ExtUpgrade(static_cast<QWidget *>(parent()), _fileName);
+    ExtNetworkRequest *item
+        = new ExtNetworkRequest(static_cast<QWidget *>(parent()), _fileName);
     copyDefaults(item);
-    item->setExecutable(executable());
-    item->setFilter(filter());
     item->setNumber(_number);
-    item->setNull(null());
+    item->setStringUrl(stringUrl());
 
     return item;
 }
 
 
-QString ExtUpgrade::executable() const
+QString ExtNetworkRequest::stringUrl() const
 {
-    return m_executable;
+    return m_stringUrl;
 }
 
 
-QString ExtUpgrade::filter() const
+QString ExtNetworkRequest::uniq() const
 {
-    return m_filter;
+    return m_url.toString();
 }
 
 
-int ExtUpgrade::null() const
+void ExtNetworkRequest::setStringUrl(const QString _url)
 {
-    return m_null;
+    qCDebug(LOG_LIB) << "Url" << _url;
+
+    m_stringUrl = _url;
+    initUrl();
 }
 
 
-QString ExtUpgrade::uniq() const
-{
-    return executable();
-}
-
-
-void ExtUpgrade::setExecutable(const QString _executable)
-{
-    qCDebug(LOG_LIB) << "Executable" << _executable;
-
-    m_executable = _executable;
-}
-
-
-void ExtUpgrade::setFilter(const QString _filter)
-{
-    qCDebug(LOG_LIB) << "Filter" << _filter;
-
-    m_filter = _filter;
-}
-
-
-void ExtUpgrade::setNull(const int _null)
-{
-    qCDebug(LOG_LIB) << "Null lines" << _null;
-    if (_null < 0)
-        return;
-
-    m_null = _null;
-}
-
-
-void ExtUpgrade::readConfiguration()
+void ExtNetworkRequest::readConfiguration()
 {
     AbstractExtItem::readConfiguration();
 
     QSettings settings(fileName(), QSettings::IniFormat);
 
     settings.beginGroup(QString("Desktop Entry"));
-    setExecutable(settings.value(QString("Exec"), executable()).toString());
-    setNull(settings.value(QString("X-AW-Null"), null()).toInt());
-    // api == 3
-    setFilter(settings.value(QString("X-AW-Filter"), filter()).toString());
+    setStringUrl(settings.value(QString("X-AW-Url"), stringUrl()).toString());
     settings.endGroup();
 
-    bumpApi(AW_EXTUPGRADE_API);
+    bumpApi(AW_EXTNETREQUEST_API);
 }
 
 
-QVariantHash ExtUpgrade::run()
+QVariantHash ExtNetworkRequest::run()
 {
-    if (!isActive())
+    if ((!isActive()) || (m_isRunning))
         return m_values;
 
-    if ((m_times == 1) && (m_process->state() == QProcess::NotRunning)) {
-        QString cmd = QString("sh -c \"%1\"").arg(executable());
-        qCInfo(LOG_LIB) << "Run cmd" << cmd;
-        m_process->start(cmd);
+    if (m_times == 1) {
+        qCInfo(LOG_LIB) << "Send request";
+        m_isRunning = true;
+        QNetworkReply *reply = m_manager->get(QNetworkRequest(m_url));
+        new QReplyTimeout(reply, REQUEST_TIMEOUT);
     }
 
     // update value
@@ -160,18 +135,16 @@ QVariantHash ExtUpgrade::run()
 }
 
 
-int ExtUpgrade::showConfiguration(const QVariant args)
+int ExtNetworkRequest::showConfiguration(const QVariant args)
 {
     Q_UNUSED(args)
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
     ui->label_numberValue->setText(QString("%1").arg(number()));
-    ui->lineEdit_command->setText(executable());
-    ui->lineEdit_filter->setText(filter());
+    ui->lineEdit_url->setText(stringUrl());
     ui->checkBox_active->setCheckState(isActive() ? Qt::Checked
                                                   : Qt::Unchecked);
-    ui->spinBox_null->setValue(null());
     ui->spinBox_interval->setValue(interval());
 
     int ret = exec();
@@ -180,11 +153,9 @@ int ExtUpgrade::showConfiguration(const QVariant args)
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
     setNumber(ui->label_numberValue->text().toInt());
-    setApiVersion(AW_EXTUPGRADE_API);
-    setExecutable(ui->lineEdit_command->text());
-    setFilter(ui->lineEdit_filter->text());
+    setApiVersion(AW_EXTNETREQUEST_API);
+    setStringUrl(ui->lineEdit_url->text());
     setActive(ui->checkBox_active->checkState() == Qt::Checked);
-    setNull(ui->spinBox_null->value());
     setInterval(ui->spinBox_interval->value());
 
     writeConfiguration();
@@ -192,7 +163,7 @@ int ExtUpgrade::showConfiguration(const QVariant args)
 }
 
 
-void ExtUpgrade::writeConfiguration() const
+void ExtNetworkRequest::writeConfiguration() const
 {
     AbstractExtItem::writeConfiguration();
 
@@ -200,44 +171,40 @@ void ExtUpgrade::writeConfiguration() const
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("Exec"), executable());
-    settings.setValue(QString("X-AW-Filter"), filter());
-    settings.setValue(QString("X-AW-Null"), null());
+    settings.setValue(QString("X-AW-Url"), stringUrl());
     settings.endGroup();
 
     settings.sync();
 }
 
-
-void ExtUpgrade::updateValue()
+void ExtNetworkRequest::networkReplyReceived(QNetworkReply *reply)
 {
-    qCInfo(LOG_LIB) << "Cmd returns" << m_process->exitCode();
-    qCInfo(LOG_LIB) << "Error" << m_process->readAllStandardError();
+    if (reply->error() != QNetworkReply::NoError) {
+        qCWarning(LOG_AW) << "An error occurs" << reply->error()
+                          << "with message" << reply->errorString();
+        return;
+    }
 
-    QString qoutput = QTextCodec::codecForMib(106)
-                          ->toUnicode(m_process->readAllStandardOutput())
-                          .trimmed();
-    m_values[tag(QString("pkgcount"))] = [this](QString output) {
-        return filter().isEmpty()
-                   ? output.split(QChar('\n'), QString::SkipEmptyParts).count()
-                         - null()
-                   : output.split(QChar('\n'), QString::SkipEmptyParts)
-                         .filter(QRegExp(filter()))
-                         .count();
-    }(qoutput);
+    m_isRunning = false;
+    m_values[tag(QString("response"))]
+        = QTextCodec::codecForMib(106)->toUnicode(reply->readAll()).trimmed();
 
     emit(dataReceived(m_values));
 }
 
 
-void ExtUpgrade::translate()
+void ExtNetworkRequest::initUrl()
+{
+    m_url = QUrl(m_stringUrl);
+}
+
+
+void ExtNetworkRequest::translate()
 {
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
     ui->label_number->setText(i18n("Tag"));
-    ui->label_command->setText(i18n("Command"));
-    ui->label_filter->setText(i18n("Filter"));
+    ui->label_url->setText(i18n("URL"));
     ui->checkBox_active->setText(i18n("Active"));
-    ui->label_null->setText(i18n("Null"));
     ui->label_interval->setText(i18n("Interval"));
 }

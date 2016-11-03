@@ -42,12 +42,14 @@ const QStringList getBuildData()
     metadata.append(QString("    BUILD_DATE: %1").arg(BUILD_DATE));
     // configuration
     metadata.append(QString("API details:"));
-    metadata.append(QString("    AWGIAPI: %1").arg(AWGIAPI));
-    metadata.append(QString("    AWEQAPI: %1").arg(AWEQAPI));
-    metadata.append(QString("    AWESAPI: %1").arg(AWESAPI));
-    metadata.append(QString("    AWEUAPI: %1").arg(AWEUAPI));
-    metadata.append(QString("    AWEWAPI: %1").arg(AWEWAPI));
-    metadata.append(QString("    AWEFAPI: %1").arg(AWEFAPI));
+    metadata.append(QString("    AW_GRAPHITEM_API: %1").arg(AW_GRAPHITEM_API));
+    metadata.append(QString("    AW_EXTQUOTES_API: %1").arg(AW_EXTQUOTES_API));
+    metadata.append(QString("    AW_EXTSCRIPT_API: %1").arg(AW_EXTSCRIPT_API));
+    metadata.append(
+        QString("    AW_EXTUPGRADE_API: %1").arg(AW_EXTUPGRADE_API));
+    metadata.append(
+        QString("    AW_EXTWEATHER_API: %1").arg(AW_EXTWEATHER_API));
+    metadata.append(QString("    AW_FORMATTER_API: %1").arg(AW_FORMATTER_API));
     metadata.append(QString("    REQUEST_TIMEOUT: %1").arg(REQUEST_TIMEOUT));
     metadata.append(QString("    TIME_KEYS: %1").arg(TIME_KEYS));
     metadata.append(QString("    STATIC_KEYS: %1").arg(STATIC_KEYS));

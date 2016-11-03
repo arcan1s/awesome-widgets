@@ -30,6 +30,7 @@
 class AWDataAggregator;
 class AWDataEngineAggregator;
 class AWKeysAggregator;
+class ExtNetworkRequest;
 class ExtQuotes;
 class ExtScript;
 class ExtUpgrade;
@@ -70,6 +71,7 @@ private:
     void reinitKeys();
     // objects
     ExtItemAggregator<GraphicalItem> *m_graphicalItems = nullptr;
+    ExtItemAggregator<ExtNetworkRequest> *m_extNetRequest = nullptr;
     ExtItemAggregator<ExtQuotes> *m_extQuotes = nullptr;
     ExtItemAggregator<ExtScript> *m_extScripts = nullptr;
     ExtItemAggregator<ExtUpgrade> *m_extUpgrade = nullptr;

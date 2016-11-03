@@ -221,13 +221,18 @@ Item {
                 }
 
                 ButtonSelector {
-                    value: i18n("Quotes monitor")
-                    onButtonActivated: awKeys.editItem("extquotes")
+                    value: i18n("Network requests")
+                    onButtonActivated: awKeys.editItem("extnetworkrequest")
                 }
 
                 ButtonSelector {
                     value: i18n("Package manager")
                     onButtonActivated: awKeys.editItem("extupgrade")
+                }
+
+                ButtonSelector {
+                    value: i18n("Quotes monitor")
+                    onButtonActivated: awKeys.editItem("extquotes")
                 }
 
                 ButtonSelector {

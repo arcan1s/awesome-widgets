@@ -132,7 +132,7 @@ void AWListFormatter::readConfiguration()
     setSorted(settings.value(QString("X-AW-Sort"), isSorted()).toBool());
     settings.endGroup();
 
-    bumpApi(AWEFAPI);
+    bumpApi(AW_FORMATTER_API);
 }
 
 
@@ -153,7 +153,7 @@ int AWListFormatter::showConfiguration(const QVariant args)
         return ret;
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
-    setApiVersion(AWEFAPI);
+    setApiVersion(AW_FORMATTER_API);
     setStrType(ui->label_typeValue->text());
     setFilter(ui->lineEdit_filter->text());
     setSeparator(ui->lineEdit_separator->text());

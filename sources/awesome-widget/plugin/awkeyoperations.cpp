@@ -26,6 +26,7 @@
 #include "awkeycache.h"
 #include "awpatternfunctions.h"
 // extensions
+#include "extnetworkrequest.h"
 #include "extquotes.h"
 #include "extscript.h"
 #include "extupgrade.h"
@@ -46,6 +47,7 @@ AWKeyOperations::~AWKeyOperations()
 
     // extensions
     delete m_graphicalItems;
+    delete m_extNetRequest;
     delete m_extQuotes;
     delete m_extScripts;
     delete m_extUpgrade;
@@ -151,6 +153,9 @@ QStringList AWKeyOperations::dictKeys() const
     // custom
     for (auto item : m_extScripts->activeItems())
         allKeys.append(item->tag(QString("custom")));
+    // network requests
+    for (auto item : m_extNetRequest->activeItems())
+        allKeys.append(item->tag(QString("response")));
     // bars
     for (auto item : m_graphicalItems->activeItems())
         allKeys.append(item->tag(QString("bar")));
@@ -225,6 +230,10 @@ QString AWKeyOperations::infoByKey(QString key) const
     } else if (key.startsWith(QString("temp"))) {
         output
             = m_devices[QString("temp")][key.remove(QString("temp")).toInt()];
+    } else if (key.startsWith(QString("response"))) {
+        AbstractExtItem *item = m_extNetRequest->itemByTag(key, stripped);
+        if (item)
+            output = item->uniq();
     } else {
         output = QString("(none)");
     }
@@ -257,6 +266,8 @@ void AWKeyOperations::editItem(const QString type)
         keys.sort();
         m_graphicalItems->setConfigArgs(keys);
         return m_graphicalItems->editItems();
+    } else if (type == QString("extnetworkrequest")) {
+        return m_extNetRequest->editItems();
     } else if (type == QString("extquotes")) {
         return m_extQuotes->editItems();
     } else if (type == QString("extscript")) {
@@ -308,6 +319,8 @@ void AWKeyOperations::reinitKeys()
     // delete them if any
     delete m_graphicalItems;
     m_graphicalItems = nullptr;
+    delete m_extNetRequest;
+    m_extNetRequest = nullptr;
     delete m_extQuotes;
     m_extQuotes = nullptr;
     delete m_extScripts;
@@ -319,6 +332,8 @@ void AWKeyOperations::reinitKeys()
     // create
     m_graphicalItems
         = new ExtItemAggregator<GraphicalItem>(nullptr, QString("desktops"));
+    m_extNetRequest = new ExtItemAggregator<ExtNetworkRequest>(
+        nullptr, QString("requests"));
     m_extQuotes = new ExtItemAggregator<ExtQuotes>(nullptr, QString("quotes"));
     m_extScripts
         = new ExtItemAggregator<ExtScript>(nullptr, QString("scripts"));

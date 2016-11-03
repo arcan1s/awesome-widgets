@@ -229,7 +229,7 @@ void ExtScript::readConfiguration()
                    .split(QChar(','), QString::SkipEmptyParts));
     settings.endGroup();
 
-    bumpApi(AWESAPI);
+    bumpApi(AW_EXTSCRIPT_API);
 }
 
 
@@ -313,7 +313,7 @@ int ExtScript::showConfiguration(const QVariant args)
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
     setNumber(ui->label_numberValue->text().toInt());
-    setApiVersion(AWESAPI);
+    setApiVersion(AW_EXTSCRIPT_API);
     setExecutable(ui->lineEdit_command->text());
     setPrefix(ui->lineEdit_prefix->text());
     setActive(ui->checkBox_active->checkState() == Qt::Checked);

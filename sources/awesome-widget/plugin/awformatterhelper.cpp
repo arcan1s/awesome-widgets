@@ -327,7 +327,7 @@ void AWFormatterHelper::doCreateItem()
     case AWAbstractFormatter::FormatterClass::String:
         return createItem<AWStringFormatter>();
     case AWAbstractFormatter::FormatterClass::Json:
-        return createItem<AWNoFormatter>();
+        return createItem<AWJsonFormatter>();
     case AWAbstractFormatter::FormatterClass::NoFormat:
         return createItem<AWNoFormatter>();
     }

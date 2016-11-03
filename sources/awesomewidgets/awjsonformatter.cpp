@@ -21,6 +21,7 @@
 
 #include <KI18n/KLocalizedString>
 
+#include <QJsonDocument>
 #include <QSettings>
 
 #include "awdebug.h"
@@ -51,7 +52,12 @@ QString AWJsonFormatter::convert(const QVariant &_value) const
 {
     qCDebug(LOG_LIB) << "Convert value" << _value;
 
-    QVariant converted = _value;
+    // check if _value is string and parse first if required
+    QJsonDocument json
+        = _value.type() == QVariant::String
+              ? QJsonDocument::fromJson(_value.toString().toUtf8())
+              : QJsonDocument::fromVariant(_value);
+    QVariant converted = json.toVariant();
     for (auto &element : m_splittedPath)
         converted = getFromJson(converted, element);
 
@@ -99,7 +105,7 @@ void AWJsonFormatter::readConfiguration()
     setPath(settings.value(QString("X-AW-Path"), path()).toString());
     settings.endGroup();
 
-    bumpApi(AWEFAPI);
+    bumpApi(AW_FORMATTER_API);
 }
 
 
@@ -109,7 +115,7 @@ int AWJsonFormatter::showConfiguration(const QVariant args)
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
-    ui->label_typeValue->setText(QString("NoFormat"));
+    ui->label_typeValue->setText(QString("Json"));
     ui->lineEdit_path->setText(path());
 
     int ret = exec();
@@ -117,7 +123,7 @@ int AWJsonFormatter::showConfiguration(const QVariant args)
         return ret;
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
-    setApiVersion(AWEFAPI);
+    setApiVersion(AW_FORMATTER_API);
     setStrType(ui->label_typeValue->text());
     setPath(ui->lineEdit_path->text());
 

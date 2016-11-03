@@ -25,19 +25,21 @@ const char CHANGELOG[] = "@PROJECT_CHANGELOG@";
 
 // configuraion
 // graphical items api version
-const int AWGIAPI = 5;
+const int AW_GRAPHITEM_API = 5;
 // extquotes api version
-const int AWEQAPI = 3;
+const int AW_EXTQUOTES_API = 3;
 // extscript api version
-const int AWESAPI = 4;
+const int AW_EXTSCRIPT_API = 4;
 // extupgrade api version
-const int AWEUAPI = 3;
+const int AW_EXTUPGRADE_API = 3;
 // extweather api version
-const int AWEWAPI = 3;
+const int AW_EXTWEATHER_API = 3;
+// extnetworkrequest api version
+const int AW_EXTNETREQUEST_API = 1;
 // formatter api version
-const int AWEFAPI = 2;
+const int AW_FORMATTER_API = 3;
 // telemetry api version
-const int AWTEAPI = 1;
+const int AW_TELEMETRY_API = 1;
 // dbus adaptor properties
 // use define here instead of normal const definition for moc
 #define AWDBUS_SERVICE_NAME "org.kde.plasma.awesomewidget"

@@ -152,7 +152,7 @@ void AWScriptFormatter::readConfiguration()
         settings.value(QString("X-AW-HasReturn"), hasReturn()).toBool());
     settings.endGroup();
 
-    bumpApi(AWEFAPI);
+    bumpApi(AW_FORMATTER_API);
 }
 
 
@@ -174,7 +174,7 @@ int AWScriptFormatter::showConfiguration(const QVariant args)
         return ret;
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
-    setApiVersion(AWEFAPI);
+    setApiVersion(AW_FORMATTER_API);
     setStrType(ui->label_typeValue->text());
     setAppendCode(ui->checkBox_appendCode->checkState() == Qt::Checked);
     setHasReturn(ui->checkBox_hasReturn->checkState() == Qt::Checked);

@@ -29,6 +29,7 @@
 #include "playersource.h"
 #include "processessource.h"
 #include "quotessource.h"
+#include "requestsource.h"
 #include "upgradesource.h"
 #include "weathersource.h"
 
@@ -134,6 +135,11 @@ void ExtSysMonAggregator::init(const QHash<QString, QString> config)
         = new ProcessesSource(this, QStringList());
     for (auto source : processesItem->sources())
         m_map[source] = processesItem;
+    // network request
+    AbstractExtSysMonSource *requestItem
+        = new RequestSource(this, QStringList());
+    for (auto source : requestItem->sources())
+        m_map[source] = requestItem;
     // quotes
     AbstractExtSysMonSource *quotesItem = new QuotesSource(this, QStringList());
     for (auto source : quotesItem->sources())

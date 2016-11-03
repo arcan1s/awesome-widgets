@@ -144,7 +144,7 @@ void AWTelemetryHandler::uploadTelemetry(const QString group,
 
     // generate payload
     QVariantMap payload;
-    payload[QString("api")] = AWTEAPI;
+    payload[QString("api")] = AW_TELEMETRY_API;
     payload[QString("client_id")] = m_clientId;
     payload[QString("metadata")] = value;
     payload[QString("type")] = group;

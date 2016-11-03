@@ -119,7 +119,7 @@ void ExtQuotes::readConfiguration()
     setTicker(settings.value(QString("X-AW-Ticker"), ticker()).toString());
     settings.endGroup();
 
-    bumpApi(AWEQAPI);
+    bumpApi(AW_EXTQUOTES_API);
 }
 
 
@@ -162,7 +162,7 @@ int ExtQuotes::showConfiguration(const QVariant args)
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
     setNumber(ui->label_numberValue->text().toInt());
-    setApiVersion(AWEQAPI);
+    setApiVersion(AW_EXTQUOTES_API);
     setTicker(ui->lineEdit_ticker->text());
     setActive(ui->checkBox_active->checkState() == Qt::Checked);
     setInterval(ui->spinBox_interval->value());
