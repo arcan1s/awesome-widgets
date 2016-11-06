@@ -34,9 +34,9 @@ public:
     explicit ExtItemAggregator(QWidget *parent, const QString type)
         : AbstractExtItemAggregator(parent, type)
     {
-        qSetMessagePattern(LOG_FORMAT);
+        qSetMessagePattern(AWDebug::LOG_FORMAT);
         qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
-        for (auto metadata : getBuildData())
+        for (auto &metadata : AWDebug::getBuildData())
             qCDebug(LOG_LIB) << metadata;
 
         qCDebug(LOG_LIB) << "Type" << type;

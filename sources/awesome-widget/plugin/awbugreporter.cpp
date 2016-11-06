@@ -66,7 +66,7 @@ QString AWBugReporter::generateText(const QString description,
     output += QString("**Step to reproduce**\n\n%1\n\n").arg(reproduce);
     output += QString("**Expected result**\n\n%1\n\n").arg(expected);
     output += QString("**Version**\n\n%1\n\n")
-                  .arg(getBuildData().join(QString("\n")));
+                  .arg(AWDebug::getBuildData().join(QString("\n")));
     // append logs
     output += QString("**Logs**\n\n%1").arg(logs);
 

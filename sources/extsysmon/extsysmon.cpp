@@ -32,9 +32,9 @@ ExtendedSysMon::ExtendedSysMon(QObject *parent, const QVariantList &args)
     : Plasma::DataEngine(parent, args)
 {
     Q_UNUSED(args)
-    qSetMessagePattern(LOG_FORMAT);
+    qSetMessagePattern(AWDebug::LOG_FORMAT);
     qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
-    for (auto metadata : getBuildData())
+    for (auto &metadata : AWDebug::getBuildData())
         qCDebug(LOG_ESM) << metadata;
 
     setMinimumPollingInterval(333);

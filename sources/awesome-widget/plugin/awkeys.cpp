@@ -38,9 +38,9 @@
 AWKeys::AWKeys(QObject *parent)
     : QObject(parent)
 {
-    qSetMessagePattern(LOG_FORMAT);
+    qSetMessagePattern(AWDebug::LOG_FORMAT);
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
-    for (auto metadata : getBuildData())
+    for (auto &metadata : AWDebug::getBuildData())
         qCDebug(LOG_AW) << metadata;
 
     // thread pool

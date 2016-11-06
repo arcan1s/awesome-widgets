@@ -39,9 +39,9 @@
 DPAdds::DPAdds(QObject *parent)
     : QObject(parent)
 {
-    qSetMessagePattern(LOG_FORMAT);
+    qSetMessagePattern(AWDebug::LOG_FORMAT);
     qCDebug(LOG_DP) << __PRETTY_FUNCTION__;
-    for (auto metadata : getBuildData())
+    for (auto &metadata : AWDebug::getBuildData())
         qCDebug(LOG_DP) << metadata;
 
     connect(KWindowSystem::self(), SIGNAL(currentDesktopChanged(int)), this,
@@ -262,67 +262,7 @@ QString DPAdds::getAboutText(const QString type) const
 {
     qCDebug(LOG_DP) << "Type" << type;
 
-    QString text;
-    if (type == QString("header")) {
-        text = QString(NAME);
-    } else if (type == QString("version")) {
-        text = i18n("Version %1 (build date %2)", QString(VERSION),
-                    QString(BUILD_DATE));
-        if (!QString(COMMIT_SHA).isEmpty())
-            text += QString(" (%1)").arg(QString(COMMIT_SHA));
-    } else if (type == QString("description")) {
-        text = i18n("A set of minimalistic plasmoid widgets");
-    } else if (type == QString("links")) {
-        text = i18n("Links:") + QString("<br>")
-               + QString("<a href=\"%1\">%2</a><br>")
-                     .arg(QString(HOMEPAGE))
-                     .arg(i18n("Homepage"))
-               + QString("<a href=\"%1\">%2</a><br>")
-                     .arg(QString(REPOSITORY))
-                     .arg(i18n("Repository"))
-               + QString("<a href=\"%1\">%2</a><br>")
-                     .arg(QString(BUGTRACKER))
-                     .arg(i18n("Bugtracker"))
-               + QString("<a href=\"%1\">%2</a><br>")
-                     .arg(QString(TRANSLATION))
-                     .arg(i18n("Translation issue"))
-               + QString("<a href=\"%1\">%2</a><br>")
-                     .arg(QString(AUR_PACKAGES))
-                     .arg(i18n("AUR packages"))
-               + QString("<a href=\"%1\">%2</a>")
-                     .arg(QString(OPENSUSE_PACKAGES))
-                     .arg(i18n("openSUSE packages"));
-    } else if (type == QString("copy")) {
-        text = QString("<small>&copy; %1 <a href=\"mailto:%2\">%3</a><br>")
-                   .arg(QString(DATE))
-                   .arg(QString(EMAIL))
-                   .arg(QString(AUTHOR))
-               + i18n("This software is licensed under %1", QString(LICENSE))
-               + QString("</small>");
-    } else if (type == QString("translators")) {
-        text = i18n("Translators: %1", QString(TRANSLATORS));
-    } else if (type == QString("3rdparty")) {
-        QStringList trdPartyList
-            = QString(TRDPARTY_LICENSE)
-                  .split(QChar(';'), QString::SkipEmptyParts);
-        for (int i = 0; i < trdPartyList.count(); i++)
-            trdPartyList[i]
-                = QString("<a href=\"%3\">%1</a> (%2 license)")
-                      .arg(trdPartyList.at(i).split(QChar(',')).at(0))
-                      .arg(trdPartyList.at(i).split(QChar(',')).at(1))
-                      .arg(trdPartyList.at(i).split(QChar(',')).at(2));
-        text = i18n("This software uses: %1", trdPartyList.join(QString(", ")));
-    } else if (type == QString("thanks")) {
-        QStringList thanks = QString(SPECIAL_THANKS)
-                                 .split(QChar(';'), QString::SkipEmptyParts);
-        for (int i = 0; i < thanks.count(); i++)
-            thanks[i] = QString("<a href=\"%2\">%1</a>")
-                            .arg(thanks.at(i).split(QChar(','))[0])
-                            .arg(thanks.at(i).split(QChar(','))[1]);
-        text = i18n("Special thanks to %1", thanks.join(QString(", ")));
-    }
-
-    return text;
+    return AWDebug::getAboutText(type);
 }
 
 
