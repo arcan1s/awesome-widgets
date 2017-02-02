@@ -31,8 +31,7 @@ class AWTelemetryHandler : public QObject
     Q_OBJECT
 
 public:
-    const char *REMOTE_TELEMETRY_URL = "http://arcanis.me/telemetry";
-    const int REMOTE_TELEMETRY_PORT = 8080;
+    const char *REMOTE_TELEMETRY_URL = "https://arcanis.me/telemetry";
 
     explicit AWTelemetryHandler(QObject *parent = nullptr,
                                 const QString clientId = QString());

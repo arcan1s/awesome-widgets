@@ -28,8 +28,8 @@ class OWMWeatherProvider : public AbstractWeatherProvider
 public:
     // we are using own server to pass requests to OpenWeatherMap because it
     // requires specific APPID which belongs to developer not user
-    const char *OWM_WEATHER_URL = "http://arcanis.me/weather";
-    const char *OWM_FORECAST_URL = "http://arcanis.me/forecast";
+    const char *OWM_WEATHER_URL = "https://arcanis.me/weather";
+    const char *OWM_FORECAST_URL = "https://arcanis.me/forecast";
 
     explicit OWMWeatherProvider(QObject *parent, const int number);
     virtual ~OWMWeatherProvider();

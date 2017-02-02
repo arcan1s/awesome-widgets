@@ -66,7 +66,7 @@ const char STATIC_KEYS[]
 #cmakedefine BUILD_TESTING
 
 // links
-const char HOMEPAGE[] = "https://arcanis.me/projects/awesome-widgets/";
+const char HOMEPAGE[] = "https://arcanis.me/projects/awesome-widgets";
 const char REPOSITORY[] = "https://github.com/arcan1s/awesome-widgets";
 const char RELEASES[]
     = "https://github.com/arcan1s/awesome-widgets/releases/tag/V.";
@@ -74,7 +74,7 @@ const char VERSION_API[]
     = "https://api.github.com/repos/arcan1s/awesome-widgets/releases";
 const char BUGTRACKER[] = "https://github.com/arcan1s/awesome-widgets/issues";
 const char BUGTRACKER_API[]
-    = "http://arcanis.me/repos/arcan1s/awesome-widgets/issues";
+    = "https://arcanis.me/repos/arcan1s/awesome-widgets/issues";
 const char TRANSLATION[]
     = "https://github.com/arcan1s/awesome-widgets/issues/14";
 const char AUR_PACKAGES[]

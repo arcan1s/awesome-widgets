@@ -138,7 +138,6 @@ void AWTelemetryHandler::uploadTelemetry(const QString group,
             SLOT(telemetryReplyRecieved(QNetworkReply *)));
 
     QUrl url(REMOTE_TELEMETRY_URL);
-    url.setPort(REMOTE_TELEMETRY_PORT);
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
