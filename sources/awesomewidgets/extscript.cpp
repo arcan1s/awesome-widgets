@@ -48,6 +48,8 @@ ExtScript::ExtScript(QWidget *parent, const QString filePath)
     connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this,
             SLOT(updateValue()));
     m_process->waitForFinished(0);
+
+    connect(this, SIGNAL(socketActivated()), this, SLOT(startProcess()));
 }
 
 
@@ -55,8 +57,11 @@ ExtScript::~ExtScript()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
+    disconnect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this,
+               SLOT(updateValue()));
     m_process->kill();
     m_process->deleteLater();
+    disconnect(this, SIGNAL(socketActivated()), this, SLOT(startProcess()));
     delete ui;
 }
 
@@ -260,22 +265,14 @@ void ExtScript::readJsonFilters()
 }
 
 
+#include <QThread>
 QVariantHash ExtScript::run()
 {
-    if (!isActive())
+    if (!canRun())
         return m_values;
-    if (m_process->state() != QProcess::NotRunning)
-        qCWarning(LOG_LIB) << "Another process is already running"
-                           << m_process->state();
 
-    if ((m_times == 1) && (m_process->state() == QProcess::NotRunning)) {
-        QStringList cmdList;
-        if (!prefix().isEmpty())
-            cmdList.append(prefix());
-        cmdList.append(executable());
-        qCInfo(LOG_LIB) << "Run cmd" << cmdList.join(QChar(' '));
-        m_process->start(cmdList.join(QChar(' ')));
-    }
+    if (m_times == 1)
+        startProcess();
 
     // update value
     if (m_times >= interval())
@@ -350,6 +347,17 @@ void ExtScript::writeConfiguration() const
 }
 
 
+void ExtScript::startProcess()
+{
+    QStringList cmdList;
+    if (!prefix().isEmpty())
+        cmdList.append(prefix());
+    cmdList.append(executable());
+    qCInfo(LOG_LIB) << "Run cmd" << cmdList.join(QChar(' '));
+    m_process->start(cmdList.join(QChar(' ')));
+}
+
+
 void ExtScript::updateValue()
 {
     qCInfo(LOG_LIB) << "Cmd returns" << m_process->exitCode();
@@ -380,6 +388,13 @@ void ExtScript::updateValue()
     // filters
     m_values[tag(QString("custom"))] = applyFilters(strValue);
     emit(dataReceived(m_values));
+}
+
+
+bool ExtScript::canRun() const
+{
+    return ((isActive()) && (m_process->state() == QProcess::NotRunning)
+            && (socket().isEmpty()));
 }
 
 

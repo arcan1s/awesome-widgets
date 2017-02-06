@@ -30,6 +30,7 @@ RequestSource::RequestSource(QObject *parent, const QStringList args)
 
     m_extNetRequest = new ExtItemAggregator<ExtNetworkRequest>(
         nullptr, QString("requests"));
+    m_extNetRequest->initSockets();
     m_sources = getSources();
 }
 

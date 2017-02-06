@@ -49,6 +49,8 @@ ExtNetworkRequest::ExtNetworkRequest(QWidget *parent, const QString filePath)
     m_manager = new QNetworkAccessManager(nullptr);
     connect(m_manager, SIGNAL(finished(QNetworkReply *)), this,
             SLOT(networkReplyReceived(QNetworkReply *)));
+
+    connect(this, SIGNAL(socketActivated()), this, SLOT(sendRequest()));
 }
 
 
@@ -58,6 +60,7 @@ ExtNetworkRequest::~ExtNetworkRequest()
 
     disconnect(m_manager, SIGNAL(finished(QNetworkReply *)), this,
                SLOT(networkReplyReceived(QNetworkReply *)));
+    disconnect(this, SIGNAL(socketActivated()), this, SLOT(sendRequest()));
 
     m_manager->deleteLater();
     delete ui;
@@ -116,15 +119,11 @@ void ExtNetworkRequest::readConfiguration()
 
 QVariantHash ExtNetworkRequest::run()
 {
-    if ((!isActive()) || (m_isRunning))
+    if (!canRun())
         return m_values;
 
-    if (m_times == 1) {
-        qCInfo(LOG_LIB) << "Send request";
-        m_isRunning = true;
-        QNetworkReply *reply = m_manager->get(QNetworkRequest(m_url));
-        new QReplyTimeout(reply, REQUEST_TIMEOUT);
-    }
+    if (m_times == 1)
+        sendRequest();
 
     // update value
     if (m_times >= interval())
@@ -190,6 +189,20 @@ void ExtNetworkRequest::networkReplyReceived(QNetworkReply *reply)
         = QTextCodec::codecForMib(106)->toUnicode(reply->readAll()).trimmed();
 
     emit(dataReceived(m_values));
+}
+
+
+void ExtNetworkRequest::sendRequest()
+{
+    m_isRunning = true;
+    QNetworkReply *reply = m_manager->get(QNetworkRequest(m_url));
+    new QReplyTimeout(reply, REQUEST_TIMEOUT);
+}
+
+
+bool ExtNetworkRequest::canRun() const
+{
+    return ((isActive()) && (!m_isRunning) && (socket().isEmpty()));
 }
 
 

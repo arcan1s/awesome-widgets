@@ -30,6 +30,7 @@ UpgradeSource::UpgradeSource(QObject *parent, const QStringList args)
 
     m_extUpgrade
         = new ExtItemAggregator<ExtUpgrade>(nullptr, QString("upgrade"));
+    m_extUpgrade->initSockets();
     m_sources = getSources();
 }
 

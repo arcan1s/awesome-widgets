@@ -44,6 +44,8 @@ ExtUpgrade::ExtUpgrade(QWidget *parent, const QString filePath)
     m_process = new QProcess(nullptr);
     connect(m_process, SIGNAL(finished(int)), this, SLOT(updateValue()));
     m_process->waitForFinished(0);
+
+    connect(this, SIGNAL(socketActivated()), this, SLOT(startProcess()));
 }
 
 
@@ -53,6 +55,7 @@ ExtUpgrade::~ExtUpgrade()
 
     m_process->kill();
     m_process->deleteLater();
+    disconnect(this, SIGNAL(socketActivated()), this, SLOT(startProcess()));
     delete ui;
 }
 
@@ -145,11 +148,8 @@ QVariantHash ExtUpgrade::run()
     if (!isActive())
         return m_values;
 
-    if ((m_times == 1) && (m_process->state() == QProcess::NotRunning)) {
-        QString cmd = QString("sh -c \"%1\"").arg(executable());
-        qCInfo(LOG_LIB) << "Run cmd" << cmd;
-        m_process->start(cmd);
-    }
+    if (m_times == 1)
+        startProcess();
 
     // update value
     if (m_times >= interval())
@@ -209,6 +209,14 @@ void ExtUpgrade::writeConfiguration() const
 }
 
 
+void ExtUpgrade::startProcess()
+{
+    QString cmd = QString("sh -c \"%1\"").arg(executable());
+    qCInfo(LOG_LIB) << "Run cmd" << cmd;
+    m_process->start(cmd);
+}
+
+
 void ExtUpgrade::updateValue()
 {
     qCInfo(LOG_LIB) << "Cmd returns" << m_process->exitCode();
@@ -227,6 +235,13 @@ void ExtUpgrade::updateValue()
     }(qoutput);
 
     emit(dataReceived(m_values));
+}
+
+
+bool ExtUpgrade::canRun()
+{
+    return ((isActive()) && (m_process->state() == QProcess::NotRunning)
+            && (socket().isEmpty()));
 }
 
 

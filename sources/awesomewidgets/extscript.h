@@ -73,11 +73,13 @@ public slots:
     void writeConfiguration() const;
 
 private slots:
+    void startProcess();
     void updateValue();
 
 private:
     QProcess *m_process = nullptr;
     Ui::ExtScript *ui = nullptr;
+    bool canRun() const;
     void translate();
     // properties
     QString m_executable = QString("/usr/bin/true");

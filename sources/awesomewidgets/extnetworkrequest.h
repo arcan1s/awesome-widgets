@@ -52,12 +52,14 @@ public slots:
 
 private slots:
     void networkReplyReceived(QNetworkReply *reply);
+    void sendRequest();
 
 private:
     QNetworkAccessManager *m_manager = nullptr;
     QUrl m_url;
     bool m_isRunning = false;
     Ui::ExtNetworkRequest *ui = nullptr;
+    bool canRun() const;
     void initUrl();
     void translate();
     // properties

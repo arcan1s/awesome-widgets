@@ -70,6 +70,7 @@ public slots:
     void writeConfiguration() const;
 
 private slots:
+    void sendRequest();
     void weatherReplyReceived(QNetworkReply *reply);
 
 private:
@@ -77,6 +78,7 @@ private:
     AbstractWeatherProvider *m_providerObject = nullptr;
     bool m_isRunning = false;
     Ui::ExtWeather *ui = nullptr;
+    bool canRun();
     void initProvider();
     void translate();
     // properties

@@ -68,7 +68,6 @@ void TestExtQuotes::test_run()
     QCOMPARE(firstValue[extQuotes->tag(QString("bid"))].toDouble(), 0.0);
     QCOMPARE(firstValue[extQuotes->tag(QString("price"))].toDouble(), 0.0);
     for (auto type : types) {
-        qDebug() << "Test type" << type;
         QVERIFY((cache[type].toDouble() > price.first)
                 && (cache[type].toDouble() < price.second));
     }
@@ -93,7 +92,6 @@ void TestExtQuotes::test_derivatives()
         = arguments.at(0).toHash()[extQuotes->tag(QString("price"))];
 
     for (auto type : types) {
-        qDebug() << "Test type" << type;
         QCOMPARE(arguments.at(0)
                      .toHash()[extQuotes->tag(QString("%1chg").arg(type))]
                      .toDouble(),

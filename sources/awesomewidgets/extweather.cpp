@@ -58,6 +58,8 @@ ExtWeather::ExtWeather(QWidget *parent, const QString filePath)
     m_manager = new QNetworkAccessManager(nullptr);
     connect(m_manager, SIGNAL(finished(QNetworkReply *)), this,
             SLOT(weatherReplyReceived(QNetworkReply *)));
+
+    connect(this, SIGNAL(socketActivated()), this, SLOT(sendRequest()));
 }
 
 
@@ -67,6 +69,7 @@ ExtWeather::~ExtWeather()
 
     disconnect(m_manager, SIGNAL(finished(QNetworkReply *)), this,
                SLOT(weatherReplyReceived(QNetworkReply *)));
+    disconnect(this, SIGNAL(socketActivated()), this, SLOT(sendRequest()));
 
     m_manager->deleteLater();
     delete m_providerObject;
@@ -262,13 +265,8 @@ QVariantHash ExtWeather::run()
     if ((!isActive()) || (m_isRunning))
         return m_values;
 
-    if (m_times == 1) {
-        qCInfo(LOG_LIB) << "Send request";
-        m_isRunning = true;
-        QNetworkReply *reply
-            = m_manager->get(QNetworkRequest(m_providerObject->url()));
-        new QReplyTimeout(reply, REQUEST_TIMEOUT);
-    }
+    if (m_times == 1)
+        sendRequest();
 
     // update value
     if (m_times >= interval())
@@ -334,6 +332,15 @@ void ExtWeather::writeConfiguration() const
 }
 
 
+void ExtWeather::sendRequest()
+{
+    m_isRunning = true;
+    QNetworkReply *reply
+        = m_manager->get(QNetworkRequest(m_providerObject->url()));
+    new QReplyTimeout(reply, REQUEST_TIMEOUT);
+}
+
+
 void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
 {
     if (reply->error() != QNetworkReply::NoError) {
@@ -359,6 +366,12 @@ void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
         = weatherFromInt(m_values[tag(QString("weatherId"))].toInt());
 
     emit(dataReceived(m_values));
+}
+
+
+bool ExtWeather::canRun()
+{
+    return ((isActive()) && (!m_isRunning) && (socket().isEmpty()));
 }
 
 

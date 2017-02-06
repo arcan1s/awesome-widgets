@@ -61,6 +61,15 @@ public:
         qCInfo(LOG_LIB) << "Dialog returns" << ret;
     };
 
+    void initSockets()
+    {
+        // HACK as soon as per one widget instance we have two objects each of
+        // them will try to control socket, whereas actually only one of them
+        // should be owner of the socket
+        for (auto item : m_items)
+            item->initSocket();
+    }
+
     T *itemByTag(const QString _tag, const QString _type) const
     {
         qCDebug(LOG_LIB) << "Tag" << _tag << "with used type" << _type;

@@ -55,12 +55,14 @@ public slots:
 
 private slots:
     void quotesReplyReceived(QNetworkReply *reply);
+    void sendRequest();
 
 private:
     QNetworkAccessManager *m_manager = nullptr;
     QUrl m_url;
     bool m_isRunning = false;
     Ui::ExtQuotes *ui = nullptr;
+    bool canRun() const;
     void initUrl();
     void translate();
     // properties

@@ -30,6 +30,7 @@ CustomSource::CustomSource(QObject *parent, const QStringList args)
 
     m_extScripts
         = new ExtItemAggregator<ExtScript>(nullptr, QString("scripts"));
+    m_extScripts->initSockets();
     m_sources = getSources();
 }
 

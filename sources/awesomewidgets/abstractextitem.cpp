@@ -18,6 +18,7 @@
 #include "abstractextitem.h"
 
 #include <QDir>
+#include <QLocalServer>
 #include <QSettings>
 #include <QStandardPaths>
 #include <QTime>
@@ -41,6 +42,12 @@ AbstractExtItem::AbstractExtItem(QWidget *parent, const QString filePath)
 AbstractExtItem::~AbstractExtItem()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
+
+    if (m_socket) {
+        m_socket->close();
+        m_socket->removeServer(socket());
+        delete m_socket;
+    }
 }
 
 
@@ -65,6 +72,7 @@ void AbstractExtItem::copyDefaults(AbstractExtItem *_other) const
     _other->setComment(comment());
     _other->setInterval(interval());
     _other->setName(name());
+    _other->setSocket(socket());
 }
 
 
@@ -122,6 +130,12 @@ QString AbstractExtItem::name() const
 int AbstractExtItem::number() const
 {
     return m_number;
+}
+
+
+QString AbstractExtItem::socket() const
+{
+    return m_socketFile;
 }
 
 
@@ -196,6 +210,44 @@ void AbstractExtItem::setNumber(int _number)
 }
 
 
+void AbstractExtItem::setSocket(const QString _socket)
+{
+    qCDebug(LOG_LIB) << "Socket" << _socket;
+    // remove old socket first
+    deinitSocket();
+
+    m_socketFile = _socket;
+    if (socket().isEmpty())
+        return;
+}
+
+
+void AbstractExtItem::deinitSocket()
+{
+    if (!m_socket)
+        return;
+
+    m_socket->close();
+    m_socket->removeServer(socket());
+    delete m_socket;
+    disconnect(m_socket, SIGNAL(newConnection()), this,
+               SLOT(newConnectionReceived()));
+}
+
+
+void AbstractExtItem::initSocket()
+{
+    // remove old socket first
+    deinitSocket();
+
+    m_socket = new QLocalServer(this);
+    bool listening = m_socket->listen(socket());
+    qCInfo(LOG_LIB) << "Server listening on" << socket() << listening;
+    connect(m_socket, SIGNAL(newConnection()), this,
+            SLOT(newConnectionReceived()));
+}
+
+
 void AbstractExtItem::readConfiguration()
 {
     QSettings settings(m_fileName, QSettings::IniFormat);
@@ -210,6 +262,7 @@ void AbstractExtItem::readConfiguration()
         == QString("true"));
     setInterval(settings.value(QString("X-AW-Interval"), interval()).toInt());
     setNumber(settings.value(QString("X-AW-Number"), number()).toInt());
+    setSocket(settings.value(QString("X-AW-Socket"), socket()).toString());
     settings.endGroup();
 }
 
@@ -236,7 +289,14 @@ void AbstractExtItem::writeConfiguration() const
     settings.setValue(QString("X-AW-Active"), QVariant(isActive()).toString());
     settings.setValue(QString("X-AW-Interval"), interval());
     settings.setValue(QString("X-AW-Number"), number());
+    settings.setValue(QString("X-AW-Socket"), socket());
     settings.endGroup();
 
     settings.sync();
+}
+
+
+void AbstractExtItem::newConnectionReceived()
+{
+    emit(socketActivated());
 }
