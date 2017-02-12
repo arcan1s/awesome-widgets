@@ -1,0 +1,17 @@
+sudo: required
+
+arch:
+    packages:
+        - plasma-framework
+        # build deps
+        - cmake
+        - extra-cmake-modules
+    script:
+        - mkdir build
+        - cd build
+        - cmake -DKDE_INSTALL_USE_QT_SYS_PATHS=ON -DCMAKE_BUILD_TYPE=Optimization -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_FUTURE=ON -DBUILD_TESTING=ON "../sources"
+        - make
+        - make test
+
+script:
+    - "curl -s https://raw.githubusercontent.com/mikkeloscar/arch-travis/master/arch-travis.sh | bash"
