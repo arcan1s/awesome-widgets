@@ -9,6 +9,7 @@ arch:
         - python
     script:
         - git clone https://github.com/arcan1s/awesome-widgets/
+        - cd awesome-widgets && git submodule update --init --recursive
         - mkdir awesome-widgets/build
         - cd awesome-widgets/build && cmake -DKDE_INSTALL_USE_QT_SYS_PATHS=ON -DCMAKE_BUILD_TYPE=Optimization -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_FUTURE=ON -DBUILD_TESTING=ON ../sources
         - cd awesome-widgets/build && make
