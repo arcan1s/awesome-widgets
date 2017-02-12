@@ -6,6 +6,7 @@ arch:
         # build deps
         - cmake
         - extra-cmake-modules
+        - python
     script:
         - git clone https://github.com/arcan1s/awesome-widgets/
         - mkdir awesome-widgets/build
