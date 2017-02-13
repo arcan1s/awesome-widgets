@@ -120,9 +120,6 @@ void TestExtWeather::run()
              >= humidity.first)
             && (arguments[extWeather->tag(QString("humidity"))].toInt()
                 <= humidity.second));
-    QWARN("May fail here for Yahoo! Weather, see "
-          "https://yahoo.uservoice.com/forums/207813-us-weather/suggestions/"
-          "14209233-invalid-pressure-calculation");
     QVERIFY((arguments[extWeather->tag(QString("pressure"))].toInt()
              > pressure.first)
             && (arguments[extWeather->tag(QString("pressure"))].toInt()

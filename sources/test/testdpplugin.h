@@ -40,7 +40,9 @@ private slots:
     void test_parsePattern();
 
 private:
+    bool checkKwinStatus() const;
     DPAdds *plugin = nullptr;
+    bool m_isKwinActive = false;
     QString pattern = QString("$");
 };
 

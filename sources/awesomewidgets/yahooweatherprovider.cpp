@@ -93,8 +93,9 @@ YahooWeatherProvider::parseCurrent(const QVariantMap &json,
         = json[QString("condition")].toMap()[QString("date")].toString();
     values[QString("humidity%1").arg(number())]
         = atmosphere[QString("humidity")].toInt();
+    // HACK temporary fix of invalid values on Yahoo! side
     values[QString("pressure%1").arg(number())]
-        = static_cast<int>(atmosphere[QString("pressure")].toFloat());
+        = static_cast<int>(atmosphere[QString("pressure")].toFloat() / 33.863753);
 
     return values;
 }

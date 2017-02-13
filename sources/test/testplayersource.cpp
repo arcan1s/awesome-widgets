@@ -75,8 +75,11 @@ void TestPlayerSource::test_autoMpris()
                                    << QString("auto") << QString::number(10));
     PlayerSource *source = new PlayerSource(this, args);
 
-    QWARN("Will fail if no MPRIS supported player is run");
-    QVERIFY(!source->getAutoMpris().isEmpty());
+    bool empty = source->getAutoMpris().isEmpty();
+    if (empty)
+        QWARN("No MPRIS found, manual check required");
+    else
+        QVERIFY(!empty);
 }
 
 
@@ -91,6 +94,8 @@ void TestPlayerSource::test_mpd()
     // init spy
     QSignalSpy spy(source, SIGNAL(dataReceived(const QVariantHash &)));
     QVariant firstValue = source->data(QString("player/title"));
+    if (!source->isMpdSocketConnected())
+        QSKIP("No mpd found");
 
     // check values
     QVERIFY(spy.wait(5000));
@@ -98,12 +103,10 @@ void TestPlayerSource::test_mpd()
     QVariantHash secondValue = arguments.at(0).toHash();
 
     // actually nothing to test here just print warning if no information found
-    if (secondValue[QString("player/title")].toString() == QString("unknown")) {
-        QWARN("No mpd found");
-    } else {
-        QVERIFY(secondValue[QString("player/progress")].toInt()
-                < secondValue[QString("player/duration")].toInt());
-    }
+    if (secondValue[QString("player/title")].toString() == QString("unknown"))
+        QSKIP("No mpd found");
+
+    QVERIFY(secondValue[QString("player/progress")].toInt() < secondValue[QString("player/duration")].toInt());
 }
 
 
@@ -120,11 +123,10 @@ void TestPlayerSource::test_mpris()
     int duration = source->data(QString("player/duration")).toInt();
 
     // actually nothing to test here just print warning if no information found
-    if (value == QString("unknown")) {
-        QWARN("No mpris found");
-    } else {
-        QVERIFY(progress < duration);
-    }
+    if (value == QString("unknown"))
+        QSKIP("No mpris found");
+
+    QVERIFY(progress < duration);
 }
 
 

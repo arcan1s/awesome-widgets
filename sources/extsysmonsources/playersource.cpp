@@ -255,6 +255,12 @@ QString PlayerSource::stripString(const QString &value, const int s)
 }
 
 
+bool PlayerSource::isMpdSocketConnected() const
+{
+    return (m_mpdSocket.state() == QAbstractSocket::ConnectedState);
+}
+
+
 void PlayerSource::mpdSocketConnected()
 {
     qCDebug(LOG_ESS) << "MPD socket connected to" << m_mpdSocket.peerName()

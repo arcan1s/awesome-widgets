@@ -45,6 +45,8 @@ public:
     static QString buildString(const QString &current, const QString &value,
                                const int s);
     static QString stripString(const QString &value, const int s);
+    // additional test method
+    bool isMpdSocketConnected() const;
 
 private slots:
     void mpdSocketConnected();
