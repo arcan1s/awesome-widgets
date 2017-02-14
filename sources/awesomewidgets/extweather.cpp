@@ -99,9 +99,9 @@ QString ExtWeather::jsonMapFile() const
 {
     QString fileName = QStandardPaths::locate(
         QStandardPaths::GenericDataLocation,
-        QString("awesomewidgets/weather/awesomewidgets-extweather-ids.json"))
+        QString("awesomewidgets/weather/awesomewidgets-extweather-ids.json"));
     qCInfo(LOG_LIB) << "Map file" << fileName;
-    
+
     return fileName;
 }
 
