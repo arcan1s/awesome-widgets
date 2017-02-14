@@ -39,6 +39,7 @@ class AWKeys : public QObject
 public:
     explicit AWKeys(QObject *parent = nullptr);
     virtual ~AWKeys();
+    bool isDBusActive() const;
     Q_INVOKABLE void initDataAggregator(const QVariantMap tooltipParams);
     Q_INVOKABLE void initKeys(const QString currentPattern, const int interval,
                               const int limit, const bool optimize);
@@ -86,6 +87,7 @@ private:
     AWKeyOperations *m_keyOperator = nullptr;
     QTimer *m_timer = nullptr;
     // variables
+    bool m_dbusActive = false;
     QVariantMap m_tooltipParams;
     QStringList m_foundBars, m_foundKeys, m_foundLambdas, m_requiredKeys;
     QVariantHash m_values;

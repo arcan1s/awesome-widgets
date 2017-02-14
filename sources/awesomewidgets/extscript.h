@@ -47,6 +47,7 @@ public:
     explicit ExtScript(QWidget *parent, const QString filePath = QString());
     virtual ~ExtScript();
     ExtScript *copy(const QString _fileName, const int _number);
+    QString jsonFiltersFile() const;
     // get methods
     QString executable() const;
     QStringList filters() const;

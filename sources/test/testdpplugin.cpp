@@ -41,7 +41,7 @@ void TestDPPlugin::cleanupTestCase()
 void TestDPPlugin::test_desktops()
 {
     if (!m_isKwinActive)
-        QSKIP("KWin inactive, skip tests");
+        QSKIP("KWin inactive, skip Destkop panel tests");
 
     int current = plugin->currentDesktop();
     int total = plugin->numberOfDesktops();
@@ -67,7 +67,7 @@ void TestDPPlugin::test_desktops()
 void TestDPPlugin::test_dictKeys()
 {
     if (!m_isKwinActive)
-        QSKIP("KWin inactive, skip tests");
+        QSKIP("KWin inactive, skip Destkop panel tests");
 
     QCOMPARE(plugin->dictKeys().count(), 4);
     pattern += plugin->dictKeys().join(QString(" $"));
@@ -77,7 +77,7 @@ void TestDPPlugin::test_dictKeys()
 void TestDPPlugin::test_infoByKey()
 {
     if (!m_isKwinActive)
-        QSKIP("KWin inactive, skip tests");
+        QSKIP("KWin inactive, skip Destkop panel tests");
 
     // nothing to test here yet
     QVERIFY(true);
@@ -87,7 +87,7 @@ void TestDPPlugin::test_infoByKey()
 void TestDPPlugin::test_parsePattern()
 {
     if (!m_isKwinActive)
-        QSKIP("KWin inactive, skip tests");
+        QSKIP("KWin inactive, skip Destkop panel tests");
 
     QString result = plugin->parsePattern(pattern, plugin->currentDesktop());
     QVERIFY(!result.isEmpty());
@@ -100,7 +100,7 @@ void TestDPPlugin::test_parsePattern()
 void TestDPPlugin::test_tooltipImage()
 {
     if (!m_isKwinActive)
-        QSKIP("KWin inactive, skip tests");
+        QSKIP("KWin inactive, skip Destkop panel tests");
 
     QVariantMap data;
     data[QString("tooltipColor")] = QString("#000000");

@@ -75,6 +75,9 @@ void TestExtWeather::test_ts()
 
 void TestExtWeather::test_image()
 {
+    if (extWeather->jsonMapFile().isEmpty())
+        QSKIP("No json map found for weather, skip image test");
+
     extWeather->setImage(true);
     // init spy
     QSignalSpy spy(extWeather, SIGNAL(dataReceived(const QVariantHash &)));
@@ -129,6 +132,8 @@ void TestExtWeather::run()
             && (arguments[extWeather->tag(QString("temperature"))].toFloat()
                 < temp.second));
     // image should be only one symbol here
+    if (extWeather->jsonMapFile().isEmpty())
+        QSKIP("No json map found for weather, skip image test");
     QCOMPARE(arguments[extWeather->tag(QString("weather"))].toString().count(),
              1);
 }

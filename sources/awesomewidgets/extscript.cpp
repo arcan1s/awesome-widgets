@@ -83,6 +83,18 @@ ExtScript *ExtScript::copy(const QString _fileName, const int _number)
 }
 
 
+QString ExtScript::jsonFiltersFile() const
+{
+    QString fileName = QStandardPaths::locate(
+        QStandardPaths::GenericDataLocation,
+        QString(
+            "awesomewidgets/scripts/awesomewidgets-extscripts-filters.json"));
+    qCInfo(LOG_LIB) << "Filters file" << fileName;
+
+    return filename;
+}
+
+
 QString ExtScript::executable() const
 {
     return m_executable;
@@ -240,11 +252,7 @@ void ExtScript::readConfiguration()
 
 void ExtScript::readJsonFilters()
 {
-    QString fileName = QStandardPaths::locate(
-        QStandardPaths::GenericDataLocation,
-        QString(
-            "awesomewidgets/scripts/awesomewidgets-extscripts-filters.json"));
-    qCInfo(LOG_LIB) << "Filters file" << fileName;
+    QString fileName = jsonFiltersFile();
     QFile jsonFile(fileName);
     if (!jsonFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qCWarning(LOG_LIB) << "Could not open" << fileName;

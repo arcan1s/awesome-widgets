@@ -45,6 +45,7 @@ public:
     explicit ExtWeather(QWidget *parent, const QString filePath = QString());
     virtual ~ExtWeather();
     ExtWeather *copy(const QString _fileName, const int _number);
+    QString jsonMapFile() const;
     QString weatherFromInt(const int _id) const;
     // get methods
     QString city() const;

@@ -95,6 +95,17 @@ ExtWeather *ExtWeather::copy(const QString _fileName, const int _number)
 }
 
 
+QString ExtWeather::jsonMapFile() const
+{
+    QString fileName = QStandardPaths::locate(
+        QStandardPaths::GenericDataLocation,
+        QString("awesomewidgets/weather/awesomewidgets-extweather-ids.json"))
+    qCInfo(LOG_LIB) << "Map file" << fileName;
+    
+    return fileName
+}
+
+
 QString ExtWeather::weatherFromInt(const int _id) const
 {
     qCDebug(LOG_LIB) << "Weather ID" << _id;
@@ -236,10 +247,7 @@ void ExtWeather::readConfiguration()
 
 void ExtWeather::readJsonMap()
 {
-    QString fileName = QStandardPaths::locate(
-        QStandardPaths::GenericDataLocation,
-        QString("awesomewidgets/weather/awesomewidgets-extweather-ids.json"));
-    qCInfo(LOG_LIB) << "Map file" << fileName;
+    QString fileName = jsonMapFile();
     QFile jsonFile(fileName);
     if (!jsonFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qCWarning(LOG_LIB) << "Could not open" << fileName;

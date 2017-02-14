@@ -91,6 +91,12 @@ AWKeys::~AWKeys()
 }
 
 
+bool AWKeys::isDBusActive() const
+{
+    return m_dbusActive;
+}
+
+
 void AWKeys::initDataAggregator(const QVariantMap tooltipParams)
 {
     qCDebug(LOG_AW) << "Tooltip parameters" << tooltipParams;
@@ -338,9 +344,13 @@ void AWKeys::createDBusInterface()
         qCWarning(LOG_AW) << "Could not register DBus service, last error"
                           << bus.lastError().message();
     if (!bus.registerObject(QString("/%1").arg(id), new AWDBusAdaptor(this),
-                            QDBusConnection::ExportAllContents))
+                            QDBusConnection::ExportAllContents)) {
         qCWarning(LOG_AW) << "Could not register DBus object, last error"
                           << bus.lastError().message();
+        m_dbusActive = false;
+    } else {
+        m_dbusActive = true;
+    }
 }
 
 

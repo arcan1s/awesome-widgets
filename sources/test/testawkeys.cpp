@@ -18,6 +18,7 @@
 
 #include "testawkeys.h"
 
+#include <KWindowSystem>
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QtTest>
@@ -112,6 +113,9 @@ void TestAWKeys::test_pattern()
 
 void TestAWKeys::test_tooltip()
 {
+    if (!KWindowSystem::workArea().isValid())
+        QSKIP("KWin inactive, skip tooltip test");
+
     QSignalSpy spy(plugin, SIGNAL(needToolTipToBeUpdated(const QString)));
 
     QVERIFY(spy.wait(5 * interval));
@@ -164,6 +168,9 @@ void TestAWKeys::test_valueByKey()
 
 void TestAWKeys::test_dbus()
 {
+    if (!plugin->isDBusActive())
+        QSKIP("No DBus session created, skip DBus test");
+
     // get id
     qlonglong id = reinterpret_cast<qlonglong>(plugin);
 
