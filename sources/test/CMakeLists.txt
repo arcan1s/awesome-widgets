@@ -20,7 +20,7 @@ include_directories(
 set(AWTESTLIBRARY_HEADERS awtestlibrary.h)
 set(AWTESTLIBRARY_SOURCES awtestlibrary.cpp)
 add_library(${SUBPROJECT}-awtest STATIC ${AWTESTLIBRARY_SOURCES} ${AWTESTLIBRARY_HEADERS})
-target_link_libraries(${SUBPROJECT}-awtest ${Qt_LIBRARIES} ${Qt5Test_LIBRARIES})
+target_link_libraries(${SUBPROJECT}-awtest ${Qt_LIBRARIES} ${Qt5Test_LIBRARIES} ${Kf5_LIBRARIES})
 set(LIBRARY_TEST_SET ${SUBPROJECT}-awtest ${PROJECT_LIBRARY} ${PROJECT_MONITORSOURCES}
         ${Qt_LIBRARIES} ${Kf5_LIBRARIES} ${Qt5Test_LIBRARIES})
 
