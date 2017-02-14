@@ -18,19 +18,30 @@
 
 #include "awtestlibrary.h"
 
+#include <KWindowSystem>
 #include <QSet>
 #include <QStandardPaths>
 
 
+bool AWTestLibrary::isKWinActive()
+{
+    KWindowSystem::setShowingDesktop(true);
+    bool state = KWindowSystem::showingDesktop();
+    KWindowSystem::setShowingDesktop(false);
+
+    return state;
+}
+
+
 char AWTestLibrary::randomChar()
 {
-    return 'A' + (rand() % static_cast<int>('Z' - 'A'));
+    return 'A' + (qrand() % static_cast<int>('Z' - 'A'));
 }
 
 
 double AWTestLibrary::randomDouble()
 {
-    return static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
+    return static_cast<double>(qrand()) / static_cast<double>(RAND_MAX);
 }
 
 
@@ -52,7 +63,7 @@ QPair<QString, QString> AWTestLibrary::randomFilenames()
 
 int AWTestLibrary::randomInt(const int max)
 {
-    return rand() % max;
+    return qrand() % max;
 }
 
 

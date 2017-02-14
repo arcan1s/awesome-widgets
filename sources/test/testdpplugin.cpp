@@ -18,7 +18,6 @@
 
 #include "testdpplugin.h"
 
-#include <KWindowSystem>
 #include <QtTest>
 
 #include "awtestlibrary.h"
@@ -28,7 +27,7 @@
 void TestDPPlugin::initTestCase()
 {
     plugin = new DPAdds(this);
-    m_isKwinActive = checkKwinStatus();
+    m_isKwinActive = AWTestLibrary::isKWinActive();
 }
 
 
@@ -111,12 +110,6 @@ void TestDPPlugin::test_tooltipImage()
     QString image = plugin->toolTipImage(plugin->currentDesktop());
     QVERIFY(image.startsWith(QString("<img src=\"")));
     QVERIFY(image.endsWith(QString("\"/>")));
-}
-
-
-bool TestDPPlugin::checkKwinStatus() const
-{
-    return KWindowSystem::workArea().isValid();
 }
 
 

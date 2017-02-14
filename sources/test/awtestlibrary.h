@@ -25,6 +25,7 @@
 
 namespace AWTestLibrary
 {
+bool isKWinActive();
 char randomChar();
 double randomDouble();
 QPair<QString, QString> randomFilenames();

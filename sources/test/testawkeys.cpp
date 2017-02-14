@@ -18,7 +18,6 @@
 
 #include "testawkeys.h"
 
-#include <KWindowSystem>
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QtTest>
@@ -113,7 +112,7 @@ void TestAWKeys::test_pattern()
 
 void TestAWKeys::test_tooltip()
 {
-    if (!KWindowSystem::workArea().isValid())
+    if (!AWTestLibrary::isKWinActive())
         QSKIP("KWin inactive, skip tooltip test");
 
     QSignalSpy spy(plugin, SIGNAL(needToolTipToBeUpdated(const QString)));
