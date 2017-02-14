@@ -102,7 +102,7 @@ QString ExtWeather::jsonMapFile() const
         QString("awesomewidgets/weather/awesomewidgets-extweather-ids.json"))
     qCInfo(LOG_LIB) << "Map file" << fileName;
     
-    return fileName
+    return fileName;
 }
 
 

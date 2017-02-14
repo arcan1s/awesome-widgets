@@ -91,7 +91,7 @@ QString ExtScript::jsonFiltersFile() const
             "awesomewidgets/scripts/awesomewidgets-extscripts-filters.json"));
     qCInfo(LOG_LIB) << "Filters file" << fileName;
 
-    return filename;
+    return fileName;
 }
 
 
