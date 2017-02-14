@@ -19,13 +19,18 @@
 #include "awtestlibrary.h"
 
 #include <KWindowSystem>
+#include <QEventLoop>
 #include <QSet>
 #include <QStandardPaths>
 
 
 bool AWTestLibrary::isKWinActive()
 {
+    QEventLoop loop;
+    loop.connect(KWindowSystem::self(), SIGNAL(showingDesktopChanged(bool)), SLOT(quit()));
     KWindowSystem::setShowingDesktop(true);
+    loop.exec();
+
     bool state = KWindowSystem::showingDesktop();
     KWindowSystem::setShowingDesktop(false);
 
