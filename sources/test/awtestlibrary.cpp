@@ -22,14 +22,14 @@
 #include <QEventLoop>
 #include <QSet>
 #include <QStandardPaths>
+#include <QtTest>
 
 
 bool AWTestLibrary::isKWinActive()
 {
-    QEventLoop loop;
-    loop.connect(KWindowSystem::self(), SIGNAL(showingDesktopChanged(bool)), SLOT(quit()));
+    QSignalSpy spy(KWindowSystem::self(), SIGNAL(showingDesktopChanged(bool)));
     KWindowSystem::setShowingDesktop(true);
-    loop.exec();
+    spy.wait(5000);
 
     bool state = KWindowSystem::showingDesktop();
     KWindowSystem::setShowingDesktop(false);

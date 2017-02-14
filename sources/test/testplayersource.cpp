@@ -106,7 +106,8 @@ void TestPlayerSource::test_mpd()
     if (secondValue[QString("player/title")].toString() == QString("unknown"))
         QSKIP("No mpd found");
 
-    QVERIFY(secondValue[QString("player/progress")].toInt() < secondValue[QString("player/duration")].toInt());
+    QVERIFY(secondValue[QString("player/progress")].toInt()
+            < secondValue[QString("player/duration")].toInt());
 }
 
 
