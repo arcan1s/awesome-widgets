@@ -18,6 +18,7 @@
 
 #include "testdpplugin.h"
 
+#include <KWindowSystem>
 #include <QtTest>
 
 #include "awtestlibrary.h"
