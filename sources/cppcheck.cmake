@@ -3,7 +3,7 @@ set(CPPCHECK_EXECUTABLE "/usr/bin/cppcheck" CACHE STRING "Path to cppcheck execu
 
 # get all project files
 # HACK this workaround is required to avoid qml files checking ^_^
-file(GLOB_RECURSE ALL_SOURCE_FILES *.cpp *.h)
+file(GLOB_RECURSE ALL_SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 foreach (SOURCE_FILE ${ALL_SOURCE_FILES})
     string(FIND ${SOURCE_FILE} ${PROJECT_TRDPARTY_DIR} PROJECT_TRDPARTY_DIR_FOUND)
     if (NOT ${PROJECT_TRDPARTY_DIR_FOUND} EQUAL -1)
