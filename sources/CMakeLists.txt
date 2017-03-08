@@ -65,6 +65,9 @@ if (CMAKE_BUILD_TYPE MATCHES Debug)
     set(CMAKE_VERBOSE_MAKEFILE ON)
 endif ()
 
+# required by successfully coverity and cppcheck build
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 set(PROJECT_TRDPARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty)
 set(PROJECT_LIBRARY awesomewidgets)
 set(PROJECT_MONITORSOURCES extsysmonsources)
@@ -90,3 +93,4 @@ if (BUILD_TESTING)
 endif ()
 
 include(packages-recipe.cmake)
+
