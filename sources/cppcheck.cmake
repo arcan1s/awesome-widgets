@@ -14,10 +14,12 @@ endforeach ()
 add_custom_target(
         cppcheck
         COMMAND ${CPPCHECK_EXECUTABLE}
-        --enable=warning,performance,portability,information,missingInclude
+        --enable=warning,performance,portability
+        --error-exitcode=1
         --std=c++11
         --language=c++
         --library=qt.cfg
+        --project=compile_commands.json
         --template="[{severity}][{id}] {message} {callstack} \(On {file}:{line}\)"
         --verbose
         --quiet
