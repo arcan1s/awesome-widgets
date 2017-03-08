@@ -9,6 +9,9 @@ arch:
         - python
         # test
         - xorg-server-xvfb
+        # additional targets
+        - clang
+        - cppcheck
     script:
         - export DISPLAY=:99.0
         - git clone https://github.com/arcan1s/awesome-widgets/
