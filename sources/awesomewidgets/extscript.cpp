@@ -303,6 +303,7 @@ int ExtScript::showConfiguration(const QVariant args)
     ui->checkBox_active->setCheckState(isActive() ? Qt::Checked
                                                   : Qt::Unchecked);
     ui->comboBox_redirect->setCurrentIndex(static_cast<int>(redirect()));
+    ui->lineEdit_socket->setText(socket());
     ui->spinBox_interval->setValue(interval());
     // filters
     ui->checkBox_colorFilter->setCheckState(
@@ -323,6 +324,7 @@ int ExtScript::showConfiguration(const QVariant args)
     setPrefix(ui->lineEdit_prefix->text());
     setActive(ui->checkBox_active->checkState() == Qt::Checked);
     setRedirect(static_cast<Redirect>(ui->comboBox_redirect->currentIndex()));
+    setSocket(ui->lineEdit_socket->text());
     setInterval(ui->spinBox_interval->value());
     // filters
     updateFilter(QString("color"),
@@ -415,6 +417,7 @@ void ExtScript::translate()
     ui->label_prefix->setText(i18n("Prefix"));
     ui->checkBox_active->setText(i18n("Active"));
     ui->label_redirect->setText(i18n("Redirect"));
+    ui->label_socket->setText(i18n("Socket"));
     ui->label_interval->setText(i18n("Interval"));
     ui->groupBox_filters->setTitle(i18n("Additional filters"));
     ui->checkBox_colorFilter->setText(i18n("Wrap colors"));

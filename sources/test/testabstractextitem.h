@@ -42,8 +42,9 @@ private slots:
 
 private:
     ExtUpgrade *extItem = nullptr;
-    QString comment = QString("A comment");
-    QString name = QString("A name");
+    QString comment;
+    QString name;
+    QString socket;
     QString fileName;
     QString writeFileName;
 };

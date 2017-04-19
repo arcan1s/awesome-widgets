@@ -135,6 +135,29 @@
     </layout>
    </item>
    <item>
+    <layout class="QHBoxLayout" name="layout_socket">
+     <item>
+      <widget class="QLabel" name="label_socket">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Socket</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit_socket"/>
+     </item>
+    </layout>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="layout_interval">
      <item>
       <widget class="QLabel" name="label_interval">

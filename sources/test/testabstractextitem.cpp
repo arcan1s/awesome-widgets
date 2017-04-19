@@ -30,12 +30,17 @@ void TestAbstractExtItem::initTestCase()
     fileName = names.first;
     writeFileName = names.second;
 
+    name = AWTestLibrary::randomString();
+    comment = AWTestLibrary::randomString();
+    socket = AWTestLibrary::randomString();
+
     extItem = new ExtUpgrade(nullptr, fileName);
     extItem->setActive(false);
     extItem->setApiVersion(1);
     extItem->setComment(comment);
     extItem->setName(name);
     extItem->setNumber(-1);
+    extItem->setSocket(socket);
 }
 
 
@@ -54,6 +59,7 @@ void TestAbstractExtItem::test_values()
     QCOMPARE(extItem->fileName(), fileName);
     QCOMPARE(extItem->name(), name);
     QVERIFY((extItem->number() > 0) && (extItem->number() < 1000));
+    QCOMPARE(extItem->socket(), socket);
 }
 
 
@@ -73,6 +79,7 @@ void TestAbstractExtItem::test_configuration()
     QCOMPARE(newExtItem->fileName(), writeFileName);
     QCOMPARE(newExtItem->name(), extItem->name());
     QCOMPARE(newExtItem->number(), extItem->number());
+    QCOMPARE(newExtItem->socket(), extItem->socket());
 
     delete newExtItem;
 }
@@ -105,6 +112,7 @@ void TestAbstractExtItem::test_copy()
     QCOMPARE(newExtItem->apiVersion(), extItem->apiVersion());
     QCOMPARE(newExtItem->comment(), extItem->comment());
     QCOMPARE(newExtItem->name(), extItem->name());
+    QCOMPARE(newExtItem->socket(), extItem->socket());
 
     delete newExtItem;
 }
