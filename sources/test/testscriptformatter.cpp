@@ -26,6 +26,7 @@
 
 void TestAWScriptFormatter::initTestCase()
 {
+    AWTestLibrary::init();
     formatter = new AWScriptFormatter(nullptr);
     formatter->setCode(fullCode);
     formatter->setAppendCode(false);

@@ -15,52 +15,50 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
+#ifndef QCRONSCHEDULER_H
+#define QCRONSCHEDULER_H
 
-#include "testawbugreporter.h"
-
-#include <QtTest>
-
-#include "awbugreporter.h"
-#include "awtestlibrary.h"
+#include "QObject"
 
 
-void TestAWBugReporter::initTestCase()
+class QTimer;
+
+class QCronScheduler : public QObject
 {
-    AWTestLibrary::init();
-    plugin = new AWBugReporter(this);
-}
+    Q_OBJECT
+
+public:
+    typedef struct {
+        QList<int> minutes;
+        QList<int> hours;
+        QList<int> days;
+        QList<int> months;
+        QList<int> weekdays;
+    } QCronRunSchedule;
+    typedef struct {
+        int min = -1;
+        int max = -1;
+        int div = 1;
+        void fromRange(const QString &range, const int min, const int max);
+        QList<int> toList();
+    } QCronField;
+
+    explicit QCronScheduler(QObject *parent);
+    virtual ~QCronScheduler();
+    void parse(const QString &timer);
+
+signals:
+    void activated();
+
+private slots:
+    void expired();
+
+private:
+    QCronRunSchedule m_schedule;
+    QTimer *m_timer = nullptr;
+    QList<int> parseField(const QString &value, const int min,
+                          const int max) const;
+};
 
 
-void TestAWBugReporter::cleanupTestCase()
-{
-    delete plugin;
-}
-
-
-void TestAWBugReporter::test_generateText()
-{
-    data = AWTestLibrary::randomStringList(4);
-    QString output
-        = plugin->generateText(data.at(0), data.at(1), data.at(2), data.at(3));
-
-    for (auto string : data)
-        QVERIFY(output.contains(string));
-}
-
-
-void TestAWBugReporter::test_sendBugReport()
-{
-    QSignalSpy spy(plugin, SIGNAL(replyReceived(int, QString)));
-    plugin->sendBugReport(
-        AWTestLibrary::randomString(),
-        plugin->generateText(data.at(0), data.at(1), data.at(2), data.at(3)));
-
-    QVERIFY(spy.wait(5000));
-    QVariantList arguments = spy.takeFirst();
-
-    QVERIFY(arguments.at(0).toInt() > 0);
-    QVERIFY(!arguments.at(1).toString().isEmpty());
-}
-
-
-QTEST_MAIN(TestAWBugReporter);
+#endif /* QCRONSCHEDULER_H */

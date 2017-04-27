@@ -20,11 +20,13 @@
 
 #include <QtTest>
 
+#include "awtestlibrary.h"
 #include "extquotes.h"
 
 
 void TestExtQuotes::initTestCase()
 {
+    AWTestLibrary::init();
     extQuotes = new ExtQuotes(nullptr);
     extQuotes->setInterval(1);
     extQuotes->setTicker(ticker);

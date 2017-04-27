@@ -22,6 +22,7 @@
 #include <QVariant>
 
 
+class QCronScheduler;
 class QLocalServer;
 
 class AbstractExtItem : public QDialog
@@ -30,6 +31,7 @@ class AbstractExtItem : public QDialog
     Q_PROPERTY(bool active READ isActive WRITE setActive)
     Q_PROPERTY(int apiVersion READ apiVersion WRITE setApiVersion)
     Q_PROPERTY(QString comment READ comment WRITE setComment)
+    Q_PROPERTY(QString cron READ cron WRITE setCron)
     Q_PROPERTY(QString fileName READ fileName)
     Q_PROPERTY(int interval READ interval WRITE setInterval)
     Q_PROPERTY(QString name READ name WRITE setName)
@@ -45,10 +47,12 @@ public:
     virtual AbstractExtItem *copy(const QString _fileName, const int _number)
         = 0;
     virtual void copyDefaults(AbstractExtItem *_other) const;
+    virtual void startTimer();
     QString writtableConfig() const;
     // get methods
     int apiVersion() const;
     QString comment() const;
+    QString cron() const;
     QString fileName() const;
     int interval() const;
     bool isActive() const;
@@ -61,6 +65,7 @@ public:
     void setApiVersion(const int _apiVersion = 0);
     void setActive(const bool _state = true);
     void setComment(const QString _comment = QString("empty"));
+    void setCron(const QString _cron = "");
     void setInterval(const int _interval = 1);
     void setName(const QString _name = QString("none"));
     void setNumber(int _number = -1);
@@ -68,7 +73,7 @@ public:
 
 signals:
     void dataReceived(const QVariantHash &data);
-    void socketActivated();
+    void requestDataUpdate();
 
 public slots:
     virtual void deinitSocket();
@@ -76,19 +81,22 @@ public slots:
     virtual void readConfiguration();
     virtual QVariantHash run() = 0;
     virtual int showConfiguration(const QVariant args = QVariant()) = 0;
-    bool tryDelete() const;
+    virtual bool tryDelete() const;
     virtual void writeConfiguration() const;
 
 private slots:
     void newConnectionReceived();
 
 private:
+    QCronScheduler *m_scheduler = nullptr;
     QString m_fileName = QString("/dev/null");
+    int m_times = 0;
     virtual void translate() = 0;
     // properties
     int m_apiVersion = 0;
     bool m_active = true;
     QString m_comment = QString("empty");
+    QString m_cron = "";
     int m_interval = 1;
     QString m_name = QString("none");
     int m_number = -1;

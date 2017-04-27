@@ -26,6 +26,7 @@
 
 void TestAWJsonFormatter::initTestCase()
 {
+    AWTestLibrary::init();
     formatter = new AWJsonFormatter(nullptr);
 
     generate();

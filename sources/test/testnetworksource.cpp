@@ -26,6 +26,7 @@
 
 void TestNetworkSource::initTestCase()
 {
+    AWTestLibrary::init();
     source = new NetworkSource(this, QStringList());
 }
 

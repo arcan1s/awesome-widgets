@@ -26,6 +26,7 @@
 
 void TestDesktopSource::initTestCase()
 {
+    AWTestLibrary::init();
     source = new DesktopSource(this, QStringList());
 }
 

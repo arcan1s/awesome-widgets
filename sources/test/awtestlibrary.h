@@ -25,6 +25,7 @@
 
 namespace AWTestLibrary
 {
+void init();
 bool isKWinActive();
 char randomChar();
 double randomDouble();

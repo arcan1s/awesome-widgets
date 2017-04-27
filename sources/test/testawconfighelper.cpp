@@ -26,6 +26,7 @@
 
 void TestAWConfigHelper::initTestCase()
 {
+    AWTestLibrary::init();
     plugin = new AWConfigHelper(this);
 }
 

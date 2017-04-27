@@ -234,9 +234,9 @@ QString AWPatternFunctions::insertMacros(QString code)
                 QString("aw_macro_%1").arg(name), code);
         for (auto function : macroUsage) {
             if (function.args.count() != macro.args.count()) {
-                qCWarning(LOG_AW) << "Invalid args count found for call"
-                                  << function.what << "with macro"
-                                  << macro.what;
+                qCWarning(LOG_AW)
+                    << "Invalid args count found for call" << function.what
+                    << "with macro" << macro.what;
                 continue;
             }
             // generate body to replace
@@ -267,12 +267,14 @@ QStringList AWPatternFunctions::findKeys(const QString code,
                     << keys;
 
     QStringList selectedKeys;
+    QString replacedCode = code;
     for (auto key : keys)
         if ((key.startsWith(QString("bar")) == isBars)
-            && (code.contains(QString("$%1").arg(key)))) {
+            && (replacedCode.contains(QString("$%1").arg(key)))) {
             qCInfo(LOG_AW) << "Found key" << key << "with bar enabled"
                            << isBars;
             selectedKeys.append(key);
+            replacedCode.replace(QString("$%1").arg(key), "");
         }
     if (selectedKeys.isEmpty())
         qCWarning(LOG_AW) << "No keys found";

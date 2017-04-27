@@ -26,6 +26,7 @@
 
 void TestAbstractFormatter::initTestCase()
 {
+    AWTestLibrary::init();
     formatter = new AWNoFormatter(nullptr);
 }
 

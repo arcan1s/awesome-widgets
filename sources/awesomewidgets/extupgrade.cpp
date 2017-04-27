@@ -45,7 +45,7 @@ ExtUpgrade::ExtUpgrade(QWidget *parent, const QString filePath)
     connect(m_process, SIGNAL(finished(int)), this, SLOT(updateValue()));
     m_process->waitForFinished(0);
 
-    connect(this, SIGNAL(socketActivated()), this, SLOT(startProcess()));
+    connect(this, SIGNAL(requestDataUpdate()), this, SLOT(startProcess()));
 }
 
 
@@ -55,7 +55,7 @@ ExtUpgrade::~ExtUpgrade()
 
     m_process->kill();
     m_process->deleteLater();
-    disconnect(this, SIGNAL(socketActivated()), this, SLOT(startProcess()));
+    disconnect(this, SIGNAL(requestDataUpdate()), this, SLOT(startProcess()));
     delete ui;
 }
 
@@ -145,16 +145,9 @@ void ExtUpgrade::readConfiguration()
 
 QVariantHash ExtUpgrade::run()
 {
-    if (!isActive())
+    if (m_process->state() != QProcess::NotRunning)
         return m_values;
-
-    if (m_times == 1)
-        startProcess();
-
-    // update value
-    if (m_times >= interval())
-        m_times = 0;
-    m_times++;
+    startTimer();
 
     return m_values;
 }
@@ -237,13 +230,6 @@ void ExtUpgrade::updateValue()
     }(qoutput);
 
     emit(dataReceived(m_values));
-}
-
-
-bool ExtUpgrade::canRun()
-{
-    return ((isActive()) && (m_process->state() == QProcess::NotRunning)
-            && (socket().isEmpty()));
 }
 
 

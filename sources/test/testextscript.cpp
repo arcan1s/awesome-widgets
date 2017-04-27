@@ -26,6 +26,7 @@
 
 void TestExtScript::initTestCase()
 {
+    AWTestLibrary::init();
     randomString = AWTestLibrary::randomString();
 
     extScript = new ExtScript(nullptr);

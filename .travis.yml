@@ -15,13 +15,14 @@ arch:
     script:
         - export DISPLAY=:99.0
         - git clone https://github.com/arcan1s/awesome-widgets/
-        - cd awesome-widgets && git submodule update --init --recursive
+        - cd awesome-widgets; git submodule update --init --recursive
         - mkdir awesome-widgets/build
-        - cd awesome-widgets/build && cmake -DKDE_INSTALL_USE_QT_SYS_PATHS=ON -DCMAKE_BUILD_TYPE=Optimization -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_FUTURE=ON -DBUILD_TESTING=ON ../sources
-        - cd awesome-widgets/build && make
-        - cd awesome-widgets/build && make cppcheck
-        - cd awesome-widgets/build && make clangformat && ( [ `git status -s | wc -l` -eq 0 ] || exit 1 )
-        - cd awesome-widgets/build && xvfb-run make test
+        - cd awesome-widgets/build; cmake -DKDE_INSTALL_USE_QT_SYS_PATHS=ON -DCMAKE_BUILD_TYPE=Optimization -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_FUTURE=ON -DBUILD_TESTING=ON ../sources
+        - cd awesome-widgets/build; make
+        - cd awesome-widgets/build; make cppcheck
+        - cd awesome-widgets/build; make clangformat && ( [ `git status -s | wc -l` -eq 0 ] || exit 1 )
+        - cd awesome-widgets/build; ./test/awesomewidgets-test-extweather || true
+        - cd awesome-widgets/build; xvfb-run make test
         - sleep 3
 
 script:

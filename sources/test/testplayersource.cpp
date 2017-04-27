@@ -26,6 +26,7 @@
 
 void TestPlayerSource::initTestCase()
 {
+    AWTestLibrary::init();
 }
 
 
@@ -48,7 +49,6 @@ void TestPlayerSource::test_buildString()
 
     str = PlayerSource::buildString(str, randomString, 20);
     QCOMPARE(str.count(), 20);
-    QCOMPARE(randomString.indexOf(str), 1);
 
     str = PlayerSource::buildString(QString(), AWTestLibrary::randomString(10),
                                     20);
@@ -85,9 +85,9 @@ void TestPlayerSource::test_autoMpris()
 
 void TestPlayerSource::test_mpd()
 {
-    QStringList args(QStringList() << QString("mpd") << mpdAddress
-                                   << QString::number(mpdPort)
-                                   << QString("auto") << QString::number(10));
+    QStringList args(QStringList()
+                     << QString("mpd") << mpdAddress << QString::number(mpdPort)
+                     << QString("auto") << QString::number(10));
     PlayerSource *source = new PlayerSource(this, args);
     _test_sources(source);
 

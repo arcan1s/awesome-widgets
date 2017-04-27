@@ -29,6 +29,7 @@
 
 void TestAWKeys::initTestCase()
 {
+    AWTestLibrary::init();
     plugin = new AWKeys(this);
 
     // tooltip init

@@ -20,11 +20,13 @@
 
 #include <QtTest>
 
+#include "awtestlibrary.h"
 #include "extweather.h"
 
 
 void TestExtWeather::initTestCase()
 {
+    AWTestLibrary::init();
     extWeather = new ExtWeather(nullptr);
     extWeather->setInterval(1);
     extWeather->setCity(city);

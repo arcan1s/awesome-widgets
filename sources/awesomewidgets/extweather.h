@@ -79,7 +79,6 @@ private:
     AbstractWeatherProvider *m_providerObject = nullptr;
     bool m_isRunning = false;
     Ui::ExtWeather *ui = nullptr;
-    bool canRun();
     void initProvider();
     void translate();
     // properties

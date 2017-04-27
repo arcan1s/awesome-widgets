@@ -253,8 +253,8 @@ void AWFormatterHelper::initKeys()
                 continue;
             }
             if (!m_formattersClasses.contains(name)) {
-                qCWarning(LOG_AW) << "Invalid formatter" << name << "found in"
-                                  << key;
+                qCWarning(LOG_AW)
+                    << "Invalid formatter" << name << "found in" << key;
                 continue;
             }
             m_formatters[key] = m_formattersClasses[name];

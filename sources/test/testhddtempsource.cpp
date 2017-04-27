@@ -26,6 +26,7 @@
 
 void TestHDDTemperatureSource::initTestCase()
 {
+    AWTestLibrary::init();
     devices = HDDTemperatureSource::allHdd();
     QVERIFY(devices.count() > 0);
 

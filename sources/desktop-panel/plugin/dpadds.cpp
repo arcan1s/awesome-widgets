@@ -318,9 +318,10 @@ DPAdds::DesktopWindowsInfo DPAdds::getInfoByDesktop(const int desktop) const
 
     for (auto id : KWindowSystem::windows()) {
         KWindowInfo winInfo = KWindowInfo(
-            id, NET::Property::WMDesktop | NET::Property::WMGeometry
-                    | NET::Property::WMState | NET::Property::WMWindowType
-                    | NET::Property::WMVisibleName);
+            id,
+            NET::Property::WMDesktop | NET::Property::WMGeometry
+                | NET::Property::WMState | NET::Property::WMWindowType
+                | NET::Property::WMVisibleName);
         if (!winInfo.isOnDesktop(desktop))
             continue;
         WindowData data;

@@ -62,7 +62,6 @@ private:
     QUrl m_url;
     bool m_isRunning = false;
     Ui::ExtQuotes *ui = nullptr;
-    bool canRun() const;
     void initUrl();
     void translate();
     // properties

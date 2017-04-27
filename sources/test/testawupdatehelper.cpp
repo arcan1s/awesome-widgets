@@ -26,6 +26,7 @@
 
 void TestAWUpdateHelper::initTestCase()
 {
+    AWTestLibrary::init();
     plugin = new AWUpdateHelper(this);
 }
 

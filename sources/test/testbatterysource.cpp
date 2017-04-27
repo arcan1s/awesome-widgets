@@ -26,6 +26,7 @@
 
 void TestBatterySource::initTestCase()
 {
+    AWTestLibrary::init();
     source = new BatterySource(this, QStringList() << acpiPath);
 }
 

@@ -26,6 +26,7 @@
 
 void TestAbstractExtItem::initTestCase()
 {
+    AWTestLibrary::init();
     auto names = AWTestLibrary::randomFilenames();
     fileName = names.first;
     writeFileName = names.second;

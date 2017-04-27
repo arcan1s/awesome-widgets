@@ -60,7 +60,7 @@ ExtQuotes::ExtQuotes(QWidget *parent, const QString filePath)
     connect(m_manager, SIGNAL(finished(QNetworkReply *)), this,
             SLOT(quotesReplyReceived(QNetworkReply *)));
 
-    connect(this, SIGNAL(socketActivated()), this, SLOT(sendRequest()));
+    connect(this, SIGNAL(requestDataUpdate()), this, SLOT(sendRequest()));
 }
 
 
@@ -70,7 +70,7 @@ ExtQuotes::~ExtQuotes()
 
     disconnect(m_manager, SIGNAL(finished(QNetworkReply *)), this,
                SLOT(quotesReplyReceived(QNetworkReply *)));
-    disconnect(this, SIGNAL(socketActivated()), this, SLOT(sendRequest()));
+    disconnect(this, SIGNAL(requestDataUpdate()), this, SLOT(sendRequest()));
 
     m_manager->deleteLater();
     delete ui;
@@ -128,16 +128,9 @@ void ExtQuotes::readConfiguration()
 
 QVariantHash ExtQuotes::run()
 {
-    if (!canRun())
+    if (m_isRunning)
         return m_values;
-
-    if (m_times == 1)
-        sendRequest();
-
-    // update value
-    if (m_times >= interval())
-        m_times = 0;
-    m_times++;
+    startTimer();
 
     return m_values;
 }
@@ -251,12 +244,6 @@ void ExtQuotes::sendRequest()
     m_isRunning = true;
     QNetworkReply *reply = m_manager->get(QNetworkRequest(m_url));
     new QReplyTimeout(reply, REQUEST_TIMEOUT);
-}
-
-
-bool ExtQuotes::canRun() const
-{
-    return ((isActive()) && (!m_isRunning) && (socket().isEmpty()));
 }
 
 

@@ -27,6 +27,7 @@
 
 void TestDPPlugin::initTestCase()
 {
+    AWTestLibrary::init();
     plugin = new DPAdds(this);
     m_isKwinActive = AWTestLibrary::isKWinActive();
 }

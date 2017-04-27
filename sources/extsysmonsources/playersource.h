@@ -66,9 +66,9 @@ private:
     QMutex m_dbusMutex;
     QString m_player;
     int m_symbols;
-    QStringList m_metadata = QStringList() << QString("album")
-                                           << QString("artist")
-                                           << QString("title");
+    QStringList m_metadata = QStringList()
+                             << QString("album") << QString("artist")
+                             << QString("title");
     QVariantHash m_values;
 };
 

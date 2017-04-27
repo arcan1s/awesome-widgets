@@ -49,7 +49,7 @@ ExtScript::ExtScript(QWidget *parent, const QString filePath)
             SLOT(updateValue()));
     m_process->waitForFinished(0);
 
-    connect(this, SIGNAL(socketActivated()), this, SLOT(startProcess()));
+    connect(this, SIGNAL(requestDataUpdate()), this, SLOT(startProcess()));
 }
 
 
@@ -61,7 +61,7 @@ ExtScript::~ExtScript()
                SLOT(updateValue()));
     m_process->kill();
     m_process->deleteLater();
-    disconnect(this, SIGNAL(socketActivated()), this, SLOT(startProcess()));
+    disconnect(this, SIGNAL(requestDataUpdate()), this, SLOT(startProcess()));
     delete ui;
 }
 
@@ -203,8 +203,8 @@ QString ExtScript::applyFilters(QString _value) const
         qCInfo(LOG_LIB) << "Found filter" << filt;
         QVariantMap filter = m_jsonFilters[filt].toMap();
         if (filter.isEmpty()) {
-            qCWarning(LOG_LIB) << "Could not find filter" << _value
-                               << "in the json";
+            qCWarning(LOG_LIB)
+                << "Could not find filter" << _value << "in the json";
             continue;
         }
         for (auto f : filter.keys())
@@ -273,19 +273,11 @@ void ExtScript::readJsonFilters()
 }
 
 
-#include <QThread>
 QVariantHash ExtScript::run()
 {
-    if (!canRun())
+    if (m_process->state() != QProcess::NotRunning)
         return m_values;
-
-    if (m_times == 1)
-        startProcess();
-
-    // update value
-    if (m_times >= interval())
-        m_times = 0;
-    m_times++;
+    startTimer();
 
     return m_values;
 }
@@ -398,13 +390,6 @@ void ExtScript::updateValue()
     // filters
     m_values[tag(QString("custom"))] = applyFilters(strValue);
     emit(dataReceived(m_values));
-}
-
-
-bool ExtScript::canRun() const
-{
-    return ((isActive()) && (m_process->state() == QProcess::NotRunning)
-            && (socket().isEmpty()));
 }
 
 

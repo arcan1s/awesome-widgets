@@ -80,7 +80,6 @@ private slots:
 private:
     QProcess *m_process = nullptr;
     Ui::ExtScript *ui = nullptr;
-    bool canRun() const;
     void translate();
     // properties
     QString m_executable = QString("/usr/bin/true");

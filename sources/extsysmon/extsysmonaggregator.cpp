@@ -113,8 +113,9 @@ void ExtSysMonAggregator::init(const QHash<QString, QString> config)
         m_map[source] = gpuTempItem;
     // hdd temperature
     AbstractExtSysMonSource *hddTempItem = new HDDTemperatureSource(
-        this, QStringList() << config[QString("HDDDEV")]
-                            << config[QString("HDDTEMPCMD")]);
+        this,
+        QStringList() << config[QString("HDDDEV")]
+                      << config[QString("HDDTEMPCMD")]);
     for (auto source : hddTempItem->sources())
         m_map[source] = hddTempItem;
     // network
@@ -124,10 +125,11 @@ void ExtSysMonAggregator::init(const QHash<QString, QString> config)
         m_map[source] = networkItem;
     // player
     AbstractExtSysMonSource *playerItem = new PlayerSource(
-        this, QStringList()
-                  << config[QString("PLAYER")] << config[QString("MPDADDRESS")]
-                  << config[QString("MPDPORT")] << config[QString("MPRIS")]
-                  << config[QString("PLAYERSYMBOLS")]);
+        this,
+        QStringList() << config[QString("PLAYER")]
+                      << config[QString("MPDADDRESS")]
+                      << config[QString("MPDPORT")] << config[QString("MPRIS")]
+                      << config[QString("PLAYERSYMBOLS")]);
     for (auto source : playerItem->sources())
         m_map[source] = playerItem;
     // processes

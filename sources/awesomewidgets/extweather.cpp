@@ -59,7 +59,7 @@ ExtWeather::ExtWeather(QWidget *parent, const QString filePath)
     connect(m_manager, SIGNAL(finished(QNetworkReply *)), this,
             SLOT(weatherReplyReceived(QNetworkReply *)));
 
-    connect(this, SIGNAL(socketActivated()), this, SLOT(sendRequest()));
+    connect(this, SIGNAL(requestDataUpdate()), this, SLOT(sendRequest()));
 }
 
 
@@ -69,7 +69,7 @@ ExtWeather::~ExtWeather()
 
     disconnect(m_manager, SIGNAL(finished(QNetworkReply *)), this,
                SLOT(weatherReplyReceived(QNetworkReply *)));
-    disconnect(this, SIGNAL(socketActivated()), this, SLOT(sendRequest()));
+    disconnect(this, SIGNAL(requestDataUpdate()), this, SLOT(sendRequest()));
 
     m_manager->deleteLater();
     delete m_providerObject;
@@ -270,16 +270,9 @@ void ExtWeather::readJsonMap()
 
 QVariantHash ExtWeather::run()
 {
-    if ((!isActive()) || (m_isRunning))
+    if (m_isRunning)
         return m_values;
-
-    if (m_times == 1)
-        sendRequest();
-
-    // update value
-    if (m_times >= interval())
-        m_times = 0;
-    m_times++;
+    startTimer();
 
     return m_values;
 }
@@ -376,12 +369,6 @@ void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
         = weatherFromInt(m_values[tag(QString("weatherId"))].toInt());
 
     emit(dataReceived(m_values));
-}
-
-
-bool ExtWeather::canRun()
-{
-    return ((isActive()) && (!m_isRunning) && (socket().isEmpty()));
 }
 
 

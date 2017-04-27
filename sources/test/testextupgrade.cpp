@@ -26,6 +26,7 @@
 
 void TestExtUpgrade::initTestCase()
 {
+    AWTestLibrary::init();
     randomStrings = AWTestLibrary::randomStringList();
     cmd = QString("echo -e '%1'").arg(randomStrings.join(QString("\n")));
 

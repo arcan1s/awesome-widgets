@@ -22,7 +22,14 @@
 #include <QEventLoop>
 #include <QSet>
 #include <QStandardPaths>
+#include <QTime>
 #include <QtTest>
+
+
+void AWTestLibrary::init()
+{
+    qsrand(static_cast<uint>(QTime::currentTime().msec()));
+}
 
 
 bool AWTestLibrary::isKWinActive()
