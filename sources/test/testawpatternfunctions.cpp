@@ -37,8 +37,8 @@ void TestAWPatternFunctions::cleanupTestCase()
 
 void TestAWPatternFunctions::test_findFunctionCalls()
 {
-    QString name = QString("aw_%1").arg(AWTestLibrary::randomString(10));
-    QString code = AWTestLibrary::randomString(20);
+    QString name = QString("aw_%1").arg(AWTestLibrary::randomString(1, 10));
+    QString code = AWTestLibrary::randomString(1, 20);
     QStringList args = AWTestLibrary::randomStringList(20);
     QString function = QString("$%1<%2>{{%3}}")
                            .arg(name)
@@ -63,9 +63,9 @@ void TestAWPatternFunctions::test_findKeys()
     int count = AWTestLibrary::randomInt(200);
     QStringList allKeys;
     for (int i = 0; i < count; i++) {
-        auto key = AWTestLibrary::randomString(20);
+        auto key = AWTestLibrary::randomString(1, 20);
         while (allKeys.indexOf(QRegExp(QString("^%1.*").arg(key))) != -1)
-            key = AWTestLibrary::randomString(20);
+            key = AWTestLibrary::randomString(1, 20);
         allKeys.append(key);
     }
 

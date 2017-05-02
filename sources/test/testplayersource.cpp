@@ -43,15 +43,15 @@ void TestPlayerSource::_test_sources(const PlayerSource *source)
 
 void TestPlayerSource::test_buildString()
 {
-    QString randomString = AWTestLibrary::randomString(40);
+    QString randomString = AWTestLibrary::randomString(1, 40);
     QString str = PlayerSource::buildString(QString(), randomString, 20);
     QCOMPARE(str.count(), 20);
 
     str = PlayerSource::buildString(str, randomString, 20);
     QCOMPARE(str.count(), 20);
 
-    str = PlayerSource::buildString(QString(), AWTestLibrary::randomString(10),
-                                    20);
+    str = PlayerSource::buildString(QString(),
+                                    AWTestLibrary::randomString(1, 10), 20);
     QCOMPARE(str.count(), 20);
 }
 
@@ -59,11 +59,11 @@ void TestPlayerSource::test_buildString()
 void TestPlayerSource::test_stripString()
 {
     QString str = PlayerSource::buildString(
-        QString(), AWTestLibrary::randomString(40), 20);
+        QString(), AWTestLibrary::randomString(1, 40), 20);
     QCOMPARE(str.count(), 20);
 
-    str = PlayerSource::buildString(QString(), AWTestLibrary::randomString(10),
-                                    20);
+    str = PlayerSource::buildString(QString(),
+                                    AWTestLibrary::randomString(1, 10), 20);
     QCOMPARE(str.count(), 20);
 }
 

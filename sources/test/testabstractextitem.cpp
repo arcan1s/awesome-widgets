@@ -39,6 +39,7 @@ void TestAbstractExtItem::initTestCase()
     extItem->setActive(false);
     extItem->setApiVersion(1);
     extItem->setComment(comment);
+    extItem->setCron(cron);
     extItem->setName(name);
     extItem->setNumber(-1);
     extItem->setSocket(socket);
@@ -81,6 +82,7 @@ void TestAbstractExtItem::test_configuration()
     QCOMPARE(newExtItem->name(), extItem->name());
     QCOMPARE(newExtItem->number(), extItem->number());
     QCOMPARE(newExtItem->socket(), extItem->socket());
+    QCOMPARE(newExtItem->cron(), extItem->cron());
 
     delete newExtItem;
 }
@@ -114,6 +116,7 @@ void TestAbstractExtItem::test_copy()
     QCOMPARE(newExtItem->comment(), extItem->comment());
     QCOMPARE(newExtItem->name(), extItem->name());
     QCOMPARE(newExtItem->socket(), extItem->socket());
+    QCOMPARE(newExtItem->cron(), extItem->cron());
 
     delete newExtItem;
 }

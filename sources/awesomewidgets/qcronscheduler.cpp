@@ -56,11 +56,11 @@ void QCronScheduler::parse(const QString &timer)
     if (fields.count() != 5)
         return;
 
-    m_schedule.minutes = parseField(fields.at(1), 0, 59);
-    m_schedule.hours = parseField(fields.at(2), 0, 23);
-    m_schedule.days = parseField(fields.at(3), 1, 31);
-    m_schedule.months = parseField(fields.at(4), 1, 12);
-    m_schedule.weekdays = parseField(fields.at(5), 1, 7);
+    m_schedule.minutes = parseField(fields.at(0), 0, 59);
+    m_schedule.hours = parseField(fields.at(1), 0, 23);
+    m_schedule.days = parseField(fields.at(2), 1, 31);
+    m_schedule.months = parseField(fields.at(3), 1, 12);
+    m_schedule.weekdays = parseField(fields.at(4), 1, 7);
 }
 
 
@@ -111,31 +111,31 @@ void QCronScheduler::QCronField::fromRange(const QString &range, const int min,
                      << "with corner values" << min << max;
 
     if (range == '*') {
-        this->min = min;
-        this->max = max;
+        minValue = min;
+        maxValue = max;
     } else if (range.contains('-')) {
         auto interval = range.split('-', QString::SkipEmptyParts);
         if (interval.count() != 2)
             return;
         bool status;
         // minimal value
-        this->min = std::max(min, interval.at(0).toInt(&status));
+        minValue = std::max(min, interval.at(0).toInt(&status));
         if (!status)
-            this->min = -1;
+            minValue = -1;
         // maximal value
-        this->max = std::min(max, interval.at(1).toInt(&status));
+        maxValue = std::min(max, interval.at(1).toInt(&status));
         if (!status)
-            this->max = -1;
+            maxValue = -1;
         // error check
-        if (this->min > this->max)
-            std::swap(this->min, this->max);
+        if (minValue > maxValue)
+            std::swap(minValue, maxValue);
     } else {
         bool status;
         int value = range.toInt(&status);
         if (!status || (value < min) || (value > max))
             value = -1;
-        this->min = value;
-        this->max = value;
+        minValue = value;
+        maxValue = value;
     }
 }
 
@@ -143,11 +143,11 @@ void QCronScheduler::QCronField::fromRange(const QString &range, const int min,
 QList<int> QCronScheduler::QCronField::toList()
 {
     // error checking
-    if ((min == -1) || (max == -1))
+    if ((minValue == -1) || (maxValue == -1))
         return QList<int>();
 
     QList<int> output;
-    for (auto i = min; i <= max; ++i) {
+    for (auto i = minValue; i <= maxValue; ++i) {
         if (i % div != 0)
             continue;
         output.append(i);

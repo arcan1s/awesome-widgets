@@ -292,6 +292,7 @@ int ExtWeather::showConfiguration(const QVariant args)
     ui->checkBox_image->setCheckState(image() ? Qt::Checked : Qt::Unchecked);
     ui->checkBox_active->setCheckState(isActive() ? Qt::Checked
                                                   : Qt::Unchecked);
+    ui->lineEdit_schedule->setText(cron());
     ui->lineEdit_socket->setText(socket());
     ui->spinBox_interval->setValue(interval());
 
@@ -308,6 +309,7 @@ int ExtWeather::showConfiguration(const QVariant args)
     setTs(ui->spinBox_timestamp->value());
     setImage(ui->checkBox_image->checkState() == Qt::Checked);
     setActive(ui->checkBox_active->checkState() == Qt::Checked);
+    setCron(ui->lineEdit_schedule->text());
     setSocket(ui->lineEdit_socket->text());
     setInterval(ui->spinBox_interval->value());
 
@@ -400,6 +402,7 @@ void ExtWeather::translate()
     ui->label_timestamp->setText(i18n("Timestamp"));
     ui->checkBox_image->setText(i18n("Use images"));
     ui->checkBox_active->setText(i18n("Active"));
+    ui->label_schedule->setText(i18n("Schedule"));
     ui->label_socket->setText(i18n("Socket"));
     ui->label_interval->setText(i18n("Interval"));
 }

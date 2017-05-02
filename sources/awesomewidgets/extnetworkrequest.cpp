@@ -137,6 +137,7 @@ int ExtNetworkRequest::showConfiguration(const QVariant args)
     ui->lineEdit_url->setText(stringUrl());
     ui->checkBox_active->setCheckState(isActive() ? Qt::Checked
                                                   : Qt::Unchecked);
+    ui->lineEdit_schedule->setText(cron());
     ui->lineEdit_socket->setText(socket());
     ui->spinBox_interval->setValue(interval());
 
@@ -149,6 +150,7 @@ int ExtNetworkRequest::showConfiguration(const QVariant args)
     setApiVersion(AW_EXTNETREQUEST_API);
     setStringUrl(ui->lineEdit_url->text());
     setActive(ui->checkBox_active->checkState() == Qt::Checked);
+    setCron(ui->lineEdit_schedule->text());
     setSocket(ui->lineEdit_socket->text());
     setInterval(ui->spinBox_interval->value());
 
@@ -208,6 +210,7 @@ void ExtNetworkRequest::translate()
     ui->label_number->setText(i18n("Tag"));
     ui->label_url->setText(i18n("URL"));
     ui->checkBox_active->setText(i18n("Active"));
+    ui->label_schedule->setText(i18n("Schedule"));
     ui->label_socket->setText(i18n("Socket"));
     ui->label_interval->setText(i18n("Interval"));
 }

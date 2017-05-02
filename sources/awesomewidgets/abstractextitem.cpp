@@ -307,15 +307,10 @@ void AbstractExtItem::readConfiguration()
     setActive(
         settings.value(QString("X-AW-Active"), QVariant(isActive())).toString()
         == QString("true"));
+    setInterval(settings.value(QString("X-AW-Interval"), interval()).toInt());
     setNumber(settings.value(QString("X-AW-Number"), number()).toInt());
+    setCron(settings.value(QString("X-AW-Schedule"), cron()).toString());
     setSocket(settings.value(QString("X-AW-Socket"), socket()).toString());
-
-    // interval definition
-    QVariant value = settings.value(QString("X-AW-Interval"), interval());
-    if (value.type() == QVariant::Int)
-        setInterval(value.toInt());
-    else
-        setCron(value.toString());
     settings.endGroup();
 }
 
@@ -344,6 +339,7 @@ void AbstractExtItem::writeConfiguration() const
                       cron().isEmpty() ? QVariant(interval())
                                        : QVariant(cron()));
     settings.setValue(QString("X-AW-Number"), number());
+    settings.setValue(QString("X-AW-Schedule"), cron());
     settings.setValue(QString("X-AW-Socket"), socket());
     settings.endGroup();
 

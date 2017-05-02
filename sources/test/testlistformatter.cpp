@@ -27,7 +27,7 @@
 void TestAWListFormatter::initTestCase()
 {
     AWTestLibrary::init();
-    separator = AWTestLibrary::randomString(10);
+    separator = AWTestLibrary::randomString(9, 10);
 
     formatter = new AWListFormatter(nullptr);
     formatter->setSeparator(separator);

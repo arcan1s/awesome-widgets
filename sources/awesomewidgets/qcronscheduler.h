@@ -36,8 +36,8 @@ public:
         QList<int> weekdays;
     } QCronRunSchedule;
     typedef struct {
-        int min = -1;
-        int max = -1;
+        int minValue = -1;
+        int maxValue = -1;
         int div = 1;
         void fromRange(const QString &range, const int min, const int max);
         QList<int> toList();

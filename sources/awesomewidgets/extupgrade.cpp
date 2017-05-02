@@ -165,6 +165,7 @@ int ExtUpgrade::showConfiguration(const QVariant args)
     ui->checkBox_active->setCheckState(isActive() ? Qt::Checked
                                                   : Qt::Unchecked);
     ui->spinBox_null->setValue(null());
+    ui->lineEdit_schedule->setText(cron());
     ui->lineEdit_socket->setText(socket());
     ui->spinBox_interval->setValue(interval());
 
@@ -179,6 +180,7 @@ int ExtUpgrade::showConfiguration(const QVariant args)
     setFilter(ui->lineEdit_filter->text());
     setActive(ui->checkBox_active->checkState() == Qt::Checked);
     setNull(ui->spinBox_null->value());
+    setCron(ui->lineEdit_schedule->text());
     setSocket(ui->lineEdit_socket->text());
     setInterval(ui->spinBox_interval->value());
 
@@ -242,6 +244,7 @@ void ExtUpgrade::translate()
     ui->label_filter->setText(i18n("Filter"));
     ui->checkBox_active->setText(i18n("Active"));
     ui->label_null->setText(i18n("Null"));
-    ui->label_interval->setText(i18n("Interval"));
     ui->label_socket->setText(i18n("Socket"));
+    ui->label_schedule->setText(i18n("Schedule"));
+    ui->label_interval->setText(i18n("Interval"));
 }

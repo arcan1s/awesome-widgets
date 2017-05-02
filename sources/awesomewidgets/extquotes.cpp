@@ -146,6 +146,7 @@ int ExtQuotes::showConfiguration(const QVariant args)
     ui->lineEdit_ticker->setText(ticker());
     ui->checkBox_active->setCheckState(isActive() ? Qt::Checked
                                                   : Qt::Unchecked);
+    ui->lineEdit_schedule->setText(cron());
     ui->lineEdit_socket->setText(socket());
     ui->spinBox_interval->setValue(interval());
 
@@ -158,6 +159,7 @@ int ExtQuotes::showConfiguration(const QVariant args)
     setApiVersion(AW_EXTQUOTES_API);
     setTicker(ui->lineEdit_ticker->text());
     setActive(ui->checkBox_active->checkState() == Qt::Checked);
+    setCron(ui->lineEdit_schedule->text());
     setSocket(ui->lineEdit_socket->text());
     setInterval(ui->spinBox_interval->value());
 
@@ -273,6 +275,7 @@ get quotes for the instrument. Refer to <a href=\"http://finance.yahoo.com/\">\
 </span></a></p></body></html>"));
     ui->label_ticker->setText(i18n("Ticker"));
     ui->checkBox_active->setText(i18n("Active"));
+    ui->label_schedule->setText(i18n("Schedule"));
     ui->label_socket->setText(i18n("Socket"));
     ui->label_interval->setText(i18n("Interval"));
 }

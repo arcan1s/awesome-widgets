@@ -65,7 +65,7 @@ QPair<QString, QString> AWTestLibrary::randomFilenames()
                                 .arg(QStandardPaths::writableLocation(
                                     QStandardPaths::GenericDataLocation));
 
-    QString name = randomString(20);
+    QString name = randomString(1, 20);
     fileName += name;
     writeFileName += name;
 
@@ -79,11 +79,11 @@ int AWTestLibrary::randomInt(const int max)
 }
 
 
-QString AWTestLibrary::randomString(const int max)
+QString AWTestLibrary::randomString(const int min, const int max)
 {
     QString output;
 
-    int count = 1 + randomInt(max);
+    int count = min + randomInt(max - min);
     for (int i = 0; i < count; i++)
         output += QChar(randomChar());
 

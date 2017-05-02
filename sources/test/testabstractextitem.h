@@ -43,6 +43,7 @@ private slots:
 private:
     ExtUpgrade *extItem = nullptr;
     QString comment;
+    QString cron = "* * * * *";
     QString name;
     QString socket;
     QString fileName;

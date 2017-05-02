@@ -21,7 +21,6 @@ arch:
         - cd awesome-widgets/build; make
         - cd awesome-widgets/build; make cppcheck
         - cd awesome-widgets/build; make clangformat && ( [ `git status -s | wc -l` -eq 0 ] || exit 1 )
-        - cd awesome-widgets/build; ./test/awesomewidgets-test-extweather || true
         - cd awesome-widgets/build; xvfb-run make test
         - sleep 3
 
