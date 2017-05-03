@@ -15,22 +15,36 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-pragma Singleton
-import QtQuick 2.0
+#ifndef REQUESTSOURCE_H
+#define REQUESTSOURCE_H
+
+#include <QObject>
+
+#include "abstractextsysmonsource.h"
+#include "extitemaggregator.h"
 
 
-QtObject {
-    property variant fontWeight: {
-        "light": Font.Light,
-        "normal": Font.Normal,
-        "demibold": Font.DemiBold,
-        "bold": Font.Bold,
-        "black": Font.Black
-    }
-    property variant align: {
-        "left": Text.AlignLeft,
-        "center": Text.AlignHCenter,
-        "right": Text.AlignRight,
-        "justify": Text.AlignJustify
-    }
-}
+class ExtNetworkRequest;
+
+class RequestSource : public AbstractExtSysMonSource
+{
+    Q_OBJECT
+
+public:
+    explicit RequestSource(QObject *parent, const QStringList args);
+    virtual ~RequestSource();
+    QVariant data(QString source);
+    QVariantMap initialData(QString source) const;
+    void run(){};
+    QStringList sources() const;
+
+private:
+    QStringList getSources();
+    // configuration and values
+    ExtItemAggregator<ExtNetworkRequest> *m_extNetRequest = nullptr;
+    QStringList m_sources;
+    QVariantHash m_values;
+};
+
+
+#endif /* REQUESTSOURCE_H */

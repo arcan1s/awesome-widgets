@@ -115,7 +115,7 @@ void AWDateTimeFormatter::readConfiguration()
         settings.value(QString("X-AW-Translate"), translateString()).toBool());
     settings.endGroup();
 
-    bumpApi(AWEFAPI);
+    bumpApi(AW_FORMATTER_API);
 }
 
 
@@ -135,7 +135,7 @@ int AWDateTimeFormatter::showConfiguration(const QVariant args)
         return ret;
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
-    setApiVersion(AWEFAPI);
+    setApiVersion(AW_FORMATTER_API);
     setStrType(ui->label_typeValue->text());
     setFormat(ui->lineEdit_format->text());
     setTranslateString(ui->checkBox_translate->checkState() == Qt::Checked);

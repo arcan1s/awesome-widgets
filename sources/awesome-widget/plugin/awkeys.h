@@ -39,6 +39,7 @@ class AWKeys : public QObject
 public:
     explicit AWKeys(QObject *parent = nullptr);
     virtual ~AWKeys();
+    bool isDBusActive() const;
     Q_INVOKABLE void initDataAggregator(const QVariantMap tooltipParams);
     Q_INVOKABLE void initKeys(const QString currentPattern, const int interval,
                               const int limit, const bool optimize);
@@ -51,7 +52,7 @@ public:
     // keys
     Q_INVOKABLE QStringList dictKeys(const bool sorted = false,
                                      const QString regexp = QString()) const;
-    Q_INVOKABLE QStringList getHddDevices() const;
+    Q_INVOKABLE QVariantList getHddDevices() const;
     // values
     Q_INVOKABLE QString infoByKey(QString key) const;
     Q_INVOKABLE QString valueByKey(QString key) const;
@@ -76,6 +77,7 @@ private slots:
 private:
     // methods
     void calculateValues();
+    void createDBusInterface();
     QString parsePattern(QString pattern) const;
     void setDataBySource(const QString &sourceName, const QVariantMap &data);
     // objects
@@ -85,6 +87,7 @@ private:
     AWKeyOperations *m_keyOperator = nullptr;
     QTimer *m_timer = nullptr;
     // variables
+    bool m_dbusActive = false;
     QVariantMap m_tooltipParams;
     QStringList m_foundBars, m_foundKeys, m_foundLambdas, m_requiredKeys;
     QVariantHash m_values;

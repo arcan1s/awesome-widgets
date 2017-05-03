@@ -69,13 +69,12 @@ bool AWConfigHelper::dropCache() const
 }
 
 
-bool AWConfigHelper::exportConfiguration(const QObject *nativeConfig,
+bool AWConfigHelper::exportConfiguration(QObject *nativeConfig,
                                          const QString fileName) const
 {
     qCDebug(LOG_AW) << "Selected filename" << fileName;
 
     QSettings settings(fileName, QSettings::IniFormat);
-
     // plasmoid configuration
     const QQmlPropertyMap *configuration
         = static_cast<const QQmlPropertyMap *>(nativeConfig);

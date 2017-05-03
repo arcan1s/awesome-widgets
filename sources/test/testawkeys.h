@@ -40,6 +40,7 @@ private slots:
     void test_wrapNewLines();
     void test_infoByKey();
     void test_valueByKey();
+    void test_dbus();
 
 private:
     AWKeys *plugin = nullptr;

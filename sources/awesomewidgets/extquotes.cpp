@@ -59,6 +59,8 @@ ExtQuotes::ExtQuotes(QWidget *parent, const QString filePath)
     m_manager = new QNetworkAccessManager(nullptr);
     connect(m_manager, SIGNAL(finished(QNetworkReply *)), this,
             SLOT(quotesReplyReceived(QNetworkReply *)));
+
+    connect(this, SIGNAL(requestDataUpdate()), this, SLOT(sendRequest()));
 }
 
 
@@ -68,6 +70,7 @@ ExtQuotes::~ExtQuotes()
 
     disconnect(m_manager, SIGNAL(finished(QNetworkReply *)), this,
                SLOT(quotesReplyReceived(QNetworkReply *)));
+    disconnect(this, SIGNAL(requestDataUpdate()), this, SLOT(sendRequest()));
 
     m_manager->deleteLater();
     delete ui;
@@ -119,26 +122,15 @@ void ExtQuotes::readConfiguration()
     setTicker(settings.value(QString("X-AW-Ticker"), ticker()).toString());
     settings.endGroup();
 
-    bumpApi(AWEQAPI);
+    bumpApi(AW_EXTQUOTES_API);
 }
 
 
 QVariantHash ExtQuotes::run()
 {
-    if ((!isActive()) || (m_isRunning))
+    if (m_isRunning)
         return m_values;
-
-    if (m_times == 1) {
-        qCInfo(LOG_LIB) << "Send request";
-        m_isRunning = true;
-        QNetworkReply *reply = m_manager->get(QNetworkRequest(m_url));
-        new QReplyTimeout(reply, REQUEST_TIMEOUT);
-    }
-
-    // update value
-    if (m_times >= interval())
-        m_times = 0;
-    m_times++;
+    startTimer();
 
     return m_values;
 }
@@ -154,6 +146,8 @@ int ExtQuotes::showConfiguration(const QVariant args)
     ui->lineEdit_ticker->setText(ticker());
     ui->checkBox_active->setCheckState(isActive() ? Qt::Checked
                                                   : Qt::Unchecked);
+    ui->lineEdit_schedule->setText(cron());
+    ui->lineEdit_socket->setText(socket());
     ui->spinBox_interval->setValue(interval());
 
     int ret = exec();
@@ -162,9 +156,11 @@ int ExtQuotes::showConfiguration(const QVariant args)
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
     setNumber(ui->label_numberValue->text().toInt());
-    setApiVersion(AWEQAPI);
+    setApiVersion(AW_EXTQUOTES_API);
     setTicker(ui->lineEdit_ticker->text());
     setActive(ui->checkBox_active->checkState() == Qt::Checked);
+    setCron(ui->lineEdit_schedule->text());
+    setSocket(ui->lineEdit_socket->text());
     setInterval(ui->spinBox_interval->value());
 
     writeConfiguration();
@@ -245,6 +241,14 @@ void ExtQuotes::quotesReplyReceived(QNetworkReply *reply)
 }
 
 
+void ExtQuotes::sendRequest()
+{
+    m_isRunning = true;
+    QNetworkReply *reply = m_manager->get(QNetworkRequest(m_url));
+    new QReplyTimeout(reply, REQUEST_TIMEOUT);
+}
+
+
 void ExtQuotes::initUrl()
 {
     // init query
@@ -271,5 +275,7 @@ get quotes for the instrument. Refer to <a href=\"http://finance.yahoo.com/\">\
 </span></a></p></body></html>"));
     ui->label_ticker->setText(i18n("Ticker"));
     ui->checkBox_active->setText(i18n("Active"));
+    ui->label_schedule->setText(i18n("Schedule"));
+    ui->label_socket->setText(i18n("Socket"));
     ui->label_interval->setText(i18n("Interval"));
 }

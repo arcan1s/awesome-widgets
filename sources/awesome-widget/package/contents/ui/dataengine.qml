@@ -52,21 +52,10 @@ Item {
             height: implicitHeight
             width: parent.width
             title: i18n("ACPI")
-            Row {
-                height: implicitHeight
-                width: parent.width
-                QtControls.Label {
-                    height: parent.height
-                    width: parent.width * 2 / 5
-                    horizontalAlignment: Text.AlignRight
-                    verticalAlignment: Text.AlignVCenter
-                    text: i18n("ACPI path")
-                }
-                QtControls.TextField {
-                    width: parent.width * 3 / 5
-                    text: cfg_dataengine["ACPIPATH"]
-                    onEditingFinished: cfg_dataengine["ACPIPATH"] = text
-                }
+            LineSelector {
+                text: i18n("ACPI path")
+                value: cfg_dataengine["ACPIPATH"]
+                onValueEdited: cfg_dataengine["ACPIPATH"] = newValue
             }
         }
 
@@ -74,30 +63,28 @@ Item {
             height: implicitHeight
             width: parent.width
             title: i18n("GPU")
-            Row {
-                height: implicitHeight
-                width: parent.width
-                QtControls.Label {
-                    height: parent.height
-                    width: parent.width * 2 / 5
-                    horizontalAlignment: Text.AlignRight
-                    verticalAlignment: Text.AlignVCenter
-                    text: i18n("GPU device")
-                }
-                QtControls.ComboBox {
-                    id: gpuDev
-                    width: parent.width * 3 / 5
-                    model: ["auto", "disable", "ati", "nvidia"]
-                    Component.onCompleted: {
-                        if (debug) console.debug()
-                        for (var i=0; i<model.length; i++) {
-                            if (model[i] == cfg_dataengine["GPUDEV"]) {
-                                if (debug) console.info("Found", model[i], "on", i)
-                                currentIndex = i
-                            }
-                        }
+            ComboBoxSelector {
+                model: [
+                    {
+                        'label': "auto",
+                        'name': "auto"
+                    },
+                    {
+                        'label': "disable",
+                        'name': "disable"
+                    },
+                    {
+                        'label': "ati",
+                        'name': "ati"
+                    },
+                    {
+                        'label': "nvidia",
+                        'name': "nvidia"
                     }
-                }
+                ]
+                text: i18n("GPU device")
+                value: cfg_dataengine["GPUDEV"]
+                onValueEdited: cfg_dataengine["GPUDEV"] = newValue
             }
         }
 
@@ -108,37 +95,17 @@ Item {
             Column {
                 height: implicitHeight
                 width: parent.width
-                Row {
-                    height: implicitHeight
-                    width: parent.width
-                    QtControls.Label {
-                        height: parent.height
-                        width: parent.width * 2 / 5
-                        horizontalAlignment: Text.AlignRight
-                        verticalAlignment: Text.AlignVCenter
-                        text: i18n("HDD")
-                    }
-                    QtControls.ComboBox {
-                        id: hdd
-                        width: parent.width * 3 / 5
-                    }
+                ComboBoxSelector {
+                    id: hdd
+                    text: i18n("HDD")
+                    value: cfg_dataengine["HDDDEV"]
+                    onValueEdited: cfg_dataengine["HDDDEV"] = newValue
                 }
 
-                Row {
-                    height: implicitHeight
-                    width: parent.width
-                    QtControls.Label {
-                        height: parent.height
-                        width: parent.width * 2 / 5
-                        horizontalAlignment: Text.AlignRight
-                        verticalAlignment: Text.AlignVCenter
-                        text: i18n("hddtemp cmd")
-                    }
-                    QtControls.TextField {
-                        width: parent.width * 3 / 5
-                        text: cfg_dataengine["HDDTEMPCMD"]
-                        onEditingFinished: cfg_dataengine["HDDTEMPCMD"] = text
-                    }
+                LineSelector {
+                    text: i18n("hddtemp cmd")
+                    value: cfg_dataengine["HDDTEMPCMD"]
+                    onValueEdited: cfg_dataengine["HDDTEMPCMD"] = newValue
                 }
             }
         }
@@ -150,107 +117,93 @@ Item {
             Column {
                 height: implicitHeight
                 width: parent.width
-                Row {
-                    height: implicitHeight
-                    width: parent.width
-                    QtControls.Label {
-                        height: parent.height
-                        width: parent.width * 2 / 5
-                        horizontalAlignment: Text.AlignRight
-                        verticalAlignment: Text.AlignVCenter
-                        text: i18n("Player data symbols")
-                    }
-                    QtControls.SpinBox {
-                        width: parent.width * 3 / 5
-                        minimumValue: 1
-                        maximumValue: 100
-                        stepSize: 1
-                        value: cfg_dataengine["PLAYERSYMBOLS"]
-                        onEditingFinished: cfg_dataengine["PLAYERSYMBOLS"] = value
-                    }
+                IntegerSelector {
+                    maximumValue: 100
+                    minimumValue: 1
+                    stepSize: 1
+                    text: i18n("Player data symbols")
+                    value: cfg_dataengine["PLAYERSYMBOLS"]
+                    onValueEdited: cfg_dataengine["PLAYERSYMBOLS"] = newValue
                 }
 
-                Row {
-                    height: implicitHeight
-                    width: parent.width
-                    QtControls.Label {
-                        height: parent.height
-                        width: parent.width * 2 / 5
-                        horizontalAlignment: Text.AlignRight
-                        verticalAlignment: Text.AlignVCenter
-                        text: i18n("Music player")
-                    }
-                    QtControls.ComboBox {
-                        id: player
-                        width: parent.width * 3 / 5
-                        model: ["disable", "mpris", "mpd"]
-                        Component.onCompleted: {
-                            if (debug) console.debug()
-                            for (var i=0; i<model.length; i++) {
-                                if (model[i] == cfg_dataengine["PLAYER"]) {
-                                    if (debug) console.info("Found", model[i], "on", i)
-                                    player.currentIndex = i
-                                }
-                            }
+                ComboBoxSelector {
+                    model: [
+                        {
+                            'label': "disable",
+                            'name': "disable"
+                        },
+                        {
+                            'label': "mpris",
+                            'name': "mpris"
+                        },
+                        {
+                            'label': "mpd",
+                            'name': "mpd"
                         }
-                    }
+                    ]
+                    text: i18n("Music player")
+                    value: cfg_dataengine["PLAYER"]
+                    onValueEdited: cfg_dataengine["PLAYER"] = newValue
                 }
 
-                Row {
-                    height: implicitHeight
-                    width: parent.width
-                    QtControls.Label {
-                        height: parent.height
-                        width: parent.width * 2 / 5
-                        horizontalAlignment: Text.AlignRight
-                        verticalAlignment: Text.AlignVCenter
-                        text: i18n("MPRIS player name")
-                    }
-                    QtControls.ComboBox {
-                        id: mpris
-                        width: parent.width * 3 / 5
-                        editable: true
-                        model: ["auto", "amarok", "audacious", "clementine", "deadbeef",
-                                "vlc", "qmmp", "xmms2", cfg_dataengine["MPRIS"]]
-                        currentIndex: model.length - 1
-                    }
+                ComboBoxSelector {
+                    id: mpris
+                    editable: true
+                    model: [
+                        {
+                            'label': 'auto',
+                            'name': 'auto'
+                        },
+                        {
+                            'label': 'amarok',
+                            'name': 'amarok'
+                        },
+                        {
+                            'label': 'audacious',
+                            'name': 'audacious'
+                        },
+                        {
+                            'label': 'clementine',
+                            'name': 'clementine'
+                        },
+                        {
+                            'label': 'deadbeef',
+                            'name': 'deadbeef'
+                        },
+                        {
+                            'label': 'vlc',
+                            'name': 'vlc'
+                        },
+                        {
+                            'label': 'qmmp',
+                            'name': 'qmmp'
+                        },
+                        {
+                            'label': 'xmms2',
+                            'name': 'xmms2'
+                        },
+                        {
+                            'label': cfg_dataengine["MPRIS"],
+                            'name': cfg_dataengine["MPRIS"]
+                        }
+                    ]
+                    text: i18n("MPRIS player name")
+                    currentIndex: model.length - 1
                 }
 
-                Row {
-                    height: implicitHeight
-                    width: parent.width
-                    QtControls.Label {
-                        height: parent.height
-                        width: parent.width * 2 / 5
-                        horizontalAlignment: Text.AlignRight
-                        verticalAlignment: Text.AlignVCenter
-                        text: i18n("MPD address")
-                    }
-                    QtControls.TextField {
-                        width: parent.width * 3 / 5
-                        text: cfg_dataengine["MPDADDRESS"]
-                        onEditingFinished: cfg_dataengine["MPDADDRESS"] = text
-                    }
+                LineSelector {
+                    text: i18n("MPD address")
+                    value: cfg_dataengine["MPDADDRESS"]
+                    onValueEdited: cfg_dataengine["MPDADDRESS"] = newValue
                 }
 
-                Row {
-                    height: implicitHeight
-                    width: parent.width
-                    QtControls.Label {
-                        height: parent.height
-                        width: parent.width * 2 / 5
-                        horizontalAlignment: Text.AlignRight
-                        verticalAlignment: Text.AlignVCenter
-                        text: i18n("MPD port")
-                    }
-                    QtControls.SpinBox {
-                        width: parent.width * 3 / 5
-                        minimumValue: 1000
-                        maximumValue: 65535
-                        stepSize: 1
-                        value: cfg_dataengine["MPDPORT"]
-                        onEditingFinished: cfg_dataengine["MPDPORT"] = value
-                    }
+                IntegerSelector {
+                    maximumValue: 65535
+                    minimumValue: 1000
+                    stepSize: 1
+                    text: i18n("MPD port")
+                    value: cfg_dataengine["MPDPORT"]
+                    onValueEdited: cfg_dataengine["MPDPORT"] = newValue
                 }
             }
         }
@@ -262,72 +215,29 @@ Item {
             Column {
                 height: implicitHeight
                 width: parent.width
-                Row {
-                    height: implicitHeight
-                    width: parent.width
-                    QtControls.Label {
-                        height: parent.height
-                        width: parent.width * 2 / 5
-                        horizontalAlignment: Text.AlignRight
-                        verticalAlignment: Text.AlignVCenter
-                        text: i18n("Custom scripts")
-                    }
-                    QtControls.Button {
-                        width: parent.width * 3 / 5
-                        text: i18n("Edit scripts")
-                        onClicked: awKeys.editItem("extscript")
-                    }
+                ButtonSelector {
+                    value: i18n("Custom scripts")
+                    onButtonActivated: awKeys.editItem("extscript")
                 }
 
-                Row {
-                    height: implicitHeight
-                    width: parent.width
-                    QtControls.Label {
-                        height: parent.height
-                        width: parent.width * 2 / 5
-                        horizontalAlignment: Text.AlignRight
-                        verticalAlignment: Text.AlignVCenter
-                        text: i18n("Quotes monitor")
-                    }
-                    QtControls.Button {
-                        width: parent.width * 3 / 5
-                        text: i18n("Edit tickers")
-                        onClicked: awKeys.editItem("extquotes")
-                    }
+                ButtonSelector {
+                    value: i18n("Network requests")
+                    onButtonActivated: awKeys.editItem("extnetworkrequest")
                 }
 
-                Row {
-                    height: implicitHeight
-                    width: parent.width
-                    QtControls.Label {
-                        height: parent.height
-                        width: parent.width * 2 / 5
-                        horizontalAlignment: Text.AlignRight
-                        verticalAlignment: Text.AlignVCenter
-                        text: i18n("Package manager")
-                    }
-                    QtControls.Button {
-                        width: parent.width * 3 / 5
-                        text: i18n("Edit command")
-                        onClicked: awKeys.editItem("extupgrade")
-                    }
+                ButtonSelector {
+                    value: i18n("Package manager")
+                    onButtonActivated: awKeys.editItem("extupgrade")
                 }
 
-                Row {
-                    height: implicitHeight
-                    width: parent.width
-                    QtControls.Label {
-                        height: parent.height
-                        width: parent.width * 2 / 5
-                        horizontalAlignment: Text.AlignRight
-                        verticalAlignment: Text.AlignVCenter
-                        text: i18n("Weather")
-                    }
-                    QtControls.Button {
-                        width: parent.width * 3 / 5
-                        text: i18n("Edit weather")
-                        onClicked: awKeys.editItem("extweather")
-                    }
+                ButtonSelector {
+                    value: i18n("Quotes monitor")
+                    onButtonActivated: awKeys.editItem("extquotes")
+                }
+
+                ButtonSelector {
+                    value: i18n("Weather")
+                    onButtonActivated: awKeys.editItem("extweather")
                 }
             }
         }
@@ -342,21 +252,13 @@ Item {
 
         // update hdd model
         hdd.model = awKeys.getHddDevices()
-        for (var i=0; i<hdd.model.length; i++) {
-            if (hdd.model[i] == cfg_dataengine["HDDDEV"]) {
-                if (debug) console.info("Found", hdd.model[i], "on", i)
-                hdd.currentIndex = i
-            }
-        }
+        hdd.onCompleted
     }
 
     Component.onDestruction: {
         if (debug) console.debug()
 
-        cfg_dataengine["GPUDEV"] = gpuDev.currentText
-        cfg_dataengine["HDDDEV"] = hdd.currentText
-        cfg_dataengine["PLAYER"] = player.currentText
-        cfg_dataengine["MPRIS"] = mpris.currentText
+        cfg_dataengine["MPRIS"] = mpris.editText
         awConfig.writeDataEngineConfiguration(cfg_dataengine)
     }
 }

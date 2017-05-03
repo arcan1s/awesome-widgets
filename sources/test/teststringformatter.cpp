@@ -26,6 +26,7 @@
 
 void TestAWStringFormatter::initTestCase()
 {
+    AWTestLibrary::init();
     formatter = new AWStringFormatter(nullptr);
 }
 
@@ -49,7 +50,10 @@ void TestAWStringFormatter::test_count()
     QCOMPARE(formatter->count(), count);
 
     // test
-    QString output = formatter->convert(AWTestLibrary::randomString());
+    auto testString = AWTestLibrary::randomString();
+    while (testString.count() > count)
+        testString = AWTestLibrary::randomString();
+    QString output = formatter->convert(testString);
     QCOMPARE(output.count(), count);
 
     // reset

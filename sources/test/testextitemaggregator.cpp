@@ -27,6 +27,7 @@
 
 void TestExtItemAggregator::initTestCase()
 {
+    AWTestLibrary::init();
     aggregator = new ExtItemAggregator<AWNoFormatter>(nullptr, type);
 }
 

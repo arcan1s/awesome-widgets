@@ -35,11 +35,13 @@ private slots:
     // test
     void test_desktops();
     void test_dictKeys();
+    void test_infoByKey();
     void test_tooltipImage();
     void test_parsePattern();
 
 private:
     DPAdds *plugin = nullptr;
+    bool m_isKwinActive = false;
     QString pattern = QString("$");
 };
 

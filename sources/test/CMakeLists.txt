@@ -20,14 +20,14 @@ include_directories(
 set(AWTESTLIBRARY_HEADERS awtestlibrary.h)
 set(AWTESTLIBRARY_SOURCES awtestlibrary.cpp)
 add_library(${SUBPROJECT}-awtest STATIC ${AWTESTLIBRARY_SOURCES} ${AWTESTLIBRARY_HEADERS})
-target_link_libraries(${SUBPROJECT}-awtest ${Qt_LIBRARIES} ${Qt5Test_LIBRARIES})
+target_link_libraries(${SUBPROJECT}-awtest ${Qt_LIBRARIES} ${Qt5Test_LIBRARIES} ${Kf5_LIBRARIES})
 set(LIBRARY_TEST_SET ${SUBPROJECT}-awtest ${PROJECT_LIBRARY} ${PROJECT_MONITORSOURCES}
         ${Qt_LIBRARIES} ${Kf5_LIBRARIES} ${Qt5Test_LIBRARIES})
 
 # modules
 set(TEST_MODULES
         abstractextitem extquotes extscript extupgrade extweather
-        abstractformatter datetimeformatter floatformatter listformatter noformatter scriptformatter stringformatter
+        abstractformatter datetimeformatter floatformatter jsonformatter listformatter noformatter scriptformatter stringformatter
         extitemaggregator
         batterysource desktopsource gpuloadsource gputempsource hddtempsource networksource playersource processessource
         awbugreporter awconfighelper awkeycache awkeys awpatternfunctions awtelemetryhandler awupdatehelper
@@ -45,6 +45,7 @@ foreach (TEST_MODULE ${TEST_MODULES})
         set(${TEST_MODULE}_SOURCES ${${TEST_MODULE}_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awactions.cpp
                 ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awdataaggregator.cpp
                 ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awdataengineaggregator.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awdbusadaptor.cpp
                 ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awformatterhelper.cpp
                 ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awkeycache.cpp
                 ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awkeyoperations.cpp

@@ -441,6 +441,12 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
         // network device
         m_map[source] = QString("netdev");
         m_formatter[QString("netdev")] = FormatterType::NoFormat;
+    } else if (source.startsWith(QString("network/response"))) {
+        // network response
+        QString key = source;
+        key.remove(QString("network/"));
+        m_map[source] = key;
+        m_formatter[key] = FormatterType::NoFormat;
     } else if (source.contains(netRegExp)) {
         // network speed
         QString type = source.contains(QString("receiver")) ? QString("down")

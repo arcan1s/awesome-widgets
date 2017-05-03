@@ -17,7 +17,8 @@
 
 #include "awkeys.h"
 
-#include <QJSEngine>
+#include <QDBusConnection>
+#include <QDBusError>
 #include <QRegExp>
 #include <QThread>
 #include <QTimer>
@@ -25,6 +26,7 @@
 
 #include "awdataaggregator.h"
 #include "awdataengineaggregator.h"
+#include "awdbusadaptor.h"
 #include "awdebug.h"
 #include "awkeycache.h"
 #include "awkeyoperations.h"
@@ -36,9 +38,9 @@
 AWKeys::AWKeys(QObject *parent)
     : QObject(parent)
 {
-    qSetMessagePattern(LOG_FORMAT);
+    qSetMessagePattern(AWDebug::LOG_FORMAT);
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
-    for (auto metadata : getBuildData())
+    for (auto &metadata : AWDebug::getBuildData())
         qCDebug(LOG_AW) << metadata;
 
     // thread pool
@@ -51,6 +53,8 @@ AWKeys::AWKeys(QObject *parent)
 
     m_timer = new QTimer(this);
     m_timer->setSingleShot(false);
+
+    createDBusInterface();
 
     // update key data if required
     connect(m_keyOperator, SIGNAL(updateKeys(QStringList)), this,
@@ -74,12 +78,22 @@ AWKeys::~AWKeys()
     m_timer->stop();
     delete m_timer;
 
+    // delete dbus session
+    qlonglong id = reinterpret_cast<qlonglong>(this);
+    QDBusConnection::sessionBus().unregisterObject(QString("/%1").arg(id));
+
     // core
     delete m_dataEngineAggregator;
     delete m_threadPool;
     delete m_aggregator;
     delete m_dataAggregator;
     delete m_keyOperator;
+}
+
+
+bool AWKeys::isDBusActive() const
+{
+    return m_dbusActive;
 }
 
 
@@ -144,6 +158,10 @@ QStringList AWKeys::dictKeys(const bool sorted, const QString regexp) const
     qCDebug(LOG_AW) << "Should be sorted" << sorted << "and filter applied"
                     << regexp;
 
+    // check if functions asked
+    if (regexp == QString("functions"))
+        return QString(STATIC_FUNCTIONS).split(QChar(','));
+
     QStringList allKeys = m_keyOperator->dictKeys();
     // sort if required
     if (sorted)
@@ -153,12 +171,21 @@ QStringList AWKeys::dictKeys(const bool sorted, const QString regexp) const
 }
 
 
-QStringList AWKeys::getHddDevices() const
+QVariantList AWKeys::getHddDevices() const
 {
-    QStringList devices = m_keyOperator->devices(QString("hdd"));
+    QStringList hddDevices = m_keyOperator->devices(QString("hdd"));
     // required by selector in the UI
-    devices.insert(0, QString("disable"));
-    devices.insert(0, QString("auto"));
+    hddDevices.insert(0, QString("disable"));
+    hddDevices.insert(0, QString("auto"));
+
+    // build model
+    QVariantList devices;
+    for (auto device : hddDevices) {
+        QVariantMap model;
+        model[QString("label")] = device;
+        model[QString("name")] = device;
+        devices.append(model);
+    }
 
     return devices;
 }
@@ -303,6 +330,27 @@ void AWKeys::calculateValues()
     for (auto key : m_foundLambdas)
         m_values[key] = AWPatternFunctions::expandLambdas(
             key, m_aggregator, m_values, m_foundKeys);
+}
+
+
+void AWKeys::createDBusInterface()
+{
+    // get this object id
+    qlonglong id = reinterpret_cast<qlonglong>(this);
+
+    // create session
+    QDBusConnection bus = QDBusConnection::sessionBus();
+    if (!bus.registerService(AWDBUS_SERVICE))
+        qCWarning(LOG_AW) << "Could not register DBus service, last error"
+                          << bus.lastError().message();
+    if (!bus.registerObject(QString("/%1").arg(id), new AWDBusAdaptor(this),
+                            QDBusConnection::ExportAllContents)) {
+        qCWarning(LOG_AW) << "Could not register DBus object, last error"
+                          << bus.lastError().message();
+        m_dbusActive = false;
+    } else {
+        m_dbusActive = true;
+    }
 }
 
 

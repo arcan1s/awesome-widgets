@@ -27,7 +27,9 @@
 
 void TestDPPlugin::initTestCase()
 {
+    AWTestLibrary::init();
     plugin = new DPAdds(this);
+    m_isKwinActive = AWTestLibrary::isKWinActive();
 }
 
 
@@ -39,6 +41,9 @@ void TestDPPlugin::cleanupTestCase()
 
 void TestDPPlugin::test_desktops()
 {
+    if (!m_isKwinActive)
+        QSKIP("KWin inactive, skip Destkop panel tests");
+
     int current = plugin->currentDesktop();
     int total = plugin->numberOfDesktops();
     QVERIFY(total != 0);
@@ -62,13 +67,29 @@ void TestDPPlugin::test_desktops()
 
 void TestDPPlugin::test_dictKeys()
 {
+    if (!m_isKwinActive)
+        QSKIP("KWin inactive, skip Destkop panel tests");
+
     QCOMPARE(plugin->dictKeys().count(), 4);
     pattern += plugin->dictKeys().join(QString(" $"));
 }
 
 
+void TestDPPlugin::test_infoByKey()
+{
+    if (!m_isKwinActive)
+        QSKIP("KWin inactive, skip Destkop panel tests");
+
+    // nothing to test here yet
+    QVERIFY(true);
+}
+
+
 void TestDPPlugin::test_parsePattern()
 {
+    if (!m_isKwinActive)
+        QSKIP("KWin inactive, skip Destkop panel tests");
+
     QString result = plugin->parsePattern(pattern, plugin->currentDesktop());
     QVERIFY(!result.isEmpty());
     QVERIFY(result != pattern);
@@ -79,6 +100,9 @@ void TestDPPlugin::test_parsePattern()
 
 void TestDPPlugin::test_tooltipImage()
 {
+    if (!m_isKwinActive)
+        QSKIP("KWin inactive, skip Destkop panel tests");
+
     QVariantMap data;
     data[QString("tooltipColor")] = QString("#000000");
     data[QString("tooltipType")] = QString("windows");

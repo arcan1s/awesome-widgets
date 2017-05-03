@@ -26,6 +26,7 @@
 
 void TestGPUTemperatureSource::initTestCase()
 {
+    AWTestLibrary::init();
     device = GPUTemperatureSource::autoGpu();
     QVERIFY(!device.isEmpty());
 

@@ -22,10 +22,6 @@
 
 #include "abstractextitem.h"
 
-#define YAHOO_QUOTES_URL "https://query.yahooapis.com/v1/public/yql"
-#define YAHOO_QUOTES_QUERY                                                     \
-    "select * from yahoo.finance.quotes where symbol='%1'"
-
 
 namespace Ui
 {
@@ -38,6 +34,10 @@ class ExtQuotes : public AbstractExtItem
     Q_PROPERTY(QString ticker READ ticker WRITE setTicker)
 
 public:
+    const char *YAHOO_QUOTES_URL = "https://query.yahooapis.com/v1/public/yql";
+    const char *YAHOO_QUOTES_QUERY
+        = "select * from yahoo.finance.quotes where symbol='%1'";
+
     explicit ExtQuotes(QWidget *parent, const QString filePath = QString());
     virtual ~ExtQuotes();
     ExtQuotes *copy(const QString _fileName, const int _number);
@@ -55,6 +55,7 @@ public slots:
 
 private slots:
     void quotesReplyReceived(QNetworkReply *reply);
+    void sendRequest();
 
 private:
     QNetworkAccessManager *m_manager = nullptr;

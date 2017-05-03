@@ -80,12 +80,14 @@ void AWFormatterConfig::updateUi()
         = m_selectors.indexOf(static_cast<AWAbstractSelector *>(sender()));
 
     if ((current.first.isEmpty()) && (current.second.isEmpty())) {
+        // remove current selector if it is empty and does not last
         if (sender() == m_selectors.last())
             return;
         AWAbstractSelector *selector = m_selectors.takeAt(index);
         ui->verticalLayout->removeWidget(selector);
         selector->deleteLater();
     } else {
+        // add new selector if something changed
         if (sender() != m_selectors.last())
             return;
         auto keys = initKeys();
@@ -140,7 +142,7 @@ void AWFormatterConfig::execDialog()
     case 1:
     default:
         m_helper->writeFormatters(data);
-        m_helper->writeFormatters(data.keys());
+        m_helper->removeUnusedFormatters(data.keys());
         break;
     }
 }

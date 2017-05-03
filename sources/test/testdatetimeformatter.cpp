@@ -27,6 +27,7 @@
 
 void TestAWDateTimeFormatter::initTestCase()
 {
+    AWTestLibrary::init();
     format = AWTestLibrary::randomSelect(QString(TIME_KEYS).split(QChar(',')))
                  .join(QChar(' '));
 

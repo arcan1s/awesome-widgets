@@ -34,7 +34,8 @@ public:
         List,
         Script,
         String,
-        NoFormat
+        NoFormat,
+        Json
     };
 
     explicit AWAbstractFormatter(QWidget *parent,

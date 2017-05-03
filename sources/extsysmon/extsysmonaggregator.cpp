@@ -29,6 +29,7 @@
 #include "playersource.h"
 #include "processessource.h"
 #include "quotessource.h"
+#include "requestsource.h"
 #include "upgradesource.h"
 #include "weathersource.h"
 
@@ -112,8 +113,9 @@ void ExtSysMonAggregator::init(const QHash<QString, QString> config)
         m_map[source] = gpuTempItem;
     // hdd temperature
     AbstractExtSysMonSource *hddTempItem = new HDDTemperatureSource(
-        this, QStringList() << config[QString("HDDDEV")]
-                            << config[QString("HDDTEMPCMD")]);
+        this,
+        QStringList() << config[QString("HDDDEV")]
+                      << config[QString("HDDTEMPCMD")]);
     for (auto source : hddTempItem->sources())
         m_map[source] = hddTempItem;
     // network
@@ -123,10 +125,11 @@ void ExtSysMonAggregator::init(const QHash<QString, QString> config)
         m_map[source] = networkItem;
     // player
     AbstractExtSysMonSource *playerItem = new PlayerSource(
-        this, QStringList()
-                  << config[QString("PLAYER")] << config[QString("MPDADDRESS")]
-                  << config[QString("MPDPORT")] << config[QString("MPRIS")]
-                  << config[QString("PLAYERSYMBOLS")]);
+        this,
+        QStringList() << config[QString("PLAYER")]
+                      << config[QString("MPDADDRESS")]
+                      << config[QString("MPDPORT")] << config[QString("MPRIS")]
+                      << config[QString("PLAYERSYMBOLS")]);
     for (auto source : playerItem->sources())
         m_map[source] = playerItem;
     // processes
@@ -134,6 +137,11 @@ void ExtSysMonAggregator::init(const QHash<QString, QString> config)
         = new ProcessesSource(this, QStringList());
     for (auto source : processesItem->sources())
         m_map[source] = processesItem;
+    // network request
+    AbstractExtSysMonSource *requestItem
+        = new RequestSource(this, QStringList());
+    for (auto source : requestItem->sources())
+        m_map[source] = requestItem;
     // quotes
     AbstractExtSysMonSource *quotesItem = new QuotesSource(this, QStringList());
     for (auto source : quotesItem->sources())

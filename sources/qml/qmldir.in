@@ -1,0 +1,27 @@
+# Do not edit qmldir directly it will be overrided during compilation,
+# edit qml/qmldir.in file instead.
+
+
+# common QML constants
+singleton general 1.0 file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/general.qml
+
+# custom QML UI classes
+AboutTab file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/AboutTab.qml
+AWExtensions file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/AWExtensions.qml
+AWInfoLabel file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/AWInfoLabel.qml
+AWTagSelector file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/AWTagSelector.qml
+AWTextEditor file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/AWTextEditor.qml
+BugReport file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/BugReport.qml
+ButtonSelector file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/ButtonSelector.qml
+CheckBoxSelector file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/CheckBoxSelector.qml
+ColorSelector file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/ColorSelector.qml
+ComboBoxSelector file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/ComboBoxSelector.qml
+ExportDialog file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/ExportDialog.qml
+FontSelector file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/FontSelector.qml
+HtmlDefaultFunctionsBar file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/HtmlDefaultFunctionsBar.qml
+HtmlEditorButton file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/HtmlEditorButton.qml
+HtmlEditorColor file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/HtmlEditorColor.qml
+HtmlEditorFont file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/HtmlEditorFont.qml
+ImportDialog file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/ImportDialog.qml
+IntegerSelector file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/IntegerSelector.qml
+LineSelector file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/LineSelector.qml

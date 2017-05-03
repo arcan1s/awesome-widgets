@@ -26,6 +26,7 @@
 
 void TestProcessesSource::initTestCase()
 {
+    AWTestLibrary::init();
     source = new ProcessesSource(this, QStringList());
 }
 

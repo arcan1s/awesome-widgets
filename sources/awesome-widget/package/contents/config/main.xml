@@ -62,6 +62,15 @@
         <entry name="acOffline" type="string">
             <default>( )</default>
         </entry>
+        <entry name="telemetryCount" type="int">
+            <default>100</default>
+        </entry>
+        <entry name="telemetryRemote" type="bool">
+            <default>false</default>
+        </entry>
+        <entry name="telemetryId" type="string">
+            <default></default>
+        </entry>
     </group>
 
     <group name="Tooltip">
@@ -137,6 +146,12 @@
         </entry>
         <entry name="fontStyle" type="string">
             <default>normal</default>
+        </entry>
+        <entry name="textStyle" type="string">
+            <default>normal</default>
+        </entry>
+        <entry name="textStyleColor" type="string">
+            <default>#000000</default>
         </entry>
     </group>
 

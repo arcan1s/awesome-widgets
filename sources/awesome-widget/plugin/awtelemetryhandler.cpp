@@ -34,14 +34,10 @@ AWTelemetryHandler::AWTelemetryHandler(QObject *parent, const QString clientId)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
-    m_genericConfig = QString("%1/awesomewidgets/general.ini")
-                          .arg(QStandardPaths::writableLocation(
-                              QStandardPaths::GenericDataLocation));
     m_localFile = QString("%1/awesomewidgets/telemetry.ini")
                       .arg(QStandardPaths::writableLocation(
                           QStandardPaths::GenericDataLocation));
 
-    init();
     // override client id if any
     if (!clientId.isEmpty())
         m_clientId = clientId;
@@ -75,6 +71,18 @@ QString AWTelemetryHandler::getLast(const QString group) const
     qCDebug(LOG_AW) << "Get last stored data for group" << group;
 
     return get(group).last();
+}
+
+
+void AWTelemetryHandler::init(const int count, const bool enableRemote,
+                              const QString clientId)
+{
+    qCDebug(LOG_AW) << "Init telemetry with count" << count << "enable remote"
+                    << enableRemote << "client ID" << clientId;
+
+    m_storeCount = count;
+    m_uploadEnabled = enableRemote;
+    m_clientId = clientId;
 }
 
 
@@ -130,13 +138,12 @@ void AWTelemetryHandler::uploadTelemetry(const QString group,
             SLOT(telemetryReplyRecieved(QNetworkReply *)));
 
     QUrl url(REMOTE_TELEMETRY_URL);
-    url.setPort(REMOTE_TELEMETRY_PORT);
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     // generate payload
     QVariantMap payload;
-    payload[QString("api")] = AWTEAPI;
+    payload[QString("api")] = AW_TELEMETRY_API;
     payload[QString("client_id")] = m_clientId;
     payload[QString("metadata")] = value;
     payload[QString("type")] = group;
@@ -180,45 +187,4 @@ QString AWTelemetryHandler::getKey(const int count) const
     qCDebug(LOG_AW) << "Get key for keys count" << count;
 
     return QString("%1").arg(count, 3, 10, QChar('0'));
-}
-
-
-void AWTelemetryHandler::init()
-{
-    QSettings settings(m_genericConfig, QSettings::IniFormat);
-    settings.beginGroup(QString("Telemetry"));
-
-    // unique client id
-    m_clientId
-        = settings.value(QString("ClientID"), QUuid::createUuid().toString())
-              .toString();
-    setConfiguration(QString("ClientID"), m_clientId, false);
-    // count items to store
-    m_storeCount = settings.value(QString("StoreHistory"), 100).toInt();
-    setConfiguration(QString("StoreHistory"), m_storeCount, false);
-    // check if upload enabled
-    m_uploadEnabled = settings.value(QString("Upload"), false).toBool();
-    setConfiguration(QString("Upload"), m_uploadEnabled, false);
-
-    settings.endGroup();
-}
-
-
-bool AWTelemetryHandler::setConfiguration(const QString key,
-                                          const QVariant value,
-                                          const bool override) const
-{
-    qCDebug(LOG_AW) << "Set configuration key" << key << "to value" << value
-                    << "force override enabled" << override;
-
-    QSettings settings(m_genericConfig, QSettings::IniFormat);
-    settings.beginGroup(QString("Telemetry"));
-    if (settings.childKeys().contains(key) && !override)
-        return true;
-
-    settings.setValue(key, value);
-    settings.endGroup();
-    settings.sync();
-
-    return (settings.status() == QSettings::NoError);
 }

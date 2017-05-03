@@ -18,19 +18,42 @@
 
 #include "awtestlibrary.h"
 
+#include <KWindowSystem>
+#include <QEventLoop>
 #include <QSet>
 #include <QStandardPaths>
+#include <QTime>
+#include <QtTest>
+
+
+void AWTestLibrary::init()
+{
+    qsrand(static_cast<uint>(QTime::currentTime().msec()));
+}
+
+
+bool AWTestLibrary::isKWinActive()
+{
+    QSignalSpy spy(KWindowSystem::self(), SIGNAL(showingDesktopChanged(bool)));
+    KWindowSystem::setShowingDesktop(true);
+    spy.wait(5000);
+
+    bool state = KWindowSystem::showingDesktop();
+    KWindowSystem::setShowingDesktop(false);
+
+    return state;
+}
 
 
 char AWTestLibrary::randomChar()
 {
-    return 'A' + (rand() % static_cast<int>('Z' - 'A'));
+    return 'A' + (qrand() % static_cast<int>('Z' - 'A'));
 }
 
 
 double AWTestLibrary::randomDouble()
 {
-    return static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
+    return static_cast<double>(qrand()) / static_cast<double>(RAND_MAX);
 }
 
 
@@ -42,7 +65,7 @@ QPair<QString, QString> AWTestLibrary::randomFilenames()
                                 .arg(QStandardPaths::writableLocation(
                                     QStandardPaths::GenericDataLocation));
 
-    QString name = randomString(20);
+    QString name = randomString(1, 20);
     fileName += name;
     writeFileName += name;
 
@@ -52,15 +75,15 @@ QPair<QString, QString> AWTestLibrary::randomFilenames()
 
 int AWTestLibrary::randomInt(const int max)
 {
-    return rand() % max;
+    return qrand() % max;
 }
 
 
-QString AWTestLibrary::randomString(const int max)
+QString AWTestLibrary::randomString(const int min, const int max)
 {
     QString output;
 
-    int count = 1 + randomInt(max);
+    int count = min + randomInt(max - min);
     for (int i = 0; i < count; i++)
         output += QChar(randomChar());
 

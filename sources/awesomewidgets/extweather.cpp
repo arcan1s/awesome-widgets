@@ -58,6 +58,8 @@ ExtWeather::ExtWeather(QWidget *parent, const QString filePath)
     m_manager = new QNetworkAccessManager(nullptr);
     connect(m_manager, SIGNAL(finished(QNetworkReply *)), this,
             SLOT(weatherReplyReceived(QNetworkReply *)));
+
+    connect(this, SIGNAL(requestDataUpdate()), this, SLOT(sendRequest()));
 }
 
 
@@ -67,6 +69,7 @@ ExtWeather::~ExtWeather()
 
     disconnect(m_manager, SIGNAL(finished(QNetworkReply *)), this,
                SLOT(weatherReplyReceived(QNetworkReply *)));
+    disconnect(this, SIGNAL(requestDataUpdate()), this, SLOT(sendRequest()));
 
     m_manager->deleteLater();
     delete m_providerObject;
@@ -89,6 +92,17 @@ ExtWeather *ExtWeather::copy(const QString _fileName, const int _number)
     item->setTs(ts());
 
     return item;
+}
+
+
+QString ExtWeather::jsonMapFile() const
+{
+    QString fileName = QStandardPaths::locate(
+        QStandardPaths::GenericDataLocation,
+        QString("awesomewidgets/weather/awesomewidgets-extweather-ids.json"));
+    qCInfo(LOG_LIB) << "Map file" << fileName;
+
+    return fileName;
 }
 
 
@@ -227,16 +241,13 @@ void ExtWeather::readConfiguration()
         settings.value(QString("X-AW-Provider"), strProvider()).toString());
     settings.endGroup();
 
-    bumpApi(AWEWAPI);
+    bumpApi(AW_EXTWEATHER_API);
 }
 
 
 void ExtWeather::readJsonMap()
 {
-    QString fileName = QStandardPaths::locate(
-        QStandardPaths::GenericDataLocation,
-        QString("awesomewidgets/weather/awesomewidgets-extweather-ids.json"));
-    qCInfo(LOG_LIB) << "Map file" << fileName;
+    QString fileName = jsonMapFile();
     QFile jsonFile(fileName);
     if (!jsonFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qCWarning(LOG_LIB) << "Could not open" << fileName;
@@ -259,21 +270,9 @@ void ExtWeather::readJsonMap()
 
 QVariantHash ExtWeather::run()
 {
-    if ((!isActive()) || (m_isRunning))
+    if (m_isRunning)
         return m_values;
-
-    if (m_times == 1) {
-        qCInfo(LOG_LIB) << "Send request";
-        m_isRunning = true;
-        QNetworkReply *reply
-            = m_manager->get(QNetworkRequest(m_providerObject->url()));
-        new QReplyTimeout(reply, REQUEST_TIMEOUT);
-    }
-
-    // update value
-    if (m_times >= interval())
-        m_times = 0;
-    m_times++;
+    startTimer();
 
     return m_values;
 }
@@ -293,6 +292,8 @@ int ExtWeather::showConfiguration(const QVariant args)
     ui->checkBox_image->setCheckState(image() ? Qt::Checked : Qt::Unchecked);
     ui->checkBox_active->setCheckState(isActive() ? Qt::Checked
                                                   : Qt::Unchecked);
+    ui->lineEdit_schedule->setText(cron());
+    ui->lineEdit_socket->setText(socket());
     ui->spinBox_interval->setValue(interval());
 
     int ret = exec();
@@ -301,13 +302,15 @@ int ExtWeather::showConfiguration(const QVariant args)
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
     setNumber(ui->label_numberValue->text().toInt());
-    setApiVersion(AWEWAPI);
+    setApiVersion(AW_EXTWEATHER_API);
     setCity(ui->lineEdit_city->text());
     setCountry(ui->lineEdit_country->text());
     setProvider(static_cast<Provider>(ui->comboBox_provider->currentIndex()));
     setTs(ui->spinBox_timestamp->value());
     setImage(ui->checkBox_image->checkState() == Qt::Checked);
     setActive(ui->checkBox_active->checkState() == Qt::Checked);
+    setCron(ui->lineEdit_schedule->text());
+    setSocket(ui->lineEdit_socket->text());
     setInterval(ui->spinBox_interval->value());
 
     writeConfiguration();
@@ -331,6 +334,15 @@ void ExtWeather::writeConfiguration() const
     settings.endGroup();
 
     settings.sync();
+}
+
+
+void ExtWeather::sendRequest()
+{
+    m_isRunning = true;
+    QNetworkReply *reply
+        = m_manager->get(QNetworkRequest(m_providerObject->url()));
+    new QReplyTimeout(reply, REQUEST_TIMEOUT);
 }
 
 
@@ -390,5 +402,7 @@ void ExtWeather::translate()
     ui->label_timestamp->setText(i18n("Timestamp"));
     ui->checkBox_image->setText(i18n("Use images"));
     ui->checkBox_active->setText(i18n("Active"));
+    ui->label_schedule->setText(i18n("Schedule"));
+    ui->label_socket->setText(i18n("Socket"));
     ui->label_interval->setText(i18n("Interval"));
 }

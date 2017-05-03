@@ -26,6 +26,7 @@
 #include "awdatetimeformatter.h"
 #include "awdebug.h"
 #include "awfloatformatter.h"
+#include "awjsonformatter.h"
 #include "awlistformatter.h"
 #include "awnoformatter.h"
 #include "awscriptformatter.h"
@@ -37,6 +38,7 @@ AWFormatterHelper::AWFormatterHelper(QWidget *parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
+    m_filePath = QString("awesomewidgets/formatters/formatters.ini");
     initItems();
 }
 
@@ -92,13 +94,14 @@ QStringList AWFormatterHelper::knownFormatters() const
 }
 
 
-bool AWFormatterHelper::writeFormatters(const QStringList keys) const
+bool AWFormatterHelper::removeUnusedFormatters(const QStringList keys) const
 {
     qCDebug(LOG_AW) << "Remove formatters" << keys;
 
-    QString fileName = QString("%1/awesomewidgets/formatters/formatters.ini")
+    QString fileName = QString("%1/%2")
                            .arg(QStandardPaths::writableLocation(
-                               QStandardPaths::GenericDataLocation));
+                               QStandardPaths::GenericDataLocation))
+                           .arg(m_filePath);
     QSettings settings(fileName, QSettings::IniFormat);
     qCInfo(LOG_AW) << "Configuration file" << fileName;
 
@@ -122,9 +125,10 @@ bool AWFormatterHelper::writeFormatters(
 {
     qCDebug(LOG_AW) << "Write configuration" << configuration;
 
-    QString fileName = QString("%1/awesomewidgets/formatters/formatters.ini")
+    QString fileName = QString("%1/%2")
                            .arg(QStandardPaths::writableLocation(
-                               QStandardPaths::GenericDataLocation));
+                               QStandardPaths::GenericDataLocation))
+                           .arg(m_filePath);
     QSettings settings(fileName, QSettings::IniFormat);
     qCInfo(LOG_AW) << "Configuration file" << fileName;
 
@@ -166,6 +170,8 @@ AWFormatterHelper::defineFormatterClass(const QString stringType) const
         formatter = AWAbstractFormatter::FormatterClass::Script;
     else if (stringType == QString("String"))
         formatter = AWAbstractFormatter::FormatterClass::String;
+    else if (stringType == QString("Json"))
+        formatter = AWAbstractFormatter::FormatterClass::Json;
     else
         qCWarning(LOG_AW) << "Unknown formatter" << stringType;
 
@@ -213,6 +219,9 @@ void AWFormatterHelper::initFormatters()
                 m_formattersClasses[name]
                     = new AWStringFormatter(this, filePath);
                 break;
+            case AWAbstractFormatter::FormatterClass::Json:
+                m_formattersClasses[name] = new AWJsonFormatter(this, filePath);
+                break;
             case AWAbstractFormatter::FormatterClass::NoFormat:
                 m_formattersClasses[name] = new AWNoFormatter(this, filePath);
                 break;
@@ -227,8 +236,7 @@ void AWFormatterHelper::initKeys()
     m_formatters.clear();
 
     QStringList configs = QStandardPaths::locateAll(
-        QStandardPaths::GenericDataLocation,
-        QString("awesomewidgets/formatters/formatters.ini"));
+        QStandardPaths::GenericDataLocation, m_filePath);
 
     for (auto fileName : configs) {
         QSettings settings(fileName, QSettings::IniFormat);
@@ -245,8 +253,8 @@ void AWFormatterHelper::initKeys()
                 continue;
             }
             if (!m_formattersClasses.contains(name)) {
-                qCWarning(LOG_AW) << "Invalid formatter" << name << "found in"
-                                  << key;
+                qCWarning(LOG_AW)
+                    << "Invalid formatter" << name << "found in" << key;
                 continue;
             }
             m_formatters[key] = m_formattersClasses[name];
@@ -294,7 +302,8 @@ void AWFormatterHelper::doCreateItem()
     QStringList selection = QStringList()
                             << QString("NoFormat") << QString("DateTime")
                             << QString("Float") << QString("List")
-                            << QString("Script") << QString("String");
+                            << QString("Script") << QString("String")
+                            << QString("Json");
     bool ok;
     QString select = QInputDialog::getItem(
         this, i18n("Select type"), i18n("Type:"), selection, 0, false, &ok);
@@ -317,6 +326,8 @@ void AWFormatterHelper::doCreateItem()
         return createItem<AWScriptFormatter>();
     case AWAbstractFormatter::FormatterClass::String:
         return createItem<AWStringFormatter>();
+    case AWAbstractFormatter::FormatterClass::Json:
+        return createItem<AWJsonFormatter>();
     case AWAbstractFormatter::FormatterClass::NoFormat:
         return createItem<AWNoFormatter>();
     }

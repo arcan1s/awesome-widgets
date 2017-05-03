@@ -15,22 +15,36 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-pragma Singleton
-import QtQuick 2.0
+
+#ifndef TESTJSONFORMATTER_H
+#define TESTJSONFORMATTER_H
+
+#include <QObject>
+#include <QVariant>
 
 
-QtObject {
-    property variant fontWeight: {
-        "light": Font.Light,
-        "normal": Font.Normal,
-        "demibold": Font.DemiBold,
-        "bold": Font.Bold,
-        "black": Font.Black
-    }
-    property variant align: {
-        "left": Text.AlignLeft,
-        "center": Text.AlignHCenter,
-        "right": Text.AlignRight,
-        "justify": Text.AlignJustify
-    }
-}
+class AWJsonFormatter;
+
+class TestAWJsonFormatter : public QObject
+{
+    Q_OBJECT
+
+private slots:
+    // initialization
+    void initTestCase();
+    void cleanupTestCase();
+    // test
+    void test_values();
+    void test_conversion();
+    void test_copy();
+
+private:
+    void generate();
+    AWJsonFormatter *formatter = nullptr;
+    QVariant json;
+    QString path;
+    QString value;
+};
+
+
+#endif /* TESTJSONFORMATTER_Hl */

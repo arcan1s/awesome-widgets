@@ -455,7 +455,7 @@ void GraphicalItem::readConfiguration()
     }
     settings.endGroup();
 
-    bumpApi(AWGIAPI);
+    bumpApi(AW_GRAPHITEM_API);
     initScene();
 }
 
@@ -504,7 +504,7 @@ int GraphicalItem::showConfiguration(const QVariant args)
         return ret;
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
-    setApiVersion(AWGIAPI);
+    setApiVersion(AW_GRAPHITEM_API);
     setCount(ui->spinBox_count->value());
     setCustom(ui->checkBox_custom->isChecked());
     setBar(m_custom ? ui->lineEdit_customValue->text()

@@ -21,13 +21,16 @@
 #include "awdebug.h"
 
 
-AWAbstractSelector::AWAbstractSelector(QWidget *parent)
+AWAbstractSelector::AWAbstractSelector(QWidget *parent,
+                                       const QPair<bool, bool> editable)
     : QWidget(parent)
     , ui(new Ui::AWAbstractSelector)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
     ui->setupUi(this);
+    ui->comboBox_key->setEditable(editable.first);
+    ui->comboBox_value->setEditable(editable.second);
 
     connect(ui->comboBox_key, SIGNAL(currentIndexChanged(int)), this,
             SIGNAL(selectionChanged()));

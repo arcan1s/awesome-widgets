@@ -24,8 +24,6 @@
 
 #include "abstractextsysmonsource.h"
 
-#define MPD_STATUS_REQUEST "currentsong\nstatus\n"
-
 
 class QProcess;
 
@@ -34,6 +32,8 @@ class PlayerSource : public AbstractExtSysMonSource
     Q_OBJECT
 
 public:
+    const char *MPD_STATUS_REQUEST = "currentsong\nstatus\n";
+
     explicit PlayerSource(QObject *parent, const QStringList args);
     virtual ~PlayerSource();
     QVariant data(QString source);
@@ -45,6 +45,8 @@ public:
     static QString buildString(const QString &current, const QString &value,
                                const int s);
     static QString stripString(const QString &value, const int s);
+    // additional test method
+    bool isMpdSocketConnected() const;
 
 private slots:
     void mpdSocketConnected();
@@ -64,9 +66,9 @@ private:
     QMutex m_dbusMutex;
     QString m_player;
     int m_symbols;
-    QStringList m_metadata = QStringList() << QString("album")
-                                           << QString("artist")
-                                           << QString("title");
+    QStringList m_metadata = QStringList()
+                             << QString("album") << QString("artist")
+                             << QString("title");
     QVariantHash m_values;
 };
 

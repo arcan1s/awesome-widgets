@@ -56,6 +56,7 @@ public slots:
     void writeConfiguration() const;
 
 private slots:
+    void startProcess();
     void updateValue();
 
 private:

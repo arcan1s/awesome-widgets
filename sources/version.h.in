@@ -3,103 +3,115 @@
 
 
 // information
-#define NAME "Awesome Widgets"
-#define VERSION "@PROJECT_VERSION@"
-#define COMMIT_SHA "@PROJECT_COMMIT_SHA@"
-#define AUTHOR "@PROJECT_AUTHOR@"
-#define TRANSLATORS                                                            \
-    "Ernesto Aviles Vzqz (Spanish), Mermouy (French), underr (Brazillian "     \
-    "Portuguese), Viktor Slobodyan (Ukrainian), Lemueler (Chinese), Heimen "   \
-    "Stoffels (Dutch), Mariusz Kocoń (Polish)"
-#define EMAIL "@PROJECT_CONTACT@"
-#define LICENSE "@PROJECT_LICENSE@"
-#define TRDPARTY_LICENSE                                                       \
-    "QReplyTimeout "                                                           \
-    "wrapper,no,http://codereview.stackexchange.com/questions/30031/"          \
-    "qnetworkreply-network-reply-timeout-helper"
-#define SPECIAL_THANKS                                                         \
-    "Yahoo! Finance,https://finance.yahoo.com/;Yahoo! "                        \
-    "Weather,https://weather.yahoo.com/;JetBrains,https://www.jetbrains.com/"  \
-    ";OpenWeatherMap,http://openweathermap.org/"
-#define CHANGELOG "@PROJECT_CHANGELOG@"
+const char NAME[] = "Awesome Widgets";
+const char VERSION[] = "@PROJECT_VERSION@";
+const char COMMIT_SHA[] = "@PROJECT_COMMIT_SHA@";
+const char AUTHOR[] = "@PROJECT_AUTHOR@";
+const char TRANSLATORS[] = "Ernesto Aviles Vzqz (Spanish),Mermouy "
+                           "(French),underr (Brazillian Portuguese),Viktor "
+                           "Slobodyan (Ukrainian),Lemueler (Chinese),Heimen "
+                           "Stoffels (Dutch), Mariusz Kocoń (Polish)";
+const char EMAIL[] = "@PROJECT_CONTACT@";
+const char LICENSE[] = "@PROJECT_LICENSE@";
+const char TRDPARTY_LICENSE[] = "QReplyTimeout "
+                                "wrapper,no,http://"
+                                "codereview.stackexchange.com/questions/30031/"
+                                "qnetworkreply-network-reply-timeout-helper";
+const char SPECIAL_THANKS[]
+    = "Yahoo! Finance,https://finance.yahoo.com/;Yahoo! "
+      "Weather,https://weather.yahoo.com/;JetBrains,https://www.jetbrains.com/"
+      ";OpenWeatherMap,http://openweathermap.org/";
+const char CHANGELOG[] = "@PROJECT_CHANGELOG@";
 
 // configuraion
 // graphical items api version
-#define AWGIAPI 5
+const int AW_GRAPHITEM_API = 5;
 // extquotes api version
-#define AWEQAPI 3
+const int AW_EXTQUOTES_API = 3;
 // extscript api version
-#define AWESAPI 4
+const int AW_EXTSCRIPT_API = 4;
 // extupgrade api version
-#define AWEUAPI 3
+const int AW_EXTUPGRADE_API = 3;
 // extweather api version
-#define AWEWAPI 3
+const int AW_EXTWEATHER_API = 3;
+// extnetworkrequest api version
+const int AW_EXTNETREQUEST_API = 1;
 // formatter api version
-#define AWEFAPI 2
+const int AW_FORMATTER_API = 3;
 // telemetry api version
-#define AWTEAPI 1
+const int AW_TELEMETRY_API = 1;
+// dbus adaptor properties
+// use define here instead of normal const definition for moc
+#define AWDBUS_SERVICE_NAME "org.kde.plasma.awesomewidget"
+const char AWDBUS_SERVICE[] = AWDBUS_SERVICE_NAME;
 // network requests timeout, ms
-#define REQUEST_TIMEOUT 3000
+const int REQUEST_TIMEOUT = 3000;
 // available time keys
-#define TIME_KEYS                                                              \
-    "d,dd,ddd,dddd,M,MM,MMM,MMMM,yy,yyyy,h,hh,H,HH,m,mm,s,ss,t,a,ap,A,AP"
+const char TIME_KEYS[]
+    = "d,dd,ddd,dddd,M,MM,MMM,MMMM,yy,yyyy,h,hh,H,HH,m,mm,s,ss,t,a,ap,A,AP";
 // static keys
-#define STATIC_KEYS                                                            \
-    "time,isotime,shorttime,longtime,tstime,ctime,uptime,cuptime,cpucl,cpu,"   \
-    "gputemp,gpu,memmb,memgb,memfreemb,memfreegb,memtotmb,memtotgb,memusedmb," \
-    "memusedgb,mem,swapmb,swapgb,swapfreemb,swapfreegb,swaptotmb,swaptotgb,"   \
-    "swap,downunits,upunits,downkb,downtotalkb,downtotal,down,uptotalkb,"      \
-    "uptotal,upkb,up,netdev,ac,bat,album,artist,duration,progress,title,"      \
-    "dalbum,dartist,dtitle,salbum,sartist,stitle,pscount,pstotal,ps,desktop,"  \
-    "ndesktop,tdesktops,la15,la5,la1"
+const char STATIC_FUNCTIONS[] = "{{\n\n}},template{{\n\n}},aw_all<>{{}},aw_"
+                                "count<>{{}},aw_keys<>{{}},aw_macro<>{{}},aw_"
+                                "names<>{{}}";
+const char STATIC_KEYS[]
+    = "time,isotime,shorttime,longtime,tstime,ctime,uptime,cuptime,cpucl,cpu,"
+      "gputemp,gpu,memmb,memgb,memfreemb,memfreegb,memtotmb,memtotgb,memusedmb,"
+      "memusedgb,mem,swapmb,swapgb,swapfreemb,swapfreegb,swaptotmb,swaptotgb,"
+      "swap,downunits,upunits,downkb,downtotalkb,downtotal,down,uptotalkb,"
+      "uptotal,upkb,up,netdev,ac,bat,album,artist,duration,progress,title,"
+      "dalbum,dartist,dtitle,salbum,sartist,stitle,pscount,pstotal,ps,desktop,"
+      "ndesktop,tdesktops,la15,la5,la1";
 #cmakedefine BUILD_FUTURE
 #cmakedefine BUILD_LOAD
 #cmakedefine BUILD_TESTING
 
 // links
-#define HOMEPAGE "https://arcanis.me/projects/awesome-widgets/"
-#define REPOSITORY "https://github.com/arcan1s/awesome-widgets"
-#define RELEASES "https://github.com/arcan1s/awesome-widgets/releases/tag/V."
-#define VERSION_API                                                            \
-    "https://api.github.com/repos/arcan1s/awesome-widgets/releases"
-#define BUGTRACKER "https://github.com/arcan1s/awesome-widgets/issues"
-#define BUGTRACKER_API "http://arcanis.me/repos/arcan1s/awesome-widgets/issues"
-#define TRANSLATION "https://github.com/arcan1s/awesome-widgets/issues/14"
-#define AUR_PACKAGES                                                           \
-    "https://aur.archlinux.org/packages/plasma5-applet-awesome-widgets/"
-#define OPENSUSE_PACKAGES "http://software.opensuse.org/package/awesome-widgets"
+const char HOMEPAGE[] = "https://arcanis.me/projects/awesome-widgets";
+const char REPOSITORY[] = "https://github.com/arcan1s/awesome-widgets";
+const char RELEASES[]
+    = "https://github.com/arcan1s/awesome-widgets/releases/tag/V.";
+const char VERSION_API[]
+    = "https://api.github.com/repos/arcan1s/awesome-widgets/releases";
+const char BUGTRACKER[] = "https://github.com/arcan1s/awesome-widgets/issues";
+const char BUGTRACKER_API[]
+    = "https://arcanis.me/repos/arcan1s/awesome-widgets/issues";
+const char TRANSLATION[]
+    = "https://github.com/arcan1s/awesome-widgets/issues/14";
+const char AUR_PACKAGES[]
+    = "https://aur.archlinux.org/packages/plasma5-applet-awesome-widgets/";
+const char OPENSUSE_PACKAGES[]
+    = "http://software.opensuse.org/package/plasma5-awesome-widgets";
 
 // build information
-#define BUILD_DATE "@CURRENT_DATE@"
-#define DATE "2013-@CURRENT_YEAR@"
+const char BUILD_DATE[] = "@CURRENT_DATE@";
+const char DATE[] = "2013-@CURRENT_YEAR@";
 
 // cmake properties
-#define CMAKE_BUILD_TYPE "@CMAKE_BUILD_TYPE@"
-#define CMAKE_CXX_COMPILER "@CMAKE_CXX_COMPILER@"
-#define CMAKE_CXX_FLAGS "@CMAKE_CXX_FLAGS@"
-#define CMAKE_CXX_FLAGS_DEBUG "@CMAKE_CXX_FLAGS_DEBUG@"
-#define CMAKE_CXX_FLAGS_RELEASE "@CMAKE_CXX_FLAGS_RELEASE@"
-#define CMAKE_CXX_FLAGS_OPTIMIZATION "@CMAKE_CXX_FLAGS_OPTIMIZATION@"
-#define CMAKE_DEFINITIONS "@CMAKE_DEFINITIONS@"
-#define CMAKE_INSTALL_PREFIX "@CMAKE_INSTALL_PREFIX@"
-#define CMAKE_MODULE_LINKER_FLAGS "@CMAKE_MODULE_LINKER_FLAGS@"
-#define CMAKE_SHARED_LINKER_FLAGS "@CMAKE_SHARED_LINKER_FLAGS@"
+const char CMAKE_BUILD_TYPE[] = "@CMAKE_BUILD_TYPE@";
+const char CMAKE_CXX_COMPILER[] = "@CMAKE_CXX_COMPILER@";
+const char CMAKE_CXX_FLAGS[] = "@CMAKE_CXX_FLAGS@";
+const char CMAKE_CXX_FLAGS_DEBUG[] = "@CMAKE_CXX_FLAGS_DEBUG@";
+const char CMAKE_CXX_FLAGS_RELEASE[] = "@CMAKE_CXX_FLAGS_RELEASE@";
+const char CMAKE_CXX_FLAGS_OPTIMIZATION[] = "@CMAKE_CXX_FLAGS_OPTIMIZATION@";
+const char CMAKE_DEFINITIONS[] = "@CMAKE_DEFINITIONS@";
+const char CMAKE_INSTALL_PREFIX[] = "@CMAKE_INSTALL_PREFIX@";
+const char CMAKE_MODULE_LINKER_FLAGS[] = "@CMAKE_MODULE_LINKER_FLAGS@";
+const char CMAKE_SHARED_LINKER_FLAGS[] = "@CMAKE_SHARED_LINKER_FLAGS@";
 // components
-#define BUILD_COVERAGE "@BUILD_COVERAGE@"
-#define BUILD_PLASMOIDS "@BUILD_PLASMOIDS@"
-#define BUILD_DEB_PACKAGE "@BUILD_DEB_PACKAGE@"
-#define BUILD_RPM_PACKAGE "@BUILD_RPM_PACKAGE@"
-#define CLANGFORMAT_EXECUTABLE "@CLANGFORMAT_EXECUTABLE@"
-#define COVERITY_COMMENT "@COVERITY_COMMENT@"
-#define COVERITY_DIRECTORY "@COVERITY_DIRECTORY@"
-#define COVERITY_EMAIL "@COVERITY_EMAIL@"
-#define COVERITY_EXECUTABLE "@COVERITY_EXECUTABLE@"
-#define COVERITY_URL "@COVERITY_URL@"
-#define CPPCHECK_EXECUTABLE "@CPPCHECK_EXECUTABLE@"
+const char BUILD_PLASMOIDS[] = "@BUILD_PLASMOIDS@";
+const char BUILD_DEB_PACKAGE[] = "@BUILD_DEB_PACKAGE@";
+const char BUILD_RPM_PACKAGE[] = "@BUILD_RPM_PACKAGE@";
+const char CLANGFORMAT_EXECUTABLE[] = "@CLANGFORMAT_EXECUTABLE@";
+const char COVERITY_COMMENT[] = "@COVERITY_COMMENT@";
+const char COVERITY_DIRECTORY[] = "@COVERITY_DIRECTORY@";
+const char COVERITY_EMAIL[] = "@COVERITY_EMAIL@";
+const char COVERITY_EXECUTABLE[] = "@COVERITY_EXECUTABLE@";
+const char COVERITY_URL[] = "@COVERITY_URL@";
+const char CPPCHECK_EXECUTABLE[] = "@CPPCHECK_EXECUTABLE@";
 // additional functions
-#define PROP_FUTURE "@BUILD_FUTURE@"
-#define PROP_LOAD "@BUILD_LOAD@"
-#define PROP_TEST "@BUILD_TESTING@"
+const char PROP_FUTURE[] = "@BUILD_FUTURE@";
+const char PROP_LOAD[] = "@BUILD_LOAD@";
+const char PROP_TEST[] = "@BUILD_TESTING@";
 
 
 #endif /* VERSION_H */

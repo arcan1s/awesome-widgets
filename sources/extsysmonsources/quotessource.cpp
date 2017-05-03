@@ -29,6 +29,7 @@ QuotesSource::QuotesSource(QObject *parent, const QStringList args)
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
     m_extQuotes = new ExtItemAggregator<ExtQuotes>(nullptr, QString("quotes"));
+    m_extQuotes->initSockets();
     m_sources = getSources();
 }
 

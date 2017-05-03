@@ -47,4 +47,4 @@ private:
 };
 
 
-#endif /* TESTNOFORMATTER_H */
+#endif /* TESTSCRIPTFORMATTER_H */

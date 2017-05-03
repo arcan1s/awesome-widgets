@@ -16,11 +16,14 @@
  ***************************************************************************/
 
 
+#include <KI18n/KLocalizedString>
+
 #include "awdebug.h"
 
 
 Q_LOGGING_CATEGORY(LOG_AW, "org.kde.plasma.awesomewidget",
                    QtMsgType::QtWarningMsg)
+Q_LOGGING_CATEGORY(LOG_DBUS, "org.kde.plasma.awdbus", QtMsgType::QtWarningMsg)
 Q_LOGGING_CATEGORY(LOG_DP, "org.kde.plasma.desktoppanel",
                    QtMsgType::QtWarningMsg)
 Q_LOGGING_CATEGORY(LOG_ESM, "org.kde.plasma.extsysmon", QtMsgType::QtWarningMsg)
@@ -30,7 +33,80 @@ Q_LOGGING_CATEGORY(LOG_LIB, "org.kde.plasma.awesomewidgets",
                    QtMsgType::QtWarningMsg)
 
 
-const QStringList getBuildData()
+QString AWDebug::getAboutText(const QString type)
+{
+    QString text;
+    if (type == QString("header")) {
+        text = QString(NAME);
+    } else if (type == QString("version")) {
+        text = i18n("Version %1 (build date %2)", QString(VERSION),
+                    QString(BUILD_DATE));
+        if (!QString(COMMIT_SHA).isEmpty())
+            text += QString(" (%1)").arg(QString(COMMIT_SHA));
+    } else if (type == QString("description")) {
+        text = i18n("A set of minimalistic plasmoid widgets");
+    } else if (type == QString("links")) {
+        text = i18n("Links:") + QString("<ul>")
+               + QString("<li><a href=\"%1\">%2</a></li>")
+                     .arg(QString(HOMEPAGE))
+                     .arg(i18n("Homepage"))
+               + QString("<li><a href=\"%1\">%2</a></li>")
+                     .arg(QString(REPOSITORY))
+                     .arg(i18n("Repository"))
+               + QString("<li><a href=\"%1\">%2</a></li>")
+                     .arg(QString(BUGTRACKER))
+                     .arg(i18n("Bugtracker"))
+               + QString("<li><a href=\"%1\">%2</a></li>")
+                     .arg(QString(TRANSLATION))
+                     .arg(i18n("Translation issue"))
+               + QString("<li><a href=\"%1\">%2</a></li>")
+                     .arg(QString(AUR_PACKAGES))
+                     .arg(i18n("AUR packages"))
+               + QString("<li><a href=\"%1\">%2</a></li>")
+                     .arg(QString(OPENSUSE_PACKAGES))
+                     .arg(i18n("openSUSE packages"))
+               + QString("</ul>");
+    } else if (type == QString("copy")) {
+        text = QString("<small>&copy; %1 <a href=\"mailto:%2\">%3</a><br>")
+                   .arg(QString(DATE))
+                   .arg(QString(EMAIL))
+                   .arg(QString(AUTHOR))
+               + i18n("This software is licensed under %1", QString(LICENSE))
+               + QString("</small>");
+    } else if (type == QString("translators")) {
+        QStringList translatorList = QString(TRANSLATORS).split(QChar(','));
+        for (auto &translator : translatorList)
+            translator = QString("<li>%1</li>").arg(translator);
+        text = i18n("Translators:") + QString("<ul>")
+               + translatorList.join(QString("")) + QString("</ul>");
+    } else if (type == QString("3rdparty")) {
+        QStringList trdPartyList
+            = QString(TRDPARTY_LICENSE)
+                  .split(QChar(';'), QString::SkipEmptyParts);
+        for (int i = 0; i < trdPartyList.count(); i++)
+            trdPartyList[i]
+                = QString("<li><a href=\"%3\">%1</a> (%2 license)</li>")
+                      .arg(trdPartyList.at(i).split(QChar(','))[0])
+                      .arg(trdPartyList.at(i).split(QChar(','))[1])
+                      .arg(trdPartyList.at(i).split(QChar(','))[2]);
+        text = i18n("This software uses:") + QString("<ul>")
+               + trdPartyList.join(QString("")) + QString("</ul>");
+    } else if (type == QString("thanks")) {
+        QStringList thanks = QString(SPECIAL_THANKS)
+                                 .split(QChar(';'), QString::SkipEmptyParts);
+        for (int i = 0; i < thanks.count(); i++)
+            thanks[i] = QString("<li><a href=\"%2\">%1</a></li>")
+                            .arg(thanks.at(i).split(QChar(','))[0])
+                            .arg(thanks.at(i).split(QChar(','))[1]);
+        text = i18n("Special thanks to:") + QString("<ul>")
+               + thanks.join(QString("")) + QString("</ul>");
+    }
+
+    return text;
+}
+
+
+QStringList AWDebug::getBuildData()
 {
     QStringList metadata;
     metadata.append(QString("=== Awesome Widgets configuration details ==="));
@@ -41,12 +117,14 @@ const QStringList getBuildData()
     metadata.append(QString("    BUILD_DATE: %1").arg(BUILD_DATE));
     // configuration
     metadata.append(QString("API details:"));
-    metadata.append(QString("    AWGIAPI: %1").arg(AWGIAPI));
-    metadata.append(QString("    AWEQAPI: %1").arg(AWEQAPI));
-    metadata.append(QString("    AWESAPI: %1").arg(AWESAPI));
-    metadata.append(QString("    AWEUAPI: %1").arg(AWEUAPI));
-    metadata.append(QString("    AWEWAPI: %1").arg(AWEWAPI));
-    metadata.append(QString("    AWEFAPI: %1").arg(AWEFAPI));
+    metadata.append(QString("    AW_GRAPHITEM_API: %1").arg(AW_GRAPHITEM_API));
+    metadata.append(QString("    AW_EXTQUOTES_API: %1").arg(AW_EXTQUOTES_API));
+    metadata.append(QString("    AW_EXTSCRIPT_API: %1").arg(AW_EXTSCRIPT_API));
+    metadata.append(
+        QString("    AW_EXTUPGRADE_API: %1").arg(AW_EXTUPGRADE_API));
+    metadata.append(
+        QString("    AW_EXTWEATHER_API: %1").arg(AW_EXTWEATHER_API));
+    metadata.append(QString("    AW_FORMATTER_API: %1").arg(AW_FORMATTER_API));
     metadata.append(QString("    REQUEST_TIMEOUT: %1").arg(REQUEST_TIMEOUT));
     metadata.append(QString("    TIME_KEYS: %1").arg(TIME_KEYS));
     metadata.append(QString("    STATIC_KEYS: %1").arg(STATIC_KEYS));

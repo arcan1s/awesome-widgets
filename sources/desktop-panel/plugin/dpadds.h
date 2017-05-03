@@ -45,7 +45,8 @@ public:
     virtual ~DPAdds();
     Q_INVOKABLE bool isDebugEnabled() const;
     Q_INVOKABLE int currentDesktop() const;
-    Q_INVOKABLE QStringList dictKeys() const;
+    Q_INVOKABLE QStringList dictKeys(const bool sorted = true,
+                                     const QString regexp = QString()) const;
     Q_INVOKABLE int numberOfDesktops() const;
     Q_INVOKABLE QString toolTipImage(const int desktop) const;
     Q_INVOKABLE QString parsePattern(const QString pattern,
@@ -53,6 +54,7 @@ public:
     // values
     Q_INVOKABLE void setMark(const QString newMark);
     Q_INVOKABLE void setToolTipData(const QVariantMap tooltipData);
+    Q_INVOKABLE QString infoByKey(QString key) const;
     Q_INVOKABLE QString valueByKey(const QString key, int desktop = -1) const;
     // configuration slots
     Q_INVOKABLE QString getAboutText(const QString type = "header") const;

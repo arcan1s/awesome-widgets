@@ -44,6 +44,8 @@ ExtUpgrade::ExtUpgrade(QWidget *parent, const QString filePath)
     m_process = new QProcess(nullptr);
     connect(m_process, SIGNAL(finished(int)), this, SLOT(updateValue()));
     m_process->waitForFinished(0);
+
+    connect(this, SIGNAL(requestDataUpdate()), this, SLOT(startProcess()));
 }
 
 
@@ -53,6 +55,7 @@ ExtUpgrade::~ExtUpgrade()
 
     m_process->kill();
     m_process->deleteLater();
+    disconnect(this, SIGNAL(requestDataUpdate()), this, SLOT(startProcess()));
     delete ui;
 }
 
@@ -136,25 +139,15 @@ void ExtUpgrade::readConfiguration()
     setFilter(settings.value(QString("X-AW-Filter"), filter()).toString());
     settings.endGroup();
 
-    bumpApi(AWEUAPI);
+    bumpApi(AW_EXTUPGRADE_API);
 }
 
 
 QVariantHash ExtUpgrade::run()
 {
-    if (!isActive())
+    if (m_process->state() != QProcess::NotRunning)
         return m_values;
-
-    if ((m_times == 1) && (m_process->state() == QProcess::NotRunning)) {
-        QString cmd = QString("sh -c \"%1\"").arg(executable());
-        qCInfo(LOG_LIB) << "Run cmd" << cmd;
-        m_process->start(cmd);
-    }
-
-    // update value
-    if (m_times >= interval())
-        m_times = 0;
-    m_times++;
+    startTimer();
 
     return m_values;
 }
@@ -172,6 +165,8 @@ int ExtUpgrade::showConfiguration(const QVariant args)
     ui->checkBox_active->setCheckState(isActive() ? Qt::Checked
                                                   : Qt::Unchecked);
     ui->spinBox_null->setValue(null());
+    ui->lineEdit_schedule->setText(cron());
+    ui->lineEdit_socket->setText(socket());
     ui->spinBox_interval->setValue(interval());
 
     int ret = exec();
@@ -180,11 +175,13 @@ int ExtUpgrade::showConfiguration(const QVariant args)
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
     setNumber(ui->label_numberValue->text().toInt());
-    setApiVersion(AWEUAPI);
+    setApiVersion(AW_EXTUPGRADE_API);
     setExecutable(ui->lineEdit_command->text());
     setFilter(ui->lineEdit_filter->text());
     setActive(ui->checkBox_active->checkState() == Qt::Checked);
     setNull(ui->spinBox_null->value());
+    setCron(ui->lineEdit_schedule->text());
+    setSocket(ui->lineEdit_socket->text());
     setInterval(ui->spinBox_interval->value());
 
     writeConfiguration();
@@ -206,6 +203,14 @@ void ExtUpgrade::writeConfiguration() const
     settings.endGroup();
 
     settings.sync();
+}
+
+
+void ExtUpgrade::startProcess()
+{
+    QString cmd = QString("sh -c \"%1\"").arg(executable());
+    qCInfo(LOG_LIB) << "Run cmd" << cmd;
+    m_process->start(cmd);
 }
 
 
@@ -239,5 +244,7 @@ void ExtUpgrade::translate()
     ui->label_filter->setText(i18n("Filter"));
     ui->checkBox_active->setText(i18n("Active"));
     ui->label_null->setText(i18n("Null"));
+    ui->label_socket->setText(i18n("Socket"));
+    ui->label_schedule->setText(i18n("Schedule"));
     ui->label_interval->setText(i18n("Interval"));
 }

@@ -26,6 +26,7 @@
 
 void TestGPULoadSource::initTestCase()
 {
+    AWTestLibrary::init();
     device = GPULoadSource::autoGpu();
     QVERIFY(!device.isEmpty());
 

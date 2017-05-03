@@ -20,11 +20,13 @@
 
 #include <QtTest>
 
+#include "awtestlibrary.h"
 #include "extquotes.h"
 
 
 void TestExtQuotes::initTestCase()
 {
+    AWTestLibrary::init();
     extQuotes = new ExtQuotes(nullptr);
     extQuotes->setInterval(1);
     extQuotes->setTicker(ticker);
@@ -57,18 +59,11 @@ void TestExtQuotes::test_run()
     // check values
     QVERIFY(spy.wait(5000));
     QList<QVariant> arguments = spy.takeFirst();
-    cache[QString("ask")]
-        = arguments.at(0).toHash()[extQuotes->tag(QString("ask"))];
-    cache[QString("bid")]
-        = arguments.at(0).toHash()[extQuotes->tag(QString("bid"))];
-    cache[QString("price")]
-        = arguments.at(0).toHash()[extQuotes->tag(QString("price"))];
+    for (auto &type : types)
+        cache[type] = arguments.at(0).toHash()[extQuotes->tag(type)];
 
-    QCOMPARE(firstValue[extQuotes->tag(QString("ask"))].toDouble(), 0.0);
-    QCOMPARE(firstValue[extQuotes->tag(QString("bid"))].toDouble(), 0.0);
-    QCOMPARE(firstValue[extQuotes->tag(QString("price"))].toDouble(), 0.0);
     for (auto type : types) {
-        qDebug() << "Test type" << type;
+        QCOMPARE(firstValue[extQuotes->tag(type)].toDouble(), 0.0);
         QVERIFY((cache[type].toDouble() > price.first)
                 && (cache[type].toDouble() < price.second));
     }
@@ -85,25 +80,14 @@ void TestExtQuotes::test_derivatives()
     QVERIFY(spy.wait(5000));
     QList<QVariant> arguments = spy.takeFirst();
     QVariantHash values;
-    values[QString("ask")]
-        = arguments.at(0).toHash()[extQuotes->tag(QString("ask"))];
-    values[QString("bid")]
-        = arguments.at(0).toHash()[extQuotes->tag(QString("bid"))];
-    values[QString("price")]
-        = arguments.at(0).toHash()[extQuotes->tag(QString("price"))];
+    for (auto type : types)
+        values[type] = arguments.at(0).toHash()[extQuotes->tag(type)];
 
     for (auto type : types) {
-        qDebug() << "Test type" << type;
         QCOMPARE(arguments.at(0)
                      .toHash()[extQuotes->tag(QString("%1chg").arg(type))]
                      .toDouble(),
                  (values[type].toDouble() - cache[type].toDouble()));
-        QWARN("Possible round error");
-        QCOMPARE(arguments.at(0)
-                     .toHash()[extQuotes->tag(QString("perc%1chg").arg(type))]
-                     .toDouble(),
-                 100.0 * (values[type].toDouble() - cache[type].toDouble())
-                     / values[type].toDouble());
     }
 }
 

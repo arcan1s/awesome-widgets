@@ -16,8 +16,6 @@
  ***************************************************************************/
 
 import QtQuick 2.0
-import QtQuick.Controls 1.3 as QtControls
-import QtQuick.Layouts 1.0 as QtLayouts
 
 import org.kde.plasma.private.desktoppanel 1.0
 
@@ -31,97 +29,10 @@ Item {
 
     width: childrenRect.width
     height: childrenRect.height
-    implicitWidth: pageColumn.implicitWidth
-    implicitHeight: pageColumn.implicitHeight
 
-    property bool debug: dpAdds.isDebugEnabled()
-
-
-    Column {
-        id: pageColumn
-        anchors.fill: parent
-        QtControls.TabView {
-            height: parent.height
-            width: parent.width
-            QtControls.Tab {
-                anchors.margins: 10.0
-                title: i18n("About")
-
-                QtLayouts.ColumnLayout {
-                    QtControls.Label {
-                        QtLayouts.Layout.fillWidth: true
-                        horizontalAlignment: Text.AlignHCenter
-                        text: dpAdds.getAboutText("header")
-                    }
-
-                    QtControls.Label {
-                        QtLayouts.Layout.fillWidth: true
-                        horizontalAlignment: Text.AlignHCenter
-                        text: dpAdds.getAboutText("version")
-                    }
-
-                    QtControls.Label {
-                        QtLayouts.Layout.fillWidth: true
-                        horizontalAlignment: Text.AlignJustify
-                        text: dpAdds.getAboutText("description")
-                    }
-
-                    QtControls.Label {
-                        QtLayouts.Layout.fillWidth: true
-                        horizontalAlignment: Text.AlignLeft
-                        textFormat: Text.RichText
-                        text: dpAdds.getAboutText("links")
-                        onLinkActivated: Qt.openUrlExternally(link)
-                    }
-
-                    QtControls.Label {
-                        QtLayouts.Layout.fillHeight: true
-                        QtLayouts.Layout.fillWidth: true
-                        font.capitalization: Font.SmallCaps
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignBottom
-                        textFormat: Text.RichText
-                        text: dpAdds.getAboutText("copy")
-                    }
-                }
-            }
-
-            QtControls.Tab {
-                anchors.margins: 10.0
-                title: i18n("Acknowledgment")
-
-                QtLayouts.ColumnLayout {
-                    QtControls.Label {
-                        QtLayouts.Layout.fillWidth: true
-                        wrapMode: Text.WordWrap
-                        horizontalAlignment: Text.AlignJustify
-                        text: dpAdds.getAboutText("translators")
-                    }
-
-                    QtControls.Label {
-                        QtLayouts.Layout.fillWidth: true
-                        wrapMode: Text.WordWrap
-                        horizontalAlignment: Text.AlignJustify
-                        textFormat: Text.RichText
-                        text: dpAdds.getAboutText("3rdparty")
-                        onLinkActivated: Qt.openUrlExternally(link)
-                    }
-
-                    QtControls.Label {
-                        QtLayouts.Layout.fillHeight: true
-                        QtLayouts.Layout.fillWidth: true
-                        wrapMode: Text.WordWrap
-                        horizontalAlignment: Text.AlignJustify
-                        verticalAlignment: Text.AlignTop
-                        textFormat: Text.RichText
-                        text: dpAdds.getAboutText("thanks")
-                        onLinkActivated: Qt.openUrlExternally(link)
-                    }
-                }
-            }
-        }
+    AboutTab {
+        textProvider: dpAdds
     }
-
 
     Component.onCompleted: {
         if (debug) console.debug()

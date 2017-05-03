@@ -26,6 +26,7 @@
 
 void TestAWPatternFunctions::initTestCase()
 {
+    AWTestLibrary::init();
 }
 
 
@@ -36,8 +37,8 @@ void TestAWPatternFunctions::cleanupTestCase()
 
 void TestAWPatternFunctions::test_findFunctionCalls()
 {
-    QString name = QString("aw_%1").arg(AWTestLibrary::randomString(10));
-    QString code = AWTestLibrary::randomString(20);
+    QString name = QString("aw_%1").arg(AWTestLibrary::randomString(1, 10));
+    QString code = AWTestLibrary::randomString(1, 20);
     QStringList args = AWTestLibrary::randomStringList(20);
     QString function = QString("$%1<%2>{{%3}}")
                            .arg(name)
@@ -59,18 +60,29 @@ void TestAWPatternFunctions::test_findFunctionCalls()
 
 void TestAWPatternFunctions::test_findKeys()
 {
-    QStringList keys = AWTestLibrary::randomStringList(20);
-    QStringList bars = AWTestLibrary::randomStringList(20);
+    int count = AWTestLibrary::randomInt(200);
+    QStringList allKeys;
+    for (int i = 0; i < count; i++) {
+        auto key = AWTestLibrary::randomString(1, 20);
+        while (allKeys.indexOf(QRegExp(QString("^%1.*").arg(key))) != -1)
+            key = AWTestLibrary::randomString(1, 20);
+        allKeys.append(key);
+    }
+
+    auto keys = AWTestLibrary::randomSelect(allKeys);
+    auto bars = AWTestLibrary::randomSelect(allKeys);
     std::for_each(bars.begin(), bars.end(),
                   [](QString &bar) { bar.prepend(QString("bar")); });
-    QStringList noise = AWTestLibrary::randomStringList(200);
-    QStringList allKeys = keys + bars + noise;
     QString pattern = QString("$%1 $%2")
                           .arg(keys.join(QString(" $")))
                           .arg(bars.join(QString(" $")));
 
+    allKeys.append(bars);
+    allKeys.sort();
+    std::reverse(allKeys.begin(), allKeys.end());
     keys.sort();
     bars.sort();
+
     QStringList foundKeys
         = AWPatternFunctions::findKeys(pattern, allKeys, false);
     foundKeys.sort();

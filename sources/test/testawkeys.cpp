@@ -18,14 +18,18 @@
 
 #include "testawkeys.h"
 
+#include <QDBusConnection>
+#include <QDBusMessage>
 #include <QtTest>
 
 #include "awkeys.h"
 #include "awtestlibrary.h"
+#include "version.h"
 
 
 void TestAWKeys::initTestCase()
 {
+    AWTestLibrary::init();
     plugin = new AWKeys(this);
 
     // tooltip init
@@ -72,7 +76,7 @@ void TestAWKeys::cleanupTestCase()
 
 void TestAWKeys::test_hddDevices()
 {
-    QVERIFY(!plugin->getHddDevices().isEmpty());
+    QVERIFY(plugin->getHddDevices().count() > 2);
 }
 
 
@@ -109,6 +113,9 @@ void TestAWKeys::test_pattern()
 
 void TestAWKeys::test_tooltip()
 {
+    if (!AWTestLibrary::isKWinActive())
+        QSKIP("KWin inactive, skip tooltip test");
+
     QSignalSpy spy(plugin, SIGNAL(needToolTipToBeUpdated(const QString)));
 
     QVERIFY(spy.wait(5 * interval));
@@ -156,6 +163,29 @@ void TestAWKeys::test_valueByKey()
             notEmpty++;
     }
     QVERIFY(notEmpty > 0);
+}
+
+
+void TestAWKeys::test_dbus()
+{
+    if (!plugin->isDBusActive())
+        QSKIP("No DBus session created, skip DBus test");
+
+    // get id
+    qlonglong id = reinterpret_cast<qlonglong>(plugin);
+
+    // create connection and message
+    QDBusConnection bus = QDBusConnection::sessionBus();
+    QDBusMessage request
+        = QDBusMessage::createMethodCall(AWDBUS_SERVICE, QString("/%1").arg(id),
+                                         AWDBUS_SERVICE, QString("WhoAmI"));
+    // send message to dbus
+    QDBusMessage response = bus.call(request, QDBus::BlockWithGui);
+
+    // parse result
+    QList<QVariant> arguments = response.arguments();
+    QVERIFY(!arguments.isEmpty());
+    QCOMPARE(arguments.at(0).toLongLong(), id);
 }
 
 

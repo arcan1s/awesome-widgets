@@ -26,6 +26,7 @@
 
 void TestAWFloatFormatter::initTestCase()
 {
+    AWTestLibrary::init();
     formatter = new AWFloatFormatter(nullptr);
 }
 

@@ -240,9 +240,9 @@ QString PlayerSource::buildString(const QString &current, const QString &value,
 
     int index = value.indexOf(current);
     if ((current.isEmpty()) || ((index + s + 1) > value.count()))
-        return QString("%1").arg(value.left(s), s, QLatin1Char(' '));
+        return QString("%1").arg(value.left(s), -s, QLatin1Char(' '));
     else
-        return QString("%1").arg(value.mid(index + 1, s), s, QLatin1Char(' '));
+        return QString("%1").arg(value.mid(index + 1, s), -s, QLatin1Char(' '));
 }
 
 
@@ -252,6 +252,12 @@ QString PlayerSource::stripString(const QString &value, const int s)
 
     return value.count() > s ? QString("%1\u2026").arg(value.left(s - 1))
                              : value.leftJustified(s, QLatin1Char(' '));
+}
+
+
+bool PlayerSource::isMpdSocketConnected() const
+{
+    return (m_mpdSocket.state() == QAbstractSocket::ConnectedState);
 }
 
 
@@ -323,8 +329,8 @@ QVariantHash PlayerSource::getPlayerMpdInfo()
     } else if (m_mpdSocket.state() == QAbstractSocket::ConnectedState) {
         // send request
         if (m_mpdSocket.write(MPD_STATUS_REQUEST) == -1)
-            qCWarning(LOG_ESS) << "Could not write request to"
-                               << m_mpdSocket.peerName();
+            qCWarning(LOG_ESS)
+                << "Could not write request to" << m_mpdSocket.peerName();
     }
 
     return m_mpdCached;

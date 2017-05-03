@@ -20,17 +20,17 @@
 
 #include "abstractweatherprovider.h"
 
-#define YAHOO_WEATHER_URL "https://query.yahooapis.com/v1/public/yql"
-#define YAHOO_WEATHER_QUERY                                                    \
-    "select * from weather.forecast where u='c' and woeid in (select woeid "   \
-    "from geo.places(1) where text='%1, %2')"
-
 
 class YahooWeatherProvider : public AbstractWeatherProvider
 {
     Q_OBJECT
 
 public:
+    const char *YAHOO_WEATHER_URL = "https://query.yahooapis.com/v1/public/yql";
+    const char *YAHOO_WEATHER_QUERY = "select * from weather.forecast where "
+                                      "u='c' and woeid in (select woeid from "
+                                      "geo.places(1) where text='%1, %2')";
+
     explicit YahooWeatherProvider(QObject *parent, const int number);
     virtual ~YahooWeatherProvider();
     void initUrl(const QString city, const QString country, const int);

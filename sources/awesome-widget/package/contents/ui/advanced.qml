@@ -17,7 +17,6 @@
 
 import QtQuick 2.0
 import QtQuick.Controls 1.3 as QtControls
-import QtQuick.Dialogs 1.2 as QtDialogs
 
 import org.kde.plasma.private.awesomewidget 1.0
 
@@ -27,9 +26,6 @@ Item {
     // backend
     AWActions {
         id: awActions
-    }
-    AWConfigHelper {
-        id: awConfig
     }
 
     width: childrenRect.width
@@ -50,420 +46,210 @@ Item {
     property alias cfg_width: widgetWidth.value
     property alias cfg_interval: update.value
     property alias cfg_queueLimit: queueLimit.value
-    property string cfg_tempUnits: tempUnits.currentText
-    property alias cfg_customTime: customTime.text
-    property alias cfg_customUptime: customUptime.text
-    property alias cfg_acOnline: acOnline.text
-    property alias cfg_acOffline: acOffline.text
+    property string cfg_tempUnits: tempUnits.value
+    property alias cfg_customTime: customTime.value
+    property alias cfg_customUptime: customUptime.value
+    property alias cfg_acOnline: acOnline.value
+    property alias cfg_acOffline: acOffline.value
+    property alias cfg_telemetryCount: telemetryCount.value
+    property alias cfg_telemetryRemote: telemetryRemote.checked
+    property alias cfg_telemetryId: telemetryId.value
 
 
     Column {
         id: pageColumn
         anchors.fill: parent
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.heigth
-                width: parent.width * 2 / 5
-            }
-            QtControls.CheckBox {
-                id: background
-                width: parent.width * 3 / 5
-                text: i18n("Enable background")
-            }
+
+        CheckBoxSelector {
+            id: background
+            text: i18n("Enable background")
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.heigth
-                width: parent.width * 2 / 5
-            }
-            QtControls.CheckBox {
-                id: translate
-                width: parent.width * 3 / 5
-                text: i18n("Translate strings")
-            }
+        CheckBoxSelector {
+            id: translate
+            text: i18n("Translate strings")
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.heigth
-                width: parent.width * 2 / 5
-            }
-            QtControls.CheckBox {
-                id: wrapNewLines
-                width: parent.width * 3 / 5
-                text: i18n("Wrap new lines")
-            }
+        CheckBoxSelector {
+            id: wrapNewLines
+            text: i18n("Wrap new lines")
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.heigth
-                width: parent.width * 2 / 5
-            }
-            QtControls.CheckBox {
-                id: wordWrap
-                width: parent.width * 3 / 5
-                text: i18n("Enable word wrap")
-            }
+        CheckBoxSelector {
+            id: wordWrap
+            text: i18n("Enable word wrap")
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.heigth
-                width: parent.width * 2 / 5
-            }
-            QtControls.CheckBox {
-                id: notify
-                width: parent.width * 3 / 5
-                text: i18n("Enable notifications")
-            }
+        CheckBoxSelector {
+            id: notify
+            text: i18n("Enable notifications")
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.heigth
-                width: parent.width * 2 / 5
-            }
-            QtControls.CheckBox {
-                id: updates
-                width: parent.width * 3 / 5
-                text: i18n("Check updates on startup")
-            }
+        CheckBoxSelector {
+            id: updates
+            text: i18n("Check updates on startup")
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.heigth
-                width: parent.width * 2 / 5
-            }
-            QtControls.CheckBox {
-                id: optimize
-                width: parent.width * 3 / 5
-                text: i18n("Optimize subscription")
-            }
+        CheckBoxSelector {
+            id: optimize
+            text: i18n("Optimize subscription")
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Widget height, px")
-            }
-            QtControls.SpinBox {
-                id: widgetHeight
-                width: parent.width * 3 / 5
-                minimumValue: 0
-                maximumValue: 4096
-                stepSize: 50
-                value: plasmoid.configuration.height
-            }
+        IntegerSelector {
+            id: widgetHeight
+            maximumValue: 4096
+            minimumValue: 0
+            stepSize: 50
+            text: i18n("Widget height, px")
+            value: plasmoid.configuration.height
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Widget width, px")
-            }
-            QtControls.SpinBox {
-                id: widgetWidth
-                width: parent.width * 3 / 5
-                minimumValue: 0
-                maximumValue: 4096
-                stepSize: 50
-                value: plasmoid.configuration.width
-            }
+        IntegerSelector {
+            id: widgetWidth
+            maximumValue: 4096
+            minimumValue: 0
+            stepSize: 50
+            text: i18n("Widget width, px")
+            value: plasmoid.configuration.width
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Time interval")
-            }
-            QtControls.SpinBox {
-                id: update
-                width: parent.width * 3 / 5
-                minimumValue: 1000
-                maximumValue: 10000
-                stepSize: 500
-                value: plasmoid.configuration.interval
-            }
+        IntegerSelector {
+            id: update
+            maximumValue: 10000
+            minimumValue: 1000
+            stepSize: 500
+            text: i18n("Time interval")
+            value: plasmoid.configuration.interval
         }
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Messages queue limit")
-            }
-            QtControls.SpinBox {
-                id: queueLimit
-                width: parent.width * 3 / 5
-                minimumValue: 0
-                maximumValue: 99
-                stepSize: 1
-                value: plasmoid.configuration.queueLimit
-            }
+        IntegerSelector {
+            id: queueLimit
+            maximumValue: 99
+            minimumValue: 0
+            stepSize: 1
+            text: i18n("Messages queue limit")
+            value: plasmoid.configuration.queueLimit
         }
 
-        Row {
+        ComboBoxSelector {
+            id: tempUnits
+            model: [
+                {
+                    'label': i18n("Celsius"),
+                    'name': "Celsius"
+                },
+                {
+                    'label': i18n("Fahrenheit"),
+                    'name': "Fahrenheit"
+                },
+                {
+                    'label': i18n("Kelvin"),
+                    'name': "Kelvin"
+                },
+                {
+                    'label': i18n("Reaumur"),
+                    'name': "Reaumur"
+                },
+                {
+                    'label': i18n("cm^-1"),
+                    'name': "cm^-1"
+                },
+                {
+                    'label': i18n("kJ/mol"),
+                    'name': "kJ/mol"
+                },
+                {
+                    'label': i18n("kcal/mol"),
+                    'name': "kcal/mol"
+                }
+            ]
+            text: i18n("Temperature units")
+            value: plasmoid.configuration.tempUnits
+            onValueEdited: cfg_tempUnits = newValue
+        }
+
+        LineSelector {
+            id: customTime
+            text: i18n("Custom time format")
+            value: plasmoid.configuration.customTime
+        }
+
+        LineSelector {
+            id: customUptime
+            text: i18n("Custom uptime format")
+            value: plasmoid.configuration.customUptime
+        }
+
+        LineSelector {
+            id: acOnline
+            text: i18n("AC online tag")
+            value: plasmoid.configuration.acOnline
+        }
+
+        LineSelector {
+            id: acOffline
+            text: i18n("AC offline tag")
+            value: plasmoid.configuration.acOffline
+        }
+
+        QtControls.GroupBox {
             height: implicitHeight
             width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Temperature units")
-            }
-            QtControls.ComboBox {
-                id: tempUnits
-                width: parent.width * 3 / 5
-                textRole: "label"
-                model: [
-                    {
-                        'label': i18n("Celsius"),
-                        'name': "Celsius"
-                    },
-                    {
-                        'label': i18n("Fahrenheit"),
-                        'name': "Fahrenheit"
-                    },
-                    {
-                        'label': i18n("Kelvin"),
-                        'name': "Kelvin"
-                    },
-                    {
-                        'label': i18n("Reaumur"),
-                        'name': "Reaumur"
-                    },
-                    {
-                        'label': i18n("cm^-1"),
-                        'name': "cm^-1"
-                    },
-                    {
-                        'label': i18n("kJ/mol"),
-                        'name': "kJ/mol"
-                    },
-                    {
-                        'label': i18n("kcal/mol"),
-                        'name': "kcal/mol"
+            title: i18n("Actions")
+
+            Column {
+                height: implicitHeight
+                width: parent.width
+                ButtonSelector {
+                    value: i18n("Drop key cache")
+                    onButtonActivated: awActions.dropCache()
+                }
+                ButtonSelector {
+                    ExportDialog {
+                        id: saveConfigAs
+                        configuration: plasmoid.configuration
                     }
-                ]
-                onCurrentIndexChanged: cfg_tempUnits = model[currentIndex]["name"]
-                Component.onCompleted: {
-                    if (debug) console.debug()
-                    for (var i = 0; i < model.length; i++) {
-                        if (model[i]["name"] == plasmoid.configuration.tempUnits) {
-                            if (debug) console.info("Found", model[i]["name"], "on", i)
-                            tempUnits.currentIndex = i
+                    value: i18n("Export configuration")
+                    onButtonActivated: saveConfigAs.open()
+                }
+                ButtonSelector {
+                    ImportDialog {
+                        id: loadConfigFrom
+                        onConfigurationReceived: {
+                            for (var key in configuration)
+                                plasmoid.configuration[key] = configuration[key]
                         }
                     }
+                    value: i18n("Import configuration")
+                    onButtonActivated: loadConfigFrom.open()
                 }
             }
         }
 
-        Row {
+        QtControls.GroupBox {
             height: implicitHeight
             width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Custom time format")
-            }
-            QtControls.TextField {
-                id: customTime
-                width: parent.width * 3 / 5
-                text: plasmoid.configuration.customTime
-            }
-        }
+            title: i18n("Telemetry")
 
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("Custom uptime format")
-            }
-            QtControls.TextField {
-                id: customUptime
-                width: parent.width * 3 / 5
-                text: plasmoid.configuration.customUptime
-            }
-        }
-
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("AC online tag")
-            }
-            QtControls.TextField {
-                id: acOnline
-                width: parent.width * 3 / 5
-                text: plasmoid.configuration.acOnline
-            }
-        }
-
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-                horizontalAlignment: Text.AlignRight
-                verticalAlignment: Text.AlignVCenter
-                text: i18n("AC offline tag")
-            }
-            QtControls.TextField {
-                id: acOffline
-                width: parent.width * 3 / 5
-                text: plasmoid.configuration.acOffline
-            }
-        }
-
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-            }
-            QtControls.Button {
-                width: parent.width * 3 / 5
-                text: i18n("Drop key cache")
-                onClicked: awActions.dropCache()
-            }
-        }
-
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-            }
-            QtControls.Button {
-                width: parent.width * 3 / 5
-                text: i18n("Export configuration")
-                onClicked: saveConfigAs.open()
-            }
-
-            QtDialogs.FileDialog {
-                id: saveConfigAs
-                selectExisting: false
-                title: i18n("Export")
-                folder: awConfig.configurationDirectory()
-                onAccepted: {
-                    var status = awConfig.exportConfiguration(
-                        plasmoid.configuration,
-                        saveConfigAs.fileUrl.toString().replace("file://", ""))
-                    if (status) {
-                        messageDialog.title = i18n("Success")
-                        messageDialog.text = i18n("Please note that binary files were not copied")
-                    } else {
-                        messageDialog.title = i18n("Ooops...")
-                        messageDialog.text = i18n("Could not save configuration file")
-                    }
-                    messageDialog.open()
+            Column {
+                height: implicitHeight
+                width: parent.width
+                CheckBoxSelector {
+                    id: telemetryRemote
+                    text: i18n("Enable remote telemetry")
                 }
-            }
-
-            QtDialogs.MessageDialog {
-                id: messageDialog
-                standardButtons: QtDialogs.StandardButton.Ok
-            }
-        }
-
-        Row {
-            height: implicitHeight
-            width: parent.width
-            QtControls.Label {
-                height: parent.height
-                width: parent.width * 2 / 5
-            }
-            QtControls.Button {
-                width: parent.width * 3 / 5
-                text: i18n("Import configuration")
-                onClicked: openConfig.open()
-            }
-
-            QtDialogs.FileDialog {
-                id: openConfig
-                title: i18n("Import")
-                folder: awConfig.configurationDirectory()
-                onAccepted: importSelection.open()
-            }
-
-            QtDialogs.Dialog {
-                id: importSelection
-
-                Column {
-                    QtControls.CheckBox {
-                        id: importPlasmoid
-                        text: i18n("Import plasmoid settings")
-                    }
-
-                    QtControls.CheckBox {
-                        id: importExtensions
-                        text: i18n("Import extensions")
-                    }
-
-                    QtControls.CheckBox {
-                        id: importAdds
-                        text: i18n("Import additional files")
-                    }
+                IntegerSelector {
+                    id: telemetryCount
+                    maximumValue: 10000
+                    minimumValue: 0
+                    stepSize: 50
+                    text: i18n("History count")
+                    value: plasmoid.configuration.telemetryCount
                 }
-
-                onAccepted: {
-                    if (debug) console.debug()
-                    var importConfig = awConfig.importConfiguration(
-                        openConfig.fileUrl.toString().replace("file://", ""),
-                        importPlasmoid.checked, importExtensions.checked,
-                        importAdds.checked)
-                    for (var key in importConfig)
-                        plasmoid.configuration[key] = importConfig[key]
+                LineSelector {
+                    id: telemetryId
+                    text: i18n("Telemetry ID")
+                    value: plasmoid.configuration.telemetryId
                 }
             }
         }

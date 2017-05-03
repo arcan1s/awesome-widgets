@@ -26,6 +26,7 @@
 
 void TestAWKeyCache::initTestCase()
 {
+    AWTestLibrary::init();
 }
 
 

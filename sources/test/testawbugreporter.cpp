@@ -26,6 +26,7 @@
 
 void TestAWBugReporter::initTestCase()
 {
+    AWTestLibrary::init();
     plugin = new AWBugReporter(this);
 }
 
@@ -49,7 +50,7 @@ void TestAWBugReporter::test_generateText()
 
 void TestAWBugReporter::test_sendBugReport()
 {
-    QSignalSpy spy(plugin, SIGNAL(replyReceived(bool, QString)));
+    QSignalSpy spy(plugin, SIGNAL(replyReceived(int, QString)));
     plugin->sendBugReport(
         AWTestLibrary::randomString(),
         plugin->generateText(data.at(0), data.at(1), data.at(2), data.at(3)));

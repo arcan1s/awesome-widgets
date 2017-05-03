@@ -30,6 +30,7 @@ WeatherSource::WeatherSource(QObject *parent, const QStringList args)
 
     m_extWeather
         = new ExtItemAggregator<ExtWeather>(nullptr, QString("weather"));
+    m_extWeather->initSockets();
     m_sources = getSources();
 }
 

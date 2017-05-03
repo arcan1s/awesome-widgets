@@ -18,12 +18,14 @@
 #include "abstractextitem.h"
 
 #include <QDir>
+#include <QLocalServer>
 #include <QSettings>
 #include <QStandardPaths>
 #include <QTime>
 
 #include "abstractextitemaggregator.h"
 #include "awdebug.h"
+#include "qcronscheduler.h"
 
 
 AbstractExtItem::AbstractExtItem(QWidget *parent, const QString filePath)
@@ -41,6 +43,12 @@ AbstractExtItem::AbstractExtItem(QWidget *parent, const QString filePath)
 AbstractExtItem::~AbstractExtItem()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
+
+    if (m_socket) {
+        m_socket->close();
+        m_socket->removeServer(socket());
+        delete m_socket;
+    }
 }
 
 
@@ -63,8 +71,29 @@ void AbstractExtItem::copyDefaults(AbstractExtItem *_other) const
     _other->setActive(isActive());
     _other->setApiVersion(apiVersion());
     _other->setComment(comment());
+    _other->setCron(cron());
     _other->setInterval(interval());
     _other->setName(name());
+    _other->setSocket(socket());
+}
+
+
+void AbstractExtItem::startTimer()
+{
+    if (!socket().isEmpty())
+        // check if there is active socket setup
+        return;
+    else if (!cron().isEmpty())
+        // check if there is active scheduler
+        return;
+    else if (m_times == 1)
+        // check if it is time to update
+        emit(requestDataUpdate());
+
+    // update counter value
+    if (m_times >= interval())
+        m_times = 0;
+    m_times++;
 }
 
 
@@ -92,6 +121,12 @@ int AbstractExtItem::apiVersion() const
 QString AbstractExtItem::comment() const
 {
     return m_comment;
+}
+
+
+QString AbstractExtItem::cron() const
+{
+    return m_cron;
 }
 
 
@@ -125,6 +160,12 @@ int AbstractExtItem::number() const
 }
 
 
+QString AbstractExtItem::socket() const
+{
+    return m_socketFile;
+}
+
+
 QString AbstractExtItem::tag(const QString _type) const
 {
     qCDebug(LOG_LIB) << "Tag type" << _type;
@@ -154,6 +195,28 @@ void AbstractExtItem::setComment(const QString _comment)
     qCDebug(LOG_LIB) << "Comment" << _comment;
 
     m_comment = _comment;
+}
+
+
+void AbstractExtItem::setCron(const QString _cron)
+{
+    qCDebug(LOG_LIB) << "Cron string" << _cron;
+    // deinit module first
+    if (m_scheduler) {
+        disconnect(m_scheduler, SIGNAL(activated()), this,
+                   SIGNAL(requestDataUpdate()));
+        delete m_scheduler;
+    }
+
+    m_cron = _cron;
+    if (cron().isEmpty())
+        return;
+
+    // init scheduler
+    m_scheduler = new QCronScheduler(this);
+    m_scheduler->parse(cron());
+    connect(m_scheduler, SIGNAL(activated()), this,
+            SIGNAL(requestDataUpdate()));
 }
 
 
@@ -196,6 +259,42 @@ void AbstractExtItem::setNumber(int _number)
 }
 
 
+void AbstractExtItem::setSocket(const QString _socket)
+{
+    qCDebug(LOG_LIB) << "Socket" << _socket;
+    // remove old socket first
+    deinitSocket();
+
+    m_socketFile = _socket;
+}
+
+
+void AbstractExtItem::deinitSocket()
+{
+    if (!m_socket)
+        return;
+
+    m_socket->close();
+    m_socket->removeServer(socket());
+    delete m_socket;
+    disconnect(m_socket, SIGNAL(newConnection()), this,
+               SLOT(newConnectionReceived()));
+}
+
+
+void AbstractExtItem::initSocket()
+{
+    // remove old socket first
+    deinitSocket();
+
+    m_socket = new QLocalServer(this);
+    bool listening = m_socket->listen(socket());
+    qCInfo(LOG_LIB) << "Server listening on" << socket() << listening;
+    connect(m_socket, SIGNAL(newConnection()), this,
+            SLOT(newConnectionReceived()));
+}
+
+
 void AbstractExtItem::readConfiguration()
 {
     QSettings settings(m_fileName, QSettings::IniFormat);
@@ -210,6 +309,8 @@ void AbstractExtItem::readConfiguration()
         == QString("true"));
     setInterval(settings.value(QString("X-AW-Interval"), interval()).toInt());
     setNumber(settings.value(QString("X-AW-Number"), number()).toInt());
+    setCron(settings.value(QString("X-AW-Schedule"), cron()).toString());
+    setSocket(settings.value(QString("X-AW-Socket"), socket()).toString());
     settings.endGroup();
 }
 
@@ -234,9 +335,19 @@ void AbstractExtItem::writeConfiguration() const
     settings.setValue(QString("Comment"), comment());
     settings.setValue(QString("X-AW-ApiVersion"), apiVersion());
     settings.setValue(QString("X-AW-Active"), QVariant(isActive()).toString());
-    settings.setValue(QString("X-AW-Interval"), interval());
+    settings.setValue(QString("X-AW-Interval"),
+                      cron().isEmpty() ? QVariant(interval())
+                                       : QVariant(cron()));
     settings.setValue(QString("X-AW-Number"), number());
+    settings.setValue(QString("X-AW-Schedule"), cron());
+    settings.setValue(QString("X-AW-Socket"), socket());
     settings.endGroup();
 
     settings.sync();
+}
+
+
+void AbstractExtItem::newConnectionReceived()
+{
+    emit(requestDataUpdate());
 }

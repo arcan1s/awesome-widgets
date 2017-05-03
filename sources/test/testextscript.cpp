@@ -26,6 +26,7 @@
 
 void TestExtScript::initTestCase()
 {
+    AWTestLibrary::init();
     randomString = AWTestLibrary::randomString();
 
     extScript = new ExtScript(nullptr);
@@ -75,6 +76,9 @@ void TestExtScript::test_run()
 
 void TestExtScript::test_filters()
 {
+    if (extScript->jsonFiltersFile().isEmpty())
+        QSKIP("No json filters found for scripts, skip fitlers test");
+
     extScript->setFilters(QStringList() << QString("newline"));
     // init spy
     QSignalSpy spy(extScript, SIGNAL(dataReceived(const QVariantHash &)));

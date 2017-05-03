@@ -48,6 +48,8 @@ ExtScript::ExtScript(QWidget *parent, const QString filePath)
     connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this,
             SLOT(updateValue()));
     m_process->waitForFinished(0);
+
+    connect(this, SIGNAL(requestDataUpdate()), this, SLOT(startProcess()));
 }
 
 
@@ -55,8 +57,11 @@ ExtScript::~ExtScript()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
+    disconnect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this,
+               SLOT(updateValue()));
     m_process->kill();
     m_process->deleteLater();
+    disconnect(this, SIGNAL(requestDataUpdate()), this, SLOT(startProcess()));
     delete ui;
 }
 
@@ -75,6 +80,18 @@ ExtScript *ExtScript::copy(const QString _fileName, const int _number)
     item->setFilters(filters());
 
     return item;
+}
+
+
+QString ExtScript::jsonFiltersFile() const
+{
+    QString fileName = QStandardPaths::locate(
+        QStandardPaths::GenericDataLocation,
+        QString(
+            "awesomewidgets/scripts/awesomewidgets-extscripts-filters.json"));
+    qCInfo(LOG_LIB) << "Filters file" << fileName;
+
+    return fileName;
 }
 
 
@@ -186,8 +203,8 @@ QString ExtScript::applyFilters(QString _value) const
         qCInfo(LOG_LIB) << "Found filter" << filt;
         QVariantMap filter = m_jsonFilters[filt].toMap();
         if (filter.isEmpty()) {
-            qCWarning(LOG_LIB) << "Could not find filter" << _value
-                               << "in the json";
+            qCWarning(LOG_LIB)
+                << "Could not find filter" << _value << "in the json";
             continue;
         }
         for (auto f : filter.keys())
@@ -229,17 +246,13 @@ void ExtScript::readConfiguration()
                    .split(QChar(','), QString::SkipEmptyParts));
     settings.endGroup();
 
-    bumpApi(AWESAPI);
+    bumpApi(AW_EXTSCRIPT_API);
 }
 
 
 void ExtScript::readJsonFilters()
 {
-    QString fileName = QStandardPaths::locate(
-        QStandardPaths::GenericDataLocation,
-        QString(
-            "awesomewidgets/scripts/awesomewidgets-extscripts-filters.json"));
-    qCInfo(LOG_LIB) << "Filters file" << fileName;
+    QString fileName = jsonFiltersFile();
     QFile jsonFile(fileName);
     if (!jsonFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qCWarning(LOG_LIB) << "Could not open" << fileName;
@@ -262,25 +275,9 @@ void ExtScript::readJsonFilters()
 
 QVariantHash ExtScript::run()
 {
-    if (!isActive())
-        return m_values;
     if (m_process->state() != QProcess::NotRunning)
-        qCWarning(LOG_LIB) << "Another process is already running"
-                           << m_process->state();
-
-    if ((m_times == 1) && (m_process->state() == QProcess::NotRunning)) {
-        QStringList cmdList;
-        if (!prefix().isEmpty())
-            cmdList.append(prefix());
-        cmdList.append(executable());
-        qCInfo(LOG_LIB) << "Run cmd" << cmdList.join(QChar(' '));
-        m_process->start(cmdList.join(QChar(' ')));
-    }
-
-    // update value
-    if (m_times >= interval())
-        m_times = 0;
-    m_times++;
+        return m_values;
+    startTimer();
 
     return m_values;
 }
@@ -298,6 +295,8 @@ int ExtScript::showConfiguration(const QVariant args)
     ui->checkBox_active->setCheckState(isActive() ? Qt::Checked
                                                   : Qt::Unchecked);
     ui->comboBox_redirect->setCurrentIndex(static_cast<int>(redirect()));
+    ui->lineEdit_schedule->setText(cron());
+    ui->lineEdit_socket->setText(socket());
     ui->spinBox_interval->setValue(interval());
     // filters
     ui->checkBox_colorFilter->setCheckState(
@@ -313,11 +312,13 @@ int ExtScript::showConfiguration(const QVariant args)
     setName(ui->lineEdit_name->text());
     setComment(ui->lineEdit_comment->text());
     setNumber(ui->label_numberValue->text().toInt());
-    setApiVersion(AWESAPI);
+    setApiVersion(AW_EXTSCRIPT_API);
     setExecutable(ui->lineEdit_command->text());
     setPrefix(ui->lineEdit_prefix->text());
     setActive(ui->checkBox_active->checkState() == Qt::Checked);
     setRedirect(static_cast<Redirect>(ui->comboBox_redirect->currentIndex()));
+    setCron(ui->lineEdit_schedule->text());
+    setSocket(ui->lineEdit_socket->text());
     setInterval(ui->spinBox_interval->value());
     // filters
     updateFilter(QString("color"),
@@ -347,6 +348,17 @@ void ExtScript::writeConfiguration() const
     settings.endGroup();
 
     settings.sync();
+}
+
+
+void ExtScript::startProcess()
+{
+    QStringList cmdList;
+    if (!prefix().isEmpty())
+        cmdList.append(prefix());
+    cmdList.append(executable());
+    qCInfo(LOG_LIB) << "Run cmd" << cmdList.join(QChar(' '));
+    m_process->start(cmdList.join(QChar(' ')));
 }
 
 
@@ -392,6 +404,8 @@ void ExtScript::translate()
     ui->label_prefix->setText(i18n("Prefix"));
     ui->checkBox_active->setText(i18n("Active"));
     ui->label_redirect->setText(i18n("Redirect"));
+    ui->label_schedule->setText(i18n("Schedule"));
+    ui->label_socket->setText(i18n("Socket"));
     ui->label_interval->setText(i18n("Interval"));
     ui->groupBox_filters->setTitle(i18n("Additional filters"));
     ui->checkBox_colorFilter->setText(i18n("Wrap colors"));
