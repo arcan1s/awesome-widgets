@@ -22,7 +22,7 @@
 #include "extscript.h"
 
 
-CustomSource::CustomSource(QObject *parent, const QStringList args)
+CustomSource::CustomSource(QObject *parent, const QStringList &args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 0);
@@ -43,7 +43,7 @@ CustomSource::~CustomSource()
 }
 
 
-QVariant CustomSource::data(QString source)
+QVariant CustomSource::data(const QString &source)
 {
     qCDebug(LOG_ESS) << "Source" << source;
 
@@ -52,7 +52,7 @@ QVariant CustomSource::data(QString source)
 }
 
 
-QVariantMap CustomSource::initialData(QString source) const
+QVariantMap CustomSource::initialData(const QString &source) const
 {
     qCDebug(LOG_ESS) << "Source" << source;
 
@@ -78,7 +78,7 @@ QStringList CustomSource::sources() const
 QStringList CustomSource::getSources()
 {
     QStringList sources;
-    for (auto item : m_extScripts->activeItems())
+    for (auto &item : m_extScripts->activeItems())
         sources.append(QString("custom/%1").arg(item->tag(QString("custom"))));
 
     return sources;

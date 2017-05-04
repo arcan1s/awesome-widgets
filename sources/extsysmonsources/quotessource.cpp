@@ -22,7 +22,7 @@
 #include "extquotes.h"
 
 
-QuotesSource::QuotesSource(QObject *parent, const QStringList args)
+QuotesSource::QuotesSource(QObject *parent, const QStringList &args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 0);
@@ -42,23 +42,24 @@ QuotesSource::~QuotesSource()
 }
 
 
-QVariant QuotesSource::data(QString source)
+QVariant QuotesSource::data(const QString &source)
 {
     qCDebug(LOG_ESS) << "Source" << source;
 
     int ind = index(source);
-    source.remove(QString("quotes/"));
-    if (!m_values.contains(source)) {
+    auto service = source;
+    service.remove(QString("quotes/"));
+    if (!m_values.contains(service)) {
         QVariantHash data = m_extQuotes->itemByTagNumber(ind)->run();
-        for (auto key : data.keys())
+        for (auto &key : data.keys())
             m_values[key] = data[key];
     }
-    QVariant value = m_values.take(source);
+    QVariant value = m_values.take(service);
     return value;
 }
 
 
-QVariantMap QuotesSource::initialData(QString source) const
+QVariantMap QuotesSource::initialData(const QString &source) const
 {
     qCDebug(LOG_ESS) << "Source" << source;
 
@@ -151,7 +152,7 @@ QStringList QuotesSource::sources() const
 QStringList QuotesSource::getSources()
 {
     QStringList sources;
-    for (auto item : m_extQuotes->activeItems()) {
+    for (auto &item : m_extQuotes->activeItems()) {
         sources.append(QString("quotes/%1").arg(item->tag(QString("ask"))));
         sources.append(QString("quotes/%1").arg(item->tag(QString("askchg"))));
         sources.append(

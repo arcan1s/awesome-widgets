@@ -22,7 +22,7 @@
 #include "extnetworkrequest.h"
 
 
-RequestSource::RequestSource(QObject *parent, const QStringList args)
+RequestSource::RequestSource(QObject *parent, const QStringList &args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 0);
@@ -43,23 +43,24 @@ RequestSource::~RequestSource()
 }
 
 
-QVariant RequestSource::data(QString source)
+QVariant RequestSource::data(const QString &source)
 {
     qCDebug(LOG_ESS) << "Source" << source;
 
     int ind = index(source);
-    source.remove(QString("network/"));
-    if (!m_values.contains(source)) {
+    auto service = source;
+    service.remove("network/");
+    if (!m_values.contains(service)) {
         QVariantHash data = m_extNetRequest->itemByTagNumber(ind)->run();
-        for (auto key : data.keys())
+        for (auto &key : data.keys())
             m_values[key] = data[key];
     }
-    QVariant value = m_values.take(source);
+    QVariant value = m_values.take(service);
     return value;
 }
 
 
-QVariantMap RequestSource::initialData(QString source) const
+QVariantMap RequestSource::initialData(const QString &source) const
 {
     qCDebug(LOG_ESS) << "Source" << source;
 
@@ -88,7 +89,7 @@ QStringList RequestSource::sources() const
 QStringList RequestSource::getSources()
 {
     QStringList sources;
-    for (auto item : m_extNetRequest->activeItems())
+    for (auto &item : m_extNetRequest->activeItems())
         sources.append(
             QString("network/%1").arg(item->tag(QString("response"))));
 

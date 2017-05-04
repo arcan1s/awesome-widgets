@@ -46,28 +46,28 @@ class AWKeyOperations : public QObject
 public:
     explicit AWKeyOperations(QObject *parent = nullptr);
     virtual ~AWKeyOperations();
-    QStringList devices(const QString type) const;
+    QStringList devices(const QString &type) const;
     QHash<QString, QStringList> devices() const;
     void updateCache();
     // keys
     QStringList dictKeys() const;
-    GraphicalItem *giByKey(const QString key) const;
+    GraphicalItem *giByKey(const QString &key) const;
     // values
-    QString infoByKey(QString key) const;
+    QString infoByKey(const QString &key) const;
     QString pattern() const;
-    void setPattern(const QString currentPattern);
+    void setPattern(const QString &currentPattern);
     // configuration
-    void editItem(const QString type);
+    void editItem(const QString &type);
 
 signals:
-    void updateKeys(const QStringList currentKeys);
+    void updateKeys(const QStringList &currentKeys);
 
 public slots:
     void addDevice(const QString &source);
 
 private:
     // methods
-    void addKeyToCache(const QString type, const QString key = QString(""));
+    void addKeyToCache(const QString &type, const QString &key = QString(""));
     void reinitKeys();
     // objects
     ExtItemAggregator<GraphicalItem> *m_graphicalItems = nullptr;

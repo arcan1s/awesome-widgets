@@ -72,7 +72,7 @@ int DPAdds::currentDesktop() const
 }
 
 
-QStringList DPAdds::dictKeys(const bool sorted, const QString regexp) const
+QStringList DPAdds::dictKeys(const bool sorted, const QString &regexp) const
 {
     qCDebug(LOG_DP) << "Should be sorted" << sorted << "and filter applied"
                     << regexp;
@@ -123,9 +123,9 @@ QString DPAdds::toolTipImage(const int desktop) const
     toolTipView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     toolTipView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     // update
-    float margin = 5.0 * info.desktop.width() / 400.0;
-    toolTipView->resize(info.desktop.width() + 2.0 * margin,
-                        info.desktop.height() + 2.0 * margin);
+    float margin = 5.0f * info.desktop.width() / 400.0f;
+    toolTipView->resize(info.desktop.width() + 2.0f * margin,
+                        info.desktop.height() + 2.0f * margin);
     toolTipScene->clear();
     toolTipScene->setBackgroundBrush(QBrush(Qt::NoBrush));
     // borders
@@ -142,7 +142,7 @@ QString DPAdds::toolTipImage(const int desktop) const
         QPen pen = QPen();
         pen.setWidthF(2.0 * info.desktop.width() / 400.0);
         pen.setColor(QColor(m_tooltipColor));
-        for (auto data : info.windowsData) {
+        for (auto &data : info.windowsData) {
             QRect rect = data.rect;
             toolTipScene->addLine(rect.left() + margin, rect.bottom() + margin,
                                   rect.left() + margin, rect.top() + margin,
@@ -194,13 +194,13 @@ QString DPAdds::toolTipImage(const int desktop) const
 }
 
 
-QString DPAdds::parsePattern(const QString pattern, const int desktop) const
+QString DPAdds::parsePattern(const QString &pattern, const int desktop) const
 {
     qCDebug(LOG_DP) << "Pattern" << pattern << "for desktop" << desktop;
 
     QString parsed = pattern;
     parsed.replace(QString("$$"), QString("$\\$\\"));
-    for (auto key : dictKeys())
+    for (auto &key : dictKeys())
         parsed.replace(QString("$%1").arg(key), valueByKey(key, desktop));
     parsed.replace(QString("$\\$\\"), QString("$$"));
 
@@ -208,7 +208,7 @@ QString DPAdds::parsePattern(const QString pattern, const int desktop) const
 }
 
 
-void DPAdds::setMark(const QString newMark)
+void DPAdds::setMark(const QString &newMark)
 {
     qCDebug(LOG_DP) << "Mark" << newMark;
 
@@ -216,7 +216,7 @@ void DPAdds::setMark(const QString newMark)
 }
 
 
-void DPAdds::setToolTipData(const QVariantMap tooltipData)
+void DPAdds::setToolTipData(const QVariantMap &tooltipData)
 {
     qCDebug(LOG_DP) << "Data" << tooltipData;
 
@@ -226,7 +226,7 @@ void DPAdds::setToolTipData(const QVariantMap tooltipData)
 }
 
 
-QString DPAdds::infoByKey(QString key) const
+QString DPAdds::infoByKey(const QString &key) const
 {
     qCDebug(LOG_AW) << "Requested info for key" << key;
 
@@ -234,7 +234,7 @@ QString DPAdds::infoByKey(QString key) const
 }
 
 
-QString DPAdds::valueByKey(const QString key, int desktop) const
+QString DPAdds::valueByKey(const QString &key, int desktop) const
 {
     qCDebug(LOG_DP) << "Requested key" << key << "for desktop" << desktop;
     if (desktop == -1)
@@ -258,7 +258,7 @@ QString DPAdds::valueByKey(const QString key, int desktop) const
 
 
 // HACK: this method uses variables from version.h
-QString DPAdds::getAboutText(const QString type) const
+QString DPAdds::getAboutText(const QString &type) const
 {
     qCDebug(LOG_DP) << "Type" << type;
 
@@ -266,7 +266,7 @@ QString DPAdds::getAboutText(const QString type) const
 }
 
 
-QVariantMap DPAdds::getFont(const QVariantMap defaultFont) const
+QVariantMap DPAdds::getFont(const QVariantMap &defaultFont) const
 {
     qCDebug(LOG_DP) << "Default font is" << defaultFont;
 
@@ -288,7 +288,7 @@ QVariantMap DPAdds::getFont(const QVariantMap defaultFont) const
 
 
 // to avoid additional object definition this method is static
-void DPAdds::sendNotification(const QString eventId, const QString message)
+void DPAdds::sendNotification(const QString &eventId, const QString &message)
 {
     qCDebug(LOG_DP) << "Event" << eventId << "with message" << message;
 
@@ -316,7 +316,7 @@ DPAdds::DesktopWindowsInfo DPAdds::getInfoByDesktop(const int desktop) const
     DesktopWindowsInfo info;
     info.desktop = KWindowSystem::workArea(desktop);
 
-    for (auto id : KWindowSystem::windows()) {
+    for (auto &id : KWindowSystem::windows()) {
         KWindowInfo winInfo = KWindowInfo(
             id,
             NET::Property::WMDesktop | NET::Property::WMGeometry

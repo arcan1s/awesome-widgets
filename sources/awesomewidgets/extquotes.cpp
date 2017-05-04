@@ -33,7 +33,7 @@
 #include "awdebug.h"
 
 
-ExtQuotes::ExtQuotes(QWidget *parent, const QString filePath)
+ExtQuotes::ExtQuotes(QWidget *parent, const QString &filePath)
     : AbstractExtItem(parent, filePath)
     , ui(new Ui::ExtQuotes)
 {
@@ -77,7 +77,7 @@ ExtQuotes::~ExtQuotes()
 }
 
 
-ExtQuotes *ExtQuotes::copy(const QString _fileName, const int _number)
+ExtQuotes *ExtQuotes::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
@@ -103,7 +103,7 @@ QString ExtQuotes::uniq() const
 }
 
 
-void ExtQuotes::setTicker(const QString _ticker)
+void ExtQuotes::setTicker(const QString &_ticker)
 {
     qCDebug(LOG_LIB) << "Ticker" << _ticker;
 
@@ -136,7 +136,7 @@ QVariantHash ExtQuotes::run()
 }
 
 
-int ExtQuotes::showConfiguration(const QVariant args)
+int ExtQuotes::showConfiguration(const QVariant &args)
 {
     Q_UNUSED(args)
 

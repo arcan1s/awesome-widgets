@@ -52,8 +52,8 @@ void AWDataEngineAggregator::clear()
 
 void AWDataEngineAggregator::disconnectSources()
 {
-    for (auto dataengine : m_dataEngines.values())
-        for (auto source : dataengine->sources())
+    for (auto &dataengine : m_dataEngines.values())
+        for (auto &source : dataengine->sources())
             dataengine->disconnectSource(source, parent());
 }
 
@@ -82,7 +82,7 @@ void AWDataEngineAggregator::initDataEngines(const int interval)
 }
 
 
-void AWDataEngineAggregator::dropSource(const QString source)
+void AWDataEngineAggregator::dropSource(const QString &source)
 {
     qCDebug(LOG_AW) << "Source" << source;
 
@@ -114,7 +114,7 @@ void AWDataEngineAggregator::createQueuedConnection()
 {
     // HACK additional method which forces QueuedConnection instead of Auto one
     // for more details refer to plasma-framework source code
-    for (auto dataEngine : m_dataEngines.keys()) {
+    for (auto &dataEngine : m_dataEngines.keys()) {
         // different source set for different engines
         QStringList sources;
         if (dataEngine == QString("time"))
@@ -122,7 +122,7 @@ void AWDataEngineAggregator::createQueuedConnection()
         else
             sources = m_dataEngines[dataEngine]->sources();
         // reconnect sources
-        for (auto source : sources) {
+        for (auto &source : sources) {
             Plasma::DataContainer *container
                 = m_dataEngines[dataEngine]->containerForSource(source);
             // disconnect old connections first

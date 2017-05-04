@@ -74,12 +74,12 @@ public:
     QString formatter(const QVariant &data, const QString &key) const;
     QStringList keysFromSource(const QString &source) const;
     // set methods
-    void setAcOffline(const QString inactive);
-    void setAcOnline(const QString active);
-    void setCustomTime(const QString customTime);
-    void setCustomUptime(const QString customUptime);
-    void setDevices(const QHash<QString, QStringList> devices);
-    void setTempUnits(const QString units);
+    void setAcOffline(const QString &inactive);
+    void setAcOnline(const QString &active);
+    void setCustomTime(const QString &customTime);
+    void setCustomUptime(const QString &customUptime);
+    void setDevices(const QHash<QString, QStringList> &devices);
+    void setTempUnits(const QString &units);
     void setTranslate(const bool translate);
 
 public slots:

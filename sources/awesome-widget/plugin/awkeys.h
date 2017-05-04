@@ -40,24 +40,24 @@ public:
     explicit AWKeys(QObject *parent = nullptr);
     virtual ~AWKeys();
     bool isDBusActive() const;
-    Q_INVOKABLE void initDataAggregator(const QVariantMap tooltipParams);
-    Q_INVOKABLE void initKeys(const QString currentPattern, const int interval,
+    Q_INVOKABLE void initDataAggregator(const QVariantMap &tooltipParams);
+    Q_INVOKABLE void initKeys(const QString &currentPattern, const int interval,
                               const int limit, const bool optimize);
-    Q_INVOKABLE void setAggregatorProperty(const QString key,
-                                           const QVariant value);
+    Q_INVOKABLE void setAggregatorProperty(const QString &key,
+                                           const QVariant &value);
     Q_INVOKABLE void setWrapNewLines(const bool wrap = false);
     // additional method to force load keys from Qml UI. Used in some
     // configuration pages
     Q_INVOKABLE void updateCache();
     // keys
     Q_INVOKABLE QStringList dictKeys(const bool sorted = false,
-                                     const QString regexp = QString()) const;
+                                     const QString &regexp = QString()) const;
     Q_INVOKABLE QVariantList getHddDevices() const;
     // values
-    Q_INVOKABLE QString infoByKey(QString key) const;
-    Q_INVOKABLE QString valueByKey(QString key) const;
+    Q_INVOKABLE QString infoByKey(const QString &key) const;
+    Q_INVOKABLE QString valueByKey(const QString &key) const;
     // configuration
-    Q_INVOKABLE void editItem(const QString type);
+    Q_INVOKABLE void editItem(const QString &type);
 
 public slots:
     void dataUpdated(const QString &sourceName,
@@ -66,12 +66,12 @@ public slots:
     void modelChanged(QString, QAbstractItemModel *){};
 
 signals:
-    void dropSourceFromDataengine(const QString source);
-    void needTextToBeUpdated(const QString newText) const;
-    void needToolTipToBeUpdated(const QString newText) const;
+    void dropSourceFromDataengine(const QString &source);
+    void needTextToBeUpdated(const QString &newText) const;
+    void needToolTipToBeUpdated(const QString &newText) const;
 
 private slots:
-    void reinitKeys(const QStringList currentKeys);
+    void reinitKeys(const QStringList &currentKeys);
     void updateTextData();
 
 private:

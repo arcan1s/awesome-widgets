@@ -34,11 +34,11 @@ class PlayerSource : public AbstractExtSysMonSource
 public:
     const char *MPD_STATUS_REQUEST = "currentsong\nstatus\n";
 
-    explicit PlayerSource(QObject *parent, const QStringList args);
+    explicit PlayerSource(QObject *parent, const QStringList &args);
     virtual ~PlayerSource();
-    QVariant data(QString source);
+    QVariant data(const QString &source);
     QString getAutoMpris() const;
-    QVariantMap initialData(QString source) const;
+    QVariantMap initialData(const QString &source) const;
     void run();
     QStringList sources() const;
     // additional method to build dynamic tags
@@ -56,7 +56,7 @@ private slots:
 private:
     inline QVariantHash defaultInfo() const;
     QVariantHash getPlayerMpdInfo();
-    QVariantHash getPlayerMprisInfo(const QString mpris) const;
+    QVariantHash getPlayerMprisInfo(const QString &mpris) const;
     QTcpSocket m_mpdSocket;
     // configuration and values
     QString m_mpdAddress;

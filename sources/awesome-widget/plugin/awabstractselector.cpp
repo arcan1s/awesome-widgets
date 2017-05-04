@@ -22,7 +22,7 @@
 
 
 AWAbstractSelector::AWAbstractSelector(QWidget *parent,
-                                       const QPair<bool, bool> editable)
+                                       const QPair<bool, bool> &editable)
     : QWidget(parent)
     , ui(new Ui::AWAbstractSelector)
 {
@@ -56,8 +56,9 @@ QPair<QString, QString> AWAbstractSelector::current() const
 }
 
 
-void AWAbstractSelector::init(const QStringList keys, const QStringList values,
-                              const QPair<QString, QString> current)
+void AWAbstractSelector::init(const QStringList &keys,
+                              const QStringList &values,
+                              const QPair<QString, QString> &current)
 {
     if ((!keys.contains(current.first)) || (!values.contains(current.second))) {
         qCWarning(LOG_AW) << "Invalid current value" << current

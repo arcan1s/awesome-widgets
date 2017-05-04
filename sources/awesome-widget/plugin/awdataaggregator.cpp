@@ -57,7 +57,7 @@ AWDataAggregator::~AWDataAggregator()
 }
 
 
-QList<float> AWDataAggregator::getData(const QString key) const
+QList<float> AWDataAggregator::getData(const QString &key) const
 {
     qCDebug(LOG_AW) << "Key" << key;
 
@@ -78,7 +78,7 @@ QString AWDataAggregator::htmlImage(const QPixmap &source) const
 }
 
 
-void AWDataAggregator::setParameters(QVariantMap settings)
+void AWDataAggregator::setParameters(const QVariantMap &settings)
 {
     qCDebug(LOG_AW) << "Settings" << settings;
 
@@ -128,7 +128,7 @@ QPixmap AWDataAggregator::tooltipImage()
     m_toolTipScene->clear();
     QPen pen;
     bool down = false;
-    for (auto key : requiredKeys) {
+    for (auto &key : requiredKeys) {
         // create frame
         float normX = 100.0f / static_cast<float>(m_values[key].count());
         float normY = 100.0f / (1.5f * m_boundaries[key]);
@@ -174,7 +174,7 @@ void AWDataAggregator::dataUpdate(const QVariantHash &values)
 }
 
 
-void AWDataAggregator::checkValue(const QString source, const float value,
+void AWDataAggregator::checkValue(const QString &source, const float value,
                                   const float extremum) const
 {
     qCDebug(LOG_AW) << "Notification source" << source << "with value" << value
@@ -194,8 +194,8 @@ void AWDataAggregator::checkValue(const QString source, const float value,
 }
 
 
-void AWDataAggregator::checkValue(const QString source, const QString current,
-                                  const QString received) const
+void AWDataAggregator::checkValue(const QString &source, const QString &current,
+                                  const QString &received) const
 {
     qCDebug(LOG_AW) << "Notification source" << source << "with current value"
                     << current << "and received one" << received;
@@ -218,7 +218,7 @@ void AWDataAggregator::initScene()
 }
 
 
-QString AWDataAggregator::notificationText(const QString source,
+QString AWDataAggregator::notificationText(const QString &source,
                                            const float value) const
 {
     qCDebug(LOG_AW) << "Notification source" << source << "with value" << value;
@@ -239,8 +239,8 @@ QString AWDataAggregator::notificationText(const QString source,
 }
 
 
-QString AWDataAggregator::notificationText(const QString source,
-                                           const QString value) const
+QString AWDataAggregator::notificationText(const QString &source,
+                                           const QString &value) const
 {
     qCDebug(LOG_AW) << "Notification source" << source << "with value" << value;
 

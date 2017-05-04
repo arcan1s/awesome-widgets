@@ -30,7 +30,7 @@
 #include "awdebug.h"
 
 
-ExtScript::ExtScript(QWidget *parent, const QString filePath)
+ExtScript::ExtScript(QWidget *parent, const QString &filePath)
     : AbstractExtItem(parent, filePath)
     , ui(new Ui::ExtScript)
 {
@@ -66,7 +66,7 @@ ExtScript::~ExtScript()
 }
 
 
-ExtScript *ExtScript::copy(const QString _fileName, const int _number)
+ExtScript *ExtScript::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
@@ -147,7 +147,7 @@ QString ExtScript::strRedirect() const
 }
 
 
-void ExtScript::setExecutable(const QString _executable)
+void ExtScript::setExecutable(const QString &_executable)
 {
     qCDebug(LOG_LIB) << "Executable" << _executable;
 
@@ -155,7 +155,7 @@ void ExtScript::setExecutable(const QString _executable)
 }
 
 
-void ExtScript::setFilters(const QStringList _filters)
+void ExtScript::setFilters(const QStringList &_filters)
 {
     qCDebug(LOG_LIB) << "Filters" << _filters;
 
@@ -164,7 +164,7 @@ void ExtScript::setFilters(const QStringList _filters)
 }
 
 
-void ExtScript::setPrefix(const QString _prefix)
+void ExtScript::setPrefix(const QString &_prefix)
 {
     qCDebug(LOG_LIB) << "Prefix" << _prefix;
 
@@ -180,7 +180,7 @@ void ExtScript::setRedirect(const Redirect _redirect)
 }
 
 
-void ExtScript::setStrRedirect(const QString _redirect)
+void ExtScript::setStrRedirect(const QString &_redirect)
 {
     qCDebug(LOG_LIB) << "Redirect" << _redirect;
 
@@ -199,7 +199,7 @@ QString ExtScript::applyFilters(QString _value) const
 {
     qCDebug(LOG_LIB) << "Value" << _value;
 
-    for (auto filt : filters()) {
+    for (auto &filt : filters()) {
         qCInfo(LOG_LIB) << "Found filter" << filt;
         QVariantMap filter = m_jsonFilters[filt].toMap();
         if (filter.isEmpty()) {
@@ -207,7 +207,7 @@ QString ExtScript::applyFilters(QString _value) const
                 << "Could not find filter" << _value << "in the json";
             continue;
         }
-        for (auto f : filter.keys())
+        for (auto &f : filter.keys())
             _value.replace(f, filter[f].toString());
     }
 
@@ -215,7 +215,7 @@ QString ExtScript::applyFilters(QString _value) const
 }
 
 
-void ExtScript::updateFilter(const QString _filter, const bool _add)
+void ExtScript::updateFilter(const QString &_filter, const bool _add)
 {
     qCDebug(LOG_LIB) << "Should be added filters" << _add << "from" << _filter;
 
@@ -283,7 +283,7 @@ QVariantHash ExtScript::run()
 }
 
 
-int ExtScript::showConfiguration(const QVariant args)
+int ExtScript::showConfiguration(const QVariant &args)
 {
     Q_UNUSED(args)
 

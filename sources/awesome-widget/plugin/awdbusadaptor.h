@@ -37,13 +37,13 @@ public:
 
 public slots:
     // get methods
-    QString Info(const QString key) const;
-    QStringList Keys(const QString regexp) const;
-    QString Value(const QString key) const;
+    QString Info(const QString &key) const;
+    QStringList Keys(const QString &regexp) const;
+    QString Value(const QString &key) const;
     qlonglong WhoAmI() const;
     // set methods
-    void SetLogLevel(const QString what, const int level);
-    void SetLogLevel(const QString what, const QString level,
+    void SetLogLevel(const QString &what, const int level);
+    void SetLogLevel(const QString &what, const QString &level,
                      const bool enabled);
 
 private:

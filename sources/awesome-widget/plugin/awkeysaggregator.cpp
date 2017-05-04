@@ -136,7 +136,7 @@ QString AWKeysAggregator::formatter(const QVariant &data,
     case FormatterType::TimeCustom:
         output = m_customTime;
         [&output, loc, this](const QDateTime dt) {
-            for (auto key : m_timeKeys)
+            for (auto &key : m_timeKeys)
                 output.replace(QString("$%1").arg(key), loc.toString(dt, key));
         }(data.toDateTime());
         break;
@@ -197,7 +197,7 @@ QStringList AWKeysAggregator::keysFromSource(const QString &source) const
 }
 
 
-void AWKeysAggregator::setAcOffline(const QString inactive)
+void AWKeysAggregator::setAcOffline(const QString &inactive)
 {
     qCDebug(LOG_AW) << "Inactive AC string" << inactive;
 
@@ -205,7 +205,7 @@ void AWKeysAggregator::setAcOffline(const QString inactive)
 }
 
 
-void AWKeysAggregator::setAcOnline(const QString active)
+void AWKeysAggregator::setAcOnline(const QString &active)
 {
     qCDebug(LOG_AW) << "Active AC string" << active;
 
@@ -213,7 +213,7 @@ void AWKeysAggregator::setAcOnline(const QString active)
 }
 
 
-void AWKeysAggregator::setCustomTime(const QString customTime)
+void AWKeysAggregator::setCustomTime(const QString &customTime)
 {
     qCDebug(LOG_AW) << "Format" << customTime;
 
@@ -221,7 +221,7 @@ void AWKeysAggregator::setCustomTime(const QString customTime)
 }
 
 
-void AWKeysAggregator::setCustomUptime(const QString customUptime)
+void AWKeysAggregator::setCustomUptime(const QString &customUptime)
 {
     qCDebug(LOG_AW) << "Format" << customUptime;
 
@@ -229,7 +229,7 @@ void AWKeysAggregator::setCustomUptime(const QString customUptime)
 }
 
 
-void AWKeysAggregator::setDevices(const QHash<QString, QStringList> devices)
+void AWKeysAggregator::setDevices(const QHash<QString, QStringList> &devices)
 {
     qCDebug(LOG_AW) << "Devices" << devices;
 
@@ -237,7 +237,7 @@ void AWKeysAggregator::setDevices(const QHash<QString, QStringList> devices)
 }
 
 
-void AWKeysAggregator::setTempUnits(const QString units)
+void AWKeysAggregator::setTempUnits(const QString &units)
 {
     qCDebug(LOG_AW) << "Units" << units;
 
@@ -596,7 +596,7 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
         customFormattersKeys = m_customFormatters->definedFormatters();
     qCInfo(LOG_AW) << "Looking for fprmatters" << foundKeys << "in"
                    << customFormattersKeys;
-    for (auto key : foundKeys) {
+    for (auto &key : foundKeys) {
         if (!customFormattersKeys.contains(key))
             continue;
         m_formatter[key] = FormatterType::Custom;
@@ -611,7 +611,7 @@ QStringList AWKeysAggregator::registerSource(const QString &source,
                                         });
     if (!required) {
         m_map.remove(source);
-        for (auto key : foundKeys)
+        for (auto &key : foundKeys)
             m_formatter.remove(key);
     }
 

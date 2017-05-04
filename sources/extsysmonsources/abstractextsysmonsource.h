@@ -28,15 +28,15 @@ class AbstractExtSysMonSource : public QObject
     Q_OBJECT
 
 public:
-    explicit AbstractExtSysMonSource(QObject *parent, const QStringList)
+    explicit AbstractExtSysMonSource(QObject *parent, const QStringList &)
         : QObject(parent){};
     virtual ~AbstractExtSysMonSource(){};
-    virtual QVariant data(QString source) = 0;
-    virtual QVariantMap initialData(QString source) const = 0;
+    virtual QVariant data(const QString &source) = 0;
+    virtual QVariantMap initialData(const QString &source) const = 0;
     virtual void run() = 0;
     virtual QStringList sources() const = 0;
     // used by extensions
-    int index(const QString source) const
+    int index(const QString &source) const
     {
         QRegExp rx(QString("\\d+"));
         rx.indexIn(source);

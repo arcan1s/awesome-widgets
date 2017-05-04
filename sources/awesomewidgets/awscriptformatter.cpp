@@ -28,7 +28,7 @@
 #include "awdebug.h"
 
 
-AWScriptFormatter::AWScriptFormatter(QWidget *parent, const QString filePath)
+AWScriptFormatter::AWScriptFormatter(QWidget *parent, const QString &filePath)
     : AWAbstractFormatter(parent, filePath)
     , ui(new Ui::AWScriptFormatter)
 {
@@ -70,7 +70,7 @@ QString AWScriptFormatter::convert(const QVariant &_value) const
 }
 
 
-AWScriptFormatter *AWScriptFormatter::copy(const QString _fileName,
+AWScriptFormatter *AWScriptFormatter::copy(const QString &_fileName,
                                            const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
@@ -120,7 +120,7 @@ void AWScriptFormatter::setAppendCode(const bool _appendCode)
 }
 
 
-void AWScriptFormatter::setCode(const QString _code)
+void AWScriptFormatter::setCode(const QString &_code)
 {
     qCDebug(LOG_LIB) << "Set code" << _code;
 
@@ -156,7 +156,7 @@ void AWScriptFormatter::readConfiguration()
 }
 
 
-int AWScriptFormatter::showConfiguration(const QVariant args)
+int AWScriptFormatter::showConfiguration(const QVariant &args)
 {
     Q_UNUSED(args)
 

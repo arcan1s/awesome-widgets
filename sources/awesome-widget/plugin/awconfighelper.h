@@ -36,26 +36,26 @@ public:
     Q_INVOKABLE QString configurationDirectory() const;
     Q_INVOKABLE bool dropCache() const;
     Q_INVOKABLE bool exportConfiguration(QObject *nativeConfig,
-                                         const QString fileName) const;
-    Q_INVOKABLE QVariantMap importConfiguration(const QString fileName,
+                                         const QString &fileName) const;
+    Q_INVOKABLE QVariantMap importConfiguration(const QString &fileName,
                                                 const bool importPlasmoid,
                                                 const bool importExtensions,
                                                 const bool importAdds) const;
     // dataengine
     Q_INVOKABLE QVariantMap readDataEngineConfiguration() const;
     Q_INVOKABLE bool
-    writeDataEngineConfiguration(const QVariantMap configuration) const;
+    writeDataEngineConfiguration(const QVariantMap &configuration) const;
 
 private:
     // methods
-    void copyConfigs(const QString localDir) const;
-    void copyExtensions(const QString item, const QString type,
+    void copyConfigs(const QString &localDir) const;
+    void copyExtensions(const QString &item, const QString &type,
                         QSettings &settings, const bool inverse) const;
     void copySettings(QSettings &from, QSettings &to) const;
-    void readFile(QSettings &settings, const QString key,
-                  const QString fileName) const;
-    void writeFile(QSettings &settings, const QString key,
-                   const QString fileName) const;
+    void readFile(QSettings &settings, const QString &key,
+                  const QString &fileName) const;
+    void writeFile(QSettings &settings, const QString &key,
+                   const QString &fileName) const;
     // properties
     QString m_baseDir = QString("%1/awesomewidgets")
                             .arg(QStandardPaths::writableLocation(

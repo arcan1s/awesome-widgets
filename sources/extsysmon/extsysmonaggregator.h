@@ -29,15 +29,15 @@ class ExtSysMonAggregator : public QObject
 
 public:
     explicit ExtSysMonAggregator(QObject *parent,
-                                 const QHash<QString, QString> config);
+                                 const QHash<QString, QString> &config);
     virtual ~ExtSysMonAggregator();
-    QVariant data(const QString source) const;
-    bool hasSource(const QString source) const;
-    QVariantMap initialData(const QString source) const;
+    QVariant data(const QString &source) const;
+    bool hasSource(const QString &source) const;
+    QVariantMap initialData(const QString &source) const;
     QStringList sources() const;
 
 private:
-    void init(const QHash<QString, QString> config);
+    void init(const QHash<QString, QString> &config);
     QHash<QString, AbstractExtSysMonSource *> m_map;
 };
 

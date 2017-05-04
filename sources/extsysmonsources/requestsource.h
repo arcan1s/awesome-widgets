@@ -31,10 +31,10 @@ class RequestSource : public AbstractExtSysMonSource
     Q_OBJECT
 
 public:
-    explicit RequestSource(QObject *parent, const QStringList args);
+    explicit RequestSource(QObject *parent, const QStringList &args);
     virtual ~RequestSource();
-    QVariant data(QString source);
-    QVariantMap initialData(QString source) const;
+    QVariant data(const QString &source);
+    QVariantMap initialData(const QString &source) const;
     void run(){};
     QStringList sources() const;
 

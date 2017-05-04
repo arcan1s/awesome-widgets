@@ -106,7 +106,7 @@ void TestAWKeys::test_pattern()
     QEXPECT_FAIL("", "Pattern should be parsed", Continue);
     QCOMPARE(text, pattern);
     QStringList keys = plugin->dictKeys(true);
-    for (auto key : keys)
+    for (auto &key : keys)
         QVERIFY(!text.contains(key));
 }
 
@@ -143,7 +143,7 @@ void TestAWKeys::test_infoByKey()
 {
     int notEmpty = 0;
     QStringList keys = plugin->dictKeys(true);
-    for (auto key : keys) {
+    for (auto &key : keys) {
         QString info = plugin->infoByKey(key);
         QVERIFY(!info.isEmpty());
         // append non-empty field count
@@ -158,7 +158,7 @@ void TestAWKeys::test_valueByKey()
 {
     int notEmpty = 0;
     QStringList keys = plugin->dictKeys(true);
-    for (auto key : keys) {
+    for (auto &key : keys) {
         if (!plugin->valueByKey(key).isEmpty())
             notEmpty++;
     }

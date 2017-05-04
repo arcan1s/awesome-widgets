@@ -23,7 +23,7 @@
 
 
 AWAbstractFormatter::AWAbstractFormatter(QWidget *parent,
-                                         const QString filePath)
+                                         const QString &filePath)
     : AbstractExtItem(parent, filePath)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
@@ -87,7 +87,7 @@ AWAbstractFormatter::FormatterClass AWAbstractFormatter::type() const
 }
 
 
-void AWAbstractFormatter::setStrType(const QString _type)
+void AWAbstractFormatter::setStrType(const QString &_type)
 {
     qCDebug(LOG_LIB) << "Type" << _type;
 

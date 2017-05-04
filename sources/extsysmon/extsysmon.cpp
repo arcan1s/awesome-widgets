@@ -42,7 +42,7 @@ ExtendedSysMon::ExtendedSysMon(QObject *parent, const QVariantList &args)
 
     // init aggregator
     m_aggregator = new ExtSysMonAggregator(this, m_configuration);
-    for (auto source : m_aggregator->sources())
+    for (auto &source : m_aggregator->sources())
         setData(source, m_aggregator->initialData(source));
 }
 
@@ -149,7 +149,7 @@ ExtendedSysMon::updateConfiguration(QHash<QString, QString> rawConfig) const
             QChar(','), QString::SkipEmptyParts);
         QStringList devices;
         QRegExp diskRegexp = QRegExp("^/dev/[hms]d[a-z]$");
-        for (auto device : deviceList)
+        for (auto &device : deviceList)
             if ((QFile::exists(device)) && (device.contains(diskRegexp)))
                 devices.append(device);
         if (devices.isEmpty())
@@ -166,7 +166,7 @@ ExtendedSysMon::updateConfiguration(QHash<QString, QString> rawConfig) const
     if (rawConfig[QString("PLAYERSYMBOLS")].toInt() <= 0)
         rawConfig[QString("PLAYERSYMBOLS")] = QString("10");
 
-    for (auto key : rawConfig.keys())
+    for (auto &key : rawConfig.keys())
         qCInfo(LOG_ESM) << key << "=" << rawConfig[key];
     return rawConfig;
 }

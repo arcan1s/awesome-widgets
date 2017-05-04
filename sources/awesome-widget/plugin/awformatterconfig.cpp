@@ -27,7 +27,7 @@
 #include "awformatterhelper.h"
 
 
-AWFormatterConfig::AWFormatterConfig(QWidget *parent, const QStringList keys)
+AWFormatterConfig::AWFormatterConfig(QWidget *parent, const QStringList &keys)
     : QDialog(parent)
     , ui(new Ui::AWFormatterConfig)
     , m_keys(keys)
@@ -114,7 +114,7 @@ void AWFormatterConfig::addSelector(const QStringList &keys,
 
 void AWFormatterConfig::clearSelectors()
 {
-    for (auto selector : m_selectors) {
+    for (auto &selector : m_selectors) {
         disconnect(selector, SIGNAL(selectionChanged()), this,
                    SLOT(updateUi()));
         ui->verticalLayout->removeWidget(selector);
@@ -128,7 +128,7 @@ void AWFormatterConfig::execDialog()
 {
     int ret = exec();
     QHash<QString, QString> data;
-    for (auto selector : m_selectors) {
+    for (auto &selector : m_selectors) {
         QPair<QString, QString> select = selector->current();
         if (select.first.isEmpty())
             continue;
@@ -175,7 +175,7 @@ void AWFormatterConfig::updateDialog()
     QHash<QString, QString> appliedFormatters = m_helper->getFormatters();
     auto keys = initKeys();
 
-    for (auto key : appliedFormatters.keys())
+    for (auto &key : appliedFormatters.keys())
         addSelector(keys.first, keys.second,
                     QPair<QString, QString>(key, appliedFormatters[key]));
     // empty one

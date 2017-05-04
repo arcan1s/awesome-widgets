@@ -38,16 +38,17 @@ QString expandLambdas(QString code, AWKeysAggregator *aggregator,
                       const QVariantHash &metadata,
                       const QStringList &usedKeys);
 QString expandTemplates(QString code);
-QList<AWFunction> findFunctionCalls(const QString function, const QString code);
-QString insertAllKeys(QString code, const QStringList keys);
-QString insertKeyCount(QString code, const QStringList keys);
-QString insertKeyNames(QString code, const QStringList keys);
-QString insertKeys(QString code, const QStringList keys);
+QList<AWFunction> findFunctionCalls(const QString &function,
+                                    const QString &code);
+QString insertAllKeys(QString code, const QStringList &keys);
+QString insertKeyCount(QString code, const QStringList &keys);
+QString insertKeyNames(QString code, const QStringList &keys);
+QString insertKeys(QString code, const QStringList &keys);
 QString insertMacros(QString code);
 // find methods
-QStringList findKeys(const QString code, const QStringList keys,
+QStringList findKeys(const QString &code, const QStringList &keys,
                      const bool isBars);
-QStringList findLambdas(const QString code);
+QStringList findLambdas(const QString &code);
 };
 
 

@@ -44,9 +44,9 @@ public:
         swap = 3
     };
 
-    explicit ExtScript(QWidget *parent, const QString filePath = QString());
+    explicit ExtScript(QWidget *parent, const QString &filePath = QString());
     virtual ~ExtScript();
-    ExtScript *copy(const QString _fileName, const int _number);
+    ExtScript *copy(const QString &_fileName, const int _number);
     QString jsonFiltersFile() const;
     // get methods
     QString executable() const;
@@ -57,20 +57,20 @@ public:
     // derivatives
     QString strRedirect() const;
     // set methods
-    void setExecutable(const QString _executable = QString("/usr/bin/true"));
-    void setFilters(const QStringList _filters = QStringList());
-    void setPrefix(const QString _prefix = QString(""));
+    void setExecutable(const QString &_executable = QString("/usr/bin/true"));
+    void setFilters(const QStringList &_filters = QStringList());
+    void setPrefix(const QString &_prefix = QString(""));
     void setRedirect(const Redirect _redirect = Redirect::nothing);
-    void setStrRedirect(const QString _redirect = QString("nothing"));
+    void setStrRedirect(const QString &_redirect = QString("nothing"));
     // filters
     QString applyFilters(QString _value) const;
-    void updateFilter(const QString _filter, const bool _add = true);
+    void updateFilter(const QString &_filter, const bool _add = true);
 
 public slots:
     void readConfiguration();
     void readJsonFilters();
     QVariantHash run();
-    int showConfiguration(const QVariant args = QVariant());
+    int showConfiguration(const QVariant &args = QVariant());
     void writeConfiguration() const;
 
 private slots:

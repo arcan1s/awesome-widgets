@@ -26,7 +26,7 @@
 #include "awdebug.h"
 
 
-AWListFormatter::AWListFormatter(QWidget *parent, const QString filePath)
+AWListFormatter::AWListFormatter(QWidget *parent, const QString &filePath)
     : AWAbstractFormatter(parent, filePath)
     , ui(new Ui::AWListFormatter)
 {
@@ -59,7 +59,7 @@ QString AWListFormatter::convert(const QVariant &_value) const
 }
 
 
-AWListFormatter *AWListFormatter::copy(const QString _fileName,
+AWListFormatter *AWListFormatter::copy(const QString &_fileName,
                                        const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
@@ -94,7 +94,7 @@ QString AWListFormatter::separator() const
 }
 
 
-void AWListFormatter::setFilter(const QString _filter)
+void AWListFormatter::setFilter(const QString &_filter)
 {
     qCDebug(LOG_LIB) << "Filter" << _filter;
 
@@ -103,7 +103,7 @@ void AWListFormatter::setFilter(const QString _filter)
 }
 
 
-void AWListFormatter::setSeparator(const QString _separator)
+void AWListFormatter::setSeparator(const QString &_separator)
 {
     qCDebug(LOG_LIB) << "Separtor" << _separator;
 
@@ -136,7 +136,7 @@ void AWListFormatter::readConfiguration()
 }
 
 
-int AWListFormatter::showConfiguration(const QVariant args)
+int AWListFormatter::showConfiguration(const QVariant &args)
 {
     Q_UNUSED(args)
 

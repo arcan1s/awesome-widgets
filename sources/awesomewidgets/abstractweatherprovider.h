@@ -32,7 +32,7 @@ public:
         : QObject(parent)
         , m_number(number){};
     virtual ~AbstractWeatherProvider(){};
-    virtual void initUrl(const QString city, const QString country,
+    virtual void initUrl(const QString &city, const QString &country,
                          const int ts)
         = 0;
     virtual QVariantHash parse(const QVariantMap &json) const = 0;

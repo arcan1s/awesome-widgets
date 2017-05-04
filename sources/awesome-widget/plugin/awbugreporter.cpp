@@ -46,15 +46,15 @@ AWBugReporter::~AWBugReporter()
 void AWBugReporter::doConnect()
 {
     // additional method for testing needs
-    connect(this, SIGNAL(replyReceived(const int, const QString)), this,
-            SLOT(showInformation(const int, const QString)));
+    connect(this, SIGNAL(replyReceived(const int, const QString &)), this,
+            SLOT(showInformation(const int, const QString &)));
 }
 
 
-QString AWBugReporter::generateText(const QString description,
-                                    const QString reproduce,
-                                    const QString expected,
-                                    const QString logs) const
+QString AWBugReporter::generateText(const QString &description,
+                                    const QString &reproduce,
+                                    const QString &expected,
+                                    const QString &logs) const
 {
     // do not log logs here, it may have quite large size
     qCDebug(LOG_AW) << "Generate text with description" << description
@@ -74,7 +74,7 @@ QString AWBugReporter::generateText(const QString description,
 }
 
 
-void AWBugReporter::sendBugReport(const QString title, const QString body)
+void AWBugReporter::sendBugReport(const QString &title, const QString &body)
 {
     qCDebug(LOG_AW) << "Send bug report with title" << title << "and body"
                     << body;
@@ -126,7 +126,7 @@ void AWBugReporter::issueReplyRecieved(QNetworkReply *reply)
 }
 
 
-void AWBugReporter::showInformation(const int number, const QString url)
+void AWBugReporter::showInformation(const int number, const QString &url)
 {
     qCDebug(LOG_AW) << "Created issue with number" << number << "and url"
                     << url;

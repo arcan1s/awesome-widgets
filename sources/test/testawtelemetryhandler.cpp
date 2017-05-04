@@ -64,7 +64,7 @@ void TestAWTelemetryHandler::test_getLast()
 
 void TestAWTelemetryHandler::test_uploadTelemetry()
 {
-    QSignalSpy spy(plugin, SIGNAL(replyReceived(QString)));
+    QSignalSpy spy(plugin, SIGNAL(replyReceived(QString &)));
     plugin->uploadTelemetry(telemetryValidGroup, telemetryData);
 
     QVERIFY(spy.wait(5000));

@@ -32,7 +32,7 @@
 #include "graphicalitemhelper.h"
 
 
-GraphicalItem::GraphicalItem(QWidget *parent, const QString filePath)
+GraphicalItem::GraphicalItem(QWidget *parent, const QString &filePath)
     : AbstractExtItem(parent, filePath)
     , ui(new Ui::GraphicalItem)
 {
@@ -64,7 +64,7 @@ GraphicalItem::~GraphicalItem()
 }
 
 
-GraphicalItem *GraphicalItem::copy(const QString _fileName, const int _number)
+GraphicalItem *GraphicalItem::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
@@ -283,7 +283,7 @@ QString GraphicalItem::uniq() const
 }
 
 
-void GraphicalItem::setBar(const QString _bar)
+void GraphicalItem::setBar(const QString &_bar)
 {
     qCDebug(LOG_LIB) << "Bar" << _bar;
 
@@ -291,7 +291,7 @@ void GraphicalItem::setBar(const QString _bar)
 }
 
 
-void GraphicalItem::setActiveColor(const QString _color)
+void GraphicalItem::setActiveColor(const QString &_color)
 {
     qCDebug(LOG_LIB) << "Color" << _color;
 
@@ -317,7 +317,7 @@ void GraphicalItem::setCustom(const bool _custom)
 }
 
 
-void GraphicalItem::setInactiveColor(const QString _color)
+void GraphicalItem::setInactiveColor(const QString &_color)
 {
     qCDebug(LOG_LIB) << "Color" << _color;
 
@@ -369,7 +369,7 @@ void GraphicalItem::setType(const Type _type)
 }
 
 
-void GraphicalItem::setStrType(const QString _type)
+void GraphicalItem::setStrType(const QString &_type)
 {
     qCDebug(LOG_LIB) << "Type" << _type;
 
@@ -394,7 +394,7 @@ void GraphicalItem::setDirection(const Direction _direction)
 }
 
 
-void GraphicalItem::setStrDirection(const QString _direction)
+void GraphicalItem::setStrDirection(const QString &_direction)
 {
     qCDebug(LOG_LIB) << "Direction" << _direction;
 
@@ -405,14 +405,14 @@ void GraphicalItem::setStrDirection(const QString _direction)
 }
 
 
-void GraphicalItem::setUsedKeys(const QStringList _usedKeys)
+void GraphicalItem::setUsedKeys(const QStringList &_usedKeys)
 {
     qCDebug(LOG_LIB) << "Used keys" << _usedKeys;
 
     // remove dubs
     // HACK converting to set may break order
     usedKeys().clear();
-    for (auto key : _usedKeys) {
+    for (auto &key : _usedKeys) {
         if (usedKeys().contains(key))
             continue;
         usedKeys().append(key);
@@ -460,7 +460,7 @@ void GraphicalItem::readConfiguration()
 }
 
 
-int GraphicalItem::showConfiguration(const QVariant args)
+int GraphicalItem::showConfiguration(const QVariant &args)
 {
     qCDebug(LOG_LIB) << "Combobox arguments" << args;
     QStringList tags = args.toStringList();

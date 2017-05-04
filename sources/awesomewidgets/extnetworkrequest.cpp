@@ -31,7 +31,7 @@
 #include "awdebug.h"
 
 
-ExtNetworkRequest::ExtNetworkRequest(QWidget *parent, const QString filePath)
+ExtNetworkRequest::ExtNetworkRequest(QWidget *parent, const QString &filePath)
     : AbstractExtItem(parent, filePath)
     , ui(new Ui::ExtNetworkRequest)
 {
@@ -67,7 +67,7 @@ ExtNetworkRequest::~ExtNetworkRequest()
 }
 
 
-ExtNetworkRequest *ExtNetworkRequest::copy(const QString _fileName,
+ExtNetworkRequest *ExtNetworkRequest::copy(const QString &_fileName,
                                            const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
@@ -94,7 +94,7 @@ QString ExtNetworkRequest::uniq() const
 }
 
 
-void ExtNetworkRequest::setStringUrl(const QString _url)
+void ExtNetworkRequest::setStringUrl(const QString &_url)
 {
     qCDebug(LOG_LIB) << "Url" << _url;
 
@@ -127,7 +127,7 @@ QVariantHash ExtNetworkRequest::run()
 }
 
 
-int ExtNetworkRequest::showConfiguration(const QVariant args)
+int ExtNetworkRequest::showConfiguration(const QVariant &args)
 {
     Q_UNUSED(args)
 

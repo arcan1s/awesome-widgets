@@ -33,12 +33,12 @@ class AWAbstractSelector : public QWidget
 
 public:
     explicit AWAbstractSelector(QWidget *parent = nullptr,
-                                const QPair<bool, bool> editable
+                                const QPair<bool, bool> &editable
                                 = {false, false});
     virtual ~AWAbstractSelector();
     QPair<QString, QString> current() const;
-    void init(const QStringList keys, const QStringList values,
-              const QPair<QString, QString> current);
+    void init(const QStringList &keys, const QStringList &values,
+              const QPair<QString, QString> &current);
 
 signals:
     void selectionChanged();

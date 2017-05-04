@@ -58,9 +58,9 @@ public:
         Bars = 4
     };
 
-    explicit GraphicalItem(QWidget *parent, const QString filePath = QString());
+    explicit GraphicalItem(QWidget *parent, const QString &filePath = QString());
     virtual ~GraphicalItem();
-    GraphicalItem *copy(const QString _fileName, const int _number);
+    GraphicalItem *copy(const QString &_fileName, const int _number);
     QString image(const QVariant &value);
     void initScene();
     // get methods
@@ -80,26 +80,26 @@ public:
     QStringList usedKeys() const;
     QString uniq() const;
     // set methods
-    void setBar(const QString _bar = QString("cpu"));
-    void setActiveColor(const QString _color = QString("color://0,0,0,130"));
+    void setBar(const QString &_bar = QString("cpu"));
+    void setActiveColor(const QString &_color = QString("color://0,0,0,130"));
     void setCount(const int _count = 100);
     void setCustom(const bool _custom = false);
-    void setInactiveColor(const QString _color
+    void setInactiveColor(const QString &_color
                           = QString("color://255,255,255,130"));
     void setItemHeight(const int _height = 100);
     void setItemWidth(const int _width = 100);
     void setMinValue(const float _value = 0.0);
     void setMaxValue(const float _value = 100.0);
     void setType(const Type _type = Type::Horizontal);
-    void setStrType(const QString _type = QString("Horizontal"));
+    void setStrType(const QString &_type = QString("Horizontal"));
     void setDirection(const Direction _direction = Direction::LeftToRight);
-    void setStrDirection(const QString _direction = QString("LeftToRight"));
-    void setUsedKeys(const QStringList _usedKeys = QStringList());
+    void setStrDirection(const QString &_direction = QString("LeftToRight"));
+    void setUsedKeys(const QStringList &_usedKeys = QStringList());
 
 public slots:
     void readConfiguration();
     QVariantHash run() { return QVariantHash(); };
-    int showConfiguration(const QVariant args = QVariant());
+    int showConfiguration(const QVariant &args = QVariant());
     void writeConfiguration() const;
 
 private slots:

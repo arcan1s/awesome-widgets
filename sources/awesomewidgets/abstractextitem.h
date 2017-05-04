@@ -41,10 +41,10 @@ class AbstractExtItem : public QDialog
 
 public:
     explicit AbstractExtItem(QWidget *parent,
-                             const QString filePath = QString());
+                             const QString &filePath = QString());
     virtual ~AbstractExtItem();
     virtual void bumpApi(const int _newVer);
-    virtual AbstractExtItem *copy(const QString _fileName, const int _number)
+    virtual AbstractExtItem *copy(const QString &_fileName, const int _number)
         = 0;
     virtual void copyDefaults(AbstractExtItem *_other) const;
     virtual void startTimer();
@@ -59,17 +59,17 @@ public:
     QString name() const;
     int number() const;
     QString socket() const;
-    QString tag(const QString _type) const;
+    QString tag(const QString &_type) const;
     virtual QString uniq() const = 0;
     // set methods
     void setApiVersion(const int _apiVersion = 0);
     void setActive(const bool _state = true);
-    void setComment(const QString _comment = QString("empty"));
-    void setCron(const QString _cron = "");
+    void setComment(const QString &_comment = QString("empty"));
+    void setCron(const QString &_cron = "");
     void setInterval(const int _interval = 1);
-    void setName(const QString _name = QString("none"));
+    void setName(const QString &_name = QString("none"));
     void setNumber(int _number = -1);
-    void setSocket(const QString _socket = QString(""));
+    void setSocket(const QString &_socket = QString(""));
 
 signals:
     void dataReceived(const QVariantHash &data);
@@ -80,7 +80,7 @@ public slots:
     virtual void initSocket();
     virtual void readConfiguration();
     virtual QVariantHash run() = 0;
-    virtual int showConfiguration(const QVariant args = QVariant()) = 0;
+    virtual int showConfiguration(const QVariant &args = QVariant()) = 0;
     virtual bool tryDelete() const;
     virtual void writeConfiguration() const;
 

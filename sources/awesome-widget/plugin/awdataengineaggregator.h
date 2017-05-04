@@ -40,7 +40,7 @@ signals:
     void deviceAdded(const QString &source);
 
 public slots:
-    void dropSource(const QString source);
+    void dropSource(const QString &source);
     void reconnectSources(const int interval);
 
 private:

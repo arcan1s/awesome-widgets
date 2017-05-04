@@ -41,8 +41,8 @@ GraphicalItemHelper::~GraphicalItemHelper()
 }
 
 
-void GraphicalItemHelper::setParameters(const QString active,
-                                        const QString inactive, const int width,
+void GraphicalItemHelper::setParameters(const QString &active,
+                                        const QString &inactive, const int width,
                                         const int height, const int count)
 {
     qCDebug(LOG_LIB) << "Use active color" << active << ", inactive" << inactive
@@ -81,7 +81,7 @@ void GraphicalItemHelper::setParameters(const QString active,
 }
 
 
-void GraphicalItemHelper::paintBars(const float &value)
+void GraphicalItemHelper::paintBars(const float value)
 {
     qCDebug(LOG_LIB) << "Paint with value" << value;
 
@@ -105,7 +105,7 @@ void GraphicalItemHelper::paintBars(const float &value)
 }
 
 
-void GraphicalItemHelper::paintCircle(const float &percent)
+void GraphicalItemHelper::paintCircle(const float percent)
 {
     qCDebug(LOG_LIB) << "Paint with percent" << percent;
 
@@ -128,7 +128,7 @@ void GraphicalItemHelper::paintCircle(const float &percent)
 }
 
 
-void GraphicalItemHelper::paintGraph(const float &value)
+void GraphicalItemHelper::paintGraph(const float value)
 {
     qCDebug(LOG_LIB) << "Paint with value" << value;
 
@@ -153,7 +153,7 @@ void GraphicalItemHelper::paintGraph(const float &value)
 }
 
 
-void GraphicalItemHelper::paintHorizontal(const float &percent)
+void GraphicalItemHelper::paintHorizontal(const float percent)
 {
     qCDebug(LOG_LIB) << "Paint with percent" << percent;
 
@@ -169,7 +169,7 @@ void GraphicalItemHelper::paintHorizontal(const float &percent)
 }
 
 
-void GraphicalItemHelper::paintVertical(const float &percent)
+void GraphicalItemHelper::paintVertical(const float percent)
 {
     qCDebug(LOG_LIB) << "Paint with percent" << percent;
 
@@ -184,8 +184,8 @@ void GraphicalItemHelper::paintVertical(const float &percent)
 }
 
 
-float GraphicalItemHelper::getPercents(const float &value, const float &min,
-                                       const float &max)
+float GraphicalItemHelper::getPercents(const float value, const float min,
+                                       const float max)
 {
     qCDebug(LOG_LIB) << "Get percent value from" << value;
     // newest Qt crashes here if value is nan
@@ -224,7 +224,7 @@ QColor GraphicalItemHelper::stringToColor(const QString &color)
 }
 
 
-void GraphicalItemHelper::storeValue(const float &value)
+void GraphicalItemHelper::storeValue(const float value)
 {
     qCDebug(LOG_LIB) << "Save value to array" << value;
 

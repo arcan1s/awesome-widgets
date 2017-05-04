@@ -92,7 +92,7 @@ bool AWUpdateHelper::checkVersion()
 }
 
 
-void AWUpdateHelper::showInfo(const QVersionNumber version)
+void AWUpdateHelper::showInfo(const QVersionNumber &version)
 {
     qCDebug(LOG_AW) << "Version" << version;
 
@@ -105,7 +105,7 @@ void AWUpdateHelper::showInfo(const QVersionNumber version)
 }
 
 
-void AWUpdateHelper::showUpdates(const QVersionNumber version)
+void AWUpdateHelper::showUpdates(const QVersionNumber &version)
 {
     qCDebug(LOG_AW) << "Version" << version;
 
@@ -176,7 +176,7 @@ void AWUpdateHelper::versionReplyRecieved(QNetworkReply *reply,
 
 // additional method which is used to show message box which does not block UI
 QMessageBox *
-AWUpdateHelper::genMessageBox(const QString title, const QString body,
+AWUpdateHelper::genMessageBox(const QString &title, const QString &body,
                               const QMessageBox::StandardButtons buttons)
 {
     qCDebug(LOG_AW) << "Construct message box with title" << title << "and body"

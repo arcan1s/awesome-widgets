@@ -93,7 +93,7 @@ void TestDPPlugin::test_parsePattern()
     QString result = plugin->parsePattern(pattern, plugin->currentDesktop());
     QVERIFY(!result.isEmpty());
     QVERIFY(result != pattern);
-    for (auto key : plugin->dictKeys())
+    for (auto &key : plugin->dictKeys())
         QVERIFY(!result.contains(key));
 }
 

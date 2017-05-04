@@ -28,11 +28,11 @@ class BatterySource : public AbstractExtSysMonSource
     Q_OBJECT
 
 public:
-    explicit BatterySource(QObject *parent, const QStringList args);
+    explicit BatterySource(QObject *parent, const QStringList &args);
     virtual ~BatterySource();
     QStringList getSources();
-    QVariant data(QString source);
-    QVariantMap initialData(QString source) const;
+    QVariant data(const QString &source);
+    QVariantMap initialData(const QString &source) const;
     void run();
     QStringList sources() const;
 

@@ -70,7 +70,7 @@ bool AWConfigHelper::dropCache() const
 
 
 bool AWConfigHelper::exportConfiguration(QObject *nativeConfig,
-                                         const QString fileName) const
+                                         const QString &fileName) const
 {
     qCDebug(LOG_AW) << "Selected filename" << fileName;
 
@@ -79,7 +79,7 @@ bool AWConfigHelper::exportConfiguration(QObject *nativeConfig,
     const QQmlPropertyMap *configuration
         = static_cast<const QQmlPropertyMap *>(nativeConfig);
     settings.beginGroup(QString("plasmoid"));
-    for (auto key : configuration->keys()) {
+    for (auto &key : configuration->keys()) {
         QVariant value = configuration->value(key);
         if (!value.isValid())
             continue;
@@ -88,13 +88,13 @@ bool AWConfigHelper::exportConfiguration(QObject *nativeConfig,
     settings.endGroup();
 
     // extensions
-    for (auto item : m_dirs) {
+    for (auto &item : m_dirs) {
         QStringList items
             = QDir(QString("%1/%2").arg(m_baseDir).arg(item))
                   .entryList(QStringList() << QString("*.desktop"),
                              QDir::Files);
         settings.beginGroup(item);
-        for (auto it : items)
+        for (auto &it : items)
             copyExtensions(it, item, settings, false);
         settings.endGroup();
     }
@@ -121,7 +121,7 @@ bool AWConfigHelper::exportConfiguration(QObject *nativeConfig,
 }
 
 
-QVariantMap AWConfigHelper::importConfiguration(const QString fileName,
+QVariantMap AWConfigHelper::importConfiguration(const QString &fileName,
                                                 const bool importPlasmoid,
                                                 const bool importExtensions,
                                                 const bool importAdds) const
@@ -133,9 +133,9 @@ QVariantMap AWConfigHelper::importConfiguration(const QString fileName,
 
     // extensions
     if (importExtensions) {
-        for (auto item : m_dirs) {
+        for (auto &item : m_dirs) {
             settings.beginGroup(item);
-            for (auto it : settings.childGroups())
+            for (auto &it : settings.childGroups())
                 copyExtensions(it, item, settings, true);
             settings.endGroup();
         }
@@ -161,7 +161,7 @@ QVariantMap AWConfigHelper::importConfiguration(const QString fileName,
     // plasmoid configuration
     if (importPlasmoid) {
         settings.beginGroup(QString("plasmoid"));
-        for (auto key : settings.childKeys())
+        for (auto &key : settings.childKeys())
             configuration[key] = settings.value(key);
         settings.endGroup();
     }
@@ -207,7 +207,7 @@ QVariantMap AWConfigHelper::readDataEngineConfiguration() const
 
 
 bool AWConfigHelper::writeDataEngineConfiguration(
-    const QVariantMap configuration) const
+    const QVariantMap &configuration) const
 {
     qCDebug(LOG_AW) << "Configuration" << configuration;
 
@@ -238,18 +238,18 @@ bool AWConfigHelper::writeDataEngineConfiguration(
 }
 
 
-void AWConfigHelper::copyConfigs(const QString localDir) const
+void AWConfigHelper::copyConfigs(const QString &localDir) const
 {
     qCDebug(LOG_AW) << "Local directory" << localDir;
 
     QStringList dirs = QStandardPaths::locateAll(
         QStandardPaths::GenericDataLocation, QString("awesomewidgets/configs"),
         QStandardPaths::LocateDirectory);
-    for (auto dir : dirs) {
+    for (auto &dir : dirs) {
         if (dir == localDir)
             continue;
         QStringList files = QDir(dir).entryList(QDir::Files);
-        for (auto source : files) {
+        for (auto &source : files) {
             QString destination = QString("%1/%2").arg(localDir).arg(source);
             bool status = QFile::copy(QString("%1/%2").arg(dir).arg(source),
                                       destination);
@@ -260,7 +260,7 @@ void AWConfigHelper::copyConfigs(const QString localDir) const
 }
 
 
-void AWConfigHelper::copyExtensions(const QString item, const QString type,
+void AWConfigHelper::copyExtensions(const QString &item, const QString &type,
                                     QSettings &settings,
                                     const bool inverse) const
 {
@@ -286,13 +286,13 @@ void AWConfigHelper::copyExtensions(const QString item, const QString type,
 
 void AWConfigHelper::copySettings(QSettings &from, QSettings &to) const
 {
-    for (auto key : from.childKeys())
+    for (auto &key : from.childKeys())
         to.setValue(key, from.value(key));
 }
 
 
-void AWConfigHelper::readFile(QSettings &settings, const QString key,
-                              const QString fileName) const
+void AWConfigHelper::readFile(QSettings &settings, const QString &key,
+                              const QString &fileName) const
 {
     qCDebug(LOG_AW) << "Key" << key << "from file" << fileName;
 
@@ -307,8 +307,8 @@ void AWConfigHelper::readFile(QSettings &settings, const QString key,
 }
 
 
-void AWConfigHelper::writeFile(QSettings &settings, const QString key,
-                               const QString fileName) const
+void AWConfigHelper::writeFile(QSettings &settings, const QString &key,
+                               const QString &fileName) const
 {
     qCDebug(LOG_AW) << "Key" << key << "to file" << fileName;
 

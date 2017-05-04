@@ -31,10 +31,10 @@ class WeatherSource : public AbstractExtSysMonSource
     Q_OBJECT
 
 public:
-    explicit WeatherSource(QObject *parent, const QStringList args);
+    explicit WeatherSource(QObject *parent, const QStringList &args);
     virtual ~WeatherSource();
-    QVariant data(QString source);
-    QVariantMap initialData(QString source) const;
+    QVariant data(const QString &source);
+    QVariantMap initialData(const QString &source) const;
     void run(){};
     QStringList sources() const;
 

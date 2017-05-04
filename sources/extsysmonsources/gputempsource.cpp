@@ -26,7 +26,7 @@
 
 
 GPUTemperatureSource::GPUTemperatureSource(QObject *parent,
-                                           const QStringList args)
+                                           const QStringList &args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 1);
@@ -75,7 +75,7 @@ QString GPUTemperatureSource::autoGpu()
 }
 
 
-QVariant GPUTemperatureSource::data(QString source)
+QVariant GPUTemperatureSource::data(const QString &source)
 {
     qCDebug(LOG_ESS) << "Source" << source;
 
@@ -86,7 +86,7 @@ QVariant GPUTemperatureSource::data(QString source)
 }
 
 
-QVariantMap GPUTemperatureSource::initialData(QString source) const
+QVariantMap GPUTemperatureSource::initialData(const QString &source) const
 {
     qCDebug(LOG_ESS) << "Source" << source;
 
@@ -139,7 +139,7 @@ void GPUTemperatureSource::updateValue()
     qCInfo(LOG_ESS) << "Output" << qoutput;
 
     if (m_device == QString("nvidia")) {
-        for (auto str : qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
+        for (auto &str : qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
             if (!str.contains(QString("<gpu_temp>")))
                 continue;
             QString temp = str.remove(QString("<gpu_temp>"))
@@ -148,7 +148,7 @@ void GPUTemperatureSource::updateValue()
             break;
         }
     } else if (m_device == QString("ati")) {
-        for (auto str : qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
+        for (auto &str : qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
             if (!str.contains(QString("Temperature")))
                 continue;
             QString temp = str.split(QChar(' '), QString::SkipEmptyParts).at(4);

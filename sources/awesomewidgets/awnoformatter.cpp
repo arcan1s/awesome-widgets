@@ -24,7 +24,7 @@
 #include "awdebug.h"
 
 
-AWNoFormatter::AWNoFormatter(QWidget *parent, const QString filePath)
+AWNoFormatter::AWNoFormatter(QWidget *parent, const QString &filePath)
     : AWAbstractFormatter(parent, filePath)
     , ui(new Ui::AWNoFormatter)
 {
@@ -53,7 +53,7 @@ QString AWNoFormatter::convert(const QVariant &_value) const
 }
 
 
-AWNoFormatter *AWNoFormatter::copy(const QString _fileName, const int _number)
+AWNoFormatter *AWNoFormatter::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
@@ -66,7 +66,7 @@ AWNoFormatter *AWNoFormatter::copy(const QString _fileName, const int _number)
 }
 
 
-int AWNoFormatter::showConfiguration(const QVariant args)
+int AWNoFormatter::showConfiguration(const QVariant &args)
 {
     Q_UNUSED(args)
 

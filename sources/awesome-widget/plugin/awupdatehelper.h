@@ -37,13 +37,13 @@ public:
     bool checkVersion();
 
 private slots:
-    void showInfo(const QVersionNumber version);
-    void showUpdates(const QVersionNumber version);
+    void showInfo(const QVersionNumber &version);
+    void showUpdates(const QVersionNumber &version);
     void userReplyOnUpdates(QAbstractButton *button);
     void versionReplyRecieved(QNetworkReply *reply, const bool showAnyway);
 
 private:
-    QMessageBox *genMessageBox(const QString title, const QString body,
+    QMessageBox *genMessageBox(const QString &title, const QString &body,
                                const QMessageBox::StandardButtons buttons);
     QVersionNumber m_foundVersion;
     QString m_genericConfig;

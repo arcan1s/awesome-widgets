@@ -28,7 +28,7 @@
 #include "awdebug.h"
 
 
-PlayerSource::PlayerSource(QObject *parent, const QStringList args)
+PlayerSource::PlayerSource(QObject *parent, const QStringList &args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 5);
@@ -58,7 +58,7 @@ PlayerSource::~PlayerSource()
 }
 
 
-QVariant PlayerSource::data(QString source)
+QVariant PlayerSource::data(const QString &source)
 {
     qCDebug(LOG_ESS) << "Source" << source;
 
@@ -77,7 +77,7 @@ QString PlayerSource::getAutoMpris() const
         return QString();
     QStringList arguments = listServices.arguments().first().toStringList();
 
-    for (auto arg : arguments) {
+    for (auto &arg : arguments) {
         if (!arg.startsWith(QString("org.mpris.MediaPlayer2.")))
             continue;
         qCInfo(LOG_ESS) << "Service found" << arg;
@@ -90,7 +90,7 @@ QString PlayerSource::getAutoMpris() const
 }
 
 
-QVariantMap PlayerSource::initialData(QString source) const
+QVariantMap PlayerSource::initialData(const QString &source) const
 {
     qCDebug(LOG_ESS) << "Source" << source;
 
@@ -276,7 +276,7 @@ void PlayerSource::mpdSocketReadyRead()
     qCInfo(LOG_ESS) << "Output" << qoutput;
 
     // parse
-    for (auto str : qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
+    for (auto &str : qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
         if (str.split(QString(": "), QString::SkipEmptyParts).count() == 2) {
             // "Metadata: data"
             QString metadata = str.split(QString(": "), QString::SkipEmptyParts)
@@ -337,7 +337,7 @@ QVariantHash PlayerSource::getPlayerMpdInfo()
 }
 
 
-QVariantHash PlayerSource::getPlayerMprisInfo(const QString mpris) const
+QVariantHash PlayerSource::getPlayerMprisInfo(const QString &mpris) const
 {
     qCDebug(LOG_ESS) << "MPRIS" << mpris;
 

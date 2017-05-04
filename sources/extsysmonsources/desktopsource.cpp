@@ -23,7 +23,7 @@
 #include "awdebug.h"
 
 
-DesktopSource::DesktopSource(QObject *parent, const QStringList args)
+DesktopSource::DesktopSource(QObject *parent, const QStringList &args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 0);
@@ -37,7 +37,7 @@ DesktopSource::~DesktopSource()
 }
 
 
-QVariant DesktopSource::data(QString source)
+QVariant DesktopSource::data(const QString &source)
 {
     qCDebug(LOG_ESS) << "Source" << source;
 
@@ -61,7 +61,7 @@ QVariant DesktopSource::data(QString source)
 }
 
 
-QVariantMap DesktopSource::initialData(QString source) const
+QVariantMap DesktopSource::initialData(const QString &source) const
 {
     qCDebug(LOG_ESS) << "Source" << source;
 

@@ -34,7 +34,7 @@ AWFormatterConfigFactory::~AWFormatterConfigFactory()
 }
 
 
-void AWFormatterConfigFactory::showDialog(const QStringList keys)
+void AWFormatterConfigFactory::showDialog(const QStringList &keys)
 {
     AWFormatterConfig *config = new AWFormatterConfig(nullptr, keys);
     config->showDialog();

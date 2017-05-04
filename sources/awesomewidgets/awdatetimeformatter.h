@@ -36,19 +36,19 @@ class AWDateTimeFormatter : public AWAbstractFormatter
 
 public:
     explicit AWDateTimeFormatter(QWidget *parent,
-                                 const QString filePath = QString());
+                                 const QString &filePath = QString());
     virtual ~AWDateTimeFormatter();
     QString convert(const QVariant &_value) const;
-    AWDateTimeFormatter *copy(const QString _fileName, const int _number);
+    AWDateTimeFormatter *copy(const QString &_fileName, const int _number);
     // properties
     QString format() const;
     bool translateString() const;
-    void setFormat(const QString _format);
+    void setFormat(const QString &_format);
     void setTranslateString(const bool _translate);
 
 public slots:
     void readConfiguration();
-    int showConfiguration(const QVariant args = QVariant());
+    int showConfiguration(const QVariant &args = QVariant());
     void writeConfiguration() const;
 
 private:

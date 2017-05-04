@@ -33,17 +33,17 @@ class AWJsonFormatter : public AWAbstractFormatter
 
 public:
     explicit AWJsonFormatter(QWidget *parent,
-                             const QString filePath = QString());
+                             const QString &filePath = QString());
     virtual ~AWJsonFormatter();
     QString convert(const QVariant &_value) const;
-    AWJsonFormatter *copy(const QString _fileName, const int _number);
+    AWJsonFormatter *copy(const QString &_fileName, const int _number);
     // properties
     QString path() const;
-    void setPath(const QString _path);
+    void setPath(const QString &_path);
 
 public slots:
     void readConfiguration();
-    int showConfiguration(const QVariant args = QVariant());
+    int showConfiguration(const QVariant &args = QVariant());
     void writeConfiguration() const;
 
 private:

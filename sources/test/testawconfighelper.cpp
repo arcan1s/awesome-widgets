@@ -46,7 +46,7 @@ void TestAWConfigHelper::test_configurationDirectory()
 void TestAWConfigHelper::test_exportConfiguration()
 {
     QStringList keys = AWTestLibrary::randomStringList();
-    for (auto key : keys)
+    for (auto &key : keys)
         map[key] = AWTestLibrary::randomString();
     filename = AWTestLibrary::randomFilenames().first;
 
@@ -59,7 +59,7 @@ void TestAWConfigHelper::test_importConfiguration()
     QVariantMap imported
         = plugin->importConfiguration(filename, true, true, true);
     QVariantMap converted;
-    for (auto key : map.keys())
+    for (auto &key : map.keys())
         converted[key] = map.value(key);
 
     QCOMPARE(imported, converted);

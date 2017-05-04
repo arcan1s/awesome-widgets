@@ -35,7 +35,7 @@ QString AWPatternFunctions::expandLambdas(QString code,
     // apply $this values
     code.replace(QString("$this"), metadata[code].toString());
     // parsed values
-    for (auto lambdaKey : usedKeys)
+    for (auto &lambdaKey : usedKeys)
         code.replace(QString("$%1").arg(lambdaKey),
                      aggregator->formatter(metadata[lambdaKey], lambdaKey));
     qCInfo(LOG_AW) << "Expression" << code;
@@ -87,8 +87,8 @@ QString AWPatternFunctions::expandTemplates(QString code)
 
 
 QList<AWPatternFunctions::AWFunction>
-AWPatternFunctions::findFunctionCalls(const QString function,
-                                      const QString code)
+AWPatternFunctions::findFunctionCalls(const QString &function,
+                                      const QString &code)
 {
     qCDebug(LOG_AW) << "Looking for function" << function << "in" << code;
 
@@ -135,14 +135,14 @@ AWPatternFunctions::findFunctionCalls(const QString function,
 }
 
 
-QString AWPatternFunctions::insertAllKeys(QString code, const QStringList keys)
+QString AWPatternFunctions::insertAllKeys(QString code, const QStringList &keys)
 {
     qCDebug(LOG_AW) << "Looking for keys in code" << code << "using list"
                     << keys;
 
     QList<AWPatternFunctions::AWFunction> found
         = AWPatternFunctions::findFunctionCalls(QString("aw_all"), code);
-    for (auto function : found) {
+    for (auto &function : found) {
         QString separator
             = function.args.isEmpty() ? QString(",") : function.args.at(0);
         QStringList required = keys.filter(QRegExp(function.body));
@@ -157,14 +157,15 @@ QString AWPatternFunctions::insertAllKeys(QString code, const QStringList keys)
 }
 
 
-QString AWPatternFunctions::insertKeyCount(QString code, const QStringList keys)
+QString AWPatternFunctions::insertKeyCount(QString code,
+                                           const QStringList &keys)
 {
     qCDebug(LOG_AW) << "Looking for count in code" << code << "using list"
                     << keys;
 
     QList<AWPatternFunctions::AWFunction> found
         = AWPatternFunctions::findFunctionCalls(QString("aw_count"), code);
-    for (auto function : found) {
+    for (auto &function : found) {
         int count = keys.filter(QRegExp(function.body)).count();
 
         code.replace(function.what, QString::number(count));
@@ -174,14 +175,15 @@ QString AWPatternFunctions::insertKeyCount(QString code, const QStringList keys)
 }
 
 
-QString AWPatternFunctions::insertKeyNames(QString code, const QStringList keys)
+QString AWPatternFunctions::insertKeyNames(QString code,
+                                           const QStringList &keys)
 {
     qCDebug(LOG_AW) << "Looking for key names in code" << code << "using list"
                     << keys;
 
     QList<AWPatternFunctions::AWFunction> found
         = AWPatternFunctions::findFunctionCalls(QString("aw_names"), code);
-    for (auto function : found) {
+    for (auto &function : found) {
         QString separator
             = function.args.isEmpty() ? QString(",") : function.args.at(0);
         QStringList required = keys.filter(QRegExp(function.body));
@@ -193,14 +195,14 @@ QString AWPatternFunctions::insertKeyNames(QString code, const QStringList keys)
 }
 
 
-QString AWPatternFunctions::insertKeys(QString code, const QStringList keys)
+QString AWPatternFunctions::insertKeys(QString code, const QStringList &keys)
 {
     qCDebug(LOG_AW) << "Looking for keys in code" << code << "using list"
                     << keys;
 
     QList<AWPatternFunctions::AWFunction> found
         = AWPatternFunctions::findFunctionCalls(QString("aw_keys"), code);
-    for (auto function : found) {
+    for (auto &function : found) {
         QString separator
             = function.args.isEmpty() ? QString(",") : function.args.at(0);
         QStringList required = keys.filter(QRegExp(function.body));
@@ -221,7 +223,7 @@ QString AWPatternFunctions::insertMacros(QString code)
 
     QList<AWPatternFunctions::AWFunction> found
         = AWPatternFunctions::findFunctionCalls(QString("aw_macro"), code);
-    for (auto macro : found) {
+    for (auto &macro : found) {
         // get macro params
         if (macro.args.isEmpty()) {
             qCWarning(LOG_AW) << "No macro name found for" << macro.what;
@@ -232,7 +234,7 @@ QString AWPatternFunctions::insertMacros(QString code)
         QList<AWPatternFunctions::AWFunction> macroUsage
             = AWPatternFunctions::findFunctionCalls(
                 QString("aw_macro_%1").arg(name), code);
-        for (auto function : macroUsage) {
+        for (auto &function : macroUsage) {
             if (function.args.count() != macro.args.count()) {
                 qCWarning(LOG_AW)
                     << "Invalid args count found for call" << function.what
@@ -259,8 +261,8 @@ QString AWPatternFunctions::insertMacros(QString code)
 }
 
 
-QStringList AWPatternFunctions::findKeys(const QString code,
-                                         const QStringList keys,
+QStringList AWPatternFunctions::findKeys(const QString &code,
+                                         const QStringList &keys,
                                          const bool isBars)
 {
     qCDebug(LOG_AW) << "Looking for keys in code" << code << "using list"
@@ -268,7 +270,7 @@ QStringList AWPatternFunctions::findKeys(const QString code,
 
     QStringList selectedKeys;
     QString replacedCode = code;
-    for (auto key : keys)
+    for (auto &key : keys)
         if ((key.startsWith(QString("bar")) == isBars)
             && (replacedCode.contains(QString("$%1").arg(key)))) {
             qCInfo(LOG_AW) << "Found key" << key << "with bar enabled"
@@ -283,7 +285,7 @@ QStringList AWPatternFunctions::findKeys(const QString code,
 }
 
 
-QStringList AWPatternFunctions::findLambdas(const QString code)
+QStringList AWPatternFunctions::findLambdas(const QString &code)
 {
     qCDebug(LOG_AW) << "Looking for lambdas in code" << code;
 

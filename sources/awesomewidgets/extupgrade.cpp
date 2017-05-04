@@ -28,7 +28,7 @@
 #include "awdebug.h"
 
 
-ExtUpgrade::ExtUpgrade(QWidget *parent, const QString filePath)
+ExtUpgrade::ExtUpgrade(QWidget *parent, const QString &filePath)
     : AbstractExtItem(parent, filePath)
     , ui(new Ui::ExtUpgrade)
 {
@@ -60,7 +60,7 @@ ExtUpgrade::~ExtUpgrade()
 }
 
 
-ExtUpgrade *ExtUpgrade::copy(const QString _fileName, const int _number)
+ExtUpgrade *ExtUpgrade::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
@@ -100,7 +100,7 @@ QString ExtUpgrade::uniq() const
 }
 
 
-void ExtUpgrade::setExecutable(const QString _executable)
+void ExtUpgrade::setExecutable(const QString &_executable)
 {
     qCDebug(LOG_LIB) << "Executable" << _executable;
 
@@ -108,7 +108,7 @@ void ExtUpgrade::setExecutable(const QString _executable)
 }
 
 
-void ExtUpgrade::setFilter(const QString _filter)
+void ExtUpgrade::setFilter(const QString &_filter)
 {
     qCDebug(LOG_LIB) << "Filter" << _filter;
 
@@ -153,7 +153,7 @@ QVariantHash ExtUpgrade::run()
 }
 
 
-int ExtUpgrade::showConfiguration(const QVariant args)
+int ExtUpgrade::showConfiguration(const QVariant &args)
 {
     Q_UNUSED(args)
 

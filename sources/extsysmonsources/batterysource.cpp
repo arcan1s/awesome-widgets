@@ -23,7 +23,7 @@
 #include "awdebug.h"
 
 
-BatterySource::BatterySource(QObject *parent, const QStringList args)
+BatterySource::BatterySource(QObject *parent, const QStringList &args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 1);
@@ -59,7 +59,7 @@ QStringList BatterySource::getSources()
 }
 
 
-QVariant BatterySource::data(QString source)
+QVariant BatterySource::data(const QString &source)
 {
     qCDebug(LOG_ESS) << "Source" << source;
 
@@ -70,7 +70,7 @@ QVariant BatterySource::data(QString source)
 }
 
 
-QVariantMap BatterySource::initialData(QString source) const
+QVariantMap BatterySource::initialData(const QString &source) const
 {
     qCDebug(LOG_ESS) << "Source" << source;
 

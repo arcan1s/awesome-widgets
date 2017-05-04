@@ -35,21 +35,21 @@ class AWListFormatter : public AWAbstractFormatter
 
 public:
     explicit AWListFormatter(QWidget *parent,
-                             const QString filePath = QString());
+                             const QString &filePath = QString());
     virtual ~AWListFormatter();
     QString convert(const QVariant &_value) const;
-    AWListFormatter *copy(const QString _fileName, const int _number);
+    AWListFormatter *copy(const QString &_fileName, const int _number);
     // properties
     QString filter() const;
     bool isSorted() const;
     QString separator() const;
-    void setFilter(const QString _filter);
-    void setSeparator(const QString _separator);
+    void setFilter(const QString &_filter);
+    void setSeparator(const QString &_separator);
     void setSorted(const bool _sorted);
 
 public slots:
     void readConfiguration();
-    int showConfiguration(const QVariant args = QVariant());
+    int showConfiguration(const QVariant &args = QVariant());
     void writeConfiguration() const;
 
 private:

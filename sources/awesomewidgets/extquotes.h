@@ -38,19 +38,19 @@ public:
     const char *YAHOO_QUOTES_QUERY
         = "select * from yahoo.finance.quotes where symbol='%1'";
 
-    explicit ExtQuotes(QWidget *parent, const QString filePath = QString());
+    explicit ExtQuotes(QWidget *parent, const QString &filePath = QString());
     virtual ~ExtQuotes();
-    ExtQuotes *copy(const QString _fileName, const int _number);
+    ExtQuotes *copy(const QString &_fileName, const int _number);
     // get methods
     QString ticker() const;
     QString uniq() const;
     // set methods
-    void setTicker(const QString _ticker = QString("EURUSD=X"));
+    void setTicker(const QString &_ticker = QString("EURUSD=X"));
 
 public slots:
     void readConfiguration();
     QVariantHash run();
-    int showConfiguration(const QVariant args = QVariant());
+    int showConfiguration(const QVariant &args = QVariant());
     void writeConfiguration() const;
 
 private slots:

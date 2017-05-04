@@ -26,7 +26,7 @@
 
 
 HDDTemperatureSource::HDDTemperatureSource(QObject *parent,
-                                           const QStringList args)
+                                           const QStringList &args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 2);
@@ -38,7 +38,7 @@ HDDTemperatureSource::HDDTemperatureSource(QObject *parent,
     m_smartctl = m_cmd.contains(QString("smartctl"));
     qCInfo(LOG_ESS) << "Parse as smartctl" << m_smartctl;
 
-    for (auto device : m_devices) {
+    for (auto &device : m_devices) {
         m_processes[device] = new QProcess(nullptr);
         // fucking magic from http://doc.qt.io/qt-5/qprocess.html#finished
         connect(m_processes[device],
@@ -56,7 +56,7 @@ HDDTemperatureSource::~HDDTemperatureSource()
 {
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
-    for (auto device : m_devices) {
+    for (auto &device : m_devices) {
         m_processes[device]->kill();
         m_processes[device]->deleteLater();
     }
@@ -76,11 +76,12 @@ QStringList HDDTemperatureSource::allHdd()
 }
 
 
-QVariant HDDTemperatureSource::data(QString source)
+QVariant HDDTemperatureSource::data(const QString &source)
 {
     qCDebug(LOG_ESS) << "Source" << source;
 
-    QString device = source.remove(QString("hdd/temperature"));
+    QString device = source;
+    device.remove("hdd/temperature");
     // run cmd
     if (m_processes[device]->state() == QProcess::NotRunning)
         m_processes[device]->start(QString("%1 %2").arg(m_cmd).arg(device));
@@ -89,11 +90,12 @@ QVariant HDDTemperatureSource::data(QString source)
 }
 
 
-QVariantMap HDDTemperatureSource::initialData(QString source) const
+QVariantMap HDDTemperatureSource::initialData(const QString &source) const
 {
     qCDebug(LOG_ESS) << "Source" << source;
 
-    QString device = source.remove(QString("hdd/temperature"));
+    QString device = source;
+    device.remove("hdd/temperature");
     QVariantMap data;
     data[QString("min")] = 0.0;
     data[QString("max")] = 0.0;
@@ -108,7 +110,7 @@ QVariantMap HDDTemperatureSource::initialData(QString source) const
 QStringList HDDTemperatureSource::sources() const
 {
     QStringList sources;
-    for (auto device : m_devices)
+    for (auto &device : m_devices)
         sources.append(QString("hdd/temperature%1").arg(device));
 
     return sources;
@@ -134,7 +136,7 @@ void HDDTemperatureSource::updateValue(const QString &device)
     // parse
     if (m_smartctl) {
         QStringList lines = qoutput.split(QChar('\n'), QString::SkipEmptyParts);
-        for (auto str : lines) {
+        for (auto &str : lines) {
             if (!str.startsWith(QString("194")))
                 continue;
             if (str.split(QChar(' '), QString::SkipEmptyParts).count() < 9)

@@ -26,7 +26,7 @@
 #include "awdebug.h"
 
 
-bool AWKeyCache::addKeyToCache(const QString type, const QString key)
+bool AWKeyCache::addKeyToCache(const QString &type, const QString &key)
 {
     qCDebug(LOG_AW) << "Key" << key << "with type" << type;
 
@@ -38,7 +38,7 @@ bool AWKeyCache::addKeyToCache(const QString type, const QString key)
 
     cache.beginGroup(type);
     QStringList cachedValues;
-    for (auto number : cache.allKeys())
+    for (auto &number : cache.allKeys())
         cachedValues.append(cache.value(number).toString());
 
     if (type == QString("hdd")) {
@@ -46,7 +46,7 @@ bool AWKeyCache::addKeyToCache(const QString type, const QString key)
             = QDir(QString("/dev")).entryList(QDir::System, QDir::Name);
         QStringList devices
             = allDevices.filter(QRegExp(QString("^[hms]d[a-z]$")));
-        for (auto dev : devices) {
+        for (auto &dev : devices) {
             QString device = QString("/dev/%1").arg(dev);
             if (cachedValues.contains(device))
                 continue;
@@ -59,7 +59,7 @@ bool AWKeyCache::addKeyToCache(const QString type, const QString key)
     } else if (type == QString("net")) {
         QList<QNetworkInterface> rawInterfaceList
             = QNetworkInterface::allInterfaces();
-        for (auto interface : rawInterfaceList) {
+        for (auto &interface : rawInterfaceList) {
             QString device = interface.name();
             if (cachedValues.contains(device))
                 continue;
@@ -95,7 +95,7 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &keys,
     QSet<QString> used = QSet<QString>::fromList(keys);
     used.unite(QSet<QString>::fromList(bars));
     // insert keys from tooltip
-    for (auto key : tooltip.keys()) {
+    for (auto &key : tooltip.keys()) {
         if ((key.endsWith(QString("Tooltip"))) && (tooltip[key].toBool())) {
             key.remove(QString("Tooltip"));
             used << key;
@@ -104,7 +104,7 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &keys,
 
     // insert depending keys, refer to AWKeys::calculateValues()
     // hddtotmb*
-    for (auto key : allKeys.filter(QRegExp(QString("^hddtotmb")))) {
+    for (auto &key : allKeys.filter(QRegExp(QString("^hddtotmb")))) {
         if (!used.contains(key))
             continue;
         key.remove(QString("hddtotmb"));
@@ -113,7 +113,7 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &keys,
              << QString("hddmb%1").arg(index);
     }
     // hddtotgb*
-    for (auto key : allKeys.filter(QRegExp(QString("^hddtotgb")))) {
+    for (auto &key : allKeys.filter(QRegExp(QString("^hddtotgb")))) {
         if (!used.contains(key))
             continue;
         key.remove(QString("hddtotgb"));
@@ -146,12 +146,12 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &keys,
                         << QString("upunits") << QString("down")
                         << QString("downkb") << QString("downtotal")
                         << QString("downtotalkb") << QString("downunits"));
-    for (auto key : netKeys) {
+    for (auto &key : netKeys) {
         if (!used.contains(key))
             continue;
         QStringList filt
             = allKeys.filter(QRegExp(QString("^%1[0-9]{1,}").arg(key)));
-        for (auto filtered : filt)
+        for (auto &filtered : filt)
             used << filtered;
     }
     // netdev key
@@ -177,9 +177,9 @@ QHash<QString, QStringList> AWKeyCache::loadKeysFromCache()
     QSettings cache(fileName, QSettings::IniFormat);
 
     QHash<QString, QStringList> devices;
-    for (auto group : cache.childGroups()) {
+    for (auto &group : cache.childGroups()) {
         cache.beginGroup(group);
-        for (auto key : cache.allKeys())
+        for (auto &key : cache.allKeys())
             devices[group].append(cache.value(key).toString());
         cache.endGroup();
     }

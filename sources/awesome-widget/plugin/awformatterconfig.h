@@ -35,7 +35,7 @@ class AWFormatterConfig : public QDialog
 
 public:
     explicit AWFormatterConfig(QWidget *parent = nullptr,
-                               const QStringList keys = QStringList());
+                               const QStringList &keys = QStringList());
     virtual ~AWFormatterConfig();
     Q_INVOKABLE void showDialog();
 

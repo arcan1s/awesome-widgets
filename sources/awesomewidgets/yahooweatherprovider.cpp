@@ -35,7 +35,7 @@ YahooWeatherProvider::~YahooWeatherProvider()
 }
 
 
-void YahooWeatherProvider::initUrl(const QString city, const QString country,
+void YahooWeatherProvider::initUrl(const QString &city, const QString &country,
                                    const int ts)
 {
     qCDebug(LOG_LIB) << "Init query for" << city << country << "with ts" << ts;

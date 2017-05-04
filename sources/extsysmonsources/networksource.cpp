@@ -23,7 +23,7 @@
 #include "awdebug.h"
 
 
-NetworkSource::NetworkSource(QObject *parent, const QStringList args)
+NetworkSource::NetworkSource(QObject *parent, const QStringList &args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 0);
@@ -37,7 +37,7 @@ NetworkSource::~NetworkSource()
 }
 
 
-QVariant NetworkSource::data(QString source)
+QVariant NetworkSource::data(const QString &source)
 {
     qCDebug(LOG_ESS) << "Source" << source;
 
@@ -46,7 +46,7 @@ QVariant NetworkSource::data(QString source)
         QList<QNetworkInterface> rawInterfaceList
             = QNetworkInterface::allInterfaces();
         qCInfo(LOG_ESS) << "Devices" << rawInterfaceList;
-        for (auto interface : rawInterfaceList) {
+        for (auto &interface : rawInterfaceList) {
             if ((interface.flags().testFlag(QNetworkInterface::IsLoopBack))
                 || (interface.flags().testFlag(
                        QNetworkInterface::IsPointToPoint)))
@@ -63,7 +63,7 @@ QVariant NetworkSource::data(QString source)
 }
 
 
-QVariantMap NetworkSource::initialData(QString source) const
+QVariantMap NetworkSource::initialData(const QString &source) const
 {
     qCDebug(LOG_ESS) << "Source" << source;
 

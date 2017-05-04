@@ -33,7 +33,7 @@ public:
 
     explicit YahooWeatherProvider(QObject *parent, const int number);
     virtual ~YahooWeatherProvider();
-    void initUrl(const QString city, const QString country, const int);
+    void initUrl(const QString &city, const QString &country, const int);
     QVariantHash parse(const QVariantMap &json) const;
     QUrl url() const;
 

@@ -39,7 +39,7 @@ public:
     };
 
     explicit AWAbstractFormatter(QWidget *parent,
-                                 const QString filePath = QString());
+                                 const QString &filePath = QString());
     virtual ~AWAbstractFormatter();
     virtual QString convert(const QVariant &_value) const = 0;
     void copyDefaults(AbstractExtItem *_other) const;
@@ -47,7 +47,7 @@ public:
     // properties
     QString strType() const;
     FormatterClass type() const;
-    void setStrType(const QString type);
+    void setStrType(const QString &type);
     void setType(const FormatterClass _type = FormatterClass::NoFormat);
 
 public slots:

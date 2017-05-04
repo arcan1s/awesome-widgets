@@ -28,10 +28,10 @@ class NetworkSource : public AbstractExtSysMonSource
     Q_OBJECT
 
 public:
-    explicit NetworkSource(QObject *parent, const QStringList args);
+    explicit NetworkSource(QObject *parent, const QStringList &args);
     virtual ~NetworkSource();
-    QVariant data(QString source);
-    QVariantMap initialData(QString source) const;
+    QVariant data(const QString &source);
+    QVariantMap initialData(const QString &source) const;
     void run(){};
     QStringList sources() const;
 };

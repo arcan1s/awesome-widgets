@@ -22,7 +22,7 @@
 #include "extweather.h"
 
 
-WeatherSource::WeatherSource(QObject *parent, const QStringList args)
+WeatherSource::WeatherSource(QObject *parent, const QStringList &args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 0);
@@ -43,23 +43,24 @@ WeatherSource::~WeatherSource()
 }
 
 
-QVariant WeatherSource::data(QString source)
+QVariant WeatherSource::data(const QString &source)
 {
     qCDebug(LOG_ESS) << "Source" << source;
 
     int ind = index(source);
-    source.remove(QString("weather/"));
-    if (!m_values.contains(source)) {
+    auto service = source;
+    service.remove("weather/");
+    if (!m_values.contains(service)) {
         QVariantHash data = m_extWeather->itemByTagNumber(ind)->run();
-        for (auto key : data.keys())
+        for (auto &key : data.keys())
             m_values[key] = data[key];
     }
-    QVariant value = m_values.take(source);
+    QVariant value = m_values.take(service);
     return value;
 }
 
 
-QVariantMap WeatherSource::initialData(QString source) const
+QVariantMap WeatherSource::initialData(const QString &source) const
 {
     qCDebug(LOG_ESS) << "Source" << source;
 
@@ -128,7 +129,7 @@ QStringList WeatherSource::sources() const
 QStringList WeatherSource::getSources()
 {
     QStringList sources;
-    for (auto item : m_extWeather->activeItems()) {
+    for (auto &item : m_extWeather->activeItems()) {
         sources.append(
             QString("weather/%1").arg(item->tag(QString("weatherId"))));
         sources.append(

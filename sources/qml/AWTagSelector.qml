@@ -53,7 +53,7 @@ Row {
         onClicked: {
             if (!tags.currentText)
                 return
-            textArea.insert(textArea.cursorPosition, "$" + tags.currentText)
+            textArea.insert("$" + tags.currentText)
         }
     }
 

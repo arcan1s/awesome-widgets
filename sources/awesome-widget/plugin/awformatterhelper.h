@@ -38,8 +38,8 @@ public:
     QHash<QString, QString> getFormatters() const;
     QList<AbstractExtItem *> items() const;
     QStringList knownFormatters() const;
-    bool removeUnusedFormatters(const QStringList keys) const;
-    bool writeFormatters(const QHash<QString, QString> configuration) const;
+    bool removeUnusedFormatters(const QStringList &keys) const;
+    bool writeFormatters(const QHash<QString, QString> &configuration) const;
 
 public slots:
     void editItems();
@@ -47,12 +47,12 @@ public slots:
 private:
     // methods
     AWAbstractFormatter::FormatterClass
-    defineFormatterClass(const QString stringType) const;
+    defineFormatterClass(const QString &stringType) const;
     void initFormatters();
     void initKeys();
     void installDirectories();
     QPair<QString, AWAbstractFormatter::FormatterClass>
-    readMetadata(const QString filePath) const;
+    readMetadata(const QString &filePath) const;
     // parent methods
     void doCreateItem();
     void initItems();

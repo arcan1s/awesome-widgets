@@ -35,14 +35,14 @@ class AWDataAggregator : public QObject
 public:
     explicit AWDataAggregator(QObject *parent = nullptr);
     virtual ~AWDataAggregator();
-    QList<float> getData(const QString key) const;
+    QList<float> getData(const QString &key) const;
     QString htmlImage(const QPixmap &source) const;
-    void setParameters(QVariantMap settings);
+    void setParameters(const QVariantMap &settings);
     QPixmap tooltipImage();
 
 signals:
     void updateData(const QVariantHash &values);
-    void toolTipPainted(const QString image) const;
+    void toolTipPainted(const QString &image) const;
 
 private slots:
     void dataUpdate(const QVariantHash &values);
@@ -51,13 +51,13 @@ private:
     // ui
     QGraphicsScene *m_toolTipScene = nullptr;
     QGraphicsView *m_toolTipView = nullptr;
-    void checkValue(const QString source, const float value,
+    void checkValue(const QString &source, const float value,
                     const float extremum) const;
-    void checkValue(const QString source, const QString current,
-                    const QString received) const;
+    void checkValue(const QString &source, const QString &current,
+                    const QString &received) const;
     void initScene();
-    QString notificationText(const QString source, const float value) const;
-    QString notificationText(const QString source, const QString value) const;
+    QString notificationText(const QString &source, const float value) const;
+    QString notificationText(const QString &source, const QString &value) const;
     // main method
     void setData(const QVariantHash &values);
     void setData(const QString &source, float value,

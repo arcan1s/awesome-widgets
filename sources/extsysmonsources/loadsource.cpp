@@ -21,7 +21,7 @@
 #include "awdebug.h"
 
 
-LoadSource::LoadSource(QObject *parent, const QStringList args)
+LoadSource::LoadSource(QObject *parent, const QStringList &args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 0);
@@ -35,16 +35,17 @@ LoadSource::~LoadSource()
 }
 
 
-QVariant LoadSource::data(QString source)
+QVariant LoadSource::data(const QString &source)
 {
     qCDebug(LOG_ESS) << "Source" << source;
 
-    source.remove(QString("load/load"));
-    return source.toInt();
+    auto data = source;
+    data.remove("load/load");
+    return data.toInt();
 }
 
 
-QVariantMap LoadSource::initialData(QString source) const
+QVariantMap LoadSource::initialData(const QString &source) const
 {
     qCDebug(LOG_ESS) << "Source" << source;
 

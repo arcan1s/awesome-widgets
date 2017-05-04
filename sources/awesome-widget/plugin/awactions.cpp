@@ -57,7 +57,7 @@ void AWActions::checkUpdates(const bool showAnyway)
 }
 
 
-QString AWActions::getFileContent(const QString path) const
+QString AWActions::getFileContent(const QString &path) const
 {
     qCDebug(LOG_AW) << "Get content from file" << path;
 
@@ -81,7 +81,7 @@ bool AWActions::isDebugEnabled() const
 }
 
 
-bool AWActions::runCmd(const QString cmd) const
+bool AWActions::runCmd(const QString &cmd) const
 {
     qCDebug(LOG_AW) << "Cmd" << cmd;
 
@@ -114,7 +114,7 @@ void AWActions::showLegacyInfo() const
 
 
 // HACK: this method uses variables from version.h
-QString AWActions::getAboutText(const QString type) const
+QString AWActions::getAboutText(const QString &type) const
 {
     qCDebug(LOG_AW) << "Type" << type;
 
@@ -122,7 +122,7 @@ QString AWActions::getAboutText(const QString type) const
 }
 
 
-QVariantMap AWActions::getFont(const QVariantMap defaultFont) const
+QVariantMap AWActions::getFont(const QVariantMap &defaultFont) const
 {
     qCDebug(LOG_AW) << "Default font is" << defaultFont;
 
@@ -144,7 +144,7 @@ QVariantMap AWActions::getFont(const QVariantMap defaultFont) const
 
 
 // to avoid additional object definition this method is static
-void AWActions::sendNotification(const QString eventId, const QString message)
+void AWActions::sendNotification(const QString &eventId, const QString &message)
 {
     qCDebug(LOG_AW) << "Event" << eventId << "with message" << message;
 

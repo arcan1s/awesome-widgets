@@ -35,7 +35,7 @@
 #include "yahooweatherprovider.h"
 
 
-ExtWeather::ExtWeather(QWidget *parent, const QString filePath)
+ExtWeather::ExtWeather(QWidget *parent, const QString &filePath)
     : AbstractExtItem(parent, filePath)
     , ui(new Ui::ExtWeather)
 {
@@ -77,7 +77,7 @@ ExtWeather::~ExtWeather()
 }
 
 
-ExtWeather *ExtWeather::copy(const QString _fileName, const int _number)
+ExtWeather *ExtWeather::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "number" << _number;
 
@@ -168,7 +168,7 @@ QString ExtWeather::uniq() const
 }
 
 
-void ExtWeather::setCity(const QString _city)
+void ExtWeather::setCity(const QString &_city)
 {
     qCDebug(LOG_LIB) << "City" << _city;
 
@@ -177,7 +177,7 @@ void ExtWeather::setCity(const QString _city)
 }
 
 
-void ExtWeather::setCountry(const QString _country)
+void ExtWeather::setCountry(const QString &_country)
 {
     qCDebug(LOG_LIB) << "Country" << _country;
 
@@ -203,7 +203,7 @@ void ExtWeather::setProvider(const Provider _provider)
 }
 
 
-void ExtWeather::setStrProvider(const QString _provider)
+void ExtWeather::setStrProvider(const QString &_provider)
 {
     qCDebug(LOG_LIB) << "Provider" << _provider;
 
@@ -278,7 +278,7 @@ QVariantHash ExtWeather::run()
 }
 
 
-int ExtWeather::showConfiguration(const QVariant args)
+int ExtWeather::showConfiguration(const QVariant &args)
 {
     Q_UNUSED(args)
 

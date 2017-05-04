@@ -29,7 +29,7 @@
 #include "awdebug.h"
 
 
-AWTelemetryHandler::AWTelemetryHandler(QObject *parent, const QString clientId)
+AWTelemetryHandler::AWTelemetryHandler(QObject *parent, const QString &clientId)
     : QObject(parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
@@ -50,7 +50,7 @@ AWTelemetryHandler::~AWTelemetryHandler()
 }
 
 
-QStringList AWTelemetryHandler::get(const QString group) const
+QStringList AWTelemetryHandler::get(const QString &group) const
 {
     qCDebug(LOG_AW) << "Get stored data for group" << group;
 
@@ -58,7 +58,7 @@ QStringList AWTelemetryHandler::get(const QString group) const
 
     QSettings settings(m_localFile, QSettings::IniFormat);
     settings.beginGroup(group);
-    for (auto key : settings.childKeys())
+    for (auto &key : settings.childKeys())
         values.append(settings.value(key).toString());
     settings.endGroup();
 
@@ -66,7 +66,7 @@ QStringList AWTelemetryHandler::get(const QString group) const
 }
 
 
-QString AWTelemetryHandler::getLast(const QString group) const
+QString AWTelemetryHandler::getLast(const QString &group) const
 {
     qCDebug(LOG_AW) << "Get last stored data for group" << group;
 
@@ -75,7 +75,7 @@ QString AWTelemetryHandler::getLast(const QString group) const
 
 
 void AWTelemetryHandler::init(const int count, const bool enableRemote,
-                              const QString clientId)
+                              const QString &clientId)
 {
     qCDebug(LOG_AW) << "Init telemetry with count" << count << "enable remote"
                     << enableRemote << "client ID" << clientId;
@@ -86,7 +86,7 @@ void AWTelemetryHandler::init(const int count, const bool enableRemote,
 }
 
 
-bool AWTelemetryHandler::put(const QString group, const QString value) const
+bool AWTelemetryHandler::put(const QString &group, const QString &value) const
 {
     qCDebug(LOG_AW) << "Store data with group" << group << "and value" << value;
 
@@ -95,7 +95,7 @@ bool AWTelemetryHandler::put(const QString group, const QString value) const
     // values will be stored as num=value inside specified group
     // load all values to memory
     QStringList saved;
-    for (auto key : settings.childKeys())
+    for (auto &key : settings.childKeys())
         saved.append(settings.value(key).toString());
     // check if this value is already saved
     if (saved.contains(value)) {
@@ -110,7 +110,7 @@ bool AWTelemetryHandler::put(const QString group, const QString value) const
     // clear group
     settings.remove(QString(""));
     // and save now
-    for (auto value : saved) {
+    for (auto &value : saved) {
         QString key = getKey(settings.childKeys().count());
         settings.setValue(key, value);
     }
@@ -123,8 +123,8 @@ bool AWTelemetryHandler::put(const QString group, const QString value) const
 }
 
 
-void AWTelemetryHandler::uploadTelemetry(const QString group,
-                                         const QString value)
+void AWTelemetryHandler::uploadTelemetry(const QString &group,
+                                         const QString &value)
 {
     qCDebug(LOG_AW) << "Upload data with group" << group << "and value"
                     << value;

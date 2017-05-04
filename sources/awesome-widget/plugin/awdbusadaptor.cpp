@@ -35,19 +35,19 @@ AWDBusAdaptor::~AWDBusAdaptor()
 }
 
 
-QString AWDBusAdaptor::Info(const QString key) const
+QString AWDBusAdaptor::Info(const QString &key) const
 {
     return m_plugin->infoByKey(key);
 }
 
 
-QStringList AWDBusAdaptor::Keys(const QString regexp) const
+QStringList AWDBusAdaptor::Keys(const QString &regexp) const
 {
     return m_plugin->dictKeys(true, regexp);
 }
 
 
-QString AWDBusAdaptor::Value(const QString key) const
+QString AWDBusAdaptor::Value(const QString &key) const
 {
     return m_plugin->valueByKey(key);
 }
@@ -59,7 +59,7 @@ qlonglong AWDBusAdaptor::WhoAmI() const
 }
 
 
-void AWDBusAdaptor::SetLogLevel(const QString what, const int level)
+void AWDBusAdaptor::SetLogLevel(const QString &what, const int level)
 {
     qCDebug(LOG_DBUS) << "Set log level" << level << "for" << what;
 
@@ -69,12 +69,12 @@ void AWDBusAdaptor::SetLogLevel(const QString what, const int level)
         return;
     }
 
-    for (auto lev : m_logLevels)
+    for (auto &lev : m_logLevels)
         SetLogLevel(what, lev, m_logLevels.indexOf(lev) >= level);
 }
 
 
-void AWDBusAdaptor::SetLogLevel(const QString what, const QString level,
+void AWDBusAdaptor::SetLogLevel(const QString &what, const QString &level,
                                 const bool enabled)
 {
     qCDebug(LOG_DBUS) << "Set log level" << level << "enabled" << enabled

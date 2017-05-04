@@ -10,7 +10,7 @@ const char AUTHOR[] = "@PROJECT_AUTHOR@";
 const char TRANSLATORS[] = "Ernesto Aviles Vzqz (Spanish),Mermouy "
                            "(French),underr (Brazillian Portuguese),Viktor "
                            "Slobodyan (Ukrainian),Lemueler (Chinese),Heimen "
-                           "Stoffels (Dutch), Mariusz Kocoń (Polish)";
+                           "Stoffels (Dutch),Mariusz Kocoń (Polish)";
 const char EMAIL[] = "@PROJECT_CONTACT@";
 const char LICENSE[] = "@PROJECT_LICENSE@";
 const char TRDPARTY_LICENSE[] = "QReplyTimeout "

@@ -97,7 +97,7 @@ bool AWKeys::isDBusActive() const
 }
 
 
-void AWKeys::initDataAggregator(const QVariantMap tooltipParams)
+void AWKeys::initDataAggregator(const QVariantMap &tooltipParams)
 {
     qCDebug(LOG_AW) << "Tooltip parameters" << tooltipParams;
 
@@ -107,7 +107,7 @@ void AWKeys::initDataAggregator(const QVariantMap tooltipParams)
 }
 
 
-void AWKeys::initKeys(const QString currentPattern, const int interval,
+void AWKeys::initKeys(const QString &currentPattern, const int interval,
                       const int limit, const bool optimize)
 {
     qCDebug(LOG_AW) << "Pattern" << currentPattern << "with interval"
@@ -131,7 +131,7 @@ void AWKeys::initKeys(const QString currentPattern, const int interval,
 }
 
 
-void AWKeys::setAggregatorProperty(const QString key, const QVariant value)
+void AWKeys::setAggregatorProperty(const QString &key, const QVariant &value)
 {
     qCDebug(LOG_AW) << "Key" << key << "with value" << value;
 
@@ -153,7 +153,7 @@ void AWKeys::updateCache()
 }
 
 
-QStringList AWKeys::dictKeys(const bool sorted, const QString regexp) const
+QStringList AWKeys::dictKeys(const bool sorted, const QString &regexp) const
 {
     qCDebug(LOG_AW) << "Should be sorted" << sorted << "and filter applied"
                     << regexp;
@@ -180,7 +180,7 @@ QVariantList AWKeys::getHddDevices() const
 
     // build model
     QVariantList devices;
-    for (auto device : hddDevices) {
+    for (auto &device : hddDevices) {
         QVariantMap model;
         model[QString("label")] = device;
         model[QString("name")] = device;
@@ -191,7 +191,7 @@ QVariantList AWKeys::getHddDevices() const
 }
 
 
-QString AWKeys::infoByKey(QString key) const
+QString AWKeys::infoByKey(const QString &key) const
 {
     qCDebug(LOG_AW) << "Requested info for key" << key;
 
@@ -200,7 +200,7 @@ QString AWKeys::infoByKey(QString key) const
 
 
 // HACK this method requires to define tag value from bar from UI interface
-QString AWKeys::valueByKey(QString key) const
+QString AWKeys::valueByKey(const QString &key) const
 {
     qCDebug(LOG_AW) << "Requested value for key" << key;
 
@@ -211,7 +211,7 @@ QString AWKeys::valueByKey(QString key) const
 }
 
 
-void AWKeys::editItem(const QString type)
+void AWKeys::editItem(const QString &type)
 {
     qCDebug(LOG_AW) << "Item type" << type;
 
@@ -228,7 +228,7 @@ void AWKeys::dataUpdated(const QString &sourceName,
 }
 
 
-void AWKeys::reinitKeys(const QStringList currentKeys)
+void AWKeys::reinitKeys(const QStringList &currentKeys)
 {
     qCDebug(LOG_AW) << "Update found keys by using list" << currentKeys;
 
@@ -240,7 +240,7 @@ void AWKeys::reinitKeys(const QStringList currentKeys)
     m_foundLambdas = AWPatternFunctions::findLambdas(m_keyOperator->pattern());
     // generate list of required keys for bars
     QStringList barKeys;
-    for (auto bar : m_foundBars) {
+    for (auto &bar : m_foundBars) {
         GraphicalItem *item = m_keyOperator->giByKey(bar);
         if (item->isCustom())
             item->setUsedKeys(
@@ -279,7 +279,7 @@ void AWKeys::calculateValues()
 {
     // hddtot*
     QStringList mountDevices = m_keyOperator->devices(QString("mount"));
-    for (auto device : mountDevices) {
+    for (auto &device : mountDevices) {
         int index = mountDevices.indexOf(device);
         m_values[QString("hddtotmb%1").arg(index)]
             = m_values[QString("hddfreemb%1").arg(index)].toFloat()
@@ -327,7 +327,7 @@ void AWKeys::calculateValues()
                                 / m_values[QString("swaptotmb")].toFloat();
 
     // lambdas
-    for (auto key : m_foundLambdas)
+    for (auto &key : m_foundLambdas)
         m_values[key] = AWPatternFunctions::expandLambdas(
             key, m_aggregator, m_values, m_foundKeys);
 }
@@ -360,11 +360,11 @@ QString AWKeys::parsePattern(QString pattern) const
     pattern.replace(QString("$$"), QString(0x1d));
 
     // lambdas
-    for (auto key : m_foundLambdas)
+    for (auto &key : m_foundLambdas)
         pattern.replace(QString("${{%1}}").arg(key), m_values[key].toString());
 
     // main keys
-    for (auto key : m_foundKeys)
+    for (auto &key : m_foundKeys)
         pattern.replace(QString("$%1").arg(key), [this](const QString &tag,
                                                         const QVariant &value) {
             QString strValue = m_aggregator->formatter(value, tag);
@@ -375,7 +375,7 @@ QString AWKeys::parsePattern(QString pattern) const
         }(key, m_values[key]));
 
     // bars
-    for (auto bar : m_foundBars) {
+    for (auto &bar : m_foundBars) {
         GraphicalItem *item = m_keyOperator->giByKey(bar);
         QString image
             = item->isCustom()

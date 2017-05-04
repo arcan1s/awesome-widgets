@@ -71,7 +71,7 @@ Item {
     }
 
     function appendTag(tag, substring) {
-        textArea.insert(textArea.cursorPosition, tag.substring(substring.length))
+        insert(tag.substring(substring.length))
     }
 
     function changeTooltipPosition() {
@@ -88,6 +88,10 @@ Item {
             return ""
         // get current tag text
         return substring.substr(signIndex)
+    }
+
+    function insert(text) {
+        textArea.insert(textArea.cursorPosition, text)
     }
 }
 

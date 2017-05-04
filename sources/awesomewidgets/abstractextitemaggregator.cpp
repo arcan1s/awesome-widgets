@@ -26,7 +26,7 @@
 
 
 AbstractExtItemAggregator::AbstractExtItemAggregator(QWidget *parent,
-                                                     const QString type)
+                                                     const QString &type)
     : QDialog(parent)
     , ui(new Ui::AbstractExtItemAggregator)
     , m_type(type)
@@ -132,7 +132,7 @@ AbstractExtItem *AbstractExtItemAggregator::itemFromWidget()
         return nullptr;
 
     AbstractExtItem *found = nullptr;
-    for (auto item : items()) {
+    for (auto &item : items()) {
         QString fileName = QFileInfo(item->fileName()).fileName();
         if (fileName != widgetItem->text())
             continue;
@@ -150,7 +150,7 @@ AbstractExtItem *AbstractExtItemAggregator::itemFromWidget()
 void AbstractExtItemAggregator::repaintList()
 {
     ui->listWidget->clear();
-    for (auto _item : items()) {
+    for (auto &_item : items()) {
         QString fileName = QFileInfo(_item->fileName()).fileName();
         QListWidgetItem *item = new QListWidgetItem(fileName, ui->listWidget);
         QStringList tooltip;
@@ -166,7 +166,7 @@ void AbstractExtItemAggregator::repaintList()
 int AbstractExtItemAggregator::uniqNumber() const
 {
     QList<int> tagList;
-    for (auto item : items())
+    for (auto &item : items())
         tagList.append(item->number());
     int number = 0;
     while (tagList.contains(number))
@@ -188,7 +188,7 @@ QString AbstractExtItemAggregator::type() const
 }
 
 
-void AbstractExtItemAggregator::setConfigArgs(const QVariant _configArgs)
+void AbstractExtItemAggregator::setConfigArgs(const QVariant &_configArgs)
 {
     qCDebug(LOG_LIB) << "Configuration arguments" << _configArgs;
 

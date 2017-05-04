@@ -36,7 +36,7 @@ OWMWeatherProvider::~OWMWeatherProvider()
 }
 
 
-void OWMWeatherProvider::initUrl(const QString city, const QString country,
+void OWMWeatherProvider::initUrl(const QString &city, const QString &country,
                                  const int ts)
 {
     qCDebug(LOG_LIB) << "Init query for" << city << country << "with ts" << ts;

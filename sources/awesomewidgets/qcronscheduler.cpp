@@ -147,7 +147,7 @@ QList<int> QCronScheduler::QCronField::toList()
         return QList<int>();
 
     QList<int> output;
-    for (auto i = minValue; i <= maxValue; ++i) {
+    for (auto &i = minValue; i <= maxValue; ++i) {
         if (i % div != 0)
             continue;
         output.append(i);

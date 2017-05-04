@@ -26,7 +26,7 @@
 
 namespace AWKeyCache
 {
-bool addKeyToCache(const QString type, const QString key = QString(""));
+bool addKeyToCache(const QString &type, const QString &key = QString(""));
 QStringList getRequiredKeys(const QStringList &keys, const QStringList &bars,
                             const QVariantMap &tooltip,
                             const QStringList &allKeys);

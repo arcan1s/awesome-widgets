@@ -28,7 +28,7 @@
 #include "qcronscheduler.h"
 
 
-AbstractExtItem::AbstractExtItem(QWidget *parent, const QString filePath)
+AbstractExtItem::AbstractExtItem(QWidget *parent, const QString &filePath)
     : QDialog(parent)
     , m_fileName(filePath)
 {
@@ -166,7 +166,7 @@ QString AbstractExtItem::socket() const
 }
 
 
-QString AbstractExtItem::tag(const QString _type) const
+QString AbstractExtItem::tag(const QString &_type) const
 {
     qCDebug(LOG_LIB) << "Tag type" << _type;
 
@@ -190,7 +190,7 @@ void AbstractExtItem::setActive(const bool _state)
 }
 
 
-void AbstractExtItem::setComment(const QString _comment)
+void AbstractExtItem::setComment(const QString &_comment)
 {
     qCDebug(LOG_LIB) << "Comment" << _comment;
 
@@ -198,7 +198,7 @@ void AbstractExtItem::setComment(const QString _comment)
 }
 
 
-void AbstractExtItem::setCron(const QString _cron)
+void AbstractExtItem::setCron(const QString &_cron)
 {
     qCDebug(LOG_LIB) << "Cron string" << _cron;
     // deinit module first
@@ -230,7 +230,7 @@ void AbstractExtItem::setInterval(const int _interval)
 }
 
 
-void AbstractExtItem::setName(const QString _name)
+void AbstractExtItem::setName(const QString &_name)
 {
     qCDebug(LOG_LIB) << "Name" << _name;
 
@@ -259,7 +259,7 @@ void AbstractExtItem::setNumber(int _number)
 }
 
 
-void AbstractExtItem::setSocket(const QString _socket)
+void AbstractExtItem::setSocket(const QString &_socket)
 {
     qCDebug(LOG_LIB) << "Socket" << _socket;
     // remove old socket first

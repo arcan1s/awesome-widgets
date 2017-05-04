@@ -22,7 +22,7 @@
 #include "extupgrade.h"
 
 
-UpgradeSource::UpgradeSource(QObject *parent, const QStringList args)
+UpgradeSource::UpgradeSource(QObject *parent, const QStringList &args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 0);
@@ -43,7 +43,7 @@ UpgradeSource::~UpgradeSource()
 }
 
 
-QVariant UpgradeSource::data(QString source)
+QVariant UpgradeSource::data(const QString &source)
 {
     qCDebug(LOG_ESS) << "Source" << source;
 
@@ -52,7 +52,7 @@ QVariant UpgradeSource::data(QString source)
 }
 
 
-QVariantMap UpgradeSource::initialData(QString source) const
+QVariantMap UpgradeSource::initialData(const QString &source) const
 {
     qCDebug(LOG_ESS) << "Source" << source;
 
@@ -78,7 +78,7 @@ QStringList UpgradeSource::sources() const
 QStringList UpgradeSource::getSources()
 {
     QStringList sources;
-    for (auto item : m_extUpgrade->activeItems())
+    for (auto &item : m_extUpgrade->activeItems())
         sources.append(
             QString("upgrade/%1").arg(item->tag(QString("pkgcount"))));
 

@@ -29,7 +29,7 @@
 
 
 AWDateTimeFormatter::AWDateTimeFormatter(QWidget *parent,
-                                         const QString filePath)
+                                         const QString &filePath)
     : AWAbstractFormatter(parent, filePath)
     , ui(new Ui::AWDateTimeFormatter)
 {
@@ -58,7 +58,7 @@ QString AWDateTimeFormatter::convert(const QVariant &_value) const
 }
 
 
-AWDateTimeFormatter *AWDateTimeFormatter::copy(const QString _fileName,
+AWDateTimeFormatter *AWDateTimeFormatter::copy(const QString &_fileName,
                                                const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
@@ -86,7 +86,7 @@ bool AWDateTimeFormatter::translateString() const
 }
 
 
-void AWDateTimeFormatter::setFormat(const QString _format)
+void AWDateTimeFormatter::setFormat(const QString &_format)
 {
     qCDebug(LOG_LIB) << "Set format" << _format;
 
@@ -119,7 +119,7 @@ void AWDateTimeFormatter::readConfiguration()
 }
 
 
-int AWDateTimeFormatter::showConfiguration(const QVariant args)
+int AWDateTimeFormatter::showConfiguration(const QVariant &args)
 {
     Q_UNUSED(args)
 

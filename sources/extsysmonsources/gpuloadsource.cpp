@@ -25,7 +25,7 @@
 #include "awdebug.h"
 
 
-GPULoadSource::GPULoadSource(QObject *parent, const QStringList args)
+GPULoadSource::GPULoadSource(QObject *parent, const QStringList &args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 1);
@@ -74,7 +74,7 @@ QString GPULoadSource::autoGpu()
 }
 
 
-QVariant GPULoadSource::data(QString source)
+QVariant GPULoadSource::data(const QString &source)
 {
     qCDebug(LOG_ESS) << "Source" << source;
 
@@ -85,7 +85,7 @@ QVariant GPULoadSource::data(QString source)
 }
 
 
-QVariantMap GPULoadSource::initialData(QString source) const
+QVariantMap GPULoadSource::initialData(const QString &source) const
 {
     qCDebug(LOG_ESS) << "Source" << source;
 
@@ -138,7 +138,7 @@ void GPULoadSource::updateValue()
     qCInfo(LOG_ESS) << "Output" << qoutput;
 
     if (m_device == QString("nvidia")) {
-        for (auto str : qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
+        for (auto &str : qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
             if (!str.contains(QString("<gpu_util>")))
                 continue;
             QString load = str.remove(QString("<gpu_util>"))
@@ -148,7 +148,7 @@ void GPULoadSource::updateValue()
             break;
         }
     } else if (m_device == QString("ati")) {
-        for (auto str : qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
+        for (auto &str : qoutput.split(QChar('\n'), QString::SkipEmptyParts)) {
             if (!str.contains(QString("load")))
                 continue;
             QString load

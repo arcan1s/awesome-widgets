@@ -27,7 +27,7 @@
 #include "awdebug.h"
 
 
-AWFloatFormatter::AWFloatFormatter(QWidget *parent, const QString filePath)
+AWFloatFormatter::AWFloatFormatter(QWidget *parent, const QString &filePath)
     : AWAbstractFormatter(parent, filePath)
     , ui(new Ui::AWFloatFormatter)
 {
@@ -62,7 +62,7 @@ QString AWFloatFormatter::convert(const QVariant &_value) const
 }
 
 
-AWFloatFormatter *AWFloatFormatter::copy(const QString _fileName,
+AWFloatFormatter *AWFloatFormatter::copy(const QString &_fileName,
                                          const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
@@ -133,7 +133,7 @@ void AWFloatFormatter::setCount(const int _count)
 }
 
 
-void AWFloatFormatter::setFillChar(const QChar _fillChar)
+void AWFloatFormatter::setFillChar(const QChar &_fillChar)
 {
     qCDebug(LOG_LIB) << "Set char" << _fillChar;
 
@@ -214,7 +214,7 @@ void AWFloatFormatter::readConfiguration()
 }
 
 
-int AWFloatFormatter::showConfiguration(const QVariant args)
+int AWFloatFormatter::showConfiguration(const QVariant &args)
 {
     Q_UNUSED(args)
 

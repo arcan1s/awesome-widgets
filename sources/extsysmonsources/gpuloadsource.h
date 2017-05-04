@@ -30,11 +30,11 @@ class GPULoadSource : public AbstractExtSysMonSource
     Q_OBJECT
 
 public:
-    explicit GPULoadSource(QObject *parent, const QStringList args);
+    explicit GPULoadSource(QObject *parent, const QStringList &args);
     virtual ~GPULoadSource();
     static QString autoGpu();
-    QVariant data(QString source);
-    QVariantMap initialData(QString source) const;
+    QVariant data(const QString &source);
+    QVariantMap initialData(const QString &source) const;
     void run();
     QStringList sources() const;
 

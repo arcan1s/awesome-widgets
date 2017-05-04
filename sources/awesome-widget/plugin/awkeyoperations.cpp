@@ -55,7 +55,7 @@ AWKeyOperations::~AWKeyOperations()
 }
 
 
-QStringList AWKeyOperations::devices(const QString type) const
+QStringList AWKeyOperations::devices(const QString &type) const
 {
     qCDebug(LOG_AW) << "Looking for type" << type;
 
@@ -81,7 +81,7 @@ QStringList AWKeyOperations::dictKeys() const
 {
     QStringList allKeys;
     // weather
-    for (auto item : m_extWeather->activeItems()) {
+    for (auto &item : m_extWeather->activeItems()) {
         allKeys.append(item->tag(QString("weatherId")));
         allKeys.append(item->tag(QString("weather")));
         allKeys.append(item->tag(QString("humidity")));
@@ -136,10 +136,10 @@ QStringList AWKeyOperations::dictKeys() const
     for (int i = 0; i < allBatteryDevices.count(); i++)
         allKeys.append(QString("bat%1").arg(i));
     // package manager
-    for (auto item : m_extUpgrade->activeItems())
+    for (auto &item : m_extUpgrade->activeItems())
         allKeys.append(item->tag(QString("pkgcount")));
     // quotes
-    for (auto item : m_extQuotes->activeItems()) {
+    for (auto &item : m_extQuotes->activeItems()) {
         allKeys.append(item->tag(QString("ask")));
         allKeys.append(item->tag(QString("askchg")));
         allKeys.append(item->tag(QString("percaskchg")));
@@ -151,13 +151,13 @@ QStringList AWKeyOperations::dictKeys() const
         allKeys.append(item->tag(QString("percpricechg")));
     }
     // custom
-    for (auto item : m_extScripts->activeItems())
+    for (auto &item : m_extScripts->activeItems())
         allKeys.append(item->tag(QString("custom")));
     // network requests
-    for (auto item : m_extNetRequest->activeItems())
+    for (auto &item : m_extNetRequest->activeItems())
         allKeys.append(item->tag(QString("response")));
     // bars
-    for (auto item : m_graphicalItems->activeItems())
+    for (auto &item : m_graphicalItems->activeItems())
         allKeys.append(item->tag(QString("bar")));
     // static keys
     allKeys.append(QString(STATIC_KEYS).split(QChar(',')));
@@ -172,7 +172,7 @@ QStringList AWKeyOperations::dictKeys() const
 
 // this method is required to provide GraphicalItem functions (e.g. paint()) to
 // parent classes
-GraphicalItem *AWKeyOperations::giByKey(const QString key) const
+GraphicalItem *AWKeyOperations::giByKey(const QString &key) const
 {
     qCDebug(LOG_AW) << "Looking for item" << key;
 
@@ -180,7 +180,7 @@ GraphicalItem *AWKeyOperations::giByKey(const QString key) const
 }
 
 
-QString AWKeyOperations::infoByKey(QString key) const
+QString AWKeyOperations::infoByKey(const QString &key) const
 {
     qCDebug(LOG_AW) << "Requested key" << key;
 
@@ -197,22 +197,22 @@ QString AWKeyOperations::infoByKey(QString key) const
         if (item)
             output = item->uniq();
     } else if (key.contains(QRegExp(QString("^hdd[rw]")))) {
-        output = m_devices[QString("disk")]
-                          [key.remove(QRegExp(QString("hdd[rw]"))).toInt()];
+        QString index = key;
+        index.remove(QRegExp("hdd[rw]"));
+        output = m_devices["disk"][index.toInt()];
     } else if (key.contains(QRegExp(
                    QString("^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)")))) {
-        output
-            = m_devices[QString("mount")]
-                       [key
-                            .remove(QRegExp(QString(
-                                "^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)")))
-                            .toInt()];
+        QString index = key;
+        index.remove(QRegExp("^hdd(|mb|gb|freemb|freegb|totmb|totgb)"));
+        output = m_devices[QString("mount")][index.toInt()];
     } else if (key.startsWith(QString("hddtemp"))) {
-        output
-            = m_devices[QString("hdd")][key.remove(QString("hddtemp")).toInt()];
+        QString index = key;
+        index.remove("hddtemp");
+        output = m_devices[QString("hdd")][index.toInt()];
     } else if (key.contains(QRegExp(QString("^(down|up)[0-9]")))) {
-        output = m_devices[QString("net")]
-                          [key.remove(QRegExp(QString("^(down|up)"))).toInt()];
+        QString index = key;
+        index.remove(QRegExp("^(down|up)"));
+        output = m_devices[QString("net")][index.toInt()];
     } else if (key.startsWith(QString("pkgcount"))) {
         AbstractExtItem *item = m_extUpgrade->itemByTag(key, stripped);
         if (item)
@@ -228,8 +228,9 @@ QString AWKeyOperations::infoByKey(QString key) const
         if (item)
             output = item->uniq();
     } else if (key.startsWith(QString("temp"))) {
-        output
-            = m_devices[QString("temp")][key.remove(QString("temp")).toInt()];
+        QString index = key;
+        index.remove("temp");
+        output = m_devices[QString("temp")][index.toInt()];
     } else if (key.startsWith(QString("response"))) {
         AbstractExtItem *item = m_extNetRequest->itemByTag(key, stripped);
         if (item)
@@ -248,7 +249,7 @@ QString AWKeyOperations::pattern() const
 }
 
 
-void AWKeyOperations::setPattern(const QString currentPattern)
+void AWKeyOperations::setPattern(const QString &currentPattern)
 {
     qCDebug(LOG_AW) << "Set pattern" << currentPattern;
 
@@ -256,7 +257,7 @@ void AWKeyOperations::setPattern(const QString currentPattern)
 }
 
 
-void AWKeyOperations::editItem(const QString type)
+void AWKeyOperations::editItem(const QString &type)
 {
     qCDebug(LOG_AW) << "Item type" << type;
 
@@ -302,7 +303,7 @@ void AWKeyOperations::addDevice(const QString &source)
 }
 
 
-void AWKeyOperations::addKeyToCache(const QString type, const QString key)
+void AWKeyOperations::addKeyToCache(const QString &type, const QString &key)
 {
     qCDebug(LOG_AW) << "Key" << key << "with type" << type;
 

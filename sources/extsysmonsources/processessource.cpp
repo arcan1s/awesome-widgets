@@ -23,7 +23,7 @@
 #include "awdebug.h"
 
 
-ProcessesSource::ProcessesSource(QObject *parent, const QStringList args)
+ProcessesSource::ProcessesSource(QObject *parent, const QStringList &args)
     : AbstractExtSysMonSource(parent, args)
 {
     Q_ASSERT(args.count() == 0);
@@ -37,7 +37,7 @@ ProcessesSource::~ProcessesSource()
 }
 
 
-QVariant ProcessesSource::data(QString source)
+QVariant ProcessesSource::data(const QString &source)
 {
     qCDebug(LOG_ESS) << "Source" << source;
 
@@ -48,7 +48,7 @@ QVariant ProcessesSource::data(QString source)
 }
 
 
-QVariantMap ProcessesSource::initialData(QString source) const
+QVariantMap ProcessesSource::initialData(const QString &source) const
 {
     qCDebug(LOG_ESS) << "Source" << source;
 
@@ -85,7 +85,7 @@ void ProcessesSource::run()
     QStringList directories = allDirectories.filter(QRegExp(QString("(\\d+)")));
     QStringList running;
 
-    for (auto dir : directories) {
+    for (auto &dir : directories) {
         QFile statusFile(QString("/proc/%1/status").arg(dir));
         if (!statusFile.open(QIODevice::ReadOnly | QIODevice::Text))
             continue;

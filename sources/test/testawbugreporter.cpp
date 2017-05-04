@@ -43,14 +43,14 @@ void TestAWBugReporter::test_generateText()
     QString output
         = plugin->generateText(data.at(0), data.at(1), data.at(2), data.at(3));
 
-    for (auto string : data)
+    for (auto &string : data)
         QVERIFY(output.contains(string));
 }
 
 
 void TestAWBugReporter::test_sendBugReport()
 {
-    QSignalSpy spy(plugin, SIGNAL(replyReceived(int, QString)));
+    QSignalSpy spy(plugin, SIGNAL(replyReceived(int, QString &)));
     plugin->sendBugReport(
         AWTestLibrary::randomString(),
         plugin->generateText(data.at(0), data.at(1), data.at(2), data.at(3)));

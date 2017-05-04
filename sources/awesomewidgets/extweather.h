@@ -42,9 +42,9 @@ class ExtWeather : public AbstractExtItem
 public:
     enum class Provider { OWM = 0, Yahoo = 1 };
 
-    explicit ExtWeather(QWidget *parent, const QString filePath = QString());
+    explicit ExtWeather(QWidget *parent, const QString &filePath = QString());
     virtual ~ExtWeather();
-    ExtWeather *copy(const QString _fileName, const int _number);
+    ExtWeather *copy(const QString &_fileName, const int _number);
     QString jsonMapFile() const;
     QString weatherFromInt(const int _id) const;
     // get methods
@@ -56,18 +56,18 @@ public:
     int ts() const;
     QString uniq() const;
     // set methods
-    void setCity(const QString _city = QString("London"));
-    void setCountry(const QString _country = QString("uk"));
+    void setCity(const QString &_city = QString("London"));
+    void setCountry(const QString &_country = QString("uk"));
     void setImage(const bool _image = false);
     void setProvider(const Provider _provider = Provider::OWM);
-    void setStrProvider(const QString _provider = QString("OWM"));
+    void setStrProvider(const QString &_provider = QString("OWM"));
     void setTs(const int _ts = 0);
 
 public slots:
     void readConfiguration();
     void readJsonMap();
     QVariantHash run();
-    int showConfiguration(const QVariant args = QVariant());
+    int showConfiguration(const QVariant &args = QVariant());
     void writeConfiguration() const;
 
 private slots:

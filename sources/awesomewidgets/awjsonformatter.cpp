@@ -27,7 +27,7 @@
 #include "awdebug.h"
 
 
-AWJsonFormatter::AWJsonFormatter(QWidget *parent, const QString filePath)
+AWJsonFormatter::AWJsonFormatter(QWidget *parent, const QString &filePath)
     : AWAbstractFormatter(parent, filePath)
     , ui(new Ui::AWJsonFormatter)
 {
@@ -65,7 +65,7 @@ QString AWJsonFormatter::convert(const QVariant &_value) const
 }
 
 
-AWJsonFormatter *AWJsonFormatter::copy(const QString _fileName,
+AWJsonFormatter *AWJsonFormatter::copy(const QString &_fileName,
                                        const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
@@ -86,7 +86,7 @@ QString AWJsonFormatter::path() const
 }
 
 
-void AWJsonFormatter::setPath(const QString _path)
+void AWJsonFormatter::setPath(const QString &_path)
 {
     qCDebug(LOG_LIB) << "Path" << _path;
 
@@ -109,7 +109,7 @@ void AWJsonFormatter::readConfiguration()
 }
 
 
-int AWJsonFormatter::showConfiguration(const QVariant args)
+int AWJsonFormatter::showConfiguration(const QVariant &args)
 {
     Q_UNUSED(args)
 
@@ -190,10 +190,7 @@ void AWJsonFormatter::initPath()
     for (auto &element : splittedByDot) {
         bool ok;
         int number = element.toInt(&ok);
-        if (ok)
-            m_splittedPath.append(number);
-        else
-            m_splittedPath.append(element);
+        m_splittedPath.append(ok ? QVariant(number) : QVariant(element));
     }
 }
 

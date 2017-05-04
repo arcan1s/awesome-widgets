@@ -35,21 +35,21 @@ class AWStringFormatter : public AWAbstractFormatter
 
 public:
     explicit AWStringFormatter(QWidget *parent,
-                               const QString filePath = QString());
+                               const QString &filePath = QString());
     virtual ~AWStringFormatter();
     QString convert(const QVariant &_value) const;
-    AWStringFormatter *copy(const QString _fileName, const int _number);
+    AWStringFormatter *copy(const QString &_fileName, const int _number);
     // properties
     int count() const;
     QChar fillChar() const;
     bool forceWidth() const;
     void setCount(const int _count);
-    void setFillChar(const QChar _fillChar);
+    void setFillChar(const QChar &_fillChar);
     void setForceWidth(const bool _forceWidth);
 
 public slots:
     void readConfiguration();
-    int showConfiguration(const QVariant args = QVariant());
+    int showConfiguration(const QVariant &args = QVariant());
     void writeConfiguration() const;
 
 private:

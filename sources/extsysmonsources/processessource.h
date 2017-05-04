@@ -28,10 +28,10 @@ class ProcessesSource : public AbstractExtSysMonSource
     Q_OBJECT
 
 public:
-    explicit ProcessesSource(QObject *parent, const QStringList args);
+    explicit ProcessesSource(QObject *parent, const QStringList &args);
     virtual ~ProcessesSource();
-    QVariant data(QString source);
-    QVariantMap initialData(QString source) const;
+    QVariant data(const QString &source);
+    QVariantMap initialData(const QString &source) const;
     void run();
     QStringList sources() const;
 
