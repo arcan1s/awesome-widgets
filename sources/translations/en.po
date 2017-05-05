@@ -1,22 +1,61 @@
 # Copyright (C) 2014
 # This file is distributed under the same license as the PyTextMonitor package.
 #
-# Evgeniy Alekseev <esalexeev@gmail.com>, 2014, 2015, 2016.
+# Evgeniy Alekseev <esalexeev@gmail.com>, 2014, 2015, 2016, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-09-01 15:36+0300\n"
-"PO-Revision-Date: 2016-07-06 19:37+0300\n"
+"POT-Creation-Date: 2017-05-05 18:15+0300\n"
+"PO-Revision-Date: 2017-05-05 18:17+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: English <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
+"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 2.0\n"
+
+msgid "Version %1 (build date %2)"
+msgstr "Version %1 (build date %2)"
+
+msgid "A set of minimalistic plasmoid widgets"
+msgstr "A set of minimalistic plasmoid widgets"
+
+msgid "Links:"
+msgstr "Links:"
+
+msgid "Homepage"
+msgstr "Homepage"
+
+msgid "Repository"
+msgstr "Repository"
+
+msgid "Bugtracker"
+msgstr "Bugtracker"
+
+msgid "Translation issue"
+msgstr "Translation issue"
+
+msgid "AUR packages"
+msgstr "AUR packages"
+
+msgid "openSUSE packages"
+msgstr "openSUSE packages"
+
+msgid "This software is licensed under %1"
+msgstr "This software is licensed under %1"
+
+msgid "Translators:"
+msgstr "Translators:"
+
+msgid "This software uses:"
+msgstr "This software uses:"
+
+msgid "Special thanks to:"
+msgstr "Special thanks to:"
 
 msgid "Widget"
 msgstr "Widget"
@@ -35,38 +74,6 @@ msgstr "DataEngine"
 
 msgid "About"
 msgstr "About"
-
-msgid "Report a bug"
-msgstr ""
-
-msgid "Report subject"
-msgstr ""
-
-#, fuzzy
-msgid "Description"
-msgstr "Direction"
-
-msgid "Steps to reproduce"
-msgstr ""
-
-msgid "Expected result"
-msgstr ""
-
-msgid "Logs"
-msgstr ""
-
-#, fuzzy
-msgid "Use command"
-msgstr "Edit command"
-
-msgid "Load log file"
-msgstr ""
-
-msgid "Open log file"
-msgstr ""
-
-msgid "Acknowledgment"
-msgstr "Acknowledgment"
 
 msgid "Enable background"
 msgstr "Enable background"
@@ -101,9 +108,6 @@ msgstr "Time interval"
 msgid "Messages queue limit"
 msgstr "Messages queue limit"
 
-msgid "Temperature units"
-msgstr "Temperature units"
-
 msgid "Celsius"
 msgstr "Celsius"
 
@@ -125,6 +129,9 @@ msgstr "kJ/mol"
 msgid "kcal/mol"
 msgstr "kcal/mol"
 
+msgid "Temperature units"
+msgstr "Temperature units"
+
 msgid "Custom time format"
 msgstr "Custom time format"
 
@@ -137,41 +144,29 @@ msgstr "AC online tag"
 msgid "AC offline tag"
 msgstr "AC offline tag"
 
+msgid "Actions"
+msgstr "Actions"
+
 msgid "Drop key cache"
 msgstr "Drop key cache"
 
 msgid "Export configuration"
 msgstr "Export configuration"
 
-msgid "Export"
-msgstr "Export"
-
-msgid "Success"
-msgstr "Success"
-
-msgid "Please note that binary files were not copied"
-msgstr "Please note that binary files were not copied"
-
-msgid "Ooops..."
-msgstr "Ooops..."
-
-msgid "Could not save configuration file"
-msgstr "Could not save configuration file"
-
 msgid "Import configuration"
 msgstr "Import configuration"
 
-msgid "Import"
-msgstr "Import"
+msgid "Telemetry"
+msgstr "Telemetry"
 
-msgid "Import plasmoid settings"
-msgstr "Import plasmoid settings"
+msgid "Enable remote telemetry"
+msgstr "Enable remote telemetry"
 
-msgid "Import extensions"
-msgstr "Import extensions"
+msgid "History count"
+msgstr "History count"
 
-msgid "Import additional files"
-msgstr "Import additional files"
+msgid "Telemetry ID"
+msgstr "Telemetry ID"
 
 msgid "Font"
 msgstr "Font"
@@ -182,35 +177,17 @@ msgstr "Font size"
 msgid "Font weight"
 msgstr "Font weight"
 
-msgid "light"
-msgstr "light"
-
-msgid "normal"
-msgstr "normal"
-
-msgid "demi bold"
-msgstr "demi bold"
-
-msgid "bold"
-msgstr "bold"
-
-msgid "black"
-msgstr "black"
-
 msgid "Font style"
 msgstr "Font style"
-
-msgid "italic"
-msgstr "italic"
 
 msgid "Font color"
 msgstr "Font color"
 
-msgid "Select a color"
-msgstr "Select a color"
+msgid "Style"
+msgstr "Style"
 
-msgid "Select a font"
-msgstr "Select a font"
+msgid "Style color"
+msgstr "Style color"
 
 msgid "ACPI"
 msgstr "ACPI"
@@ -257,26 +234,17 @@ msgstr "Extensions"
 msgid "Custom scripts"
 msgstr "Custom scripts"
 
-msgid "Edit scripts"
-msgstr "Edit scripts"
-
-msgid "Quotes monitor"
-msgstr "Quotes monitor"
-
-msgid "Edit tickers"
-msgstr "Edit tickers"
+msgid "Network requests"
+msgstr "Network requests"
 
 msgid "Package manager"
 msgstr "Package manager"
 
-msgid "Edit command"
-msgstr "Edit command"
+msgid "Quotes monitor"
+msgstr "Quotes monitor"
 
 msgid "Weather"
 msgstr "Weather"
-
-msgid "Edit weather"
-msgstr "Edit weather"
 
 msgid "Select tag"
 msgstr "Select tag"
@@ -300,7 +268,7 @@ msgid "Check updates"
 msgstr "Check updates"
 
 msgid "Report bug"
-msgstr ""
+msgstr "Report bug"
 
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
@@ -360,114 +328,23 @@ msgstr "Battery active color"
 msgid "Battery inactive color"
 msgstr "Battery inactive color"
 
-msgid ""
-"Detailed information may be found on <a href=\"https://arcanis.me/projects/"
-"awesome-widgets/\">project homepage</a>"
-msgstr ""
-"Detailed information may be found on <a href=\"https://arcanis.me/projects/"
-"awesome-widgets/\">project homepage</a>"
-
-msgid "Bgcolor"
-msgstr "Bgcolor"
-
-msgid "AC"
-msgstr "AC"
-
-msgid "Bars"
-msgstr "Bars"
-
-msgid "Desktops"
-msgstr "Desktops"
-
-msgid "Scripts"
-msgstr "Scripts"
-
-msgid "Time"
-msgstr "Time"
-
-msgid "Quotes"
-msgstr "Quotes"
-
-msgid "Upgrades"
-msgstr "Upgrades"
-
-msgid "Weathers"
-msgstr "Weathers"
-
-msgid "Functions"
-msgstr "Functions"
-
-msgid "Add"
-msgstr "Add"
-
-msgid "Show value"
-msgstr "Show value"
-
-msgid "Edit bars"
-msgstr "Edit bars"
-
-msgid "Formatters"
-msgstr "Formatters"
-
-msgid "Preview"
-msgstr "Preview"
-
 msgid "Run %1"
 msgstr "Run %1"
 
 msgid "Not supported"
-msgstr ""
+msgstr "Not supported"
 
-msgid "You are using mammoth's Qt version, try to update it first!"
-msgstr ""
-
-msgid "Version %1 (build date %2)"
-msgstr "Version %1 (build date %2)"
-
-msgid "A set of minimalistic plasmoid widgets"
-msgstr "A set of minimalistic plasmoid widgets"
-
-msgid "Links:"
-msgstr "Links:"
-
-msgid "Homepage"
-msgstr "Homepage"
-
-msgid "Repository"
-msgstr "Repository"
-
-msgid "Bugtracker"
-msgstr "Bugtracker"
-
-msgid "Translation issue"
-msgstr "Translation issue"
-
-msgid "AUR packages"
-msgstr "AUR packages"
-
-msgid "openSUSE packages"
-msgstr "openSUSE packages"
-
-msgid "This software is licensed under %1"
-msgstr "This software is licensed under %1"
-
-msgid "Translators: %1"
-msgstr "Translators: %1"
-
-msgid "This software uses: %1"
-msgstr "This software uses: %1"
-
-msgid "Special thanks to %1"
-msgstr "Special thanks to %1"
+msgid "You are using mammoth's Qt version, try to update it first"
+msgstr "You are using mammoth's Qt version, try to update it first"
 
 msgid "Select font"
 msgstr "Select font"
 
 msgid "Issue created"
-msgstr ""
+msgstr "Issue created"
 
 msgid "Issue %1 has been created"
-msgstr ""
+msgstr "Issue %1 has been created"
 
 msgid "AC online"
 msgstr "AC online"
@@ -580,6 +457,9 @@ msgstr "Multiplier"
 msgid "Summand"
 msgstr "Summand"
 
+msgid "Path"
+msgstr "Path"
+
 msgid "Filter"
 msgstr "Filter"
 
@@ -601,6 +481,21 @@ msgstr "Code"
 msgid "Tag"
 msgstr "Tag"
 
+msgid "URL"
+msgstr "URL"
+
+msgid "Active"
+msgstr "Active"
+
+msgid "Schedule"
+msgstr "Schedule"
+
+msgid "Socket"
+msgstr "Socket"
+
+msgid "Interval"
+msgstr "Interval"
+
 msgid ""
 "<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
 "instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
@@ -614,12 +509,6 @@ msgstr ""
 
 msgid "Ticker"
 msgstr "Ticker"
-
-msgid "Active"
-msgstr "Active"
-
-msgid "Interval"
-msgstr "Interval"
 
 msgid "Command"
 msgstr "Command"
@@ -656,6 +545,15 @@ msgstr "Timestamp"
 
 msgid "Use images"
 msgstr "Use images"
+
+msgid "Select color"
+msgstr "Select color"
+
+msgid "Select path"
+msgstr "Select path"
+
+msgid "Images (*.png *.bpm *.jpg);;All files (*.*)"
+msgstr ""
 
 msgid "Use custom formula"
 msgstr "Use custom formula"
@@ -702,9 +600,6 @@ msgstr "Vertical layout"
 msgid "Mark"
 msgstr "Mark"
 
-msgid "Tooltip type"
-msgstr "Tooltip type"
-
 msgid "contours"
 msgstr "contours"
 
@@ -720,8 +615,156 @@ msgstr "names"
 msgid "none"
 msgstr "none"
 
+msgid "Tooltip type"
+msgstr "Tooltip type"
+
 msgid "Tooltip width"
 msgstr "Tooltip width"
+
+msgid "Edit bars"
+msgstr "Edit bars"
+
+msgid "Formatters"
+msgstr "Formatters"
+
+msgid "Preview"
+msgstr "Preview"
+
+msgid ""
+"Detailed information may be found on <a href=\"https://arcanis.me/projects/"
+"awesome-widgets/\">project homepage</a>"
+msgstr ""
+"Detailed information may be found on <a href=\"https://arcanis.me/projects/"
+"awesome-widgets/\">project homepage</a>"
+
+msgid "Add"
+msgstr "Add"
+
+msgid "Show value"
+msgstr "Show value"
+
+msgid "Acknowledgment"
+msgstr "Acknowledgment"
+
+msgid "Report a bug"
+msgstr ""
+
+msgid "Report subject"
+msgstr ""
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Steps to reproduce"
+msgstr "Steps to reproduce"
+
+msgid "Expected result"
+msgstr "Expected result"
+
+msgid "Logs"
+msgstr "Logs"
+
+msgid "Use command"
+msgstr "Use command"
+
+msgid "Load log file"
+msgstr "Load log file"
+
+msgid "Open log file"
+msgstr "Open log file"
+
+msgid "Select a color"
+msgstr "Select a color"
+
+msgid "Export"
+msgstr "Export"
+
+msgid "Success"
+msgstr "Success"
+
+msgid "Please note that binary files were not copied"
+msgstr "Please note that binary files were not copied"
+
+msgid "Ooops..."
+msgstr "Ooops..."
+
+msgid "Could not save configuration file"
+msgstr "Could not save configuration file"
+
+msgid "Select a font"
+msgstr "Select a font"
+
+msgid "Bgcolor"
+msgstr "Bgcolor"
+
+msgid "Import"
+msgstr "Import"
+
+msgid "Import plasmoid settings"
+msgstr "Import plasmoid settings"
+
+msgid "Import extensions"
+msgstr "Import extensions"
+
+msgid "Import additional files"
+msgstr "Import additional files"
+
+msgid "AC"
+msgstr "AC"
+
+msgid "Bars"
+msgstr "Bars"
+
+msgid "Desktops"
+msgstr "Desktops"
+
+msgid "Scripts"
+msgstr "Scripts"
+
+msgid "Time"
+msgstr "Time"
+
+msgid "Quotes"
+msgstr "Quotes"
+
+msgid "Upgrades"
+msgstr "Upgrades"
+
+msgid "Weathers"
+msgstr "Weathers"
+
+msgid "Functions"
+msgstr "Functions"
+
+msgid "All"
+msgstr "All"
+
+msgid "normal"
+msgstr "normal"
+
+msgid "italic"
+msgstr "italic"
+
+msgid "light"
+msgstr "light"
+
+msgid "demi bold"
+msgstr "demi bold"
+
+msgid "bold"
+msgstr "bold"
+
+msgid "black"
+msgstr "black"
+
+msgid "outline"
+msgstr "outline"
+
+msgid "raised"
+msgstr "raised"
+
+msgid "sunken"
+msgstr "sunken"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
@@ -730,6 +773,18 @@ msgstr "Evgeniy Alekseev"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "esalexeev@gmail.com"
+
+#~ msgid "Edit scripts"
+#~ msgstr "Edit scripts"
+
+#~ msgid "Edit tickers"
+#~ msgstr "Edit tickers"
+
+#~ msgid "Edit command"
+#~ msgstr "Edit command"
+
+#~ msgid "Edit weather"
+#~ msgstr "Edit weather"
 
 #~ msgid "Use image for active"
 #~ msgstr "Use image for active"
@@ -769,9 +824,6 @@ msgstr "esalexeev@gmail.com"
 
 #~ msgid "Exec: %1"
 #~ msgstr "Exec: %1"
-
-#~ msgid "Select color"
-#~ msgstr "Select color"
 
 #~ msgid "Run ksysguard"
 #~ msgstr "Run ksysguard"
@@ -886,13 +938,6 @@ msgstr "esalexeev@gmail.com"
 #~ msgid "Null lines"
 #~ msgstr "Null lines"
 
-#~ msgid ""
-#~ "Editable\n"
-#~ "del - remove item"
-#~ msgstr ""
-#~ "Editable\n"
-#~ "del - remove item"
-
 #~ msgid "Desktop check cmd"
 #~ msgstr "Desktop check cmd"
 
@@ -913,9 +958,6 @@ msgstr "esalexeev@gmail.com"
 
 #~ msgid "Widget configuration"
 #~ msgstr "Widget configuration"
-
-#~ msgid "Network directory"
-#~ msgstr "Network directory"
 
 #~ msgid "\"/sys/class/net\" by default"
 #~ msgstr "\"/sys/class/net\" by default"

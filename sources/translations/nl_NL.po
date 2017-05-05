@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-09-01 15:36+0300\n"
+"POT-Creation-Date: 2017-05-05 18:15+0300\n"
 "PO-Revision-Date: 2016-07-09 08:47+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/arcanis/awesome-"
@@ -19,6 +19,48 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Version %1 (build date %2)"
+msgstr "Versie %1 (bouwdatum %2)"
+
+msgid "A set of minimalistic plasmoid widgets"
+msgstr "Een set van minimalistische plasmoid-widgets"
+
+msgid "Links:"
+msgstr "Links:"
+
+msgid "Homepage"
+msgstr "Website"
+
+msgid "Repository"
+msgstr "Pakketbron"
+
+msgid "Bugtracker"
+msgstr "Bugtracker"
+
+msgid "Translation issue"
+msgstr "Probleem met de vertaling"
+
+msgid "AUR packages"
+msgstr "AUR-pakketten"
+
+msgid "openSUSE packages"
+msgstr "openSUSE-pakketten"
+
+msgid "This software is licensed under %1"
+msgstr "Deze software is gelicenseerd onder %1"
+
+#, fuzzy
+msgid "Translators:"
+msgstr "Vertalers: %1"
+
+#, fuzzy
+msgid "This software uses:"
+msgstr "Deze software gebruikt: %1"
+
+#, fuzzy
+msgid "Special thanks to:"
+msgstr "Veel dank aan %1"
 
 msgid "Widget"
 msgstr "Widget"
@@ -37,38 +79,6 @@ msgstr "DataEngine"
 
 msgid "About"
 msgstr "Over"
-
-msgid "Report a bug"
-msgstr ""
-
-msgid "Report subject"
-msgstr ""
-
-#, fuzzy
-msgid "Description"
-msgstr "Richting"
-
-msgid "Steps to reproduce"
-msgstr ""
-
-msgid "Expected result"
-msgstr ""
-
-msgid "Logs"
-msgstr ""
-
-#, fuzzy
-msgid "Use command"
-msgstr "Commando bewerken"
-
-msgid "Load log file"
-msgstr ""
-
-msgid "Open log file"
-msgstr ""
-
-msgid "Acknowledgment"
-msgstr "Erkenning"
 
 msgid "Enable background"
 msgstr "Achtergrond inschakelen"
@@ -103,9 +113,6 @@ msgstr "Tijdstussenpose"
 msgid "Messages queue limit"
 msgstr "Limiet van berichtenwachtrij"
 
-msgid "Temperature units"
-msgstr "Temperatuureenheden"
-
 msgid "Celsius"
 msgstr "Celsius"
 
@@ -127,6 +134,9 @@ msgstr "kJ/mol"
 msgid "kcal/mol"
 msgstr "kcal/mol"
 
+msgid "Temperature units"
+msgstr "Temperatuureenheden"
+
 msgid "Custom time format"
 msgstr "Aangepaste tijdsopmaak"
 
@@ -139,41 +149,31 @@ msgstr "AC online-sleutelwoord"
 msgid "AC offline tag"
 msgstr "AC offline-sleutelwoord"
 
+#, fuzzy
+msgid "Actions"
+msgstr "Mogelijkheden"
+
 msgid "Drop key cache"
 msgstr "Sleutelcache verwerpen"
 
 msgid "Export configuration"
 msgstr "Configuratie exporteren"
 
-msgid "Export"
-msgstr "Exporteren"
-
-msgid "Success"
-msgstr "Succesvol"
-
-msgid "Please note that binary files were not copied"
-msgstr "Let op: binaire bestanden zijn niet gekopieerd"
-
-msgid "Ooops..."
-msgstr "Oeps..."
-
-msgid "Could not save configuration file"
-msgstr "Het configuratiebestand kon niet worden opgeslagen"
-
 msgid "Import configuration"
 msgstr "Configuratie importeren"
 
-msgid "Import"
-msgstr "Importeren"
+msgid "Telemetry"
+msgstr ""
 
-msgid "Import plasmoid settings"
-msgstr "Plasmoid-instellingen importeren"
+msgid "Enable remote telemetry"
+msgstr ""
 
-msgid "Import extensions"
-msgstr "Extensies importeren"
+#, fuzzy
+msgid "History count"
+msgstr "Puntentelling"
 
-msgid "Import additional files"
-msgstr "Extra bestanden importeren"
+msgid "Telemetry ID"
+msgstr ""
 
 msgid "Font"
 msgstr "Lettertype"
@@ -184,35 +184,18 @@ msgstr "Lettertypegrootte"
 msgid "Font weight"
 msgstr "Lettertypeopmaak"
 
-msgid "light"
-msgstr "licht"
-
-msgid "normal"
-msgstr "normaal"
-
-msgid "demi bold"
-msgstr "semi-donker"
-
-msgid "bold"
-msgstr "donker"
-
-msgid "black"
-msgstr "zwart"
-
 msgid "Font style"
 msgstr "Lettertypestijl"
-
-msgid "italic"
-msgstr "Cursief"
 
 msgid "Font color"
 msgstr "Lettertypekleur"
 
-msgid "Select a color"
-msgstr "Selecteer een kleur"
+msgid "Style"
+msgstr ""
 
-msgid "Select a font"
-msgstr "Selecteer een lettertype"
+#, fuzzy
+msgid "Style color"
+msgstr "Selecteer een kleur"
 
 msgid "ACPI"
 msgstr "ACPI"
@@ -259,26 +242,18 @@ msgstr "Extensies"
 msgid "Custom scripts"
 msgstr "Aangepaste scripts"
 
-msgid "Edit scripts"
-msgstr "Scripts bewerken"
-
-msgid "Quotes monitor"
-msgstr "Citaten-monitor"
-
-msgid "Edit tickers"
-msgstr "Tickers bewerken"
+#, fuzzy
+msgid "Network requests"
+msgstr "Netwerk"
 
 msgid "Package manager"
 msgstr "Pakketbeheerder"
 
-msgid "Edit command"
-msgstr "Commando bewerken"
+msgid "Quotes monitor"
+msgstr "Citaten-monitor"
 
 msgid "Weather"
 msgstr "Weer"
-
-msgid "Edit weather"
-msgstr "Weer bewerken"
 
 msgid "Select tag"
 msgstr "Sleutelwoord selecteren"
@@ -362,105 +337,14 @@ msgstr "Kleur van actieve accu"
 msgid "Battery inactive color"
 msgstr "Kleur van inactieve accu"
 
-msgid ""
-"Detailed information may be found on <a href=\"https://arcanis.me/projects/"
-"awesome-widgets/\">project homepage</a>"
-msgstr ""
-"Gedetailleerde informatie kan worden gevonden op de <a href=\"http://arcanis."
-"name/projects/awesome-widgets/\">projectwebsite</a>"
-
-msgid "Bgcolor"
-msgstr "Achtergrondkleur"
-
-msgid "AC"
-msgstr "AC"
-
-msgid "Bars"
-msgstr "Balken"
-
-msgid "Desktops"
-msgstr "Bureaubladen"
-
-msgid "Scripts"
-msgstr "Scripts"
-
-msgid "Time"
-msgstr "Tijd"
-
-msgid "Quotes"
-msgstr "Citaten"
-
-msgid "Upgrades"
-msgstr "Upgrades"
-
-msgid "Weathers"
-msgstr "Weer"
-
-msgid "Functions"
-msgstr "Mogelijkheden"
-
-msgid "Add"
-msgstr "Toevoegen"
-
-msgid "Show value"
-msgstr "Waarde weergeven"
-
-msgid "Edit bars"
-msgstr "Balken bewerken"
-
-msgid "Formatters"
-msgstr "Opmakers"
-
-msgid "Preview"
-msgstr "Voorbeeld"
-
 msgid "Run %1"
 msgstr "%1 uitvoeren"
 
 msgid "Not supported"
 msgstr ""
 
-msgid "You are using mammoth's Qt version, try to update it first!"
+msgid "You are using mammoth's Qt version, try to update it first"
 msgstr ""
-
-msgid "Version %1 (build date %2)"
-msgstr "Versie %1 (bouwdatum %2)"
-
-msgid "A set of minimalistic plasmoid widgets"
-msgstr "Een set van minimalistische plasmoid-widgets"
-
-msgid "Links:"
-msgstr "Links:"
-
-msgid "Homepage"
-msgstr "Website"
-
-msgid "Repository"
-msgstr "Pakketbron"
-
-msgid "Bugtracker"
-msgstr "Bugtracker"
-
-msgid "Translation issue"
-msgstr "Probleem met de vertaling"
-
-msgid "AUR packages"
-msgstr "AUR-pakketten"
-
-msgid "openSUSE packages"
-msgstr "openSUSE-pakketten"
-
-msgid "This software is licensed under %1"
-msgstr "Deze software is gelicenseerd onder %1"
-
-msgid "Translators: %1"
-msgstr "Vertalers: %1"
-
-msgid "This software uses: %1"
-msgstr "Deze software gebruikt: %1"
-
-msgid "Special thanks to %1"
-msgstr "Veel dank aan %1"
 
 msgid "Select font"
 msgstr "Lettertype selecteren"
@@ -582,6 +466,9 @@ msgstr "Vermenigvuldiger"
 msgid "Summand"
 msgstr "Lid"
 
+msgid "Path"
+msgstr ""
+
 msgid "Filter"
 msgstr "Filter"
 
@@ -603,6 +490,21 @@ msgstr "Code"
 msgid "Tag"
 msgstr "Sleutelwoord"
 
+msgid "URL"
+msgstr ""
+
+msgid "Active"
+msgstr "Actief"
+
+msgid "Schedule"
+msgstr ""
+
+msgid "Socket"
+msgstr ""
+
+msgid "Interval"
+msgstr "Tussenpozen"
+
 msgid ""
 "<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
 "instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
@@ -616,12 +518,6 @@ msgstr ""
 
 msgid "Ticker"
 msgstr "Ticker"
-
-msgid "Active"
-msgstr "Actief"
-
-msgid "Interval"
-msgstr "Tussenpozen"
 
 msgid "Command"
 msgstr "Commando"
@@ -658,6 +554,17 @@ msgstr "Tijdstempel"
 
 msgid "Use images"
 msgstr "Afbeeldingen gebruiken"
+
+#, fuzzy
+msgid "Select color"
+msgstr "Selecteer een kleur"
+
+#, fuzzy
+msgid "Select path"
+msgstr "Sleutelwoord selecteren"
+
+msgid "Images (*.png *.bpm *.jpg);;All files (*.*)"
+msgstr ""
 
 msgid "Use custom formula"
 msgstr "Aangepaste formule gebruiken"
@@ -704,9 +611,6 @@ msgstr "Verticale layout"
 msgid "Mark"
 msgstr "Markeren"
 
-msgid "Tooltip type"
-msgstr "Opmerkingsballon-type"
-
 msgid "contours"
 msgstr "contouren"
 
@@ -722,8 +626,159 @@ msgstr "namen"
 msgid "none"
 msgstr "geen"
 
+msgid "Tooltip type"
+msgstr "Opmerkingsballon-type"
+
 msgid "Tooltip width"
 msgstr "Opmerkingsballonbreedte"
+
+msgid "Edit bars"
+msgstr "Balken bewerken"
+
+msgid "Formatters"
+msgstr "Opmakers"
+
+msgid "Preview"
+msgstr "Voorbeeld"
+
+msgid ""
+"Detailed information may be found on <a href=\"https://arcanis.me/projects/"
+"awesome-widgets/\">project homepage</a>"
+msgstr ""
+"Gedetailleerde informatie kan worden gevonden op de <a href=\"http://arcanis."
+"name/projects/awesome-widgets/\">projectwebsite</a>"
+
+msgid "Add"
+msgstr "Toevoegen"
+
+msgid "Show value"
+msgstr "Waarde weergeven"
+
+msgid "Acknowledgment"
+msgstr "Erkenning"
+
+msgid "Report a bug"
+msgstr ""
+
+msgid "Report subject"
+msgstr ""
+
+#, fuzzy
+msgid "Description"
+msgstr "Richting"
+
+msgid "Steps to reproduce"
+msgstr ""
+
+msgid "Expected result"
+msgstr ""
+
+msgid "Logs"
+msgstr ""
+
+#, fuzzy
+msgid "Use command"
+msgstr "Commando bewerken"
+
+msgid "Load log file"
+msgstr ""
+
+msgid "Open log file"
+msgstr ""
+
+msgid "Select a color"
+msgstr "Selecteer een kleur"
+
+msgid "Export"
+msgstr "Exporteren"
+
+msgid "Success"
+msgstr "Succesvol"
+
+msgid "Please note that binary files were not copied"
+msgstr "Let op: binaire bestanden zijn niet gekopieerd"
+
+msgid "Ooops..."
+msgstr "Oeps..."
+
+msgid "Could not save configuration file"
+msgstr "Het configuratiebestand kon niet worden opgeslagen"
+
+msgid "Select a font"
+msgstr "Selecteer een lettertype"
+
+msgid "Bgcolor"
+msgstr "Achtergrondkleur"
+
+msgid "Import"
+msgstr "Importeren"
+
+msgid "Import plasmoid settings"
+msgstr "Plasmoid-instellingen importeren"
+
+msgid "Import extensions"
+msgstr "Extensies importeren"
+
+msgid "Import additional files"
+msgstr "Extra bestanden importeren"
+
+msgid "AC"
+msgstr "AC"
+
+msgid "Bars"
+msgstr "Balken"
+
+msgid "Desktops"
+msgstr "Bureaubladen"
+
+msgid "Scripts"
+msgstr "Scripts"
+
+msgid "Time"
+msgstr "Tijd"
+
+msgid "Quotes"
+msgstr "Citaten"
+
+msgid "Upgrades"
+msgstr "Upgrades"
+
+msgid "Weathers"
+msgstr "Weer"
+
+msgid "Functions"
+msgstr "Mogelijkheden"
+
+msgid "All"
+msgstr ""
+
+msgid "normal"
+msgstr "normaal"
+
+msgid "italic"
+msgstr "Cursief"
+
+msgid "light"
+msgstr "licht"
+
+msgid "demi bold"
+msgstr "semi-donker"
+
+msgid "bold"
+msgstr "donker"
+
+msgid "black"
+msgstr "zwart"
+
+#, fuzzy
+msgid "outline"
+msgstr "AC online"
+
+msgid "raised"
+msgstr ""
+
+msgid "sunken"
+msgstr ""
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
@@ -732,3 +787,15 @@ msgstr "Heimen Stoffels"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "vistausss@outlook.com"
+
+#~ msgid "Edit scripts"
+#~ msgstr "Scripts bewerken"
+
+#~ msgid "Edit tickers"
+#~ msgstr "Tickers bewerken"
+
+#~ msgid "Edit command"
+#~ msgstr "Commando bewerken"
+
+#~ msgid "Edit weather"
+#~ msgstr "Weer bewerken"

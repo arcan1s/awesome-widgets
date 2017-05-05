@@ -1,22 +1,61 @@
 # Copyright (C) 2014
 # This file is distributed under the same license as the PyTextMonitor package.
 #
-# Evgeniy Alekseev <esalexeev@gmail.com>, 2014, 2015, 2016.
+# Evgeniy Alekseev <esalexeev@gmail.com>, 2014, 2015, 2016, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-09-01 15:36+0300\n"
-"PO-Revision-Date: 2016-08-27 02:56+0300\n"
+"POT-Creation-Date: 2017-05-05 18:15+0300\n"
+"PO-Revision-Date: 2017-05-05 18:19+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
+"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 2.0\n"
+
+msgid "Version %1 (build date %2)"
+msgstr "Версия %1 (дата сборки %2)"
+
+msgid "A set of minimalistic plasmoid widgets"
+msgstr "Коллекция минималистичных плазмоидов"
+
+msgid "Links:"
+msgstr "Ссылки:"
+
+msgid "Homepage"
+msgstr "Домашняя страница"
+
+msgid "Repository"
+msgstr "Репозиторий"
+
+msgid "Bugtracker"
+msgstr "Баг-трекер"
+
+msgid "Translation issue"
+msgstr "Тикет перевода"
+
+msgid "AUR packages"
+msgstr "Пакеты в AUR"
+
+msgid "openSUSE packages"
+msgstr "Пакеты для openSUSE"
+
+msgid "This software is licensed under %1"
+msgstr "Данное приложение лицензировано под %1"
+
+msgid "Translators:"
+msgstr "Переводчики:"
+
+msgid "This software uses:"
+msgstr "Данное приложение использует:"
+
+msgid "Special thanks to:"
+msgstr "Отдельное спасибо:"
 
 msgid "Widget"
 msgstr "Виджет"
@@ -35,36 +74,6 @@ msgstr "DataEngine"
 
 msgid "About"
 msgstr "О программе"
-
-msgid "Report a bug"
-msgstr "Сообщить об ошибке"
-
-msgid "Report subject"
-msgstr "Тема"
-
-msgid "Description"
-msgstr "Описание"
-
-msgid "Steps to reproduce"
-msgstr "Как воспроизвести"
-
-msgid "Expected result"
-msgstr "Ожидаемый результат"
-
-msgid "Logs"
-msgstr "Логи"
-
-msgid "Use command"
-msgstr "Используйте команду"
-
-msgid "Load log file"
-msgstr "Загрузить лог"
-
-msgid "Open log file"
-msgstr "Открыть лог"
-
-msgid "Acknowledgment"
-msgstr "Благодарности"
 
 msgid "Enable background"
 msgstr "Включить фон"
@@ -99,9 +108,6 @@ msgstr "Интервал обновления"
 msgid "Messages queue limit"
 msgstr "Ограничение очереди сообщений"
 
-msgid "Temperature units"
-msgstr "Температурные единицы"
-
 msgid "Celsius"
 msgstr "Цельсий"
 
@@ -123,6 +129,9 @@ msgstr "кДж/моль"
 msgid "kcal/mol"
 msgstr "ккал/моль"
 
+msgid "Temperature units"
+msgstr "Температурные единицы"
+
 msgid "Custom time format"
 msgstr "Свой формат времени"
 
@@ -135,41 +144,29 @@ msgstr "AC подключен"
 msgid "AC offline tag"
 msgstr "AC отключен"
 
+msgid "Actions"
+msgstr "Действия"
+
 msgid "Drop key cache"
 msgstr "Сбросить кеш ключей"
 
 msgid "Export configuration"
 msgstr "Экспорт настроек"
 
-msgid "Export"
-msgstr "Экспорт"
-
-msgid "Success"
-msgstr "Успешно"
-
-msgid "Please note that binary files were not copied"
-msgstr "Пожалуйста, обратите внимание, что бинарные файлы не были скопированы"
-
-msgid "Ooops..."
-msgstr "Ууупс..."
-
-msgid "Could not save configuration file"
-msgstr "Не могу сохранить файл настроек"
-
 msgid "Import configuration"
 msgstr "Импорт настроек"
 
-msgid "Import"
-msgstr "Импорт"
+msgid "Telemetry"
+msgstr "Телеметрия"
 
-msgid "Import plasmoid settings"
-msgstr "Импорт настроек плазмоида"
+msgid "Enable remote telemetry"
+msgstr "Включить загрузку на удаленный сервер"
 
-msgid "Import extensions"
-msgstr "Импорт расширений"
+msgid "History count"
+msgstr "Хранить историю"
 
-msgid "Import additional files"
-msgstr "Импорт дополнительных файлов"
+msgid "Telemetry ID"
+msgstr "ID для телеметрии"
 
 msgid "Font"
 msgstr "Шрифт"
@@ -180,35 +177,17 @@ msgstr "Размер шрифта"
 msgid "Font weight"
 msgstr "Ширина шрифта"
 
-msgid "light"
-msgstr "тонкий"
-
-msgid "normal"
-msgstr "нормальный"
-
-msgid "demi bold"
-msgstr "полужирный"
-
-msgid "bold"
-msgstr "жирный"
-
-msgid "black"
-msgstr "очень жирный"
-
 msgid "Font style"
 msgstr "Стиль шрифта"
-
-msgid "italic"
-msgstr "курсив"
 
 msgid "Font color"
 msgstr "Цвет шрифта"
 
-msgid "Select a color"
-msgstr "Выберете цвет"
+msgid "Style"
+msgstr "Стиль"
 
-msgid "Select a font"
-msgstr "Выберете шрифт"
+msgid "Style color"
+msgstr "Цвет стиля"
 
 msgid "ACPI"
 msgstr "ACPI"
@@ -255,26 +234,17 @@ msgstr "Расширения"
 msgid "Custom scripts"
 msgstr "Свои скрипты"
 
-msgid "Edit scripts"
-msgstr "Редактировать скрипты"
-
-msgid "Quotes monitor"
-msgstr "Монитор котировок"
-
-msgid "Edit tickers"
-msgstr "Редактировать тикеры"
+msgid "Network requests"
+msgstr "Веб-запрос"
 
 msgid "Package manager"
 msgstr "Пакетный менеджер"
 
-msgid "Edit command"
-msgstr "Редактировать команду"
+msgid "Quotes monitor"
+msgstr "Монитор котировок"
 
 msgid "Weather"
 msgstr "Погода"
-
-msgid "Edit weather"
-msgstr "Редактировать погоду"
 
 msgid "Select tag"
 msgstr "Выберете тег"
@@ -358,105 +328,14 @@ msgstr "Цвет заряжаемой батареи"
 msgid "Battery inactive color"
 msgstr "Цвет разряжаемой батареи"
 
-msgid ""
-"Detailed information may be found on <a href=\"https://arcanis.me/projects/"
-"awesome-widgets/\">project homepage</a>"
-msgstr ""
-"Подробная информация может быть найдена на <a href=\"https://arcanis.me/ru/"
-"projects/awesome-widgets/\">домашней странице проекта</a>"
-
-msgid "Bgcolor"
-msgstr "Цвет фона"
-
-msgid "AC"
-msgstr "Адаптор питания"
-
-msgid "Bars"
-msgstr "Бары"
-
-msgid "Desktops"
-msgstr "Рабочие столы"
-
-msgid "Scripts"
-msgstr "Скрипты"
-
-msgid "Time"
-msgstr "Время"
-
-msgid "Quotes"
-msgstr "Котировки"
-
-msgid "Upgrades"
-msgstr "Обновления"
-
-msgid "Weathers"
-msgstr "Погода"
-
-msgid "Functions"
-msgstr "Функции"
-
-msgid "Add"
-msgstr "Добавить"
-
-msgid "Show value"
-msgstr "Показать значение"
-
-msgid "Edit bars"
-msgstr "Редактировать бары"
-
-msgid "Formatters"
-msgstr "Форматеры"
-
-msgid "Preview"
-msgstr "Предварительный просмотр"
-
 msgid "Run %1"
 msgstr "Запуск %1"
 
 msgid "Not supported"
-msgstr ""
+msgstr "Не поддерживается"
 
-msgid "You are using mammoth's Qt version, try to update it first!"
-msgstr ""
-
-msgid "Version %1 (build date %2)"
-msgstr "Версия %1 (дата сборки %2)"
-
-msgid "A set of minimalistic plasmoid widgets"
-msgstr "Коллекция минималистичных плазмоидов"
-
-msgid "Links:"
-msgstr "Ссылки:"
-
-msgid "Homepage"
-msgstr "Домашняя страница"
-
-msgid "Repository"
-msgstr "Репозиторий"
-
-msgid "Bugtracker"
-msgstr "Баг-трекер"
-
-msgid "Translation issue"
-msgstr "Тикет перевода"
-
-msgid "AUR packages"
-msgstr "Пакеты в AUR"
-
-msgid "openSUSE packages"
-msgstr "Пакеты для openSUSE"
-
-msgid "This software is licensed under %1"
-msgstr "Данное приложение лицензировано под %1"
-
-msgid "Translators: %1"
-msgstr "Переводчики: %1"
-
-msgid "This software uses: %1"
-msgstr "Данное приложение использует: %1"
-
-msgid "Special thanks to %1"
-msgstr "Отдельное спасибо %1"
+msgid "You are using mammoth's Qt version, try to update it first"
+msgstr "Вы используете очень старую версию Qt, попробуйте сначала обновиться"
 
 msgid "Select font"
 msgstr "Выберете шрифт"
@@ -578,6 +457,9 @@ msgstr "Множитель"
 msgid "Summand"
 msgstr "Слагаемое"
 
+msgid "Path"
+msgstr "Путь"
+
 msgid "Filter"
 msgstr "Фильтр"
 
@@ -599,6 +481,21 @@ msgstr "Код"
 msgid "Tag"
 msgstr "Тег"
 
+msgid "URL"
+msgstr "URL"
+
+msgid "Active"
+msgstr "Активен"
+
+msgid "Schedule"
+msgstr "Расписание"
+
+msgid "Socket"
+msgstr "Сокет"
+
+msgid "Interval"
+msgstr "Интервал"
+
 msgid ""
 "<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
 "instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
@@ -612,12 +509,6 @@ msgstr ""
 
 msgid "Ticker"
 msgstr "Тикер"
-
-msgid "Active"
-msgstr "Активен"
-
-msgid "Interval"
-msgstr "Интервал"
 
 msgid "Command"
 msgstr "Команда"
@@ -654,6 +545,15 @@ msgstr "Таймштамп"
 
 msgid "Use images"
 msgstr "Использовать изображения"
+
+msgid "Select color"
+msgstr "Выберете цвет"
+
+msgid "Select path"
+msgstr "Выберете путь"
+
+msgid "Images (*.png *.bpm *.jpg);;All files (*.*)"
+msgstr "Изображения (*.png *.bpm *.jpg);;Все файлы (*.*)"
 
 msgid "Use custom formula"
 msgstr "Использовать свою формулу"
@@ -700,9 +600,6 @@ msgstr "Вертикальная разметка"
 msgid "Mark"
 msgstr "Метка"
 
-msgid "Tooltip type"
-msgstr "Тип тултипа"
-
 msgid "contours"
 msgstr "контуры"
 
@@ -718,8 +615,156 @@ msgstr "названия"
 msgid "none"
 msgstr "ничего"
 
+msgid "Tooltip type"
+msgstr "Тип тултипа"
+
 msgid "Tooltip width"
 msgstr "Ширина тултипа"
+
+msgid "Edit bars"
+msgstr "Редактировать бары"
+
+msgid "Formatters"
+msgstr "Форматеры"
+
+msgid "Preview"
+msgstr "Предварительный просмотр"
+
+msgid ""
+"Detailed information may be found on <a href=\"https://arcanis.me/projects/"
+"awesome-widgets/\">project homepage</a>"
+msgstr ""
+"Подробная информация может быть найдена на <a href=\"https://arcanis.me/ru/"
+"projects/awesome-widgets/\">домашней странице проекта</a>"
+
+msgid "Add"
+msgstr "Добавить"
+
+msgid "Show value"
+msgstr "Показать значение"
+
+msgid "Acknowledgment"
+msgstr "Благодарности"
+
+msgid "Report a bug"
+msgstr "Сообщить об ошибке"
+
+msgid "Report subject"
+msgstr "Тема"
+
+msgid "Description"
+msgstr "Описание"
+
+msgid "Steps to reproduce"
+msgstr "Как воспроизвести"
+
+msgid "Expected result"
+msgstr "Ожидаемый результат"
+
+msgid "Logs"
+msgstr "Логи"
+
+msgid "Use command"
+msgstr "Используйте команду"
+
+msgid "Load log file"
+msgstr "Загрузить лог"
+
+msgid "Open log file"
+msgstr "Открыть лог"
+
+msgid "Select a color"
+msgstr "Выберете цвет"
+
+msgid "Export"
+msgstr "Экспорт"
+
+msgid "Success"
+msgstr "Успешно"
+
+msgid "Please note that binary files were not copied"
+msgstr "Пожалуйста, обратите внимание, что бинарные файлы не были скопированы"
+
+msgid "Ooops..."
+msgstr "Ууупс..."
+
+msgid "Could not save configuration file"
+msgstr "Не могу сохранить файл настроек"
+
+msgid "Select a font"
+msgstr "Выберете шрифт"
+
+msgid "Bgcolor"
+msgstr "Цвет фона"
+
+msgid "Import"
+msgstr "Импорт"
+
+msgid "Import plasmoid settings"
+msgstr "Импорт настроек плазмоида"
+
+msgid "Import extensions"
+msgstr "Импорт расширений"
+
+msgid "Import additional files"
+msgstr "Импорт дополнительных файлов"
+
+msgid "AC"
+msgstr "Адаптор питания"
+
+msgid "Bars"
+msgstr "Бары"
+
+msgid "Desktops"
+msgstr "Рабочие столы"
+
+msgid "Scripts"
+msgstr "Скрипты"
+
+msgid "Time"
+msgstr "Время"
+
+msgid "Quotes"
+msgstr "Котировки"
+
+msgid "Upgrades"
+msgstr "Обновления"
+
+msgid "Weathers"
+msgstr "Погода"
+
+msgid "Functions"
+msgstr "Функции"
+
+msgid "All"
+msgstr "Все"
+
+msgid "normal"
+msgstr "нормальный"
+
+msgid "italic"
+msgstr "курсив"
+
+msgid "light"
+msgstr "тонкий"
+
+msgid "demi bold"
+msgstr "полужирный"
+
+msgid "bold"
+msgstr "жирный"
+
+msgid "black"
+msgstr "очень жирный"
+
+msgid "outline"
+msgstr "outline"
+
+msgid "raised"
+msgstr "raised"
+
+msgid "sunken"
+msgstr "sunken"
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
@@ -728,6 +773,18 @@ msgstr "Evgeniy Alekseev"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "esalexeev@gmail.com"
+
+#~ msgid "Edit scripts"
+#~ msgstr "Редактировать скрипты"
+
+#~ msgid "Edit tickers"
+#~ msgstr "Редактировать тикеры"
+
+#~ msgid "Edit command"
+#~ msgstr "Редактировать команду"
+
+#~ msgid "Edit weather"
+#~ msgstr "Редактировать погоду"
 
 #~ msgid "Use image for active"
 #~ msgstr "Использовать изображения для активной части"
@@ -767,9 +824,6 @@ msgstr "esalexeev@gmail.com"
 
 #~ msgid "Exec: %1"
 #~ msgstr "Команда: %1"
-
-#~ msgid "Select color"
-#~ msgstr "Выберете цвет"
 
 #~ msgid "Run ksysguard"
 #~ msgstr "Запустить ksysguard"
@@ -884,13 +938,6 @@ msgstr "esalexeev@gmail.com"
 #~ msgid "Null lines"
 #~ msgstr "Число пустых линий"
 
-#~ msgid ""
-#~ "Editable\n"
-#~ "del - remove item"
-#~ msgstr ""
-#~ "Редактируемо\n"
-#~ "del - удалить строку"
-
 #~ msgid "Desktop check cmd"
 #~ msgstr "Команда для проверки рабочего стола"
 
@@ -911,9 +958,6 @@ msgstr "esalexeev@gmail.com"
 
 #~ msgid "Widget configuration"
 #~ msgstr "Настройка виджета"
-
-#~ msgid "Network directory"
-#~ msgstr "Путь к интерфейсам"
 
 #~ msgid "\"/sys/class/net\" by default"
 #~ msgstr "\"/sys/class/net\" по умолчанию"

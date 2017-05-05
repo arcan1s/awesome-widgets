@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2016-09-01 15:36+0300\n"
+"POT-Creation-Date: 2017-05-05 18:15+0300\n"
 "PO-Revision-Date: 2015-07-31 22:24+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -17,6 +17,48 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 2.0\n"
+
+msgid "Version %1 (build date %2)"
+msgstr "版本 %1 (编译时间 %2)"
+
+msgid "A set of minimalistic plasmoid widgets"
+msgstr "一系列 plasmoid 窗口小部件"
+
+msgid "Links:"
+msgstr "链接:"
+
+msgid "Homepage"
+msgstr "主页"
+
+msgid "Repository"
+msgstr "软件源"
+
+msgid "Bugtracker"
+msgstr "BUG反馈"
+
+msgid "Translation issue"
+msgstr "翻译相关"
+
+msgid "AUR packages"
+msgstr "AUR 包"
+
+msgid "openSUSE packages"
+msgstr "openSUSE 包"
+
+msgid "This software is licensed under %1"
+msgstr "该软件使用以下授权 %1"
+
+#, fuzzy
+msgid "Translators:"
+msgstr "翻译: %1"
+
+#, fuzzy
+msgid "This software uses:"
+msgstr "该软件使用: %1"
+
+#, fuzzy
+msgid "Special thanks to:"
+msgstr "特别感谢 %1"
 
 msgid "Widget"
 msgstr "窗口小部件"
@@ -35,38 +77,6 @@ msgstr "数据引擎"
 
 msgid "About"
 msgstr "关于"
-
-msgid "Report a bug"
-msgstr ""
-
-msgid "Report subject"
-msgstr ""
-
-#, fuzzy
-msgid "Description"
-msgstr "方向"
-
-msgid "Steps to reproduce"
-msgstr ""
-
-msgid "Expected result"
-msgstr ""
-
-msgid "Logs"
-msgstr ""
-
-#, fuzzy
-msgid "Use command"
-msgstr "编辑命令"
-
-msgid "Load log file"
-msgstr ""
-
-msgid "Open log file"
-msgstr ""
-
-msgid "Acknowledgment"
-msgstr "感谢"
 
 msgid "Enable background"
 msgstr "启用背景"
@@ -101,9 +111,6 @@ msgstr "时间周期"
 msgid "Messages queue limit"
 msgstr "消息队列长度限制"
 
-msgid "Temperature units"
-msgstr "温度单位"
-
 msgid "Celsius"
 msgstr "摄氏度"
 
@@ -125,6 +132,9 @@ msgstr "千焦/摩尔"
 msgid "kcal/mol"
 msgstr "千卡/摩尔"
 
+msgid "Temperature units"
+msgstr "温度单位"
+
 msgid "Custom time format"
 msgstr "自定义时间格式"
 
@@ -137,41 +147,33 @@ msgstr "外接电源使用中标签"
 msgid "AC offline tag"
 msgstr "外接电源未使用标签"
 
+#, fuzzy
+msgid "Actions"
+msgstr "方向"
+
 msgid "Drop key cache"
 msgstr "清空缓存"
 
 msgid "Export configuration"
 msgstr "导出配置"
 
-msgid "Export"
-msgstr "导出"
-
-msgid "Success"
-msgstr "成功"
-
-msgid "Please note that binary files were not copied"
-msgstr "请注意，二进制文件将不会被复制"
-
-msgid "Ooops..."
-msgstr "哎哟..."
-
-msgid "Could not save configuration file"
-msgstr "无法保存配置文件"
-
 msgid "Import configuration"
 msgstr "导入配置"
 
-msgid "Import"
-msgstr "导入"
+msgid "Telemetry"
+msgstr ""
 
-msgid "Import plasmoid settings"
-msgstr "导入[plasmoid]配置"
+#, fuzzy
+msgid "Enable remote telemetry"
+msgstr ""
+"可编辑的\n"
+"del - 移除项目"
 
-msgid "Import extensions"
-msgstr "导入插件"
+msgid "History count"
+msgstr ""
 
-msgid "Import additional files"
-msgstr "导入其他文件"
+msgid "Telemetry ID"
+msgstr ""
 
 msgid "Font"
 msgstr "字体"
@@ -182,34 +184,17 @@ msgstr "字体大小"
 msgid "Font weight"
 msgstr "字体宽度"
 
-msgid "light"
-msgstr "细体"
-
-msgid "normal"
-msgstr "正常"
-
-msgid "demi bold"
-msgstr "较粗"
-
-msgid "bold"
-msgstr "粗体"
-
-msgid "black"
-msgstr "黑体"
-
 msgid "Font style"
 msgstr "字体样式"
-
-msgid "italic"
-msgstr "斜体"
 
 msgid "Font color"
 msgstr "字体颜色"
 
-msgid "Select a color"
-msgstr "选择颜色"
+msgid "Style"
+msgstr ""
 
-msgid "Select a font"
+#, fuzzy
+msgid "Style color"
 msgstr "选择字体"
 
 msgid "ACPI"
@@ -257,26 +242,18 @@ msgstr "插件"
 msgid "Custom scripts"
 msgstr "自定义脚本"
 
-msgid "Edit scripts"
-msgstr "编辑脚本"
-
-msgid "Quotes monitor"
-msgstr "引用监视器"
-
-msgid "Edit tickers"
-msgstr "编辑股票更新周期"
+#, fuzzy
+msgid "Network requests"
+msgstr "网络"
 
 msgid "Package manager"
 msgstr "包管理器"
 
-msgid "Edit command"
-msgstr "编辑命令"
+msgid "Quotes monitor"
+msgstr "引用监视器"
 
 msgid "Weather"
 msgstr "天气"
-
-msgid "Edit weather"
-msgstr "编辑天气"
 
 msgid "Select tag"
 msgstr "选择标签"
@@ -360,107 +337,14 @@ msgstr "电池使用状态提示颜色"
 msgid "Battery inactive color"
 msgstr "电池未使用状态提示颜色"
 
-#, fuzzy
-msgid ""
-"Detailed information may be found on <a href=\"https://arcanis.me/projects/"
-"awesome-widgets/\">project homepage</a>"
-msgstr ""
-"详情请参照 <a href=\"http://arcanis.name/projects/ awesome-widgets/\">项目主"
-"页</a>"
-
-#, fuzzy
-msgid "Bgcolor"
-msgstr "CPU 颜色"
-
-msgid "AC"
-msgstr "电源"
-
-msgid "Bars"
-msgstr "工具栏"
-
-msgid "Desktops"
-msgstr "桌面"
-
-msgid "Scripts"
-msgstr "脚本"
-
-msgid "Time"
-msgstr "时间"
-
-msgid "Quotes"
-msgstr "引用"
-
-msgid "Upgrades"
-msgstr "更新"
-
-msgid "Weathers"
-msgstr "天气"
-
-msgid "Functions"
-msgstr ""
-
-msgid "Add"
-msgstr "添加"
-
-msgid "Show value"
-msgstr "显示值"
-
-msgid "Edit bars"
-msgstr "编辑工具栏"
-
-msgid "Formatters"
-msgstr ""
-
-msgid "Preview"
-msgstr "预览"
-
 msgid "Run %1"
 msgstr "运行 %1"
 
 msgid "Not supported"
 msgstr ""
 
-msgid "You are using mammoth's Qt version, try to update it first!"
+msgid "You are using mammoth's Qt version, try to update it first"
 msgstr ""
-
-msgid "Version %1 (build date %2)"
-msgstr "版本 %1 (编译时间 %2)"
-
-msgid "A set of minimalistic plasmoid widgets"
-msgstr "一系列 plasmoid 窗口小部件"
-
-msgid "Links:"
-msgstr "链接:"
-
-msgid "Homepage"
-msgstr "主页"
-
-msgid "Repository"
-msgstr "软件源"
-
-msgid "Bugtracker"
-msgstr "BUG反馈"
-
-msgid "Translation issue"
-msgstr "翻译相关"
-
-msgid "AUR packages"
-msgstr "AUR 包"
-
-msgid "openSUSE packages"
-msgstr "openSUSE 包"
-
-msgid "This software is licensed under %1"
-msgstr "该软件使用以下授权 %1"
-
-msgid "Translators: %1"
-msgstr "翻译: %1"
-
-msgid "This software uses: %1"
-msgstr "该软件使用: %1"
-
-msgid "Special thanks to %1"
-msgstr "特别感谢 %1"
 
 msgid "Select font"
 msgstr "选择字体"
@@ -587,6 +471,9 @@ msgstr ""
 msgid "Summand"
 msgstr "命令"
 
+msgid "Path"
+msgstr ""
+
 msgid "Filter"
 msgstr "过滤"
 
@@ -609,6 +496,21 @@ msgstr ""
 msgid "Tag"
 msgstr "标签"
 
+msgid "URL"
+msgstr ""
+
+msgid "Active"
+msgstr "使用"
+
+msgid "Schedule"
+msgstr ""
+
+msgid "Socket"
+msgstr ""
+
+msgid "Interval"
+msgstr "时间周期"
+
 msgid ""
 "<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
 "instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
@@ -622,12 +524,6 @@ msgstr ""
 
 msgid "Ticker"
 msgstr "金融股市"
-
-msgid "Active"
-msgstr "使用"
-
-msgid "Interval"
-msgstr "时间周期"
 
 msgid "Command"
 msgstr "命令"
@@ -664,6 +560,17 @@ msgstr "时间"
 
 msgid "Use images"
 msgstr "使用图片"
+
+#, fuzzy
+msgid "Select color"
+msgstr "选择字体"
+
+#, fuzzy
+msgid "Select path"
+msgstr "选择标签"
+
+msgid "Images (*.png *.bpm *.jpg);;All files (*.*)"
+msgstr ""
 
 #, fuzzy
 msgid "Use custom formula"
@@ -717,9 +624,6 @@ msgstr "纵向布局"
 msgid "Mark"
 msgstr "标记"
 
-msgid "Tooltip type"
-msgstr "提示类型"
-
 msgid "contours"
 msgstr "等高线"
 
@@ -735,8 +639,161 @@ msgstr "用户名"
 msgid "none"
 msgstr "无"
 
+msgid "Tooltip type"
+msgstr "提示类型"
+
 msgid "Tooltip width"
 msgstr "提示信息宽度"
+
+msgid "Edit bars"
+msgstr "编辑工具栏"
+
+msgid "Formatters"
+msgstr ""
+
+msgid "Preview"
+msgstr "预览"
+
+#, fuzzy
+msgid ""
+"Detailed information may be found on <a href=\"https://arcanis.me/projects/"
+"awesome-widgets/\">project homepage</a>"
+msgstr ""
+"详情请参照 <a href=\"http://arcanis.name/projects/ awesome-widgets/\">项目主"
+"页</a>"
+
+msgid "Add"
+msgstr "添加"
+
+msgid "Show value"
+msgstr "显示值"
+
+msgid "Acknowledgment"
+msgstr "感谢"
+
+msgid "Report a bug"
+msgstr ""
+
+msgid "Report subject"
+msgstr ""
+
+#, fuzzy
+msgid "Description"
+msgstr "方向"
+
+msgid "Steps to reproduce"
+msgstr ""
+
+msgid "Expected result"
+msgstr ""
+
+msgid "Logs"
+msgstr ""
+
+#, fuzzy
+msgid "Use command"
+msgstr "编辑命令"
+
+msgid "Load log file"
+msgstr ""
+
+msgid "Open log file"
+msgstr ""
+
+msgid "Select a color"
+msgstr "选择颜色"
+
+msgid "Export"
+msgstr "导出"
+
+msgid "Success"
+msgstr "成功"
+
+msgid "Please note that binary files were not copied"
+msgstr "请注意，二进制文件将不会被复制"
+
+msgid "Ooops..."
+msgstr "哎哟..."
+
+msgid "Could not save configuration file"
+msgstr "无法保存配置文件"
+
+msgid "Select a font"
+msgstr "选择字体"
+
+#, fuzzy
+msgid "Bgcolor"
+msgstr "CPU 颜色"
+
+msgid "Import"
+msgstr "导入"
+
+msgid "Import plasmoid settings"
+msgstr "导入[plasmoid]配置"
+
+msgid "Import extensions"
+msgstr "导入插件"
+
+msgid "Import additional files"
+msgstr "导入其他文件"
+
+msgid "AC"
+msgstr "电源"
+
+msgid "Bars"
+msgstr "工具栏"
+
+msgid "Desktops"
+msgstr "桌面"
+
+msgid "Scripts"
+msgstr "脚本"
+
+msgid "Time"
+msgstr "时间"
+
+msgid "Quotes"
+msgstr "引用"
+
+msgid "Upgrades"
+msgstr "更新"
+
+msgid "Weathers"
+msgstr "天气"
+
+msgid "Functions"
+msgstr ""
+
+msgid "All"
+msgstr ""
+
+msgid "normal"
+msgstr "正常"
+
+msgid "italic"
+msgstr "斜体"
+
+msgid "light"
+msgstr "细体"
+
+msgid "demi bold"
+msgstr "较粗"
+
+msgid "bold"
+msgstr "粗体"
+
+msgid "black"
+msgstr "黑体"
+
+#, fuzzy
+msgid "outline"
+msgstr "外接电源使用中"
+
+msgid "raised"
+msgstr ""
+
+msgid "sunken"
+msgstr ""
 
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
@@ -745,6 +802,18 @@ msgstr "用户名"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "用户邮箱"
+
+#~ msgid "Edit scripts"
+#~ msgstr "编辑脚本"
+
+#~ msgid "Edit tickers"
+#~ msgstr "编辑股票更新周期"
+
+#~ msgid "Edit command"
+#~ msgstr "编辑命令"
+
+#~ msgid "Edit weather"
+#~ msgstr "编辑天气"
 
 #, fuzzy
 #~ msgid "Use image for active"
@@ -771,10 +840,6 @@ msgstr "用户邮箱"
 #, fuzzy
 #~ msgid "Right Edge"
 #~ msgstr "未知位置（%1)"
-
-#, fuzzy
-#~ msgid "Select color"
-#~ msgstr "选择字体"
 
 #~ msgid "Run ksysguard"
 #~ msgstr "运行任务管理器"
@@ -884,13 +949,6 @@ msgstr "用户邮箱"
 
 #~ msgid "Null lines"
 #~ msgstr "空行"
-
-#~ msgid ""
-#~ "Editable\n"
-#~ "del - remove item"
-#~ msgstr ""
-#~ "可编辑的\n"
-#~ "del - 移除项目"
 
 #~ msgid "Desktop check cmd"
 #~ msgstr "检测桌面命令"
