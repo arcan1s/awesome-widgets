@@ -22,14 +22,14 @@
 #include "extnetworkrequest.h"
 
 
-RequestSource::RequestSource(QObject *parent, const QStringList &args)
-    : AbstractExtSysMonSource(parent, args)
+RequestSource::RequestSource(QObject *_parent, const QStringList &_args)
+    : AbstractExtSysMonSource(_parent, _args)
 {
-    Q_ASSERT(args.count() == 0);
+    Q_ASSERT(_args.count() == 0);
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
-    m_extNetRequest = new ExtItemAggregator<ExtNetworkRequest>(
-        nullptr, QString("requests"));
+    m_extNetRequest
+        = new ExtItemAggregator<ExtNetworkRequest>(nullptr, "requests");
     m_extNetRequest->initSockets();
     m_sources = getSources();
 }
@@ -43,12 +43,12 @@ RequestSource::~RequestSource()
 }
 
 
-QVariant RequestSource::data(const QString &source)
+QVariant RequestSource::data(const QString &_source)
 {
-    qCDebug(LOG_ESS) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << _source;
 
-    int ind = index(source);
-    auto service = source;
+    int ind = index(_source);
+    auto service = _source;
     service.remove("network/");
     if (!m_values.contains(service)) {
         QVariantHash data = m_extNetRequest->itemByTagNumber(ind)->run();
@@ -60,20 +60,19 @@ QVariant RequestSource::data(const QString &source)
 }
 
 
-QVariantMap RequestSource::initialData(const QString &source) const
+QVariantMap RequestSource::initialData(const QString &_source) const
 {
-    qCDebug(LOG_ESS) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << _source;
 
-    int ind = index(source);
+    int ind = index(_source);
     QVariantMap data;
-    if (source.startsWith(QString("network/response"))) {
-        data[QString("min")] = QString("");
-        data[QString("max")] = QString("");
-        data[QString("name")]
-            = QString("Network response for %1")
-                  .arg(m_extNetRequest->itemByTagNumber(ind)->uniq());
-        data[QString("type")] = QString("QString");
-        data[QString("units")] = QString("");
+    if (_source.startsWith("network/response")) {
+        data["min"] = "";
+        data["max"] = "";
+        data["name"] = QString("Network response for %1")
+                           .arg(m_extNetRequest->itemByTagNumber(ind)->uniq());
+        data["type"] = "QString";
+        data["units"] = "";
     }
 
     return data;
@@ -90,8 +89,7 @@ QStringList RequestSource::getSources()
 {
     QStringList sources;
     for (auto &item : m_extNetRequest->activeItems())
-        sources.append(
-            QString("network/%1").arg(item->tag(QString("response"))));
+        sources.append(QString("network/%1").arg(item->tag("response")));
 
     return sources;
 }

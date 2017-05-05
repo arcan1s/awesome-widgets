@@ -35,44 +35,42 @@ void TestPlayerSource::cleanupTestCase()
 }
 
 
-void TestPlayerSource::_test_sources(const PlayerSource *source)
+void TestPlayerSource::_test_sources(const PlayerSource *_source)
 {
-    QVERIFY(source->sources().count() == 11);
+    QVERIFY(_source->sources().count() == 11);
 }
 
 
 void TestPlayerSource::test_buildString()
 {
     QString randomString = AWTestLibrary::randomString(1, 40);
-    QString str = PlayerSource::buildString(QString(), randomString, 20);
+    QString str = PlayerSource::buildString("", randomString, 20);
     QCOMPARE(str.count(), 20);
 
     str = PlayerSource::buildString(str, randomString, 20);
     QCOMPARE(str.count(), 20);
 
-    str = PlayerSource::buildString(QString(),
-                                    AWTestLibrary::randomString(1, 10), 20);
+    str = PlayerSource::buildString("", AWTestLibrary::randomString(1, 10), 20);
     QCOMPARE(str.count(), 20);
 }
 
 
 void TestPlayerSource::test_stripString()
 {
-    QString str = PlayerSource::buildString(
-        QString(), AWTestLibrary::randomString(1, 40), 20);
+    QString str
+        = PlayerSource::buildString("", AWTestLibrary::randomString(1, 40), 20);
     QCOMPARE(str.count(), 20);
 
-    str = PlayerSource::buildString(QString(),
-                                    AWTestLibrary::randomString(1, 10), 20);
+    str = PlayerSource::buildString("", AWTestLibrary::randomString(1, 10), 20);
     QCOMPARE(str.count(), 20);
 }
 
 
 void TestPlayerSource::test_autoMpris()
 {
-    QStringList args(QStringList() << QString("mpris") << mpdAddress
-                                   << QString::number(mpdPort)
-                                   << QString("auto") << QString::number(10));
+    QStringList args(QStringList()
+                     << "mpris" << mpdAddress << QString::number(mpdPort)
+                     << "auto" << QString::number(10));
     PlayerSource *source = new PlayerSource(this, args);
 
     bool empty = source->getAutoMpris().isEmpty();
@@ -86,14 +84,14 @@ void TestPlayerSource::test_autoMpris()
 void TestPlayerSource::test_mpd()
 {
     QStringList args(QStringList()
-                     << QString("mpd") << mpdAddress << QString::number(mpdPort)
-                     << QString("auto") << QString::number(10));
+                     << "mpd" << mpdAddress << QString::number(mpdPort)
+                     << "auto" << QString::number(10));
     PlayerSource *source = new PlayerSource(this, args);
     _test_sources(source);
 
     // init spy
     QSignalSpy spy(source, SIGNAL(dataReceived(const QVariantHash &)));
-    QVariant firstValue = source->data(QString("player/title"));
+    QVariant firstValue = source->data("player/title");
     if (!source->isMpdSocketConnected())
         QSKIP("No mpd found");
 
@@ -103,28 +101,28 @@ void TestPlayerSource::test_mpd()
     QVariantHash secondValue = arguments.at(0).toHash();
 
     // actually nothing to test here just print warning if no information found
-    if (secondValue[QString("player/title")].toString() == QString("unknown"))
+    if (secondValue["player/title"].toString() == "unknown")
         QSKIP("No mpd found");
 
-    QVERIFY(secondValue[QString("player/progress")].toInt()
-            < secondValue[QString("player/duration")].toInt());
+    QVERIFY(secondValue["player/progress"].toInt()
+            < secondValue["player/duration"].toInt());
 }
 
 
 void TestPlayerSource::test_mpris()
 {
-    QStringList args(QStringList() << QString("mpris") << mpdAddress
-                                   << QString::number(mpdPort)
-                                   << QString("auto") << QString::number(10));
+    QStringList args(QStringList()
+                     << "mpris" << mpdAddress << QString::number(mpdPort)
+                     << "auto" << QString::number(10));
     PlayerSource *source = new PlayerSource(this, args);
     _test_sources(source);
 
-    QString value = source->data(QString("player/title")).toString();
-    int progress = source->data(QString("player/progress")).toInt();
-    int duration = source->data(QString("player/duration")).toInt();
+    QString value = source->data("player/title").toString();
+    int progress = source->data("player/progress").toInt();
+    int duration = source->data("player/duration").toInt();
 
     // actually nothing to test here just print warning if no information found
-    if (value == QString("unknown"))
+    if (value == "unknown")
         QSKIP("No mpris found");
 
     QVERIFY(progress < duration);

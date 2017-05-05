@@ -34,34 +34,34 @@ void TestAWKeys::initTestCase()
 
     // tooltip init
     QVariantMap tooltipSettings;
-    tooltipSettings[QString("tooltipNumber")] = 1000;
-    tooltipSettings[QString("useTooltipBackground")] = true;
-    tooltipSettings[QString("tooltipBackground")] = QString("#ffffff");
-    tooltipSettings[QString("cpuTooltip")] = true;
-    tooltipSettings[QString("cpuclTooltip")] = true;
-    tooltipSettings[QString("memTooltip")] = true;
-    tooltipSettings[QString("swapTooltip")] = true;
-    tooltipSettings[QString("downkbTooltip")] = true;
-    tooltipSettings[QString("upkbTooltip")] = true;
-    tooltipSettings[QString("batTooltip")] = true;
-    tooltipSettings[QString("cpuTooltipColor")] = QString("#ffffff");
-    tooltipSettings[QString("cpuclTooltipColor")] = QString("#ffffff");
-    tooltipSettings[QString("memTooltipColor")] = QString("#ffffff");
-    tooltipSettings[QString("swapTooltipColor")] = QString("#ffffff");
-    tooltipSettings[QString("downkbTooltipColor")] = QString("#ffffff");
-    tooltipSettings[QString("upkbTooltipColor")] = QString("#ffffff");
-    tooltipSettings[QString("batTooltipColor")] = QString("#ffffff");
-    tooltipSettings[QString("batInTooltipColor")] = QString("#ffffff");
-    tooltipSettings[QString("acOnline")] = QString("(*)");
-    tooltipSettings[QString("notify")] = false;
+    tooltipSettings["tooltipNumber"] = 1000;
+    tooltipSettings["useTooltipBackground"] = true;
+    tooltipSettings["tooltipBackground"] = "#ffffff";
+    tooltipSettings["cpuTooltip"] = true;
+    tooltipSettings["cpuclTooltip"] = true;
+    tooltipSettings["memTooltip"] = true;
+    tooltipSettings["swapTooltip"] = true;
+    tooltipSettings["downkbTooltip"] = true;
+    tooltipSettings["upkbTooltip"] = true;
+    tooltipSettings["batTooltip"] = true;
+    tooltipSettings["cpuTooltipColor"] = "#ffffff";
+    tooltipSettings["cpuclTooltipColor"] = "#ffffff";
+    tooltipSettings["memTooltipColor"] = "#ffffff";
+    tooltipSettings["swapTooltipColor"] = "#ffffff";
+    tooltipSettings["downkbTooltipColor"] = "#ffffff";
+    tooltipSettings["upkbTooltipColor"] = "#ffffff";
+    tooltipSettings["batTooltipColor"] = "#ffffff";
+    tooltipSettings["batInTooltipColor"] = "#ffffff";
+    tooltipSettings["acOnline"] = "(*)";
+    tooltipSettings["notify"] = false;
     plugin->initDataAggregator(tooltipSettings);
 
     // aggregator init
-    plugin->setAggregatorProperty("acOffline", QString("( )"));
-    plugin->setAggregatorProperty("acOnline", QString("(*)"));
-    plugin->setAggregatorProperty("customTime", QString("$hh"));
-    plugin->setAggregatorProperty("customUptime", QString("$hh"));
-    plugin->setAggregatorProperty("tempUnits", QString("Celsius"));
+    plugin->setAggregatorProperty("acOffline", "( )");
+    plugin->setAggregatorProperty("acOnline", "(*)");
+    plugin->setAggregatorProperty("customTime", "$hh");
+    plugin->setAggregatorProperty("customUptime", "$hh");
+    plugin->setAggregatorProperty("tempUnits", "Celsius");
     plugin->setAggregatorProperty("translate", false);
 
     plugin->initKeys(pattern, interval, 0, false);
@@ -90,7 +90,7 @@ void TestAWKeys::test_dictKeys()
     QEXPECT_FAIL("", "Sorted and non-sorted lists should differ", Continue);
     QCOMPARE(keys, sorted);
 
-    pattern = QString("$%1").arg(sorted.join(QString("\n$")));
+    pattern = QString("$%1").arg(sorted.join("\n$"));
 }
 
 
@@ -120,7 +120,7 @@ void TestAWKeys::test_tooltip()
 
     QVERIFY(spy.wait(5 * interval));
     QString text = spy.takeFirst().at(0).toString();
-    QVERIFY(text.startsWith(QString("<img")));
+    QVERIFY(text.startsWith("<img"));
 }
 
 
@@ -147,7 +147,7 @@ void TestAWKeys::test_infoByKey()
         QString info = plugin->infoByKey(key);
         QVERIFY(!info.isEmpty());
         // append non-empty field count
-        if (info != QString("(none)"))
+        if (info != "(none)")
             notEmpty++;
     }
     QVERIFY(notEmpty > 0);
@@ -176,9 +176,8 @@ void TestAWKeys::test_dbus()
 
     // create connection and message
     QDBusConnection bus = QDBusConnection::sessionBus();
-    QDBusMessage request
-        = QDBusMessage::createMethodCall(AWDBUS_SERVICE, QString("/%1").arg(id),
-                                         AWDBUS_SERVICE, QString("WhoAmI"));
+    QDBusMessage request = QDBusMessage::createMethodCall(
+        AWDBUS_SERVICE, QString("/%1").arg(id), AWDBUS_SERVICE, "WhoAmI");
     // send message to dbus
     QDBusMessage response = bus.call(request, QDBus::BlockWithGui);
 

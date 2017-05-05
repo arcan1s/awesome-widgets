@@ -24,14 +24,14 @@
 
 #include "awdebug.h"
 #include "extsysmonaggregator.h"
-#include "gputempsource.h"
+#include "gpuloadsource.h"
 #include "hddtempsource.h"
 
 
-ExtendedSysMon::ExtendedSysMon(QObject *parent, const QVariantList &args)
-    : Plasma::DataEngine(parent, args)
+ExtendedSysMon::ExtendedSysMon(QObject *_parent, const QVariantList &_args)
+    : Plasma::DataEngine(_parent, _args)
 {
-    Q_UNUSED(args)
+    Q_UNUSED(_args)
     qSetMessagePattern(AWDebug::LOG_FORMAT);
     qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
     for (auto &metadata : AWDebug::getBuildData())
@@ -61,25 +61,25 @@ QStringList ExtendedSysMon::sources() const
 }
 
 
-bool ExtendedSysMon::sourceRequestEvent(const QString &source)
+bool ExtendedSysMon::sourceRequestEvent(const QString &_source)
 {
-    qCDebug(LOG_ESM) << "Source" << source;
+    qCDebug(LOG_ESM) << "Source" << _source;
 
-    return updateSourceEvent(source);
+    return updateSourceEvent(_source);
 }
 
 
-bool ExtendedSysMon::updateSourceEvent(const QString &source)
+bool ExtendedSysMon::updateSourceEvent(const QString &_source)
 {
-    qCDebug(LOG_ESM) << "Source" << source;
+    qCDebug(LOG_ESM) << "Source" << _source;
 
-    if (m_aggregator->hasSource(source)) {
-        QVariant data = m_aggregator->data(source);
+    if (m_aggregator->hasSource(_source)) {
+        QVariant data = m_aggregator->data(_source);
         if (data.isNull())
             return false;
-        setData(source, QString("value"), data);
+        setData(_source, "value", data);
     } else {
-        qCWarning(LOG_ESM) << "Unknown source" << source;
+        qCWarning(LOG_ESM) << "Unknown source" << _source;
         return false;
     }
 
@@ -89,36 +89,26 @@ bool ExtendedSysMon::updateSourceEvent(const QString &source)
 
 void ExtendedSysMon::readConfiguration()
 {
-    QString fileName
-        = QStandardPaths::locate(QStandardPaths::ConfigLocation,
-                                 QString("plasma-dataengine-extsysmon.conf"));
+    QString fileName = QStandardPaths::locate(
+        QStandardPaths::ConfigLocation, "plasma-dataengine-extsysmon.conf");
     qCInfo(LOG_ESM) << "Configuration file" << fileName;
     QSettings settings(fileName, QSettings::IniFormat);
     QHash<QString, QString> rawConfig;
 
-    settings.beginGroup(QString("Configuration"));
-    rawConfig[QString("ACPIPATH")]
-        = settings
-              .value(QString("ACPIPATH"), QString("/sys/class/power_supply/"))
-              .toString();
-    rawConfig[QString("GPUDEV")]
-        = settings.value(QString("GPUDEV"), QString("auto")).toString();
-    rawConfig[QString("HDDDEV")]
-        = settings.value(QString("HDDDEV"), QString("all")).toString();
-    rawConfig[QString("HDDTEMPCMD")]
-        = settings.value(QString("HDDTEMPCMD"), QString("sudo smartctl -a"))
-              .toString();
-    rawConfig[QString("MPDADDRESS")]
-        = settings.value(QString("MPDADDRESS"), QString("localhost"))
-              .toString();
-    rawConfig[QString("MPDPORT")]
-        = settings.value(QString("MPDPORT"), QString("6600")).toString();
-    rawConfig[QString("MPRIS")]
-        = settings.value(QString("MPRIS"), QString("auto")).toString();
-    rawConfig[QString("PLAYER")]
-        = settings.value(QString("PLAYER"), QString("mpris")).toString();
-    rawConfig[QString("PLAYERSYMBOLS")]
-        = settings.value(QString("PLAYERSYMBOLS"), QString("10")).toString();
+    settings.beginGroup("Configuration");
+    rawConfig["ACPIPATH"]
+        = settings.value("ACPIPATH", "/sys/class/power_supply/").toString();
+    rawConfig["GPUDEV"] = settings.value("GPUDEV", "auto").toString();
+    rawConfig["HDDDEV"] = settings.value("HDDDEV", "all").toString();
+    rawConfig["HDDTEMPCMD"]
+        = settings.value("HDDTEMPCMD", "sudo smartctl -a").toString();
+    rawConfig["MPDADDRESS"]
+        = settings.value("MPDADDRESS", "localhost").toString();
+    rawConfig["MPDPORT"] = settings.value("MPDPORT", "6600").toString();
+    rawConfig["MPRIS"] = settings.value("MPRIS", "auto").toString();
+    rawConfig["PLAYER"] = settings.value("PLAYER", "mpris").toString();
+    rawConfig["PLAYERSYMBOLS"]
+        = settings.value("PLAYERSYMBOLS", "10").toString();
     settings.endGroup();
 
     m_configuration = updateConfiguration(rawConfig);
@@ -126,49 +116,48 @@ void ExtendedSysMon::readConfiguration()
 
 
 QHash<QString, QString>
-ExtendedSysMon::updateConfiguration(QHash<QString, QString> rawConfig) const
+ExtendedSysMon::updateConfiguration(QHash<QString, QString> _rawConfig) const
 {
-    qCDebug(LOG_ESM) << "Raw configuration" << rawConfig;
+    qCDebug(LOG_ESM) << "Raw configuration" << _rawConfig;
 
     // gpudev
-    if (rawConfig[QString("GPUDEV")] == QString("disable"))
-        rawConfig[QString("GPUDEV")] = QString("disable");
-    else if (rawConfig[QString("GPUDEV")] == QString("auto"))
-        rawConfig[QString("GPUDEV")] = GPUTemperatureSource::autoGpu();
-    else if ((rawConfig[QString("GPUDEV")] != QString("ati"))
-             && (rawConfig[QString("GPUDEV")] != QString("nvidia")))
-        rawConfig[QString("GPUDEV")] = GPUTemperatureSource::autoGpu();
+    if (_rawConfig["GPUDEV"] == "disable")
+        ;
+    else if (_rawConfig["GPUDEV"] == "auto")
+        _rawConfig["GPUDEV"] = GPULoadSource::autoGpu();
+    else if ((_rawConfig["GPUDEV"] != "ati")
+             && (_rawConfig["GPUDEV"] != "nvidia"))
+        _rawConfig["GPUDEV"] = GPULoadSource::autoGpu();
     // hdddev
     QStringList allHddDevices = HDDTemperatureSource::allHdd();
-    if (rawConfig[QString("HDDDEV")] == QString("all")) {
-        rawConfig[QString("HDDDEV")] = allHddDevices.join(QChar(','));
-    } else if (rawConfig[QString("HDDDEV")] == QString("disable")) {
-        rawConfig[QString("HDDDEV")] = QString("");
+    if (_rawConfig["HDDDEV"] == "all") {
+        _rawConfig["HDDDEV"] = allHddDevices.join(',');
+    } else if (_rawConfig["HDDDEV"] == "disable") {
+        _rawConfig["HDDDEV"] = "";
     } else {
-        QStringList deviceList = rawConfig[QString("HDDDEV")].split(
-            QChar(','), QString::SkipEmptyParts);
+        QStringList deviceList
+            = _rawConfig["HDDDEV"].split(',', QString::SkipEmptyParts);
         QStringList devices;
         QRegExp diskRegexp = QRegExp("^/dev/[hms]d[a-z]$");
         for (auto &device : deviceList)
             if ((QFile::exists(device)) && (device.contains(diskRegexp)))
                 devices.append(device);
         if (devices.isEmpty())
-            rawConfig[QString("HDDDEV")] = allHddDevices.join(QChar(','));
+            _rawConfig["HDDDEV"] = allHddDevices.join(',');
         else
-            rawConfig[QString("HDDDEV")] = devices.join(QChar(','));
+            _rawConfig["HDDDEV"] = devices.join(',');
     }
     // player
-    if ((rawConfig[QString("PLAYER")] != QString("mpd"))
-        && (rawConfig[QString("PLAYER")] != QString("mpris"))
-        && (rawConfig[QString("PLAYER")] != QString("disable")))
-        rawConfig[QString("PLAYER")] = QString("mpris");
+    if ((_rawConfig["PLAYER"] != "mpd") && (_rawConfig["PLAYER"] != "mpris")
+        && (_rawConfig["PLAYER"] != "disable"))
+        _rawConfig["PLAYER"] = "mpris";
     // player symbols
-    if (rawConfig[QString("PLAYERSYMBOLS")].toInt() <= 0)
-        rawConfig[QString("PLAYERSYMBOLS")] = QString("10");
+    if (_rawConfig["PLAYERSYMBOLS"].toInt() <= 0)
+        _rawConfig["PLAYERSYMBOLS"] = "10";
 
-    for (auto &key : rawConfig.keys())
-        qCInfo(LOG_ESM) << key << "=" << rawConfig[key];
-    return rawConfig;
+    for (auto &key : _rawConfig.keys())
+        qCInfo(LOG_ESM) << key << "=" << _rawConfig[key];
+    return _rawConfig;
 }
 
 

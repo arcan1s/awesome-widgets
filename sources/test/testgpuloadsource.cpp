@@ -48,7 +48,7 @@ void TestGPULoadSource::test_sources()
 
 void TestGPULoadSource::test_gpuload()
 {
-    if (device == QString("disable"))
+    if (device == "disable")
         QSKIP("Not supported device, test will be skipped");
 
     QSignalSpy spy(source, SIGNAL(dataReceived(const QVariantHash &)));

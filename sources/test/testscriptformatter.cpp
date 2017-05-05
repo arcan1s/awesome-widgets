@@ -93,7 +93,7 @@ void TestAWScriptFormatter::test_hasReturn()
 
 void TestAWScriptFormatter::test_copy()
 {
-    AWScriptFormatter *newFormatter = formatter->copy(QString("/dev/null"), 1);
+    AWScriptFormatter *newFormatter = formatter->copy("/dev/null", 1);
 
     QCOMPARE(newFormatter->appendCode(), formatter->appendCode());
     QCOMPARE(newFormatter->code(), formatter->code());

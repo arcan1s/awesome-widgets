@@ -34,7 +34,7 @@ void TestExtScript::initTestCase()
     extScript->setExecutable(randomString);
     extScript->setNumber(0);
     extScript->setRedirect(ExtScript::Redirect::stderr2stdout);
-    extScript->setPrefix(QString("echo"));
+    extScript->setPrefix("echo");
 
     extScript->run();
 }
@@ -66,11 +66,9 @@ void TestExtScript::test_run()
     QVERIFY(spy.wait(5000));
     QList<QVariant> arguments = spy.takeFirst();
 
-    QCOMPARE(firstValue[extScript->tag(QString("custom"))].toString(),
-             QString(""));
-    QCOMPARE(
-        arguments.at(0).toHash()[extScript->tag(QString("custom"))].toString(),
-        QString("\n%1").arg(randomString));
+    QCOMPARE(firstValue[extScript->tag("custom")].toString(), QString());
+    QCOMPARE(arguments.at(0).toHash()[extScript->tag("custom")].toString(),
+             QString("\n%1").arg(randomString));
 }
 
 
@@ -79,7 +77,7 @@ void TestExtScript::test_filters()
     if (extScript->jsonFiltersFile().isEmpty())
         QSKIP("No json filters found for scripts, skip fitlers test");
 
-    extScript->setFilters(QStringList() << QString("newline"));
+    extScript->setFilters(QStringList() << "newline");
     // init spy
     QSignalSpy spy(extScript, SIGNAL(dataReceived(const QVariantHash &)));
     extScript->run();
@@ -87,15 +85,14 @@ void TestExtScript::test_filters()
     // check values
     QVERIFY(spy.wait(5000));
     QList<QVariant> arguments = spy.takeFirst();
-    QCOMPARE(
-        arguments.at(0).toHash()[extScript->tag(QString("custom"))].toString(),
-        QString("<br>%1").arg(randomString));
+    QCOMPARE(arguments.at(0).toHash()[extScript->tag("custom")].toString(),
+             QString("<br>%1").arg(randomString));
 }
 
 
 void TestExtScript::test_copy()
 {
-    ExtScript *newExtScript = extScript->copy(QString("/dev/null"), 1);
+    ExtScript *newExtScript = extScript->copy("/dev/null", 1);
 
     QCOMPARE(newExtScript->interval(), extScript->interval());
     QCOMPARE(newExtScript->executable(), extScript->executable());

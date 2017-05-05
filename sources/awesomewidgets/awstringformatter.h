@@ -34,8 +34,8 @@ class AWStringFormatter : public AWAbstractFormatter
     Q_PROPERTY(bool forceWidth READ forceWidth WRITE setForceWidth)
 
 public:
-    explicit AWStringFormatter(QWidget *parent,
-                               const QString &filePath = QString());
+    explicit AWStringFormatter(QWidget *_parent = nullptr,
+                               const QString &_filePath = "");
     virtual ~AWStringFormatter();
     QString convert(const QVariant &_value) const;
     AWStringFormatter *copy(const QString &_fileName, const int _number);
@@ -49,7 +49,7 @@ public:
 
 public slots:
     void readConfiguration();
-    int showConfiguration(const QVariant &args = QVariant());
+    int showConfiguration(const QVariant &_args);
     void writeConfiguration() const;
 
 private:

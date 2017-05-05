@@ -27,9 +27,10 @@
 #include "awdebug.h"
 
 
-GraphicalItemHelper::GraphicalItemHelper(QObject *parent, QGraphicsScene *scene)
-    : QObject(parent)
-    , m_scene(scene)
+GraphicalItemHelper::GraphicalItemHelper(QObject *_parent,
+                                         QGraphicsScene *_scene)
+    : QObject(_parent)
+    , m_scene(_scene)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 }
@@ -41,54 +42,56 @@ GraphicalItemHelper::~GraphicalItemHelper()
 }
 
 
-void GraphicalItemHelper::setParameters(const QString &active,
-                                        const QString &inactive, const int width,
-                                        const int height, const int count)
+void GraphicalItemHelper::setParameters(const QString &_active,
+                                        const QString &_inactive,
+                                        const int _width, const int _height,
+                                        const int _count)
 {
-    qCDebug(LOG_LIB) << "Use active color" << active << ", inactive" << inactive
-                     << ", width" << width << ", height" << height << ", count"
-                     << count;
+    qCDebug(LOG_LIB) << "Use active color" << _active << ", inactive"
+                     << _inactive << ", width" << _width << ", height"
+                     << _height << ", count" << _count;
 
     // put images to pens if any otherwise set pen colors
     // Images resize to content here as well
-    if (isColor(active)) {
-        m_activePen.setBrush(QBrush(stringToColor(active)));
+    if (isColor(_active)) {
+        m_activePen.setBrush(QBrush(stringToColor(_active)));
     } else {
-        qCInfo(LOG_LIB) << "Found path, trying to load Pixmap from" << active;
-        QPixmap pixmap = QPixmap(QUrl(active).toLocalFile());
+        qCInfo(LOG_LIB) << "Found path, trying to load Pixmap from" << _active;
+        QPixmap pixmap = QPixmap(QUrl(_active).toLocalFile());
         if (pixmap.isNull()) {
-            qCWarning(LOG_LIB) << "Invalid pixmap found" << active;
+            qCWarning(LOG_LIB) << "Invalid pixmap found" << _active;
             m_activePen.setBrush(QBrush(QColor(0, 0, 0, 130)));
         } else {
-            m_activePen.setBrush(QBrush(pixmap.scaled(width, height)));
+            m_activePen.setBrush(QBrush(pixmap.scaled(_width, _height)));
         }
     }
-    if (isColor(inactive)) {
-        m_inactivePen.setBrush(QBrush(stringToColor(inactive)));
+    if (isColor(_inactive)) {
+        m_inactivePen.setBrush(QBrush(stringToColor(_inactive)));
     } else {
-        qCInfo(LOG_LIB) << "Found path, trying to load Pixmap from" << inactive;
-        QPixmap pixmap = QPixmap(QUrl(inactive).toLocalFile());
+        qCInfo(LOG_LIB) << "Found path, trying to load Pixmap from"
+                        << _inactive;
+        QPixmap pixmap = QPixmap(QUrl(_inactive).toLocalFile());
         if (pixmap.isNull()) {
-            qCWarning(LOG_LIB) << "Invalid pixmap found" << inactive;
+            qCWarning(LOG_LIB) << "Invalid pixmap found" << _inactive;
             m_inactivePen.setBrush(QBrush(QColor(255, 255, 255, 130)));
         } else {
-            m_inactivePen.setBrush(QBrush(pixmap.scaled(width, height)));
+            m_inactivePen.setBrush(QBrush(pixmap.scaled(_width, _height)));
         }
     }
-    m_width = width;
-    m_height = height;
-    m_count = count;
+    m_width = _width;
+    m_height = _height;
+    m_count = _count;
 }
 
 
-void GraphicalItemHelper::paintBars(const float value)
+void GraphicalItemHelper::paintBars(const float _value)
 {
-    qCDebug(LOG_LIB) << "Paint with value" << value;
+    qCDebug(LOG_LIB) << "Paint with value" << _value;
 
     // refresh background image
     m_scene->setBackgroundBrush(m_inactivePen.brush());
 
-    storeValue(value);
+    storeValue(_value);
 
     // default norms
     float normX
@@ -105,9 +108,9 @@ void GraphicalItemHelper::paintBars(const float value)
 }
 
 
-void GraphicalItemHelper::paintCircle(const float percent)
+void GraphicalItemHelper::paintCircle(const float _percent)
 {
-    qCDebug(LOG_LIB) << "Paint with percent" << percent;
+    qCDebug(LOG_LIB) << "Paint with percent" << _percent;
 
     m_activePen.setWidth(1);
     m_inactivePen.setWidth(1);
@@ -118,24 +121,24 @@ void GraphicalItemHelper::paintCircle(const float percent)
     // inactive
     circle = m_scene->addEllipse(0.0, 0.0, m_width, m_height, m_inactivePen,
                                  m_inactivePen.brush());
-    circle->setSpanAngle(-(1.0f - percent) * 360.0f * 16.0f);
-    circle->setStartAngle(90.0f * 16.0f - percent * 360.0f * 16.0f);
+    circle->setSpanAngle(-(1.0f - _percent) * 360.0f * 16.0f);
+    circle->setStartAngle(90.0f * 16.0f - _percent * 360.0f * 16.0f);
     // active
     circle = m_scene->addEllipse(0.0, 0.0, m_width, m_height, m_activePen,
                                  m_activePen.brush());
-    circle->setSpanAngle(-percent * 360.0f * 16.0f);
+    circle->setSpanAngle(-_percent * 360.0f * 16.0f);
     circle->setStartAngle(90 * 16);
 }
 
 
-void GraphicalItemHelper::paintGraph(const float value)
+void GraphicalItemHelper::paintGraph(const float _value)
 {
-    qCDebug(LOG_LIB) << "Paint with value" << value;
+    qCDebug(LOG_LIB) << "Paint with value" << _value;
 
     // refresh background image
     m_scene->setBackgroundBrush(m_inactivePen.brush());
 
-    storeValue(value);
+    storeValue(_value);
 
     // default norms
     float normX
@@ -153,66 +156,67 @@ void GraphicalItemHelper::paintGraph(const float value)
 }
 
 
-void GraphicalItemHelper::paintHorizontal(const float percent)
+void GraphicalItemHelper::paintHorizontal(const float _percent)
 {
-    qCDebug(LOG_LIB) << "Paint with percent" << percent;
+    qCDebug(LOG_LIB) << "Paint with percent" << _percent;
 
     m_activePen.setWidth(m_height);
     m_inactivePen.setWidth(m_height);
     // inactive
-    m_scene->addLine(percent * m_width + 0.5 * m_height, 0.5 * m_height,
+    m_scene->addLine(_percent * m_width + 0.5 * m_height, 0.5 * m_height,
                      m_width + 0.5 * m_height, 0.5 * m_height, m_inactivePen);
     // active
     m_scene->addLine(-0.5 * m_height, 0.5 * m_height,
-                     percent * m_width - 0.5 * m_height, 0.5 * m_height,
+                     _percent * m_width - 0.5 * m_height, 0.5 * m_height,
                      m_activePen);
 }
 
 
-void GraphicalItemHelper::paintVertical(const float percent)
+void GraphicalItemHelper::paintVertical(const float _percent)
 {
-    qCDebug(LOG_LIB) << "Paint with percent" << percent;
+    qCDebug(LOG_LIB) << "Paint with percent" << _percent;
 
     m_activePen.setWidth(m_height);
     m_inactivePen.setWidth(m_height);
     // inactive
     m_scene->addLine(0.5 * m_width, -0.5 * m_width, 0.5 * m_width,
-                     (1.0 - percent) * m_height - 0.5 * m_width, m_inactivePen);
+                     (1.0 - _percent) * m_height - 0.5 * m_width,
+                     m_inactivePen);
     // active
-    m_scene->addLine(0.5 * m_width, (1.0 - percent) * m_height + 0.5 * m_width,
+    m_scene->addLine(0.5 * m_width, (1.0 - _percent) * m_height + 0.5 * m_width,
                      0.5 * m_width, m_height + 0.5 * m_width, m_activePen);
 }
 
 
-float GraphicalItemHelper::getPercents(const float value, const float min,
-                                       const float max)
+float GraphicalItemHelper::getPercents(const float _value, const float _min,
+                                       const float _max)
 {
-    qCDebug(LOG_LIB) << "Get percent value from" << value;
+    qCDebug(LOG_LIB) << "Get percent value from" << _value;
     // newest Qt crashes here if value is nan
-    if (std::isnan(value))
+    if (std::isnan(_value))
         return 0.0;
 
-    return (value - min) / (max - min);
+    return (_value - _min) / (_max - _min);
 }
 
 
-bool GraphicalItemHelper::isColor(const QString &input)
+bool GraphicalItemHelper::isColor(const QString &_input)
 {
-    qCDebug(LOG_LIB) << "Define input type in" << input;
+    qCDebug(LOG_LIB) << "Define input type in" << _input;
 
-    return input.startsWith(QString("color://"));
+    return _input.startsWith("color://");
 }
 
 
-QColor GraphicalItemHelper::stringToColor(const QString &color)
+QColor GraphicalItemHelper::stringToColor(const QString &_color)
 {
-    qCDebug(LOG_LIB) << "Color" << color;
+    qCDebug(LOG_LIB) << "Color" << _color;
 
-    QStringList listColor = color.split(QChar(','));
+    QStringList listColor = _color.split(',');
     while (listColor.count() < 4)
-        listColor.append(QString("0"));
+        listColor.append("0");
     // remove prefix
-    listColor[0].remove(QString("color://"));
+    listColor[0].remove("color://");
     // init color
     QColor qColor;
     qColor.setRed(listColor.at(0).toInt());
@@ -224,14 +228,14 @@ QColor GraphicalItemHelper::stringToColor(const QString &color)
 }
 
 
-void GraphicalItemHelper::storeValue(const float value)
+void GraphicalItemHelper::storeValue(const float _value)
 {
-    qCDebug(LOG_LIB) << "Save value to array" << value;
+    qCDebug(LOG_LIB) << "Save value to array" << _value;
 
     if (m_values.count() == 0)
         m_values.append(1.0);
     else if (m_values.count() > m_count)
         m_values.removeFirst();
 
-    m_values.append(value);
+    m_values.append(_value);
 }

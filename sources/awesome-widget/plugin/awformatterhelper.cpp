@@ -33,12 +33,12 @@
 #include "awstringformatter.h"
 
 
-AWFormatterHelper::AWFormatterHelper(QWidget *parent)
-    : AbstractExtItemAggregator(parent, QString("formatters"))
+AWFormatterHelper::AWFormatterHelper(QWidget *_parent)
+    : AbstractExtItemAggregator(_parent, "formatters")
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
-    m_filePath = QString("awesomewidgets/formatters/formatters.ini");
+    m_filePath = "awesomewidgets/formatters/formatters.ini";
     initItems();
 }
 
@@ -52,13 +52,13 @@ AWFormatterHelper::~AWFormatterHelper()
 }
 
 
-QString AWFormatterHelper::convert(const QVariant &value,
-                                   const QString &name) const
+QString AWFormatterHelper::convert(const QVariant &_value,
+                                   const QString &_name) const
 {
-    qCDebug(LOG_AW) << "Convert value" << value << "for" << name;
+    qCDebug(LOG_AW) << "Convert value" << _value << "for" << _name;
 
-    return m_formatters.contains(name) ? m_formatters[name]->convert(value)
-                                       : value.toString();
+    return m_formatters.contains(_name) ? m_formatters[_name]->convert(_value)
+                                        : _value.toString();
 }
 
 
@@ -94,9 +94,9 @@ QStringList AWFormatterHelper::knownFormatters() const
 }
 
 
-bool AWFormatterHelper::removeUnusedFormatters(const QStringList &keys) const
+bool AWFormatterHelper::removeUnusedFormatters(const QStringList &_keys) const
 {
-    qCDebug(LOG_AW) << "Remove formatters" << keys;
+    qCDebug(LOG_AW) << "Remove formatters" << _keys;
 
     QString fileName = QString("%1/%2")
                            .arg(QStandardPaths::writableLocation(
@@ -105,10 +105,10 @@ bool AWFormatterHelper::removeUnusedFormatters(const QStringList &keys) const
     QSettings settings(fileName, QSettings::IniFormat);
     qCInfo(LOG_AW) << "Configuration file" << fileName;
 
-    settings.beginGroup(QString("Formatters"));
+    settings.beginGroup("Formatters");
     QStringList foundKeys = settings.childKeys();
     for (auto &key : foundKeys) {
-        if (keys.contains(key))
+        if (_keys.contains(key))
             continue;
         settings.remove(key);
     }
@@ -121,9 +121,9 @@ bool AWFormatterHelper::removeUnusedFormatters(const QStringList &keys) const
 
 
 bool AWFormatterHelper::writeFormatters(
-    const QHash<QString, QString> &configuration) const
+    const QHash<QString, QString> &_configuration) const
 {
-    qCDebug(LOG_AW) << "Write configuration" << configuration;
+    qCDebug(LOG_AW) << "Write configuration" << _configuration;
 
     QString fileName = QString("%1/%2")
                            .arg(QStandardPaths::writableLocation(
@@ -132,9 +132,9 @@ bool AWFormatterHelper::writeFormatters(
     QSettings settings(fileName, QSettings::IniFormat);
     qCInfo(LOG_AW) << "Configuration file" << fileName;
 
-    settings.beginGroup(QString("Formatters"));
-    for (auto &key : configuration.keys())
-        settings.setValue(key, configuration[key]);
+    settings.beginGroup("Formatters");
+    for (auto &key : _configuration.keys())
+        settings.setValue(key, _configuration[key]);
     settings.endGroup();
 
     settings.sync();
@@ -152,28 +152,28 @@ void AWFormatterHelper::editItems()
 
 
 AWAbstractFormatter::FormatterClass
-AWFormatterHelper::defineFormatterClass(const QString &stringType) const
+AWFormatterHelper::defineFormatterClass(const QString &_stringType) const
 {
-    qCDebug(LOG_AW) << "Define formatter class for" << stringType;
+    qCDebug(LOG_AW) << "Define formatter class for" << _stringType;
 
     AWAbstractFormatter::FormatterClass formatter
         = AWAbstractFormatter::FormatterClass::NoFormat;
-    if (stringType == QString("DateTime"))
+    if (_stringType == "DateTime")
         formatter = AWAbstractFormatter::FormatterClass::DateTime;
-    else if (stringType == QString("Float"))
+    else if (_stringType == "Float")
         formatter = AWAbstractFormatter::FormatterClass::Float;
-    else if (stringType == QString("List"))
+    else if (_stringType == "List")
         formatter = AWAbstractFormatter::FormatterClass::List;
-    else if (stringType == QString("NoFormat"))
+    else if (_stringType == "NoFormat")
         ;
-    else if (stringType == QString("Script"))
+    else if (_stringType == "Script")
         formatter = AWAbstractFormatter::FormatterClass::Script;
-    else if (stringType == QString("String"))
+    else if (_stringType == "String")
         formatter = AWAbstractFormatter::FormatterClass::String;
-    else if (stringType == QString("Json"))
+    else if (_stringType == "Json")
         formatter = AWAbstractFormatter::FormatterClass::Json;
     else
-        qCWarning(LOG_AW) << "Unknown formatter" << stringType;
+        qCWarning(LOG_AW) << "Unknown formatter" << _stringType;
 
     return formatter;
 }
@@ -187,7 +187,7 @@ void AWFormatterHelper::initFormatters()
         QStringList files
             = QDir(m_directories.at(i)).entryList(QDir::Files, QDir::Name);
         for (auto &file : files) {
-            if (!file.endsWith(QString(".desktop")))
+            if (!file.endsWith(".desktop"))
                 continue;
             qCInfo(LOG_AW) << "Found file" << file << "in"
                            << m_directories.at(i);
@@ -242,7 +242,7 @@ void AWFormatterHelper::initKeys()
         QSettings settings(fileName, QSettings::IniFormat);
         qCInfo(LOG_AW) << "Configuration file" << settings.fileName();
 
-        settings.beginGroup(QString("Formatters"));
+        settings.beginGroup("Formatters");
         QStringList keys = settings.childKeys();
         for (auto &key : keys) {
             QString name = settings.value(key).toString();
@@ -275,21 +275,20 @@ void AWFormatterHelper::installDirectories()
         qCInfo(LOG_AW) << "Created directory" << localDir;
 
     m_directories = QStandardPaths::locateAll(
-        QStandardPaths::GenericDataLocation,
-        QString("awesomewidgets/formatters"), QStandardPaths::LocateDirectory);
+        QStandardPaths::GenericDataLocation, "awesomewidgets/formatters",
+        QStandardPaths::LocateDirectory);
 }
 
 
 QPair<QString, AWAbstractFormatter::FormatterClass>
-AWFormatterHelper::readMetadata(const QString &filePath) const
+AWFormatterHelper::readMetadata(const QString &_filePath) const
 {
-    qCDebug(LOG_AW) << "Read initial parameters from" << filePath;
+    qCDebug(LOG_AW) << "Read initial parameters from" << _filePath;
 
-    QSettings settings(filePath, QSettings::IniFormat);
-    settings.beginGroup(QString("Desktop Entry"));
-    QString name = settings.value(QString("Name"), filePath).toString();
-    QString type
-        = settings.value(QString("X-AW-Type"), QString("NoFormat")).toString();
+    QSettings settings(_filePath, QSettings::IniFormat);
+    settings.beginGroup("Desktop Entry");
+    QString name = settings.value("Name", _filePath).toString();
+    QString type = settings.value("X-AW-Type", "NoFormat").toString();
     AWAbstractFormatter::FormatterClass formatter = defineFormatterClass(type);
     settings.endGroup();
 
@@ -299,11 +298,13 @@ AWFormatterHelper::readMetadata(const QString &filePath) const
 
 void AWFormatterHelper::doCreateItem()
 {
-    QStringList selection = QStringList()
-                            << QString("NoFormat") << QString("DateTime")
-                            << QString("Float") << QString("List")
-                            << QString("Script") << QString("String")
-                            << QString("Json");
+    QStringList selection = QStringList() << "NoFormat"
+                                          << "DateTime"
+                                          << "Float"
+                                          << "List"
+                                          << "Script"
+                                          << "String"
+                                          << "Json";
     bool ok;
     QString select = QInputDialog::getItem(
         this, i18n("Select type"), i18n("Type:"), selection, 0, false, &ok);

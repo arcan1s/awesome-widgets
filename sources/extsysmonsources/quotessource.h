@@ -31,10 +31,10 @@ class QuotesSource : public AbstractExtSysMonSource
     Q_OBJECT
 
 public:
-    explicit QuotesSource(QObject *parent, const QStringList &args);
+    explicit QuotesSource(QObject *_parent, const QStringList &_args);
     virtual ~QuotesSource();
-    QVariant data(const QString &source);
-    QVariantMap initialData(const QString &source) const;
+    QVariant data(const QString &_source);
+    QVariantMap initialData(const QString &_source) const;
     void run(){};
     QStringList sources() const;
 

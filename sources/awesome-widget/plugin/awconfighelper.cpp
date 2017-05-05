@@ -27,8 +27,8 @@
 #include "awdebug.h"
 
 
-AWConfigHelper::AWConfigHelper(QObject *parent)
-    : QObject(parent)
+AWConfigHelper::AWConfigHelper(QObject *_parent)
+    : QObject(_parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 }
@@ -69,16 +69,16 @@ bool AWConfigHelper::dropCache() const
 }
 
 
-bool AWConfigHelper::exportConfiguration(QObject *nativeConfig,
-                                         const QString &fileName) const
+bool AWConfigHelper::exportConfiguration(QObject *_nativeConfig,
+                                         const QString &_fileName) const
 {
-    qCDebug(LOG_AW) << "Selected filename" << fileName;
+    qCDebug(LOG_AW) << "Selected filename" << _fileName;
 
-    QSettings settings(fileName, QSettings::IniFormat);
+    QSettings settings(_fileName, QSettings::IniFormat);
     // plasmoid configuration
     const QQmlPropertyMap *configuration
-        = static_cast<const QQmlPropertyMap *>(nativeConfig);
-    settings.beginGroup(QString("plasmoid"));
+        = static_cast<const QQmlPropertyMap *>(_nativeConfig);
+    settings.beginGroup("plasmoid");
     for (auto &key : configuration->keys()) {
         QVariant value = configuration->value(key);
         if (!value.isValid())
@@ -91,8 +91,7 @@ bool AWConfigHelper::exportConfiguration(QObject *nativeConfig,
     for (auto &item : m_dirs) {
         QStringList items
             = QDir(QString("%1/%2").arg(m_baseDir).arg(item))
-                  .entryList(QStringList() << QString("*.desktop"),
-                             QDir::Files);
+                  .entryList(QStringList() << "*.desktop", QDir::Files);
         settings.beginGroup(item);
         for (auto &it : items)
             copyExtensions(it, item, settings, false);
@@ -100,17 +99,17 @@ bool AWConfigHelper::exportConfiguration(QObject *nativeConfig,
     }
 
     // additional files
-    settings.beginGroup(QString("json"));
+    settings.beginGroup("json");
     // script filters
-    readFile(settings, QString("filters"),
+    readFile(settings, "filters",
              QString("%1/scripts/awesomewidgets-extscripts-filters.json")
                  .arg(m_baseDir));
     // weather icon settings
-    readFile(settings, QString("weathers"),
+    readFile(settings, "weathers",
              QString("%1/weather/awesomewidgets-extweather-ids.json")
                  .arg(m_baseDir));
     // formatter settings
-    readFile(settings, QString("formatters"),
+    readFile(settings, "formatters",
              QString("%1/formatters/formatters.ini").arg(m_baseDir));
     settings.endGroup();
 
@@ -121,18 +120,18 @@ bool AWConfigHelper::exportConfiguration(QObject *nativeConfig,
 }
 
 
-QVariantMap AWConfigHelper::importConfiguration(const QString &fileName,
-                                                const bool importPlasmoid,
-                                                const bool importExtensions,
-                                                const bool importAdds) const
+QVariantMap AWConfigHelper::importConfiguration(const QString &_fileName,
+                                                const bool _importPlasmoid,
+                                                const bool _importExtensions,
+                                                const bool _importAdds) const
 {
-    qCDebug(LOG_AW) << "Selected filename" << fileName;
+    qCDebug(LOG_AW) << "Selected filename" << _fileName;
 
     QVariantMap configuration;
-    QSettings settings(fileName, QSettings::IniFormat);
+    QSettings settings(_fileName, QSettings::IniFormat);
 
     // extensions
-    if (importExtensions) {
+    if (_importExtensions) {
         for (auto &item : m_dirs) {
             settings.beginGroup(item);
             for (auto &it : settings.childGroups())
@@ -142,25 +141,25 @@ QVariantMap AWConfigHelper::importConfiguration(const QString &fileName,
     }
 
     // additional files
-    if (importAdds) {
-        settings.beginGroup(QString("json"));
+    if (_importAdds) {
+        settings.beginGroup("json");
         // script filters
-        writeFile(settings, QString("filters"),
+        writeFile(settings, "filters",
                   QString("%1/scripts/awesomewidgets-extscripts-filters.json")
                       .arg(m_baseDir));
         // weather icon settings
-        writeFile(settings, QString("weathers"),
+        writeFile(settings, "weathers",
                   QString("%1/weather/awesomewidgets-extweather-ids.json")
                       .arg(m_baseDir));
         // formatter settings
-        writeFile(settings, QString("formatters"),
+        writeFile(settings, "formatters",
                   QString("%1/formatters/formatters.ini").arg(m_baseDir));
         settings.endGroup();
     }
 
     // plasmoid configuration
-    if (importPlasmoid) {
-        settings.beginGroup(QString("plasmoid"));
+    if (_importPlasmoid) {
+        settings.beginGroup("plasmoid");
         for (auto &key : settings.childKeys())
             configuration[key] = settings.value(key);
         settings.endGroup();
@@ -172,32 +171,24 @@ QVariantMap AWConfigHelper::importConfiguration(const QString &fileName,
 
 QVariantMap AWConfigHelper::readDataEngineConfiguration() const
 {
-    QString fileName
-        = QStandardPaths::locate(QStandardPaths::ConfigLocation,
-                                 QString("plasma-dataengine-extsysmon.conf"));
+    QString fileName = QStandardPaths::locate(
+        QStandardPaths::ConfigLocation, "plasma-dataengine-extsysmon.conf");
     qCInfo(LOG_AW) << "Configuration file" << fileName;
     QSettings settings(fileName, QSettings::IniFormat);
     QVariantMap configuration;
 
-    settings.beginGroup(QString("Configuration"));
-    configuration[QString("ACPIPATH")] = settings.value(
-        QString("ACPIPATH"), QString("/sys/class/power_supply/"));
-    configuration[QString("GPUDEV")]
-        = settings.value(QString("GPUDEV"), QString("auto"));
-    configuration[QString("HDDDEV")]
-        = settings.value(QString("HDDDEV"), QString("all"));
-    configuration[QString("HDDTEMPCMD")]
-        = settings.value(QString("HDDTEMPCMD"), QString("sudo smartctl -a"));
-    configuration[QString("MPDADDRESS")]
-        = settings.value(QString("MPDADDRESS"), QString("localhost"));
-    configuration[QString("MPDPORT")]
-        = settings.value(QString("MPDPORT"), QString("6600"));
-    configuration[QString("MPRIS")]
-        = settings.value(QString("MPRIS"), QString("auto"));
-    configuration[QString("PLAYER")]
-        = settings.value(QString("PLAYER"), QString("mpris"));
-    configuration[QString("PLAYERSYMBOLS")]
-        = settings.value(QString("PLAYERSYMBOLS"), QString("10"));
+    settings.beginGroup("Configuration");
+    configuration["ACPIPATH"]
+        = settings.value("ACPIPATH", "/sys/class/power_supply/");
+    configuration["GPUDEV"] = settings.value("GPUDEV", "auto");
+    configuration["HDDDEV"] = settings.value("HDDDEV", "all");
+    configuration["HDDTEMPCMD"]
+        = settings.value("HDDTEMPCMD", "sudo smartctl -a");
+    configuration["MPDADDRESS"] = settings.value("MPDADDRESS", "localhost");
+    configuration["MPDPORT"] = settings.value("MPDPORT", "6600");
+    configuration["MPRIS"] = settings.value("MPRIS", "auto");
+    configuration["PLAYER"] = settings.value("PLAYER", "mpris");
+    configuration["PLAYERSYMBOLS"] = settings.value("PLAYERSYMBOLS", "10");
     settings.endGroup();
 
     qCInfo(LOG_AW) << "Configuration" << configuration;
@@ -207,29 +198,26 @@ QVariantMap AWConfigHelper::readDataEngineConfiguration() const
 
 
 bool AWConfigHelper::writeDataEngineConfiguration(
-    const QVariantMap &configuration) const
+    const QVariantMap &_configuration) const
 {
-    qCDebug(LOG_AW) << "Configuration" << configuration;
+    qCDebug(LOG_AW) << "Configuration" << _configuration;
 
-    QString fileName
-        = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation)
-          + QString("/plasma-dataengine-extsysmon.conf");
+    QString fileName = QString("%1/plasma-dataengine-extsysmon.conf")
+                           .arg(QStandardPaths::writableLocation(
+                               QStandardPaths::ConfigLocation));
     QSettings settings(fileName, QSettings::IniFormat);
     qCInfo(LOG_AW) << "Configuration file" << settings.fileName();
 
-    settings.beginGroup(QString("Configuration"));
-    settings.setValue(QString("ACPIPATH"), configuration[QString("ACPIPATH")]);
-    settings.setValue(QString("GPUDEV"), configuration[QString("GPUDEV")]);
-    settings.setValue(QString("HDDDEV"), configuration[QString("HDDDEV")]);
-    settings.setValue(QString("HDDTEMPCMD"),
-                      configuration[QString("HDDTEMPCMD")]);
-    settings.setValue(QString("MPDADDRESS"),
-                      configuration[QString("MPDADDRESS")]);
-    settings.setValue(QString("MPDPORT"), configuration[QString("MPDPORT")]);
-    settings.setValue(QString("MPRIS"), configuration[QString("MPRIS")]);
-    settings.setValue(QString("PLAYER"), configuration[QString("PLAYER")]);
-    settings.setValue(QString("PLAYERSYMBOLS"),
-                      configuration[QString("PLAYERSYMBOLS")]);
+    settings.beginGroup("Configuration");
+    settings.setValue("ACPIPATH", _configuration["ACPIPATH"]);
+    settings.setValue("GPUDEV", _configuration["GPUDEV"]);
+    settings.setValue("HDDDEV", _configuration["HDDDEV"]);
+    settings.setValue("HDDTEMPCMD", _configuration["HDDTEMPCMD"]);
+    settings.setValue("MPDADDRESS", _configuration["MPDADDRESS"]);
+    settings.setValue("MPDPORT", _configuration["MPDPORT"]);
+    settings.setValue("MPRIS", _configuration["MPRIS"]);
+    settings.setValue("PLAYER", _configuration["PLAYER"]);
+    settings.setValue("PLAYERSYMBOLS", _configuration["PLAYERSYMBOLS"]);
     settings.endGroup();
 
     settings.sync();
@@ -238,19 +226,19 @@ bool AWConfigHelper::writeDataEngineConfiguration(
 }
 
 
-void AWConfigHelper::copyConfigs(const QString &localDir) const
+void AWConfigHelper::copyConfigs(const QString &_localDir) const
 {
-    qCDebug(LOG_AW) << "Local directory" << localDir;
+    qCDebug(LOG_AW) << "Local directory" << _localDir;
 
     QStringList dirs = QStandardPaths::locateAll(
-        QStandardPaths::GenericDataLocation, QString("awesomewidgets/configs"),
+        QStandardPaths::GenericDataLocation, "awesomewidgets/configs",
         QStandardPaths::LocateDirectory);
     for (auto &dir : dirs) {
-        if (dir == localDir)
+        if (dir == _localDir)
             continue;
         QStringList files = QDir(dir).entryList(QDir::Files);
         for (auto &source : files) {
-            QString destination = QString("%1/%2").arg(localDir).arg(source);
+            QString destination = QString("%1/%2").arg(_localDir).arg(source);
             bool status = QFile::copy(QString("%1/%2").arg(dir).arg(source),
                                       destination);
             qCInfo(LOG_AW) << "File" << source << "has been copied to"
@@ -260,66 +248,66 @@ void AWConfigHelper::copyConfigs(const QString &localDir) const
 }
 
 
-void AWConfigHelper::copyExtensions(const QString &item, const QString &type,
-                                    QSettings &settings,
-                                    const bool inverse) const
+void AWConfigHelper::copyExtensions(const QString &_item, const QString &_type,
+                                    QSettings &_settings,
+                                    const bool _inverse) const
 {
-    qCDebug(LOG_AW) << "Extension" << item << "has type" << type
-                    << "inverse copying" << inverse;
+    qCDebug(LOG_AW) << "Extension" << _item << "has type" << _type
+                    << "inverse copying" << _inverse;
 
-    settings.beginGroup(item);
+    _settings.beginGroup(_item);
     QSettings itemSettings(
-        QString("%1/%2/%3").arg(m_baseDir).arg(type).arg(item),
+        QString("%1/%2/%3").arg(m_baseDir).arg(_type).arg(_item),
         QSettings::IniFormat);
-    itemSettings.beginGroup(QString("Desktop Entry"));
-    if (inverse)
-        copySettings(settings, itemSettings);
+    itemSettings.beginGroup("Desktop Entry");
+    if (_inverse)
+        copySettings(_settings, itemSettings);
     else
-        copySettings(itemSettings, settings);
+        copySettings(itemSettings, _settings);
     itemSettings.endGroup();
-    settings.endGroup();
+    _settings.endGroup();
 
-    if (inverse)
+    if (_inverse)
         itemSettings.sync();
 }
 
 
-void AWConfigHelper::copySettings(QSettings &from, QSettings &to) const
+void AWConfigHelper::copySettings(QSettings &_from, QSettings &_to) const
 {
-    for (auto &key : from.childKeys())
-        to.setValue(key, from.value(key));
+    for (auto &key : _from.childKeys())
+        _to.setValue(key, _from.value(key));
 }
 
 
-void AWConfigHelper::readFile(QSettings &settings, const QString &key,
-                              const QString &fileName) const
+void AWConfigHelper::readFile(QSettings &_settings, const QString &_key,
+                              const QString &_fileName) const
 {
-    qCDebug(LOG_AW) << "Key" << key << "from file" << fileName;
+    qCDebug(LOG_AW) << "Key" << _key << "from file" << _fileName;
 
-    QFile file(fileName);
+    QFile file(_fileName);
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QString text = QString::fromUtf8(file.readAll());
         file.close();
-        settings.setValue(key, text);
+        _settings.setValue(_key, text);
     } else {
         qCWarning(LOG_AW) << "Could not open" << file.fileName();
     }
 }
 
 
-void AWConfigHelper::writeFile(QSettings &settings, const QString &key,
-                               const QString &fileName) const
+void AWConfigHelper::writeFile(QSettings &_settings, const QString &_key,
+                               const QString &_fileName) const
 {
-    qCDebug(LOG_AW) << "Key" << key << "to file" << fileName;
+    qCDebug(LOG_AW) << "Key" << _key << "to file" << _fileName;
 
-    if (!settings.contains(key))
+    if (!_settings.contains(_key))
         return;
 
-    QFile file(fileName);
+    QFile file(_fileName);
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QTextStream out(&file);
         out.setCodec("UTF-8");
-        out << settings.value(key).toString().toUtf8();
+        out << _settings.value(_key).toString().toUtf8();
         out.flush();
         file.close();
     } else {

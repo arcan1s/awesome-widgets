@@ -23,10 +23,10 @@
 #include "awdebug.h"
 
 
-NetworkSource::NetworkSource(QObject *parent, const QStringList &args)
-    : AbstractExtSysMonSource(parent, args)
+NetworkSource::NetworkSource(QObject *_parent, const QStringList &_args)
+    : AbstractExtSysMonSource(_parent, _args)
 {
-    Q_ASSERT(args.count() == 0);
+    Q_ASSERT(_args.count() == 0);
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 }
 
@@ -37,12 +37,12 @@ NetworkSource::~NetworkSource()
 }
 
 
-QVariant NetworkSource::data(const QString &source)
+QVariant NetworkSource::data(const QString &_source)
 {
-    qCDebug(LOG_ESS) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << _source;
 
-    if (source == QString("network/current/name")) {
-        QString device = QString("lo");
+    if (_source == "network/current/name") {
+        QString device = "lo";
         QList<QNetworkInterface> rawInterfaceList
             = QNetworkInterface::allInterfaces();
         qCInfo(LOG_ESS) << "Devices" << rawInterfaceList;
@@ -63,17 +63,17 @@ QVariant NetworkSource::data(const QString &source)
 }
 
 
-QVariantMap NetworkSource::initialData(const QString &source) const
+QVariantMap NetworkSource::initialData(const QString &_source) const
 {
-    qCDebug(LOG_ESS) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << _source;
 
     QVariantMap data;
-    if (source == QString("network/current/name")) {
-        data[QString("min")] = QString("");
-        data[QString("max")] = QString("");
-        data[QString("name")] = QString("Current network device name");
-        data[QString("type")] = QString("QString");
-        data[QString("units")] = QString("");
+    if (_source == "network/current/name") {
+        data["min"] = "";
+        data["max"] = "";
+        data["name"] = "Current network device name";
+        data["type"] = "QString";
+        data["units"] = "";
     }
 
     return data;
@@ -83,7 +83,7 @@ QVariantMap NetworkSource::initialData(const QString &source) const
 QStringList NetworkSource::sources() const
 {
     QStringList sources;
-    sources.append(QString("network/current/name"));
+    sources.append("network/current/name");
 
     return sources;
 }

@@ -23,8 +23,8 @@
 #include "awdebug.h"
 
 
-OWMWeatherProvider::OWMWeatherProvider(QObject *parent, const int number)
-    : AbstractWeatherProvider(parent, number)
+OWMWeatherProvider::OWMWeatherProvider(QObject *_parent, const int _number)
+    : AbstractWeatherProvider(_parent, _number)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 }
@@ -36,10 +36,11 @@ OWMWeatherProvider::~OWMWeatherProvider()
 }
 
 
-void OWMWeatherProvider::initUrl(const QString &city, const QString &country,
+void OWMWeatherProvider::initUrl(const QString &_city, const QString &_country,
                                  const int ts)
 {
-    qCDebug(LOG_LIB) << "Init query for" << city << country << "with ts" << ts;
+    qCDebug(LOG_LIB) << "Init query for" << _city << _country << "with ts"
+                     << ts;
 
     m_ts = ts;
 
@@ -48,26 +49,26 @@ void OWMWeatherProvider::initUrl(const QString &city, const QString &country,
     else
         m_url = QUrl(OWM_FORECAST_URL);
     QUrlQuery params;
-    params.addQueryItem(QString("q"), QString("%1,%2").arg(city, country));
-    params.addQueryItem(QString("units"), QString("metric"));
+    params.addQueryItem("q", QString("%1,%2").arg(_city, _country));
+    params.addQueryItem("units", "metric");
     m_url.setQuery(params);
 }
 
 
-QVariantHash OWMWeatherProvider::parse(const QVariantMap &json) const
+QVariantHash OWMWeatherProvider::parse(const QVariantMap &_json) const
 {
-    qCDebug(LOG_LIB) << "Parse json" << json;
+    qCDebug(LOG_LIB) << "Parse json" << _json;
 
-    if (json[QString("cod")].toInt() != 200) {
+    if (_json["cod"].toInt() != 200) {
         qCWarning(LOG_LIB) << "Invalid OpenWeatherMap return code"
-                           << json[QString("cod")].toInt();
+                           << _json["cod"].toInt();
         return QVariantHash();
     }
 
     if (m_ts == 0) {
-        return parseSingleJson(json);
+        return parseSingleJson(_json);
     } else {
-        QVariantList list = json[QString("list")].toList();
+        QVariantList list = _json["list"].toList();
         return parseSingleJson(list.count() <= m_ts ? list.at(m_ts - 1).toMap()
                                                     : list.last().toMap());
     }
@@ -80,33 +81,33 @@ QUrl OWMWeatherProvider::url() const
 }
 
 
-QVariantHash OWMWeatherProvider::parseSingleJson(const QVariantMap &json) const
+QVariantHash OWMWeatherProvider::parseSingleJson(const QVariantMap &_json) const
 {
-    qCDebug(LOG_LIB) << "Single json data" << json;
+    qCDebug(LOG_LIB) << "Single json data" << _json;
 
     QVariantHash output;
 
     // weather status
-    QVariantList weather = json[QString("weather")].toList();
+    QVariantList weather = _json["weather"].toList();
     if (!weather.isEmpty()) {
-        int id = weather.first().toMap()[QString("id")].toInt();
+        int id = weather.first().toMap()["id"].toInt();
         output[QString("weatherId%1").arg(number())] = id;
     }
 
     // main data
-    QVariantMap mainWeather = json[QString("main")].toMap();
+    QVariantMap mainWeather = _json["main"].toMap();
     if (!weather.isEmpty()) {
         output[QString("humidity%1").arg(number())]
-            = mainWeather[QString("humidity")].toFloat();
+            = mainWeather["humidity"].toFloat();
         output[QString("pressure%1").arg(number())]
-            = mainWeather[QString("pressure")].toFloat();
+            = mainWeather["pressure"].toFloat();
         output[QString("temperature%1").arg(number())]
-            = mainWeather[QString("temp")].toFloat();
+            = mainWeather["temp"].toFloat();
     }
 
     // timestamp
     output[QString("timestamp%1").arg(number())]
-        = QDateTime::fromTime_t(json[QString("dt")].toUInt()).toUTC();
+        = QDateTime::fromTime_t(_json["dt"].toUInt()).toUTC();
 
     return output;
 }

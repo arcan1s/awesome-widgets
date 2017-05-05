@@ -39,13 +39,13 @@ public:
         int minValue = -1;
         int maxValue = -1;
         int div = 1;
-        void fromRange(const QString &range, const int min, const int max);
+        void fromRange(const QString &_range, const int _min, const int _max);
         QList<int> toList();
     } QCronField;
 
-    explicit QCronScheduler(QObject *parent);
+    explicit QCronScheduler(QObject *_parent = nullptr);
     virtual ~QCronScheduler();
-    void parse(const QString &timer);
+    void parse(const QString &_timer);
 
 signals:
     void activated();
@@ -56,8 +56,8 @@ private slots:
 private:
     QCronRunSchedule m_schedule;
     QTimer *m_timer = nullptr;
-    QList<int> parseField(const QString &value, const int min,
-                          const int max) const;
+    QList<int> parseField(const QString &_value, const int _min,
+                          const int _max) const;
 };
 
 

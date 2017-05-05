@@ -44,30 +44,30 @@ class AWKeyOperations : public QObject
     Q_PROPERTY(QString pattern READ pattern WRITE setPattern)
 
 public:
-    explicit AWKeyOperations(QObject *parent = nullptr);
+    explicit AWKeyOperations(QObject *_parent = nullptr);
     virtual ~AWKeyOperations();
-    QStringList devices(const QString &type) const;
+    QStringList devices(const QString &_type) const;
     QHash<QString, QStringList> devices() const;
     void updateCache();
     // keys
     QStringList dictKeys() const;
-    GraphicalItem *giByKey(const QString &key) const;
+    GraphicalItem *giByKey(const QString &_key) const;
     // values
-    QString infoByKey(const QString &key) const;
+    QString infoByKey(const QString &_key) const;
     QString pattern() const;
-    void setPattern(const QString &currentPattern);
+    void setPattern(const QString &_currentPattern);
     // configuration
-    void editItem(const QString &type);
+    void editItem(const QString &_type);
 
 signals:
-    void updateKeys(const QStringList &currentKeys);
+    void updateKeys(const QStringList &_currentKeys);
 
 public slots:
-    void addDevice(const QString &source);
+    void addDevice(const QString &_source);
 
 private:
     // methods
-    void addKeyToCache(const QString &type, const QString &key = QString(""));
+    void addKeyToCache(const QString &_type, const QString &_key = "");
     void reinitKeys();
     // objects
     ExtItemAggregator<GraphicalItem> *m_graphicalItems = nullptr;

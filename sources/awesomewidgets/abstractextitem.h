@@ -40,8 +40,8 @@ class AbstractExtItem : public QDialog
     Q_PROPERTY(QString uniq READ uniq)
 
 public:
-    explicit AbstractExtItem(QWidget *parent,
-                             const QString &filePath = QString());
+    explicit AbstractExtItem(QWidget *_parent = nullptr,
+                             const QString &_filePath = "");
     virtual ~AbstractExtItem();
     virtual void bumpApi(const int _newVer);
     virtual AbstractExtItem *copy(const QString &_fileName, const int _number)
@@ -62,17 +62,17 @@ public:
     QString tag(const QString &_type) const;
     virtual QString uniq() const = 0;
     // set methods
-    void setApiVersion(const int _apiVersion = 0);
-    void setActive(const bool _state = true);
-    void setComment(const QString &_comment = QString("empty"));
-    void setCron(const QString &_cron = "");
-    void setInterval(const int _interval = 1);
-    void setName(const QString &_name = QString("none"));
-    void setNumber(int _number = -1);
-    void setSocket(const QString &_socket = QString(""));
+    void setApiVersion(const int _apiVersion);
+    void setActive(const bool _state);
+    void setComment(const QString &_comment);
+    void setCron(const QString &_cron);
+    void setInterval(const int _interval);
+    void setName(const QString &_name);
+    void setNumber(int _number);
+    void setSocket(const QString &_socket);
 
 signals:
-    void dataReceived(const QVariantHash &data);
+    void dataReceived(const QVariantHash &_data);
     void requestDataUpdate();
 
 public slots:
@@ -80,7 +80,7 @@ public slots:
     virtual void initSocket();
     virtual void readConfiguration();
     virtual QVariantHash run() = 0;
-    virtual int showConfiguration(const QVariant &args = QVariant()) = 0;
+    virtual int showConfiguration(const QVariant &_args) = 0;
     virtual bool tryDelete() const;
     virtual void writeConfiguration() const;
 
@@ -89,19 +89,19 @@ private slots:
 
 private:
     QCronScheduler *m_scheduler = nullptr;
-    QString m_fileName = QString("/dev/null");
+    QString m_fileName = "/dev/null";
     int m_times = 0;
     virtual void translate() = 0;
     // properties
     int m_apiVersion = 0;
     bool m_active = true;
-    QString m_comment = QString("empty");
+    QString m_comment = "empty";
     QString m_cron = "";
     int m_interval = 1;
-    QString m_name = QString("none");
+    QString m_name = "none";
     int m_number = -1;
     QLocalServer *m_socket = nullptr;
-    QString m_socketFile = QString("");
+    QString m_socketFile = "";
 };
 
 

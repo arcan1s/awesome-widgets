@@ -28,13 +28,13 @@
 #include "awdebug.h"
 
 
-AWScriptFormatter::AWScriptFormatter(QWidget *parent, const QString &filePath)
-    : AWAbstractFormatter(parent, filePath)
+AWScriptFormatter::AWScriptFormatter(QWidget *_parent, const QString &_filePath)
+    : AWAbstractFormatter(_parent, _filePath)
     , ui(new Ui::AWScriptFormatter)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    if (!filePath.isEmpty())
+    if (!_filePath.isEmpty())
         readConfiguration();
     ui->setupUi(this);
     translate();
@@ -63,7 +63,7 @@ QString AWScriptFormatter::convert(const QVariant &_value) const
         qCWarning(LOG_LIB) << "Uncaught exception at line"
                            << result.property("lineNumber").toInt() << ":"
                            << result.toString();
-        return QString();
+        return "";
     } else {
         return result.toString();
     }
@@ -144,25 +144,23 @@ void AWScriptFormatter::readConfiguration()
 
     QSettings settings(fileName(), QSettings::IniFormat);
 
-    settings.beginGroup(QString("Desktop Entry"));
-    setAppendCode(
-        settings.value(QString("X-AW-AppendCode"), appendCode()).toBool());
-    setCode(settings.value(QString("X-AW-Code"), code()).toString());
-    setHasReturn(
-        settings.value(QString("X-AW-HasReturn"), hasReturn()).toBool());
+    settings.beginGroup("Desktop Entry");
+    setAppendCode(settings.value("X-AW-AppendCode", appendCode()).toBool());
+    setCode(settings.value("X-AW-Code", code()).toString());
+    setHasReturn(settings.value("X-AW-HasReturn", hasReturn()).toBool());
     settings.endGroup();
 
     bumpApi(AW_FORMATTER_API);
 }
 
 
-int AWScriptFormatter::showConfiguration(const QVariant &args)
+int AWScriptFormatter::showConfiguration(const QVariant &_args)
 {
-    Q_UNUSED(args)
+    Q_UNUSED(_args)
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
-    ui->label_typeValue->setText(QString("Script"));
+    ui->label_typeValue->setText("Script");
     ui->checkBox_appendCode->setCheckState(appendCode() ? Qt::Checked
                                                         : Qt::Unchecked);
     ui->checkBox_hasReturn->setCheckState(hasReturn() ? Qt::Checked
@@ -193,10 +191,10 @@ void AWScriptFormatter::writeConfiguration() const
     QSettings settings(writtableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
-    settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("X-AW-AppendCode"), appendCode());
-    settings.setValue(QString("X-AW-Code"), code());
-    settings.setValue(QString("X-AW-HasReturn"), hasReturn());
+    settings.beginGroup("Desktop Entry");
+    settings.setValue("X-AW-AppendCode", appendCode());
+    settings.setValue("X-AW-Code", code());
+    settings.setValue("X-AW-HasReturn", hasReturn());
     settings.endGroup();
 
     settings.sync();
@@ -207,10 +205,9 @@ void AWScriptFormatter::initProgram()
 {
     // init JS code
     if (appendCode())
-        m_program
-            = QString("(function(value) { %1%2 })")
-                  .arg(code())
-                  .arg(hasReturn() ? QString("") : QString("; return output;"));
+        m_program = QString("(function(value) { %1%2 })")
+                        .arg(code())
+                        .arg(hasReturn() ? "" : "; return output;");
     else
         m_program = code();
 

@@ -37,49 +37,50 @@ class AWKeys : public QObject
     Q_OBJECT
 
 public:
-    explicit AWKeys(QObject *parent = nullptr);
+    explicit AWKeys(QObject *_parent = nullptr);
     virtual ~AWKeys();
     bool isDBusActive() const;
-    Q_INVOKABLE void initDataAggregator(const QVariantMap &tooltipParams);
-    Q_INVOKABLE void initKeys(const QString &currentPattern, const int interval,
-                              const int limit, const bool optimize);
-    Q_INVOKABLE void setAggregatorProperty(const QString &key,
-                                           const QVariant &value);
-    Q_INVOKABLE void setWrapNewLines(const bool wrap = false);
+    Q_INVOKABLE void initDataAggregator(const QVariantMap &_tooltipParams);
+    Q_INVOKABLE void initKeys(const QString &_currentPattern,
+                              const int _interval, const int _limit,
+                              const bool _optimize);
+    Q_INVOKABLE void setAggregatorProperty(const QString &_key,
+                                           const QVariant &_value);
+    Q_INVOKABLE void setWrapNewLines(const bool _wrap = false);
     // additional method to force load keys from Qml UI. Used in some
     // configuration pages
     Q_INVOKABLE void updateCache();
     // keys
-    Q_INVOKABLE QStringList dictKeys(const bool sorted = false,
-                                     const QString &regexp = QString()) const;
+    Q_INVOKABLE QStringList dictKeys(const bool _sorted = false,
+                                     const QString &_regexp = "") const;
     Q_INVOKABLE QVariantList getHddDevices() const;
     // values
-    Q_INVOKABLE QString infoByKey(const QString &key) const;
-    Q_INVOKABLE QString valueByKey(const QString &key) const;
+    Q_INVOKABLE QString infoByKey(const QString &_key) const;
+    Q_INVOKABLE QString valueByKey(const QString &_key) const;
     // configuration
-    Q_INVOKABLE void editItem(const QString &type);
+    Q_INVOKABLE void editItem(const QString &_type);
 
 public slots:
-    void dataUpdated(const QString &sourceName,
-                     const Plasma::DataEngine::Data &data);
+    void dataUpdated(const QString &_sourceName,
+                     const Plasma::DataEngine::Data &_data);
     // dummy method required by DataEngine connections
     void modelChanged(QString, QAbstractItemModel *){};
 
 signals:
-    void dropSourceFromDataengine(const QString &source);
-    void needTextToBeUpdated(const QString &newText) const;
-    void needToolTipToBeUpdated(const QString &newText) const;
+    void dropSourceFromDataengine(const QString &_source);
+    void needTextToBeUpdated(const QString &_newText) const;
+    void needToolTipToBeUpdated(const QString &_newText) const;
 
 private slots:
-    void reinitKeys(const QStringList &currentKeys);
+    void reinitKeys(const QStringList &_currentKeys);
     void updateTextData();
 
 private:
     // methods
     void calculateValues();
     void createDBusInterface();
-    QString parsePattern(QString pattern) const;
-    void setDataBySource(const QString &sourceName, const QVariantMap &data);
+    QString parsePattern(QString _pattern) const;
+    void setDataBySource(const QString &_sourceName, const QVariantMap &_data);
     // objects
     AWDataAggregator *m_dataAggregator = nullptr;
     AWDataEngineAggregator *m_dataEngineAggregator = nullptr;

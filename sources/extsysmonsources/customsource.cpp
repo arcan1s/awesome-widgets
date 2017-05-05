@@ -22,14 +22,13 @@
 #include "extscript.h"
 
 
-CustomSource::CustomSource(QObject *parent, const QStringList &args)
-    : AbstractExtSysMonSource(parent, args)
+CustomSource::CustomSource(QObject *_parent, const QStringList &_args)
+    : AbstractExtSysMonSource(_parent, _args)
 {
-    Q_ASSERT(args.count() == 0);
+    Q_ASSERT(_args.count() == 0);
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
-    m_extScripts
-        = new ExtItemAggregator<ExtScript>(nullptr, QString("scripts"));
+    m_extScripts = new ExtItemAggregator<ExtScript>(nullptr, "scripts");
     m_extScripts->initSockets();
     m_sources = getSources();
 }
@@ -43,27 +42,30 @@ CustomSource::~CustomSource()
 }
 
 
-QVariant CustomSource::data(const QString &source)
+QVariant CustomSource::data(const QString &_source)
 {
-    qCDebug(LOG_ESS) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << _source;
 
     // there are only one value
-    return m_extScripts->itemByTagNumber(index(source))->run().values().first();
+    return m_extScripts->itemByTagNumber(index(_source))
+        ->run()
+        .values()
+        .first();
 }
 
 
-QVariantMap CustomSource::initialData(const QString &source) const
+QVariantMap CustomSource::initialData(const QString &_source) const
 {
-    qCDebug(LOG_ESS) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << _source;
 
     QVariantMap data;
-    data[QString("min")] = QString("");
-    data[QString("max")] = QString("");
-    data[QString("name")]
+    data["min"] = "";
+    data["max"] = "";
+    data["name"]
         = QString("Custom command '%1' output")
-              .arg(m_extScripts->itemByTagNumber(index(source))->uniq());
-    data[QString("type")] = QString("QString");
-    data[QString("units")] = QString("");
+              .arg(m_extScripts->itemByTagNumber(index(_source))->uniq());
+    data["type"] = "QString";
+    data["units"] = "";
 
     return data;
 }
@@ -79,7 +81,7 @@ QStringList CustomSource::getSources()
 {
     QStringList sources;
     for (auto &item : m_extScripts->activeItems())
-        sources.append(QString("custom/%1").arg(item->tag(QString("custom"))));
+        sources.append(QString("custom/%1").arg(item->tag("custom")));
 
     return sources;
 }

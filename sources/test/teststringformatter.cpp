@@ -65,13 +65,13 @@ void TestAWStringFormatter::test_fillChar()
 {
     // assign
     char c = AWTestLibrary::randomChar();
-    formatter->setFillChar(QChar(c));
+    formatter->setFillChar(c);
     QCOMPARE(formatter->fillChar(), QChar(c));
     formatter->setCount(101);
 
     // test
     QString output = formatter->convert(AWTestLibrary::randomString());
-    QVERIFY(output.startsWith(QChar(c)));
+    QVERIFY(output.startsWith(c));
 
     // reset
     formatter->setFillChar(QChar());
@@ -100,7 +100,7 @@ void TestAWStringFormatter::test_forceWidth()
 void TestAWStringFormatter::test_copy()
 {
     doRandom();
-    AWStringFormatter *newFormatter = formatter->copy(QString("/dev/null"), 1);
+    AWStringFormatter *newFormatter = formatter->copy("/dev/null", 1);
 
     QCOMPARE(newFormatter->count(), formatter->count());
     QCOMPARE(newFormatter->fillChar(), formatter->fillChar());
@@ -114,7 +114,7 @@ void TestAWStringFormatter::test_copy()
 void TestAWStringFormatter::doRandom()
 {
     formatter->setCount(AWTestLibrary::randomInt());
-    formatter->setFillChar(QChar(AWTestLibrary::randomChar()));
+    formatter->setFillChar(AWTestLibrary::randomChar());
     formatter->setForceWidth(AWTestLibrary::randomInt() % 2);
 }
 

@@ -45,12 +45,10 @@ void TestDesktopSource::test_sources()
 
 void TestDesktopSource::test_values()
 {
-    QVERIFY(source->data(QString("desktop/current/name")).toString().count()
-            > 0);
-    QVERIFY(source->data(QString("desktop/current/number")).toInt() >= 0);
-    QVERIFY(source->data(QString("desktop/total/name")).toStringList().count()
-            > 0);
-    QVERIFY(source->data(QString("desktop/total/number")).toInt() > 0);
+    QVERIFY(source->data("desktop/current/name").toString().count() > 0);
+    QVERIFY(source->data("desktop/current/number").toInt() >= 0);
+    QVERIFY(source->data("desktop/total/name").toStringList().count() > 0);
+    QVERIFY(source->data("desktop/total/number").toInt() > 0);
 }
 
 

@@ -30,22 +30,22 @@ class AWBugReporter : public QObject
     Q_OBJECT
 
 public:
-    explicit AWBugReporter(QObject *parent = nullptr);
+    explicit AWBugReporter(QObject *_parent = nullptr);
     virtual ~AWBugReporter();
     Q_INVOKABLE void doConnect();
-    Q_INVOKABLE QString generateText(const QString &description,
-                                     const QString &reproduce,
-                                     const QString &expected,
-                                     const QString &logs) const;
-    Q_INVOKABLE void sendBugReport(const QString &title, const QString &body);
+    Q_INVOKABLE QString generateText(const QString &_description,
+                                     const QString &_reproduce,
+                                     const QString &_expected,
+                                     const QString &_logs) const;
+    Q_INVOKABLE void sendBugReport(const QString &_title, const QString &_body);
 
 signals:
-    void replyReceived(const int number, const QString &url);
+    void replyReceived(const int _number, const QString &_url);
 
 private slots:
-    void issueReplyRecieved(QNetworkReply *reply);
-    void showInformation(const int number, const QString &url);
-    void userReplyOnBugReport(QAbstractButton *button);
+    void issueReplyRecieved(QNetworkReply *_reply);
+    void showInformation(const int _number, const QString &_url);
+    void userReplyOnBugReport(QAbstractButton *_button);
 
 private:
     QString m_lastBugUrl;

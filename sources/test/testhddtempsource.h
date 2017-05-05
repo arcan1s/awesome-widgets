@@ -42,8 +42,8 @@ private:
     HDDTemperatureSource *hddtempSource = nullptr;
     HDDTemperatureSource *smartctlSource = nullptr;
     QStringList devices;
-    QString hddtempCmd = QString("sudo hddtemp");
-    QString smartctlCmd = QString("sudo smartctl -a");
+    QString hddtempCmd = "sudo hddtemp";
+    QString smartctlCmd = "sudo smartctl -a";
     QPair<float, float> temp = QPair<float, float>(0.0f, 120.0f);
 };
 

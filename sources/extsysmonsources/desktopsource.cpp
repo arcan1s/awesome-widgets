@@ -23,10 +23,10 @@
 #include "awdebug.h"
 
 
-DesktopSource::DesktopSource(QObject *parent, const QStringList &args)
-    : AbstractExtSysMonSource(parent, args)
+DesktopSource::DesktopSource(QObject *_parent, const QStringList &_args)
+    : AbstractExtSysMonSource(_parent, _args)
 {
-    Q_ASSERT(args.count() == 0);
+    Q_ASSERT(_args.count() == 0);
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 }
 
@@ -37,23 +37,23 @@ DesktopSource::~DesktopSource()
 }
 
 
-QVariant DesktopSource::data(const QString &source)
+QVariant DesktopSource::data(const QString &_source)
 {
-    qCDebug(LOG_ESS) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << _source;
 
     int current = KWindowSystem::currentDesktop();
     int total = KWindowSystem::numberOfDesktops();
 
-    if (source == QString("desktop/current/name")) {
+    if (_source == "desktop/current/name") {
         return KWindowSystem::desktopName(current);
-    } else if (source == QString("desktop/current/number")) {
+    } else if (_source == "desktop/current/number") {
         return current;
-    } else if (source == QString("desktop/total/name")) {
+    } else if (_source == "desktop/total/name") {
         QStringList desktops;
         for (int i = 1; i < total + 1; i++)
             desktops.append(KWindowSystem::desktopName(i));
         return desktops;
-    } else if (source == QString("desktop/total/number")) {
+    } else if (_source == "desktop/total/number") {
         return total;
     }
 
@@ -61,35 +61,35 @@ QVariant DesktopSource::data(const QString &source)
 }
 
 
-QVariantMap DesktopSource::initialData(const QString &source) const
+QVariantMap DesktopSource::initialData(const QString &_source) const
 {
-    qCDebug(LOG_ESS) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << _source;
 
     QVariantMap data;
-    if (source == QString("desktop/current/name")) {
-        data[QString("min")] = QString("");
-        data[QString("max")] = QString("");
-        data[QString("name")] = QString("Current desktop name");
-        data[QString("type")] = QString("QString");
-        data[QString("units")] = QString("");
-    } else if (source == QString("desktop/current/number")) {
-        data[QString("min")] = 0;
-        data[QString("max")] = 0;
-        data[QString("name")] = QString("Current desktop number");
-        data[QString("type")] = QString("integer");
-        data[QString("units")] = QString("");
-    } else if (source == QString("desktop/total/name")) {
-        data[QString("min")] = QStringList();
-        data[QString("max")] = QStringList();
-        data[QString("name")] = QString("All desktops by name");
-        data[QString("type")] = QString("QStringList");
-        data[QString("units")] = QString("");
-    } else if (source == QString("desktop/total/number")) {
-        data[QString("min")] = 0;
-        data[QString("max")] = 0;
-        data[QString("name")] = QString("Desktops count");
-        data[QString("type")] = QString("integer");
-        data[QString("units")] = QString("");
+    if (_source == "desktop/current/name") {
+        data["min"] = "";
+        data["max"] = "";
+        data["name"] = "Current desktop name";
+        data["type"] = "QString";
+        data["units"] = "";
+    } else if (_source == "desktop/current/number") {
+        data["min"] = 0;
+        data["max"] = 0;
+        data["name"] = "Current desktop number";
+        data["type"] = "integer";
+        data["units"] = "";
+    } else if (_source == "desktop/total/name") {
+        data["min"] = QStringList();
+        data["max"] = QStringList();
+        data["name"] = "All desktops by name";
+        data["type"] = "QStringList";
+        data["units"] = "";
+    } else if (_source == "desktop/total/number") {
+        data["min"] = 0;
+        data["max"] = 0;
+        data["name"] = "Desktops count";
+        data["type"] = "integer";
+        data["units"] = "";
     }
 
     return data;
@@ -99,10 +99,10 @@ QVariantMap DesktopSource::initialData(const QString &source) const
 QStringList DesktopSource::sources() const
 {
     QStringList sources;
-    sources.append(QString("desktop/current/name"));
-    sources.append(QString("desktop/current/number"));
-    sources.append(QString("desktop/total/name"));
-    sources.append(QString("desktop/total/number"));
+    sources.append("desktop/current/name");
+    sources.append("desktop/current/number");
+    sources.append("desktop/total/name");
+    sources.append("desktop/total/number");
 
     return sources;
 }

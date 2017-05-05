@@ -67,29 +67,29 @@ class AWKeysAggregator : public QObject
     };
 
 public:
-    explicit AWKeysAggregator(QObject *parent = nullptr);
+    explicit AWKeysAggregator(QObject *_parent = nullptr);
     virtual ~AWKeysAggregator();
     void initFormatters();
     // get methods
-    QString formatter(const QVariant &data, const QString &key) const;
-    QStringList keysFromSource(const QString &source) const;
+    QString formatter(const QVariant &_data, const QString &_key) const;
+    QStringList keysFromSource(const QString &_source) const;
     // set methods
-    void setAcOffline(const QString &inactive);
-    void setAcOnline(const QString &active);
-    void setCustomTime(const QString &customTime);
-    void setCustomUptime(const QString &customUptime);
-    void setDevices(const QHash<QString, QStringList> &devices);
-    void setTempUnits(const QString &units);
-    void setTranslate(const bool translate);
+    void setAcOffline(const QString &_inactive);
+    void setAcOnline(const QString &_active);
+    void setCustomTime(const QString &_customTime);
+    void setCustomUptime(const QString &_customUptime);
+    void setDevices(const QHash<QString, QStringList> &_devices);
+    void setTempUnits(const QString &_units);
+    void setTranslate(const bool _translate);
 
 public slots:
-    QStringList registerSource(const QString &source, const QString &units,
-                               const QStringList &keys);
+    QStringList registerSource(const QString &_source, const QString &_units,
+                               const QStringList &_keys);
 
 private:
     float temperature(const float temp) const;
     AWFormatterHelper *m_customFormatters = nullptr;
-    QStringList m_timeKeys = QString(TIME_KEYS).split(QChar(','));
+    QStringList m_timeKeys = QString(TIME_KEYS).split(',');
     // variables
     QString m_acOffline;
     QString m_acOnline;

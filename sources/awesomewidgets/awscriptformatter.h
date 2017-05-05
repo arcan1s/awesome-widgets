@@ -35,8 +35,8 @@ class AWScriptFormatter : public AWAbstractFormatter
     Q_PROPERTY(QString program READ program)
 
 public:
-    explicit AWScriptFormatter(QWidget *parent,
-                               const QString &filePath = QString());
+    explicit AWScriptFormatter(QWidget *_parent = nullptr,
+                               const QString &_filePath = "");
     virtual ~AWScriptFormatter();
     QString convert(const QVariant &_value) const;
     AWScriptFormatter *copy(const QString &_fileName, const int _number);
@@ -51,7 +51,7 @@ public:
 
 public slots:
     void readConfiguration();
-    int showConfiguration(const QVariant &args = QVariant());
+    int showConfiguration(const QVariant &_args);
     void writeConfiguration() const;
 
 private:
@@ -60,7 +60,7 @@ private:
     void translate();
     // properties
     bool m_appendCode = true;
-    QString m_code = QString();
+    QString m_code = "";
     bool m_hasReturn = false;
     QString m_program;
 };

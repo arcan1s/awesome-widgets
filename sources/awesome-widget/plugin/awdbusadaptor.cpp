@@ -21,9 +21,9 @@
 #include "awkeys.h"
 
 
-AWDBusAdaptor::AWDBusAdaptor(AWKeys *parent)
-    : QDBusAbstractAdaptor(parent)
-    , m_plugin(parent)
+AWDBusAdaptor::AWDBusAdaptor(AWKeys *_parent)
+    : QDBusAbstractAdaptor(_parent)
+    , m_plugin(_parent)
 {
     qCDebug(LOG_DBUS) << __PRETTY_FUNCTION__;
 }
@@ -86,7 +86,7 @@ void AWDBusAdaptor::SetLogLevel(const QString &what, const QString &level,
         return;
     }
 
-    QString state = enabled ? QString("true") : QString("false");
+    QString state = enabled ? "true" : "false";
     QLoggingCategory::setFilterRules(
         QString("%1.%2=%3").arg(what).arg(level).arg(state));
 }

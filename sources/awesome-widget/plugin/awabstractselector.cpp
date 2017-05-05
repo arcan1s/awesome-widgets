@@ -21,16 +21,16 @@
 #include "awdebug.h"
 
 
-AWAbstractSelector::AWAbstractSelector(QWidget *parent,
-                                       const QPair<bool, bool> &editable)
-    : QWidget(parent)
+AWAbstractSelector::AWAbstractSelector(QWidget *_parent,
+                                       const QPair<bool, bool> &_editable)
+    : QWidget(_parent)
     , ui(new Ui::AWAbstractSelector)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
     ui->setupUi(this);
-    ui->comboBox_key->setEditable(editable.first);
-    ui->comboBox_value->setEditable(editable.second);
+    ui->comboBox_key->setEditable(_editable.first);
+    ui->comboBox_value->setEditable(_editable.second);
 
     connect(ui->comboBox_key, SIGNAL(currentIndexChanged(int)), this,
             SIGNAL(selectionChanged()));
@@ -56,25 +56,26 @@ QPair<QString, QString> AWAbstractSelector::current() const
 }
 
 
-void AWAbstractSelector::init(const QStringList &keys,
-                              const QStringList &values,
-                              const QPair<QString, QString> &current)
+void AWAbstractSelector::init(const QStringList &_keys,
+                              const QStringList &_values,
+                              const QPair<QString, QString> &_current)
 {
-    if ((!keys.contains(current.first)) || (!values.contains(current.second))) {
-        qCWarning(LOG_AW) << "Invalid current value" << current
+    if ((!_keys.contains(_current.first))
+        || (!_values.contains(_current.second))) {
+        qCWarning(LOG_AW) << "Invalid current value" << _current
                           << "not found in default ones";
         return;
     }
-    qCDebug(LOG_AW) << "Init selector with keys" << keys << "and values"
-                    << values << "and current ones are" << current;
+    qCDebug(LOG_AW) << "Init selector with keys" << _keys << "and values"
+                    << _values << "and current ones are" << _current;
 
     // set data
     ui->comboBox_key->clear();
-    ui->comboBox_key->addItems(keys);
+    ui->comboBox_key->addItems(_keys);
     ui->comboBox_value->clear();
-    ui->comboBox_value->addItems(values);
+    ui->comboBox_value->addItems(_values);
 
     // set current values
-    ui->comboBox_key->setCurrentText(current.first);
-    ui->comboBox_value->setCurrentText(current.second);
+    ui->comboBox_key->setCurrentText(_current.first);
+    ui->comboBox_value->setCurrentText(_current.second);
 }

@@ -27,13 +27,13 @@
 #include "awdebug.h"
 
 
-AWFloatFormatter::AWFloatFormatter(QWidget *parent, const QString &filePath)
-    : AWAbstractFormatter(parent, filePath)
+AWFloatFormatter::AWFloatFormatter(QWidget *_parent, const QString &_filePath)
+    : AWAbstractFormatter(_parent, _filePath)
     , ui(new Ui::AWFloatFormatter)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    if (!filePath.isEmpty())
+    if (!_filePath.isEmpty())
         readConfiguration();
     ui->setupUi(this);
     translate();
@@ -193,34 +193,30 @@ void AWFloatFormatter::readConfiguration()
 
     QSettings settings(fileName(), QSettings::IniFormat);
 
-    settings.beginGroup(QString("Desktop Entry"));
-    setCount(settings.value(QString("X-AW-Width"), count()).toInt());
-    setFillChar(
-        settings.value(QString("X-AW-FillChar"), fillChar()).toString().at(0));
-    setForceWidth(
-        settings.value(QString("X-AW-ForceWidth"), forceWidth()).toBool());
-    setFormat(settings.value(QString("X-AW-Format"), QString(format()))
+    settings.beginGroup("Desktop Entry");
+    setCount(settings.value("X-AW-Width", count()).toInt());
+    setFillChar(settings.value("X-AW-FillChar", fillChar()).toString().at(0));
+    setForceWidth(settings.value("X-AW-ForceWidth", forceWidth()).toBool());
+    setFormat(settings.value("X-AW-Format", QString(format()))
                   .toString()
                   .at(0)
                   .toLatin1());
-    setMultiplier(
-        settings.value(QString("X-AW-Multiplier"), multiplier()).toDouble());
-    setPrecision(
-        settings.value(QString("X-AW-Precision"), precision()).toInt());
-    setSummand(settings.value(QString("X-AW-Summand"), summand()).toDouble());
+    setMultiplier(settings.value("X-AW-Multiplier", multiplier()).toDouble());
+    setPrecision(settings.value("X-AW-Precision", precision()).toInt());
+    setSummand(settings.value("X-AW-Summand", summand()).toDouble());
     settings.endGroup();
 
     bumpApi(AW_FORMATTER_API);
 }
 
 
-int AWFloatFormatter::showConfiguration(const QVariant &args)
+int AWFloatFormatter::showConfiguration(const QVariant &_args)
 {
-    Q_UNUSED(args)
+    Q_UNUSED(_args)
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
-    ui->label_typeValue->setText(QString("Float"));
+    ui->label_typeValue->setText("Float");
     ui->comboBox_format->setCurrentIndex(
         ui->comboBox_format->findText(QString(format())));
     ui->spinBox_precision->setValue(precision());
@@ -258,14 +254,14 @@ void AWFloatFormatter::writeConfiguration() const
     QSettings settings(writtableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
-    settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("X-AW-Width"), count());
-    settings.setValue(QString("X-AW-FillChar"), fillChar());
-    settings.setValue(QString("X-AW-Format"), QString(format()));
-    settings.setValue(QString("X-AW-ForceWidth"), forceWidth());
-    settings.setValue(QString("X-AW-Multiplier"), multiplier());
-    settings.setValue(QString("X-AW-Precision"), precision());
-    settings.setValue(QString("X-AW-Summand"), summand());
+    settings.beginGroup("Desktop Entry");
+    settings.setValue("X-AW-Width", count());
+    settings.setValue("X-AW-FillChar", fillChar());
+    settings.setValue("X-AW-Format", QString(format()));
+    settings.setValue("X-AW-ForceWidth", forceWidth());
+    settings.setValue("X-AW-Multiplier", multiplier());
+    settings.setValue("X-AW-Precision", precision());
+    settings.setValue("X-AW-Summand", summand());
     settings.endGroup();
 
     settings.sync();

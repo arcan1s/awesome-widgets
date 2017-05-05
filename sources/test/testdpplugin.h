@@ -42,7 +42,7 @@ private slots:
 private:
     DPAdds *plugin = nullptr;
     bool m_isKwinActive = false;
-    QString pattern = QString("$");
+    QString pattern = "$";
 };
 
 

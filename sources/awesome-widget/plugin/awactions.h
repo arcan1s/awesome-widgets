@@ -30,23 +30,21 @@ class AWActions : public QObject
     Q_OBJECT
 
 public:
-    explicit AWActions(QObject *parent = nullptr);
+    explicit AWActions(QObject *_parent = nullptr);
     virtual ~AWActions();
-    Q_INVOKABLE void checkUpdates(const bool showAnyway = false);
-    Q_INVOKABLE QString getFileContent(const QString &path) const;
+    Q_INVOKABLE void checkUpdates(const bool _showAnyway = false);
+    Q_INVOKABLE QString getFileContent(const QString &_path) const;
     Q_INVOKABLE bool isDebugEnabled() const;
-    Q_INVOKABLE bool runCmd(const QString &cmd
-                            = QString("/usr/bin/true")) const;
+    Q_INVOKABLE bool runCmd(const QString &_cmd) const;
     Q_INVOKABLE void showLegacyInfo() const;
     Q_INVOKABLE void showReadme() const;
     // configuration slots
-    Q_INVOKABLE QString getAboutText(const QString &type
-                                     = QString("header")) const;
-    Q_INVOKABLE QVariantMap getFont(const QVariantMap &defaultFont) const;
+    Q_INVOKABLE QString getAboutText(const QString &_type) const;
+    Q_INVOKABLE QVariantMap getFont(const QVariantMap &_defaultFont) const;
 
 public slots:
-    Q_INVOKABLE static void sendNotification(const QString &eventId,
-                                             const QString &message);
+    Q_INVOKABLE static void sendNotification(const QString &_eventId,
+                                             const QString &_message);
 
 private:
     AWUpdateHelper *m_updateHelper = nullptr;

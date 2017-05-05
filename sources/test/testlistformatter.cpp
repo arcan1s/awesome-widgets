@@ -71,7 +71,7 @@ void TestAWListFormatter::test_filter()
     QStringList value = AWTestLibrary::randomStringList();
     QStringList filters = AWTestLibrary::randomSelect(value);
     value.sort();
-    formatter->setFilter(QString("(^%1$)").arg(filters.join(QString("$|^"))));
+    formatter->setFilter(QString("(^%1$)").arg(filters.join("$|^")));
 
     QCOMPARE(formatter->convert(value).split(separator).count(),
              filters.count());
@@ -80,7 +80,7 @@ void TestAWListFormatter::test_filter()
 
 void TestAWListFormatter::test_copy()
 {
-    AWListFormatter *newFormatter = formatter->copy(QString("/dev/null"), 1);
+    AWListFormatter *newFormatter = formatter->copy("/dev/null", 1);
 
     QCOMPARE(newFormatter->number(), 1);
     QCOMPARE(newFormatter->filter(), formatter->filter());

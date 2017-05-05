@@ -28,7 +28,7 @@ void TestExtUpgrade::initTestCase()
 {
     AWTestLibrary::init();
     randomStrings = AWTestLibrary::randomStringList();
-    cmd = QString("echo -e '%1'").arg(randomStrings.join(QString("\n")));
+    cmd = QString("echo -e '%1'").arg(randomStrings.join("\n"));
 
     extUpgrade = new ExtUpgrade(nullptr);
     extUpgrade->setInterval(1);
@@ -63,10 +63,9 @@ void TestExtUpgrade::test_run()
     QVERIFY(spy.wait(5000));
     QList<QVariant> arguments = spy.takeFirst();
 
-    QCOMPARE(firstValue[extUpgrade->tag(QString("pkgcount"))].toInt(), 0);
-    QCOMPARE(
-        arguments.at(0).toHash()[extUpgrade->tag(QString("pkgcount"))].toInt(),
-        randomStrings.count());
+    QCOMPARE(firstValue[extUpgrade->tag("pkgcount")].toInt(), 0);
+    QCOMPARE(arguments.at(0).toHash()[extUpgrade->tag("pkgcount")].toInt(),
+             randomStrings.count());
 }
 
 
@@ -80,16 +79,15 @@ void TestExtUpgrade::test_null()
     // check values
     QVERIFY(spy.wait(5000));
     QList<QVariant> arguments = spy.takeFirst();
-    QCOMPARE(
-        arguments.at(0).toHash()[extUpgrade->tag(QString("pkgcount"))].toInt(),
-        randomStrings.count() - null);
+    QCOMPARE(arguments.at(0).toHash()[extUpgrade->tag("pkgcount")].toInt(),
+             randomStrings.count() - null);
 }
 
 
 void TestExtUpgrade::test_filter()
 {
     QStringList filters = AWTestLibrary::randomSelect(randomStrings);
-    extUpgrade->setFilter(QString("(^%1$)").arg(filters.join(QString("$|^"))));
+    extUpgrade->setFilter(QString("(^%1$)").arg(filters.join("$|^")));
     // init spy
     QSignalSpy spy(extUpgrade, SIGNAL(dataReceived(const QVariantHash &)));
     extUpgrade->run();
@@ -97,15 +95,14 @@ void TestExtUpgrade::test_filter()
     // check values
     QVERIFY(spy.wait(5000));
     QList<QVariant> arguments = spy.takeFirst();
-    QCOMPARE(
-        arguments.at(0).toHash()[extUpgrade->tag(QString("pkgcount"))].toInt(),
-        filters.count());
+    QCOMPARE(arguments.at(0).toHash()[extUpgrade->tag("pkgcount")].toInt(),
+             filters.count());
 }
 
 
 void TestExtUpgrade::test_copy()
 {
-    ExtUpgrade *newExtUpgrade = extUpgrade->copy(QString("/dev/null"), 1);
+    ExtUpgrade *newExtUpgrade = extUpgrade->copy("/dev/null", 1);
 
     QCOMPARE(newExtUpgrade->interval(), extUpgrade->interval());
     QCOMPARE(newExtUpgrade->executable(), extUpgrade->executable());

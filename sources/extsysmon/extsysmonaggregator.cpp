@@ -34,13 +34,13 @@
 #include "weathersource.h"
 
 
-ExtSysMonAggregator::ExtSysMonAggregator(QObject *parent,
-                                         const QHash<QString, QString> &config)
-    : QObject(parent)
+ExtSysMonAggregator::ExtSysMonAggregator(QObject *_parent,
+                                         const QHash<QString, QString> &_config)
+    : QObject(_parent)
 {
     qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 
-    init(config);
+    init(_config);
 }
 
 
@@ -52,28 +52,28 @@ ExtSysMonAggregator::~ExtSysMonAggregator()
 }
 
 
-QVariant ExtSysMonAggregator::data(const QString &source) const
+QVariant ExtSysMonAggregator::data(const QString &_source) const
 {
-    qCDebug(LOG_ESM) << "Source" << source;
+    qCDebug(LOG_ESM) << "Source" << _source;
 
-    return m_map[source]->data(source);
+    return m_map[_source]->data(_source);
 }
 
 
-bool ExtSysMonAggregator::hasSource(const QString &source) const
+bool ExtSysMonAggregator::hasSource(const QString &_source) const
 {
-    qCDebug(LOG_ESM) << "Source" << source;
+    qCDebug(LOG_ESM) << "Source" << _source;
 
-    return m_map.contains(source);
+    return m_map.contains(_source);
 }
 
 
-QVariantMap ExtSysMonAggregator::initialData(const QString &source) const
+QVariantMap ExtSysMonAggregator::initialData(const QString &_source) const
 {
-    qCDebug(LOG_ESM) << "Source" << source;
+    qCDebug(LOG_ESM) << "Source" << _source;
 
-    return hasSource(source) ? m_map[source]->initialData(source)
-                             : QVariantMap();
+    return hasSource(_source) ? m_map[_source]->initialData(_source)
+                              : QVariantMap();
 }
 
 
@@ -83,13 +83,13 @@ QStringList ExtSysMonAggregator::sources() const
 }
 
 
-void ExtSysMonAggregator::init(const QHash<QString, QString> &config)
+void ExtSysMonAggregator::init(const QHash<QString, QString> &_config)
 {
-    qCDebug(LOG_ESM) << "Configuration" << config;
+    qCDebug(LOG_ESM) << "Configuration" << _config;
 
     // battery
     AbstractExtSysMonSource *batteryItem
-        = new BatterySource(this, QStringList() << config[QString("ACPIPATH")]);
+        = new BatterySource(this, QStringList() << _config["ACPIPATH"]);
     for (auto &source : batteryItem->sources())
         m_map[source] = batteryItem;
     // custom
@@ -103,19 +103,17 @@ void ExtSysMonAggregator::init(const QHash<QString, QString> &config)
         m_map[source] = desktopItem;
     // gpu load
     AbstractExtSysMonSource *gpuLoadItem
-        = new GPULoadSource(this, QStringList() << config[QString("GPUDEV")]);
+        = new GPULoadSource(this, QStringList({_config["GPUDEV"]}));
     for (auto &source : gpuLoadItem->sources())
         m_map[source] = gpuLoadItem;
     // gpu temperature
-    AbstractExtSysMonSource *gpuTempItem = new GPUTemperatureSource(
-        this, QStringList() << config[QString("GPUDEV")]);
+    AbstractExtSysMonSource *gpuTempItem
+        = new GPUTemperatureSource(this, QStringList({_config["GPUDEV"]}));
     for (auto &source : gpuTempItem->sources())
         m_map[source] = gpuTempItem;
     // hdd temperature
     AbstractExtSysMonSource *hddTempItem = new HDDTemperatureSource(
-        this,
-        QStringList() << config[QString("HDDDEV")]
-                      << config[QString("HDDTEMPCMD")]);
+        this, QStringList({_config["HDDDEV"], _config["HDDTEMPCMD"]}));
     for (auto &source : hddTempItem->sources())
         m_map[source] = hddTempItem;
     // network
@@ -125,11 +123,9 @@ void ExtSysMonAggregator::init(const QHash<QString, QString> &config)
         m_map[source] = networkItem;
     // player
     AbstractExtSysMonSource *playerItem = new PlayerSource(
-        this,
-        QStringList() << config[QString("PLAYER")]
-                      << config[QString("MPDADDRESS")]
-                      << config[QString("MPDPORT")] << config[QString("MPRIS")]
-                      << config[QString("PLAYERSYMBOLS")]);
+        this, QStringList({_config["PLAYER"], _config["MPDADDRESS"],
+                           _config["MPDPORT"], _config["MPRIS"],
+                           _config["PLAYERSYMBOLS"]}));
     for (auto &source : playerItem->sources())
         m_map[source] = playerItem;
     // processes

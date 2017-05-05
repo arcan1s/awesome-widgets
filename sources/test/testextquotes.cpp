@@ -94,7 +94,7 @@ void TestExtQuotes::test_derivatives()
 
 void TestExtQuotes::test_copy()
 {
-    ExtQuotes *newExtQuotes = extQuotes->copy(QString("/dev/null"), 1);
+    ExtQuotes *newExtQuotes = extQuotes->copy("/dev/null", 1);
 
     QCOMPARE(newExtQuotes->interval(), extQuotes->interval());
     QCOMPARE(newExtQuotes->ticker(), extQuotes->ticker());

@@ -28,13 +28,13 @@
 #include "qcronscheduler.h"
 
 
-AbstractExtItem::AbstractExtItem(QWidget *parent, const QString &filePath)
-    : QDialog(parent)
-    , m_fileName(filePath)
+AbstractExtItem::AbstractExtItem(QWidget *_parent, const QString &_filePath)
+    : QDialog(_parent)
+    , m_fileName(_filePath)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    qCDebug(LOG_LIB) << "Desktop name" << filePath;
+    qCDebug(LOG_LIB) << "Desktop name" << _filePath;
 
     m_name = m_fileName;
 }
@@ -299,18 +299,15 @@ void AbstractExtItem::readConfiguration()
 {
     QSettings settings(m_fileName, QSettings::IniFormat);
 
-    settings.beginGroup(QString("Desktop Entry"));
-    setName(settings.value(QString("Name"), name()).toString());
-    setComment(settings.value(QString("Comment"), comment()).toString());
-    setApiVersion(
-        settings.value(QString("X-AW-ApiVersion"), apiVersion()).toInt());
-    setActive(
-        settings.value(QString("X-AW-Active"), QVariant(isActive())).toString()
-        == QString("true"));
-    setInterval(settings.value(QString("X-AW-Interval"), interval()).toInt());
-    setNumber(settings.value(QString("X-AW-Number"), number()).toInt());
-    setCron(settings.value(QString("X-AW-Schedule"), cron()).toString());
-    setSocket(settings.value(QString("X-AW-Socket"), socket()).toString());
+    settings.beginGroup("Desktop Entry");
+    setName(settings.value("Name", name()).toString());
+    setComment(settings.value("Comment", comment()).toString());
+    setApiVersion(settings.value("X-AW-ApiVersion", apiVersion()).toInt());
+    setActive(settings.value("X-AW-Active", isActive()).toBool());
+    setInterval(settings.value("X-AW-Interval", interval()).toInt());
+    setNumber(settings.value("X-AW-Number", number()).toInt());
+    setCron(settings.value("X-AW-Schedule", cron()).toString());
+    setSocket(settings.value("X-AW-Socket", socket()).toString());
     settings.endGroup();
 }
 
@@ -329,18 +326,16 @@ void AbstractExtItem::writeConfiguration() const
     QSettings settings(writtableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
-    settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("Encoding"), QString("UTF-8"));
-    settings.setValue(QString("Name"), name());
-    settings.setValue(QString("Comment"), comment());
-    settings.setValue(QString("X-AW-ApiVersion"), apiVersion());
-    settings.setValue(QString("X-AW-Active"), QVariant(isActive()).toString());
-    settings.setValue(QString("X-AW-Interval"),
-                      cron().isEmpty() ? QVariant(interval())
-                                       : QVariant(cron()));
-    settings.setValue(QString("X-AW-Number"), number());
-    settings.setValue(QString("X-AW-Schedule"), cron());
-    settings.setValue(QString("X-AW-Socket"), socket());
+    settings.beginGroup("Desktop Entry");
+    settings.setValue("Encoding", "UTF-8");
+    settings.setValue("Name", name());
+    settings.setValue("Comment", comment());
+    settings.setValue("X-AW-ApiVersion", apiVersion());
+    settings.setValue("X-AW-Active", isActive());
+    settings.setValue("X-AW-Interval", interval());
+    settings.setValue("X-AW-Number", number());
+    settings.setValue("X-AW-Schedule", cron());
+    settings.setValue("X-AW-Socket", socket());
     settings.endGroup();
 
     settings.sync();

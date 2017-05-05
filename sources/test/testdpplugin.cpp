@@ -71,7 +71,7 @@ void TestDPPlugin::test_dictKeys()
         QSKIP("KWin inactive, skip Destkop panel tests");
 
     QCOMPARE(plugin->dictKeys().count(), 4);
-    pattern += plugin->dictKeys().join(QString(" $"));
+    pattern += plugin->dictKeys().join(" $");
 }
 
 
@@ -104,14 +104,14 @@ void TestDPPlugin::test_tooltipImage()
         QSKIP("KWin inactive, skip Destkop panel tests");
 
     QVariantMap data;
-    data[QString("tooltipColor")] = QString("#000000");
-    data[QString("tooltipType")] = QString("windows");
-    data[QString("tooltipWidth")] = 300;
+    data["tooltipColor"] = "#000000";
+    data["tooltipType"] = "windows";
+    data["tooltipWidth"] = 300;
     plugin->setToolTipData(data);
 
     QString image = plugin->toolTipImage(plugin->currentDesktop());
-    QVERIFY(image.startsWith(QString("<img src=\"")));
-    QVERIFY(image.endsWith(QString("\"/>")));
+    QVERIFY(image.startsWith("<img src=\""));
+    QVERIFY(image.endsWith("\"/>"));
 }
 
 

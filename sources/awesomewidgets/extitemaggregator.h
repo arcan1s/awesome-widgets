@@ -31,15 +31,15 @@
 template <class T> class ExtItemAggregator : public AbstractExtItemAggregator
 {
 public:
-    explicit ExtItemAggregator(QWidget *parent, const QString &type)
-        : AbstractExtItemAggregator(parent, type)
+    explicit ExtItemAggregator(QWidget *_parent, const QString &_type)
+        : AbstractExtItemAggregator(_parent, _type)
     {
         qSetMessagePattern(AWDebug::LOG_FORMAT);
         qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
         for (auto &metadata : AWDebug::getBuildData())
             qCDebug(LOG_LIB) << metadata;
 
-        qCDebug(LOG_LIB) << "Type" << type;
+        qCDebug(LOG_LIB) << "Type" << _type;
 
         initItems();
     };
@@ -132,8 +132,7 @@ private:
         for (auto &dir : dirs) {
             QStringList files = QDir(dir).entryList(QDir::Files, QDir::Name);
             for (auto &file : files) {
-                if ((!file.endsWith(QString(".desktop")))
-                    || (names.contains(file)))
+                if ((!file.endsWith(".desktop")) || (names.contains(file)))
                     continue;
                 qCInfo(LOG_LIB) << "Found file" << file << "in" << dir;
                 names.append(file);

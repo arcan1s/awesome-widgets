@@ -32,7 +32,7 @@ class AWDBusAdaptor : public QDBusAbstractAdaptor
     Q_CLASSINFO("D-Bus Interface", AWDBUS_SERVICE_NAME)
 
 public:
-    explicit AWDBusAdaptor(AWKeys *parent = nullptr);
+    explicit AWDBusAdaptor(AWKeys *_parent = nullptr);
     virtual ~AWDBusAdaptor();
 
 public slots:
@@ -48,9 +48,10 @@ public slots:
 
 private:
     AWKeys *m_plugin = nullptr;
-    QStringList m_logLevels = QStringList()
-                              << QString("debug") << QString("info")
-                              << QString("warning") << QString("critical");
+    QStringList m_logLevels = QStringList() << "debug"
+                                            << "info"
+                                            << "warning"
+                                            << "critical";
 };
 
 

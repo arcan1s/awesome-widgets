@@ -28,14 +28,14 @@ class AbstractWeatherProvider : public QObject
     Q_PROPERTY(int number READ number)
 
 public:
-    explicit AbstractWeatherProvider(QObject *parent, const int number)
-        : QObject(parent)
-        , m_number(number){};
+    explicit AbstractWeatherProvider(QObject *_parent, const int _number)
+        : QObject(_parent)
+        , m_number(_number){};
     virtual ~AbstractWeatherProvider(){};
-    virtual void initUrl(const QString &city, const QString &country,
-                         const int ts)
+    virtual void initUrl(const QString &_city, const QString &_country,
+                         const int _ts)
         = 0;
-    virtual QVariantHash parse(const QVariantMap &json) const = 0;
+    virtual QVariantHash parse(const QVariantMap &_json) const = 0;
     virtual QUrl url() const = 0;
     int number() const { return m_number; };
 

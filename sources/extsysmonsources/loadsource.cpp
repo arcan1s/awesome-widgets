@@ -18,14 +18,18 @@
 
 #include "loadsource.h"
 
+#include <QTime>
+
 #include "awdebug.h"
 
 
-LoadSource::LoadSource(QObject *parent, const QStringList &args)
-    : AbstractExtSysMonSource(parent, args)
+LoadSource::LoadSource(QObject *_parent, const QStringList &_args)
+    : AbstractExtSysMonSource(_parent, _args)
 {
-    Q_ASSERT(args.count() == 0);
+    Q_ASSERT(_args.count() == 0);
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
+
+    qsrand(static_cast<uint>(QTime::currentTime().msec()));
 }
 
 
@@ -35,27 +39,25 @@ LoadSource::~LoadSource()
 }
 
 
-QVariant LoadSource::data(const QString &source)
+QVariant LoadSource::data(const QString &_source)
 {
-    qCDebug(LOG_ESS) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << _source;
 
-    auto data = source;
-    data.remove("load/load");
-    return data.toInt();
+    return qrand();
 }
 
 
-QVariantMap LoadSource::initialData(const QString &source) const
+QVariantMap LoadSource::initialData(const QString &_source) const
 {
-    qCDebug(LOG_ESS) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << _source;
 
     QVariantMap data;
-    if (source.startsWith(QString("load/load"))) {
-        data[QString("min")] = 0;
-        data[QString("max")] = 0;
-        data[QString("name")] = QString("Simple sources for load tests");
-        data[QString("type")] = QString("int");
-        data[QString("units")] = QString("");
+    if (_source.startsWith("load/load")) {
+        data["min"] = 0;
+        data["max"] = 0;
+        data["name"] = "Simple sources for load tests";
+        data["type"] = "int";
+        data["units"] = "";
     }
 
     return data;

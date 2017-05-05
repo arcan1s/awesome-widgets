@@ -27,10 +27,10 @@
 #include "awformatterhelper.h"
 
 
-AWFormatterConfig::AWFormatterConfig(QWidget *parent, const QStringList &keys)
-    : QDialog(parent)
+AWFormatterConfig::AWFormatterConfig(QWidget *_parent, const QStringList &_keys)
+    : QDialog(_parent)
     , ui(new Ui::AWFormatterConfig)
-    , m_keys(keys)
+    , m_keys(_keys)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
@@ -96,16 +96,16 @@ void AWFormatterConfig::updateUi()
 }
 
 
-void AWFormatterConfig::addSelector(const QStringList &keys,
-                                    const QStringList &values,
-                                    const QPair<QString, QString> &current)
+void AWFormatterConfig::addSelector(const QStringList &_keys,
+                                    const QStringList &_values,
+                                    const QPair<QString, QString> &_current)
 {
-    qCDebug(LOG_AW) << "Add selector with keys" << keys << "values" << values
-                    << "and current ones" << current;
+    qCDebug(LOG_AW) << "Add selector with keys" << _keys << "values" << _values
+                    << "and current ones" << _current;
 
     AWAbstractSelector *selector
         = new AWAbstractSelector(ui->scrollAreaWidgetContents);
-    selector->init(keys, values, current);
+    selector->init(_keys, _values, _current);
     ui->verticalLayout->insertWidget(ui->verticalLayout->count() - 1, selector);
     connect(selector, SIGNAL(selectionChanged()), this, SLOT(updateUi()));
     m_selectors.append(selector);
@@ -158,10 +158,10 @@ void AWFormatterConfig::init()
 QPair<QStringList, QStringList> AWFormatterConfig::initKeys() const
 {
     // we are adding empty string at the start
-    QStringList keys = QStringList() << QString("");
+    QStringList keys = QStringList() << "";
     keys.append(m_keys);
     keys.sort();
-    QStringList knownFormatters = QStringList() << QString("");
+    QStringList knownFormatters = QStringList() << "";
     knownFormatters.append(m_helper->knownFormatters());
     knownFormatters.sort();
 

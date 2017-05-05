@@ -36,7 +36,8 @@ class ExtUpgrade : public AbstractExtItem
     Q_PROPERTY(int null READ null WRITE setNull)
 
 public:
-    explicit ExtUpgrade(QWidget *parent, const QString &filePath = QString());
+    explicit ExtUpgrade(QWidget *_parent = nullptr,
+                        const QString &_filePath = "");
     virtual ~ExtUpgrade();
     ExtUpgrade *copy(const QString &_fileName, const int _number);
     // get methods
@@ -45,14 +46,14 @@ public:
     int null() const;
     QString uniq() const;
     // set methods
-    void setExecutable(const QString &_executable = QString("/usr/bin/true"));
-    void setFilter(const QString &_filter = QString());
-    void setNull(const int _null = 0);
+    void setExecutable(const QString &_executable);
+    void setFilter(const QString &_filter);
+    void setNull(const int _null);
 
 public slots:
     void readConfiguration();
     QVariantHash run();
-    int showConfiguration(const QVariant &args = QVariant());
+    int showConfiguration(const QVariant &_args);
     void writeConfiguration() const;
 
 private slots:
@@ -64,11 +65,10 @@ private:
     Ui::ExtUpgrade *ui = nullptr;
     void translate();
     // properties
-    QString m_executable = QString("/usr/bin/true");
-    QString m_filter = QString("");
+    QString m_executable = "/usr/bin/true";
+    QString m_filter = "";
     int m_null = 0;
     // internal properties
-    int m_times = 0;
     QVariantHash m_values;
 };
 

@@ -31,14 +31,14 @@ public:
     const char *OWM_WEATHER_URL = "https://arcanis.me/weather";
     const char *OWM_FORECAST_URL = "https://arcanis.me/forecast";
 
-    explicit OWMWeatherProvider(QObject *parent, const int number);
+    explicit OWMWeatherProvider(QObject *_parent, const int _number);
     virtual ~OWMWeatherProvider();
-    void initUrl(const QString &city, const QString &country, const int);
-    QVariantHash parse(const QVariantMap &json) const;
+    void initUrl(const QString &_city, const QString &_country, const int);
+    QVariantHash parse(const QVariantMap &_json) const;
     QUrl url() const;
 
 private:
-    QVariantHash parseSingleJson(const QVariantMap &json) const;
+    QVariantHash parseSingleJson(const QVariantMap &_json) const;
     int m_ts = 0;
     QUrl m_url;
 };

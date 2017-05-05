@@ -52,7 +52,7 @@ void TestBatterySource::test_battery()
     std::for_each(batteries.begin(), batteries.end(),
                   [this](const QString bat) {
                       QVariant value = source->data(bat);
-                      if (bat == QString("battery/ac"))
+                      if (bat == "battery/ac")
                           QCOMPARE(value.type(), QVariant::Bool);
                       else
                           QVERIFY((value.toFloat() >= battery.first)

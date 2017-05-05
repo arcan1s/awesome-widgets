@@ -32,13 +32,13 @@
 #include "graphicalitemhelper.h"
 
 
-GraphicalItem::GraphicalItem(QWidget *parent, const QString &filePath)
-    : AbstractExtItem(parent, filePath)
+GraphicalItem::GraphicalItem(QWidget *_parent, const QString &_filePath)
+    : AbstractExtItem(_parent, _filePath)
     , ui(new Ui::GraphicalItem)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    if (!filePath.isEmpty())
+    if (!_filePath.isEmpty())
         readConfiguration();
     ui->setupUi(this);
     translate();
@@ -150,7 +150,7 @@ void GraphicalItem::initScene()
     m_scene->setBackgroundBrush(QBrush(Qt::NoBrush));
     // init view
     m_view = new QGraphicsView(m_scene);
-    m_view->setStyleSheet(QString("background: transparent"));
+    m_view->setStyleSheet("background: transparent");
     m_view->setContentsMargins(0, 0, 0, 0);
     m_view->setFrameShape(QFrame::NoFrame);
     m_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -229,19 +229,19 @@ QString GraphicalItem::strType() const
     QString value;
     switch (type()) {
     case Type::Vertical:
-        value = QString("Vertical");
+        value = "Vertical";
         break;
     case Type::Circle:
-        value = QString("Circle");
+        value = "Circle";
         break;
     case Type::Graph:
-        value = QString("Graph");
+        value = "Graph";
         break;
     case Type::Bars:
-        value = QString("Bars");
+        value = "Bars";
         break;
     case Type::Horizontal:
-        value = QString("Horizontal");
+        value = "Horizontal";
         break;
     }
 
@@ -260,10 +260,10 @@ QString GraphicalItem::strDirection() const
     QString value;
     switch (direction()) {
     case Direction::RightToLeft:
-        value = QString("RightToLeft");
+        value = "RightToLeft";
         break;
     case Direction::LeftToRight:
-        value = QString("LeftToRight");
+        value = "LeftToRight";
         break;
     }
 
@@ -373,13 +373,13 @@ void GraphicalItem::setStrType(const QString &_type)
 {
     qCDebug(LOG_LIB) << "Type" << _type;
 
-    if (_type == QString("Vertical"))
+    if (_type == "Vertical")
         setType(Type::Vertical);
-    else if (_type == QString("Circle"))
+    else if (_type == "Circle")
         setType(Type::Circle);
-    else if (_type == QString("Graph"))
+    else if (_type == "Graph")
         setType(Type::Graph);
-    else if (_type == QString("Bars"))
+    else if (_type == "Bars")
         setType(Type::Bars);
     else
         setType(Type::Horizontal);
@@ -398,7 +398,7 @@ void GraphicalItem::setStrDirection(const QString &_direction)
 {
     qCDebug(LOG_LIB) << "Direction" << _direction;
 
-    if (_direction == QString("RightToLeft"))
+    if (_direction == "RightToLeft")
         setDirection(Direction::RightToLeft);
     else
         setDirection(Direction::LeftToRight);
@@ -426,31 +426,29 @@ void GraphicalItem::readConfiguration()
 
     QSettings settings(fileName(), QSettings::IniFormat);
 
-    settings.beginGroup(QString("Desktop Entry"));
-    setCount(settings.value(QString("X-AW-Count"), count()).toInt());
-    setCustom(settings.value(QString("X-AW-Custom"), isCustom()).toBool());
-    setBar(settings.value(QString("X-AW-Value"), bar()).toString());
-    setMaxValue(settings.value(QString("X-AW-Max"), maxValue()).toFloat());
-    setMinValue(settings.value(QString("X-AW-Min"), minValue()).toFloat());
+    settings.beginGroup("Desktop Entry");
+    setCount(settings.value("X-AW-Count", count()).toInt());
+    setCustom(settings.value("X-AW-Custom", isCustom()).toBool());
+    setBar(settings.value("X-AW-Value", bar()).toString());
+    setMaxValue(settings.value("X-AW-Max", maxValue()).toFloat());
+    setMinValue(settings.value("X-AW-Min", minValue()).toFloat());
     setActiveColor(
-        settings.value(QString("X-AW-ActiveColor"), activeColor()).toString());
+        settings.value("X-AW-ActiveColor", activeColor()).toString());
     setInactiveColor(
-        settings.value(QString("X-AW-InactiveColor"), inactiveColor())
-            .toString());
-    setStrType(settings.value(QString("X-AW-Type"), strType()).toString());
+        settings.value("X-AW-InactiveColor", inactiveColor()).toString());
+    setStrType(settings.value("X-AW-Type", strType()).toString());
     setStrDirection(
-        settings.value(QString("X-AW-Direction"), strDirection()).toString());
-    setItemHeight(settings.value(QString("X-AW-Height"), itemHeight()).toInt());
-    setItemWidth(settings.value(QString("X-AW-Width"), itemWidth()).toInt());
+        settings.value("X-AW-Direction", strDirection()).toString());
+    setItemHeight(settings.value("X-AW-Height", itemHeight()).toInt());
+    setItemWidth(settings.value("X-AW-Width", itemWidth()).toInt());
     // api == 5
     if (apiVersion() < 5) {
         QString prefix;
-        prefix = activeColor().startsWith(QString("/")) ? QString("file://%1")
-                                                        : QString("color://%1");
+        prefix = activeColor().startsWith("/") ? QString("file://%1")
+                                               : QString("color://%1");
         m_activeColor = prefix.arg(activeColor());
-        prefix = inactiveColor().startsWith(QString("/"))
-                     ? QString("file://%1")
-                     : QString("color://%1");
+        prefix = inactiveColor().startsWith("/") ? QString("file://%1")
+                                                 : QString("color://%1");
         m_inactiveColor = prefix.arg(inactiveColor());
     }
     settings.endGroup();
@@ -460,10 +458,10 @@ void GraphicalItem::readConfiguration()
 }
 
 
-int GraphicalItem::showConfiguration(const QVariant &args)
+int GraphicalItem::showConfiguration(const QVariant &_args)
 {
-    qCDebug(LOG_LIB) << "Combobox arguments" << args;
-    QStringList tags = args.toStringList();
+    qCDebug(LOG_LIB) << "Combobox arguments" << _args;
+    QStringList tags = _args.toStringList();
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -531,18 +529,18 @@ void GraphicalItem::writeConfiguration() const
     QSettings settings(writtableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
-    settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("X-AW-Value"), bar());
-    settings.setValue(QString("X-AW-Count"), count());
-    settings.setValue(QString("X-AW-Custom"), isCustom());
-    settings.setValue(QString("X-AW-Max"), maxValue());
-    settings.setValue(QString("X-AW-Min"), minValue());
-    settings.setValue(QString("X-AW-ActiveColor"), activeColor());
-    settings.setValue(QString("X-AW-InactiveColor"), inactiveColor());
-    settings.setValue(QString("X-AW-Type"), strType());
-    settings.setValue(QString("X-AW-Direction"), strDirection());
-    settings.setValue(QString("X-AW-Height"), itemHeight());
-    settings.setValue(QString("X-AW-Width"), itemWidth());
+    settings.beginGroup("Desktop Entry");
+    settings.setValue("X-AW-Value", bar());
+    settings.setValue("X-AW-Count", count());
+    settings.setValue("X-AW-Custom", isCustom());
+    settings.setValue("X-AW-Max", maxValue());
+    settings.setValue("X-AW-Min", minValue());
+    settings.setValue("X-AW-ActiveColor", activeColor());
+    settings.setValue("X-AW-InactiveColor", inactiveColor());
+    settings.setValue("X-AW-Type", strType());
+    settings.setValue("X-AW-Direction", strDirection());
+    settings.setValue("X-AW-Height", itemHeight());
+    settings.setValue("X-AW-Width", itemWidth());
     settings.endGroup();
 
     settings.sync();
@@ -566,7 +564,7 @@ void GraphicalItem::changeColor()
     if (state == 0) {
         QColor color = m_helper->stringToColor(lineEdit->text());
         QColor newColor = QColorDialog::getColor(
-            color, this, tr("Select color"), QColorDialog::ShowAlphaChannel);
+            color, this, i18n("Select color"), QColorDialog::ShowAlphaChannel);
         if (!newColor.isValid())
             return;
         qCInfo(LOG_LIB) << "Selected color" << newColor;
@@ -577,13 +575,13 @@ void GraphicalItem::changeColor()
         colorText.append(QString("%1").arg(newColor.blue()));
         colorText.append(QString("%1").arg(newColor.alpha()));
 
-        outputColor = QString("color://%1").arg(colorText.join(QChar(',')));
+        outputColor = QString("color://%1").arg(colorText.join(','));
     } else if (state == 1) {
         QString path = lineEdit->text();
         QString directory = QFileInfo(path).absolutePath();
         outputColor = QFileDialog::getOpenFileUrl(
-                          this, tr("Select path"), directory,
-                          tr("Images (*.png *.bpm *.jpg);;All files (*.*)"))
+                          this, i18n("Select path"), directory,
+                          i18n("Images (*.png *.bpm *.jpg);;All files (*.*)"))
                           .toString();
 
         qCInfo(LOG_LIB) << "Selected path" << outputColor;
@@ -597,21 +595,21 @@ void GraphicalItem::changeColor()
 }
 
 
-void GraphicalItem::changeCountState(const int state)
+void GraphicalItem::changeCountState(const int _state)
 {
-    qCDebug(LOG_LIB) << "Current state is" << state;
+    qCDebug(LOG_LIB) << "Current state is" << _state;
 
     // 3 is magic number. Actually 3 is Graph mode
-    ui->widget_count->setHidden(state != 3);
+    ui->widget_count->setHidden(_state != 3);
 }
 
 
-void GraphicalItem::changeValue(const int state)
+void GraphicalItem::changeValue(const int _state)
 {
-    qCDebug(LOG_LIB) << "Current state is" << state;
+    qCDebug(LOG_LIB) << "Current state is" << _state;
 
-    ui->widget_value->setHidden(state != Qt::Unchecked);
-    ui->widget_customValue->setHidden(state == Qt::Unchecked);
+    ui->widget_value->setHidden(_state != Qt::Unchecked);
+    ui->widget_customValue->setHidden(_state == Qt::Unchecked);
 }
 
 

@@ -28,13 +28,13 @@ class ExtendedSysMon : public Plasma::DataEngine
     Q_OBJECT
 
 public:
-    explicit ExtendedSysMon(QObject *parent, const QVariantList &args);
+    explicit ExtendedSysMon(QObject *_parent, const QVariantList &_args);
     virtual ~ExtendedSysMon();
 
 protected:
     QStringList sources() const;
-    bool sourceRequestEvent(const QString &source);
-    bool updateSourceEvent(const QString &source);
+    bool sourceRequestEvent(const QString &_source);
+    bool updateSourceEvent(const QString &_source);
 
 private:
     // configuration
@@ -43,7 +43,7 @@ private:
     // methods
     void readConfiguration();
     QHash<QString, QString>
-    updateConfiguration(QHash<QString, QString> rawConfig) const;
+    updateConfiguration(QHash<QString, QString> _rawConfig) const;
 };
 
 

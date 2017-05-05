@@ -26,9 +26,9 @@
 #include "awdebug.h"
 
 
-bool AWKeyCache::addKeyToCache(const QString &type, const QString &key)
+bool AWKeyCache::addKeyToCache(const QString &_type, const QString &_key)
 {
-    qCDebug(LOG_AW) << "Key" << key << "with type" << type;
+    qCDebug(LOG_AW) << "Key" << _key << "with type" << _type;
 
     QString fileName = QString("%1/awesomewidgets.ndx")
                            .arg(QStandardPaths::writableLocation(
@@ -36,45 +36,45 @@ bool AWKeyCache::addKeyToCache(const QString &type, const QString &key)
     qCInfo(LOG_AW) << "Cache file" << fileName;
     QSettings cache(fileName, QSettings::IniFormat);
 
-    cache.beginGroup(type);
+    cache.beginGroup(_type);
     QStringList cachedValues;
     for (auto &number : cache.allKeys())
         cachedValues.append(cache.value(number).toString());
 
-    if (type == QString("hdd")) {
+    if (_type == "hdd") {
         QStringList allDevices
-            = QDir(QString("/dev")).entryList(QDir::System, QDir::Name);
-        QStringList devices
-            = allDevices.filter(QRegExp(QString("^[hms]d[a-z]$")));
+            = QDir("/dev").entryList(QDir::System, QDir::Name);
+        QStringList devices = allDevices.filter(QRegExp("^[hms]d[a-z]$"));
         for (auto &dev : devices) {
             QString device = QString("/dev/%1").arg(dev);
             if (cachedValues.contains(device))
                 continue;
-            qCInfo(LOG_AW) << "Found new key" << device << "for type" << type;
+            qCInfo(LOG_AW) << "Found new key" << device << "for type" << _type;
             cachedValues.append(device);
             cache.setValue(
                 QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')),
                 device);
         }
-    } else if (type == QString("net")) {
+    } else if (_type == "net") {
         QList<QNetworkInterface> rawInterfaceList
             = QNetworkInterface::allInterfaces();
         for (auto &interface : rawInterfaceList) {
             QString device = interface.name();
             if (cachedValues.contains(device))
                 continue;
-            qCInfo(LOG_AW) << "Found new key" << device << "for type" << type;
+            qCInfo(LOG_AW) << "Found new key" << device << "for type" << _type;
             cachedValues.append(device);
             cache.setValue(
                 QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')),
                 device);
         }
     } else {
-        if (cachedValues.contains(key))
+        if (cachedValues.contains(_key))
             return false;
-        qCInfo(LOG_AW) << "Found new key" << key << "for type" << type;
+        qCInfo(LOG_AW) << "Found new key" << _key << "for type" << _type;
         cache.setValue(
-            QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), key);
+            QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')),
+            _key);
     }
     cache.endGroup();
 
@@ -83,86 +83,89 @@ bool AWKeyCache::addKeyToCache(const QString &type, const QString &key)
 }
 
 
-QStringList AWKeyCache::getRequiredKeys(const QStringList &keys,
-                                        const QStringList &bars,
-                                        const QVariantMap &tooltip,
-                                        const QStringList &allKeys)
+QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys,
+                                        const QStringList &_bars,
+                                        const QVariantMap &_tooltip,
+                                        const QStringList &_allKeys)
 {
-    qCDebug(LOG_AW) << "Looking for required keys in" << keys << bars
-                    << "using tooltip settings" << tooltip;
+    qCDebug(LOG_AW) << "Looking for required keys in" << _keys << _bars
+                    << "using tooltip settings" << _tooltip;
 
     // initial copy
-    QSet<QString> used = QSet<QString>::fromList(keys);
-    used.unite(QSet<QString>::fromList(bars));
+    QSet<QString> used = QSet<QString>::fromList(_keys);
+    used.unite(QSet<QString>::fromList(_bars));
     // insert keys from tooltip
-    for (auto &key : tooltip.keys()) {
-        if ((key.endsWith(QString("Tooltip"))) && (tooltip[key].toBool())) {
-            key.remove(QString("Tooltip"));
+    for (auto &key : _tooltip.keys()) {
+        if ((key.endsWith("Tooltip")) && (_tooltip[key].toBool())) {
+            key.remove("Tooltip");
             used << key;
         }
     }
 
     // insert depending keys, refer to AWKeys::calculateValues()
     // hddtotmb*
-    for (auto &key : allKeys.filter(QRegExp(QString("^hddtotmb")))) {
+    for (auto &key : _allKeys.filter(QRegExp("^hddtotmb"))) {
         if (!used.contains(key))
             continue;
-        key.remove(QString("hddtotmb"));
+        key.remove("hddtotmb");
         int index = key.toInt();
         used << QString("hddfreemb%1").arg(index)
              << QString("hddmb%1").arg(index);
     }
     // hddtotgb*
-    for (auto &key : allKeys.filter(QRegExp(QString("^hddtotgb")))) {
+    for (auto &key : _allKeys.filter(QRegExp("^hddtotgb"))) {
         if (!used.contains(key))
             continue;
-        key.remove(QString("hddtotgb"));
+        key.remove("hddtotgb");
         int index = key.toInt();
         used << QString("hddfreegb%1").arg(index)
              << QString("hddgb%1").arg(index);
     }
     // mem
-    if (used.contains(QString("mem")))
-        used << QString("memmb") << QString("memtotmb");
+    if (used.contains("mem"))
+        used << "memmb"
+             << "memtotmb";
     // memtotmb
-    if (used.contains(QString("memtotmb")))
-        used << QString("memusedmb") << QString("memfreemb");
+    if (used.contains("memtotmb"))
+        used << "memusedmb"
+             << "memfreemb";
     // memtotgb
-    if (used.contains(QString("memtotgb")))
-        used << QString("memusedgb") << QString("memfreegb");
+    if (used.contains("memtotgb"))
+        used << "memusedgb"
+             << "memfreegb";
     // swap
-    if (used.contains(QString("swap")))
-        used << QString("swapmb") << QString("swaptotmb");
+    if (used.contains("swap"))
+        used << "swapmb"
+             << "swaptotmb";
     // swaptotmb
-    if (used.contains(QString("swaptotmb")))
-        used << QString("swapmb") << QString("swapfreemb");
+    if (used.contains("swaptotmb"))
+        used << "swapmb"
+             << "swapfreemb";
     // memtotgb
-    if (used.contains(QString("swaptotgb")))
-        used << QString("swapgb") << QString("swapfreegb");
+    if (used.contains("swaptotgb"))
+        used << "swapgb"
+             << "swapfreegb";
     // network keys
-    QStringList netKeys(QStringList()
-                        << QString("up") << QString("upkb")
-                        << QString("uptotal") << QString("uptotalkb")
-                        << QString("upunits") << QString("down")
-                        << QString("downkb") << QString("downtotal")
-                        << QString("downtotalkb") << QString("downunits"));
+    QStringList netKeys({"up", "upkb", "uptotal", "uptotalkb", "upunits",
+                         "down", "downkb", "downtotal", "downtotalkb",
+                         "downunits"});
     for (auto &key : netKeys) {
         if (!used.contains(key))
             continue;
         QStringList filt
-            = allKeys.filter(QRegExp(QString("^%1[0-9]{1,}").arg(key)));
+            = _allKeys.filter(QRegExp(QString("^%1[0-9]{1,}").arg(key)));
         for (auto &filtered : filt)
             used << filtered;
     }
     // netdev key
     if (std::any_of(netKeys.cbegin(), netKeys.cend(),
                     [&used](const QString &key) { return used.contains(key); }))
-        used << QString("netdev");
+        used << "netdev";
 
     // HACK append dummy if there are no other keys. This hack is required
     // because empty list leads to the same behaviour as skip checking
     if (used.isEmpty())
-        used << QString("dummy");
+        used << "dummy";
 
     return used.toList();
 }

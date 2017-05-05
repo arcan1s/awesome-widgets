@@ -31,10 +31,10 @@ class CustomSource : public AbstractExtSysMonSource
     Q_OBJECT
 
 public:
-    explicit CustomSource(QObject *parent, const QStringList &args);
+    explicit CustomSource(QObject *_parent, const QStringList &_args);
     virtual ~CustomSource();
-    QVariant data(const QString &source);
-    QVariantMap initialData(const QString &source) const;
+    QVariant data(const QString &_source);
+    QVariantMap initialData(const QString &_source) const;
     void run(){};
     QStringList sources() const;
 

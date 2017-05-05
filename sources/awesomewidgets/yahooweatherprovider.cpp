@@ -22,8 +22,8 @@
 #include "awdebug.h"
 
 
-YahooWeatherProvider::YahooWeatherProvider(QObject *parent, const int number)
-    : AbstractWeatherProvider(parent, number)
+YahooWeatherProvider::YahooWeatherProvider(QObject *_parent, const int _number)
+    : AbstractWeatherProvider(_parent, _number)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 }
@@ -35,38 +35,36 @@ YahooWeatherProvider::~YahooWeatherProvider()
 }
 
 
-void YahooWeatherProvider::initUrl(const QString &city, const QString &country,
-                                   const int ts)
+void YahooWeatherProvider::initUrl(const QString &_city,
+                                   const QString &_country, const int ts)
 {
-    qCDebug(LOG_LIB) << "Init query for" << city << country << "with ts" << ts;
+    qCDebug(LOG_LIB) << "Init query for" << _city << _country << "with ts"
+                     << ts;
 
     m_ts = ts;
 
     m_url = QUrl(YAHOO_WEATHER_URL);
     QUrlQuery params;
-    params.addQueryItem(QString("format"), QString("json"));
-    params.addQueryItem(QString("env"),
-                        QString("store://datatables.org/alltableswithkeys"));
-    params.addQueryItem(QString("q"),
-                        QString(YAHOO_WEATHER_QUERY).arg(city, country));
+    params.addQueryItem("format", "json");
+    params.addQueryItem("env", "store://datatables.org/alltableswithkeys");
+    params.addQueryItem("q", QString(YAHOO_WEATHER_QUERY).arg(_city, _country));
     m_url.setQuery(params);
 }
 
 
-QVariantHash YahooWeatherProvider::parse(const QVariantMap &json) const
+QVariantHash YahooWeatherProvider::parse(const QVariantMap &_json) const
 {
-    qCDebug(LOG_LIB) << "Parse json" << json;
+    qCDebug(LOG_LIB) << "Parse json" << _json;
 
-    QVariantMap jsonMap = json[QString("query")].toMap();
-    if (jsonMap[QString("count")].toInt() != 1) {
-        qCWarning(LOG_LIB) << "Found data count"
-                           << json[QString("count")].toInt() << "is not 1";
+    QVariantMap jsonMap = _json["query"].toMap();
+    if (jsonMap["count"].toInt() != 1) {
+        qCWarning(LOG_LIB) << "Found data count" << _json["count"].toInt()
+                           << "is not 1";
         return QVariantHash();
     }
-    QVariantMap results
-        = jsonMap[QString("results")].toMap()[QString("channel")].toMap();
-    QVariantMap item = results[QString("item")].toMap();
-    QVariantMap atmosphere = results[QString("atmosphere")].toMap();
+    QVariantMap results = jsonMap["results"].toMap()["channel"].toMap();
+    QVariantMap item = results["item"].toMap();
+    QVariantMap atmosphere = results["atmosphere"].toMap();
 
     return m_ts == 0 ? parseCurrent(item, atmosphere) : parseForecast(item);
 }
@@ -79,46 +77,44 @@ QUrl YahooWeatherProvider::url() const
 
 
 QVariantHash
-YahooWeatherProvider::parseCurrent(const QVariantMap &json,
-                                   const QVariantMap &atmosphere) const
+YahooWeatherProvider::parseCurrent(const QVariantMap &_json,
+                                   const QVariantMap &_atmosphere) const
 {
-    qCDebug(LOG_LIB) << "Parse current weather from" << json;
+    qCDebug(LOG_LIB) << "Parse current weather from" << _json;
+
+    auto condition = _json["condition"].toMap();
 
     QVariantHash values;
-    int id = json[QString("condition")].toMap()[QString("code")].toInt();
+    int id = _json["condition"].toMap()["code"].toInt();
     values[QString("weatherId%1").arg(number())] = id;
-    values[QString("temperature%1").arg(number())]
-        = json[QString("condition")].toMap()[QString("temp")].toInt();
-    values[QString("timestamp%1").arg(number())]
-        = json[QString("condition")].toMap()[QString("date")].toString();
+    values[QString("temperature%1").arg(number())] = condition["temp"].toInt();
+    values[QString("timestamp%1").arg(number())] = condition["date"].toString();
     values[QString("humidity%1").arg(number())]
-        = atmosphere[QString("humidity")].toInt();
+        = _atmosphere["humidity"].toInt();
     // HACK temporary fix of invalid values on Yahoo! side
-    values[QString("pressure%1").arg(number())] = static_cast<int>(
-        atmosphere[QString("pressure")].toFloat() / 33.863753);
+    values[QString("pressure%1").arg(number())]
+        = static_cast<int>(_atmosphere["pressure"].toFloat() / 33.863753);
 
     return values;
 }
 
 
-QVariantHash YahooWeatherProvider::parseForecast(const QVariantMap &json) const
+QVariantHash YahooWeatherProvider::parseForecast(const QVariantMap &_json) const
 {
-    qCDebug(LOG_LIB) << "Parse forecast from" << json;
+    qCDebug(LOG_LIB) << "Parse forecast from" << _json;
 
     QVariantHash values;
-    QVariantList weatherList = json[QString("forecast")].toList();
+    QVariantList weatherList = _json["forecast"].toList();
     QVariantMap weatherMap = weatherList.count() < m_ts
                                  ? weatherList.last().toMap()
                                  : weatherList.at(m_ts).toMap();
-    int id = weatherMap[QString("code")].toInt();
+    int id = weatherMap["code"].toInt();
     values[QString("weatherId%1").arg(number())] = id;
     values[QString("timestamp%1").arg(number())]
-        = weatherMap[QString("date")].toString();
+        = weatherMap["date"].toString();
     // yahoo provides high and low temperatures. Lets calculate average one
     values[QString("temperature%1").arg(number())]
-        = (weatherMap[QString("high")].toFloat()
-           + weatherMap[QString("low")].toFloat())
-          / 2.0;
+        = (weatherMap["high"].toFloat() + weatherMap["low"].toFloat()) / 2.0;
     // ... and no forecast data for humidity and pressure
     values[QString("humidity%1").arg(number())] = 0;
     values[QString("pressure%1").arg(number())] = 0.0;

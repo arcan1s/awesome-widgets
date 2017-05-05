@@ -39,7 +39,7 @@ class AbstractExtItemAggregator : public QDialog
     Q_PROPERTY(QVariant type READ type)
 
 public:
-    explicit AbstractExtItemAggregator(QWidget *parent, const QString &type);
+    explicit AbstractExtItemAggregator(QWidget *_parent, const QString &_type);
     virtual ~AbstractExtItemAggregator();
     // methods
     void copyItem();
@@ -79,7 +79,7 @@ public:
 
 private slots:
     void editItemActivated(QListWidgetItem *);
-    void editItemButtonPressed(QAbstractButton *button);
+    void editItemButtonPressed(QAbstractButton *_button);
 
 private:
     // ui

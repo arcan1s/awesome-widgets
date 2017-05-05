@@ -64,13 +64,13 @@ void TestAWTelemetryHandler::test_getLast()
 
 void TestAWTelemetryHandler::test_uploadTelemetry()
 {
-    QSignalSpy spy(plugin, SIGNAL(replyReceived(QString &)));
+    QSignalSpy spy(plugin, SIGNAL(replyReceived(const QString &)));
     plugin->uploadTelemetry(telemetryValidGroup, telemetryData);
 
     QVERIFY(spy.wait(5000));
     QVariantList arguments = spy.takeFirst();
 
-    QCOMPARE(arguments.at(0).toString(), QString("saved"));
+    QCOMPARE(arguments.at(0).toString(), telemetryStatus);
 }
 
 

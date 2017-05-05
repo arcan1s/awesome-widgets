@@ -21,13 +21,14 @@
 #include <QtTest>
 
 #include "awtestlibrary.h"
+#include "gpuloadsource.h"
 #include "gputempsource.h"
 
 
 void TestGPUTemperatureSource::initTestCase()
 {
     AWTestLibrary::init();
-    device = GPUTemperatureSource::autoGpu();
+    device = GPULoadSource::autoGpu();
     QVERIFY(!device.isEmpty());
 
     source = new GPUTemperatureSource(this, QStringList() << device);
@@ -48,7 +49,7 @@ void TestGPUTemperatureSource::test_sources()
 
 void TestGPUTemperatureSource::test_gputemp()
 {
-    if (device == QString("disable"))
+    if (device == "disable")
         QSKIP("Not supported device, test will be skipped");
 
     QSignalSpy spy(source, SIGNAL(dataReceived(const QVariantHash &)));

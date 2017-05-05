@@ -40,7 +40,7 @@ private slots:
 private:
     GPULoadSource *source = nullptr;
     QString device;
-    QString src = QString("gpu/load");
+    QString src = "gpu/load";
     QPair<float, float> load = QPair<float, float>(0.0f, 100.0f);
 };
 

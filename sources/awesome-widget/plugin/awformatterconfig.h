@@ -34,8 +34,8 @@ class AWFormatterConfig : public QDialog
     Q_OBJECT
 
 public:
-    explicit AWFormatterConfig(QWidget *parent = nullptr,
-                               const QStringList &keys = QStringList());
+    explicit AWFormatterConfig(QWidget *_parent = nullptr,
+                               const QStringList &_keys = QStringList());
     virtual ~AWFormatterConfig();
     Q_INVOKABLE void showDialog();
 
@@ -51,8 +51,8 @@ private:
     // properties
     QStringList m_keys;
     // methods
-    void addSelector(const QStringList &keys, const QStringList &values,
-                     const QPair<QString, QString> &current);
+    void addSelector(const QStringList &_keys, const QStringList &_values,
+                     const QPair<QString, QString> &_current);
     void clearSelectors();
     void execDialog();
     void init();

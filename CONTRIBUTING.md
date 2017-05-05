@@ -37,32 +37,17 @@ for more details. To avoid manual labor there is automatic cmake target named
 
 * `Q_PROPERTY` macro is allowed and recommended for QObject based classes.
 * Qt macros (e.g. `signals`, `slots`, `Q_OBJECT`, etc) are allowed. In other hand
-`Q_FOREACH` (`foreach`) is not allowed use `for (auto foo : bar)` instead.
+`Q_FOREACH` (`foreach`) is not allowed use `for (auto &foo : bar)` instead.
 * Current project standard is **C++11**.
 * Do not use C-like code:
-    * C-like style iteration if possible. Use `for (auto foo : bar)` and
+    * C-like style iteration if possible. Use `for (auto &foo : bar)` and
       `std::for_each` instead if possible. It is also recommended to use iterators.
     * C-like casts, use `const_cast`, `static_cast`, `dymanic_Cast` instead. Using
       of `reinterpret_cast` is not recommended. It is highly recommended to use
       `dynamic_cast` with the exception catching. It is also possible to use
-      `qvariant_cast` if required. Exception is class constructors, e.g.:
-
-      ```
-      char c = 'c';
-      std::string s = "string";
-      qDebug() << QString("some string") << QChar(c) << QString(s);
-      ```
-
+      `qvariant_cast` if required.
     * C-like `NULL`, use `nullptr` instead.
     * C-like constant definition, use `const vartype foo = bar` definition instead.
-* It is highly recommended to avoid implicit casts. Exception `nullptr` casts to
-  boolean, e.g.:
-
-  ```
-  if (nullptr)
-      qDebug() << "nullptr is true, wtf";
-  ```
-
 * Abstract classes (which have at least one pure virtual method) are allowed.
 * Templates are allowed and recommended. Templates usually should be described
   inside header not source code file.
@@ -93,6 +78,7 @@ for more details. To avoid manual labor there is automatic cmake target named
 * Any global pointer should be assign to `nullptr` after deletion and before
   initialization. Exception: if object is deleted into class destructor.
 * Do not use semicolon in qml files unless it is required.
+* Any method argument including class constructors should start with `_`.
 
 Comments
 --------
@@ -178,8 +164,7 @@ Testing
     1. `-DCMAKE_BUILD_TYPE=Debug`.
     2. `-DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=ON`.
     3. `-DCMAKE_BUILD_TYPE=Release`.
-* It is recommended to create addition test if possible.
-* Addition test functions should be declated and used only inside `BUILD_TESTING`
+* Additional test functions should be declated and used only inside `BUILD_TESTING`
   definition.
 
 Tools
@@ -210,9 +195,9 @@ Tools
 * Recommended class constructor for QObject based classes:
 
   ```
-  FooClass::FooClass(QObject *parent, const QVariant var)
-      : QObject(parent)
-      , m_var(var)
+  FooClass::FooClass(QObject *_parent, const QVariant _var)
+      : QObject(_parent)
+      , m_var(_var)
   {
       qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
       // some code below if any

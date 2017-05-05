@@ -44,7 +44,8 @@ public:
         swap = 3
     };
 
-    explicit ExtScript(QWidget *parent, const QString &filePath = QString());
+    explicit ExtScript(QWidget *_parent = nullptr,
+                       const QString &_filePath = "");
     virtual ~ExtScript();
     ExtScript *copy(const QString &_fileName, const int _number);
     QString jsonFiltersFile() const;
@@ -57,20 +58,20 @@ public:
     // derivatives
     QString strRedirect() const;
     // set methods
-    void setExecutable(const QString &_executable = QString("/usr/bin/true"));
-    void setFilters(const QStringList &_filters = QStringList());
-    void setPrefix(const QString &_prefix = QString(""));
-    void setRedirect(const Redirect _redirect = Redirect::nothing);
-    void setStrRedirect(const QString &_redirect = QString("nothing"));
+    void setExecutable(const QString &_executable);
+    void setFilters(const QStringList &_filters);
+    void setPrefix(const QString &_prefix);
+    void setRedirect(const Redirect _redirect);
+    void setStrRedirect(const QString &_redirect);
     // filters
     QString applyFilters(QString _value) const;
-    void updateFilter(const QString &_filter, const bool _add = true);
+    void updateFilter(const QString &_filter, const bool _add);
 
 public slots:
     void readConfiguration();
     void readJsonFilters();
     QVariantHash run();
-    int showConfiguration(const QVariant &args = QVariant());
+    int showConfiguration(const QVariant &_args);
     void writeConfiguration() const;
 
 private slots:
@@ -82,13 +83,12 @@ private:
     Ui::ExtScript *ui = nullptr;
     void translate();
     // properties
-    QString m_executable = QString("/usr/bin/true");
+    QString m_executable = "/usr/bin/true";
     QStringList m_filters = QStringList();
-    QString m_prefix = QString("");
+    QString m_prefix = "";
     Redirect m_redirect = Redirect::nothing;
     // internal properties
-    QVariantMap m_jsonFilters = QVariantMap();
-    int m_times = 0;
+    QVariantMap m_jsonFilters;
     QVariantHash m_values;
 };
 

@@ -27,13 +27,13 @@
 #include "awdebug.h"
 
 
-AWStringFormatter::AWStringFormatter(QWidget *parent, const QString &filePath)
-    : AWAbstractFormatter(parent, filePath)
+AWStringFormatter::AWStringFormatter(QWidget *_parent, const QString &_filePath)
+    : AWAbstractFormatter(_parent, _filePath)
     , ui(new Ui::AWStringFormatter)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    if (!filePath.isEmpty())
+    if (!_filePath.isEmpty())
         readConfiguration();
     ui->setupUi(this);
     translate();
@@ -125,25 +125,23 @@ void AWStringFormatter::readConfiguration()
 
     QSettings settings(fileName(), QSettings::IniFormat);
 
-    settings.beginGroup(QString("Desktop Entry"));
-    setCount(settings.value(QString("X-AW-Width"), count()).toInt());
-    setFillChar(
-        settings.value(QString("X-AW-FillChar"), fillChar()).toString().at(0));
-    setForceWidth(
-        settings.value(QString("X-AW-ForceWidth"), forceWidth()).toBool());
+    settings.beginGroup("Desktop Entry");
+    setCount(settings.value("X-AW-Width", count()).toInt());
+    setFillChar(settings.value("X-AW-FillChar", fillChar()).toString().at(0));
+    setForceWidth(settings.value("X-AW-ForceWidth", forceWidth()).toBool());
     settings.endGroup();
 
     bumpApi(AW_FORMATTER_API);
 }
 
 
-int AWStringFormatter::showConfiguration(const QVariant &args)
+int AWStringFormatter::showConfiguration(const QVariant &_args)
 {
-    Q_UNUSED(args)
+    Q_UNUSED(_args)
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
-    ui->label_typeValue->setText(QString("String"));
+    ui->label_typeValue->setText("String");
     ui->spinBox_width->setValue(count());
     ui->lineEdit_fill->setText(QString(fillChar()));
     ui->checkBox_forceWidth->setCheckState(forceWidth() ? Qt::Checked
@@ -172,10 +170,10 @@ void AWStringFormatter::writeConfiguration() const
     QSettings settings(writtableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
-    settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("X-AW-Width"), count());
-    settings.setValue(QString("X-AW-FillChar"), fillChar());
-    settings.setValue(QString("X-AW-ForceWidth"), forceWidth());
+    settings.beginGroup("Desktop Entry");
+    settings.setValue("X-AW-Width", count());
+    settings.setValue("X-AW-FillChar", fillChar());
+    settings.setValue("X-AW-ForceWidth", forceWidth());
     settings.endGroup();
 
     settings.sync();

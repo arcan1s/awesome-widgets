@@ -42,7 +42,8 @@ class ExtWeather : public AbstractExtItem
 public:
     enum class Provider { OWM = 0, Yahoo = 1 };
 
-    explicit ExtWeather(QWidget *parent, const QString &filePath = QString());
+    explicit ExtWeather(QWidget *_parent = nullptr,
+                        const QString &_filePath = "");
     virtual ~ExtWeather();
     ExtWeather *copy(const QString &_fileName, const int _number);
     QString jsonMapFile() const;
@@ -56,23 +57,23 @@ public:
     int ts() const;
     QString uniq() const;
     // set methods
-    void setCity(const QString &_city = QString("London"));
-    void setCountry(const QString &_country = QString("uk"));
-    void setImage(const bool _image = false);
-    void setProvider(const Provider _provider = Provider::OWM);
-    void setStrProvider(const QString &_provider = QString("OWM"));
-    void setTs(const int _ts = 0);
+    void setCity(const QString &_city);
+    void setCountry(const QString &_country);
+    void setImage(const bool _image);
+    void setProvider(const Provider _provider);
+    void setStrProvider(const QString &_provider);
+    void setTs(const int _ts);
 
 public slots:
     void readConfiguration();
     void readJsonMap();
     QVariantHash run();
-    int showConfiguration(const QVariant &args = QVariant());
+    int showConfiguration(const QVariant &_args);
     void writeConfiguration() const;
 
 private slots:
     void sendRequest();
-    void weatherReplyReceived(QNetworkReply *reply);
+    void weatherReplyReceived(QNetworkReply *_reply);
 
 private:
     QNetworkAccessManager *m_manager = nullptr;
@@ -82,14 +83,13 @@ private:
     void initProvider();
     void translate();
     // properties
-    QString m_city = QString("London");
-    QString m_country = QString("uk");
+    QString m_city = "London";
+    QString m_country = "uk";
     bool m_image = false;
     Provider m_provider = Provider::OWM;
     int m_ts = 0;
-    QVariantMap m_jsonMap = QVariantMap();
+    QVariantMap m_jsonMap;
     // values
-    int m_times = 0;
     QVariantHash m_values;
 };
 

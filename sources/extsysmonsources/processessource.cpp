@@ -23,10 +23,10 @@
 #include "awdebug.h"
 
 
-ProcessesSource::ProcessesSource(QObject *parent, const QStringList &args)
-    : AbstractExtSysMonSource(parent, args)
+ProcessesSource::ProcessesSource(QObject *_parent, const QStringList &_args)
+    : AbstractExtSysMonSource(_parent, _args)
 {
-    Q_ASSERT(args.count() == 0);
+    Q_ASSERT(_args.count() == 0);
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 }
 
@@ -37,40 +37,40 @@ ProcessesSource::~ProcessesSource()
 }
 
 
-QVariant ProcessesSource::data(const QString &source)
+QVariant ProcessesSource::data(const QString &_source)
 {
-    qCDebug(LOG_ESS) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << _source;
 
-    if (!m_values.contains(source))
+    if (!m_values.contains(_source))
         run();
-    QVariant value = m_values.take(source);
+    QVariant value = m_values.take(_source);
     return value;
 }
 
 
-QVariantMap ProcessesSource::initialData(const QString &source) const
+QVariantMap ProcessesSource::initialData(const QString &_source) const
 {
-    qCDebug(LOG_ESS) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << _source;
 
     QVariantMap data;
-    if (source == QString("ps/running/count")) {
-        data[QString("min")] = 0;
-        data[QString("max")] = 0;
-        data[QString("name")] = QString("Count of running processes");
-        data[QString("type")] = QString("integer");
-        data[QString("units")] = QString("");
-    } else if (source == QString("ps/running/list")) {
-        data[QString("min")] = QStringList();
-        data[QString("max")] = QStringList();
-        data[QString("name")] = QString("All running processes list");
-        data[QString("type")] = QString("QStringList");
-        data[QString("units")] = QString("");
-    } else if (source == QString("ps/total/count")) {
-        data[QString("min")] = 0;
-        data[QString("max")] = 0;
-        data[QString("name")] = QString("Total count of processes");
-        data[QString("type")] = QString("integer");
-        data[QString("units")] = QString("");
+    if (_source == "ps/running/count") {
+        data["min"] = 0;
+        data["max"] = 0;
+        data["name"] = "Count of running processes";
+        data["type"] = "integer";
+        data["units"] = "";
+    } else if (_source == "ps/running/list") {
+        data["min"] = QStringList();
+        data["max"] = QStringList();
+        data["name"] = "All running processes list";
+        data["type"] = "QStringList";
+        data["units"] = "";
+    } else if (_source == "ps/total/count") {
+        data["min"] = 0;
+        data["max"] = 0;
+        data["name"] = "Total count of processes";
+        data["type"] = "integer";
+        data["units"] = "";
     }
 
     return data;
@@ -79,10 +79,9 @@ QVariantMap ProcessesSource::initialData(const QString &source) const
 
 void ProcessesSource::run()
 {
-    QStringList allDirectories
-        = QDir(QString("/proc"))
-              .entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
-    QStringList directories = allDirectories.filter(QRegExp(QString("(\\d+)")));
+    QStringList allDirectories = QDir("/proc").entryList(
+        QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
+    QStringList directories = allDirectories.filter(QRegExp("(\\d+)"));
     QStringList running;
 
     for (auto &dir : directories) {
@@ -94,24 +93,24 @@ void ProcessesSource::run()
             continue;
 
         QString output = statusFile.readAll();
-        if (output.contains(QString("running")))
+        if (output.contains("running"))
             running.append(cmdFile.readAll());
         statusFile.close();
         cmdFile.close();
     }
 
-    m_values[QString("ps/running/count")] = running.count();
-    m_values[QString("ps/running/list")] = running;
-    m_values[QString("ps/total/count")] = directories.count();
+    m_values["ps/running/count"] = running.count();
+    m_values["ps/running/list"] = running;
+    m_values["ps/total/count"] = directories.count();
 }
 
 
 QStringList ProcessesSource::sources() const
 {
     QStringList sources;
-    sources.append(QString("ps/running/count"));
-    sources.append(QString("ps/running/list"));
-    sources.append(QString("ps/total/count"));
+    sources.append("ps/running/count");
+    sources.append("ps/running/list");
+    sources.append("ps/total/count");
 
     return sources;
 }

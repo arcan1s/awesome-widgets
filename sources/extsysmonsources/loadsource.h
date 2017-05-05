@@ -28,10 +28,10 @@ class LoadSource : public AbstractExtSysMonSource
     Q_OBJECT
 
 public:
-    explicit LoadSource(QObject *parent, const QStringList &args);
+    explicit LoadSource(QObject *_parent, const QStringList &_args);
     virtual ~LoadSource();
-    QVariant data(const QString &source);
-    QVariantMap initialData(const QString &source) const;
+    QVariant data(const QString &_source);
+    QVariantMap initialData(const QString &_source) const;
     void run(){};
     QStringList sources() const;
 };

@@ -24,13 +24,13 @@
 #include "awdebug.h"
 
 
-AWNoFormatter::AWNoFormatter(QWidget *parent, const QString &filePath)
-    : AWAbstractFormatter(parent, filePath)
+AWNoFormatter::AWNoFormatter(QWidget *_parent, const QString &_filePath)
+    : AWAbstractFormatter(_parent, _filePath)
     , ui(new Ui::AWNoFormatter)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    if (!filePath.isEmpty())
+    if (!_filePath.isEmpty())
         readConfiguration();
     ui->setupUi(this);
     translate();
@@ -66,13 +66,13 @@ AWNoFormatter *AWNoFormatter::copy(const QString &_fileName, const int _number)
 }
 
 
-int AWNoFormatter::showConfiguration(const QVariant &args)
+int AWNoFormatter::showConfiguration(const QVariant &_args)
 {
-    Q_UNUSED(args)
+    Q_UNUSED(_args)
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
-    ui->label_typeValue->setText(QString("NoFormat"));
+    ui->label_typeValue->setText("NoFormat");
 
     int ret = exec();
     if (ret != 1)

@@ -22,14 +22,13 @@
 #include "extupgrade.h"
 
 
-UpgradeSource::UpgradeSource(QObject *parent, const QStringList &args)
-    : AbstractExtSysMonSource(parent, args)
+UpgradeSource::UpgradeSource(QObject *_parent, const QStringList &_args)
+    : AbstractExtSysMonSource(_parent, _args)
 {
-    Q_ASSERT(args.count() == 0);
+    Q_ASSERT(_args.count() == 0);
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
-    m_extUpgrade
-        = new ExtItemAggregator<ExtUpgrade>(nullptr, QString("upgrade"));
+    m_extUpgrade = new ExtItemAggregator<ExtUpgrade>(nullptr, "upgrade");
     m_extUpgrade->initSockets();
     m_sources = getSources();
 }
@@ -43,27 +42,30 @@ UpgradeSource::~UpgradeSource()
 }
 
 
-QVariant UpgradeSource::data(const QString &source)
+QVariant UpgradeSource::data(const QString &_source)
 {
-    qCDebug(LOG_ESS) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << _source;
 
     // there are only one value
-    return m_extUpgrade->itemByTagNumber(index(source))->run().values().first();
+    return m_extUpgrade->itemByTagNumber(index(_source))
+        ->run()
+        .values()
+        .first();
 }
 
 
-QVariantMap UpgradeSource::initialData(const QString &source) const
+QVariantMap UpgradeSource::initialData(const QString &_source) const
 {
-    qCDebug(LOG_ESS) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << _source;
 
     QVariantMap data;
-    data[QString("min")] = QString("");
-    data[QString("max")] = QString("");
-    data[QString("name")]
+    data["min"] = "";
+    data["max"] = "";
+    data["name"]
         = QString("Package manager '%1' metadata")
-              .arg(m_extUpgrade->itemByTagNumber(index(source))->uniq());
-    data[QString("type")] = QString("QString");
-    data[QString("units")] = QString("");
+              .arg(m_extUpgrade->itemByTagNumber(index(_source))->uniq());
+    data["type"] = "QString";
+    data["units"] = "";
 
     return data;
 }
@@ -79,8 +81,7 @@ QStringList UpgradeSource::getSources()
 {
     QStringList sources;
     for (auto &item : m_extUpgrade->activeItems())
-        sources.append(
-            QString("upgrade/%1").arg(item->tag(QString("pkgcount"))));
+        sources.append(QString("upgrade/%1").arg(item->tag("pkgcount")));
 
     return sources;
 }

@@ -31,16 +31,16 @@ public:
                                       "u='c' and woeid in (select woeid from "
                                       "geo.places(1) where text='%1, %2')";
 
-    explicit YahooWeatherProvider(QObject *parent, const int number);
+    explicit YahooWeatherProvider(QObject *_parent, const int _number);
     virtual ~YahooWeatherProvider();
-    void initUrl(const QString &city, const QString &country, const int);
-    QVariantHash parse(const QVariantMap &json) const;
+    void initUrl(const QString &_city, const QString &_country, const int);
+    QVariantHash parse(const QVariantMap &_json) const;
     QUrl url() const;
 
 private:
-    QVariantHash parseCurrent(const QVariantMap &json,
-                              const QVariantMap &atmosphere) const;
-    QVariantHash parseForecast(const QVariantMap &json) const;
+    QVariantHash parseCurrent(const QVariantMap &_json,
+                              const QVariantMap &_atmosphere) const;
+    QVariantHash parseForecast(const QVariantMap &_json) const;
     int m_ts = 0;
     QUrl m_url;
 };

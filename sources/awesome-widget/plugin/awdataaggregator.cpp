@@ -30,18 +30,18 @@
 #include "awdebug.h"
 
 
-AWDataAggregator::AWDataAggregator(QObject *parent)
-    : QObject(parent)
+AWDataAggregator::AWDataAggregator(QObject *_parent)
+    : QObject(_parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
-    m_boundaries[QString("cpuTooltip")] = 100.0;
-    m_boundaries[QString("cpuclTooltip")] = 4000.0;
-    m_boundaries[QString("memTooltip")] = 100.0;
-    m_boundaries[QString("swapTooltip")] = 100.0;
-    m_boundaries[QString("downkbTooltip")] = 1.0;
-    m_boundaries[QString("upkbTooltip")] = 1.0;
-    m_boundaries[QString("batTooltip")] = 100.0;
+    m_boundaries["cpuTooltip"] = 100.0;
+    m_boundaries["cpuclTooltip"] = 4000.0;
+    m_boundaries["memTooltip"] = 100.0;
+    m_boundaries["swapTooltip"] = 100.0;
+    m_boundaries["downkbTooltip"] = 1.0;
+    m_boundaries["upkbTooltip"] = 1.0;
+    m_boundaries["batTooltip"] = 100.0;
 
     initScene();
     connect(this, SIGNAL(updateData(const QVariantHash &)), this,
@@ -57,67 +57,66 @@ AWDataAggregator::~AWDataAggregator()
 }
 
 
-QList<float> AWDataAggregator::getData(const QString &key) const
+QList<float> AWDataAggregator::getData(const QString &_key) const
 {
-    qCDebug(LOG_AW) << "Key" << key;
+    qCDebug(LOG_AW) << "Key" << _key;
 
-    return m_values[QString("%1Tooltip").arg(key)];
+    return m_values[QString("%1Tooltip").arg(_key)];
 }
 
 
-QString AWDataAggregator::htmlImage(const QPixmap &source) const
+QString AWDataAggregator::htmlImage(const QPixmap &_source) const
 {
     QByteArray byteArray;
     QBuffer buffer(&byteArray);
-    source.save(&buffer, "PNG");
+    _source.save(&buffer, "PNG");
 
     return byteArray.isEmpty()
-               ? QString()
+               ? ""
                : QString("<img src=\"data:image/png;base64,%1\"/>")
                      .arg(QString(byteArray.toBase64()));
 }
 
 
-void AWDataAggregator::setParameters(const QVariantMap &settings)
+void AWDataAggregator::setParameters(const QVariantMap &_settings)
 {
-    qCDebug(LOG_AW) << "Settings" << settings;
+    qCDebug(LOG_AW) << "Settings" << _settings;
 
     // cast from QVariantMap to QVariantHash without data lost
-    m_configuration = qvariant_cast<QVariantHash>(settings);
+    m_configuration = qvariant_cast<QVariantHash>(_settings);
 
-    m_enablePopup = m_configuration[QString("notify")].toBool();
+    m_enablePopup = m_configuration["notify"].toBool();
 
     m_counts = 0;
-    m_counts += m_configuration[QString("cpuTooltip")].toInt();
-    m_counts += m_configuration[QString("cpuclTooltip")].toInt();
-    m_counts += m_configuration[QString("memTooltip")].toInt();
-    m_counts += m_configuration[QString("swapTooltip")].toInt();
-    m_counts += m_configuration[QString("downkbTooltip")].toInt();
-    m_counts += m_configuration[QString("batTooltip")].toInt();
+    m_counts += m_configuration["cpuTooltip"].toInt();
+    m_counts += m_configuration["cpuclTooltip"].toInt();
+    m_counts += m_configuration["memTooltip"].toInt();
+    m_counts += m_configuration["swapTooltip"].toInt();
+    m_counts += m_configuration["downkbTooltip"].toInt();
+    m_counts += m_configuration["batTooltip"].toInt();
     // resize tooltip image
     m_toolTipView->resize(100 * m_counts, 105);
 
     requiredKeys.clear();
-    if (m_configuration[QString("cpuTooltip")].toBool())
-        requiredKeys.append(QString("cpuTooltip"));
-    if (m_configuration[QString("cpuclTooltip")].toBool())
-        requiredKeys.append(QString("cpuclTooltip"));
-    if (m_configuration[QString("memTooltip")].toBool())
-        requiredKeys.append(QString("memTooltip"));
-    if (m_configuration[QString("swapTooltip")].toBool())
-        requiredKeys.append(QString("swapTooltip"));
-    if (m_configuration[QString("downkbTooltip")].toBool())
-        requiredKeys.append(QString("downkbTooltip"));
-    if (m_configuration[QString("upkbTooltip")].toBool())
-        requiredKeys.append(QString("upkbTooltip"));
-    if (m_configuration[QString("batTooltip")].toBool())
-        requiredKeys.append(QString("batTooltip"));
+    if (m_configuration["cpuTooltip"].toBool())
+        requiredKeys.append("cpuTooltip");
+    if (m_configuration["cpuclTooltip"].toBool())
+        requiredKeys.append("cpuclTooltip");
+    if (m_configuration["memTooltip"].toBool())
+        requiredKeys.append("memTooltip");
+    if (m_configuration["swapTooltip"].toBool())
+        requiredKeys.append("swapTooltip");
+    if (m_configuration["downkbTooltip"].toBool())
+        requiredKeys.append("downkbTooltip");
+    if (m_configuration["upkbTooltip"].toBool())
+        requiredKeys.append("upkbTooltip");
+    if (m_configuration["batTooltip"].toBool())
+        requiredKeys.append("batTooltip");
 
     // background
     m_toolTipScene->setBackgroundBrush(
-        m_configuration[QString("useTooltipBackground")].toBool()
-            ? QBrush(QColor(
-                  m_configuration[QString("tooltipBackground")].toString()))
+        m_configuration["useTooltipBackground"].toBool()
+            ? QBrush(QColor(m_configuration["tooltipBackground"].toString()))
             : QBrush(Qt::NoBrush));
 }
 
@@ -136,7 +135,7 @@ QPixmap AWDataAggregator::tooltipImage()
         if (down)
             shift -= 100.0;
         // apply pen color
-        if (key != QString("batTooltip"))
+        if (key != "batTooltip")
             pen.setColor(QColor(
                 m_configuration[QString("%1Color").arg(key)].toString()));
         // paint data inside frame
@@ -146,19 +145,17 @@ QPixmap AWDataAggregator::tooltipImage()
             float y1 = -std::fabs(m_values[key].at(j)) * normY + 5.0f;
             float x2 = (j + 1) * normX + shift;
             float y2 = -std::fabs(m_values[key].at(j + 1)) * normY + 5.0f;
-            if (key == QString("batTooltip")) {
+            if (key == "batTooltip") {
                 if (m_values[key].at(j + 1) > 0)
                     pen.setColor(
-                        QColor(m_configuration[QString("batTooltipColor")]
-                                   .toString()));
+                        QColor(m_configuration["batTooltipColor"].toString()));
                 else
-                    pen.setColor(
-                        QColor(m_configuration[QString("batInTooltipColor")]
-                                   .toString()));
+                    pen.setColor(QColor(
+                        m_configuration["batInTooltipColor"].toString()));
             }
             m_toolTipScene->addLine(x1, y1, x2, y2, pen);
         }
-        if (key == QString("downkbTooltip"))
+        if (key == "downkbTooltip")
             down = true;
     }
 
@@ -166,43 +163,44 @@ QPixmap AWDataAggregator::tooltipImage()
 }
 
 
-void AWDataAggregator::dataUpdate(const QVariantHash &values)
+void AWDataAggregator::dataUpdate(const QVariantHash &_values)
 {
     // do not log these arguments
-    setData(values);
+    setData(_values);
     emit(toolTipPainted(htmlImage(tooltipImage())));
 }
 
 
-void AWDataAggregator::checkValue(const QString &source, const float value,
-                                  const float extremum) const
+void AWDataAggregator::checkValue(const QString &_source, const float _value,
+                                  const float _extremum) const
 {
-    qCDebug(LOG_AW) << "Notification source" << source << "with value" << value
-                    << "called with extremum" << extremum;
+    qCDebug(LOG_AW) << "Notification source" << _source << "with value"
+                    << _value << "called with extremum" << _extremum;
 
-    if (value >= 0.0) {
-        if ((m_enablePopup) && (value > extremum)
-            && (m_values[source].last() < extremum))
-            return AWActions::sendNotification(QString("event"),
-                                               notificationText(source, value));
+    if (_value >= 0.0) {
+        if ((m_enablePopup) && (_value > _extremum)
+            && (m_values[_source].last() < _extremum))
+            return AWActions::sendNotification(
+                "event", notificationText(_source, _value));
     } else {
-        if ((m_enablePopup) && (value < extremum)
-            && (m_values[source].last() > extremum))
-            return AWActions::sendNotification(QString("event"),
-                                               notificationText(source, value));
+        if ((m_enablePopup) && (_value < _extremum)
+            && (m_values[_source].last() > _extremum))
+            return AWActions::sendNotification(
+                "event", notificationText(_source, _value));
     }
 }
 
 
-void AWDataAggregator::checkValue(const QString &source, const QString &current,
-                                  const QString &received) const
+void AWDataAggregator::checkValue(const QString &_source,
+                                  const QString &_current,
+                                  const QString &_received) const
 {
-    qCDebug(LOG_AW) << "Notification source" << source << "with current value"
-                    << current << "and received one" << received;
+    qCDebug(LOG_AW) << "Notification source" << _source << "with current value"
+                    << _current << "and received one" << _received;
 
-    if ((m_enablePopup) && (current != received) && (!received.isEmpty()))
-        return AWActions::sendNotification(QString("event"),
-                                           notificationText(source, received));
+    if ((m_enablePopup) && (_current != _received) && (!_received.isEmpty()))
+        return AWActions::sendNotification(
+            "event", notificationText(_source, _received));
 }
 
 
@@ -210,7 +208,7 @@ void AWDataAggregator::initScene()
 {
     m_toolTipScene = new QGraphicsScene(nullptr);
     m_toolTipView = new QGraphicsView(m_toolTipScene);
-    m_toolTipView->setStyleSheet(QString("background: transparent"));
+    m_toolTipView->setStyleSheet("background: transparent");
     m_toolTipView->setContentsMargins(0, 0, 0, 0);
     m_toolTipView->setFrameShape(QFrame::NoFrame);
     m_toolTipView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -218,105 +216,105 @@ void AWDataAggregator::initScene()
 }
 
 
-QString AWDataAggregator::notificationText(const QString &source,
-                                           const float value) const
+QString AWDataAggregator::notificationText(const QString &_source,
+                                           const float _value) const
 {
-    qCDebug(LOG_AW) << "Notification source" << source << "with value" << value;
+    qCDebug(LOG_AW) << "Notification source" << _source << "with value"
+                    << _value;
 
     QString output;
-    if (source == QString("batTooltip"))
-        output = value > 0.0 ? i18n("AC online") : i18n("AC offline");
-    else if (source == QString("cpuTooltip"))
+    if (_source == "batTooltip")
+        output = _value > 0.0 ? i18n("AC online") : i18n("AC offline");
+    else if (_source == "cpuTooltip")
         output = i18n("High CPU load");
-    else if (source == QString("memTooltip"))
+    else if (_source == "memTooltip")
         output = i18n("High memory usage");
-    else if (source == QString("swapTooltip"))
+    else if (_source == "swapTooltip")
         output = i18n("Swap is used");
-    else if (source == QString("gpu"))
+    else if (_source == "gpu")
         output = i18n("High GPU load");
 
     return output;
 }
 
 
-QString AWDataAggregator::notificationText(const QString &source,
-                                           const QString &value) const
+QString AWDataAggregator::notificationText(const QString &_source,
+                                           const QString &_value) const
 {
-    qCDebug(LOG_AW) << "Notification source" << source << "with value" << value;
+    qCDebug(LOG_AW) << "Notification source" << _source << "with value"
+                    << _value;
 
     QString output;
-    if (source == QString("netdev"))
-        output = i18n("Network device has been changed to %1", value);
+    if (_source == "netdev")
+        output = i18n("Network device has been changed to %1", _value);
 
     return output;
 }
 
 
-void AWDataAggregator::setData(const QVariantHash &values)
+void AWDataAggregator::setData(const QVariantHash &_values)
 {
     // do not log these arguments
     // battery update requires info is AC online or not
-    setData(values[QString("ac")].toString()
-                == m_configuration[QString("acOnline")],
-            QString("batTooltip"), values[QString("bat")].toFloat());
+    setData(_values["ac"].toString() == m_configuration["acOnline"],
+            "batTooltip", _values["bat"].toFloat());
     // usual case
-    setData(QString("cpuTooltip"), values[QString("cpu")].toFloat(), 90.0);
-    setData(QString("cpuclTooltip"), values[QString("cpucl")].toFloat());
-    setData(QString("memTooltip"), values[QString("mem")].toFloat(), 80.0);
-    setData(QString("swapTooltip"), values[QString("swap")].toFloat(), 0.0);
-    setData(QString("downkbTooltip"), values[QString("downkb")].toFloat());
-    setData(QString("upkbTooltip"), values[QString("upkb")].toFloat());
+    setData("cpuTooltip", _values["cpu"].toFloat(), 90.0);
+    setData("cpuclTooltip", _values["cpucl"].toFloat());
+    setData("memTooltip", _values["mem"].toFloat(), 80.0);
+    setData("swapTooltip", _values["swap"].toFloat(), 0.0);
+    setData("downkbTooltip", _values["downkb"].toFloat());
+    setData("upkbTooltip", _values["upkb"].toFloat());
     // additional check for network device
-    [this](const QString value) {
-        checkValue(QString("netdev"), m_currentNetworkDevice, value);
+    [this](const QString &value) {
+        checkValue("netdev", m_currentNetworkDevice, value);
         m_currentNetworkDevice = value;
-    }(values[QString("netdev")].toString());
+    }(_values["netdev"].toString());
     // additional check for GPU load
     [this](const float value) {
-        checkValue(QString("gpu"), value, 90.0);
+        checkValue("gpu", value, 90.0);
         m_currentGPULoad = value;
-    }(values[QString("gpu")].toFloat());
+    }(_values["gpu"].toFloat());
 }
 
 
-void AWDataAggregator::setData(const QString &source, float value,
-                               const float extremum)
+void AWDataAggregator::setData(const QString &_source, float _value,
+                               const float _extremum)
 {
-    qCDebug(LOG_AW) << "Source" << source << "to value" << value
-                    << "with extremum" << extremum;
+    qCDebug(LOG_AW) << "Source" << _source << "to value" << _value
+                    << "with extremum" << _extremum;
 
-    if (m_values[source].count() == 0)
-        m_values[source].append(0.0);
-    else if (m_values[source].count()
-             > m_configuration[QString("tooltipNumber")].toInt())
-        m_values[source].removeFirst();
-    if (std::isnan(value))
-        value = 0.0;
+    if (m_values[_source].count() == 0)
+        m_values[_source].append(0.0);
+    else if (m_values[_source].count()
+             > m_configuration["tooltipNumber"].toInt())
+        m_values[_source].removeFirst();
+    if (std::isnan(_value))
+        _value = 0.0;
 
     // notifications
-    checkValue(source, value, extremum);
+    checkValue(_source, _value, _extremum);
 
-    m_values[source].append(value);
-    if (source == QString("downkbTooltip")) {
-        QList<float> netValues = m_values[QString("downkbTooltip")]
-                                 + m_values[QString("upkbTooltip")];
+    m_values[_source].append(_value);
+    if (_source == "downkbTooltip") {
+        QList<float> netValues
+            = m_values["downkbTooltip"] + m_values["upkbTooltip"];
         // to avoid inf value of normY
         netValues << 1.0;
-        m_boundaries[QString("downkbTooltip")]
+        m_boundaries["downkbTooltip"]
             = 1.2f * *std::max_element(netValues.cbegin(), netValues.cend());
-        m_boundaries[QString("upkbTooltip")]
-            = m_boundaries[QString("downkbTooltip")];
+        m_boundaries["upkbTooltip"] = m_boundaries["downkbTooltip"];
     }
 }
 
 
-void AWDataAggregator::setData(const bool dontInvert, const QString &source,
-                               float value)
+void AWDataAggregator::setData(const bool _dontInvert, const QString &_source,
+                               float _value)
 {
-    qCDebug(LOG_AW) << "Do not invert" << dontInvert << "value" << value
-                    << "for source" << source;
+    qCDebug(LOG_AW) << "Do not invert" << _dontInvert << "value" << _value
+                    << "for source" << _source;
 
     // invert values for different battery colours
-    value = dontInvert ? value : -value;
-    return setData(source, value, 0.0);
+    _value = _dontInvert ? _value : -_value;
+    return setData(_source, _value, 0.0);
 }

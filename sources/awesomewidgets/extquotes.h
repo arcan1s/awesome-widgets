@@ -38,23 +38,24 @@ public:
     const char *YAHOO_QUOTES_QUERY
         = "select * from yahoo.finance.quotes where symbol='%1'";
 
-    explicit ExtQuotes(QWidget *parent, const QString &filePath = QString());
+    explicit ExtQuotes(QWidget *_parent = nullptr,
+                       const QString &_filePath = "");
     virtual ~ExtQuotes();
     ExtQuotes *copy(const QString &_fileName, const int _number);
     // get methods
     QString ticker() const;
     QString uniq() const;
     // set methods
-    void setTicker(const QString &_ticker = QString("EURUSD=X"));
+    void setTicker(const QString &_ticker);
 
 public slots:
     void readConfiguration();
     QVariantHash run();
-    int showConfiguration(const QVariant &args = QVariant());
+    int showConfiguration(const QVariant &_args);
     void writeConfiguration() const;
 
 private slots:
-    void quotesReplyReceived(QNetworkReply *reply);
+    void quotesReplyReceived(QNetworkReply *_reply);
     void sendRequest();
 
 private:
@@ -65,9 +66,8 @@ private:
     void initUrl();
     void translate();
     // properties
-    QString m_ticker = QString("EURUSD=X");
+    QString m_ticker = "EURUSD=X";
     // values
-    int m_times = 0;
     QVariantHash m_values;
 };
 

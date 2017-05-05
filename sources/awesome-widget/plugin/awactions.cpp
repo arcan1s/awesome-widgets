@@ -31,8 +31,8 @@
 #include "awupdatehelper.h"
 
 
-AWActions::AWActions(QObject *parent)
-    : QObject(parent)
+AWActions::AWActions(QObject *_parent)
+    : QObject(_parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
@@ -48,24 +48,24 @@ AWActions::~AWActions()
 }
 
 
-void AWActions::checkUpdates(const bool showAnyway)
+void AWActions::checkUpdates(const bool _showAnyway)
 {
-    qCDebug(LOG_AW) << "Show anyway" << showAnyway;
+    qCDebug(LOG_AW) << "Show anyway" << _showAnyway;
 
     if (!m_updateHelper->checkVersion())
-        m_updateHelper->checkUpdates(showAnyway);
+        m_updateHelper->checkUpdates(_showAnyway);
 }
 
 
-QString AWActions::getFileContent(const QString &path) const
+QString AWActions::getFileContent(const QString &_path) const
 {
-    qCDebug(LOG_AW) << "Get content from file" << path;
+    qCDebug(LOG_AW) << "Get content from file" << _path;
 
-    QFile inputFile(path);
+    QFile inputFile(_path);
     if (!inputFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qCWarning(LOG_AW) << "Could not open file as text"
                           << inputFile.fileName();
-        return QString();
+        return "";
     }
 
     QString output = inputFile.readAll();
@@ -81,13 +81,13 @@ bool AWActions::isDebugEnabled() const
 }
 
 
-bool AWActions::runCmd(const QString &cmd) const
+bool AWActions::runCmd(const QString &_cmd) const
 {
-    qCDebug(LOG_AW) << "Cmd" << cmd;
+    qCDebug(LOG_AW) << "Cmd" << _cmd;
 
-    sendNotification(QString("Info"), i18n("Run %1", cmd));
+    sendNotification(QString("Info"), i18n("Run %1", _cmd));
 
-    return QProcess::startDetached(cmd);
+    return QProcess::startDetached(_cmd);
 }
 
 
@@ -105,7 +105,7 @@ void AWActions::showLegacyInfo() const
     msgBox->setModal(false);
     msgBox->setWindowTitle(i18n("Not supported"));
     msgBox->setText(
-        i18n("You are using mammoth's Qt version, try to update it first!"));
+        i18n("You are using mammoth's Qt version, try to update it first"));
     msgBox->setStandardButtons(QMessageBox::Ok);
     msgBox->setIcon(QMessageBox::Information);
 
@@ -114,42 +114,43 @@ void AWActions::showLegacyInfo() const
 
 
 // HACK: this method uses variables from version.h
-QString AWActions::getAboutText(const QString &type) const
+QString AWActions::getAboutText(const QString &_type) const
 {
-    qCDebug(LOG_AW) << "Type" << type;
+    qCDebug(LOG_AW) << "Type" << _type;
 
-    return AWDebug::getAboutText(type);
+    return AWDebug::getAboutText(_type);
 }
 
 
-QVariantMap AWActions::getFont(const QVariantMap &defaultFont) const
+QVariantMap AWActions::getFont(const QVariantMap &_defaultFont) const
 {
-    qCDebug(LOG_AW) << "Default font is" << defaultFont;
+    qCDebug(LOG_AW) << "Default font is" << _defaultFont;
 
     QVariantMap fontMap;
     int ret = 0;
-    CFont defaultCFont = CFont(defaultFont[QString("family")].toString(),
-                               defaultFont[QString("size")].toInt(), 400, false,
-                               defaultFont[QString("color")].toString());
+    CFont defaultCFont
+        = CFont(_defaultFont["family"].toString(), _defaultFont["size"].toInt(),
+                400, false, _defaultFont["color"].toString());
     CFont font = CFontDialog::getFont(i18n("Select font"), defaultCFont, false,
                                       false, &ret);
 
-    fontMap[QString("applied")] = ret;
-    fontMap[QString("color")] = font.color().name();
-    fontMap[QString("family")] = font.family();
-    fontMap[QString("size")] = font.pointSize();
+    fontMap["applied"] = ret;
+    fontMap["color"] = font.color().name();
+    fontMap["family"] = font.family();
+    fontMap["size"] = font.pointSize();
 
     return fontMap;
 }
 
 
 // to avoid additional object definition this method is static
-void AWActions::sendNotification(const QString &eventId, const QString &message)
+void AWActions::sendNotification(const QString &_eventId,
+                                 const QString &_message)
 {
-    qCDebug(LOG_AW) << "Event" << eventId << "with message" << message;
+    qCDebug(LOG_AW) << "Event" << _eventId << "with message" << _message;
 
     KNotification *notification = KNotification::event(
-        eventId, QString("Awesome Widget ::: %1").arg(eventId), message);
+        _eventId, QString("Awesome Widget ::: %1").arg(_eventId), _message);
     notification->setComponentName(
-        QString("plasma-applet-org.kde.plasma.awesome-widget"));
+        "plasma-applet-org.kde.plasma.awesome-widget");
 }

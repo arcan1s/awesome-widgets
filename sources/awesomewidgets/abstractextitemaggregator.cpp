@@ -25,11 +25,11 @@
 #include <QPushButton>
 
 
-AbstractExtItemAggregator::AbstractExtItemAggregator(QWidget *parent,
-                                                     const QString &type)
-    : QDialog(parent)
+AbstractExtItemAggregator::AbstractExtItemAggregator(QWidget *_parent,
+                                                     const QString &_type)
+    : QDialog(_parent)
     , ui(new Ui::AbstractExtItemAggregator)
-    , m_type(type)
+    , m_type(_type)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
@@ -113,13 +113,13 @@ void AbstractExtItemAggregator::editItem()
 QString AbstractExtItemAggregator::getName()
 {
     bool ok;
-    QString name = QInputDialog::getText(this, i18n("Enter file name"),
-                                         i18n("File name"), QLineEdit::Normal,
-                                         QString(""), &ok);
+    QString name
+        = QInputDialog::getText(this, i18n("Enter file name"),
+                                i18n("File name"), QLineEdit::Normal, "", &ok);
     if ((!ok) || (name.isEmpty()))
-        return QString("");
-    if (!name.endsWith(QString(".desktop")))
-        name += QString(".desktop");
+        return "";
+    if (!name.endsWith(".desktop"))
+        name += ".desktop";
 
     return name;
 }
@@ -157,7 +157,7 @@ void AbstractExtItemAggregator::repaintList()
         tooltip.append(i18n("Name: %1", _item->name()));
         tooltip.append(i18n("Comment: %1", _item->comment()));
         tooltip.append(i18n("Identity: %1", _item->uniq()));
-        item->setToolTip(tooltip.join(QChar('\n')));
+        item->setToolTip(tooltip.join('\n'));
         ui->listWidget->addItem(item);
     }
 }
@@ -202,14 +202,14 @@ void AbstractExtItemAggregator::editItemActivated(QListWidgetItem *)
 }
 
 
-void AbstractExtItemAggregator::editItemButtonPressed(QAbstractButton *button)
+void AbstractExtItemAggregator::editItemButtonPressed(QAbstractButton *_button)
 {
-    if (static_cast<QPushButton *>(button) == copyButton)
+    if (static_cast<QPushButton *>(_button) == copyButton)
         return copyItem();
-    else if (static_cast<QPushButton *>(button) == createButton)
+    else if (static_cast<QPushButton *>(_button) == createButton)
         return doCreateItem();
-    else if (static_cast<QPushButton *>(button) == deleteButton)
+    else if (static_cast<QPushButton *>(_button) == deleteButton)
         return deleteItem();
-    else if (ui->buttonBox->buttonRole(button) == QDialogButtonBox::AcceptRole)
+    else if (ui->buttonBox->buttonRole(_button) == QDialogButtonBox::AcceptRole)
         return editItem();
 }

@@ -33,7 +33,7 @@ private slots:
     void initTestCase();
     void cleanupTestCase();
     // test
-    void _test_sources(const PlayerSource *source);
+    void _test_sources(const PlayerSource *_source);
     void test_buildString();
     void test_stripString();
     void test_autoMpris();
@@ -41,7 +41,7 @@ private slots:
     void test_mpris();
 
 private:
-    QString mpdAddress = QString("localhost");
+    QString mpdAddress = "localhost";
     int mpdPort = 6600;
 };
 
