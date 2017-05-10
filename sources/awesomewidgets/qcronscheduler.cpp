@@ -110,10 +110,10 @@ void QCronScheduler::QCronField::fromRange(const QString &_range,
     qCDebug(LOG_LIB) << "Parse field from range" << _range
                      << "with corner values" << _min << _max;
 
-    if (_range == '*') {
+    if (_range == "*") {
         minValue = _min;
         maxValue = _max;
-    } else if (_range.contains('-')) {
+    } else if (_range.contains("-")) {
         auto interval = _range.split('-', QString::SkipEmptyParts);
         if (interval.count() != 2)
             return;
