@@ -1,69 +1,60 @@
 diff --git a/sources/awesome-widget/plugin/awupdatehelper.cpp b/sources/awesome-widget/plugin/awupdatehelper.cpp
-index 3698602..42871c8 100644
+index f6b5338..b5a3163 100644
 --- a/sources/awesome-widget/plugin/awupdatehelper.cpp
 +++ b/sources/awesome-widget/plugin/awupdatehelper.cpp
-@@ -37,7 +37,7 @@ AWUpdateHelper::AWUpdateHelper(QObject *parent)
+@@ -35,7 +35,7 @@ AWUpdateHelper::AWUpdateHelper(QObject *_parent)
  {
      qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
  
 -    m_foundVersion = QVersionNumber::fromString(VERSION);
-+    m_foundVersion = QString(VERSION);
++    m_foundVersion = VERSION;
      m_genericConfig = QString("%1/awesomewidgets/general.ini")
                            .arg(QStandardPaths::writableLocation(
                                QStandardPaths::GenericDataLocation));
-@@ -69,15 +69,15 @@ void AWUpdateHelper::checkUpdates(const bool showAnyway)
+@@ -67,8 +67,7 @@ void AWUpdateHelper::checkUpdates(const bool _showAnyway)
  bool AWUpdateHelper::checkVersion()
  {
      QSettings settings(m_genericConfig, QSettings::IniFormat);
 -    QVersionNumber version = QVersionNumber::fromString(
--        settings.value(QString("Version"), QString(VERSION)).toString());
-+    QString version
-+        = settings.value(QString("Version"), QString(VERSION)).toString();
+-        settings.value("Version", QString(VERSION)).toString());
++    QString version = settings.value("Version", VERSION).toString();
      // update version
-     settings.setValue(QString("Version"), QString(VERSION));
+     settings.setValue("Version", QString(VERSION));
      settings.sync();
-     qCInfo(LOG_AW) << "Found version" << version << "actual one is"
-                    << m_foundVersion;
- 
--    if ((version != m_foundVersion) && (!QString(CHANGELOG).isEmpty())) {
-+    if ((version != QString(VERSION)) && (!QString(CHANGELOG).isEmpty())) {
-         genMessageBox(i18n("Changelog of %1", QString(VERSION)),
-                       QString(CHANGELOG).replace(QChar('@'), QChar('\n')),
-                       QMessageBox::Ok)
-@@ -90,12 +90,11 @@ bool AWUpdateHelper::checkVersion()
+@@ -91,12 +90,11 @@ bool AWUpdateHelper::checkVersion()
  }
  
  
--void AWUpdateHelper::showInfo(const QVersionNumber version)
-+void AWUpdateHelper::showInfo(const QString version)
+-void AWUpdateHelper::showInfo(const QVersionNumber &_version)
++void AWUpdateHelper::showInfo(const QString &_version)
  {
-     qCDebug(LOG_AW) << "Version" << version;
+     qCDebug(LOG_AW) << "Version" << _version;
  
 -    QString text
--        = i18n("You are using the actual version %1", version.toString());
-+    QString text = i18n("You are using the actual version %1", version);
+-        = i18n("You are using the actual version %1", _version.toString());
++    QString text = i18n("You are using the actual version %1", _version);
      if (!QString(COMMIT_SHA).isEmpty())
          text += QString(" (%1)").arg(QString(COMMIT_SHA));
      return genMessageBox(i18n("No new version found"), text, QMessageBox::Ok)
-@@ -103,7 +102,7 @@ void AWUpdateHelper::showInfo(const QVersionNumber version)
+@@ -104,7 +102,7 @@ void AWUpdateHelper::showInfo(const QVersionNumber &_version)
  }
  
  
--void AWUpdateHelper::showUpdates(const QVersionNumber version)
-+void AWUpdateHelper::showUpdates(const QString version)
+-void AWUpdateHelper::showUpdates(const QVersionNumber &_version)
++void AWUpdateHelper::showUpdates(const QString &_version)
  {
-     qCDebug(LOG_AW) << "Version" << version;
+     qCDebug(LOG_AW) << "Version" << _version;
  
-@@ -112,7 +111,7 @@ void AWUpdateHelper::showUpdates(const QVersionNumber version)
+@@ -113,7 +111,7 @@ void AWUpdateHelper::showUpdates(const QVersionNumber &_version)
      text += QString(COMMIT_SHA).isEmpty()
-                 ? QString("\n")
+                 ? "\n"
                  : QString(" (%1)\n").arg(QString(COMMIT_SHA));
--    text += i18n("New version : %1", version.toString()) + QString("\n\n");
-+    text += i18n("New version : %1", version) + QString("\n\n");
+-    text += i18n("New version : %1", _version.toString()) + "\n\n";
++    text += i18n("New version : %1", _version) + "\n\n";
      text += i18n("Click \"Ok\" to download");
  
      genMessageBox(i18n("There are updates"), text,
-@@ -128,8 +127,7 @@ void AWUpdateHelper::userReplyOnUpdates(QAbstractButton *button)
+@@ -130,8 +128,7 @@ void AWUpdateHelper::userReplyOnUpdates(QAbstractButton *_button)
  
      switch (ret) {
      case QMessageBox::AcceptRole:
@@ -73,10 +64,10 @@ index 3698602..42871c8 100644
          break;
      case QMessageBox::RejectRole:
      default:
-@@ -157,14 +155,23 @@ void AWUpdateHelper::versionReplyRecieved(QNetworkReply *reply,
+@@ -162,14 +159,23 @@ void AWUpdateHelper::versionReplyRecieved(QNetworkReply *_reply,
      QVariantMap firstRelease = jsonDoc.toVariant().toList().first().toMap();
-     QString version = firstRelease[QString("tag_name")].toString();
-     version.remove(QString("V."));
+     QString version = firstRelease["tag_name"].toString();
+     version.remove("V.");
 -    m_foundVersion = QVersionNumber::fromString(version);
 +    m_foundVersion = version;
      qCInfo(LOG_AW) << "Update found version to" << m_foundVersion;
@@ -96,14 +87,14 @@ index 3698602..42871c8 100644
 +        || ((old_major == new_major) && (old_minor == new_minor)
 +            && (old_patch < new_patch)))
 +        return showUpdates(version);
-     else if (showAnyway)
+     else if (_showAnyway)
 -        return showInfo(m_foundVersion);
 +        return showInfo(version);
  }
  
  
 diff --git a/sources/awesome-widget/plugin/awupdatehelper.h b/sources/awesome-widget/plugin/awupdatehelper.h
-index 359cdb2..9c6a42d 100644
+index cfd26e7..b311be2 100644
 --- a/sources/awesome-widget/plugin/awupdatehelper.h
 +++ b/sources/awesome-widget/plugin/awupdatehelper.h
 @@ -21,7 +21,6 @@
@@ -118,23 +109,23 @@ index 359cdb2..9c6a42d 100644
      bool checkVersion();
  
  private slots:
--    void showInfo(const QVersionNumber version);
--    void showUpdates(const QVersionNumber version);
-+    void showInfo(const QString version);
-+    void showUpdates(const QString version);
-     void userReplyOnUpdates(QAbstractButton *button);
-     void versionReplyRecieved(QNetworkReply *reply, const bool showAnyway);
+-    void showInfo(const QVersionNumber &_version);
+-    void showUpdates(const QVersionNumber &_version);
++    void showInfo(const QString &_version);
++    void showUpdates(const QString &_version);
+     void userReplyOnUpdates(QAbstractButton *_button);
+     void versionReplyRecieved(QNetworkReply *_reply, const bool _showAnyway);
  
  private:
-     QMessageBox *genMessageBox(const QString title, const QString body,
-                                const QMessageBox::StandardButtons buttons);
+     QMessageBox *genMessageBox(const QString &_title, const QString &_body,
+                                const QMessageBox::StandardButtons _buttons);
 -    QVersionNumber m_foundVersion;
 +    QString m_foundVersion;
      QString m_genericConfig;
  };
  
 diff --git a/sources/libraries.cmake b/sources/libraries.cmake
-index 33192f7..339bb58 100644
+index 6f171a6..004b39f 100644
 --- a/sources/libraries.cmake
 +++ b/sources/libraries.cmake
 @@ -2,7 +2,7 @@
@@ -142,7 +133,7 @@ index 33192f7..339bb58 100644
  
  # main qt libraries
 -find_package(Qt5 5.6.0 REQUIRED COMPONENTS Core DBus Network Qml Test Widgets)
-+find_package(Qt5 5.4.0 REQUIRED COMPONENTS Core DBus Network Qml Test Widgets)
++find_package(Qt5 5.5.0 REQUIRED COMPONENTS Core DBus Network Qml Test Widgets)
  add_definitions(
          ${Qt5Core_DEFINITIONS} ${Qt5DBus_DEFINITIONS} ${Qt5Network_DEFINITIONS}
          ${Qt5Qml_DEFINITIONS} ${Qt5Widgets_DEFINITIONS}
