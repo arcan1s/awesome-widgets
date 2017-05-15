@@ -31,9 +31,9 @@ void TestHDDTemperatureSource::initTestCase()
     QVERIFY(devices.count() > 0);
 
     hddtempSource = new HDDTemperatureSource(
-        this, QStringList() << devices.join(QChar(',')) << hddtempCmd);
+        this, QStringList() << devices.join(',') << hddtempCmd);
     smartctlSource = new HDDTemperatureSource(
-        this, QStringList() << devices.join(QChar(',')) << smartctlCmd);
+        this, QStringList() << devices.join(',') << smartctlCmd);
 }
 
 
@@ -46,9 +46,8 @@ void TestHDDTemperatureSource::cleanupTestCase()
 
 void TestHDDTemperatureSource::test_sources()
 {
-    std::for_each(devices.begin(), devices.end(), [](QString &device) {
-        device.prepend(QString("hdd/temperature"));
-    });
+    std::for_each(devices.begin(), devices.end(),
+                  [](QString &device) { device.prepend("hdd/temperature"); });
 
     QCOMPARE(hddtempSource->sources(), devices);
     QCOMPARE(smartctlSource->sources(), devices);
@@ -64,7 +63,7 @@ void TestHDDTemperatureSource::test_hddtemp()
 
         QVERIFY(spy.wait(5000));
         QVariantHash arguments = spy.takeFirst().at(0).toHash();
-        device.remove(QString("hdd/temperature"));
+        device.remove("hdd/temperature");
         float secondValue = arguments[device].toFloat();
 
         QCOMPARE(firstValue, 0.0f);
@@ -82,7 +81,7 @@ void TestHDDTemperatureSource::test_smartctl()
 
         QVERIFY(spy.wait(5000));
         QVariantHash arguments = spy.takeFirst().at(0).toHash();
-        device.remove(QString("hdd/temperature"));
+        device.remove("hdd/temperature");
         float secondValue = arguments[device].toFloat();
 
         QCOMPARE(firstValue, 0.0f);

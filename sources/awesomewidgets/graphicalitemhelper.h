@@ -30,25 +30,25 @@ class GraphicalItemHelper : public QObject
     Q_OBJECT
 
 public:
-    explicit GraphicalItemHelper(QObject *parent = nullptr,
-                                 QGraphicsScene *scene = nullptr);
+    explicit GraphicalItemHelper(QObject *_parent = nullptr,
+                                 QGraphicsScene *_scene = nullptr);
     virtual ~GraphicalItemHelper();
     // parameters
-    void setParameters(const QString active, const QString inactive,
-                       const int width, const int height, const int count);
+    void setParameters(const QString &_active, const QString &_inactive,
+                       const int _width, const int _height, const int _count);
     // paint methods
-    void paintBars(const float &value);
-    void paintCircle(const float &percent);
-    void paintGraph(const float &value);
-    void paintHorizontal(const float &percent);
-    void paintVertical(const float &percent);
+    void paintBars(const float _value);
+    void paintCircle(const float _percent);
+    void paintGraph(const float _value);
+    void paintHorizontal(const float _percent);
+    void paintVertical(const float _percent);
     // additional conversion methods
-    float getPercents(const float &value, const float &min, const float &max);
-    bool isColor(const QString &input);
-    QColor stringToColor(const QString &color);
+    float getPercents(const float _value, const float _min, const float _max);
+    bool isColor(const QString &_input);
+    QColor stringToColor(const QString &_color);
 
 private:
-    void storeValue(const float &value);
+    void storeValue(const float _value);
     QGraphicsScene *m_scene = nullptr;
     int m_count = 100;
     QPen m_activePen;

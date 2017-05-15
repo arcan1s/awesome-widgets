@@ -49,14 +49,14 @@ void TestAbstractFormatter::test_type()
     formatter->setStrType(type);
     QCOMPARE(formatter->strType(), type);
 
-    formatter->setStrType(QString("NoFormat"));
+    formatter->setStrType("NoFormat");
     QCOMPARE(formatter->strType(), QString("NoFormat"));
 }
 
 
 void TestAbstractFormatter::test_copy()
 {
-    AWNoFormatter *newFormatter = formatter->copy(QString("/dev/null"), 1);
+    AWNoFormatter *newFormatter = formatter->copy("/dev/null", 1);
 
     QCOMPARE(newFormatter->type(), formatter->type());
     QCOMPARE(newFormatter->name(), formatter->name());

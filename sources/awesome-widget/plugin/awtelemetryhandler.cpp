@@ -29,8 +29,9 @@
 #include "awdebug.h"
 
 
-AWTelemetryHandler::AWTelemetryHandler(QObject *parent, const QString clientId)
-    : QObject(parent)
+AWTelemetryHandler::AWTelemetryHandler(QObject *_parent,
+                                       const QString &_clientId)
+    : QObject(_parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
@@ -39,8 +40,8 @@ AWTelemetryHandler::AWTelemetryHandler(QObject *parent, const QString clientId)
                           QStandardPaths::GenericDataLocation));
 
     // override client id if any
-    if (!clientId.isEmpty())
-        m_clientId = clientId;
+    if (!_clientId.isEmpty())
+        m_clientId = _clientId;
 }
 
 
@@ -50,15 +51,15 @@ AWTelemetryHandler::~AWTelemetryHandler()
 }
 
 
-QStringList AWTelemetryHandler::get(const QString group) const
+QStringList AWTelemetryHandler::get(const QString &_group) const
 {
-    qCDebug(LOG_AW) << "Get stored data for group" << group;
+    qCDebug(LOG_AW) << "Get stored data for group" << _group;
 
     QStringList values;
 
     QSettings settings(m_localFile, QSettings::IniFormat);
-    settings.beginGroup(group);
-    for (auto key : settings.childKeys())
+    settings.beginGroup(_group);
+    for (auto &key : settings.childKeys())
         values.append(settings.value(key).toString());
     settings.endGroup();
 
@@ -66,53 +67,54 @@ QStringList AWTelemetryHandler::get(const QString group) const
 }
 
 
-QString AWTelemetryHandler::getLast(const QString group) const
+QString AWTelemetryHandler::getLast(const QString &_group) const
 {
-    qCDebug(LOG_AW) << "Get last stored data for group" << group;
+    qCDebug(LOG_AW) << "Get last stored data for group" << _group;
 
-    return get(group).last();
+    return get(_group).last();
 }
 
 
-void AWTelemetryHandler::init(const int count, const bool enableRemote,
-                              const QString clientId)
+void AWTelemetryHandler::init(const int _count, const bool _enableRemote,
+                              const QString &_clientId)
 {
-    qCDebug(LOG_AW) << "Init telemetry with count" << count << "enable remote"
-                    << enableRemote << "client ID" << clientId;
+    qCDebug(LOG_AW) << "Init telemetry with count" << _count << "enable remote"
+                    << _enableRemote << "client ID" << _clientId;
 
-    m_storeCount = count;
-    m_uploadEnabled = enableRemote;
-    m_clientId = clientId;
+    m_storeCount = _count;
+    m_uploadEnabled = _enableRemote;
+    m_clientId = _clientId;
 }
 
 
-bool AWTelemetryHandler::put(const QString group, const QString value) const
+bool AWTelemetryHandler::put(const QString &_group, const QString &_value) const
 {
-    qCDebug(LOG_AW) << "Store data with group" << group << "and value" << value;
+    qCDebug(LOG_AW) << "Store data with group" << _group << "and value"
+                    << _value;
 
     QSettings settings(m_localFile, QSettings::IniFormat);
-    settings.beginGroup(group);
+    settings.beginGroup(_group);
     // values will be stored as num=value inside specified group
     // load all values to memory
     QStringList saved;
-    for (auto key : settings.childKeys())
+    for (auto &key : settings.childKeys())
         saved.append(settings.value(key).toString());
     // check if this value is already saved
-    if (saved.contains(value)) {
-        qCInfo(LOG_AW) << "Configuration" << value << "for group" << group
+    if (saved.contains(_value)) {
+        qCInfo(LOG_AW) << "Configuration" << _value << "for group" << _group
                        << "is already saved";
         return false;
     }
-    saved.append(value);
+    saved.append(_value);
     // remove old ones
     while (saved.count() > m_storeCount)
         saved.takeFirst();
     // clear group
-    settings.remove(QString(""));
+    settings.remove("");
     // and save now
-    for (auto value : saved) {
+    for (auto &val : saved) {
         QString key = getKey(settings.childKeys().count());
-        settings.setValue(key, value);
+        settings.setValue(key, val);
     }
 
     // sync settings
@@ -123,11 +125,11 @@ bool AWTelemetryHandler::put(const QString group, const QString value) const
 }
 
 
-void AWTelemetryHandler::uploadTelemetry(const QString group,
-                                         const QString value)
+void AWTelemetryHandler::uploadTelemetry(const QString &_group,
+                                         const QString &_value)
 {
-    qCDebug(LOG_AW) << "Upload data with group" << group << "and value"
-                    << value;
+    qCDebug(LOG_AW) << "Upload data with group" << _group << "and value"
+                    << _value;
     if (!m_uploadEnabled) {
         qCInfo(LOG_AW) << "Upload disabled by configuration";
         return;
@@ -143,10 +145,10 @@ void AWTelemetryHandler::uploadTelemetry(const QString group,
 
     // generate payload
     QVariantMap payload;
-    payload[QString("api")] = AW_TELEMETRY_API;
-    payload[QString("client_id")] = m_clientId;
-    payload[QString("metadata")] = value;
-    payload[QString("type")] = group;
+    payload["api"] = AW_TELEMETRY_API;
+    payload["client_id"] = m_clientId;
+    payload["metadata"] = _value;
+    payload["type"] = _group;
     // convert to QByteArray to send request
     QByteArray data
         = QJsonDocument::fromVariant(payload).toJson(QJsonDocument::Compact);
@@ -157,34 +159,34 @@ void AWTelemetryHandler::uploadTelemetry(const QString group,
 }
 
 
-void AWTelemetryHandler::telemetryReplyRecieved(QNetworkReply *reply)
+void AWTelemetryHandler::telemetryReplyRecieved(QNetworkReply *_reply)
 {
-    if (reply->error() != QNetworkReply::NoError) {
-        qCWarning(LOG_AW) << "An error occurs" << reply->error()
-                          << "with message" << reply->errorString();
+    if (_reply->error() != QNetworkReply::NoError) {
+        qCWarning(LOG_AW) << "An error occurs" << _reply->error()
+                          << "with message" << _reply->errorString();
         return;
     }
 
     QJsonParseError error;
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll(), &error);
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(_reply->readAll(), &error);
     if (error.error != QJsonParseError::NoError) {
         qCWarning(LOG_AW) << "Parse error" << error.errorString();
         return;
     }
-    reply->deleteLater();
+    _reply->deleteLater();
 
     // convert to map
     QVariantMap response = jsonDoc.toVariant().toMap();
-    QString message = response[QString("message")].toString();
+    QString message = response["message"].toString();
     qCInfo(LOG_AW) << "Server reply on telemetry" << message;
 
     return emit(replyReceived(message));
 }
 
 
-QString AWTelemetryHandler::getKey(const int count) const
+QString AWTelemetryHandler::getKey(const int _count) const
 {
-    qCDebug(LOG_AW) << "Get key for keys count" << count;
+    qCDebug(LOG_AW) << "Get key for keys count" << _count;
 
-    return QString("%1").arg(count, 3, 10, QChar('0'));
+    return QString("%1").arg(_count, 3, 10, QChar('0'));
 }

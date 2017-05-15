@@ -32,25 +32,26 @@ class AWDBusAdaptor : public QDBusAbstractAdaptor
     Q_CLASSINFO("D-Bus Interface", AWDBUS_SERVICE_NAME)
 
 public:
-    explicit AWDBusAdaptor(AWKeys *parent = nullptr);
+    explicit AWDBusAdaptor(AWKeys *_parent = nullptr);
     virtual ~AWDBusAdaptor();
 
 public slots:
     // get methods
-    QString Info(const QString key) const;
-    QStringList Keys(const QString regexp) const;
-    QString Value(const QString key) const;
+    QString Info(const QString &key) const;
+    QStringList Keys(const QString &regexp) const;
+    QString Value(const QString &key) const;
     qlonglong WhoAmI() const;
     // set methods
-    void SetLogLevel(const QString what, const int level);
-    void SetLogLevel(const QString what, const QString level,
+    void SetLogLevel(const QString &what, const int level);
+    void SetLogLevel(const QString &what, const QString &level,
                      const bool enabled);
 
 private:
     AWKeys *m_plugin = nullptr;
-    QStringList m_logLevels = QStringList()
-                              << QString("debug") << QString("info")
-                              << QString("warning") << QString("critical");
+    QStringList m_logLevels = QStringList() << "debug"
+                                            << "info"
+                                            << "warning"
+                                            << "critical";
 };
 
 

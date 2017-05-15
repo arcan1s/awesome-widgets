@@ -23,13 +23,13 @@
 #include "awdebug.h"
 
 
-BatterySource::BatterySource(QObject *parent, const QStringList args)
-    : AbstractExtSysMonSource(parent, args)
+BatterySource::BatterySource(QObject *_parent, const QStringList &_args)
+    : AbstractExtSysMonSource(_parent, _args)
 {
-    Q_ASSERT(args.count() == 1);
+    Q_ASSERT(_args.count() == 1);
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
-    m_acpiPath = args.at(0);
+    m_acpiPath = _args.at(0);
     m_sources = getSources();
 }
 
@@ -43,11 +43,11 @@ BatterySource::~BatterySource()
 QStringList BatterySource::getSources()
 {
     QStringList sources;
-    sources.append(QString("battery/ac"));
-    sources.append(QString("battery/bat"));
+    sources.append("battery/ac");
+    sources.append("battery/bat");
     m_batteriesCount
         = QDir(m_acpiPath)
-              .entryList(QStringList() << QString("BAT*"),
+              .entryList(QStringList({"BAT*"}),
                          QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name)
               .count();
     qCInfo(LOG_ESS) << "Init batteries count as" << m_batteriesCount;
@@ -59,40 +59,40 @@ QStringList BatterySource::getSources()
 }
 
 
-QVariant BatterySource::data(QString source)
+QVariant BatterySource::data(const QString &_source)
 {
-    qCDebug(LOG_ESS) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << _source;
 
-    if (!m_values.contains(source))
+    if (!m_values.contains(_source))
         run();
-    QVariant value = m_values.take(source);
+    QVariant value = m_values.take(_source);
     return value;
 }
 
 
-QVariantMap BatterySource::initialData(QString source) const
+QVariantMap BatterySource::initialData(const QString &_source) const
 {
-    qCDebug(LOG_ESS) << "Source" << source;
+    qCDebug(LOG_ESS) << "Source" << _source;
 
     QVariantMap data;
-    if (source == QString("battery/ac")) {
-        data[QString("min")] = false;
-        data[QString("max")] = true;
-        data[QString("name")] = QString("Is AC online or not");
-        data[QString("type")] = QString("bool");
-        data[QString("units")] = QString("");
-    } else if (source == QString("battery/bat")) {
-        data[QString("min")] = 0;
-        data[QString("max")] = 100;
-        data[QString("name")] = QString("Average battery usage");
-        data[QString("type")] = QString("integer");
-        data[QString("units")] = QString("%");
+    if (_source == "battery/ac") {
+        data["min"] = false;
+        data["max"] = true;
+        data["name"] = "Is AC online or not";
+        data["type"] = "bool";
+        data["units"] = "";
+    } else if (_source == "battery/bat") {
+        data["min"] = 0;
+        data["max"] = 100;
+        data["name"] = "Average battery usage";
+        data["type"] = "integer";
+        data["units"] = "%";
     } else {
-        data[QString("min")] = 0;
-        data[QString("max")] = 100;
-        data[QString("name")] = QString("Battery %1 usage").arg(index(source));
-        data[QString("type")] = QString("integer");
-        data[QString("units")] = QString("%");
+        data["min"] = 0;
+        data["max"] = 100;
+        data["name"] = QString("Battery %1 usage").arg(index(_source));
+        data["type"] = "integer";
+        data["units"] = "%";
     }
 
     return data;
@@ -104,7 +104,7 @@ void BatterySource::run()
     // adaptor
     QFile acFile(QString("%1/AC/online").arg(m_acpiPath));
     if (acFile.open(QIODevice::ReadOnly | QIODevice::Text))
-        m_values[QString("battery/ac")]
+        m_values["battery/ac"]
             = (QString(acFile.readLine()).trimmed().toInt() == 1);
     acFile.close();
 
@@ -130,8 +130,7 @@ void BatterySource::run()
         currentLevelFile.close();
         fullLevelFile.close();
     }
-    m_values[QString("battery/bat")]
-        = static_cast<int>(100 * currentLevel / fullLevel);
+    m_values["battery/bat"] = static_cast<int>(100 * currentLevel / fullLevel);
 }
 
 

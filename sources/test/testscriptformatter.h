@@ -41,7 +41,7 @@ private slots:
 
 private:
     AWScriptFormatter *formatter = nullptr;
-    QString code = QString("output = value");
+    QString code = "output = value";
     QString codeWithReturn = QString("%1; return output;").arg(code);
     QString fullCode = QString("(function(value) { %1 })").arg(codeWithReturn);
 };

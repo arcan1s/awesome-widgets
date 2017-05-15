@@ -30,8 +30,8 @@
 #include "awdebug.h"
 
 
-AWUpdateHelper::AWUpdateHelper(QObject *parent)
-    : QObject(parent)
+AWUpdateHelper::AWUpdateHelper(QObject *_parent)
+    : QObject(_parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
@@ -48,16 +48,16 @@ AWUpdateHelper::~AWUpdateHelper()
 }
 
 
-void AWUpdateHelper::checkUpdates(const bool showAnyway)
+void AWUpdateHelper::checkUpdates(const bool _showAnyway)
 {
-    qCDebug(LOG_AW) << "Show anyway" << showAnyway;
+    qCDebug(LOG_AW) << "Show anyway" << _showAnyway;
 
     // showAnyway options requires to show message if no updates found on direct
     // request. In case of automatic check no message will be shown
     QNetworkAccessManager *manager = new QNetworkAccessManager(nullptr);
     connect(manager, &QNetworkAccessManager::finished,
-            [showAnyway, this](QNetworkReply *reply) {
-                return versionReplyRecieved(reply, showAnyway);
+            [_showAnyway, this](QNetworkReply *reply) {
+                return versionReplyRecieved(reply, _showAnyway);
             });
 
     manager->get(QNetworkRequest(QUrl(VERSION_API)));
@@ -68,17 +68,16 @@ bool AWUpdateHelper::checkVersion()
 {
     QSettings settings(m_genericConfig, QSettings::IniFormat);
     QVersionNumber version = QVersionNumber::fromString(
-        settings.value(QString("Version"), QString(VERSION)).toString());
+        settings.value("Version", QString(VERSION)).toString());
     // update version
-    settings.setValue(QString("Version"), QString(VERSION));
+    settings.setValue("Version", QString(VERSION));
     settings.sync();
     qCInfo(LOG_AW) << "Found version" << version << "actual one is"
                    << m_foundVersion;
 
     if ((version != m_foundVersion) && (!QString(CHANGELOG).isEmpty())) {
-        genMessageBox(i18n("Changelog of %1", QString(VERSION)),
-                      QString(CHANGELOG).replace(QChar('@'), QChar('\n')),
-                      QMessageBox::Ok)
+        genMessageBox(i18n("Changelog of %1", VERSION),
+                      QString(CHANGELOG).replace('@', '\n'), QMessageBox::Ok)
             ->open();
         return true;
     } else if (version != m_foundVersion) {
@@ -92,12 +91,12 @@ bool AWUpdateHelper::checkVersion()
 }
 
 
-void AWUpdateHelper::showInfo(const QVersionNumber version)
+void AWUpdateHelper::showInfo(const QVersionNumber &_version)
 {
-    qCDebug(LOG_AW) << "Version" << version;
+    qCDebug(LOG_AW) << "Version" << _version;
 
     QString text
-        = i18n("You are using the actual version %1", version.toString());
+        = i18n("You are using the actual version %1", _version.toString());
     if (!QString(COMMIT_SHA).isEmpty())
         text += QString(" (%1)").arg(QString(COMMIT_SHA));
     return genMessageBox(i18n("No new version found"), text, QMessageBox::Ok)
@@ -105,16 +104,16 @@ void AWUpdateHelper::showInfo(const QVersionNumber version)
 }
 
 
-void AWUpdateHelper::showUpdates(const QVersionNumber version)
+void AWUpdateHelper::showUpdates(const QVersionNumber &_version)
 {
-    qCDebug(LOG_AW) << "Version" << version;
+    qCDebug(LOG_AW) << "Version" << _version;
 
     QString text;
-    text += i18n("Current version : %1", QString(VERSION));
+    text += i18n("Current version : %1", VERSION);
     text += QString(COMMIT_SHA).isEmpty()
-                ? QString("\n")
+                ? "\n"
                 : QString(" (%1)\n").arg(QString(COMMIT_SHA));
-    text += i18n("New version : %1", version.toString()) + QString("\n\n");
+    text += i18n("New version : %1", _version.toString()) + "\n\n";
     text += i18n("Click \"Ok\" to download");
 
     genMessageBox(i18n("There are updates"), text,
@@ -123,10 +122,10 @@ void AWUpdateHelper::showUpdates(const QVersionNumber version)
 }
 
 
-void AWUpdateHelper::userReplyOnUpdates(QAbstractButton *button)
+void AWUpdateHelper::userReplyOnUpdates(QAbstractButton *_button)
 {
     QMessageBox::ButtonRole ret
-        = static_cast<QMessageBox *>(sender())->buttonRole(button);
+        = static_cast<QMessageBox *>(sender())->buttonRole(_button);
     qCInfo(LOG_AW) << "User select" << ret;
 
     switch (ret) {
@@ -141,53 +140,53 @@ void AWUpdateHelper::userReplyOnUpdates(QAbstractButton *button)
 }
 
 
-void AWUpdateHelper::versionReplyRecieved(QNetworkReply *reply,
-                                          const bool showAnyway)
+void AWUpdateHelper::versionReplyRecieved(QNetworkReply *_reply,
+                                          const bool _showAnyway)
 {
-    qCDebug(LOG_AW) << "Show message anyway" << showAnyway;
-    if (reply->error() != QNetworkReply::NoError) {
-        qCWarning(LOG_AW) << "An error occurs" << reply->error()
-                          << "with message" << reply->errorString();
+    qCDebug(LOG_AW) << "Show message anyway" << _showAnyway;
+    if (_reply->error() != QNetworkReply::NoError) {
+        qCWarning(LOG_AW) << "An error occurs" << _reply->error()
+                          << "with message" << _reply->errorString();
         return;
     }
 
     QJsonParseError error;
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll(), &error);
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(_reply->readAll(), &error);
     if (error.error != QJsonParseError::NoError) {
         qCWarning(LOG_AW) << "Parse error" << error.errorString();
         return;
     }
-    reply->deleteLater();
+    _reply->deleteLater();
 
     // convert to map
     QVariantMap firstRelease = jsonDoc.toVariant().toList().first().toMap();
-    QString version = firstRelease[QString("tag_name")].toString();
-    version.remove(QString("V."));
+    QString version = firstRelease["tag_name"].toString();
+    version.remove("V.");
     m_foundVersion = QVersionNumber::fromString(version);
     qCInfo(LOG_AW) << "Update found version to" << m_foundVersion;
 
     QVersionNumber oldVersion = QVersionNumber::fromString(VERSION);
     if (oldVersion < m_foundVersion)
         return showUpdates(m_foundVersion);
-    else if (showAnyway)
+    else if (_showAnyway)
         return showInfo(m_foundVersion);
 }
 
 
 // additional method which is used to show message box which does not block UI
 QMessageBox *
-AWUpdateHelper::genMessageBox(const QString title, const QString body,
-                              const QMessageBox::StandardButtons buttons)
+AWUpdateHelper::genMessageBox(const QString &_title, const QString &_body,
+                              const QMessageBox::StandardButtons _buttons)
 {
-    qCDebug(LOG_AW) << "Construct message box with title" << title << "and body"
-                    << body;
+    qCDebug(LOG_AW) << "Construct message box with title" << _title
+                    << "and body" << _body;
 
     QMessageBox *msgBox = new QMessageBox(nullptr);
     msgBox->setAttribute(Qt::WA_DeleteOnClose);
     msgBox->setModal(false);
-    msgBox->setWindowTitle(title);
-    msgBox->setText(body);
-    msgBox->setStandardButtons(buttons);
+    msgBox->setWindowTitle(_title);
+    msgBox->setText(_body);
+    msgBox->setStandardButtons(_buttons);
     msgBox->setIcon(QMessageBox::Information);
 
     return msgBox;

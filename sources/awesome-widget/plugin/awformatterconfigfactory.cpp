@@ -21,8 +21,8 @@
 #include "awformatterconfig.h"
 
 
-AWFormatterConfigFactory::AWFormatterConfigFactory(QObject *parent)
-    : QObject(parent)
+AWFormatterConfigFactory::AWFormatterConfigFactory(QObject *_parent)
+    : QObject(_parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 }
@@ -34,9 +34,9 @@ AWFormatterConfigFactory::~AWFormatterConfigFactory()
 }
 
 
-void AWFormatterConfigFactory::showDialog(const QStringList keys)
+void AWFormatterConfigFactory::showDialog(const QStringList &_keys)
 {
-    AWFormatterConfig *config = new AWFormatterConfig(nullptr, keys);
+    AWFormatterConfig *config = new AWFormatterConfig(nullptr, _keys);
     config->showDialog();
     config->deleteLater();
 }

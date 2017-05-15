@@ -62,7 +62,7 @@ void TestExtQuotes::test_run()
     for (auto &type : types)
         cache[type] = arguments.at(0).toHash()[extQuotes->tag(type)];
 
-    for (auto type : types) {
+    for (auto &type : types) {
         QCOMPARE(firstValue[extQuotes->tag(type)].toDouble(), 0.0);
         QVERIFY((cache[type].toDouble() > price.first)
                 && (cache[type].toDouble() < price.second));
@@ -80,10 +80,10 @@ void TestExtQuotes::test_derivatives()
     QVERIFY(spy.wait(5000));
     QList<QVariant> arguments = spy.takeFirst();
     QVariantHash values;
-    for (auto type : types)
+    for (auto &type : types)
         values[type] = arguments.at(0).toHash()[extQuotes->tag(type)];
 
-    for (auto type : types) {
+    for (auto &type : types) {
         QCOMPARE(arguments.at(0)
                      .toHash()[extQuotes->tag(QString("%1chg").arg(type))]
                      .toDouble(),
@@ -94,7 +94,7 @@ void TestExtQuotes::test_derivatives()
 
 void TestExtQuotes::test_copy()
 {
-    ExtQuotes *newExtQuotes = extQuotes->copy(QString("/dev/null"), 1);
+    ExtQuotes *newExtQuotes = extQuotes->copy("/dev/null", 1);
 
     QCOMPARE(newExtQuotes->interval(), extQuotes->interval());
     QCOMPARE(newExtQuotes->ticker(), extQuotes->ticker());

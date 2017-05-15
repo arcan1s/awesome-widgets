@@ -28,8 +28,8 @@
 void TestAWDateTimeFormatter::initTestCase()
 {
     AWTestLibrary::init();
-    format = AWTestLibrary::randomSelect(QString(TIME_KEYS).split(QChar(',')))
-                 .join(QChar(' '));
+    format
+        = AWTestLibrary::randomSelect(QString(TIME_KEYS).split(',')).join(' ');
 
     formatter = new AWDateTimeFormatter(nullptr);
     formatter->setFormat(format);
@@ -58,8 +58,7 @@ void TestAWDateTimeFormatter::test_conversion()
 void TestAWDateTimeFormatter::test_copy()
 {
     formatter->setTranslateString(false);
-    AWDateTimeFormatter *newFormatter
-        = formatter->copy(QString("/dev/null"), 1);
+    AWDateTimeFormatter *newFormatter = formatter->copy("/dev/null", 1);
 
     QCOMPARE(newFormatter->format(), formatter->format());
     QCOMPARE(newFormatter->translateString(), formatter->translateString());

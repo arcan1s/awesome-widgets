@@ -30,18 +30,18 @@ class AWDataEngineAggregator : public QObject
     Q_OBJECT
 
 public:
-    explicit AWDataEngineAggregator(QObject *parent = nullptr);
+    explicit AWDataEngineAggregator(QObject *_parent = nullptr);
     virtual ~AWDataEngineAggregator();
     void clear();
     void disconnectSources();
-    void initDataEngines(const int interval);
+    void initDataEngines(const int _interval);
 
 signals:
-    void deviceAdded(const QString &source);
+    void deviceAdded(const QString &_source);
 
 public slots:
-    void dropSource(const QString source);
-    void reconnectSources(const int interval);
+    void dropSource(const QString &_source);
+    void reconnectSources(const int _interval);
 
 private:
     void createQueuedConnection();

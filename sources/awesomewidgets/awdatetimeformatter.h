@@ -35,20 +35,20 @@ class AWDateTimeFormatter : public AWAbstractFormatter
         bool translateString READ translateString WRITE setTranslateString)
 
 public:
-    explicit AWDateTimeFormatter(QWidget *parent,
-                                 const QString filePath = QString());
+    explicit AWDateTimeFormatter(QWidget *_parent = nullptr,
+                                 const QString &_filePath = "");
     virtual ~AWDateTimeFormatter();
     QString convert(const QVariant &_value) const;
-    AWDateTimeFormatter *copy(const QString _fileName, const int _number);
+    AWDateTimeFormatter *copy(const QString &_fileName, const int _number);
     // properties
     QString format() const;
     bool translateString() const;
-    void setFormat(const QString _format);
+    void setFormat(const QString &_format);
     void setTranslateString(const bool _translate);
 
 public slots:
     void readConfiguration();
-    int showConfiguration(const QVariant args = QVariant());
+    int showConfiguration(const QVariant &_args);
     void writeConfiguration() const;
 
 private:
@@ -57,7 +57,7 @@ private:
     void translate();
     // properties
     QLocale m_locale;
-    QString m_format = QString();
+    QString m_format = "";
     bool m_translate = true;
 };
 

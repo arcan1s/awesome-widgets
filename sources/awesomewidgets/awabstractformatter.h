@@ -38,8 +38,8 @@ public:
         Json
     };
 
-    explicit AWAbstractFormatter(QWidget *parent,
-                                 const QString filePath = QString());
+    explicit AWAbstractFormatter(QWidget *_parent = nullptr,
+                                 const QString &_filePath = "");
     virtual ~AWAbstractFormatter();
     virtual QString convert(const QVariant &_value) const = 0;
     void copyDefaults(AbstractExtItem *_other) const;
@@ -47,8 +47,8 @@ public:
     // properties
     QString strType() const;
     FormatterClass type() const;
-    void setStrType(const QString type);
-    void setType(const FormatterClass _type = FormatterClass::NoFormat);
+    void setStrType(const QString &_type);
+    void setType(const FormatterClass _type);
 
 public slots:
     virtual void readConfiguration();

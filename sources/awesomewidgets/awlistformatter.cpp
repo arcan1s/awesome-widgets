@@ -26,13 +26,13 @@
 #include "awdebug.h"
 
 
-AWListFormatter::AWListFormatter(QWidget *parent, const QString filePath)
-    : AWAbstractFormatter(parent, filePath)
+AWListFormatter::AWListFormatter(QWidget *_parent, const QString &_filePath)
+    : AWAbstractFormatter(_parent, _filePath)
     , ui(new Ui::AWListFormatter)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    if (!filePath.isEmpty())
+    if (!_filePath.isEmpty())
         readConfiguration();
     ui->setupUi(this);
     translate();
@@ -59,7 +59,7 @@ QString AWListFormatter::convert(const QVariant &_value) const
 }
 
 
-AWListFormatter *AWListFormatter::copy(const QString _fileName,
+AWListFormatter *AWListFormatter::copy(const QString &_fileName,
                                        const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
@@ -94,7 +94,7 @@ QString AWListFormatter::separator() const
 }
 
 
-void AWListFormatter::setFilter(const QString _filter)
+void AWListFormatter::setFilter(const QString &_filter)
 {
     qCDebug(LOG_LIB) << "Filter" << _filter;
 
@@ -103,7 +103,7 @@ void AWListFormatter::setFilter(const QString _filter)
 }
 
 
-void AWListFormatter::setSeparator(const QString _separator)
+void AWListFormatter::setSeparator(const QString &_separator)
 {
     qCDebug(LOG_LIB) << "Separtor" << _separator;
 
@@ -125,24 +125,23 @@ void AWListFormatter::readConfiguration()
 
     QSettings settings(fileName(), QSettings::IniFormat);
 
-    settings.beginGroup(QString("Desktop Entry"));
-    setFilter(settings.value(QString("X-AW-Filter"), filter()).toString());
-    setSeparator(
-        settings.value(QString("X-AW-Separator"), separator()).toString());
-    setSorted(settings.value(QString("X-AW-Sort"), isSorted()).toBool());
+    settings.beginGroup("Desktop Entry");
+    setFilter(settings.value("X-AW-Filter", filter()).toString());
+    setSeparator(settings.value("X-AW-Separator", separator()).toString());
+    setSorted(settings.value("X-AW-Sort", isSorted()).toBool());
     settings.endGroup();
 
     bumpApi(AW_FORMATTER_API);
 }
 
 
-int AWListFormatter::showConfiguration(const QVariant args)
+int AWListFormatter::showConfiguration(const QVariant &_args)
 {
-    Q_UNUSED(args)
+    Q_UNUSED(_args)
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
-    ui->label_typeValue->setText(QString("NoFormat"));
+    ui->label_typeValue->setText("List");
     ui->lineEdit_filter->setText(filter());
     ui->lineEdit_separator->setText(separator());
     ui->checkBox_sorted->setCheckState(isSorted() ? Qt::Checked
@@ -171,10 +170,10 @@ void AWListFormatter::writeConfiguration() const
     QSettings settings(writtableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
-    settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("X-AW-Filter"), filter());
-    settings.setValue(QString("X-AW-Separator"), separator());
-    settings.setValue(QString("X-AW-Sort"), isSorted());
+    settings.beginGroup("Desktop Entry");
+    settings.setValue("X-AW-Filter", filter());
+    settings.setValue("X-AW-Separator", separator());
+    settings.setValue("X-AW-Sort", isSorted());
     settings.endGroup();
 
     settings.sync();

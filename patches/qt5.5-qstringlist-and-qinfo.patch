@@ -1,5 +1,25 @@
+diff --git a/sources/awdebug.h b/sources/awdebug.h
+index 8447c65..9f8e298 100644
+--- a/sources/awdebug.h
++++ b/sources/awdebug.h
+@@ -23,10 +23,14 @@
+ 
+ #include "version.h"
+ 
++#ifndef qCInfo
++#define qCInfo qCDebug
++#endif
++
+ namespace AWDebug
+ {
+ const char LOG_FORMAT[] = "[%{time "
+-                          "process}][%{if-debug}DD%{endif}%{if-info}II%{endif}%"
++                          "process}][%{if-debug}DD%{endif}%"
+                           "{if-warning}WW%{endif}%{if-critical}CC%{endif}%{if-"
+                           "fatal}FF%{endif}][%{category}][%{function}] "
+                           "%{message}";
 diff --git a/sources/awesome-widget/plugin/awkeysaggregator.h b/sources/awesome-widget/plugin/awkeysaggregator.h
-index f808d03..a056b3f 100644
+index d29672e..f15a729 100644
 --- a/sources/awesome-widget/plugin/awkeysaggregator.h
 +++ b/sources/awesome-widget/plugin/awkeysaggregator.h
 @@ -21,6 +21,7 @@
@@ -10,22 +30,3 @@ index f808d03..a056b3f 100644
  
  #include "version.h"
  
-diff --git a/sources/awdebug.h b/sources/awdebug.h
-index 43944ce..c679281 100644
---- a/sources/awdebug.h
-+++ b/sources/awdebug.h
-@@ -21,9 +21,13 @@
- 
- #include "version.h"
- 
-+#ifndef qCInfo
-+#define qCInfo qCDebug
-+#endif
-+
- #ifndef LOG_FORMAT
- #define LOG_FORMAT                                                             \
--    "[%{time process}][%{if-debug}DD%{endif}%{if-info}II%{endif}%{if-"         \
-+    "[%{time process}][%{if-debug}DD%{endif}%{if-"         \
-     "warning}WW%{endif}%{if-critical}CC%{endif}%{if-fatal}FF%{endif}][%{"      \
-     "category}][%{function}] %{message}"
- #endif /* LOG_FORMAT */

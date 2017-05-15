@@ -28,18 +28,18 @@
 #include "awdebug.h"
 
 
-ExtUpgrade::ExtUpgrade(QWidget *parent, const QString filePath)
-    : AbstractExtItem(parent, filePath)
+ExtUpgrade::ExtUpgrade(QWidget *_parent, const QString &_filePath)
+    : AbstractExtItem(_parent, _filePath)
     , ui(new Ui::ExtUpgrade)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    if (!filePath.isEmpty())
+    if (!_filePath.isEmpty())
         readConfiguration();
     ui->setupUi(this);
     translate();
 
-    m_values[tag(QString("pkgcount"))] = 0;
+    m_values[tag("pkgcount")] = 0;
 
     m_process = new QProcess(nullptr);
     connect(m_process, SIGNAL(finished(int)), this, SLOT(updateValue()));
@@ -60,7 +60,7 @@ ExtUpgrade::~ExtUpgrade()
 }
 
 
-ExtUpgrade *ExtUpgrade::copy(const QString _fileName, const int _number)
+ExtUpgrade *ExtUpgrade::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
@@ -100,7 +100,7 @@ QString ExtUpgrade::uniq() const
 }
 
 
-void ExtUpgrade::setExecutable(const QString _executable)
+void ExtUpgrade::setExecutable(const QString &_executable)
 {
     qCDebug(LOG_LIB) << "Executable" << _executable;
 
@@ -108,7 +108,7 @@ void ExtUpgrade::setExecutable(const QString _executable)
 }
 
 
-void ExtUpgrade::setFilter(const QString _filter)
+void ExtUpgrade::setFilter(const QString &_filter)
 {
     qCDebug(LOG_LIB) << "Filter" << _filter;
 
@@ -132,11 +132,11 @@ void ExtUpgrade::readConfiguration()
 
     QSettings settings(fileName(), QSettings::IniFormat);
 
-    settings.beginGroup(QString("Desktop Entry"));
-    setExecutable(settings.value(QString("Exec"), executable()).toString());
-    setNull(settings.value(QString("X-AW-Null"), null()).toInt());
+    settings.beginGroup("Desktop Entry");
+    setExecutable(settings.value("Exec", executable()).toString());
+    setNull(settings.value("X-AW-Null", null()).toInt());
     // api == 3
-    setFilter(settings.value(QString("X-AW-Filter"), filter()).toString());
+    setFilter(settings.value("X-AW-Filter", filter()).toString());
     settings.endGroup();
 
     bumpApi(AW_EXTUPGRADE_API);
@@ -153,9 +153,9 @@ QVariantHash ExtUpgrade::run()
 }
 
 
-int ExtUpgrade::showConfiguration(const QVariant args)
+int ExtUpgrade::showConfiguration(const QVariant &_args)
 {
-    Q_UNUSED(args)
+    Q_UNUSED(_args)
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -196,10 +196,10 @@ void ExtUpgrade::writeConfiguration() const
     QSettings settings(writtableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
-    settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("Exec"), executable());
-    settings.setValue(QString("X-AW-Filter"), filter());
-    settings.setValue(QString("X-AW-Null"), null());
+    settings.beginGroup("Desktop Entry");
+    settings.setValue("Exec", executable());
+    settings.setValue("X-AW-Filter", filter());
+    settings.setValue("X-AW-Null", null());
     settings.endGroup();
 
     settings.sync();
@@ -222,11 +222,11 @@ void ExtUpgrade::updateValue()
     QString qoutput = QTextCodec::codecForMib(106)
                           ->toUnicode(m_process->readAllStandardOutput())
                           .trimmed();
-    m_values[tag(QString("pkgcount"))] = [this](QString output) {
+    m_values[tag("pkgcount")] = [this](QString output) {
         return filter().isEmpty()
-                   ? output.split(QChar('\n'), QString::SkipEmptyParts).count()
+                   ? output.split('\n', QString::SkipEmptyParts).count()
                          - null()
-                   : output.split(QChar('\n'), QString::SkipEmptyParts)
+                   : output.split('\n', QString::SkipEmptyParts)
                          .filter(QRegExp(filter()))
                          .count();
     }(qoutput);

@@ -39,7 +39,7 @@ private slots:
 
 private:
     BatterySource *source = nullptr;
-    QString acpiPath = QString("/sys/class/power_supply/");
+    QString acpiPath = "/sys/class/power_supply/";
     QPair<int, int> battery = QPair<int, int>(0, 100);
 };
 

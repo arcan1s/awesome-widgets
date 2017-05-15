@@ -35,23 +35,23 @@
 #include "yahooweatherprovider.h"
 
 
-ExtWeather::ExtWeather(QWidget *parent, const QString filePath)
-    : AbstractExtItem(parent, filePath)
+ExtWeather::ExtWeather(QWidget *_parent, const QString &_filePath)
+    : AbstractExtItem(_parent, _filePath)
     , ui(new Ui::ExtWeather)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    if (!filePath.isEmpty())
+    if (!_filePath.isEmpty())
         readConfiguration();
     readJsonMap();
     ui->setupUi(this);
     translate();
 
-    m_values[tag(QString("weatherId"))] = 0;
-    m_values[tag(QString("weather"))] = QString("");
-    m_values[tag(QString("humidity"))] = 0;
-    m_values[tag(QString("pressure"))] = 0.0;
-    m_values[tag(QString("temperature"))] = 0.0;
+    m_values[tag("weatherId")] = 0;
+    m_values[tag("weather")] = "";
+    m_values[tag("humidity")] = 0;
+    m_values[tag("pressure")] = 0.0;
+    m_values[tag("temperature")] = 0.0;
 
     // HACK declare as child of nullptr to avoid crash with plasmawindowed
     // in the destructor
@@ -77,7 +77,7 @@ ExtWeather::~ExtWeather()
 }
 
 
-ExtWeather *ExtWeather::copy(const QString _fileName, const int _number)
+ExtWeather *ExtWeather::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "number" << _number;
 
@@ -99,7 +99,7 @@ QString ExtWeather::jsonMapFile() const
 {
     QString fileName = QStandardPaths::locate(
         QStandardPaths::GenericDataLocation,
-        QString("awesomewidgets/weather/awesomewidgets-extweather-ids.json"));
+        "awesomewidgets/weather/awesomewidgets-extweather-ids.json");
     qCInfo(LOG_LIB) << "Map file" << fileName;
 
     return fileName;
@@ -110,9 +110,8 @@ QString ExtWeather::weatherFromInt(const int _id) const
 {
     qCDebug(LOG_LIB) << "Weather ID" << _id;
 
-    QVariantMap map
-        = m_jsonMap[m_image ? QString("image") : QString("text")].toMap();
-    return map.value(QString::number(_id), map[QString("default")]).toString();
+    QVariantMap map = m_jsonMap[m_image ? "image" : "text"].toMap();
+    return map.value(QString::number(_id), map["default"]).toString();
 }
 
 
@@ -145,10 +144,10 @@ QString ExtWeather::strProvider() const
     QString value;
     switch (m_provider) {
     case Provider::OWM:
-        value = QString("OWM");
+        value = "OWM";
         break;
     case Provider::Yahoo:
-        value = QString("Yahoo");
+        value = "Yahoo";
         break;
     }
 
@@ -168,7 +167,7 @@ QString ExtWeather::uniq() const
 }
 
 
-void ExtWeather::setCity(const QString _city)
+void ExtWeather::setCity(const QString &_city)
 {
     qCDebug(LOG_LIB) << "City" << _city;
 
@@ -177,7 +176,7 @@ void ExtWeather::setCity(const QString _city)
 }
 
 
-void ExtWeather::setCountry(const QString _country)
+void ExtWeather::setCountry(const QString &_country)
 {
     qCDebug(LOG_LIB) << "Country" << _country;
 
@@ -203,11 +202,11 @@ void ExtWeather::setProvider(const Provider _provider)
 }
 
 
-void ExtWeather::setStrProvider(const QString _provider)
+void ExtWeather::setStrProvider(const QString &_provider)
 {
     qCDebug(LOG_LIB) << "Provider" << _provider;
 
-    if (_provider == QString("Yahoo"))
+    if (_provider == "Yahoo")
         setProvider(Provider::Yahoo);
     else
         setProvider(Provider::OWM);
@@ -229,16 +228,14 @@ void ExtWeather::readConfiguration()
 
     QSettings settings(fileName(), QSettings::IniFormat);
 
-    settings.beginGroup(QString("Desktop Entry"));
-    setCity(settings.value(QString("X-AW-City"), city()).toString());
-    setCountry(settings.value(QString("X-AW-Country"), country()).toString());
-    setTs(settings.value(QString("X-AW-TS"), ts()).toInt());
+    settings.beginGroup("Desktop Entry");
+    setCity(settings.value("X-AW-City", city()).toString());
+    setCountry(settings.value("X-AW-Country", country()).toString());
+    setTs(settings.value("X-AW-TS", ts()).toInt());
     // api == 2
-    setImage(settings.value(QString("X-AW-Image"), QVariant(image())).toString()
-             == QString("true"));
+    setImage(settings.value("X-AW-Image", image()).toBool());
     // api == 3
-    setStrProvider(
-        settings.value(QString("X-AW-Provider"), strProvider()).toString());
+    setStrProvider(settings.value("X-AW-Provider", strProvider()).toString());
     settings.endGroup();
 
     bumpApi(AW_EXTWEATHER_API);
@@ -278,9 +275,9 @@ QVariantHash ExtWeather::run()
 }
 
 
-int ExtWeather::showConfiguration(const QVariant args)
+int ExtWeather::showConfiguration(const QVariant &_args)
 {
-    Q_UNUSED(args)
+    Q_UNUSED(_args)
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -325,12 +322,12 @@ void ExtWeather::writeConfiguration() const
     QSettings settings(writtableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
-    settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("X-AW-City"), city());
-    settings.setValue(QString("X-AW-Country"), country());
-    settings.setValue(QString("X-AW-Image"), image());
-    settings.setValue(QString("X-AW-Provider"), strProvider());
-    settings.setValue(QString("X-AW-TS"), ts());
+    settings.beginGroup("Desktop Entry");
+    settings.setValue("X-AW-City", city());
+    settings.setValue("X-AW-Country", country());
+    settings.setValue("X-AW-Image", image());
+    settings.setValue("X-AW-Provider", strProvider());
+    settings.setValue("X-AW-TS", ts());
     settings.endGroup();
 
     settings.sync();
@@ -346,18 +343,18 @@ void ExtWeather::sendRequest()
 }
 
 
-void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
+void ExtWeather::weatherReplyReceived(QNetworkReply *_reply)
 {
-    if (reply->error() != QNetworkReply::NoError) {
-        qCWarning(LOG_AW) << "An error occurs" << reply->error()
-                          << "with message" << reply->errorString();
+    if (_reply->error() != QNetworkReply::NoError) {
+        qCWarning(LOG_AW) << "An error occurs" << _reply->error()
+                          << "with message" << _reply->errorString();
         return;
     }
 
     m_isRunning = false;
     QJsonParseError error;
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll(), &error);
-    reply->deleteLater();
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(_reply->readAll(), &error);
+    _reply->deleteLater();
     if (error.error != QJsonParseError::NoError) {
         qCWarning(LOG_LIB) << "Parse error" << error.errorString();
         return;
@@ -367,8 +364,8 @@ void ExtWeather::weatherReplyReceived(QNetworkReply *reply)
     if (data.isEmpty())
         return;
     m_values = data;
-    m_values[tag(QString("weather"))]
-        = weatherFromInt(m_values[tag(QString("weatherId"))].toInt());
+    m_values[tag("weather")]
+        = weatherFromInt(m_values[tag("weatherId")].toInt());
 
     emit(dataReceived(m_values));
 }

@@ -38,7 +38,7 @@ private slots:
 
 private:
     ExtItemAggregator<AWNoFormatter> *aggregator = nullptr;
-    QString type = QString("tmp");
+    QString type = "tmp";
 };
 
 

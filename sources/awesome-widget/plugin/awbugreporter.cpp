@@ -30,8 +30,8 @@
 #include "awdebug.h"
 
 
-AWBugReporter::AWBugReporter(QObject *parent)
-    : QObject(parent)
+AWBugReporter::AWBugReporter(QObject *_parent)
+    : QObject(_parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 }
@@ -46,38 +46,38 @@ AWBugReporter::~AWBugReporter()
 void AWBugReporter::doConnect()
 {
     // additional method for testing needs
-    connect(this, SIGNAL(replyReceived(const int, const QString)), this,
-            SLOT(showInformation(const int, const QString)));
+    connect(this, SIGNAL(replyReceived(const int, const QString &)), this,
+            SLOT(showInformation(const int, const QString &)));
 }
 
 
-QString AWBugReporter::generateText(const QString description,
-                                    const QString reproduce,
-                                    const QString expected,
-                                    const QString logs) const
+QString AWBugReporter::generateText(const QString &_description,
+                                    const QString &_reproduce,
+                                    const QString &_expected,
+                                    const QString &_logs) const
 {
-    // do not log logs here, it may have quite large size
-    qCDebug(LOG_AW) << "Generate text with description" << description
-                    << "steps" << reproduce << "and expected result"
-                    << expected;
+    // do not log _logs here, it may have quite large size
+    qCDebug(LOG_AW) << "Generate text with description" << _description
+                    << "steps" << _reproduce << "and expected result"
+                    << _expected;
 
     QString output;
-    output += QString("**Description**\n\n%1\n\n").arg(description);
-    output += QString("**Step to reproduce**\n\n%1\n\n").arg(reproduce);
-    output += QString("**Expected result**\n\n%1\n\n").arg(expected);
+    output += QString("**Description**\n\n%1\n\n").arg(_description);
+    output += QString("**Step to _reproduce**\n\n%1\n\n").arg(_reproduce);
+    output += QString("**Expected result**\n\n%1\n\n").arg(_expected);
     output += QString("**Version**\n\n%1\n\n")
                   .arg(AWDebug::getBuildData().join(QString("\n")));
-    // append logs
-    output += QString("**Logs**\n\n%1").arg(logs);
+    // append _logs
+    output += QString("**Logs**\n\n%1").arg(_logs);
 
     return output;
 }
 
 
-void AWBugReporter::sendBugReport(const QString title, const QString body)
+void AWBugReporter::sendBugReport(const QString &_title, const QString &_body)
 {
-    qCDebug(LOG_AW) << "Send bug report with title" << title << "and body"
-                    << body;
+    qCDebug(LOG_AW) << "Send bug report with title" << _title << "and body"
+                    << _body;
 
     QNetworkAccessManager *manager = new QNetworkAccessManager(nullptr);
     connect(manager, SIGNAL(finished(QNetworkReply *)), this,
@@ -88,57 +88,57 @@ void AWBugReporter::sendBugReport(const QString title, const QString body)
 
     // generate payload
     QVariantMap payload;
-    payload[QString("title")] = title;
-    payload[QString("body")] = body;
-    payload[QString("labels")] = QStringList() << QString("from application");
+    payload["title"] = _title;
+    payload["body"] = _body;
+    payload["labels"] = QStringList() << "from application";
     // convert to QByteArray to send request
     QByteArray data
         = QJsonDocument::fromVariant(payload).toJson(QJsonDocument::Compact);
-    qCInfo(LOG_AW) << "Send request with body" << data.data() << "and size"
+    qCInfo(LOG_AW) << "Send request with _body" << data.data() << "and size"
                    << data.size();
 
     manager->post(request, data);
 }
 
 
-void AWBugReporter::issueReplyRecieved(QNetworkReply *reply)
+void AWBugReporter::issueReplyRecieved(QNetworkReply *_reply)
 {
-    if (reply->error() != QNetworkReply::NoError) {
-        qCWarning(LOG_AW) << "An error occurs" << reply->error()
-                          << "with message" << reply->errorString();
-        return emit(replyReceived(0, QString()));
+    if (_reply->error() != QNetworkReply::NoError) {
+        qCWarning(LOG_AW) << "An error occurs" << _reply->error()
+                          << "with message" << _reply->errorString();
+        return emit(replyReceived(0, ""));
     }
 
     QJsonParseError error;
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll(), &error);
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(_reply->readAll(), &error);
     if (error.error != QJsonParseError::NoError) {
         qCWarning(LOG_AW) << "Parse error" << error.errorString();
-        return emit(replyReceived(0, QString()));
+        return emit(replyReceived(0, ""));
     }
-    reply->deleteLater();
+    _reply->deleteLater();
 
     // convert to map
     QVariantMap response = jsonDoc.toVariant().toMap();
-    QString url = response[QString("html_url")].toString();
-    int number = response[QString("number")].toInt();
+    QString url = response["html_url"].toString();
+    int number = response["number"].toInt();
 
     return emit(replyReceived(number, url));
 }
 
 
-void AWBugReporter::showInformation(const int number, const QString url)
+void AWBugReporter::showInformation(const int _number, const QString &_url)
 {
-    qCDebug(LOG_AW) << "Created issue with number" << number << "and url"
-                    << url;
+    qCDebug(LOG_AW) << "Created issue with number" << _number << "and url"
+                    << _url;
 
     // cache url first
-    m_lastBugUrl = url;
+    m_lastBugUrl = _url;
 
     QMessageBox *msgBox = new QMessageBox(nullptr);
     msgBox->setAttribute(Qt::WA_DeleteOnClose);
     msgBox->setModal(false);
     msgBox->setWindowTitle(i18n("Issue created"));
-    msgBox->setText(i18n("Issue %1 has been created", number));
+    msgBox->setText(i18n("Issue %1 has been created", _number));
     msgBox->setStandardButtons(QMessageBox::Open | QMessageBox::Close);
     msgBox->setIcon(QMessageBox::Information);
 
@@ -146,10 +146,10 @@ void AWBugReporter::showInformation(const int number, const QString url)
 }
 
 
-void AWBugReporter::userReplyOnBugReport(QAbstractButton *button)
+void AWBugReporter::userReplyOnBugReport(QAbstractButton *_button)
 {
     QMessageBox::ButtonRole ret
-        = static_cast<QMessageBox *>(sender())->buttonRole(button);
+        = static_cast<QMessageBox *>(sender())->buttonRole(_button);
     qCInfo(LOG_AW) << "User select" << ret;
 
     switch (ret) {

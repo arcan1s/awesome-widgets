@@ -27,9 +27,9 @@ class AWFormatterConfigFactory : public QObject
     Q_OBJECT
 
 public:
-    explicit AWFormatterConfigFactory(QObject *parent = nullptr);
+    explicit AWFormatterConfigFactory(QObject *_parent = nullptr);
     virtual ~AWFormatterConfigFactory();
-    Q_INVOKABLE void showDialog(const QStringList keys);
+    Q_INVOKABLE void showDialog(const QStringList &_keys);
 
 private:
 };

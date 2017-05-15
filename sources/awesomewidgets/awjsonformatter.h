@@ -32,25 +32,26 @@ class AWJsonFormatter : public AWAbstractFormatter
     Q_PROPERTY(QString path READ path WRITE setPath)
 
 public:
-    explicit AWJsonFormatter(QWidget *parent,
-                             const QString filePath = QString());
+    explicit AWJsonFormatter(QWidget *_parent = nullptr,
+                             const QString &_filePath = "");
     virtual ~AWJsonFormatter();
     QString convert(const QVariant &_value) const;
-    AWJsonFormatter *copy(const QString _fileName, const int _number);
+    AWJsonFormatter *copy(const QString &_fileName, const int _number);
     // properties
     QString path() const;
-    void setPath(const QString _path);
+    void setPath(const QString &_path);
 
 public slots:
     void readConfiguration();
-    int showConfiguration(const QVariant args = QVariant());
+    int showConfiguration(const QVariant &_args);
     void writeConfiguration() const;
 
 private:
     Ui::AWJsonFormatter *ui = nullptr;
-    QVariant getFromJson(const QVariant &value, const QVariant &element) const;
-    QVariant getFromList(const QVariant &value, const int index) const;
-    QVariant getFromMap(const QVariant &value, const QString &key) const;
+    QVariant getFromJson(const QVariant &_value,
+                         const QVariant &_element) const;
+    QVariant getFromList(const QVariant &_value, const int _index) const;
+    QVariant getFromMap(const QVariant &_value, const QString &_key) const;
     void initPath();
     void translate();
     // properties

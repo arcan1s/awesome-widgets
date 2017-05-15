@@ -40,10 +40,8 @@ void TestAWPatternFunctions::test_findFunctionCalls()
     QString name = QString("aw_%1").arg(AWTestLibrary::randomString(1, 10));
     QString code = AWTestLibrary::randomString(1, 20);
     QStringList args = AWTestLibrary::randomStringList(20);
-    QString function = QString("$%1<%2>{{%3}}")
-                           .arg(name)
-                           .arg(args.join(QChar(',')))
-                           .arg(code);
+    QString function
+        = QString("$%1<%2>{{%3}}").arg(name).arg(args.join(',')).arg(code);
 
     QString pattern = AWTestLibrary::randomString() + function
                       + AWTestLibrary::randomString();
@@ -72,10 +70,9 @@ void TestAWPatternFunctions::test_findKeys()
     auto keys = AWTestLibrary::randomSelect(allKeys);
     auto bars = AWTestLibrary::randomSelect(allKeys);
     std::for_each(bars.begin(), bars.end(),
-                  [](QString &bar) { bar.prepend(QString("bar")); });
-    QString pattern = QString("$%1 $%2")
-                          .arg(keys.join(QString(" $")))
-                          .arg(bars.join(QString(" $")));
+                  [](QString &bar) { bar.prepend("bar"); });
+    QString pattern
+        = QString("$%1 $%2").arg(keys.join(" $")).arg(bars.join(" $"));
 
     allKeys.append(bars);
     allKeys.sort();
@@ -99,7 +96,7 @@ void TestAWPatternFunctions::test_findLambdas()
 {
     QStringList lambdas = AWTestLibrary::randomStringList(20);
     QString pattern = AWTestLibrary::randomString()
-                      + QString("${{%1}}").arg(lambdas.join(QString("}}${{")))
+                      + QString("${{%1}}").arg(lambdas.join("}}${{"))
                       + AWTestLibrary::randomString();
 
     QCOMPARE(AWPatternFunctions::findLambdas(pattern), lambdas);

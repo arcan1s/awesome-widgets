@@ -34,29 +34,29 @@ class PlayerSource : public AbstractExtSysMonSource
 public:
     const char *MPD_STATUS_REQUEST = "currentsong\nstatus\n";
 
-    explicit PlayerSource(QObject *parent, const QStringList args);
+    explicit PlayerSource(QObject *_parent, const QStringList &_args);
     virtual ~PlayerSource();
-    QVariant data(QString source);
+    QVariant data(const QString &_source);
     QString getAutoMpris() const;
-    QVariantMap initialData(QString source) const;
+    QVariantMap initialData(const QString &_source) const;
     void run();
     QStringList sources() const;
     // additional method to build dynamic tags
-    static QString buildString(const QString &current, const QString &value,
-                               const int s);
-    static QString stripString(const QString &value, const int s);
+    static QString buildString(const QString &_current, const QString &_value,
+                               const int _s);
+    static QString stripString(const QString &_value, const int _s);
     // additional test method
     bool isMpdSocketConnected() const;
 
 private slots:
     void mpdSocketConnected();
     void mpdSocketReadyRead();
-    void mpdSocketWritten(const qint64 bytes);
+    void mpdSocketWritten(const qint64 _bytes);
 
 private:
     inline QVariantHash defaultInfo() const;
     QVariantHash getPlayerMpdInfo();
-    QVariantHash getPlayerMprisInfo(const QString mpris) const;
+    QVariantHash getPlayerMprisInfo(const QString &_mpris) const;
     QTcpSocket m_mpdSocket;
     // configuration and values
     QString m_mpdAddress;
@@ -66,9 +66,7 @@ private:
     QMutex m_dbusMutex;
     QString m_player;
     int m_symbols;
-    QStringList m_metadata = QStringList()
-                             << QString("album") << QString("artist")
-                             << QString("title");
+    QStringList m_metadata = QStringList({"album", "artist", "title"});
     QVariantHash m_values;
 };
 

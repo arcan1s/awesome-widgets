@@ -31,39 +31,41 @@ class AWConfigHelper : public QObject
     Q_OBJECT
 
 public:
-    explicit AWConfigHelper(QObject *parent = nullptr);
+    explicit AWConfigHelper(QObject *_parent = nullptr);
     virtual ~AWConfigHelper();
     Q_INVOKABLE QString configurationDirectory() const;
     Q_INVOKABLE bool dropCache() const;
-    Q_INVOKABLE bool exportConfiguration(QObject *nativeConfig,
-                                         const QString fileName) const;
-    Q_INVOKABLE QVariantMap importConfiguration(const QString fileName,
-                                                const bool importPlasmoid,
-                                                const bool importExtensions,
-                                                const bool importAdds) const;
+    Q_INVOKABLE bool exportConfiguration(QObject *_nativeConfig,
+                                         const QString &_fileName) const;
+    Q_INVOKABLE QVariantMap importConfiguration(const QString &_fileName,
+                                                const bool _importPlasmoid,
+                                                const bool _importExtensions,
+                                                const bool _importAdds) const;
     // dataengine
     Q_INVOKABLE QVariantMap readDataEngineConfiguration() const;
     Q_INVOKABLE bool
-    writeDataEngineConfiguration(const QVariantMap configuration) const;
+    writeDataEngineConfiguration(const QVariantMap &_configuration) const;
 
 private:
     // methods
-    void copyConfigs(const QString localDir) const;
-    void copyExtensions(const QString item, const QString type,
-                        QSettings &settings, const bool inverse) const;
-    void copySettings(QSettings &from, QSettings &to) const;
-    void readFile(QSettings &settings, const QString key,
-                  const QString fileName) const;
-    void writeFile(QSettings &settings, const QString key,
-                   const QString fileName) const;
+    void copyConfigs(const QString &_localDir) const;
+    void copyExtensions(const QString &_item, const QString &_type,
+                        QSettings &_settings, const bool _inverse) const;
+    void copySettings(QSettings &_from, QSettings &_to) const;
+    void readFile(QSettings &_settings, const QString &_key,
+                  const QString &_fileName) const;
+    void writeFile(QSettings &_settings, const QString &_key,
+                   const QString &_fileName) const;
     // properties
     QString m_baseDir = QString("%1/awesomewidgets")
                             .arg(QStandardPaths::writableLocation(
                                 QStandardPaths::GenericDataLocation));
-    QStringList m_dirs = QStringList()
-                         << QString("desktops") << QString("quotes")
-                         << QString("scripts") << QString("upgrade")
-                         << QString("weather") << QString("formatters");
+    QStringList m_dirs = QStringList() << "desktops"
+                                       << "quotes"
+                                       << "scripts"
+                                       << "upgrade"
+                                       << "weather"
+                                       << "formatters";
 };
 
 

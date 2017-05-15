@@ -31,15 +31,15 @@ class AWFormatterHelper : public AbstractExtItemAggregator
     Q_OBJECT
 
 public:
-    explicit AWFormatterHelper(QWidget *parent = nullptr);
+    explicit AWFormatterHelper(QWidget *_parent = nullptr);
     virtual ~AWFormatterHelper();
-    QString convert(const QVariant &value, const QString &name) const;
+    QString convert(const QVariant &_value, const QString &_name) const;
     QStringList definedFormatters() const;
     QHash<QString, QString> getFormatters() const;
     QList<AbstractExtItem *> items() const;
     QStringList knownFormatters() const;
-    bool removeUnusedFormatters(const QStringList keys) const;
-    bool writeFormatters(const QHash<QString, QString> configuration) const;
+    bool removeUnusedFormatters(const QStringList &_keys) const;
+    bool writeFormatters(const QHash<QString, QString> &_configuration) const;
 
 public slots:
     void editItems();
@@ -47,12 +47,12 @@ public slots:
 private:
     // methods
     AWAbstractFormatter::FormatterClass
-    defineFormatterClass(const QString stringType) const;
+    defineFormatterClass(const QString &_stringType) const;
     void initFormatters();
     void initKeys();
     void installDirectories();
     QPair<QString, AWAbstractFormatter::FormatterClass>
-    readMetadata(const QString filePath) const;
+    readMetadata(const QString &_filePath) const;
     // parent methods
     void doCreateItem();
     void initItems();

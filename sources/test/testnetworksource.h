@@ -38,7 +38,7 @@ private slots:
 
 private:
     NetworkSource *source = nullptr;
-    QString src = QString("network/current/name");
+    QString src = "network/current/name";
 };
 
 

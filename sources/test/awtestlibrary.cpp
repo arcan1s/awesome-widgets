@@ -73,29 +73,29 @@ QPair<QString, QString> AWTestLibrary::randomFilenames()
 }
 
 
-int AWTestLibrary::randomInt(const int max)
+int AWTestLibrary::randomInt(const int _max)
 {
-    return qrand() % max;
+    return qrand() % _max;
 }
 
 
-QString AWTestLibrary::randomString(const int min, const int max)
+QString AWTestLibrary::randomString(const int _min, const int _max)
 {
     QString output;
 
-    int count = min + randomInt(max - min);
+    int count = _min + randomInt(_max - _min);
     for (int i = 0; i < count; i++)
-        output += QChar(randomChar());
+        output += randomChar();
 
     return output;
 }
 
 
-QStringList AWTestLibrary::randomStringList(const int max)
+QStringList AWTestLibrary::randomStringList(const int _max)
 {
     QStringList output;
 
-    int count = 1 + randomInt(max);
+    int count = 1 + randomInt(_max);
     for (int i = 0; i < count; i++)
         output.append(randomString());
 
@@ -103,14 +103,14 @@ QStringList AWTestLibrary::randomStringList(const int max)
 }
 
 
-QStringList AWTestLibrary::randomSelect(const QStringList available)
+QStringList AWTestLibrary::randomSelect(const QStringList &_available)
 {
     QSet<QString> output;
 
-    int count = 1 + randomInt(available.count());
+    int count = 1 + randomInt(_available.count());
     for (int i = 0; i < count; i++) {
-        int index = randomInt(available.count());
-        output << available.at(index);
+        int index = randomInt(_available.count());
+        output << _available.at(index);
     }
 
     return output.toList();

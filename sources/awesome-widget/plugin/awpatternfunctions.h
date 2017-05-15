@@ -34,20 +34,21 @@ typedef struct {
 } AWFunction;
 
 // insert methods
-QString expandLambdas(QString code, AWKeysAggregator *aggregator,
-                      const QVariantHash &metadata,
-                      const QStringList &usedKeys);
-QString expandTemplates(QString code);
-QList<AWFunction> findFunctionCalls(const QString function, const QString code);
-QString insertAllKeys(QString code, const QStringList keys);
-QString insertKeyCount(QString code, const QStringList keys);
-QString insertKeyNames(QString code, const QStringList keys);
-QString insertKeys(QString code, const QStringList keys);
-QString insertMacros(QString code);
+QString expandLambdas(QString _code, AWKeysAggregator *_aggregator,
+                      const QVariantHash &_metadata,
+                      const QStringList &_usedKeys);
+QString expandTemplates(QString _code);
+QList<AWFunction> findFunctionCalls(const QString &_function,
+                                    const QString &_code);
+QString insertAllKeys(QString _code, const QStringList &_keys);
+QString insertKeyCount(QString _code, const QStringList &_keys);
+QString insertKeyNames(QString _code, const QStringList &_keys);
+QString insertKeys(QString _code, const QStringList &_keys);
+QString insertMacros(QString _code);
 // find methods
-QStringList findKeys(const QString code, const QStringList keys,
-                     const bool isBars);
-QStringList findLambdas(const QString code);
+QStringList findKeys(const QString &_code, const QStringList &_keys,
+                     const bool _isBars);
+QStringList findLambdas(const QString &_code);
 };
 
 

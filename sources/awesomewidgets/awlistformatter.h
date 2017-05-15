@@ -34,30 +34,30 @@ class AWListFormatter : public AWAbstractFormatter
     Q_PROPERTY(bool sorted READ isSorted WRITE setSorted)
 
 public:
-    explicit AWListFormatter(QWidget *parent,
-                             const QString filePath = QString());
+    explicit AWListFormatter(QWidget *_parent = nullptr,
+                             const QString &_filePath = "");
     virtual ~AWListFormatter();
     QString convert(const QVariant &_value) const;
-    AWListFormatter *copy(const QString _fileName, const int _number);
+    AWListFormatter *copy(const QString &_fileName, const int _number);
     // properties
     QString filter() const;
     bool isSorted() const;
     QString separator() const;
-    void setFilter(const QString _filter);
-    void setSeparator(const QString _separator);
+    void setFilter(const QString &_filter);
+    void setSeparator(const QString &_separator);
     void setSorted(const bool _sorted);
 
 public slots:
     void readConfiguration();
-    int showConfiguration(const QVariant args = QVariant());
+    int showConfiguration(const QVariant &_args);
     void writeConfiguration() const;
 
 private:
     Ui::AWListFormatter *ui = nullptr;
     void translate();
     // properties
-    QString m_filter = QString();
-    QString m_separator = QString();
+    QString m_filter = "";
+    QString m_separator = "";
     bool m_sorted = false;
     QRegExp m_regex;
 };

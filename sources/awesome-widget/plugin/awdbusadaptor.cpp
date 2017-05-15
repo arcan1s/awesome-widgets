@@ -21,9 +21,9 @@
 #include "awkeys.h"
 
 
-AWDBusAdaptor::AWDBusAdaptor(AWKeys *parent)
-    : QDBusAbstractAdaptor(parent)
-    , m_plugin(parent)
+AWDBusAdaptor::AWDBusAdaptor(AWKeys *_parent)
+    : QDBusAbstractAdaptor(_parent)
+    , m_plugin(_parent)
 {
     qCDebug(LOG_DBUS) << __PRETTY_FUNCTION__;
 }
@@ -35,19 +35,19 @@ AWDBusAdaptor::~AWDBusAdaptor()
 }
 
 
-QString AWDBusAdaptor::Info(const QString key) const
+QString AWDBusAdaptor::Info(const QString &key) const
 {
     return m_plugin->infoByKey(key);
 }
 
 
-QStringList AWDBusAdaptor::Keys(const QString regexp) const
+QStringList AWDBusAdaptor::Keys(const QString &regexp) const
 {
     return m_plugin->dictKeys(true, regexp);
 }
 
 
-QString AWDBusAdaptor::Value(const QString key) const
+QString AWDBusAdaptor::Value(const QString &key) const
 {
     return m_plugin->valueByKey(key);
 }
@@ -59,7 +59,7 @@ qlonglong AWDBusAdaptor::WhoAmI() const
 }
 
 
-void AWDBusAdaptor::SetLogLevel(const QString what, const int level)
+void AWDBusAdaptor::SetLogLevel(const QString &what, const int level)
 {
     qCDebug(LOG_DBUS) << "Set log level" << level << "for" << what;
 
@@ -69,12 +69,12 @@ void AWDBusAdaptor::SetLogLevel(const QString what, const int level)
         return;
     }
 
-    for (auto lev : m_logLevels)
+    for (auto &lev : m_logLevels)
         SetLogLevel(what, lev, m_logLevels.indexOf(lev) >= level);
 }
 
 
-void AWDBusAdaptor::SetLogLevel(const QString what, const QString level,
+void AWDBusAdaptor::SetLogLevel(const QString &what, const QString &level,
                                 const bool enabled)
 {
     qCDebug(LOG_DBUS) << "Set log level" << level << "enabled" << enabled
@@ -86,7 +86,7 @@ void AWDBusAdaptor::SetLogLevel(const QString what, const QString level,
         return;
     }
 
-    QString state = enabled ? QString("true") : QString("false");
+    QString state = enabled ? "true" : "false";
     QLoggingCategory::setFilterRules(
         QString("%1.%2=%3").arg(what).arg(level).arg(state));
 }

@@ -28,14 +28,14 @@
 #include "awdebug.h"
 
 
-AWDateTimeFormatter::AWDateTimeFormatter(QWidget *parent,
-                                         const QString filePath)
-    : AWAbstractFormatter(parent, filePath)
+AWDateTimeFormatter::AWDateTimeFormatter(QWidget *_parent,
+                                         const QString &_filePath)
+    : AWAbstractFormatter(_parent, _filePath)
     , ui(new Ui::AWDateTimeFormatter)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    if (!filePath.isEmpty())
+    if (!_filePath.isEmpty())
         readConfiguration();
     ui->setupUi(this);
     translate();
@@ -58,7 +58,7 @@ QString AWDateTimeFormatter::convert(const QVariant &_value) const
 }
 
 
-AWDateTimeFormatter *AWDateTimeFormatter::copy(const QString _fileName,
+AWDateTimeFormatter *AWDateTimeFormatter::copy(const QString &_fileName,
                                                const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
@@ -86,7 +86,7 @@ bool AWDateTimeFormatter::translateString() const
 }
 
 
-void AWDateTimeFormatter::setFormat(const QString _format)
+void AWDateTimeFormatter::setFormat(const QString &_format)
 {
     qCDebug(LOG_LIB) << "Set format" << _format;
 
@@ -109,23 +109,23 @@ void AWDateTimeFormatter::readConfiguration()
 
     QSettings settings(fileName(), QSettings::IniFormat);
 
-    settings.beginGroup(QString("Desktop Entry"));
-    setFormat(settings.value(QString("X-AW-Format"), format()).toString());
+    settings.beginGroup("Desktop Entry");
+    setFormat(settings.value("X-AW-Format", format()).toString());
     setTranslateString(
-        settings.value(QString("X-AW-Translate"), translateString()).toBool());
+        settings.value("X-AW-Translate", translateString()).toBool());
     settings.endGroup();
 
     bumpApi(AW_FORMATTER_API);
 }
 
 
-int AWDateTimeFormatter::showConfiguration(const QVariant args)
+int AWDateTimeFormatter::showConfiguration(const QVariant &_args)
 {
-    Q_UNUSED(args)
+    Q_UNUSED(_args)
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
-    ui->label_typeValue->setText(QString("DateTime"));
+    ui->label_typeValue->setText("DateTime");
     ui->lineEdit_format->setText(format());
     ui->checkBox_translate->setCheckState(translateString() ? Qt::Checked
                                                             : Qt::Unchecked);
@@ -152,9 +152,9 @@ void AWDateTimeFormatter::writeConfiguration() const
     QSettings settings(writtableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
-    settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("X-AW-Format"), format());
-    settings.setValue(QString("X-AW-Translate"), translateString());
+    settings.beginGroup("Desktop Entry");
+    settings.setValue("X-AW-Format", format());
+    settings.setValue("X-AW-Translate", translateString());
     settings.endGroup();
 
     settings.sync();

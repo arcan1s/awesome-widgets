@@ -36,8 +36,8 @@
 #include "awdebug.h"
 
 
-DPAdds::DPAdds(QObject *parent)
-    : QObject(parent)
+DPAdds::DPAdds(QObject *_parent)
+    : QObject(_parent)
 {
     qSetMessagePattern(AWDebug::LOG_FORMAT);
     qCDebug(LOG_DP) << __PRETTY_FUNCTION__;
@@ -72,21 +72,21 @@ int DPAdds::currentDesktop() const
 }
 
 
-QStringList DPAdds::dictKeys(const bool sorted, const QString regexp) const
+QStringList DPAdds::dictKeys(const bool _sorted, const QString &_regexp) const
 {
-    qCDebug(LOG_DP) << "Should be sorted" << sorted << "and filter applied"
-                    << regexp;
+    qCDebug(LOG_DP) << "Should be sorted" << _sorted << "and filter applied"
+                    << _regexp;
 
     QStringList allKeys;
-    allKeys.append(QString("mark"));
-    allKeys.append(QString("name"));
-    allKeys.append(QString("number"));
-    allKeys.append(QString("total"));
+    allKeys.append("mark");
+    allKeys.append("name");
+    allKeys.append("number");
+    allKeys.append("total");
 
-    if (sorted)
+    if (_sorted)
         allKeys.sort();
 
-    return allKeys.filter(QRegExp(regexp));
+    return allKeys.filter(QRegExp(_regexp));
 }
 
 
@@ -96,36 +96,38 @@ int DPAdds::numberOfDesktops() const
 }
 
 
-QString DPAdds::toolTipImage(const int desktop) const
+QString DPAdds::toolTipImage(const int _desktop) const
 {
-    qCDebug(LOG_DP) << "Desktop" << desktop;
+    qCDebug(LOG_DP) << "Desktop" << _desktop;
     // drop if no tooltip required
-    if (m_tooltipType == QString("none"))
-        return QString();
+    if (m_tooltipType == "none")
+        return "";
 
     // prepare
-    DesktopWindowsInfo info = getInfoByDesktop(desktop);
+    DesktopWindowsInfo info = getInfoByDesktop(_desktop);
     // special tooltip format for names
-    if (m_tooltipType == QString("names")) {
+    if (m_tooltipType == "names") {
         QStringList windowList;
         std::for_each(
             info.windowsData.cbegin(), info.windowsData.cend(),
             [&windowList](WindowData data) { windowList.append(data.name); });
         return QString("<ul><li>%1</li></ul>")
-            .arg(windowList.join(QString("</li><li>")));
+            .arg(windowList.join("</li><li>"));
     }
+
     // init
     QGraphicsScene *toolTipScene = new QGraphicsScene();
     QGraphicsView *toolTipView = new QGraphicsView(toolTipScene);
-    toolTipView->setStyleSheet(QString("background: transparent"));
+    toolTipView->setStyleSheet("background: transparent");
     toolTipView->setContentsMargins(0, 0, 0, 0);
     toolTipView->setFrameShape(QFrame::NoFrame);
     toolTipView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     toolTipView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
     // update
-    float margin = 5.0 * info.desktop.width() / 400.0;
-    toolTipView->resize(info.desktop.width() + 2.0 * margin,
-                        info.desktop.height() + 2.0 * margin);
+    float margin = 5.0f * info.desktop.width() / 400.0f;
+    toolTipView->resize(info.desktop.width() + 2.0f * margin,
+                        info.desktop.height() + 2.0f * margin);
     toolTipScene->clear();
     toolTipScene->setBackgroundBrush(QBrush(Qt::NoBrush));
     // borders
@@ -138,11 +140,11 @@ QString DPAdds::toolTipImage(const int desktop) const
                           info.desktop.width() + 2.0 * margin, 0);
     toolTipScene->addLine(info.desktop.width() + 2.0 * margin, 0, 0, 0);
 
-    if (m_tooltipType == QString("contours")) {
+    if (m_tooltipType == "contours") {
         QPen pen = QPen();
         pen.setWidthF(2.0 * info.desktop.width() / 400.0);
         pen.setColor(QColor(m_tooltipColor));
-        for (auto data : info.windowsData) {
+        for (auto &data : info.windowsData) {
             QRect rect = data.rect;
             toolTipScene->addLine(rect.left() + margin, rect.bottom() + margin,
                                   rect.left() + margin, rect.top() + margin,
@@ -157,24 +159,24 @@ QString DPAdds::toolTipImage(const int desktop) const
                                   rect.left() + margin, rect.bottom() + margin,
                                   pen);
         }
-    } else if (m_tooltipType == QString("clean")) {
+    } else if (m_tooltipType == "clean") {
         QScreen *screen = QGuiApplication::primaryScreen();
         std::for_each(info.desktopsData.cbegin(), info.desktopsData.cend(),
-                      [&toolTipScene, &screen](WindowData data) {
+                      [&toolTipScene, &screen](const WindowData &data) {
                           QPixmap desktop = screen->grabWindow(data.id);
                           toolTipScene->addPixmap(desktop)->setOffset(
                               data.rect.left(), data.rect.top());
                       });
-    } else if (m_tooltipType == QString("windows")) {
+    } else if (m_tooltipType == "windows") {
         QScreen *screen = QGuiApplication::primaryScreen();
         std::for_each(info.desktopsData.cbegin(), info.desktopsData.cend(),
-                      [&toolTipScene, &screen](WindowData data) {
+                      [&toolTipScene, &screen](const WindowData &data) {
                           QPixmap desktop = screen->grabWindow(data.id);
                           toolTipScene->addPixmap(desktop)->setOffset(
                               data.rect.left(), data.rect.top());
                       });
         std::for_each(info.windowsData.cbegin(), info.windowsData.cend(),
-                      [&toolTipScene, &screen](WindowData data) {
+                      [&toolTipScene, &screen](const WindowData &data) {
                           QPixmap window = screen->grabWindow(data.id);
                           toolTipScene->addPixmap(window)->setOffset(
                               data.rect.left(), data.rect.top());
@@ -194,135 +196,134 @@ QString DPAdds::toolTipImage(const int desktop) const
 }
 
 
-QString DPAdds::parsePattern(const QString pattern, const int desktop) const
+QString DPAdds::parsePattern(const QString &_pattern, const int _desktop) const
 {
-    qCDebug(LOG_DP) << "Pattern" << pattern << "for desktop" << desktop;
+    qCDebug(LOG_DP) << "Pattern" << _pattern << "for desktop" << _desktop;
 
-    QString parsed = pattern;
-    parsed.replace(QString("$$"), QString("$\\$\\"));
-    for (auto key : dictKeys())
-        parsed.replace(QString("$%1").arg(key), valueByKey(key, desktop));
-    parsed.replace(QString("$\\$\\"), QString("$$"));
+    QString parsed = _pattern;
+    parsed.replace("$$", "$\\$\\");
+    for (auto &key : dictKeys())
+        parsed.replace(QString("$%1").arg(key), valueByKey(key, _desktop));
+    parsed.replace("$\\$\\", "$$");
 
     return parsed;
 }
 
 
-void DPAdds::setMark(const QString newMark)
+void DPAdds::setMark(const QString &_newMark)
 {
-    qCDebug(LOG_DP) << "Mark" << newMark;
+    qCDebug(LOG_DP) << "Mark" << _newMark;
 
-    m_mark = newMark;
+    m_mark = _newMark;
 }
 
 
-void DPAdds::setToolTipData(const QVariantMap tooltipData)
+void DPAdds::setToolTipData(const QVariantMap &_tooltipData)
 {
-    qCDebug(LOG_DP) << "Data" << tooltipData;
+    qCDebug(LOG_DP) << "Data" << _tooltipData;
 
-    m_tooltipColor = tooltipData[QString("tooltipColor")].toString();
-    m_tooltipType = tooltipData[QString("tooltipType")].toString();
-    m_tooltipWidth = tooltipData[QString("tooltipWidth")].toInt();
+    m_tooltipColor = _tooltipData["tooltipColor"].toString();
+    m_tooltipType = _tooltipData["tooltipType"].toString();
+    m_tooltipWidth = _tooltipData["tooltipWidth"].toInt();
 }
 
 
-QString DPAdds::infoByKey(QString key) const
+QString DPAdds::infoByKey(const QString &_key) const
 {
-    qCDebug(LOG_AW) << "Requested info for key" << key;
+    qCDebug(LOG_AW) << "Requested info for key" << _key;
 
-    return QString("(none)");
+    return "(none)";
 }
 
 
-QString DPAdds::valueByKey(const QString key, int desktop) const
+QString DPAdds::valueByKey(const QString &_key, int _desktop) const
 {
-    qCDebug(LOG_DP) << "Requested key" << key << "for desktop" << desktop;
-    if (desktop == -1)
-        desktop = currentDesktop();
+    qCDebug(LOG_DP) << "Requested key" << _key << "for desktop" << _desktop;
+    if (_desktop == -1)
+        _desktop = currentDesktop();
 
-    QString currentMark = currentDesktop() == desktop ? m_mark : QString("");
-    if (key == QString("mark"))
+    QString currentMark = currentDesktop() == _desktop ? m_mark : "";
+    if (_key == "mark")
         return QString("%1")
             .arg(currentMark, m_mark.count(), QLatin1Char(' '))
-            .replace(QString(" "), QString("&nbsp;"));
-    else if (key == QString("name"))
-        return KWindowSystem::desktopName(desktop).replace(QString(" "),
-                                                           QString("&nbsp;"));
-    else if (key == QString("number"))
-        return QString::number(desktop);
-    else if (key == QString("total"))
+            .replace(" ", "&nbsp;");
+    else if (_key == "name")
+        return KWindowSystem::desktopName(_desktop).replace(" ", "&nbsp;");
+    else if (_key == "number")
+        return QString::number(_desktop);
+    else if (_key == "total")
         return QString::number(numberOfDesktops());
     else
-        return QString();
+        return "";
 }
 
 
 // HACK: this method uses variables from version.h
-QString DPAdds::getAboutText(const QString type) const
+QString DPAdds::getAboutText(const QString &_type) const
 {
-    qCDebug(LOG_DP) << "Type" << type;
+    qCDebug(LOG_DP) << "Type" << _type;
 
-    return AWDebug::getAboutText(type);
+    return AWDebug::getAboutText(_type);
 }
 
 
-QVariantMap DPAdds::getFont(const QVariantMap defaultFont) const
+QVariantMap DPAdds::getFont(const QVariantMap &_defaultFont) const
 {
-    qCDebug(LOG_DP) << "Default font is" << defaultFont;
+    qCDebug(LOG_DP) << "Default font is" << _defaultFont;
 
     QVariantMap fontMap;
     int ret = 0;
-    CFont defaultCFont = CFont(defaultFont[QString("family")].toString(),
-                               defaultFont[QString("size")].toInt(), 400, false,
-                               defaultFont[QString("color")].toString());
+    CFont defaultCFont
+        = CFont(_defaultFont["family"].toString(), _defaultFont["size"].toInt(),
+                400, false, _defaultFont["color"].toString());
     CFont font = CFontDialog::getFont(i18n("Select font"), defaultCFont, false,
                                       false, &ret);
 
-    fontMap[QString("applied")] = ret;
-    fontMap[QString("color")] = font.color().name();
-    fontMap[QString("family")] = font.family();
-    fontMap[QString("size")] = font.pointSize();
+    fontMap["applied"] = ret;
+    fontMap["color"] = font.color().name();
+    fontMap["family"] = font.family();
+    fontMap["size"] = font.pointSize();
 
     return fontMap;
 }
 
 
 // to avoid additional object definition this method is static
-void DPAdds::sendNotification(const QString eventId, const QString message)
+void DPAdds::sendNotification(const QString &_eventId, const QString &_message)
 {
-    qCDebug(LOG_DP) << "Event" << eventId << "with message" << message;
+    qCDebug(LOG_DP) << "Event" << _eventId << "with message" << _message;
 
     KNotification *notification = KNotification::event(
-        eventId, QString("Desktop Panel ::: %1").arg(eventId), message);
+        _eventId, QString("Desktop Panel ::: %1").arg(_eventId), _message);
     notification->setComponentName(
-        QString("plasma-applet-org.kde.plasma.desktop-panel"));
+        "plasma-applet-org.kde.plasma.desktop-panel");
 }
 
 
 // slot for mouse click
-void DPAdds::setCurrentDesktop(const int desktop) const
+void DPAdds::setCurrentDesktop(const int _desktop) const
 {
-    qCDebug(LOG_DP) << "Desktop" << desktop;
+    qCDebug(LOG_DP) << "Desktop" << _desktop;
 
-    KWindowSystem::setCurrentDesktop(desktop);
+    KWindowSystem::setCurrentDesktop(_desktop);
 }
 
 
-DPAdds::DesktopWindowsInfo DPAdds::getInfoByDesktop(const int desktop) const
+DPAdds::DesktopWindowsInfo DPAdds::getInfoByDesktop(const int _desktop) const
 {
-    qCDebug(LOG_DP) << "Desktop" << desktop;
+    qCDebug(LOG_DP) << "Desktop" << _desktop;
 
 
     DesktopWindowsInfo info;
-    info.desktop = KWindowSystem::workArea(desktop);
+    info.desktop = KWindowSystem::workArea(_desktop);
 
-    for (auto id : KWindowSystem::windows()) {
+    for (auto &id : KWindowSystem::windows()) {
         KWindowInfo winInfo = KWindowInfo(
             id,
             NET::Property::WMDesktop | NET::Property::WMGeometry
                 | NET::Property::WMState | NET::Property::WMWindowType
                 | NET::Property::WMVisibleName);
-        if (!winInfo.isOnDesktop(desktop))
+        if (!winInfo.isOnDesktop(_desktop))
             continue;
         WindowData data;
         data.id = id;

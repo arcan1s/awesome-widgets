@@ -54,7 +54,7 @@ void TestAWJsonFormatter::test_conversion()
 
 void TestAWJsonFormatter::test_copy()
 {
-    AWJsonFormatter *newFormatter = formatter->copy(QString("/dev/null"), 1);
+    AWJsonFormatter *newFormatter = formatter->copy("/dev/null", 1);
 
     QCOMPARE(newFormatter->path(), formatter->path());
     QCOMPARE(newFormatter->number(), 1);

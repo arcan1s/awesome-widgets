@@ -44,8 +44,8 @@ private slots:
 private:
     void run();
     ExtWeather *extWeather = nullptr;
-    QString city = QString("London");
-    QString country = QString("uk");
+    QString city = "London";
+    QString country = "uk";
     // humidity is in percents
     QPair<int, int> humidity = QPair<int, int>(0, 100);
     // pressure should be about 1 atm

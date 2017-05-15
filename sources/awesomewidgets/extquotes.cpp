@@ -33,26 +33,26 @@
 #include "awdebug.h"
 
 
-ExtQuotes::ExtQuotes(QWidget *parent, const QString filePath)
-    : AbstractExtItem(parent, filePath)
+ExtQuotes::ExtQuotes(QWidget *_parent, const QString &_filePath)
+    : AbstractExtItem(_parent, _filePath)
     , ui(new Ui::ExtQuotes)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    if (!filePath.isEmpty())
+    if (!_filePath.isEmpty())
         readConfiguration();
     ui->setupUi(this);
     translate();
 
-    m_values[tag(QString("ask"))] = 0.0;
-    m_values[tag(QString("askchg"))] = 0.0;
-    m_values[tag(QString("percaskchg"))] = 0.0;
-    m_values[tag(QString("bid"))] = 0.0;
-    m_values[tag(QString("bidchg"))] = 0.0;
-    m_values[tag(QString("percbidchg"))] = 0.0;
-    m_values[tag(QString("price"))] = 0.0;
-    m_values[tag(QString("pricechg"))] = 0.0;
-    m_values[tag(QString("percpricechg"))] = 0.0;
+    m_values[tag("ask")] = 0.0;
+    m_values[tag("askchg")] = 0.0;
+    m_values[tag("percaskchg")] = 0.0;
+    m_values[tag("bid")] = 0.0;
+    m_values[tag("bidchg")] = 0.0;
+    m_values[tag("percbidchg")] = 0.0;
+    m_values[tag("price")] = 0.0;
+    m_values[tag("pricechg")] = 0.0;
+    m_values[tag("percpricechg")] = 0.0;
 
     // HACK declare as child of nullptr to avoid crash with plasmawindowed
     // in the destructor
@@ -77,7 +77,7 @@ ExtQuotes::~ExtQuotes()
 }
 
 
-ExtQuotes *ExtQuotes::copy(const QString _fileName, const int _number)
+ExtQuotes *ExtQuotes::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
@@ -103,7 +103,7 @@ QString ExtQuotes::uniq() const
 }
 
 
-void ExtQuotes::setTicker(const QString _ticker)
+void ExtQuotes::setTicker(const QString &_ticker)
 {
     qCDebug(LOG_LIB) << "Ticker" << _ticker;
 
@@ -118,8 +118,8 @@ void ExtQuotes::readConfiguration()
 
     QSettings settings(fileName(), QSettings::IniFormat);
 
-    settings.beginGroup(QString("Desktop Entry"));
-    setTicker(settings.value(QString("X-AW-Ticker"), ticker()).toString());
+    settings.beginGroup("Desktop Entry");
+    setTicker(settings.value("X-AW-Ticker", ticker()).toString());
     settings.endGroup();
 
     bumpApi(AW_EXTQUOTES_API);
@@ -136,9 +136,9 @@ QVariantHash ExtQuotes::run()
 }
 
 
-int ExtQuotes::showConfiguration(const QVariant args)
+int ExtQuotes::showConfiguration(const QVariant &_args)
 {
-    Q_UNUSED(args)
+    Q_UNUSED(_args)
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -175,67 +175,59 @@ void ExtQuotes::writeConfiguration() const
     QSettings settings(writtableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
-    settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("X-AW-Ticker"), ticker());
+    settings.beginGroup("Desktop Entry");
+    settings.setValue("X-AW-Ticker", ticker());
     settings.endGroup();
 
     settings.sync();
 }
 
-void ExtQuotes::quotesReplyReceived(QNetworkReply *reply)
+void ExtQuotes::quotesReplyReceived(QNetworkReply *_reply)
 {
-    if (reply->error() != QNetworkReply::NoError) {
-        qCWarning(LOG_AW) << "An error occurs" << reply->error()
-                          << "with message" << reply->errorString();
+    if (_reply->error() != QNetworkReply::NoError) {
+        qCWarning(LOG_AW) << "An error occurs" << _reply->error()
+                          << "with message" << _reply->errorString();
         return;
     }
 
     m_isRunning = false;
     QJsonParseError error;
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll(), &error);
-    reply->deleteLater();
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(_reply->readAll(), &error);
+    _reply->deleteLater();
     if (error.error != QJsonParseError::NoError) {
         qCWarning(LOG_LIB) << "Parse error" << error.errorString();
         return;
     }
-    QVariantMap jsonQuotes
-        = jsonDoc.toVariant().toMap()[QString("query")].toMap();
-    jsonQuotes
-        = jsonQuotes[QString("results")].toMap()[QString("quote")].toMap();
+    QVariantMap jsonQuotes = jsonDoc.toVariant().toMap()["query"].toMap();
+    jsonQuotes = jsonQuotes["results"].toMap()["quote"].toMap();
     double value;
 
     // ask
-    value = jsonQuotes[QString("Ask")].toString().toDouble();
-    m_values[tag(QString("askchg"))]
-        = m_values[tag(QString("ask"))].toDouble() == 0.0
-              ? 0.0
-              : value - m_values[tag(QString("ask"))].toDouble();
-    m_values[tag(QString("percaskchg"))]
-        = 100.0 * m_values[tag(QString("askchg"))].toDouble()
-          / m_values[tag(QString("ask"))].toDouble();
-    m_values[tag(QString("ask"))] = value;
+    value = jsonQuotes["Ask"].toString().toDouble();
+    m_values[tag("askchg")] = m_values[tag("ask")].toDouble() == 0.0
+                                  ? 0.0
+                                  : value - m_values[tag("ask")].toDouble();
+    m_values[tag("percaskchg")] = 100.0 * m_values[tag("askchg")].toDouble()
+                                  / m_values[tag("ask")].toDouble();
+    m_values[tag("ask")] = value;
 
     // bid
-    value = jsonQuotes[QString("Bid")].toString().toDouble();
-    m_values[tag(QString("bidchg"))]
-        = m_values[tag(QString("bid"))].toDouble() == 0.0
-              ? 0.0
-              : value - m_values[tag(QString("bid"))].toDouble();
-    m_values[tag(QString("percbidchg"))]
-        = 100.0 * m_values[tag(QString("bidchg"))].toDouble()
-          / m_values[tag(QString("bid"))].toDouble();
-    m_values[tag(QString("bid"))] = value;
+    value = jsonQuotes["Bid"].toString().toDouble();
+    m_values[tag("bidchg")] = m_values[tag("bid")].toDouble() == 0.0
+                                  ? 0.0
+                                  : value - m_values[tag("bid")].toDouble();
+    m_values[tag("percbidchg")] = 100.0 * m_values[tag("bidchg")].toDouble()
+                                  / m_values[tag("bid")].toDouble();
+    m_values[tag("bid")] = value;
 
     // last trade
-    value = jsonQuotes[QString("LastTradePriceOnly")].toString().toDouble();
-    m_values[tag(QString("pricechg"))]
-        = m_values[tag(QString("price"))].toDouble() == 0.0
-              ? 0.0
-              : value - m_values[tag(QString("price"))].toDouble();
-    m_values[tag(QString("percpricechg"))]
-        = 100.0 * m_values[tag(QString("pricechg"))].toDouble()
-          / m_values[tag(QString("price"))].toDouble();
-    m_values[tag(QString("price"))] = value;
+    value = jsonQuotes["LastTradePriceOnly"].toString().toDouble();
+    m_values[tag("pricechg")] = m_values[tag("price")].toDouble() == 0.0
+                                    ? 0.0
+                                    : value - m_values[tag("price")].toDouble();
+    m_values[tag("percpricechg")] = 100.0 * m_values[tag("pricechg")].toDouble()
+                                    / m_values[tag("price")].toDouble();
+    m_values[tag("price")] = value;
 
     emit(dataReceived(m_values));
 }
@@ -254,11 +246,9 @@ void ExtQuotes::initUrl()
     // init query
     m_url = QUrl(YAHOO_QUOTES_URL);
     QUrlQuery params;
-    params.addQueryItem(QString("format"), QString("json"));
-    params.addQueryItem(QString("env"),
-                        QString("store://datatables.org/alltableswithkeys"));
-    params.addQueryItem(QString("q"),
-                        QString(YAHOO_QUOTES_QUERY).arg(ticker()));
+    params.addQueryItem("format", "json");
+    params.addQueryItem("env", "store://datatables.org/alltableswithkeys");
+    params.addQueryItem("q", QString(YAHOO_QUOTES_QUERY).arg(ticker()));
     m_url.setQuery(params);
 }
 

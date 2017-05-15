@@ -33,24 +33,25 @@ class AWTelemetryHandler : public QObject
 public:
     const char *REMOTE_TELEMETRY_URL = "https://arcanis.me/telemetry";
 
-    explicit AWTelemetryHandler(QObject *parent = nullptr,
-                                const QString clientId = QString());
+    explicit AWTelemetryHandler(QObject *_parent = nullptr,
+                                const QString &_clientId = "");
     virtual ~AWTelemetryHandler();
-    Q_INVOKABLE QStringList get(const QString group) const;
-    Q_INVOKABLE QString getLast(const QString group) const;
-    Q_INVOKABLE void init(const int count, const bool enableRemote,
-                          const QString clientId);
-    Q_INVOKABLE bool put(const QString group, const QString value) const;
-    Q_INVOKABLE void uploadTelemetry(const QString group, const QString value);
+    Q_INVOKABLE QStringList get(const QString &_group) const;
+    Q_INVOKABLE QString getLast(const QString &_group) const;
+    Q_INVOKABLE void init(const int _count, const bool _enableRemote,
+                          const QString &_clientId);
+    Q_INVOKABLE bool put(const QString &_group, const QString &_value) const;
+    Q_INVOKABLE void uploadTelemetry(const QString &_group,
+                                     const QString &_value);
 
 signals:
-    void replyReceived(QString message);
+    void replyReceived(const QString &_message);
 
 private slots:
-    void telemetryReplyRecieved(QNetworkReply *reply);
+    void telemetryReplyRecieved(QNetworkReply *_reply);
 
 private:
-    QString getKey(const int count) const;
+    QString getKey(const int _count) const;
     QString m_clientId;
     QString m_localFile;
     int m_storeCount = 0;

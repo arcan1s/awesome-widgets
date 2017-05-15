@@ -57,7 +57,7 @@ void TestAWNoFormatter::test_conversion()
 
 void TestAWNoFormatter::test_copy()
 {
-    AWNoFormatter *newFormatter = formatter->copy(QString("/dev/null"), 1);
+    AWNoFormatter *newFormatter = formatter->copy("/dev/null", 1);
 
     QCOMPARE(newFormatter->number(), 1);
 

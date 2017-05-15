@@ -18,6 +18,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.3 as QtControls
 import QtQuick.Dialogs 1.2 as QtDialogs
+import QtQuick.Layouts 1.2 as QtLayouts
 
 import org.kde.plasma.private.awesomewidget 1.0
 
@@ -31,99 +32,104 @@ QtDialogs.Dialog {
         id: awBugReporter
     }
 
-    width: 480
-    height: 640
+    width: 640
+    height: 480
     property bool debug: awActions.isDebugEnabled()
 
 
     title: i18n("Report a bug")
     standardButtons: QtDialogs.StandardButton.Ok | QtDialogs.StandardButton.Cancel | QtDialogs.StandardButton.Reset
 
-    QtControls.TextField {
-        id: title
-        width: parent.width
-        placeholderText: i18n("Report subject")
-    }
-    Column {
-        id: body
-        width: parent.width
-        anchors.top: title.bottom
-        anchors.bottom: parent.bottom
+    QtLayouts.ColumnLayout {
+        anchors.fill: parent
 
-        QtControls.GroupBox {
-            width: parent.width
-            height: parent.height / 5
-            title: i18n("Description")
-            QtControls.TextArea {
-                id: description
-                width: parent.width
-                height: parent.height
-                textFormat: TextEdit.PlainText
-            }
+        QtControls.TextField {
+            id: title
+            anchors.left: parent.left
+            anchors.right: parent.right
+            placeholderText: i18n("Report subject")
         }
-        QtControls.GroupBox {
-            width: parent.width
-            height: parent.height / 5
-            title: i18n("Steps to reproduce")
-            QtControls.TextArea {
-                id: reproduce
-                width: parent.width
-                height: parent.height
-                textFormat: TextEdit.PlainText
-            }
-        }
-        QtControls.GroupBox {
-            width: parent.width
-            height: parent.height / 5
-            title: i18n("Expected result")
-            QtControls.TextArea {
-                id: expected
-                width: parent.width
-                height: parent.height
-                textFormat: TextEdit.PlainText
-            }
-        }
-        QtControls.GroupBox {
-            width: parent.width
-            height: parent.height * 2 / 5
-            title: i18n("Logs")
-            Row {
-                id: debugCmdLabel
-                width: parent.width
-                QtControls.Label {
-                    width: parent.width * 2 / 5
-                    horizontalAlignment: Text.AlignJustify
-                    verticalAlignment: Text.AlignVCenter
-                    wrapMode: Text.WordWrap
-                    text: i18n("Use command")
-                }
-                QtControls.TextField {
-                    id: customTime
-                    width: parent.width * 3 / 5
-                    readOnly: true
-                    text: "QT_LOGGING_RULES=*=true plasmawindowed org.kde.plasma.awesomewidget"
+        QtLayouts.ColumnLayout {
+            anchors.left: parent.left
+            anchors.right: parent.right
+
+            QtControls.GroupBox {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                height: parent.height / 5
+                title: i18n("Description")
+                QtControls.TextArea {
+                    id: description
+                    anchors.fill: parent
+                    textFormat: TextEdit.PlainText
                 }
             }
-            QtControls.Button {
-                id: logButton
-                anchors.top: debugCmdLabel.bottom
-                width: parent.width
-                text: i18n("Load log file")
-                onClicked: logPath.open()
+            QtControls.GroupBox {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                height: parent.height / 5
+                title: i18n("Steps to reproduce")
+                QtControls.TextArea {
+                    id: reproduce
+                    anchors.fill: parent
+                    textFormat: TextEdit.PlainText
+                }
             }
-            QtControls.TextArea {
-                anchors.top: logButton.bottom
+            QtControls.GroupBox {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                height: parent.height / 5
+                title: i18n("Expected result")
+                QtControls.TextArea {
+                    id: expected
+                    anchors.fill: parent
+                    textFormat: TextEdit.PlainText
+                }
+            }
+            QtControls.GroupBox {
+                anchors.left: parent.left
+                anchors.right: parent.right
                 anchors.bottom: parent.bottom
-                id: logBody
-                width: parent.width
-                textFormat: TextEdit.PlainText
-            }
+                title: i18n("Logs")
+                QtLayouts.ColumnLayout {
+                    anchors.fill: parent
+                    Row {
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        QtControls.Label {
+                            width: parent.width * 2 / 5
+                            horizontalAlignment: Text.AlignJustify
+                            verticalAlignment: Text.AlignVCenter
+                            wrapMode: Text.WordWrap
+                            text: i18n("Use command")
+                        }
+                        QtControls.TextField {
+                            width: parent.width * 3 / 5
+                            readOnly: true
+                            text: "QT_LOGGING_RULES=*=true plasmawindowed org.kde.plasma.awesomewidget"
+                        }
+                    }
+                    QtControls.Button {
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        text: i18n("Load log file")
+                        onClicked: logPath.open()
+                    }
+                    QtControls.TextArea {
+                        id: logBody
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
+                        textFormat: TextEdit.PlainText
+                    }
+                }
 
-            QtDialogs.FileDialog {
-                id: logPath
-                title: i18n("Open log file")
-                onAccepted:
+                QtDialogs.FileDialog {
+                    id: logPath
+                    title: i18n("Open log file")
+                    onAccepted:
                     logBody.text = awActions.getFileContent(logPath.fileUrl.toString().replace("file://", ""))
+                }
             }
         }
     }

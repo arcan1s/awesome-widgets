@@ -28,10 +28,10 @@ class DesktopSource : public AbstractExtSysMonSource
     Q_OBJECT
 
 public:
-    explicit DesktopSource(QObject *parent, const QStringList args);
+    explicit DesktopSource(QObject *_parent, const QStringList &_args);
     virtual ~DesktopSource();
-    QVariant data(QString source);
-    QVariantMap initialData(QString source) const;
+    QVariant data(const QString &_source);
+    QVariantMap initialData(const QString &_source) const;
     void run(){};
     QStringList sources() const;
 };

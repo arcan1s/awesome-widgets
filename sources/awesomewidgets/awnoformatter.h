@@ -31,13 +31,14 @@ class AWNoFormatter : public AWAbstractFormatter
     Q_OBJECT
 
 public:
-    explicit AWNoFormatter(QWidget *parent, const QString filePath = QString());
+    explicit AWNoFormatter(QWidget *_parent = nullptr,
+                           const QString &_filePath = "");
     virtual ~AWNoFormatter();
     QString convert(const QVariant &_value) const;
-    AWNoFormatter *copy(const QString _fileName, const int _number);
+    AWNoFormatter *copy(const QString &_fileName, const int _number);
 
 public slots:
-    int showConfiguration(const QVariant args = QVariant());
+    int showConfiguration(const QVariant &_args);
 
 private:
     Ui::AWNoFormatter *ui = nullptr;

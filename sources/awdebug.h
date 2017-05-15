@@ -31,7 +31,7 @@ const char LOG_FORMAT[] = "[%{time "
                           "fatal}FF%{endif}][%{category}][%{function}] "
                           "%{message}";
 
-QString getAboutText(const QString type);
+QString getAboutText(const QString &_type);
 QStringList getBuildData();
 }
 

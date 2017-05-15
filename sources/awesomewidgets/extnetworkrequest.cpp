@@ -31,18 +31,18 @@
 #include "awdebug.h"
 
 
-ExtNetworkRequest::ExtNetworkRequest(QWidget *parent, const QString filePath)
-    : AbstractExtItem(parent, filePath)
+ExtNetworkRequest::ExtNetworkRequest(QWidget *_parent, const QString &_filePath)
+    : AbstractExtItem(_parent, _filePath)
     , ui(new Ui::ExtNetworkRequest)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    if (!filePath.isEmpty())
+    if (!_filePath.isEmpty())
         readConfiguration();
     ui->setupUi(this);
     translate();
 
-    m_values[tag(QString("response"))] = QString();
+    m_values[tag("response")] = "";
 
     // HACK declare as child of nullptr to avoid crash with plasmawindowed
     // in the destructor
@@ -67,7 +67,7 @@ ExtNetworkRequest::~ExtNetworkRequest()
 }
 
 
-ExtNetworkRequest *ExtNetworkRequest::copy(const QString _fileName,
+ExtNetworkRequest *ExtNetworkRequest::copy(const QString &_fileName,
                                            const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
@@ -94,7 +94,7 @@ QString ExtNetworkRequest::uniq() const
 }
 
 
-void ExtNetworkRequest::setStringUrl(const QString _url)
+void ExtNetworkRequest::setStringUrl(const QString &_url)
 {
     qCDebug(LOG_LIB) << "Url" << _url;
 
@@ -109,8 +109,8 @@ void ExtNetworkRequest::readConfiguration()
 
     QSettings settings(fileName(), QSettings::IniFormat);
 
-    settings.beginGroup(QString("Desktop Entry"));
-    setStringUrl(settings.value(QString("X-AW-Url"), stringUrl()).toString());
+    settings.beginGroup("Desktop Entry");
+    setStringUrl(settings.value("X-AW-Url", stringUrl()).toString());
     settings.endGroup();
 
     bumpApi(AW_EXTNETREQUEST_API);
@@ -127,9 +127,9 @@ QVariantHash ExtNetworkRequest::run()
 }
 
 
-int ExtNetworkRequest::showConfiguration(const QVariant args)
+int ExtNetworkRequest::showConfiguration(const QVariant &_args)
 {
-    Q_UNUSED(args)
+    Q_UNUSED(_args)
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -166,24 +166,24 @@ void ExtNetworkRequest::writeConfiguration() const
     QSettings settings(writtableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
-    settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("X-AW-Url"), stringUrl());
+    settings.beginGroup("Desktop Entry");
+    settings.setValue("X-AW-Url", stringUrl());
     settings.endGroup();
 
     settings.sync();
 }
 
-void ExtNetworkRequest::networkReplyReceived(QNetworkReply *reply)
+void ExtNetworkRequest::networkReplyReceived(QNetworkReply *_reply)
 {
-    if (reply->error() != QNetworkReply::NoError) {
-        qCWarning(LOG_AW) << "An error occurs" << reply->error()
-                          << "with message" << reply->errorString();
+    if (_reply->error() != QNetworkReply::NoError) {
+        qCWarning(LOG_AW) << "An error occurs" << _reply->error()
+                          << "with message" << _reply->errorString();
         return;
     }
 
     m_isRunning = false;
-    m_values[tag(QString("response"))]
-        = QTextCodec::codecForMib(106)->toUnicode(reply->readAll()).trimmed();
+    m_values[tag("response")]
+        = QTextCodec::codecForMib(106)->toUnicode(_reply->readAll()).trimmed();
 
     emit(dataReceived(m_values));
 }

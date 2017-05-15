@@ -40,7 +40,7 @@ private slots:
 private:
     GPUTemperatureSource *source = nullptr;
     QString device;
-    QString src = QString("gpu/temperature");
+    QString src = "gpu/temperature";
     QPair<float, float> temp = QPair<float, float>(0.0f, 120.0f);
 };
 

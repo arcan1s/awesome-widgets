@@ -41,41 +41,42 @@ class DPAdds : public QObject
     } DesktopWindowsInfo;
 
 public:
-    explicit DPAdds(QObject *parent = nullptr);
+    explicit DPAdds(QObject *_parent = nullptr);
     virtual ~DPAdds();
     Q_INVOKABLE bool isDebugEnabled() const;
     Q_INVOKABLE int currentDesktop() const;
-    Q_INVOKABLE QStringList dictKeys(const bool sorted = true,
-                                     const QString regexp = QString()) const;
+    Q_INVOKABLE QStringList dictKeys(const bool _sorted = true,
+                                     const QString &_regexp = "") const;
     Q_INVOKABLE int numberOfDesktops() const;
-    Q_INVOKABLE QString toolTipImage(const int desktop) const;
-    Q_INVOKABLE QString parsePattern(const QString pattern,
-                                     const int desktop) const;
+    Q_INVOKABLE QString toolTipImage(const int _desktop) const;
+    Q_INVOKABLE QString parsePattern(const QString &_pattern,
+                                     const int _desktop) const;
     // values
-    Q_INVOKABLE void setMark(const QString newMark);
-    Q_INVOKABLE void setToolTipData(const QVariantMap tooltipData);
-    Q_INVOKABLE QString infoByKey(QString key) const;
-    Q_INVOKABLE QString valueByKey(const QString key, int desktop = -1) const;
+    Q_INVOKABLE void setMark(const QString &_newMark);
+    Q_INVOKABLE void setToolTipData(const QVariantMap &_tooltipData);
+    Q_INVOKABLE QString infoByKey(const QString &_key) const;
+    Q_INVOKABLE QString valueByKey(const QString &_key,
+                                   int _desktop = -1) const;
     // configuration slots
-    Q_INVOKABLE QString getAboutText(const QString type = "header") const;
-    Q_INVOKABLE QVariantMap getFont(const QVariantMap defaultFont) const;
+    Q_INVOKABLE QString getAboutText(const QString &_type) const;
+    Q_INVOKABLE QVariantMap getFont(const QVariantMap &_defaultFont) const;
 
 signals:
     void desktopChanged() const;
     void windowListChanged() const;
 
 public slots:
-    Q_INVOKABLE static void sendNotification(const QString eventId,
-                                             const QString message);
-    Q_INVOKABLE void setCurrentDesktop(const int desktop) const;
+    Q_INVOKABLE static void sendNotification(const QString &_eventId,
+                                             const QString &_message);
+    Q_INVOKABLE void setCurrentDesktop(const int _desktop) const;
 
 private:
-    DesktopWindowsInfo getInfoByDesktop(const int desktop) const;
+    DesktopWindowsInfo getInfoByDesktop(const int _desktop) const;
     // variables
     int m_tooltipWidth = 200;
-    QString m_mark = QString("*");
-    QString m_tooltipColor = QString("#000000");
-    QString m_tooltipType = QString("none");
+    QString m_mark = "*";
+    QString m_tooltipColor = "#000000";
+    QString m_tooltipType = "none";
 };
 
 

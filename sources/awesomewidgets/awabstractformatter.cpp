@@ -22,9 +22,9 @@
 #include "awdebug.h"
 
 
-AWAbstractFormatter::AWAbstractFormatter(QWidget *parent,
-                                         const QString filePath)
-    : AbstractExtItem(parent, filePath)
+AWAbstractFormatter::AWAbstractFormatter(QWidget *_parent,
+                                         const QString &_filePath)
+    : AbstractExtItem(_parent, _filePath)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 }
@@ -55,25 +55,25 @@ QString AWAbstractFormatter::strType() const
     QString value;
     switch (m_type) {
     case FormatterClass::DateTime:
-        value = QString("DateTime");
+        value = "DateTime";
         break;
     case FormatterClass::Float:
-        value = QString("Float");
+        value = "Float";
         break;
     case FormatterClass::List:
-        value = QString("List");
+        value = "List";
         break;
     case FormatterClass::Script:
-        value = QString("Script");
+        value = "Script";
         break;
     case FormatterClass::String:
-        value = QString("String");
+        value = "String";
         break;
     case FormatterClass::Json:
-        value = QString("Json");
+        value = "Json";
         break;
     case FormatterClass::NoFormat:
-        value = QString("NoFormat");
+        value = "NoFormat";
         break;
     }
 
@@ -87,21 +87,21 @@ AWAbstractFormatter::FormatterClass AWAbstractFormatter::type() const
 }
 
 
-void AWAbstractFormatter::setStrType(const QString _type)
+void AWAbstractFormatter::setStrType(const QString &_type)
 {
     qCDebug(LOG_LIB) << "Type" << _type;
 
-    if (_type == QString("DateTime"))
+    if (_type == "DateTime")
         m_type = FormatterClass::DateTime;
-    else if (_type == QString("Float"))
+    else if (_type == "Float")
         m_type = FormatterClass::Float;
-    else if (_type == QString("List"))
+    else if (_type == "List")
         m_type = FormatterClass::List;
-    else if (_type == QString("Script"))
+    else if (_type == "Script")
         m_type = FormatterClass::Script;
-    else if (_type == QString("String"))
+    else if (_type == "String")
         m_type = FormatterClass::String;
-    else if (_type == QString("Json"))
+    else if (_type == "Json")
         m_type = FormatterClass::Json;
     else
         m_type = FormatterClass::NoFormat;
@@ -123,8 +123,8 @@ void AWAbstractFormatter::readConfiguration()
 
     QSettings settings(fileName(), QSettings::IniFormat);
 
-    settings.beginGroup(QString("Desktop Entry"));
-    setStrType(settings.value(QString("X-AW-Type"), strType()).toString());
+    settings.beginGroup("Desktop Entry");
+    setStrType(settings.value("X-AW-Type", strType()).toString());
     settings.endGroup();
 }
 
@@ -136,8 +136,8 @@ void AWAbstractFormatter::writeConfiguration() const
     QSettings settings(writtableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
-    settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("X-AW-Type"), strType());
+    settings.beginGroup("Desktop Entry");
+    settings.setValue("X-AW-Type", strType());
     settings.endGroup();
 
     settings.sync();

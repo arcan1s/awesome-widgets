@@ -27,13 +27,13 @@
 #include "awdebug.h"
 
 
-AWJsonFormatter::AWJsonFormatter(QWidget *parent, const QString filePath)
-    : AWAbstractFormatter(parent, filePath)
+AWJsonFormatter::AWJsonFormatter(QWidget *_parent, const QString &_filePath)
+    : AWAbstractFormatter(_parent, _filePath)
     , ui(new Ui::AWJsonFormatter)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    if (!filePath.isEmpty())
+    if (!_filePath.isEmpty())
         readConfiguration();
     ui->setupUi(this);
     translate();
@@ -65,7 +65,7 @@ QString AWJsonFormatter::convert(const QVariant &_value) const
 }
 
 
-AWJsonFormatter *AWJsonFormatter::copy(const QString _fileName,
+AWJsonFormatter *AWJsonFormatter::copy(const QString &_fileName,
                                        const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
@@ -86,7 +86,7 @@ QString AWJsonFormatter::path() const
 }
 
 
-void AWJsonFormatter::setPath(const QString _path)
+void AWJsonFormatter::setPath(const QString &_path)
 {
     qCDebug(LOG_LIB) << "Path" << _path;
 
@@ -101,21 +101,21 @@ void AWJsonFormatter::readConfiguration()
 
     QSettings settings(fileName(), QSettings::IniFormat);
 
-    settings.beginGroup(QString("Desktop Entry"));
-    setPath(settings.value(QString("X-AW-Path"), path()).toString());
+    settings.beginGroup("Desktop Entry");
+    setPath(settings.value("X-AW-Path", path()).toString());
     settings.endGroup();
 
     bumpApi(AW_FORMATTER_API);
 }
 
 
-int AWJsonFormatter::showConfiguration(const QVariant args)
+int AWJsonFormatter::showConfiguration(const QVariant &args)
 {
     Q_UNUSED(args)
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
-    ui->label_typeValue->setText(QString("Json"));
+    ui->label_typeValue->setText("Json");
     ui->lineEdit_path->setText(path());
 
     int ret = exec();
@@ -139,61 +139,57 @@ void AWJsonFormatter::writeConfiguration() const
     QSettings settings(writtableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
-    settings.beginGroup(QString("Desktop Entry"));
-    settings.setValue(QString("X-AW-Path"), path());
+    settings.beginGroup("Desktop Entry");
+    settings.setValue("X-AW-Path", path());
     settings.endGroup();
 
     settings.sync();
 }
 
 
-QVariant AWJsonFormatter::getFromJson(const QVariant &value,
-                                      const QVariant &element) const
+QVariant AWJsonFormatter::getFromJson(const QVariant &_value,
+                                      const QVariant &_element) const
 {
-    qCDebug(LOG_LIB) << "Looking for element" << element << "in" << value;
+    qCDebug(LOG_LIB) << "Looking for element" << _element << "in" << _value;
 
-    if (element.type() == QVariant::String) {
-        return getFromMap(value, element.toString());
-    } else if (element.type() == QVariant::Int) {
-        return getFromList(value, element.toInt());
+    if (_element.type() == QVariant::String) {
+        return getFromMap(_value, _element.toString());
+    } else if (_element.type() == QVariant::Int) {
+        return getFromList(_value, _element.toInt());
     } else {
-        qCWarning(LOG_LIB) << "Unknown type" << element.typeName();
-        return value;
+        qCWarning(LOG_LIB) << "Unknown type" << _element.typeName();
+        return _value;
     }
 }
 
 
-QVariant AWJsonFormatter::getFromList(const QVariant &value,
-                                      const int index) const
+QVariant AWJsonFormatter::getFromList(const QVariant &_value,
+                                      const int _index) const
 {
-    qCDebug(LOG_LIB) << "Looking for index" << index << "in" << value;
+    qCDebug(LOG_LIB) << "Looking for index" << _index << "in" << _value;
 
-    return value.toList()[index];
+    return _value.toList()[_index];
 }
 
 
-QVariant AWJsonFormatter::getFromMap(const QVariant &value,
-                                     const QString &key) const
+QVariant AWJsonFormatter::getFromMap(const QVariant &_value,
+                                     const QString &_key) const
 {
-    qCDebug(LOG_LIB) << "Looking for key" << key << "in" << value;
+    qCDebug(LOG_LIB) << "Looking for key" << _key << "in" << _value;
 
-    return value.toMap()[key];
+    return _value.toMap()[_key];
 }
 
 
 void AWJsonFormatter::initPath()
 {
     m_splittedPath.clear();
-    QStringList splittedByDot
-        = m_path.split(QChar('.'), QString::SkipEmptyParts);
+    QStringList splittedByDot = m_path.split('.', QString::SkipEmptyParts);
 
     for (auto &element : splittedByDot) {
         bool ok;
         int number = element.toInt(&ok);
-        if (ok)
-            m_splittedPath.append(number);
-        else
-            m_splittedPath.append(element);
+        m_splittedPath.append(ok ? QVariant(number) : QVariant(element));
     }
 }
 

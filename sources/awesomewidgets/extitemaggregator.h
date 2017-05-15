@@ -31,15 +31,15 @@
 template <class T> class ExtItemAggregator : public AbstractExtItemAggregator
 {
 public:
-    explicit ExtItemAggregator(QWidget *parent, const QString type)
-        : AbstractExtItemAggregator(parent, type)
+    explicit ExtItemAggregator(QWidget *_parent, const QString &_type)
+        : AbstractExtItemAggregator(_parent, _type)
     {
         qSetMessagePattern(AWDebug::LOG_FORMAT);
         qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
         for (auto &metadata : AWDebug::getBuildData())
             qCDebug(LOG_LIB) << metadata;
 
-        qCDebug(LOG_LIB) << "Type" << type;
+        qCDebug(LOG_LIB) << "Type" << _type;
 
         initItems();
     };
@@ -66,16 +66,16 @@ public:
         // HACK as soon as per one widget instance we have two objects each of
         // them will try to control socket, whereas actually only one of them
         // should be owner of the socket
-        for (auto item : m_items)
+        for (auto &item : m_items)
             item->initSocket();
     }
 
-    T *itemByTag(const QString _tag, const QString _type) const
+    T *itemByTag(const QString &_tag, const QString &_type) const
     {
         qCDebug(LOG_LIB) << "Tag" << _tag << "with used type" << _type;
 
         T *found = nullptr;
-        for (auto item : m_items) {
+        for (auto &item : m_items) {
             if (item->tag(_type) != _tag)
                 continue;
             found = static_cast<T *>(item);
@@ -92,7 +92,7 @@ public:
         qCDebug(LOG_LIB) << "Number" << _number;
 
         T *found = nullptr;
-        for (auto item : m_items) {
+        for (auto &item : m_items) {
             if (item->number() != _number)
                 continue;
             found = static_cast<T *>(item);
@@ -129,11 +129,10 @@ private:
             QStandardPaths::LocateDirectory);
         QStringList names;
         QList<AbstractExtItem *> items;
-        for (auto dir : dirs) {
+        for (auto &dir : dirs) {
             QStringList files = QDir(dir).entryList(QDir::Files, QDir::Name);
-            for (auto file : files) {
-                if ((!file.endsWith(QString(".desktop")))
-                    || (names.contains(file)))
+            for (auto &file : files) {
+                if ((!file.endsWith(".desktop")) || (names.contains(file)))
                     continue;
                 qCInfo(LOG_LIB) << "Found file" << file << "in" << dir;
                 names.append(file);
@@ -156,7 +155,7 @@ private:
         m_activeItems.clear();
 
         m_items = getItems();
-        for (auto item : m_items) {
+        for (auto &item : m_items) {
             if (!item->isActive())
                 continue;
             m_activeItems.append(static_cast<T *>(item));

@@ -109,7 +109,7 @@ void TestAbstractExtItem::test_delete()
 
 void TestAbstractExtItem::test_copy()
 {
-    ExtUpgrade *newExtItem = extItem->copy(QString("/dev/null"), 1);
+    ExtUpgrade *newExtItem = extItem->copy("/dev/null", 1);
 
     QCOMPARE(newExtItem->isActive(), extItem->isActive());
     QCOMPARE(newExtItem->apiVersion(), extItem->apiVersion());

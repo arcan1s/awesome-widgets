@@ -31,10 +31,10 @@ class UpgradeSource : public AbstractExtSysMonSource
     Q_OBJECT
 
 public:
-    explicit UpgradeSource(QObject *parent, const QStringList args);
+    explicit UpgradeSource(QObject *_parent, const QStringList &_args);
     virtual ~UpgradeSource();
-    QVariant data(QString source);
-    QVariantMap initialData(QString source) const;
+    QVariant data(const QString &_source);
+    QVariantMap initialData(const QString &_source) const;
     void run(){};
     QStringList sources() const;
 

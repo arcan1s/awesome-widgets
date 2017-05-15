@@ -23,8 +23,8 @@
 #include "awkeys.h"
 
 
-AWDataEngineAggregator::AWDataEngineAggregator(QObject *parent)
-    : QObject(parent)
+AWDataEngineAggregator::AWDataEngineAggregator(QObject *_parent)
+    : QObject(_parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
@@ -53,56 +53,50 @@ void AWDataEngineAggregator::clear()
 void AWDataEngineAggregator::disconnectSources()
 {
     for (auto dataengine : m_dataEngines.values())
-        for (auto source : dataengine->sources())
+        for (auto &source : dataengine->sources())
             dataengine->disconnectSource(source, parent());
 }
 
 
-void AWDataEngineAggregator::initDataEngines(const int interval)
+void AWDataEngineAggregator::initDataEngines(const int _interval)
 {
-    qCDebug(LOG_AW) << "Init dataengines with interval" << interval;
+    qCDebug(LOG_AW) << "Init dataengines with interval" << _interval;
 
     m_consumer = new Plasma::DataEngineConsumer();
-    m_dataEngines[QString("systemmonitor")]
-        = m_consumer->dataEngine(QString("systemmonitor"));
-    m_dataEngines[QString("extsysmon")]
-        = m_consumer->dataEngine(QString("extsysmon"));
-    m_dataEngines[QString("time")] = m_consumer->dataEngine(QString("time"));
+    m_dataEngines["systemmonitor"] = m_consumer->dataEngine("systemmonitor");
+    m_dataEngines["extsysmon"] = m_consumer->dataEngine("extsysmon");
+    m_dataEngines["time"] = m_consumer->dataEngine("time");
 
     // additional method required by systemmonitor structure
-    connect(m_dataEngines[QString("systemmonitor")],
-            &Plasma::DataEngine::sourceAdded,
-            [this, interval](const QString source) {
+    connect(m_dataEngines["systemmonitor"], &Plasma::DataEngine::sourceAdded,
+            [this, _interval](const QString source) {
                 emit(deviceAdded(source));
-                m_dataEngines[QString("systemmonitor")]->connectSource(
-                    source, parent(), interval);
+                m_dataEngines["systemmonitor"]->connectSource(source, parent(),
+                                                              _interval);
             });
 
-    return reconnectSources(interval);
+    return reconnectSources(_interval);
 }
 
 
-void AWDataEngineAggregator::dropSource(const QString source)
+void AWDataEngineAggregator::dropSource(const QString &_source)
 {
-    qCDebug(LOG_AW) << "Source" << source;
+    qCDebug(LOG_AW) << "Source" << _source;
 
     // HACK there is no possibility to check to which dataengine source
     // connected we will try to disconnect it from systemmonitor and extsysmon
-    m_dataEngines[QString("systemmonitor")]->disconnectSource(source, parent());
-    m_dataEngines[QString("extsysmon")]->disconnectSource(source, parent());
-    m_dataEngines[QString("time")]->disconnectSource(source, parent());
+    for (auto dataengine : m_dataEngines.values())
+        dataengine->disconnectSource(_source, parent());
 }
 
 
-void AWDataEngineAggregator::reconnectSources(const int interval)
+void AWDataEngineAggregator::reconnectSources(const int _interval)
 {
-    qCDebug(LOG_AW) << "Reconnect sources with interval" << interval;
+    qCDebug(LOG_AW) << "Reconnect sources with interval" << _interval;
 
-    m_dataEngines[QString("systemmonitor")]->connectAllSources(parent(),
-                                                               interval);
-    m_dataEngines[QString("extsysmon")]->connectAllSources(parent(), interval);
-    m_dataEngines[QString("time")]->connectSource(QString("Local"), parent(),
-                                                  1000);
+    m_dataEngines["systemmonitor"]->connectAllSources(parent(), _interval);
+    m_dataEngines["extsysmon"]->connectAllSources(parent(), _interval);
+    m_dataEngines["time"]->connectSource("Local", parent(), 1000);
 
 #ifdef BUILD_FUTURE
     createQueuedConnection();
@@ -114,15 +108,13 @@ void AWDataEngineAggregator::createQueuedConnection()
 {
     // HACK additional method which forces QueuedConnection instead of Auto one
     // for more details refer to plasma-framework source code
-    for (auto dataEngine : m_dataEngines.keys()) {
+    for (auto &dataEngine : m_dataEngines.keys()) {
         // different source set for different engines
-        QStringList sources;
-        if (dataEngine == QString("time"))
-            sources.append(QString("Local"));
-        else
-            sources = m_dataEngines[dataEngine]->sources();
+        QStringList sources = dataEngine == "time"
+                                  ? QStringList() << "Local"
+                                  : m_dataEngines[dataEngine]->sources();
         // reconnect sources
-        for (auto source : sources) {
+        for (auto &source : sources) {
             Plasma::DataContainer *container
                 = m_dataEngines[dataEngine]->containerForSource(source);
             // disconnect old connections first

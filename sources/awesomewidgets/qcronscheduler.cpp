@@ -24,8 +24,8 @@
 #include "awdebug.h"
 
 
-QCronScheduler::QCronScheduler(QObject *parent)
-    : QObject(parent)
+QCronScheduler::QCronScheduler(QObject *_parent)
+    : QObject(_parent)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
@@ -48,11 +48,11 @@ QCronScheduler::~QCronScheduler()
 }
 
 
-void QCronScheduler::parse(const QString &timer)
+void QCronScheduler::parse(const QString &_timer)
 {
-    qCDebug(LOG_LIB) << "Parse timer string" << timer;
+    qCDebug(LOG_LIB) << "Parse timer string" << _timer;
 
-    QStringList fields = timer.split(' ');
+    QStringList fields = _timer.split(' ');
     if (fields.count() != 5)
         return;
 
@@ -77,17 +77,17 @@ void QCronScheduler::expired()
 }
 
 
-QList<int> QCronScheduler::parseField(const QString &value, const int min,
-                                      const int max) const
+QList<int> QCronScheduler::parseField(const QString &_value, const int _min,
+                                      const int _max) const
 {
-    qCDebug(LOG_LIB) << "Parse field" << value << "with corner values" << min
-                     << max;
+    qCDebug(LOG_LIB) << "Parse field" << _value << "with corner values" << _min
+                     << _max;
 
     QList<int> parsed;
-    auto fields = value.split(',');
+    auto fields = _value.split(',');
     for (auto &field : fields) {
         QCronField parsedField;
-        parsedField.fromRange(field.split('/').first(), min, max);
+        parsedField.fromRange(field.split('/').first(), _min, _max);
         if (field.contains('/')) {
             bool status;
             parsedField.div = field.split('/', QString::SkipEmptyParts)
@@ -104,26 +104,26 @@ QList<int> QCronScheduler::parseField(const QString &value, const int min,
 }
 
 
-void QCronScheduler::QCronField::fromRange(const QString &range, const int min,
-                                           const int max)
+void QCronScheduler::QCronField::fromRange(const QString &_range,
+                                           const int _min, const int _max)
 {
-    qCDebug(LOG_LIB) << "Parse field from range" << range
-                     << "with corner values" << min << max;
+    qCDebug(LOG_LIB) << "Parse field from range" << _range
+                     << "with corner values" << _min << _max;
 
-    if (range == '*') {
-        minValue = min;
-        maxValue = max;
-    } else if (range.contains('-')) {
-        auto interval = range.split('-', QString::SkipEmptyParts);
+    if (_range == "*") {
+        minValue = _min;
+        maxValue = _max;
+    } else if (_range.contains("-")) {
+        auto interval = _range.split('-', QString::SkipEmptyParts);
         if (interval.count() != 2)
             return;
         bool status;
         // minimal value
-        minValue = std::max(min, interval.at(0).toInt(&status));
+        minValue = std::max(_min, interval.at(0).toInt(&status));
         if (!status)
             minValue = -1;
         // maximal value
-        maxValue = std::min(max, interval.at(1).toInt(&status));
+        maxValue = std::min(_max, interval.at(1).toInt(&status));
         if (!status)
             maxValue = -1;
         // error check
@@ -131,8 +131,8 @@ void QCronScheduler::QCronField::fromRange(const QString &range, const int min,
             std::swap(minValue, maxValue);
     } else {
         bool status;
-        int value = range.toInt(&status);
-        if (!status || (value < min) || (value > max))
+        int value = _range.toInt(&status);
+        if (!status || (value < _min) || (value > _max))
             value = -1;
         minValue = value;
         maxValue = value;
@@ -147,7 +147,7 @@ QList<int> QCronScheduler::QCronField::toList()
         return QList<int>();
 
     QList<int> output;
-    for (auto i = minValue; i <= maxValue; ++i) {
+    for (auto &i = minValue; i <= maxValue; ++i) {
         if (i % div != 0)
             continue;
         output.append(i);
