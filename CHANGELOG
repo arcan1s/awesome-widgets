@@ -1,3 +1,19 @@
+Ver.3.3.1:
++ add ability to direct issue report (#104)
++ add key completion (#105)
++ add ability to load historical configuration (#106)
++ add ability to upload configuration to remote server (#106)
++ add stylish (#112)
++ add DBus intergration (#115)
++ add cron-like extenstion triggers (`X-AW-Socket` option) (#117)
++ add ability to trigger extensions by calling socket (`X-AW-Schedule` option) (#118)
++ add source for network requests
++ add Json formatter
+- drop patches provided support for Qt 5.4
+* use custom signal slot connection for dataengine (`BUILD_FUTURE` flag required)
+* update UI
+* refactoring
+
 Ver.3.2.1:
 + add X-AW-Translate option to DateTime formatter
 + add formatters to configuration export and import
