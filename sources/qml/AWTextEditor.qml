@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 import QtQuick 2.0
-import QtQuick.Controls 2.0 as QtControls
+import QtQuick.Controls 1.3 as QtControls
 
 
 Item {
@@ -29,9 +29,6 @@ Item {
     QtControls.TextArea {
         id: textArea
         anchors.fill: parent
-        background: Rectangle {
-            color: "white"
-        }
         textFormat: TextEdit.PlainText
 
         Column {
@@ -76,7 +73,7 @@ Item {
 
     function changeTooltipPosition() {
         tooltip.x = textArea.cursorRectangle.x
-        tooltip.y = textArea.cursorRectangle.y
+        tooltip.y = textArea.cursorRectangle.y + textArea.cursorRectangle.height
     }
 
     function getLastTag() {
