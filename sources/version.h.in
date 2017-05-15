@@ -25,17 +25,17 @@ const char CHANGELOG[] = "@PROJECT_CHANGELOG@";
 
 // configuraion
 // graphical items api version
-const int AW_GRAPHITEM_API = 5;
+const int AW_GRAPHITEM_API = 6;
 // extquotes api version
-const int AW_EXTQUOTES_API = 3;
+const int AW_EXTQUOTES_API = 4;
 // extscript api version
-const int AW_EXTSCRIPT_API = 4;
+const int AW_EXTSCRIPT_API = 5;
 // extupgrade api version
-const int AW_EXTUPGRADE_API = 3;
+const int AW_EXTUPGRADE_API = 4;
 // extweather api version
-const int AW_EXTWEATHER_API = 3;
+const int AW_EXTWEATHER_API = 4;
 // extnetworkrequest api version
-const int AW_EXTNETREQUEST_API = 1;
+const int AW_EXTNETREQUEST_API = 2;
 // formatter api version
 const int AW_FORMATTER_API = 3;
 // telemetry api version
