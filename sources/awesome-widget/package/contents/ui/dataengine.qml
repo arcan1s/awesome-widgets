@@ -167,8 +167,8 @@ Item {
                             'name': 'clementine'
                         },
                         {
-                            'label': 'deadbeef',
-                            'name': 'deadbeef'
+                            'label': 'DeaDBeeF',
+                            'name': 'DeaDBeeF'
                         },
                         {
                             'label': 'vlc',
