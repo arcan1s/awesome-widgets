@@ -1,3 +1,8 @@
+Ver.3.3.2:
+- fix bug with invalid DP colour configuration
+- fix bug with invalid HTML tags operation
+* update to newest Qt and plasma
+
 Ver.3.3.1:
 + add ability to direct issue report (#104)
 + add key completion (#105)
