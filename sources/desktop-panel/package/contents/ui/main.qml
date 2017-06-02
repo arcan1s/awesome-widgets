@@ -123,16 +123,16 @@ Item {
                 repeater.itemAt(i).font.family = plasmoid.configuration.currentFontFamily
                 repeater.itemAt(i).font.italic = plasmoid.configuration.currentFontStyle == "italic" ? true : false
                 repeater.itemAt(i).font.pointSize = plasmoid.configuration.currentFontSize
-                repeater.itemAt(i).font.weight = general.fontWeight[plasmoid.configuration.currentFontWeight]
-                repeater.itemAt(i).style = general.textStyle[plasmoid.configuration.currentTextStyle]
+                repeater.itemAt(i).font.weight = General.fontWeight[plasmoid.configuration.currentFontWeight]
+                repeater.itemAt(i).style = General.textStyle[plasmoid.configuration.currentTextStyle]
                 repeater.itemAt(i).styleColor = plasmoid.configuration.currentTextStyleColor
             } else {
                 repeater.itemAt(i).color = plasmoid.configuration.fontColor
                 repeater.itemAt(i).font.family = plasmoid.configuration.fontFamily
                 repeater.itemAt(i).font.italic = plasmoid.configuration.fontStyle == "italic" ? true : false
                 repeater.itemAt(i).font.pointSize = plasmoid.configuration.fontSize
-                repeater.itemAt(i).font.weight = general.fontWeight[plasmoid.configuration.fontWeight]
-                repeater.itemAt(i).style = general.textStyle[plasmoid.configuration.textStyle]
+                repeater.itemAt(i).font.weight = General.fontWeight[plasmoid.configuration.fontWeight]
+                repeater.itemAt(i).style = General.textStyle[plasmoid.configuration.textStyle]
                 repeater.itemAt(i).styleColor = plasmoid.configuration.textStyleColor
             }
             repeater.itemAt(i).update()

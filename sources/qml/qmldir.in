@@ -3,7 +3,7 @@
 
 
 # common QML constants
-singleton general 1.0 file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/general.qml
+singleton General 1.0 file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/General.qml
 
 # custom QML UI classes
 AboutTab file://@CMAKE_INSTALL_PREFIX@/@DATA_INSTALL_DIR@/@PROJECT_NAME@/qml/AboutTab.qml

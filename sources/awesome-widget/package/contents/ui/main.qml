@@ -95,16 +95,16 @@ Item {
         textFormat: Text.RichText
         wrapMode: plasmoid.configuration.wrapText ? Text.WordWrap : Text.NoWrap
 
-        horizontalAlignment: general.align[plasmoid.configuration.textAlign]
+        horizontalAlignment: General.align[plasmoid.configuration.textAlign]
         verticalAlignment: Text.AlignVCenter
 
         color: plasmoid.configuration.fontColor
         font.family: plasmoid.configuration.fontFamily
         font.italic: plasmoid.configuration.fontStyle == "italic" ? true : false
         font.pointSize: plasmoid.configuration.fontSize
-        font.weight: general.fontWeight[plasmoid.configuration.fontWeight]
+        font.weight: General.fontWeight[plasmoid.configuration.fontWeight]
 
-        style: general.textStyle[plasmoid.configuration.textStyle]
+        style: General.textStyle[plasmoid.configuration.textStyle]
         styleColor: plasmoid.configuration.textStyleColor
 
         PlasmaCore.ToolTipArea {

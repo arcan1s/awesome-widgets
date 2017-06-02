@@ -58,7 +58,7 @@ Item {
             backend: awKeys
             notifyBackend: awActions
             textArea: textPattern
-            groups: general.awTagRegexp
+            groups: General.awTagRegexp
         }
 
         AWExtensions {
