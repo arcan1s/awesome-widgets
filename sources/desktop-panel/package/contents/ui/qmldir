@@ -3,7 +3,7 @@
 
 
 # common QML constants
-singleton general 1.0 file:///usr/share/awesomewidgets/qml/general.qml
+singleton General 1.0 file:///usr/share/awesomewidgets/qml/General.qml
 
 # custom QML UI classes
 AboutTab file:///usr/share/awesomewidgets/qml/AboutTab.qml

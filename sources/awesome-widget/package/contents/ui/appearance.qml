@@ -72,7 +72,7 @@ Item {
 
         ComboBoxSelector {
             id: fontWeight
-            model: general.fontWeightModel
+            model: General.fontWeightModel
             text: i18n("Font weight")
             value: plasmoid.configuration.fontWeight
             onValueEdited: cfg_fontWeight = newValue
@@ -80,7 +80,7 @@ Item {
 
         ComboBoxSelector {
             id: fontStyle
-            model: general.fontStyleModel
+            model: General.fontStyleModel
             text: i18n("Font style")
             value: plasmoid.configuration.fontStyle
             onValueEdited: cfg_fontStyle = newValue
@@ -94,7 +94,7 @@ Item {
 
         ComboBoxSelector {
             id: textStyle
-            model: general.textStyleModel
+            model: General.textStyleModel
             text: i18n("Style")
             value: plasmoid.configuration.textStyle
             onValueEdited: cfg_textStyle = newValue

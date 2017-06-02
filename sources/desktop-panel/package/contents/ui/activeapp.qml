@@ -39,8 +39,8 @@ Item {
     property alias cfg_currentFontSize: fontSize.value
     property string cfg_currentFontWeight: fontWeight.value
     property string cfg_currentFontStyle: fontStyle.value
-    property alias cfg_currentFontColor: selectColor.text
-    property alias cfg_currentTextStyleColor: selectStyleColor.text
+    property alias cfg_currentFontColor: selectColor.value
+    property alias cfg_currentTextStyleColor: selectStyleColor.value
     property string cfg_currentTextStyle: textStyle.value
 
 
@@ -65,7 +65,7 @@ Item {
 
         ComboBoxSelector {
             id: fontWeight
-            model: general.fontWeightModel
+            model: General.fontWeightModel
             text: i18n("Font weight")
             value: plasmoid.configuration.currentFontWeight
             onValueEdited: cfg_currentFontWeight = newValue
@@ -73,7 +73,7 @@ Item {
 
         ComboBoxSelector {
             id: fontStyle
-            model: general.fontStyleModel
+            model: General.fontStyleModel
             text: i18n("Font style")
             value: plasmoid.configuration.currentFontStyle
             onValueEdited: cfg_currentFontStyle = newValue
@@ -87,7 +87,7 @@ Item {
 
         ComboBoxSelector {
             id: textStyle
-            model: general.textStyleModel
+            model: General.textStyleModel
             text: i18n("Style")
             value: plasmoid.configuration.currentTextStyle
             onValueEdited: cfg_currentTextStyle = newValue

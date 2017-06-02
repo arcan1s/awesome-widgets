@@ -90,6 +90,14 @@ Item {
     function insert(text) {
         textArea.insert(textArea.cursorPosition, text)
     }
+
+    function removeSelection() {
+        textArea.remove(textArea.selectionStart, textArea.selectionEnd)
+    }
+
+    function selectedText() {
+        return textArea.selectedText
+    }
 }
 
 

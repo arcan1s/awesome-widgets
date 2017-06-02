@@ -31,10 +31,10 @@ QtControls.Button {
 
     function updateText() {
         // get selected text
-        var selected = textField.selectedText
+        var selected = textField.selectedText()
         // remove it from widget
-        textField.remove(textField.selectionStart, textField.selectionEnd)
+        textField.removeSelection()
         // insert edited text
-        textField.insert(textField.cursorPosition, start + selected + end)
+        textField.insert(start + selected + end)
     }
 }

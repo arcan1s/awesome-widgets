@@ -52,7 +52,7 @@ Item {
             backend: dpAdds
             notifyBackend: dpAdds
             textArea: textPattern
-            groups: general.dpTagRegexp
+            groups: General.dpTagRegexp
         }
 
         AWTextEditor {
