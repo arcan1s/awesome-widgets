@@ -16,23 +16,33 @@
  ***************************************************************************/
 
 
-#ifndef AWKEYCACHE_H
-#define AWKEYCACHE_H
+#ifndef AWCUSTOMKEYSHELPER_H
+#define AWCUSTOMKEYSHELPER_H
 
 #include <QHash>
-#include <QString>
-#include <QVariant>
+#include <QObject>
 
 
-namespace AWKeyCache
+class AWCustomKeysHelper : public QObject
 {
-bool addKeyToCache(const QString &_type, const QString &_key = "");
-QStringList getRequiredKeys(const QStringList &_keys, const QStringList &_bars,
-                            const QVariantMap &_tooltip,
-                            const QStringList &_userKeys,
-                            const QStringList &_allKeys);
-QHash<QString, QStringList> loadKeysFromCache();
+    Q_OBJECT
+
+public:
+    explicit AWCustomKeysHelper(QObject *_parent = nullptr);
+    virtual ~AWCustomKeysHelper();
+    void initKeys();
+    bool writeKeys(const QHash<QString, QString> &_configuration) const;
+    // get
+    QStringList keys() const;
+    QString source(const QString &_key) const;
+    QStringList sources() const;
+    QStringList refinedSources() const;
+
+private:
+    // properties
+    QString m_filePath;
+    QHash<QString, QString> m_keys;
 };
 
 
-#endif /* AWKEYCACHE_H */
+#endif /* AWCUSTOMKEYSHELPER_H */

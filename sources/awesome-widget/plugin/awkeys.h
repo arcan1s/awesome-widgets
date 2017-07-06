@@ -25,6 +25,7 @@
 #include <QObject>
 
 
+class AWCustomKeysHelper;
 class AWDataAggregator;
 class AWDataEngineAggregator;
 class AWKeyOperations;
@@ -46,7 +47,7 @@ public:
                               const bool _optimize);
     Q_INVOKABLE void setAggregatorProperty(const QString &_key,
                                            const QVariant &_value);
-    Q_INVOKABLE void setWrapNewLines(const bool _wrap = false);
+    Q_INVOKABLE void setWrapNewLines(const bool _wrap);
     // additional method to force load keys from Qml UI. Used in some
     // configuration pages
     Q_INVOKABLE void updateCache();

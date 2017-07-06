@@ -32,6 +32,8 @@ AWKeysAggregator::AWKeysAggregator(QObject *_parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
+    m_customFormatters = new AWFormatterHelper(nullptr);
+
     // sort time keys
     m_timeKeys.sort();
     std::reverse(m_timeKeys.begin(), m_timeKeys.end());
@@ -65,9 +67,7 @@ AWKeysAggregator::~AWKeysAggregator()
 
 void AWKeysAggregator::initFormatters()
 {
-    if (m_customFormatters)
-        delete m_customFormatters;
-    m_customFormatters = new AWFormatterHelper(nullptr);
+    m_customFormatters->initItems();
 }
 
 

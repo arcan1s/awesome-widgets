@@ -24,8 +24,6 @@
 #include "awabstractformatter.h"
 
 
-class AWAbstractFormatter;
-
 class AWFormatterHelper : public AbstractExtItemAggregator
 {
     Q_OBJECT
@@ -36,6 +34,7 @@ public:
     QString convert(const QVariant &_value, const QString &_name) const;
     QStringList definedFormatters() const;
     QHash<QString, QString> getFormatters() const;
+    void initItems();
     QList<AbstractExtItem *> items() const;
     QStringList knownFormatters() const;
     bool removeUnusedFormatters(const QStringList &_keys) const;
@@ -55,7 +54,6 @@ private:
     readMetadata(const QString &_filePath) const;
     // parent methods
     void doCreateItem();
-    void initItems();
     // properties
     QStringList m_directories;
     QString m_filePath;

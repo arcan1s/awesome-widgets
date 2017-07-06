@@ -250,10 +250,11 @@ void AWKeys::reinitKeys(const QStringList &_currentKeys)
         barKeys.append(item->usedKeys());
     }
     // get required keys
-    m_requiredKeys
-        = m_optimize ? AWKeyCache::getRequiredKeys(
-                           m_foundKeys, barKeys, m_tooltipParams, _currentKeys)
-                     : QStringList();
+    m_requiredKeys = m_optimize
+                         ? AWKeyCache::getRequiredKeys(
+                               m_foundKeys, barKeys, m_tooltipParams,
+                               m_keyOperator->requiredUserKeys(), _currentKeys)
+                         : QStringList();
 
     // set key data to m_aggregator
     m_aggregator->setDevices(m_keyOperator->devices());
@@ -266,10 +267,11 @@ void AWKeys::updateTextData()
     m_mutex.lock();
     calculateValues();
     QString text = parsePattern(m_keyOperator->pattern());
+    // update tooltip values under lock
+    m_dataAggregator->dataUpdate(m_values);
     m_mutex.unlock();
 
     emit(needTextToBeUpdated(text));
-    emit(m_dataAggregator->updateData(m_values));
 }
 
 
@@ -320,6 +322,10 @@ void AWKeys::calculateValues()
     // swap
     m_values["swap"] = 100.0f * m_values["swapmb"].toFloat()
                        / m_values["swaptotmb"].toFloat();
+
+    // user defined keys
+    for (auto &key : m_keyOperator->userKeys())
+        m_values[key] = m_values[m_keyOperator->userKeySource(key)];
 
     // lambdas
     for (auto &key : m_foundLambdas)

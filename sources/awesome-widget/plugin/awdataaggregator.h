@@ -40,12 +40,11 @@ public:
     void setParameters(const QVariantMap &_settings);
     QPixmap tooltipImage();
 
-signals:
-    void updateData(const QVariantHash &_values);
-    void toolTipPainted(const QString &_image) const;
-
-private slots:
+public slots:
     void dataUpdate(const QVariantHash &_values);
+
+signals:
+    void toolTipPainted(const QString &_image) const;
 
 private:
     // ui

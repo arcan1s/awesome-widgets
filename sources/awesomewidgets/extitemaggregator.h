@@ -61,6 +61,19 @@ public:
         qCInfo(LOG_LIB) << "Dialog returns" << ret;
     };
 
+    void initItems()
+    {
+        m_items.clear();
+        m_activeItems.clear();
+
+        m_items = getItems();
+        for (auto &item : m_items) {
+            if (!item->isActive())
+                continue;
+            m_activeItems.append(static_cast<T *>(item));
+        }
+    };
+
     void initSockets()
     {
         // HACK as soon as per one widget instance we have two objects each of
@@ -147,19 +160,6 @@ private:
                       return lhs->number() < rhs->number();
                   });
         return items;
-    };
-
-    void initItems()
-    {
-        m_items.clear();
-        m_activeItems.clear();
-
-        m_items = getItems();
-        for (auto &item : m_items) {
-            if (!item->isActive())
-                continue;
-            m_activeItems.append(static_cast<T *>(item));
-        }
     };
 };
 

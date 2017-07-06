@@ -27,6 +27,7 @@
 #include "extitemaggregator.h"
 
 
+class AWCustomKeysHelper;
 class AWDataAggregator;
 class AWDataEngineAggregator;
 class AWKeysAggregator;
@@ -52,6 +53,9 @@ public:
     // keys
     QStringList dictKeys() const;
     GraphicalItem *giByKey(const QString &_key) const;
+    QStringList requiredUserKeys() const;
+    QStringList userKeys() const;
+    QString userKeySource(const QString &_key) const;
     // values
     QString infoByKey(const QString &_key) const;
     QString pattern() const;
@@ -70,6 +74,7 @@ private:
     void addKeyToCache(const QString &_type, const QString &_key = "");
     void reinitKeys();
     // objects
+    AWCustomKeysHelper *m_customKeys = nullptr;
     ExtItemAggregator<GraphicalItem> *m_graphicalItems = nullptr;
     ExtItemAggregator<ExtNetworkRequest> *m_extNetRequest = nullptr;
     ExtItemAggregator<ExtQuotes> *m_extQuotes = nullptr;

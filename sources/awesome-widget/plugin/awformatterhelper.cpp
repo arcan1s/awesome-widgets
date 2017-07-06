@@ -78,6 +78,14 @@ QHash<QString, QString> AWFormatterHelper::getFormatters() const
 }
 
 
+void AWFormatterHelper::initItems()
+{
+    installDirectories();
+    initFormatters();
+    initKeys();
+}
+
+
 QList<AbstractExtItem *> AWFormatterHelper::items() const
 {
     QList<AbstractExtItem *> converted;
@@ -332,12 +340,4 @@ void AWFormatterHelper::doCreateItem()
     case AWAbstractFormatter::FormatterClass::NoFormat:
         return createItem<AWNoFormatter>();
     }
-}
-
-
-void AWFormatterHelper::initItems()
-{
-    installDirectories();
-    initFormatters();
-    initKeys();
 }
