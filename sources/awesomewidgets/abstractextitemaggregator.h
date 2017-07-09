@@ -67,6 +67,7 @@ public:
     void deleteItem();
     void editItem();
     QString getName();
+    virtual void initItems() = 0;
     AbstractExtItem *itemFromWidget();
     void repaintList();
     int uniqNumber() const;
@@ -92,7 +93,6 @@ private:
     QString m_type;
     // ui methods
     virtual void doCreateItem() = 0;
-    virtual void initItems() = 0;
 };
 
 

@@ -52,6 +52,37 @@ AWFormatterHelper::~AWFormatterHelper()
 }
 
 
+void AWFormatterHelper::initItems()
+{
+    installDirectories();
+    initFormatters();
+    initKeys();
+}
+
+
+bool AWFormatterHelper::writeItems(
+        const QHash<QString, QString> &_configuration) const
+{
+    qCDebug(LOG_AW) << "Write configuration" << _configuration;
+
+    QString fileName = QString("%1/%2")
+            .arg(QStandardPaths::writableLocation(
+                    QStandardPaths::GenericDataLocation))
+            .arg(m_filePath);
+    QSettings settings(fileName, QSettings::IniFormat);
+    qCInfo(LOG_AW) << "Configuration file" << fileName;
+
+    settings.beginGroup("Formatters");
+    for (auto &key : _configuration.keys())
+        settings.setValue(key, _configuration[key]);
+    settings.endGroup();
+
+    settings.sync();
+
+    return (settings.status() == QSettings::NoError);
+}
+
+
 QString AWFormatterHelper::convert(const QVariant &_value,
                                    const QString &_name) const
 {
@@ -75,14 +106,6 @@ QHash<QString, QString> AWFormatterHelper::getFormatters() const
         map[tag] = m_formatters[tag]->name();
 
     return map;
-}
-
-
-void AWFormatterHelper::initItems()
-{
-    installDirectories();
-    initFormatters();
-    initKeys();
 }
 
 
@@ -120,29 +143,6 @@ bool AWFormatterHelper::removeUnusedFormatters(const QStringList &_keys) const
             continue;
         settings.remove(key);
     }
-    settings.endGroup();
-
-    settings.sync();
-
-    return (settings.status() == QSettings::NoError);
-}
-
-
-bool AWFormatterHelper::writeFormatters(
-    const QHash<QString, QString> &_configuration) const
-{
-    qCDebug(LOG_AW) << "Write configuration" << _configuration;
-
-    QString fileName = QString("%1/%2")
-                           .arg(QStandardPaths::writableLocation(
-                               QStandardPaths::GenericDataLocation))
-                           .arg(m_filePath);
-    QSettings settings(fileName, QSettings::IniFormat);
-    qCInfo(LOG_AW) << "Configuration file" << fileName;
-
-    settings.beginGroup("Formatters");
-    for (auto &key : _configuration.keys())
-        settings.setValue(key, _configuration[key]);
     settings.endGroup();
 
     settings.sync();

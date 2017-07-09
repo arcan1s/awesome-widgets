@@ -41,15 +41,21 @@ Row {
     signal showMessage(string message)
 
     QtControls.Button {
-        width: parent.width * 3 / 10
+        width: parent.width * 3 / 15
         text: i18n("Edit bars")
         onClicked: backend.editItem("graphicalitem")
     }
 
     QtControls.Button {
-        width: parent.width * 3 / 10
+        width: parent.width * 3 / 15
         text: i18n("Formatters")
-        onClicked: awFormatter.showDialog(backend.dictKeys(true))
+        onClicked: awFormatter.showFormatterDialog(backend.dictKeys(true))
+    }
+
+    QtControls.Button {
+        width: parent.width * 3 / 15
+        text: i18n("User keys")
+        onClicked: awFormatter.showKeysDialog(backend.dictKeys(true))
     }
 
     QtControls.Button {

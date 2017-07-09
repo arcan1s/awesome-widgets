@@ -30,7 +30,7 @@ AWCustomKeysHelper::AWCustomKeysHelper(QObject *_parent)
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
     m_filePath = "awesomewidgets/custom.ini";
-    initKeys();
+    initItems();
 }
 
 
@@ -40,7 +40,7 @@ AWCustomKeysHelper::~AWCustomKeysHelper()
 }
 
 
-void AWCustomKeysHelper::initKeys()
+void AWCustomKeysHelper::initItems()
 {
     m_keys.clear();
 
@@ -68,7 +68,7 @@ void AWCustomKeysHelper::initKeys()
 }
 
 
-bool AWCustomKeysHelper::writeKeys(
+bool AWCustomKeysHelper::writeItems(
     const QHash<QString, QString> &_configuration) const
 {
     qCDebug(LOG_AW) << "Write configuration" << _configuration;
@@ -88,6 +88,38 @@ bool AWCustomKeysHelper::writeKeys(
     settings.sync();
 
     return (settings.status() == QSettings::NoError);
+}
+
+
+bool AWCustomKeysHelper::removeUnusedKeys(const QStringList &_keys) const
+{
+    qCDebug(LOG_AW) << "Remove keys" << _keys;
+
+    QString fileName = QString("%1/%2")
+            .arg(QStandardPaths::writableLocation(
+                    QStandardPaths::GenericDataLocation))
+            .arg(m_filePath);
+    QSettings settings(fileName, QSettings::IniFormat);
+    qCInfo(LOG_AW) << "Configuration file" << fileName;
+
+    settings.beginGroup("Custom");
+    QStringList foundKeys = settings.childKeys();
+    for (auto &key : foundKeys) {
+        if (_keys.contains(key))
+            continue;
+        settings.remove(key);
+    }
+    settings.endGroup();
+
+    settings.sync();
+
+    return (settings.status() == QSettings::NoError);
+}
+
+
+QHash<QString, QString> AWCustomKeysHelper::getUserKeys() const
+{
+    return m_keys;
 }
 
 

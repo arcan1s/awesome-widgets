@@ -16,36 +16,47 @@
  ***************************************************************************/
 
 
-#ifndef AWCUSTOMKEYSHELPER_H
-#define AWCUSTOMKEYSHELPER_H
+#ifndef AWCUSTOMKEYSCONFIG_H
+#define AWCUSTOMKEYSCONFIG_H
 
-#include <QHash>
-#include <QObject>
+#include <QDialog>
 
 
-class AWCustomKeysHelper : public QObject
+class AWAbstractSelector;
+class AWCustomKeysHelper;
+namespace Ui
+{
+class AWCustomKeysConfig;
+}
+
+class AWCustomKeysConfig : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit AWCustomKeysHelper(QObject *_parent = nullptr);
-    virtual ~AWCustomKeysHelper();
-    // read-write methods
-    void initItems();
-    bool writeItems(const QHash<QString, QString> &_configuration) const;
-    bool removeUnusedKeys(const QStringList &_keys) const;
-    // get
-    QHash<QString, QString> getUserKeys() const;
-    QStringList keys() const;
-    QString source(const QString &_key) const;
-    QStringList sources() const;
-    QStringList refinedSources() const;
+    explicit AWCustomKeysConfig(QWidget *_parent = nullptr,
+                                const QStringList &_keys = QStringList());
+    virtual ~AWCustomKeysConfig();
+    Q_INVOKABLE void showDialog();
+
+private slots:
+    void updateUi();
 
 private:
+    Ui::AWCustomKeysConfig *ui = nullptr;
+    AWCustomKeysHelper *m_helper = nullptr;
+    QList<AWAbstractSelector *> m_selectors;
     // properties
-    QString m_filePath;
-    QHash<QString, QString> m_keys;
+    QStringList m_keys;
+    // methods
+    void addSelector(const QStringList &_keys, const QStringList &_values,
+                     const QPair<QString, QString> &_current);
+    void clearSelectors();
+    void execDialog();
+    void init();
+    QPair<QStringList, QStringList> initKeys() const;
+    void updateDialog();
 };
 
 
-#endif /* AWCUSTOMKEYSHELPER_H */
+#endif /* AWCUSTOMKEYSCONFIG_H */

@@ -31,14 +31,16 @@ class AWFormatterHelper : public AbstractExtItemAggregator
 public:
     explicit AWFormatterHelper(QWidget *_parent = nullptr);
     virtual ~AWFormatterHelper();
+    // read-write methods
+    void initItems();
+    bool writeItems(const QHash<QString, QString> &_configuration) const;
+    // methods
     QString convert(const QVariant &_value, const QString &_name) const;
     QStringList definedFormatters() const;
     QHash<QString, QString> getFormatters() const;
-    void initItems();
     QList<AbstractExtItem *> items() const;
     QStringList knownFormatters() const;
     bool removeUnusedFormatters(const QStringList &_keys) const;
-    bool writeFormatters(const QHash<QString, QString> &_configuration) const;
 
 public slots:
     void editItems();

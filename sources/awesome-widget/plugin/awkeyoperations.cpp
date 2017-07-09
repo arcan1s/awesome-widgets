@@ -346,7 +346,7 @@ void AWKeyOperations::addKeyToCache(const QString &_type, const QString &_key)
 
 void AWKeyOperations::reinitKeys()
 {
-    m_customKeys->initKeys();
+    m_customKeys->initItems();
     m_graphicalItems->initItems();
     m_extNetRequest->initItems();
     m_extQuotes->initItems();
