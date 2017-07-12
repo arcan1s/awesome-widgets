@@ -16,33 +16,37 @@
  ***************************************************************************/
 
 
-#ifndef AWCUSTOMKEYSHELPER_H
-#define AWCUSTOMKEYSHELPER_H
+#ifndef AWABSTRACTPAIRHELPER_H
+#define AWABSTRACTPAIRHELPER_H
 
 #include <QHash>
-#include <QObject>
-
-#include "awabstractpairhelper.h"
 
 
-class AWCustomKeysHelper : public QObject, public AWAbstractPairHelper
+class AWAbstractPairHelper
 {
-    Q_OBJECT
-
 public:
-    explicit AWCustomKeysHelper(QObject *_parent = nullptr);
-    virtual ~AWCustomKeysHelper();
-    // get
-    QString source(const QString &_key) const;
-    QStringList sources() const;
-    QStringList refinedSources() const;
+    explicit AWAbstractPairHelper(const QString &_filePath = "",
+                                  const QString &_section = "");
+    virtual ~AWAbstractPairHelper();
+    QStringList keys() const;
+    QHash<QString, QString> pairs() const;
+    QStringList values() const;
+    // read-write methods
+    virtual void initItems();
+    virtual bool
+    writeItems(const QHash<QString, QString> &_configuration) const;
+    virtual bool removeUnusedKeys(const QStringList &_keys) const;
     // configuration related
-    virtual void editPairs(){};
-    virtual QStringList leftKeys();
-    virtual QStringList rightKeys();
+    virtual void editPairs() = 0;
+    virtual QStringList leftKeys() = 0;
+    virtual QStringList rightKeys() = 0;
 
 private:
+    // properties
+    QHash<QString, QString> m_pairs;
+    QString m_filePath;
+    QString m_section;
 };
 
 
-#endif /* AWCUSTOMKEYSHELPER_H */
+#endif /* AWABSTRACTPAIRHELPER_H */

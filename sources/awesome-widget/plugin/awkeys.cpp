@@ -161,6 +161,9 @@ QStringList AWKeys::dictKeys(const bool _sorted, const QString &_regexp) const
     // check if functions asked
     if (_regexp == "functions")
         return QString(STATIC_FUNCTIONS).split(',');
+    // check if user defined keys asked
+    if (_regexp == "userdefined")
+        return m_keyOperator->userKeys();
 
     QStringList allKeys = m_keyOperator->dictKeys();
     // sort if required

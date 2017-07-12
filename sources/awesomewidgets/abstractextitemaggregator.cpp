@@ -20,6 +20,7 @@
 
 #include <KI18n/KLocalizedString>
 
+#include <QDir>
 #include <QFileInfo>
 #include <QInputDialog>
 #include <QPushButton>
@@ -32,6 +33,15 @@ AbstractExtItemAggregator::AbstractExtItemAggregator(QWidget *_parent,
     , m_type(_type)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
+
+    // create directory at $HOME
+    QString localDir = QString("%1/awesomewidgets/%2")
+                           .arg(QStandardPaths::writableLocation(
+                               QStandardPaths::GenericDataLocation))
+                           .arg(type());
+    QDir localDirectory;
+    if (localDirectory.mkpath(localDir))
+        qCInfo(LOG_LIB) << "Created directory" << localDir;
 
     ui->setupUi(this);
     copyButton
@@ -179,6 +189,17 @@ int AbstractExtItemAggregator::uniqNumber() const
 QVariant AbstractExtItemAggregator::configArgs() const
 {
     return m_configArgs;
+}
+
+
+QStringList AbstractExtItemAggregator::directories() const
+{
+    auto dirs
+        = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
+                                    QString("awesomewidgets/%1").arg(type()),
+                                    QStandardPaths::LocateDirectory);
+
+    return dirs;
 }
 
 

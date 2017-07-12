@@ -17,9 +17,9 @@
 
 #include "awformatterconfigfactory.h"
 
+#include "awcustomkeysconfig.h"
 #include "awdebug.h"
 #include "awformatterconfig.h"
-#include "awcustomkeysconfig.h"
 
 
 AWFormatterConfigFactory::AWFormatterConfigFactory(QObject *_parent)

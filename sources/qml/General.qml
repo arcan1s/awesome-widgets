@@ -71,6 +71,10 @@ QtObject {
             "regexp": "^(netdev|(down|up(?!time)).*)"
         },
         {
+            "label": i18n("Network request"),
+            "regexp": "^response.*"
+        },
+        {
             "label": i18n("Music player"),
             "regexp": "(^|d|s)(album|artist|duration|progress|title)"
         },
@@ -97,6 +101,10 @@ QtObject {
         {
             "label": i18n("Functions"),
             "regexp": "functions"
+        },
+        {
+            "label": i18n("User defined"),
+            "regexp": "userdefined"
         }
     ]
     property variant dpTagRegexp: [

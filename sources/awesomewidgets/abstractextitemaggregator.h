@@ -73,6 +73,7 @@ public:
     int uniqNumber() const;
     // get methods
     QVariant configArgs() const;
+    QStringList directories() const;
     virtual QList<AbstractExtItem *> items() const = 0;
     QString type() const;
     // set methods

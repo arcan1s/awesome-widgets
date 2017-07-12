@@ -16,49 +16,60 @@
  ***************************************************************************/
 
 
-#ifndef AWFORMATTERHELPER_H
-#define AWFORMATTERHELPER_H
+#ifndef AWABSTRACTPAIRCONFIG_H
+#define AWABSTRACTPAIRCONFIG_H
 
-#include "abstractextitemaggregator.h"
-#include "awabstractformatter.h"
+#include <QDialog>
+
 #include "awabstractpairhelper.h"
 
 
-class AWFormatterHelper : public AbstractExtItemAggregator,
-                          public AWAbstractPairHelper
+class AWAbstractSelector;
+namespace Ui
+{
+class AWAbstractPairConfig;
+}
+
+class AWAbstractPairConfig : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit AWFormatterHelper(QWidget *_parent = nullptr);
-    virtual ~AWFormatterHelper();
-    // read-write methods
-    void initItems();
-    // methods
-    QString convert(const QVariant &_value, const QString &_name) const;
-    QStringList definedFormatters() const;
-    QList<AbstractExtItem *> items() const;
-    // configuration related
-    virtual void editPairs();
-    virtual QStringList leftKeys();
-    virtual QStringList rightKeys();
+    explicit AWAbstractPairConfig(QWidget *_parent = nullptr,
+                                  const bool _hasEdit = false,
+                                  const QStringList &_keys = QStringList());
+    virtual ~AWAbstractPairConfig();
+    template <class T> void initHelper()
+    {
+        if (m_helper)
+            delete m_helper;
+        m_helper = new T(this);
+    }
+    void showDialog();
+    // properties
+    void setEditable(const bool _first, const bool _second);
 
-public slots:
-    void editItems();
+private slots:
+    void edit();
+    void updateUi();
 
 private:
-    // methods
-    AWAbstractFormatter::FormatterClass
-    defineFormatterClass(const QString &_stringType) const;
-    void initFormatters();
-    QPair<QString, AWAbstractFormatter::FormatterClass>
-    readMetadata(const QString &_filePath) const;
-    // parent methods
-    void doCreateItem();
+    QPushButton *m_editButton = nullptr;
+    Ui::AWAbstractPairConfig *ui = nullptr;
+    AWAbstractPairHelper *m_helper = nullptr;
+    QList<AWAbstractSelector *> m_selectors;
     // properties
-    QHash<QString, AWAbstractFormatter *> m_formatters;
-    QHash<QString, AWAbstractFormatter *> m_formattersClasses;
+    QPair<bool, bool> m_editable = {false, false};
+    bool m_hasEdit = false;
+    QStringList m_keys;
+    // methods
+    void addSelector(const QStringList &_keys, const QStringList &_values,
+                     const QPair<QString, QString> &_current);
+    void clearSelectors();
+    void execDialog();
+    QPair<QStringList, QStringList> initKeys() const;
+    void updateDialog();
 };
 
 
-#endif /* AWFORMATTERHELPER_H */
+#endif /* AWABSTRACTPAIRCONFIG_H */

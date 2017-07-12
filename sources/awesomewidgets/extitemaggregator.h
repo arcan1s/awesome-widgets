@@ -127,29 +127,23 @@ private:
 
     QList<AbstractExtItem *> getItems()
     {
-        // create directory at $HOME
-        QString localDir = QString("%1/awesomewidgets/%2")
-                               .arg(QStandardPaths::writableLocation(
-                                   QStandardPaths::GenericDataLocation))
-                               .arg(type());
-        QDir localDirectory;
-        if (localDirectory.mkpath(localDir))
-            qCInfo(LOG_LIB) << "Created directory" << localDir;
-
-        QStringList dirs = QStandardPaths::locateAll(
-            QStandardPaths::GenericDataLocation,
-            QString("awesomewidgets/%1").arg(type()),
-            QStandardPaths::LocateDirectory);
-        QStringList names;
         QList<AbstractExtItem *> items;
+
+        auto dirs = directories();
         for (auto &dir : dirs) {
             QStringList files = QDir(dir).entryList(QDir::Files, QDir::Name);
             for (auto &file : files) {
-                if ((!file.endsWith(".desktop")) || (names.contains(file)))
+                // check filename
+                if (!file.endsWith(".desktop"))
                     continue;
                 qCInfo(LOG_LIB) << "Found file" << file << "in" << dir;
-                names.append(file);
                 QString filePath = QString("%1/%2").arg(dir).arg(file);
+                // check if already exists
+                if (std::any_of(items.cbegin(), items.cend(),
+                                [&filePath](AbstractExtItem *item) {
+                                    return (item->fileName() == filePath);
+                                }))
+                    continue;
                 items.append(new T(this, filePath));
             }
         }

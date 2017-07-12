@@ -18,19 +18,15 @@
 #include "awcustomkeyshelper.h"
 
 #include <QSet>
-#include <QSettings>
-#include <QStandardPaths>
 
 #include "awdebug.h"
 
 
 AWCustomKeysHelper::AWCustomKeysHelper(QObject *_parent)
     : QObject(_parent)
+    , AWAbstractPairHelper("awesomewidgets/custom.ini", "Custom")
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
-
-    m_filePath = "awesomewidgets/custom.ini";
-    initItems();
 }
 
 
@@ -40,120 +36,43 @@ AWCustomKeysHelper::~AWCustomKeysHelper()
 }
 
 
-void AWCustomKeysHelper::initItems()
-{
-    m_keys.clear();
-
-    QStringList configs = QStandardPaths::locateAll(
-        QStandardPaths::GenericDataLocation, m_filePath);
-
-    for (auto &fileName : configs) {
-        QSettings settings(fileName, QSettings::IniFormat);
-        qCInfo(LOG_AW) << "Configuration file" << settings.fileName();
-
-        settings.beginGroup("Custom");
-        QStringList keys = settings.childKeys();
-        for (auto &key : keys) {
-            QString source = settings.value(key).toString();
-            qCInfo(LOG_AW) << "Found custom key" << key << "for source"
-                           << source << "in" << settings.fileName();
-            if (source.isEmpty()) {
-                qCInfo(LOG_AW) << "Skip empty source for" << key;
-                continue;
-            }
-            m_keys[key] = source;
-        }
-        settings.endGroup();
-    }
-}
-
-
-bool AWCustomKeysHelper::writeItems(
-    const QHash<QString, QString> &_configuration) const
-{
-    qCDebug(LOG_AW) << "Write configuration" << _configuration;
-
-    QString fileName = QString("%1/%2")
-                           .arg(QStandardPaths::writableLocation(
-                               QStandardPaths::GenericDataLocation))
-                           .arg(m_filePath);
-    QSettings settings(fileName, QSettings::IniFormat);
-    qCInfo(LOG_AW) << "Configuration file" << fileName;
-
-    settings.beginGroup("Custom");
-    for (auto &key : _configuration.keys())
-        settings.setValue(key, _configuration[key]);
-    settings.endGroup();
-
-    settings.sync();
-
-    return (settings.status() == QSettings::NoError);
-}
-
-
-bool AWCustomKeysHelper::removeUnusedKeys(const QStringList &_keys) const
-{
-    qCDebug(LOG_AW) << "Remove keys" << _keys;
-
-    QString fileName = QString("%1/%2")
-            .arg(QStandardPaths::writableLocation(
-                    QStandardPaths::GenericDataLocation))
-            .arg(m_filePath);
-    QSettings settings(fileName, QSettings::IniFormat);
-    qCInfo(LOG_AW) << "Configuration file" << fileName;
-
-    settings.beginGroup("Custom");
-    QStringList foundKeys = settings.childKeys();
-    for (auto &key : foundKeys) {
-        if (_keys.contains(key))
-            continue;
-        settings.remove(key);
-    }
-    settings.endGroup();
-
-    settings.sync();
-
-    return (settings.status() == QSettings::NoError);
-}
-
-
-QHash<QString, QString> AWCustomKeysHelper::getUserKeys() const
-{
-    return m_keys;
-}
-
-
-QStringList AWCustomKeysHelper::keys() const
-{
-    return m_keys.keys();
-}
-
-
 QString AWCustomKeysHelper::source(const QString &_key) const
 {
     qCDebug(LOG_AW) << "Get source by key" << _key;
 
-    return m_keys[_key];
+    return pairs()[_key];
 }
 
 
 QStringList AWCustomKeysHelper::sources() const
 {
-    return QSet<QString>::fromList(m_keys.values()).toList();
+    return QSet<QString>::fromList(values()).toList();
 }
 
 
 QStringList AWCustomKeysHelper::refinedSources() const
 {
-    auto allSources = QSet<QString>::fromList(m_keys.values());
+    auto allSources = QSet<QString>::fromList(pairs().values());
     QSet<QString> output;
 
     while (output != allSources) {
         output.clear();
         for (auto &src : allSources)
-            output.insert(m_keys.contains(src) ? source(src) : src);
+            output.insert(pairs().contains(src) ? source(src) : src);
         allSources = output;
     }
 
     return output.toList();
+}
+
+
+QStringList AWCustomKeysHelper::leftKeys()
+{
+    return keys();
+}
+
+
+QStringList AWCustomKeysHelper::rightKeys()
+{
+    return QStringList();
 }

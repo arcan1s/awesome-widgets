@@ -19,17 +19,10 @@
 #ifndef AWCUSTOMKEYSCONFIG_H
 #define AWCUSTOMKEYSCONFIG_H
 
-#include <QDialog>
+#include "awabstractpairconfig.h"
 
 
-class AWAbstractSelector;
-class AWCustomKeysHelper;
-namespace Ui
-{
-class AWCustomKeysConfig;
-}
-
-class AWCustomKeysConfig : public QDialog
+class AWCustomKeysConfig : public AWAbstractPairConfig
 {
     Q_OBJECT
 
@@ -37,25 +30,6 @@ public:
     explicit AWCustomKeysConfig(QWidget *_parent = nullptr,
                                 const QStringList &_keys = QStringList());
     virtual ~AWCustomKeysConfig();
-    Q_INVOKABLE void showDialog();
-
-private slots:
-    void updateUi();
-
-private:
-    Ui::AWCustomKeysConfig *ui = nullptr;
-    AWCustomKeysHelper *m_helper = nullptr;
-    QList<AWAbstractSelector *> m_selectors;
-    // properties
-    QStringList m_keys;
-    // methods
-    void addSelector(const QStringList &_keys, const QStringList &_values,
-                     const QPair<QString, QString> &_current);
-    void clearSelectors();
-    void execDialog();
-    void init();
-    QPair<QStringList, QStringList> initKeys() const;
-    void updateDialog();
 };
 
 
