@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2017-05-05 18:15+0300\n"
-"PO-Revision-Date: 2017-05-05 18:19+0300\n"
+"POT-Creation-Date: 2017-07-13 17:39+0300\n"
+"PO-Revision-Date: 2017-07-13 17:52+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
-"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 2.0\n"
 
 msgid "Version %1 (build date %2)"
@@ -328,6 +328,9 @@ msgstr "Цвет заряжаемой батареи"
 msgid "Battery inactive color"
 msgstr "Цвет разряжаемой батареи"
 
+msgid "Edit"
+msgstr "Править"
+
 msgid "Run %1"
 msgstr "Запуск %1"
 
@@ -366,9 +369,6 @@ msgstr "Высокая загрузка GPU"
 
 msgid "Network device has been changed to %1"
 msgstr "Сетевое устройство было изменено на %1"
-
-msgid "Edit"
-msgstr "Править"
 
 msgid "Select type"
 msgstr "Выберете тип"
@@ -627,6 +627,9 @@ msgstr "Редактировать бары"
 msgid "Formatters"
 msgstr "Форматеры"
 
+msgid "User keys"
+msgstr "Пользовательские ключи"
+
 msgid "Preview"
 msgstr "Предварительный просмотр"
 
@@ -694,21 +697,6 @@ msgstr "Не могу сохранить файл настроек"
 msgid "Select a font"
 msgstr "Выберете шрифт"
 
-msgid "Bgcolor"
-msgstr "Цвет фона"
-
-msgid "Import"
-msgstr "Импорт"
-
-msgid "Import plasmoid settings"
-msgstr "Импорт настроек плазмоида"
-
-msgid "Import extensions"
-msgstr "Импорт расширений"
-
-msgid "Import additional files"
-msgstr "Импорт дополнительных файлов"
-
 msgid "AC"
 msgstr "Адаптор питания"
 
@@ -717,6 +705,9 @@ msgstr "Бары"
 
 msgid "Desktops"
 msgstr "Рабочие столы"
+
+msgid "Network request"
+msgstr "Веб-запрос"
 
 msgid "Scripts"
 msgstr "Скрипты"
@@ -735,6 +726,9 @@ msgstr "Погода"
 
 msgid "Functions"
 msgstr "Функции"
+
+msgid "User defined"
+msgstr "Пользовательские ключи"
 
 msgid "All"
 msgstr "Все"
@@ -766,456 +760,17 @@ msgstr "raised"
 msgid "sunken"
 msgstr "sunken"
 
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Evgeniy Alekseev"
+msgid "Bgcolor"
+msgstr "Цвет фона"
 
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "esalexeev@gmail.com"
+msgid "Import"
+msgstr "Импорт"
 
-#~ msgid "Edit scripts"
-#~ msgstr "Редактировать скрипты"
+msgid "Import plasmoid settings"
+msgstr "Импорт настроек плазмоида"
 
-#~ msgid "Edit tickers"
-#~ msgstr "Редактировать тикеры"
+msgid "Import extensions"
+msgstr "Импорт расширений"
 
-#~ msgid "Edit command"
-#~ msgstr "Редактировать команду"
-
-#~ msgid "Edit weather"
-#~ msgstr "Редактировать погоду"
-
-#~ msgid "Use image for active"
-#~ msgstr "Использовать изображения для активной части"
-
-#~ msgid "Active color"
-#~ msgstr "Активный цвет"
-
-#~ msgid "Use image for inactive"
-#~ msgstr "Использовать изображение для неактивной части"
-
-#~ msgid "Inactive color"
-#~ msgstr "Неактивный цвет"
-
-#~ msgid "Add lambda"
-#~ msgstr "Добавить лямбду"
-
-#~ msgid "Free space on %1 less than 10%"
-#~ msgstr "Свободное место на диске %1 меньше 10%"
-
-#~ msgid "Top Edge"
-#~ msgstr "Верхняя грань"
-
-#~ msgid "Bottom Edge"
-#~ msgstr "Нижняя грань"
-
-#~ msgid "Left Edge"
-#~ msgstr "Левая грань"
-
-#~ msgid "Right Edge"
-#~ msgstr "Правая грань"
-
-#~ msgid "Unknown location (%1)"
-#~ msgstr "Неизвестное положение (%1)"
-
-#~ msgid "Ticker: %1"
-#~ msgstr "Тикер: %1"
-
-#~ msgid "Exec: %1"
-#~ msgstr "Команда: %1"
-
-#~ msgid "Run ksysguard"
-#~ msgstr "Запустить ksysguard"
-
-#~ msgid "Update text"
-#~ msgstr "Обновить текст"
-
-#~ msgid "Check for updates"
-#~ msgstr "Проверить обновления"
-
-#~ msgid "Enable popup on mouse click"
-#~ msgstr "Включить сообщения по клику мыши"
-
-#~ msgid ""
-#~ "$dddd - long weekday\n"
-#~ "$ddd - short weekday\n"
-#~ "$dd - day\n"
-#~ "$d - day w\\o zero\n"
-#~ "$MMMM - long month\n"
-#~ "$MMM - short month\n"
-#~ "$MM - month\n"
-#~ "$M - month w\\o zero\n"
-#~ "$yyyy - year\n"
-#~ "$yy - short year\n"
-#~ "$hh - hours (24 only)\n"
-#~ "$h - hours w\\o zero (24 only)\n"
-#~ "$mm - minutes\n"
-#~ "$m - minutes w\\o zero\n"
-#~ "$ss - seconds\n"
-#~ "$s - seconds w\\o zero"
-#~ msgstr ""
-#~ "$dddd - день недели (длинный)\n"
-#~ "$ddd - день недели (короткий)\n"
-#~ "$dd - день\n"
-#~ "$d - день без 0\n"
-#~ "$MMMM - месяц (длинный)\n"
-#~ "$MMM - месяц (короткий)\n"
-#~ "$MM - месяц\n"
-#~ "$M - месяц без 0\n"
-#~ "$yyyy - год\n"
-#~ "$yy - год (короткий)\n"
-#~ "$hh - часы (24)\n"
-#~ "$h - часы без 0 (24)\n"
-#~ "$mm - минуты\n"
-#~ "$m - минуты без 0\n"
-#~ "$ss - секунды\n"
-#~ "$s - секунды без 0"
-
-#~ msgid ""
-#~ "$dd - uptime days\n"
-#~ "$d - uptime days without zero\n"
-#~ "$hh - uptime hours\n"
-#~ "$h - uptime hours without zero\n"
-#~ "$mm - uptime minutes\n"
-#~ "$m - uptime minutes without zero"
-#~ msgstr ""
-#~ "$dd - дни аптайма\n"
-#~ "$d - дни аптайма без нулей\n"
-#~ "$hh - часы аптайма\n"
-#~ "$h - часы аптайма без нулей\n"
-#~ "$mm - минуты аптайма\n"
-#~ "$m - минуты аптайма без нулей"
-
-#~ msgid "Temperature devices"
-#~ msgstr "Температурные устройства"
-
-#~ msgid "Editable"
-#~ msgstr "Редактируемо"
-
-#~ msgid "Fan devices"
-#~ msgstr "Кулеры"
-
-#~ msgid "Mount points"
-#~ msgstr "Точки монтирования"
-
-#~ msgid "HDD devices (speed)"
-#~ msgstr "HDD (скорость)"
-
-#~ msgid "HDD devices (temp)"
-#~ msgstr "HDD (температура)"
-
-#~ msgid "Disable auto select device and set specified device"
-#~ msgstr "Отключить автовыбор устройства и использовать указанное"
-
-#~ msgid "Set network device"
-#~ msgstr "Выберете сетевое устройство"
-
-#~ msgid "Line, which returns when AC is online"
-#~ msgstr "Строка, возвращаемая при подключенном адаптере питания"
-
-#~ msgid "Line, which returns when AC is offline"
-#~ msgstr "Строка, возвращаемая при отключенном адаптере питания"
-
-#~ msgid "\"/sys/class/power_supply/\" by default"
-#~ msgstr "\"/sys/class/power_supply/\" по умолчанию"
-
-#~ msgid "<b>NOTE:</b> Player DBus interface should be an active"
-#~ msgstr "<b>ВНИМАНИЕ:</b> DBus интерфейс плеера должен быть активен"
-
-#~ msgid "Configuration"
-#~ msgstr "Настройка"
-
-#~ msgid "Ctrl+B"
-#~ msgstr "Ctrl+B"
-
-#~ msgid "Ctrl+I"
-#~ msgstr "Ctrl+I"
-
-#~ msgid "Ctrl+U"
-#~ msgstr "Ctrl+U"
-
-#~ msgid "Null lines"
-#~ msgstr "Число пустых линий"
-
-#~ msgid "Desktop check cmd"
-#~ msgstr "Команда для проверки рабочего стола"
-
-#~ msgid "Battery device"
-#~ msgstr "Устройство батареи"
-
-#~ msgid "\"/sys/class/power_supply/BAT0/capacity\" by default"
-#~ msgstr "\"/sys/class/power_supply/BAT0/capacity\" по умолчанию"
-
-#~ msgid "Add stretch to left/top of the layout"
-#~ msgstr "Добавить пустое место слева/вверху виджета"
-
-#~ msgid "Add stretch to right/bottom of the layout"
-#~ msgstr "Добавить пустое место справа/внизу виджета"
-
-#~ msgid "Appearance configuration"
-#~ msgstr "Настройка внешнего вида"
-
-#~ msgid "Widget configuration"
-#~ msgstr "Настройка виджета"
-
-#~ msgid "\"/sys/class/net\" by default"
-#~ msgstr "\"/sys/class/net\" по умолчанию"
-
-#~ msgid "Custom command to run"
-#~ msgstr "Своя команда для запуска"
-
-#~ msgid ""
-#~ "$time - time in default format\n"
-#~ "$isotime - time in ISO format\n"
-#~ "$shorttime - time in short format\n"
-#~ "$longtime - time in log format\n"
-#~ "$custom - custom time format"
-#~ msgstr ""
-#~ "$time - время в стандартном формате\n"
-#~ "$isotime - время в ISO формате\n"
-#~ "$shorttime - время в коротком формате\n"
-#~ "$longtime - время в длинном формате\n"
-#~ "$custom - свой формат времени"
-
-#~ msgid "Uptime"
-#~ msgstr "Время работы"
-
-#~ msgid ""
-#~ "$uptime - system uptime\n"
-#~ "$custom - custom format"
-#~ msgstr ""
-#~ "$uptime - время работы\n"
-#~ "$custom - свой формат"
-
-#~ msgid ""
-#~ "$cpu - total load CPU, %\n"
-#~ "$cpu0 - load CPU for core 0, %\n"
-#~ "...\n"
-#~ "$cpu9 - load CPU for core 9, %\n"
-#~ "...\n"
-#~ "$cpuN - load CPU for core N, %"
-#~ msgstr ""
-#~ "$cpu - общая загрузка CPU, %\n"
-#~ "$cpu0 - загрузка CPU для ядра 0, %\n"
-#~ "...\n"
-#~ "$cpu9 - загрузка CPU для ядра 9, %\n"
-#~ "...\n"
-#~ "$cpuN - загрузка CPU для ядра N, %"
-
-#~ msgid ""
-#~ "$cpucl - average CPU clock, MHz\n"
-#~ "$cpucl0 - CPU clock for core 0, MHz\n"
-#~ "...\n"
-#~ "$cpucl9 - CPU clock for core 9, MHz\n"
-#~ "...\n"
-#~ "$cpuclN - CPU clock for core N, MHz"
-#~ msgstr ""
-#~ "$cpucl - средняя частота CPU, MHz\n"
-#~ "$cpucl0 - частота CPU для ядра 0, MHz\n"
-#~ "...\n"
-#~ "$cpucl9 - частота CPU для ядра 9, MHz\n"
-#~ "...\n"
-#~ "$cpuclN - частота CPU для ядра N, MHz"
-
-#~ msgid "$tempN - physical temperature on device N (from 0). Example: $temp0"
-#~ msgstr ""
-#~ "$tempN - физическая температура на устройстве N (от 0). Пример: $temp0"
-
-#~ msgid "$gpu - gpu usage, %"
-#~ msgstr "$gpu - использование GPU, %"
-
-#~ msgid "GPU Temp"
-#~ msgstr "Температура GPU"
-
-#~ msgid "$gputemp - physical temperature on GPU"
-#~ msgstr "$gputemp - физическая температура на GPU"
-
-#~ msgid ""
-#~ "$mem - RAM usage, %\n"
-#~ "$memmb - RAM usage, MB\n"
-#~ "$memgb - RAM usage, GB\n"
-#~ "$memtotmb - total RAM, MB\n"
-#~ "$memtotgb - total RAM, GB"
-#~ msgstr ""
-#~ "$mem - использование RAM, %\n"
-#~ "$memmb - использование RAM, MB\n"
-#~ "$memgb - использование RAM, GB\n"
-#~ "$memtotmb - RAM, MB\n"
-#~ "$memtotgb - RAM, GB"
-
-#~ msgid ""
-#~ "$swap - swap usage, %\n"
-#~ "$swapmb - swap usage, MB\n"
-#~ "$swapgb - swap usage, GB\n"
-#~ "$swaptotmb - total swap, MB\n"
-#~ "$swaptotgb - total swap, GB"
-#~ msgstr ""
-#~ "$swap - использование swap, %\n"
-#~ "$swapmb - использование swap, MB\n"
-#~ "$swapgb - использование swap, GB\n"
-#~ "$swaptotmb - swap, MB\n"
-#~ "$swaptotgb - swap, GB"
-
-#~ msgid ""
-#~ "$hddN - usage for mount point N (from 0), %. Example: $hdd0\n"
-#~ "$hddmbN - usage for mount point N (from 0), MB. Example: $hddmb0\n"
-#~ "$hddgbN - usage for mount point N (from 0), GB. Example: $hddgb0\n"
-#~ "$hddtotmbN - total size of mount point N (from 0), MB. Example: "
-#~ "$hddtotmb0\n"
-#~ "$hddtotgbN - total size of mount point N (from 0), GB. Example: $hddtotgb0"
-#~ msgstr ""
-#~ "$hddN - использование точки монтирования N (от 0), %. Пример: $hdd0\n"
-#~ "$hddmbN - использование точки монтирования N (от 0), MB. Пример: $hddmb0\n"
-#~ "$hddgbN - использование точки монтирования N (от 0), GB. Пример: $hddgb0\n"
-#~ "$hddtotmbN - размер точки монтирования N (от 0), MB. Пример: $hddtotmb0\n"
-#~ "$hddtotgbN - размер точки монтирования N (от 0), GB. Пример: $hddtotgb0"
-
-#~ msgid "HDD speed"
-#~ msgstr "Скорость HDD"
-
-#~ msgid ""
-#~ "$hddrN - read speed HDD N (from 0), KB/s. Example: $hddr0\n"
-#~ "$hddwN - write speed HDD N (from 0), KB/s. Example: $hddw0"
-#~ msgstr ""
-#~ "$hddrN - скорость записи на HDD N (от 0), KB/s. Например: $hddr0\n"
-#~ "$hddwN - скорость чтения с HDD N (от 0), KB/s. Например: $hddw0"
-
-#~ msgid "HDD temp"
-#~ msgstr "Температура HDD"
-
-#~ msgid ""
-#~ "$hddtempN - physical temperature on device N (from 0). Example: $hddtemp0"
-#~ msgstr "$hddtempN - температура на устройстве N (от 0). Пример: $hddtemp0"
-
-#~ msgid ""
-#~ "$down - download speed, KB/s\n"
-#~ "$up - upload speed, KB/s\n"
-#~ "$netdev - current network device"
-#~ msgstr ""
-#~ "$down - скорость скачки, KB/s\n"
-#~ "$up - скорость загрузки, KB/s\n"
-#~ "$netdev - текущее устройство"
-
-#~ msgid ""
-#~ "$bat - battery charge, %\n"
-#~ "$ac - AC status"
-#~ msgstr ""
-#~ "$bat - заряд батареи, %\n"
-#~ "$ac - статус адаптера питания"
-
-#~ msgid ""
-#~ "$album - song album\n"
-#~ "$artist - song artist\n"
-#~ "$progress - song progress\n"
-#~ "$time - song duration\n"
-#~ "$title - song title"
-#~ msgstr ""
-#~ "$album - альбом\n"
-#~ "$artist - исполнитель\n"
-#~ "$progress - прогресс\n"
-#~ "$time - продолжительность\n"
-#~ "$title - название"
-
-#~ msgid "Processes"
-#~ msgstr "Процессы"
-
-#~ msgid ""
-#~ "$pscount - number of running processes\n"
-#~ "$pstotal - total number of running processes\n"
-#~ "$ps - list of running processes comma separated"
-#~ msgstr ""
-#~ "$pscount - число запущенных процессов\n"
-#~ "$pstotal - общее число процессов\n"
-#~ "$ps - список запущенных процессов, разделенных запятыми"
-
-#~ msgid ""
-#~ "$pkgcountN - number of packages which are available for updates, command "
-#~ "N. For example $pkgcount0"
-#~ msgstr ""
-#~ "$pkgcountN - число пакетов, которые доступны для обновления, для команды "
-#~ "N. Например, $pkgcount0"
-
-#~ msgid ""
-#~ "$customN - get output from custom command N (from N). Example `$custom0`"
-#~ msgstr ""
-#~ "$customN - получить информацию из своей команды N. Например $custom0"
-
-#~ msgid ""
-#~ "$name - desktop name\n"
-#~ "$number - desktop number\n"
-#~ "$total - total number of desktops"
-#~ msgstr ""
-#~ "$name - имя рабочего стола\n"
-#~ "$number - номер рабочего стола\n"
-#~ "$total - общее число рабочих столов"
-
-#~ msgid "pacman -Qu"
-#~ msgstr "pacman -Qu"
-
-#~ msgid "apt-show-versions -u -b"
-#~ msgstr "apt-show-versions -u -b"
-
-#~ msgid "aptitude search '~U'"
-#~ msgstr "aptitude search '~U'"
-
-#~ msgid "yum list updates"
-#~ msgstr "yum list updates"
-
-#~ msgid "pkg_version -I -l '<'"
-#~ msgstr "pkg_version -I -l '<'"
-
-#~ msgid "urpmq --auto-select"
-#~ msgstr "urpmq --auto-select"
-
-#~ msgid "amarok"
-#~ msgstr "amarok"
-
-#~ msgid "mpd"
-#~ msgstr "mpd"
-
-#~ msgid "qmmp"
-#~ msgstr "qmmp"
-
-#~ msgid "auto"
-#~ msgstr "auto"
-
-#~ msgid "nvidia"
-#~ msgstr "nvidia"
-
-#~ msgid "ati"
-#~ msgstr "ati"
-
-#~ msgid "$hddN - usage for mount point N (from 0), %. Example: $hdd0"
-#~ msgstr "$hddN - использование точки монтирования N (от 0), %. Пример: $hdd0"
-
-#~ msgid ""
-#~ "$ds - uptime days\n"
-#~ "$hs - uptime hours\n"
-#~ "$ms - uptime minutes"
-#~ msgstr ""
-#~ "$ds - дни работы\n"
-#~ "$hs - часы\n"
-#~ "$ms - минуты"
-
-#~ msgid ""
-#~ "Command to run, example:\n"
-#~ "wget -qO- http://ifconfig.me/ip - get external IP"
-#~ msgstr ""
-#~ "Команда для запуска, например:\n"
-#~ "wget -qO- http://ifconfig.me/ip - получить внешний IP"
-
-#~ msgid "@@/;@@ - mount point usage, %"
-#~ msgstr "@@/;@@ - использование точки монтирования, %"
-
-#~ msgid "@@/dev/sda@@ - physical temperature on /dev/sda"
-#~ msgstr "@@/dev/sda@@ - физическая температура /dev/sda"
-
-#~ msgid ""
-#~ "$net - network speed, down/up, KB/s\n"
-#~ "$netdev - current network device\n"
-#~ "@@eth0@@ - disable auto select device and set specified device"
-#~ msgstr ""
-#~ "$net - скорость передачи данных, down/up, KB/s\n"
-#~ "$netdev - используемое устройство\n"
-#~ "@@eth0@@ - отключить автовыбор устройства и установить указанное"
+msgid "Import additional files"
+msgstr "Импорт дополнительных файлов"

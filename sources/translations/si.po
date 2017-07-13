@@ -1,158 +1,151 @@
-# Copyright (C) 2014
-# This file is distributed under the same license as the PyTextMonitor package.
-# Evgeniy Alekseev <esalexeev@gmail.com>, 2014, 2015.
-# Mermouy <mermouy@gmail.com>, 2014.
-# MerMouY <mermouy@openmailbox.org>, 2015.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
 "POT-Creation-Date: 2017-07-13 17:39+0300\n"
-"PO-Revision-Date: 2015-07-31 22:16+0300\n"
-"Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
-"Language-Team: French <kde-russian@lists.kde.ru>\n"
-"Language: fr\n"
+"PO-Revision-Date: 2017-05-15 17:44+0000\n"
+"Last-Translator: Evgeniy Alekseev <darkarcanis@mail.ru>\n"
+"Language-Team: Sinhala (http://www.transifex.com/arcanis/awesome-widgets/"
+"language/si/)\n"
+"Language: si\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 2.0\n"
-"X-Language: fr-FR\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Version %1 (build date %2)"
-msgstr "Version %1 (build date %2)"
+msgstr ""
 
 msgid "A set of minimalistic plasmoid widgets"
-msgstr "Un jeu de composants plasmoïds minimalistes"
+msgstr ""
 
 msgid "Links:"
-msgstr "Liens:"
+msgstr ""
 
 msgid "Homepage"
-msgstr "Page d'accueil"
+msgstr ""
 
 msgid "Repository"
-msgstr "Dépôt"
+msgstr ""
 
 msgid "Bugtracker"
-msgstr "Suivi des bugs"
+msgstr ""
 
 msgid "Translation issue"
-msgstr "Traductions"
+msgstr ""
 
 msgid "AUR packages"
-msgstr "Paquets depuis AUR"
+msgstr ""
 
 msgid "openSUSE packages"
-msgstr "Paquets openSUSE"
+msgstr ""
 
 msgid "This software is licensed under %1"
-msgstr "Ce programme est publié sous la licence %1"
+msgstr ""
 
-#, fuzzy
 msgid "Translators:"
-msgstr "Traducteurs: %1"
+msgstr ""
 
-#, fuzzy
 msgid "This software uses:"
-msgstr "Ce logiciel utilise: %1"
+msgstr ""
 
 msgid "Special thanks to:"
 msgstr ""
 
 msgid "Widget"
-msgstr "Composant"
+msgstr ""
 
 msgid "Advanced"
-msgstr "Avancé"
+msgstr ""
 
 msgid "Tooltip"
-msgstr "Conseil"
+msgstr ""
 
 msgid "Appearance"
-msgstr "Apparence"
+msgstr ""
 
 msgid "DataEngine"
-msgstr "Moteur de données"
+msgstr ""
 
 msgid "About"
-msgstr "À propos"
+msgstr ""
 
 msgid "Enable background"
-msgstr "Activer le fond"
+msgstr ""
 
-#, fuzzy
 msgid "Translate strings"
-msgstr "Traductions"
+msgstr ""
 
 msgid "Wrap new lines"
-msgstr "Couper les lignes supplémentaires"
+msgstr ""
 
 msgid "Enable word wrap"
 msgstr ""
 
 msgid "Enable notifications"
-msgstr "Activer les notifications"
+msgstr ""
 
-#, fuzzy
 msgid "Check updates on startup"
-msgstr "Vérifier les mises à jour"
+msgstr ""
 
 msgid "Optimize subscription"
 msgstr ""
 
 msgid "Widget height, px"
-msgstr "Paramètres du composant"
+msgstr ""
 
 msgid "Widget width, px"
-msgstr "Largeur de l'applet"
+msgstr ""
 
 msgid "Time interval"
-msgstr "Intervalle"
+msgstr ""
 
 msgid "Messages queue limit"
 msgstr ""
 
 msgid "Celsius"
-msgstr "Celsius"
+msgstr ""
 
 msgid "Fahrenheit"
-msgstr "Fahrenheit"
+msgstr ""
 
 msgid "Kelvin"
-msgstr "Kelvin"
+msgstr ""
 
 msgid "Reaumur"
-msgstr "Reaumur"
+msgstr ""
 
 msgid "cm^-1"
-msgstr "cm^-1"
+msgstr ""
 
 msgid "kJ/mol"
-msgstr "kJ/mol"
+msgstr ""
 
 msgid "kcal/mol"
-msgstr "kcal/mol"
+msgstr ""
 
 msgid "Temperature units"
-msgstr "Unités de température"
+msgstr ""
 
 msgid "Custom time format"
-msgstr "Format de l'heure personnalisé"
+msgstr ""
 
 msgid "Custom uptime format"
-msgstr "Temps de fonctionnement personalisé"
+msgstr ""
 
 msgid "AC online tag"
-msgstr "Étiquette alimentation branchée"
+msgstr ""
 
 msgid "AC offline tag"
-msgstr "Étiquette alimentation débranchée"
+msgstr ""
 
-#, fuzzy
 msgid "Actions"
-msgstr "Batterie"
+msgstr ""
 
 msgid "Drop key cache"
 msgstr ""
@@ -166,11 +159,8 @@ msgstr ""
 msgid "Telemetry"
 msgstr ""
 
-#, fuzzy
 msgid "Enable remote telemetry"
 msgstr ""
-"Modifiable\n"
-"del - supprimer un élément"
 
 msgid "History count"
 msgstr ""
@@ -179,49 +169,46 @@ msgid "Telemetry ID"
 msgstr ""
 
 msgid "Font"
-msgstr "Police"
+msgstr ""
 
 msgid "Font size"
-msgstr "Taille de la police"
+msgstr ""
 
 msgid "Font weight"
-msgstr "Épaisseur de la police"
+msgstr ""
 
 msgid "Font style"
-msgstr "Style de la police"
+msgstr ""
 
 msgid "Font color"
-msgstr "Couleur de la police"
+msgstr ""
 
 msgid "Style"
 msgstr ""
 
-#, fuzzy
 msgid "Style color"
-msgstr "Sélectionner la couleur"
+msgstr ""
 
-#, fuzzy
 msgid "ACPI"
-msgstr "chemin ACPI"
+msgstr ""
 
 msgid "ACPI path"
-msgstr "chemin ACPI"
+msgstr ""
 
 msgid "GPU"
-msgstr "Processeur graphique"
+msgstr ""
 
 msgid "GPU device"
-msgstr "Périphérique graphique"
+msgstr ""
 
-#, fuzzy
 msgid "HDD temperature"
-msgstr "Température"
+msgstr ""
 
 msgid "HDD"
-msgstr "Disque dur"
+msgstr ""
 
 msgid "hddtemp cmd"
-msgstr "Cmd de température disques"
+msgstr ""
 
 msgid "Player"
 msgstr ""
@@ -230,128 +217,120 @@ msgid "Player data symbols"
 msgstr ""
 
 msgid "Music player"
-msgstr "Lecteur audio"
+msgstr ""
 
 msgid "MPRIS player name"
-msgstr "Nom du lecteur MPRIS"
+msgstr ""
 
 msgid "MPD address"
-msgstr "Adresse MPD"
+msgstr ""
 
 msgid "MPD port"
-msgstr "Port MPD"
+msgstr ""
 
 msgid "Extensions"
 msgstr ""
 
 msgid "Custom scripts"
-msgstr "Scripts personnalisés"
+msgstr ""
 
-#, fuzzy
 msgid "Network requests"
-msgstr "Voisinage réseau"
+msgstr ""
 
 msgid "Package manager"
-msgstr "Gestionnaire de paquets"
+msgstr ""
 
 msgid "Quotes monitor"
-msgstr "Moniteur de citations"
+msgstr ""
 
 msgid "Weather"
 msgstr ""
 
 msgid "Select tag"
-msgstr "Sélectionner l'étiquette"
+msgstr ""
 
 msgid "Tag: %1"
-msgstr "Etiquette: %1"
+msgstr ""
 
 msgid "Value: %1"
-msgstr "Valeur: %1"
+msgstr ""
 
 msgid "Info: %1"
-msgstr "Info: %1"
+msgstr ""
 
 msgid "Request key"
-msgstr "Demander une clé"
+msgstr ""
 
 msgid "Show README"
-msgstr "Voir le README"
+msgstr ""
 
 msgid "Check updates"
-msgstr "Vérifier les mises à jour"
+msgstr ""
 
 msgid "Report bug"
 msgstr ""
 
-#, fuzzy
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
 "To enable them just make needed checkbox checked."
 msgstr ""
-"CPU, horloge du CPU, mémoire vive, mémoire swap et noms réseau gèrent les "
-"conseils visuels. Pour les activer cochez simplement les cases "
-"correspondantes."
 
 msgid "Number of values for tooltips"
-msgstr "Nombre d'éléments pour les conseils"
+msgstr ""
 
 msgid "Background"
-msgstr "Fond"
+msgstr ""
 
-#, fuzzy
 msgid "Background color"
-msgstr "Fond"
+msgstr ""
 
 msgid "CPU"
-msgstr "CPU"
+msgstr ""
 
 msgid "CPU color"
-msgstr "Couleur processeur"
+msgstr ""
 
-#, fuzzy
 msgid "CPU clock"
-msgstr "Horloge processeur"
+msgstr ""
 
 msgid "CPU clock color"
-msgstr "Couleur de l'horloge processeur"
+msgstr ""
 
 msgid "Memory"
-msgstr "Mémoire"
+msgstr ""
 
 msgid "Memory color"
-msgstr "Couleur de la mémoire"
+msgstr ""
 
 msgid "Swap"
-msgstr "mémoire d'échange (swap)"
+msgstr ""
 
 msgid "Swap color"
-msgstr "Couleur de la mémoire d'échange"
+msgstr ""
 
 msgid "Network"
-msgstr "Réseau"
+msgstr ""
 
 msgid "Download speed color"
-msgstr "Couleur de la vitesse de téléchargement"
+msgstr ""
 
 msgid "Upload speed color"
-msgstr "Couleur du téléversement"
+msgstr ""
 
 msgid "Battery"
-msgstr "Batterie"
+msgstr ""
 
 msgid "Battery active color"
-msgstr "Couleur active batterie"
+msgstr ""
 
 msgid "Battery inactive color"
-msgstr "Couleur batterie inactive"
+msgstr ""
 
-#, fuzzy
 msgid "Edit"
-msgstr "Modifiable"
+msgstr ""
 
 msgid "Run %1"
-msgstr "Éxecuter %1"
+msgstr ""
 
 msgid "Not supported"
 msgstr ""
@@ -360,7 +339,7 @@ msgid "You are using mammoth's Qt version, try to update it first"
 msgstr ""
 
 msgid "Select font"
-msgstr "Sélectionner une couleur"
+msgstr ""
 
 msgid "Issue created"
 msgstr ""
@@ -369,29 +348,28 @@ msgid "Issue %1 has been created"
 msgstr ""
 
 msgid "AC online"
-msgstr "Alimentation branchée"
+msgstr ""
 
 msgid "AC offline"
-msgstr "Alimentation débranchée"
+msgstr ""
 
 msgid "High CPU load"
-msgstr "Haute charge CPU"
+msgstr ""
 
 msgid "High memory usage"
-msgstr "Haute utilisation mémoire"
+msgstr ""
 
 msgid "Swap is used"
-msgstr "Fichier d'échange utilisé"
+msgstr ""
 
 msgid "High GPU load"
-msgstr "Haute charge GPU"
+msgstr ""
 
 msgid "Network device has been changed to %1"
-msgstr "L'interface réseau à été changée en %1"
+msgstr ""
 
-#, fuzzy
 msgid "Select type"
-msgstr "Sélectionner l'étiquette"
+msgstr ""
 
 msgid "Type:"
 msgstr ""
@@ -408,63 +386,56 @@ msgstr ""
 msgid "You are using the actual version %1"
 msgstr ""
 
-#, fuzzy
 msgid "No new version found"
-msgstr "Nouvelle version"
+msgstr ""
 
-#, fuzzy
 msgid "Current version : %1"
-msgstr "Version actuelle"
+msgstr ""
 
-#, fuzzy
 msgid "New version : %1"
-msgstr "Nouvelle version"
+msgstr ""
 
 msgid "Click \"Ok\" to download"
-msgstr "Cliquer sur \"Valider\" pour télécharger"
+msgstr ""
 
 msgid "There are updates"
-msgstr "Des mises à jour sont disponibles"
+msgstr ""
 
 msgid "Copy"
-msgstr "Copier"
+msgstr ""
 
 msgid "Create"
-msgstr "Créer"
+msgstr ""
 
 msgid "Remove"
-msgstr "Supprimer"
+msgstr ""
 
 msgid "Enter file name"
-msgstr "Entrer le nom du fichier"
+msgstr ""
 
 msgid "File name"
-msgstr "Nom du fichier"
+msgstr ""
 
 msgid "Name: %1"
-msgstr "Nom: %1"
+msgstr ""
 
 msgid "Comment: %1"
-msgstr "Commentaire: %1"
+msgstr ""
 
-#, fuzzy
 msgid "Identity: %1"
-msgstr "Commentaire: %1"
+msgstr ""
 
-#, fuzzy
 msgid "Name"
-msgstr "Nom: %1"
+msgstr ""
 
-#, fuzzy
 msgid "Comment"
-msgstr "Commentaire: %1"
+msgstr ""
 
 msgid "Type"
 msgstr ""
 
-#, fuzzy
 msgid "Format"
-msgstr "Entrées"
+msgstr ""
 
 msgid "Precision"
 msgstr ""
@@ -481,9 +452,8 @@ msgstr ""
 msgid "Multiplier"
 msgstr ""
 
-#, fuzzy
 msgid "Summand"
-msgstr "Commande personnalisée"
+msgstr ""
 
 msgid "Path"
 msgstr ""
@@ -497,9 +467,8 @@ msgstr ""
 msgid "Sort"
 msgstr ""
 
-#, fuzzy
 msgid "Append code"
-msgstr "Apparence"
+msgstr ""
 
 msgid "Has return"
 msgstr ""
@@ -508,14 +477,13 @@ msgid "Code"
 msgstr ""
 
 msgid "Tag"
-msgstr "Étiquette"
+msgstr ""
 
 msgid "URL"
 msgstr ""
 
-#, fuzzy
 msgid "Active"
-msgstr "Batterie"
+msgstr ""
 
 msgid "Schedule"
 msgstr ""
@@ -523,9 +491,8 @@ msgstr ""
 msgid "Socket"
 msgstr ""
 
-#, fuzzy
 msgid "Interval"
-msgstr "Intervalle"
+msgstr ""
 
 msgid ""
 "<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
@@ -534,13 +501,11 @@ msgid ""
 "span></a></p></body></html>"
 msgstr ""
 
-#, fuzzy
 msgid "Ticker"
-msgstr "Ticker: %1"
+msgstr ""
 
-#, fuzzy
 msgid "Command"
-msgstr "Commande personnalisée"
+msgstr ""
 
 msgid "Prefix"
 msgstr ""
@@ -551,9 +516,8 @@ msgstr ""
 msgid "Additional filters"
 msgstr ""
 
-#, fuzzy
 msgid "Wrap colors"
-msgstr "Couleur de la mémoire d'échange"
+msgstr ""
 
 msgid "Wrap spaces"
 msgstr ""
@@ -570,46 +534,38 @@ msgstr ""
 msgid "Country"
 msgstr ""
 
-#, fuzzy
 msgid "Timestamp"
-msgstr "Durée"
+msgstr ""
 
 msgid "Use images"
 msgstr ""
 
 msgid "Select color"
-msgstr "Sélectionner la couleur"
+msgstr ""
 
-#, fuzzy
 msgid "Select path"
-msgstr "Sélectionner l'étiquette"
+msgstr ""
 
 msgid "Images (*.png *.bpm *.jpg);;All files (*.*)"
 msgstr ""
 
-#, fuzzy
 msgid "Use custom formula"
-msgstr "Format de l'heure personnalisé"
+msgstr ""
 
-#, fuzzy
 msgid "Value"
-msgstr "Valeur: %1"
+msgstr ""
 
-#, fuzzy
 msgid "Max value"
-msgstr "Afficher la valeur"
+msgstr ""
 
-#, fuzzy
 msgid "Min value"
-msgstr "Afficher la valeur"
+msgstr ""
 
-#, fuzzy
 msgid "Active filling type"
-msgstr "Batterie"
+msgstr ""
 
-#, fuzzy
 msgid "Inctive filling type"
-msgstr "Bureau inactif"
+msgstr ""
 
 msgid "Points count"
 msgstr ""
@@ -617,52 +573,50 @@ msgstr ""
 msgid "Direction"
 msgstr ""
 
-#, fuzzy
 msgid "Height"
-msgstr "léger"
+msgstr ""
 
-#, fuzzy
 msgid "color"
-msgstr "Couleur processeur"
+msgstr ""
 
 msgid "image"
 msgstr ""
 
 msgid "Active desktop"
-msgstr "Bureau actif"
+msgstr ""
 
 msgid "Inactive desktop"
-msgstr "Bureau inactif"
+msgstr ""
 
 msgid "Vertical layout"
-msgstr "Positionnement vertical"
+msgstr ""
 
 msgid "Mark"
-msgstr "Marquer"
+msgstr ""
 
 msgid "contours"
-msgstr "contours"
+msgstr ""
 
 msgid "windows"
-msgstr "fenêtres"
+msgstr ""
 
 msgid "clean desktop"
-msgstr "nettoyer le bureau"
+msgstr ""
 
 msgid "names"
-msgstr "noms"
+msgstr ""
 
 msgid "none"
-msgstr "Aucun"
+msgstr ""
 
 msgid "Tooltip type"
-msgstr "Type d'infobulle"
+msgstr ""
 
 msgid "Tooltip width"
-msgstr "Largeur de l'infobulle"
+msgstr ""
 
 msgid "Edit bars"
-msgstr "Modifier les barres"
+msgstr ""
 
 msgid "Formatters"
 msgstr ""
@@ -677,17 +631,15 @@ msgid ""
 "Detailed information may be found on <a href=\"https://arcanis.me/projects/"
 "awesome-widgets/\">project homepage</a>"
 msgstr ""
-"D'avantage d'informations se trouvent sur <a href=\"https://arcanis.me/"
-"projects/awesome-widgets/\">la page du projet</a>"
 
 msgid "Add"
-msgstr "Ajouter"
+msgstr ""
 
 msgid "Show value"
-msgstr "Afficher la valeur"
+msgstr ""
 
 msgid "Acknowledgment"
-msgstr "À savoir"
+msgstr ""
 
 msgid "Report a bug"
 msgstr ""
@@ -707,9 +659,8 @@ msgstr ""
 msgid "Logs"
 msgstr ""
 
-#, fuzzy
 msgid "Use command"
-msgstr "Modifier la commande"
+msgstr ""
 
 msgid "Load log file"
 msgstr ""
@@ -718,7 +669,7 @@ msgid "Open log file"
 msgstr ""
 
 msgid "Select a color"
-msgstr "Sélectionner une couleur"
+msgstr ""
 
 msgid "Export"
 msgstr ""
@@ -736,7 +687,7 @@ msgid "Could not save configuration file"
 msgstr ""
 
 msgid "Select a font"
-msgstr "Sélectionner une police"
+msgstr ""
 
 msgid "AC"
 msgstr ""
@@ -747,28 +698,23 @@ msgstr ""
 msgid "Desktops"
 msgstr ""
 
-#, fuzzy
 msgid "Network request"
-msgstr "Voisinage réseau"
+msgstr ""
 
-#, fuzzy
 msgid "Scripts"
-msgstr "Modifier les scripts"
+msgstr ""
 
-#, fuzzy
 msgid "Time"
-msgstr "Durée"
+msgstr ""
 
-#, fuzzy
 msgid "Quotes"
-msgstr "Moniteur de citations"
+msgstr ""
 
 msgid "Upgrades"
 msgstr ""
 
-#, fuzzy
 msgid "Weathers"
-msgstr "Modifier les tickers"
+msgstr ""
 
 msgid "Functions"
 msgstr ""
@@ -780,26 +726,25 @@ msgid "All"
 msgstr ""
 
 msgid "normal"
-msgstr "normal"
+msgstr ""
 
 msgid "italic"
-msgstr "italique"
+msgstr ""
 
 msgid "light"
-msgstr "léger"
+msgstr ""
 
 msgid "demi bold"
-msgstr "mi-gras"
+msgstr ""
 
 msgid "bold"
-msgstr "gras"
+msgstr ""
 
 msgid "black"
-msgstr "noir"
+msgstr ""
 
-#, fuzzy
 msgid "outline"
-msgstr "Alimentation branchée"
+msgstr ""
 
 msgid "raised"
 msgstr ""
@@ -807,9 +752,8 @@ msgstr ""
 msgid "sunken"
 msgstr ""
 
-#, fuzzy
 msgid "Bgcolor"
-msgstr "Couleur processeur"
+msgstr ""
 
 msgid "Import"
 msgstr ""

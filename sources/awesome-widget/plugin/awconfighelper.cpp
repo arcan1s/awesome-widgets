@@ -108,9 +108,14 @@ bool AWConfigHelper::exportConfiguration(QObject *_nativeConfig,
     readFile(settings, "weathers",
              QString("%1/weather/awesomewidgets-extweather-ids.json")
                  .arg(m_baseDir));
+    settings.endGroup();
+
+    settings.beginGroup("ini");
     // formatter settings
     readFile(settings, "formatters",
              QString("%1/formatters/formatters.ini").arg(m_baseDir));
+    // custom keys settings
+    readFile(settings, "custom", QString("%1/custom.ini").arg(m_baseDir));
     settings.endGroup();
 
     // sync settings
@@ -151,9 +156,14 @@ QVariantMap AWConfigHelper::importConfiguration(const QString &_fileName,
         writeFile(settings, "weathers",
                   QString("%1/weather/awesomewidgets-extweather-ids.json")
                       .arg(m_baseDir));
+        settings.endGroup();
+
+        settings.beginGroup("ini");
         // formatter settings
         writeFile(settings, "formatters",
                   QString("%1/formatters/formatters.ini").arg(m_baseDir));
+        // custom keys settings
+        writeFile(settings, "custom", QString("%1/custom.ini").arg(m_baseDir));
         settings.endGroup();
     }
 
@@ -290,7 +300,7 @@ void AWConfigHelper::readFile(QSettings &_settings, const QString &_key,
         file.close();
         _settings.setValue(_key, text);
     } else {
-        qCWarning(LOG_AW) << "Could not open" << file.fileName();
+        qCWarning(LOG_AW) << "Could not open to read" << file.fileName();
     }
 }
 
@@ -311,6 +321,6 @@ void AWConfigHelper::writeFile(QSettings &_settings, const QString &_key,
         out.flush();
         file.close();
     } else {
-        qCWarning(LOG_AW) << "Could not open" << file.fileName();
+        qCWarning(LOG_AW) << "Could not open to write" << file.fileName();
     }
 }

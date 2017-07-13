@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2017-05-05 18:15+0300\n"
+"POT-Creation-Date: 2017-07-13 17:39+0300\n"
 "PO-Revision-Date: 2016-08-09 22:22+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Ukrainian <kde-russian@lists.kde.ru>\n"
@@ -339,6 +339,9 @@ msgstr "Колір батареї, що заряджається"
 msgid "Battery inactive color"
 msgstr "Колір батарєї, що розряджається"
 
+msgid "Edit"
+msgstr "Редагувати"
+
 msgid "Run %1"
 msgstr "Запуск %1"
 
@@ -377,9 +380,6 @@ msgstr "Високе завантаження GPU"
 
 msgid "Network device has been changed to %1"
 msgstr "Мережевий пристрій було змінено на %1"
-
-msgid "Edit"
-msgstr "Редагувати"
 
 msgid "Select type"
 msgstr "Оберіть тип"
@@ -639,6 +639,9 @@ msgstr "Редагувати бари"
 msgid "Formatters"
 msgstr "Форматери"
 
+msgid "User keys"
+msgstr ""
+
 msgid "Preview"
 msgstr "Попередній перегляд"
 
@@ -708,21 +711,6 @@ msgstr "Не можу зберегти файл налаштувань"
 msgid "Select a font"
 msgstr "Оберіть шрифт"
 
-msgid "Bgcolor"
-msgstr "Колір фону"
-
-msgid "Import"
-msgstr "Імпорт"
-
-msgid "Import plasmoid settings"
-msgstr "Імпорт налаштувань плазмоїда"
-
-msgid "Import extensions"
-msgstr "Імпорт розширень"
-
-msgid "Import additional files"
-msgstr "Імпорт додаткових файлів"
-
 msgid "AC"
 msgstr "Адаптер живлення"
 
@@ -731,6 +719,10 @@ msgstr "Бари"
 
 msgid "Desktops"
 msgstr "Робочі столи"
+
+#, fuzzy
+msgid "Network request"
+msgstr "Шлях до інтерфейсів"
 
 msgid "Scripts"
 msgstr "Скрипти"
@@ -749,6 +741,9 @@ msgstr "Погода"
 
 msgid "Functions"
 msgstr "Функції"
+
+msgid "User defined"
+msgstr ""
 
 msgid "All"
 msgstr ""
@@ -781,361 +776,17 @@ msgstr ""
 msgid "sunken"
 msgstr ""
 
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Slobodyan Victor"
+msgid "Bgcolor"
+msgstr "Колір фону"
 
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "sarumyan@i.ua"
+msgid "Import"
+msgstr "Імпорт"
 
-#~ msgid "Edit scripts"
-#~ msgstr "Редагувати скрипти"
+msgid "Import plasmoid settings"
+msgstr "Імпорт налаштувань плазмоїда"
 
-#~ msgid "Edit tickers"
-#~ msgstr "Редагувати тікети"
+msgid "Import extensions"
+msgstr "Імпорт розширень"
 
-#~ msgid "Edit command"
-#~ msgstr "Редагувати команду"
-
-#~ msgid "Edit weather"
-#~ msgstr "Редагувати погоду"
-
-#, fuzzy
-#~ msgid "Use image for active"
-#~ msgstr "Використовувати зображення"
-
-#, fuzzy
-#~ msgid "Active color"
-#~ msgstr "Активний колір"
-
-#, fuzzy
-#~ msgid "Inactive color"
-#~ msgstr "Неактивний колір"
-
-#~ msgid "Add lambda"
-#~ msgstr "Додати лямбду"
-
-#~ msgid "Free space on %1 less than 10%"
-#~ msgstr "Вільний простір на диску %1 меньше ніж 10%"
-
-#~ msgid "Top Edge"
-#~ msgstr "Верхній край"
-
-#~ msgid "Bottom Edge"
-#~ msgstr "Нижній край"
-
-#~ msgid "Left Edge"
-#~ msgstr "Лівий край"
-
-#~ msgid "Right Edge"
-#~ msgstr "Правий край"
-
-#~ msgid "Unknown location (%1)"
-#~ msgstr "Невідоме положення (%1)"
-
-#~ msgid "Exec: %1"
-#~ msgstr "Команда: %1"
-
-#~ msgid "Run ksysguard"
-#~ msgstr "Запустити ksysguard"
-
-#~ msgid "Update text"
-#~ msgstr "Оновити текст"
-
-#~ msgid "Check for updates"
-#~ msgstr "Шукати оновлення"
-
-#~ msgid "Enable popup on mouse click"
-#~ msgstr "Включити спливаючі підказки при натисканні клавіші миші"
-
-#~ msgid ""
-#~ "$dddd - long weekday\n"
-#~ "$ddd - short weekday\n"
-#~ "$dd - day\n"
-#~ "$d - day w\\o zero\n"
-#~ "$MMMM - long month\n"
-#~ "$MMM - short month\n"
-#~ "$MM - month\n"
-#~ "$M - month w\\o zero\n"
-#~ "$yyyy - year\n"
-#~ "$yy - short year\n"
-#~ "$hh - hours (24 only)\n"
-#~ "$h - hours w\\o zero (24 only)\n"
-#~ "$mm - minutes\n"
-#~ "$m - minutes w\\o zero\n"
-#~ "$ss - seconds\n"
-#~ "$s - seconds w\\o zero"
-#~ msgstr ""
-#~ "$dddd - день тижня (довгий)\n"
-#~ "$ddd - день тижня (короткий)\n"
-#~ "$dd - день\n"
-#~ "$d - день без нулів\n"
-#~ "$MMMM - місяць (довгий)\n"
-#~ "$MMM - місяць (короткий)\n"
-#~ "$MM - місяць\n"
-#~ "$M - місяць без нулів\n"
-#~ "$yyyy - рік\n"
-#~ "$yy - рук (короткий)\n"
-#~ "$hh - години (24)\n"
-#~ "$h - години без нулів (24)\n"
-#~ "$mm - хвилини\n"
-#~ "$m - хвилини без нулів\n"
-#~ "$ss - секунди\n"
-#~ "$s - секунди без нулів"
-
-#~ msgid ""
-#~ "$dd - uptime days\n"
-#~ "$d - uptime days without zero\n"
-#~ "$hh - uptime hours\n"
-#~ "$h - uptime hours without zero\n"
-#~ "$mm - uptime minutes\n"
-#~ "$m - uptime minutes without zero"
-#~ msgstr ""
-#~ "$dd - дні аптайму\n"
-#~ "$d - дні аптайму без нулів\n"
-#~ "$hh - години аптайму\n"
-#~ "$h - години аптайму без нулів\n"
-#~ "$mm - хвилини аптайму\n"
-#~ "$m - хвилини аптайму без нулів"
-
-#~ msgid "Temperature devices"
-#~ msgstr "Температурні пристрої"
-
-#~ msgid "Editable"
-#~ msgstr "Можна редагувати"
-
-#, fuzzy
-#~ msgid "Fan devices"
-#~ msgstr "Кулери"
-
-#~ msgid "Mount points"
-#~ msgstr "Точки монтування"
-
-#~ msgid "HDD devices (speed)"
-#~ msgstr "HDD (швидкість)"
-
-#~ msgid "HDD devices (temp)"
-#~ msgstr "HDD (температура)"
-
-#~ msgid "Disable auto select device and set specified device"
-#~ msgstr "Відключити автоматичний вибір пристрою та використовувати вказаний"
-
-#~ msgid "Set network device"
-#~ msgstr "Оберіть мережевий пристрій"
-
-#~ msgid "Line, which returns when AC is online"
-#~ msgstr "Рядок, що повертається при підключеному адаптері живлення"
-
-#~ msgid "Line, which returns when AC is offline"
-#~ msgstr "Рядок, що повертається при відключеному адаптері живлення"
-
-#, fuzzy
-#~ msgid "\"/sys/class/power_supply/\" by default"
-#~ msgstr "\"/sys/class/power_supply/\" за замовчуванням"
-
-#~ msgid "<b>NOTE:</b> Player DBus interface should be an active"
-#~ msgstr "<b>УВАГА:</b> DBus інтерфейс плеєра має бути активним"
-
-#~ msgid "Ctrl+B"
-#~ msgstr "Ctrl+B"
-
-#~ msgid "Ctrl+I"
-#~ msgstr "Ctrl+I"
-
-#~ msgid "Ctrl+U"
-#~ msgstr "Ctrl+U"
-
-#~ msgid "Null lines"
-#~ msgstr "Кількість пустих рядків"
-
-#~ msgid "Battery device"
-#~ msgstr "Пристрій батареї"
-
-#~ msgid "\"/sys/class/power_supply/BAT0/capacity\" by default"
-#~ msgstr "\"/sys/class/power_supply/BAT0/capacity\" за замовчуванням"
-
-#~ msgid "Add stretch to left/top of the layout"
-#~ msgstr "Додати порожнє місце ліворуч/вгорі віджету"
-
-#~ msgid "Add stretch to right/bottom of the layout"
-#~ msgstr "Додати порожнє місце праворуч/внизу віджету"
-
-#~ msgid "\"/sys/class/net\" by default"
-#~ msgstr "\"/sys/class/net\" за замовчуванням"
-
-#~ msgid "Custom command to run"
-#~ msgstr "Виконання своєї команди"
-
-#~ msgid ""
-#~ "$time - time in default format\n"
-#~ "$isotime - time in ISO format\n"
-#~ "$shorttime - time in short format\n"
-#~ "$longtime - time in log format\n"
-#~ "$custom - custom time format"
-#~ msgstr ""
-#~ "$time - час у стандартному форматі\n"
-#~ "$isotime - час у форматі ISO\n"
-#~ "$shorttime - час в короткому форматі\n"
-#~ "$longtime - час у довгому форматі\n"
-#~ "$custom - свій формат часу"
-
-#~ msgid "Uptime"
-#~ msgstr "Час роботи"
-
-#~ msgid ""
-#~ "$uptime - system uptime\n"
-#~ "$custom - custom format"
-#~ msgstr ""
-#~ "$uptime - час роботи\n"
-#~ "$custom - свій формат"
-
-#~ msgid ""
-#~ "$cpu - total load CPU, %\n"
-#~ "$cpu0 - load CPU for core 0, %\n"
-#~ "...\n"
-#~ "$cpu9 - load CPU for core 9, %\n"
-#~ "...\n"
-#~ "$cpuN - load CPU for core N, %"
-#~ msgstr ""
-#~ "$cpu - загальне завантаження CPU, %\n"
-#~ "$cpu0 - завантаження CPU для ядра 0, %\n"
-#~ "...\n"
-#~ "$cpu9 - завантаження CPU для ядра 9, %\n"
-#~ "...\n"
-#~ "$cpuN - завантаження CPU для ядра N, %"
-
-#~ msgid ""
-#~ "$cpucl - average CPU clock, MHz\n"
-#~ "$cpucl0 - CPU clock for core 0, MHz\n"
-#~ "...\n"
-#~ "$cpucl9 - CPU clock for core 9, MHz\n"
-#~ "...\n"
-#~ "$cpuclN - CPU clock for core N, MHz"
-#~ msgstr ""
-#~ "$cpucl - середня частота CPU, MHz\n"
-#~ "$cpucl0 - частота CPU для ядра 0, MHz\n"
-#~ "...\n"
-#~ "$cpucl9 - частота CPU для ядра 9, MHz\n"
-#~ "...\n"
-#~ "$cpuclN - частота CPU для ядра N, MHz"
-
-#~ msgid "$tempN - physical temperature on device N (from 0). Example: $temp0"
-#~ msgstr "$tempN - фізична температура на пристрої N (від 0). Приклад: $temp0"
-
-#~ msgid "$gpu - gpu usage, %"
-#~ msgstr "$gpu - використання gpu, %"
-
-#~ msgid "GPU Temp"
-#~ msgstr "Температура GPU"
-
-#~ msgid "$gputemp - physical temperature on GPU"
-#~ msgstr "$gputemp - фізична температура на GPU"
-
-#~ msgid ""
-#~ "$mem - RAM usage, %\n"
-#~ "$memmb - RAM usage, MB\n"
-#~ "$memgb - RAM usage, GB\n"
-#~ "$memtotmb - total RAM, MB\n"
-#~ "$memtotgb - total RAM, GB"
-#~ msgstr ""
-#~ "$mem - використання RAM, %\n"
-#~ "$memmb - використання RAM, MB\n"
-#~ "$memgb - використання RAM, GB"
-
-#~ msgid ""
-#~ "$swap - swap usage, %\n"
-#~ "$swapmb - swap usage, MB\n"
-#~ "$swapgb - swap usage, GB\n"
-#~ "$swaptotmb - total swap, MB\n"
-#~ "$swaptotgb - total swap, GB"
-#~ msgstr ""
-#~ "$swap - використання swap, %\n"
-#~ "$swapmb - використання swap, MB\n"
-#~ "$swapgb - використання swap, GB$swaptotmb - swap, MB\n"
-#~ "$swaptotgb - swap, GB"
-
-#~ msgid ""
-#~ "$hddN - usage for mount point N (from 0), %. Example: $hdd0\n"
-#~ "$hddmbN - usage for mount point N (from 0), MB. Example: $hddmb0\n"
-#~ "$hddgbN - usage for mount point N (from 0), GB. Example: $hddgb0\n"
-#~ "$hddtotmbN - total size of mount point N (from 0), MB. Example: "
-#~ "$hddtotmb0\n"
-#~ "$hddtotgbN - total size of mount point N (from 0), GB. Example: $hddtotgb0"
-#~ msgstr ""
-#~ "$hddN - використання точки монтування N (від 0), %. Приклад: $hdd0\n"
-#~ "$hddmbN - використання точки монтування N (від 0), MB. Приклад: $hddmb0\n"
-#~ "$hddgbN - використання точки монтування N (від 0), GB. Приклад: $hddgb0\n"
-#~ "$hddtotmbN - розмір точки монтування N (від 0), MB. Приклад: $hddtotmb0\n"
-#~ "$hddtotgbN - розмір точки монтування N (від 0), GB. Приклад: $hddtotgb0"
-
-#~ msgid "HDD speed"
-#~ msgstr "Швидкість HDD"
-
-#~ msgid ""
-#~ "$hddrN - read speed HDD N (from 0), KB/s. Example: $hddr0\n"
-#~ "$hddwN - write speed HDD N (from 0), KB/s. Example: $hddw0"
-#~ msgstr ""
-#~ "$hddrN - швидкість читання HDD N (від 0), KB/s. Приклад: $hddr0\n"
-#~ "$hddwN - швидкість запису HDD N (від 0), KB/s. Приклад: $hddw0"
-
-#~ msgid "HDD temp"
-#~ msgstr "Температура HDD"
-
-#~ msgid ""
-#~ "$hddtempN - physical temperature on device N (from 0). Example: $hddtemp0"
-#~ msgstr ""
-#~ "$hddtempN - фізична температура на пристрої N (від 0). Приклад: $hddtemp"
-
-#~ msgid ""
-#~ "$down - download speed, KB/s\n"
-#~ "$up - upload speed, KB/s\n"
-#~ "$netdev - current network device"
-#~ msgstr ""
-#~ "$down - швидкість скачування, KB/s\n"
-#~ "$up - швидкість віддачі, KB/s\n"
-#~ "$netdev - поточний мережевий пристрій"
-
-#~ msgid ""
-#~ "$bat - battery charge, %\n"
-#~ "$ac - AC status"
-#~ msgstr ""
-#~ "$bat - заряд батареї, %\n"
-#~ "$ac - статус адаптера живлення"
-
-#~ msgid ""
-#~ "$album - song album\n"
-#~ "$artist - song artist\n"
-#~ "$progress - song progress\n"
-#~ "$time - song duration\n"
-#~ "$title - song title"
-#~ msgstr ""
-#~ "$album - альбом\n"
-#~ "$artist - виконавець\n"
-#~ "$progress - прогрес\n"
-#~ "$time - тривалість\n"
-#~ "$title - назва"
-
-#~ msgid "Processes"
-#~ msgstr "Процеси"
-
-#~ msgid ""
-#~ "$pscount - number of running processes\n"
-#~ "$pstotal - total number of running processes\n"
-#~ "$ps - list of running processes comma separated"
-#~ msgstr ""
-#~ "$pscount - кількість запущених процесів\n"
-#~ "$pstotal - загальна кількість процесів\n"
-#~ "$ps - перелік запущених процесів, розділених комами"
-
-#~ msgid ""
-#~ "$pkgcountN - number of packages which are available for updates, command "
-#~ "N. For example $pkgcount0"
-#~ msgstr ""
-#~ "$pkgcountN - кількість пакетів, що доступні для оновлення, для команди N. "
-#~ "Наприклад: $pkgcount0"
-
-#~ msgid ""
-#~ "$customN - get output from custom command N (from N). Example `$custom0`"
-#~ msgstr ""
-#~ "$customN - отримати інформацію зі своєї команди N. Наприклад `$custom0`"
+msgid "Import additional files"
+msgstr "Імпорт додаткових файлів"
