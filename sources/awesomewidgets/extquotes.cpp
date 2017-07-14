@@ -22,9 +22,6 @@
 
 #include <QDir>
 #include <QJsonDocument>
-#include <QJsonParseError>
-#include <QNetworkAccessManager>
-#include <QNetworkRequest>
 #include <QSettings>
 #include <QUrlQuery>
 

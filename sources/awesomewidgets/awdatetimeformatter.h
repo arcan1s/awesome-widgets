@@ -18,8 +18,9 @@
 #ifndef AWDATETIMEFORMATTER_H
 #define AWDATETIMEFORMATTER_H
 
-#include "awabstractformatter.h"
 #include <QLocale>
+
+#include "awabstractformatter.h"
 
 
 namespace Ui

@@ -32,21 +32,20 @@ class AWDataEngineAggregator : public QObject
 public:
     explicit AWDataEngineAggregator(QObject *_parent = nullptr);
     virtual ~AWDataEngineAggregator();
-    void clear();
     void disconnectSources();
-    void initDataEngines(const int _interval);
+    void reconnectSources(const int _interval);
 
 signals:
     void deviceAdded(const QString &_source);
 
 public slots:
     void dropSource(const QString &_source);
-    void reconnectSources(const int _interval);
 
 private:
     void createQueuedConnection();
     Plasma::DataEngineConsumer *m_consumer = nullptr;
     QHash<QString, Plasma::DataEngine *> m_dataEngines;
+    QMetaObject::Connection m_newSourceConnection;
 };
 
 

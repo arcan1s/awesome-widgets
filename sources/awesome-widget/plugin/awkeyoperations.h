@@ -19,25 +19,18 @@
 #ifndef AWKEYOPERATIONS_H
 #define AWKEYOPERATIONS_H
 
-#include <Plasma/DataEngine>
-
-#include <QMutex>
 #include <QObject>
 
 #include "extitemaggregator.h"
 
 
 class AWCustomKeysHelper;
-class AWDataAggregator;
-class AWDataEngineAggregator;
-class AWKeysAggregator;
 class ExtNetworkRequest;
 class ExtQuotes;
 class ExtScript;
 class ExtUpgrade;
 class ExtWeather;
 class GraphicalItem;
-class QThreadPool;
 
 class AWKeyOperations : public QObject
 {

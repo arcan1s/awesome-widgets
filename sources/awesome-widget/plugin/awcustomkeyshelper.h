@@ -19,7 +19,6 @@
 #ifndef AWCUSTOMKEYSHELPER_H
 #define AWCUSTOMKEYSHELPER_H
 
-#include <QHash>
 #include <QObject>
 
 #include "awabstractpairhelper.h"

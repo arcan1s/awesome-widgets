@@ -38,8 +38,6 @@ RequestSource::RequestSource(QObject *_parent, const QStringList &_args)
 RequestSource::~RequestSource()
 {
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
-
-    delete m_extNetRequest;
 }
 
 

@@ -37,8 +37,6 @@ WeatherSource::WeatherSource(QObject *_parent, const QStringList &_args)
 WeatherSource::~WeatherSource()
 {
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
-
-    delete m_extWeather;
 }
 
 

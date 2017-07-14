@@ -22,7 +22,6 @@
 #include <QBuffer>
 #include <QGraphicsScene>
 #include <QGraphicsView>
-#include <QPixmap>
 
 #include <cmath>
 
@@ -52,14 +51,6 @@ AWDataAggregator::~AWDataAggregator()
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
     delete m_toolTipScene;
-}
-
-
-QList<float> AWDataAggregator::getData(const QString &_key) const
-{
-    qCDebug(LOG_AW) << "Key" << _key;
-
-    return m_values[QString("%1Tooltip").arg(_key)];
 }
 
 

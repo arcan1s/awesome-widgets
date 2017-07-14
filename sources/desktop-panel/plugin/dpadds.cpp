@@ -27,8 +27,6 @@
 #include <QGraphicsView>
 #include <QHBoxLayout>
 #include <QListWidget>
-#include <QMessageBox>
-#include <QPixmap>
 #include <QScreen>
 
 #include <fontdialog/fontdialog.h>

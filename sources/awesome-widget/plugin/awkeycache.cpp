@@ -19,7 +19,6 @@
 
 #include <QDir>
 #include <QNetworkInterface>
-#include <QRegExp>
 #include <QSettings>
 #include <QStandardPaths>
 

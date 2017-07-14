@@ -60,8 +60,6 @@ AWKeysAggregator::AWKeysAggregator(QObject *_parent)
 AWKeysAggregator::~AWKeysAggregator()
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
-
-    delete m_customFormatters;
 }
 
 

@@ -23,7 +23,6 @@
 #include <QDesktopServices>
 #include <QFile>
 #include <QProcess>
-#include <QUrl>
 
 #include <fontdialog/fontdialog.h>
 
@@ -43,8 +42,6 @@ AWActions::AWActions(QObject *_parent)
 AWActions::~AWActions()
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
-
-    delete m_updateHelper;
 }
 
 

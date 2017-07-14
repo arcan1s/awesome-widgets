@@ -44,7 +44,6 @@ QCronScheduler::~QCronScheduler()
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     m_timer->stop();
-    delete m_timer;
 }
 
 

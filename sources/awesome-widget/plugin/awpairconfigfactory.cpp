@@ -15,27 +15,27 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#include "awformatterconfigfactory.h"
+#include "awpairconfigfactory.h"
 
 #include "awcustomkeysconfig.h"
 #include "awdebug.h"
 #include "awformatterconfig.h"
 
 
-AWFormatterConfigFactory::AWFormatterConfigFactory(QObject *_parent)
+AWPairConfigFactory::AWPairConfigFactory(QObject *_parent)
     : QObject(_parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 }
 
 
-AWFormatterConfigFactory::~AWFormatterConfigFactory()
+AWPairConfigFactory::~AWPairConfigFactory()
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 }
 
 
-void AWFormatterConfigFactory::showFormatterDialog(const QStringList &_keys)
+void AWPairConfigFactory::showFormatterDialog(const QStringList &_keys)
 {
     AWFormatterConfig *config = new AWFormatterConfig(nullptr, _keys);
     config->showDialog();
@@ -43,7 +43,7 @@ void AWFormatterConfigFactory::showFormatterDialog(const QStringList &_keys)
 }
 
 
-void AWFormatterConfigFactory::showKeysDialog(const QStringList &_keys)
+void AWPairConfigFactory::showKeysDialog(const QStringList &_keys)
 {
     AWCustomKeysConfig *config = new AWCustomKeysConfig(nullptr, _keys);
     config->showDialog();

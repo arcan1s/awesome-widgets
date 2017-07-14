@@ -21,7 +21,6 @@
 #include <KI18n/KLocalizedString>
 
 #include <QDir>
-#include <QRegExp>
 #include <QSettings>
 #include <QTextCodec>
 

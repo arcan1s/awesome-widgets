@@ -24,7 +24,6 @@
 #include <QTime>
 
 #include "abstractextitemaggregator.h"
-#include "awdebug.h"
 #include "qcronscheduler.h"
 
 
@@ -47,7 +46,7 @@ AbstractExtItem::~AbstractExtItem()
     if (m_socket) {
         m_socket->close();
         m_socket->removeServer(socket());
-        delete m_socket;
+        m_socket->deleteLater();
     }
 }
 

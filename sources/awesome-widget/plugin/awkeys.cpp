@@ -19,7 +19,6 @@
 
 #include <QDBusConnection>
 #include <QDBusError>
-#include <QRegExp>
 #include <QThread>
 #include <QTimer>
 #include <QtConcurrent/QtConcurrent>
@@ -76,24 +75,9 @@ AWKeys::~AWKeys()
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
     m_timer->stop();
-    delete m_timer;
-
     // delete dbus session
     qlonglong id = reinterpret_cast<qlonglong>(this);
     QDBusConnection::sessionBus().unregisterObject(QString("/%1").arg(id));
-
-    // core
-    delete m_dataEngineAggregator;
-    delete m_threadPool;
-    delete m_aggregator;
-    delete m_dataAggregator;
-    delete m_keyOperator;
-}
-
-
-bool AWKeys::isDBusActive() const
-{
-    return m_dbusActive;
 }
 
 
@@ -122,8 +106,7 @@ void AWKeys::initKeys(const QString &_currentPattern, const int _interval,
     m_aggregator->initFormatters();
     m_keyOperator->setPattern(_currentPattern);
     m_keyOperator->updateCache();
-    m_dataEngineAggregator->clear();
-    m_dataEngineAggregator->initDataEngines(_interval);
+    m_dataEngineAggregator->reconnectSources(_interval);
 
     // timer
     m_timer->setInterval(_interval);
@@ -348,13 +331,9 @@ void AWKeys::createDBusInterface()
         qCWarning(LOG_AW) << "Could not register DBus service, last error"
                           << bus.lastError().message();
     if (!bus.registerObject(QString("/%1").arg(id), new AWDBusAdaptor(this),
-                            QDBusConnection::ExportAllContents)) {
+                            QDBusConnection::ExportAllContents))
         qCWarning(LOG_AW) << "Could not register DBus object, last error"
                           << bus.lastError().message();
-        m_dbusActive = false;
-    } else {
-        m_dbusActive = true;
-    }
 }
 
 

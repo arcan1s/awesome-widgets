@@ -22,7 +22,6 @@
 
 #include <QDir>
 #include <QJsonDocument>
-#include <QJsonParseError>
 #include <QSettings>
 #include <QStandardPaths>
 #include <QTextCodec>

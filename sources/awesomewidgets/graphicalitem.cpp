@@ -38,6 +38,19 @@ GraphicalItem::GraphicalItem(QWidget *_parent, const QString &_filePath)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
+    // init scene
+    m_scene = new QGraphicsScene();
+    m_scene->setBackgroundBrush(QBrush(Qt::NoBrush));
+    // init view
+    m_view = new QGraphicsView(m_scene);
+    m_view->setStyleSheet("background: transparent");
+    m_view->setContentsMargins(0, 0, 0, 0);
+    m_view->setFrameShape(QFrame::NoFrame);
+    m_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    // init helper
+    m_helper = new GraphicalItemHelper(this, m_scene);
+
     if (!_filePath.isEmpty())
         readConfiguration();
     ui->setupUi(this);
@@ -58,9 +71,7 @@ GraphicalItem::~GraphicalItem()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    delete m_scene;
     delete ui;
-    delete m_helper;
 }
 
 
@@ -141,24 +152,7 @@ QString GraphicalItem::image(const QVariant &value)
 
 void GraphicalItem::initScene()
 {
-    // cleanup
-    delete m_helper;
-    delete m_scene;
-
-    // init scene
-    m_scene = new QGraphicsScene();
-    m_scene->setBackgroundBrush(QBrush(Qt::NoBrush));
-    // init view
-    m_view = new QGraphicsView(m_scene);
-    m_view->setStyleSheet("background: transparent");
-    m_view->setContentsMargins(0, 0, 0, 0);
-    m_view->setFrameShape(QFrame::NoFrame);
-    m_view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_view->resize(m_width + 5, m_height + 5);
-
-    // init helper
-    m_helper = new GraphicalItemHelper(this, m_scene);
     m_helper->setParameters(activeColor(), inactiveColor(), itemWidth(),
                             itemHeight(), count());
 }

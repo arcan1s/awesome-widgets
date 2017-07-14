@@ -48,10 +48,7 @@ public slots:
 
 private:
     AWKeys *m_plugin = nullptr;
-    QStringList m_logLevels = QStringList() << "debug"
-                                            << "info"
-                                            << "warning"
-                                            << "critical";
+    QStringList m_logLevels = {"debug", "info", "warning", "critical"};
 };
 
 

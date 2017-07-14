@@ -56,7 +56,6 @@ AWAbstractPairConfig::~AWAbstractPairConfig()
 
     clearSelectors();
 
-    delete m_helper;
     delete ui;
 }
 

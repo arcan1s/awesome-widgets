@@ -20,10 +20,8 @@
 #define AWTELEMETRYHANDLER_H
 
 #include <QObject>
-#include <QtCore/QVariant>
 
 
-class QAbstractButton;
 class QNetworkReply;
 
 class AWTelemetryHandler : public QObject

@@ -22,6 +22,7 @@
 #include <QDir>
 #include <QQmlPropertyMap>
 #include <QSettings>
+#include <QStandardPaths>
 #include <QTextCodec>
 
 #include "awdebug.h"
@@ -31,6 +32,10 @@ AWConfigHelper::AWConfigHelper(QObject *_parent)
     : QObject(_parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+
+    m_baseDir = QString("%1/awesomewidgets")
+                    .arg(QStandardPaths::writableLocation(
+                        QStandardPaths::GenericDataLocation));
 }
 
 

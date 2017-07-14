@@ -17,7 +17,6 @@
 
 #include "graphicalitemhelper.h"
 
-#include <QColor>
 #include <QGraphicsEllipseItem>
 #include <QGraphicsScene>
 #include <QUrl>

@@ -168,9 +168,6 @@ void TestAWKeys::test_valueByKey()
 
 void TestAWKeys::test_dbus()
 {
-    if (!plugin->isDBusActive())
-        QSKIP("No DBus session created, skip DBus test");
-
     // get id
     qlonglong id = reinterpret_cast<qlonglong>(plugin);
 

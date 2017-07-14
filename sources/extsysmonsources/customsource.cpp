@@ -37,8 +37,6 @@ CustomSource::CustomSource(QObject *_parent, const QStringList &_args)
 CustomSource::~CustomSource()
 {
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
-
-    delete m_extScripts;
 }
 
 

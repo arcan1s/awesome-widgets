@@ -16,19 +16,19 @@
  ***************************************************************************/
 
 
-#ifndef AWFORMATTERCONFIGFACTORY_H
-#define AWFORMATTERCONFIGFACTORY_H
+#ifndef AWPAIRCONFIGFACTORY_H
+#define AWPAIRCONFIGFACTORY_H
 
 #include <QObject>
 
 
-class AWFormatterConfigFactory : public QObject
+class AWPairConfigFactory : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit AWFormatterConfigFactory(QObject *_parent = nullptr);
-    virtual ~AWFormatterConfigFactory();
+    explicit AWPairConfigFactory(QObject *_parent = nullptr);
+    virtual ~AWPairConfigFactory();
     Q_INVOKABLE void showFormatterDialog(const QStringList &_keys);
     Q_INVOKABLE void showKeysDialog(const QStringList &_keys);
 
@@ -36,4 +36,4 @@ private:
 };
 
 
-#endif /* AWFORMATTERCONFIGFACTORY_H */
+#endif /* AWPAIRCONFIGFACTORY_H */

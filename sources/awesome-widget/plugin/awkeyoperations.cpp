@@ -55,15 +55,6 @@ AWKeyOperations::AWKeyOperations(QObject *_parent)
 AWKeyOperations::~AWKeyOperations()
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
-
-    // extensions
-    delete m_customKeys;
-    delete m_graphicalItems;
-    delete m_extNetRequest;
-    delete m_extQuotes;
-    delete m_extScripts;
-    delete m_extUpgrade;
-    delete m_extWeather;
 }
 
 

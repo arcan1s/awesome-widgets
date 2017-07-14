@@ -28,6 +28,20 @@ AWDataEngineAggregator::AWDataEngineAggregator(QObject *_parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
+    m_consumer = new Plasma::DataEngineConsumer();
+    m_dataEngines["systemmonitor"] = m_consumer->dataEngine("systemmonitor");
+    m_dataEngines["extsysmon"] = m_consumer->dataEngine("extsysmon");
+    m_dataEngines["time"] = m_consumer->dataEngine("time");
+
+    // additional method required by systemmonitor structure
+    m_newSourceConnection = connect(
+        m_dataEngines["systemmonitor"], &Plasma::DataEngine::sourceAdded,
+        [this](const QString source) {
+            emit(deviceAdded(source));
+            m_dataEngines["systemmonitor"]->connectSource(source, parent(),
+                                                          1000);
+        });
+
     // required to define Qt::QueuedConnection for signal-slot connection
     qRegisterMetaType<Plasma::DataEngine::Data>("Plasma::DataEngine::Data");
 }
@@ -37,16 +51,7 @@ AWDataEngineAggregator::~AWDataEngineAggregator()
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
-    clear();
-}
-
-
-void AWDataEngineAggregator::clear()
-{
-    // disconnect sources first
     disconnectSources();
-    m_dataEngines.clear();
-    delete m_consumer;
 }
 
 
@@ -55,27 +60,31 @@ void AWDataEngineAggregator::disconnectSources()
     for (auto dataengine : m_dataEngines.values())
         for (auto &source : dataengine->sources())
             dataengine->disconnectSource(source, parent());
+    disconnect(m_newSourceConnection);
 }
 
 
-void AWDataEngineAggregator::initDataEngines(const int _interval)
+void AWDataEngineAggregator::reconnectSources(const int _interval)
 {
-    qCDebug(LOG_AW) << "Init dataengines with interval" << _interval;
+    qCDebug(LOG_AW) << "Reconnect sources with interval" << _interval;
 
-    m_consumer = new Plasma::DataEngineConsumer();
-    m_dataEngines["systemmonitor"] = m_consumer->dataEngine("systemmonitor");
-    m_dataEngines["extsysmon"] = m_consumer->dataEngine("extsysmon");
-    m_dataEngines["time"] = m_consumer->dataEngine("time");
+    disconnectSources();
 
-    // additional method required by systemmonitor structure
-    connect(m_dataEngines["systemmonitor"], &Plasma::DataEngine::sourceAdded,
-            [this, _interval](const QString source) {
-                emit(deviceAdded(source));
-                m_dataEngines["systemmonitor"]->connectSource(source, parent(),
-                                                              _interval);
-            });
+    m_dataEngines["systemmonitor"]->connectAllSources(parent(), _interval);
+    m_dataEngines["extsysmon"]->connectAllSources(parent(), _interval);
+    m_dataEngines["time"]->connectSource("Local", parent(), 1000);
 
-    return reconnectSources(_interval);
+    m_newSourceConnection = connect(
+        m_dataEngines["systemmonitor"], &Plasma::DataEngine::sourceAdded,
+        [this, _interval](const QString source) {
+            emit(deviceAdded(source));
+            m_dataEngines["systemmonitor"]->connectSource(source, parent(),
+                                                          _interval);
+        });
+
+#ifdef BUILD_FUTURE
+    createQueuedConnection();
+#endif /* BUILD_FUTURE */
 }
 
 
@@ -84,23 +93,9 @@ void AWDataEngineAggregator::dropSource(const QString &_source)
     qCDebug(LOG_AW) << "Source" << _source;
 
     // HACK there is no possibility to check to which dataengine source
-    // connected we will try to disconnect it from systemmonitor and extsysmon
+    // connected we will try to disconnect it from all engines
     for (auto dataengine : m_dataEngines.values())
         dataengine->disconnectSource(_source, parent());
-}
-
-
-void AWDataEngineAggregator::reconnectSources(const int _interval)
-{
-    qCDebug(LOG_AW) << "Reconnect sources with interval" << _interval;
-
-    m_dataEngines["systemmonitor"]->connectAllSources(parent(), _interval);
-    m_dataEngines["extsysmon"]->connectAllSources(parent(), _interval);
-    m_dataEngines["time"]->connectSource("Local", parent(), 1000);
-
-#ifdef BUILD_FUTURE
-    createQueuedConnection();
-#endif /* BUILD_FUTURE */
 }
 
 
