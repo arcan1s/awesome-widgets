@@ -122,12 +122,12 @@ QStringList AWKeyOperations::dictKeys() const
     for (int i = 0; i < m_devices["net"].count(); i++) {
         allKeys.append(QString("downunits%1").arg(i));
         allKeys.append(QString("upunits%1").arg(i));
-        allKeys.append(QString("downtotalkb%1").arg(i));
-        allKeys.append(QString("downtotal%1").arg(i));
+        allKeys.append(QString("downtotkb%1").arg(i));
+        allKeys.append(QString("downtot%1").arg(i));
         allKeys.append(QString("downkb%1").arg(i));
         allKeys.append(QString("down%1").arg(i));
-        allKeys.append(QString("uptotalkb%1").arg(i));
-        allKeys.append(QString("uptotal%1").arg(i));
+        allKeys.append(QString("uptotkb%1").arg(i));
+        allKeys.append(QString("uptot%1").arg(i));
         allKeys.append(QString("upkb%1").arg(i));
         allKeys.append(QString("up%1").arg(i));
     }

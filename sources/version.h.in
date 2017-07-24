@@ -57,10 +57,10 @@ const char STATIC_KEYS[]
     = "time,isotime,shorttime,longtime,tstime,ctime,uptime,cuptime,cpucl,cpu,"
       "gputemp,gpu,memmb,memgb,memfreemb,memfreegb,memtotmb,memtotgb,memusedmb,"
       "memusedgb,mem,swapmb,swapgb,swapfreemb,swapfreegb,swaptotmb,swaptotgb,"
-      "swap,downunits,upunits,downkb,downtotalkb,downtotal,down,uptotalkb,"
-      "uptotal,upkb,up,netdev,ac,bat,album,artist,duration,progress,title,"
-      "dalbum,dartist,dtitle,salbum,sartist,stitle,pscount,pstotal,ps,desktop,"
-      "ndesktop,tdesktops,la15,la5,la1";
+      "swap,downunits,upunits,downkb,downtotkb,downtot,down,uptotkb,uptot,upkb,"
+      "up,netdev,ac,bat,album,artist,duration,progress,title,dalbum,dartist,"
+      "dtitle,salbum,sartist,stitle,pscount,pstot,ps,desktop,ndesktop,"
+      "tdesktops,la15,la5,la1";
 #cmakedefine BUILD_FUTURE
 #cmakedefine BUILD_LOAD
 #cmakedefine BUILD_TESTING

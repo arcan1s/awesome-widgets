@@ -121,7 +121,7 @@ queueLimit=0
 swapTooltip=true
 swapTooltipColor=#ffff00
 tempUnits=Celsius
-text="<body bgcolor=\"#000000\">\n<p align=\"justify\">Uptime: $cuptime<br>\nRAM: &nbsp;$mem&nbsp;&nbsp;$bar5<br>\nSwap: $swap&nbsp;&nbsp;$bar6<br>\nCPU: &nbsp;$cpu&nbsp;&nbsp;$bar7<br>\nCPU Temp: $temp0&deg;C<br>\nDown: $down$downunits&nbsp;&nbsp;&nbsp;&nbsp;$downtotal<br>\n$bar8<br>\nUp:&nbsp;&nbsp; $up$upunits&nbsp;&nbsp;&nbsp;&nbsp;$uptotal<br>\n$bar9<br></p>\n</body>\n"
+text="<body bgcolor=\"#000000\">\n<p align=\"justify\">Uptime: $cuptime<br>\nRAM: &nbsp;$mem&nbsp;&nbsp;$bar5<br>\nSwap: $swap&nbsp;&nbsp;$bar6<br>\nCPU: &nbsp;$cpu&nbsp;&nbsp;$bar7<br>\nCPU Temp: $temp0&deg;C<br>\nDown: $down$downunits&nbsp;&nbsp;&nbsp;&nbsp;$downtot<br>\n$bar8<br>\nUp:&nbsp;&nbsp; $up$upunits&nbsp;&nbsp;&nbsp;&nbsp;$uptot<br>\n$bar9<br></p>\n</body>\n"
 textAlign=center
 tooltipBackground=#ffffff
 tooltipNumber=100

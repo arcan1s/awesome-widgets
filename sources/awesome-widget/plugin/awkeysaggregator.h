@@ -24,7 +24,6 @@
 
 #include "version.h"
 
-
 class AWFormatterHelper;
 
 class AWKeysAggregator : public QObject

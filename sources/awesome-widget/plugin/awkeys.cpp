@@ -291,13 +291,13 @@ void AWKeys::calculateValues()
         = m_keyOperator->devices("net").indexOf(m_values["netdev"].toString());
     m_values["down"] = m_values[QString("down%1").arg(netIndex)];
     m_values["downkb"] = m_values[QString("downkb%1").arg(netIndex)];
-    m_values["downtotal"] = m_values[QString("downtotal%1").arg(netIndex)];
-    m_values["downtotalkb"] = m_values[QString("downtotalkb%1").arg(netIndex)];
+    m_values["downtot"] = m_values[QString("downtot%1").arg(netIndex)];
+    m_values["downtotkb"] = m_values[QString("downtotkb%1").arg(netIndex)];
     m_values["downunits"] = m_values[QString("downunits%1").arg(netIndex)];
     m_values["up"] = m_values[QString("up%1").arg(netIndex)];
     m_values["upkb"] = m_values[QString("upkb%1").arg(netIndex)];
-    m_values["uptotal"] = m_values[QString("uptotal%1").arg(netIndex)];
-    m_values["uptotalkb"] = m_values[QString("uptotalkb%1").arg(netIndex)];
+    m_values["uptot"] = m_values[QString("uptot%1").arg(netIndex)];
+    m_values["uptotkb"] = m_values[QString("uptotkb%1").arg(netIndex)];
     m_values["upunits"] = m_values[QString("upunits%1").arg(netIndex)];
 
     // swaptot*
