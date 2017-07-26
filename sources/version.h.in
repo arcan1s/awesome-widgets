@@ -44,6 +44,7 @@ const int AW_TELEMETRY_API = 1;
 // use define here instead of normal const definition for moc
 #define AWDBUS_SERVICE_NAME "org.kde.plasma.awesomewidget"
 const char AWDBUS_SERVICE[] = AWDBUS_SERVICE_NAME;
+const char AWDBUS_PATH[] = "/awesomewidgets";
 // network requests timeout, ms
 const int REQUEST_TIMEOUT = 3000;
 // available time keys

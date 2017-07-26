@@ -147,9 +147,8 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys,
         used << "swapgb"
              << "swapfreegb";
     // network keys
-    QStringList netKeys({"up", "upkb", "uptot", "uptotkb", "upunits",
-                         "down", "downkb", "downtot", "downtotkb",
-                         "downunits"});
+    QStringList netKeys({"up", "upkb", "uptot", "uptotkb", "upunits", "down",
+                         "downkb", "downtot", "downtotkb", "downunits"});
     for (auto &key : netKeys) {
         if (!used.contains(key))
             continue;

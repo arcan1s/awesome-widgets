@@ -37,6 +37,7 @@ public:
 
 public slots:
     // get methods
+    QStringList ActiveServices() const;
     QString Info(const QString &key) const;
     QStringList Keys(const QString &regexp) const;
     QString Value(const QString &key) const;

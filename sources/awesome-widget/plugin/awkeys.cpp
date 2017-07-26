@@ -327,10 +327,12 @@ void AWKeys::createDBusInterface()
 
     // create session
     QDBusConnection bus = QDBusConnection::sessionBus();
-    if (!bus.registerService(AWDBUS_SERVICE))
+    // HACK we are going to use different services because it binds to
+    // application
+    if (!bus.registerService(QString("%1.i%2").arg(AWDBUS_SERVICE).arg(id)))
         qCWarning(LOG_AW) << "Could not register DBus service, last error"
                           << bus.lastError().message();
-    if (!bus.registerObject(QString("/%1").arg(id), new AWDBusAdaptor(this),
+    if (!bus.registerObject(AWDBUS_PATH, new AWDBusAdaptor(this),
                             QDBusConnection::ExportAllContents))
         qCWarning(LOG_AW) << "Could not register DBus object, last error"
                           << bus.lastError().message();

@@ -174,7 +174,8 @@ void TestAWKeys::test_dbus()
     // create connection and message
     QDBusConnection bus = QDBusConnection::sessionBus();
     QDBusMessage request = QDBusMessage::createMethodCall(
-        AWDBUS_SERVICE, QString("/%1").arg(id), AWDBUS_SERVICE, "WhoAmI");
+        QString("%1.i%2").arg(AWDBUS_SERVICE).arg(id), AWDBUS_PATH,
+        AWDBUS_SERVICE, "WhoAmI");
     // send message to dbus
     QDBusMessage response = bus.call(request, QDBus::BlockWithGui);
 
