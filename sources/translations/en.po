@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2017-05-05 18:15+0300\n"
-"PO-Revision-Date: 2017-05-05 18:17+0300\n"
+"POT-Creation-Date: 2017-07-13 17:39+0300\n"
+"PO-Revision-Date: 2017-07-13 17:51+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: English <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
-"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 2.0\n"
 
 msgid "Version %1 (build date %2)"
@@ -328,6 +328,9 @@ msgstr "Battery active color"
 msgid "Battery inactive color"
 msgstr "Battery inactive color"
 
+msgid "Edit"
+msgstr "Edit"
+
 msgid "Run %1"
 msgstr "Run %1"
 
@@ -366,9 +369,6 @@ msgstr "High GPU load"
 
 msgid "Network device has been changed to %1"
 msgstr "Network device has been changed to %1"
-
-msgid "Edit"
-msgstr "Edit"
 
 msgid "Select type"
 msgstr "Select type"
@@ -553,7 +553,7 @@ msgid "Select path"
 msgstr "Select path"
 
 msgid "Images (*.png *.bpm *.jpg);;All files (*.*)"
-msgstr ""
+msgstr "Images (*.png *.bpm *.jpg);;All files (*.*)"
 
 msgid "Use custom formula"
 msgstr "Use custom formula"
@@ -627,6 +627,9 @@ msgstr "Edit bars"
 msgid "Formatters"
 msgstr "Formatters"
 
+msgid "User keys"
+msgstr "User keys"
+
 msgid "Preview"
 msgstr "Preview"
 
@@ -647,10 +650,10 @@ msgid "Acknowledgment"
 msgstr "Acknowledgment"
 
 msgid "Report a bug"
-msgstr ""
+msgstr "Report a bug"
 
 msgid "Report subject"
-msgstr ""
+msgstr "Report subject"
 
 msgid "Description"
 msgstr "Description"
@@ -694,21 +697,6 @@ msgstr "Could not save configuration file"
 msgid "Select a font"
 msgstr "Select a font"
 
-msgid "Bgcolor"
-msgstr "Bgcolor"
-
-msgid "Import"
-msgstr "Import"
-
-msgid "Import plasmoid settings"
-msgstr "Import plasmoid settings"
-
-msgid "Import extensions"
-msgstr "Import extensions"
-
-msgid "Import additional files"
-msgstr "Import additional files"
-
 msgid "AC"
 msgstr "AC"
 
@@ -717,6 +705,9 @@ msgstr "Bars"
 
 msgid "Desktops"
 msgstr "Desktops"
+
+msgid "Network request"
+msgstr "Network request"
 
 msgid "Scripts"
 msgstr "Scripts"
@@ -735,6 +726,9 @@ msgstr "Weathers"
 
 msgid "Functions"
 msgstr "Functions"
+
+msgid "User defined"
+msgstr "User defined"
 
 msgid "All"
 msgstr "All"
@@ -766,457 +760,17 @@ msgstr "raised"
 msgid "sunken"
 msgstr "sunken"
 
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Evgeniy Alekseev"
+msgid "Bgcolor"
+msgstr "Bgcolor"
 
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "esalexeev@gmail.com"
+msgid "Import"
+msgstr "Import"
 
-#~ msgid "Edit scripts"
-#~ msgstr "Edit scripts"
+msgid "Import plasmoid settings"
+msgstr "Import plasmoid settings"
 
-#~ msgid "Edit tickers"
-#~ msgstr "Edit tickers"
+msgid "Import extensions"
+msgstr "Import extensions"
 
-#~ msgid "Edit command"
-#~ msgstr "Edit command"
-
-#~ msgid "Edit weather"
-#~ msgstr "Edit weather"
-
-#~ msgid "Use image for active"
-#~ msgstr "Use image for active"
-
-#~ msgid "Active color"
-#~ msgstr "Active color"
-
-#~ msgid "Use image for inactive"
-#~ msgstr "Use image for inactive"
-
-#~ msgid "Inactive color"
-#~ msgstr "Inactive color"
-
-#~ msgid "Add lambda"
-#~ msgstr "Add lambda"
-
-#~ msgid "Free space on %1 less than 10%"
-#~ msgstr "Free space on %1 less than 10%"
-
-#~ msgid "Top Edge"
-#~ msgstr "Top Edge"
-
-#~ msgid "Bottom Edge"
-#~ msgstr "Bottom Edge"
-
-#~ msgid "Left Edge"
-#~ msgstr "Left Edge"
-
-#~ msgid "Right Edge"
-#~ msgstr "Right Edge"
-
-#~ msgid "Unknown location (%1)"
-#~ msgstr "Unknown location (%1)"
-
-#~ msgid "Ticker: %1"
-#~ msgstr "Ticker: %1"
-
-#~ msgid "Exec: %1"
-#~ msgstr "Exec: %1"
-
-#~ msgid "Run ksysguard"
-#~ msgstr "Run ksysguard"
-
-#~ msgid "Update text"
-#~ msgstr "Update text"
-
-#~ msgid "Check for updates"
-#~ msgstr "Check for updates"
-
-#~ msgid "Enable popup on mouse click"
-#~ msgstr "Enable popup on mouse click"
-
-#~ msgid ""
-#~ "$dddd - long weekday\n"
-#~ "$ddd - short weekday\n"
-#~ "$dd - day\n"
-#~ "$d - day w\\o zero\n"
-#~ "$MMMM - long month\n"
-#~ "$MMM - short month\n"
-#~ "$MM - month\n"
-#~ "$M - month w\\o zero\n"
-#~ "$yyyy - year\n"
-#~ "$yy - short year\n"
-#~ "$hh - hours (24 only)\n"
-#~ "$h - hours w\\o zero (24 only)\n"
-#~ "$mm - minutes\n"
-#~ "$m - minutes w\\o zero\n"
-#~ "$ss - seconds\n"
-#~ "$s - seconds w\\o zero"
-#~ msgstr ""
-#~ "$dddd - long weekday\n"
-#~ "$ddd - short weekday\n"
-#~ "$dd - day\n"
-#~ "$d - day w\\o zero\n"
-#~ "$MMMM - long month\n"
-#~ "$MMM - short month\n"
-#~ "$MM - month\n"
-#~ "$M - month w\\o zero\n"
-#~ "$yyyy - year\n"
-#~ "$yy - short year\n"
-#~ "$hh - hours (24 only)\n"
-#~ "$h - hours w\\o zero (24 only)\n"
-#~ "$mm - minutes\n"
-#~ "$m - minutes w\\o zero\n"
-#~ "$ss - seconds\n"
-#~ "$s - seconds w\\o zero"
-
-#~ msgid ""
-#~ "$dd - uptime days\n"
-#~ "$d - uptime days without zero\n"
-#~ "$hh - uptime hours\n"
-#~ "$h - uptime hours without zero\n"
-#~ "$mm - uptime minutes\n"
-#~ "$m - uptime minutes without zero"
-#~ msgstr ""
-#~ "$dd - uptime days\n"
-#~ "$d - uptime days without zero\n"
-#~ "$hh - uptime hours\n"
-#~ "$h - uptime hours without zero\n"
-#~ "$mm - uptime minutes\n"
-#~ "$m - uptime minutes without zero"
-
-#~ msgid "Temperature devices"
-#~ msgstr "Temperature devices"
-
-#~ msgid "Editable"
-#~ msgstr "Editable"
-
-#~ msgid "Fan devices"
-#~ msgstr "Fan devices"
-
-#~ msgid "Mount points"
-#~ msgstr "Mount points"
-
-#~ msgid "HDD devices (speed)"
-#~ msgstr "HDD (speed)"
-
-#~ msgid "HDD devices (temp)"
-#~ msgstr "HDD (temp)"
-
-#~ msgid "Disable auto select device and set specified device"
-#~ msgstr "Disable auto select device and set specified device"
-
-#~ msgid "Set network device"
-#~ msgstr "Set network device"
-
-#~ msgid "Line, which returns when AC is online"
-#~ msgstr "Line, which returns when AC is online"
-
-#~ msgid "Line, which returns when AC is offline"
-#~ msgstr "Line, which returns when AC is offline"
-
-#~ msgid "\"/sys/class/power_supply/\" by default"
-#~ msgstr "\"/sys/class/power_supply/\" by default"
-
-#~ msgid "<b>NOTE:</b> Player DBus interface should be an active"
-#~ msgstr "<b>NOTE:</b> Player DBus interface should be an active"
-
-#~ msgid "Configuration"
-#~ msgstr "Configuration"
-
-#~ msgid "Ctrl+B"
-#~ msgstr "Ctrl+B"
-
-#~ msgid "Ctrl+I"
-#~ msgstr "Ctrl+I"
-
-#~ msgid "Ctrl+U"
-#~ msgstr "Ctrl+U"
-
-#~ msgid "Null lines"
-#~ msgstr "Null lines"
-
-#~ msgid "Desktop check cmd"
-#~ msgstr "Desktop check cmd"
-
-#~ msgid "Battery device"
-#~ msgstr "Battery device"
-
-#~ msgid "\"/sys/class/power_supply/BAT0/capacity\" by default"
-#~ msgstr "\"/sys/class/power_supply/BAT0/capacity\" by default"
-
-#~ msgid "Add stretch to left/top of the layout"
-#~ msgstr "Add stretch to left/top of the layout"
-
-#~ msgid "Add stretch to right/bottom of the layout"
-#~ msgstr "Add stretch to right/bottom of the layout"
-
-#~ msgid "Appearance configuration"
-#~ msgstr "Appearance configuration"
-
-#~ msgid "Widget configuration"
-#~ msgstr "Widget configuration"
-
-#~ msgid "\"/sys/class/net\" by default"
-#~ msgstr "\"/sys/class/net\" by default"
-
-#~ msgid "Custom command to run"
-#~ msgstr "Custom command to run"
-
-#~ msgid ""
-#~ "$time - time in default format\n"
-#~ "$isotime - time in ISO format\n"
-#~ "$shorttime - time in short format\n"
-#~ "$longtime - time in log format\n"
-#~ "$custom - custom time format"
-#~ msgstr ""
-#~ "$time - time in default format\n"
-#~ "$isotime - time in ISO format\n"
-#~ "$shorttime - time in short format\n"
-#~ "$longtime - time in log format\n"
-#~ "$custom - custom time format"
-
-#~ msgid "Uptime"
-#~ msgstr "Uptime"
-
-#~ msgid ""
-#~ "$uptime - system uptime\n"
-#~ "$custom - custom format"
-#~ msgstr ""
-#~ "$uptime - system uptime\n"
-#~ "$custom - custom format"
-
-#~ msgid ""
-#~ "$cpu - total load CPU, %\n"
-#~ "$cpu0 - load CPU for core 0, %\n"
-#~ "...\n"
-#~ "$cpu9 - load CPU for core 9, %\n"
-#~ "...\n"
-#~ "$cpuN - load CPU for core N, %"
-#~ msgstr ""
-#~ "$cpu - total load CPU, %\n"
-#~ "$cpu0 - load CPU for core 0, %\n"
-#~ "...\n"
-#~ "$cpu9 - load CPU for core 9, %\n"
-#~ "...\n"
-#~ "$cpuN - load CPU for core N, %"
-
-#~ msgid ""
-#~ "$cpucl - average CPU clock, MHz\n"
-#~ "$cpucl0 - CPU clock for core 0, MHz\n"
-#~ "...\n"
-#~ "$cpucl9 - CPU clock for core 9, MHz\n"
-#~ "...\n"
-#~ "$cpuclN - CPU clock for core N, MHz"
-#~ msgstr ""
-#~ "$cpucl - average CPU clock, MHz\n"
-#~ "$cpucl0 - CPU clock for core 0, MHz\n"
-#~ "...\n"
-#~ "$cpucl9 - CPU clock for core 9, MHz\n"
-#~ "...\n"
-#~ "$cpuclN - CPU clock for core N, MHz"
-
-#~ msgid "$tempN - physical temperature on device N (from 0). Example: $temp0"
-#~ msgstr "$tempN - physical temperature on device N (from 0). Example: $temp0"
-
-#~ msgid "$gpu - gpu usage, %"
-#~ msgstr "$gpu - gpu usage, %"
-
-#~ msgid "GPU Temp"
-#~ msgstr "GPU Temp"
-
-#~ msgid "$gputemp - physical temperature on GPU"
-#~ msgstr "$gputemp - physical temperature on GPU"
-
-#~ msgid ""
-#~ "$mem - RAM usage, %\n"
-#~ "$memmb - RAM usage, MB\n"
-#~ "$memgb - RAM usage, GB\n"
-#~ "$memtotmb - total RAM, MB\n"
-#~ "$memtotgb - total RAM, GB"
-#~ msgstr ""
-#~ "$mem - RAM usage, %\n"
-#~ "$memmb - RAM usage, MB\n"
-#~ "$memgb - RAM usage, GB\n"
-#~ "$memtotmb - total RAM, MB\n"
-#~ "$memtotgb - total RAM, GB"
-
-#~ msgid ""
-#~ "$swap - swap usage, %\n"
-#~ "$swapmb - swap usage, MB\n"
-#~ "$swapgb - swap usage, GB\n"
-#~ "$swaptotmb - total swap, MB\n"
-#~ "$swaptotgb - total swap, GB"
-#~ msgstr ""
-#~ "$swap - swap usage, %\n"
-#~ "$swapmb - swap usage, MB\n"
-#~ "$swapgb - swap usage, GB\n"
-#~ "$swaptotmb - total swap, MB\n"
-#~ "$swaptotgb - total swap, GB"
-
-#~ msgid ""
-#~ "$hddN - usage for mount point N (from 0), %. Example: $hdd0\n"
-#~ "$hddmbN - usage for mount point N (from 0), MB. Example: $hddmb0\n"
-#~ "$hddgbN - usage for mount point N (from 0), GB. Example: $hddgb0\n"
-#~ "$hddtotmbN - total size of mount point N (from 0), MB. Example: "
-#~ "$hddtotmb0\n"
-#~ "$hddtotgbN - total size of mount point N (from 0), GB. Example: $hddtotgb0"
-#~ msgstr ""
-#~ "$hddN - usage for mount point N (from 0), %. Example: $hdd0\n"
-#~ "$hddmbN - usage for mount point N (from 0), MB. Example: $hddmb0\n"
-#~ "$hddgbN - usage for mount point N (from 0), GB. Example: $hddgb0\n"
-#~ "$hddtotmbN - total size of mount point N (from 0), MB. Example: "
-#~ "$hddtotmb0\n"
-#~ "$hddtotgbN - total size of mount point N (from 0), GB. Example: $hddtotgb0"
-
-#~ msgid "HDD speed"
-#~ msgstr "HDD speed"
-
-#~ msgid ""
-#~ "$hddrN - read speed HDD N (from 0), KB/s. Example: $hddr0\n"
-#~ "$hddwN - write speed HDD N (from 0), KB/s. Example: $hddw0"
-#~ msgstr ""
-#~ "$hddrN - read speed HDD N (from 0), KB/s. Example: $hddr0\n"
-#~ "$hddwN - write speed HDD N (from 0), KB/s. Example: $hddw0"
-
-#~ msgid "HDD temp"
-#~ msgstr "HDD temp"
-
-#~ msgid ""
-#~ "$hddtempN - physical temperature on device N (from 0). Example: $hddtemp0"
-#~ msgstr ""
-#~ "$hddtempN - physical temperature on device N (from 0). Example: $hddtemp0"
-
-#~ msgid ""
-#~ "$down - download speed, KB/s\n"
-#~ "$up - upload speed, KB/s\n"
-#~ "$netdev - current network device"
-#~ msgstr ""
-#~ "$down - download speed, KB/s\n"
-#~ "$up - upload speed, KB/s\n"
-#~ "$netdev - current network device"
-
-#~ msgid ""
-#~ "$bat - battery charge, %\n"
-#~ "$ac - AC status"
-#~ msgstr ""
-#~ "$bat - battery charge, %\n"
-#~ "$ac - AC status"
-
-#~ msgid ""
-#~ "$album - song album\n"
-#~ "$artist - song artist\n"
-#~ "$progress - song progress\n"
-#~ "$time - song duration\n"
-#~ "$title - song title"
-#~ msgstr ""
-#~ "$album - song album\n"
-#~ "$artist - song artist\n"
-#~ "$progress - song progress\n"
-#~ "$time - song duration\n"
-#~ "$title - song title"
-
-#~ msgid "Processes"
-#~ msgstr "Processes"
-
-#~ msgid ""
-#~ "$pscount - number of running processes\n"
-#~ "$pstotal - total number of running processes\n"
-#~ "$ps - list of running processes comma separated"
-#~ msgstr ""
-#~ "$pscount - number of running processes\n"
-#~ "$pstotal - total number of running processes\n"
-#~ "$ps - list of running processes comma separated"
-
-#~ msgid ""
-#~ "$pkgcountN - number of packages which are available for updates, command "
-#~ "N. For example $pkgcount0"
-#~ msgstr ""
-#~ "$pkgcountN - number of packages which are available for updates, command "
-#~ "N. For example $pkgcount0"
-
-#~ msgid ""
-#~ "$customN - get output from custom command N (from N). Example `$custom0`"
-#~ msgstr ""
-#~ "$customN - get output from custom command N (from N). Example `$custom0`"
-
-#~ msgid ""
-#~ "$name - desktop name\n"
-#~ "$number - desktop number\n"
-#~ "$total - total number of desktops"
-#~ msgstr ""
-#~ "$name - desktop name\n"
-#~ "$number - desktop number\n"
-#~ "$total - total number of desktops"
-
-#~ msgid "pacman -Qu"
-#~ msgstr "pacman -Qu"
-
-#~ msgid "apt-show-versions -u -b"
-#~ msgstr "apt-show-versions -u -b"
-
-#~ msgid "aptitude search '~U'"
-#~ msgstr "aptitude search '~U'"
-
-#~ msgid "yum list updates"
-#~ msgstr "yum list updates"
-
-#~ msgid "pkg_version -I -l '<'"
-#~ msgstr "pkg_version -I -l '<'"
-
-#~ msgid "urpmq --auto-select"
-#~ msgstr "urpmq --auto-select"
-
-#~ msgid "amarok"
-#~ msgstr "amarok"
-
-#~ msgid "mpd"
-#~ msgstr "mpd"
-
-#~ msgid "qmmp"
-#~ msgstr "qmmp"
-
-#~ msgid "auto"
-#~ msgstr "auto"
-
-#~ msgid "nvidia"
-#~ msgstr "nvidia"
-
-#~ msgid "ati"
-#~ msgstr "ati"
-
-#~ msgid "$hddN - usage for mount point N (from 0), %. Example: $hdd0"
-#~ msgstr "$hddN - usage for mount point N (from 0), %. Example: $hdd0"
-
-#~ msgid ""
-#~ "$ds - uptime days\n"
-#~ "$hs - uptime hours\n"
-#~ "$ms - uptime minutes"
-#~ msgstr ""
-#~ "$ds - uptime days\n"
-#~ "$hs - uptime hours\n"
-#~ "$ms - uptime minutes"
-
-#~ msgid ""
-#~ "Command to run, example:\n"
-#~ "wget -qO- http://ifconfig.me/ip - get external IP"
-#~ msgstr ""
-#~ "Command to run, example:\n"
-#~ "wget -qO- http://ifconfig.me/ip - get external IP"
-
-#~ msgid "@@/;@@ - mount point usage, %"
-#~ msgstr "@@/;@@ - mount point usage, %"
-
-#~ msgid "@@/dev/sda@@ - physical temperature on /dev/sda"
-#~ msgstr "@@/dev/sda@@ - physical temperature on /dev/sda"
-
-#~ msgid ""
-#~ "$net - network speed, down/up, KB/s\n"
-#~ "$netdev - current network device\n"
-#~ "@@eth0@@ - disable auto select device and set specified device"
-#~ msgstr ""
-#~ "$net - network speed, down/up, KB/s\n"
-#~ "$netdev - current network device\n"
-#~ "@@eth0@@ - disable auto select device and set specified device"
+msgid "Import additional files"
+msgstr "Import additional files"

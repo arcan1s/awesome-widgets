@@ -32,6 +32,8 @@ AWKeysAggregator::AWKeysAggregator(QObject *_parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
+    m_customFormatters = new AWFormatterHelper(nullptr);
+
     // sort time keys
     m_timeKeys.sort();
     std::reverse(m_timeKeys.begin(), m_timeKeys.end());
@@ -44,9 +46,13 @@ AWKeysAggregator::AWKeysAggregator(QObject *_parent)
     // network
     m_formatter["down"] = FormatterType::NetSmartFormat;
     m_formatter["downkb"] = FormatterType::Integer;
+    m_formatter["downtot"] = FormatterType::MemMBFormat;
+    m_formatter["downtotkb"] = FormatterType::Integer;
     m_formatter["downunits"] = FormatterType::NetSmartUnits;
     m_formatter["up"] = FormatterType::NetSmartFormat;
     m_formatter["upkb"] = FormatterType::Integer;
+    m_formatter["uptot"] = FormatterType::MemMBFormat;
+    m_formatter["uptotkb"] = FormatterType::Integer;
     m_formatter["upunits"] = FormatterType::NetSmartUnits;
     // swap
     m_formatter["swap"] = FormatterType::Float;
@@ -58,16 +64,12 @@ AWKeysAggregator::AWKeysAggregator(QObject *_parent)
 AWKeysAggregator::~AWKeysAggregator()
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
-
-    delete m_customFormatters;
 }
 
 
 void AWKeysAggregator::initFormatters()
 {
-    if (m_customFormatters)
-        delete m_customFormatters;
-    m_customFormatters = new AWFormatterHelper(nullptr);
+    m_customFormatters->initItems();
 }
 
 
@@ -183,6 +185,10 @@ QString AWKeysAggregator::formatter(const QVariant &_data,
             output = m_customFormatters->convert(_data, _key);
         break;
     }
+
+    // replace spaces to non-breakable ones
+    if (!_key.startsWith("custom") && (!_key.startsWith("weather")))
+        output.replace(" ", "&nbsp;");
 
     return output;
 }
@@ -470,11 +476,11 @@ QStringList AWKeysAggregator::registerSource(const QString &_source,
         int index = m_devices["net"].indexOf(_source.split('/')[2]);
         if (index > -1) {
             // kb
-            QString key = QString("%1totalkb%2").arg(type).arg(index);
+            QString key = QString("%1totkb%2").arg(type).arg(index);
             m_map[_source] = key;
             m_formatter[key] = FormatterType::Integer;
             // mb
-            key = QString("%1total%2").arg(type).arg(index);
+            key = QString("%1tot%2").arg(type).arg(index);
             m_map.insertMulti(_source, key);
             m_formatter[key] = FormatterType::MemMBFormat;
         }
@@ -500,8 +506,8 @@ QStringList AWKeysAggregator::registerSource(const QString &_source,
         m_formatter["ps"] = FormatterType::List;
     } else if (_source == "ps/total/count") {
         // total processes count
-        m_map[_source] = "pstotal";
-        m_formatter["pstotal"] = FormatterType::NoFormat;
+        m_map[_source] = "pstot";
+        m_formatter["pstot"] = FormatterType::NoFormat;
     } else if (_source.startsWith("quotes")) {
         // quotes
         QString key = _source;

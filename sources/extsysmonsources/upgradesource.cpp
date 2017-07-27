@@ -37,8 +37,6 @@ UpgradeSource::UpgradeSource(QObject *_parent, const QStringList &_args)
 UpgradeSource::~UpgradeSource()
 {
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
-
-    delete m_extUpgrade;
 }
 
 

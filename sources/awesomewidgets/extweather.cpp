@@ -22,9 +22,6 @@
 
 #include <QDir>
 #include <QJsonDocument>
-#include <QJsonParseError>
-#include <QNetworkAccessManager>
-#include <QNetworkRequest>
 #include <QSettings>
 #include <QStandardPaths>
 
@@ -72,7 +69,6 @@ ExtWeather::~ExtWeather()
     disconnect(this, SIGNAL(requestDataUpdate()), this, SLOT(sendRequest()));
 
     m_manager->deleteLater();
-    delete m_providerObject;
     delete ui;
 }
 

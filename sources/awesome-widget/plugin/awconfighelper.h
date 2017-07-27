@@ -20,7 +20,6 @@
 #define AWCONFIGHELPER_H
 
 #include <QObject>
-#include <QStandardPaths>
 #include <QVariant>
 
 
@@ -57,15 +56,9 @@ private:
     void writeFile(QSettings &_settings, const QString &_key,
                    const QString &_fileName) const;
     // properties
-    QString m_baseDir = QString("%1/awesomewidgets")
-                            .arg(QStandardPaths::writableLocation(
-                                QStandardPaths::GenericDataLocation));
-    QStringList m_dirs = QStringList() << "desktops"
-                                       << "quotes"
-                                       << "scripts"
-                                       << "upgrade"
-                                       << "weather"
-                                       << "formatters";
+    QString m_baseDir;
+    QStringList m_dirs
+        = {"desktops", "quotes", "scripts", "upgrade", "weather", "formatters"};
 };
 
 

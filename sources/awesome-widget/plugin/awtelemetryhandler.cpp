@@ -18,10 +18,8 @@
 #include "awtelemetryhandler.h"
 
 #include <QJsonDocument>
-#include <QJsonParseError>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
-#include <QNetworkRequest>
 #include <QSettings>
 #include <QStandardPaths>
 #include <QUuid>

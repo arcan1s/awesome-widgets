@@ -22,7 +22,6 @@
 #include <QBuffer>
 #include <QGraphicsScene>
 #include <QGraphicsView>
-#include <QPixmap>
 
 #include <cmath>
 
@@ -44,8 +43,6 @@ AWDataAggregator::AWDataAggregator(QObject *_parent)
     m_boundaries["batTooltip"] = 100.0;
 
     initScene();
-    connect(this, SIGNAL(updateData(const QVariantHash &)), this,
-            SLOT(dataUpdate(const QVariantHash &)));
 }
 
 
@@ -54,14 +51,6 @@ AWDataAggregator::~AWDataAggregator()
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
     delete m_toolTipScene;
-}
-
-
-QList<float> AWDataAggregator::getData(const QString &_key) const
-{
-    qCDebug(LOG_AW) << "Key" << _key;
-
-    return m_values[QString("%1Tooltip").arg(_key)];
 }
 
 

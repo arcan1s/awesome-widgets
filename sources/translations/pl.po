@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2017-05-05 18:15+0300\n"
+"POT-Creation-Date: 2017-07-13 17:39+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -333,6 +333,10 @@ msgstr "Kolor baterii aktywnej"
 msgid "Battery inactive color"
 msgstr "Kolor baterii nie aktywnej"
 
+#, fuzzy
+msgid "Edit"
+msgstr "Edytuj paski postępu"
+
 msgid "Run %1"
 msgstr "Wykonać %1"
 
@@ -371,10 +375,6 @@ msgstr "Wysokie obciążenie procesora graficznego"
 
 msgid "Network device has been changed to %1"
 msgstr "Urządznie sieciowe zamienione na %1"
-
-#, fuzzy
-msgid "Edit"
-msgstr "Edytuj paski postępu"
 
 #, fuzzy
 msgid "Select type"
@@ -646,6 +646,9 @@ msgstr "Edytuj paski postępu"
 msgid "Formatters"
 msgstr ""
 
+msgid "User keys"
+msgstr ""
+
 msgid "Preview"
 msgstr "Przegląd"
 
@@ -716,22 +719,6 @@ msgstr "Nie mogę zapisać pliku konfiguracji"
 msgid "Select a font"
 msgstr "Wybierz czcionkę"
 
-#, fuzzy
-msgid "Bgcolor"
-msgstr "Kolor procesora"
-
-msgid "Import"
-msgstr "Import"
-
-msgid "Import plasmoid settings"
-msgstr "Załaduj ustawnienai plasmoidu"
-
-msgid "Import extensions"
-msgstr "Załaduj rozszerzenia"
-
-msgid "Import additional files"
-msgstr "Załaduj pliki dodatkowe"
-
 msgid "AC"
 msgstr "Zasialnie zewnętrzne"
 
@@ -740,6 +727,10 @@ msgstr "Paski postępu"
 
 msgid "Desktops"
 msgstr "Pulpity"
+
+#, fuzzy
+msgid "Network request"
+msgstr "Sieć"
 
 msgid "Scripts"
 msgstr "Skrypty"
@@ -757,6 +748,9 @@ msgid "Weathers"
 msgstr "Pogoda"
 
 msgid "Functions"
+msgstr ""
+
+msgid "User defined"
 msgstr ""
 
 msgid "All"
@@ -790,35 +784,18 @@ msgstr ""
 msgid "sunken"
 msgstr ""
 
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Terminus"
-
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "terminus@linux.pl"
-
-#~ msgid "Edit scripts"
-#~ msgstr "Edytuj skrypty"
-
-#~ msgid "Edit tickers"
-#~ msgstr "Eytuj znaczniki"
-
-#~ msgid "Edit command"
-#~ msgstr "Polecenie edycji"
-
-#~ msgid "Edit weather"
-#~ msgstr "Edytuj pogodę"
-
 #, fuzzy
-#~ msgid "Use image for active"
-#~ msgstr "Użyj obrazków"
+msgid "Bgcolor"
+msgstr "Kolor procesora"
 
-#~ msgid "Active color"
-#~ msgstr "Kolor aktywnego"
+msgid "Import"
+msgstr "Import"
 
-#~ msgid "Inactive color"
-#~ msgstr "Kolor nieaktywnego"
+msgid "Import plasmoid settings"
+msgstr "Załaduj ustawnienai plasmoidu"
 
-#~ msgid "Add lambda"
-#~ msgstr "Dodaj różnicę"
+msgid "Import extensions"
+msgstr "Załaduj rozszerzenia"
+
+msgid "Import additional files"
+msgstr "Załaduj pliki dodatkowe"

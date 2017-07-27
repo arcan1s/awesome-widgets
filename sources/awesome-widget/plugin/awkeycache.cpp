@@ -19,7 +19,6 @@
 
 #include <QDir>
 #include <QNetworkInterface>
-#include <QRegExp>
 #include <QSettings>
 #include <QStandardPaths>
 
@@ -86,6 +85,7 @@ bool AWKeyCache::addKeyToCache(const QString &_type, const QString &_key)
 QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys,
                                         const QStringList &_bars,
                                         const QVariantMap &_tooltip,
+                                        const QStringList &_userKeys,
                                         const QStringList &_allKeys)
 {
     qCDebug(LOG_AW) << "Looking for required keys in" << _keys << _bars
@@ -94,6 +94,7 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys,
     // initial copy
     QSet<QString> used = QSet<QString>::fromList(_keys);
     used.unite(QSet<QString>::fromList(_bars));
+    used.unite(QSet<QString>::fromList(_userKeys));
     // insert keys from tooltip
     for (auto &key : _tooltip.keys()) {
         if ((key.endsWith("Tooltip")) && (_tooltip[key].toBool())) {
@@ -146,9 +147,8 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys,
         used << "swapgb"
              << "swapfreegb";
     // network keys
-    QStringList netKeys({"up", "upkb", "uptotal", "uptotalkb", "upunits",
-                         "down", "downkb", "downtotal", "downtotalkb",
-                         "downunits"});
+    QStringList netKeys({"up", "upkb", "uptot", "uptotkb", "upunits", "down",
+                         "downkb", "downtot", "downtotkb", "downunits"});
     for (auto &key : netKeys) {
         if (!used.contains(key))
             continue;

@@ -39,14 +39,13 @@ class AWKeys : public QObject
 public:
     explicit AWKeys(QObject *_parent = nullptr);
     virtual ~AWKeys();
-    bool isDBusActive() const;
     Q_INVOKABLE void initDataAggregator(const QVariantMap &_tooltipParams);
     Q_INVOKABLE void initKeys(const QString &_currentPattern,
                               const int _interval, const int _limit,
                               const bool _optimize);
     Q_INVOKABLE void setAggregatorProperty(const QString &_key,
                                            const QVariant &_value);
-    Q_INVOKABLE void setWrapNewLines(const bool _wrap = false);
+    Q_INVOKABLE void setWrapNewLines(const bool _wrap);
     // additional method to force load keys from Qml UI. Used in some
     // configuration pages
     Q_INVOKABLE void updateCache();
@@ -88,7 +87,6 @@ private:
     AWKeyOperations *m_keyOperator = nullptr;
     QTimer *m_timer = nullptr;
     // variables
-    bool m_dbusActive = false;
     QVariantMap m_tooltipParams;
     QStringList m_foundBars, m_foundKeys, m_foundLambdas, m_requiredKeys;
     QVariantHash m_values;

@@ -67,11 +67,13 @@ public:
     void deleteItem();
     void editItem();
     QString getName();
+    virtual void initItems() = 0;
     AbstractExtItem *itemFromWidget();
     void repaintList();
     int uniqNumber() const;
     // get methods
     QVariant configArgs() const;
+    QStringList directories() const;
     virtual QList<AbstractExtItem *> items() const = 0;
     QString type() const;
     // set methods
@@ -92,7 +94,6 @@ private:
     QString m_type;
     // ui methods
     virtual void doCreateItem() = 0;
-    virtual void initItems() = 0;
 };
 
 

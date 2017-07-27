@@ -16,168 +16,22 @@
  ***************************************************************************/
 
 #include "awformatterconfig.h"
-#include "ui_awformatterconfig.h"
 
-#include <KI18n/KLocalizedString>
-
-#include <QPushButton>
-
-#include "awabstractselector.h"
 #include "awdebug.h"
 #include "awformatterhelper.h"
 
 
 AWFormatterConfig::AWFormatterConfig(QWidget *_parent, const QStringList &_keys)
-    : QDialog(_parent)
-    , ui(new Ui::AWFormatterConfig)
-    , m_keys(_keys)
+    : AWAbstractPairConfig(_parent, true, _keys)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
-    ui->setupUi(this);
-    m_editButton
-        = ui->buttonBox->addButton(i18n("Edit"), QDialogButtonBox::ActionRole);
-    init();
-
-    connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(ui->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-    connect(m_editButton, SIGNAL(clicked(bool)), this, SLOT(editFormatters()));
+    setEditable(false, false);
+    initHelper<AWFormatterHelper>();
 }
 
 
 AWFormatterConfig::~AWFormatterConfig()
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
-
-    clearSelectors();
-
-    delete m_helper;
-    delete ui;
-}
-
-
-void AWFormatterConfig::showDialog()
-{
-    // update dialog
-    updateDialog();
-    // exec dialog
-    return execDialog();
-}
-
-
-void AWFormatterConfig::editFormatters()
-{
-    m_helper->editItems();
-    updateDialog();
-}
-
-
-void AWFormatterConfig::updateUi()
-{
-    QPair<QString, QString> current
-        = static_cast<AWAbstractSelector *>(sender())->current();
-    int index
-        = m_selectors.indexOf(static_cast<AWAbstractSelector *>(sender()));
-
-    if ((current.first.isEmpty()) && (current.second.isEmpty())) {
-        // remove current selector if it is empty and does not last
-        if (sender() == m_selectors.last())
-            return;
-        AWAbstractSelector *selector = m_selectors.takeAt(index);
-        ui->verticalLayout->removeWidget(selector);
-        selector->deleteLater();
-    } else {
-        // add new selector if something changed
-        if (sender() != m_selectors.last())
-            return;
-        auto keys = initKeys();
-        addSelector(keys.first, keys.second, QPair<QString, QString>());
-    }
-}
-
-
-void AWFormatterConfig::addSelector(const QStringList &_keys,
-                                    const QStringList &_values,
-                                    const QPair<QString, QString> &_current)
-{
-    qCDebug(LOG_AW) << "Add selector with keys" << _keys << "values" << _values
-                    << "and current ones" << _current;
-
-    AWAbstractSelector *selector
-        = new AWAbstractSelector(ui->scrollAreaWidgetContents);
-    selector->init(_keys, _values, _current);
-    ui->verticalLayout->insertWidget(ui->verticalLayout->count() - 1, selector);
-    connect(selector, SIGNAL(selectionChanged()), this, SLOT(updateUi()));
-    m_selectors.append(selector);
-}
-
-
-void AWFormatterConfig::clearSelectors()
-{
-    for (auto &selector : m_selectors) {
-        disconnect(selector, SIGNAL(selectionChanged()), this,
-                   SLOT(updateUi()));
-        ui->verticalLayout->removeWidget(selector);
-        selector->deleteLater();
-    }
-    m_selectors.clear();
-}
-
-
-void AWFormatterConfig::execDialog()
-{
-    int ret = exec();
-    QHash<QString, QString> data;
-    for (auto &selector : m_selectors) {
-        QPair<QString, QString> select = selector->current();
-        if (select.first.isEmpty())
-            continue;
-        data[select.first] = select.second;
-    }
-
-    // save configuration if required
-    switch (ret) {
-    case 0:
-        break;
-    case 1:
-    default:
-        m_helper->writeFormatters(data);
-        m_helper->removeUnusedFormatters(data.keys());
-        break;
-    }
-}
-
-
-void AWFormatterConfig::init()
-{
-    delete m_helper;
-    m_helper = new AWFormatterHelper(this);
-}
-
-
-QPair<QStringList, QStringList> AWFormatterConfig::initKeys() const
-{
-    // we are adding empty string at the start
-    QStringList keys = QStringList() << "";
-    keys.append(m_keys);
-    keys.sort();
-    QStringList knownFormatters = QStringList() << "";
-    knownFormatters.append(m_helper->knownFormatters());
-    knownFormatters.sort();
-
-    return QPair<QStringList, QStringList>(keys, knownFormatters);
-}
-
-
-void AWFormatterConfig::updateDialog()
-{
-    clearSelectors();
-    QHash<QString, QString> appliedFormatters = m_helper->getFormatters();
-    auto keys = initKeys();
-
-    for (auto &key : appliedFormatters.keys())
-        addSelector(keys.first, keys.second,
-                    QPair<QString, QString>(key, appliedFormatters[key]));
-    // empty one
-    addSelector(keys.first, keys.second, QPair<QString, QString>());
 }

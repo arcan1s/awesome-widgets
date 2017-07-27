@@ -15,28 +15,25 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#include "awformatterconfigfactory.h"
 
-#include "awdebug.h"
-#include "awformatterconfig.h"
+#ifndef AWPAIRCONFIGFACTORY_H
+#define AWPAIRCONFIGFACTORY_H
+
+#include <QObject>
 
 
-AWFormatterConfigFactory::AWFormatterConfigFactory(QObject *_parent)
-    : QObject(_parent)
+class AWPairConfigFactory : public QObject
 {
-    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
-}
+    Q_OBJECT
+
+public:
+    explicit AWPairConfigFactory(QObject *_parent = nullptr);
+    virtual ~AWPairConfigFactory();
+    Q_INVOKABLE void showFormatterDialog(const QStringList &_keys);
+    Q_INVOKABLE void showKeysDialog(const QStringList &_keys);
+
+private:
+};
 
 
-AWFormatterConfigFactory::~AWFormatterConfigFactory()
-{
-    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
-}
-
-
-void AWFormatterConfigFactory::showDialog(const QStringList &_keys)
-{
-    AWFormatterConfig *config = new AWFormatterConfig(nullptr, _keys);
-    config->showDialog();
-    config->deleteLater();
-}
+#endif /* AWPAIRCONFIGFACTORY_H */

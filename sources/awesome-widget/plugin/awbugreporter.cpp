@@ -21,11 +21,9 @@
 
 #include <QDesktopServices>
 #include <QJsonDocument>
-#include <QJsonParseError>
 #include <QMessageBox>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
-#include <QNetworkRequest>
 
 #include "awdebug.h"
 

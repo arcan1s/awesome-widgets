@@ -21,8 +21,6 @@
 #include <KI18n/KLocalizedString>
 
 #include <QDir>
-#include <QNetworkAccessManager>
-#include <QNetworkRequest>
 #include <QSettings>
 #include <QTextCodec>
 

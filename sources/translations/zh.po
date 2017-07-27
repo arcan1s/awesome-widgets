@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2017-05-05 18:15+0300\n"
+"POT-Creation-Date: 2017-07-13 17:39+0300\n"
 "PO-Revision-Date: 2015-07-31 22:24+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -337,6 +337,10 @@ msgstr "电池使用状态提示颜色"
 msgid "Battery inactive color"
 msgstr "电池未使用状态提示颜色"
 
+#, fuzzy
+msgid "Edit"
+msgstr "可编辑的"
+
 msgid "Run %1"
 msgstr "运行 %1"
 
@@ -375,10 +379,6 @@ msgstr "高 GPU 使用"
 
 msgid "Network device has been changed to %1"
 msgstr "网络设备变更为 %1"
-
-#, fuzzy
-msgid "Edit"
-msgstr "可编辑的"
 
 #, fuzzy
 msgid "Select type"
@@ -651,6 +651,9 @@ msgstr "编辑工具栏"
 msgid "Formatters"
 msgstr ""
 
+msgid "User keys"
+msgstr ""
+
 msgid "Preview"
 msgstr "预览"
 
@@ -721,22 +724,6 @@ msgstr "无法保存配置文件"
 msgid "Select a font"
 msgstr "选择字体"
 
-#, fuzzy
-msgid "Bgcolor"
-msgstr "CPU 颜色"
-
-msgid "Import"
-msgstr "导入"
-
-msgid "Import plasmoid settings"
-msgstr "导入[plasmoid]配置"
-
-msgid "Import extensions"
-msgstr "导入插件"
-
-msgid "Import additional files"
-msgstr "导入其他文件"
-
 msgid "AC"
 msgstr "电源"
 
@@ -745,6 +732,10 @@ msgstr "工具栏"
 
 msgid "Desktops"
 msgstr "桌面"
+
+#, fuzzy
+msgid "Network request"
+msgstr "网络"
 
 msgid "Scripts"
 msgstr "脚本"
@@ -762,6 +753,9 @@ msgid "Weathers"
 msgstr "天气"
 
 msgid "Functions"
+msgstr ""
+
+msgid "User defined"
 msgstr ""
 
 msgid "All"
@@ -795,163 +789,18 @@ msgstr ""
 msgid "sunken"
 msgstr ""
 
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "用户名"
-
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "用户邮箱"
-
-#~ msgid "Edit scripts"
-#~ msgstr "编辑脚本"
-
-#~ msgid "Edit tickers"
-#~ msgstr "编辑股票更新周期"
-
-#~ msgid "Edit command"
-#~ msgstr "编辑命令"
-
-#~ msgid "Edit weather"
-#~ msgstr "编辑天气"
-
 #, fuzzy
-#~ msgid "Use image for active"
-#~ msgstr "使用图片"
+msgid "Bgcolor"
+msgstr "CPU 颜色"
 
-#~ msgid "Active color"
-#~ msgstr "使用状态提示颜色"
+msgid "Import"
+msgstr "导入"
 
-#~ msgid "Inactive color"
-#~ msgstr "未使用状态提示颜色"
+msgid "Import plasmoid settings"
+msgstr "导入[plasmoid]配置"
 
-#~ msgid "Add lambda"
-#~ msgstr "添加 lambda"
+msgid "Import extensions"
+msgstr "导入插件"
 
-#~ msgid "Top Edge"
-#~ msgstr "顶部边缘"
-
-#~ msgid "Bottom Edge"
-#~ msgstr "底部边缘"
-
-#~ msgid "Left Edge"
-#~ msgstr "左端边缘"
-
-#, fuzzy
-#~ msgid "Right Edge"
-#~ msgstr "未知位置（%1)"
-
-#~ msgid "Run ksysguard"
-#~ msgstr "运行任务管理器"
-
-#~ msgid "Update text"
-#~ msgstr "刷新文本"
-
-#~ msgid "Enable popup on mouse click"
-#~ msgstr "鼠标点击时弹出对话框"
-
-#~ msgid ""
-#~ "$dddd - long weekday\n"
-#~ "$ddd - short weekday\n"
-#~ "$dd - day\n"
-#~ "$d - day w\\o zero\n"
-#~ "$MMMM - long month\n"
-#~ "$MMM - short month\n"
-#~ "$MM - month\n"
-#~ "$M - month w\\o zero\n"
-#~ "$yyyy - year\n"
-#~ "$yy - short year\n"
-#~ "$hh - hours (24 only)\n"
-#~ "$h - hours w\\o zero (24 only)\n"
-#~ "$mm - minutes\n"
-#~ "$m - minutes w\\o zero\n"
-#~ "$ss - seconds\n"
-#~ "$s - seconds w\\o zero"
-#~ msgstr ""
-#~ "$dddd - 详细工作日\n"
-#~ "$ddd - 简短工作日\n"
-#~ "$dd - 日\n"
-#~ "$d - 日 w\\o 零\n"
-#~ "$MMMM - 详细月份\n"
-#~ "$MMM - 简短月份\n"
-#~ "$MM - 月\n"
-#~ "$M - 月 w\\o 零\n"
-#~ "$yyyy - 年\n"
-#~ "$yy - 简短年份\n"
-#~ "$hh - 小时 (24 小时制)\n"
-#~ "$h - 小时 w\\o 零 (24 小时制)\n"
-#~ "$mm - 分\n"
-#~ "$m - 分 w\\o 零\n"
-#~ "$ss - 秒\n"
-#~ "$s - 秒 w\\o 零"
-
-#~ msgid ""
-#~ "$dd - uptime days\n"
-#~ "$d - uptime days without zero\n"
-#~ "$hh - uptime hours\n"
-#~ "$h - uptime hours without zero\n"
-#~ "$mm - uptime minutes\n"
-#~ "$m - uptime minutes without zero"
-#~ msgstr ""
-#~ "$dd - 运行天数\n"
-#~ "$d - 运行天数（不显示0）\n"
-#~ "$hh - 运行小时数\n"
-#~ "$h - 运行小时数（不显示0）\n"
-#~ "$mm - 运行分钟数\n"
-#~ "$m - 运行分钟数（不显示0）"
-
-#~ msgid "Temperature devices"
-#~ msgstr "温度传感器"
-
-#~ msgid "Editable"
-#~ msgstr "可编辑的"
-
-#, fuzzy
-#~ msgid "Fan devices"
-#~ msgstr "外界电源设备"
-
-#~ msgid "Mount points"
-#~ msgstr "挂载点"
-
-#~ msgid "HDD devices (speed)"
-#~ msgstr "硬盘（高速）"
-
-#~ msgid "HDD devices (temp)"
-#~ msgstr "硬盘（临时）"
-
-#~ msgid "Disable auto select device and set specified device"
-#~ msgstr "禁用自动选择设备和设置特殊设备"
-
-#~ msgid "Set network device"
-#~ msgstr "设置网络设备"
-
-#~ msgid "Line, which returns when AC is online"
-#~ msgstr "外接电源使用时显示线条"
-
-#~ msgid "Line, which returns when AC is offline"
-#~ msgstr "外接电源未使用时显示线条"
-
-#, fuzzy
-#~ msgid "\"/sys/class/power_supply/\" by default"
-#~ msgstr "默认为 \"/sys/class/power_supply/AC/online\""
-
-#~ msgid "<b>NOTE:</b> Player DBus interface should be an active"
-#~ msgstr "<b>提示:</b> 播放器 DBus 应当处于激活状态"
-
-#~ msgid "Ctrl+B"
-#~ msgstr "Ctrl+B"
-
-#~ msgid "Ctrl+I"
-#~ msgstr "Ctrl+I"
-
-#~ msgid "Ctrl+U"
-#~ msgstr "Ctrl+U"
-
-#~ msgid "Null lines"
-#~ msgstr "空行"
-
-#~ msgid "Desktop check cmd"
-#~ msgstr "检测桌面命令"
-
-#~ msgid "\"/sys/class/power_supply/BAT0/capacity\" by default"
-#~ msgstr "默认为 \"/sys/class/power_supply/BAT0/capacity\""
+msgid "Import additional files"
+msgstr "导入其他文件"

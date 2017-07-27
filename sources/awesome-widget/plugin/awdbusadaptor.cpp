@@ -17,6 +17,9 @@
 
 #include "awdbusadaptor.h"
 
+#include <QDBusConnection>
+#include <QDBusConnectionInterface>
+
 #include "awdebug.h"
 #include "awkeys.h"
 
@@ -32,6 +35,25 @@ AWDBusAdaptor::AWDBusAdaptor(AWKeys *_parent)
 AWDBusAdaptor::~AWDBusAdaptor()
 {
     qCDebug(LOG_DBUS) << __PRETTY_FUNCTION__;
+}
+
+
+QStringList AWDBusAdaptor::ActiveServices() const
+{
+    QDBusMessage listServices = QDBusConnection::sessionBus().interface()->call(
+        QDBus::BlockWithGui, "ListNames");
+    if (listServices.arguments().isEmpty()) {
+        qCWarning(LOG_DBUS) << "Could not find any DBus service";
+        return {};
+    }
+    QStringList arguments = listServices.arguments().first().toStringList();
+
+    return std::accumulate(arguments.cbegin(), arguments.cend(), QStringList(),
+                           [](QStringList &source, QString service) {
+                               if (service.startsWith(AWDBUS_SERVICE))
+                                   source.append(service);
+                               return source;
+                           });
 }
 
 

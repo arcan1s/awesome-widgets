@@ -35,17 +35,15 @@ class AWDataAggregator : public QObject
 public:
     explicit AWDataAggregator(QObject *_parent = nullptr);
     virtual ~AWDataAggregator();
-    QList<float> getData(const QString &_key) const;
     QString htmlImage(const QPixmap &_source) const;
     void setParameters(const QVariantMap &_settings);
     QPixmap tooltipImage();
 
-signals:
-    void updateData(const QVariantHash &_values);
-    void toolTipPainted(const QString &_image) const;
-
-private slots:
+public slots:
     void dataUpdate(const QVariantHash &_values);
+
+signals:
+    void toolTipPainted(const QString &_image) const;
 
 private:
     // ui

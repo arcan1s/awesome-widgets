@@ -19,7 +19,6 @@
 
 #include <QDBusConnection>
 #include <QDBusError>
-#include <QRegExp>
 #include <QThread>
 #include <QTimer>
 #include <QtConcurrent/QtConcurrent>
@@ -76,24 +75,9 @@ AWKeys::~AWKeys()
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
     m_timer->stop();
-    delete m_timer;
-
     // delete dbus session
     qlonglong id = reinterpret_cast<qlonglong>(this);
     QDBusConnection::sessionBus().unregisterObject(QString("/%1").arg(id));
-
-    // core
-    delete m_dataEngineAggregator;
-    delete m_threadPool;
-    delete m_aggregator;
-    delete m_dataAggregator;
-    delete m_keyOperator;
-}
-
-
-bool AWKeys::isDBusActive() const
-{
-    return m_dbusActive;
 }
 
 
@@ -122,8 +106,7 @@ void AWKeys::initKeys(const QString &_currentPattern, const int _interval,
     m_aggregator->initFormatters();
     m_keyOperator->setPattern(_currentPattern);
     m_keyOperator->updateCache();
-    m_dataEngineAggregator->clear();
-    m_dataEngineAggregator->initDataEngines(_interval);
+    m_dataEngineAggregator->reconnectSources(_interval);
 
     // timer
     m_timer->setInterval(_interval);
@@ -161,6 +144,9 @@ QStringList AWKeys::dictKeys(const bool _sorted, const QString &_regexp) const
     // check if functions asked
     if (_regexp == "functions")
         return QString(STATIC_FUNCTIONS).split(',');
+    // check if user defined keys asked
+    if (_regexp == "userdefined")
+        return m_keyOperator->userKeys();
 
     QStringList allKeys = m_keyOperator->dictKeys();
     // sort if required
@@ -250,10 +236,11 @@ void AWKeys::reinitKeys(const QStringList &_currentKeys)
         barKeys.append(item->usedKeys());
     }
     // get required keys
-    m_requiredKeys
-        = m_optimize ? AWKeyCache::getRequiredKeys(
-                           m_foundKeys, barKeys, m_tooltipParams, _currentKeys)
-                     : QStringList();
+    m_requiredKeys = m_optimize
+                         ? AWKeyCache::getRequiredKeys(
+                               m_foundKeys, barKeys, m_tooltipParams,
+                               m_keyOperator->requiredUserKeys(), _currentKeys)
+                         : QStringList();
 
     // set key data to m_aggregator
     m_aggregator->setDevices(m_keyOperator->devices());
@@ -266,10 +253,11 @@ void AWKeys::updateTextData()
     m_mutex.lock();
     calculateValues();
     QString text = parsePattern(m_keyOperator->pattern());
+    // update tooltip values under lock
+    m_dataAggregator->dataUpdate(m_values);
     m_mutex.unlock();
 
     emit(needTextToBeUpdated(text));
-    emit(m_dataAggregator->updateData(m_values));
 }
 
 
@@ -303,13 +291,13 @@ void AWKeys::calculateValues()
         = m_keyOperator->devices("net").indexOf(m_values["netdev"].toString());
     m_values["down"] = m_values[QString("down%1").arg(netIndex)];
     m_values["downkb"] = m_values[QString("downkb%1").arg(netIndex)];
-    m_values["downtotal"] = m_values[QString("downtotal%1").arg(netIndex)];
-    m_values["downtotalkb"] = m_values[QString("downtotalkb%1").arg(netIndex)];
+    m_values["downtot"] = m_values[QString("downtot%1").arg(netIndex)];
+    m_values["downtotkb"] = m_values[QString("downtotkb%1").arg(netIndex)];
     m_values["downunits"] = m_values[QString("downunits%1").arg(netIndex)];
     m_values["up"] = m_values[QString("up%1").arg(netIndex)];
     m_values["upkb"] = m_values[QString("upkb%1").arg(netIndex)];
-    m_values["uptotal"] = m_values[QString("uptotal%1").arg(netIndex)];
-    m_values["uptotalkb"] = m_values[QString("uptotalkb%1").arg(netIndex)];
+    m_values["uptot"] = m_values[QString("uptot%1").arg(netIndex)];
+    m_values["uptotkb"] = m_values[QString("uptotkb%1").arg(netIndex)];
     m_values["upunits"] = m_values[QString("upunits%1").arg(netIndex)];
 
     // swaptot*
@@ -320,6 +308,10 @@ void AWKeys::calculateValues()
     // swap
     m_values["swap"] = 100.0f * m_values["swapmb"].toFloat()
                        / m_values["swaptotmb"].toFloat();
+
+    // user defined keys
+    for (auto &key : m_keyOperator->userKeys())
+        m_values[key] = m_values[m_keyOperator->userKeySource(key)];
 
     // lambdas
     for (auto &key : m_foundLambdas)
@@ -334,18 +326,25 @@ void AWKeys::createDBusInterface()
     qlonglong id = reinterpret_cast<qlonglong>(this);
 
     // create session
-    QDBusConnection bus = QDBusConnection::sessionBus();
-    if (!bus.registerService(AWDBUS_SERVICE))
-        qCWarning(LOG_AW) << "Could not register DBus service, last error"
-                          << bus.lastError().message();
-    if (!bus.registerObject(QString("/%1").arg(id), new AWDBusAdaptor(this),
-                            QDBusConnection::ExportAllContents)) {
-        qCWarning(LOG_AW) << "Could not register DBus object, last error"
-                          << bus.lastError().message();
-        m_dbusActive = false;
+    QDBusConnection instanceBus = QDBusConnection::sessionBus();
+    // HACK we are going to use different services because it binds to
+    // application
+    if (instanceBus.registerService(
+            QString("%1.i%2").arg(AWDBUS_SERVICE).arg(id))) {
+        if (!instanceBus.registerObject(AWDBUS_PATH, new AWDBusAdaptor(this),
+                                        QDBusConnection::ExportAllContents))
+            qCWarning(LOG_AW) << "Could not register DBus object, last error"
+                              << instanceBus.lastError().message();
     } else {
-        m_dbusActive = true;
+        qCWarning(LOG_AW) << "Could not register DBus service, last error"
+                          << instanceBus.lastError().message();
     }
+
+    // and same instance but for id independent service
+    QDBusConnection commonBus = QDBusConnection::sessionBus();
+    if (commonBus.registerService(AWDBUS_SERVICE))
+        commonBus.registerObject(AWDBUS_PATH, new AWDBusAdaptor(this),
+                                 QDBusConnection::ExportAllContents);
 }
 
 
@@ -360,14 +359,8 @@ QString AWKeys::parsePattern(QString _pattern) const
 
     // main keys
     for (auto &key : m_foundKeys)
-        _pattern.replace(
-            QString("$%1").arg(key),
-            [this](const QString &tag, const QVariant &value) {
-                QString strValue = m_aggregator->formatter(value, tag);
-                if ((!tag.startsWith("custom")) && (!tag.startsWith("weather")))
-                    strValue.replace(" ", "&nbsp;");
-                return strValue;
-            }(key, m_values[key]));
+        _pattern.replace(QString("$%1").arg(key),
+                         m_aggregator->formatter(m_values[key], key));
 
     // bars
     for (auto &bar : m_foundBars) {

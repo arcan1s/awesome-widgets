@@ -37,6 +37,7 @@ public:
 
 public slots:
     // get methods
+    QStringList ActiveServices() const;
     QString Info(const QString &key) const;
     QStringList Keys(const QString &regexp) const;
     QString Value(const QString &key) const;
@@ -48,10 +49,7 @@ public slots:
 
 private:
     AWKeys *m_plugin = nullptr;
-    QStringList m_logLevels = QStringList() << "debug"
-                                            << "info"
-                                            << "warning"
-                                            << "critical";
+    QStringList m_logLevels = {"debug", "info", "warning", "critical"};
 };
 
 

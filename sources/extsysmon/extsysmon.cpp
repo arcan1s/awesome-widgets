@@ -18,7 +18,6 @@
 #include "extsysmon.h"
 
 #include <QFile>
-#include <QRegExp>
 #include <QSettings>
 #include <QStandardPaths>
 
@@ -50,8 +49,6 @@ ExtendedSysMon::ExtendedSysMon(QObject *_parent, const QVariantList &_args)
 ExtendedSysMon::~ExtendedSysMon()
 {
     qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
-
-    delete m_aggregator;
 }
 
 

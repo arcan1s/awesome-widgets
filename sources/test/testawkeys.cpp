@@ -168,16 +168,23 @@ void TestAWKeys::test_valueByKey()
 
 void TestAWKeys::test_dbus()
 {
-    if (!plugin->isDBusActive())
-        QSKIP("No DBus session created, skip DBus test");
-
     // get id
     qlonglong id = reinterpret_cast<qlonglong>(plugin);
 
     // create connection and message
     QDBusConnection bus = QDBusConnection::sessionBus();
+
+    // check if there is active sessions first
+    QDBusMessage sessions = QDBusMessage::createMethodCall(
+        AWDBUS_SERVICE, AWDBUS_PATH, AWDBUS_SERVICE, "ActiveServicess");
+    QDBusMessage sessionsResponse = bus.call(sessions, QDBus::BlockWithGui);
+    if (sessionsResponse.arguments().isEmpty())
+        QSKIP("No active sessions found, skip DBus tests");
+
+    // dbus checks
     QDBusMessage request = QDBusMessage::createMethodCall(
-        AWDBUS_SERVICE, QString("/%1").arg(id), AWDBUS_SERVICE, "WhoAmI");
+        QString("%1.i%2").arg(AWDBUS_SERVICE).arg(id), AWDBUS_PATH,
+        AWDBUS_SERVICE, "WhoAmI");
     // send message to dbus
     QDBusMessage response = bus.call(request, QDBus::BlockWithGui);
 

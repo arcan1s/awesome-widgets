@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2017-05-05 18:15+0300\n"
+"POT-Creation-Date: 2017-07-13 17:39+0300\n"
 "PO-Revision-Date: 2016-07-09 08:47+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/arcanis/awesome-"
@@ -337,6 +337,9 @@ msgstr "Kleur van actieve accu"
 msgid "Battery inactive color"
 msgstr "Kleur van inactieve accu"
 
+msgid "Edit"
+msgstr "Bewerken"
+
 msgid "Run %1"
 msgstr "%1 uitvoeren"
 
@@ -375,9 +378,6 @@ msgstr "Hoog GPU-verbruik"
 
 msgid "Network device has been changed to %1"
 msgstr "Het netwerkapparaat is gewijzigd naar %1"
-
-msgid "Edit"
-msgstr "Bewerken"
 
 msgid "Select type"
 msgstr "Type selecteren"
@@ -638,6 +638,9 @@ msgstr "Balken bewerken"
 msgid "Formatters"
 msgstr "Opmakers"
 
+msgid "User keys"
+msgstr ""
+
 msgid "Preview"
 msgstr "Voorbeeld"
 
@@ -707,21 +710,6 @@ msgstr "Het configuratiebestand kon niet worden opgeslagen"
 msgid "Select a font"
 msgstr "Selecteer een lettertype"
 
-msgid "Bgcolor"
-msgstr "Achtergrondkleur"
-
-msgid "Import"
-msgstr "Importeren"
-
-msgid "Import plasmoid settings"
-msgstr "Plasmoid-instellingen importeren"
-
-msgid "Import extensions"
-msgstr "Extensies importeren"
-
-msgid "Import additional files"
-msgstr "Extra bestanden importeren"
-
 msgid "AC"
 msgstr "AC"
 
@@ -730,6 +718,10 @@ msgstr "Balken"
 
 msgid "Desktops"
 msgstr "Bureaubladen"
+
+#, fuzzy
+msgid "Network request"
+msgstr "Netwerk"
 
 msgid "Scripts"
 msgstr "Scripts"
@@ -748,6 +740,9 @@ msgstr "Weer"
 
 msgid "Functions"
 msgstr "Mogelijkheden"
+
+msgid "User defined"
+msgstr ""
 
 msgid "All"
 msgstr ""
@@ -780,22 +775,17 @@ msgstr ""
 msgid "sunken"
 msgstr ""
 
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Heimen Stoffels"
+msgid "Bgcolor"
+msgstr "Achtergrondkleur"
 
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "vistausss@outlook.com"
+msgid "Import"
+msgstr "Importeren"
 
-#~ msgid "Edit scripts"
-#~ msgstr "Scripts bewerken"
+msgid "Import plasmoid settings"
+msgstr "Plasmoid-instellingen importeren"
 
-#~ msgid "Edit tickers"
-#~ msgstr "Tickers bewerken"
+msgid "Import extensions"
+msgstr "Extensies importeren"
 
-#~ msgid "Edit command"
-#~ msgstr "Commando bewerken"
-
-#~ msgid "Edit weather"
-#~ msgstr "Weer bewerken"
+msgid "Import additional files"
+msgstr "Extra bestanden importeren"

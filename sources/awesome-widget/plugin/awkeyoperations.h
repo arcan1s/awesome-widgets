@@ -19,24 +19,18 @@
 #ifndef AWKEYOPERATIONS_H
 #define AWKEYOPERATIONS_H
 
-#include <Plasma/DataEngine>
-
-#include <QMutex>
 #include <QObject>
 
 #include "extitemaggregator.h"
 
 
-class AWDataAggregator;
-class AWDataEngineAggregator;
-class AWKeysAggregator;
+class AWCustomKeysHelper;
 class ExtNetworkRequest;
 class ExtQuotes;
 class ExtScript;
 class ExtUpgrade;
 class ExtWeather;
 class GraphicalItem;
-class QThreadPool;
 
 class AWKeyOperations : public QObject
 {
@@ -52,6 +46,9 @@ public:
     // keys
     QStringList dictKeys() const;
     GraphicalItem *giByKey(const QString &_key) const;
+    QStringList requiredUserKeys() const;
+    QStringList userKeys() const;
+    QString userKeySource(const QString &_key) const;
     // values
     QString infoByKey(const QString &_key) const;
     QString pattern() const;
@@ -70,6 +67,7 @@ private:
     void addKeyToCache(const QString &_type, const QString &_key = "");
     void reinitKeys();
     // objects
+    AWCustomKeysHelper *m_customKeys = nullptr;
     ExtItemAggregator<GraphicalItem> *m_graphicalItems = nullptr;
     ExtItemAggregator<ExtNetworkRequest> *m_extNetRequest = nullptr;
     ExtItemAggregator<ExtQuotes> *m_extQuotes = nullptr;

@@ -20,26 +20,28 @@
 #define AWFORMATTERHELPER_H
 
 #include "abstractextitemaggregator.h"
-
 #include "awabstractformatter.h"
+#include "awabstractpairhelper.h"
 
 
-class AWAbstractFormatter;
-
-class AWFormatterHelper : public AbstractExtItemAggregator
+class AWFormatterHelper : public AbstractExtItemAggregator,
+                          public AWAbstractPairHelper
 {
     Q_OBJECT
 
 public:
     explicit AWFormatterHelper(QWidget *_parent = nullptr);
     virtual ~AWFormatterHelper();
+    // read-write methods
+    void initItems();
+    // methods
     QString convert(const QVariant &_value, const QString &_name) const;
     QStringList definedFormatters() const;
-    QHash<QString, QString> getFormatters() const;
     QList<AbstractExtItem *> items() const;
-    QStringList knownFormatters() const;
-    bool removeUnusedFormatters(const QStringList &_keys) const;
-    bool writeFormatters(const QHash<QString, QString> &_configuration) const;
+    // configuration related
+    virtual void editPairs();
+    virtual QStringList leftKeys();
+    virtual QStringList rightKeys();
 
 public slots:
     void editItems();
@@ -49,16 +51,11 @@ private:
     AWAbstractFormatter::FormatterClass
     defineFormatterClass(const QString &_stringType) const;
     void initFormatters();
-    void initKeys();
-    void installDirectories();
     QPair<QString, AWAbstractFormatter::FormatterClass>
     readMetadata(const QString &_filePath) const;
     // parent methods
     void doCreateItem();
-    void initItems();
     // properties
-    QStringList m_directories;
-    QString m_filePath;
     QHash<QString, AWAbstractFormatter *> m_formatters;
     QHash<QString, AWAbstractFormatter *> m_formattersClasses;
 };

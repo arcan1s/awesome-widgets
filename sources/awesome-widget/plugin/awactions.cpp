@@ -43,8 +43,6 @@ AWActions::AWActions(QObject *_parent)
 AWActions::~AWActions()
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
-
-    delete m_updateHelper;
 }
 
 

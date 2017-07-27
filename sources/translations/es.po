@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2017-05-05 18:15+0300\n"
+"POT-Creation-Date: 2017-07-13 17:39+0300\n"
 "PO-Revision-Date: 2016-08-03 15:30+0000\n"
 "Last-Translator: Ernesto Avilés Vázquez <whippiii@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/arcanis/awesome-widgets/"
@@ -338,6 +338,9 @@ msgstr "Color de la batería activa"
 msgid "Battery inactive color"
 msgstr "Color de la batería inactiva"
 
+msgid "Edit"
+msgstr "Editar"
+
 msgid "Run %1"
 msgstr "Ejecutar %1"
 
@@ -376,9 +379,6 @@ msgstr "Carga alta de GPU"
 
 msgid "Network device has been changed to %1"
 msgstr "El dispositivo de red ha sido cambiado a %1"
-
-msgid "Edit"
-msgstr "Editar"
 
 msgid "Select type"
 msgstr "Elegir tipo"
@@ -639,6 +639,9 @@ msgstr "Editar barras"
 msgid "Formatters"
 msgstr "Formateadores"
 
+msgid "User keys"
+msgstr ""
+
 msgid "Preview"
 msgstr "Vista previa"
 
@@ -708,21 +711,6 @@ msgstr "No se pudo guardar el archivo de configuración"
 msgid "Select a font"
 msgstr "Elige un tipo de letra"
 
-msgid "Bgcolor"
-msgstr "Color de fondo"
-
-msgid "Import"
-msgstr "Importar"
-
-msgid "Import plasmoid settings"
-msgstr "Importar configuraciones de plasmoide"
-
-msgid "Import extensions"
-msgstr "Extensiones a importar"
-
-msgid "Import additional files"
-msgstr "Importar archivos adicionales"
-
 msgid "AC"
 msgstr "CA"
 
@@ -731,6 +719,10 @@ msgstr "Barras"
 
 msgid "Desktops"
 msgstr "Escritorios"
+
+#, fuzzy
+msgid "Network request"
+msgstr "Red"
 
 msgid "Scripts"
 msgstr "Guiones"
@@ -749,6 +741,9 @@ msgstr "Tiempo"
 
 msgid "Functions"
 msgstr "Funciones"
+
+msgid "User defined"
+msgstr ""
 
 msgid "All"
 msgstr ""
@@ -781,22 +776,17 @@ msgstr ""
 msgid "sunken"
 msgstr ""
 
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Tu nombre"
+msgid "Bgcolor"
+msgstr "Color de fondo"
 
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "Tu correo electrónico"
+msgid "Import"
+msgstr "Importar"
 
-#~ msgid "Edit scripts"
-#~ msgstr "Editar scripts"
+msgid "Import plasmoid settings"
+msgstr "Importar configuraciones de plasmoide"
 
-#~ msgid "Edit tickers"
-#~ msgstr "Editar tickets"
+msgid "Import extensions"
+msgstr "Extensiones a importar"
 
-#~ msgid "Edit command"
-#~ msgstr "Editar orden"
-
-#~ msgid "Edit weather"
-#~ msgstr "Editar tiempo"
+msgid "Import additional files"
+msgstr "Importar archivos adicionales"

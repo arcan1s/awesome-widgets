@@ -27,3 +27,8 @@ foreach (_current_PO_FILE ${_po_files})
     list(APPEND _gmoFiles ${_gmoFile})
 endforeach (_current_PO_FILE)
 add_custom_target(aw_pofiles ALL DEPENDS ${_gmoFiles})
+
+add_custom_target(
+        translations
+        COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/extract_messages.sh
+        )

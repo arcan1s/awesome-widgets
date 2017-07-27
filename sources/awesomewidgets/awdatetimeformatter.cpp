@@ -22,7 +22,6 @@
 #include <KI18n/KLocalizedString>
 
 #include <QDateTime>
-#include <QDir>
 #include <QSettings>
 
 #include "awdebug.h"

@@ -22,6 +22,7 @@
 #include <QRegExp>
 #include <QThread>
 
+#include "awcustomkeyshelper.h"
 #include "awdebug.h"
 #include "awkeycache.h"
 #include "awpatternfunctions.h"
@@ -38,20 +39,22 @@ AWKeyOperations::AWKeyOperations(QObject *_parent)
     : QObject(_parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+
+    m_customKeys = new AWCustomKeysHelper(this);
+    m_graphicalItems
+        = new ExtItemAggregator<GraphicalItem>(nullptr, "desktops");
+    m_extNetRequest
+        = new ExtItemAggregator<ExtNetworkRequest>(nullptr, "requests");
+    m_extQuotes = new ExtItemAggregator<ExtQuotes>(nullptr, "quotes");
+    m_extScripts = new ExtItemAggregator<ExtScript>(nullptr, "scripts");
+    m_extUpgrade = new ExtItemAggregator<ExtUpgrade>(nullptr, "upgrade");
+    m_extWeather = new ExtItemAggregator<ExtWeather>(nullptr, "weather");
 }
 
 
 AWKeyOperations::~AWKeyOperations()
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
-
-    // extensions
-    delete m_graphicalItems;
-    delete m_extNetRequest;
-    delete m_extQuotes;
-    delete m_extScripts;
-    delete m_extUpgrade;
-    delete m_extWeather;
 }
 
 
@@ -119,12 +122,12 @@ QStringList AWKeyOperations::dictKeys() const
     for (int i = 0; i < m_devices["net"].count(); i++) {
         allKeys.append(QString("downunits%1").arg(i));
         allKeys.append(QString("upunits%1").arg(i));
-        allKeys.append(QString("downtotalkb%1").arg(i));
-        allKeys.append(QString("downtotal%1").arg(i));
+        allKeys.append(QString("downtotkb%1").arg(i));
+        allKeys.append(QString("downtot%1").arg(i));
         allKeys.append(QString("downkb%1").arg(i));
         allKeys.append(QString("down%1").arg(i));
-        allKeys.append(QString("uptotalkb%1").arg(i));
-        allKeys.append(QString("uptotal%1").arg(i));
+        allKeys.append(QString("uptotkb%1").arg(i));
+        allKeys.append(QString("uptot%1").arg(i));
         allKeys.append(QString("upkb%1").arg(i));
         allKeys.append(QString("up%1").arg(i));
     }
@@ -159,6 +162,8 @@ QStringList AWKeyOperations::dictKeys() const
     // bars
     for (auto &item : m_graphicalItems->activeItems())
         allKeys.append(item->tag("bar"));
+    // user defined keys
+    allKeys.append(m_customKeys->keys());
     // static keys
     allKeys.append(QString(STATIC_KEYS).split(','));
 
@@ -177,6 +182,24 @@ GraphicalItem *AWKeyOperations::giByKey(const QString &_key) const
     qCDebug(LOG_AW) << "Looking for item" << _key;
 
     return m_graphicalItems->itemByTag(_key, "bar");
+}
+
+
+QStringList AWKeyOperations::requiredUserKeys() const
+{
+    return m_customKeys->refinedSources();
+}
+
+
+QStringList AWKeyOperations::userKeys() const
+{
+    return m_customKeys->keys();
+}
+
+
+QString AWKeyOperations::userKeySource(const QString &_key) const
+{
+    return m_customKeys->source(_key);
 }
 
 
@@ -314,29 +337,13 @@ void AWKeyOperations::addKeyToCache(const QString &_type, const QString &_key)
 
 void AWKeyOperations::reinitKeys()
 {
-    // renew extensions
-    // delete them if any
-    delete m_graphicalItems;
-    m_graphicalItems = nullptr;
-    delete m_extNetRequest;
-    m_extNetRequest = nullptr;
-    delete m_extQuotes;
-    m_extQuotes = nullptr;
-    delete m_extScripts;
-    m_extScripts = nullptr;
-    delete m_extUpgrade;
-    m_extUpgrade = nullptr;
-    delete m_extWeather;
-    m_extWeather = nullptr;
-    // create
-    m_graphicalItems
-        = new ExtItemAggregator<GraphicalItem>(nullptr, "desktops");
-    m_extNetRequest
-        = new ExtItemAggregator<ExtNetworkRequest>(nullptr, "requests");
-    m_extQuotes = new ExtItemAggregator<ExtQuotes>(nullptr, "quotes");
-    m_extScripts = new ExtItemAggregator<ExtScript>(nullptr, "scripts");
-    m_extUpgrade = new ExtItemAggregator<ExtUpgrade>(nullptr, "upgrade");
-    m_extWeather = new ExtItemAggregator<ExtWeather>(nullptr, "weather");
+    m_customKeys->initItems();
+    m_graphicalItems->initItems();
+    m_extNetRequest->initItems();
+    m_extQuotes->initItems();
+    m_extScripts->initItems();
+    m_extUpgrade->initItems();
+    m_extWeather->initItems();
 
     // init
     QStringList allKeys = dictKeys();

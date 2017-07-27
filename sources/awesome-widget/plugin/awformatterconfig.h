@@ -19,17 +19,10 @@
 #ifndef AWFORMATTERCONFIG_H
 #define AWFORMATTERCONFIG_H
 
-#include <QDialog>
+#include "awabstractpairconfig.h"
 
 
-class AWAbstractSelector;
-class AWFormatterHelper;
-namespace Ui
-{
-class AWFormatterConfig;
-}
-
-class AWFormatterConfig : public QDialog
+class AWFormatterConfig : public AWAbstractPairConfig
 {
     Q_OBJECT
 
@@ -37,27 +30,6 @@ public:
     explicit AWFormatterConfig(QWidget *_parent = nullptr,
                                const QStringList &_keys = QStringList());
     virtual ~AWFormatterConfig();
-    Q_INVOKABLE void showDialog();
-
-private slots:
-    void editFormatters();
-    void updateUi();
-
-private:
-    QPushButton *m_editButton = nullptr;
-    Ui::AWFormatterConfig *ui = nullptr;
-    AWFormatterHelper *m_helper = nullptr;
-    QList<AWAbstractSelector *> m_selectors;
-    // properties
-    QStringList m_keys;
-    // methods
-    void addSelector(const QStringList &_keys, const QStringList &_values,
-                     const QPair<QString, QString> &_current);
-    void clearSelectors();
-    void execDialog();
-    void init();
-    QPair<QStringList, QStringList> initKeys() const;
-    void updateDialog();
 };
 
 

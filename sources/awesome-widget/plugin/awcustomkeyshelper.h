@@ -16,23 +16,32 @@
  ***************************************************************************/
 
 
-#ifndef AWFORMATTERCONFIGFACTORY_H
-#define AWFORMATTERCONFIGFACTORY_H
+#ifndef AWCUSTOMKEYSHELPER_H
+#define AWCUSTOMKEYSHELPER_H
 
 #include <QObject>
 
+#include "awabstractpairhelper.h"
 
-class AWFormatterConfigFactory : public QObject
+
+class AWCustomKeysHelper : public QObject, public AWAbstractPairHelper
 {
     Q_OBJECT
 
 public:
-    explicit AWFormatterConfigFactory(QObject *_parent = nullptr);
-    virtual ~AWFormatterConfigFactory();
-    Q_INVOKABLE void showDialog(const QStringList &_keys);
+    explicit AWCustomKeysHelper(QObject *_parent = nullptr);
+    virtual ~AWCustomKeysHelper();
+    // get
+    QString source(const QString &_key) const;
+    QStringList sources() const;
+    QStringList refinedSources() const;
+    // configuration related
+    virtual void editPairs(){};
+    virtual QStringList leftKeys();
+    virtual QStringList rightKeys();
 
 private:
 };
 
 
-#endif /* AWFORMATTERCONFIGFACTORY_H */
+#endif /* AWCUSTOMKEYSHELPER_H */

@@ -37,8 +37,6 @@ QuotesSource::QuotesSource(QObject *_parent, const QStringList &_args)
 QuotesSource::~QuotesSource()
 {
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
-
-    delete m_extQuotes;
 }
 
 

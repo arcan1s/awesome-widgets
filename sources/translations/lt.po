@@ -1,0 +1,773 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# Moo, 2016-2017
+msgid ""
+msgstr ""
+"Project-Id-Version: Awesome widgets\n"
+"Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
+"POT-Creation-Date: 2017-07-13 17:39+0300\n"
+"PO-Revision-Date: 2017-05-15 17:44+0000\n"
+"Last-Translator: Evgeniy Alekseev <darkarcanis@mail.ru>\n"
+"Language-Team: Lithuanian (http://www.transifex.com/arcanis/awesome-widgets/"
+"language/lt/)\n"
+"Language: lt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
+"%100<10 || n%100>=20) ? 1 : 2);\n"
+
+msgid "Version %1 (build date %2)"
+msgstr "Versija %1 (darinio data %2)"
+
+msgid "A set of minimalistic plasmoid widgets"
+msgstr ""
+
+msgid "Links:"
+msgstr "Nuorodos:"
+
+msgid "Homepage"
+msgstr "Svetainė"
+
+msgid "Repository"
+msgstr "Saugykla"
+
+msgid "Bugtracker"
+msgstr ""
+
+msgid "Translation issue"
+msgstr "Vertimo klaida"
+
+msgid "AUR packages"
+msgstr "AUR paketai"
+
+msgid "openSUSE packages"
+msgstr "openSUSE paketai"
+
+msgid "This software is licensed under %1"
+msgstr "Ši programinė įranga yra licencijuota pagal %1"
+
+msgid "Translators:"
+msgstr ""
+
+msgid "This software uses:"
+msgstr ""
+
+msgid "Special thanks to:"
+msgstr ""
+
+msgid "Widget"
+msgstr "Valdiklis"
+
+msgid "Advanced"
+msgstr "Išplėstiniai"
+
+msgid "Tooltip"
+msgstr "Paaiškinimas"
+
+msgid "Appearance"
+msgstr "Išvaizda"
+
+msgid "DataEngine"
+msgstr ""
+
+msgid "About"
+msgstr "Apie"
+
+msgid "Enable background"
+msgstr "Įjungti foną"
+
+msgid "Translate strings"
+msgstr "Versti eilutes"
+
+msgid "Wrap new lines"
+msgstr ""
+
+msgid "Enable word wrap"
+msgstr "Įjungti teksto skaidymą į eilutes"
+
+msgid "Enable notifications"
+msgstr "Įjungti pranešimus"
+
+msgid "Check updates on startup"
+msgstr "Paleidus, tikrinti ar yra atnaujinimų"
+
+msgid "Optimize subscription"
+msgstr ""
+
+msgid "Widget height, px"
+msgstr "Valdiklio aukštis, piks."
+
+msgid "Widget width, px"
+msgstr "Valdiklio plotis, piks."
+
+msgid "Time interval"
+msgstr "Laiko intervalas"
+
+msgid "Messages queue limit"
+msgstr ""
+
+msgid "Celsius"
+msgstr "Celsijus"
+
+msgid "Fahrenheit"
+msgstr "Farenheitas"
+
+msgid "Kelvin"
+msgstr "Kelvinas"
+
+msgid "Reaumur"
+msgstr "Reomiūras"
+
+msgid "cm^-1"
+msgstr "cm^-1"
+
+msgid "kJ/mol"
+msgstr "kJ/mol"
+
+msgid "kcal/mol"
+msgstr "kcal/mol"
+
+msgid "Temperature units"
+msgstr "Temperatūros vienetai"
+
+msgid "Custom time format"
+msgstr "Tinkintas laiko formatas"
+
+msgid "Custom uptime format"
+msgstr ""
+
+msgid "AC online tag"
+msgstr ""
+
+msgid "AC offline tag"
+msgstr ""
+
+msgid "Actions"
+msgstr ""
+
+msgid "Drop key cache"
+msgstr ""
+
+msgid "Export configuration"
+msgstr "Eksportuoti konfigūraciją"
+
+msgid "Import configuration"
+msgstr "Importuoti konfigūraciją"
+
+msgid "Telemetry"
+msgstr ""
+
+msgid "Enable remote telemetry"
+msgstr ""
+
+msgid "History count"
+msgstr ""
+
+msgid "Telemetry ID"
+msgstr ""
+
+msgid "Font"
+msgstr "Šriftas"
+
+msgid "Font size"
+msgstr "Šrifto dydis"
+
+msgid "Font weight"
+msgstr ""
+
+msgid "Font style"
+msgstr "Šrifto dydis"
+
+msgid "Font color"
+msgstr "Šrifto spalva"
+
+msgid "Style"
+msgstr ""
+
+msgid "Style color"
+msgstr ""
+
+msgid "ACPI"
+msgstr "ACPI"
+
+msgid "ACPI path"
+msgstr "ACPI kelias"
+
+msgid "GPU"
+msgstr ""
+
+msgid "GPU device"
+msgstr ""
+
+msgid "HDD temperature"
+msgstr ""
+
+msgid "HDD"
+msgstr ""
+
+msgid "hddtemp cmd"
+msgstr ""
+
+msgid "Player"
+msgstr "Grotuvas"
+
+msgid "Player data symbols"
+msgstr ""
+
+msgid "Music player"
+msgstr "Muzikos grotuvas"
+
+msgid "MPRIS player name"
+msgstr "MPRIS grotuvo pavadinimas"
+
+msgid "MPD address"
+msgstr "MPD adresas"
+
+msgid "MPD port"
+msgstr "MPD prievadas"
+
+msgid "Extensions"
+msgstr ""
+
+msgid "Custom scripts"
+msgstr "Tinkinti scenarijai"
+
+msgid "Network requests"
+msgstr ""
+
+msgid "Package manager"
+msgstr "Paketų tvarkytuvė"
+
+msgid "Quotes monitor"
+msgstr ""
+
+msgid "Weather"
+msgstr "Orai"
+
+msgid "Select tag"
+msgstr "Pasirinkti žymę"
+
+msgid "Tag: %1"
+msgstr "Žymė: %1"
+
+msgid "Value: %1"
+msgstr "Reikšmė: %1"
+
+msgid "Info: %1"
+msgstr "Informacija: %1"
+
+msgid "Request key"
+msgstr ""
+
+msgid "Show README"
+msgstr ""
+
+msgid "Check updates"
+msgstr ""
+
+msgid "Report bug"
+msgstr "Pranešti apie klaidą"
+
+msgid ""
+"CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
+"To enable them just make needed checkbox checked."
+msgstr ""
+
+msgid "Number of values for tooltips"
+msgstr ""
+
+msgid "Background"
+msgstr "FOnas"
+
+msgid "Background color"
+msgstr "Fono spalva"
+
+msgid "CPU"
+msgstr ""
+
+msgid "CPU color"
+msgstr ""
+
+msgid "CPU clock"
+msgstr ""
+
+msgid "CPU clock color"
+msgstr ""
+
+msgid "Memory"
+msgstr "Atmintis"
+
+msgid "Memory color"
+msgstr "Atminties spalva"
+
+msgid "Swap"
+msgstr "Sukeitimų skaidinys"
+
+msgid "Swap color"
+msgstr "Sukeitimų skaidinio spalva"
+
+msgid "Network"
+msgstr "Tinklas"
+
+msgid "Download speed color"
+msgstr "Atsiuntimo spartos spalva"
+
+msgid "Upload speed color"
+msgstr "Išsiuntimo spartos spalva"
+
+msgid "Battery"
+msgstr ""
+
+msgid "Battery active color"
+msgstr ""
+
+msgid "Battery inactive color"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "Run %1"
+msgstr ""
+
+msgid "Not supported"
+msgstr "Nepalaikoma"
+
+msgid "You are using mammoth's Qt version, try to update it first"
+msgstr ""
+
+msgid "Select font"
+msgstr "Pasirinkti šriftą"
+
+msgid "Issue created"
+msgstr ""
+
+msgid "Issue %1 has been created"
+msgstr ""
+
+msgid "AC online"
+msgstr ""
+
+msgid "AC offline"
+msgstr ""
+
+msgid "High CPU load"
+msgstr ""
+
+msgid "High memory usage"
+msgstr ""
+
+msgid "Swap is used"
+msgstr ""
+
+msgid "High GPU load"
+msgstr ""
+
+msgid "Network device has been changed to %1"
+msgstr "Tinklo įrenginys buvo pakeistas į %1"
+
+msgid "Select type"
+msgstr ""
+
+msgid "Type:"
+msgstr "Tipas:"
+
+msgid "MB/s"
+msgstr "MB/s"
+
+msgid "KB/s"
+msgstr "KB/s"
+
+msgid "Changelog of %1"
+msgstr "%1 keitimų žurnalas"
+
+msgid "You are using the actual version %1"
+msgstr ""
+
+msgid "No new version found"
+msgstr "Nerasta jokios naujos versijos"
+
+msgid "Current version : %1"
+msgstr "Dabartinė versija : %1"
+
+msgid "New version : %1"
+msgstr "Nauja versija : %1"
+
+msgid "Click \"Ok\" to download"
+msgstr "Spustelėkite \"Gerai\", kad atsisiųstumėte"
+
+msgid "There are updates"
+msgstr "Yra atnaujinimų"
+
+msgid "Copy"
+msgstr "Kopijuoti"
+
+msgid "Create"
+msgstr "Sukurti"
+
+msgid "Remove"
+msgstr "Šalinti"
+
+msgid "Enter file name"
+msgstr ""
+
+msgid "File name"
+msgstr "Failo pavadinimas"
+
+msgid "Name: %1"
+msgstr "Pavadinimas: %1"
+
+msgid "Comment: %1"
+msgstr "Komentaras: %1"
+
+msgid "Identity: %1"
+msgstr "Tapatybė: %1"
+
+msgid "Name"
+msgstr "Pavadinimas"
+
+msgid "Comment"
+msgstr "Komentaras"
+
+msgid "Type"
+msgstr "Tipas"
+
+msgid "Format"
+msgstr ""
+
+msgid "Precision"
+msgstr ""
+
+msgid "Width"
+msgstr "Plotis"
+
+msgid "Fill char"
+msgstr ""
+
+msgid "Force width"
+msgstr ""
+
+msgid "Multiplier"
+msgstr ""
+
+msgid "Summand"
+msgstr ""
+
+msgid "Path"
+msgstr ""
+
+msgid "Filter"
+msgstr ""
+
+msgid "Separator"
+msgstr ""
+
+msgid "Sort"
+msgstr ""
+
+msgid "Append code"
+msgstr ""
+
+msgid "Has return"
+msgstr ""
+
+msgid "Code"
+msgstr "Kodas"
+
+msgid "Tag"
+msgstr "Žymė"
+
+msgid "URL"
+msgstr ""
+
+msgid "Active"
+msgstr ""
+
+msgid "Schedule"
+msgstr ""
+
+msgid "Socket"
+msgstr ""
+
+msgid "Interval"
+msgstr ""
+
+msgid ""
+"<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
+"instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
+"text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</"
+"span></a></p></body></html>"
+msgstr ""
+
+msgid "Ticker"
+msgstr ""
+
+msgid "Command"
+msgstr "Komanda"
+
+msgid "Prefix"
+msgstr ""
+
+msgid "Redirect"
+msgstr ""
+
+msgid "Additional filters"
+msgstr ""
+
+msgid "Wrap colors"
+msgstr ""
+
+msgid "Wrap spaces"
+msgstr ""
+
+msgid "Null"
+msgstr ""
+
+msgid "Provider"
+msgstr ""
+
+msgid "City"
+msgstr "Miestas"
+
+msgid "Country"
+msgstr "Šalis"
+
+msgid "Timestamp"
+msgstr "Laiko žyma"
+
+msgid "Use images"
+msgstr "Naudoti paveikslus"
+
+msgid "Select color"
+msgstr ""
+
+msgid "Select path"
+msgstr ""
+
+msgid "Images (*.png *.bpm *.jpg);;All files (*.*)"
+msgstr ""
+
+msgid "Use custom formula"
+msgstr ""
+
+msgid "Value"
+msgstr "Reikšmė"
+
+msgid "Max value"
+msgstr "Didžiausia reikšmė"
+
+msgid "Min value"
+msgstr "Mažiausia reikšmė"
+
+msgid "Active filling type"
+msgstr ""
+
+msgid "Inctive filling type"
+msgstr ""
+
+msgid "Points count"
+msgstr ""
+
+msgid "Direction"
+msgstr ""
+
+msgid "Height"
+msgstr "Aukštis"
+
+msgid "color"
+msgstr "spalva"
+
+msgid "image"
+msgstr "paveikslas"
+
+msgid "Active desktop"
+msgstr "Aktyvus darbalaukis"
+
+msgid "Inactive desktop"
+msgstr "Neaktyvus darbalaukis"
+
+msgid "Vertical layout"
+msgstr "Vertikalus išdėstymas"
+
+msgid "Mark"
+msgstr ""
+
+msgid "contours"
+msgstr ""
+
+msgid "windows"
+msgstr "langai"
+
+msgid "clean desktop"
+msgstr ""
+
+msgid "names"
+msgstr ""
+
+msgid "none"
+msgstr "nėra"
+
+msgid "Tooltip type"
+msgstr "Paaiškinimo tipas"
+
+msgid "Tooltip width"
+msgstr "Paaiškinimo plotis"
+
+msgid "Edit bars"
+msgstr ""
+
+msgid "Formatters"
+msgstr ""
+
+msgid "User keys"
+msgstr ""
+
+msgid "Preview"
+msgstr "Peržiūra"
+
+msgid ""
+"Detailed information may be found on <a href=\"https://arcanis.me/projects/"
+"awesome-widgets/\">project homepage</a>"
+msgstr ""
+"Išsamesnę informaciją galite rasti <a href=\"https://arcanis.me/projects/"
+"awesome-widgets/\">projekto svetainėje</a>"
+
+msgid "Add"
+msgstr "Pridėti"
+
+msgid "Show value"
+msgstr "Rodyti reikšmę"
+
+msgid "Acknowledgment"
+msgstr "Padėkos"
+
+msgid "Report a bug"
+msgstr "Pranešti apie klaidą"
+
+msgid "Report subject"
+msgstr ""
+
+msgid "Description"
+msgstr "Aprašas"
+
+msgid "Steps to reproduce"
+msgstr ""
+
+msgid "Expected result"
+msgstr ""
+
+msgid "Logs"
+msgstr "Žurnalai"
+
+msgid "Use command"
+msgstr "Naudoti komandą"
+
+msgid "Load log file"
+msgstr "Įkelti žurnalo failą"
+
+msgid "Open log file"
+msgstr "Atverti žurnalo failą"
+
+msgid "Select a color"
+msgstr "Pasirinkti spalvą"
+
+msgid "Export"
+msgstr "Eksportuoti"
+
+msgid "Success"
+msgstr "Pavyko"
+
+msgid "Please note that binary files were not copied"
+msgstr "Turėkite omenyje, kad dvejetainių failai nebuvo nukopijuoti"
+
+msgid "Ooops..."
+msgstr "Uuups..."
+
+msgid "Could not save configuration file"
+msgstr "Nepavyko įrašyti konfigūracijos failo"
+
+msgid "Select a font"
+msgstr "Pasirinkti šriftą"
+
+msgid "AC"
+msgstr ""
+
+msgid "Bars"
+msgstr ""
+
+msgid "Desktops"
+msgstr "Darbalaukiai"
+
+#, fuzzy
+msgid "Network request"
+msgstr "Tinklas"
+
+msgid "Scripts"
+msgstr "Scenarijai"
+
+msgid "Time"
+msgstr "Laikas"
+
+msgid "Quotes"
+msgstr ""
+
+msgid "Upgrades"
+msgstr ""
+
+msgid "Weathers"
+msgstr "Orai"
+
+msgid "Functions"
+msgstr "Funkcijos"
+
+msgid "User defined"
+msgstr ""
+
+msgid "All"
+msgstr ""
+
+msgid "normal"
+msgstr ""
+
+msgid "italic"
+msgstr "kursyvas"
+
+msgid "light"
+msgstr ""
+
+msgid "demi bold"
+msgstr ""
+
+msgid "bold"
+msgstr "pusjuodis"
+
+msgid "black"
+msgstr ""
+
+msgid "outline"
+msgstr ""
+
+msgid "raised"
+msgstr ""
+
+msgid "sunken"
+msgstr ""
+
+msgid "Bgcolor"
+msgstr "Fono spalva"
+
+msgid "Import"
+msgstr "Importuoti"
+
+msgid "Import plasmoid settings"
+msgstr ""
+
+msgid "Import extensions"
+msgstr ""
+
+msgid "Import additional files"
+msgstr "Importuoti papildomus failus"
