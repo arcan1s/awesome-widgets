@@ -186,6 +186,10 @@ QString AWKeysAggregator::formatter(const QVariant &_data,
         break;
     }
 
+    // replace spaces to non-breakable ones
+    if (!_key.startsWith("custom") && (!_key.startsWith("weather")))
+        output.replace(" ", "&nbsp;");
+
     return output;
 }
 

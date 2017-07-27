@@ -23,6 +23,7 @@
 #include <QDesktopServices>
 #include <QFile>
 #include <QProcess>
+#include <QUrl>
 
 #include <fontdialog/fontdialog.h>
 

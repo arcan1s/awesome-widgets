@@ -326,16 +326,25 @@ void AWKeys::createDBusInterface()
     qlonglong id = reinterpret_cast<qlonglong>(this);
 
     // create session
-    QDBusConnection bus = QDBusConnection::sessionBus();
+    QDBusConnection instanceBus = QDBusConnection::sessionBus();
     // HACK we are going to use different services because it binds to
     // application
-    if (!bus.registerService(QString("%1.i%2").arg(AWDBUS_SERVICE).arg(id)))
+    if (instanceBus.registerService(
+            QString("%1.i%2").arg(AWDBUS_SERVICE).arg(id))) {
+        if (!instanceBus.registerObject(AWDBUS_PATH, new AWDBusAdaptor(this),
+                                        QDBusConnection::ExportAllContents))
+            qCWarning(LOG_AW) << "Could not register DBus object, last error"
+                              << instanceBus.lastError().message();
+    } else {
         qCWarning(LOG_AW) << "Could not register DBus service, last error"
-                          << bus.lastError().message();
-    if (!bus.registerObject(AWDBUS_PATH, new AWDBusAdaptor(this),
-                            QDBusConnection::ExportAllContents))
-        qCWarning(LOG_AW) << "Could not register DBus object, last error"
-                          << bus.lastError().message();
+                          << instanceBus.lastError().message();
+    }
+
+    // and same instance but for id independent service
+    QDBusConnection commonBus = QDBusConnection::sessionBus();
+    if (commonBus.registerService(AWDBUS_SERVICE))
+        commonBus.registerObject(AWDBUS_PATH, new AWDBusAdaptor(this),
+                                 QDBusConnection::ExportAllContents);
 }
 
 
@@ -350,14 +359,8 @@ QString AWKeys::parsePattern(QString _pattern) const
 
     // main keys
     for (auto &key : m_foundKeys)
-        _pattern.replace(
-            QString("$%1").arg(key),
-            [this](const QString &tag, const QVariant &value) {
-                QString strValue = m_aggregator->formatter(value, tag);
-                if ((!tag.startsWith("custom")) && (!tag.startsWith("weather")))
-                    strValue.replace(" ", "&nbsp;");
-                return strValue;
-            }(key, m_values[key]));
+        _pattern.replace(QString("$%1").arg(key),
+                         m_aggregator->formatter(m_values[key], key));
 
     // bars
     for (auto &bar : m_foundBars) {
