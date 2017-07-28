@@ -22,9 +22,9 @@
 #include <QHash>
 #include <QObject>
 
-#include "version.h"
 
 class AWFormatterHelper;
+class AWDataEngineMapper;
 
 class AWKeysAggregator : public QObject
 {
@@ -37,6 +37,7 @@ class AWKeysAggregator : public QObject
     Q_PROPERTY(QString tempUnits MEMBER m_tempUnits WRITE setTempUnits);
     Q_PROPERTY(bool translate MEMBER m_translate WRITE setTranslate);
 
+public:
     enum class FormatterType {
         // general formatters
         Custom,
@@ -65,7 +66,6 @@ class AWKeysAggregator : public QObject
         UptimeCustom
     };
 
-public:
     explicit AWKeysAggregator(QObject *_parent = nullptr);
     virtual ~AWKeysAggregator();
     void initFormatters();
@@ -88,15 +88,13 @@ public slots:
 private:
     float temperature(const float temp) const;
     AWFormatterHelper *m_customFormatters = nullptr;
-    QStringList m_timeKeys = QString(TIME_KEYS).split(',');
+    AWDataEngineMapper *m_mapper = nullptr;
+    QStringList m_timeKeys;
     // variables
     QString m_acOffline;
     QString m_acOnline;
     QString m_customTime;
     QString m_customUptime;
-    QHash<QString, QStringList> m_devices;
-    QHash<QString, FormatterType> m_formatter;
-    QHash<QString, QString> m_map;
     QString m_tempUnits;
     bool m_translate = false;
 };
