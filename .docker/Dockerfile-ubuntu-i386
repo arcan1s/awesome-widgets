@@ -1,0 +1,12 @@
+FROM multiarch/ubuntu-core:i386-xenial
+
+RUN apt-get update
+# toolchain
+RUN apt-get install -y cmake extra-cmake-modules g++ git gettext
+# kf5 and qt5 libraries
+RUN apt-get install -y libkf5i18n-dev libkf5notifications-dev libkf5service-dev \
+      libkf5windowsystem-dev plasma-framework-dev qtbase5-dev qtdeclarative5-dev \
+      plasma-framework
+
+# required by tests
+RUN apt-get install -y xvfb
