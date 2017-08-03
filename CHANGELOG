@@ -1,3 +1,10 @@
+Ver.3.3.3:
++ add custom keys support (#101)
+* DBus interface improvements
+* rename tags (up|down|ps)total.* to (up|down|ps)tot.*
+- fix issue with invalid (up|down)total($|kb) calculation (#127)
+- fix issue with wrong applet identation (#125)
+
 Ver.3.3.2:
 - fix bug with invalid DP colour configuration
 - fix bug with invalid HTML tags operation

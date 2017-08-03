@@ -47,6 +47,7 @@ foreach (TEST_MODULE ${TEST_MODULES})
                 ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awcustomkeyshelper.cpp
                 ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awdataaggregator.cpp
                 ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awdataengineaggregator.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awdataenginemapper.cpp
                 ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awdbusadaptor.cpp
                 ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awformatterhelper.cpp
                 ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awkeycache.cpp
@@ -58,6 +59,7 @@ foreach (TEST_MODULE ${TEST_MODULES})
                 ${PROJECT_TRDPARTY_DIR}/fontdialog/fontdialog.cpp)
     elseif (TEST_MODULE MATCHES "awpatternfunctions")
         set(${TEST_MODULE}_SOURCES ${${TEST_MODULE}_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awabstractpairhelper.cpp
+                ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awdataenginemapper.cpp
                 ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awformatterhelper.cpp
                 ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awkeysaggregator.cpp
                 ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-widget/plugin/awpatternfunctions.cpp)

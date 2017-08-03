@@ -1,14 +1,15 @@
 diff --git a/sources/awdebug.h b/sources/awdebug.h
-index 8447c65..9f8e298 100644
+index 8447c65..4eef49a 100644
 --- a/sources/awdebug.h
 +++ b/sources/awdebug.h
-@@ -23,10 +23,14 @@
+@@ -23,10 +23,15 @@
  
  #include "version.h"
  
 +#ifndef qCInfo
 +#define qCInfo qCDebug
 +#endif
++
 +
  namespace AWDebug
  {
@@ -19,7 +20,7 @@ index 8447c65..9f8e298 100644
                            "fatal}FF%{endif}][%{category}][%{function}] "
                            "%{message}";
 diff --git a/sources/awesome-widget/plugin/awkeysaggregator.h b/sources/awesome-widget/plugin/awkeysaggregator.h
-index d29672e..f15a729 100644
+index d6d5d1a..ee301df 100644
 --- a/sources/awesome-widget/plugin/awkeysaggregator.h
 +++ b/sources/awesome-widget/plugin/awkeysaggregator.h
 @@ -21,6 +21,7 @@
@@ -28,5 +29,5 @@ index d29672e..f15a729 100644
  #include <QObject>
 +#include <QStringList>
  
- #include "version.h"
  
+ class AWFormatterHelper;
