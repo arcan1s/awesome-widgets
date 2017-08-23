@@ -18,6 +18,7 @@
 #ifndef BATTERYSOURCE_H
 #define BATTERYSOURCE_H
 
+#include <QDateTime>
 #include <QObject>
 
 #include "abstractextsysmonsource.h"
@@ -37,11 +38,14 @@ public:
     QStringList sources() const;
 
 private:
+    void calculateRates();
     // configuration and values
     int m_batteriesCount = 0;
     QString m_acpiPath;
     QStringList m_sources;
+    QDateTime m_timestamp;
     QVariantHash m_values;
+    QVariantHash m_previousValues;
 };
 
 

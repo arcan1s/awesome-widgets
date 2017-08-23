@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 2.8.12)
 
 # some fucking magic
-cmake_policy(SET CMP0003 OLD)
-cmake_policy(SET CMP0002 OLD)
 cmake_policy(SET CMP0011 NEW)
 cmake_policy(SET CMP0015 NEW)
 if (POLICY CMP0063)
@@ -41,40 +39,23 @@ option(BUILD_TESTING "Build with additional test abilities" OFF)
 set(PROJECT_CHANGELOG "Changelog" CACHE INTERNAL "")
 include(changelog.cmake)
 
-# flags
-if (CMAKE_COMPILER_IS_GNUCXX)
-    set(CMAKE_CXX_FLAGS "-Wall -Wno-cpp -std=c++11")
-    set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
-    set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
-    set(CMAKE_CXX_FLAGS_OPTIMIZATION "-Ofast -DNDEBUG")
-    # avoid newer gcc warnings
-    add_definitions(-D_DEFAULT_SOURCE)
-elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    set(CMAKE_CXX_FLAGS "-Wall -std=c++11")
-    set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
-    set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
-    set(CMAKE_CXX_FLAGS_OPTIMIZATION "-Ofast -DNDEBUG")
-    # linker flags
-else ()
-    message(FATAL_ERROR "Unknown compiler")
-endif ()
-if (CMAKE_BUILD_TYPE MATCHES Debug)
-    set(CMAKE_VERBOSE_MAKEFILE ON)
-endif ()
-
-# required by successfully coverity and cppcheck build
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
+# directories
 set(PROJECT_TRDPARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty)
 set(PROJECT_LIBRARY awesomewidgets)
 set(PROJECT_MONITORSOURCES extsysmonsources)
+
+# modules
+include(compiler.cmake)
 include(libraries.cmake)
 include(clang-format.cmake)
 include(cppcheck.cmake)
 include(coverity.cmake)
 
+# pre-configure
 get_directory_property(CMAKE_DEFINITIONS COMPILE_DEFINITIONS)
 configure_file(${CMAKE_SOURCE_DIR}/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/version.h)
+
+# build components
 add_subdirectory(awesomewidgets)
 add_subdirectory(extsysmonsources)
 add_subdirectory(extsysmon)
@@ -90,4 +71,3 @@ if (BUILD_TESTING)
 endif ()
 
 include(packages-recipe.cmake)
-
