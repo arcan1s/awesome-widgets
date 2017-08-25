@@ -136,8 +136,13 @@ QStringList AWKeyOperations::dictKeys() const
         = QDir("/sys/class/power_supply")
               .entryList(QStringList({"BAT*"}),
                          QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
-    for (int i = 0; i < allBatteryDevices.count(); i++)
+    for (int i = 0; i < allBatteryDevices.count(); i++) {
         allKeys.append(QString("bat%1").arg(i));
+        allKeys.append(QString("batleft%1").arg(i));
+        allKeys.append(QString("batnow%1").arg(i));
+        allKeys.append(QString("batrate%1").arg(i));
+        allKeys.append(QString("battotal%1").arg(i));
+    }
     // package manager
     for (auto &item : m_extUpgrade->activeItems())
         allKeys.append(item->tag("pkgcount"));

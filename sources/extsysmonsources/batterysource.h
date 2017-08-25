@@ -29,6 +29,8 @@ class BatterySource : public AbstractExtSysMonSource
     Q_OBJECT
 
 public:
+    const int TREND_LIMIT = 20;
+
     explicit BatterySource(QObject *_parent, const QStringList &_args);
     virtual ~BatterySource();
     QStringList getSources();
@@ -38,14 +40,15 @@ public:
     QStringList sources() const;
 
 private:
+    double approximate(const QList<int> &_trend);
     void calculateRates();
     // configuration and values
     int m_batteriesCount = 0;
     QString m_acpiPath;
     QStringList m_sources;
     QDateTime m_timestamp;
+    QHash<int, QList<int>> m_trend;
     QVariantHash m_values;
-    QVariantHash m_previousValues;
 };
 
 

@@ -106,7 +106,9 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source,
         QString key = _source;
         key.remove("battery/");
         m_map[_source] = key;
-        m_formatter[key] = AWKeysAggregator::FormatterType::IntegerThree;
+        m_formatter[key] = _source.contains("rate")
+                               ? AWKeysAggregator::FormatterType::Float
+                               : AWKeysAggregator::FormatterType::IntegerThree;
     } else if (_source == "cpu/system/TotalLoad") {
         // cpu
         m_map[_source] = "cpu";
