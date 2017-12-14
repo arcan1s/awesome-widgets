@@ -47,10 +47,10 @@ public:
     {
         QString fileName = getName();
         int number = uniqNumber();
-        QString dir = QString("%1/awesomewidgets/%2")
-                          .arg(QStandardPaths::writableLocation(
-                              QStandardPaths::GenericDataLocation))
-                          .arg(m_type);
+        QString dir
+            = QString("%1/awesomewidgets/%2")
+                  .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation))
+                  .arg(m_type);
         if (fileName.isEmpty()) {
             qCWarning(LOG_LIB) << "Nothing to create";
             return;

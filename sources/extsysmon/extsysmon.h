@@ -42,8 +42,7 @@ private:
     QHash<QString, QString> m_configuration;
     // methods
     void readConfiguration();
-    QHash<QString, QString>
-    updateConfiguration(QHash<QString, QString> _rawConfig) const;
+    QHash<QString, QString> updateConfiguration(QHash<QString, QString> _rawConfig) const;
 };
 
 

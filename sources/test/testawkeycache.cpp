@@ -30,9 +30,7 @@ void TestAWKeyCache::initTestCase()
 }
 
 
-void TestAWKeyCache::cleanupTestCase()
-{
-}
+void TestAWKeyCache::cleanupTestCase() {}
 
 
 QTEST_MAIN(TestAWKeyCache);

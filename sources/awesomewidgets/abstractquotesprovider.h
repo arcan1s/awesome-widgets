@@ -15,23 +15,31 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
+#ifndef ABSTRACTQUOTESPROVIDER_H
+#define ABSTRACTQUOTESPROVIDER_H
 
-#ifndef AWKEYCACHE_H
-#define AWKEYCACHE_H
+#include <QObject>
+#include <QUrl>
 
-#include <QHash>
-#include <QString>
-#include <QVariant>
+#include "abstractextitem.h"
 
 
-namespace AWKeyCache
+class AbstractQuotesProvider : public QObject
 {
-bool addKeyToCache(const QString &_type, const QString &_key = "");
-QStringList getRequiredKeys(const QStringList &_keys, const QStringList &_bars,
-                            const QVariantMap &_tooltip, const QStringList &_userKeys,
-                            const QStringList &_allKeys);
-QHash<QString, QStringList> loadKeysFromCache();
+    Q_OBJECT
+
+public:
+    explicit AbstractQuotesProvider(QObject *_parent)
+        : QObject(_parent){};
+    virtual ~AbstractQuotesProvider(){};
+    virtual void initUrl(const QString &_asset) = 0;
+    virtual QVariantHash parse(const QByteArray &_source, const QVariantHash &_oldValues) const = 0;
+    QString tag(const QString &_type) const
+    {
+        return static_cast<AbstractExtItem *>(parent())->tag(_type);
+    };
+    virtual QUrl url() const = 0;
 };
 
 
-#endif /* AWKEYCACHE_H */
+#endif /* ABSTRACTQUOTESPROVIDER_H */

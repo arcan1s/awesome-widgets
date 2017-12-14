@@ -34,13 +34,12 @@ AWDataEngineAggregator::AWDataEngineAggregator(QObject *_parent)
     m_dataEngines["time"] = m_consumer->dataEngine("time");
 
     // additional method required by systemmonitor structure
-    m_newSourceConnection = connect(
-        m_dataEngines["systemmonitor"], &Plasma::DataEngine::sourceAdded,
-        [this](const QString source) {
-            emit(deviceAdded(source));
-            m_dataEngines["systemmonitor"]->connectSource(source, parent(),
-                                                          1000);
-        });
+    m_newSourceConnection
+        = connect(m_dataEngines["systemmonitor"], &Plasma::DataEngine::sourceAdded,
+                  [this](const QString source) {
+                      emit(deviceAdded(source));
+                      m_dataEngines["systemmonitor"]->connectSource(source, parent(), 1000);
+                  });
 
     // required to define Qt::QueuedConnection for signal-slot connection
     qRegisterMetaType<Plasma::DataEngine::Data>("Plasma::DataEngine::Data");
@@ -74,13 +73,12 @@ void AWDataEngineAggregator::reconnectSources(const int _interval)
     m_dataEngines["extsysmon"]->connectAllSources(parent(), _interval);
     m_dataEngines["time"]->connectSource("Local", parent(), 1000);
 
-    m_newSourceConnection = connect(
-        m_dataEngines["systemmonitor"], &Plasma::DataEngine::sourceAdded,
-        [this, _interval](const QString source) {
-            emit(deviceAdded(source));
-            m_dataEngines["systemmonitor"]->connectSource(source, parent(),
-                                                          _interval);
-        });
+    m_newSourceConnection
+        = connect(m_dataEngines["systemmonitor"], &Plasma::DataEngine::sourceAdded,
+                  [this, _interval](const QString source) {
+                      emit(deviceAdded(source));
+                      m_dataEngines["systemmonitor"]->connectSource(source, parent(), _interval);
+                  });
 
 #ifdef BUILD_FUTURE
     createQueuedConnection();
@@ -105,24 +103,18 @@ void AWDataEngineAggregator::createQueuedConnection()
     // for more details refer to plasma-framework source code
     for (auto &dataEngine : m_dataEngines.keys()) {
         // different source set for different engines
-        QStringList sources = dataEngine == "time"
-                                  ? QStringList() << "Local"
-                                  : m_dataEngines[dataEngine]->sources();
+        QStringList sources = dataEngine == "time" ? QStringList() << "Local"
+                                                   : m_dataEngines[dataEngine]->sources();
         // reconnect sources
         for (auto &source : sources) {
             Plasma::DataContainer *container
                 = m_dataEngines[dataEngine]->containerForSource(source);
             // disconnect old connections first
-            disconnect(container,
-                       SIGNAL(dataUpdated(QString, Plasma::DataEngine::Data)),
-                       parent(),
+            disconnect(container, SIGNAL(dataUpdated(QString, Plasma::DataEngine::Data)), parent(),
                        SLOT(dataUpdated(QString, Plasma::DataEngine::Data)));
             // and now reconnect with Qt::QueuedConnection type
-            connect(container,
-                    SIGNAL(dataUpdated(QString, Plasma::DataEngine::Data)),
-                    parent(),
-                    SLOT(dataUpdated(QString, Plasma::DataEngine::Data)),
-                    Qt::QueuedConnection);
+            connect(container, SIGNAL(dataUpdated(QString, Plasma::DataEngine::Data)), parent(),
+                    SLOT(dataUpdated(QString, Plasma::DataEngine::Data)), Qt::QueuedConnection);
         }
     }
 }

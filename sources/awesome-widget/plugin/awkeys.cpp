@@ -62,11 +62,11 @@ AWKeys::AWKeys(QObject *_parent)
     // transfer signal from AWDataAggregator object to QML ui
     connect(m_dataAggregator, SIGNAL(toolTipPainted(const QString &)), this,
             SIGNAL(needToolTipToBeUpdated(const QString &)));
-    connect(this, SIGNAL(dropSourceFromDataengine(const QString &)),
-            m_dataEngineAggregator, SLOT(dropSource(const QString &)));
+    connect(this, SIGNAL(dropSourceFromDataengine(const QString &)), m_dataEngineAggregator,
+            SLOT(dropSource(const QString &)));
     // transfer signal from dataengine to update source list
-    connect(m_dataEngineAggregator, SIGNAL(deviceAdded(const QString &)),
-            m_keyOperator, SLOT(addDevice(const QString &)));
+    connect(m_dataEngineAggregator, SIGNAL(deviceAdded(const QString &)), m_keyOperator,
+            SLOT(addDevice(const QString &)));
 }
 
 
@@ -91,17 +91,15 @@ void AWKeys::initDataAggregator(const QVariantMap &_tooltipParams)
 }
 
 
-void AWKeys::initKeys(const QString &_currentPattern, const int _interval,
-                      const int _limit, const bool _optimize)
+void AWKeys::initKeys(const QString &_currentPattern, const int _interval, const int _limit,
+                      const bool _optimize)
 {
-    qCDebug(LOG_AW) << "Pattern" << _currentPattern << "with interval"
-                    << _interval << "and queue limit" << _limit
-                    << "with optimization" << _optimize;
+    qCDebug(LOG_AW) << "Pattern" << _currentPattern << "with interval" << _interval
+                    << "and queue limit" << _limit << "with optimization" << _optimize;
 
     // init
     m_optimize = _optimize;
-    m_threadPool->setMaxThreadCount(_limit == 0 ? QThread::idealThreadCount()
-                                                : _limit);
+    m_threadPool->setMaxThreadCount(_limit == 0 ? QThread::idealThreadCount() : _limit);
     // child objects
     m_aggregator->initFormatters();
     m_keyOperator->setPattern(_currentPattern);
@@ -138,8 +136,7 @@ void AWKeys::updateCache()
 
 QStringList AWKeys::dictKeys(const bool _sorted, const QString &_regexp) const
 {
-    qCDebug(LOG_AW) << "Should be sorted" << _sorted << "and filter applied"
-                    << _regexp;
+    qCDebug(LOG_AW) << "Should be sorted" << _sorted << "and filter applied" << _regexp;
 
     // check if functions asked
     if (_regexp == "functions")
@@ -190,8 +187,7 @@ QString AWKeys::valueByKey(const QString &_key) const
 {
     qCDebug(LOG_AW) << "Requested value for key" << _key;
 
-    QString trueKey
-        = _key.startsWith("bar") ? m_keyOperator->infoByKey(_key) : _key;
+    QString trueKey = _key.startsWith("bar") ? m_keyOperator->infoByKey(_key) : _key;
 
     return m_aggregator->formatter(m_values[trueKey], trueKey);
 }
@@ -205,12 +201,10 @@ void AWKeys::editItem(const QString &_type)
 }
 
 
-void AWKeys::dataUpdated(const QString &_sourceName,
-                         const Plasma::DataEngine::Data &_data)
+void AWKeys::dataUpdated(const QString &_sourceName, const Plasma::DataEngine::Data &_data)
 {
     // run concurrent data update
-    QtConcurrent::run(m_threadPool, this, &AWKeys::setDataBySource, _sourceName,
-                      _data);
+    QtConcurrent::run(m_threadPool, this, &AWKeys::setDataBySource, _sourceName, _data);
 }
 
 
@@ -219,28 +213,24 @@ void AWKeys::reinitKeys(const QStringList &_currentKeys)
     qCDebug(LOG_AW) << "Update found keys by using list" << _currentKeys;
 
     // append lists
-    m_foundBars = AWPatternFunctions::findKeys(m_keyOperator->pattern(),
-                                               _currentKeys, true);
-    m_foundKeys = AWPatternFunctions::findKeys(m_keyOperator->pattern(),
-                                               _currentKeys, false);
+    m_foundBars = AWPatternFunctions::findKeys(m_keyOperator->pattern(), _currentKeys, true);
+    m_foundKeys = AWPatternFunctions::findKeys(m_keyOperator->pattern(), _currentKeys, false);
     m_foundLambdas = AWPatternFunctions::findLambdas(m_keyOperator->pattern());
     // generate list of required keys for bars
     QStringList barKeys;
     for (auto &bar : m_foundBars) {
         GraphicalItem *item = m_keyOperator->giByKey(bar);
         if (item->isCustom())
-            item->setUsedKeys(
-                AWPatternFunctions::findKeys(item->bar(), _currentKeys, false));
+            item->setUsedKeys(AWPatternFunctions::findKeys(item->bar(), _currentKeys, false));
         else
             item->setUsedKeys(QStringList() << item->bar());
         barKeys.append(item->usedKeys());
     }
     // get required keys
-    m_requiredKeys = m_optimize
-                         ? AWKeyCache::getRequiredKeys(
-                               m_foundKeys, barKeys, m_tooltipParams,
-                               m_keyOperator->requiredUserKeys(), _currentKeys)
-                         : QStringList();
+    m_requiredKeys
+        = m_optimize ? AWKeyCache::getRequiredKeys(m_foundKeys, barKeys, m_tooltipParams,
+                                                   m_keyOperator->requiredUserKeys(), _currentKeys)
+                     : QStringList();
 
     // set key data to m_aggregator
     m_aggregator->setDevices(m_keyOperator->devices());
@@ -278,17 +268,13 @@ void AWKeys::calculateValues()
     }
 
     // memtot*
-    m_values["memtotmb"]
-        = m_values["memusedmb"].toInt() + m_values["memfreemb"].toInt();
-    m_values["memtotgb"]
-        = m_values["memusedgb"].toFloat() + m_values["memfreegb"].toFloat();
+    m_values["memtotmb"] = m_values["memusedmb"].toInt() + m_values["memfreemb"].toInt();
+    m_values["memtotgb"] = m_values["memusedgb"].toFloat() + m_values["memfreegb"].toFloat();
     // mem
-    m_values["mem"]
-        = 100.0f * m_values["memmb"].toFloat() / m_values["memtotmb"].toFloat();
+    m_values["mem"] = 100.0f * m_values["memmb"].toFloat() / m_values["memtotmb"].toFloat();
 
     // up, down, upkb, downkb, upunits, downunits
-    int netIndex
-        = m_keyOperator->devices("net").indexOf(m_values["netdev"].toString());
+    int netIndex = m_keyOperator->devices("net").indexOf(m_values["netdev"].toString());
     m_values["down"] = m_values[QString("down%1").arg(netIndex)];
     m_values["downkb"] = m_values[QString("downkb%1").arg(netIndex)];
     m_values["downtot"] = m_values[QString("downtot%1").arg(netIndex)];
@@ -301,13 +287,10 @@ void AWKeys::calculateValues()
     m_values["upunits"] = m_values[QString("upunits%1").arg(netIndex)];
 
     // swaptot*
-    m_values["swaptotmb"]
-        = m_values["swapmb"].toInt() + m_values["swapfreemb"].toInt();
-    m_values["swaptotgb"]
-        = m_values["swapgb"].toFloat() + m_values["swapfreegb"].toFloat();
+    m_values["swaptotmb"] = m_values["swapmb"].toInt() + m_values["swapfreemb"].toInt();
+    m_values["swaptotgb"] = m_values["swapgb"].toFloat() + m_values["swapfreegb"].toFloat();
     // swap
-    m_values["swap"] = 100.0f * m_values["swapmb"].toFloat()
-                       / m_values["swaptotmb"].toFloat();
+    m_values["swap"] = 100.0f * m_values["swapmb"].toFloat() / m_values["swaptotmb"].toFloat();
 
     // user defined keys
     for (auto &key : m_keyOperator->userKeys())
@@ -315,8 +298,7 @@ void AWKeys::calculateValues()
 
     // lambdas
     for (auto &key : m_foundLambdas)
-        m_values[key] = AWPatternFunctions::expandLambdas(
-            key, m_aggregator, m_values, m_foundKeys);
+        m_values[key] = AWPatternFunctions::expandLambdas(key, m_aggregator, m_values, m_foundKeys);
 }
 
 
@@ -329,8 +311,7 @@ void AWKeys::createDBusInterface()
     QDBusConnection instanceBus = QDBusConnection::sessionBus();
     // HACK we are going to use different services because it binds to
     // application
-    if (instanceBus.registerService(
-            QString("%1.i%2").arg(AWDBUS_SERVICE).arg(id))) {
+    if (instanceBus.registerService(QString("%1.i%2").arg(AWDBUS_SERVICE).arg(id))) {
         if (!instanceBus.registerObject(AWDBUS_PATH, new AWDBusAdaptor(this),
                                         QDBusConnection::ExportAllContents))
             qCWarning(LOG_AW) << "Could not register DBus object, last error"
@@ -359,17 +340,15 @@ QString AWKeys::parsePattern(QString _pattern) const
 
     // main keys
     for (auto &key : m_foundKeys)
-        _pattern.replace(QString("$%1").arg(key),
-                         m_aggregator->formatter(m_values[key], key));
+        _pattern.replace(QString("$%1").arg(key), m_aggregator->formatter(m_values[key], key));
 
     // bars
     for (auto &bar : m_foundBars) {
         GraphicalItem *item = m_keyOperator->giByKey(bar);
-        QString image
-            = item->isCustom()
-                  ? item->image(AWPatternFunctions::expandLambdas(
-                        item->bar(), m_aggregator, m_values, item->usedKeys()))
-                  : item->image(m_values[item->bar()]);
+        QString image = item->isCustom()
+                            ? item->image(AWPatternFunctions::expandLambdas(
+                                  item->bar(), m_aggregator, m_values, item->usedKeys()))
+                            : item->image(m_values[item->bar()]);
         _pattern.replace(QString("$%1").arg(bar), image);
     }
 
@@ -382,16 +361,14 @@ QString AWKeys::parsePattern(QString _pattern) const
 }
 
 
-void AWKeys::setDataBySource(const QString &_sourceName,
-                             const QVariantMap &_data)
+void AWKeys::setDataBySource(const QString &_sourceName, const QVariantMap &_data)
 {
     qCDebug(LOG_AW) << "Source" << _sourceName << "with data" << _data;
 
     // first list init
     QStringList tags = m_aggregator->keysFromSource(_sourceName);
     if (tags.isEmpty())
-        tags = m_aggregator->registerSource(
-            _sourceName, _data["units"].toString(), m_requiredKeys);
+        tags = m_aggregator->registerSource(_sourceName, _data["units"].toString(), m_requiredKeys);
 
     // update data or drop source if there are no matches and exit
     if (tags.isEmpty()) {
@@ -401,10 +378,8 @@ void AWKeys::setDataBySource(const QString &_sourceName,
 
     m_mutex.lock();
     // HACK workaround for time values which are stored in the different path
-    std::for_each(tags.cbegin(), tags.cend(),
-                  [this, &_data, &_sourceName](const QString &tag) {
-                      m_values[tag] = _sourceName == "Local" ? _data["DateTime"]
-                                                             : _data["value"];
-                  });
+    std::for_each(tags.cbegin(), tags.cend(), [this, &_data, &_sourceName](const QString &tag) {
+        m_values[tag] = _sourceName == "Local" ? _data["DateTime"] : _data["value"];
+    });
     m_mutex.unlock();
 }

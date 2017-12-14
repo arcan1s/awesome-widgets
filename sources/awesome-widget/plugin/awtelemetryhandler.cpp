@@ -27,15 +27,13 @@
 #include "awdebug.h"
 
 
-AWTelemetryHandler::AWTelemetryHandler(QObject *_parent,
-                                       const QString &_clientId)
+AWTelemetryHandler::AWTelemetryHandler(QObject *_parent, const QString &_clientId)
     : QObject(_parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
     m_localFile = QString("%1/awesomewidgets/telemetry.ini")
-                      .arg(QStandardPaths::writableLocation(
-                          QStandardPaths::GenericDataLocation));
+                      .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
 
     // override client id if any
     if (!_clientId.isEmpty())
@@ -73,11 +71,10 @@ QString AWTelemetryHandler::getLast(const QString &_group) const
 }
 
 
-void AWTelemetryHandler::init(const int _count, const bool _enableRemote,
-                              const QString &_clientId)
+void AWTelemetryHandler::init(const int _count, const bool _enableRemote, const QString &_clientId)
 {
-    qCDebug(LOG_AW) << "Init telemetry with count" << _count << "enable remote"
-                    << _enableRemote << "client ID" << _clientId;
+    qCDebug(LOG_AW) << "Init telemetry with count" << _count << "enable remote" << _enableRemote
+                    << "client ID" << _clientId;
 
     m_storeCount = _count;
     m_uploadEnabled = _enableRemote;
@@ -87,8 +84,7 @@ void AWTelemetryHandler::init(const int _count, const bool _enableRemote,
 
 bool AWTelemetryHandler::put(const QString &_group, const QString &_value) const
 {
-    qCDebug(LOG_AW) << "Store data with group" << _group << "and value"
-                    << _value;
+    qCDebug(LOG_AW) << "Store data with group" << _group << "and value" << _value;
 
     QSettings settings(m_localFile, QSettings::IniFormat);
     settings.beginGroup(_group);
@@ -99,8 +95,7 @@ bool AWTelemetryHandler::put(const QString &_group, const QString &_value) const
         saved.append(settings.value(key).toString());
     // check if this value is already saved
     if (saved.contains(_value)) {
-        qCInfo(LOG_AW) << "Configuration" << _value << "for group" << _group
-                       << "is already saved";
+        qCInfo(LOG_AW) << "Configuration" << _value << "for group" << _group << "is already saved";
         return false;
     }
     saved.append(_value);
@@ -123,11 +118,9 @@ bool AWTelemetryHandler::put(const QString &_group, const QString &_value) const
 }
 
 
-void AWTelemetryHandler::uploadTelemetry(const QString &_group,
-                                         const QString &_value)
+void AWTelemetryHandler::uploadTelemetry(const QString &_group, const QString &_value)
 {
-    qCDebug(LOG_AW) << "Upload data with group" << _group << "and value"
-                    << _value;
+    qCDebug(LOG_AW) << "Upload data with group" << _group << "and value" << _value;
     if (!m_uploadEnabled) {
         qCInfo(LOG_AW) << "Upload disabled by configuration";
         return;
@@ -148,10 +141,8 @@ void AWTelemetryHandler::uploadTelemetry(const QString &_group,
     payload["metadata"] = _value;
     payload["type"] = _group;
     // convert to QByteArray to send request
-    QByteArray data
-        = QJsonDocument::fromVariant(payload).toJson(QJsonDocument::Compact);
-    qCInfo(LOG_AW) << "Send request with body" << data.data() << "and size"
-                   << data.size();
+    QByteArray data = QJsonDocument::fromVariant(payload).toJson(QJsonDocument::Compact);
+    qCInfo(LOG_AW) << "Send request with body" << data.data() << "and size" << data.size();
 
     manager->post(request, data);
 }
@@ -160,8 +151,8 @@ void AWTelemetryHandler::uploadTelemetry(const QString &_group,
 void AWTelemetryHandler::telemetryReplyRecieved(QNetworkReply *_reply)
 {
     if (_reply->error() != QNetworkReply::NoError) {
-        qCWarning(LOG_AW) << "An error occurs" << _reply->error()
-                          << "with message" << _reply->errorString();
+        qCWarning(LOG_AW) << "An error occurs" << _reply->error() << "with message"
+                          << _reply->errorString();
         return;
     }
 

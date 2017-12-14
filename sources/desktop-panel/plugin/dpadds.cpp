@@ -44,10 +44,8 @@ DPAdds::DPAdds(QObject *_parent)
 
     connect(KWindowSystem::self(), SIGNAL(currentDesktopChanged(int)), this,
             SIGNAL(desktopChanged()));
-    connect(KWindowSystem::self(), SIGNAL(windowAdded(WId)), this,
-            SIGNAL(windowListChanged()));
-    connect(KWindowSystem::self(), SIGNAL(windowRemoved(WId)), this,
-            SIGNAL(windowListChanged()));
+    connect(KWindowSystem::self(), SIGNAL(windowAdded(WId)), this, SIGNAL(windowListChanged()));
+    connect(KWindowSystem::self(), SIGNAL(windowRemoved(WId)), this, SIGNAL(windowListChanged()));
 }
 
 
@@ -72,8 +70,7 @@ int DPAdds::currentDesktop() const
 
 QStringList DPAdds::dictKeys(const bool _sorted, const QString &_regexp) const
 {
-    qCDebug(LOG_DP) << "Should be sorted" << _sorted << "and filter applied"
-                    << _regexp;
+    qCDebug(LOG_DP) << "Should be sorted" << _sorted << "and filter applied" << _regexp;
 
     QStringList allKeys;
     allKeys.append("mark");
@@ -106,11 +103,9 @@ QString DPAdds::toolTipImage(const int _desktop) const
     // special tooltip format for names
     if (m_tooltipType == "names") {
         QStringList windowList;
-        std::for_each(
-            info.windowsData.cbegin(), info.windowsData.cend(),
-            [&windowList](WindowData data) { windowList.append(data.name); });
-        return QString("<ul><li>%1</li></ul>")
-            .arg(windowList.join("</li><li>"));
+        std::for_each(info.windowsData.cbegin(), info.windowsData.cend(),
+                      [&windowList](WindowData data) { windowList.append(data.name); });
+        return QString("<ul><li>%1</li></ul>").arg(windowList.join("</li><li>"));
     }
 
     // init
@@ -133,8 +128,7 @@ QString DPAdds::toolTipImage(const int _desktop) const
     toolTipScene->addLine(0, info.desktop.height() + 2.0 * margin,
                           info.desktop.width() + 2.0 * margin,
                           info.desktop.height() + 2.0 * margin);
-    toolTipScene->addLine(info.desktop.width() + 2.0 * margin,
-                          info.desktop.height() + 2.0 * margin,
+    toolTipScene->addLine(info.desktop.width() + 2.0 * margin, info.desktop.height() + 2.0 * margin,
                           info.desktop.width() + 2.0 * margin, 0);
     toolTipScene->addLine(info.desktop.width() + 2.0 * margin, 0, 0, 0);
 
@@ -145,39 +139,35 @@ QString DPAdds::toolTipImage(const int _desktop) const
         for (auto &data : info.windowsData) {
             QRect rect = data.rect;
             toolTipScene->addLine(rect.left() + margin, rect.bottom() + margin,
-                                  rect.left() + margin, rect.top() + margin,
-                                  pen);
-            toolTipScene->addLine(rect.left() + margin, rect.top() + margin,
-                                  rect.right() + margin, rect.top() + margin,
-                                  pen);
-            toolTipScene->addLine(rect.right() + margin, rect.top() + margin,
-                                  rect.right() + margin, rect.bottom() + margin,
-                                  pen);
+                                  rect.left() + margin, rect.top() + margin, pen);
+            toolTipScene->addLine(rect.left() + margin, rect.top() + margin, rect.right() + margin,
+                                  rect.top() + margin, pen);
+            toolTipScene->addLine(rect.right() + margin, rect.top() + margin, rect.right() + margin,
+                                  rect.bottom() + margin, pen);
             toolTipScene->addLine(rect.right() + margin, rect.bottom() + margin,
-                                  rect.left() + margin, rect.bottom() + margin,
-                                  pen);
+                                  rect.left() + margin, rect.bottom() + margin, pen);
         }
     } else if (m_tooltipType == "clean") {
         QScreen *screen = QGuiApplication::primaryScreen();
         std::for_each(info.desktopsData.cbegin(), info.desktopsData.cend(),
                       [&toolTipScene, &screen](const WindowData &data) {
                           QPixmap desktop = screen->grabWindow(data.id);
-                          toolTipScene->addPixmap(desktop)->setOffset(
-                              data.rect.left(), data.rect.top());
+                          toolTipScene->addPixmap(desktop)->setOffset(data.rect.left(),
+                                                                      data.rect.top());
                       });
     } else if (m_tooltipType == "windows") {
         QScreen *screen = QGuiApplication::primaryScreen();
         std::for_each(info.desktopsData.cbegin(), info.desktopsData.cend(),
                       [&toolTipScene, &screen](const WindowData &data) {
                           QPixmap desktop = screen->grabWindow(data.id);
-                          toolTipScene->addPixmap(desktop)->setOffset(
-                              data.rect.left(), data.rect.top());
+                          toolTipScene->addPixmap(desktop)->setOffset(data.rect.left(),
+                                                                      data.rect.top());
                       });
         std::for_each(info.windowsData.cbegin(), info.windowsData.cend(),
                       [&toolTipScene, &screen](const WindowData &data) {
                           QPixmap window = screen->grabWindow(data.id);
-                          toolTipScene->addPixmap(window)->setOffset(
-                              data.rect.left(), data.rect.top());
+                          toolTipScene->addPixmap(window)->setOffset(data.rect.left(),
+                                                                     data.rect.top());
                       });
     }
 
@@ -189,8 +179,7 @@ QString DPAdds::toolTipImage(const int _desktop) const
     delete toolTipView;
     delete toolTipScene;
 
-    return QString("<img src=\"data:image/png;base64,%1\"/>")
-        .arg(QString(byteArray.toBase64()));
+    return QString("<img src=\"data:image/png;base64,%1\"/>").arg(QString(byteArray.toBase64()));
 }
 
 
@@ -271,11 +260,9 @@ QVariantMap DPAdds::getFont(const QVariantMap &_defaultFont) const
 
     QVariantMap fontMap;
     int ret = 0;
-    CFont defaultCFont
-        = CFont(_defaultFont["family"].toString(), _defaultFont["size"].toInt(),
-                400, false, _defaultFont["color"].toString());
-    CFont font = CFontDialog::getFont(i18n("Select font"), defaultCFont, false,
-                                      false, &ret);
+    CFont defaultCFont = CFont(_defaultFont["family"].toString(), _defaultFont["size"].toInt(), 400,
+                               false, _defaultFont["color"].toString());
+    CFont font = CFontDialog::getFont(i18n("Select font"), defaultCFont, false, false, &ret);
 
     fontMap["applied"] = ret;
     fontMap["color"] = font.color().name();
@@ -291,10 +278,9 @@ void DPAdds::sendNotification(const QString &_eventId, const QString &_message)
 {
     qCDebug(LOG_DP) << "Event" << _eventId << "with message" << _message;
 
-    KNotification *notification = KNotification::event(
-        _eventId, QString("Desktop Panel ::: %1").arg(_eventId), _message);
-    notification->setComponentName(
-        "plasma-applet-org.kde.plasma.desktop-panel");
+    KNotification *notification
+        = KNotification::event(_eventId, QString("Desktop Panel ::: %1").arg(_eventId), _message);
+    notification->setComponentName("plasma-applet-org.kde.plasma.desktop-panel");
 }
 
 
@@ -317,18 +303,15 @@ DPAdds::DesktopWindowsInfo DPAdds::getInfoByDesktop(const int _desktop) const
 
     for (auto &id : KWindowSystem::windows()) {
         KWindowInfo winInfo = KWindowInfo(
-            id,
-            NET::Property::WMDesktop | NET::Property::WMGeometry
-                | NET::Property::WMState | NET::Property::WMWindowType
-                | NET::Property::WMVisibleName);
+            id, NET::Property::WMDesktop | NET::Property::WMGeometry | NET::Property::WMState
+                    | NET::Property::WMWindowType | NET::Property::WMVisibleName);
         if (!winInfo.isOnDesktop(_desktop))
             continue;
         WindowData data;
         data.id = id;
         data.name = winInfo.visibleName();
         data.rect = winInfo.geometry();
-        if (winInfo.windowType(NET::WindowTypeMask::NormalMask)
-            == NET::WindowType::Normal) {
+        if (winInfo.windowType(NET::WindowTypeMask::NormalMask) == NET::WindowType::Normal) {
             if (winInfo.isMinimized())
                 continue;
             info.windowsData.append(data);

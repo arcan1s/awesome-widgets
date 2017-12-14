@@ -15,23 +15,28 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
+#ifndef STOOQQUOTESPROVIDER_H
+#define STOOQQUOTESPROVIDER_H
 
-#ifndef AWKEYCACHE_H
-#define AWKEYCACHE_H
-
-#include <QHash>
-#include <QString>
-#include <QVariant>
+#include "abstractquotesprovider.h"
 
 
-namespace AWKeyCache
+class StooqQuotesProvider : public AbstractQuotesProvider
 {
-bool addKeyToCache(const QString &_type, const QString &_key = "");
-QStringList getRequiredKeys(const QStringList &_keys, const QStringList &_bars,
-                            const QVariantMap &_tooltip, const QStringList &_userKeys,
-                            const QStringList &_allKeys);
-QHash<QString, QStringList> loadKeysFromCache();
+    Q_OBJECT
+
+public:
+    const char *STOOQ_QUOTES_URL = "https://stooq.com/q/l/";
+
+    explicit StooqQuotesProvider(QObject *_parent);
+    virtual ~StooqQuotesProvider();
+    void initUrl(const QString &_asset);
+    QVariantHash parse(const QByteArray &_source, const QVariantHash &_oldValues) const;
+    QUrl url() const;
+
+private:
+    QUrl m_url;
 };
 
 
-#endif /* AWKEYCACHE_H */
+#endif /* STOOQQUOTESPROVIDER_H */

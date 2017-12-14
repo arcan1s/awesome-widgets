@@ -34,8 +34,7 @@ AWConfigHelper::AWConfigHelper(QObject *_parent)
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
     m_baseDir = QString("%1/awesomewidgets")
-                    .arg(QStandardPaths::writableLocation(
-                        QStandardPaths::GenericDataLocation));
+                    .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
 }
 
 
@@ -48,14 +47,13 @@ AWConfigHelper::~AWConfigHelper()
 QString AWConfigHelper::configurationDirectory() const
 {
     // get readable directory
-    QString localDir = QString("%1/awesomewidgets/configs")
-                           .arg(QStandardPaths::writableLocation(
-                               QStandardPaths::GenericDataLocation));
+    QString localDir
+        = QString("%1/awesomewidgets/configs")
+              .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
 
     // create directory and copy files from default settings
     QDir localDirectory;
-    if ((!localDirectory.exists(localDir))
-        && (localDirectory.mkpath(localDir))) {
+    if ((!localDirectory.exists(localDir)) && (localDirectory.mkpath(localDir))) {
         qCInfo(LOG_AW) << "Created directory" << localDir;
         copyConfigs(localDir);
     }
@@ -66,23 +64,21 @@ QString AWConfigHelper::configurationDirectory() const
 
 bool AWConfigHelper::dropCache() const
 {
-    QString fileName = QString("%1/awesomewidgets.ndx")
-                           .arg(QStandardPaths::writableLocation(
-                               QStandardPaths::GenericCacheLocation));
+    QString fileName
+        = QString("%1/awesomewidgets.ndx")
+              .arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
 
     return QFile(fileName).remove();
 }
 
 
-bool AWConfigHelper::exportConfiguration(QObject *_nativeConfig,
-                                         const QString &_fileName) const
+bool AWConfigHelper::exportConfiguration(QObject *_nativeConfig, const QString &_fileName) const
 {
     qCDebug(LOG_AW) << "Selected filename" << _fileName;
 
     QSettings settings(_fileName, QSettings::IniFormat);
     // plasmoid configuration
-    const QQmlPropertyMap *configuration
-        = static_cast<const QQmlPropertyMap *>(_nativeConfig);
+    const QQmlPropertyMap *configuration = static_cast<const QQmlPropertyMap *>(_nativeConfig);
     settings.beginGroup("plasmoid");
     for (auto &key : configuration->keys()) {
         QVariant value = configuration->value(key);
@@ -94,9 +90,8 @@ bool AWConfigHelper::exportConfiguration(QObject *_nativeConfig,
 
     // extensions
     for (auto &item : m_dirs) {
-        QStringList items
-            = QDir(QString("%1/%2").arg(m_baseDir).arg(item))
-                  .entryList(QStringList() << "*.desktop", QDir::Files);
+        QStringList items = QDir(QString("%1/%2").arg(m_baseDir).arg(item))
+                                .entryList(QStringList() << "*.desktop", QDir::Files);
         settings.beginGroup(item);
         for (auto &it : items)
             copyExtensions(it, item, settings, false);
@@ -107,18 +102,15 @@ bool AWConfigHelper::exportConfiguration(QObject *_nativeConfig,
     settings.beginGroup("json");
     // script filters
     readFile(settings, "filters",
-             QString("%1/scripts/awesomewidgets-extscripts-filters.json")
-                 .arg(m_baseDir));
+             QString("%1/scripts/awesomewidgets-extscripts-filters.json").arg(m_baseDir));
     // weather icon settings
     readFile(settings, "weathers",
-             QString("%1/weather/awesomewidgets-extweather-ids.json")
-                 .arg(m_baseDir));
+             QString("%1/weather/awesomewidgets-extweather-ids.json").arg(m_baseDir));
     settings.endGroup();
 
     settings.beginGroup("ini");
     // formatter settings
-    readFile(settings, "formatters",
-             QString("%1/formatters/formatters.ini").arg(m_baseDir));
+    readFile(settings, "formatters", QString("%1/formatters/formatters.ini").arg(m_baseDir));
     // custom keys settings
     readFile(settings, "custom", QString("%1/custom.ini").arg(m_baseDir));
     settings.endGroup();
@@ -155,18 +147,15 @@ QVariantMap AWConfigHelper::importConfiguration(const QString &_fileName,
         settings.beginGroup("json");
         // script filters
         writeFile(settings, "filters",
-                  QString("%1/scripts/awesomewidgets-extscripts-filters.json")
-                      .arg(m_baseDir));
+                  QString("%1/scripts/awesomewidgets-extscripts-filters.json").arg(m_baseDir));
         // weather icon settings
         writeFile(settings, "weathers",
-                  QString("%1/weather/awesomewidgets-extweather-ids.json")
-                      .arg(m_baseDir));
+                  QString("%1/weather/awesomewidgets-extweather-ids.json").arg(m_baseDir));
         settings.endGroup();
 
         settings.beginGroup("ini");
         // formatter settings
-        writeFile(settings, "formatters",
-                  QString("%1/formatters/formatters.ini").arg(m_baseDir));
+        writeFile(settings, "formatters", QString("%1/formatters/formatters.ini").arg(m_baseDir));
         // custom keys settings
         writeFile(settings, "custom", QString("%1/custom.ini").arg(m_baseDir));
         settings.endGroup();
@@ -186,19 +175,17 @@ QVariantMap AWConfigHelper::importConfiguration(const QString &_fileName,
 
 QVariantMap AWConfigHelper::readDataEngineConfiguration() const
 {
-    QString fileName = QStandardPaths::locate(
-        QStandardPaths::ConfigLocation, "plasma-dataengine-extsysmon.conf");
+    QString fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation,
+                                              "plasma-dataengine-extsysmon.conf");
     qCInfo(LOG_AW) << "Configuration file" << fileName;
     QSettings settings(fileName, QSettings::IniFormat);
     QVariantMap configuration;
 
     settings.beginGroup("Configuration");
-    configuration["ACPIPATH"]
-        = settings.value("ACPIPATH", "/sys/class/power_supply/");
+    configuration["ACPIPATH"] = settings.value("ACPIPATH", "/sys/class/power_supply/");
     configuration["GPUDEV"] = settings.value("GPUDEV", "auto");
     configuration["HDDDEV"] = settings.value("HDDDEV", "all");
-    configuration["HDDTEMPCMD"]
-        = settings.value("HDDTEMPCMD", "sudo smartctl -a");
+    configuration["HDDTEMPCMD"] = settings.value("HDDTEMPCMD", "sudo smartctl -a");
     configuration["MPDADDRESS"] = settings.value("MPDADDRESS", "localhost");
     configuration["MPDPORT"] = settings.value("MPDPORT", "6600");
     configuration["MPRIS"] = settings.value("MPRIS", "auto");
@@ -212,14 +199,12 @@ QVariantMap AWConfigHelper::readDataEngineConfiguration() const
 }
 
 
-bool AWConfigHelper::writeDataEngineConfiguration(
-    const QVariantMap &_configuration) const
+bool AWConfigHelper::writeDataEngineConfiguration(const QVariantMap &_configuration) const
 {
     qCDebug(LOG_AW) << "Configuration" << _configuration;
 
     QString fileName = QString("%1/plasma-dataengine-extsysmon.conf")
-                           .arg(QStandardPaths::writableLocation(
-                               QStandardPaths::ConfigLocation));
+                           .arg(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation));
     QSettings settings(fileName, QSettings::IniFormat);
     qCInfo(LOG_AW) << "Configuration file" << settings.fileName();
 
@@ -245,35 +230,31 @@ void AWConfigHelper::copyConfigs(const QString &_localDir) const
 {
     qCDebug(LOG_AW) << "Local directory" << _localDir;
 
-    QStringList dirs = QStandardPaths::locateAll(
-        QStandardPaths::GenericDataLocation, "awesomewidgets/configs",
-        QStandardPaths::LocateDirectory);
+    QStringList dirs
+        = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, "awesomewidgets/configs",
+                                    QStandardPaths::LocateDirectory);
     for (auto &dir : dirs) {
         if (dir == _localDir)
             continue;
         QStringList files = QDir(dir).entryList(QDir::Files);
         for (auto &source : files) {
             QString destination = QString("%1/%2").arg(_localDir).arg(source);
-            bool status = QFile::copy(QString("%1/%2").arg(dir).arg(source),
-                                      destination);
-            qCInfo(LOG_AW) << "File" << source << "has been copied to"
-                           << destination << "with status" << status;
+            bool status = QFile::copy(QString("%1/%2").arg(dir).arg(source), destination);
+            qCInfo(LOG_AW) << "File" << source << "has been copied to" << destination
+                           << "with status" << status;
         }
     }
 }
 
 
 void AWConfigHelper::copyExtensions(const QString &_item, const QString &_type,
-                                    QSettings &_settings,
-                                    const bool _inverse) const
+                                    QSettings &_settings, const bool _inverse) const
 {
-    qCDebug(LOG_AW) << "Extension" << _item << "has type" << _type
-                    << "inverse copying" << _inverse;
+    qCDebug(LOG_AW) << "Extension" << _item << "has type" << _type << "inverse copying" << _inverse;
 
     _settings.beginGroup(_item);
-    QSettings itemSettings(
-        QString("%1/%2/%3").arg(m_baseDir).arg(_type).arg(_item),
-        QSettings::IniFormat);
+    QSettings itemSettings(QString("%1/%2/%3").arg(m_baseDir).arg(_type).arg(_item),
+                           QSettings::IniFormat);
     itemSettings.beginGroup("Desktop Entry");
     if (_inverse)
         copySettings(_settings, itemSettings);

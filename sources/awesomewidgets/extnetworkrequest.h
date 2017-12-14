@@ -34,8 +34,7 @@ class ExtNetworkRequest : public AbstractExtItem
     Q_PROPERTY(QString stringUrl READ stringUrl WRITE setStringUrl)
 
 public:
-    explicit ExtNetworkRequest(QWidget *_parent = nullptr,
-                               const QString &_filePath = "");
+    explicit ExtNetworkRequest(QWidget *_parent = nullptr, const QString &_filePath = "");
     virtual ~ExtNetworkRequest();
     ExtNetworkRequest *copy(const QString &_fileName, const int _number);
     // get methods

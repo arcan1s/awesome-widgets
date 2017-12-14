@@ -61,8 +61,7 @@ QString AWActions::getFileContent(const QString &_path) const
 
     QFile inputFile(_path);
     if (!inputFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qCWarning(LOG_AW) << "Could not open file as text"
-                          << inputFile.fileName();
+        qCWarning(LOG_AW) << "Could not open file as text" << inputFile.fileName();
         return "";
     }
 
@@ -102,8 +101,7 @@ void AWActions::showLegacyInfo() const
     msgBox->setAttribute(Qt::WA_DeleteOnClose);
     msgBox->setModal(false);
     msgBox->setWindowTitle(i18n("Not supported"));
-    msgBox->setText(
-        i18n("You are using mammoth's Qt version, try to update it first"));
+    msgBox->setText(i18n("You are using mammoth's Qt version, try to update it first"));
     msgBox->setStandardButtons(QMessageBox::Ok);
     msgBox->setIcon(QMessageBox::Information);
 
@@ -126,11 +124,9 @@ QVariantMap AWActions::getFont(const QVariantMap &_defaultFont) const
 
     QVariantMap fontMap;
     int ret = 0;
-    CFont defaultCFont
-        = CFont(_defaultFont["family"].toString(), _defaultFont["size"].toInt(),
-                400, false, _defaultFont["color"].toString());
-    CFont font = CFontDialog::getFont(i18n("Select font"), defaultCFont, false,
-                                      false, &ret);
+    CFont defaultCFont = CFont(_defaultFont["family"].toString(), _defaultFont["size"].toInt(), 400,
+                               false, _defaultFont["color"].toString());
+    CFont font = CFontDialog::getFont(i18n("Select font"), defaultCFont, false, false, &ret);
 
     fontMap["applied"] = ret;
     fontMap["color"] = font.color().name();
@@ -142,13 +138,11 @@ QVariantMap AWActions::getFont(const QVariantMap &_defaultFont) const
 
 
 // to avoid additional object definition this method is static
-void AWActions::sendNotification(const QString &_eventId,
-                                 const QString &_message)
+void AWActions::sendNotification(const QString &_eventId, const QString &_message)
 {
     qCDebug(LOG_AW) << "Event" << _eventId << "with message" << _message;
 
-    KNotification *notification = KNotification::event(
-        _eventId, QString("Awesome Widget ::: %1").arg(_eventId), _message);
-    notification->setComponentName(
-        "plasma-applet-org.kde.plasma.awesome-widget");
+    KNotification *notification
+        = KNotification::event(_eventId, QString("Awesome Widget ::: %1").arg(_eventId), _message);
+    notification->setComponentName("plasma-applet-org.kde.plasma.awesome-widget");
 }

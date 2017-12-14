@@ -25,8 +25,7 @@
 #include "awdebug.h"
 
 
-GPUTemperatureSource::GPUTemperatureSource(QObject *_parent,
-                                           const QStringList &_args)
+GPUTemperatureSource::GPUTemperatureSource(QObject *_parent, const QStringList &_args)
     : AbstractExtSysMonSource(_parent, _args)
 {
     Q_ASSERT(_args.count() == 1);
@@ -37,8 +36,7 @@ GPUTemperatureSource::GPUTemperatureSource(QObject *_parent,
     m_process = new QProcess(nullptr);
     // fucking magic from http://doc.qt.io/qt-5/qprocess.html#finished
     connect(m_process,
-            static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(
-                &QProcess::finished),
+            static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
             [this](int, QProcess::ExitStatus) { return updateValue(); });
     m_process->waitForFinished(0);
 }
@@ -86,8 +84,7 @@ void GPUTemperatureSource::run()
     if ((m_device != "nvidia") && (m_device != "ati"))
         return;
     // build cmd
-    QString cmd = m_device == "nvidia" ? "nvidia-smi -q -x"
-                                       : "aticonfig --od-gettemperature";
+    QString cmd = m_device == "nvidia" ? "nvidia-smi -q -x" : "aticonfig --od-gettemperature";
     qCInfo(LOG_ESS) << "cmd" << cmd;
 
     m_process->start(cmd);
@@ -106,13 +103,11 @@ QStringList GPUTemperatureSource::sources() const
 void GPUTemperatureSource::updateValue()
 {
     qCInfo(LOG_ESS) << "Cmd returns" << m_process->exitCode();
-    QString qdebug = QTextCodec::codecForMib(106)
-                         ->toUnicode(m_process->readAllStandardError())
-                         .trimmed();
+    QString qdebug
+        = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardError()).trimmed();
     qCInfo(LOG_ESS) << "Error" << qdebug;
-    QString qoutput = QTextCodec::codecForMib(106)
-                          ->toUnicode(m_process->readAllStandardOutput())
-                          .trimmed();
+    QString qoutput
+        = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardOutput()).trimmed();
     qCInfo(LOG_ESS) << "Output" << qoutput;
 
     if (m_device == "nvidia") {

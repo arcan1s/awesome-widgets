@@ -49,15 +49,13 @@ void TestBatterySource::test_battery()
         QSKIP("No battery found, test will be skipped");
 
     QStringList batteries = source->sources();
-    std::for_each(batteries.begin(), batteries.end(),
-                  [this](const QString bat) {
-                      QVariant value = source->data(bat);
-                      if (bat == "battery/ac")
-                          QCOMPARE(value.type(), QVariant::Bool);
-                      else
-                          QVERIFY((value.toFloat() >= battery.first)
-                                  && (value.toFloat() <= battery.second));
-                  });
+    std::for_each(batteries.begin(), batteries.end(), [this](const QString bat) {
+        QVariant value = source->data(bat);
+        if (bat == "battery/ac")
+            QCOMPARE(value.type(), QVariant::Bool);
+        else
+            QVERIFY((value.toFloat() >= battery.first) && (value.toFloat() <= battery.second));
+    });
 }
 
 

@@ -23,8 +23,7 @@
 #include "awdebug.h"
 
 
-AWAbstractPairHelper::AWAbstractPairHelper(const QString &_filePath,
-                                           const QString &_section)
+AWAbstractPairHelper::AWAbstractPairHelper(const QString &_filePath, const QString &_section)
     : m_filePath(_filePath)
     , m_section(_section)
 {
@@ -62,8 +61,8 @@ void AWAbstractPairHelper::initItems()
 {
     m_pairs.clear();
 
-    QStringList configs = QStandardPaths::locateAll(
-        QStandardPaths::GenericDataLocation, m_filePath);
+    QStringList configs
+        = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, m_filePath);
 
     for (auto &fileName : configs) {
         QSettings settings(fileName, QSettings::IniFormat);
@@ -86,15 +85,14 @@ void AWAbstractPairHelper::initItems()
 }
 
 
-bool AWAbstractPairHelper::writeItems(
-    const QHash<QString, QString> &_configuration) const
+bool AWAbstractPairHelper::writeItems(const QHash<QString, QString> &_configuration) const
 {
     qCDebug(LOG_AW) << "Write configuration" << _configuration;
 
-    QString fileName = QString("%1/%2")
-                           .arg(QStandardPaths::writableLocation(
-                               QStandardPaths::GenericDataLocation))
-                           .arg(m_filePath);
+    QString fileName
+        = QString("%1/%2")
+              .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation))
+              .arg(m_filePath);
     QSettings settings(fileName, QSettings::IniFormat);
     qCInfo(LOG_AW) << "Configuration file" << fileName;
 
@@ -113,10 +111,10 @@ bool AWAbstractPairHelper::removeUnusedKeys(const QStringList &_keys) const
 {
     qCDebug(LOG_AW) << "Remove keys" << _keys;
 
-    QString fileName = QString("%1/%2")
-                           .arg(QStandardPaths::writableLocation(
-                               QStandardPaths::GenericDataLocation))
-                           .arg(m_filePath);
+    QString fileName
+        = QString("%1/%2")
+              .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation))
+              .arg(m_filePath);
     QSettings settings(fileName, QSettings::IniFormat);
     qCInfo(LOG_AW) << "Configuration file" << fileName;
 

@@ -42,12 +42,10 @@ private slots:
 private:
     ExtQuotes *extQuotes = nullptr;
     QVariantHash cache;
-    QString ticker = "EURUSD=X";
-    QStringList types = QStringList() << "ask"
-                                      << "bid"
-                                      << "price";
+    QString ticker = "EURUSD";
+    QStringList types = {"price", "volume"};
     // we assume that price will not be differ more than in 2 times
-    QPair<double, double> price = QPair<double, double>(0.5, 2.0);
+    QPair<double, double> price = QPair<double, double>(0.0, 2.0);
 };
 
 

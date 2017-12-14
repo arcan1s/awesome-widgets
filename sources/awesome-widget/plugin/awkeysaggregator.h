@@ -32,8 +32,7 @@ class AWKeysAggregator : public QObject
     Q_PROPERTY(QString acOffline MEMBER m_acOffline WRITE setAcOffline);
     Q_PROPERTY(QString acOnline MEMBER m_acOnline WRITE setAcOnline);
     Q_PROPERTY(QString customTime MEMBER m_customTime WRITE setCustomTime);
-    Q_PROPERTY(
-        QString customUptime MEMBER m_customUptime WRITE setCustomUptime);
+    Q_PROPERTY(QString customUptime MEMBER m_customUptime WRITE setCustomUptime);
     Q_PROPERTY(QString tempUnits MEMBER m_tempUnits WRITE setTempUnits);
     Q_PROPERTY(bool translate MEMBER m_translate WRITE setTranslate);
 

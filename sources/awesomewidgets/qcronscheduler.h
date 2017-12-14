@@ -56,8 +56,7 @@ private slots:
 private:
     QCronRunSchedule m_schedule;
     QTimer *m_timer = nullptr;
-    QList<int> parseField(const QString &_value, const int _min,
-                          const int _max) const;
+    QList<int> parseField(const QString &_value, const int _min, const int _max) const;
 };
 
 

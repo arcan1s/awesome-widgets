@@ -32,8 +32,7 @@ class AWDataEngineMapper : public QObject
     Q_OBJECT
 
 public:
-    explicit AWDataEngineMapper(QObject *_parent = nullptr,
-                                AWFormatterHelper *_custom = nullptr);
+    explicit AWDataEngineMapper(QObject *_parent = nullptr, AWFormatterHelper *_custom = nullptr);
     virtual ~AWDataEngineMapper();
     // get methods
     AWKeysAggregator::FormatterType formatter(const QString &_key) const;

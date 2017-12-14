@@ -35,8 +35,7 @@ class AWScriptFormatter : public AWAbstractFormatter
     Q_PROPERTY(QString program READ program)
 
 public:
-    explicit AWScriptFormatter(QWidget *_parent = nullptr,
-                               const QString &_filePath = "");
+    explicit AWScriptFormatter(QWidget *_parent = nullptr, const QString &_filePath = "");
     virtual ~AWScriptFormatter();
     QString convert(const QVariant &_value) const;
     AWScriptFormatter *copy(const QString &_fileName, const int _number);

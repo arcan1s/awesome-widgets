@@ -56,14 +56,10 @@ GraphicalItem::GraphicalItem(QWidget *_parent, const QString &_filePath)
     ui->setupUi(this);
     translate();
 
-    connect(ui->checkBox_custom, SIGNAL(stateChanged(int)), this,
-            SLOT(changeValue(int)));
-    connect(ui->comboBox_type, SIGNAL(currentIndexChanged(int)), this,
-            SLOT(changeCountState(int)));
-    connect(ui->toolButton_activeColor, SIGNAL(clicked()), this,
-            SLOT(changeColor()));
-    connect(ui->toolButton_inactiveColor, SIGNAL(clicked()), this,
-            SLOT(changeColor()));
+    connect(ui->checkBox_custom, SIGNAL(stateChanged(int)), this, SLOT(changeValue(int)));
+    connect(ui->comboBox_type, SIGNAL(currentIndexChanged(int)), this, SLOT(changeCountState(int)));
+    connect(ui->toolButton_activeColor, SIGNAL(clicked()), this, SLOT(changeColor()));
+    connect(ui->toolButton_inactiveColor, SIGNAL(clicked()), this, SLOT(changeColor()));
 }
 
 
@@ -79,8 +75,7 @@ GraphicalItem *GraphicalItem::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    GraphicalItem *item
-        = new GraphicalItem(static_cast<QWidget *>(parent()), _fileName);
+    GraphicalItem *item = new GraphicalItem(static_cast<QWidget *>(parent()), _fileName);
     copyDefaults(item);
     item->setActiveColor(activeColor());
     item->setBar(bar());
@@ -105,8 +100,7 @@ QString GraphicalItem::image(const QVariant &value)
 
     m_scene->clear();
     int scale[2] = {1, 1};
-    float converted
-        = m_helper->getPercents(value.toFloat(), minValue(), maxValue());
+    float converted = m_helper->getPercents(value.toFloat(), minValue(), maxValue());
 
     // paint
     switch (m_type) {
@@ -138,13 +132,12 @@ QString GraphicalItem::image(const QVariant &value)
     }
 
     // convert
-    QPixmap pixmap
-        = m_view->grab().transformed(QTransform().scale(scale[0], scale[1]));
+    QPixmap pixmap = m_view->grab().transformed(QTransform().scale(scale[0], scale[1]));
     QByteArray byteArray;
     QBuffer buffer(&byteArray);
     pixmap.save(&buffer, "PNG");
-    QString url = QString("<img src=\"data:image/png;base64,%1\"/>")
-                      .arg(QString(byteArray.toBase64()));
+    QString url
+        = QString("<img src=\"data:image/png;base64,%1\"/>").arg(QString(byteArray.toBase64()));
 
     return url;
 }
@@ -153,8 +146,7 @@ QString GraphicalItem::image(const QVariant &value)
 void GraphicalItem::initScene()
 {
     m_view->resize(m_width + 5, m_height + 5);
-    m_helper->setParameters(activeColor(), inactiveColor(), itemWidth(),
-                            itemHeight(), count());
+    m_helper->setParameters(activeColor(), inactiveColor(), itemWidth(), itemHeight(), count());
 }
 
 
@@ -426,23 +418,18 @@ void GraphicalItem::readConfiguration()
     setBar(settings.value("X-AW-Value", bar()).toString());
     setMaxValue(settings.value("X-AW-Max", maxValue()).toFloat());
     setMinValue(settings.value("X-AW-Min", minValue()).toFloat());
-    setActiveColor(
-        settings.value("X-AW-ActiveColor", activeColor()).toString());
-    setInactiveColor(
-        settings.value("X-AW-InactiveColor", inactiveColor()).toString());
+    setActiveColor(settings.value("X-AW-ActiveColor", activeColor()).toString());
+    setInactiveColor(settings.value("X-AW-InactiveColor", inactiveColor()).toString());
     setStrType(settings.value("X-AW-Type", strType()).toString());
-    setStrDirection(
-        settings.value("X-AW-Direction", strDirection()).toString());
+    setStrDirection(settings.value("X-AW-Direction", strDirection()).toString());
     setItemHeight(settings.value("X-AW-Height", itemHeight()).toInt());
     setItemWidth(settings.value("X-AW-Width", itemWidth()).toInt());
     // api == 5
     if (apiVersion() < 5) {
         QString prefix;
-        prefix = activeColor().startsWith("/") ? QString("file://%1")
-                                               : QString("color://%1");
+        prefix = activeColor().startsWith("/") ? QString("file://%1") : QString("color://%1");
         m_activeColor = prefix.arg(activeColor());
-        prefix = inactiveColor().startsWith("/") ? QString("file://%1")
-                                                 : QString("color://%1");
+        prefix = inactiveColor().startsWith("/") ? QString("file://%1") : QString("color://%1");
         m_inactiveColor = prefix.arg(inactiveColor());
     }
     settings.endGroup();
@@ -487,8 +474,7 @@ int GraphicalItem::showConfiguration(const QVariant &_args)
     ui->spinBox_width->setValue(itemWidth());
 
     // update UI
-    emit(ui->comboBox_type->currentIndexChanged(
-        ui->comboBox_type->currentIndex()));
+    emit(ui->comboBox_type->currentIndexChanged(ui->comboBox_type->currentIndex()));
     emit(ui->checkBox_custom->stateChanged(ui->checkBox_custom->checkState()));
 
     int ret = exec();
@@ -499,15 +485,13 @@ int GraphicalItem::showConfiguration(const QVariant &_args)
     setApiVersion(AW_GRAPHITEM_API);
     setCount(ui->spinBox_count->value());
     setCustom(ui->checkBox_custom->isChecked());
-    setBar(m_custom ? ui->lineEdit_customValue->text()
-                    : ui->comboBox_value->currentText());
+    setBar(m_custom ? ui->lineEdit_customValue->text() : ui->comboBox_value->currentText());
     setMaxValue(ui->doubleSpinBox_max->value());
     setMinValue(ui->doubleSpinBox_min->value());
     setActiveColor(ui->lineEdit_activeColor->text());
     setInactiveColor(ui->lineEdit_inactiveColor->text());
     setType(static_cast<Type>(ui->comboBox_type->currentIndex()));
-    setDirection(
-        static_cast<Direction>(ui->comboBox_direction->currentIndex()));
+    setDirection(static_cast<Direction>(ui->comboBox_direction->currentIndex()));
     setItemHeight(ui->spinBox_height->value());
     setItemWidth(ui->spinBox_width->value());
 
@@ -557,8 +541,8 @@ void GraphicalItem::changeColor()
     QString outputColor;
     if (state == 0) {
         QColor color = m_helper->stringToColor(lineEdit->text());
-        QColor newColor = QColorDialog::getColor(
-            color, this, i18n("Select color"), QColorDialog::ShowAlphaChannel);
+        QColor newColor = QColorDialog::getColor(color, this, i18n("Select color"),
+                                                 QColorDialog::ShowAlphaChannel);
         if (!newColor.isValid())
             return;
         qCInfo(LOG_LIB) << "Selected color" << newColor;
@@ -573,10 +557,10 @@ void GraphicalItem::changeColor()
     } else if (state == 1) {
         QString path = lineEdit->text();
         QString directory = QFileInfo(path).absolutePath();
-        outputColor = QFileDialog::getOpenFileUrl(
-                          this, i18n("Select path"), directory,
-                          i18n("Images (*.png *.bpm *.jpg);;All files (*.*)"))
-                          .toString();
+        outputColor
+            = QFileDialog::getOpenFileUrl(this, i18n("Select path"), directory,
+                                          i18n("Images (*.png *.bpm *.jpg);;All files (*.*)"))
+                  .toString();
 
         qCInfo(LOG_LIB) << "Selected path" << outputColor;
     }

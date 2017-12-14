@@ -40,18 +40,15 @@ public:
     explicit AWKeys(QObject *_parent = nullptr);
     virtual ~AWKeys();
     Q_INVOKABLE void initDataAggregator(const QVariantMap &_tooltipParams);
-    Q_INVOKABLE void initKeys(const QString &_currentPattern,
-                              const int _interval, const int _limit,
+    Q_INVOKABLE void initKeys(const QString &_currentPattern, const int _interval, const int _limit,
                               const bool _optimize);
-    Q_INVOKABLE void setAggregatorProperty(const QString &_key,
-                                           const QVariant &_value);
+    Q_INVOKABLE void setAggregatorProperty(const QString &_key, const QVariant &_value);
     Q_INVOKABLE void setWrapNewLines(const bool _wrap);
     // additional method to force load keys from Qml UI. Used in some
     // configuration pages
     Q_INVOKABLE void updateCache();
     // keys
-    Q_INVOKABLE QStringList dictKeys(const bool _sorted = false,
-                                     const QString &_regexp = "") const;
+    Q_INVOKABLE QStringList dictKeys(const bool _sorted = false, const QString &_regexp = "") const;
     Q_INVOKABLE QVariantList getHddDevices() const;
     // values
     Q_INVOKABLE QString infoByKey(const QString &_key) const;
@@ -60,8 +57,7 @@ public:
     Q_INVOKABLE void editItem(const QString &_type);
 
 public slots:
-    void dataUpdated(const QString &_sourceName,
-                     const Plasma::DataEngine::Data &_data);
+    void dataUpdated(const QString &_sourceName, const Plasma::DataEngine::Data &_data);
     // dummy method required by DataEngine connections
     void modelChanged(QString, QAbstractItemModel *){};
 

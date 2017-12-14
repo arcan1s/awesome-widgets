@@ -34,31 +34,26 @@ public:
     virtual ~AWConfigHelper();
     Q_INVOKABLE QString configurationDirectory() const;
     Q_INVOKABLE bool dropCache() const;
-    Q_INVOKABLE bool exportConfiguration(QObject *_nativeConfig,
-                                         const QString &_fileName) const;
+    Q_INVOKABLE bool exportConfiguration(QObject *_nativeConfig, const QString &_fileName) const;
     Q_INVOKABLE QVariantMap importConfiguration(const QString &_fileName,
                                                 const bool _importPlasmoid,
                                                 const bool _importExtensions,
                                                 const bool _importAdds) const;
     // dataengine
     Q_INVOKABLE QVariantMap readDataEngineConfiguration() const;
-    Q_INVOKABLE bool
-    writeDataEngineConfiguration(const QVariantMap &_configuration) const;
+    Q_INVOKABLE bool writeDataEngineConfiguration(const QVariantMap &_configuration) const;
 
 private:
     // methods
     void copyConfigs(const QString &_localDir) const;
-    void copyExtensions(const QString &_item, const QString &_type,
-                        QSettings &_settings, const bool _inverse) const;
+    void copyExtensions(const QString &_item, const QString &_type, QSettings &_settings,
+                        const bool _inverse) const;
     void copySettings(QSettings &_from, QSettings &_to) const;
-    void readFile(QSettings &_settings, const QString &_key,
-                  const QString &_fileName) const;
-    void writeFile(QSettings &_settings, const QString &_key,
-                   const QString &_fileName) const;
+    void readFile(QSettings &_settings, const QString &_key, const QString &_fileName) const;
+    void writeFile(QSettings &_settings, const QString &_key, const QString &_fileName) const;
     // properties
     QString m_baseDir;
-    QStringList m_dirs
-        = {"desktops", "quotes", "scripts", "upgrade", "weather", "formatters"};
+    QStringList m_dirs = {"desktops", "quotes", "scripts", "upgrade", "weather", "formatters"};
 };
 
 

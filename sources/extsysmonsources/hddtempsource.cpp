@@ -25,8 +25,7 @@
 #include "awdebug.h"
 
 
-HDDTemperatureSource::HDDTemperatureSource(QObject *_parent,
-                                           const QStringList &_args)
+HDDTemperatureSource::HDDTemperatureSource(QObject *_parent, const QStringList &_args)
     : AbstractExtSysMonSource(_parent, _args)
 {
     Q_ASSERT(_args.count() == 2);
@@ -42,11 +41,8 @@ HDDTemperatureSource::HDDTemperatureSource(QObject *_parent,
         m_processes[device] = new QProcess(nullptr);
         // fucking magic from http://doc.qt.io/qt-5/qprocess.html#finished
         connect(m_processes[device],
-                static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(
-                    &QProcess::finished),
-                [this, device](int, QProcess::ExitStatus) {
-                    return updateValue(device);
-                });
+                static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
+                [this, device](int, QProcess::ExitStatus) { return updateValue(device); });
         m_processes[device]->waitForFinished(0);
     }
 }
@@ -121,15 +117,13 @@ void HDDTemperatureSource::updateValue(const QString &_device)
     qCDebug(LOG_ESS) << "Called with device" << _device;
 
     qCInfo(LOG_ESS) << "Cmd returns" << m_processes[_device]->exitCode();
-    QString qdebug
-        = QTextCodec::codecForMib(106)
-              ->toUnicode(m_processes[_device]->readAllStandardError())
-              .trimmed();
+    QString qdebug = QTextCodec::codecForMib(106)
+                         ->toUnicode(m_processes[_device]->readAllStandardError())
+                         .trimmed();
     qCInfo(LOG_ESS) << "Error" << qdebug;
-    QString qoutput
-        = QTextCodec::codecForMib(106)
-              ->toUnicode(m_processes[_device]->readAllStandardOutput())
-              .trimmed();
+    QString qoutput = QTextCodec::codecForMib(106)
+                          ->toUnicode(m_processes[_device]->readAllStandardOutput())
+                          .trimmed();
     qCInfo(LOG_ESS) << "Output" << qoutput;
 
     // parse
@@ -140,8 +134,7 @@ void HDDTemperatureSource::updateValue(const QString &_device)
                 continue;
             if (str.split(' ', QString::SkipEmptyParts).count() < 9)
                 continue;
-            m_values[_device]
-                = str.split(' ', QString::SkipEmptyParts).at(9).toFloat();
+            m_values[_device] = str.split(' ', QString::SkipEmptyParts).at(9).toFloat();
             break;
         }
     } else {

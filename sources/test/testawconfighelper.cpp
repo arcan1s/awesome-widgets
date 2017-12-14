@@ -56,8 +56,7 @@ void TestAWConfigHelper::test_exportConfiguration()
 
 void TestAWConfigHelper::test_importConfiguration()
 {
-    QVariantMap imported
-        = plugin->importConfiguration(filename, true, true, true);
+    QVariantMap imported = plugin->importConfiguration(filename, true, true, true);
     QVariantMap converted;
     for (auto &key : map.keys())
         converted[key] = map.value(key);

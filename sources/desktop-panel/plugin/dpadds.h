@@ -45,18 +45,15 @@ public:
     virtual ~DPAdds();
     Q_INVOKABLE bool isDebugEnabled() const;
     Q_INVOKABLE int currentDesktop() const;
-    Q_INVOKABLE QStringList dictKeys(const bool _sorted = true,
-                                     const QString &_regexp = "") const;
+    Q_INVOKABLE QStringList dictKeys(const bool _sorted = true, const QString &_regexp = "") const;
     Q_INVOKABLE int numberOfDesktops() const;
     Q_INVOKABLE QString toolTipImage(const int _desktop) const;
-    Q_INVOKABLE QString parsePattern(const QString &_pattern,
-                                     const int _desktop) const;
+    Q_INVOKABLE QString parsePattern(const QString &_pattern, const int _desktop) const;
     // values
     Q_INVOKABLE void setMark(const QString &_newMark);
     Q_INVOKABLE void setToolTipData(const QVariantMap &_tooltipData);
     Q_INVOKABLE QString infoByKey(const QString &_key) const;
-    Q_INVOKABLE QString valueByKey(const QString &_key,
-                                   int _desktop = -1) const;
+    Q_INVOKABLE QString valueByKey(const QString &_key, int _desktop = -1) const;
     // configuration slots
     Q_INVOKABLE QString getAboutText(const QString &_type) const;
     Q_INVOKABLE QVariantMap getFont(const QVariantMap &_defaultFont) const;
@@ -66,8 +63,7 @@ signals:
     void windowListChanged() const;
 
 public slots:
-    Q_INVOKABLE static void sendNotification(const QString &_eventId,
-                                             const QString &_message);
+    Q_INVOKABLE static void sendNotification(const QString &_eventId, const QString &_message);
     Q_INVOKABLE void setCurrentDesktop(const int _desktop) const;
 
 private:

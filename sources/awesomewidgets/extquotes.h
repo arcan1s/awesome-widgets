@@ -23,6 +23,7 @@
 #include "abstractextitem.h"
 
 
+class AbstractQuotesProvider;
 namespace Ui
 {
 class ExtQuotes;
@@ -34,12 +35,7 @@ class ExtQuotes : public AbstractExtItem
     Q_PROPERTY(QString ticker READ ticker WRITE setTicker)
 
 public:
-    const char *YAHOO_QUOTES_URL = "https://query.yahooapis.com/v1/public/yql";
-    const char *YAHOO_QUOTES_QUERY
-        = "select * from yahoo.finance.quotes where symbol='%1'";
-
-    explicit ExtQuotes(QWidget *_parent = nullptr,
-                       const QString &_filePath = "");
+    explicit ExtQuotes(QWidget *_parent = nullptr, const QString &_filePath = "");
     virtual ~ExtQuotes();
     ExtQuotes *copy(const QString &_fileName, const int _number);
     // get methods
@@ -59,11 +55,11 @@ private slots:
     void sendRequest();
 
 private:
+    AbstractQuotesProvider *m_providerObject = nullptr;
     QNetworkAccessManager *m_manager = nullptr;
-    QUrl m_url;
     bool m_isRunning = false;
     Ui::ExtQuotes *ui = nullptr;
-    void initUrl();
+    void initProvider();
     void translate();
     // properties
     QString m_ticker = "EURUSD=X";

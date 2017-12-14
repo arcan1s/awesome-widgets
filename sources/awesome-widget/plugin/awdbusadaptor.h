@@ -44,8 +44,7 @@ public slots:
     qlonglong WhoAmI() const;
     // set methods
     void SetLogLevel(const QString &what, const int level);
-    void SetLogLevel(const QString &what, const QString &level,
-                     const bool enabled);
+    void SetLogLevel(const QString &what, const QString &level, const bool enabled);
 
 private:
     AWKeys *m_plugin = nullptr;

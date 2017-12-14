@@ -25,16 +25,14 @@
 class AWAbstractPairHelper
 {
 public:
-    explicit AWAbstractPairHelper(const QString &_filePath = "",
-                                  const QString &_section = "");
+    explicit AWAbstractPairHelper(const QString &_filePath = "", const QString &_section = "");
     virtual ~AWAbstractPairHelper();
     QStringList keys() const;
     QHash<QString, QString> pairs() const;
     QStringList values() const;
     // read-write methods
     virtual void initItems();
-    virtual bool
-    writeItems(const QHash<QString, QString> &_configuration) const;
+    virtual bool writeItems(const QHash<QString, QString> &_configuration) const;
     virtual bool removeUnusedKeys(const QStringList &_keys) const;
     // configuration related
     virtual void editPairs() = 0;

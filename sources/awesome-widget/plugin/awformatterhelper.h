@@ -24,8 +24,7 @@
 #include "awabstractpairhelper.h"
 
 
-class AWFormatterHelper : public AbstractExtItemAggregator,
-                          public AWAbstractPairHelper
+class AWFormatterHelper : public AbstractExtItemAggregator, public AWAbstractPairHelper
 {
     Q_OBJECT
 
@@ -48,8 +47,7 @@ public slots:
 
 private:
     // methods
-    AWAbstractFormatter::FormatterClass
-    defineFormatterClass(const QString &_stringType) const;
+    AWAbstractFormatter::FormatterClass defineFormatterClass(const QString &_stringType) const;
     void initFormatters();
     QPair<QString, AWAbstractFormatter::FormatterClass>
     readMetadata(const QString &_filePath) const;

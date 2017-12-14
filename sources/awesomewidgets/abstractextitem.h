@@ -40,12 +40,10 @@ class AbstractExtItem : public QDialog
     Q_PROPERTY(QString uniq READ uniq)
 
 public:
-    explicit AbstractExtItem(QWidget *_parent = nullptr,
-                             const QString &_filePath = "");
+    explicit AbstractExtItem(QWidget *_parent = nullptr, const QString &_filePath = "");
     virtual ~AbstractExtItem();
     virtual void bumpApi(const int _newVer);
-    virtual AbstractExtItem *copy(const QString &_fileName, const int _number)
-        = 0;
+    virtual AbstractExtItem *copy(const QString &_fileName, const int _number) = 0;
     virtual void copyDefaults(AbstractExtItem *_other) const;
     virtual void startTimer();
     QString writtableConfig() const;

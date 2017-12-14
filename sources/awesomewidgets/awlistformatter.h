@@ -34,8 +34,7 @@ class AWListFormatter : public AWAbstractFormatter
     Q_PROPERTY(bool sorted READ isSorted WRITE setSorted)
 
 public:
-    explicit AWListFormatter(QWidget *_parent = nullptr,
-                             const QString &_filePath = "");
+    explicit AWListFormatter(QWidget *_parent = nullptr, const QString &_filePath = "");
     virtual ~AWListFormatter();
     QString convert(const QVariant &_value) const;
     AWListFormatter *copy(const QString &_fileName, const int _number);

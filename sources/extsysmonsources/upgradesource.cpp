@@ -45,10 +45,7 @@ QVariant UpgradeSource::data(const QString &_source)
     qCDebug(LOG_ESS) << "Source" << _source;
 
     // there are only one value
-    return m_extUpgrade->itemByTagNumber(index(_source))
-        ->run()
-        .values()
-        .first();
+    return m_extUpgrade->itemByTagNumber(index(_source))->run().values().first();
 }
 
 
@@ -59,9 +56,8 @@ QVariantMap UpgradeSource::initialData(const QString &_source) const
     QVariantMap data;
     data["min"] = "";
     data["max"] = "";
-    data["name"]
-        = QString("Package manager '%1' metadata")
-              .arg(m_extUpgrade->itemByTagNumber(index(_source))->uniq());
+    data["name"] = QString("Package manager '%1' metadata")
+                       .arg(m_extUpgrade->itemByTagNumber(index(_source))->uniq());
     data["type"] = "QString";
     data["units"] = "";
 

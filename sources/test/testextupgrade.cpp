@@ -64,8 +64,7 @@ void TestExtUpgrade::test_run()
     QList<QVariant> arguments = spy.takeFirst();
 
     QCOMPARE(firstValue[extUpgrade->tag("pkgcount")].toInt(), 0);
-    QCOMPARE(arguments.at(0).toHash()[extUpgrade->tag("pkgcount")].toInt(),
-             randomStrings.count());
+    QCOMPARE(arguments.at(0).toHash()[extUpgrade->tag("pkgcount")].toInt(), randomStrings.count());
 }
 
 
@@ -95,8 +94,7 @@ void TestExtUpgrade::test_filter()
     // check values
     QVERIFY(spy.wait(5000));
     QList<QVariant> arguments = spy.takeFirst();
-    QCOMPARE(arguments.at(0).toHash()[extUpgrade->tag("pkgcount")].toInt(),
-             filters.count());
+    QCOMPARE(arguments.at(0).toHash()[extUpgrade->tag("pkgcount")].toInt(), filters.count());
 }
 
 

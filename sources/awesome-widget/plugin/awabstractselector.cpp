@@ -21,8 +21,7 @@
 #include "awdebug.h"
 
 
-AWAbstractSelector::AWAbstractSelector(QWidget *_parent,
-                                       const QPair<bool, bool> &_editable)
+AWAbstractSelector::AWAbstractSelector(QWidget *_parent, const QPair<bool, bool> &_editable)
     : QWidget(_parent)
     , ui(new Ui::AWAbstractSelector)
 {
@@ -32,10 +31,8 @@ AWAbstractSelector::AWAbstractSelector(QWidget *_parent,
     ui->comboBox_key->setEditable(_editable.first);
     ui->comboBox_value->setEditable(_editable.second);
 
-    connect(ui->comboBox_key, SIGNAL(currentIndexChanged(int)), this,
-            SIGNAL(selectionChanged()));
-    connect(ui->comboBox_value, SIGNAL(currentIndexChanged(int)), this,
-            SIGNAL(selectionChanged()));
+    connect(ui->comboBox_key, SIGNAL(currentIndexChanged(int)), this, SIGNAL(selectionChanged()));
+    connect(ui->comboBox_value, SIGNAL(currentIndexChanged(int)), this, SIGNAL(selectionChanged()));
 }
 
 
@@ -56,18 +53,15 @@ QPair<QString, QString> AWAbstractSelector::current() const
 }
 
 
-void AWAbstractSelector::init(const QStringList &_keys,
-                              const QStringList &_values,
+void AWAbstractSelector::init(const QStringList &_keys, const QStringList &_values,
                               const QPair<QString, QString> &_current)
 {
-    if ((!_keys.contains(_current.first))
-        || (!_values.contains(_current.second))) {
-        qCWarning(LOG_AW) << "Invalid current value" << _current
-                          << "not found in default ones";
+    if ((!_keys.contains(_current.first)) || (!_values.contains(_current.second))) {
+        qCWarning(LOG_AW) << "Invalid current value" << _current << "not found in default ones";
         return;
     }
-    qCDebug(LOG_AW) << "Init selector with keys" << _keys << "and values"
-                    << _values << "and current ones are" << _current;
+    qCDebug(LOG_AW) << "Init selector with keys" << _keys << "and values" << _values
+                    << "and current ones are" << _current;
 
     // set data
     ui->comboBox_key->clear();

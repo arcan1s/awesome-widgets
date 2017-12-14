@@ -59,11 +59,11 @@ double AWTestLibrary::randomDouble()
 
 QPair<QString, QString> AWTestLibrary::randomFilenames()
 {
-    QString fileName = QString("%1/").arg(
-        QStandardPaths::writableLocation(QStandardPaths::TempLocation));
-    QString writeFileName = QString("%1/awesomewidgets/tmp/")
-                                .arg(QStandardPaths::writableLocation(
-                                    QStandardPaths::GenericDataLocation));
+    QString fileName
+        = QString("%1/").arg(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
+    QString writeFileName
+        = QString("%1/awesomewidgets/tmp/")
+              .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
 
     QString name = randomString(1, 20);
     fileName += name;

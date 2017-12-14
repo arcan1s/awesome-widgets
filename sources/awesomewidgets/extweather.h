@@ -42,8 +42,7 @@ class ExtWeather : public AbstractExtItem
 public:
     enum class Provider { OWM = 0, Yahoo = 1 };
 
-    explicit ExtWeather(QWidget *_parent = nullptr,
-                        const QString &_filePath = "");
+    explicit ExtWeather(QWidget *_parent = nullptr, const QString &_filePath = "");
     virtual ~ExtWeather();
     ExtWeather *copy(const QString &_fileName, const int _number);
     QString jsonMapFile() const;
@@ -76,8 +75,8 @@ private slots:
     void weatherReplyReceived(QNetworkReply *_reply);
 
 private:
-    QNetworkAccessManager *m_manager = nullptr;
     AbstractWeatherProvider *m_providerObject = nullptr;
+    QNetworkAccessManager *m_manager = nullptr;
     bool m_isRunning = false;
     Ui::ExtWeather *ui = nullptr;
     void initProvider();

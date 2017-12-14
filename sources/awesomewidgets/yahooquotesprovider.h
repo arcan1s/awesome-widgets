@@ -15,23 +15,29 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
+#ifndef YAHOOQUOTESPROVIDER_H
+#define YAHOOQUOTESPROVIDER_H
 
-#ifndef AWKEYCACHE_H
-#define AWKEYCACHE_H
-
-#include <QHash>
-#include <QString>
-#include <QVariant>
+#include "abstractquotesprovider.h"
 
 
-namespace AWKeyCache
+class YahooQuotesProvider : public AbstractQuotesProvider
 {
-bool addKeyToCache(const QString &_type, const QString &_key = "");
-QStringList getRequiredKeys(const QStringList &_keys, const QStringList &_bars,
-                            const QVariantMap &_tooltip, const QStringList &_userKeys,
-                            const QStringList &_allKeys);
-QHash<QString, QStringList> loadKeysFromCache();
+    Q_OBJECT
+
+public:
+    const char *YAHOO_QUOTES_URL = "https://query.yahooapis.com/v1/public/yql";
+    const char *YAHOO_QUOTES_QUERY = "select * from yahoo.finance.quotes where symbol='%1'";
+
+    explicit YahooQuotesProvider(QObject *_parent);
+    virtual ~YahooQuotesProvider();
+    void initUrl(const QString &_asset);
+    QVariantHash parse(const QByteArray &_source, const QVariantHash &_oldValues) const;
+    QUrl url() const;
+
+private:
+    QUrl m_url;
 };
 
 
-#endif /* AWKEYCACHE_H */
+#endif /* YAHOOQUOTESPROVIDER_H */

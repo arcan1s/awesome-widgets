@@ -59,13 +59,11 @@ QString AWListFormatter::convert(const QVariant &_value) const
 }
 
 
-AWListFormatter *AWListFormatter::copy(const QString &_fileName,
-                                       const int _number)
+AWListFormatter *AWListFormatter::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    AWListFormatter *item
-        = new AWListFormatter(static_cast<QWidget *>(parent()), _fileName);
+    AWListFormatter *item = new AWListFormatter(static_cast<QWidget *>(parent()), _fileName);
     AWAbstractFormatter::copyDefaults(item);
     item->setFilter(filter());
     item->setSeparator(separator());
@@ -144,8 +142,7 @@ int AWListFormatter::showConfiguration(const QVariant &_args)
     ui->label_typeValue->setText("List");
     ui->lineEdit_filter->setText(filter());
     ui->lineEdit_separator->setText(separator());
-    ui->checkBox_sorted->setCheckState(isSorted() ? Qt::Checked
-                                                  : Qt::Unchecked);
+    ui->checkBox_sorted->setCheckState(isSorted() ? Qt::Checked : Qt::Unchecked);
 
     int ret = exec();
     if (ret != 1)

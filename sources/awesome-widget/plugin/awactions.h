@@ -43,8 +43,7 @@ public:
     Q_INVOKABLE QVariantMap getFont(const QVariantMap &_defaultFont) const;
 
 public slots:
-    Q_INVOKABLE static void sendNotification(const QString &_eventId,
-                                             const QString &_message);
+    Q_INVOKABLE static void sendNotification(const QString &_eventId, const QString &_message);
 
 private:
     AWUpdateHelper *m_updateHelper = nullptr;

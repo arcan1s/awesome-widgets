@@ -59,13 +59,11 @@ QString AWStringFormatter::convert(const QVariant &_value) const
 }
 
 
-AWStringFormatter *AWStringFormatter::copy(const QString &_fileName,
-                                           const int _number)
+AWStringFormatter *AWStringFormatter::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    AWStringFormatter *item
-        = new AWStringFormatter(static_cast<QWidget *>(parent()), _fileName);
+    AWStringFormatter *item = new AWStringFormatter(static_cast<QWidget *>(parent()), _fileName);
     AWAbstractFormatter::copyDefaults(item);
     item->setCount(count());
     item->setFillChar(fillChar());
@@ -143,8 +141,7 @@ int AWStringFormatter::showConfiguration(const QVariant &_args)
     ui->label_typeValue->setText("String");
     ui->spinBox_width->setValue(count());
     ui->lineEdit_fill->setText(QString(fillChar()));
-    ui->checkBox_forceWidth->setCheckState(forceWidth() ? Qt::Checked
-                                                        : Qt::Unchecked);
+    ui->checkBox_forceWidth->setCheckState(forceWidth() ? Qt::Checked : Qt::Unchecked);
 
     int ret = exec();
     if (ret != 1)

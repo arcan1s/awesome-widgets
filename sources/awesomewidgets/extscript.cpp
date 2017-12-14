@@ -44,8 +44,7 @@ ExtScript::ExtScript(QWidget *_parent, const QString &_filePath)
     m_values[tag("custom")] = "";
 
     m_process = new QProcess(nullptr);
-    connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this,
-            SLOT(updateValue()));
+    connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(updateValue()));
     m_process->waitForFinished(0);
 
     connect(this, SIGNAL(requestDataUpdate()), this, SLOT(startProcess()));
@@ -56,8 +55,7 @@ ExtScript::~ExtScript()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    disconnect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this,
-               SLOT(updateValue()));
+    disconnect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(updateValue()));
     m_process->kill();
     m_process->deleteLater();
     disconnect(this, SIGNAL(requestDataUpdate()), this, SLOT(startProcess()));
@@ -69,8 +67,7 @@ ExtScript *ExtScript::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    ExtScript *item
-        = new ExtScript(static_cast<QWidget *>(parent()), _fileName);
+    ExtScript *item = new ExtScript(static_cast<QWidget *>(parent()), _fileName);
     copyDefaults(item);
     item->setExecutable(executable());
     item->setNumber(_number);
@@ -84,9 +81,9 @@ ExtScript *ExtScript::copy(const QString &_fileName, const int _number)
 
 QString ExtScript::jsonFiltersFile() const
 {
-    QString fileName = QStandardPaths::locate(
-        QStandardPaths::GenericDataLocation,
-        "awesomewidgets/scripts/awesomewidgets-extscripts-filters.json");
+    QString fileName
+        = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
+                                 "awesomewidgets/scripts/awesomewidgets-extscripts-filters.json");
     qCInfo(LOG_LIB) << "Filters file" << fileName;
 
     return fileName;
@@ -157,9 +154,8 @@ void ExtScript::setFilters(const QStringList &_filters)
 {
     qCDebug(LOG_LIB) << "Filters" << _filters;
 
-    std::for_each(
-        _filters.cbegin(), _filters.cend(),
-        [this](const QString &filter) { return updateFilter(filter, true); });
+    std::for_each(_filters.cbegin(), _filters.cend(),
+                  [this](const QString &filter) { return updateFilter(filter, true); });
 }
 
 
@@ -202,8 +198,7 @@ QString ExtScript::applyFilters(QString _value) const
         qCInfo(LOG_LIB) << "Found filter" << filt;
         QVariantMap filter = m_jsonFilters[filt].toMap();
         if (filter.isEmpty()) {
-            qCWarning(LOG_LIB)
-                << "Could not find filter" << _value << "in the json";
+            qCWarning(LOG_LIB) << "Could not find filter" << _value << "in the json";
             continue;
         }
         for (auto &f : filter.keys())
@@ -239,9 +234,8 @@ void ExtScript::readConfiguration()
     setPrefix(settings.value("X-AW-Prefix", prefix()).toString());
     setStrRedirect(settings.value("X-AW-Redirect", strRedirect()).toString());
     // api == 3
-    setFilters(settings.value("X-AW-Filters", filters())
-                   .toString()
-                   .split(',', QString::SkipEmptyParts));
+    setFilters(
+        settings.value("X-AW-Filters", filters()).toString().split(',', QString::SkipEmptyParts));
     settings.endGroup();
 
     bumpApi(AW_EXTSCRIPT_API);
@@ -290,19 +284,18 @@ int ExtScript::showConfiguration(const QVariant &_args)
     ui->label_numberValue->setText(QString("%1").arg(number()));
     ui->lineEdit_command->setText(executable());
     ui->lineEdit_prefix->setText(prefix());
-    ui->checkBox_active->setCheckState(isActive() ? Qt::Checked
-                                                  : Qt::Unchecked);
+    ui->checkBox_active->setCheckState(isActive() ? Qt::Checked : Qt::Unchecked);
     ui->comboBox_redirect->setCurrentIndex(static_cast<int>(redirect()));
     ui->lineEdit_schedule->setText(cron());
     ui->lineEdit_socket->setText(socket());
     ui->spinBox_interval->setValue(interval());
     // filters
-    ui->checkBox_colorFilter->setCheckState(
-        filters().contains("color") ? Qt::Checked : Qt::Unchecked);
-    ui->checkBox_linesFilter->setCheckState(
-        filters().contains("newline") ? Qt::Checked : Qt::Unchecked);
-    ui->checkBox_spaceFilter->setCheckState(
-        filters().contains("space") ? Qt::Checked : Qt::Unchecked);
+    ui->checkBox_colorFilter->setCheckState(filters().contains("color") ? Qt::Checked
+                                                                        : Qt::Unchecked);
+    ui->checkBox_linesFilter->setCheckState(filters().contains("newline") ? Qt::Checked
+                                                                          : Qt::Unchecked);
+    ui->checkBox_spaceFilter->setCheckState(filters().contains("space") ? Qt::Checked
+                                                                        : Qt::Unchecked);
 
     int ret = exec();
     if (ret != 1)
@@ -319,12 +312,9 @@ int ExtScript::showConfiguration(const QVariant &_args)
     setSocket(ui->lineEdit_socket->text());
     setInterval(ui->spinBox_interval->value());
     // filters
-    updateFilter("color",
-                 ui->checkBox_colorFilter->checkState() == Qt::Checked);
-    updateFilter("newline",
-                 ui->checkBox_linesFilter->checkState() == Qt::Checked);
-    updateFilter("space",
-                 ui->checkBox_spaceFilter->checkState() == Qt::Checked);
+    updateFilter("color", ui->checkBox_colorFilter->checkState() == Qt::Checked);
+    updateFilter("newline", ui->checkBox_linesFilter->checkState() == Qt::Checked);
+    updateFilter("space", ui->checkBox_spaceFilter->checkState() == Qt::Checked);
 
     writeConfiguration();
     return ret;
@@ -363,13 +353,11 @@ void ExtScript::startProcess()
 void ExtScript::updateValue()
 {
     qCInfo(LOG_LIB) << "Cmd returns" << m_process->exitCode();
-    QString qdebug = QTextCodec::codecForMib(106)
-                         ->toUnicode(m_process->readAllStandardError())
-                         .trimmed();
+    QString qdebug
+        = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardError()).trimmed();
     qCInfo(LOG_LIB) << "Error" << qdebug;
-    QString qoutput = QTextCodec::codecForMib(106)
-                          ->toUnicode(m_process->readAllStandardOutput())
-                          .trimmed();
+    QString qoutput
+        = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardOutput()).trimmed();
     qCInfo(LOG_LIB) << "Output" << qoutput;
     QString strValue;
 

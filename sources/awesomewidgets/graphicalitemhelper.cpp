@@ -26,8 +26,7 @@
 #include "awdebug.h"
 
 
-GraphicalItemHelper::GraphicalItemHelper(QObject *_parent,
-                                         QGraphicsScene *_scene)
+GraphicalItemHelper::GraphicalItemHelper(QObject *_parent, QGraphicsScene *_scene)
     : QObject(_parent)
     , m_scene(_scene)
 {
@@ -41,14 +40,11 @@ GraphicalItemHelper::~GraphicalItemHelper()
 }
 
 
-void GraphicalItemHelper::setParameters(const QString &_active,
-                                        const QString &_inactive,
-                                        const int _width, const int _height,
-                                        const int _count)
+void GraphicalItemHelper::setParameters(const QString &_active, const QString &_inactive,
+                                        const int _width, const int _height, const int _count)
 {
-    qCDebug(LOG_LIB) << "Use active color" << _active << ", inactive"
-                     << _inactive << ", width" << _width << ", height"
-                     << _height << ", count" << _count;
+    qCDebug(LOG_LIB) << "Use active color" << _active << ", inactive" << _inactive << ", width"
+                     << _width << ", height" << _height << ", count" << _count;
 
     // put images to pens if any otherwise set pen colors
     // Images resize to content here as well
@@ -67,8 +63,7 @@ void GraphicalItemHelper::setParameters(const QString &_active,
     if (isColor(_inactive)) {
         m_inactivePen.setBrush(QBrush(stringToColor(_inactive)));
     } else {
-        qCInfo(LOG_LIB) << "Found path, trying to load Pixmap from"
-                        << _inactive;
+        qCInfo(LOG_LIB) << "Found path, trying to load Pixmap from" << _inactive;
         QPixmap pixmap = QPixmap(QUrl(_inactive).toLocalFile());
         if (pixmap.isNull()) {
             qCWarning(LOG_LIB) << "Invalid pixmap found" << _inactive;
@@ -93,8 +88,7 @@ void GraphicalItemHelper::paintBars(const float _value)
     storeValue(_value);
 
     // default norms
-    float normX
-        = static_cast<float>(m_width) / static_cast<float>(m_values.count());
+    float normX = static_cast<float>(m_width) / static_cast<float>(m_values.count());
     float normY = static_cast<float>(m_height - 1);
     // paint graph
     for (int i = 0; i < m_values.count(); i++) {
@@ -118,13 +112,11 @@ void GraphicalItemHelper::paintCircle(const float _percent)
     // Returns the start angle for an ellipse segment in 16ths of a degree
 
     // inactive
-    circle = m_scene->addEllipse(0.0, 0.0, m_width, m_height, m_inactivePen,
-                                 m_inactivePen.brush());
+    circle = m_scene->addEllipse(0.0, 0.0, m_width, m_height, m_inactivePen, m_inactivePen.brush());
     circle->setSpanAngle(-(1.0f - _percent) * 360.0f * 16.0f);
     circle->setStartAngle(90.0f * 16.0f - _percent * 360.0f * 16.0f);
     // active
-    circle = m_scene->addEllipse(0.0, 0.0, m_width, m_height, m_activePen,
-                                 m_activePen.brush());
+    circle = m_scene->addEllipse(0.0, 0.0, m_width, m_height, m_activePen, m_activePen.brush());
     circle->setSpanAngle(-_percent * 360.0f * 16.0f);
     circle->setStartAngle(90 * 16);
 }
@@ -140,8 +132,7 @@ void GraphicalItemHelper::paintGraph(const float _value)
     storeValue(_value);
 
     // default norms
-    float normX
-        = static_cast<float>(m_width) / static_cast<float>(m_values.count());
+    float normX = static_cast<float>(m_width) / static_cast<float>(m_values.count());
     float normY = static_cast<float>(m_height - 1);
     // paint graph
     for (int i = 0; i < m_values.count() - 1; i++) {
@@ -162,12 +153,11 @@ void GraphicalItemHelper::paintHorizontal(const float _percent)
     m_activePen.setWidth(m_height);
     m_inactivePen.setWidth(m_height);
     // inactive
-    m_scene->addLine(_percent * m_width + 0.5 * m_height, 0.5 * m_height,
-                     m_width + 0.5 * m_height, 0.5 * m_height, m_inactivePen);
+    m_scene->addLine(_percent * m_width + 0.5 * m_height, 0.5 * m_height, m_width + 0.5 * m_height,
+                     0.5 * m_height, m_inactivePen);
     // active
-    m_scene->addLine(-0.5 * m_height, 0.5 * m_height,
-                     _percent * m_width - 0.5 * m_height, 0.5 * m_height,
-                     m_activePen);
+    m_scene->addLine(-0.5 * m_height, 0.5 * m_height, _percent * m_width - 0.5 * m_height,
+                     0.5 * m_height, m_activePen);
 }
 
 
@@ -179,16 +169,14 @@ void GraphicalItemHelper::paintVertical(const float _percent)
     m_inactivePen.setWidth(m_height);
     // inactive
     m_scene->addLine(0.5 * m_width, -0.5 * m_width, 0.5 * m_width,
-                     (1.0 - _percent) * m_height - 0.5 * m_width,
-                     m_inactivePen);
+                     (1.0 - _percent) * m_height - 0.5 * m_width, m_inactivePen);
     // active
-    m_scene->addLine(0.5 * m_width, (1.0 - _percent) * m_height + 0.5 * m_width,
-                     0.5 * m_width, m_height + 0.5 * m_width, m_activePen);
+    m_scene->addLine(0.5 * m_width, (1.0 - _percent) * m_height + 0.5 * m_width, 0.5 * m_width,
+                     m_height + 0.5 * m_width, m_activePen);
 }
 
 
-float GraphicalItemHelper::getPercents(const float _value, const float _min,
-                                       const float _max)
+float GraphicalItemHelper::getPercents(const float _value, const float _min, const float _max)
 {
     qCDebug(LOG_LIB) << "Get percent value from" << _value;
     // newest Qt crashes here if value is nan

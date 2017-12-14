@@ -54,8 +54,7 @@ QStringList BatterySource::getSources()
 
     m_batteriesCount
         = QDir(m_acpiPath)
-              .entryList(QStringList({"BAT*"}),
-                         QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name)
+              .entryList(QStringList({"BAT*"}), QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name)
               .count();
     qCInfo(LOG_ESS) << "Init batteries count as" << m_batteriesCount;
 
@@ -165,16 +164,14 @@ void BatterySource::run()
     // adaptor
     QFile acFile(QString("%1/AC/online").arg(m_acpiPath));
     if (acFile.open(QIODevice::ReadOnly | QIODevice::Text))
-        m_values["battery/ac"]
-            = (QString(acFile.readLine()).trimmed().toInt() == 1);
+        m_values["battery/ac"] = (QString(acFile.readLine()).trimmed().toInt() == 1);
     acFile.close();
 
     // batteries
     float currentLevel = 0.0, fullLevel = 0.0;
     for (int i = 0; i < m_batteriesCount; i++) {
         // current level
-        QFile currentLevelFile(
-            QString("%1/BAT%2/energy_now").arg(m_acpiPath).arg(i));
+        QFile currentLevelFile(QString("%1/BAT%2/energy_now").arg(m_acpiPath).arg(i));
         if (currentLevelFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
             auto value = QString(currentLevelFile.readLine()).toInt();
             m_trend[i + 1].append(value);
@@ -182,16 +179,15 @@ void BatterySource::run()
         }
         currentLevelFile.close();
         // total
-        QFile fullLevelFile(
-            QString("%1/BAT%2/energy_full").arg(m_acpiPath).arg(i));
+        QFile fullLevelFile(QString("%1/BAT%2/energy_full").arg(m_acpiPath).arg(i));
         if (fullLevelFile.open(QIODevice::ReadOnly | QIODevice::Text))
             m_values[QString("battery/battotal%1").arg(i)]
                 = QString(fullLevelFile.readLine()).toInt();
         fullLevelFile.close();
 
-        m_values[QString("battery/bat%1").arg(i)] = static_cast<int>(
-            100 * m_values[QString("battery/batnow%1").arg(i)].toFloat()
-            / m_values[QString("battery/battotal%1").arg(i)].toFloat());
+        m_values[QString("battery/bat%1").arg(i)]
+            = static_cast<int>(100 * m_values[QString("battery/batnow%1").arg(i)].toFloat()
+                               / m_values[QString("battery/battotal%1").arg(i)].toFloat());
         // accumulate
         currentLevel += m_values[QString("battery/batnow%1").arg(i)].toFloat();
         fullLevel += m_values[QString("battery/battotal%1").arg(i)].toFloat();
@@ -241,23 +237,20 @@ void BatterySource::calculateRates()
 
     // check time interval
     auto now = QDateTime::currentDateTimeUtc();
-    auto interval
-        = (now.toMSecsSinceEpoch() - m_timestamp.toMSecsSinceEpoch()) / 1000.0f;
+    auto interval = (now.toMSecsSinceEpoch() - m_timestamp.toMSecsSinceEpoch()) / 1000.0f;
     m_timestamp.swap(now);
 
     for (int i = 0; i < m_batteriesCount; i++) {
         auto approx = approximate(m_trend[i + 1]);
         m_values[QString("battery/batrate%1").arg(i)] = approx / interval;
         m_values[QString("battery/batleft%1").arg(i)]
-            = interval * m_values[QString("battery/batnow%1").arg(i)].toFloat()
-              / approx;
+            = interval * m_values[QString("battery/batnow%1").arg(i)].toFloat() / approx;
     }
 
     // total
     auto approx = approximate(m_trend[0]);
     m_values["battery/batrate"] = approx / interval;
-    m_values["battery/batleft"]
-        = interval * m_values["battery/batnow"].toFloat() / approx;
+    m_values["battery/batleft"] = interval * m_values["battery/batnow"].toFloat() / approx;
 
     // old data cleanup
     for (auto &trend : m_trend.keys()) {

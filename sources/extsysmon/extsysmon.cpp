@@ -86,26 +86,22 @@ bool ExtendedSysMon::updateSourceEvent(const QString &_source)
 
 void ExtendedSysMon::readConfiguration()
 {
-    QString fileName = QStandardPaths::locate(
-        QStandardPaths::ConfigLocation, "plasma-dataengine-extsysmon.conf");
+    QString fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation,
+                                              "plasma-dataengine-extsysmon.conf");
     qCInfo(LOG_ESM) << "Configuration file" << fileName;
     QSettings settings(fileName, QSettings::IniFormat);
     QHash<QString, QString> rawConfig;
 
     settings.beginGroup("Configuration");
-    rawConfig["ACPIPATH"]
-        = settings.value("ACPIPATH", "/sys/class/power_supply/").toString();
+    rawConfig["ACPIPATH"] = settings.value("ACPIPATH", "/sys/class/power_supply/").toString();
     rawConfig["GPUDEV"] = settings.value("GPUDEV", "auto").toString();
     rawConfig["HDDDEV"] = settings.value("HDDDEV", "all").toString();
-    rawConfig["HDDTEMPCMD"]
-        = settings.value("HDDTEMPCMD", "sudo smartctl -a").toString();
-    rawConfig["MPDADDRESS"]
-        = settings.value("MPDADDRESS", "localhost").toString();
+    rawConfig["HDDTEMPCMD"] = settings.value("HDDTEMPCMD", "sudo smartctl -a").toString();
+    rawConfig["MPDADDRESS"] = settings.value("MPDADDRESS", "localhost").toString();
     rawConfig["MPDPORT"] = settings.value("MPDPORT", "6600").toString();
     rawConfig["MPRIS"] = settings.value("MPRIS", "auto").toString();
     rawConfig["PLAYER"] = settings.value("PLAYER", "mpris").toString();
-    rawConfig["PLAYERSYMBOLS"]
-        = settings.value("PLAYERSYMBOLS", "10").toString();
+    rawConfig["PLAYERSYMBOLS"] = settings.value("PLAYERSYMBOLS", "10").toString();
     settings.endGroup();
 
     m_configuration = updateConfiguration(rawConfig);
@@ -122,8 +118,7 @@ ExtendedSysMon::updateConfiguration(QHash<QString, QString> _rawConfig) const
         ;
     else if (_rawConfig["GPUDEV"] == "auto")
         _rawConfig["GPUDEV"] = GPULoadSource::autoGpu();
-    else if ((_rawConfig["GPUDEV"] != "ati")
-             && (_rawConfig["GPUDEV"] != "nvidia"))
+    else if ((_rawConfig["GPUDEV"] != "ati") && (_rawConfig["GPUDEV"] != "nvidia"))
         _rawConfig["GPUDEV"] = GPULoadSource::autoGpu();
     // hdddev
     QStringList allHddDevices = HDDTemperatureSource::allHdd();
@@ -132,8 +127,7 @@ ExtendedSysMon::updateConfiguration(QHash<QString, QString> _rawConfig) const
     } else if (_rawConfig["HDDDEV"] == "disable") {
         _rawConfig["HDDDEV"] = "";
     } else {
-        QStringList deviceList
-            = _rawConfig["HDDDEV"].split(',', QString::SkipEmptyParts);
+        QStringList deviceList = _rawConfig["HDDDEV"].split(',', QString::SkipEmptyParts);
         QStringList devices;
         QRegExp diskRegexp = QRegExp("^/dev/[hms]d[a-z]$");
         for (auto &device : deviceList)
@@ -158,7 +152,6 @@ ExtendedSysMon::updateConfiguration(QHash<QString, QString> _rawConfig) const
 }
 
 
-K_EXPORT_PLASMA_DATAENGINE_WITH_JSON(extsysmon, ExtendedSysMon,
-                                     "plasma-dataengine-extsysmon.json")
+K_EXPORT_PLASMA_DATAENGINE_WITH_JSON(extsysmon, ExtendedSysMon, "plasma-dataengine-extsysmon.json")
 
 #include "extsysmon.moc"

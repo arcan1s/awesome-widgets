@@ -30,12 +30,11 @@ class GraphicalItemHelper : public QObject
     Q_OBJECT
 
 public:
-    explicit GraphicalItemHelper(QObject *_parent = nullptr,
-                                 QGraphicsScene *_scene = nullptr);
+    explicit GraphicalItemHelper(QObject *_parent = nullptr, QGraphicsScene *_scene = nullptr);
     virtual ~GraphicalItemHelper();
     // parameters
-    void setParameters(const QString &_active, const QString &_inactive,
-                       const int _width, const int _height, const int _count);
+    void setParameters(const QString &_active, const QString &_inactive, const int _width,
+                       const int _height, const int _count);
     // paint methods
     void paintBars(const float _value);
     void paintCircle(const float _percent);

@@ -37,9 +37,7 @@ void TestAWFloatFormatter::cleanupTestCase()
 }
 
 
-void TestAWFloatFormatter::test_values()
-{
-}
+void TestAWFloatFormatter::test_values() {}
 
 
 void TestAWFloatFormatter::test_count()
@@ -140,8 +138,7 @@ void TestAWFloatFormatter::test_multiplier()
 
     // test
     double value = AWTestLibrary::randomDouble();
-    QCOMPARE(formatter->convert(value),
-             QString::number(value * multiplier, 'f', 6));
+    QCOMPARE(formatter->convert(value), QString::number(value * multiplier, 'f', 6));
 
     // reset
     formatter->setMultiplier(1.0);
@@ -157,8 +154,7 @@ void TestAWFloatFormatter::test_summand()
 
     // test
     double value = AWTestLibrary::randomDouble();
-    QCOMPARE(formatter->convert(value),
-             QString::number(value + summand, 'f', 6));
+    QCOMPARE(formatter->convert(value), QString::number(value + summand, 'f', 6));
 
     // reset
     formatter->setSummand(1.0);

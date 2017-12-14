@@ -23,8 +23,7 @@
 #include "awformatterhelper.h"
 
 
-AWDataEngineMapper::AWDataEngineMapper(QObject *_parent,
-                                       AWFormatterHelper *_custom)
+AWDataEngineMapper::AWDataEngineMapper(QObject *_parent, AWFormatterHelper *_custom)
     : QObject(_parent)
     , m_customFormatters(_custom)
 {
@@ -59,8 +58,7 @@ AWDataEngineMapper::~AWDataEngineMapper()
 }
 
 
-AWKeysAggregator::FormatterType
-AWDataEngineMapper::formatter(const QString &_key) const
+AWKeysAggregator::FormatterType AWDataEngineMapper::formatter(const QString &_key) const
 {
     qCDebug(LOG_AW) << "Get formatter for key" << _key;
 
@@ -78,8 +76,7 @@ QStringList AWDataEngineMapper::keysFromSource(const QString &_source) const
 
 // HACK units required to define should the value be calculated as temperature
 // or fan data
-QStringList AWDataEngineMapper::registerSource(const QString &_source,
-                                               const QString &_units,
+QStringList AWDataEngineMapper::registerSource(const QString &_source, const QString &_units,
                                                const QStringList &_keys)
 {
     qCDebug(LOG_AW) << "Source" << _source << "with units" << _units;
@@ -92,10 +89,8 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source,
     QRegExp mountFillRegExp = QRegExp("partitions/.*/filllevel");
     QRegExp mountFreeRegExp = QRegExp("partitions/.*/freespace");
     QRegExp mountUsedRegExp = QRegExp("partitions/.*/usedspace");
-    QRegExp netRegExp
-        = QRegExp("network/interfaces/.*/(receiver|transmitter)/data$");
-    QRegExp netTotalRegExp
-        = QRegExp("network/interfaces/.*/(receiver|transmitter)/dataTotal$");
+    QRegExp netRegExp = QRegExp("network/interfaces/.*/(receiver|transmitter)/data$");
+    QRegExp netTotalRegExp = QRegExp("network/interfaces/.*/(receiver|transmitter)/dataTotal$");
 
     if (_source == "battery/ac") {
         // AC
@@ -106,9 +101,8 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source,
         QString key = _source;
         key.remove("battery/");
         m_map[_source] = key;
-        m_formatter[key] = _source.contains("rate")
-                               ? AWKeysAggregator::FormatterType::Float
-                               : AWKeysAggregator::FormatterType::IntegerThree;
+        m_formatter[key] = _source.contains("rate") ? AWKeysAggregator::FormatterType::Float
+                                                    : AWKeysAggregator::FormatterType::IntegerThree;
     } else if (_source == "cpu/system/TotalLoad") {
         // cpu
         m_map[_source] = "cpu";
@@ -338,12 +332,10 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source,
         // free swap
         // mb
         m_map[_source] = "swapfreemb";
-        m_formatter["swapfreemb"]
-            = AWKeysAggregator::FormatterType::MemMBFormat;
+        m_formatter["swapfreemb"] = AWKeysAggregator::FormatterType::MemMBFormat;
         // gb
         m_map.insertMulti(_source, "swapfreegb");
-        m_formatter["swapfreegb"]
-            = AWKeysAggregator::FormatterType::MemGBFormat;
+        m_formatter["swapfreegb"] = AWKeysAggregator::FormatterType::MemGBFormat;
     } else if (_source == "mem/swap/used") {
         // used swap
         // mb
@@ -361,9 +353,8 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source,
         if (index > -1) {
             QString key = QString("temp%1").arg(index);
             m_map[_source] = key;
-            m_formatter[key]
-                = _units == "°C" ? AWKeysAggregator::FormatterType::Temperature
-                                 : AWKeysAggregator::FormatterType::Integer;
+            m_formatter[key] = _units == "°C" ? AWKeysAggregator::FormatterType::Temperature
+                                              : AWKeysAggregator::FormatterType::Integer;
         }
     } else if (_source == "Local") {
         // time
@@ -417,8 +408,7 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source,
     QStringList customFormattersKeys;
     if (m_customFormatters)
         customFormattersKeys = m_customFormatters->definedFormatters();
-    qCInfo(LOG_AW) << "Looking for formatters" << foundKeys << "in"
-                   << customFormattersKeys;
+    qCInfo(LOG_AW) << "Looking for formatters" << foundKeys << "in" << customFormattersKeys;
     for (auto &key : foundKeys) {
         if (!customFormattersKeys.contains(key))
             continue;
@@ -427,11 +417,9 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source,
 
     // drop key from dictionary if no one user requested key required it
     qCInfo(LOG_AW) << "Looking for keys" << foundKeys << "in" << _keys;
-    bool required
-        = _keys.isEmpty() || std::any_of(foundKeys.cbegin(), foundKeys.cend(),
-                                         [&_keys](const QString &key) {
-                                             return _keys.contains(key);
-                                         });
+    bool required = _keys.isEmpty()
+                    || std::any_of(foundKeys.cbegin(), foundKeys.cend(),
+                                   [&_keys](const QString &key) { return _keys.contains(key); });
     if (!required) {
         m_map.remove(_source);
         for (auto &key : foundKeys)

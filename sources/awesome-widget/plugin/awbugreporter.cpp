@@ -49,22 +49,18 @@ void AWBugReporter::doConnect()
 }
 
 
-QString AWBugReporter::generateText(const QString &_description,
-                                    const QString &_reproduce,
-                                    const QString &_expected,
-                                    const QString &_logs) const
+QString AWBugReporter::generateText(const QString &_description, const QString &_reproduce,
+                                    const QString &_expected, const QString &_logs) const
 {
     // do not log _logs here, it may have quite large size
-    qCDebug(LOG_AW) << "Generate text with description" << _description
-                    << "steps" << _reproduce << "and expected result"
-                    << _expected;
+    qCDebug(LOG_AW) << "Generate text with description" << _description << "steps" << _reproduce
+                    << "and expected result" << _expected;
 
     QString output;
     output += QString("**Description**\n\n%1\n\n").arg(_description);
     output += QString("**Step to _reproduce**\n\n%1\n\n").arg(_reproduce);
     output += QString("**Expected result**\n\n%1\n\n").arg(_expected);
-    output += QString("**Version**\n\n%1\n\n")
-                  .arg(AWDebug::getBuildData().join(QString("\n")));
+    output += QString("**Version**\n\n%1\n\n").arg(AWDebug::getBuildData().join(QString("\n")));
     // append _logs
     output += QString("**Logs**\n\n%1").arg(_logs);
 
@@ -74,8 +70,7 @@ QString AWBugReporter::generateText(const QString &_description,
 
 void AWBugReporter::sendBugReport(const QString &_title, const QString &_body)
 {
-    qCDebug(LOG_AW) << "Send bug report with title" << _title << "and body"
-                    << _body;
+    qCDebug(LOG_AW) << "Send bug report with title" << _title << "and body" << _body;
 
     QNetworkAccessManager *manager = new QNetworkAccessManager(nullptr);
     connect(manager, SIGNAL(finished(QNetworkReply *)), this,
@@ -90,10 +85,8 @@ void AWBugReporter::sendBugReport(const QString &_title, const QString &_body)
     payload["body"] = _body;
     payload["labels"] = QStringList() << "from application";
     // convert to QByteArray to send request
-    QByteArray data
-        = QJsonDocument::fromVariant(payload).toJson(QJsonDocument::Compact);
-    qCInfo(LOG_AW) << "Send request with _body" << data.data() << "and size"
-                   << data.size();
+    QByteArray data = QJsonDocument::fromVariant(payload).toJson(QJsonDocument::Compact);
+    qCInfo(LOG_AW) << "Send request with _body" << data.data() << "and size" << data.size();
 
     manager->post(request, data);
 }
@@ -102,8 +95,8 @@ void AWBugReporter::sendBugReport(const QString &_title, const QString &_body)
 void AWBugReporter::issueReplyRecieved(QNetworkReply *_reply)
 {
     if (_reply->error() != QNetworkReply::NoError) {
-        qCWarning(LOG_AW) << "An error occurs" << _reply->error()
-                          << "with message" << _reply->errorString();
+        qCWarning(LOG_AW) << "An error occurs" << _reply->error() << "with message"
+                          << _reply->errorString();
         return emit(replyReceived(0, ""));
     }
 
@@ -126,8 +119,7 @@ void AWBugReporter::issueReplyRecieved(QNetworkReply *_reply)
 
 void AWBugReporter::showInformation(const int _number, const QString &_url)
 {
-    qCDebug(LOG_AW) << "Created issue with number" << _number << "and url"
-                    << _url;
+    qCDebug(LOG_AW) << "Created issue with number" << _number << "and url" << _url;
 
     // cache url first
     m_lastBugUrl = _url;
@@ -146,8 +138,7 @@ void AWBugReporter::showInformation(const int _number, const QString &_url)
 
 void AWBugReporter::userReplyOnBugReport(QAbstractButton *_button)
 {
-    QMessageBox::ButtonRole ret
-        = static_cast<QMessageBox *>(sender())->buttonRole(_button);
+    QMessageBox::ButtonRole ret = static_cast<QMessageBox *>(sender())->buttonRole(_button);
     qCInfo(LOG_AW) << "User select" << ret;
 
     switch (ret) {

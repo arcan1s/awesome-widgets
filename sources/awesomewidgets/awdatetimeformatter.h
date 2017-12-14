@@ -32,12 +32,10 @@ class AWDateTimeFormatter : public AWAbstractFormatter
 {
     Q_OBJECT
     Q_PROPERTY(QString format READ format WRITE setFormat)
-    Q_PROPERTY(
-        bool translateString READ translateString WRITE setTranslateString)
+    Q_PROPERTY(bool translateString READ translateString WRITE setTranslateString)
 
 public:
-    explicit AWDateTimeFormatter(QWidget *_parent = nullptr,
-                                 const QString &_filePath = "");
+    explicit AWDateTimeFormatter(QWidget *_parent = nullptr, const QString &_filePath = "");
     virtual ~AWDateTimeFormatter();
     QString convert(const QVariant &_value) const;
     AWDateTimeFormatter *copy(const QString &_fileName, const int _number);

@@ -34,8 +34,7 @@
 #include "weathersource.h"
 
 
-ExtSysMonAggregator::ExtSysMonAggregator(QObject *_parent,
-                                         const QHash<QString, QString> &_config)
+ExtSysMonAggregator::ExtSysMonAggregator(QObject *_parent, const QHash<QString, QString> &_config)
     : QObject(_parent)
 {
     qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
@@ -72,8 +71,7 @@ QVariantMap ExtSysMonAggregator::initialData(const QString &_source) const
 {
     qCDebug(LOG_ESM) << "Source" << _source;
 
-    return hasSource(_source) ? m_map[_source]->initialData(_source)
-                              : QVariantMap();
+    return hasSource(_source) ? m_map[_source]->initialData(_source) : QVariantMap();
 }
 
 
@@ -97,8 +95,7 @@ void ExtSysMonAggregator::init(const QHash<QString, QString> &_config)
     for (auto &source : customItem->sources())
         m_map[source] = customItem;
     // desktop
-    AbstractExtSysMonSource *desktopItem
-        = new DesktopSource(this, QStringList());
+    AbstractExtSysMonSource *desktopItem = new DesktopSource(this, QStringList());
     for (auto &source : desktopItem->sources())
         m_map[source] = desktopItem;
     // gpu load
@@ -112,30 +109,26 @@ void ExtSysMonAggregator::init(const QHash<QString, QString> &_config)
     for (auto &source : gpuTempItem->sources())
         m_map[source] = gpuTempItem;
     // hdd temperature
-    AbstractExtSysMonSource *hddTempItem = new HDDTemperatureSource(
-        this, QStringList({_config["HDDDEV"], _config["HDDTEMPCMD"]}));
+    AbstractExtSysMonSource *hddTempItem
+        = new HDDTemperatureSource(this, QStringList({_config["HDDDEV"], _config["HDDTEMPCMD"]}));
     for (auto &source : hddTempItem->sources())
         m_map[source] = hddTempItem;
     // network
-    AbstractExtSysMonSource *networkItem
-        = new NetworkSource(this, QStringList());
+    AbstractExtSysMonSource *networkItem = new NetworkSource(this, QStringList());
     for (auto &source : networkItem->sources())
         m_map[source] = networkItem;
     // player
     AbstractExtSysMonSource *playerItem = new PlayerSource(
-        this, QStringList({_config["PLAYER"], _config["MPDADDRESS"],
-                           _config["MPDPORT"], _config["MPRIS"],
-                           _config["PLAYERSYMBOLS"]}));
+        this, QStringList({_config["PLAYER"], _config["MPDADDRESS"], _config["MPDPORT"],
+                           _config["MPRIS"], _config["PLAYERSYMBOLS"]}));
     for (auto &source : playerItem->sources())
         m_map[source] = playerItem;
     // processes
-    AbstractExtSysMonSource *processesItem
-        = new ProcessesSource(this, QStringList());
+    AbstractExtSysMonSource *processesItem = new ProcessesSource(this, QStringList());
     for (auto &source : processesItem->sources())
         m_map[source] = processesItem;
     // network request
-    AbstractExtSysMonSource *requestItem
-        = new RequestSource(this, QStringList());
+    AbstractExtSysMonSource *requestItem = new RequestSource(this, QStringList());
     for (auto &source : requestItem->sources())
         m_map[source] = requestItem;
     // quotes
@@ -143,13 +136,11 @@ void ExtSysMonAggregator::init(const QHash<QString, QString> &_config)
     for (auto &source : quotesItem->sources())
         m_map[source] = quotesItem;
     // upgrade
-    AbstractExtSysMonSource *upgradeItem
-        = new UpgradeSource(this, QStringList());
+    AbstractExtSysMonSource *upgradeItem = new UpgradeSource(this, QStringList());
     for (auto &source : upgradeItem->sources())
         m_map[source] = upgradeItem;
     // weather
-    AbstractExtSysMonSource *weatherItem
-        = new WeatherSource(this, QStringList());
+    AbstractExtSysMonSource *weatherItem = new WeatherSource(this, QStringList());
     for (auto &source : weatherItem->sources())
         m_map[source] = weatherItem;
 #ifdef BUILD_LOAD

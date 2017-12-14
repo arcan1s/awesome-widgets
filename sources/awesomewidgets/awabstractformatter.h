@@ -28,18 +28,9 @@ class AWAbstractFormatter : public AbstractExtItem
     Q_PROPERTY(QString strType READ strType WRITE setStrType)
 
 public:
-    enum class FormatterClass {
-        DateTime,
-        Float,
-        List,
-        Script,
-        String,
-        NoFormat,
-        Json
-    };
+    enum class FormatterClass { DateTime, Float, List, Script, String, NoFormat, Json };
 
-    explicit AWAbstractFormatter(QWidget *_parent = nullptr,
-                                 const QString &_filePath = "");
+    explicit AWAbstractFormatter(QWidget *_parent = nullptr, const QString &_filePath = "");
     virtual ~AWAbstractFormatter();
     virtual QString convert(const QVariant &_value) const = 0;
     void copyDefaults(AbstractExtItem *_other) const;

@@ -23,8 +23,8 @@
 #include "awdebug.h"
 
 
-OWMWeatherProvider::OWMWeatherProvider(QObject *_parent, const int _number)
-    : AbstractWeatherProvider(_parent, _number)
+OWMWeatherProvider::OWMWeatherProvider(QObject *_parent)
+    : AbstractWeatherProvider(_parent)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 }
@@ -36,11 +36,9 @@ OWMWeatherProvider::~OWMWeatherProvider()
 }
 
 
-void OWMWeatherProvider::initUrl(const QString &_city, const QString &_country,
-                                 const int ts)
+void OWMWeatherProvider::initUrl(const QString &_city, const QString &_country, const int ts)
 {
-    qCDebug(LOG_LIB) << "Init query for" << _city << _country << "with ts"
-                     << ts;
+    qCDebug(LOG_LIB) << "Init query for" << _city << _country << "with ts" << ts;
 
     m_ts = ts;
 
@@ -60,8 +58,7 @@ QVariantHash OWMWeatherProvider::parse(const QVariantMap &_json) const
     qCDebug(LOG_LIB) << "Parse json" << _json;
 
     if (_json["cod"].toInt() != 200) {
-        qCWarning(LOG_LIB) << "Invalid OpenWeatherMap return code"
-                           << _json["cod"].toInt();
+        qCWarning(LOG_LIB) << "Invalid OpenWeatherMap return code" << _json["cod"].toInt();
         return QVariantHash();
     }
 
@@ -91,23 +88,19 @@ QVariantHash OWMWeatherProvider::parseSingleJson(const QVariantMap &_json) const
     QVariantList weather = _json["weather"].toList();
     if (!weather.isEmpty()) {
         int id = weather.first().toMap()["id"].toInt();
-        output[QString("weatherId%1").arg(number())] = id;
+        output[tag("weatherId")] = id;
     }
 
     // main data
     QVariantMap mainWeather = _json["main"].toMap();
     if (!weather.isEmpty()) {
-        output[QString("humidity%1").arg(number())]
-            = mainWeather["humidity"].toFloat();
-        output[QString("pressure%1").arg(number())]
-            = mainWeather["pressure"].toFloat();
-        output[QString("temperature%1").arg(number())]
-            = mainWeather["temp"].toFloat();
+        output[tag("humidity")] = mainWeather["humidity"].toFloat();
+        output[tag("pressure")] = mainWeather["pressure"].toFloat();
+        output[tag("temperature")] = mainWeather["temp"].toFloat();
     }
 
     // timestamp
-    output[QString("timestamp%1").arg(number())]
-        = QDateTime::fromTime_t(_json["dt"].toUInt()).toUTC();
+    output[tag("timestamp")] = QDateTime::fromTime_t(_json["dt"].toUInt()).toUTC();
 
     return output;
 }

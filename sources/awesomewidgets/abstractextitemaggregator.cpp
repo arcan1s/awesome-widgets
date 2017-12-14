@@ -25,8 +25,7 @@
 #include <QPushButton>
 
 
-AbstractExtItemAggregator::AbstractExtItemAggregator(QWidget *_parent,
-                                                     const QString &_type)
+AbstractExtItemAggregator::AbstractExtItemAggregator(QWidget *_parent, const QString &_type)
     : QDialog(_parent)
     , ui(new Ui::AbstractExtItemAggregator)
     , m_type(_type)
@@ -34,21 +33,18 @@ AbstractExtItemAggregator::AbstractExtItemAggregator(QWidget *_parent,
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     // create directory at $HOME
-    QString localDir = QString("%1/awesomewidgets/%2")
-                           .arg(QStandardPaths::writableLocation(
-                               QStandardPaths::GenericDataLocation))
-                           .arg(type());
+    QString localDir
+        = QString("%1/awesomewidgets/%2")
+              .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation))
+              .arg(type());
     QDir localDirectory;
     if (localDirectory.mkpath(localDir))
         qCInfo(LOG_LIB) << "Created directory" << localDir;
 
     ui->setupUi(this);
-    copyButton
-        = ui->buttonBox->addButton(i18n("Copy"), QDialogButtonBox::ActionRole);
-    createButton = ui->buttonBox->addButton(i18n("Create"),
-                                            QDialogButtonBox::ActionRole);
-    deleteButton = ui->buttonBox->addButton(i18n("Remove"),
-                                            QDialogButtonBox::ActionRole);
+    copyButton = ui->buttonBox->addButton(i18n("Copy"), QDialogButtonBox::ActionRole);
+    createButton = ui->buttonBox->addButton(i18n("Create"), QDialogButtonBox::ActionRole);
+    deleteButton = ui->buttonBox->addButton(i18n("Remove"), QDialogButtonBox::ActionRole);
 
     connect(ui->buttonBox, SIGNAL(clicked(QAbstractButton *)), this,
             SLOT(editItemButtonPressed(QAbstractButton *)));
@@ -72,8 +68,7 @@ void AbstractExtItemAggregator::copyItem()
     QString fileName = getName();
     int number = uniqNumber();
     QString dir = QString("%1/awesomewidgets/%2")
-                      .arg(QStandardPaths::writableLocation(
-                          QStandardPaths::GenericDataLocation))
+                      .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation))
                       .arg(m_type);
     if ((!source) || (fileName.isEmpty())) {
         qCWarning(LOG_LIB) << "Nothing to copy";
@@ -122,9 +117,8 @@ void AbstractExtItemAggregator::editItem()
 QString AbstractExtItemAggregator::getName()
 {
     bool ok;
-    QString name
-        = QInputDialog::getText(this, i18n("Enter file name"),
-                                i18n("File name"), QLineEdit::Normal, "", &ok);
+    QString name = QInputDialog::getText(this, i18n("Enter file name"), i18n("File name"),
+                                         QLineEdit::Normal, "", &ok);
     if ((!ok) || (name.isEmpty()))
         return "";
     if (!name.endsWith(".desktop"))
@@ -149,8 +143,7 @@ AbstractExtItem *AbstractExtItemAggregator::itemFromWidget()
         break;
     }
     if (!found)
-        qCWarning(LOG_LIB) << "Could not find item by name"
-                           << widgetItem->text();
+        qCWarning(LOG_LIB) << "Could not find item by name" << widgetItem->text();
 
     return found;
 }
@@ -193,10 +186,9 @@ QVariant AbstractExtItemAggregator::configArgs() const
 
 QStringList AbstractExtItemAggregator::directories() const
 {
-    auto dirs
-        = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
-                                    QString("awesomewidgets/%1").arg(type()),
-                                    QStandardPaths::LocateDirectory);
+    auto dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
+                                          QString("awesomewidgets/%1").arg(type()),
+                                          QStandardPaths::LocateDirectory);
 
     return dirs;
 }

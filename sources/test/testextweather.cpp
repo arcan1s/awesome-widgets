@@ -88,8 +88,7 @@ void TestExtWeather::test_image()
     // check values
     QVERIFY(spy.wait(5000));
     QVariantHash arguments = spy.takeFirst().at(0).toHash();
-    QVERIFY(
-        arguments[extWeather->tag("weather")].toString().startsWith("<img"));
+    QVERIFY(arguments[extWeather->tag("weather")].toString().startsWith("<img"));
 }
 
 
@@ -120,15 +119,12 @@ void TestExtWeather::run()
     QVariantHash arguments = spy.takeFirst().at(0).toHash();
     QEXPECT_FAIL("", "WeatherID should not be 0", Continue);
     QCOMPARE(arguments[extWeather->tag("weatherId")].toInt(), 0);
-    QVERIFY(
-        (arguments[extWeather->tag("humidity")].toInt() >= humidity.first)
-        && (arguments[extWeather->tag("humidity")].toInt() <= humidity.second));
-    QVERIFY(
-        (arguments[extWeather->tag("pressure")].toInt() > pressure.first)
-        && (arguments[extWeather->tag("pressure")].toInt() < pressure.second));
-    QVERIFY(
-        (arguments[extWeather->tag("temperature")].toFloat() > temp.first)
-        && (arguments[extWeather->tag("temperature")].toFloat() < temp.second));
+    QVERIFY((arguments[extWeather->tag("humidity")].toInt() >= humidity.first)
+            && (arguments[extWeather->tag("humidity")].toInt() <= humidity.second));
+    QVERIFY((arguments[extWeather->tag("pressure")].toInt() > pressure.first)
+            && (arguments[extWeather->tag("pressure")].toInt() < pressure.second));
+    QVERIFY((arguments[extWeather->tag("temperature")].toFloat() > temp.first)
+            && (arguments[extWeather->tag("temperature")].toFloat() < temp.second));
     // image should be only one symbol here
     if (extWeather->jsonMapFile().isEmpty())
         QSKIP("No json map found for weather, skip image test");

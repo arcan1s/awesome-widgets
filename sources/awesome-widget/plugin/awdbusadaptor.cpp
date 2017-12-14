@@ -40,8 +40,8 @@ AWDBusAdaptor::~AWDBusAdaptor()
 
 QStringList AWDBusAdaptor::ActiveServices() const
 {
-    QDBusMessage listServices = QDBusConnection::sessionBus().interface()->call(
-        QDBus::BlockWithGui, "ListNames");
+    QDBusMessage listServices
+        = QDBusConnection::sessionBus().interface()->call(QDBus::BlockWithGui, "ListNames");
     if (listServices.arguments().isEmpty()) {
         qCWarning(LOG_DBUS) << "Could not find any DBus service";
         return {};
@@ -86,8 +86,8 @@ void AWDBusAdaptor::SetLogLevel(const QString &what, const int level)
     qCDebug(LOG_DBUS) << "Set log level" << level << "for" << what;
 
     if (level >= m_logLevels.count()) {
-        qCDebug(LOG_DBUS) << "Invalid logging level" << level
-                          << "should be less than" << m_logLevels.count();
+        qCDebug(LOG_DBUS) << "Invalid logging level" << level << "should be less than"
+                          << m_logLevels.count();
         return;
     }
 
@@ -96,19 +96,15 @@ void AWDBusAdaptor::SetLogLevel(const QString &what, const int level)
 }
 
 
-void AWDBusAdaptor::SetLogLevel(const QString &what, const QString &level,
-                                const bool enabled)
+void AWDBusAdaptor::SetLogLevel(const QString &what, const QString &level, const bool enabled)
 {
-    qCDebug(LOG_DBUS) << "Set log level" << level << "enabled" << enabled
-                      << "for" << what;
+    qCDebug(LOG_DBUS) << "Set log level" << level << "enabled" << enabled << "for" << what;
 
     if (!m_logLevels.contains(level)) {
-        qCDebug(LOG_DBUS) << "Invalid logging level" << level << "should be in"
-                          << m_logLevels;
+        qCDebug(LOG_DBUS) << "Invalid logging level" << level << "should be in" << m_logLevels;
         return;
     }
 
     QString state = enabled ? "true" : "false";
-    QLoggingCategory::setFilterRules(
-        QString("%1.%2=%3").arg(what).arg(level).arg(state));
+    QLoggingCategory::setFilterRules(QString("%1.%2=%3").arg(what).arg(level).arg(state));
 }

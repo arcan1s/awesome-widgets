@@ -2,9 +2,9 @@
 Encoding=UTF-8
 Name=EUR/USD
 Comment=EUR/USD
-X-AW-Ticker="EURUSD=X"
+X-AW-Ticker="EURUSD"
 X-AW-Active=false
-X-AW-ApiVersion=4
+X-AW-ApiVersion=5
 X-AW-Interval=60
 X-AW-Number=2
 X-AW-Schedule=

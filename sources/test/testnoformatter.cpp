@@ -37,9 +37,7 @@ void TestAWNoFormatter::cleanupTestCase()
 }
 
 
-void TestAWNoFormatter::test_values()
-{
-}
+void TestAWNoFormatter::test_values() {}
 
 
 void TestAWNoFormatter::test_conversion()

@@ -37,9 +37,7 @@ void TestAWStringFormatter::cleanupTestCase()
 }
 
 
-void TestAWStringFormatter::test_values()
-{
-}
+void TestAWStringFormatter::test_values() {}
 
 
 void TestAWStringFormatter::test_count()

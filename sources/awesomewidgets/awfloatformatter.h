@@ -38,8 +38,7 @@ class AWFloatFormatter : public AWAbstractFormatter
     Q_PROPERTY(double summand READ summand WRITE setSummand)
 
 public:
-    explicit AWFloatFormatter(QWidget *_parent = nullptr,
-                              const QString &_filePath = "");
+    explicit AWFloatFormatter(QWidget *_parent = nullptr, const QString &_filePath = "");
     virtual ~AWFloatFormatter();
     QString convert(const QVariant &_value) const;
     AWFloatFormatter *copy(const QString &_fileName, const int _number);

@@ -42,8 +42,7 @@ public:
     void run();
     QStringList sources() const;
     // additional method to build dynamic tags
-    static QString buildString(const QString &_current, const QString &_value,
-                               const int _s);
+    static QString buildString(const QString &_current, const QString &_value, const int _s);
     static QString stripString(const QString &_value, const int _s);
     // additional test method
     bool isMpdSocketConnected() const;

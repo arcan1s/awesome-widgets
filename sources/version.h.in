@@ -17,17 +17,16 @@ const char TRDPARTY_LICENSE[] = "QReplyTimeout "
                                 "wrapper,no,http://"
                                 "codereview.stackexchange.com/questions/30031/"
                                 "qnetworkreply-network-reply-timeout-helper";
-const char SPECIAL_THANKS[]
-    = "Yahoo! Finance,https://finance.yahoo.com/;Yahoo! "
-      "Weather,https://weather.yahoo.com/;JetBrains,https://www.jetbrains.com/"
-      ";OpenWeatherMap,http://openweathermap.org/";
+const char SPECIAL_THANKS[] = "Stooq,https://stooq.com/;Yahoo! "
+                              "Weather,https://weather.yahoo.com/;JetBrains,https://"
+                              "www.jetbrains.com/;OpenWeatherMap,http://openweathermap.org/";
 const char CHANGELOG[] = "@PROJECT_CHANGELOG@";
 
 // configuraion
 // graphical items api version
 const int AW_GRAPHITEM_API = 6;
 // extquotes api version
-const int AW_EXTQUOTES_API = 4;
+const int AW_EXTQUOTES_API = 5;
 // extscript api version
 const int AW_EXTSCRIPT_API = 5;
 // extupgrade api version
@@ -48,8 +47,7 @@ const char AWDBUS_PATH[] = "/awesomewidgets";
 // network requests timeout, ms
 const int REQUEST_TIMEOUT = 3000;
 // available time keys
-const char TIME_KEYS[]
-    = "d,dd,ddd,dddd,M,MM,MMM,MMMM,yy,yyyy,h,hh,H,HH,m,mm,s,ss,t,a,ap,A,AP";
+const char TIME_KEYS[] = "d,dd,ddd,dddd,M,MM,MMM,MMMM,yy,yyyy,h,hh,H,HH,m,mm,s,ss,t,a,ap,A,AP";
 // static keys
 const char STATIC_FUNCTIONS[] = "{{\n\n}},template{{\n\n}},aw_all<>{{}},aw_"
                                 "count<>{{}},aw_keys<>{{}},aw_macro<>{{}},aw_"
@@ -69,19 +67,13 @@ const char STATIC_KEYS[]
 // links
 const char HOMEPAGE[] = "https://arcanis.me/projects/awesome-widgets";
 const char REPOSITORY[] = "https://github.com/arcan1s/awesome-widgets";
-const char RELEASES[]
-    = "https://github.com/arcan1s/awesome-widgets/releases/tag/V.";
-const char VERSION_API[]
-    = "https://api.github.com/repos/arcan1s/awesome-widgets/releases";
+const char RELEASES[] = "https://github.com/arcan1s/awesome-widgets/releases/tag/V.";
+const char VERSION_API[] = "https://api.github.com/repos/arcan1s/awesome-widgets/releases";
 const char BUGTRACKER[] = "https://github.com/arcan1s/awesome-widgets/issues";
-const char BUGTRACKER_API[]
-    = "https://arcanis.me/repos/arcan1s/awesome-widgets/issues";
-const char TRANSLATION[]
-    = "https://github.com/arcan1s/awesome-widgets/issues/14";
-const char AUR_PACKAGES[]
-    = "https://aur.archlinux.org/packages/plasma5-applet-awesome-widgets/";
-const char OPENSUSE_PACKAGES[]
-    = "http://software.opensuse.org/package/plasma5-awesome-widgets";
+const char BUGTRACKER_API[] = "https://arcanis.me/repos/arcan1s/awesome-widgets/issues";
+const char TRANSLATION[] = "https://github.com/arcan1s/awesome-widgets/issues/14";
+const char AUR_PACKAGES[] = "https://aur.archlinux.org/packages/plasma5-applet-awesome-widgets/";
+const char OPENSUSE_PACKAGES[] = "http://software.opensuse.org/package/plasma5-awesome-widgets";
 
 // build information
 const char BUILD_DATE[] = "@CURRENT_DATE@";

@@ -50,16 +50,9 @@ class GraphicalItem : public AbstractExtItem
 
 public:
     enum class Direction { LeftToRight = 0, RightToLeft = 1 };
-    enum class Type {
-        Horizontal = 0,
-        Vertical = 1,
-        Circle = 2,
-        Graph = 3,
-        Bars = 4
-    };
+    enum class Type { Horizontal = 0, Vertical = 1, Circle = 2, Graph = 3, Bars = 4 };
 
-    explicit GraphicalItem(QWidget *_parent = nullptr,
-                           const QString &_filePath = "");
+    explicit GraphicalItem(QWidget *_parent = nullptr, const QString &_filePath = "");
     virtual ~GraphicalItem();
     GraphicalItem *copy(const QString &_fileName, const int _number);
     QString image(const QVariant &value);

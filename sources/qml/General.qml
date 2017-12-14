@@ -88,7 +88,7 @@ QtObject {
         },
         {
             "label": i18n("Quotes"),
-            "regexp": "^(perc)?(ask|bid|price)(chg)?.*"
+            "regexp": "^(perc)?(price|volume)(chg)?.*"
         },
         {
             "label": i18n("Upgrades"),

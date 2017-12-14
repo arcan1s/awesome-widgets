@@ -30,9 +30,7 @@ void TestPlayerSource::initTestCase()
 }
 
 
-void TestPlayerSource::cleanupTestCase()
-{
-}
+void TestPlayerSource::cleanupTestCase() {}
 
 
 void TestPlayerSource::_test_sources(const PlayerSource *_source)
@@ -57,8 +55,7 @@ void TestPlayerSource::test_buildString()
 
 void TestPlayerSource::test_stripString()
 {
-    QString str
-        = PlayerSource::buildString("", AWTestLibrary::randomString(1, 40), 20);
+    QString str = PlayerSource::buildString("", AWTestLibrary::randomString(1, 40), 20);
     QCOMPARE(str.count(), 20);
 
     str = PlayerSource::buildString("", AWTestLibrary::randomString(1, 10), 20);
@@ -68,9 +65,8 @@ void TestPlayerSource::test_stripString()
 
 void TestPlayerSource::test_autoMpris()
 {
-    QStringList args(QStringList()
-                     << "mpris" << mpdAddress << QString::number(mpdPort)
-                     << "auto" << QString::number(10));
+    QStringList args(QStringList() << "mpris" << mpdAddress << QString::number(mpdPort) << "auto"
+                                   << QString::number(10));
     PlayerSource *source = new PlayerSource(this, args);
 
     bool empty = source->getAutoMpris().isEmpty();
@@ -83,9 +79,8 @@ void TestPlayerSource::test_autoMpris()
 
 void TestPlayerSource::test_mpd()
 {
-    QStringList args(QStringList()
-                     << "mpd" << mpdAddress << QString::number(mpdPort)
-                     << "auto" << QString::number(10));
+    QStringList args(QStringList() << "mpd" << mpdAddress << QString::number(mpdPort) << "auto"
+                                   << QString::number(10));
     PlayerSource *source = new PlayerSource(this, args);
     _test_sources(source);
 
@@ -104,16 +99,14 @@ void TestPlayerSource::test_mpd()
     if (secondValue["player/title"].toString() == "unknown")
         QSKIP("No mpd found");
 
-    QVERIFY(secondValue["player/progress"].toInt()
-            < secondValue["player/duration"].toInt());
+    QVERIFY(secondValue["player/progress"].toInt() < secondValue["player/duration"].toInt());
 }
 
 
 void TestPlayerSource::test_mpris()
 {
-    QStringList args(QStringList()
-                     << "mpris" << mpdAddress << QString::number(mpdPort)
-                     << "auto" << QString::number(10));
+    QStringList args(QStringList() << "mpris" << mpdAddress << QString::number(mpdPort) << "auto"
+                                   << QString::number(10));
     PlayerSource *source = new PlayerSource(this, args);
     _test_sources(source);
 

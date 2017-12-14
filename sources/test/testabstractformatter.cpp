@@ -37,9 +37,7 @@ void TestAbstractFormatter::cleanupTestCase()
 }
 
 
-void TestAbstractFormatter::test_values()
-{
-}
+void TestAbstractFormatter::test_values() {}
 
 
 void TestAbstractFormatter::test_type()
