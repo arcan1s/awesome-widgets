@@ -1,4 +1,5 @@
 sudo: required
+language: cpp
 
 env:
   - DOCKER_TAG="arcan1s/awesome-widgets-arch"
