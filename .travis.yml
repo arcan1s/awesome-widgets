@@ -11,4 +11,8 @@ before_install:
   - docker build --tag="${DOCKER_TAG}" -f ".docker/Dockerfile-arch" ".docker"
 
 script:
+  - pwd
+  - ls -l
+  - ls -l .docker || true
+  - ls .docker/build-arch.sh || true
   - docker run "${DOCKER_TAG}" ".docker/build-arch.sh"
