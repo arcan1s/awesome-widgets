@@ -74,12 +74,6 @@ void TestAWKeys::cleanupTestCase()
 }
 
 
-void TestAWKeys::test_hddDevices()
-{
-    QVERIFY(plugin->getHddDevices().count() > 2);
-}
-
-
 void TestAWKeys::test_dictKeys()
 {
     QStringList keys = plugin->dictKeys();
