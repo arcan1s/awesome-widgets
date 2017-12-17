@@ -28,7 +28,6 @@ void TestHDDTemperatureSource::initTestCase()
 {
     AWTestLibrary::init();
     devices = HDDTemperatureSource::allHdd();
-    QVERIFY(devices.count() > 0);
 
     hddtempSource
         = new HDDTemperatureSource(this, QStringList() << devices.join(',') << hddtempCmd);
@@ -46,6 +45,9 @@ void TestHDDTemperatureSource::cleanupTestCase()
 
 void TestHDDTemperatureSource::test_sources()
 {
+    if (devices.isEmpty())
+        QSKIP("No hdd devices found, test will be skipped");
+
     std::for_each(devices.begin(), devices.end(),
                   [](QString &device) { device.prepend("hdd/temperature"); });
 
@@ -56,6 +58,9 @@ void TestHDDTemperatureSource::test_sources()
 
 void TestHDDTemperatureSource::test_hddtemp()
 {
+    if (devices.isEmpty())
+        QSKIP("No hdd devices found, test will be skipped");
+
     std::for_each(devices.begin(), devices.end(), [this](QString device) {
         QSignalSpy spy(hddtempSource, SIGNAL(dataReceived(const QVariantHash &)));
         float firstValue = hddtempSource->data(device).toFloat();
@@ -73,6 +78,9 @@ void TestHDDTemperatureSource::test_hddtemp()
 
 void TestHDDTemperatureSource::test_smartctl()
 {
+    if (devices.isEmpty())
+        QSKIP("No hdd devices found, test will be skipped");
+
     std::for_each(devices.begin(), devices.end(), [this](QString &device) {
         QSignalSpy spy(smartctlSource, SIGNAL(dataReceived(const QVariantHash &)));
         float firstValue = smartctlSource->data(device).toFloat();
