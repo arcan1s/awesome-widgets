@@ -20,6 +20,8 @@
 
 #include <QtTest>
 
+#include <cmath>
+
 #include "awtestlibrary.h"
 #include "batterysource.h"
 
@@ -39,13 +41,14 @@ void TestBatterySource::cleanupTestCase()
 
 void TestBatterySource::test_sources()
 {
-    QVERIFY(source->sources().count() >= 2);
+    //
+    QVERIFY(source->sources().count() >= 6);
 }
 
 
 void TestBatterySource::test_battery()
 {
-    if (source->sources().count() == 2)
+    if (source->sources().count() == 6)
         QSKIP("No battery found, test will be skipped");
 
     QStringList batteries = source->sources();
@@ -54,7 +57,7 @@ void TestBatterySource::test_battery()
         if (bat == "battery/ac")
             QCOMPARE(value.type(), QVariant::Bool);
         else
-            QVERIFY((value.toFloat() >= battery.first) && (value.toFloat() <= battery.second));
+            QVERIFY((value.toFloat() >= battery.first) || (std::isnan(value.toFloat())));
     });
 }
 

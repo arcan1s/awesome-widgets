@@ -52,18 +52,22 @@ QStringList BatterySource::getSources()
     sources.append("battery/batrate");
     sources.append("battery/battotal");
 
-    m_batteriesCount
-        = QDir(m_acpiPath)
-              .entryList(QStringList({"BAT*"}), QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name)
-              .count();
-    qCInfo(LOG_ESS) << "Init batteries count as" << m_batteriesCount;
+    auto directory = QDir(m_acpiPath);
 
-    for (int i = 0; i < m_batteriesCount; i++) {
-        sources.append(QString("battery/bat%1").arg(i));
-        sources.append(QString("battery/batleft%1").arg(i));
-        sources.append(QString("battery/batnow%1").arg(i));
-        sources.append(QString("battery/batrate%1").arg(i));
-        sources.append(QString("battery/battotal%1").arg(i));
+    if (directory.exists()) {
+        m_batteriesCount
+            = directory
+                  .entryList(QStringList({"BAT*"}), QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name)
+                  .count();
+        qCInfo(LOG_ESS) << "Init batteries count as" << m_batteriesCount;
+
+        for (int i = 0; i < m_batteriesCount; i++) {
+            sources.append(QString("battery/bat%1").arg(i));
+            sources.append(QString("battery/batleft%1").arg(i));
+            sources.append(QString("battery/batnow%1").arg(i));
+            sources.append(QString("battery/batrate%1").arg(i));
+            sources.append(QString("battery/battotal%1").arg(i));
+        }
     }
 
     qCInfo(LOG_ESS) << "Sources list" << sources;
@@ -123,7 +127,7 @@ QVariantMap BatterySource::initialData(const QString &_source) const
         data["name"] = "Full battery capacity";
         data["type"] = "integer";
         data["units"] = "";
-    } else if (_source == "battery/batleft") {
+    } else if (_source.startsWith("battery/batleft")) {
         data["min"] = 0;
         data["max"] = 0;
         data["name"] = QString("Battery %1 discharge time").arg(index(_source));
