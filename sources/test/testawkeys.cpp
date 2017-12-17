@@ -176,7 +176,7 @@ void TestAWKeys::test_dbus()
 
     // check if there is active sessions first
     QDBusMessage sessions = QDBusMessage::createMethodCall(AWDBUS_SERVICE, AWDBUS_PATH,
-                                                           AWDBUS_SERVICE, "ActiveServicess");
+                                                           AWDBUS_SERVICE, "ActiveServices");
     QDBusMessage sessionsResponse = bus.call(sessions, QDBus::BlockWithGui);
     if (sessionsResponse.arguments().isEmpty())
         QSKIP("No active sessions found, skip DBus tests");

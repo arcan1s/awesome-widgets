@@ -397,11 +397,11 @@ void GraphicalItem::setUsedKeys(const QStringList &_usedKeys)
 
     // remove dubs
     // HACK converting to set may break order
-    usedKeys().clear();
+    m_usedKeys.clear();
     for (auto &key : _usedKeys) {
-        if (usedKeys().contains(key))
+        if (m_usedKeys.contains(key))
             continue;
-        usedKeys().append(key);
+        m_usedKeys.append(key);
     }
 }
 

@@ -28,7 +28,7 @@ QString AWPatternFunctions::expandLambdas(QString _code, AWKeysAggregator *_aggr
                                           const QVariantHash &_metadata,
                                           const QStringList &_usedKeys)
 {
-    qCDebug(LOG_AW) << "Expand lamdas in" << _code;
+    qCDebug(LOG_AW) << "Expand lambdas in" << _code;
 
     QJSEngine engine;
     // apply $this values
