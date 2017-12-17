@@ -2,13 +2,13 @@ sudo: required
 language: generic
 
 env:
-  - DOCKER_TAG_ARCH=arcan1s/awesome-widgets-arch
+  - DOCKER_TAG_ARCH="arcan1s/awesome-widgets-arch"
 
 services:
   - docker
 
 before_install:
-  - docker build --tag=${DOCKER_TAG_ARCH} -f .docker/Dockerfile-arch .docker
+  - docker build --tag="${DOCKER_TAG_ARCH}" -f ".docker/Dockerfile-arch" ".docker"
 
 script:
-  - docker run ${DOCKER_TAG_ARCH} sh -c .docker/build-arch.sh
+  - docker run --rm -v "$(pwd):/opt/build" -w /opt/build "${DOCKER_TAG}" sh -c ".docker/build-arch.sh"
