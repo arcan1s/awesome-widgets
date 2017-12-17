@@ -10,5 +10,5 @@ services:
 before_install:
   - docker build --tag="${DOCKER_TAG}" -f ".docker/Dockerfile-arch" ".docker"
 
-scirpt:
+script:
   - docker run "${DOCKER_TAG}" ".docker/build-arch.sh"
