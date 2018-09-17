@@ -58,6 +58,10 @@ Installation
 
   **NOTE** on Plasma 5 it very likely requires `-DKDE_INSTALL_USE_QT_SYS_PATHS=ON` flag
 
+  **NOTE** if you are going to build from git, you need to init submodules first, e.g.:
+
+        git submodule update --init --recursive
+
 Additional information
 ======================
 
