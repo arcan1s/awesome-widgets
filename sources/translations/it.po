@@ -1,0 +1,775 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
+"POT-Creation-Date: 2017-05-05 18:15+0300\n"
+"PO-Revision-Date: 2018-10-02 11:37+0200\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.1.1\n"
+"Last-Translator: Antonio Vivace <avivace4@gmail.com>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: it\n"
+
+msgid "Version %1 (build date %2)"
+msgstr "Versione %1 (data build %2)"
+
+msgid "A set of minimalistic plasmoid widgets"
+msgstr "Un insieme di widgets minimalistici per Plasma"
+
+msgid "Links:"
+msgstr "Links:"
+
+msgid "Homepage"
+msgstr "Sito web"
+
+msgid "Repository"
+msgstr "Repository"
+
+msgid "Bugtracker"
+msgstr "Bugtracker"
+
+msgid "Translation issue"
+msgstr "Problema di traduzione"
+
+msgid "AUR packages"
+msgstr "Pacchetti Aur"
+
+msgid "openSUSE packages"
+msgstr "pacchetti openSUSE"
+
+msgid "This software is licensed under %1"
+msgstr "Questo software è rilasciato sotto licenza %1"
+
+msgid "Translators:"
+msgstr "Traduttori:"
+
+msgid "This software uses:"
+msgstr "Questo software utilizza:"
+
+msgid "Special thanks to:"
+msgstr "Ringraziamenti speciali a:"
+
+msgid "Widget"
+msgstr "Widget"
+
+msgid "Advanced"
+msgstr "Avanzate"
+
+msgid "Tooltip"
+msgstr "Suggerimento"
+
+msgid "Appearance"
+msgstr "Apparenza"
+
+msgid "DataEngine"
+msgstr "DataEngine"
+
+msgid "About"
+msgstr "Info"
+
+msgid "Enable background"
+msgstr "Abilita sfondo"
+
+msgid "Translate strings"
+msgstr "Traduci stringe"
+
+msgid "Wrap new lines"
+msgstr "Manda a capo nuove righe"
+
+msgid "Enable word wrap"
+msgstr "Manda a capo parole"
+
+msgid "Enable notifications"
+msgstr "Abilita notifiche"
+
+msgid "Check updates on startup"
+msgstr "Controlla aggiornamenti all'avvio"
+
+msgid "Optimize subscription"
+msgstr "Ottimizza sottoscrizione"
+
+msgid "Widget height, px"
+msgstr "Altezza del widget, in px"
+
+msgid "Widget width, px"
+msgstr "Larghezza del widget, in px"
+
+msgid "Time interval"
+msgstr "Intervallo di tempo"
+
+msgid "Messages queue limit"
+msgstr "Limite coda messaggi"
+
+msgid "Celsius"
+msgstr "Celsius"
+
+msgid "Fahrenheit"
+msgstr "Fahrenheit"
+
+msgid "Kelvin"
+msgstr "Kelvin"
+
+msgid "Reaumur"
+msgstr "Reaumur"
+
+msgid "cm^-1"
+msgstr "cm^-1"
+
+msgid "kJ/mol"
+msgstr "kJ/mol"
+
+msgid "kcal/mol"
+msgstr "kcal/mol"
+
+msgid "Temperature units"
+msgstr "Unità di temperatura"
+
+msgid "Custom time format"
+msgstr "Formato orario personalizzato"
+
+msgid "Custom uptime format"
+msgstr "Formato tempo di attività personalizzato"
+
+msgid "AC online tag"
+msgstr "Tag alimentazione attiva"
+
+msgid "AC offline tag"
+msgstr "Tag alimentazione disattiva"
+
+msgid "Actions"
+msgstr "Azioni"
+
+msgid "Drop key cache"
+msgstr "Pulisci cache chiavi"
+
+msgid "Export configuration"
+msgstr "Esporta configurazione"
+
+msgid "Import configuration"
+msgstr "Importa configurazione"
+
+msgid "Telemetry"
+msgstr "Telemetria"
+
+msgid "Enable remote telemetry"
+msgstr "Abilita telemetria remota"
+
+msgid "History count"
+msgstr "Conteggio cronologia"
+
+msgid "Telemetry ID"
+msgstr "ID Telemetria"
+
+msgid "Font"
+msgstr "Font"
+
+msgid "Font size"
+msgstr "Dimensioni font"
+
+msgid "Font weight"
+msgstr "Spessore font"
+
+msgid "Font style"
+msgstr "Stile font"
+
+msgid "Font color"
+msgstr "Colore font"
+
+msgid "Style"
+msgstr "Stile"
+
+msgid "Style color"
+msgstr "Colore stile"
+
+msgid "ACPI"
+msgstr "ACPI"
+
+msgid "ACPI path"
+msgstr "Path ACPI"
+
+msgid "GPU"
+msgstr "GPU"
+
+msgid "GPU device"
+msgstr "Dispositivo GPU"
+
+msgid "HDD temperature"
+msgstr "Temperatura HDD"
+
+msgid "HDD"
+msgstr "HDD"
+
+msgid "hddtemp cmd"
+msgstr "comando temperatura HDD"
+
+msgid "Player"
+msgstr "Riproduttore"
+
+msgid "Player data symbols"
+msgstr "Simboli riproduttore"
+
+msgid "Music player"
+msgstr "Riproduttore musicale"
+
+msgid "MPRIS player name"
+msgstr "Nome riproduttore MPRIS"
+
+msgid "MPD address"
+msgstr "Indirizzo MPD"
+
+msgid "MPD port"
+msgstr "Porta MPD"
+
+msgid "Extensions"
+msgstr "Estensioni"
+
+msgid "Custom scripts"
+msgstr "Script personalizzati"
+
+msgid "Network requests"
+msgstr "Richieste di rete"
+
+msgid "Package manager"
+msgstr "Gestore pacchetti"
+
+msgid "Quotes monitor"
+msgstr "Monitor quote"
+
+msgid "Weather"
+msgstr "Previsioni del tempo"
+
+msgid "Select tag"
+msgstr "Tag selezione"
+
+msgid "Tag: %1"
+msgstr "Tag: %1"
+
+msgid "Value: %1"
+msgstr "Valore: %1"
+
+msgid "Info: %1"
+msgstr "Info: %1"
+
+msgid "Request key"
+msgstr "Chiave richiesta"
+
+msgid "Show README"
+msgstr "Mostra LEGGIMI"
+
+msgid "Check updates"
+msgstr "Controlla aggiornamenti"
+
+msgid "Report bug"
+msgstr "Segnala problema"
+
+msgid ""
+"CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
+"To enable them just make needed checkbox checked."
+msgstr ""
+"Le etichette GPU, CPU clock, memoria, swap e rete supportano i tooltip. "
+"Per abilitarli, clicca sulle checkbox."
+
+msgid "Number of values for tooltips"
+msgstr "Numero di valori per tooltip"
+
+msgid "Background"
+msgstr "Sfondo"
+
+msgid "Background color"
+msgstr "Colore sfondo"
+
+msgid "CPU"
+msgstr "CPU"
+
+msgid "CPU color"
+msgstr "Colore CPU"
+
+msgid "CPU clock"
+msgstr "Velocità CPU"
+
+msgid "CPU clock color"
+msgstr "Colore velocità CPU"
+
+msgid "Memory"
+msgstr "Memoria"
+
+msgid "Memory color"
+msgstr "Colore memoria"
+
+msgid "Swap"
+msgstr "Swap"
+
+msgid "Swap color"
+msgstr "Colore Swap"
+
+msgid "Network"
+msgstr "Rete"
+
+msgid "Download speed color"
+msgstr "Colore velocità di download"
+
+msgid "Upload speed color"
+msgstr "Colore velocità di upload"
+
+msgid "Battery"
+msgstr "Batteria"
+
+msgid "Battery active color"
+msgstr "Colore batteria attiva"
+
+msgid "Battery inactive color"
+msgstr "Colore batteria disattiva"
+
+msgid "Run %1"
+msgstr "Esegui %1"
+
+msgid "Not supported"
+msgstr "Non supportato"
+
+msgid "You are using mammoth's Qt version, try to update it first"
+msgstr "Stai usando una versione di Qt antiquata, prova ad aggiornarla"
+
+msgid "Select font"
+msgstr "Seleziona font"
+
+msgid "Issue created"
+msgstr "Segnalazione aperta"
+
+msgid "Issue %1 has been created"
+msgstr "La segnalazione %1 è stata aperta"
+
+msgid "AC online"
+msgstr "Alimentatore attivo"
+
+msgid "AC offline"
+msgstr "Alimentatore disattivo"
+
+msgid "High CPU load"
+msgstr "Alto carico sulla CPU"
+
+msgid "High memory usage"
+msgstr "Alto consumo di memoria"
+
+msgid "Swap is used"
+msgstr "Swap in uso"
+
+msgid "High GPU load"
+msgstr "Alto carico della GPU"
+
+msgid "Network device has been changed to %1"
+msgstr "Il dispositivo di rete è stato cambiato in %1"
+
+msgid "Edit"
+msgstr "Modifica"
+
+msgid "Select type"
+msgstr "Seleziona tipo"
+
+msgid "Type:"
+msgstr "Tipo:"
+
+msgid "MB/s"
+msgstr "MB/s"
+
+msgid "KB/s"
+msgstr "KB/s"
+
+msgid "Changelog of %1"
+msgstr "Lista cambiamenti di %1"
+
+msgid "You are using the actual version %1"
+msgstr "Stai usando la versione attuale %1"
+
+msgid "No new version found"
+msgstr "Nessuna nuova versione trovata"
+
+msgid "Current version : %1"
+msgstr "Versione attuale: %1"
+
+msgid "New version : %1"
+msgstr "Nuova versione: %1"
+
+msgid "Click \"Ok\" to download"
+msgstr "Clicca \"Ok\" per scaricare"
+
+msgid "There are updates"
+msgstr "Ci sono aggiornamenti"
+
+msgid "Copy"
+msgstr "Copia"
+
+msgid "Create"
+msgstr "Crea"
+
+msgid "Remove"
+msgstr "Rimuovi"
+
+msgid "Enter file name"
+msgstr "Inserisci nome del file"
+
+msgid "File name"
+msgstr "Nome del file"
+
+msgid "Name: %1"
+msgstr "Nome: %1"
+
+msgid "Comment: %1"
+msgstr "Commento: %1"
+
+msgid "Identity: %1"
+msgstr "Identità: %1"
+
+msgid "Name"
+msgstr "Nome"
+
+msgid "Comment"
+msgstr "Commento"
+
+msgid "Type"
+msgstr "Tipo"
+
+msgid "Format"
+msgstr "Formato"
+
+msgid "Precision"
+msgstr "Precisione"
+
+msgid "Width"
+msgstr "Larghezza"
+
+msgid "Fill char"
+msgstr "Carattere di riempimento"
+
+msgid "Force width"
+msgstr "Forza larghezza"
+
+msgid "Multiplier"
+msgstr "Moltiplicatore"
+
+msgid "Summand"
+msgstr "Summand"
+
+msgid "Path"
+msgstr "Path"
+
+msgid "Filter"
+msgstr "Filtro"
+
+msgid "Separator"
+msgstr "Separatore"
+
+msgid "Sort"
+msgstr "Ordina"
+
+msgid "Append code"
+msgstr "Aggiungi codice"
+
+msgid "Has return"
+msgstr "Ha ritorno"
+
+msgid "Code"
+msgstr "Codice"
+
+msgid "Tag"
+msgstr "Tag"
+
+msgid "URL"
+msgstr "URL"
+
+msgid "Active"
+msgstr "Attivo"
+
+msgid "Schedule"
+msgstr "Programma"
+
+msgid "Socket"
+msgstr "Socket"
+
+msgid "Interval"
+msgstr "Intervallo"
+
+msgid ""
+"<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
+"instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
+"text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</"
+"span></a></p></body></html>"
+msgstr ""
+"<html><head/><body><p>Usa YAHOO! finance ticker per ottere quote sullo "
+"strumento. Vedi <a href=\"http://finance.yahoo.com/\"><span style=\" text-"
+"decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</span></"
+"a></p></body></html>"
+
+msgid "Ticker"
+msgstr "Ticker"
+
+msgid "Command"
+msgstr "Comando"
+
+msgid "Prefix"
+msgstr "Prefisso"
+
+msgid "Redirect"
+msgstr "Redireziona"
+
+msgid "Additional filters"
+msgstr "Filtri aggiuntivi"
+
+msgid "Wrap colors"
+msgstr "Manda a capo colori"
+
+msgid "Wrap spaces"
+msgstr "Manda a capo spazi"
+
+msgid "Null"
+msgstr "Vuoto"
+
+msgid "Provider"
+msgstr "Provider"
+
+msgid "City"
+msgstr "Città"
+
+msgid "Country"
+msgstr "Paese"
+
+msgid "Timestamp"
+msgstr "Time stamp"
+
+msgid "Use images"
+msgstr "Usa immagini"
+
+msgid "Select color"
+msgstr "Seleziona colore"
+
+msgid "Select path"
+msgstr "Seleziona path"
+
+msgid "Images (*.png *.bpm *.jpg);;All files (*.*)"
+msgstr "Immagini (*.png *.bpm *.jpg);;Tutti i file (*.*)"
+
+msgid "Use custom formula"
+msgstr "Usa formula personalizzata"
+
+msgid "Value"
+msgstr "Valora"
+
+msgid "Max value"
+msgstr "Valore massimo"
+
+msgid "Min value"
+msgstr "Valore minimo"
+
+msgid "Active filling type"
+msgstr "Tipo di riempimento attivo"
+
+msgid "Inctive filling type"
+msgstr "Tipo di riempimento disattivo"
+
+msgid "Points count"
+msgstr "Numero punti"
+
+msgid "Direction"
+msgstr "Direzione"
+
+msgid "Height"
+msgstr "Altezza"
+
+msgid "color"
+msgstr "colore"
+
+msgid "image"
+msgstr "immagine"
+
+msgid "Active desktop"
+msgstr "Desktop attivo"
+
+msgid "Inactive desktop"
+msgstr "Desktop disattivo"
+
+msgid "Vertical layout"
+msgstr "Layout verticale"
+
+msgid "Mark"
+msgstr "Mark"
+
+msgid "contours"
+msgstr "contorni"
+
+msgid "windows"
+msgstr "finestre"
+
+msgid "clean desktop"
+msgstr "pulisci desktop"
+
+msgid "names"
+msgstr "nomi"
+
+msgid "none"
+msgstr "nessuno"
+
+msgid "Tooltip type"
+msgstr "Tipo tooltip"
+
+msgid "Tooltip width"
+msgstr "Larghezza tooltip"
+
+msgid "Edit bars"
+msgstr "Modifica barre"
+
+msgid "Formatters"
+msgstr "Formattatori"
+
+msgid "Preview"
+msgstr "Anteprima"
+
+msgid ""
+"Detailed information may be found on <a href=\"https://arcanis.me/projects/"
+"awesome-widgets/\">project homepage</a>"
+msgstr ""
+"Informazioni dettagliate sul <a href=\"https://arcanis.me/projects/awesome-"
+"widgets/\">sito web</a> del progetto"
+
+msgid "Add"
+msgstr "Aggiungi"
+
+msgid "Show value"
+msgstr "Mostra valore"
+
+msgid "Acknowledgment"
+msgstr "Riconoscimenti"
+
+msgid "Report a bug"
+msgstr "Segnala problema"
+
+msgid "Report subject"
+msgstr "Segnala"
+
+msgid "Description"
+msgstr "Descrizione"
+
+msgid "Steps to reproduce"
+msgstr "Azioni per riprodurre"
+
+msgid "Expected result"
+msgstr "Risultato aspettato"
+
+msgid "Logs"
+msgstr "Logs"
+
+msgid "Use command"
+msgstr "Usa comando"
+
+msgid "Load log file"
+msgstr "Carica file di log"
+
+msgid "Open log file"
+msgstr "Apri file di log"
+
+msgid "Select a color"
+msgstr "Seleziona colore"
+
+msgid "Export"
+msgstr "Esporta"
+
+msgid "Success"
+msgstr "Successo"
+
+msgid "Please note that binary files were not copied"
+msgstr "I file binari non sono stati copiati"
+
+msgid "Ooops..."
+msgstr "Ooops..."
+
+msgid "Could not save configuration file"
+msgstr "Impossibile salvare file di configurazione"
+
+msgid "Select a font"
+msgstr "Seleziona font"
+
+msgid "Bgcolor"
+msgstr "Colore di sfondo"
+
+msgid "Import"
+msgstr "Importa"
+
+msgid "Import plasmoid settings"
+msgstr "Importa impostazioni plasmoide"
+
+msgid "Import extensions"
+msgstr "Importa estensioni"
+
+msgid "Import additional files"
+msgstr "Importa file addizionali"
+
+msgid "AC"
+msgstr "AC"
+
+msgid "Bars"
+msgstr "Barre"
+
+msgid "Desktops"
+msgstr "Desktop"
+
+msgid "Scripts"
+msgstr "Script"
+
+msgid "Time"
+msgstr "Orario"
+
+msgid "Quotes"
+msgstr "Quote"
+
+msgid "Upgrades"
+msgstr "Aggiornamenti"
+
+msgid "Weathers"
+msgstr "Previsioni del tempo"
+
+msgid "Functions"
+msgstr "Funzioni"
+
+msgid "All"
+msgstr "Tutto"
+
+msgid "normal"
+msgstr "normale"
+
+msgid "italic"
+msgstr "corsivo"
+
+msgid "light"
+msgstr "sottile"
+
+msgid "demi bold"
+msgstr "semi grassetto"
+
+msgid "bold"
+msgstr "grassetto"
+
+msgid "black"
+msgstr "grassetto spesso"
+
+msgid "outline"
+msgstr "contorni"
+
+msgid "raised"
+msgstr "sollevato"
+
+msgid "sunken"
+msgstr "affondato"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Antonio Vivace"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "avivace4@gmail.com"
