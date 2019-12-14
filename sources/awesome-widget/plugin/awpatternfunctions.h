@@ -46,7 +46,7 @@ QString insertMacros(QString _code);
 // find methods
 QStringList findKeys(const QString &_code, const QStringList &_keys, const bool _isBars);
 QStringList findLambdas(const QString &_code);
-};
+} // namespace AWPatternFunctions
 
 
 #endif /* AWPATTERNFUNCTIONS_H */

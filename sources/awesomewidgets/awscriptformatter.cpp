@@ -72,7 +72,7 @@ AWScriptFormatter *AWScriptFormatter::copy(const QString &_fileName, const int _
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    AWScriptFormatter *item = new AWScriptFormatter(static_cast<QWidget *>(parent()), _fileName);
+    auto *item = new AWScriptFormatter(dynamic_cast<QWidget *>(parent()), _fileName);
     AWAbstractFormatter::copyDefaults(item);
     item->setAppendCode(appendCode());
     item->setCode(code());

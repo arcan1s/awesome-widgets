@@ -38,7 +38,7 @@ class AWKeys : public QObject
 
 public:
     explicit AWKeys(QObject *_parent = nullptr);
-    virtual ~AWKeys();
+    ~AWKeys() override;
     Q_INVOKABLE void initDataAggregator(const QVariantMap &_tooltipParams);
     Q_INVOKABLE void initKeys(const QString &_currentPattern, const int _interval, const int _limit,
                               const bool _optimize);
@@ -59,7 +59,7 @@ public:
 public slots:
     void dataUpdated(const QString &_sourceName, const Plasma::DataEngine::Data &_data);
     // dummy method required by DataEngine connections
-    void modelChanged(QString, QAbstractItemModel *){};
+    static void modelChanged(QString, QAbstractItemModel *){};
 
 signals:
     void dropSourceFromDataengine(const QString &_source);

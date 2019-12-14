@@ -39,7 +39,7 @@ class AWKeyOperations : public QObject
 
 public:
     explicit AWKeyOperations(QObject *_parent = nullptr);
-    virtual ~AWKeyOperations();
+    ~AWKeyOperations() override;
     QStringList devices(const QString &_type) const;
     QHash<QString, QStringList> devices() const;
     void updateCache();

@@ -39,8 +39,8 @@ class AbstractExtItemAggregator : public QDialog
     Q_PROPERTY(QVariant type READ type)
 
 public:
-    explicit AbstractExtItemAggregator(QWidget *_parent, const QString &_type);
-    virtual ~AbstractExtItemAggregator();
+    explicit AbstractExtItemAggregator(QWidget *_parent, QString _type);
+    ~AbstractExtItemAggregator() override;
     // methods
     void copyItem();
     template <class T> void createItem()
@@ -54,7 +54,7 @@ public:
         if (fileName.isEmpty()) {
             qCWarning(LOG_LIB) << "Nothing to create";
             return;
-        };
+        }
         QString filePath = QString("%1/%2").arg(dir).arg(fileName);
 
         T *newItem = new T(this, filePath);
@@ -62,7 +62,7 @@ public:
         if (newItem->showConfiguration(configArgs()) == 1) {
             initItems();
             repaintList();
-        };
+        }
     };
     void deleteItem();
     void editItem();

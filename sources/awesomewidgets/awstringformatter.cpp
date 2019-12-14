@@ -63,7 +63,7 @@ AWStringFormatter *AWStringFormatter::copy(const QString &_fileName, const int _
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    AWStringFormatter *item = new AWStringFormatter(static_cast<QWidget *>(parent()), _fileName);
+    auto *item = new AWStringFormatter(dynamic_cast<QWidget *>(parent()), _fileName);
     AWAbstractFormatter::copyDefaults(item);
     item->setCount(count());
     item->setFillChar(fillChar());

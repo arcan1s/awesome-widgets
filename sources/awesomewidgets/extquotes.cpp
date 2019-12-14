@@ -27,7 +27,6 @@
 
 #include "awdebug.h"
 #include "stooqquotesprovider.h"
-#include "yahooquotesprovider.h"
 
 
 ExtQuotes::ExtQuotes(QWidget *_parent, const QString &_filePath)
@@ -75,7 +74,7 @@ ExtQuotes *ExtQuotes::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    ExtQuotes *item = new ExtQuotes(static_cast<QWidget *>(parent()), _fileName);
+    auto *item = new ExtQuotes(dynamic_cast<QWidget *>(parent()), _fileName);
     copyDefaults(item);
     item->setNumber(_number);
     item->setTicker(ticker());

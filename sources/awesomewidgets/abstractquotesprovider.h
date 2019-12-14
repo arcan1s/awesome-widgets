@@ -31,12 +31,12 @@ class AbstractQuotesProvider : public QObject
 public:
     explicit AbstractQuotesProvider(QObject *_parent)
         : QObject(_parent){};
-    virtual ~AbstractQuotesProvider(){};
+    ~AbstractQuotesProvider() override = default;
     virtual void initUrl(const QString &_asset) = 0;
     virtual QVariantHash parse(const QByteArray &_source, const QVariantHash &_oldValues) const = 0;
     QString tag(const QString &_type) const
     {
-        return static_cast<AbstractExtItem *>(parent())->tag(_type);
+        return dynamic_cast<AbstractExtItem *>(parent())->tag(_type);
     };
     virtual QUrl url() const = 0;
 };

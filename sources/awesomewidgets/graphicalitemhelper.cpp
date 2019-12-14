@@ -89,7 +89,7 @@ void GraphicalItemHelper::paintBars(const float _value)
 
     // default norms
     float normX = static_cast<float>(m_width) / static_cast<float>(m_values.count());
-    float normY = static_cast<float>(m_height - 1);
+    auto normY = static_cast<float>(m_height - 1);
     // paint graph
     for (int i = 0; i < m_values.count(); i++) {
         float x = i * normX;
@@ -113,11 +113,11 @@ void GraphicalItemHelper::paintCircle(const float _percent)
 
     // inactive
     circle = m_scene->addEllipse(0.0, 0.0, m_width, m_height, m_inactivePen, m_inactivePen.brush());
-    circle->setSpanAngle(-(1.0f - _percent) * 360.0f * 16.0f);
-    circle->setStartAngle(90.0f * 16.0f - _percent * 360.0f * 16.0f);
+    circle->setSpanAngle(static_cast<int>(-(1.0f - _percent) * 360.0f * 16.0f));
+    circle->setStartAngle(static_cast<int>(90.0f * 16.0f - _percent * 360.0f * 16.0f));
     // active
     circle = m_scene->addEllipse(0.0, 0.0, m_width, m_height, m_activePen, m_activePen.brush());
-    circle->setSpanAngle(-_percent * 360.0f * 16.0f);
+    circle->setSpanAngle(static_cast<int>(-_percent * 360.0f * 16.0f));
     circle->setStartAngle(90 * 16);
 }
 
@@ -133,7 +133,7 @@ void GraphicalItemHelper::paintGraph(const float _value)
 
     // default norms
     float normX = static_cast<float>(m_width) / static_cast<float>(m_values.count());
-    float normY = static_cast<float>(m_height - 1);
+    auto normY = static_cast<float>(m_height - 1);
     // paint graph
     for (int i = 0; i < m_values.count() - 1; i++) {
         // some magic here

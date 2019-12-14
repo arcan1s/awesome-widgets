@@ -44,7 +44,7 @@ public:
         initItems();
     };
 
-    virtual ~ExtItemAggregator()
+    ~ExtItemAggregator() override
     {
         qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
@@ -61,7 +61,7 @@ public:
         qCInfo(LOG_LIB) << "Dialog returns" << ret;
     };
 
-    void initItems()
+    void initItems() override
     {
         m_items.clear();
         m_activeItems.clear();
@@ -117,13 +117,13 @@ public:
         return found;
     };
 
-    QList<AbstractExtItem *> items() const { return m_items; };
+    QList<AbstractExtItem *> items() const override { return m_items; };
 
 private:
     QList<AbstractExtItem *> m_items;
     QList<T *> m_activeItems;
 
-    void doCreateItem() { return createItem<T>(); }
+    void doCreateItem() override { return createItem<T>(); }
 
     QList<AbstractExtItem *> getItems()
     {

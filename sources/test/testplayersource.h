@@ -31,7 +31,7 @@ class TestPlayerSource : public QObject
 private slots:
     // initialization
     void initTestCase();
-    void cleanupTestCase();
+    static void cleanupTestCase();
     // test
     void _test_sources(const PlayerSource *_source);
     void test_buildString();

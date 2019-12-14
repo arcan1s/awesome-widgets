@@ -30,10 +30,10 @@ public:
     const char *YAHOO_QUOTES_QUERY = "select * from yahoo.finance.quotes where symbol='%1'";
 
     explicit YahooQuotesProvider(QObject *_parent);
-    virtual ~YahooQuotesProvider();
-    void initUrl(const QString &_asset);
-    QVariantHash parse(const QByteArray &_source, const QVariantHash &_oldValues) const;
-    QUrl url() const;
+    ~YahooQuotesProvider() override;
+    void initUrl(const QString &_asset) override;
+    QVariantHash parse(const QByteArray &_source, const QVariantHash &_oldValues) const override;
+    QUrl url() const override;
 
 private:
     QUrl m_url;

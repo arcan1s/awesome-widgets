@@ -31,7 +31,7 @@ class GraphicalItemHelper : public QObject
 
 public:
     explicit GraphicalItemHelper(QObject *_parent = nullptr, QGraphicsScene *_scene = nullptr);
-    virtual ~GraphicalItemHelper();
+    ~GraphicalItemHelper() override;
     // parameters
     void setParameters(const QString &_active, const QString &_inactive, const int _width,
                        const int _height, const int _count);
@@ -42,9 +42,9 @@ public:
     void paintHorizontal(const float _percent);
     void paintVertical(const float _percent);
     // additional conversion methods
-    float getPercents(const float _value, const float _min, const float _max);
-    bool isColor(const QString &_input);
-    QColor stringToColor(const QString &_color);
+    static float getPercents(const float _value, const float _min, const float _max);
+    static bool isColor(const QString &_input);
+    static QColor stringToColor(const QString &_color);
 
 private:
     void storeValue(const float _value);

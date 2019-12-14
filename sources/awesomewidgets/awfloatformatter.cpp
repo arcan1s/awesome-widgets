@@ -64,7 +64,7 @@ AWFloatFormatter *AWFloatFormatter::copy(const QString &_fileName, const int _nu
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    AWFloatFormatter *item = new AWFloatFormatter(static_cast<QWidget *>(parent()), _fileName);
+    auto *item = new AWFloatFormatter(dynamic_cast<QWidget *>(parent()), _fileName);
     AWAbstractFormatter::copyDefaults(item);
     item->setCount(count());
     item->setFormat(format());

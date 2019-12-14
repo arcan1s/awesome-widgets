@@ -126,7 +126,7 @@ void AWTelemetryHandler::uploadTelemetry(const QString &_group, const QString &_
         return;
     }
 
-    QNetworkAccessManager *manager = new QNetworkAccessManager(nullptr);
+    auto *manager = new QNetworkAccessManager(nullptr);
     connect(manager, SIGNAL(finished(QNetworkReply *)), this,
             SLOT(telemetryReplyRecieved(QNetworkReply *)));
 
@@ -156,7 +156,7 @@ void AWTelemetryHandler::telemetryReplyRecieved(QNetworkReply *_reply)
         return;
     }
 
-    QJsonParseError error;
+    QJsonParseError error{};
     QJsonDocument jsonDoc = QJsonDocument::fromJson(_reply->readAll(), &error);
     if (error.error != QJsonParseError::NoError) {
         qCWarning(LOG_AW) << "Parse error" << error.errorString();
@@ -173,7 +173,7 @@ void AWTelemetryHandler::telemetryReplyRecieved(QNetworkReply *_reply)
 }
 
 
-QString AWTelemetryHandler::getKey(const int _count) const
+QString AWTelemetryHandler::getKey(const int _count)
 {
     qCDebug(LOG_AW) << "Get key for keys count" << _count;
 

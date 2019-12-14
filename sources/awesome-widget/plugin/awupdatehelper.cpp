@@ -52,7 +52,7 @@ void AWUpdateHelper::checkUpdates(const bool _showAnyway)
 
     // showAnyway options requires to show message if no updates found on direct
     // request. In case of automatic check no message will be shown
-    QNetworkAccessManager *manager = new QNetworkAccessManager(nullptr);
+    auto *manager = new QNetworkAccessManager(nullptr);
     connect(manager, &QNetworkAccessManager::finished, [_showAnyway, this](QNetworkReply *reply) {
         return versionReplyRecieved(reply, _showAnyway);
     });
@@ -72,7 +72,7 @@ bool AWUpdateHelper::checkVersion()
     qCInfo(LOG_AW) << "Found version" << version << "actual one is" << m_foundVersion;
 
     if ((version != m_foundVersion) && (!QString(CHANGELOG).isEmpty())) {
-        genMessageBox(i18n("Changelog of %1", VERSION), QString(CHANGELOG).replace('@', '\n'),
+        genMessageBox(i18nc("Changelog of %1", VERSION), QString(CHANGELOG).replace('@', '\n'),
                       QMessageBox::Ok)
             ->open();
         return true;
@@ -103,7 +103,7 @@ void AWUpdateHelper::showUpdates(const QVersionNumber &_version)
     qCDebug(LOG_AW) << "Version" << _version;
 
     QString text;
-    text += i18n("Current version : %1", VERSION);
+    text += i18nc("Current version : %1", VERSION);
     text += QString(COMMIT_SHA).isEmpty() ? "\n" : QString(" (%1)\n").arg(QString(COMMIT_SHA));
     text += i18n("New version : %1", _version.toString()) + "\n\n";
     text += i18n("Click \"Ok\" to download");
@@ -115,7 +115,7 @@ void AWUpdateHelper::showUpdates(const QVersionNumber &_version)
 
 void AWUpdateHelper::userReplyOnUpdates(QAbstractButton *_button)
 {
-    QMessageBox::ButtonRole ret = static_cast<QMessageBox *>(sender())->buttonRole(_button);
+    QMessageBox::ButtonRole ret = dynamic_cast<QMessageBox *>(sender())->buttonRole(_button);
     qCInfo(LOG_AW) << "User select" << ret;
 
     switch (ret) {
@@ -138,7 +138,7 @@ void AWUpdateHelper::versionReplyRecieved(QNetworkReply *_reply, const bool _sho
         return;
     }
 
-    QJsonParseError error;
+    QJsonParseError error = QJsonParseError();
     QJsonDocument jsonDoc = QJsonDocument::fromJson(_reply->readAll(), &error);
     if (error.error != QJsonParseError::NoError) {
         qCWarning(LOG_AW) << "Parse error" << error.errorString();
@@ -167,7 +167,7 @@ QMessageBox *AWUpdateHelper::genMessageBox(const QString &_title, const QString 
 {
     qCDebug(LOG_AW) << "Construct message box with title" << _title << "and body" << _body;
 
-    QMessageBox *msgBox = new QMessageBox(nullptr);
+    auto *msgBox = new QMessageBox(nullptr);
     msgBox->setAttribute(Qt::WA_DeleteOnClose);
     msgBox->setModal(false);
     msgBox->setWindowTitle(_title);

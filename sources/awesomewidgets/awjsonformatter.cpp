@@ -68,7 +68,7 @@ AWJsonFormatter *AWJsonFormatter::copy(const QString &_fileName, const int _numb
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    AWJsonFormatter *item = new AWJsonFormatter(static_cast<QWidget *>(parent()), _fileName);
+    auto *item = new AWJsonFormatter(dynamic_cast<QWidget *>(parent()), _fileName);
     AWAbstractFormatter::copyDefaults(item);
     item->setNumber(_number);
     item->setPath(path());
@@ -159,7 +159,7 @@ QVariant AWJsonFormatter::getFromJson(const QVariant &_value, const QVariant &_e
 }
 
 
-QVariant AWJsonFormatter::getFromList(const QVariant &_value, const int _index) const
+QVariant AWJsonFormatter::getFromList(const QVariant &_value, const int _index)
 {
     qCDebug(LOG_LIB) << "Looking for index" << _index << "in" << _value;
 
@@ -167,7 +167,7 @@ QVariant AWJsonFormatter::getFromList(const QVariant &_value, const int _index) 
 }
 
 
-QVariant AWJsonFormatter::getFromMap(const QVariant &_value, const QString &_key) const
+QVariant AWJsonFormatter::getFromMap(const QVariant &_value, const QString &_key)
 {
     qCDebug(LOG_LIB) << "Looking for key" << _key << "in" << _value;
 

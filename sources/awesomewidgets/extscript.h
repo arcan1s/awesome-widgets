@@ -40,15 +40,15 @@ public:
     enum class Redirect { stdout2stderr = 0, nothing = 1, stderr2stdout = 2, swap = 3 };
 
     explicit ExtScript(QWidget *_parent = nullptr, const QString &_filePath = "");
-    virtual ~ExtScript();
-    ExtScript *copy(const QString &_fileName, const int _number);
-    QString jsonFiltersFile() const;
+    ~ExtScript() override;
+    ExtScript *copy(const QString &_fileName, const int _number) override;
+    static QString jsonFiltersFile();
     // get methods
     QString executable() const;
     QStringList filters() const;
     QString prefix() const;
     Redirect redirect() const;
-    QString uniq() const;
+    QString uniq() const override;
     // derivatives
     QString strRedirect() const;
     // set methods
@@ -62,11 +62,11 @@ public:
     void updateFilter(const QString &_filter, const bool _add);
 
 public slots:
-    void readConfiguration();
+    void readConfiguration() override;
     void readJsonFilters();
-    QVariantHash run();
-    int showConfiguration(const QVariant &_args);
-    void writeConfiguration() const;
+    QVariantHash run() override;
+    int showConfiguration(const QVariant &_args) override;
+    void writeConfiguration() const override;
 
 private slots:
     void startProcess();
@@ -75,7 +75,7 @@ private slots:
 private:
     QProcess *m_process = nullptr;
     Ui::ExtScript *ui = nullptr;
-    void translate();
+    void translate() override;
     // properties
     QString m_executable = "/usr/bin/true";
     QStringList m_filters = QStringList();

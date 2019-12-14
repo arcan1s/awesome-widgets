@@ -32,10 +32,10 @@ public:
                                       "geo.places(1) where text='%1, %2')";
 
     explicit YahooWeatherProvider(QObject *_parent);
-    virtual ~YahooWeatherProvider();
-    void initUrl(const QString &_city, const QString &_country, const int);
-    QVariantHash parse(const QVariantMap &_json) const;
-    QUrl url() const;
+    ~YahooWeatherProvider() override;
+    void initUrl(const QString &_city, const QString &_country, const int) override;
+    QVariantHash parse(const QVariantMap &_json) const override;
+    QUrl url() const override;
 
 private:
     QVariantHash parseCurrent(const QVariantMap &_json, const QVariantMap &_atmosphere) const;

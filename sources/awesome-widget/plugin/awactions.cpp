@@ -55,7 +55,7 @@ void AWActions::checkUpdates(const bool _showAnyway)
 }
 
 
-QString AWActions::getFileContent(const QString &_path) const
+QString AWActions::getFileContent(const QString &_path)
 {
     qCDebug(LOG_AW) << "Get content from file" << _path;
 
@@ -72,13 +72,13 @@ QString AWActions::getFileContent(const QString &_path) const
 
 
 // HACK: since QML could not use QLoggingCategory I need this hack
-bool AWActions::isDebugEnabled() const
+bool AWActions::isDebugEnabled()
 {
     return LOG_AW().isDebugEnabled();
 }
 
 
-bool AWActions::runCmd(const QString &_cmd) const
+bool AWActions::runCmd(const QString &_cmd)
 {
     qCDebug(LOG_AW) << "Cmd" << _cmd;
 
@@ -89,15 +89,15 @@ bool AWActions::runCmd(const QString &_cmd) const
 
 
 // HACK: this method uses variable from version.h
-void AWActions::showReadme() const
+void AWActions::showReadme()
 {
     QDesktopServices::openUrl(QUrl(HOMEPAGE));
 }
 
 
-void AWActions::showLegacyInfo() const
+void AWActions::showLegacyInfo()
 {
-    QMessageBox *msgBox = new QMessageBox(nullptr);
+    auto *msgBox = new QMessageBox(nullptr);
     msgBox->setAttribute(Qt::WA_DeleteOnClose);
     msgBox->setModal(false);
     msgBox->setWindowTitle(i18n("Not supported"));
@@ -110,7 +110,7 @@ void AWActions::showLegacyInfo() const
 
 
 // HACK: this method uses variables from version.h
-QString AWActions::getAboutText(const QString &_type) const
+QString AWActions::getAboutText(const QString &_type)
 {
     qCDebug(LOG_AW) << "Type" << _type;
 
@@ -118,7 +118,7 @@ QString AWActions::getAboutText(const QString &_type) const
 }
 
 
-QVariantMap AWActions::getFont(const QVariantMap &_defaultFont) const
+QVariantMap AWActions::getFont(const QVariantMap &_defaultFont)
 {
     qCDebug(LOG_AW) << "Default font is" << _defaultFont;
 

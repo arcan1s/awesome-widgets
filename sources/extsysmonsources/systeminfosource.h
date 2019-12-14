@@ -15,31 +15,36 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef ABSTRACTWEATHERPROVIDER_H
-#define ABSTRACTWEATHERPROVIDER_H
+#ifndef SYSTEMINFOSOURCE_H
+#define SYSTEMINFOSOURCE_H
 
 #include <QObject>
-#include <QUrl>
 
-#include "abstractextitem.h"
+#include "abstractextsysmonsource.h"
 
 
-class AbstractWeatherProvider : public QObject
+class SystemInfoSource : public AbstractExtSysMonSource
 {
     Q_OBJECT
 
 public:
-    explicit AbstractWeatherProvider(QObject *_parent)
-        : QObject(_parent){};
-    ~AbstractWeatherProvider() override = default;
-    virtual void initUrl(const QString &_city, const QString &_country, const int _ts) = 0;
-    virtual QVariantHash parse(const QVariantMap &_json) const = 0;
-    QString tag(const QString &_type) const
-    {
-        return dynamic_cast<AbstractExtItem *>(parent())->tag(_type);
-    };
-    virtual QUrl url() const = 0;
+    explicit SystemInfoSource(QObject *_parent, const QStringList &_args);
+    ~SystemInfoSource() override;
+    QVariant data(const QString &_source) override;
+    QVariantMap initialData(const QString &_source) const override;
+    void run() override;
+    QStringList sources() const override;
+
+private:
+    // configuration and values
+    QVariantHash m_values;
+    static QVariant fromDBusVariant(const QVariant &value);
+    static float getCurrentBrightness();
+    static float getCurrentVolume();
+    static QVariant sendDBusRequest(const QString &destination, const QString &path,
+                                    const QString &interface, const QString &method,
+                                    const QVariantList &args = QVariantList());
 };
 
 
-#endif /* ABSTRACTWEATHERPROVIDER_H */
+#endif /* SYSTEMINFOSOURCE_H */

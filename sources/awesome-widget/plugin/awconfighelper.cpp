@@ -17,8 +17,6 @@
 
 #include "awconfighelper.h"
 
-#include <KI18n/KLocalizedString>
-
 #include <QDir>
 #include <QQmlPropertyMap>
 #include <QSettings>
@@ -62,7 +60,7 @@ QString AWConfigHelper::configurationDirectory() const
 }
 
 
-bool AWConfigHelper::dropCache() const
+bool AWConfigHelper::dropCache()
 {
     QString fileName
         = QString("%1/awesomewidgets.ndx")
@@ -78,7 +76,7 @@ bool AWConfigHelper::exportConfiguration(QObject *_nativeConfig, const QString &
 
     QSettings settings(_fileName, QSettings::IniFormat);
     // plasmoid configuration
-    const QQmlPropertyMap *configuration = static_cast<const QQmlPropertyMap *>(_nativeConfig);
+    const auto *configuration = dynamic_cast<const QQmlPropertyMap *>(_nativeConfig);
     settings.beginGroup("plasmoid");
     for (auto &key : configuration->keys()) {
         QVariant value = configuration->value(key);
@@ -173,7 +171,7 @@ QVariantMap AWConfigHelper::importConfiguration(const QString &_fileName,
 }
 
 
-QVariantMap AWConfigHelper::readDataEngineConfiguration() const
+QVariantMap AWConfigHelper::readDataEngineConfiguration()
 {
     QString fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation,
                                               "plasma-dataengine-extsysmon.conf");
@@ -199,7 +197,7 @@ QVariantMap AWConfigHelper::readDataEngineConfiguration() const
 }
 
 
-bool AWConfigHelper::writeDataEngineConfiguration(const QVariantMap &_configuration) const
+bool AWConfigHelper::writeDataEngineConfiguration(const QVariantMap &_configuration)
 {
     qCDebug(LOG_AW) << "Configuration" << _configuration;
 
@@ -226,7 +224,7 @@ bool AWConfigHelper::writeDataEngineConfiguration(const QVariantMap &_configurat
 }
 
 
-void AWConfigHelper::copyConfigs(const QString &_localDir) const
+void AWConfigHelper::copyConfigs(const QString &_localDir)
 {
     qCDebug(LOG_AW) << "Local directory" << _localDir;
 
@@ -268,15 +266,14 @@ void AWConfigHelper::copyExtensions(const QString &_item, const QString &_type,
 }
 
 
-void AWConfigHelper::copySettings(QSettings &_from, QSettings &_to) const
+void AWConfigHelper::copySettings(QSettings &_from, QSettings &_to)
 {
     for (auto &key : _from.childKeys())
         _to.setValue(key, _from.value(key));
 }
 
 
-void AWConfigHelper::readFile(QSettings &_settings, const QString &_key,
-                              const QString &_fileName) const
+void AWConfigHelper::readFile(QSettings &_settings, const QString &_key, const QString &_fileName)
 {
     qCDebug(LOG_AW) << "Key" << _key << "from file" << _fileName;
 
@@ -291,8 +288,7 @@ void AWConfigHelper::readFile(QSettings &_settings, const QString &_key,
 }
 
 
-void AWConfigHelper::writeFile(QSettings &_settings, const QString &_key,
-                               const QString &_fileName) const
+void AWConfigHelper::writeFile(QSettings &_settings, const QString &_key, const QString &_fileName)
 {
     qCDebug(LOG_AW) << "Key" << _key << "to file" << _fileName;
 

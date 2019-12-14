@@ -19,13 +19,14 @@
 
 #include <QSettings>
 #include <QStandardPaths>
+#include <utility>
 
 #include "awdebug.h"
 
 
-AWAbstractPairHelper::AWAbstractPairHelper(const QString &_filePath, const QString &_section)
-    : m_filePath(_filePath)
-    , m_section(_section)
+AWAbstractPairHelper::AWAbstractPairHelper(QString _filePath, QString _section)
+    : m_filePath(std::move(_filePath))
+    , m_section(std::move(_section))
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 

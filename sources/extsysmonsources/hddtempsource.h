@@ -31,12 +31,12 @@ class HDDTemperatureSource : public AbstractExtSysMonSource
 
 public:
     explicit HDDTemperatureSource(QObject *_parent, const QStringList &_args);
-    virtual ~HDDTemperatureSource();
+    ~HDDTemperatureSource() override;
     static QStringList allHdd();
-    QVariant data(const QString &_source);
-    QVariantMap initialData(const QString &_source) const;
-    void run(){};
-    QStringList sources() const;
+    QVariant data(const QString &_source) override;
+    QVariantMap initialData(const QString &_source) const override;
+    void run() override{};
+    QStringList sources() const override;
 
 private slots:
     void updateValue(const QString &_device);

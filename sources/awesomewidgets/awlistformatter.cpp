@@ -63,7 +63,7 @@ AWListFormatter *AWListFormatter::copy(const QString &_fileName, const int _numb
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    AWListFormatter *item = new AWListFormatter(static_cast<QWidget *>(parent()), _fileName);
+    auto *item = new AWListFormatter(dynamic_cast<QWidget *>(parent()), _fileName);
     AWAbstractFormatter::copyDefaults(item);
     item->setFilter(filter());
     item->setSeparator(separator());

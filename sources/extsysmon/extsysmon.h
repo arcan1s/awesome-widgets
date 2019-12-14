@@ -29,12 +29,12 @@ class ExtendedSysMon : public Plasma::DataEngine
 
 public:
     explicit ExtendedSysMon(QObject *_parent, const QVariantList &_args);
-    virtual ~ExtendedSysMon();
+    ~ExtendedSysMon() override;
 
 protected:
-    QStringList sources() const;
-    bool sourceRequestEvent(const QString &_source);
-    bool updateSourceEvent(const QString &_source);
+    QStringList sources() const override;
+    bool sourceRequestEvent(const QString &_source) override;
+    bool updateSourceEvent(const QString &_source) override;
 
 private:
     // configuration

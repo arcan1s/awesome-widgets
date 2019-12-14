@@ -28,9 +28,9 @@ class AWPairConfigFactory : public QObject
 
 public:
     explicit AWPairConfigFactory(QObject *_parent = nullptr);
-    virtual ~AWPairConfigFactory();
-    Q_INVOKABLE void showFormatterDialog(const QStringList &_keys);
-    Q_INVOKABLE void showKeysDialog(const QStringList &_keys);
+    ~AWPairConfigFactory() override;
+    Q_INVOKABLE static void showFormatterDialog(const QStringList &_keys);
+    Q_INVOKABLE static void showKeysDialog(const QStringList &_keys);
 
 private:
 };

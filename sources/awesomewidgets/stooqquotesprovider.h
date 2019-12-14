@@ -29,10 +29,10 @@ public:
     const char *STOOQ_QUOTES_URL = "https://stooq.com/q/l/";
 
     explicit StooqQuotesProvider(QObject *_parent);
-    virtual ~StooqQuotesProvider();
-    void initUrl(const QString &_asset);
-    QVariantHash parse(const QByteArray &_source, const QVariantHash &_oldValues) const;
-    QUrl url() const;
+    ~StooqQuotesProvider() override;
+    void initUrl(const QString &_asset) override;
+    QVariantHash parse(const QByteArray &_source, const QVariantHash &_oldValues) const override;
+    QUrl url() const override;
 
 private:
     QUrl m_url;

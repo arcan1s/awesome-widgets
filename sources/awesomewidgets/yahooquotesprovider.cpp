@@ -56,7 +56,7 @@ QVariantHash YahooQuotesProvider::parse(const QByteArray &_source,
 
     QVariantHash values;
 
-    QJsonParseError error;
+    QJsonParseError error{};
     QJsonDocument jsonDoc = QJsonDocument::fromJson(_source, &error);
     if (error.error != QJsonParseError::NoError) {
         qCWarning(LOG_LIB) << "Parse error" << error.errorString();

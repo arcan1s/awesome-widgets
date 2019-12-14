@@ -37,7 +37,7 @@ AWPairConfigFactory::~AWPairConfigFactory()
 
 void AWPairConfigFactory::showFormatterDialog(const QStringList &_keys)
 {
-    AWFormatterConfig *config = new AWFormatterConfig(nullptr, _keys);
+    auto *config = new AWFormatterConfig(nullptr, _keys);
     config->showDialog();
     config->deleteLater();
 }
@@ -45,7 +45,7 @@ void AWPairConfigFactory::showFormatterDialog(const QStringList &_keys)
 
 void AWPairConfigFactory::showKeysDialog(const QStringList &_keys)
 {
-    AWCustomKeysConfig *config = new AWCustomKeysConfig(nullptr, _keys);
+    auto *config = new AWCustomKeysConfig(nullptr, _keys);
     config->showDialog();
     config->deleteLater();
 }

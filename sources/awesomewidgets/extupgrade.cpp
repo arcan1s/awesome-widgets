@@ -63,7 +63,7 @@ ExtUpgrade *ExtUpgrade::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    ExtUpgrade *item = new ExtUpgrade(static_cast<QWidget *>(parent()), _fileName);
+    auto *item = new ExtUpgrade(dynamic_cast<QWidget *>(parent()), _fileName);
     copyDefaults(item);
     item->setExecutable(executable());
     item->setFilter(filter());
@@ -218,7 +218,7 @@ void ExtUpgrade::updateValue()
 
     QString qoutput
         = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardOutput()).trimmed();
-    m_values[tag("pkgcount")] = [this](QString output) {
+    m_values[tag("pkgcount")] = [this](const QString &output) {
         return filter().isEmpty()
                    ? output.split('\n', QString::SkipEmptyParts).count() - null()
                    : output.split('\n', QString::SkipEmptyParts).filter(QRegExp(filter())).count();

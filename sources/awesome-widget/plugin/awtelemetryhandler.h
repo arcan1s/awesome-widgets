@@ -32,7 +32,7 @@ public:
     const char *REMOTE_TELEMETRY_URL = "https://arcanis.me/telemetry";
 
     explicit AWTelemetryHandler(QObject *_parent = nullptr, const QString &_clientId = "");
-    virtual ~AWTelemetryHandler();
+    ~AWTelemetryHandler() override;
     Q_INVOKABLE QStringList get(const QString &_group) const;
     Q_INVOKABLE QString getLast(const QString &_group) const;
     Q_INVOKABLE void init(const int _count, const bool _enableRemote, const QString &_clientId);
@@ -46,7 +46,7 @@ private slots:
     void telemetryReplyRecieved(QNetworkReply *_reply);
 
 private:
-    QString getKey(const int _count) const;
+    static QString getKey(const int _count);
     QString m_clientId;
     QString m_localFile;
     int m_storeCount = 0;

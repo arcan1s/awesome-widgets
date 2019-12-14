@@ -345,10 +345,9 @@ QString AWKeys::parsePattern(QString _pattern) const
     // bars
     for (auto &bar : m_foundBars) {
         GraphicalItem *item = m_keyOperator->giByKey(bar);
-        QString image = item->isCustom()
-                            ? item->image(AWPatternFunctions::expandLambdas(
-                                  item->bar(), m_aggregator, m_values, item->usedKeys()))
-                            : item->image(m_values[item->bar()]);
+        QString image = item->isCustom() ? item->image(AWPatternFunctions::expandLambdas(
+                            item->bar(), m_aggregator, m_values, item->usedKeys()))
+                                         : item->image(m_values[item->bar()]);
         _pattern.replace(QString("$%1").arg(bar), image);
     }
 

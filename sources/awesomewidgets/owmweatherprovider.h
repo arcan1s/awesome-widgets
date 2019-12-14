@@ -32,10 +32,10 @@ public:
     const char *OWM_FORECAST_URL = "https://arcanis.me/forecast";
 
     explicit OWMWeatherProvider(QObject *_parent);
-    virtual ~OWMWeatherProvider();
-    void initUrl(const QString &_city, const QString &_country, const int);
-    QVariantHash parse(const QVariantMap &_json) const;
-    QUrl url() const;
+    ~OWMWeatherProvider() override;
+    void initUrl(const QString &_city, const QString &_country, const int) override;
+    QVariantHash parse(const QVariantMap &_json) const override;
+    QUrl url() const override;
 
 private:
     QVariantHash parseSingleJson(const QVariantMap &_json) const;

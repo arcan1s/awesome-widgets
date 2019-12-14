@@ -31,26 +31,26 @@ class AWConfigHelper : public QObject
 
 public:
     explicit AWConfigHelper(QObject *_parent = nullptr);
-    virtual ~AWConfigHelper();
+    ~AWConfigHelper() override;
     Q_INVOKABLE QString configurationDirectory() const;
-    Q_INVOKABLE bool dropCache() const;
+    Q_INVOKABLE static bool dropCache();
     Q_INVOKABLE bool exportConfiguration(QObject *_nativeConfig, const QString &_fileName) const;
     Q_INVOKABLE QVariantMap importConfiguration(const QString &_fileName,
                                                 const bool _importPlasmoid,
                                                 const bool _importExtensions,
                                                 const bool _importAdds) const;
     // dataengine
-    Q_INVOKABLE QVariantMap readDataEngineConfiguration() const;
-    Q_INVOKABLE bool writeDataEngineConfiguration(const QVariantMap &_configuration) const;
+    Q_INVOKABLE static QVariantMap readDataEngineConfiguration();
+    Q_INVOKABLE static bool writeDataEngineConfiguration(const QVariantMap &_configuration);
 
 private:
     // methods
-    void copyConfigs(const QString &_localDir) const;
+    static void copyConfigs(const QString &_localDir);
     void copyExtensions(const QString &_item, const QString &_type, QSettings &_settings,
                         const bool _inverse) const;
-    void copySettings(QSettings &_from, QSettings &_to) const;
-    void readFile(QSettings &_settings, const QString &_key, const QString &_fileName) const;
-    void writeFile(QSettings &_settings, const QString &_key, const QString &_fileName) const;
+    static void copySettings(QSettings &_from, QSettings &_to);
+    static void readFile(QSettings &_settings, const QString &_key, const QString &_fileName);
+    static void writeFile(QSettings &_settings, const QString &_key, const QString &_fileName);
     // properties
     QString m_baseDir;
     QStringList m_dirs = {"desktops", "quotes", "scripts", "upgrade", "weather", "formatters"};

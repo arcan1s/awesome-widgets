@@ -75,7 +75,7 @@ GraphicalItem *GraphicalItem::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    GraphicalItem *item = new GraphicalItem(static_cast<QWidget *>(parent()), _fileName);
+    auto *item = new GraphicalItem(dynamic_cast<QWidget *>(parent()), _fileName);
     copyDefaults(item);
     item->setActiveColor(activeColor());
     item->setBar(bar());
@@ -486,8 +486,8 @@ int GraphicalItem::showConfiguration(const QVariant &_args)
     setCount(ui->spinBox_count->value());
     setCustom(ui->checkBox_custom->isChecked());
     setBar(m_custom ? ui->lineEdit_customValue->text() : ui->comboBox_value->currentText());
-    setMaxValue(ui->doubleSpinBox_max->value());
-    setMinValue(ui->doubleSpinBox_min->value());
+    setMaxValue(static_cast<float>(ui->doubleSpinBox_max->value()));
+    setMinValue(static_cast<float>(ui->doubleSpinBox_min->value()));
     setActiveColor(ui->lineEdit_activeColor->text());
     setInactiveColor(ui->lineEdit_inactiveColor->text());
     setType(static_cast<Type>(ui->comboBox_type->currentIndex()));

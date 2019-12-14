@@ -54,7 +54,7 @@ QString AWPatternFunctions::expandTemplates(QString _code)
     qCDebug(LOG_AW) << "Expand templates in" << _code;
 
     // match the following construction $template{{some code here}}
-    QRegularExpression templatesRegexp("\\$template\\{\\{(?<body>.*?)\\}\\}");
+    QRegularExpression templatesRegexp(R"(\$template\{\{(?<body>.*?)\}\})");
     templatesRegexp.setPatternOptions(QRegularExpression::DotMatchesEverythingOption);
 
     QRegularExpressionMatchIterator it = templatesRegexp.globalMatch(_code);
@@ -92,8 +92,7 @@ AWPatternFunctions::findFunctionCalls(const QString &_function, const QString &_
     // in this field if they are not screened by $, i.e. '$,'
     // * body depends on the function name, double brackets should be screened
     // by using $, e.g. ${
-    QRegularExpression regex(
-        QString("\\$%1\\<(?<args>.*?)\\>\\{\\{(?<body>.*?)\\}\\}").arg(_function));
+    QRegularExpression regex(QString(R"(\$%1\<(?<args>.*?)\>\{\{(?<body>.*?)\}\})").arg(_function));
     regex.setPatternOptions(QRegularExpression::DotMatchesEverythingOption);
 
     QList<AWPatternFunctions::AWFunction> foundFunctions;
@@ -266,7 +265,7 @@ QStringList AWPatternFunctions::findLambdas(const QString &_code)
 
     QStringList selectedKeys;
     // match the following construction ${{some code here}}
-    QRegularExpression lambdaRegexp("\\$\\{\\{(?<body>.*?)\\}\\}");
+    QRegularExpression lambdaRegexp(R"(\$\{\{(?<body>.*?)\}\})");
     lambdaRegexp.setPatternOptions(QRegularExpression::DotMatchesEverythingOption);
 
     QRegularExpressionMatchIterator it = lambdaRegexp.globalMatch(_code);

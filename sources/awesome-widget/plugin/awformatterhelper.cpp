@@ -122,7 +122,7 @@ void AWFormatterHelper::editItems()
 
 
 AWAbstractFormatter::FormatterClass
-AWFormatterHelper::defineFormatterClass(const QString &_stringType) const
+AWFormatterHelper::defineFormatterClass(const QString &_stringType)
 {
     qCDebug(LOG_AW) << "Define formatter class for" << _stringType;
 

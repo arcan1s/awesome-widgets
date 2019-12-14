@@ -30,15 +30,15 @@ class AWCustomKeysHelper : public QObject, public AWAbstractPairHelper
 
 public:
     explicit AWCustomKeysHelper(QObject *_parent = nullptr);
-    virtual ~AWCustomKeysHelper();
+    ~AWCustomKeysHelper() override;
     // get
     QString source(const QString &_key) const;
     QStringList sources() const;
     QStringList refinedSources() const;
     // configuration related
-    virtual void editPairs(){};
-    virtual QStringList leftKeys();
-    virtual QStringList rightKeys();
+    void editPairs() override{};
+    QStringList leftKeys() override;
+    QStringList rightKeys() override;
 
 private:
 };

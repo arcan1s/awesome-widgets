@@ -69,16 +69,16 @@ void AWDataEngineAggregator::reconnectSources(const int _interval)
 
     disconnectSources();
 
-    m_dataEngines["systemmonitor"]->connectAllSources(parent(), _interval);
-    m_dataEngines["extsysmon"]->connectAllSources(parent(), _interval);
+    m_dataEngines["systemmonitor"]->connectAllSources(parent(), (uint)_interval);
+    m_dataEngines["extsysmon"]->connectAllSources(parent(), (uint)_interval);
     m_dataEngines["time"]->connectSource("Local", parent(), 1000);
 
-    m_newSourceConnection
-        = connect(m_dataEngines["systemmonitor"], &Plasma::DataEngine::sourceAdded,
-                  [this, _interval](const QString source) {
-                      emit(deviceAdded(source));
-                      m_dataEngines["systemmonitor"]->connectSource(source, parent(), _interval);
-                  });
+    m_newSourceConnection = connect(
+        m_dataEngines["systemmonitor"], &Plasma::DataEngine::sourceAdded,
+        [this, _interval](const QString source) {
+            emit(deviceAdded(source));
+            m_dataEngines["systemmonitor"]->connectSource(source, parent(), (uint)_interval);
+        });
 
 #ifdef BUILD_FUTURE
     createQueuedConnection();

@@ -21,17 +21,17 @@
 #include <KI18n/KLocalizedString>
 
 #include <QPushButton>
+#include <utility>
 
 #include "awabstractselector.h"
 #include "awdebug.h"
 
 
-AWAbstractPairConfig::AWAbstractPairConfig(QWidget *_parent, const bool _hasEdit,
-                                           const QStringList &_keys)
+AWAbstractPairConfig::AWAbstractPairConfig(QWidget *_parent, const bool _hasEdit, QStringList _keys)
     : QDialog(_parent)
     , ui(new Ui::AWAbstractPairConfig)
     , m_hasEdit(_hasEdit)
-    , m_keys(_keys)
+    , m_keys(std::move(_keys))
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
@@ -84,8 +84,8 @@ void AWAbstractPairConfig::edit()
 
 void AWAbstractPairConfig::updateUi()
 {
-    QPair<QString, QString> current = static_cast<AWAbstractSelector *>(sender())->current();
-    int index = m_selectors.indexOf(static_cast<AWAbstractSelector *>(sender()));
+    QPair<QString, QString> current = dynamic_cast<AWAbstractSelector *>(sender())->current();
+    int index = m_selectors.indexOf(dynamic_cast<AWAbstractSelector *>(sender()));
 
     if ((current.first.isEmpty()) && (current.second.isEmpty())) {
         // remove current selector if it is empty and does not last
@@ -110,7 +110,7 @@ void AWAbstractPairConfig::addSelector(const QStringList &_keys, const QStringLi
     qCDebug(LOG_AW) << "Add selector with keys" << _keys << "values" << _values
                     << "and current ones" << _current;
 
-    AWAbstractSelector *selector = new AWAbstractSelector(ui->scrollAreaWidgetContents, m_editable);
+    auto *selector = new AWAbstractSelector(ui->scrollAreaWidgetContents, m_editable);
     selector->init(_keys, _values, _current);
     ui->verticalLayout->insertWidget(ui->verticalLayout->count() - 1, selector);
     connect(selector, SIGNAL(selectionChanged()), this, SLOT(updateUi()));

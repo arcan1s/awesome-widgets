@@ -66,7 +66,7 @@ QVariant PlayerSource::data(const QString &_source)
 }
 
 
-QString PlayerSource::getAutoMpris() const
+QString PlayerSource::getAutoMpris()
 {
     QDBusMessage listServices
         = QDBusConnection::sessionBus().interface()->call(QDBus::BlockWithGui, "ListNames");
@@ -282,7 +282,7 @@ void PlayerSource::mpdSocketWritten(const qint64 _bytes)
 }
 
 
-QVariantHash PlayerSource::defaultInfo() const
+QVariantHash PlayerSource::defaultInfo()
 {
     QVariantHash info;
     info["player/album"] = "unknown";
@@ -300,7 +300,7 @@ QVariantHash PlayerSource::getPlayerMpdInfo()
     if (m_mpdSocket.state() == QAbstractSocket::UnconnectedState) {
         // connect to host
         qCInfo(LOG_ESS) << "Connect to" << m_mpdAddress << m_mpdPort;
-        m_mpdSocket.connectToHost(m_mpdAddress, m_mpdPort);
+        m_mpdSocket.connectToHost(m_mpdAddress, static_cast<quint16>(m_mpdPort));
     } else if (m_mpdSocket.state() == QAbstractSocket::ConnectedState) {
         // send request
         if (m_mpdSocket.write(MPD_STATUS_REQUEST) == -1)
@@ -315,11 +315,11 @@ QVariantHash PlayerSource::getPlayerMprisInfo(const QString &_mpris) const
 {
     qCDebug(LOG_ESS) << "MPRIS" << _mpris;
 
-    QVariantHash info = defaultInfo();
+    auto info = defaultInfo();
     if (_mpris.isEmpty())
         return info;
 
-    QDBusConnection bus = QDBusConnection::sessionBus();
+    auto bus = QDBusConnection::sessionBus();
     // comes from the following request:
     // qdbus org.mpris.MediaPlayer2.vlc /org/mpris/MediaPlayer2
     // org.freedesktop.DBus.Properties.Get org.mpris.MediaPlayer2.Player
@@ -328,12 +328,12 @@ QVariantHash PlayerSource::getPlayerMprisInfo(const QString &_mpris) const
     // dbus-send --print-reply --session --dest=org.mpris.MediaPlayer2.vlc
     // /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get
     // string:'org.mpris.MediaPlayer2.Player' string:'Metadata'
-    QVariantList args = QVariantList({"org.mpris.MediaPlayer2.Player", "Metadata"});
+    auto args = QVariantList({"org.mpris.MediaPlayer2.Player", "Metadata"});
     QDBusMessage request = QDBusMessage::createMethodCall(
         QString("org.mpris.MediaPlayer2.%1").arg(_mpris), "/org/mpris/MediaPlayer2",
         "org.freedesktop.DBus.Properties", "Get");
     request.setArguments(args);
-    QDBusMessage response = bus.call(request, QDBus::BlockWithGui, REQUEST_TIMEOUT);
+    auto response = bus.call(request, QDBus::BlockWithGui, REQUEST_TIMEOUT);
     if ((response.type() != QDBusMessage::ReplyMessage) || (response.arguments().isEmpty())) {
         qCWarning(LOG_ESS) << "Error message" << response.errorMessage();
     } else {

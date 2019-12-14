@@ -35,7 +35,7 @@ QString AWDebug::getAboutText(const QString &_type)
     if (_type == "header") {
         text = NAME;
     } else if (_type == "version") {
-        text = i18n("Version %1 (build date %2)", VERSION, BUILD_DATE);
+        text = i18np("Version %1 (build date %2)", VERSION, BUILD_DATE);
         if (!QString(COMMIT_SHA).isEmpty())
             text += QString(" (%1)").arg(COMMIT_SHA);
     } else if (_type == "description") {
@@ -60,7 +60,7 @@ QString AWDebug::getAboutText(const QString &_type)
                    .arg(DATE)
                    .arg(EMAIL)
                    .arg(AUTHOR)
-               + i18n("This software is licensed under %1", LICENSE) + "</small>";
+               + i18nc("This software is licensed under %1", LICENSE) + "</small>";
     } else if (_type == "translators") {
         QStringList translatorList = QString(TRANSLATORS).split(',');
         for (auto &translator : translatorList)

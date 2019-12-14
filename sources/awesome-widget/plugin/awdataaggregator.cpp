@@ -54,7 +54,7 @@ AWDataAggregator::~AWDataAggregator()
 }
 
 
-QString AWDataAggregator::htmlImage(const QPixmap &_source) const
+QString AWDataAggregator::htmlImage(const QPixmap &_source)
 {
     QByteArray byteArray;
     QBuffer buffer(&byteArray);
@@ -195,7 +195,7 @@ void AWDataAggregator::initScene()
 }
 
 
-QString AWDataAggregator::notificationText(const QString &_source, const float _value) const
+QString AWDataAggregator::notificationText(const QString &_source, const float _value)
 {
     qCDebug(LOG_AW) << "Notification source" << _source << "with value" << _value;
 
@@ -215,7 +215,7 @@ QString AWDataAggregator::notificationText(const QString &_source, const float _
 }
 
 
-QString AWDataAggregator::notificationText(const QString &_source, const QString &_value) const
+QString AWDataAggregator::notificationText(const QString &_source, const QString &_value)
 {
     qCDebug(LOG_AW) << "Notification source" << _source << "with value" << _value;
 
@@ -246,10 +246,7 @@ void AWDataAggregator::setData(const QVariantHash &_values)
         m_currentNetworkDevice = value;
     }(_values["netdev"].toString());
     // additional check for GPU load
-    [this](const float value) {
-        checkValue("gpu", value, 90.0);
-        m_currentGPULoad = value;
-    }(_values["gpu"].toFloat());
+    [this](const float value) { checkValue("gpu", value, 90.0); }(_values["gpu"].toFloat());
 }
 
 

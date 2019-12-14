@@ -67,7 +67,7 @@ ExtScript *ExtScript::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    ExtScript *item = new ExtScript(static_cast<QWidget *>(parent()), _fileName);
+    auto *item = new ExtScript(dynamic_cast<QWidget *>(parent()), _fileName);
     copyDefaults(item);
     item->setExecutable(executable());
     item->setNumber(_number);
@@ -79,7 +79,7 @@ ExtScript *ExtScript::copy(const QString &_fileName, const int _number)
 }
 
 
-QString ExtScript::jsonFiltersFile() const
+QString ExtScript::jsonFiltersFile()
 {
     QString fileName
         = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
@@ -253,7 +253,7 @@ void ExtScript::readJsonFilters()
     QString jsonText = jsonFile.readAll();
     jsonFile.close();
 
-    QJsonParseError error;
+    QJsonParseError error{};
     QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonText.toUtf8(), &error);
     if (error.error != QJsonParseError::NoError) {
         qCWarning(LOG_LIB) << "Parse error" << error.errorString();

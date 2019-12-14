@@ -41,7 +41,7 @@ class AbstractExtItem : public QDialog
 
 public:
     explicit AbstractExtItem(QWidget *_parent = nullptr, const QString &_filePath = "");
-    virtual ~AbstractExtItem();
+    ~AbstractExtItem() override;
     virtual void bumpApi(const int _newVer);
     virtual AbstractExtItem *copy(const QString &_fileName, const int _number) = 0;
     virtual void copyDefaults(AbstractExtItem *_other) const;

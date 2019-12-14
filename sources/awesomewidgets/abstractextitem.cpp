@@ -45,7 +45,7 @@ AbstractExtItem::~AbstractExtItem()
 
     if (m_socket) {
         m_socket->close();
-        m_socket->removeServer(socket());
+        QLocalServer::removeServer(socket());
         m_socket->deleteLater();
     }
 }
@@ -270,7 +270,7 @@ void AbstractExtItem::deinitSocket()
         return;
 
     m_socket->close();
-    m_socket->removeServer(socket());
+    QLocalServer::removeServer(socket());
     delete m_socket;
     disconnect(m_socket, SIGNAL(newConnection()), this, SLOT(newConnectionReceived()));
 }

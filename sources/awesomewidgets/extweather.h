@@ -43,9 +43,9 @@ public:
     enum class Provider { OWM = 0, Yahoo = 1 };
 
     explicit ExtWeather(QWidget *_parent = nullptr, const QString &_filePath = "");
-    virtual ~ExtWeather();
-    ExtWeather *copy(const QString &_fileName, const int _number);
-    QString jsonMapFile() const;
+    ~ExtWeather() override;
+    ExtWeather *copy(const QString &_fileName, const int _number) override;
+    static QString jsonMapFile();
     QString weatherFromInt(const int _id) const;
     // get methods
     QString city() const;
@@ -54,7 +54,7 @@ public:
     Provider provider() const;
     QString strProvider() const;
     int ts() const;
-    QString uniq() const;
+    QString uniq() const override;
     // set methods
     void setCity(const QString &_city);
     void setCountry(const QString &_country);
@@ -64,11 +64,11 @@ public:
     void setTs(const int _ts);
 
 public slots:
-    void readConfiguration();
+    void readConfiguration() override;
     void readJsonMap();
-    QVariantHash run();
-    int showConfiguration(const QVariant &_args);
-    void writeConfiguration() const;
+    QVariantHash run() override;
+    int showConfiguration(const QVariant &_args) override;
+    void writeConfiguration() const override;
 
 private slots:
     void sendRequest();
@@ -80,7 +80,7 @@ private:
     bool m_isRunning = false;
     Ui::ExtWeather *ui = nullptr;
     void initProvider();
-    void translate();
+    void translate() override;
     // properties
     QString m_city = "London";
     QString m_country = "uk";

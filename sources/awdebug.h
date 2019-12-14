@@ -33,7 +33,7 @@ const char LOG_FORMAT[] = "[%{time "
 
 QString getAboutText(const QString &_type);
 QStringList getBuildData();
-}
+} // namespace AWDebug
 
 
 Q_DECLARE_LOGGING_CATEGORY(LOG_AW)

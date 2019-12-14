@@ -53,8 +53,8 @@ public:
     enum class Type { Horizontal = 0, Vertical = 1, Circle = 2, Graph = 3, Bars = 4 };
 
     explicit GraphicalItem(QWidget *_parent = nullptr, const QString &_filePath = "");
-    virtual ~GraphicalItem();
-    GraphicalItem *copy(const QString &_fileName, const int _number);
+    ~GraphicalItem() override;
+    GraphicalItem *copy(const QString &_fileName, const int _number) override;
     QString image(const QVariant &value);
     void initScene();
     // get methods
@@ -72,7 +72,7 @@ public:
     Direction direction() const;
     QString strDirection() const;
     QStringList usedKeys() const;
-    QString uniq() const;
+    QString uniq() const override;
     // set methods
     void setBar(const QString &_bar);
     void setActiveColor(const QString &_color);
@@ -90,10 +90,10 @@ public:
     void setUsedKeys(const QStringList &_usedKeys);
 
 public slots:
-    void readConfiguration();
-    QVariantHash run() { return QVariantHash(); };
-    int showConfiguration(const QVariant &_args);
-    void writeConfiguration() const;
+    void readConfiguration() override;
+    QVariantHash run() override { return QVariantHash(); };
+    int showConfiguration(const QVariant &_args) override;
+    void writeConfiguration() const override;
 
 private slots:
     void changeColor();
@@ -105,7 +105,7 @@ private:
     QGraphicsScene *m_scene = nullptr;
     QGraphicsView *m_view = nullptr;
     Ui::GraphicalItem *ui = nullptr;
-    void translate();
+    void translate() override;
     // properties
     QString m_bar = "cpu";
     int m_count = 100;

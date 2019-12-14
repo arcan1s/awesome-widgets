@@ -76,7 +76,7 @@ void QCronScheduler::expired()
 }
 
 
-QList<int> QCronScheduler::parseField(const QString &_value, const int _min, const int _max) const
+QList<int> QCronScheduler::parseField(const QString &_value, const int _min, const int _max)
 {
     qCDebug(LOG_LIB) << "Parse field" << _value << "with corner values" << _min << _max;
 

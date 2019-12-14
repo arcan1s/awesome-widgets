@@ -36,12 +36,12 @@ class AWAbstractPairConfig : public QDialog
 
 public:
     explicit AWAbstractPairConfig(QWidget *_parent = nullptr, const bool _hasEdit = false,
-                                  const QStringList &_keys = QStringList());
-    virtual ~AWAbstractPairConfig();
+                                  QStringList _keys = QStringList());
+    ~AWAbstractPairConfig() override;
     template <class T> void initHelper()
     {
-        if (m_helper)
-            delete m_helper;
+
+        delete m_helper;
         m_helper = new T(this);
     }
     void showDialog();

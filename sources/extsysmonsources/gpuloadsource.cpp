@@ -35,9 +35,8 @@ GPULoadSource::GPULoadSource(QObject *_parent, const QStringList &_args)
 
     m_process = new QProcess(nullptr);
     // fucking magic from http://doc.qt.io/qt-5/qprocess.html#finished
-    connect(m_process,
-            static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
-            [this](int, QProcess::ExitStatus) { return updateValue(); });
+    connect(m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+            [=](int, QProcess::ExitStatus) { return updateValue(); });
     m_process->waitForFinished(0);
 }
 

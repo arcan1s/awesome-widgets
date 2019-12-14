@@ -33,7 +33,7 @@ private slots:
     void initTestCase();
     void cleanupTestCase();
     // test
-    void test_values();
+    static void test_values();
     void test_conversion();
     void test_copy();
 

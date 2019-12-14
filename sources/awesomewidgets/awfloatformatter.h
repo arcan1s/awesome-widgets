@@ -39,9 +39,9 @@ class AWFloatFormatter : public AWAbstractFormatter
 
 public:
     explicit AWFloatFormatter(QWidget *_parent = nullptr, const QString &_filePath = "");
-    virtual ~AWFloatFormatter();
-    QString convert(const QVariant &_value) const;
-    AWFloatFormatter *copy(const QString &_fileName, const int _number);
+    ~AWFloatFormatter() override;
+    QString convert(const QVariant &_value) const override;
+    AWFloatFormatter *copy(const QString &_fileName, const int _number) override;
     // properties
     int count() const;
     QChar fillChar() const;
@@ -59,13 +59,13 @@ public:
     void setSummand(const double _summand);
 
 public slots:
-    void readConfiguration();
-    int showConfiguration(const QVariant &_args);
-    void writeConfiguration() const;
+    void readConfiguration() override;
+    int showConfiguration(const QVariant &_args) override;
+    void writeConfiguration() const override;
 
 private:
     Ui::AWFloatFormatter *ui = nullptr;
-    void translate();
+    void translate() override;
     // properties
     int m_count = 0;
     QChar m_fillChar = QChar();

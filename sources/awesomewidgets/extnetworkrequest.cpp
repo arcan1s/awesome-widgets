@@ -69,7 +69,7 @@ ExtNetworkRequest *ExtNetworkRequest::copy(const QString &_fileName, const int _
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    ExtNetworkRequest *item = new ExtNetworkRequest(static_cast<QWidget *>(parent()), _fileName);
+    auto *item = new ExtNetworkRequest(dynamic_cast<QWidget *>(parent()), _fileName);
     copyDefaults(item);
     item->setNumber(_number);
     item->setStringUrl(stringUrl());

@@ -25,7 +25,7 @@
 class AWAbstractPairHelper
 {
 public:
-    explicit AWAbstractPairHelper(const QString &_filePath = "", const QString &_section = "");
+    explicit AWAbstractPairHelper(QString _filePath = "", QString _section = "");
     virtual ~AWAbstractPairHelper();
     QStringList keys() const;
     QHash<QString, QString> pairs() const;

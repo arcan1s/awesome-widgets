@@ -60,8 +60,7 @@ AWDateTimeFormatter *AWDateTimeFormatter::copy(const QString &_fileName, const i
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    AWDateTimeFormatter *item
-        = new AWDateTimeFormatter(static_cast<QWidget *>(parent()), _fileName);
+    auto *item = new AWDateTimeFormatter(dynamic_cast<QWidget *>(parent()), _fileName);
     AWAbstractFormatter::copyDefaults(item);
     item->setFormat(format());
     item->setTranslateString(translateString());

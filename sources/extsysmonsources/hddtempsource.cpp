@@ -40,9 +40,8 @@ HDDTemperatureSource::HDDTemperatureSource(QObject *_parent, const QStringList &
     for (auto &device : m_devices) {
         m_processes[device] = new QProcess(nullptr);
         // fucking magic from http://doc.qt.io/qt-5/qprocess.html#finished
-        connect(m_processes[device],
-                static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
-                [this, device](int, QProcess::ExitStatus) { return updateValue(device); });
+        connect(m_processes[device], QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+                [=](int, QProcess::ExitStatus) { return updateValue(device); });
         m_processes[device]->waitForFinished(0);
     }
 }

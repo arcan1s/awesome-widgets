@@ -56,19 +56,19 @@ DPAdds::~DPAdds()
 
 
 // HACK: since QML could not use QLoggingCategory I need this hack
-bool DPAdds::isDebugEnabled() const
+bool DPAdds::isDebugEnabled()
 {
     return LOG_DP().isDebugEnabled();
 }
 
 
-int DPAdds::currentDesktop() const
+int DPAdds::currentDesktop()
 {
     return KWindowSystem::currentDesktop();
 }
 
 
-QStringList DPAdds::dictKeys(const bool _sorted, const QString &_regexp) const
+QStringList DPAdds::dictKeys(const bool _sorted, const QString &_regexp)
 {
     qCDebug(LOG_DP) << "Should be sorted" << _sorted << "and filter applied" << _regexp;
 
@@ -85,7 +85,7 @@ QStringList DPAdds::dictKeys(const bool _sorted, const QString &_regexp) const
 }
 
 
-int DPAdds::numberOfDesktops() const
+int DPAdds::numberOfDesktops()
 {
     return KWindowSystem::numberOfDesktops();
 }
@@ -104,13 +104,13 @@ QString DPAdds::toolTipImage(const int _desktop) const
     if (m_tooltipType == "names") {
         QStringList windowList;
         std::for_each(info.windowsData.cbegin(), info.windowsData.cend(),
-                      [&windowList](WindowData data) { windowList.append(data.name); });
+                      [&windowList](const WindowData &data) { windowList.append(data.name); });
         return QString("<ul><li>%1</li></ul>").arg(windowList.join("</li><li>"));
     }
 
     // init
-    QGraphicsScene *toolTipScene = new QGraphicsScene();
-    QGraphicsView *toolTipView = new QGraphicsView(toolTipScene);
+    auto *toolTipScene = new QGraphicsScene();
+    auto *toolTipView = new QGraphicsView(toolTipScene);
     toolTipView->setStyleSheet("background: transparent");
     toolTipView->setContentsMargins(0, 0, 0, 0);
     toolTipView->setFrameShape(QFrame::NoFrame);
@@ -119,8 +119,8 @@ QString DPAdds::toolTipImage(const int _desktop) const
 
     // update
     float margin = 5.0f * info.desktop.width() / 400.0f;
-    toolTipView->resize(info.desktop.width() + 2.0f * margin,
-                        info.desktop.height() + 2.0f * margin);
+    toolTipView->resize(static_cast<int>(info.desktop.width() + 2.0f * margin),
+                        static_cast<int>(info.desktop.height() + 2.0f * margin));
     toolTipScene->clear();
     toolTipScene->setBackgroundBrush(QBrush(Qt::NoBrush));
     // borders
@@ -215,7 +215,7 @@ void DPAdds::setToolTipData(const QVariantMap &_tooltipData)
 }
 
 
-QString DPAdds::infoByKey(const QString &_key) const
+QString DPAdds::infoByKey(const QString &_key)
 {
     qCDebug(LOG_AW) << "Requested info for key" << _key;
 
@@ -246,7 +246,7 @@ QString DPAdds::valueByKey(const QString &_key, int _desktop) const
 
 
 // HACK: this method uses variables from version.h
-QString DPAdds::getAboutText(const QString &_type) const
+QString DPAdds::getAboutText(const QString &_type)
 {
     qCDebug(LOG_DP) << "Type" << _type;
 
@@ -254,7 +254,7 @@ QString DPAdds::getAboutText(const QString &_type) const
 }
 
 
-QVariantMap DPAdds::getFont(const QVariantMap &_defaultFont) const
+QVariantMap DPAdds::getFont(const QVariantMap &_defaultFont)
 {
     qCDebug(LOG_DP) << "Default font is" << _defaultFont;
 
@@ -285,7 +285,7 @@ void DPAdds::sendNotification(const QString &_eventId, const QString &_message)
 
 
 // slot for mouse click
-void DPAdds::setCurrentDesktop(const int _desktop) const
+void DPAdds::setCurrentDesktop(const int _desktop)
 {
     qCDebug(LOG_DP) << "Desktop" << _desktop;
 
@@ -293,7 +293,7 @@ void DPAdds::setCurrentDesktop(const int _desktop) const
 }
 
 
-DPAdds::DesktopWindowsInfo DPAdds::getInfoByDesktop(const int _desktop) const
+DPAdds::DesktopWindowsInfo DPAdds::getInfoByDesktop(const int _desktop)
 {
     qCDebug(LOG_DP) << "Desktop" << _desktop;
 

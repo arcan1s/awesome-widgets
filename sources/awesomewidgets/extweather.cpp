@@ -77,7 +77,7 @@ ExtWeather *ExtWeather::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "number" << _number;
 
-    ExtWeather *item = new ExtWeather(static_cast<QWidget *>(parent()), _fileName);
+    auto *item = new ExtWeather(dynamic_cast<QWidget *>(parent()), _fileName);
     copyDefaults(item);
     item->setCity(city());
     item->setCountry(country());
@@ -90,7 +90,7 @@ ExtWeather *ExtWeather::copy(const QString &_fileName, const int _number)
 }
 
 
-QString ExtWeather::jsonMapFile() const
+QString ExtWeather::jsonMapFile()
 {
     QString fileName
         = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
@@ -248,7 +248,7 @@ void ExtWeather::readJsonMap()
     QString jsonText = jsonFile.readAll();
     jsonFile.close();
 
-    QJsonParseError error;
+    QJsonParseError error{};
     QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonText.toUtf8(), &error);
     if (error.error != QJsonParseError::NoError) {
         qCWarning(LOG_LIB) << "Parse error" << error.errorString();
@@ -345,7 +345,7 @@ void ExtWeather::weatherReplyReceived(QNetworkReply *_reply)
     }
 
     m_isRunning = false;
-    QJsonParseError error;
+    QJsonParseError error{};
     QJsonDocument jsonDoc = QJsonDocument::fromJson(_reply->readAll(), &error);
     _reply->deleteLater();
     if (error.error != QJsonParseError::NoError) {

@@ -29,7 +29,7 @@ class AWFormatterConfig : public AWAbstractPairConfig
 public:
     explicit AWFormatterConfig(QWidget *_parent = nullptr,
                                const QStringList &_keys = QStringList());
-    virtual ~AWFormatterConfig();
+    ~AWFormatterConfig() override;
 };
 
 

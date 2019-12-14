@@ -35,9 +35,9 @@ class AWListFormatter : public AWAbstractFormatter
 
 public:
     explicit AWListFormatter(QWidget *_parent = nullptr, const QString &_filePath = "");
-    virtual ~AWListFormatter();
-    QString convert(const QVariant &_value) const;
-    AWListFormatter *copy(const QString &_fileName, const int _number);
+    ~AWListFormatter() override;
+    QString convert(const QVariant &_value) const override;
+    AWListFormatter *copy(const QString &_fileName, const int _number) override;
     // properties
     QString filter() const;
     bool isSorted() const;
@@ -47,13 +47,13 @@ public:
     void setSorted(const bool _sorted);
 
 public slots:
-    void readConfiguration();
-    int showConfiguration(const QVariant &_args);
-    void writeConfiguration() const;
+    void readConfiguration() override;
+    int showConfiguration(const QVariant &_args) override;
+    void writeConfiguration() const override;
 
 private:
     Ui::AWListFormatter *ui = nullptr;
-    void translate();
+    void translate() override;
     // properties
     QString m_filter = "";
     QString m_separator = "";

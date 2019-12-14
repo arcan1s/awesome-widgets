@@ -23,12 +23,13 @@
 #include <QDir>
 #include <QInputDialog>
 #include <QPushButton>
+#include <utility>
 
 
-AbstractExtItemAggregator::AbstractExtItemAggregator(QWidget *_parent, const QString &_type)
+AbstractExtItemAggregator::AbstractExtItemAggregator(QWidget *_parent, QString _type)
     : QDialog(_parent)
     , ui(new Ui::AbstractExtItemAggregator)
-    , m_type(_type)
+    , m_type(std::move(_type))
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
@@ -90,7 +91,7 @@ void AbstractExtItemAggregator::deleteItem()
     if (!source) {
         qCWarning(LOG_LIB) << "Nothing to delete";
         return;
-    };
+    }
 
     if (source->tryDelete()) {
         initItems();
@@ -105,7 +106,7 @@ void AbstractExtItemAggregator::editItem()
     if (!source) {
         qCWarning(LOG_LIB) << "Nothing to edit";
         return;
-    };
+    }
 
     if (source->showConfiguration(configArgs()) == 1) {
         initItems();
@@ -154,7 +155,7 @@ void AbstractExtItemAggregator::repaintList()
     ui->listWidget->clear();
     for (auto &_item : items()) {
         QString fileName = QFileInfo(_item->fileName()).fileName();
-        QListWidgetItem *item = new QListWidgetItem(fileName, ui->listWidget);
+        auto *item = new QListWidgetItem(fileName, ui->listWidget);
         QStringList tooltip;
         tooltip.append(i18n("Name: %1", _item->name()));
         tooltip.append(i18n("Comment: %1", _item->comment()));
@@ -216,11 +217,11 @@ void AbstractExtItemAggregator::editItemActivated(QListWidgetItem *)
 
 void AbstractExtItemAggregator::editItemButtonPressed(QAbstractButton *_button)
 {
-    if (static_cast<QPushButton *>(_button) == copyButton)
+    if (dynamic_cast<QPushButton *>(_button) == copyButton)
         return copyItem();
-    else if (static_cast<QPushButton *>(_button) == createButton)
+    else if (dynamic_cast<QPushButton *>(_button) == createButton)
         return doCreateItem();
-    else if (static_cast<QPushButton *>(_button) == deleteButton)
+    else if (dynamic_cast<QPushButton *>(_button) == deleteButton)
         return deleteItem();
     else if (ui->buttonBox->buttonRole(_button) == QDialogButtonBox::AcceptRole)
         return editItem();

@@ -59,7 +59,7 @@ const char STATIC_KEYS[]
       "swap,downunits,upunits,downkb,downtotkb,downtot,down,uptotkb,uptot,upkb,"
       "up,netdev,ac,bat,batleft,batnow,batrate,battotal,album,artist,duration,"
       "progress,title,dalbum,dartist,dtitle,salbum,sartist,stitle,pscount,pstot"
-      ",ps,desktop,ndesktop,tdesktops,la15,la5,la1";
+      ",ps,desktop,ndesktop,tdesktops,la15,la5,la1,ssid,volume,brightness";
 #cmakedefine BUILD_FUTURE
 #cmakedefine BUILD_LOAD
 #cmakedefine BUILD_TESTING

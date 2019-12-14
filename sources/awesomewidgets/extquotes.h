@@ -36,19 +36,19 @@ class ExtQuotes : public AbstractExtItem
 
 public:
     explicit ExtQuotes(QWidget *_parent = nullptr, const QString &_filePath = "");
-    virtual ~ExtQuotes();
-    ExtQuotes *copy(const QString &_fileName, const int _number);
+    ~ExtQuotes() override;
+    ExtQuotes *copy(const QString &_fileName, const int _number) override;
     // get methods
     QString ticker() const;
-    QString uniq() const;
+    QString uniq() const override;
     // set methods
     void setTicker(const QString &_ticker);
 
 public slots:
-    void readConfiguration();
-    QVariantHash run();
-    int showConfiguration(const QVariant &_args);
-    void writeConfiguration() const;
+    void readConfiguration() override;
+    QVariantHash run() override;
+    int showConfiguration(const QVariant &_args) override;
+    void writeConfiguration() const override;
 
 private slots:
     void quotesReplyReceived(QNetworkReply *_reply);
@@ -60,7 +60,7 @@ private:
     bool m_isRunning = false;
     Ui::ExtQuotes *ui = nullptr;
     void initProvider();
-    void translate();
+    void translate() override;
     // properties
     QString m_ticker = "EURUSD=X";
     // values
