@@ -42,6 +42,9 @@ NetworkSource::NetworkSource(QObject *_parent, const QStringList &_args)
 NetworkSource::~NetworkSource()
 {
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
+
+    m_process->kill();
+    m_process->deleteLater();
 }
 
 
