@@ -260,6 +260,10 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const QSt
         // network device
         m_map[_source] = "netdev";
         m_formatter["netdev"] = AWKeysAggregator::FormatterType::NoFormat;
+    } else if (_source == "network/current/ssid") {
+        // current ssid
+        m_map[_source] = "ssid";
+        m_formatter["ssid"] = AWKeysAggregator::FormatterType::NoFormat;
     } else if (_source.startsWith("network/response")) {
         // network response
         QString key = _source;
@@ -375,6 +379,12 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const QSt
         // timestamp
         m_map.insertMulti(_source, "tstime");
         m_formatter["tstime"] = AWKeysAggregator::FormatterType::Timestamp;
+    } else if (_source == "system/brightness") {
+        m_map[_source] = "brightness";
+        m_formatter["brightness"] = AWKeysAggregator::FormatterType::IntegerThree;
+    } else if (_source == "system/volume") {
+        m_map[_source] = "volume";
+        m_formatter["volume"] = AWKeysAggregator::FormatterType::IntegerThree;
     } else if (_source == "system/uptime") {
         // uptime
         m_map[_source] = "uptime";
