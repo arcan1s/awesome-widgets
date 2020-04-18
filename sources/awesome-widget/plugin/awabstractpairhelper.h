@@ -30,6 +30,7 @@ public:
     QStringList keys() const;
     QHash<QString, QString> pairs() const;
     QStringList values() const;
+    QSet<QString> valuesSet() const;
     // read-write methods
     virtual void initItems();
     virtual bool writeItems(const QHash<QString, QString> &_configuration) const;

@@ -189,7 +189,7 @@ QString AWKeys::valueByKey(const QString &_key) const
 
     QString trueKey = _key.startsWith("bar") ? m_keyOperator->infoByKey(_key) : _key;
 
-    return m_aggregator->formatter(m_values[trueKey], trueKey);
+    return m_aggregator->formatter(m_values[trueKey], trueKey, true);
 }
 
 
@@ -340,7 +340,7 @@ QString AWKeys::parsePattern(QString _pattern) const
 
     // main keys
     for (auto &key : m_foundKeys)
-        _pattern.replace(QString("$%1").arg(key), m_aggregator->formatter(m_values[key], key));
+        _pattern.replace(QString("$%1").arg(key), m_aggregator->formatter(m_values[key], key, true));
 
     // bars
     for (auto &bar : m_foundBars) {

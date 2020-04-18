@@ -39,6 +39,7 @@ Optional dependencies
 * hddtemp
 * smartmontools
 * music player (mpd or MPRIS supported)
+* wireless_tools
 
 Make dependencies
 -----------------

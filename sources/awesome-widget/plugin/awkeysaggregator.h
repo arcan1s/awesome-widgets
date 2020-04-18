@@ -69,7 +69,7 @@ public:
     ~AWKeysAggregator() override;
     void initFormatters();
     // get methods
-    QString formatter(const QVariant &_data, const QString &_key) const;
+    QString formatter(const QVariant &_data, const QString &_key, bool replaceSpace) const;
     QStringList keysFromSource(const QString &_source) const;
     // set methods
     void setAcOffline(const QString &_inactive);

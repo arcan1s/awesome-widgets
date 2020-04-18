@@ -55,7 +55,7 @@ void AWKeysAggregator::initFormatters()
 }
 
 
-QString AWKeysAggregator::formatter(const QVariant &_data, const QString &_key) const
+QString AWKeysAggregator::formatter(const QVariant &_data, const QString &_key, bool replaceSpace) const
 {
     qCDebug(LOG_AW) << "Data" << _data << "for key" << _key;
 
@@ -162,7 +162,8 @@ QString AWKeysAggregator::formatter(const QVariant &_data, const QString &_key) 
     }
 
     // replace spaces to non-breakable ones
-    if (!_key.startsWith("custom") && (!_key.startsWith("weather")))
+    replaceSpace &= (!_key.startsWith("custom") && (!_key.startsWith("weather")));
+    if (replaceSpace)
         output.replace(" ", "&nbsp;");
 
     return output;

@@ -36,7 +36,7 @@ QString AWPatternFunctions::expandLambdas(QString _code, AWKeysAggregator *_aggr
     // parsed values
     for (auto &lambdaKey : _usedKeys)
         _code.replace(QString("$%1").arg(lambdaKey),
-                      _aggregator->formatter(_metadata[lambdaKey], lambdaKey));
+                      _aggregator->formatter(_metadata[lambdaKey], lambdaKey, false));
     qCInfo(LOG_AW) << "Expression" << _code;
     QJSValue result = engine.evaluate(_code);
     if (result.isError()) {

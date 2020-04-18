@@ -58,6 +58,13 @@ QStringList AWAbstractPairHelper::values() const
 }
 
 
+QSet<QString> AWAbstractPairHelper::valuesSet() const
+{
+    auto values = m_pairs.values();
+    return QSet(values.cbegin(), values.cend());
+}
+
+
 void AWAbstractPairHelper::initItems()
 {
     m_pairs.clear();

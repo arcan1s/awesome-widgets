@@ -38,7 +38,7 @@ for more details. To avoid manual labor there is automatic cmake target named
 * `Q_PROPERTY` macro is allowed and recommended for QObject based classes.
 * Qt macros (e.g. `signals`, `slots`, `Q_OBJECT`, etc) are allowed. In other hand
 `Q_FOREACH` (`foreach`) is not allowed use `for (auto &foo : bar)` instead.
-* Current project standard is **C++11**.
+* Current project standard is **C++17**.
 * Do not use C-like code:
     * C-like style iteration if possible. Use `for (auto &foo : bar)` and
       `std::for_each` instead if possible. It is also recommended to use iterators.

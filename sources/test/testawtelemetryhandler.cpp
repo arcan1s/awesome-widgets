@@ -51,7 +51,7 @@ void TestAWTelemetryHandler::test_get()
     QStringList output = plugin->get(telemetryGroup);
 
     QVERIFY(!output.isEmpty());
-    QCOMPARE(QSet<QString>::fromList(output).count(), output.count());
+    QCOMPARE(QSet<QString>(output.cbegin(), output.cend()).count(), output.count());
     QVERIFY(output.contains(telemetryData));
 }
 

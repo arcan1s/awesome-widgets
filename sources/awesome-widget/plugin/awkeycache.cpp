@@ -83,9 +83,9 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys, const QStringL
                     << _tooltip;
 
     // initial copy
-    QSet<QString> used = QSet<QString>::fromList(_keys);
-    used.unite(QSet<QString>::fromList(_bars));
-    used.unite(QSet<QString>::fromList(_userKeys));
+    QSet<QString> used(_keys.cbegin(), _keys.cend());
+    used.unite(QSet(_bars.cbegin(), _bars.cend()));
+    used.unite(QSet(_userKeys.cbegin(), _userKeys.cend()));
     // insert keys from tooltip
     for (auto &key : _tooltip.keys()) {
         if ((key.endsWith("Tooltip")) && (_tooltip[key].toBool())) {
@@ -155,7 +155,7 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys, const QStringL
     if (used.isEmpty())
         used << "dummy";
 
-    return used.toList();
+    return used.values();
 }
 
 
