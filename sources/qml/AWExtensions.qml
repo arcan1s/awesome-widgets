@@ -92,7 +92,7 @@ Row {
     }
 
     onShowMessage: {
-        compiledText.text = message.replace("&nbsp;", " ")
+        compiledText.text = message.split("&nbsp;").join(" ") // replaceAll lols
         compiledText.open()
     }
 }
