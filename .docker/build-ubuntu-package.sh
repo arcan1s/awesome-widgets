@@ -6,8 +6,8 @@ rm -rf build-ubuntu
 mkdir build-ubuntu
 
 # patches
-git apply patches/qt5.6-qversionnumber.patch
-git apply patches/qt5.5-qstringlist-and-qinfo.patch
+#git apply patches/qt5.6-qversionnumber.patch
+#git apply patches/qt5.5-qstringlist-and-qinfo.patch
 
 # build
 cd build-ubuntu
