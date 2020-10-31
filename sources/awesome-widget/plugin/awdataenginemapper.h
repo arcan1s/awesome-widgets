@@ -19,7 +19,7 @@
 #ifndef AWDATAENGINEMAPPER_H
 #define AWDATAENGINEMAPPER_H
 
-#include <QHash>
+#include <QMultiHash>
 #include <QObject>
 
 #include "awkeysaggregator.h"
@@ -47,7 +47,7 @@ private:
     // variables
     QHash<QString, QStringList> m_devices;
     QHash<QString, AWKeysAggregator::FormatterType> m_formatter;
-    QHash<QString, QString> m_map;
+    QMultiHash<QString, QString> m_map;
 };
 
 

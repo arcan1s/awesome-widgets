@@ -256,11 +256,11 @@ void PlayerSource::mpdSocketReadyRead()
     qCInfo(LOG_ESS) << "Output" << qoutput;
 
     // parse
-    for (auto &str : qoutput.split('\n', QString::SkipEmptyParts)) {
-        if (str.split(": ", QString::SkipEmptyParts).count() == 2) {
+    for (auto &str : qoutput.split('\n', Qt::SkipEmptyParts)) {
+        if (str.split(": ", Qt::SkipEmptyParts).count() == 2) {
             // "Metadata: data"
-            QString metadata = str.split(": ", QString::SkipEmptyParts).first().toLower();
-            QString data = str.split(": ", QString::SkipEmptyParts).last().trimmed();
+            QString metadata = str.split(": ", Qt::SkipEmptyParts).first().toLower();
+            QString data = str.split(": ", Qt::SkipEmptyParts).last().trimmed();
             // there are one more time...
             if ((metadata == "time") && (data.contains(':'))) {
                 QStringList times = data.split(':');

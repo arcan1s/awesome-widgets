@@ -22,13 +22,12 @@
 #include <QEventLoop>
 #include <QSet>
 #include <QStandardPaths>
-#include <QTime>
+#include <QRandomGenerator>
 #include <QtTest>
 
 
 void AWTestLibrary::init()
 {
-    qsrand(static_cast<uint>(QTime::currentTime().msec()));
 }
 
 
@@ -47,13 +46,7 @@ bool AWTestLibrary::isKWinActive()
 
 char AWTestLibrary::randomChar()
 {
-    return 'A' + (qrand() % static_cast<int>('Z' - 'A'));
-}
-
-
-double AWTestLibrary::randomDouble()
-{
-    return static_cast<double>(qrand()) / static_cast<double>(RAND_MAX);
+    return 'A' + (QRandomGenerator::global()->generate() % static_cast<int>('Z' - 'A'));
 }
 
 
@@ -75,7 +68,7 @@ QPair<QString, QString> AWTestLibrary::randomFilenames()
 
 int AWTestLibrary::randomInt(const int _max)
 {
-    return qrand() % _max;
+    return QRandomGenerator::global()->generate() % _max;
 }
 
 
@@ -113,5 +106,5 @@ QStringList AWTestLibrary::randomSelect(const QStringList &_available)
         output << _available.at(index);
     }
 
-    return output.toList();
+    return output.values();
 }

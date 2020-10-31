@@ -367,14 +367,8 @@ void ExtWeather::initProvider()
 {
     delete m_providerObject;
 
-    switch (m_provider) {
-    case Provider::OWM:
-        m_providerObject = new OWMWeatherProvider(this);
-        break;
-    case Provider::Yahoo:
-        m_providerObject = new YahooWeatherProvider(this);
-        break;
-    }
+    // in the future release it is possible to change provider here
+    m_providerObject = new OWMWeatherProvider(this);
 
     return m_providerObject->initUrl(city(), country(), ts());
 }

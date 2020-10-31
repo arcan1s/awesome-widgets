@@ -28,7 +28,6 @@ namespace AWTestLibrary
 void init();
 bool isKWinActive();
 char randomChar();
-double randomDouble();
 QPair<QString, QString> randomFilenames();
 int randomInt(const int _max = 100);
 QString randomString(const int _min = 1, const int _max = 100);

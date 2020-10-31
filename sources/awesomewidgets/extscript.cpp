@@ -235,7 +235,7 @@ void ExtScript::readConfiguration()
     setStrRedirect(settings.value("X-AW-Redirect", strRedirect()).toString());
     // api == 3
     setFilters(
-        settings.value("X-AW-Filters", filters()).toString().split(',', QString::SkipEmptyParts));
+        settings.value("X-AW-Filters", filters()).toString().split(',', Qt::SkipEmptyParts));
     settings.endGroup();
 
     bumpApi(AW_EXTSCRIPT_API);

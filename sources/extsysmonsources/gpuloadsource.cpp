@@ -131,7 +131,7 @@ void GPULoadSource::updateValue()
     qCInfo(LOG_ESS) << "Output" << qoutput;
 
     if (m_device == "nvidia") {
-        for (auto &str : qoutput.split('\n', QString::SkipEmptyParts)) {
+        for (auto &str : qoutput.split('\n', Qt::SkipEmptyParts)) {
             if (!str.contains("<gpu_util>"))
                 continue;
             auto load = str.remove("<gpu_util>").remove("</gpu_util>").remove('%');
@@ -139,10 +139,10 @@ void GPULoadSource::updateValue()
             break;
         }
     } else if (m_device == "ati") {
-        for (auto &str : qoutput.split('\n', QString::SkipEmptyParts)) {
+        for (auto &str : qoutput.split('\n', Qt::SkipEmptyParts)) {
             if (!str.contains("load"))
                 continue;
-            QString load = str.split(' ', QString::SkipEmptyParts)[3].remove('%');
+            QString load = str.split(' ', Qt::SkipEmptyParts)[3].remove('%');
             m_values["gpu/load"] = load.toFloat();
             break;
         }

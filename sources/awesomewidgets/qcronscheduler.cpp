@@ -87,7 +87,7 @@ QList<int> QCronScheduler::parseField(const QString &_value, const int _min, con
         parsedField.fromRange(field.split('/').first(), _min, _max);
         if (field.contains('/')) {
             bool status;
-            parsedField.div = field.split('/', QString::SkipEmptyParts).at(1).toInt(&status);
+            parsedField.div = field.split('/', Qt::SkipEmptyParts).at(1).toInt(&status);
             if (!status)
                 parsedField.div = 1;
         }
@@ -107,7 +107,7 @@ void QCronScheduler::QCronField::fromRange(const QString &_range, const int _min
         minValue = _min;
         maxValue = _max;
     } else if (_range.contains("-")) {
-        auto interval = _range.split('-', QString::SkipEmptyParts);
+        auto interval = _range.split('-', Qt::SkipEmptyParts);
         if (interval.count() != 2)
             return;
         bool status;

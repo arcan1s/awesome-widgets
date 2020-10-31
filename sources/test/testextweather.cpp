@@ -60,14 +60,6 @@ void TestExtWeather::test_runOWM()
 }
 
 
-void TestExtWeather::test_runYahoo()
-{
-    extWeather->setProvider(ExtWeather::Provider::Yahoo);
-    run();
-    extWeather->setProvider(ExtWeather::Provider::OWM);
-}
-
-
 void TestExtWeather::test_ts()
 {
     extWeather->setTs(1);

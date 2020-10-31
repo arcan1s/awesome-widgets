@@ -19,9 +19,9 @@
 
 #include <QDir>
 #include <QLocalServer>
+#include <QRandomGenerator>
 #include <QSettings>
 #include <QStandardPaths>
-#include <QTime>
 
 #include "abstractextitemaggregator.h"
 #include "qcronscheduler.h"
@@ -241,8 +241,7 @@ void AbstractExtItem::setNumber(int _number)
         _number = []() {
             qCWarning(LOG_LIB) << "Number is empty, generate new one";
             // we suppose that currentTIme().msec() is always valid time
-            qsrand(static_cast<uint>(QTime::currentTime().msec()));
-            int n = qrand() % 1000;
+            int n = QRandomGenerator::global()->generate() % 1000;
             qCInfo(LOG_LIB) << "Generated number is" << n;
             return n;
         }();

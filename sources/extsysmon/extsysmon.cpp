@@ -127,7 +127,7 @@ ExtendedSysMon::updateConfiguration(QHash<QString, QString> _rawConfig) const
     } else if (_rawConfig["HDDDEV"] == "disable") {
         _rawConfig["HDDDEV"] = "";
     } else {
-        QStringList deviceList = _rawConfig["HDDDEV"].split(',', QString::SkipEmptyParts);
+        QStringList deviceList = _rawConfig["HDDDEV"].split(',', Qt::SkipEmptyParts);
         QStringList devices;
         QRegExp diskRegexp = QRegExp("^/dev/[hms]d[a-z]$");
         for (auto &device : deviceList)

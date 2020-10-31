@@ -31,7 +31,7 @@ HDDTemperatureSource::HDDTemperatureSource(QObject *_parent, const QStringList &
     Q_ASSERT(_args.count() == 2);
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
-    m_devices = _args.at(0).split(',', QString::SkipEmptyParts);
+    m_devices = _args.at(0).split(',', Qt::SkipEmptyParts);
     m_cmd = _args.at(1);
 
     m_smartctl = m_cmd.contains("smartctl");
@@ -127,17 +127,17 @@ void HDDTemperatureSource::updateValue(const QString &_device)
 
     // parse
     if (m_smartctl) {
-        QStringList lines = qoutput.split('\n', QString::SkipEmptyParts);
+        QStringList lines = qoutput.split('\n', Qt::SkipEmptyParts);
         for (auto &str : lines) {
             if (!str.startsWith("194"))
                 continue;
-            if (str.split(' ', QString::SkipEmptyParts).count() < 9)
+            if (str.split(' ', Qt::SkipEmptyParts).count() < 9)
                 continue;
-            m_values[_device] = str.split(' ', QString::SkipEmptyParts).at(9).toFloat();
+            m_values[_device] = str.split(' ', Qt::SkipEmptyParts).at(9).toFloat();
             break;
         }
     } else {
-        QStringList lines = qoutput.split(':', QString::SkipEmptyParts);
+        QStringList lines = qoutput.split(':', Qt::SkipEmptyParts);
         if (lines.count() >= 3) {
             QString temp = lines.at(2);
             temp.remove(QChar(0260)).remove('C');

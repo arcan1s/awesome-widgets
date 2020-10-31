@@ -110,7 +110,7 @@ void GPUTemperatureSource::updateValue()
     qCInfo(LOG_ESS) << "Output" << qoutput;
 
     if (m_device == "nvidia") {
-        for (auto &str : qoutput.split('\n', QString::SkipEmptyParts)) {
+        for (auto &str : qoutput.split('\n', Qt::SkipEmptyParts)) {
             if (!str.contains("<gpu_temp>"))
                 continue;
             QString temp = str.remove("<gpu_temp>").remove("C</gpu_temp>");
@@ -118,10 +118,10 @@ void GPUTemperatureSource::updateValue()
             break;
         }
     } else if (m_device == "ati") {
-        for (auto &str : qoutput.split('\n', QString::SkipEmptyParts)) {
+        for (auto &str : qoutput.split('\n', Qt::SkipEmptyParts)) {
             if (!str.contains("Temperature"))
                 continue;
-            QString temp = str.split(' ', QString::SkipEmptyParts).at(4);
+            QString temp = str.split(' ', Qt::SkipEmptyParts).at(4);
             m_values["gpu/temperature"] = temp.toFloat();
             break;
         }
