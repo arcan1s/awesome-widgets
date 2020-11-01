@@ -35,7 +35,7 @@ public:
     Q_INVOKABLE void checkUpdates(const bool _showAnyway = false);
     Q_INVOKABLE static QString getFileContent(const QString &_path);
     Q_INVOKABLE static bool isDebugEnabled();
-    Q_INVOKABLE static bool runCmd(const QString &_cmd);
+    Q_INVOKABLE static bool runCmd(const QString &_cmd, const QStringList &_args);
     Q_INVOKABLE static void showLegacyInfo();
     Q_INVOKABLE static void showReadme();
     // configuration slots

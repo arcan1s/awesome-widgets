@@ -83,10 +83,11 @@ void GPUTemperatureSource::run()
     if ((m_device != "nvidia") && (m_device != "ati"))
         return;
     // build cmd
-    QString cmd = m_device == "nvidia" ? "nvidia-smi -q -x" : "aticonfig --od-gettemperature";
+    QString cmd = m_device == "nvidia" ? "nvidia-smi" : "aticonfig";
+    auto args = m_device == "nvidia" ? QStringList({"-q", "-x"}) : QStringList({"--od-gettemperature"});
     qCInfo(LOG_ESS) << "cmd" << cmd;
 
-    m_process->start(cmd);
+    m_process->start(cmd, args);
 }
 
 

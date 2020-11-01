@@ -346,7 +346,7 @@ void ExtScript::startProcess()
         cmdList.append(prefix());
     cmdList.append(executable());
     qCInfo(LOG_LIB) << "Run cmd" << cmdList.join(' ');
-    m_process->start(cmdList.join(' '));
+    m_process->start("sh", QStringList() << "-c" << cmdList);
 }
 
 

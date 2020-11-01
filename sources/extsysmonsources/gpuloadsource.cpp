@@ -104,10 +104,11 @@ void GPULoadSource::run()
     if ((m_device != "nvidia") && (m_device != "ati"))
         return;
     // build cmd
-    QString cmd = m_device == "nvidia" ? "nvidia-smi -q -x" : "aticonfig --od-getclocks";
+    QString cmd = m_device == "nvidia" ? "nvidia-smi" : "aticonfig";
+    auto args = m_device == "nvidia" ? QStringList({"-q", "-x"}) : QStringList({"--od-getclocks"});
     qCInfo(LOG_ESS) << "cmd" << cmd;
 
-    m_process->start(cmd);
+    m_process->start(cmd, args);
 }
 
 

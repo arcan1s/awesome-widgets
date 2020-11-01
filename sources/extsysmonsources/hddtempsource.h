@@ -45,7 +45,7 @@ private:
     // properties
     QHash<QString, QProcess *> m_processes;
     // configuration and values
-    QString m_cmd;
+    QStringList m_cmd;
     QStringList m_devices;
     bool m_smartctl;
     QHash<QString, QVariant> m_values;

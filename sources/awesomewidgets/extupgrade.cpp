@@ -205,9 +205,8 @@ void ExtUpgrade::writeConfiguration() const
 
 void ExtUpgrade::startProcess()
 {
-    QString cmd = QString("sh -c \"%1\"").arg(executable());
-    qCInfo(LOG_LIB) << "Run cmd" << cmd;
-    m_process->start(cmd);
+    qCInfo(LOG_LIB) << "Run cmd" << executable();
+    m_process->start("sh", QStringList() << "-c" << executable());
 }
 
 

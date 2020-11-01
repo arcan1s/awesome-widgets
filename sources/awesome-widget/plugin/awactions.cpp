@@ -78,13 +78,13 @@ bool AWActions::isDebugEnabled()
 }
 
 
-bool AWActions::runCmd(const QString &_cmd)
+bool AWActions::runCmd(const QString &_cmd, const QStringList &_args)
 {
-    qCDebug(LOG_AW) << "Cmd" << _cmd;
+    qCDebug(LOG_AW) << "Cmd" << _cmd << "args" << _args;
 
     sendNotification(QString("Info"), i18n("Run %1", _cmd));
 
-    return QProcess::startDetached(_cmd);
+    return QProcess::startDetached(_cmd, _args);
 }
 
 

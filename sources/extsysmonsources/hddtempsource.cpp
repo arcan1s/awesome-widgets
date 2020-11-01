@@ -32,7 +32,7 @@ HDDTemperatureSource::HDDTemperatureSource(QObject *_parent, const QStringList &
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
     m_devices = _args.at(0).split(',', Qt::SkipEmptyParts);
-    m_cmd = _args.at(1);
+    m_cmd = _args.at(1).split(' ');  // lets hope no one put cmd with spaces here lol
 
     m_smartctl = m_cmd.contains("smartctl");
     qCInfo(LOG_ESS) << "Parse as smartctl" << m_smartctl;
@@ -77,8 +77,12 @@ QVariant HDDTemperatureSource::data(const QString &_source)
     QString device = _source;
     device.remove("hdd/temperature");
     // run cmd
-    if (m_processes[device]->state() == QProcess::NotRunning)
-        m_processes[device]->start(QString("%1 %2").arg(m_cmd).arg(device));
+    if (m_processes[device]->state() == QProcess::NotRunning) {
+        auto cmd = m_cmd.first();
+        auto args = m_cmd.mid(1);
+        args.append(device);
+        m_processes[device]->start(cmd, args);
+    }
 
     return m_values[device];
 }

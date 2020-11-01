@@ -84,7 +84,7 @@ QVariantMap NetworkSource::initialData(const QString &_source) const
 void NetworkSource::run()
 {
     m_values["network/current/name"] = NetworkSource::getCurrentDevice();
-    m_process->start("iwgetid -r");
+    m_process->start("iwgetid", QStringList() << "-r");
 }
 
 
