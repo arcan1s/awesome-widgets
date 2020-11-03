@@ -35,9 +35,9 @@ public:
     ~BatterySource() override;
     QStringList getSources();
     QVariant data(const QString &_source) override;
-    QVariantMap initialData(const QString &_source) const override;
+    [[nodiscard]] QVariantMap initialData(const QString &_source) const override;
     void run() override;
-    QStringList sources() const override;
+    [[nodiscard]] QStringList sources() const override;
 
 private:
     static double approximate(const QList<int> &_trend);

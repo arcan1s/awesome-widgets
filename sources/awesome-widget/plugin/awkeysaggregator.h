@@ -69,8 +69,9 @@ public:
     ~AWKeysAggregator() override;
     void initFormatters();
     // get methods
-    QString formatter(const QVariant &_data, const QString &_key, bool replaceSpace) const;
-    QStringList keysFromSource(const QString &_source) const;
+    [[nodiscard]] QString formatter(const QVariant &_data, const QString &_key,
+                                    bool replaceSpace) const;
+    [[nodiscard]] QStringList keysFromSource(const QString &_source) const;
     // set methods
     void setAcOffline(const QString &_inactive);
     void setAcOnline(const QString &_active);
@@ -78,14 +79,14 @@ public:
     void setCustomUptime(const QString &_customUptime);
     void setDevices(const QHash<QString, QStringList> &_devices);
     void setTempUnits(const QString &_units);
-    void setTranslate(const bool _translate);
+    void setTranslate(bool _translate);
 
 public slots:
     QStringList registerSource(const QString &_source, const QString &_units,
                                const QStringList &_keys);
 
 private:
-    float temperature(const float temp) const;
+    [[nodiscard]] float temperature(float temp) const;
     AWFormatterHelper *m_customFormatters = nullptr;
     AWDataEngineMapper *m_mapper = nullptr;
     QStringList m_timeKeys;

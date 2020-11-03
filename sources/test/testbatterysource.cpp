@@ -52,10 +52,12 @@ void TestBatterySource::test_battery()
         QSKIP("No battery found, test will be skipped");
 
     QStringList batteries = source->sources();
-    std::for_each(batteries.begin(), batteries.end(), [this](const QString bat) {
+    std::for_each(batteries.begin(), batteries.end(), [this](const QString &bat) {
         QVariant value = source->data(bat);
         if (bat == "battery/ac")
             QCOMPARE(value.type(), QVariant::Bool);
+        else if (bat.startsWith("battery/batrate") || bat.startsWith("battery/batleft"))
+            ;
         else
             QVERIFY((value.toFloat() >= battery.first) || (std::isnan(value.toFloat())));
     });

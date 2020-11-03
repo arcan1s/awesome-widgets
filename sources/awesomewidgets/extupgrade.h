@@ -38,16 +38,16 @@ class ExtUpgrade : public AbstractExtItem
 public:
     explicit ExtUpgrade(QWidget *_parent = nullptr, const QString &_filePath = "");
     ~ExtUpgrade() override;
-    ExtUpgrade *copy(const QString &_fileName, const int _number) override;
+    ExtUpgrade *copy(const QString &_fileName, int _number) override;
     // get methods
-    QString executable() const;
-    QString filter() const;
-    int null() const;
-    QString uniq() const override;
+    [[nodiscard]] QString executable() const;
+    [[nodiscard]] QString filter() const;
+    [[nodiscard]] int null() const;
+    [[nodiscard]] QString uniq() const override;
     // set methods
     void setExecutable(const QString &_executable);
     void setFilter(const QString &_filter);
-    void setNull(const int _null);
+    void setNull(int _null);
 
 public slots:
     void readConfiguration() override;

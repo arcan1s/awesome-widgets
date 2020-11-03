@@ -129,7 +129,7 @@ QString AbstractExtItemAggregator::getName()
 }
 
 
-AbstractExtItem *AbstractExtItemAggregator::itemFromWidget()
+AbstractExtItem *AbstractExtItemAggregator::itemFromWidget() const
 {
     QListWidgetItem *widgetItem = ui->listWidget->currentItem();
     if (!widgetItem)
@@ -150,7 +150,7 @@ AbstractExtItem *AbstractExtItemAggregator::itemFromWidget()
 }
 
 
-void AbstractExtItemAggregator::repaintList()
+void AbstractExtItemAggregator::repaintList() const
 {
     ui->listWidget->clear();
     for (auto &_item : items()) {

@@ -33,9 +33,9 @@ AWFloatFormatter::AWFloatFormatter(QWidget *_parent, const QString &_filePath)
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     if (!_filePath.isEmpty())
-        readConfiguration();
+        AWFloatFormatter::readConfiguration();
     ui->setupUi(this);
-    translate();
+    AWFloatFormatter::translate();
 }
 
 

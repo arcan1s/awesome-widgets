@@ -34,9 +34,9 @@ AWDateTimeFormatter::AWDateTimeFormatter(QWidget *_parent, const QString &_fileP
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     if (!_filePath.isEmpty())
-        readConfiguration();
+        AWDateTimeFormatter::readConfiguration();
     ui->setupUi(this);
-    translate();
+    AWDateTimeFormatter::translate();
 }
 
 

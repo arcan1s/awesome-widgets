@@ -32,13 +32,13 @@ class AWConfigHelper : public QObject
 public:
     explicit AWConfigHelper(QObject *_parent = nullptr);
     ~AWConfigHelper() override;
-    Q_INVOKABLE QString configurationDirectory() const;
+    Q_INVOKABLE [[nodiscard]] static QString configurationDirectory();
     Q_INVOKABLE static bool dropCache();
     Q_INVOKABLE bool exportConfiguration(QObject *_nativeConfig, const QString &_fileName) const;
-    Q_INVOKABLE QVariantMap importConfiguration(const QString &_fileName,
-                                                const bool _importPlasmoid,
-                                                const bool _importExtensions,
-                                                const bool _importAdds) const;
+    Q_INVOKABLE [[nodiscard]] QVariantMap importConfiguration(const QString &_fileName,
+                                                              bool _importPlasmoid,
+                                                              bool _importExtensions,
+                                                              bool _importAdds) const;
     // dataengine
     Q_INVOKABLE static QVariantMap readDataEngineConfiguration();
     Q_INVOKABLE static bool writeDataEngineConfiguration(const QVariantMap &_configuration);
@@ -47,7 +47,7 @@ private:
     // methods
     static void copyConfigs(const QString &_localDir);
     void copyExtensions(const QString &_item, const QString &_type, QSettings &_settings,
-                        const bool _inverse) const;
+                        bool _inverse) const;
     static void copySettings(QSettings &_from, QSettings &_to);
     static void readFile(QSettings &_settings, const QString &_key, const QString &_fileName);
     static void writeFile(QSettings &_settings, const QString &_key, const QString &_fileName);

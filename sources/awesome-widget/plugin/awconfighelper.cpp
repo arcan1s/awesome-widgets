@@ -42,7 +42,7 @@ AWConfigHelper::~AWConfigHelper()
 }
 
 
-QString AWConfigHelper::configurationDirectory() const
+QString AWConfigHelper::configurationDirectory()
 {
     // get readable directory
     QString localDir

@@ -33,12 +33,12 @@ public:
 
     explicit OWMWeatherProvider(QObject *_parent);
     ~OWMWeatherProvider() override;
-    void initUrl(const QString &_city, const QString &_country, const int) override;
-    QVariantHash parse(const QVariantMap &_json) const override;
-    QUrl url() const override;
+    void initUrl(const QString &_city, const QString &_country, int) override;
+    [[nodiscard]] QVariantHash parse(const QVariantMap &_json) const override;
+    [[nodiscard]] QUrl url() const override;
 
 private:
-    QVariantHash parseSingleJson(const QVariantMap &_json) const;
+    [[nodiscard]] QVariantHash parseSingleJson(const QVariantMap &_json) const;
     int m_ts = 0;
     QUrl m_url;
 };

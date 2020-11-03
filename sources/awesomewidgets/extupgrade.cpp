@@ -34,9 +34,9 @@ ExtUpgrade::ExtUpgrade(QWidget *_parent, const QString &_filePath)
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     if (!_filePath.isEmpty())
-        readConfiguration();
+        ExtUpgrade::readConfiguration();
     ui->setupUi(this);
-    translate();
+    ExtUpgrade::translate();
 
     m_values[tag("pkgcount")] = 0;
 

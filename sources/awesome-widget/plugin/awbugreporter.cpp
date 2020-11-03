@@ -45,7 +45,7 @@ void AWBugReporter::doConnect()
 {
     // additional method for testing needs
     connect(this, SIGNAL(replyReceived(const int, const QString &)), this,
-            SLOT(showInformation(const int, const QString &)));
+            SLOT(showInformation(int, const QString &)));
 }
 
 

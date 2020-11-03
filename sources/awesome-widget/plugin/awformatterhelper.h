@@ -34,9 +34,9 @@ public:
     // read-write methods
     void initItems() override;
     // methods
-    QString convert(const QVariant &_value, const QString &_name) const;
-    QStringList definedFormatters() const;
-    QList<AbstractExtItem *> items() const override;
+    [[nodiscard]] QString convert(const QVariant &_value, const QString &_name) const;
+    [[nodiscard]] QStringList definedFormatters() const;
+    [[nodiscard]] QList<AbstractExtItem *> items() const override;
     // configuration related
     void editPairs() override;
     QStringList leftKeys() override;
@@ -49,8 +49,8 @@ private:
     // methods
     static AWAbstractFormatter::FormatterClass defineFormatterClass(const QString &_stringType);
     void initFormatters();
-    QPair<QString, AWAbstractFormatter::FormatterClass>
-    readMetadata(const QString &_filePath) const;
+    [[nodiscard]] static QPair<QString, AWAbstractFormatter::FormatterClass>
+    readMetadata(const QString &_filePath);
     // parent methods
     void doCreateItem() override;
     // properties

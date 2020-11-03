@@ -39,10 +39,10 @@ ExtWeather::ExtWeather(QWidget *_parent, const QString &_filePath)
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     if (!_filePath.isEmpty())
-        readConfiguration();
+        ExtWeather::readConfiguration();
     readJsonMap();
     ui->setupUi(this);
-    translate();
+    ExtWeather::translate();
 
     m_values[tag("weatherId")] = 0;
     m_values[tag("weather")] = "";

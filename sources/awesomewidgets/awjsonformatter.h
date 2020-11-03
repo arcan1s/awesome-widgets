@@ -34,10 +34,10 @@ class AWJsonFormatter : public AWAbstractFormatter
 public:
     explicit AWJsonFormatter(QWidget *_parent = nullptr, const QString &_filePath = "");
     ~AWJsonFormatter() override;
-    QString convert(const QVariant &_value) const override;
-    AWJsonFormatter *copy(const QString &_fileName, const int _number) override;
+    [[nodiscard]] QString convert(const QVariant &_value) const override;
+    AWJsonFormatter *copy(const QString &_fileName, int _number) override;
     // properties
-    QString path() const;
+    [[nodiscard]] QString path() const;
     void setPath(const QString &_path);
 
 public slots:
@@ -47,8 +47,8 @@ public slots:
 
 private:
     Ui::AWJsonFormatter *ui = nullptr;
-    QVariant getFromJson(const QVariant &_value, const QVariant &_element) const;
-    static QVariant getFromList(const QVariant &_value, const int _index);
+    static QVariant getFromJson(const QVariant &_value, const QVariant &_element);
+    static QVariant getFromList(const QVariant &_value, int _index);
     static QVariant getFromMap(const QVariant &_value, const QString &_key);
     void initPath();
     void translate() override;

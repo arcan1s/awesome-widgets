@@ -36,9 +36,9 @@ ExtQuotes::ExtQuotes(QWidget *_parent, const QString &_filePath)
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     if (!_filePath.isEmpty())
-        readConfiguration();
+        ExtQuotes::readConfiguration();
     ui->setupUi(this);
-    translate();
+    ExtQuotes::translate();
 
     m_values[tag("price")] = 0.0;
     m_values[tag("pricechg")] = 0.0;

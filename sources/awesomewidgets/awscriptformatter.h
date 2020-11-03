@@ -37,16 +37,16 @@ class AWScriptFormatter : public AWAbstractFormatter
 public:
     explicit AWScriptFormatter(QWidget *_parent = nullptr, const QString &_filePath = "");
     ~AWScriptFormatter() override;
-    QString convert(const QVariant &_value) const override;
-    AWScriptFormatter *copy(const QString &_fileName, const int _number) override;
+    [[nodiscard]] QString convert(const QVariant &_value) const override;
+    AWScriptFormatter *copy(const QString &_fileName, int _number) override;
     // properties
-    bool appendCode() const;
-    QString code() const;
-    bool hasReturn() const;
-    QString program() const;
-    void setAppendCode(const bool _appendCode);
+    [[nodiscard]] bool appendCode() const;
+    [[nodiscard]] QString code() const;
+    [[nodiscard]] bool hasReturn() const;
+    [[nodiscard]] QString program() const;
+    void setAppendCode(bool _appendCode);
     void setCode(const QString &_code);
-    void setHasReturn(const bool _hasReturn);
+    void setHasReturn(bool _hasReturn);
 
 public slots:
     void readConfiguration() override;

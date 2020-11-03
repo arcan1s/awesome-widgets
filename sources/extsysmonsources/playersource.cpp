@@ -311,7 +311,7 @@ QVariantHash PlayerSource::getPlayerMpdInfo()
 }
 
 
-QVariantHash PlayerSource::getPlayerMprisInfo(const QString &_mpris) const
+QVariantHash PlayerSource::getPlayerMprisInfo(const QString &_mpris)
 {
     qCDebug(LOG_ESS) << "MPRIS" << _mpris;
 
@@ -338,7 +338,7 @@ QVariantHash PlayerSource::getPlayerMprisInfo(const QString &_mpris) const
         qCWarning(LOG_ESS) << "Error message" << response.errorMessage();
     } else {
         // another portion of dirty magic
-        QVariantHash map = qdbus_cast<QVariantHash>(
+        auto map = qdbus_cast<QVariantHash>(
             response.arguments().first().value<QDBusVariant>().variant().value<QDBusArgument>());
         info["player/album"] = map.value("xesam:album", "unknown");
         // artist is array

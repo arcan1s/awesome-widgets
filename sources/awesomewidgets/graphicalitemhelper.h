@@ -33,21 +33,21 @@ public:
     explicit GraphicalItemHelper(QObject *_parent = nullptr, QGraphicsScene *_scene = nullptr);
     ~GraphicalItemHelper() override;
     // parameters
-    void setParameters(const QString &_active, const QString &_inactive, const int _width,
-                       const int _height, const int _count);
+    void setParameters(const QString &_active, const QString &_inactive, int _width, int _height,
+                       int _count);
     // paint methods
-    void paintBars(const float _value);
-    void paintCircle(const float _percent);
-    void paintGraph(const float _value);
-    void paintHorizontal(const float _percent);
-    void paintVertical(const float _percent);
+    void paintBars(float _value);
+    void paintCircle(float _percent);
+    void paintGraph(float _value);
+    void paintHorizontal(float _percent);
+    void paintVertical(float _percent);
     // additional conversion methods
-    static float getPercents(const float _value, const float _min, const float _max);
+    static float getPercents(float _value, float _min, float _max);
     static bool isColor(const QString &_input);
     static QColor stringToColor(const QString &_color);
 
 private:
-    void storeValue(const float _value);
+    void storeValue(float _value);
     QGraphicsScene *m_scene = nullptr;
     int m_count = 100;
     QPen m_activePen;

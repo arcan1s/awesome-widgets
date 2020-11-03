@@ -27,14 +27,14 @@ class AWAbstractPairHelper
 public:
     explicit AWAbstractPairHelper(QString _filePath = "", QString _section = "");
     virtual ~AWAbstractPairHelper();
-    QStringList keys() const;
-    QHash<QString, QString> pairs() const;
-    QStringList values() const;
-    QSet<QString> valuesSet() const;
+    [[nodiscard]] QStringList keys() const;
+    [[nodiscard]] QHash<QString, QString> pairs() const;
+    [[nodiscard]] QStringList values() const;
+    [[nodiscard]] QSet<QString> valuesSet() const;
     // read-write methods
     virtual void initItems();
-    virtual bool writeItems(const QHash<QString, QString> &_configuration) const;
-    virtual bool removeUnusedKeys(const QStringList &_keys) const;
+    [[nodiscard]] virtual bool writeItems(const QHash<QString, QString> &_configuration) const;
+    [[nodiscard]] virtual bool removeUnusedKeys(const QStringList &_keys) const;
     // configuration related
     virtual void editPairs() = 0;
     virtual QStringList leftKeys() = 0;

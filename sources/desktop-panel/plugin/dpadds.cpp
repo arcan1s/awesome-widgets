@@ -118,34 +118,35 @@ QString DPAdds::toolTipImage(const int _desktop) const
     toolTipView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     // update
-    float margin = 5.0f * info.desktop.width() / 400.0f;
-    toolTipView->resize(static_cast<int>(info.desktop.width() + 2.0f * margin),
-                        static_cast<int>(info.desktop.height() + 2.0f * margin));
+    auto width = static_cast<float>(info.desktop.width());
+    auto height = static_cast<float>(info.desktop.height());
+    float margin = 5.0f * width / 400.0f;
+    toolTipView->resize(static_cast<int>(width + 2.0f * margin),
+                        static_cast<int>(height + 2.0f * margin));
     toolTipScene->clear();
     toolTipScene->setBackgroundBrush(QBrush(Qt::NoBrush));
     // borders
-    toolTipScene->addLine(0, 0, 0, info.desktop.height() + 2.0 * margin);
-    toolTipScene->addLine(0, info.desktop.height() + 2.0 * margin,
-                          info.desktop.width() + 2.0 * margin,
-                          info.desktop.height() + 2.0 * margin);
-    toolTipScene->addLine(info.desktop.width() + 2.0 * margin, info.desktop.height() + 2.0 * margin,
-                          info.desktop.width() + 2.0 * margin, 0);
-    toolTipScene->addLine(info.desktop.width() + 2.0 * margin, 0, 0, 0);
+    toolTipScene->addLine(0, 0, 0, height + 2.0 * margin);
+    toolTipScene->addLine(0, height + 2.0 * margin, width + 2.0 * margin, height + 2.0 * margin);
+    toolTipScene->addLine(width + 2.0 * margin, height + 2.0 * margin, width + 2.0 * margin, 0);
+    toolTipScene->addLine(width + 2.0 * margin, 0, 0, 0);
 
     if (m_tooltipType == "contours") {
         QPen pen = QPen();
-        pen.setWidthF(2.0 * info.desktop.width() / 400.0);
+        pen.setWidthF(2.0 * width / 400.0);
         pen.setColor(QColor(m_tooltipColor));
         for (auto &data : info.windowsData) {
             QRect rect = data.rect;
-            toolTipScene->addLine(rect.left() + margin, rect.bottom() + margin,
-                                  rect.left() + margin, rect.top() + margin, pen);
-            toolTipScene->addLine(rect.left() + margin, rect.top() + margin, rect.right() + margin,
-                                  rect.top() + margin, pen);
-            toolTipScene->addLine(rect.right() + margin, rect.top() + margin, rect.right() + margin,
-                                  rect.bottom() + margin, pen);
-            toolTipScene->addLine(rect.right() + margin, rect.bottom() + margin,
-                                  rect.left() + margin, rect.bottom() + margin, pen);
+            auto left = static_cast<float>(rect.left());
+            auto right = static_cast<float>(rect.right());
+            auto top = static_cast<float>(rect.top());
+            auto bottom = static_cast<float>(rect.bottom());
+            toolTipScene->addLine(left + margin, bottom + margin, left + margin, top + margin, pen);
+            toolTipScene->addLine(left + margin, top + margin, right + margin, top + margin, pen);
+            toolTipScene->addLine(right + margin, top + margin, right + margin, bottom + margin,
+                                  pen);
+            toolTipScene->addLine(right + margin, bottom + margin, left + margin, bottom + margin,
+                                  pen);
         }
     } else if (m_tooltipType == "clean") {
         QScreen *screen = QGuiApplication::primaryScreen();

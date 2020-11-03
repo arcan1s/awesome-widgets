@@ -37,14 +37,14 @@ public:
 
 public slots:
     // get methods
-    QStringList ActiveServices() const;
-    QString Info(const QString &key) const;
-    QStringList Keys(const QString &regexp) const;
-    QString Value(const QString &key) const;
-    qlonglong WhoAmI() const;
+    [[nodiscard]] QStringList ActiveServices() const;
+    [[nodiscard]] QString Info(const QString &key) const;
+    [[nodiscard]] QStringList Keys(const QString &regexp) const;
+    [[nodiscard]] QString Value(const QString &key) const;
+    [[nodiscard]] qlonglong WhoAmI() const;
     // set methods
-    void SetLogLevel(const QString &what, const int level);
-    void SetLogLevel(const QString &what, const QString &level, const bool enabled);
+    void SetLogLevel(const QString &what, int level);
+    void SetLogLevel(const QString &what, const QString &level, bool enabled);
 
 private:
     AWKeys *m_plugin = nullptr;

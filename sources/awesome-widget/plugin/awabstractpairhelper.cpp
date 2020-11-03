@@ -30,7 +30,7 @@ AWAbstractPairHelper::AWAbstractPairHelper(QString _filePath, QString _section)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
-    initItems();
+    AWAbstractPairHelper::initItems();
 }
 
 

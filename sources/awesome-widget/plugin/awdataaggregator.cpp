@@ -119,7 +119,7 @@ QPixmap AWDataAggregator::tooltipImage()
         // create frame
         float normX = 100.0f / static_cast<float>(m_values[key].count());
         float normY = 100.0f / (1.5f * m_boundaries[key]);
-        float shift = requiredKeys.indexOf(key) * 100.0f;
+        float shift = static_cast<float>(requiredKeys.indexOf(key)) * 100.0f;
         if (down)
             shift -= 100.0;
         // apply pen color

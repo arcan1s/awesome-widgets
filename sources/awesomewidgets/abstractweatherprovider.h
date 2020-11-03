@@ -32,9 +32,9 @@ public:
     explicit AbstractWeatherProvider(QObject *_parent)
         : QObject(_parent){};
     ~AbstractWeatherProvider() override = default;
-    virtual void initUrl(const QString &_city, const QString &_country, const int _ts) = 0;
-    virtual QVariantHash parse(const QVariantMap &_json) const = 0;
-    QString tag(const QString &_type) const
+    virtual void initUrl(const QString &_city, const QString &_country, int _ts) = 0;
+    [[nodiscard]] virtual QVariantHash parse(const QVariantMap &_json) const = 0;
+    [[nodiscard]] QString tag(const QString &_type) const
     {
         return dynamic_cast<AbstractExtItem *>(parent())->tag(_type);
     };

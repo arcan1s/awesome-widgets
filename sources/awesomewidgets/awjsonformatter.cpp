@@ -34,9 +34,9 @@ AWJsonFormatter::AWJsonFormatter(QWidget *_parent, const QString &_filePath)
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     if (!_filePath.isEmpty())
-        readConfiguration();
+        AWJsonFormatter::readConfiguration();
     ui->setupUi(this);
-    translate();
+    AWJsonFormatter::translate();
 }
 
 
@@ -144,7 +144,7 @@ void AWJsonFormatter::writeConfiguration() const
 }
 
 
-QVariant AWJsonFormatter::getFromJson(const QVariant &_value, const QVariant &_element) const
+QVariant AWJsonFormatter::getFromJson(const QVariant &_value, const QVariant &_element)
 {
     qCDebug(LOG_LIB) << "Looking for element" << _element << "in" << _value;
 

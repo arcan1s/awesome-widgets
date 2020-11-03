@@ -32,9 +32,9 @@ public:
     explicit AWCustomKeysHelper(QObject *_parent = nullptr);
     ~AWCustomKeysHelper() override;
     // get
-    QString source(const QString &_key) const;
-    QStringList sources() const;
-    QStringList refinedSources() const;
+    [[nodiscard]] QString source(const QString &_key) const;
+    [[nodiscard]] QStringList sources() const;
+    [[nodiscard]] QStringList refinedSources() const;
     // configuration related
     void editPairs() override{};
     QStringList leftKeys() override;

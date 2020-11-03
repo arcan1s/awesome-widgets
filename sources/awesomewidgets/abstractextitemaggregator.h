@@ -68,14 +68,14 @@ public:
     void editItem();
     QString getName();
     virtual void initItems() = 0;
-    AbstractExtItem *itemFromWidget();
-    void repaintList();
-    int uniqNumber() const;
+    AbstractExtItem *itemFromWidget() const;
+    void repaintList() const;
+    [[nodiscard]] int uniqNumber() const;
     // get methods
-    QVariant configArgs() const;
-    QStringList directories() const;
-    virtual QList<AbstractExtItem *> items() const = 0;
-    QString type() const;
+    [[nodiscard]] QVariant configArgs() const;
+    [[nodiscard]] QStringList directories() const;
+    [[nodiscard]] virtual QList<AbstractExtItem *> items() const = 0;
+    [[nodiscard]] QString type() const;
     // set methods
     void setConfigArgs(const QVariant &_configArgs);
 

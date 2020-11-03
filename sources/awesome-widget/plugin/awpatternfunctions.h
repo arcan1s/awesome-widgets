@@ -44,7 +44,7 @@ QString insertKeyNames(QString _code, const QStringList &_keys);
 QString insertKeys(QString _code, const QStringList &_keys);
 QString insertMacros(QString _code);
 // find methods
-QStringList findKeys(const QString &_code, const QStringList &_keys, const bool _isBars);
+QStringList findKeys(const QString &_code, const QStringList &_keys, bool _isBars);
 QStringList findLambdas(const QString &_code);
 } // namespace AWPatternFunctions
 

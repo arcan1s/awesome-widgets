@@ -37,10 +37,10 @@ class ExtQuotes : public AbstractExtItem
 public:
     explicit ExtQuotes(QWidget *_parent = nullptr, const QString &_filePath = "");
     ~ExtQuotes() override;
-    ExtQuotes *copy(const QString &_fileName, const int _number) override;
+    ExtQuotes *copy(const QString &_fileName, int _number) override;
     // get methods
-    QString ticker() const;
-    QString uniq() const override;
+    [[nodiscard]] QString ticker() const;
+    [[nodiscard]] QString uniq() const override;
     // set methods
     void setTicker(const QString &_ticker);
 

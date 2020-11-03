@@ -40,18 +40,18 @@ class AWKeyOperations : public QObject
 public:
     explicit AWKeyOperations(QObject *_parent = nullptr);
     ~AWKeyOperations() override;
-    QStringList devices(const QString &_type) const;
-    QHash<QString, QStringList> devices() const;
+    [[nodiscard]] QStringList devices(const QString &_type) const;
+    [[nodiscard]] QHash<QString, QStringList> devices() const;
     void updateCache();
     // keys
-    QStringList dictKeys() const;
-    GraphicalItem *giByKey(const QString &_key) const;
-    QStringList requiredUserKeys() const;
-    QStringList userKeys() const;
-    QString userKeySource(const QString &_key) const;
+    [[nodiscard]] QStringList dictKeys() const;
+    [[nodiscard]] GraphicalItem *giByKey(const QString &_key) const;
+    [[nodiscard]] QStringList requiredUserKeys() const;
+    [[nodiscard]] QStringList userKeys() const;
+    [[nodiscard]] QString userKeySource(const QString &_key) const;
     // values
-    QString infoByKey(const QString &_key) const;
-    QString pattern() const;
+    [[nodiscard]] QString infoByKey(const QString &_key) const;
+    [[nodiscard]] QString pattern() const;
     void setPattern(const QString &_currentPattern);
     // configuration
     void editItem(const QString &_type);

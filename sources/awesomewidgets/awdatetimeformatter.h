@@ -37,13 +37,13 @@ class AWDateTimeFormatter : public AWAbstractFormatter
 public:
     explicit AWDateTimeFormatter(QWidget *_parent = nullptr, const QString &_filePath = "");
     ~AWDateTimeFormatter() override;
-    QString convert(const QVariant &_value) const override;
-    AWDateTimeFormatter *copy(const QString &_fileName, const int _number) override;
+    [[nodiscard]] QString convert(const QVariant &_value) const override;
+    AWDateTimeFormatter *copy(const QString &_fileName, int _number) override;
     // properties
-    QString format() const;
-    bool translateString() const;
+    [[nodiscard]] QString format() const;
+    [[nodiscard]] bool translateString() const;
     void setFormat(const QString &_format);
-    void setTranslateString(const bool _translate);
+    void setTranslateString(bool _translate);
 
 public slots:
     void readConfiguration() override;

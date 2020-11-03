@@ -36,7 +36,7 @@ AWDataEngineAggregator::AWDataEngineAggregator(QObject *_parent)
     // additional method required by systemmonitor structure
     m_newSourceConnection
         = connect(m_dataEngines["systemmonitor"], &Plasma::DataEngine::sourceAdded,
-                  [this](const QString source) {
+                  [this](const QString &source) {
                       emit(deviceAdded(source));
                       m_dataEngines["systemmonitor"]->connectSource(source, parent(), 1000);
                   });
@@ -56,9 +56,9 @@ AWDataEngineAggregator::~AWDataEngineAggregator()
 
 void AWDataEngineAggregator::disconnectSources()
 {
-    for (auto dataengine : m_dataEngines.values())
-        for (auto &source : dataengine->sources())
-            dataengine->disconnectSource(source, parent());
+    for (auto dataEngine : m_dataEngines.values())
+        for (auto &source : dataEngine->sources())
+            dataEngine->disconnectSource(source, parent());
     disconnect(m_newSourceConnection);
 }
 
@@ -75,7 +75,7 @@ void AWDataEngineAggregator::reconnectSources(const int _interval)
 
     m_newSourceConnection = connect(
         m_dataEngines["systemmonitor"], &Plasma::DataEngine::sourceAdded,
-        [this, _interval](const QString source) {
+        [this, _interval](const QString &source) {
             emit(deviceAdded(source));
             m_dataEngines["systemmonitor"]->connectSource(source, parent(), (uint)_interval);
         });
@@ -92,8 +92,8 @@ void AWDataEngineAggregator::dropSource(const QString &_source)
 
     // HACK there is no possibility to check to which dataengine source
     // connected we will try to disconnect it from all engines
-    for (auto dataengine : m_dataEngines.values())
-        dataengine->disconnectSource(_source, parent());
+    for (auto dataEngine : m_dataEngines.values())
+        dataEngine->disconnectSource(_source, parent());
 }
 
 

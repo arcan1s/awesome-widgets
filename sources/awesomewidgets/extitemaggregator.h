@@ -41,7 +41,7 @@ public:
 
         qCDebug(LOG_LIB) << "Type" << _type;
 
-        initItems();
+        ExtItemAggregator::initItems();
     };
 
     ~ExtItemAggregator() override
@@ -117,7 +117,7 @@ public:
         return found;
     };
 
-    QList<AbstractExtItem *> items() const override { return m_items; };
+    [[nodiscard]] QList<AbstractExtItem *> items() const override { return m_items; };
 
 private:
     QList<AbstractExtItem *> m_items;

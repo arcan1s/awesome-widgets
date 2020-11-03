@@ -33,13 +33,14 @@ public:
 
     explicit YahooWeatherProvider(QObject *_parent);
     ~YahooWeatherProvider() override;
-    void initUrl(const QString &_city, const QString &_country, const int) override;
-    QVariantHash parse(const QVariantMap &_json) const override;
-    QUrl url() const override;
+    void initUrl(const QString &_city, const QString &_country, int) override;
+    [[nodiscard]] QVariantHash parse(const QVariantMap &_json) const override;
+    [[nodiscard]] QUrl url() const override;
 
 private:
-    QVariantHash parseCurrent(const QVariantMap &_json, const QVariantMap &_atmosphere) const;
-    QVariantHash parseForecast(const QVariantMap &_json) const;
+    [[nodiscard]] QVariantHash parseCurrent(const QVariantMap &_json,
+                                            const QVariantMap &_atmosphere) const;
+    [[nodiscard]] QVariantHash parseForecast(const QVariantMap &_json) const;
     int m_ts = 0;
     QUrl m_url;
 };

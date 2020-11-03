@@ -92,7 +92,7 @@ void GraphicalItemHelper::paintBars(const float _value)
     auto normY = static_cast<float>(m_height - 1);
     // paint graph
     for (int i = 0; i < m_values.count(); i++) {
-        float x = i * normX;
+        float x = static_cast<float>(i) * normX;
         float y = 0.5f;
         float width = normX;
         float height = m_values.at(i) * normY + 0.5f;
@@ -137,9 +137,10 @@ void GraphicalItemHelper::paintGraph(const float _value)
     // paint graph
     for (int i = 0; i < m_values.count() - 1; i++) {
         // some magic here
-        float x1 = i * normX;
+        auto value = static_cast<float>(i);
+        float x1 = value * normX;
         float y1 = m_values.at(i) * normY + 0.5f;
-        float x2 = (i + 1) * normX;
+        float x2 = (value + 1) * normX;
         float y2 = m_values.at(i + 1) * normY + 0.5f;
         m_scene->addLine(x1, y1, x2, y2, m_activePen);
     }
@@ -153,10 +154,11 @@ void GraphicalItemHelper::paintHorizontal(const float _percent)
     m_activePen.setWidth(m_height);
     m_inactivePen.setWidth(m_height);
     // inactive
-    m_scene->addLine(_percent * m_width + 0.5 * m_height, 0.5 * m_height, m_width + 0.5 * m_height,
+    auto width = static_cast<float>(m_width);
+    m_scene->addLine(_percent * width + 0.5 * m_height, 0.5 * m_height, m_width + 0.5 * m_height,
                      0.5 * m_height, m_inactivePen);
     // active
-    m_scene->addLine(-0.5 * m_height, 0.5 * m_height, _percent * m_width - 0.5 * m_height,
+    m_scene->addLine(-0.5 * m_height, 0.5 * m_height, _percent * width - 0.5 * m_height,
                      0.5 * m_height, m_activePen);
 }
 

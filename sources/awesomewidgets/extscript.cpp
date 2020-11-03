@@ -36,10 +36,10 @@ ExtScript::ExtScript(QWidget *_parent, const QString &_filePath)
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     if (!_filePath.isEmpty())
-        readConfiguration();
+        ExtScript::readConfiguration();
     readJsonFilters();
     ui->setupUi(this);
-    translate();
+    ExtScript::translate();
 
     m_values[tag("custom")] = "";
 
@@ -71,7 +71,6 @@ ExtScript *ExtScript::copy(const QString &_fileName, const int _number)
     copyDefaults(item);
     item->setExecutable(executable());
     item->setNumber(_number);
-    item->setPrefix(prefix());
     item->setRedirect(redirect());
     item->setFilters(filters());
 
@@ -99,12 +98,6 @@ QString ExtScript::executable() const
 QStringList ExtScript::filters() const
 {
     return m_filters;
-}
-
-
-QString ExtScript::prefix() const
-{
-    return m_prefix;
 }
 
 
@@ -156,14 +149,6 @@ void ExtScript::setFilters(const QStringList &_filters)
 
     std::for_each(_filters.cbegin(), _filters.cend(),
                   [this](const QString &filter) { return updateFilter(filter, true); });
-}
-
-
-void ExtScript::setPrefix(const QString &_prefix)
-{
-    qCDebug(LOG_LIB) << "Prefix" << _prefix;
-
-    m_prefix = _prefix;
 }
 
 
@@ -231,11 +216,9 @@ void ExtScript::readConfiguration()
 
     settings.beginGroup("Desktop Entry");
     setExecutable(settings.value("Exec", executable()).toString());
-    setPrefix(settings.value("X-AW-Prefix", prefix()).toString());
     setStrRedirect(settings.value("X-AW-Redirect", strRedirect()).toString());
     // api == 3
-    setFilters(
-        settings.value("X-AW-Filters", filters()).toString().split(',', Qt::SkipEmptyParts));
+    setFilters(settings.value("X-AW-Filters", filters()).toString().split(',', Qt::SkipEmptyParts));
     settings.endGroup();
 
     bumpApi(AW_EXTSCRIPT_API);
@@ -283,7 +266,6 @@ int ExtScript::showConfiguration(const QVariant &_args)
     ui->lineEdit_comment->setText(comment());
     ui->label_numberValue->setText(QString("%1").arg(number()));
     ui->lineEdit_command->setText(executable());
-    ui->lineEdit_prefix->setText(prefix());
     ui->checkBox_active->setCheckState(isActive() ? Qt::Checked : Qt::Unchecked);
     ui->comboBox_redirect->setCurrentIndex(static_cast<int>(redirect()));
     ui->lineEdit_schedule->setText(cron());
@@ -305,7 +287,6 @@ int ExtScript::showConfiguration(const QVariant &_args)
     setNumber(ui->label_numberValue->text().toInt());
     setApiVersion(AW_EXTSCRIPT_API);
     setExecutable(ui->lineEdit_command->text());
-    setPrefix(ui->lineEdit_prefix->text());
     setActive(ui->checkBox_active->checkState() == Qt::Checked);
     setRedirect(static_cast<Redirect>(ui->comboBox_redirect->currentIndex()));
     setCron(ui->lineEdit_schedule->text());
@@ -330,7 +311,6 @@ void ExtScript::writeConfiguration() const
 
     settings.beginGroup("Desktop Entry");
     settings.setValue("Exec", executable());
-    settings.setValue("X-AW-Prefix", prefix());
     settings.setValue("X-AW-Redirect", strRedirect());
     settings.setValue("X-AW-Filters", filters().join(','));
     settings.endGroup();
@@ -341,12 +321,8 @@ void ExtScript::writeConfiguration() const
 
 void ExtScript::startProcess()
 {
-    QStringList cmdList;
-    if (!prefix().isEmpty())
-        cmdList.append(prefix());
-    cmdList.append(executable());
-    qCInfo(LOG_LIB) << "Run cmd" << cmdList.join(' ');
-    m_process->start("sh", QStringList() << "-c" << cmdList);
+    qCInfo(LOG_LIB) << "Run cmd" << executable();
+    m_process->start("sh", QStringList() << "-c" << executable());
 }
 
 
@@ -387,7 +363,6 @@ void ExtScript::translate()
     ui->label_comment->setText(i18n("Comment"));
     ui->label_number->setText(i18n("Tag"));
     ui->label_command->setText(i18n("Command"));
-    ui->label_prefix->setText(i18n("Prefix"));
     ui->checkBox_active->setText(i18n("Active"));
     ui->label_redirect->setText(i18n("Redirect"));
     ui->label_schedule->setText(i18n("Schedule"));

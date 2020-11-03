@@ -33,7 +33,6 @@ class ExtScript : public AbstractExtItem
     Q_OBJECT
     Q_PROPERTY(QString executable READ executable WRITE setExecutable)
     Q_PROPERTY(QStringList filters READ filters WRITE setFilters)
-    Q_PROPERTY(QString prefix READ prefix WRITE setPrefix)
     Q_PROPERTY(Redirect redirect READ redirect WRITE setRedirect)
 
 public:
@@ -41,25 +40,23 @@ public:
 
     explicit ExtScript(QWidget *_parent = nullptr, const QString &_filePath = "");
     ~ExtScript() override;
-    ExtScript *copy(const QString &_fileName, const int _number) override;
+    ExtScript *copy(const QString &_fileName, int _number) override;
     static QString jsonFiltersFile();
     // get methods
-    QString executable() const;
-    QStringList filters() const;
-    QString prefix() const;
-    Redirect redirect() const;
-    QString uniq() const override;
+    [[nodiscard]] QString executable() const;
+    [[nodiscard]] QStringList filters() const;
+    [[nodiscard]] Redirect redirect() const;
+    [[nodiscard]] QString uniq() const override;
     // derivatives
-    QString strRedirect() const;
+    [[nodiscard]] QString strRedirect() const;
     // set methods
     void setExecutable(const QString &_executable);
     void setFilters(const QStringList &_filters);
-    void setPrefix(const QString &_prefix);
-    void setRedirect(const Redirect _redirect);
+    void setRedirect(Redirect _redirect);
     void setStrRedirect(const QString &_redirect);
     // filters
-    QString applyFilters(QString _value) const;
-    void updateFilter(const QString &_filter, const bool _add);
+    [[nodiscard]] QString applyFilters(QString _value) const;
+    void updateFilter(const QString &_filter, bool _add);
 
 public slots:
     void readConfiguration() override;

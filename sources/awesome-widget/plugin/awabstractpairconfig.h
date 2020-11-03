@@ -35,7 +35,7 @@ class AWAbstractPairConfig : public QDialog
     Q_OBJECT
 
 public:
-    explicit AWAbstractPairConfig(QWidget *_parent = nullptr, const bool _hasEdit = false,
+    explicit AWAbstractPairConfig(QWidget *_parent = nullptr, bool _hasEdit = false,
                                   QStringList _keys = QStringList());
     ~AWAbstractPairConfig() override;
     template <class T> void initHelper()
@@ -46,7 +46,7 @@ public:
     }
     void showDialog();
     // properties
-    void setEditable(const bool _first, const bool _second);
+    void setEditable(bool _first, bool _second);
 
 private slots:
     void edit();
@@ -66,7 +66,7 @@ private:
                      const QPair<QString, QString> &_current);
     void clearSelectors();
     void execDialog();
-    QPair<QStringList, QStringList> initKeys() const;
+    [[nodiscard]] QPair<QStringList, QStringList> initKeys() const;
     void updateDialog();
 };
 

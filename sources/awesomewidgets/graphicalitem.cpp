@@ -52,9 +52,9 @@ GraphicalItem::GraphicalItem(QWidget *_parent, const QString &_filePath)
     m_helper = new GraphicalItemHelper(this, m_scene);
 
     if (!_filePath.isEmpty())
-        readConfiguration();
+        GraphicalItem::readConfiguration();
     ui->setupUi(this);
-    translate();
+    GraphicalItem::translate();
 
     connect(ui->checkBox_custom, SIGNAL(stateChanged(int)), this, SLOT(changeValue(int)));
     connect(ui->comboBox_type, SIGNAL(currentIndexChanged(int)), this, SLOT(changeCountState(int)));

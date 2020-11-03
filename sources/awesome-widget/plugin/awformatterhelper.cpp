@@ -39,7 +39,7 @@ AWFormatterHelper::AWFormatterHelper(QWidget *_parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
-    initItems();
+    AWFormatterHelper::initItems();
 }
 
 
@@ -55,7 +55,6 @@ AWFormatterHelper::~AWFormatterHelper()
 void AWFormatterHelper::initItems()
 {
     initFormatters();
-    AWAbstractPairHelper::initItems();
 
     // assign internal storage
     m_formatters.clear();
@@ -199,7 +198,7 @@ void AWFormatterHelper::initFormatters()
 
 
 QPair<QString, AWAbstractFormatter::FormatterClass>
-AWFormatterHelper::readMetadata(const QString &_filePath) const
+AWFormatterHelper::readMetadata(const QString &_filePath)
 {
     qCDebug(LOG_AW) << "Read initial parameters from" << _filePath;
 

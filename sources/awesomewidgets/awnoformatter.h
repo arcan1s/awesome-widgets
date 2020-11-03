@@ -33,8 +33,8 @@ class AWNoFormatter : public AWAbstractFormatter
 public:
     explicit AWNoFormatter(QWidget *_parent = nullptr, const QString &_filePath = "");
     ~AWNoFormatter() override;
-    QString convert(const QVariant &_value) const override;
-    AWNoFormatter *copy(const QString &_fileName, const int _number) override;
+    [[nodiscard]] QString convert(const QVariant &_value) const override;
+    AWNoFormatter *copy(const QString &_fileName, int _number) override;
 
 public slots:
     int showConfiguration(const QVariant &_args) override;

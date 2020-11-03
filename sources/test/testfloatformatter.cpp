@@ -18,8 +18,8 @@
 
 #include "testfloatformatter.h"
 
-#include <QtTest>
 #include <QRandomGenerator>
+#include <QtTest>
 
 #include "awfloatformatter.h"
 #include "awtestlibrary.h"

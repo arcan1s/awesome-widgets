@@ -240,8 +240,7 @@ void AbstractExtItem::setNumber(int _number)
     if (generateNumber) {
         _number = []() {
             qCWarning(LOG_LIB) << "Number is empty, generate new one";
-            // we suppose that currentTIme().msec() is always valid time
-            int n = QRandomGenerator::global()->generate() % 1000;
+            auto n = QRandomGenerator::global()->generate() % 1000;
             qCInfo(LOG_LIB) << "Generated number is" << n;
             return n;
         }();

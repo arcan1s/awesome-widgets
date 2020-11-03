@@ -49,17 +49,17 @@ private:
     // ui
     QGraphicsScene *m_toolTipScene = nullptr;
     QGraphicsView *m_toolTipView = nullptr;
-    void checkValue(const QString &_source, const float _value, const float _extremum) const;
+    void checkValue(const QString &_source, float _value, float _extremum) const;
     void checkValue(const QString &_source, const QString &_current,
                     const QString &_received) const;
     void initScene();
-    static QString notificationText(const QString &_source, const float _value);
+    static QString notificationText(const QString &_source, float _value);
     static QString notificationText(const QString &_source, const QString &_value);
     // main method
     void setData(const QVariantHash &_values);
-    void setData(const QString &_source, float _value, const float _extremum = -1.0f);
+    void setData(const QString &_source, float _value, float _extremum = -1.0f);
     // different signature for battery device
-    void setData(const bool _dontInvert, const QString &_source, float _value);
+    void setData(bool _dontInvert, const QString &_source, float _value);
     // variables
     int m_counts = 0;
     QVariantHash m_configuration;

@@ -32,7 +32,7 @@ public:
     ~ExtendedSysMon() override;
 
 protected:
-    QStringList sources() const override;
+    [[nodiscard]] QStringList sources() const override;
     bool sourceRequestEvent(const QString &_source) override;
     bool updateSourceEvent(const QString &_source) override;
 
@@ -42,7 +42,8 @@ private:
     QHash<QString, QString> m_configuration;
     // methods
     void readConfiguration();
-    QHash<QString, QString> updateConfiguration(QHash<QString, QString> _rawConfig) const;
+    [[nodiscard]] static QHash<QString, QString>
+    updateConfiguration(QHash<QString, QString> _rawConfig);
 };
 
 

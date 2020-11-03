@@ -36,10 +36,10 @@ class ExtNetworkRequest : public AbstractExtItem
 public:
     explicit ExtNetworkRequest(QWidget *_parent = nullptr, const QString &_filePath = "");
     ~ExtNetworkRequest() override;
-    ExtNetworkRequest *copy(const QString &_fileName, const int _number) override;
+    ExtNetworkRequest *copy(const QString &_fileName, int _number) override;
     // get methods
-    QString stringUrl() const;
-    QString uniq() const override;
+    [[nodiscard]] QString stringUrl() const;
+    [[nodiscard]] QString uniq() const override;
     // set methods
     void setStringUrl(const QString &_url);
 

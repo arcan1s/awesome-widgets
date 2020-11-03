@@ -33,18 +33,18 @@ class AWUpdateHelper : public QObject
 public:
     explicit AWUpdateHelper(QObject *_parent = nullptr);
     ~AWUpdateHelper() override;
-    void checkUpdates(const bool _showAnyway = false);
+    void checkUpdates(bool _showAnyway = false);
     bool checkVersion();
 
 private slots:
     static void showInfo(const QVersionNumber &_version);
     void showUpdates(const QVersionNumber &_version);
     void userReplyOnUpdates(QAbstractButton *_button);
-    void versionReplyRecieved(QNetworkReply *_reply, const bool _showAnyway);
+    void versionReplyRecieved(QNetworkReply *_reply, bool _showAnyway);
 
 private:
     static QMessageBox *genMessageBox(const QString &_title, const QString &_body,
-                                      const QMessageBox::StandardButtons _buttons);
+                                      QMessageBox::StandardButtons _buttons);
     QVersionNumber m_foundVersion;
     QString m_genericConfig;
 };

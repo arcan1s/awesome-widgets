@@ -108,8 +108,7 @@ void ExtendedSysMon::readConfiguration()
 }
 
 
-QHash<QString, QString>
-ExtendedSysMon::updateConfiguration(QHash<QString, QString> _rawConfig) const
+QHash<QString, QString> ExtendedSysMon::updateConfiguration(QHash<QString, QString> _rawConfig)
 {
     qCDebug(LOG_ESM) << "Raw configuration" << _rawConfig;
 

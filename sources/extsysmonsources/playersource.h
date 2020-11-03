@@ -38,24 +38,24 @@ public:
     ~PlayerSource() override;
     QVariant data(const QString &_source) override;
     static QString getAutoMpris();
-    QVariantMap initialData(const QString &_source) const override;
+    [[nodiscard]] QVariantMap initialData(const QString &_source) const override;
     void run() override;
-    QStringList sources() const override;
+    [[nodiscard]] QStringList sources() const override;
     // additional method to build dynamic tags
-    static QString buildString(const QString &_current, const QString &_value, const int _s);
-    static QString stripString(const QString &_value, const int _s);
+    static QString buildString(const QString &_current, const QString &_value, int _s);
+    static QString stripString(const QString &_value, int _s);
     // additional test method
-    bool isMpdSocketConnected() const;
+    [[nodiscard]] bool isMpdSocketConnected() const;
 
 private slots:
     void mpdSocketConnected();
     void mpdSocketReadyRead();
-    void mpdSocketWritten(const qint64 _bytes);
+    void mpdSocketWritten(qint64 _bytes);
 
 private:
     static inline QVariantHash defaultInfo();
     QVariantHash getPlayerMpdInfo();
-    QVariantHash getPlayerMprisInfo(const QString &_mpris) const;
+    [[nodiscard]] static QVariantHash getPlayerMprisInfo(const QString &_mpris);
     QTcpSocket m_mpdSocket;
     // configuration and values
     QString m_mpdAddress;

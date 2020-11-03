@@ -36,15 +36,15 @@ class AWStringFormatter : public AWAbstractFormatter
 public:
     explicit AWStringFormatter(QWidget *_parent = nullptr, const QString &_filePath = "");
     ~AWStringFormatter() override;
-    QString convert(const QVariant &_value) const override;
-    AWStringFormatter *copy(const QString &_fileName, const int _number) override;
+    [[nodiscard]] QString convert(const QVariant &_value) const override;
+    AWStringFormatter *copy(const QString &_fileName, int _number) override;
     // properties
-    int count() const;
-    QChar fillChar() const;
-    bool forceWidth() const;
-    void setCount(const int _count);
+    [[nodiscard]] int count() const;
+    [[nodiscard]] QChar fillChar() const;
+    [[nodiscard]] bool forceWidth() const;
+    void setCount(int _count);
     void setFillChar(const QChar &_fillChar);
-    void setForceWidth(const bool _forceWidth);
+    void setForceWidth(bool _forceWidth);
 
 public slots:
     void readConfiguration() override;

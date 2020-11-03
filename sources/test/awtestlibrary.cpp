@@ -20,15 +20,13 @@
 
 #include <KWindowSystem>
 #include <QEventLoop>
+#include <QRandomGenerator>
 #include <QSet>
 #include <QStandardPaths>
-#include <QRandomGenerator>
 #include <QtTest>
 
 
-void AWTestLibrary::init()
-{
-}
+void AWTestLibrary::init() {}
 
 
 bool AWTestLibrary::isKWinActive()

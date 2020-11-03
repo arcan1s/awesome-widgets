@@ -32,7 +32,7 @@ HDDTemperatureSource::HDDTemperatureSource(QObject *_parent, const QStringList &
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
     m_devices = _args.at(0).split(',', Qt::SkipEmptyParts);
-    m_cmd = _args.at(1).split(' ');  // lets hope no one put cmd with spaces here lol
+    m_cmd = _args.at(1).split(' '); // lets hope no one put cmd with spaces here lol
 
     m_smartctl = m_cmd.contains("smartctl");
     qCInfo(LOG_ESS) << "Parse as smartctl" << m_smartctl;

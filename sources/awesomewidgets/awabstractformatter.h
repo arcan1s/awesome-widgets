@@ -32,14 +32,14 @@ public:
 
     explicit AWAbstractFormatter(QWidget *_parent = nullptr, const QString &_filePath = "");
     ~AWAbstractFormatter() override;
-    virtual QString convert(const QVariant &_value) const = 0;
+    [[nodiscard]] virtual QString convert(const QVariant &_value) const = 0;
     void copyDefaults(AbstractExtItem *_other) const override;
-    QString uniq() const override;
+    [[nodiscard]] QString uniq() const override;
     // properties
-    QString strType() const;
-    FormatterClass type() const;
+    [[nodiscard]] QString strType() const;
+    [[nodiscard]] FormatterClass type() const;
     void setStrType(const QString &_type);
-    void setType(const FormatterClass _type);
+    void setType(FormatterClass _type);
 
 public slots:
     void readConfiguration() override;

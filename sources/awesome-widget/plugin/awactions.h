@@ -32,7 +32,7 @@ class AWActions : public QObject
 public:
     explicit AWActions(QObject *_parent = nullptr);
     ~AWActions() override;
-    Q_INVOKABLE void checkUpdates(const bool _showAnyway = false);
+    Q_INVOKABLE void checkUpdates(bool _showAnyway = false);
     Q_INVOKABLE static QString getFileContent(const QString &_path);
     Q_INVOKABLE static bool isDebugEnabled();
     Q_INVOKABLE static bool runCmd(const QString &_cmd, const QStringList &_args);

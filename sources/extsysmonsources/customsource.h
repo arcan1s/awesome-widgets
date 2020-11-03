@@ -34,9 +34,9 @@ public:
     explicit CustomSource(QObject *_parent, const QStringList &_args);
     ~CustomSource() override;
     QVariant data(const QString &_source) override;
-    QVariantMap initialData(const QString &_source) const override;
+    [[nodiscard]] QVariantMap initialData(const QString &_source) const override;
     void run() override{};
-    QStringList sources() const override;
+    [[nodiscard]] QStringList sources() const override;
 
 private:
     QStringList getSources();

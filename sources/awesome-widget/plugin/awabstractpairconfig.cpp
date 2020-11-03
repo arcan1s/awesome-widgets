@@ -141,15 +141,17 @@ void AWAbstractPairConfig::execDialog()
     }
 
     // save configuration if required
+    auto status = true;
     switch (ret) {
     case 0:
         break;
     case 1:
     default:
-        m_helper->writeItems(data);
-        m_helper->removeUnusedKeys(data.keys());
+        status &= m_helper->writeItems(data);
+        status &= m_helper->removeUnusedKeys(data.keys());
         break;
     }
+    qCDebug(LOG_AW) << "Configuration save status" << status;
 }
 
 

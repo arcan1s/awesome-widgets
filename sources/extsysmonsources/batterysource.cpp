@@ -241,7 +241,8 @@ void BatterySource::calculateRates()
 
     // check time interval
     auto now = QDateTime::currentDateTimeUtc();
-    auto interval = (now.toMSecsSinceEpoch() - m_timestamp.toMSecsSinceEpoch()) / 1000.0f;
+    auto interval = m_timestamp.secsTo(now);
+    qCDebug(LOG_AW) << interval;
     m_timestamp.swap(now);
 
     for (int i = 0; i < m_batteriesCount; i++) {
