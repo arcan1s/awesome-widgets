@@ -73,8 +73,7 @@ void TestAWListFormatter::test_filter()
     value.sort();
     formatter->setFilter(QString("(^%1$)").arg(filters.join("$|^")));
 
-    QCOMPARE(formatter->convert(value).split(separator).count(),
-             filters.count());
+    QCOMPARE(formatter->convert(value).split(separator).count(), filters.count());
 }
 
 

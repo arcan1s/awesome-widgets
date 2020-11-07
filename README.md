@@ -39,12 +39,15 @@ Optional dependencies
 * hddtemp
 * smartmontools
 * music player (mpd or MPRIS supported)
+* wireless_tools
 
 Make dependencies
 -----------------
 
 * cmake
 * extra-cmake-modules
+
+In addition some distros might require to install some -dev packages, e.g. the list of required packages for deb-based distros can be found [here](https://github.com/arcan1s/awesome-widgets/blob/development/.docker/Dockerfile-ubuntu-amd64#L7).
 
 Installation
 ------------
@@ -53,10 +56,14 @@ Installation
 * install
 
         mkdir build && cd build
-        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr ../
+        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr ../sources
         make && sudo make install
 
   **NOTE** on Plasma 5 it very likely requires `-DKDE_INSTALL_USE_QT_SYS_PATHS=ON` flag
+
+  **NOTE** if you are going to build from git, you need to init submodules first, e.g.:
+
+        git submodule update --init --recursive
 
 Additional information
 ======================

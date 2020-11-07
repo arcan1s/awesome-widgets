@@ -31,9 +31,9 @@ AWNoFormatter::AWNoFormatter(QWidget *_parent, const QString &_filePath)
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     if (!_filePath.isEmpty())
-        readConfiguration();
+        AWNoFormatter::readConfiguration();
     ui->setupUi(this);
-    translate();
+    AWNoFormatter::translate();
 }
 
 
@@ -57,8 +57,7 @@ AWNoFormatter *AWNoFormatter::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    AWNoFormatter *item
-        = new AWNoFormatter(static_cast<QWidget *>(parent()), _fileName);
+    auto *item = new AWNoFormatter(dynamic_cast<QWidget *>(parent()), _fileName);
     AWAbstractFormatter::copyDefaults(item);
     item->setNumber(_number);
 

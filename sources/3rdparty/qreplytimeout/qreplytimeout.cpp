@@ -12,7 +12,7 @@ QReplyTimeout::QReplyTimeout(QNetworkReply *reply, const int timeout)
 
 void QReplyTimeout::timeout()
 {
-    QNetworkReply *reply = static_cast<QNetworkReply *>(parent());
+    auto *reply = dynamic_cast<QNetworkReply *>(parent());
     if (reply->isRunning())
         reply->close();
 }

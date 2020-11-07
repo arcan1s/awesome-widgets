@@ -32,30 +32,28 @@ class AWDateTimeFormatter : public AWAbstractFormatter
 {
     Q_OBJECT
     Q_PROPERTY(QString format READ format WRITE setFormat)
-    Q_PROPERTY(
-        bool translateString READ translateString WRITE setTranslateString)
+    Q_PROPERTY(bool translateString READ translateString WRITE setTranslateString)
 
 public:
-    explicit AWDateTimeFormatter(QWidget *_parent = nullptr,
-                                 const QString &_filePath = "");
-    virtual ~AWDateTimeFormatter();
-    QString convert(const QVariant &_value) const;
-    AWDateTimeFormatter *copy(const QString &_fileName, const int _number);
+    explicit AWDateTimeFormatter(QWidget *_parent = nullptr, const QString &_filePath = "");
+    ~AWDateTimeFormatter() override;
+    [[nodiscard]] QString convert(const QVariant &_value) const override;
+    AWDateTimeFormatter *copy(const QString &_fileName, int _number) override;
     // properties
-    QString format() const;
-    bool translateString() const;
+    [[nodiscard]] QString format() const;
+    [[nodiscard]] bool translateString() const;
     void setFormat(const QString &_format);
-    void setTranslateString(const bool _translate);
+    void setTranslateString(bool _translate);
 
 public slots:
-    void readConfiguration();
-    int showConfiguration(const QVariant &_args);
-    void writeConfiguration() const;
+    void readConfiguration() override;
+    int showConfiguration(const QVariant &_args) override;
+    void writeConfiguration() const override;
 
 private:
     Ui::AWDateTimeFormatter *ui = nullptr;
     void initLocale();
-    void translate();
+    void translate() override;
     // properties
     QLocale m_locale;
     QString m_format = "";

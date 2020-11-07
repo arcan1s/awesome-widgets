@@ -2,10 +2,10 @@
 Encoding=UTF-8
 Name=RTS
 Comment=RTS Index
-X-AW-Ticker="RTS.RS"
+X-AW-Ticker="^RTS"
 X-AW-Active=false
-X-AW-ApiVersion=4
+X-AW-ApiVersion=5
 X-AW-Interval=60
-X-AW-Number=5
+X-AW-Number=4
 X-AW-Schedule=
 X-AW-Socket=

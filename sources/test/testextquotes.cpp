@@ -64,8 +64,8 @@ void TestExtQuotes::test_run()
 
     for (auto &type : types) {
         QCOMPARE(firstValue[extQuotes->tag(type)].toDouble(), 0.0);
-        QVERIFY((cache[type].toDouble() > price.first)
-                && (cache[type].toDouble() < price.second));
+        QVERIFY((cache[type].toDouble() >= price.first)
+                && (cache[type].toDouble() <= price.second));
     }
 }
 
@@ -84,9 +84,7 @@ void TestExtQuotes::test_derivatives()
         values[type] = arguments.at(0).toHash()[extQuotes->tag(type)];
 
     for (auto &type : types) {
-        QCOMPARE(arguments.at(0)
-                     .toHash()[extQuotes->tag(QString("%1chg").arg(type))]
-                     .toDouble(),
+        QCOMPARE(arguments.at(0).toHash()[extQuotes->tag(QString("%1chg").arg(type))].toDouble(),
                  (values[type].toDouble() - cache[type].toDouble()));
     }
 }

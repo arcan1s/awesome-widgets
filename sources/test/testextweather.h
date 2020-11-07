@@ -36,7 +36,6 @@ private slots:
     // test
     void test_values();
     void test_runOWM();
-    void test_runYahoo();
     void test_ts();
     void test_image();
     void test_copy();

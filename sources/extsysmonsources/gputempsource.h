@@ -31,11 +31,11 @@ class GPUTemperatureSource : public AbstractExtSysMonSource
 
 public:
     explicit GPUTemperatureSource(QObject *_parent, const QStringList &_args);
-    virtual ~GPUTemperatureSource();
-    QVariant data(const QString &_source);
-    QVariantMap initialData(const QString &_source) const;
-    void run();
-    QStringList sources() const;
+    ~GPUTemperatureSource() override;
+    QVariant data(const QString &_source) override;
+    [[nodiscard]] QVariantMap initialData(const QString &_source) const override;
+    void run() override;
+    [[nodiscard]] QStringList sources() const override;
 
 private slots:
     void updateValue();

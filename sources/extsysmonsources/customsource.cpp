@@ -45,10 +45,7 @@ QVariant CustomSource::data(const QString &_source)
     qCDebug(LOG_ESS) << "Source" << _source;
 
     // there are only one value
-    return m_extScripts->itemByTagNumber(index(_source))
-        ->run()
-        .values()
-        .first();
+    return m_extScripts->itemByTagNumber(index(_source))->run().values().first();
 }
 
 
@@ -59,9 +56,8 @@ QVariantMap CustomSource::initialData(const QString &_source) const
     QVariantMap data;
     data["min"] = "";
     data["max"] = "";
-    data["name"]
-        = QString("Custom command '%1' output")
-              .arg(m_extScripts->itemByTagNumber(index(_source))->uniq());
+    data["name"] = QString("Custom command '%1' output")
+                       .arg(m_extScripts->itemByTagNumber(index(_source))->uniq());
     data["type"] = "QString";
     data["units"] = "";
 

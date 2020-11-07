@@ -34,9 +34,9 @@ AWJsonFormatter::AWJsonFormatter(QWidget *_parent, const QString &_filePath)
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     if (!_filePath.isEmpty())
-        readConfiguration();
+        AWJsonFormatter::readConfiguration();
     ui->setupUi(this);
-    translate();
+    AWJsonFormatter::translate();
 }
 
 
@@ -53,10 +53,9 @@ QString AWJsonFormatter::convert(const QVariant &_value) const
     qCDebug(LOG_LIB) << "Convert value" << _value;
 
     // check if _value is string and parse first if required
-    QJsonDocument json
-        = _value.type() == QVariant::String
-              ? QJsonDocument::fromJson(_value.toString().toUtf8())
-              : QJsonDocument::fromVariant(_value);
+    QJsonDocument json = _value.type() == QVariant::String
+                             ? QJsonDocument::fromJson(_value.toString().toUtf8())
+                             : QJsonDocument::fromVariant(_value);
     QVariant converted = json.toVariant();
     for (auto &element : m_splittedPath)
         converted = getFromJson(converted, element);
@@ -65,13 +64,11 @@ QString AWJsonFormatter::convert(const QVariant &_value) const
 }
 
 
-AWJsonFormatter *AWJsonFormatter::copy(const QString &_fileName,
-                                       const int _number)
+AWJsonFormatter *AWJsonFormatter::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    AWJsonFormatter *item
-        = new AWJsonFormatter(static_cast<QWidget *>(parent()), _fileName);
+    auto *item = new AWJsonFormatter(dynamic_cast<QWidget *>(parent()), _fileName);
     AWAbstractFormatter::copyDefaults(item);
     item->setNumber(_number);
     item->setPath(path());
@@ -147,8 +144,7 @@ void AWJsonFormatter::writeConfiguration() const
 }
 
 
-QVariant AWJsonFormatter::getFromJson(const QVariant &_value,
-                                      const QVariant &_element) const
+QVariant AWJsonFormatter::getFromJson(const QVariant &_value, const QVariant &_element)
 {
     qCDebug(LOG_LIB) << "Looking for element" << _element << "in" << _value;
 
@@ -163,8 +159,7 @@ QVariant AWJsonFormatter::getFromJson(const QVariant &_value,
 }
 
 
-QVariant AWJsonFormatter::getFromList(const QVariant &_value,
-                                      const int _index) const
+QVariant AWJsonFormatter::getFromList(const QVariant &_value, const int _index)
 {
     qCDebug(LOG_LIB) << "Looking for index" << _index << "in" << _value;
 
@@ -172,8 +167,7 @@ QVariant AWJsonFormatter::getFromList(const QVariant &_value,
 }
 
 
-QVariant AWJsonFormatter::getFromMap(const QVariant &_value,
-                                     const QString &_key) const
+QVariant AWJsonFormatter::getFromMap(const QVariant &_value, const QString &_key)
 {
     qCDebug(LOG_LIB) << "Looking for key" << _key << "in" << _value;
 
@@ -184,7 +178,7 @@ QVariant AWJsonFormatter::getFromMap(const QVariant &_value,
 void AWJsonFormatter::initPath()
 {
     m_splittedPath.clear();
-    QStringList splittedByDot = m_path.split('.', QString::SkipEmptyParts);
+    QStringList splittedByDot = m_path.split('.', Qt::SkipEmptyParts);
 
     for (auto &element : splittedByDot) {
         bool ok;

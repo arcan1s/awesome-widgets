@@ -18,7 +18,7 @@
 
 #include "loadsource.h"
 
-#include <QTime>
+#include <QRandomGenerator>
 
 #include "awdebug.h"
 
@@ -28,8 +28,6 @@ LoadSource::LoadSource(QObject *_parent, const QStringList &_args)
 {
     Q_ASSERT(_args.count() == 0);
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
-
-    qsrand(static_cast<uint>(QTime::currentTime().msec()));
 }
 
 
@@ -43,7 +41,7 @@ QVariant LoadSource::data(const QString &_source)
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
-    return qrand();
+    return QRandomGenerator::global()->generate();
 }
 
 

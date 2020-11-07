@@ -35,29 +35,28 @@ class AWScriptFormatter : public AWAbstractFormatter
     Q_PROPERTY(QString program READ program)
 
 public:
-    explicit AWScriptFormatter(QWidget *_parent = nullptr,
-                               const QString &_filePath = "");
-    virtual ~AWScriptFormatter();
-    QString convert(const QVariant &_value) const;
-    AWScriptFormatter *copy(const QString &_fileName, const int _number);
+    explicit AWScriptFormatter(QWidget *_parent = nullptr, const QString &_filePath = "");
+    ~AWScriptFormatter() override;
+    [[nodiscard]] QString convert(const QVariant &_value) const override;
+    AWScriptFormatter *copy(const QString &_fileName, int _number) override;
     // properties
-    bool appendCode() const;
-    QString code() const;
-    bool hasReturn() const;
-    QString program() const;
-    void setAppendCode(const bool _appendCode);
+    [[nodiscard]] bool appendCode() const;
+    [[nodiscard]] QString code() const;
+    [[nodiscard]] bool hasReturn() const;
+    [[nodiscard]] QString program() const;
+    void setAppendCode(bool _appendCode);
     void setCode(const QString &_code);
-    void setHasReturn(const bool _hasReturn);
+    void setHasReturn(bool _hasReturn);
 
 public slots:
-    void readConfiguration();
-    int showConfiguration(const QVariant &_args);
-    void writeConfiguration() const;
+    void readConfiguration() override;
+    int showConfiguration(const QVariant &_args) override;
+    void writeConfiguration() const override;
 
 private:
     Ui::AWScriptFormatter *ui = nullptr;
     void initProgram();
-    void translate();
+    void translate() override;
     // properties
     bool m_appendCode = true;
     QString m_code = "";

@@ -21,26 +21,24 @@
 #include <QObject>
 #include <QUrl>
 
+#include "abstractextitem.h"
+
 
 class AbstractWeatherProvider : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(int number READ number)
 
 public:
-    explicit AbstractWeatherProvider(QObject *_parent, const int _number)
-        : QObject(_parent)
-        , m_number(_number){};
-    virtual ~AbstractWeatherProvider(){};
-    virtual void initUrl(const QString &_city, const QString &_country,
-                         const int _ts)
-        = 0;
-    virtual QVariantHash parse(const QVariantMap &_json) const = 0;
+    explicit AbstractWeatherProvider(QObject *_parent)
+        : QObject(_parent){};
+    ~AbstractWeatherProvider() override = default;
+    virtual void initUrl(const QString &_city, const QString &_country, int _ts) = 0;
+    [[nodiscard]] virtual QVariantHash parse(const QVariantMap &_json) const = 0;
+    [[nodiscard]] QString tag(const QString &_type) const
+    {
+        return dynamic_cast<AbstractExtItem *>(parent())->tag(_type);
+    };
     virtual QUrl url() const = 0;
-    int number() const { return m_number; };
-
-private:
-    int m_number;
 };
 
 

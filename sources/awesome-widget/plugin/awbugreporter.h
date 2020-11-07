@@ -31,12 +31,10 @@ class AWBugReporter : public QObject
 
 public:
     explicit AWBugReporter(QObject *_parent = nullptr);
-    virtual ~AWBugReporter();
+    ~AWBugReporter() override;
     Q_INVOKABLE void doConnect();
-    Q_INVOKABLE QString generateText(const QString &_description,
-                                     const QString &_reproduce,
-                                     const QString &_expected,
-                                     const QString &_logs) const;
+    Q_INVOKABLE static QString generateText(const QString &_description, const QString &_reproduce,
+                                            const QString &_expected, const QString &_logs);
     Q_INVOKABLE void sendBugReport(const QString &_title, const QString &_body);
 
 signals:
@@ -44,7 +42,7 @@ signals:
 
 private slots:
     void issueReplyRecieved(QNetworkReply *_reply);
-    void showInformation(const int _number, const QString &_url);
+    void showInformation(int _number, const QString &_url);
     void userReplyOnBugReport(QAbstractButton *_button);
 
 private:

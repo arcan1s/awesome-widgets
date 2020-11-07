@@ -39,22 +39,22 @@ class AbstractExtItemAggregator : public QDialog
     Q_PROPERTY(QVariant type READ type)
 
 public:
-    explicit AbstractExtItemAggregator(QWidget *_parent, const QString &_type);
-    virtual ~AbstractExtItemAggregator();
+    explicit AbstractExtItemAggregator(QWidget *_parent, QString _type);
+    ~AbstractExtItemAggregator() override;
     // methods
     void copyItem();
     template <class T> void createItem()
     {
         QString fileName = getName();
         int number = uniqNumber();
-        QString dir = QString("%1/awesomewidgets/%2")
-                          .arg(QStandardPaths::writableLocation(
-                              QStandardPaths::GenericDataLocation))
-                          .arg(m_type);
+        QString dir
+            = QString("%1/awesomewidgets/%2")
+                  .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation))
+                  .arg(m_type);
         if (fileName.isEmpty()) {
             qCWarning(LOG_LIB) << "Nothing to create";
             return;
-        };
+        }
         QString filePath = QString("%1/%2").arg(dir).arg(fileName);
 
         T *newItem = new T(this, filePath);
@@ -62,20 +62,20 @@ public:
         if (newItem->showConfiguration(configArgs()) == 1) {
             initItems();
             repaintList();
-        };
+        }
     };
     void deleteItem();
     void editItem();
     QString getName();
     virtual void initItems() = 0;
-    AbstractExtItem *itemFromWidget();
-    void repaintList();
-    int uniqNumber() const;
+    AbstractExtItem *itemFromWidget() const;
+    void repaintList() const;
+    [[nodiscard]] int uniqNumber() const;
     // get methods
-    QVariant configArgs() const;
-    QStringList directories() const;
-    virtual QList<AbstractExtItem *> items() const = 0;
-    QString type() const;
+    [[nodiscard]] QVariant configArgs() const;
+    [[nodiscard]] QStringList directories() const;
+    [[nodiscard]] virtual QList<AbstractExtItem *> items() const = 0;
+    [[nodiscard]] QString type() const;
     // set methods
     void setConfigArgs(const QVariant &_configArgs);
 

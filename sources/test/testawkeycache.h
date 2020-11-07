@@ -29,7 +29,7 @@ class TestAWKeyCache : public QObject
 private slots:
     // initialization
     void initTestCase();
-    void cleanupTestCase();
+    static void cleanupTestCase();
     // test
 
 private:

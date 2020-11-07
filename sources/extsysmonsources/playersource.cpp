@@ -40,12 +40,9 @@ PlayerSource::PlayerSource(QObject *_parent, const QStringList &_args)
     m_mpris = _args.at(3);
     m_symbols = _args.at(4).toInt();
 
-    connect(&m_mpdSocket, SIGNAL(connected()), this,
-            SLOT(mpdSocketConnected()));
-    connect(&m_mpdSocket, SIGNAL(readyRead()), this,
-            SLOT(mpdSocketReadyRead()));
-    connect(&m_mpdSocket, SIGNAL(bytesWritten(qint64)), this,
-            SLOT(mpdSocketWritten(const qint64)));
+    connect(&m_mpdSocket, SIGNAL(connected()), this, SLOT(mpdSocketConnected()));
+    connect(&m_mpdSocket, SIGNAL(readyRead()), this, SLOT(mpdSocketReadyRead()));
+    connect(&m_mpdSocket, SIGNAL(bytesWritten(qint64)), this, SLOT(mpdSocketWritten(const qint64)));
     m_mpdCached = defaultInfo();
 }
 
@@ -69,10 +66,10 @@ QVariant PlayerSource::data(const QString &_source)
 }
 
 
-QString PlayerSource::getAutoMpris() const
+QString PlayerSource::getAutoMpris()
 {
-    QDBusMessage listServices = QDBusConnection::sessionBus().interface()->call(
-        QDBus::BlockWithGui, "ListNames");
+    QDBusMessage listServices
+        = QDBusConnection::sessionBus().interface()->call(QDBus::BlockWithGui, "ListNames");
     if (listServices.arguments().isEmpty()) {
         qCWarning(LOG_ESS) << "Could not find any DBus service";
         return "";
@@ -106,15 +103,13 @@ QVariantMap PlayerSource::initialData(const QString &_source) const
     } else if (_source == "player/salbum") {
         data["min"] = "";
         data["max"] = "";
-        data["name"]
-            = QString("Current song album (%1 symbols)").arg(m_symbols);
+        data["name"] = QString("Current song album (%1 symbols)").arg(m_symbols);
         data["type"] = "QString";
         data["units"] = "";
     } else if (_source == "player/dalbum") {
         data["min"] = "";
         data["max"] = "";
-        data["name"] = QString("Current song album (%1 symbols, dynamic)")
-                           .arg(m_symbols);
+        data["name"] = QString("Current song album (%1 symbols, dynamic)").arg(m_symbols);
         data["type"] = "QString";
         data["units"] = "";
     } else if (_source == "player/artist") {
@@ -126,15 +121,13 @@ QVariantMap PlayerSource::initialData(const QString &_source) const
     } else if (_source == "player/sartist") {
         data["min"] = "";
         data["max"] = "";
-        data["name"]
-            = QString("Current song artist (%1 symbols)").arg(m_symbols);
+        data["name"] = QString("Current song artist (%1 symbols)").arg(m_symbols);
         data["type"] = "QString";
         data["units"] = "";
     } else if (_source == "player/dartist") {
         data["min"] = "";
         data["max"] = "";
-        data["name"] = QString("Current song artist (%1 symbols, dynamic)")
-                           .arg(m_symbols);
+        data["name"] = QString("Current song artist (%1 symbols, dynamic)").arg(m_symbols);
         data["type"] = "QString";
         data["units"] = "";
     } else if (_source == "player/duration") {
@@ -158,15 +151,13 @@ QVariantMap PlayerSource::initialData(const QString &_source) const
     } else if (_source == "player/stitle") {
         data["min"] = "";
         data["max"] = "";
-        data["name"]
-            = QString("Current song title (%1 symbols)").arg(m_symbols);
+        data["name"] = QString("Current song title (%1 symbols)").arg(m_symbols);
         data["type"] = "QString";
         data["units"] = "";
     } else if (_source == "player/dtitle") {
         data["min"] = "";
         data["max"] = "";
-        data["name"] = QString("Current song title (%1 symbols, dynamic)")
-                           .arg(m_symbols);
+        data["name"] = QString("Current song title (%1 symbols, dynamic)").arg(m_symbols);
         data["type"] = "QString";
         data["units"] = "";
     }
@@ -192,22 +183,16 @@ void PlayerSource::run()
 
     // dymanic properties
     // solid
-    m_values["player/salbum"]
-        = stripString(m_values["player/album"].toString(), m_symbols);
-    m_values["player/sartist"]
-        = stripString(m_values["player/artist"].toString(), m_symbols);
-    m_values["player/stitle"]
-        = stripString(m_values["player/title"].toString(), m_symbols);
+    m_values["player/salbum"] = stripString(m_values["player/album"].toString(), m_symbols);
+    m_values["player/sartist"] = stripString(m_values["player/artist"].toString(), m_symbols);
+    m_values["player/stitle"] = stripString(m_values["player/title"].toString(), m_symbols);
     // dynamic
-    m_values["player/dalbum"]
-        = buildString(m_values["player/dalbum"].toString(),
-                      m_values["player/album"].toString(), m_symbols);
-    m_values["player/dartist"]
-        = buildString(m_values["player/dartist"].toString(),
-                      m_values["player/artist"].toString(), m_symbols);
-    m_values["player/dtitle"]
-        = buildString(m_values["player/dtitle"].toString(),
-                      m_values["player/title"].toString(), m_symbols);
+    m_values["player/dalbum"] = buildString(m_values["player/dalbum"].toString(),
+                                            m_values["player/album"].toString(), m_symbols);
+    m_values["player/dartist"] = buildString(m_values["player/dartist"].toString(),
+                                             m_values["player/artist"].toString(), m_symbols);
+    m_values["player/dtitle"] = buildString(m_values["player/dtitle"].toString(),
+                                            m_values["player/title"].toString(), m_symbols);
 }
 
 
@@ -230,8 +215,7 @@ QStringList PlayerSource::sources() const
 }
 
 
-QString PlayerSource::buildString(const QString &_current,
-                                  const QString &_value, const int _s)
+QString PlayerSource::buildString(const QString &_current, const QString &_value, const int _s)
 {
     qCDebug(LOG_ESS) << "Current value" << _current << "received" << _value
                      << "will be stripped after" << _s;
@@ -240,8 +224,7 @@ QString PlayerSource::buildString(const QString &_current,
     if ((_current.isEmpty()) || ((index + _s + 1) > _value.count()))
         return QString("%1").arg(_value.left(_s), -_s, QLatin1Char(' '));
     else
-        return QString("%1").arg(_value.mid(index + 1, _s), -_s,
-                                 QLatin1Char(' '));
+        return QString("%1").arg(_value.mid(index + 1, _s), -_s, QLatin1Char(' '));
 }
 
 
@@ -262,26 +245,22 @@ bool PlayerSource::isMpdSocketConnected() const
 
 void PlayerSource::mpdSocketConnected()
 {
-    qCDebug(LOG_ESS) << "MPD socket connected to" << m_mpdSocket.peerName()
-                     << "with state" << m_mpdSocket.state();
+    qCDebug(LOG_ESS) << "MPD socket connected to" << m_mpdSocket.peerName() << "with state"
+                     << m_mpdSocket.state();
 }
 
 
 void PlayerSource::mpdSocketReadyRead()
 {
-    QString qoutput = QTextCodec::codecForMib(106)
-                          ->toUnicode(m_mpdSocket.readAll())
-                          .trimmed();
+    QString qoutput = QTextCodec::codecForMib(106)->toUnicode(m_mpdSocket.readAll()).trimmed();
     qCInfo(LOG_ESS) << "Output" << qoutput;
 
     // parse
-    for (auto &str : qoutput.split('\n', QString::SkipEmptyParts)) {
-        if (str.split(": ", QString::SkipEmptyParts).count() == 2) {
+    for (auto &str : qoutput.split('\n', Qt::SkipEmptyParts)) {
+        if (str.split(": ", Qt::SkipEmptyParts).count() == 2) {
             // "Metadata: data"
-            QString metadata
-                = str.split(": ", QString::SkipEmptyParts).first().toLower();
-            QString data
-                = str.split(": ", QString::SkipEmptyParts).last().trimmed();
+            QString metadata = str.split(": ", Qt::SkipEmptyParts).first().toLower();
+            QString data = str.split(": ", Qt::SkipEmptyParts).last().trimmed();
             // there are one more time...
             if ((metadata == "time") && (data.contains(':'))) {
                 QStringList times = data.split(':');
@@ -299,12 +278,11 @@ void PlayerSource::mpdSocketReadyRead()
 
 void PlayerSource::mpdSocketWritten(const qint64 _bytes)
 {
-    qCDebug(LOG_ESS) << "Bytes written" << _bytes << "to"
-                     << m_mpdSocket.peerName();
+    qCDebug(LOG_ESS) << "Bytes written" << _bytes << "to" << m_mpdSocket.peerName();
 }
 
 
-QVariantHash PlayerSource::defaultInfo() const
+QVariantHash PlayerSource::defaultInfo()
 {
     QVariantHash info;
     info["player/album"] = "unknown";
@@ -322,27 +300,26 @@ QVariantHash PlayerSource::getPlayerMpdInfo()
     if (m_mpdSocket.state() == QAbstractSocket::UnconnectedState) {
         // connect to host
         qCInfo(LOG_ESS) << "Connect to" << m_mpdAddress << m_mpdPort;
-        m_mpdSocket.connectToHost(m_mpdAddress, m_mpdPort);
+        m_mpdSocket.connectToHost(m_mpdAddress, static_cast<quint16>(m_mpdPort));
     } else if (m_mpdSocket.state() == QAbstractSocket::ConnectedState) {
         // send request
         if (m_mpdSocket.write(MPD_STATUS_REQUEST) == -1)
-            qCWarning(LOG_ESS)
-                << "Could not write request to" << m_mpdSocket.peerName();
+            qCWarning(LOG_ESS) << "Could not write request to" << m_mpdSocket.peerName();
     }
 
     return m_mpdCached;
 }
 
 
-QVariantHash PlayerSource::getPlayerMprisInfo(const QString &_mpris) const
+QVariantHash PlayerSource::getPlayerMprisInfo(const QString &_mpris)
 {
     qCDebug(LOG_ESS) << "MPRIS" << _mpris;
 
-    QVariantHash info = defaultInfo();
+    auto info = defaultInfo();
     if (_mpris.isEmpty())
         return info;
 
-    QDBusConnection bus = QDBusConnection::sessionBus();
+    auto bus = QDBusConnection::sessionBus();
     // comes from the following request:
     // qdbus org.mpris.MediaPlayer2.vlc /org/mpris/MediaPlayer2
     // org.freedesktop.DBus.Properties.Get org.mpris.MediaPlayer2.Player
@@ -351,30 +328,22 @@ QVariantHash PlayerSource::getPlayerMprisInfo(const QString &_mpris) const
     // dbus-send --print-reply --session --dest=org.mpris.MediaPlayer2.vlc
     // /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get
     // string:'org.mpris.MediaPlayer2.Player' string:'Metadata'
-    QVariantList args
-        = QVariantList({"org.mpris.MediaPlayer2.Player", "Metadata"});
+    auto args = QVariantList({"org.mpris.MediaPlayer2.Player", "Metadata"});
     QDBusMessage request = QDBusMessage::createMethodCall(
-        QString("org.mpris.MediaPlayer2.%1").arg(_mpris),
-        "/org/mpris/MediaPlayer2", "org.freedesktop.DBus.Properties", "Get");
+        QString("org.mpris.MediaPlayer2.%1").arg(_mpris), "/org/mpris/MediaPlayer2",
+        "org.freedesktop.DBus.Properties", "Get");
     request.setArguments(args);
-    QDBusMessage response
-        = bus.call(request, QDBus::BlockWithGui, REQUEST_TIMEOUT);
-    if ((response.type() != QDBusMessage::ReplyMessage)
-        || (response.arguments().isEmpty())) {
+    auto response = bus.call(request, QDBus::BlockWithGui, REQUEST_TIMEOUT);
+    if ((response.type() != QDBusMessage::ReplyMessage) || (response.arguments().isEmpty())) {
         qCWarning(LOG_ESS) << "Error message" << response.errorMessage();
     } else {
         // another portion of dirty magic
-        QVariantHash map
-            = qdbus_cast<QVariantHash>(response.arguments()
-                                           .first()
-                                           .value<QDBusVariant>()
-                                           .variant()
-                                           .value<QDBusArgument>());
+        auto map = qdbus_cast<QVariantHash>(
+            response.arguments().first().value<QDBusVariant>().variant().value<QDBusArgument>());
         info["player/album"] = map.value("xesam:album", "unknown");
         // artist is array
         info["player/artist"] = map.value("xesam:artist", "unknown").toString();
-        info["player/duration"]
-            = map.value("mpris:length", 0).toInt() / (1000 * 1000);
+        info["player/duration"] = map.value("mpris:length", 0).toInt() / (1000 * 1000);
         info["player/title"] = map.value("xesam:title", "unknown");
     }
 
@@ -382,17 +351,13 @@ QVariantHash PlayerSource::getPlayerMprisInfo(const QString &_mpris) const
     args[1] = "Position";
     request.setArguments(args);
     response = bus.call(request, QDBus::BlockWithGui);
-    if ((response.type() != QDBusMessage::ReplyMessage)
-        || (response.arguments().isEmpty())) {
+    if ((response.type() != QDBusMessage::ReplyMessage) || (response.arguments().isEmpty())) {
         qCWarning(LOG_ESS) << "Error message" << response.errorMessage();
     } else {
         // this cast is simpler than the previous one ;)
-        info["player/progress"] = response.arguments()
-                                      .first()
-                                      .value<QDBusVariant>()
-                                      .variant()
-                                      .toLongLong()
-                                  / (1000 * 1000);
+        info["player/progress"]
+            = response.arguments().first().value<QDBusVariant>().variant().toLongLong()
+              / (1000 * 1000);
     }
 
     return info;

@@ -15,12 +15,11 @@ Icon=utilities-system-monitor
 X-KDE-ServiceTypes=Plasma/Applet
 X-Plasma-API=declarativeappletscript
 X-Plasma-MainScript=ui/main.qml
-X-Plasma-RemoteLocation=
 
 X-KDE-PluginInfo-Author=Evgeniy Alekseev aka arcanis
 X-KDE-PluginInfo-Email=esalexeev@gmail.com
 X-KDE-PluginInfo-Name=org.kde.plasma.awesomewidget
-X-KDE-PluginInfo-Version=3.3.3
+X-KDE-PluginInfo-Version=3.4.1
 X-KDE-PluginInfo-Website=https://arcanis.me/projects/awesome-widgets/
 X-KDE-PluginInfo-Category=System Information
 X-KDE-PluginInfo-Depends=

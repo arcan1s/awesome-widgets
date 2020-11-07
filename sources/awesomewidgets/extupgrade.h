@@ -36,25 +36,24 @@ class ExtUpgrade : public AbstractExtItem
     Q_PROPERTY(int null READ null WRITE setNull)
 
 public:
-    explicit ExtUpgrade(QWidget *_parent = nullptr,
-                        const QString &_filePath = "");
-    virtual ~ExtUpgrade();
-    ExtUpgrade *copy(const QString &_fileName, const int _number);
+    explicit ExtUpgrade(QWidget *_parent = nullptr, const QString &_filePath = "");
+    ~ExtUpgrade() override;
+    ExtUpgrade *copy(const QString &_fileName, int _number) override;
     // get methods
-    QString executable() const;
-    QString filter() const;
-    int null() const;
-    QString uniq() const;
+    [[nodiscard]] QString executable() const;
+    [[nodiscard]] QString filter() const;
+    [[nodiscard]] int null() const;
+    [[nodiscard]] QString uniq() const override;
     // set methods
     void setExecutable(const QString &_executable);
     void setFilter(const QString &_filter);
-    void setNull(const int _null);
+    void setNull(int _null);
 
 public slots:
-    void readConfiguration();
-    QVariantHash run();
-    int showConfiguration(const QVariant &_args);
-    void writeConfiguration() const;
+    void readConfiguration() override;
+    QVariantHash run() override;
+    int showConfiguration(const QVariant &_args) override;
+    void writeConfiguration() const override;
 
 private slots:
     void startProcess();
@@ -63,7 +62,7 @@ private slots:
 private:
     QProcess *m_process = nullptr;
     Ui::ExtUpgrade *ui = nullptr;
-    void translate();
+    void translate() override;
     // properties
     QString m_executable = "/usr/bin/true";
     QString m_filter = "";

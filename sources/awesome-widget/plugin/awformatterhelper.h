@@ -24,37 +24,35 @@
 #include "awabstractpairhelper.h"
 
 
-class AWFormatterHelper : public AbstractExtItemAggregator,
-                          public AWAbstractPairHelper
+class AWFormatterHelper : public AbstractExtItemAggregator, public AWAbstractPairHelper
 {
     Q_OBJECT
 
 public:
     explicit AWFormatterHelper(QWidget *_parent = nullptr);
-    virtual ~AWFormatterHelper();
+    ~AWFormatterHelper() override;
     // read-write methods
-    void initItems();
+    void initItems() override;
     // methods
-    QString convert(const QVariant &_value, const QString &_name) const;
-    QStringList definedFormatters() const;
-    QList<AbstractExtItem *> items() const;
+    [[nodiscard]] QString convert(const QVariant &_value, const QString &_name) const;
+    [[nodiscard]] QStringList definedFormatters() const;
+    [[nodiscard]] QList<AbstractExtItem *> items() const override;
     // configuration related
-    virtual void editPairs();
-    virtual QStringList leftKeys();
-    virtual QStringList rightKeys();
+    void editPairs() override;
+    QStringList leftKeys() override;
+    QStringList rightKeys() override;
 
 public slots:
     void editItems();
 
 private:
     // methods
-    AWAbstractFormatter::FormatterClass
-    defineFormatterClass(const QString &_stringType) const;
+    static AWAbstractFormatter::FormatterClass defineFormatterClass(const QString &_stringType);
     void initFormatters();
-    QPair<QString, AWAbstractFormatter::FormatterClass>
-    readMetadata(const QString &_filePath) const;
+    [[nodiscard]] static QPair<QString, AWAbstractFormatter::FormatterClass>
+    readMetadata(const QString &_filePath);
     // parent methods
-    void doCreateItem();
+    void doCreateItem() override;
     // properties
     QHash<QString, AWAbstractFormatter *> m_formatters;
     QHash<QString, AWAbstractFormatter *> m_formattersClasses;

@@ -27,17 +27,16 @@
 #include "awdebug.h"
 
 
-AWDateTimeFormatter::AWDateTimeFormatter(QWidget *_parent,
-                                         const QString &_filePath)
+AWDateTimeFormatter::AWDateTimeFormatter(QWidget *_parent, const QString &_filePath)
     : AWAbstractFormatter(_parent, _filePath)
     , ui(new Ui::AWDateTimeFormatter)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     if (!_filePath.isEmpty())
-        readConfiguration();
+        AWDateTimeFormatter::readConfiguration();
     ui->setupUi(this);
-    translate();
+    AWDateTimeFormatter::translate();
 }
 
 
@@ -57,13 +56,11 @@ QString AWDateTimeFormatter::convert(const QVariant &_value) const
 }
 
 
-AWDateTimeFormatter *AWDateTimeFormatter::copy(const QString &_fileName,
-                                               const int _number)
+AWDateTimeFormatter *AWDateTimeFormatter::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    AWDateTimeFormatter *item
-        = new AWDateTimeFormatter(static_cast<QWidget *>(parent()), _fileName);
+    auto *item = new AWDateTimeFormatter(dynamic_cast<QWidget *>(parent()), _fileName);
     AWAbstractFormatter::copyDefaults(item);
     item->setFormat(format());
     item->setTranslateString(translateString());
@@ -110,8 +107,7 @@ void AWDateTimeFormatter::readConfiguration()
 
     settings.beginGroup("Desktop Entry");
     setFormat(settings.value("X-AW-Format", format()).toString());
-    setTranslateString(
-        settings.value("X-AW-Translate", translateString()).toBool());
+    setTranslateString(settings.value("X-AW-Translate", translateString()).toBool());
     settings.endGroup();
 
     bumpApi(AW_FORMATTER_API);
@@ -126,8 +122,7 @@ int AWDateTimeFormatter::showConfiguration(const QVariant &_args)
     ui->lineEdit_comment->setText(comment());
     ui->label_typeValue->setText("DateTime");
     ui->lineEdit_format->setText(format());
-    ui->checkBox_translate->setCheckState(translateString() ? Qt::Checked
-                                                            : Qt::Unchecked);
+    ui->checkBox_translate->setCheckState(translateString() ? Qt::Checked : Qt::Unchecked);
 
     int ret = exec();
     if (ret != 1)

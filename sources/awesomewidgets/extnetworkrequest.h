@@ -34,21 +34,20 @@ class ExtNetworkRequest : public AbstractExtItem
     Q_PROPERTY(QString stringUrl READ stringUrl WRITE setStringUrl)
 
 public:
-    explicit ExtNetworkRequest(QWidget *_parent = nullptr,
-                               const QString &_filePath = "");
-    virtual ~ExtNetworkRequest();
-    ExtNetworkRequest *copy(const QString &_fileName, const int _number);
+    explicit ExtNetworkRequest(QWidget *_parent = nullptr, const QString &_filePath = "");
+    ~ExtNetworkRequest() override;
+    ExtNetworkRequest *copy(const QString &_fileName, int _number) override;
     // get methods
-    QString stringUrl() const;
-    QString uniq() const;
+    [[nodiscard]] QString stringUrl() const;
+    [[nodiscard]] QString uniq() const override;
     // set methods
     void setStringUrl(const QString &_url);
 
 public slots:
-    void readConfiguration();
-    QVariantHash run();
-    int showConfiguration(const QVariant &_args);
-    void writeConfiguration() const;
+    void readConfiguration() override;
+    QVariantHash run() override;
+    int showConfiguration(const QVariant &_args) override;
+    void writeConfiguration() const override;
 
 private slots:
     void networkReplyReceived(QNetworkReply *_reply);
@@ -60,7 +59,7 @@ private:
     bool m_isRunning = false;
     Ui::ExtNetworkRequest *ui = nullptr;
     void initUrl();
-    void translate();
+    void translate() override;
     // properties
     QString m_stringUrl = "https://httpbin.org/get";
     // values

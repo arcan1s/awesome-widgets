@@ -28,13 +28,12 @@ class ExtSysMonAggregator : public QObject
     Q_OBJECT
 
 public:
-    explicit ExtSysMonAggregator(QObject *_parent,
-                                 const QHash<QString, QString> &_config);
-    virtual ~ExtSysMonAggregator();
-    QVariant data(const QString &_source) const;
-    bool hasSource(const QString &_source) const;
-    QVariantMap initialData(const QString &_source) const;
-    QStringList sources() const;
+    explicit ExtSysMonAggregator(QObject *_parent, const QHash<QString, QString> &_config);
+    ~ExtSysMonAggregator() override;
+    [[nodiscard]] QVariant data(const QString &_source) const;
+    [[nodiscard]] bool hasSource(const QString &_source) const;
+    [[nodiscard]] QVariantMap initialData(const QString &_source) const;
+    [[nodiscard]] QStringList sources() const;
 
 private:
     void init(const QHash<QString, QString> &_config);

@@ -25,15 +25,14 @@
 #include "awdebug.h"
 
 
-HDDTemperatureSource::HDDTemperatureSource(QObject *_parent,
-                                           const QStringList &_args)
+HDDTemperatureSource::HDDTemperatureSource(QObject *_parent, const QStringList &_args)
     : AbstractExtSysMonSource(_parent, _args)
 {
     Q_ASSERT(_args.count() == 2);
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
-    m_devices = _args.at(0).split(',', QString::SkipEmptyParts);
-    m_cmd = _args.at(1);
+    m_devices = _args.at(0).split(',', Qt::SkipEmptyParts);
+    m_cmd = _args.at(1).split(' '); // lets hope no one put cmd with spaces here lol
 
     m_smartctl = m_cmd.contains("smartctl");
     qCInfo(LOG_ESS) << "Parse as smartctl" << m_smartctl;
@@ -41,12 +40,8 @@ HDDTemperatureSource::HDDTemperatureSource(QObject *_parent,
     for (auto &device : m_devices) {
         m_processes[device] = new QProcess(nullptr);
         // fucking magic from http://doc.qt.io/qt-5/qprocess.html#finished
-        connect(m_processes[device],
-                static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(
-                    &QProcess::finished),
-                [this, device](int, QProcess::ExitStatus) {
-                    return updateValue(device);
-                });
+        connect(m_processes[device], QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+                [=](int, QProcess::ExitStatus) { return updateValue(device); });
         m_processes[device]->waitForFinished(0);
     }
 }
@@ -82,8 +77,12 @@ QVariant HDDTemperatureSource::data(const QString &_source)
     QString device = _source;
     device.remove("hdd/temperature");
     // run cmd
-    if (m_processes[device]->state() == QProcess::NotRunning)
-        m_processes[device]->start(QString("%1 %2").arg(m_cmd).arg(device));
+    if (m_processes[device]->state() == QProcess::NotRunning) {
+        auto cmd = m_cmd.first();
+        auto args = m_cmd.mid(1);
+        args.append(device);
+        m_processes[device]->start(cmd, args);
+    }
 
     return m_values[device];
 }
@@ -121,31 +120,28 @@ void HDDTemperatureSource::updateValue(const QString &_device)
     qCDebug(LOG_ESS) << "Called with device" << _device;
 
     qCInfo(LOG_ESS) << "Cmd returns" << m_processes[_device]->exitCode();
-    QString qdebug
-        = QTextCodec::codecForMib(106)
-              ->toUnicode(m_processes[_device]->readAllStandardError())
-              .trimmed();
+    QString qdebug = QTextCodec::codecForMib(106)
+                         ->toUnicode(m_processes[_device]->readAllStandardError())
+                         .trimmed();
     qCInfo(LOG_ESS) << "Error" << qdebug;
-    QString qoutput
-        = QTextCodec::codecForMib(106)
-              ->toUnicode(m_processes[_device]->readAllStandardOutput())
-              .trimmed();
+    QString qoutput = QTextCodec::codecForMib(106)
+                          ->toUnicode(m_processes[_device]->readAllStandardOutput())
+                          .trimmed();
     qCInfo(LOG_ESS) << "Output" << qoutput;
 
     // parse
     if (m_smartctl) {
-        QStringList lines = qoutput.split('\n', QString::SkipEmptyParts);
+        QStringList lines = qoutput.split('\n', Qt::SkipEmptyParts);
         for (auto &str : lines) {
             if (!str.startsWith("194"))
                 continue;
-            if (str.split(' ', QString::SkipEmptyParts).count() < 9)
+            if (str.split(' ', Qt::SkipEmptyParts).count() < 9)
                 continue;
-            m_values[_device]
-                = str.split(' ', QString::SkipEmptyParts).at(9).toFloat();
+            m_values[_device] = str.split(' ', Qt::SkipEmptyParts).at(9).toFloat();
             break;
         }
     } else {
-        QStringList lines = qoutput.split(':', QString::SkipEmptyParts);
+        QStringList lines = qoutput.split(':', Qt::SkipEmptyParts);
         if (lines.count() >= 3) {
             QString temp = lines.at(2);
             temp.remove(QChar(0260)).remove('C');

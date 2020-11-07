@@ -68,7 +68,7 @@ QtObject {
         },
         {
             "label": i18n("Network"),
-            "regexp": "^(netdev|(down|up(?!time)).*)"
+            "regexp": "^(netdev|ssid|(down|up(?!time)).*)"
         },
         {
             "label": i18n("Network request"),
@@ -83,12 +83,16 @@ QtObject {
             "regexp": "^custom.*"
         },
         {
+            "label": i18n("System"),
+            "regexp": "^(volume|brightness)"
+        },
+        {
             "label": i18n("Time"),
             "regexp": ".*time$"
         },
         {
             "label": i18n("Quotes"),
-            "regexp": "^(perc)?(ask|bid|price)(chg)?.*"
+            "regexp": "^(perc)?(price|volume)(chg)?.*"
         },
         {
             "label": i18n("Upgrades"),

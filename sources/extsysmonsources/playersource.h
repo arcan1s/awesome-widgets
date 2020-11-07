@@ -35,28 +35,27 @@ public:
     const char *MPD_STATUS_REQUEST = "currentsong\nstatus\n";
 
     explicit PlayerSource(QObject *_parent, const QStringList &_args);
-    virtual ~PlayerSource();
-    QVariant data(const QString &_source);
-    QString getAutoMpris() const;
-    QVariantMap initialData(const QString &_source) const;
-    void run();
-    QStringList sources() const;
+    ~PlayerSource() override;
+    QVariant data(const QString &_source) override;
+    static QString getAutoMpris();
+    [[nodiscard]] QVariantMap initialData(const QString &_source) const override;
+    void run() override;
+    [[nodiscard]] QStringList sources() const override;
     // additional method to build dynamic tags
-    static QString buildString(const QString &_current, const QString &_value,
-                               const int _s);
-    static QString stripString(const QString &_value, const int _s);
+    static QString buildString(const QString &_current, const QString &_value, int _s);
+    static QString stripString(const QString &_value, int _s);
     // additional test method
-    bool isMpdSocketConnected() const;
+    [[nodiscard]] bool isMpdSocketConnected() const;
 
 private slots:
     void mpdSocketConnected();
     void mpdSocketReadyRead();
-    void mpdSocketWritten(const qint64 _bytes);
+    void mpdSocketWritten(qint64 _bytes);
 
 private:
-    inline QVariantHash defaultInfo() const;
+    static inline QVariantHash defaultInfo();
     QVariantHash getPlayerMpdInfo();
-    QVariantHash getPlayerMprisInfo(const QString &_mpris) const;
+    [[nodiscard]] static QVariantHash getPlayerMprisInfo(const QString &_mpris);
     QTcpSocket m_mpdSocket;
     // configuration and values
     QString m_mpdAddress;

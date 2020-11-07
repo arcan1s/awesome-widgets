@@ -38,35 +38,34 @@ class AWFloatFormatter : public AWAbstractFormatter
     Q_PROPERTY(double summand READ summand WRITE setSummand)
 
 public:
-    explicit AWFloatFormatter(QWidget *_parent = nullptr,
-                              const QString &_filePath = "");
-    virtual ~AWFloatFormatter();
-    QString convert(const QVariant &_value) const;
-    AWFloatFormatter *copy(const QString &_fileName, const int _number);
+    explicit AWFloatFormatter(QWidget *_parent = nullptr, const QString &_filePath = "");
+    ~AWFloatFormatter() override;
+    [[nodiscard]] QString convert(const QVariant &_value) const override;
+    AWFloatFormatter *copy(const QString &_fileName, int _number) override;
     // properties
-    int count() const;
-    QChar fillChar() const;
-    bool forceWidth() const;
-    char format() const;
-    double multiplier() const;
-    int precision() const;
-    double summand() const;
-    void setCount(const int _count);
+    [[nodiscard]] int count() const;
+    [[nodiscard]] QChar fillChar() const;
+    [[nodiscard]] bool forceWidth() const;
+    [[nodiscard]] char format() const;
+    [[nodiscard]] double multiplier() const;
+    [[nodiscard]] int precision() const;
+    [[nodiscard]] double summand() const;
+    void setCount(int _count);
     void setFillChar(const QChar &_fillChar);
-    void setForceWidth(const bool _forceWidth);
+    void setForceWidth(bool _forceWidth);
     void setFormat(char _format);
-    void setMultiplier(const double _multiplier);
-    void setPrecision(const int _precision);
-    void setSummand(const double _summand);
+    void setMultiplier(double _multiplier);
+    void setPrecision(int _precision);
+    void setSummand(double _summand);
 
 public slots:
-    void readConfiguration();
-    int showConfiguration(const QVariant &_args);
-    void writeConfiguration() const;
+    void readConfiguration() override;
+    int showConfiguration(const QVariant &_args) override;
+    void writeConfiguration() const override;
 
 private:
     Ui::AWFloatFormatter *ui = nullptr;
-    void translate();
+    void translate() override;
     // properties
     int m_count = 0;
     QChar m_fillChar = QChar();

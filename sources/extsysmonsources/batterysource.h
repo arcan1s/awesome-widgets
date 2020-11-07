@@ -18,6 +18,7 @@
 #ifndef BATTERYSOURCE_H
 #define BATTERYSOURCE_H
 
+#include <QDateTime>
 #include <QObject>
 
 #include "abstractextsysmonsource.h"
@@ -28,19 +29,25 @@ class BatterySource : public AbstractExtSysMonSource
     Q_OBJECT
 
 public:
+    const int TREND_LIMIT = 20;
+
     explicit BatterySource(QObject *_parent, const QStringList &_args);
-    virtual ~BatterySource();
+    ~BatterySource() override;
     QStringList getSources();
-    QVariant data(const QString &_source);
-    QVariantMap initialData(const QString &_source) const;
-    void run();
-    QStringList sources() const;
+    QVariant data(const QString &_source) override;
+    [[nodiscard]] QVariantMap initialData(const QString &_source) const override;
+    void run() override;
+    [[nodiscard]] QStringList sources() const override;
 
 private:
+    static double approximate(const QList<int> &_trend);
+    void calculateRates();
     // configuration and values
     int m_batteriesCount = 0;
     QString m_acpiPath;
     QStringList m_sources;
+    QDateTime m_timestamp;
+    QHash<int, QList<int>> m_trend;
     QVariantHash m_values;
 };
 

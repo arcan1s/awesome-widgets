@@ -47,3 +47,4 @@ pkg
 
 # clion settings
 .idea
+cmake-build*

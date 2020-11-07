@@ -18,6 +18,7 @@
 
 #include "testfloatformatter.h"
 
+#include <QRandomGenerator>
 #include <QtTest>
 
 #include "awfloatformatter.h"
@@ -37,9 +38,7 @@ void TestAWFloatFormatter::cleanupTestCase()
 }
 
 
-void TestAWFloatFormatter::test_values()
-{
-}
+void TestAWFloatFormatter::test_values() {}
 
 
 void TestAWFloatFormatter::test_count()
@@ -50,7 +49,7 @@ void TestAWFloatFormatter::test_count()
     QCOMPARE(formatter->count(), count);
 
     // test
-    QString output = formatter->convert(AWTestLibrary::randomDouble());
+    QString output = formatter->convert(QRandomGenerator::global()->generateDouble());
     QCOMPARE(output.count(), count);
 
     // reset
@@ -85,7 +84,7 @@ void TestAWFloatFormatter::test_forceWidth()
     QCOMPARE(formatter->forceWidth(), true);
 
     // test
-    QString output = formatter->convert(AWTestLibrary::randomDouble());
+    QString output = formatter->convert(QRandomGenerator::global()->generateDouble());
     QCOMPARE(output.count(), count);
 
     // reset
@@ -104,7 +103,7 @@ void TestAWFloatFormatter::test_format()
     QCOMPARE(formatter->format(), 'e');
 
     // test
-    QString output = formatter->convert(AWTestLibrary::randomDouble());
+    QString output = formatter->convert(QRandomGenerator::global()->generateDouble());
     QVERIFY(output.contains('e'));
 
     // reset
@@ -120,7 +119,7 @@ void TestAWFloatFormatter::test_precision()
     QCOMPARE(formatter->precision(), precision);
 
     // test
-    QString output = formatter->convert(AWTestLibrary::randomDouble());
+    QString output = formatter->convert(QRandomGenerator::global()->generateDouble());
     output.remove("0.");
     QCOMPARE(output.count(), precision);
 
@@ -134,14 +133,13 @@ void TestAWFloatFormatter::test_multiplier()
     formatter->setPrecision(6);
 
     // assign
-    double multiplier = AWTestLibrary::randomDouble();
+    double multiplier = QRandomGenerator::global()->generateDouble();
     formatter->setMultiplier(multiplier);
     QCOMPARE(formatter->multiplier(), multiplier);
 
     // test
-    double value = AWTestLibrary::randomDouble();
-    QCOMPARE(formatter->convert(value),
-             QString::number(value * multiplier, 'f', 6));
+    double value = QRandomGenerator::global()->generateDouble();
+    QCOMPARE(formatter->convert(value), QString::number(value * multiplier, 'f', 6));
 
     // reset
     formatter->setMultiplier(1.0);
@@ -151,14 +149,13 @@ void TestAWFloatFormatter::test_multiplier()
 void TestAWFloatFormatter::test_summand()
 {
     // assign
-    double summand = AWTestLibrary::randomDouble();
+    double summand = QRandomGenerator::global()->generateDouble();
     formatter->setSummand(summand);
     QCOMPARE(formatter->summand(), summand);
 
     // test
-    double value = AWTestLibrary::randomDouble();
-    QCOMPARE(formatter->convert(value),
-             QString::number(value + summand, 'f', 6));
+    double value = QRandomGenerator::global()->generateDouble();
+    QCOMPARE(formatter->convert(value), QString::number(value + summand, 'f', 6));
 
     // reset
     formatter->setSummand(1.0);
@@ -189,9 +186,9 @@ void TestAWFloatFormatter::doRandom()
     formatter->setFillChar(AWTestLibrary::randomChar());
     formatter->setForceWidth(AWTestLibrary::randomInt() % 2);
     formatter->setFormat(AWTestLibrary::randomChar());
-    formatter->setMultiplier(AWTestLibrary::randomDouble());
+    formatter->setMultiplier(QRandomGenerator::global()->generateDouble());
     formatter->setPrecision(AWTestLibrary::randomInt());
-    formatter->setSummand(AWTestLibrary::randomDouble());
+    formatter->setSummand(QRandomGenerator::global()->generateDouble());
 }
 
 

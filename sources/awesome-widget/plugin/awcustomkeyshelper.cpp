@@ -46,13 +46,13 @@ QString AWCustomKeysHelper::source(const QString &_key) const
 
 QStringList AWCustomKeysHelper::sources() const
 {
-    return QSet<QString>::fromList(values()).toList();
+    return valuesSet().values();
 }
 
 
 QStringList AWCustomKeysHelper::refinedSources() const
 {
-    auto allSources = QSet<QString>::fromList(pairs().values());
+    auto allSources = valuesSet();
     QSet<QString> output;
 
     while (output != allSources) {
@@ -62,7 +62,7 @@ QStringList AWCustomKeysHelper::refinedSources() const
         allSources = output;
     }
 
-    return output.toList();
+    return output.values();
 }
 
 

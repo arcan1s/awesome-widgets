@@ -22,8 +22,8 @@
 #include "awdebug.h"
 
 
-YahooWeatherProvider::YahooWeatherProvider(QObject *_parent, const int _number)
-    : AbstractWeatherProvider(_parent, _number)
+YahooWeatherProvider::YahooWeatherProvider(QObject *_parent)
+    : AbstractWeatherProvider(_parent)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 }
@@ -35,11 +35,9 @@ YahooWeatherProvider::~YahooWeatherProvider()
 }
 
 
-void YahooWeatherProvider::initUrl(const QString &_city,
-                                   const QString &_country, const int ts)
+void YahooWeatherProvider::initUrl(const QString &_city, const QString &_country, const int ts)
 {
-    qCDebug(LOG_LIB) << "Init query for" << _city << _country << "with ts"
-                     << ts;
+    qCDebug(LOG_LIB) << "Init query for" << _city << _country << "with ts" << ts;
 
     m_ts = ts;
 
@@ -58,8 +56,7 @@ QVariantHash YahooWeatherProvider::parse(const QVariantMap &_json) const
 
     QVariantMap jsonMap = _json["query"].toMap();
     if (jsonMap["count"].toInt() != 1) {
-        qCWarning(LOG_LIB) << "Found data count" << _json["count"].toInt()
-                           << "is not 1";
+        qCWarning(LOG_LIB) << "Found data count" << _json["count"].toInt() << "is not 1";
         return QVariantHash();
     }
     QVariantMap results = jsonMap["results"].toMap()["channel"].toMap();
@@ -76,9 +73,8 @@ QUrl YahooWeatherProvider::url() const
 }
 
 
-QVariantHash
-YahooWeatherProvider::parseCurrent(const QVariantMap &_json,
-                                   const QVariantMap &_atmosphere) const
+QVariantHash YahooWeatherProvider::parseCurrent(const QVariantMap &_json,
+                                                const QVariantMap &_atmosphere) const
 {
     qCDebug(LOG_LIB) << "Parse current weather from" << _json;
 
@@ -86,14 +82,12 @@ YahooWeatherProvider::parseCurrent(const QVariantMap &_json,
 
     QVariantHash values;
     int id = _json["condition"].toMap()["code"].toInt();
-    values[QString("weatherId%1").arg(number())] = id;
-    values[QString("temperature%1").arg(number())] = condition["temp"].toInt();
-    values[QString("timestamp%1").arg(number())] = condition["date"].toString();
-    values[QString("humidity%1").arg(number())]
-        = _atmosphere["humidity"].toInt();
+    values[tag("weatherId")] = id;
+    values[tag("temperature")] = condition["temp"].toInt();
+    values[tag("timestamp")] = condition["date"].toString();
+    values[tag("humidity")] = _atmosphere["humidity"].toInt();
     // HACK temporary fix of invalid values on Yahoo! side
-    values[QString("pressure%1").arg(number())]
-        = static_cast<int>(_atmosphere["pressure"].toFloat() / 33.863753);
+    values[tag("pressure")] = static_cast<int>(_atmosphere["pressure"].toFloat() / 33.863753);
 
     return values;
 }
@@ -105,19 +99,16 @@ QVariantHash YahooWeatherProvider::parseForecast(const QVariantMap &_json) const
 
     QVariantHash values;
     QVariantList weatherList = _json["forecast"].toList();
-    QVariantMap weatherMap = weatherList.count() < m_ts
-                                 ? weatherList.last().toMap()
-                                 : weatherList.at(m_ts).toMap();
+    QVariantMap weatherMap
+        = weatherList.count() < m_ts ? weatherList.last().toMap() : weatherList.at(m_ts).toMap();
     int id = weatherMap["code"].toInt();
-    values[QString("weatherId%1").arg(number())] = id;
-    values[QString("timestamp%1").arg(number())]
-        = weatherMap["date"].toString();
+    values[tag("weatherId")] = id;
+    values[tag("timestamp")] = weatherMap["date"].toString();
     // yahoo provides high and low temperatures. Lets calculate average one
-    values[QString("temperature%1").arg(number())]
-        = (weatherMap["high"].toFloat() + weatherMap["low"].toFloat()) / 2.0;
+    values[tag("temperature")] = (weatherMap["high"].toFloat() + weatherMap["low"].toFloat()) / 2.0;
     // ... and no forecast data for humidity and pressure
-    values[QString("humidity%1").arg(number())] = 0;
-    values[QString("pressure%1").arg(number())] = 0.0;
+    values[tag("humidity")] = 0;
+    values[tag("pressure")] = 0.0;
 
     return values;
 }

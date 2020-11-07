@@ -39,7 +39,7 @@ void TestNetworkSource::cleanupTestCase()
 
 void TestNetworkSource::test_sources()
 {
-    QCOMPARE(source->sources(), QStringList() << src);
+    QCOMPARE(source->sources(), QStringList() << src << "network/current/ssid");
 }
 
 

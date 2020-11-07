@@ -23,17 +23,27 @@
 #include "abstractextsysmonsource.h"
 
 
+class QProcess;
+
 class NetworkSource : public AbstractExtSysMonSource
 {
     Q_OBJECT
 
 public:
     explicit NetworkSource(QObject *_parent, const QStringList &_args);
-    virtual ~NetworkSource();
-    QVariant data(const QString &_source);
-    QVariantMap initialData(const QString &_source) const;
-    void run(){};
-    QStringList sources() const;
+    ~NetworkSource() override;
+    QVariant data(const QString &_source) override;
+    [[nodiscard]] QVariantMap initialData(const QString &_source) const override;
+    void run() override;
+    [[nodiscard]] QStringList sources() const override;
+
+private slots:
+    void updateSsid();
+
+private:
+    QVariantHash m_values;
+    QProcess *m_process = nullptr;
+    static QString getCurrentDevice();
 };
 
 

@@ -41,10 +41,10 @@ public:
 
         qCDebug(LOG_LIB) << "Type" << _type;
 
-        initItems();
+        ExtItemAggregator::initItems();
     };
 
-    virtual ~ExtItemAggregator()
+    ~ExtItemAggregator() override
     {
         qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
@@ -61,7 +61,7 @@ public:
         qCInfo(LOG_LIB) << "Dialog returns" << ret;
     };
 
-    void initItems()
+    void initItems() override
     {
         m_items.clear();
         m_activeItems.clear();
@@ -117,13 +117,13 @@ public:
         return found;
     };
 
-    QList<AbstractExtItem *> items() const { return m_items; };
+    [[nodiscard]] QList<AbstractExtItem *> items() const override { return m_items; };
 
 private:
     QList<AbstractExtItem *> m_items;
     QList<T *> m_activeItems;
 
-    void doCreateItem() { return createItem<T>(); }
+    void doCreateItem() override { return createItem<T>(); }
 
     QList<AbstractExtItem *> getItems()
     {
@@ -139,10 +139,9 @@ private:
                 qCInfo(LOG_LIB) << "Found file" << file << "in" << dir;
                 QString filePath = QString("%1/%2").arg(dir).arg(file);
                 // check if already exists
-                if (std::any_of(items.cbegin(), items.cend(),
-                                [&filePath](AbstractExtItem *item) {
-                                    return (item->fileName() == filePath);
-                                }))
+                if (std::any_of(items.cbegin(), items.cend(), [&filePath](AbstractExtItem *item) {
+                        return (item->fileName() == filePath);
+                    }))
                     continue;
                 items.append(new T(this, filePath));
             }

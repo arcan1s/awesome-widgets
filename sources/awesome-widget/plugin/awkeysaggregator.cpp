@@ -55,8 +55,8 @@ void AWKeysAggregator::initFormatters()
 }
 
 
-QString AWKeysAggregator::formatter(const QVariant &_data,
-                                    const QString &_key) const
+QString AWKeysAggregator::formatter(const QVariant &_data, const QString &_key,
+                                    bool replaceSpace) const
 {
     qCDebug(LOG_AW) << "Data" << _data << "for key" << _key;
 
@@ -86,8 +86,7 @@ QString AWKeysAggregator::formatter(const QVariant &_data,
         output = _data.toBool() ? m_acOnline : m_acOffline;
         break;
     case FormatterType::MemGBFormat:
-        output
-            = QString("%1").arg(_data.toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
+        output = QString("%1").arg(_data.toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
         break;
     case FormatterType::MemMBFormat:
         output = QString("%1").arg(_data.toFloat() / 1024.0, 5, 'f', 0);
@@ -119,7 +118,7 @@ QString AWKeysAggregator::formatter(const QVariant &_data,
         break;
     case FormatterType::TimeCustom:
         output = m_customTime;
-        [&output, loc, this](const QDateTime dt) {
+        [&output, loc, this](const QDateTime &dt) {
             for (auto &key : m_timeKeys)
                 output.replace(QString("$%1").arg(key), loc.toString(dt, key));
         }(_data.toDateTime());
@@ -134,8 +133,7 @@ QString AWKeysAggregator::formatter(const QVariant &_data,
         output = loc.toString(_data.toDateTime(), QLocale::ShortFormat);
         break;
     case FormatterType::Timestamp:
-        output = QString("%1").arg(
-            _data.toDateTime().toMSecsSinceEpoch() / 1000.0, 10, 'f', 0);
+        output = QString("%1").arg(_data.toDateTime().toMSecsSinceEpoch() / 1000.0, 10, 'f', 0);
         break;
     case FormatterType::Uptime:
     case FormatterType::UptimeCustom:
@@ -145,19 +143,14 @@ QString AWKeysAggregator::formatter(const QVariant &_data,
                 int minutes = seconds / 60 % 60;
                 int hours = ((seconds / 60) - minutes) / 60 % 24;
                 int days = (((seconds / 60) - minutes) / 60 - hours) / 24;
-                source.replace("$dd",
-                               QString("%1").arg(days, 3, 10, QChar('0')));
+                source.replace("$dd", QString("%1").arg(days, 3, 10, QChar('0')));
                 source.replace("$d", QString("%1").arg(days));
-                source.replace("$hh",
-                               QString("%1").arg(hours, 2, 10, QChar('0')));
+                source.replace("$hh", QString("%1").arg(hours, 2, 10, QChar('0')));
                 source.replace("$h", QString("%1").arg(hours));
-                source.replace("$mm",
-                               QString("%1").arg(minutes, 2, 10, QChar('0')));
+                source.replace("$mm", QString("%1").arg(minutes, 2, 10, QChar('0')));
                 source.replace("$m", QString("%1").arg(minutes));
                 return source;
-            }(m_mapper->formatter(_key) == FormatterType::Uptime
-                  ? "$ddd$hhh$mmm"
-                  : m_customUptime,
+            }(m_mapper->formatter(_key) == FormatterType::Uptime ? "$ddd$hhh$mmm" : m_customUptime,
               static_cast<int>(_data.toFloat()));
         break;
     case FormatterType::NoFormat:
@@ -170,7 +163,8 @@ QString AWKeysAggregator::formatter(const QVariant &_data,
     }
 
     // replace spaces to non-breakable ones
-    if (!_key.startsWith("custom") && (!_key.startsWith("weather")))
+    replaceSpace &= (!_key.startsWith("custom") && (!_key.startsWith("weather")));
+    if (replaceSpace)
         output.replace(" ", "&nbsp;");
 
     return output;
@@ -241,8 +235,7 @@ void AWKeysAggregator::setTranslate(const bool _translate)
 }
 
 
-QStringList AWKeysAggregator::registerSource(const QString &_source,
-                                             const QString &_units,
+QStringList AWKeysAggregator::registerSource(const QString &_source, const QString &_units,
                                              const QStringList &_keys)
 {
     qCDebug(LOG_AW) << "Source" << _source << "with units" << _units;

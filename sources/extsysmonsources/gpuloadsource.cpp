@@ -35,10 +35,8 @@ GPULoadSource::GPULoadSource(QObject *_parent, const QStringList &_args)
 
     m_process = new QProcess(nullptr);
     // fucking magic from http://doc.qt.io/qt-5/qprocess.html#finished
-    connect(m_process,
-            static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(
-                &QProcess::finished),
-            [this](int, QProcess::ExitStatus) { return updateValue(); });
+    connect(m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+            [=](int, QProcess::ExitStatus) { return updateValue(); });
     m_process->waitForFinished(0);
 }
 
@@ -57,8 +55,7 @@ QString GPULoadSource::autoGpu()
     QString gpu = "disable";
     QFile moduleFile("/proc/modules");
     if (!moduleFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qCWarning(LOG_AW) << "Could not open file as text"
-                          << moduleFile.fileName();
+        qCWarning(LOG_AW) << "Could not open file as text" << moduleFile.fileName();
         return gpu;
     }
 
@@ -107,11 +104,11 @@ void GPULoadSource::run()
     if ((m_device != "nvidia") && (m_device != "ati"))
         return;
     // build cmd
-    QString cmd = m_device == "nvidia" ? "nvidia-smi -q -x"
-                                       : "aticonfig --od-getclocks";
+    QString cmd = m_device == "nvidia" ? "nvidia-smi" : "aticonfig";
+    auto args = m_device == "nvidia" ? QStringList({"-q", "-x"}) : QStringList({"--od-getclocks"});
     qCInfo(LOG_ESS) << "cmd" << cmd;
 
-    m_process->start(cmd);
+    m_process->start(cmd, args);
 }
 
 
@@ -127,30 +124,26 @@ QStringList GPULoadSource::sources() const
 void GPULoadSource::updateValue()
 {
     qCInfo(LOG_ESS) << "Cmd returns" << m_process->exitCode();
-    QString qdebug = QTextCodec::codecForMib(106)
-                         ->toUnicode(m_process->readAllStandardError())
-                         .trimmed();
+    QString qdebug
+        = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardError()).trimmed();
     qCInfo(LOG_ESS) << "Error" << qdebug;
-    QString qoutput = QTextCodec::codecForMib(106)
-                          ->toUnicode(m_process->readAllStandardOutput())
-                          .trimmed();
+    QString qoutput
+        = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardOutput()).trimmed();
     qCInfo(LOG_ESS) << "Output" << qoutput;
 
     if (m_device == "nvidia") {
-        for (auto &str : qoutput.split('\n', QString::SkipEmptyParts)) {
+        for (auto &str : qoutput.split('\n', Qt::SkipEmptyParts)) {
             if (!str.contains("<gpu_util>"))
                 continue;
-            auto load
-                = str.remove("<gpu_util>").remove("</gpu_util>").remove('%');
+            auto load = str.remove("<gpu_util>").remove("</gpu_util>").remove('%');
             m_values["gpu/load"] = load.toFloat();
             break;
         }
     } else if (m_device == "ati") {
-        for (auto &str : qoutput.split('\n', QString::SkipEmptyParts)) {
+        for (auto &str : qoutput.split('\n', Qt::SkipEmptyParts)) {
             if (!str.contains("load"))
                 continue;
-            QString load
-                = str.split(' ', QString::SkipEmptyParts)[3].remove('%');
+            QString load = str.split(' ', Qt::SkipEmptyParts)[3].remove('%');
             m_values["gpu/load"] = load.toFloat();
             break;
         }

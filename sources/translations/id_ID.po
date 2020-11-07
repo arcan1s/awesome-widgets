@@ -1,0 +1,776 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# Ibnu Daru Aji <ibnudaruaji@outlook.co.id>, 2017
+msgid ""
+msgstr ""
+"Project-Id-Version: Awesome widgets\n"
+"Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
+"POT-Creation-Date: 2020-11-07 16:46+0300\n"
+"PO-Revision-Date: 2016-07-09 08:47+0000\n"
+"Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
+"Language-Team: Bahasa (Bahasa Indonesia) (http://www.transifex.com/arcanis/"
+"awesome-widgets/language/id_ID/)\n"
+"Language: id_ID\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Version %1 (build date %2)"
+msgstr "Versi %1 (tanggal bangun %2)"
+
+msgid "A set of minimalistic plasmoid widgets"
+msgstr "Seperangkat widget plasmoid minimalis"
+
+msgid "Links:"
+msgstr "Tautan:"
+
+msgid "Homepage"
+msgstr "Laman web"
+
+msgid "Repository"
+msgstr "Lumbung"
+
+msgid "Bugtracker"
+msgstr "Bugtracker"
+
+msgid "Translation issue"
+msgstr "Masalah terjemahan"
+
+msgid "AUR packages"
+msgstr "Paket AUR"
+
+msgid "openSUSE packages"
+msgstr "paket openSUSE"
+
+#, fuzzy
+msgid "Translators:"
+msgstr "Penerjemah: %1"
+
+#, fuzzy
+msgid "This software uses:"
+msgstr "Perangkat lunak ini menggunakan: %1"
+
+#, fuzzy
+msgid "Special thanks to:"
+msgstr "Terima kasih banyak kepada: %1"
+
+msgid "Widget"
+msgstr "Widget"
+
+msgid "Advanced"
+msgstr "Tingkat Lanjut"
+
+msgid "Tooltip"
+msgstr "Tooltip"
+
+msgid "Appearance"
+msgstr "Penampilan"
+
+msgid "DataEngine"
+msgstr "DataEngine"
+
+msgid "About"
+msgstr "Tentang"
+
+msgid "Enable background"
+msgstr "Aktifkan latar belakang"
+
+msgid "Translate strings"
+msgstr "Terjemahkan string"
+
+msgid "Wrap new lines"
+msgstr "Tekuk baris baru"
+
+msgid "Enable word wrap"
+msgstr "Aktifkan penekuk baris"
+
+msgid "Enable notifications"
+msgstr "Aktifkan pemberitahuan"
+
+msgid "Check updates on startup"
+msgstr "Periksa pemutakhiran saat mulai"
+
+msgid "Optimize subscription"
+msgstr "Optimasi langganan"
+
+msgid "Widget height, px"
+msgstr "Tinggi widget, px"
+
+msgid "Widget width, px"
+msgstr "Lebar widget, px"
+
+msgid "Time interval"
+msgstr "Jeda waktu"
+
+msgid "Messages queue limit"
+msgstr "Batas antrian pesan"
+
+msgid "Celsius"
+msgstr "Celsius"
+
+msgid "Fahrenheit"
+msgstr "Fahrenheit"
+
+msgid "Kelvin"
+msgstr "Kelvin"
+
+msgid "Reaumur"
+msgstr "Reaumur"
+
+msgid "cm^-1"
+msgstr "cm^-1"
+
+msgid "kJ/mol"
+msgstr "kJ/mol"
+
+msgid "kcal/mol"
+msgstr "kcal/mol"
+
+msgid "Temperature units"
+msgstr "Unit temperatur"
+
+msgid "Custom time format"
+msgstr "Format waktu lain"
+
+msgid "Custom uptime format"
+msgstr "Format waktu nyala lain"
+
+msgid "AC online tag"
+msgstr "Label AC daring"
+
+msgid "AC offline tag"
+msgstr "Label AC luring"
+
+#, fuzzy
+msgid "Actions"
+msgstr "Aksi"
+
+msgid "Drop key cache"
+msgstr "Hapus tembolok kunci"
+
+msgid "Export configuration"
+msgstr "Ekspor konfigurasi"
+
+msgid "Import configuration"
+msgstr "Impor konfigurasi"
+
+msgid "Telemetry"
+msgstr "Telemetri"
+
+msgid "Enable remote telemetry"
+msgstr "Aktifkan telemetri remote"
+
+#, fuzzy
+msgid "History count"
+msgstr "Jumlah riwayat"
+
+msgid "Telemetry ID"
+msgstr "ID Telemetri"
+
+msgid "Font"
+msgstr "Fonta"
+
+msgid "Font size"
+msgstr "Ukuran fonta"
+
+msgid "Font weight"
+msgstr "Bobot fonta"
+
+msgid "Font style"
+msgstr "Gaya fonta"
+
+msgid "Font color"
+msgstr "Warna fonta"
+
+msgid "Style"
+msgstr "Gaya"
+
+#, fuzzy
+msgid "Style color"
+msgstr "Warna gaya"
+
+msgid "ACPI"
+msgstr "ACPI"
+
+msgid "ACPI path"
+msgstr "ACPI-path"
+
+msgid "GPU"
+msgstr "GPU"
+
+msgid "GPU device"
+msgstr "Divais GPU"
+
+msgid "HDD temperature"
+msgstr "Temperatur HDD"
+
+msgid "HDD"
+msgstr "HDD"
+
+msgid "hddtemp cmd"
+msgstr "hddtemp cmd"
+
+msgid "Player"
+msgstr "Pemutar musik"
+
+msgid "Player data symbols"
+msgstr "Data simbol pemutar musik"
+
+msgid "Music player"
+msgstr "Pemutar musik"
+
+msgid "MPRIS player name"
+msgstr "MPRIS nama pemain"
+
+msgid "MPD address"
+msgstr "Alamat MPD"
+
+msgid "MPD port"
+msgstr "Port MPD"
+
+msgid "Extensions"
+msgstr "Ekstensi"
+
+msgid "Custom scripts"
+msgstr "Skrip lain"
+
+#, fuzzy
+msgid "Network requests"
+msgstr "Jaringan"
+
+msgid "Package manager"
+msgstr "Manajer paket"
+
+msgid "Quotes monitor"
+msgstr "Monitor kutipan"
+
+msgid "Weather"
+msgstr "Cuaca"
+
+msgid "Select tag"
+msgstr "Pilih penanda"
+
+msgid "Tag: %1"
+msgstr "Penanda: %1"
+
+msgid "Value: %1"
+msgstr "Nilai: %1"
+
+msgid "Info: %1"
+msgstr "Informasi: %1"
+
+msgid "Request key"
+msgstr "Kunci permintaan"
+
+msgid "Show README"
+msgstr "Perlihatkan README"
+
+msgid "Check updates"
+msgstr "Periksa pemutakhiran"
+
+msgid "Report bug"
+msgstr "Laporkan kutu"
+
+msgid ""
+"CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
+"To enable them just make needed checkbox checked."
+msgstr ""
+"Label CPU, frekuensi CPU, memori, swap, dan jaringan mendukung tooltip "
+"grafikUntuk mengaktifkanya, cukup tandai kotak centang."
+
+msgid "Number of values for tooltips"
+msgstr "Jumlah nilai untuk tooltip"
+
+msgid "Background"
+msgstr "Latar belakang"
+
+msgid "Background color"
+msgstr "Warna latar belakang"
+
+msgid "CPU"
+msgstr "CPU"
+
+msgid "CPU color"
+msgstr "Warna CPU"
+
+msgid "CPU clock"
+msgstr "Frekuensi CPU"
+
+msgid "CPU clock color"
+msgstr "Warna CPU frekuensi"
+
+msgid "Memory"
+msgstr "Memori"
+
+msgid "Memory color"
+msgstr "Warna memori"
+
+msgid "Swap"
+msgstr "SWAP"
+
+msgid "Swap color"
+msgstr "Warna swap"
+
+msgid "Network"
+msgstr "Jaringan"
+
+msgid "Download speed color"
+msgstr "Warna kecepatan unduh"
+
+msgid "Upload speed color"
+msgstr "Warna kecepatan unggah"
+
+msgid "Battery"
+msgstr "Batere"
+
+msgid "Battery active color"
+msgstr "Warna batere aktif"
+
+msgid "Battery inactive color"
+msgstr "Warna batere non-aktif"
+
+msgid "Edit"
+msgstr "Sunting"
+
+msgid "Run %1"
+msgstr "Jalankan %1"
+
+msgid "Not supported"
+msgstr "Tidak didukung"
+
+msgid "You are using mammoth's Qt version, try to update it first"
+msgstr "Anda menggunakan Qt versi mammoth, silakan coba untuk memperbarui"
+
+msgid "Select font"
+msgstr "Pilih fonta"
+
+msgid "Issue created"
+msgstr "Isu terbuat"
+
+msgid "Issue %1 has been created"
+msgstr "Isu %1 sudah terbuat"
+
+msgid "AC online"
+msgstr "AC daring"
+
+msgid "AC offline"
+msgstr "AC luring"
+
+msgid "High CPU load"
+msgstr "Tinggi beban CPU"
+
+msgid "High memory usage"
+msgstr "Tinggi beban memori"
+
+msgid "Swap is used"
+msgstr "Swap digunakan"
+
+msgid "High GPU load"
+msgstr "Tinggi beban GPU"
+
+msgid "Network device has been changed to %1"
+msgstr "Divais jaringan telah berganti ke %1"
+
+msgid "Select type"
+msgstr "Pilih tipe"
+
+msgid "Type:"
+msgstr "Tipe:"
+
+msgid "MB/s"
+msgstr "MB/dtk"
+
+msgid "KB/s"
+msgstr "KB/dtk"
+
+msgid "You are using the actual version %1"
+msgstr "Anda menggunakan versi aktual %1"
+
+msgid "No new version found"
+msgstr "Tidak ada versi baru yang ditemukan"
+
+msgid "New version : %1"
+msgstr "Versi baru: %1"
+
+msgid "Click \"Ok\" to download"
+msgstr "Klik \"OK\" untuk mengunduh"
+
+msgid "There are updates"
+msgstr "Ada pemutakhiran"
+
+msgid "Copy"
+msgstr "Salin"
+
+msgid "Create"
+msgstr "Buat"
+
+msgid "Remove"
+msgstr "Hapus"
+
+msgid "Enter file name"
+msgstr "Masukkan nama berkas"
+
+msgid "File name"
+msgstr "Nama berkas"
+
+msgid "Name: %1"
+msgstr "Nama: %1"
+
+msgid "Comment: %1"
+msgstr "Komentar: %1"
+
+msgid "Identity: %1"
+msgstr "Identitas: %1"
+
+msgid "Name"
+msgstr "Nama"
+
+msgid "Comment"
+msgstr "Komentar"
+
+msgid "Type"
+msgstr "Tipe"
+
+msgid "Format"
+msgstr "Format"
+
+msgid "Precision"
+msgstr "Presisi"
+
+msgid "Width"
+msgstr "Lebar"
+
+msgid "Fill char"
+msgstr "Masukan karakter"
+
+msgid "Force width"
+msgstr "Paksa lebar"
+
+msgid "Multiplier"
+msgstr "Pengali"
+
+msgid "Summand"
+msgstr "Penjumlah"
+
+msgid "Path"
+msgstr ""
+
+msgid "Filter"
+msgstr "Filter"
+
+msgid "Separator"
+msgstr "Pemisah"
+
+msgid "Sort"
+msgstr "Urutkan"
+
+msgid "Append code"
+msgstr "Tambahkan kode"
+
+msgid "Has return"
+msgstr "Menghasilkan"
+
+msgid "Code"
+msgstr "Kode"
+
+msgid "Tag"
+msgstr "Tag"
+
+msgid "URL"
+msgstr "Pranala"
+
+msgid "Active"
+msgstr "Aktif"
+
+msgid "Schedule"
+msgstr "Jadwal"
+
+msgid "Socket"
+msgstr "Soket"
+
+msgid "Interval"
+msgstr "Jeda"
+
+msgid ""
+"<html><head/><body><p>Use Stooq ticker to get quotes for the instrument. "
+"Refer to <a href=\"https://stooq.com/\"><span style=\" text-decoration: "
+"underline; color:#0057ae;\">https://stooq.com/</span></a></p></body></html>"
+msgstr ""
+
+msgid "Ticker"
+msgstr "Ticker"
+
+msgid "Command"
+msgstr "Perintah"
+
+msgid "Redirect"
+msgstr "Pengalihan"
+
+msgid "Additional filters"
+msgstr "Filter tambahan"
+
+msgid "Wrap colors"
+msgstr "Tekuk warna"
+
+msgid "Wrap spaces"
+msgstr "Tekuk spasi"
+
+msgid "Null"
+msgstr "Nil"
+
+msgid "Provider"
+msgstr "Penyedia"
+
+msgid "City"
+msgstr "Kota"
+
+msgid "Country"
+msgstr "Negara"
+
+msgid "Timestamp"
+msgstr "Tanggal"
+
+msgid "Use images"
+msgstr "Gunakan gambar"
+
+#, fuzzy
+msgid "Select color"
+msgstr "Pilih warna"
+
+#, fuzzy
+msgid "Select path"
+msgstr "Pilih path"
+
+msgid "Images (*.png *.bpm *.jpg);;All files (*.*)"
+msgstr ""
+
+msgid "Use custom formula"
+msgstr "Gunakan rumus lain"
+
+msgid "Value"
+msgstr "Nilai"
+
+msgid "Max value"
+msgstr "Nilai maksimal"
+
+msgid "Min value"
+msgstr "Nilai minimal"
+
+msgid "Active filling type"
+msgstr "Tipe pengisi aktif"
+
+msgid "Inctive filling type"
+msgstr "Tipe pengisi non-aktif"
+
+msgid "Points count"
+msgstr "Jumlah poin"
+
+msgid "Direction"
+msgstr "Arah"
+
+msgid "Height"
+msgstr "Tinggi"
+
+msgid "color"
+msgstr "Warna"
+
+msgid "image"
+msgstr "gambar"
+
+msgid "Active desktop"
+msgstr "Desktop aktif"
+
+msgid "Inactive desktop"
+msgstr "Desktop inaktif"
+
+msgid "Vertical layout"
+msgstr "Tata letak vertikal"
+
+msgid "Mark"
+msgstr "Tanda"
+
+msgid "contours"
+msgstr "kontur"
+
+msgid "windows"
+msgstr "jendela"
+
+msgid "clean desktop"
+msgstr "bersihkan desktop"
+
+msgid "names"
+msgstr "nama"
+
+msgid "none"
+msgstr "kosong"
+
+msgid "Tooltip type"
+msgstr "Tipe tooltip"
+
+msgid "Tooltip width"
+msgstr "Lebar tooltip"
+
+msgid "Edit bars"
+msgstr "Sunting palang"
+
+msgid "Formatters"
+msgstr "Pemformat"
+
+msgid "User keys"
+msgstr "Kunci pungguna"
+
+msgid "Preview"
+msgstr "Pratayang"
+
+msgid ""
+"Detailed information may be found on <a href=\"https://arcanis.me/projects/"
+"awesome-widgets/\">project homepage</a>"
+msgstr ""
+"Informasi mendetail dapat dilihat pada <a href=\"http://arcanis.name/"
+"projects/awesome-widgets/\">laman situs</a>"
+
+msgid "Add"
+msgstr "Tambah"
+
+msgid "Show value"
+msgstr "Tunjukkan nilai"
+
+msgid "Acknowledgment"
+msgstr "Pengakuan"
+
+msgid "Report a bug"
+msgstr "Laporkan kutu"
+
+msgid "Report subject"
+msgstr "Subjek laporan"
+
+#, fuzzy
+msgid "Description"
+msgstr "Deskripsi"
+
+msgid "Steps to reproduce"
+msgstr "Langkah reproduksi"
+
+msgid "Expected result"
+msgstr "Hasil yang diharapkan"
+
+msgid "Logs"
+msgstr "Catatan"
+
+#, fuzzy
+msgid "Use command"
+msgstr "Gunakan perintah"
+
+msgid "Load log file"
+msgstr "Baca berkas catatan"
+
+msgid "Open log file"
+msgstr "Buka berkas catatan"
+
+msgid "Select a color"
+msgstr "Pilih warna"
+
+msgid "Export"
+msgstr "Ekspor"
+
+msgid "Success"
+msgstr "Sukses"
+
+msgid "Please note that binary files were not copied"
+msgstr "Harap perhatikan bahwa berkas biner tidak disalin"
+
+msgid "Ooops..."
+msgstr "Waduh cok!"
+
+msgid "Could not save configuration file"
+msgstr "Tidak dapat menyimpan berkas konfigurasi"
+
+msgid "Select a font"
+msgstr "Pilih fonta"
+
+msgid "AC"
+msgstr "AC"
+
+msgid "Bars"
+msgstr "Palang"
+
+msgid "Desktops"
+msgstr "Desktop"
+
+#, fuzzy
+msgid "Network request"
+msgstr "Jaringan"
+
+msgid "Scripts"
+msgstr "Skrip"
+
+msgid "System"
+msgstr ""
+
+msgid "Time"
+msgstr "Waktu"
+
+msgid "Quotes"
+msgstr "Kutipan"
+
+msgid "Upgrades"
+msgstr "Pemutakhiran"
+
+msgid "Weathers"
+msgstr "Cuaca"
+
+msgid "Functions"
+msgstr "Fungsi"
+
+msgid "User defined"
+msgstr "Pilihan pengguna"
+
+msgid "All"
+msgstr "Semua"
+
+msgid "normal"
+msgstr "normal"
+
+msgid "italic"
+msgstr "miring"
+
+msgid "light"
+msgstr "ringan"
+
+msgid "demi bold"
+msgstr "semi tebal"
+
+msgid "bold"
+msgstr "tebal"
+
+msgid "black"
+msgstr "hitam"
+
+#, fuzzy
+msgid "outline"
+msgstr "AC online"
+
+msgid "raised"
+msgstr "timbul"
+
+msgid "sunken"
+msgstr "tenggelam"
+
+msgid "Bgcolor"
+msgstr "Warna latar belakang"
+
+msgid "Import"
+msgstr "Impor"
+
+msgid "Import plasmoid settings"
+msgstr "Impor pengaturan plasmoid"
+
+msgid "Import extensions"
+msgstr "Impor ekstensi"
+
+msgid "Import additional files"
+msgstr "Impor bekas tambahan"

@@ -50,69 +50,62 @@ class GraphicalItem : public AbstractExtItem
 
 public:
     enum class Direction { LeftToRight = 0, RightToLeft = 1 };
-    enum class Type {
-        Horizontal = 0,
-        Vertical = 1,
-        Circle = 2,
-        Graph = 3,
-        Bars = 4
-    };
+    enum class Type { Horizontal = 0, Vertical = 1, Circle = 2, Graph = 3, Bars = 4 };
 
-    explicit GraphicalItem(QWidget *_parent = nullptr,
-                           const QString &_filePath = "");
-    virtual ~GraphicalItem();
-    GraphicalItem *copy(const QString &_fileName, const int _number);
+    explicit GraphicalItem(QWidget *_parent = nullptr, const QString &_filePath = "");
+    ~GraphicalItem() override;
+    GraphicalItem *copy(const QString &_fileName, int _number) override;
     QString image(const QVariant &value);
     void initScene();
     // get methods
-    QString bar() const;
-    QString activeColor() const;
-    int count() const;
-    QString inactiveColor() const;
-    bool isCustom() const;
-    int itemHeight() const;
-    int itemWidth() const;
-    float minValue() const;
-    float maxValue() const;
-    Type type() const;
-    QString strType() const;
-    Direction direction() const;
-    QString strDirection() const;
-    QStringList usedKeys() const;
-    QString uniq() const;
+    [[nodiscard]] QString bar() const;
+    [[nodiscard]] QString activeColor() const;
+    [[nodiscard]] int count() const;
+    [[nodiscard]] QString inactiveColor() const;
+    [[nodiscard]] bool isCustom() const;
+    [[nodiscard]] int itemHeight() const;
+    [[nodiscard]] int itemWidth() const;
+    [[nodiscard]] float minValue() const;
+    [[nodiscard]] float maxValue() const;
+    [[nodiscard]] Type type() const;
+    [[nodiscard]] QString strType() const;
+    [[nodiscard]] Direction direction() const;
+    [[nodiscard]] QString strDirection() const;
+    [[nodiscard]] QStringList usedKeys() const;
+    [[nodiscard]] QString uniq() const override;
     // set methods
     void setBar(const QString &_bar);
     void setActiveColor(const QString &_color);
-    void setCount(const int _count);
-    void setCustom(const bool _custom);
+    void setCount(int _count);
+    void setCustom(bool _custom);
     void setInactiveColor(const QString &_color);
-    void setItemHeight(const int _height);
-    void setItemWidth(const int _width);
-    void setMinValue(const float _value);
-    void setMaxValue(const float _value);
-    void setType(const Type _type);
+    void setItemHeight(int _height);
+    void setItemWidth(int _width);
+    void setMinValue(float _value);
+    void setMaxValue(float _value);
+    void setType(Type _type);
     void setStrType(const QString &_type);
-    void setDirection(const Direction _direction);
+    void setDirection(Direction _direction);
     void setStrDirection(const QString &_direction);
     void setUsedKeys(const QStringList &_usedKeys);
 
 public slots:
-    void readConfiguration();
-    QVariantHash run() { return QVariantHash(); };
-    int showConfiguration(const QVariant &_args);
-    void writeConfiguration() const;
+    void readConfiguration() override;
+    QVariantHash run() override { return QVariantHash(); };
+    int showConfiguration(const QVariant &_args) override;
+    void writeConfiguration() const override;
 
 private slots:
     void changeColor();
-    void changeCountState(const int _state);
-    void changeValue(const int _state);
+    void changeCountState(int _state);
+    void changeValue(int _state);
 
 private:
     GraphicalItemHelper *m_helper = nullptr;
     QGraphicsScene *m_scene = nullptr;
     QGraphicsView *m_view = nullptr;
     Ui::GraphicalItem *ui = nullptr;
-    void translate();
+    void translate() override;
     // properties
     QString m_bar = "cpu";
     int m_count = 100;

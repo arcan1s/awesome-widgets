@@ -23,8 +23,7 @@
 #include "awformatterhelper.h"
 
 
-AWDataEngineMapper::AWDataEngineMapper(QObject *_parent,
-                                       AWFormatterHelper *_custom)
+AWDataEngineMapper::AWDataEngineMapper(QObject *_parent, AWFormatterHelper *_custom)
     : QObject(_parent)
     , m_customFormatters(_custom)
 {
@@ -59,8 +58,7 @@ AWDataEngineMapper::~AWDataEngineMapper()
 }
 
 
-AWKeysAggregator::FormatterType
-AWDataEngineMapper::formatter(const QString &_key) const
+AWKeysAggregator::FormatterType AWDataEngineMapper::formatter(const QString &_key) const
 {
     qCDebug(LOG_AW) << "Get formatter for key" << _key;
 
@@ -78,8 +76,7 @@ QStringList AWDataEngineMapper::keysFromSource(const QString &_source) const
 
 // HACK units required to define should the value be calculated as temperature
 // or fan data
-QStringList AWDataEngineMapper::registerSource(const QString &_source,
-                                               const QString &_units,
+QStringList AWDataEngineMapper::registerSource(const QString &_source, const QString &_units,
                                                const QStringList &_keys)
 {
     qCDebug(LOG_AW) << "Source" << _source << "with units" << _units;
@@ -92,59 +89,58 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source,
     QRegExp mountFillRegExp = QRegExp("partitions/.*/filllevel");
     QRegExp mountFreeRegExp = QRegExp("partitions/.*/freespace");
     QRegExp mountUsedRegExp = QRegExp("partitions/.*/usedspace");
-    QRegExp netRegExp
-        = QRegExp("network/interfaces/.*/(receiver|transmitter)/data$");
-    QRegExp netTotalRegExp
-        = QRegExp("network/interfaces/.*/(receiver|transmitter)/dataTotal$");
+    QRegExp netRegExp = QRegExp("network/interfaces/.*/(receiver|transmitter)/data$");
+    QRegExp netTotalRegExp = QRegExp("network/interfaces/.*/(receiver|transmitter)/dataTotal$");
 
     if (_source == "battery/ac") {
         // AC
-        m_map[_source] = "ac";
+        m_map.insert(_source, "ac");
         m_formatter["ac"] = AWKeysAggregator::FormatterType::ACFormat;
     } else if (_source.startsWith("battery/")) {
         // battery stats
         QString key = _source;
         key.remove("battery/");
-        m_map[_source] = key;
-        m_formatter[key] = AWKeysAggregator::FormatterType::IntegerThree;
+        m_map.insert(_source, key);
+        m_formatter[key] = _source.contains("rate") ? AWKeysAggregator::FormatterType::Float
+                                                    : AWKeysAggregator::FormatterType::IntegerThree;
     } else if (_source == "cpu/system/TotalLoad") {
         // cpu
-        m_map[_source] = "cpu";
+        m_map.insert(_source, "cpu");
         m_formatter["cpu"] = AWKeysAggregator::FormatterType::Float;
     } else if (_source.contains(cpuRegExp)) {
         // cpus
         QString key = _source;
         key.remove("cpu/").remove("/TotalLoad");
-        m_map[_source] = key;
+        m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::Float;
     } else if (_source == "cpu/system/AverageClock") {
         // cpucl
-        m_map[_source] = "cpucl";
+        m_map.insert(_source, "cpucl");
         m_formatter["cpucl"] = AWKeysAggregator::FormatterType::Integer;
     } else if (_source.contains(cpuclRegExp)) {
         // cpucls
         QString key = _source;
         key.remove("cpu/cpu").remove("/clock");
         key = QString("cpucl%1").arg(key);
-        m_map[_source] = key;
+        m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::Integer;
     } else if (_source.startsWith("custom")) {
         // custom
         QString key = _source;
         key.remove("custom/");
-        m_map[_source] = key;
+        m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::NoFormat;
     } else if (_source == "desktop/current/name") {
         // current desktop name
-        m_map[_source] = "desktop";
+        m_map.insert(_source, "desktop");
         m_formatter["desktop"] = AWKeysAggregator::FormatterType::NoFormat;
     } else if (_source == "desktop/current/number") {
         // current desktop number
-        m_map[_source] = "ndesktop";
+        m_map.insert(_source, "ndesktop");
         m_formatter["ndesktop"] = AWKeysAggregator::FormatterType::NoFormat;
     } else if (_source == "desktop/total/number") {
         // desktop count
-        m_map[_source] = "tdesktops";
+        m_map.insert(_source, "tdesktops");
         m_formatter["tdesktops"] = AWKeysAggregator::FormatterType::NoFormat;
     } else if (_source.contains(hddrRegExp)) {
         // read speed
@@ -153,7 +149,7 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source,
         int index = m_devices["disk"].indexOf(device);
         if (index > -1) {
             QString key = QString("hddr%1").arg(index);
-            m_map[_source] = key;
+            m_map.insert(_source, key);
             m_formatter[key] = AWKeysAggregator::FormatterType::Integer;
         }
     } else if (_source.contains(hddwRegExp)) {
@@ -163,16 +159,16 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source,
         int index = m_devices["disk"].indexOf(device);
         if (index > -1) {
             QString key = QString("hddw%1").arg(index);
-            m_map[_source] = key;
+            m_map.insert(_source, key);
             m_formatter[key] = AWKeysAggregator::FormatterType::Integer;
         }
     } else if (_source == "gpu/load") {
         // gpu load
-        m_map[_source] = "gpu";
+        m_map.insert(_source, "gpu");
         m_formatter["gpu"] = AWKeysAggregator::FormatterType::Float;
     } else if (_source == "gpu/temperature") {
         // gpu temperature
-        m_map[_source] = "gputemp";
+        m_map.insert(_source, "gputemp");
         m_formatter["gputemp"] = AWKeysAggregator::FormatterType::Temperature;
     } else if (_source.contains(mountFillRegExp)) {
         // fill level
@@ -181,7 +177,7 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source,
         int index = m_devices["mount"].indexOf(device);
         if (index > -1) {
             QString key = QString("hdd%1").arg(index);
-            m_map[_source] = key;
+            m_map.insert(_source, key);
             m_formatter[key] = AWKeysAggregator::FormatterType::Float;
             // additional keys
             m_formatter[QString("hddtotmb%1").arg(index)]
@@ -197,11 +193,11 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source,
         if (index > -1) {
             // mb
             QString key = QString("hddfreemb%1").arg(index);
-            m_map[_source] = key;
+            m_map.insert(_source, key);
             m_formatter[key] = AWKeysAggregator::FormatterType::MemMBFormat;
             // gb
             key = QString("hddfreegb%1").arg(index);
-            m_map.insertMulti(_source, key);
+            m_map.insert(_source, key);
             m_formatter[key] = AWKeysAggregator::FormatterType::MemGBFormat;
         }
     } else if (_source.contains(mountUsedRegExp)) {
@@ -212,11 +208,11 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source,
         if (index > -1) {
             // mb
             QString key = QString("hddmb%1").arg(index);
-            m_map[_source] = key;
+            m_map.insert(_source, key);
             m_formatter[key] = AWKeysAggregator::FormatterType::MemMBFormat;
             // gb
             key = QString("hddgb%1").arg(index);
-            m_map.insertMulti(_source, key);
+            m_map.insert(_source, key);
             m_formatter[key] = AWKeysAggregator::FormatterType::MemGBFormat;
         }
     } else if (_source.startsWith("hdd/temperature")) {
@@ -226,7 +222,7 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source,
         int index = m_devices["hdd"].indexOf(device);
         if (index > -1) {
             QString key = QString("hddtemp%1").arg(index);
-            m_map[_source] = key;
+            m_map.insert(_source, key);
             m_formatter[key] = AWKeysAggregator::FormatterType::Temperature;
         }
     } else if (_source.startsWith("cpu/system/loadavg")) {
@@ -234,41 +230,45 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source,
         QString time = _source;
         time.remove("cpu/system/loadavg");
         QString key = QString("la%1").arg(time);
-        m_map[_source] = key;
+        m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::FloatTwoSymbols;
     } else if (_source == "mem/physical/application") {
         // app memory
         // mb
-        m_map[_source] = "memmb";
+        m_map.insert(_source, "memmb");
         m_formatter["memmb"] = AWKeysAggregator::FormatterType::MemMBFormat;
         // gb
-        m_map.insertMulti(_source, "memgb");
+        m_map.insert(_source, "memgb");
         m_formatter["memgb"] = AWKeysAggregator::FormatterType::MemGBFormat;
     } else if (_source == "mem/physical/free") {
         // free memory
         // mb
-        m_map[_source] = "memfreemb";
+        m_map.insert(_source, "memfreemb");
         m_formatter["memfreemb"] = AWKeysAggregator::FormatterType::MemMBFormat;
         // gb
-        m_map.insertMulti(_source, "memfreegb");
+        m_map.insert(_source, "memfreegb");
         m_formatter["memfreegb"] = AWKeysAggregator::FormatterType::MemGBFormat;
     } else if (_source == "mem/physical/used") {
         // used memory
         // mb
-        m_map[_source] = "memusedmb";
+        m_map.insert(_source, "memusedmb");
         m_formatter["memusedmb"] = AWKeysAggregator::FormatterType::MemMBFormat;
         // gb
-        m_map.insertMulti(_source, "memusedgb");
+        m_map.insert(_source, "memusedgb");
         m_formatter["memusedgb"] = AWKeysAggregator::FormatterType::MemGBFormat;
     } else if (_source == "network/current/name") {
         // network device
-        m_map[_source] = "netdev";
+        m_map.insert(_source, "netdev");
         m_formatter["netdev"] = AWKeysAggregator::FormatterType::NoFormat;
+    } else if (_source == "network/current/ssid") {
+        // current ssid
+        m_map.insert(_source, "ssid");
+        m_formatter["ssid"] = AWKeysAggregator::FormatterType::NoFormat;
     } else if (_source.startsWith("network/response")) {
         // network response
         QString key = _source;
         key.remove("network/");
-        m_map[_source] = key;
+        m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::NoFormat;
     } else if (_source.contains(netRegExp)) {
         // network speed
@@ -277,15 +277,15 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source,
         if (index > -1) {
             // kb
             QString key = QString("%1kb%2").arg(type).arg(index);
-            m_map[_source] = key;
+            m_map.insert(_source, key);
             m_formatter[key] = AWKeysAggregator::FormatterType::Integer;
             // smart
             key = QString("%1%2").arg(type).arg(index);
-            m_map.insertMulti(_source, key);
+            m_map.insert(_source, key);
             m_formatter[key] = AWKeysAggregator::FormatterType::NetSmartFormat;
             // units
             key = QString("%1units%2").arg(type).arg(index);
-            m_map.insertMulti(_source, key);
+            m_map.insert(_source, key);
             m_formatter[key] = AWKeysAggregator::FormatterType::NetSmartUnits;
         }
     } else if (_source.contains(netTotalRegExp)) {
@@ -295,60 +295,58 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source,
         if (index > -1) {
             // kb
             QString key = QString("%1totkb%2").arg(type).arg(index);
-            m_map[_source] = key;
+            m_map.insert(_source, key);
             m_formatter[key] = AWKeysAggregator::FormatterType::Integer;
             // mb
             key = QString("%1tot%2").arg(type).arg(index);
-            m_map.insertMulti(_source, key);
+            m_map.insert(_source, key);
             m_formatter[key] = AWKeysAggregator::FormatterType::MemMBFormat;
         }
     } else if (_source.startsWith("upgrade")) {
         // package manager
         QString key = _source;
         key.remove("upgrade/");
-        m_map[_source] = key;
+        m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::IntegerThree;
     } else if (_source.startsWith("player")) {
         // player
         QString key = _source;
         key.remove("player/");
-        m_map[_source] = key;
+        m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::NoFormat;
     } else if (_source == "ps/running/count") {
         // running processes count
-        m_map[_source] = "pscount";
+        m_map.insert(_source, "pscount");
         m_formatter["pscount"] = AWKeysAggregator::FormatterType::NoFormat;
     } else if (_source == "ps/running/list") {
         // list of running processes
-        m_map[_source] = "ps";
+        m_map.insert(_source, "ps");
         m_formatter["ps"] = AWKeysAggregator::FormatterType::List;
     } else if (_source == "ps/total/count") {
         // total processes count
-        m_map[_source] = "pstot";
+        m_map.insert(_source, "pstot");
         m_formatter["pstot"] = AWKeysAggregator::FormatterType::NoFormat;
     } else if (_source.startsWith("quotes")) {
         // quotes
         QString key = _source;
         key.remove("quotes/");
-        m_map[_source] = key;
+        m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::Quotes;
     } else if (_source == "mem/swap/free") {
         // free swap
         // mb
-        m_map[_source] = "swapfreemb";
-        m_formatter["swapfreemb"]
-            = AWKeysAggregator::FormatterType::MemMBFormat;
+        m_map.insert(_source, "swapfreemb");
+        m_formatter["swapfreemb"] = AWKeysAggregator::FormatterType::MemMBFormat;
         // gb
-        m_map.insertMulti(_source, "swapfreegb");
-        m_formatter["swapfreegb"]
-            = AWKeysAggregator::FormatterType::MemGBFormat;
+        m_map.insert(_source, "swapfreegb");
+        m_formatter["swapfreegb"] = AWKeysAggregator::FormatterType::MemGBFormat;
     } else if (_source == "mem/swap/used") {
         // used swap
         // mb
-        m_map[_source] = "swapmb";
+        m_map.insert(_source, "swapmb");
         m_formatter["swapmb"] = AWKeysAggregator::FormatterType::MemMBFormat;
         // gb
-        m_map.insertMulti(_source, "swapgb");
+        m_map.insert(_source, "swapgb");
         m_formatter["swapgb"] = AWKeysAggregator::FormatterType::MemGBFormat;
     } else if (_source.startsWith("lmsensors/")) {
         // temperature
@@ -358,54 +356,59 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source,
             return QStringList({QString("temp%1").arg(index)});
         if (index > -1) {
             QString key = QString("temp%1").arg(index);
-            m_map[_source] = key;
-            m_formatter[key]
-                = _units == "°C" ? AWKeysAggregator::FormatterType::Temperature
-                                 : AWKeysAggregator::FormatterType::Integer;
+            m_map.insert(_source, key);
+            m_formatter[key] = _units == "°C" ? AWKeysAggregator::FormatterType::Temperature
+                                              : AWKeysAggregator::FormatterType::Integer;
         }
     } else if (_source == "Local") {
         // time
-        m_map[_source] = "time";
+        m_map.insert(_source, "time");
         m_formatter["time"] = AWKeysAggregator::FormatterType::Time;
         // custom time
-        m_map.insertMulti(_source, "ctime");
+        m_map.insert(_source, "ctime");
         m_formatter["ctime"] = AWKeysAggregator::FormatterType::TimeCustom;
         // ISO time
-        m_map.insertMulti(_source, "isotime");
+        m_map.insert(_source, "isotime");
         m_formatter["isotime"] = AWKeysAggregator::FormatterType::TimeISO;
         // long time
-        m_map.insertMulti(_source, "longtime");
+        m_map.insert(_source, "longtime");
         m_formatter["longtime"] = AWKeysAggregator::FormatterType::TimeLong;
         // short time
-        m_map.insertMulti(_source, "shorttime");
+        m_map.insert(_source, "shorttime");
         m_formatter["shorttime"] = AWKeysAggregator::FormatterType::TimeShort;
         // timestamp
-        m_map.insertMulti(_source, "tstime");
+        m_map.insert(_source, "tstime");
         m_formatter["tstime"] = AWKeysAggregator::FormatterType::Timestamp;
+    } else if (_source == "system/brightness") {
+        m_map.insert(_source, "brightness");
+        m_formatter["brightness"] = AWKeysAggregator::FormatterType::IntegerThree;
+    } else if (_source == "system/volume") {
+        m_map.insert(_source, "volume");
+        m_formatter["volume"] = AWKeysAggregator::FormatterType::IntegerThree;
     } else if (_source == "system/uptime") {
         // uptime
-        m_map[_source] = "uptime";
+        m_map.insert(_source, "uptime");
         m_formatter["uptime"] = AWKeysAggregator::FormatterType::Uptime;
         // custom uptime
-        m_map.insertMulti(_source, "cuptime");
+        m_map.insert(_source, "cuptime");
         m_formatter["cuptime"] = AWKeysAggregator::FormatterType::UptimeCustom;
     } else if (_source.startsWith("weather/temperature")) {
         // temperature
         QString key = _source;
         key.remove("weather/");
-        m_map[_source] = key;
+        m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::Temperature;
     } else if (_source.startsWith("weather/")) {
         // other weather
         QString key = _source;
         key.remove("weather/");
-        m_map[_source] = key;
+        m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::NoFormat;
     } else if (_source.startsWith("load/load")) {
         // load source
         QString key = _source;
         key.remove("load/");
-        m_map[_source] = key;
+        m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::Temperature;
     }
 
@@ -415,8 +418,7 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source,
     QStringList customFormattersKeys;
     if (m_customFormatters)
         customFormattersKeys = m_customFormatters->definedFormatters();
-    qCInfo(LOG_AW) << "Looking for formatters" << foundKeys << "in"
-                   << customFormattersKeys;
+    qCInfo(LOG_AW) << "Looking for formatters" << foundKeys << "in" << customFormattersKeys;
     for (auto &key : foundKeys) {
         if (!customFormattersKeys.contains(key))
             continue;
@@ -425,11 +427,9 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source,
 
     // drop key from dictionary if no one user requested key required it
     qCInfo(LOG_AW) << "Looking for keys" << foundKeys << "in" << _keys;
-    bool required
-        = _keys.isEmpty() || std::any_of(foundKeys.cbegin(), foundKeys.cend(),
-                                         [&_keys](const QString &key) {
-                                             return _keys.contains(key);
-                                         });
+    bool required = _keys.isEmpty()
+                    || std::any_of(foundKeys.cbegin(), foundKeys.cend(),
+                                   [&_keys](const QString &key) { return _keys.contains(key); });
     if (!required) {
         m_map.remove(_source);
         for (auto &key : foundKeys)

@@ -15,4 +15,4 @@ cmake -DKDE_INSTALL_USE_QT_SYS_PATHS=ON -DCMAKE_BUILD_TYPE=Optimization -DCMAKE_
 make
 
 # tests
-xvfb-run make test
+xvfb-run -a make test

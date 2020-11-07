@@ -19,9 +19,9 @@
 
 #include <QDir>
 #include <QLocalServer>
+#include <QRandomGenerator>
 #include <QSettings>
 #include <QStandardPaths>
-#include <QTime>
 
 #include "abstractextitemaggregator.h"
 #include "qcronscheduler.h"
@@ -45,7 +45,7 @@ AbstractExtItem::~AbstractExtItem()
 
     if (m_socket) {
         m_socket->close();
-        m_socket->removeServer(socket());
+        QLocalServer::removeServer(socket());
         m_socket->deleteLater();
     }
 }
@@ -57,8 +57,7 @@ void AbstractExtItem::bumpApi(const int _newVer)
 
     // update for current API
     if ((apiVersion() > 0) && (apiVersion() < _newVer)) {
-        qCWarning(LOG_LIB) << "Bump API version from" << apiVersion() << "to"
-                           << _newVer;
+        qCWarning(LOG_LIB) << "Bump API version from" << apiVersion() << "to" << _newVer;
         setApiVersion(_newVer);
         writeConfiguration();
     }
@@ -104,8 +103,7 @@ QString AbstractExtItem::writtableConfig() const
     QString dir = QFileInfo(path).fileName();
 
     return QString("%1/awesomewidgets/%2/%3")
-        .arg(QStandardPaths::writableLocation(
-            QStandardPaths::GenericDataLocation))
+        .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation))
         .arg(dir)
         .arg(name);
 }
@@ -202,8 +200,7 @@ void AbstractExtItem::setCron(const QString &_cron)
     qCDebug(LOG_LIB) << "Cron string" << _cron;
     // deinit module first
     if (m_scheduler) {
-        disconnect(m_scheduler, SIGNAL(activated()), this,
-                   SIGNAL(requestDataUpdate()));
+        disconnect(m_scheduler, SIGNAL(activated()), this, SIGNAL(requestDataUpdate()));
         delete m_scheduler;
     }
 
@@ -214,8 +211,7 @@ void AbstractExtItem::setCron(const QString &_cron)
     // init scheduler
     m_scheduler = new QCronScheduler(this);
     m_scheduler->parse(cron());
-    connect(m_scheduler, SIGNAL(activated()), this,
-            SIGNAL(requestDataUpdate()));
+    connect(m_scheduler, SIGNAL(activated()), this, SIGNAL(requestDataUpdate()));
 }
 
 
@@ -244,9 +240,7 @@ void AbstractExtItem::setNumber(int _number)
     if (generateNumber) {
         _number = []() {
             qCWarning(LOG_LIB) << "Number is empty, generate new one";
-            // we suppose that currentTIme().msec() is always valid time
-            qsrand(static_cast<uint>(QTime::currentTime().msec()));
-            int n = qrand() % 1000;
+            auto n = QRandomGenerator::global()->generate() % 1000;
             qCInfo(LOG_LIB) << "Generated number is" << n;
             return n;
         }();
@@ -274,10 +268,9 @@ void AbstractExtItem::deinitSocket()
         return;
 
     m_socket->close();
-    m_socket->removeServer(socket());
+    QLocalServer::removeServer(socket());
     delete m_socket;
-    disconnect(m_socket, SIGNAL(newConnection()), this,
-               SLOT(newConnectionReceived()));
+    disconnect(m_socket, SIGNAL(newConnection()), this, SLOT(newConnectionReceived()));
 }
 
 
@@ -289,8 +282,7 @@ void AbstractExtItem::initSocket()
     m_socket = new QLocalServer(this);
     bool listening = m_socket->listen(socket());
     qCInfo(LOG_LIB) << "Server listening on" << socket() << listening;
-    connect(m_socket, SIGNAL(newConnection()), this,
-            SLOT(newConnectionReceived()));
+    connect(m_socket, SIGNAL(newConnection()), this, SLOT(newConnectionReceived()));
 }
 
 

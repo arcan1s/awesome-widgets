@@ -21,8 +21,7 @@
 #include "awdebug.h"
 
 
-AWCustomKeysConfig::AWCustomKeysConfig(QWidget *_parent,
-                                       const QStringList &_keys)
+AWCustomKeysConfig::AWCustomKeysConfig(QWidget *_parent, const QStringList &_keys)
     : AWAbstractPairConfig(_parent, false, _keys)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2017-07-13 17:39+0300\n"
+"POT-Creation-Date: 2020-11-07 16:46+0300\n"
 "PO-Revision-Date: 2015-07-31 22:24+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -44,9 +44,6 @@ msgstr "AUR 包"
 
 msgid "openSUSE packages"
 msgstr "openSUSE 包"
-
-msgid "This software is licensed under %1"
-msgstr "该软件使用以下授权 %1"
 
 #, fuzzy
 msgid "Translators:"
@@ -394,17 +391,11 @@ msgstr "MB/s"
 msgid "KB/s"
 msgstr "KB/s"
 
-msgid "Changelog of %1"
-msgstr ""
-
 msgid "You are using the actual version %1"
 msgstr "你正在使用最新版本 %1"
 
 msgid "No new version found"
 msgstr "没有新版本"
-
-msgid "Current version : %1"
-msgstr "当前版本 : %1"
 
 msgid "New version : %1"
 msgstr "新版本 : %1"
@@ -511,11 +502,11 @@ msgstr ""
 msgid "Interval"
 msgstr "时间周期"
 
+#, fuzzy
 msgid ""
-"<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
-"instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
-"text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</"
-"span></a></p></body></html>"
+"<html><head/><body><p>Use Stooq ticker to get quotes for the instrument. "
+"Refer to <a href=\"https://stooq.com/\"><span style=\" text-decoration: "
+"underline; color:#0057ae;\">https://stooq.com/</span></a></p></body></html>"
 msgstr ""
 "<html><head/><body><p>使用 YAHOO（雅虎）! 获取最新的金融股票行情 . 请点击链"
 "接 <a href=\"http://finance.yahoo.com/\"><span style=\" text-decoration: "
@@ -527,9 +518,6 @@ msgstr "金融股市"
 
 msgid "Command"
 msgstr "命令"
-
-msgid "Prefix"
-msgstr "前缀"
 
 msgid "Redirect"
 msgstr "重定向"
@@ -739,6 +727,9 @@ msgstr "网络"
 
 msgid "Scripts"
 msgstr "脚本"
+
+msgid "System"
+msgstr ""
 
 msgid "Time"
 msgstr "时间"

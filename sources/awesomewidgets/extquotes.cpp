@@ -21,13 +21,12 @@
 #include <KI18n/KLocalizedString>
 
 #include <QDir>
-#include <QJsonDocument>
 #include <QSettings>
-#include <QUrlQuery>
 
 #include <qreplytimeout/qreplytimeout.h>
 
 #include "awdebug.h"
+#include "stooqquotesprovider.h"
 
 
 ExtQuotes::ExtQuotes(QWidget *_parent, const QString &_filePath)
@@ -37,19 +36,16 @@ ExtQuotes::ExtQuotes(QWidget *_parent, const QString &_filePath)
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     if (!_filePath.isEmpty())
-        readConfiguration();
+        ExtQuotes::readConfiguration();
     ui->setupUi(this);
-    translate();
+    ExtQuotes::translate();
 
-    m_values[tag("ask")] = 0.0;
-    m_values[tag("askchg")] = 0.0;
-    m_values[tag("percaskchg")] = 0.0;
-    m_values[tag("bid")] = 0.0;
-    m_values[tag("bidchg")] = 0.0;
-    m_values[tag("percbidchg")] = 0.0;
     m_values[tag("price")] = 0.0;
     m_values[tag("pricechg")] = 0.0;
     m_values[tag("percpricechg")] = 0.0;
+    m_values[tag("volume")] = 0;
+    m_values[tag("volumechg")] = 0;
+    m_values[tag("percvolumechg")] = 0.0;
 
     // HACK declare as child of nullptr to avoid crash with plasmawindowed
     // in the destructor
@@ -78,8 +74,7 @@ ExtQuotes *ExtQuotes::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    ExtQuotes *item
-        = new ExtQuotes(static_cast<QWidget *>(parent()), _fileName);
+    auto *item = new ExtQuotes(dynamic_cast<QWidget *>(parent()), _fileName);
     copyDefaults(item);
     item->setNumber(_number);
     item->setTicker(ticker());
@@ -105,7 +100,7 @@ void ExtQuotes::setTicker(const QString &_ticker)
     qCDebug(LOG_LIB) << "Ticker" << _ticker;
 
     m_ticker = _ticker;
-    initUrl();
+    initProvider();
 }
 
 
@@ -141,8 +136,7 @@ int ExtQuotes::showConfiguration(const QVariant &_args)
     ui->lineEdit_comment->setText(comment());
     ui->label_numberValue->setText(QString("%1").arg(number()));
     ui->lineEdit_ticker->setText(ticker());
-    ui->checkBox_active->setCheckState(isActive() ? Qt::Checked
-                                                  : Qt::Unchecked);
+    ui->checkBox_active->setCheckState(isActive() ? Qt::Checked : Qt::Unchecked);
     ui->lineEdit_schedule->setText(cron());
     ui->lineEdit_socket->setText(socket());
     ui->spinBox_interval->setValue(interval());
@@ -182,49 +176,19 @@ void ExtQuotes::writeConfiguration() const
 void ExtQuotes::quotesReplyReceived(QNetworkReply *_reply)
 {
     if (_reply->error() != QNetworkReply::NoError) {
-        qCWarning(LOG_AW) << "An error occurs" << _reply->error()
-                          << "with message" << _reply->errorString();
+        qCWarning(LOG_AW) << "An error occurs" << _reply->error() << "with message"
+                          << _reply->errorString();
         return;
     }
 
     m_isRunning = false;
-    QJsonParseError error;
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(_reply->readAll(), &error);
+    auto text = _reply->readAll();
     _reply->deleteLater();
-    if (error.error != QJsonParseError::NoError) {
-        qCWarning(LOG_LIB) << "Parse error" << error.errorString();
+
+    QVariantHash data = m_providerObject->parse(text, m_values);
+    if (data.isEmpty())
         return;
-    }
-    QVariantMap jsonQuotes = jsonDoc.toVariant().toMap()["query"].toMap();
-    jsonQuotes = jsonQuotes["results"].toMap()["quote"].toMap();
-    double value;
-
-    // ask
-    value = jsonQuotes["Ask"].toString().toDouble();
-    m_values[tag("askchg")] = m_values[tag("ask")].toDouble() == 0.0
-                                  ? 0.0
-                                  : value - m_values[tag("ask")].toDouble();
-    m_values[tag("percaskchg")] = 100.0 * m_values[tag("askchg")].toDouble()
-                                  / m_values[tag("ask")].toDouble();
-    m_values[tag("ask")] = value;
-
-    // bid
-    value = jsonQuotes["Bid"].toString().toDouble();
-    m_values[tag("bidchg")] = m_values[tag("bid")].toDouble() == 0.0
-                                  ? 0.0
-                                  : value - m_values[tag("bid")].toDouble();
-    m_values[tag("percbidchg")] = 100.0 * m_values[tag("bidchg")].toDouble()
-                                  / m_values[tag("bid")].toDouble();
-    m_values[tag("bid")] = value;
-
-    // last trade
-    value = jsonQuotes["LastTradePriceOnly"].toString().toDouble();
-    m_values[tag("pricechg")] = m_values[tag("price")].toDouble() == 0.0
-                                    ? 0.0
-                                    : value - m_values[tag("price")].toDouble();
-    m_values[tag("percpricechg")] = 100.0 * m_values[tag("pricechg")].toDouble()
-                                    / m_values[tag("price")].toDouble();
-    m_values[tag("price")] = value;
+    m_values = data;
 
     emit(dataReceived(m_values));
 }
@@ -233,20 +197,19 @@ void ExtQuotes::quotesReplyReceived(QNetworkReply *_reply)
 void ExtQuotes::sendRequest()
 {
     m_isRunning = true;
-    QNetworkReply *reply = m_manager->get(QNetworkRequest(m_url));
+    QNetworkReply *reply = m_manager->get(QNetworkRequest(m_providerObject->url()));
     new QReplyTimeout(reply, REQUEST_TIMEOUT);
 }
 
 
-void ExtQuotes::initUrl()
+void ExtQuotes::initProvider()
 {
-    // init query
-    m_url = QUrl(YAHOO_QUOTES_URL);
-    QUrlQuery params;
-    params.addQueryItem("format", "json");
-    params.addQueryItem("env", "store://datatables.org/alltableswithkeys");
-    params.addQueryItem("q", QString(YAHOO_QUOTES_QUERY).arg(ticker()));
-    m_url.setQuery(params);
+    delete m_providerObject;
+
+    // in the future release it is possible to change provider here
+    m_providerObject = new StooqQuotesProvider(this);
+
+    return m_providerObject->initUrl(ticker());
 }
 
 
@@ -256,10 +219,9 @@ void ExtQuotes::translate()
     ui->label_comment->setText(i18n("Comment"));
     ui->label_number->setText(i18n("Tag"));
     ui->label->setText(
-        i18n("<html><head/><body><p>Use YAHOO! finance ticker to \
-get quotes for the instrument. Refer to <a href=\"http://finance.yahoo.com/\">\
-<span style=\" text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/\
-</span></a></p></body></html>"));
+        i18n("<html><head/><body><p>Use Stooq ticker to get quotes for the instrument. Refer to <a "
+             "href=\"https://stooq.com/\"><span style=\" text-decoration: underline; "
+             "color:#0057ae;\">https://stooq.com/</span></a></p></body></html>"));
     ui->label_ticker->setText(i18n("Ticker"));
     ui->checkBox_active->setText(i18n("Active"));
     ui->label_schedule->setText(i18n("Schedule"));

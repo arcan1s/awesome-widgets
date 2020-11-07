@@ -32,28 +32,26 @@ class AWJsonFormatter : public AWAbstractFormatter
     Q_PROPERTY(QString path READ path WRITE setPath)
 
 public:
-    explicit AWJsonFormatter(QWidget *_parent = nullptr,
-                             const QString &_filePath = "");
-    virtual ~AWJsonFormatter();
-    QString convert(const QVariant &_value) const;
-    AWJsonFormatter *copy(const QString &_fileName, const int _number);
+    explicit AWJsonFormatter(QWidget *_parent = nullptr, const QString &_filePath = "");
+    ~AWJsonFormatter() override;
+    [[nodiscard]] QString convert(const QVariant &_value) const override;
+    AWJsonFormatter *copy(const QString &_fileName, int _number) override;
     // properties
-    QString path() const;
+    [[nodiscard]] QString path() const;
     void setPath(const QString &_path);
 
 public slots:
-    void readConfiguration();
-    int showConfiguration(const QVariant &_args);
-    void writeConfiguration() const;
+    void readConfiguration() override;
+    int showConfiguration(const QVariant &_args) override;
+    void writeConfiguration() const override;
 
 private:
     Ui::AWJsonFormatter *ui = nullptr;
-    QVariant getFromJson(const QVariant &_value,
-                         const QVariant &_element) const;
-    QVariant getFromList(const QVariant &_value, const int _index) const;
-    QVariant getFromMap(const QVariant &_value, const QString &_key) const;
+    static QVariant getFromJson(const QVariant &_value, const QVariant &_element);
+    static QVariant getFromList(const QVariant &_value, int _index);
+    static QVariant getFromMap(const QVariant &_value, const QString &_key);
     void initPath();
-    void translate();
+    void translate() override;
     // properties
     QString m_path;
     QVariantList m_splittedPath;

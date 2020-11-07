@@ -23,6 +23,7 @@
 #include "abstractextitem.h"
 
 
+class AbstractQuotesProvider;
 namespace Ui
 {
 class ExtQuotes;
@@ -34,37 +35,32 @@ class ExtQuotes : public AbstractExtItem
     Q_PROPERTY(QString ticker READ ticker WRITE setTicker)
 
 public:
-    const char *YAHOO_QUOTES_URL = "https://query.yahooapis.com/v1/public/yql";
-    const char *YAHOO_QUOTES_QUERY
-        = "select * from yahoo.finance.quotes where symbol='%1'";
-
-    explicit ExtQuotes(QWidget *_parent = nullptr,
-                       const QString &_filePath = "");
-    virtual ~ExtQuotes();
-    ExtQuotes *copy(const QString &_fileName, const int _number);
+    explicit ExtQuotes(QWidget *_parent = nullptr, const QString &_filePath = "");
+    ~ExtQuotes() override;
+    ExtQuotes *copy(const QString &_fileName, int _number) override;
     // get methods
-    QString ticker() const;
-    QString uniq() const;
+    [[nodiscard]] QString ticker() const;
+    [[nodiscard]] QString uniq() const override;
     // set methods
     void setTicker(const QString &_ticker);
 
 public slots:
-    void readConfiguration();
-    QVariantHash run();
-    int showConfiguration(const QVariant &_args);
-    void writeConfiguration() const;
+    void readConfiguration() override;
+    QVariantHash run() override;
+    int showConfiguration(const QVariant &_args) override;
+    void writeConfiguration() const override;
 
 private slots:
     void quotesReplyReceived(QNetworkReply *_reply);
     void sendRequest();
 
 private:
+    AbstractQuotesProvider *m_providerObject = nullptr;
     QNetworkAccessManager *m_manager = nullptr;
-    QUrl m_url;
     bool m_isRunning = false;
     Ui::ExtQuotes *ui = nullptr;
-    void initUrl();
-    void translate();
+    void initProvider();
+    void translate() override;
     // properties
     QString m_ticker = "EURUSD=X";
     // values

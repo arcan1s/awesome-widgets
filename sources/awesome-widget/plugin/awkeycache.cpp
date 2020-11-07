@@ -15,6 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
+
 #include "awkeycache.h"
 
 #include <QDir>
@@ -29,9 +30,9 @@ bool AWKeyCache::addKeyToCache(const QString &_type, const QString &_key)
 {
     qCDebug(LOG_AW) << "Key" << _key << "with type" << _type;
 
-    QString fileName = QString("%1/awesomewidgets.ndx")
-                           .arg(QStandardPaths::writableLocation(
-                               QStandardPaths::GenericCacheLocation));
+    QString fileName
+        = QString("%1/awesomewidgets.ndx")
+              .arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
     qCInfo(LOG_AW) << "Cache file" << fileName;
     QSettings cache(fileName, QSettings::IniFormat);
 
@@ -41,8 +42,7 @@ bool AWKeyCache::addKeyToCache(const QString &_type, const QString &_key)
         cachedValues.append(cache.value(number).toString());
 
     if (_type == "hdd") {
-        QStringList allDevices
-            = QDir("/dev").entryList(QDir::System, QDir::Name);
+        QStringList allDevices = QDir("/dev").entryList(QDir::System, QDir::Name);
         QStringList devices = allDevices.filter(QRegExp("^[hms]d[a-z]$"));
         for (auto &dev : devices) {
             QString device = QString("/dev/%1").arg(dev);
@@ -50,30 +50,23 @@ bool AWKeyCache::addKeyToCache(const QString &_type, const QString &_key)
                 continue;
             qCInfo(LOG_AW) << "Found new key" << device << "for type" << _type;
             cachedValues.append(device);
-            cache.setValue(
-                QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')),
-                device);
+            cache.setValue(QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), device);
         }
     } else if (_type == "net") {
-        QList<QNetworkInterface> rawInterfaceList
-            = QNetworkInterface::allInterfaces();
+        QList<QNetworkInterface> rawInterfaceList = QNetworkInterface::allInterfaces();
         for (auto &interface : rawInterfaceList) {
             QString device = interface.name();
             if (cachedValues.contains(device))
                 continue;
             qCInfo(LOG_AW) << "Found new key" << device << "for type" << _type;
             cachedValues.append(device);
-            cache.setValue(
-                QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')),
-                device);
+            cache.setValue(QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), device);
         }
     } else {
         if (cachedValues.contains(_key))
             return false;
         qCInfo(LOG_AW) << "Found new key" << _key << "for type" << _type;
-        cache.setValue(
-            QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')),
-            _key);
+        cache.setValue(QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), _key);
     }
     cache.endGroup();
 
@@ -82,19 +75,17 @@ bool AWKeyCache::addKeyToCache(const QString &_type, const QString &_key)
 }
 
 
-QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys,
-                                        const QStringList &_bars,
-                                        const QVariantMap &_tooltip,
-                                        const QStringList &_userKeys,
+QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys, const QStringList &_bars,
+                                        const QVariantMap &_tooltip, const QStringList &_userKeys,
                                         const QStringList &_allKeys)
 {
-    qCDebug(LOG_AW) << "Looking for required keys in" << _keys << _bars
-                    << "using tooltip settings" << _tooltip;
+    qCDebug(LOG_AW) << "Looking for required keys in" << _keys << _bars << "using tooltip settings"
+                    << _tooltip;
 
     // initial copy
-    QSet<QString> used = QSet<QString>::fromList(_keys);
-    used.unite(QSet<QString>::fromList(_bars));
-    used.unite(QSet<QString>::fromList(_userKeys));
+    QSet<QString> used(_keys.cbegin(), _keys.cend());
+    used.unite(QSet(_bars.cbegin(), _bars.cend()));
+    used.unite(QSet(_userKeys.cbegin(), _userKeys.cend()));
     // insert keys from tooltip
     for (auto &key : _tooltip.keys()) {
         if ((key.endsWith("Tooltip")) && (_tooltip[key].toBool())) {
@@ -110,8 +101,7 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys,
             continue;
         key.remove("hddtotmb");
         int index = key.toInt();
-        used << QString("hddfreemb%1").arg(index)
-             << QString("hddmb%1").arg(index);
+        used << QString("hddfreemb%1").arg(index) << QString("hddmb%1").arg(index);
     }
     // hddtotgb*
     for (auto &key : _allKeys.filter(QRegExp("^hddtotgb"))) {
@@ -119,8 +109,7 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys,
             continue;
         key.remove("hddtotgb");
         int index = key.toInt();
-        used << QString("hddfreegb%1").arg(index)
-             << QString("hddgb%1").arg(index);
+        used << QString("hddfreegb%1").arg(index) << QString("hddgb%1").arg(index);
     }
     // mem
     if (used.contains("mem"))
@@ -147,13 +136,12 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys,
         used << "swapgb"
              << "swapfreegb";
     // network keys
-    QStringList netKeys({"up", "upkb", "uptot", "uptotkb", "upunits", "down",
-                         "downkb", "downtot", "downtotkb", "downunits"});
+    QStringList netKeys({"up", "upkb", "uptot", "uptotkb", "upunits", "down", "downkb", "downtot",
+                         "downtotkb", "downunits"});
     for (auto &key : netKeys) {
         if (!used.contains(key))
             continue;
-        QStringList filt
-            = _allKeys.filter(QRegExp(QString("^%1[0-9]{1,}").arg(key)));
+        QStringList filt = _allKeys.filter(QRegExp(QString("^%1[0-9]{1,}").arg(key)));
         for (auto &filtered : filt)
             used << filtered;
     }
@@ -167,15 +155,15 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys,
     if (used.isEmpty())
         used << "dummy";
 
-    return used.toList();
+    return used.values();
 }
 
 
 QHash<QString, QStringList> AWKeyCache::loadKeysFromCache()
 {
-    QString fileName = QString("%1/awesomewidgets.ndx")
-                           .arg(QStandardPaths::writableLocation(
-                               QStandardPaths::GenericCacheLocation));
+    QString fileName
+        = QString("%1/awesomewidgets.ndx")
+              .arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
     qCInfo(LOG_AW) << "Cache file" << fileName;
     QSettings cache(fileName, QSettings::IniFormat);
 

@@ -34,9 +34,9 @@ AWScriptFormatter::AWScriptFormatter(QWidget *_parent, const QString &_filePath)
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     if (!_filePath.isEmpty())
-        readConfiguration();
+        AWScriptFormatter::readConfiguration();
     ui->setupUi(this);
-    translate();
+    AWScriptFormatter::translate();
 }
 
 
@@ -59,9 +59,8 @@ QString AWScriptFormatter::convert(const QVariant &_value) const
     QJSValue result = fn.call(args);
 
     if (result.isError()) {
-        qCWarning(LOG_LIB) << "Uncaught exception at line"
-                           << result.property("lineNumber").toInt() << ":"
-                           << result.toString();
+        qCWarning(LOG_LIB) << "Uncaught exception at line" << result.property("lineNumber").toInt()
+                           << ":" << result.toString();
         return "";
     } else {
         return result.toString();
@@ -69,13 +68,11 @@ QString AWScriptFormatter::convert(const QVariant &_value) const
 }
 
 
-AWScriptFormatter *AWScriptFormatter::copy(const QString &_fileName,
-                                           const int _number)
+AWScriptFormatter *AWScriptFormatter::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    AWScriptFormatter *item
-        = new AWScriptFormatter(static_cast<QWidget *>(parent()), _fileName);
+    auto *item = new AWScriptFormatter(dynamic_cast<QWidget *>(parent()), _fileName);
     AWAbstractFormatter::copyDefaults(item);
     item->setAppendCode(appendCode());
     item->setCode(code());
@@ -160,10 +157,8 @@ int AWScriptFormatter::showConfiguration(const QVariant &_args)
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
     ui->label_typeValue->setText("Script");
-    ui->checkBox_appendCode->setCheckState(appendCode() ? Qt::Checked
-                                                        : Qt::Unchecked);
-    ui->checkBox_hasReturn->setCheckState(hasReturn() ? Qt::Checked
-                                                      : Qt::Unchecked);
+    ui->checkBox_appendCode->setCheckState(appendCode() ? Qt::Checked : Qt::Unchecked);
+    ui->checkBox_hasReturn->setCheckState(hasReturn() ? Qt::Checked : Qt::Unchecked);
     ui->textEdit_code->setPlainText(code());
 
     int ret = exec();

@@ -41,10 +41,8 @@ AWKeyOperations::AWKeyOperations(QObject *_parent)
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
     m_customKeys = new AWCustomKeysHelper(this);
-    m_graphicalItems
-        = new ExtItemAggregator<GraphicalItem>(nullptr, "desktops");
-    m_extNetRequest
-        = new ExtItemAggregator<ExtNetworkRequest>(nullptr, "requests");
+    m_graphicalItems = new ExtItemAggregator<GraphicalItem>(nullptr, "desktops");
+    m_extNetRequest = new ExtItemAggregator<ExtNetworkRequest>(nullptr, "requests");
     m_extQuotes = new ExtItemAggregator<ExtQuotes>(nullptr, "quotes");
     m_extScripts = new ExtItemAggregator<ExtScript>(nullptr, "scripts");
     m_extUpgrade = new ExtItemAggregator<ExtUpgrade>(nullptr, "upgrade");
@@ -134,24 +132,25 @@ QStringList AWKeyOperations::dictKeys() const
     // battery
     QStringList allBatteryDevices
         = QDir("/sys/class/power_supply")
-              .entryList(QStringList({"BAT*"}),
-                         QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
-    for (int i = 0; i < allBatteryDevices.count(); i++)
+              .entryList(QStringList({"BAT*"}), QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
+    for (int i = 0; i < allBatteryDevices.count(); i++) {
         allKeys.append(QString("bat%1").arg(i));
+        allKeys.append(QString("batleft%1").arg(i));
+        allKeys.append(QString("batnow%1").arg(i));
+        allKeys.append(QString("batrate%1").arg(i));
+        allKeys.append(QString("battotal%1").arg(i));
+    }
     // package manager
     for (auto &item : m_extUpgrade->activeItems())
         allKeys.append(item->tag("pkgcount"));
     // quotes
     for (auto &item : m_extQuotes->activeItems()) {
-        allKeys.append(item->tag("ask"));
-        allKeys.append(item->tag("askchg"));
-        allKeys.append(item->tag("percaskchg"));
-        allKeys.append(item->tag("bid"));
-        allKeys.append(item->tag("bidchg"));
-        allKeys.append(item->tag("percbidchg"));
         allKeys.append(item->tag("price"));
         allKeys.append(item->tag("pricechg"));
         allKeys.append(item->tag("percpricechg"));
+        allKeys.append(item->tag("volume"));
+        allKeys.append(item->tag("volumechg"));
+        allKeys.append(item->tag("percvolumechg"));
     }
     // custom
     for (auto &item : m_extScripts->activeItems())
@@ -223,8 +222,7 @@ QString AWKeyOperations::infoByKey(const QString &_key) const
         QString index = _key;
         index.remove(QRegExp("hdd[rw]"));
         output = m_devices["disk"][index.toInt()];
-    } else if (_key.contains(
-                   QRegExp("^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)"))) {
+    } else if (_key.contains(QRegExp("^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)"))) {
         QString index = _key;
         index.remove(QRegExp("^hdd(|mb|gb|freemb|freegb|totmb|totgb)"));
         output = m_devices["mount"][index.toInt()];
@@ -244,8 +242,7 @@ QString AWKeyOperations::infoByKey(const QString &_key) const
         AbstractExtItem *item = m_extQuotes->itemByTag(_key, stripped);
         if (item)
             output = item->uniq();
-    } else if (_key.contains(QRegExp(
-                   "(weather|weatherId|humidity|pressure|temperature)"))) {
+    } else if (_key.contains(QRegExp("(weather|weatherId|humidity|pressure|temperature)"))) {
         AbstractExtItem *item = m_extWeather->itemByTag(_key, stripped);
         if (item)
             output = item->uniq();
@@ -284,8 +281,8 @@ void AWKeyOperations::editItem(const QString &_type)
     qCDebug(LOG_AW) << "Item type" << _type;
 
     if (_type == "graphicalitem") {
-        QStringList keys = dictKeys().filter(
-            QRegExp("^(cpu(?!cl).*|gpu$|mem$|swap$|hdd[0-9].*|bat.*)"));
+        QStringList keys
+            = dictKeys().filter(QRegExp("^(cpu(?!cl).*|gpu$|mem$|swap$|hdd[0-9].*|bat.*)"));
         keys.sort();
         m_graphicalItems->setConfigArgs(keys);
         return m_graphicalItems->editItems();

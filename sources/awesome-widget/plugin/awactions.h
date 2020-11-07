@@ -31,20 +31,19 @@ class AWActions : public QObject
 
 public:
     explicit AWActions(QObject *_parent = nullptr);
-    virtual ~AWActions();
-    Q_INVOKABLE void checkUpdates(const bool _showAnyway = false);
-    Q_INVOKABLE QString getFileContent(const QString &_path) const;
-    Q_INVOKABLE bool isDebugEnabled() const;
-    Q_INVOKABLE bool runCmd(const QString &_cmd) const;
-    Q_INVOKABLE void showLegacyInfo() const;
-    Q_INVOKABLE void showReadme() const;
+    ~AWActions() override;
+    Q_INVOKABLE void checkUpdates(bool _showAnyway = false);
+    Q_INVOKABLE static QString getFileContent(const QString &_path);
+    Q_INVOKABLE static bool isDebugEnabled();
+    Q_INVOKABLE static bool runCmd(const QString &_cmd, const QStringList &_args);
+    Q_INVOKABLE static void showLegacyInfo();
+    Q_INVOKABLE static void showReadme();
     // configuration slots
-    Q_INVOKABLE QString getAboutText(const QString &_type) const;
-    Q_INVOKABLE QVariantMap getFont(const QVariantMap &_defaultFont) const;
+    Q_INVOKABLE static QString getAboutText(const QString &_type);
+    Q_INVOKABLE static QVariantMap getFont(const QVariantMap &_defaultFont);
 
 public slots:
-    Q_INVOKABLE static void sendNotification(const QString &_eventId,
-                                             const QString &_message);
+    Q_INVOKABLE static void sendNotification(const QString &_eventId, const QString &_message);
 
 private:
     AWUpdateHelper *m_updateHelper = nullptr;

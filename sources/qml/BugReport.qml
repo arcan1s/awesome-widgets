@@ -45,17 +45,14 @@ QtDialogs.Dialog {
 
         QtControls.TextField {
             id: title
-            anchors.left: parent.left
-            anchors.right: parent.right
+            QtLayouts.Layout.fillWidth: true
             placeholderText: i18n("Report subject")
         }
         QtLayouts.ColumnLayout {
-            anchors.left: parent.left
-            anchors.right: parent.right
+            QtLayouts.Layout.fillWidth: true
 
             QtControls.GroupBox {
-                anchors.left: parent.left
-                anchors.right: parent.right
+                QtLayouts.Layout.fillWidth: true
                 height: parent.height / 5
                 title: i18n("Description")
                 QtControls.TextArea {
@@ -65,8 +62,7 @@ QtDialogs.Dialog {
                 }
             }
             QtControls.GroupBox {
-                anchors.left: parent.left
-                anchors.right: parent.right
+                QtLayouts.Layout.fillWidth: true
                 height: parent.height / 5
                 title: i18n("Steps to reproduce")
                 QtControls.TextArea {
@@ -76,8 +72,7 @@ QtDialogs.Dialog {
                 }
             }
             QtControls.GroupBox {
-                anchors.left: parent.left
-                anchors.right: parent.right
+                QtLayouts.Layout.fillWidth: true
                 height: parent.height / 5
                 title: i18n("Expected result")
                 QtControls.TextArea {
@@ -87,15 +82,14 @@ QtDialogs.Dialog {
                 }
             }
             QtControls.GroupBox {
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
+                QtLayouts.Layout.fillWidth: true
+                QtLayouts.Layout.alignment: Qt.AlignBottom
                 title: i18n("Logs")
                 QtLayouts.ColumnLayout {
                     anchors.fill: parent
+                    QtLayouts.Layout.fillWidth: true
                     Row {
-                        anchors.left: parent.left
-                        anchors.right: parent.right
+                          QtLayouts.Layout.fillWidth: true
                         QtControls.Label {
                             width: parent.width * 2 / 5
                             horizontalAlignment: Text.AlignJustify
@@ -110,16 +104,14 @@ QtDialogs.Dialog {
                         }
                     }
                     QtControls.Button {
-                        anchors.left: parent.left
-                        anchors.right: parent.right
+                        QtLayouts.Layout.fillWidth: true
                         text: i18n("Load log file")
                         onClicked: logPath.open()
                     }
                     QtControls.TextArea {
                         id: logBody
-                        anchors.left: parent.left
-                        anchors.right: parent.right
-                        anchors.bottom: parent.bottom
+                        QtLayouts.Layout.fillWidth: true
+                        QtLayouts.Layout.alignment: Qt.AlignBottom
                         textFormat: TextEdit.PlainText
                     }
                 }

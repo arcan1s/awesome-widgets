@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>420</width>
-    <height>506</height>
+    <height>463</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -101,29 +101,6 @@
      </item>
      <item>
       <widget class="QLineEdit" name="lineEdit_command"/>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="layout_prefix">
-     <item>
-      <widget class="QLabel" name="label_prefix">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Prefix</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="lineEdit_prefix"/>
      </item>
     </layout>
    </item>

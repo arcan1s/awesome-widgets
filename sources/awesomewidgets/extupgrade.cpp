@@ -34,9 +34,9 @@ ExtUpgrade::ExtUpgrade(QWidget *_parent, const QString &_filePath)
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     if (!_filePath.isEmpty())
-        readConfiguration();
+        ExtUpgrade::readConfiguration();
     ui->setupUi(this);
-    translate();
+    ExtUpgrade::translate();
 
     m_values[tag("pkgcount")] = 0;
 
@@ -63,8 +63,7 @@ ExtUpgrade *ExtUpgrade::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    ExtUpgrade *item
-        = new ExtUpgrade(static_cast<QWidget *>(parent()), _fileName);
+    auto *item = new ExtUpgrade(dynamic_cast<QWidget *>(parent()), _fileName);
     copyDefaults(item);
     item->setExecutable(executable());
     item->setFilter(filter());
@@ -161,8 +160,7 @@ int ExtUpgrade::showConfiguration(const QVariant &_args)
     ui->label_numberValue->setText(QString("%1").arg(number()));
     ui->lineEdit_command->setText(executable());
     ui->lineEdit_filter->setText(filter());
-    ui->checkBox_active->setCheckState(isActive() ? Qt::Checked
-                                                  : Qt::Unchecked);
+    ui->checkBox_active->setCheckState(isActive() ? Qt::Checked : Qt::Unchecked);
     ui->spinBox_null->setValue(null());
     ui->lineEdit_schedule->setText(cron());
     ui->lineEdit_socket->setText(socket());
@@ -207,9 +205,8 @@ void ExtUpgrade::writeConfiguration() const
 
 void ExtUpgrade::startProcess()
 {
-    QString cmd = QString("sh -c \"%1\"").arg(executable());
-    qCInfo(LOG_LIB) << "Run cmd" << cmd;
-    m_process->start(cmd);
+    qCInfo(LOG_LIB) << "Run cmd" << executable();
+    m_process->start("sh", QStringList() << "-c" << executable());
 }
 
 
@@ -218,16 +215,12 @@ void ExtUpgrade::updateValue()
     qCInfo(LOG_LIB) << "Cmd returns" << m_process->exitCode();
     qCInfo(LOG_LIB) << "Error" << m_process->readAllStandardError();
 
-    QString qoutput = QTextCodec::codecForMib(106)
-                          ->toUnicode(m_process->readAllStandardOutput())
-                          .trimmed();
-    m_values[tag("pkgcount")] = [this](QString output) {
+    QString qoutput
+        = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardOutput()).trimmed();
+    m_values[tag("pkgcount")] = [this](const QString &output) {
         return filter().isEmpty()
-                   ? output.split('\n', QString::SkipEmptyParts).count()
-                         - null()
-                   : output.split('\n', QString::SkipEmptyParts)
-                         .filter(QRegExp(filter()))
-                         .count();
+                   ? output.split('\n', Qt::SkipEmptyParts).count() - null()
+                   : output.split('\n', Qt::SkipEmptyParts).filter(QRegExp(filter())).count();
     }(qoutput);
 
     emit(dataReceived(m_values));

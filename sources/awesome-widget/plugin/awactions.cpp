@@ -55,14 +55,13 @@ void AWActions::checkUpdates(const bool _showAnyway)
 }
 
 
-QString AWActions::getFileContent(const QString &_path) const
+QString AWActions::getFileContent(const QString &_path)
 {
     qCDebug(LOG_AW) << "Get content from file" << _path;
 
     QFile inputFile(_path);
     if (!inputFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qCWarning(LOG_AW) << "Could not open file as text"
-                          << inputFile.fileName();
+        qCWarning(LOG_AW) << "Could not open file as text" << inputFile.fileName();
         return "";
     }
 
@@ -73,37 +72,36 @@ QString AWActions::getFileContent(const QString &_path) const
 
 
 // HACK: since QML could not use QLoggingCategory I need this hack
-bool AWActions::isDebugEnabled() const
+bool AWActions::isDebugEnabled()
 {
     return LOG_AW().isDebugEnabled();
 }
 
 
-bool AWActions::runCmd(const QString &_cmd) const
+bool AWActions::runCmd(const QString &_cmd, const QStringList &_args)
 {
-    qCDebug(LOG_AW) << "Cmd" << _cmd;
+    qCDebug(LOG_AW) << "Cmd" << _cmd << "args" << _args;
 
     sendNotification(QString("Info"), i18n("Run %1", _cmd));
 
-    return QProcess::startDetached(_cmd);
+    return QProcess::startDetached(_cmd, _args);
 }
 
 
 // HACK: this method uses variable from version.h
-void AWActions::showReadme() const
+void AWActions::showReadme()
 {
     QDesktopServices::openUrl(QUrl(HOMEPAGE));
 }
 
 
-void AWActions::showLegacyInfo() const
+void AWActions::showLegacyInfo()
 {
-    QMessageBox *msgBox = new QMessageBox(nullptr);
+    auto *msgBox = new QMessageBox(nullptr);
     msgBox->setAttribute(Qt::WA_DeleteOnClose);
     msgBox->setModal(false);
     msgBox->setWindowTitle(i18n("Not supported"));
-    msgBox->setText(
-        i18n("You are using mammoth's Qt version, try to update it first"));
+    msgBox->setText(i18n("You are using mammoth's Qt version, try to update it first"));
     msgBox->setStandardButtons(QMessageBox::Ok);
     msgBox->setIcon(QMessageBox::Information);
 
@@ -112,7 +110,7 @@ void AWActions::showLegacyInfo() const
 
 
 // HACK: this method uses variables from version.h
-QString AWActions::getAboutText(const QString &_type) const
+QString AWActions::getAboutText(const QString &_type)
 {
     qCDebug(LOG_AW) << "Type" << _type;
 
@@ -120,17 +118,15 @@ QString AWActions::getAboutText(const QString &_type) const
 }
 
 
-QVariantMap AWActions::getFont(const QVariantMap &_defaultFont) const
+QVariantMap AWActions::getFont(const QVariantMap &_defaultFont)
 {
     qCDebug(LOG_AW) << "Default font is" << _defaultFont;
 
     QVariantMap fontMap;
     int ret = 0;
-    CFont defaultCFont
-        = CFont(_defaultFont["family"].toString(), _defaultFont["size"].toInt(),
-                400, false, _defaultFont["color"].toString());
-    CFont font = CFontDialog::getFont(i18n("Select font"), defaultCFont, false,
-                                      false, &ret);
+    CFont defaultCFont = CFont(_defaultFont["family"].toString(), _defaultFont["size"].toInt(), 400,
+                               false, _defaultFont["color"].toString());
+    CFont font = CFontDialog::getFont(i18n("Select font"), defaultCFont, false, false, &ret);
 
     fontMap["applied"] = ret;
     fontMap["color"] = font.color().name();
@@ -142,13 +138,11 @@ QVariantMap AWActions::getFont(const QVariantMap &_defaultFont) const
 
 
 // to avoid additional object definition this method is static
-void AWActions::sendNotification(const QString &_eventId,
-                                 const QString &_message)
+void AWActions::sendNotification(const QString &_eventId, const QString &_message)
 {
     qCDebug(LOG_AW) << "Event" << _eventId << "with message" << _message;
 
-    KNotification *notification = KNotification::event(
-        _eventId, QString("Awesome Widget ::: %1").arg(_eventId), _message);
-    notification->setComponentName(
-        "plasma-applet-org.kde.plasma.awesome-widget");
+    KNotification *notification
+        = KNotification::event(_eventId, QString("Awesome Widget ::: %1").arg(_eventId), _message);
+    notification->setComponentName("plasma-applet-org.kde.plasma.awesome-widget");
 }

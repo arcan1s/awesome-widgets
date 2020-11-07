@@ -31,10 +31,9 @@ void TestExtScript::initTestCase()
 
     extScript = new ExtScript(nullptr);
     extScript->setInterval(1);
-    extScript->setExecutable(randomString);
+    extScript->setExecutable(QString("echo %1").arg(randomString));
     extScript->setNumber(0);
     extScript->setRedirect(ExtScript::Redirect::stderr2stdout);
-    extScript->setPrefix("echo");
 
     extScript->run();
 }
@@ -50,9 +49,8 @@ void TestExtScript::test_values()
 {
     QCOMPARE(extScript->interval(), 1);
     QCOMPARE(extScript->number(), 0);
-    QCOMPARE(extScript->executable(), randomString);
+    QCOMPARE(extScript->executable(), QString("echo %1").arg(randomString));
     QCOMPARE(extScript->strRedirect(), QString("stderr2stdout"));
-    QCOMPARE(extScript->prefix(), QString("echo"));
 }
 
 
@@ -97,7 +95,6 @@ void TestExtScript::test_copy()
     QCOMPARE(newExtScript->interval(), extScript->interval());
     QCOMPARE(newExtScript->executable(), extScript->executable());
     QCOMPARE(newExtScript->strRedirect(), extScript->strRedirect());
-    QCOMPARE(newExtScript->prefix(), extScript->prefix());
     QCOMPARE(newExtScript->filters(), extScript->filters());
     QCOMPARE(newExtScript->number(), 1);
 

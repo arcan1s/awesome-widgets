@@ -28,8 +28,7 @@
 void TestAWDateTimeFormatter::initTestCase()
 {
     AWTestLibrary::init();
-    format
-        = AWTestLibrary::randomSelect(QString(TIME_KEYS).split(',')).join(' ');
+    format = AWTestLibrary::randomSelect(QString(TIME_KEYS).split(',')).join(' ');
 
     formatter = new AWDateTimeFormatter(nullptr);
     formatter->setFormat(format);

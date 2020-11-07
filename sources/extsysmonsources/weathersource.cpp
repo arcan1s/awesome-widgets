@@ -73,15 +73,14 @@ QVariantMap WeatherSource::initialData(const QString &_source) const
     } else if (_source.startsWith("weather/weather")) {
         data["min"] = "";
         data["max"] = "";
-        data["name"] = QString("ID string map for '%1'")
-                           .arg(m_extWeather->itemByTagNumber(ind)->uniq());
+        data["name"]
+            = QString("ID string map for '%1'").arg(m_extWeather->itemByTagNumber(ind)->uniq());
         data["type"] = "QString";
         data["units"] = "";
     } else if (_source.startsWith("weather/humidity")) {
         data["min"] = 0;
         data["max"] = 100;
-        data["name"] = QString("Humidity for '%1'")
-                           .arg(m_extWeather->itemByTagNumber(ind)->uniq());
+        data["name"] = QString("Humidity for '%1'").arg(m_extWeather->itemByTagNumber(ind)->uniq());
         data["type"] = "integer";
         data["units"] = "%";
     } else if (_source.startsWith("weather/pressure")) {
@@ -94,15 +93,15 @@ QVariantMap WeatherSource::initialData(const QString &_source) const
     } else if (_source.startsWith("weather/temperature")) {
         data["min"] = 0.0;
         data["max"] = 0.0;
-        data["name"] = QString("Temperature for '%1'")
-                           .arg(m_extWeather->itemByTagNumber(ind)->uniq());
+        data["name"]
+            = QString("Temperature for '%1'").arg(m_extWeather->itemByTagNumber(ind)->uniq());
         data["type"] = "float";
         data["units"] = "°C";
     } else if (_source.startsWith("weather/timestamp")) {
         data["min"] = "";
         data["max"] = "";
-        data["name"] = QString("Timestamp for '%1'")
-                           .arg(m_extWeather->itemByTagNumber(ind)->uniq());
+        data["name"]
+            = QString("Timestamp for '%1'").arg(m_extWeather->itemByTagNumber(ind)->uniq());
         data["type"] = "QString";
         data["units"] = "";
     }

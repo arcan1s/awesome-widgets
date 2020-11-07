@@ -31,18 +31,17 @@ class AWNoFormatter : public AWAbstractFormatter
     Q_OBJECT
 
 public:
-    explicit AWNoFormatter(QWidget *_parent = nullptr,
-                           const QString &_filePath = "");
-    virtual ~AWNoFormatter();
-    QString convert(const QVariant &_value) const;
-    AWNoFormatter *copy(const QString &_fileName, const int _number);
+    explicit AWNoFormatter(QWidget *_parent = nullptr, const QString &_filePath = "");
+    ~AWNoFormatter() override;
+    [[nodiscard]] QString convert(const QVariant &_value) const override;
+    AWNoFormatter *copy(const QString &_fileName, int _number) override;
 
 public slots:
-    int showConfiguration(const QVariant &_args);
+    int showConfiguration(const QVariant &_args) override;
 
 private:
     Ui::AWNoFormatter *ui = nullptr;
-    void translate();
+    void translate() override;
     // properties
 };
 

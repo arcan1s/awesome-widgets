@@ -15,7 +15,6 @@ Icon=utilities-system-monitor
 X-KDE-ServiceTypes=Plasma/Applet
 X-Plasma-API=declarativeappletscript
 X-Plasma-MainScript=ui/main.qml
-X-Plasma-RemoteLocation=
 
 X-KDE-PluginInfo-Author=Evgeniy Alekseev aka arcanis
 X-KDE-PluginInfo-Email=esalexeev@gmail.com

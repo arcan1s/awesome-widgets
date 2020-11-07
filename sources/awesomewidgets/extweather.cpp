@@ -39,10 +39,10 @@ ExtWeather::ExtWeather(QWidget *_parent, const QString &_filePath)
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     if (!_filePath.isEmpty())
-        readConfiguration();
+        ExtWeather::readConfiguration();
     readJsonMap();
     ui->setupUi(this);
-    translate();
+    ExtWeather::translate();
 
     m_values[tag("weatherId")] = 0;
     m_values[tag("weather")] = "";
@@ -77,8 +77,7 @@ ExtWeather *ExtWeather::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "number" << _number;
 
-    ExtWeather *item
-        = new ExtWeather(static_cast<QWidget *>(parent()), _fileName);
+    auto *item = new ExtWeather(dynamic_cast<QWidget *>(parent()), _fileName);
     copyDefaults(item);
     item->setCity(city());
     item->setCountry(country());
@@ -91,11 +90,11 @@ ExtWeather *ExtWeather::copy(const QString &_fileName, const int _number)
 }
 
 
-QString ExtWeather::jsonMapFile() const
+QString ExtWeather::jsonMapFile()
 {
-    QString fileName = QStandardPaths::locate(
-        QStandardPaths::GenericDataLocation,
-        "awesomewidgets/weather/awesomewidgets-extweather-ids.json");
+    QString fileName
+        = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
+                                 "awesomewidgets/weather/awesomewidgets-extweather-ids.json");
     qCInfo(LOG_LIB) << "Map file" << fileName;
 
     return fileName;
@@ -249,7 +248,7 @@ void ExtWeather::readJsonMap()
     QString jsonText = jsonFile.readAll();
     jsonFile.close();
 
-    QJsonParseError error;
+    QJsonParseError error{};
     QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonText.toUtf8(), &error);
     if (error.error != QJsonParseError::NoError) {
         qCWarning(LOG_LIB) << "Parse error" << error.errorString();
@@ -283,8 +282,7 @@ int ExtWeather::showConfiguration(const QVariant &_args)
     ui->lineEdit_country->setText(country());
     ui->spinBox_timestamp->setValue(ts());
     ui->checkBox_image->setCheckState(image() ? Qt::Checked : Qt::Unchecked);
-    ui->checkBox_active->setCheckState(isActive() ? Qt::Checked
-                                                  : Qt::Unchecked);
+    ui->checkBox_active->setCheckState(isActive() ? Qt::Checked : Qt::Unchecked);
     ui->lineEdit_schedule->setText(cron());
     ui->lineEdit_socket->setText(socket());
     ui->spinBox_interval->setValue(interval());
@@ -333,8 +331,7 @@ void ExtWeather::writeConfiguration() const
 void ExtWeather::sendRequest()
 {
     m_isRunning = true;
-    QNetworkReply *reply
-        = m_manager->get(QNetworkRequest(m_providerObject->url()));
+    QNetworkReply *reply = m_manager->get(QNetworkRequest(m_providerObject->url()));
     new QReplyTimeout(reply, REQUEST_TIMEOUT);
 }
 
@@ -342,13 +339,13 @@ void ExtWeather::sendRequest()
 void ExtWeather::weatherReplyReceived(QNetworkReply *_reply)
 {
     if (_reply->error() != QNetworkReply::NoError) {
-        qCWarning(LOG_AW) << "An error occurs" << _reply->error()
-                          << "with message" << _reply->errorString();
+        qCWarning(LOG_AW) << "An error occurs" << _reply->error() << "with message"
+                          << _reply->errorString();
         return;
     }
 
     m_isRunning = false;
-    QJsonParseError error;
+    QJsonParseError error{};
     QJsonDocument jsonDoc = QJsonDocument::fromJson(_reply->readAll(), &error);
     _reply->deleteLater();
     if (error.error != QJsonParseError::NoError) {
@@ -360,8 +357,7 @@ void ExtWeather::weatherReplyReceived(QNetworkReply *_reply)
     if (data.isEmpty())
         return;
     m_values = data;
-    m_values[tag("weather")]
-        = weatherFromInt(m_values[tag("weatherId")].toInt());
+    m_values[tag("weather")] = weatherFromInt(m_values[tag("weatherId")].toInt());
 
     emit(dataReceived(m_values));
 }
@@ -371,14 +367,8 @@ void ExtWeather::initProvider()
 {
     delete m_providerObject;
 
-    switch (m_provider) {
-    case Provider::OWM:
-        m_providerObject = new OWMWeatherProvider(this, number());
-        break;
-    case Provider::Yahoo:
-        m_providerObject = new YahooWeatherProvider(this, number());
-        break;
-    }
+    // in the future release it is possible to change provider here
+    m_providerObject = new OWMWeatherProvider(this);
 
     return m_providerObject->initUrl(city(), country(), ts());
 }

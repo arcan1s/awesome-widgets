@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2017-07-13 17:39+0300\n"
+"POT-Creation-Date: 2020-11-07 16:46+0300\n"
 "PO-Revision-Date: 2017-05-15 17:44+0000\n"
 "Last-Translator: Evgeniy Alekseev <darkarcanis@mail.ru>\n"
 "Language-Team: Sinhala (http://www.transifex.com/arcanis/awesome-widgets/"
@@ -43,9 +43,6 @@ msgid "AUR packages"
 msgstr ""
 
 msgid "openSUSE packages"
-msgstr ""
-
-msgid "This software is licensed under %1"
 msgstr ""
 
 msgid "Translators:"
@@ -380,16 +377,10 @@ msgstr ""
 msgid "KB/s"
 msgstr ""
 
-msgid "Changelog of %1"
-msgstr ""
-
 msgid "You are using the actual version %1"
 msgstr ""
 
 msgid "No new version found"
-msgstr ""
-
-msgid "Current version : %1"
 msgstr ""
 
 msgid "New version : %1"
@@ -495,19 +486,15 @@ msgid "Interval"
 msgstr ""
 
 msgid ""
-"<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
-"instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
-"text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</"
-"span></a></p></body></html>"
+"<html><head/><body><p>Use Stooq ticker to get quotes for the instrument. "
+"Refer to <a href=\"https://stooq.com/\"><span style=\" text-decoration: "
+"underline; color:#0057ae;\">https://stooq.com/</span></a></p></body></html>"
 msgstr ""
 
 msgid "Ticker"
 msgstr ""
 
 msgid "Command"
-msgstr ""
-
-msgid "Prefix"
 msgstr ""
 
 msgid "Redirect"
@@ -702,6 +689,9 @@ msgid "Network request"
 msgstr ""
 
 msgid "Scripts"
+msgstr ""
+
+msgid "System"
 msgstr ""
 
 msgid "Time"

@@ -68,7 +68,7 @@ Row {
             // generate message
             var message = i18n("Tag: %1", tags.currentText)
             message += "<br>"
-            message += i18n("Value: %1", backend.valueByKey(tags.currentText))
+            message += i18n("Value: %1", backend.valueByKey(tags.currentText).split("&nbsp;").join(" "))
             message += "<br>"
             message += i18n("Info: %1", backend.infoByKey(tags.currentText))
             notifyBackend.sendNotification("tag", message)

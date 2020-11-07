@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2017-07-13 17:39+0300\n"
+"POT-Creation-Date: 2020-11-07 16:46+0300\n"
 "PO-Revision-Date: 2017-05-15 17:44+0000\n"
 "Last-Translator: Evgeniy Alekseev <darkarcanis@mail.ru>\n"
 "Language-Team: Lithuanian (http://www.transifex.com/arcanis/awesome-widgets/"
@@ -46,9 +46,6 @@ msgstr "AUR paketai"
 
 msgid "openSUSE packages"
 msgstr "openSUSE paketai"
-
-msgid "This software is licensed under %1"
-msgstr "Ši programinė įranga yra licencijuota pagal %1"
 
 msgid "Translators:"
 msgstr ""
@@ -382,17 +379,11 @@ msgstr "MB/s"
 msgid "KB/s"
 msgstr "KB/s"
 
-msgid "Changelog of %1"
-msgstr "%1 keitimų žurnalas"
-
 msgid "You are using the actual version %1"
 msgstr ""
 
 msgid "No new version found"
 msgstr "Nerasta jokios naujos versijos"
-
-msgid "Current version : %1"
-msgstr "Dabartinė versija : %1"
 
 msgid "New version : %1"
 msgstr "Nauja versija : %1"
@@ -497,10 +488,9 @@ msgid "Interval"
 msgstr ""
 
 msgid ""
-"<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
-"instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
-"text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</"
-"span></a></p></body></html>"
+"<html><head/><body><p>Use Stooq ticker to get quotes for the instrument. "
+"Refer to <a href=\"https://stooq.com/\"><span style=\" text-decoration: "
+"underline; color:#0057ae;\">https://stooq.com/</span></a></p></body></html>"
 msgstr ""
 
 msgid "Ticker"
@@ -508,9 +498,6 @@ msgstr ""
 
 msgid "Command"
 msgstr "Komanda"
-
-msgid "Prefix"
-msgstr ""
 
 msgid "Redirect"
 msgstr ""
@@ -708,6 +695,9 @@ msgstr "Tinklas"
 
 msgid "Scripts"
 msgstr "Scenarijai"
+
+msgid "System"
+msgstr ""
 
 msgid "Time"
 msgstr "Laikas"

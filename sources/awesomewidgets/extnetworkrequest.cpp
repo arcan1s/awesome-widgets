@@ -36,9 +36,9 @@ ExtNetworkRequest::ExtNetworkRequest(QWidget *_parent, const QString &_filePath)
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     if (!_filePath.isEmpty())
-        readConfiguration();
+        ExtNetworkRequest::readConfiguration();
     ui->setupUi(this);
-    translate();
+    ExtNetworkRequest::translate();
 
     m_values[tag("response")] = "";
 
@@ -65,13 +65,11 @@ ExtNetworkRequest::~ExtNetworkRequest()
 }
 
 
-ExtNetworkRequest *ExtNetworkRequest::copy(const QString &_fileName,
-                                           const int _number)
+ExtNetworkRequest *ExtNetworkRequest::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    ExtNetworkRequest *item
-        = new ExtNetworkRequest(static_cast<QWidget *>(parent()), _fileName);
+    auto *item = new ExtNetworkRequest(dynamic_cast<QWidget *>(parent()), _fileName);
     copyDefaults(item);
     item->setNumber(_number);
     item->setStringUrl(stringUrl());
@@ -133,8 +131,7 @@ int ExtNetworkRequest::showConfiguration(const QVariant &_args)
     ui->lineEdit_comment->setText(comment());
     ui->label_numberValue->setText(QString("%1").arg(number()));
     ui->lineEdit_url->setText(stringUrl());
-    ui->checkBox_active->setCheckState(isActive() ? Qt::Checked
-                                                  : Qt::Unchecked);
+    ui->checkBox_active->setCheckState(isActive() ? Qt::Checked : Qt::Unchecked);
     ui->lineEdit_schedule->setText(cron());
     ui->lineEdit_socket->setText(socket());
     ui->spinBox_interval->setValue(interval());
@@ -174,8 +171,8 @@ void ExtNetworkRequest::writeConfiguration() const
 void ExtNetworkRequest::networkReplyReceived(QNetworkReply *_reply)
 {
     if (_reply->error() != QNetworkReply::NoError) {
-        qCWarning(LOG_AW) << "An error occurs" << _reply->error()
-                          << "with message" << _reply->errorString();
+        qCWarning(LOG_AW) << "An error occurs" << _reply->error() << "with message"
+                          << _reply->errorString();
         return;
     }
 

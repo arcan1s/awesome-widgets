@@ -33,9 +33,9 @@ AWFloatFormatter::AWFloatFormatter(QWidget *_parent, const QString &_filePath)
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     if (!_filePath.isEmpty())
-        readConfiguration();
+        AWFloatFormatter::readConfiguration();
     ui->setupUi(this);
-    translate();
+    AWFloatFormatter::translate();
 }
 
 
@@ -51,9 +51,8 @@ QString AWFloatFormatter::convert(const QVariant &_value) const
 {
     qCDebug(LOG_LIB) << "Convert value" << _value;
 
-    QString output
-        = QString("%1").arg(_value.toDouble() * multiplier() + summand(),
-                            count(), format(), precision(), fillChar());
+    QString output = QString("%1").arg(_value.toDouble() * multiplier() + summand(), count(),
+                                       format(), precision(), fillChar());
     if (forceWidth())
         output = output.left(count());
 
@@ -61,13 +60,11 @@ QString AWFloatFormatter::convert(const QVariant &_value) const
 }
 
 
-AWFloatFormatter *AWFloatFormatter::copy(const QString &_fileName,
-                                         const int _number)
+AWFloatFormatter *AWFloatFormatter::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    AWFloatFormatter *item
-        = new AWFloatFormatter(static_cast<QWidget *>(parent()), _fileName);
+    auto *item = new AWFloatFormatter(dynamic_cast<QWidget *>(parent()), _fileName);
     AWAbstractFormatter::copyDefaults(item);
     item->setCount(count());
     item->setFormat(format());
@@ -152,8 +149,8 @@ void AWFloatFormatter::setFormat(char _format)
 {
     qCDebug(LOG_LIB) << "Set format" << _format;
     // http://doc.qt.io/qt-5/qstring.html#argument-formats
-    if ((_format != 'e') && (_format != 'E') && (_format != 'f')
-        && (_format != 'g') && (_format != 'G')) {
+    if ((_format != 'e') && (_format != 'E') && (_format != 'f') && (_format != 'g')
+        && (_format != 'G')) {
         qCWarning(LOG_LIB) << "Invalid format" << _format;
         _format = 'f';
     }
@@ -196,10 +193,7 @@ void AWFloatFormatter::readConfiguration()
     setCount(settings.value("X-AW-Width", count()).toInt());
     setFillChar(settings.value("X-AW-FillChar", fillChar()).toString().at(0));
     setForceWidth(settings.value("X-AW-ForceWidth", forceWidth()).toBool());
-    setFormat(settings.value("X-AW-Format", QString(format()))
-                  .toString()
-                  .at(0)
-                  .toLatin1());
+    setFormat(settings.value("X-AW-Format", QString(format())).toString().at(0).toLatin1());
     setMultiplier(settings.value("X-AW-Multiplier", multiplier()).toDouble());
     setPrecision(settings.value("X-AW-Precision", precision()).toInt());
     setSummand(settings.value("X-AW-Summand", summand()).toDouble());
@@ -216,13 +210,11 @@ int AWFloatFormatter::showConfiguration(const QVariant &_args)
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
     ui->label_typeValue->setText("Float");
-    ui->comboBox_format->setCurrentIndex(
-        ui->comboBox_format->findText(QString(format())));
+    ui->comboBox_format->setCurrentIndex(ui->comboBox_format->findText(QString(format())));
     ui->spinBox_precision->setValue(precision());
     ui->spinBox_width->setValue(count());
     ui->lineEdit_fill->setText(QString(fillChar()));
-    ui->checkBox_forceWidth->setCheckState(forceWidth() ? Qt::Checked
-                                                        : Qt::Unchecked);
+    ui->checkBox_forceWidth->setCheckState(forceWidth() ? Qt::Checked : Qt::Unchecked);
     ui->doubleSpinBox_multiplier->setValue(multiplier());
     ui->doubleSpinBox_summand->setValue(summand());
 

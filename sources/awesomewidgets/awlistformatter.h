@@ -34,27 +34,26 @@ class AWListFormatter : public AWAbstractFormatter
     Q_PROPERTY(bool sorted READ isSorted WRITE setSorted)
 
 public:
-    explicit AWListFormatter(QWidget *_parent = nullptr,
-                             const QString &_filePath = "");
-    virtual ~AWListFormatter();
-    QString convert(const QVariant &_value) const;
-    AWListFormatter *copy(const QString &_fileName, const int _number);
+    explicit AWListFormatter(QWidget *_parent = nullptr, const QString &_filePath = "");
+    ~AWListFormatter() override;
+    [[nodiscard]] QString convert(const QVariant &_value) const override;
+    AWListFormatter *copy(const QString &_fileName, int _number) override;
     // properties
-    QString filter() const;
-    bool isSorted() const;
-    QString separator() const;
+    [[nodiscard]] QString filter() const;
+    [[nodiscard]] bool isSorted() const;
+    [[nodiscard]] QString separator() const;
     void setFilter(const QString &_filter);
     void setSeparator(const QString &_separator);
-    void setSorted(const bool _sorted);
+    void setSorted(bool _sorted);
 
 public slots:
-    void readConfiguration();
-    int showConfiguration(const QVariant &_args);
-    void writeConfiguration() const;
+    void readConfiguration() override;
+    int showConfiguration(const QVariant &_args) override;
+    void writeConfiguration() const override;
 
 private:
     Ui::AWListFormatter *ui = nullptr;
-    void translate();
+    void translate() override;
     // properties
     QString m_filter = "";
     QString m_separator = "";

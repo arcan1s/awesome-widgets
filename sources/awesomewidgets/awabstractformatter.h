@@ -28,32 +28,23 @@ class AWAbstractFormatter : public AbstractExtItem
     Q_PROPERTY(QString strType READ strType WRITE setStrType)
 
 public:
-    enum class FormatterClass {
-        DateTime,
-        Float,
-        List,
-        Script,
-        String,
-        NoFormat,
-        Json
-    };
+    enum class FormatterClass { DateTime, Float, List, Script, String, NoFormat, Json };
 
-    explicit AWAbstractFormatter(QWidget *_parent = nullptr,
-                                 const QString &_filePath = "");
-    virtual ~AWAbstractFormatter();
-    virtual QString convert(const QVariant &_value) const = 0;
-    void copyDefaults(AbstractExtItem *_other) const;
-    QString uniq() const;
+    explicit AWAbstractFormatter(QWidget *_parent = nullptr, const QString &_filePath = "");
+    ~AWAbstractFormatter() override;
+    [[nodiscard]] virtual QString convert(const QVariant &_value) const = 0;
+    void copyDefaults(AbstractExtItem *_other) const override;
+    [[nodiscard]] QString uniq() const override;
     // properties
-    QString strType() const;
-    FormatterClass type() const;
+    [[nodiscard]] QString strType() const;
+    [[nodiscard]] FormatterClass type() const;
     void setStrType(const QString &_type);
-    void setType(const FormatterClass _type);
+    void setType(FormatterClass _type);
 
 public slots:
-    virtual void readConfiguration();
-    QVariantHash run() { return QVariantHash(); };
-    virtual void writeConfiguration() const;
+    void readConfiguration() override;
+    QVariantHash run() override { return QVariantHash(); };
+    void writeConfiguration() const override;
 
 private:
     // properties

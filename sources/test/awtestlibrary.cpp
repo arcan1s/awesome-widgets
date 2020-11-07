@@ -20,16 +20,13 @@
 
 #include <KWindowSystem>
 #include <QEventLoop>
+#include <QRandomGenerator>
 #include <QSet>
 #include <QStandardPaths>
-#include <QTime>
 #include <QtTest>
 
 
-void AWTestLibrary::init()
-{
-    qsrand(static_cast<uint>(QTime::currentTime().msec()));
-}
+void AWTestLibrary::init() {}
 
 
 bool AWTestLibrary::isKWinActive()
@@ -47,23 +44,17 @@ bool AWTestLibrary::isKWinActive()
 
 char AWTestLibrary::randomChar()
 {
-    return 'A' + (qrand() % static_cast<int>('Z' - 'A'));
-}
-
-
-double AWTestLibrary::randomDouble()
-{
-    return static_cast<double>(qrand()) / static_cast<double>(RAND_MAX);
+    return 'A' + (QRandomGenerator::global()->generate() % static_cast<int>('Z' - 'A'));
 }
 
 
 QPair<QString, QString> AWTestLibrary::randomFilenames()
 {
-    QString fileName = QString("%1/").arg(
-        QStandardPaths::writableLocation(QStandardPaths::TempLocation));
-    QString writeFileName = QString("%1/awesomewidgets/tmp/")
-                                .arg(QStandardPaths::writableLocation(
-                                    QStandardPaths::GenericDataLocation));
+    QString fileName
+        = QString("%1/").arg(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
+    QString writeFileName
+        = QString("%1/awesomewidgets/tmp/")
+              .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
 
     QString name = randomString(1, 20);
     fileName += name;
@@ -75,7 +66,7 @@ QPair<QString, QString> AWTestLibrary::randomFilenames()
 
 int AWTestLibrary::randomInt(const int _max)
 {
-    return qrand() % _max;
+    return QRandomGenerator::global()->generate() % _max;
 }
 
 
@@ -113,5 +104,5 @@ QStringList AWTestLibrary::randomSelect(const QStringList &_available)
         output << _available.at(index);
     }
 
-    return output.toList();
+    return output.values();
 }

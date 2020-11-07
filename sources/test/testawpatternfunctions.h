@@ -29,7 +29,7 @@ class TestAWPatternFunctions : public QObject
 private slots:
     // initialization
     void initTestCase();
-    void cleanupTestCase();
+    static void cleanupTestCase();
     // test
     void test_findFunctionCalls();
     void test_findKeys();

@@ -2,9 +2,9 @@
 Encoding=UTF-8
 Name=USD/RUB
 Comment=USD/RUB
-X-AW-Ticker="USDRUB=X"
+X-AW-Ticker="USDRUB"
 X-AW-Active=false
-X-AW-ApiVersion=4
+X-AW-ApiVersion=5
 X-AW-Interval=60
 X-AW-Number=8
 X-AW-Schedule=

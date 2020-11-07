@@ -42,46 +42,45 @@ class ExtWeather : public AbstractExtItem
 public:
     enum class Provider { OWM = 0, Yahoo = 1 };
 
-    explicit ExtWeather(QWidget *_parent = nullptr,
-                        const QString &_filePath = "");
-    virtual ~ExtWeather();
-    ExtWeather *copy(const QString &_fileName, const int _number);
-    QString jsonMapFile() const;
-    QString weatherFromInt(const int _id) const;
+    explicit ExtWeather(QWidget *_parent = nullptr, const QString &_filePath = "");
+    ~ExtWeather() override;
+    ExtWeather *copy(const QString &_fileName, int _number) override;
+    static QString jsonMapFile();
+    [[nodiscard]] QString weatherFromInt(int _id) const;
     // get methods
-    QString city() const;
-    QString country() const;
-    bool image() const;
-    Provider provider() const;
-    QString strProvider() const;
-    int ts() const;
-    QString uniq() const;
+    [[nodiscard]] QString city() const;
+    [[nodiscard]] QString country() const;
+    [[nodiscard]] bool image() const;
+    [[nodiscard]] Provider provider() const;
+    [[nodiscard]] QString strProvider() const;
+    [[nodiscard]] int ts() const;
+    [[nodiscard]] QString uniq() const override;
     // set methods
     void setCity(const QString &_city);
     void setCountry(const QString &_country);
-    void setImage(const bool _image);
-    void setProvider(const Provider _provider);
+    void setImage(bool _image);
+    void setProvider(Provider _provider);
     void setStrProvider(const QString &_provider);
-    void setTs(const int _ts);
+    void setTs(int _ts);
 
 public slots:
-    void readConfiguration();
+    void readConfiguration() override;
     void readJsonMap();
-    QVariantHash run();
-    int showConfiguration(const QVariant &_args);
-    void writeConfiguration() const;
+    QVariantHash run() override;
+    int showConfiguration(const QVariant &_args) override;
+    void writeConfiguration() const override;
 
 private slots:
     void sendRequest();
     void weatherReplyReceived(QNetworkReply *_reply);
 
 private:
-    QNetworkAccessManager *m_manager = nullptr;
     AbstractWeatherProvider *m_providerObject = nullptr;
+    QNetworkAccessManager *m_manager = nullptr;
     bool m_isRunning = false;
     Ui::ExtWeather *ui = nullptr;
     void initProvider();
-    void translate();
+    void translate() override;
     // properties
     QString m_city = "London";
     QString m_country = "uk";

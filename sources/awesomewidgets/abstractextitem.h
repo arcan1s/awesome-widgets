@@ -40,33 +40,31 @@ class AbstractExtItem : public QDialog
     Q_PROPERTY(QString uniq READ uniq)
 
 public:
-    explicit AbstractExtItem(QWidget *_parent = nullptr,
-                             const QString &_filePath = "");
-    virtual ~AbstractExtItem();
-    virtual void bumpApi(const int _newVer);
-    virtual AbstractExtItem *copy(const QString &_fileName, const int _number)
-        = 0;
+    explicit AbstractExtItem(QWidget *_parent = nullptr, const QString &_filePath = "");
+    ~AbstractExtItem() override;
+    virtual void bumpApi(int _newVer);
+    virtual AbstractExtItem *copy(const QString &_fileName, int _number) = 0;
     virtual void copyDefaults(AbstractExtItem *_other) const;
     virtual void startTimer();
-    QString writtableConfig() const;
+    [[nodiscard]] QString writtableConfig() const;
     // get methods
-    int apiVersion() const;
-    QString comment() const;
-    QString cron() const;
-    QString fileName() const;
-    int interval() const;
-    bool isActive() const;
-    QString name() const;
-    int number() const;
-    QString socket() const;
-    QString tag(const QString &_type) const;
-    virtual QString uniq() const = 0;
+    [[nodiscard]] int apiVersion() const;
+    [[nodiscard]] QString comment() const;
+    [[nodiscard]] QString cron() const;
+    [[nodiscard]] QString fileName() const;
+    [[nodiscard]] int interval() const;
+    [[nodiscard]] bool isActive() const;
+    [[nodiscard]] QString name() const;
+    [[nodiscard]] int number() const;
+    [[nodiscard]] QString socket() const;
+    [[nodiscard]] QString tag(const QString &_type) const;
+    [[nodiscard]] virtual QString uniq() const = 0;
     // set methods
-    void setApiVersion(const int _apiVersion);
-    void setActive(const bool _state);
+    void setApiVersion(int _apiVersion);
+    void setActive(bool _state);
     void setComment(const QString &_comment);
     void setCron(const QString &_cron);
-    void setInterval(const int _interval);
+    void setInterval(int _interval);
     void setName(const QString &_name);
     void setNumber(int _number);
     void setSocket(const QString &_socket);
@@ -81,7 +79,7 @@ public slots:
     virtual void readConfiguration();
     virtual QVariantHash run() = 0;
     virtual int showConfiguration(const QVariant &_args) = 0;
-    virtual bool tryDelete() const;
+    [[nodiscard]] virtual bool tryDelete() const;
     virtual void writeConfiguration() const;
 
 private slots:

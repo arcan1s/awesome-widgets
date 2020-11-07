@@ -31,9 +31,9 @@ class AWDataEngineAggregator : public QObject
 
 public:
     explicit AWDataEngineAggregator(QObject *_parent = nullptr);
-    virtual ~AWDataEngineAggregator();
+    ~AWDataEngineAggregator() override;
     void disconnectSources();
-    void reconnectSources(const int _interval);
+    void reconnectSources(int _interval);
 
 signals:
     void deviceAdded(const QString &_source);
