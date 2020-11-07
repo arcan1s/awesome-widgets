@@ -7,10 +7,12 @@ const char NAME[] = "Awesome Widgets";
 const char VERSION[] = "@PROJECT_VERSION@";
 const char COMMIT_SHA[] = "@PROJECT_COMMIT_SHA@";
 const char AUTHOR[] = "@PROJECT_AUTHOR@";
-const char TRANSLATORS[] = "Ernesto Aviles Vzqz (Spanish),Mermouy "
-                           "(French),underr (Brazillian Portuguese),Viktor "
-                           "Slobodyan (Ukrainian),Lemueler (Chinese),Heimen "
-                           "Stoffels (Dutch),Mariusz Kocoń (Polish)";
+const char TRANSLATORS[]
+    = "Ernesto Aviles Vzqz (Spanish),Mermouy "
+      "(French),underr (Brazillian Portuguese),Viktor "
+      "Slobodyan (Ukrainian),Lemueler (Chinese),Heimen "
+      "Stoffels (Dutch),Mariusz Kocoń (Polish),Ibnu "
+      "Daru Aji (Indonesian),Antonio Vivace (Italian)";
 const char EMAIL[] = "@PROJECT_CONTACT@";
 const char LICENSE[] = "@PROJECT_LICENSE@";
 const char TRDPARTY_LICENSE[] = "QReplyTimeout "
