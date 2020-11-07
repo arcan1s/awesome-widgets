@@ -35,7 +35,7 @@ QString AWDebug::getAboutText(const QString &_type)
     if (_type == "header") {
         text = NAME;
     } else if (_type == "version") {
-        text = i18np("Version %1 (build date %2)", VERSION, BUILD_DATE);
+        text = i18n("Version %1 (build date %2)", VERSION, BUILD_DATE);
         if (!QString(COMMIT_SHA).isEmpty())
             text += QString(" (%1)").arg(COMMIT_SHA);
     } else if (_type == "description") {

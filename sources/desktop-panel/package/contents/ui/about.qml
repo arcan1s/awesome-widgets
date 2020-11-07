@@ -30,6 +30,8 @@ Item {
     width: childrenRect.width
     height: childrenRect.height
 
+    property bool debug: awActions.isDebugEnabled()
+
     AboutTab {
         textProvider: dpAdds
     }
