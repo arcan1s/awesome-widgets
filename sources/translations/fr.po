@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2017-07-13 17:39+0300\n"
+"POT-Creation-Date: 2020-11-07 16:46+0300\n"
 "PO-Revision-Date: 2015-07-31 22:16+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: French <kde-russian@lists.kde.ru>\n"
@@ -46,9 +46,6 @@ msgstr "Paquets depuis AUR"
 
 msgid "openSUSE packages"
 msgstr "Paquets openSUSE"
-
-msgid "This software is licensed under %1"
-msgstr "Ce programme est publié sous la licence %1"
 
 #, fuzzy
 msgid "Translators:"
@@ -402,19 +399,12 @@ msgstr ""
 msgid "KB/s"
 msgstr ""
 
-msgid "Changelog of %1"
-msgstr ""
-
 msgid "You are using the actual version %1"
 msgstr ""
 
 #, fuzzy
 msgid "No new version found"
 msgstr "Nouvelle version"
-
-#, fuzzy
-msgid "Current version : %1"
-msgstr "Version actuelle"
 
 #, fuzzy
 msgid "New version : %1"
@@ -528,10 +518,9 @@ msgid "Interval"
 msgstr "Intervalle"
 
 msgid ""
-"<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
-"instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
-"text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</"
-"span></a></p></body></html>"
+"<html><head/><body><p>Use Stooq ticker to get quotes for the instrument. "
+"Refer to <a href=\"https://stooq.com/\"><span style=\" text-decoration: "
+"underline; color:#0057ae;\">https://stooq.com/</span></a></p></body></html>"
 msgstr ""
 
 #, fuzzy
@@ -541,9 +530,6 @@ msgstr "Ticker: %1"
 #, fuzzy
 msgid "Command"
 msgstr "Commande personnalisée"
-
-msgid "Prefix"
-msgstr ""
 
 msgid "Redirect"
 msgstr ""
@@ -754,6 +740,9 @@ msgstr "Voisinage réseau"
 #, fuzzy
 msgid "Scripts"
 msgstr "Modifier les scripts"
+
+msgid "System"
+msgstr ""
 
 #, fuzzy
 msgid "Time"

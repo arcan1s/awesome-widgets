@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2017-07-13 17:39+0300\n"
+"POT-Creation-Date: 2020-11-07 16:46+0300\n"
 "PO-Revision-Date: 2016-08-09 22:22+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Ukrainian <kde-russian@lists.kde.ru>\n"
@@ -44,9 +44,6 @@ msgstr "Пакети в AUR"
 
 msgid "openSUSE packages"
 msgstr "Пакети для openSUSE"
-
-msgid "This software is licensed under %1"
-msgstr "Цю програму ліцензовано під %1"
 
 #, fuzzy
 msgid "Translators:"
@@ -393,17 +390,11 @@ msgstr "МБ/с"
 msgid "KB/s"
 msgstr "КБ/с"
 
-msgid "Changelog of %1"
-msgstr "Список змін %1"
-
 msgid "You are using the actual version %1"
 msgstr "Ви використовуєте актуальну версію %1"
 
 msgid "No new version found"
 msgstr "Оновлень не знайдено"
-
-msgid "Current version : %1"
-msgstr "Поточна версія : %1"
 
 msgid "New version : %1"
 msgstr "Нова версія : %1"
@@ -507,11 +498,11 @@ msgstr ""
 msgid "Interval"
 msgstr "Інтервал"
 
+#, fuzzy
 msgid ""
-"<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
-"instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
-"text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</"
-"span></a></p></body></html>"
+"<html><head/><body><p>Use Stooq ticker to get quotes for the instrument. "
+"Refer to <a href=\"https://stooq.com/\"><span style=\" text-decoration: "
+"underline; color:#0057ae;\">https://stooq.com/</span></a></p></body></html>"
 msgstr ""
 "<html><head/><body><p>Використовуйте тікеры YAHOO! finance, щоб отримати "
 "котирування по інструменту. Див. <a href=\"http://finance.yahoo.com/\"><span "
@@ -523,9 +514,6 @@ msgstr "Тікер"
 
 msgid "Command"
 msgstr "Команда"
-
-msgid "Prefix"
-msgstr "Префікс"
 
 msgid "Redirect"
 msgstr "Перенаправлення"
@@ -726,6 +714,9 @@ msgstr "Шлях до інтерфейсів"
 
 msgid "Scripts"
 msgstr "Скрипти"
+
+msgid "System"
+msgstr ""
 
 msgid "Time"
 msgstr "Час"

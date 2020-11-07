@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2017-07-13 17:39+0300\n"
+"POT-Creation-Date: 2020-11-07 16:46+0300\n"
 "PO-Revision-Date: 2016-07-09 08:47+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/arcanis/awesome-"
@@ -46,9 +46,6 @@ msgstr "AUR-pakketten"
 
 msgid "openSUSE packages"
 msgstr "openSUSE-pakketten"
-
-msgid "This software is licensed under %1"
-msgstr "Deze software is gelicenseerd onder %1"
 
 #, fuzzy
 msgid "Translators:"
@@ -391,17 +388,11 @@ msgstr "MB/s"
 msgid "KB/s"
 msgstr "KB/s"
 
-msgid "Changelog of %1"
-msgstr "Wijzigingslog van %1"
-
 msgid "You are using the actual version %1"
 msgstr "U gebruikt de actuele versie %1"
 
 msgid "No new version found"
 msgstr "Geen nieuwe versie gevonden"
-
-msgid "Current version : %1"
-msgstr "Huidige versie: %1"
 
 msgid "New version : %1"
 msgstr "Nieuwe versie: %1"
@@ -505,11 +496,11 @@ msgstr ""
 msgid "Interval"
 msgstr "Tussenpozen"
 
+#, fuzzy
 msgid ""
-"<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
-"instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
-"text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</"
-"span></a></p></body></html>"
+"<html><head/><body><p>Use Stooq ticker to get quotes for the instrument. "
+"Refer to <a href=\"https://stooq.com/\"><span style=\" text-decoration: "
+"underline; color:#0057ae;\">https://stooq.com/</span></a></p></body></html>"
 msgstr ""
 "<html><head/><body><p>Gebruik YAHOO! financiën-ticket om citaten te "
 "verkrijgen voor het instrument. Refereer naar <a href=\"http://finance.yahoo."
@@ -521,9 +512,6 @@ msgstr "Ticker"
 
 msgid "Command"
 msgstr "Commando"
-
-msgid "Prefix"
-msgstr "Voorvoegsel"
 
 msgid "Redirect"
 msgstr "Doorsturen"
@@ -725,6 +713,9 @@ msgstr "Netwerk"
 
 msgid "Scripts"
 msgstr "Scripts"
+
+msgid "System"
+msgstr ""
 
 msgid "Time"
 msgstr "Tijd"

@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2017-05-05 18:15+0300\n"
+"POT-Creation-Date: 2020-11-07 16:46+0300\n"
 "PO-Revision-Date: 2018-10-02 11:37+0200\n"
+"Last-Translator: Antonio Vivace <avivace4@gmail.com>\n"
 "Language-Team: \n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.1.1\n"
-"Last-Translator: Antonio Vivace <avivace4@gmail.com>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Language: it\n"
 
 msgid "Version %1 (build date %2)"
 msgstr "Versione %1 (data build %2)"
@@ -44,9 +44,6 @@ msgstr "Pacchetti Aur"
 
 msgid "openSUSE packages"
 msgstr "pacchetti openSUSE"
-
-msgid "This software is licensed under %1"
-msgstr "Questo software è rilasciato sotto licenza %1"
 
 msgid "Translators:"
 msgstr "Traduttori:"
@@ -274,8 +271,8 @@ msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
 "To enable them just make needed checkbox checked."
 msgstr ""
-"Le etichette GPU, CPU clock, memoria, swap e rete supportano i tooltip. "
-"Per abilitarli, clicca sulle checkbox."
+"Le etichette GPU, CPU clock, memoria, swap e rete supportano i tooltip. Per "
+"abilitarli, clicca sulle checkbox."
 
 msgid "Number of values for tooltips"
 msgstr "Numero di valori per tooltip"
@@ -328,6 +325,9 @@ msgstr "Colore batteria attiva"
 msgid "Battery inactive color"
 msgstr "Colore batteria disattiva"
 
+msgid "Edit"
+msgstr "Modifica"
+
 msgid "Run %1"
 msgstr "Esegui %1"
 
@@ -367,9 +367,6 @@ msgstr "Alto carico della GPU"
 msgid "Network device has been changed to %1"
 msgstr "Il dispositivo di rete è stato cambiato in %1"
 
-msgid "Edit"
-msgstr "Modifica"
-
 msgid "Select type"
 msgstr "Seleziona tipo"
 
@@ -382,17 +379,11 @@ msgstr "MB/s"
 msgid "KB/s"
 msgstr "KB/s"
 
-msgid "Changelog of %1"
-msgstr "Lista cambiamenti di %1"
-
 msgid "You are using the actual version %1"
 msgstr "Stai usando la versione attuale %1"
 
 msgid "No new version found"
 msgstr "Nessuna nuova versione trovata"
-
-msgid "Current version : %1"
-msgstr "Versione attuale: %1"
 
 msgid "New version : %1"
 msgstr "Nuova versione: %1"
@@ -496,11 +487,11 @@ msgstr "Socket"
 msgid "Interval"
 msgstr "Intervallo"
 
+#, fuzzy
 msgid ""
-"<html><head/><body><p>Use YAHOO! finance ticker to get quotes for the "
-"instrument. Refer to <a href=\"http://finance.yahoo.com/\"><span style=\" "
-"text-decoration: underline; color:#0057ae;\">http://finance.yahoo.com/</"
-"span></a></p></body></html>"
+"<html><head/><body><p>Use Stooq ticker to get quotes for the instrument. "
+"Refer to <a href=\"https://stooq.com/\"><span style=\" text-decoration: "
+"underline; color:#0057ae;\">https://stooq.com/</span></a></p></body></html>"
 msgstr ""
 "<html><head/><body><p>Usa YAHOO! finance ticker per ottere quote sullo "
 "strumento. Vedi <a href=\"http://finance.yahoo.com/\"><span style=\" text-"
@@ -512,9 +503,6 @@ msgstr "Ticker"
 
 msgid "Command"
 msgstr "Comando"
-
-msgid "Prefix"
-msgstr "Prefisso"
 
 msgid "Redirect"
 msgstr "Redireziona"
@@ -627,6 +615,9 @@ msgstr "Modifica barre"
 msgid "Formatters"
 msgstr "Formattatori"
 
+msgid "User keys"
+msgstr ""
+
 msgid "Preview"
 msgstr "Anteprima"
 
@@ -694,21 +685,6 @@ msgstr "Impossibile salvare file di configurazione"
 msgid "Select a font"
 msgstr "Seleziona font"
 
-msgid "Bgcolor"
-msgstr "Colore di sfondo"
-
-msgid "Import"
-msgstr "Importa"
-
-msgid "Import plasmoid settings"
-msgstr "Importa impostazioni plasmoide"
-
-msgid "Import extensions"
-msgstr "Importa estensioni"
-
-msgid "Import additional files"
-msgstr "Importa file addizionali"
-
 msgid "AC"
 msgstr "AC"
 
@@ -718,8 +694,15 @@ msgstr "Barre"
 msgid "Desktops"
 msgstr "Desktop"
 
+#, fuzzy
+msgid "Network request"
+msgstr "Richieste di rete"
+
 msgid "Scripts"
 msgstr "Script"
+
+msgid "System"
+msgstr ""
 
 msgid "Time"
 msgstr "Orario"
@@ -735,6 +718,9 @@ msgstr "Previsioni del tempo"
 
 msgid "Functions"
 msgstr "Funzioni"
+
+msgid "User defined"
+msgstr ""
 
 msgid "All"
 msgstr "Tutto"
@@ -766,10 +752,17 @@ msgstr "sollevato"
 msgid "sunken"
 msgstr "affondato"
 
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
-msgstr "Antonio Vivace"
+msgid "Bgcolor"
+msgstr "Colore di sfondo"
 
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
-msgstr "avivace4@gmail.com"
+msgid "Import"
+msgstr "Importa"
+
+msgid "Import plasmoid settings"
+msgstr "Importa impostazioni plasmoide"
+
+msgid "Import extensions"
+msgstr "Importa estensioni"
+
+msgid "Import additional files"
+msgstr "Importa file addizionali"
