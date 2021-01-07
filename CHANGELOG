@@ -1,3 +1,13 @@
+Ver.3.4.2:
++ Italian translation (#136, thanks to @avivace)
++ stooq quotes support (default) (#131)
++ Indonesian translation (#132, thanks to @ibnuda)
++ new keys - $batleftN, $batnowN, $batrateN, $battotalN, $brightness, $volume
+* fix compiler warnings
+* update to new qt api
+- fix non printable spaces (#142, #143)
+
+
 Ver.3.3.3:
 + add custom keys support (#101)
 * DBus interface improvements
