@@ -1,0 +1,255 @@
+diff --git a/.docker/build-ubuntu.sh b/.docker/build-ubuntu.sh
+index 9b5e97a..b953425 100755
+--- a/.docker/build-ubuntu.sh
++++ b/.docker/build-ubuntu.sh
+@@ -6,7 +6,7 @@ rm -rf build-ubuntu
+ mkdir build-ubuntu
+ 
+ # patches
+-git apply patches/qt5.14-splitbehavior-and-qset.patch
++#git apply patches/qt5.14-splitbehavior-and-qset.patch
+ 
+ # build
+ cd build-ubuntu
+diff --git a/sources/awdebug.cpp b/sources/awdebug.cpp
+index 7135db6..a2870ec 100644
+--- a/sources/awdebug.cpp
++++ b/sources/awdebug.cpp
+@@ -67,7 +67,7 @@ QString AWDebug::getAboutText(const QString &_type)
+             translator = QString("<li>%1</li>").arg(translator);
+         text = i18n("Translators:") + "<ul>" + translatorList.join("") + "</ul>";
+     } else if (_type == "3rdparty") {
+-        QStringList trdPartyList = QString(TRDPARTY_LICENSE).split(';', Qt::SkipEmptyParts);
++        QStringList trdPartyList = QString(TRDPARTY_LICENSE).split(';', QString::SkipEmptyParts);
+         for (int i = 0; i < trdPartyList.count(); i++)
+             trdPartyList[i] = QString("<li><a href=\"%3\">%1</a> (%2 license)</li>")
+                                   .arg(trdPartyList.at(i).split(',')[0])
+@@ -75,7 +75,7 @@ QString AWDebug::getAboutText(const QString &_type)
+                                   .arg(trdPartyList.at(i).split(',')[2]);
+         text = i18n("This software uses:") + "<ul>" + trdPartyList.join("") + "</ul>";
+     } else if (_type == "thanks") {
+-        QStringList thanks = QString(SPECIAL_THANKS).split(';', Qt::SkipEmptyParts);
++        QStringList thanks = QString(SPECIAL_THANKS).split(';', QString::SkipEmptyParts);
+         for (int i = 0; i < thanks.count(); i++)
+             thanks[i] = QString("<li><a href=\"%2\">%1</a></li>")
+                             .arg(thanks.at(i).split(',')[0])
+diff --git a/sources/awesome-widget/plugin/awabstractpairhelper.cpp b/sources/awesome-widget/plugin/awabstractpairhelper.cpp
+index 55a4e91..f7c2969 100644
+--- a/sources/awesome-widget/plugin/awabstractpairhelper.cpp
++++ b/sources/awesome-widget/plugin/awabstractpairhelper.cpp
+@@ -61,7 +61,7 @@ QStringList AWAbstractPairHelper::values() const
+ QSet<QString> AWAbstractPairHelper::valuesSet() const
+ {
+     auto values = m_pairs.values();
+-    return QSet(values.cbegin(), values.cend());
++    return QSet<QString>::fromList(values);
+ }
+ 
+ 
+@@ -138,4 +138,4 @@ bool AWAbstractPairHelper::removeUnusedKeys(const QStringList &_keys) const
+     settings.sync();
+ 
+     return (settings.status() == QSettings::NoError);
+-}
+\ No newline at end of file
++}
+diff --git a/sources/awesome-widget/plugin/awkeycache.cpp b/sources/awesome-widget/plugin/awkeycache.cpp
+index 15aab94..54b47b3 100644
+--- a/sources/awesome-widget/plugin/awkeycache.cpp
++++ b/sources/awesome-widget/plugin/awkeycache.cpp
+@@ -83,9 +83,9 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys, const QStringL
+                     << _tooltip;
+ 
+     // initial copy
+-    QSet<QString> used(_keys.cbegin(), _keys.cend());
+-    used.unite(QSet(_bars.cbegin(), _bars.cend()));
+-    used.unite(QSet(_userKeys.cbegin(), _userKeys.cend()));
++    auto used = QSet<QString>::fromList(_keys);
++    used.unite(QSet<QString>::fromList(_bars));
++    used.unite(QSet<QString>::fromList(_userKeys));
+     // insert keys from tooltip
+     for (auto &key : _tooltip.keys()) {
+         if ((key.endsWith("Tooltip")) && (_tooltip[key].toBool())) {
+diff --git a/sources/awesomewidgets/awjsonformatter.cpp b/sources/awesomewidgets/awjsonformatter.cpp
+index bbdd7ce..8a1c5e0 100644
+--- a/sources/awesomewidgets/awjsonformatter.cpp
++++ b/sources/awesomewidgets/awjsonformatter.cpp
+@@ -178,7 +178,7 @@ QVariant AWJsonFormatter::getFromMap(const QVariant &_value, const QString &_key
+ void AWJsonFormatter::initPath()
+ {
+     m_splittedPath.clear();
+-    QStringList splittedByDot = m_path.split('.', Qt::SkipEmptyParts);
++    QStringList splittedByDot = m_path.split('.', QString::SkipEmptyParts);
+ 
+     for (auto &element : splittedByDot) {
+         bool ok;
+diff --git a/sources/awesomewidgets/extscript.cpp b/sources/awesomewidgets/extscript.cpp
+index 3017dac..da009f9 100644
+--- a/sources/awesomewidgets/extscript.cpp
++++ b/sources/awesomewidgets/extscript.cpp
+@@ -218,7 +218,7 @@ void ExtScript::readConfiguration()
+     setExecutable(settings.value("Exec", executable()).toString());
+     setStrRedirect(settings.value("X-AW-Redirect", strRedirect()).toString());
+     // api == 3
+-    setFilters(settings.value("X-AW-Filters", filters()).toString().split(',', Qt::SkipEmptyParts));
++    setFilters(settings.value("X-AW-Filters", filters()).toString().split(',', QString::SkipEmptyParts));
+     settings.endGroup();
+ 
+     bumpApi(AW_EXTSCRIPT_API);
+diff --git a/sources/awesomewidgets/extupgrade.cpp b/sources/awesomewidgets/extupgrade.cpp
+index 0195779..0081cc9 100644
+--- a/sources/awesomewidgets/extupgrade.cpp
++++ b/sources/awesomewidgets/extupgrade.cpp
+@@ -219,8 +219,8 @@ void ExtUpgrade::updateValue()
+         = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardOutput()).trimmed();
+     m_values[tag("pkgcount")] = [this](const QString &output) {
+         return filter().isEmpty()
+-                   ? output.split('\n', Qt::SkipEmptyParts).count() - null()
+-                   : output.split('\n', Qt::SkipEmptyParts).filter(QRegExp(filter())).count();
++                   ? output.split('\n', QString::SkipEmptyParts).count() - null()
++                   : output.split('\n', QString::SkipEmptyParts).filter(QRegExp(filter())).count();
+     }(qoutput);
+ 
+     emit(dataReceived(m_values));
+diff --git a/sources/awesomewidgets/qcronscheduler.cpp b/sources/awesomewidgets/qcronscheduler.cpp
+index 6f67590..c72abc9 100644
+--- a/sources/awesomewidgets/qcronscheduler.cpp
++++ b/sources/awesomewidgets/qcronscheduler.cpp
+@@ -87,7 +87,7 @@ QList<int> QCronScheduler::parseField(const QString &_value, const int _min, con
+         parsedField.fromRange(field.split('/').first(), _min, _max);
+         if (field.contains('/')) {
+             bool status;
+-            parsedField.div = field.split('/', Qt::SkipEmptyParts).at(1).toInt(&status);
++            parsedField.div = field.split('/', QString::SkipEmptyParts).at(1).toInt(&status);
+             if (!status)
+                 parsedField.div = 1;
+         }
+@@ -107,7 +107,7 @@ void QCronScheduler::QCronField::fromRange(const QString &_range, const int _min
+         minValue = _min;
+         maxValue = _max;
+     } else if (_range.contains("-")) {
+-        auto interval = _range.split('-', Qt::SkipEmptyParts);
++        auto interval = _range.split('-', QString::SkipEmptyParts);
+         if (interval.count() != 2)
+             return;
+         bool status;
+diff --git a/sources/extsysmon/extsysmon.cpp b/sources/extsysmon/extsysmon.cpp
+index 88b6e39..5bdc7f3 100644
+--- a/sources/extsysmon/extsysmon.cpp
++++ b/sources/extsysmon/extsysmon.cpp
+@@ -126,7 +126,7 @@ QHash<QString, QString> ExtendedSysMon::updateConfiguration(QHash<QString, QStri
+     } else if (_rawConfig["HDDDEV"] == "disable") {
+         _rawConfig["HDDDEV"] = "";
+     } else {
+-        QStringList deviceList = _rawConfig["HDDDEV"].split(',', Qt::SkipEmptyParts);
++        QStringList deviceList = _rawConfig["HDDDEV"].split(',', QString::SkipEmptyParts);
+         QStringList devices;
+         QRegExp diskRegexp = QRegExp("^/dev/[hms]d[a-z]$");
+         for (auto &device : deviceList)
+diff --git a/sources/extsysmonsources/gpuloadsource.cpp b/sources/extsysmonsources/gpuloadsource.cpp
+index 6281637..e81be26 100644
+--- a/sources/extsysmonsources/gpuloadsource.cpp
++++ b/sources/extsysmonsources/gpuloadsource.cpp
+@@ -132,7 +132,7 @@ void GPULoadSource::updateValue()
+     qCInfo(LOG_ESS) << "Output" << qoutput;
+ 
+     if (m_device == "nvidia") {
+-        for (auto &str : qoutput.split('\n', Qt::SkipEmptyParts)) {
++        for (auto &str : qoutput.split('\n', QString::SkipEmptyParts)) {
+             if (!str.contains("<gpu_util>"))
+                 continue;
+             auto load = str.remove("<gpu_util>").remove("</gpu_util>").remove('%');
+@@ -140,10 +140,10 @@ void GPULoadSource::updateValue()
+             break;
+         }
+     } else if (m_device == "ati") {
+-        for (auto &str : qoutput.split('\n', Qt::SkipEmptyParts)) {
++        for (auto &str : qoutput.split('\n', QString::SkipEmptyParts)) {
+             if (!str.contains("load"))
+                 continue;
+-            QString load = str.split(' ', Qt::SkipEmptyParts)[3].remove('%');
++            QString load = str.split(' ', QString::SkipEmptyParts)[3].remove('%');
+             m_values["gpu/load"] = load.toFloat();
+             break;
+         }
+diff --git a/sources/extsysmonsources/gputempsource.cpp b/sources/extsysmonsources/gputempsource.cpp
+index 55fbadc..dce0c6e 100644
+--- a/sources/extsysmonsources/gputempsource.cpp
++++ b/sources/extsysmonsources/gputempsource.cpp
+@@ -112,7 +112,7 @@ void GPUTemperatureSource::updateValue()
+     qCInfo(LOG_ESS) << "Output" << qoutput;
+ 
+     if (m_device == "nvidia") {
+-        for (auto &str : qoutput.split('\n', Qt::SkipEmptyParts)) {
++        for (auto &str : qoutput.split('\n', QString::SkipEmptyParts)) {
+             if (!str.contains("<gpu_temp>"))
+                 continue;
+             QString temp = str.remove("<gpu_temp>").remove("C</gpu_temp>");
+@@ -120,10 +120,10 @@ void GPUTemperatureSource::updateValue()
+             break;
+         }
+     } else if (m_device == "ati") {
+-        for (auto &str : qoutput.split('\n', Qt::SkipEmptyParts)) {
++        for (auto &str : qoutput.split('\n', QString::SkipEmptyParts)) {
+             if (!str.contains("Temperature"))
+                 continue;
+-            QString temp = str.split(' ', Qt::SkipEmptyParts).at(4);
++            QString temp = str.split(' ', QString::SkipEmptyParts).at(4);
+             m_values["gpu/temperature"] = temp.toFloat();
+             break;
+         }
+diff --git a/sources/extsysmonsources/hddtempsource.cpp b/sources/extsysmonsources/hddtempsource.cpp
+index efaae08..dad47a3 100644
+--- a/sources/extsysmonsources/hddtempsource.cpp
++++ b/sources/extsysmonsources/hddtempsource.cpp
+@@ -31,7 +31,7 @@ HDDTemperatureSource::HDDTemperatureSource(QObject *_parent, const QStringList &
+     Q_ASSERT(_args.count() == 2);
+     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
+ 
+-    m_devices = _args.at(0).split(',', Qt::SkipEmptyParts);
++    m_devices = _args.at(0).split(',', QString::SkipEmptyParts);
+     m_cmd = _args.at(1).split(' '); // lets hope no one put cmd with spaces here lol
+ 
+     m_smartctl = m_cmd.contains("smartctl");
+@@ -131,17 +131,17 @@ void HDDTemperatureSource::updateValue(const QString &_device)
+ 
+     // parse
+     if (m_smartctl) {
+-        QStringList lines = qoutput.split('\n', Qt::SkipEmptyParts);
++        QStringList lines = qoutput.split('\n', QString::SkipEmptyParts);
+         for (auto &str : lines) {
+             if (!str.startsWith("194"))
+                 continue;
+-            if (str.split(' ', Qt::SkipEmptyParts).count() < 9)
++            if (str.split(' ', QString::SkipEmptyParts).count() < 9)
+                 continue;
+-            m_values[_device] = str.split(' ', Qt::SkipEmptyParts).at(9).toFloat();
++            m_values[_device] = str.split(' ', QString::SkipEmptyParts).at(9).toFloat();
+             break;
+         }
+     } else {
+-        QStringList lines = qoutput.split(':', Qt::SkipEmptyParts);
++        QStringList lines = qoutput.split(':', QString::SkipEmptyParts);
+         if (lines.count() >= 3) {
+             QString temp = lines.at(2);
+             temp.remove(QChar(0260)).remove('C');
+diff --git a/sources/extsysmonsources/playersource.cpp b/sources/extsysmonsources/playersource.cpp
+index aaca22f..e127a05 100644
+--- a/sources/extsysmonsources/playersource.cpp
++++ b/sources/extsysmonsources/playersource.cpp
+@@ -256,11 +256,11 @@ void PlayerSource::mpdSocketReadyRead()
+     qCInfo(LOG_ESS) << "Output" << qoutput;
+ 
+     // parse
+-    for (auto &str : qoutput.split('\n', Qt::SkipEmptyParts)) {
+-        if (str.split(": ", Qt::SkipEmptyParts).count() == 2) {
++    for (auto &str : qoutput.split('\n', QString::SkipEmptyParts)) {
++        if (str.split(": ", QString::SkipEmptyParts).count() == 2) {
+             // "Metadata: data"
+-            QString metadata = str.split(": ", Qt::SkipEmptyParts).first().toLower();
+-            QString data = str.split(": ", Qt::SkipEmptyParts).last().trimmed();
++            QString metadata = str.split(": ", QString::SkipEmptyParts).first().toLower();
++            QString data = str.split(": ", QString::SkipEmptyParts).last().trimmed();
+             // there are one more time...
+             if ((metadata == "time") && (data.contains(':'))) {
+                 QStringList times = data.split(':');
