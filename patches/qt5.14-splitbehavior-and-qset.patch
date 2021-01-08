@@ -1,16 +1,3 @@
-diff --git a/.docker/build-ubuntu.sh b/.docker/build-ubuntu.sh
-index 9b5e97a..b953425 100755
---- a/.docker/build-ubuntu.sh
-+++ b/.docker/build-ubuntu.sh
-@@ -6,7 +6,7 @@ rm -rf build-ubuntu
- mkdir build-ubuntu
- 
- # patches
--git apply patches/qt5.14-splitbehavior-and-qset.patch
-+#git apply patches/qt5.14-splitbehavior-and-qset.patch
- 
- # build
- cd build-ubuntu
 diff --git a/sources/awdebug.cpp b/sources/awdebug.cpp
 index 7135db6..a2870ec 100644
 --- a/sources/awdebug.cpp
@@ -253,3 +240,16 @@ index aaca22f..e127a05 100644
              // there are one more time...
              if ((metadata == "time") && (data.contains(':'))) {
                  QStringList times = data.split(':');
+diff --git a/sources/test/testawtelemetryhandler.cpp b/sources/test/testawtelemetryhandler.cpp
+index ffb0e79..b4181e0 100644
+--- a/sources/test/testawtelemetryhandler.cpp
++++ b/sources/test/testawtelemetryhandler.cpp
+@@ -51,7 +51,7 @@ void TestAWTelemetryHandler::test_get()
+     QStringList output = plugin->get(telemetryGroup);
+ 
+     QVERIFY(!output.isEmpty());
+-    QCOMPARE(QSet<QString>(output.cbegin(), output.cend()).count(), output.count());
++    QCOMPARE(QSet<QString>::fromList(output).count(), output.count());
+     QVERIFY(output.contains(telemetryData));
+ }
+ 
