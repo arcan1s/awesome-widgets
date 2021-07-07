@@ -31,6 +31,7 @@ Dependencies
 ------------
 
 * plasma-framework
+* ksysguard (since plasma 5.22)
 
 Optional dependencies
 ---------------------
