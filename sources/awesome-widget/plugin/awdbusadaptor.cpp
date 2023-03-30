@@ -49,7 +49,7 @@ QStringList AWDBusAdaptor::ActiveServices() const
     QStringList arguments = listServices.arguments().first().toStringList();
 
     return std::accumulate(arguments.cbegin(), arguments.cend(), QStringList(),
-                           [](QStringList &source, const QString &service) {
+                           [](QStringList source, const QString &service) {
                                if (service.startsWith(AWDBUS_SERVICE))
                                    source.append(service);
                                return source;

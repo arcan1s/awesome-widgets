@@ -18,7 +18,7 @@
 
 #include "desktopsource.h"
 
-#include <KWindowSystem>
+#include <KX11Extras>
 
 #include "awdebug.h"
 
@@ -41,17 +41,17 @@ QVariant DesktopSource::data(const QString &_source)
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
-    int current = KWindowSystem::currentDesktop();
-    int total = KWindowSystem::numberOfDesktops();
+    int current = KX11Extras::currentDesktop();
+    int total = KX11Extras::numberOfDesktops();
 
     if (_source == "desktop/current/name") {
-        return KWindowSystem::desktopName(current);
+        return KX11Extras::desktopName(current);
     } else if (_source == "desktop/current/number") {
         return current;
     } else if (_source == "desktop/total/name") {
         QStringList desktops;
         for (int i = 1; i < total + 1; i++)
-            desktops.append(KWindowSystem::desktopName(i));
+            desktops.append(KX11Extras::desktopName(i));
         return desktops;
     } else if (_source == "desktop/total/number") {
         return total;

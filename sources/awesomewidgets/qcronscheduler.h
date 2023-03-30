@@ -28,20 +28,20 @@ class QCronScheduler : public QObject
     Q_OBJECT
 
 public:
-    typedef struct {
+    struct QCronRunSchedule {
         QList<int> minutes;
         QList<int> hours;
         QList<int> days;
         QList<int> months;
         QList<int> weekdays;
-    } QCronRunSchedule;
-    typedef struct {
+    };
+    struct QCronField {
         int minValue = -1;
         int maxValue = -1;
         int div = 1;
         void fromRange(const QString &_range, int _min, int _max);
         QList<int> toList();
-    } QCronField;
+    };
 
     explicit QCronScheduler(QObject *_parent = nullptr);
     ~QCronScheduler() override;

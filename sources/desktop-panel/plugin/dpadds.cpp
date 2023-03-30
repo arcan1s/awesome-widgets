@@ -20,6 +20,7 @@
 #include <KI18n/KLocalizedString>
 #include <KNotifications/KNotification>
 #include <KWindowSystem/KWindowSystem>
+#include <KWindowSystem/KX11Extras>
 
 #include <QBuffer>
 #include <QGraphicsPixmapItem>
@@ -64,7 +65,7 @@ bool DPAdds::isDebugEnabled()
 
 int DPAdds::currentDesktop()
 {
-    return KWindowSystem::currentDesktop();
+    return KX11Extras::currentDesktop();
 }
 
 
@@ -87,7 +88,7 @@ QStringList DPAdds::dictKeys(const bool _sorted, const QString &_regexp)
 
 int DPAdds::numberOfDesktops()
 {
-    return KWindowSystem::numberOfDesktops();
+    return KX11Extras::numberOfDesktops();
 }
 
 
@@ -236,7 +237,7 @@ QString DPAdds::valueByKey(const QString &_key, int _desktop) const
             .arg(currentMark, m_mark.count(), QLatin1Char(' '))
             .replace(" ", "&nbsp;");
     else if (_key == "name")
-        return KWindowSystem::desktopName(_desktop).replace(" ", "&nbsp;");
+        return KX11Extras::desktopName(_desktop).replace(" ", "&nbsp;");
     else if (_key == "number")
         return QString::number(_desktop);
     else if (_key == "total")
@@ -290,7 +291,7 @@ void DPAdds::setCurrentDesktop(const int _desktop)
 {
     qCDebug(LOG_DP) << "Desktop" << _desktop;
 
-    KWindowSystem::setCurrentDesktop(_desktop);
+    KX11Extras::setCurrentDesktop(_desktop);
 }
 
 
@@ -300,9 +301,9 @@ DPAdds::DesktopWindowsInfo DPAdds::getInfoByDesktop(const int _desktop)
 
 
     DesktopWindowsInfo info;
-    info.desktop = KWindowSystem::workArea(_desktop);
+    info.desktop = KX11Extras::workArea(_desktop);
 
-    for (auto &id : KWindowSystem::windows()) {
+    for (auto &id : KX11Extras::windows()) {
         KWindowInfo winInfo = KWindowInfo(
             id, NET::Property::WMDesktop | NET::Property::WMGeometry | NET::Property::WMState
                     | NET::Property::WMWindowType | NET::Property::WMVisibleName);
