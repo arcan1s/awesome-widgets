@@ -36,7 +36,7 @@ GPUTemperatureSource::GPUTemperatureSource(QObject *_parent, const QStringList &
     m_process = new QProcess(nullptr);
     // fucking magic from http://doc.qt.io/qt-5/qprocess.html#finished
     connect(m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
-            [=](int, QProcess::ExitStatus) { return updateValue(); });
+            [this](int, QProcess::ExitStatus) { return updateValue(); });
     m_process->waitForFinished(0);
 }
 
@@ -84,8 +84,7 @@ void GPUTemperatureSource::run()
         return;
     // build cmd
     QString cmd = m_device == "nvidia" ? "nvidia-smi" : "aticonfig";
-    auto args
-        = m_device == "nvidia" ? QStringList({"-q", "-x"}) : QStringList({"--od-gettemperature"});
+    auto args = m_device == "nvidia" ? QStringList({"-q", "-x"}) : QStringList({"--od-gettemperature"});
     qCInfo(LOG_ESS) << "cmd" << cmd;
 
     m_process->start(cmd, args);
@@ -104,11 +103,9 @@ QStringList GPUTemperatureSource::sources() const
 void GPUTemperatureSource::updateValue()
 {
     qCInfo(LOG_ESS) << "Cmd returns" << m_process->exitCode();
-    QString qdebug
-        = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardError()).trimmed();
+    QString qdebug = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardError()).trimmed();
     qCInfo(LOG_ESS) << "Error" << qdebug;
-    QString qoutput
-        = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardOutput()).trimmed();
+    QString qoutput = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardOutput()).trimmed();
     qCInfo(LOG_ESS) << "Output" << qoutput;
 
     if (m_device == "nvidia") {

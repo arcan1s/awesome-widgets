@@ -40,16 +40,14 @@ public:
     explicit AWKeys(QObject *_parent = nullptr);
     ~AWKeys() override;
     Q_INVOKABLE void initDataAggregator(const QVariantMap &_tooltipParams);
-    Q_INVOKABLE void initKeys(const QString &_currentPattern, int _interval, int _limit,
-                              bool _optimize);
+    Q_INVOKABLE void initKeys(const QString &_currentPattern, int _interval, int _limit, bool _optimize);
     Q_INVOKABLE void setAggregatorProperty(const QString &_key, const QVariant &_value);
     Q_INVOKABLE void setWrapNewLines(bool _wrap);
     // additional method to force load keys from Qml UI. Used in some
     // configuration pages
     Q_INVOKABLE void updateCache();
     // keys
-    Q_INVOKABLE [[nodiscard]] QStringList dictKeys(bool _sorted = false,
-                                                   const QString &_regexp = "") const;
+    Q_INVOKABLE [[nodiscard]] QStringList dictKeys(bool _sorted = false, const QString &_regexp = "") const;
     Q_INVOKABLE [[nodiscard]] QVariantList getHddDevices() const;
     // values
     Q_INVOKABLE [[nodiscard]] QString infoByKey(const QString &_key) const;

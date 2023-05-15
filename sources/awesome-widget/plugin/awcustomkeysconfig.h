@@ -27,8 +27,7 @@ class AWCustomKeysConfig : public AWAbstractPairConfig
     Q_OBJECT
 
 public:
-    explicit AWCustomKeysConfig(QWidget *_parent = nullptr,
-                                const QStringList &_keys = QStringList());
+    explicit AWCustomKeysConfig(QWidget *_parent = nullptr, const QStringList &_keys = QStringList());
     ~AWCustomKeysConfig() override;
 };
 

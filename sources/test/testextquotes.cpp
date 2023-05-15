@@ -64,8 +64,7 @@ void TestExtQuotes::test_run()
 
     for (auto &type : types) {
         QCOMPARE(firstValue[extQuotes->tag(type)].toDouble(), 0.0);
-        QVERIFY((cache[type].toDouble() >= price.first)
-                && (cache[type].toDouble() <= price.second));
+        QVERIFY((cache[type].toDouble() >= price.first) && (cache[type].toDouble() <= price.second));
     }
 }
 

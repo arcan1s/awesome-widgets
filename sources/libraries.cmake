@@ -20,9 +20,10 @@ set(Qt_LIBRARIES
 find_package(ECM 0.0.11 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
 find_package(KF5 REQUIRED COMPONENTS I18n Notifications Plasma Service WindowSystem)
+find_package(LibTaskManager REQUIRED)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDECompilerSettings)
 set(Kf5_INCLUDE ${I18n_INCLUDE_DIR} ${Notifications_INCLUDE_DIR} ${Plasma_INCLUDE_DIR})
-set(Kf5_LIBRARIES KF5::I18n KF5::Notifications KF5::Plasma KF5::WindowSystem)
+set(Kf5_LIBRARIES KF5::I18n KF5::Notifications KF5::Plasma KF5::WindowSystem PW::LibTaskManager)
 

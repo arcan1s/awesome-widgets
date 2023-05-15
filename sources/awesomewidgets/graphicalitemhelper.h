@@ -33,8 +33,7 @@ public:
     explicit GraphicalItemHelper(QObject *_parent = nullptr, QGraphicsScene *_scene = nullptr);
     ~GraphicalItemHelper() override;
     // parameters
-    void setParameters(const QString &_active, const QString &_inactive, int _width, int _height,
-                       int _count);
+    void setParameters(const QString &_active, const QString &_inactive, int _width, int _height, int _count);
     // paint methods
     void paintBars(float _value);
     void paintCircle(float _percent);

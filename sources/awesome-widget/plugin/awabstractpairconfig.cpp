@@ -107,8 +107,7 @@ void AWAbstractPairConfig::updateUi()
 void AWAbstractPairConfig::addSelector(const QStringList &_keys, const QStringList &_values,
                                        const QPair<QString, QString> &_current)
 {
-    qCDebug(LOG_AW) << "Add selector with keys" << _keys << "values" << _values
-                    << "and current ones" << _current;
+    qCDebug(LOG_AW) << "Add selector with keys" << _keys << "values" << _values << "and current ones" << _current;
 
     auto *selector = new AWAbstractSelector(ui->scrollAreaWidgetContents, m_editable);
     selector->init(_keys, _values, _current);

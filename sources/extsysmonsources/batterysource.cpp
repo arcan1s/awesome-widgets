@@ -56,9 +56,7 @@ QStringList BatterySource::getSources()
 
     if (directory.exists()) {
         m_batteriesCount
-            = directory
-                  .entryList(QStringList({"BAT*"}), QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name)
-                  .count();
+            = directory.entryList(QStringList({"BAT*"}), QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name).count();
         qCInfo(LOG_ESS) << "Init batteries count as" << m_batteriesCount;
 
         for (int i = 0; i < m_batteriesCount; i++) {
@@ -185,8 +183,7 @@ void BatterySource::run()
         // total
         QFile fullLevelFile(QString("%1/BAT%2/energy_full").arg(m_acpiPath).arg(i));
         if (fullLevelFile.open(QIODevice::ReadOnly | QIODevice::Text))
-            m_values[QString("battery/battotal%1").arg(i)]
-                = QString(fullLevelFile.readLine()).toInt();
+            m_values[QString("battery/battotal%1").arg(i)] = QString(fullLevelFile.readLine()).toInt();
         fullLevelFile.close();
 
         m_values[QString("battery/bat%1").arg(i)]

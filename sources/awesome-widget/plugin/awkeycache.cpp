@@ -31,8 +31,7 @@ bool AWKeyCache::addKeyToCache(const QString &_type, const QString &_key)
     qCDebug(LOG_AW) << "Key" << _key << "with type" << _type;
 
     QString fileName
-        = QString("%1/awesomewidgets.ndx")
-              .arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
+        = QString("%1/awesomewidgets.ndx").arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
     qCInfo(LOG_AW) << "Cache file" << fileName;
     QSettings cache(fileName, QSettings::IniFormat);
 
@@ -75,12 +74,10 @@ bool AWKeyCache::addKeyToCache(const QString &_type, const QString &_key)
 }
 
 
-QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys, const QStringList &_bars,
-                                        const QVariantMap &_tooltip, const QStringList &_userKeys,
-                                        const QStringList &_allKeys)
+QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys, const QStringList &_bars, const QVariantMap &_tooltip,
+                                        const QStringList &_userKeys, const QStringList &_allKeys)
 {
-    qCDebug(LOG_AW) << "Looking for required keys in" << _keys << _bars << "using tooltip settings"
-                    << _tooltip;
+    qCDebug(LOG_AW) << "Looking for required keys in" << _keys << _bars << "using tooltip settings" << _tooltip;
 
     // initial copy
     QSet<QString> used(_keys.cbegin(), _keys.cend());
@@ -136,8 +133,8 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys, const QStringL
         used << "swapgb"
              << "swapfreegb";
     // network keys
-    QStringList netKeys({"up", "upkb", "uptot", "uptotkb", "upunits", "down", "downkb", "downtot",
-                         "downtotkb", "downunits"});
+    QStringList netKeys(
+        {"up", "upkb", "uptot", "uptotkb", "upunits", "down", "downkb", "downtot", "downtotkb", "downunits"});
     for (auto &key : netKeys) {
         if (!used.contains(key))
             continue;
@@ -146,8 +143,7 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys, const QStringL
             used << filtered;
     }
     // netdev key
-    if (std::any_of(netKeys.cbegin(), netKeys.cend(),
-                    [&used](const QString &key) { return used.contains(key); }))
+    if (std::any_of(netKeys.cbegin(), netKeys.cend(), [&used](const QString &key) { return used.contains(key); }))
         used << "netdev";
 
     // HACK append dummy if there are no other keys. This hack is required
@@ -162,8 +158,7 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys, const QStringL
 QHash<QString, QStringList> AWKeyCache::loadKeysFromCache()
 {
     QString fileName
-        = QString("%1/awesomewidgets.ndx")
-              .arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
+        = QString("%1/awesomewidgets.ndx").arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
     qCInfo(LOG_AW) << "Cache file" << fileName;
     QSettings cache(fileName, QSettings::IniFormat);
 

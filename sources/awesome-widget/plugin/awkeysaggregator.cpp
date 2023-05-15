@@ -55,8 +55,7 @@ void AWKeysAggregator::initFormatters()
 }
 
 
-QString AWKeysAggregator::formatter(const QVariant &_data, const QString &_key,
-                                    bool replaceSpace) const
+QString AWKeysAggregator::formatter(const QVariant &_data, const QString &_key, bool replaceSpace) const
 {
     qCDebug(LOG_AW) << "Data" << _data << "for key" << _key;
 
@@ -235,8 +234,7 @@ void AWKeysAggregator::setTranslate(const bool _translate)
 }
 
 
-QStringList AWKeysAggregator::registerSource(const QString &_source, const QString &_units,
-                                             const QStringList &_keys)
+QStringList AWKeysAggregator::registerSource(const QString &_source, const QString &_units, const QStringList &_keys)
 {
     qCDebug(LOG_AW) << "Source" << _source << "with units" << _units;
 

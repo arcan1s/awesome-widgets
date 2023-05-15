@@ -30,7 +30,7 @@
             <default>¤</default>
         </entry>
         <entry name="tooltipType" type="string">
-            <default>windows</default>
+            <default>contours</default>
         </entry>
         <entry name="tooltipWidth" type="int">
             <default>200</default>

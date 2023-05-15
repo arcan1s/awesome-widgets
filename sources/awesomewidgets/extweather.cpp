@@ -53,8 +53,7 @@ ExtWeather::ExtWeather(QWidget *_parent, const QString &_filePath)
     // HACK declare as child of nullptr to avoid crash with plasmawindowed
     // in the destructor
     m_manager = new QNetworkAccessManager(nullptr);
-    connect(m_manager, SIGNAL(finished(QNetworkReply *)), this,
-            SLOT(weatherReplyReceived(QNetworkReply *)));
+    connect(m_manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(weatherReplyReceived(QNetworkReply *)));
 
     connect(this, SIGNAL(requestDataUpdate()), this, SLOT(sendRequest()));
 }
@@ -64,8 +63,7 @@ ExtWeather::~ExtWeather()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    disconnect(m_manager, SIGNAL(finished(QNetworkReply *)), this,
-               SLOT(weatherReplyReceived(QNetworkReply *)));
+    disconnect(m_manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(weatherReplyReceived(QNetworkReply *)));
     disconnect(this, SIGNAL(requestDataUpdate()), this, SLOT(sendRequest()));
 
     m_manager->deleteLater();
@@ -92,9 +90,8 @@ ExtWeather *ExtWeather::copy(const QString &_fileName, const int _number)
 
 QString ExtWeather::jsonMapFile()
 {
-    QString fileName
-        = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                                 "awesomewidgets/weather/awesomewidgets-extweather-ids.json");
+    QString fileName = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
+                                              "awesomewidgets/weather/awesomewidgets-extweather-ids.json");
     qCInfo(LOG_LIB) << "Map file" << fileName;
 
     return fileName;
@@ -339,8 +336,7 @@ void ExtWeather::sendRequest()
 void ExtWeather::weatherReplyReceived(QNetworkReply *_reply)
 {
     if (_reply->error() != QNetworkReply::NoError) {
-        qCWarning(LOG_AW) << "An error occurs" << _reply->error() << "with message"
-                          << _reply->errorString();
+        qCWarning(LOG_AW) << "An error occurs" << _reply->error() << "with message" << _reply->errorString();
         return;
     }
 

@@ -38,8 +38,7 @@ public:
     [[nodiscard]] QUrl url() const override;
 
 private:
-    [[nodiscard]] QVariantHash parseCurrent(const QVariantMap &_json,
-                                            const QVariantMap &_atmosphere) const;
+    [[nodiscard]] QVariantHash parseCurrent(const QVariantMap &_json, const QVariantMap &_atmosphere) const;
     [[nodiscard]] QVariantHash parseForecast(const QVariantMap &_json) const;
     int m_ts = 0;
     QUrl m_url;

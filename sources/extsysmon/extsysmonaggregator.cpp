@@ -87,8 +87,7 @@ void ExtSysMonAggregator::init(const QHash<QString, QString> &_config)
     qCDebug(LOG_ESM) << "Configuration" << _config;
 
     // battery
-    AbstractExtSysMonSource *batteryItem
-        = new BatterySource(this, QStringList() << _config["ACPIPATH"]);
+    AbstractExtSysMonSource *batteryItem = new BatterySource(this, QStringList() << _config["ACPIPATH"]);
     for (auto &source : batteryItem->sources())
         m_map[source] = batteryItem;
     // custom
@@ -100,13 +99,11 @@ void ExtSysMonAggregator::init(const QHash<QString, QString> &_config)
     for (auto &source : desktopItem->sources())
         m_map[source] = desktopItem;
     // gpu load
-    AbstractExtSysMonSource *gpuLoadItem
-        = new GPULoadSource(this, QStringList({_config["GPUDEV"]}));
+    AbstractExtSysMonSource *gpuLoadItem = new GPULoadSource(this, QStringList({_config["GPUDEV"]}));
     for (auto &source : gpuLoadItem->sources())
         m_map[source] = gpuLoadItem;
     // gpu temperature
-    AbstractExtSysMonSource *gpuTempItem
-        = new GPUTemperatureSource(this, QStringList({_config["GPUDEV"]}));
+    AbstractExtSysMonSource *gpuTempItem = new GPUTemperatureSource(this, QStringList({_config["GPUDEV"]}));
     for (auto &source : gpuTempItem->sources())
         m_map[source] = gpuTempItem;
     // hdd temperature
@@ -119,9 +116,9 @@ void ExtSysMonAggregator::init(const QHash<QString, QString> &_config)
     for (auto &source : networkItem->sources())
         m_map[source] = networkItem;
     // player
-    AbstractExtSysMonSource *playerItem = new PlayerSource(
-        this, QStringList({_config["PLAYER"], _config["MPDADDRESS"], _config["MPDPORT"],
-                           _config["MPRIS"], _config["PLAYERSYMBOLS"]}));
+    AbstractExtSysMonSource *playerItem
+        = new PlayerSource(this, QStringList({_config["PLAYER"], _config["MPDADDRESS"], _config["MPDPORT"],
+                                              _config["MPRIS"], _config["PLAYERSYMBOLS"]}));
     for (auto &source : playerItem->sources())
         m_map[source] = playerItem;
     // processes

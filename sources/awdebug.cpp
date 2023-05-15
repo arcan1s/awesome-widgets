@@ -41,25 +41,15 @@ QString AWDebug::getAboutText(const QString &_type)
     } else if (_type == "description") {
         text = i18n("A set of minimalistic plasmoid widgets");
     } else if (_type == "links") {
-        text = i18n("Links:") + "<ul>"
-               + QString("<li><a href=\"%1\">%2</a></li>").arg(HOMEPAGE).arg(i18n("Homepage"))
+        text = i18n("Links:") + "<ul>" + QString("<li><a href=\"%1\">%2</a></li>").arg(HOMEPAGE).arg(i18n("Homepage"))
                + QString("<li><a href=\"%1\">%2</a></li>").arg(REPOSITORY).arg(i18n("Repository"))
                + QString("<li><a href=\"%1\">%2</a></li>").arg(BUGTRACKER).arg(i18n("Bugtracker"))
-               + QString("<li><a href=\"%1\">%2</a></li>")
-                     .arg(TRANSLATION)
-                     .arg(i18n("Translation issue"))
-               + QString("<li><a href=\"%1\">%2</a></li>")
-                     .arg(AUR_PACKAGES)
-                     .arg(i18n("AUR packages"))
-               + QString("<li><a href=\"%1\">%2</a></li>")
-                     .arg(OPENSUSE_PACKAGES)
-                     .arg(i18n("openSUSE packages"))
+               + QString("<li><a href=\"%1\">%2</a></li>").arg(TRANSLATION).arg(i18n("Translation issue"))
+               + QString("<li><a href=\"%1\">%2</a></li>").arg(AUR_PACKAGES).arg(i18n("AUR packages"))
+               + QString("<li><a href=\"%1\">%2</a></li>").arg(OPENSUSE_PACKAGES).arg(i18n("openSUSE packages"))
                + "</ul>";
     } else if (_type == "copy") {
-        text = QString("<small>&copy; %1 <a href=\"mailto:%2\">%3</a><br>")
-                   .arg(DATE)
-                   .arg(EMAIL)
-                   .arg(AUTHOR)
+        text = QString("<small>&copy; %1 <a href=\"mailto:%2\">%3</a><br>").arg(DATE).arg(EMAIL).arg(AUTHOR)
                + i18nc("This software is licensed under %1", LICENSE) + "</small>";
     } else if (_type == "translators") {
         QStringList translatorList = QString(TRANSLATORS).split(',');
@@ -114,8 +104,7 @@ QStringList AWDebug::getBuildData()
     metadata.append(QString("    CMAKE_CXX_FLAGS: %1").arg(CMAKE_CXX_FLAGS));
     metadata.append(QString("    CMAKE_CXX_FLAGS_DEBUG: %1").arg(CMAKE_CXX_FLAGS_DEBUG));
     metadata.append(QString("    CMAKE_CXX_FLAGS_RELEASE: %1").arg(CMAKE_CXX_FLAGS_RELEASE));
-    metadata.append(
-        QString("    CMAKE_CXX_FLAGS_OPTIMIZATION: %1").arg(CMAKE_CXX_FLAGS_OPTIMIZATION));
+    metadata.append(QString("    CMAKE_CXX_FLAGS_OPTIMIZATION: %1").arg(CMAKE_CXX_FLAGS_OPTIMIZATION));
     metadata.append(QString("    CMAKE_DEFINITIONS: %1").arg(CMAKE_DEFINITIONS));
     metadata.append(QString("    CMAKE_INSTALL_PREFIX: %1").arg(CMAKE_INSTALL_PREFIX));
     metadata.append(QString("    CMAKE_MODULE_LINKER_FLAGS: %1").arg(CMAKE_MODULE_LINKER_FLAGS));

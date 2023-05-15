@@ -56,8 +56,7 @@ AWKeys::AWKeys(QObject *_parent)
     createDBusInterface();
 
     // update key data if required
-    connect(m_keyOperator, SIGNAL(updateKeys(const QStringList &)), this,
-            SLOT(reinitKeys(const QStringList &)));
+    connect(m_keyOperator, SIGNAL(updateKeys(const QStringList &)), this, SLOT(reinitKeys(const QStringList &)));
     connect(m_timer, SIGNAL(timeout()), this, SLOT(updateTextData()));
     // transfer signal from AWDataAggregator object to QML ui
     connect(m_dataAggregator, SIGNAL(toolTipPainted(const QString &)), this,
@@ -91,11 +90,10 @@ void AWKeys::initDataAggregator(const QVariantMap &_tooltipParams)
 }
 
 
-void AWKeys::initKeys(const QString &_currentPattern, const int _interval, const int _limit,
-                      const bool _optimize)
+void AWKeys::initKeys(const QString &_currentPattern, const int _interval, const int _limit, const bool _optimize)
 {
-    qCDebug(LOG_AW) << "Pattern" << _currentPattern << "with interval" << _interval
-                    << "and queue limit" << _limit << "with optimization" << _optimize;
+    qCDebug(LOG_AW) << "Pattern" << _currentPattern << "with interval" << _interval << "and queue limit" << _limit
+                    << "with optimization" << _optimize;
 
     // init
     m_optimize = _optimize;
@@ -227,10 +225,9 @@ void AWKeys::reinitKeys(const QStringList &_currentKeys)
         barKeys.append(item->usedKeys());
     }
     // get required keys
-    m_requiredKeys
-        = m_optimize ? AWKeyCache::getRequiredKeys(m_foundKeys, barKeys, m_tooltipParams,
-                                                   m_keyOperator->requiredUserKeys(), _currentKeys)
-                     : QStringList();
+    m_requiredKeys = m_optimize ? AWKeyCache::getRequiredKeys(m_foundKeys, barKeys, m_tooltipParams,
+                                                              m_keyOperator->requiredUserKeys(), _currentKeys)
+                                : QStringList();
 
     // set key data to m_aggregator
     m_aggregator->setDevices(m_keyOperator->devices());
@@ -260,11 +257,9 @@ void AWKeys::calculateValues()
     for (auto &device : mountDevices) {
         int index = mountDevices.indexOf(device);
         m_values[QString("hddtotmb%1").arg(index)]
-            = m_values[QString("hddfreemb%1").arg(index)].toFloat()
-              + m_values[QString("hddmb%1").arg(index)].toFloat();
+            = m_values[QString("hddfreemb%1").arg(index)].toFloat() + m_values[QString("hddmb%1").arg(index)].toFloat();
         m_values[QString("hddtotgb%1").arg(index)]
-            = m_values[QString("hddfreegb%1").arg(index)].toFloat()
-              + m_values[QString("hddgb%1").arg(index)].toFloat();
+            = m_values[QString("hddfreegb%1").arg(index)].toFloat() + m_values[QString("hddgb%1").arg(index)].toFloat();
     }
 
     // memtot*
@@ -312,20 +307,16 @@ void AWKeys::createDBusInterface()
     // HACK we are going to use different services because it binds to
     // application
     if (instanceBus.registerService(QString("%1.i%2").arg(AWDBUS_SERVICE).arg(id))) {
-        if (!instanceBus.registerObject(AWDBUS_PATH, new AWDBusAdaptor(this),
-                                        QDBusConnection::ExportAllContents))
-            qCWarning(LOG_AW) << "Could not register DBus object, last error"
-                              << instanceBus.lastError().message();
+        if (!instanceBus.registerObject(AWDBUS_PATH, new AWDBusAdaptor(this), QDBusConnection::ExportAllContents))
+            qCWarning(LOG_AW) << "Could not register DBus object, last error" << instanceBus.lastError().message();
     } else {
-        qCWarning(LOG_AW) << "Could not register DBus service, last error"
-                          << instanceBus.lastError().message();
+        qCWarning(LOG_AW) << "Could not register DBus service, last error" << instanceBus.lastError().message();
     }
 
     // and same instance but for id independent service
     QDBusConnection commonBus = QDBusConnection::sessionBus();
     if (commonBus.registerService(AWDBUS_SERVICE))
-        commonBus.registerObject(AWDBUS_PATH, new AWDBusAdaptor(this),
-                                 QDBusConnection::ExportAllContents);
+        commonBus.registerObject(AWDBUS_PATH, new AWDBusAdaptor(this), QDBusConnection::ExportAllContents);
 }
 
 
@@ -340,14 +331,13 @@ QString AWKeys::parsePattern(QString _pattern) const
 
     // main keys
     for (auto &key : m_foundKeys)
-        _pattern.replace(QString("$%1").arg(key),
-                         m_aggregator->formatter(m_values[key], key, true));
+        _pattern.replace(QString("$%1").arg(key), m_aggregator->formatter(m_values[key], key, true));
 
     // bars
     for (auto &bar : m_foundBars) {
         GraphicalItem *item = m_keyOperator->giByKey(bar);
-        QString image = item->isCustom() ? item->image(AWPatternFunctions::expandLambdas(
-                            item->bar(), m_aggregator, m_values, item->usedKeys()))
+        QString image = item->isCustom() ? item->image(
+                            AWPatternFunctions::expandLambdas(item->bar(), m_aggregator, m_values, item->usedKeys()))
                                          : item->image(m_values[item->bar()]);
         _pattern.replace(QString("$%1").arg(bar), image);
     }

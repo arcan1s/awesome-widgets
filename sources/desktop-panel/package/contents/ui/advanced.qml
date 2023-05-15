@@ -148,14 +148,6 @@ Item {
                             'name': "contours"
                         },
                         {
-                            'label': i18n("windows"),
-                            'name': "windows"
-                        },
-                        {
-                            'label': i18n("clean desktop"),
-                            'name': "clean"
-                        },
-                        {
                             'label': i18n("names"),
                             'name': "names"
                         },

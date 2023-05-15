@@ -101,14 +101,12 @@ float SystemInfoSource::getCurrentBrightness()
 {
     qCDebug(LOG_ESS) << "Get current brightness";
 
-    auto maxBrightness = sendDBusRequest("org.kde.Solid.PowerManagement",
-                                         "/org/kde/Solid/PowerManagement/Actions/BrightnessControl",
-                                         "org.kde.Solid.PowerManagement.Actions.BrightnessControl",
-                                         "brightnessMax")
-                             .toFloat();
+    auto maxBrightness
+        = sendDBusRequest("org.kde.Solid.PowerManagement", "/org/kde/Solid/PowerManagement/Actions/BrightnessControl",
+                          "org.kde.Solid.PowerManagement.Actions.BrightnessControl", "brightnessMax")
+              .toFloat();
     auto brightness
-        = sendDBusRequest("org.kde.Solid.PowerManagement",
-                          "/org/kde/Solid/PowerManagement/Actions/BrightnessControl",
+        = sendDBusRequest("org.kde.Solid.PowerManagement", "/org/kde/Solid/PowerManagement/Actions/BrightnessControl",
                           "org.kde.Solid.PowerManagement.Actions.BrightnessControl", "brightness")
               .toFloat();
 
@@ -122,9 +120,8 @@ float SystemInfoSource::getCurrentVolume()
 
     // current device first
     auto currentMixer
-        = fromDBusVariant(
-              sendDBusRequest("org.kde.kmix", "/Mixers", "org.freedesktop.DBus.Properties", "Get",
-                              QVariantList({"org.kde.KMix.MixSet", "currentMasterMixer"})))
+        = fromDBusVariant(sendDBusRequest("org.kde.kmix", "/Mixers", "org.freedesktop.DBus.Properties", "Get",
+                                          QVariantList({"org.kde.KMix.MixSet", "currentMasterMixer"})))
               .toString();
 
     if (currentMixer.isEmpty()) {
@@ -135,9 +132,8 @@ float SystemInfoSource::getCurrentVolume()
 
     // get capture device
     auto currentControl
-        = fromDBusVariant(
-              sendDBusRequest("org.kde.kmix", "/Mixers", "org.freedesktop.DBus.Properties", "Get",
-                              QVariantList({"org.kde.KMix.MixSet", "currentMasterControl"})))
+        = fromDBusVariant(sendDBusRequest("org.kde.kmix", "/Mixers", "org.freedesktop.DBus.Properties", "Get",
+                                          QVariantList({"org.kde.KMix.MixSet", "currentMasterControl"})))
               .toString();
     if (currentControl.isEmpty()) {
         qCWarning(LOG_ESS) << "Control is empty";
@@ -146,15 +142,14 @@ float SystemInfoSource::getCurrentVolume()
     currentControl.replace(":", "_").replace(".", "_").replace("-", "_");
 
     auto path = QString("/Mixers/%1/%2").arg(currentMixer).arg(currentControl);
-    return fromDBusVariant(sendDBusRequest("org.kde.kmix", path, "org.freedesktop.DBus.Properties",
-                                           "Get", QVariantList({"org.kde.KMix.Control", "volume"})))
+    return fromDBusVariant(sendDBusRequest("org.kde.kmix", path, "org.freedesktop.DBus.Properties", "Get",
+                                           QVariantList({"org.kde.KMix.Control", "volume"})))
         .toFloat();
 }
 
 
-QVariant SystemInfoSource::sendDBusRequest(const QString &destination, const QString &path,
-                                           const QString &interface, const QString &method,
-                                           const QVariantList &args)
+QVariant SystemInfoSource::sendDBusRequest(const QString &destination, const QString &path, const QString &interface,
+                                           const QString &method, const QVariantList &args)
 {
     qCDebug(LOG_ESS) << "Send dbus request" << destination << path << interface << method << args;
 

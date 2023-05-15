@@ -56,8 +56,7 @@ QVariantMap UpgradeSource::initialData(const QString &_source) const
     QVariantMap data;
     data["min"] = "";
     data["max"] = "";
-    data["name"] = QString("Package manager '%1' metadata")
-                       .arg(m_extUpgrade->itemByTagNumber(index(_source))->uniq());
+    data["name"] = QString("Package manager '%1' metadata").arg(m_extUpgrade->itemByTagNumber(index(_source))->uniq());
     data["type"] = "QString";
     data["units"] = "";
 

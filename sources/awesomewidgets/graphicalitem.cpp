@@ -136,8 +136,7 @@ QString GraphicalItem::image(const QVariant &value)
     QByteArray byteArray;
     QBuffer buffer(&byteArray);
     pixmap.save(&buffer, "PNG");
-    QString url
-        = QString("<img src=\"data:image/png;base64,%1\"/>").arg(QString(byteArray.toBase64()));
+    QString url = QString("<img src=\"data:image/png;base64,%1\"/>").arg(QString(byteArray.toBase64()));
 
     return url;
 }
@@ -541,8 +540,7 @@ void GraphicalItem::changeColor()
     QString outputColor;
     if (state == 0) {
         QColor color = m_helper->stringToColor(lineEdit->text());
-        QColor newColor = QColorDialog::getColor(color, this, i18n("Select color"),
-                                                 QColorDialog::ShowAlphaChannel);
+        QColor newColor = QColorDialog::getColor(color, this, i18n("Select color"), QColorDialog::ShowAlphaChannel);
         if (!newColor.isValid())
             return;
         qCInfo(LOG_LIB) << "Selected color" << newColor;
@@ -557,10 +555,9 @@ void GraphicalItem::changeColor()
     } else if (state == 1) {
         QString path = lineEdit->text();
         QString directory = QFileInfo(path).absolutePath();
-        outputColor
-            = QFileDialog::getOpenFileUrl(this, i18n("Select path"), directory,
-                                          i18n("Images (*.png *.bpm *.jpg);;All files (*.*)"))
-                  .toString();
+        outputColor = QFileDialog::getOpenFileUrl(this, i18n("Select path"), directory,
+                                                  i18n("Images (*.png *.bpm *.jpg);;All files (*.*)"))
+                          .toString();
 
         qCInfo(LOG_LIB) << "Selected path" << outputColor;
     }

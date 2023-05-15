@@ -68,8 +68,7 @@ QVariant PlayerSource::data(const QString &_source)
 
 QString PlayerSource::getAutoMpris()
 {
-    QDBusMessage listServices
-        = QDBusConnection::sessionBus().interface()->call(QDBus::BlockWithGui, "ListNames");
+    QDBusMessage listServices = QDBusConnection::sessionBus().interface()->call(QDBus::BlockWithGui, "ListNames");
     if (listServices.arguments().isEmpty()) {
         qCWarning(LOG_ESS) << "Could not find any DBus service";
         return "";
@@ -187,12 +186,12 @@ void PlayerSource::run()
     m_values["player/sartist"] = stripString(m_values["player/artist"].toString(), m_symbols);
     m_values["player/stitle"] = stripString(m_values["player/title"].toString(), m_symbols);
     // dynamic
-    m_values["player/dalbum"] = buildString(m_values["player/dalbum"].toString(),
-                                            m_values["player/album"].toString(), m_symbols);
-    m_values["player/dartist"] = buildString(m_values["player/dartist"].toString(),
-                                             m_values["player/artist"].toString(), m_symbols);
-    m_values["player/dtitle"] = buildString(m_values["player/dtitle"].toString(),
-                                            m_values["player/title"].toString(), m_symbols);
+    m_values["player/dalbum"]
+        = buildString(m_values["player/dalbum"].toString(), m_values["player/album"].toString(), m_symbols);
+    m_values["player/dartist"]
+        = buildString(m_values["player/dartist"].toString(), m_values["player/artist"].toString(), m_symbols);
+    m_values["player/dtitle"]
+        = buildString(m_values["player/dtitle"].toString(), m_values["player/title"].toString(), m_symbols);
 }
 
 
@@ -217,8 +216,7 @@ QStringList PlayerSource::sources() const
 
 QString PlayerSource::buildString(const QString &_current, const QString &_value, const int _s)
 {
-    qCDebug(LOG_ESS) << "Current value" << _current << "received" << _value
-                     << "will be stripped after" << _s;
+    qCDebug(LOG_ESS) << "Current value" << _current << "received" << _value << "will be stripped after" << _s;
 
     int index = _value.indexOf(_current);
     if ((_current.isEmpty()) || ((index + _s + 1) > _value.count()))
@@ -245,8 +243,7 @@ bool PlayerSource::isMpdSocketConnected() const
 
 void PlayerSource::mpdSocketConnected()
 {
-    qCDebug(LOG_ESS) << "MPD socket connected to" << m_mpdSocket.peerName() << "with state"
-                     << m_mpdSocket.state();
+    qCDebug(LOG_ESS) << "MPD socket connected to" << m_mpdSocket.peerName() << "with state" << m_mpdSocket.state();
 }
 
 
@@ -329,9 +326,9 @@ QVariantHash PlayerSource::getPlayerMprisInfo(const QString &_mpris)
     // /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get
     // string:'org.mpris.MediaPlayer2.Player' string:'Metadata'
     auto args = QVariantList({"org.mpris.MediaPlayer2.Player", "Metadata"});
-    QDBusMessage request = QDBusMessage::createMethodCall(
-        QString("org.mpris.MediaPlayer2.%1").arg(_mpris), "/org/mpris/MediaPlayer2",
-        "org.freedesktop.DBus.Properties", "Get");
+    QDBusMessage request
+        = QDBusMessage::createMethodCall(QString("org.mpris.MediaPlayer2.%1").arg(_mpris), "/org/mpris/MediaPlayer2",
+                                         "org.freedesktop.DBus.Properties", "Get");
     request.setArguments(args);
     auto response = bus.call(request, QDBus::BlockWithGui, REQUEST_TIMEOUT);
     if ((response.type() != QDBusMessage::ReplyMessage) || (response.arguments().isEmpty())) {
@@ -356,8 +353,7 @@ QVariantHash PlayerSource::getPlayerMprisInfo(const QString &_mpris)
     } else {
         // this cast is simpler than the previous one ;)
         info["player/progress"]
-            = response.arguments().first().value<QDBusVariant>().variant().toLongLong()
-              / (1000 * 1000);
+            = response.arguments().first().value<QDBusVariant>().variant().toLongLong() / (1000 * 1000);
     }
 
     return info;

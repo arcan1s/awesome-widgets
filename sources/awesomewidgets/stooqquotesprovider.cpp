@@ -49,15 +49,13 @@ void StooqQuotesProvider::initUrl(const QString &_asset)
 }
 
 
-QVariantHash StooqQuotesProvider::parse(const QByteArray &_source,
-                                        const QVariantHash &_oldValues) const
+QVariantHash StooqQuotesProvider::parse(const QByteArray &_source, const QVariantHash &_oldValues) const
 {
     qCDebug(LOG_LIB) << "Parse csv" << _source;
 
     QVariantHash values;
 
-    QStringList sourceValues
-        = QTextCodec::codecForMib(106)->toUnicode(_source).trimmed().split(',');
+    QStringList sourceValues = QTextCodec::codecForMib(106)->toUnicode(_source).trimmed().split(',');
     if (sourceValues.count() != 2) {
         qCWarning(LOG_LIB) << "Parse error" << sourceValues;
         return values;

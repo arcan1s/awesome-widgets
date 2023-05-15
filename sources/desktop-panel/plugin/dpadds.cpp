@@ -20,7 +20,10 @@
 #include <KI18n/KLocalizedString>
 #include <KNotifications/KNotification>
 #include <KWindowSystem/KWindowSystem>
-#include <KWindowSystem/KX11Extras>
+#include <taskmanager/virtualdesktopinfo.h>
+#include <taskmanager/waylandtasksmodel.h>
+#include <taskmanager/windowtasksmodel.h>
+#include <taskmanager/xwindowtasksmodel.h>
 
 #include <QBuffer>
 #include <QGraphicsPixmapItem>
@@ -43,8 +46,10 @@ DPAdds::DPAdds(QObject *_parent)
     for (auto &metadata : AWDebug::getBuildData())
         qCDebug(LOG_DP) << metadata;
 
-    connect(KWindowSystem::self(), SIGNAL(currentDesktopChanged(int)), this,
-            SIGNAL(desktopChanged()));
+    m_vdi = new TaskManager::VirtualDesktopInfo(this);
+    m_taskModel = new TaskManager::WindowTasksModel(this);
+
+    connect(m_vdi, SIGNAL(currentDesktopChanged()), this, SIGNAL(desktopChanged()));
     connect(KWindowSystem::self(), SIGNAL(windowAdded(WId)), this, SIGNAL(windowListChanged()));
     connect(KWindowSystem::self(), SIGNAL(windowRemoved(WId)), this, SIGNAL(windowListChanged()));
 }
@@ -53,6 +58,9 @@ DPAdds::DPAdds(QObject *_parent)
 DPAdds::~DPAdds()
 {
     qCDebug(LOG_DP) << __PRETTY_FUNCTION__;
+
+    delete m_vdi;
+    delete m_taskModel;
 }
 
 
@@ -63,9 +71,11 @@ bool DPAdds::isDebugEnabled()
 }
 
 
-int DPAdds::currentDesktop()
+int DPAdds::currentDesktop() const
 {
-    return KX11Extras::currentDesktop();
+    auto current = m_vdi->currentDesktop();
+    auto decrement = KWindowSystem::isPlatformX11() ? 1 : 0;
+    return m_vdi->position(current) - decrement;
 }
 
 
@@ -86,9 +96,9 @@ QStringList DPAdds::dictKeys(const bool _sorted, const QString &_regexp)
 }
 
 
-int DPAdds::numberOfDesktops()
+int DPAdds::numberOfDesktops() const
 {
-    return KX11Extras::numberOfDesktops();
+    return m_vdi->numberOfDesktops();
 }
 
 
@@ -118,12 +128,17 @@ QString DPAdds::toolTipImage(const int _desktop) const
     toolTipView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     toolTipView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
+    auto screens = QGuiApplication::screens();
+    auto desktop
+        = std::accumulate(screens.cbegin(), screens.cend(), QRect(0, 0, 0, 0), [](QRect source, const QScreen *screen) {
+              return source.united(screen->availableGeometry());
+          });
+
     // update
-    auto width = static_cast<float>(info.desktop.width());
-    auto height = static_cast<float>(info.desktop.height());
+    auto width = static_cast<float>(desktop.width());
+    auto height = static_cast<float>(desktop.height());
     float margin = 5.0f * width / 400.0f;
-    toolTipView->resize(static_cast<int>(width + 2.0f * margin),
-                        static_cast<int>(height + 2.0f * margin));
+    toolTipView->resize(static_cast<int>(width + 2.0f * margin), static_cast<int>(height + 2.0f * margin));
     toolTipScene->clear();
     toolTipScene->setBackgroundBrush(QBrush(Qt::NoBrush));
     // borders
@@ -132,45 +147,20 @@ QString DPAdds::toolTipImage(const int _desktop) const
     toolTipScene->addLine(width + 2.0 * margin, height + 2.0 * margin, width + 2.0 * margin, 0);
     toolTipScene->addLine(width + 2.0 * margin, 0, 0, 0);
 
-    if (m_tooltipType == "contours") {
-        QPen pen = QPen();
-        pen.setWidthF(2.0 * width / 400.0);
-        pen.setColor(QColor(m_tooltipColor));
-        for (auto &data : info.windowsData) {
-            QRect rect = data.rect;
-            auto left = static_cast<float>(rect.left());
-            auto right = static_cast<float>(rect.right());
-            auto top = static_cast<float>(rect.top());
-            auto bottom = static_cast<float>(rect.bottom());
-            toolTipScene->addLine(left + margin, bottom + margin, left + margin, top + margin, pen);
-            toolTipScene->addLine(left + margin, top + margin, right + margin, top + margin, pen);
-            toolTipScene->addLine(right + margin, top + margin, right + margin, bottom + margin,
-                                  pen);
-            toolTipScene->addLine(right + margin, bottom + margin, left + margin, bottom + margin,
-                                  pen);
-        }
-    } else if (m_tooltipType == "clean") {
-        QScreen *screen = QGuiApplication::primaryScreen();
-        std::for_each(info.desktopsData.cbegin(), info.desktopsData.cend(),
-                      [&toolTipScene, &screen](const WindowData &data) {
-                          QPixmap desktop = screen->grabWindow(data.id);
-                          toolTipScene->addPixmap(desktop)->setOffset(data.rect.left(),
-                                                                      data.rect.top());
-                      });
-    } else if (m_tooltipType == "windows") {
-        QScreen *screen = QGuiApplication::primaryScreen();
-        std::for_each(info.desktopsData.cbegin(), info.desktopsData.cend(),
-                      [&toolTipScene, &screen](const WindowData &data) {
-                          QPixmap desktop = screen->grabWindow(data.id);
-                          toolTipScene->addPixmap(desktop)->setOffset(data.rect.left(),
-                                                                      data.rect.top());
-                      });
-        std::for_each(info.windowsData.cbegin(), info.windowsData.cend(),
-                      [&toolTipScene, &screen](const WindowData &data) {
-                          QPixmap window = screen->grabWindow(data.id);
-                          toolTipScene->addPixmap(window)->setOffset(data.rect.left(),
-                                                                     data.rect.top());
-                      });
+    // with wayland countours only are supported
+    QPen pen = QPen();
+    pen.setWidthF(2.0 * width / 400.0);
+    pen.setColor(QColor(m_tooltipColor));
+    for (auto &data : info.windowsData) {
+        QRect rect = data.rect;
+        auto left = static_cast<float>(rect.left());
+        auto right = static_cast<float>(rect.right());
+        auto top = static_cast<float>(rect.top());
+        auto bottom = static_cast<float>(rect.bottom());
+        toolTipScene->addLine(left + margin, bottom + margin, left + margin, top + margin, pen);
+        toolTipScene->addLine(left + margin, top + margin, right + margin, top + margin, pen);
+        toolTipScene->addLine(right + margin, top + margin, right + margin, bottom + margin, pen);
+        toolTipScene->addLine(right + margin, bottom + margin, left + margin, bottom + margin, pen);
     }
 
     QPixmap image = toolTipView->grab().scaledToWidth(m_tooltipWidth);
@@ -233,13 +223,12 @@ QString DPAdds::valueByKey(const QString &_key, int _desktop) const
 
     QString currentMark = currentDesktop() == _desktop ? m_mark : "";
     if (_key == "mark")
-        return QString("%1")
-            .arg(currentMark, m_mark.count(), QLatin1Char(' '))
-            .replace(" ", "&nbsp;");
-    else if (_key == "name")
-        return KX11Extras::desktopName(_desktop).replace(" ", "&nbsp;");
-    else if (_key == "number")
-        return QString::number(_desktop);
+        return QString("%1").arg(currentMark, m_mark.count(), QLatin1Char(' ')).replace(" ", "&nbsp;");
+    else if (_key == "name") {
+        auto name = m_vdi->desktopNames().at(_desktop);
+        return name.replace(" ", "&nbsp;");
+    } else if (_key == "number")
+        return QString::number(_desktop + 1);
     else if (_key == "total")
         return QString::number(numberOfDesktops());
     else
@@ -262,8 +251,8 @@ QVariantMap DPAdds::getFont(const QVariantMap &_defaultFont)
 
     QVariantMap fontMap;
     int ret = 0;
-    CFont defaultCFont = CFont(_defaultFont["family"].toString(), _defaultFont["size"].toInt(), 400,
-                               false, _defaultFont["color"].toString());
+    CFont defaultCFont = CFont(_defaultFont["family"].toString(), _defaultFont["size"].toInt(), 400, false,
+                               _defaultFont["color"].toString());
     CFont font = CFontDialog::getFont(i18n("Select font"), defaultCFont, false, false, &ret);
 
     fontMap["applied"] = ret;
@@ -291,35 +280,33 @@ void DPAdds::setCurrentDesktop(const int _desktop)
 {
     qCDebug(LOG_DP) << "Desktop" << _desktop;
 
-    KX11Extras::setCurrentDesktop(_desktop);
+    m_vdi->requestActivate(m_vdi->desktopIds().at(_desktop));
 }
 
 
-DPAdds::DesktopWindowsInfo DPAdds::getInfoByDesktop(const int _desktop)
+DPAdds::DesktopWindowsInfo DPAdds::getInfoByDesktop(const int _desktop) const
 {
     qCDebug(LOG_DP) << "Desktop" << _desktop;
 
+    auto desktop = m_vdi->desktopIds().at(_desktop);
 
     DesktopWindowsInfo info;
-    info.desktop = KX11Extras::workArea(_desktop);
-
-    for (auto &id : KX11Extras::windows()) {
-        KWindowInfo winInfo = KWindowInfo(
-            id, NET::Property::WMDesktop | NET::Property::WMGeometry | NET::Property::WMState
-                    | NET::Property::WMWindowType | NET::Property::WMVisibleName);
-        if (!winInfo.isOnDesktop(_desktop))
-            continue;
+    for (auto i = 0; i < m_taskModel->rowCount(); i++) {
+        auto model = m_taskModel->index(i, 0);
         WindowData data;
-        data.id = id;
-        data.name = winInfo.visibleName();
-        data.rect = winInfo.geometry();
-        if (winInfo.windowType(NET::WindowTypeMask::NormalMask) == NET::WindowType::Normal) {
-            if (winInfo.isMinimized())
+
+        data.name = model.data(TaskManager::AbstractTasksModel::AppName).toString();
+        data.rect = model.data(TaskManager::AbstractTasksModel::Geometry).toRect();
+
+        auto desktops = model.data(TaskManager::AbstractTasksModel::VirtualDesktops).toList();
+        if (desktops.isEmpty()) {
+            // don't think it is possible to put desktop to desktop
+            info.desktopsData.append(data);
+        } else {
+            auto isMinimized = model.data(TaskManager::AbstractTasksModel::IsMinimized).toBool();
+            if (isMinimized || !desktops.contains(desktop))
                 continue;
             info.windowsData.append(data);
-        } else if (winInfo.windowType(NET::WindowTypeMask::DesktopMask)
-                   == NET::WindowType::Desktop) {
-            info.desktopsData.append(data);
         }
     }
 

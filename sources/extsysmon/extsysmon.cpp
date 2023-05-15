@@ -86,8 +86,7 @@ bool ExtendedSysMon::updateSourceEvent(const QString &_source)
 
 void ExtendedSysMon::readConfiguration()
 {
-    QString fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation,
-                                              "plasma-dataengine-extsysmon.conf");
+    QString fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation, "plasma-dataengine-extsysmon.conf");
     qCInfo(LOG_ESM) << "Configuration file" << fileName;
     QSettings settings(fileName, QSettings::IniFormat);
     QHash<QString, QString> rawConfig;
@@ -138,8 +137,7 @@ QHash<QString, QString> ExtendedSysMon::updateConfiguration(QHash<QString, QStri
             _rawConfig["HDDDEV"] = devices.join(',');
     }
     // player
-    if ((_rawConfig["PLAYER"] != "mpd") && (_rawConfig["PLAYER"] != "mpris")
-        && (_rawConfig["PLAYER"] != "disable"))
+    if ((_rawConfig["PLAYER"] != "mpd") && (_rawConfig["PLAYER"] != "mpris") && (_rawConfig["PLAYER"] != "disable"))
         _rawConfig["PLAYER"] = "mpris";
     // player symbols
     if (_rawConfig["PLAYERSYMBOLS"].toInt() <= 0)

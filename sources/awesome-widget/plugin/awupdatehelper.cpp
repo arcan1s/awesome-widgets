@@ -34,9 +34,8 @@ AWUpdateHelper::AWUpdateHelper(QObject *_parent)
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
     m_foundVersion = QVersionNumber::fromString(VERSION);
-    m_genericConfig
-        = QString("%1/awesomewidgets/general.ini")
-              .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
+    m_genericConfig = QString("%1/awesomewidgets/general.ini")
+                          .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
 }
 
 
@@ -53,9 +52,8 @@ void AWUpdateHelper::checkUpdates(const bool _showAnyway)
     // showAnyway options requires to show message if no updates found on direct
     // request. In case of automatic check no message will be shown
     auto *manager = new QNetworkAccessManager(nullptr);
-    connect(manager, &QNetworkAccessManager::finished, [_showAnyway, this](QNetworkReply *reply) {
-        return versionReplyRecieved(reply, _showAnyway);
-    });
+    connect(manager, &QNetworkAccessManager::finished,
+            [_showAnyway, this](QNetworkReply *reply) { return versionReplyRecieved(reply, _showAnyway); });
 
     manager->get(QNetworkRequest(QUrl(VERSION_API)));
 }
@@ -64,16 +62,14 @@ void AWUpdateHelper::checkUpdates(const bool _showAnyway)
 bool AWUpdateHelper::checkVersion()
 {
     QSettings settings(m_genericConfig, QSettings::IniFormat);
-    QVersionNumber version
-        = QVersionNumber::fromString(settings.value("Version", QString(VERSION)).toString());
+    QVersionNumber version = QVersionNumber::fromString(settings.value("Version", QString(VERSION)).toString());
     // update version
     settings.setValue("Version", QString(VERSION));
     settings.sync();
     qCInfo(LOG_AW) << "Found version" << version << "actual one is" << m_foundVersion;
 
     if ((version != m_foundVersion) && (!QString(CHANGELOG).isEmpty())) {
-        genMessageBox(i18nc("Changelog of %1", VERSION), QString(CHANGELOG).replace('@', '\n'),
-                      QMessageBox::Ok)
+        genMessageBox(i18nc("Changelog of %1", VERSION), QString(CHANGELOG).replace('@', '\n'), QMessageBox::Ok)
             ->open();
         return true;
     } else if (version != m_foundVersion) {
@@ -133,8 +129,7 @@ void AWUpdateHelper::versionReplyRecieved(QNetworkReply *_reply, const bool _sho
 {
     qCDebug(LOG_AW) << "Show message anyway" << _showAnyway;
     if (_reply->error() != QNetworkReply::NoError) {
-        qCWarning(LOG_AW) << "An error occurs" << _reply->error() << "with message"
-                          << _reply->errorString();
+        qCWarning(LOG_AW) << "An error occurs" << _reply->error() << "with message" << _reply->errorString();
         return;
     }
 

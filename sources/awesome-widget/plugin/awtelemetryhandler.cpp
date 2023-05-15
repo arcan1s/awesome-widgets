@@ -73,8 +73,8 @@ QString AWTelemetryHandler::getLast(const QString &_group) const
 
 void AWTelemetryHandler::init(const int _count, const bool _enableRemote, const QString &_clientId)
 {
-    qCDebug(LOG_AW) << "Init telemetry with count" << _count << "enable remote" << _enableRemote
-                    << "client ID" << _clientId;
+    qCDebug(LOG_AW) << "Init telemetry with count" << _count << "enable remote" << _enableRemote << "client ID"
+                    << _clientId;
 
     m_storeCount = _count;
     m_uploadEnabled = _enableRemote;
@@ -127,8 +127,7 @@ void AWTelemetryHandler::uploadTelemetry(const QString &_group, const QString &_
     }
 
     auto *manager = new QNetworkAccessManager(nullptr);
-    connect(manager, SIGNAL(finished(QNetworkReply *)), this,
-            SLOT(telemetryReplyRecieved(QNetworkReply *)));
+    connect(manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(telemetryReplyRecieved(QNetworkReply *)));
 
     QUrl url(REMOTE_TELEMETRY_URL);
     QNetworkRequest request(url);
@@ -151,8 +150,7 @@ void AWTelemetryHandler::uploadTelemetry(const QString &_group, const QString &_
 void AWTelemetryHandler::telemetryReplyRecieved(QNetworkReply *_reply)
 {
     if (_reply->error() != QNetworkReply::NoError) {
-        qCWarning(LOG_AW) << "An error occurs" << _reply->error() << "with message"
-                          << _reply->errorString();
+        qCWarning(LOG_AW) << "An error occurs" << _reply->error() << "with message" << _reply->errorString();
         return;
     }
 

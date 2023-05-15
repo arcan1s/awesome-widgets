@@ -29,10 +29,8 @@ void TestHDDTemperatureSource::initTestCase()
     AWTestLibrary::init();
     devices = HDDTemperatureSource::allHdd();
 
-    hddtempSource
-        = new HDDTemperatureSource(this, QStringList() << devices.join(',') << hddtempCmd);
-    smartctlSource
-        = new HDDTemperatureSource(this, QStringList() << devices.join(',') << smartctlCmd);
+    hddtempSource = new HDDTemperatureSource(this, QStringList() << devices.join(',') << hddtempCmd);
+    smartctlSource = new HDDTemperatureSource(this, QStringList() << devices.join(',') << smartctlCmd);
 }
 
 
@@ -48,8 +46,7 @@ void TestHDDTemperatureSource::test_sources()
     if (devices.isEmpty())
         QSKIP("No hdd devices found, test will be skipped");
 
-    std::for_each(devices.begin(), devices.end(),
-                  [](QString &device) { device.prepend("hdd/temperature"); });
+    std::for_each(devices.begin(), devices.end(), [](QString &device) { device.prepend("hdd/temperature"); });
 
     QCOMPARE(hddtempSource->sources(), devices);
     QCOMPARE(smartctlSource->sources(), devices);

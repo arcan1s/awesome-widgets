@@ -76,8 +76,7 @@ QStringList AWDataEngineMapper::keysFromSource(const QString &_source) const
 
 // HACK units required to define should the value be calculated as temperature
 // or fan data
-QStringList AWDataEngineMapper::registerSource(const QString &_source, const QString &_units,
-                                               const QStringList &_keys)
+QStringList AWDataEngineMapper::registerSource(const QString &_source, const QString &_units, const QStringList &_keys)
 {
     qCDebug(LOG_AW) << "Source" << _source << "with units" << _units;
 
@@ -180,10 +179,8 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const QSt
             m_map.insert(_source, key);
             m_formatter[key] = AWKeysAggregator::FormatterType::Float;
             // additional keys
-            m_formatter[QString("hddtotmb%1").arg(index)]
-                = AWKeysAggregator::FormatterType::MemMBFormat;
-            m_formatter[QString("hddtotgb%1").arg(index)]
-                = AWKeysAggregator::FormatterType::MemGBFormat;
+            m_formatter[QString("hddtotmb%1").arg(index)] = AWKeysAggregator::FormatterType::MemMBFormat;
+            m_formatter[QString("hddtotgb%1").arg(index)] = AWKeysAggregator::FormatterType::MemGBFormat;
         }
     } else if (_source.contains(mountFreeRegExp)) {
         // free space
@@ -427,9 +424,9 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const QSt
 
     // drop key from dictionary if no one user requested key required it
     qCInfo(LOG_AW) << "Looking for keys" << foundKeys << "in" << _keys;
-    bool required = _keys.isEmpty()
-                    || std::any_of(foundKeys.cbegin(), foundKeys.cend(),
-                                   [&_keys](const QString &key) { return _keys.contains(key); });
+    bool required = _keys.isEmpty() || std::any_of(foundKeys.cbegin(), foundKeys.cend(), [&_keys](const QString &key) {
+                        return _keys.contains(key);
+                    });
     if (!required) {
         m_map.remove(_source);
         for (auto &key : foundKeys)

@@ -34,10 +34,9 @@ AbstractExtItemAggregator::AbstractExtItemAggregator(QWidget *_parent, QString _
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     // create directory at $HOME
-    QString localDir
-        = QString("%1/awesomewidgets/%2")
-              .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation))
-              .arg(type());
+    QString localDir = QString("%1/awesomewidgets/%2")
+                           .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation))
+                           .arg(type());
     QDir localDirectory;
     if (localDirectory.mkpath(localDir))
         qCInfo(LOG_LIB) << "Created directory" << localDir;
@@ -47,11 +46,9 @@ AbstractExtItemAggregator::AbstractExtItemAggregator(QWidget *_parent, QString _
     createButton = ui->buttonBox->addButton(i18n("Create"), QDialogButtonBox::ActionRole);
     deleteButton = ui->buttonBox->addButton(i18n("Remove"), QDialogButtonBox::ActionRole);
 
-    connect(ui->buttonBox, SIGNAL(clicked(QAbstractButton *)), this,
-            SLOT(editItemButtonPressed(QAbstractButton *)));
+    connect(ui->buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(editItemButtonPressed(QAbstractButton *)));
     connect(ui->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-    connect(ui->listWidget, SIGNAL(itemActivated(QListWidgetItem *)), this,
-            SLOT(editItemActivated(QListWidgetItem *)));
+    connect(ui->listWidget, SIGNAL(itemActivated(QListWidgetItem *)), this, SLOT(editItemActivated(QListWidgetItem *)));
 }
 
 
@@ -118,8 +115,7 @@ void AbstractExtItemAggregator::editItem()
 QString AbstractExtItemAggregator::getName()
 {
     bool ok;
-    QString name = QInputDialog::getText(this, i18n("Enter file name"), i18n("File name"),
-                                         QLineEdit::Normal, "", &ok);
+    QString name = QInputDialog::getText(this, i18n("Enter file name"), i18n("File name"), QLineEdit::Normal, "", &ok);
     if ((!ok) || (name.isEmpty()))
         return "";
     if (!name.endsWith(".desktop"))
@@ -187,8 +183,7 @@ QVariant AbstractExtItemAggregator::configArgs() const
 
 QStringList AbstractExtItemAggregator::directories() const
 {
-    auto dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
-                                          QString("awesomewidgets/%1").arg(type()),
+    auto dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QString("awesomewidgets/%1").arg(type()),
                                           QStandardPaths::LocateDirectory);
 
     return dirs;

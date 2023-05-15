@@ -139,9 +139,8 @@ private:
                 qCInfo(LOG_LIB) << "Found file" << file << "in" << dir;
                 QString filePath = QString("%1/%2").arg(dir).arg(file);
                 // check if already exists
-                if (std::any_of(items.cbegin(), items.cend(), [&filePath](AbstractExtItem *item) {
-                        return (item->fileName() == filePath);
-                    }))
+                if (std::any_of(items.cbegin(), items.cend(),
+                                [&filePath](AbstractExtItem *item) { return (item->fileName() == filePath); }))
                     continue;
                 items.append(new T(this, filePath));
             }
@@ -149,9 +148,7 @@ private:
 
         // sort items
         std::sort(items.begin(), items.end(),
-                  [](const AbstractExtItem *lhs, const AbstractExtItem *rhs) {
-                      return lhs->number() < rhs->number();
-                  });
+                  [](const AbstractExtItem *lhs, const AbstractExtItem *rhs) { return lhs->number() < rhs->number(); });
         return items;
     };
 };

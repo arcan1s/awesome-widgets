@@ -50,8 +50,7 @@ ExtQuotes::ExtQuotes(QWidget *_parent, const QString &_filePath)
     // HACK declare as child of nullptr to avoid crash with plasmawindowed
     // in the destructor
     m_manager = new QNetworkAccessManager(nullptr);
-    connect(m_manager, SIGNAL(finished(QNetworkReply *)), this,
-            SLOT(quotesReplyReceived(QNetworkReply *)));
+    connect(m_manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(quotesReplyReceived(QNetworkReply *)));
 
     connect(this, SIGNAL(requestDataUpdate()), this, SLOT(sendRequest()));
 }
@@ -61,8 +60,7 @@ ExtQuotes::~ExtQuotes()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    disconnect(m_manager, SIGNAL(finished(QNetworkReply *)), this,
-               SLOT(quotesReplyReceived(QNetworkReply *)));
+    disconnect(m_manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(quotesReplyReceived(QNetworkReply *)));
     disconnect(this, SIGNAL(requestDataUpdate()), this, SLOT(sendRequest()));
 
     m_manager->deleteLater();
@@ -176,8 +174,7 @@ void ExtQuotes::writeConfiguration() const
 void ExtQuotes::quotesReplyReceived(QNetworkReply *_reply)
 {
     if (_reply->error() != QNetworkReply::NoError) {
-        qCWarning(LOG_AW) << "An error occurs" << _reply->error() << "with message"
-                          << _reply->errorString();
+        qCWarning(LOG_AW) << "An error occurs" << _reply->error() << "with message" << _reply->errorString();
         return;
     }
 
@@ -218,10 +215,9 @@ void ExtQuotes::translate()
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
     ui->label_number->setText(i18n("Tag"));
-    ui->label->setText(
-        i18n("<html><head/><body><p>Use Stooq ticker to get quotes for the instrument. Refer to <a "
-             "href=\"https://stooq.com/\"><span style=\" text-decoration: underline; "
-             "color:#0057ae;\">https://stooq.com/</span></a></p></body></html>"));
+    ui->label->setText(i18n("<html><head/><body><p>Use Stooq ticker to get quotes for the instrument. Refer to <a "
+                            "href=\"https://stooq.com/\"><span style=\" text-decoration: underline; "
+                            "color:#0057ae;\">https://stooq.com/</span></a></p></body></html>"));
     ui->label_ticker->setText(i18n("Ticker"));
     ui->checkBox_active->setText(i18n("Active"));
     ui->label_schedule->setText(i18n("Schedule"));

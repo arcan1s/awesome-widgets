@@ -51,8 +51,8 @@ QString AWFloatFormatter::convert(const QVariant &_value) const
 {
     qCDebug(LOG_LIB) << "Convert value" << _value;
 
-    QString output = QString("%1").arg(_value.toDouble() * multiplier() + summand(), count(),
-                                       format(), precision(), fillChar());
+    QString output
+        = QString("%1").arg(_value.toDouble() * multiplier() + summand(), count(), format(), precision(), fillChar());
     if (forceWidth())
         output = output.left(count());
 
@@ -149,8 +149,7 @@ void AWFloatFormatter::setFormat(char _format)
 {
     qCDebug(LOG_LIB) << "Set format" << _format;
     // http://doc.qt.io/qt-5/qstring.html#argument-formats
-    if ((_format != 'e') && (_format != 'E') && (_format != 'f') && (_format != 'g')
-        && (_format != 'G')) {
+    if ((_format != 'e') && (_format != 'E') && (_format != 'f') && (_format != 'g') && (_format != 'G')) {
         qCWarning(LOG_LIB) << "Invalid format" << _format;
         _format = 'f';
     }
