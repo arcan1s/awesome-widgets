@@ -303,8 +303,9 @@ DPAdds::DesktopWindowsInfo DPAdds::getInfoByDesktop(const int _desktop) const
             // don't think it is possible to put desktop to desktop
             info.desktopsData.append(data);
         } else {
+            auto isHidden = model.data(TaskManager::AbstractTasksModel::IsHidden).toBool();
             auto isMinimized = model.data(TaskManager::AbstractTasksModel::IsMinimized).toBool();
-            if (isMinimized || !desktops.contains(desktop))
+            if (isHidden || isMinimized || !desktops.contains(desktop))
                 continue;
             info.windowsData.append(data);
         }
