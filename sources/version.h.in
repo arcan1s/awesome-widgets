@@ -67,7 +67,7 @@ const char STATIC_KEYS[] = "time,isotime,shorttime,longtime,tstime,ctime,uptime,
 // links
 const char HOMEPAGE[] = "https://arcanis.me/projects/awesome-widgets";
 const char REPOSITORY[] = "https://github.com/arcan1s/awesome-widgets";
-const char RELEASES[] = "https://github.com/arcan1s/awesome-widgets/releases/tag/V.";
+const char RELEASES[] = "https://github.com/arcan1s/awesome-widgets/releases/tag/";
 const char VERSION_API[] = "https://api.github.com/repos/arcan1s/awesome-widgets/releases";
 const char BUGTRACKER[] = "https://github.com/arcan1s/awesome-widgets/issues";
 const char BUGTRACKER_API[] = "https://arcanis.me/repos/arcan1s/awesome-widgets/issues";

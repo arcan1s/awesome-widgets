@@ -1,3 +1,8 @@
+Ver.3.5.0:
++ wayland support
+* update code to latest standards
+- drop support of windows preview
+
 Ver.3.4.2:
 + Italian translation (#136, thanks to @avivace)
 + stooq quotes support (default) (#131)
