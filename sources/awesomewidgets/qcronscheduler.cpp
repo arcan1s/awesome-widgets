@@ -135,7 +135,7 @@ QList<int> QCronScheduler::QCronField::toList()
 {
     // error checking
     if ((minValue == -1) || (maxValue == -1))
-        return QList<int>();
+        return {};
 
     QList<int> output;
     for (auto &i = minValue; i <= maxValue; ++i) {

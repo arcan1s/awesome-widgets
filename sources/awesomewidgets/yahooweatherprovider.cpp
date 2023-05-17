@@ -57,7 +57,7 @@ QVariantHash YahooWeatherProvider::parse(const QVariantMap &_json) const
     QVariantMap jsonMap = _json["query"].toMap();
     if (jsonMap["count"].toInt() != 1) {
         qCWarning(LOG_LIB) << "Found data count" << _json["count"].toInt() << "is not 1";
-        return QVariantHash();
+        return {};
     }
     QVariantMap results = jsonMap["results"].toMap()["channel"].toMap();
     QVariantMap item = results["item"].toMap();

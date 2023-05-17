@@ -20,7 +20,6 @@
 #include <Plasma/DataContainer>
 
 #include "awdebug.h"
-#include "awkeys.h"
 
 
 AWDataEngineAggregator::AWDataEngineAggregator(QObject *_parent)

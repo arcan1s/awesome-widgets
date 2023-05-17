@@ -100,7 +100,7 @@ QString GraphicalItem::image(const QVariant &value)
 
     m_scene->clear();
     int scale[2] = {1, 1};
-    float converted = m_helper->getPercents(value.toFloat(), minValue(), maxValue());
+    float converted = GraphicalItemHelper::getPercents(value.toFloat(), minValue(), maxValue());
 
     // paint
     switch (m_type) {
@@ -457,12 +457,12 @@ int GraphicalItem::showConfiguration(const QVariant &_args)
     ui->doubleSpinBox_max->setValue(maxValue());
     ui->doubleSpinBox_min->setValue(minValue());
     ui->spinBox_count->setValue(count());
-    if (m_helper->isColor(activeColor()))
+    if (GraphicalItemHelper::isColor(activeColor()))
         ui->comboBox_activeImageType->setCurrentIndex(0);
     else
         ui->comboBox_activeImageType->setCurrentIndex(1);
     ui->lineEdit_activeColor->setText(activeColor());
-    if (m_helper->isColor(inactiveColor()))
+    if (GraphicalItemHelper::isColor(inactiveColor()))
         ui->comboBox_inactiveImageType->setCurrentIndex(0);
     else
         ui->comboBox_inactiveImageType->setCurrentIndex(1);
@@ -539,7 +539,7 @@ void GraphicalItem::changeColor()
 
     QString outputColor;
     if (state == 0) {
-        QColor color = m_helper->stringToColor(lineEdit->text());
+        QColor color = GraphicalItemHelper::stringToColor(lineEdit->text());
         QColor newColor = QColorDialog::getColor(color, this, i18n("Select color"), QColorDialog::ShowAlphaChannel);
         if (!newColor.isValid())
             return;

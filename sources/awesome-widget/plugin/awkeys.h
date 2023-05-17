@@ -58,7 +58,7 @@ public:
 public slots:
     void dataUpdated(const QString &_sourceName, const Plasma::DataEngine::Data &_data);
     // dummy method required by DataEngine connections
-    static void modelChanged(QString, QAbstractItemModel *){};
+    static void modelChanged(const QString &, QAbstractItemModel *){};
 
 signals:
     void dropSourceFromDataengine(const QString &_source);

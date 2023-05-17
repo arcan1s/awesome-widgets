@@ -74,5 +74,5 @@ QStringList AWCustomKeysHelper::leftKeys()
 
 QStringList AWCustomKeysHelper::rightKeys()
 {
-    return QStringList();
+    return {};
 }

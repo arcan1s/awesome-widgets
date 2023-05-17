@@ -91,7 +91,7 @@ public:
 
 public slots:
     void readConfiguration() override;
-    QVariantHash run() override { return QVariantHash(); };
+    QVariantHash run() override { return {}; };
     int showConfiguration(const QVariant &_args) override;
     void writeConfiguration() const override;
 

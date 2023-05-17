@@ -47,4 +47,4 @@ private:
 };
 
 
-#endif /* TESTJSONFORMATTER_Hl */
+#endif /* TESTJSONFORMATTER_H */

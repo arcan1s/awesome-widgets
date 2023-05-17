@@ -38,7 +38,7 @@ public:
     {
         return dynamic_cast<AbstractExtItem *>(parent())->tag(_type);
     };
-    virtual QUrl url() const = 0;
+    [[nodiscard]] virtual QUrl url() const = 0;
 };
 
 

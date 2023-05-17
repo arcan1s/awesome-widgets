@@ -102,7 +102,7 @@ void AWFormatterHelper::editPairs()
 
 QStringList AWFormatterHelper::leftKeys()
 {
-    return QStringList();
+    return {};
 }
 
 

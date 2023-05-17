@@ -38,7 +38,7 @@ AWDBusAdaptor::~AWDBusAdaptor()
 }
 
 
-QStringList AWDBusAdaptor::ActiveServices() const
+QStringList AWDBusAdaptor::ActiveServices()
 {
     QDBusMessage listServices = QDBusConnection::sessionBus().interface()->call(QDBus::BlockWithGui, "ListNames");
     if (listServices.arguments().isEmpty()) {

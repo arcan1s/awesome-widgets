@@ -18,7 +18,6 @@
 #include "awkeyoperations.h"
 
 #include <QDir>
-#include <QJSEngine>
 #include <QRegExp>
 #include <QThread>
 

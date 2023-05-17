@@ -38,7 +38,7 @@ public:
     Q_INVOKABLE void sendBugReport(const QString &_title, const QString &_body);
 
 signals:
-    void replyReceived(const int _number, const QString &_url);
+    void replyReceived(int _number, const QString &_url);
 
 private slots:
     void issueReplyRecieved(QNetworkReply *_reply);

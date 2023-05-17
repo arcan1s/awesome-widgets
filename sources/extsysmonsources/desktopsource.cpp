@@ -59,7 +59,7 @@ QVariant DesktopSource::data(const QString &_source)
         return m_vdi->numberOfDesktops();
     }
 
-    return QVariant();
+    return {};
 }
 
 

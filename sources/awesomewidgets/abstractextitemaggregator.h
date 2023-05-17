@@ -67,7 +67,7 @@ public:
     void editItem();
     QString getName();
     virtual void initItems() = 0;
-    AbstractExtItem *itemFromWidget() const;
+    [[nodiscard]] AbstractExtItem *itemFromWidget() const;
     void repaintList() const;
     [[nodiscard]] int uniqNumber() const;
     // get methods

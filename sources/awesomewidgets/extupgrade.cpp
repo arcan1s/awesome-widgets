@@ -20,7 +20,6 @@
 
 #include <KI18n/KLocalizedString>
 
-#include <QDir>
 #include <QSettings>
 #include <QTextCodec>
 

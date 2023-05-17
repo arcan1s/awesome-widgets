@@ -79,7 +79,7 @@ public slots:
     virtual void readConfiguration();
     virtual QVariantHash run() = 0;
     virtual int showConfiguration(const QVariant &_args) = 0;
-    virtual bool tryDelete() const;
+    [[nodiscard]] virtual bool tryDelete() const;
     virtual void writeConfiguration() const;
 
 private slots:

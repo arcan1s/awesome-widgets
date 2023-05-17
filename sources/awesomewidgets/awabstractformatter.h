@@ -43,7 +43,7 @@ public:
 
 public slots:
     void readConfiguration() override;
-    QVariantHash run() override { return QVariantHash(); };
+    QVariantHash run() override { return {}; };
     void writeConfiguration() const override;
 
 private:

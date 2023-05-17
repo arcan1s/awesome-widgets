@@ -1,9 +1,9 @@
-exec_program(
-        "git"
-        ${CMAKE_CURRENT_SOURCE_DIR}
-        ARGS "log" "-1" "--format=\"%h\""
+execute_process(
+        COMMAND git log -1 --format=%h
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         OUTPUT_VARIABLE COMMIT_SHA
-        RETURN_VALUE GIT_RETURN
+        RESULT_VARIABLE GIT_RETURN
+        OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
 if (${GIT_RETURN} EQUAL "0")
