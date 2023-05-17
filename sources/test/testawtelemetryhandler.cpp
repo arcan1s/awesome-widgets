@@ -64,6 +64,8 @@ void TestAWTelemetryHandler::test_getLast()
 
 void TestAWTelemetryHandler::test_uploadTelemetry()
 {
+    QSKIP("Remote telemetry is disabled at the moment");
+
     QSignalSpy spy(plugin, SIGNAL(replyReceived(const QString &)));
     plugin->uploadTelemetry(telemetryValidGroup, telemetryData);
 
