@@ -124,8 +124,8 @@ QVariantMap AWActions::getFont(const QVariantMap &_defaultFont)
 
     QVariantMap fontMap;
     int ret = 0;
-    CFont defaultCFont = CFont(_defaultFont["family"].toString(), _defaultFont["size"].toInt(), 400,
-                               false, _defaultFont["color"].toString());
+    CFont defaultCFont = CFont(_defaultFont["family"].toString(), _defaultFont["size"].toInt(), 400, false,
+                               _defaultFont["color"].toString());
     CFont font = CFontDialog::getFont(i18n("Select font"), defaultCFont, false, false, &ret);
 
     fontMap["applied"] = ret;

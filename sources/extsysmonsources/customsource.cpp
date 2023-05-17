@@ -56,8 +56,7 @@ QVariantMap CustomSource::initialData(const QString &_source) const
     QVariantMap data;
     data["min"] = "";
     data["max"] = "";
-    data["name"] = QString("Custom command '%1' output")
-                       .arg(m_extScripts->itemByTagNumber(index(_source))->uniq());
+    data["name"] = QString("Custom command '%1' output").arg(m_extScripts->itemByTagNumber(index(_source))->uniq());
     data["type"] = "QString";
     data["units"] = "";
 

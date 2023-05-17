@@ -18,7 +18,8 @@
 
 #include "desktopsource.h"
 
-#include <KX11Extras>
+#include <KWindowSystem/KWindowSystem>
+#include <taskmanager/virtualdesktopinfo.h>
 
 #include "awdebug.h"
 
@@ -28,12 +29,16 @@ DesktopSource::DesktopSource(QObject *_parent, const QStringList &_args)
 {
     Q_ASSERT(_args.count() == 0);
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
+
+    m_vdi = new TaskManager::VirtualDesktopInfo(this);
 }
 
 
 DesktopSource::~DesktopSource()
 {
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
+
+    delete m_vdi;
 }
 
 
@@ -41,20 +46,17 @@ QVariant DesktopSource::data(const QString &_source)
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
-    int current = KX11Extras::currentDesktop();
-    int total = KX11Extras::numberOfDesktops();
+    auto increment = KWindowSystem::isPlatformX11() ? 0 : 1;
+    auto current = m_vdi->position(m_vdi->currentDesktop()) + increment;
 
     if (_source == "desktop/current/name") {
-        return KX11Extras::desktopName(current);
+        return m_vdi->desktopNames().at(current);
     } else if (_source == "desktop/current/number") {
         return current;
     } else if (_source == "desktop/total/name") {
-        QStringList desktops;
-        for (int i = 1; i < total + 1; i++)
-            desktops.append(KX11Extras::desktopName(i));
-        return desktops;
+        return m_vdi->desktopNames();
     } else if (_source == "desktop/total/number") {
-        return total;
+        return m_vdi->numberOfDesktops();
     }
 
     return QVariant();

@@ -44,13 +44,12 @@ AWBugReporter::~AWBugReporter()
 void AWBugReporter::doConnect()
 {
     // additional method for testing needs
-    connect(this, SIGNAL(replyReceived(const int, const QString &)), this,
-            SLOT(showInformation(int, const QString &)));
+    connect(this, SIGNAL(replyReceived(const int, const QString &)), this, SLOT(showInformation(int, const QString &)));
 }
 
 
-QString AWBugReporter::generateText(const QString &_description, const QString &_reproduce,
-                                    const QString &_expected, const QString &_logs)
+QString AWBugReporter::generateText(const QString &_description, const QString &_reproduce, const QString &_expected,
+                                    const QString &_logs)
 {
     // do not log _logs here, it may have quite large size
     qCDebug(LOG_AW) << "Generate text with description" << _description << "steps" << _reproduce
@@ -73,8 +72,7 @@ void AWBugReporter::sendBugReport(const QString &_title, const QString &_body)
     qCDebug(LOG_AW) << "Send bug report with title" << _title << "and body" << _body;
 
     auto *manager = new QNetworkAccessManager(nullptr);
-    connect(manager, SIGNAL(finished(QNetworkReply *)), this,
-            SLOT(issueReplyRecieved(QNetworkReply *)));
+    connect(manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(issueReplyRecieved(QNetworkReply *)));
 
     QNetworkRequest request = QNetworkRequest(QUrl(BUGTRACKER_API));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -95,8 +93,7 @@ void AWBugReporter::sendBugReport(const QString &_title, const QString &_body)
 void AWBugReporter::issueReplyRecieved(QNetworkReply *_reply)
 {
     if (_reply->error() != QNetworkReply::NoError) {
-        qCWarning(LOG_AW) << "An error occurs" << _reply->error() << "with message"
-                          << _reply->errorString();
+        qCWarning(LOG_AW) << "An error occurs" << _reply->error() << "with message" << _reply->errorString();
         return emit(replyReceived(0, ""));
     }
 

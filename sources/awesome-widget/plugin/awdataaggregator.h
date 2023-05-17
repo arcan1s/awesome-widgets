@@ -50,8 +50,7 @@ private:
     QGraphicsScene *m_toolTipScene = nullptr;
     QGraphicsView *m_toolTipView = nullptr;
     void checkValue(const QString &_source, float _value, float _extremum) const;
-    void checkValue(const QString &_source, const QString &_current,
-                    const QString &_received) const;
+    void checkValue(const QString &_source, const QString &_current, const QString &_received) const;
     void initScene();
     static QString notificationText(const QString &_source, float _value);
     static QString notificationText(const QString &_source, const QString &_value);

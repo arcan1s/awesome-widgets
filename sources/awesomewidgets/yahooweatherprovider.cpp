@@ -73,8 +73,7 @@ QUrl YahooWeatherProvider::url() const
 }
 
 
-QVariantHash YahooWeatherProvider::parseCurrent(const QVariantMap &_json,
-                                                const QVariantMap &_atmosphere) const
+QVariantHash YahooWeatherProvider::parseCurrent(const QVariantMap &_json, const QVariantMap &_atmosphere) const
 {
     qCDebug(LOG_LIB) << "Parse current weather from" << _json;
 
@@ -99,8 +98,7 @@ QVariantHash YahooWeatherProvider::parseForecast(const QVariantMap &_json) const
 
     QVariantHash values;
     QVariantList weatherList = _json["forecast"].toList();
-    QVariantMap weatherMap
-        = weatherList.count() < m_ts ? weatherList.last().toMap() : weatherList.at(m_ts).toMap();
+    QVariantMap weatherMap = weatherList.count() < m_ts ? weatherList.last().toMap() : weatherList.at(m_ts).toMap();
     int id = weatherMap["code"].toInt();
     values[tag("weatherId")] = id;
     values[tag("timestamp")] = weatherMap["date"].toString();

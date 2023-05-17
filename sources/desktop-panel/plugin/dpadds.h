@@ -24,18 +24,21 @@
 #include <QRect>
 
 
+namespace TaskManager
+{
+class VirtualDesktopInfo;
+class WindowTasksModel;
+} // namespace TaskManager
 class DPAdds : public QObject
 {
     Q_OBJECT
 
     typedef struct {
-        WId id;
         QString name;
         QRect rect;
     } WindowData;
 
     typedef struct {
-        QRect desktop;
         QList<WindowData> desktopsData;
         QList<WindowData> windowsData;
     } DesktopWindowsInfo;
@@ -44,9 +47,9 @@ public:
     explicit DPAdds(QObject *_parent = nullptr);
     ~DPAdds() override;
     Q_INVOKABLE static bool isDebugEnabled();
-    Q_INVOKABLE static int currentDesktop();
+    Q_INVOKABLE [[nodiscard]] int currentDesktop() const;
     Q_INVOKABLE static QStringList dictKeys(bool _sorted = true, const QString &_regexp = "");
-    Q_INVOKABLE static int numberOfDesktops();
+    Q_INVOKABLE [[nodiscard]] int numberOfDesktops() const;
     Q_INVOKABLE [[nodiscard]] QString toolTipImage(int _desktop) const;
     Q_INVOKABLE [[nodiscard]] QString parsePattern(const QString &_pattern, int _desktop) const;
     // values
@@ -64,11 +67,13 @@ signals:
 
 public slots:
     Q_INVOKABLE static void sendNotification(const QString &_eventId, const QString &_message);
-    Q_INVOKABLE static void setCurrentDesktop(int _desktop);
+    Q_INVOKABLE void setCurrentDesktop(int _desktop);
 
 private:
-    static DesktopWindowsInfo getInfoByDesktop(int _desktop);
+    [[nodiscard]] DesktopWindowsInfo getInfoByDesktop(int _desktop) const;
     // variables
+    TaskManager::VirtualDesktopInfo *m_vdi = nullptr;
+    TaskManager::WindowTasksModel *m_taskModel = nullptr;
     int m_tooltipWidth = 200;
     QString m_mark = "*";
     QString m_tooltipColor = "#000000";

@@ -31,8 +31,7 @@ public:
     explicit StooqQuotesProvider(QObject *_parent);
     ~StooqQuotesProvider() override;
     void initUrl(const QString &_asset) override;
-    [[nodiscard]] QVariantHash parse(const QByteArray &_source,
-                                     const QVariantHash &_oldValues) const override;
+    [[nodiscard]] QVariantHash parse(const QByteArray &_source, const QVariantHash &_oldValues) const override;
     [[nodiscard]] QUrl url() const override;
 
 private:

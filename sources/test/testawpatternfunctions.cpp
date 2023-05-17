@@ -42,8 +42,7 @@ void TestAWPatternFunctions::test_findFunctionCalls()
 
     QString pattern = AWTestLibrary::randomString() + function + AWTestLibrary::randomString();
 
-    QList<AWPatternFunctions::AWFunction> found
-        = AWPatternFunctions::findFunctionCalls(name, pattern);
+    QList<AWPatternFunctions::AWFunction> found = AWPatternFunctions::findFunctionCalls(name, pattern);
     QCOMPARE(found.count(), 1);
 
     QCOMPARE(found.at(0).args, args);
@@ -87,8 +86,8 @@ void TestAWPatternFunctions::test_findKeys()
 void TestAWPatternFunctions::test_findLambdas()
 {
     QStringList lambdas = AWTestLibrary::randomStringList(20);
-    QString pattern = AWTestLibrary::randomString() + QString("${{%1}}").arg(lambdas.join("}}${{"))
-                      + AWTestLibrary::randomString();
+    QString pattern
+        = AWTestLibrary::randomString() + QString("${{%1}}").arg(lambdas.join("}}${{")) + AWTestLibrary::randomString();
 
     QCOMPARE(AWPatternFunctions::findLambdas(pattern), lambdas);
 }

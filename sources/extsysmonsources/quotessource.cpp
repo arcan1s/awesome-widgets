@@ -66,8 +66,7 @@ QVariantMap QuotesSource::initialData(const QString &_source) const
     if (_source.startsWith("quotes/pricechg")) {
         data["min"] = 0.0;
         data["max"] = 0.0;
-        data["name"] = QString("Absolute prie changes for '%1'")
-                           .arg(m_extQuotes->itemByTagNumber(ind)->uniq());
+        data["name"] = QString("Absolute prie changes for '%1'").arg(m_extQuotes->itemByTagNumber(ind)->uniq());
         data["type"] = "double";
         data["units"] = "";
     } else if (_source.startsWith("quotes/price")) {
@@ -79,15 +78,13 @@ QVariantMap QuotesSource::initialData(const QString &_source) const
     } else if (_source.startsWith("quotes/percpricechg")) {
         data["min"] = -100.0;
         data["max"] = 100.0;
-        data["name"]
-            = QString("Price changes for '%1'").arg(m_extQuotes->itemByTagNumber(ind)->uniq());
+        data["name"] = QString("Price changes for '%1'").arg(m_extQuotes->itemByTagNumber(ind)->uniq());
         data["type"] = "double";
         data["units"] = "";
     } else if (_source.startsWith("quotes/volumechg")) {
         data["min"] = 0;
         data["max"] = 0;
-        data["name"] = QString("Absolute volume changes for '%1'")
-                           .arg(m_extQuotes->itemByTagNumber(ind)->uniq());
+        data["name"] = QString("Absolute volume changes for '%1'").arg(m_extQuotes->itemByTagNumber(ind)->uniq());
         data["type"] = "int";
         data["units"] = "";
     } else if (_source.startsWith("quotes/volume")) {
@@ -99,8 +96,7 @@ QVariantMap QuotesSource::initialData(const QString &_source) const
     } else if (_source.startsWith("quotes/percvolumechg")) {
         data["min"] = -100.0;
         data["max"] = 100.0;
-        data["name"]
-            = QString("Volume changes for '%1'").arg(m_extQuotes->itemByTagNumber(ind)->uniq());
+        data["name"] = QString("Volume changes for '%1'").arg(m_extQuotes->itemByTagNumber(ind)->uniq());
         data["type"] = "double";
         data["units"] = "";
     }

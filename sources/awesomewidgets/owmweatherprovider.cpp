@@ -66,8 +66,7 @@ QVariantHash OWMWeatherProvider::parse(const QVariantMap &_json) const
         return parseSingleJson(_json);
     } else {
         QVariantList list = _json["list"].toList();
-        return parseSingleJson(list.count() <= m_ts ? list.at(m_ts - 1).toMap()
-                                                    : list.last().toMap());
+        return parseSingleJson(list.count() <= m_ts ? list.at(m_ts - 1).toMap() : list.last().toMap());
     }
 }
 

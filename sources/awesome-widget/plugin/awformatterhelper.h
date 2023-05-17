@@ -49,8 +49,7 @@ private:
     // methods
     static AWAbstractFormatter::FormatterClass defineFormatterClass(const QString &_stringType);
     void initFormatters();
-    [[nodiscard]] static QPair<QString, AWAbstractFormatter::FormatterClass>
-    readMetadata(const QString &_filePath);
+    [[nodiscard]] static QPair<QString, AWAbstractFormatter::FormatterClass> readMetadata(const QString &_filePath);
     // parent methods
     void doCreateItem() override;
     // properties

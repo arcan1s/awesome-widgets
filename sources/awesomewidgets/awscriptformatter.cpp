@@ -59,8 +59,8 @@ QString AWScriptFormatter::convert(const QVariant &_value) const
     QJSValue result = fn.call(args);
 
     if (result.isError()) {
-        qCWarning(LOG_LIB) << "Uncaught exception at line" << result.property("lineNumber").toInt()
-                           << ":" << result.toString();
+        qCWarning(LOG_LIB) << "Uncaught exception at line" << result.property("lineNumber").toInt() << ":"
+                           << result.toString();
         return "";
     } else {
         return result.toString();
@@ -199,9 +199,7 @@ void AWScriptFormatter::initProgram()
 {
     // init JS code
     if (appendCode())
-        m_program = QString("(function(value) { %1%2 })")
-                        .arg(code())
-                        .arg(hasReturn() ? "" : "; return output;");
+        m_program = QString("(function(value) { %1%2 })").arg(code()).arg(hasReturn() ? "" : "; return output;");
     else
         m_program = code();
 

@@ -66,8 +66,7 @@ QVariantMap RequestSource::initialData(const QString &_source) const
     if (_source.startsWith("network/response")) {
         data["min"] = "";
         data["max"] = "";
-        data["name"]
-            = QString("Network response for %1").arg(m_extNetRequest->itemByTagNumber(ind)->uniq());
+        data["name"] = QString("Network response for %1").arg(m_extNetRequest->itemByTagNumber(ind)->uniq());
         data["type"] = "QString";
         data["units"] = "";
     }

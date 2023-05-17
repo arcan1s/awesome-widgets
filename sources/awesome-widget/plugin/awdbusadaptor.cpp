@@ -40,8 +40,7 @@ AWDBusAdaptor::~AWDBusAdaptor()
 
 QStringList AWDBusAdaptor::ActiveServices() const
 {
-    QDBusMessage listServices
-        = QDBusConnection::sessionBus().interface()->call(QDBus::BlockWithGui, "ListNames");
+    QDBusMessage listServices = QDBusConnection::sessionBus().interface()->call(QDBus::BlockWithGui, "ListNames");
     if (listServices.arguments().isEmpty()) {
         qCWarning(LOG_DBUS) << "Could not find any DBus service";
         return {};
@@ -86,8 +85,7 @@ void AWDBusAdaptor::SetLogLevel(const QString &what, const int level)
     qCDebug(LOG_DBUS) << "Set log level" << level << "for" << what;
 
     if (level >= m_logLevels.count()) {
-        qCDebug(LOG_DBUS) << "Invalid logging level" << level << "should be less than"
-                          << m_logLevels.count();
+        qCDebug(LOG_DBUS) << "Invalid logging level" << level << "should be less than" << m_logLevels.count();
         return;
     }
 

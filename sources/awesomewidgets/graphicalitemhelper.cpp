@@ -40,11 +40,11 @@ GraphicalItemHelper::~GraphicalItemHelper()
 }
 
 
-void GraphicalItemHelper::setParameters(const QString &_active, const QString &_inactive,
-                                        const int _width, const int _height, const int _count)
+void GraphicalItemHelper::setParameters(const QString &_active, const QString &_inactive, const int _width,
+                                        const int _height, const int _count)
 {
-    qCDebug(LOG_LIB) << "Use active color" << _active << ", inactive" << _inactive << ", width"
-                     << _width << ", height" << _height << ", count" << _count;
+    qCDebug(LOG_LIB) << "Use active color" << _active << ", inactive" << _inactive << ", width" << _width << ", height"
+                     << _height << ", count" << _count;
 
     // put images to pens if any otherwise set pen colors
     // Images resize to content here as well
@@ -155,11 +155,10 @@ void GraphicalItemHelper::paintHorizontal(const float _percent)
     m_inactivePen.setWidth(m_height);
     // inactive
     auto width = static_cast<float>(m_width);
-    m_scene->addLine(_percent * width + 0.5 * m_height, 0.5 * m_height, m_width + 0.5 * m_height,
-                     0.5 * m_height, m_inactivePen);
+    m_scene->addLine(_percent * width + 0.5 * m_height, 0.5 * m_height, m_width + 0.5 * m_height, 0.5 * m_height,
+                     m_inactivePen);
     // active
-    m_scene->addLine(-0.5 * m_height, 0.5 * m_height, _percent * width - 0.5 * m_height,
-                     0.5 * m_height, m_activePen);
+    m_scene->addLine(-0.5 * m_height, 0.5 * m_height, _percent * width - 0.5 * m_height, 0.5 * m_height, m_activePen);
 }
 
 
@@ -170,8 +169,8 @@ void GraphicalItemHelper::paintVertical(const float _percent)
     m_activePen.setWidth(m_height);
     m_inactivePen.setWidth(m_height);
     // inactive
-    m_scene->addLine(0.5 * m_width, -0.5 * m_width, 0.5 * m_width,
-                     (1.0 - _percent) * m_height - 0.5 * m_width, m_inactivePen);
+    m_scene->addLine(0.5 * m_width, -0.5 * m_width, 0.5 * m_width, (1.0 - _percent) * m_height - 0.5 * m_width,
+                     m_inactivePen);
     // active
     m_scene->addLine(0.5 * m_width, (1.0 - _percent) * m_height + 0.5 * m_width, 0.5 * m_width,
                      m_height + 0.5 * m_width, m_activePen);

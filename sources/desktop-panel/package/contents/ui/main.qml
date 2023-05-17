@@ -77,13 +77,13 @@ Item {
 
                 verticalAlignment: Text.AlignVCenter
 
-                text: dpAdds.parsePattern(plasmoid.configuration.text, index + 1)
+                text: dpAdds.parsePattern(plasmoid.configuration.text, index)
                 property alias tooltip: tooltip
 
                 MouseArea {
                     hoverEnabled: true
                     anchors.fill: parent
-                    onClicked: dpAdds.setCurrentDesktop(index + 1)
+                    onClicked: dpAdds.setCurrentDesktop(index)
                     onEntered: needTooltipUpdate()
                 }
 
@@ -117,11 +117,11 @@ Item {
                 timer.start()
                 return
             }
-            repeater.itemAt(i).text = dpAdds.parsePattern(plasmoid.configuration.text, i + 1)
-            if (dpAdds.currentDesktop() == i + 1) {
+            repeater.itemAt(i).text = dpAdds.parsePattern(plasmoid.configuration.text, i)
+            if (dpAdds.currentDesktop() == i) {
                 repeater.itemAt(i).color = plasmoid.configuration.currentFontColor
                 repeater.itemAt(i).font.family = plasmoid.configuration.currentFontFamily
-                repeater.itemAt(i).font.italic = plasmoid.configuration.currentFontStyle == "italic" ? true : false
+                repeater.itemAt(i).font.italic = plasmoid.configuration.currentFontStyle == "italic"
                 repeater.itemAt(i).font.pointSize = plasmoid.configuration.currentFontSize
                 repeater.itemAt(i).font.weight = General.fontWeight[plasmoid.configuration.currentFontWeight]
                 repeater.itemAt(i).style = General.textStyle[plasmoid.configuration.currentTextStyle]
@@ -129,7 +129,7 @@ Item {
             } else {
                 repeater.itemAt(i).color = plasmoid.configuration.fontColor
                 repeater.itemAt(i).font.family = plasmoid.configuration.fontFamily
-                repeater.itemAt(i).font.italic = plasmoid.configuration.fontStyle == "italic" ? true : false
+                repeater.itemAt(i).font.italic = plasmoid.configuration.fontStyle == "italic"
                 repeater.itemAt(i).font.pointSize = plasmoid.configuration.fontSize
                 repeater.itemAt(i).font.weight = General.fontWeight[plasmoid.configuration.fontWeight]
                 repeater.itemAt(i).style = General.textStyle[plasmoid.configuration.textStyle]
@@ -146,7 +146,7 @@ Item {
         if (debug) console.debug()
 
         for (var i=0; i<repeater.count; i++) {
-            repeater.itemAt(i).tooltip.text = dpAdds.toolTipImage(i + 1)
+            repeater.itemAt(i).tooltip.text = dpAdds.toolTipImage(i)
             // resize text tooltip to content size
             // this hack does not work for images-based tooltips
             if (tooltipSettings.tooltipType == "names") {

@@ -65,8 +65,7 @@ void TestExtScript::test_run()
     QList<QVariant> arguments = spy.takeFirst();
 
     QCOMPARE(firstValue[extScript->tag("custom")].toString(), QString());
-    QCOMPARE(arguments.at(0).toHash()[extScript->tag("custom")].toString(),
-             QString("\n%1").arg(randomString));
+    QCOMPARE(arguments.at(0).toHash()[extScript->tag("custom")].toString(), QString("\n%1").arg(randomString));
 }
 
 
@@ -83,8 +82,7 @@ void TestExtScript::test_filters()
     // check values
     QVERIFY(spy.wait(5000));
     QList<QVariant> arguments = spy.takeFirst();
-    QCOMPARE(arguments.at(0).toHash()[extScript->tag("custom")].toString(),
-             QString("<br>%1").arg(randomString));
+    QCOMPARE(arguments.at(0).toHash()[extScript->tag("custom")].toString(), QString("<br>%1").arg(randomString));
 }
 
 

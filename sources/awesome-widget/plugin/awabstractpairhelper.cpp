@@ -69,8 +69,7 @@ void AWAbstractPairHelper::initItems()
 {
     m_pairs.clear();
 
-    QStringList configs
-        = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, m_filePath);
+    QStringList configs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, m_filePath);
 
     for (auto &fileName : configs) {
         QSettings settings(fileName, QSettings::IniFormat);
@@ -80,8 +79,7 @@ void AWAbstractPairHelper::initItems()
         QStringList keys = settings.childKeys();
         for (auto &key : keys) {
             QString value = settings.value(key).toString();
-            qCInfo(LOG_AW) << "Found key" << key << "for value" << value << "in"
-                           << settings.fileName();
+            qCInfo(LOG_AW) << "Found key" << key << "for value" << value << "in" << settings.fileName();
             if (value.isEmpty()) {
                 qCInfo(LOG_AW) << "Skip empty value for" << key;
                 continue;
@@ -98,9 +96,7 @@ bool AWAbstractPairHelper::writeItems(const QHash<QString, QString> &_configurat
     qCDebug(LOG_AW) << "Write configuration" << _configuration;
 
     QString fileName
-        = QString("%1/%2")
-              .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation))
-              .arg(m_filePath);
+        = QString("%1/%2").arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation)).arg(m_filePath);
     QSettings settings(fileName, QSettings::IniFormat);
     qCInfo(LOG_AW) << "Configuration file" << fileName;
 
@@ -120,9 +116,7 @@ bool AWAbstractPairHelper::removeUnusedKeys(const QStringList &_keys) const
     qCDebug(LOG_AW) << "Remove keys" << _keys;
 
     QString fileName
-        = QString("%1/%2")
-              .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation))
-              .arg(m_filePath);
+        = QString("%1/%2").arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation)).arg(m_filePath);
     QSettings settings(fileName, QSettings::IniFormat);
     qCInfo(LOG_AW) << "Configuration file" << fileName;
 

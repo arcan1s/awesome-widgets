@@ -281,8 +281,7 @@ void AWKeyOperations::editItem(const QString &_type)
     qCDebug(LOG_AW) << "Item type" << _type;
 
     if (_type == "graphicalitem") {
-        QStringList keys
-            = dictKeys().filter(QRegExp("^(cpu(?!cl).*|gpu$|mem$|swap$|hdd[0-9].*|bat.*)"));
+        QStringList keys = dictKeys().filter(QRegExp("^(cpu(?!cl).*|gpu$|mem$|swap$|hdd[0-9].*|bat.*)"));
         keys.sort();
         m_graphicalItems->setConfigArgs(keys);
         return m_graphicalItems->editItems();

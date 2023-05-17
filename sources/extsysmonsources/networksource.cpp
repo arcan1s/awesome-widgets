@@ -34,7 +34,7 @@ NetworkSource::NetworkSource(QObject *_parent, const QStringList &_args)
     m_process = new QProcess(nullptr);
     // fucking magic from http://doc.qt.io/qt-5/qprocess.html#finished
     connect(m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
-            [=](int, QProcess::ExitStatus) { return updateSsid(); });
+            [this](int, QProcess::ExitStatus) { return updateSsid(); });
     m_process->waitForFinished(0);
 }
 
@@ -101,11 +101,9 @@ QStringList NetworkSource::sources() const
 void NetworkSource::updateSsid()
 {
     qCInfo(LOG_ESS) << "Cmd returns" << m_process->exitCode();
-    QString qdebug
-        = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardError()).trimmed();
+    QString qdebug = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardError()).trimmed();
     qCInfo(LOG_ESS) << "Error" << qdebug;
-    QString qoutput
-        = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardOutput()).trimmed();
+    QString qoutput = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardOutput()).trimmed();
     qCInfo(LOG_ESS) << "Output" << qoutput;
 
     m_values["network/current/ssid"] = qoutput;

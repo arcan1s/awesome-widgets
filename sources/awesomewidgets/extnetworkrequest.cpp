@@ -45,8 +45,7 @@ ExtNetworkRequest::ExtNetworkRequest(QWidget *_parent, const QString &_filePath)
     // HACK declare as child of nullptr to avoid crash with plasmawindowed
     // in the destructor
     m_manager = new QNetworkAccessManager(nullptr);
-    connect(m_manager, SIGNAL(finished(QNetworkReply *)), this,
-            SLOT(networkReplyReceived(QNetworkReply *)));
+    connect(m_manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(networkReplyReceived(QNetworkReply *)));
 
     connect(this, SIGNAL(requestDataUpdate()), this, SLOT(sendRequest()));
 }
@@ -56,8 +55,7 @@ ExtNetworkRequest::~ExtNetworkRequest()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    disconnect(m_manager, SIGNAL(finished(QNetworkReply *)), this,
-               SLOT(networkReplyReceived(QNetworkReply *)));
+    disconnect(m_manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(networkReplyReceived(QNetworkReply *)));
     disconnect(this, SIGNAL(requestDataUpdate()), this, SLOT(sendRequest()));
 
     m_manager->deleteLater();
@@ -171,14 +169,12 @@ void ExtNetworkRequest::writeConfiguration() const
 void ExtNetworkRequest::networkReplyReceived(QNetworkReply *_reply)
 {
     if (_reply->error() != QNetworkReply::NoError) {
-        qCWarning(LOG_AW) << "An error occurs" << _reply->error() << "with message"
-                          << _reply->errorString();
+        qCWarning(LOG_AW) << "An error occurs" << _reply->error() << "with message" << _reply->errorString();
         return;
     }
 
     m_isRunning = false;
-    m_values[tag("response")]
-        = QTextCodec::codecForMib(106)->toUnicode(_reply->readAll()).trimmed();
+    m_values[tag("response")] = QTextCodec::codecForMib(106)->toUnicode(_reply->readAll()).trimmed();
 
     emit(dataReceived(m_values));
 }

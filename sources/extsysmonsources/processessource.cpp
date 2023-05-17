@@ -79,8 +79,7 @@ QVariantMap ProcessesSource::initialData(const QString &_source) const
 
 void ProcessesSource::run()
 {
-    QStringList allDirectories
-        = QDir("/proc").entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
+    QStringList allDirectories = QDir("/proc").entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
     QStringList directories = allDirectories.filter(QRegExp("(\\d+)"));
     QStringList running;
 

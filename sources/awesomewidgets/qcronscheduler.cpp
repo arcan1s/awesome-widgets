@@ -67,10 +67,8 @@ void QCronScheduler::expired()
 {
     QDateTime now = QDateTime::currentDateTime();
 
-    if (m_schedule.minutes.contains(now.time().minute())
-        && m_schedule.hours.contains(now.time().hour())
-        && m_schedule.days.contains(now.date().day())
-        && m_schedule.months.contains(now.date().month())
+    if (m_schedule.minutes.contains(now.time().minute()) && m_schedule.hours.contains(now.time().hour())
+        && m_schedule.days.contains(now.date().day()) && m_schedule.months.contains(now.date().month())
         && m_schedule.weekdays.contains(now.date().dayOfWeek()))
         emit(activated());
 }

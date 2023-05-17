@@ -7,12 +7,11 @@ const char NAME[] = "Awesome Widgets";
 const char VERSION[] = "@PROJECT_VERSION@";
 const char COMMIT_SHA[] = "@PROJECT_COMMIT_SHA@";
 const char AUTHOR[] = "@PROJECT_AUTHOR@";
-const char TRANSLATORS[]
-    = "Ernesto Aviles Vzqz (Spanish),Mermouy "
-      "(French),underr (Brazillian Portuguese),Viktor "
-      "Slobodyan (Ukrainian),Lemueler (Chinese),Heimen "
-      "Stoffels (Dutch),Mariusz Kocoń (Polish),Ibnu "
-      "Daru Aji (Indonesian),Antonio Vivace (Italian)";
+const char TRANSLATORS[] = "Ernesto Aviles Vzqz (Spanish),Mermouy "
+                           "(French),underr (Brazillian Portuguese),Viktor "
+                           "Slobodyan (Ukrainian),Lemueler (Chinese),Heimen "
+                           "Stoffels (Dutch),Mariusz Kocoń (Polish),Ibnu "
+                           "Daru Aji (Indonesian),Antonio Vivace (Italian)";
 const char EMAIL[] = "@PROJECT_CONTACT@";
 const char LICENSE[] = "@PROJECT_LICENSE@";
 const char TRDPARTY_LICENSE[] = "QReplyTimeout "
@@ -54,14 +53,13 @@ const char TIME_KEYS[] = "d,dd,ddd,dddd,M,MM,MMM,MMMM,yy,yyyy,h,hh,H,HH,m,mm,s,s
 const char STATIC_FUNCTIONS[] = "{{\n\n}},template{{\n\n}},aw_all<>{{}},aw_"
                                 "count<>{{}},aw_keys<>{{}},aw_macro<>{{}},aw_"
                                 "names<>{{}}";
-const char STATIC_KEYS[]
-    = "time,isotime,shorttime,longtime,tstime,ctime,uptime,cuptime,cpucl,cpu,"
-      "gputemp,gpu,memmb,memgb,memfreemb,memfreegb,memtotmb,memtotgb,memusedmb,"
-      "memusedgb,mem,swapmb,swapgb,swapfreemb,swapfreegb,swaptotmb,swaptotgb,"
-      "swap,downunits,upunits,downkb,downtotkb,downtot,down,uptotkb,uptot,upkb,"
-      "up,netdev,ac,bat,batleft,batnow,batrate,battotal,album,artist,duration,"
-      "progress,title,dalbum,dartist,dtitle,salbum,sartist,stitle,pscount,pstot"
-      ",ps,desktop,ndesktop,tdesktops,la15,la5,la1,ssid,volume,brightness";
+const char STATIC_KEYS[] = "time,isotime,shorttime,longtime,tstime,ctime,uptime,cuptime,cpucl,cpu,"
+                           "gputemp,gpu,memmb,memgb,memfreemb,memfreegb,memtotmb,memtotgb,memusedmb,"
+                           "memusedgb,mem,swapmb,swapgb,swapfreemb,swapfreegb,swaptotmb,swaptotgb,"
+                           "swap,downunits,upunits,downkb,downtotkb,downtot,down,uptotkb,uptot,upkb,"
+                           "up,netdev,ac,bat,batleft,batnow,batrate,battotal,album,artist,duration,"
+                           "progress,title,dalbum,dartist,dtitle,salbum,sartist,stitle,pscount,pstot"
+                           ",ps,desktop,ndesktop,tdesktops,la15,la5,la1,ssid,volume,brightness";
 #cmakedefine BUILD_FUTURE
 #cmakedefine BUILD_LOAD
 #cmakedefine BUILD_TESTING

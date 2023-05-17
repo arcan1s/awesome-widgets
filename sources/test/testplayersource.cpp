@@ -79,8 +79,7 @@ void TestPlayerSource::test_autoMpris()
 
 void TestPlayerSource::test_mpd()
 {
-    QStringList args(QStringList() << "mpd" << mpdAddress << QString::number(mpdPort) << "auto"
-                                   << QString::number(10));
+    QStringList args(QStringList() << "mpd" << mpdAddress << QString::number(mpdPort) << "auto" << QString::number(10));
     PlayerSource *source = new PlayerSource(this, args);
     _test_sources(source);
 

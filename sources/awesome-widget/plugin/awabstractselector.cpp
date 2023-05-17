@@ -60,8 +60,8 @@ void AWAbstractSelector::init(const QStringList &_keys, const QStringList &_valu
         qCWarning(LOG_AW) << "Invalid current value" << _current << "not found in default ones";
         return;
     }
-    qCDebug(LOG_AW) << "Init selector with keys" << _keys << "and values" << _values
-                    << "and current ones are" << _current;
+    qCDebug(LOG_AW) << "Init selector with keys" << _keys << "and values" << _values << "and current ones are"
+                    << _current;
 
     // set data
     ui->comboBox_key->clear();

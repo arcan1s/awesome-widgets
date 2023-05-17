@@ -80,9 +80,8 @@ ExtScript *ExtScript::copy(const QString &_fileName, const int _number)
 
 QString ExtScript::jsonFiltersFile()
 {
-    QString fileName
-        = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
-                                 "awesomewidgets/scripts/awesomewidgets-extscripts-filters.json");
+    QString fileName = QStandardPaths::locate(QStandardPaths::GenericDataLocation,
+                                              "awesomewidgets/scripts/awesomewidgets-extscripts-filters.json");
     qCInfo(LOG_LIB) << "Filters file" << fileName;
 
     return fileName;
@@ -272,12 +271,9 @@ int ExtScript::showConfiguration(const QVariant &_args)
     ui->lineEdit_socket->setText(socket());
     ui->spinBox_interval->setValue(interval());
     // filters
-    ui->checkBox_colorFilter->setCheckState(filters().contains("color") ? Qt::Checked
-                                                                        : Qt::Unchecked);
-    ui->checkBox_linesFilter->setCheckState(filters().contains("newline") ? Qt::Checked
-                                                                          : Qt::Unchecked);
-    ui->checkBox_spaceFilter->setCheckState(filters().contains("space") ? Qt::Checked
-                                                                        : Qt::Unchecked);
+    ui->checkBox_colorFilter->setCheckState(filters().contains("color") ? Qt::Checked : Qt::Unchecked);
+    ui->checkBox_linesFilter->setCheckState(filters().contains("newline") ? Qt::Checked : Qt::Unchecked);
+    ui->checkBox_spaceFilter->setCheckState(filters().contains("space") ? Qt::Checked : Qt::Unchecked);
 
     int ret = exec();
     if (ret != 1)
@@ -329,11 +325,9 @@ void ExtScript::startProcess()
 void ExtScript::updateValue()
 {
     qCInfo(LOG_LIB) << "Cmd returns" << m_process->exitCode();
-    QString qdebug
-        = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardError()).trimmed();
+    QString qdebug = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardError()).trimmed();
     qCInfo(LOG_LIB) << "Error" << qdebug;
-    QString qoutput
-        = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardOutput()).trimmed();
+    QString qoutput = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardOutput()).trimmed();
     qCInfo(LOG_LIB) << "Output" << qoutput;
     QString strValue;
 

@@ -78,8 +78,7 @@ void TestExtUpgrade::test_null()
     // check values
     QVERIFY(spy.wait(5000));
     QList<QVariant> arguments = spy.takeFirst();
-    QCOMPARE(arguments.at(0).toHash()[extUpgrade->tag("pkgcount")].toInt(),
-             randomStrings.count() - null);
+    QCOMPARE(arguments.at(0).toHash()[extUpgrade->tag("pkgcount")].toInt(), randomStrings.count() - null);
 }
 
 

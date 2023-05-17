@@ -23,6 +23,10 @@
 #include "abstractextsysmonsource.h"
 
 
+namespace TaskManager
+{
+class VirtualDesktopInfo;
+}
 class DesktopSource : public AbstractExtSysMonSource
 {
     Q_OBJECT
@@ -34,6 +38,9 @@ public:
     [[nodiscard]] QVariantMap initialData(const QString &_source) const override;
     void run() override{};
     [[nodiscard]] QStringList sources() const override;
+
+private:
+    TaskManager::VirtualDesktopInfo *m_vdi = nullptr;
 };
 
 

@@ -49,8 +49,7 @@ void YahooQuotesProvider::initUrl(const QString &_asset)
 }
 
 
-QVariantHash YahooQuotesProvider::parse(const QByteArray &_source,
-                                        const QVariantHash &_oldValues) const
+QVariantHash YahooQuotesProvider::parse(const QByteArray &_source, const QVariantHash &_oldValues) const
 {
     qCDebug(LOG_LIB) << "Parse json" << _source;
 

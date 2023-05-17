@@ -175,15 +175,15 @@ void TestAWKeys::test_dbus()
     QDBusConnection bus = QDBusConnection::sessionBus();
 
     // check if there is active sessions first
-    QDBusMessage sessions = QDBusMessage::createMethodCall(AWDBUS_SERVICE, AWDBUS_PATH,
-                                                           AWDBUS_SERVICE, "ActiveServices");
+    QDBusMessage sessions
+        = QDBusMessage::createMethodCall(AWDBUS_SERVICE, AWDBUS_PATH, AWDBUS_SERVICE, "ActiveServices");
     QDBusMessage sessionsResponse = bus.call(sessions, QDBus::BlockWithGui);
     if (sessionsResponse.arguments().isEmpty())
         QSKIP("No active sessions found, skip DBus tests");
 
     // dbus checks
-    QDBusMessage request = QDBusMessage::createMethodCall(
-        QString("%1.i%2").arg(AWDBUS_SERVICE).arg(id), AWDBUS_PATH, AWDBUS_SERVICE, "WhoAmI");
+    QDBusMessage request = QDBusMessage::createMethodCall(QString("%1.i%2").arg(AWDBUS_SERVICE).arg(id), AWDBUS_PATH,
+                                                          AWDBUS_SERVICE, "WhoAmI");
     // send message to dbus
     QDBusMessage response = bus.call(request, QDBus::BlockWithGui);
 

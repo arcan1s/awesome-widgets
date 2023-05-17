@@ -120,8 +120,7 @@ void AWFormatterHelper::editItems()
 }
 
 
-AWAbstractFormatter::FormatterClass
-AWFormatterHelper::defineFormatterClass(const QString &_stringType)
+AWAbstractFormatter::FormatterClass AWFormatterHelper::defineFormatterClass(const QString &_stringType)
 {
     qCDebug(LOG_AW) << "Define formatter class for" << _stringType;
 
@@ -163,9 +162,7 @@ void AWFormatterHelper::initFormatters()
             // check if already exists
             auto values = m_formattersClasses.values();
             if (std::any_of(values.cbegin(), values.cend(),
-                            [&filePath](const AWAbstractFormatter *item) {
-                                return (item->fileName() == filePath);
-                            }))
+                            [&filePath](const AWAbstractFormatter *item) { return (item->fileName() == filePath); }))
                 continue;
 
             auto metadata = readMetadata(filePath);
@@ -197,8 +194,7 @@ void AWFormatterHelper::initFormatters()
 }
 
 
-QPair<QString, AWAbstractFormatter::FormatterClass>
-AWFormatterHelper::readMetadata(const QString &_filePath)
+QPair<QString, AWAbstractFormatter::FormatterClass> AWFormatterHelper::readMetadata(const QString &_filePath)
 {
     qCDebug(LOG_AW) << "Read initial parameters from" << _filePath;
 
@@ -217,8 +213,7 @@ void AWFormatterHelper::doCreateItem()
 {
     QStringList selection = {"NoFormat", "DateTime", "Float", "List", "Script", "String", "Json"};
     bool ok;
-    QString select
-        = QInputDialog::getItem(this, i18n("Select type"), i18n("Type:"), selection, 0, false, &ok);
+    QString select = QInputDialog::getItem(this, i18n("Select type"), i18n("Type:"), selection, 0, false, &ok);
     if (!ok) {
         qCWarning(LOG_AW) << "No type selected";
         return;
