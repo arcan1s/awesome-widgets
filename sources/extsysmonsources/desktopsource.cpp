@@ -38,7 +38,7 @@ DesktopSource::~DesktopSource()
 {
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
-    delete m_vdi;
+    m_vdi->deleteLater();
 }
 
 

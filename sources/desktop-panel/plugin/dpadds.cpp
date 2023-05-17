@@ -59,8 +59,8 @@ DPAdds::~DPAdds()
 {
     qCDebug(LOG_DP) << __PRETTY_FUNCTION__;
 
-    delete m_vdi;
-    delete m_taskModel;
+    m_vdi->deleteLater();
+    m_taskModel->deleteLater();
 }
 
 

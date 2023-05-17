@@ -1,7 +1,7 @@
 awesome-widgets (ex-pytextmonitor)
 ==================================
 
-[![Build Status](https://travis-ci.org/arcan1s/awesome-widgets.svg?branch=development)](https://travis-ci.org/arcan1s/awesome-widgets)
+[![build & tests](https://github.com/arcan1s/awesome-widgets/actions/workflows/build.yml/badge.svg)](https://github.com/arcan1s/awesome-widgets/actions/workflows/build.yml)
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/8254/badge.svg)](https://scan.coverity.com/projects/awesome-widgets)
 
 Information
@@ -61,10 +61,6 @@ Installation
         make && sudo make install
 
   **NOTE** on Plasma 5 it very likely requires `-DKDE_INSTALL_USE_QT_SYS_PATHS=ON` flag
-
-  **NOTE** if you are going to build from git, you need to init submodules first, e.g.:
-
-        git submodule update --init --recursive
 
 Additional information
 ======================
