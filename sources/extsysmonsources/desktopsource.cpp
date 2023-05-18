@@ -46,13 +46,14 @@ QVariant DesktopSource::data(const QString &_source)
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
-    auto increment = KWindowSystem::isPlatformX11() ? 0 : 1;
-    auto current = m_vdi->position(m_vdi->currentDesktop()) + increment;
+    auto nativeIndex = m_vdi->position(m_vdi->currentDesktop());
+    auto decrement = KWindowSystem::isPlatformX11() ? 1 : 0;
+    auto current = nativeIndex - decrement;
 
     if (_source == "desktop/current/name") {
         return m_vdi->desktopNames().at(current);
     } else if (_source == "desktop/current/number") {
-        return current;
+        return current + 1;
     } else if (_source == "desktop/total/name") {
         return m_vdi->desktopNames();
     } else if (_source == "desktop/total/number") {
