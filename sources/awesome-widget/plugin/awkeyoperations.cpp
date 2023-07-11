@@ -18,7 +18,7 @@
 #include "awkeyoperations.h"
 
 #include <QDir>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QThread>
 
 #include "awcustomkeyshelper.h"
@@ -72,7 +72,6 @@ QHash<QString, QStringList> AWKeyOperations::devices() const
 void AWKeyOperations::updateCache()
 {
     // update network and hdd list
-    addKeyToCache("hdd");
     addKeyToCache("net");
 }
 
@@ -98,7 +97,7 @@ QStringList AWKeyOperations::dictKeys() const
     for (int i = 0; i < m_devices["temp"].count(); i++)
         allKeys.append(QString("temp%1").arg(i));
     // hdd
-    for (int i = 0; i < m_devices["mount"].count(); i++) {
+    for (int i = 0; i < m_devices["disk"].count(); i++) {
         allKeys.append(QString("hddmb%1").arg(i));
         allKeys.append(QString("hddgb%1").arg(i));
         allKeys.append(QString("hddfreemb%1").arg(i));
@@ -106,9 +105,6 @@ QStringList AWKeyOperations::dictKeys() const
         allKeys.append(QString("hddtotmb%1").arg(i));
         allKeys.append(QString("hddtotgb%1").arg(i));
         allKeys.append(QString("hdd%1").arg(i));
-    }
-    // hdd speed
-    for (int i = 0; i < m_devices["disk"].count(); i++) {
         allKeys.append(QString("hddr%1").arg(i));
         allKeys.append(QString("hddw%1").arg(i));
     }
@@ -206,7 +202,7 @@ QString AWKeyOperations::infoByKey(const QString &_key) const
     qCDebug(LOG_AW) << "Requested key" << _key;
 
     QString stripped = _key;
-    stripped.remove(QRegExp("\\d+"));
+    stripped.remove(QRegularExpression("\\d+"));
     QString output;
 
     if (_key.startsWith("bar")) {
@@ -217,31 +213,27 @@ QString AWKeyOperations::infoByKey(const QString &_key) const
         AbstractExtItem *item = m_extScripts->itemByTag(_key, stripped);
         if (item)
             output = item->uniq();
-    } else if (_key.contains(QRegExp("^hdd[rw]"))) {
+    } else if (_key.contains(QRegularExpression("^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb|r|w)"))) {
         QString index = _key;
-        index.remove(QRegExp("hdd[rw]"));
+        index.remove(QRegularExpression("^hdd(mb|gb|freemb|freegb|totmb|totgb|r|w)"));
         output = m_devices["disk"][index.toInt()];
-    } else if (_key.contains(QRegExp("^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)"))) {
-        QString index = _key;
-        index.remove(QRegExp("^hdd(|mb|gb|freemb|freegb|totmb|totgb)"));
-        output = m_devices["mount"][index.toInt()];
     } else if (_key.startsWith("hddtemp")) {
         QString index = _key;
         index.remove("hddtemp");
         output = m_devices["hdd"][index.toInt()];
-    } else if (_key.contains(QRegExp("^(down|up)[0-9]"))) {
+    } else if (_key.contains(QRegularExpression("^(down|up)[0-9]"))) {
         QString index = _key;
-        index.remove(QRegExp("^(down|up)"));
+        index.remove(QRegularExpression("^(down|up)"));
         output = m_devices["net"][index.toInt()];
     } else if (_key.startsWith("pkgcount")) {
         AbstractExtItem *item = m_extUpgrade->itemByTag(_key, stripped);
         if (item)
             output = item->uniq();
-    } else if (_key.contains(QRegExp("(^|perc)(ask|bid|price)(chg|)"))) {
+    } else if (_key.contains(QRegularExpression("(^|perc)(ask|bid|price)(chg|)"))) {
         AbstractExtItem *item = m_extQuotes->itemByTag(_key, stripped);
         if (item)
             output = item->uniq();
-    } else if (_key.contains(QRegExp("(weather|weatherId|humidity|pressure|temperature)"))) {
+    } else if (_key.contains(QRegularExpression("(weather|weatherId|humidity|pressure|temperature)"))) {
         AbstractExtItem *item = m_extWeather->itemByTag(_key, stripped);
         if (item)
             output = item->uniq();
@@ -280,7 +272,7 @@ void AWKeyOperations::editItem(const QString &_type)
     qCDebug(LOG_AW) << "Item type" << _type;
 
     if (_type == "graphicalitem") {
-        QStringList keys = dictKeys().filter(QRegExp("^(cpu(?!cl).*|gpu$|mem$|swap$|hdd[0-9].*|bat.*)"));
+        QStringList keys = dictKeys().filter(QRegularExpression("^(cpu(?!cl).*|gpu$|mem$|swap$|hdd[0-9].*|bat.*)"));
         keys.sort();
         m_graphicalItems->setConfigArgs(keys);
         return m_graphicalItems->editItems();
@@ -302,18 +294,15 @@ void AWKeyOperations::addDevice(const QString &_source)
 {
     qCDebug(LOG_AW) << "Source" << _source;
 
-    QRegExp diskRegexp = QRegExp("disk/(?:md|sd|hd)[a-z|0-9]_.*/Rate/(?:rblk)");
-    QRegExp mountRegexp = QRegExp("partitions/.*/filllevel");
+    auto diskRegexp = QRegularExpression("^disk/.*/total$");
+    auto cpuTemperatureRegexp = QRegularExpression("^cpu/cpu.*/temperature$");
 
     if (_source.contains(diskRegexp)) {
         QString device = _source;
-        device.remove("/Rate/rblk");
+        device.remove("disk/").remove("/total");
         addKeyToCache("disk", device);
-    } else if (_source.contains(mountRegexp)) {
-        QString device = _source;
-        device.remove("partitions").remove("/filllevel");
-        addKeyToCache("mount", device);
-    } else if (_source.startsWith("lmsensors")) {
+    } else if (_source.startsWith("lmsensors") || _source.contains(cpuTemperatureRegexp)
+               || _source == "cpu/all/averageTemperature") {
         addKeyToCache("temp", _source);
     }
 }

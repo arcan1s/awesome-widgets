@@ -28,15 +28,14 @@ AWDataEngineAggregator::AWDataEngineAggregator(QObject *_parent)
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
     m_consumer = new Plasma::DataEngineConsumer();
-    m_dataEngines["systemmonitor"] = m_consumer->dataEngine("systemmonitor");
     m_dataEngines["extsysmon"] = m_consumer->dataEngine("extsysmon");
     m_dataEngines["time"] = m_consumer->dataEngine("time");
 
     // additional method required by systemmonitor structure
     m_newSourceConnection
-        = connect(m_dataEngines["systemmonitor"], &Plasma::DataEngine::sourceAdded, [this](const QString &source) {
+        = connect(m_dataEngines["extsysmon"], &Plasma::DataEngine::sourceAdded, [this](const QString &source) {
               emit(deviceAdded(source));
-              m_dataEngines["systemmonitor"]->connectSource(source, parent(), 1000);
+              m_dataEngines["extsysmon"]->connectSource(source, parent(), 1000);
           });
 
     // required to define Qt::QueuedConnection for signal-slot connection
@@ -67,15 +66,14 @@ void AWDataEngineAggregator::reconnectSources(const int _interval)
 
     disconnectSources();
 
-    m_dataEngines["systemmonitor"]->connectAllSources(parent(), (uint)_interval);
     m_dataEngines["extsysmon"]->connectAllSources(parent(), (uint)_interval);
     m_dataEngines["time"]->connectSource("Local", parent(), 1000);
 
-    m_newSourceConnection = connect(
-        m_dataEngines["systemmonitor"], &Plasma::DataEngine::sourceAdded, [this, _interval](const QString &source) {
-            emit(deviceAdded(source));
-            m_dataEngines["systemmonitor"]->connectSource(source, parent(), (uint)_interval);
-        });
+    m_newSourceConnection = connect(m_dataEngines["extsysmon"], &Plasma::DataEngine::sourceAdded,
+                                    [this, _interval](const QString &source) {
+                                        emit(deviceAdded(source));
+                                        m_dataEngines["extsysmon"]->connectSource(source, parent(), (uint)_interval);
+                                    });
 
 #ifdef BUILD_FUTURE
     createQueuedConnection();

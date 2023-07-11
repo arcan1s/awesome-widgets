@@ -15,38 +15,44 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef ABSTRACTEXTSYSMONSOURCE_H
-#define ABSTRACTEXTSYSMONSOURCE_H
+#ifndef KSYSTEMSTATSSOURCE_H
+#define KSYSTEMSTATSSOURCE_H
 
-#include <QObject>
-#include <QRegularExpression>
-#include <QVariant>
+#include <systemstats/SensorInfo.h>
+
+#include "abstractextsysmonsource.h"
 
 
-class AbstractExtSysMonSource : public QObject
+namespace KSysGuard::SystemStats
+{
+class DBusInterface;
+}
+
+
+class KSystemStatsSource : public AbstractExtSysMonSource
 {
     Q_OBJECT
 
 public:
-    explicit AbstractExtSysMonSource(QObject *_parent, const QStringList &)
-        : QObject(_parent){};
-    ~AbstractExtSysMonSource() override = default;
-    virtual QVariant data(const QString &_source) = 0;
-    [[nodiscard]] virtual QVariantMap initialData(const QString &_source) const = 0;
-    virtual void run() = 0;
-    [[nodiscard]] virtual QStringList sources() const = 0;
-    // used by extensions
-    static int index(const QString &_source)
-    {
-        QRegularExpression rx("\\d+");
-        return rx.match(_source).captured().toInt();
-    }
+    explicit KSystemStatsSource(QObject *_parent, const QStringList &_args);
+    ~KSystemStatsSource() override;
+    QVariant data(const QString &_source) override;
+    [[nodiscard]] QVariantMap initialData(const QString &_source) const override;
+    void run() override;
+    [[nodiscard]] QStringList sources() const override;
 
-signals:
-    void dataReceived(const QVariantHash &);
-    void sourceAdded(const QString &_source);
-    void sourceRemoved(const QString &_source);
+public slots:
+    void sensorAdded(const QString &_sensor);
+    void sensorRemoved(const QString &_sensor);
+    void updateData(KSysGuard::SensorDataList _data);
+    void updateSensor(const QHash<QString, KSysGuard::SensorInfo> &_sensor);
+
+private:
+    KSysGuard::SystemStats::DBusInterface *m_interface = nullptr;
+    QVariantHash m_values;
+    QVariantHash m_sources;
+    void loadSources();
 };
 
 
-#endif /* ABSTRACTEXTSYSMONSOURCE_H */
+#endif /* KSYSTEMSTATSSOURCE_H */

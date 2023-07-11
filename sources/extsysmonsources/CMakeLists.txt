@@ -14,5 +14,5 @@ include_directories(
 file(GLOB SUBPROJECT_SOURCE *.cpp)
 file(GLOB SUBPROJECT_HEADER *.h)
 
-add_library(${SUBPROJECT} STATIC ${SUBPROJECT_SOURCE} ${SUBPROJECT_HEADER})
+add_library(${SUBPROJECT} STATIC ${SUBPROJECT_SOURCE} ${SUBPROJECT_HEADER} ksystemstatssource.cpp ksystemstatssource.h)
 target_link_libraries(${SUBPROJECT} ${PROJECT_LIBRARY} ${Qt_LIBRARIES} ${Kf5_LIBRARIES})

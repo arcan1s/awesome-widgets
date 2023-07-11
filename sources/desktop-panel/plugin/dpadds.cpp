@@ -92,7 +92,7 @@ QStringList DPAdds::dictKeys(const bool _sorted, const QString &_regexp)
     if (_sorted)
         allKeys.sort();
 
-    return allKeys.filter(QRegExp(_regexp));
+    return allKeys.filter(QRegularExpression(_regexp));
 }
 
 

@@ -18,8 +18,8 @@
 
 #include "awkeycache.h"
 
-#include <QDir>
 #include <QNetworkInterface>
+#include <QRegularExpression>
 #include <QSettings>
 #include <QStandardPaths>
 
@@ -40,18 +40,7 @@ bool AWKeyCache::addKeyToCache(const QString &_type, const QString &_key)
     for (auto &number : cache.allKeys())
         cachedValues.append(cache.value(number).toString());
 
-    if (_type == "hdd") {
-        QStringList allDevices = QDir("/dev").entryList(QDir::System, QDir::Name);
-        QStringList devices = allDevices.filter(QRegExp("^[hms]d[a-z]$"));
-        for (auto &dev : devices) {
-            QString device = QString("/dev/%1").arg(dev);
-            if (cachedValues.contains(device))
-                continue;
-            qCInfo(LOG_AW) << "Found new key" << device << "for type" << _type;
-            cachedValues.append(device);
-            cache.setValue(QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), device);
-        }
-    } else if (_type == "net") {
+    if (_type == "net") {
         QList<QNetworkInterface> rawInterfaceList = QNetworkInterface::allInterfaces();
         for (auto &interface : rawInterfaceList) {
             QString device = interface.name();
@@ -93,7 +82,7 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys, const QStringL
 
     // insert depending keys, refer to AWKeys::calculateValues()
     // hddtotmb*
-    for (auto &key : _allKeys.filter(QRegExp("^hddtotmb"))) {
+    for (auto &key : _allKeys.filter(QRegularExpression("^hddtotmb"))) {
         if (!used.contains(key))
             continue;
         key.remove("hddtotmb");
@@ -101,7 +90,7 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys, const QStringL
         used << QString("hddfreemb%1").arg(index) << QString("hddmb%1").arg(index);
     }
     // hddtotgb*
-    for (auto &key : _allKeys.filter(QRegExp("^hddtotgb"))) {
+    for (auto &key : _allKeys.filter(QRegularExpression("^hddtotgb"))) {
         if (!used.contains(key))
             continue;
         key.remove("hddtotgb");
@@ -138,7 +127,7 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys, const QStringL
     for (auto &key : netKeys) {
         if (!used.contains(key))
             continue;
-        QStringList filt = _allKeys.filter(QRegExp(QString("^%1[0-9]{1,}").arg(key)));
+        QStringList filt = _allKeys.filter(QRegularExpression(QString("^%1[0-9]{1,}").arg(key)));
         for (auto &filtered : filt)
             used << filtered;
     }

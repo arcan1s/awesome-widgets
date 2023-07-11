@@ -24,6 +24,7 @@
 #include "gpuloadsource.h"
 #include "gputempsource.h"
 #include "hddtempsource.h"
+#include "ksystemstatssource.h"
 #include "loadsource.h"
 #include "networksource.h"
 #include "playersource.h"
@@ -111,6 +112,12 @@ void ExtSysMonAggregator::init(const QHash<QString, QString> &_config)
         = new HDDTemperatureSource(this, QStringList({_config["HDDDEV"], _config["HDDTEMPCMD"]}));
     for (auto &source : hddTempItem->sources())
         m_map[source] = hddTempItem;
+    // ksystemstats adapter
+    AbstractExtSysMonSource *ksystemstatsItem = new KSystemStatsSource(this, {});
+    connect(ksystemstatsItem, SIGNAL(sourceAdded(const QString &)), this, SIGNAL(sourceAdded(const QString &)));
+    connect(ksystemstatsItem, SIGNAL(sourceRemoved(const QString &)), this, SIGNAL(sourceRemoved(const QString &)));
+    for (auto &source : ksystemstatsItem->sources())
+        m_map[source] = ksystemstatsItem;
     // network
     AbstractExtSysMonSource *networkItem = new NetworkSource(this, QStringList());
     for (auto &source : networkItem->sources())

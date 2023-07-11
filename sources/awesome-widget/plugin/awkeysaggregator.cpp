@@ -64,19 +64,19 @@ QString AWKeysAggregator::formatter(const QVariant &_data, const QString &_key, 
     // case block
     switch (m_mapper->formatter(_key)) {
     case FormatterType::Float:
-        output = QString("%1").arg(_data.toFloat(), 5, 'f', 1);
+        output = QString("%1").arg(_data.toDouble(), 5, 'f', 1);
         break;
     case FormatterType::FloatTwoSymbols:
-        output = QString("%1").arg(_data.toFloat(), 5, 'f', 2);
+        output = QString("%1").arg(_data.toDouble(), 5, 'f', 2);
         break;
     case FormatterType::Integer:
-        output = QString("%1").arg(_data.toFloat(), 4, 'f', 0);
+        output = QString("%1").arg(_data.toDouble(), 4, 'f', 0);
         break;
     case FormatterType::IntegerFive:
-        output = QString("%1").arg(_data.toFloat(), 5, 'f', 0);
+        output = QString("%1").arg(_data.toDouble(), 5, 'f', 0);
         break;
     case FormatterType::IntegerThree:
-        output = QString("%1").arg(_data.toFloat(), 3, 'f', 0);
+        output = QString("%1").arg(_data.toDouble(), 3, 'f', 0);
         break;
     case FormatterType::List:
         output = _data.toStringList().join(',');
@@ -85,21 +85,21 @@ QString AWKeysAggregator::formatter(const QVariant &_data, const QString &_key, 
         output = _data.toBool() ? m_acOnline : m_acOffline;
         break;
     case FormatterType::MemGBFormat:
-        output = QString("%1").arg(_data.toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
+        output = QString("%1").arg(_data.toDouble() / (1024.0 * 1024.0 * 1024.0), 5, 'f', 1);
         break;
     case FormatterType::MemMBFormat:
-        output = QString("%1").arg(_data.toFloat() / 1024.0, 5, 'f', 0);
+        output = QString("%1").arg(_data.toDouble() / (1024.0 * 1024.0), 5, 'f', 0);
         break;
     case FormatterType::NetSmartFormat:
-        output = [](const float value) {
-            if (value > 1024.0)
-                return QString("%1").arg(value / 1024.0, 4, 'f', 1);
+        output = [](const double value) {
+            if (value > 1024.0 * 1024.0)
+                return QString("%1").arg(value / (1024.0 * 1024.0), 4, 'f', 1);
             else
-                return QString("%1").arg(value, 4, 'f', 0);
-        }(_data.toFloat());
+                return QString("%1").arg(value / 1024.0, 4, 'f', 0);
+        }(_data.toDouble());
         break;
     case FormatterType::NetSmartUnits:
-        if (_data.toFloat() > 1024.0)
+        if (_data.toDouble() > 1024.0 * 1024.0)
             output = m_translate ? i18n("MB/s") : "MB/s";
         else
             output = m_translate ? i18n("KB/s") : "KB/s";

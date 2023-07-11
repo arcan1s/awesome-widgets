@@ -61,7 +61,7 @@ HDDTemperatureSource::~HDDTemperatureSource()
 QStringList HDDTemperatureSource::allHdd()
 {
     QStringList allDevices = QDir("/dev").entryList(QDir::System, QDir::Name);
-    QStringList devices = allDevices.filter(QRegExp("^[hms]d[a-z]$"));
+    QStringList devices = allDevices.filter(QRegularExpression("^[hms]d[a-z]$"));
     for (int i = 0; i < devices.count(); i++)
         devices[i] = QString("/dev/%1").arg(devices.at(i));
 

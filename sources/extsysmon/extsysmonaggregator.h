@@ -35,6 +35,10 @@ public:
     [[nodiscard]] QVariantMap initialData(const QString &_source) const;
     [[nodiscard]] QStringList sources() const;
 
+signals:
+    void sourceAdded(const QString &_source);
+    void sourceRemoved(const QString &_source);
+
 private:
     void init(const QHash<QString, QString> &_config);
     QHash<QString, AbstractExtSysMonSource *> m_map;

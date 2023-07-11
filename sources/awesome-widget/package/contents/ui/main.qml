@@ -84,7 +84,7 @@ Item {
 
     Plasmoid.icon: "utilities-system-monitor"
     Plasmoid.backgroundHints: plasmoid.configuration.background ? "DefaultBackground" : "NoBackground"
-    Plasmoid.associatedApplication: "ksysguard"
+    Plasmoid.associatedApplication: "plasma-systemmonitor"
 
 
     // ui

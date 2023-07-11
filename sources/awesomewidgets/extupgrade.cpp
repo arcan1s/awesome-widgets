@@ -20,6 +20,7 @@
 
 #include <KI18n/KLocalizedString>
 
+#include <QRegularExpression>
 #include <QSettings>
 #include <QTextCodec>
 
@@ -217,7 +218,7 @@ void ExtUpgrade::updateValue()
     QString qoutput = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardOutput()).trimmed();
     m_values[tag("pkgcount")] = [this](const QString &output) {
         return filter().isEmpty() ? output.split('\n', Qt::SkipEmptyParts).count() - null()
-                                  : output.split('\n', Qt::SkipEmptyParts).filter(QRegExp(filter())).count();
+                                  : output.split('\n', Qt::SkipEmptyParts).filter(QRegularExpression(filter())).count();
     }(qoutput);
 
     emit(dataReceived(m_values));

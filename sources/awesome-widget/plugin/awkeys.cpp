@@ -148,7 +148,7 @@ QStringList AWKeys::dictKeys(const bool _sorted, const QString &_regexp) const
     if (_sorted)
         allKeys.sort();
 
-    return allKeys.filter(QRegExp(_regexp));
+    return allKeys.filter(QRegularExpression(_regexp));
 }
 
 
@@ -253,20 +253,20 @@ void AWKeys::updateTextData()
 void AWKeys::calculateValues()
 {
     // hddtot*
-    QStringList mountDevices = m_keyOperator->devices("mount");
+    QStringList mountDevices = m_keyOperator->devices("disk");
     for (auto &device : mountDevices) {
         int index = mountDevices.indexOf(device);
-        m_values[QString("hddtotmb%1").arg(index)]
-            = m_values[QString("hddfreemb%1").arg(index)].toFloat() + m_values[QString("hddmb%1").arg(index)].toFloat();
-        m_values[QString("hddtotgb%1").arg(index)]
-            = m_values[QString("hddfreegb%1").arg(index)].toFloat() + m_values[QString("hddgb%1").arg(index)].toFloat();
+        m_values[QString("hddtotmb%1").arg(index)] = m_values[QString("hddfreemb%1").arg(index)].toDouble()
+                                                     + m_values[QString("hddmb%1").arg(index)].toDouble();
+        m_values[QString("hddtotgb%1").arg(index)] = m_values[QString("hddfreegb%1").arg(index)].toDouble()
+                                                     + m_values[QString("hddgb%1").arg(index)].toDouble();
     }
 
     // memtot*
-    m_values["memtotmb"] = m_values["memusedmb"].toInt() + m_values["memfreemb"].toInt();
-    m_values["memtotgb"] = m_values["memusedgb"].toFloat() + m_values["memfreegb"].toFloat();
+    m_values["memtotmb"] = m_values["memusedmb"].toLongLong() + m_values["memfreemb"].toLongLong();
+    m_values["memtotgb"] = m_values["memusedgb"].toDouble() + m_values["memfreegb"].toDouble();
     // mem
-    m_values["mem"] = 100.0f * m_values["memmb"].toFloat() / m_values["memtotmb"].toFloat();
+    m_values["mem"] = 100.0f * m_values["memmb"].toDouble() / m_values["memtotmb"].toDouble();
 
     // up, down, upkb, downkb, upunits, downunits
     int netIndex = m_keyOperator->devices("net").indexOf(m_values["netdev"].toString());
@@ -282,10 +282,10 @@ void AWKeys::calculateValues()
     m_values["upunits"] = m_values[QString("upunits%1").arg(netIndex)];
 
     // swaptot*
-    m_values["swaptotmb"] = m_values["swapmb"].toInt() + m_values["swapfreemb"].toInt();
-    m_values["swaptotgb"] = m_values["swapgb"].toFloat() + m_values["swapfreegb"].toFloat();
+    m_values["swaptotmb"] = m_values["swapmb"].toLongLong() + m_values["swapfreemb"].toLongLong();
+    m_values["swaptotgb"] = m_values["swapgb"].toDouble() + m_values["swapfreegb"].toDouble();
     // swap
-    m_values["swap"] = 100.0f * m_values["swapmb"].toFloat() / m_values["swaptotmb"].toFloat();
+    m_values["swap"] = 100.0f * m_values["swapmb"].toDouble() / m_values["swaptotmb"].toDouble();
 
     // user defined keys
     for (auto &key : m_keyOperator->userKeys())
