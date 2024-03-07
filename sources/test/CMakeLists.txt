@@ -13,16 +13,16 @@ include_directories(
         ${PROJECT_TRDPARTY_DIR}
         ${Qt_INCLUDE}
         ${Qt5Test_INCLUDE_DIRS}
-        ${Kf5_INCLUDE}
+        ${Kf6_INCLUDE}
 )
 
 # library
 set(AWTESTLIBRARY_HEADERS awtestlibrary.h)
 set(AWTESTLIBRARY_SOURCES awtestlibrary.cpp)
 add_library(${SUBPROJECT}-awtest STATIC ${AWTESTLIBRARY_SOURCES} ${AWTESTLIBRARY_HEADERS})
-target_link_libraries(${SUBPROJECT}-awtest ${Qt_LIBRARIES} ${Qt5Test_LIBRARIES} ${Kf5_LIBRARIES})
+target_link_libraries(${SUBPROJECT}-awtest ${Qt_LIBRARIES} ${Qt5Test_LIBRARIES} ${Kf6_LIBRARIES})
 set(LIBRARY_TEST_SET ${SUBPROJECT}-awtest ${PROJECT_LIBRARY} ${PROJECT_MONITORSOURCES}
-        ${Qt_LIBRARIES} ${Kf5_LIBRARIES} ${Qt5Test_LIBRARIES})
+        ${Qt_LIBRARIES} ${Kf6_LIBRARIES} ${Qt5Test_LIBRARIES})
 
 # modules
 set(TEST_MODULES

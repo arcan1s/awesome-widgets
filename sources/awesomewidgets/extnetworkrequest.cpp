@@ -20,9 +20,7 @@
 
 #include <KI18n/KLocalizedString>
 
-#include <QDir>
 #include <QSettings>
-#include <QTextCodec>
 
 #include <qreplytimeout/qreplytimeout.h>
 
@@ -174,7 +172,7 @@ void ExtNetworkRequest::networkReplyReceived(QNetworkReply *_reply)
     }
 
     m_isRunning = false;
-    m_values[tag("response")] = QTextCodec::codecForMib(106)->toUnicode(_reply->readAll()).trimmed();
+    m_values[tag("response")] = QString::fromUtf8(_reply->readAll()).trimmed();
 
     emit(dataReceived(m_values));
 }

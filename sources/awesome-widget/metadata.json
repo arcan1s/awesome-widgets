@@ -1,0 +1,29 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "esalexeev@gmail.com",
+                "Name": "Evgeniy Alekseev aka arcanis"
+            }
+        ],
+        "Category": "System Information",
+        "Description": "A minimalistic Plasmoid",
+        "Description[en]": "A minimalistic Plasmoid",
+        "Description[es]": "Un script Plasmoïde minimaliste",
+        "Description[pt_BR]": "Um script Plasmoid",
+        "Description[ru]": "Минималистичный плазмоид",
+        "Description[uk]": "Мінімалістичний плазмоїд",
+        "EnabledByDefault": true,
+        "Icon": "utilities-system-monitor",
+        "Id": "org.kde.plasma.awesomewidget",
+        "License": "GPLv3",
+        "Name": "Awesome Widget",
+        "ServiceTypes": [
+            "Plasma/Applet"
+        ],
+        "Version": "@PROJECT_VERSION@",
+        "Website": "https://arcanis.me/projects/awesome-widgets/"
+    },
+    "X-Plasma-API": "declarativeappletscript",
+    "X-Plasma-MainScript": "ui/main.qml"
+}

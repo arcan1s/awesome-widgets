@@ -19,7 +19,7 @@
 #define ABSTRACTEXTSYSMONSOURCE_H
 
 #include <QObject>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QVariant>
 
 
@@ -38,9 +38,8 @@ public:
     // used by extensions
     static int index(const QString &_source)
     {
-        QRegExp rx("\\d+");
-        rx.indexIn(_source);
-        return rx.cap().toInt();
+        QRegularExpression rx("\\d+");
+        return rx.match(_source).captured().toInt();
     }
 
 signals:

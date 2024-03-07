@@ -25,6 +25,5 @@ find_package(Plasma REQUIRED)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDECompilerSettings)
-set(Kf6_INCLUDE ${I18n_INCLUDE_DIR} ${Notifications_INCLUDE_DIR} ${Plasma_INCLUDE_DIR})
+set(Kf6_INCLUDE ${KDE_INSTALL_FULL_INCLUDEDIR_KF})
 set(Kf6_LIBRARIES KF6::I18n KF6::Notifications KF6::WindowSystem PW::LibTaskManager)
-

@@ -99,7 +99,7 @@ QVariantHash OWMWeatherProvider::parseSingleJson(const QVariantMap &_json) const
     }
 
     // timestamp
-    output[tag("timestamp")] = QDateTime::fromTime_t(_json["dt"].toUInt()).toUTC();
+    output[tag("timestamp")] = QDateTime::fromSecsSinceEpoch(_json["dt"].toUInt()).toUTC();
 
     return output;
 }

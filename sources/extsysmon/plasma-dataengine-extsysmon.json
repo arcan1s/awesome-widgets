@@ -1,0 +1,20 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "esalexeev@gmail.com",
+                "Name": "Evgeniy Alekseev aka arcanis"
+            }
+        ],
+        "Category": "System Information",
+        "Description": "Adds some additional functions to System DataEngine",
+        "Icon": "utilities-system-monitor",
+        "Id": "extsysmon",
+        "License": "GPL3",
+        "Name": "Extended SystemMonitor",
+        "ServiceTypes": [
+            "Plasma/DataEngine"
+        ],
+        "Version": "@PROJECT_VERSION@"
+    }
+}

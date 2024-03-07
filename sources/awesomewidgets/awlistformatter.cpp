@@ -97,7 +97,7 @@ void AWListFormatter::setFilter(const QString &_filter)
     qCDebug(LOG_LIB) << "Filter" << _filter;
 
     m_filter = _filter;
-    m_regex = QRegExp(m_filter);
+    m_regex = QRegularExpression(m_filter);
 }
 
 

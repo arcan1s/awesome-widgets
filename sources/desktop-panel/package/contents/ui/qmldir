@@ -3,25 +3,25 @@
 
 
 # common QML constants
-singleton General 1.0 file:///usr/share/awesomewidgets/qml/General.qml
+singleton General 1.0 file:///usr//awesomewidgets/qml/General.qml
 
 # custom QML UI classes
-AboutTab file:///usr/share/awesomewidgets/qml/AboutTab.qml
-AWExtensions file:///usr/share/awesomewidgets/qml/AWExtensions.qml
-AWInfoLabel file:///usr/share/awesomewidgets/qml/AWInfoLabel.qml
-AWTagSelector file:///usr/share/awesomewidgets/qml/AWTagSelector.qml
-AWTextEditor file:///usr/share/awesomewidgets/qml/AWTextEditor.qml
-BugReport file:///usr/share/awesomewidgets/qml/BugReport.qml
-ButtonSelector file:///usr/share/awesomewidgets/qml/ButtonSelector.qml
-CheckBoxSelector file:///usr/share/awesomewidgets/qml/CheckBoxSelector.qml
-ColorSelector file:///usr/share/awesomewidgets/qml/ColorSelector.qml
-ComboBoxSelector file:///usr/share/awesomewidgets/qml/ComboBoxSelector.qml
-ExportDialog file:///usr/share/awesomewidgets/qml/ExportDialog.qml
-FontSelector file:///usr/share/awesomewidgets/qml/FontSelector.qml
-HtmlDefaultFunctionsBar file:///usr/share/awesomewidgets/qml/HtmlDefaultFunctionsBar.qml
-HtmlEditorButton file:///usr/share/awesomewidgets/qml/HtmlEditorButton.qml
-HtmlEditorColor file:///usr/share/awesomewidgets/qml/HtmlEditorColor.qml
-HtmlEditorFont file:///usr/share/awesomewidgets/qml/HtmlEditorFont.qml
-ImportDialog file:///usr/share/awesomewidgets/qml/ImportDialog.qml
-IntegerSelector file:///usr/share/awesomewidgets/qml/IntegerSelector.qml
-LineSelector file:///usr/share/awesomewidgets/qml/LineSelector.qml
+AboutTab file:///usr//awesomewidgets/qml/AboutTab.qml
+AWExtensions file:///usr//awesomewidgets/qml/AWExtensions.qml
+AWInfoLabel file:///usr//awesomewidgets/qml/AWInfoLabel.qml
+AWTagSelector file:///usr//awesomewidgets/qml/AWTagSelector.qml
+AWTextEditor file:///usr//awesomewidgets/qml/AWTextEditor.qml
+BugReport file:///usr//awesomewidgets/qml/BugReport.qml
+ButtonSelector file:///usr//awesomewidgets/qml/ButtonSelector.qml
+CheckBoxSelector file:///usr//awesomewidgets/qml/CheckBoxSelector.qml
+ColorSelector file:///usr//awesomewidgets/qml/ColorSelector.qml
+ComboBoxSelector file:///usr//awesomewidgets/qml/ComboBoxSelector.qml
+ExportDialog file:///usr//awesomewidgets/qml/ExportDialog.qml
+FontSelector file:///usr//awesomewidgets/qml/FontSelector.qml
+HtmlDefaultFunctionsBar file:///usr//awesomewidgets/qml/HtmlDefaultFunctionsBar.qml
+HtmlEditorButton file:///usr//awesomewidgets/qml/HtmlEditorButton.qml
+HtmlEditorColor file:///usr//awesomewidgets/qml/HtmlEditorColor.qml
+HtmlEditorFont file:///usr//awesomewidgets/qml/HtmlEditorFont.qml
+ImportDialog file:///usr//awesomewidgets/qml/ImportDialog.qml
+IntegerSelector file:///usr//awesomewidgets/qml/IntegerSelector.qml
+LineSelector file:///usr//awesomewidgets/qml/LineSelector.qml

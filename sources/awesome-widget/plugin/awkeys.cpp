@@ -148,7 +148,7 @@ QStringList AWKeys::dictKeys(const bool _sorted, const QString &_regexp) const
     if (_sorted)
         allKeys.sort();
 
-    return allKeys.filter(QRegExp(_regexp));
+    return allKeys.filter(QRegularExpression(_regexp));
 }
 
 

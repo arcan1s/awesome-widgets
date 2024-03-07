@@ -17,7 +17,7 @@
 
 #include "awdataenginemapper.h"
 
-#include <QRegExp>
+#include <QRegularExpression>
 
 #include "awdebug.h"
 #include "awformatterhelper.h"
@@ -81,15 +81,15 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const QSt
     qCDebug(LOG_AW) << "Source" << _source << "with units" << _units;
 
     // regular expressions
-    QRegExp cpuRegExp = QRegExp("cpu/cpu.*/TotalLoad");
-    QRegExp cpuclRegExp = QRegExp("cpu/cpu.*/clock");
-    QRegExp hddrRegExp = QRegExp("disk/.*/Rate/rblk");
-    QRegExp hddwRegExp = QRegExp("disk/.*/Rate/wblk");
-    QRegExp mountFillRegExp = QRegExp("partitions/.*/filllevel");
-    QRegExp mountFreeRegExp = QRegExp("partitions/.*/freespace");
-    QRegExp mountUsedRegExp = QRegExp("partitions/.*/usedspace");
-    QRegExp netRegExp = QRegExp("network/interfaces/.*/(receiver|transmitter)/data$");
-    QRegExp netTotalRegExp = QRegExp("network/interfaces/.*/(receiver|transmitter)/dataTotal$");
+    auto cpuRegExp = QRegularExpression("cpu/cpu.*/TotalLoad");
+    auto cpuclRegExp = QRegularExpression("cpu/cpu.*/clock");
+    auto hddrRegExp = QRegularExpression("disk/.*/Rate/rblk");
+    auto hddwRegExp = QRegularExpression("disk/.*/Rate/wblk");
+    auto mountFillRegExp = QRegularExpression("partitions/.*/filllevel");
+    auto mountFreeRegExp = QRegularExpression("partitions/.*/freespace");
+    auto mountUsedRegExp = QRegularExpression("partitions/.*/usedspace");
+    auto netRegExp = QRegularExpression("network/interfaces/.*/(receiver|transmitter)/data$");
+    auto netTotalRegExp = QRegularExpression("network/interfaces/.*/(receiver|transmitter)/dataTotal$");
 
     if (_source == "battery/ac") {
         // AC

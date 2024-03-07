@@ -8,11 +8,11 @@ include_directories(
         ${CMAKE_CURRENT_SOURCE_DIR}/../${PROJECT_LIBRARY}/
         ${PROJECT_TRDPARTY_DIR}
         ${Qt_INCLUDE}
-        ${Kf5_INCLUDE}
+        ${Kf6_INCLUDE}
 )
 
 file(GLOB SUBPROJECT_SOURCE *.cpp)
 file(GLOB SUBPROJECT_HEADER *.h)
 
 add_library(${SUBPROJECT} STATIC ${SUBPROJECT_SOURCE} ${SUBPROJECT_HEADER})
-target_link_libraries(${SUBPROJECT} ${PROJECT_LIBRARY} ${Qt_LIBRARIES} ${Kf5_LIBRARIES})
+target_link_libraries(${SUBPROJECT} ${PROJECT_LIBRARY} ${Qt_LIBRARIES} ${Kf6_LIBRARIES})

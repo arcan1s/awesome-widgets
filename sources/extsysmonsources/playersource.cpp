@@ -23,7 +23,6 @@
 #include <QDBusConnectionInterface>
 #include <QDBusMessage>
 #include <QProcess>
-#include <QTextCodec>
 
 #include "awdebug.h"
 
@@ -219,7 +218,7 @@ QString PlayerSource::buildString(const QString &_current, const QString &_value
     qCDebug(LOG_ESS) << "Current value" << _current << "received" << _value << "will be stripped after" << _s;
 
     int index = _value.indexOf(_current);
-    if ((_current.isEmpty()) || ((index + _s + 1) > _value.count()))
+    if ((_current.isEmpty()) || ((index + _s + 1) > _value.length()))
         return QString("%1").arg(_value.left(_s), -_s, QLatin1Char(' '));
     else
         return QString("%1").arg(_value.mid(index + 1, _s), -_s, QLatin1Char(' '));
@@ -230,8 +229,8 @@ QString PlayerSource::stripString(const QString &_value, const int _s)
 {
     qCDebug(LOG_ESS) << "New value" << _value << "will be stripped after" << _s;
 
-    return _value.count() > _s ? QString("%1\u2026").arg(_value.left(_s - 1))
-                               : _value.leftJustified(_s, QLatin1Char(' '));
+    return _value.length() > _s ? QString("%1\u2026").arg(_value.left(_s - 1))
+                                : _value.leftJustified(_s, QLatin1Char(' '));
 }
 
 
@@ -249,7 +248,7 @@ void PlayerSource::mpdSocketConnected()
 
 void PlayerSource::mpdSocketReadyRead()
 {
-    QString qoutput = QTextCodec::codecForMib(106)->toUnicode(m_mpdSocket.readAll()).trimmed();
+    QString qoutput = QString::fromUtf8(m_mpdSocket.readAll()).trimmed();
     qCInfo(LOG_ESS) << "Output" << qoutput;
 
     // parse

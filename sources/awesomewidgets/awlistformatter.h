@@ -58,7 +58,7 @@ private:
     QString m_filter = "";
     QString m_separator = "";
     bool m_sorted = false;
-    QRegExp m_regex;
+    QRegularExpression m_regex;
 };
 
 

@@ -18,6 +18,7 @@
 #include "extsysmon.h"
 
 #include <QFile>
+#include <QRegularExpression>
 #include <QSettings>
 #include <QStandardPaths>
 
@@ -127,7 +128,7 @@ QHash<QString, QString> ExtendedSysMon::updateConfiguration(QHash<QString, QStri
     } else {
         QStringList deviceList = _rawConfig["HDDDEV"].split(',', Qt::SkipEmptyParts);
         QStringList devices;
-        QRegExp diskRegexp = QRegExp("^/dev/[hms]d[a-z]$");
+        auto diskRegexp = QRegularExpression("^/dev/[hms]d[a-z]$");
         for (auto &device : deviceList)
             if ((QFile::exists(device)) && (device.contains(diskRegexp)))
                 devices.append(device);

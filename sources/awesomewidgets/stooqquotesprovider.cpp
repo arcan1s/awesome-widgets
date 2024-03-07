@@ -17,7 +17,6 @@
 
 #include "stooqquotesprovider.h"
 
-#include <QTextCodec>
 #include <QUrlQuery>
 
 #include "awdebug.h"
@@ -55,7 +54,7 @@ QVariantHash StooqQuotesProvider::parse(const QByteArray &_source, const QVarian
 
     QVariantHash values;
 
-    QStringList sourceValues = QTextCodec::codecForMib(106)->toUnicode(_source).trimmed().split(',');
+    QStringList sourceValues = QString::fromUtf8(_source).trimmed().split(',');
     if (sourceValues.count() != 2) {
         qCWarning(LOG_LIB) << "Parse error" << sourceValues;
         return values;

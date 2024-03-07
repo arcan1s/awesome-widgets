@@ -53,7 +53,7 @@ QString AWJsonFormatter::convert(const QVariant &_value) const
     qCDebug(LOG_LIB) << "Convert value" << _value;
 
     // check if _value is string and parse first if required
-    QJsonDocument json = _value.type() == QVariant::String ? QJsonDocument::fromJson(_value.toString().toUtf8())
+    QJsonDocument json = _value.userType() == QMetaType::QString ? QJsonDocument::fromJson(_value.toString().toUtf8())
                                                            : QJsonDocument::fromVariant(_value);
     QVariant converted = json.toVariant();
     for (auto &element : m_splittedPath)
@@ -147,9 +147,9 @@ QVariant AWJsonFormatter::getFromJson(const QVariant &_value, const QVariant &_e
 {
     qCDebug(LOG_LIB) << "Looking for element" << _element << "in" << _value;
 
-    if (_element.type() == QVariant::String) {
+    if (_element.userType() == QMetaType::QString) {
         return getFromMap(_value, _element.toString());
-    } else if (_element.type() == QVariant::Int) {
+    } else if (_element.userType() == QMetaType::Int) {
         return getFromList(_value, _element.toInt());
     } else {
         qCWarning(LOG_LIB) << "Unknown type" << _element.typeName();

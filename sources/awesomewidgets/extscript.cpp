@@ -24,7 +24,6 @@
 #include <QJsonDocument>
 #include <QSettings>
 #include <QStandardPaths>
-#include <QTextCodec>
 
 #include "awdebug.h"
 
@@ -325,9 +324,9 @@ void ExtScript::startProcess()
 void ExtScript::updateValue()
 {
     qCInfo(LOG_LIB) << "Cmd returns" << m_process->exitCode();
-    QString qdebug = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardError()).trimmed();
+    QString qdebug = QString::fromUtf8(m_process->readAllStandardError()).trimmed();
     qCInfo(LOG_LIB) << "Error" << qdebug;
-    QString qoutput = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardOutput()).trimmed();
+    QString qoutput = QString::fromUtf8(m_process->readAllStandardOutput()).trimmed();
     qCInfo(LOG_LIB) << "Output" << qoutput;
     QString strValue;
 

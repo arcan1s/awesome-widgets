@@ -21,7 +21,6 @@
 #include <KI18n/KLocalizedString>
 
 #include <QSettings>
-#include <QTextCodec>
 
 #include "awdebug.h"
 
@@ -214,10 +213,10 @@ void ExtUpgrade::updateValue()
     qCInfo(LOG_LIB) << "Cmd returns" << m_process->exitCode();
     qCInfo(LOG_LIB) << "Error" << m_process->readAllStandardError();
 
-    QString qoutput = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardOutput()).trimmed();
+    QString qoutput = QString::fromUtf8(m_process->readAllStandardOutput()).trimmed();
     m_values[tag("pkgcount")] = [this](const QString &output) {
         return filter().isEmpty() ? output.split('\n', Qt::SkipEmptyParts).count() - null()
-                                  : output.split('\n', Qt::SkipEmptyParts).filter(QRegExp(filter())).count();
+                                  : output.split('\n', Qt::SkipEmptyParts).filter(QRegularExpression(filter())).count();
     }(qoutput);
 
     emit(dataReceived(m_values));

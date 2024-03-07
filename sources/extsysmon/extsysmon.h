@@ -18,7 +18,7 @@
 #ifndef EXTSYSMON_H
 #define EXTSYSMON_H
 
-#include <Plasma/DataEngine>
+#include <Plasma/Plasma/DataEngine>
 
 
 class ExtSysMonAggregator;

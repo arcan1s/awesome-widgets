@@ -18,6 +18,7 @@
 
 #include "testawpatternfunctions.h"
 
+#include <QRegularExpression>
 #include <QtTest>
 
 #include "awpatternfunctions.h"
@@ -57,7 +58,7 @@ void TestAWPatternFunctions::test_findKeys()
     QStringList allKeys;
     for (int i = 0; i < count; i++) {
         auto key = AWTestLibrary::randomString(1, 20);
-        while (allKeys.indexOf(QRegExp(QString("^%1.*").arg(key))) != -1)
+        while (allKeys.indexOf(QRegularExpression(QString("^%1.*").arg(key))) != -1)
             key = AWTestLibrary::randomString(1, 20);
         allKeys.append(key);
     }

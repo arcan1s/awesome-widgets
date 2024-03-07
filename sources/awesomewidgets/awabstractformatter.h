@@ -18,6 +18,8 @@
 #ifndef AWABSTRACTFORMATTER_H
 #define AWABSTRACTFORMATTER_H
 
+#include <QRegularExpression>
+
 #include "abstractextitem.h"
 
 

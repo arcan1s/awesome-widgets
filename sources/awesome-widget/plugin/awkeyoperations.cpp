@@ -18,7 +18,7 @@
 #include "awkeyoperations.h"
 
 #include <QDir>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QThread>
 
 #include "awcustomkeyshelper.h"
@@ -206,7 +206,7 @@ QString AWKeyOperations::infoByKey(const QString &_key) const
     qCDebug(LOG_AW) << "Requested key" << _key;
 
     QString stripped = _key;
-    stripped.remove(QRegExp("\\d+"));
+    stripped.remove(QRegularExpression("\\d+"));
     QString output;
 
     if (_key.startsWith("bar")) {
@@ -217,31 +217,31 @@ QString AWKeyOperations::infoByKey(const QString &_key) const
         AbstractExtItem *item = m_extScripts->itemByTag(_key, stripped);
         if (item)
             output = item->uniq();
-    } else if (_key.contains(QRegExp("^hdd[rw]"))) {
+    } else if (_key.contains(QRegularExpression("^hdd[rw]"))) {
         QString index = _key;
-        index.remove(QRegExp("hdd[rw]"));
+        index.remove(QRegularExpression("hdd[rw]"));
         output = m_devices["disk"][index.toInt()];
-    } else if (_key.contains(QRegExp("^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)"))) {
+    } else if (_key.contains(QRegularExpression("^hdd([0-9]|mb|gb|freemb|freegb|totmb|totgb)"))) {
         QString index = _key;
-        index.remove(QRegExp("^hdd(|mb|gb|freemb|freegb|totmb|totgb)"));
+        index.remove(QRegularExpression("^hdd(|mb|gb|freemb|freegb|totmb|totgb)"));
         output = m_devices["mount"][index.toInt()];
     } else if (_key.startsWith("hddtemp")) {
         QString index = _key;
         index.remove("hddtemp");
         output = m_devices["hdd"][index.toInt()];
-    } else if (_key.contains(QRegExp("^(down|up)[0-9]"))) {
+    } else if (_key.contains(QRegularExpression("^(down|up)[0-9]"))) {
         QString index = _key;
-        index.remove(QRegExp("^(down|up)"));
+        index.remove(QRegularExpression("^(down|up)"));
         output = m_devices["net"][index.toInt()];
     } else if (_key.startsWith("pkgcount")) {
         AbstractExtItem *item = m_extUpgrade->itemByTag(_key, stripped);
         if (item)
             output = item->uniq();
-    } else if (_key.contains(QRegExp("(^|perc)(ask|bid|price)(chg|)"))) {
+    } else if (_key.contains(QRegularExpression("(^|perc)(ask|bid|price)(chg|)"))) {
         AbstractExtItem *item = m_extQuotes->itemByTag(_key, stripped);
         if (item)
             output = item->uniq();
-    } else if (_key.contains(QRegExp("(weather|weatherId|humidity|pressure|temperature)"))) {
+    } else if (_key.contains(QRegularExpression("(weather|weatherId|humidity|pressure|temperature)"))) {
         AbstractExtItem *item = m_extWeather->itemByTag(_key, stripped);
         if (item)
             output = item->uniq();
@@ -280,7 +280,7 @@ void AWKeyOperations::editItem(const QString &_type)
     qCDebug(LOG_AW) << "Item type" << _type;
 
     if (_type == "graphicalitem") {
-        QStringList keys = dictKeys().filter(QRegExp("^(cpu(?!cl).*|gpu$|mem$|swap$|hdd[0-9].*|bat.*)"));
+        QStringList keys = dictKeys().filter(QRegularExpression("^(cpu(?!cl).*|gpu$|mem$|swap$|hdd[0-9].*|bat.*)"));
         keys.sort();
         m_graphicalItems->setConfigArgs(keys);
         return m_graphicalItems->editItems();
@@ -302,8 +302,8 @@ void AWKeyOperations::addDevice(const QString &_source)
 {
     qCDebug(LOG_AW) << "Source" << _source;
 
-    QRegExp diskRegexp = QRegExp("disk/(?:md|sd|hd)[a-z|0-9]_.*/Rate/(?:rblk)");
-    QRegExp mountRegexp = QRegExp("partitions/.*/filllevel");
+    auto diskRegexp = QRegularExpression("disk/(?:md|sd|hd)[a-z|0-9]_.*/Rate/(?:rblk)");
+    auto mountRegexp = QRegularExpression("partitions/.*/filllevel");
 
     if (_source.contains(diskRegexp)) {
         QString device = _source;

@@ -20,7 +20,6 @@
 
 #include <QFile>
 #include <QProcess>
-#include <QTextCodec>
 
 #include "awdebug.h"
 
@@ -103,9 +102,9 @@ QStringList GPUTemperatureSource::sources() const
 void GPUTemperatureSource::updateValue()
 {
     qCInfo(LOG_ESS) << "Cmd returns" << m_process->exitCode();
-    QString qdebug = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardError()).trimmed();
+    QString qdebug = QString::fromUtf8(m_process->readAllStandardError()).trimmed();
     qCInfo(LOG_ESS) << "Error" << qdebug;
-    QString qoutput = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardOutput()).trimmed();
+    QString qoutput = QString::fromUtf8(m_process->readAllStandardOutput()).trimmed();
     qCInfo(LOG_ESS) << "Output" << qoutput;
 
     if (m_device == "nvidia") {
