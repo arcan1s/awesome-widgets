@@ -17,7 +17,6 @@
 
 #include "stooqquotesprovider.h"
 
-#include <QTextCodec>
 #include <QUrlQuery>
 
 #include "awdebug.h"
@@ -55,7 +54,7 @@ QVariantHash StooqQuotesProvider::parse(const QByteArray &_source, const QVarian
 
     QVariantHash values;
 
-    QStringList sourceValues = QTextCodec::codecForMib(106)->toUnicode(_source).trimmed().split(',');
+    auto sourceValues = QString::fromUtf8(_source).trimmed().split(',');
     if (sourceValues.count() != 2) {
         qCWarning(LOG_LIB) << "Parse error" << sourceValues;
         return values;
@@ -68,12 +67,12 @@ QVariantHash StooqQuotesProvider::parse(const QByteArray &_source, const QVarian
     // last trade
     auto price = sourceValues.at(0).toDouble();
     values[tag("pricechg")] = oldPrice == 0.0 ? 0.0 : price - oldPrice;
-    values[tag("percpricechg")] = 100.0 * values[tag("pricechg")].toDouble() / price;
+    values[tag("percpricechg")] = 100.0 * values[tag("pricechg")].toDouble() / oldPrice;
     values[tag("price")] = price;
     // volume
     auto volume = sourceValues.at(1).toInt();
     values[tag("volumechg")] = oldVolume == 0 ? 0 : volume - oldVolume;
-    values[tag("percvolumechg")] = 100.0 * values[tag("volumechg")].toDouble() / volume;
+    values[tag("percvolumechg")] = 100.0 * values[tag("volumechg")].toDouble() / oldVolume;
     values[tag("volume")] = volume;
 
     return values;

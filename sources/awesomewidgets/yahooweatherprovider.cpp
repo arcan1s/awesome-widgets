@@ -86,7 +86,7 @@ QVariantHash YahooWeatherProvider::parseCurrent(const QVariantMap &_json, const 
     values[tag("timestamp")] = condition["date"].toString();
     values[tag("humidity")] = _atmosphere["humidity"].toInt();
     // HACK temporary fix of invalid values on Yahoo! side
-    values[tag("pressure")] = static_cast<int>(_atmosphere["pressure"].toFloat() / 33.863753);
+    values[tag("pressure")] = static_cast<int>(_atmosphere["pressure"].toDouble() / 33.863753);
 
     return values;
 }
@@ -103,7 +103,7 @@ QVariantHash YahooWeatherProvider::parseForecast(const QVariantMap &_json) const
     values[tag("weatherId")] = id;
     values[tag("timestamp")] = weatherMap["date"].toString();
     // yahoo provides high and low temperatures. Lets calculate average one
-    values[tag("temperature")] = (weatherMap["high"].toFloat() + weatherMap["low"].toFloat()) / 2.0;
+    values[tag("temperature")] = (weatherMap["high"].toDouble() + weatherMap["low"].toDouble()) / 2.0;
     // ... and no forecast data for humidity and pressure
     values[tag("humidity")] = 0;
     values[tag("pressure")] = 0.0;

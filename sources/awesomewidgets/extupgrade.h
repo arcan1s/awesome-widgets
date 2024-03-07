@@ -23,11 +23,6 @@
 #include "abstractextitem.h"
 
 
-namespace Ui
-{
-class ExtUpgrade;
-}
-
 class ExtUpgrade : public AbstractExtItem
 {
     Q_OBJECT
@@ -36,7 +31,7 @@ class ExtUpgrade : public AbstractExtItem
     Q_PROPERTY(int null READ null WRITE setNull)
 
 public:
-    explicit ExtUpgrade(QWidget *_parent = nullptr, const QString &_filePath = "");
+    explicit ExtUpgrade(QObject *_parent = nullptr, const QString &_filePath = "");
     ~ExtUpgrade() override;
     ExtUpgrade *copy(const QString &_fileName, int _number) override;
     // get methods
@@ -52,7 +47,7 @@ public:
 public slots:
     void readConfiguration() override;
     QVariantHash run() override;
-    int showConfiguration(const QVariant &_args) override;
+    int showConfiguration(QWidget *_parent, const QVariant &_args) override;
     void writeConfiguration() const override;
 
 private slots:
@@ -61,8 +56,7 @@ private slots:
 
 private:
     QProcess *m_process = nullptr;
-    Ui::ExtUpgrade *ui = nullptr;
-    void translate() override;
+    void translate(void *_ui) override;
     // properties
     QString m_executable = "/usr/bin/true";
     QString m_filter = "";

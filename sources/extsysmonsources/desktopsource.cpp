@@ -15,10 +15,11 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "desktopsource.h"
 
 #include <KWindowSystem/KWindowSystem>
+#include <ksysguard/formatter/Unit.h>
+#include <ksysguard/systemstats/SensorInfo.h>
 #include <taskmanager/virtualdesktopinfo.h>
 
 #include "awdebug.h"
@@ -50,13 +51,13 @@ QVariant DesktopSource::data(const QString &_source)
     auto decrement = KWindowSystem::isPlatformX11() ? 1 : 0;
     auto current = nativeIndex - decrement;
 
-    if (_source == "desktop/current/name") {
+    if (_source == "name") {
         return m_vdi->desktopNames().at(current);
-    } else if (_source == "desktop/current/number") {
+    } else if (_source == "number") {
         return current + 1;
-    } else if (_source == "desktop/total/name") {
+    } else if (_source == "names") {
         return m_vdi->desktopNames();
-    } else if (_source == "desktop/total/number") {
+    } else if (_source == "count") {
         return m_vdi->numberOfDesktops();
     }
 
@@ -64,35 +65,29 @@ QVariant DesktopSource::data(const QString &_source)
 }
 
 
-QVariantMap DesktopSource::initialData(const QString &_source) const
+KSysGuard::SensorInfo *DesktopSource::initialData(const QString &_source) const
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
-    QVariantMap data;
-    if (_source == "desktop/current/name") {
-        data["min"] = "";
-        data["max"] = "";
-        data["name"] = "Current desktop name";
-        data["type"] = "QString";
-        data["units"] = "";
-    } else if (_source == "desktop/current/number") {
-        data["min"] = 0;
-        data["max"] = 0;
-        data["name"] = "Current desktop number";
-        data["type"] = "integer";
-        data["units"] = "";
-    } else if (_source == "desktop/total/name") {
-        data["min"] = QStringList();
-        data["max"] = QStringList();
-        data["name"] = "All desktops by name";
-        data["type"] = "QStringList";
-        data["units"] = "";
-    } else if (_source == "desktop/total/number") {
-        data["min"] = 0;
-        data["max"] = 0;
-        data["name"] = "Desktops count";
-        data["type"] = "integer";
-        data["units"] = "";
+    auto data = new KSysGuard::SensorInfo();
+    if (_source == "name") {
+        data->name = "Current desktop name";
+        data->variantType = QVariant::String;
+        data->unit = KSysGuard::UnitNone;
+    } else if (_source == "number") {
+        data->min = 0;
+        data->name = "Current desktop number";
+        data->variantType = QVariant::Int;
+        data->unit = KSysGuard::UnitNone;
+    } else if (_source == "names") {
+        data->name = "All desktops by name";
+        data->variantType = QVariant::StringList;
+        data->unit = KSysGuard::UnitNone;
+    } else if (_source == "count") {
+        data->min = 0;
+        data->name = "Desktops count";
+        data->variantType = QVariant::Int;
+        data->unit = KSysGuard::UnitNone;
     }
 
     return data;
@@ -102,10 +97,10 @@ QVariantMap DesktopSource::initialData(const QString &_source) const
 QStringList DesktopSource::sources() const
 {
     QStringList sources;
-    sources.append("desktop/current/name");
-    sources.append("desktop/current/number");
-    sources.append("desktop/total/name");
-    sources.append("desktop/total/number");
+    sources.append("name");
+    sources.append("number");
+    sources.append("names");
+    sources.append("count");
 
     return sources;
 }

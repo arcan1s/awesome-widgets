@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "awnoformatter.h"
 #include "ui_awnoformatter.h"
 
@@ -24,24 +23,13 @@
 #include "awdebug.h"
 
 
-AWNoFormatter::AWNoFormatter(QWidget *_parent, const QString &_filePath)
+AWNoFormatter::AWNoFormatter(QObject *_parent, const QString &_filePath)
     : AWAbstractFormatter(_parent, _filePath)
-    , ui(new Ui::AWNoFormatter)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     if (!_filePath.isEmpty())
         AWNoFormatter::readConfiguration();
-    ui->setupUi(this);
-    AWNoFormatter::translate();
-}
-
-
-AWNoFormatter::~AWNoFormatter()
-{
-    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
-
-    delete ui;
 }
 
 
@@ -57,7 +45,7 @@ AWNoFormatter *AWNoFormatter::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    auto *item = new AWNoFormatter(dynamic_cast<QWidget *>(parent()), _fileName);
+    auto item = new AWNoFormatter(parent(), _fileName);
     AWAbstractFormatter::copyDefaults(item);
     item->setNumber(_number);
 
@@ -65,29 +53,40 @@ AWNoFormatter *AWNoFormatter::copy(const QString &_fileName, const int _number)
 }
 
 
-int AWNoFormatter::showConfiguration(const QVariant &_args)
+int AWNoFormatter::showConfiguration(QWidget *_parent, const QVariant &_args)
 {
     Q_UNUSED(_args)
+
+    auto dialog = new QDialog(_parent);
+    auto ui = new Ui::AWNoFormatter();
+    ui->setupUi(dialog);
+    translate(ui);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
     ui->label_typeValue->setText("NoFormat");
 
-    int ret = exec();
-    if (ret != 1)
-        return ret;
-    setName(ui->lineEdit_name->text());
-    setComment(ui->lineEdit_comment->text());
-    setApiVersion(AW_FORMATTER_API);
-    setStrType(ui->label_typeValue->text());
+    auto ret = dialog->exec();
+    if (ret == 1) {
+        setName(ui->lineEdit_name->text());
+        setComment(ui->lineEdit_comment->text());
+        setApiVersion(AW_FORMATTER_API);
+        setStrType(ui->label_typeValue->text());
 
-    writeConfiguration();
+        writeConfiguration();
+    }
+
+    dialog->deleteLater();
+    delete ui;
+
     return ret;
 }
 
 
-void AWNoFormatter::translate()
+void AWNoFormatter::translate(void *_ui)
 {
+    auto ui = reinterpret_cast<Ui::AWNoFormatter *>(_ui);
+
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
     ui->label_type->setText(i18n("Type"));

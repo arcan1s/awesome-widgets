@@ -15,28 +15,29 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Controls 1.3 as QtControls
+import QtQuick 2.15
+import QtQuick.Controls
 
 
 Row {
-    height: implicitHeight
     width: parent.width
 
     property alias text: label.text
     property alias value: button.text
-    property alias style: button.style
+    property alias background: button.background
 
     signal buttonActivated
 
-    QtControls.Label {
+    Label {
         id: label
         height: parent.height
         width: parent.width * 2 / 5
+
         horizontalAlignment: Text.AlignRight
         verticalAlignment: Text.AlignVCenter
     }
-    QtControls.Button {
+
+    Button {
         id: button
         width: parent.width * 3 / 5
         onClicked: buttonActivated()

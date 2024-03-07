@@ -38,7 +38,6 @@ private slots:
 
 private:
     NetworkSource *source = nullptr;
-    QString src = "network/current/name";
 };
 
 

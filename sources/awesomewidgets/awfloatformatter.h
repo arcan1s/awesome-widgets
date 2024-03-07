@@ -21,11 +21,6 @@
 #include "awabstractformatter.h"
 
 
-namespace Ui
-{
-class AWFloatFormatter;
-}
-
 class AWFloatFormatter : public AWAbstractFormatter
 {
     Q_OBJECT
@@ -38,8 +33,7 @@ class AWFloatFormatter : public AWAbstractFormatter
     Q_PROPERTY(double summand READ summand WRITE setSummand)
 
 public:
-    explicit AWFloatFormatter(QWidget *_parent = nullptr, const QString &_filePath = "");
-    ~AWFloatFormatter() override;
+    explicit AWFloatFormatter(QObject *_parent = nullptr, const QString &_filePath = "");
     [[nodiscard]] QString convert(const QVariant &_value) const override;
     AWFloatFormatter *copy(const QString &_fileName, int _number) override;
     // properties
@@ -60,12 +54,11 @@ public:
 
 public slots:
     void readConfiguration() override;
-    int showConfiguration(const QVariant &_args) override;
+    int showConfiguration(QWidget *_parent, const QVariant &_args) override;
     void writeConfiguration() const override;
 
 private:
-    Ui::AWFloatFormatter *ui = nullptr;
-    void translate() override;
+    void translate(void *_ui) override;
     // properties
     int m_count = 0;
     QChar m_fillChar = QChar();

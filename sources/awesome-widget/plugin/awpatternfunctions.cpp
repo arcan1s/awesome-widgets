@@ -105,9 +105,9 @@ QList<AWPatternFunctions::AWFunction> AWPatternFunctions::findFunctionCalls(cons
             metadata.args = QStringList();
         } else {
             // replace '$,' to 0x1d
-            argsString.replace("$,", QString(0x1d));
+            argsString.replace("$,", QChar(0x1d));
             QStringList args = argsString.split(',');
-            std::for_each(args.begin(), args.end(), [](QString &arg) { arg.replace(QString(0x1d), ","); });
+            std::for_each(args.begin(), args.end(), [](QString &arg) { arg.replace(QChar(0x1d), ","); });
             metadata.args = args;
         }
         // other variables
@@ -130,7 +130,7 @@ QString AWPatternFunctions::insertAllKeys(QString _code, const QStringList &_key
     QList<AWPatternFunctions::AWFunction> found = AWPatternFunctions::findFunctionCalls("aw_all", _code);
     for (auto &function : found) {
         QString separator = function.args.isEmpty() ? "," : function.args.at(0);
-        QStringList required = _keys.filter(QRegExp(function.body));
+        QStringList required = _keys.filter(QRegularExpression(function.body));
         std::for_each(required.begin(), required.end(), [](QString &value) { value = QString("%1: $%1").arg(value); });
 
         _code.replace(function.what, required.join(separator));
@@ -146,7 +146,7 @@ QString AWPatternFunctions::insertKeyCount(QString _code, const QStringList &_ke
 
     QList<AWPatternFunctions::AWFunction> found = AWPatternFunctions::findFunctionCalls("aw_count", _code);
     for (auto &function : found) {
-        int count = _keys.filter(QRegExp(function.body)).count();
+        int count = _keys.filter(QRegularExpression(function.body)).count();
 
         _code.replace(function.what, QString::number(count));
     }
@@ -162,7 +162,7 @@ QString AWPatternFunctions::insertKeyNames(QString _code, const QStringList &_ke
     QList<AWPatternFunctions::AWFunction> found = AWPatternFunctions::findFunctionCalls("aw_names", _code);
     for (auto &function : found) {
         QString separator = function.args.isEmpty() ? "," : function.args.at(0);
-        QStringList required = _keys.filter(QRegExp(function.body));
+        QStringList required = _keys.filter(QRegularExpression(function.body));
 
         _code.replace(function.what, required.join(separator));
     }
@@ -178,7 +178,7 @@ QString AWPatternFunctions::insertKeys(QString _code, const QStringList &_keys)
     QList<AWPatternFunctions::AWFunction> found = AWPatternFunctions::findFunctionCalls("aw_keys", _code);
     for (auto &function : found) {
         QString separator = function.args.isEmpty() ? "," : function.args.at(0);
-        QStringList required = _keys.filter(QRegExp(function.body));
+        QStringList required = _keys.filter(QRegularExpression(function.body));
         std::for_each(required.begin(), required.end(), [](QString &value) { value = QString("$%1").arg(value); });
 
         _code.replace(function.what, required.join(separator));

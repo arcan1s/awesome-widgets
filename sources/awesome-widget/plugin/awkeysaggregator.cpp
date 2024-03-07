@@ -64,19 +64,19 @@ QString AWKeysAggregator::formatter(const QVariant &_data, const QString &_key, 
     // case block
     switch (m_mapper->formatter(_key)) {
     case FormatterType::Float:
-        output = QString("%1").arg(_data.toFloat(), 5, 'f', 1);
+        output = QString("%1").arg(_data.toDouble(), 5, 'f', 1);
         break;
     case FormatterType::FloatTwoSymbols:
-        output = QString("%1").arg(_data.toFloat(), 5, 'f', 2);
+        output = QString("%1").arg(_data.toDouble(), 5, 'f', 2);
         break;
     case FormatterType::Integer:
-        output = QString("%1").arg(_data.toFloat(), 4, 'f', 0);
+        output = QString("%1").arg(_data.toDouble(), 4, 'f', 0);
         break;
     case FormatterType::IntegerFive:
-        output = QString("%1").arg(_data.toFloat(), 5, 'f', 0);
+        output = QString("%1").arg(_data.toDouble(), 5, 'f', 0);
         break;
     case FormatterType::IntegerThree:
-        output = QString("%1").arg(_data.toFloat(), 3, 'f', 0);
+        output = QString("%1").arg(_data.toDouble(), 3, 'f', 0);
         break;
     case FormatterType::List:
         output = _data.toStringList().join(',');
@@ -85,10 +85,10 @@ QString AWKeysAggregator::formatter(const QVariant &_data, const QString &_key, 
         output = _data.toBool() ? m_acOnline : m_acOffline;
         break;
     case FormatterType::MemGBFormat:
-        output = QString("%1").arg(_data.toFloat() / (1024.0 * 1024.0), 5, 'f', 1);
+        output = QString("%1").arg(_data.toDouble() / (1024.0 * 1024.0), 5, 'f', 1);
         break;
     case FormatterType::MemMBFormat:
-        output = QString("%1").arg(_data.toFloat() / 1024.0, 5, 'f', 0);
+        output = QString("%1").arg(_data.toDouble() / 1024.0, 5, 'f', 0);
         break;
     case FormatterType::NetSmartFormat:
         output = [](const float value) {
@@ -96,10 +96,10 @@ QString AWKeysAggregator::formatter(const QVariant &_data, const QString &_key, 
                 return QString("%1").arg(value / 1024.0, 4, 'f', 1);
             else
                 return QString("%1").arg(value, 4, 'f', 0);
-        }(_data.toFloat());
+        }(_data.toDouble());
         break;
     case FormatterType::NetSmartUnits:
-        if (_data.toFloat() > 1024.0)
+        if (_data.toDouble() > 1024.0)
             output = m_translate ? i18n("MB/s") : "MB/s";
         else
             output = m_translate ? i18n("KB/s") : "KB/s";
@@ -110,29 +110,29 @@ QString AWKeysAggregator::formatter(const QVariant &_data, const QString &_key, 
         output = output.rightJustified(8, QLatin1Char(' '), true);
         break;
     case FormatterType::Temperature:
-        output = QString("%1").arg(temperature(_data.toFloat()), 5, 'f', 1);
+        output = QString("%1").arg(temperature(_data.toDouble()), 5, 'f', 1);
         break;
     case FormatterType::Time:
-        output = _data.toDateTime().toString();
+        output = QDateTime::fromSecsSinceEpoch(_data.toLongLong()).toString();
         break;
     case FormatterType::TimeCustom:
         output = m_customTime;
         [&output, loc, this](const QDateTime &dt) {
             for (auto &key : m_timeKeys)
                 output.replace(QString("$%1").arg(key), loc.toString(dt, key));
-        }(_data.toDateTime());
+        }(QDateTime::fromSecsSinceEpoch(_data.toLongLong()));
         break;
     case FormatterType::TimeISO:
-        output = _data.toDateTime().toString(Qt::ISODate);
+        output = QDateTime::fromSecsSinceEpoch(_data.toLongLong()).toString(Qt::ISODate);
         break;
     case FormatterType::TimeLong:
-        output = loc.toString(_data.toDateTime(), QLocale::LongFormat);
+        output = loc.toString(QDateTime::fromSecsSinceEpoch(_data.toLongLong()), QLocale::LongFormat);
         break;
     case FormatterType::TimeShort:
-        output = loc.toString(_data.toDateTime(), QLocale::ShortFormat);
+        output = loc.toString(QDateTime::fromSecsSinceEpoch(_data.toLongLong()), QLocale::ShortFormat);
         break;
     case FormatterType::Timestamp:
-        output = QString("%1").arg(_data.toDateTime().toMSecsSinceEpoch() / 1000.0, 10, 'f', 0);
+        output = _data.toString();
         break;
     case FormatterType::Uptime:
     case FormatterType::UptimeCustom:
@@ -150,7 +150,7 @@ QString AWKeysAggregator::formatter(const QVariant &_data, const QString &_key, 
                 source.replace("$m", QString("%1").arg(minutes));
                 return source;
             }(m_mapper->formatter(_key) == FormatterType::Uptime ? "$ddd$hhh$mmm" : m_customUptime,
-              static_cast<int>(_data.toFloat()));
+              static_cast<int>(_data.toDouble()));
         break;
     case FormatterType::NoFormat:
         output = _data.toString();
@@ -234,7 +234,8 @@ void AWKeysAggregator::setTranslate(const bool _translate)
 }
 
 
-QStringList AWKeysAggregator::registerSource(const QString &_source, const QString &_units, const QStringList &_keys)
+QStringList AWKeysAggregator::registerSource(const QString &_source, const KSysGuard::Unit &_units,
+                                             const QStringList &_keys)
 {
     qCDebug(LOG_AW) << "Source" << _source << "with units" << _units;
 

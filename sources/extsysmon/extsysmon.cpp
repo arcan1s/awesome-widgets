@@ -17,85 +17,40 @@
 
 #include "extsysmon.h"
 
+#include <KPluginFactory>
+
+#include <QDBusMetaType>
 #include <QFile>
+#include <QRegularExpression>
 #include <QSettings>
 #include <QStandardPaths>
 
 #include "awdebug.h"
 #include "extsysmonaggregator.h"
-#include "gpuloadsource.h"
-#include "hddtempsource.h"
 
 
 ExtendedSysMon::ExtendedSysMon(QObject *_parent, const QVariantList &_args)
-    : Plasma::DataEngine(_parent, _args)
+    : KSysGuard::SensorPlugin(_parent, _args)
 {
-    Q_UNUSED(_args)
     qSetMessagePattern(AWDebug::LOG_FORMAT);
     qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
     for (auto &metadata : AWDebug::getBuildData())
         qCDebug(LOG_ESM) << metadata;
 
-    setMinimumPollingInterval(333);
     readConfiguration();
-
-    // init aggregator
-    m_aggregator = new ExtSysMonAggregator(this, m_configuration);
-    for (auto &source : m_aggregator->sources())
-        setData(source, m_aggregator->initialData(source));
-}
-
-
-ExtendedSysMon::~ExtendedSysMon()
-{
-    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
-}
-
-
-QStringList ExtendedSysMon::sources() const
-{
-    return m_aggregator->sources();
-}
-
-
-bool ExtendedSysMon::sourceRequestEvent(const QString &_source)
-{
-    qCDebug(LOG_ESM) << "Source" << _source;
-
-    return updateSourceEvent(_source);
-}
-
-
-bool ExtendedSysMon::updateSourceEvent(const QString &_source)
-{
-    qCDebug(LOG_ESM) << "Source" << _source;
-
-    if (m_aggregator->hasSource(_source)) {
-        QVariant data = m_aggregator->data(_source);
-        if (data.isNull())
-            return false;
-        setData(_source, "value", data);
-    } else {
-        qCWarning(LOG_ESM) << "Unknown source" << _source;
-        return false;
-    }
-
-    return true;
+    addContainer(new ExtSysMonAggregator("extsysmon", "Extended system monitor", this, m_configuration));
 }
 
 
 void ExtendedSysMon::readConfiguration()
 {
-    QString fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation, "plasma-dataengine-extsysmon.conf");
+    auto fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation, "plasma-dataengine-extsysmon.conf");
     qCInfo(LOG_ESM) << "Configuration file" << fileName;
     QSettings settings(fileName, QSettings::IniFormat);
     QHash<QString, QString> rawConfig;
 
     settings.beginGroup("Configuration");
     rawConfig["ACPIPATH"] = settings.value("ACPIPATH", "/sys/class/power_supply/").toString();
-    rawConfig["GPUDEV"] = settings.value("GPUDEV", "auto").toString();
-    rawConfig["HDDDEV"] = settings.value("HDDDEV", "all").toString();
-    rawConfig["HDDTEMPCMD"] = settings.value("HDDTEMPCMD", "sudo smartctl -a").toString();
     rawConfig["MPDADDRESS"] = settings.value("MPDADDRESS", "localhost").toString();
     rawConfig["MPDPORT"] = settings.value("MPDPORT", "6600").toString();
     rawConfig["MPRIS"] = settings.value("MPRIS", "auto").toString();
@@ -111,31 +66,6 @@ QHash<QString, QString> ExtendedSysMon::updateConfiguration(QHash<QString, QStri
 {
     qCDebug(LOG_ESM) << "Raw configuration" << _rawConfig;
 
-    // gpudev
-    if (_rawConfig["GPUDEV"] == "disable")
-        ;
-    else if (_rawConfig["GPUDEV"] == "auto")
-        _rawConfig["GPUDEV"] = GPULoadSource::autoGpu();
-    else if ((_rawConfig["GPUDEV"] != "ati") && (_rawConfig["GPUDEV"] != "nvidia"))
-        _rawConfig["GPUDEV"] = GPULoadSource::autoGpu();
-    // hdddev
-    QStringList allHddDevices = HDDTemperatureSource::allHdd();
-    if (_rawConfig["HDDDEV"] == "all") {
-        _rawConfig["HDDDEV"] = allHddDevices.join(',');
-    } else if (_rawConfig["HDDDEV"] == "disable") {
-        _rawConfig["HDDDEV"] = "";
-    } else {
-        QStringList deviceList = _rawConfig["HDDDEV"].split(',', Qt::SkipEmptyParts);
-        QStringList devices;
-        QRegExp diskRegexp = QRegExp("^/dev/[hms]d[a-z]$");
-        for (auto &device : deviceList)
-            if ((QFile::exists(device)) && (device.contains(diskRegexp)))
-                devices.append(device);
-        if (devices.isEmpty())
-            _rawConfig["HDDDEV"] = allHddDevices.join(',');
-        else
-            _rawConfig["HDDDEV"] = devices.join(',');
-    }
     // player
     if ((_rawConfig["PLAYER"] != "mpd") && (_rawConfig["PLAYER"] != "mpris") && (_rawConfig["PLAYER"] != "disable"))
         _rawConfig["PLAYER"] = "mpris";
@@ -149,6 +79,6 @@ QHash<QString, QString> ExtendedSysMon::updateConfiguration(QHash<QString, QStri
 }
 
 
-K_EXPORT_PLASMA_DATAENGINE_WITH_JSON(extsysmon, ExtendedSysMon, "plasma-dataengine-extsysmon.json")
+K_PLUGIN_CLASS_WITH_JSON(ExtendedSysMon, "metadata.json")
 
 #include "extsysmon.moc"

@@ -21,9 +21,7 @@
 #include "batterysource.h"
 #include "customsource.h"
 #include "desktopsource.h"
-#include "gpuloadsource.h"
-#include "gputempsource.h"
-#include "hddtempsource.h"
+#include "extsysmonsensor.h"
 #include "loadsource.h"
 #include "networksource.h"
 #include "playersource.h"
@@ -31,12 +29,14 @@
 #include "quotessource.h"
 #include "requestsource.h"
 #include "systeminfosource.h"
+#include "timesource.h"
 #include "upgradesource.h"
 #include "weathersource.h"
 
 
-ExtSysMonAggregator::ExtSysMonAggregator(QObject *_parent, const QHash<QString, QString> &_config)
-    : QObject(_parent)
+ExtSysMonAggregator::ExtSysMonAggregator(const QString &_id, const QString &_name, KSysGuard::SensorPlugin *_parent,
+                                         const QHash<QString, QString> &_config)
+    : KSysGuard::SensorContainer(_id, _name, _parent)
 {
     qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
 
@@ -44,41 +44,11 @@ ExtSysMonAggregator::ExtSysMonAggregator(QObject *_parent, const QHash<QString, 
 }
 
 
-ExtSysMonAggregator::~ExtSysMonAggregator()
+void ExtSysMonAggregator::createSensor(const QString &_id, const QString &_name, AbstractExtSysMonSource *_source)
 {
-    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
+    qCDebug(LOG_ESM) << "Register sensor" << _name << "with id" << _id;
 
-    m_map.clear();
-}
-
-
-QVariant ExtSysMonAggregator::data(const QString &_source) const
-{
-    qCDebug(LOG_ESM) << "Source" << _source;
-
-    return m_map[_source]->data(_source);
-}
-
-
-bool ExtSysMonAggregator::hasSource(const QString &_source) const
-{
-    qCDebug(LOG_ESM) << "Source" << _source;
-
-    return m_map.contains(_source);
-}
-
-
-QVariantMap ExtSysMonAggregator::initialData(const QString &_source) const
-{
-    qCDebug(LOG_ESM) << "Source" << _source;
-
-    return hasSource(_source) ? m_map[_source]->initialData(_source) : QVariantMap();
-}
-
-
-QStringList ExtSysMonAggregator::sources() const
-{
-    return m_map.keys();
+    addObject(new ExtSysMonSensor(this, _id, _name, _source));
 }
 
 
@@ -87,68 +57,34 @@ void ExtSysMonAggregator::init(const QHash<QString, QString> &_config)
     qCDebug(LOG_ESM) << "Configuration" << _config;
 
     // battery
-    AbstractExtSysMonSource *batteryItem = new BatterySource(this, QStringList() << _config["ACPIPATH"]);
-    for (auto &source : batteryItem->sources())
-        m_map[source] = batteryItem;
+    createSensor("battery", i18n("Battery"), new BatterySource(this, {_config["ACPIPATH"]}));
     // custom
-    AbstractExtSysMonSource *customItem = new CustomSource(this, QStringList());
-    for (auto &source : customItem->sources())
-        m_map[source] = customItem;
+    createSensor("custom", i18n("Scripts"), new CustomSource(this, {}));
     // desktop
-    AbstractExtSysMonSource *desktopItem = new DesktopSource(this, QStringList());
-    for (auto &source : desktopItem->sources())
-        m_map[source] = desktopItem;
-    // gpu load
-    AbstractExtSysMonSource *gpuLoadItem = new GPULoadSource(this, QStringList({_config["GPUDEV"]}));
-    for (auto &source : gpuLoadItem->sources())
-        m_map[source] = gpuLoadItem;
-    // gpu temperature
-    AbstractExtSysMonSource *gpuTempItem = new GPUTemperatureSource(this, QStringList({_config["GPUDEV"]}));
-    for (auto &source : gpuTempItem->sources())
-        m_map[source] = gpuTempItem;
-    // hdd temperature
-    AbstractExtSysMonSource *hddTempItem
-        = new HDDTemperatureSource(this, QStringList({_config["HDDDEV"], _config["HDDTEMPCMD"]}));
-    for (auto &source : hddTempItem->sources())
-        m_map[source] = hddTempItem;
+    // FIXME causes segfault in kde libs
+    //    createSensor("desktop", i18n("Desktop"), new DesktopSource(this, {}));
     // network
-    AbstractExtSysMonSource *networkItem = new NetworkSource(this, QStringList());
-    for (auto &source : networkItem->sources())
-        m_map[source] = networkItem;
+    createSensor("network", i18n("Network"), new NetworkSource(this, {}));
     // player
-    AbstractExtSysMonSource *playerItem
-        = new PlayerSource(this, QStringList({_config["PLAYER"], _config["MPDADDRESS"], _config["MPDPORT"],
-                                              _config["MPRIS"], _config["PLAYERSYMBOLS"]}));
-    for (auto &source : playerItem->sources())
-        m_map[source] = playerItem;
+    createSensor("player", i18n("Music player"),
+                 new PlayerSource(this, {_config["PLAYER"], _config["MPDADDRESS"], _config["MPDPORT"], _config["MPRIS"],
+                                         _config["PLAYERSYMBOLS"]}));
     // processes
-    AbstractExtSysMonSource *processesItem = new ProcessesSource(this, QStringList());
-    for (auto &source : processesItem->sources())
-        m_map[source] = processesItem;
+    createSensor("ps", i18n("Processes"), new ProcessesSource(this, {}));
     // network request
-    AbstractExtSysMonSource *requestItem = new RequestSource(this, QStringList());
-    for (auto &source : requestItem->sources())
-        m_map[source] = requestItem;
+    createSensor("requests", i18n("Network requests"), new RequestSource(this, {}));
     // quotes
-    AbstractExtSysMonSource *quotesItem = new QuotesSource(this, QStringList());
-    for (auto &source : quotesItem->sources())
-        m_map[source] = quotesItem;
+    createSensor("quotes", i18n("Quotes"), new QuotesSource(this, {}));
     // system
-    AbstractExtSysMonSource *systemItem = new SystemInfoSource(this, QStringList());
-    for (auto &source : systemItem->sources())
-        m_map[source] = systemItem;
+    createSensor("system", i18n("System"), new SystemInfoSource(this, {}));
+    // current time
+    createSensor("time", i18n("Time"), new TimeSource(this, {}));
     // upgrade
-    AbstractExtSysMonSource *upgradeItem = new UpgradeSource(this, QStringList());
-    for (auto &source : upgradeItem->sources())
-        m_map[source] = upgradeItem;
+    createSensor("upgrade", i18n("Upgrades"), new UpgradeSource(this, {}));
     // weather
-    AbstractExtSysMonSource *weatherItem = new WeatherSource(this, QStringList());
-    for (auto &source : weatherItem->sources())
-        m_map[source] = weatherItem;
+    createSensor("weather", i18n("Weather"), new WeatherSource(this, {}));
 #ifdef BUILD_LOAD
     // additional load source
-    AbstractExtSysMonSource *loadItem = new LoadSource(this, QStringList());
-    for (auto &source : loadItem->sources())
-        m_map[source] = loadItem;
+    createSensor("load", i18n("Load"), new LoadSource(this, {}));
 #endif /* BUILD_LOAD */
 }

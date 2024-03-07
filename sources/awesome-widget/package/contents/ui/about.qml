@@ -15,28 +15,21 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-import QtQuick 2.0
+import QtQuick 2.15
+import org.kde.kcmutils as KCM
 
 import org.kde.plasma.private.awesomewidget 1.0
 
 
-Item {
+KCM.SimpleKCM {
     id: aboutPage
+
     // backend
     AWActions {
         id: awActions
     }
 
-    width: childrenRect.width
-    height: childrenRect.height
-
-    property bool debug: awActions.isDebugEnabled()
-
     AboutTab {
         textProvider: awActions
-    }
-
-    Component.onCompleted: {
-        if (debug) console.debug()
     }
 }

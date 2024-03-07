@@ -51,7 +51,7 @@ private:
     void initFormatters();
     [[nodiscard]] static QPair<QString, AWAbstractFormatter::FormatterClass> readMetadata(const QString &_filePath);
     // parent methods
-    void doCreateItem() override;
+    void doCreateItem(QListWidget *_widget) override;
     // properties
     QHash<QString, AWAbstractFormatter *> m_formatters;
     QHash<QString, AWAbstractFormatter *> m_formattersClasses;

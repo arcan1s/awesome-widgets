@@ -15,25 +15,20 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Controls 1.3 as QtControls
+import QtQuick 2.15
+import QtQuick.Controls
+import org.kde.kcmutils as KCM
 
 import org.kde.plasma.private.awesomewidget 1.0
 
 
-Item {
+KCM.SimpleKCM {
     id: advancedPage
+
     // backend
     AWActions {
         id: awActions
     }
-
-    width: childrenRect.width
-    height: childrenRect.height
-    implicitWidth: pageColumn.implicitWidth
-    implicitHeight: pageColumn.implicitHeight
-
-    property bool debug: awActions.isDebugEnabled()
 
     property alias cfg_background: background.checked
     property alias cfg_translateStrings: translate.checked
@@ -54,7 +49,6 @@ Item {
     property alias cfg_telemetryCount: telemetryCount.value
     property alias cfg_telemetryRemote: telemetryRemote.checked
     property alias cfg_telemetryId: telemetryId.value
-
 
     Column {
         id: pageColumn
@@ -135,37 +129,37 @@ Item {
             id: tempUnits
             model: [
                 {
-                    'label': i18n("Celsius"),
-                    'name': "Celsius"
+                    "label": i18n("Celsius"),
+                    "name": "Celsius"
                 },
                 {
-                    'label': i18n("Fahrenheit"),
-                    'name': "Fahrenheit"
+                    "label": i18n("Fahrenheit"),
+                    "name": "Fahrenheit"
                 },
                 {
-                    'label': i18n("Kelvin"),
-                    'name': "Kelvin"
+                    "label": i18n("Kelvin"),
+                    "name": "Kelvin"
                 },
                 {
-                    'label': i18n("Reaumur"),
-                    'name': "Reaumur"
+                    "label": i18n("Reaumur"),
+                    "name": "Reaumur"
                 },
                 {
-                    'label': i18n("cm^-1"),
-                    'name': "cm^-1"
+                    "label": i18n("cm^-1"),
+                    "name": "cm^-1"
                 },
                 {
-                    'label': i18n("kJ/mol"),
-                    'name': "kJ/mol"
+                    "label": i18n("kJ/mol"),
+                    "name": "kJ/mol"
                 },
                 {
-                    'label': i18n("kcal/mol"),
-                    'name': "kcal/mol"
+                    "label": i18n("kcal/mol"),
+                    "name": "kcal/mol"
                 }
             ]
             text: i18n("Temperature units")
             value: plasmoid.configuration.tempUnits
-            onValueEdited: cfg_tempUnits = newValue
+            onValueEdited: newValue => cfg_tempUnits = newValue
         }
 
         LineSelector {
@@ -192,18 +186,20 @@ Item {
             value: plasmoid.configuration.acOffline
         }
 
-        QtControls.GroupBox {
-            height: implicitHeight
+        GroupBox {
             width: parent.width
+            height: implicitHeight
             title: i18n("Actions")
 
             Column {
                 height: implicitHeight
                 width: parent.width
+
                 ButtonSelector {
                     value: i18n("Drop key cache")
                     onButtonActivated: awActions.dropCache()
                 }
+
                 ButtonSelector {
                     ExportDialog {
                         id: saveConfigAs
@@ -212,11 +208,12 @@ Item {
                     value: i18n("Export configuration")
                     onButtonActivated: saveConfigAs.open()
                 }
+
                 ButtonSelector {
                     ImportDialog {
                         id: loadConfigFrom
                         onConfigurationReceived: {
-                            for (var key in configuration)
+                            for (const key in configuration)
                                 plasmoid.configuration[key] = configuration[key]
                         }
                     }
@@ -226,7 +223,7 @@ Item {
             }
         }
 
-        QtControls.GroupBox {
+        GroupBox {
             height: implicitHeight
             width: parent.width
             title: i18n("Telemetry")
@@ -234,10 +231,12 @@ Item {
             Column {
                 height: implicitHeight
                 width: parent.width
+
                 CheckBoxSelector {
                     id: telemetryRemote
                     text: i18n("Enable remote telemetry")
                 }
+
                 IntegerSelector {
                     id: telemetryCount
                     maximumValue: 10000
@@ -246,6 +245,7 @@ Item {
                     text: i18n("History count")
                     value: plasmoid.configuration.telemetryCount
                 }
+
                 LineSelector {
                     id: telemetryId
                     text: i18n("Telemetry ID")
@@ -253,10 +253,5 @@ Item {
                 }
             }
         }
-    }
-
-
-    Component.onCompleted: {
-        if (debug) console.debug()
     }
 }

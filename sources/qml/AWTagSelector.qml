@@ -15,8 +15,8 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-import QtQuick 2.2
-import QtQuick.Controls 1.3 as QtControls
+import QtQuick 2.15
+import QtQuick.Controls
 
 
 Row {
@@ -30,7 +30,7 @@ Row {
     property var textArea
     property alias groups: tagGroups.model
 
-    QtControls.ComboBox {
+    ComboBox {
         id: tagGroups
         width: parent.width * 2 / 5
         textRole: "label"
@@ -41,12 +41,12 @@ Row {
         }
     }
 
-    QtControls.ComboBox {
+    ComboBox {
         id: tags
         width: parent.width * 1 / 5
     }
 
-    QtControls.Button {
+    Button {
         width: parent.width * 1 / 5
         text: i18n("Add")
 
@@ -57,7 +57,7 @@ Row {
         }
     }
 
-    QtControls.Button {
+    Button {
         width: parent.width * 1 / 5
         text: i18n("Show value")
 

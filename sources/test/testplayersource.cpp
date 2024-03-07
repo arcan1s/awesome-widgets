@@ -43,23 +43,23 @@ void TestPlayerSource::test_buildString()
 {
     QString randomString = AWTestLibrary::randomString(1, 40);
     QString str = PlayerSource::buildString("", randomString, 20);
-    QCOMPARE(str.count(), 20);
+    QCOMPARE(str.length(), 20);
 
     str = PlayerSource::buildString(str, randomString, 20);
-    QCOMPARE(str.count(), 20);
+    QCOMPARE(str.length(), 20);
 
     str = PlayerSource::buildString("", AWTestLibrary::randomString(1, 10), 20);
-    QCOMPARE(str.count(), 20);
+    QCOMPARE(str.length(), 20);
 }
 
 
 void TestPlayerSource::test_stripString()
 {
     QString str = PlayerSource::buildString("", AWTestLibrary::randomString(1, 40), 20);
-    QCOMPARE(str.count(), 20);
+    QCOMPARE(str.length(), 20);
 
     str = PlayerSource::buildString("", AWTestLibrary::randomString(1, 10), 20);
-    QCOMPARE(str.count(), 20);
+    QCOMPARE(str.length(), 20);
 }
 
 
@@ -85,7 +85,7 @@ void TestPlayerSource::test_mpd()
 
     // init spy
     QSignalSpy spy(source, SIGNAL(dataReceived(const QVariantHash &)));
-    QVariant firstValue = source->data("player/title");
+    QVariant firstValue = source->data("title");
     if (!source->isMpdSocketConnected())
         QSKIP("No mpd found");
 
@@ -95,10 +95,10 @@ void TestPlayerSource::test_mpd()
     QVariantHash secondValue = arguments.at(0).toHash();
 
     // actually nothing to test here just print warning if no information found
-    if (secondValue["player/title"].toString() == "unknown")
+    if (secondValue["title"].toString() == "unknown")
         QSKIP("No mpd found");
 
-    QVERIFY(secondValue["player/progress"].toInt() < secondValue["player/duration"].toInt());
+    QVERIFY(secondValue["progress"].toInt() < secondValue["duration"].toInt());
 }
 
 
@@ -109,9 +109,9 @@ void TestPlayerSource::test_mpris()
     PlayerSource *source = new PlayerSource(this, args);
     _test_sources(source);
 
-    QString value = source->data("player/title").toString();
-    int progress = source->data("player/progress").toInt();
-    int duration = source->data("player/duration").toInt();
+    QString value = source->data("title").toString();
+    int progress = source->data("progress").toInt();
+    int duration = source->data("duration").toInt();
 
     // actually nothing to test here just print warning if no information found
     if (value == "unknown")

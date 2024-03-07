@@ -15,25 +15,15 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Controls 1.3 as QtControls
+import QtQuick 2.15
+import QtQuick.Controls
+import org.kde.kcmutils as KCM
 
 import org.kde.plasma.private.awesomewidget 1.0
 
 
-Item {
+KCM.SimpleKCM {
     id: tooltipPage
-    // backend
-    AWActions {
-        id: awActions
-    }
-
-    width: childrenRect.width
-    height: childrenRect.height
-    implicitWidth: pageColumn.implicitWidth
-    implicitHeight: pageColumn.implicitHeight
-
-    property bool debug: awActions.isDebugEnabled()
 
     property alias cfg_tooltipNumber: tooltipNumber.value
     property alias cfg_useTooltipBackground: useTooltipBackground.checked
@@ -46,18 +36,18 @@ Item {
     property alias cfg_memTooltipColor: memTooltipColor.value
     property alias cfg_swapTooltip: swapTooltip.checked
     property alias cfg_swapTooltipColor: swapTooltipColor.value
-    property alias cfg_downkbTooltip: downkbTooltip.checked
+    property alias cfg_downkbTooltip: networkTooltip.checked
     property alias cfg_downkbTooltipColor: downkbTooltipColor.value
     property alias cfg_upkbTooltipColor: upkbTooltipColor.value
     property alias cfg_batTooltip: batTooltip.checked
     property alias cfg_batTooltipColor: batTooltipColor.value
     property alias cfg_batInTooltipColor: batInTooltipColor.value
 
-
     Column {
         id: pageColumn
         anchors.fill: parent
-        QtControls.Label {
+
+        Label {
           width: parent.width
           horizontalAlignment: Text.AlignHCenter
           verticalAlignment: Text.AlignVCenter
@@ -74,85 +64,116 @@ Item {
             value: plasmoid.configuration.tooltipNumber
         }
 
-        QtControls.GroupBox {
+        GroupBox {
             id: useTooltipBackground
-            height: implicitHeight
             width: parent.width
-            checkable: true
-            title: i18n("Background")
+
+            property alias checked: useTooltipBackgroundLabel.checked
+            label: CheckBox {
+                id: useTooltipBackgroundLabel
+                text: i18n("Background")
+            }
+
             ColorSelector {
                 id: tooltipBackground
+                enabled: useTooltipBackgroundLabel.checked
                 text: i18n("Background color")
                 value: plasmoid.configuration.tooltipBackground
             }
         }
 
-        QtControls.GroupBox {
+        GroupBox {
             id: cpuTooltip
-            height: implicitHeight
             width: parent.width
-            checkable: true
-            title: i18n("CPU")
+
+            property alias checked: cpuTooltipLabel.checked
+            label: CheckBox {
+                id: cpuTooltipLabel
+                text: i18n("CPU")
+            }
+
             ColorSelector {
                 id: cpuTooltipColor
+                enabled: cpuTooltipLabel.checked
                 text: i18n("CPU color")
                 value: plasmoid.configuration.cpuTooltipColor
             }
         }
 
-        QtControls.GroupBox {
+        GroupBox {
             id: cpuclTooltip
-            height: implicitHeight
             width: parent.width
-            checkable: true
-            title: i18n("CPU clock")
+
+            property alias checked: cpuclTooltipLabel.checked
+            label: CheckBox {
+                id: cpuclTooltipLabel
+                text: i18n("CPU clock")
+            }
+
             ColorSelector {
                 id: cpuclTooltipColor
+                enabled: cpuclTooltipLabel.checked
                 text: i18n("CPU clock color")
                 value: plasmoid.configuration.cpuclTooltipColor
             }
         }
 
-        QtControls.GroupBox {
+        GroupBox {
             id: memTooltip
-            height: implicitHeight
             width: parent.width
-            checkable: true
-            title: i18n("Memory")
+
+            property alias checked: memTooltipLabel.checked
+            label: CheckBox {
+                id: memTooltipLabel
+                text: i18n("Memory")
+            }
+
             ColorSelector {
                 id: memTooltipColor
+                enabled: memTooltipLabel.checked
                 text: i18n("Memory color")
                 value: plasmoid.configuration.memTooltipColor
             }
         }
 
-        QtControls.GroupBox {
+        GroupBox {
             id: swapTooltip
-            height: implicitHeight
             width: parent.width
-            checkable: true
-            title: i18n("Swap")
+
+            property alias checked: swapTooltipLabel.checked
+            label: CheckBox {
+                id: swapTooltipLabel
+                text: i18n("Swap")
+            }
+
             ColorSelector {
                 id: swapTooltipColor
+                enabled: swapTooltipLabel.checked
                 text: i18n("Swap color")
                 value: plasmoid.configuration.swapTooltipColor
             }
         }
 
-        QtControls.GroupBox {
-            id: downkbTooltip
-            height: implicitHeight
+        GroupBox {
+            id: networkTooltip
             width: parent.width
-            checkable: true
-            title: i18n("Network")
+
+            property alias checked: networkTooltipLabel.checked
+            label: CheckBox {
+                id: networkTooltipLabel
+                text: i18n("Network")
+            }
+
             Column {
-                height: implicitHeight
                 width: parent.width
+                enabled: networkTooltipLabel.checked
+
                 ColorSelector {
                     id: downkbTooltipColor
                     text: i18n("Download speed color")
                     value: plasmoid.configuration.downkbTooltipColor
                 }
+
                 ColorSelector {
                     id: upkbTooltipColor
                     text: i18n("Upload speed color")
@@ -161,20 +182,26 @@ Item {
             }
         }
 
-        QtControls.GroupBox {
+        GroupBox {
             id: batTooltip
-            height: implicitHeight
             width: parent.width
-            checkable: true
-            title: i18n("Battery")
+
+            property alias checked: batteryTooltipLabel.checked
+            label: CheckBox {
+                id: batteryTooltipLabel
+                text: i18n("Battery")
+            }
+
             Column {
-                height: implicitHeight
                 width: parent.width
+                enabled: batteryTooltipLabel.checked
+
                 ColorSelector {
                     id: batTooltipColor
                     text: i18n("Battery active color")
                     value: plasmoid.configuration.batTooltipColor
                 }
+
                 ColorSelector {
                     id: batInTooltipColor
                     text: i18n("Battery inactive color")
@@ -182,10 +209,5 @@ Item {
                 }
             }
         }
-    }
-
-
-    Component.onCompleted: {
-        if (debug) console.debug()
     }
 }

@@ -42,7 +42,7 @@ class ExtWeather : public AbstractExtItem
 public:
     enum class Provider { OWM = 0, Yahoo = 1 };
 
-    explicit ExtWeather(QWidget *_parent = nullptr, const QString &_filePath = "");
+    explicit ExtWeather(QObject *_parent = nullptr, const QString &_filePath = "");
     ~ExtWeather() override;
     ExtWeather *copy(const QString &_fileName, int _number) override;
     static QString jsonMapFile();
@@ -67,7 +67,7 @@ public slots:
     void readConfiguration() override;
     void readJsonMap();
     QVariantHash run() override;
-    int showConfiguration(const QVariant &_args) override;
+    int showConfiguration(QWidget *_parent, const QVariant &_args) override;
     void writeConfiguration() const override;
 
 private slots:
@@ -78,9 +78,8 @@ private:
     AbstractWeatherProvider *m_providerObject = nullptr;
     QNetworkAccessManager *m_manager = nullptr;
     bool m_isRunning = false;
-    Ui::ExtWeather *ui = nullptr;
     void initProvider();
-    void translate() override;
+    void translate(void *_ui) override;
     // properties
     QString m_city = "London";
     QString m_country = "uk";

@@ -15,14 +15,17 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-import QtQuick 2.2
+import QtQuick 2.15
+import QtQuick.Controls
+import org.kde.kcmutils as KCM
 
 import org.kde.plasma.private.awesomewidget 1.0
 import "."
 
 
-Item {
+KCM.SimpleKCM {
     id: widgetPage
+
     // backend
     AWKeys {
         id: awKeys
@@ -31,18 +34,10 @@ Item {
         id: awActions
     }
 
-    width: childrenRect.width
-    height: childrenRect.height
-    implicitWidth: pageColumn.implicitWidth
-    implicitHeight: pageColumn.implicitHeight
-
-    property bool debug: awActions.isDebugEnabled()
-
     property alias cfg_text: textPattern.text
     property bool lock: true
 
     signal needTextUpdate(string newText)
-
 
     Column {
         id: pageColumn
@@ -74,10 +69,7 @@ Item {
         }
     }
 
-
     Component.onCompleted: {
-        if (debug) console.debug()
-
         awKeys.needTextToBeUpdated.connect(needTextUpdate)
         // init submodule
         awKeys.initKeys(plasmoid.configuration.text, plasmoid.configuration.interval,
@@ -90,9 +82,8 @@ Item {
         awKeys.setAggregatorProperty("translate", plasmoid.configuration.translateStrings)
     }
 
-    onNeedTextUpdate: {
+    onNeedTextUpdate: newText => {
         if (lock) return
-        if (debug) console.debug()
 
         extensions.showMessage(newText)
         lock = true

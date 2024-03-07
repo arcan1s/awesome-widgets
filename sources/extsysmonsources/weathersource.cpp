@@ -18,6 +18,9 @@
 
 #include "weathersource.h"
 
+#include <ksysguard/formatter/Unit.h>
+#include <ksysguard/systemstats/SensorInfo.h>
+
 #include "awdebug.h"
 #include "extweather.h"
 
@@ -45,60 +48,52 @@ QVariant WeatherSource::data(const QString &_source)
     qCDebug(LOG_ESS) << "Source" << _source;
 
     int ind = index(_source);
-    auto service = _source;
-    service.remove("weather/");
-    if (!m_values.contains(service)) {
-        QVariantHash data = m_extWeather->itemByTagNumber(ind)->run();
-        for (auto &key : data.keys())
-            m_values[key] = data[key];
+    if (!m_values.contains(_source)) {
+        auto data = m_extWeather->itemByTagNumber(ind)->run();
+        m_values.insert(data);
     }
-    QVariant value = m_values.take(service);
-    return value;
+    return m_values.take(_source);
 }
 
 
-QVariantMap WeatherSource::initialData(const QString &_source) const
+KSysGuard::SensorInfo *WeatherSource::initialData(const QString &_source) const
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
     int ind = index(_source);
-    QVariantMap data;
-    if (_source.startsWith("weather/weatherId")) {
-        data["min"] = 0;
-        data["max"] = 1000;
-        data["name"] = QString("Numeric weather ID for '%1'").arg(m_extWeather->itemByTagNumber(ind)->uniq());
-        data["type"] = "integer";
-        data["units"] = "";
-    } else if (_source.startsWith("weather/weather")) {
-        data["min"] = "";
-        data["max"] = "";
-        data["name"] = QString("ID string map for '%1'").arg(m_extWeather->itemByTagNumber(ind)->uniq());
-        data["type"] = "QString";
-        data["units"] = "";
-    } else if (_source.startsWith("weather/humidity")) {
-        data["min"] = 0;
-        data["max"] = 100;
-        data["name"] = QString("Humidity for '%1'").arg(m_extWeather->itemByTagNumber(ind)->uniq());
-        data["type"] = "integer";
-        data["units"] = "%";
-    } else if (_source.startsWith("weather/pressure")) {
-        data["min"] = 0;
-        data["max"] = 0;
-        data["name"] = QString("Atmospheric pressure for '%1'").arg(m_extWeather->itemByTagNumber(ind)->uniq());
-        data["type"] = "integer";
-        data["units"] = "mb";
-    } else if (_source.startsWith("weather/temperature")) {
-        data["min"] = 0.0;
-        data["max"] = 0.0;
-        data["name"] = QString("Temperature for '%1'").arg(m_extWeather->itemByTagNumber(ind)->uniq());
-        data["type"] = "float";
-        data["units"] = "°C";
-    } else if (_source.startsWith("weather/timestamp")) {
-        data["min"] = "";
-        data["max"] = "";
-        data["name"] = QString("Timestamp for '%1'").arg(m_extWeather->itemByTagNumber(ind)->uniq());
-        data["type"] = "QString";
-        data["units"] = "";
+    auto data = new KSysGuard::SensorInfo();
+    if (_source.startsWith("weatherId")) {
+        data->min = 0;
+        data->max = 1000;
+        data->name = QString("Numeric weather ID for '%1'").arg(m_extWeather->itemByTagNumber(ind)->uniq());
+        data->variantType = QVariant::Int;
+        data->unit = KSysGuard::UnitNone;
+    } else if (_source.startsWith("weather")) {
+        data->name = QString("ID string map for '%1'").arg(m_extWeather->itemByTagNumber(ind)->uniq());
+        data->variantType = QVariant::String;
+        data->unit = KSysGuard::UnitNone;
+    } else if (_source.startsWith("humidity")) {
+        data->min = 0;
+        data->max = 100;
+        data->name = QString("Humidity for '%1'").arg(m_extWeather->itemByTagNumber(ind)->uniq());
+        data->variantType = QVariant::Int;
+        data->unit = KSysGuard::UnitPercent;
+    } else if (_source.startsWith("pressure")) {
+        data->min = 0;
+        data->max = 0;
+        data->name = QString("Atmospheric pressure for '%1'").arg(m_extWeather->itemByTagNumber(ind)->uniq());
+        data->variantType = QVariant::Int;
+        data->unit = KSysGuard::UnitNone;
+    } else if (_source.startsWith("temperature")) {
+        data->min = 0.0;
+        data->max = 0.0;
+        data->name = QString("Temperature for '%1'").arg(m_extWeather->itemByTagNumber(ind)->uniq());
+        data->variantType = QVariant::Double;
+        data->unit = KSysGuard::UnitCelsius;
+    } else if (_source.startsWith("timestamp")) {
+        data->name = QString("Timestamp for '%1'").arg(m_extWeather->itemByTagNumber(ind)->uniq());
+        data->variantType = QVariant::DateTime;
+        data->unit = KSysGuard::UnitNone;
     }
 
     return data;
@@ -115,12 +110,12 @@ QStringList WeatherSource::getSources()
 {
     QStringList sources;
     for (auto &item : m_extWeather->activeItems()) {
-        sources.append(QString("weather/%1").arg(item->tag("weatherId")));
-        sources.append(QString("weather/%1").arg(item->tag("weather")));
-        sources.append(QString("weather/%1").arg(item->tag("humidity")));
-        sources.append(QString("weather/%1").arg(item->tag("pressure")));
-        sources.append(QString("weather/%1").arg(item->tag("temperature")));
-        sources.append(QString("weather/%1").arg(item->tag("timestamp")));
+        sources.append(item->tag("weatherId"));
+        sources.append(item->tag("weather"));
+        sources.append(item->tag("humidity"));
+        sources.append(item->tag("pressure"));
+        sources.append(item->tag("temperature"));
+        sources.append(item->tag("timestamp"));
     }
 
     return sources;

@@ -29,20 +29,16 @@
 
 #include "awdebug.h"
 #include "owmweatherprovider.h"
-#include "yahooweatherprovider.h"
 
 
-ExtWeather::ExtWeather(QWidget *_parent, const QString &_filePath)
+ExtWeather::ExtWeather(QObject *_parent, const QString &_filePath)
     : AbstractExtItem(_parent, _filePath)
-    , ui(new Ui::ExtWeather)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     if (!_filePath.isEmpty())
         ExtWeather::readConfiguration();
     readJsonMap();
-    ui->setupUi(this);
-    ExtWeather::translate();
 
     m_values[tag("weatherId")] = 0;
     m_values[tag("weather")] = "";
@@ -67,7 +63,6 @@ ExtWeather::~ExtWeather()
     disconnect(this, SIGNAL(requestDataUpdate()), this, SLOT(sendRequest()));
 
     m_manager->deleteLater();
-    delete ui;
 }
 
 
@@ -75,7 +70,7 @@ ExtWeather *ExtWeather::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "number" << _number;
 
-    auto *item = new ExtWeather(dynamic_cast<QWidget *>(parent()), _fileName);
+    auto item = new ExtWeather(parent(), _fileName);
     copyDefaults(item);
     item->setCity(city());
     item->setCountry(country());
@@ -102,7 +97,7 @@ QString ExtWeather::weatherFromInt(const int _id) const
 {
     qCDebug(LOG_LIB) << "Weather ID" << _id;
 
-    QVariantMap map = m_jsonMap[m_image ? "image" : "text"].toMap();
+    auto map = m_jsonMap[m_image ? "image" : "text"].toMap();
     return map.value(QString::number(_id), map["default"]).toString();
 }
 
@@ -236,7 +231,7 @@ void ExtWeather::readConfiguration()
 
 void ExtWeather::readJsonMap()
 {
-    QString fileName = jsonMapFile();
+    auto fileName = jsonMapFile();
     QFile jsonFile(fileName);
     if (!jsonFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qCWarning(LOG_LIB) << "Could not open" << fileName;
@@ -246,7 +241,7 @@ void ExtWeather::readJsonMap()
     jsonFile.close();
 
     QJsonParseError error{};
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonText.toUtf8(), &error);
+    auto jsonDoc = QJsonDocument::fromJson(jsonText.toUtf8(), &error);
     if (error.error != QJsonParseError::NoError) {
         qCWarning(LOG_LIB) << "Parse error" << error.errorString();
         return;
@@ -267,9 +262,14 @@ QVariantHash ExtWeather::run()
 }
 
 
-int ExtWeather::showConfiguration(const QVariant &_args)
+int ExtWeather::showConfiguration(QWidget *_parent, const QVariant &_args)
 {
     Q_UNUSED(_args)
+
+    auto dialog = new QDialog(_parent);
+    auto ui = new Ui::ExtWeather();
+    ui->setupUi(dialog);
+    translate(ui);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -284,24 +284,28 @@ int ExtWeather::showConfiguration(const QVariant &_args)
     ui->lineEdit_socket->setText(socket());
     ui->spinBox_interval->setValue(interval());
 
-    int ret = exec();
-    if (ret != 1)
-        return ret;
-    setName(ui->lineEdit_name->text());
-    setComment(ui->lineEdit_comment->text());
-    setNumber(ui->label_numberValue->text().toInt());
-    setApiVersion(AW_EXTWEATHER_API);
-    setCity(ui->lineEdit_city->text());
-    setCountry(ui->lineEdit_country->text());
-    setProvider(static_cast<Provider>(ui->comboBox_provider->currentIndex()));
-    setTs(ui->spinBox_timestamp->value());
-    setImage(ui->checkBox_image->checkState() == Qt::Checked);
-    setActive(ui->checkBox_active->checkState() == Qt::Checked);
-    setCron(ui->lineEdit_schedule->text());
-    setSocket(ui->lineEdit_socket->text());
-    setInterval(ui->spinBox_interval->value());
+    int ret = dialog->exec();
+    if (ret == 1) {
+        setName(ui->lineEdit_name->text());
+        setComment(ui->lineEdit_comment->text());
+        setNumber(ui->label_numberValue->text().toInt());
+        setApiVersion(AW_EXTWEATHER_API);
+        setCity(ui->lineEdit_city->text());
+        setCountry(ui->lineEdit_country->text());
+        setProvider(static_cast<Provider>(ui->comboBox_provider->currentIndex()));
+        setTs(ui->spinBox_timestamp->value());
+        setImage(ui->checkBox_image->checkState() == Qt::Checked);
+        setActive(ui->checkBox_active->checkState() == Qt::Checked);
+        setCron(ui->lineEdit_schedule->text());
+        setSocket(ui->lineEdit_socket->text());
+        setInterval(ui->spinBox_interval->value());
 
-    writeConfiguration();
+        writeConfiguration();
+    }
+
+    dialog->deleteLater();
+    delete ui;
+
     return ret;
 }
 
@@ -328,7 +332,7 @@ void ExtWeather::writeConfiguration() const
 void ExtWeather::sendRequest()
 {
     m_isRunning = true;
-    QNetworkReply *reply = m_manager->get(QNetworkRequest(m_providerObject->url()));
+    auto reply = m_manager->get(QNetworkRequest(m_providerObject->url()));
     new QReplyTimeout(reply, REQUEST_TIMEOUT);
 }
 
@@ -342,14 +346,14 @@ void ExtWeather::weatherReplyReceived(QNetworkReply *_reply)
 
     m_isRunning = false;
     QJsonParseError error{};
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(_reply->readAll(), &error);
+    auto jsonDoc = QJsonDocument::fromJson(_reply->readAll(), &error);
     _reply->deleteLater();
     if (error.error != QJsonParseError::NoError) {
         qCWarning(LOG_LIB) << "Parse error" << error.errorString();
         return;
     }
 
-    QVariantHash data = m_providerObject->parse(jsonDoc.toVariant().toMap());
+    auto data = m_providerObject->parse(jsonDoc.toVariant().toMap());
     if (data.isEmpty())
         return;
     m_values = data;
@@ -370,8 +374,10 @@ void ExtWeather::initProvider()
 }
 
 
-void ExtWeather::translate()
+void ExtWeather::translate(void *_ui)
 {
+    auto ui = reinterpret_cast<Ui::ExtWeather *>(_ui);
+
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
     ui->label_number->setText(i18n("Tag"));

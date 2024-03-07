@@ -15,9 +15,9 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-import QtQuick 2.2
-import QtQuick.Controls 1.3 as QtControls
-import QtQuick.Dialogs 1.2 as QtDialogs
+import QtQuick 2.15
+import QtQuick.Controls
+import QtQuick.Dialogs
 
 import org.kde.plasma.private.awesomewidget 1.0
 
@@ -40,25 +40,25 @@ Row {
     signal unlock
     signal showMessage(string message)
 
-    QtControls.Button {
+    Button {
         width: parent.width * 3 / 15
         text: i18n("Edit bars")
         onClicked: backend.editItem("graphicalitem")
     }
 
-    QtControls.Button {
+    Button {
         width: parent.width * 3 / 15
         text: i18n("Formatters")
         onClicked: awPairConfig.showFormatterDialog(backend.dictKeys(true))
     }
 
-    QtControls.Button {
+    Button {
         width: parent.width * 3 / 15
         text: i18n("User keys")
         onClicked: awPairConfig.showKeysDialog(backend.dictKeys(true))
     }
 
-    QtControls.Button {
+    Button {
         width: parent.width * 5 / 15
         text: i18n("Preview")
         onClicked: {
@@ -68,30 +68,35 @@ Row {
         }
     }
 
-    QtControls.Button {
+    Button {
         width: parent.width / 15
-        iconName: "view-history"
-        menu: QtControls.Menu {
+        icon.name: "view-history"
+
+        onClicked: historyConfig.open()
+
+        Menu {
             id: historyConfig
+
             Instantiator {
                 model: awTelemetryHandler.get("awwidgetconfig")
-                QtControls.MenuItem {
+                delegate: MenuItem {
                     text: modelData
                     onTriggered: textArea.text = modelData
                 }
-                onObjectAdded: historyConfig.insertItem(index, object)
-                onObjectRemoved: historyConfig.removeItem(object)
+
+                onObjectAdded: (index, object) => historyConfig.insertItem(index, object)
+                onObjectRemoved: (index, object) => historyConfig.removeItem(object)
             }
         }
     }
 
-    QtDialogs.MessageDialog {
+    MessageDialog {
         id: compiledText
         modality: Qt.NonModal
         title: i18n("Preview")
     }
 
-    onShowMessage: {
+    onShowMessage: message => {
         compiledText.text = message.split("&nbsp;").join(" ") // replaceAll lols
         compiledText.open()
     }

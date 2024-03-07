@@ -24,6 +24,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QSettings>
+#include <QStandardPaths>
 
 #include "awdebug.h"
 

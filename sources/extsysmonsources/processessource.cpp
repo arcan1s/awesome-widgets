@@ -18,6 +18,9 @@
 
 #include "processessource.h"
 
+#include <ksysguard/formatter/Unit.h>
+#include <ksysguard/systemstats/SensorInfo.h>
+
 #include <QDir>
 
 #include "awdebug.h"
@@ -48,29 +51,27 @@ QVariant ProcessesSource::data(const QString &_source)
 }
 
 
-QVariantMap ProcessesSource::initialData(const QString &_source) const
+KSysGuard::SensorInfo *ProcessesSource::initialData(const QString &_source) const
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
-    QVariantMap data;
-    if (_source == "ps/running/count") {
-        data["min"] = 0;
-        data["max"] = 0;
-        data["name"] = "Count of running processes";
-        data["type"] = "integer";
-        data["units"] = "";
-    } else if (_source == "ps/running/list") {
-        data["min"] = QStringList();
-        data["max"] = QStringList();
-        data["name"] = "All running processes list";
-        data["type"] = "QStringList";
-        data["units"] = "";
-    } else if (_source == "ps/total/count") {
-        data["min"] = 0;
-        data["max"] = 0;
-        data["name"] = "Total count of processes";
-        data["type"] = "integer";
-        data["units"] = "";
+    auto data = new KSysGuard::SensorInfo();
+    if (_source == "running") {
+        data->min = 0;
+        data->max = 0;
+        data->name = "Count of running processes";
+        data->variantType = QVariant::Int;
+        data->unit = KSysGuard::UnitNone;
+    } else if (_source == "list") {
+        data->name = "All running processes list";
+        data->variantType = QVariant::StringList;
+        data->unit = KSysGuard::UnitNone;
+    } else if (_source == "count") {
+        data->min = 0;
+        data->max = 0;
+        data->name = "Total count of processes";
+        data->variantType = QVariant::Int;
+        data->unit = KSysGuard::UnitNone;
     }
 
     return data;
@@ -80,7 +81,7 @@ QVariantMap ProcessesSource::initialData(const QString &_source) const
 void ProcessesSource::run()
 {
     QStringList allDirectories = QDir("/proc").entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
-    QStringList directories = allDirectories.filter(QRegExp("(\\d+)"));
+    QStringList directories = allDirectories.filter(QRegularExpression("(\\d+)"));
     QStringList running;
 
     for (auto &dir : directories) {
@@ -98,18 +99,18 @@ void ProcessesSource::run()
         cmdFile.close();
     }
 
-    m_values["ps/running/count"] = running.count();
-    m_values["ps/running/list"] = running;
-    m_values["ps/total/count"] = directories.count();
+    m_values["running"] = running.count();
+    m_values["list"] = running;
+    m_values["count"] = directories.count();
 }
 
 
 QStringList ProcessesSource::sources() const
 {
     QStringList sources;
-    sources.append("ps/running/count");
-    sources.append("ps/running/list");
-    sources.append("ps/total/count");
+    sources.append("running");
+    sources.append("list");
+    sources.append("count");
 
     return sources;
 }

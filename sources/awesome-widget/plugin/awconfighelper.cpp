@@ -21,7 +21,6 @@
 #include <QQmlPropertyMap>
 #include <QSettings>
 #include <QStandardPaths>
-#include <QTextCodec>
 
 #include "awdebug.h"
 
@@ -171,9 +170,6 @@ QVariantMap AWConfigHelper::readDataEngineConfiguration()
 
     settings.beginGroup("Configuration");
     configuration["ACPIPATH"] = settings.value("ACPIPATH", "/sys/class/power_supply/");
-    configuration["GPUDEV"] = settings.value("GPUDEV", "auto");
-    configuration["HDDDEV"] = settings.value("HDDDEV", "all");
-    configuration["HDDTEMPCMD"] = settings.value("HDDTEMPCMD", "sudo smartctl -a");
     configuration["MPDADDRESS"] = settings.value("MPDADDRESS", "localhost");
     configuration["MPDPORT"] = settings.value("MPDPORT", "6600");
     configuration["MPRIS"] = settings.value("MPRIS", "auto");
@@ -198,9 +194,6 @@ bool AWConfigHelper::writeDataEngineConfiguration(const QVariantMap &_configurat
 
     settings.beginGroup("Configuration");
     settings.setValue("ACPIPATH", _configuration["ACPIPATH"]);
-    settings.setValue("GPUDEV", _configuration["GPUDEV"]);
-    settings.setValue("HDDDEV", _configuration["HDDDEV"]);
-    settings.setValue("HDDTEMPCMD", _configuration["HDDTEMPCMD"]);
     settings.setValue("MPDADDRESS", _configuration["MPDADDRESS"]);
     settings.setValue("MPDPORT", _configuration["MPDPORT"]);
     settings.setValue("MPRIS", _configuration["MPRIS"]);
@@ -285,7 +278,6 @@ void AWConfigHelper::writeFile(QSettings &_settings, const QString &_key, const 
     QFile file(_fileName);
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QTextStream out(&file);
-        out.setCodec("UTF-8");
         out << _settings.value(_key).toString().toUtf8();
         out.flush();
         file.close();

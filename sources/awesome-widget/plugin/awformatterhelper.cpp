@@ -114,8 +114,7 @@ QStringList AWFormatterHelper::rightKeys()
 
 void AWFormatterHelper::editItems()
 {
-    repaintList();
-    int ret = exec();
+    auto ret = exec();
     qCInfo(LOG_AW) << "Dialog returns" << ret;
 }
 
@@ -200,20 +199,20 @@ QPair<QString, AWAbstractFormatter::FormatterClass> AWFormatterHelper::readMetad
 
     QSettings settings(_filePath, QSettings::IniFormat);
     settings.beginGroup("Desktop Entry");
-    QString name = settings.value("Name", _filePath).toString();
-    QString type = settings.value("X-AW-Type", "NoFormat").toString();
-    AWAbstractFormatter::FormatterClass formatter = defineFormatterClass(type);
+    auto name = settings.value("Name", _filePath).toString();
+    auto type = settings.value("X-AW-Type", "NoFormat").toString();
+    auto formatter = defineFormatterClass(type);
     settings.endGroup();
 
     return QPair<QString, AWAbstractFormatter::FormatterClass>(name, formatter);
 }
 
 
-void AWFormatterHelper::doCreateItem()
+void AWFormatterHelper::doCreateItem(QListWidget *_widget)
 {
     QStringList selection = {"NoFormat", "DateTime", "Float", "List", "Script", "String", "Json"};
     bool ok;
-    QString select = QInputDialog::getItem(this, i18n("Select type"), i18n("Type:"), selection, 0, false, &ok);
+    auto select = QInputDialog::getItem(nullptr, i18n("Select type"), i18n("Type:"), selection, 0, false, &ok);
     if (!ok) {
         qCWarning(LOG_AW) << "No type selected";
         return;
@@ -223,18 +222,18 @@ void AWFormatterHelper::doCreateItem()
     AWAbstractFormatter::FormatterClass formatter = defineFormatterClass(select);
     switch (formatter) {
     case AWAbstractFormatter::FormatterClass::DateTime:
-        return createItem<AWDateTimeFormatter>();
+        return createItem<AWDateTimeFormatter>(_widget);
     case AWAbstractFormatter::FormatterClass::Float:
-        return createItem<AWFloatFormatter>();
+        return createItem<AWFloatFormatter>(_widget);
     case AWAbstractFormatter::FormatterClass::List:
-        return createItem<AWListFormatter>();
+        return createItem<AWListFormatter>(_widget);
     case AWAbstractFormatter::FormatterClass::Script:
-        return createItem<AWScriptFormatter>();
+        return createItem<AWScriptFormatter>(_widget);
     case AWAbstractFormatter::FormatterClass::String:
-        return createItem<AWStringFormatter>();
+        return createItem<AWStringFormatter>(_widget);
     case AWAbstractFormatter::FormatterClass::Json:
-        return createItem<AWJsonFormatter>();
+        return createItem<AWJsonFormatter>(_widget);
     case AWAbstractFormatter::FormatterClass::NoFormat:
-        return createItem<AWNoFormatter>();
+        return createItem<AWNoFormatter>(_widget);
     }
 }

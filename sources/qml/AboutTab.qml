@@ -15,77 +15,79 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Controls 1.3 as QtControls
-import QtQuick.Layouts 1.0 as QtLayouts
+import QtQuick 2.15
+import QtQuick.Controls
+import QtQuick.Layouts
 
 
-Column {
+ColumnLayout {
     anchors.fill: parent
 
     property var textProvider
 
-    QtControls.TabView {
-        height: parent.height
+    TabBar {
+        id: bar
         width: parent.width
+        TabButton {
+            text: i18n("About")
+        }
+        TabButton {
+            text: i18n("Acknowledgment")
+        }
+    }
 
-        QtControls.Tab {
-            anchors.margins: 10.0
-            title: i18n("About")
+    StackLayout {
+        width: parent.width
+        currentIndex: bar.currentIndex
 
-            QtLayouts.ColumnLayout {
-                QtControls.Label {
-                    QtLayouts.Layout.fillWidth: true
-                    horizontalAlignment: Text.AlignHCenter
-                    text: textProvider.getAboutText("header")
-                }
+        ColumnLayout {
+            Label {
+                Layout.fillWidth: true
+                horizontalAlignment: Text.AlignHCenter
+                text: textProvider.getAboutText("header")
+            }
 
-                QtControls.Label {
-                    QtLayouts.Layout.fillWidth: true
-                    horizontalAlignment: Text.AlignHCenter
-                    text: textProvider.getAboutText("version")
-                }
+            Label {
+                Layout.fillWidth: true
+                horizontalAlignment: Text.AlignHCenter
+                text: textProvider.getAboutText("version")
+            }
 
-                QtControls.Label {
-                    QtLayouts.Layout.fillWidth: true
-                    horizontalAlignment: Text.AlignJustify
-                    text: textProvider.getAboutText("description")
-                }
+            Label {
+                Layout.fillWidth: true
+                horizontalAlignment: Text.AlignJustify
+                text: textProvider.getAboutText("description")
+            }
 
-                QtControls.Label {
-                    QtLayouts.Layout.fillWidth: true
-                    horizontalAlignment: Text.AlignLeft
-                    textFormat: Text.RichText
-                    text: textProvider.getAboutText("links")
-                    onLinkActivated: Qt.openUrlExternally(link)
-                }
+            Label {
+                Layout.fillWidth: true
+                horizontalAlignment: Text.AlignLeft
+                textFormat: Text.RichText
+                text: textProvider.getAboutText("links")
+                onLinkActivated: Qt.openUrlExternally(link)
+            }
 
-                QtControls.Label {
-                    QtLayouts.Layout.fillHeight: true
-                    QtLayouts.Layout.fillWidth: true
-                    font.capitalization: Font.SmallCaps
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignBottom
-                    textFormat: Text.RichText
-                    text: textProvider.getAboutText("copy")
-                }
+            Label {
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                font.capitalization: Font.SmallCaps
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignBottom
+                textFormat: Text.RichText
+                text: textProvider.getAboutText("copy")
             }
         }
 
-        QtControls.Tab {
-            anchors.margins: 10.0
-            title: i18n("Acknowledgment")
-
-            QtLayouts.ColumnLayout {
-                QtControls.Label {
-                    QtLayouts.Layout.fillWidth: true
+        ColumnLayout {
+                Label {
+                    Layout.fillWidth: true
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignJustify
                     text: textProvider.getAboutText("translators")
                 }
 
-                QtControls.Label {
-                    QtLayouts.Layout.fillWidth: true
+                Label {
+                    Layout.fillWidth: true
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignJustify
                     textFormat: Text.RichText
@@ -93,9 +95,9 @@ Column {
                     onLinkActivated: Qt.openUrlExternally(link)
                 }
 
-                QtControls.Label {
-                    QtLayouts.Layout.fillHeight: true
-                    QtLayouts.Layout.fillWidth: true
+                Label {
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignJustify
                     verticalAlignment: Text.AlignTop
@@ -104,6 +106,5 @@ Column {
                     onLinkActivated: Qt.openUrlExternally(link)
                 }
             }
-        }
     }
 }

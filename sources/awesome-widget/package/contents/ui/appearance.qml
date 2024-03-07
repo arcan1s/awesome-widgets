@@ -15,31 +15,22 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-import QtQuick 2.0
+import QtQuick 2.15
+import org.kde.kcmutils as KCM
 
 import org.kde.plasma.private.awesomewidget 1.0
 import "."
 
 
-Item {
+KCM.SimpleKCM {
     id: appearancePage
-    // backend
-    AWActions {
-        id: awActions
-    }
 
-    width: childrenRect.width
-    height: childrenRect.height
-    implicitWidth: pageColumn.implicitWidth
-    implicitHeight: pageColumn.implicitHeight
-
-    property bool debug: awActions.isDebugEnabled()
     property variant weight: {
         25: 0,
         50: 1,
         63: 3,
         75: 4,
-        87: 5
+        87: 5,
     }
 
     property alias cfg_fontFamily: font.value
@@ -49,7 +40,6 @@ Item {
     property alias cfg_fontColor: selectColor.value
     property alias cfg_textStyleColor: selectStyleColor.value
     property string cfg_textStyle: textStyle.value
-
 
     Column {
         id: pageColumn
@@ -75,7 +65,7 @@ Item {
             model: General.fontWeightModel
             text: i18n("Font weight")
             value: plasmoid.configuration.fontWeight
-            onValueEdited: cfg_fontWeight = newValue
+            onValueEdited: newValue => cfg_fontWeight = newValue
         }
 
         ComboBoxSelector {
@@ -83,7 +73,7 @@ Item {
             model: General.fontStyleModel
             text: i18n("Font style")
             value: plasmoid.configuration.fontStyle
-            onValueEdited: cfg_fontStyle = newValue
+            onValueEdited: newValue => cfg_fontStyle = newValue
         }
 
         ColorSelector {
@@ -97,7 +87,7 @@ Item {
             model: General.textStyleModel
             text: i18n("Style")
             value: plasmoid.configuration.textStyle
-            onValueEdited: cfg_textStyle = newValue
+            onValueEdited: newValue => cfg_textStyle = newValue
         }
 
         ColorSelector {
@@ -105,10 +95,5 @@ Item {
             text: i18n("Style color")
             value: plasmoid.configuration.textStyleColor
         }
-    }
-
-
-    Component.onCompleted: {
-        if (debug) console.debug()
     }
 }

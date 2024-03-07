@@ -9,4 +9,4 @@ configure_file(${SUBPROJECT_QMLDIR_IN} ${CMAKE_CURRENT_SOURCE_DIR}/../awesome-wi
 configure_file(${SUBPROJECT_QMLDIR_IN} ${CMAKE_CURRENT_SOURCE_DIR}/../desktop-panel/package/contents/ui/qmldir)
 
 # install
-install(FILES ${SUBPROJECT_SOURCE} DESTINATION ${DATA_INSTALL_DIR}/${PROJECT_NAME}/qml)
+install(FILES ${SUBPROJECT_SOURCE} DESTINATION ${KDE_INSTALL_FULL_DATADIR}/${PROJECT_NAME}/qml)

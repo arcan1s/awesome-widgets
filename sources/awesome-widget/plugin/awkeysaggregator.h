@@ -19,6 +19,8 @@
 #ifndef AWKEYSAGGREGATOR_H
 #define AWKEYSAGGREGATOR_H
 
+#include <ksysguard/formatter/Unit.h>
+
 #include <QHash>
 #include <QObject>
 
@@ -81,7 +83,7 @@ public:
     void setTranslate(bool _translate);
 
 public slots:
-    QStringList registerSource(const QString &_source, const QString &_units, const QStringList &_keys);
+    QStringList registerSource(const QString &_source, const KSysGuard::Unit &_units, const QStringList &_keys);
 
 private:
     [[nodiscard]] float temperature(float temp) const;

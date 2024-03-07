@@ -15,8 +15,8 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Controls 1.3 as QtControls
+import QtQuick 2.15
+import QtQuick.Controls
 
 
 Row {
@@ -28,14 +28,15 @@ Row {
 
     signal valueEdited(string newValue)
 
-    QtControls.Label {
+    Label {
         id: label
         height: parent.height
         width: parent.width * 2 / 5
         horizontalAlignment: Text.AlignRight
         verticalAlignment: Text.AlignVCenter
     }
-    QtControls.TextField {
+
+    TextField {
         id: textField
         width: parent.width * 3 / 5
         onEditingFinished: valueEdited(textField.text)

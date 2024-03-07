@@ -20,7 +20,6 @@
 
 #include <KI18n/KLocalizedString>
 
-#include <QDir>
 #include <QSettings>
 
 #include <qreplytimeout/qreplytimeout.h>
@@ -29,16 +28,13 @@
 #include "stooqquotesprovider.h"
 
 
-ExtQuotes::ExtQuotes(QWidget *_parent, const QString &_filePath)
+ExtQuotes::ExtQuotes(QObject *_parent, const QString &_filePath)
     : AbstractExtItem(_parent, _filePath)
-    , ui(new Ui::ExtQuotes)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     if (!_filePath.isEmpty())
         ExtQuotes::readConfiguration();
-    ui->setupUi(this);
-    ExtQuotes::translate();
 
     m_values[tag("price")] = 0.0;
     m_values[tag("pricechg")] = 0.0;
@@ -50,9 +46,8 @@ ExtQuotes::ExtQuotes(QWidget *_parent, const QString &_filePath)
     // HACK declare as child of nullptr to avoid crash with plasmawindowed
     // in the destructor
     m_manager = new QNetworkAccessManager(nullptr);
-    connect(m_manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(quotesReplyReceived(QNetworkReply *)));
-
-    connect(this, SIGNAL(requestDataUpdate()), this, SLOT(sendRequest()));
+    connect(m_manager, &QNetworkAccessManager::finished, this, &ExtQuotes::quotesReplyReceived);
+    connect(this, &ExtQuotes::requestDataUpdate, this, &ExtQuotes::sendRequest);
 }
 
 
@@ -60,11 +55,10 @@ ExtQuotes::~ExtQuotes()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    disconnect(m_manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(quotesReplyReceived(QNetworkReply *)));
-    disconnect(this, SIGNAL(requestDataUpdate()), this, SLOT(sendRequest()));
+    disconnect(m_manager, &QNetworkAccessManager::finished, this, &ExtQuotes::quotesReplyReceived);
+    disconnect(this, &ExtQuotes::requestDataUpdate, this, &ExtQuotes::sendRequest);
 
     m_manager->deleteLater();
-    delete ui;
 }
 
 
@@ -72,7 +66,7 @@ ExtQuotes *ExtQuotes::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    auto *item = new ExtQuotes(dynamic_cast<QWidget *>(parent()), _fileName);
+    auto item = new ExtQuotes(parent(), _fileName);
     copyDefaults(item);
     item->setNumber(_number);
     item->setTicker(ticker());
@@ -126,9 +120,14 @@ QVariantHash ExtQuotes::run()
 }
 
 
-int ExtQuotes::showConfiguration(const QVariant &_args)
+int ExtQuotes::showConfiguration(QWidget *_parent, const QVariant &_args)
 {
     Q_UNUSED(_args)
+
+    auto dialog = new QDialog(_parent);
+    auto ui = new Ui::ExtQuotes();
+    ui->setupUi(dialog);
+    translate(ui);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -139,20 +138,24 @@ int ExtQuotes::showConfiguration(const QVariant &_args)
     ui->lineEdit_socket->setText(socket());
     ui->spinBox_interval->setValue(interval());
 
-    int ret = exec();
-    if (ret != 1)
-        return ret;
-    setName(ui->lineEdit_name->text());
-    setComment(ui->lineEdit_comment->text());
-    setNumber(ui->label_numberValue->text().toInt());
-    setApiVersion(AW_EXTQUOTES_API);
-    setTicker(ui->lineEdit_ticker->text());
-    setActive(ui->checkBox_active->checkState() == Qt::Checked);
-    setCron(ui->lineEdit_schedule->text());
-    setSocket(ui->lineEdit_socket->text());
-    setInterval(ui->spinBox_interval->value());
+    auto ret = dialog->exec();
+    if (ret == 1) {
+        setName(ui->lineEdit_name->text());
+        setComment(ui->lineEdit_comment->text());
+        setNumber(ui->label_numberValue->text().toInt());
+        setApiVersion(AW_EXTQUOTES_API);
+        setTicker(ui->lineEdit_ticker->text());
+        setActive(ui->checkBox_active->checkState() == Qt::Checked);
+        setCron(ui->lineEdit_schedule->text());
+        setSocket(ui->lineEdit_socket->text());
+        setInterval(ui->spinBox_interval->value());
 
-    writeConfiguration();
+        writeConfiguration();
+    }
+
+    dialog->deleteLater();
+    delete ui;
+
     return ret;
 }
 
@@ -182,7 +185,7 @@ void ExtQuotes::quotesReplyReceived(QNetworkReply *_reply)
     auto text = _reply->readAll();
     _reply->deleteLater();
 
-    QVariantHash data = m_providerObject->parse(text, m_values);
+    auto data = m_providerObject->parse(text, m_values);
     if (data.isEmpty())
         return;
     m_values = data;
@@ -194,7 +197,7 @@ void ExtQuotes::quotesReplyReceived(QNetworkReply *_reply)
 void ExtQuotes::sendRequest()
 {
     m_isRunning = true;
-    QNetworkReply *reply = m_manager->get(QNetworkRequest(m_providerObject->url()));
+    auto reply = m_manager->get(QNetworkRequest(m_providerObject->url()));
     new QReplyTimeout(reply, REQUEST_TIMEOUT);
 }
 
@@ -210,8 +213,10 @@ void ExtQuotes::initProvider()
 }
 
 
-void ExtQuotes::translate()
+void ExtQuotes::translate(void *_ui)
 {
+    auto ui = reinterpret_cast<Ui::ExtQuotes *>(_ui);
+
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
     ui->label_number->setText(i18n("Tag"));

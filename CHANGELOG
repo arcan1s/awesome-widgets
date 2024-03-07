@@ -1,3 +1,6 @@
+Ver.4.0.0:
+* migration to plasma 6
+
 Ver.3.5.0:
 + wayland support
 * update code to latest standards
@@ -11,7 +14,6 @@ Ver.3.4.2:
 * fix compiler warnings
 * update to new qt api
 - fix non printable spaces (#142, #143)
-
 
 Ver.3.3.3:
 + add custom keys support (#101)

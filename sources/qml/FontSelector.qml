@@ -15,8 +15,8 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Dialogs 1.1 as QtDialogs
+import QtQuick 2.15
+import QtQuick.Dialogs
 
 
 Row {
@@ -35,15 +35,15 @@ Row {
         }
     }
 
-    QtDialogs.FontDialog {
+    FontDialog {
         id: fontDialog
         title: i18n("Select a font")
 
         signal setFont
 
-        onAccepted: value = fontDialog.font.family
+        onAccepted: value = selectedFont.family
         onSetFont: {
-            fontDialog.font = Qt.font({
+            selectedFont = Qt.font({
                 family: value,
                 pointSize: 12,
                 italic: false,

@@ -15,34 +15,48 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
+#include "timesource.h"
 
-#ifndef TESTGPUTEMPSOURCE_H
-#define TESTGPUTEMPSOURCE_H
+#include <ksysguard/formatter/Unit.h>
+#include <ksysguard/systemstats/SensorInfo.h>
 
-#include <QObject>
-#include <QPair>
+#include "awdebug.h"
 
 
-class GPUTemperatureSource;
-
-class TestGPUTemperatureSource : public QObject
+TimeSource::TimeSource(QObject *_parent, const QStringList &_args)
+    : AbstractExtSysMonSource(_parent, _args)
 {
-    Q_OBJECT
-
-private slots:
-    // initialization
-    void initTestCase();
-    void cleanupTestCase();
-    // test
-    void test_sources();
-    void test_gputemp();
-
-private:
-    GPUTemperatureSource *source = nullptr;
-    QString device;
-    QString src = "gpu/temperature";
-    QPair<float, float> temp = QPair<float, float>(0.0f, 120.0f);
-};
+    Q_ASSERT(_args.count() == 0);
+    qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
+}
 
 
-#endif /* TESTGPUTEMPSOURCE_H */
+QVariant TimeSource::data(const QString &_source)
+{
+    qCDebug(LOG_ESS) << "Source" << _source;
+
+    if (_source == "now") {
+        return QDateTime::currentSecsSinceEpoch();
+    }
+
+    return {};
+}
+
+
+KSysGuard::SensorInfo *TimeSource::initialData(const QString &_source) const
+{
+    qCDebug(LOG_ESS) << "Source" << _source;
+
+    auto data = new KSysGuard::SensorInfo();
+    data->name = "Current time";
+    data->variantType = QVariant::LongLong;
+    data->unit = KSysGuard::UnitSecond;
+
+    return data;
+}
+
+
+QStringList TimeSource::sources() const
+{
+    return QStringList({"now"});
+}

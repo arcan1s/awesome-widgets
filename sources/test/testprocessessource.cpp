@@ -45,9 +45,9 @@ void TestProcessesSource::test_sources()
 
 void TestProcessesSource::test_values()
 {
-    QVERIFY(source->data("ps/running/count").toInt() > 0);
-    QVERIFY(source->data("ps/running/list").toStringList().count() > 0);
-    QVERIFY(source->data("ps/total/count").toInt() > 0);
+    QVERIFY(source->data("running").toInt() > 0);
+    QVERIFY(source->data("list").toStringList().count() > 0);
+    QVERIFY(source->data("count").toInt() > 0);
 }
 
 

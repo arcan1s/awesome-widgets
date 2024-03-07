@@ -31,7 +31,7 @@
 template <class T> class ExtItemAggregator : public AbstractExtItemAggregator
 {
 public:
-    explicit ExtItemAggregator(QWidget *_parent, const QString &_type)
+    explicit ExtItemAggregator(QObject *_parent, const QString &_type)
         : AbstractExtItemAggregator(_parent, _type)
     {
         qSetMessagePattern(AWDebug::LOG_FORMAT);
@@ -56,8 +56,7 @@ public:
 
     void editItems()
     {
-        repaintList();
-        int ret = exec();
+        auto ret = exec();
         qCInfo(LOG_LIB) << "Dialog returns" << ret;
     };
 
@@ -123,7 +122,7 @@ private:
     QList<AbstractExtItem *> m_items;
     QList<T *> m_activeItems;
 
-    void doCreateItem() override { return createItem<T>(); }
+    void doCreateItem(QListWidget *_widget) override { return createItem<T>(_widget); }
 
     QList<AbstractExtItem *> getItems()
     {
@@ -137,7 +136,7 @@ private:
                 if (!file.endsWith(".desktop"))
                     continue;
                 qCInfo(LOG_LIB) << "Found file" << file << "in" << dir;
-                QString filePath = QString("%1/%2").arg(dir).arg(file);
+                auto filePath = QString("%1/%2").arg(dir, file);
                 // check if already exists
                 if (std::any_of(items.cbegin(), items.cend(),
                                 [&filePath](AbstractExtItem *item) { return (item->fileName() == filePath); }))
@@ -147,8 +146,7 @@ private:
         }
 
         // sort items
-        std::sort(items.begin(), items.end(),
-                  [](const AbstractExtItem *lhs, const AbstractExtItem *rhs) { return lhs->number() < rhs->number(); });
+        std::sort(items.begin(), items.end(), [](auto *lhs, auto *rhs) { return lhs->number() < rhs->number(); });
         return items;
     };
 };

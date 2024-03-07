@@ -23,11 +23,6 @@
 #include "abstractextitem.h"
 
 
-namespace Ui
-{
-class ExtScript;
-}
-
 class ExtScript : public AbstractExtItem
 {
     Q_OBJECT
@@ -38,7 +33,7 @@ class ExtScript : public AbstractExtItem
 public:
     enum class Redirect { stdout2stderr = 0, nothing = 1, stderr2stdout = 2, swap = 3 };
 
-    explicit ExtScript(QWidget *_parent = nullptr, const QString &_filePath = "");
+    explicit ExtScript(QObject *_parent = nullptr, const QString &_filePath = "");
     ~ExtScript() override;
     ExtScript *copy(const QString &_fileName, int _number) override;
     static QString jsonFiltersFile();
@@ -62,7 +57,7 @@ public slots:
     void readConfiguration() override;
     void readJsonFilters();
     QVariantHash run() override;
-    int showConfiguration(const QVariant &_args) override;
+    int showConfiguration(QWidget *_parent, const QVariant &_args) override;
     void writeConfiguration() const override;
 
 private slots:
@@ -71,8 +66,7 @@ private slots:
 
 private:
     QProcess *m_process = nullptr;
-    Ui::ExtScript *ui = nullptr;
-    void translate() override;
+    void translate(void *_ui) override;
     // properties
     QString m_executable = "/usr/bin/true";
     QStringList m_filters = QStringList();

@@ -20,25 +20,20 @@
 
 #include <KI18n/KLocalizedString>
 
-#include <QDir>
 #include <QSettings>
-#include <QTextCodec>
 
 #include <qreplytimeout/qreplytimeout.h>
 
 #include "awdebug.h"
 
 
-ExtNetworkRequest::ExtNetworkRequest(QWidget *_parent, const QString &_filePath)
+ExtNetworkRequest::ExtNetworkRequest(QObject *_parent, const QString &_filePath)
     : AbstractExtItem(_parent, _filePath)
-    , ui(new Ui::ExtNetworkRequest)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     if (!_filePath.isEmpty())
         ExtNetworkRequest::readConfiguration();
-    ui->setupUi(this);
-    ExtNetworkRequest::translate();
 
     m_values[tag("response")] = "";
 
@@ -59,7 +54,6 @@ ExtNetworkRequest::~ExtNetworkRequest()
     disconnect(this, SIGNAL(requestDataUpdate()), this, SLOT(sendRequest()));
 
     m_manager->deleteLater();
-    delete ui;
 }
 
 
@@ -67,7 +61,7 @@ ExtNetworkRequest *ExtNetworkRequest::copy(const QString &_fileName, const int _
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    auto *item = new ExtNetworkRequest(dynamic_cast<QWidget *>(parent()), _fileName);
+    auto item = new ExtNetworkRequest(parent(), _fileName);
     copyDefaults(item);
     item->setNumber(_number);
     item->setStringUrl(stringUrl());
@@ -121,9 +115,14 @@ QVariantHash ExtNetworkRequest::run()
 }
 
 
-int ExtNetworkRequest::showConfiguration(const QVariant &_args)
+int ExtNetworkRequest::showConfiguration(QWidget *_parent, const QVariant &_args)
 {
     Q_UNUSED(_args)
+
+    auto dialog = new QDialog(_parent);
+    auto ui = new Ui::ExtNetworkRequest();
+    ui->setupUi(dialog);
+    translate(ui);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -134,20 +133,24 @@ int ExtNetworkRequest::showConfiguration(const QVariant &_args)
     ui->lineEdit_socket->setText(socket());
     ui->spinBox_interval->setValue(interval());
 
-    int ret = exec();
-    if (ret != 1)
-        return ret;
-    setName(ui->lineEdit_name->text());
-    setComment(ui->lineEdit_comment->text());
-    setNumber(ui->label_numberValue->text().toInt());
-    setApiVersion(AW_EXTNETREQUEST_API);
-    setStringUrl(ui->lineEdit_url->text());
-    setActive(ui->checkBox_active->checkState() == Qt::Checked);
-    setCron(ui->lineEdit_schedule->text());
-    setSocket(ui->lineEdit_socket->text());
-    setInterval(ui->spinBox_interval->value());
+    auto ret = dialog->exec();
+    if (ret == 1) {
+        setName(ui->lineEdit_name->text());
+        setComment(ui->lineEdit_comment->text());
+        setNumber(ui->label_numberValue->text().toInt());
+        setApiVersion(AW_EXTNETREQUEST_API);
+        setStringUrl(ui->lineEdit_url->text());
+        setActive(ui->checkBox_active->checkState() == Qt::Checked);
+        setCron(ui->lineEdit_schedule->text());
+        setSocket(ui->lineEdit_socket->text());
+        setInterval(ui->spinBox_interval->value());
 
-    writeConfiguration();
+        writeConfiguration();
+    }
+
+    dialog->deleteLater();
+    delete ui;
+
     return ret;
 }
 
@@ -174,7 +177,7 @@ void ExtNetworkRequest::networkReplyReceived(QNetworkReply *_reply)
     }
 
     m_isRunning = false;
-    m_values[tag("response")] = QTextCodec::codecForMib(106)->toUnicode(_reply->readAll()).trimmed();
+    m_values[tag("response")] = QString::fromUtf8(_reply->readAll()).trimmed();
 
     emit(dataReceived(m_values));
 }
@@ -183,7 +186,7 @@ void ExtNetworkRequest::networkReplyReceived(QNetworkReply *_reply)
 void ExtNetworkRequest::sendRequest()
 {
     m_isRunning = true;
-    QNetworkReply *reply = m_manager->get(QNetworkRequest(m_url));
+    auto reply = m_manager->get(QNetworkRequest(m_url));
     new QReplyTimeout(reply, REQUEST_TIMEOUT);
 }
 
@@ -194,8 +197,10 @@ void ExtNetworkRequest::initUrl()
 }
 
 
-void ExtNetworkRequest::translate()
+void ExtNetworkRequest::translate(void *_ui)
 {
+    auto ui = reinterpret_cast<Ui::ExtNetworkRequest *>(_ui);
+
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
     ui->label_number->setText(i18n("Tag"));

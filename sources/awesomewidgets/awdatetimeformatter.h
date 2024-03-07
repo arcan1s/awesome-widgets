@@ -23,11 +23,6 @@
 #include "awabstractformatter.h"
 
 
-namespace Ui
-{
-class AWDateTimeFormatter;
-}
-
 class AWDateTimeFormatter : public AWAbstractFormatter
 {
     Q_OBJECT
@@ -35,8 +30,7 @@ class AWDateTimeFormatter : public AWAbstractFormatter
     Q_PROPERTY(bool translateString READ translateString WRITE setTranslateString)
 
 public:
-    explicit AWDateTimeFormatter(QWidget *_parent = nullptr, const QString &_filePath = "");
-    ~AWDateTimeFormatter() override;
+    explicit AWDateTimeFormatter(QObject *_parent = nullptr, const QString &_filePath = "");
     [[nodiscard]] QString convert(const QVariant &_value) const override;
     AWDateTimeFormatter *copy(const QString &_fileName, int _number) override;
     // properties
@@ -47,13 +41,12 @@ public:
 
 public slots:
     void readConfiguration() override;
-    int showConfiguration(const QVariant &_args) override;
+    int showConfiguration(QWidget *_parent, const QVariant &_args) override;
     void writeConfiguration() const override;
 
 private:
-    Ui::AWDateTimeFormatter *ui = nullptr;
     void initLocale();
-    void translate() override;
+    void translate(void *_ui) override;
     // properties
     QLocale m_locale;
     QString m_format = "";

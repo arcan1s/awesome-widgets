@@ -18,6 +18,9 @@
 
 #include "upgradesource.h"
 
+#include <ksysguard/formatter/Unit.h>
+#include <ksysguard/systemstats/SensorInfo.h>
+
 #include "awdebug.h"
 #include "extupgrade.h"
 
@@ -49,16 +52,14 @@ QVariant UpgradeSource::data(const QString &_source)
 }
 
 
-QVariantMap UpgradeSource::initialData(const QString &_source) const
+KSysGuard::SensorInfo *UpgradeSource::initialData(const QString &_source) const
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
-    QVariantMap data;
-    data["min"] = "";
-    data["max"] = "";
-    data["name"] = QString("Package manager '%1' metadata").arg(m_extUpgrade->itemByTagNumber(index(_source))->uniq());
-    data["type"] = "QString";
-    data["units"] = "";
+    auto data = new KSysGuard::SensorInfo();
+    data->name = QString("Package manager '%1' metadata").arg(m_extUpgrade->itemByTagNumber(index(_source))->uniq());
+    data->variantType = QVariant::String;
+    data->unit = KSysGuard::UnitNone;
 
     return data;
 }
@@ -74,7 +75,7 @@ QStringList UpgradeSource::getSources()
 {
     QStringList sources;
     for (auto &item : m_extUpgrade->activeItems())
-        sources.append(QString("upgrade/%1").arg(item->tag("pkgcount")));
+        sources.append(item->tag("pkgcount"));
 
     return sources;
 }

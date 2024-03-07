@@ -7,150 +7,150 @@
 
     <group name="Widget">
         <!--   widget -->
-        <entry name="text" type="string">
+        <entry name="text" type="String">
             <default>[cpu: $cpu%] [mem: $mem%] [swap: $swap%] [$netdev: $down/$upKB/s]</default>
         </entry>
     </group>
 
     <group name="Advanced">
         <!--   advanced -->
-        <entry name="background" type="bool">
+        <entry name="background" type="Bool">
             <default>true</default>
         </entry>
-        <entry name="translateStrings" type="bool">
+        <entry name="translateStrings" type="Bool">
             <default>true</default>
         </entry>
-        <entry name="wrapNewLines" type="bool">
+        <entry name="wrapNewLines" type="Bool">
             <default>false</default>
         </entry>
-        <entry name="wrapText" type="bool">
+        <entry name="wrapText" type="Bool">
             <default>false</default>
         </entry>
-        <entry name="notify" type="bool">
+        <entry name="notify" type="Bool">
             <default>true</default>
         </entry>
-        <entry name="checkUpdates" type="bool">
+        <entry name="checkUpdates" type="Bool">
             <default>true</default>
         </entry>
-        <entry name="optimize" type="bool">
+        <entry name="optimize" type="Bool">
             <default>true</default>
         </entry>
-        <entry name="height" type="int">
+        <entry name="height" type="Int">
             <default>0</default>
         </entry>
-        <entry name="width" type="int">
+        <entry name="width" type="Int">
             <default>0</default>
         </entry>
-        <entry name="interval" type="int">
+        <entry name="interval" type="Int">
             <default>1000</default>
         </entry>
-        <entry name="queueLimit" type="int">
+        <entry name="queueLimit" type="Int">
             <default>0</default>
         </entry>
-        <entry name="tempUnits" type="string">
+        <entry name="tempUnits" type="String">
             <default>Celsius</default>
         </entry>
-        <entry name="customTime" type="string">
+        <entry name="customTime" type="String">
             <default>$hh:$mm</default>
         </entry>
-        <entry name="customUptime" type="string">
+        <entry name="customUptime" type="String">
             <default>$dd,$hh,$mm</default>
         </entry>
-        <entry name="acOnline" type="string">
+        <entry name="acOnline" type="String">
             <default>(*)</default>
         </entry>
-        <entry name="acOffline" type="string">
+        <entry name="acOffline" type="String">
             <default>( )</default>
         </entry>
-        <entry name="telemetryCount" type="int">
+        <entry name="telemetryCount" type="Int">
             <default>100</default>
         </entry>
-        <entry name="telemetryRemote" type="bool">
+        <entry name="telemetryRemote" type="Bool">
             <default>false</default>
         </entry>
-        <entry name="telemetryId" type="string">
+        <entry name="telemetryId" type="String">
             <default></default>
         </entry>
     </group>
 
     <group name="Tooltip">
-        <entry name="tooltipNumber" type="int">
+        <entry name="tooltipNumber" type="Int">
             <default>100</default>
         </entry>
-        <entry name="useTooltipBackground" type="bool">
+        <entry name="useTooltipBackground" type="Bool">
             <default>true</default>
         </entry>
-        <entry name="tooltipBackground" type="string">
+        <entry name="tooltipBackground" type="String">
             <default>#ffffff</default>
         </entry>
-        <entry name="cpuTooltip" type="bool">
+        <entry name="cpuTooltip" type="Bool">
             <default>true</default>
         </entry>
-        <entry name="cpuTooltipColor" type="string">
+        <entry name="cpuTooltipColor" type="String">
             <default>#ff0000</default>
         </entry>
-        <entry name="cpuclTooltip" type="bool">
+        <entry name="cpuclTooltip" type="Bool">
             <default>true</default>
         </entry>
-        <entry name="cpuclTooltipColor" type="string">
+        <entry name="cpuclTooltipColor" type="String">
             <default>#00ff00</default>
         </entry>
-        <entry name="memTooltip" type="bool">
+        <entry name="memTooltip" type="Bool">
             <default>true</default>
         </entry>
-        <entry name="memTooltipColor" type="string">
+        <entry name="memTooltipColor" type="String">
             <default>#0000ff</default>
         </entry>
-        <entry name="swapTooltip" type="bool">
+        <entry name="swapTooltip" type="Bool">
             <default>true</default>
         </entry>
-        <entry name="swapTooltipColor" type="string">
+        <entry name="swapTooltipColor" type="String">
             <default>#ffff00</default>
         </entry>
-        <entry name="downkbTooltip" type="bool">
+        <entry name="downkbTooltip" type="Bool">
             <default>true</default>
         </entry>
-        <entry name="downkbTooltipColor" type="string">
+        <entry name="downkbTooltipColor" type="String">
             <default>#00ffff</default>
         </entry>
-        <entry name="upkbTooltipColor" type="string">
+        <entry name="upkbTooltipColor" type="String">
             <default>#ff00ff</default>
         </entry>
-        <entry name="batTooltip" type="bool">
+        <entry name="batTooltip" type="Bool">
             <default>true</default>
         </entry>
-        <entry name="batTooltipColor" type="string">
+        <entry name="batTooltipColor" type="String">
             <default>#008800</default>
         </entry>
-        <entry name="batInTooltipColor" type="string">
+        <entry name="batInTooltipColor" type="String">
             <default>#880000</default>
         </entry>
     </group>
 
     <group name="Appearance">
         <!--   appearance -->
-        <entry name="textAlign" type="string">
+        <entry name="textAlign" type="String">
             <default>center</default>
         </entry>
-        <entry name="fontFamily" type="string">
+        <entry name="fontFamily" type="String">
             <default>Terminus</default>
         </entry>
-        <entry name="fontSize" type="int">
+        <entry name="fontSize" type="Int">
             <default>12</default>
         </entry>
-        <entry name="fontColor" type="string">
+        <entry name="fontColor" type="String">
             <default>#000000</default>
         </entry>
-        <entry name="fontWeight" type="string">
+        <entry name="fontWeight" type="String">
             <default>normal</default>
         </entry>
-        <entry name="fontStyle" type="string">
+        <entry name="fontStyle" type="String">
             <default>normal</default>
         </entry>
-        <entry name="textStyle" type="string">
+        <entry name="textStyle" type="String">
             <default>normal</default>
         </entry>
-        <entry name="textStyleColor" type="string">
+        <entry name="textStyleColor" type="String">
             <default>#000000</default>
         </entry>
     </group>

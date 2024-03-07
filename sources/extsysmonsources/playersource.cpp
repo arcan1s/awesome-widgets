@@ -18,12 +18,14 @@
 
 #include "playersource.h"
 
+#include <ksysguard/formatter/Unit.h>
+#include <ksysguard/systemstats/SensorInfo.h>
+
 #include <QDBusArgument>
 #include <QDBusConnection>
 #include <QDBusConnectionInterface>
 #include <QDBusMessage>
 #include <QProcess>
-#include <QTextCodec>
 
 #include "awdebug.h"
 
@@ -88,77 +90,59 @@ QString PlayerSource::getAutoMpris()
 }
 
 
-QVariantMap PlayerSource::initialData(const QString &_source) const
+KSysGuard::SensorInfo *PlayerSource::initialData(const QString &_source) const
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
-    QVariantMap data;
-    if (_source == "player/album") {
-        data["min"] = "";
-        data["max"] = "";
-        data["name"] = "Current song album";
-        data["type"] = "QString";
-        data["units"] = "";
-    } else if (_source == "player/salbum") {
-        data["min"] = "";
-        data["max"] = "";
-        data["name"] = QString("Current song album (%1 symbols)").arg(m_symbols);
-        data["type"] = "QString";
-        data["units"] = "";
-    } else if (_source == "player/dalbum") {
-        data["min"] = "";
-        data["max"] = "";
-        data["name"] = QString("Current song album (%1 symbols, dynamic)").arg(m_symbols);
-        data["type"] = "QString";
-        data["units"] = "";
-    } else if (_source == "player/artist") {
-        data["min"] = "";
-        data["max"] = "";
-        data["name"] = "Current song artist";
-        data["type"] = "QString";
-        data["units"] = "";
-    } else if (_source == "player/sartist") {
-        data["min"] = "";
-        data["max"] = "";
-        data["name"] = QString("Current song artist (%1 symbols)").arg(m_symbols);
-        data["type"] = "QString";
-        data["units"] = "";
-    } else if (_source == "player/dartist") {
-        data["min"] = "";
-        data["max"] = "";
-        data["name"] = QString("Current song artist (%1 symbols, dynamic)").arg(m_symbols);
-        data["type"] = "QString";
-        data["units"] = "";
-    } else if (_source == "player/duration") {
-        data["min"] = 0;
-        data["max"] = 0;
-        data["name"] = "Current song duration";
-        data["type"] = "integer";
-        data["units"] = "s";
-    } else if (_source == "player/progress") {
-        data["min"] = 0;
-        data["max"] = 0;
-        data["name"] = "Current song progress";
-        data["type"] = "integer";
-        data["units"] = "s";
-    } else if (_source == "player/title") {
-        data["min"] = "";
-        data["max"] = "";
-        data["name"] = "Current song title";
-        data["type"] = "QString";
-        data["units"] = "";
-    } else if (_source == "player/stitle") {
-        data["min"] = "";
-        data["max"] = "";
-        data["name"] = QString("Current song title (%1 symbols)").arg(m_symbols);
-        data["type"] = "QString";
-        data["units"] = "";
-    } else if (_source == "player/dtitle") {
-        data["min"] = "";
-        data["max"] = "";
-        data["name"] = QString("Current song title (%1 symbols, dynamic)").arg(m_symbols);
-        data["type"] = "QString";
-        data["units"] = "";
+    auto data = new KSysGuard::SensorInfo();
+    if (_source == "album") {
+        data->name = "Current song album";
+        data->variantType = QVariant::String;
+        data->unit = KSysGuard::UnitNone;
+    } else if (_source == "salbum") {
+        data->name = QString("Current song album (%1 symbols)").arg(m_symbols);
+        data->variantType = QVariant::String;
+        data->unit = KSysGuard::UnitNone;
+    } else if (_source == "dalbum") {
+        data->name = QString("Current song album (%1 symbols, dynamic)").arg(m_symbols);
+        data->variantType = QVariant::String;
+        data->unit = KSysGuard::UnitNone;
+    } else if (_source == "artist") {
+        data->name = "Current song artist";
+        data->variantType = QVariant::String;
+        data->unit = KSysGuard::UnitNone;
+    } else if (_source == "sartist") {
+        data->name = QString("Current song artist (%1 symbols)").arg(m_symbols);
+        data->variantType = QVariant::String;
+        data->unit = KSysGuard::UnitNone;
+    } else if (_source == "dartist") {
+        data->name = QString("Current song artist (%1 symbols, dynamic)").arg(m_symbols);
+        data->variantType = QVariant::String;
+        data->unit = KSysGuard::UnitNone;
+    } else if (_source == "duration") {
+        data->min = 0;
+        data->max = 0;
+        data->name = "Current song duration";
+        data->variantType = QVariant::Int;
+        data->unit = KSysGuard::UnitSecond;
+    } else if (_source == "progress") {
+        data->min = 0;
+        data->max = 0;
+        data->name = "Current song progress";
+        data->variantType = QVariant::Int;
+        data->unit = KSysGuard::UnitSecond;
+    } else if (_source == "title") {
+        data->name = "Current song title";
+        data->variantType = QVariant::String;
+        data->unit = KSysGuard::UnitNone;
+    } else if (_source == "stitle") {
+        data->name = QString("Current song title (%1 symbols)").arg(m_symbols);
+        data->variantType = QVariant::String;
+        data->unit = KSysGuard::UnitNone;
+    } else if (_source == "dtitle") {
+        data->name = QString("Current song title (%1 symbols, dynamic)").arg(m_symbols);
+        data->variantType = QVariant::String;
+        data->unit = KSysGuard::UnitNone;
     }
 
     return data;
@@ -182,33 +166,30 @@ void PlayerSource::run()
 
     // dymanic properties
     // solid
-    m_values["player/salbum"] = stripString(m_values["player/album"].toString(), m_symbols);
-    m_values["player/sartist"] = stripString(m_values["player/artist"].toString(), m_symbols);
-    m_values["player/stitle"] = stripString(m_values["player/title"].toString(), m_symbols);
+    m_values["salbum"] = stripString(m_values["album"].toString(), m_symbols);
+    m_values["sartist"] = stripString(m_values["artist"].toString(), m_symbols);
+    m_values["stitle"] = stripString(m_values["title"].toString(), m_symbols);
     // dynamic
-    m_values["player/dalbum"]
-        = buildString(m_values["player/dalbum"].toString(), m_values["player/album"].toString(), m_symbols);
-    m_values["player/dartist"]
-        = buildString(m_values["player/dartist"].toString(), m_values["player/artist"].toString(), m_symbols);
-    m_values["player/dtitle"]
-        = buildString(m_values["player/dtitle"].toString(), m_values["player/title"].toString(), m_symbols);
+    m_values["dalbum"] = buildString(m_values["dalbum"].toString(), m_values["album"].toString(), m_symbols);
+    m_values["dartist"] = buildString(m_values["dartist"].toString(), m_values["artist"].toString(), m_symbols);
+    m_values["dtitle"] = buildString(m_values["dtitle"].toString(), m_values["title"].toString(), m_symbols);
 }
 
 
 QStringList PlayerSource::sources() const
 {
     QStringList sources;
-    sources.append("player/album");
-    sources.append("player/dalbum");
-    sources.append("player/salbum");
-    sources.append("player/artist");
-    sources.append("player/dartist");
-    sources.append("player/sartist");
-    sources.append("player/duration");
-    sources.append("player/progress");
-    sources.append("player/title");
-    sources.append("player/dtitle");
-    sources.append("player/stitle");
+    sources.append("album");
+    sources.append("dalbum");
+    sources.append("salbum");
+    sources.append("artist");
+    sources.append("dartist");
+    sources.append("sartist");
+    sources.append("duration");
+    sources.append("progress");
+    sources.append("title");
+    sources.append("dtitle");
+    sources.append("stitle");
 
     return sources;
 }
@@ -219,7 +200,7 @@ QString PlayerSource::buildString(const QString &_current, const QString &_value
     qCDebug(LOG_ESS) << "Current value" << _current << "received" << _value << "will be stripped after" << _s;
 
     int index = _value.indexOf(_current);
-    if ((_current.isEmpty()) || ((index + _s + 1) > _value.count()))
+    if ((_current.isEmpty()) || ((index + _s + 1) > _value.length()))
         return QString("%1").arg(_value.left(_s), -_s, QLatin1Char(' '));
     else
         return QString("%1").arg(_value.mid(index + 1, _s), -_s, QLatin1Char(' '));
@@ -230,8 +211,8 @@ QString PlayerSource::stripString(const QString &_value, const int _s)
 {
     qCDebug(LOG_ESS) << "New value" << _value << "will be stripped after" << _s;
 
-    return _value.count() > _s ? QString("%1\u2026").arg(_value.left(_s - 1))
-                               : _value.leftJustified(_s, QLatin1Char(' '));
+    return _value.length() > _s ? QString("%1\u2026").arg(_value.left(_s - 1))
+                                : _value.leftJustified(_s, QLatin1Char(' '));
 }
 
 
@@ -249,7 +230,7 @@ void PlayerSource::mpdSocketConnected()
 
 void PlayerSource::mpdSocketReadyRead()
 {
-    QString qoutput = QTextCodec::codecForMib(106)->toUnicode(m_mpdSocket.readAll()).trimmed();
+    QString qoutput = QString::fromUtf8(m_mpdSocket.readAll()).trimmed();
     qCInfo(LOG_ESS) << "Output" << qoutput;
 
     // parse
@@ -261,10 +242,10 @@ void PlayerSource::mpdSocketReadyRead()
             // there are one more time...
             if ((metadata == "time") && (data.contains(':'))) {
                 QStringList times = data.split(':');
-                m_mpdCached["player/duration"] = times.at(0).toInt();
-                m_mpdCached["player/progress"] = times.at(1).toInt();
+                m_mpdCached["duration"] = times.at(0).toInt();
+                m_mpdCached["progress"] = times.at(1).toInt();
             } else if (m_metadata.contains(metadata)) {
-                m_mpdCached[QString("player/%1").arg(metadata)] = data;
+                m_mpdCached[metadata] = data;
             }
         }
     }
@@ -282,11 +263,11 @@ void PlayerSource::mpdSocketWritten(const qint64 _bytes)
 QVariantHash PlayerSource::defaultInfo()
 {
     QVariantHash info;
-    info["player/album"] = "unknown";
-    info["player/artist"] = "unknown";
-    info["player/duration"] = 0;
-    info["player/progress"] = 0;
-    info["player/title"] = "unknown";
+    info["album"] = "unknown";
+    info["artist"] = "unknown";
+    info["duration"] = 0;
+    info["progress"] = 0;
+    info["title"] = "unknown";
 
     return info;
 }
@@ -337,11 +318,11 @@ QVariantHash PlayerSource::getPlayerMprisInfo(const QString &_mpris)
         // another portion of dirty magic
         auto map = qdbus_cast<QVariantHash>(
             response.arguments().first().value<QDBusVariant>().variant().value<QDBusArgument>());
-        info["player/album"] = map.value("xesam:album", "unknown");
+        info["album"] = map.value("xesam:album", "unknown");
         // artist is array
-        info["player/artist"] = map.value("xesam:artist", "unknown").toString();
-        info["player/duration"] = map.value("mpris:length", 0).toInt() / (1000 * 1000);
-        info["player/title"] = map.value("xesam:title", "unknown");
+        info["artist"] = map.value("xesam:artist", "unknown").toString();
+        info["duration"] = map.value("mpris:length", 0).toInt() / (1000 * 1000);
+        info["title"] = map.value("xesam:title", "unknown");
     }
 
     // position
@@ -352,8 +333,7 @@ QVariantHash PlayerSource::getPlayerMprisInfo(const QString &_mpris)
         qCWarning(LOG_ESS) << "Error message" << response.errorMessage();
     } else {
         // this cast is simpler than the previous one ;)
-        info["player/progress"]
-            = response.arguments().first().value<QDBusVariant>().variant().toLongLong() / (1000 * 1000);
+        info["progress"] = response.arguments().first().value<QDBusVariant>().variant().toLongLong() / (1000 * 1000);
     }
 
     return info;

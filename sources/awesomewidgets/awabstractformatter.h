@@ -18,6 +18,8 @@
 #ifndef AWABSTRACTFORMATTER_H
 #define AWABSTRACTFORMATTER_H
 
+#include <QRegularExpression>
+
 #include "abstractextitem.h"
 
 
@@ -30,8 +32,8 @@ class AWAbstractFormatter : public AbstractExtItem
 public:
     enum class FormatterClass { DateTime, Float, List, Script, String, NoFormat, Json };
 
-    explicit AWAbstractFormatter(QWidget *_parent = nullptr, const QString &_filePath = "");
-    ~AWAbstractFormatter() override;
+    explicit AWAbstractFormatter(QObject *_parent = nullptr, const QString &_filePath = "");
+    ~AWAbstractFormatter() override = default;
     [[nodiscard]] virtual QString convert(const QVariant &_value) const = 0;
     void copyDefaults(AbstractExtItem *_other) const override;
     [[nodiscard]] QString uniq() const override;

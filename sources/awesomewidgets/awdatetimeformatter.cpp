@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "awdatetimeformatter.h"
 #include "ui_awdatetimeformatter.h"
 
@@ -27,24 +26,13 @@
 #include "awdebug.h"
 
 
-AWDateTimeFormatter::AWDateTimeFormatter(QWidget *_parent, const QString &_filePath)
+AWDateTimeFormatter::AWDateTimeFormatter(QObject *_parent, const QString &_filePath)
     : AWAbstractFormatter(_parent, _filePath)
-    , ui(new Ui::AWDateTimeFormatter)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     if (!_filePath.isEmpty())
         AWDateTimeFormatter::readConfiguration();
-    ui->setupUi(this);
-    AWDateTimeFormatter::translate();
-}
-
-
-AWDateTimeFormatter::~AWDateTimeFormatter()
-{
-    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
-
-    delete ui;
 }
 
 
@@ -60,7 +48,7 @@ AWDateTimeFormatter *AWDateTimeFormatter::copy(const QString &_fileName, const i
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    auto *item = new AWDateTimeFormatter(dynamic_cast<QWidget *>(parent()), _fileName);
+    auto item = new AWDateTimeFormatter(parent(), _fileName);
     AWAbstractFormatter::copyDefaults(item);
     item->setFormat(format());
     item->setTranslateString(translateString());
@@ -114,9 +102,14 @@ void AWDateTimeFormatter::readConfiguration()
 }
 
 
-int AWDateTimeFormatter::showConfiguration(const QVariant &_args)
+int AWDateTimeFormatter::showConfiguration(QWidget *_parent, const QVariant &_args)
 {
     Q_UNUSED(_args)
+
+    auto dialog = new QDialog(_parent);
+    auto ui = new Ui::AWDateTimeFormatter();
+    ui->setupUi(dialog);
+    translate(ui);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -124,17 +117,21 @@ int AWDateTimeFormatter::showConfiguration(const QVariant &_args)
     ui->lineEdit_format->setText(format());
     ui->checkBox_translate->setCheckState(translateString() ? Qt::Checked : Qt::Unchecked);
 
-    int ret = exec();
-    if (ret != 1)
-        return ret;
-    setName(ui->lineEdit_name->text());
-    setComment(ui->lineEdit_comment->text());
-    setApiVersion(AW_FORMATTER_API);
-    setStrType(ui->label_typeValue->text());
-    setFormat(ui->lineEdit_format->text());
-    setTranslateString(ui->checkBox_translate->checkState() == Qt::Checked);
+    auto ret = dialog->exec();
+    if (ret == 1) {
+        setName(ui->lineEdit_name->text());
+        setComment(ui->lineEdit_comment->text());
+        setApiVersion(AW_FORMATTER_API);
+        setStrType(ui->label_typeValue->text());
+        setFormat(ui->lineEdit_format->text());
+        setTranslateString(ui->checkBox_translate->checkState() == Qt::Checked);
 
-    writeConfiguration();
+        writeConfiguration();
+    }
+
+    dialog->deleteLater();
+    delete ui;
+
     return ret;
 }
 
@@ -160,9 +157,10 @@ void AWDateTimeFormatter::initLocale()
     m_locale = m_translate ? QLocale::system() : QLocale::c();
 }
 
-
-void AWDateTimeFormatter::translate()
+void AWDateTimeFormatter::translate(void *_ui)
 {
+    auto ui = reinterpret_cast<Ui::AWDateTimeFormatter *>(_ui);
+
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
     ui->label_type->setText(i18n("Type"));

@@ -71,13 +71,6 @@ QString AWActions::getFileContent(const QString &_path)
 }
 
 
-// HACK: since QML could not use QLoggingCategory I need this hack
-bool AWActions::isDebugEnabled()
-{
-    return LOG_AW().isDebugEnabled();
-}
-
-
 bool AWActions::runCmd(const QString &_cmd, const QStringList &_args)
 {
     qCDebug(LOG_AW) << "Cmd" << _cmd << "args" << _args;

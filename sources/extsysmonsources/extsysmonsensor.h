@@ -15,37 +15,31 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef GPUTEMPSOURCE_H
-#define GPUTEMPSOURCE_H
+#ifndef EXTSYSMONSENSOR_H
+#define EXTSYSMONSENSOR_H
 
-#include <QObject>
-
-#include "abstractextsysmonsource.h"
+#include <ksysguard/systemstats/SensorObject.h>
 
 
-class QProcess;
+class AbstractExtSysMonSource;
+class QTimer;
 
-class GPUTemperatureSource : public AbstractExtSysMonSource
+class ExtSysMonSensor : public KSysGuard::SensorObject
 {
     Q_OBJECT
 
 public:
-    explicit GPUTemperatureSource(QObject *_parent, const QStringList &_args);
-    ~GPUTemperatureSource() override;
-    QVariant data(const QString &_source) override;
-    [[nodiscard]] QVariantMap initialData(const QString &_source) const override;
-    void run() override;
-    [[nodiscard]] QStringList sources() const override;
-
-private slots:
-    void updateValue();
+    explicit ExtSysMonSensor(KSysGuard::SensorContainer *_parent, const QString &_id, const QString &_name,
+                             AbstractExtSysMonSource *_source);
+    ~ExtSysMonSensor() override;
+    void changeSubscription(bool _subscribed);
+    void update();
 
 private:
-    // configuration and values
-    QString m_device;
-    QProcess *m_process = nullptr;
-    QVariantHash m_values;
+    void loadProperties();
+    AbstractExtSysMonSource *m_source = nullptr;
+    QTimer *m_timer = nullptr;
 };
 
 
-#endif /* GPUTEMPSOURCE_H */
+#endif /* EXTSYSMONSENSOR_H */

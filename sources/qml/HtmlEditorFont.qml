@@ -15,14 +15,14 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-import QtQuick 2.2
+import QtQuick 2.15
 
 import org.kde.plasma.private.awesomewidget 1.0
 
 
 HtmlEditorButton {
     end: "</span>"
-    iconName: "font"
+    icon.name: "font"
     text: i18n("Font")
 
     // backend
@@ -36,13 +36,13 @@ HtmlEditorButton {
 
     clickedEvent: function() {
         // get new font
-        var defaultFont = {
+        const defaultFont = {
             "color": defaultFontColor,
             "family": defaultFontFamily,
             "size": defaultFontSize
         }
         // we are using custom selector as soon as we need to select color as well
-        var font = awActions.getFont(defaultFont)
+        const font = awActions.getFont(defaultFont)
 
         // check status
         if (!font.applied)

@@ -21,11 +21,6 @@
 #include "awabstractformatter.h"
 
 
-namespace Ui
-{
-class AWScriptFormatter;
-}
-
 class AWScriptFormatter : public AWAbstractFormatter
 {
     Q_OBJECT
@@ -35,8 +30,7 @@ class AWScriptFormatter : public AWAbstractFormatter
     Q_PROPERTY(QString program READ program)
 
 public:
-    explicit AWScriptFormatter(QWidget *_parent = nullptr, const QString &_filePath = "");
-    ~AWScriptFormatter() override;
+    explicit AWScriptFormatter(QObject *_parent = nullptr, const QString &_filePath = "");
     [[nodiscard]] QString convert(const QVariant &_value) const override;
     AWScriptFormatter *copy(const QString &_fileName, int _number) override;
     // properties
@@ -50,13 +44,12 @@ public:
 
 public slots:
     void readConfiguration() override;
-    int showConfiguration(const QVariant &_args) override;
+    int showConfiguration(QWidget *_parent, const QVariant &_args) override;
     void writeConfiguration() const override;
 
 private:
-    Ui::AWScriptFormatter *ui = nullptr;
     void initProgram();
-    void translate() override;
+    void translate(void *_ui) override;
     // properties
     bool m_appendCode = true;
     QString m_code = "";

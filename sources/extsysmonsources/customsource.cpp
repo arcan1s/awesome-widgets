@@ -15,8 +15,10 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "customsource.h"
+
+#include <ksysguard/formatter/Unit.h>
+#include <ksysguard/systemstats/SensorInfo.h>
 
 #include "awdebug.h"
 #include "extscript.h"
@@ -49,16 +51,14 @@ QVariant CustomSource::data(const QString &_source)
 }
 
 
-QVariantMap CustomSource::initialData(const QString &_source) const
+KSysGuard::SensorInfo *CustomSource::initialData(const QString &_source) const
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
-    QVariantMap data;
-    data["min"] = "";
-    data["max"] = "";
-    data["name"] = QString("Custom command '%1' output").arg(m_extScripts->itemByTagNumber(index(_source))->uniq());
-    data["type"] = "QString";
-    data["units"] = "";
+    auto data = new KSysGuard::SensorInfo();
+    data->name = QString("Custom command '%1' output").arg(m_extScripts->itemByTagNumber(index(_source))->uniq());
+    data->variantType = QVariant::String;
+    data->unit = KSysGuard::UnitNone;
 
     return data;
 }
@@ -74,7 +74,7 @@ QStringList CustomSource::getSources()
 {
     QStringList sources;
     for (auto &item : m_extScripts->activeItems())
-        sources.append(QString("custom/%1").arg(item->tag("custom")));
+        sources.append(item->tag("custom"));
 
     return sources;
 }

@@ -24,10 +24,6 @@
 
 
 class AbstractQuotesProvider;
-namespace Ui
-{
-class ExtQuotes;
-}
 
 class ExtQuotes : public AbstractExtItem
 {
@@ -35,7 +31,7 @@ class ExtQuotes : public AbstractExtItem
     Q_PROPERTY(QString ticker READ ticker WRITE setTicker)
 
 public:
-    explicit ExtQuotes(QWidget *_parent = nullptr, const QString &_filePath = "");
+    explicit ExtQuotes(QObject *_parent = nullptr, const QString &_filePath = "");
     ~ExtQuotes() override;
     ExtQuotes *copy(const QString &_fileName, int _number) override;
     // get methods
@@ -47,7 +43,7 @@ public:
 public slots:
     void readConfiguration() override;
     QVariantHash run() override;
-    int showConfiguration(const QVariant &_args) override;
+    int showConfiguration(QWidget *_parent, const QVariant &_args) override;
     void writeConfiguration() const override;
 
 private slots:
@@ -58,9 +54,8 @@ private:
     AbstractQuotesProvider *m_providerObject = nullptr;
     QNetworkAccessManager *m_manager = nullptr;
     bool m_isRunning = false;
-    Ui::ExtQuotes *ui = nullptr;
     void initProvider();
-    void translate() override;
+    void translate(void *_ui) override;
     // properties
     QString m_ticker = "EURUSD=X";
     // values

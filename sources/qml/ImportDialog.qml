@@ -15,9 +15,9 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Controls 1.3 as QtControls
-import QtQuick.Dialogs 1.2 as QtDialogs
+import QtQuick 2.15
+import QtQuick.Controls
+import QtQuick.Dialogs
 
 import org.kde.plasma.private.awesomewidget 1.0
 
@@ -29,42 +29,41 @@ Item {
 
     signal configurationReceived(var configuration)
 
-    QtDialogs.FileDialog {
+    FileDialog {
         id: fileDialog
         title: i18n("Import")
-        folder: awConfig.configurationDirectory()
+        currentFolder: awConfig.configurationDirectory()
         onAccepted: importSelection.open()
     }
 
-    QtDialogs.Dialog {
+    Dialog {
         id: importSelection
 
         Column {
-            QtControls.CheckBox {
+            CheckBox {
                 id: importPlasmoid
                 text: i18n("Import plasmoid settings")
             }
 
-            QtControls.CheckBox {
+            CheckBox {
                 id: importExtensions
                 text: i18n("Import extensions")
             }
 
-            QtControls.CheckBox {
+            CheckBox {
                 id: importAdds
                 text: i18n("Import additional files")
             }
         }
 
         onAccepted: {
-            var importConfig = awConfig.importConfiguration(
+            const importConfig = awConfig.importConfiguration(
                 fileDialog.fileUrl.toString().replace("file://", ""),
                 importPlasmoid.checked, importExtensions.checked,
                 importAdds.checked)
             configurationReceived(importConfig)
         }
     }
-
     function open() {
         return fileDialog.open()
     }

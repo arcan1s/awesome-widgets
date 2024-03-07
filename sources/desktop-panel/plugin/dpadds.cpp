@@ -49,9 +49,7 @@ DPAdds::DPAdds(QObject *_parent)
     m_vdi = new TaskManager::VirtualDesktopInfo(this);
     m_taskModel = new TaskManager::WindowTasksModel(this);
 
-    connect(m_vdi, SIGNAL(currentDesktopChanged()), this, SIGNAL(desktopChanged()));
-    connect(KWindowSystem::self(), SIGNAL(windowAdded(WId)), this, SIGNAL(windowListChanged()));
-    connect(KWindowSystem::self(), SIGNAL(windowRemoved(WId)), this, SIGNAL(windowListChanged()));
+    connect(m_vdi, &TaskManager::VirtualDesktopInfo::currentDesktopChanged, this, &DPAdds::desktopChanged);
 }
 
 
@@ -61,13 +59,6 @@ DPAdds::~DPAdds()
 
     m_vdi->deleteLater();
     m_taskModel->deleteLater();
-}
-
-
-// HACK: since QML could not use QLoggingCategory I need this hack
-bool DPAdds::isDebugEnabled()
-{
-    return LOG_DP().isDebugEnabled();
 }
 
 
@@ -92,7 +83,7 @@ QStringList DPAdds::dictKeys(const bool _sorted, const QString &_regexp)
     if (_sorted)
         allKeys.sort();
 
-    return allKeys.filter(QRegExp(_regexp));
+    return allKeys.filter(QRegularExpression(_regexp));
 }
 
 
@@ -223,7 +214,7 @@ QString DPAdds::valueByKey(const QString &_key, int _desktop) const
 
     QString currentMark = currentDesktop() == _desktop ? m_mark : "";
     if (_key == "mark")
-        return QString("%1").arg(currentMark, m_mark.count(), QLatin1Char(' ')).replace(" ", "&nbsp;");
+        return QString("%1").arg(currentMark, m_mark.size(), QLatin1Char(' ')).replace(" ", "&nbsp;");
     else if (_key == "name") {
         auto name = m_vdi->desktopNames().at(_desktop);
         return name.replace(" ", "&nbsp;");

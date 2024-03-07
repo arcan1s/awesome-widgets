@@ -18,6 +18,9 @@
 
 #include "requestsource.h"
 
+#include <ksysguard/formatter/Unit.h>
+#include <ksysguard/systemstats/SensorInfo.h>
+
 #include "awdebug.h"
 #include "extnetworkrequest.h"
 
@@ -45,30 +48,26 @@ QVariant RequestSource::data(const QString &_source)
     qCDebug(LOG_ESS) << "Source" << _source;
 
     int ind = index(_source);
-    auto service = _source;
-    service.remove("network/");
-    if (!m_values.contains(service)) {
+    if (!m_values.contains(_source)) {
         QVariantHash data = m_extNetRequest->itemByTagNumber(ind)->run();
         for (auto &key : data.keys())
             m_values[key] = data[key];
     }
-    QVariant value = m_values.take(service);
+    QVariant value = m_values.take(_source);
     return value;
 }
 
 
-QVariantMap RequestSource::initialData(const QString &_source) const
+KSysGuard::SensorInfo *RequestSource::initialData(const QString &_source) const
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
     int ind = index(_source);
-    QVariantMap data;
-    if (_source.startsWith("network/response")) {
-        data["min"] = "";
-        data["max"] = "";
-        data["name"] = QString("Network response for %1").arg(m_extNetRequest->itemByTagNumber(ind)->uniq());
-        data["type"] = "QString";
-        data["units"] = "";
+    auto data = new KSysGuard::SensorInfo();
+    if (_source.startsWith("response")) {
+        data->name = QString("Network response for %1").arg(m_extNetRequest->itemByTagNumber(ind)->uniq());
+        data->variantType = QVariant::String;
+        data->unit = KSysGuard::UnitNone;
     }
 
     return data;
@@ -85,7 +84,7 @@ QStringList RequestSource::getSources()
 {
     QStringList sources;
     for (auto &item : m_extNetRequest->activeItems())
-        sources.append(QString("network/%1").arg(item->tag("response")));
+        sources.append(item->tag("response"));
 
     return sources;
 }

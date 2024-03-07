@@ -2,28 +2,31 @@
 find_package(Gettext REQUIRED)
 
 # main qt libraries
-find_package(Qt5 5.6.0 REQUIRED COMPONENTS Core DBus Network Qml Test Widgets)
+find_package(Qt6 6.6.0 REQUIRED COMPONENTS Core DBus Network Qml Test Widgets)
 add_definitions(
-        ${Qt5Core_DEFINITIONS} ${Qt5DBus_DEFINITIONS} ${Qt5Network_DEFINITIONS}
-        ${Qt5Qml_DEFINITIONS} ${Qt5Widgets_DEFINITIONS}
+        ${Qt6Core_DEFINITIONS} ${Qt6DBus_DEFINITIONS} ${Qt6Network_DEFINITIONS}
+        ${Qt6Qml_DEFINITIONS} ${Qt6Widgets_DEFINITIONS}
 )
 set(Qt_INCLUDE
-        ${Qt5Core_INCLUDE_DIRS} ${Qt5DBus_INCLUDE_DIRS} ${Qt5Network_INCLUDE_DIRS}
-        ${Qt5Qml_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS}
+        ${Qt6Core_INCLUDE_DIRS} ${Qt6DBus_INCLUDE_DIRS} ${Qt6Network_INCLUDE_DIRS}
+        ${Qt6Qml_INCLUDE_DIRS} ${Qt6Widgets_INCLUDE_DIRS}
 )
 set(Qt_LIBRARIES
-        ${Qt5Core_LIBRARIES} ${Qt5DBus_LIBRARIES} ${Qt5Network_LIBRARIES}
-        ${Qt5Qml_LIBRARIES} ${Qt5Widgets_LIBRARIES}
+        ${Qt6Core_LIBRARIES} ${Qt6DBus_LIBRARIES} ${Qt6Network_LIBRARIES}
+        ${Qt6Qml_LIBRARIES} ${Qt6Widgets_LIBRARIES}
 )
 
-# kf5 libraries
+# kf6 libraries
 find_package(ECM 0.0.11 REQUIRED NO_MODULE)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
-find_package(KF5 REQUIRED COMPONENTS I18n Notifications Plasma Service WindowSystem)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
+find_package(KF6 REQUIRED COMPONENTS I18n Notifications Service WindowSystem)
+find_package(KSysGuard REQUIRED)
 find_package(LibTaskManager REQUIRED)
+find_package(Plasma REQUIRED)
+
 include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDECompilerSettings)
-set(Kf5_INCLUDE ${I18n_INCLUDE_DIR} ${Notifications_INCLUDE_DIR} ${Plasma_INCLUDE_DIR})
-set(Kf5_LIBRARIES KF5::I18n KF5::Notifications KF5::Plasma KF5::WindowSystem PW::LibTaskManager)
 
+set(Kf6_INCLUDE ${KDE_INSTALL_FULL_INCLUDEDIR_KF})
+set(Kf6_LIBRARIES KF6::CoreAddons KF6::I18n KF6::Notifications KF6::WindowSystem KSysGuard::Sensors KSysGuard::SensorFaces KSysGuard::SystemStats PW::LibTaskManager)

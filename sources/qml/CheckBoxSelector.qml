@@ -15,8 +15,8 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Controls 1.3 as QtControls
+import QtQuick 2.15
+import QtQuick.Controls
 
 
 Row {
@@ -26,11 +26,12 @@ Row {
     property alias text: checkBox.text
     property alias checked: checkBox.checked
 
-    QtControls.Label {
+    Label {
         height: parent.heigth
         width: parent.width * 2 / 5
     }
-    QtControls.CheckBox {
+
+    CheckBox {
         id: checkBox
         width: parent.width * 3 / 5
     }

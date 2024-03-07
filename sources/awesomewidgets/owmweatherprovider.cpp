@@ -93,13 +93,13 @@ QVariantHash OWMWeatherProvider::parseSingleJson(const QVariantMap &_json) const
     // main data
     QVariantMap mainWeather = _json["main"].toMap();
     if (!weather.isEmpty()) {
-        output[tag("humidity")] = mainWeather["humidity"].toFloat();
-        output[tag("pressure")] = mainWeather["pressure"].toFloat();
-        output[tag("temperature")] = mainWeather["temp"].toFloat();
+        output[tag("humidity")] = mainWeather["humidity"].toDouble();
+        output[tag("pressure")] = mainWeather["pressure"].toDouble();
+        output[tag("temperature")] = mainWeather["temp"].toDouble();
     }
 
     // timestamp
-    output[tag("timestamp")] = QDateTime::fromTime_t(_json["dt"].toUInt()).toUTC();
+    output[tag("timestamp")] = QDateTime::fromSecsSinceEpoch(_json["dt"].toUInt()).toUTC();
 
     return output;
 }

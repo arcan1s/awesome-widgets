@@ -18,14 +18,14 @@
 #ifndef ABSTRACTEXTITEM_H
 #define ABSTRACTEXTITEM_H
 
-#include <QDialog>
 #include <QVariant>
 
 
 class QCronScheduler;
 class QLocalServer;
+class QWidget;
 
-class AbstractExtItem : public QDialog
+class AbstractExtItem : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool active READ isActive WRITE setActive)
@@ -40,7 +40,7 @@ class AbstractExtItem : public QDialog
     Q_PROPERTY(QString uniq READ uniq)
 
 public:
-    explicit AbstractExtItem(QWidget *_parent = nullptr, const QString &_filePath = "");
+    explicit AbstractExtItem(QObject *_parent = nullptr, const QString &_filePath = "");
     ~AbstractExtItem() override;
     virtual void bumpApi(int _newVer);
     virtual AbstractExtItem *copy(const QString &_fileName, int _number) = 0;
@@ -78,7 +78,7 @@ public slots:
     virtual void initSocket();
     virtual void readConfiguration();
     virtual QVariantHash run() = 0;
-    virtual int showConfiguration(const QVariant &_args) = 0;
+    virtual int showConfiguration(QWidget *_parent, const QVariant &_args) = 0;
     [[nodiscard]] virtual bool tryDelete() const;
     virtual void writeConfiguration() const;
 
@@ -89,7 +89,8 @@ private:
     QCronScheduler *m_scheduler = nullptr;
     QString m_fileName = "/dev/null";
     int m_times = 0;
-    virtual void translate() = 0;
+    // FIXME find a better way to do it
+    virtual void translate(void *_ui) = 0;
     // properties
     int m_apiVersion = 0;
     bool m_active = true;

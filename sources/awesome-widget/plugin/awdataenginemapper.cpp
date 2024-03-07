@@ -17,7 +17,7 @@
 
 #include "awdataenginemapper.h"
 
-#include <QRegExp>
+#include <QRegularExpression>
 
 #include "awdebug.h"
 #include "awformatterhelper.h"
@@ -76,76 +76,80 @@ QStringList AWDataEngineMapper::keysFromSource(const QString &_source) const
 
 // HACK units required to define should the value be calculated as temperature
 // or fan data
-QStringList AWDataEngineMapper::registerSource(const QString &_source, const QString &_units, const QStringList &_keys)
+QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSysGuard::Unit _units,
+                                               const QStringList &_keys)
 {
     qCDebug(LOG_AW) << "Source" << _source << "with units" << _units;
 
     // regular expressions
-    QRegExp cpuRegExp = QRegExp("cpu/cpu.*/TotalLoad");
-    QRegExp cpuclRegExp = QRegExp("cpu/cpu.*/clock");
-    QRegExp hddrRegExp = QRegExp("disk/.*/Rate/rblk");
-    QRegExp hddwRegExp = QRegExp("disk/.*/Rate/wblk");
-    QRegExp mountFillRegExp = QRegExp("partitions/.*/filllevel");
-    QRegExp mountFreeRegExp = QRegExp("partitions/.*/freespace");
-    QRegExp mountUsedRegExp = QRegExp("partitions/.*/usedspace");
-    QRegExp netRegExp = QRegExp("network/interfaces/.*/(receiver|transmitter)/data$");
-    QRegExp netTotalRegExp = QRegExp("network/interfaces/.*/(receiver|transmitter)/dataTotal$");
+    auto cpuRegExp = QRegularExpression("^cpu/cpu.*/usage$");
+    auto cpuclRegExp = QRegularExpression("^cpu/cpu.*/frequency$");
+    auto cpuTempRegExp = QRegularExpression("^cpu/cpu.*/temperature$");
+    auto gpuRegExp = QRegularExpression("^gpu/gpu.*/usage$");
+    auto gpuTempRegExp = QRegularExpression("^gpu/gpu.*/temperature$");
+    auto hddrRegExp = QRegularExpression("^disk/.*/read$");
+    auto hddwRegExp = QRegularExpression("^disk/.*/write$");
+    auto mountFillRegExp = QRegularExpression("^disk/.*/usedPercent$");
+    auto mountFreeRegExp = QRegularExpression("^disk/.*/free$");
+    auto mountUsedRegExp = QRegularExpression("^disk/.*/used$");
+    auto netRegExp = QRegularExpression("^network/.*/(download|upload)$");
+    auto netTotalRegExp = QRegularExpression("^network/.*/(totalDownload|totalUpload)$");
 
-    if (_source == "battery/ac") {
+    if (_source == "extsysmon/battery/ac") {
         // AC
         m_map.insert(_source, "ac");
         m_formatter["ac"] = AWKeysAggregator::FormatterType::ACFormat;
-    } else if (_source.startsWith("battery/")) {
+    } else if (_source.startsWith("extsysmon/battery/")) {
         // battery stats
-        QString key = _source;
-        key.remove("battery/");
+        auto key = _source;
+        key.remove("extsysmon/battery/");
         m_map.insert(_source, key);
         m_formatter[key] = _source.contains("rate") ? AWKeysAggregator::FormatterType::Float
                                                     : AWKeysAggregator::FormatterType::IntegerThree;
-    } else if (_source == "cpu/system/TotalLoad") {
+    } else if (_source == "cpu/all/usage") {
         // cpu
         m_map.insert(_source, "cpu");
         m_formatter["cpu"] = AWKeysAggregator::FormatterType::Float;
     } else if (_source.contains(cpuRegExp)) {
         // cpus
-        QString key = _source;
-        key.remove("cpu/").remove("/TotalLoad");
+        auto key = _source;
+        key.remove("cpu/").remove("/usage");
         m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::Float;
-    } else if (_source == "cpu/system/AverageClock") {
+    } else if (_source == "cpu/all/averageFrequency") {
         // cpucl
         m_map.insert(_source, "cpucl");
         m_formatter["cpucl"] = AWKeysAggregator::FormatterType::Integer;
     } else if (_source.contains(cpuclRegExp)) {
         // cpucls
-        QString key = _source;
-        key.remove("cpu/cpu").remove("/clock");
+        auto key = _source;
+        key.remove("cpu/cpu").remove("/frequency");
         key = QString("cpucl%1").arg(key);
         m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::Integer;
-    } else if (_source.startsWith("custom")) {
+    } else if (_source.startsWith("extsysmon/custom")) {
         // custom
-        QString key = _source;
-        key.remove("custom/");
+        auto key = _source;
+        key.remove("extsysmon/custom/");
         m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::NoFormat;
-    } else if (_source == "desktop/current/name") {
+    } else if (_source == "extsysmon/desktop/name") {
         // current desktop name
         m_map.insert(_source, "desktop");
         m_formatter["desktop"] = AWKeysAggregator::FormatterType::NoFormat;
-    } else if (_source == "desktop/current/number") {
+    } else if (_source == "extsysmon/desktop/number") {
         // current desktop number
         m_map.insert(_source, "ndesktop");
         m_formatter["ndesktop"] = AWKeysAggregator::FormatterType::NoFormat;
-    } else if (_source == "desktop/total/number") {
+    } else if (_source == "extsysmon/desktop/count") {
         // desktop count
         m_map.insert(_source, "tdesktops");
         m_formatter["tdesktops"] = AWKeysAggregator::FormatterType::NoFormat;
     } else if (_source.contains(hddrRegExp)) {
         // read speed
-        QString device = _source;
-        device.remove("/Rate/rblk");
-        int index = m_devices["disk"].indexOf(device);
+        auto device = _source;
+        device.remove("disk/").remove("/read");
+        auto index = m_devices["disk"].indexOf(device);
         if (index > -1) {
             QString key = QString("hddr%1").arg(index);
             m_map.insert(_source, key);
@@ -153,29 +157,45 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const QSt
         }
     } else if (_source.contains(hddwRegExp)) {
         // write speed
-        QString device = _source;
-        device.remove("/Rate/wblk");
-        int index = m_devices["disk"].indexOf(device);
+        auto device = _source;
+        device.remove("disk/").remove("/write");
+        auto index = m_devices["disk"].indexOf(device);
         if (index > -1) {
             QString key = QString("hddw%1").arg(index);
             m_map.insert(_source, key);
             m_formatter[key] = AWKeysAggregator::FormatterType::Integer;
         }
-    } else if (_source == "gpu/load") {
+    } else if (_source == "gpu/all/usage") {
         // gpu load
         m_map.insert(_source, "gpu");
         m_formatter["gpu"] = AWKeysAggregator::FormatterType::Float;
-    } else if (_source == "gpu/temperature") {
-        // gpu temperature
-        m_map.insert(_source, "gputemp");
-        m_formatter["gputemp"] = AWKeysAggregator::FormatterType::Temperature;
+    } else if (_source.contains(gpuRegExp)) {
+        // gpus
+        auto device = _source;
+        device.remove("gpu/").remove("/usage");
+        auto index = m_devices["gpu"].indexOf(device);
+        if (index > -1) {
+            auto key = QString("gpu%1").arg(index);
+            m_map.insert(_source, key);
+            m_formatter[key] = AWKeysAggregator::FormatterType::Float;
+        }
+    } else if (_source.contains(gpuTempRegExp)) {
+        // gpus temps
+        auto device = _source;
+        device.remove("gpu/").remove("/temperature");
+        auto index = m_devices["gpu"].indexOf(device);
+        if (index > -1) {
+            auto key = QString("gputemp%1").arg(index);
+            m_map.insert(_source, key);
+            m_formatter[key] = AWKeysAggregator::FormatterType::Temperature;
+        }
     } else if (_source.contains(mountFillRegExp)) {
         // fill level
-        QString device = _source;
-        device.remove("partitions").remove("/filllevel");
-        int index = m_devices["mount"].indexOf(device);
+        auto device = _source;
+        device.remove("disk/").remove("/usedPercent");
+        auto index = m_devices["mount"].indexOf(device);
         if (index > -1) {
-            QString key = QString("hdd%1").arg(index);
+            auto key = QString("hdd%1").arg(index);
             m_map.insert(_source, key);
             m_formatter[key] = AWKeysAggregator::FormatterType::Float;
             // additional keys
@@ -184,9 +204,9 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const QSt
         }
     } else if (_source.contains(mountFreeRegExp)) {
         // free space
-        QString device = _source;
-        device.remove("partitions").remove("/freespace");
-        int index = m_devices["mount"].indexOf(device);
+        auto device = _source;
+        device.remove("disk/").remove("/free");
+        auto index = m_devices["mount"].indexOf(device);
         if (index > -1) {
             // mb
             QString key = QString("hddfreemb%1").arg(index);
@@ -199,9 +219,9 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const QSt
         }
     } else if (_source.contains(mountUsedRegExp)) {
         // used
-        QString device = _source;
-        device.remove("partitions").remove("/usedspace");
-        int index = m_devices["mount"].indexOf(device);
+        auto device = _source;
+        device.remove("disk/").remove("/used");
+        auto index = m_devices["mount"].indexOf(device);
         if (index > -1) {
             // mb
             QString key = QString("hddmb%1").arg(index);
@@ -212,24 +232,14 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const QSt
             m_map.insert(_source, key);
             m_formatter[key] = AWKeysAggregator::FormatterType::MemGBFormat;
         }
-    } else if (_source.startsWith("hdd/temperature")) {
-        // hdd temperature
-        QString device = _source;
-        device.remove("hdd/temperature");
-        int index = m_devices["hdd"].indexOf(device);
-        if (index > -1) {
-            QString key = QString("hddtemp%1").arg(index);
-            m_map.insert(_source, key);
-            m_formatter[key] = AWKeysAggregator::FormatterType::Temperature;
-        }
-    } else if (_source.startsWith("cpu/system/loadavg")) {
+    } else if (_source.startsWith("cpu/loadaverages/loadaverage")) {
         // load average
-        QString time = _source;
-        time.remove("cpu/system/loadavg");
-        QString key = QString("la%1").arg(time);
+        auto time = _source;
+        time.remove("cpu/loadaverages/loadaverage");
+        auto key = QString("la%1").arg(time);
         m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::FloatTwoSymbols;
-    } else if (_source == "mem/physical/application") {
+    } else if (_source == "memory/physical/application") {
         // app memory
         // mb
         m_map.insert(_source, "memmb");
@@ -237,7 +247,7 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const QSt
         // gb
         m_map.insert(_source, "memgb");
         m_formatter["memgb"] = AWKeysAggregator::FormatterType::MemGBFormat;
-    } else if (_source == "mem/physical/free") {
+    } else if (_source == "memory/physical/free") {
         // free memory
         // mb
         m_map.insert(_source, "memfreemb");
@@ -245,7 +255,7 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const QSt
         // gb
         m_map.insert(_source, "memfreegb");
         m_formatter["memfreegb"] = AWKeysAggregator::FormatterType::MemGBFormat;
-    } else if (_source == "mem/physical/used") {
+    } else if (_source == "memory/physical/used") {
         // used memory
         // mb
         m_map.insert(_source, "memusedmb");
@@ -253,27 +263,27 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const QSt
         // gb
         m_map.insert(_source, "memusedgb");
         m_formatter["memusedgb"] = AWKeysAggregator::FormatterType::MemGBFormat;
-    } else if (_source == "network/current/name") {
+    } else if (_source == "extsysmon/network/device") {
         // network device
         m_map.insert(_source, "netdev");
         m_formatter["netdev"] = AWKeysAggregator::FormatterType::NoFormat;
-    } else if (_source == "network/current/ssid") {
+    } else if (_source == "extsysmon/network/ssid") {
         // current ssid
         m_map.insert(_source, "ssid");
         m_formatter["ssid"] = AWKeysAggregator::FormatterType::NoFormat;
-    } else if (_source.startsWith("network/response")) {
+    } else if (_source.startsWith("extsysmon/requests/response")) {
         // network response
-        QString key = _source;
-        key.remove("network/");
+        auto key = _source;
+        key.remove("extsysmon/requests/");
         m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::NoFormat;
     } else if (_source.contains(netRegExp)) {
         // network speed
-        QString type = _source.contains("receiver") ? "down" : "up";
-        int index = m_devices["net"].indexOf(_source.split('/')[2]);
+        auto type = _source.endsWith("download") ? "down" : "up";
+        auto index = m_devices["net"].indexOf(_source.split('/')[1]);
         if (index > -1) {
             // kb
-            QString key = QString("%1kb%2").arg(type).arg(index);
+            auto key = QString("%1kb%2").arg(type).arg(index);
             m_map.insert(_source, key);
             m_formatter[key] = AWKeysAggregator::FormatterType::Integer;
             // smart
@@ -287,11 +297,11 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const QSt
         }
     } else if (_source.contains(netTotalRegExp)) {
         // network data total
-        QString type = _source.contains("receiver") ? "down" : "up";
-        int index = m_devices["net"].indexOf(_source.split('/')[2]);
+        auto type = _source.endsWith("Download") ? "down" : "up";
+        auto index = m_devices["net"].indexOf(_source.split('/')[1]);
         if (index > -1) {
             // kb
-            QString key = QString("%1totkb%2").arg(type).arg(index);
+            auto key = QString("%1totkb%2").arg(type).arg(index);
             m_map.insert(_source, key);
             m_formatter[key] = AWKeysAggregator::FormatterType::Integer;
             // mb
@@ -299,37 +309,37 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const QSt
             m_map.insert(_source, key);
             m_formatter[key] = AWKeysAggregator::FormatterType::MemMBFormat;
         }
-    } else if (_source.startsWith("upgrade")) {
+    } else if (_source.startsWith("extsysmon/upgrade")) {
         // package manager
-        QString key = _source;
-        key.remove("upgrade/");
+        auto key = _source;
+        key.remove("extsysmon/upgrade/");
         m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::IntegerThree;
-    } else if (_source.startsWith("player")) {
+    } else if (_source.startsWith("extsysmon/player")) {
         // player
-        QString key = _source;
-        key.remove("player/");
+        auto key = _source;
+        key.remove("extsysmon/player/");
         m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::NoFormat;
-    } else if (_source == "ps/running/count") {
+    } else if (_source == "extsysmon/ps/running") {
         // running processes count
         m_map.insert(_source, "pscount");
         m_formatter["pscount"] = AWKeysAggregator::FormatterType::NoFormat;
-    } else if (_source == "ps/running/list") {
+    } else if (_source == "extsysmon/ps/list") {
         // list of running processes
         m_map.insert(_source, "ps");
         m_formatter["ps"] = AWKeysAggregator::FormatterType::List;
-    } else if (_source == "ps/total/count") {
+    } else if (_source == "extsysmon/ps/count") {
         // total processes count
         m_map.insert(_source, "pstot");
         m_formatter["pstot"] = AWKeysAggregator::FormatterType::NoFormat;
-    } else if (_source.startsWith("quotes")) {
+    } else if (_source.startsWith("extsysmon/quotes")) {
         // quotes
-        QString key = _source;
-        key.remove("quotes/");
+        auto key = _source;
+        key.remove("extsysmon/quotes/");
         m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::Quotes;
-    } else if (_source == "mem/swap/free") {
+    } else if (_source == "memory/swap/free") {
         // free swap
         // mb
         m_map.insert(_source, "swapfreemb");
@@ -337,7 +347,7 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const QSt
         // gb
         m_map.insert(_source, "swapfreegb");
         m_formatter["swapfreegb"] = AWKeysAggregator::FormatterType::MemGBFormat;
-    } else if (_source == "mem/swap/used") {
+    } else if (_source == "memory/swap/used") {
         // used swap
         // mb
         m_map.insert(_source, "swapmb");
@@ -345,19 +355,20 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const QSt
         // gb
         m_map.insert(_source, "swapgb");
         m_formatter["swapgb"] = AWKeysAggregator::FormatterType::MemGBFormat;
-    } else if (_source.startsWith("lmsensors/")) {
+    } else if (_source.startsWith("lmsensors/") || _source.contains(cpuTempRegExp)
+               || _source == "cpu/all/averageTemperature") {
         // temperature
-        int index = m_devices["temp"].indexOf(_source);
+        auto index = m_devices["temp"].indexOf(_source);
         // HACK on DE initialization there are no units key
-        if (_units.isEmpty())
+        if (_units == KSysGuard::UnitInvalid)
             return QStringList({QString("temp%1").arg(index)});
         if (index > -1) {
-            QString key = QString("temp%1").arg(index);
+            auto key = QString("temp%1").arg(index);
             m_map.insert(_source, key);
-            m_formatter[key] = _units == "°C" ? AWKeysAggregator::FormatterType::Temperature
-                                              : AWKeysAggregator::FormatterType::Integer;
+            m_formatter[key] = _units == KSysGuard::UnitCelsius ? AWKeysAggregator::FormatterType::Temperature
+                                                                : AWKeysAggregator::FormatterType::Integer;
         }
-    } else if (_source == "Local") {
+    } else if (_source == "extsysmon/time/now") {
         // time
         m_map.insert(_source, "time");
         m_formatter["time"] = AWKeysAggregator::FormatterType::Time;
@@ -376,40 +387,40 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const QSt
         // timestamp
         m_map.insert(_source, "tstime");
         m_formatter["tstime"] = AWKeysAggregator::FormatterType::Timestamp;
-    } else if (_source == "system/brightness") {
+    } else if (_source == "extsysmon/system/brightness") {
         m_map.insert(_source, "brightness");
         m_formatter["brightness"] = AWKeysAggregator::FormatterType::IntegerThree;
-    } else if (_source == "system/volume") {
+    } else if (_source == "extsysmon/system/volume") {
         m_map.insert(_source, "volume");
         m_formatter["volume"] = AWKeysAggregator::FormatterType::IntegerThree;
-    } else if (_source == "system/uptime") {
+    } else if (_source == "os/system/uptime") {
         // uptime
         m_map.insert(_source, "uptime");
         m_formatter["uptime"] = AWKeysAggregator::FormatterType::Uptime;
         // custom uptime
         m_map.insert(_source, "cuptime");
         m_formatter["cuptime"] = AWKeysAggregator::FormatterType::UptimeCustom;
-    } else if (_source.startsWith("weather/temperature")) {
+    } else if (_source.startsWith("extsysmon/weather/temperature")) {
         // temperature
-        QString key = _source;
-        key.remove("weather/");
+        auto key = _source;
+        key.remove("extsysmon/weather/");
         m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::Temperature;
-    } else if (_source.startsWith("weather/")) {
+    } else if (_source.startsWith("extsysmon/weather/")) {
         // other weather
-        QString key = _source;
-        key.remove("weather/");
+        auto key = _source;
+        key.remove("extsysmon/weather/");
         m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::NoFormat;
-    } else if (_source.startsWith("load/load")) {
+    } else if (_source.startsWith("extsysmon/load/load")) {
         // load source
-        QString key = _source;
-        key.remove("load/");
+        auto key = _source;
+        key.remove("extsysmon/load/");
         m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::Temperature;
     }
 
-    QStringList foundKeys = keysFromSource(_source);
+    auto foundKeys = keysFromSource(_source);
 
     // rewrite formatters for custom ones
     QStringList customFormattersKeys;
@@ -424,7 +435,7 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const QSt
 
     // drop key from dictionary if no one user requested key required it
     qCInfo(LOG_AW) << "Looking for keys" << foundKeys << "in" << _keys;
-    bool required = _keys.isEmpty() || std::any_of(foundKeys.cbegin(), foundKeys.cend(), [&_keys](const QString &key) {
+    auto required = _keys.isEmpty() || std::any_of(foundKeys.cbegin(), foundKeys.cend(), [&_keys](const QString &key) {
                         return _keys.contains(key);
                     });
     if (!required) {

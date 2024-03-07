@@ -1,0 +1,26 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "esalexeev@gmail.com",
+                "Name": "Evgeniy Alekseev aka arcanis"
+            }
+        ],
+        "Category": "System Information",
+        "Description": "A minimalistic Plasmoid",
+        "Description[en]": "A minimalistic Plasmoid",
+        "Description[es]": "Un script Plasmoïde minimaliste",
+        "Description[pt_BR]": "Um script Plasmoid",
+        "Description[ru]": "Минималистичный плазмоид",
+        "Description[uk]": "Мінімалістичний плазмоїд",
+        "EnabledByDefault": true,
+        "Icon": "utilities-system-monitor",
+        "Id": "org.kde.plasma.desktoppanel",
+        "License": "GPLv3",
+        "Name": "Desktop Panel",
+        "Version": "4.0.0",
+        "Website": "https://arcanis.me/projects/awesome-widgets/"
+    },
+    "X-Plasma-API-Minimum-Version": "6.0"
+}

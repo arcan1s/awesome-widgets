@@ -15,41 +15,22 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef HDDTEMPSOURCE_H
-#define HDDTEMPSOURCE_H
+#pragma once
 
 #include <QObject>
 
 #include "abstractextsysmonsource.h"
+#include "extitemaggregator.h"
 
 
-class QProcess;
-
-class HDDTemperatureSource : public AbstractExtSysMonSource
+class TimeSource : public AbstractExtSysMonSource
 {
     Q_OBJECT
 
 public:
-    explicit HDDTemperatureSource(QObject *_parent, const QStringList &_args);
-    ~HDDTemperatureSource() override;
-    static QStringList allHdd();
+    explicit TimeSource(QObject *_parent, const QStringList &_args);
     QVariant data(const QString &_source) override;
-    [[nodiscard]] QVariantMap initialData(const QString &_source) const override;
+    [[nodiscard]] KSysGuard::SensorInfo *initialData(const QString &_source) const override;
     void run() override{};
     [[nodiscard]] QStringList sources() const override;
-
-private slots:
-    void updateValue(const QString &_device);
-
-private:
-    // properties
-    QHash<QString, QProcess *> m_processes;
-    // configuration and values
-    QStringList m_cmd;
-    QStringList m_devices;
-    bool m_smartctl;
-    QHash<QString, QVariant> m_values;
 };
-
-
-#endif /* HDDTEMPSOURCE_H */

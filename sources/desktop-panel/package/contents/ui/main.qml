@@ -15,25 +15,23 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-import QtQuick 2.4
-import QtQuick.Controls 1.3 as QtControls
-import QtQuick.Layouts 1.1
+import QtQuick 2.15
+import QtQuick.Controls
+import QtQuick.Layouts
+import org.kde.plasma.core as PlasmaCore
 import org.kde.plasma.plasmoid 2.0
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.components 2.0 as PlasmaComponents
 
 import org.kde.plasma.private.desktoppanel 1.0
 import "."
 
 
-Item {
+PlasmoidItem {
     id: main
     // backend
     DPAdds {
         id: dpAdds
     }
 
-    property bool debug: dpAdds.isDebugEnabled()
     property variant tooltipSettings: {
         "tooltipColor": plasmoid.configuration.tooltipColor,
         "tooltipType": plasmoid.configuration.tooltipType,
@@ -44,16 +42,11 @@ Item {
     signal needTooltipUpdate
     signal sizeUpdate
 
-
     // init
-    Plasmoid.preferredRepresentation: Plasmoid.fullRepresentation
-    Plasmoid.compactRepresentation: Plasmoid.fullRepresentation
-
     Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
 
     Plasmoid.icon: "utilities-system-monitor"
     Plasmoid.backgroundHints: plasmoid.configuration.background ? "DefaultBackground" : "NoBackground"
-
 
     // ui
     GridLayout {
@@ -101,7 +94,6 @@ Item {
         }
     }
 
-
     Timer {
         id: timer
         interval: 1000
@@ -109,19 +101,16 @@ Item {
     }
 
     onNeedUpdate: {
-        if (debug) console.debug()
-
-        for (var i=0; i<repeater.count; i++) {
+        for (let i = 0; i < repeater.count; i++) {
             if (!repeater.itemAt(i)) {
-                if (debug) console.info("Nothing to do here yet", i)
                 timer.start()
                 return
             }
             repeater.itemAt(i).text = dpAdds.parsePattern(plasmoid.configuration.text, i)
-            if (dpAdds.currentDesktop() == i) {
+            if (dpAdds.currentDesktop() === i) {
                 repeater.itemAt(i).color = plasmoid.configuration.currentFontColor
                 repeater.itemAt(i).font.family = plasmoid.configuration.currentFontFamily
-                repeater.itemAt(i).font.italic = plasmoid.configuration.currentFontStyle == "italic"
+                repeater.itemAt(i).font.italic = plasmoid.configuration.currentFontStyle === "italic"
                 repeater.itemAt(i).font.pointSize = plasmoid.configuration.currentFontSize
                 repeater.itemAt(i).font.weight = General.fontWeight[plasmoid.configuration.currentFontWeight]
                 repeater.itemAt(i).style = General.textStyle[plasmoid.configuration.currentTextStyle]
@@ -129,7 +118,7 @@ Item {
             } else {
                 repeater.itemAt(i).color = plasmoid.configuration.fontColor
                 repeater.itemAt(i).font.family = plasmoid.configuration.fontFamily
-                repeater.itemAt(i).font.italic = plasmoid.configuration.fontStyle == "italic"
+                repeater.itemAt(i).font.italic = plasmoid.configuration.fontStyle === "italic"
                 repeater.itemAt(i).font.pointSize = plasmoid.configuration.fontSize
                 repeater.itemAt(i).font.weight = General.fontWeight[plasmoid.configuration.fontWeight]
                 repeater.itemAt(i).style = General.textStyle[plasmoid.configuration.textStyle]
@@ -143,13 +132,11 @@ Item {
     }
 
     onNeedTooltipUpdate: {
-        if (debug) console.debug()
-
-        for (var i=0; i<repeater.count; i++) {
+        for (let i = 0; i < repeater.count; i++) {
             repeater.itemAt(i).tooltip.text = dpAdds.toolTipImage(i)
             // resize text tooltip to content size
             // this hack does not work for images-based tooltips
-            if (tooltipSettings.tooltipType == "names") {
+            if (tooltipSettings.tooltipType === "names") {
                 repeater.itemAt(i).tooltip.height = repeater.itemAt(i).tooltip.implicitHeight
                 repeater.itemAt(i).tooltip.width = repeater.itemAt(i).tooltip.implicitWidth
             }
@@ -157,11 +144,9 @@ Item {
     }
 
     onSizeUpdate: {
-        if (debug) console.debug()
-
-        if (plasmoid.configuration.height == 0) {
-            var newHeight = 0
-            for (var i=0; i<repeater.count; i++)
+        if (plasmoid.configuration.height === 0) {
+            let newHeight = 0
+            for (let i = 0; i < repeater.count; i++)
                 newHeight += repeater.itemAt(i).contentHeight
             Layout.minimumHeight = newHeight
             Layout.maximumHeight = -1
@@ -169,9 +154,9 @@ Item {
             Layout.minimumHeight = plasmoid.configuration.height
             Layout.maximumHeight = plasmoid.configuration.height
         }
-        if (plasmoid.configuration.width == 0) {
-            var newWidth = 0
-            for (var i=0; i<repeater.count; i++)
+        if (plasmoid.configuration.width === 0) {
+            let newWidth = 0
+            for (let i = 0; i < repeater.count; i++)
                 newWidth += repeater.itemAt(i).contentWidth
             Layout.minimumWidth = newWidth
             Layout.maximumWidth = -1
@@ -183,7 +168,6 @@ Item {
 
     Plasmoid.onUserConfiguringChanged: {
         if (plasmoid.userConfiguring) return
-        if (debug) console.debug()
 
         dpAdds.setMark(plasmoid.configuration.mark)
         dpAdds.setToolTipData(tooltipSettings)
@@ -192,8 +176,6 @@ Item {
     }
 
     Component.onCompleted: {
-        if (debug) console.debug()
-
         // init submodule
         Plasmoid.userConfiguringChanged(false)
         dpAdds.desktopChanged.connect(needUpdate)

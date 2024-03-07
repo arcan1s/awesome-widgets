@@ -15,15 +15,17 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-import QtQuick 2.2
-import QtQuick.Controls 1.3 as QtControls
+import QtQuick 2.15
+import QtQuick.Controls
 
 
-QtControls.Label {
+Label {
     width: parent.width
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
+
     wrapMode: Text.WordWrap
     text: i18n("Detailed information may be found on <a href=\"https://arcanis.me/projects/awesome-widgets/\">project homepage</a>")
+
     onLinkActivated: Qt.openUrlExternally(link)
 }

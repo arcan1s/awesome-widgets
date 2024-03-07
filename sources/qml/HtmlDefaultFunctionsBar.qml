@@ -15,7 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-import QtQuick 2.2
+import QtQuick 2.15
 
 
 Row {
@@ -30,6 +30,7 @@ Row {
         text: i18n("Bgcolor")
         textField: textArea
     }
+
     HtmlEditorFont {
         width: parent.width * 3 / 15
         textField: textArea
@@ -41,35 +42,39 @@ Row {
     // new line
     HtmlEditorButton {
         width: parent.width / 15
-        iconName: "format-indent-more"
+        icon.name: "format-indent-more"
         textField: textArea
         end: "<br>\n"
     }
+
     // font properties
     HtmlEditorButton {
         width: parent.width / 15
-        iconName: "format-text-bold"
+        icon.name: "format-text-bold"
         textField: textArea
         start: "<b>"
         end: "</b>"
     }
+
     HtmlEditorButton {
         width: parent.width / 15
-        iconName: "format-text-italic"
+        icon.name: "format-text-italic"
         textField: textArea
         start: "<i>"
         end: "</i>"
     }
+
     HtmlEditorButton {
         width: parent.width / 15
-        iconName: "format-text-underline"
+        icon.name: "format-text-underline"
         textField: textArea
         start: "<u>"
         end: "</u>"
     }
+
     HtmlEditorButton {
         width: parent.width / 15
-        iconName: "format-text-strikethrough"
+        icon.name: "format-text-strikethrough"
         textField: textArea
         start: "<s>"
         end: "</s>"
@@ -78,28 +83,31 @@ Row {
     // indentation
     HtmlEditorButton {
         width: parent.width / 15
-        iconName: "format-justify-left"
+        icon.name: "format-justify-left"
         textField: textArea
         start: "<p align=\"left\">"
         end: "</p>"
     }
+
     HtmlEditorButton {
         width: parent.width / 15
-        iconName: "format-justify-center"
+        icon.name: "format-justify-center"
         textField: textArea
         start: "<p align=\"center\">"
         end: "</p>"
     }
+
     HtmlEditorButton {
         width: parent.width / 15
-        iconName: "format-justify-right"
+        icon.name: "format-justify-right"
         textField: textArea
         start: "<p align=\"right\">"
         end: "</p>"
     }
+
     HtmlEditorButton {
         width: parent.width / 15
-        iconName: "format-justify-fill"
+        icon.name: "format-justify-fill"
         textField: textArea
         start: "<p align=\"justify\">"
         end: "</p>"

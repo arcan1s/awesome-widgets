@@ -1,8 +1,8 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=MSFT.NASDAQ
+Name=MSFT
 Comment=Microsoft Corp
-X-AW-Ticker="MSFT"
+X-AW-Ticker="MSFT.US"
 X-AW-Active=false
 X-AW-ApiVersion=5
 X-AW-Interval=60

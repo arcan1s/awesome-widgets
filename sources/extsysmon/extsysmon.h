@@ -18,27 +18,19 @@
 #ifndef EXTSYSMON_H
 #define EXTSYSMON_H
 
-#include <Plasma/DataEngine>
+#include <ksysguard/systemstats/SensorPlugin.h>
 
 
-class ExtSysMonAggregator;
-
-class ExtendedSysMon : public Plasma::DataEngine
+class ExtendedSysMon : public KSysGuard::SensorPlugin
 {
     Q_OBJECT
 
 public:
     explicit ExtendedSysMon(QObject *_parent, const QVariantList &_args);
-    ~ExtendedSysMon() override;
-
-protected:
-    [[nodiscard]] QStringList sources() const override;
-    bool sourceRequestEvent(const QString &_source) override;
-    bool updateSourceEvent(const QString &_source) override;
+    [[nodiscard]] QString providerName() const override { return QStringLiteral("extsysmon"); }
 
 private:
     // configuration
-    ExtSysMonAggregator *m_aggregator = nullptr;
     QHash<QString, QString> m_configuration;
     // methods
     void readConfiguration();

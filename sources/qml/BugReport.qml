@@ -15,15 +15,15 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Controls 1.3 as QtControls
-import QtQuick.Dialogs 1.2 as QtDialogs
-import QtQuick.Layouts 1.2 as QtLayouts
+import QtQuick 2.15
+import QtQuick.Controls
+import QtQuick.Dialogs
+import QtQuick.Layouts
 
 import org.kde.plasma.private.awesomewidget 1.0
 
 
-QtDialogs.Dialog {
+Dialog {
     id: reportDialog
     AWActions {
         id: awActions
@@ -34,89 +34,100 @@ QtDialogs.Dialog {
 
     width: 640
     height: 480
-    property bool debug: awActions.isDebugEnabled()
-
 
     title: i18n("Report a bug")
-    standardButtons: QtDialogs.StandardButton.Ok | QtDialogs.StandardButton.Cancel | QtDialogs.StandardButton.Reset
+    standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel | DialogButtonBox.Reset
 
-    QtLayouts.ColumnLayout {
+    ColumnLayout {
         anchors.fill: parent
 
-        QtControls.TextField {
+        TextField {
             id: title
-            QtLayouts.Layout.fillWidth: true
+            Layout.fillWidth: true
             placeholderText: i18n("Report subject")
         }
-        QtLayouts.ColumnLayout {
-            QtLayouts.Layout.fillWidth: true
 
-            QtControls.GroupBox {
-                QtLayouts.Layout.fillWidth: true
+        ColumnLayout {
+            Layout.fillWidth: true
+
+            GroupBox {
+                Layout.fillWidth: true
                 height: parent.height / 5
                 title: i18n("Description")
-                QtControls.TextArea {
+
+                TextArea {
                     id: description
                     anchors.fill: parent
                     textFormat: TextEdit.PlainText
                 }
             }
-            QtControls.GroupBox {
-                QtLayouts.Layout.fillWidth: true
+
+            GroupBox {
+                Layout.fillWidth: true
                 height: parent.height / 5
                 title: i18n("Steps to reproduce")
-                QtControls.TextArea {
+
+                TextArea {
                     id: reproduce
                     anchors.fill: parent
                     textFormat: TextEdit.PlainText
                 }
             }
-            QtControls.GroupBox {
-                QtLayouts.Layout.fillWidth: true
+
+            GroupBox {
+                Layout.fillWidth: true
                 height: parent.height / 5
                 title: i18n("Expected result")
-                QtControls.TextArea {
+
+                TextArea {
                     id: expected
                     anchors.fill: parent
                     textFormat: TextEdit.PlainText
                 }
             }
-            QtControls.GroupBox {
-                QtLayouts.Layout.fillWidth: true
-                QtLayouts.Layout.alignment: Qt.AlignBottom
+
+            GroupBox {
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignBottom
                 title: i18n("Logs")
-                QtLayouts.ColumnLayout {
+
+                ColumnLayout {
                     anchors.fill: parent
-                    QtLayouts.Layout.fillWidth: true
+                    Layout.fillWidth: true
+
                     Row {
-                          QtLayouts.Layout.fillWidth: true
-                        QtControls.Label {
+                        Layout.fillWidth: true
+
+                        Label {
                             width: parent.width * 2 / 5
                             horizontalAlignment: Text.AlignJustify
                             verticalAlignment: Text.AlignVCenter
                             wrapMode: Text.WordWrap
                             text: i18n("Use command")
                         }
-                        QtControls.TextField {
+
+                        TextField {
                             width: parent.width * 3 / 5
                             readOnly: true
                             text: "QT_LOGGING_RULES=*=true plasmawindowed org.kde.plasma.awesomewidget"
                         }
                     }
-                    QtControls.Button {
-                        QtLayouts.Layout.fillWidth: true
+
+                    Button {
+                        Layout.fillWidth: true
                         text: i18n("Load log file")
                         onClicked: logPath.open()
                     }
-                    QtControls.TextArea {
+
+                    TextArea {
                         id: logBody
-                        QtLayouts.Layout.fillWidth: true
-                        QtLayouts.Layout.alignment: Qt.AlignBottom
+                        Layout.fillWidth: true
+                        Layout.alignment: Qt.AlignBottom
                         textFormat: TextEdit.PlainText
                     }
                 }
 
-                QtDialogs.FileDialog {
+                FileDialog {
                     id: logPath
                     title: i18n("Open log file")
                     onAccepted:
@@ -127,16 +138,11 @@ QtDialogs.Dialog {
     }
 
     onAccepted: {
-        if (debug) console.debug()
-
-        var text = awBugReporter.generateText(description.text, reproduce.text,
-                                              expected.text, logBody.text)
+        const text = awBugReporter.generateText(description.text, reproduce.text, expected.text, logBody.text)
         awBugReporter.sendBugReport(title.text, text)
     }
 
     onReset: {
-        if (debug) console.debug()
-
         title.text = ""
         description.text = ""
         reproduce.text = ""
@@ -144,8 +150,6 @@ QtDialogs.Dialog {
     }
 
     Component.onCompleted: {
-        if (debug) console.debug()
-
         awBugReporter.doConnect()
     }
 }

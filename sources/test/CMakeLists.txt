@@ -13,23 +13,23 @@ include_directories(
         ${PROJECT_TRDPARTY_DIR}
         ${Qt_INCLUDE}
         ${Qt5Test_INCLUDE_DIRS}
-        ${Kf5_INCLUDE}
+        ${Kf6_INCLUDE}
 )
 
 # library
 set(AWTESTLIBRARY_HEADERS awtestlibrary.h)
 set(AWTESTLIBRARY_SOURCES awtestlibrary.cpp)
 add_library(${SUBPROJECT}-awtest STATIC ${AWTESTLIBRARY_SOURCES} ${AWTESTLIBRARY_HEADERS})
-target_link_libraries(${SUBPROJECT}-awtest ${Qt_LIBRARIES} ${Qt5Test_LIBRARIES} ${Kf5_LIBRARIES})
+target_link_libraries(${SUBPROJECT}-awtest ${Qt_LIBRARIES} ${Qt6Test_LIBRARIES} ${Kf6_LIBRARIES})
 set(LIBRARY_TEST_SET ${SUBPROJECT}-awtest ${PROJECT_LIBRARY} ${PROJECT_MONITORSOURCES}
-        ${Qt_LIBRARIES} ${Kf5_LIBRARIES} ${Qt5Test_LIBRARIES})
+        ${Qt_LIBRARIES} ${Kf6_LIBRARIES} ${Qt6Test_LIBRARIES})
 
 # modules
 set(TEST_MODULES
         abstractextitem extquotes extscript extupgrade extweather
         abstractformatter datetimeformatter floatformatter jsonformatter listformatter noformatter scriptformatter stringformatter
         extitemaggregator
-        batterysource desktopsource gpuloadsource gputempsource hddtempsource networksource playersource processessource
+        batterysource desktopsource networksource playersource processessource
         awbugreporter awconfighelper awkeycache awkeys awpatternfunctions awtelemetryhandler awupdatehelper
         dpplugin)
 foreach (TEST_MODULE ${TEST_MODULES})

@@ -18,6 +18,9 @@
 
 #include "systeminfosource.h"
 
+#include <ksysguard/formatter/Unit.h>
+#include <ksysguard/systemstats/SensorInfo.h>
+
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QDBusVariant>
@@ -51,23 +54,23 @@ QVariant SystemInfoSource::data(const QString &_source)
 }
 
 
-QVariantMap SystemInfoSource::initialData(const QString &_source) const
+KSysGuard::SensorInfo *SystemInfoSource::initialData(const QString &_source) const
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
-    QVariantMap data;
-    if (_source == "system/brightness") {
-        data["min"] = 0.0;
-        data["max"] = 100.0;
-        data["name"] = "Screen brightness";
-        data["type"] = "float";
-        data["units"] = "%";
-    } else if (_source == "system/volume") {
-        data["min"] = 0.0;
-        data["max"] = 100.0;
-        data["name"] = "Master volume";
-        data["type"] = "float";
-        data["units"] = "%";
+    auto data = new KSysGuard::SensorInfo();
+    if (_source == "brightness") {
+        data->min = 0.0;
+        data->max = 100.0;
+        data->name = "Screen brightness";
+        data->variantType = QVariant::Double;
+        data->unit = KSysGuard::UnitPercent;
+    } else if (_source == "volume") {
+        data->min = 0.0;
+        data->max = 100.0;
+        data->name = "Master volume";
+        data->variantType = QVariant::Double;
+        data->unit = KSysGuard::UnitPercent;
     }
 
     return data;
@@ -76,16 +79,16 @@ QVariantMap SystemInfoSource::initialData(const QString &_source) const
 
 void SystemInfoSource::run()
 {
-    m_values["system/brightness"] = SystemInfoSource::getCurrentBrightness();
-    m_values["system/volume"] = SystemInfoSource::getCurrentVolume();
+    m_values["brightness"] = SystemInfoSource::getCurrentBrightness();
+    m_values["volume"] = SystemInfoSource::getCurrentVolume();
 }
 
 
 QStringList SystemInfoSource::sources() const
 {
     QStringList sources;
-    sources.append("system/brightness");
-    sources.append("system/volume");
+    sources.append("brightness");
+    sources.append("volume");
 
     return sources;
 }
@@ -97,24 +100,24 @@ QVariant SystemInfoSource::fromDBusVariant(const QVariant &value)
 }
 
 
-float SystemInfoSource::getCurrentBrightness()
+double SystemInfoSource::getCurrentBrightness()
 {
     qCDebug(LOG_ESS) << "Get current brightness";
 
     auto maxBrightness
         = sendDBusRequest("org.kde.Solid.PowerManagement", "/org/kde/Solid/PowerManagement/Actions/BrightnessControl",
                           "org.kde.Solid.PowerManagement.Actions.BrightnessControl", "brightnessMax")
-              .toFloat();
+              .toDouble();
     auto brightness
         = sendDBusRequest("org.kde.Solid.PowerManagement", "/org/kde/Solid/PowerManagement/Actions/BrightnessControl",
                           "org.kde.Solid.PowerManagement.Actions.BrightnessControl", "brightness")
-              .toFloat();
+              .toDouble();
 
-    return std::round(100.0f * brightness / maxBrightness);
+    return std::round(100.0 * brightness / maxBrightness);
 }
 
 
-float SystemInfoSource::getCurrentVolume()
+double SystemInfoSource::getCurrentVolume()
 {
     qCDebug(LOG_ESS) << "Get current volume";
 
@@ -126,7 +129,7 @@ float SystemInfoSource::getCurrentVolume()
 
     if (currentMixer.isEmpty()) {
         qCWarning(LOG_ESS) << "Mixer is empty";
-        return std::numeric_limits<float>::quiet_NaN();
+        return std::numeric_limits<double>::quiet_NaN();
     }
     currentMixer.replace(":", "_").replace(".", "_").replace("-", "_");
 
@@ -137,14 +140,14 @@ float SystemInfoSource::getCurrentVolume()
               .toString();
     if (currentControl.isEmpty()) {
         qCWarning(LOG_ESS) << "Control is empty";
-        return std::numeric_limits<float>::quiet_NaN();
+        return std::numeric_limits<double>::quiet_NaN();
     }
     currentControl.replace(":", "_").replace(".", "_").replace("-", "_");
 
     auto path = QString("/Mixers/%1/%2").arg(currentMixer).arg(currentControl);
     return fromDBusVariant(sendDBusRequest("org.kde.kmix", path, "org.freedesktop.DBus.Properties", "Get",
                                            QVariantList({"org.kde.KMix.Control", "volume"})))
-        .toFloat();
+        .toDouble();
 }
 
 

@@ -18,9 +18,11 @@
 
 #include "networksource.h"
 
+#include <ksysguard/formatter/Unit.h>
+#include <ksysguard/systemstats/SensorInfo.h>
+
 #include <QNetworkInterface>
 #include <QProcess>
-#include <QTextCodec>
 
 #include "awdebug.h"
 
@@ -58,23 +60,19 @@ QVariant NetworkSource::data(const QString &_source)
 }
 
 
-QVariantMap NetworkSource::initialData(const QString &_source) const
+KSysGuard::SensorInfo *NetworkSource::initialData(const QString &_source) const
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
-    QVariantMap data;
-    if (_source == "network/current/name") {
-        data["min"] = "";
-        data["max"] = "";
-        data["name"] = "Current network device name";
-        data["type"] = "QString";
-        data["units"] = "";
-    } else if (_source == "network/current/ssid") {
-        data["min"] = "";
-        data["max"] = "";
-        data["name"] = "Current SSID name";
-        data["type"] = "QString";
-        data["units"] = "";
+    auto data = new KSysGuard::SensorInfo();
+    if (_source == "device") {
+        data->name = "Current network device name";
+        data->variantType = QVariant::String;
+        data->unit = KSysGuard::UnitNone;
+    } else if (_source == "ssid") {
+        data->name = "Current SSID name";
+        data->variantType = QVariant::String;
+        data->unit = KSysGuard::UnitNone;
     }
 
     return data;
@@ -83,16 +81,18 @@ QVariantMap NetworkSource::initialData(const QString &_source) const
 
 void NetworkSource::run()
 {
-    m_values["network/current/name"] = NetworkSource::getCurrentDevice();
-    m_process->start("iwgetid", QStringList() << "-r");
+    m_values["device"] = NetworkSource::getCurrentDevice();
+    if (m_process->state() == QProcess::ProcessState::NotRunning) {
+        m_process->start("iwgetid", {"-r"});
+    }
 }
 
 
 QStringList NetworkSource::sources() const
 {
     QStringList sources;
-    sources.append("network/current/name");
-    sources.append("network/current/ssid");
+    sources.append("device");
+    sources.append("ssid");
 
     return sources;
 }
@@ -101,12 +101,12 @@ QStringList NetworkSource::sources() const
 void NetworkSource::updateSsid()
 {
     qCInfo(LOG_ESS) << "Cmd returns" << m_process->exitCode();
-    QString qdebug = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardError()).trimmed();
+    QString qdebug = QString::fromUtf8(m_process->readAllStandardError()).trimmed();
     qCInfo(LOG_ESS) << "Error" << qdebug;
-    QString qoutput = QTextCodec::codecForMib(106)->toUnicode(m_process->readAllStandardOutput()).trimmed();
+    QString qoutput = QString::fromUtf8(m_process->readAllStandardOutput()).trimmed();
     qCInfo(LOG_ESS) << "Output" << qoutput;
 
-    m_values["network/current/ssid"] = qoutput;
+    m_values["ssid"] = qoutput;
 }
 
 

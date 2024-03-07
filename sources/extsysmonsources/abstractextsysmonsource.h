@@ -19,9 +19,14 @@
 #define ABSTRACTEXTSYSMONSOURCE_H
 
 #include <QObject>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QVariant>
 
+
+namespace KSysGuard
+{
+class SensorInfo;
+}
 
 class AbstractExtSysMonSource : public QObject
 {
@@ -32,15 +37,14 @@ public:
         : QObject(_parent){};
     ~AbstractExtSysMonSource() override = default;
     virtual QVariant data(const QString &_source) = 0;
-    [[nodiscard]] virtual QVariantMap initialData(const QString &_source) const = 0;
+    [[nodiscard]] virtual KSysGuard::SensorInfo *initialData(const QString &_source) const = 0;
     virtual void run() = 0;
     [[nodiscard]] virtual QStringList sources() const = 0;
     // used by extensions
     static int index(const QString &_source)
     {
-        QRegExp rx("\\d+");
-        rx.indexIn(_source);
-        return rx.cap().toInt();
+        QRegularExpression rx("\\d+");
+        return rx.match(_source).captured().toInt();
     }
 
 signals:
