@@ -15,8 +15,8 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Controls 1.3 as QtControls
+import QtQuick 2.15
+import QtQuick.Controls
 
 
 Item {
@@ -26,7 +26,7 @@ Item {
     property var backend
     property alias text: textArea.text
 
-    QtControls.TextArea {
+    TextArea {
         id: textArea
         anchors.fill: parent
         textFormat: TextEdit.PlainText

@@ -19,10 +19,10 @@
 #ifndef AWKEYS_H
 #define AWKEYS_H
 
-#include <Plasma/DataEngine>
-
 #include <QMutex>
 #include <QObject>
+
+#include <ksysguard/systemstats/SensorInfo.h>
 
 
 class AWDataAggregator;
@@ -56,9 +56,7 @@ public:
     Q_INVOKABLE void editItem(const QString &_type);
 
 public slots:
-    void dataUpdated(const QString &_sourceName, const Plasma::DataEngine::Data &_data);
-    // dummy method required by DataEngine connections
-    static void modelChanged(const QString &, QAbstractItemModel *){};
+    void dataUpdated(const QHash<QString, KSysGuard::SensorInfo> &_sensors, const KSysGuard::SensorDataList &_data);
 
 signals:
     void dropSourceFromDataengine(const QString &_source);
@@ -74,7 +72,7 @@ private:
     void calculateValues();
     void createDBusInterface();
     [[nodiscard]] QString parsePattern(QString _pattern) const;
-    void setDataBySource(const QString &_sourceName, const QVariantMap &_data);
+    void setDataBySource(const QString &_source, const KSysGuard::SensorInfo &_sensor, const KSysGuard::SensorData &_data);
     // objects
     AWDataAggregator *m_dataAggregator = nullptr;
     AWDataEngineAggregator *m_dataEngineAggregator = nullptr;

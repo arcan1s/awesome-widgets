@@ -16,8 +16,10 @@
  ***************************************************************************/
 
 pragma Singleton
-import QtQuick 2.0
+import QtQuick 2.15
 
+// required by i18n functions
+import org.kde.plasma.core as PlasmaCore
 
 QtObject {
     property variant fontWeight: {

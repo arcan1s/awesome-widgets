@@ -21,7 +21,6 @@
 #include <QQmlPropertyMap>
 #include <QSettings>
 #include <QStandardPaths>
-#include <QTextCodec>
 
 #include "awdebug.h"
 
@@ -285,7 +284,6 @@ void AWConfigHelper::writeFile(QSettings &_settings, const QString &_key, const 
     QFile file(_fileName);
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QTextStream out(&file);
-        out.setCodec("UTF-8");
         out << _settings.value(_key).toString().toUtf8();
         out.flush();
         file.close();

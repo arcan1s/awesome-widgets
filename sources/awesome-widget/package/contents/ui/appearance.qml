@@ -15,7 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-import QtQuick 2.0
+import QtQuick 2.15
 
 import org.kde.plasma.private.awesomewidget 1.0
 import "."
@@ -75,7 +75,7 @@ Item {
             model: General.fontWeightModel
             text: i18n("Font weight")
             value: plasmoid.configuration.fontWeight
-            onValueEdited: cfg_fontWeight = newValue
+            onValueEdited: newValue => cfg_fontWeight = newValue
         }
 
         ComboBoxSelector {
@@ -83,7 +83,7 @@ Item {
             model: General.fontStyleModel
             text: i18n("Font style")
             value: plasmoid.configuration.fontStyle
-            onValueEdited: cfg_fontStyle = newValue
+            onValueEdited: newValue => cfg_fontStyle = newValue
         }
 
         ColorSelector {
@@ -97,7 +97,7 @@ Item {
             model: General.textStyleModel
             text: i18n("Style")
             value: plasmoid.configuration.textStyle
-            onValueEdited: cfg_textStyle = newValue
+            onValueEdited: newValue => cfg_textStyle = newValue
         }
 
         ColorSelector {

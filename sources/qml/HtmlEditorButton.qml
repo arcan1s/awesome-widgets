@@ -15,11 +15,11 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-import QtQuick 2.2
-import QtQuick.Controls 1.3 as QtControls
+import QtQuick 2.15
+import QtQuick.Controls
 
 
-QtControls.Button {
+Button {
     // parent object in which text will be replaced
     property var textField
     // start and end tags

@@ -19,7 +19,7 @@
         "Id": "org.kde.plasma.awesomewidget",
         "License": "GPLv3",
         "Name": "Awesome Widget",
-        "Version": "@PROJECT_VERSION@",
+        "Version": "3.5.1",
         "Website": "https://arcanis.me/projects/awesome-widgets/"
     },
     "X-Plasma-API-Minimum-Version": "6.0"

@@ -105,9 +105,9 @@ QList<AWPatternFunctions::AWFunction> AWPatternFunctions::findFunctionCalls(cons
             metadata.args = QStringList();
         } else {
             // replace '$,' to 0x1d
-            argsString.replace("$,", QString(0x1d));
+            argsString.replace("$,", QChar(0x1d));
             QStringList args = argsString.split(',');
-            std::for_each(args.begin(), args.end(), [](QString &arg) { arg.replace(QString(0x1d), ","); });
+            std::for_each(args.begin(), args.end(), [](QString &arg) { arg.replace(QChar(0x1d), ","); });
             metadata.args = args;
         }
         // other variables

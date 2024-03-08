@@ -15,19 +15,18 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-import QtQuick 2.4
-import QtQuick.Controls 1.3 as QtControls
-import QtQuick.Dialogs 1.2 as QtDialogs
-import QtQuick.Layouts 1.1
+import QtQuick 2.15
+import QtQuick.Controls
+import QtQuick.Dialogs
+import QtQuick.Layouts
+import org.kde.plasma.core as PlasmaCore
 import org.kde.plasma.plasmoid 2.0
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.components 2.0 as PlasmaComponents
 
 import org.kde.plasma.private.awesomewidget 1.0
 import "."
 
 
-Item {
+PlasmoidItem {
     id: main
     // backend
     AWKeys {
@@ -74,17 +73,12 @@ Item {
     signal sizeUpdate
 
 
-    // init
-    Plasmoid.preferredRepresentation: Plasmoid.fullRepresentation
-    Plasmoid.compactRepresentation: Plasmoid.fullRepresentation
-
-    Layout.fillWidth: plasmoid.formFactor != PlasmaCore.Planar
-    Layout.fillHeight: plasmoid.formFactor != PlasmaCore.Planar
+    Layout.fillWidth: PlasmoidItem.formFactor != PlasmaCore.Planar
+    Layout.fillHeight: PlasmoidItem.formFactor != PlasmaCore.Planar
     Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
 
     Plasmoid.icon: "utilities-system-monitor"
     Plasmoid.backgroundHints: plasmoid.configuration.background ? "DefaultBackground" : "NoBackground"
-    Plasmoid.associatedApplication: "ksysguard"
 
 
     // ui
@@ -119,11 +113,11 @@ Item {
         }
     }
 
-    QtDialogs.Dialog {
+    Dialog {
         id: tagSelector
         title: i18n("Select tag")
 
-        QtControls.ComboBox {
+        ComboBox {
             id: tagSelectorBox
             width: parent.width
             editable: true
@@ -140,17 +134,29 @@ Item {
         }
     }
 
+    Plasmoid.contextualActions: [
+        PlasmaCore.Action {
+            text: i18n("Request key")
+            icon.name: "utilities-system-monitor"
+        },
+        PlasmaCore.Action {
+            text: i18n("Show README")
+            icon.name: "text-x-readme"
+        },
+        PlasmaCore.Action {
+            text: i18n("Check updates")
+            icon.name: "system-software-update"
+        },
+        PlasmaCore.Action {
+            text: i18n("Report bug")
+            icon.name: "tools-report-bug"
+        }
+    ]
+
 
     Component.onCompleted: {
         if (debug) console.debug()
 
-        // actions
-        // it makes no sense to use this field with optimization enable
-        if (!plasmoid.configuration.optimize)
-            plasmoid.setAction("requestKey", i18n("Request key"), "utilities-system-monitor")
-        plasmoid.setAction("showReadme", i18n("Show README"), "text-x-readme")
-        plasmoid.setAction("checkUpdates", i18n("Check updates"), "system-software-update")
-        plasmoid.setAction("reportBug", i18n("Report bug"), "tools-report-bug")
         // init submodule
         Plasmoid.userConfiguringChanged(false)
         // connect data
@@ -160,14 +166,14 @@ Item {
         if (plasmoid.configuration.checkUpdates) return awActions.checkUpdates(false)
     }
 
-    onNeedTextUpdate: {
+    onNeedTextUpdate: newText => {
         if (debug) console.debug()
 
         text.text = newText
         sizeUpdate()
     }
 
-    onNeedToolTipUpdate: {
+    onNeedToolTipUpdate: newText => {
         if (debug) console.debug()
 
         tooltip.text = newText

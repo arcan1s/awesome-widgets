@@ -15,8 +15,8 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-import QtQuick 2.0
-import QtQuick.Controls 1.3 as QtControls
+import QtQuick 2.15
+import QtQuick.Controls
 
 
 Row {
@@ -26,22 +26,22 @@ Row {
     property alias text: label.text
     property alias value: spinBox.value
 
-    property alias maximumValue: spinBox.maximumValue
-    property alias minimumValue: spinBox.minimumValue
+    property alias maximumValue: spinBox.to
+    property alias minimumValue: spinBox.from
     property alias stepSize: spinBox.stepSize
 
     signal valueEdited(int newValue)
 
-    QtControls.Label {
+    Label {
         id: label
         height: parent.height
         width: parent.width * 2 / 5
         horizontalAlignment: Text.AlignRight
         verticalAlignment: Text.AlignVCenter
     }
-    QtControls.SpinBox {
+    SpinBox {
         id: spinBox
         width: parent.width * 3 / 5
-        onEditingFinished: valueEdited(spinBox.value)
+        onValueModified: valueEdited(spinBox.value)
     }
 }

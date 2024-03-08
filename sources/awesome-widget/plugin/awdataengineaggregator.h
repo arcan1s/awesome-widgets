@@ -19,10 +19,17 @@
 #ifndef AWDATAENGINEAGGREGATOR_H
 #define AWDATAENGINEAGGREGATOR_H
 
-#include <Plasma/DataEngine>
-#include <Plasma/DataEngineConsumer>
+#include <ksysguard/systemstats/SensorInfo.h>
 
 #include <QObject>
+#include <QHash>
+#include <QSet>
+
+
+namespace KSysGuard::SystemStats
+{
+    class DBusInterface;
+}
 
 
 class AWDataEngineAggregator : public QObject
@@ -33,19 +40,23 @@ public:
     explicit AWDataEngineAggregator(QObject *_parent = nullptr);
     ~AWDataEngineAggregator() override;
     void disconnectSources();
-    void reconnectSources(int _interval);
+    void loadSources();
+    void reconnectSources(const int interval);
 
 signals:
+    void dataUpdated(const QHash<QString, KSysGuard::SensorInfo> &_sensors, const KSysGuard::SensorDataList &_data);
     void deviceAdded(const QString &_source);
 
 public slots:
     void dropSource(const QString &_source);
+    void sensorAdded(const QString &_sensor);
+    void sensorRemoved(const QString &_sensor);
+    void updateData(KSysGuard::SensorDataList _data);
+    void updateSensors(const QHash<QString, KSysGuard::SensorInfo> &_sensors);
 
 private:
-    void createQueuedConnection();
-    Plasma::DataEngineConsumer *m_consumer = nullptr;
-    QHash<QString, Plasma::DataEngine *> m_dataEngines;
-    QMetaObject::Connection m_newSourceConnection;
+    KSysGuard::SystemStats::DBusInterface *m_interface = nullptr;
+    QHash<QString, KSysGuard::SensorInfo> m_sensors;
 };
 
 

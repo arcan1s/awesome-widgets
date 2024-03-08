@@ -17,7 +17,8 @@
 
 #include "awdataengineaggregator.h"
 
-#include <Plasma/DataContainer>
+#include <QDBusConnection>
+#include <ksysguard/systemstats/DBusInterface.h>
 
 #include "awdebug.h"
 
@@ -27,20 +28,22 @@ AWDataEngineAggregator::AWDataEngineAggregator(QObject *_parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
-    m_consumer = new Plasma::DataEngineConsumer();
-    m_dataEngines["systemmonitor"] = m_consumer->dataEngine("systemmonitor");
-    m_dataEngines["extsysmon"] = m_consumer->dataEngine("extsysmon");
-    m_dataEngines["time"] = m_consumer->dataEngine("time");
+    qDBusRegisterMetaType<KSysGuard::SensorData>();
+    qDBusRegisterMetaType<KSysGuard::SensorInfo>();
+    qDBusRegisterMetaType<KSysGuard::SensorDataList>();
+    qDBusRegisterMetaType<QHash<QString, KSysGuard::SensorInfo>>();
 
-    // additional method required by systemmonitor structure
-    m_newSourceConnection
-        = connect(m_dataEngines["systemmonitor"], &Plasma::DataEngine::sourceAdded, [this](const QString &source) {
-              emit(deviceAdded(source));
-              m_dataEngines["systemmonitor"]->connectSource(source, parent(), 1000);
-          });
+    m_interface = new KSysGuard::SystemStats::DBusInterface(
+            KSysGuard::SystemStats::ServiceName, KSysGuard::SystemStats::ObjectPath, QDBusConnection::sessionBus(), this);
 
-    // required to define Qt::QueuedConnection for signal-slot connection
-    qRegisterMetaType<Plasma::DataEngine::Data>("Plasma::DataEngine::Data");
+    connect(m_interface, SIGNAL(newSensorData(KSysGuard::SensorDataList)), this,
+            SLOT(updateData(KSysGuard::SensorDataList)));
+    connect(m_interface, SIGNAL(sensorMetaDataChanged(const QHash<QString, KSysGuard::SensorInfo> &)), this,
+            SLOT(updateSensors(const QHash<QString, KSysGuard::SensorInfo> &)));
+    connect(m_interface, SIGNAL(sensorAdded(const QString &)), this, SLOT(sensorAdded(const QString &)));
+    connect(m_interface, SIGNAL(sensorRemoved(const QString &)), this, SLOT(sensorRemoved(const QString &)));
+
+    loadSources();
 }
 
 
@@ -54,62 +57,63 @@ AWDataEngineAggregator::~AWDataEngineAggregator()
 
 void AWDataEngineAggregator::disconnectSources()
 {
-    for (auto dataEngine : m_dataEngines.values())
-        for (auto &source : dataEngine->sources())
-            dataEngine->disconnectSource(source, parent());
-    disconnect(m_newSourceConnection);
+    m_interface->unsubscribe(m_sensors.keys());
 }
 
 
-void AWDataEngineAggregator::reconnectSources(const int _interval)
+void AWDataEngineAggregator::loadSources()
 {
-    qCDebug(LOG_AW) << "Reconnect sources with interval" << _interval;
+    auto response = m_interface->allSensors();
+    response.waitForFinished();
+
+    auto sensors = response.value();
+    updateSensors(sensors);
+    for (auto &sensor : sensors.keys())
+        sensorAdded(sensor);
+}
+
+
+void AWDataEngineAggregator::reconnectSources(const int interval)
+{
+    qCDebug(LOG_AW) << "Reconnect all sources with update interval" << interval;
 
     disconnectSources();
-
-    m_dataEngines["systemmonitor"]->connectAllSources(parent(), (uint)_interval);
-    m_dataEngines["extsysmon"]->connectAllSources(parent(), (uint)_interval);
-    m_dataEngines["time"]->connectSource("Local", parent(), 1000);
-
-    m_newSourceConnection = connect(
-        m_dataEngines["systemmonitor"], &Plasma::DataEngine::sourceAdded, [this, _interval](const QString &source) {
-            emit(deviceAdded(source));
-            m_dataEngines["systemmonitor"]->connectSource(source, parent(), (uint)_interval);
-        });
-
-#ifdef BUILD_FUTURE
-    createQueuedConnection();
-#endif /* BUILD_FUTURE */
+    m_interface->subscribe(m_sensors.keys());
 }
 
 
 void AWDataEngineAggregator::dropSource(const QString &_source)
 {
-    qCDebug(LOG_AW) << "Source" << _source;
+    qCDebug(LOG_AW) << "Disconnect source" << _source;
 
-    // HACK there is no possibility to check to which dataengine source
-    // connected we will try to disconnect it from all engines
-    for (auto dataEngine : m_dataEngines.values())
-        dataEngine->disconnectSource(_source, parent());
+    m_interface->unsubscribe({_source});
 }
 
 
-void AWDataEngineAggregator::createQueuedConnection()
+void AWDataEngineAggregator::sensorAdded(const QString &_sensor)
 {
-    // HACK additional method which forces QueuedConnection instead of Auto one
-    // for more details refer to plasma-framework source code
-    for (auto &dataEngine : m_dataEngines.keys()) {
-        // different source set for different engines
-        QStringList sources = dataEngine == "time" ? QStringList() << "Local" : m_dataEngines[dataEngine]->sources();
-        // reconnect sources
-        for (auto &source : sources) {
-            Plasma::DataContainer *container = m_dataEngines[dataEngine]->containerForSource(source);
-            // disconnect old connections first
-            disconnect(container, SIGNAL(dataUpdated(QString, Plasma::DataEngine::Data)), parent(),
-                       SLOT(dataUpdated(QString, Plasma::DataEngine::Data)));
-            // and now reconnect with Qt::QueuedConnection type
-            connect(container, SIGNAL(dataUpdated(QString, Plasma::DataEngine::Data)), parent(),
-                    SLOT(dataUpdated(QString, Plasma::DataEngine::Data)), Qt::QueuedConnection);
-        }
-    }
+    qCDebug(LOG_AW) << "New sensor added" << _sensor;
+
+    m_interface->subscribe({_sensor});
+}
+
+
+void AWDataEngineAggregator::sensorRemoved(const QString &_sensor)
+{
+    qCDebug(LOG_AW) << "Sensor" << _sensor << "has been removed";
+
+    m_sensors.remove(_sensor);
+    m_interface->unsubscribe({_sensor});
+}
+
+void AWDataEngineAggregator::updateData(KSysGuard::SensorDataList _data)
+{
+    emit(dataUpdated(m_sensors, _data));
+}
+
+
+void AWDataEngineAggregator::updateSensors(const QHash<QString, KSysGuard::SensorInfo> &_sensors)
+{
+    for (auto sensor = _sensors.cbegin(); sensor != _sensors.cend(); ++sensor)
+        m_sensors.insert(sensor.key(), sensor.value());
 }

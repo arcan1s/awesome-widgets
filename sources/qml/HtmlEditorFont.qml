@@ -15,14 +15,14 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-import QtQuick 2.2
+import QtQuick 2.15
 
 import org.kde.plasma.private.awesomewidget 1.0
 
 
 HtmlEditorButton {
     end: "</span>"
-    iconName: "font"
+    icon.name: "font"
     text: i18n("Font")
 
     // backend

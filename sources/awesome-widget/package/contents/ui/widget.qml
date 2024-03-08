@@ -15,7 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-import QtQuick 2.2
+import QtQuick 2.15
 
 import org.kde.plasma.private.awesomewidget 1.0
 import "."
@@ -90,7 +90,7 @@ Item {
         awKeys.setAggregatorProperty("translate", plasmoid.configuration.translateStrings)
     }
 
-    onNeedTextUpdate: {
+    onNeedTextUpdate: newText => {
         if (lock) return
         if (debug) console.debug()
 

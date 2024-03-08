@@ -15,8 +15,8 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-import QtQuick 2.2
-import QtQuick.Dialogs 1.1 as QtDialogs
+import QtQuick 2.15
+import QtQuick.Dialogs
 
 
 HtmlEditorButton {
@@ -24,7 +24,7 @@ HtmlEditorButton {
 
     clickedEvent: function() { return colorDialog.open() }
 
-    QtDialogs.ColorDialog {
+    ColorDialog {
         id: colorDialog
         title: i18n("Select a color")
 

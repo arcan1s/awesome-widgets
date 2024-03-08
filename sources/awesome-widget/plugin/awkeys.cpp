@@ -58,11 +58,15 @@ AWKeys::AWKeys(QObject *_parent)
     // update key data if required
     connect(m_keyOperator, SIGNAL(updateKeys(const QStringList &)), this, SLOT(reinitKeys(const QStringList &)));
     connect(m_timer, SIGNAL(timeout()), this, SLOT(updateTextData()));
+
     // transfer signal from AWDataAggregator object to QML ui
     connect(m_dataAggregator, SIGNAL(toolTipPainted(const QString &)), this,
             SIGNAL(needToolTipToBeUpdated(const QString &)));
+
     connect(this, SIGNAL(dropSourceFromDataengine(const QString &)), m_dataEngineAggregator,
             SLOT(dropSource(const QString &)));
+    connect(m_dataEngineAggregator, SIGNAL(dataUpdated(const QHash<QString, KSysGuard::SensorInfo> &, const KSysGuard::SensorDataList &)),
+            this, SLOT(dataUpdated(const QHash<QString, KSysGuard::SensorInfo> &, const KSysGuard::SensorDataList &)));
     // transfer signal from dataengine to update source list
     connect(m_dataEngineAggregator, SIGNAL(deviceAdded(const QString &)), m_keyOperator,
             SLOT(addDevice(const QString &)));
@@ -185,9 +189,9 @@ QString AWKeys::valueByKey(const QString &_key) const
 {
     qCDebug(LOG_AW) << "Requested value for key" << _key;
 
-    QString trueKey = _key.startsWith("bar") ? m_keyOperator->infoByKey(_key) : _key;
+    auto realKey = _key.startsWith("bar") ? m_keyOperator->infoByKey(_key) : _key;
 
-    return m_aggregator->formatter(m_values[trueKey], trueKey, true);
+    return m_aggregator->formatter(m_values[realKey], realKey, true);
 }
 
 
@@ -199,10 +203,15 @@ void AWKeys::editItem(const QString &_type)
 }
 
 
-void AWKeys::dataUpdated(const QString &_sourceName, const Plasma::DataEngine::Data &_data)
+void AWKeys::dataUpdated(const QHash<QString, KSysGuard::SensorInfo> &_sensors, const KSysGuard::SensorDataList &_data)
 {
-    // run concurrent data update
-    QtConcurrent::run(m_threadPool, this, &AWKeys::setDataBySource, _sourceName, _data);
+    for (auto &single : _data) {
+        if (_sensors.contains(single.sensorProperty)) {
+            setDataBySource(single.sensorProperty, _sensors.value(single.sensorProperty), single);
+        }
+        // TODO use QtConcurrent::map or something like that
+//        QtConcurrent::run(m_threadPool, this, &AWKeys::setDataBySource, "ss", sensor);
+    }
 }
 
 
@@ -239,7 +248,7 @@ void AWKeys::updateTextData()
     // do not do it in parallel to avoid race condition
     m_mutex.lock();
     calculateValues();
-    QString text = parsePattern(m_keyOperator->pattern());
+    auto text = parsePattern(m_keyOperator->pattern());
     // update tooltip values under lock
     m_dataAggregator->dataUpdate(m_values);
     m_mutex.unlock();
@@ -257,16 +266,16 @@ void AWKeys::calculateValues()
     for (auto &device : mountDevices) {
         int index = mountDevices.indexOf(device);
         m_values[QString("hddtotmb%1").arg(index)]
-            = m_values[QString("hddfreemb%1").arg(index)].toFloat() + m_values[QString("hddmb%1").arg(index)].toFloat();
+            = m_values[QString("hddfreemb%1").arg(index)].toDouble() + m_values[QString("hddmb%1").arg(index)].toDouble();
         m_values[QString("hddtotgb%1").arg(index)]
-            = m_values[QString("hddfreegb%1").arg(index)].toFloat() + m_values[QString("hddgb%1").arg(index)].toFloat();
+            = m_values[QString("hddfreegb%1").arg(index)].toDouble() + m_values[QString("hddgb%1").arg(index)].toDouble();
     }
 
     // memtot*
-    m_values["memtotmb"] = m_values["memusedmb"].toInt() + m_values["memfreemb"].toInt();
-    m_values["memtotgb"] = m_values["memusedgb"].toFloat() + m_values["memfreegb"].toFloat();
+    m_values["memtotmb"] = m_values["memusedmb"].toLongLong() + m_values["memfreemb"].toLongLong();
+    m_values["memtotgb"] = m_values["memusedgb"].toDouble() + m_values["memfreegb"].toDouble();
     // mem
-    m_values["mem"] = 100.0f * m_values["memmb"].toFloat() / m_values["memtotmb"].toFloat();
+    m_values["mem"] = 100.0f * m_values["memmb"].toDouble() / m_values["memtotmb"].toDouble();
 
     // up, down, upkb, downkb, upunits, downunits
     int netIndex = m_keyOperator->devices("net").indexOf(m_values["netdev"].toString());
@@ -282,10 +291,10 @@ void AWKeys::calculateValues()
     m_values["upunits"] = m_values[QString("upunits%1").arg(netIndex)];
 
     // swaptot*
-    m_values["swaptotmb"] = m_values["swapmb"].toInt() + m_values["swapfreemb"].toInt();
-    m_values["swaptotgb"] = m_values["swapgb"].toFloat() + m_values["swapfreegb"].toFloat();
+    m_values["swaptotmb"] = m_values["swapmb"].toLongLong() + m_values["swapfreemb"].toLongLong();
+    m_values["swaptotgb"] = m_values["swapgb"].toDouble() + m_values["swapfreegb"].toDouble();
     // swap
-    m_values["swap"] = 100.0f * m_values["swapmb"].toFloat() / m_values["swaptotmb"].toFloat();
+    m_values["swap"] = 100.0f * m_values["swapmb"].toDouble() / m_values["swaptotmb"].toDouble();
 
     // user defined keys
     for (auto &key : m_keyOperator->userKeys())
@@ -323,7 +332,7 @@ void AWKeys::createDBusInterface()
 QString AWKeys::parsePattern(QString _pattern) const
 {
     // screen sign
-    _pattern.replace("$$", QString(0x1d));
+    _pattern.replace("$$", QChar(0x1d));
 
     // lambdas
     for (auto &key : m_foundLambdas)
@@ -343,7 +352,7 @@ QString AWKeys::parsePattern(QString _pattern) const
     }
 
     // prepare strings
-    _pattern.replace(QString(0x1d), "$");
+    _pattern.replace(QChar(0x1d), "$");
     if (m_wrapNewLines)
         _pattern.replace("\n", "<br>");
 
@@ -351,25 +360,25 @@ QString AWKeys::parsePattern(QString _pattern) const
 }
 
 
-void AWKeys::setDataBySource(const QString &_sourceName, const QVariantMap &_data)
+void AWKeys::setDataBySource(const QString &_source, const KSysGuard::SensorInfo &_sensor, const KSysGuard::SensorData &_data)
 {
-    qCDebug(LOG_AW) << "Source" << _sourceName << "with data" << _data;
+    qCDebug(LOG_AW) << "Source" << _source << _sensor.name << "with data" << _data.payload;
 
     // first list init
-    QStringList tags = m_aggregator->keysFromSource(_sourceName);
+    auto tags = m_aggregator->keysFromSource(_source);
     if (tags.isEmpty())
-        tags = m_aggregator->registerSource(_sourceName, _data["units"].toString(), m_requiredKeys);
+        tags = m_aggregator->registerSource(_source, _sensor.unit, m_requiredKeys);
 
     // update data or drop source if there are no matches and exit
     if (tags.isEmpty()) {
-        qCInfo(LOG_AW) << "Source" << _sourceName << "not found";
-        return emit(dropSourceFromDataengine(_sourceName));
+        qCInfo(LOG_AW) << "Source" << _source << "not found";
+        return emit(dropSourceFromDataengine(_source));
     }
 
     m_mutex.lock();
     // HACK workaround for time values which are stored in the different path
-    std::for_each(tags.cbegin(), tags.cend(), [this, &_data, &_sourceName](const QString &tag) {
-        m_values[tag] = _sourceName == "Local" ? _data["DateTime"] : _data["value"];
+    std::for_each(tags.cbegin(), tags.cend(), [this, &_data](const QString &tag) {
+        m_values[tag] = _data.payload;
     });
     m_mutex.unlock();
 }
