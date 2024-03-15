@@ -72,7 +72,8 @@ private:
     void calculateValues();
     void createDBusInterface();
     [[nodiscard]] QString parsePattern(QString _pattern) const;
-    void setDataBySource(const QString &_source, const KSysGuard::SensorInfo &_sensor, const KSysGuard::SensorData &_data);
+    void setDataBySource(const QString &_source, const KSysGuard::SensorInfo &_sensor,
+                         const KSysGuard::SensorData &_data);
     // objects
     AWDataAggregator *m_dataAggregator = nullptr;
     AWDataEngineAggregator *m_dataEngineAggregator = nullptr;

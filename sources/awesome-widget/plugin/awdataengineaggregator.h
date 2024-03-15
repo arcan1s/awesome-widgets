@@ -21,14 +21,14 @@
 
 #include <ksysguard/systemstats/SensorInfo.h>
 
-#include <QObject>
 #include <QHash>
+#include <QObject>
 #include <QSet>
 
 
 namespace KSysGuard::SystemStats
 {
-    class DBusInterface;
+class DBusInterface;
 }
 
 

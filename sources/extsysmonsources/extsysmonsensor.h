@@ -15,36 +15,27 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef NETWORKSOURCE_H
-#define NETWORKSOURCE_H
+#ifndef EXTSYSMONSENSOR_H
+#define EXTSYSMONSENSOR_H
 
-#include <QObject>
-
-#include "abstractextsysmonsource.h"
+#include <ksysguard/systemstats/SensorObject.h>
 
 
-class QProcess;
+class AbstractExtSysMonSource;
 
-class NetworkSource : public AbstractExtSysMonSource
+class ExtSysMonSensor : public KSysGuard::SensorObject
 {
     Q_OBJECT
 
 public:
-    explicit NetworkSource(QObject *_parent, const QStringList &_args);
-    ~NetworkSource() override;
-    QVariant data(const QString &_source) override;
-    [[nodiscard]] KSysGuard::SensorInfo *initialData(const QString &_source) const override;
-    void run() override;
-    [[nodiscard]] QStringList sources() const override;
-
-private slots:
-    void updateSsid();
+    explicit ExtSysMonSensor(KSysGuard::SensorContainer *_parent, const QString &_id, AbstractExtSysMonSource *_source);
+    ~ExtSysMonSensor() override = default;
+    void update();
 
 private:
-    QVariantHash m_values;
-    QProcess *m_process = nullptr;
-    static QString getCurrentDevice();
+    QHash<QString, KSysGuard::SensorProperty *> m_properties;
+    AbstractExtSysMonSource *m_source = nullptr;
 };
 
 
-#endif /* NETWORKSOURCE_H */
+#endif /* EXTSYSMONSENSOR_H */

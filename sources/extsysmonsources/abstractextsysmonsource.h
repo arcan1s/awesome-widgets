@@ -23,6 +23,11 @@
 #include <QVariant>
 
 
+namespace KSysGuard
+{
+class SensorInfo;
+}
+
 class AbstractExtSysMonSource : public QObject
 {
     Q_OBJECT
@@ -32,7 +37,7 @@ public:
         : QObject(_parent){};
     ~AbstractExtSysMonSource() override = default;
     virtual QVariant data(const QString &_source) = 0;
-    [[nodiscard]] virtual QVariantMap initialData(const QString &_source) const = 0;
+    [[nodiscard]] virtual KSysGuard::SensorInfo *initialData(const QString &_source) const = 0;
     virtual void run() = 0;
     [[nodiscard]] virtual QStringList sources() const = 0;
     // used by extensions

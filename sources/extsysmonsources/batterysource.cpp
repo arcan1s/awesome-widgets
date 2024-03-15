@@ -18,6 +18,9 @@
 
 #include "batterysource.h"
 
+#include <ksysguard/formatter/Unit.h>
+#include <ksysguard/systemstats/SensorInfo.h>
+
 #include <QDir>
 
 #include <cmath>
@@ -84,77 +87,75 @@ QVariant BatterySource::data(const QString &_source)
 }
 
 
-QVariantMap BatterySource::initialData(const QString &_source) const
+KSysGuard::SensorInfo *BatterySource::initialData(const QString &_source) const
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
-    QVariantMap data;
+    auto data = new KSysGuard::SensorInfo();
     if (_source == "battery/ac") {
-        data["min"] = false;
-        data["max"] = true;
-        data["name"] = "Is AC online or not";
-        data["type"] = "bool";
-        data["units"] = "";
+        data->name = "Is AC online or not";
+        data->variantType = QVariant::Bool;
+        data->unit = KSysGuard::UnitNone;
     } else if (_source == "battery/bat") {
-        data["min"] = 0;
-        data["max"] = 100;
-        data["name"] = "Average battery usage";
-        data["type"] = "integer";
-        data["units"] = "%";
+        data->min = 0;
+        data->max = 100;
+        data->name = "Average battery usage";
+        data->variantType = QVariant::Int;
+        data->unit = KSysGuard::UnitPercent;
     } else if (_source == "battery/batleft") {
-        data["min"] = 0;
-        data["max"] = 0;
-        data["name"] = "Battery discharge time";
-        data["type"] = "integer";
-        data["units"] = "s";
+        data->min = 0;
+        data->max = 0;
+        data->name = "Battery discharge time";
+        data->variantType = QVariant::Int;
+        data->unit = KSysGuard::UnitSecond;
     } else if (_source == "battery/batnow") {
-        data["min"] = 0;
-        data["max"] = 0;
-        data["name"] = "Current battery capacity";
-        data["type"] = "integer";
-        data["units"] = "";
+        data->min = 0;
+        data->max = 0;
+        data->name = "Current battery capacity";
+        data->variantType = QVariant::Int;
+        data->unit = KSysGuard::UnitNone;
     } else if (_source == "battery/batrate") {
-        data["min"] = 0;
-        data["max"] = 0;
-        data["name"] = "Average battery discharge rate";
-        data["type"] = "float";
-        data["units"] = "1/s";
+        data->min = 0;
+        data->max = 0;
+        data->name = "Average battery discharge rate";
+        data->variantType = QVariant::Double;
+        data->unit = KSysGuard::UnitRate;
     } else if (_source == "battery/battotal") {
-        data["min"] = 0;
-        data["max"] = 0;
-        data["name"] = "Full battery capacity";
-        data["type"] = "integer";
-        data["units"] = "";
+        data->min = 0;
+        data->max = 0;
+        data->name = "Full battery capacity";
+        data->variantType = QVariant::Int;
+        data->unit = KSysGuard::UnitNone;
     } else if (_source.startsWith("battery/batleft")) {
-        data["min"] = 0;
-        data["max"] = 0;
-        data["name"] = QString("Battery %1 discharge time").arg(index(_source));
-        data["type"] = "integer";
-        data["units"] = "s";
+        data->min = 0;
+        data->max = 0;
+        data->name = QString("Battery %1 discharge time").arg(index(_source));
+        data->variantType = QVariant::Int;
+        data->unit = KSysGuard::UnitSecond;
     } else if (_source.startsWith("battery/batnow")) {
-        data["min"] = 0;
-        data["max"] = 0;
-        data["name"] = QString("Battery %1 capacity").arg(index(_source));
-        data["type"] = "integer";
-        data["units"] = "";
+        data->min = 0;
+        data->max = 0;
+        data->name = QString("Battery %1 capacity").arg(index(_source));
+        data->variantType = QVariant::Int;
+        data->unit = KSysGuard::UnitNone;
     } else if (_source.startsWith("battery/battotal")) {
-        data["min"] = 0;
-        data["max"] = 0;
-        data["name"] = QString("Battery %1 full capacity").arg(index(_source));
-        data["type"] = "integer";
-        data["units"] = "";
+        data->min = 0;
+        data->max = 0;
+        data->name = QString("Battery %1 full capacity").arg(index(_source));
+        data->variantType = QVariant::Int;
+        data->unit = KSysGuard::UnitNone;
     } else if (_source.startsWith("battery/batrate")) {
-        data["min"] = 0;
-        data["max"] = 0;
-        data["name"] = QString("Battery %1 discharge rate").arg(index(_source));
-        data["type"] = "float";
-        data["units"] = "1/s";
+        data->min = 0;
+        data->max = 0;
+        data->name = QString("Battery %1 discharge rate").arg(index(_source));
+        data->variantType = QVariant::Double;
+        data->unit = KSysGuard::UnitRate;
     } else if (_source.startsWith("battery/bat")) {
-        data["min"] = 0;
-        data["max"] = 100;
-        data["name"] = QString("Battery %1 usage").arg(index(_source));
-        data["type"] = "integer";
-        data["units"] = "%";
+        data->min = 0;
+        data->max = 100;
+        data->name = QString("Battery %1 usage").arg(index(_source));
+        data->variantType = QVariant::Int;
+        data->unit = KSysGuard::UnitPercent;
     }
 
     return data;

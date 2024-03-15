@@ -65,8 +65,9 @@ AWKeys::AWKeys(QObject *_parent)
 
     connect(this, SIGNAL(dropSourceFromDataengine(const QString &)), m_dataEngineAggregator,
             SLOT(dropSource(const QString &)));
-    connect(m_dataEngineAggregator, SIGNAL(dataUpdated(const QHash<QString, KSysGuard::SensorInfo> &, const KSysGuard::SensorDataList &)),
-            this, SLOT(dataUpdated(const QHash<QString, KSysGuard::SensorInfo> &, const KSysGuard::SensorDataList &)));
+    connect(m_dataEngineAggregator,
+            SIGNAL(dataUpdated(const QHash<QString, KSysGuard::SensorInfo> &, const KSysGuard::SensorDataList &)), this,
+            SLOT(dataUpdated(const QHash<QString, KSysGuard::SensorInfo> &, const KSysGuard::SensorDataList &)));
     // transfer signal from dataengine to update source list
     connect(m_dataEngineAggregator, SIGNAL(deviceAdded(const QString &)), m_keyOperator,
             SLOT(addDevice(const QString &)));
@@ -210,7 +211,7 @@ void AWKeys::dataUpdated(const QHash<QString, KSysGuard::SensorInfo> &_sensors, 
             setDataBySource(single.sensorProperty, _sensors.value(single.sensorProperty), single);
         }
         // TODO use QtConcurrent::map or something like that
-//        QtConcurrent::run(m_threadPool, this, &AWKeys::setDataBySource, "ss", sensor);
+        //        QtConcurrent::run(m_threadPool, this, &AWKeys::setDataBySource, "ss", sensor);
     }
 }
 
@@ -265,10 +266,10 @@ void AWKeys::calculateValues()
     QStringList mountDevices = m_keyOperator->devices("mount");
     for (auto &device : mountDevices) {
         int index = mountDevices.indexOf(device);
-        m_values[QString("hddtotmb%1").arg(index)]
-            = m_values[QString("hddfreemb%1").arg(index)].toDouble() + m_values[QString("hddmb%1").arg(index)].toDouble();
-        m_values[QString("hddtotgb%1").arg(index)]
-            = m_values[QString("hddfreegb%1").arg(index)].toDouble() + m_values[QString("hddgb%1").arg(index)].toDouble();
+        m_values[QString("hddtotmb%1").arg(index)] = m_values[QString("hddfreemb%1").arg(index)].toDouble()
+                                                     + m_values[QString("hddmb%1").arg(index)].toDouble();
+        m_values[QString("hddtotgb%1").arg(index)] = m_values[QString("hddfreegb%1").arg(index)].toDouble()
+                                                     + m_values[QString("hddgb%1").arg(index)].toDouble();
     }
 
     // memtot*
@@ -360,7 +361,8 @@ QString AWKeys::parsePattern(QString _pattern) const
 }
 
 
-void AWKeys::setDataBySource(const QString &_source, const KSysGuard::SensorInfo &_sensor, const KSysGuard::SensorData &_data)
+void AWKeys::setDataBySource(const QString &_source, const KSysGuard::SensorInfo &_sensor,
+                             const KSysGuard::SensorData &_data)
 {
     qCDebug(LOG_AW) << "Source" << _source << _sensor.name << "with data" << _data.payload;
 
@@ -377,8 +379,6 @@ void AWKeys::setDataBySource(const QString &_source, const KSysGuard::SensorInfo
 
     m_mutex.lock();
     // HACK workaround for time values which are stored in the different path
-    std::for_each(tags.cbegin(), tags.cend(), [this, &_data](const QString &tag) {
-        m_values[tag] = _data.payload;
-    });
+    std::for_each(tags.cbegin(), tags.cend(), [this, &_data](const QString &tag) { m_values[tag] = _data.payload; });
     m_mutex.unlock();
 }

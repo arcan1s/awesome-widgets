@@ -18,6 +18,9 @@
 
 #include "quotessource.h"
 
+#include <ksysguard/formatter/Unit.h>
+#include <ksysguard/systemstats/SensorInfo.h>
+
 #include "awdebug.h"
 #include "extquotes.h"
 
@@ -57,48 +60,48 @@ QVariant QuotesSource::data(const QString &_source)
 }
 
 
-QVariantMap QuotesSource::initialData(const QString &_source) const
+KSysGuard::SensorInfo *QuotesSource::initialData(const QString &_source) const
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
     int ind = index(_source);
-    QVariantMap data;
+    auto data = new KSysGuard::SensorInfo;
     if (_source.startsWith("quotes/pricechg")) {
-        data["min"] = 0.0;
-        data["max"] = 0.0;
-        data["name"] = QString("Absolute prie changes for '%1'").arg(m_extQuotes->itemByTagNumber(ind)->uniq());
-        data["type"] = "double";
-        data["units"] = "";
+        data->min = 0.0;
+        data->max = 0.0;
+        data->name = QString("Absolute price changes for '%1'").arg(m_extQuotes->itemByTagNumber(ind)->uniq());
+        data->variantType = QVariant::Double;
+        data->unit = KSysGuard::UnitNone;
     } else if (_source.startsWith("quotes/price")) {
-        data["min"] = 0.0;
-        data["max"] = 0.0;
-        data["name"] = QString("Price for '%1'").arg(m_extQuotes->itemByTagNumber(ind)->uniq());
-        data["type"] = "double";
-        data["units"] = "";
+        data->min = 0.0;
+        data->max = 0.0;
+        data->name = QString("Price for '%1'").arg(m_extQuotes->itemByTagNumber(ind)->uniq());
+        data->variantType = QVariant::Double;
+        data->unit = KSysGuard::UnitNone;
     } else if (_source.startsWith("quotes/percpricechg")) {
-        data["min"] = -100.0;
-        data["max"] = 100.0;
-        data["name"] = QString("Price changes for '%1'").arg(m_extQuotes->itemByTagNumber(ind)->uniq());
-        data["type"] = "double";
-        data["units"] = "";
+        data->min = -100.0;
+        data->max = 100.0;
+        data->name = QString("Price changes for '%1'").arg(m_extQuotes->itemByTagNumber(ind)->uniq());
+        data->variantType = QVariant::Double;
+        data->unit = KSysGuard::UnitPercent;
     } else if (_source.startsWith("quotes/volumechg")) {
-        data["min"] = 0;
-        data["max"] = 0;
-        data["name"] = QString("Absolute volume changes for '%1'").arg(m_extQuotes->itemByTagNumber(ind)->uniq());
-        data["type"] = "int";
-        data["units"] = "";
+        data->min = 0;
+        data->max = 0;
+        data->name = QString("Absolute volume changes for '%1'").arg(m_extQuotes->itemByTagNumber(ind)->uniq());
+        data->variantType = QVariant::Int;
+        data->unit = KSysGuard::UnitNone;
     } else if (_source.startsWith("quotes/volume")) {
-        data["min"] = 0;
-        data["max"] = 0;
-        data["name"] = QString("Volume for '%1'").arg(m_extQuotes->itemByTagNumber(ind)->uniq());
-        data["type"] = "int";
-        data["units"] = "";
+        data->min = 0;
+        data->max = 0;
+        data->name = QString("Volume for '%1'").arg(m_extQuotes->itemByTagNumber(ind)->uniq());
+        data->variantType = QVariant::Int;
+        data->unit = KSysGuard::UnitNone;
     } else if (_source.startsWith("quotes/percvolumechg")) {
-        data["min"] = -100.0;
-        data["max"] = 100.0;
-        data["name"] = QString("Volume changes for '%1'").arg(m_extQuotes->itemByTagNumber(ind)->uniq());
-        data["type"] = "double";
-        data["units"] = "";
+        data->min = -100.0;
+        data->max = 100.0;
+        data->name = QString("Volume changes for '%1'").arg(m_extQuotes->itemByTagNumber(ind)->uniq());
+        data->variantType = QVariant::Double;
+        data->unit = KSysGuard::UnitPercent;
     }
 
     return data;

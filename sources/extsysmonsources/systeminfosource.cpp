@@ -18,6 +18,9 @@
 
 #include "systeminfosource.h"
 
+#include <ksysguard/formatter/Unit.h>
+#include <ksysguard/systemstats/SensorInfo.h>
+
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QDBusVariant>
@@ -51,23 +54,23 @@ QVariant SystemInfoSource::data(const QString &_source)
 }
 
 
-QVariantMap SystemInfoSource::initialData(const QString &_source) const
+KSysGuard::SensorInfo *SystemInfoSource::initialData(const QString &_source) const
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
-    QVariantMap data;
+    auto data = new KSysGuard::SensorInfo();
     if (_source == "system/brightness") {
-        data["min"] = 0.0;
-        data["max"] = 100.0;
-        data["name"] = "Screen brightness";
-        data["type"] = "float";
-        data["units"] = "%";
+        data->min = 0.0;
+        data->max = 100.0;
+        data->name = "Screen brightness";
+        data->variantType = QVariant::Double;
+        data->unit = KSysGuard::UnitPercent;
     } else if (_source == "system/volume") {
-        data["min"] = 0.0;
-        data["max"] = 100.0;
-        data["name"] = "Master volume";
-        data["type"] = "float";
-        data["units"] = "%";
+        data->min = 0.0;
+        data->max = 100.0;
+        data->name = "Master volume";
+        data->variantType = QVariant::Double;
+        data->unit = KSysGuard::UnitPercent;
     }
 
     return data;

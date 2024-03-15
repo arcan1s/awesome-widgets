@@ -18,6 +18,9 @@
 
 #include "processessource.h"
 
+#include <ksysguard/formatter/Unit.h>
+#include <ksysguard/systemstats/SensorInfo.h>
+
 #include <QDir>
 
 #include "awdebug.h"
@@ -48,29 +51,27 @@ QVariant ProcessesSource::data(const QString &_source)
 }
 
 
-QVariantMap ProcessesSource::initialData(const QString &_source) const
+KSysGuard::SensorInfo *ProcessesSource::initialData(const QString &_source) const
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
-    QVariantMap data;
+    auto data = new KSysGuard::SensorInfo();
     if (_source == "ps/running/count") {
-        data["min"] = 0;
-        data["max"] = 0;
-        data["name"] = "Count of running processes";
-        data["type"] = "integer";
-        data["units"] = "";
+        data->min = 0;
+        data->max = 0;
+        data->name = "Count of running processes";
+        data->variantType = QVariant::Int;
+        data->unit = KSysGuard::UnitNone;
     } else if (_source == "ps/running/list") {
-        data["min"] = QStringList();
-        data["max"] = QStringList();
-        data["name"] = "All running processes list";
-        data["type"] = "QStringList";
-        data["units"] = "";
+        data->name = "All running processes list";
+        data->variantType = QVariant::StringList;
+        data->unit = KSysGuard::UnitNone;
     } else if (_source == "ps/total/count") {
-        data["min"] = 0;
-        data["max"] = 0;
-        data["name"] = "Total count of processes";
-        data["type"] = "integer";
-        data["units"] = "";
+        data->min = 0;
+        data->max = 0;
+        data->name = "Total count of processes";
+        data->variantType = QVariant::Int;
+        data->unit = KSysGuard::UnitNone;
     }
 
     return data;

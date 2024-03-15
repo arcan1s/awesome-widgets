@@ -1,4 +1,4 @@
-set(SUBPROJECT plasma_dataengine_extsysmon)
+set(SUBPROJECT ksystemstats_plugin_extsysmon)
 message(STATUS "Subproject ${SUBPROJECT}")
 add_definitions(-DTRANSLATION_DOMAIN=\"plasma_applet_org.kde.plasma.awesomewidget\")
 
@@ -12,14 +12,9 @@ include_directories(
         ${Kf6_INCLUDE}
 )
 
-file(GLOB SUBPROJECT_DESKTOP_IN *.desktop)
-file(RELATIVE_PATH SUBPROJECT_DESKTOP ${CMAKE_SOURCE_DIR} ${SUBPROJECT_DESKTOP_IN})
 file(GLOB SUBPROJECT_SOURCE *.cpp ${CMAKE_SOURCE_DIR}/*.cpp)
 file(GLOB SUBPROJECT_HEADER *.h)
 file(GLOB SUBPROJECT_CONF *.conf)
-
-# prepare
-configure_file(${SUBPROJECT_DESKTOP_IN} ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT_DESKTOP})
 
 # make
 add_library(${SUBPROJECT} MODULE ${SUBPROJECT_SOURCE} ${SUBPROJECT_HEADER})
@@ -28,6 +23,5 @@ target_link_libraries(${SUBPROJECT}
         ${Qt_LIBRARIES} ${Kf6_LIBRARIES})
 
 # install
-install(TARGETS ${SUBPROJECT} DESTINATION ${PLUGIN_INSTALL_DIR}/plasma/dataengine)
-#install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT_DESKTOP} DESTINATION ${SERVICES_INSTALL_DIR})
+install(TARGETS ${SUBPROJECT} DESTINATION ${KDE_INSTALL_PLUGINDIR}/ksystemstats)
 install(FILES ${SUBPROJECT_CONF} DESTINATION ${KDE_INSTALL_CONFDIR})

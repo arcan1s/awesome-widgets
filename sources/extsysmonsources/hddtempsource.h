@@ -34,7 +34,7 @@ public:
     ~HDDTemperatureSource() override;
     static QStringList allHdd();
     QVariant data(const QString &_source) override;
-    [[nodiscard]] QVariantMap initialData(const QString &_source) const override;
+    [[nodiscard]] KSysGuard::SensorInfo *initialData(const QString &_source) const override;
     void run() override{};
     [[nodiscard]] QStringList sources() const override;
 

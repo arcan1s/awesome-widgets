@@ -17,6 +17,7 @@
 
 #include "extsysmon.h"
 
+#include <KPluginFactory>
 #include <QFile>
 #include <QRegularExpression>
 #include <QSettings>
@@ -29,21 +30,16 @@
 
 
 ExtendedSysMon::ExtendedSysMon(QObject *_parent, const QVariantList &_args)
-    : Plasma::DataEngine(_parent, _args)
+    : KSysGuard::SensorPlugin(_parent, _args)
 {
-    Q_UNUSED(_args)
     qSetMessagePattern(AWDebug::LOG_FORMAT);
     qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
     for (auto &metadata : AWDebug::getBuildData())
         qCDebug(LOG_ESM) << metadata;
 
-    setMinimumPollingInterval(333);
     readConfiguration();
 
-    // init aggregator
-    m_aggregator = new ExtSysMonAggregator(this, m_configuration);
-    for (auto &source : m_aggregator->sources())
-        setData(source, m_aggregator->initialData(source));
+    addContainer(new ExtSysMonAggregator("extsysmon", "extsysmon", this, m_configuration));
 }
 
 
@@ -53,35 +49,9 @@ ExtendedSysMon::~ExtendedSysMon()
 }
 
 
-QStringList ExtendedSysMon::sources() const
+void ExtendedSysMon::update()
 {
-    return m_aggregator->sources();
-}
-
-
-bool ExtendedSysMon::sourceRequestEvent(const QString &_source)
-{
-    qCDebug(LOG_ESM) << "Source" << _source;
-
-    return updateSourceEvent(_source);
-}
-
-
-bool ExtendedSysMon::updateSourceEvent(const QString &_source)
-{
-    qCDebug(LOG_ESM) << "Source" << _source;
-
-    if (m_aggregator->hasSource(_source)) {
-        QVariant data = m_aggregator->data(_source);
-        if (data.isNull())
-            return false;
-        setData(_source, "value", data);
-    } else {
-        qCWarning(LOG_ESM) << "Unknown source" << _source;
-        return false;
-    }
-
-    return true;
+    //    m_aggregator->update();
 }
 
 
@@ -150,6 +120,6 @@ QHash<QString, QString> ExtendedSysMon::updateConfiguration(QHash<QString, QStri
 }
 
 
-K_EXPORT_PLASMA_DATAENGINE_WITH_JSON(extsysmon, ExtendedSysMon, "plasma-dataengine-extsysmon.json")
+K_PLUGIN_CLASS_WITH_JSON(ExtendedSysMon, "metadata.json")
 
 #include "extsysmon.moc"

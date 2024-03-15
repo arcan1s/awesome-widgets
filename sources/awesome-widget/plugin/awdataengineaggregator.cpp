@@ -34,7 +34,7 @@ AWDataEngineAggregator::AWDataEngineAggregator(QObject *_parent)
     qDBusRegisterMetaType<QHash<QString, KSysGuard::SensorInfo>>();
 
     m_interface = new KSysGuard::SystemStats::DBusInterface(
-            KSysGuard::SystemStats::ServiceName, KSysGuard::SystemStats::ObjectPath, QDBusConnection::sessionBus(), this);
+        KSysGuard::SystemStats::ServiceName, KSysGuard::SystemStats::ObjectPath, QDBusConnection::sessionBus(), this);
 
     connect(m_interface, SIGNAL(newSensorData(KSysGuard::SensorDataList)), this,
             SLOT(updateData(KSysGuard::SensorDataList)));

@@ -18,6 +18,9 @@
 
 #include "playersource.h"
 
+#include <ksysguard/formatter/Unit.h>
+#include <ksysguard/systemstats/SensorInfo.h>
+
 #include <QDBusArgument>
 #include <QDBusConnection>
 #include <QDBusConnectionInterface>
@@ -87,77 +90,59 @@ QString PlayerSource::getAutoMpris()
 }
 
 
-QVariantMap PlayerSource::initialData(const QString &_source) const
+KSysGuard::SensorInfo *PlayerSource::initialData(const QString &_source) const
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
-    QVariantMap data;
+    auto data = new KSysGuard::SensorInfo();
     if (_source == "player/album") {
-        data["min"] = "";
-        data["max"] = "";
-        data["name"] = "Current song album";
-        data["type"] = "QString";
-        data["units"] = "";
+        data->name = "Current song album";
+        data->variantType = QVariant::String;
+        data->unit = KSysGuard::UnitNone;
     } else if (_source == "player/salbum") {
-        data["min"] = "";
-        data["max"] = "";
-        data["name"] = QString("Current song album (%1 symbols)").arg(m_symbols);
-        data["type"] = "QString";
-        data["units"] = "";
+        data->name = QString("Current song album (%1 symbols)").arg(m_symbols);
+        data->variantType = QVariant::String;
+        data->unit = KSysGuard::UnitNone;
     } else if (_source == "player/dalbum") {
-        data["min"] = "";
-        data["max"] = "";
-        data["name"] = QString("Current song album (%1 symbols, dynamic)").arg(m_symbols);
-        data["type"] = "QString";
-        data["units"] = "";
+        data->name = QString("Current song album (%1 symbols, dynamic)").arg(m_symbols);
+        data->variantType = QVariant::String;
+        data->unit = KSysGuard::UnitNone;
     } else if (_source == "player/artist") {
-        data["min"] = "";
-        data["max"] = "";
-        data["name"] = "Current song artist";
-        data["type"] = "QString";
-        data["units"] = "";
+        data->name = "Current song artist";
+        data->variantType = QVariant::String;
+        data->unit = KSysGuard::UnitNone;
     } else if (_source == "player/sartist") {
-        data["min"] = "";
-        data["max"] = "";
-        data["name"] = QString("Current song artist (%1 symbols)").arg(m_symbols);
-        data["type"] = "QString";
-        data["units"] = "";
+        data->name = QString("Current song artist (%1 symbols)").arg(m_symbols);
+        data->variantType = QVariant::String;
+        data->unit = KSysGuard::UnitNone;
     } else if (_source == "player/dartist") {
-        data["min"] = "";
-        data["max"] = "";
-        data["name"] = QString("Current song artist (%1 symbols, dynamic)").arg(m_symbols);
-        data["type"] = "QString";
-        data["units"] = "";
+        data->name = QString("Current song artist (%1 symbols, dynamic)").arg(m_symbols);
+        data->variantType = QVariant::String;
+        data->unit = KSysGuard::UnitNone;
     } else if (_source == "player/duration") {
-        data["min"] = 0;
-        data["max"] = 0;
-        data["name"] = "Current song duration";
-        data["type"] = "integer";
-        data["units"] = "s";
+        data->min = 0;
+        data->max = 0;
+        data->name = "Current song duration";
+        data->variantType = QVariant::Int;
+        data->unit = KSysGuard::UnitSecond;
     } else if (_source == "player/progress") {
-        data["min"] = 0;
-        data["max"] = 0;
-        data["name"] = "Current song progress";
-        data["type"] = "integer";
-        data["units"] = "s";
+        data->min = 0;
+        data->max = 0;
+        data->name = "Current song progress";
+        data->variantType = QVariant::Int;
+        data->unit = KSysGuard::UnitSecond;
     } else if (_source == "player/title") {
-        data["min"] = "";
-        data["max"] = "";
-        data["name"] = "Current song title";
-        data["type"] = "QString";
-        data["units"] = "";
+        data->name = "Current song title";
+        data->variantType = QVariant::String;
+        data->unit = KSysGuard::UnitNone;
     } else if (_source == "player/stitle") {
-        data["min"] = "";
-        data["max"] = "";
-        data["name"] = QString("Current song title (%1 symbols)").arg(m_symbols);
-        data["type"] = "QString";
-        data["units"] = "";
+        data->name = QString("Current song title (%1 symbols)").arg(m_symbols);
+        data->variantType = QVariant::String;
+        data->unit = KSysGuard::UnitNone;
     } else if (_source == "player/dtitle") {
-        data["min"] = "";
-        data["max"] = "";
-        data["name"] = QString("Current song title (%1 symbols, dynamic)").arg(m_symbols);
-        data["type"] = "QString";
-        data["units"] = "";
+        data->name = QString("Current song title (%1 symbols, dynamic)").arg(m_symbols);
+        data->variantType = QVariant::String;
+        data->unit = KSysGuard::UnitNone;
     }
 
     return data;

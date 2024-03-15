@@ -19,25 +19,20 @@
 #define EXTSYSMONAGGREGATOR_H
 
 #include <QObject>
+#include <ksysguard/systemstats/SensorContainer.h>
 
 #include "abstractextsysmonsource.h"
 
-
-class ExtSysMonAggregator : public QObject
+class ExtSysMonAggregator : public KSysGuard::SensorContainer
 {
     Q_OBJECT
 
 public:
-    explicit ExtSysMonAggregator(QObject *_parent, const QHash<QString, QString> &_config);
-    ~ExtSysMonAggregator() override;
-    [[nodiscard]] QVariant data(const QString &_source) const;
-    [[nodiscard]] bool hasSource(const QString &_source) const;
-    [[nodiscard]] QVariantMap initialData(const QString &_source) const;
-    [[nodiscard]] QStringList sources() const;
+    explicit ExtSysMonAggregator(const QString &_id, const QString &_name, KSysGuard::SensorPlugin *_parent,
+                                 const QHash<QString, QString> &_config);
 
 private:
     void init(const QHash<QString, QString> &_config);
-    QHash<QString, AbstractExtSysMonSource *> m_map;
 };
 
 

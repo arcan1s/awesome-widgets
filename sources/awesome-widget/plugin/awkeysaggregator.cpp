@@ -234,7 +234,8 @@ void AWKeysAggregator::setTranslate(const bool _translate)
 }
 
 
-QStringList AWKeysAggregator::registerSource(const QString &_source, const KSysGuard::Unit &_units, const QStringList &_keys)
+QStringList AWKeysAggregator::registerSource(const QString &_source, const KSysGuard::Unit &_units,
+                                             const QStringList &_keys)
 {
     qCDebug(LOG_AW) << "Source" << _source << "with units" << _units;
 

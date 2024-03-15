@@ -15,10 +15,11 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "desktopsource.h"
 
 #include <KWindowSystem/KWindowSystem>
+#include <ksysguard/formatter/Unit.h>
+#include <ksysguard/systemstats/SensorInfo.h>
 #include <taskmanager/virtualdesktopinfo.h>
 
 #include "awdebug.h"
@@ -64,35 +65,29 @@ QVariant DesktopSource::data(const QString &_source)
 }
 
 
-QVariantMap DesktopSource::initialData(const QString &_source) const
+KSysGuard::SensorInfo *DesktopSource::initialData(const QString &_source) const
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
-    QVariantMap data;
+    auto data = new KSysGuard::SensorInfo();
     if (_source == "desktop/current/name") {
-        data["min"] = "";
-        data["max"] = "";
-        data["name"] = "Current desktop name";
-        data["type"] = "QString";
-        data["units"] = "";
+        data->name = "Current desktop name";
+        data->variantType = QVariant::String;
+        data->unit = KSysGuard::UnitNone;
     } else if (_source == "desktop/current/number") {
-        data["min"] = 0;
-        data["max"] = 0;
-        data["name"] = "Current desktop number";
-        data["type"] = "integer";
-        data["units"] = "";
+        data->min = 0;
+        data->name = "Current desktop number";
+        data->variantType = QVariant::Int;
+        data->unit = KSysGuard::UnitNone;
     } else if (_source == "desktop/total/name") {
-        data["min"] = QStringList();
-        data["max"] = QStringList();
-        data["name"] = "All desktops by name";
-        data["type"] = "QStringList";
-        data["units"] = "";
+        data->name = "All desktops by name";
+        data->variantType = QVariant::StringList;
+        data->unit = KSysGuard::UnitNone;
     } else if (_source == "desktop/total/number") {
-        data["min"] = 0;
-        data["max"] = 0;
-        data["name"] = "Desktops count";
-        data["type"] = "integer";
-        data["units"] = "";
+        data->min = 0;
+        data->name = "Desktops count";
+        data->variantType = QVariant::Int;
+        data->unit = KSysGuard::UnitNone;
     }
 
     return data;

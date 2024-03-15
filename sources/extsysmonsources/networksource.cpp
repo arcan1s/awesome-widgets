@@ -18,6 +18,9 @@
 
 #include "networksource.h"
 
+#include <ksysguard/formatter/Unit.h>
+#include <ksysguard/systemstats/SensorInfo.h>
+
 #include <QNetworkInterface>
 #include <QProcess>
 
@@ -57,23 +60,19 @@ QVariant NetworkSource::data(const QString &_source)
 }
 
 
-QVariantMap NetworkSource::initialData(const QString &_source) const
+KSysGuard::SensorInfo *NetworkSource::initialData(const QString &_source) const
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
-    QVariantMap data;
+    auto data = new KSysGuard::SensorInfo();
     if (_source == "network/current/name") {
-        data["min"] = "";
-        data["max"] = "";
-        data["name"] = "Current network device name";
-        data["type"] = "QString";
-        data["units"] = "";
+        data->name = "Current network device name";
+        data->variantType = QVariant::String;
+        data->unit = KSysGuard::UnitNone;
     } else if (_source == "network/current/ssid") {
-        data["min"] = "";
-        data["max"] = "";
-        data["name"] = "Current SSID name";
-        data["type"] = "QString";
-        data["units"] = "";
+        data->name = "Current SSID name";
+        data->variantType = QVariant::String;
+        data->unit = KSysGuard::UnitNone;
     }
 
     return data;

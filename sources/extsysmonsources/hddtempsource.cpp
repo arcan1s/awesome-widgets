@@ -18,6 +18,9 @@
 
 #include "hddtempsource.h"
 
+#include <ksysguard/formatter/Unit.h>
+#include <ksysguard/systemstats/SensorInfo.h>
+
 #include <QDir>
 #include <QProcess>
 
@@ -87,18 +90,19 @@ QVariant HDDTemperatureSource::data(const QString &_source)
 }
 
 
-QVariantMap HDDTemperatureSource::initialData(const QString &_source) const
+KSysGuard::SensorInfo *HDDTemperatureSource::initialData(const QString &_source) const
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
-    QString device = _source;
+    auto device = _source;
     device.remove("hdd/temperature");
-    QVariantMap data;
-    data["min"] = 0.0;
-    data["max"] = 0.0;
-    data["name"] = QString("HDD '%1' temperature").arg(device);
-    data["type"] = "float";
-    data["units"] = "°C";
+
+    auto data = new KSysGuard::SensorInfo();
+    data->min = 0.0;
+    data->max = 0.0;
+    data->name = QString("HDD '%1' temperature").arg(device);
+    data->variantType = QVariant::Double;
+    data->unit = KSysGuard::UnitCelsius;
 
     return data;
 }

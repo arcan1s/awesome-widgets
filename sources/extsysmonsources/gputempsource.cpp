@@ -15,8 +15,10 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "gputempsource.h"
+
+#include <ksysguard/formatter/Unit.h>
+#include <ksysguard/systemstats/SensorInfo.h>
 
 #include <QFile>
 #include <QProcess>
@@ -60,17 +62,17 @@ QVariant GPUTemperatureSource::data(const QString &_source)
 }
 
 
-QVariantMap GPUTemperatureSource::initialData(const QString &_source) const
+KSysGuard::SensorInfo *GPUTemperatureSource::initialData(const QString &_source) const
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
-    QVariantMap data;
+    auto data = new KSysGuard::SensorInfo();
     if (_source == "gpu/temperature") {
-        data["min"] = 0.0;
-        data["max"] = 0.0;
-        data["name"] = "GPU temperature";
-        data["type"] = "float";
-        data["units"] = "°C";
+        data->min = 0.0;
+        data->max = 0.0;
+        data->name = "GPU temperature";
+        data->variantType = QVariant::Double;
+        data->unit = KSysGuard::UnitCelsius;
     }
 
     return data;

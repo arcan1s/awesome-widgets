@@ -54,7 +54,7 @@ QString AWJsonFormatter::convert(const QVariant &_value) const
 
     // check if _value is string and parse first if required
     QJsonDocument json = _value.userType() == QMetaType::QString ? QJsonDocument::fromJson(_value.toString().toUtf8())
-                                                           : QJsonDocument::fromVariant(_value);
+                                                                 : QJsonDocument::fromVariant(_value);
     QVariant converted = json.toVariant();
     for (auto &element : m_splittedPath)
         converted = getFromJson(converted, element);

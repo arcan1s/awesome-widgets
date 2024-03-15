@@ -18,6 +18,9 @@
 
 #include "requestsource.h"
 
+#include <ksysguard/formatter/Unit.h>
+#include <ksysguard/systemstats/SensorInfo.h>
+
 #include "awdebug.h"
 #include "extnetworkrequest.h"
 
@@ -57,18 +60,16 @@ QVariant RequestSource::data(const QString &_source)
 }
 
 
-QVariantMap RequestSource::initialData(const QString &_source) const
+KSysGuard::SensorInfo *RequestSource::initialData(const QString &_source) const
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
     int ind = index(_source);
-    QVariantMap data;
+    auto data = new KSysGuard::SensorInfo();
     if (_source.startsWith("network/response")) {
-        data["min"] = "";
-        data["max"] = "";
-        data["name"] = QString("Network response for %1").arg(m_extNetRequest->itemByTagNumber(ind)->uniq());
-        data["type"] = "QString";
-        data["units"] = "";
+        data->name = QString("Network response for %1").arg(m_extNetRequest->itemByTagNumber(ind)->uniq());
+        data->variantType = QVariant::String;
+        data->unit = KSysGuard::UnitNone;
     }
 
     return data;

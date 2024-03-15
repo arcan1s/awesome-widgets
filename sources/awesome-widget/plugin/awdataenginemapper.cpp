@@ -76,7 +76,8 @@ QStringList AWDataEngineMapper::keysFromSource(const QString &_source) const
 
 // HACK units required to define should the value be calculated as temperature
 // or fan data
-QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSysGuard::Unit _units, const QStringList &_keys)
+QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSysGuard::Unit _units,
+                                               const QStringList &_keys)
 {
     qCDebug(LOG_AW) << "Source" << _source << "with units" << _units;
 

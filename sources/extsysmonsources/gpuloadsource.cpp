@@ -14,9 +14,10 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
-
-
 #include "gpuloadsource.h"
+
+#include <ksysguard/formatter/Unit.h>
+#include <ksysguard/systemstats/SensorInfo.h>
 
 #include <QFile>
 #include <QProcess>
@@ -81,17 +82,17 @@ QVariant GPULoadSource::data(const QString &_source)
 }
 
 
-QVariantMap GPULoadSource::initialData(const QString &_source) const
+KSysGuard::SensorInfo *GPULoadSource::initialData(const QString &_source) const
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
-    QVariantMap data;
+    auto data = new KSysGuard::SensorInfo();
     if (_source == "gpu/load") {
-        data["min"] = 0.0;
-        data["max"] = 100.0;
-        data["name"] = "GPU usage";
-        data["type"] = "float";
-        data["units"] = "%";
+        data->min = 0.0;
+        data->max = 100.0;
+        data->name = "GPU usage";
+        data->variantType = QVariant::Double;
+        data->unit = KSysGuard::UnitPercent;
     }
 
     return data;

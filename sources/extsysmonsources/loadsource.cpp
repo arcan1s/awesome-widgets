@@ -18,6 +18,9 @@
 
 #include "loadsource.h"
 
+#include <ksysguard/formatter/Unit.h>
+#include <ksysguard/systemstats/SensorInfo.h>
+
 #include <QRandomGenerator>
 
 #include "awdebug.h"
@@ -45,17 +48,17 @@ QVariant LoadSource::data(const QString &_source)
 }
 
 
-QVariantMap LoadSource::initialData(const QString &_source) const
+KSysGuard::SensorInfo *LoadSource::initialData(const QString &_source) const
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
-    QVariantMap data;
+    auto data = new KSysGuard::SensorInfo();
     if (_source.startsWith("load/load")) {
-        data["min"] = 0;
-        data["max"] = 0;
-        data["name"] = "Simple sources for load tests";
-        data["type"] = "int";
-        data["units"] = "";
+        data->min = 0;
+        data->max = 0;
+        data->name = "Simple sources for load tests";
+        data->variantType = QVariant::Int;
+        data->unit = KSysGuard::UnitNone;
     }
 
     return data;
