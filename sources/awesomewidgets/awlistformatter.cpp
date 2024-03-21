@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "awlistformatter.h"
 #include "ui_awlistformatter.h"
 
@@ -26,24 +25,13 @@
 #include "awdebug.h"
 
 
-AWListFormatter::AWListFormatter(QWidget *_parent, const QString &_filePath)
+AWListFormatter::AWListFormatter(QObject *_parent, const QString &_filePath)
     : AWAbstractFormatter(_parent, _filePath)
-    , ui(new Ui::AWListFormatter)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     if (!_filePath.isEmpty())
         AWListFormatter::readConfiguration();
-    ui->setupUi(this);
-    AWListFormatter::translate();
-}
-
-
-AWListFormatter::~AWListFormatter()
-{
-    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
-
-    delete ui;
 }
 
 
@@ -51,7 +39,7 @@ QString AWListFormatter::convert(const QVariant &_value) const
 {
     qCDebug(LOG_LIB) << "Convert value" << _value;
 
-    QStringList output = _value.toStringList();
+    auto output = _value.toStringList();
     if (isSorted())
         output.sort();
 
@@ -63,7 +51,7 @@ AWListFormatter *AWListFormatter::copy(const QString &_fileName, const int _numb
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    auto *item = new AWListFormatter(dynamic_cast<QWidget *>(parent()), _fileName);
+    auto item = new AWListFormatter(parent(), _fileName);
     AWAbstractFormatter::copyDefaults(item);
     item->setFilter(filter());
     item->setSeparator(separator());
@@ -133,9 +121,14 @@ void AWListFormatter::readConfiguration()
 }
 
 
-int AWListFormatter::showConfiguration(const QVariant &_args)
+int AWListFormatter::showConfiguration(QWidget *_parent, const QVariant &_args)
 {
     Q_UNUSED(_args)
+
+    auto dialog = new QDialog(_parent);
+    auto ui = new Ui::AWListFormatter();
+    ui->setupUi(dialog);
+    translate(ui);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -144,18 +137,22 @@ int AWListFormatter::showConfiguration(const QVariant &_args)
     ui->lineEdit_separator->setText(separator());
     ui->checkBox_sorted->setCheckState(isSorted() ? Qt::Checked : Qt::Unchecked);
 
-    int ret = exec();
-    if (ret != 1)
-        return ret;
-    setName(ui->lineEdit_name->text());
-    setComment(ui->lineEdit_comment->text());
-    setApiVersion(AW_FORMATTER_API);
-    setStrType(ui->label_typeValue->text());
-    setFilter(ui->lineEdit_filter->text());
-    setSeparator(ui->lineEdit_separator->text());
-    setSorted(ui->checkBox_sorted->checkState() == Qt::Checked);
+    auto ret = dialog->exec();
+    if (ret == 1) {
+        setName(ui->lineEdit_name->text());
+        setComment(ui->lineEdit_comment->text());
+        setApiVersion(AW_FORMATTER_API);
+        setStrType(ui->label_typeValue->text());
+        setFilter(ui->lineEdit_filter->text());
+        setSeparator(ui->lineEdit_separator->text());
+        setSorted(ui->checkBox_sorted->checkState() == Qt::Checked);
 
-    writeConfiguration();
+        writeConfiguration();
+    }
+
+    dialog->deleteLater();
+    delete ui;
+
     return ret;
 }
 
@@ -177,8 +174,10 @@ void AWListFormatter::writeConfiguration() const
 }
 
 
-void AWListFormatter::translate()
+void AWListFormatter::translate(void *_ui)
 {
+    auto ui = reinterpret_cast<Ui::AWListFormatter *>(_ui);
+
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
     ui->label_type->setText(i18n("Type"));

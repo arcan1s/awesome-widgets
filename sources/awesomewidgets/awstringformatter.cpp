@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "awstringformatter.h"
 #include "ui_awstringformatter.h"
 
@@ -26,24 +25,13 @@
 #include "awdebug.h"
 
 
-AWStringFormatter::AWStringFormatter(QWidget *_parent, const QString &_filePath)
+AWStringFormatter::AWStringFormatter(QObject *_parent, const QString &_filePath)
     : AWAbstractFormatter(_parent, _filePath)
-    , ui(new Ui::AWStringFormatter)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     if (!_filePath.isEmpty())
         AWStringFormatter::readConfiguration();
-    ui->setupUi(this);
-    AWStringFormatter::translate();
-}
-
-
-AWStringFormatter::~AWStringFormatter()
-{
-    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
-
-    delete ui;
 }
 
 
@@ -51,7 +39,7 @@ QString AWStringFormatter::convert(const QVariant &_value) const
 {
     qCDebug(LOG_LIB) << "Convert value" << _value;
 
-    QString output = QString("%1").arg(_value.toString(), count(), fillChar());
+    auto output = QString("%1").arg(_value.toString(), count(), fillChar());
     if (forceWidth())
         output = output.left(count());
 
@@ -63,7 +51,7 @@ AWStringFormatter *AWStringFormatter::copy(const QString &_fileName, const int _
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    auto *item = new AWStringFormatter(dynamic_cast<QWidget *>(parent()), _fileName);
+    auto item = new AWStringFormatter(parent(), _fileName);
     AWAbstractFormatter::copyDefaults(item);
     item->setCount(count());
     item->setFillChar(fillChar());
@@ -132,9 +120,14 @@ void AWStringFormatter::readConfiguration()
 }
 
 
-int AWStringFormatter::showConfiguration(const QVariant &_args)
+int AWStringFormatter::showConfiguration(QWidget *_parent, const QVariant &_args)
 {
     Q_UNUSED(_args)
+
+    auto dialog = new QDialog(_parent);
+    auto ui = new Ui::AWStringFormatter();
+    ui->setupUi(dialog);
+    translate(ui);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -143,18 +136,22 @@ int AWStringFormatter::showConfiguration(const QVariant &_args)
     ui->lineEdit_fill->setText(QString(fillChar()));
     ui->checkBox_forceWidth->setCheckState(forceWidth() ? Qt::Checked : Qt::Unchecked);
 
-    int ret = exec();
-    if (ret != 1)
-        return ret;
-    setName(ui->lineEdit_name->text());
-    setComment(ui->lineEdit_comment->text());
-    setApiVersion(AW_FORMATTER_API);
-    setStrType(ui->label_typeValue->text());
-    setCount(ui->spinBox_width->value());
-    setFillChar(ui->lineEdit_fill->text().at(0));
-    setForceWidth(ui->checkBox_forceWidth->checkState() == Qt::Checked);
+    auto ret = dialog->exec();
+    if (ret == 1) {
+        setName(ui->lineEdit_name->text());
+        setComment(ui->lineEdit_comment->text());
+        setApiVersion(AW_FORMATTER_API);
+        setStrType(ui->label_typeValue->text());
+        setCount(ui->spinBox_width->value());
+        setFillChar(ui->lineEdit_fill->text().at(0));
+        setForceWidth(ui->checkBox_forceWidth->checkState() == Qt::Checked);
 
-    writeConfiguration();
+        writeConfiguration();
+    }
+
+    dialog->deleteLater();
+    delete ui;
+
     return ret;
 }
 
@@ -176,8 +173,10 @@ void AWStringFormatter::writeConfiguration() const
 }
 
 
-void AWStringFormatter::translate()
+void AWStringFormatter::translate(void *_ui)
 {
+    auto ui = reinterpret_cast<Ui::AWStringFormatter *>(_ui);
+
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
     ui->label_type->setText(i18n("Type"));

@@ -23,18 +23,13 @@
 #include "abstractextitem.h"
 
 
-namespace Ui
-{
-class ExtNetworkRequest;
-}
-
 class ExtNetworkRequest : public AbstractExtItem
 {
     Q_OBJECT
     Q_PROPERTY(QString stringUrl READ stringUrl WRITE setStringUrl)
 
 public:
-    explicit ExtNetworkRequest(QWidget *_parent = nullptr, const QString &_filePath = "");
+    explicit ExtNetworkRequest(QObject *_parent = nullptr, const QString &_filePath = "");
     ~ExtNetworkRequest() override;
     ExtNetworkRequest *copy(const QString &_fileName, int _number) override;
     // get methods
@@ -46,7 +41,7 @@ public:
 public slots:
     void readConfiguration() override;
     QVariantHash run() override;
-    int showConfiguration(const QVariant &_args) override;
+    int showConfiguration(QWidget *_parent, const QVariant &_args) override;
     void writeConfiguration() const override;
 
 private slots:
@@ -57,9 +52,8 @@ private:
     QNetworkAccessManager *m_manager = nullptr;
     QUrl m_url;
     bool m_isRunning = false;
-    Ui::ExtNetworkRequest *ui = nullptr;
     void initUrl();
-    void translate() override;
+    void translate(void *_ui) override;
     // properties
     QString m_stringUrl = "https://httpbin.org/get";
     // values

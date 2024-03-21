@@ -27,8 +27,8 @@
 #include "qcronscheduler.h"
 
 
-AbstractExtItem::AbstractExtItem(QWidget *_parent, const QString &_filePath)
-    : QDialog(_parent)
+AbstractExtItem::AbstractExtItem(QObject *_parent, const QString &_filePath)
+    : QObject(_parent)
     , m_fileName(_filePath)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
@@ -97,15 +97,13 @@ void AbstractExtItem::startTimer()
 
 QString AbstractExtItem::writtableConfig() const
 {
-    QString path = m_fileName;
-    QString name = QFileInfo(path).fileName();
+    auto path = m_fileName;
+    auto name = QFileInfo(path).fileName();
     path.remove(path.length() - name.length() - 1, name.length() + 1);
-    QString dir = QFileInfo(path).fileName();
+    auto dir = QFileInfo(path).fileName();
 
     return QString("%1/awesomewidgets/%2/%3")
-        .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation))
-        .arg(dir)
-        .arg(name);
+        .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation), dir, name);
 }
 
 
@@ -269,8 +267,8 @@ void AbstractExtItem::deinitSocket()
 
     m_socket->close();
     QLocalServer::removeServer(socket());
-    delete m_socket;
     disconnect(m_socket, SIGNAL(newConnection()), this, SLOT(newConnectionReceived()));
+    delete m_socket;
 }
 
 

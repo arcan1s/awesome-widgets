@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "awjsonformatter.h"
 #include "ui_awjsonformatter.h"
 
@@ -27,24 +26,13 @@
 #include "awdebug.h"
 
 
-AWJsonFormatter::AWJsonFormatter(QWidget *_parent, const QString &_filePath)
+AWJsonFormatter::AWJsonFormatter(QObject *_parent, const QString &_filePath)
     : AWAbstractFormatter(_parent, _filePath)
-    , ui(new Ui::AWJsonFormatter)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     if (!_filePath.isEmpty())
         AWJsonFormatter::readConfiguration();
-    ui->setupUi(this);
-    AWJsonFormatter::translate();
-}
-
-
-AWJsonFormatter::~AWJsonFormatter()
-{
-    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
-
-    delete ui;
 }
 
 
@@ -67,7 +55,7 @@ AWJsonFormatter *AWJsonFormatter::copy(const QString &_fileName, const int _numb
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    auto *item = new AWJsonFormatter(dynamic_cast<QWidget *>(parent()), _fileName);
+    auto item = new AWJsonFormatter(parent(), _fileName);
     AWAbstractFormatter::copyDefaults(item);
     item->setNumber(_number);
     item->setPath(path());
@@ -105,25 +93,34 @@ void AWJsonFormatter::readConfiguration()
 }
 
 
-int AWJsonFormatter::showConfiguration(const QVariant &args)
+int AWJsonFormatter::showConfiguration(QWidget *_parent, const QVariant &args)
 {
     Q_UNUSED(args)
+
+    auto dialog = new QDialog(_parent);
+    auto ui = new Ui::AWJsonFormatter();
+    ui->setupUi(dialog);
+    translate(ui);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
     ui->label_typeValue->setText("Json");
     ui->lineEdit_path->setText(path());
 
-    int ret = exec();
-    if (ret != 1)
-        return ret;
-    setName(ui->lineEdit_name->text());
-    setComment(ui->lineEdit_comment->text());
-    setApiVersion(AW_FORMATTER_API);
-    setStrType(ui->label_typeValue->text());
-    setPath(ui->lineEdit_path->text());
+    auto ret = dialog->exec();
+    if (ret == 1) {
+        setName(ui->lineEdit_name->text());
+        setComment(ui->lineEdit_comment->text());
+        setApiVersion(AW_FORMATTER_API);
+        setStrType(ui->label_typeValue->text());
+        setPath(ui->lineEdit_path->text());
 
-    writeConfiguration();
+        writeConfiguration();
+    }
+
+    dialog->deleteLater();
+    delete ui;
+
     return ret;
 }
 
@@ -187,8 +184,10 @@ void AWJsonFormatter::initPath()
 }
 
 
-void AWJsonFormatter::translate()
+void AWJsonFormatter::translate(void *_ui)
 {
+    auto ui = reinterpret_cast<Ui::AWJsonFormatter *>(_ui);
+
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
     ui->label_type->setText(i18n("Type"));

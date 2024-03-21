@@ -28,17 +28,14 @@
 #include "awdebug.h"
 
 
-ExtScript::ExtScript(QWidget *_parent, const QString &_filePath)
+ExtScript::ExtScript(QObject *_parent, const QString &_filePath)
     : AbstractExtItem(_parent, _filePath)
-    , ui(new Ui::ExtScript)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     if (!_filePath.isEmpty())
         ExtScript::readConfiguration();
     readJsonFilters();
-    ui->setupUi(this);
-    ExtScript::translate();
 
     m_values[tag("custom")] = "";
 
@@ -58,7 +55,6 @@ ExtScript::~ExtScript()
     m_process->kill();
     m_process->deleteLater();
     disconnect(this, SIGNAL(requestDataUpdate()), this, SLOT(startProcess()));
-    delete ui;
 }
 
 
@@ -66,7 +62,7 @@ ExtScript *ExtScript::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    auto *item = new ExtScript(dynamic_cast<QWidget *>(parent()), _fileName);
+    auto item = new ExtScript(parent(), _fileName);
     copyDefaults(item);
     item->setExecutable(executable());
     item->setNumber(_number);
@@ -179,7 +175,7 @@ QString ExtScript::applyFilters(QString _value) const
 
     for (auto &filt : filters()) {
         qCInfo(LOG_LIB) << "Found filter" << filt;
-        QVariantMap filter = m_jsonFilters[filt].toMap();
+        auto filter = m_jsonFilters[filt].toMap();
         if (filter.isEmpty()) {
             qCWarning(LOG_LIB) << "Could not find filter" << _value << "in the json";
             continue;
@@ -225,7 +221,7 @@ void ExtScript::readConfiguration()
 
 void ExtScript::readJsonFilters()
 {
-    QString fileName = jsonFiltersFile();
+    auto fileName = jsonFiltersFile();
     QFile jsonFile(fileName);
     if (!jsonFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qCWarning(LOG_LIB) << "Could not open" << fileName;
@@ -235,7 +231,7 @@ void ExtScript::readJsonFilters()
     jsonFile.close();
 
     QJsonParseError error{};
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonText.toUtf8(), &error);
+    auto jsonDoc = QJsonDocument::fromJson(jsonText.toUtf8(), &error);
     if (error.error != QJsonParseError::NoError) {
         qCWarning(LOG_LIB) << "Parse error" << error.errorString();
         return;
@@ -256,9 +252,14 @@ QVariantHash ExtScript::run()
 }
 
 
-int ExtScript::showConfiguration(const QVariant &_args)
+int ExtScript::showConfiguration(QWidget *_parent, const QVariant &_args)
 {
     Q_UNUSED(_args)
+
+    auto dialog = new QDialog(_parent);
+    auto ui = new Ui::ExtScript();
+    ui->setupUi(dialog);
+    translate(ui);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -274,25 +275,29 @@ int ExtScript::showConfiguration(const QVariant &_args)
     ui->checkBox_linesFilter->setCheckState(filters().contains("newline") ? Qt::Checked : Qt::Unchecked);
     ui->checkBox_spaceFilter->setCheckState(filters().contains("space") ? Qt::Checked : Qt::Unchecked);
 
-    int ret = exec();
-    if (ret != 1)
-        return ret;
-    setName(ui->lineEdit_name->text());
-    setComment(ui->lineEdit_comment->text());
-    setNumber(ui->label_numberValue->text().toInt());
-    setApiVersion(AW_EXTSCRIPT_API);
-    setExecutable(ui->lineEdit_command->text());
-    setActive(ui->checkBox_active->checkState() == Qt::Checked);
-    setRedirect(static_cast<Redirect>(ui->comboBox_redirect->currentIndex()));
-    setCron(ui->lineEdit_schedule->text());
-    setSocket(ui->lineEdit_socket->text());
-    setInterval(ui->spinBox_interval->value());
-    // filters
-    updateFilter("color", ui->checkBox_colorFilter->checkState() == Qt::Checked);
-    updateFilter("newline", ui->checkBox_linesFilter->checkState() == Qt::Checked);
-    updateFilter("space", ui->checkBox_spaceFilter->checkState() == Qt::Checked);
+    int ret = dialog->exec();
+    if (ret == 1) {
+        setName(ui->lineEdit_name->text());
+        setComment(ui->lineEdit_comment->text());
+        setNumber(ui->label_numberValue->text().toInt());
+        setApiVersion(AW_EXTSCRIPT_API);
+        setExecutable(ui->lineEdit_command->text());
+        setActive(ui->checkBox_active->checkState() == Qt::Checked);
+        setRedirect(static_cast<Redirect>(ui->comboBox_redirect->currentIndex()));
+        setCron(ui->lineEdit_schedule->text());
+        setSocket(ui->lineEdit_socket->text());
+        setInterval(ui->spinBox_interval->value());
+        // filters
+        updateFilter("color", ui->checkBox_colorFilter->checkState() == Qt::Checked);
+        updateFilter("newline", ui->checkBox_linesFilter->checkState() == Qt::Checked);
+        updateFilter("space", ui->checkBox_spaceFilter->checkState() == Qt::Checked);
 
-    writeConfiguration();
+        writeConfiguration();
+    }
+
+    dialog->deleteLater();
+    delete ui;
+
     return ret;
 }
 
@@ -324,9 +329,9 @@ void ExtScript::startProcess()
 void ExtScript::updateValue()
 {
     qCInfo(LOG_LIB) << "Cmd returns" << m_process->exitCode();
-    QString qdebug = QString::fromUtf8(m_process->readAllStandardError()).trimmed();
+    auto qdebug = QString::fromUtf8(m_process->readAllStandardError()).trimmed();
     qCInfo(LOG_LIB) << "Error" << qdebug;
-    QString qoutput = QString::fromUtf8(m_process->readAllStandardOutput()).trimmed();
+    auto qoutput = QString::fromUtf8(m_process->readAllStandardOutput()).trimmed();
     qCInfo(LOG_LIB) << "Output" << qoutput;
     QString strValue;
 
@@ -350,8 +355,10 @@ void ExtScript::updateValue()
 }
 
 
-void ExtScript::translate()
+void ExtScript::translate(void *_ui)
 {
+    auto ui = reinterpret_cast<Ui::ExtScript *>(_ui);
+
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
     ui->label_number->setText(i18n("Tag"));

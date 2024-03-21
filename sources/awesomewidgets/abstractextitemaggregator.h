@@ -45,20 +45,19 @@ public:
     void copyItem();
     template <class T> void createItem()
     {
-        QString fileName = getName();
+        auto fileName = getName();
         int number = uniqNumber();
-        QString dir = QString("%1/awesomewidgets/%2")
-                          .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation))
-                          .arg(m_type);
+        auto dir = QString("%1/awesomewidgets/%2")
+                .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation), m_type);
         if (fileName.isEmpty()) {
             qCWarning(LOG_LIB) << "Nothing to create";
             return;
         }
-        QString filePath = QString("%1/%2").arg(dir).arg(fileName);
+        auto filePath = QString("%1/%2").arg(dir, fileName);
 
         T *newItem = new T(this, filePath);
         newItem->setNumber(number);
-        if (newItem->showConfiguration(configArgs()) == 1) {
+        if (newItem->showConfiguration(this, configArgs()) == 1) {
             initItems();
             repaintList();
         }

@@ -52,8 +52,7 @@ public:
     enum class Direction { LeftToRight = 0, RightToLeft = 1 };
     enum class Type { Horizontal = 0, Vertical = 1, Circle = 2, Graph = 3, Bars = 4 };
 
-    explicit GraphicalItem(QWidget *_parent = nullptr, const QString &_filePath = "");
-    ~GraphicalItem() override;
+    explicit GraphicalItem(QObject *_parent = nullptr, const QString &_filePath = "");
     GraphicalItem *copy(const QString &_fileName, int _number) override;
     QString image(const QVariant &value);
     void initScene();
@@ -92,20 +91,19 @@ public:
 public slots:
     void readConfiguration() override;
     QVariantHash run() override { return {}; };
-    int showConfiguration(const QVariant &_args) override;
+    int showConfiguration(QWidget *_parent, const QVariant &_args) override;
     void writeConfiguration() const override;
 
 private slots:
-    void changeColor();
-    void changeCountState(int _state);
-    void changeValue(int _state);
+    void changeColor(Ui::GraphicalItem *_ui);
+    void changeCountState(Ui::GraphicalItem *_ui, int _state);
+    void changeValue(Ui::GraphicalItem *_ui, int _state);
 
 private:
     GraphicalItemHelper *m_helper = nullptr;
     QGraphicsScene *m_scene = nullptr;
     QGraphicsView *m_view = nullptr;
-    Ui::GraphicalItem *ui = nullptr;
-    void translate() override;
+    void translate(void *_ui) override;
     // properties
     QString m_bar = "cpu";
     int m_count = 100;

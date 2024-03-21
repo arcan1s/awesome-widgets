@@ -22,14 +22,8 @@
 #include "awdebug.h"
 
 
-AWAbstractFormatter::AWAbstractFormatter(QWidget *_parent, const QString &_filePath)
+AWAbstractFormatter::AWAbstractFormatter(QObject *_parent, const QString &_filePath)
     : AbstractExtItem(_parent, _filePath)
-{
-    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
-}
-
-
-AWAbstractFormatter::~AWAbstractFormatter()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 }
@@ -45,7 +39,7 @@ void AWAbstractFormatter::copyDefaults(AbstractExtItem *_other) const
 
 QString AWAbstractFormatter::uniq() const
 {
-    return QString("%1(%2)").arg(name()).arg(strType());
+    return QString("%1(%2)").arg(name(), strType());
 }
 
 

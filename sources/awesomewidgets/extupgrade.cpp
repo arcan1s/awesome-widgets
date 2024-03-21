@@ -25,16 +25,13 @@
 #include "awdebug.h"
 
 
-ExtUpgrade::ExtUpgrade(QWidget *_parent, const QString &_filePath)
+ExtUpgrade::ExtUpgrade(QObject *_parent, const QString &_filePath)
     : AbstractExtItem(_parent, _filePath)
-    , ui(new Ui::ExtUpgrade)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     if (!_filePath.isEmpty())
         ExtUpgrade::readConfiguration();
-    ui->setupUi(this);
-    ExtUpgrade::translate();
 
     m_values[tag("pkgcount")] = 0;
 
@@ -53,7 +50,6 @@ ExtUpgrade::~ExtUpgrade()
     m_process->kill();
     m_process->deleteLater();
     disconnect(this, SIGNAL(requestDataUpdate()), this, SLOT(startProcess()));
-    delete ui;
 }
 
 
@@ -61,7 +57,7 @@ ExtUpgrade *ExtUpgrade::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    auto *item = new ExtUpgrade(dynamic_cast<QWidget *>(parent()), _fileName);
+    auto item = new ExtUpgrade(parent(), _fileName);
     copyDefaults(item);
     item->setExecutable(executable());
     item->setFilter(filter());
@@ -149,9 +145,14 @@ QVariantHash ExtUpgrade::run()
 }
 
 
-int ExtUpgrade::showConfiguration(const QVariant &_args)
+int ExtUpgrade::showConfiguration(QWidget *_parent, const QVariant &_args)
 {
     Q_UNUSED(_args)
+
+    auto dialog = new QDialog(_parent);
+    auto ui = new Ui::ExtUpgrade();
+    ui->setupUi(dialog);
+    translate(ui);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -164,22 +165,26 @@ int ExtUpgrade::showConfiguration(const QVariant &_args)
     ui->lineEdit_socket->setText(socket());
     ui->spinBox_interval->setValue(interval());
 
-    int ret = exec();
-    if (ret != 1)
-        return ret;
-    setName(ui->lineEdit_name->text());
-    setComment(ui->lineEdit_comment->text());
-    setNumber(ui->label_numberValue->text().toInt());
-    setApiVersion(AW_EXTUPGRADE_API);
-    setExecutable(ui->lineEdit_command->text());
-    setFilter(ui->lineEdit_filter->text());
-    setActive(ui->checkBox_active->checkState() == Qt::Checked);
-    setNull(ui->spinBox_null->value());
-    setCron(ui->lineEdit_schedule->text());
-    setSocket(ui->lineEdit_socket->text());
-    setInterval(ui->spinBox_interval->value());
+    auto ret = dialog->exec();
+    if (ret == 1) {
+        setName(ui->lineEdit_name->text());
+        setComment(ui->lineEdit_comment->text());
+        setNumber(ui->label_numberValue->text().toInt());
+        setApiVersion(AW_EXTUPGRADE_API);
+        setExecutable(ui->lineEdit_command->text());
+        setFilter(ui->lineEdit_filter->text());
+        setActive(ui->checkBox_active->checkState() == Qt::Checked);
+        setNull(ui->spinBox_null->value());
+        setCron(ui->lineEdit_schedule->text());
+        setSocket(ui->lineEdit_socket->text());
+        setInterval(ui->spinBox_interval->value());
 
-    writeConfiguration();
+        writeConfiguration();
+    }
+
+    dialog->deleteLater();
+    delete ui;
+
     return ret;
 }
 
@@ -213,7 +218,7 @@ void ExtUpgrade::updateValue()
     qCInfo(LOG_LIB) << "Cmd returns" << m_process->exitCode();
     qCInfo(LOG_LIB) << "Error" << m_process->readAllStandardError();
 
-    QString qoutput = QString::fromUtf8(m_process->readAllStandardOutput()).trimmed();
+    auto qoutput = QString::fromUtf8(m_process->readAllStandardOutput()).trimmed();
     m_values[tag("pkgcount")] = [this](const QString &output) {
         return filter().isEmpty() ? output.split('\n', Qt::SkipEmptyParts).count() - null()
                                   : output.split('\n', Qt::SkipEmptyParts).filter(QRegularExpression(filter())).count();
@@ -223,8 +228,10 @@ void ExtUpgrade::updateValue()
 }
 
 
-void ExtUpgrade::translate()
+void ExtUpgrade::translate(void *_ui)
 {
+    auto ui = reinterpret_cast<Ui::ExtUpgrade *>(_ui);
+
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
     ui->label_number->setText(i18n("Tag"));

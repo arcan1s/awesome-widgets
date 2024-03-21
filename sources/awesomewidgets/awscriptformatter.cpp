@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "awscriptformatter.h"
 #include "ui_awscriptformatter.h"
 
@@ -27,24 +26,13 @@
 #include "awdebug.h"
 
 
-AWScriptFormatter::AWScriptFormatter(QWidget *_parent, const QString &_filePath)
+AWScriptFormatter::AWScriptFormatter(QObject *_parent, const QString &_filePath)
     : AWAbstractFormatter(_parent, _filePath)
-    , ui(new Ui::AWScriptFormatter)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     if (!_filePath.isEmpty())
         AWScriptFormatter::readConfiguration();
-    ui->setupUi(this);
-    AWScriptFormatter::translate();
-}
-
-
-AWScriptFormatter::~AWScriptFormatter()
-{
-    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
-
-    delete ui;
 }
 
 
@@ -54,9 +42,8 @@ QString AWScriptFormatter::convert(const QVariant &_value) const
 
     // init engine
     QJSEngine engine;
-    QJSValue fn = engine.evaluate(m_program);
-    QJSValueList args = QJSValueList() << _value.toString();
-    QJSValue result = fn.call(args);
+    auto fn = engine.evaluate(m_program);
+    auto result = fn.call({_value.toString()});
 
     if (result.isError()) {
         qCWarning(LOG_LIB) << "Uncaught exception at line" << result.property("lineNumber").toInt() << ":"
@@ -72,7 +59,7 @@ AWScriptFormatter *AWScriptFormatter::copy(const QString &_fileName, const int _
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    auto *item = new AWScriptFormatter(dynamic_cast<QWidget *>(parent()), _fileName);
+    auto item = new AWScriptFormatter(parent(), _fileName);
     AWAbstractFormatter::copyDefaults(item);
     item->setAppendCode(appendCode());
     item->setCode(code());
@@ -150,9 +137,14 @@ void AWScriptFormatter::readConfiguration()
 }
 
 
-int AWScriptFormatter::showConfiguration(const QVariant &_args)
+int AWScriptFormatter::showConfiguration(QWidget *_parent, const QVariant &_args)
 {
     Q_UNUSED(_args)
+
+    auto dialog = new QDialog(_parent);
+    auto ui = new Ui::AWScriptFormatter();
+    ui->setupUi(dialog);
+    translate(ui);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -161,19 +153,23 @@ int AWScriptFormatter::showConfiguration(const QVariant &_args)
     ui->checkBox_hasReturn->setCheckState(hasReturn() ? Qt::Checked : Qt::Unchecked);
     ui->textEdit_code->setPlainText(code());
 
-    int ret = exec();
-    if (ret != 1)
-        return ret;
-    setName(ui->lineEdit_name->text());
-    setComment(ui->lineEdit_comment->text());
-    setApiVersion(AW_FORMATTER_API);
-    setStrType(ui->label_typeValue->text());
-    setAppendCode(ui->checkBox_appendCode->checkState() == Qt::Checked);
-    setHasReturn(ui->checkBox_hasReturn->checkState() == Qt::Checked);
-    setCode(ui->textEdit_code->toPlainText());
-    initProgram();
+    int ret = dialog->exec();
+    if (ret == 1) {
+        setName(ui->lineEdit_name->text());
+        setComment(ui->lineEdit_comment->text());
+        setApiVersion(AW_FORMATTER_API);
+        setStrType(ui->label_typeValue->text());
+        setAppendCode(ui->checkBox_appendCode->checkState() == Qt::Checked);
+        setHasReturn(ui->checkBox_hasReturn->checkState() == Qt::Checked);
+        setCode(ui->textEdit_code->toPlainText());
+        initProgram();
 
-    writeConfiguration();
+        writeConfiguration();
+    }
+
+    dialog->deleteLater();
+    delete ui;
+
     return ret;
 }
 
@@ -199,7 +195,7 @@ void AWScriptFormatter::initProgram()
 {
     // init JS code
     if (appendCode())
-        m_program = QString("(function(value) { %1%2 })").arg(code()).arg(hasReturn() ? "" : "; return output;");
+        m_program = QString("(function(value) { %1%2 })").arg(code(), hasReturn() ? "" : "; return output;");
     else
         m_program = code();
 
@@ -207,8 +203,10 @@ void AWScriptFormatter::initProgram()
 }
 
 
-void AWScriptFormatter::translate()
+void AWScriptFormatter::translate(void *_ui)
 {
+    auto ui = reinterpret_cast<Ui::AWScriptFormatter *>(_ui);
+
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
     ui->label_type->setText(i18n("Type"));
@@ -216,3 +214,4 @@ void AWScriptFormatter::translate()
     ui->checkBox_hasReturn->setText(i18n("Has return"));
     ui->label_code->setText(i18n("Code"));
 }
+

@@ -32,9 +32,8 @@
 #include "graphicalitemhelper.h"
 
 
-GraphicalItem::GraphicalItem(QWidget *_parent, const QString &_filePath)
+GraphicalItem::GraphicalItem(QObject *_parent, const QString &_filePath)
     : AbstractExtItem(_parent, _filePath)
-    , ui(new Ui::GraphicalItem)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
@@ -53,21 +52,6 @@ GraphicalItem::GraphicalItem(QWidget *_parent, const QString &_filePath)
 
     if (!_filePath.isEmpty())
         GraphicalItem::readConfiguration();
-    ui->setupUi(this);
-    GraphicalItem::translate();
-
-    connect(ui->checkBox_custom, SIGNAL(stateChanged(int)), this, SLOT(changeValue(int)));
-    connect(ui->comboBox_type, SIGNAL(currentIndexChanged(int)), this, SLOT(changeCountState(int)));
-    connect(ui->toolButton_activeColor, SIGNAL(clicked()), this, SLOT(changeColor()));
-    connect(ui->toolButton_inactiveColor, SIGNAL(clicked()), this, SLOT(changeColor()));
-}
-
-
-GraphicalItem::~GraphicalItem()
-{
-    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
-
-    delete ui;
 }
 
 
@@ -75,7 +59,7 @@ GraphicalItem *GraphicalItem::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;
 
-    auto *item = new GraphicalItem(dynamic_cast<QWidget *>(parent()), _fileName);
+    auto item = new GraphicalItem(parent(), _fileName);
     copyDefaults(item);
     item->setActiveColor(activeColor());
     item->setBar(bar());
@@ -100,7 +84,7 @@ QString GraphicalItem::image(const QVariant &value)
 
     m_scene->clear();
     int scale[2] = {1, 1};
-    float converted = GraphicalItemHelper::getPercents(value.toFloat(), minValue(), maxValue());
+    auto converted = GraphicalItemHelper::getPercents(value.toFloat(), minValue(), maxValue());
 
     // paint
     switch (m_type) {
@@ -132,11 +116,11 @@ QString GraphicalItem::image(const QVariant &value)
     }
 
     // convert
-    QPixmap pixmap = m_view->grab().transformed(QTransform().scale(scale[0], scale[1]));
+    auto pixmap = m_view->grab().transformed(QTransform().scale(scale[0], scale[1]));
     QByteArray byteArray;
     QBuffer buffer(&byteArray);
     pixmap.save(&buffer, "PNG");
-    QString url = QString("<img src=\"data:image/png;base64,%1\"/>").arg(QString(byteArray.toBase64()));
+    auto url = QString("<img src=\"data:image/png;base64,%1\"/>").arg(QString(byteArray.toBase64()));
 
     return url;
 }
@@ -438,10 +422,20 @@ void GraphicalItem::readConfiguration()
 }
 
 
-int GraphicalItem::showConfiguration(const QVariant &_args)
+int GraphicalItem::showConfiguration(QWidget *_parent, const QVariant &_args)
 {
     qCDebug(LOG_LIB) << "Combobox arguments" << _args;
-    QStringList tags = _args.toStringList();
+    auto tags = _args.toStringList();
+
+    auto dialog = new QDialog(_parent);
+    auto ui = new Ui::GraphicalItem();
+    ui->setupUi(dialog);
+    translate(ui);
+
+    connect(ui->checkBox_custom, &QCheckBox::stateChanged, [this, ui](const int state) { changeValue(ui, state); });
+    connect(ui->comboBox_type, &QComboBox::currentIndexChanged, [this, ui](const int state) { changeCountState(ui, state); });
+    connect(ui->toolButton_activeColor, &QToolButton::clicked, [this, ui]() { changeColor(ui); });
+    connect(ui->toolButton_inactiveColor, &QToolButton::clicked, [this, ui]() { changeColor(ui); });
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -476,25 +470,29 @@ int GraphicalItem::showConfiguration(const QVariant &_args)
     emit(ui->comboBox_type->currentIndexChanged(ui->comboBox_type->currentIndex()));
     emit(ui->checkBox_custom->stateChanged(ui->checkBox_custom->checkState()));
 
-    int ret = exec();
-    if (ret != 1)
-        return ret;
-    setName(ui->lineEdit_name->text());
-    setComment(ui->lineEdit_comment->text());
-    setApiVersion(AW_GRAPHITEM_API);
-    setCount(ui->spinBox_count->value());
-    setCustom(ui->checkBox_custom->isChecked());
-    setBar(m_custom ? ui->lineEdit_customValue->text() : ui->comboBox_value->currentText());
-    setMaxValue(static_cast<float>(ui->doubleSpinBox_max->value()));
-    setMinValue(static_cast<float>(ui->doubleSpinBox_min->value()));
-    setActiveColor(ui->lineEdit_activeColor->text());
-    setInactiveColor(ui->lineEdit_inactiveColor->text());
-    setType(static_cast<Type>(ui->comboBox_type->currentIndex()));
-    setDirection(static_cast<Direction>(ui->comboBox_direction->currentIndex()));
-    setItemHeight(ui->spinBox_height->value());
-    setItemWidth(ui->spinBox_width->value());
+    int ret = dialog->exec();
+    if (ret == 1) {
+        setName(ui->lineEdit_name->text());
+        setComment(ui->lineEdit_comment->text());
+        setApiVersion(AW_GRAPHITEM_API);
+        setCount(ui->spinBox_count->value());
+        setCustom(ui->checkBox_custom->isChecked());
+        setBar(m_custom ? ui->lineEdit_customValue->text() : ui->comboBox_value->currentText());
+        setMaxValue(static_cast<float>(ui->doubleSpinBox_max->value()));
+        setMinValue(static_cast<float>(ui->doubleSpinBox_min->value()));
+        setActiveColor(ui->lineEdit_activeColor->text());
+        setInactiveColor(ui->lineEdit_inactiveColor->text());
+        setType(static_cast<Type>(ui->comboBox_type->currentIndex()));
+        setDirection(static_cast<Direction>(ui->comboBox_direction->currentIndex()));
+        setItemHeight(ui->spinBox_height->value());
+        setItemWidth(ui->spinBox_width->value());
 
-    writeConfiguration();
+        writeConfiguration();
+    }
+
+    dialog->deleteLater();
+    delete ui;
+
     return ret;
 }
 
@@ -524,23 +522,23 @@ void GraphicalItem::writeConfiguration() const
 }
 
 
-void GraphicalItem::changeColor()
+void GraphicalItem::changeColor(Ui::GraphicalItem *_ui)
 {
     QLineEdit *lineEdit;
     int state;
-    if (sender() == ui->toolButton_activeColor) {
-        lineEdit = ui->lineEdit_activeColor;
-        state = ui->comboBox_activeImageType->currentIndex();
+    if (sender() == _ui->toolButton_activeColor) {
+        lineEdit = _ui->lineEdit_activeColor;
+        state = _ui->comboBox_activeImageType->currentIndex();
     } else {
-        lineEdit = ui->lineEdit_inactiveColor;
-        state = ui->comboBox_inactiveImageType->currentIndex();
+        lineEdit = _ui->lineEdit_inactiveColor;
+        state = _ui->comboBox_inactiveImageType->currentIndex();
     }
     qCInfo(LOG_LIB) << "Using state" << state << "and lineEdit" << lineEdit;
 
     QString outputColor;
     if (state == 0) {
-        QColor color = GraphicalItemHelper::stringToColor(lineEdit->text());
-        QColor newColor = QColorDialog::getColor(color, this, i18n("Select color"), QColorDialog::ShowAlphaChannel);
+        auto color = GraphicalItemHelper::stringToColor(lineEdit->text());
+        auto newColor = QColorDialog::getColor(color, nullptr, i18n("Select color"), QColorDialog::ShowAlphaChannel);
         if (!newColor.isValid())
             return;
         qCInfo(LOG_LIB) << "Selected color" << newColor;
@@ -553,9 +551,9 @@ void GraphicalItem::changeColor()
 
         outputColor = QString("color://%1").arg(colorText.join(','));
     } else if (state == 1) {
-        QString path = lineEdit->text();
-        QString directory = QFileInfo(path).absolutePath();
-        outputColor = QFileDialog::getOpenFileUrl(this, i18n("Select path"), directory,
+        auto path = lineEdit->text();
+        auto directory = QFileInfo(path).absolutePath();
+        outputColor = QFileDialog::getOpenFileUrl(nullptr, i18n("Select path"), directory,
                                                   i18n("Images (*.png *.bpm *.jpg);;All files (*.*)"))
                           .toString();
 
@@ -570,26 +568,28 @@ void GraphicalItem::changeColor()
 }
 
 
-void GraphicalItem::changeCountState(const int _state)
+void GraphicalItem::changeCountState(Ui::GraphicalItem *_ui, const int _state)
 {
     qCDebug(LOG_LIB) << "Current state is" << _state;
 
     // 3 is magic number. Actually 3 is Graph mode
-    ui->widget_count->setHidden(_state != 3);
+    _ui->widget_count->setHidden(_state != 3);
 }
 
 
-void GraphicalItem::changeValue(const int _state)
+void GraphicalItem::changeValue(Ui::GraphicalItem *_ui, const int _state)
 {
     qCDebug(LOG_LIB) << "Current state is" << _state;
 
-    ui->widget_value->setHidden(_state != Qt::Unchecked);
-    ui->widget_customValue->setHidden(_state == Qt::Unchecked);
+    _ui->widget_value->setHidden(_state != Qt::Unchecked);
+    _ui->widget_customValue->setHidden(_state == Qt::Unchecked);
 }
 
 
-void GraphicalItem::translate()
+void GraphicalItem::translate(void *_ui)
 {
+    auto ui = reinterpret_cast<Ui::GraphicalItem *>(_ui);
+
     ui->label_name->setText(i18n("Name"));
     ui->label_comment->setText(i18n("Comment"));
     ui->label_number->setText(i18n("Tag"));

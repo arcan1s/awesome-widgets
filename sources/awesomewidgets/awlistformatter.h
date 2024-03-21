@@ -21,11 +21,6 @@
 #include "awabstractformatter.h"
 
 
-namespace Ui
-{
-class AWListFormatter;
-}
-
 class AWListFormatter : public AWAbstractFormatter
 {
     Q_OBJECT
@@ -34,8 +29,7 @@ class AWListFormatter : public AWAbstractFormatter
     Q_PROPERTY(bool sorted READ isSorted WRITE setSorted)
 
 public:
-    explicit AWListFormatter(QWidget *_parent = nullptr, const QString &_filePath = "");
-    ~AWListFormatter() override;
+    explicit AWListFormatter(QObject *_parent = nullptr, const QString &_filePath = "");
     [[nodiscard]] QString convert(const QVariant &_value) const override;
     AWListFormatter *copy(const QString &_fileName, int _number) override;
     // properties
@@ -48,12 +42,11 @@ public:
 
 public slots:
     void readConfiguration() override;
-    int showConfiguration(const QVariant &_args) override;
+    int showConfiguration(QWidget *_parent, const QVariant &_args) override;
     void writeConfiguration() const override;
 
 private:
-    Ui::AWListFormatter *ui = nullptr;
-    void translate() override;
+    void translate(void *_ui) override;
     // properties
     QString m_filter = "";
     QString m_separator = "";

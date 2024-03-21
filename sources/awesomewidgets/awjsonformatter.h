@@ -21,19 +21,13 @@
 #include "awabstractformatter.h"
 
 
-namespace Ui
-{
-class AWJsonFormatter;
-}
-
 class AWJsonFormatter : public AWAbstractFormatter
 {
     Q_OBJECT
     Q_PROPERTY(QString path READ path WRITE setPath)
 
 public:
-    explicit AWJsonFormatter(QWidget *_parent = nullptr, const QString &_filePath = "");
-    ~AWJsonFormatter() override;
+    explicit AWJsonFormatter(QObject *_parent = nullptr, const QString &_filePath = "");
     [[nodiscard]] QString convert(const QVariant &_value) const override;
     AWJsonFormatter *copy(const QString &_fileName, int _number) override;
     // properties
@@ -42,16 +36,15 @@ public:
 
 public slots:
     void readConfiguration() override;
-    int showConfiguration(const QVariant &_args) override;
+    int showConfiguration(QWidget *_parent, const QVariant &_args) override;
     void writeConfiguration() const override;
 
 private:
-    Ui::AWJsonFormatter *ui = nullptr;
     static QVariant getFromJson(const QVariant &_value, const QVariant &_element);
     static QVariant getFromList(const QVariant &_value, int _index);
     static QVariant getFromMap(const QVariant &_value, const QString &_key);
     void initPath();
-    void translate() override;
+    void translate(void *_ui) override;
     // properties
     QString m_path;
     QVariantList m_splittedPath;

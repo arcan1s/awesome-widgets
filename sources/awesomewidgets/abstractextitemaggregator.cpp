@@ -34,9 +34,8 @@ AbstractExtItemAggregator::AbstractExtItemAggregator(QWidget *_parent, QString _
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     // create directory at $HOME
-    QString localDir = QString("%1/awesomewidgets/%2")
-                           .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation))
-                           .arg(type());
+    auto localDir = QString("%1/awesomewidgets/%2")
+            .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation), type());
     QDir localDirectory;
     if (localDirectory.mkpath(localDir))
         qCInfo(LOG_LIB) << "Created directory" << localDir;
@@ -62,20 +61,19 @@ AbstractExtItemAggregator::~AbstractExtItemAggregator()
 
 void AbstractExtItemAggregator::copyItem()
 {
-    AbstractExtItem *source = itemFromWidget();
-    QString fileName = getName();
-    int number = uniqNumber();
-    QString dir = QString("%1/awesomewidgets/%2")
-                      .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation))
-                      .arg(m_type);
+    auto source = itemFromWidget();
+    auto fileName = getName();
+    auto number = uniqNumber();
+    auto dir = QString("%1/awesomewidgets/%2")
+            .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation), m_type);
     if ((!source) || (fileName.isEmpty())) {
         qCWarning(LOG_LIB) << "Nothing to copy";
         return;
     }
-    QString filePath = QString("%1/%2").arg(dir).arg(fileName);
+    auto filePath = QString("%1/%2").arg(dir, fileName);
 
-    AbstractExtItem *newItem = source->copy(filePath, number);
-    if (newItem->showConfiguration(configArgs()) == 1) {
+    auto newItem = source->copy(filePath, number);
+    if (newItem->showConfiguration(this, configArgs()) == 1) {
         initItems();
         repaintList();
     }
@@ -84,7 +82,7 @@ void AbstractExtItemAggregator::copyItem()
 
 void AbstractExtItemAggregator::deleteItem()
 {
-    AbstractExtItem *source = itemFromWidget();
+    auto source = itemFromWidget();
     if (!source) {
         qCWarning(LOG_LIB) << "Nothing to delete";
         return;
@@ -99,13 +97,13 @@ void AbstractExtItemAggregator::deleteItem()
 
 void AbstractExtItemAggregator::editItem()
 {
-    AbstractExtItem *source = itemFromWidget();
+    auto source = itemFromWidget();
     if (!source) {
         qCWarning(LOG_LIB) << "Nothing to edit";
         return;
     }
 
-    if (source->showConfiguration(configArgs()) == 1) {
+    if (source->showConfiguration(this, configArgs()) == 1) {
         initItems();
         repaintList();
     }
@@ -115,7 +113,7 @@ void AbstractExtItemAggregator::editItem()
 QString AbstractExtItemAggregator::getName()
 {
     bool ok;
-    QString name = QInputDialog::getText(this, i18n("Enter file name"), i18n("File name"), QLineEdit::Normal, "", &ok);
+    auto name = QInputDialog::getText(this, i18n("Enter file name"), i18n("File name"), QLineEdit::Normal, "", &ok);
     if ((!ok) || (name.isEmpty()))
         return "";
     if (!name.endsWith(".desktop"))
@@ -127,13 +125,13 @@ QString AbstractExtItemAggregator::getName()
 
 AbstractExtItem *AbstractExtItemAggregator::itemFromWidget() const
 {
-    QListWidgetItem *widgetItem = ui->listWidget->currentItem();
+    auto widgetItem = ui->listWidget->currentItem();
     if (!widgetItem)
         return nullptr;
 
     AbstractExtItem *found = nullptr;
     for (auto &item : items()) {
-        QString fileName = QFileInfo(item->fileName()).fileName();
+        auto fileName = QFileInfo(item->fileName()).fileName();
         if (fileName != widgetItem->text())
             continue;
         found = item;
@@ -151,7 +149,7 @@ void AbstractExtItemAggregator::repaintList() const
     ui->listWidget->clear();
     for (auto &_item : items()) {
         QString fileName = QFileInfo(_item->fileName()).fileName();
-        auto *item = new QListWidgetItem(fileName, ui->listWidget);
+        auto item = new QListWidgetItem(fileName, ui->listWidget);
         QStringList tooltip;
         tooltip.append(i18n("Name: %1", _item->name()));
         tooltip.append(i18n("Comment: %1", _item->comment()));
