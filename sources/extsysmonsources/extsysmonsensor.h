@@ -22,19 +22,23 @@
 
 
 class AbstractExtSysMonSource;
+class QTimer;
 
 class ExtSysMonSensor : public KSysGuard::SensorObject
 {
     Q_OBJECT
 
 public:
-    explicit ExtSysMonSensor(KSysGuard::SensorContainer *_parent, const QString &_id, AbstractExtSysMonSource *_source);
-    ~ExtSysMonSensor() override = default;
+    explicit ExtSysMonSensor(KSysGuard::SensorContainer *_parent, const QString &_id, const QString &_name,
+                             AbstractExtSysMonSource *_source);
+    ~ExtSysMonSensor() override;
+    void changeSubscription(bool _subscribed);
     void update();
 
 private:
-    QHash<QString, KSysGuard::SensorProperty *> m_properties;
+    void loadProperties();
     AbstractExtSysMonSource *m_source = nullptr;
+    QTimer *m_timer = nullptr;
 };
 
 

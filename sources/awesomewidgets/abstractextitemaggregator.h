@@ -18,7 +18,6 @@
 #ifndef ABSTRACTEXTITEMAGGREGATOR_H
 #define ABSTRACTEXTITEMAGGREGATOR_H
 
-#include <QDialog>
 #include <QStandardPaths>
 
 #include "abstractextitem.h"
@@ -26,48 +25,45 @@
 
 
 class QAbstractButton;
+class QListWidget;
 class QListWidgetItem;
-namespace Ui
-{
-class AbstractExtItemAggregator;
-}
 
-class AbstractExtItemAggregator : public QDialog
+class AbstractExtItemAggregator : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QVariant configArgs READ configArgs WRITE setConfigArgs)
     Q_PROPERTY(QVariant type READ type)
 
 public:
-    explicit AbstractExtItemAggregator(QWidget *_parent, QString _type);
-    ~AbstractExtItemAggregator() override;
+    explicit AbstractExtItemAggregator(QObject *_parent, QString _type);
     // methods
-    void copyItem();
-    template <class T> void createItem()
+    void copyItem(QListWidget *_widget);
+    template <class T> void createItem(QListWidget *_widget)
     {
         auto fileName = getName();
-        int number = uniqNumber();
+        auto number = uniqNumber();
         auto dir = QString("%1/awesomewidgets/%2")
-                .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation), m_type);
+                       .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation), m_type);
         if (fileName.isEmpty()) {
             qCWarning(LOG_LIB) << "Nothing to create";
             return;
         }
         auto filePath = QString("%1/%2").arg(dir, fileName);
 
-        T *newItem = new T(this, filePath);
+        auto newItem = new T(this, filePath);
         newItem->setNumber(number);
-        if (newItem->showConfiguration(this, configArgs()) == 1) {
+        if (newItem->showConfiguration(nullptr, configArgs()) == 1) {
             initItems();
-            repaintList();
+            repaintList(_widget);
         }
     };
-    void deleteItem();
-    void editItem();
+    void deleteItem(QListWidget *_widget);
+    void editItem(QListWidget *_widget);
+    [[nodiscard]] int exec();
     QString getName();
     virtual void initItems() = 0;
-    [[nodiscard]] AbstractExtItem *itemFromWidget() const;
-    void repaintList() const;
+    [[nodiscard]] AbstractExtItem *itemFromWidget(QListWidget *_widget) const;
+    void repaintList(QListWidget *_widget) const;
     [[nodiscard]] int uniqNumber() const;
     // get methods
     [[nodiscard]] QVariant configArgs() const;
@@ -77,21 +73,12 @@ public:
     // set methods
     void setConfigArgs(const QVariant &_configArgs);
 
-private slots:
-    void editItemActivated(QListWidgetItem *);
-    void editItemButtonPressed(QAbstractButton *_button);
-
 private:
-    // ui
-    Ui::AbstractExtItemAggregator *ui = nullptr;
-    QPushButton *copyButton = nullptr;
-    QPushButton *createButton = nullptr;
-    QPushButton *deleteButton = nullptr;
     // properties
     QVariant m_configArgs;
     QString m_type;
     // ui methods
-    virtual void doCreateItem() = 0;
+    virtual void doCreateItem(QListWidget *_widget) = 0;
 };
 
 

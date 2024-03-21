@@ -77,7 +77,7 @@ QVariant HDDTemperatureSource::data(const QString &_source)
     qCDebug(LOG_ESS) << "Source" << _source;
 
     QString device = _source;
-    device.remove("hdd/temperature");
+    device.remove("temperature");
     // run cmd
     if (m_processes[device]->state() == QProcess::NotRunning) {
         auto cmd = m_cmd.first();
@@ -95,7 +95,7 @@ KSysGuard::SensorInfo *HDDTemperatureSource::initialData(const QString &_source)
     qCDebug(LOG_ESS) << "Source" << _source;
 
     auto device = _source;
-    device.remove("hdd/temperature");
+    device.remove("temperature");
 
     auto data = new KSysGuard::SensorInfo();
     data->min = 0.0;
@@ -112,7 +112,7 @@ QStringList HDDTemperatureSource::sources() const
 {
     QStringList sources;
     for (auto &device : m_devices)
-        sources.append(QString("hdd/temperature%1").arg(device));
+        sources.append(QString("temperature%1").arg(device));
 
     return sources;
 }

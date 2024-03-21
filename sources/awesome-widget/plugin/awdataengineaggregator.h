@@ -40,6 +40,7 @@ public:
     explicit AWDataEngineAggregator(QObject *_parent = nullptr);
     ~AWDataEngineAggregator() override;
     void disconnectSources();
+    [[nodiscard]] bool isValidSensor(const KSysGuard::SensorInfo &_sensor);
     void loadSources();
     void reconnectSources(const int interval);
 

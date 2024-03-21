@@ -27,11 +27,7 @@ class ExtendedSysMon : public KSysGuard::SensorPlugin
 
 public:
     explicit ExtendedSysMon(QObject *_parent, const QVariantList &_args);
-    ~ExtendedSysMon() override;
-
     [[nodiscard]] QString providerName() const override { return QStringLiteral("extsysmon"); }
-
-    void update() override;
 
 private:
     // configuration

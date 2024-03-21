@@ -55,7 +55,7 @@ QVariant GPUTemperatureSource::data(const QString &_source)
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
-    if (_source == "gpu/temperature")
+    if (_source == "temperature")
         run();
 
     return m_values[_source];
@@ -67,7 +67,7 @@ KSysGuard::SensorInfo *GPUTemperatureSource::initialData(const QString &_source)
     qCDebug(LOG_ESS) << "Source" << _source;
 
     auto data = new KSysGuard::SensorInfo();
-    if (_source == "gpu/temperature") {
+    if (_source == "temperature") {
         data->min = 0.0;
         data->max = 0.0;
         data->name = "GPU temperature";
@@ -95,7 +95,7 @@ void GPUTemperatureSource::run()
 QStringList GPUTemperatureSource::sources() const
 {
     QStringList sources;
-    sources.append("gpu/temperature");
+    sources.append("temperature");
 
     return sources;
 }
@@ -114,7 +114,7 @@ void GPUTemperatureSource::updateValue()
             if (!str.contains("<gpu_temp>"))
                 continue;
             QString temp = str.remove("<gpu_temp>").remove("C</gpu_temp>");
-            m_values["gpu/temperature"] = temp.toFloat();
+            m_values["temperature"] = temp.toFloat();
             break;
         }
     } else if (m_device == "ati") {
@@ -122,7 +122,7 @@ void GPUTemperatureSource::updateValue()
             if (!str.contains("Temperature"))
                 continue;
             QString temp = str.split(' ', Qt::SkipEmptyParts).at(4);
-            m_values["gpu/temperature"] = temp.toFloat();
+            m_values["temperature"] = temp.toFloat();
             break;
         }
     }

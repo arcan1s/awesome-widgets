@@ -433,7 +433,8 @@ int GraphicalItem::showConfiguration(QWidget *_parent, const QVariant &_args)
     translate(ui);
 
     connect(ui->checkBox_custom, &QCheckBox::stateChanged, [this, ui](const int state) { changeValue(ui, state); });
-    connect(ui->comboBox_type, &QComboBox::currentIndexChanged, [this, ui](const int state) { changeCountState(ui, state); });
+    connect(ui->comboBox_type, &QComboBox::currentIndexChanged,
+            [this, ui](const int state) { changeCountState(ui, state); });
     connect(ui->toolButton_activeColor, &QToolButton::clicked, [this, ui]() { changeColor(ui); });
     connect(ui->toolButton_inactiveColor, &QToolButton::clicked, [this, ui]() { changeColor(ui); });
 

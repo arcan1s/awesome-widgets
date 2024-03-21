@@ -214,4 +214,3 @@ void AWScriptFormatter::translate(void *_ui)
     ui->checkBox_hasReturn->setText(i18n("Has return"));
     ui->label_code->setText(i18n("Code"));
 }
-

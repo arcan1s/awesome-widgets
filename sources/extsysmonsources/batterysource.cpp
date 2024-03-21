@@ -48,12 +48,12 @@ BatterySource::~BatterySource()
 QStringList BatterySource::getSources()
 {
     QStringList sources;
-    sources.append("battery/ac");
-    sources.append("battery/bat");
-    sources.append("battery/batleft");
-    sources.append("battery/batnow");
-    sources.append("battery/batrate");
-    sources.append("battery/battotal");
+    sources.append("ac");
+    sources.append("bat");
+    sources.append("batleft");
+    sources.append("batnow");
+    sources.append("batrate");
+    sources.append("battotal");
 
     auto directory = QDir(m_acpiPath);
 
@@ -63,11 +63,11 @@ QStringList BatterySource::getSources()
         qCInfo(LOG_ESS) << "Init batteries count as" << m_batteriesCount;
 
         for (int i = 0; i < m_batteriesCount; i++) {
-            sources.append(QString("battery/bat%1").arg(i));
-            sources.append(QString("battery/batleft%1").arg(i));
-            sources.append(QString("battery/batnow%1").arg(i));
-            sources.append(QString("battery/batrate%1").arg(i));
-            sources.append(QString("battery/battotal%1").arg(i));
+            sources.append(QString("bat%1").arg(i));
+            sources.append(QString("batleft%1").arg(i));
+            sources.append(QString("batnow%1").arg(i));
+            sources.append(QString("batrate%1").arg(i));
+            sources.append(QString("battotal%1").arg(i));
         }
     }
 
@@ -82,8 +82,7 @@ QVariant BatterySource::data(const QString &_source)
 
     if (!m_values.contains(_source))
         run();
-    QVariant value = m_values.take(_source);
-    return value;
+    return m_values.take(_source);
 }
 
 
@@ -92,65 +91,65 @@ KSysGuard::SensorInfo *BatterySource::initialData(const QString &_source) const
     qCDebug(LOG_ESS) << "Source" << _source;
 
     auto data = new KSysGuard::SensorInfo();
-    if (_source == "battery/ac") {
+    if (_source == "ac") {
         data->name = "Is AC online or not";
         data->variantType = QVariant::Bool;
         data->unit = KSysGuard::UnitNone;
-    } else if (_source == "battery/bat") {
+    } else if (_source == "bat") {
         data->min = 0;
         data->max = 100;
         data->name = "Average battery usage";
         data->variantType = QVariant::Int;
         data->unit = KSysGuard::UnitPercent;
-    } else if (_source == "battery/batleft") {
+    } else if (_source == "batleft") {
         data->min = 0;
         data->max = 0;
         data->name = "Battery discharge time";
         data->variantType = QVariant::Int;
         data->unit = KSysGuard::UnitSecond;
-    } else if (_source == "battery/batnow") {
+    } else if (_source == "batnow") {
         data->min = 0;
         data->max = 0;
         data->name = "Current battery capacity";
         data->variantType = QVariant::Int;
         data->unit = KSysGuard::UnitNone;
-    } else if (_source == "battery/batrate") {
+    } else if (_source == "batrate") {
         data->min = 0;
         data->max = 0;
         data->name = "Average battery discharge rate";
         data->variantType = QVariant::Double;
         data->unit = KSysGuard::UnitRate;
-    } else if (_source == "battery/battotal") {
+    } else if (_source == "battotal") {
         data->min = 0;
         data->max = 0;
         data->name = "Full battery capacity";
         data->variantType = QVariant::Int;
         data->unit = KSysGuard::UnitNone;
-    } else if (_source.startsWith("battery/batleft")) {
+    } else if (_source.startsWith("batleft")) {
         data->min = 0;
         data->max = 0;
         data->name = QString("Battery %1 discharge time").arg(index(_source));
         data->variantType = QVariant::Int;
         data->unit = KSysGuard::UnitSecond;
-    } else if (_source.startsWith("battery/batnow")) {
+    } else if (_source.startsWith("batnow")) {
         data->min = 0;
         data->max = 0;
         data->name = QString("Battery %1 capacity").arg(index(_source));
         data->variantType = QVariant::Int;
         data->unit = KSysGuard::UnitNone;
-    } else if (_source.startsWith("battery/battotal")) {
+    } else if (_source.startsWith("battotal")) {
         data->min = 0;
         data->max = 0;
         data->name = QString("Battery %1 full capacity").arg(index(_source));
         data->variantType = QVariant::Int;
         data->unit = KSysGuard::UnitNone;
-    } else if (_source.startsWith("battery/batrate")) {
+    } else if (_source.startsWith("batrate")) {
         data->min = 0;
         data->max = 0;
         data->name = QString("Battery %1 discharge rate").arg(index(_source));
         data->variantType = QVariant::Double;
         data->unit = KSysGuard::UnitRate;
-    } else if (_source.startsWith("battery/bat")) {
+    } else if (_source.startsWith("bat")) {
         data->min = 0;
         data->max = 100;
         data->name = QString("Battery %1 usage").arg(index(_source));
@@ -167,7 +166,7 @@ void BatterySource::run()
     // adaptor
     QFile acFile(QString("%1/AC/online").arg(m_acpiPath));
     if (acFile.open(QIODevice::ReadOnly | QIODevice::Text))
-        m_values["battery/ac"] = (QString(acFile.readLine()).trimmed().toInt() == 1);
+        m_values["ac"] = (QString(acFile.readLine()).trimmed().toInt() == 1);
     acFile.close();
 
     // batteries
@@ -178,28 +177,27 @@ void BatterySource::run()
         if (currentLevelFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
             auto value = QString(currentLevelFile.readLine()).toInt();
             m_trend[i + 1].append(value);
-            m_values[QString("battery/batnow%1").arg(i)] = value;
+            m_values[QString("batnow%1").arg(i)] = value;
         }
         currentLevelFile.close();
         // total
         QFile fullLevelFile(QString("%1/BAT%2/energy_full").arg(m_acpiPath).arg(i));
         if (fullLevelFile.open(QIODevice::ReadOnly | QIODevice::Text))
-            m_values[QString("battery/battotal%1").arg(i)] = QString(fullLevelFile.readLine()).toInt();
+            m_values[QString("battotal%1").arg(i)] = QString(fullLevelFile.readLine()).toInt();
         fullLevelFile.close();
 
-        m_values[QString("battery/bat%1").arg(i)]
-            = static_cast<int>(100 * m_values[QString("battery/batnow%1").arg(i)].toFloat()
-                               / m_values[QString("battery/battotal%1").arg(i)].toFloat());
+        m_values[QString("bat%1").arg(i)] = static_cast<int>(100 * m_values[QString("batnow%1").arg(i)].toFloat()
+                                                             / m_values[QString("battotal%1").arg(i)].toFloat());
         // accumulate
-        currentLevel += m_values[QString("battery/batnow%1").arg(i)].toFloat();
-        fullLevel += m_values[QString("battery/battotal%1").arg(i)].toFloat();
+        currentLevel += m_values[QString("batnow%1").arg(i)].toFloat();
+        fullLevel += m_values[QString("battotal%1").arg(i)].toFloat();
     }
 
     // total
     m_trend[0].append(static_cast<int>(currentLevel));
-    m_values["battery/batnow"] = static_cast<int>(currentLevel);
-    m_values["battery/battotal"] = static_cast<int>(fullLevel);
-    m_values["battery/bat"] = static_cast<int>(100 * currentLevel / fullLevel);
+    m_values["batnow"] = static_cast<int>(currentLevel);
+    m_values["battotal"] = static_cast<int>(fullLevel);
+    m_values["bat"] = static_cast<int>(100 * currentLevel / fullLevel);
 
     calculateRates();
 }
@@ -245,15 +243,14 @@ void BatterySource::calculateRates()
 
     for (int i = 0; i < m_batteriesCount; i++) {
         auto approx = approximate(m_trend[i + 1]);
-        m_values[QString("battery/batrate%1").arg(i)] = approx / interval;
-        m_values[QString("battery/batleft%1").arg(i)]
-            = interval * m_values[QString("battery/batnow%1").arg(i)].toFloat() / approx;
+        m_values[QString("batrate%1").arg(i)] = approx / interval;
+        m_values[QString("batleft%1").arg(i)] = interval * m_values[QString("batnow%1").arg(i)].toFloat() / approx;
     }
 
     // total
     auto approx = approximate(m_trend[0]);
-    m_values["battery/batrate"] = approx / interval;
-    m_values["battery/batleft"] = interval * m_values["battery/batnow"].toFloat() / approx;
+    m_values["batrate"] = approx / interval;
+    m_values["batleft"] = interval * m_values["batnow"].toFloat() / approx;
 
     // old data cleanup
     for (auto &trend : m_trend.keys()) {

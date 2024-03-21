@@ -91,4 +91,3 @@ void AWNoFormatter::translate(void *_ui)
     ui->label_comment->setText(i18n("Comment"));
     ui->label_type->setText(i18n("Type"));
 }
-

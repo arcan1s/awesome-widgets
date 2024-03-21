@@ -23,6 +23,10 @@
 
 #include "abstractextsysmonsource.h"
 
+
+class AbstractExtSysMonSource;
+class ExtSysMonSensor;
+
 class ExtSysMonAggregator : public KSysGuard::SensorContainer
 {
     Q_OBJECT
@@ -32,6 +36,7 @@ public:
                                  const QHash<QString, QString> &_config);
 
 private:
+    void createSensor(const QString &_id, const QString &_name, AbstractExtSysMonSource *_source);
     void init(const QHash<QString, QString> &_config);
 };
 

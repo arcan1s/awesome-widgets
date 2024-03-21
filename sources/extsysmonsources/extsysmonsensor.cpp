@@ -17,23 +17,67 @@
 
 #include "extsysmonsensor.h"
 
+#include <QTimer>
+
 #include "abstractextsysmonsource.h"
 #include "awdebug.h"
 
 
-ExtSysMonSensor::ExtSysMonSensor(KSysGuard::SensorContainer *_parent, const QString &_id,
+ExtSysMonSensor::ExtSysMonSensor(KSysGuard::SensorContainer *_parent, const QString &_id, const QString &_name,
                                  AbstractExtSysMonSource *_source)
-    : KSysGuard::SensorObject(_id, _parent)
+    : KSysGuard::SensorObject(_id, _name, _parent)
+    , m_source(_source)
+    , m_timer(new QTimer(this))
 {
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
-    m_source = _source;
+    loadProperties();
 
+    connect(this, &SensorObject::subscribedChanged, [this](bool _state) { changeSubscription(_state); });
+    connect(m_timer, &QTimer::timeout, [this]() { update(); });
+}
+
+
+ExtSysMonSensor::~ExtSysMonSensor()
+{
+    qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
+
+    m_timer->stop();
+    m_timer->deleteLater();
+}
+
+
+void ExtSysMonSensor::changeSubscription(bool _subscribed)
+{
+    qCDebug(LOG_ESS) << "Subscription changed to" << _subscribed;
+
+    if (_subscribed) {
+        m_timer->start(1000);
+    } else {
+        m_timer->stop();
+    }
+}
+
+
+void ExtSysMonSensor::update()
+{
     for (auto &source : m_source->sources()) {
-        auto property = new KSysGuard::SensorProperty(source, this);
+        auto property = sensor(source);
+        if (!property->isSubscribed())
+            continue; // skip properties which are not explicitly subscribed
 
+        auto value = m_source->data(source);
+        qCWarning(LOG_ESS) << source << value;
+        property->setValue(value);
+    }
+}
+
+
+void ExtSysMonSensor::loadProperties()
+{
+    for (auto &source : m_source->sources()) {
         auto info = m_source->initialData(source);
-        property->setName(info->name);
+        auto property = new KSysGuard::SensorProperty(source, info->name, this);
 
         property->setUnit(info->unit);
         property->setVariantType(info->variantType);
@@ -41,15 +85,6 @@ ExtSysMonSensor::ExtSysMonSensor(KSysGuard::SensorContainer *_parent, const QStr
         property->setMin(info->min);
         property->setMax(info->max);
 
-        m_properties[source] = property;
-    }
-}
-
-
-void ExtSysMonSensor::update()
-{
-    for (auto &source : m_properties.keys()) {
-        auto value = m_source->data(source);
-        m_properties[source]->setValue(value);
+        addProperty(property);
     }
 }

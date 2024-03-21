@@ -92,14 +92,14 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSy
     auto netRegExp = QRegularExpression("^network/.*/(download|upload)$");
     auto netTotalRegExp = QRegularExpression("^network/.*/(totalDownload|totalUpload)$");
 
-    if (_source == "battery/ac") {
+    if (_source == "extsysmon/battery/ac") {
         // AC
         m_map.insert(_source, "ac");
         m_formatter["ac"] = AWKeysAggregator::FormatterType::ACFormat;
-    } else if (_source.startsWith("battery/")) {
+    } else if (_source.startsWith("extsysmon/battery/")) {
         // battery stats
         QString key = _source;
-        key.remove("battery/");
+        key.remove("extsysmon/battery/");
         m_map.insert(_source, key);
         m_formatter[key] = _source.contains("rate") ? AWKeysAggregator::FormatterType::Float
                                                     : AWKeysAggregator::FormatterType::IntegerThree;
@@ -124,21 +124,21 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSy
         key = QString("cpucl%1").arg(key);
         m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::Integer;
-    } else if (_source.startsWith("custom")) {
+    } else if (_source.startsWith("extsysmon/custom")) {
         // custom
         QString key = _source;
-        key.remove("custom/");
+        key.remove("extsysmon/custom/");
         m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::NoFormat;
-    } else if (_source == "desktop/current/name") {
+    } else if (_source == "extsysmon/desktop/current/name") {
         // current desktop name
         m_map.insert(_source, "desktop");
         m_formatter["desktop"] = AWKeysAggregator::FormatterType::NoFormat;
-    } else if (_source == "desktop/current/number") {
+    } else if (_source == "extsysmon/desktop/current/number") {
         // current desktop number
         m_map.insert(_source, "ndesktop");
         m_formatter["ndesktop"] = AWKeysAggregator::FormatterType::NoFormat;
-    } else if (_source == "desktop/total/number") {
+    } else if (_source == "extsysmon/desktop/total/number") {
         // desktop count
         m_map.insert(_source, "tdesktops");
         m_formatter["tdesktops"] = AWKeysAggregator::FormatterType::NoFormat;
@@ -162,11 +162,11 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSy
             m_map.insert(_source, key);
             m_formatter[key] = AWKeysAggregator::FormatterType::Integer;
         }
-    } else if (_source == "gpu/load") {
+    } else if (_source == "extsysmon/gpuload/load") {
         // gpu load
         m_map.insert(_source, "gpu");
         m_formatter["gpu"] = AWKeysAggregator::FormatterType::Float;
-    } else if (_source == "gpu/temperature") {
+    } else if (_source == "extsysmon/gputemp/temperature") {
         // gpu temperature
         m_map.insert(_source, "gputemp");
         m_formatter["gputemp"] = AWKeysAggregator::FormatterType::Temperature;
@@ -213,7 +213,7 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSy
             m_map.insert(_source, key);
             m_formatter[key] = AWKeysAggregator::FormatterType::MemGBFormat;
         }
-    } else if (_source.startsWith("hdd/temperature")) {
+    } else if (_source.startsWith("extsysmon/hdd/temperature")) {
         // hdd temperature
         QString device = _source;
         device.remove("hdd/temperature");
@@ -254,18 +254,18 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSy
         // gb
         m_map.insert(_source, "memusedgb");
         m_formatter["memusedgb"] = AWKeysAggregator::FormatterType::MemGBFormat;
-    } else if (_source == "network/current/name") {
+    } else if (_source == "extsysmon/network/device") {
         // network device
         m_map.insert(_source, "netdev");
         m_formatter["netdev"] = AWKeysAggregator::FormatterType::NoFormat;
-    } else if (_source == "network/current/ssid") {
+    } else if (_source == "extsysmon/network/ssid") {
         // current ssid
         m_map.insert(_source, "ssid");
         m_formatter["ssid"] = AWKeysAggregator::FormatterType::NoFormat;
-    } else if (_source.startsWith("network/response")) {
+    } else if (_source.startsWith("extsysmon/requests/response")) {
         // network response
         QString key = _source;
-        key.remove("network/");
+        key.remove("extsysmon/requests/");
         m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::NoFormat;
     } else if (_source.contains(netRegExp)) {
@@ -300,34 +300,34 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSy
             m_map.insert(_source, key);
             m_formatter[key] = AWKeysAggregator::FormatterType::MemMBFormat;
         }
-    } else if (_source.startsWith("upgrade")) {
+    } else if (_source.startsWith("extsysmon/upgrade")) {
         // package manager
         QString key = _source;
-        key.remove("upgrade/");
+        key.remove("extsysmon/upgrade/");
         m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::IntegerThree;
-    } else if (_source.startsWith("player")) {
+    } else if (_source.startsWith("extsysmon/player")) {
         // player
         QString key = _source;
-        key.remove("player/");
+        key.remove("extsysmon/player/");
         m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::NoFormat;
-    } else if (_source == "ps/running/count") {
+    } else if (_source == "extsysmon/ps/running/count") {
         // running processes count
         m_map.insert(_source, "pscount");
         m_formatter["pscount"] = AWKeysAggregator::FormatterType::NoFormat;
-    } else if (_source == "ps/running/list") {
+    } else if (_source == "extsysmon/ps/running/list") {
         // list of running processes
         m_map.insert(_source, "ps");
         m_formatter["ps"] = AWKeysAggregator::FormatterType::List;
-    } else if (_source == "ps/total/count") {
+    } else if (_source == "extsysmon/ps/total/count") {
         // total processes count
         m_map.insert(_source, "pstot");
         m_formatter["pstot"] = AWKeysAggregator::FormatterType::NoFormat;
-    } else if (_source.startsWith("quotes")) {
+    } else if (_source.startsWith("extsysmon/quotes")) {
         // quotes
         QString key = _source;
-        key.remove("quotes/");
+        key.remove("extsysmon/quotes/");
         m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::Quotes;
     } else if (_source == "memory/swap/free") {
@@ -377,35 +377,35 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSy
         // timestamp
         m_map.insert(_source, "tstime");
         m_formatter["tstime"] = AWKeysAggregator::FormatterType::Timestamp;
-    } else if (_source == "system/brightness") {
+    } else if (_source == "extsysmon/system/brightness") {
         m_map.insert(_source, "brightness");
         m_formatter["brightness"] = AWKeysAggregator::FormatterType::IntegerThree;
-    } else if (_source == "system/volume") {
+    } else if (_source == "extsysmon/system/volume") {
         m_map.insert(_source, "volume");
         m_formatter["volume"] = AWKeysAggregator::FormatterType::IntegerThree;
-    } else if (_source == "system/uptime") {
+    } else if (_source == "os/system/uptime") {
         // uptime
         m_map.insert(_source, "uptime");
         m_formatter["uptime"] = AWKeysAggregator::FormatterType::Uptime;
         // custom uptime
         m_map.insert(_source, "cuptime");
         m_formatter["cuptime"] = AWKeysAggregator::FormatterType::UptimeCustom;
-    } else if (_source.startsWith("weather/temperature")) {
+    } else if (_source.startsWith("extsysmon/weather/temperature")) {
         // temperature
         QString key = _source;
-        key.remove("weather/");
+        key.remove("extsysmon/weather/");
         m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::Temperature;
-    } else if (_source.startsWith("weather/")) {
+    } else if (_source.startsWith("extsysmon/weather/")) {
         // other weather
         QString key = _source;
-        key.remove("weather/");
+        key.remove("extsysmon/weather/");
         m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::NoFormat;
-    } else if (_source.startsWith("load/load")) {
+    } else if (_source.startsWith("extsysmon/load/load")) {
         // load source
         QString key = _source;
-        key.remove("load/");
+        key.remove("extsysmon/load/");
         m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::Temperature;
     }

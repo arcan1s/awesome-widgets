@@ -56,21 +56,16 @@ AWKeys::AWKeys(QObject *_parent)
     createDBusInterface();
 
     // update key data if required
-    connect(m_keyOperator, SIGNAL(updateKeys(const QStringList &)), this, SLOT(reinitKeys(const QStringList &)));
-    connect(m_timer, SIGNAL(timeout()), this, SLOT(updateTextData()));
+    connect(m_keyOperator, &AWKeyOperations::updateKeys, this, &AWKeys::reinitKeys);
+    connect(m_timer, &QTimer::timeout, this, &AWKeys::updateTextData);
 
     // transfer signal from AWDataAggregator object to QML ui
-    connect(m_dataAggregator, SIGNAL(toolTipPainted(const QString &)), this,
-            SIGNAL(needToolTipToBeUpdated(const QString &)));
+    connect(m_dataAggregator, &AWDataAggregator::toolTipPainted, [this](const QString &_tooltip) { emit(needToolTipToBeUpdated(_tooltip)); });
 
-    connect(this, SIGNAL(dropSourceFromDataengine(const QString &)), m_dataEngineAggregator,
-            SLOT(dropSource(const QString &)));
-    connect(m_dataEngineAggregator,
-            SIGNAL(dataUpdated(const QHash<QString, KSysGuard::SensorInfo> &, const KSysGuard::SensorDataList &)), this,
-            SLOT(dataUpdated(const QHash<QString, KSysGuard::SensorInfo> &, const KSysGuard::SensorDataList &)));
+    connect(this, &AWKeys::dropSourceFromDataengine, m_dataEngineAggregator, &AWDataEngineAggregator::dropSource);
+    connect(m_dataEngineAggregator, &AWDataEngineAggregator::dataUpdated, this, &AWKeys::dataUpdated);
     // transfer signal from dataengine to update source list
-    connect(m_dataEngineAggregator, SIGNAL(deviceAdded(const QString &)), m_keyOperator,
-            SLOT(addDevice(const QString &)));
+    connect(m_dataEngineAggregator, &AWDataEngineAggregator::deviceAdded, m_keyOperator, &AWKeyOperations::addDevice);
 }
 
 
@@ -373,7 +368,7 @@ void AWKeys::setDataBySource(const QString &_source, const KSysGuard::SensorInfo
 
     // update data or drop source if there are no matches and exit
     if (tags.isEmpty()) {
-        qCInfo(LOG_AW) << "Source" << _source << "not found";
+        qCInfo(LOG_AW) << "Sensor" << _source << "not found";
         return emit(dropSourceFromDataengine(_source));
     }
 

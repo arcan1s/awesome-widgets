@@ -74,7 +74,7 @@ QStringList CustomSource::getSources()
 {
     QStringList sources;
     for (auto &item : m_extScripts->activeItems())
-        sources.append(QString("custom/%1").arg(item->tag("custom")));
+        sources.append(item->tag("custom"));
 
     return sources;
 }

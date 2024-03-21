@@ -75,7 +75,7 @@ QStringList UpgradeSource::getSources()
 {
     QStringList sources;
     for (auto &item : m_extUpgrade->activeItems())
-        sources.append(QString("upgrade/%1").arg(item->tag("pkgcount")));
+        sources.append(item->tag("pkgcount"));
 
     return sources;
 }

@@ -46,73 +46,52 @@ ExtSysMonAggregator::ExtSysMonAggregator(const QString &_id, const QString &_nam
 }
 
 
+void ExtSysMonAggregator::createSensor(const QString &_id, const QString &_name, AbstractExtSysMonSource *_source)
+{
+    qCDebug(LOG_ESM) << "Register sensor" << _name << "with id" << _id;
+
+    addObject(new ExtSysMonSensor(this, _id, _name, _source));
+}
+
+
 void ExtSysMonAggregator::init(const QHash<QString, QString> &_config)
 {
     qCDebug(LOG_ESM) << "Configuration" << _config;
 
     // battery
-    auto batteryItem = new BatterySource(this, {_config["ACPIPATH"]});
-    for (auto &source : batteryItem->sources())
-        addObject(new ExtSysMonSensor(this, source, batteryItem));
+    createSensor("battery", i18n("Battery"), new BatterySource(this, {_config["ACPIPATH"]}));
     // custom
-    auto customItem = new CustomSource(this, {});
-    for (auto &source : customItem->sources())
-        addObject(new ExtSysMonSensor(this, source, customItem));
+    createSensor("custom", i18n("Scripts"), new CustomSource(this, {}));
     // desktop
-    auto desktopItem = new DesktopSource(this, {});
-    for (auto &source : desktopItem->sources())
-        addObject(new ExtSysMonSensor(this, source, desktopItem));
+    // FIXME causes segfault
+    createSensor("desktop", i18n("Desktop"), new DesktopSource(this, {}));
     // gpu load
-    auto gpuLoadItem = new GPULoadSource(this, {_config["GPUDEV"]});
-    for (auto &source : gpuLoadItem->sources())
-        addObject(new ExtSysMonSensor(this, source, gpuLoadItem));
+    createSensor("gpuload", i18n("GPU load"), new GPULoadSource(this, {_config["GPUDEV"]}));
     // gpu temperature
-    auto gpuTempItem = new GPUTemperatureSource(this, {_config["GPUDEV"]});
-    for (auto &source : gpuTempItem->sources())
-        addObject(new ExtSysMonSensor(this, source, gpuTempItem));
+    createSensor("gputemp", i18n("GPU temperature"), new GPUTemperatureSource(this, {_config["GPUDEV"]}));
     // hdd temperature
-    auto hddTempItem
-        = new HDDTemperatureSource(this, {_config["HDDDEV"], _config["HDDTEMPCMD"]});
-    for (auto &source : hddTempItem->sources())
-        addObject(new ExtSysMonSensor(this, source, hddTempItem));
+    createSensor("hdd", i18n("HDD temperature"),
+                 new HDDTemperatureSource(this, {_config["HDDDEV"], _config["HDDTEMPCMD"]}));
     // network
-    auto networkItem = new NetworkSource(this, QStringList());
-    for (auto &source : networkItem->sources())
-        addObject(new ExtSysMonSensor(this, source, networkItem));
+    createSensor("network", i18n("Network"), new NetworkSource(this, {}));
     // player
-    auto playerItem
-        = new PlayerSource(this, {_config["PLAYER"], _config["MPDADDRESS"], _config["MPDPORT"],
-                                  _config["MPRIS"], _config["PLAYERSYMBOLS"]});
-    for (auto &source : playerItem->sources())
-        addObject(new ExtSysMonSensor(this, source, playerItem));
+    createSensor("player", i18n("Music player"),
+                 new PlayerSource(this, {_config["PLAYER"], _config["MPDADDRESS"], _config["MPDPORT"], _config["MPRIS"],
+                                         _config["PLAYERSYMBOLS"]}));
     // processes
-    auto processesItem = new ProcessesSource(this, {});
-    for (auto &source : processesItem->sources())
-        addObject(new ExtSysMonSensor(this, source, processesItem));
+    createSensor("ps", i18n("Processes"), new ProcessesSource(this, {}));
     // network request
-    auto requestItem = new RequestSource(this, {});
-    for (auto &source : requestItem->sources())
-        addObject(new ExtSysMonSensor(this, source, requestItem));
+    createSensor("requests", i18n("Network requests"), new RequestSource(this, {}));
     // quotes
-    auto quotesItem = new QuotesSource(this, {});
-    for (auto &source : quotesItem->sources())
-        addObject(new ExtSysMonSensor(this, source, quotesItem));
+    createSensor("quotes", i18n("Quotes"), new QuotesSource(this, {}));
     // system
-    auto systemItem = new SystemInfoSource(this, {});
-    for (auto &source : systemItem->sources())
-        addObject(new ExtSysMonSensor(this, source, systemItem));
+    createSensor("system", i18n("System"), new SystemInfoSource(this, {}));
     // upgrade
-    auto upgradeItem = new UpgradeSource(this, {});
-    for (auto &source : upgradeItem->sources())
-        addObject(new ExtSysMonSensor(this, source, upgradeItem));
+    createSensor("upgrade", i18n("Upgrades"), new UpgradeSource(this, {}));
     // weather
-    auto weatherItem = new WeatherSource(this, {});
-    for (auto &source : weatherItem->sources())
-        addObject(new ExtSysMonSensor(this, source, weatherItem));
+    createSensor("weather", i18n("Weather"), new WeatherSource(this, {}));
 #ifdef BUILD_LOAD
     // additional load source
-    auto loadItem = new LoadSource(this, QStringList());
-    for (auto &source : loadItem->sources())
-        addObject(new ExtSysMonSensor(this, source, loadItem));
+    createSensor("load", i18n("Load"), new LoadSource(this, {}));
 #endif /* BUILD_LOAD */
 }

@@ -75,7 +75,7 @@ QVariant GPULoadSource::data(const QString &_source)
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
-    if (_source == "gpu/load")
+    if (_source == "load")
         run();
 
     return m_values[_source];
@@ -87,7 +87,7 @@ KSysGuard::SensorInfo *GPULoadSource::initialData(const QString &_source) const
     qCDebug(LOG_ESS) << "Source" << _source;
 
     auto data = new KSysGuard::SensorInfo();
-    if (_source == "gpu/load") {
+    if (_source == "load") {
         data->min = 0.0;
         data->max = 100.0;
         data->name = "GPU usage";
@@ -115,7 +115,7 @@ void GPULoadSource::run()
 QStringList GPULoadSource::sources() const
 {
     QStringList sources;
-    sources.append("gpu/load");
+    sources.append("load");
 
     return sources;
 }
@@ -134,7 +134,7 @@ void GPULoadSource::updateValue()
             if (!str.contains("<gpu_util>"))
                 continue;
             auto load = str.remove("<gpu_util>").remove("</gpu_util>").remove('%');
-            m_values["gpu/load"] = load.toFloat();
+            m_values["load"] = load.toFloat();
             break;
         }
     } else if (m_device == "ati") {
@@ -142,7 +142,7 @@ void GPULoadSource::updateValue()
             if (!str.contains("load"))
                 continue;
             QString load = str.split(' ', Qt::SkipEmptyParts)[3].remove('%');
-            m_values["gpu/load"] = load.toFloat();
+            m_values["load"] = load.toFloat();
             break;
         }
     }

@@ -18,6 +18,8 @@
 #include "extsysmon.h"
 
 #include <KPluginFactory>
+
+#include <QDBusMetaType>
 #include <QFile>
 #include <QRegularExpression>
 #include <QSettings>
@@ -38,26 +40,13 @@ ExtendedSysMon::ExtendedSysMon(QObject *_parent, const QVariantList &_args)
         qCDebug(LOG_ESM) << metadata;
 
     readConfiguration();
-
-    addContainer(new ExtSysMonAggregator("extsysmon", "extsysmon", this, m_configuration));
-}
-
-
-ExtendedSysMon::~ExtendedSysMon()
-{
-    qCDebug(LOG_ESM) << __PRETTY_FUNCTION__;
-}
-
-
-void ExtendedSysMon::update()
-{
-    //    m_aggregator->update();
+    addContainer(new ExtSysMonAggregator("extsysmon", "Extended system monitor", this, m_configuration));
 }
 
 
 void ExtendedSysMon::readConfiguration()
 {
-    QString fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation, "plasma-dataengine-extsysmon.conf");
+    auto fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation, "plasma-dataengine-extsysmon.conf");
     qCInfo(LOG_ESM) << "Configuration file" << fileName;
     QSettings settings(fileName, QSettings::IniFormat);
     QHash<QString, QString> rawConfig;
@@ -90,13 +79,13 @@ QHash<QString, QString> ExtendedSysMon::updateConfiguration(QHash<QString, QStri
     else if ((_rawConfig["GPUDEV"] != "ati") && (_rawConfig["GPUDEV"] != "nvidia"))
         _rawConfig["GPUDEV"] = GPULoadSource::autoGpu();
     // hdddev
-    QStringList allHddDevices = HDDTemperatureSource::allHdd();
+    auto allHddDevices = HDDTemperatureSource::allHdd();
     if (_rawConfig["HDDDEV"] == "all") {
         _rawConfig["HDDDEV"] = allHddDevices.join(',');
     } else if (_rawConfig["HDDDEV"] == "disable") {
         _rawConfig["HDDDEV"] = "";
     } else {
-        QStringList deviceList = _rawConfig["HDDDEV"].split(',', Qt::SkipEmptyParts);
+        auto deviceList = _rawConfig["HDDDEV"].split(',', Qt::SkipEmptyParts);
         QStringList devices;
         auto diskRegexp = QRegularExpression("^/dev/[hms]d[a-z]$");
         for (auto &device : deviceList)

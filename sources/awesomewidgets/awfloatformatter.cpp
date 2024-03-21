@@ -270,4 +270,3 @@ void AWFloatFormatter::translate(void *_ui)
     ui->label_multiplier->setText(i18n("Multiplier"));
     ui->label_summand->setText(i18n("Summand"));
 }
-

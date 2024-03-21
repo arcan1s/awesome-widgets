@@ -39,8 +39,8 @@ private:
     // configuration and values
     QVariantHash m_values;
     static QVariant fromDBusVariant(const QVariant &value);
-    static float getCurrentBrightness();
-    static float getCurrentVolume();
+    static double getCurrentBrightness();
+    static double getCurrentVolume();
     static QVariant sendDBusRequest(const QString &destination, const QString &path, const QString &interface,
                                     const QString &method, const QVariantList &args = QVariantList());
 };

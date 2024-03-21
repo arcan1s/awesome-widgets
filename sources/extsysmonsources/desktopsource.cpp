@@ -51,13 +51,13 @@ QVariant DesktopSource::data(const QString &_source)
     auto decrement = KWindowSystem::isPlatformX11() ? 1 : 0;
     auto current = nativeIndex - decrement;
 
-    if (_source == "desktop/current/name") {
+    if (_source == "current/name") {
         return m_vdi->desktopNames().at(current);
-    } else if (_source == "desktop/current/number") {
+    } else if (_source == "current/number") {
         return current + 1;
-    } else if (_source == "desktop/total/name") {
+    } else if (_source == "total/name") {
         return m_vdi->desktopNames();
-    } else if (_source == "desktop/total/number") {
+    } else if (_source == "total/number") {
         return m_vdi->numberOfDesktops();
     }
 
@@ -70,20 +70,20 @@ KSysGuard::SensorInfo *DesktopSource::initialData(const QString &_source) const
     qCDebug(LOG_ESS) << "Source" << _source;
 
     auto data = new KSysGuard::SensorInfo();
-    if (_source == "desktop/current/name") {
+    if (_source == "current/name") {
         data->name = "Current desktop name";
         data->variantType = QVariant::String;
         data->unit = KSysGuard::UnitNone;
-    } else if (_source == "desktop/current/number") {
+    } else if (_source == "current/number") {
         data->min = 0;
         data->name = "Current desktop number";
         data->variantType = QVariant::Int;
         data->unit = KSysGuard::UnitNone;
-    } else if (_source == "desktop/total/name") {
+    } else if (_source == "total/name") {
         data->name = "All desktops by name";
         data->variantType = QVariant::StringList;
         data->unit = KSysGuard::UnitNone;
-    } else if (_source == "desktop/total/number") {
+    } else if (_source == "total/number") {
         data->min = 0;
         data->name = "Desktops count";
         data->variantType = QVariant::Int;
@@ -97,10 +97,10 @@ KSysGuard::SensorInfo *DesktopSource::initialData(const QString &_source) const
 QStringList DesktopSource::sources() const
 {
     QStringList sources;
-    sources.append("desktop/current/name");
-    sources.append("desktop/current/number");
-    sources.append("desktop/total/name");
-    sources.append("desktop/total/number");
+    sources.append("current/name");
+    sources.append("current/number");
+    sources.append("total/name");
+    sources.append("total/number");
 
     return sources;
 }

@@ -52,7 +52,7 @@ NetworkSource::~NetworkSource()
 
 QVariant NetworkSource::data(const QString &_source)
 {
-    qCDebug(LOG_ESS) << "Source" << _source;
+    qCWarning(LOG_ESS) << "Source" << _source;
 
     if (!m_values.contains(_source))
         run();
@@ -65,11 +65,11 @@ KSysGuard::SensorInfo *NetworkSource::initialData(const QString &_source) const
     qCDebug(LOG_ESS) << "Source" << _source;
 
     auto data = new KSysGuard::SensorInfo();
-    if (_source == "network/current/name") {
+    if (_source == "device") {
         data->name = "Current network device name";
         data->variantType = QVariant::String;
         data->unit = KSysGuard::UnitNone;
-    } else if (_source == "network/current/ssid") {
+    } else if (_source == "ssid") {
         data->name = "Current SSID name";
         data->variantType = QVariant::String;
         data->unit = KSysGuard::UnitNone;
@@ -81,16 +81,16 @@ KSysGuard::SensorInfo *NetworkSource::initialData(const QString &_source) const
 
 void NetworkSource::run()
 {
-    m_values["network/current/name"] = NetworkSource::getCurrentDevice();
-    m_process->start("iwgetid", QStringList() << "-r");
+    m_values["device"] = NetworkSource::getCurrentDevice();
+    m_process->start("iwgetid", {"-r"});
 }
 
 
 QStringList NetworkSource::sources() const
 {
     QStringList sources;
-    sources.append("network/current/name");
-    sources.append("network/current/ssid");
+    sources.append("device");
+    sources.append("ssid");
 
     return sources;
 }
@@ -104,7 +104,7 @@ void NetworkSource::updateSsid()
     QString qoutput = QString::fromUtf8(m_process->readAllStandardOutput()).trimmed();
     qCInfo(LOG_ESS) << "Output" << qoutput;
 
-    m_values["network/current/ssid"] = qoutput;
+    m_values["ssid"] = qoutput;
 }
 
 
