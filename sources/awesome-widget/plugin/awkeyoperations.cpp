@@ -304,6 +304,7 @@ void AWKeyOperations::addDevice(const QString &_source)
 
     auto diskRegexp = QRegularExpression("disk/(?:md|sd|hd)[a-z|0-9]_.*/Rate/(?:rblk)");
     auto mountRegexp = QRegularExpression("partitions/.*/filllevel");
+    auto cpuTempRegExp = QRegularExpression("^cpu/cpu.*/temperature$");
 
     if (_source.contains(diskRegexp)) {
         QString device = _source;
@@ -313,7 +314,7 @@ void AWKeyOperations::addDevice(const QString &_source)
         QString device = _source;
         device.remove("partitions").remove("/filllevel");
         addKeyToCache("mount", device);
-    } else if (_source.startsWith("lmsensors")) {
+    } else if (_source.startsWith("lmsensors") || _source.contains(cpuTempRegExp) || _source == "cpu/all/averageTemperature") {
         addKeyToCache("temp", _source);
     }
 }

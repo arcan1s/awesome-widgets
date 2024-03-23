@@ -84,6 +84,7 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSy
     // regular expressions
     auto cpuRegExp = QRegularExpression("^cpu/cpu.*/usage$");
     auto cpuclRegExp = QRegularExpression("^cpu/cpu.*/frequency$");
+    auto cpuTempRegExp = QRegularExpression("^cpu/cpu.*/temperature$");
     auto hddrRegExp = QRegularExpression("^disk/.*/read$");
     auto hddwRegExp = QRegularExpression("^disk/.*/write$");
     auto mountFillRegExp = QRegularExpression("^disk/.*/usedPercent$");
@@ -346,9 +347,9 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSy
         // gb
         m_map.insert(_source, "swapgb");
         m_formatter["swapgb"] = AWKeysAggregator::FormatterType::MemGBFormat;
-    } else if (_source.startsWith("lmsensors/")) {
+    } else if (_source.startsWith("lmsensors/") || _source.contains(cpuTempRegExp) || _source == "cpu/all/averageTemperature") {
         // temperature
-        int index = m_devices["temp"].indexOf(_source);
+        auto index = m_devices["temp"].indexOf(_source);
         // HACK on DE initialization there are no units key
         if (_units == KSysGuard::UnitInvalid)
             return QStringList({QString("temp%1").arg(index)});
