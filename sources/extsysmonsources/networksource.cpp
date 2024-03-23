@@ -52,7 +52,7 @@ NetworkSource::~NetworkSource()
 
 QVariant NetworkSource::data(const QString &_source)
 {
-    qCWarning(LOG_ESS) << "Source" << _source;
+    qCDebug(LOG_ESS) << "Source" << _source;
 
     if (!m_values.contains(_source))
         run();
@@ -82,7 +82,9 @@ KSysGuard::SensorInfo *NetworkSource::initialData(const QString &_source) const
 void NetworkSource::run()
 {
     m_values["device"] = NetworkSource::getCurrentDevice();
-    m_process->start("iwgetid", {"-r"});
+    if (m_process->state() == QProcess::ProcessState::NotRunning) {
+        m_process->start("iwgetid", {"-r"});
+    }
 }
 
 

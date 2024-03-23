@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef AWDATAENGINEAGGREGATOR_H
-#define AWDATAENGINEAGGREGATOR_H
+#pragma once
 
 #include <ksysguard/systemstats/SensorInfo.h>
 
@@ -31,7 +29,6 @@ namespace KSysGuard::SystemStats
 class DBusInterface;
 }
 
-
 class AWDataEngineAggregator : public QObject
 {
     Q_OBJECT
@@ -39,10 +36,10 @@ class AWDataEngineAggregator : public QObject
 public:
     explicit AWDataEngineAggregator(QObject *_parent = nullptr);
     ~AWDataEngineAggregator() override;
+    void connectSources();
     void disconnectSources();
-    [[nodiscard]] bool isValidSensor(const KSysGuard::SensorInfo &_sensor);
+    [[nodiscard]] static bool isValidSensor(const KSysGuard::SensorInfo &_sensor);
     void loadSources();
-    void reconnectSources(const int interval);
 
 signals:
     void dataUpdated(const QHash<QString, KSysGuard::SensorInfo> &_sensors, const KSysGuard::SensorDataList &_data);
@@ -58,7 +55,5 @@ public slots:
 private:
     KSysGuard::SystemStats::DBusInterface *m_interface = nullptr;
     QHash<QString, KSysGuard::SensorInfo> m_sensors;
+    QSet<QString> m_subscribed;
 };
-
-
-#endif /* AWDATAENGINEAGGREGATOR_H */

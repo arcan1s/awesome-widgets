@@ -347,7 +347,8 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSy
         // gb
         m_map.insert(_source, "swapgb");
         m_formatter["swapgb"] = AWKeysAggregator::FormatterType::MemGBFormat;
-    } else if (_source.startsWith("lmsensors/") || _source.contains(cpuTempRegExp) || _source == "cpu/all/averageTemperature") {
+    } else if (_source.startsWith("lmsensors/") || _source.contains(cpuTempRegExp)
+               || _source == "cpu/all/averageTemperature") {
         // temperature
         auto index = m_devices["temp"].indexOf(_source);
         // HACK on DE initialization there are no units key

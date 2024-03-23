@@ -60,7 +60,8 @@ AWKeys::AWKeys(QObject *_parent)
     connect(m_timer, &QTimer::timeout, this, &AWKeys::updateTextData);
 
     // transfer signal from AWDataAggregator object to QML ui
-    connect(m_dataAggregator, &AWDataAggregator::toolTipPainted, [this](const QString &_tooltip) { emit(needToolTipToBeUpdated(_tooltip)); });
+    connect(m_dataAggregator, &AWDataAggregator::toolTipPainted,
+            [this](const QString &_tooltip) { emit(needToolTipToBeUpdated(_tooltip)); });
 
     connect(this, &AWKeys::dropSourceFromDataengine, m_dataEngineAggregator, &AWDataEngineAggregator::dropSource);
     connect(m_dataEngineAggregator, &AWDataEngineAggregator::dataUpdated, this, &AWKeys::dataUpdated);
@@ -102,7 +103,6 @@ void AWKeys::initKeys(const QString &_currentPattern, const int _interval, const
     m_aggregator->initFormatters();
     m_keyOperator->setPattern(_currentPattern);
     m_keyOperator->updateCache();
-    m_dataEngineAggregator->reconnectSources(_interval);
 
     // timer
     m_timer->setInterval(_interval);

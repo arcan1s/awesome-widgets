@@ -17,15 +17,17 @@
 
 #include "awdataengineaggregator.h"
 
-#include <QDBusConnection>
 #include <ksysguard/formatter/Unit.h>
 #include <ksysguard/systemstats/DBusInterface.h>
+
+#include <QDBusConnection>
 
 #include "awdebug.h"
 
 
 AWDataEngineAggregator::AWDataEngineAggregator(QObject *_parent)
     : QObject(_parent)
+    , m_interface(new KSysGuard::SystemStats::DBusInterface())
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
@@ -34,12 +36,14 @@ AWDataEngineAggregator::AWDataEngineAggregator(QObject *_parent)
     qDBusRegisterMetaType<KSysGuard::SensorDataList>();
     qDBusRegisterMetaType<QHash<QString, KSysGuard::SensorInfo>>();
 
-    m_interface = new KSysGuard::SystemStats::DBusInterface();
-
-    connect(m_interface, &KSysGuard::SystemStats::DBusInterface::newSensorData, this, &AWDataEngineAggregator::updateData);
-    connect(m_interface, &KSysGuard::SystemStats::DBusInterface::sensorMetaDataChanged, this, &AWDataEngineAggregator::updateSensors);
-    connect(m_interface, &KSysGuard::SystemStats::DBusInterface::sensorAdded, this, &AWDataEngineAggregator::sensorAdded);
-    connect(m_interface, &KSysGuard::SystemStats::DBusInterface::sensorRemoved, this, &AWDataEngineAggregator::sensorRemoved);
+    connect(m_interface, &KSysGuard::SystemStats::DBusInterface::newSensorData, this,
+            &AWDataEngineAggregator::updateData);
+    connect(m_interface, &KSysGuard::SystemStats::DBusInterface::sensorMetaDataChanged, this,
+            &AWDataEngineAggregator::updateSensors);
+    connect(m_interface, &KSysGuard::SystemStats::DBusInterface::sensorAdded, this,
+            &AWDataEngineAggregator::sensorAdded);
+    connect(m_interface, &KSysGuard::SystemStats::DBusInterface::sensorRemoved, this,
+            &AWDataEngineAggregator::sensorRemoved);
 
     loadSources();
 }
@@ -54,9 +58,20 @@ AWDataEngineAggregator::~AWDataEngineAggregator()
 }
 
 
+void AWDataEngineAggregator::connectSources()
+{
+    auto keys = m_sensors.keys();
+    auto newKeys = QSet(keys.cbegin(), keys.cend()) - m_subscribed;
+
+    m_interface->subscribe(newKeys.values()).waitForFinished();
+    m_subscribed.unite(newKeys);
+}
+
+
 void AWDataEngineAggregator::disconnectSources()
 {
-    m_interface->unsubscribe(m_sensors.keys());
+    m_interface->unsubscribe(m_subscribed.values()).waitForFinished();
+    m_subscribed.clear();
 }
 
 
@@ -73,15 +88,7 @@ void AWDataEngineAggregator::loadSources()
 
     auto sensors = response.value();
     updateSensors(sensors);
-}
-
-
-void AWDataEngineAggregator::reconnectSources(const int interval)
-{
-    qCDebug(LOG_AW) << "Reconnect all sensors with update interval" << interval;
-
-    disconnectSources();
-    m_interface->subscribe(m_sensors.keys());
+    connectSources();
 }
 
 
@@ -89,7 +96,10 @@ void AWDataEngineAggregator::dropSource(const QString &_source)
 {
     qCDebug(LOG_AW) << "Disconnect sensor" << _source;
 
-    m_interface->unsubscribe({_source});
+    if (m_subscribed.contains(_source)) {
+        m_interface->unsubscribe({_source}).waitForFinished();
+        m_subscribed.remove(_source);
+    }
 }
 
 
@@ -100,13 +110,17 @@ void AWDataEngineAggregator::sensorAdded(const QString &_sensor)
     // check if sensor is actually valid
     auto response = m_interface->sensors({_sensor});
     response.waitForFinished();
-    auto info = response.value();
-    if (info.count() != 1)
+
+    auto info = response.value().value(_sensor);
+    if (!isValidSensor(info))
         return;
 
-    qCWarning(LOG_AW) << info.keys();
-
-    m_interface->subscribe({_sensor});
+    m_sensors[_sensor] = info;
+    dropSource(_sensor); // force reconnect
+    if (!m_subscribed.contains(_sensor)) {
+        m_interface->subscribe({_sensor}).waitForFinished();
+        m_subscribed.insert(_sensor);
+    }
 }
 
 
@@ -115,8 +129,9 @@ void AWDataEngineAggregator::sensorRemoved(const QString &_sensor)
     qCDebug(LOG_AW) << "Sensor" << _sensor << "has been removed";
 
     m_sensors.remove(_sensor);
-    m_interface->unsubscribe({_sensor});
+    dropSource(_sensor);
 }
+
 
 void AWDataEngineAggregator::updateData(KSysGuard::SensorDataList _data)
 {

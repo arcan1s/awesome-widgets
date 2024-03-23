@@ -314,7 +314,8 @@ void AWKeyOperations::addDevice(const QString &_source)
         QString device = _source;
         device.remove("partitions").remove("/filllevel");
         addKeyToCache("mount", device);
-    } else if (_source.startsWith("lmsensors") || _source.contains(cpuTempRegExp) || _source == "cpu/all/averageTemperature") {
+    } else if (_source.startsWith("lmsensors") || _source.contains(cpuTempRegExp)
+               || _source == "cpu/all/averageTemperature") {
         addKeyToCache("temp", _source);
     }
 }

@@ -67,7 +67,6 @@ void ExtSysMonSensor::update()
             continue; // skip properties which are not explicitly subscribed
 
         auto value = m_source->data(source);
-        qCWarning(LOG_ESS) << source << value;
         property->setValue(value);
     }
 }

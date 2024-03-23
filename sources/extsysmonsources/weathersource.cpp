@@ -49,12 +49,10 @@ QVariant WeatherSource::data(const QString &_source)
 
     int ind = index(_source);
     if (!m_values.contains(_source)) {
-        QVariantHash data = m_extWeather->itemByTagNumber(ind)->run();
-        for (auto &key : data.keys())
-            m_values[key] = data[key];
+        auto data = m_extWeather->itemByTagNumber(ind)->run();
+        m_values.insert(data);
     }
-    QVariant value = m_values.take(_source);
-    return value;
+    return m_values.take(_source);
 }
 
 
@@ -94,7 +92,7 @@ KSysGuard::SensorInfo *WeatherSource::initialData(const QString &_source) const
         data->unit = KSysGuard::UnitCelsius;
     } else if (_source.startsWith("timestamp")) {
         data->name = QString("Timestamp for '%1'").arg(m_extWeather->itemByTagNumber(ind)->uniq());
-        data->variantType = QVariant::String;
+        data->variantType = QVariant::DateTime;
         data->unit = KSysGuard::UnitNone;
     }
 
