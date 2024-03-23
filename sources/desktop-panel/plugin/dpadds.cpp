@@ -223,7 +223,7 @@ QString DPAdds::valueByKey(const QString &_key, int _desktop) const
 
     QString currentMark = currentDesktop() == _desktop ? m_mark : "";
     if (_key == "mark")
-        return QString("%1").arg(currentMark, m_mark.count(), QLatin1Char(' ')).replace(" ", "&nbsp;");
+        return QString("%1").arg(currentMark, m_mark.size(), QLatin1Char(' ')).replace(" ", "&nbsp;");
     else if (_key == "name") {
         auto name = m_vdi->desktopNames().at(_desktop);
         return name.replace(" ", "&nbsp;");

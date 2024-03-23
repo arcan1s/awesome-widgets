@@ -16,12 +16,12 @@ foreach (_current_PO_FILE ${_po_files})
 
     install(
             FILES ${CMAKE_CURRENT_BINARY_DIR}/${_lang}.gmo
-            DESTINATION ${LOCALE_INSTALL_DIR}/${_lang}/LC_MESSAGES/
+            DESTINATION ${KDE_INSTALL_LOCALEDIR}/${_lang}/LC_MESSAGES/
             RENAME ${MO_NAME}
     )
     install(
             FILES ${CMAKE_CURRENT_BINARY_DIR}/${_lang}.gmo
-            DESTINATION ${LOCALE_INSTALL_DIR}/${_lang}/LC_MESSAGES/
+            DESTINATION ${KDE_INSTALL_LOCALEDIR}/${_lang}/LC_MESSAGES/
             RENAME ${SND_MO_NAME}
     )
     list(APPEND _gmoFiles ${_gmoFile})

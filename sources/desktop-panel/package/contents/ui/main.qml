@@ -15,18 +15,17 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-import QtQuick 2.4
-import QtQuick.Controls 1.3 as QtControls
-import QtQuick.Layouts 1.1
+import QtQuick 2.15
+import QtQuick.Controls
+import QtQuick.Layouts
+import org.kde.plasma.core as PlasmaCore
 import org.kde.plasma.plasmoid 2.0
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.components 2.0 as PlasmaComponents
 
 import org.kde.plasma.private.desktoppanel 1.0
 import "."
 
 
-Item {
+PlasmoidItem {
     id: main
     // backend
     DPAdds {
@@ -46,9 +45,6 @@ Item {
 
 
     // init
-    Plasmoid.preferredRepresentation: Plasmoid.fullRepresentation
-    Plasmoid.compactRepresentation: Plasmoid.fullRepresentation
-
     Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
 
     Plasmoid.icon: "utilities-system-monitor"

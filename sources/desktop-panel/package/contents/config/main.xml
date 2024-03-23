@@ -7,88 +7,88 @@
 
     <group name="Widget">
         <!--   widget -->
-        <entry name="text" type="string">
+        <entry name="text" type="String">
             <default>[$mark$number/$total: $name]</default>
         </entry>
     </group>
 
     <group name="Advanced">
         <!--   advanced -->
-        <entry name="background" type="bool">
+        <entry name="background" type="Bool">
             <default>true</default>
         </entry>
-        <entry name="verticalLayout" type="bool">
+        <entry name="verticalLayout" type="Bool">
             <default>false</default>
         </entry>
-        <entry name="height" type="int">
+        <entry name="height" type="Int">
             <default>0</default>
         </entry>
-        <entry name="width" type="int">
+        <entry name="width" type="Int">
             <default>0</default>
         </entry>
-        <entry name="mark" type="string">
+        <entry name="mark" type="String">
             <default>¤</default>
         </entry>
-        <entry name="tooltipType" type="string">
+        <entry name="tooltipType" type="String">
             <default>contours</default>
         </entry>
-        <entry name="tooltipWidth" type="int">
+        <entry name="tooltipWidth" type="Int">
             <default>200</default>
         </entry>
-        <entry name="tooltipColor" type="string">
+        <entry name="tooltipColor" type="String">
             <default>#ffffff</default>
         </entry>
     </group>
 
     <group name="Appearance">
         <!--   appearance -->
-        <entry name="textAlign" type="string">
+        <entry name="textAlign" type="String">
             <default>center</default>
         </entry>
-        <entry name="fontFamily" type="string">
+        <entry name="fontFamily" type="String">
             <default>Terminus</default>
         </entry>
-        <entry name="fontSize" type="int">
+        <entry name="fontSize" type="Int">
             <default>12</default>
         </entry>
-        <entry name="fontColor" type="string">
+        <entry name="fontColor" type="String">
             <default>#000000</default>
         </entry>
-        <entry name="fontWeight" type="string">
+        <entry name="fontWeight" type="String">
             <default>normal</default>
         </entry>
-        <entry name="fontStyle" type="string">
+        <entry name="fontStyle" type="String">
             <default>normal</default>
         </entry>
-        <entry name="textStyle" type="string">
+        <entry name="textStyle" type="String">
             <default>normal</default>
         </entry>
-        <entry name="textStyleColor" type="string">
+        <entry name="textStyleColor" type="String">
             <default>#000000</default>
         </entry>
         <!--   current -->
-        <entry name="currentTextAlign" type="string">
+        <entry name="currentTextAlign" type="String">
             <default>center</default>
         </entry>
-        <entry name="currentFontFamily" type="string">
+        <entry name="currentFontFamily" type="String">
             <default>Terminus</default>
         </entry>
-        <entry name="currentFontSize" type="int">
+        <entry name="currentFontSize" type="Int">
             <default>12</default>
         </entry>
-        <entry name="currentFontColor" type="string">
+        <entry name="currentFontColor" type="String">
             <default>#ff0000</default>
         </entry>
-        <entry name="currentFontWeight" type="string">
+        <entry name="currentFontWeight" type="String">
             <default>normal</default>
         </entry>
-        <entry name="currentFontStyle" type="string">
+        <entry name="currentFontStyle" type="String">
             <default>normal</default>
         </entry>
-        <entry name="currentTextStyle" type="string">
+        <entry name="currentTextStyle" type="String">
             <default>normal</default>
         </entry>
-        <entry name="currentTextStyleColor" type="string">
+        <entry name="currentTextStyleColor" type="String">
             <default>#000000</default>
         </entry>
     </group>
