@@ -358,7 +358,7 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSy
             m_formatter[key] = _units == KSysGuard::UnitCelsius ? AWKeysAggregator::FormatterType::Temperature
                                                                 : AWKeysAggregator::FormatterType::Integer;
         }
-    } else if (_source == "Local") {
+    } else if (_source == "extsysmon/time/now") {
         // time
         m_map.insert(_source, "time");
         m_formatter["time"] = AWKeysAggregator::FormatterType::Time;
@@ -410,7 +410,7 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSy
         m_formatter[key] = AWKeysAggregator::FormatterType::Temperature;
     }
 
-    QStringList foundKeys = keysFromSource(_source);
+    auto foundKeys = keysFromSource(_source);
 
     // rewrite formatters for custom ones
     QStringList customFormattersKeys;
@@ -425,7 +425,7 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSy
 
     // drop key from dictionary if no one user requested key required it
     qCInfo(LOG_AW) << "Looking for keys" << foundKeys << "in" << _keys;
-    bool required = _keys.isEmpty() || std::any_of(foundKeys.cbegin(), foundKeys.cend(), [&_keys](const QString &key) {
+    auto required = _keys.isEmpty() || std::any_of(foundKeys.cbegin(), foundKeys.cend(), [&_keys](const QString &key) {
                         return _keys.contains(key);
                     });
     if (!required) {

@@ -18,23 +18,19 @@
 #pragma once
 
 #include <QObject>
-#include <ksysguard/systemstats/SensorContainer.h>
 
 #include "abstractextsysmonsource.h"
+#include "extitemaggregator.h"
 
 
-class AbstractExtSysMonSource;
-class ExtSysMonSensor;
-
-class ExtSysMonAggregator : public KSysGuard::SensorContainer
+class TimeSource : public AbstractExtSysMonSource
 {
     Q_OBJECT
 
 public:
-    explicit ExtSysMonAggregator(const QString &_id, const QString &_name, KSysGuard::SensorPlugin *_parent,
-                                 const QHash<QString, QString> &_config);
-
-private:
-    void createSensor(const QString &_id, const QString &_name, AbstractExtSysMonSource *_source);
-    void init(const QHash<QString, QString> &_config);
+    explicit TimeSource(QObject *_parent, const QStringList &_args);
+    QVariant data(const QString &_source) override;
+    [[nodiscard]] KSysGuard::SensorInfo *initialData(const QString &_source) const override;
+    void run() override{};
+    [[nodiscard]] QStringList sources() const override;
 };

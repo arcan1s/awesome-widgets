@@ -32,6 +32,7 @@
 #include "quotessource.h"
 #include "requestsource.h"
 #include "systeminfosource.h"
+#include "timesource.h"
 #include "upgradesource.h"
 #include "weathersource.h"
 
@@ -86,6 +87,8 @@ void ExtSysMonAggregator::init(const QHash<QString, QString> &_config)
     createSensor("quotes", i18n("Quotes"), new QuotesSource(this, {}));
     // system
     createSensor("system", i18n("System"), new SystemInfoSource(this, {}));
+    // current time
+    createSensor("time", i18n("Time"), new TimeSource(this, {}));
     // upgrade
     createSensor("upgrade", i18n("Upgrades"), new UpgradeSource(this, {}));
     // weather

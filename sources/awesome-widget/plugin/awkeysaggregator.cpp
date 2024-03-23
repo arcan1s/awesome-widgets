@@ -113,26 +113,26 @@ QString AWKeysAggregator::formatter(const QVariant &_data, const QString &_key, 
         output = QString("%1").arg(temperature(_data.toDouble()), 5, 'f', 1);
         break;
     case FormatterType::Time:
-        output = _data.toDateTime().toString();
+        output = QDateTime::fromSecsSinceEpoch(_data.toLongLong()).toString();
         break;
     case FormatterType::TimeCustom:
         output = m_customTime;
         [&output, loc, this](const QDateTime &dt) {
             for (auto &key : m_timeKeys)
                 output.replace(QString("$%1").arg(key), loc.toString(dt, key));
-        }(_data.toDateTime());
+        }(QDateTime::fromSecsSinceEpoch(_data.toLongLong()));
         break;
     case FormatterType::TimeISO:
-        output = _data.toDateTime().toString(Qt::ISODate);
+        output = QDateTime::fromSecsSinceEpoch(_data.toLongLong()).toString(Qt::ISODate);
         break;
     case FormatterType::TimeLong:
-        output = loc.toString(_data.toDateTime(), QLocale::LongFormat);
+        output = loc.toString(QDateTime::fromSecsSinceEpoch(_data.toLongLong()), QLocale::LongFormat);
         break;
     case FormatterType::TimeShort:
-        output = loc.toString(_data.toDateTime(), QLocale::ShortFormat);
+        output = loc.toString(QDateTime::fromSecsSinceEpoch(_data.toLongLong()), QLocale::ShortFormat);
         break;
     case FormatterType::Timestamp:
-        output = QString("%1").arg(_data.toDateTime().toMSecsSinceEpoch() / 1000.0, 10, 'f', 0);
+        output = _data.toString();
         break;
     case FormatterType::Uptime:
     case FormatterType::UptimeCustom:

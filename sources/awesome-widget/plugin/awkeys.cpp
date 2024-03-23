@@ -373,7 +373,6 @@ void AWKeys::setDataBySource(const QString &_source, const KSysGuard::SensorInfo
     }
 
     m_mutex.lock();
-    // HACK workaround for time values which are stored in the different path
     std::for_each(tags.cbegin(), tags.cend(), [this, &_data](const QString &tag) { m_values[tag] = _data.payload; });
     m_mutex.unlock();
 }

@@ -15,26 +15,48 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#pragma once
+#include "timesource.h"
 
-#include <QObject>
-#include <ksysguard/systemstats/SensorContainer.h>
+#include <ksysguard/formatter/Unit.h>
+#include <ksysguard/systemstats/SensorInfo.h>
 
-#include "abstractextsysmonsource.h"
+#include "awdebug.h"
 
 
-class AbstractExtSysMonSource;
-class ExtSysMonSensor;
-
-class ExtSysMonAggregator : public KSysGuard::SensorContainer
+TimeSource::TimeSource(QObject *_parent, const QStringList &_args)
+    : AbstractExtSysMonSource(_parent, _args)
 {
-    Q_OBJECT
+    Q_ASSERT(_args.count() == 0);
+    qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
+}
 
-public:
-    explicit ExtSysMonAggregator(const QString &_id, const QString &_name, KSysGuard::SensorPlugin *_parent,
-                                 const QHash<QString, QString> &_config);
 
-private:
-    void createSensor(const QString &_id, const QString &_name, AbstractExtSysMonSource *_source);
-    void init(const QHash<QString, QString> &_config);
-};
+QVariant TimeSource::data(const QString &_source)
+{
+    qCDebug(LOG_ESS) << "Source" << _source;
+
+    if (_source == "now") {
+        return QDateTime::currentSecsSinceEpoch();
+    }
+
+    return {};
+}
+
+
+KSysGuard::SensorInfo *TimeSource::initialData(const QString &_source) const
+{
+    qCDebug(LOG_ESS) << "Source" << _source;
+
+    auto data = new KSysGuard::SensorInfo();
+    data->name = "Current time";
+    data->variantType = QVariant::LongLong;
+    data->unit = KSysGuard::UnitSecond;
+
+    return data;
+}
+
+
+QStringList TimeSource::sources() const
+{
+    return QStringList({"now"});
+}
