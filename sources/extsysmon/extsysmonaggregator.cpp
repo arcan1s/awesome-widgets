@@ -64,7 +64,8 @@ void ExtSysMonAggregator::init(const QHash<QString, QString> &_config)
     // custom
     createSensor("custom", i18n("Scripts"), new CustomSource(this, {}));
     // desktop
-    createSensor("desktop", i18n("Desktop"), new DesktopSource(this, {}));
+    // FIXME causes segfault in kde libs
+//    createSensor("desktop", i18n("Desktop"), new DesktopSource(this, {}));
     // gpu load
     createSensor("gpuload", i18n("GPU load"), new GPULoadSource(this, {_config["GPUDEV"]}));
     // gpu temperature

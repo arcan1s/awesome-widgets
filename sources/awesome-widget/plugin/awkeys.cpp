@@ -103,6 +103,7 @@ void AWKeys::initKeys(const QString &_currentPattern, const int _interval, const
     m_aggregator->initFormatters();
     m_keyOperator->setPattern(_currentPattern);
     m_keyOperator->updateCache();
+    m_dataEngineAggregator->connectSources();
 
     // timer
     m_timer->setInterval(_interval);
