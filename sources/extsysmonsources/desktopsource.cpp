@@ -51,13 +51,13 @@ QVariant DesktopSource::data(const QString &_source)
     auto decrement = KWindowSystem::isPlatformX11() ? 1 : 0;
     auto current = nativeIndex - decrement;
 
-    if (_source == "current/name") {
+    if (_source == "name") {
         return m_vdi->desktopNames().at(current);
-    } else if (_source == "current/number") {
+    } else if (_source == "number") {
         return current + 1;
-    } else if (_source == "total/name") {
+    } else if (_source == "names") {
         return m_vdi->desktopNames();
-    } else if (_source == "total/number") {
+    } else if (_source == "count") {
         return m_vdi->numberOfDesktops();
     }
 
@@ -70,20 +70,20 @@ KSysGuard::SensorInfo *DesktopSource::initialData(const QString &_source) const
     qCDebug(LOG_ESS) << "Source" << _source;
 
     auto data = new KSysGuard::SensorInfo();
-    if (_source == "current/name") {
+    if (_source == "name") {
         data->name = "Current desktop name";
         data->variantType = QVariant::String;
         data->unit = KSysGuard::UnitNone;
-    } else if (_source == "current/number") {
+    } else if (_source == "number") {
         data->min = 0;
         data->name = "Current desktop number";
         data->variantType = QVariant::Int;
         data->unit = KSysGuard::UnitNone;
-    } else if (_source == "total/name") {
+    } else if (_source == "names") {
         data->name = "All desktops by name";
         data->variantType = QVariant::StringList;
         data->unit = KSysGuard::UnitNone;
-    } else if (_source == "total/number") {
+    } else if (_source == "count") {
         data->min = 0;
         data->name = "Desktops count";
         data->variantType = QVariant::Int;
@@ -97,10 +97,10 @@ KSysGuard::SensorInfo *DesktopSource::initialData(const QString &_source) const
 QStringList DesktopSource::sources() const
 {
     QStringList sources;
-    sources.append("current/name");
-    sources.append("current/number");
-    sources.append("total/name");
-    sources.append("total/number");
+    sources.append("name");
+    sources.append("number");
+    sources.append("names");
+    sources.append("count");
 
     return sources;
 }

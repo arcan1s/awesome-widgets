@@ -1,22 +1,21 @@
 # Maintainer: Evgeniy Alekseev <arcanis at archlinux dot org>
 
-pkgname=plasma5-applet-awesome-widgets
+pkgname=plasma6-applet-awesome-widgets
 _pkgname=awesome-widgets
-pkgver=3.4.3
+pkgver=4.0.0alpha1
 pkgrel=1
 pkgdesc="Collection of minimalistic Plasmoids which look like Awesome WM widgets (ex-PyTextMonitor)"
-arch=('i686' 'x86_64')
+arch=('x86_64')
 url="https://arcanis.me/projects/awesome-widgets"
 license=('GPL3')
-depends=('ksysguard' 'plasma-framework')
+depends=('plasma-workspace')
 optdepends=("hddtemp: for HDD temperature monitor"
             "smartmontools: for HDD temperature monitor"
             "mpd: for music player monitor"
             "nvidia-utils: for GPU monitor")
 makedepends=('cmake' 'extra-cmake-modules' 'python')
-source=(https://github.com/arcan1s/awesome-widgets/releases/download/V.${pkgver}/${_pkgname}-${pkgver}-src.tar.xz)
-install=${pkgname}.install
-md5sums=('5953ba518191bb6fff83cdb8633c735c')
+source=(https://github.com/arcan1s/awesome-widgets/releases/download/${pkgver}/${_pkgname}-${pkgver}-src.tar.xz)
+install="$pkgname.install"
 backup=('etc/xdg/plasma-dataengine-extsysmon.conf')
 
 build () {
@@ -30,3 +29,5 @@ build () {
 package() {
       DESTDIR="$pkgdir" cmake --install build
 }
+
+sha256sums=('b2a7b07a1df6f710f4e0d6e5898933f4ddb131818b922dc4b8e48afe3e98a664')

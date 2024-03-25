@@ -56,17 +56,17 @@ KSysGuard::SensorInfo *ProcessesSource::initialData(const QString &_source) cons
     qCDebug(LOG_ESS) << "Source" << _source;
 
     auto data = new KSysGuard::SensorInfo();
-    if (_source == "running/count") {
+    if (_source == "running") {
         data->min = 0;
         data->max = 0;
         data->name = "Count of running processes";
         data->variantType = QVariant::Int;
         data->unit = KSysGuard::UnitNone;
-    } else if (_source == "running/list") {
+    } else if (_source == "list") {
         data->name = "All running processes list";
         data->variantType = QVariant::StringList;
         data->unit = KSysGuard::UnitNone;
-    } else if (_source == "total/count") {
+    } else if (_source == "count") {
         data->min = 0;
         data->max = 0;
         data->name = "Total count of processes";
@@ -99,18 +99,18 @@ void ProcessesSource::run()
         cmdFile.close();
     }
 
-    m_values["running/count"] = running.count();
-    m_values["running/list"] = running;
-    m_values["total/count"] = directories.count();
+    m_values["running"] = running.count();
+    m_values["list"] = running;
+    m_values["count"] = directories.count();
 }
 
 
 QStringList ProcessesSource::sources() const
 {
     QStringList sources;
-    sources.append("running/count");
-    sources.append("running/list");
-    sources.append("total/count");
+    sources.append("running");
+    sources.append("list");
+    sources.append("count");
 
     return sources;
 }

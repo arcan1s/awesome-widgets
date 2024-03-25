@@ -302,17 +302,17 @@ void AWKeyOperations::addDevice(const QString &_source)
 {
     qCDebug(LOG_AW) << "Source" << _source;
 
-    auto diskRegexp = QRegularExpression("disk/(?:md|sd|hd)[a-z|0-9]_.*/Rate/(?:rblk)");
-    auto mountRegexp = QRegularExpression("partitions/.*/filllevel");
+    auto diskRegexp = QRegularExpression("disk/.*/read");
+    auto mountRegexp = QRegularExpression("disk/.*/usedPercent");
     auto cpuTempRegExp = QRegularExpression("^cpu/cpu.*/temperature$");
 
     if (_source.contains(diskRegexp)) {
-        QString device = _source;
-        device.remove("/Rate/rblk");
+        auto device = _source;
+        device.remove("disk/").remove("/read");
         addKeyToCache("disk", device);
     } else if (_source.contains(mountRegexp)) {
-        QString device = _source;
-        device.remove("partitions").remove("/filllevel");
+        auto device = _source;
+        device.remove("disk/").remove("/usedPercent");
         addKeyToCache("mount", device);
     } else if (_source.startsWith("lmsensors") || _source.contains(cpuTempRegExp)
                || _source == "cpu/all/averageTemperature") {

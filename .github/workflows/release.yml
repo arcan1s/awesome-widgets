@@ -25,17 +25,17 @@ jobs:
         env:
           VERSION: ${{ steps.version.outputs.VERSION }}
 
-      - name: build debian package
-        run: |
-          sudo apt update && \
-          sudo apt install -yq cmake extra-cmake-modules g++ git gettext make && \
-          sudo apt install -yq libkf5i18n-dev libkf5notifications-dev libkf5service-dev \
-            libkf5windowsystem-dev libkf5plasma-dev qtbase5-dev qtdeclarative5-dev \
-            plasma-workspace-dev && \
-          cmake -B build-deb -DKDE_INSTALL_USE_QT_SYS_PATHS=ON -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Optimization -DBUILD_FUTURE=ON -DBUILD_DEB_PACKAGE=ON sources && \
-          cd build-deb && \
-          make package && \
-          cd ..
+#      - name: build debian package
+#        run: |
+#          sudo apt update && \
+#          sudo apt install -yq cmake extra-cmake-modules g++ git gettext make && \
+#          sudo apt install -yq libkf5i18n-dev libkf5notifications-dev libkf5service-dev \
+#            libkf5windowsystem-dev libkf5plasma-dev qtbase5-dev qtdeclarative5-dev \
+#            plasma-workspace-dev && \
+#          cmake -B build-deb -DKDE_INSTALL_USE_QT_SYS_PATHS=ON -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Optimization -DBUILD_FUTURE=ON -DBUILD_DEB_PACKAGE=ON sources && \
+#          cd build-deb && \
+#          make package && \
+#          cd ..
 
       - name: release
         uses: softprops/action-gh-release@v1
@@ -45,7 +45,7 @@ jobs:
             ${{ steps.changelog.outputs.changelog }}
           files: |
             awesome-widgets-*-src.tar.xz
-            build-deb/plasma-widget-awesome-widgets-*.deb
+#            build-deb/plasma-widget-awesome-widgets-*.deb
           fail_on_unmatched_files: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -131,15 +131,15 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSy
         key.remove("extsysmon/custom/");
         m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::NoFormat;
-    } else if (_source == "extsysmon/desktop/current/name") {
+    } else if (_source == "extsysmon/desktop/name") {
         // current desktop name
         m_map.insert(_source, "desktop");
         m_formatter["desktop"] = AWKeysAggregator::FormatterType::NoFormat;
-    } else if (_source == "extsysmon/desktop/current/number") {
+    } else if (_source == "extsysmon/desktop/number") {
         // current desktop number
         m_map.insert(_source, "ndesktop");
         m_formatter["ndesktop"] = AWKeysAggregator::FormatterType::NoFormat;
-    } else if (_source == "extsysmon/desktop/total/number") {
+    } else if (_source == "extsysmon/desktop/count") {
         // desktop count
         m_map.insert(_source, "tdesktops");
         m_formatter["tdesktops"] = AWKeysAggregator::FormatterType::NoFormat;
@@ -217,7 +217,7 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSy
     } else if (_source.startsWith("extsysmon/hdd/temperature")) {
         // hdd temperature
         QString device = _source;
-        device.remove("hdd/temperature");
+        device.remove("extsysmon/hdd/temperature");
         int index = m_devices["hdd"].indexOf(device);
         if (index > -1) {
             QString key = QString("hddtemp%1").arg(index);
@@ -313,15 +313,15 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSy
         key.remove("extsysmon/player/");
         m_map.insert(_source, key);
         m_formatter[key] = AWKeysAggregator::FormatterType::NoFormat;
-    } else if (_source == "extsysmon/ps/running/count") {
+    } else if (_source == "extsysmon/ps/running") {
         // running processes count
         m_map.insert(_source, "pscount");
         m_formatter["pscount"] = AWKeysAggregator::FormatterType::NoFormat;
-    } else if (_source == "extsysmon/ps/running/list") {
+    } else if (_source == "extsysmon/ps/list") {
         // list of running processes
         m_map.insert(_source, "ps");
         m_formatter["ps"] = AWKeysAggregator::FormatterType::List;
-    } else if (_source == "extsysmon/ps/total/count") {
+    } else if (_source == "extsysmon/ps/count") {
         // total processes count
         m_map.insert(_source, "pstot");
         m_formatter["pstot"] = AWKeysAggregator::FormatterType::NoFormat;
