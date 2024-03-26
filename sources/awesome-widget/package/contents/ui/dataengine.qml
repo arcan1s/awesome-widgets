@@ -17,36 +17,28 @@
 
 import QtQuick 2.15
 import QtQuick.Controls
+import org.kde.kcmutils as KCM
 
 import org.kde.plasma.private.awesomewidget 1.0
 
 
-Item {
+KCM.SimpleKCM {
     id: dataenginePage
+
     // backend
     AWKeys {
         id: awKeys
-    }
-    AWActions {
-        id: awActions
     }
     AWConfigHelper {
         id: awConfig
     }
 
-    width: childrenRect.width
-    height: childrenRect.height
-    implicitWidth: pageColumn.implicitWidth
-    implicitHeight: pageColumn.implicitHeight
-
-    property bool debug: awActions.isDebugEnabled()
-
     property variant cfg_dataengine: awConfig.readDataEngineConfiguration()
-
 
     Column {
         id: pageColumn
         anchors.fill: parent
+const
         GroupBox {
             height: implicitHeight
             width: parent.width
@@ -62,6 +54,7 @@ Item {
             height: implicitHeight
             width: parent.width
             title: i18n("Player")
+
             Column {
                 height: implicitHeight
                 width: parent.width
@@ -160,9 +153,11 @@ Item {
             height: implicitHeight
             width: parent.width
             title: i18n("Extensions")
+
             Column {
                 height: implicitHeight
                 width: parent.width
+
                 ButtonSelector {
                     value: i18n("Custom scripts")
                     onButtonActivated: awKeys.editItem("extscript")
@@ -193,8 +188,6 @@ Item {
 
 
     Component.onCompleted: {
-        if (debug) console.debug()
-
         // init submodule
         awKeys.updateCache()
 
@@ -204,8 +197,6 @@ Item {
     }
 
     Component.onDestruction: {
-        if (debug) console.debug()
-
         cfg_dataengine["MPRIS"] = mpris.editText
         awConfig.writeDataEngineConfiguration(cfg_dataengine)
     }

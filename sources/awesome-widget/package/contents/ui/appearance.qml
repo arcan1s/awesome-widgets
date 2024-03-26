@@ -16,30 +16,21 @@
  ***************************************************************************/
 
 import QtQuick 2.15
+import org.kde.kcmutils as KCM
 
 import org.kde.plasma.private.awesomewidget 1.0
 import "."
 
 
-Item {
+KCM.SimpleKCM {
     id: appearancePage
-    // backend
-    AWActions {
-        id: awActions
-    }
 
-    width: childrenRect.width
-    height: childrenRect.height
-    implicitWidth: pageColumn.implicitWidth
-    implicitHeight: pageColumn.implicitHeight
-
-    property bool debug: awActions.isDebugEnabled()
     property variant weight: {
         25: 0,
         50: 1,
         63: 3,
         75: 4,
-        87: 5
+        87: 5,
     }
 
     property alias cfg_fontFamily: font.value
@@ -105,10 +96,5 @@ Item {
             text: i18n("Style color")
             value: plasmoid.configuration.textStyleColor
         }
-    }
-
-
-    Component.onCompleted: {
-        if (debug) console.debug()
     }
 }

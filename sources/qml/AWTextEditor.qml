@@ -19,7 +19,7 @@ import QtQuick 2.15
 import QtQuick.Controls
 
 
-Item {
+ScrollView {
     width: parent.width
     height: parent.height * 4 / 5
 
@@ -28,7 +28,6 @@ Item {
 
     TextArea {
         id: textArea
-        anchors.fill: parent
         textFormat: TextEdit.PlainText
 
         Column {
@@ -50,9 +49,9 @@ Item {
         }
 
         onTextChanged: {
-            var currentTag = getLastTag()
+            let currentTag = getLastTag()
             // exit if there are spaces or empty
-            if ((currentTag.indexOf(" ") != -1) || (currentTag.length == 0)) {
+            if ((currentTag.indexOf(" ") !== -1) || (currentTag.length === 0)) {
                 tooltip.visible = false
                 return
             }
@@ -63,7 +62,7 @@ Item {
             // show tooltip if found more than 1 or current text does not match
             // tag found
             tooltip.visible = ((tags.count > 1)
-                               || ((tags.count == 1) && (tags.model[0] != tooltip.substring)))
+                               || ((tags.count === 1) && (tags.model[0] !== tooltip.substring)))
         }
     }
 
@@ -81,7 +80,7 @@ Item {
         var substring = textArea.getText(0, textArea.cursorPosition)
         // find last position of index in the given substring
         var signIndex = substring.lastIndexOf('$') + 1
-        if ((signIndex == 0) || (signIndex == textArea.cursorPosition))
+        if ((signIndex === 0) || (signIndex === textArea.cursorPosition))
             return ""
         // get current tag text
         return substring.substr(signIndex)
@@ -89,14 +88,6 @@ Item {
 
     function insert(text) {
         textArea.insert(textArea.cursorPosition, text)
-    }
-
-    function removeSelection() {
-        textArea.remove(textArea.selectionStart, textArea.selectionEnd)
-    }
-
-    function selectedText() {
-        return textArea.selectedText
     }
 }
 

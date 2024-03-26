@@ -17,23 +17,13 @@
 
 import QtQuick 2.15
 import QtQuick.Controls
+import org.kde.kcmutils as KCM
 
 import org.kde.plasma.private.awesomewidget 1.0
 
 
-Item {
+KCM.SimpleKCM {
     id: tooltipPage
-    // backend
-    AWActions {
-        id: awActions
-    }
-
-    width: childrenRect.width
-    height: childrenRect.height
-    implicitWidth: pageColumn.implicitWidth
-    implicitHeight: pageColumn.implicitHeight
-
-    property bool debug: awActions.isDebugEnabled()
 
     property alias cfg_tooltipNumber: tooltipNumber.value
     property alias cfg_useTooltipBackground: useTooltipBackground.checked
@@ -52,7 +42,6 @@ Item {
     property alias cfg_batTooltip: batTooltip.checked
     property alias cfg_batTooltipColor: batTooltipColor.value
     property alias cfg_batInTooltipColor: batInTooltipColor.value
-
 
     Column {
         id: pageColumn
@@ -178,11 +167,13 @@ Item {
             Column {
                 width: parent.width
                 enabled: networkTooltipLabel.checked
+
                 ColorSelector {
                     id: downkbTooltipColor
                     text: i18n("Download speed color")
                     value: plasmoid.configuration.downkbTooltipColor
                 }
+
                 ColorSelector {
                     id: upkbTooltipColor
                     text: i18n("Upload speed color")
@@ -204,11 +195,13 @@ Item {
             Column {
                 width: parent.width
                 enabled: batteryTooltipLabel.checked
+
                 ColorSelector {
                     id: batTooltipColor
                     text: i18n("Battery active color")
                     value: plasmoid.configuration.batTooltipColor
                 }
+
                 ColorSelector {
                     id: batInTooltipColor
                     text: i18n("Battery inactive color")
@@ -216,10 +209,5 @@ Item {
                 }
             }
         }
-    }
-
-
-    Component.onCompleted: {
-        if (debug) console.debug()
     }
 }

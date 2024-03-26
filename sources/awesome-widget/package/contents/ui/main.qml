@@ -28,6 +28,7 @@ import "."
 
 PlasmoidItem {
     id: main
+
     // backend
     AWKeys {
         id: awKeys
@@ -42,7 +43,6 @@ PlasmoidItem {
         id: bugReport
     }
 
-    property bool debug: awActions.isDebugEnabled()
     property variant tooltipSettings: {
         "tooltipNumber": plasmoid.configuration.tooltipNumber,
         "useTooltipBackground": plasmoid.configuration.useTooltipBackground,
@@ -72,14 +72,12 @@ PlasmoidItem {
     signal needToolTipUpdate(string newText)
     signal sizeUpdate
 
-
-    Layout.fillWidth: PlasmoidItem.formFactor != PlasmaCore.Planar
-    Layout.fillHeight: PlasmoidItem.formFactor != PlasmaCore.Planar
+    Layout.fillWidth: PlasmoidItem.formFactor !== PlasmaCore.Planar
+    Layout.fillHeight: PlasmoidItem.formFactor !== PlasmaCore.Planar
     Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
 
     Plasmoid.icon: "utilities-system-monitor"
     Plasmoid.backgroundHints: plasmoid.configuration.background ? "DefaultBackground" : "NoBackground"
-
 
     // ui
     Text {
@@ -94,7 +92,7 @@ PlasmoidItem {
 
         color: plasmoid.configuration.fontColor
         font.family: plasmoid.configuration.fontFamily
-        font.italic: plasmoid.configuration.fontStyle == "italic" ? true : false
+        font.italic: plasmoid.configuration.fontStyle === "italic" ? true : false
         font.pointSize: plasmoid.configuration.fontSize
         font.weight: General.fontWeight[plasmoid.configuration.fontWeight]
 
@@ -124,8 +122,8 @@ PlasmoidItem {
         }
 
         onAccepted: {
-            var tag = tagSelectorBox.editText
-            var message = i18n("Tag: %1", tag)
+            const tag = tagSelectorBox.editText
+            let message = i18n("Tag: %1", tag)
             message += "<br>"
             message += i18n("Value: %1", awKeys.valueByKey(tag))
             message += "<br>"
@@ -138,25 +136,33 @@ PlasmoidItem {
         PlasmaCore.Action {
             text: i18n("Request key")
             icon.name: "utilities-system-monitor"
+            onTriggered: {
+                tagSelectorBox.model = awKeys.dictKeys(true)
+                tagSelector.open()
+            }
         },
         PlasmaCore.Action {
             text: i18n("Show README")
             icon.name: "text-x-readme"
+            onTriggered: awActions.showReadme()
         },
         PlasmaCore.Action {
             text: i18n("Check updates")
             icon.name: "system-software-update"
+            onTriggered: awActions.checkUpdates(true)
         },
         PlasmaCore.Action {
             text: i18n("Report bug")
             icon.name: "tools-report-bug"
+            onTriggered: {
+                bugReport.reset()
+                bugReport.open()
+            }
         }
     ]
 
 
     Component.onCompleted: {
-        if (debug) console.debug()
-
         // init submodule
         Plasmoid.userConfiguringChanged(false)
         // connect data
@@ -167,31 +173,25 @@ PlasmoidItem {
     }
 
     onNeedTextUpdate: newText => {
-        if (debug) console.debug()
-
         text.text = newText
         sizeUpdate()
     }
 
     onNeedToolTipUpdate: newText => {
-        if (debug) console.debug()
-
         tooltip.text = newText
     }
 
     onSizeUpdate: {
-        if (debug) console.debug()
         // 16 is a magic number
         // in other case plasmoid will increase own size on each update
-
-        if (plasmoid.configuration.height == 0) {
+        if (plasmoid.configuration.height === 0) {
             Layout.minimumHeight = text.contentHeight - 16
             Layout.maximumHeight = -1
         } else {
             Layout.minimumHeight = plasmoid.configuration.height
             Layout.maximumHeight = plasmoid.configuration.height
         }
-        if (plasmoid.configuration.width == 0) {
+        if (plasmoid.configuration.width === 0) {
             Layout.minimumWidth = text.contentWidth - 16
             Layout.maximumWidth = -1
         } else {
@@ -202,7 +202,6 @@ PlasmoidItem {
 
     Plasmoid.onUserConfiguringChanged: {
         if (plasmoid.userConfiguring) return
-        if (debug) console.debug()
 
         // init submodule
         awKeys.initDataAggregator(tooltipSettings)
@@ -217,7 +216,7 @@ PlasmoidItem {
         awKeys.setAggregatorProperty("tempUnits", plasmoid.configuration.tempUnits)
         awKeys.setAggregatorProperty("translate", plasmoid.configuration.translateStrings)
         // update telemetry ID
-        if (plasmoid.configuration.telemetryId.length == 0)
+        if (plasmoid.configuration.telemetryId.length === 0)
             plasmoid.configuration.telemetryId = generateUuid()
         // save telemetry
         awTelemetryHandler.init(plasmoid.configuration.telemetryCount,
@@ -227,37 +226,10 @@ PlasmoidItem {
             awTelemetryHandler.uploadTelemetry("awwidgetconfig", plasmoid.configuration.text)
     }
 
-
-    function action_checkUpdates() {
-        if (debug) console.debug()
-
-        return awActions.checkUpdates(true)
-    }
-
-    function action_showReadme() {
-        if (debug) console.debug()
-
-        return awActions.showReadme()
-    }
-
-    function action_reportBug() {
-        if (debug) console.debug()
-
-        bugReport.reset()
-        bugReport.open()
-    }
-
-    function action_requestKey() {
-        if (debug) console.debug()
-
-        tagSelectorBox.model = awKeys.dictKeys(true)
-        return tagSelector.open()
-    }
-
     // code from http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
     function generateUuid() {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+            let r = Math.random() * 16 | 0, v = c === "x" ? r : (r & 0x3 | 0x8);
             return v.toString(16);
         });
     }

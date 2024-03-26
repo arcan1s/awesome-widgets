@@ -17,23 +17,18 @@
 
 import QtQuick 2.15
 import QtQuick.Controls
+import org.kde.kcmutils as KCM
 
 import org.kde.plasma.private.awesomewidget 1.0
 
 
-Item {
+KCM.SimpleKCM {
     id: advancedPage
+
     // backend
     AWActions {
         id: awActions
     }
-
-    width: childrenRect.width
-    height: childrenRect.height
-    implicitWidth: pageColumn.implicitWidth
-    implicitHeight: pageColumn.implicitHeight
-
-    property bool debug: awActions.isDebugEnabled()
 
     property alias cfg_background: background.checked
     property alias cfg_translateStrings: translate.checked
@@ -54,7 +49,6 @@ Item {
     property alias cfg_telemetryCount: telemetryCount.value
     property alias cfg_telemetryRemote: telemetryRemote.checked
     property alias cfg_telemetryId: telemetryId.value
-
 
     Column {
         id: pageColumn
@@ -194,14 +188,18 @@ Item {
 
         GroupBox {
             width: parent.width
+            height: implicitHeight
             title: i18n("Actions")
 
             Column {
+                height: implicitHeight
                 width: parent.width
+
                 ButtonSelector {
                     value: i18n("Drop key cache")
                     onButtonActivated: awActions.dropCache()
                 }
+
                 ButtonSelector {
                     ExportDialog {
                         id: saveConfigAs
@@ -210,11 +208,12 @@ Item {
                     value: i18n("Export configuration")
                     onButtonActivated: saveConfigAs.open()
                 }
+
                 ButtonSelector {
                     ImportDialog {
                         id: loadConfigFrom
                         onConfigurationReceived: {
-                            for (var key in configuration)
+                            for (const key in configuration)
                                 plasmoid.configuration[key] = configuration[key]
                         }
                     }
@@ -225,15 +224,19 @@ Item {
         }
 
         GroupBox {
+            height: implicitHeight
             width: parent.width
             title: i18n("Telemetry")
 
             Column {
+                height: implicitHeight
                 width: parent.width
+
                 CheckBoxSelector {
                     id: telemetryRemote
                     text: i18n("Enable remote telemetry")
                 }
+
                 IntegerSelector {
                     id: telemetryCount
                     maximumValue: 10000
@@ -242,6 +245,7 @@ Item {
                     text: i18n("History count")
                     value: plasmoid.configuration.telemetryCount
                 }
+
                 LineSelector {
                     id: telemetryId
                     text: i18n("Telemetry ID")
@@ -249,10 +253,5 @@ Item {
                 }
             }
         }
-    }
-
-
-    Component.onCompleted: {
-        if (debug) console.debug()
     }
 }
