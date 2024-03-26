@@ -17,23 +17,13 @@
 
 import QtQuick 2.15
 import QtQuick.Controls
+import org.kde.kcmutils as KCM
 
 import org.kde.plasma.private.desktoppanel 1.0
 
 
-Item {
+KCM.SimpleKCM {
     id: advancedPage
-    // backend
-    DPAdds {
-        id: dpAdds
-    }
-
-    width: childrenRect.width
-    height: childrenRect.height
-    implicitWidth: pageColumn.implicitWidth
-    implicitHeight: pageColumn.implicitHeight
-
-    property bool debug: dpAdds.isDebugEnabled()
 
     property alias cfg_background: background.checked
     property alias cfg_verticalLayout: verticalLayout.checked
@@ -43,7 +33,6 @@ Item {
     property string cfg_tooltipType: tooltipType.value
     property alias cfg_tooltipWidth: tooltipWidth.value
     property alias cfg_tooltipColor: tooltipColor.value
-
 
     Column {
         id: pageColumn
@@ -82,48 +71,48 @@ Item {
             editable: true
             model: [
                 {
-                    'label': '#',
-                    'name': '#'
+                    "label": "#",
+                    "name": "#"
                 },
                 {
-                    'label': '$',
-                    'name': '$'
+                    "label": "$",
+                    "name": "$"
                 },
                 {
-                    'label': '%',
-                    'name': '%'
+                    "label": "%",
+                    "name": "%"
                 },
                 {
-                    'label': '&',
-                    'name': '&'
+                    "label": "&",
+                    "name": "&"
                 },
                 {
-                    'label': '*',
-                    'name': '*'
+                    "label": "*",
+                    "name": "*"
                 },
                 {
-                    'label': '@',
-                    'name': '@'
+                    "label": "@",
+                    "name": "@"
                 },
                 {
-                    'label': '¤',
-                    'name': '¤'
+                    "label": "¤",
+                    "name": "¤"
                 },
                 {
-                    'label': '¶',
-                    'name': '¶'
+                    "label": "¶",
+                    "name": "¶"
                 },
                 {
-                    'label': '·',
-                    'name': '·'
+                    "label": "·",
+                    "name": "·"
                 },
                 {
-                    'label': 'º',
-                    'name': 'º'
+                    "label": "º",
+                    "name": "º"
                 },
                 {
-                    'label': plasmoid.configuration.mark,
-                    'name': plasmoid.configuration.mark
+                    "label": plasmoid.configuration.mark,
+                    "name": plasmoid.configuration.mark
                 }
             ]
             text: i18n("Mark")
@@ -144,16 +133,16 @@ Item {
                     id: tooltipType
                     model: [
                         {
-                            'label': i18n("contours"),
-                            'name': "contours"
+                            "label": i18n("contours"),
+                            "name": "contours"
                         },
                         {
-                            'label': i18n("names"),
-                            'name': "names"
+                            "label": i18n("names"),
+                            "name": "names"
                         },
                         {
-                            'label': i18n("none"),
-                            'name': "none"
+                            "label": i18n("none"),
+                            "name": "none"
                         }
                     ]
                     text: i18n("Tooltip type")
@@ -177,9 +166,5 @@ Item {
                 }
             }
         }
-    }
-
-    Component.onCompleted: {
-        if (debug) console.debug()
     }
 }

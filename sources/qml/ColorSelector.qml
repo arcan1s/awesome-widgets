@@ -20,10 +20,11 @@ import QtQuick.Dialogs
 
 
 ButtonSelector {
-    // TODO somehow doesn't work
-    // background: Rectangle {
-    //     color: value
-    // }
+    background: Rectangle {
+        implicitWidth: 100
+        implicitHeight: 25
+        color: value
+    }
 
     onButtonActivated: colorDialog.visible = true
 

@@ -129,32 +129,32 @@ KCM.SimpleKCM {
             id: tempUnits
             model: [
                 {
-                    'label': i18n("Celsius"),
-                    'name': "Celsius"
+                    "label": i18n("Celsius"),
+                    "name": "Celsius"
                 },
                 {
-                    'label': i18n("Fahrenheit"),
-                    'name': "Fahrenheit"
+                    "label": i18n("Fahrenheit"),
+                    "name": "Fahrenheit"
                 },
                 {
-                    'label': i18n("Kelvin"),
-                    'name': "Kelvin"
+                    "label": i18n("Kelvin"),
+                    "name": "Kelvin"
                 },
                 {
-                    'label': i18n("Reaumur"),
-                    'name': "Reaumur"
+                    "label": i18n("Reaumur"),
+                    "name": "Reaumur"
                 },
                 {
-                    'label': i18n("cm^-1"),
-                    'name': "cm^-1"
+                    "label": i18n("cm^-1"),
+                    "name": "cm^-1"
                 },
                 {
-                    'label': i18n("kJ/mol"),
-                    'name': "kJ/mol"
+                    "label": i18n("kJ/mol"),
+                    "name": "kJ/mol"
                 },
                 {
-                    'label': i18n("kcal/mol"),
-                    'name': "kcal/mol"
+                    "label": i18n("kcal/mol"),
+                    "name": "kcal/mol"
                 }
             ]
             text: i18n("Temperature units")

@@ -35,6 +35,7 @@ Row {
         horizontalAlignment: Text.AlignRight
         verticalAlignment: Text.AlignVCenter
     }
+
     TextField {
         id: textField
         width: parent.width * 3 / 5

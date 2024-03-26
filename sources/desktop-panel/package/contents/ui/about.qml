@@ -16,27 +16,20 @@
  ***************************************************************************/
 
 import QtQuick 2.15
+import org.kde.kcmutils as KCM
 
 import org.kde.plasma.private.desktoppanel 1.0
 
 
-Item {
+KCM.SimpleKCM {
     id: aboutPage
+
     // backend
     DPAdds {
         id: dpAdds
     }
 
-    width: childrenRect.width
-    height: childrenRect.height
-
-    property bool debug: awActions.isDebugEnabled()
-
     AboutTab {
         textProvider: dpAdds
-    }
-
-    Component.onCompleted: {
-        if (debug) console.debug()
     }
 }

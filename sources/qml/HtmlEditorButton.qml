@@ -31,7 +31,7 @@ Button {
 
     function updateText() {
         // get selected text
-        var selected = textField.selectedText()
+        const selected = textField.selectedText()
         // remove it from widget
         textField.removeSelection()
         // insert edited text

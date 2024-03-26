@@ -77,9 +77,9 @@ ScrollView {
 
     function getLastTag() {
         // get substring to analyze
-        var substring = textArea.getText(0, textArea.cursorPosition)
+        const substring = textArea.getText(0, textArea.cursorPosition)
         // find last position of index in the given substring
-        var signIndex = substring.lastIndexOf('$') + 1
+        const signIndex = substring.lastIndexOf("$") + 1
         if ((signIndex === 0) || (signIndex === textArea.cursorPosition))
             return ""
         // get current tag text
@@ -88,6 +88,14 @@ ScrollView {
 
     function insert(text) {
         textArea.insert(textArea.cursorPosition, text)
+    }
+
+    function removeSelection() {
+        textArea.remove(textArea.selectionStart, textArea.selectionEnd)
+    }
+
+    function selectedText() {
+        return textArea.selectedText
     }
 }
 

@@ -16,24 +16,14 @@
  ***************************************************************************/
 
 import QtQuick 2.15
+import org.kde.kcmutils as KCM
 
 import org.kde.plasma.private.desktoppanel 1.0
 import "."
 
 
-Item {
+KCM.SimpleKCM {
     id: inactiveAppearancePage
-    // backend
-    DPAdds {
-        id: dpAdds
-    }
-
-    width: childrenRect.width
-    height: childrenRect.height
-    implicitWidth: pageColumn.implicitWidth
-    implicitHeight: pageColumn.implicitHeight
-
-    property bool debug: dpAdds.isDebugEnabled()
 
     property alias cfg_fontFamily: font.value
     property alias cfg_fontSize: fontSize.value
@@ -42,7 +32,6 @@ Item {
     property alias cfg_fontColor: selectColor.value
     property alias cfg_textStyleColor: selectStyleColor.value
     property string cfg_textStyle: textStyle.value
-
 
     Column {
         id: pageColumn
@@ -98,10 +87,5 @@ Item {
             text: i18n("Style color")
             value: plasmoid.configuration.textStyleColor
         }
-    }
-
-
-    Component.onCompleted: {
-        if (debug) console.debug()
     }
 }

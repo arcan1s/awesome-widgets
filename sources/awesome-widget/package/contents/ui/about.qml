@@ -24,6 +24,11 @@ import org.kde.plasma.private.awesomewidget 1.0
 KCM.SimpleKCM {
     id: aboutPage
 
+    // backend
+    AWActions {
+        id: awActions
+    }
+
     AboutTab {
         textProvider: awActions
     }

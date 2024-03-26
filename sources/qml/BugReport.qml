@@ -34,8 +34,6 @@ Dialog {
 
     width: 640
     height: 480
-    property bool debug: awActions.isDebugEnabled()
-
 
     title: i18n("Report a bug")
     standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel | DialogButtonBox.Reset
@@ -48,6 +46,7 @@ Dialog {
             Layout.fillWidth: true
             placeholderText: i18n("Report subject")
         }
+
         ColumnLayout {
             Layout.fillWidth: true
 
@@ -55,41 +54,50 @@ Dialog {
                 Layout.fillWidth: true
                 height: parent.height / 5
                 title: i18n("Description")
+
                 TextArea {
                     id: description
                     anchors.fill: parent
                     textFormat: TextEdit.PlainText
                 }
             }
+
             GroupBox {
                 Layout.fillWidth: true
                 height: parent.height / 5
                 title: i18n("Steps to reproduce")
+
                 TextArea {
                     id: reproduce
                     anchors.fill: parent
                     textFormat: TextEdit.PlainText
                 }
             }
+
             GroupBox {
                 Layout.fillWidth: true
                 height: parent.height / 5
                 title: i18n("Expected result")
+
                 TextArea {
                     id: expected
                     anchors.fill: parent
                     textFormat: TextEdit.PlainText
                 }
             }
+
             GroupBox {
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignBottom
                 title: i18n("Logs")
+
                 ColumnLayout {
                     anchors.fill: parent
                     Layout.fillWidth: true
+
                     Row {
-                          Layout.fillWidth: true
+                        Layout.fillWidth: true
+
                         Label {
                             width: parent.width * 2 / 5
                             horizontalAlignment: Text.AlignJustify
@@ -97,17 +105,20 @@ Dialog {
                             wrapMode: Text.WordWrap
                             text: i18n("Use command")
                         }
+
                         TextField {
                             width: parent.width * 3 / 5
                             readOnly: true
                             text: "QT_LOGGING_RULES=*=true plasmawindowed org.kde.plasma.awesomewidget"
                         }
                     }
+
                     Button {
                         Layout.fillWidth: true
                         text: i18n("Load log file")
                         onClicked: logPath.open()
                     }
+
                     TextArea {
                         id: logBody
                         Layout.fillWidth: true
@@ -127,16 +138,11 @@ Dialog {
     }
 
     onAccepted: {
-        if (debug) console.debug()
-
-        var text = awBugReporter.generateText(description.text, reproduce.text,
-                                              expected.text, logBody.text)
+        const text = awBugReporter.generateText(description.text, reproduce.text, expected.text, logBody.text)
         awBugReporter.sendBugReport(title.text, text)
     }
 
     onReset: {
-        if (debug) console.debug()
-
         title.text = ""
         description.text = ""
         reproduce.text = ""
@@ -144,8 +150,6 @@ Dialog {
     }
 
     Component.onCompleted: {
-        if (debug) console.debug()
-
         awBugReporter.doConnect()
     }
 }

@@ -37,8 +37,9 @@ Item {
         fileMode: FileDialog.SaveFile
         title: i18n("Export")
         currentFolder: awConfig.configurationDirectory()
+
         onAccepted: {
-            var status = awConfig.exportConfiguration(
+            const status = awConfig.exportConfiguration(
                 configuration,
                 fileDialog.fileUrl.toString().replace("file://", ""))
             if (status) {
@@ -51,7 +52,6 @@ Item {
             messageDialog.open()
         }
     }
-
     function open() {
         return fileDialog.open()
     }

@@ -32,9 +32,11 @@ Row {
         id: label
         height: parent.height
         width: parent.width * 2 / 5
+
         horizontalAlignment: Text.AlignRight
         verticalAlignment: Text.AlignVCenter
     }
+
     Button {
         id: button
         width: parent.width * 3 / 5

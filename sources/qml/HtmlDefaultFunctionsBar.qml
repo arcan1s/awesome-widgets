@@ -30,6 +30,7 @@ Row {
         text: i18n("Bgcolor")
         textField: textArea
     }
+
     HtmlEditorFont {
         width: parent.width * 3 / 15
         textField: textArea
@@ -45,6 +46,7 @@ Row {
         textField: textArea
         end: "<br>\n"
     }
+
     // font properties
     HtmlEditorButton {
         width: parent.width / 15
@@ -53,6 +55,7 @@ Row {
         start: "<b>"
         end: "</b>"
     }
+
     HtmlEditorButton {
         width: parent.width / 15
         icon.name: "format-text-italic"
@@ -60,6 +63,7 @@ Row {
         start: "<i>"
         end: "</i>"
     }
+
     HtmlEditorButton {
         width: parent.width / 15
         icon.name: "format-text-underline"
@@ -67,6 +71,7 @@ Row {
         start: "<u>"
         end: "</u>"
     }
+
     HtmlEditorButton {
         width: parent.width / 15
         icon.name: "format-text-strikethrough"
@@ -83,6 +88,7 @@ Row {
         start: "<p align=\"left\">"
         end: "</p>"
     }
+
     HtmlEditorButton {
         width: parent.width / 15
         icon.name: "format-justify-center"
@@ -90,6 +96,7 @@ Row {
         start: "<p align=\"center\">"
         end: "</p>"
     }
+
     HtmlEditorButton {
         width: parent.width / 15
         icon.name: "format-justify-right"
@@ -97,6 +104,7 @@ Row {
         start: "<p align=\"right\">"
         end: "</p>"
     }
+
     HtmlEditorButton {
         width: parent.width / 15
         icon.name: "format-justify-fill"

@@ -38,7 +38,7 @@ KCM.SimpleKCM {
     Column {
         id: pageColumn
         anchors.fill: parent
-const
+
         GroupBox {
             height: implicitHeight
             width: parent.width
@@ -70,16 +70,16 @@ const
                 ComboBoxSelector {
                     model: [
                         {
-                            'label': "disable",
-                            'name': "disable"
+                            "label": "disable",
+                            "name": "disable"
                         },
                         {
-                            'label': "mpris",
-                            'name': "mpris"
+                            "label": "mpris",
+                            "name": "mpris"
                         },
                         {
-                            'label': "mpd",
-                            'name': "mpd"
+                            "label": "mpd",
+                            "name": "mpd"
                         }
                     ]
                     text: i18n("Music player")
@@ -92,40 +92,40 @@ const
                     editable: true
                     model: [
                         {
-                            'label': 'auto',
-                            'name': 'auto'
+                            "label": "auto",
+                            "name": "auto"
                         },
                         {
-                            'label': 'amarok',
-                            'name': 'amarok'
+                            "label": "amarok",
+                            "name": "amarok"
                         },
                         {
-                            'label': 'audacious',
-                            'name': 'audacious'
+                            "label": "audacious",
+                            "name": "audacious"
                         },
                         {
-                            'label': 'clementine',
-                            'name': 'clementine'
+                            "label": "clementine",
+                            "name": "clementine"
                         },
                         {
-                            'label': 'DeaDBeeF',
-                            'name': 'DeaDBeeF'
+                            "label": "DeaDBeeF",
+                            "name": "DeaDBeeF"
                         },
                         {
-                            'label': 'vlc',
-                            'name': 'vlc'
+                            "label": "vlc",
+                            "name": "vlc"
                         },
                         {
-                            'label': 'qmmp',
-                            'name': 'qmmp'
+                            "label": "qmmp",
+                            "name": "qmmp"
                         },
                         {
-                            'label': 'xmms2',
-                            'name': 'xmms2'
+                            "label": "xmms2",
+                            "name": "xmms2"
                         },
                         {
-                            'label': cfg_dataengine["MPRIS"],
-                            'name': cfg_dataengine["MPRIS"]
+                            "label": cfg_dataengine["MPRIS"],
+                            "name": cfg_dataengine["MPRIS"]
                         }
                     ]
                     text: i18n("MPRIS player name")

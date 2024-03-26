@@ -57,14 +57,13 @@ Item {
         }
 
         onAccepted: {
-            var importConfig = awConfig.importConfiguration(
+            const importConfig = awConfig.importConfiguration(
                 fileDialog.fileUrl.toString().replace("file://", ""),
                 importPlasmoid.checked, importExtensions.checked,
                 importAdds.checked)
             configurationReceived(importConfig)
         }
     }
-
     function open() {
         return fileDialog.open()
     }

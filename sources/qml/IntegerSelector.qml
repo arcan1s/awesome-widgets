@@ -39,6 +39,7 @@ Row {
         horizontalAlignment: Text.AlignRight
         verticalAlignment: Text.AlignVCenter
     }
+
     SpinBox {
         id: spinBox
         width: parent.width * 3 / 5

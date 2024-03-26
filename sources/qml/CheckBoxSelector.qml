@@ -30,6 +30,7 @@ Row {
         height: parent.heigth
         width: parent.width * 2 / 5
     }
+
     CheckBox {
         id: checkBox
         width: parent.width * 3 / 5

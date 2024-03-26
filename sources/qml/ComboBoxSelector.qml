@@ -39,14 +39,16 @@ Row {
         horizontalAlignment: Text.AlignRight
         verticalAlignment: Text.AlignVCenter
     }
+
     ComboBox {
         id: comboBox
         width: parent.width * 3 / 5
-        textRole: 'label'
-        onCurrentIndexChanged: valueEdited(comboBox.model[comboBox.currentIndex]['name'])
+        textRole: "label"
+        onCurrentIndexChanged: valueEdited(comboBox.model[comboBox.currentIndex]["name"])
+
         Component.onCompleted: {
-            var total = comboBox.model.length
-            for (var i = 0; i < total; i++) {
+            const total = comboBox.model.length
+            for (let i = 0; i < total; i++) {
                 if (comboBox.model[i]["name"] === value)
                     comboBox.currentIndex = i
             }

@@ -46,7 +46,6 @@ class DPAdds : public QObject
 public:
     explicit DPAdds(QObject *_parent = nullptr);
     ~DPAdds() override;
-    Q_INVOKABLE static bool isDebugEnabled();
     Q_INVOKABLE [[nodiscard]] int currentDesktop() const;
     Q_INVOKABLE static QStringList dictKeys(bool _sorted = true, const QString &_regexp = "");
     Q_INVOKABLE [[nodiscard]] int numberOfDesktops() const;

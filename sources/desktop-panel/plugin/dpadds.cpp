@@ -49,9 +49,7 @@ DPAdds::DPAdds(QObject *_parent)
     m_vdi = new TaskManager::VirtualDesktopInfo(this);
     m_taskModel = new TaskManager::WindowTasksModel(this);
 
-    connect(m_vdi, SIGNAL(currentDesktopChanged()), this, SIGNAL(desktopChanged()));
-    connect(KWindowSystem::self(), SIGNAL(windowAdded(WId)), this, SIGNAL(windowListChanged()));
-    connect(KWindowSystem::self(), SIGNAL(windowRemoved(WId)), this, SIGNAL(windowListChanged()));
+    connect(m_vdi, &TaskManager::VirtualDesktopInfo::currentDesktopChanged, this, &DPAdds::desktopChanged);
 }
 
 
@@ -61,13 +59,6 @@ DPAdds::~DPAdds()
 
     m_vdi->deleteLater();
     m_taskModel->deleteLater();
-}
-
-
-// HACK: since QML could not use QLoggingCategory I need this hack
-bool DPAdds::isDebugEnabled()
-{
-    return LOG_DP().isDebugEnabled();
 }
 
 

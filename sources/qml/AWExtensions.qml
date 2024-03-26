@@ -68,23 +68,27 @@ Row {
         }
     }
 
-    // TODO migrate history
-    // Button {
-    //     width: parent.width / 15
-    //     iconName: "view-history"
-    //     menu: Menu {
-    //         id: historyConfig
-    //         Instantiator {
-    //             model: awTelemetryHandler.get("awwidgetconfig")
-    //             MenuItem {
-    //                 text: modelData
-    //                 onTriggered: textArea.text = modelData
-    //             }
-    //             onObjectAdded: historyConfig.insertItem(index, object)
-    //             onObjectRemoved: historyConfig.removeItem(object)
-    //         }
-    //     }
-    // }
+    Button {
+        width: parent.width / 15
+        icon.name: "view-history"
+
+        onClicked: historyConfig.open()
+
+        Menu {
+            id: historyConfig
+
+            Instantiator {
+                model: awTelemetryHandler.get("awwidgetconfig")
+                delegate: MenuItem {
+                    text: modelData
+                    onTriggered: textArea.text = modelData
+                }
+
+                onObjectAdded: (index, object) => historyConfig.insertItem(index, object)
+                onObjectRemoved: (index, object) => historyConfig.removeItem(object)
+            }
+        }
+    }
 
     MessageDialog {
         id: compiledText

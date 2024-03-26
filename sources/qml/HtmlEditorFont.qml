@@ -36,13 +36,13 @@ HtmlEditorButton {
 
     clickedEvent: function() {
         // get new font
-        var defaultFont = {
+        const defaultFont = {
             "color": defaultFontColor,
             "family": defaultFontFamily,
             "size": defaultFontSize
         }
         // we are using custom selector as soon as we need to select color as well
-        var font = awActions.getFont(defaultFont)
+        const font = awActions.getFont(defaultFont)
 
         // check status
         if (!font.applied)
