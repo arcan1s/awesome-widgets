@@ -89,6 +89,9 @@ void AWDataEngineAggregator::loadSources()
     auto sensors = response.value();
     updateSensors(sensors);
     connectSources();
+
+    for (auto &sensor : m_sensors.keys())
+        emit(deviceAdded(sensor));
 }
 
 
@@ -121,6 +124,9 @@ void AWDataEngineAggregator::sensorAdded(const QString &_sensor)
         m_interface->subscribe({_sensor}).waitForFinished();
         m_subscribed.insert(_sensor);
     }
+
+    // notify about new device
+    emit(deviceAdded(_sensor));
 }
 
 

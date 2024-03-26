@@ -46,9 +46,8 @@ ExtQuotes::ExtQuotes(QObject *_parent, const QString &_filePath)
     // HACK declare as child of nullptr to avoid crash with plasmawindowed
     // in the destructor
     m_manager = new QNetworkAccessManager(nullptr);
-    connect(m_manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(quotesReplyReceived(QNetworkReply *)));
-
-    connect(this, SIGNAL(requestDataUpdate()), this, SLOT(sendRequest()));
+    connect(m_manager, &QNetworkAccessManager::finished, this, &ExtQuotes::quotesReplyReceived);
+    connect(this, &ExtQuotes::requestDataUpdate, this, &ExtQuotes::sendRequest);
 }
 
 
@@ -56,8 +55,8 @@ ExtQuotes::~ExtQuotes()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    disconnect(m_manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(quotesReplyReceived(QNetworkReply *)));
-    disconnect(this, SIGNAL(requestDataUpdate()), this, SLOT(sendRequest()));
+    disconnect(m_manager, &QNetworkAccessManager::finished, this, &ExtQuotes::quotesReplyReceived);
+    disconnect(this, &ExtQuotes::requestDataUpdate, this, &ExtQuotes::sendRequest);
 
     m_manager->deleteLater();
 }

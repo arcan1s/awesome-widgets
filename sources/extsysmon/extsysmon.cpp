@@ -27,8 +27,6 @@
 
 #include "awdebug.h"
 #include "extsysmonaggregator.h"
-#include "gpuloadsource.h"
-#include "hddtempsource.h"
 
 
 ExtendedSysMon::ExtendedSysMon(QObject *_parent, const QVariantList &_args)
@@ -53,9 +51,6 @@ void ExtendedSysMon::readConfiguration()
 
     settings.beginGroup("Configuration");
     rawConfig["ACPIPATH"] = settings.value("ACPIPATH", "/sys/class/power_supply/").toString();
-    rawConfig["GPUDEV"] = settings.value("GPUDEV", "auto").toString();
-    rawConfig["HDDDEV"] = settings.value("HDDDEV", "all").toString();
-    rawConfig["HDDTEMPCMD"] = settings.value("HDDTEMPCMD", "sudo smartctl -a").toString();
     rawConfig["MPDADDRESS"] = settings.value("MPDADDRESS", "localhost").toString();
     rawConfig["MPDPORT"] = settings.value("MPDPORT", "6600").toString();
     rawConfig["MPRIS"] = settings.value("MPRIS", "auto").toString();
@@ -71,31 +66,6 @@ QHash<QString, QString> ExtendedSysMon::updateConfiguration(QHash<QString, QStri
 {
     qCDebug(LOG_ESM) << "Raw configuration" << _rawConfig;
 
-    // gpudev
-    if (_rawConfig["GPUDEV"] == "disable")
-        ;
-    else if (_rawConfig["GPUDEV"] == "auto")
-        _rawConfig["GPUDEV"] = GPULoadSource::autoGpu();
-    else if ((_rawConfig["GPUDEV"] != "ati") && (_rawConfig["GPUDEV"] != "nvidia"))
-        _rawConfig["GPUDEV"] = GPULoadSource::autoGpu();
-    // hdddev
-    auto allHddDevices = HDDTemperatureSource::allHdd();
-    if (_rawConfig["HDDDEV"] == "all") {
-        _rawConfig["HDDDEV"] = allHddDevices.join(',');
-    } else if (_rawConfig["HDDDEV"] == "disable") {
-        _rawConfig["HDDDEV"] = "";
-    } else {
-        auto deviceList = _rawConfig["HDDDEV"].split(',', Qt::SkipEmptyParts);
-        QStringList devices;
-        auto diskRegexp = QRegularExpression("^/dev/[hms]d[a-z]$");
-        for (auto &device : deviceList)
-            if ((QFile::exists(device)) && (device.contains(diskRegexp)))
-                devices.append(device);
-        if (devices.isEmpty())
-            _rawConfig["HDDDEV"] = allHddDevices.join(',');
-        else
-            _rawConfig["HDDDEV"] = devices.join(',');
-    }
     // player
     if ((_rawConfig["PLAYER"] != "mpd") && (_rawConfig["PLAYER"] != "mpris") && (_rawConfig["PLAYER"] != "disable"))
         _rawConfig["PLAYER"] = "mpris";

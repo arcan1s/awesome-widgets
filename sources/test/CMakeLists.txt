@@ -29,7 +29,7 @@ set(TEST_MODULES
         abstractextitem extquotes extscript extupgrade extweather
         abstractformatter datetimeformatter floatformatter jsonformatter listformatter noformatter scriptformatter stringformatter
         extitemaggregator
-        batterysource desktopsource gpuloadsource gputempsource hddtempsource networksource playersource processessource
+        batterysource desktopsource networksource playersource processessource
         awbugreporter awconfighelper awkeycache awkeys awpatternfunctions awtelemetryhandler awupdatehelper
         dpplugin)
 foreach (TEST_MODULE ${TEST_MODULES})

@@ -31,7 +31,7 @@ bool AWKeyCache::addKeyToCache(const QString &_type, const QString &_key)
 {
     qCDebug(LOG_AW) << "Key" << _key << "with type" << _type;
 
-    QString fileName
+    auto fileName
         = QString("%1/awesomewidgets.ndx").arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
     qCInfo(LOG_AW) << "Cache file" << fileName;
     QSettings cache(fileName, QSettings::IniFormat);
@@ -41,19 +41,8 @@ bool AWKeyCache::addKeyToCache(const QString &_type, const QString &_key)
     for (auto &number : cache.allKeys())
         cachedValues.append(cache.value(number).toString());
 
-    if (_type == "hdd") {
-        QStringList allDevices = QDir("/dev").entryList(QDir::System, QDir::Name);
-        QStringList devices = allDevices.filter(QRegularExpression("^[hms]d[a-z]$"));
-        for (auto &dev : devices) {
-            QString device = QString("/dev/%1").arg(dev);
-            if (cachedValues.contains(device))
-                continue;
-            qCInfo(LOG_AW) << "Found new key" << device << "for type" << _type;
-            cachedValues.append(device);
-            cache.setValue(QString("%1").arg(cache.allKeys().count(), 3, 10, QChar('0')), device);
-        }
-    } else if (_type == "net") {
-        QList<QNetworkInterface> rawInterfaceList = QNetworkInterface::allInterfaces();
+    if (_type == "net") {
+        auto rawInterfaceList = QNetworkInterface::allInterfaces();
         for (auto &interface : rawInterfaceList) {
             QString device = interface.name();
             if (cachedValues.contains(device))
@@ -98,7 +87,7 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys, const QStringL
         if (!used.contains(key))
             continue;
         key.remove("hddtotmb");
-        int index = key.toInt();
+        auto index = key.toInt();
         used << QString("hddfreemb%1").arg(index) << QString("hddmb%1").arg(index);
     }
     // hddtotgb*
@@ -106,7 +95,7 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys, const QStringL
         if (!used.contains(key))
             continue;
         key.remove("hddtotgb");
-        int index = key.toInt();
+        auto index = key.toInt();
         used << QString("hddfreegb%1").arg(index) << QString("hddgb%1").arg(index);
     }
     // mem
@@ -139,7 +128,7 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys, const QStringL
     for (auto &key : netKeys) {
         if (!used.contains(key))
             continue;
-        QStringList filt = _allKeys.filter(QRegularExpression(QString("^%1[0-9]{1,}").arg(key)));
+        auto filt = _allKeys.filter(QRegularExpression(QString("^%1[0-9]{1,}").arg(key)));
         for (auto &filtered : filt)
             used << filtered;
     }
@@ -158,7 +147,7 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys, const QStringL
 
 QHash<QString, QStringList> AWKeyCache::loadKeysFromCache()
 {
-    QString fileName
+    auto fileName
         = QString("%1/awesomewidgets.ndx").arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
     qCInfo(LOG_AW) << "Cache file" << fileName;
     QSettings cache(fileName, QSettings::IniFormat);

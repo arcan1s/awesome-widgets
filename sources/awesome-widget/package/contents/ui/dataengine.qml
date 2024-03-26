@@ -61,57 +61,6 @@ Item {
         GroupBox {
             height: implicitHeight
             width: parent.width
-            title: i18n("GPU")
-            ComboBoxSelector {
-                model: [
-                    {
-                        'label': "auto",
-                        'name': "auto"
-                    },
-                    {
-                        'label': "disable",
-                        'name': "disable"
-                    },
-                    {
-                        'label': "ati",
-                        'name': "ati"
-                    },
-                    {
-                        'label': "nvidia",
-                        'name': "nvidia"
-                    }
-                ]
-                text: i18n("GPU device")
-                value: cfg_dataengine["GPUDEV"]
-                onValueEdited: newValue => cfg_dataengine["GPUDEV"] = newValue
-            }
-        }
-
-        GroupBox {
-            height: implicitHeight
-            width: parent.width
-            title: i18n("HDD temperature")
-            Column {
-                height: implicitHeight
-                width: parent.width
-                ComboBoxSelector {
-                    id: hdd
-                    text: i18n("HDD")
-                    value: cfg_dataengine["HDDDEV"]
-                    onValueEdited: newValue => cfg_dataengine["HDDDEV"] = newValue
-                }
-
-                LineSelector {
-                    text: i18n("hddtemp cmd")
-                    value: cfg_dataengine["HDDTEMPCMD"]
-                    onValueEdited: newValue => cfg_dataengine["HDDTEMPCMD"] = newValue
-                }
-            }
-        }
-
-        GroupBox {
-            height: implicitHeight
-            width: parent.width
             title: i18n("Player")
             Column {
                 height: implicitHeight

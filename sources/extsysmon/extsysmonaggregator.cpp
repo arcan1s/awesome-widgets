@@ -22,9 +22,6 @@
 #include "customsource.h"
 #include "desktopsource.h"
 #include "extsysmonsensor.h"
-#include "gpuloadsource.h"
-#include "gputempsource.h"
-#include "hddtempsource.h"
 #include "loadsource.h"
 #include "networksource.h"
 #include "playersource.h"
@@ -66,13 +63,6 @@ void ExtSysMonAggregator::init(const QHash<QString, QString> &_config)
     // desktop
     // FIXME causes segfault in kde libs
 //    createSensor("desktop", i18n("Desktop"), new DesktopSource(this, {}));
-    // gpu load
-    createSensor("gpuload", i18n("GPU load"), new GPULoadSource(this, {_config["GPUDEV"]}));
-    // gpu temperature
-    createSensor("gputemp", i18n("GPU temperature"), new GPUTemperatureSource(this, {_config["GPUDEV"]}));
-    // hdd temperature
-    createSensor("hdd", i18n("HDD temperature"),
-                 new HDDTemperatureSource(this, {_config["HDDDEV"], _config["HDDTEMPCMD"]}));
     // network
     createSensor("network", i18n("Network"), new NetworkSource(this, {}));
     // player
