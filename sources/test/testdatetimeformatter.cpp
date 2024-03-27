@@ -49,15 +49,15 @@ void TestAWDateTimeFormatter::test_values()
 
 void TestAWDateTimeFormatter::test_conversion()
 {
-    QDateTime now = QDateTime::currentDateTime();
-    QCOMPARE(formatter->convert(now), now.toString(format));
+    auto now = QDateTime::currentDateTime();
+    QCOMPARE(formatter->convert(now), QLocale::system().toString(now, format));
 }
 
 
 void TestAWDateTimeFormatter::test_copy()
 {
     formatter->setTranslateString(false);
-    AWDateTimeFormatter *newFormatter = formatter->copy("/dev/null", 1);
+    auto *newFormatter = formatter->copy("/dev/null", 1);
 
     QCOMPARE(newFormatter->format(), formatter->format());
     QCOMPARE(newFormatter->translateString(), formatter->translateString());

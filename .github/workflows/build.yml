@@ -27,10 +27,10 @@ jobs:
       run: pacman -Sy --noconfirm base-devel cmake extra-cmake-modules python util-linux-libs xorg-server-xvfb
     
     - name: install dependencies
-      run: pacman -S --noconfirm plasma-workspace ksysguard
+      run: pacman -S --noconfirm plasma-workspace
     
     - name: configure cmake
-      run: cmake -B build -DKDE_INSTALL_USE_QT_SYS_PATHS=ON -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DBUILD_FUTURE=ON -DBUILD_TESTING=ON sources
+      run: cmake -B build -S sources -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DBUILD_FUTURE=ON -DBUILD_TESTING=ON
     
     - name: build
       working-directory: /repo/build

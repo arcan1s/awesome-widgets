@@ -62,7 +62,7 @@ void ExtSysMonAggregator::init(const QHash<QString, QString> &_config)
     createSensor("custom", i18n("Scripts"), new CustomSource(this, {}));
     // desktop
     // FIXME causes segfault in kde libs
-//    createSensor("desktop", i18n("Desktop"), new DesktopSource(this, {}));
+    //    createSensor("desktop", i18n("Desktop"), new DesktopSource(this, {}));
     // network
     createSensor("network", i18n("Network"), new NetworkSource(this, {}));
     // player

@@ -39,13 +39,13 @@ void TestNetworkSource::cleanupTestCase()
 
 void TestNetworkSource::test_sources()
 {
-    QCOMPARE(source->sources(), QStringList() << src << "network/current/ssid");
+    QCOMPARE(source->sources(), QStringList({"device", "ssid"}));
 }
 
 
 void TestNetworkSource::test_values()
 {
-    QVERIFY(source->data(src).toString().count() > 0);
+    QVERIFY(source->data("device").toString().length() > 0);
 }
 
 

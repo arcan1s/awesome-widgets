@@ -130,9 +130,8 @@ QStringList AWKeyOperations::dictKeys() const
         allKeys.append(QString("up%1").arg(i));
     }
     // battery
-    auto allBatteryDevices
-        = QDir("/sys/class/power_supply")
-              .entryList(QStringList({"BAT*"}), QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
+    auto allBatteryDevices = QDir("/sys/class/power_supply")
+                                 .entryList(QStringList({"BAT*"}), QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
     for (int i = 0; i < allBatteryDevices.count(); i++) {
         allKeys.append(QString("bat%1").arg(i));
         allKeys.append(QString("batleft%1").arg(i));
