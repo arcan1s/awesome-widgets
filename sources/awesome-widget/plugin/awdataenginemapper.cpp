@@ -153,7 +153,7 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSy
         if (index > -1) {
             QString key = QString("hddr%1").arg(index);
             m_map.insert(_source, key);
-            m_formatter[key] = AWKeysAggregator::FormatterType::Integer;
+            m_formatter[key] = AWKeysAggregator::FormatterType::MemKBFormat;
         }
     } else if (_source.contains(hddwRegExp)) {
         // write speed
@@ -163,7 +163,7 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSy
         if (index > -1) {
             QString key = QString("hddw%1").arg(index);
             m_map.insert(_source, key);
-            m_formatter[key] = AWKeysAggregator::FormatterType::Integer;
+            m_formatter[key] = AWKeysAggregator::FormatterType::MemKBFormat;
         }
     } else if (_source == "gpu/all/usage") {
         // gpu load
@@ -285,7 +285,7 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSy
             // kb
             auto key = QString("%1kb%2").arg(type).arg(index);
             m_map.insert(_source, key);
-            m_formatter[key] = AWKeysAggregator::FormatterType::Integer;
+            m_formatter[key] = AWKeysAggregator::FormatterType::MemKBFormat;
             // smart
             key = QString("%1%2").arg(type).arg(index);
             m_map.insert(_source, key);
@@ -303,7 +303,7 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSy
             // kb
             auto key = QString("%1totkb%2").arg(type).arg(index);
             m_map.insert(_source, key);
-            m_formatter[key] = AWKeysAggregator::FormatterType::Integer;
+            m_formatter[key] = AWKeysAggregator::FormatterType::MemKBFormat;
             // mb
             key = QString("%1tot%2").arg(type).arg(index);
             m_map.insert(_source, key);

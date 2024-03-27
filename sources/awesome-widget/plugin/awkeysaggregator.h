@@ -53,6 +53,7 @@ public:
         ACFormat,
         MemGBFormat,
         MemMBFormat,
+        MemKBFormat,
         NetSmartFormat,
         NetSmartUnits,
         Quotes,
@@ -66,6 +67,10 @@ public:
         Uptime,
         UptimeCustom
     };
+
+    static constexpr double KBinBytes = 1024.0;
+    static constexpr double MBinBytes = 1024.0 * KBinBytes;
+    static constexpr double GBinBytes = 1024.0 * MBinBytes;
 
     explicit AWKeysAggregator(QObject *_parent = nullptr);
     ~AWKeysAggregator() override;
@@ -83,10 +88,10 @@ public:
     void setTranslate(bool _translate);
 
 public slots:
-    QStringList registerSource(const QString &_source, const KSysGuard::Unit &_units, const QStringList &_keys);
+    QStringList registerSource(const QString &_source, const KSysGuard::Unit _units, const QStringList &_keys);
 
 private:
-    [[nodiscard]] float temperature(float temp) const;
+    [[nodiscard]] double temperature(double temp) const;
     AWFormatterHelper *m_customFormatters = nullptr;
     AWDataEngineMapper *m_mapper = nullptr;
     QStringList m_timeKeys;

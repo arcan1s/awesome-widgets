@@ -85,21 +85,24 @@ QString AWKeysAggregator::formatter(const QVariant &_data, const QString &_key, 
         output = _data.toBool() ? m_acOnline : m_acOffline;
         break;
     case FormatterType::MemGBFormat:
-        output = QString("%1").arg(_data.toDouble() / (1024.0 * 1024.0), 5, 'f', 1);
+        output = QString("%1").arg(_data.toDouble() / GBinBytes, 5, 'f', 1);
         break;
     case FormatterType::MemMBFormat:
-        output = QString("%1").arg(_data.toDouble() / 1024.0, 5, 'f', 0);
+        output = QString("%1").arg(_data.toDouble() / MBinBytes, 5, 'f', 0);
+        break;
+    case FormatterType::MemKBFormat:
+        output = QString("%1").arg(_data.toDouble() / KBinBytes, 5, 'f', 0);
         break;
     case FormatterType::NetSmartFormat:
-        output = [](const float value) {
-            if (value > 1024.0)
-                return QString("%1").arg(value / 1024.0, 4, 'f', 1);
+        output = [](const double value) {
+            if (value > MBinBytes)
+                return QString("%1").arg(value / MBinBytes, 4, 'f', 1);
             else
-                return QString("%1").arg(value, 4, 'f', 0);
+                return QString("%1").arg(value / KBinBytes, 4, 'f', 0);
         }(_data.toDouble());
         break;
     case FormatterType::NetSmartUnits:
-        if (_data.toDouble() > 1024.0)
+        if (_data.toDouble() > MBinBytes)
             output = m_translate ? i18n("MB/s") : "MB/s";
         else
             output = m_translate ? i18n("KB/s") : "KB/s";
@@ -234,7 +237,7 @@ void AWKeysAggregator::setTranslate(const bool _translate)
 }
 
 
-QStringList AWKeysAggregator::registerSource(const QString &_source, const KSysGuard::Unit &_units,
+QStringList AWKeysAggregator::registerSource(const QString &_source, const KSysGuard::Unit _units,
                                              const QStringList &_keys)
 {
     qCDebug(LOG_AW) << "Source" << _source << "with units" << _units;
@@ -243,24 +246,24 @@ QStringList AWKeysAggregator::registerSource(const QString &_source, const KSysG
 }
 
 
-float AWKeysAggregator::temperature(const float temp) const
+double AWKeysAggregator::temperature(const double temp) const
 {
     qCDebug(LOG_AW) << "Temperature value" << temp;
 
-    float converted = temp;
+    auto converted = temp;
     if (m_tempUnits == "Celsius") {
     } else if (m_tempUnits == "Fahrenheit") {
-        converted = temp * 9.0f / 5.0f + 32.0f;
+        converted = temp * 9.0f / 5.0 + 32.0;
     } else if (m_tempUnits == "Kelvin") {
-        converted = temp + 273.15f;
+        converted = temp + 273.15;
     } else if (m_tempUnits == "Reaumur") {
-        converted = temp * 0.8f;
+        converted = temp * 0.8;
     } else if (m_tempUnits == "cm^-1") {
-        converted = (temp + 273.15f) * 0.695f;
+        converted = (temp + 273.15) * 0.695;
     } else if (m_tempUnits == "kJ/mol") {
-        converted = (temp + 273.15f) * 8.31f;
+        converted = (temp + 273.15) * 8.31;
     } else if (m_tempUnits == "kcal/mol") {
-        converted = (temp + 273.15f) * 1.98f;
+        converted = (temp + 273.15) * 1.98;
     } else {
         qCWarning(LOG_AW) << "Invalid units" << m_tempUnits;
     }
