@@ -35,7 +35,7 @@ bool AWTestLibrary::isKWinActive()
     KWindowSystem::setShowingDesktop(true);
     spy.wait(5000);
 
-    bool state = KWindowSystem::showingDesktop();
+    auto state = KWindowSystem::showingDesktop();
     KWindowSystem::setShowingDesktop(false);
 
     return state;
@@ -50,11 +50,11 @@ char AWTestLibrary::randomChar()
 
 QPair<QString, QString> AWTestLibrary::randomFilenames()
 {
-    QString fileName = QString("%1/").arg(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
-    QString writeFileName
+    auto fileName = QString("%1/").arg(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
+    auto writeFileName
         = QString("%1/awesomewidgets/tmp/").arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
 
-    QString name = randomString(1, 20);
+    auto name = randomString(1, 20);
     fileName += name;
     writeFileName += name;
 
@@ -72,8 +72,8 @@ QString AWTestLibrary::randomString(const int _min, const int _max)
 {
     QString output;
 
-    int count = _min + randomInt(_max - _min);
-    for (int i = 0; i < count; i++)
+    auto count = _min + randomInt(_max - _min);
+    for (auto i = 0; i < count; i++)
         output += randomChar();
 
     return output;
@@ -84,8 +84,8 @@ QStringList AWTestLibrary::randomStringList(const int _max)
 {
     QStringList output;
 
-    int count = 1 + randomInt(_max);
-    for (int i = 0; i < count; i++)
+    auto count = 1 + randomInt(_max);
+    for (auto i = 0; i < count; i++)
         output.append(randomString());
 
     return output;
@@ -96,9 +96,9 @@ QStringList AWTestLibrary::randomSelect(const QStringList &_available)
 {
     QSet<QString> output;
 
-    int count = 1 + randomInt(_available.count());
-    for (int i = 0; i < count; i++) {
-        int index = randomInt(_available.count());
+    auto count = 1 + randomInt(_available.count());
+    for (auto i = 0; i < count; i++) {
+        auto index = randomInt(_available.count());
         output << _available.at(index);
     }
 

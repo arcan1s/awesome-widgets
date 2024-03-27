@@ -50,7 +50,7 @@ void TestAWFloatFormatter::test_count()
 
     // test
     QString output = formatter->convert(QRandomGenerator::global()->generateDouble());
-    QCOMPARE(output.count(), count);
+    QCOMPARE(output.length(), count);
 
     // reset
     formatter->setCount(0);
@@ -85,7 +85,7 @@ void TestAWFloatFormatter::test_forceWidth()
 
     // test
     QString output = formatter->convert(QRandomGenerator::global()->generateDouble());
-    QCOMPARE(output.count(), count);
+    QCOMPARE(output.length(), count);
 
     // reset
     formatter->setForceWidth(false);
@@ -121,7 +121,7 @@ void TestAWFloatFormatter::test_precision()
     // test
     QString output = formatter->convert(QRandomGenerator::global()->generateDouble());
     output.remove("0.");
-    QCOMPARE(output.count(), precision);
+    QCOMPARE(output.length(), precision);
 
     // reset
     formatter->setPrecision(-1);

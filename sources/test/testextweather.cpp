@@ -120,7 +120,7 @@ void TestExtWeather::run()
     // image should be only one symbol here
     if (extWeather->jsonMapFile().isEmpty())
         QSKIP("No json map found for weather, skip image test");
-    QCOMPARE(arguments[extWeather->tag("weather")].toString().count(), 1);
+    QCOMPARE(arguments[extWeather->tag("weather")].toString().length(), 1);
 }
 
 

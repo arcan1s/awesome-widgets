@@ -49,10 +49,10 @@ void TestAWStringFormatter::test_count()
 
     // test
     auto testString = AWTestLibrary::randomString();
-    while (testString.count() > count)
+    while (testString.length() > count)
         testString = AWTestLibrary::randomString();
     QString output = formatter->convert(testString);
-    QCOMPARE(output.count(), count);
+    QCOMPARE(output.length(), count);
 
     // reset
     formatter->setCount(0);
@@ -87,7 +87,7 @@ void TestAWStringFormatter::test_forceWidth()
 
     // test
     QString output = formatter->convert(AWTestLibrary::randomString());
-    QCOMPARE(output.count(), count);
+    QCOMPARE(output.length(), count);
 
     // reset
     formatter->setForceWidth(false);

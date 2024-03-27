@@ -42,7 +42,7 @@ void TestExtItemAggregator::test_values()
 {
     QCOMPARE(aggregator->type(), type);
     QCOMPARE(aggregator->uniqNumber(), 0);
-    QCOMPARE(aggregator->items().count(), 0);
+    QCOMPARE(aggregator->items().length(), 0);
 }
 
 

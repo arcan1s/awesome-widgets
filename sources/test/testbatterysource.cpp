@@ -42,7 +42,7 @@ void TestBatterySource::cleanupTestCase()
 void TestBatterySource::test_sources()
 {
     //
-    QVERIFY(source->sources().count() >= 6);
+    QVERIFY(source->sources().length() >= 6);
 }
 
 
@@ -54,9 +54,9 @@ void TestBatterySource::test_battery()
     QStringList batteries = source->sources();
     std::for_each(batteries.begin(), batteries.end(), [this](const QString &bat) {
         QVariant value = source->data(bat);
-        if (bat == "battery/ac")
+        if (bat == "ac")
             QCOMPARE(value.type(), QVariant::Bool);
-        else if (bat.startsWith("battery/batrate") || bat.startsWith("battery/batleft"))
+        else if (bat.startsWith("batrate") || bat.startsWith("batleft"))
             ;
         else
             QVERIFY((value.toFloat() >= battery.first) || (std::isnan(value.toFloat())));
