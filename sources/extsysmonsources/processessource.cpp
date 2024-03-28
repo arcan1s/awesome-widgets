@@ -15,11 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "processessource.h"
-
-#include <ksysguard/formatter/Unit.h>
-#include <ksysguard/systemstats/SensorInfo.h>
 
 #include <QDir>
 
@@ -30,12 +26,6 @@ ProcessesSource::ProcessesSource(QObject *_parent, const QStringList &_args)
     : AbstractExtSysMonSource(_parent, _args)
 {
     Q_ASSERT(_args.count() == 0);
-    qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
-}
-
-
-ProcessesSource::~ProcessesSource()
-{
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 }
 
@@ -51,39 +41,12 @@ QVariant ProcessesSource::data(const QString &_source)
 }
 
 
-KSysGuard::SensorInfo *ProcessesSource::initialData(const QString &_source) const
-{
-    qCDebug(LOG_ESS) << "Source" << _source;
-
-    auto data = new KSysGuard::SensorInfo();
-    if (_source == "running") {
-        data->min = 0;
-        data->max = 0;
-        data->name = "Count of running processes";
-        data->variantType = QVariant::Int;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source == "list") {
-        data->name = "All running processes list";
-        data->variantType = QVariant::StringList;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source == "count") {
-        data->min = 0;
-        data->max = 0;
-        data->name = "Total count of processes";
-        data->variantType = QVariant::Int;
-        data->unit = KSysGuard::UnitNone;
-    }
-
-    return data;
-}
-
-
 void ProcessesSource::run()
 {
-    QStringList allDirectories = QDir("/proc").entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
-    QStringList directories = allDirectories.filter(QRegularExpression("(\\d+)"));
-    QStringList running;
+    auto allDirectories = QDir("/proc").entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
+    auto directories = allDirectories.filter(QRegularExpression("(\\d+)"));
 
+    QStringList running;
     for (auto &dir : directories) {
         QFile statusFile(QString("/proc/%1/status").arg(dir));
         if (!statusFile.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -92,7 +55,7 @@ void ProcessesSource::run()
         if (!cmdFile.open(QIODevice::ReadOnly | QIODevice::Text))
             continue;
 
-        QString output = statusFile.readAll();
+        auto output = statusFile.readAll();
         if (output.contains("running"))
             running.append(cmdFile.readAll());
         statusFile.close();
@@ -105,12 +68,13 @@ void ProcessesSource::run()
 }
 
 
-QStringList ProcessesSource::sources() const
+QHash<QString, KSysGuard::SensorInfo *> ProcessesSource::sources() const
 {
-    QStringList sources;
-    sources.append("running");
-    sources.append("list");
-    sources.append("count");
+    auto result = QHash<QString, KSysGuard::SensorInfo *>();
 
-    return sources;
+    result.insert("running", makeSensorInfo("Count of running processes", QVariant::Int));
+    result.insert("list", makeSensorInfo("All running processes list", QVariant::StringList));
+    result.insert("count", makeSensorInfo("Total count of processes", QVariant::Int));
+
+    return result;
 }

@@ -15,11 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "playersource.h"
-
-#include <ksysguard/formatter/Unit.h>
-#include <ksysguard/systemstats/SensorInfo.h>
 
 #include <QDBusArgument>
 #include <QDBusConnection>
@@ -77,75 +73,15 @@ QString PlayerSource::getAutoMpris()
     }
     QStringList arguments = listServices.arguments().first().toStringList();
 
-    for (auto &arg : arguments) {
-        if (!arg.startsWith("org.mpris.MediaPlayer2."))
+    for (auto &service : arguments) {
+        if (!service.startsWith("org.mpris.MediaPlayer2."))
             continue;
-        qCInfo(LOG_ESS) << "Service found" << arg;
-        QString service = arg;
+        qCInfo(LOG_ESS) << "Service found" << service;
         service.remove("org.mpris.MediaPlayer2.");
         return service;
     }
 
     return "";
-}
-
-
-KSysGuard::SensorInfo *PlayerSource::initialData(const QString &_source) const
-{
-    qCDebug(LOG_ESS) << "Source" << _source;
-
-    auto data = new KSysGuard::SensorInfo();
-    if (_source == "album") {
-        data->name = "Current song album";
-        data->variantType = QVariant::String;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source == "salbum") {
-        data->name = QString("Current song album (%1 symbols)").arg(m_symbols);
-        data->variantType = QVariant::String;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source == "dalbum") {
-        data->name = QString("Current song album (%1 symbols, dynamic)").arg(m_symbols);
-        data->variantType = QVariant::String;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source == "artist") {
-        data->name = "Current song artist";
-        data->variantType = QVariant::String;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source == "sartist") {
-        data->name = QString("Current song artist (%1 symbols)").arg(m_symbols);
-        data->variantType = QVariant::String;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source == "dartist") {
-        data->name = QString("Current song artist (%1 symbols, dynamic)").arg(m_symbols);
-        data->variantType = QVariant::String;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source == "duration") {
-        data->min = 0;
-        data->max = 0;
-        data->name = "Current song duration";
-        data->variantType = QVariant::Int;
-        data->unit = KSysGuard::UnitSecond;
-    } else if (_source == "progress") {
-        data->min = 0;
-        data->max = 0;
-        data->name = "Current song progress";
-        data->variantType = QVariant::Int;
-        data->unit = KSysGuard::UnitSecond;
-    } else if (_source == "title") {
-        data->name = "Current song title";
-        data->variantType = QVariant::String;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source == "stitle") {
-        data->name = QString("Current song title (%1 symbols)").arg(m_symbols);
-        data->variantType = QVariant::String;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source == "dtitle") {
-        data->name = QString("Current song title (%1 symbols, dynamic)").arg(m_symbols);
-        data->variantType = QVariant::String;
-        data->unit = KSysGuard::UnitNone;
-    }
-
-    return data;
 }
 
 
@@ -176,22 +112,29 @@ void PlayerSource::run()
 }
 
 
-QStringList PlayerSource::sources() const
+QHash<QString, KSysGuard::SensorInfo *> PlayerSource::sources() const
 {
-    QStringList sources;
-    sources.append("album");
-    sources.append("dalbum");
-    sources.append("salbum");
-    sources.append("artist");
-    sources.append("dartist");
-    sources.append("sartist");
-    sources.append("duration");
-    sources.append("progress");
-    sources.append("title");
-    sources.append("dtitle");
-    sources.append("stitle");
+    auto result = QHash<QString, KSysGuard::SensorInfo *>();
 
-    return sources;
+    result.insert("album", makeSensorInfo("Current song album", QVariant::String));
+    result.insert("salbum",
+                  makeSensorInfo(QString("Current song album (%1 symbols)").arg(m_symbols), QVariant::String));
+    result.insert("dalbum",
+                  makeSensorInfo(QString("Current song album (%1 symbols, dynamic)").arg(m_symbols), QVariant::String));
+    result.insert("artist", makeSensorInfo("Current song artist", QVariant::String));
+    result.insert("sartist",
+                  makeSensorInfo(QString("Current song artist (%1 symbols)").arg(m_symbols), QVariant::String));
+    result.insert("dartist", makeSensorInfo(QString("Current song artist (%1 symbols, dynamic)").arg(m_symbols),
+                                            QVariant::String));
+    result.insert("duration", makeSensorInfo("Current song duration", QVariant::Int, KSysGuard::UnitSecond));
+    result.insert("progress", makeSensorInfo("Current song progress", QVariant::Int, KSysGuard::UnitSecond));
+    result.insert("title", makeSensorInfo("Current song title", QVariant::String));
+    result.insert("stitle",
+                  makeSensorInfo(QString("Current song title (%1 symbols)").arg(m_symbols), QVariant::String));
+    result.insert("dtitle",
+                  makeSensorInfo(QString("Current song title (%1 symbols, dynamic)").arg(m_symbols), QVariant::String));
+
+    return result;
 }
 
 
@@ -199,7 +142,7 @@ QString PlayerSource::buildString(const QString &_current, const QString &_value
 {
     qCDebug(LOG_ESS) << "Current value" << _current << "received" << _value << "will be stripped after" << _s;
 
-    int index = _value.indexOf(_current);
+    auto index = _value.indexOf(_current);
     if ((_current.isEmpty()) || ((index + _s + 1) > _value.length()))
         return QString("%1").arg(_value.left(_s), -_s, QLatin1Char(' '));
     else
@@ -230,7 +173,7 @@ void PlayerSource::mpdSocketConnected()
 
 void PlayerSource::mpdSocketReadyRead()
 {
-    QString qoutput = QString::fromUtf8(m_mpdSocket.readAll()).trimmed();
+    auto qoutput = QString::fromUtf8(m_mpdSocket.readAll()).trimmed();
     qCInfo(LOG_ESS) << "Output" << qoutput;
 
     // parse
@@ -307,9 +250,8 @@ QVariantHash PlayerSource::getPlayerMprisInfo(const QString &_mpris)
     // /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get
     // string:'org.mpris.MediaPlayer2.Player' string:'Metadata'
     auto args = QVariantList({"org.mpris.MediaPlayer2.Player", "Metadata"});
-    QDBusMessage request
-        = QDBusMessage::createMethodCall(QString("org.mpris.MediaPlayer2.%1").arg(_mpris), "/org/mpris/MediaPlayer2",
-                                         "org.freedesktop.DBus.Properties", "Get");
+    auto request = QDBusMessage::createMethodCall(QString("org.mpris.MediaPlayer2.%1").arg(_mpris),
+                                                  "/org/mpris/MediaPlayer2", "org.freedesktop.DBus.Properties", "Get");
     request.setArguments(args);
     auto response = bus.call(request, QDBus::BlockWithGui, REQUEST_TIMEOUT);
     if ((response.type() != QDBusMessage::ReplyMessage) || (response.arguments().isEmpty())) {

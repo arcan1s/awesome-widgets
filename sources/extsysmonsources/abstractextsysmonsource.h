@@ -20,12 +20,8 @@
 #include <QObject>
 #include <QRegularExpression>
 #include <QVariant>
+#include <ksysguard/systemstats/SensorInfo.h>
 
-
-namespace KSysGuard
-{
-class SensorInfo;
-}
 
 class AbstractExtSysMonSource : public QObject
 {
@@ -36,14 +32,29 @@ public:
         : QObject(_parent){};
     ~AbstractExtSysMonSource() override = default;
     virtual QVariant data(const QString &_source) = 0;
-    [[nodiscard]] virtual KSysGuard::SensorInfo *initialData(const QString &_source) const = 0;
     virtual void run() = 0;
-    [[nodiscard]] virtual QStringList sources() const = 0;
+    [[nodiscard]] virtual QHash<QString, KSysGuard::SensorInfo *> sources() const = 0;
+
     // used by extensions
     static int index(const QString &_source)
     {
         QRegularExpression rx("\\d+");
         return rx.match(_source).captured().toInt();
+    }
+    static KSysGuard::SensorInfo *makeSensorInfo(const QString &_name, const QVariant::Type type,
+                                                 const KSysGuard::Unit unit = KSysGuard::UnitNone, const double min = 0,
+                                                 const double max = 9)
+    {
+        auto info = new KSysGuard::SensorInfo();
+        info->name = _name;
+        info->variantType = type;
+
+        info->unit = unit;
+
+        info->min = min;
+        info->max = max;
+
+        return info;
     }
 
 signals:

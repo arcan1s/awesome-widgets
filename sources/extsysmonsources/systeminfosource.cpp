@@ -38,12 +38,6 @@ SystemInfoSource::SystemInfoSource(QObject *_parent, const QStringList &_args)
 }
 
 
-SystemInfoSource::~SystemInfoSource()
-{
-    qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
-}
-
-
 QVariant SystemInfoSource::data(const QString &_source)
 {
     qCDebug(LOG_ESS) << "Source" << _source;
@@ -54,29 +48,6 @@ QVariant SystemInfoSource::data(const QString &_source)
 }
 
 
-KSysGuard::SensorInfo *SystemInfoSource::initialData(const QString &_source) const
-{
-    qCDebug(LOG_ESS) << "Source" << _source;
-
-    auto data = new KSysGuard::SensorInfo();
-    if (_source == "brightness") {
-        data->min = 0.0;
-        data->max = 100.0;
-        data->name = "Screen brightness";
-        data->variantType = QVariant::Double;
-        data->unit = KSysGuard::UnitPercent;
-    } else if (_source == "volume") {
-        data->min = 0.0;
-        data->max = 100.0;
-        data->name = "Master volume";
-        data->variantType = QVariant::Double;
-        data->unit = KSysGuard::UnitPercent;
-    }
-
-    return data;
-}
-
-
 void SystemInfoSource::run()
 {
     m_values["brightness"] = SystemInfoSource::getCurrentBrightness();
@@ -84,13 +55,14 @@ void SystemInfoSource::run()
 }
 
 
-QStringList SystemInfoSource::sources() const
+QHash<QString, KSysGuard::SensorInfo *> SystemInfoSource::sources() const
 {
-    QStringList sources;
-    sources.append("brightness");
-    sources.append("volume");
+    auto result = QHash<QString, KSysGuard::SensorInfo *>();
 
-    return sources;
+    result.insert("brightness", makeSensorInfo("Screen brightness", QVariant::Double, KSysGuard::UnitPercent, 0, 100));
+    result.insert("volume", makeSensorInfo("Master volume", QVariant::Double, KSysGuard::UnitNone));
+
+    return result;
 }
 
 
@@ -144,7 +116,7 @@ double SystemInfoSource::getCurrentVolume()
     }
     currentControl.replace(":", "_").replace(".", "_").replace("-", "_");
 
-    auto path = QString("/Mixers/%1/%2").arg(currentMixer).arg(currentControl);
+    auto path = QString("/Mixers/%1/%2").arg(currentMixer, currentControl);
     return fromDBusVariant(sendDBusRequest("org.kde.kmix", path, "org.freedesktop.DBus.Properties", "Get",
                                            QVariantList({"org.kde.KMix.Control", "volume"})))
         .toDouble();

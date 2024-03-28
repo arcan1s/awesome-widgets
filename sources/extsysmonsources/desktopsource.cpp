@@ -18,8 +18,6 @@
 #include "desktopsource.h"
 
 #include <KWindowSystem/KWindowSystem>
-#include <ksysguard/formatter/Unit.h>
-#include <ksysguard/systemstats/SensorInfo.h>
 #include <taskmanager/virtualdesktopinfo.h>
 
 #include "awdebug.h"
@@ -65,42 +63,14 @@ QVariant DesktopSource::data(const QString &_source)
 }
 
 
-KSysGuard::SensorInfo *DesktopSource::initialData(const QString &_source) const
+QHash<QString, KSysGuard::SensorInfo *> DesktopSource::sources() const
 {
-    qCDebug(LOG_ESS) << "Source" << _source;
+    auto result = QHash<QString, KSysGuard::SensorInfo *>();
 
-    auto data = new KSysGuard::SensorInfo();
-    if (_source == "name") {
-        data->name = "Current desktop name";
-        data->variantType = QVariant::String;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source == "number") {
-        data->min = 0;
-        data->name = "Current desktop number";
-        data->variantType = QVariant::Int;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source == "names") {
-        data->name = "All desktops by name";
-        data->variantType = QVariant::StringList;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source == "count") {
-        data->min = 0;
-        data->name = "Desktops count";
-        data->variantType = QVariant::Int;
-        data->unit = KSysGuard::UnitNone;
-    }
+    result.insert("name", makeSensorInfo("Current desktop name", QVariant::String));
+    result.insert("number", makeSensorInfo("Current desktop number", QVariant::Int));
+    result.insert("names", makeSensorInfo("All desktops by name", QVariant::StringList));
+    result.insert("count", makeSensorInfo("Desktops count", QVariant::Int));
 
-    return data;
-}
-
-
-QStringList DesktopSource::sources() const
-{
-    QStringList sources;
-    sources.append("name");
-    sources.append("number");
-    sources.append("names");
-    sources.append("count");
-
-    return sources;
+    return result;
 }

@@ -15,11 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "requestsource.h"
-
-#include <ksysguard/formatter/Unit.h>
-#include <ksysguard/systemstats/SensorInfo.h>
 
 #include "awdebug.h"
 #include "extnetworkrequest.h"
@@ -33,13 +29,6 @@ RequestSource::RequestSource(QObject *_parent, const QStringList &_args)
 
     m_extNetRequest = new ExtItemAggregator<ExtNetworkRequest>(nullptr, "requests");
     m_extNetRequest->initSockets();
-    m_sources = getSources();
-}
-
-
-RequestSource::~RequestSource()
-{
-    qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 }
 
 
@@ -47,44 +36,24 @@ QVariant RequestSource::data(const QString &_source)
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
-    int ind = index(_source);
+    auto ind = index(_source);
     if (!m_values.contains(_source)) {
-        QVariantHash data = m_extNetRequest->itemByTagNumber(ind)->run();
+        auto data = m_extNetRequest->itemByTagNumber(ind)->run();
         for (auto &key : data.keys())
             m_values[key] = data[key];
     }
-    QVariant value = m_values.take(_source);
-    return value;
+
+    return m_values.take(_source);
 }
 
 
-KSysGuard::SensorInfo *RequestSource::initialData(const QString &_source) const
+QHash<QString, KSysGuard::SensorInfo *> RequestSource::sources() const
 {
-    qCDebug(LOG_ESS) << "Source" << _source;
+    auto result = QHash<QString, KSysGuard::SensorInfo *>();
 
-    int ind = index(_source);
-    auto data = new KSysGuard::SensorInfo();
-    if (_source.startsWith("response")) {
-        data->name = QString("Network response for %1").arg(m_extNetRequest->itemByTagNumber(ind)->uniq());
-        data->variantType = QVariant::String;
-        data->unit = KSysGuard::UnitNone;
-    }
-
-    return data;
-}
-
-
-QStringList RequestSource::sources() const
-{
-    return m_sources;
-}
-
-
-QStringList RequestSource::getSources()
-{
-    QStringList sources;
     for (auto &item : m_extNetRequest->activeItems())
-        sources.append(item->tag("response"));
+        result.insert(item->tag("response"),
+                      makeSensorInfo(QString("Network response for %1").arg(item->uniq()), QVariant::String));
 
-    return sources;
+    return result;
 }

@@ -31,16 +31,13 @@ class QuotesSource : public AbstractExtSysMonSource
 
 public:
     explicit QuotesSource(QObject *_parent, const QStringList &_args);
-    ~QuotesSource() override;
+    ~QuotesSource() override = default;
     QVariant data(const QString &_source) override;
-    [[nodiscard]] KSysGuard::SensorInfo *initialData(const QString &_source) const override;
     void run() override{};
-    [[nodiscard]] QStringList sources() const override;
+    [[nodiscard]] QHash<QString, KSysGuard::SensorInfo *> sources() const override;
 
 private:
-    QStringList getSources();
     // configuration and values
     ExtItemAggregator<ExtQuotes> *m_extQuotes = nullptr;
-    QStringList m_sources;
     QVariantHash m_values;
 };

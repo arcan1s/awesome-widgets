@@ -17,9 +17,6 @@
 
 #include "timesource.h"
 
-#include <ksysguard/formatter/Unit.h>
-#include <ksysguard/systemstats/SensorInfo.h>
-
 #include "awdebug.h"
 
 
@@ -43,20 +40,11 @@ QVariant TimeSource::data(const QString &_source)
 }
 
 
-KSysGuard::SensorInfo *TimeSource::initialData(const QString &_source) const
+QHash<QString, KSysGuard::SensorInfo *> TimeSource::sources() const
 {
-    qCDebug(LOG_ESS) << "Source" << _source;
+    auto result = QHash<QString, KSysGuard::SensorInfo *>();
 
-    auto data = new KSysGuard::SensorInfo();
-    data->name = "Current time";
-    data->variantType = QVariant::LongLong;
-    data->unit = KSysGuard::UnitSecond;
+    result.insert("now", makeSensorInfo("Current time", QVariant::LongLong, KSysGuard::UnitSecond));
 
-    return data;
-}
-
-
-QStringList TimeSource::sources() const
-{
-    return QStringList({"now"});
+    return result;
 }

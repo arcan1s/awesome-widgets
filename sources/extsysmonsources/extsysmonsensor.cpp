@@ -33,8 +33,8 @@ ExtSysMonSensor::ExtSysMonSensor(KSysGuard::SensorContainer *_parent, const QStr
 
     loadProperties();
 
-    connect(this, &SensorObject::subscribedChanged, [this](bool _state) { changeSubscription(_state); });
-    connect(m_timer, &QTimer::timeout, [this]() { update(); });
+    connect(this, &SensorObject::subscribedChanged, this, &ExtSysMonSensor::changeSubscription);
+    connect(m_timer, &QTimer::timeout, this, &ExtSysMonSensor::update);
 }
 
 
@@ -61,21 +61,22 @@ void ExtSysMonSensor::changeSubscription(bool _subscribed)
 
 void ExtSysMonSensor::update()
 {
-    for (auto &source : m_source->sources()) {
-        auto property = sensor(source);
-        if (!property->isSubscribed())
+    for (auto sensor : sensors()) {
+        if (!sensor->isSubscribed())
             continue; // skip properties which are not explicitly subscribed
 
-        auto value = m_source->data(source);
-        property->setValue(value);
+        auto value = m_source->data(sensor->id());
+        sensor->setValue(value);
     }
 }
 
 
 void ExtSysMonSensor::loadProperties()
 {
-    for (auto &source : m_source->sources()) {
-        auto info = m_source->initialData(source);
+    auto sensors = m_source->sources();
+    for (auto sensor = sensors.cbegin(); sensor != sensors.cend(); ++sensor) {
+        auto source = sensor.key();
+        auto info = sensor.value();
         auto property = new KSysGuard::SensorProperty(source, info->name, this);
 
         property->setUnit(info->unit);

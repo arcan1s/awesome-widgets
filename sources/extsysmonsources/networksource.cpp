@@ -15,11 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "networksource.h"
-
-#include <ksysguard/formatter/Unit.h>
-#include <ksysguard/systemstats/SensorInfo.h>
 
 #include <QNetworkInterface>
 #include <QProcess>
@@ -60,25 +56,6 @@ QVariant NetworkSource::data(const QString &_source)
 }
 
 
-KSysGuard::SensorInfo *NetworkSource::initialData(const QString &_source) const
-{
-    qCDebug(LOG_ESS) << "Source" << _source;
-
-    auto data = new KSysGuard::SensorInfo();
-    if (_source == "device") {
-        data->name = "Current network device name";
-        data->variantType = QVariant::String;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source == "ssid") {
-        data->name = "Current SSID name";
-        data->variantType = QVariant::String;
-        data->unit = KSysGuard::UnitNone;
-    }
-
-    return data;
-}
-
-
 void NetworkSource::run()
 {
     m_values["device"] = NetworkSource::getCurrentDevice();
@@ -88,13 +65,14 @@ void NetworkSource::run()
 }
 
 
-QStringList NetworkSource::sources() const
+QHash<QString, KSysGuard::SensorInfo *> NetworkSource::sources() const
 {
-    QStringList sources;
-    sources.append("device");
-    sources.append("ssid");
+    auto result = QHash<QString, KSysGuard::SensorInfo *>();
 
-    return sources;
+    result.insert("device", makeSensorInfo("Current network device name", QVariant::String));
+    result.insert("ssid", makeSensorInfo("Current SSID name", QVariant::String));
+
+    return result;
 }
 
 

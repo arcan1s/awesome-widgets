@@ -31,15 +31,12 @@ class UpgradeSource : public AbstractExtSysMonSource
 
 public:
     explicit UpgradeSource(QObject *_parent, const QStringList &_args);
-    ~UpgradeSource() override;
+    ~UpgradeSource() override = default;
     QVariant data(const QString &_source) override;
-    [[nodiscard]] KSysGuard::SensorInfo *initialData(const QString &_source) const override;
     void run() override{};
-    [[nodiscard]] QStringList sources() const override;
+    [[nodiscard]] QHash<QString, KSysGuard::SensorInfo *> sources() const override;
 
 private:
-    QStringList getSources();
     // configuration and values
     ExtItemAggregator<ExtUpgrade> *m_extUpgrade = nullptr;
-    QStringList m_sources;
 };

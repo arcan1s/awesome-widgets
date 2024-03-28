@@ -32,9 +32,8 @@ public:
     explicit NetworkSource(QObject *_parent, const QStringList &_args);
     ~NetworkSource() override;
     QVariant data(const QString &_source) override;
-    [[nodiscard]] KSysGuard::SensorInfo *initialData(const QString &_source) const override;
     void run() override;
-    [[nodiscard]] QStringList sources() const override;
+    [[nodiscard]] QHash<QString, KSysGuard::SensorInfo *> sources() const override;
 
 private slots:
     void updateSsid();

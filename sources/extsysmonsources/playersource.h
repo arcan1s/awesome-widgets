@@ -37,9 +37,8 @@ public:
     ~PlayerSource() override;
     QVariant data(const QString &_source) override;
     static QString getAutoMpris();
-    [[nodiscard]] KSysGuard::SensorInfo *initialData(const QString &_source) const override;
     void run() override;
-    [[nodiscard]] QStringList sources() const override;
+    [[nodiscard]] QHash<QString, KSysGuard::SensorInfo *> sources() const override;
     // additional method to build dynamic tags
     static QString buildString(const QString &_current, const QString &_value, int _s);
     static QString stripString(const QString &_value, int _s);
