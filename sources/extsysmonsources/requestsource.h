@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef REQUESTSOURCE_H
-#define REQUESTSOURCE_H
+#pragma once
 
 #include <QObject>
 
@@ -45,6 +44,3 @@ private:
     QStringList m_sources;
     QVariantHash m_values;
 };
-
-
-#endif /* REQUESTSOURCE_H */

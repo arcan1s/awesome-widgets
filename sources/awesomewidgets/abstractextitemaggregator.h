@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef ABSTRACTEXTITEMAGGREGATOR_H
-#define ABSTRACTEXTITEMAGGREGATOR_H
+#pragma once
 
 #include <QStandardPaths>
 
@@ -80,6 +79,3 @@ private:
     // ui methods
     virtual void doCreateItem(QListWidget *_widget) = 0;
 };
-
-
-#endif /* ABSTRACTEXTITEMAGGREGATOR_H */

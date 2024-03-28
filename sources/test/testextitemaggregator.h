@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef TESTEXTITEMAGGREGATOR_H
-#define TESTEXTITEMAGGREGATOR_H
+#pragma once
 
 #include <QObject>
 
@@ -40,6 +38,3 @@ private:
     ExtItemAggregator<AWNoFormatter> *aggregator = nullptr;
     QString type = "tmp";
 };
-
-
-#endif /* TESTEXTITEMAGGREGATOR_H */

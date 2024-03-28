@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef TESTSTRINGFORMATTER_H
-#define TESTSTRINGFORMATTER_H
+#pragma once
 
 #include <QObject>
 
@@ -43,6 +41,3 @@ private:
     void doRandom();
     AWStringFormatter *formatter = nullptr;
 };
-
-
-#endif /* TESTSTRINGFORMATTER_H */

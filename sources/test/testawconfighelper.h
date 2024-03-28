@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef TESTAWCONFIGHELPER_H
-#define TESTAWCONFIGHELPER_H
+#pragma once
 
 #include <QObject>
 #include <QQmlPropertyMap>
@@ -47,6 +45,3 @@ private:
     QQmlPropertyMap map;
     QVariantMap deConfig;
 };
-
-
-#endif /* TESTAWCONFIGHELPER_H */

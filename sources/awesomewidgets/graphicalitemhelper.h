@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef GRAPHICALITEMHELPER_H
-#define GRAPHICALITEMHELPER_H
+#pragma once
 
 #include <QColor>
 #include <QObject>
@@ -56,6 +55,3 @@ private:
     // list of values which will be used to store data for graph type only
     QList<float> m_values;
 };
-
-
-#endif /* GRAPHICALITEMHELPER_H */

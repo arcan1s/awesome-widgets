@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef BATTERYSOURCE_H
-#define BATTERYSOURCE_H
+#pragma once
 
 #include <QDateTime>
 #include <QObject>
@@ -50,6 +49,3 @@ private:
     QHash<int, QList<int>> m_trend;
     QVariantHash m_values;
 };
-
-
-#endif /* BATTERYSOURCE_H */

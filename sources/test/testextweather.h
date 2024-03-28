@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef TESTEXTWEATHER_H
-#define TESTEXTWEATHER_H
+#pragma once
 
 #include <QObject>
 #include <QPair>
@@ -52,6 +50,3 @@ private:
     // dont know about temperature, but I suppose it will be between -40 and 40
     QPair<float, float> temp = QPair<float, float>(-40.0f, 40.0f);
 };
-
-
-#endif /* TESTEXTWEATHER_H */

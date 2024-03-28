@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef AWKEYS_H
-#define AWKEYS_H
+#pragma once
 
 #include <QMutex>
 #include <QObject>
@@ -90,6 +88,3 @@ private:
     QThreadPool *m_threadPool = nullptr;
     QMutex m_mutex;
 };
-
-
-#endif /* AWKEYS_H */

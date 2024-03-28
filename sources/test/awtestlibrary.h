@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef AWTESTLIBRARY_H
-#define AWTESTLIBRARY_H
+#pragma once
 
 #include <QPair>
 #include <QStringList>
@@ -34,6 +32,3 @@ QString randomString(const int _min = 1, const int _max = 100);
 QStringList randomStringList(const int _max = 100);
 QStringList randomSelect(const QStringList &_available);
 } // namespace AWTestLibrary
-
-
-#endif /* AWTESTLIBRARY_H */

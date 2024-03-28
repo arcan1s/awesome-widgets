@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef LOADSOURCE_H
-#define LOADSOURCE_H
+#pragma once
 
 #include <QObject>
 
@@ -35,6 +34,3 @@ public:
     void run() override{};
     [[nodiscard]] QStringList sources() const override;
 };
-
-
-#endif /* LOADSOURCE_H */

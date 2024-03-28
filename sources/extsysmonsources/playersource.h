@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef PLAYERSOURCE_H
-#define PLAYERSOURCE_H
+#pragma once
 
 #include <QMutex>
 #include <QObject>
@@ -68,6 +67,3 @@ private:
     QStringList m_metadata = QStringList({"album", "artist", "title"});
     QVariantHash m_values;
 };
-
-
-#endif /* PLAYERSOURCE_H */

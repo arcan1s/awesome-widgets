@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef AWACTIONS_H
-#define AWACTIONS_H
+#pragma once
 
 #include <QMap>
 #include <QObject>
@@ -47,6 +45,3 @@ public slots:
 private:
     AWUpdateHelper *m_updateHelper = nullptr;
 };
-
-
-#endif /* AWACTIONS_H */

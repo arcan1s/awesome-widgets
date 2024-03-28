@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef AWTOOLTIP_H
-#define AWTOOLTIP_H
+#pragma once
 
 #include <QObject>
 #include <QVariant>
@@ -68,6 +66,3 @@ private:
     bool m_enablePopup = false;
     QStringList requiredKeys;
 };
-
-
-#endif /* AWTOOLTIP_H */

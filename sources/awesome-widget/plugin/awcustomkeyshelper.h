@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef AWCUSTOMKEYSHELPER_H
-#define AWCUSTOMKEYSHELPER_H
+#pragma once
 
 #include <QObject>
 
@@ -42,6 +40,3 @@ public:
 
 private:
 };
-
-
-#endif /* AWCUSTOMKEYSHELPER_H */

@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef AWABSTRACTPAIRCONFIG_H
-#define AWABSTRACTPAIRCONFIG_H
+#pragma once
 
 #include <QDialog>
 
@@ -67,6 +65,3 @@ private:
     [[nodiscard]] QPair<QStringList, QStringList> initKeys() const;
     void updateDialog();
 };
-
-
-#endif /* AWABSTRACTPAIRCONFIG_H */

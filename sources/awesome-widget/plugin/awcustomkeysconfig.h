@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef AWCUSTOMKEYSCONFIG_H
-#define AWCUSTOMKEYSCONFIG_H
+#pragma once
 
 #include "awabstractpairconfig.h"
 
@@ -30,6 +28,3 @@ public:
     explicit AWCustomKeysConfig(QWidget *_parent = nullptr, const QStringList &_keys = QStringList());
     ~AWCustomKeysConfig() override;
 };
-
-
-#endif /* AWCUSTOMKEYSCONFIG_H */

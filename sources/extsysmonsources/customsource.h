@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef CUSTOMSOURCE_H
-#define CUSTOMSOURCE_H
+#pragma once
 
 #include <QObject>
 
@@ -44,6 +43,3 @@ private:
     ExtItemAggregator<ExtScript> *m_extScripts = nullptr;
     QStringList m_sources;
 };
-
-
-#endif /* CUSTOMSOURCE_H */

@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef TESTLISTFORMATTER_H
-#define TESTLISTFORMATTER_H
+#pragma once
 
 #include <QObject>
 
@@ -43,6 +41,3 @@ private:
     AWListFormatter *formatter = nullptr;
     QString separator;
 };
-
-
-#endif /* TESTLISTFORMATTER_H */

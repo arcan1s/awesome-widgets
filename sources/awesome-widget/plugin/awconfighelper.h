@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef AWCONFIGHELPER_H
-#define AWCONFIGHELPER_H
+#pragma once
 
 #include <QObject>
 #include <QVariant>
@@ -52,6 +50,3 @@ private:
     QString m_baseDir;
     QStringList m_dirs = {"desktops", "quotes", "scripts", "upgrade", "weather", "formatters"};
 };
-
-
-#endif /* AWCONFIGHELPER_H */

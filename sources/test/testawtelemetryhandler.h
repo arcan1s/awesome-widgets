@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef TESTAWTELEMETRYHANDLER_H
-#define TESTAWTELEMETRYHANDLER_H
+#pragma once
 
 #include <QObject>
 
@@ -46,6 +44,3 @@ private:
     QString telemetryStatus = "saved";
     QString telemetryValidGroup = "awwidgetconfig";
 };
-
-
-#endif /* TESTAWTELEMETRYHANDLER_H */

@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef STOOQQUOTESPROVIDER_H
-#define STOOQQUOTESPROVIDER_H
+#pragma once
 
 #include "abstractquotesprovider.h"
 
@@ -37,6 +36,3 @@ public:
 private:
     QUrl m_url;
 };
-
-
-#endif /* STOOQQUOTESPROVIDER_H */

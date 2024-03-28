@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef TESTBATTERYSOURCE_H
-#define TESTBATTERYSOURCE_H
+#pragma once
 
 #include <QObject>
 #include <QPair>
@@ -42,6 +40,3 @@ private:
     QString acpiPath = "/sys/class/power_supply/";
     QPair<int, int> battery = QPair<int, int>(0, 100);
 };
-
-
-#endif /* TESTBATTERYSOURCE_H */

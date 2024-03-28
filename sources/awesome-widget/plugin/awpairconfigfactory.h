@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef AWPAIRCONFIGFACTORY_H
-#define AWPAIRCONFIGFACTORY_H
+#pragma once
 
 #include <QObject>
 
@@ -34,6 +32,3 @@ public:
 
 private:
 };
-
-
-#endif /* AWPAIRCONFIGFACTORY_H */

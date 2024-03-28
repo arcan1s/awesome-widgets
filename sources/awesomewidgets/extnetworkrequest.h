@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef EXTNETWORKREQUEST_H
-#define EXTNETWORKREQUEST_H
+#pragma once
 
 #include <QNetworkReply>
 
@@ -59,6 +58,3 @@ private:
     // values
     QVariantHash m_values;
 };
-
-
-#endif /* EXTNETWORKREQUEST_H */

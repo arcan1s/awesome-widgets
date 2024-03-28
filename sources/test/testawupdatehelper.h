@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef TESTAWUPDATEHELPER_H
-#define TESTAWUPDATEHELPER_H
+#pragma once
 
 #include <QObject>
 
@@ -38,6 +36,3 @@ private slots:
 private:
     AWUpdateHelper *plugin = nullptr;
 };
-
-
-#endif /* TESTAWUPDATEHELPER_H */

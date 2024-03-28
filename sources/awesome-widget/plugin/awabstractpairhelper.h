@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef AWABSTRACTPAIRHELPER_H
-#define AWABSTRACTPAIRHELPER_H
+#pragma once
 
 #include <QHash>
 
@@ -46,6 +44,3 @@ private:
     QString m_filePath;
     QString m_section;
 };
-
-
-#endif /* AWABSTRACTPAIRHELPER_H */

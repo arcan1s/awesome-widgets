@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef EXTSCRIPT_H
-#define EXTSCRIPT_H
+#pragma once
 
 #include <QProcess>
 
@@ -76,6 +75,3 @@ private:
     QVariantMap m_jsonFilters;
     QVariantHash m_values;
 };
-
-
-#endif /* EXTSCRIPT_H */

@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef GRAPHICALITEM_H
-#define GRAPHICALITEM_H
+#pragma once
 
 #include <QColor>
 
@@ -118,6 +117,3 @@ private:
     QStringList m_usedKeys;
     int m_width = 100;
 };
-
-
-#endif /* GRAPHICALITEM_H */

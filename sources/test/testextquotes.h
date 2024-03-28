@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef TESTEXTQUOTES_H
-#define TESTEXTQUOTES_H
+#pragma once
 
 #include <QObject>
 #include <QVariant>
@@ -47,6 +45,3 @@ private:
     // we assume that price will not be differ more than in 2 times
     QPair<double, double> price = QPair<double, double>(0.0, 2.0);
 };
-
-
-#endif /* TESTEXTQUOTES_H */

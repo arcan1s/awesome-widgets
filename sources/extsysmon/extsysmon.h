@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef EXTSYSMON_H
-#define EXTSYSMON_H
+#pragma once
 
 #include <ksysguard/systemstats/SensorPlugin.h>
 
@@ -36,6 +35,3 @@ private:
     void readConfiguration();
     [[nodiscard]] static QHash<QString, QString> updateConfiguration(QHash<QString, QString> _rawConfig);
 };
-
-
-#endif /* EXTSYSMON_H */

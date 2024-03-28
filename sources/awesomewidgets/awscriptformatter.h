@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef AWSCRIPTFORMATTER_H
-#define AWSCRIPTFORMATTER_H
+#pragma once
 
 #include "awabstractformatter.h"
 
@@ -56,6 +55,3 @@ private:
     bool m_hasReturn = false;
     QString m_program;
 };
-
-
-#endif /* AWSCRIPTFORMATTER_H */

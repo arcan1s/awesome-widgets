@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef TESTABSTRACTEXTITEM_H
-#define TESTABSTRACTEXTITEM_H
+#pragma once
 
 #include <QObject>
 
@@ -49,6 +47,3 @@ private:
     QString fileName;
     QString writeFileName;
 };
-
-
-#endif /* TESTABSTRACTEXTITEM_H */

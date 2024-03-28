@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef AWDBUSADAPTOR_H
-#define AWDBUSADAPTOR_H
+#pragma once
 
 #include <QDBusAbstractAdaptor>
 
@@ -50,6 +48,3 @@ private:
     AWKeys *m_plugin = nullptr;
     QStringList m_logLevels = {"debug", "info", "warning", "critical"};
 };
-
-
-#endif /* AWDBUSADAPTOR_H */

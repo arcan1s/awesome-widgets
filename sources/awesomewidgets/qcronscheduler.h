@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef QCRONSCHEDULER_H
-#define QCRONSCHEDULER_H
+#pragma once
 
 #include "QObject"
 
@@ -58,6 +57,3 @@ private:
     QTimer *m_timer = nullptr;
     static QList<int> parseField(const QString &_value, int _min, int _max);
 };
-
-
-#endif /* QCRONSCHEDULER_H */

@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef AWDATAENGINEMAPPER_H
-#define AWDATAENGINEMAPPER_H
+#pragma once
 
 #include <ksysguard/formatter/Unit.h>
 
@@ -50,6 +48,3 @@ private:
     QHash<QString, AWKeysAggregator::FormatterType> m_formatter;
     QMultiHash<QString, QString> m_map;
 };
-
-
-#endif /* AWDATAENGINEMAPPER_H */

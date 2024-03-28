@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef ABSTRACTWEATHERPROVIDER_H
-#define ABSTRACTWEATHERPROVIDER_H
+#pragma once
 
 #include <QObject>
 #include <QUrl>
@@ -40,6 +39,3 @@ public:
     };
     [[nodiscard]] virtual QUrl url() const = 0;
 };
-
-
-#endif /* ABSTRACTWEATHERPROVIDER_H */

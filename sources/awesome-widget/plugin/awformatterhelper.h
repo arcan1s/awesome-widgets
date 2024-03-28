@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef AWFORMATTERHELPER_H
-#define AWFORMATTERHELPER_H
+#pragma once
 
 #include "abstractextitemaggregator.h"
 #include "awabstractformatter.h"
@@ -56,6 +54,3 @@ private:
     QHash<QString, AWAbstractFormatter *> m_formatters;
     QHash<QString, AWAbstractFormatter *> m_formattersClasses;
 };
-
-
-#endif /* AWFORMATTERHELPER_H */

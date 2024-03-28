@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef EXTWEATHER_H
-#define EXTWEATHER_H
+#pragma once
 
 #include <QNetworkReply>
 
@@ -90,6 +89,3 @@ private:
     // values
     QVariantHash m_values;
 };
-
-
-#endif /* EXTWEATHER_H */

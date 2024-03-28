@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef TESTDPPLUGIN_H
-#define TESTDPPLUGIN_H
+#pragma once
 
 #include <QObject>
 
@@ -44,6 +42,3 @@ private:
     bool m_isKwinActive = false;
     QString pattern = "$";
 };
-
-
-#endif /* TESTDPPLUGIN_H */

@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef AWDEBUG_H
-#define AWDEBUG_H
+#pragma once
 
 #include <QLoggingCategory>
 
@@ -42,6 +40,3 @@ Q_DECLARE_LOGGING_CATEGORY(LOG_DP)
 Q_DECLARE_LOGGING_CATEGORY(LOG_ESM)
 Q_DECLARE_LOGGING_CATEGORY(LOG_ESS)
 Q_DECLARE_LOGGING_CATEGORY(LOG_LIB)
-
-
-#endif /* AWDEBUG_H */

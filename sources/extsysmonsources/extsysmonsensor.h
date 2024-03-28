@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef EXTSYSMONSENSOR_H
-#define EXTSYSMONSENSOR_H
+#pragma once
 
 #include <ksysguard/systemstats/SensorObject.h>
 
@@ -40,6 +39,3 @@ private:
     AbstractExtSysMonSource *m_source = nullptr;
     QTimer *m_timer = nullptr;
 };
-
-
-#endif /* EXTSYSMONSENSOR_H */

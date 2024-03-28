@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef TESTFLOATFORMATTER_H
-#define TESTFLOATFORMATTER_H
+#pragma once
 
 #include <QObject>
 
@@ -47,6 +45,3 @@ private:
     void doRandom();
     AWFloatFormatter *formatter = nullptr;
 };
-
-
-#endif /* TESTFLOATFORMATTER_H */

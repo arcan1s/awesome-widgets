@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef AWSTRINGFORMATTER_H
-#define AWSTRINGFORMATTER_H
+#pragma once
 
 #include "awabstractformatter.h"
 
@@ -52,6 +51,3 @@ private:
     QChar m_fillChar = QChar();
     bool m_forceWidth = false;
 };
-
-
-#endif /* AWSTRINGFORMATTER_H */

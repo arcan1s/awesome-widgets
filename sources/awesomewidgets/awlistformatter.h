@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef AWLISTFORMATTER_H
-#define AWLISTFORMATTER_H
+#pragma once
 
 #include "awabstractformatter.h"
 
@@ -53,6 +52,3 @@ private:
     bool m_sorted = false;
     QRegularExpression m_regex;
 };
-
-
-#endif /* AWLISTFORMATTER_H */

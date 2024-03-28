@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef AWPATTERNFUNCTIONS_H
-#define AWPATTERNFUNCTIONS_H
+#pragma once
 
 #include <QString>
 #include <QVariant>
@@ -47,6 +45,3 @@ QString insertMacros(QString _code);
 QStringList findKeys(const QString &_code, const QStringList &_keys, bool _isBars);
 QStringList findLambdas(const QString &_code);
 } // namespace AWPatternFunctions
-
-
-#endif /* AWPATTERNFUNCTIONS_H */

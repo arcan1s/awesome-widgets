@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef TESTEXTSCRIPT_H
-#define TESTEXTSCRIPT_H
+#pragma once
 
 #include <QObject>
 
@@ -42,6 +40,3 @@ private:
     ExtScript *extScript = nullptr;
     QString randomString;
 };
-
-
-#endif /* TESTEXTSCRIPT_H */

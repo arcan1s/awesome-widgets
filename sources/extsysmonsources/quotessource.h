@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef QUOTESSOURCE_H
-#define QUOTESSOURCE_H
+#pragma once
 
 #include <QObject>
 
@@ -45,6 +44,3 @@ private:
     QStringList m_sources;
     QVariantHash m_values;
 };
-
-
-#endif /* QUOTESSOURCE_H */

@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef YAHOOQUOTESPROVIDER_H
-#define YAHOOQUOTESPROVIDER_H
+#pragma once
 
 #include "abstractquotesprovider.h"
 
@@ -38,6 +37,3 @@ public:
 private:
     QUrl m_url;
 };
-
-
-#endif /* YAHOOQUOTESPROVIDER_H */

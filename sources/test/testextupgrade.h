@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef TESTEXTUPGRADE_H
-#define TESTEXTUPGRADE_H
+#pragma once
 
 #include <QObject>
 
@@ -44,6 +42,3 @@ private:
     QString cmd;
     QStringList randomStrings;
 };
-
-
-#endif /* TESTEXTUPGRADE_H */

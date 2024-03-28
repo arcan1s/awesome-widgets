@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef DPPLUGIN_H
-#define DPPLUGIN_H
+#pragma once
 
 #include <QQmlExtensionPlugin>
 
@@ -30,6 +28,3 @@ class DPPlugin : public QQmlExtensionPlugin
 public:
     void registerTypes(const char *uri) override;
 };
-
-
-#endif /* DPPLUGIN_H */

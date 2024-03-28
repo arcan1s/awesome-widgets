@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef PROCESSESSOURCE_H
-#define PROCESSESSOURCE_H
+#pragma once
 
 #include <QObject>
 
@@ -39,6 +38,3 @@ private:
     // configuration and values
     QVariantHash m_values;
 };
-
-
-#endif /* PROCESSESSOURCE_H */

@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef TESTDESKTOPSOURCE_H
-#define TESTDESKTOPSOURCE_H
+#pragma once
 
 #include <QObject>
 
@@ -39,6 +37,3 @@ private slots:
 private:
     DesktopSource *source = nullptr;
 };
-
-
-#endif /* TESTDESKTOPSOURCE_H */

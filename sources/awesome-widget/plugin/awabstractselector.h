@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef AWABSTRACTSELECTOR_H
-#define AWABSTRACTSELECTOR_H
+#pragma once
 
 #include <QWidget>
 
@@ -43,6 +41,3 @@ signals:
 private:
     Ui::AWAbstractSelector *ui = nullptr;
 };
-
-
-#endif /* AWABSTRACTSELECTOR_H */

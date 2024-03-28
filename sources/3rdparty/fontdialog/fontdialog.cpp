@@ -58,7 +58,7 @@ CFontDialog::CFontDialog(QWidget *parent, bool needWeight, bool needItalic)
     setLayout(mainGrid);
 
     colorBox = new QComboBox(this);
-    connect(colorBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(updateColor(QString)));
+    connect(colorBox, &QComboBox::currentTextChanged, this, &CFontDialog::updateColor);
     QStringList colorNames = QColor::colorNames();
     int index = 0;
     for (int i=0; i<colorNames.count(); i++) {
@@ -81,8 +81,8 @@ CFontDialog::CFontDialog(QWidget *parent, bool needWeight, bool needItalic)
 
     buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
                                    Qt::Horizontal, this);
-    QObject::connect(buttons, SIGNAL(accepted()), this, SLOT(accept()));
-    QObject::connect(buttons, SIGNAL(rejected()), this, SLOT(reject()));
+    QObject::connect(buttons, &QDialogButtonBox::accepted, this, &CFontDialog::accept);
+    QObject::connect(buttons, &QDialogButtonBox::rejected, this, &CFontDialog::reject);
     mainGrid->addWidget(buttons, 1, 0, 1, 5);
 
     italicBox->setHidden(!needItalic);

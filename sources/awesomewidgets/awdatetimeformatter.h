@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef AWDATETIMEFORMATTER_H
-#define AWDATETIMEFORMATTER_H
+#pragma once
 
 #include <QLocale>
 
@@ -52,6 +51,3 @@ private:
     QString m_format = "";
     bool m_translate = true;
 };
-
-
-#endif /* AWDATETIMEFORMATTER_H */

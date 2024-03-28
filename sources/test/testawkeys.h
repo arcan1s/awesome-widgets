@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef TESTAWKEYS_H
-#define TESTAWKEYS_H
+#pragma once
 
 #include <QObject>
 
@@ -47,6 +45,3 @@ private:
     QString pattern;
     int interval = 1000;
 };
-
-
-#endif /* TESTAWKEYS_H */

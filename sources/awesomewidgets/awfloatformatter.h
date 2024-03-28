@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef AWFLOATFORMATTER_H
-#define AWFLOATFORMATTER_H
+#pragma once
 
 #include "awabstractformatter.h"
 
@@ -68,6 +67,3 @@ private:
     int m_precision = -1;
     double m_summand = 0.0;
 };
-
-
-#endif /* AWFLOATFORMATTER_H */

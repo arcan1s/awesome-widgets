@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef AWKEYSAGGREGATOR_H
-#define AWKEYSAGGREGATOR_H
+#pragma once
 
 #include <ksysguard/formatter/Unit.h>
 
@@ -103,6 +101,3 @@ private:
     QString m_tempUnits;
     bool m_translate = false;
 };
-
-
-#endif /* AWKEYSAGGREGATOR_H */

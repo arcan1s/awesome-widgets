@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef AWABSTRACTFORMATTER_H
-#define AWABSTRACTFORMATTER_H
+#pragma once
 
 #include <QRegularExpression>
 
@@ -52,6 +51,3 @@ private:
     // properties
     FormatterClass m_type = FormatterClass::NoFormat;
 };
-
-
-#endif /* AWABSTRACTFORMATTER_H */

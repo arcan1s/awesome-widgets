@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef SYSTEMINFOSOURCE_H
-#define SYSTEMINFOSOURCE_H
+#pragma once
 
 #include <QObject>
 
@@ -44,6 +43,3 @@ private:
     static QVariant sendDBusRequest(const QString &destination, const QString &path, const QString &interface,
                                     const QString &method, const QVariantList &args = QVariantList());
 };
-
-
-#endif /* SYSTEMINFOSOURCE_H */

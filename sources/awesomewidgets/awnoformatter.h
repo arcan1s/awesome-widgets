@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef AWNOFORMATTER_H
-#define AWNOFORMATTER_H
+#pragma once
 
 #include "awabstractformatter.h"
 
@@ -37,6 +36,3 @@ private:
     void translate(void *_ui) override;
     // properties
 };
-
-
-#endif /* AWNOFORMATTER_H */

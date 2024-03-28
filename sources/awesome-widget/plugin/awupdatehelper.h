@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef AWUPDATEHELPER_H
-#define AWUPDATEHELPER_H
+#pragma once
 
 #include <QMessageBox>
 #include <QObject>
@@ -48,6 +46,3 @@ private:
     QVersionNumber m_foundVersion;
     QString m_genericConfig;
 };
-
-
-#endif /* AWUPDATEHELPER_H */

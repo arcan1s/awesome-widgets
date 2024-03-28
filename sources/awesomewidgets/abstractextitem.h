@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef ABSTRACTEXTITEM_H
-#define ABSTRACTEXTITEM_H
+#pragma once
 
 #include <QVariant>
 
@@ -102,6 +101,3 @@ private:
     QLocalServer *m_socket = nullptr;
     QString m_socketFile = "";
 };
-
-
-#endif /* ABSTRACTEXTITEM_H */

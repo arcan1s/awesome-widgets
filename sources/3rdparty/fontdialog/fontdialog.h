@@ -15,8 +15,7 @@
  *  License along with this library.                                       *
  ***************************************************************************/
 
-#ifndef FONTDIALOG_H
-#define FONTDIALOG_H
+#pragma once
 
 #include <QComboBox>
 #include <QDialog>
@@ -72,6 +71,3 @@ private:
     QSpinBox *sizeBox;
     QSpinBox *weightBox;
 };
-
-
-#endif /* FONTDIALOG_H */

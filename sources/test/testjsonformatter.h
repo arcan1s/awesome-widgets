@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef TESTJSONFORMATTER_H
-#define TESTJSONFORMATTER_H
+#pragma once
 
 #include <QObject>
 #include <QVariant>
@@ -45,6 +43,3 @@ private:
     QString path;
     QString value;
 };
-
-
-#endif /* TESTJSONFORMATTER_H */

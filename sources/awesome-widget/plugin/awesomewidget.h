@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef AWPLUGIN_H
-#define AWPLUGIN_H
+#pragma once
 
 #include <QQmlExtensionPlugin>
 
@@ -30,6 +28,3 @@ class AWPlugin : public QQmlExtensionPlugin
 public:
     void registerTypes(const char *uri) override;
 };
-
-
-#endif /* AWPLUGIN_H */

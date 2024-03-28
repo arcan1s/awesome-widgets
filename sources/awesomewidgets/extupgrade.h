@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef EXTUPGRADE_H
-#define EXTUPGRADE_H
+#pragma once
 
 #include <QProcess>
 
@@ -64,6 +63,3 @@ private:
     // internal properties
     QVariantHash m_values;
 };
-
-
-#endif /* EXTUPGRADE_H */

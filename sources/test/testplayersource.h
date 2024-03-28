@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef TESTPLAYERSOURCE_H
-#define TESTPLAYERSOURCE_H
+#pragma once
 
 #include <QObject>
 
@@ -44,6 +42,3 @@ private:
     QString mpdAddress = "localhost";
     int mpdPort = 6600;
 };
-
-
-#endif /* TESTPLAYERSOURCE_H */

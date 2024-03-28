@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef ABSTRACTEXTSYSMONSOURCE_H
-#define ABSTRACTEXTSYSMONSOURCE_H
+#pragma once
 
 #include <QObject>
 #include <QRegularExpression>
@@ -50,6 +49,3 @@ public:
 signals:
     void dataReceived(const QVariantHash &);
 };
-
-
-#endif /* ABSTRACTEXTSYSMONSOURCE_H */

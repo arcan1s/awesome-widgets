@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef TESTDATETIMEFORMATTER_H
-#define TESTDATETIMEFORMATTER_H
+#pragma once
 
 #include <QObject>
 
@@ -41,6 +39,3 @@ private:
     AWDateTimeFormatter *formatter = nullptr;
     QString format;
 };
-
-
-#endif /* TESTDATETIMEFORMATTER_H */

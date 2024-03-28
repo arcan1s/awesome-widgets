@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef AWFORMATTERCONFIG_H
-#define AWFORMATTERCONFIG_H
+#pragma once
 
 #include "awabstractpairconfig.h"
 
@@ -30,6 +28,3 @@ public:
     explicit AWFormatterConfig(QWidget *_parent = nullptr, const QStringList &_keys = QStringList());
     ~AWFormatterConfig() override;
 };
-
-
-#endif /* AWFORMATTERCONFIG_H */

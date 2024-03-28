@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef EXTQUOTES_H
-#define EXTQUOTES_H
+#pragma once
 
 #include <QNetworkReply>
 
@@ -61,6 +60,3 @@ private:
     // values
     QVariantHash m_values;
 };
-
-
-#endif /* EXTQUOTES_H */

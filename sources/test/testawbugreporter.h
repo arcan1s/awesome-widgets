@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef TESTAWBUGREPORTER_H
-#define TESTAWBUGREPORTER_H
+#pragma once
 
 #include <QObject>
 
@@ -40,6 +38,3 @@ private:
     AWBugReporter *plugin = nullptr;
     QStringList data;
 };
-
-
-#endif /* TESTAWBUGREPORTER_H */

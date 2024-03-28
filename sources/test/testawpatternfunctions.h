@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef TESTAWPATTERNFUNCTIONS_H
-#define TESTAWPATTERNFUNCTIONS_H
+#pragma once
 
 #include <QObject>
 
@@ -38,6 +36,3 @@ private slots:
 
 private:
 };
-
-
-#endif /* TESTAWPATTERNFUNCTIONS_H */

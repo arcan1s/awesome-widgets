@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef AWBUGREPORTER_H
-#define AWBUGREPORTER_H
+#pragma once
 
 #include <QObject>
 
@@ -48,6 +46,3 @@ private slots:
 private:
     QString m_lastBugUrl;
 };
-
-
-#endif /* AWBUGREPORTER_H */

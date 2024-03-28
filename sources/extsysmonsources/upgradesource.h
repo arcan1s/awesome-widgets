@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef UPGRADESOURCE_H
-#define UPGRADESOURCE_H
+#pragma once
 
 #include <QObject>
 
@@ -44,6 +43,3 @@ private:
     ExtItemAggregator<ExtUpgrade> *m_extUpgrade = nullptr;
     QStringList m_sources;
 };
-
-
-#endif /* UPGRADESOURCE_H */

@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef DESKTOPSOURCE_H
-#define DESKTOPSOURCE_H
+#pragma once
 
 #include <QObject>
 
@@ -42,6 +41,3 @@ public:
 private:
     TaskManager::VirtualDesktopInfo *m_vdi = nullptr;
 };
-
-
-#endif /* DESKTOPSOURCE_H */

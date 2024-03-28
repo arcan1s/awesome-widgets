@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef OWMWEATHERPROVIDER_H
-#define OWMWEATHERPROVIDER_H
+#pragma once
 
 #include "abstractweatherprovider.h"
 
@@ -42,6 +41,3 @@ private:
     int m_ts = 0;
     QUrl m_url;
 };
-
-
-#endif /* OWMWEATHERPROVIDER_H */

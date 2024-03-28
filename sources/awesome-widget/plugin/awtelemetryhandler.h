@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef AWTELEMETRYHANDLER_H
-#define AWTELEMETRYHANDLER_H
+#pragma once
 
 #include <QObject>
 
@@ -52,6 +50,3 @@ private:
     int m_storeCount = 0;
     bool m_uploadEnabled = false;
 };
-
-
-#endif /* AWTELEMETRYHANDLER_H */

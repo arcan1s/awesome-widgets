@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef AWKEYCACHE_H
-#define AWKEYCACHE_H
+#pragma once
 
 #include <QHash>
 #include <QString>
@@ -31,6 +29,3 @@ QStringList getRequiredKeys(const QStringList &_keys, const QStringList &_bars, 
                             const QStringList &_userKeys, const QStringList &_allKeys);
 QHash<QString, QStringList> loadKeysFromCache();
 } // namespace AWKeyCache
-
-
-#endif /* AWKEYCACHE_H */

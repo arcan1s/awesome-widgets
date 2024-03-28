@@ -20,7 +20,6 @@
 #include <QObject>
 
 #include "abstractextsysmonsource.h"
-#include "extitemaggregator.h"
 
 
 class TimeSource : public AbstractExtSysMonSource

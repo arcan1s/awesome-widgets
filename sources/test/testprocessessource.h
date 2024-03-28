@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef TESTPROCESSESSOURCE_H
-#define TESTPROCESSESSOURCE_H
+#pragma once
 
 #include <QObject>
 
@@ -39,6 +37,3 @@ private slots:
 private:
     ProcessesSource *source = nullptr;
 };
-
-
-#endif /* TESTPROCESSESSOURCE_H */

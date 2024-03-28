@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef TESTAWKEYCACHE_H
-#define TESTAWKEYCACHE_H
+#pragma once
 
 #include <QObject>
 
@@ -34,6 +32,3 @@ private slots:
 
 private:
 };
-
-
-#endif /* TESTAWKEYCACHE_H */

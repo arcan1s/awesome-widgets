@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef AWJSONFORMATTER_H
-#define AWJSONFORMATTER_H
+#pragma once
 
 #include "awabstractformatter.h"
 
@@ -49,6 +48,3 @@ private:
     QString m_path;
     QVariantList m_splittedPath;
 };
-
-
-#endif /* AWJSONFORMATTER_H */

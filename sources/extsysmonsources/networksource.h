@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef NETWORKSOURCE_H
-#define NETWORKSOURCE_H
+#pragma once
 
 #include <QObject>
 
@@ -45,6 +44,3 @@ private:
     QProcess *m_process = nullptr;
     static QString getCurrentDevice();
 };
-
-
-#endif /* NETWORKSOURCE_H */

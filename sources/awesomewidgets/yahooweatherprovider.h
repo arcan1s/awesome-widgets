@@ -15,8 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef YAHOOWEATHERPROVIDER_H
-#define YAHOOWEATHERPROVIDER_H
+#pragma once
 
 #include "abstractweatherprovider.h"
 
@@ -43,6 +42,3 @@ private:
     int m_ts = 0;
     QUrl m_url;
 };
-
-
-#endif /* YAHOOWEATHERPROVIDER_H */

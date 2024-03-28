@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef TESTNOFORMATTER_H
-#define TESTNOFORMATTER_H
+#pragma once
 
 #include <QObject>
 
@@ -40,6 +38,3 @@ private slots:
 private:
     AWNoFormatter *formatter = nullptr;
 };
-
-
-#endif /* TESTNOFORMATTER_H */

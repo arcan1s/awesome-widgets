@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef TESTNETWORKSOURCE_H
-#define TESTNETWORKSOURCE_H
+#pragma once
 
 #include <QObject>
 
@@ -39,6 +37,3 @@ private slots:
 private:
     NetworkSource *source = nullptr;
 };
-
-
-#endif /* TESTNETWORKSOURCE_H */

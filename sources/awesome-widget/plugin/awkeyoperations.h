@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef AWKEYOPERATIONS_H
-#define AWKEYOPERATIONS_H
+#pragma once
 
 #include <QObject>
 
@@ -78,6 +76,3 @@ private:
     QHash<QString, QStringList> m_devices;
     QString m_pattern;
 };
-
-
-#endif /* AWKEYOPERATIONS_H */

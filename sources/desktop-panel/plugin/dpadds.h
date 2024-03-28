@@ -15,9 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
-#ifndef DPADDS_H
-#define DPADDS_H
+#pragma once
 
 // ui library required by WId definition
 #include <QGuiApplication>
@@ -78,6 +76,3 @@ private:
     QString m_tooltipColor = "#000000";
     QString m_tooltipType = "none";
 };
-
-
-#endif /* DPADDS_H */
