@@ -44,7 +44,7 @@ AWBugReporter::~AWBugReporter()
 void AWBugReporter::doConnect()
 {
     // additional method for testing needs
-    connect(this, SIGNAL(replyReceived(const int, const QString &)), this, SLOT(showInformation(int, const QString &)));
+    connect(this, &AWBugReporter::replyReceived, this, &AWBugReporter::showInformation);
 }
 
 
@@ -72,25 +72,25 @@ void AWBugReporter::sendBugReport(const QString &_title, const QString &_body)
     qCDebug(LOG_AW) << "Send bug report with title" << _title << "and body" << _body;
 
     auto *manager = new QNetworkAccessManager(nullptr);
-    connect(manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(issueReplyRecieved(QNetworkReply *)));
+    connect(manager, &QNetworkAccessManager::finished, this, &AWBugReporter::issueReplyReceived);
 
-    QNetworkRequest request = QNetworkRequest(QUrl(BUGTRACKER_API));
+    auto request = QNetworkRequest(QUrl(BUGTRACKER_API));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     // generate payload
     QVariantMap payload;
     payload["title"] = _title;
     payload["body"] = _body;
-    payload["labels"] = QStringList() << "from application";
+    payload["labels"] = QStringList({"from application"});
     // convert to QByteArray to send request
-    QByteArray data = QJsonDocument::fromVariant(payload).toJson(QJsonDocument::Compact);
+    auto data = QJsonDocument::fromVariant(payload).toJson(QJsonDocument::Compact);
     qCInfo(LOG_AW) << "Send request with _body" << data.data() << "and size" << data.size();
 
     manager->post(request, data);
 }
 
 
-void AWBugReporter::issueReplyRecieved(QNetworkReply *_reply)
+void AWBugReporter::issueReplyReceived(QNetworkReply *_reply)
 {
     if (_reply->error() != QNetworkReply::NoError) {
         qCWarning(LOG_AW) << "An error occurs" << _reply->error() << "with message" << _reply->errorString();
@@ -98,7 +98,7 @@ void AWBugReporter::issueReplyRecieved(QNetworkReply *_reply)
     }
 
     QJsonParseError error{};
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(_reply->readAll(), &error);
+    auto jsonDoc = QJsonDocument::fromJson(_reply->readAll(), &error);
     if (error.error != QJsonParseError::NoError) {
         qCWarning(LOG_AW) << "Parse error" << error.errorString();
         return emit(replyReceived(0, ""));
@@ -106,9 +106,9 @@ void AWBugReporter::issueReplyRecieved(QNetworkReply *_reply)
     _reply->deleteLater();
 
     // convert to map
-    QVariantMap response = jsonDoc.toVariant().toMap();
-    QString url = response["html_url"].toString();
-    int number = response["number"].toInt();
+    auto response = jsonDoc.toVariant().toMap();
+    auto url = response["html_url"].toString();
+    auto number = response["number"].toInt();
 
     return emit(replyReceived(number, url));
 }
@@ -135,7 +135,7 @@ void AWBugReporter::showInformation(const int _number, const QString &_url)
 
 void AWBugReporter::userReplyOnBugReport(QAbstractButton *_button)
 {
-    QMessageBox::ButtonRole ret = dynamic_cast<QMessageBox *>(sender())->buttonRole(_button);
+    auto ret = dynamic_cast<QMessageBox *>(sender())->buttonRole(_button);
     qCInfo(LOG_AW) << "User select" << ret;
 
     switch (ret) {

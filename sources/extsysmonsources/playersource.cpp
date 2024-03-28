@@ -42,9 +42,9 @@ PlayerSource::PlayerSource(QObject *_parent, const QStringList &_args)
     m_mpris = _args.at(3);
     m_symbols = _args.at(4).toInt();
 
-    connect(&m_mpdSocket, SIGNAL(connected()), this, SLOT(mpdSocketConnected()));
-    connect(&m_mpdSocket, SIGNAL(readyRead()), this, SLOT(mpdSocketReadyRead()));
-    connect(&m_mpdSocket, SIGNAL(bytesWritten(qint64)), this, SLOT(mpdSocketWritten(const qint64)));
+    connect(&m_mpdSocket, &QTcpSocket::connected, this, &PlayerSource::mpdSocketConnected);
+    connect(&m_mpdSocket, &QTcpSocket::readyRead, this, &PlayerSource::mpdSocketReadyRead);
+    connect(&m_mpdSocket, &QTcpSocket::bytesWritten, this, &PlayerSource::mpdSocketWritten);
     m_mpdCached = defaultInfo();
 }
 

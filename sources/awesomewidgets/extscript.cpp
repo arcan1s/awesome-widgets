@@ -40,10 +40,10 @@ ExtScript::ExtScript(QObject *_parent, const QString &_filePath)
     m_values[tag("custom")] = "";
 
     m_process = new QProcess(nullptr);
-    connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(updateValue()));
+    connect(m_process, &QProcess::finished, [this]() { return updateValue(); });
     m_process->waitForFinished(0);
 
-    connect(this, SIGNAL(requestDataUpdate()), this, SLOT(startProcess()));
+    connect(this, &ExtScript::requestDataUpdate, this, &ExtScript::startProcess);
 }
 
 
@@ -51,10 +51,9 @@ ExtScript::~ExtScript()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    disconnect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(updateValue()));
     m_process->kill();
     m_process->deleteLater();
-    disconnect(this, SIGNAL(requestDataUpdate()), this, SLOT(startProcess()));
+    disconnect(this, &ExtScript::requestDataUpdate, this, &ExtScript::startProcess);
 }
 
 
@@ -227,11 +226,11 @@ void ExtScript::readJsonFilters()
         qCWarning(LOG_LIB) << "Could not open" << fileName;
         return;
     }
-    QString jsonText = jsonFile.readAll();
+    auto jsonText = jsonFile.readAll();
     jsonFile.close();
 
     QJsonParseError error{};
-    auto jsonDoc = QJsonDocument::fromJson(jsonText.toUtf8(), &error);
+    auto jsonDoc = QJsonDocument::fromJson(jsonText, &error);
     if (error.error != QJsonParseError::NoError) {
         qCWarning(LOG_LIB) << "Parse error" << error.errorString();
         return;

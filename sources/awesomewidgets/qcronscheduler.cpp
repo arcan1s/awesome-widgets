@@ -33,7 +33,7 @@ QCronScheduler::QCronScheduler(QObject *_parent)
     m_timer->setSingleShot(false);
     m_timer->setInterval(60 * 1000);
 
-    connect(m_timer, SIGNAL(timeout()), this, SLOT(expired()));
+    connect(m_timer, &QTimer::timeout, this, &QCronScheduler::expired);
 
     m_timer->start();
 }

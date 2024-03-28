@@ -127,7 +127,7 @@ void AWTelemetryHandler::uploadTelemetry(const QString &_group, const QString &_
     }
 
     auto *manager = new QNetworkAccessManager(nullptr);
-    connect(manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(telemetryReplyRecieved(QNetworkReply *)));
+    connect(manager, &QNetworkAccessManager::finished, this, &AWTelemetryHandler::telemetryReplyReceived);
 
     QUrl url(REMOTE_TELEMETRY_URL);
     QNetworkRequest request(url);
@@ -140,14 +140,14 @@ void AWTelemetryHandler::uploadTelemetry(const QString &_group, const QString &_
     payload["metadata"] = _value;
     payload["type"] = _group;
     // convert to QByteArray to send request
-    QByteArray data = QJsonDocument::fromVariant(payload).toJson(QJsonDocument::Compact);
+    auto data = QJsonDocument::fromVariant(payload).toJson(QJsonDocument::Compact);
     qCInfo(LOG_AW) << "Send request with body" << data.data() << "and size" << data.size();
 
     manager->post(request, data);
 }
 
 
-void AWTelemetryHandler::telemetryReplyRecieved(QNetworkReply *_reply)
+void AWTelemetryHandler::telemetryReplyReceived(QNetworkReply *_reply)
 {
     if (_reply->error() != QNetworkReply::NoError) {
         qCWarning(LOG_AW) << "An error occurs" << _reply->error() << "with message" << _reply->errorString();
@@ -155,7 +155,7 @@ void AWTelemetryHandler::telemetryReplyRecieved(QNetworkReply *_reply)
     }
 
     QJsonParseError error{};
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(_reply->readAll(), &error);
+    auto jsonDoc = QJsonDocument::fromJson(_reply->readAll(), &error);
     if (error.error != QJsonParseError::NoError) {
         qCWarning(LOG_AW) << "Parse error" << error.errorString();
         return;
@@ -163,8 +163,8 @@ void AWTelemetryHandler::telemetryReplyRecieved(QNetworkReply *_reply)
     _reply->deleteLater();
 
     // convert to map
-    QVariantMap response = jsonDoc.toVariant().toMap();
-    QString message = response["message"].toString();
+    auto response = jsonDoc.toVariant().toMap();
+    auto message = response["message"].toString();
     qCInfo(LOG_AW) << "Server reply on telemetry" << message;
 
     return emit(replyReceived(message));

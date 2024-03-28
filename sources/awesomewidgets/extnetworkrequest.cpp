@@ -40,9 +40,8 @@ ExtNetworkRequest::ExtNetworkRequest(QObject *_parent, const QString &_filePath)
     // HACK declare as child of nullptr to avoid crash with plasmawindowed
     // in the destructor
     m_manager = new QNetworkAccessManager(nullptr);
-    connect(m_manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(networkReplyReceived(QNetworkReply *)));
-
-    connect(this, SIGNAL(requestDataUpdate()), this, SLOT(sendRequest()));
+    connect(m_manager, &QNetworkAccessManager::finished, this, &ExtNetworkRequest::networkReplyReceived);
+    connect(this, &ExtNetworkRequest::requestDataUpdate, this, &ExtNetworkRequest::sendRequest);
 }
 
 
@@ -50,8 +49,8 @@ ExtNetworkRequest::~ExtNetworkRequest()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    disconnect(m_manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(networkReplyReceived(QNetworkReply *)));
-    disconnect(this, SIGNAL(requestDataUpdate()), this, SLOT(sendRequest()));
+    disconnect(m_manager, &QNetworkAccessManager::finished, this, &ExtNetworkRequest::networkReplyReceived);
+    disconnect(this, &ExtNetworkRequest::requestDataUpdate, this, &ExtNetworkRequest::sendRequest);
 
     m_manager->deleteLater();
 }

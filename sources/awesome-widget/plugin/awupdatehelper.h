@@ -40,7 +40,7 @@ private slots:
     static void showInfo(const QVersionNumber &_version);
     void showUpdates(const QVersionNumber &_version);
     void userReplyOnUpdates(QAbstractButton *_button);
-    void versionReplyRecieved(QNetworkReply *_reply, bool _showAnyway);
+    void versionReplyReceived(QNetworkReply *_reply, bool _showAnyway);
 
 private:
     static QMessageBox *genMessageBox(const QString &_title, const QString &_body,

@@ -41,7 +41,7 @@ signals:
     void replyReceived(int _number, const QString &_url);
 
 private slots:
-    void issueReplyRecieved(QNetworkReply *_reply);
+    void issueReplyReceived(QNetworkReply *_reply);
     void showInformation(int _number, const QString &_url);
     void userReplyOnBugReport(QAbstractButton *_button);
 

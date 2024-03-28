@@ -198,7 +198,7 @@ void AbstractExtItem::setCron(const QString &_cron)
     qCDebug(LOG_LIB) << "Cron string" << _cron;
     // deinit module first
     if (m_scheduler) {
-        disconnect(m_scheduler, SIGNAL(activated()), this, SIGNAL(requestDataUpdate()));
+        disconnect(m_scheduler, &QCronScheduler::activated, this, &AbstractExtItem::requestDataUpdate);
         delete m_scheduler;
     }
 
@@ -209,7 +209,7 @@ void AbstractExtItem::setCron(const QString &_cron)
     // init scheduler
     m_scheduler = new QCronScheduler(this);
     m_scheduler->parse(cron());
-    connect(m_scheduler, SIGNAL(activated()), this, SIGNAL(requestDataUpdate()));
+    connect(m_scheduler, &QCronScheduler::activated, this, &AbstractExtItem::requestDataUpdate);
 }
 
 
@@ -234,7 +234,7 @@ void AbstractExtItem::setName(const QString &_name)
 void AbstractExtItem::setNumber(int _number)
 {
     qCDebug(LOG_LIB) << "Number" << _number;
-    bool generateNumber = (_number == -1);
+    auto generateNumber = (_number == -1);
     if (generateNumber) {
         _number = []() {
             qCWarning(LOG_LIB) << "Number is empty, generate new one";
@@ -267,7 +267,7 @@ void AbstractExtItem::deinitSocket()
 
     m_socket->close();
     QLocalServer::removeServer(socket());
-    disconnect(m_socket, SIGNAL(newConnection()), this, SLOT(newConnectionReceived()));
+    disconnect(m_socket, &QLocalServer::newConnection, this, &AbstractExtItem::newConnectionReceived);
     delete m_socket;
 }
 
@@ -278,9 +278,9 @@ void AbstractExtItem::initSocket()
     deinitSocket();
 
     m_socket = new QLocalServer(this);
-    bool listening = m_socket->listen(socket());
+    auto listening = m_socket->listen(socket());
     qCInfo(LOG_LIB) << "Server listening on" << socket() << listening;
-    connect(m_socket, SIGNAL(newConnection()), this, SLOT(newConnectionReceived()));
+    connect(m_socket, &QLocalServer::newConnection, this, &AbstractExtItem::newConnectionReceived);
 }
 
 
@@ -303,7 +303,7 @@ void AbstractExtItem::readConfiguration()
 
 bool AbstractExtItem::tryDelete() const
 {
-    bool status = QFile::remove(m_fileName);
+    auto status = QFile::remove(m_fileName);
     qCInfo(LOG_LIB) << "Remove file" << m_fileName << status;
 
     return status;

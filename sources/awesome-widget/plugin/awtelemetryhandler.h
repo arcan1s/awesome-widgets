@@ -43,7 +43,7 @@ signals:
     void replyReceived(const QString &_message);
 
 private slots:
-    void telemetryReplyRecieved(QNetworkReply *_reply);
+    void telemetryReplyReceived(QNetworkReply *_reply);
 
 private:
     static QString getKey(int _count);

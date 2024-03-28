@@ -49,9 +49,8 @@ ExtWeather::ExtWeather(QObject *_parent, const QString &_filePath)
     // HACK declare as child of nullptr to avoid crash with plasmawindowed
     // in the destructor
     m_manager = new QNetworkAccessManager(nullptr);
-    connect(m_manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(weatherReplyReceived(QNetworkReply *)));
-
-    connect(this, SIGNAL(requestDataUpdate()), this, SLOT(sendRequest()));
+    connect(m_manager, &QNetworkAccessManager::finished, this, &ExtWeather::weatherReplyReceived);
+    connect(this, &ExtWeather::requestDataUpdate, this, &ExtWeather::sendRequest);
 }
 
 
@@ -59,8 +58,8 @@ ExtWeather::~ExtWeather()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    disconnect(m_manager, SIGNAL(finished(QNetworkReply *)), this, SLOT(weatherReplyReceived(QNetworkReply *)));
-    disconnect(this, SIGNAL(requestDataUpdate()), this, SLOT(sendRequest()));
+    disconnect(m_manager, &QNetworkAccessManager::finished, this, &ExtWeather::weatherReplyReceived);
+    disconnect(this, &ExtWeather::requestDataUpdate, this, &ExtWeather::sendRequest);
 
     m_manager->deleteLater();
 }
@@ -150,7 +149,7 @@ int ExtWeather::ts() const
 
 QString ExtWeather::uniq() const
 {
-    return QString("%1 (%2) at %3").arg(city()).arg(country()).arg(ts());
+    return QString("%1 (%2) at %3").arg(city(), country()).arg(ts());
 }
 
 
@@ -237,11 +236,11 @@ void ExtWeather::readJsonMap()
         qCWarning(LOG_LIB) << "Could not open" << fileName;
         return;
     }
-    QString jsonText = jsonFile.readAll();
+    auto jsonText = jsonFile.readAll();
     jsonFile.close();
 
     QJsonParseError error{};
-    auto jsonDoc = QJsonDocument::fromJson(jsonText.toUtf8(), &error);
+    auto jsonDoc = QJsonDocument::fromJson(jsonText, &error);
     if (error.error != QJsonParseError::NoError) {
         qCWarning(LOG_LIB) << "Parse error" << error.errorString();
         return;

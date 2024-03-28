@@ -54,7 +54,7 @@ void AWUpdateHelper::checkUpdates(const bool _showAnyway)
     // request. In case of automatic check no message will be shown
     auto *manager = new QNetworkAccessManager(nullptr);
     connect(manager, &QNetworkAccessManager::finished,
-            [_showAnyway, this](QNetworkReply *reply) { return versionReplyRecieved(reply, _showAnyway); });
+            [_showAnyway, this](QNetworkReply *reply) { return versionReplyReceived(reply, _showAnyway); });
 
     manager->get(QNetworkRequest(QUrl(VERSION_API)));
 }
@@ -63,7 +63,7 @@ void AWUpdateHelper::checkUpdates(const bool _showAnyway)
 bool AWUpdateHelper::checkVersion()
 {
     QSettings settings(m_genericConfig, QSettings::IniFormat);
-    QVersionNumber version = QVersionNumber::fromString(settings.value("Version", QString(VERSION)).toString());
+    auto version = QVersionNumber::fromString(settings.value("Version", QString(VERSION)).toString());
     // update version
     settings.setValue("Version", QString(VERSION));
     settings.sync();
@@ -88,7 +88,7 @@ void AWUpdateHelper::showInfo(const QVersionNumber &_version)
 {
     qCDebug(LOG_AW) << "Version" << _version;
 
-    QString text = i18n("You are using the actual version %1", _version.toString());
+    auto text = i18n("You are using the actual version %1", _version.toString());
     if (!QString(COMMIT_SHA).isEmpty())
         text += QString(" (%1)").arg(QString(COMMIT_SHA));
     return genMessageBox(i18n("No new version found"), text, QMessageBox::Ok)->open();
@@ -112,7 +112,7 @@ void AWUpdateHelper::showUpdates(const QVersionNumber &_version)
 
 void AWUpdateHelper::userReplyOnUpdates(QAbstractButton *_button)
 {
-    QMessageBox::ButtonRole ret = dynamic_cast<QMessageBox *>(sender())->buttonRole(_button);
+    auto ret = dynamic_cast<QMessageBox *>(sender())->buttonRole(_button);
     qCInfo(LOG_AW) << "User select" << ret;
 
     switch (ret) {
@@ -126,7 +126,7 @@ void AWUpdateHelper::userReplyOnUpdates(QAbstractButton *_button)
 }
 
 
-void AWUpdateHelper::versionReplyRecieved(QNetworkReply *_reply, const bool _showAnyway)
+void AWUpdateHelper::versionReplyReceived(QNetworkReply *_reply, const bool _showAnyway)
 {
     qCDebug(LOG_AW) << "Show message anyway" << _showAnyway;
     if (_reply->error() != QNetworkReply::NoError) {
@@ -134,8 +134,8 @@ void AWUpdateHelper::versionReplyRecieved(QNetworkReply *_reply, const bool _sho
         return;
     }
 
-    QJsonParseError error = QJsonParseError();
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(_reply->readAll(), &error);
+    auto error = QJsonParseError();
+    auto jsonDoc = QJsonDocument::fromJson(_reply->readAll(), &error);
     if (error.error != QJsonParseError::NoError) {
         qCWarning(LOG_AW) << "Parse error" << error.errorString();
         return;
@@ -143,13 +143,13 @@ void AWUpdateHelper::versionReplyRecieved(QNetworkReply *_reply, const bool _sho
     _reply->deleteLater();
 
     // convert to map
-    QVariantMap firstRelease = jsonDoc.toVariant().toList().first().toMap();
-    QString version = firstRelease["tag_name"].toString();
+    auto firstRelease = jsonDoc.toVariant().toList().first().toMap();
+    auto version = firstRelease["tag_name"].toString();
     version.remove("V.");
     m_foundVersion = QVersionNumber::fromString(version);
     qCInfo(LOG_AW) << "Update found version to" << m_foundVersion;
 
-    QVersionNumber oldVersion = QVersionNumber::fromString(VERSION);
+    auto oldVersion = QVersionNumber::fromString(VERSION);
     if (oldVersion < m_foundVersion)
         return showUpdates(m_foundVersion);
     else if (_showAnyway)

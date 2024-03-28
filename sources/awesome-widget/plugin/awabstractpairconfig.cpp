@@ -37,13 +37,13 @@ AWAbstractPairConfig::AWAbstractPairConfig(QWidget *_parent, const bool _hasEdit
 
     ui->setupUi(this);
 
-    connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(ui->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &AWAbstractPairConfig::accept);
+    connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &AWAbstractPairConfig::reject);
 
     // edit feature
     if (m_hasEdit) {
         m_editButton = ui->buttonBox->addButton(i18n("Edit"), QDialogButtonBox::ActionRole);
-        connect(m_editButton, SIGNAL(clicked(bool)), this, SLOT(edit()));
+        connect(m_editButton, &QPushButton::clicked, [this]() { return edit(); });
     }
 }
 
@@ -84,14 +84,14 @@ void AWAbstractPairConfig::edit()
 
 void AWAbstractPairConfig::updateUi()
 {
-    QPair<QString, QString> current = dynamic_cast<AWAbstractSelector *>(sender())->current();
-    int index = m_selectors.indexOf(dynamic_cast<AWAbstractSelector *>(sender()));
+    auto current = dynamic_cast<AWAbstractSelector *>(sender())->current();
+    auto index = m_selectors.indexOf(dynamic_cast<AWAbstractSelector *>(sender()));
 
     if ((current.first.isEmpty()) && (current.second.isEmpty())) {
         // remove current selector if it is empty and does not last
         if (sender() == m_selectors.last())
             return;
-        AWAbstractSelector *selector = m_selectors.takeAt(index);
+        auto *selector = m_selectors.takeAt(index);
         ui->verticalLayout->removeWidget(selector);
         selector->deleteLater();
     } else {
@@ -112,7 +112,7 @@ void AWAbstractPairConfig::addSelector(const QStringList &_keys, const QStringLi
     auto *selector = new AWAbstractSelector(ui->scrollAreaWidgetContents, m_editable);
     selector->init(_keys, _values, _current);
     ui->verticalLayout->insertWidget(ui->verticalLayout->count() - 1, selector);
-    connect(selector, SIGNAL(selectionChanged()), this, SLOT(updateUi()));
+    connect(selector, &AWAbstractSelector::selectionChanged, this, &AWAbstractPairConfig::updateUi);
     m_selectors.append(selector);
 }
 
@@ -120,7 +120,7 @@ void AWAbstractPairConfig::addSelector(const QStringList &_keys, const QStringLi
 void AWAbstractPairConfig::clearSelectors()
 {
     for (auto &selector : m_selectors) {
-        disconnect(selector, SIGNAL(selectionChanged()), this, SLOT(updateUi()));
+        disconnect(selector, &AWAbstractSelector::selectionChanged, this, &AWAbstractPairConfig::updateUi);
         ui->verticalLayout->removeWidget(selector);
         selector->deleteLater();
     }
@@ -164,7 +164,7 @@ QPair<QStringList, QStringList> AWAbstractPairConfig::initKeys() const
     right.append(m_helper->rightKeys().isEmpty() ? m_keys : m_helper->rightKeys());
     right.sort();
 
-    return QPair<QStringList, QStringList>(left, right);
+    return {left, right};
 }
 
 
@@ -175,7 +175,7 @@ void AWAbstractPairConfig::updateDialog()
     auto keys = initKeys();
 
     for (auto &key : m_helper->keys())
-        addSelector(keys.first, keys.second, QPair<QString, QString>(key, m_helper->pairs()[key]));
+        addSelector(keys.first, keys.second, QPair<QString, QString>(key, pairs[key]));
     // empty one
     addSelector(keys.first, keys.second, QPair<QString, QString>());
 }
