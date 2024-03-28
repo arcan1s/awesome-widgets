@@ -91,7 +91,7 @@ void AWAbstractPairConfig::updateUi()
         // remove current selector if it is empty and does not last
         if (sender() == m_selectors.last())
             return;
-        auto *selector = m_selectors.takeAt(index);
+        auto selector = m_selectors.takeAt(index);
         ui->verticalLayout->removeWidget(selector);
         selector->deleteLater();
     } else {
@@ -109,7 +109,7 @@ void AWAbstractPairConfig::addSelector(const QStringList &_keys, const QStringLi
 {
     qCDebug(LOG_AW) << "Add selector with keys" << _keys << "values" << _values << "and current ones" << _current;
 
-    auto *selector = new AWAbstractSelector(ui->scrollAreaWidgetContents, m_editable);
+    auto selector = new AWAbstractSelector(ui->scrollAreaWidgetContents, m_editable);
     selector->init(_keys, _values, _current);
     ui->verticalLayout->insertWidget(ui->verticalLayout->count() - 1, selector);
     connect(selector, &AWAbstractSelector::selectionChanged, this, &AWAbstractPairConfig::updateUi);

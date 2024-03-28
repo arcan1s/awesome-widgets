@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "testnoformatter.h"
 
 #include <QtTest>
@@ -43,19 +42,19 @@ void TestAWNoFormatter::test_values() {}
 void TestAWNoFormatter::test_conversion()
 {
     // integer
-    int randomInt = AWTestLibrary::randomInt();
+    auto randomInt = AWTestLibrary::randomInt();
     QCOMPARE(formatter->convert(randomInt), QString::number(randomInt));
     // float
     QWARN("Float conversion isn't tested here due to possible rounding errors");
     // string
-    QString randomString = AWTestLibrary::randomString();
+    auto randomString = AWTestLibrary::randomString();
     QCOMPARE(formatter->convert(randomString), randomString);
 }
 
 
 void TestAWNoFormatter::test_copy()
 {
-    AWNoFormatter *newFormatter = formatter->copy("/dev/null", 1);
+    auto newFormatter = formatter->copy("/dev/null", 1);
 
     QCOMPARE(newFormatter->number(), 1);
 

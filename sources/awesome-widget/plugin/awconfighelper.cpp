@@ -72,7 +72,7 @@ bool AWConfigHelper::exportConfiguration(QObject *_nativeConfig, const QString &
 
     QSettings settings(_fileName, QSettings::IniFormat);
     // plasmoid configuration
-    const auto *configuration = dynamic_cast<const QQmlPropertyMap *>(_nativeConfig);
+    auto configuration = dynamic_cast<const QQmlPropertyMap *>(_nativeConfig);
     settings.beginGroup("plasmoid");
     for (auto &key : configuration->keys()) {
         QVariant value = configuration->value(key);

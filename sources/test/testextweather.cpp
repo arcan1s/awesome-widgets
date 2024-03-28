@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "testextweather.h"
 
 #include <QtTest>
@@ -75,18 +74,18 @@ void TestExtWeather::test_image()
     extWeather->setImage(true);
     // init spy
     QSignalSpy spy(extWeather, SIGNAL(dataReceived(const QVariantHash &)));
-    QVariantHash firstValue = extWeather->run();
+    auto firstValue = extWeather->run();
 
     // check values
     QVERIFY(spy.wait(5000));
-    QVariantHash arguments = spy.takeFirst().at(0).toHash();
+    auto arguments = spy.takeFirst().at(0).toHash();
     QVERIFY(arguments[extWeather->tag("weather")].toString().startsWith("<img"));
 }
 
 
 void TestExtWeather::test_copy()
 {
-    ExtWeather *newExtWeather = extWeather->copy("/dev/null", 1);
+    auto newExtWeather = extWeather->copy("/dev/null", 1);
 
     QCOMPARE(newExtWeather->interval(), extWeather->interval());
     QCOMPARE(newExtWeather->city(), extWeather->city());
@@ -104,11 +103,11 @@ void TestExtWeather::run()
 {
     // init spy
     QSignalSpy spy(extWeather, SIGNAL(dataReceived(const QVariantHash &)));
-    QVariantHash firstValue = extWeather->run();
+    auto firstValue = extWeather->run();
 
     // check values
     QVERIFY(spy.wait(5000));
-    QVariantHash arguments = spy.takeFirst().at(0).toHash();
+    auto arguments = spy.takeFirst().at(0).toHash();
     QEXPECT_FAIL("", "WeatherID should not be 0", Continue);
     QCOMPARE(arguments[extWeather->tag("weatherId")].toInt(), 0);
     QVERIFY((arguments[extWeather->tag("humidity")].toInt() >= humidity.first)

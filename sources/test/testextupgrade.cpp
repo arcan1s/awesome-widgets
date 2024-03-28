@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "testextupgrade.h"
 
 #include <QtTest>
@@ -57,11 +56,11 @@ void TestExtUpgrade::test_run()
 {
     // init spy
     QSignalSpy spy(extUpgrade, SIGNAL(dataReceived(const QVariantHash &)));
-    QVariantHash firstValue = extUpgrade->run();
+    auto firstValue = extUpgrade->run();
 
     // check values
     QVERIFY(spy.wait(5000));
-    QList<QVariant> arguments = spy.takeFirst();
+    auto arguments = spy.takeFirst();
 
     QCOMPARE(firstValue[extUpgrade->tag("pkgcount")].toInt(), 0);
     QCOMPARE(arguments.at(0).toHash()[extUpgrade->tag("pkgcount")].toInt(), randomStrings.count());
@@ -70,21 +69,21 @@ void TestExtUpgrade::test_run()
 
 void TestExtUpgrade::test_null()
 {
-    int null = AWTestLibrary::randomInt(randomStrings.count());
+    auto null = AWTestLibrary::randomInt(randomStrings.count());
     extUpgrade->setNull(null);
     QSignalSpy spy(extUpgrade, SIGNAL(dataReceived(const QVariantHash &)));
     extUpgrade->run();
 
     // check values
     QVERIFY(spy.wait(5000));
-    QList<QVariant> arguments = spy.takeFirst();
+    auto arguments = spy.takeFirst();
     QCOMPARE(arguments.at(0).toHash()[extUpgrade->tag("pkgcount")].toInt(), randomStrings.count() - null);
 }
 
 
 void TestExtUpgrade::test_filter()
 {
-    QStringList filters = AWTestLibrary::randomSelect(randomStrings);
+    auto filters = AWTestLibrary::randomSelect(randomStrings);
     extUpgrade->setFilter(QString("(^%1$)").arg(filters.join("$|^")));
     // init spy
     QSignalSpy spy(extUpgrade, SIGNAL(dataReceived(const QVariantHash &)));
@@ -92,14 +91,14 @@ void TestExtUpgrade::test_filter()
 
     // check values
     QVERIFY(spy.wait(5000));
-    QList<QVariant> arguments = spy.takeFirst();
+    auto arguments = spy.takeFirst();
     QCOMPARE(arguments.at(0).toHash()[extUpgrade->tag("pkgcount")].toInt(), filters.count());
 }
 
 
 void TestExtUpgrade::test_copy()
 {
-    ExtUpgrade *newExtUpgrade = extUpgrade->copy("/dev/null", 1);
+    auto newExtUpgrade = extUpgrade->copy("/dev/null", 1);
 
     QCOMPARE(newExtUpgrade->interval(), extUpgrade->interval());
     QCOMPARE(newExtUpgrade->executable(), extUpgrade->executable());

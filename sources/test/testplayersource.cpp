@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "testplayersource.h"
 
 #include <QtTest>
@@ -41,8 +40,8 @@ void TestPlayerSource::_test_sources(const PlayerSource *_source)
 
 void TestPlayerSource::test_buildString()
 {
-    QString randomString = AWTestLibrary::randomString(1, 40);
-    QString str = PlayerSource::buildString("", randomString, 20);
+    auto randomString = AWTestLibrary::randomString(1, 40);
+    auto str = PlayerSource::buildString("", randomString, 20);
     QCOMPARE(str.length(), 20);
 
     str = PlayerSource::buildString(str, randomString, 20);
@@ -55,7 +54,7 @@ void TestPlayerSource::test_buildString()
 
 void TestPlayerSource::test_stripString()
 {
-    QString str = PlayerSource::buildString("", AWTestLibrary::randomString(1, 40), 20);
+    auto str = PlayerSource::buildString("", AWTestLibrary::randomString(1, 40), 20);
     QCOMPARE(str.length(), 20);
 
     str = PlayerSource::buildString("", AWTestLibrary::randomString(1, 10), 20);
@@ -65,11 +64,9 @@ void TestPlayerSource::test_stripString()
 
 void TestPlayerSource::test_autoMpris()
 {
-    QStringList args(QStringList() << "mpris" << mpdAddress << QString::number(mpdPort) << "auto"
-                                   << QString::number(10));
-    PlayerSource *source = new PlayerSource(this, args);
+    auto source = new PlayerSource(this, "mpris", mpdAddress, mpdPort, "auto", 10);
 
-    bool empty = source->getAutoMpris().isEmpty();
+    auto empty = source->getAutoMpris().isEmpty();
     if (empty)
         QWARN("No MPRIS found, manual check required");
     else
@@ -79,20 +76,19 @@ void TestPlayerSource::test_autoMpris()
 
 void TestPlayerSource::test_mpd()
 {
-    QStringList args(QStringList() << "mpd" << mpdAddress << QString::number(mpdPort) << "auto" << QString::number(10));
-    PlayerSource *source = new PlayerSource(this, args);
+    auto source = new PlayerSource(this, "mpd", mpdAddress, mpdPort, "auto", 10);
     _test_sources(source);
 
     // init spy
     QSignalSpy spy(source, SIGNAL(dataReceived(const QVariantHash &)));
-    QVariant firstValue = source->data("title");
+    auto firstValue = source->data("title");
     if (!source->isMpdSocketConnected())
         QSKIP("No mpd found");
 
     // check values
     QVERIFY(spy.wait(5000));
-    QList<QVariant> arguments = spy.takeFirst();
-    QVariantHash secondValue = arguments.at(0).toHash();
+    auto arguments = spy.takeFirst();
+    auto secondValue = arguments.at(0).toHash();
 
     // actually nothing to test here just print warning if no information found
     if (secondValue["title"].toString() == "unknown")
@@ -104,14 +100,12 @@ void TestPlayerSource::test_mpd()
 
 void TestPlayerSource::test_mpris()
 {
-    QStringList args(QStringList() << "mpris" << mpdAddress << QString::number(mpdPort) << "auto"
-                                   << QString::number(10));
-    PlayerSource *source = new PlayerSource(this, args);
+    auto source = new PlayerSource(this, "mpris", mpdAddress, mpdPort, "auto", 10);
     _test_sources(source);
 
-    QString value = source->data("title").toString();
-    int progress = source->data("progress").toInt();
-    int duration = source->data("duration").toInt();
+    auto value = source->data("title").toString();
+    auto progress = source->data("progress").toInt();
+    auto duration = source->data("duration").toInt();
 
     // actually nothing to test here just print warning if no information found
     if (value == "unknown")

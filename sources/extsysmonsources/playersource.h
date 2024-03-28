@@ -33,13 +33,13 @@ class PlayerSource : public AbstractExtSysMonSource
 public:
     const char *MPD_STATUS_REQUEST = "currentsong\nstatus\n";
 
-    explicit PlayerSource(QObject *_parent, const QStringList &_args);
+    explicit PlayerSource(QObject *_parent, QString _player, QString _mpdAddress, int _mpdPort, QString _mpris,
+                          int _symbols);
     ~PlayerSource() override;
     QVariant data(const QString &_source) override;
     static QString getAutoMpris();
-    [[nodiscard]] KSysGuard::SensorInfo *initialData(const QString &_source) const override;
-    void run() override;
-    [[nodiscard]] QStringList sources() const override;
+    void run();
+    [[nodiscard]] QHash<QString, KSysGuard::SensorInfo *> sources() const override;
     // additional method to build dynamic tags
     static QString buildString(const QString &_current, const QString &_value, int _s);
     static QString stripString(const QString &_value, int _s);

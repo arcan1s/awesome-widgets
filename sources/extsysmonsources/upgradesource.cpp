@@ -15,31 +15,19 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "upgradesource.h"
-
-#include <ksysguard/formatter/Unit.h>
-#include <ksysguard/systemstats/SensorInfo.h>
 
 #include "awdebug.h"
 #include "extupgrade.h"
 
 
-UpgradeSource::UpgradeSource(QObject *_parent, const QStringList &_args)
-    : AbstractExtSysMonSource(_parent, _args)
+UpgradeSource::UpgradeSource(QObject *_parent)
+    : AbstractExtSysMonSource(_parent)
 {
-    Q_ASSERT(_args.count() == 0);
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
     m_extUpgrade = new ExtItemAggregator<ExtUpgrade>(nullptr, "upgrade");
     m_extUpgrade->initSockets();
-    m_sources = getSources();
-}
-
-
-UpgradeSource::~UpgradeSource()
-{
-    qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 }
 
 
@@ -48,34 +36,17 @@ QVariant UpgradeSource::data(const QString &_source)
     qCDebug(LOG_ESS) << "Source" << _source;
 
     // there are only one value
-    return m_extUpgrade->itemByTagNumber(index(_source))->run().values().first();
+    return dataByItem(m_extUpgrade, _source).values().first();
 }
 
 
-KSysGuard::SensorInfo *UpgradeSource::initialData(const QString &_source) const
+QHash<QString, KSysGuard::SensorInfo *> UpgradeSource::sources() const
 {
-    qCDebug(LOG_ESS) << "Source" << _source;
+    auto result = QHash<QString, KSysGuard::SensorInfo *>();
 
-    auto data = new KSysGuard::SensorInfo();
-    data->name = QString("Package manager '%1' metadata").arg(m_extUpgrade->itemByTagNumber(index(_source))->uniq());
-    data->variantType = QVariant::String;
-    data->unit = KSysGuard::UnitNone;
-
-    return data;
-}
-
-
-QStringList UpgradeSource::sources() const
-{
-    return m_sources;
-}
-
-
-QStringList UpgradeSource::getSources()
-{
-    QStringList sources;
     for (auto &item : m_extUpgrade->activeItems())
-        sources.append(item->tag("pkgcount"));
+        result.insert(item->tag("pkgcount"),
+                      makeSensorInfo(QString("Package manager '%1' metadata").arg(item->uniq()), QVariant::Int));
 
-    return sources;
+    return result;
 }

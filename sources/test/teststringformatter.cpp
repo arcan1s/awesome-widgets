@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "teststringformatter.h"
 
 #include <QtTest>
@@ -43,7 +42,7 @@ void TestAWStringFormatter::test_values() {}
 void TestAWStringFormatter::test_count()
 {
     // assign
-    int count = 10 + AWTestLibrary::randomInt();
+    auto count = 10 + AWTestLibrary::randomInt();
     formatter->setCount(count);
     QCOMPARE(formatter->count(), count);
 
@@ -51,7 +50,7 @@ void TestAWStringFormatter::test_count()
     auto testString = AWTestLibrary::randomString();
     while (testString.length() > count)
         testString = AWTestLibrary::randomString();
-    QString output = formatter->convert(testString);
+    auto output = formatter->convert(testString);
     QCOMPARE(output.length(), count);
 
     // reset
@@ -62,13 +61,13 @@ void TestAWStringFormatter::test_count()
 void TestAWStringFormatter::test_fillChar()
 {
     // assign
-    char c = AWTestLibrary::randomChar();
+    auto c = AWTestLibrary::randomChar();
     formatter->setFillChar(c);
     QCOMPARE(formatter->fillChar(), QChar(c));
     formatter->setCount(101);
 
     // test
-    QString output = formatter->convert(AWTestLibrary::randomString());
+    auto output = formatter->convert(AWTestLibrary::randomString());
     QVERIFY(output.startsWith(c));
 
     // reset
@@ -80,13 +79,13 @@ void TestAWStringFormatter::test_fillChar()
 void TestAWStringFormatter::test_forceWidth()
 {
     // assign
-    int count = AWTestLibrary::randomInt();
+    auto count = AWTestLibrary::randomInt();
     formatter->setForceWidth(true);
     formatter->setCount(count);
     QCOMPARE(formatter->forceWidth(), true);
 
     // test
-    QString output = formatter->convert(AWTestLibrary::randomString());
+    auto output = formatter->convert(AWTestLibrary::randomString());
     QCOMPARE(output.length(), count);
 
     // reset
@@ -98,7 +97,7 @@ void TestAWStringFormatter::test_forceWidth()
 void TestAWStringFormatter::test_copy()
 {
     doRandom();
-    AWStringFormatter *newFormatter = formatter->copy("/dev/null", 1);
+    auto newFormatter = formatter->copy("/dev/null", 1);
 
     QCOMPARE(newFormatter->count(), formatter->count());
     QCOMPARE(newFormatter->fillChar(), formatter->fillChar());

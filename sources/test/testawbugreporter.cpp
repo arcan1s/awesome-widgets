@@ -40,7 +40,7 @@ void TestAWBugReporter::cleanupTestCase()
 void TestAWBugReporter::test_generateText()
 {
     data = AWTestLibrary::randomStringList(4);
-    QString output = plugin->generateText(data.at(0), data.at(1), data.at(2), data.at(3));
+    auto output = plugin->generateText(data.at(0), data.at(1), data.at(2), data.at(3));
 
     for (auto &string : data)
         QVERIFY(output.contains(string));

@@ -111,8 +111,8 @@ QString DPAdds::toolTipImage(const int _desktop) const
     }
 
     // init
-    auto *toolTipScene = new QGraphicsScene();
-    auto *toolTipView = new QGraphicsView(toolTipScene);
+    auto toolTipScene = new QGraphicsScene();
+    auto toolTipView = new QGraphicsView(toolTipScene);
     toolTipView->setStyleSheet("background: transparent");
     toolTipView->setContentsMargins(0, 0, 0, 0);
     toolTipView->setFrameShape(QFrame::NoFrame);

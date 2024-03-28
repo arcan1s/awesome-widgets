@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "testawtelemetryhandler.h"
 
 #include <QtTest>
@@ -48,7 +47,7 @@ void TestAWTelemetryHandler::test_put()
 
 void TestAWTelemetryHandler::test_get()
 {
-    QStringList output = plugin->get(telemetryGroup);
+    auto output = plugin->get(telemetryGroup);
 
     QVERIFY(!output.isEmpty());
     QCOMPARE(QSet<QString>(output.cbegin(), output.cend()).count(), output.count());
@@ -70,7 +69,7 @@ void TestAWTelemetryHandler::test_uploadTelemetry()
     plugin->uploadTelemetry(telemetryValidGroup, telemetryData);
 
     QVERIFY(spy.wait(5000));
-    QVariantList arguments = spy.takeFirst();
+    auto arguments = spy.takeFirst();
 
     QCOMPARE(arguments.at(0).toString(), telemetryStatus);
 }

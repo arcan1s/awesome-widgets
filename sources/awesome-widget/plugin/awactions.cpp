@@ -90,7 +90,7 @@ void AWActions::showReadme()
 
 void AWActions::showLegacyInfo()
 {
-    auto *msgBox = new QMessageBox(nullptr);
+    auto msgBox = new QMessageBox(nullptr);
     msgBox->setAttribute(Qt::WA_DeleteOnClose);
     msgBox->setModal(false);
     msgBox->setWindowTitle(i18n("Not supported"));

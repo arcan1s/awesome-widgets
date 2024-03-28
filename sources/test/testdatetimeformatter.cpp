@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "testdatetimeformatter.h"
 
 #include <QtTest>
@@ -57,7 +56,7 @@ void TestAWDateTimeFormatter::test_conversion()
 void TestAWDateTimeFormatter::test_copy()
 {
     formatter->setTranslateString(false);
-    auto *newFormatter = formatter->copy("/dev/null", 1);
+    auto newFormatter = formatter->copy("/dev/null", 1);
 
     QCOMPARE(newFormatter->format(), formatter->format());
     QCOMPARE(newFormatter->translateString(), formatter->translateString());

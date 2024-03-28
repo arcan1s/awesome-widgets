@@ -15,11 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "playersource.h"
-
-#include <ksysguard/formatter/Unit.h>
-#include <ksysguard/systemstats/SensorInfo.h>
 
 #include <QDBusArgument>
 #include <QDBusConnection>
@@ -30,17 +26,16 @@
 #include "awdebug.h"
 
 
-PlayerSource::PlayerSource(QObject *_parent, const QStringList &_args)
-    : AbstractExtSysMonSource(_parent, _args)
+PlayerSource::PlayerSource(QObject *_parent, QString _player, QString _mpdAddress, int _mpdPort, QString _mpris,
+                           int _symbols)
+    : AbstractExtSysMonSource(_parent)
+    , m_mpdAddress(std::move(_mpdAddress))
+    , m_mpdPort(_mpdPort)
+    , m_mpris(std::move(_mpris))
+    , m_player(std::move(_player))
+    , m_symbols(_symbols)
 {
-    Q_ASSERT(_args.count() == 5);
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
-
-    m_player = _args.at(0);
-    m_mpdAddress = _args.at(1);
-    m_mpdPort = _args.at(2).toInt();
-    m_mpris = _args.at(3);
-    m_symbols = _args.at(4).toInt();
 
     connect(&m_mpdSocket, &QTcpSocket::connected, this, &PlayerSource::mpdSocketConnected);
     connect(&m_mpdSocket, &QTcpSocket::readyRead, this, &PlayerSource::mpdSocketReadyRead);
@@ -62,90 +57,30 @@ QVariant PlayerSource::data(const QString &_source)
     qCDebug(LOG_ESS) << "Source" << _source;
 
     if (!m_values.contains(_source))
-        run();
-    QVariant value = m_values.take(_source);
-    return value;
+        run(); // syncronous update of all values
+
+    return m_values.take(_source);
 }
 
 
 QString PlayerSource::getAutoMpris()
 {
-    QDBusMessage listServices = QDBusConnection::sessionBus().interface()->call(QDBus::BlockWithGui, "ListNames");
+    auto listServices = QDBusConnection::sessionBus().interface()->call(QDBus::BlockWithGui, "ListNames");
     if (listServices.arguments().isEmpty()) {
         qCWarning(LOG_ESS) << "Could not find any DBus service";
         return "";
     }
-    QStringList arguments = listServices.arguments().first().toStringList();
+    auto arguments = listServices.arguments().first().toStringList();
 
-    for (auto &arg : arguments) {
-        if (!arg.startsWith("org.mpris.MediaPlayer2."))
+    for (auto &service : arguments) {
+        if (!service.startsWith("org.mpris.MediaPlayer2."))
             continue;
-        qCInfo(LOG_ESS) << "Service found" << arg;
-        QString service = arg;
+        qCInfo(LOG_ESS) << "Service found" << service;
         service.remove("org.mpris.MediaPlayer2.");
         return service;
     }
 
     return "";
-}
-
-
-KSysGuard::SensorInfo *PlayerSource::initialData(const QString &_source) const
-{
-    qCDebug(LOG_ESS) << "Source" << _source;
-
-    auto data = new KSysGuard::SensorInfo();
-    if (_source == "album") {
-        data->name = "Current song album";
-        data->variantType = QVariant::String;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source == "salbum") {
-        data->name = QString("Current song album (%1 symbols)").arg(m_symbols);
-        data->variantType = QVariant::String;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source == "dalbum") {
-        data->name = QString("Current song album (%1 symbols, dynamic)").arg(m_symbols);
-        data->variantType = QVariant::String;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source == "artist") {
-        data->name = "Current song artist";
-        data->variantType = QVariant::String;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source == "sartist") {
-        data->name = QString("Current song artist (%1 symbols)").arg(m_symbols);
-        data->variantType = QVariant::String;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source == "dartist") {
-        data->name = QString("Current song artist (%1 symbols, dynamic)").arg(m_symbols);
-        data->variantType = QVariant::String;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source == "duration") {
-        data->min = 0;
-        data->max = 0;
-        data->name = "Current song duration";
-        data->variantType = QVariant::Int;
-        data->unit = KSysGuard::UnitSecond;
-    } else if (_source == "progress") {
-        data->min = 0;
-        data->max = 0;
-        data->name = "Current song progress";
-        data->variantType = QVariant::Int;
-        data->unit = KSysGuard::UnitSecond;
-    } else if (_source == "title") {
-        data->name = "Current song title";
-        data->variantType = QVariant::String;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source == "stitle") {
-        data->name = QString("Current song title (%1 symbols)").arg(m_symbols);
-        data->variantType = QVariant::String;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source == "dtitle") {
-        data->name = QString("Current song title (%1 symbols, dynamic)").arg(m_symbols);
-        data->variantType = QVariant::String;
-        data->unit = KSysGuard::UnitNone;
-    }
-
-    return data;
 }
 
 
@@ -176,22 +111,29 @@ void PlayerSource::run()
 }
 
 
-QStringList PlayerSource::sources() const
+QHash<QString, KSysGuard::SensorInfo *> PlayerSource::sources() const
 {
-    QStringList sources;
-    sources.append("album");
-    sources.append("dalbum");
-    sources.append("salbum");
-    sources.append("artist");
-    sources.append("dartist");
-    sources.append("sartist");
-    sources.append("duration");
-    sources.append("progress");
-    sources.append("title");
-    sources.append("dtitle");
-    sources.append("stitle");
+    auto result = QHash<QString, KSysGuard::SensorInfo *>();
 
-    return sources;
+    result.insert("album", makeSensorInfo("Current song album", QVariant::String));
+    result.insert("salbum",
+                  makeSensorInfo(QString("Current song album (%1 symbols)").arg(m_symbols), QVariant::String));
+    result.insert("dalbum",
+                  makeSensorInfo(QString("Current song album (%1 symbols, dynamic)").arg(m_symbols), QVariant::String));
+    result.insert("artist", makeSensorInfo("Current song artist", QVariant::String));
+    result.insert("sartist",
+                  makeSensorInfo(QString("Current song artist (%1 symbols)").arg(m_symbols), QVariant::String));
+    result.insert("dartist", makeSensorInfo(QString("Current song artist (%1 symbols, dynamic)").arg(m_symbols),
+                                            QVariant::String));
+    result.insert("duration", makeSensorInfo("Current song duration", QVariant::Int, KSysGuard::UnitSecond));
+    result.insert("progress", makeSensorInfo("Current song progress", QVariant::Int, KSysGuard::UnitSecond));
+    result.insert("title", makeSensorInfo("Current song title", QVariant::String));
+    result.insert("stitle",
+                  makeSensorInfo(QString("Current song title (%1 symbols)").arg(m_symbols), QVariant::String));
+    result.insert("dtitle",
+                  makeSensorInfo(QString("Current song title (%1 symbols, dynamic)").arg(m_symbols), QVariant::String));
+
+    return result;
 }
 
 
@@ -199,7 +141,7 @@ QString PlayerSource::buildString(const QString &_current, const QString &_value
 {
     qCDebug(LOG_ESS) << "Current value" << _current << "received" << _value << "will be stripped after" << _s;
 
-    int index = _value.indexOf(_current);
+    auto index = _value.indexOf(_current);
     if ((_current.isEmpty()) || ((index + _s + 1) > _value.length()))
         return QString("%1").arg(_value.left(_s), -_s, QLatin1Char(' '));
     else
@@ -230,7 +172,7 @@ void PlayerSource::mpdSocketConnected()
 
 void PlayerSource::mpdSocketReadyRead()
 {
-    QString qoutput = QString::fromUtf8(m_mpdSocket.readAll()).trimmed();
+    auto qoutput = QString::fromUtf8(m_mpdSocket.readAll()).trimmed();
     qCInfo(LOG_ESS) << "Output" << qoutput;
 
     // parse
@@ -307,9 +249,8 @@ QVariantHash PlayerSource::getPlayerMprisInfo(const QString &_mpris)
     // /org/mpris/MediaPlayer2 org.freedesktop.DBus.Properties.Get
     // string:'org.mpris.MediaPlayer2.Player' string:'Metadata'
     auto args = QVariantList({"org.mpris.MediaPlayer2.Player", "Metadata"});
-    QDBusMessage request
-        = QDBusMessage::createMethodCall(QString("org.mpris.MediaPlayer2.%1").arg(_mpris), "/org/mpris/MediaPlayer2",
-                                         "org.freedesktop.DBus.Properties", "Get");
+    auto request = QDBusMessage::createMethodCall(QString("org.mpris.MediaPlayer2.%1").arg(_mpris),
+                                                  "/org/mpris/MediaPlayer2", "org.freedesktop.DBus.Properties", "Get");
     request.setArguments(args);
     auto response = bus.call(request, QDBus::BlockWithGui, REQUEST_TIMEOUT);
     if ((response.type() != QDBusMessage::ReplyMessage) || (response.arguments().isEmpty())) {

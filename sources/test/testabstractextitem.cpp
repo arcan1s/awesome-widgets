@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "testabstractextitem.h"
 
 #include <QtTest>
@@ -75,7 +74,7 @@ void TestAbstractExtItem::test_configuration()
 {
     extItem->writeConfiguration();
 
-    ExtUpgrade *newExtItem = new ExtUpgrade(nullptr, writeFileName);
+    auto newExtItem = new ExtUpgrade(nullptr, writeFileName);
     QCOMPARE(newExtItem->isActive(), extItem->isActive());
     QCOMPARE(newExtItem->comment(), extItem->comment());
     QCOMPARE(newExtItem->fileName(), writeFileName);
@@ -98,7 +97,7 @@ void TestAbstractExtItem::test_bumpApi()
 
 void TestAbstractExtItem::test_delete()
 {
-    ExtUpgrade *newExtItem = new ExtUpgrade(nullptr, writeFileName);
+    auto newExtItem = new ExtUpgrade(nullptr, writeFileName);
 
     QVERIFY(newExtItem->tryDelete());
     QVERIFY(!QFile::exists(writeFileName));
@@ -109,7 +108,7 @@ void TestAbstractExtItem::test_delete()
 
 void TestAbstractExtItem::test_copy()
 {
-    ExtUpgrade *newExtItem = extItem->copy("/dev/null", 1);
+    auto newExtItem = extItem->copy("/dev/null", 1);
 
     QCOMPARE(newExtItem->isActive(), extItem->isActive());
     QCOMPARE(newExtItem->apiVersion(), extItem->apiVersion());

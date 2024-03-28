@@ -15,11 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "batterysource.h"
-
-#include <ksysguard/formatter/Unit.h>
-#include <ksysguard/systemstats/SensorInfo.h>
 
 #include <QDir>
 
@@ -28,51 +24,15 @@
 #include "awdebug.h"
 
 
-BatterySource::BatterySource(QObject *_parent, const QStringList &_args)
-    : AbstractExtSysMonSource(_parent, _args)
-{
-    Q_ASSERT(_args.count() == 1);
-    qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
-
-    m_acpiPath = _args.at(0);
-    m_sources = getSources();
-}
-
-
-BatterySource::~BatterySource()
+BatterySource::BatterySource(QObject *_parent, QString _acpiPath)
+    : AbstractExtSysMonSource(_parent)
+    , m_acpiPath(std::move(_acpiPath))
 {
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
-}
-
-
-QStringList BatterySource::getSources()
-{
-    QStringList sources;
-    sources.append("ac");
-    sources.append("bat");
-    sources.append("batleft");
-    sources.append("batnow");
-    sources.append("batrate");
-    sources.append("battotal");
 
     auto directory = QDir(m_acpiPath);
-
-    if (directory.exists()) {
-        m_batteriesCount
-            = directory.entryList(QStringList({"BAT*"}), QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name).count();
-        qCInfo(LOG_ESS) << "Init batteries count as" << m_batteriesCount;
-
-        for (int i = 0; i < m_batteriesCount; i++) {
-            sources.append(QString("bat%1").arg(i));
-            sources.append(QString("batleft%1").arg(i));
-            sources.append(QString("batnow%1").arg(i));
-            sources.append(QString("batrate%1").arg(i));
-            sources.append(QString("battotal%1").arg(i));
-        }
-    }
-
-    qCInfo(LOG_ESS) << "Sources list" << sources;
-    return sources;
+    m_batteriesCount = directory.entryList(QStringList({"BAT*"}), QDir::Dirs | QDir::NoDotAndDotDot).count();
+    qCInfo(LOG_ESS) << "Init batteries count as" << m_batteriesCount;
 }
 
 
@@ -81,83 +41,8 @@ QVariant BatterySource::data(const QString &_source)
     qCDebug(LOG_ESS) << "Source" << _source;
 
     if (!m_values.contains(_source))
-        run();
+        run(); // syncronous update of all values
     return m_values.take(_source);
-}
-
-
-KSysGuard::SensorInfo *BatterySource::initialData(const QString &_source) const
-{
-    qCDebug(LOG_ESS) << "Source" << _source;
-
-    auto data = new KSysGuard::SensorInfo();
-    if (_source == "ac") {
-        data->name = "Is AC online or not";
-        data->variantType = QVariant::Bool;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source == "bat") {
-        data->min = 0;
-        data->max = 100;
-        data->name = "Average battery usage";
-        data->variantType = QVariant::Int;
-        data->unit = KSysGuard::UnitPercent;
-    } else if (_source == "batleft") {
-        data->min = 0;
-        data->max = 0;
-        data->name = "Battery discharge time";
-        data->variantType = QVariant::Int;
-        data->unit = KSysGuard::UnitSecond;
-    } else if (_source == "batnow") {
-        data->min = 0;
-        data->max = 0;
-        data->name = "Current battery capacity";
-        data->variantType = QVariant::Int;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source == "batrate") {
-        data->min = 0;
-        data->max = 0;
-        data->name = "Average battery discharge rate";
-        data->variantType = QVariant::Double;
-        data->unit = KSysGuard::UnitRate;
-    } else if (_source == "battotal") {
-        data->min = 0;
-        data->max = 0;
-        data->name = "Full battery capacity";
-        data->variantType = QVariant::Int;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source.startsWith("batleft")) {
-        data->min = 0;
-        data->max = 0;
-        data->name = QString("Battery %1 discharge time").arg(index(_source));
-        data->variantType = QVariant::Int;
-        data->unit = KSysGuard::UnitSecond;
-    } else if (_source.startsWith("batnow")) {
-        data->min = 0;
-        data->max = 0;
-        data->name = QString("Battery %1 capacity").arg(index(_source));
-        data->variantType = QVariant::Int;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source.startsWith("battotal")) {
-        data->min = 0;
-        data->max = 0;
-        data->name = QString("Battery %1 full capacity").arg(index(_source));
-        data->variantType = QVariant::Int;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source.startsWith("batrate")) {
-        data->min = 0;
-        data->max = 0;
-        data->name = QString("Battery %1 discharge rate").arg(index(_source));
-        data->variantType = QVariant::Double;
-        data->unit = KSysGuard::UnitRate;
-    } else if (_source.startsWith("bat")) {
-        data->min = 0;
-        data->max = 100;
-        data->name = QString("Battery %1 usage").arg(index(_source));
-        data->variantType = QVariant::Int;
-        data->unit = KSysGuard::UnitPercent;
-    }
-
-    return data;
 }
 
 
@@ -203,9 +88,32 @@ void BatterySource::run()
 }
 
 
-QStringList BatterySource::sources() const
+QHash<QString, KSysGuard::SensorInfo *> BatterySource::sources() const
 {
-    return m_sources;
+    auto result = QHash<QString, KSysGuard::SensorInfo *>();
+
+    // fixed fields
+    result.insert("ac", makeSensorInfo("Is AC online or not", QVariant::Bool));
+    result.insert("bat", makeSensorInfo("Average battery usage", QVariant::Int, KSysGuard::UnitPercent, 0, 100));
+    result.insert("batleft", makeSensorInfo("Battery discharge time", QVariant::Int, KSysGuard::UnitSecond));
+    result.insert("batnow", makeSensorInfo("Current battery capacity", QVariant::Int));
+    result.insert("batrate", makeSensorInfo("Average battery discharge rate", QVariant::Double, KSysGuard::UnitRate));
+    result.insert("battotal", makeSensorInfo("Full battery capacity", QVariant::Int));
+
+    // generators
+    for (auto i = 0; i < m_batteriesCount; i++) {
+        result.insert(QString("bat%1").arg(i), makeSensorInfo(QString("Battery %1 usage").arg(i), QVariant::Int,
+                                                              KSysGuard::UnitPercent, 0, 100));
+        result.insert(QString("batleft%1").arg(i), makeSensorInfo(QString("Battery %1 discharge time").arg(i),
+                                                                  QVariant::Int, KSysGuard::UnitSecond));
+        result.insert(QString("batnow%1").arg(i), makeSensorInfo(QString("Battery %1 capacity").arg(i), QVariant::Int));
+        result.insert(QString("batrate%1").arg(i), makeSensorInfo(QString("Battery %1 discharge rate").arg(i),
+                                                                  QVariant::Double, KSysGuard::UnitRate));
+        result.insert(QString("battotal%1").arg(i),
+                      makeSensorInfo(QString("Battery %1 full capacity").arg(i), QVariant::Int));
+    }
+
+    return result;
 }
 
 

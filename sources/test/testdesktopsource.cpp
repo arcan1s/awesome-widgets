@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "testdesktopsource.h"
 
 #include <QtTest>
@@ -27,7 +26,8 @@
 void TestDesktopSource::initTestCase()
 {
     AWTestLibrary::init();
-    source = new DesktopSource(this, QStringList());
+    source = new DesktopSource(this);
+    m_isKwinActive = AWTestLibrary::isKWinActive();
 }
 
 
@@ -39,18 +39,18 @@ void TestDesktopSource::cleanupTestCase()
 
 void TestDesktopSource::test_sources()
 {
-    QCOMPARE(source->sources().count(), 4);
+    QCOMPARE(source->sources().count(), 3);
 }
 
 
 void TestDesktopSource::test_values()
 {
-    QSKIP("Tests are failing with current api");
+    if (!m_isKwinActive)
+        QSKIP("KWin inactive, skip desktop tests");
 
-    QVERIFY(source->data("desktop/current/name").toString().length() > 0);
-    QVERIFY(source->data("desktop/current/number").toInt() >= 0);
-    QVERIFY(source->data("desktop/total/name").toStringList().count() > 0);
-    QVERIFY(source->data("desktop/total/number").toInt() > 0);
+    QVERIFY(source->data("name").toString().length() > 0);
+    QVERIFY(source->data("number").toInt() >= 0);
+    QVERIFY(source->data("count").toInt() > 0);
 }
 
 

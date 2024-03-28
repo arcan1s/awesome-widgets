@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "testfloatformatter.h"
 
 #include <QRandomGenerator>
@@ -44,12 +43,12 @@ void TestAWFloatFormatter::test_values() {}
 void TestAWFloatFormatter::test_count()
 {
     // assign
-    int count = 10 + AWTestLibrary::randomInt();
+    auto count = 10 + AWTestLibrary::randomInt();
     formatter->setCount(count);
     QCOMPARE(formatter->count(), count);
 
     // test
-    QString output = formatter->convert(QRandomGenerator::global()->generateDouble());
+    auto output = formatter->convert(QRandomGenerator::global()->generateDouble());
     QCOMPARE(output.length(), count);
 
     // reset
@@ -60,13 +59,13 @@ void TestAWFloatFormatter::test_count()
 void TestAWFloatFormatter::test_fillChar()
 {
     // assign
-    char c = AWTestLibrary::randomChar();
+    auto c = AWTestLibrary::randomChar();
     formatter->setFillChar(c);
     QCOMPARE(formatter->fillChar(), QChar(c));
     formatter->setCount(101);
 
     // test
-    QString output = formatter->convert(AWTestLibrary::randomInt());
+    auto output = formatter->convert(AWTestLibrary::randomInt());
     QVERIFY(output.startsWith(c));
 
     // reset
@@ -78,13 +77,13 @@ void TestAWFloatFormatter::test_fillChar()
 void TestAWFloatFormatter::test_forceWidth()
 {
     // assign
-    int count = AWTestLibrary::randomInt(6);
+    auto count = AWTestLibrary::randomInt(6);
     formatter->setForceWidth(true);
     formatter->setCount(count);
     QCOMPARE(formatter->forceWidth(), true);
 
     // test
-    QString output = formatter->convert(QRandomGenerator::global()->generateDouble());
+    auto output = formatter->convert(QRandomGenerator::global()->generateDouble());
     QCOMPARE(output.length(), count);
 
     // reset
@@ -103,7 +102,7 @@ void TestAWFloatFormatter::test_format()
     QCOMPARE(formatter->format(), 'e');
 
     // test
-    QString output = formatter->convert(QRandomGenerator::global()->generateDouble());
+    auto output = formatter->convert(QRandomGenerator::global()->generateDouble());
     QVERIFY(output.contains('e'));
 
     // reset
@@ -114,12 +113,12 @@ void TestAWFloatFormatter::test_format()
 void TestAWFloatFormatter::test_precision()
 {
     // assign
-    int precision = 1 + AWTestLibrary::randomInt(5);
+    auto precision = 1 + AWTestLibrary::randomInt(5);
     formatter->setPrecision(precision);
     QCOMPARE(formatter->precision(), precision);
 
     // test
-    QString output = formatter->convert(QRandomGenerator::global()->generateDouble());
+    auto output = formatter->convert(QRandomGenerator::global()->generateDouble());
     output.remove("0.");
     QCOMPARE(output.length(), precision);
 
@@ -133,12 +132,12 @@ void TestAWFloatFormatter::test_multiplier()
     formatter->setPrecision(6);
 
     // assign
-    double multiplier = QRandomGenerator::global()->generateDouble();
+    auto multiplier = QRandomGenerator::global()->generateDouble();
     formatter->setMultiplier(multiplier);
     QCOMPARE(formatter->multiplier(), multiplier);
 
     // test
-    double value = QRandomGenerator::global()->generateDouble();
+    auto value = QRandomGenerator::global()->generateDouble();
     QCOMPARE(formatter->convert(value), QString::number(value * multiplier, 'f', 6));
 
     // reset
@@ -149,12 +148,12 @@ void TestAWFloatFormatter::test_multiplier()
 void TestAWFloatFormatter::test_summand()
 {
     // assign
-    double summand = QRandomGenerator::global()->generateDouble();
+    auto summand = QRandomGenerator::global()->generateDouble();
     formatter->setSummand(summand);
     QCOMPARE(formatter->summand(), summand);
 
     // test
-    double value = QRandomGenerator::global()->generateDouble();
+    auto value = QRandomGenerator::global()->generateDouble();
     QCOMPARE(formatter->convert(value), QString::number(value + summand, 'f', 6));
 
     // reset
@@ -165,7 +164,7 @@ void TestAWFloatFormatter::test_summand()
 void TestAWFloatFormatter::test_copy()
 {
     doRandom();
-    AWFloatFormatter *newFormatter = formatter->copy("/dev/null", 1);
+    auto newFormatter = formatter->copy("/dev/null", 1);
 
     QCOMPARE(newFormatter->count(), formatter->count());
     QCOMPARE(newFormatter->fillChar(), formatter->fillChar());

@@ -65,7 +65,7 @@ public:
         m_activeItems.clear();
 
         m_items = getItems();
-        for (auto &item : m_items) {
+        for (auto item : m_items) {
             if (!item->isActive())
                 continue;
             m_activeItems.append(static_cast<T *>(item));
@@ -77,7 +77,7 @@ public:
         // HACK as soon as per one widget instance we have two objects each of
         // them will try to control socket, whereas actually only one of them
         // should be owner of the socket
-        for (auto &item : m_items)
+        for (auto item : m_items)
             item->initSocket();
     }
 
@@ -86,7 +86,7 @@ public:
         qCDebug(LOG_LIB) << "Tag" << _tag << "with used type" << _type;
 
         T *found = nullptr;
-        for (auto &item : m_items) {
+        for (auto item : m_items) {
             if (item->tag(_type) != _tag)
                 continue;
             found = static_cast<T *>(item);
@@ -103,7 +103,7 @@ public:
         qCDebug(LOG_LIB) << "Number" << _number;
 
         T *found = nullptr;
-        for (auto &item : m_items) {
+        for (auto item : m_items) {
             if (item->number() != _number)
                 continue;
             found = static_cast<T *>(item);
@@ -129,7 +129,7 @@ private:
 
         auto dirs = directories();
         for (auto &dir : dirs) {
-            QStringList files = QDir(dir).entryList(QDir::Files, QDir::Name);
+            auto files = QDir(dir).entryList(QDir::Files, QDir::Name);
             for (auto &file : files) {
                 // check filename
                 if (!file.endsWith(".desktop"))
@@ -145,7 +145,7 @@ private:
         }
 
         // sort items
-        std::sort(items.begin(), items.end(), [](auto *lhs, auto *rhs) { return lhs->number() < rhs->number(); });
+        std::sort(items.begin(), items.end(), [](auto lhs, auto rhs) { return lhs->number() < rhs->number(); });
         return items;
     };
 };

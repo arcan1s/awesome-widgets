@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "testdpplugin.h"
 
 #include <KWindowSystem>
@@ -44,8 +43,8 @@ void TestDPPlugin::test_desktops()
     if (!m_isKwinActive)
         QSKIP("KWin inactive, skip Destkop panel tests");
 
-    int current = plugin->currentDesktop();
-    int total = plugin->numberOfDesktops();
+    auto current = plugin->currentDesktop();
+    auto total = plugin->numberOfDesktops();
     QVERIFY(total != 0);
     QVERIFY(current <= total);
 
@@ -90,7 +89,7 @@ void TestDPPlugin::test_parsePattern()
     if (!m_isKwinActive)
         QSKIP("KWin inactive, skip Destkop panel tests");
 
-    QString result = plugin->parsePattern(pattern, plugin->currentDesktop());
+    auto result = plugin->parsePattern(pattern, plugin->currentDesktop());
     QVERIFY(!result.isEmpty());
     QVERIFY(result != pattern);
     for (auto &key : plugin->dictKeys())
@@ -109,7 +108,7 @@ void TestDPPlugin::test_tooltipImage()
     data["tooltipWidth"] = 300;
     plugin->setToolTipData(data);
 
-    QString image = plugin->toolTipImage(plugin->currentDesktop());
+    auto image = plugin->toolTipImage(plugin->currentDesktop());
     QVERIFY(image.startsWith("<img src=\""));
     QVERIFY(image.endsWith("\"/>"));
 }

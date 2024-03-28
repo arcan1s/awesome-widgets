@@ -36,4 +36,5 @@ private slots:
 
 private:
     DesktopSource *source = nullptr;
+    bool m_isKwinActive = false;
 };

@@ -15,31 +15,19 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "quotessource.h"
-
-#include <ksysguard/formatter/Unit.h>
-#include <ksysguard/systemstats/SensorInfo.h>
 
 #include "awdebug.h"
 #include "extquotes.h"
 
 
-QuotesSource::QuotesSource(QObject *_parent, const QStringList &_args)
-    : AbstractExtSysMonSource(_parent, _args)
+QuotesSource::QuotesSource(QObject *_parent)
+    : AbstractExtSysMonSource(_parent)
 {
-    Q_ASSERT(_args.count() == 0);
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
     m_extQuotes = new ExtItemAggregator<ExtQuotes>(nullptr, "quotes");
     m_extQuotes->initSockets();
-    m_sources = getSources();
-}
-
-
-QuotesSource::~QuotesSource()
-{
-    qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 }
 
 
@@ -47,82 +35,31 @@ QVariant QuotesSource::data(const QString &_source)
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
-    int ind = index(_source);
-    if (!m_values.contains(_source)) {
-        QVariantHash data = m_extQuotes->itemByTagNumber(ind)->run();
-        for (auto &key : data.keys())
-            m_values[key] = data[key];
-    }
-    QVariant value = m_values.take(_source);
-    return value;
+    if (!m_values.contains(_source))
+        m_values = dataByItem(m_extQuotes, _source);
+
+    return m_values.take(_source);
 }
 
 
-KSysGuard::SensorInfo *QuotesSource::initialData(const QString &_source) const
+QHash<QString, KSysGuard::SensorInfo *> QuotesSource::sources() const
 {
-    qCDebug(LOG_ESS) << "Source" << _source;
+    auto result = QHash<QString, KSysGuard::SensorInfo *>();
 
-    int ind = index(_source);
-    auto data = new KSysGuard::SensorInfo;
-    if (_source.startsWith("pricechg")) {
-        data->min = 0.0;
-        data->max = 0.0;
-        data->name = QString("Absolute price changes for '%1'").arg(m_extQuotes->itemByTagNumber(ind)->uniq());
-        data->variantType = QVariant::Double;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source.startsWith("price")) {
-        data->min = 0.0;
-        data->max = 0.0;
-        data->name = QString("Price for '%1'").arg(m_extQuotes->itemByTagNumber(ind)->uniq());
-        data->variantType = QVariant::Double;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source.startsWith("percpricechg")) {
-        data->min = -100.0;
-        data->max = 100.0;
-        data->name = QString("Price changes for '%1'").arg(m_extQuotes->itemByTagNumber(ind)->uniq());
-        data->variantType = QVariant::Double;
-        data->unit = KSysGuard::UnitPercent;
-    } else if (_source.startsWith("volumechg")) {
-        data->min = 0;
-        data->max = 0;
-        data->name = QString("Absolute volume changes for '%1'").arg(m_extQuotes->itemByTagNumber(ind)->uniq());
-        data->variantType = QVariant::Int;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source.startsWith("volume")) {
-        data->min = 0;
-        data->max = 0;
-        data->name = QString("Volume for '%1'").arg(m_extQuotes->itemByTagNumber(ind)->uniq());
-        data->variantType = QVariant::Int;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source.startsWith("percvolumechg")) {
-        data->min = -100.0;
-        data->max = 100.0;
-        data->name = QString("Volume changes for '%1'").arg(m_extQuotes->itemByTagNumber(ind)->uniq());
-        data->variantType = QVariant::Double;
-        data->unit = KSysGuard::UnitPercent;
-    }
-
-    return data;
-}
-
-
-QStringList QuotesSource::sources() const
-{
-    return m_sources;
-}
-
-
-QStringList QuotesSource::getSources()
-{
-    QStringList sources;
     for (auto &item : m_extQuotes->activeItems()) {
-        sources.append(item->tag("price"));
-        sources.append(item->tag("pricechg"));
-        sources.append(item->tag("percpricechg"));
-        sources.append(item->tag("volume"));
-        sources.append(item->tag("volumechg"));
-        sources.append(item->tag("percvolumechg"));
+        result.insert(item->tag("pricechg"),
+                      makeSensorInfo(QString("Absolute price changes for '%1'").arg(item->uniq()), QVariant::Double));
+        result.insert(item->tag("price"),
+                      makeSensorInfo(QString("Price for '%1'").arg(item->uniq()), QVariant::Double));
+        result.insert(item->tag("percpricechg"), makeSensorInfo(QString("Price changes for '%1'").arg(item->uniq()),
+                                                                QVariant::Double, KSysGuard::UnitPercent, 0, 100));
+        result.insert(item->tag("volumechg"),
+                      makeSensorInfo(QString("Absolute volume changes for '%1'").arg(item->uniq()), QVariant::Double));
+        result.insert(item->tag("volume"),
+                      makeSensorInfo(QString("Volume for '%1'").arg(item->uniq()), QVariant::Double));
+        result.insert(item->tag("percvolumechg"), makeSensorInfo(QString("Volume changes for '%1'").arg(item->uniq()),
+                                                                 QVariant::Double, KSysGuard::UnitPercent, 0, 100));
     }
 
-    return sources;
+    return result;
 }

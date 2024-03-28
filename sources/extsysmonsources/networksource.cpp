@@ -15,11 +15,7 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "networksource.h"
-
-#include <ksysguard/formatter/Unit.h>
-#include <ksysguard/systemstats/SensorInfo.h>
 
 #include <QNetworkInterface>
 #include <QProcess>
@@ -27,10 +23,9 @@
 #include "awdebug.h"
 
 
-NetworkSource::NetworkSource(QObject *_parent, const QStringList &_args)
-    : AbstractExtSysMonSource(_parent, _args)
+NetworkSource::NetworkSource(QObject *_parent)
+    : AbstractExtSysMonSource(_parent)
 {
-    Q_ASSERT(_args.count() == 0);
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
     m_process = new QProcess(nullptr);
@@ -54,47 +49,26 @@ QVariant NetworkSource::data(const QString &_source)
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
-    if (!m_values.contains(_source))
-        run();
-    return m_values.take(_source);
-}
-
-
-KSysGuard::SensorInfo *NetworkSource::initialData(const QString &_source) const
-{
-    qCDebug(LOG_ESS) << "Source" << _source;
-
-    auto data = new KSysGuard::SensorInfo();
     if (_source == "device") {
-        data->name = "Current network device name";
-        data->variantType = QVariant::String;
-        data->unit = KSysGuard::UnitNone;
+        return NetworkSource::getCurrentDevice();
     } else if (_source == "ssid") {
-        data->name = "Current SSID name";
-        data->variantType = QVariant::String;
-        data->unit = KSysGuard::UnitNone;
+        if (m_process->state() == QProcess::ProcessState::NotRunning)
+            m_process->start("iwgetid", {"-r"});
+        return m_currentSsid;
     }
 
-    return data;
+    return {};
 }
 
 
-void NetworkSource::run()
+QHash<QString, KSysGuard::SensorInfo *> NetworkSource::sources() const
 {
-    m_values["device"] = NetworkSource::getCurrentDevice();
-    if (m_process->state() == QProcess::ProcessState::NotRunning) {
-        m_process->start("iwgetid", {"-r"});
-    }
-}
+    auto result = QHash<QString, KSysGuard::SensorInfo *>();
 
+    result.insert("device", makeSensorInfo("Current network device name", QVariant::String));
+    result.insert("ssid", makeSensorInfo("Current SSID name", QVariant::String));
 
-QStringList NetworkSource::sources() const
-{
-    QStringList sources;
-    sources.append("device");
-    sources.append("ssid");
-
-    return sources;
+    return result;
 }
 
 
@@ -106,7 +80,7 @@ void NetworkSource::updateSsid()
     QString qoutput = QString::fromUtf8(m_process->readAllStandardOutput()).trimmed();
     qCInfo(LOG_ESS) << "Output" << qoutput;
 
-    m_values["ssid"] = qoutput;
+    m_currentSsid = qoutput;
 }
 
 

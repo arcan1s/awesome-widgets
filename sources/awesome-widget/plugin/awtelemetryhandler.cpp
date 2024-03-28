@@ -126,7 +126,7 @@ void AWTelemetryHandler::uploadTelemetry(const QString &_group, const QString &_
         return;
     }
 
-    auto *manager = new QNetworkAccessManager(nullptr);
+    auto manager = new QNetworkAccessManager(nullptr);
     connect(manager, &QNetworkAccessManager::finished, this, &AWTelemetryHandler::telemetryReplyReceived);
 
     QUrl url(REMOTE_TELEMETRY_URL);

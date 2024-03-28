@@ -17,33 +17,58 @@
 
 #pragma once
 
+#include <ksysguard/systemstats/SensorInfo.h>
+
 #include <QObject>
 #include <QRegularExpression>
 #include <QVariant>
-
-
-namespace KSysGuard
-{
-class SensorInfo;
-}
 
 class AbstractExtSysMonSource : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit AbstractExtSysMonSource(QObject *_parent, const QStringList &)
+    inline static QRegularExpression NUMBER_REGEX = QRegularExpression("\\d+$");
+
+    explicit AbstractExtSysMonSource(QObject *_parent)
         : QObject(_parent){};
     ~AbstractExtSysMonSource() override = default;
     virtual QVariant data(const QString &_source) = 0;
-    [[nodiscard]] virtual KSysGuard::SensorInfo *initialData(const QString &_source) const = 0;
-    virtual void run() = 0;
-    [[nodiscard]] virtual QStringList sources() const = 0;
+    [[nodiscard]] virtual QHash<QString, KSysGuard::SensorInfo *> sources() const = 0;
+
     // used by extensions
+    // This method returns -1 in case of invalid source name (like if there is no number)
     static int index(const QString &_source)
     {
-        QRegularExpression rx("\\d+");
-        return rx.match(_source).captured().toInt();
+        auto match = NUMBER_REGEX.match(_source);
+        return match.hasMatch() ? match.captured().toInt() : -1;
+    }
+
+    // safe value extractor
+    template <class T> static QVariantHash dataByItem(T *_extension, const QString &_source)
+    {
+        auto idx = index(_source);
+        if (idx == -1)
+            return {};
+
+        auto item = _extension->itemByTagNumber(idx);
+        return item ? item->run() : QVariantHash();
+    }
+
+    static KSysGuard::SensorInfo *makeSensorInfo(const QString &_name, const QVariant::Type type,
+                                                 const KSysGuard::Unit unit = KSysGuard::UnitNone, const double min = 0,
+                                                 const double max = 0)
+    {
+        auto info = new KSysGuard::SensorInfo();
+        info->name = _name;
+        info->variantType = type;
+
+        info->unit = unit;
+
+        info->min = min;
+        info->max = max;
+
+        return info;
     }
 
 signals:

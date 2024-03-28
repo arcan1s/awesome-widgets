@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "systeminfosource.h"
 
 #include <ksysguard/formatter/Unit.h>
@@ -30,15 +29,8 @@
 #include "awdebug.h"
 
 
-SystemInfoSource::SystemInfoSource(QObject *_parent, const QStringList &_args)
-    : AbstractExtSysMonSource(_parent, _args)
-{
-    Q_ASSERT(_args.count() == 0);
-    qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
-}
-
-
-SystemInfoSource::~SystemInfoSource()
+SystemInfoSource::SystemInfoSource(QObject *_parent)
+    : AbstractExtSysMonSource(_parent)
 {
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 }
@@ -48,55 +40,30 @@ QVariant SystemInfoSource::data(const QString &_source)
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
-    if (!m_values.contains(_source))
-        run();
-    return m_values.take(_source);
-}
-
-
-KSysGuard::SensorInfo *SystemInfoSource::initialData(const QString &_source) const
-{
-    qCDebug(LOG_ESS) << "Source" << _source;
-
-    auto data = new KSysGuard::SensorInfo();
     if (_source == "brightness") {
-        data->min = 0.0;
-        data->max = 100.0;
-        data->name = "Screen brightness";
-        data->variantType = QVariant::Double;
-        data->unit = KSysGuard::UnitPercent;
+        return SystemInfoSource::getCurrentBrightness();
     } else if (_source == "volume") {
-        data->min = 0.0;
-        data->max = 100.0;
-        data->name = "Master volume";
-        data->variantType = QVariant::Double;
-        data->unit = KSysGuard::UnitPercent;
+        return SystemInfoSource::getCurrentVolume();
     }
 
-    return data;
+    return {};
 }
 
 
-void SystemInfoSource::run()
+QHash<QString, KSysGuard::SensorInfo *> SystemInfoSource::sources() const
 {
-    m_values["brightness"] = SystemInfoSource::getCurrentBrightness();
-    m_values["volume"] = SystemInfoSource::getCurrentVolume();
+    auto result = QHash<QString, KSysGuard::SensorInfo *>();
+
+    result.insert("brightness", makeSensorInfo("Screen brightness", QVariant::Double, KSysGuard::UnitPercent, 0, 100));
+    result.insert("volume", makeSensorInfo("Master volume", QVariant::Double, KSysGuard::UnitNone));
+
+    return result;
 }
 
 
-QStringList SystemInfoSource::sources() const
+QVariant SystemInfoSource::fromDBusVariant(const QVariant &_value)
 {
-    QStringList sources;
-    sources.append("brightness");
-    sources.append("volume");
-
-    return sources;
-}
-
-
-QVariant SystemInfoSource::fromDBusVariant(const QVariant &value)
-{
-    return value.value<QDBusVariant>().variant();
+    return _value.value<QDBusVariant>().variant();
 }
 
 
@@ -122,10 +89,9 @@ double SystemInfoSource::getCurrentVolume()
     qCDebug(LOG_ESS) << "Get current volume";
 
     // current device first
-    auto currentMixer
-        = fromDBusVariant(sendDBusRequest("org.kde.kmix", "/Mixers", "org.freedesktop.DBus.Properties", "Get",
-                                          QVariantList({"org.kde.KMix.MixSet", "currentMasterMixer"})))
-              .toString();
+    auto currentMixer = fromDBusVariant(sendDBusRequest("org.kde.kmix", "/Mixers", "org.freedesktop.DBus.Properties",
+                                                        "Get", {"org.kde.KMix.MixSet", "currentMasterMixer"}))
+                            .toString();
 
     if (currentMixer.isEmpty()) {
         qCWarning(LOG_ESS) << "Mixer is empty";
@@ -134,38 +100,37 @@ double SystemInfoSource::getCurrentVolume()
     currentMixer.replace(":", "_").replace(".", "_").replace("-", "_");
 
     // get capture device
-    auto currentControl
-        = fromDBusVariant(sendDBusRequest("org.kde.kmix", "/Mixers", "org.freedesktop.DBus.Properties", "Get",
-                                          QVariantList({"org.kde.KMix.MixSet", "currentMasterControl"})))
-              .toString();
+    auto currentControl = fromDBusVariant(sendDBusRequest("org.kde.kmix", "/Mixers", "org.freedesktop.DBus.Properties",
+                                                          "Get", {"org.kde.KMix.MixSet", "currentMasterControl"}))
+                              .toString();
     if (currentControl.isEmpty()) {
         qCWarning(LOG_ESS) << "Control is empty";
         return std::numeric_limits<double>::quiet_NaN();
     }
     currentControl.replace(":", "_").replace(".", "_").replace("-", "_");
 
-    auto path = QString("/Mixers/%1/%2").arg(currentMixer).arg(currentControl);
+    auto path = QString("/Mixers/%1/%2").arg(currentMixer, currentControl);
     return fromDBusVariant(sendDBusRequest("org.kde.kmix", path, "org.freedesktop.DBus.Properties", "Get",
-                                           QVariantList({"org.kde.KMix.Control", "volume"})))
+                                           {"org.kde.KMix.Control", "volume"}))
         .toDouble();
 }
 
 
-QVariant SystemInfoSource::sendDBusRequest(const QString &destination, const QString &path, const QString &interface,
-                                           const QString &method, const QVariantList &args)
+QVariant SystemInfoSource::sendDBusRequest(const QString &_destination, const QString &_path, const QString &_interface,
+                                           const QString &_method, const QVariantList &_args)
 {
-    qCDebug(LOG_ESS) << "Send dbus request" << destination << path << interface << method << args;
+    qCDebug(LOG_ESS) << "Send dbus request" << _destination << _path << _interface << _method << _args;
 
     auto bus = QDBusConnection::sessionBus();
-    auto request = QDBusMessage::createMethodCall(destination, path, interface, method);
-    if (!args.isEmpty())
-        request.setArguments(args);
+    auto request = QDBusMessage::createMethodCall(_destination, _path, _interface, _method);
+    if (!_args.isEmpty())
+        request.setArguments(_args);
 
     auto response = bus.call(request, QDBus::BlockWithGui, REQUEST_TIMEOUT);
 
     if ((response.type() != QDBusMessage::ReplyMessage) || (response.arguments().isEmpty())) {
         qCWarning(LOG_ESS) << "Error message" << response.errorMessage();
-        return QVariant();
+        return {};
     } else {
         return response.arguments().first();
     }

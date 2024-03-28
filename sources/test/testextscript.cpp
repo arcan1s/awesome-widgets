@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "testextscript.h"
 
 #include <QtTest>
@@ -58,11 +57,11 @@ void TestExtScript::test_run()
 {
     // init spy
     QSignalSpy spy(extScript, SIGNAL(dataReceived(const QVariantHash &)));
-    QVariantHash firstValue = extScript->run();
+    auto firstValue = extScript->run();
 
     // check values
     QVERIFY(spy.wait(5000));
-    QList<QVariant> arguments = spy.takeFirst();
+    auto arguments = spy.takeFirst();
 
     QCOMPARE(firstValue[extScript->tag("custom")].toString(), QString());
     QCOMPARE(arguments.at(0).toHash()[extScript->tag("custom")].toString(), QString("\n%1").arg(randomString));
@@ -81,14 +80,14 @@ void TestExtScript::test_filters()
 
     // check values
     QVERIFY(spy.wait(5000));
-    QList<QVariant> arguments = spy.takeFirst();
+    auto arguments = spy.takeFirst();
     QCOMPARE(arguments.at(0).toHash()[extScript->tag("custom")].toString(), QString("<br>%1").arg(randomString));
 }
 
 
 void TestExtScript::test_copy()
 {
-    ExtScript *newExtScript = extScript->copy("/dev/null", 1);
+    auto newExtScript = extScript->copy("/dev/null", 1);
 
     QCOMPARE(newExtScript->interval(), extScript->interval());
     QCOMPARE(newExtScript->executable(), extScript->executable());

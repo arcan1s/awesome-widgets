@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "testbatterysource.h"
 
 #include <QtTest>
@@ -29,7 +28,7 @@
 void TestBatterySource::initTestCase()
 {
     AWTestLibrary::init();
-    source = new BatterySource(this, QStringList() << acpiPath);
+    source = new BatterySource(this, acpiPath);
 }
 
 
@@ -41,8 +40,7 @@ void TestBatterySource::cleanupTestCase()
 
 void TestBatterySource::test_sources()
 {
-    //
-    QVERIFY(source->sources().length() >= 6);
+    QVERIFY(source->sources().count() >= 6);
 }
 
 
@@ -51,9 +49,9 @@ void TestBatterySource::test_battery()
     if (source->sources().count() == 6)
         QSKIP("No battery found, test will be skipped");
 
-    QStringList batteries = source->sources();
-    std::for_each(batteries.begin(), batteries.end(), [this](const QString &bat) {
-        QVariant value = source->data(bat);
+    auto batteries = source->sources().keys();
+    std::for_each(batteries.cbegin(), batteries.cend(), [this](auto bat) {
+        auto value = source->data(bat);
         if (bat == "ac")
             QCOMPARE(value.type(), QVariant::Bool);
         else if (bat.startsWith("batrate") || bat.startsWith("batleft"))

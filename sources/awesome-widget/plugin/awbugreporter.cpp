@@ -71,7 +71,7 @@ void AWBugReporter::sendBugReport(const QString &_title, const QString &_body)
 {
     qCDebug(LOG_AW) << "Send bug report with title" << _title << "and body" << _body;
 
-    auto *manager = new QNetworkAccessManager(nullptr);
+    auto manager = new QNetworkAccessManager(nullptr);
     connect(manager, &QNetworkAccessManager::finished, this, &AWBugReporter::issueReplyReceived);
 
     auto request = QNetworkRequest(QUrl(BUGTRACKER_API));
@@ -121,7 +121,7 @@ void AWBugReporter::showInformation(const int _number, const QString &_url)
     // cache url first
     m_lastBugUrl = _url;
 
-    auto *msgBox = new QMessageBox(nullptr);
+    auto msgBox = new QMessageBox(nullptr);
     msgBox->setAttribute(Qt::WA_DeleteOnClose);
     msgBox->setModal(false);
     msgBox->setWindowTitle(i18n("Issue created"));

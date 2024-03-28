@@ -52,7 +52,7 @@ void AWUpdateHelper::checkUpdates(const bool _showAnyway)
 
     // showAnyway options requires to show message if no updates found on direct
     // request. In case of automatic check no message will be shown
-    auto *manager = new QNetworkAccessManager(nullptr);
+    auto manager = new QNetworkAccessManager(nullptr);
     connect(manager, &QNetworkAccessManager::finished,
             [_showAnyway, this](QNetworkReply *reply) { return versionReplyReceived(reply, _showAnyway); });
 
@@ -163,7 +163,7 @@ QMessageBox *AWUpdateHelper::genMessageBox(const QString &_title, const QString 
 {
     qCDebug(LOG_AW) << "Construct message box with title" << _title << "and body" << _body;
 
-    auto *msgBox = new QMessageBox(nullptr);
+    auto msgBox = new QMessageBox(nullptr);
     msgBox->setAttribute(Qt::WA_DeleteOnClose);
     msgBox->setModal(false);
     msgBox->setWindowTitle(_title);

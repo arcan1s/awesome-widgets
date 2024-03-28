@@ -210,11 +210,11 @@ QString AWKeyOperations::infoByKey(const QString &_key) const
     QString output;
 
     if (_key.startsWith("bar")) {
-        auto *item = m_graphicalItems->itemByTag(_key, stripped);
+        auto item = m_graphicalItems->itemByTag(_key, stripped);
         if (item)
             output = item->uniq();
     } else if (_key.startsWith("custom")) {
-        auto *item = m_extScripts->itemByTag(_key, stripped);
+        auto item = m_extScripts->itemByTag(_key, stripped);
         if (item)
             output = item->uniq();
     } else if (_key.contains(QRegularExpression("^hdd[rw]"))) {
@@ -230,15 +230,15 @@ QString AWKeyOperations::infoByKey(const QString &_key) const
         index.remove(QRegularExpression("^(down|up)"));
         output = m_devices["net"][index.toInt()];
     } else if (_key.startsWith("pkgcount")) {
-        auto *item = m_extUpgrade->itemByTag(_key, stripped);
+        auto item = m_extUpgrade->itemByTag(_key, stripped);
         if (item)
             output = item->uniq();
     } else if (_key.contains(QRegularExpression("(^|perc)(ask|bid|price)(chg|)"))) {
-        auto *item = m_extQuotes->itemByTag(_key, stripped);
+        auto item = m_extQuotes->itemByTag(_key, stripped);
         if (item)
             output = item->uniq();
     } else if (_key.contains(QRegularExpression("(weather|weatherId|humidity|pressure|temperature)"))) {
-        auto *item = m_extWeather->itemByTag(_key, stripped);
+        auto item = m_extWeather->itemByTag(_key, stripped);
         if (item)
             output = item->uniq();
     } else if (_key.startsWith("temp")) {
@@ -246,7 +246,7 @@ QString AWKeyOperations::infoByKey(const QString &_key) const
         index.remove("temp");
         output = m_devices["temp"][index.toInt()];
     } else if (_key.startsWith("response")) {
-        auto *item = m_extNetRequest->itemByTag(_key, stripped);
+        auto item = m_extNetRequest->itemByTag(_key, stripped);
         if (item)
             output = item->uniq();
     } else {

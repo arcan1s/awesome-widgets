@@ -17,28 +17,17 @@
 
 #include "customsource.h"
 
-#include <ksysguard/formatter/Unit.h>
-#include <ksysguard/systemstats/SensorInfo.h>
-
 #include "awdebug.h"
 #include "extscript.h"
 
 
-CustomSource::CustomSource(QObject *_parent, const QStringList &_args)
-    : AbstractExtSysMonSource(_parent, _args)
+CustomSource::CustomSource(QObject *_parent)
+    : AbstractExtSysMonSource(_parent)
 {
-    Q_ASSERT(_args.count() == 0);
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
-    m_extScripts = new ExtItemAggregator<ExtScript>(nullptr, "scripts");
+    m_extScripts = new ExtItemAggregator<ExtScript>(this, "scripts");
     m_extScripts->initSockets();
-    m_sources = getSources();
-}
-
-
-CustomSource::~CustomSource()
-{
-    qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 }
 
 
@@ -47,34 +36,17 @@ QVariant CustomSource::data(const QString &_source)
     qCDebug(LOG_ESS) << "Source" << _source;
 
     // there are only one value
-    return m_extScripts->itemByTagNumber(index(_source))->run().values().first();
+    return dataByItem(m_extScripts, _source).values().first();
 }
 
 
-KSysGuard::SensorInfo *CustomSource::initialData(const QString &_source) const
+QHash<QString, KSysGuard::SensorInfo *> CustomSource::sources() const
 {
-    qCDebug(LOG_ESS) << "Source" << _source;
+    auto result = QHash<QString, KSysGuard::SensorInfo *>();
 
-    auto data = new KSysGuard::SensorInfo();
-    data->name = QString("Custom command '%1' output").arg(m_extScripts->itemByTagNumber(index(_source))->uniq());
-    data->variantType = QVariant::String;
-    data->unit = KSysGuard::UnitNone;
-
-    return data;
-}
-
-
-QStringList CustomSource::sources() const
-{
-    return m_sources;
-}
-
-
-QStringList CustomSource::getSources()
-{
-    QStringList sources;
     for (auto &item : m_extScripts->activeItems())
-        sources.append(item->tag("custom"));
+        result.insert(item->tag("custom"),
+                      makeSensorInfo(QString("Custom command '%1' output").arg(item->uniq()), QVariant::String));
 
-    return sources;
+    return result;
 }

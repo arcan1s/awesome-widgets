@@ -27,12 +27,11 @@ class ProcessesSource : public AbstractExtSysMonSource
     Q_OBJECT
 
 public:
-    explicit ProcessesSource(QObject *_parent, const QStringList &_args);
-    ~ProcessesSource() override;
+    explicit ProcessesSource(QObject *_parent);
+    ~ProcessesSource() override = default;
     QVariant data(const QString &_source) override;
-    [[nodiscard]] KSysGuard::SensorInfo *initialData(const QString &_source) const override;
-    void run() override;
-    [[nodiscard]] QStringList sources() const override;
+    void run();
+    [[nodiscard]] QHash<QString, KSysGuard::SensorInfo *> sources() const override;
 
 private:
     // configuration and values

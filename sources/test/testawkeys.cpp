@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "testawkeys.h"
 
 #include <QDBusConnection>
@@ -82,10 +81,10 @@ void TestAWKeys::test_hddDevices()
 
 void TestAWKeys::test_dictKeys()
 {
-    QStringList keys = plugin->dictKeys();
+    auto keys = plugin->dictKeys();
     QVERIFY(!keys.isEmpty());
 
-    QStringList sorted = plugin->dictKeys(true);
+    auto sorted = plugin->dictKeys(true);
     QVERIFY(!sorted.isEmpty());
     QEXPECT_FAIL("", "Sorted and non-sorted lists should differ", Continue);
     QCOMPARE(keys, sorted);
@@ -101,11 +100,11 @@ void TestAWKeys::test_pattern()
 
     QVERIFY(spy.wait(5 * interval));
     QVERIFY(spy.wait(5 * interval));
-    QString text = spy.takeFirst().at(0).toString();
+    auto text = spy.takeFirst().at(0).toString();
 
     QEXPECT_FAIL("", "Pattern should be parsed", Continue);
     QCOMPARE(text, pattern);
-    QStringList keys = plugin->dictKeys(true);
+    auto keys = plugin->dictKeys(true);
     for (auto &key : keys)
         QVERIFY(!text.contains(key));
 }
@@ -119,7 +118,7 @@ void TestAWKeys::test_tooltip()
     QSignalSpy spy(plugin, SIGNAL(needToolTipToBeUpdated(const QString)));
 
     QVERIFY(spy.wait(5 * interval));
-    QString text = spy.takeFirst().at(0).toString();
+    auto text = spy.takeFirst().at(0).toString();
     QVERIFY(text.startsWith("<img"));
 }
 
@@ -129,7 +128,7 @@ void TestAWKeys::test_wrapNewLines()
     QSignalSpy spy(plugin, SIGNAL(needTextToBeUpdated(const QString)));
 
     QVERIFY(spy.wait(5 * interval));
-    QString text = spy.takeFirst().at(0).toString();
+    auto text = spy.takeFirst().at(0).toString();
     QVERIFY(!text.contains("<br>") && text.contains("\n"));
 
     plugin->setWrapNewLines(true);
@@ -141,10 +140,10 @@ void TestAWKeys::test_wrapNewLines()
 
 void TestAWKeys::test_infoByKey()
 {
-    int notEmpty = 0;
-    QStringList keys = plugin->dictKeys(true);
+    auto notEmpty = 0;
+    auto keys = plugin->dictKeys(true);
     for (auto &key : keys) {
-        QString info = plugin->infoByKey(key);
+        auto info = plugin->infoByKey(key);
         QVERIFY(!info.isEmpty());
         // append non-empty field count
         if (info != "(none)")
@@ -156,8 +155,8 @@ void TestAWKeys::test_infoByKey()
 
 void TestAWKeys::test_valueByKey()
 {
-    int notEmpty = 0;
-    QStringList keys = plugin->dictKeys(true);
+    auto notEmpty = 0;
+    auto keys = plugin->dictKeys(true);
     for (auto &key : keys) {
         if (!plugin->valueByKey(key).isEmpty())
             notEmpty++;
@@ -169,26 +168,25 @@ void TestAWKeys::test_valueByKey()
 void TestAWKeys::test_dbus()
 {
     // get id
-    qlonglong id = reinterpret_cast<qlonglong>(plugin);
+    auto id = reinterpret_cast<qlonglong>(plugin);
 
     // create connection and message
-    QDBusConnection bus = QDBusConnection::sessionBus();
+    auto bus = QDBusConnection::sessionBus();
 
     // check if there is active sessions first
-    QDBusMessage sessions
-        = QDBusMessage::createMethodCall(AWDBUS_SERVICE, AWDBUS_PATH, AWDBUS_SERVICE, "ActiveServices");
-    QDBusMessage sessionsResponse = bus.call(sessions, QDBus::BlockWithGui);
+    auto sessions = QDBusMessage::createMethodCall(AWDBUS_SERVICE, AWDBUS_PATH, AWDBUS_SERVICE, "ActiveServices");
+    auto sessionsResponse = bus.call(sessions, QDBus::BlockWithGui);
     if (sessionsResponse.arguments().isEmpty())
         QSKIP("No active sessions found, skip DBus tests");
 
     // dbus checks
-    QDBusMessage request = QDBusMessage::createMethodCall(QString("%1.i%2").arg(AWDBUS_SERVICE).arg(id), AWDBUS_PATH,
-                                                          AWDBUS_SERVICE, "WhoAmI");
+    auto request = QDBusMessage::createMethodCall(QString("%1.i%2").arg(AWDBUS_SERVICE).arg(id), AWDBUS_PATH,
+                                                  AWDBUS_SERVICE, "WhoAmI");
     // send message to dbus
-    QDBusMessage response = bus.call(request, QDBus::BlockWithGui);
+    auto response = bus.call(request, QDBus::BlockWithGui);
 
     // parse result
-    QList<QVariant> arguments = response.arguments();
+    auto arguments = response.arguments();
     QVERIFY(!arguments.isEmpty());
     QCOMPARE(arguments.at(0).toLongLong(), id);
 }

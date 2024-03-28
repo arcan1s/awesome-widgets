@@ -31,6 +31,8 @@ public:
     explicit ExtSysMonSensor(KSysGuard::SensorContainer *_parent, const QString &_id, const QString &_name,
                              AbstractExtSysMonSource *_source);
     ~ExtSysMonSensor() override;
+
+public slots:
     void changeSubscription(bool _subscribed);
     void update();
 

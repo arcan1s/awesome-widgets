@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "testabstractformatter.h"
 
 #include <QtTest>
@@ -42,7 +41,7 @@ void TestAbstractFormatter::test_values() {}
 
 void TestAbstractFormatter::test_type()
 {
-    QString type = AWTestLibrary::randomString();
+    auto type = AWTestLibrary::randomString();
     QEXPECT_FAIL("", "Will fail because of invalid format", Continue);
     formatter->setStrType(type);
     QCOMPARE(formatter->strType(), type);
@@ -54,7 +53,7 @@ void TestAbstractFormatter::test_type()
 
 void TestAbstractFormatter::test_copy()
 {
-    AWNoFormatter *newFormatter = formatter->copy("/dev/null", 1);
+    auto newFormatter = formatter->copy("/dev/null", 1);
 
     QCOMPARE(newFormatter->type(), formatter->type());
     QCOMPARE(newFormatter->name(), formatter->name());

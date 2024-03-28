@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "testprocessessource.h"
 
 #include <QtTest>
@@ -27,7 +26,7 @@
 void TestProcessesSource::initTestCase()
 {
     AWTestLibrary::init();
-    source = new ProcessesSource(this, QStringList());
+    source = new ProcessesSource(this);
 }
 
 

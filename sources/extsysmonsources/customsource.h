@@ -30,16 +30,12 @@ class CustomSource : public AbstractExtSysMonSource
     Q_OBJECT
 
 public:
-    explicit CustomSource(QObject *_parent, const QStringList &_args);
-    ~CustomSource() override;
+    explicit CustomSource(QObject *_parent);
+    ~CustomSource() override = default;
     QVariant data(const QString &_source) override;
-    [[nodiscard]] KSysGuard::SensorInfo *initialData(const QString &_source) const override;
-    void run() override{};
-    [[nodiscard]] QStringList sources() const override;
+    [[nodiscard]] QHash<QString, KSysGuard::SensorInfo *> sources() const override;
 
 private:
-    QStringList getSources();
     // configuration and values
     ExtItemAggregator<ExtScript> *m_extScripts = nullptr;
-    QStringList m_sources;
 };

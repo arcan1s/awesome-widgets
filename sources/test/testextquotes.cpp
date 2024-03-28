@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "testextquotes.h"
 
 #include <QtTest>
@@ -54,11 +53,11 @@ void TestExtQuotes::test_run()
 {
     // init spy
     QSignalSpy spy(extQuotes, SIGNAL(dataReceived(const QVariantHash &)));
-    QVariantHash firstValue = extQuotes->run();
+    auto firstValue = extQuotes->run();
 
     // check values
     QVERIFY(spy.wait(5000));
-    QList<QVariant> arguments = spy.takeFirst();
+    auto arguments = spy.takeFirst();
     for (auto &type : types)
         cache[type] = arguments.at(0).toHash()[extQuotes->tag(type)];
 
@@ -73,11 +72,11 @@ void TestExtQuotes::test_derivatives()
 {
     // init spy
     QSignalSpy spy(extQuotes, SIGNAL(dataReceived(const QVariantHash &)));
-    QVariantHash firstValue = extQuotes->run();
+    auto firstValue = extQuotes->run();
 
     // check values
     QVERIFY(spy.wait(5000));
-    QList<QVariant> arguments = spy.takeFirst();
+    auto arguments = spy.takeFirst();
     QVariantHash values;
     for (auto &type : types)
         values[type] = arguments.at(0).toHash()[extQuotes->tag(type)];
@@ -91,7 +90,7 @@ void TestExtQuotes::test_derivatives()
 
 void TestExtQuotes::test_copy()
 {
-    ExtQuotes *newExtQuotes = extQuotes->copy("/dev/null", 1);
+    auto newExtQuotes = extQuotes->copy("/dev/null", 1);
 
     QCOMPARE(newExtQuotes->interval(), extQuotes->interval());
     QCOMPARE(newExtQuotes->ticker(), extQuotes->ticker());

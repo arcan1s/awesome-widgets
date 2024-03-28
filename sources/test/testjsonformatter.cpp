@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "testjsonformatter.h"
 
 #include <QtTest>
@@ -54,7 +53,7 @@ void TestAWJsonFormatter::test_conversion()
 
 void TestAWJsonFormatter::test_copy()
 {
-    AWJsonFormatter *newFormatter = formatter->copy("/dev/null", 1);
+    auto newFormatter = formatter->copy("/dev/null", 1);
 
     QCOMPARE(newFormatter->path(), formatter->path());
     QCOMPARE(newFormatter->number(), 1);
@@ -68,25 +67,25 @@ void TestAWJsonFormatter::generate()
     value = AWTestLibrary::randomString();
 
     QVariantMap first;
-    QString firstKey = AWTestLibrary::randomString();
+    auto firstKey = AWTestLibrary::randomString();
     first[firstKey] = value;
 
-    int listCount = AWTestLibrary::randomInt(5) + 1;
-    int validCount = AWTestLibrary::randomInt(listCount);
+    auto listCount = AWTestLibrary::randomInt(5) + 1;
+    auto validCount = AWTestLibrary::randomInt(listCount);
     QVariantList second;
-    for (int i = 0; i < listCount; i++) {
+    for (auto i = 0; i < listCount; i++) {
         if (i == validCount) {
             second.append(first);
         } else {
-            QString key = AWTestLibrary::randomString();
-            QString val = AWTestLibrary::randomString();
+            auto key = AWTestLibrary::randomString();
+            auto val = AWTestLibrary::randomString();
             QVariantMap dict;
             dict[key] = val;
             second.append(dict);
         }
     }
 
-    QString thirdKey = AWTestLibrary::randomString();
+    auto thirdKey = AWTestLibrary::randomString();
     QVariantMap output;
     output[thirdKey] = second;
 

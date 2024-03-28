@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "testnetworksource.h"
 
 #include <QtTest>
@@ -27,7 +26,7 @@
 void TestNetworkSource::initTestCase()
 {
     AWTestLibrary::init();
-    source = new NetworkSource(this, QStringList());
+    source = new NetworkSource(this);
 }
 
 
@@ -39,7 +38,9 @@ void TestNetworkSource::cleanupTestCase()
 
 void TestNetworkSource::test_sources()
 {
-    QCOMPARE(source->sources(), QStringList({"device", "ssid"}));
+    auto sources = source->sources();
+    QVERIFY(sources.contains("device"));
+    QVERIFY(sources.contains("ssid"));
 }
 
 

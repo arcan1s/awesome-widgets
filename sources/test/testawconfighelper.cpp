@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "testawconfighelper.h"
 
 #include <QtTest>
@@ -45,7 +44,7 @@ void TestAWConfigHelper::test_configurationDirectory()
 
 void TestAWConfigHelper::test_exportConfiguration()
 {
-    QStringList keys = AWTestLibrary::randomStringList();
+    auto keys = AWTestLibrary::randomStringList();
     for (auto &key : keys)
         map[key] = AWTestLibrary::randomString();
     filename = AWTestLibrary::randomFilenames().first;
@@ -56,7 +55,7 @@ void TestAWConfigHelper::test_exportConfiguration()
 
 void TestAWConfigHelper::test_importConfiguration()
 {
-    QVariantMap imported = plugin->importConfiguration(filename, true, true, true);
+    auto imported = plugin->importConfiguration(filename, true, true, true);
     QVariantMap converted;
     for (auto &key : map.keys())
         converted[key] = map.value(key);

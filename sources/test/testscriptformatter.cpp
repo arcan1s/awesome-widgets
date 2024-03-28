@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "testscriptformatter.h"
 
 #include <QtTest>
@@ -52,7 +51,7 @@ void TestAWScriptFormatter::test_values()
 
 void TestAWScriptFormatter::test_conversion()
 {
-    QString string = AWTestLibrary::randomString();
+    auto string = AWTestLibrary::randomString();
     QCOMPARE(formatter->convert(string), string);
 }
 
@@ -93,7 +92,7 @@ void TestAWScriptFormatter::test_hasReturn()
 
 void TestAWScriptFormatter::test_copy()
 {
-    AWScriptFormatter *newFormatter = formatter->copy("/dev/null", 1);
+    auto newFormatter = formatter->copy("/dev/null", 1);
 
     QCOMPARE(newFormatter->appendCode(), formatter->appendCode());
     QCOMPARE(newFormatter->code(), formatter->code());

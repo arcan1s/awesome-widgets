@@ -17,29 +17,17 @@
 
 #include "desktopsource.h"
 
-#include <KWindowSystem/KWindowSystem>
-#include <ksysguard/formatter/Unit.h>
-#include <ksysguard/systemstats/SensorInfo.h>
-#include <taskmanager/virtualdesktopinfo.h>
+#include <QDBusConnection>
+#include <QDBusMessage>
+#include <QDBusVariant>
 
 #include "awdebug.h"
 
 
-DesktopSource::DesktopSource(QObject *_parent, const QStringList &_args)
-    : AbstractExtSysMonSource(_parent, _args)
-{
-    Q_ASSERT(_args.count() == 0);
-    qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
-
-    m_vdi = new TaskManager::VirtualDesktopInfo(this);
-}
-
-
-DesktopSource::~DesktopSource()
+DesktopSource::DesktopSource(QObject *_parent)
+    : AbstractExtSysMonSource(_parent)
 {
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
-
-    m_vdi->deleteLater();
 }
 
 
@@ -47,60 +35,72 @@ QVariant DesktopSource::data(const QString &_source)
 {
     qCDebug(LOG_ESS) << "Source" << _source;
 
-    auto nativeIndex = m_vdi->position(m_vdi->currentDesktop());
-    auto decrement = KWindowSystem::isPlatformX11() ? 1 : 0;
-    auto current = nativeIndex - decrement;
+    auto current = getDBusProperty({"org.kde.KWin.VirtualDesktopManager", "current"}).toString();
+    auto desktops
+        = extractDesktops(getDBusProperty({"org.kde.KWin.VirtualDesktopManager", "desktops"}).value<QDBusArgument>());
 
     if (_source == "name") {
-        return m_vdi->desktopNames().at(current);
+        return desktops[current].second;
     } else if (_source == "number") {
-        return current + 1;
-    } else if (_source == "names") {
-        return m_vdi->desktopNames();
+        return desktops[current].first + 1;
     } else if (_source == "count") {
-        return m_vdi->numberOfDesktops();
+        return desktops.count();
     }
 
     return {};
 }
 
 
-KSysGuard::SensorInfo *DesktopSource::initialData(const QString &_source) const
+QHash<QString, KSysGuard::SensorInfo *> DesktopSource::sources() const
 {
-    qCDebug(LOG_ESS) << "Source" << _source;
+    auto result = QHash<QString, KSysGuard::SensorInfo *>();
 
-    auto data = new KSysGuard::SensorInfo();
-    if (_source == "name") {
-        data->name = "Current desktop name";
-        data->variantType = QVariant::String;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source == "number") {
-        data->min = 0;
-        data->name = "Current desktop number";
-        data->variantType = QVariant::Int;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source == "names") {
-        data->name = "All desktops by name";
-        data->variantType = QVariant::StringList;
-        data->unit = KSysGuard::UnitNone;
-    } else if (_source == "count") {
-        data->min = 0;
-        data->name = "Desktops count";
-        data->variantType = QVariant::Int;
-        data->unit = KSysGuard::UnitNone;
-    }
+    result.insert("name", makeSensorInfo("Current desktop name", QVariant::String));
+    result.insert("number", makeSensorInfo("Current desktop number", QVariant::Int));
+    result.insert("count", makeSensorInfo("Desktops count", QVariant::Int));
 
-    return data;
+    return result;
 }
 
 
-QStringList DesktopSource::sources() const
+QHash<QString, QPair<int, QString>> DesktopSource::extractDesktops(const QDBusArgument &_result)
 {
-    QStringList sources;
-    sources.append("name");
-    sources.append("number");
-    sources.append("names");
-    sources.append("count");
+    QHash<QString, QPair<int, QString>> result;
 
-    return sources;
+    _result.beginArray();
+    while (!_result.atEnd()) {
+        _result.beginStructure();
+
+        int index;
+        QString uuid, name;
+        _result >> index >> uuid >> name;
+
+        _result.endStructure();
+
+        result[uuid] = {index, name};
+    }
+    _result.endArray();
+
+    return result;
+}
+
+
+QVariant DesktopSource::getDBusProperty(const QVariantList &_args)
+{
+    qCDebug(LOG_ESS) << "Get VDI property" << _args;
+
+    auto bus = QDBusConnection::sessionBus();
+    auto request
+        = QDBusMessage::createMethodCall(KWinDBusAdapter, VDIDBusPath, PropertyDBusInterface, PropertyDBusMethod);
+    request.setArguments(_args);
+
+    auto response = bus.call(request, QDBus::BlockWithGui, REQUEST_TIMEOUT);
+
+    if ((response.type() != QDBusMessage::ReplyMessage) || (response.arguments().isEmpty())) {
+        qCWarning(LOG_ESS) << "Error message" << response.errorMessage();
+        return {};
+    } else {
+        auto value = response.arguments().first();
+        return value.value<QDBusVariant>().variant();
+    }
 }

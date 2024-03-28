@@ -15,7 +15,6 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
 #include "testlistformatter.h"
 
 #include <QtTest>
@@ -50,7 +49,7 @@ void TestAWListFormatter::test_values()
 
 void TestAWListFormatter::test_conversion()
 {
-    QStringList value = AWTestLibrary::randomStringList();
+    auto value = AWTestLibrary::randomStringList();
     QCOMPARE(formatter->convert(value), value.join(separator));
 }
 
@@ -58,8 +57,8 @@ void TestAWListFormatter::test_conversion()
 void TestAWListFormatter::test_sorted()
 {
     formatter->setSorted(true);
-    QStringList value = AWTestLibrary::randomStringList();
-    QString received = formatter->convert(value);
+    auto value = AWTestLibrary::randomStringList();
+    auto received = formatter->convert(value);
 
     value.sort();
     QCOMPARE(received, value.join(separator));
@@ -68,8 +67,8 @@ void TestAWListFormatter::test_sorted()
 
 void TestAWListFormatter::test_filter()
 {
-    QStringList value = AWTestLibrary::randomStringList();
-    QStringList filters = AWTestLibrary::randomSelect(value);
+    auto value = AWTestLibrary::randomStringList();
+    auto filters = AWTestLibrary::randomSelect(value);
     value.sort();
     formatter->setFilter(QString("(^%1$)").arg(filters.join("$|^")));
 
@@ -79,7 +78,7 @@ void TestAWListFormatter::test_filter()
 
 void TestAWListFormatter::test_copy()
 {
-    AWListFormatter *newFormatter = formatter->copy("/dev/null", 1);
+    auto newFormatter = formatter->copy("/dev/null", 1);
 
     QCOMPARE(newFormatter->number(), 1);
     QCOMPARE(newFormatter->filter(), formatter->filter());
