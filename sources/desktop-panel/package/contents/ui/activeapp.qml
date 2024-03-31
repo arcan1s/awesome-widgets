@@ -18,8 +18,8 @@
 import QtQuick 2.15
 import org.kde.kcmutils as KCM
 
-import org.kde.plasma.private.desktoppanel 1.0
-import "."
+import org.kde.plasma.awesomewidgets
+import org.kde.plasma.private.desktoppanel
 
 
 KCM.SimpleKCM {

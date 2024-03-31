@@ -1,0 +1,23 @@
+# common QML constants
+singleton General 1.0 General.qml
+
+# custom QML UI classes
+AboutTab AboutTab.qml
+AWExtensions AWExtensions.qml
+AWInfoLabel AWInfoLabel.qml
+AWTagSelector AWTagSelector.qml
+AWTextEditor AWTextEditor.qml
+BugReport BugReport.qml
+ButtonSelector ButtonSelector.qml
+CheckBoxSelector CheckBoxSelector.qml
+ColorSelector ColorSelector.qml
+ComboBoxSelector ComboBoxSelector.qml
+ExportDialog ExportDialog.qml
+FontSelector FontSelector.qml
+HtmlDefaultFunctionsBar HtmlDefaultFunctionsBar.qml
+HtmlEditorButton HtmlEditorButton.qml
+HtmlEditorColor HtmlEditorColor.qml
+HtmlEditorFont HtmlEditorFont.qml
+ImportDialog ImportDialog.qml
+IntegerSelector IntegerSelector.qml
+LineSelector LineSelector.qml

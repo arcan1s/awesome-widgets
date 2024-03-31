@@ -19,8 +19,8 @@ import QtQuick 2.15
 import QtQuick.Controls
 import org.kde.kcmutils as KCM
 
-import org.kde.plasma.private.awesomewidget 1.0
-import "."
+import org.kde.plasma.awesomewidgets
+import org.kde.plasma.private.awesomewidget
 
 
 KCM.SimpleKCM {

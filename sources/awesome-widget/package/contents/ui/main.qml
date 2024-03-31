@@ -22,8 +22,8 @@ import QtQuick.Layouts
 import org.kde.plasma.core as PlasmaCore
 import org.kde.plasma.plasmoid 2.0
 
-import org.kde.plasma.private.awesomewidget 1.0
-import "."
+import org.kde.plasma.awesomewidgets
+import org.kde.plasma.private.awesomewidget
 
 
 PlasmoidItem {
