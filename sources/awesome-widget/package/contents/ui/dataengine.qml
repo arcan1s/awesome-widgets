@@ -191,10 +191,6 @@ KCM.SimpleKCM {
     Component.onCompleted: {
         // init submodule
         awKeys.updateCache()
-
-        // update hdd model
-        hdd.model = awKeys.getHddDevices()
-        hdd.onCompleted
     }
 
     Component.onDestruction: {

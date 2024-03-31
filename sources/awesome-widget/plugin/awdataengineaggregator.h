@@ -49,7 +49,7 @@ public slots:
     void dropSource(const QString &_source);
     void sensorAdded(const QString &_sensor);
     void sensorRemoved(const QString &_sensor);
-    void updateData(KSysGuard::SensorDataList _data);
+    void updateData(const KSysGuard::SensorDataList &_data);
     void updateSensors(const QHash<QString, KSysGuard::SensorInfo> &_sensors);
 
 private:

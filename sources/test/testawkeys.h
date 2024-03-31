@@ -31,7 +31,6 @@ private slots:
     void initTestCase();
     void cleanupTestCase();
     // test
-    void test_hddDevices();
     void test_dictKeys();
     void test_pattern();
     void test_tooltip();

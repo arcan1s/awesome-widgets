@@ -73,10 +73,7 @@ void ExtSysMonSensor::update()
 
 void ExtSysMonSensor::loadProperties()
 {
-    auto sensors = m_source->sources();
-    for (auto sensor = sensors.cbegin(); sensor != sensors.cend(); ++sensor) {
-        auto source = sensor.key();
-        auto info = sensor.value();
+    for (auto [source, info] : m_source->sources().asKeyValueRange()) {
         auto property = new KSysGuard::SensorProperty(source, info->name, this);
 
         property->setUnit(info->unit);

@@ -2,17 +2,17 @@
 find_package(Gettext REQUIRED)
 
 # main qt libraries
-find_package(Qt6 6.6.0 REQUIRED COMPONENTS Core DBus Network Qml Test Widgets)
+find_package(Qt6 6.6.0 REQUIRED COMPONENTS Core Concurrent DBus Network Qml Test Widgets)
 add_definitions(
         ${Qt6Core_DEFINITIONS} ${Qt6DBus_DEFINITIONS} ${Qt6Network_DEFINITIONS}
         ${Qt6Qml_DEFINITIONS} ${Qt6Widgets_DEFINITIONS}
 )
 set(Qt_INCLUDE
-        ${Qt6Core_INCLUDE_DIRS} ${Qt6DBus_INCLUDE_DIRS} ${Qt6Network_INCLUDE_DIRS}
+        ${Qt6Core_INCLUDE_DIRS} ${Qt6Concurrent_INCLUDE_DIRS} ${Qt6DBus_INCLUDE_DIRS} ${Qt6Network_INCLUDE_DIRS}
         ${Qt6Qml_INCLUDE_DIRS} ${Qt6Widgets_INCLUDE_DIRS}
 )
 set(Qt_LIBRARIES
-        ${Qt6Core_LIBRARIES} ${Qt6DBus_LIBRARIES} ${Qt6Network_LIBRARIES}
+        ${Qt6Core_LIBRARIES} ${Qt6Concurrent_LIBRARIES} ${Qt6DBus_LIBRARIES} ${Qt6Network_LIBRARIES}
         ${Qt6Qml_LIBRARIES} ${Qt6Widgets_LIBRARIES}
 )
 

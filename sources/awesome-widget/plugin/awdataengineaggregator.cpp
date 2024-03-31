@@ -139,7 +139,7 @@ void AWDataEngineAggregator::sensorRemoved(const QString &_sensor)
 }
 
 
-void AWDataEngineAggregator::updateData(KSysGuard::SensorDataList _data)
+void AWDataEngineAggregator::updateData(const KSysGuard::SensorDataList &_data)
 {
     emit(dataUpdated(m_sensors, _data));
 }
@@ -147,9 +147,9 @@ void AWDataEngineAggregator::updateData(KSysGuard::SensorDataList _data)
 
 void AWDataEngineAggregator::updateSensors(const QHash<QString, KSysGuard::SensorInfo> &_sensors)
 {
-    for (auto sensor = _sensors.cbegin(); sensor != _sensors.cend(); ++sensor) {
-        if (!isValidSensor(sensor.value()))
+    for (auto [source, sensor] : _sensors.asKeyValueRange()) {
+        if (!isValidSensor(sensor))
             continue;
-        m_sensors.insert(sensor.key(), sensor.value());
+        m_sensors.insert(source, sensor);
     }
 }

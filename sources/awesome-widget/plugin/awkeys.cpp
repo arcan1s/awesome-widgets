@@ -17,11 +17,11 @@
 
 #include "awkeys.h"
 
+#include <QtConcurrent>
 #include <QDBusConnection>
 #include <QDBusError>
 #include <QThread>
 #include <QTimer>
-#include <QtConcurrent/QtConcurrent>
 
 #include "awdataaggregator.h"
 #include "awdataengineaggregator.h"
@@ -153,26 +153,6 @@ QStringList AWKeys::dictKeys(const bool _sorted, const QString &_regexp) const
 }
 
 
-QVariantList AWKeys::getHddDevices() const
-{
-    QStringList hddDevices = m_keyOperator->devices("hdd");
-    // required by selector in the UI
-    hddDevices.insert(0, "disable");
-    hddDevices.insert(0, "auto");
-
-    // build model
-    QVariantList devices;
-    for (auto &device : hddDevices) {
-        QVariantMap model;
-        model["label"] = device;
-        model["name"] = device;
-        devices.append(model);
-    }
-
-    return devices;
-}
-
-
 QString AWKeys::infoByKey(const QString &_key) const
 {
     qCDebug(LOG_AW) << "Requested info for key" << _key;
@@ -202,12 +182,14 @@ void AWKeys::editItem(const QString &_type)
 
 void AWKeys::dataUpdated(const QHash<QString, KSysGuard::SensorInfo> &_sensors, const KSysGuard::SensorDataList &_data)
 {
-    for (auto &single : _data) {
-        if (_sensors.contains(single.sensorProperty)) {
-            setDataBySource(single.sensorProperty, _sensors.value(single.sensorProperty), single);
-        }
-        // TODO use QtConcurrent::map or something like that
-        //        QtConcurrent::run(m_threadPool, this, &AWKeys::setDataBySource, "ss", sensor);
+    qCDebug(LOG_AW) << "Update data for" << _data.count() << "items";
+
+    // though it is better to use QtConcurrent::map here, but it might cause stack corruption
+    for (auto &data : _data) {
+        if (!_sensors.contains(data.sensorProperty))
+            continue;
+        auto sensor = _sensors[data.sensorProperty];
+        std::ignore = QtConcurrent::run(m_threadPool, &AWKeys::setDataBySource, this, data.sensorProperty, sensor, data.payload);
     }
 }
 
@@ -272,7 +254,7 @@ void AWKeys::calculateValues()
     m_values["memtotmb"] = m_values["memusedmb"].toLongLong() + m_values["memfreemb"].toLongLong();
     m_values["memtotgb"] = m_values["memusedgb"].toDouble() + m_values["memfreegb"].toDouble();
     // mem
-    m_values["mem"] = 100.0f * m_values["memmb"].toDouble() / m_values["memtotmb"].toDouble();
+    m_values["mem"] = 100.0 * m_values["memmb"].toDouble() / m_values["memtotmb"].toDouble();
 
     // up, down, upkb, downkb, upunits, downunits
     int netIndex = m_keyOperator->devices("net").indexOf(m_values["netdev"].toString());
@@ -291,7 +273,7 @@ void AWKeys::calculateValues()
     m_values["swaptotmb"] = m_values["swapmb"].toLongLong() + m_values["swapfreemb"].toLongLong();
     m_values["swaptotgb"] = m_values["swapgb"].toDouble() + m_values["swapfreegb"].toDouble();
     // swap
-    m_values["swap"] = 100.0f * m_values["swapmb"].toDouble() / m_values["swaptotmb"].toDouble();
+    m_values["swap"] = 100.0 * m_values["swapmb"].toDouble() / m_values["swaptotmb"].toDouble();
 
     // user defined keys
     for (auto &key : m_keyOperator->userKeys())
@@ -357,10 +339,9 @@ QString AWKeys::parsePattern(QString _pattern) const
 }
 
 
-void AWKeys::setDataBySource(const QString &_source, const KSysGuard::SensorInfo &_sensor,
-                             const KSysGuard::SensorData &_data)
+void AWKeys::setDataBySource(const QString &_source, const KSysGuard::SensorInfo &_sensor, const QVariant &_value)
 {
-    qCDebug(LOG_AW) << "Source" << _source << _sensor.name << "with data" << _data.payload;
+    qCDebug(LOG_AW) << "Source" << _source << _sensor.name << "with data" << _value;
 
     // first list init
     auto tags = m_aggregator->keysFromSource(_source);
@@ -374,6 +355,6 @@ void AWKeys::setDataBySource(const QString &_source, const KSysGuard::SensorInfo
     }
 
     m_mutex.lock();
-    std::for_each(tags.cbegin(), tags.cend(), [this, &_data](const QString &tag) { m_values[tag] = _data.payload; });
+    std::for_each(tags.cbegin(), tags.cend(), [this, _value](const QString &tag) { m_values[tag] = _value; });
     m_mutex.unlock();
 }
