@@ -16,8 +16,6 @@
  ***************************************************************************/
 
 import QtQuick 2.15
-import QtQuick.Controls
-import QtQuick.Dialogs
 import QtQuick.Layouts
 import org.kde.plasma.core as PlasmaCore
 import org.kde.plasma.plasmoid 2.0
@@ -38,9 +36,6 @@ PlasmoidItem {
     }
     AWTelemetryHandler {
         id: awTelemetryHandler
-    }
-    BugReport {
-        id: bugReport
     }
 
     property variant tooltipSettings: {
@@ -92,7 +87,7 @@ PlasmoidItem {
 
         color: plasmoid.configuration.fontColor
         font.family: plasmoid.configuration.fontFamily
-        font.italic: plasmoid.configuration.fontStyle === "italic" ? true : false
+        font.italic: plasmoid.configuration.fontStyle === "italic"
         font.pointSize: plasmoid.configuration.fontSize
         font.weight: General.fontWeight[plasmoid.configuration.fontWeight]
 
@@ -111,35 +106,11 @@ PlasmoidItem {
         }
     }
 
-    Dialog {
-        id: tagSelector
-        title: i18n("Select tag")
-
-        ComboBox {
-            id: tagSelectorBox
-            width: parent.width
-            editable: true
-        }
-
-        onAccepted: {
-            const tag = tagSelectorBox.editText
-            let message = i18n("Tag: %1", tag)
-            message += "<br>"
-            message += i18n("Value: %1", awKeys.valueByKey(tag))
-            message += "<br>"
-            message += i18n("Info: %1", awKeys.infoByKey(tag))
-            awActions.sendNotification("tag", message)
-        }
-    }
-
     Plasmoid.contextualActions: [
         PlasmaCore.Action {
-            text: i18n("Request key")
+            text: i18n("Run monitor")
             icon.name: "utilities-system-monitor"
-            onTriggered: {
-                tagSelectorBox.model = awKeys.dictKeys(true)
-                tagSelector.open()
-            }
+            onTriggered: awActions.runCmd("plasma-systemmonitor", [])
         },
         PlasmaCore.Action {
             text: i18n("Show README")
@@ -150,14 +121,6 @@ PlasmoidItem {
             text: i18n("Check updates")
             icon.name: "system-software-update"
             onTriggered: awActions.checkUpdates(true)
-        },
-        PlasmaCore.Action {
-            text: i18n("Report bug")
-            icon.name: "tools-report-bug"
-            onTriggered: {
-                bugReport.reset()
-                bugReport.open()
-            }
         }
     ]
 

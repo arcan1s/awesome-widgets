@@ -27,8 +27,8 @@ KCM.SimpleKCM {
     id: advancedPage
 
     // backend
-    AWActions {
-        id: awActions
+    AWConfigHelper {
+        id: awConfig
     }
 
     property alias cfg_background: background.checked
@@ -52,7 +52,6 @@ KCM.SimpleKCM {
     property alias cfg_telemetryId: telemetryId.value
 
     Column {
-        id: pageColumn
         anchors.fill: parent
 
         CheckBoxSelector {
@@ -198,7 +197,7 @@ KCM.SimpleKCM {
 
                 ButtonSelector {
                     value: i18n("Drop key cache")
-                    onButtonActivated: awActions.dropCache()
+                    onButtonActivated: awConfig.dropCache()
                 }
 
                 ButtonSelector {

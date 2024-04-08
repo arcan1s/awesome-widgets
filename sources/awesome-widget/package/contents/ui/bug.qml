@@ -19,24 +19,21 @@ import QtQuick 2.15
 import QtQuick.Controls
 import QtQuick.Dialogs
 import QtQuick.Layouts
+import org.kde.kcmutils as KCM
 
-import org.kde.plasma.private.awesomewidget 1.0
+import org.kde.plasma.awesomewidgets
+import org.kde.plasma.private.awesomewidget
 
 
-Dialog {
-    id: reportDialog
+KCM.SimpleKCM {
+    id: bugPage
+
     AWActions {
         id: awActions
     }
     AWBugReporter {
         id: awBugReporter
     }
-
-    width: 640
-    height: 480
-
-    title: i18n("Report a bug")
-    standardButtons: DialogButtonBox.Ok | DialogButtonBox.Cancel | DialogButtonBox.Reset
 
     ColumnLayout {
         anchors.fill: parent
@@ -52,7 +49,6 @@ Dialog {
 
             GroupBox {
                 Layout.fillWidth: true
-                height: parent.height / 5
                 title: i18n("Description")
 
                 TextArea {
@@ -64,7 +60,6 @@ Dialog {
 
             GroupBox {
                 Layout.fillWidth: true
-                height: parent.height / 5
                 title: i18n("Steps to reproduce")
 
                 TextArea {
@@ -76,7 +71,6 @@ Dialog {
 
             GroupBox {
                 Layout.fillWidth: true
-                height: parent.height / 5
                 title: i18n("Expected result")
 
                 TextArea {
@@ -130,27 +124,36 @@ Dialog {
                 FileDialog {
                     id: logPath
                     title: i18n("Open log file")
-                    onAccepted:
-                    logBody.text = awActions.getFileContent(logPath.fileUrl.toString().replace("file://", ""))
+                    onAccepted: logBody.text = awActions.getFileContent(logPath.selectedFile.toString().replace("file://", ""))
                 }
+            }
+
+            DialogButtonBox {
+                Layout.fillWidth: true
+
+                standardButtons: DialogButtonBox.Ok | DialogButtonBox.Reset
+                alignment: Qt.AlignRight
+                onAccepted: sendBugReport()
+                onReset: resetDialog()
             }
         }
     }
 
-    onAccepted: {
+    function sendBugReport() {
         const text = awBugReporter.generateText(description.text, reproduce.text, expected.text, logBody.text)
         awBugReporter.sendBugReport(title.text, text)
     }
 
-    onReset: {
+    function resetDialog() {
         title.text = ""
         description.text = ""
         reproduce.text = ""
         expected.text = ""
+        logBody.text = ""
     }
 
     Component.onCompleted: {
+        resetDialog()
         awBugReporter.doConnect()
     }
 }
-

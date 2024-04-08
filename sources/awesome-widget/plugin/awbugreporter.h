@@ -40,8 +40,8 @@ signals:
 
 private slots:
     void issueReplyReceived(QNetworkReply *_reply);
+    void openBugReport();
     void showInformation(int _number, const QString &_url);
-    void userReplyOnBugReport(QAbstractButton *_button);
 
 private:
     QString m_lastBugUrl;

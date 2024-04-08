@@ -17,11 +17,11 @@
 
 #include "awkeys.h"
 
-#include <QtConcurrent>
 #include <QDBusConnection>
 #include <QDBusError>
 #include <QThread>
 #include <QTimer>
+#include <QtConcurrent>
 
 #include "awdataaggregator.h"
 #include "awdataengineaggregator.h"
@@ -189,7 +189,8 @@ void AWKeys::dataUpdated(const QHash<QString, KSysGuard::SensorInfo> &_sensors, 
         if (!_sensors.contains(data.sensorProperty))
             continue;
         auto sensor = _sensors[data.sensorProperty];
-        std::ignore = QtConcurrent::run(m_threadPool, &AWKeys::setDataBySource, this, data.sensorProperty, sensor, data.payload);
+        std::ignore = QtConcurrent::run(m_threadPool, &AWKeys::setDataBySource, this, data.sensorProperty, sensor,
+                                        data.payload);
     }
 }
 

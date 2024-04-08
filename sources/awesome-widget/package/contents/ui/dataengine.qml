@@ -37,7 +37,6 @@ KCM.SimpleKCM {
     property variant cfg_dataengine: awConfig.readDataEngineConfiguration()
 
     Column {
-        id: pageColumn
         anchors.fill: parent
 
         GroupBox {

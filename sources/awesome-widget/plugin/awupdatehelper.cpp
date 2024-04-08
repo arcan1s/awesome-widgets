@@ -18,6 +18,7 @@
 #include "awupdatehelper.h"
 
 #include <KI18n/KLocalizedString>
+#include <KNotifications/KNotification>
 
 #include <QDesktopServices>
 #include <QJsonDocument>
@@ -70,8 +71,7 @@ bool AWUpdateHelper::checkVersion()
     qCInfo(LOG_AW) << "Found version" << version << "actual one is" << m_foundVersion;
 
     if ((version != m_foundVersion) && (!QString(CHANGELOG).isEmpty())) {
-        genMessageBox(i18nc("Changelog of %1", VERSION), QString(CHANGELOG).replace('@', '\n'), QMessageBox::Ok)
-            ->open();
+        sendNotification(i18nc("Changelog of %1", VERSION), QString(CHANGELOG).replace('@', '\n'));
         return true;
     } else if (version != m_foundVersion) {
         qCWarning(LOG_AW) << "No changelog information provided";
@@ -84,6 +84,12 @@ bool AWUpdateHelper::checkVersion()
 }
 
 
+void AWUpdateHelper::openReleasesPage()
+{
+    QDesktopServices::openUrl(QString(RELEASES) + m_foundVersion.toString());
+}
+
+
 void AWUpdateHelper::showInfo(const QVersionNumber &_version)
 {
     qCDebug(LOG_AW) << "Version" << _version;
@@ -91,7 +97,7 @@ void AWUpdateHelper::showInfo(const QVersionNumber &_version)
     auto text = i18n("You are using the actual version %1", _version.toString());
     if (!QString(COMMIT_SHA).isEmpty())
         text += QString(" (%1)").arg(QString(COMMIT_SHA));
-    return genMessageBox(i18n("No new version found"), text, QMessageBox::Ok)->open();
+    sendNotification(i18n("No new version found"), text);
 }
 
 
@@ -105,24 +111,9 @@ void AWUpdateHelper::showUpdates(const QVersionNumber &_version)
     text += i18n("New version : %1", _version.toString()) + "\n\n";
     text += i18n("Click \"Ok\" to download");
 
-    genMessageBox(i18n("There are updates"), text, QMessageBox::Ok | QMessageBox::Cancel)
-        ->open(this, SLOT(userReplyOnUpdates(QAbstractButton *)));
-}
-
-
-void AWUpdateHelper::userReplyOnUpdates(QAbstractButton *_button)
-{
-    auto ret = dynamic_cast<QMessageBox *>(sender())->buttonRole(_button);
-    qCInfo(LOG_AW) << "User select" << ret;
-
-    switch (ret) {
-    case QMessageBox::AcceptRole:
-        QDesktopServices::openUrl(QString(RELEASES) + m_foundVersion.toString());
-        break;
-    case QMessageBox::RejectRole:
-    default:
-        break;
-    }
+    auto event = sendNotification(i18n("There are updates"), text);
+    auto action = event->addAction(i18n("Details"));
+    connect(action, &KNotificationAction::activated, this, &AWUpdateHelper::openReleasesPage);
 }
 
 
@@ -158,18 +149,12 @@ void AWUpdateHelper::versionReplyReceived(QNetworkReply *_reply, const bool _sho
 
 
 // additional method which is used to show message box which does not block UI
-QMessageBox *AWUpdateHelper::genMessageBox(const QString &_title, const QString &_body,
-                                           const QMessageBox::StandardButtons _buttons)
+KNotification *AWUpdateHelper::sendNotification(const QString &_title, const QString &_body)
 {
     qCDebug(LOG_AW) << "Construct message box with title" << _title << "and body" << _body;
 
-    auto msgBox = new QMessageBox(nullptr);
-    msgBox->setAttribute(Qt::WA_DeleteOnClose);
-    msgBox->setModal(false);
-    msgBox->setWindowTitle(_title);
-    msgBox->setText(_body);
-    msgBox->setStandardButtons(_buttons);
-    msgBox->setIcon(QMessageBox::Information);
+    auto event = KNotification::event("system", _title, _body);
+    event->setComponentName("plasma-applet-org.kde.plasma.awesome-widget");
 
-    return msgBox;
+    return event;
 }

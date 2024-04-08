@@ -18,6 +18,7 @@
 #include "awbugreporter.h"
 
 #include <KI18n/KLocalizedString>
+#include <KNotifications/KNotification>
 
 #include <QDesktopServices>
 #include <QJsonDocument>
@@ -114,6 +115,12 @@ void AWBugReporter::issueReplyReceived(QNetworkReply *_reply)
 }
 
 
+void AWBugReporter::openBugReport()
+{
+    QDesktopServices::openUrl(m_lastBugUrl);
+}
+
+
 void AWBugReporter::showInformation(const int _number, const QString &_url)
 {
     qCDebug(LOG_AW) << "Created issue with number" << _number << "and url" << _url;
@@ -121,29 +128,9 @@ void AWBugReporter::showInformation(const int _number, const QString &_url)
     // cache url first
     m_lastBugUrl = _url;
 
-    auto msgBox = new QMessageBox(nullptr);
-    msgBox->setAttribute(Qt::WA_DeleteOnClose);
-    msgBox->setModal(false);
-    msgBox->setWindowTitle(i18n("Issue created"));
-    msgBox->setText(i18n("Issue %1 has been created", _number));
-    msgBox->setStandardButtons(QMessageBox::Open | QMessageBox::Close);
-    msgBox->setIcon(QMessageBox::Information);
+    auto event = KNotification::event("system", i18n("Issue created"), i18n("Issue %1 has been created", _number));
+    event->setComponentName("plasma-applet-org.kde.plasma.awesome-widget");
 
-    msgBox->open(this, SLOT(userReplyOnBugReport(QAbstractButton *)));
-}
-
-
-void AWBugReporter::userReplyOnBugReport(QAbstractButton *_button)
-{
-    auto ret = dynamic_cast<QMessageBox *>(sender())->buttonRole(_button);
-    qCInfo(LOG_AW) << "User select" << ret;
-
-    switch (ret) {
-    case QMessageBox::AcceptRole:
-        QDesktopServices::openUrl(m_lastBugUrl);
-        break;
-    case QMessageBox::RejectRole:
-    default:
-        break;
-    }
+    auto action = event->addAction(i18n("Details"));
+    connect(action, &KNotificationAction::activated, this, &AWBugReporter::openBugReport);
 }

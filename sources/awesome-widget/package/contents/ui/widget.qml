@@ -40,7 +40,6 @@ KCM.SimpleKCM {
     signal needTextUpdate(string newText)
 
     Column {
-        id: pageColumn
         anchors.fill: parent
 
         AWInfoLabel {}

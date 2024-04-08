@@ -17,11 +17,11 @@
 
 #pragma once
 
-#include <QMessageBox>
 #include <QObject>
 #include <QVersionNumber>
 
 
+class KNotification;
 class QNetworkReply;
 
 class AWUpdateHelper : public QObject
@@ -35,14 +35,13 @@ public:
     bool checkVersion();
 
 private slots:
+    void openReleasesPage();
     static void showInfo(const QVersionNumber &_version);
     void showUpdates(const QVersionNumber &_version);
-    void userReplyOnUpdates(QAbstractButton *_button);
     void versionReplyReceived(QNetworkReply *_reply, bool _showAnyway);
 
 private:
-    static QMessageBox *genMessageBox(const QString &_title, const QString &_body,
-                                      QMessageBox::StandardButtons _buttons);
+    static KNotification *sendNotification(const QString &_title, const QString &_body);
     QVersionNumber m_foundVersion;
     QString m_genericConfig;
 };

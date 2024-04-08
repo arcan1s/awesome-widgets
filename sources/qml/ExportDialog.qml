@@ -41,7 +41,7 @@ Item {
         onAccepted: {
             const status = awConfig.exportConfiguration(
                 configuration,
-                fileDialog.fileUrl.toString().replace("file://", ""))
+                fileDialog.selectedFile.toString().replace("file://", ""))
             if (status) {
                 messageDialog.title = i18n("Success")
                 messageDialog.text = i18n("Please note that binary files were not copied")

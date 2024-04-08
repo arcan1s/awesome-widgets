@@ -42,7 +42,6 @@ KCM.SimpleKCM {
     property string cfg_textStyle: textStyle.value
 
     Column {
-        id: pageColumn
         anchors.fill: parent
 
         FontSelector {

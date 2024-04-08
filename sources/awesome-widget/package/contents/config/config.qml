@@ -52,6 +52,12 @@ ConfigModel {
     }
 
     ConfigCategory {
+        name: i18n("Report bug")
+        icon: "tools-report-bug"
+        source: "bug.qml"
+    }
+
+    ConfigCategory {
         name: i18n("About")
         icon: "help-about"
         source: "about.qml"

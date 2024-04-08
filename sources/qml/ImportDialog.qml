@@ -58,7 +58,7 @@ Item {
 
         onAccepted: {
             const importConfig = awConfig.importConfiguration(
-                fileDialog.fileUrl.toString().replace("file://", ""),
+                fileDialog.selectedFile.toString().replace("file://", ""),
                 importPlasmoid.checked, importExtensions.checked,
                 importAdds.checked)
             configurationReceived(importConfig)

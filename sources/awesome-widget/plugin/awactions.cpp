@@ -75,7 +75,7 @@ bool AWActions::runCmd(const QString &_cmd, const QStringList &_args)
 {
     qCDebug(LOG_AW) << "Cmd" << _cmd << "args" << _args;
 
-    sendNotification(QString("Info"), i18n("Run %1", _cmd));
+    sendNotification("system", i18n("Run %1", _cmd));
 
     return QProcess::startDetached(_cmd, _args);
 }
@@ -85,20 +85,6 @@ bool AWActions::runCmd(const QString &_cmd, const QStringList &_args)
 void AWActions::showReadme()
 {
     QDesktopServices::openUrl(QUrl(HOMEPAGE));
-}
-
-
-void AWActions::showLegacyInfo()
-{
-    auto msgBox = new QMessageBox(nullptr);
-    msgBox->setAttribute(Qt::WA_DeleteOnClose);
-    msgBox->setModal(false);
-    msgBox->setWindowTitle(i18n("Not supported"));
-    msgBox->setText(i18n("You are using mammoth's Qt version, try to update it first"));
-    msgBox->setStandardButtons(QMessageBox::Ok);
-    msgBox->setIcon(QMessageBox::Information);
-
-    msgBox->open();
 }
 
 
@@ -135,7 +121,6 @@ void AWActions::sendNotification(const QString &_eventId, const QString &_messag
 {
     qCDebug(LOG_AW) << "Event" << _eventId << "with message" << _message;
 
-    KNotification *notification
-        = KNotification::event(_eventId, QString("Awesome Widget ::: %1").arg(_eventId), _message);
-    notification->setComponentName("plasma-applet-org.kde.plasma.awesome-widget");
+    auto *event = KNotification::event(_eventId, QString("Awesome Widget ::: %1").arg(_eventId), _message);
+    event->setComponentName("plasma-applet-org.kde.plasma.awesome-widget");
 }

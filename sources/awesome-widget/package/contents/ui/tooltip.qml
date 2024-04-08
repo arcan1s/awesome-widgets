@@ -45,7 +45,6 @@ KCM.SimpleKCM {
     property alias cfg_batInTooltipColor: batInTooltipColor.value
 
     Column {
-        id: pageColumn
         anchors.fill: parent
 
         Label {
