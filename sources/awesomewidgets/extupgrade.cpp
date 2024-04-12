@@ -59,6 +59,7 @@ ExtUpgrade *ExtUpgrade::copy(const QString &_fileName, const int _number)
 
     auto item = new ExtUpgrade(parent(), _fileName);
     copyDefaults(item);
+
     item->setExecutable(executable());
     item->setFilter(filter());
     item->setNumber(_number);
@@ -122,7 +123,7 @@ void ExtUpgrade::readConfiguration()
 {
     AbstractExtItem::readConfiguration();
 
-    QSettings settings(fileName(), QSettings::IniFormat);
+    QSettings settings(filePath(), QSettings::IniFormat);
 
     settings.beginGroup("Desktop Entry");
     setExecutable(settings.value("Exec", executable()).toString());
@@ -193,7 +194,7 @@ void ExtUpgrade::writeConfiguration() const
 {
     AbstractExtItem::writeConfiguration();
 
-    QSettings settings(writtableConfig(), QSettings::IniFormat);
+    QSettings settings(writableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup("Desktop Entry");

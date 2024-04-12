@@ -101,12 +101,12 @@ QString DPAdds::toolTipImage(const int _desktop) const
         return "";
 
     // prepare
-    DesktopWindowsInfo info = getInfoByDesktop(_desktop);
+    auto info = getInfoByDesktop(_desktop);
     // special tooltip format for names
     if (m_tooltipType == "names") {
         QStringList windowList;
         std::for_each(info.windowsData.cbegin(), info.windowsData.cend(),
-                      [&windowList](const WindowData &data) { windowList.append(data.name); });
+                      [&windowList](auto &data) { windowList.append(data.name); });
         return QString("<ul><li>%1</li></ul>").arg(windowList.join("</li><li>"));
     }
 
@@ -120,16 +120,14 @@ QString DPAdds::toolTipImage(const int _desktop) const
     toolTipView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     auto screens = QGuiApplication::screens();
-    auto desktop
-        = std::accumulate(screens.cbegin(), screens.cend(), QRect(0, 0, 0, 0), [](QRect source, const QScreen *screen) {
-              return source.united(screen->availableGeometry());
-          });
+    auto desktop = std::accumulate(screens.cbegin(), screens.cend(), QRect(0, 0, 0, 0),
+                                   [](auto source, auto screen) { return source.united(screen->availableGeometry()); });
 
     // update
     auto width = static_cast<float>(desktop.width());
     auto height = static_cast<float>(desktop.height());
-    float margin = 5.0f * width / 400.0f;
-    toolTipView->resize(static_cast<int>(width + 2.0f * margin), static_cast<int>(height + 2.0f * margin));
+    auto margin = 5.0 * width / 400.0;
+    toolTipView->resize(static_cast<int>(width + 2.0 * margin), static_cast<int>(height + 2.0 * margin));
     toolTipScene->clear();
     toolTipScene->setBackgroundBrush(QBrush(Qt::NoBrush));
     // borders
@@ -139,22 +137,24 @@ QString DPAdds::toolTipImage(const int _desktop) const
     toolTipScene->addLine(width + 2.0 * margin, 0, 0, 0);
 
     // with wayland countours only are supported
-    QPen pen = QPen();
+    auto pen = QPen();
     pen.setWidthF(2.0 * width / 400.0);
     pen.setColor(QColor(m_tooltipColor));
     for (auto &data : info.windowsData) {
-        QRect rect = data.rect;
+        auto rect = data.rect;
+
         auto left = static_cast<float>(rect.left());
         auto right = static_cast<float>(rect.right());
         auto top = static_cast<float>(rect.top());
         auto bottom = static_cast<float>(rect.bottom());
+
         toolTipScene->addLine(left + margin, bottom + margin, left + margin, top + margin, pen);
         toolTipScene->addLine(left + margin, top + margin, right + margin, top + margin, pen);
         toolTipScene->addLine(right + margin, top + margin, right + margin, bottom + margin, pen);
         toolTipScene->addLine(right + margin, bottom + margin, left + margin, bottom + margin, pen);
     }
 
-    QPixmap image = toolTipView->grab().scaledToWidth(m_tooltipWidth);
+    auto image = toolTipView->grab().scaledToWidth(m_tooltipWidth);
     QByteArray byteArray;
     QBuffer buffer(&byteArray);
     image.save(&buffer, "PNG");
@@ -170,7 +170,7 @@ QString DPAdds::parsePattern(const QString &_pattern, const int _desktop) const
 {
     qCDebug(LOG_DP) << "Pattern" << _pattern << "for desktop" << _desktop;
 
-    QString parsed = _pattern;
+    auto parsed = _pattern;
     parsed.replace("$$", "$\\$\\");
     for (auto &key : dictKeys())
         parsed.replace(QString("$%1").arg(key), valueByKey(key, _desktop));
@@ -212,7 +212,7 @@ QString DPAdds::valueByKey(const QString &_key, int _desktop) const
     if (_desktop == -1)
         _desktop = currentDesktop();
 
-    QString currentMark = currentDesktop() == _desktop ? m_mark : "";
+    auto currentMark = currentDesktop() == _desktop ? m_mark : "";
     if (_key == "mark")
         return QString("%1").arg(currentMark, m_mark.size(), QLatin1Char(' ')).replace(" ", "&nbsp;");
     else if (_key == "name") {
@@ -241,10 +241,10 @@ QVariantMap DPAdds::getFont(const QVariantMap &_defaultFont)
     qCDebug(LOG_DP) << "Default font is" << _defaultFont;
 
     QVariantMap fontMap;
-    int ret = 0;
-    CFont defaultCFont = CFont(_defaultFont["family"].toString(), _defaultFont["size"].toInt(), 400, false,
-                               _defaultFont["color"].toString());
-    CFont font = CFontDialog::getFont(i18n("Select font"), defaultCFont, false, false, &ret);
+    auto ret = 0;
+    auto defaultCFont = CFont(_defaultFont["family"].toString(), _defaultFont["size"].toInt(), 400, false,
+                              _defaultFont["color"].toString());
+    auto font = CFontDialog::getFont(i18n("Select font"), defaultCFont, false, false, &ret);
 
     fontMap["applied"] = ret;
     fontMap["color"] = font.color().name();
@@ -260,8 +260,7 @@ void DPAdds::sendNotification(const QString &_eventId, const QString &_message)
 {
     qCDebug(LOG_DP) << "Event" << _eventId << "with message" << _message;
 
-    KNotification *notification
-        = KNotification::event(_eventId, QString("Desktop Panel ::: %1").arg(_eventId), _message);
+    auto notification = KNotification::event(_eventId, QString("Desktop Panel ::: %1").arg(_eventId), _message);
     notification->setComponentName("plasma-applet-org.kde.plasma.desktop-panel");
 }
 
@@ -282,7 +281,7 @@ DPAdds::DesktopWindowsInfo DPAdds::getInfoByDesktop(const int _desktop) const
     auto desktop = m_vdi->desktopIds().at(_desktop);
 
     DesktopWindowsInfo info;
-    for (auto i = 0; i < m_taskModel->rowCount(); i++) {
+    for (auto i = 0; i < m_taskModel->rowCount(); ++i) {
         auto model = m_taskModel->index(i, 0);
         WindowData data;
 

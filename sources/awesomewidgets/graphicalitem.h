@@ -95,8 +95,8 @@ public slots:
 
 private slots:
     void changeColor(Ui::GraphicalItem *_ui);
-    void changeCountState(Ui::GraphicalItem *_ui, int _state);
-    void changeValue(Ui::GraphicalItem *_ui, int _state);
+    static void changeCountState(Ui::GraphicalItem *_ui, int _state);
+    static void changeValue(Ui::GraphicalItem *_ui, int _state);
 
 private:
     GraphicalItemHelper *m_helper = nullptr;

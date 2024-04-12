@@ -51,7 +51,7 @@ void QCronScheduler::parse(const QString &_timer)
 {
     qCDebug(LOG_LIB) << "Parse timer string" << _timer;
 
-    QStringList fields = _timer.split(' ');
+    auto fields = _timer.split(' ');
     if (fields.count() != 5)
         return;
 
@@ -65,7 +65,7 @@ void QCronScheduler::parse(const QString &_timer)
 
 void QCronScheduler::expired()
 {
-    QDateTime now = QDateTime::currentDateTime();
+    auto now = QDateTime::currentDateTime();
 
     if (m_schedule.minutes.contains(now.time().minute()) && m_schedule.hours.contains(now.time().hour())
         && m_schedule.days.contains(now.date().day()) && m_schedule.months.contains(now.date().month())
@@ -122,7 +122,7 @@ void QCronScheduler::QCronField::fromRange(const QString &_range, const int _min
             std::swap(minValue, maxValue);
     } else {
         bool status;
-        int value = _range.toInt(&status);
+        auto value = _range.toInt(&status);
         if (!status || (value < _min) || (value > _max))
             value = -1;
         minValue = value;
@@ -131,14 +131,14 @@ void QCronScheduler::QCronField::fromRange(const QString &_range, const int _min
 }
 
 
-QList<int> QCronScheduler::QCronField::toList()
+QList<int> QCronScheduler::QCronField::toList() const
 {
     // error checking
     if ((minValue == -1) || (maxValue == -1))
         return {};
 
     QList<int> output;
-    for (auto &i = minValue; i <= maxValue; ++i) {
+    for (auto i = minValue; i <= maxValue; ++i) {
         if (i % div != 0)
             continue;
         output.append(i);

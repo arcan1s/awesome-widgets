@@ -32,7 +32,7 @@ private slots:
     void cleanupTestCase();
     // test
     void test_values();
-    void test_writtableFile();
+    void test_writableFile();
     void test_configuration();
     void test_bumpApi();
     void test_delete();
@@ -44,6 +44,6 @@ private:
     QString cron = "* * * * *";
     QString name;
     QString socket;
-    QString fileName;
-    QString writeFileName;
+    QString filePath;
+    QString writeFilePath;
 };

@@ -41,10 +41,10 @@ QString AWJsonFormatter::convert(const QVariant &_value) const
     qCDebug(LOG_LIB) << "Convert value" << _value;
 
     // check if _value is string and parse first if required
-    QJsonDocument json = _value.userType() == QMetaType::QString ? QJsonDocument::fromJson(_value.toString().toUtf8())
-                                                                 : QJsonDocument::fromVariant(_value);
-    QVariant converted = json.toVariant();
-    for (auto &element : m_splittedPath)
+    auto json = _value.userType() == QMetaType::QString ? QJsonDocument::fromJson(_value.toString().toUtf8())
+                                                        : QJsonDocument::fromVariant(_value);
+    auto converted = json.toVariant();
+    for (auto &element : m_path)
         converted = getFromJson(converted, element);
 
     return converted.toString();
@@ -57,6 +57,7 @@ AWJsonFormatter *AWJsonFormatter::copy(const QString &_fileName, const int _numb
 
     auto item = new AWJsonFormatter(parent(), _fileName);
     AWAbstractFormatter::copyDefaults(item);
+
     item->setNumber(_number);
     item->setPath(path());
 
@@ -66,7 +67,8 @@ AWJsonFormatter *AWJsonFormatter::copy(const QString &_fileName, const int _numb
 
 QString AWJsonFormatter::path() const
 {
-    return m_path;
+    return std::accumulate(m_path.cbegin(), m_path.cend(), QString(""),
+                           [](auto acc, auto &value) { return QString("%1.%2").arg(acc, value.toString()); });
 }
 
 
@@ -74,8 +76,14 @@ void AWJsonFormatter::setPath(const QString &_path)
 {
     qCDebug(LOG_LIB) << "Path" << _path;
 
-    m_path = _path;
-    initPath();
+    m_path.clear();
+    auto elements = _path.split('.', Qt::SkipEmptyParts);
+
+    for (auto &element : elements) {
+        bool ok;
+        auto number = element.toInt(&ok);
+        m_path.append(ok ? QVariant(number) : QVariant(element));
+    }
 }
 
 
@@ -83,7 +91,7 @@ void AWJsonFormatter::readConfiguration()
 {
     AWAbstractFormatter::readConfiguration();
 
-    QSettings settings(fileName(), QSettings::IniFormat);
+    QSettings settings(filePath(), QSettings::IniFormat);
 
     settings.beginGroup("Desktop Entry");
     setPath(settings.value("X-AW-Path", path()).toString());
@@ -129,7 +137,7 @@ void AWJsonFormatter::writeConfiguration() const
 {
     AWAbstractFormatter::writeConfiguration();
 
-    QSettings settings(writtableConfig(), QSettings::IniFormat);
+    QSettings settings(writableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup("Desktop Entry");
@@ -168,19 +176,6 @@ QVariant AWJsonFormatter::getFromMap(const QVariant &_value, const QString &_key
     qCDebug(LOG_LIB) << "Looking for key" << _key << "in" << _value;
 
     return _value.toMap()[_key];
-}
-
-
-void AWJsonFormatter::initPath()
-{
-    m_splittedPath.clear();
-    QStringList splittedByDot = m_path.split('.', Qt::SkipEmptyParts);
-
-    for (auto &element : splittedByDot) {
-        bool ok;
-        int number = element.toInt(&ok);
-        m_splittedPath.append(ok ? QVariant(number) : QVariant(element));
-    }
 }
 
 

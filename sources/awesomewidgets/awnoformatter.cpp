@@ -47,6 +47,7 @@ AWNoFormatter *AWNoFormatter::copy(const QString &_fileName, const int _number)
 
     auto item = new AWNoFormatter(parent(), _fileName);
     AWAbstractFormatter::copyDefaults(item);
+
     item->setNumber(_number);
 
     return item;

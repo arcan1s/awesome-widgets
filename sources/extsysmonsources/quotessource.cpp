@@ -46,7 +46,7 @@ QHash<QString, KSysGuard::SensorInfo *> QuotesSource::sources() const
 {
     auto result = QHash<QString, KSysGuard::SensorInfo *>();
 
-    for (auto &item : m_extQuotes->activeItems()) {
+    for (auto item : m_extQuotes->activeItems()) {
         result.insert(item->tag("pricechg"),
                       makeSensorInfo(QString("Absolute price changes for '%1'").arg(item->uniq()), QVariant::Double));
         result.insert(item->tag("price"),

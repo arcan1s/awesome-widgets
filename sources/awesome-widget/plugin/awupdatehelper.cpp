@@ -71,7 +71,7 @@ bool AWUpdateHelper::checkVersion()
     qCInfo(LOG_AW) << "Found version" << version << "actual one is" << m_foundVersion;
 
     if ((version != m_foundVersion) && (!QString(CHANGELOG).isEmpty())) {
-        sendNotification(i18nc("Changelog of %1", VERSION), QString(CHANGELOG).replace('@', '\n'));
+        sendNotification(i18n("Changelog of %1", VERSION), QString(CHANGELOG).replace('@', '\n'));
         return true;
     } else if (version != m_foundVersion) {
         qCWarning(LOG_AW) << "No changelog information provided";
@@ -106,7 +106,7 @@ void AWUpdateHelper::showUpdates(const QVersionNumber &_version)
     qCDebug(LOG_AW) << "Version" << _version;
 
     QString text;
-    text += i18nc("Current version : %1", VERSION);
+    text += i18n("Current version : %1", VERSION);
     text += QString(COMMIT_SHA).isEmpty() ? "\n" : QString(" (%1)\n").arg(QString(COMMIT_SHA));
     text += i18n("New version : %1", _version.toString()) + "\n\n";
     text += i18n("Click \"Ok\" to download");

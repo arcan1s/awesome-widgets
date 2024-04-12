@@ -23,6 +23,8 @@
 #include <QSettings>
 #include <QStandardPaths>
 
+#include <ranges>
+
 #include "abstractextitemaggregator.h"
 #include "awdebug.h"
 
@@ -48,10 +50,12 @@ public:
         qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
         m_items.clear();
-        m_activeItems.clear();
     };
 
-    QList<T *> activeItems() { return m_activeItems; };
+    auto activeItems()
+    {
+        return m_items | std::ranges::views::filter([](auto item) { return item->isActive(); });
+    };
 
     void editItems()
     {
@@ -62,14 +66,7 @@ public:
     void initItems() override
     {
         m_items.clear();
-        m_activeItems.clear();
-
         m_items = getItems();
-        for (auto item : m_items) {
-            if (!item->isActive())
-                continue;
-            m_activeItems.append(static_cast<T *>(item));
-        }
     };
 
     void initSockets()
@@ -85,41 +82,34 @@ public:
     {
         qCDebug(LOG_LIB) << "Tag" << _tag << "with used type" << _type;
 
-        T *found = nullptr;
-        for (auto item : m_items) {
-            if (item->tag(_type) != _tag)
-                continue;
-            found = static_cast<T *>(item);
-            break;
-        }
-        if (found == nullptr)
-            qCWarning(LOG_LIB) << "Could not find item by tag" << _tag;
+        auto found = std::find_if(m_items.cbegin(), m_items.cend(),
+                                  [&_tag, &_type](auto item) { return item->tag(_type) == _tag; });
 
-        return found;
+        if (found == std::end(m_items)) {
+            qCWarning(LOG_LIB) << "Could not find item by tag" << _tag;
+            return nullptr;
+        }
+        return static_cast<T *>(*found);
     };
 
     T *itemByTagNumber(const int _number) const
     {
         qCDebug(LOG_LIB) << "Number" << _number;
 
-        T *found = nullptr;
-        for (auto item : m_items) {
-            if (item->number() != _number)
-                continue;
-            found = static_cast<T *>(item);
-            break;
-        }
-        if (found == nullptr)
-            qCWarning(LOG_LIB) << "Could not find item by number" << _number;
+        auto found = std::find_if(m_items.cbegin(), m_items.cend(),
+                                  [_number](auto item) { return item->number() == _number; });
 
-        return found;
+        if (found == std::end(m_items)) {
+            qCWarning(LOG_LIB) << "Could not find item by number" << _number;
+            return nullptr;
+        }
+        return static_cast<T *>(*found);
     };
 
     [[nodiscard]] QList<AbstractExtItem *> items() const override { return m_items; };
 
 private:
     QList<AbstractExtItem *> m_items;
-    QList<T *> m_activeItems;
 
     void doCreateItem(QListWidget *_widget) override { return createItem<T>(_widget); }
 
@@ -127,8 +117,7 @@ private:
     {
         QList<AbstractExtItem *> items;
 
-        auto dirs = directories();
-        for (auto &dir : dirs) {
+        for (auto &dir : directories()) {
             auto files = QDir(dir).entryList(QDir::Files, QDir::Name);
             for (auto &file : files) {
                 // check filename
@@ -137,8 +126,7 @@ private:
                 qCInfo(LOG_LIB) << "Found file" << file << "in" << dir;
                 auto filePath = QString("%1/%2").arg(dir, file);
                 // check if already exists
-                if (std::any_of(items.cbegin(), items.cend(),
-                                [&filePath](AbstractExtItem *item) { return (item->fileName() == filePath); }))
+                if (std::any_of(items.cbegin(), items.cend(), [&file](auto item) { return item->fileName() == file; }))
                     continue;
                 items.append(new T(this, filePath));
             }

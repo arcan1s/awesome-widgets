@@ -55,18 +55,18 @@ public:
         return item ? item->run() : QVariantHash();
     }
 
-    static KSysGuard::SensorInfo *makeSensorInfo(const QString &_name, const QVariant::Type type,
-                                                 const KSysGuard::Unit unit = KSysGuard::UnitNone, const double min = 0,
-                                                 const double max = 0)
+    static KSysGuard::SensorInfo *makeSensorInfo(const QString &_name, const QVariant::Type _type,
+                                                 const KSysGuard::Unit _unit = KSysGuard::UnitNone,
+                                                 const double _min = 0, const double _max = 0)
     {
         auto info = new KSysGuard::SensorInfo();
         info->name = _name;
-        info->variantType = type;
+        info->variantType = _type;
 
-        info->unit = unit;
+        info->unit = _unit;
 
-        info->min = min;
-        info->max = max;
+        info->min = _min;
+        info->max = _max;
 
         return info;
     }

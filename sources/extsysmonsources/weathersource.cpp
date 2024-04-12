@@ -46,7 +46,7 @@ QHash<QString, KSysGuard::SensorInfo *> WeatherSource::sources() const
 {
     auto result = QHash<QString, KSysGuard::SensorInfo *>();
 
-    for (auto &item : m_extWeather->activeItems()) {
+    for (auto item : m_extWeather->activeItems()) {
         result.insert(item->tag("weatherId"), makeSensorInfo(QString("Numeric weather ID for '%1'").arg(item->uniq()),
                                                              QVariant::Int, KSysGuard::UnitNone, 0, 1000));
         result.insert(item->tag("weather"),

@@ -41,7 +41,7 @@ void TestAWJsonFormatter::cleanupTestCase()
 
 void TestAWJsonFormatter::test_values()
 {
-    QCOMPARE(formatter->path(), path);
+    QCOMPARE(formatter->path(), QString(".%1").arg(path));
 }
 
 

@@ -63,6 +63,7 @@ ExtScript *ExtScript::copy(const QString &_fileName, const int _number)
 
     auto item = new ExtScript(parent(), _fileName);
     copyDefaults(item);
+
     item->setExecutable(executable());
     item->setNumber(_number);
     item->setRedirect(redirect());
@@ -179,8 +180,8 @@ QString ExtScript::applyFilters(QString _value) const
             qCWarning(LOG_LIB) << "Could not find filter" << _value << "in the json";
             continue;
         }
-        for (auto &f : filter.keys())
-            _value.replace(f, filter[f].toString());
+        for (auto [key, value] : filter.asKeyValueRange())
+            _value.replace(key, value.toString());
     }
 
     return _value;
@@ -205,7 +206,7 @@ void ExtScript::readConfiguration()
 {
     AbstractExtItem::readConfiguration();
 
-    QSettings settings(fileName(), QSettings::IniFormat);
+    QSettings settings(filePath(), QSettings::IniFormat);
 
     settings.beginGroup("Desktop Entry");
     setExecutable(settings.value("Exec", executable()).toString());
@@ -305,7 +306,7 @@ void ExtScript::writeConfiguration() const
 {
     AbstractExtItem::writeConfiguration();
 
-    QSettings settings(writtableConfig(), QSettings::IniFormat);
+    QSettings settings(writableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup("Desktop Entry");
@@ -332,24 +333,24 @@ void ExtScript::updateValue()
     qCInfo(LOG_LIB) << "Error" << qdebug;
     auto qoutput = QString::fromUtf8(m_process->readAllStandardOutput()).trimmed();
     qCInfo(LOG_LIB) << "Output" << qoutput;
-    QString strValue;
 
+    QString result;
     switch (redirect()) {
     case Redirect::stdout2stderr:
         break;
     case Redirect::stderr2stdout:
-        strValue = QString("%1\n%2").arg(qdebug).arg(qoutput);
+        result = QString("%1\n%2").arg(qdebug, qoutput);
         break;
     case Redirect::swap:
-        strValue = qdebug;
+        result = qdebug;
         break;
     case Redirect::nothing:
-        strValue = qoutput;
+        result = qoutput;
         break;
     }
 
     // filters
-    m_values[tag("custom")] = applyFilters(strValue);
+    m_values[tag("custom")] = applyFilters(result);
     emit(dataReceived(m_values));
 }
 

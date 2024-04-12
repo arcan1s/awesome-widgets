@@ -71,6 +71,7 @@ ExtWeather *ExtWeather::copy(const QString &_fileName, const int _number)
 
     auto item = new ExtWeather(parent(), _fileName);
     copyDefaults(item);
+
     item->setCity(city());
     item->setCountry(country());
     item->setImage(image());
@@ -212,7 +213,7 @@ void ExtWeather::readConfiguration()
 {
     AbstractExtItem::readConfiguration();
 
-    QSettings settings(fileName(), QSettings::IniFormat);
+    QSettings settings(filePath(), QSettings::IniFormat);
 
     settings.beginGroup("Desktop Entry");
     setCity(settings.value("X-AW-City", city()).toString());
@@ -313,7 +314,7 @@ void ExtWeather::writeConfiguration() const
 {
     AbstractExtItem::writeConfiguration();
 
-    QSettings settings(writtableConfig(), QSettings::IniFormat);
+    QSettings settings(writableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup("Desktop Entry");

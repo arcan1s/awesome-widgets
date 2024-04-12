@@ -25,17 +25,17 @@
 class ExtNetworkRequest : public AbstractExtItem
 {
     Q_OBJECT
-    Q_PROPERTY(QString stringUrl READ stringUrl WRITE setStringUrl)
+    Q_PROPERTY(QString url READ url WRITE setUrl)
 
 public:
     explicit ExtNetworkRequest(QObject *_parent = nullptr, const QString &_filePath = "");
     ~ExtNetworkRequest() override;
     ExtNetworkRequest *copy(const QString &_fileName, int _number) override;
     // get methods
-    [[nodiscard]] QString stringUrl() const;
+    [[nodiscard]] QString url() const;
     [[nodiscard]] QString uniq() const override;
     // set methods
-    void setStringUrl(const QString &_url);
+    void setUrl(const QString &_url);
 
 public slots:
     void readConfiguration() override;
@@ -51,7 +51,6 @@ private:
     QNetworkAccessManager *m_manager = nullptr;
     QUrl m_url;
     bool m_isRunning = false;
-    void initUrl();
     void translate(void *_ui) override;
     // properties
     QString m_stringUrl = "https://httpbin.org/get";

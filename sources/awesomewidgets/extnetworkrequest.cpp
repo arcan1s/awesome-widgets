@@ -62,31 +62,31 @@ ExtNetworkRequest *ExtNetworkRequest::copy(const QString &_fileName, const int _
 
     auto item = new ExtNetworkRequest(parent(), _fileName);
     copyDefaults(item);
+
     item->setNumber(_number);
-    item->setStringUrl(stringUrl());
+    item->setUrl(url());
 
     return item;
 }
 
 
-QString ExtNetworkRequest::stringUrl() const
-{
-    return m_stringUrl;
-}
-
-
-QString ExtNetworkRequest::uniq() const
+QString ExtNetworkRequest::url() const
 {
     return m_url.toString();
 }
 
 
-void ExtNetworkRequest::setStringUrl(const QString &_url)
+QString ExtNetworkRequest::uniq() const
+{
+    return url();
+}
+
+
+void ExtNetworkRequest::setUrl(const QString &_url)
 {
     qCDebug(LOG_LIB) << "Url" << _url;
 
-    m_stringUrl = _url;
-    initUrl();
+    m_url = QUrl(_url);
 }
 
 
@@ -94,10 +94,10 @@ void ExtNetworkRequest::readConfiguration()
 {
     AbstractExtItem::readConfiguration();
 
-    QSettings settings(fileName(), QSettings::IniFormat);
+    QSettings settings(filePath(), QSettings::IniFormat);
 
     settings.beginGroup("Desktop Entry");
-    setStringUrl(settings.value("X-AW-Url", stringUrl()).toString());
+    setUrl(settings.value("X-AW-Url", url()).toString());
     settings.endGroup();
 
     bumpApi(AW_EXTNETREQUEST_API);
@@ -126,7 +126,7 @@ int ExtNetworkRequest::showConfiguration(QWidget *_parent, const QVariant &_args
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
     ui->label_numberValue->setText(QString("%1").arg(number()));
-    ui->lineEdit_url->setText(stringUrl());
+    ui->lineEdit_url->setText(url());
     ui->checkBox_active->setCheckState(isActive() ? Qt::Checked : Qt::Unchecked);
     ui->lineEdit_schedule->setText(cron());
     ui->lineEdit_socket->setText(socket());
@@ -138,7 +138,7 @@ int ExtNetworkRequest::showConfiguration(QWidget *_parent, const QVariant &_args
         setComment(ui->lineEdit_comment->text());
         setNumber(ui->label_numberValue->text().toInt());
         setApiVersion(AW_EXTNETREQUEST_API);
-        setStringUrl(ui->lineEdit_url->text());
+        setUrl(ui->lineEdit_url->text());
         setActive(ui->checkBox_active->checkState() == Qt::Checked);
         setCron(ui->lineEdit_schedule->text());
         setSocket(ui->lineEdit_socket->text());
@@ -158,11 +158,11 @@ void ExtNetworkRequest::writeConfiguration() const
 {
     AbstractExtItem::writeConfiguration();
 
-    QSettings settings(writtableConfig(), QSettings::IniFormat);
+    QSettings settings(writableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup("Desktop Entry");
-    settings.setValue("X-AW-Url", stringUrl());
+    settings.setValue("X-AW-Url", url());
     settings.endGroup();
 
     settings.sync();
@@ -187,12 +187,6 @@ void ExtNetworkRequest::sendRequest()
     m_isRunning = true;
     auto reply = m_manager->get(QNetworkRequest(m_url));
     new QReplyTimeout(reply, REQUEST_TIMEOUT);
-}
-
-
-void ExtNetworkRequest::initUrl()
-{
-    m_url = QUrl(m_stringUrl);
 }
 
 

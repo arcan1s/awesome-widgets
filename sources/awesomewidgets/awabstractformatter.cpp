@@ -113,7 +113,7 @@ void AWAbstractFormatter::readConfiguration()
 {
     AbstractExtItem::readConfiguration();
 
-    QSettings settings(fileName(), QSettings::IniFormat);
+    QSettings settings(filePath(), QSettings::IniFormat);
 
     settings.beginGroup("Desktop Entry");
     setStrType(settings.value("X-AW-Type", strType()).toString());
@@ -125,7 +125,7 @@ void AWAbstractFormatter::writeConfiguration() const
 {
     AbstractExtItem::writeConfiguration();
 
-    QSettings settings(writtableConfig(), QSettings::IniFormat);
+    QSettings settings(writableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup("Desktop Entry");

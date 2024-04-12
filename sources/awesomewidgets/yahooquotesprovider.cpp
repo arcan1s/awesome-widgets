@@ -41,6 +41,7 @@ void YahooQuotesProvider::initUrl(const QString &_asset)
     qCDebug(LOG_LIB) << "Init query for" << _asset;
 
     m_url = QUrl(YAHOO_QUOTES_URL);
+
     QUrlQuery params;
     params.addQueryItem("format", "json");
     params.addQueryItem("env", "store://datatables.org/alltableswithkeys");
@@ -56,12 +57,12 @@ QVariantHash YahooQuotesProvider::parse(const QByteArray &_source, const QVarian
     QVariantHash values;
 
     QJsonParseError error{};
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(_source, &error);
+    auto jsonDoc = QJsonDocument::fromJson(_source, &error);
     if (error.error != QJsonParseError::NoError) {
         qCWarning(LOG_LIB) << "Parse error" << error.errorString();
         return values;
     }
-    QVariantMap jsonQuotes = jsonDoc.toVariant().toMap()["query"].toMap();
+    auto jsonQuotes = jsonDoc.toVariant().toMap()["query"].toMap();
     jsonQuotes = jsonQuotes["results"].toMap()["quote"].toMap();
 
     // extract old data

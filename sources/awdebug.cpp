@@ -41,18 +41,17 @@ QString AWDebug::getAboutText(const QString &_type)
     } else if (_type == "description") {
         text = i18n("A set of minimalistic plasmoid widgets");
     } else if (_type == "links") {
-        text = i18n("Links:") + "<ul>" + QString("<li><a href=\"%1\">%2</a></li>").arg(HOMEPAGE).arg(i18n("Homepage"))
-               + QString("<li><a href=\"%1\">%2</a></li>").arg(REPOSITORY).arg(i18n("Repository"))
-               + QString("<li><a href=\"%1\">%2</a></li>").arg(BUGTRACKER).arg(i18n("Bugtracker"))
-               + QString("<li><a href=\"%1\">%2</a></li>").arg(TRANSLATION).arg(i18n("Translation issue"))
-               + QString("<li><a href=\"%1\">%2</a></li>").arg(AUR_PACKAGES).arg(i18n("AUR packages"))
-               + QString("<li><a href=\"%1\">%2</a></li>").arg(OPENSUSE_PACKAGES).arg(i18n("openSUSE packages"))
-               + "</ul>";
+        text = i18n("Links:") + "<ul>" + QString("<li><a href=\"%1\">%2</a></li>").arg(HOMEPAGE, i18n("Homepage"))
+               + QString("<li><a href=\"%1\">%2</a></li>").arg(REPOSITORY, i18n("Repository"))
+               + QString("<li><a href=\"%1\">%2</a></li>").arg(BUGTRACKER, i18n("Bugtracker"))
+               + QString("<li><a href=\"%1\">%2</a></li>").arg(TRANSLATION, i18n("Translation issue"))
+               + QString("<li><a href=\"%1\">%2</a></li>").arg(AUR_PACKAGES, i18n("AUR packages"))
+               + QString("<li><a href=\"%1\">%2</a></li>").arg(OPENSUSE_PACKAGES, i18n("openSUSE packages")) + "</ul>";
     } else if (_type == "copy") {
-        text = QString("<small>&copy; %1 <a href=\"mailto:%2\">%3</a><br>").arg(DATE).arg(EMAIL).arg(AUTHOR)
-               + i18nc("This software is licensed under %1", LICENSE) + "</small>";
+        text = QString("<small>&copy; %1 <a href=\"mailto:%2\">%3</a><br>").arg(DATE, EMAIL, AUTHOR)
+               + i18n("This software is licensed under %1", LICENSE) + "</small>";
     } else if (_type == "translators") {
-        QStringList translatorList = QString(TRANSLATORS).split(',');
+        auto translatorList = QString(TRANSLATORS).split(',');
         for (auto &translator : translatorList)
             translator = QString("<li>%1</li>").arg(translator);
         text = i18n("Translators:") + "<ul>" + translatorList.join("") + "</ul>";
@@ -60,16 +59,14 @@ QString AWDebug::getAboutText(const QString &_type)
         QStringList trdPartyList = QString(TRDPARTY_LICENSE).split(';', Qt::SkipEmptyParts);
         for (int i = 0; i < trdPartyList.count(); i++)
             trdPartyList[i] = QString("<li><a href=\"%3\">%1</a> (%2 license)</li>")
-                                  .arg(trdPartyList.at(i).split(',')[0])
-                                  .arg(trdPartyList.at(i).split(',')[1])
-                                  .arg(trdPartyList.at(i).split(',')[2]);
+                                  .arg(trdPartyList.at(i).split(',')[0], trdPartyList.at(i).split(',')[1],
+                                       trdPartyList.at(i).split(',')[2]);
         text = i18n("This software uses:") + "<ul>" + trdPartyList.join("") + "</ul>";
     } else if (_type == "thanks") {
         QStringList thanks = QString(SPECIAL_THANKS).split(';', Qt::SkipEmptyParts);
         for (int i = 0; i < thanks.count(); i++)
-            thanks[i] = QString("<li><a href=\"%2\">%1</a></li>")
-                            .arg(thanks.at(i).split(',')[0])
-                            .arg(thanks.at(i).split(',')[1]);
+            thanks[i]
+                = QString("<li><a href=\"%2\">%1</a></li>").arg(thanks.at(i).split(',')[0], thanks.at(i).split(',')[1]);
         text = i18n("Special thanks to:") + "<ul>" + thanks.join("") + "</ul>";
     }
 

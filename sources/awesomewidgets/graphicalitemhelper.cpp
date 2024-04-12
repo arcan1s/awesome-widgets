@@ -48,30 +48,9 @@ void GraphicalItemHelper::setParameters(const QString &_active, const QString &_
 
     // put images to pens if any otherwise set pen colors
     // Images resize to content here as well
-    if (isColor(_active)) {
-        m_activePen.setBrush(QBrush(stringToColor(_active)));
-    } else {
-        qCInfo(LOG_LIB) << "Found path, trying to load Pixmap from" << _active;
-        QPixmap pixmap = QPixmap(QUrl(_active).toLocalFile());
-        if (pixmap.isNull()) {
-            qCWarning(LOG_LIB) << "Invalid pixmap found" << _active;
-            m_activePen.setBrush(QBrush(QColor(0, 0, 0, 130)));
-        } else {
-            m_activePen.setBrush(QBrush(pixmap.scaled(_width, _height)));
-        }
-    }
-    if (isColor(_inactive)) {
-        m_inactivePen.setBrush(QBrush(stringToColor(_inactive)));
-    } else {
-        qCInfo(LOG_LIB) << "Found path, trying to load Pixmap from" << _inactive;
-        QPixmap pixmap = QPixmap(QUrl(_inactive).toLocalFile());
-        if (pixmap.isNull()) {
-            qCWarning(LOG_LIB) << "Invalid pixmap found" << _inactive;
-            m_inactivePen.setBrush(QBrush(QColor(255, 255, 255, 130)));
-        } else {
-            m_inactivePen.setBrush(QBrush(pixmap.scaled(_width, _height)));
-        }
-    }
+    m_activePen.setBrush(parseBrush(_active, _width, _height, QColor(0, 0, 0, 130)));
+    m_inactivePen.setBrush(parseBrush(_inactive, _width, _height, QColor(255, 255, 255, 130)));
+
     m_width = _width;
     m_height = _height;
     m_count = _count;
@@ -88,14 +67,14 @@ void GraphicalItemHelper::paintBars(const float _value)
     storeValue(_value);
 
     // default norms
-    float normX = static_cast<float>(m_width) / static_cast<float>(m_values.count());
+    auto normX = static_cast<float>(m_width) / static_cast<float>(m_values.count());
     auto normY = static_cast<float>(m_height - 1);
     // paint graph
-    for (int i = 0; i < m_values.count(); i++) {
-        float x = static_cast<float>(i) * normX;
-        float y = 0.5f;
-        float width = normX;
-        float height = m_values.at(i) * normY + 0.5f;
+    for (auto i = 0; i < m_values.count(); ++i) {
+        auto x = static_cast<float>(i) * normX;
+        auto y = 0.5f;
+        auto width = normX;
+        auto height = m_values.at(i) * normY + 0.5f;
         m_scene->addRect(x, y, width, height, m_activePen, m_activePen.brush());
     }
 }
@@ -107,17 +86,16 @@ void GraphicalItemHelper::paintCircle(const float _percent)
 
     m_activePen.setWidth(1);
     m_inactivePen.setWidth(1);
-    QGraphicsEllipseItem *circle;
     // 16 is because of qt. From Qt documentation:
     // Returns the start angle for an ellipse segment in 16ths of a degree
 
     // inactive
-    circle = m_scene->addEllipse(0.0, 0.0, m_width, m_height, m_inactivePen, m_inactivePen.brush());
-    circle->setSpanAngle(static_cast<int>(-(1.0f - _percent) * 360.0f * 16.0f));
-    circle->setStartAngle(static_cast<int>(90.0f * 16.0f - _percent * 360.0f * 16.0f));
+    auto circle = m_scene->addEllipse(0.0, 0.0, m_width, m_height, m_inactivePen, m_inactivePen.brush());
+    circle->setSpanAngle(static_cast<int>(-(1.0 - _percent) * 360.0 * 16.0));
+    circle->setStartAngle(static_cast<int>(90.0 * 16.0 - _percent * 360.0 * 16.0));
     // active
     circle = m_scene->addEllipse(0.0, 0.0, m_width, m_height, m_activePen, m_activePen.brush());
-    circle->setSpanAngle(static_cast<int>(-_percent * 360.0f * 16.0f));
+    circle->setSpanAngle(static_cast<int>(-_percent * 360.0 * 16.0));
     circle->setStartAngle(90 * 16);
 }
 
@@ -132,16 +110,16 @@ void GraphicalItemHelper::paintGraph(const float _value)
     storeValue(_value);
 
     // default norms
-    float normX = static_cast<float>(m_width) / static_cast<float>(m_values.count());
+    auto normX = static_cast<float>(m_width) / static_cast<float>(m_values.count());
     auto normY = static_cast<float>(m_height - 1);
     // paint graph
-    for (int i = 0; i < m_values.count() - 1; i++) {
+    for (auto i = 0; i < m_values.count() - 1; ++i) {
         // some magic here
         auto value = static_cast<float>(i);
-        float x1 = value * normX;
-        float y1 = m_values.at(i) * normY + 0.5f;
-        float x2 = (value + 1) * normX;
-        float y2 = m_values.at(i + 1) * normY + 0.5f;
+        auto x1 = value * normX;
+        auto y1 = m_values.at(i) * normY + 0.5f;
+        auto x2 = (value + 1) * normX;
+        auto y2 = m_values.at(i + 1) * normY + 0.5f;
         m_scene->addLine(x1, y1, x2, y2, m_activePen);
     }
 }
@@ -200,7 +178,7 @@ QColor GraphicalItemHelper::stringToColor(const QString &_color)
 {
     qCDebug(LOG_LIB) << "Color" << _color;
 
-    QStringList listColor = _color.split(',');
+    auto listColor = _color.split(',');
     while (listColor.count() < 4)
         listColor.append("0");
     // remove prefix
@@ -213,6 +191,25 @@ QColor GraphicalItemHelper::stringToColor(const QString &_color)
     qColor.setAlpha(listColor.at(3).toInt());
 
     return qColor;
+}
+
+
+QBrush GraphicalItemHelper::parseBrush(const QString &_input, const int _width, const int _height,
+                                       const QColor &_default)
+{
+    qCDebug(LOG_LIB) << "Input select" << _input;
+
+    if (isColor(_input)) {
+        return stringToColor(_input);
+    } else {
+        qCInfo(LOG_LIB) << "Found path, trying to load Pixmap from" << _input;
+        auto pixmap = QPixmap(QUrl(_input).toLocalFile());
+        if (!pixmap.isNull())
+            return pixmap.scaled(_width, _height);
+    }
+
+    qCWarning(LOG_LIB) << "Invalid pixmap found" << _input;
+    return _default;
 }
 
 

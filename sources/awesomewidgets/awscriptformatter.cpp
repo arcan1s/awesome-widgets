@@ -61,6 +61,7 @@ AWScriptFormatter *AWScriptFormatter::copy(const QString &_fileName, const int _
 
     auto item = new AWScriptFormatter(parent(), _fileName);
     AWAbstractFormatter::copyDefaults(item);
+
     item->setAppendCode(appendCode());
     item->setCode(code());
     item->setHasReturn(hasReturn());
@@ -125,7 +126,7 @@ void AWScriptFormatter::readConfiguration()
 {
     AWAbstractFormatter::readConfiguration();
 
-    QSettings settings(fileName(), QSettings::IniFormat);
+    QSettings settings(filePath(), QSettings::IniFormat);
 
     settings.beginGroup("Desktop Entry");
     setAppendCode(settings.value("X-AW-AppendCode", appendCode()).toBool());
@@ -178,7 +179,7 @@ void AWScriptFormatter::writeConfiguration() const
 {
     AWAbstractFormatter::writeConfiguration();
 
-    QSettings settings(writtableConfig(), QSettings::IniFormat);
+    QSettings settings(writableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup("Desktop Entry");

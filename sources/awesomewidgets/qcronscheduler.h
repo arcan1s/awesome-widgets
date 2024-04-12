@@ -39,7 +39,7 @@ public:
         int maxValue = -1;
         int div = 1;
         void fromRange(const QString &_range, int _min, int _max);
-        QList<int> toList();
+        QList<int> toList() const;
     };
 
     explicit QCronScheduler(QObject *_parent = nullptr);

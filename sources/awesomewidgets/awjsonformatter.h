@@ -42,9 +42,7 @@ private:
     static QVariant getFromJson(const QVariant &_value, const QVariant &_element);
     static QVariant getFromList(const QVariant &_value, int _index);
     static QVariant getFromMap(const QVariant &_value, const QString &_key);
-    void initPath();
     void translate(void *_ui) override;
     // properties
-    QString m_path;
-    QVariantList m_splittedPath;
+    QVariantList m_path;
 };

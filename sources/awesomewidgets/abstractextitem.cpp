@@ -29,13 +29,13 @@
 
 AbstractExtItem::AbstractExtItem(QObject *_parent, const QString &_filePath)
     : QObject(_parent)
-    , m_fileName(_filePath)
+    , m_filePath(_filePath)
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     qCDebug(LOG_LIB) << "Desktop name" << _filePath;
 
-    m_name = m_fileName;
+    m_name = m_filePath;
 }
 
 
@@ -95,10 +95,11 @@ void AbstractExtItem::startTimer()
 }
 
 
-QString AbstractExtItem::writtableConfig() const
+QString AbstractExtItem::writableConfig() const
 {
-    auto path = m_fileName;
-    auto name = QFileInfo(path).fileName();
+    auto path = m_filePath;
+    auto name = fileName();
+    // extract subdirectory
     path.remove(path.length() - name.length() - 1, name.length() + 1);
     auto dir = QFileInfo(path).fileName();
 
@@ -127,7 +128,13 @@ QString AbstractExtItem::cron() const
 
 QString AbstractExtItem::fileName() const
 {
-    return m_fileName;
+    return QFileInfo(filePath()).fileName();
+}
+
+
+QString AbstractExtItem::filePath() const
+{
+    return m_filePath;
 }
 
 
@@ -267,7 +274,7 @@ void AbstractExtItem::deinitSocket()
 
     m_socket->close();
     QLocalServer::removeServer(socket());
-    disconnect(m_socket, &QLocalServer::newConnection, this, &AbstractExtItem::newConnectionReceived);
+    disconnect(m_socket, &QLocalServer::newConnection, this, &AbstractExtItem::requestDataUpdate);
     delete m_socket;
 }
 
@@ -280,13 +287,13 @@ void AbstractExtItem::initSocket()
     m_socket = new QLocalServer(this);
     auto listening = m_socket->listen(socket());
     qCInfo(LOG_LIB) << "Server listening on" << socket() << listening;
-    connect(m_socket, &QLocalServer::newConnection, this, &AbstractExtItem::newConnectionReceived);
+    connect(m_socket, &QLocalServer::newConnection, this, &AbstractExtItem::requestDataUpdate);
 }
 
 
 void AbstractExtItem::readConfiguration()
 {
-    QSettings settings(m_fileName, QSettings::IniFormat);
+    QSettings settings(m_filePath, QSettings::IniFormat);
 
     settings.beginGroup("Desktop Entry");
     setName(settings.value("Name", name()).toString());
@@ -303,8 +310,8 @@ void AbstractExtItem::readConfiguration()
 
 bool AbstractExtItem::tryDelete() const
 {
-    auto status = QFile::remove(m_fileName);
-    qCInfo(LOG_LIB) << "Remove file" << m_fileName << status;
+    auto status = QFile::remove(m_filePath);
+    qCInfo(LOG_LIB) << "Remove file" << m_filePath << status;
 
     return status;
 }
@@ -312,7 +319,7 @@ bool AbstractExtItem::tryDelete() const
 
 void AbstractExtItem::writeConfiguration() const
 {
-    QSettings settings(writtableConfig(), QSettings::IniFormat);
+    QSettings settings(writableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup("Desktop Entry");
@@ -328,10 +335,4 @@ void AbstractExtItem::writeConfiguration() const
     settings.endGroup();
 
     settings.sync();
-}
-
-
-void AbstractExtItem::newConnectionReceived()
-{
-    emit(requestDataUpdate());
 }

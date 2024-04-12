@@ -53,6 +53,7 @@ AWListFormatter *AWListFormatter::copy(const QString &_fileName, const int _numb
 
     auto item = new AWListFormatter(parent(), _fileName);
     AWAbstractFormatter::copyDefaults(item);
+
     item->setFilter(filter());
     item->setSeparator(separator());
     item->setSorted(isSorted());
@@ -91,7 +92,7 @@ void AWListFormatter::setFilter(const QString &_filter)
 
 void AWListFormatter::setSeparator(const QString &_separator)
 {
-    qCDebug(LOG_LIB) << "Separtor" << _separator;
+    qCDebug(LOG_LIB) << "Separator" << _separator;
 
     m_separator = _separator;
 }
@@ -109,7 +110,7 @@ void AWListFormatter::readConfiguration()
 {
     AWAbstractFormatter::readConfiguration();
 
-    QSettings settings(fileName(), QSettings::IniFormat);
+    QSettings settings(filePath(), QSettings::IniFormat);
 
     settings.beginGroup("Desktop Entry");
     setFilter(settings.value("X-AW-Filter", filter()).toString());
@@ -161,7 +162,7 @@ void AWListFormatter::writeConfiguration() const
 {
     AWAbstractFormatter::writeConfiguration();
 
-    QSettings settings(writtableConfig(), QSettings::IniFormat);
+    QSettings settings(writableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup("Desktop Entry");

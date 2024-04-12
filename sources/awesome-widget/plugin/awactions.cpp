@@ -121,6 +121,6 @@ void AWActions::sendNotification(const QString &_eventId, const QString &_messag
 {
     qCDebug(LOG_AW) << "Event" << _eventId << "with message" << _message;
 
-    auto *event = KNotification::event(_eventId, QString("Awesome Widget ::: %1").arg(_eventId), _message);
+    auto event = KNotification::event(_eventId, QString("Awesome Widget ::: %1").arg(_eventId), _message);
     event->setComponentName("plasma-applet-org.kde.plasma.awesome-widget");
 }

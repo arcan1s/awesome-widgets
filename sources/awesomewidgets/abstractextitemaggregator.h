@@ -23,7 +23,6 @@
 #include "awdebug.h"
 
 
-class QAbstractButton;
 class QListWidget;
 class QListWidgetItem;
 
@@ -59,7 +58,7 @@ public:
     void deleteItem(QListWidget *_widget);
     void editItem(QListWidget *_widget);
     [[nodiscard]] int exec();
-    QString getName();
+    [[nodiscard]] static QString getName();
     virtual void initItems() = 0;
     [[nodiscard]] AbstractExtItem *itemFromWidget(QListWidget *_widget) const;
     void repaintList(QListWidget *_widget) const;

@@ -32,6 +32,7 @@ class AbstractExtItem : public QObject
     Q_PROPERTY(QString comment READ comment WRITE setComment)
     Q_PROPERTY(QString cron READ cron WRITE setCron)
     Q_PROPERTY(QString fileName READ fileName)
+    Q_PROPERTY(QString filePath READ filePath)
     Q_PROPERTY(int interval READ interval WRITE setInterval)
     Q_PROPERTY(QString name READ name WRITE setName)
     Q_PROPERTY(int number READ number WRITE setNumber)
@@ -45,12 +46,13 @@ public:
     virtual AbstractExtItem *copy(const QString &_fileName, int _number) = 0;
     virtual void copyDefaults(AbstractExtItem *_other) const;
     virtual void startTimer();
-    [[nodiscard]] QString writtableConfig() const;
+    [[nodiscard]] QString writableConfig() const;
     // get methods
     [[nodiscard]] int apiVersion() const;
     [[nodiscard]] QString comment() const;
     [[nodiscard]] QString cron() const;
     [[nodiscard]] QString fileName() const;
+    [[nodiscard]] QString filePath() const;
     [[nodiscard]] int interval() const;
     [[nodiscard]] bool isActive() const;
     [[nodiscard]] QString name() const;
@@ -81,12 +83,9 @@ public slots:
     [[nodiscard]] virtual bool tryDelete() const;
     virtual void writeConfiguration() const;
 
-private slots:
-    void newConnectionReceived();
-
 private:
     QCronScheduler *m_scheduler = nullptr;
-    QString m_fileName = "/dev/null";
+    QString m_filePath = "";
     int m_times = 0;
     // FIXME find a better way to do it
     virtual void translate(void *_ui) = 0;

@@ -27,14 +27,14 @@ void TestAbstractExtItem::initTestCase()
 {
     AWTestLibrary::init();
     auto names = AWTestLibrary::randomFilenames();
-    fileName = names.first;
-    writeFileName = names.second;
+    filePath = names.first;
+    writeFilePath = names.second;
 
     name = AWTestLibrary::randomString();
     comment = AWTestLibrary::randomString();
     socket = AWTestLibrary::randomString();
 
-    extItem = new ExtUpgrade(nullptr, fileName);
+    extItem = new ExtUpgrade(nullptr, filePath);
     extItem->setActive(false);
     extItem->setApiVersion(1);
     extItem->setComment(comment);
@@ -47,7 +47,7 @@ void TestAbstractExtItem::initTestCase()
 
 void TestAbstractExtItem::cleanupTestCase()
 {
-    QFile::remove(fileName);
+    QFile::remove(filePath);
     delete extItem;
 }
 
@@ -57,16 +57,16 @@ void TestAbstractExtItem::test_values()
     QCOMPARE(extItem->isActive(), false);
     QCOMPARE(extItem->apiVersion(), 1);
     QCOMPARE(extItem->comment(), comment);
-    QCOMPARE(extItem->fileName(), fileName);
+    QCOMPARE(extItem->filePath(), filePath);
     QCOMPARE(extItem->name(), name);
     QVERIFY((extItem->number() > 0) && (extItem->number() < 1000));
     QCOMPARE(extItem->socket(), socket);
 }
 
 
-void TestAbstractExtItem::test_writtableFile()
+void TestAbstractExtItem::test_writableFile()
 {
-    QCOMPARE(extItem->writtableConfig(), writeFileName);
+    QCOMPARE(extItem->writableConfig(), writeFilePath);
 }
 
 
@@ -74,10 +74,10 @@ void TestAbstractExtItem::test_configuration()
 {
     extItem->writeConfiguration();
 
-    auto newExtItem = new ExtUpgrade(nullptr, writeFileName);
+    auto newExtItem = new ExtUpgrade(nullptr, writeFilePath);
     QCOMPARE(newExtItem->isActive(), extItem->isActive());
     QCOMPARE(newExtItem->comment(), extItem->comment());
-    QCOMPARE(newExtItem->fileName(), writeFileName);
+    QCOMPARE(newExtItem->filePath(), writeFilePath);
     QCOMPARE(newExtItem->name(), extItem->name());
     QCOMPARE(newExtItem->number(), extItem->number());
     QCOMPARE(newExtItem->socket(), extItem->socket());
@@ -97,10 +97,10 @@ void TestAbstractExtItem::test_bumpApi()
 
 void TestAbstractExtItem::test_delete()
 {
-    auto newExtItem = new ExtUpgrade(nullptr, writeFileName);
+    auto newExtItem = new ExtUpgrade(nullptr, writeFilePath);
 
     QVERIFY(newExtItem->tryDelete());
-    QVERIFY(!QFile::exists(writeFileName));
+    QVERIFY(!QFile::exists(writeFilePath));
 
     delete newExtItem;
 }

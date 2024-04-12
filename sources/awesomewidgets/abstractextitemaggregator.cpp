@@ -35,8 +35,7 @@ AbstractExtItemAggregator::AbstractExtItemAggregator(QObject *_parent, QString _
     // create directory at $HOME
     auto localDir = QString("%1/awesomewidgets/%2")
                         .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation), type());
-    QDir localDirectory;
-    if (localDirectory.mkpath(localDir))
+    if (QDir().mkpath(localDir))
         qCInfo(LOG_LIB) << "Created directory" << localDir;
 }
 
@@ -102,18 +101,13 @@ int AbstractExtItemAggregator::exec()
     auto createButton = ui->buttonBox->addButton(i18n("Create"), QDialogButtonBox::ActionRole);
     auto deleteButton = ui->buttonBox->addButton(i18n("Remove"), QDialogButtonBox::ActionRole);
 
-    connect(ui->buttonBox, &QDialogButtonBox::clicked, [&](QAbstractButton *_button) {
-        if (dynamic_cast<QPushButton *>(_button) == copyButton)
-            copyItem(ui->listWidget);
-        else if (dynamic_cast<QPushButton *>(_button) == createButton)
-            doCreateItem(ui->listWidget);
-        else if (dynamic_cast<QPushButton *>(_button) == deleteButton)
-            deleteItem(ui->listWidget);
-        else if (ui->buttonBox->buttonRole(_button) == QDialogButtonBox::AcceptRole)
-            editItem(ui->listWidget);
-    });
+    connect(copyButton, &QPushButton::clicked, [this, ui]() { copyItem(ui->listWidget); });
+    connect(createButton, &QPushButton::clicked, [this, ui]() { doCreateItem(ui->listWidget); });
+    connect(deleteButton, &QPushButton::clicked, [this, ui]() { deleteItem(ui->listWidget); });
+    connect(ui->buttonBox, &QDialogButtonBox::accepted, [this, ui]() { editItem(ui->listWidget); });
+
     connect(ui->buttonBox, &QDialogButtonBox::rejected, [dialog]() { dialog->reject(); });
-    connect(ui->listWidget, &QListWidget::itemActivated, [&](QListWidgetItem *) { editItem(ui->listWidget); });
+    connect(ui->listWidget, &QListWidget::itemActivated, [this, ui](QListWidgetItem *) { editItem(ui->listWidget); });
 
     repaintList(ui->listWidget);
     auto ret = dialog->exec();
@@ -145,8 +139,8 @@ AbstractExtItem *AbstractExtItemAggregator::itemFromWidget(QListWidget *_widget)
         return nullptr;
 
     AbstractExtItem *found = nullptr;
-    for (auto &item : items()) {
-        auto fileName = QFileInfo(item->fileName()).fileName();
+    for (auto item : items()) {
+        auto fileName = item->fileName();
         if (fileName != widgetItem->text())
             continue;
         found = item;
@@ -162,8 +156,8 @@ AbstractExtItem *AbstractExtItemAggregator::itemFromWidget(QListWidget *_widget)
 void AbstractExtItemAggregator::repaintList(QListWidget *_widget) const
 {
     _widget->clear();
-    for (auto &_item : items()) {
-        QString fileName = QFileInfo(_item->fileName()).fileName();
+    for (auto _item : items()) {
+        QString fileName = _item->fileName();
         auto item = new QListWidgetItem(fileName, _widget);
         QStringList tooltip;
         tooltip.append(i18n("Name: %1", _item->name()));
@@ -178,9 +172,10 @@ void AbstractExtItemAggregator::repaintList(QListWidget *_widget) const
 int AbstractExtItemAggregator::uniqNumber() const
 {
     QList<int> tagList;
-    for (auto &item : items())
+    for (auto item : items())
         tagList.append(item->number());
-    int number = 0;
+
+    auto number = 0;
     while (tagList.contains(number))
         number++;
 
@@ -196,10 +191,8 @@ QVariant AbstractExtItemAggregator::configArgs() const
 
 QStringList AbstractExtItemAggregator::directories() const
 {
-    auto dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QString("awesomewidgets/%1").arg(type()),
-                                          QStandardPaths::LocateDirectory);
-
-    return dirs;
+    return QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QString("awesomewidgets/%1").arg(type()),
+                                     QStandardPaths::LocateDirectory);
 }
 
 

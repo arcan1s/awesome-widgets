@@ -50,6 +50,7 @@ AWDateTimeFormatter *AWDateTimeFormatter::copy(const QString &_fileName, const i
 
     auto item = new AWDateTimeFormatter(parent(), _fileName);
     AWAbstractFormatter::copyDefaults(item);
+
     item->setFormat(format());
     item->setTranslateString(translateString());
     item->setNumber(_number);
@@ -91,7 +92,7 @@ void AWDateTimeFormatter::readConfiguration()
 {
     AWAbstractFormatter::readConfiguration();
 
-    QSettings settings(fileName(), QSettings::IniFormat);
+    QSettings settings(filePath(), QSettings::IniFormat);
 
     settings.beginGroup("Desktop Entry");
     setFormat(settings.value("X-AW-Format", format()).toString());
@@ -140,7 +141,7 @@ void AWDateTimeFormatter::writeConfiguration() const
 {
     AWAbstractFormatter::writeConfiguration();
 
-    QSettings settings(writtableConfig(), QSettings::IniFormat);
+    QSettings settings(writableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup("Desktop Entry");

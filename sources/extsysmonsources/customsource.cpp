@@ -44,7 +44,7 @@ QHash<QString, KSysGuard::SensorInfo *> CustomSource::sources() const
 {
     auto result = QHash<QString, KSysGuard::SensorInfo *>();
 
-    for (auto &item : m_extScripts->activeItems())
+    for (auto item : m_extScripts->activeItems())
         result.insert(item->tag("custom"),
                       makeSensorInfo(QString("Custom command '%1' output").arg(item->uniq()), QVariant::String));
 

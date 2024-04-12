@@ -53,6 +53,7 @@ AWStringFormatter *AWStringFormatter::copy(const QString &_fileName, const int _
 
     auto item = new AWStringFormatter(parent(), _fileName);
     AWAbstractFormatter::copyDefaults(item);
+
     item->setCount(count());
     item->setFillChar(fillChar());
     item->setForceWidth(forceWidth());
@@ -108,7 +109,7 @@ void AWStringFormatter::readConfiguration()
 {
     AWAbstractFormatter::readConfiguration();
 
-    QSettings settings(fileName(), QSettings::IniFormat);
+    QSettings settings(filePath(), QSettings::IniFormat);
 
     settings.beginGroup("Desktop Entry");
     setCount(settings.value("X-AW-Width", count()).toInt());
@@ -160,7 +161,7 @@ void AWStringFormatter::writeConfiguration() const
 {
     AWAbstractFormatter::writeConfiguration();
 
-    QSettings settings(writtableConfig(), QSettings::IniFormat);
+    QSettings settings(writableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup("Desktop Entry");

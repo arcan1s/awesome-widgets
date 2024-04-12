@@ -44,7 +44,7 @@ QHash<QString, KSysGuard::SensorInfo *> UpgradeSource::sources() const
 {
     auto result = QHash<QString, KSysGuard::SensorInfo *>();
 
-    for (auto &item : m_extUpgrade->activeItems())
+    for (auto item : m_extUpgrade->activeItems())
         result.insert(item->tag("pkgcount"),
                       makeSensorInfo(QString("Package manager '%1' metadata").arg(item->uniq()), QVariant::Int));
 

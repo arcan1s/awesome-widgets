@@ -46,6 +46,7 @@ void OWMWeatherProvider::initUrl(const QString &_city, const QString &_country, 
         m_url = QUrl(OWM_WEATHER_URL);
     else
         m_url = QUrl(OWM_FORECAST_URL);
+
     QUrlQuery params;
     params.addQueryItem("q", QString("%1,%2").arg(_city, _country));
     params.addQueryItem("units", "metric");
@@ -59,7 +60,7 @@ QVariantHash OWMWeatherProvider::parse(const QVariantMap &_json) const
 
     if (_json["cod"].toInt() != 200) {
         qCWarning(LOG_LIB) << "Invalid OpenWeatherMap return code" << _json["cod"].toInt();
-        return QVariantHash();
+        return {};
     }
 
     if (m_ts == 0) {
@@ -84,14 +85,14 @@ QVariantHash OWMWeatherProvider::parseSingleJson(const QVariantMap &_json) const
     QVariantHash output;
 
     // weather status
-    QVariantList weather = _json["weather"].toList();
+    auto weather = _json["weather"].toList();
     if (!weather.isEmpty()) {
         int id = weather.first().toMap()["id"].toInt();
         output[tag("weatherId")] = id;
     }
 
     // main data
-    QVariantMap mainWeather = _json["main"].toMap();
+    auto mainWeather = _json["main"].toMap();
     if (!weather.isEmpty()) {
         output[tag("humidity")] = mainWeather["humidity"].toDouble();
         output[tag("pressure")] = mainWeather["pressure"].toDouble();

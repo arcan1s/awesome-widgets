@@ -34,5 +34,4 @@ public slots:
 
 private:
     void translate(void *_ui) override;
-    // properties
 };

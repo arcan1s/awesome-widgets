@@ -39,7 +39,7 @@ GraphicalItem::GraphicalItem(QObject *_parent, const QString &_filePath)
 
     // init scene
     m_scene = new QGraphicsScene();
-    m_scene->setBackgroundBrush(QBrush(Qt::NoBrush));
+    m_scene->setBackgroundBrush({Qt::NoBrush});
     // init view
     m_view = new QGraphicsView(m_scene);
     m_view->setStyleSheet("background: transparent");
@@ -61,6 +61,7 @@ GraphicalItem *GraphicalItem::copy(const QString &_fileName, const int _number)
 
     auto item = new GraphicalItem(parent(), _fileName);
     copyDefaults(item);
+
     item->setActiveColor(activeColor());
     item->setBar(bar());
     item->setCount(count());
@@ -83,44 +84,41 @@ QString GraphicalItem::image(const QVariant &value)
     qCDebug(LOG_LIB) << "Value" << value;
 
     m_scene->clear();
-    int scale[2] = {1, 1};
+    auto scaleX = 1, scaleY = 1;
     auto converted = GraphicalItemHelper::getPercents(value.toFloat(), minValue(), maxValue());
 
     // paint
     switch (m_type) {
     case Type::Vertical:
         m_helper->paintVertical(converted);
-        // scale
-        scale[1] = -2 * static_cast<int>(direction()) + 1;
+        scaleY = -2 * static_cast<int>(direction()) + 1;
         break;
     case Type::Circle:
         m_helper->paintCircle(converted);
-        // scale
-        scale[0] = -2 * static_cast<int>(direction()) + 1;
+        scaleX = -2 * static_cast<int>(direction()) + 1;
         break;
     case Type::Graph:
         m_helper->paintGraph(converted);
-        scale[0] = -2 * static_cast<int>(direction()) + 1;
-        scale[1] = -1;
+        scaleX = -2 * static_cast<int>(direction()) + 1;
+        scaleY = -1;
         break;
     case Type::Bars:
         m_helper->paintBars(converted);
-        scale[0] = -2 * static_cast<int>(direction()) + 1;
-        scale[1] = -1;
+        scaleX = -2 * static_cast<int>(direction()) + 1;
+        scaleY = -1;
         break;
     case Type::Horizontal:
         m_helper->paintHorizontal(converted);
-        // scale
-        scale[0] = -2 * static_cast<int>(direction()) + 1;
+        scaleX = -2 * static_cast<int>(direction()) + 1;
         break;
     }
 
     // convert
-    auto pixmap = m_view->grab().transformed(QTransform().scale(scale[0], scale[1]));
+    auto pixmap = m_view->grab().transformed(QTransform().scale(scaleX, scaleY));
     QByteArray byteArray;
     QBuffer buffer(&byteArray);
     pixmap.save(&buffer, "PNG");
-    auto url = QString("<img src=\"data:image/png;base64,%1\"/>").arg(QString(byteArray.toBase64()));
+    auto url = QString("<img src=\"data:image/png;base64,%1\"/>").arg(byteArray.toBase64());
 
     return url;
 }
@@ -393,7 +391,7 @@ void GraphicalItem::readConfiguration()
 {
     AbstractExtItem::readConfiguration();
 
-    QSettings settings(fileName(), QSettings::IniFormat);
+    QSettings settings(filePath(), QSettings::IniFormat);
 
     settings.beginGroup("Desktop Entry");
     setCount(settings.value("X-AW-Count", count()).toInt());
@@ -502,7 +500,7 @@ void GraphicalItem::writeConfiguration() const
 {
     AbstractExtItem::writeConfiguration();
 
-    QSettings settings(writtableConfig(), QSettings::IniFormat);
+    QSettings settings(writableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup("Desktop Entry");

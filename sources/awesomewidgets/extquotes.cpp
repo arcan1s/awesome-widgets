@@ -68,6 +68,7 @@ ExtQuotes *ExtQuotes::copy(const QString &_fileName, const int _number)
 
     auto item = new ExtQuotes(parent(), _fileName);
     copyDefaults(item);
+
     item->setNumber(_number);
     item->setTicker(ticker());
 
@@ -100,7 +101,7 @@ void ExtQuotes::readConfiguration()
 {
     AbstractExtItem::readConfiguration();
 
-    QSettings settings(fileName(), QSettings::IniFormat);
+    QSettings settings(filePath(), QSettings::IniFormat);
 
     settings.beginGroup("Desktop Entry");
     setTicker(settings.value("X-AW-Ticker", ticker()).toString());
@@ -164,7 +165,7 @@ void ExtQuotes::writeConfiguration() const
 {
     AbstractExtItem::writeConfiguration();
 
-    QSettings settings(writtableConfig(), QSettings::IniFormat);
+    QSettings settings(writableConfig(), QSettings::IniFormat);
     qCInfo(LOG_LIB) << "Configuration file" << settings.fileName();
 
     settings.beginGroup("Desktop Entry");

@@ -45,6 +45,7 @@ public:
     static QColor stringToColor(const QString &_color);
 
 private:
+    static QBrush parseBrush(const QString &_input, const int _width, const int _height, const QColor &_default);
     void storeValue(float _value);
     QGraphicsScene *m_scene = nullptr;
     int m_count = 100;

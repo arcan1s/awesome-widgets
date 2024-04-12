@@ -42,6 +42,7 @@ void YahooWeatherProvider::initUrl(const QString &_city, const QString &_country
     m_ts = ts;
 
     m_url = QUrl(YAHOO_WEATHER_URL);
+
     QUrlQuery params;
     params.addQueryItem("format", "json");
     params.addQueryItem("env", "store://datatables.org/alltableswithkeys");
@@ -54,14 +55,14 @@ QVariantHash YahooWeatherProvider::parse(const QVariantMap &_json) const
 {
     qCDebug(LOG_LIB) << "Parse json" << _json;
 
-    QVariantMap jsonMap = _json["query"].toMap();
+    auto jsonMap = _json["query"].toMap();
     if (jsonMap["count"].toInt() != 1) {
         qCWarning(LOG_LIB) << "Found data count" << _json["count"].toInt() << "is not 1";
         return {};
     }
-    QVariantMap results = jsonMap["results"].toMap()["channel"].toMap();
-    QVariantMap item = results["item"].toMap();
-    QVariantMap atmosphere = results["atmosphere"].toMap();
+    auto results = jsonMap["results"].toMap()["channel"].toMap();
+    auto item = results["item"].toMap();
+    auto atmosphere = results["atmosphere"].toMap();
 
     return m_ts == 0 ? parseCurrent(item, atmosphere) : parseForecast(item);
 }
@@ -80,7 +81,7 @@ QVariantHash YahooWeatherProvider::parseCurrent(const QVariantMap &_json, const 
     auto condition = _json["condition"].toMap();
 
     QVariantHash values;
-    int id = _json["condition"].toMap()["code"].toInt();
+    auto id = _json["condition"].toMap()["code"].toInt();
     values[tag("weatherId")] = id;
     values[tag("temperature")] = condition["temp"].toInt();
     values[tag("timestamp")] = condition["date"].toString();
@@ -97,9 +98,9 @@ QVariantHash YahooWeatherProvider::parseForecast(const QVariantMap &_json) const
     qCDebug(LOG_LIB) << "Parse forecast from" << _json;
 
     QVariantHash values;
-    QVariantList weatherList = _json["forecast"].toList();
-    QVariantMap weatherMap = weatherList.count() < m_ts ? weatherList.last().toMap() : weatherList.at(m_ts).toMap();
-    int id = weatherMap["code"].toInt();
+    auto weatherList = _json["forecast"].toList();
+    auto weatherMap = weatherList.count() < m_ts ? weatherList.last().toMap() : weatherList.at(m_ts).toMap();
+    auto id = weatherMap["code"].toInt();
     values[tag("weatherId")] = id;
     values[tag("timestamp")] = weatherMap["date"].toString();
     // yahoo provides high and low temperatures. Lets calculate average one

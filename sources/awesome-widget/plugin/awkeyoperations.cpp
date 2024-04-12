@@ -80,7 +80,7 @@ QStringList AWKeyOperations::dictKeys() const
 {
     QStringList allKeys;
     // weather
-    for (auto &item : m_extWeather->activeItems()) {
+    for (auto item : m_extWeather->activeItems()) {
         allKeys.append(item->tag("weatherId"));
         allKeys.append(item->tag("weather"));
         allKeys.append(item->tag("humidity"));
@@ -140,10 +140,10 @@ QStringList AWKeyOperations::dictKeys() const
         allKeys.append(QString("battotal%1").arg(i));
     }
     // package manager
-    for (auto &item : m_extUpgrade->activeItems())
+    for (auto item : m_extUpgrade->activeItems())
         allKeys.append(item->tag("pkgcount"));
     // quotes
-    for (auto &item : m_extQuotes->activeItems()) {
+    for (auto item : m_extQuotes->activeItems()) {
         allKeys.append(item->tag("price"));
         allKeys.append(item->tag("pricechg"));
         allKeys.append(item->tag("percpricechg"));
@@ -152,13 +152,13 @@ QStringList AWKeyOperations::dictKeys() const
         allKeys.append(item->tag("percvolumechg"));
     }
     // custom
-    for (auto &item : m_extScripts->activeItems())
+    for (auto item : m_extScripts->activeItems())
         allKeys.append(item->tag("custom"));
     // network requests
-    for (auto &item : m_extNetRequest->activeItems())
+    for (auto item : m_extNetRequest->activeItems())
         allKeys.append(item->tag("response"));
     // bars
-    for (auto &item : m_graphicalItems->activeItems())
+    for (auto item : m_graphicalItems->activeItems())
         allKeys.append(item->tag("bar"));
     // user defined keys
     allKeys.append(m_customKeys->keys());

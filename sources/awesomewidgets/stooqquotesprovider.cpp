@@ -40,6 +40,7 @@ void StooqQuotesProvider::initUrl(const QString &_asset)
     qCDebug(LOG_LIB) << "Init query for" << _asset;
 
     m_url = QUrl(STOOQ_QUOTES_URL);
+
     QUrlQuery params;
     params.addQueryItem("s", _asset);
     params.addQueryItem("f", "pv");

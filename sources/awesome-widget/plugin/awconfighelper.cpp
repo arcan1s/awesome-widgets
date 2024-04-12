@@ -84,8 +84,7 @@ bool AWConfigHelper::exportConfiguration(QObject *_nativeConfig, const QString &
 
     // extensions
     for (auto &item : m_dirs) {
-        QStringList items
-            = QDir(QString("%1/%2").arg(m_baseDir, item)).entryList({"*.desktop"}, QDir::Files);
+        QStringList items = QDir(QString("%1/%2").arg(m_baseDir, item)).entryList({"*.desktop"}, QDir::Files);
         settings.beginGroup(item);
         for (auto &it : items)
             copyExtensions(it, item, settings, false);

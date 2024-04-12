@@ -161,7 +161,7 @@ void AWFormatterHelper::initFormatters()
             // check if already exists
             auto values = m_formattersClasses.values();
             if (std::any_of(values.cbegin(), values.cend(),
-                            [&filePath](const AWAbstractFormatter *item) { return (item->fileName() == filePath); }))
+                            [&filePath](const AWAbstractFormatter *item) { return (item->filePath() == filePath); }))
                 continue;
 
             auto metadata = readMetadata(filePath);

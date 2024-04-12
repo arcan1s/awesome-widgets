@@ -27,6 +27,7 @@ namespace TaskManager
 class VirtualDesktopInfo;
 class WindowTasksModel;
 } // namespace TaskManager
+
 class DPAdds : public QObject
 {
     Q_OBJECT
