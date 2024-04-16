@@ -55,7 +55,7 @@ void TestAWPatternFunctions::test_findKeys()
 {
     auto count = AWTestLibrary::randomInt(200);
     QStringList allKeys;
-    for (auto i = 0; i < count; i++) {
+    for (auto i = 0; i < count; ++i) {
         auto key = AWTestLibrary::randomString(1, 20);
         while (allKeys.indexOf(QRegularExpression(QString("^%1.*").arg(key))) != -1)
             key = AWTestLibrary::randomString(1, 20);

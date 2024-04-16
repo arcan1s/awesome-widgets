@@ -43,12 +43,6 @@ AWKeysAggregator::AWKeysAggregator(QObject *_parent)
 }
 
 
-AWKeysAggregator::~AWKeysAggregator()
-{
-    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
-}
-
-
 void AWKeysAggregator::initFormatters()
 {
     m_customFormatters->initItems();
@@ -140,17 +134,19 @@ QString AWKeysAggregator::formatter(const QVariant &_data, const QString &_key, 
     case FormatterType::Uptime:
     case FormatterType::UptimeCustom:
         output =
-            [](QString source, const int uptime) {
-                int seconds = uptime - uptime % 60;
-                int minutes = seconds / 60 % 60;
-                int hours = ((seconds / 60) - minutes) / 60 % 24;
-                int days = (((seconds / 60) - minutes) / 60 - hours) / 24;
+            [](auto source, auto uptime) {
+                auto seconds = uptime - uptime % 60;
+                auto minutes = seconds / 60 % 60;
+                auto hours = ((seconds / 60) - minutes) / 60 % 24;
+                auto days = (((seconds / 60) - minutes) / 60 - hours) / 24;
+
                 source.replace("$dd", QString("%1").arg(days, 3, 10, QChar('0')));
                 source.replace("$d", QString("%1").arg(days));
                 source.replace("$hh", QString("%1").arg(hours, 2, 10, QChar('0')));
                 source.replace("$h", QString("%1").arg(hours));
                 source.replace("$mm", QString("%1").arg(minutes, 2, 10, QChar('0')));
                 source.replace("$m", QString("%1").arg(minutes));
+
                 return source;
             }(m_mapper->formatter(_key) == FormatterType::Uptime ? "$ddd$hhh$mmm" : m_customUptime,
               static_cast<int>(_data.toDouble()));

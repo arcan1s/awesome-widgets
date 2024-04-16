@@ -33,7 +33,7 @@ class AWDataEngineMapper : public QObject
 
 public:
     explicit AWDataEngineMapper(QObject *_parent = nullptr, AWFormatterHelper *_custom = nullptr);
-    ~AWDataEngineMapper() override;
+    ~AWDataEngineMapper() override = default;
     // get methods
     [[nodiscard]] AWKeysAggregator::FormatterType formatter(const QString &_key) const;
     [[nodiscard]] QStringList keysFromSource(const QString &_source) const;

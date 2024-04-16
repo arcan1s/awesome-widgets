@@ -29,7 +29,7 @@ class AWConfigHelper : public QObject
 
 public:
     explicit AWConfigHelper(QObject *_parent = nullptr);
-    ~AWConfigHelper() override;
+    ~AWConfigHelper() override = default;
     Q_INVOKABLE [[nodiscard]] static QString configurationDirectory();
     Q_INVOKABLE static bool dropCache();
     Q_INVOKABLE bool exportConfiguration(QObject *_nativeConfig, const QString &_fileName) const;

@@ -26,7 +26,7 @@ class AWPairConfigFactory : public QObject
 
 public:
     explicit AWPairConfigFactory(QObject *_parent = nullptr);
-    ~AWPairConfigFactory() override;
+    ~AWPairConfigFactory() override = default;
     Q_INVOKABLE static void showFormatterDialog(const QStringList &_keys);
     Q_INVOKABLE static void showKeysDialog(const QStringList &_keys);
 

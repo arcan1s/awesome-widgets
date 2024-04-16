@@ -30,7 +30,7 @@ public:
     const char *REMOTE_TELEMETRY_URL = "https://arcanis.me/telemetry";
 
     explicit AWTelemetryHandler(QObject *_parent = nullptr, const QString &_clientId = "");
-    ~AWTelemetryHandler() override;
+    ~AWTelemetryHandler() override = default;
     Q_INVOKABLE [[nodiscard]] QStringList get(const QString &_group) const;
     Q_INVOKABLE [[nodiscard]] QString getLast(const QString &_group) const;
     Q_INVOKABLE void init(int _count, bool _enableRemote, const QString &_clientId);

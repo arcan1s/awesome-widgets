@@ -29,12 +29,6 @@ AWPairConfigFactory::AWPairConfigFactory(QObject *_parent)
 }
 
 
-AWPairConfigFactory::~AWPairConfigFactory()
-{
-    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
-}
-
-
 void AWPairConfigFactory::showFormatterDialog(const QStringList &_keys)
 {
     auto config = new AWFormatterConfig(nullptr, _keys);

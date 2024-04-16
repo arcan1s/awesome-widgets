@@ -34,17 +34,11 @@ AWConfigHelper::AWConfigHelper(QObject *_parent)
 }
 
 
-AWConfigHelper::~AWConfigHelper()
-{
-    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
-}
-
-
 QString AWConfigHelper::configurationDirectory()
 {
     // get readable directory
-    QString localDir = QString("%1/awesomewidgets/configs")
-                           .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
+    auto localDir = QString("%1/awesomewidgets/configs")
+                        .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
 
     // create directory and copy files from default settings
     QDir localDirectory;
@@ -59,7 +53,7 @@ QString AWConfigHelper::configurationDirectory()
 
 bool AWConfigHelper::dropCache()
 {
-    QString fileName
+    auto fileName
         = QString("%1/awesomewidgets.ndx").arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
 
     return QFile(fileName).remove();
@@ -75,7 +69,7 @@ bool AWConfigHelper::exportConfiguration(QObject *_nativeConfig, const QString &
     auto configuration = dynamic_cast<const QQmlPropertyMap *>(_nativeConfig);
     settings.beginGroup("plasmoid");
     for (auto &key : configuration->keys()) {
-        QVariant value = configuration->value(key);
+        auto value = configuration->value(key);
         if (!value.isValid())
             continue;
         settings.setValue(key, value);
@@ -84,7 +78,7 @@ bool AWConfigHelper::exportConfiguration(QObject *_nativeConfig, const QString &
 
     // extensions
     for (auto &item : m_dirs) {
-        QStringList items = QDir(QString("%1/%2").arg(m_baseDir, item)).entryList({"*.desktop"}, QDir::Files);
+        auto items = QDir(QString("%1/%2").arg(m_baseDir, item)).entryList({"*.desktop"}, QDir::Files);
         settings.beginGroup(item);
         for (auto &it : items)
             copyExtensions(it, item, settings, false);
@@ -162,7 +156,7 @@ QVariantMap AWConfigHelper::importConfiguration(const QString &_fileName, const 
 
 QVariantMap AWConfigHelper::readDataEngineConfiguration()
 {
-    QString fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation, "plasma-dataengine-extsysmon.conf");
+    auto fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation, "plasma-dataengine-extsysmon.conf");
     qCInfo(LOG_AW) << "Configuration file" << fileName;
     QSettings settings(fileName, QSettings::IniFormat);
     QVariantMap configuration;
@@ -186,8 +180,8 @@ bool AWConfigHelper::writeDataEngineConfiguration(const QVariantMap &_configurat
 {
     qCDebug(LOG_AW) << "Configuration" << _configuration;
 
-    QString fileName = QString("%1/plasma-dataengine-extsysmon.conf")
-                           .arg(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation));
+    auto fileName = QString("%1/plasma-dataengine-extsysmon.conf")
+                        .arg(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation));
     QSettings settings(fileName, QSettings::IniFormat);
     qCInfo(LOG_AW) << "Configuration file" << settings.fileName();
 
@@ -210,15 +204,15 @@ void AWConfigHelper::copyConfigs(const QString &_localDir)
 {
     qCDebug(LOG_AW) << "Local directory" << _localDir;
 
-    QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, "awesomewidgets/configs",
-                                                 QStandardPaths::LocateDirectory);
+    auto dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, "awesomewidgets/configs",
+                                          QStandardPaths::LocateDirectory);
     for (auto &dir : dirs) {
         if (dir == _localDir)
             continue;
-        QStringList files = QDir(dir).entryList(QDir::Files);
+        auto files = QDir(dir).entryList(QDir::Files);
         for (auto &source : files) {
-            QString destination = QString("%1/%2").arg(_localDir).arg(source);
-            bool status = QFile::copy(QString("%1/%2").arg(dir).arg(source), destination);
+            auto destination = QString("%1/%2").arg(_localDir, source);
+            auto status = QFile::copy(QString("%1/%2").arg(dir, source), destination);
             qCInfo(LOG_AW) << "File" << source << "has been copied to" << destination << "with status" << status;
         }
     }
@@ -231,7 +225,7 @@ void AWConfigHelper::copyExtensions(const QString &_item, const QString &_type, 
     qCDebug(LOG_AW) << "Extension" << _item << "has type" << _type << "inverse copying" << _inverse;
 
     _settings.beginGroup(_item);
-    QSettings itemSettings(QString("%1/%2/%3").arg(m_baseDir).arg(_type).arg(_item), QSettings::IniFormat);
+    QSettings itemSettings(QString("%1/%2/%3").arg(m_baseDir, _type, _item), QSettings::IniFormat);
     itemSettings.beginGroup("Desktop Entry");
     if (_inverse)
         copySettings(_settings, itemSettings);
@@ -258,7 +252,7 @@ void AWConfigHelper::readFile(QSettings &_settings, const QString &_key, const Q
 
     QFile file(_fileName);
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QString text = QString::fromUtf8(file.readAll());
+        auto text = QString::fromUtf8(file.readAll());
         file.close();
         _settings.setValue(_key, text);
     } else {

@@ -44,7 +44,7 @@ bool AWKeyCache::addKeyToCache(const QString &_type, const QString &_key)
     if (_type == "net") {
         auto rawInterfaceList = QNetworkInterface::allInterfaces();
         for (auto &interface : rawInterfaceList) {
-            QString device = interface.name();
+            auto device = interface.name();
             if (cachedValues.contains(device))
                 continue;
             qCInfo(LOG_AW) << "Found new key" << device << "for type" << _type;
@@ -74,10 +74,11 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys, const QStringL
     used.unite(QSet(_bars.cbegin(), _bars.cend()));
     used.unite(QSet(_userKeys.cbegin(), _userKeys.cend()));
     // insert keys from tooltip
-    for (auto &key : _tooltip.keys()) {
-        if ((key.endsWith("Tooltip")) && (_tooltip[key].toBool())) {
-            key.remove("Tooltip");
-            used << key;
+    for (auto [key, value] : _tooltip.asKeyValueRange()) {
+        if ((key.endsWith("Tooltip")) && value.toBool()) {
+            auto local = key;
+            local.remove("Tooltip");
+            used << local;
         }
     }
 
@@ -133,7 +134,7 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys, const QStringL
             used << filtered;
     }
     // netdev key
-    if (std::any_of(netKeys.cbegin(), netKeys.cend(), [&used](const QString &key) { return used.contains(key); }))
+    if (std::any_of(netKeys.cbegin(), netKeys.cend(), [&used](auto &key) { return used.contains(key); }))
         used << "netdev";
 
     // HACK append dummy if there are no other keys. This hack is required

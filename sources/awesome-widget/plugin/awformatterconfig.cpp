@@ -29,9 +29,3 @@ AWFormatterConfig::AWFormatterConfig(QWidget *_parent, const QStringList &_keys)
     setEditable(false, false);
     initHelper<AWFormatterHelper>();
 }
-
-
-AWFormatterConfig::~AWFormatterConfig()
-{
-    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
-}

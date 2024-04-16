@@ -73,7 +73,7 @@ QString AWTestLibrary::randomString(const int _min, const int _max)
     QString output;
 
     auto count = _min + randomInt(_max - _min);
-    for (auto i = 0; i < count; i++)
+    for (auto i = 0; i < count; ++i)
         output += randomChar();
 
     return output;
@@ -85,7 +85,7 @@ QStringList AWTestLibrary::randomStringList(const int _max)
     QStringList output;
 
     auto count = 1 + randomInt(_max);
-    for (auto i = 0; i < count; i++)
+    for (auto i = 0; i < count; ++i)
         output.append(randomString());
 
     return output;
@@ -97,7 +97,7 @@ QStringList AWTestLibrary::randomSelect(const QStringList &_available)
     QSet<QString> output;
 
     auto count = 1 + randomInt(_available.count());
-    for (auto i = 0; i < count; i++) {
+    for (auto i = 0; i < count; ++i) {
         auto index = randomInt(_available.count());
         output << _available.at(index);
     }

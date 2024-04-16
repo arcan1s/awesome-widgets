@@ -30,12 +30,6 @@ AWCustomKeysHelper::AWCustomKeysHelper(QObject *_parent)
 }
 
 
-AWCustomKeysHelper::~AWCustomKeysHelper()
-{
-    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
-}
-
-
 QString AWCustomKeysHelper::source(const QString &_key) const
 {
     qCDebug(LOG_AW) << "Get source by key" << _key;

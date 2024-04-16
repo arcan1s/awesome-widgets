@@ -31,7 +31,7 @@ class AWDBusAdaptor : public QDBusAbstractAdaptor
 
 public:
     explicit AWDBusAdaptor(AWKeys *_parent = nullptr);
-    ~AWDBusAdaptor() override;
+    ~AWDBusAdaptor() override = default;
 
 public slots:
     // get methods

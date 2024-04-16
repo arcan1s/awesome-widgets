@@ -31,8 +31,8 @@ AWAbstractSelector::AWAbstractSelector(QWidget *_parent, const QPair<bool, bool>
     ui->comboBox_key->setEditable(_editable.first);
     ui->comboBox_value->setEditable(_editable.second);
 
-    connect(ui->comboBox_key, SIGNAL(currentIndexChanged(int)), this, SIGNAL(selectionChanged()));
-    connect(ui->comboBox_value, SIGNAL(currentIndexChanged(int)), this, SIGNAL(selectionChanged()));
+    connect(ui->comboBox_key, &QComboBox::currentIndexChanged, this, &AWAbstractSelector::selectionChanged);
+    connect(ui->comboBox_value, &QComboBox::currentIndexChanged, this, &AWAbstractSelector::selectionChanged);
 }
 
 
@@ -46,10 +46,10 @@ AWAbstractSelector::~AWAbstractSelector()
 
 QPair<QString, QString> AWAbstractSelector::current() const
 {
-    QString key = ui->comboBox_key->currentText();
-    QString value = ui->comboBox_value->currentText();
+    auto key = ui->comboBox_key->currentText();
+    auto value = ui->comboBox_value->currentText();
 
-    return QPair<QString, QString>(key, value);
+    return {key, value};
 }
 
 

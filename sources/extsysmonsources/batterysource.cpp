@@ -55,8 +55,8 @@ void BatterySource::run()
     acFile.close();
 
     // batteries
-    float currentLevel = 0.0, fullLevel = 0.0;
-    for (int i = 0; i < m_batteriesCount; i++) {
+    auto currentLevel = 0.0, fullLevel = 0.0;
+    for (auto i = 0; i < m_batteriesCount; ++i) {
         // current level
         QFile currentLevelFile(QString("%1/BAT%2/energy_now").arg(m_acpiPath).arg(i));
         if (currentLevelFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -101,7 +101,7 @@ QHash<QString, KSysGuard::SensorInfo *> BatterySource::sources() const
     result.insert("battotal", makeSensorInfo("Full battery capacity", QVariant::Int));
 
     // generators
-    for (auto i = 0; i < m_batteriesCount; i++) {
+    for (auto i = 0; i < m_batteriesCount; ++i) {
         result.insert(QString("bat%1").arg(i), makeSensorInfo(QString("Battery %1 usage").arg(i), QVariant::Int,
                                                               KSysGuard::UnitPercent, 0, 100));
         result.insert(QString("batleft%1").arg(i), makeSensorInfo(QString("Battery %1 discharge time").arg(i),
@@ -124,7 +124,7 @@ double BatterySource::approximate(const QList<int> &_trend)
     auto count = _trend.count();
 
     auto sumxy = 0;
-    for (int i = 0; i < count; i++)
+    for (auto i = 0; i < count; ++i)
         sumxy += _trend.at(i) * (i + 1);
 
     auto sumx = count * (count + 1) / 2;
@@ -149,7 +149,7 @@ void BatterySource::calculateRates()
     qCDebug(LOG_AW) << interval;
     m_timestamp.swap(now);
 
-    for (int i = 0; i < m_batteriesCount; i++) {
+    for (auto i = 0; i < m_batteriesCount; ++i) {
         auto approx = approximate(m_trend[i + 1]);
         m_values[QString("batrate%1").arg(i)] = approx / interval;
         m_values[QString("batleft%1").arg(i)] = interval * m_values[QString("batnow%1").arg(i)].toFloat() / approx;

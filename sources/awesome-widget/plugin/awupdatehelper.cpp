@@ -41,12 +41,6 @@ AWUpdateHelper::AWUpdateHelper(QObject *_parent)
 }
 
 
-AWUpdateHelper::~AWUpdateHelper()
-{
-    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
-}
-
-
 void AWUpdateHelper::checkUpdates(const bool _showAnyway)
 {
     qCDebug(LOG_AW) << "Show anyway" << _showAnyway;

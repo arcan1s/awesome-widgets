@@ -20,7 +20,6 @@
 #include <QObject>
 
 
-class QAbstractButton;
 class QNetworkReply;
 
 class AWBugReporter : public QObject

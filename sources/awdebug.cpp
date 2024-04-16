@@ -56,15 +56,15 @@ QString AWDebug::getAboutText(const QString &_type)
             translator = QString("<li>%1</li>").arg(translator);
         text = i18n("Translators:") + "<ul>" + translatorList.join("") + "</ul>";
     } else if (_type == "3rdparty") {
-        QStringList trdPartyList = QString(TRDPARTY_LICENSE).split(';', Qt::SkipEmptyParts);
-        for (int i = 0; i < trdPartyList.count(); i++)
+        auto trdPartyList = QString(TRDPARTY_LICENSE).split(';', Qt::SkipEmptyParts);
+        for (auto i = 0; i < trdPartyList.count(); ++i)
             trdPartyList[i] = QString("<li><a href=\"%3\">%1</a> (%2 license)</li>")
                                   .arg(trdPartyList.at(i).split(',')[0], trdPartyList.at(i).split(',')[1],
                                        trdPartyList.at(i).split(',')[2]);
         text = i18n("This software uses:") + "<ul>" + trdPartyList.join("") + "</ul>";
     } else if (_type == "thanks") {
-        QStringList thanks = QString(SPECIAL_THANKS).split(';', Qt::SkipEmptyParts);
-        for (int i = 0; i < thanks.count(); i++)
+        auto thanks = QString(SPECIAL_THANKS).split(';', Qt::SkipEmptyParts);
+        for (auto i = 0; i < thanks.count(); ++i)
             thanks[i]
                 = QString("<li><a href=\"%2\">%1</a></li>").arg(thanks.at(i).split(',')[0], thanks.at(i).split(',')[1]);
         text = i18n("Special thanks to:") + "<ul>" + thanks.join("") + "</ul>";

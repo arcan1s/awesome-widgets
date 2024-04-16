@@ -26,5 +26,5 @@ class AWFormatterConfig : public AWAbstractPairConfig
 
 public:
     explicit AWFormatterConfig(QWidget *_parent = nullptr, const QStringList &_keys = QStringList());
-    ~AWFormatterConfig() override;
+    ~AWFormatterConfig() override = default;
 };

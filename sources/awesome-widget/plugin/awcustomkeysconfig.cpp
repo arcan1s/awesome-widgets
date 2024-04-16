@@ -29,9 +29,3 @@ AWCustomKeysConfig::AWCustomKeysConfig(QWidget *_parent, const QStringList &_key
     setEditable(true, false);
     initHelper<AWCustomKeysHelper>();
 }
-
-
-AWCustomKeysConfig::~AWCustomKeysConfig()
-{
-    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
-}

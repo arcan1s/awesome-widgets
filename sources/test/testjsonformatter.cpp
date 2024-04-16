@@ -73,7 +73,7 @@ void TestAWJsonFormatter::generate()
     auto listCount = AWTestLibrary::randomInt(5) + 1;
     auto validCount = AWTestLibrary::randomInt(listCount);
     QVariantList second;
-    for (auto i = 0; i < listCount; i++) {
+    for (auto i = 0; i < listCount; ++i) {
         if (i == validCount) {
             second.append(first);
         } else {

@@ -58,8 +58,7 @@ void AWFormatterHelper::initItems()
 
     // assign internal storage
     m_formatters.clear();
-    for (auto &key : pairs().keys()) {
-        auto name = pairs()[key];
+    for (auto [key, name] : pairs().asKeyValueRange()) {
         if (!m_formattersClasses.contains(name)) {
             qCWarning(LOG_AW) << "Invalid formatter" << name << "found in" << key;
             continue;
@@ -87,7 +86,7 @@ QStringList AWFormatterHelper::definedFormatters() const
 QList<AbstractExtItem *> AWFormatterHelper::items() const
 {
     QList<AbstractExtItem *> converted;
-    for (auto &item : m_formattersClasses.values())
+    for (auto item : m_formattersClasses.values())
         converted.append(item);
 
     return converted;
@@ -123,7 +122,7 @@ AWAbstractFormatter::FormatterClass AWFormatterHelper::defineFormatterClass(cons
 {
     qCDebug(LOG_AW) << "Define formatter class for" << _stringType;
 
-    AWAbstractFormatter::FormatterClass formatter = AWAbstractFormatter::FormatterClass::NoFormat;
+    auto formatter = AWAbstractFormatter::FormatterClass::NoFormat;
     if (_stringType == "DateTime")
         formatter = AWAbstractFormatter::FormatterClass::DateTime;
     else if (_stringType == "Float")
@@ -151,17 +150,17 @@ void AWFormatterHelper::initFormatters()
 
     auto dirs = directories();
     for (auto &dir : dirs) {
-        QStringList files = QDir(dir).entryList(QDir::Files, QDir::Name);
+        auto files = QDir(dir).entryList(QDir::Files, QDir::Name);
         for (auto &file : files) {
             // check filename
             if (!file.endsWith(".desktop"))
                 continue;
             qCInfo(LOG_AW) << "Found file" << file << "in" << dir;
-            QString filePath = QString("%1/%2").arg(dir).arg(file);
+            auto filePath = QString("%1/%2").arg(dir, file);
             // check if already exists
             auto values = m_formattersClasses.values();
             if (std::any_of(values.cbegin(), values.cend(),
-                            [&filePath](const AWAbstractFormatter *item) { return (item->filePath() == filePath); }))
+                            [&filePath](auto item) { return (item->filePath() == filePath); }))
                 continue;
 
             auto metadata = readMetadata(filePath);
@@ -198,13 +197,14 @@ QPair<QString, AWAbstractFormatter::FormatterClass> AWFormatterHelper::readMetad
     qCDebug(LOG_AW) << "Read initial parameters from" << _filePath;
 
     QSettings settings(_filePath, QSettings::IniFormat);
+
     settings.beginGroup("Desktop Entry");
     auto name = settings.value("Name", _filePath).toString();
     auto type = settings.value("X-AW-Type", "NoFormat").toString();
     auto formatter = defineFormatterClass(type);
     settings.endGroup();
 
-    return QPair<QString, AWAbstractFormatter::FormatterClass>(name, formatter);
+    return {name, formatter};
 }
 
 
@@ -219,7 +219,7 @@ void AWFormatterHelper::doCreateItem(QListWidget *_widget)
     }
 
     qCInfo(LOG_AW) << "Selected type" << select;
-    AWAbstractFormatter::FormatterClass formatter = defineFormatterClass(select);
+    auto formatter = defineFormatterClass(select);
     switch (formatter) {
     case AWAbstractFormatter::FormatterClass::DateTime:
         return createItem<AWDateTimeFormatter>(_widget);

@@ -71,7 +71,7 @@ public:
     static constexpr double GBinBytes = 1024.0 * MBinBytes;
 
     explicit AWKeysAggregator(QObject *_parent = nullptr);
-    ~AWKeysAggregator() override;
+    ~AWKeysAggregator() override = default;
     void initFormatters();
     // get methods
     [[nodiscard]] QString formatter(const QVariant &_data, const QString &_key, bool replaceSpace) const;

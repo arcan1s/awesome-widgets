@@ -33,7 +33,7 @@ class AWAbstractPairConfig : public QDialog
     Q_OBJECT
 
 public:
-    explicit AWAbstractPairConfig(QWidget *_parent = nullptr, bool _hasEdit = false, QStringList _keys = QStringList());
+    explicit AWAbstractPairConfig(QWidget *_parent = nullptr, bool _hasEdit = false, QStringList _keys = {});
     ~AWAbstractPairConfig() override;
     template <class T> void initHelper()
     {

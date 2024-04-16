@@ -41,7 +41,7 @@ QHash<QString, KSysGuard::SensorInfo *> LoadSource::sources() const
 {
     auto result = QHash<QString, KSysGuard::SensorInfo *>();
 
-    for (auto i = 0; i < 1000; i++)
+    for (auto i = 0; i < 1000; ++i)
         result.insert(QString("load%1").arg(i), makeSensorInfo("Simple sources for load tests", QVariant::Int));
 
     return result;

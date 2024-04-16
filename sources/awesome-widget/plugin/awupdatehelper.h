@@ -30,7 +30,7 @@ class AWUpdateHelper : public QObject
 
 public:
     explicit AWUpdateHelper(QObject *_parent = nullptr);
-    ~AWUpdateHelper() override;
+    ~AWUpdateHelper() override = default;
     void checkUpdates(bool _showAnyway = false);
     bool checkVersion();
 

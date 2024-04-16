@@ -40,12 +40,6 @@ AWActions::AWActions(QObject *_parent)
 }
 
 
-AWActions::~AWActions()
-{
-    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
-}
-
-
 void AWActions::checkUpdates(const bool _showAnyway)
 {
     qCDebug(LOG_AW) << "Show anyway" << _showAnyway;
@@ -65,7 +59,7 @@ QString AWActions::getFileContent(const QString &_path)
         return "";
     }
 
-    QString output = inputFile.readAll();
+    auto output = inputFile.readAll();
     inputFile.close();
     return output;
 }
@@ -102,10 +96,10 @@ QVariantMap AWActions::getFont(const QVariantMap &_defaultFont)
     qCDebug(LOG_AW) << "Default font is" << _defaultFont;
 
     QVariantMap fontMap;
-    int ret = 0;
-    CFont defaultCFont = CFont(_defaultFont["family"].toString(), _defaultFont["size"].toInt(), 400, false,
-                               _defaultFont["color"].toString());
-    CFont font = CFontDialog::getFont(i18n("Select font"), defaultCFont, false, false, &ret);
+    auto ret = 0;
+    auto defaultCFont = CFont(_defaultFont["family"].toString(), _defaultFont["size"].toInt(), 400, false,
+                              _defaultFont["color"].toString());
+    auto font = CFontDialog::getFont(i18n("Select font"), defaultCFont, false, false, &ret);
 
     fontMap["applied"] = ret;
     fontMap["color"] = font.color().name();

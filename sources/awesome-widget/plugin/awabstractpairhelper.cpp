@@ -34,12 +34,6 @@ AWAbstractPairHelper::AWAbstractPairHelper(QString _filePath, QString _section)
 }
 
 
-AWAbstractPairHelper::~AWAbstractPairHelper()
-{
-    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
-}
-
-
 QStringList AWAbstractPairHelper::keys() const
 {
     return m_pairs.keys();
@@ -69,16 +63,16 @@ void AWAbstractPairHelper::initItems()
 {
     m_pairs.clear();
 
-    QStringList configs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, m_filePath);
+    auto configs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, m_filePath);
 
     for (auto &fileName : configs) {
         QSettings settings(fileName, QSettings::IniFormat);
         qCInfo(LOG_AW) << "Configuration file" << settings.fileName();
 
         settings.beginGroup(m_section);
-        QStringList keys = settings.childKeys();
+        auto keys = settings.childKeys();
         for (auto &key : keys) {
-            QString value = settings.value(key).toString();
+            auto value = settings.value(key).toString();
             qCInfo(LOG_AW) << "Found key" << key << "for value" << value << "in" << settings.fileName();
             if (value.isEmpty()) {
                 qCInfo(LOG_AW) << "Skip empty value for" << key;
@@ -95,8 +89,8 @@ bool AWAbstractPairHelper::writeItems(const QHash<QString, QString> &_configurat
 {
     qCDebug(LOG_AW) << "Write configuration" << _configuration;
 
-    QString fileName
-        = QString("%1/%2").arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation)).arg(m_filePath);
+    auto fileName
+        = QString("%1/%2").arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation), m_filePath);
     QSettings settings(fileName, QSettings::IniFormat);
     qCInfo(LOG_AW) << "Configuration file" << fileName;
 
@@ -107,7 +101,7 @@ bool AWAbstractPairHelper::writeItems(const QHash<QString, QString> &_configurat
 
     settings.sync();
 
-    return (settings.status() == QSettings::NoError);
+    return settings.status() == QSettings::NoError;
 }
 
 
@@ -115,14 +109,13 @@ bool AWAbstractPairHelper::removeUnusedKeys(const QStringList &_keys) const
 {
     qCDebug(LOG_AW) << "Remove keys" << _keys;
 
-    QString fileName
-        = QString("%1/%2").arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation)).arg(m_filePath);
+    auto fileName
+        = QString("%1/%2").arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation), m_filePath);
     QSettings settings(fileName, QSettings::IniFormat);
     qCInfo(LOG_AW) << "Configuration file" << fileName;
 
     settings.beginGroup(m_section);
-    QStringList foundKeys = settings.childKeys();
-    for (auto &key : foundKeys) {
+    for (auto &key : settings.childKeys()) {
         if (_keys.contains(key))
             continue;
         settings.remove(key);
@@ -131,5 +124,5 @@ bool AWAbstractPairHelper::removeUnusedKeys(const QStringList &_keys) const
 
     settings.sync();
 
-    return (settings.status() == QSettings::NoError);
+    return settings.status() == QSettings::NoError;
 }

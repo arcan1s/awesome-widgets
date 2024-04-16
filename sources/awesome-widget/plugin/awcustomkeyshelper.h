@@ -28,7 +28,7 @@ class AWCustomKeysHelper : public QObject, public AWAbstractPairHelper
 
 public:
     explicit AWCustomKeysHelper(QObject *_parent = nullptr);
-    ~AWCustomKeysHelper() override;
+    ~AWCustomKeysHelper() override = default;
     // get
     [[nodiscard]] QString source(const QString &_key) const;
     [[nodiscard]] QStringList sources() const;
@@ -37,6 +37,4 @@ public:
     void editPairs() override{};
     QStringList leftKeys() override;
     QStringList rightKeys() override;
-
-private:
 };

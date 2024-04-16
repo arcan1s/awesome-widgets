@@ -52,12 +52,6 @@ AWDataEngineMapper::AWDataEngineMapper(QObject *_parent, AWFormatterHelper *_cus
 }
 
 
-AWDataEngineMapper::~AWDataEngineMapper()
-{
-    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
-}
-
-
 AWKeysAggregator::FormatterType AWDataEngineMapper::formatter(const QString &_key) const
 {
     qCDebug(LOG_AW) << "Get formatter for key" << _key;
@@ -82,18 +76,18 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSy
     qCDebug(LOG_AW) << "Source" << _source << "with units" << _units;
 
     // regular expressions
-    auto cpuRegExp = QRegularExpression("^cpu/cpu.*/usage$");
-    auto cpuclRegExp = QRegularExpression("^cpu/cpu.*/frequency$");
-    auto cpuTempRegExp = QRegularExpression("^cpu/cpu.*/temperature$");
-    auto gpuRegExp = QRegularExpression("^gpu/gpu.*/usage$");
-    auto gpuTempRegExp = QRegularExpression("^gpu/gpu.*/temperature$");
-    auto hddrRegExp = QRegularExpression("^disk/.*/read$");
-    auto hddwRegExp = QRegularExpression("^disk/.*/write$");
-    auto mountFillRegExp = QRegularExpression("^disk/.*/usedPercent$");
-    auto mountFreeRegExp = QRegularExpression("^disk/.*/free$");
-    auto mountUsedRegExp = QRegularExpression("^disk/.*/used$");
-    auto netRegExp = QRegularExpression("^network/.*/(download|upload)$");
-    auto netTotalRegExp = QRegularExpression("^network/.*/(totalDownload|totalUpload)$");
+    static auto cpuRegExp = QRegularExpression("^cpu/cpu.*/usage$");
+    static auto cpuclRegExp = QRegularExpression("^cpu/cpu.*/frequency$");
+    static auto cpuTempRegExp = QRegularExpression("^cpu/cpu.*/temperature$");
+    static auto gpuRegExp = QRegularExpression("^gpu/gpu.*/usage$");
+    static auto gpuTempRegExp = QRegularExpression("^gpu/gpu.*/temperature$");
+    static auto hddrRegExp = QRegularExpression("^disk/.*/read$");
+    static auto hddwRegExp = QRegularExpression("^disk/.*/write$");
+    static auto mountFillRegExp = QRegularExpression("^disk/.*/usedPercent$");
+    static auto mountFreeRegExp = QRegularExpression("^disk/.*/free$");
+    static auto mountUsedRegExp = QRegularExpression("^disk/.*/used$");
+    static auto netRegExp = QRegularExpression("^network/.*/(download|upload)$");
+    static auto netTotalRegExp = QRegularExpression("^network/.*/(totalDownload|totalUpload)$");
 
     if (_source == "extsysmon/battery/ac") {
         // AC
@@ -209,7 +203,7 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSy
         auto index = m_devices["mount"].indexOf(device);
         if (index > -1) {
             // mb
-            QString key = QString("hddfreemb%1").arg(index);
+            auto key = QString("hddfreemb%1").arg(index);
             m_map.insert(_source, key);
             m_formatter[key] = AWKeysAggregator::FormatterType::MemMBFormat;
             // gb
@@ -224,7 +218,7 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSy
         auto index = m_devices["mount"].indexOf(device);
         if (index > -1) {
             // mb
-            QString key = QString("hddmb%1").arg(index);
+            auto key = QString("hddmb%1").arg(index);
             m_map.insert(_source, key);
             m_formatter[key] = AWKeysAggregator::FormatterType::MemMBFormat;
             // gb
@@ -435,7 +429,7 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSy
 
     // drop key from dictionary if no one user requested key required it
     qCInfo(LOG_AW) << "Looking for keys" << foundKeys << "in" << _keys;
-    auto required = _keys.isEmpty() || std::any_of(foundKeys.cbegin(), foundKeys.cend(), [&_keys](const QString &key) {
+    auto required = _keys.isEmpty() || std::any_of(foundKeys.cbegin(), foundKeys.cend(), [&_keys](auto &key) {
                         return _keys.contains(key);
                     });
     if (!required) {

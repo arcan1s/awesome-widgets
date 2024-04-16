@@ -119,7 +119,7 @@ void AWAbstractPairConfig::addSelector(const QStringList &_keys, const QStringLi
 
 void AWAbstractPairConfig::clearSelectors()
 {
-    for (auto &selector : m_selectors) {
+    for (auto selector : m_selectors) {
         disconnect(selector, &AWAbstractSelector::selectionChanged, this, &AWAbstractPairConfig::updateUi);
         ui->verticalLayout->removeWidget(selector);
         selector->deleteLater();
@@ -130,9 +130,9 @@ void AWAbstractPairConfig::clearSelectors()
 
 void AWAbstractPairConfig::execDialog()
 {
-    int ret = exec();
+    auto ret = exec();
     QHash<QString, QString> data;
-    for (auto &selector : m_selectors) {
+    for (auto selector : m_selectors) {
         QPair<QString, QString> select = selector->current();
         if (select.first.isEmpty())
             continue;
@@ -160,6 +160,7 @@ QPair<QStringList, QStringList> AWAbstractPairConfig::initKeys() const
     QStringList left = {""};
     left.append(m_helper->leftKeys().isEmpty() ? m_keys : m_helper->leftKeys());
     left.sort();
+
     QStringList right = {""};
     right.append(m_helper->rightKeys().isEmpty() ? m_keys : m_helper->rightKeys());
     right.sort();
@@ -175,7 +176,7 @@ void AWAbstractPairConfig::updateDialog()
     auto keys = initKeys();
 
     for (auto &key : m_helper->keys())
-        addSelector(keys.first, keys.second, QPair<QString, QString>(key, pairs[key]));
+        addSelector(keys.first, keys.second, {key, pairs[key]});
     // empty one
-    addSelector(keys.first, keys.second, QPair<QString, QString>());
+    addSelector(keys.first, keys.second, {});
 }

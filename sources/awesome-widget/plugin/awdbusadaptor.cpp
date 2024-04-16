@@ -32,27 +32,20 @@ AWDBusAdaptor::AWDBusAdaptor(AWKeys *_parent)
 }
 
 
-AWDBusAdaptor::~AWDBusAdaptor()
-{
-    qCDebug(LOG_DBUS) << __PRETTY_FUNCTION__;
-}
-
-
 QStringList AWDBusAdaptor::ActiveServices()
 {
-    QDBusMessage listServices = QDBusConnection::sessionBus().interface()->call(QDBus::BlockWithGui, "ListNames");
+    auto listServices = QDBusConnection::sessionBus().interface()->call(QDBus::BlockWithGui, "ListNames");
     if (listServices.arguments().isEmpty()) {
         qCWarning(LOG_DBUS) << "Could not find any DBus service";
         return {};
     }
-    QStringList arguments = listServices.arguments().first().toStringList();
+    auto arguments = listServices.arguments().first().toStringList();
 
-    return std::accumulate(arguments.cbegin(), arguments.cend(), QStringList(),
-                           [](QStringList source, const QString &service) {
-                               if (service.startsWith(AWDBUS_SERVICE))
-                                   source.append(service);
-                               return source;
-                           });
+    return std::accumulate(arguments.cbegin(), arguments.cend(), QStringList(), [](auto source, auto &service) {
+        if (service.startsWith(AWDBUS_SERVICE))
+            source.append(service);
+        return source;
+    });
 }
 
 
@@ -103,6 +96,6 @@ void AWDBusAdaptor::SetLogLevel(const QString &what, const QString &level, const
         return;
     }
 
-    QString state = enabled ? "true" : "false";
-    QLoggingCategory::setFilterRules(QString("%1.%2=%3").arg(what).arg(level).arg(state));
+    auto state = enabled ? "true" : "false";
+    QLoggingCategory::setFilterRules(QString("%1.%2=%3").arg(what, level, state));
 }

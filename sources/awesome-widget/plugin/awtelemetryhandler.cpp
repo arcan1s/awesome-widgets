@@ -41,12 +41,6 @@ AWTelemetryHandler::AWTelemetryHandler(QObject *_parent, const QString &_clientI
 }
 
 
-AWTelemetryHandler::~AWTelemetryHandler()
-{
-    qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
-}
-
-
 QStringList AWTelemetryHandler::get(const QString &_group) const
 {
     qCDebug(LOG_AW) << "Get stored data for group" << _group;
@@ -106,7 +100,7 @@ bool AWTelemetryHandler::put(const QString &_group, const QString &_value) const
     settings.remove("");
     // and save now
     for (auto &val : saved) {
-        QString key = getKey(settings.childKeys().count());
+        auto key = getKey(settings.childKeys().count());
         settings.setValue(key, val);
     }
 
