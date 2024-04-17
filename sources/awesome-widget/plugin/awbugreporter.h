@@ -20,6 +20,7 @@
 #include <QObject>
 
 
+class QNetworkAccessManager;
 class QNetworkReply;
 
 class AWBugReporter : public QObject
@@ -44,4 +45,5 @@ private slots:
 
 private:
     QString m_lastBugUrl;
+    QNetworkAccessManager *m_manager = nullptr;
 };

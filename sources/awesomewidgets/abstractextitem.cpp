@@ -36,6 +36,12 @@ AbstractExtItem::AbstractExtItem(QObject *_parent, const QString &_filePath)
     qCDebug(LOG_LIB) << "Desktop name" << _filePath;
 
     m_name = m_filePath;
+
+    m_scheduler = new QCronScheduler(this);
+    connect(m_scheduler, &QCronScheduler::activated, this, &AbstractExtItem::requestDataUpdate);
+
+    m_socket = new QLocalServer(this);
+    connect(m_socket, &QLocalServer::newConnection, this, &AbstractExtItem::requestDataUpdate);
 }
 
 
@@ -43,11 +49,11 @@ AbstractExtItem::~AbstractExtItem()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    if (m_socket) {
-        m_socket->close();
-        QLocalServer::removeServer(socket());
-        m_socket->deleteLater();
-    }
+    m_scheduler->stop();
+    m_scheduler->deleteLater();
+
+    m_socket->close();
+    m_socket->deleteLater();
 }
 
 
@@ -203,20 +209,14 @@ void AbstractExtItem::setComment(const QString &_comment)
 void AbstractExtItem::setCron(const QString &_cron)
 {
     qCDebug(LOG_LIB) << "Cron string" << _cron;
-    // deinit module first
-    if (m_scheduler) {
-        disconnect(m_scheduler, &QCronScheduler::activated, this, &AbstractExtItem::requestDataUpdate);
-        delete m_scheduler;
-    }
 
     m_cron = _cron;
-    if (cron().isEmpty())
-        return;
-
-    // init scheduler
-    m_scheduler = new QCronScheduler(this);
-    m_scheduler->parse(cron());
-    connect(m_scheduler, &QCronScheduler::activated, this, &AbstractExtItem::requestDataUpdate);
+    if (m_cron.isEmpty()) { // disable cron timer
+        m_scheduler->stop();
+    } else {
+        m_scheduler->parse(m_cron);
+        m_scheduler->start();
+    }
 }
 
 
@@ -260,34 +260,18 @@ void AbstractExtItem::setNumber(int _number)
 void AbstractExtItem::setSocket(const QString &_socket)
 {
     qCDebug(LOG_LIB) << "Socket" << _socket;
-    // remove old socket first
-    deinitSocket();
 
     m_socketFile = _socket;
 }
 
 
-void AbstractExtItem::deinitSocket()
-{
-    if (!m_socket)
-        return;
-
-    m_socket->close();
-    QLocalServer::removeServer(socket());
-    disconnect(m_socket, &QLocalServer::newConnection, this, &AbstractExtItem::requestDataUpdate);
-    delete m_socket;
-}
-
-
 void AbstractExtItem::initSocket()
 {
-    // remove old socket first
-    deinitSocket();
+    // reload local socket
+    m_socket->close();
 
-    m_socket = new QLocalServer(this);
-    auto listening = m_socket->listen(socket());
-    qCInfo(LOG_LIB) << "Server listening on" << socket() << listening;
-    connect(m_socket, &QLocalServer::newConnection, this, &AbstractExtItem::requestDataUpdate);
+    auto listening = m_socket->listen(m_socketFile);
+    qCInfo(LOG_LIB) << "Server listening on" << m_socketFile << listening;
 }
 
 

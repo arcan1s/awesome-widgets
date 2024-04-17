@@ -45,7 +45,7 @@ void AWUpdateHelper::checkUpdates(const bool _showAnyway)
 {
     qCDebug(LOG_AW) << "Show anyway" << _showAnyway;
 
-    // showAnyway options requires to show message if no updates found on direct
+    // showAnyway options required to show message if no updates found on direct
     // request. In case of automatic check no message will be shown
     auto manager = new QNetworkAccessManager(nullptr);
     connect(manager, &QNetworkAccessManager::finished,
@@ -126,6 +126,7 @@ void AWUpdateHelper::versionReplyReceived(QNetworkReply *_reply, const bool _sho
         return;
     }
     _reply->deleteLater();
+    _reply->manager()->deleteLater(); // remember to delete manager too
 
     // convert to map
     auto firstRelease = jsonDoc.toVariant().toList().first().toMap();

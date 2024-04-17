@@ -53,7 +53,6 @@ ExtScript::~ExtScript()
 
     m_process->kill();
     m_process->deleteLater();
-    disconnect(this, &ExtScript::requestDataUpdate, this, &ExtScript::startProcess);
 }
 
 

@@ -75,7 +75,6 @@ signals:
     void requestDataUpdate();
 
 public slots:
-    virtual void deinitSocket();
     virtual void initSocket();
     virtual void readConfiguration();
     virtual QVariantHash run() = 0;

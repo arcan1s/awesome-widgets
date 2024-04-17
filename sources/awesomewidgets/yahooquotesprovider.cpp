@@ -23,14 +23,8 @@
 #include "awdebug.h"
 
 
-YahooQuotesProvider::YahooQuotesProvider(QObject *_parent)
-    : AbstractQuotesProvider(_parent)
-{
-    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
-}
-
-
-YahooQuotesProvider::~YahooQuotesProvider()
+YahooQuotesProvider::YahooQuotesProvider()
+    : AbstractQuotesProvider()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 }
@@ -50,7 +44,7 @@ void YahooQuotesProvider::initUrl(const QString &_asset)
 }
 
 
-QVariantHash YahooQuotesProvider::parse(const QByteArray &_source, const QVariantHash &_oldValues) const
+QVariantHash YahooQuotesProvider::parse(const QByteArray &_source)
 {
     qCDebug(LOG_LIB) << "Parse json" << _source;
 
@@ -65,18 +59,16 @@ QVariantHash YahooQuotesProvider::parse(const QByteArray &_source, const QVarian
     auto jsonQuotes = jsonDoc.toVariant().toMap()["query"].toMap();
     jsonQuotes = jsonQuotes["results"].toMap()["quote"].toMap();
 
-    // extract old data
-    auto oldPrice = _oldValues[tag("price")].toDouble();
-
     // last trade
-    auto value = jsonQuotes["LastTradePriceOnly"].toString().toDouble();
-    values[tag("pricechg")] = oldPrice == 0.0 ? 0.0 : value - oldPrice;
-    values[tag("percpricechg")] = 100.0 * values[tag("pricechg")].toDouble() / value;
-    values[tag("price")] = value;
+    auto price = jsonQuotes["LastTradePriceOnly"].toString().toDouble();
+    values["pricechg"] = m_price == 0.0 ? 0.0 : price - m_price;
+    values["percpricechg"] = 100.0 * values["pricechg"].toDouble() / price;
+    values["price"] = price;
+    m_price = price;
     // volume
-    values[tag("volume")] = 0;
-    values[tag("volumechg")] = 0;
-    values[tag("percvolumechg")] = 0.0;
+    values["volume"] = 0;
+    values["volumechg"] = 0;
+    values["percvolumechg"] = 0.0;
 
     return values;
 }

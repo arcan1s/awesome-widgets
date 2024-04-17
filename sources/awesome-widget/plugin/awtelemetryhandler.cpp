@@ -18,8 +18,6 @@
 #include "awtelemetryhandler.h"
 
 #include <QJsonDocument>
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
 #include <QSettings>
 #include <QStandardPaths>
 #include <QUuid>
@@ -65,13 +63,11 @@ QString AWTelemetryHandler::getLast(const QString &_group) const
 }
 
 
-void AWTelemetryHandler::init(const int _count, const bool _enableRemote, const QString &_clientId)
+void AWTelemetryHandler::init(const int _count, const QString &_clientId)
 {
-    qCDebug(LOG_AW) << "Init telemetry with count" << _count << "enable remote" << _enableRemote << "client ID"
-                    << _clientId;
+    qCDebug(LOG_AW) << "Init telemetry with count" << _count << "client ID" << _clientId;
 
     m_storeCount = _count;
-    m_uploadEnabled = _enableRemote;
     m_clientId = _clientId;
 }
 
@@ -109,59 +105,6 @@ bool AWTelemetryHandler::put(const QString &_group, const QString &_value) const
     settings.sync();
     // return status
     return (settings.status() == QSettings::NoError);
-}
-
-
-void AWTelemetryHandler::uploadTelemetry(const QString &_group, const QString &_value)
-{
-    qCDebug(LOG_AW) << "Upload data with group" << _group << "and value" << _value;
-    if (!m_uploadEnabled) {
-        qCInfo(LOG_AW) << "Upload disabled by configuration";
-        return;
-    }
-
-    auto manager = new QNetworkAccessManager(nullptr);
-    connect(manager, &QNetworkAccessManager::finished, this, &AWTelemetryHandler::telemetryReplyReceived);
-
-    QUrl url(REMOTE_TELEMETRY_URL);
-    QNetworkRequest request(url);
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
-    // generate payload
-    QVariantMap payload;
-    payload["api"] = AW_TELEMETRY_API;
-    payload["client_id"] = m_clientId;
-    payload["metadata"] = _value;
-    payload["type"] = _group;
-    // convert to QByteArray to send request
-    auto data = QJsonDocument::fromVariant(payload).toJson(QJsonDocument::Compact);
-    qCInfo(LOG_AW) << "Send request with body" << data.data() << "and size" << data.size();
-
-    manager->post(request, data);
-}
-
-
-void AWTelemetryHandler::telemetryReplyReceived(QNetworkReply *_reply)
-{
-    if (_reply->error() != QNetworkReply::NoError) {
-        qCWarning(LOG_AW) << "An error occurs" << _reply->error() << "with message" << _reply->errorString();
-        return;
-    }
-
-    QJsonParseError error{};
-    auto jsonDoc = QJsonDocument::fromJson(_reply->readAll(), &error);
-    if (error.error != QJsonParseError::NoError) {
-        qCWarning(LOG_AW) << "Parse error" << error.errorString();
-        return;
-    }
-    _reply->deleteLater();
-
-    // convert to map
-    auto response = jsonDoc.toVariant().toMap();
-    auto message = response["message"].toString();
-    qCInfo(LOG_AW) << "Server reply on telemetry" << message;
-
-    return emit(replyReceived(message));
 }
 
 

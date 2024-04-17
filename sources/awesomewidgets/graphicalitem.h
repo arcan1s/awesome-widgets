@@ -52,6 +52,7 @@ public:
     enum class Type { Horizontal = 0, Vertical = 1, Circle = 2, Graph = 3, Bars = 4 };
 
     explicit GraphicalItem(QObject *_parent = nullptr, const QString &_filePath = "");
+    ~GraphicalItem() override;
     GraphicalItem *copy(const QString &_fileName, int _number) override;
     QString image(const QVariant &value);
     void initScene();

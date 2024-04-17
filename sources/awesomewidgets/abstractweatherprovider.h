@@ -17,25 +17,15 @@
 
 #pragma once
 
-#include <QObject>
 #include <QUrl>
+#include <QVariant>
 
-#include "abstractextitem.h"
 
-
-class AbstractWeatherProvider : public QObject
+class AbstractWeatherProvider
 {
-    Q_OBJECT
-
 public:
-    explicit AbstractWeatherProvider(QObject *_parent)
-        : QObject(_parent){};
-    ~AbstractWeatherProvider() override = default;
+    virtual ~AbstractWeatherProvider() = default;
     virtual void initUrl(const QString &_city, const QString &_country, int _ts) = 0;
     [[nodiscard]] virtual QVariantHash parse(const QVariantMap &_json) const = 0;
-    [[nodiscard]] QString tag(const QString &_type) const
-    {
-        return dynamic_cast<AbstractExtItem *>(parent())->tag(_type);
-    };
     [[nodiscard]] virtual QUrl url() const = 0;
 };

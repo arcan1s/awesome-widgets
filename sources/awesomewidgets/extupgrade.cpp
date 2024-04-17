@@ -36,7 +36,7 @@ ExtUpgrade::ExtUpgrade(QObject *_parent, const QString &_filePath)
     m_values[tag("pkgcount")] = 0;
 
     m_process = new QProcess(nullptr);
-    connect(m_process, &QProcess::finished, [this]() { return updateValue(); });
+    connect(m_process, &QProcess::finished, this, &ExtUpgrade::updateValue);
     m_process->waitForFinished(0);
 
     connect(this, &ExtUpgrade::requestDataUpdate, this, &ExtUpgrade::startProcess);
@@ -49,7 +49,6 @@ ExtUpgrade::~ExtUpgrade()
 
     m_process->kill();
     m_process->deleteLater();
-    disconnect(this, &ExtUpgrade::requestDataUpdate, this, &ExtUpgrade::startProcess);
 }
 
 

@@ -33,12 +33,17 @@ AWBugReporter::AWBugReporter(QObject *_parent)
     : QObject(_parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+
+    m_manager = new QNetworkAccessManager(nullptr);
+    connect(m_manager, &QNetworkAccessManager::finished, this, &AWBugReporter::issueReplyReceived);
 }
 
 
 AWBugReporter::~AWBugReporter()
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+
+    m_manager->deleteLater();
 }
 
 
@@ -72,8 +77,6 @@ void AWBugReporter::sendBugReport(const QString &_title, const QString &_body)
 {
     qCDebug(LOG_AW) << "Send bug report with title" << _title << "and body" << _body;
 
-    auto manager = new QNetworkAccessManager(nullptr);
-    connect(manager, &QNetworkAccessManager::finished, this, &AWBugReporter::issueReplyReceived);
 
     auto request = QNetworkRequest(QUrl(BUGTRACKER_API));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -87,7 +90,7 @@ void AWBugReporter::sendBugReport(const QString &_title, const QString &_body)
     auto data = QJsonDocument::fromVariant(payload).toJson(QJsonDocument::Compact);
     qCInfo(LOG_AW) << "Send request with _body" << data.data() << "and size" << data.size();
 
-    manager->post(request, data);
+    m_manager->post(request, data);
 }
 
 

@@ -55,9 +55,6 @@ ExtQuotes::~ExtQuotes()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    disconnect(m_manager, &QNetworkAccessManager::finished, this, &ExtQuotes::quotesReplyReceived);
-    disconnect(this, &ExtQuotes::requestDataUpdate, this, &ExtQuotes::sendRequest);
-
     m_manager->deleteLater();
 }
 
@@ -186,10 +183,9 @@ void ExtQuotes::quotesReplyReceived(QNetworkReply *_reply)
     auto text = _reply->readAll();
     _reply->deleteLater();
 
-    auto data = m_providerObject->parse(text, m_values);
-    if (data.isEmpty())
-        return;
-    m_values = data;
+    auto data = m_providerObject->parse(text);
+    for (auto [key, value] : data.asKeyValueRange())
+        m_values[tag(key)] = value;
 
     emit(dataReceived(m_values));
 }
@@ -205,10 +201,8 @@ void ExtQuotes::sendRequest()
 
 void ExtQuotes::initProvider()
 {
-    delete m_providerObject;
-
     // in the future release it is possible to change provider here
-    m_providerObject = new StooqQuotesProvider(this);
+    m_providerObject = std::make_unique<StooqQuotesProvider>();
 
     return m_providerObject->initUrl(ticker());
 }

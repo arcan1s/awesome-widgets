@@ -55,6 +55,15 @@ GraphicalItem::GraphicalItem(QObject *_parent, const QString &_filePath)
 }
 
 
+GraphicalItem::~GraphicalItem()
+{
+    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
+
+    m_view->deleteLater();
+    m_scene->deleteLater();
+}
+
+
 GraphicalItem *GraphicalItem::copy(const QString &_fileName, const int _number)
 {
     qCDebug(LOG_LIB) << "File" << _fileName << "with number" << _number;

@@ -58,9 +58,6 @@ ExtWeather::~ExtWeather()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    disconnect(m_manager, &QNetworkAccessManager::finished, this, &ExtWeather::weatherReplyReceived);
-    disconnect(this, &ExtWeather::requestDataUpdate, this, &ExtWeather::sendRequest);
-
     m_manager->deleteLater();
 }
 
@@ -354,9 +351,8 @@ void ExtWeather::weatherReplyReceived(QNetworkReply *_reply)
     }
 
     auto data = m_providerObject->parse(jsonDoc.toVariant().toMap());
-    if (data.isEmpty())
-        return;
-    m_values = data;
+    for (auto [key, value] : data.asKeyValueRange())
+        m_values[tag(key)] = value;
     m_values[tag("weather")] = weatherFromInt(m_values[tag("weatherId")].toInt());
 
     emit(dataReceived(m_values));
@@ -365,10 +361,8 @@ void ExtWeather::weatherReplyReceived(QNetworkReply *_reply)
 
 void ExtWeather::initProvider()
 {
-    delete m_providerObject;
-
     // in the future release it is possible to change provider here
-    m_providerObject = new OWMWeatherProvider(this);
+    m_providerObject = std::make_unique<OWMWeatherProvider>();
 
     return m_providerObject->initUrl(city(), country(), ts());
 }

@@ -22,22 +22,20 @@
 
 class OWMWeatherProvider : public AbstractWeatherProvider
 {
-    Q_OBJECT
-
 public:
     // we are using own server to pass requests to OpenWeatherMap because it
     // requires specific APPID which belongs to developer not user
     const char *OWM_WEATHER_URL = "https://arcanis.me/weather";
     const char *OWM_FORECAST_URL = "https://arcanis.me/forecast";
 
-    explicit OWMWeatherProvider(QObject *_parent);
-    ~OWMWeatherProvider() override;
+    explicit OWMWeatherProvider();
+    ~OWMWeatherProvider() override = default;
     void initUrl(const QString &_city, const QString &_country, int) override;
     [[nodiscard]] QVariantHash parse(const QVariantMap &_json) const override;
     [[nodiscard]] QUrl url() const override;
 
 private:
-    [[nodiscard]] QVariantHash parseSingleJson(const QVariantMap &_json) const;
+    [[nodiscard]] static QVariantHash parseSingleJson(const QVariantMap &_json);
     int m_ts = 0;
     QUrl m_url;
 };

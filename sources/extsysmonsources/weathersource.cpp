@@ -26,7 +26,7 @@ WeatherSource::WeatherSource(QObject *_parent)
 {
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
-    m_extWeather = new ExtItemAggregator<ExtWeather>(nullptr, "weather");
+    m_extWeather = new ExtItemAggregator<ExtWeather>(this, "weather");
     m_extWeather->initSockets();
 }
 

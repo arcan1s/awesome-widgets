@@ -26,7 +26,7 @@ RequestSource::RequestSource(QObject *_parent)
 {
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
-    m_extNetRequest = new ExtItemAggregator<ExtNetworkRequest>(nullptr, "requests");
+    m_extNetRequest = new ExtItemAggregator<ExtNetworkRequest>(this, "requests");
     m_extNetRequest->initSockets();
 }
 

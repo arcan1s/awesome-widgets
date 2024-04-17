@@ -189,8 +189,10 @@ void AWKeys::dataUpdated(const QHash<QString, KSysGuard::SensorInfo> &_sensors, 
         if (!_sensors.contains(data.sensorProperty))
             continue;
         auto sensor = _sensors[data.sensorProperty];
-        std::ignore = QtConcurrent::run(m_threadPool, &AWKeys::setDataBySource, this, data.sensorProperty, sensor,
-                                        data.payload);
+        setDataBySource(data.sensorProperty, sensor, data.payload);
+        //        std::ignore = QtConcurrent::run(m_threadPool, &AWKeys::setDataBySource, this, data.sensorProperty,
+        //        sensor,
+        //                                        data.payload);
     }
 }
 

@@ -33,7 +33,7 @@
 #include "awstringformatter.h"
 
 
-AWFormatterHelper::AWFormatterHelper(QWidget *_parent)
+AWFormatterHelper::AWFormatterHelper(QObject *_parent)
     : AbstractExtItemAggregator(_parent, "formatters")
     , AWAbstractPairHelper("awesomewidgets/formatters/formatters.ini", "Formatters")
 {

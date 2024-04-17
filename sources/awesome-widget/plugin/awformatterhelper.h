@@ -27,7 +27,7 @@ class AWFormatterHelper : public AbstractExtItemAggregator, public AWAbstractPai
     Q_OBJECT
 
 public:
-    explicit AWFormatterHelper(QWidget *_parent = nullptr);
+    explicit AWFormatterHelper(QObject *_parent = nullptr);
     ~AWFormatterHelper() override;
     // read-write methods
     void initItems() override;

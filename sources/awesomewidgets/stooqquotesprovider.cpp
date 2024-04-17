@@ -22,14 +22,8 @@
 #include "awdebug.h"
 
 
-StooqQuotesProvider::StooqQuotesProvider(QObject *_parent)
-    : AbstractQuotesProvider(_parent)
-{
-    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
-}
-
-
-StooqQuotesProvider::~StooqQuotesProvider()
+StooqQuotesProvider::StooqQuotesProvider()
+    : AbstractQuotesProvider()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 }
@@ -49,7 +43,7 @@ void StooqQuotesProvider::initUrl(const QString &_asset)
 }
 
 
-QVariantHash StooqQuotesProvider::parse(const QByteArray &_source, const QVariantHash &_oldValues) const
+QVariantHash StooqQuotesProvider::parse(const QByteArray &_source)
 {
     qCDebug(LOG_LIB) << "Parse csv" << _source;
 
@@ -61,20 +55,18 @@ QVariantHash StooqQuotesProvider::parse(const QByteArray &_source, const QVarian
         return values;
     }
 
-    // extract old data
-    auto oldPrice = _oldValues[tag("price")].toDouble();
-    auto oldVolume = _oldValues[tag("volume")].toInt();
-
     // last trade
     auto price = sourceValues.at(0).toDouble();
-    values[tag("pricechg")] = oldPrice == 0.0 ? 0.0 : price - oldPrice;
-    values[tag("percpricechg")] = 100.0 * values[tag("pricechg")].toDouble() / oldPrice;
-    values[tag("price")] = price;
+    values["pricechg"] = m_price == 0.0 ? 0.0 : price - m_price;
+    values["percpricechg"] = 100.0 * values["pricechg"].toDouble() / m_price;
+    values["price"] = price;
+    m_price = price;
     // volume
     auto volume = sourceValues.at(1).toInt();
-    values[tag("volumechg")] = oldVolume == 0 ? 0 : volume - oldVolume;
-    values[tag("percvolumechg")] = 100.0 * values[tag("volumechg")].toDouble() / oldVolume;
-    values[tag("volume")] = volume;
+    values["volumechg"] = m_volume == 0 ? 0 : volume - m_volume;
+    values["percvolumechg"] = 100.0 * values["volumechg"].toDouble() / m_volume;
+    values["volume"] = volume;
+    m_volume = volume;
 
     return values;
 }

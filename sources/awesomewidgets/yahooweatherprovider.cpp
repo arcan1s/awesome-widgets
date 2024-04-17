@@ -22,14 +22,8 @@
 #include "awdebug.h"
 
 
-YahooWeatherProvider::YahooWeatherProvider(QObject *_parent)
-    : AbstractWeatherProvider(_parent)
-{
-    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
-}
-
-
-YahooWeatherProvider::~YahooWeatherProvider()
+YahooWeatherProvider::YahooWeatherProvider()
+    : AbstractWeatherProvider()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 }
@@ -74,7 +68,7 @@ QUrl YahooWeatherProvider::url() const
 }
 
 
-QVariantHash YahooWeatherProvider::parseCurrent(const QVariantMap &_json, const QVariantMap &_atmosphere) const
+QVariantHash YahooWeatherProvider::parseCurrent(const QVariantMap &_json, const QVariantMap &_atmosphere)
 {
     qCDebug(LOG_LIB) << "Parse current weather from" << _json;
 
@@ -82,12 +76,12 @@ QVariantHash YahooWeatherProvider::parseCurrent(const QVariantMap &_json, const 
 
     QVariantHash values;
     auto id = _json["condition"].toMap()["code"].toInt();
-    values[tag("weatherId")] = id;
-    values[tag("temperature")] = condition["temp"].toInt();
-    values[tag("timestamp")] = condition["date"].toString();
-    values[tag("humidity")] = _atmosphere["humidity"].toInt();
+    values["weatherId"] = id;
+    values["temperature"] = condition["temp"].toInt();
+    values["timestamp"] = condition["date"].toString();
+    values["humidity"] = _atmosphere["humidity"].toInt();
     // HACK temporary fix of invalid values on Yahoo! side
-    values[tag("pressure")] = static_cast<int>(_atmosphere["pressure"].toDouble() / 33.863753);
+    values["pressure"] = static_cast<int>(_atmosphere["pressure"].toDouble() / 33.863753);
 
     return values;
 }
@@ -101,13 +95,13 @@ QVariantHash YahooWeatherProvider::parseForecast(const QVariantMap &_json) const
     auto weatherList = _json["forecast"].toList();
     auto weatherMap = weatherList.count() < m_ts ? weatherList.last().toMap() : weatherList.at(m_ts).toMap();
     auto id = weatherMap["code"].toInt();
-    values[tag("weatherId")] = id;
-    values[tag("timestamp")] = weatherMap["date"].toString();
+    values["weatherId"] = id;
+    values["timestamp"] = weatherMap["date"].toString();
     // yahoo provides high and low temperatures. Lets calculate average one
-    values[tag("temperature")] = (weatherMap["high"].toDouble() + weatherMap["low"].toDouble()) / 2.0;
+    values["temperature"] = (weatherMap["high"].toDouble() + weatherMap["low"].toDouble()) / 2.0;
     // ... and no forecast data for humidity and pressure
-    values[tag("humidity")] = 0;
-    values[tag("pressure")] = 0.0;
+    values["humidity"] = 0;
+    values["pressure"] = 0.0;
 
     return values;
 }

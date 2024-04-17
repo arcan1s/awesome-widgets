@@ -27,7 +27,7 @@ void TestAWTelemetryHandler::initTestCase()
 {
     AWTestLibrary::init();
     plugin = new AWTelemetryHandler(this);
-    plugin->init(1, true, telemetryId);
+    plugin->init(1, telemetryId);
     telemetryData = AWTestLibrary::randomString();
     telemetryGroup = AWTestLibrary::randomString();
 }
@@ -58,20 +58,6 @@ void TestAWTelemetryHandler::test_get()
 void TestAWTelemetryHandler::test_getLast()
 {
     QCOMPARE(telemetryData, plugin->getLast(telemetryGroup));
-}
-
-
-void TestAWTelemetryHandler::test_uploadTelemetry()
-{
-    QSKIP("Remote telemetry is disabled at the moment");
-
-    QSignalSpy spy(plugin, SIGNAL(replyReceived(const QString &)));
-    plugin->uploadTelemetry(telemetryValidGroup, telemetryData);
-
-    QVERIFY(spy.wait(5000));
-    auto arguments = spy.takeFirst();
-
-    QCOMPARE(arguments.at(0).toString(), telemetryStatus);
 }
 
 

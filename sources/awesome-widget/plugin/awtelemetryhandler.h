@@ -20,33 +20,21 @@
 #include <QObject>
 
 
-class QNetworkReply;
-
 class AWTelemetryHandler : public QObject
 {
     Q_OBJECT
 
 public:
-    const char *REMOTE_TELEMETRY_URL = "https://arcanis.me/telemetry";
-
     explicit AWTelemetryHandler(QObject *_parent = nullptr, const QString &_clientId = "");
     ~AWTelemetryHandler() override = default;
     Q_INVOKABLE [[nodiscard]] QStringList get(const QString &_group) const;
     Q_INVOKABLE [[nodiscard]] QString getLast(const QString &_group) const;
-    Q_INVOKABLE void init(int _count, bool _enableRemote, const QString &_clientId);
+    Q_INVOKABLE void init(int _count, const QString &_clientId);
     Q_INVOKABLE [[nodiscard]] bool put(const QString &_group, const QString &_value) const;
-    Q_INVOKABLE void uploadTelemetry(const QString &_group, const QString &_value);
-
-signals:
-    void replyReceived(const QString &_message);
-
-private slots:
-    void telemetryReplyReceived(QNetworkReply *_reply);
 
 private:
     static QString getKey(int _count);
     QString m_clientId;
     QString m_localFile;
     int m_storeCount = 0;
-    bool m_uploadEnabled = false;
 };

@@ -22,18 +22,17 @@
 
 class YahooQuotesProvider : public AbstractQuotesProvider
 {
-    Q_OBJECT
-
 public:
     const char *YAHOO_QUOTES_URL = "https://query.yahooapis.com/v1/public/yql";
     const char *YAHOO_QUOTES_QUERY = "select * from yahoo.finance.quotes where symbol='%1'";
 
-    explicit YahooQuotesProvider(QObject *_parent);
-    ~YahooQuotesProvider() override;
+    explicit YahooQuotesProvider();
+    ~YahooQuotesProvider() override = default;
     void initUrl(const QString &_asset) override;
-    [[nodiscard]] QVariantHash parse(const QByteArray &_source, const QVariantHash &_oldValues) const override;
+    [[nodiscard]] QVariantHash parse(const QByteArray &_source) override;
     [[nodiscard]] QUrl url() const override;
 
 private:
+    double m_price = 0.0;
     QUrl m_url;
 };

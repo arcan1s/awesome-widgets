@@ -33,7 +33,7 @@ AWKeysAggregator::AWKeysAggregator(QObject *_parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
-    m_customFormatters = new AWFormatterHelper(nullptr);
+    m_customFormatters = new AWFormatterHelper(this);
     m_mapper = new AWDataEngineMapper(this, m_customFormatters);
 
     // sort time keys

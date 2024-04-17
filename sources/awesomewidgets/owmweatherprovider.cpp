@@ -23,14 +23,8 @@
 #include "awdebug.h"
 
 
-OWMWeatherProvider::OWMWeatherProvider(QObject *_parent)
-    : AbstractWeatherProvider(_parent)
-{
-    qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
-}
-
-
-OWMWeatherProvider::~OWMWeatherProvider()
+OWMWeatherProvider::OWMWeatherProvider()
+    : AbstractWeatherProvider()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 }
@@ -66,7 +60,7 @@ QVariantHash OWMWeatherProvider::parse(const QVariantMap &_json) const
     if (m_ts == 0) {
         return parseSingleJson(_json);
     } else {
-        QVariantList list = _json["list"].toList();
+        auto list = _json["list"].toList();
         return parseSingleJson(list.count() <= m_ts ? list.at(m_ts - 1).toMap() : list.last().toMap());
     }
 }
@@ -78,7 +72,7 @@ QUrl OWMWeatherProvider::url() const
 }
 
 
-QVariantHash OWMWeatherProvider::parseSingleJson(const QVariantMap &_json) const
+QVariantHash OWMWeatherProvider::parseSingleJson(const QVariantMap &_json)
 {
     qCDebug(LOG_LIB) << "Single json data" << _json;
 
@@ -88,19 +82,19 @@ QVariantHash OWMWeatherProvider::parseSingleJson(const QVariantMap &_json) const
     auto weather = _json["weather"].toList();
     if (!weather.isEmpty()) {
         int id = weather.first().toMap()["id"].toInt();
-        output[tag("weatherId")] = id;
+        output["weatherId"] = id;
     }
 
     // main data
     auto mainWeather = _json["main"].toMap();
     if (!weather.isEmpty()) {
-        output[tag("humidity")] = mainWeather["humidity"].toDouble();
-        output[tag("pressure")] = mainWeather["pressure"].toDouble();
-        output[tag("temperature")] = mainWeather["temp"].toDouble();
+        output["humidity"] = mainWeather["humidity"].toDouble();
+        output["pressure"] = mainWeather["pressure"].toDouble();
+        output["temperature"] = mainWeather["temp"].toDouble();
     }
 
     // timestamp
-    output[tag("timestamp")] = QDateTime::fromSecsSinceEpoch(_json["dt"].toUInt()).toUTC();
+    output["timestamp"] = QDateTime::fromSecsSinceEpoch(_json["dt"].toUInt()).toUTC();
 
     return output;
 }

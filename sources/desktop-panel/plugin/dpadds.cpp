@@ -136,7 +136,7 @@ QString DPAdds::toolTipImage(const int _desktop) const
     toolTipScene->addLine(width + 2.0 * margin, height + 2.0 * margin, width + 2.0 * margin, 0);
     toolTipScene->addLine(width + 2.0 * margin, 0, 0, 0);
 
-    // with wayland countours only are supported
+    // with wayland contours only are supported
     auto pen = QPen();
     pen.setWidthF(2.0 * width / 400.0);
     pen.setColor(QColor(m_tooltipColor));
@@ -159,8 +159,8 @@ QString DPAdds::toolTipImage(const int _desktop) const
     QBuffer buffer(&byteArray);
     image.save(&buffer, "PNG");
 
-    delete toolTipView;
-    delete toolTipScene;
+    toolTipView->deleteLater();
+    toolTipScene->deleteLater();
 
     return QString("<img src=\"data:image/png;base64,%1\"/>").arg(QString(byteArray.toBase64()));
 }

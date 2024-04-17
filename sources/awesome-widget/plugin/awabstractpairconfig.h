@@ -35,12 +35,7 @@ class AWAbstractPairConfig : public QDialog
 public:
     explicit AWAbstractPairConfig(QWidget *_parent = nullptr, bool _hasEdit = false, QStringList _keys = {});
     ~AWAbstractPairConfig() override;
-    template <class T> void initHelper()
-    {
-
-        delete m_helper;
-        m_helper = new T(this);
-    }
+    void setHelper(std::unique_ptr<AWAbstractPairHelper> _helper);
     void showDialog();
     // properties
     void setEditable(bool _first, bool _second);
@@ -52,7 +47,7 @@ private slots:
 private:
     QPushButton *m_editButton = nullptr;
     Ui::AWAbstractPairConfig *ui = nullptr;
-    AWAbstractPairHelper *m_helper = nullptr;
+    std::unique_ptr<AWAbstractPairHelper> m_helper;
     QList<AWAbstractSelector *> m_selectors;
     // properties
     QPair<bool, bool> m_editable = {false, false};

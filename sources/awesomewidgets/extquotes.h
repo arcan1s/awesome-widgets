@@ -50,7 +50,7 @@ private slots:
     void sendRequest();
 
 private:
-    AbstractQuotesProvider *m_providerObject = nullptr;
+    std::unique_ptr<AbstractQuotesProvider> m_providerObject;
     QNetworkAccessManager *m_manager = nullptr;
     bool m_isRunning = false;
     void initProvider();

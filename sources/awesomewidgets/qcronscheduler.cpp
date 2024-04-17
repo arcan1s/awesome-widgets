@@ -34,8 +34,6 @@ QCronScheduler::QCronScheduler(QObject *_parent)
     m_timer->setInterval(60 * 1000);
 
     connect(m_timer, &QTimer::timeout, this, &QCronScheduler::expired);
-
-    m_timer->start();
 }
 
 
@@ -44,6 +42,7 @@ QCronScheduler::~QCronScheduler()
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
     m_timer->stop();
+    m_timer->deleteLater();
 }
 
 
@@ -60,6 +59,22 @@ void QCronScheduler::parse(const QString &_timer)
     m_schedule.days = parseField(fields.at(2), 1, 31);
     m_schedule.months = parseField(fields.at(3), 1, 12);
     m_schedule.weekdays = parseField(fields.at(4), 1, 7);
+}
+
+
+void QCronScheduler::start()
+{
+    qCDebug(LOG_LIB) << "Start cron timer";
+
+    m_timer->start();
+}
+
+
+void QCronScheduler::stop()
+{
+    qCDebug(LOG_LIB) << "Stop cron timer";
+
+    m_timer->stop();
 }
 
 

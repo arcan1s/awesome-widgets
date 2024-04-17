@@ -22,22 +22,20 @@
 
 class YahooWeatherProvider : public AbstractWeatherProvider
 {
-    Q_OBJECT
-
 public:
     const char *YAHOO_WEATHER_URL = "https://query.yahooapis.com/v1/public/yql";
     const char *YAHOO_WEATHER_QUERY = "select * from weather.forecast where "
                                       "u='c' and woeid in (select woeid from "
                                       "geo.places(1) where text='%1, %2')";
 
-    explicit YahooWeatherProvider(QObject *_parent);
-    ~YahooWeatherProvider() override;
+    explicit YahooWeatherProvider();
+    ~YahooWeatherProvider() override = default;
     void initUrl(const QString &_city, const QString &_country, int) override;
     [[nodiscard]] QVariantHash parse(const QVariantMap &_json) const override;
     [[nodiscard]] QUrl url() const override;
 
 private:
-    [[nodiscard]] QVariantHash parseCurrent(const QVariantMap &_json, const QVariantMap &_atmosphere) const;
+    [[nodiscard]] static QVariantHash parseCurrent(const QVariantMap &_json, const QVariantMap &_atmosphere);
     [[nodiscard]] QVariantHash parseForecast(const QVariantMap &_json) const;
     int m_ts = 0;
     QUrl m_url;

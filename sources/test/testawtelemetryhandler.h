@@ -34,7 +34,6 @@ private slots:
     void test_put();
     void test_get();
     void test_getLast();
-    void test_uploadTelemetry();
 
 private:
     AWTelemetryHandler *plugin = nullptr;

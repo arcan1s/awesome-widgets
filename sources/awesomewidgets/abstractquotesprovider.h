@@ -17,25 +17,15 @@
 
 #pragma once
 
-#include <QObject>
 #include <QUrl>
+#include <QVariant>
 
-#include "abstractextitem.h"
 
-
-class AbstractQuotesProvider : public QObject
+class AbstractQuotesProvider
 {
-    Q_OBJECT
-
 public:
-    explicit AbstractQuotesProvider(QObject *_parent)
-        : QObject(_parent){};
-    ~AbstractQuotesProvider() override = default;
+    virtual ~AbstractQuotesProvider() = default;
     virtual void initUrl(const QString &_asset) = 0;
-    [[nodiscard]] virtual QVariantHash parse(const QByteArray &_source, const QVariantHash &_oldValues) const = 0;
-    [[nodiscard]] QString tag(const QString &_type) const
-    {
-        return dynamic_cast<AbstractExtItem *>(parent())->tag(_type);
-    };
+    [[nodiscard]] virtual QVariantHash parse(const QByteArray &_source) = 0;
     [[nodiscard]] virtual QUrl url() const = 0;
 };

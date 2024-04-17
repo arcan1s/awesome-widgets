@@ -74,7 +74,7 @@ private slots:
     void weatherReplyReceived(QNetworkReply *_reply);
 
 private:
-    AbstractWeatherProvider *m_providerObject = nullptr;
+    std::unique_ptr<AbstractWeatherProvider> m_providerObject;
     QNetworkAccessManager *m_manager = nullptr;
     bool m_isRunning = false;
     void initProvider();

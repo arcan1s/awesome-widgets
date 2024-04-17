@@ -22,17 +22,17 @@
 
 class StooqQuotesProvider : public AbstractQuotesProvider
 {
-    Q_OBJECT
-
 public:
     const char *STOOQ_QUOTES_URL = "https://stooq.com/q/l/";
 
-    explicit StooqQuotesProvider(QObject *_parent);
-    ~StooqQuotesProvider() override;
+    explicit StooqQuotesProvider();
+    ~StooqQuotesProvider() override = default;
     void initUrl(const QString &_asset) override;
-    [[nodiscard]] QVariantHash parse(const QByteArray &_source, const QVariantHash &_oldValues) const override;
+    [[nodiscard]] QVariantHash parse(const QByteArray &_source) override;
     [[nodiscard]] QUrl url() const override;
 
 private:
+    double m_price = 0.0;
     QUrl m_url;
+    int m_volume = 0;
 };

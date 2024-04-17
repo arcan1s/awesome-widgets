@@ -58,6 +58,12 @@ AWAbstractPairConfig::~AWAbstractPairConfig()
 }
 
 
+void AWAbstractPairConfig::setHelper(std::unique_ptr<AWAbstractPairHelper> _helper)
+{
+    m_helper = std::move(_helper);
+}
+
+
 void AWAbstractPairConfig::showDialog()
 {
     // update dialog
@@ -133,7 +139,7 @@ void AWAbstractPairConfig::execDialog()
     auto ret = exec();
     QHash<QString, QString> data;
     for (auto selector : m_selectors) {
-        QPair<QString, QString> select = selector->current();
+        auto select = selector->current();
         if (select.first.isEmpty())
             continue;
         data[select.first] = select.second;

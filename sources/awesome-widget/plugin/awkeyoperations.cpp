@@ -40,12 +40,12 @@ AWKeyOperations::AWKeyOperations(QObject *_parent)
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
     m_customKeys = new AWCustomKeysHelper(this);
-    m_graphicalItems = new ExtItemAggregator<GraphicalItem>(nullptr, "desktops");
-    m_extNetRequest = new ExtItemAggregator<ExtNetworkRequest>(nullptr, "requests");
-    m_extQuotes = new ExtItemAggregator<ExtQuotes>(nullptr, "quotes");
-    m_extScripts = new ExtItemAggregator<ExtScript>(nullptr, "scripts");
-    m_extUpgrade = new ExtItemAggregator<ExtUpgrade>(nullptr, "upgrade");
-    m_extWeather = new ExtItemAggregator<ExtWeather>(nullptr, "weather");
+    m_graphicalItems = new ExtItemAggregator<GraphicalItem>(this, "desktops");
+    m_extNetRequest = new ExtItemAggregator<ExtNetworkRequest>(this, "requests");
+    m_extQuotes = new ExtItemAggregator<ExtQuotes>(this, "quotes");
+    m_extScripts = new ExtItemAggregator<ExtScript>(this, "scripts");
+    m_extUpgrade = new ExtItemAggregator<ExtUpgrade>(this, "upgrade");
+    m_extWeather = new ExtItemAggregator<ExtWeather>(this, "weather");
 }
 
 

@@ -183,10 +183,8 @@ PlasmoidItem {
             plasmoid.configuration.telemetryId = generateUuid()
         // save telemetry
         awTelemetryHandler.init(plasmoid.configuration.telemetryCount,
-                                plasmoid.configuration.telemetryRemote,
                                 plasmoid.configuration.telemetryId)
-        if (awTelemetryHandler.put("awwidgetconfig", plasmoid.configuration.text))
-            awTelemetryHandler.uploadTelemetry("awwidgetconfig", plasmoid.configuration.text)
+        awTelemetryHandler.put("awwidgetconfig", plasmoid.configuration.text)
     }
 
     // code from http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript

@@ -26,7 +26,7 @@ UpgradeSource::UpgradeSource(QObject *_parent)
 {
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
 
-    m_extUpgrade = new ExtItemAggregator<ExtUpgrade>(nullptr, "upgrade");
+    m_extUpgrade = new ExtItemAggregator<ExtUpgrade>(this, "upgrade");
     m_extUpgrade->initSockets();
 }
 

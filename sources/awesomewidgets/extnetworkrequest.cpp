@@ -49,9 +49,6 @@ ExtNetworkRequest::~ExtNetworkRequest()
 {
     qCDebug(LOG_LIB) << __PRETTY_FUNCTION__;
 
-    disconnect(m_manager, &QNetworkAccessManager::finished, this, &ExtNetworkRequest::networkReplyReceived);
-    disconnect(this, &ExtNetworkRequest::requestDataUpdate, this, &ExtNetworkRequest::sendRequest);
-
     m_manager->deleteLater();
 }
 

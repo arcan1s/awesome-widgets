@@ -50,7 +50,8 @@ AWDataAggregator::~AWDataAggregator()
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
-    delete m_toolTipScene;
+    m_toolTipView->deleteLater();
+    m_toolTipScene->deleteLater();
 }
 
 
