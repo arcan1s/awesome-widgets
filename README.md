@@ -50,11 +50,14 @@ Installation
 ------------
 
 * download sources
-  * install
+* build package
 
-          cmake -B build -S sources -DCMAKE_BUILD_TYPE=Release
-          cmake --build build
-          cmake --install build
+      cmake -B build -S sources -DCMAKE_BUILD_TYPE=Release
+      cmake --build build
+
+* install package 
+
+      cmake --install build
 
 Additional information
 ======================
