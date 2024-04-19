@@ -27,7 +27,7 @@ void TestAWTelemetryHandler::initTestCase()
 {
     AWTestLibrary::init();
     plugin = new AWTelemetryHandler(this);
-    plugin->init(1, telemetryId);
+    plugin->init(1);
     telemetryData = AWTestLibrary::randomString();
     telemetryGroup = AWTestLibrary::randomString();
 }

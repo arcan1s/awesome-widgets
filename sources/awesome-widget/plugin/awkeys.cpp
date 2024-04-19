@@ -19,9 +19,8 @@
 
 #include <QDBusConnection>
 #include <QDBusError>
-#include <QThread>
+#include <QRegularExpression>
 #include <QTimer>
-#include <QtConcurrent>
 
 #include "awdataaggregator.h"
 #include "awdataengineaggregator.h"
@@ -41,9 +40,6 @@ AWKeys::AWKeys(QObject *_parent)
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
     for (auto &metadata : AWDebug::getBuildData())
         qCDebug(LOG_AW) << metadata;
-
-    // thread pool
-    m_threadPool = new QThreadPool(this);
 
     m_aggregator = new AWKeysAggregator(this);
     m_dataAggregator = new AWDataAggregator(this);
@@ -91,14 +87,12 @@ void AWKeys::initDataAggregator(const QVariantMap &_tooltipParams)
 }
 
 
-void AWKeys::initKeys(const QString &_currentPattern, const int _interval, const int _limit, const bool _optimize)
+void AWKeys::initKeys(const QString &_currentPattern, const int _interval, const bool _optimize)
 {
-    qCDebug(LOG_AW) << "Pattern" << _currentPattern << "with interval" << _interval << "and queue limit" << _limit
-                    << "with optimization" << _optimize;
+    qCDebug(LOG_AW) << "Pattern" << _currentPattern << "with interval" << _interval << "with optimization" << _optimize;
 
     // init
     m_optimize = _optimize;
-    m_threadPool->setMaxThreadCount(_limit == 0 ? QThread::idealThreadCount() : _limit);
     // child objects
     m_aggregator->initFormatters();
     m_keyOperator->setPattern(_currentPattern);
@@ -184,15 +178,11 @@ void AWKeys::dataUpdated(const QHash<QString, KSysGuard::SensorInfo> &_sensors, 
 {
     qCDebug(LOG_AW) << "Update data for" << _data.count() << "items";
 
-    // though it is better to use QtConcurrent::map here, but it might cause stack corruption
     for (auto &data : _data) {
         if (!_sensors.contains(data.sensorProperty))
             continue;
         auto sensor = _sensors[data.sensorProperty];
         setDataBySource(data.sensorProperty, sensor, data.payload);
-        //        std::ignore = QtConcurrent::run(m_threadPool, &AWKeys::setDataBySource, this, data.sensorProperty,
-        //        sensor,
-        //                                        data.payload);
     }
 }
 
@@ -208,7 +198,7 @@ void AWKeys::reinitKeys(const QStringList &_currentKeys)
     // generate list of required keys for bars
     QStringList barKeys;
     for (auto &bar : m_foundBars) {
-        GraphicalItem *item = m_keyOperator->giByKey(bar);
+        auto item = m_keyOperator->giByKey(bar);
         if (item->isCustom())
             item->setUsedKeys(AWPatternFunctions::findKeys(item->bar(), _currentKeys, false));
         else
@@ -228,12 +218,10 @@ void AWKeys::reinitKeys(const QStringList &_currentKeys)
 void AWKeys::updateTextData()
 {
     // do not do it in parallel to avoid race condition
-    m_mutex.lock();
     calculateValues();
     auto text = parsePattern(m_keyOperator->pattern());
     // update tooltip values under lock
     m_dataAggregator->dataUpdate(m_values);
-    m_mutex.unlock();
 
     emit(needTextToBeUpdated(text));
 }
@@ -244,9 +232,9 @@ void AWKeys::updateTextData()
 void AWKeys::calculateValues()
 {
     // hddtot*
-    QStringList mountDevices = m_keyOperator->devices("mount");
+    auto mountDevices = m_keyOperator->devices("mount");
     for (auto &device : mountDevices) {
-        int index = mountDevices.indexOf(device);
+        auto index = mountDevices.indexOf(device);
         m_values[QString("hddtotmb%1").arg(index)] = m_values[QString("hddfreemb%1").arg(index)].toDouble()
                                                      + m_values[QString("hddmb%1").arg(index)].toDouble();
         m_values[QString("hddtotgb%1").arg(index)] = m_values[QString("hddfreegb%1").arg(index)].toDouble()
@@ -260,7 +248,7 @@ void AWKeys::calculateValues()
     m_values["mem"] = 100.0 * m_values["memmb"].toDouble() / m_values["memtotmb"].toDouble();
 
     // up, down, upkb, downkb, upunits, downunits
-    int netIndex = m_keyOperator->devices("net").indexOf(m_values["netdev"].toString());
+    auto netIndex = m_keyOperator->devices("net").indexOf(m_values["netdev"].toString());
     m_values["down"] = m_values[QString("down%1").arg(netIndex)];
     m_values["downkb"] = m_values[QString("downkb%1").arg(netIndex)];
     m_values["downtot"] = m_values[QString("downtot%1").arg(netIndex)];
@@ -294,7 +282,7 @@ void AWKeys::createDBusInterface()
     auto id = reinterpret_cast<qlonglong>(this);
 
     // create session
-    QDBusConnection instanceBus = QDBusConnection::sessionBus();
+    auto instanceBus = QDBusConnection::sessionBus();
     // HACK we are going to use different services because it binds to
     // application
     if (instanceBus.registerService(QString("%1.i%2").arg(AWDBUS_SERVICE).arg(id))) {
@@ -305,7 +293,7 @@ void AWKeys::createDBusInterface()
     }
 
     // and same instance but for id independent service
-    QDBusConnection commonBus = QDBusConnection::sessionBus();
+    auto commonBus = QDBusConnection::sessionBus();
     if (commonBus.registerService(AWDBUS_SERVICE))
         commonBus.registerObject(AWDBUS_PATH, new AWDBusAdaptor(this), QDBusConnection::ExportAllContents);
 }
@@ -326,10 +314,10 @@ QString AWKeys::parsePattern(QString _pattern) const
 
     // bars
     for (auto &bar : m_foundBars) {
-        GraphicalItem *item = m_keyOperator->giByKey(bar);
-        QString image = item->isCustom() ? item->image(
-                            AWPatternFunctions::expandLambdas(item->bar(), m_aggregator, m_values, item->usedKeys()))
-                                         : item->image(m_values[item->bar()]);
+        auto item = m_keyOperator->giByKey(bar);
+        auto image = item->isCustom() ? item->image(
+                         AWPatternFunctions::expandLambdas(item->bar(), m_aggregator, m_values, item->usedKeys()))
+                                      : item->image(m_values[item->bar()]);
         _pattern.replace(QString("$%1").arg(bar), image);
     }
 
@@ -357,7 +345,5 @@ void AWKeys::setDataBySource(const QString &_source, const KSysGuard::SensorInfo
         return emit(dropSourceFromDataengine(_source));
     }
 
-    m_mutex.lock();
     std::for_each(tags.cbegin(), tags.cend(), [this, _value](const QString &tag) { m_values[tag] = _value; });
-    m_mutex.unlock();
 }

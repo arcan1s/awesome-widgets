@@ -63,7 +63,7 @@ void TestAWKeys::initTestCase()
     plugin->setAggregatorProperty("tempUnits", "Celsius");
     plugin->setAggregatorProperty("translate", false);
 
-    plugin->initKeys(pattern, interval, 0, false);
+    plugin->initKeys(pattern, interval, false);
 }
 
 
@@ -89,7 +89,7 @@ void TestAWKeys::test_dictKeys()
 
 void TestAWKeys::test_pattern()
 {
-    plugin->initKeys(pattern, interval, 0, false);
+    plugin->initKeys(pattern, interval, false);
     QSignalSpy spy(plugin, SIGNAL(needTextToBeUpdated(const QString)));
 
     QVERIFY(spy.wait(5 * interval));

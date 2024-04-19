@@ -39,7 +39,6 @@ private:
     AWTelemetryHandler *plugin = nullptr;
     QString telemetryData;
     QString telemetryGroup;
-    QString telemetryId = "autotest";
     QString telemetryStatus = "saved";
     QString telemetryValidGroup = "awwidgetconfig";
 };

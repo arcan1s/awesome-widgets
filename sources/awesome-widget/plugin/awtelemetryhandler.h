@@ -25,16 +25,15 @@ class AWTelemetryHandler : public QObject
     Q_OBJECT
 
 public:
-    explicit AWTelemetryHandler(QObject *_parent = nullptr, const QString &_clientId = "");
+    explicit AWTelemetryHandler(QObject *_parent = nullptr);
     ~AWTelemetryHandler() override = default;
     Q_INVOKABLE [[nodiscard]] QStringList get(const QString &_group) const;
     Q_INVOKABLE [[nodiscard]] QString getLast(const QString &_group) const;
-    Q_INVOKABLE void init(int _count, const QString &_clientId);
+    Q_INVOKABLE void init(int _count);
     Q_INVOKABLE [[nodiscard]] bool put(const QString &_group, const QString &_value) const;
 
 private:
     static QString getKey(int _count);
-    QString m_clientId;
     QString m_localFile;
     int m_storeCount = 0;
 };

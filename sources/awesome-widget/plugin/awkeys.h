@@ -17,7 +17,6 @@
 
 #pragma once
 
-#include <QMutex>
 #include <QObject>
 
 #include <ksysguard/systemstats/SensorInfo.h>
@@ -27,7 +26,6 @@ class AWDataAggregator;
 class AWDataEngineAggregator;
 class AWKeyOperations;
 class AWKeysAggregator;
-class QThreadPool;
 class QTimer;
 
 class AWKeys : public QObject
@@ -38,7 +36,7 @@ public:
     explicit AWKeys(QObject *_parent = nullptr);
     ~AWKeys() override;
     Q_INVOKABLE void initDataAggregator(const QVariantMap &_tooltipParams);
-    Q_INVOKABLE void initKeys(const QString &_currentPattern, int _interval, int _limit, bool _optimize);
+    Q_INVOKABLE void initKeys(const QString &_currentPattern, int _interval, bool _optimize);
     Q_INVOKABLE void setAggregatorProperty(const QString &_key, const QVariant &_value);
     Q_INVOKABLE void setWrapNewLines(bool _wrap);
     // additional method to force load keys from Qml UI. Used in some
@@ -80,7 +78,4 @@ private:
     QVariantHash m_values;
     bool m_optimize = false;
     bool m_wrapNewLines = false;
-    // multithread features
-    QThreadPool *m_threadPool = nullptr;
-    QMutex m_mutex;
 };

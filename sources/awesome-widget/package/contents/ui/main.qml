@@ -168,8 +168,7 @@ PlasmoidItem {
 
         // init submodule
         awKeys.initDataAggregator(tooltipSettings)
-        awKeys.initKeys(plasmoid.configuration.text, plasmoid.configuration.interval,
-                        plasmoid.configuration.queueLimit, plasmoid.configuration.optimize)
+        awKeys.initKeys(plasmoid.configuration.text, plasmoid.configuration.interval, plasmoid.configuration.optimize)
         awKeys.setWrapNewLines(plasmoid.configuration.wrapNewLines)
         // configure aggregator
         awKeys.setAggregatorProperty("acOffline", plasmoid.configuration.acOffline)
@@ -178,20 +177,8 @@ PlasmoidItem {
         awKeys.setAggregatorProperty("customUptime", plasmoid.configuration.customUptime)
         awKeys.setAggregatorProperty("tempUnits", plasmoid.configuration.tempUnits)
         awKeys.setAggregatorProperty("translate", plasmoid.configuration.translateStrings)
-        // update telemetry ID
-        if (plasmoid.configuration.telemetryId.length === 0)
-            plasmoid.configuration.telemetryId = generateUuid()
         // save telemetry
-        awTelemetryHandler.init(plasmoid.configuration.telemetryCount,
-                                plasmoid.configuration.telemetryId)
+        awTelemetryHandler.init(plasmoid.configuration.historyCount)
         awTelemetryHandler.put("awwidgetconfig", plasmoid.configuration.text)
-    }
-
-    // code from http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
-    function generateUuid() {
-        return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
-            let r = Math.random() * 16 | 0, v = c === "x" ? r : (r & 0x3 | 0x8);
-            return v.toString(16);
-        });
     }
 }

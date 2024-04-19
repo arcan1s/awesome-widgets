@@ -41,15 +41,12 @@ KCM.SimpleKCM {
     property alias cfg_height: widgetHeight.value
     property alias cfg_width: widgetWidth.value
     property alias cfg_interval: update.value
-    property alias cfg_queueLimit: queueLimit.value
     property string cfg_tempUnits: tempUnits.value
     property alias cfg_customTime: customTime.value
     property alias cfg_customUptime: customUptime.value
     property alias cfg_acOnline: acOnline.value
     property alias cfg_acOffline: acOffline.value
-    property alias cfg_telemetryCount: telemetryCount.value
-    property alias cfg_telemetryRemote: telemetryRemote.checked
-    property alias cfg_telemetryId: telemetryId.value
+    property alias cfg_historyCount: historyCount.value
 
     Column {
         anchors.fill: parent
@@ -114,15 +111,6 @@ KCM.SimpleKCM {
             stepSize: 500
             text: i18n("Time interval")
             value: plasmoid.configuration.interval
-        }
-
-        IntegerSelector {
-            id: queueLimit
-            maximumValue: 99
-            minimumValue: 0
-            stepSize: 1
-            text: i18n("Messages queue limit")
-            value: plasmoid.configuration.queueLimit
         }
 
         ComboBoxSelector {
@@ -226,30 +214,19 @@ KCM.SimpleKCM {
         GroupBox {
             height: implicitHeight
             width: parent.width
-            title: i18n("Telemetry")
+            title: i18n("History")
 
             Column {
                 height: implicitHeight
                 width: parent.width
 
-                CheckBoxSelector {
-                    id: telemetryRemote
-                    text: i18n("Enable remote telemetry")
-                }
-
                 IntegerSelector {
-                    id: telemetryCount
+                    id: historyCount
                     maximumValue: 10000
                     minimumValue: 0
                     stepSize: 50
                     text: i18n("History count")
-                    value: plasmoid.configuration.telemetryCount
-                }
-
-                LineSelector {
-                    id: telemetryId
-                    text: i18n("Telemetry ID")
-                    value: plasmoid.configuration.telemetryId
+                    value: plasmoid.configuration.historyCount
                 }
             }
         }

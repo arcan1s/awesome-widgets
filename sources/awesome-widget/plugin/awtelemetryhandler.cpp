@@ -25,17 +25,13 @@
 #include "awdebug.h"
 
 
-AWTelemetryHandler::AWTelemetryHandler(QObject *_parent, const QString &_clientId)
+AWTelemetryHandler::AWTelemetryHandler(QObject *_parent)
     : QObject(_parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
     m_localFile = QString("%1/awesomewidgets/telemetry.ini")
                       .arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
-
-    // override client id if any
-    if (!_clientId.isEmpty())
-        m_clientId = _clientId;
 }
 
 
@@ -63,12 +59,11 @@ QString AWTelemetryHandler::getLast(const QString &_group) const
 }
 
 
-void AWTelemetryHandler::init(const int _count, const QString &_clientId)
+void AWTelemetryHandler::init(const int _count)
 {
-    qCDebug(LOG_AW) << "Init telemetry with count" << _count << "client ID" << _clientId;
+    qCDebug(LOG_AW) << "Init telemetry with count" << _count;
 
     m_storeCount = _count;
-    m_clientId = _clientId;
 }
 
 
