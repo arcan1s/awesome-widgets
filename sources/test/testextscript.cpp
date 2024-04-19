@@ -28,7 +28,7 @@ void TestExtScript::initTestCase()
     AWTestLibrary::init();
     randomString = AWTestLibrary::randomString();
 
-    extScript = new ExtScript(nullptr);
+    extScript = new ExtScript(this);
     extScript->setInterval(1);
     extScript->setExecutable(QString("echo %1").arg(randomString));
     extScript->setNumber(0);
@@ -38,10 +38,7 @@ void TestExtScript::initTestCase()
 }
 
 
-void TestExtScript::cleanupTestCase()
-{
-    delete extScript;
-}
+void TestExtScript::cleanupTestCase() {}
 
 
 void TestExtScript::test_values()
@@ -95,7 +92,7 @@ void TestExtScript::test_copy()
     QCOMPARE(newExtScript->filters(), extScript->filters());
     QCOMPARE(newExtScript->number(), 1);
 
-    delete newExtScript;
+    newExtScript->deleteLater();
 }
 
 

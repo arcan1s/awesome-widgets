@@ -184,8 +184,9 @@ void ExtQuotes::quotesReplyReceived(QNetworkReply *_reply)
     _reply->deleteLater();
 
     auto data = m_providerObject->parse(text);
-    for (auto [key, value] : data.asKeyValueRange())
+    for (auto [key, value] : data.asKeyValueRange()) {
         m_values[tag(key)] = value;
+    }
 
     emit(dataReceived(m_values));
 }

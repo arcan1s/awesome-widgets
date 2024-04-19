@@ -27,14 +27,11 @@
 void TestAWFloatFormatter::initTestCase()
 {
     AWTestLibrary::init();
-    formatter = new AWFloatFormatter(nullptr);
+    formatter = new AWFloatFormatter(this);
 }
 
 
-void TestAWFloatFormatter::cleanupTestCase()
-{
-    delete formatter;
-}
+void TestAWFloatFormatter::cleanupTestCase() {}
 
 
 void TestAWFloatFormatter::test_values() {}
@@ -95,7 +92,7 @@ void TestAWFloatFormatter::test_forceWidth()
 void TestAWFloatFormatter::test_format()
 {
     // assign
-    QWARN("Lets assing 'z' formatter, it should cause a warning");
+    qWarning("Lets assign 'z' formatter, it should cause a warning");
     formatter->setFormat('z');
     QCOMPARE(formatter->format(), 'f');
     formatter->setFormat('e');
@@ -175,7 +172,7 @@ void TestAWFloatFormatter::test_copy()
     QCOMPARE(newFormatter->summand(), formatter->summand());
     QCOMPARE(newFormatter->number(), 1);
 
-    delete newFormatter;
+    newFormatter->deleteLater();
 }
 
 

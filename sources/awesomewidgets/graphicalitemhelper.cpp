@@ -155,7 +155,7 @@ void GraphicalItemHelper::paintVertical(const float _percent)
 }
 
 
-float GraphicalItemHelper::getPercents(const float _value, const float _min, const float _max)
+double GraphicalItemHelper::getPercents(const double _value, const double _min, const double _max)
 {
     qCDebug(LOG_LIB) << "Get percent value from" << _value;
     // newest Qt crashes here if value is nan

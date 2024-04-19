@@ -71,9 +71,9 @@ QHash<QString, KSysGuard::SensorInfo *> ProcessesSource::sources() const
 {
     auto result = QHash<QString, KSysGuard::SensorInfo *>();
 
-    result.insert("running", makeSensorInfo("Count of running processes", QVariant::Int));
-    result.insert("list", makeSensorInfo("All running processes list", QVariant::StringList));
-    result.insert("count", makeSensorInfo("Total count of processes", QVariant::Int));
+    result.insert("running", makeSensorInfo("Count of running processes", QMetaType::Int));
+    result.insert("list", makeSensorInfo("All running processes list", QMetaType::QStringList));
+    result.insert("count", makeSensorInfo("Total count of processes", QMetaType::Int));
 
     return result;
 }

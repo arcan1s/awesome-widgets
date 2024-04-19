@@ -30,10 +30,7 @@ void TestNetworkSource::initTestCase()
 }
 
 
-void TestNetworkSource::cleanupTestCase()
-{
-    delete source;
-}
+void TestNetworkSource::cleanupTestCase() {}
 
 
 void TestNetworkSource::test_sources()

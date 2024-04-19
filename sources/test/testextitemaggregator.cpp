@@ -27,14 +27,11 @@
 void TestExtItemAggregator::initTestCase()
 {
     AWTestLibrary::init();
-    aggregator = new ExtItemAggregator<AWNoFormatter>(nullptr, type);
+    aggregator = new ExtItemAggregator<AWNoFormatter>(this, type);
 }
 
 
-void TestExtItemAggregator::cleanupTestCase()
-{
-    delete aggregator;
-}
+void TestExtItemAggregator::cleanupTestCase() {}
 
 
 void TestExtItemAggregator::test_values()

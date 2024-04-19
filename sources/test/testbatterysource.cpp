@@ -32,10 +32,7 @@ void TestBatterySource::initTestCase()
 }
 
 
-void TestBatterySource::cleanupTestCase()
-{
-    delete source;
-}
+void TestBatterySource::cleanupTestCase() {}
 
 
 void TestBatterySource::test_sources()
@@ -53,11 +50,11 @@ void TestBatterySource::test_battery()
     std::for_each(batteries.cbegin(), batteries.cend(), [this](auto bat) {
         auto value = source->data(bat);
         if (bat == "ac")
-            QCOMPARE(value.type(), QVariant::Bool);
+            QCOMPARE(value.typeId(), QMetaType::Bool);
         else if (bat.startsWith("batrate") || bat.startsWith("batleft"))
             ;
         else
-            QVERIFY((value.toFloat() >= battery.first) || (std::isnan(value.toFloat())));
+            QVERIFY((value.toDouble() >= battery.first) || (std::isnan(value.toDouble())));
     });
 }
 

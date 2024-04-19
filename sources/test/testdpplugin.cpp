@@ -32,10 +32,7 @@ void TestDPPlugin::initTestCase()
 }
 
 
-void TestDPPlugin::cleanupTestCase()
-{
-    delete plugin;
-}
+void TestDPPlugin::cleanupTestCase() {}
 
 
 void TestDPPlugin::test_desktops()

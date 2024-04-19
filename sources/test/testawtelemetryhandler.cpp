@@ -33,10 +33,7 @@ void TestAWTelemetryHandler::initTestCase()
 }
 
 
-void TestAWTelemetryHandler::cleanupTestCase()
-{
-    delete plugin;
-}
+void TestAWTelemetryHandler::cleanupTestCase() {}
 
 
 void TestAWTelemetryHandler::test_put()

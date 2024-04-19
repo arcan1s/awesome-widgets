@@ -26,7 +26,7 @@
 void TestExtWeather::initTestCase()
 {
     AWTestLibrary::init();
-    extWeather = new ExtWeather(nullptr);
+    extWeather = new ExtWeather(this);
     extWeather->setInterval(1);
     extWeather->setCity(city);
     extWeather->setCountry(country);
@@ -37,10 +37,7 @@ void TestExtWeather::initTestCase()
 }
 
 
-void TestExtWeather::cleanupTestCase()
-{
-    delete extWeather;
-}
+void TestExtWeather::cleanupTestCase() {}
 
 
 void TestExtWeather::test_values()
@@ -95,7 +92,7 @@ void TestExtWeather::test_copy()
     QCOMPARE(newExtWeather->provider(), extWeather->provider());
     QCOMPARE(newExtWeather->number(), 1);
 
-    delete newExtWeather;
+    newExtWeather->deleteLater();
 }
 
 
@@ -114,8 +111,8 @@ void TestExtWeather::run()
             && (arguments[extWeather->tag("humidity")].toInt() <= humidity.second));
     QVERIFY((arguments[extWeather->tag("pressure")].toInt() > pressure.first)
             && (arguments[extWeather->tag("pressure")].toInt() < pressure.second));
-    QVERIFY((arguments[extWeather->tag("temperature")].toFloat() > temp.first)
-            && (arguments[extWeather->tag("temperature")].toFloat() < temp.second));
+    QVERIFY((arguments[extWeather->tag("temperature")].toDouble() > temp.first)
+            && (arguments[extWeather->tag("temperature")].toDouble() < temp.second));
     // image should be only one symbol here
     if (extWeather->jsonMapFile().isEmpty())
         QSKIP("No json map found for weather, skip image test");

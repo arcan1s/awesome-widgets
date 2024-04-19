@@ -95,7 +95,7 @@ void AWUpdateHelper::showInfo(const QVersionNumber &_version)
 }
 
 
-void AWUpdateHelper::showUpdates(const QVersionNumber &_version)
+void AWUpdateHelper::showUpdates(const QVersionNumber &_version) const
 {
     qCDebug(LOG_AW) << "Version" << _version;
 

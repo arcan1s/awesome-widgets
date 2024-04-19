@@ -30,20 +30,11 @@ class AbstractExtSysMonSource : public QObject
 public:
     inline static QRegularExpression NUMBER_REGEX = QRegularExpression("\\d+$");
 
-    explicit AbstractExtSysMonSource(QObject *_parent)
-        : QObject(_parent){};
+    explicit AbstractExtSysMonSource(QObject *_parent);
     ~AbstractExtSysMonSource() override = default;
     virtual QVariant data(const QString &_source) = 0;
     [[nodiscard]] virtual QHash<QString, KSysGuard::SensorInfo *> sources() const = 0;
-
-    // used by extensions
-    // This method returns -1 in case of invalid source name (like if there is no number)
-    static int index(const QString &_source)
-    {
-        auto match = NUMBER_REGEX.match(_source);
-        return match.hasMatch() ? match.captured().toInt() : -1;
-    }
-
+    static int index(const QString &_source);
     // safe value extractor
     template <class T> static QVariantHash dataByItem(T *_extension, const QString &_source)
     {
@@ -54,22 +45,9 @@ public:
         auto item = _extension->itemByTagNumber(idx);
         return item ? item->run() : QVariantHash();
     }
-
-    static KSysGuard::SensorInfo *makeSensorInfo(const QString &_name, const QVariant::Type _type,
-                                                 const KSysGuard::Unit _unit = KSysGuard::UnitNone,
-                                                 const double _min = 0, const double _max = 0)
-    {
-        auto info = new KSysGuard::SensorInfo();
-        info->name = _name;
-        info->variantType = _type;
-
-        info->unit = _unit;
-
-        info->min = _min;
-        info->max = _max;
-
-        return info;
-    }
+    static KSysGuard::SensorInfo *makeSensorInfo(const QString &_name, QMetaType::Type _type,
+                                                 KSysGuard::Unit _unit = KSysGuard::UnitNone,
+                                                 double _min = 0, double _max = 0);
 
 signals:
     void dataReceived(const QVariantHash &);

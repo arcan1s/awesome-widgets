@@ -86,7 +86,7 @@ public:
     void setTranslate(bool _translate);
 
 public slots:
-    QStringList registerSource(const QString &_source, const KSysGuard::Unit _units, const QStringList &_keys);
+    QStringList registerSource(const QString &_source, KSysGuard::Unit _units, const QStringList &_keys);
 
 private:
     [[nodiscard]] double temperature(double temp) const;

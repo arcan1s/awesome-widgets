@@ -46,7 +46,7 @@ QHash<QString, KSysGuard::SensorInfo *> RequestSource::sources() const
 
     for (auto item : m_extNetRequest->activeItems())
         result.insert(item->tag("response"),
-                      makeSensorInfo(QString("Network response for %1").arg(item->uniq()), QVariant::String));
+                      makeSensorInfo(QString("Network response for %1").arg(item->uniq()), QMetaType::QString));
 
     return result;
 }

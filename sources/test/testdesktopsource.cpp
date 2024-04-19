@@ -31,10 +31,7 @@ void TestDesktopSource::initTestCase()
 }
 
 
-void TestDesktopSource::cleanupTestCase()
-{
-    delete source;
-}
+void TestDesktopSource::cleanupTestCase() {}
 
 
 void TestDesktopSource::test_sources()

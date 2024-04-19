@@ -31,10 +31,7 @@ void TestAWBugReporter::initTestCase()
 }
 
 
-void TestAWBugReporter::cleanupTestCase()
-{
-    delete plugin;
-}
+void TestAWBugReporter::cleanupTestCase() {}
 
 
 void TestAWBugReporter::test_generateText()
@@ -54,7 +51,7 @@ void TestAWBugReporter::test_sendBugReport()
                           plugin->generateText(data.at(0), data.at(1), data.at(2), data.at(3)));
 
     QVERIFY(spy.wait(5000));
-    QVariantList arguments = spy.takeFirst();
+    auto arguments = spy.takeFirst();
 
     QVERIFY(arguments.at(0).toInt() > 0);
     QVERIFY(!arguments.at(1).toString().isEmpty());

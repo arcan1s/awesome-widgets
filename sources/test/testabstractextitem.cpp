@@ -34,7 +34,7 @@ void TestAbstractExtItem::initTestCase()
     comment = AWTestLibrary::randomString();
     socket = AWTestLibrary::randomString();
 
-    extItem = new ExtUpgrade(nullptr, filePath);
+    extItem = new ExtUpgrade(this, filePath);
     extItem->setActive(false);
     extItem->setApiVersion(1);
     extItem->setComment(comment);
@@ -48,7 +48,6 @@ void TestAbstractExtItem::initTestCase()
 void TestAbstractExtItem::cleanupTestCase()
 {
     QFile::remove(filePath);
-    delete extItem;
 }
 
 
@@ -83,7 +82,7 @@ void TestAbstractExtItem::test_configuration()
     QCOMPARE(newExtItem->socket(), extItem->socket());
     QCOMPARE(newExtItem->cron(), extItem->cron());
 
-    delete newExtItem;
+    newExtItem->deleteLater();
 }
 
 
@@ -102,7 +101,7 @@ void TestAbstractExtItem::test_delete()
     QVERIFY(newExtItem->tryDelete());
     QVERIFY(!QFile::exists(writeFilePath));
 
-    delete newExtItem;
+    newExtItem->deleteLater();
 }
 
 
@@ -117,7 +116,7 @@ void TestAbstractExtItem::test_copy()
     QCOMPARE(newExtItem->socket(), extItem->socket());
     QCOMPARE(newExtItem->cron(), extItem->cron());
 
-    delete newExtItem;
+    newExtItem->deleteLater();
 }
 
 

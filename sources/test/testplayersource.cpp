@@ -67,8 +67,10 @@ void TestPlayerSource::test_autoMpris()
     auto source = new PlayerSource(this, "mpris", mpdAddress, mpdPort, "auto", 10);
 
     auto empty = source->getAutoMpris().isEmpty();
+    source->deleteLater();
+
     if (empty)
-        QWARN("No MPRIS found, manual check required");
+        qWarning("No MPRIS found, manual check required");
     else
         QVERIFY(!empty);
 }
@@ -95,6 +97,8 @@ void TestPlayerSource::test_mpd()
         QSKIP("No mpd found");
 
     QVERIFY(secondValue["progress"].toInt() < secondValue["duration"].toInt());
+
+    source->deleteLater();
 }
 
 
@@ -112,6 +116,8 @@ void TestPlayerSource::test_mpris()
         QSKIP("No mpris found");
 
     QVERIFY(progress < duration);
+
+    source->deleteLater();
 }
 
 

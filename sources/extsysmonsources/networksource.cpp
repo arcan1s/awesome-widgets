@@ -65,8 +65,8 @@ QHash<QString, KSysGuard::SensorInfo *> NetworkSource::sources() const
 {
     auto result = QHash<QString, KSysGuard::SensorInfo *>();
 
-    result.insert("device", makeSensorInfo("Current network device name", QVariant::String));
-    result.insert("ssid", makeSensorInfo("Current SSID name", QVariant::String));
+    result.insert("device", makeSensorInfo("Current network device name", QMetaType::QString));
+    result.insert("ssid", makeSensorInfo("Current SSID name", QMetaType::QString));
 
     return result;
 }

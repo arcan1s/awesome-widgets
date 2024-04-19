@@ -115,23 +115,23 @@ QHash<QString, KSysGuard::SensorInfo *> PlayerSource::sources() const
 {
     auto result = QHash<QString, KSysGuard::SensorInfo *>();
 
-    result.insert("album", makeSensorInfo("Current song album", QVariant::String));
+    result.insert("album", makeSensorInfo("Current song album", QMetaType::QString));
     result.insert("salbum",
-                  makeSensorInfo(QString("Current song album (%1 symbols)").arg(m_symbols), QVariant::String));
-    result.insert("dalbum",
-                  makeSensorInfo(QString("Current song album (%1 symbols, dynamic)").arg(m_symbols), QVariant::String));
-    result.insert("artist", makeSensorInfo("Current song artist", QVariant::String));
+                  makeSensorInfo(QString("Current song album (%1 symbols)").arg(m_symbols), QMetaType::QString));
+    result.insert("dalbum", makeSensorInfo(QString("Current song album (%1 symbols, dynamic)").arg(m_symbols),
+                                           QMetaType::QString));
+    result.insert("artist", makeSensorInfo("Current song artist", QMetaType::QString));
     result.insert("sartist",
-                  makeSensorInfo(QString("Current song artist (%1 symbols)").arg(m_symbols), QVariant::String));
+                  makeSensorInfo(QString("Current song artist (%1 symbols)").arg(m_symbols), QMetaType::QString));
     result.insert("dartist", makeSensorInfo(QString("Current song artist (%1 symbols, dynamic)").arg(m_symbols),
-                                            QVariant::String));
-    result.insert("duration", makeSensorInfo("Current song duration", QVariant::Int, KSysGuard::UnitSecond));
-    result.insert("progress", makeSensorInfo("Current song progress", QVariant::Int, KSysGuard::UnitSecond));
-    result.insert("title", makeSensorInfo("Current song title", QVariant::String));
+                                            QMetaType::QString));
+    result.insert("duration", makeSensorInfo("Current song duration", QMetaType::Int, KSysGuard::UnitSecond));
+    result.insert("progress", makeSensorInfo("Current song progress", QMetaType::Int, KSysGuard::UnitSecond));
+    result.insert("title", makeSensorInfo("Current song title", QMetaType::QString));
     result.insert("stitle",
-                  makeSensorInfo(QString("Current song title (%1 symbols)").arg(m_symbols), QVariant::String));
-    result.insert("dtitle",
-                  makeSensorInfo(QString("Current song title (%1 symbols, dynamic)").arg(m_symbols), QVariant::String));
+                  makeSensorInfo(QString("Current song title (%1 symbols)").arg(m_symbols), QMetaType::QString));
+    result.insert("dtitle", makeSensorInfo(QString("Current song title (%1 symbols, dynamic)").arg(m_symbols),
+                                           QMetaType::QString));
 
     return result;
 }

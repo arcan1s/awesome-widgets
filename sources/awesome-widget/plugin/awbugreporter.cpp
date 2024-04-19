@@ -47,7 +47,7 @@ AWBugReporter::~AWBugReporter()
 }
 
 
-void AWBugReporter::doConnect()
+void AWBugReporter::doConnect() const
 {
     // additional method for testing needs
     connect(this, &AWBugReporter::replyReceived, this, &AWBugReporter::showInformation);

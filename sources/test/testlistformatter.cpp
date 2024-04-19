@@ -28,15 +28,12 @@ void TestAWListFormatter::initTestCase()
     AWTestLibrary::init();
     separator = AWTestLibrary::randomString(9, 10);
 
-    formatter = new AWListFormatter(nullptr);
+    formatter = new AWListFormatter(this);
     formatter->setSeparator(separator);
 }
 
 
-void TestAWListFormatter::cleanupTestCase()
-{
-    delete formatter;
-}
+void TestAWListFormatter::cleanupTestCase() {}
 
 
 void TestAWListFormatter::test_values()
@@ -85,7 +82,7 @@ void TestAWListFormatter::test_copy()
     QCOMPARE(newFormatter->separator(), formatter->separator());
     QCOMPARE(newFormatter->isSorted(), formatter->isSorted());
 
-    delete newFormatter;
+    newFormatter->deleteLater();
 }
 
 

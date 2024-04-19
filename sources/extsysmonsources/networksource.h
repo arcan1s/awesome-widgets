@@ -32,7 +32,6 @@ public:
     explicit NetworkSource(QObject *_parent);
     ~NetworkSource() override;
     QVariant data(const QString &_source) override;
-    void run();
     [[nodiscard]] QHash<QString, KSysGuard::SensorInfo *> sources() const override;
 
 private slots:

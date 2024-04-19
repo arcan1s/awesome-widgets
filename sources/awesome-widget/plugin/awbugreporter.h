@@ -30,7 +30,7 @@ class AWBugReporter : public QObject
 public:
     explicit AWBugReporter(QObject *_parent = nullptr);
     ~AWBugReporter() override;
-    Q_INVOKABLE void doConnect();
+    Q_INVOKABLE void doConnect() const;
     Q_INVOKABLE static QString generateText(const QString &_description, const QString &_reproduce,
                                             const QString &_expected, const QString &_logs);
     Q_INVOKABLE void sendBugReport(const QString &_title, const QString &_body);

@@ -33,10 +33,7 @@ void TestAWScriptFormatter::initTestCase()
 }
 
 
-void TestAWScriptFormatter::cleanupTestCase()
-{
-    delete formatter;
-}
+void TestAWScriptFormatter::cleanupTestCase() {}
 
 
 void TestAWScriptFormatter::test_values()
@@ -100,7 +97,7 @@ void TestAWScriptFormatter::test_copy()
     QCOMPARE(newFormatter->program(), formatter->program());
     QCOMPARE(newFormatter->number(), 1);
 
-    delete newFormatter;
+    newFormatter->deleteLater();
 }
 
 

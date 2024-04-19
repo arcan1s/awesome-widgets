@@ -40,12 +40,12 @@ public:
     void paintHorizontal(float _percent);
     void paintVertical(float _percent);
     // additional conversion methods
-    static float getPercents(float _value, float _min, float _max);
+    static double getPercents(double _value, double _min, double _max);
     static bool isColor(const QString &_input);
     static QColor stringToColor(const QString &_color);
 
 private:
-    static QBrush parseBrush(const QString &_input, const int _width, const int _height, const QColor &_default);
+    static QBrush parseBrush(const QString &_input, int _width, int _height, const QColor &_default);
     void storeValue(float _value);
     QGraphicsScene *m_scene = nullptr;
     int m_count = 100;

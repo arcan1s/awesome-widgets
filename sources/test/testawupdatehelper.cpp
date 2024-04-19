@@ -30,10 +30,7 @@ void TestAWUpdateHelper::initTestCase()
 }
 
 
-void TestAWUpdateHelper::cleanupTestCase()
-{
-    delete plugin;
-}
+void TestAWUpdateHelper::cleanupTestCase() {}
 
 
 void TestAWUpdateHelper::test_checkVersion()

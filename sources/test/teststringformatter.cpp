@@ -26,14 +26,11 @@
 void TestAWStringFormatter::initTestCase()
 {
     AWTestLibrary::init();
-    formatter = new AWStringFormatter(nullptr);
+    formatter = new AWStringFormatter(this);
 }
 
 
-void TestAWStringFormatter::cleanupTestCase()
-{
-    delete formatter;
-}
+void TestAWStringFormatter::cleanupTestCase() {}
 
 
 void TestAWStringFormatter::test_values() {}
@@ -104,7 +101,7 @@ void TestAWStringFormatter::test_copy()
     QCOMPARE(newFormatter->forceWidth(), formatter->forceWidth());
     QCOMPARE(newFormatter->number(), 1);
 
-    delete newFormatter;
+    newFormatter->deleteLater();
 }
 
 

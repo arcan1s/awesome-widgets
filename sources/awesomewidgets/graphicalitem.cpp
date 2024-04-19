@@ -94,7 +94,7 @@ QString GraphicalItem::image(const QVariant &value)
 
     m_scene->clear();
     auto scaleX = 1, scaleY = 1;
-    auto converted = GraphicalItemHelper::getPercents(value.toFloat(), minValue(), maxValue());
+    auto converted = GraphicalItemHelper::getPercents(value.toDouble(), minValue(), maxValue());
 
     // paint
     switch (m_type) {
@@ -182,13 +182,13 @@ int GraphicalItem::itemWidth() const
 }
 
 
-float GraphicalItem::maxValue() const
+double GraphicalItem::maxValue() const
 {
     return m_maxValue;
 }
 
 
-float GraphicalItem::minValue() const
+double GraphicalItem::minValue() const
 {
     return m_minValue;
 }
@@ -321,7 +321,7 @@ void GraphicalItem::setItemWidth(const int _width)
 }
 
 
-void GraphicalItem::setMaxValue(const float _value)
+void GraphicalItem::setMaxValue(const double _value)
 {
     qCDebug(LOG_LIB) << "Max value" << _value;
 
@@ -329,7 +329,7 @@ void GraphicalItem::setMaxValue(const float _value)
 }
 
 
-void GraphicalItem::setMinValue(const float _value)
+void GraphicalItem::setMinValue(const double _value)
 {
     qCDebug(LOG_LIB) << "Min value" << _value;
 
@@ -406,8 +406,8 @@ void GraphicalItem::readConfiguration()
     setCount(settings.value("X-AW-Count", count()).toInt());
     setCustom(settings.value("X-AW-Custom", isCustom()).toBool());
     setBar(settings.value("X-AW-Value", bar()).toString());
-    setMaxValue(settings.value("X-AW-Max", maxValue()).toFloat());
-    setMinValue(settings.value("X-AW-Min", minValue()).toFloat());
+    setMaxValue(settings.value("X-AW-Max", maxValue()).toDouble());
+    setMinValue(settings.value("X-AW-Min", minValue()).toDouble());
     setActiveColor(settings.value("X-AW-ActiveColor", activeColor()).toString());
     setInactiveColor(settings.value("X-AW-InactiveColor", inactiveColor()).toString());
     setStrType(settings.value("X-AW-Type", strType()).toString());
@@ -439,9 +439,8 @@ int GraphicalItem::showConfiguration(QWidget *_parent, const QVariant &_args)
     ui->setupUi(dialog);
     translate(ui);
 
-    connect(ui->checkBox_custom, &QCheckBox::stateChanged, [this, ui](const int state) { changeValue(ui, state); });
-    connect(ui->comboBox_type, &QComboBox::currentIndexChanged,
-            [this, ui](const int state) { changeCountState(ui, state); });
+    connect(ui->checkBox_custom, &QCheckBox::stateChanged, [ui](const int state) { changeValue(ui, state); });
+    connect(ui->comboBox_type, &QComboBox::currentIndexChanged, [ui](const int state) { changeCountState(ui, state); });
     connect(ui->toolButton_activeColor, &QToolButton::clicked, [this, ui]() { changeColor(ui); });
     connect(ui->toolButton_inactiveColor, &QToolButton::clicked, [this, ui]() { changeColor(ui); });
 

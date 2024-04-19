@@ -29,7 +29,7 @@ void TestExtUpgrade::initTestCase()
     randomStrings = AWTestLibrary::randomStringList();
     cmd = QString("echo -e '%1'").arg(randomStrings.join("\n"));
 
-    extUpgrade = new ExtUpgrade(nullptr);
+    extUpgrade = new ExtUpgrade(this);
     extUpgrade->setInterval(1);
     extUpgrade->setExecutable(cmd);
     extUpgrade->setNumber(0);
@@ -38,10 +38,7 @@ void TestExtUpgrade::initTestCase()
 }
 
 
-void TestExtUpgrade::cleanupTestCase()
-{
-    delete extUpgrade;
-}
+void TestExtUpgrade::cleanupTestCase() {}
 
 
 void TestExtUpgrade::test_values()
@@ -106,7 +103,7 @@ void TestExtUpgrade::test_copy()
     QCOMPARE(newExtUpgrade->null(), extUpgrade->null());
     QCOMPARE(newExtUpgrade->number(), 1);
 
-    delete newExtUpgrade;
+    newExtUpgrade->deleteLater();
 }
 
 

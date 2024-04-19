@@ -24,7 +24,6 @@
 class QGraphicsScene;
 class QGraphicsView;
 class QPixmap;
-class QThreadPool;
 
 class AWDataAggregator : public QObject
 {

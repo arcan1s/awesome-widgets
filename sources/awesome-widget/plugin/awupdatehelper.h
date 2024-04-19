@@ -37,7 +37,7 @@ public:
 private slots:
     void openReleasesPage();
     static void showInfo(const QVersionNumber &_version);
-    void showUpdates(const QVersionNumber &_version);
+    void showUpdates(const QVersionNumber &_version) const;
     void versionReplyReceived(QNetworkReply *_reply, bool _showAnyway);
 
 private:

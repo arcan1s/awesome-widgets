@@ -15,38 +15,38 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#include "upgradesource.h"
+#include "abstractextsysmonsource.h"
 
 #include "awdebug.h"
-#include "extupgrade.h"
 
 
-UpgradeSource::UpgradeSource(QObject *_parent)
-    : AbstractExtSysMonSource(_parent)
+AbstractExtSysMonSource::AbstractExtSysMonSource(QObject *_parent)
+    : QObject(_parent)
 {
     qCDebug(LOG_ESS) << __PRETTY_FUNCTION__;
-
-    m_extUpgrade = new ExtItemAggregator<ExtUpgrade>(this, "upgrade");
-    m_extUpgrade->initSockets();
 }
 
 
-QVariant UpgradeSource::data(const QString &_source)
+// This method returns -1 in case of invalid source name (like if there is no number)
+int AbstractExtSysMonSource::index(const QString &_source)
 {
-    qCDebug(LOG_ESS) << "Source" << _source;
-
-    // there are only one value
-    return dataByItem(m_extUpgrade, _source).values().first();
+    auto match = NUMBER_REGEX.match(_source);
+    return match.hasMatch() ? match.captured().toInt() : -1;
 }
 
 
-QHash<QString, KSysGuard::SensorInfo *> UpgradeSource::sources() const
+KSysGuard::SensorInfo *AbstractExtSysMonSource::makeSensorInfo(const QString &_name, const QMetaType::Type _type,
+                                                               const KSysGuard::Unit _unit, const double _min,
+                                                               const double _max)
 {
-    auto result = QHash<QString, KSysGuard::SensorInfo *>();
+    auto info = new KSysGuard::SensorInfo();
+    info->name = _name;
+    info->variantType = static_cast<QVariant::Type>(_type);
 
-    for (auto item : m_extUpgrade->activeItems())
-        result.insert(item->tag("pkgcount"),
-                      makeSensorInfo(QString("Package manager '%1' metadata").arg(item->uniq()), QMetaType::Int));
+    info->unit = _unit;
 
-    return result;
+    info->min = _min;
+    info->max = _max;
+
+    return info;
 }

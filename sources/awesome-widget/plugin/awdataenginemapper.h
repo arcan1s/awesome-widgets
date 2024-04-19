@@ -38,7 +38,7 @@ public:
     [[nodiscard]] AWKeysAggregator::FormatterType formatter(const QString &_key) const;
     [[nodiscard]] QStringList keysFromSource(const QString &_source) const;
     // set methods
-    QStringList registerSource(const QString &_source, const KSysGuard::Unit _units, const QStringList &_keys);
+    QStringList registerSource(const QString &_source, KSysGuard::Unit _units, const QStringList &_keys);
     void setDevices(const QHash<QString, QStringList> &_devices);
 
 private:

@@ -64,8 +64,8 @@ public:
     [[nodiscard]] bool isCustom() const;
     [[nodiscard]] int itemHeight() const;
     [[nodiscard]] int itemWidth() const;
-    [[nodiscard]] float minValue() const;
-    [[nodiscard]] float maxValue() const;
+    [[nodiscard]] double minValue() const;
+    [[nodiscard]] double maxValue() const;
     [[nodiscard]] Type type() const;
     [[nodiscard]] QString strType() const;
     [[nodiscard]] Direction direction() const;
@@ -80,8 +80,8 @@ public:
     void setInactiveColor(const QString &_color);
     void setItemHeight(int _height);
     void setItemWidth(int _width);
-    void setMinValue(float _value);
-    void setMaxValue(float _value);
+    void setMinValue(double _value);
+    void setMaxValue(double _value);
     void setType(Type _type);
     void setStrType(const QString &_type);
     void setDirection(Direction _direction);
@@ -110,8 +110,8 @@ private:
     bool m_custom = false;
     QString m_activeColor = "color://0,0,0,130";
     QString m_inactiveColor = "color://255,255,255,130";
-    float m_minValue = 0.0f;
-    float m_maxValue = 100.0f;
+    double m_minValue = 0.0;
+    double m_maxValue = 100.0;
     Type m_type = Type::Horizontal;
     Direction m_direction = Direction::LeftToRight;
     int m_height = 100;

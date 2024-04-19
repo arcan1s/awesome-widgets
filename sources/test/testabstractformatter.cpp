@@ -26,14 +26,11 @@
 void TestAbstractFormatter::initTestCase()
 {
     AWTestLibrary::init();
-    formatter = new AWNoFormatter(nullptr);
+    formatter = new AWNoFormatter(this);
 }
 
 
-void TestAbstractFormatter::cleanupTestCase()
-{
-    delete formatter;
-}
+void TestAbstractFormatter::cleanupTestCase() {}
 
 
 void TestAbstractFormatter::test_values() {}
@@ -58,7 +55,7 @@ void TestAbstractFormatter::test_copy()
     QCOMPARE(newFormatter->type(), formatter->type());
     QCOMPARE(newFormatter->name(), formatter->name());
 
-    delete newFormatter;
+    newFormatter->deleteLater();
 }
 
 

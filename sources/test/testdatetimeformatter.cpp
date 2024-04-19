@@ -29,15 +29,12 @@ void TestAWDateTimeFormatter::initTestCase()
     AWTestLibrary::init();
     format = AWTestLibrary::randomSelect(QString(TIME_KEYS).split(',')).join(' ');
 
-    formatter = new AWDateTimeFormatter(nullptr);
+    formatter = new AWDateTimeFormatter(this);
     formatter->setFormat(format);
 }
 
 
-void TestAWDateTimeFormatter::cleanupTestCase()
-{
-    delete formatter;
-}
+void TestAWDateTimeFormatter::cleanupTestCase() {}
 
 
 void TestAWDateTimeFormatter::test_values()
@@ -62,7 +59,7 @@ void TestAWDateTimeFormatter::test_copy()
     QCOMPARE(newFormatter->translateString(), formatter->translateString());
     QCOMPARE(newFormatter->number(), 1);
 
-    delete newFormatter;
+    newFormatter->deleteLater();
 }
 
 

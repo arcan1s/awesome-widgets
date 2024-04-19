@@ -26,7 +26,7 @@
 void TestExtQuotes::initTestCase()
 {
     AWTestLibrary::init();
-    extQuotes = new ExtQuotes(nullptr);
+    extQuotes = new ExtQuotes(this);
     extQuotes->setInterval(1);
     extQuotes->setTicker(ticker);
     extQuotes->setNumber(0);
@@ -35,10 +35,7 @@ void TestExtQuotes::initTestCase()
 }
 
 
-void TestExtQuotes::cleanupTestCase()
-{
-    delete extQuotes;
-}
+void TestExtQuotes::cleanupTestCase() {}
 
 
 void TestExtQuotes::test_values()
@@ -96,7 +93,7 @@ void TestExtQuotes::test_copy()
     QCOMPARE(newExtQuotes->ticker(), extQuotes->ticker());
     QCOMPARE(newExtQuotes->number(), 1);
 
-    delete newExtQuotes;
+    newExtQuotes->deleteLater();
 }
 
 

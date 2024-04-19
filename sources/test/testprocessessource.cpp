@@ -30,10 +30,7 @@ void TestProcessesSource::initTestCase()
 }
 
 
-void TestProcessesSource::cleanupTestCase()
-{
-    delete source;
-}
+void TestProcessesSource::cleanupTestCase() {}
 
 
 void TestProcessesSource::test_sources()

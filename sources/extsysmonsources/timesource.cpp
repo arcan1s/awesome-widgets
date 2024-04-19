@@ -43,7 +43,7 @@ QHash<QString, KSysGuard::SensorInfo *> TimeSource::sources() const
 {
     auto result = QHash<QString, KSysGuard::SensorInfo *>();
 
-    result.insert("now", makeSensorInfo("Current time", QVariant::LongLong, KSysGuard::UnitSecond));
+    result.insert("now", makeSensorInfo("Current time", QMetaType::LongLong, KSysGuard::UnitSecond));
 
     return result;
 }

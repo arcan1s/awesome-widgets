@@ -26,14 +26,11 @@
 void TestAWNoFormatter::initTestCase()
 {
     AWTestLibrary::init();
-    formatter = new AWNoFormatter(nullptr);
+    formatter = new AWNoFormatter(this);
 }
 
 
-void TestAWNoFormatter::cleanupTestCase()
-{
-    delete formatter;
-}
+void TestAWNoFormatter::cleanupTestCase() {}
 
 
 void TestAWNoFormatter::test_values() {}
@@ -45,7 +42,7 @@ void TestAWNoFormatter::test_conversion()
     auto randomInt = AWTestLibrary::randomInt();
     QCOMPARE(formatter->convert(randomInt), QString::number(randomInt));
     // float
-    QWARN("Float conversion isn't tested here due to possible rounding errors");
+    qWarning("Float conversion isn't tested here due to possible rounding errors");
     // string
     auto randomString = AWTestLibrary::randomString();
     QCOMPARE(formatter->convert(randomString), randomString);
@@ -58,7 +55,7 @@ void TestAWNoFormatter::test_copy()
 
     QCOMPARE(newFormatter->number(), 1);
 
-    delete newFormatter;
+    newFormatter->deleteLater();
 }
 
 

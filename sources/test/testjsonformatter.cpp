@@ -26,17 +26,14 @@
 void TestAWJsonFormatter::initTestCase()
 {
     AWTestLibrary::init();
-    formatter = new AWJsonFormatter(nullptr);
+    formatter = new AWJsonFormatter(this);
 
     generate();
     formatter->setPath(path);
 }
 
 
-void TestAWJsonFormatter::cleanupTestCase()
-{
-    delete formatter;
-}
+void TestAWJsonFormatter::cleanupTestCase() {}
 
 
 void TestAWJsonFormatter::test_values()
@@ -58,7 +55,7 @@ void TestAWJsonFormatter::test_copy()
     QCOMPARE(newFormatter->path(), formatter->path());
     QCOMPARE(newFormatter->number(), 1);
 
-    delete newFormatter;
+    newFormatter->deleteLater();
 }
 
 
@@ -79,8 +76,7 @@ void TestAWJsonFormatter::generate()
         } else {
             auto key = AWTestLibrary::randomString();
             auto val = AWTestLibrary::randomString();
-            QVariantMap dict;
-            dict[key] = val;
+            QVariantMap dict{{key, val}};
             second.append(dict);
         }
     }

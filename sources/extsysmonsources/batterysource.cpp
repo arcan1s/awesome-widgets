@@ -71,11 +71,11 @@ void BatterySource::run()
             m_values[QString("battotal%1").arg(i)] = QString(fullLevelFile.readLine()).toInt();
         fullLevelFile.close();
 
-        m_values[QString("bat%1").arg(i)] = static_cast<int>(100 * m_values[QString("batnow%1").arg(i)].toFloat()
-                                                             / m_values[QString("battotal%1").arg(i)].toFloat());
+        m_values[QString("bat%1").arg(i)] = static_cast<int>(100 * m_values[QString("batnow%1").arg(i)].toDouble()
+                                                             / m_values[QString("battotal%1").arg(i)].toDouble());
         // accumulate
-        currentLevel += m_values[QString("batnow%1").arg(i)].toFloat();
-        fullLevel += m_values[QString("battotal%1").arg(i)].toFloat();
+        currentLevel += m_values[QString("batnow%1").arg(i)].toDouble();
+        fullLevel += m_values[QString("battotal%1").arg(i)].toDouble();
     }
 
     // total
@@ -93,24 +93,25 @@ QHash<QString, KSysGuard::SensorInfo *> BatterySource::sources() const
     auto result = QHash<QString, KSysGuard::SensorInfo *>();
 
     // fixed fields
-    result.insert("ac", makeSensorInfo("Is AC online or not", QVariant::Bool));
-    result.insert("bat", makeSensorInfo("Average battery usage", QVariant::Int, KSysGuard::UnitPercent, 0, 100));
-    result.insert("batleft", makeSensorInfo("Battery discharge time", QVariant::Int, KSysGuard::UnitSecond));
-    result.insert("batnow", makeSensorInfo("Current battery capacity", QVariant::Int));
-    result.insert("batrate", makeSensorInfo("Average battery discharge rate", QVariant::Double, KSysGuard::UnitRate));
-    result.insert("battotal", makeSensorInfo("Full battery capacity", QVariant::Int));
+    result.insert("ac", makeSensorInfo("Is AC online or not", QMetaType::Bool));
+    result.insert("bat", makeSensorInfo("Average battery usage", QMetaType::Int, KSysGuard::UnitPercent, 0, 100));
+    result.insert("batleft", makeSensorInfo("Battery discharge time", QMetaType::Int, KSysGuard::UnitSecond));
+    result.insert("batnow", makeSensorInfo("Current battery capacity", QMetaType::Int));
+    result.insert("batrate", makeSensorInfo("Average battery discharge rate", QMetaType::Double, KSysGuard::UnitRate));
+    result.insert("battotal", makeSensorInfo("Full battery capacity", QMetaType::Int));
 
     // generators
     for (auto i = 0; i < m_batteriesCount; ++i) {
-        result.insert(QString("bat%1").arg(i), makeSensorInfo(QString("Battery %1 usage").arg(i), QVariant::Int,
+        result.insert(QString("bat%1").arg(i), makeSensorInfo(QString("Battery %1 usage").arg(i), QMetaType::Int,
                                                               KSysGuard::UnitPercent, 0, 100));
         result.insert(QString("batleft%1").arg(i), makeSensorInfo(QString("Battery %1 discharge time").arg(i),
-                                                                  QVariant::Int, KSysGuard::UnitSecond));
-        result.insert(QString("batnow%1").arg(i), makeSensorInfo(QString("Battery %1 capacity").arg(i), QVariant::Int));
+                                                                  QMetaType::Int, KSysGuard::UnitSecond));
+        result.insert(QString("batnow%1").arg(i),
+                      makeSensorInfo(QString("Battery %1 capacity").arg(i), QMetaType::Int));
         result.insert(QString("batrate%1").arg(i), makeSensorInfo(QString("Battery %1 discharge rate").arg(i),
-                                                                  QVariant::Double, KSysGuard::UnitRate));
+                                                                  QMetaType::Double, KSysGuard::UnitRate));
         result.insert(QString("battotal%1").arg(i),
-                      makeSensorInfo(QString("Battery %1 full capacity").arg(i), QVariant::Int));
+                      makeSensorInfo(QString("Battery %1 full capacity").arg(i), QMetaType::Int));
     }
 
     return result;
@@ -145,20 +146,19 @@ void BatterySource::calculateRates()
 
     // check time interval
     auto now = QDateTime::currentDateTimeUtc();
-    auto interval = m_timestamp.secsTo(now);
-    qCDebug(LOG_AW) << interval;
+    auto interval = static_cast<double>(m_timestamp.secsTo(now));
     m_timestamp.swap(now);
 
     for (auto i = 0; i < m_batteriesCount; ++i) {
         auto approx = approximate(m_trend[i + 1]);
         m_values[QString("batrate%1").arg(i)] = approx / interval;
-        m_values[QString("batleft%1").arg(i)] = interval * m_values[QString("batnow%1").arg(i)].toFloat() / approx;
+        m_values[QString("batleft%1").arg(i)] = interval * m_values[QString("batnow%1").arg(i)].toDouble() / approx;
     }
 
     // total
     auto approx = approximate(m_trend[0]);
     m_values["batrate"] = approx / interval;
-    m_values["batleft"] = interval * m_values["batnow"].toFloat() / approx;
+    m_values["batleft"] = interval * m_values["batnow"].toDouble() / approx;
 
     // old data cleanup
     for (auto &trend : m_trend.keys()) {

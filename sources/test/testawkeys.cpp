@@ -67,10 +67,7 @@ void TestAWKeys::initTestCase()
 }
 
 
-void TestAWKeys::cleanupTestCase()
-{
-    delete plugin;
-}
+void TestAWKeys::cleanupTestCase() {}
 
 
 void TestAWKeys::test_dictKeys()

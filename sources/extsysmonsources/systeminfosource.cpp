@@ -54,8 +54,8 @@ QHash<QString, KSysGuard::SensorInfo *> SystemInfoSource::sources() const
 {
     auto result = QHash<QString, KSysGuard::SensorInfo *>();
 
-    result.insert("brightness", makeSensorInfo("Screen brightness", QVariant::Double, KSysGuard::UnitPercent, 0, 100));
-    result.insert("volume", makeSensorInfo("Master volume", QVariant::Double, KSysGuard::UnitNone));
+    result.insert("brightness", makeSensorInfo("Screen brightness", QMetaType::Double, KSysGuard::UnitPercent, 0, 100));
+    result.insert("volume", makeSensorInfo("Master volume", QMetaType::Double, KSysGuard::UnitNone));
 
     return result;
 }

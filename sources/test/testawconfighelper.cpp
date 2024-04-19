@@ -30,10 +30,7 @@ void TestAWConfigHelper::initTestCase()
 }
 
 
-void TestAWConfigHelper::cleanupTestCase()
-{
-    delete plugin;
-}
+void TestAWConfigHelper::cleanupTestCase() {}
 
 
 void TestAWConfigHelper::test_configurationDirectory()

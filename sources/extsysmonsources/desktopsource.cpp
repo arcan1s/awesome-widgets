@@ -55,9 +55,9 @@ QHash<QString, KSysGuard::SensorInfo *> DesktopSource::sources() const
 {
     auto result = QHash<QString, KSysGuard::SensorInfo *>();
 
-    result.insert("name", makeSensorInfo("Current desktop name", QVariant::String));
-    result.insert("number", makeSensorInfo("Current desktop number", QVariant::Int));
-    result.insert("count", makeSensorInfo("Desktops count", QVariant::Int));
+    result.insert("name", makeSensorInfo("Current desktop name", QMetaType::QString));
+    result.insert("number", makeSensorInfo("Current desktop number", QMetaType::Int));
+    result.insert("count", makeSensorInfo("Desktops count", QMetaType::Int));
 
     return result;
 }

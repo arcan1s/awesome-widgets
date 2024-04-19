@@ -48,17 +48,17 @@ QHash<QString, KSysGuard::SensorInfo *> QuotesSource::sources() const
 
     for (auto item : m_extQuotes->activeItems()) {
         result.insert(item->tag("pricechg"),
-                      makeSensorInfo(QString("Absolute price changes for '%1'").arg(item->uniq()), QVariant::Double));
+                      makeSensorInfo(QString("Absolute price changes for '%1'").arg(item->uniq()), QMetaType::Double));
         result.insert(item->tag("price"),
-                      makeSensorInfo(QString("Price for '%1'").arg(item->uniq()), QVariant::Double));
+                      makeSensorInfo(QString("Price for '%1'").arg(item->uniq()), QMetaType::Double));
         result.insert(item->tag("percpricechg"), makeSensorInfo(QString("Price changes for '%1'").arg(item->uniq()),
-                                                                QVariant::Double, KSysGuard::UnitPercent, 0, 100));
+                                                                QMetaType::Double, KSysGuard::UnitPercent, 0, 100));
         result.insert(item->tag("volumechg"),
-                      makeSensorInfo(QString("Absolute volume changes for '%1'").arg(item->uniq()), QVariant::Double));
+                      makeSensorInfo(QString("Absolute volume changes for '%1'").arg(item->uniq()), QMetaType::Double));
         result.insert(item->tag("volume"),
-                      makeSensorInfo(QString("Volume for '%1'").arg(item->uniq()), QVariant::Double));
+                      makeSensorInfo(QString("Volume for '%1'").arg(item->uniq()), QMetaType::Double));
         result.insert(item->tag("percvolumechg"), makeSensorInfo(QString("Volume changes for '%1'").arg(item->uniq()),
-                                                                 QVariant::Double, KSysGuard::UnitPercent, 0, 100));
+                                                                 QMetaType::Double, KSysGuard::UnitPercent, 0, 100));
     }
 
     return result;

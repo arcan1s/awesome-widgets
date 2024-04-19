@@ -42,7 +42,7 @@ void TestAWPatternFunctions::test_findFunctionCalls()
 
     auto pattern = AWTestLibrary::randomString() + function + AWTestLibrary::randomString();
 
-    QList<AWPatternFunctions::AWFunction> found = AWPatternFunctions::findFunctionCalls(name, pattern);
+    auto found = AWPatternFunctions::findFunctionCalls(name, pattern);
     QCOMPARE(found.count(), 1);
 
     QCOMPARE(found.at(0).args, args);
