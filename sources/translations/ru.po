@@ -1,13 +1,13 @@
 # Copyright (C) 2014
 # This file is distributed under the same license as the PyTextMonitor package.
 #
-# Evgeniy Alekseev <esalexeev@gmail.com>, 2014, 2015, 2016, 2017, 2020.
+# SPDX-FileCopyrightText: 2014, 2015, 2016, 2017, 2020, 2024 Evgeniy Alekseev <esalexeev@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2020-11-07 16:46+0300\n"
-"PO-Revision-Date: 2020-11-07 16:48+0300\n"
+"POT-Creation-Date: 2024-04-19 20:13+0300\n"
+"PO-Revision-Date: 2024-04-19 20:17+0300\n"
 "Last-Translator: Evgenii Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
 "=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 20.08.2\n"
+"X-Generator: Lokalize 24.02.1\n"
 
 msgid "Version %1 (build date %2)"
 msgstr "Версия %1 (дата сборки %2)"
@@ -45,6 +45,9 @@ msgstr "Пакеты в AUR"
 msgid "openSUSE packages"
 msgstr "Пакеты для openSUSE"
 
+msgid "This software is licensed under %1"
+msgstr "Приложение лицензировано под %1"
+
 msgid "Translators:"
 msgstr "Переводчики:"
 
@@ -68,6 +71,9 @@ msgstr "Внешний вид"
 
 msgid "DataEngine"
 msgstr "DataEngine"
+
+msgid "Report bug"
+msgstr "Сообщить об ошибке"
 
 msgid "About"
 msgstr "О программе"
@@ -101,9 +107,6 @@ msgstr "Ширина виджета, пиксели"
 
 msgid "Time interval"
 msgstr "Интервал обновления"
-
-msgid "Messages queue limit"
-msgstr "Ограничение очереди сообщений"
 
 msgid "Celsius"
 msgstr "Цельсий"
@@ -153,17 +156,11 @@ msgstr "Экспорт настроек"
 msgid "Import configuration"
 msgstr "Импорт настроек"
 
-msgid "Telemetry"
-msgstr "Телеметрия"
-
-msgid "Enable remote telemetry"
-msgstr "Включить загрузку на удаленный сервер"
+msgid "History"
+msgstr "История"
 
 msgid "History count"
 msgstr "Хранить историю"
-
-msgid "Telemetry ID"
-msgstr "ID для телеметрии"
 
 msgid "Font"
 msgstr "Шрифт"
@@ -186,26 +183,35 @@ msgstr "Стиль"
 msgid "Style color"
 msgstr "Цвет стиля"
 
+msgid "Report subject"
+msgstr "Тема"
+
+msgid "Description"
+msgstr "Описание"
+
+msgid "Steps to reproduce"
+msgstr "Как воспроизвести"
+
+msgid "Expected result"
+msgstr "Ожидаемый результат"
+
+msgid "Logs"
+msgstr "Логи"
+
+msgid "Use command"
+msgstr "Используйте команду"
+
+msgid "Load log file"
+msgstr "Загрузить лог"
+
+msgid "Open log file"
+msgstr "Открыть лог"
+
 msgid "ACPI"
 msgstr "ACPI"
 
 msgid "ACPI path"
 msgstr "Пусть к ACPI"
-
-msgid "GPU"
-msgstr "GPU"
-
-msgid "GPU device"
-msgstr "Устройство GPU"
-
-msgid "HDD temperature"
-msgstr "Температура HDD"
-
-msgid "HDD"
-msgstr "HDD"
-
-msgid "hddtemp cmd"
-msgstr "Команда hddtemp"
 
 msgid "Player"
 msgstr "Проигрыватель"
@@ -243,29 +249,14 @@ msgstr "Монитор котировок"
 msgid "Weather"
 msgstr "Погода"
 
-msgid "Select tag"
-msgstr "Выберете тег"
-
-msgid "Tag: %1"
-msgstr "Тег: %1"
-
-msgid "Value: %1"
-msgstr "Значение: %1"
-
-msgid "Info: %1"
-msgstr "Информация: %1"
-
-msgid "Request key"
-msgstr "Показать ключ"
+msgid "Run monitor"
+msgstr "Запустить монитор"
 
 msgid "Show README"
 msgstr "Показать README"
 
 msgid "Check updates"
 msgstr "Проверить обновления"
-
-msgid "Report bug"
-msgstr "Сообщить об ошибке"
 
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
@@ -331,12 +322,6 @@ msgstr "Править"
 msgid "Run %1"
 msgstr "Запуск %1"
 
-msgid "Not supported"
-msgstr "Не поддерживается"
-
-msgid "You are using mammoth's Qt version, try to update it first"
-msgstr "Вы используете очень старую версию Qt, попробуйте сначала обновиться"
-
 msgid "Select font"
 msgstr "Выберете шрифт"
 
@@ -345,6 +330,9 @@ msgstr "Сообщение создано"
 
 msgid "Issue %1 has been created"
 msgstr "Тикет %1 был создан"
+
+msgid "Details"
+msgstr "Детали"
 
 msgid "AC online"
 msgstr "AC подключен"
@@ -379,11 +367,17 @@ msgstr "МБ/с"
 msgid "KB/s"
 msgstr "КБ/с"
 
+msgid "Changelog of %1"
+msgstr "Список изменений %1"
+
 msgid "You are using the actual version %1"
 msgstr "Вы используете актуальную версию %1"
 
 msgid "No new version found"
 msgstr "Обновления не найдены"
+
+msgid "Current version : %1"
+msgstr "Текущая версия : %1"
 
 msgid "New version : %1"
 msgstr "Новая версия : %1"
@@ -492,10 +486,10 @@ msgid ""
 "Refer to <a href=\"https://stooq.com/\"><span style=\" text-decoration: "
 "underline; color:#0057ae;\">https://stooq.com/</span></a></p></body></html>"
 msgstr ""
-"<html><head/><body><p>Используйте тикеры Stooq, чтобы получить "
-"котировки по инструменту. См. <a href=\"https://stooq.com/\"><span style=\""
-" text-decoration: "
-"underline; color:#0057ae;\">https://stooq.com/</span></a></p></body></html>"
+"<html><head/><body><p>Используйте тикеры Stooq, чтобы получить котировки по "
+"инструменту. См. <a href=\"https://stooq.com/\"><span style=\" text-"
+"decoration: underline; color:#0057ae;\">https://stooq.com/</span></a></p></"
+"body></html>"
 
 msgid "Ticker"
 msgstr "Тикер"
@@ -590,12 +584,6 @@ msgstr "Метка"
 msgid "contours"
 msgstr "контуры"
 
-msgid "windows"
-msgstr "окна"
-
-msgid "clean desktop"
-msgstr "пустой рабочий стол"
-
 msgid "names"
 msgstr "названия"
 
@@ -607,6 +595,30 @@ msgstr "Тип тултипа"
 
 msgid "Tooltip width"
 msgstr "Ширина тултипа"
+
+msgid "Scripts"
+msgstr "Скрипты"
+
+msgid "Desktop"
+msgstr "Рабочий стол"
+
+msgid "Processes"
+msgstr "Процессы"
+
+msgid "Quotes"
+msgstr "Котировки"
+
+msgid "System"
+msgstr "Системные"
+
+msgid "Time"
+msgstr "Время"
+
+msgid "Upgrades"
+msgstr "Обновления"
+
+msgid "Load"
+msgstr "Нагрузка"
 
 msgid "Edit bars"
 msgstr "Редактировать бары"
@@ -633,35 +645,17 @@ msgstr "Добавить"
 msgid "Show value"
 msgstr "Показать значение"
 
+msgid "Tag: %1"
+msgstr "Тег: %1"
+
+msgid "Value: %1"
+msgstr "Значение: %1"
+
+msgid "Info: %1"
+msgstr "Информация: %1"
+
 msgid "Acknowledgment"
 msgstr "Благодарности"
-
-msgid "Report a bug"
-msgstr "Сообщить об ошибке"
-
-msgid "Report subject"
-msgstr "Тема"
-
-msgid "Description"
-msgstr "Описание"
-
-msgid "Steps to reproduce"
-msgstr "Как воспроизвести"
-
-msgid "Expected result"
-msgstr "Ожидаемый результат"
-
-msgid "Logs"
-msgstr "Логи"
-
-msgid "Use command"
-msgstr "Используйте команду"
-
-msgid "Load log file"
-msgstr "Загрузить лог"
-
-msgid "Open log file"
-msgstr "Открыть лог"
 
 msgid "Select a color"
 msgstr "Выберете цвет"
@@ -693,23 +687,11 @@ msgstr "Бары"
 msgid "Desktops"
 msgstr "Рабочие столы"
 
+msgid "HDD"
+msgstr "HDD"
+
 msgid "Network request"
 msgstr "Веб-запрос"
-
-msgid "Scripts"
-msgstr "Скрипты"
-
-msgid "System"
-msgstr "Системные"
-
-msgid "Time"
-msgstr "Время"
-
-msgid "Quotes"
-msgstr "Котировки"
-
-msgid "Upgrades"
-msgstr "Обновления"
 
 msgid "Weathers"
 msgstr "Погода"
@@ -764,3 +746,4 @@ msgstr "Импорт расширений"
 
 msgid "Import additional files"
 msgstr "Импорт дополнительных файлов"
+

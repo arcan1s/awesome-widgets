@@ -14,11 +14,11 @@ A collection of minimalistic widgets which looks like Awesome Window Manager wid
 Features
 ========
 
-* easy and fully configurable native Plasma widget which may be used as Conky widget or as Awesome-like information panel
-* panel which shows active desktop status
-* clear Conky-like configuration with html tags support
+* easy and fully configurable native Plasma widget which may be used as desktop or panel widget
+* additionnal widget which shows active desktop status
+* clear text configuration with html tags support
 * custom command support (it may be simple action as well as special custom tag)
-* graphical item support - tooltips, bars
+* graphical widgets support - tooltips, bars
 
 See [links](#Links) for more details.
 
@@ -30,15 +30,11 @@ Instruction
 Dependencies
 ------------
 
-* plasma-framework
-* ksysguard (since plasma 5.22)
+* plasma-workspace
 
 Optional dependencies
 ---------------------
 
-* proprietary video driver
-* hddtemp
-* smartmontools
 * music player (mpd or MPRIS supported)
 * wireless_tools
 
@@ -48,19 +44,17 @@ Make dependencies
 * cmake
 * extra-cmake-modules
 
-In addition some distros might require to install some -dev packages, e.g. the list of required packages for deb-based distros can be found [here](https://github.com/arcan1s/awesome-widgets/blob/development/.docker/Dockerfile-ubuntu-amd64#L7).
+In addition, some distros might require to install some -dev packages, e.g. the list of required packages for deb-based distros can be found [here](https://github.com/arcan1s/awesome-widgets/blob/development/.docker/Dockerfile-ubuntu-amd64#L7).
 
 Installation
 ------------
 
 * download sources
-* install
+  * install
 
-        mkdir build && cd build
-        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr ../sources
-        make && sudo make install
-
-  **NOTE** on Plasma 5 it very likely requires `-DKDE_INSTALL_USE_QT_SYS_PATHS=ON` flag
+          cmake -B build -S sources -DCMAKE_BUILD_TYPE=Release
+          cmake --build build
+          cmake --install build
 
 Additional information
 ======================

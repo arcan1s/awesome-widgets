@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2020-11-07 16:46+0300\n"
+"POT-Creation-Date: 2024-04-19 20:13+0300\n"
 "PO-Revision-Date: 2016-07-09 08:47+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Bahasa (Bahasa Indonesia) (http://www.transifex.com/arcanis/"
@@ -47,6 +47,10 @@ msgid "openSUSE packages"
 msgstr "paket openSUSE"
 
 #, fuzzy
+msgid "This software is licensed under %1"
+msgstr "Perangkat lunak ini menggunakan: %1"
+
+#, fuzzy
 msgid "Translators:"
 msgstr "Penerjemah: %1"
 
@@ -72,6 +76,9 @@ msgstr "Penampilan"
 
 msgid "DataEngine"
 msgstr "DataEngine"
+
+msgid "Report bug"
+msgstr "Laporkan kutu"
 
 msgid "About"
 msgstr "Tentang"
@@ -105,9 +112,6 @@ msgstr "Lebar widget, px"
 
 msgid "Time interval"
 msgstr "Jeda waktu"
-
-msgid "Messages queue limit"
-msgstr "Batas antrian pesan"
 
 msgid "Celsius"
 msgstr "Celsius"
@@ -158,18 +162,13 @@ msgstr "Ekspor konfigurasi"
 msgid "Import configuration"
 msgstr "Impor konfigurasi"
 
-msgid "Telemetry"
-msgstr "Telemetri"
-
-msgid "Enable remote telemetry"
-msgstr "Aktifkan telemetri remote"
+#, fuzzy
+msgid "History"
+msgstr "Jumlah riwayat"
 
 #, fuzzy
 msgid "History count"
 msgstr "Jumlah riwayat"
-
-msgid "Telemetry ID"
-msgstr "ID Telemetri"
 
 msgid "Font"
 msgstr "Fonta"
@@ -193,26 +192,37 @@ msgstr "Gaya"
 msgid "Style color"
 msgstr "Warna gaya"
 
+msgid "Report subject"
+msgstr "Subjek laporan"
+
+#, fuzzy
+msgid "Description"
+msgstr "Deskripsi"
+
+msgid "Steps to reproduce"
+msgstr "Langkah reproduksi"
+
+msgid "Expected result"
+msgstr "Hasil yang diharapkan"
+
+msgid "Logs"
+msgstr "Catatan"
+
+#, fuzzy
+msgid "Use command"
+msgstr "Gunakan perintah"
+
+msgid "Load log file"
+msgstr "Baca berkas catatan"
+
+msgid "Open log file"
+msgstr "Buka berkas catatan"
+
 msgid "ACPI"
 msgstr "ACPI"
 
 msgid "ACPI path"
 msgstr "ACPI-path"
-
-msgid "GPU"
-msgstr "GPU"
-
-msgid "GPU device"
-msgstr "Divais GPU"
-
-msgid "HDD temperature"
-msgstr "Temperatur HDD"
-
-msgid "HDD"
-msgstr "HDD"
-
-msgid "hddtemp cmd"
-msgstr "hddtemp cmd"
 
 msgid "Player"
 msgstr "Pemutar musik"
@@ -251,29 +261,15 @@ msgstr "Monitor kutipan"
 msgid "Weather"
 msgstr "Cuaca"
 
-msgid "Select tag"
-msgstr "Pilih penanda"
-
-msgid "Tag: %1"
-msgstr "Penanda: %1"
-
-msgid "Value: %1"
-msgstr "Nilai: %1"
-
-msgid "Info: %1"
-msgstr "Informasi: %1"
-
-msgid "Request key"
-msgstr "Kunci permintaan"
+#, fuzzy
+msgid "Run monitor"
+msgstr "Monitor kutipan"
 
 msgid "Show README"
 msgstr "Perlihatkan README"
 
 msgid "Check updates"
 msgstr "Periksa pemutakhiran"
-
-msgid "Report bug"
-msgstr "Laporkan kutu"
 
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
@@ -339,12 +335,6 @@ msgstr "Sunting"
 msgid "Run %1"
 msgstr "Jalankan %1"
 
-msgid "Not supported"
-msgstr "Tidak didukung"
-
-msgid "You are using mammoth's Qt version, try to update it first"
-msgstr "Anda menggunakan Qt versi mammoth, silakan coba untuk memperbarui"
-
 msgid "Select font"
 msgstr "Pilih fonta"
 
@@ -353,6 +343,9 @@ msgstr "Isu terbuat"
 
 msgid "Issue %1 has been created"
 msgstr "Isu %1 sudah terbuat"
+
+msgid "Details"
+msgstr ""
 
 msgid "AC online"
 msgstr "AC daring"
@@ -387,11 +380,18 @@ msgstr "MB/dtk"
 msgid "KB/s"
 msgstr "KB/dtk"
 
+msgid "Changelog of %1"
+msgstr ""
+
 msgid "You are using the actual version %1"
 msgstr "Anda menggunakan versi aktual %1"
 
 msgid "No new version found"
 msgstr "Tidak ada versi baru yang ditemukan"
+
+#, fuzzy
+msgid "Current version : %1"
+msgstr "Versi baru: %1"
 
 msgid "New version : %1"
 msgstr "Versi baru: %1"
@@ -596,12 +596,6 @@ msgstr "Tanda"
 msgid "contours"
 msgstr "kontur"
 
-msgid "windows"
-msgstr "jendela"
-
-msgid "clean desktop"
-msgstr "bersihkan desktop"
-
 msgid "names"
 msgstr "nama"
 
@@ -613,6 +607,31 @@ msgstr "Tipe tooltip"
 
 msgid "Tooltip width"
 msgstr "Lebar tooltip"
+
+msgid "Scripts"
+msgstr "Skrip"
+
+#, fuzzy
+msgid "Desktop"
+msgstr "Desktop"
+
+msgid "Processes"
+msgstr ""
+
+msgid "Quotes"
+msgstr "Kutipan"
+
+msgid "System"
+msgstr ""
+
+msgid "Time"
+msgstr "Waktu"
+
+msgid "Upgrades"
+msgstr "Pemutakhiran"
+
+msgid "Load"
+msgstr ""
 
 msgid "Edit bars"
 msgstr "Sunting palang"
@@ -639,37 +658,17 @@ msgstr "Tambah"
 msgid "Show value"
 msgstr "Tunjukkan nilai"
 
+msgid "Tag: %1"
+msgstr "Penanda: %1"
+
+msgid "Value: %1"
+msgstr "Nilai: %1"
+
+msgid "Info: %1"
+msgstr "Informasi: %1"
+
 msgid "Acknowledgment"
 msgstr "Pengakuan"
-
-msgid "Report a bug"
-msgstr "Laporkan kutu"
-
-msgid "Report subject"
-msgstr "Subjek laporan"
-
-#, fuzzy
-msgid "Description"
-msgstr "Deskripsi"
-
-msgid "Steps to reproduce"
-msgstr "Langkah reproduksi"
-
-msgid "Expected result"
-msgstr "Hasil yang diharapkan"
-
-msgid "Logs"
-msgstr "Catatan"
-
-#, fuzzy
-msgid "Use command"
-msgstr "Gunakan perintah"
-
-msgid "Load log file"
-msgstr "Baca berkas catatan"
-
-msgid "Open log file"
-msgstr "Buka berkas catatan"
 
 msgid "Select a color"
 msgstr "Pilih warna"
@@ -701,24 +700,12 @@ msgstr "Palang"
 msgid "Desktops"
 msgstr "Desktop"
 
+msgid "HDD"
+msgstr "HDD"
+
 #, fuzzy
 msgid "Network request"
 msgstr "Jaringan"
-
-msgid "Scripts"
-msgstr "Skrip"
-
-msgid "System"
-msgstr ""
-
-msgid "Time"
-msgstr "Waktu"
-
-msgid "Quotes"
-msgstr "Kutipan"
-
-msgid "Upgrades"
-msgstr "Pemutakhiran"
 
 msgid "Weathers"
 msgstr "Cuaca"

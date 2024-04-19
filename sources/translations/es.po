@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2020-11-07 16:46+0300\n"
+"POT-Creation-Date: 2024-04-19 20:13+0300\n"
 "PO-Revision-Date: 2016-08-03 15:30+0000\n"
 "Last-Translator: Ernesto Avilés Vázquez <whippiii@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/arcanis/awesome-widgets/"
@@ -48,6 +48,10 @@ msgid "openSUSE packages"
 msgstr "Paquetes de openSUSE"
 
 #, fuzzy
+msgid "This software is licensed under %1"
+msgstr "Este software usa: %1"
+
+#, fuzzy
 msgid "Translators:"
 msgstr "Traductores: %1"
 
@@ -73,6 +77,9 @@ msgstr "Apariencia"
 
 msgid "DataEngine"
 msgstr "DataEngine"
+
+msgid "Report bug"
+msgstr ""
 
 msgid "About"
 msgstr "Acerca de"
@@ -106,9 +113,6 @@ msgstr "Ancho del widget, px"
 
 msgid "Time interval"
 msgstr "Intervalo de tiempo"
-
-msgid "Messages queue limit"
-msgstr "Límite de la cola de mensajes"
 
 msgid "Celsius"
 msgstr "Celsius"
@@ -159,18 +163,13 @@ msgstr "Exportar configuración"
 msgid "Import configuration"
 msgstr "Importar configuración"
 
-msgid "Telemetry"
-msgstr ""
-
-msgid "Enable remote telemetry"
-msgstr ""
+#, fuzzy
+msgid "History"
+msgstr "Conteo de puntos"
 
 #, fuzzy
 msgid "History count"
 msgstr "Conteo de puntos"
-
-msgid "Telemetry ID"
-msgstr ""
 
 msgid "Font"
 msgstr "Tipo de letra"
@@ -194,26 +193,37 @@ msgstr ""
 msgid "Style color"
 msgstr "Elige un color"
 
+msgid "Report subject"
+msgstr ""
+
+#, fuzzy
+msgid "Description"
+msgstr "Dirección"
+
+msgid "Steps to reproduce"
+msgstr ""
+
+msgid "Expected result"
+msgstr ""
+
+msgid "Logs"
+msgstr ""
+
+#, fuzzy
+msgid "Use command"
+msgstr "Editar orden"
+
+msgid "Load log file"
+msgstr ""
+
+msgid "Open log file"
+msgstr ""
+
 msgid "ACPI"
 msgstr "ACPI"
 
 msgid "ACPI path"
 msgstr "Ruta ACPI"
-
-msgid "GPU"
-msgstr "GPU"
-
-msgid "GPU device"
-msgstr "Dispositivo de GPU"
-
-msgid "HDD temperature"
-msgstr "Temperatura del disco duro"
-
-msgid "HDD"
-msgstr "Disco duro"
-
-msgid "hddtemp cmd"
-msgstr "Comando hddtemp"
 
 msgid "Player"
 msgstr "Reproductor"
@@ -252,29 +262,15 @@ msgstr "Monitor de cotizaciones"
 msgid "Weather"
 msgstr "Tiempo"
 
-msgid "Select tag"
-msgstr "Elegir etiqueta"
-
-msgid "Tag: %1"
-msgstr "Etiqueta: %1"
-
-msgid "Value: %1"
-msgstr "Valor: %1"
-
-msgid "Info: %1"
-msgstr "Información: %1"
-
-msgid "Request key"
-msgstr "Solicitar llave"
+#, fuzzy
+msgid "Run monitor"
+msgstr "Monitor de cotizaciones"
 
 msgid "Show README"
 msgstr "Mostrar el README"
 
 msgid "Check updates"
 msgstr "Comprobar actualizaciones"
-
-msgid "Report bug"
-msgstr ""
 
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
@@ -341,12 +337,6 @@ msgstr "Editar"
 msgid "Run %1"
 msgstr "Ejecutar %1"
 
-msgid "Not supported"
-msgstr ""
-
-msgid "You are using mammoth's Qt version, try to update it first"
-msgstr ""
-
 msgid "Select font"
 msgstr "Elegir tipo de letra"
 
@@ -354,6 +344,9 @@ msgid "Issue created"
 msgstr ""
 
 msgid "Issue %1 has been created"
+msgstr ""
+
+msgid "Details"
 msgstr ""
 
 msgid "AC online"
@@ -389,11 +382,18 @@ msgstr "MB/s"
 msgid "KB/s"
 msgstr "KB/s"
 
+msgid "Changelog of %1"
+msgstr ""
+
 msgid "You are using the actual version %1"
 msgstr "Estás usando al versión actual %1"
 
 msgid "No new version found"
 msgstr "No se encontraron nuevas versiones"
+
+#, fuzzy
+msgid "Current version : %1"
+msgstr "Nueva versión: %1"
 
 msgid "New version : %1"
 msgstr "Nueva versión: %1"
@@ -603,12 +603,6 @@ msgstr "Marca"
 msgid "contours"
 msgstr "contornos"
 
-msgid "windows"
-msgstr "ventanas"
-
-msgid "clean desktop"
-msgstr "limpiar escritorio"
-
 msgid "names"
 msgstr "nombres"
 
@@ -620,6 +614,31 @@ msgstr "Tipo de ventana emergente"
 
 msgid "Tooltip width"
 msgstr "Ancho de la ventana emergente"
+
+msgid "Scripts"
+msgstr "Guiones"
+
+#, fuzzy
+msgid "Desktop"
+msgstr "Escritorios"
+
+msgid "Processes"
+msgstr ""
+
+msgid "Quotes"
+msgstr "Cotizaciones"
+
+msgid "System"
+msgstr ""
+
+msgid "Time"
+msgstr "Hora"
+
+msgid "Upgrades"
+msgstr "Actualizaciones"
+
+msgid "Load"
+msgstr ""
 
 msgid "Edit bars"
 msgstr "Editar barras"
@@ -646,37 +665,17 @@ msgstr "Añadir"
 msgid "Show value"
 msgstr "Mostrar valor"
 
+msgid "Tag: %1"
+msgstr "Etiqueta: %1"
+
+msgid "Value: %1"
+msgstr "Valor: %1"
+
+msgid "Info: %1"
+msgstr "Información: %1"
+
 msgid "Acknowledgment"
 msgstr "Reconocimiento"
-
-msgid "Report a bug"
-msgstr ""
-
-msgid "Report subject"
-msgstr ""
-
-#, fuzzy
-msgid "Description"
-msgstr "Dirección"
-
-msgid "Steps to reproduce"
-msgstr ""
-
-msgid "Expected result"
-msgstr ""
-
-msgid "Logs"
-msgstr ""
-
-#, fuzzy
-msgid "Use command"
-msgstr "Editar orden"
-
-msgid "Load log file"
-msgstr ""
-
-msgid "Open log file"
-msgstr ""
 
 msgid "Select a color"
 msgstr "Elige un color"
@@ -708,24 +707,12 @@ msgstr "Barras"
 msgid "Desktops"
 msgstr "Escritorios"
 
+msgid "HDD"
+msgstr "Disco duro"
+
 #, fuzzy
 msgid "Network request"
 msgstr "Red"
-
-msgid "Scripts"
-msgstr "Guiones"
-
-msgid "System"
-msgstr ""
-
-msgid "Time"
-msgstr "Hora"
-
-msgid "Quotes"
-msgstr "Cotizaciones"
-
-msgid "Upgrades"
-msgstr "Actualizaciones"
 
 msgid "Weathers"
 msgstr "Tiempo"

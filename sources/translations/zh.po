@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2020-11-07 16:46+0300\n"
+"POT-Creation-Date: 2024-04-19 20:13+0300\n"
 "PO-Revision-Date: 2015-07-31 22:24+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -46,6 +46,10 @@ msgid "openSUSE packages"
 msgstr "openSUSE 包"
 
 #, fuzzy
+msgid "This software is licensed under %1"
+msgstr "该软件使用: %1"
+
+#, fuzzy
 msgid "Translators:"
 msgstr "翻译: %1"
 
@@ -71,6 +75,9 @@ msgstr "外观"
 
 msgid "DataEngine"
 msgstr "数据引擎"
+
+msgid "Report bug"
+msgstr ""
 
 msgid "About"
 msgstr "关于"
@@ -104,9 +111,6 @@ msgstr "宽度, px"
 
 msgid "Time interval"
 msgstr "时间周期"
-
-msgid "Messages queue limit"
-msgstr "消息队列长度限制"
 
 msgid "Celsius"
 msgstr "摄氏度"
@@ -157,19 +161,10 @@ msgstr "导出配置"
 msgid "Import configuration"
 msgstr "导入配置"
 
-msgid "Telemetry"
+msgid "History"
 msgstr ""
-
-#, fuzzy
-msgid "Enable remote telemetry"
-msgstr ""
-"可编辑的\n"
-"del - 移除项目"
 
 msgid "History count"
-msgstr ""
-
-msgid "Telemetry ID"
 msgstr ""
 
 msgid "Font"
@@ -194,26 +189,37 @@ msgstr ""
 msgid "Style color"
 msgstr "选择字体"
 
+msgid "Report subject"
+msgstr ""
+
+#, fuzzy
+msgid "Description"
+msgstr "方向"
+
+msgid "Steps to reproduce"
+msgstr ""
+
+msgid "Expected result"
+msgstr ""
+
+msgid "Logs"
+msgstr ""
+
+#, fuzzy
+msgid "Use command"
+msgstr "编辑命令"
+
+msgid "Load log file"
+msgstr ""
+
+msgid "Open log file"
+msgstr ""
+
 msgid "ACPI"
 msgstr "电源"
 
 msgid "ACPI path"
 msgstr "电源路径"
-
-msgid "GPU"
-msgstr "GPU"
-
-msgid "GPU device"
-msgstr "GPU 设备"
-
-msgid "HDD temperature"
-msgstr "硬盘温度"
-
-msgid "HDD"
-msgstr "硬盘"
-
-msgid "hddtemp cmd"
-msgstr "硬盘温度显示命令"
 
 msgid "Player"
 msgstr "播放器"
@@ -252,29 +258,15 @@ msgstr "引用监视器"
 msgid "Weather"
 msgstr "天气"
 
-msgid "Select tag"
-msgstr "选择标签"
-
-msgid "Tag: %1"
-msgstr "标签: %1"
-
-msgid "Value: %1"
-msgstr "值: %1"
-
-msgid "Info: %1"
-msgstr "信息: %1"
-
-msgid "Request key"
-msgstr "秘钥"
+#, fuzzy
+msgid "Run monitor"
+msgstr "引用监视器"
 
 msgid "Show README"
 msgstr "显示帮助文档"
 
 msgid "Check updates"
 msgstr "检查更新"
-
-msgid "Report bug"
-msgstr ""
 
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
@@ -341,12 +333,6 @@ msgstr "可编辑的"
 msgid "Run %1"
 msgstr "运行 %1"
 
-msgid "Not supported"
-msgstr ""
-
-msgid "You are using mammoth's Qt version, try to update it first"
-msgstr ""
-
 msgid "Select font"
 msgstr "选择字体"
 
@@ -354,6 +340,9 @@ msgid "Issue created"
 msgstr ""
 
 msgid "Issue %1 has been created"
+msgstr ""
+
+msgid "Details"
 msgstr ""
 
 msgid "AC online"
@@ -391,11 +380,18 @@ msgstr "MB/s"
 msgid "KB/s"
 msgstr "KB/s"
 
+msgid "Changelog of %1"
+msgstr ""
+
 msgid "You are using the actual version %1"
 msgstr "你正在使用最新版本 %1"
 
 msgid "No new version found"
 msgstr "没有新版本"
+
+#, fuzzy
+msgid "Current version : %1"
+msgstr "新版本 : %1"
 
 msgid "New version : %1"
 msgstr "新版本 : %1"
@@ -615,12 +611,6 @@ msgstr "标记"
 msgid "contours"
 msgstr "等高线"
 
-msgid "windows"
-msgstr "窗口"
-
-msgid "clean desktop"
-msgstr "清理桌面"
-
 msgid "names"
 msgstr "用户名"
 
@@ -632,6 +622,31 @@ msgstr "提示类型"
 
 msgid "Tooltip width"
 msgstr "提示信息宽度"
+
+msgid "Scripts"
+msgstr "脚本"
+
+#, fuzzy
+msgid "Desktop"
+msgstr "桌面"
+
+msgid "Processes"
+msgstr ""
+
+msgid "Quotes"
+msgstr "引用"
+
+msgid "System"
+msgstr ""
+
+msgid "Time"
+msgstr "时间"
+
+msgid "Upgrades"
+msgstr "更新"
+
+msgid "Load"
+msgstr ""
 
 msgid "Edit bars"
 msgstr "编辑工具栏"
@@ -659,37 +674,17 @@ msgstr "添加"
 msgid "Show value"
 msgstr "显示值"
 
+msgid "Tag: %1"
+msgstr "标签: %1"
+
+msgid "Value: %1"
+msgstr "值: %1"
+
+msgid "Info: %1"
+msgstr "信息: %1"
+
 msgid "Acknowledgment"
 msgstr "感谢"
-
-msgid "Report a bug"
-msgstr ""
-
-msgid "Report subject"
-msgstr ""
-
-#, fuzzy
-msgid "Description"
-msgstr "方向"
-
-msgid "Steps to reproduce"
-msgstr ""
-
-msgid "Expected result"
-msgstr ""
-
-msgid "Logs"
-msgstr ""
-
-#, fuzzy
-msgid "Use command"
-msgstr "编辑命令"
-
-msgid "Load log file"
-msgstr ""
-
-msgid "Open log file"
-msgstr ""
 
 msgid "Select a color"
 msgstr "选择颜色"
@@ -721,24 +716,12 @@ msgstr "工具栏"
 msgid "Desktops"
 msgstr "桌面"
 
+msgid "HDD"
+msgstr "硬盘"
+
 #, fuzzy
 msgid "Network request"
 msgstr "网络"
-
-msgid "Scripts"
-msgstr "脚本"
-
-msgid "System"
-msgstr ""
-
-msgid "Time"
-msgstr "时间"
-
-msgid "Quotes"
-msgstr "引用"
-
-msgid "Upgrades"
-msgstr "更新"
 
 msgid "Weathers"
 msgstr "天气"

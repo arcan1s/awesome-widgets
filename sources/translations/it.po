@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2020-11-07 16:46+0300\n"
+"POT-Creation-Date: 2024-04-19 20:13+0300\n"
 "PO-Revision-Date: 2018-10-02 11:37+0200\n"
 "Last-Translator: Antonio Vivace <avivace4@gmail.com>\n"
 "Language-Team: \n"
@@ -45,6 +45,10 @@ msgstr "Pacchetti Aur"
 msgid "openSUSE packages"
 msgstr "pacchetti openSUSE"
 
+#, fuzzy
+msgid "This software is licensed under %1"
+msgstr "Questo software utilizza:"
+
 msgid "Translators:"
 msgstr "Traduttori:"
 
@@ -68,6 +72,9 @@ msgstr "Apparenza"
 
 msgid "DataEngine"
 msgstr "DataEngine"
+
+msgid "Report bug"
+msgstr "Segnala problema"
 
 msgid "About"
 msgstr "Info"
@@ -101,9 +108,6 @@ msgstr "Larghezza del widget, in px"
 
 msgid "Time interval"
 msgstr "Intervallo di tempo"
-
-msgid "Messages queue limit"
-msgstr "Limite coda messaggi"
 
 msgid "Celsius"
 msgstr "Celsius"
@@ -153,17 +157,12 @@ msgstr "Esporta configurazione"
 msgid "Import configuration"
 msgstr "Importa configurazione"
 
-msgid "Telemetry"
-msgstr "Telemetria"
-
-msgid "Enable remote telemetry"
-msgstr "Abilita telemetria remota"
+#, fuzzy
+msgid "History"
+msgstr "Conteggio cronologia"
 
 msgid "History count"
 msgstr "Conteggio cronologia"
-
-msgid "Telemetry ID"
-msgstr "ID Telemetria"
 
 msgid "Font"
 msgstr "Font"
@@ -186,26 +185,35 @@ msgstr "Stile"
 msgid "Style color"
 msgstr "Colore stile"
 
+msgid "Report subject"
+msgstr "Segnala"
+
+msgid "Description"
+msgstr "Descrizione"
+
+msgid "Steps to reproduce"
+msgstr "Azioni per riprodurre"
+
+msgid "Expected result"
+msgstr "Risultato aspettato"
+
+msgid "Logs"
+msgstr "Logs"
+
+msgid "Use command"
+msgstr "Usa comando"
+
+msgid "Load log file"
+msgstr "Carica file di log"
+
+msgid "Open log file"
+msgstr "Apri file di log"
+
 msgid "ACPI"
 msgstr "ACPI"
 
 msgid "ACPI path"
 msgstr "Path ACPI"
-
-msgid "GPU"
-msgstr "GPU"
-
-msgid "GPU device"
-msgstr "Dispositivo GPU"
-
-msgid "HDD temperature"
-msgstr "Temperatura HDD"
-
-msgid "HDD"
-msgstr "HDD"
-
-msgid "hddtemp cmd"
-msgstr "comando temperatura HDD"
 
 msgid "Player"
 msgstr "Riproduttore"
@@ -243,29 +251,15 @@ msgstr "Monitor quote"
 msgid "Weather"
 msgstr "Previsioni del tempo"
 
-msgid "Select tag"
-msgstr "Tag selezione"
-
-msgid "Tag: %1"
-msgstr "Tag: %1"
-
-msgid "Value: %1"
-msgstr "Valore: %1"
-
-msgid "Info: %1"
-msgstr "Info: %1"
-
-msgid "Request key"
-msgstr "Chiave richiesta"
+#, fuzzy
+msgid "Run monitor"
+msgstr "Monitor quote"
 
 msgid "Show README"
 msgstr "Mostra LEGGIMI"
 
 msgid "Check updates"
 msgstr "Controlla aggiornamenti"
-
-msgid "Report bug"
-msgstr "Segnala problema"
 
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
@@ -331,12 +325,6 @@ msgstr "Modifica"
 msgid "Run %1"
 msgstr "Esegui %1"
 
-msgid "Not supported"
-msgstr "Non supportato"
-
-msgid "You are using mammoth's Qt version, try to update it first"
-msgstr "Stai usando una versione di Qt antiquata, prova ad aggiornarla"
-
 msgid "Select font"
 msgstr "Seleziona font"
 
@@ -345,6 +333,9 @@ msgstr "Segnalazione aperta"
 
 msgid "Issue %1 has been created"
 msgstr "La segnalazione %1 è stata aperta"
+
+msgid "Details"
+msgstr ""
 
 msgid "AC online"
 msgstr "Alimentatore attivo"
@@ -379,11 +370,18 @@ msgstr "MB/s"
 msgid "KB/s"
 msgstr "KB/s"
 
+msgid "Changelog of %1"
+msgstr ""
+
 msgid "You are using the actual version %1"
 msgstr "Stai usando la versione attuale %1"
 
 msgid "No new version found"
 msgstr "Nessuna nuova versione trovata"
+
+#, fuzzy
+msgid "Current version : %1"
+msgstr "Nuova versione: %1"
 
 msgid "New version : %1"
 msgstr "Nuova versione: %1"
@@ -591,12 +589,6 @@ msgstr "Mark"
 msgid "contours"
 msgstr "contorni"
 
-msgid "windows"
-msgstr "finestre"
-
-msgid "clean desktop"
-msgstr "pulisci desktop"
-
 msgid "names"
 msgstr "nomi"
 
@@ -608,6 +600,31 @@ msgstr "Tipo tooltip"
 
 msgid "Tooltip width"
 msgstr "Larghezza tooltip"
+
+msgid "Scripts"
+msgstr "Script"
+
+#, fuzzy
+msgid "Desktop"
+msgstr "Desktop"
+
+msgid "Processes"
+msgstr ""
+
+msgid "Quotes"
+msgstr "Quote"
+
+msgid "System"
+msgstr ""
+
+msgid "Time"
+msgstr "Orario"
+
+msgid "Upgrades"
+msgstr "Aggiornamenti"
+
+msgid "Load"
+msgstr ""
 
 msgid "Edit bars"
 msgstr "Modifica barre"
@@ -634,35 +651,17 @@ msgstr "Aggiungi"
 msgid "Show value"
 msgstr "Mostra valore"
 
+msgid "Tag: %1"
+msgstr "Tag: %1"
+
+msgid "Value: %1"
+msgstr "Valore: %1"
+
+msgid "Info: %1"
+msgstr "Info: %1"
+
 msgid "Acknowledgment"
 msgstr "Riconoscimenti"
-
-msgid "Report a bug"
-msgstr "Segnala problema"
-
-msgid "Report subject"
-msgstr "Segnala"
-
-msgid "Description"
-msgstr "Descrizione"
-
-msgid "Steps to reproduce"
-msgstr "Azioni per riprodurre"
-
-msgid "Expected result"
-msgstr "Risultato aspettato"
-
-msgid "Logs"
-msgstr "Logs"
-
-msgid "Use command"
-msgstr "Usa comando"
-
-msgid "Load log file"
-msgstr "Carica file di log"
-
-msgid "Open log file"
-msgstr "Apri file di log"
 
 msgid "Select a color"
 msgstr "Seleziona colore"
@@ -694,24 +693,12 @@ msgstr "Barre"
 msgid "Desktops"
 msgstr "Desktop"
 
+msgid "HDD"
+msgstr "HDD"
+
 #, fuzzy
 msgid "Network request"
 msgstr "Richieste di rete"
-
-msgid "Scripts"
-msgstr "Script"
-
-msgid "System"
-msgstr ""
-
-msgid "Time"
-msgstr "Orario"
-
-msgid "Quotes"
-msgstr "Quote"
-
-msgid "Upgrades"
-msgstr "Aggiornamenti"
 
 msgid "Weathers"
 msgstr "Previsioni del tempo"

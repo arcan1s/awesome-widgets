@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2020-11-07 16:46+0300\n"
+"POT-Creation-Date: 2024-04-19 20:13+0300\n"
 "PO-Revision-Date: 2017-05-15 17:44+0000\n"
 "Last-Translator: Evgeniy Alekseev <darkarcanis@mail.ru>\n"
 "Language-Team: Sinhala (http://www.transifex.com/arcanis/awesome-widgets/"
@@ -45,6 +45,9 @@ msgstr ""
 msgid "openSUSE packages"
 msgstr ""
 
+msgid "This software is licensed under %1"
+msgstr ""
+
 msgid "Translators:"
 msgstr ""
 
@@ -67,6 +70,9 @@ msgid "Appearance"
 msgstr ""
 
 msgid "DataEngine"
+msgstr ""
+
+msgid "Report bug"
 msgstr ""
 
 msgid "About"
@@ -100,9 +106,6 @@ msgid "Widget width, px"
 msgstr ""
 
 msgid "Time interval"
-msgstr ""
-
-msgid "Messages queue limit"
 msgstr ""
 
 msgid "Celsius"
@@ -153,16 +156,10 @@ msgstr ""
 msgid "Import configuration"
 msgstr ""
 
-msgid "Telemetry"
-msgstr ""
-
-msgid "Enable remote telemetry"
+msgid "History"
 msgstr ""
 
 msgid "History count"
-msgstr ""
-
-msgid "Telemetry ID"
 msgstr ""
 
 msgid "Font"
@@ -186,25 +183,34 @@ msgstr ""
 msgid "Style color"
 msgstr ""
 
+msgid "Report subject"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Steps to reproduce"
+msgstr ""
+
+msgid "Expected result"
+msgstr ""
+
+msgid "Logs"
+msgstr ""
+
+msgid "Use command"
+msgstr ""
+
+msgid "Load log file"
+msgstr ""
+
+msgid "Open log file"
+msgstr ""
+
 msgid "ACPI"
 msgstr ""
 
 msgid "ACPI path"
-msgstr ""
-
-msgid "GPU"
-msgstr ""
-
-msgid "GPU device"
-msgstr ""
-
-msgid "HDD temperature"
-msgstr ""
-
-msgid "HDD"
-msgstr ""
-
-msgid "hddtemp cmd"
 msgstr ""
 
 msgid "Player"
@@ -243,28 +249,13 @@ msgstr ""
 msgid "Weather"
 msgstr ""
 
-msgid "Select tag"
-msgstr ""
-
-msgid "Tag: %1"
-msgstr ""
-
-msgid "Value: %1"
-msgstr ""
-
-msgid "Info: %1"
-msgstr ""
-
-msgid "Request key"
+msgid "Run monitor"
 msgstr ""
 
 msgid "Show README"
 msgstr ""
 
 msgid "Check updates"
-msgstr ""
-
-msgid "Report bug"
 msgstr ""
 
 msgid ""
@@ -329,12 +320,6 @@ msgstr ""
 msgid "Run %1"
 msgstr ""
 
-msgid "Not supported"
-msgstr ""
-
-msgid "You are using mammoth's Qt version, try to update it first"
-msgstr ""
-
 msgid "Select font"
 msgstr ""
 
@@ -342,6 +327,9 @@ msgid "Issue created"
 msgstr ""
 
 msgid "Issue %1 has been created"
+msgstr ""
+
+msgid "Details"
 msgstr ""
 
 msgid "AC online"
@@ -377,10 +365,16 @@ msgstr ""
 msgid "KB/s"
 msgstr ""
 
+msgid "Changelog of %1"
+msgstr ""
+
 msgid "You are using the actual version %1"
 msgstr ""
 
 msgid "No new version found"
+msgstr ""
+
+msgid "Current version : %1"
 msgstr ""
 
 msgid "New version : %1"
@@ -584,12 +578,6 @@ msgstr ""
 msgid "contours"
 msgstr ""
 
-msgid "windows"
-msgstr ""
-
-msgid "clean desktop"
-msgstr ""
-
 msgid "names"
 msgstr ""
 
@@ -600,6 +588,30 @@ msgid "Tooltip type"
 msgstr ""
 
 msgid "Tooltip width"
+msgstr ""
+
+msgid "Scripts"
+msgstr ""
+
+msgid "Desktop"
+msgstr ""
+
+msgid "Processes"
+msgstr ""
+
+msgid "Quotes"
+msgstr ""
+
+msgid "System"
+msgstr ""
+
+msgid "Time"
+msgstr ""
+
+msgid "Upgrades"
+msgstr ""
+
+msgid "Load"
 msgstr ""
 
 msgid "Edit bars"
@@ -625,34 +637,16 @@ msgstr ""
 msgid "Show value"
 msgstr ""
 
+msgid "Tag: %1"
+msgstr ""
+
+msgid "Value: %1"
+msgstr ""
+
+msgid "Info: %1"
+msgstr ""
+
 msgid "Acknowledgment"
-msgstr ""
-
-msgid "Report a bug"
-msgstr ""
-
-msgid "Report subject"
-msgstr ""
-
-msgid "Description"
-msgstr ""
-
-msgid "Steps to reproduce"
-msgstr ""
-
-msgid "Expected result"
-msgstr ""
-
-msgid "Logs"
-msgstr ""
-
-msgid "Use command"
-msgstr ""
-
-msgid "Load log file"
-msgstr ""
-
-msgid "Open log file"
 msgstr ""
 
 msgid "Select a color"
@@ -685,22 +679,10 @@ msgstr ""
 msgid "Desktops"
 msgstr ""
 
+msgid "HDD"
+msgstr ""
+
 msgid "Network request"
-msgstr ""
-
-msgid "Scripts"
-msgstr ""
-
-msgid "System"
-msgstr ""
-
-msgid "Time"
-msgstr ""
-
-msgid "Quotes"
-msgstr ""
-
-msgid "Upgrades"
 msgstr ""
 
 msgid "Weathers"

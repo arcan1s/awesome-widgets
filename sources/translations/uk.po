@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2020-11-07 16:46+0300\n"
+"POT-Creation-Date: 2024-04-19 20:13+0300\n"
 "PO-Revision-Date: 2016-08-09 22:22+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Ukrainian <kde-russian@lists.kde.ru>\n"
@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.8.8\n"
 
 msgid "Version %1 (build date %2)"
@@ -46,6 +46,10 @@ msgid "openSUSE packages"
 msgstr "Пакети для openSUSE"
 
 #, fuzzy
+msgid "This software is licensed under %1"
+msgstr "Ця програма використовує: %1"
+
+#, fuzzy
 msgid "Translators:"
 msgstr "Перекладачі: %1"
 
@@ -71,6 +75,9 @@ msgstr "Зовнішній вигляд"
 
 msgid "DataEngine"
 msgstr "DataEngine"
+
+msgid "Report bug"
+msgstr ""
 
 msgid "About"
 msgstr "Про програму"
@@ -104,9 +111,6 @@ msgstr "Ширина віджету, пікселі"
 
 msgid "Time interval"
 msgstr "Інтервал оновлення"
-
-msgid "Messages queue limit"
-msgstr "Обмеження черги повідомлень"
 
 msgid "Celsius"
 msgstr "Цельсій"
@@ -157,21 +161,13 @@ msgstr "Експорт налаштувань"
 msgid "Import configuration"
 msgstr "Імпорт налаштувань"
 
-msgid "Telemetry"
-msgstr ""
-
 #, fuzzy
-msgid "Enable remote telemetry"
-msgstr ""
-"Можна редагувати\n"
-"del - видалити рядок"
+msgid "History"
+msgstr "Кількість точок"
 
 #, fuzzy
 msgid "History count"
 msgstr "Кількість точок"
-
-msgid "Telemetry ID"
-msgstr ""
 
 msgid "Font"
 msgstr "Шрифт"
@@ -195,26 +191,37 @@ msgstr ""
 msgid "Style color"
 msgstr "Оберіть колір"
 
+msgid "Report subject"
+msgstr ""
+
+#, fuzzy
+msgid "Description"
+msgstr "Напрямок"
+
+msgid "Steps to reproduce"
+msgstr ""
+
+msgid "Expected result"
+msgstr ""
+
+msgid "Logs"
+msgstr ""
+
+#, fuzzy
+msgid "Use command"
+msgstr "Редагувати команду"
+
+msgid "Load log file"
+msgstr ""
+
+msgid "Open log file"
+msgstr ""
+
 msgid "ACPI"
 msgstr "ACPI"
 
 msgid "ACPI path"
 msgstr "Шлях до ACPI"
-
-msgid "GPU"
-msgstr "GPU"
-
-msgid "GPU device"
-msgstr "Пристій GPU"
-
-msgid "HDD temperature"
-msgstr "Температура HDD"
-
-msgid "HDD"
-msgstr "HDD"
-
-msgid "hddtemp cmd"
-msgstr "Команда hddtemp"
 
 msgid "Player"
 msgstr "Плеєр"
@@ -253,29 +260,15 @@ msgstr "Монітор котирувань"
 msgid "Weather"
 msgstr "Погода"
 
-msgid "Select tag"
-msgstr "Оберіть тег"
-
-msgid "Tag: %1"
-msgstr "Тег: %1"
-
-msgid "Value: %1"
-msgstr "Значення: %1"
-
-msgid "Info: %1"
-msgstr "Інформація: %1"
-
-msgid "Request key"
-msgstr "Показати ключ"
+#, fuzzy
+msgid "Run monitor"
+msgstr "Монітор котирувань"
 
 msgid "Show README"
 msgstr "Показати README"
 
 msgid "Check updates"
 msgstr "Шукати оновлення"
-
-msgid "Report bug"
-msgstr ""
 
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
@@ -342,12 +335,6 @@ msgstr "Редагувати"
 msgid "Run %1"
 msgstr "Запуск %1"
 
-msgid "Not supported"
-msgstr ""
-
-msgid "You are using mammoth's Qt version, try to update it first"
-msgstr ""
-
 msgid "Select font"
 msgstr "Оберіть шрифт"
 
@@ -355,6 +342,9 @@ msgid "Issue created"
 msgstr ""
 
 msgid "Issue %1 has been created"
+msgstr ""
+
+msgid "Details"
 msgstr ""
 
 msgid "AC online"
@@ -390,11 +380,18 @@ msgstr "МБ/с"
 msgid "KB/s"
 msgstr "КБ/с"
 
+msgid "Changelog of %1"
+msgstr ""
+
 msgid "You are using the actual version %1"
 msgstr "Ви використовуєте актуальну версію %1"
 
 msgid "No new version found"
 msgstr "Оновлень не знайдено"
+
+#, fuzzy
+msgid "Current version : %1"
+msgstr "Нова версія : %1"
 
 msgid "New version : %1"
 msgstr "Нова версія : %1"
@@ -603,12 +600,6 @@ msgstr "Позначка"
 msgid "contours"
 msgstr "контури"
 
-msgid "windows"
-msgstr "вікна"
-
-msgid "clean desktop"
-msgstr "пустий робочий стіл"
-
 msgid "names"
 msgstr "назви"
 
@@ -620,6 +611,31 @@ msgstr "Тип підказки"
 
 msgid "Tooltip width"
 msgstr "Ширина підказки"
+
+msgid "Scripts"
+msgstr "Скрипти"
+
+#, fuzzy
+msgid "Desktop"
+msgstr "Робочі столи"
+
+msgid "Processes"
+msgstr ""
+
+msgid "Quotes"
+msgstr "Котирування"
+
+msgid "System"
+msgstr ""
+
+msgid "Time"
+msgstr "Час"
+
+msgid "Upgrades"
+msgstr "Оновлення"
+
+msgid "Load"
+msgstr ""
 
 msgid "Edit bars"
 msgstr "Редагувати бари"
@@ -646,37 +662,17 @@ msgstr "Додати"
 msgid "Show value"
 msgstr "Показати значення"
 
+msgid "Tag: %1"
+msgstr "Тег: %1"
+
+msgid "Value: %1"
+msgstr "Значення: %1"
+
+msgid "Info: %1"
+msgstr "Інформація: %1"
+
 msgid "Acknowledgment"
 msgstr "Подяка"
-
-msgid "Report a bug"
-msgstr ""
-
-msgid "Report subject"
-msgstr ""
-
-#, fuzzy
-msgid "Description"
-msgstr "Напрямок"
-
-msgid "Steps to reproduce"
-msgstr ""
-
-msgid "Expected result"
-msgstr ""
-
-msgid "Logs"
-msgstr ""
-
-#, fuzzy
-msgid "Use command"
-msgstr "Редагувати команду"
-
-msgid "Load log file"
-msgstr ""
-
-msgid "Open log file"
-msgstr ""
 
 msgid "Select a color"
 msgstr "Оберіть колір"
@@ -708,24 +704,12 @@ msgstr "Бари"
 msgid "Desktops"
 msgstr "Робочі столи"
 
+msgid "HDD"
+msgstr "HDD"
+
 #, fuzzy
 msgid "Network request"
 msgstr "Шлях до інтерфейсів"
-
-msgid "Scripts"
-msgstr "Скрипти"
-
-msgid "System"
-msgstr ""
-
-msgid "Time"
-msgstr "Час"
-
-msgid "Quotes"
-msgstr "Котирування"
-
-msgid "Upgrades"
-msgstr "Оновлення"
 
 msgid "Weathers"
 msgstr "Погода"

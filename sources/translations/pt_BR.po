@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2020-11-07 16:46+0300\n"
+"POT-Creation-Date: 2024-04-19 20:13+0300\n"
 "PO-Revision-Date: 2015-07-31 22:21+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -47,6 +47,10 @@ msgid "openSUSE packages"
 msgstr "Pacotes openSUSE"
 
 #, fuzzy
+msgid "This software is licensed under %1"
+msgstr "Este software usa: %1"
+
+#, fuzzy
 msgid "Translators:"
 msgstr "Tradutores: %1"
 
@@ -71,6 +75,9 @@ msgstr "Aparência"
 
 msgid "DataEngine"
 msgstr "Engine de dados"
+
+msgid "Report bug"
+msgstr ""
 
 msgid "About"
 msgstr "Sobre"
@@ -106,9 +113,6 @@ msgstr "Largura do widget, px"
 
 msgid "Time interval"
 msgstr "Intervalo de tempo"
-
-msgid "Messages queue limit"
-msgstr ""
 
 msgid "Celsius"
 msgstr "Celsius"
@@ -161,19 +165,10 @@ msgstr "Configuração"
 msgid "Import configuration"
 msgstr "Configuração"
 
-msgid "Telemetry"
+msgid "History"
 msgstr ""
-
-#, fuzzy
-msgid "Enable remote telemetry"
-msgstr ""
-"Editável\n"
-"del - remover item"
 
 msgid "History count"
-msgstr ""
-
-msgid "Telemetry ID"
 msgstr ""
 
 msgid "Font"
@@ -198,28 +193,38 @@ msgstr ""
 msgid "Style color"
 msgstr "Selecionar cor"
 
+msgid "Report subject"
+msgstr ""
+
+#, fuzzy
+msgid "Description"
+msgstr "Direção"
+
+msgid "Steps to reproduce"
+msgstr ""
+
+msgid "Expected result"
+msgstr ""
+
+msgid "Logs"
+msgstr ""
+
+#, fuzzy
+msgid "Use command"
+msgstr "Editar comandos"
+
+msgid "Load log file"
+msgstr ""
+
+msgid "Open log file"
+msgstr ""
+
 #, fuzzy
 msgid "ACPI"
 msgstr "Caminho ACPI"
 
 msgid "ACPI path"
 msgstr "Caminho ACPI"
-
-msgid "GPU"
-msgstr "GPU"
-
-msgid "GPU device"
-msgstr "Dispositivo GPU"
-
-#, fuzzy
-msgid "HDD temperature"
-msgstr "Temperatura "
-
-msgid "HDD"
-msgstr "HDD"
-
-msgid "hddtemp cmd"
-msgstr "comando hddtemp"
 
 msgid "Player"
 msgstr ""
@@ -258,29 +263,15 @@ msgstr "Monitor de citações"
 msgid "Weather"
 msgstr ""
 
-msgid "Select tag"
-msgstr "Selecionar tag"
-
-msgid "Tag: %1"
-msgstr "Tag: %1"
-
-msgid "Value: %1"
-msgstr "Valor: %1"
-
-msgid "Info: %1"
-msgstr "Info: %1"
-
-msgid "Request key"
-msgstr "Solicitar chave"
+#, fuzzy
+msgid "Run monitor"
+msgstr "Monitor de citações"
 
 msgid "Show README"
 msgstr "Mostrar README"
 
 msgid "Check updates"
 msgstr "Checar por atualizações"
-
-msgid "Report bug"
-msgstr ""
 
 #, fuzzy
 msgid ""
@@ -349,12 +340,6 @@ msgstr "Editar"
 msgid "Run %1"
 msgstr "Rodar %1"
 
-msgid "Not supported"
-msgstr ""
-
-msgid "You are using mammoth's Qt version, try to update it first"
-msgstr ""
-
 msgid "Select font"
 msgstr "Selecionar fonte"
 
@@ -362,6 +347,9 @@ msgid "Issue created"
 msgstr ""
 
 msgid "Issue %1 has been created"
+msgstr ""
+
+msgid "Details"
 msgstr ""
 
 msgid "AC online"
@@ -399,11 +387,18 @@ msgstr ""
 msgid "KB/s"
 msgstr ""
 
+msgid "Changelog of %1"
+msgstr ""
+
 msgid "You are using the actual version %1"
 msgstr ""
 
 #, fuzzy
 msgid "No new version found"
+msgstr "Nova versão: %1"
+
+#, fuzzy
+msgid "Current version : %1"
 msgstr "Nova versão: %1"
 
 msgid "New version : %1"
@@ -618,12 +613,6 @@ msgstr "Marca"
 msgid "contours"
 msgstr "Contornos"
 
-msgid "windows"
-msgstr "Janelas"
-
-msgid "clean desktop"
-msgstr "Limpar desktop"
-
 msgid "names"
 msgstr "nomes"
 
@@ -635,6 +624,34 @@ msgstr "Tipo de dica de contexto"
 
 msgid "Tooltip width"
 msgstr "Largura da dica de contexto"
+
+#, fuzzy
+msgid "Scripts"
+msgstr "Editar scripts"
+
+#, fuzzy
+msgid "Desktop"
+msgstr "Limpar desktop"
+
+msgid "Processes"
+msgstr ""
+
+#, fuzzy
+msgid "Quotes"
+msgstr "Monitor de citações"
+
+msgid "System"
+msgstr ""
+
+#, fuzzy
+msgid "Time"
+msgstr "Hora"
+
+msgid "Upgrades"
+msgstr ""
+
+msgid "Load"
+msgstr ""
 
 msgid "Edit bars"
 msgstr "Editar barras"
@@ -661,37 +678,17 @@ msgstr "Adicionar"
 msgid "Show value"
 msgstr "Mostrar valor"
 
+msgid "Tag: %1"
+msgstr "Tag: %1"
+
+msgid "Value: %1"
+msgstr "Valor: %1"
+
+msgid "Info: %1"
+msgstr "Info: %1"
+
 msgid "Acknowledgment"
 msgstr "Confirmação"
-
-msgid "Report a bug"
-msgstr ""
-
-msgid "Report subject"
-msgstr ""
-
-#, fuzzy
-msgid "Description"
-msgstr "Direção"
-
-msgid "Steps to reproduce"
-msgstr ""
-
-msgid "Expected result"
-msgstr ""
-
-msgid "Logs"
-msgstr ""
-
-#, fuzzy
-msgid "Use command"
-msgstr "Editar comandos"
-
-msgid "Load log file"
-msgstr ""
-
-msgid "Open log file"
-msgstr ""
 
 msgid "Select a color"
 msgstr "Selecionar uma cor"
@@ -724,27 +721,12 @@ msgstr "Barras"
 msgid "Desktops"
 msgstr ""
 
+msgid "HDD"
+msgstr "HDD"
+
 #, fuzzy
 msgid "Network request"
 msgstr "Diretório de rede"
-
-#, fuzzy
-msgid "Scripts"
-msgstr "Editar scripts"
-
-msgid "System"
-msgstr ""
-
-#, fuzzy
-msgid "Time"
-msgstr "Hora"
-
-#, fuzzy
-msgid "Quotes"
-msgstr "Monitor de citações"
-
-msgid "Upgrades"
-msgstr ""
 
 #, fuzzy
 msgid "Weathers"

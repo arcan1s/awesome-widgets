@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2020-11-07 16:46+0300\n"
+"POT-Creation-Date: 2024-04-19 20:13+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,6 +45,10 @@ msgid "openSUSE packages"
 msgstr "Pakiety openSUSE"
 
 #, fuzzy
+msgid "This software is licensed under %1"
+msgstr "Używa tego: %1"
+
+#, fuzzy
 msgid "Translators:"
 msgstr "Tłumacze: %1"
 
@@ -70,6 +74,9 @@ msgstr "Wygląd"
 
 msgid "DataEngine"
 msgstr "Silnik danych"
+
+msgid "Report bug"
+msgstr ""
 
 msgid "About"
 msgstr "O..."
@@ -103,9 +110,6 @@ msgstr "Szerokość widżetu, px"
 
 msgid "Time interval"
 msgstr "Przedział czasowy"
-
-msgid "Messages queue limit"
-msgstr "Limit kolejki wiadomości"
 
 msgid "Celsius"
 msgstr "Celsius"
@@ -156,16 +160,10 @@ msgstr "Zapisz konfigurację"
 msgid "Import configuration"
 msgstr "Załaduj konfigurację"
 
-msgid "Telemetry"
-msgstr ""
-
-msgid "Enable remote telemetry"
+msgid "History"
 msgstr ""
 
 msgid "History count"
-msgstr ""
-
-msgid "Telemetry ID"
 msgstr ""
 
 msgid "Font"
@@ -190,26 +188,37 @@ msgstr ""
 msgid "Style color"
 msgstr "Wybierz kolor"
 
+msgid "Report subject"
+msgstr ""
+
+#, fuzzy
+msgid "Description"
+msgstr "Kierunek"
+
+msgid "Steps to reproduce"
+msgstr ""
+
+msgid "Expected result"
+msgstr ""
+
+msgid "Logs"
+msgstr ""
+
+#, fuzzy
+msgid "Use command"
+msgstr "Polecenie edycji"
+
+msgid "Load log file"
+msgstr ""
+
+msgid "Open log file"
+msgstr ""
+
 msgid "ACPI"
 msgstr "ACPI"
 
 msgid "ACPI path"
 msgstr "Ścieżka ACPI"
-
-msgid "GPU"
-msgstr "GPU"
-
-msgid "GPU device"
-msgstr "Urządzenie GPU"
-
-msgid "HDD temperature"
-msgstr "Temperatura twardego dysku"
-
-msgid "HDD"
-msgstr "Twardy dysk"
-
-msgid "hddtemp cmd"
-msgstr "hddtemp cmd"
 
 msgid "Player"
 msgstr "Odtwarzacz"
@@ -248,29 +257,15 @@ msgstr "Monitor wielkości zapisu"
 msgid "Weather"
 msgstr "Pogoda"
 
-msgid "Select tag"
-msgstr "Wybierz znacznik"
-
-msgid "Tag: %1"
-msgstr "Znacznik: %1"
-
-msgid "Value: %1"
-msgstr "Wartość: %1"
-
-msgid "Info: %1"
-msgstr "Info: %1"
-
-msgid "Request key"
-msgstr "Zarządaj klawisza"
+#, fuzzy
+msgid "Run monitor"
+msgstr "Monitor wielkości zapisu"
 
 msgid "Show README"
 msgstr "Pokaż README"
 
 msgid "Check updates"
 msgstr "Sprawdź aktualizacje"
-
-msgid "Report bug"
-msgstr ""
 
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
@@ -337,12 +332,6 @@ msgstr "Edytuj paski postępu"
 msgid "Run %1"
 msgstr "Wykonać %1"
 
-msgid "Not supported"
-msgstr ""
-
-msgid "You are using mammoth's Qt version, try to update it first"
-msgstr ""
-
 msgid "Select font"
 msgstr "Wybierz czcionkę"
 
@@ -350,6 +339,9 @@ msgid "Issue created"
 msgstr ""
 
 msgid "Issue %1 has been created"
+msgstr ""
+
+msgid "Details"
 msgstr ""
 
 msgid "AC online"
@@ -387,11 +379,18 @@ msgstr "MB/s"
 msgid "KB/s"
 msgstr "KB/s"
 
+msgid "Changelog of %1"
+msgstr ""
+
 msgid "You are using the actual version %1"
 msgstr "Używasz wersji %1"
 
 msgid "No new version found"
 msgstr "Nie znalazłem nowszej wersji"
+
+#, fuzzy
+msgid "Current version : %1"
+msgstr "Nowa wersja: %$1"
 
 msgid "New version : %1"
 msgstr "Nowa wersja: %$1"
@@ -504,9 +503,10 @@ msgid ""
 "Refer to <a href=\"https://stooq.com/\"><span style=\" text-decoration: "
 "underline; color:#0057ae;\">https://stooq.com/</span></a></p></body></html>"
 msgstr ""
-"<html><head/><body><p>Użyj usług finansowych YAHOO!Przjdź na  <a href="
-"\"http://finance.yahoo.com/\"><span style=\" text-decoration: underline; "
-"color:#0057ae;\">http://finance.yahoo.com/</span></a></p></body></html>"
+"<html><head/><body><p>Użyj usług finansowych YAHOO!Przjdź na  <a "
+"href=\"http://finance.yahoo.com/\"><span style=\" text-decoration: "
+"underline; color:#0057ae;\">http://finance.yahoo.com/</span></a></p></body></"
+"html>"
 
 msgid "Ticker"
 msgstr "Znacznik czasowy"
@@ -610,12 +610,6 @@ msgstr "Znak"
 msgid "contours"
 msgstr "kontury"
 
-msgid "windows"
-msgstr "okienka"
-
-msgid "clean desktop"
-msgstr "czysty pulpit"
-
 msgid "names"
 msgstr "nazwy"
 
@@ -627,6 +621,31 @@ msgstr "Rodzaj podpowiedzi"
 
 msgid "Tooltip width"
 msgstr "Szerokość podpowiedzi"
+
+msgid "Scripts"
+msgstr "Skrypty"
+
+#, fuzzy
+msgid "Desktop"
+msgstr "Pulpity"
+
+msgid "Processes"
+msgstr ""
+
+msgid "Quotes"
+msgstr "Ograniczenia"
+
+msgid "System"
+msgstr ""
+
+msgid "Time"
+msgstr "Czas"
+
+msgid "Upgrades"
+msgstr "Aktualizacje"
+
+msgid "Load"
+msgstr ""
 
 msgid "Edit bars"
 msgstr "Edytuj paski postępu"
@@ -654,37 +673,17 @@ msgstr "Dodaj"
 msgid "Show value"
 msgstr "Pokaż wartość"
 
+msgid "Tag: %1"
+msgstr "Znacznik: %1"
+
+msgid "Value: %1"
+msgstr "Wartość: %1"
+
+msgid "Info: %1"
+msgstr "Info: %1"
+
 msgid "Acknowledgment"
 msgstr "Potwierdzenie"
-
-msgid "Report a bug"
-msgstr ""
-
-msgid "Report subject"
-msgstr ""
-
-#, fuzzy
-msgid "Description"
-msgstr "Kierunek"
-
-msgid "Steps to reproduce"
-msgstr ""
-
-msgid "Expected result"
-msgstr ""
-
-msgid "Logs"
-msgstr ""
-
-#, fuzzy
-msgid "Use command"
-msgstr "Polecenie edycji"
-
-msgid "Load log file"
-msgstr ""
-
-msgid "Open log file"
-msgstr ""
 
 msgid "Select a color"
 msgstr "Wybierz kolor"
@@ -716,24 +715,12 @@ msgstr "Paski postępu"
 msgid "Desktops"
 msgstr "Pulpity"
 
+msgid "HDD"
+msgstr "Twardy dysk"
+
 #, fuzzy
 msgid "Network request"
 msgstr "Sieć"
-
-msgid "Scripts"
-msgstr "Skrypty"
-
-msgid "System"
-msgstr ""
-
-msgid "Time"
-msgstr "Czas"
-
-msgid "Quotes"
-msgstr "Ograniczenia"
-
-msgid "Upgrades"
-msgstr "Aktualizacje"
 
 msgid "Weathers"
 msgstr "Pogoda"

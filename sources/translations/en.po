@@ -1,13 +1,13 @@
 # Copyright (C) 2014
 # This file is distributed under the same license as the PyTextMonitor package.
 #
-# Evgeniy Alekseev <esalexeev@gmail.com>, 2014, 2015, 2016, 2017, 2020.
+# SPDX-FileCopyrightText: 2014, 2015, 2016, 2017, 2020, 2024 Evgeniy Alekseev <esalexeev@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2020-11-07 16:46+0300\n"
-"PO-Revision-Date: 2020-11-07 16:47+0300\n"
+"POT-Creation-Date: 2024-04-19 20:13+0300\n"
+"PO-Revision-Date: 2024-04-19 20:15+0300\n"
 "Last-Translator: Evgenii Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: English <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
 "=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 20.08.2\n"
+"X-Generator: Lokalize 24.02.1\n"
 
 msgid "Version %1 (build date %2)"
 msgstr "Version %1 (build date %2)"
@@ -45,6 +45,10 @@ msgstr "AUR packages"
 msgid "openSUSE packages"
 msgstr "openSUSE packages"
 
+#, fuzzy
+msgid "This software is licensed under %1"
+msgstr "This software uses:"
+
 msgid "Translators:"
 msgstr "Translators:"
 
@@ -68,6 +72,9 @@ msgstr "Appearance"
 
 msgid "DataEngine"
 msgstr "DataEngine"
+
+msgid "Report bug"
+msgstr "Report bug"
 
 msgid "About"
 msgstr "About"
@@ -101,9 +108,6 @@ msgstr "Widget width, px"
 
 msgid "Time interval"
 msgstr "Time interval"
-
-msgid "Messages queue limit"
-msgstr "Messages queue limit"
 
 msgid "Celsius"
 msgstr "Celsius"
@@ -153,17 +157,11 @@ msgstr "Export configuration"
 msgid "Import configuration"
 msgstr "Import configuration"
 
-msgid "Telemetry"
-msgstr "Telemetry"
-
-msgid "Enable remote telemetry"
-msgstr "Enable remote telemetry"
+msgid "History"
+msgstr "History"
 
 msgid "History count"
 msgstr "History count"
-
-msgid "Telemetry ID"
-msgstr "Telemetry ID"
 
 msgid "Font"
 msgstr "Font"
@@ -186,26 +184,35 @@ msgstr "Style"
 msgid "Style color"
 msgstr "Style color"
 
+msgid "Report subject"
+msgstr "Report subject"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Steps to reproduce"
+msgstr "Steps to reproduce"
+
+msgid "Expected result"
+msgstr "Expected result"
+
+msgid "Logs"
+msgstr "Logs"
+
+msgid "Use command"
+msgstr "Use command"
+
+msgid "Load log file"
+msgstr "Load log file"
+
+msgid "Open log file"
+msgstr "Open log file"
+
 msgid "ACPI"
 msgstr "ACPI"
 
 msgid "ACPI path"
 msgstr "ACPI path"
-
-msgid "GPU"
-msgstr "GPU"
-
-msgid "GPU device"
-msgstr "GPU device"
-
-msgid "HDD temperature"
-msgstr "HDD temperature"
-
-msgid "HDD"
-msgstr "HDD"
-
-msgid "hddtemp cmd"
-msgstr "hddtemp cmd"
 
 msgid "Player"
 msgstr "Player"
@@ -243,29 +250,14 @@ msgstr "Quotes monitor"
 msgid "Weather"
 msgstr "Weather"
 
-msgid "Select tag"
-msgstr "Select tag"
-
-msgid "Tag: %1"
-msgstr "Tag: %1"
-
-msgid "Value: %1"
-msgstr "Value: %1"
-
-msgid "Info: %1"
-msgstr "Info: %1"
-
-msgid "Request key"
-msgstr "Request key"
+msgid "Run monitor"
+msgstr "Run monitor"
 
 msgid "Show README"
 msgstr "Show README"
 
 msgid "Check updates"
 msgstr "Check updates"
-
-msgid "Report bug"
-msgstr "Report bug"
 
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
@@ -331,12 +323,6 @@ msgstr "Edit"
 msgid "Run %1"
 msgstr "Run %1"
 
-msgid "Not supported"
-msgstr "Not supported"
-
-msgid "You are using mammoth's Qt version, try to update it first"
-msgstr "You are using mammoth's Qt version, try to update it first"
-
 msgid "Select font"
 msgstr "Select font"
 
@@ -345,6 +331,9 @@ msgstr "Issue created"
 
 msgid "Issue %1 has been created"
 msgstr "Issue %1 has been created"
+
+msgid "Details"
+msgstr "Details"
 
 msgid "AC online"
 msgstr "AC online"
@@ -379,11 +368,17 @@ msgstr "MB/s"
 msgid "KB/s"
 msgstr "KB/s"
 
+msgid "Changelog of %1"
+msgstr "Changelog of %1"
+
 msgid "You are using the actual version %1"
 msgstr "You are using the actual version %1"
 
 msgid "No new version found"
 msgstr "No new version found"
+
+msgid "Current version : %1"
+msgstr "Current version : %1"
 
 msgid "New version : %1"
 msgstr "New version : %1"
@@ -589,12 +584,6 @@ msgstr "Mark"
 msgid "contours"
 msgstr "contours"
 
-msgid "windows"
-msgstr "windows"
-
-msgid "clean desktop"
-msgstr "clean desktop"
-
 msgid "names"
 msgstr "names"
 
@@ -606,6 +595,30 @@ msgstr "Tooltip type"
 
 msgid "Tooltip width"
 msgstr "Tooltip width"
+
+msgid "Scripts"
+msgstr "Scripts"
+
+msgid "Desktop"
+msgstr "Desktop"
+
+msgid "Processes"
+msgstr "Processes"
+
+msgid "Quotes"
+msgstr "Quotes"
+
+msgid "System"
+msgstr "System"
+
+msgid "Time"
+msgstr "Time"
+
+msgid "Upgrades"
+msgstr "Upgrades"
+
+msgid "Load"
+msgstr "Load"
 
 msgid "Edit bars"
 msgstr "Edit bars"
@@ -632,35 +645,17 @@ msgstr "Add"
 msgid "Show value"
 msgstr "Show value"
 
+msgid "Tag: %1"
+msgstr "Tag: %1"
+
+msgid "Value: %1"
+msgstr "Value: %1"
+
+msgid "Info: %1"
+msgstr "Info: %1"
+
 msgid "Acknowledgment"
 msgstr "Acknowledgment"
-
-msgid "Report a bug"
-msgstr "Report a bug"
-
-msgid "Report subject"
-msgstr "Report subject"
-
-msgid "Description"
-msgstr "Description"
-
-msgid "Steps to reproduce"
-msgstr "Steps to reproduce"
-
-msgid "Expected result"
-msgstr "Expected result"
-
-msgid "Logs"
-msgstr "Logs"
-
-msgid "Use command"
-msgstr "Use command"
-
-msgid "Load log file"
-msgstr "Load log file"
-
-msgid "Open log file"
-msgstr "Open log file"
 
 msgid "Select a color"
 msgstr "Select a color"
@@ -692,23 +687,11 @@ msgstr "Bars"
 msgid "Desktops"
 msgstr "Desktops"
 
+msgid "HDD"
+msgstr "HDD"
+
 msgid "Network request"
 msgstr "Network request"
-
-msgid "Scripts"
-msgstr "Scripts"
-
-msgid "System"
-msgstr "System"
-
-msgid "Time"
-msgstr "Time"
-
-msgid "Quotes"
-msgstr "Quotes"
-
-msgid "Upgrades"
-msgstr "Upgrades"
 
 msgid "Weathers"
 msgstr "Weathers"
@@ -763,3 +746,4 @@ msgstr "Import extensions"
 
 msgid "Import additional files"
 msgstr "Import additional files"
+

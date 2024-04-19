@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2020-11-07 16:46+0300\n"
+"POT-Creation-Date: 2024-04-19 20:13+0300\n"
 "PO-Revision-Date: 2016-07-09 08:47+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/arcanis/awesome-"
@@ -48,6 +48,10 @@ msgid "openSUSE packages"
 msgstr "openSUSE-pakketten"
 
 #, fuzzy
+msgid "This software is licensed under %1"
+msgstr "Deze software gebruikt: %1"
+
+#, fuzzy
 msgid "Translators:"
 msgstr "Vertalers: %1"
 
@@ -73,6 +77,9 @@ msgstr "Uiterlijk"
 
 msgid "DataEngine"
 msgstr "DataEngine"
+
+msgid "Report bug"
+msgstr ""
 
 msgid "About"
 msgstr "Over"
@@ -106,9 +113,6 @@ msgstr "Widget-breedte, px"
 
 msgid "Time interval"
 msgstr "Tijdstussenpose"
-
-msgid "Messages queue limit"
-msgstr "Limiet van berichtenwachtrij"
 
 msgid "Celsius"
 msgstr "Celsius"
@@ -159,18 +163,13 @@ msgstr "Configuratie exporteren"
 msgid "Import configuration"
 msgstr "Configuratie importeren"
 
-msgid "Telemetry"
-msgstr ""
-
-msgid "Enable remote telemetry"
-msgstr ""
+#, fuzzy
+msgid "History"
+msgstr "Puntentelling"
 
 #, fuzzy
 msgid "History count"
 msgstr "Puntentelling"
-
-msgid "Telemetry ID"
-msgstr ""
 
 msgid "Font"
 msgstr "Lettertype"
@@ -194,26 +193,37 @@ msgstr ""
 msgid "Style color"
 msgstr "Selecteer een kleur"
 
+msgid "Report subject"
+msgstr ""
+
+#, fuzzy
+msgid "Description"
+msgstr "Richting"
+
+msgid "Steps to reproduce"
+msgstr ""
+
+msgid "Expected result"
+msgstr ""
+
+msgid "Logs"
+msgstr ""
+
+#, fuzzy
+msgid "Use command"
+msgstr "Commando bewerken"
+
+msgid "Load log file"
+msgstr ""
+
+msgid "Open log file"
+msgstr ""
+
 msgid "ACPI"
 msgstr "ACPI"
 
 msgid "ACPI path"
 msgstr "ACPI-pad"
-
-msgid "GPU"
-msgstr "GPU"
-
-msgid "GPU device"
-msgstr "GPU-apparaat"
-
-msgid "HDD temperature"
-msgstr "HDD-temperatuur"
-
-msgid "HDD"
-msgstr "HDD"
-
-msgid "hddtemp cmd"
-msgstr "hddtemp cmd"
 
 msgid "Player"
 msgstr "Speler"
@@ -252,29 +262,15 @@ msgstr "Citaten-monitor"
 msgid "Weather"
 msgstr "Weer"
 
-msgid "Select tag"
-msgstr "Sleutelwoord selecteren"
-
-msgid "Tag: %1"
-msgstr "Sleutelwoord: %1"
-
-msgid "Value: %1"
-msgstr "Waarde: %1"
-
-msgid "Info: %1"
-msgstr "Informatie: %1"
-
-msgid "Request key"
-msgstr "Sleutel aanvragen"
+#, fuzzy
+msgid "Run monitor"
+msgstr "Citaten-monitor"
 
 msgid "Show README"
 msgstr "README weergeven"
 
 msgid "Check updates"
 msgstr "Controleren op updates"
-
-msgid "Report bug"
-msgstr ""
 
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
@@ -340,12 +336,6 @@ msgstr "Bewerken"
 msgid "Run %1"
 msgstr "%1 uitvoeren"
 
-msgid "Not supported"
-msgstr ""
-
-msgid "You are using mammoth's Qt version, try to update it first"
-msgstr ""
-
 msgid "Select font"
 msgstr "Lettertype selecteren"
 
@@ -353,6 +343,9 @@ msgid "Issue created"
 msgstr ""
 
 msgid "Issue %1 has been created"
+msgstr ""
+
+msgid "Details"
 msgstr ""
 
 msgid "AC online"
@@ -388,11 +381,18 @@ msgstr "MB/s"
 msgid "KB/s"
 msgstr "KB/s"
 
+msgid "Changelog of %1"
+msgstr ""
+
 msgid "You are using the actual version %1"
 msgstr "U gebruikt de actuele versie %1"
 
 msgid "No new version found"
 msgstr "Geen nieuwe versie gevonden"
+
+#, fuzzy
+msgid "Current version : %1"
+msgstr "Nieuwe versie: %1"
 
 msgid "New version : %1"
 msgstr "Nieuwe versie: %1"
@@ -602,12 +602,6 @@ msgstr "Markeren"
 msgid "contours"
 msgstr "contouren"
 
-msgid "windows"
-msgstr "vensters"
-
-msgid "clean desktop"
-msgstr "opgeruimd bureaublad"
-
 msgid "names"
 msgstr "namen"
 
@@ -619,6 +613,31 @@ msgstr "Opmerkingsballon-type"
 
 msgid "Tooltip width"
 msgstr "Opmerkingsballonbreedte"
+
+msgid "Scripts"
+msgstr "Scripts"
+
+#, fuzzy
+msgid "Desktop"
+msgstr "Bureaubladen"
+
+msgid "Processes"
+msgstr ""
+
+msgid "Quotes"
+msgstr "Citaten"
+
+msgid "System"
+msgstr ""
+
+msgid "Time"
+msgstr "Tijd"
+
+msgid "Upgrades"
+msgstr "Upgrades"
+
+msgid "Load"
+msgstr ""
 
 msgid "Edit bars"
 msgstr "Balken bewerken"
@@ -645,37 +664,17 @@ msgstr "Toevoegen"
 msgid "Show value"
 msgstr "Waarde weergeven"
 
+msgid "Tag: %1"
+msgstr "Sleutelwoord: %1"
+
+msgid "Value: %1"
+msgstr "Waarde: %1"
+
+msgid "Info: %1"
+msgstr "Informatie: %1"
+
 msgid "Acknowledgment"
 msgstr "Erkenning"
-
-msgid "Report a bug"
-msgstr ""
-
-msgid "Report subject"
-msgstr ""
-
-#, fuzzy
-msgid "Description"
-msgstr "Richting"
-
-msgid "Steps to reproduce"
-msgstr ""
-
-msgid "Expected result"
-msgstr ""
-
-msgid "Logs"
-msgstr ""
-
-#, fuzzy
-msgid "Use command"
-msgstr "Commando bewerken"
-
-msgid "Load log file"
-msgstr ""
-
-msgid "Open log file"
-msgstr ""
 
 msgid "Select a color"
 msgstr "Selecteer een kleur"
@@ -707,24 +706,12 @@ msgstr "Balken"
 msgid "Desktops"
 msgstr "Bureaubladen"
 
+msgid "HDD"
+msgstr "HDD"
+
 #, fuzzy
 msgid "Network request"
 msgstr "Netwerk"
-
-msgid "Scripts"
-msgstr "Scripts"
-
-msgid "System"
-msgstr ""
-
-msgid "Time"
-msgstr "Tijd"
-
-msgid "Quotes"
-msgstr "Citaten"
-
-msgid "Upgrades"
-msgstr "Upgrades"
 
 msgid "Weathers"
 msgstr "Weer"

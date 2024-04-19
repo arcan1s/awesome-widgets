@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Awesome widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2020-11-07 16:46+0300\n"
+"POT-Creation-Date: 2024-04-19 20:13+0300\n"
 "PO-Revision-Date: 2017-05-15 17:44+0000\n"
 "Last-Translator: Evgeniy Alekseev <darkarcanis@mail.ru>\n"
 "Language-Team: Lithuanian (http://www.transifex.com/arcanis/awesome-widgets/"
@@ -17,8 +17,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
-"%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"(n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 msgid "Version %1 (build date %2)"
 msgstr "Versija %1 (darinio data %2)"
@@ -47,6 +47,9 @@ msgstr "AUR paketai"
 msgid "openSUSE packages"
 msgstr "openSUSE paketai"
 
+msgid "This software is licensed under %1"
+msgstr ""
+
 msgid "Translators:"
 msgstr ""
 
@@ -70,6 +73,9 @@ msgstr "Išvaizda"
 
 msgid "DataEngine"
 msgstr ""
+
+msgid "Report bug"
+msgstr "Pranešti apie klaidą"
 
 msgid "About"
 msgstr "Apie"
@@ -103,9 +109,6 @@ msgstr "Valdiklio plotis, piks."
 
 msgid "Time interval"
 msgstr "Laiko intervalas"
-
-msgid "Messages queue limit"
-msgstr ""
 
 msgid "Celsius"
 msgstr "Celsijus"
@@ -155,16 +158,10 @@ msgstr "Eksportuoti konfigūraciją"
 msgid "Import configuration"
 msgstr "Importuoti konfigūraciją"
 
-msgid "Telemetry"
-msgstr ""
-
-msgid "Enable remote telemetry"
+msgid "History"
 msgstr ""
 
 msgid "History count"
-msgstr ""
-
-msgid "Telemetry ID"
 msgstr ""
 
 msgid "Font"
@@ -188,26 +185,35 @@ msgstr ""
 msgid "Style color"
 msgstr ""
 
+msgid "Report subject"
+msgstr ""
+
+msgid "Description"
+msgstr "Aprašas"
+
+msgid "Steps to reproduce"
+msgstr ""
+
+msgid "Expected result"
+msgstr ""
+
+msgid "Logs"
+msgstr "Žurnalai"
+
+msgid "Use command"
+msgstr "Naudoti komandą"
+
+msgid "Load log file"
+msgstr "Įkelti žurnalo failą"
+
+msgid "Open log file"
+msgstr "Atverti žurnalo failą"
+
 msgid "ACPI"
 msgstr "ACPI"
 
 msgid "ACPI path"
 msgstr "ACPI kelias"
-
-msgid "GPU"
-msgstr ""
-
-msgid "GPU device"
-msgstr ""
-
-msgid "HDD temperature"
-msgstr ""
-
-msgid "HDD"
-msgstr ""
-
-msgid "hddtemp cmd"
-msgstr ""
 
 msgid "Player"
 msgstr "Grotuvas"
@@ -245,19 +251,7 @@ msgstr ""
 msgid "Weather"
 msgstr "Orai"
 
-msgid "Select tag"
-msgstr "Pasirinkti žymę"
-
-msgid "Tag: %1"
-msgstr "Žymė: %1"
-
-msgid "Value: %1"
-msgstr "Reikšmė: %1"
-
-msgid "Info: %1"
-msgstr "Informacija: %1"
-
-msgid "Request key"
+msgid "Run monitor"
 msgstr ""
 
 msgid "Show README"
@@ -265,9 +259,6 @@ msgstr ""
 
 msgid "Check updates"
 msgstr ""
-
-msgid "Report bug"
-msgstr "Pranešti apie klaidą"
 
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
@@ -331,12 +322,6 @@ msgstr ""
 msgid "Run %1"
 msgstr ""
 
-msgid "Not supported"
-msgstr "Nepalaikoma"
-
-msgid "You are using mammoth's Qt version, try to update it first"
-msgstr ""
-
 msgid "Select font"
 msgstr "Pasirinkti šriftą"
 
@@ -344,6 +329,9 @@ msgid "Issue created"
 msgstr ""
 
 msgid "Issue %1 has been created"
+msgstr ""
+
+msgid "Details"
 msgstr ""
 
 msgid "AC online"
@@ -379,11 +367,18 @@ msgstr "MB/s"
 msgid "KB/s"
 msgstr "KB/s"
 
+msgid "Changelog of %1"
+msgstr ""
+
 msgid "You are using the actual version %1"
 msgstr ""
 
 msgid "No new version found"
 msgstr "Nerasta jokios naujos versijos"
+
+#, fuzzy
+msgid "Current version : %1"
+msgstr "Nauja versija : %1"
 
 msgid "New version : %1"
 msgstr "Nauja versija : %1"
@@ -586,12 +581,6 @@ msgstr ""
 msgid "contours"
 msgstr ""
 
-msgid "windows"
-msgstr "langai"
-
-msgid "clean desktop"
-msgstr ""
-
 msgid "names"
 msgstr ""
 
@@ -603,6 +592,31 @@ msgstr "Paaiškinimo tipas"
 
 msgid "Tooltip width"
 msgstr "Paaiškinimo plotis"
+
+msgid "Scripts"
+msgstr "Scenarijai"
+
+#, fuzzy
+msgid "Desktop"
+msgstr "Darbalaukiai"
+
+msgid "Processes"
+msgstr ""
+
+msgid "Quotes"
+msgstr ""
+
+msgid "System"
+msgstr ""
+
+msgid "Time"
+msgstr "Laikas"
+
+msgid "Upgrades"
+msgstr ""
+
+msgid "Load"
+msgstr ""
 
 msgid "Edit bars"
 msgstr ""
@@ -629,35 +643,17 @@ msgstr "Pridėti"
 msgid "Show value"
 msgstr "Rodyti reikšmę"
 
+msgid "Tag: %1"
+msgstr "Žymė: %1"
+
+msgid "Value: %1"
+msgstr "Reikšmė: %1"
+
+msgid "Info: %1"
+msgstr "Informacija: %1"
+
 msgid "Acknowledgment"
 msgstr "Padėkos"
-
-msgid "Report a bug"
-msgstr "Pranešti apie klaidą"
-
-msgid "Report subject"
-msgstr ""
-
-msgid "Description"
-msgstr "Aprašas"
-
-msgid "Steps to reproduce"
-msgstr ""
-
-msgid "Expected result"
-msgstr ""
-
-msgid "Logs"
-msgstr "Žurnalai"
-
-msgid "Use command"
-msgstr "Naudoti komandą"
-
-msgid "Load log file"
-msgstr "Įkelti žurnalo failą"
-
-msgid "Open log file"
-msgstr "Atverti žurnalo failą"
 
 msgid "Select a color"
 msgstr "Pasirinkti spalvą"
@@ -689,24 +685,12 @@ msgstr ""
 msgid "Desktops"
 msgstr "Darbalaukiai"
 
+msgid "HDD"
+msgstr ""
+
 #, fuzzy
 msgid "Network request"
 msgstr "Tinklas"
-
-msgid "Scripts"
-msgstr "Scenarijai"
-
-msgid "System"
-msgstr ""
-
-msgid "Time"
-msgstr "Laikas"
-
-msgid "Quotes"
-msgstr ""
-
-msgid "Upgrades"
-msgstr ""
 
 msgid "Weathers"
 msgstr "Orai"
