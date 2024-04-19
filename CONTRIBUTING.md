@@ -81,8 +81,8 @@ Development
 * Try to minimize message in Release build with logging disabled. It is highly recommended to fix KDE/Qt specific warning if possible
 * Do not use dependency to KDE libraries if there are no any strictly necessary. Exceptions are KNotification and KI18n libraries.
 * It is highly recommended to use submodules for third party libraries if possible.
-* The main branch is **development**. Changes in this branch may be merged to the master one only if it is a 'stable' build.
-* For experimental features development new branch `feature-foo` creation is allowed and recommended.
+* The main branch is **master**.
+* For experimental features development new branch `feature/foo` creation is allowed and recommended.
 * Experimental features should be added inside `BUILD_FUTURE` definition:
 
   ```
