@@ -1,31 +1,53 @@
 #!/bin/bash
 
+set -e
+
 # properties
 PROJECT="awesome-widgets"
 BUGADDR="https://github.com/arcan1s/awesome-widgets/issues"
 
 # root of translatable sources
 SCRIPTDIR="$(dirname -- $(readlink -f -- $0))"
-BASEDIR="${SCRIPTDIR}/../"
+BASEDIR="$SCRIPTDIR/../"
 WORKDIR="$(pwd)"
 
-# translations tags
-# dunno what does this magic do actually
-TAGS="-ci18n -ki18n:1 -ki18nc:1c,2 -ki18np:1,2 -ki18ncp:1c,2,3 -ktr2i18n:1 -kI18N_NOOP:1 \
--kI18N_NOOP2:1c,2 -kaliasLocale -kki18n:1 -kki18nc:1c,2 -kki18np:1,2 -kki18ncp:1c,2,3"
-
-find "${BASEDIR}" \
+find "$BASEDIR" \
     -name '*.cpp' -o -name '*.h' -o -name '*.qml' -o -name '*.ui' -o -name '*.rc' | \
-    sort > "${WORKDIR}/infiles.list"
+    sort > "$WORKDIR/infiles.list"
 
-xgettext -C --no-location --msgid-bugs-address="${BUGADDR}" ${TAGS} \
-    --files-from="${WORKDIR}/infiles.list" -D "${BASEDIR}" -D "${WORKDIR}" \
-    -o "${PROJECT}.pot" || exit 1
+xgettext \
+    --from-code=UTF-8 --width=200 --add-location=file \
+    --files-from="$WORKDIR/infiles.list" \
+    -C -kde \
+    -ci18n \
+    -ki18n:1 -ki18nc:1c,2 -ki18np:1,2 -ki18ncp:1c,2,3 \
+    -kki18n:1 -kki18nc:1c,2 -kki18np:1,2 -kki18ncp:1c,2,3 \
+    -kxi18n:1 -kxi18nc:1c,2 -kxi18np:1,2 -kxi18ncp:1c,2,3 \
+    -kkxi18n:1 -kkxi18nc:1c,2 -kkxi18np:1,2 -kkxi18ncp:1c,2,3 \
+    -kI18N_NOOP:1 -kI18NC_NOOP:1c,2 \
+    -kI18N_NOOP2:1c,2 -kI18N_NOOP2_NOSTRIP:1c,2 \
+    -ktr2i18n:1 -ktr2xi18n:1 \
+    -kN_:1 \
+    -kaliasLocale \
+    --package-name="$PROJECT" \
+    --msgid-bugs-address="$BUGADDR" \
+    -D "$BASEDIR" \
+    -D "$WORKDIR" \
+    -o "$PROJECT.pot.new"
 
-TRANSLATIONS=$(find "${BASEDIR}" -name '*.po')
-for TR in ${TRANSLATIONS}; do
-    msgmerge -U -q --backup=off "${TR}" "${WORKDIR}/${PROJECT}.pot"
-    msgattrib --no-obsolete -o "${TR}" "${TR}"
+mv "${PROJECT}.pot"{.new,}
+
+for TR in $(find "$BASEDIR" -name '*.po'); do
+    msgmerge \
+        --update \
+        --quiet \
+        --backup=off \
+        "$TR" \
+        "$WORKDIR/$PROJECT.pot"
+    msgattrib \
+        --no-obsolete \
+        --output-file "$TR" \
+        "$TR"
 done
 
-rm -f "${WORKDIR}/infiles.list"
+rm -f "$WORKDIR/infiles.list"

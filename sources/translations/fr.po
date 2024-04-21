@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2024-04-19 20:13+0300\n"
+"POT-Creation-Date: 2024-04-21 17:52+0300\n"
 "PO-Revision-Date: 2015-07-31 22:16+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: French <kde-russian@lists.kde.ru>\n"
@@ -20,257 +20,368 @@ msgstr ""
 "X-Generator: Lokalize 2.0\n"
 "X-Language: fr-FR\n"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
 msgid "Version %1 (build date %2)"
 msgstr "Version %1 (build date %2)"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
 msgid "A set of minimalistic plasmoid widgets"
 msgstr "Un jeu de composants plasmoïds minimalistes"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
 msgid "Links:"
 msgstr "Liens:"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
 msgid "Homepage"
 msgstr "Page d'accueil"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
 msgid "Repository"
 msgstr "Dépôt"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
 msgid "Bugtracker"
 msgstr "Suivi des bugs"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
 msgid "Translation issue"
 msgstr "Traductions"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
 msgid "AUR packages"
 msgstr "Paquets depuis AUR"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
 msgid "openSUSE packages"
 msgstr "Paquets openSUSE"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
 #, fuzzy
 msgid "This software is licensed under %1"
 msgstr "Ce logiciel utilise: %1"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
 #, fuzzy
 msgid "Translators:"
 msgstr "Traducteurs: %1"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
 #, fuzzy
 msgid "This software uses:"
 msgstr "Ce logiciel utilise: %1"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
 msgid "Special thanks to:"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/config/config.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/config/config.qml
 msgid "Widget"
 msgstr "Composant"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/config/config.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/config/config.qml
 msgid "Advanced"
 msgstr "Avancé"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/config/config.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
 msgid "Tooltip"
 msgstr "Conseil"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/config/config.qml
 msgid "Appearance"
 msgstr "Apparence"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/config/config.qml
 msgid "DataEngine"
 msgstr "Moteur de données"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/config/config.qml
 msgid "Report bug"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/config/config.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/config/config.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AboutTab.qml
 msgid "About"
 msgstr "À propos"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
 msgid "Enable background"
 msgstr "Activer le fond"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awdatetimeformatter.cpp
 #, fuzzy
 msgid "Translate strings"
 msgstr "Traductions"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extscript.cpp
 msgid "Wrap new lines"
 msgstr "Couper les lignes supplémentaires"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 msgid "Enable word wrap"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 msgid "Enable notifications"
 msgstr "Activer les notifications"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 #, fuzzy
 msgid "Check updates on startup"
 msgstr "Vérifier les mises à jour"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 msgid "Optimize subscription"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
 msgid "Widget height, px"
 msgstr "Paramètres du composant"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
 msgid "Widget width, px"
 msgstr "Largeur de l'applet"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 msgid "Time interval"
 msgstr "Intervalle"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 msgid "Celsius"
 msgstr "Celsius"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 msgid "Fahrenheit"
 msgstr "Fahrenheit"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 msgid "Kelvin"
 msgstr "Kelvin"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 msgid "Reaumur"
 msgstr "Reaumur"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 msgid "cm^-1"
 msgstr "cm^-1"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 msgid "kJ/mol"
 msgstr "kJ/mol"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 msgid "kcal/mol"
 msgstr "kcal/mol"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 msgid "Temperature units"
 msgstr "Unités de température"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 msgid "Custom time format"
 msgstr "Format de l'heure personnalisé"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 msgid "Custom uptime format"
 msgstr "Temps de fonctionnement personalisé"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 msgid "AC online tag"
 msgstr "Étiquette alimentation branchée"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 msgid "AC offline tag"
 msgstr "Étiquette alimentation débranchée"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 #, fuzzy
 msgid "Actions"
 msgstr "Batterie"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 msgid "Drop key cache"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 msgid "Export configuration"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 msgid "Import configuration"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 msgid "History"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 msgid "History count"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/appearance.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/activeapp.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/inactiveapp.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/HtmlEditorFont.qml
 msgid "Font"
 msgstr "Police"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/appearance.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/activeapp.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/inactiveapp.qml
 msgid "Font size"
 msgstr "Taille de la police"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/appearance.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/activeapp.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/inactiveapp.qml
 msgid "Font weight"
 msgstr "Épaisseur de la police"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/appearance.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/activeapp.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/inactiveapp.qml
 msgid "Font style"
 msgstr "Style de la police"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/appearance.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/activeapp.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/inactiveapp.qml
 msgid "Font color"
 msgstr "Couleur de la police"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/appearance.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/activeapp.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/inactiveapp.qml
 msgid "Style"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/appearance.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/activeapp.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/inactiveapp.qml
 #, fuzzy
 msgid "Style color"
 msgstr "Sélectionner la couleur"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/bug.qml
 msgid "Report subject"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/bug.qml
 msgid "Description"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/bug.qml
 msgid "Steps to reproduce"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/bug.qml
 msgid "Expected result"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/bug.qml
 msgid "Logs"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/bug.qml
 #, fuzzy
 msgid "Use command"
 msgstr "Modifier la commande"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/bug.qml
 msgid "Load log file"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/bug.qml
 msgid "Open log file"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
 #, fuzzy
 msgid "ACPI"
 msgstr "chemin ACPI"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
 msgid "ACPI path"
 msgstr "chemin ACPI"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
 msgid "Player"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
 msgid "Player data symbols"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 msgid "Music player"
 msgstr "Lecteur audio"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
 msgid "MPRIS player name"
 msgstr "Nom du lecteur MPRIS"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
 msgid "MPD address"
 msgstr "Adresse MPD"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
 msgid "MPD port"
 msgstr "Port MPD"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
 msgid "Extensions"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
 msgid "Custom scripts"
 msgstr "Scripts personnalisés"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
 #, fuzzy
 msgid "Network requests"
 msgstr "Voisinage réseau"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
 msgid "Package manager"
 msgstr "Gestionnaire de paquets"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
 msgid "Quotes monitor"
 msgstr "Moniteur de citations"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
 msgid "Weather"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/main.qml
 #, fuzzy
 msgid "Run monitor"
 msgstr "Moniteur de citations"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/main.qml
 msgid "Show README"
 msgstr "Voir le README"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/main.qml
 msgid "Check updates"
 msgstr "Vérifier les mises à jour"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 #, fuzzy
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
@@ -280,401 +391,593 @@ msgstr ""
 "conseils visuels. Pour les activer cochez simplement les cases "
 "correspondantes."
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 msgid "Number of values for tooltips"
 msgstr "Nombre d'éléments pour les conseils"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 msgid "Background"
 msgstr "Fond"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 #, fuzzy
 msgid "Background color"
 msgstr "Fond"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 msgid "CPU"
 msgstr "CPU"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 msgid "CPU color"
 msgstr "Couleur processeur"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 #, fuzzy
 msgid "CPU clock"
 msgstr "Horloge processeur"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 msgid "CPU clock color"
 msgstr "Couleur de l'horloge processeur"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 msgid "Memory"
 msgstr "Mémoire"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 msgid "Memory color"
 msgstr "Couleur de la mémoire"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 msgid "Swap"
 msgstr "mémoire d'échange (swap)"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 msgid "Swap color"
 msgstr "Couleur de la mémoire d'échange"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 msgid "Network"
 msgstr "Réseau"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 msgid "Download speed color"
 msgstr "Couleur de la vitesse de téléchargement"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 msgid "Upload speed color"
 msgstr "Couleur du téléversement"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
 msgid "Battery"
 msgstr "Batterie"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 msgid "Battery active color"
 msgstr "Couleur active batterie"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 msgid "Battery inactive color"
 msgstr "Couleur batterie inactive"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awabstractpairconfig.cpp
 #, fuzzy
 msgid "Edit"
 msgstr "Modifiable"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awactions.cpp
 msgid "Run %1"
 msgstr "Éxecuter %1"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awactions.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/plugin/dpadds.cpp
 msgid "Select font"
 msgstr "Sélectionner une couleur"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awbugreporter.cpp
 msgid "Issue created"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awbugreporter.cpp
 msgid "Issue %1 has been created"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awbugreporter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awupdatehelper.cpp
 msgid "Details"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awdataaggregator.cpp
 msgid "AC online"
 msgstr "Alimentation branchée"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awdataaggregator.cpp
 msgid "AC offline"
 msgstr "Alimentation débranchée"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awdataaggregator.cpp
 msgid "High CPU load"
 msgstr "Haute charge CPU"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awdataaggregator.cpp
 msgid "High memory usage"
 msgstr "Haute utilisation mémoire"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awdataaggregator.cpp
 msgid "Swap is used"
 msgstr "Fichier d'échange utilisé"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awdataaggregator.cpp
 msgid "High GPU load"
 msgstr "Haute charge GPU"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awdataaggregator.cpp
 msgid "Network device has been changed to %1"
 msgstr "L'interface réseau à été changée en %1"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awformatterhelper.cpp
 #, fuzzy
 msgid "Select type"
 msgstr "Sélectionner l'étiquette"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awformatterhelper.cpp
 msgid "Type:"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awkeysaggregator.cpp
 msgid "MB/s"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awkeysaggregator.cpp
 msgid "KB/s"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awupdatehelper.cpp
 msgid "Changelog of %1"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awupdatehelper.cpp
 msgid "You are using the actual version %1"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awupdatehelper.cpp
 #, fuzzy
 msgid "No new version found"
 msgstr "Nouvelle version"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awupdatehelper.cpp
 #, fuzzy
 msgid "Current version : %1"
 msgstr "Nouvelle version"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awupdatehelper.cpp
 #, fuzzy
 msgid "New version : %1"
 msgstr "Nouvelle version"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awupdatehelper.cpp
 msgid "Click \"Ok\" to download"
 msgstr "Cliquer sur \"Valider\" pour télécharger"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awupdatehelper.cpp
 msgid "There are updates"
 msgstr "Des mises à jour sont disponibles"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/abstractextitemaggregator.cpp
 msgid "Copy"
 msgstr "Copier"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/abstractextitemaggregator.cpp
 msgid "Create"
 msgstr "Créer"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/abstractextitemaggregator.cpp
 msgid "Remove"
 msgstr "Supprimer"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/abstractextitemaggregator.cpp
 msgid "Enter file name"
 msgstr "Entrer le nom du fichier"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/abstractextitemaggregator.cpp
 msgid "File name"
 msgstr "Nom du fichier"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/abstractextitemaggregator.cpp
 msgid "Name: %1"
 msgstr "Nom: %1"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/abstractextitemaggregator.cpp
 msgid "Comment: %1"
 msgstr "Commentaire: %1"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/abstractextitemaggregator.cpp
 #, fuzzy
 msgid "Identity: %1"
 msgstr "Commentaire: %1"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awdatetimeformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awfloatformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awjsonformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awlistformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awnoformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awscriptformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awstringformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extnetworkrequest.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extquotes.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extscript.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extupgrade.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extweather.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
 #, fuzzy
 msgid "Name"
 msgstr "Nom: %1"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awdatetimeformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awfloatformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awjsonformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awlistformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awnoformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awscriptformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awstringformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extnetworkrequest.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extquotes.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extscript.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extupgrade.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extweather.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
 #, fuzzy
 msgid "Comment"
 msgstr "Commentaire: %1"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awdatetimeformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awfloatformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awjsonformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awlistformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awnoformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awscriptformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awstringformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
 msgid "Type"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awdatetimeformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awfloatformatter.cpp
 #, fuzzy
 msgid "Format"
 msgstr "Entrées"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awfloatformatter.cpp
 msgid "Precision"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awfloatformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awstringformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
 msgid "Width"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awfloatformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awstringformatter.cpp
 msgid "Fill char"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awfloatformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awstringformatter.cpp
 msgid "Force width"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awfloatformatter.cpp
 msgid "Multiplier"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awfloatformatter.cpp
 #, fuzzy
 msgid "Summand"
 msgstr "Commande personnalisée"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awjsonformatter.cpp
 msgid "Path"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awlistformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extupgrade.cpp
 msgid "Filter"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awlistformatter.cpp
 msgid "Separator"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awlistformatter.cpp
 msgid "Sort"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awscriptformatter.cpp
 #, fuzzy
 msgid "Append code"
 msgstr "Apparence"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awscriptformatter.cpp
 msgid "Has return"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awscriptformatter.cpp
 msgid "Code"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extnetworkrequest.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extquotes.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extscript.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extupgrade.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extweather.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
 msgid "Tag"
 msgstr "Étiquette"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extnetworkrequest.cpp
 msgid "URL"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extnetworkrequest.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extquotes.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extscript.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extupgrade.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extweather.cpp
 #, fuzzy
 msgid "Active"
 msgstr "Batterie"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extnetworkrequest.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extquotes.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extscript.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extupgrade.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extweather.cpp
 msgid "Schedule"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extnetworkrequest.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extquotes.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extscript.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extupgrade.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extweather.cpp
 msgid "Socket"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extnetworkrequest.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extquotes.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extscript.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extupgrade.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extweather.cpp
 #, fuzzy
 msgid "Interval"
 msgstr "Intervalle"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extquotes.cpp
 msgid ""
 "<html><head/><body><p>Use Stooq ticker to get quotes for the instrument. "
 "Refer to <a href=\"https://stooq.com/\"><span style=\" text-decoration: "
 "underline; color:#0057ae;\">https://stooq.com/</span></a></p></body></html>"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extquotes.cpp
 #, fuzzy
 msgid "Ticker"
 msgstr "Ticker: %1"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extscript.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extupgrade.cpp
 #, fuzzy
 msgid "Command"
 msgstr "Commande personnalisée"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extscript.cpp
 msgid "Redirect"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extscript.cpp
 msgid "Additional filters"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extscript.cpp
 #, fuzzy
 msgid "Wrap colors"
 msgstr "Couleur de la mémoire d'échange"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extscript.cpp
 msgid "Wrap spaces"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extupgrade.cpp
 msgid "Null"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extweather.cpp
 msgid "Provider"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extweather.cpp
 msgid "City"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extweather.cpp
 msgid "Country"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extweather.cpp
 #, fuzzy
 msgid "Timestamp"
 msgstr "Durée"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extweather.cpp
 msgid "Use images"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
 msgid "Select color"
 msgstr "Sélectionner la couleur"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
 #, fuzzy
 msgid "Select path"
 msgstr "Sélectionner l'étiquette"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
 msgid "Images (*.png *.bpm *.jpg);;All files (*.*)"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
 #, fuzzy
 msgid "Use custom formula"
 msgstr "Format de l'heure personnalisé"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
 #, fuzzy
 msgid "Value"
 msgstr "Valeur: %1"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
 #, fuzzy
 msgid "Max value"
 msgstr "Afficher la valeur"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
 #, fuzzy
 msgid "Min value"
 msgstr "Afficher la valeur"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
 #, fuzzy
 msgid "Active filling type"
 msgstr "Batterie"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
 #, fuzzy
 msgid "Inctive filling type"
 msgstr "Bureau inactif"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
 msgid "Points count"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
 msgid "Direction"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
 #, fuzzy
 msgid "Height"
 msgstr "léger"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
 #, fuzzy
 msgid "color"
 msgstr "Couleur processeur"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
 msgid "image"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/config/config.qml
 msgid "Active desktop"
 msgstr "Bureau actif"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/config/config.qml
 msgid "Inactive desktop"
 msgstr "Bureau inactif"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
 msgid "Vertical layout"
 msgstr "Positionnement vertical"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
 msgid "Mark"
 msgstr "Marquer"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
 msgid "contours"
 msgstr "contours"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
 msgid "names"
 msgstr "noms"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
 msgid "none"
 msgstr "Aucun"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
 msgid "Tooltip type"
 msgstr "Type d'infobulle"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
 msgid "Tooltip width"
 msgstr "Largeur de l'infobulle"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 #, fuzzy
 msgid "Scripts"
 msgstr "Modifier les scripts"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
 #, fuzzy
 msgid "Desktop"
 msgstr "nettoyer le bureau"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
 msgid "Processes"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 #, fuzzy
 msgid "Quotes"
 msgstr "Moniteur de citations"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 msgid "System"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 #, fuzzy
 msgid "Time"
 msgstr "Durée"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 msgid "Upgrades"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
 msgid "Load"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWExtensions.qml
 msgid "Edit bars"
 msgstr "Modifier les barres"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWExtensions.qml
 msgid "Formatters"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWExtensions.qml
 msgid "User keys"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWExtensions.qml
 msgid "Preview"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWInfoLabel.qml
 msgid ""
 "Detailed information may be found on <a href=\"https://arcanis.me/projects/"
 "awesome-widgets/\">project homepage</a>"
@@ -682,114 +985,151 @@ msgstr ""
 "D'avantage d'informations se trouvent sur <a href=\"https://arcanis.me/"
 "projects/awesome-widgets/\">la page du projet</a>"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWTagSelector.qml
 msgid "Add"
 msgstr "Ajouter"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWTagSelector.qml
 msgid "Show value"
 msgstr "Afficher la valeur"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWTagSelector.qml
 msgid "Tag: %1"
 msgstr "Etiquette: %1"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWTagSelector.qml
 msgid "Value: %1"
 msgstr "Valeur: %1"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWTagSelector.qml
 msgid "Info: %1"
 msgstr "Info: %1"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AboutTab.qml
 msgid "Acknowledgment"
 msgstr "À savoir"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ColorSelector.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/HtmlEditorColor.qml
 msgid "Select a color"
 msgstr "Sélectionner une couleur"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ExportDialog.qml
 msgid "Export"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ExportDialog.qml
 msgid "Success"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ExportDialog.qml
 msgid "Please note that binary files were not copied"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ExportDialog.qml
 msgid "Ooops..."
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ExportDialog.qml
 msgid "Could not save configuration file"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/FontSelector.qml
 msgid "Select a font"
 msgstr "Sélectionner une police"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 msgid "AC"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 msgid "Bars"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 msgid "Desktops"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 msgid "HDD"
 msgstr "Disque dur"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 #, fuzzy
 msgid "Network request"
 msgstr "Voisinage réseau"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 #, fuzzy
 msgid "Weathers"
 msgstr "Modifier les tickers"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 msgid "Functions"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 msgid "User defined"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 msgid "All"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 msgid "normal"
 msgstr "normal"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 msgid "italic"
 msgstr "italique"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 msgid "light"
 msgstr "léger"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 msgid "demi bold"
 msgstr "mi-gras"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 msgid "bold"
 msgstr "gras"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 msgid "black"
 msgstr "noir"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 #, fuzzy
 msgid "outline"
 msgstr "Alimentation branchée"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 msgid "raised"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 msgid "sunken"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/HtmlDefaultFunctionsBar.qml
 #, fuzzy
 msgid "Bgcolor"
 msgstr "Couleur processeur"
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ImportDialog.qml
 msgid "Import"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ImportDialog.qml
 msgid "Import plasmoid settings"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ImportDialog.qml
 msgid "Import extensions"
 msgstr ""
 
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ImportDialog.qml
 msgid "Import additional files"
 msgstr ""
