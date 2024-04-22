@@ -22,60 +22,35 @@
 #include <QHash>
 #include <QObject>
 
+#include "formatters/awpluginformatsettings.h"
 
-class AWFormatterHelper;
+
 class AWDataEngineMapper;
 
 class AWKeysAggregator : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString acOffline MEMBER m_acOffline WRITE setAcOffline);
-    Q_PROPERTY(QString acOnline MEMBER m_acOnline WRITE setAcOnline);
-    Q_PROPERTY(QString customTime MEMBER m_customTime WRITE setCustomTime);
-    Q_PROPERTY(QString customUptime MEMBER m_customUptime WRITE setCustomUptime);
-    Q_PROPERTY(QString tempUnits MEMBER m_tempUnits WRITE setTempUnits);
-    Q_PROPERTY(bool translate MEMBER m_translate WRITE setTranslate);
+    Q_PROPERTY(QString acOffline READ acOffline WRITE setAcOffline);
+    Q_PROPERTY(QString acOnline READ acOnline WRITE setAcOnline);
+    Q_PROPERTY(QString customTime READ customTime WRITE setCustomTime);
+    Q_PROPERTY(QString customUptime READ customUptime WRITE setCustomUptime);
+    Q_PROPERTY(QString tempUnits READ tempUnits WRITE setTempUnits);
+    Q_PROPERTY(bool translate READ translate WRITE setTranslate);
 
 public:
-    enum class FormatterType {
-        // general formatters
-        Custom,
-        NoFormat,
-        Float,
-        FloatTwoSymbols,
-        Integer,
-        IntegerFive,
-        IntegerThree,
-        List,
-        // unit specific formatters
-        ACFormat,
-        MemGBFormat,
-        MemMBFormat,
-        MemKBFormat,
-        NetSmartFormat,
-        NetSmartUnits,
-        Quotes,
-        Temperature,
-        Time,
-        TimeCustom,
-        TimeISO,
-        TimeLong,
-        TimeShort,
-        Timestamp,
-        Uptime,
-        UptimeCustom
-    };
-
-    static constexpr double KBinBytes = 1024.0;
-    static constexpr double MBinBytes = 1024.0 * KBinBytes;
-    static constexpr double GBinBytes = 1024.0 * MBinBytes;
 
     explicit AWKeysAggregator(QObject *_parent = nullptr);
     ~AWKeysAggregator() override = default;
     void initFormatters();
     // get methods
+    [[nodiscard]] QString acOffline() const;
+    [[nodiscard]] QString acOnline() const;
+    [[nodiscard]] QString customTime() const;
+    [[nodiscard]] QString customUptime() const;
     [[nodiscard]] QString formatter(const QVariant &_data, const QString &_key, bool replaceSpace) const;
     [[nodiscard]] QStringList keysFromSource(const QString &_source) const;
+    [[nodiscard]] QString tempUnits() const;
+    [[nodiscard]] bool translate() const;
     // set methods
     void setAcOffline(const QString &_inactive);
     void setAcOnline(const QString &_active);
@@ -89,15 +64,6 @@ public slots:
     QStringList registerSource(const QString &_source, KSysGuard::Unit _units, const QStringList &_keys);
 
 private:
-    [[nodiscard]] double temperature(double temp) const;
-    AWFormatterHelper *m_customFormatters = nullptr;
+    AWPluginFormatSettings m_settings;
     AWDataEngineMapper *m_mapper = nullptr;
-    QStringList m_timeKeys;
-    // variables
-    QString m_acOffline;
-    QString m_acOnline;
-    QString m_customTime;
-    QString m_customUptime;
-    QString m_tempUnits;
-    bool m_translate = false;
 };

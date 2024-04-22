@@ -15,36 +15,25 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#pragma once
-
-#include <ksysguard/formatter/Unit.h>
-
-#include <QMultiHash>
-#include <QObject>
-
-#include "formatters/awpluginformatter.h"
-
-
-class AWFormatterHelper;
-
-class AWDataEngineMapper : public QObject
-{
-    Q_OBJECT
-
-public:
-    explicit AWDataEngineMapper(QObject *_parent = nullptr, AWFormatterHelper *_custom = nullptr);
-    ~AWDataEngineMapper() override = default;
-    // get methods
-    [[nodiscard]] AWPluginFormaterInterface *formatter(const QString &_key) const;
-    [[nodiscard]] QStringList keysFromSource(const QString &_source) const;
-    // set methods
-    QStringList registerSource(const QString &_source, KSysGuard::Unit _units, const QStringList &_keys);
-    void setDevices(const QHash<QString, QStringList> &_devices);
-
-private:
-    AWFormatterHelper *m_customFormatters = nullptr;
-    // variables
-    QHash<QString, QStringList> m_devices;
-    QHash<QString, AWPluginFormaterInterface *> m_formatter;
-    QMultiHash<QString, QString> m_map;
-};
+#include "awpluginformatterac.h"
+#include "awpluginformattercustom.h"
+#include "awpluginformatterdouble.h"
+#include "awpluginformatterfloat.h"
+#include "awpluginformatterfloatprecise.h"
+#include "awpluginformatterinteger.h"
+#include "awpluginformatterintegershort.h"
+#include "awpluginformatterintegerwide.h"
+#include "awpluginformatterlist.h"
+#include "awpluginformattermemory.h"
+#include "awpluginformattermemorygb.h"
+#include "awpluginformattermemorymb.h"
+#include "awpluginformatternet.h"
+#include "awpluginformatternetunits.h"
+#include "awpluginformatternoformat.h"
+#include "awpluginformattertemperature.h"
+#include "awpluginformattertime.h"
+#include "awpluginformattertimecustom.h"
+#include "awpluginformattertimeiso.h"
+#include "awpluginformattertimelong.h"
+#include "awpluginformattertimeshort.h"
+#include "awpluginformatteruptime.h"

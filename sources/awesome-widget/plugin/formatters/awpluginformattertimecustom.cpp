@@ -15,36 +15,30 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#pragma once
+#include "awpluginformattertimecustom.h"
 
-#include <ksysguard/formatter/Unit.h>
-
-#include <QMultiHash>
-#include <QObject>
-
-#include "formatters/awpluginformatter.h"
+#include "awdebug.h"
 
 
-class AWFormatterHelper;
-
-class AWDataEngineMapper : public QObject
+QString AWPluginFormatterTimeCustom::format(const QVariant &_value, const QString &, const AWPluginFormatSettings &_settings) const
 {
-    Q_OBJECT
+    auto value = QDateTime::fromSecsSinceEpoch(_value.toLongLong());
+    return format(value, _settings.customTime, locale(_settings));
+}
 
-public:
-    explicit AWDataEngineMapper(QObject *_parent = nullptr, AWFormatterHelper *_custom = nullptr);
-    ~AWDataEngineMapper() override = default;
-    // get methods
-    [[nodiscard]] AWPluginFormaterInterface *formatter(const QString &_key) const;
-    [[nodiscard]] QStringList keysFromSource(const QString &_source) const;
-    // set methods
-    QStringList registerSource(const QString &_source, KSysGuard::Unit _units, const QStringList &_keys);
-    void setDevices(const QHash<QString, QStringList> &_devices);
 
-private:
-    AWFormatterHelper *m_customFormatters = nullptr;
-    // variables
-    QHash<QString, QStringList> m_devices;
-    QHash<QString, AWPluginFormaterInterface *> m_formatter;
-    QMultiHash<QString, QString> m_map;
-};
+void AWPluginFormatterTimeCustom::load()
+{
+    m_timeKeys = QString(TIME_KEYS).split(',');
+    m_timeKeys.sort();
+    std::reverse(m_timeKeys.begin(), m_timeKeys.end());
+}
+
+
+QString AWPluginFormatterTimeCustom::format(const QDateTime &_value, QString _formatString, const QLocale &_locale) const
+{
+    for (auto &key : m_timeKeys)
+        _formatString.replace(QString("$%1").arg(key), _locale.toString(_value, key));
+
+    return _formatString;
+}

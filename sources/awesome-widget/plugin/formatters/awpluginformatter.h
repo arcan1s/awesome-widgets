@@ -17,34 +17,48 @@
 
 #pragma once
 
-#include <ksysguard/formatter/Unit.h>
+#include <QLocale>
+#include <QVariant>
 
-#include <QMultiHash>
-#include <QObject>
+#include <memory>
 
-#include "formatters/awpluginformatter.h"
+#include "awpluginformatsettings.h"
 
 
-class AWFormatterHelper;
+class AWPluginFormaterInterface {
+public:
+    virtual ~AWPluginFormaterInterface() = default;
+    virtual QString format(const QVariant &_value, const QString &_key, const AWPluginFormatSettings &_settings) const = 0;
+    virtual void load() {};
+};
 
-class AWDataEngineMapper : public QObject
-{
-    Q_OBJECT
+
+template<typename Formatter> class AWPluginFormatter : public AWPluginFormaterInterface {
 
 public:
-    explicit AWDataEngineMapper(QObject *_parent = nullptr, AWFormatterHelper *_custom = nullptr);
-    ~AWDataEngineMapper() override = default;
-    // get methods
-    [[nodiscard]] AWPluginFormaterInterface *formatter(const QString &_key) const;
-    [[nodiscard]] QStringList keysFromSource(const QString &_source) const;
-    // set methods
-    QStringList registerSource(const QString &_source, KSysGuard::Unit _units, const QStringList &_keys);
-    void setDevices(const QHash<QString, QStringList> &_devices);
+    static constexpr double KBinBytes = 1024.0;
+    static constexpr double MBinBytes = 1024.0 * KBinBytes;
+    static constexpr double GBinBytes = 1024.0 * MBinBytes;
 
-private:
-    AWFormatterHelper *m_customFormatters = nullptr;
-    // variables
-    QHash<QString, QStringList> m_devices;
-    QHash<QString, AWPluginFormaterInterface *> m_formatter;
-    QMultiHash<QString, QString> m_map;
+    AWPluginFormatter(AWPluginFormatter &) = delete;
+    void operator=(const AWPluginFormatter &) = delete;
+
+    static Formatter *instance()
+    {
+        static auto instance = loadInstance();
+        return instance.get();
+    };
+    static QLocale locale(const AWPluginFormatSettings &_settings)
+    {
+        return _settings.translate ? QLocale::system() : QLocale::c();
+    };
+
+protected:
+    AWPluginFormatter() = default;
+    static std::unique_ptr<Formatter> loadInstance()
+    {
+        auto instance = std::make_unique<Formatter>();
+        instance->load();
+        return instance;
+    };
 };

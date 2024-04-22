@@ -17,34 +17,21 @@
 
 #pragma once
 
-#include <ksysguard/formatter/Unit.h>
-
-#include <QMultiHash>
-#include <QObject>
-
-#include "formatters/awpluginformatter.h"
+#include <QString>
 
 
 class AWFormatterHelper;
 
-class AWDataEngineMapper : public QObject
-{
-    Q_OBJECT
+struct AWPluginFormatSettings {
+    QString acOffline;
+    QString acOnline;
 
-public:
-    explicit AWDataEngineMapper(QObject *_parent = nullptr, AWFormatterHelper *_custom = nullptr);
-    ~AWDataEngineMapper() override = default;
-    // get methods
-    [[nodiscard]] AWPluginFormaterInterface *formatter(const QString &_key) const;
-    [[nodiscard]] QStringList keysFromSource(const QString &_source) const;
-    // set methods
-    QStringList registerSource(const QString &_source, KSysGuard::Unit _units, const QStringList &_keys);
-    void setDevices(const QHash<QString, QStringList> &_devices);
+    QString customTime;
+    QString customUptime;
 
-private:
-    AWFormatterHelper *m_customFormatters = nullptr;
-    // variables
-    QHash<QString, QStringList> m_devices;
-    QHash<QString, AWPluginFormaterInterface *> m_formatter;
-    QMultiHash<QString, QString> m_map;
+    QString tempUnits;
+
+    bool translate = false;
+
+    AWFormatterHelper *customFormatters = nullptr;
 };

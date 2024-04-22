@@ -15,36 +15,12 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#pragma once
+#include "awpluginformattertimeiso.h"
 
-#include <ksysguard/formatter/Unit.h>
-
-#include <QMultiHash>
-#include <QObject>
-
-#include "formatters/awpluginformatter.h"
+#include <QDateTime>
 
 
-class AWFormatterHelper;
-
-class AWDataEngineMapper : public QObject
+QString AWPluginFormatterTimeISO::format(const QVariant &_value, const QString &, const AWPluginFormatSettings &) const
 {
-    Q_OBJECT
-
-public:
-    explicit AWDataEngineMapper(QObject *_parent = nullptr, AWFormatterHelper *_custom = nullptr);
-    ~AWDataEngineMapper() override = default;
-    // get methods
-    [[nodiscard]] AWPluginFormaterInterface *formatter(const QString &_key) const;
-    [[nodiscard]] QStringList keysFromSource(const QString &_source) const;
-    // set methods
-    QStringList registerSource(const QString &_source, KSysGuard::Unit _units, const QStringList &_keys);
-    void setDevices(const QHash<QString, QStringList> &_devices);
-
-private:
-    AWFormatterHelper *m_customFormatters = nullptr;
-    // variables
-    QHash<QString, QStringList> m_devices;
-    QHash<QString, AWPluginFormaterInterface *> m_formatter;
-    QMultiHash<QString, QString> m_map;
-};
+    return QDateTime::fromSecsSinceEpoch(_value.toLongLong()).toString(Qt::ISODate);
+}

@@ -15,36 +15,33 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#pragma once
-
-#include <ksysguard/formatter/Unit.h>
-
-#include <QMultiHash>
-#include <QObject>
-
-#include "formatters/awpluginformatter.h"
+#include "awpluginformattertemperature.h"
 
 
-class AWFormatterHelper;
-
-class AWDataEngineMapper : public QObject
+QString AWPluginFormatterTemperature::format(const QVariant &_value, const QString &, const AWPluginFormatSettings &_settings) const
 {
-    Q_OBJECT
+    auto converted = convert(_value.toDouble(), _settings.tempUnits);
+    return QString("%1").arg(converted, 5, 'f', 1);
+}
 
-public:
-    explicit AWDataEngineMapper(QObject *_parent = nullptr, AWFormatterHelper *_custom = nullptr);
-    ~AWDataEngineMapper() override = default;
-    // get methods
-    [[nodiscard]] AWPluginFormaterInterface *formatter(const QString &_key) const;
-    [[nodiscard]] QStringList keysFromSource(const QString &_source) const;
-    // set methods
-    QStringList registerSource(const QString &_source, KSysGuard::Unit _units, const QStringList &_keys);
-    void setDevices(const QHash<QString, QStringList> &_devices);
 
-private:
-    AWFormatterHelper *m_customFormatters = nullptr;
-    // variables
-    QHash<QString, QStringList> m_devices;
-    QHash<QString, AWPluginFormaterInterface *> m_formatter;
-    QMultiHash<QString, QString> m_map;
-};
+double AWPluginFormatterTemperature::convert(const double &_value, const QString &_units)
+{
+    auto converted = _value;
+    if (_units == "Celsius") {
+    } else if (_units == "Fahrenheit") {
+        converted = _value * 9.0f / 5.0 + 32.0;
+    } else if (_units == "Kelvin") {
+        converted = _value + 273.15;
+    } else if (_units == "Reaumur") {
+        converted = _value * 0.8;
+    } else if (_units == "cm^-1") {
+        converted = (_value + 273.15) * 0.695;
+    } else if (_units == "kJ/mol") {
+        converted = (_value + 273.15) * 8.31;
+    } else if (_units == "kcal/mol") {
+        converted = (_value + 273.15) * 1.98;
+    }
+
+    return converted;
+}

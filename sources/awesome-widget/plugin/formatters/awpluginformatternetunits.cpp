@@ -15,36 +15,25 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#pragma once
+#include "awpluginformatternetunits.h"
 
-#include <ksysguard/formatter/Unit.h>
-
-#include <QMultiHash>
-#include <QObject>
-
-#include "formatters/awpluginformatter.h"
+#include <KI18n/KLocalizedString>
 
 
-class AWFormatterHelper;
-
-class AWDataEngineMapper : public QObject
+QString AWPluginFormatterNetUnits::format(const QVariant &_value, const QString &, const AWPluginFormatSettings &_settings) const
 {
-    Q_OBJECT
+    auto value = _value.toDouble();
+    return (value > MBinBytes) ? formatMB(_settings) : formatKB(_settings);
+}
 
-public:
-    explicit AWDataEngineMapper(QObject *_parent = nullptr, AWFormatterHelper *_custom = nullptr);
-    ~AWDataEngineMapper() override = default;
-    // get methods
-    [[nodiscard]] AWPluginFormaterInterface *formatter(const QString &_key) const;
-    [[nodiscard]] QStringList keysFromSource(const QString &_source) const;
-    // set methods
-    QStringList registerSource(const QString &_source, KSysGuard::Unit _units, const QStringList &_keys);
-    void setDevices(const QHash<QString, QStringList> &_devices);
 
-private:
-    AWFormatterHelper *m_customFormatters = nullptr;
-    // variables
-    QHash<QString, QStringList> m_devices;
-    QHash<QString, AWPluginFormaterInterface *> m_formatter;
-    QMultiHash<QString, QString> m_map;
-};
+QString AWPluginFormatterNetUnits::formatKB(const AWPluginFormatSettings &_settings)
+{
+    return _settings.translate ? i18n("KB/s") : "KB/s";
+}
+
+
+QString AWPluginFormatterNetUnits::formatMB(const AWPluginFormatSettings &_settings)
+{
+    return _settings.translate ? i18n("MB/s") : "MB/s";
+}
