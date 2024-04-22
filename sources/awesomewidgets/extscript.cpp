@@ -18,8 +18,6 @@
 #include "extscript.h"
 #include "ui_extscript.h"
 
-#include <KI18n/KLocalizedString>
-
 #include <QDir>
 #include <QJsonDocument>
 #include <QSettings>
@@ -258,7 +256,6 @@ int ExtScript::showConfiguration(QWidget *_parent, const QVariant &_args)
     auto dialog = new QDialog(_parent);
     auto ui = new Ui::ExtScript();
     ui->setupUi(dialog);
-    translate(ui);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -351,24 +348,4 @@ void ExtScript::updateValue()
     // filters
     m_values[tag("custom")] = applyFilters(result);
     emit(dataReceived(m_values));
-}
-
-
-void ExtScript::translate(void *_ui)
-{
-    auto ui = reinterpret_cast<Ui::ExtScript *>(_ui);
-
-    ui->label_name->setText(i18n("Name"));
-    ui->label_comment->setText(i18n("Comment"));
-    ui->label_number->setText(i18n("Tag"));
-    ui->label_command->setText(i18n("Command"));
-    ui->checkBox_active->setText(i18n("Active"));
-    ui->label_redirect->setText(i18n("Redirect"));
-    ui->label_schedule->setText(i18n("Schedule"));
-    ui->label_socket->setText(i18n("Socket"));
-    ui->label_interval->setText(i18n("Interval"));
-    ui->groupBox_filters->setTitle(i18n("Additional filters"));
-    ui->checkBox_colorFilter->setText(i18n("Wrap colors"));
-    ui->checkBox_linesFilter->setText(i18n("Wrap new lines"));
-    ui->checkBox_spaceFilter->setText(i18n("Wrap spaces"));
 }

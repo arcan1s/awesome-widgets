@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
-"POT-Creation-Date: 2024-04-21 17:52+0300\n"
+"POT-Creation-Date: 2024-04-22 14:53+0300\n"
 "PO-Revision-Date: 2016-08-09 22:22+0300\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Ukrainian <kde-russian@lists.kde.ru>\n"
@@ -19,211 +19,252 @@ msgstr ""
 "X-Generator: Poedit 1.8.8\n"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
+#, kde-format
 msgid "Version %1 (build date %2)"
 msgstr "Версія %1 (дата створення %2)"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
+#, kde-format
 msgid "A set of minimalistic plasmoid widgets"
 msgstr "Набір мінімалістичних плазмоїдів"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
+#, kde-format
 msgid "Links:"
 msgstr "Посилання:"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
+#, kde-format
 msgid "Homepage"
 msgstr "Домашня сторінка"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
+#, kde-format
 msgid "Repository"
 msgstr "Репозиторій"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
+#, kde-format
 msgid "Bugtracker"
 msgstr "Баг-трекер"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
+#, kde-format
 msgid "Translation issue"
 msgstr "Тікет перекладу"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
+#, kde-format
 msgid "AUR packages"
 msgstr "Пакети в AUR"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
+#, kde-format
 msgid "openSUSE packages"
 msgstr "Пакети для openSUSE"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
-#, fuzzy
+#, fuzzy, kde-format
 msgid "This software is licensed under %1"
 msgstr "Ця програма використовує: %1"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
-#, fuzzy
+#, fuzzy, kde-format
 msgid "Translators:"
 msgstr "Перекладачі: %1"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
-#, fuzzy
+#, fuzzy, kde-format
 msgid "This software uses:"
 msgstr "Ця програма використовує: %1"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
-#, fuzzy
+#, fuzzy, kde-format
 msgid "Special thanks to:"
 msgstr "Особлива подяка %1"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/config/config.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/config/config.qml
+#, kde-format
 msgid "Widget"
 msgstr "Віджет"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/config/config.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/config/config.qml
+#, kde-format
 msgid "Advanced"
 msgstr "Розширені"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/config/config.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
+#, kde-format
 msgid "Tooltip"
 msgstr "Підказки"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/config/config.qml
+#, kde-format
 msgid "Appearance"
 msgstr "Зовнішній вигляд"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/config/config.qml
+#, kde-format
 msgid "DataEngine"
 msgstr "DataEngine"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/config/config.qml
+#, kde-format
 msgid "Report bug"
 msgstr ""
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/config/config.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/config/config.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AboutTab.qml
+#, kde-format
 msgid "About"
 msgstr "Про програму"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
+#, kde-format
 msgid "Enable background"
 msgstr "Включити фон"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awdatetimeformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awdatetimeformatter.h
+#, kde-format
 msgid "Translate strings"
 msgstr "Перекладати рядки"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extscript.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extscript.h
+#, kde-format
 msgid "Wrap new lines"
 msgstr "Замінити символ переводу рядка"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
+#, kde-format
 msgid "Enable word wrap"
 msgstr "Включити перенос слів"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
+#, kde-format
 msgid "Enable notifications"
 msgstr "Включити повідомлення"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
+#, kde-format
 msgid "Check updates on startup"
 msgstr "Перевіряти оновлення при запуску"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
+#, kde-format
 msgid "Optimize subscription"
 msgstr "Оптимізувати підписку"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
+#, kde-format
 msgid "Widget height, px"
 msgstr "Висота віджету, пікселі"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
+#, kde-format
 msgid "Widget width, px"
 msgstr "Ширина віджету, пікселі"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
+#, kde-format
 msgid "Time interval"
 msgstr "Інтервал оновлення"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
+#, kde-format
 msgid "Celsius"
 msgstr "Цельсій"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
+#, kde-format
 msgid "Fahrenheit"
 msgstr "Фаренгейт"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
+#, kde-format
 msgid "Kelvin"
 msgstr "Кельвін"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
+#, kde-format
 msgid "Reaumur"
 msgstr "Реамюр"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
+#, kde-format
 msgid "cm^-1"
 msgstr "см^-1"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
+#, kde-format
 msgid "kJ/mol"
 msgstr "кДж/моль"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
+#, kde-format
 msgid "kcal/mol"
 msgstr "ккал/моль"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
+#, kde-format
 msgid "Temperature units"
 msgstr "Одиниці виміру температури"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
+#, kde-format
 msgid "Custom time format"
 msgstr "Свій формат часу"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
+#, kde-format
 msgid "Custom uptime format"
 msgstr "Свій формат аптайму (uptime)"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
+#, kde-format
 msgid "AC online tag"
 msgstr "AC підключений"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
+#, kde-format
 msgid "AC offline tag"
 msgstr "AC відключений"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
-#, fuzzy
+#, fuzzy, kde-format
 msgid "Actions"
 msgstr "Функції"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
+#, kde-format
 msgid "Drop key cache"
 msgstr "Скинути кеш ключів"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
+#, kde-format
 msgid "Export configuration"
 msgstr "Експорт налаштувань"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
+#, kde-format
 msgid "Import configuration"
 msgstr "Імпорт налаштувань"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
-#, fuzzy
+#, fuzzy, kde-format
 msgid "History"
 msgstr "Кількість точок"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
-#, fuzzy
+#, fuzzy, kde-format
 msgid "History count"
 msgstr "Кількість точок"
 
@@ -231,24 +272,28 @@ msgstr "Кількість точок"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/activeapp.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/inactiveapp.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/HtmlEditorFont.qml
+#, kde-format
 msgid "Font"
 msgstr "Шрифт"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/appearance.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/activeapp.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/inactiveapp.qml
+#, kde-format
 msgid "Font size"
 msgstr "Розмір шрифту"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/appearance.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/activeapp.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/inactiveapp.qml
+#, kde-format
 msgid "Font weight"
 msgstr "Ширина шрифту"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/appearance.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/activeapp.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/inactiveapp.qml
+#, kde-format
 msgid "Font style"
 msgstr "Стиль шрифту"
 
@@ -256,131 +301,155 @@ msgstr "Стиль шрифту"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/activeapp.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/inactiveapp.qml
+#, kde-format
 msgid "Font color"
 msgstr "Колір шрифту"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/appearance.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/activeapp.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/inactiveapp.qml
+#, kde-format
 msgid "Style"
 msgstr ""
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/appearance.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/activeapp.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/inactiveapp.qml
-#, fuzzy
+#, fuzzy, kde-format
 msgid "Style color"
 msgstr "Оберіть колір"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/bug.qml
+#, kde-format
 msgid "Report subject"
 msgstr ""
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/bug.qml
-#, fuzzy
+#, fuzzy, kde-format
 msgid "Description"
 msgstr "Напрямок"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/bug.qml
+#, kde-format
 msgid "Steps to reproduce"
 msgstr ""
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/bug.qml
+#, kde-format
 msgid "Expected result"
 msgstr ""
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/bug.qml
+#, kde-format
 msgid "Logs"
 msgstr ""
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/bug.qml
-#, fuzzy
+#, fuzzy, kde-format
 msgid "Use command"
 msgstr "Редагувати команду"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/bug.qml
+#, kde-format
 msgid "Load log file"
 msgstr ""
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/bug.qml
+#, kde-format
 msgid "Open log file"
 msgstr ""
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
+#, kde-format
 msgid "ACPI"
 msgstr "ACPI"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
+#, kde-format
 msgid "ACPI path"
 msgstr "Шлях до ACPI"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
+#, kde-format
 msgid "Player"
 msgstr "Плеєр"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
+#, kde-format
 msgid "Player data symbols"
 msgstr "Символи в інформації про плеєр"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
+#, kde-format
 msgid "Music player"
 msgstr "Музичний плеєр"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
+#, kde-format
 msgid "MPRIS player name"
 msgstr "Ім’я плеєру в MPRIS"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
+#, kde-format
 msgid "MPD address"
 msgstr "Адреса сервера MPD"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
+#, kde-format
 msgid "MPD port"
 msgstr "Порт сервера MPD"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
+#, kde-format
 msgid "Extensions"
 msgstr "Розширення"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
+#, kde-format
 msgid "Custom scripts"
 msgstr "Свої скрипти"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
-#, fuzzy
+#, fuzzy, kde-format
 msgid "Network requests"
 msgstr "Шлях до інтерфейсів"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
+#, kde-format
 msgid "Package manager"
 msgstr "Пакетний менеджер"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
+#, kde-format
 msgid "Quotes monitor"
 msgstr "Монітор котирувань"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
+#, kde-format
 msgid "Weather"
 msgstr "Погода"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/main.qml
-#, fuzzy
+#, fuzzy, kde-format
 msgid "Run monitor"
 msgstr "Монітор котирувань"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/main.qml
+#, kde-format
 msgid "Show README"
 msgstr "Показати README"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/main.qml
+#, kde-format
 msgid "Check updates"
 msgstr "Шукати оновлення"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
+#, kde-format
 msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. "
 "To enable them just make needed checkbox checked."
@@ -390,360 +459,748 @@ msgstr ""
 "чекбокси."
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
+#, kde-format
 msgid "Number of values for tooltips"
 msgstr "Кількість значень для підказки"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
+#, kde-format
 msgid "Background"
 msgstr "Фон"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
+#, kde-format
 msgid "Background color"
 msgstr "Колір фону"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
+#, kde-format
 msgid "CPU"
 msgstr "CPU"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
+#, kde-format
 msgid "CPU color"
 msgstr "Колір CPU"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
+#, kde-format
 msgid "CPU clock"
 msgstr "Частота CPU"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
+#, kde-format
 msgid "CPU clock color"
 msgstr "Колір частоти CPU"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
+#, kde-format
 msgid "Memory"
 msgstr "Пам’ять"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
+#, kde-format
 msgid "Memory color"
 msgstr "Колір пам’яті"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
+#, kde-format
 msgid "Swap"
 msgstr "Swap"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
+#, kde-format
 msgid "Swap color"
 msgstr "Колір swap"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
+#, kde-format
 msgid "Network"
 msgstr "Мережа"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
+#, kde-format
 msgid "Download speed color"
 msgstr "Колір швидкості скачування"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
+#, kde-format
 msgid "Upload speed color"
 msgstr "Колір швидкості віддачі"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
+#, kde-format
 msgid "Battery"
 msgstr "Батарея"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
+#, kde-format
 msgid "Battery active color"
 msgstr "Колір батареї, що заряджається"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
+#, kde-format
 msgid "Battery inactive color"
 msgstr "Колір батарєї, що розряджається"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awabstractpairconfig.cpp
+#, kde-format
 msgid "Edit"
 msgstr "Редагувати"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awactions.cpp
+#, kde-format
 msgid "Run %1"
 msgstr "Запуск %1"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awactions.cpp
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/plugin/dpadds.cpp
+#, kde-format
 msgid "Select font"
 msgstr "Оберіть шрифт"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awbugreporter.cpp
+#, kde-format
 msgid "Issue created"
 msgstr ""
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awbugreporter.cpp
+#, kde-format
 msgid "Issue %1 has been created"
 msgstr ""
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awbugreporter.cpp
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awupdatehelper.cpp
+#, kde-format
 msgid "Details"
 msgstr ""
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awdataaggregator.cpp
+#, kde-format
 msgid "AC online"
 msgstr "AC підключений"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awdataaggregator.cpp
+#, kde-format
 msgid "AC offline"
 msgstr "AC відключений"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awdataaggregator.cpp
+#, kde-format
 msgid "High CPU load"
 msgstr "Високе завантаження CPU"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awdataaggregator.cpp
+#, kde-format
 msgid "High memory usage"
 msgstr "Велике споживання пам’яті"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awdataaggregator.cpp
+#, kde-format
 msgid "Swap is used"
 msgstr "Використовується swap"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awdataaggregator.cpp
+#, kde-format
 msgid "High GPU load"
 msgstr "Високе завантаження GPU"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awdataaggregator.cpp
+#, kde-format
 msgid "Network device has been changed to %1"
 msgstr "Мережевий пристрій було змінено на %1"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awformatterhelper.cpp
+#, kde-format
 msgid "Select type"
 msgstr "Оберіть тип"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awformatterhelper.cpp
+#, kde-format
 msgid "Type:"
 msgstr "Тип:"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awkeysaggregator.cpp
+#, kde-format
 msgid "MB/s"
 msgstr "МБ/с"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awkeysaggregator.cpp
+#, kde-format
 msgid "KB/s"
 msgstr "КБ/с"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awupdatehelper.cpp
+#, kde-format
 msgid "Changelog of %1"
 msgstr ""
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awupdatehelper.cpp
+#, kde-format
 msgid "You are using the actual version %1"
 msgstr "Ви використовуєте актуальну версію %1"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awupdatehelper.cpp
+#, kde-format
 msgid "No new version found"
 msgstr "Оновлень не знайдено"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awupdatehelper.cpp
-#, fuzzy
+#, fuzzy, kde-format
 msgid "Current version : %1"
 msgstr "Нова версія : %1"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awupdatehelper.cpp
+#, kde-format
 msgid "New version : %1"
 msgstr "Нова версія : %1"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awupdatehelper.cpp
+#, kde-format
 msgid "Click \"Ok\" to download"
 msgstr "Натисніть \"Ok\" для завантаження"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awupdatehelper.cpp
+#, kde-format
 msgid "There are updates"
 msgstr "Знайдені оновлення"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/abstractextitemaggregator.cpp
+#, kde-format
 msgid "Copy"
 msgstr "Копіювати"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/abstractextitemaggregator.cpp
+#, kde-format
 msgid "Create"
 msgstr "Створити"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/abstractextitemaggregator.cpp
+#, kde-format
 msgid "Remove"
 msgstr "Видалити"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/abstractextitemaggregator.cpp
+#, kde-format
 msgid "Enter file name"
 msgstr "Введіть ім’я файлу"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/abstractextitemaggregator.cpp
+#, kde-format
 msgid "File name"
 msgstr "Ім’я файлу"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/abstractextitemaggregator.cpp
+#, kde-format
 msgid "Name: %1"
 msgstr "Ім’я: %1"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/abstractextitemaggregator.cpp
+#, kde-format
 msgid "Comment: %1"
 msgstr "Коментар: %1"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/abstractextitemaggregator.cpp
+#, kde-format
 msgid "Identity: %1"
 msgstr "Ідентифікатор: %1"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awdatetimeformatter.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awfloatformatter.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awjsonformatter.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awlistformatter.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awnoformatter.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awscriptformatter.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awstringformatter.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extnetworkrequest.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extquotes.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extscript.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extupgrade.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extweather.cpp
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
+#, kde-format
+msgid "Select color"
+msgstr "Оберіть колір"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
+#, fuzzy, kde-format
+msgid "Select path"
+msgstr "Оберіть тег"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
+#, kde-format
+msgid "Images (*.png *.bpm *.jpg);;All files (*.*)"
+msgstr ""
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/config/config.qml
+#, kde-format
+msgid "Active desktop"
+msgstr "Активний робочий стіл"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/config/config.qml
+#, kde-format
+msgid "Inactive desktop"
+msgstr "Неактивний робочий стіл"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
+#, kde-format
+msgid "Vertical layout"
+msgstr "Вертикальна розмітка"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
+#, kde-format
+msgid "Mark"
+msgstr "Позначка"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
+#, kde-format
+msgid "contours"
+msgstr "контури"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
+#, kde-format
+msgid "names"
+msgstr "назви"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
+#, kde-format
+msgid "none"
+msgstr "нічого"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
+#, kde-format
+msgid "Tooltip type"
+msgstr "Тип підказки"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
+#, kde-format
+msgid "Tooltip width"
+msgstr "Ширина підказки"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
+#, kde-format
+msgid "Scripts"
+msgstr "Скрипти"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
+#, fuzzy, kde-format
+msgid "Desktop"
+msgstr "Робочі столи"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
+#, kde-format
+msgid "Processes"
+msgstr ""
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
+#, kde-format
+msgid "Quotes"
+msgstr "Котирування"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
+#, kde-format
+msgid "System"
+msgstr ""
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
+#, kde-format
+msgid "Time"
+msgstr "Час"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
+#, kde-format
+msgid "Upgrades"
+msgstr "Оновлення"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
+#, kde-format
+msgid "Load"
+msgstr ""
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWExtensions.qml
+#, kde-format
+msgid "Edit bars"
+msgstr "Редагувати бари"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWExtensions.qml
+#, kde-format
+msgid "Formatters"
+msgstr "Форматери"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWExtensions.qml
+#, kde-format
+msgid "User keys"
+msgstr ""
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWExtensions.qml
+#, kde-format
+msgid "Preview"
+msgstr "Попередній перегляд"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWInfoLabel.qml
+#, kde-format
+msgid ""
+"Detailed information may be found on <a href=\"https://arcanis.me/projects/"
+"awesome-widgets/\">project homepage</a>"
+msgstr ""
+"Детальна інформація може бути знайдена на <a href=\"https://arcanis.me/"
+"projects/awesome-widgets/\">домашній сторінці проекту</a>"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWTagSelector.qml
+#, kde-format
+msgid "Add"
+msgstr "Додати"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWTagSelector.qml
+#, kde-format
+msgid "Show value"
+msgstr "Показати значення"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWTagSelector.qml
+#, kde-format
+msgid "Tag: %1"
+msgstr "Тег: %1"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWTagSelector.qml
+#, kde-format
+msgid "Value: %1"
+msgstr "Значення: %1"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWTagSelector.qml
+#, kde-format
+msgid "Info: %1"
+msgstr "Інформація: %1"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AboutTab.qml
+#, kde-format
+msgid "Acknowledgment"
+msgstr "Подяка"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ColorSelector.qml
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/HtmlEditorColor.qml
+#, kde-format
+msgid "Select a color"
+msgstr "Оберіть колір"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ExportDialog.qml
+#, kde-format
+msgid "Export"
+msgstr "Експорт"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ExportDialog.qml
+#, kde-format
+msgid "Success"
+msgstr "Успішно"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ExportDialog.qml
+#, kde-format
+msgid "Please note that binary files were not copied"
+msgstr "Будь ласка, зверніть увагу, що бінарні файли не були скопійовані"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ExportDialog.qml
+#, kde-format
+msgid "Ooops..."
+msgstr "Ууупс..."
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ExportDialog.qml
+#, kde-format
+msgid "Could not save configuration file"
+msgstr "Не можу зберегти файл налаштувань"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/FontSelector.qml
+#, kde-format
+msgid "Select a font"
+msgstr "Оберіть шрифт"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
+#, kde-format
+msgid "AC"
+msgstr "Адаптер живлення"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
+#, kde-format
+msgid "Bars"
+msgstr "Бари"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
+#, kde-format
+msgid "Desktops"
+msgstr "Робочі столи"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
+#, kde-format
+msgid "HDD"
+msgstr "HDD"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
+#, fuzzy, kde-format
+msgid "Network request"
+msgstr "Шлях до інтерфейсів"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
+#, kde-format
+msgid "Weathers"
+msgstr "Погода"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
+#, kde-format
+msgid "Functions"
+msgstr "Функції"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
+#, kde-format
+msgid "User defined"
+msgstr ""
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
+#, kde-format
+msgid "All"
+msgstr ""
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
+#, kde-format
+msgid "normal"
+msgstr "нормальний"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
+#, kde-format
+msgid "italic"
+msgstr "курсив"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
+#, kde-format
+msgid "light"
+msgstr "тонкий"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
+#, kde-format
+msgid "demi bold"
+msgstr "напівжирний"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
+#, kde-format
+msgid "bold"
+msgstr "жирний"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
+#, kde-format
+msgid "black"
+msgstr "дуже жирний"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
+#, fuzzy, kde-format
+msgid "outline"
+msgstr "AC підключений"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
+#, kde-format
+msgid "raised"
+msgstr ""
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
+#, kde-format
+msgid "sunken"
+msgstr ""
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/HtmlDefaultFunctionsBar.qml
+#, kde-format
+msgid "Bgcolor"
+msgstr "Колір фону"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ImportDialog.qml
+#, kde-format
+msgid "Import"
+msgstr "Імпорт"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ImportDialog.qml
+#, kde-format
+msgid "Import plasmoid settings"
+msgstr "Імпорт налаштувань плазмоїда"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ImportDialog.qml
+#, kde-format
+msgid "Import extensions"
+msgstr "Імпорт розширень"
+
+#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ImportDialog.qml
+#, kde-format
+msgid "Import additional files"
+msgstr "Імпорт додаткових файлів"
+
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awdatetimeformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awfloatformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awjsonformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awlistformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awnoformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awscriptformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awstringformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extnetworkrequest.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extquotes.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extscript.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extupgrade.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extweather.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_graphicalitem.h
+#, fuzzy
+msgid "Configuration"
+msgstr "Експорт налаштувань"
+
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awdatetimeformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awfloatformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awjsonformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awlistformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awnoformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awscriptformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awstringformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extnetworkrequest.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extquotes.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extscript.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extupgrade.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extweather.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_graphicalitem.h
 msgid "Name"
 msgstr "Ім’я"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awdatetimeformatter.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awfloatformatter.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awjsonformatter.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awlistformatter.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awnoformatter.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awscriptformatter.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awstringformatter.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extnetworkrequest.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extquotes.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extscript.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extupgrade.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extweather.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awdatetimeformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awfloatformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awjsonformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awlistformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awnoformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awscriptformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awstringformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extnetworkrequest.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extquotes.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extscript.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extupgrade.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extweather.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_graphicalitem.h
 msgid "Comment"
 msgstr "Коментар"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awdatetimeformatter.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awfloatformatter.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awjsonformatter.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awlistformatter.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awnoformatter.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awscriptformatter.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awstringformatter.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awdatetimeformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awfloatformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awjsonformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awlistformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awnoformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awscriptformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awstringformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_graphicalitem.h
 msgid "Type"
 msgstr "Тип"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awdatetimeformatter.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awfloatformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awdatetimeformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awfloatformatter.h
 msgid "Format"
 msgstr "Формат"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awfloatformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awfloatformatter.h
 msgid "Precision"
 msgstr "Точність"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awfloatformatter.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awstringformatter.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awfloatformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awstringformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_graphicalitem.h
 msgid "Width"
 msgstr "Ширина"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awfloatformatter.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awstringformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awfloatformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awstringformatter.h
 msgid "Fill char"
 msgstr "Заповнення"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awfloatformatter.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awstringformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awfloatformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awstringformatter.h
 msgid "Force width"
 msgstr "Зафіксувати ширину"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awfloatformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awfloatformatter.h
 msgid "Multiplier"
 msgstr "Множник"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awfloatformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awfloatformatter.h
 msgid "Summand"
 msgstr "Доданок"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awjsonformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awjsonformatter.h
 msgid "Path"
 msgstr ""
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awlistformatter.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extupgrade.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awlistformatter.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extupgrade.h
 msgid "Filter"
 msgstr "Фільтр"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awlistformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awlistformatter.h
 msgid "Separator"
 msgstr "Роздільник"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awlistformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awlistformatter.h
 msgid "Sort"
 msgstr "Сортування"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awscriptformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awscriptformatter.h
 msgid "Append code"
 msgstr "Доповнити код"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awscriptformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awscriptformatter.h
 msgid "Has return"
 msgstr "Має return"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/awscriptformatter.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awscriptformatter.h
 msgid "Code"
 msgstr "Код"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extnetworkrequest.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extquotes.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extscript.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extupgrade.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extweather.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extnetworkrequest.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extquotes.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extscript.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extupgrade.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extweather.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_graphicalitem.h
 msgid "Tag"
 msgstr "Тег"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extnetworkrequest.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extnetworkrequest.h
 msgid "URL"
 msgstr ""
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extnetworkrequest.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extquotes.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extscript.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extupgrade.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extweather.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extnetworkrequest.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extquotes.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extscript.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extupgrade.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extweather.h
 msgid "Active"
 msgstr "Активний"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extnetworkrequest.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extquotes.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extscript.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extupgrade.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extweather.cpp
-msgid "Schedule"
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extnetworkrequest.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extquotes.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extscript.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extupgrade.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extweather.h
+msgid "Update"
 msgstr ""
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extnetworkrequest.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extquotes.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extscript.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extupgrade.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extweather.cpp
-msgid "Socket"
-msgstr ""
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extnetworkrequest.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extquotes.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extscript.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extupgrade.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extweather.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extnetworkrequest.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extquotes.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extscript.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extupgrade.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extweather.h
 msgid "Interval"
 msgstr "Інтервал"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extquotes.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extnetworkrequest.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extquotes.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extscript.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extupgrade.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extweather.h
+msgid "Schedule"
+msgstr ""
+
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extnetworkrequest.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extquotes.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extscript.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extupgrade.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extweather.h
+msgid "Socket"
+msgstr ""
+
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extquotes.h
 #, fuzzy
 msgid ""
 "<html><head/><body><p>Use Stooq ticker to get quotes for the instrument. "
@@ -755,353 +1212,92 @@ msgstr ""
 "style=\" text-decoration: underline; color:#0057ae;\">http://finance.yahoo."
 "com/</span></a></p></body></html>"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extquotes.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extquotes.h
 msgid "Ticker"
 msgstr "Тікер"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extscript.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extupgrade.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extscript.h
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extupgrade.h
 msgid "Command"
 msgstr "Команда"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extscript.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extscript.h
 msgid "Redirect"
 msgstr "Перенаправлення"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extscript.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extscript.h
 msgid "Additional filters"
 msgstr "Додаткові фільтри"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extscript.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extscript.h
 msgid "Wrap colors"
 msgstr "Обробити кольори"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extscript.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extscript.h
 msgid "Wrap spaces"
 msgstr "Обробити пробіли"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extupgrade.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extupgrade.h
 msgid "Null"
 msgstr "Пусті рядки"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extweather.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extweather.h
 msgid "Provider"
 msgstr "Провайдер"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extweather.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extweather.h
 msgid "City"
 msgstr "Місто"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extweather.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extweather.h
 msgid "Country"
 msgstr "Країна"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extweather.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extweather.h
 msgid "Timestamp"
 msgstr "Відмітка часу"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/extweather.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extweather.h
 msgid "Use images"
 msgstr "Використовувати зображення"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
-msgid "Select color"
-msgstr "Оберіть колір"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
-#, fuzzy
-msgid "Select path"
-msgstr "Оберіть тег"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
-msgid "Images (*.png *.bpm *.jpg);;All files (*.*)"
-msgstr ""
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_graphicalitem.h
 msgid "Use custom formula"
 msgstr "Використовувати свою формулу"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_graphicalitem.h
 msgid "Value"
 msgstr "Значення"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_graphicalitem.h
 msgid "Max value"
 msgstr "Максимальне значення"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_graphicalitem.h
 msgid "Min value"
 msgstr "Мінімальне значення"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_graphicalitem.h
 msgid "Active filling type"
 msgstr "Тип активного заповнення"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
-msgid "Inctive filling type"
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_graphicalitem.h
+msgid "..."
+msgstr ""
+
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_graphicalitem.h
+#, fuzzy
+msgid "Inactive filling type"
 msgstr "Тип неактивного заповнення"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
-msgid "Points count"
-msgstr "Кількість точок"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_graphicalitem.h
 msgid "Direction"
 msgstr "Напрямок"
 
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_graphicalitem.h
+msgid "Points count"
+msgstr "Кількість точок"
+
+#: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_graphicalitem.h
 msgid "Height"
 msgstr "Висота"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
-msgid "color"
-msgstr "колір"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
-msgid "image"
-msgstr "зображення"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/config/config.qml
-msgid "Active desktop"
-msgstr "Активний робочий стіл"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/config/config.qml
-msgid "Inactive desktop"
-msgstr "Неактивний робочий стіл"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
-msgid "Vertical layout"
-msgstr "Вертикальна розмітка"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
-msgid "Mark"
-msgstr "Позначка"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
-msgid "contours"
-msgstr "контури"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
-msgid "names"
-msgstr "назви"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
-msgid "none"
-msgstr "нічого"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
-msgid "Tooltip type"
-msgstr "Тип підказки"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
-msgid "Tooltip width"
-msgstr "Ширина підказки"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
-msgid "Scripts"
-msgstr "Скрипти"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
-#, fuzzy
-msgid "Desktop"
-msgstr "Робочі столи"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
-msgid "Processes"
-msgstr ""
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
-msgid "Quotes"
-msgstr "Котирування"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
-msgid "System"
-msgstr ""
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
-msgid "Time"
-msgstr "Час"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
-msgid "Upgrades"
-msgstr "Оновлення"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
-msgid "Load"
-msgstr ""
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWExtensions.qml
-msgid "Edit bars"
-msgstr "Редагувати бари"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWExtensions.qml
-msgid "Formatters"
-msgstr "Форматери"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWExtensions.qml
-msgid "User keys"
-msgstr ""
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWExtensions.qml
-msgid "Preview"
-msgstr "Попередній перегляд"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWInfoLabel.qml
-msgid ""
-"Detailed information may be found on <a href=\"https://arcanis.me/projects/"
-"awesome-widgets/\">project homepage</a>"
-msgstr ""
-"Детальна інформація може бути знайдена на <a href=\"https://arcanis.me/"
-"projects/awesome-widgets/\">домашній сторінці проекту</a>"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWTagSelector.qml
-msgid "Add"
-msgstr "Додати"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWTagSelector.qml
-msgid "Show value"
-msgstr "Показати значення"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWTagSelector.qml
-msgid "Tag: %1"
-msgstr "Тег: %1"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWTagSelector.qml
-msgid "Value: %1"
-msgstr "Значення: %1"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWTagSelector.qml
-msgid "Info: %1"
-msgstr "Інформація: %1"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AboutTab.qml
-msgid "Acknowledgment"
-msgstr "Подяка"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ColorSelector.qml
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/HtmlEditorColor.qml
-msgid "Select a color"
-msgstr "Оберіть колір"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ExportDialog.qml
-msgid "Export"
-msgstr "Експорт"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ExportDialog.qml
-msgid "Success"
-msgstr "Успішно"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ExportDialog.qml
-msgid "Please note that binary files were not copied"
-msgstr "Будь ласка, зверніть увагу, що бінарні файли не були скопійовані"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ExportDialog.qml
-msgid "Ooops..."
-msgstr "Ууупс..."
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ExportDialog.qml
-msgid "Could not save configuration file"
-msgstr "Не можу зберегти файл налаштувань"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/FontSelector.qml
-msgid "Select a font"
-msgstr "Оберіть шрифт"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
-msgid "AC"
-msgstr "Адаптер живлення"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
-msgid "Bars"
-msgstr "Бари"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
-msgid "Desktops"
-msgstr "Робочі столи"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
-msgid "HDD"
-msgstr "HDD"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
-#, fuzzy
-msgid "Network request"
-msgstr "Шлях до інтерфейсів"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
-msgid "Weathers"
-msgstr "Погода"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
-msgid "Functions"
-msgstr "Функції"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
-msgid "User defined"
-msgstr ""
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
-msgid "All"
-msgstr ""
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
-msgid "normal"
-msgstr "нормальний"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
-msgid "italic"
-msgstr "курсив"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
-msgid "light"
-msgstr "тонкий"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
-msgid "demi bold"
-msgstr "напівжирний"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
-msgid "bold"
-msgstr "жирний"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
-msgid "black"
-msgstr "дуже жирний"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
-#, fuzzy
-msgid "outline"
-msgstr "AC підключений"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
-msgid "raised"
-msgstr ""
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
-msgid "sunken"
-msgstr ""
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/HtmlDefaultFunctionsBar.qml
-msgid "Bgcolor"
-msgstr "Колір фону"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ImportDialog.qml
-msgid "Import"
-msgstr "Імпорт"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ImportDialog.qml
-msgid "Import plasmoid settings"
-msgstr "Імпорт налаштувань плазмоїда"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ImportDialog.qml
-msgid "Import extensions"
-msgstr "Імпорт розширень"
-
-#: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ImportDialog.qml
-msgid "Import additional files"
-msgstr "Імпорт додаткових файлів"

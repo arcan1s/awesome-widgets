@@ -18,8 +18,6 @@
 #include "awfloatformatter.h"
 #include "ui_awfloatformatter.h"
 
-#include <KI18n/KLocalizedString>
-
 #include <QSettings>
 
 #include "awdebug.h"
@@ -198,7 +196,6 @@ int AWFloatFormatter::showConfiguration(QWidget *_parent, const QVariant &_args)
     auto dialog = new QDialog(_parent);
     auto ui = new Ui::AWFloatFormatter();
     ui->setupUi(dialog);
-    translate(ui);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -253,21 +250,4 @@ void AWFloatFormatter::writeConfiguration() const
     settings.endGroup();
 
     settings.sync();
-}
-
-
-void AWFloatFormatter::translate(void *_ui)
-{
-    auto ui = reinterpret_cast<Ui::AWFloatFormatter *>(_ui);
-
-    ui->label_name->setText(i18n("Name"));
-    ui->label_comment->setText(i18n("Comment"));
-    ui->label_type->setText(i18n("Type"));
-    ui->label_format->setText(i18n("Format"));
-    ui->label_precision->setText(i18n("Precision"));
-    ui->label_width->setText(i18n("Width"));
-    ui->label_fill->setText(i18n("Fill char"));
-    ui->checkBox_forceWidth->setText(i18n("Force width"));
-    ui->label_multiplier->setText(i18n("Multiplier"));
-    ui->label_summand->setText(i18n("Summand"));
 }

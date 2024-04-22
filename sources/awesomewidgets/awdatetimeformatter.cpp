@@ -18,8 +18,6 @@
 #include "awdatetimeformatter.h"
 #include "ui_awdatetimeformatter.h"
 
-#include <KI18n/KLocalizedString>
-
 #include <QDateTime>
 #include <QSettings>
 
@@ -110,7 +108,6 @@ int AWDateTimeFormatter::showConfiguration(QWidget *_parent, const QVariant &_ar
     auto dialog = new QDialog(_parent);
     auto ui = new Ui::AWDateTimeFormatter();
     ui->setupUi(dialog);
-    translate(ui);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -156,15 +153,4 @@ void AWDateTimeFormatter::writeConfiguration() const
 void AWDateTimeFormatter::initLocale()
 {
     m_locale = m_translate ? QLocale::system() : QLocale::c();
-}
-
-void AWDateTimeFormatter::translate(void *_ui)
-{
-    auto ui = reinterpret_cast<Ui::AWDateTimeFormatter *>(_ui);
-
-    ui->label_name->setText(i18n("Name"));
-    ui->label_comment->setText(i18n("Comment"));
-    ui->label_type->setText(i18n("Type"));
-    ui->label_format->setText(i18n("Format"));
-    ui->checkBox_translate->setText(i18n("Translate strings"));
 }

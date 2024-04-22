@@ -18,8 +18,6 @@
 #include "extnetworkrequest.h"
 #include "ui_extnetworkrequest.h"
 
-#include <KI18n/KLocalizedString>
-
 #include <QSettings>
 
 #include <qreplytimeout/qreplytimeout.h>
@@ -118,7 +116,6 @@ int ExtNetworkRequest::showConfiguration(QWidget *_parent, const QVariant &_args
     auto dialog = new QDialog(_parent);
     auto ui = new Ui::ExtNetworkRequest();
     ui->setupUi(dialog);
-    translate(ui);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -184,19 +181,4 @@ void ExtNetworkRequest::sendRequest()
     m_isRunning = true;
     auto reply = m_manager->get(QNetworkRequest(m_url));
     new QReplyTimeout(reply, REQUEST_TIMEOUT);
-}
-
-
-void ExtNetworkRequest::translate(void *_ui)
-{
-    auto ui = reinterpret_cast<Ui::ExtNetworkRequest *>(_ui);
-
-    ui->label_name->setText(i18n("Name"));
-    ui->label_comment->setText(i18n("Comment"));
-    ui->label_number->setText(i18n("Tag"));
-    ui->label_url->setText(i18n("URL"));
-    ui->checkBox_active->setText(i18n("Active"));
-    ui->label_schedule->setText(i18n("Schedule"));
-    ui->label_socket->setText(i18n("Socket"));
-    ui->label_interval->setText(i18n("Interval"));
 }

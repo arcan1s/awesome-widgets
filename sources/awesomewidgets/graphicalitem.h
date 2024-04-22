@@ -20,6 +20,7 @@
 #include <QColor>
 
 #include "abstractextitem.h"
+#include "awtranslation.h"
 
 
 class GraphicalItemHelper;
@@ -103,7 +104,6 @@ private:
     GraphicalItemHelper *m_helper = nullptr;
     QGraphicsScene *m_scene = nullptr;
     QGraphicsView *m_view = nullptr;
-    void translate(void *_ui) override;
     // properties
     QString m_bar = "cpu";
     int m_count = 100;

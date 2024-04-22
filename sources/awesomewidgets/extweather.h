@@ -20,13 +20,10 @@
 #include <QNetworkReply>
 
 #include "abstractextitem.h"
+#include "awtranslation.h"
 
 
 class AbstractWeatherProvider;
-namespace Ui
-{
-class ExtWeather;
-}
 
 class ExtWeather : public AbstractExtItem
 {
@@ -78,7 +75,6 @@ private:
     QNetworkAccessManager *m_manager = nullptr;
     bool m_isRunning = false;
     void initProvider();
-    void translate(void *_ui) override;
     // properties
     QString m_city = "London";
     QString m_country = "uk";

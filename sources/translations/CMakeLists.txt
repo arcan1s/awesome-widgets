@@ -30,5 +30,5 @@ add_custom_target(aw_pofiles ALL DEPENDS ${_gmoFiles})
 
 add_custom_target(
         translations
-        COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/extract_messages.sh
+        COMMAND env CMAKE_BINARY_DIR=${CMAKE_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/extract_messages.sh
         )

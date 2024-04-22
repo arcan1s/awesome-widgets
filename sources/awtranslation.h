@@ -17,37 +17,8 @@
 
 #pragma once
 
-#include <QLocale>
+#include <KI18n/KLocalizedString>
 
-#include "awabstractformatter.h"
-#include "awtranslation.h"
-
-
-class AWDateTimeFormatter : public AWAbstractFormatter
-{
-    Q_OBJECT
-    Q_PROPERTY(QString format READ format WRITE setFormat)
-    Q_PROPERTY(bool translateString READ translateString WRITE setTranslateString)
-
-public:
-    explicit AWDateTimeFormatter(QObject *_parent = nullptr, const QString &_filePath = "");
-    [[nodiscard]] QString convert(const QVariant &_value) const override;
-    AWDateTimeFormatter *copy(const QString &_fileName, int _number) override;
-    // properties
-    [[nodiscard]] QString format() const;
-    [[nodiscard]] bool translateString() const;
-    void setFormat(const QString &_format);
-    void setTranslateString(bool _translate);
-
-public slots:
-    void readConfiguration() override;
-    int showConfiguration(QWidget *_parent, const QVariant &_args) override;
-    void writeConfiguration() const override;
-
-private:
-    void initLocale();
-    // properties
-    QLocale m_locale;
-    QString m_format = "";
-    bool m_translate = true;
-};
+#ifndef ui_i18n
+#define ui_i18n(text, parent) i18n(text)
+#endif

@@ -18,8 +18,6 @@
 #include "extupgrade.h"
 #include "ui_extupgrade.h"
 
-#include <KI18n/KLocalizedString>
-
 #include <QSettings>
 
 #include "awdebug.h"
@@ -152,7 +150,6 @@ int ExtUpgrade::showConfiguration(QWidget *_parent, const QVariant &_args)
     auto dialog = new QDialog(_parent);
     auto ui = new Ui::ExtUpgrade();
     ui->setupUi(dialog);
-    translate(ui);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -225,21 +222,4 @@ void ExtUpgrade::updateValue()
     }(qoutput);
 
     emit(dataReceived(m_values));
-}
-
-
-void ExtUpgrade::translate(void *_ui)
-{
-    auto ui = reinterpret_cast<Ui::ExtUpgrade *>(_ui);
-
-    ui->label_name->setText(i18n("Name"));
-    ui->label_comment->setText(i18n("Comment"));
-    ui->label_number->setText(i18n("Tag"));
-    ui->label_command->setText(i18n("Command"));
-    ui->label_filter->setText(i18n("Filter"));
-    ui->checkBox_active->setText(i18n("Active"));
-    ui->label_null->setText(i18n("Null"));
-    ui->label_socket->setText(i18n("Socket"));
-    ui->label_schedule->setText(i18n("Schedule"));
-    ui->label_interval->setText(i18n("Interval"));
 }

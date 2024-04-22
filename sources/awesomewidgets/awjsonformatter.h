@@ -18,6 +18,7 @@
 #pragma once
 
 #include "awabstractformatter.h"
+#include "awtranslation.h"
 
 
 class AWJsonFormatter : public AWAbstractFormatter
@@ -42,7 +43,6 @@ private:
     static QVariant getFromJson(const QVariant &_value, const QVariant &_element);
     static QVariant getFromList(const QVariant &_value, int _index);
     static QVariant getFromMap(const QVariant &_value, const QString &_key);
-    void translate(void *_ui) override;
     // properties
     QVariantList m_path;
 };

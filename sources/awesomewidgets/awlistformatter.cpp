@@ -18,8 +18,6 @@
 #include "awlistformatter.h"
 #include "ui_awlistformatter.h"
 
-#include <KI18n/KLocalizedString>
-
 #include <QSettings>
 
 #include "awdebug.h"
@@ -129,7 +127,6 @@ int AWListFormatter::showConfiguration(QWidget *_parent, const QVariant &_args)
     auto dialog = new QDialog(_parent);
     auto ui = new Ui::AWListFormatter();
     ui->setupUi(dialog);
-    translate(ui);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -172,17 +169,4 @@ void AWListFormatter::writeConfiguration() const
     settings.endGroup();
 
     settings.sync();
-}
-
-
-void AWListFormatter::translate(void *_ui)
-{
-    auto ui = reinterpret_cast<Ui::AWListFormatter *>(_ui);
-
-    ui->label_name->setText(i18n("Name"));
-    ui->label_comment->setText(i18n("Comment"));
-    ui->label_type->setText(i18n("Type"));
-    ui->label_filter->setText(i18n("Filter"));
-    ui->label_separator->setText(i18n("Separator"));
-    ui->checkBox_sorted->setText(i18n("Sort"));
 }

@@ -18,6 +18,7 @@
 #pragma once
 
 #include "awabstractformatter.h"
+#include "awtranslation.h"
 
 
 class AWScriptFormatter : public AWAbstractFormatter
@@ -48,7 +49,6 @@ public slots:
 
 private:
     void initProgram();
-    void translate(void *_ui) override;
     // properties
     bool m_appendCode = true;
     QString m_code = "";

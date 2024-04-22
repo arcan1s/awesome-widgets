@@ -18,8 +18,6 @@
 #include "awnoformatter.h"
 #include "ui_awnoformatter.h"
 
-#include <KI18n/KLocalizedString>
-
 #include "awdebug.h"
 
 
@@ -61,7 +59,6 @@ int AWNoFormatter::showConfiguration(QWidget *_parent, const QVariant &_args)
     auto dialog = new QDialog(_parent);
     auto ui = new Ui::AWNoFormatter();
     ui->setupUi(dialog);
-    translate(ui);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -81,14 +78,4 @@ int AWNoFormatter::showConfiguration(QWidget *_parent, const QVariant &_args)
     delete ui;
 
     return ret;
-}
-
-
-void AWNoFormatter::translate(void *_ui)
-{
-    auto ui = reinterpret_cast<Ui::AWNoFormatter *>(_ui);
-
-    ui->label_name->setText(i18n("Name"));
-    ui->label_comment->setText(i18n("Comment"));
-    ui->label_type->setText(i18n("Type"));
 }

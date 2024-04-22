@@ -20,6 +20,7 @@
 #include <QProcess>
 
 #include "abstractextitem.h"
+#include "awtranslation.h"
 
 
 class ExtScript : public AbstractExtItem
@@ -65,7 +66,6 @@ private slots:
 
 private:
     QProcess *m_process = nullptr;
-    void translate(void *_ui) override;
     // properties
     QString m_executable = "/usr/bin/true";
     QStringList m_filters = QStringList();

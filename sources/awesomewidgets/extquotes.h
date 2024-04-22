@@ -20,6 +20,7 @@
 #include <QNetworkReply>
 
 #include "abstractextitem.h"
+#include "awtranslation.h"
 
 
 class AbstractQuotesProvider;
@@ -54,7 +55,6 @@ private:
     QNetworkAccessManager *m_manager = nullptr;
     bool m_isRunning = false;
     void initProvider();
-    void translate(void *_ui) override;
     // properties
     QString m_ticker = "EURUSD=X";
     // values

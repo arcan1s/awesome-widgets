@@ -86,8 +86,6 @@ private:
     QCronScheduler *m_scheduler = nullptr;
     QString m_filePath = "";
     int m_times = 0;
-    // FIXME find a better way to do it
-    virtual void translate(void *_ui) = 0;
     // properties
     int m_apiVersion = 0;
     bool m_active = true;

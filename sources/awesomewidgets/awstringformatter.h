@@ -18,6 +18,7 @@
 #pragma once
 
 #include "awabstractformatter.h"
+#include "awtranslation.h"
 
 
 class AWStringFormatter : public AWAbstractFormatter
@@ -45,7 +46,6 @@ public slots:
     void writeConfiguration() const override;
 
 private:
-    void translate(void *_ui) override;
     // properties
     int m_count = 0;
     QChar m_fillChar = QChar();

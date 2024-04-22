@@ -18,8 +18,6 @@
 #include "graphicalitem.h"
 #include "ui_graphicalitem.h"
 
-#include <KI18n/KLocalizedString>
-
 #include <QBuffer>
 #include <QColorDialog>
 #include <QDir>
@@ -437,7 +435,6 @@ int GraphicalItem::showConfiguration(QWidget *_parent, const QVariant &_args)
     auto dialog = new QDialog(_parent);
     auto ui = new Ui::GraphicalItem();
     ui->setupUi(dialog);
-    translate(ui);
 
     connect(ui->checkBox_custom, &QCheckBox::stateChanged, [ui](const int state) { changeValue(ui, state); });
     connect(ui->comboBox_type, &QComboBox::currentIndexChanged, [ui](const int state) { changeCountState(ui, state); });
@@ -590,33 +587,4 @@ void GraphicalItem::changeValue(Ui::GraphicalItem *_ui, const int _state)
 
     _ui->widget_value->setHidden(_state != Qt::Unchecked);
     _ui->widget_customValue->setHidden(_state == Qt::Unchecked);
-}
-
-
-void GraphicalItem::translate(void *_ui)
-{
-    auto ui = reinterpret_cast<Ui::GraphicalItem *>(_ui);
-
-    ui->label_name->setText(i18n("Name"));
-    ui->label_comment->setText(i18n("Comment"));
-    ui->label_number->setText(i18n("Tag"));
-    ui->checkBox_custom->setText(i18n("Use custom formula"));
-    ui->label_value->setText(i18n("Value"));
-    ui->label_customValue->setText(i18n("Value"));
-    ui->label_max->setText(i18n("Max value"));
-    ui->label_min->setText(i18n("Min value"));
-    ui->label_activeImageType->setText(i18n("Active filling type"));
-    ui->label_inactiveImageType->setText(i18n("Inctive filling type"));
-    ui->label_type->setText(i18n("Type"));
-    ui->label_count->setText(i18n("Points count"));
-    ui->label_direction->setText(i18n("Direction"));
-    ui->label_height->setText(i18n("Height"));
-    ui->label_width->setText(i18n("Width"));
-
-    ui->comboBox_activeImageType->clear();
-    ui->comboBox_activeImageType->addItem(i18n("color"));
-    ui->comboBox_activeImageType->addItem(i18n("image"));
-    ui->comboBox_inactiveImageType->clear();
-    ui->comboBox_inactiveImageType->addItem(i18n("color"));
-    ui->comboBox_inactiveImageType->addItem(i18n("image"));
 }

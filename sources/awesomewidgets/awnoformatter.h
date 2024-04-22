@@ -18,6 +18,7 @@
 #pragma once
 
 #include "awabstractformatter.h"
+#include "awtranslation.h"
 
 
 class AWNoFormatter : public AWAbstractFormatter
@@ -31,7 +32,4 @@ public:
 
 public slots:
     int showConfiguration(QWidget *_parent, const QVariant &_args) override;
-
-private:
-    void translate(void *_ui) override;
 };

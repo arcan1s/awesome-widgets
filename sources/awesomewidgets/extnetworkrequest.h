@@ -20,6 +20,7 @@
 #include <QNetworkReply>
 
 #include "abstractextitem.h"
+#include "awtranslation.h"
 
 
 class ExtNetworkRequest : public AbstractExtItem
@@ -51,7 +52,6 @@ private:
     QNetworkAccessManager *m_manager = nullptr;
     QUrl m_url;
     bool m_isRunning = false;
-    void translate(void *_ui) override;
     // properties
     QString m_stringUrl = "https://httpbin.org/get";
     // values

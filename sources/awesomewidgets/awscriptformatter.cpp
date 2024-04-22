@@ -18,8 +18,6 @@
 #include "awscriptformatter.h"
 #include "ui_awscriptformatter.h"
 
-#include <KI18n/KLocalizedString>
-
 #include <QJSEngine>
 #include <QSettings>
 
@@ -145,7 +143,6 @@ int AWScriptFormatter::showConfiguration(QWidget *_parent, const QVariant &_args
     auto dialog = new QDialog(_parent);
     auto ui = new Ui::AWScriptFormatter();
     ui->setupUi(dialog);
-    translate(ui);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -154,7 +151,7 @@ int AWScriptFormatter::showConfiguration(QWidget *_parent, const QVariant &_args
     ui->checkBox_hasReturn->setCheckState(hasReturn() ? Qt::Checked : Qt::Unchecked);
     ui->textEdit_code->setPlainText(code());
 
-    int ret = dialog->exec();
+    auto ret = dialog->exec();
     if (ret == 1) {
         setName(ui->lineEdit_name->text());
         setComment(ui->lineEdit_comment->text());
@@ -201,17 +198,4 @@ void AWScriptFormatter::initProgram()
         m_program = code();
 
     qCInfo(LOG_LIB) << "Create JS engine with code" << m_program;
-}
-
-
-void AWScriptFormatter::translate(void *_ui)
-{
-    auto ui = reinterpret_cast<Ui::AWScriptFormatter *>(_ui);
-
-    ui->label_name->setText(i18n("Name"));
-    ui->label_comment->setText(i18n("Comment"));
-    ui->label_type->setText(i18n("Type"));
-    ui->checkBox_appendCode->setText(i18n("Append code"));
-    ui->checkBox_hasReturn->setText(i18n("Has return"));
-    ui->label_code->setText(i18n("Code"));
 }

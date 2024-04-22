@@ -18,8 +18,6 @@
 #include "extquotes.h"
 #include "ui_extquotes.h"
 
-#include <KI18n/KLocalizedString>
-
 #include <QSettings>
 
 #include <qreplytimeout/qreplytimeout.h>
@@ -125,7 +123,6 @@ int ExtQuotes::showConfiguration(QWidget *_parent, const QVariant &_args)
     auto dialog = new QDialog(_parent);
     auto ui = new Ui::ExtQuotes();
     ui->setupUi(dialog);
-    translate(ui);
 
     ui->lineEdit_name->setText(name());
     ui->lineEdit_comment->setText(comment());
@@ -206,22 +203,4 @@ void ExtQuotes::initProvider()
     m_providerObject = std::make_unique<StooqQuotesProvider>();
 
     return m_providerObject->initUrl(ticker());
-}
-
-
-void ExtQuotes::translate(void *_ui)
-{
-    auto ui = reinterpret_cast<Ui::ExtQuotes *>(_ui);
-
-    ui->label_name->setText(i18n("Name"));
-    ui->label_comment->setText(i18n("Comment"));
-    ui->label_number->setText(i18n("Tag"));
-    ui->label->setText(i18n("<html><head/><body><p>Use Stooq ticker to get quotes for the instrument. Refer to <a "
-                            "href=\"https://stooq.com/\"><span style=\" text-decoration: underline; "
-                            "color:#0057ae;\">https://stooq.com/</span></a></p></body></html>"));
-    ui->label_ticker->setText(i18n("Ticker"));
-    ui->checkBox_active->setText(i18n("Active"));
-    ui->label_schedule->setText(i18n("Schedule"));
-    ui->label_socket->setText(i18n("Socket"));
-    ui->label_interval->setText(i18n("Interval"));
 }
