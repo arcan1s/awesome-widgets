@@ -20,7 +20,8 @@
 #include "awpluginformatter.h"
 
 
-class AWPluginFormatterUptime : public AWPluginFormatter<AWPluginFormatterUptime> {
+class AWPluginFormatterUptime : public AWPluginFormatter<AWPluginFormatterUptime>
+{
 
 public:
     QString format(const QVariant &_value, const QString &, const AWPluginFormatSettings &_settings) const override;

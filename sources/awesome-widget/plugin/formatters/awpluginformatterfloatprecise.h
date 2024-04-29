@@ -20,7 +20,8 @@
 #include "awpluginformatter.h"
 
 
-class AWPluginFormatterFloatPrecise : public AWPluginFormatter<AWPluginFormatterFloatPrecise> {
+class AWPluginFormatterFloatPrecise : public AWPluginFormatter<AWPluginFormatterFloatPrecise>
+{
 
 public:
     QString format(const QVariant &_value, const QString &, const AWPluginFormatSettings &) const override;

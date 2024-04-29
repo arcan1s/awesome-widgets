@@ -20,7 +20,8 @@
 #include "awdebug.h"
 
 
-QString AWPluginFormatterTimeCustom::format(const QVariant &_value, const QString &, const AWPluginFormatSettings &_settings) const
+QString AWPluginFormatterTimeCustom::format(const QVariant &_value, const QString &,
+                                            const AWPluginFormatSettings &_settings) const
 {
     auto value = QDateTime::fromSecsSinceEpoch(_value.toLongLong());
     return format(value, _settings.customTime, locale(_settings));
@@ -35,7 +36,8 @@ void AWPluginFormatterTimeCustom::load()
 }
 
 
-QString AWPluginFormatterTimeCustom::format(const QDateTime &_value, QString _formatString, const QLocale &_locale) const
+QString AWPluginFormatterTimeCustom::format(const QDateTime &_value, QString _formatString,
+                                            const QLocale &_locale) const
 {
     for (auto &key : m_timeKeys)
         _formatString.replace(QString("$%1").arg(key), _locale.toString(_value, key));

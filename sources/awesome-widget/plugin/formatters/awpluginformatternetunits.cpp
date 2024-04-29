@@ -20,7 +20,8 @@
 #include <KI18n/KLocalizedString>
 
 
-QString AWPluginFormatterNetUnits::format(const QVariant &_value, const QString &, const AWPluginFormatSettings &_settings) const
+QString AWPluginFormatterNetUnits::format(const QVariant &_value, const QString &,
+                                          const AWPluginFormatSettings &_settings) const
 {
     auto value = _value.toDouble();
     return (value > MBinBytes) ? formatMB(_settings) : formatKB(_settings);

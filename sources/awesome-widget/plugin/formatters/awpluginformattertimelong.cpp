@@ -20,7 +20,8 @@
 #include <QDateTime>
 
 
-QString AWPluginFormatterTimeLong::format(const QVariant &_value, const QString &, const AWPluginFormatSettings &_settings) const
+QString AWPluginFormatterTimeLong::format(const QVariant &_value, const QString &,
+                                          const AWPluginFormatSettings &_settings) const
 {
     return locale(_settings).toString(QDateTime::fromSecsSinceEpoch(_value.toLongLong()), QLocale::LongFormat);
 }

@@ -46,8 +46,8 @@ public:
         return item ? item->run() : QVariantHash();
     }
     static KSysGuard::SensorInfo *makeSensorInfo(const QString &_name, QMetaType::Type _type,
-                                                 KSysGuard::Unit _unit = KSysGuard::UnitNone,
-                                                 double _min = 0, double _max = 0);
+                                                 KSysGuard::Unit _unit = KSysGuard::UnitNone, double _min = 0,
+                                                 double _max = 0);
 
 signals:
     void dataReceived(const QVariantHash &);

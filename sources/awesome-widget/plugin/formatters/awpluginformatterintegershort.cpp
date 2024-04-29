@@ -18,7 +18,8 @@
 #include "awpluginformatterintegershort.h"
 
 
-QString AWPluginFormatterIntegerShort::format(const QVariant &_value, const QString &, const AWPluginFormatSettings &) const
+QString AWPluginFormatterIntegerShort::format(const QVariant &_value, const QString &,
+                                              const AWPluginFormatSettings &) const
 {
     return QString("%1").arg(_value.toDouble(), 3, 'f', 0);
 }

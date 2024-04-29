@@ -23,6 +23,7 @@
 #include <QObject>
 
 #include "formatters/awpluginformatsettings.h"
+#include "matchers/awpluginmatchersettings.h"
 
 
 class AWDataEngineMapper;
@@ -38,7 +39,6 @@ class AWKeysAggregator : public QObject
     Q_PROPERTY(bool translate READ translate WRITE setTranslate);
 
 public:
-
     explicit AWKeysAggregator(QObject *_parent = nullptr);
     ~AWKeysAggregator() override = default;
     void initFormatters();
@@ -56,7 +56,7 @@ public:
     void setAcOnline(const QString &_active);
     void setCustomTime(const QString &_customTime);
     void setCustomUptime(const QString &_customUptime);
-    void setDevices(const QHash<QString, QStringList> &_devices);
+    void setDevices(const AWPluginMatcherSettings &_settings);
     void setTempUnits(const QString &_units);
     void setTranslate(bool _translate);
 

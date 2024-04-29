@@ -18,7 +18,8 @@
 #include "awpluginformatterfloatprecise.h"
 
 
-QString AWPluginFormatterFloatPrecise::format(const QVariant &_value, const QString &, const AWPluginFormatSettings &) const
+QString AWPluginFormatterFloatPrecise::format(const QVariant &_value, const QString &,
+                                              const AWPluginFormatSettings &) const
 {
     return QString("%1").arg(_value.toDouble(), 5, 'f', 2);
 }

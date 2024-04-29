@@ -23,6 +23,7 @@
 #include <QObject>
 
 #include "formatters/awpluginformatter.h"
+#include "matchers/awpluginmatchersettings.h"
 
 
 class AWFormatterHelper;
@@ -39,10 +40,11 @@ public:
     [[nodiscard]] QStringList keysFromSource(const QString &_source) const;
     // set methods
     QStringList registerSource(const QString &_source, KSysGuard::Unit _units, const QStringList &_keys);
-    void setDevices(const QHash<QString, QStringList> &_devices);
+    void setDevices(const AWPluginMatcherSettings &_settings);
 
 private:
     AWFormatterHelper *m_customFormatters = nullptr;
+    AWPluginMatcherSettings m_settings;
     // variables
     QHash<QString, QStringList> m_devices;
     QHash<QString, AWPluginFormaterInterface *> m_formatter;

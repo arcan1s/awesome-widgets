@@ -20,7 +20,8 @@
 #include "awpluginformatter.h"
 
 
-class AWPluginFormatterDouble : public AWPluginFormatter<AWPluginFormatterDouble> {
+class AWPluginFormatterDouble : public AWPluginFormatter<AWPluginFormatterDouble>
+{
 
 public:
     QString format(const QVariant &_value, const QString &, const AWPluginFormatSettings &) const override;

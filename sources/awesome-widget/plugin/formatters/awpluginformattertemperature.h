@@ -20,7 +20,8 @@
 #include "awpluginformatter.h"
 
 
-class AWPluginFormatterTemperature : public AWPluginFormatter<AWPluginFormatterTemperature> {
+class AWPluginFormatterTemperature : public AWPluginFormatter<AWPluginFormatterTemperature>
+{
 
 public:
     QString format(const QVariant &_value, const QString &, const AWPluginFormatSettings &_settings) const override;

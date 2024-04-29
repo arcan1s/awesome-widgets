@@ -25,15 +25,18 @@
 #include "awpluginformatsettings.h"
 
 
-class AWPluginFormaterInterface {
+class AWPluginFormaterInterface
+{
 public:
     virtual ~AWPluginFormaterInterface() = default;
-    virtual QString format(const QVariant &_value, const QString &_key, const AWPluginFormatSettings &_settings) const = 0;
-    virtual void load() {};
+    virtual QString format(const QVariant &_value, const QString &_key, const AWPluginFormatSettings &_settings) const
+        = 0;
+    virtual void load(){};
 };
 
 
-template<typename Formatter> class AWPluginFormatter : public AWPluginFormaterInterface {
+template <typename Formatter> class AWPluginFormatter : public AWPluginFormaterInterface
+{
 
 public:
     static constexpr double KBinBytes = 1024.0;

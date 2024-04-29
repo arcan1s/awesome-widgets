@@ -128,11 +128,9 @@ void AWKeysAggregator::setCustomUptime(const QString &_customUptime)
 }
 
 
-void AWKeysAggregator::setDevices(const QHash<QString, QStringList> &_devices)
+void AWKeysAggregator::setDevices(const AWPluginMatcherSettings &_settings)
 {
-    qCDebug(LOG_AW) << "Devices" << _devices;
-
-    m_mapper->setDevices(_devices);
+    m_mapper->setDevices(_settings);
 }
 
 

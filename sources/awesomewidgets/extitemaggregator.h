@@ -85,7 +85,7 @@ public:
         auto found = std::find_if(m_items.cbegin(), m_items.cend(),
                                   [&_tag, &_type](auto item) { return item->tag(_type) == _tag; });
 
-        if (found == std::end(m_items)) {
+        if (found == m_items.cend()) {
             qCWarning(LOG_LIB) << "Could not find item by tag" << _tag;
             return nullptr;
         }
@@ -99,7 +99,7 @@ public:
         auto found = std::find_if(m_items.cbegin(), m_items.cend(),
                                   [_number](auto item) { return item->number() == _number; });
 
-        if (found == std::end(m_items)) {
+        if (found == m_items.cend()) {
             qCWarning(LOG_LIB) << "Could not find item by number" << _number;
             return nullptr;
         }

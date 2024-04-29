@@ -18,7 +18,8 @@
 #include "awpluginformatterac.h"
 
 
-QString AWPluginFormatterAC::format(const QVariant &_value, const QString &, const AWPluginFormatSettings &_settings) const
+QString AWPluginFormatterAC::format(const QVariant &_value, const QString &,
+                                    const AWPluginFormatSettings &_settings) const
 {
     return _value.toBool() ? _settings.acOnline : _settings.acOffline;
 }

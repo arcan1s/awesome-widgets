@@ -18,7 +18,8 @@
 #include "awpluginformatterintegerwide.h"
 
 
-QString AWPluginFormatterIntegerWide::format(const QVariant &_value, const QString &, const AWPluginFormatSettings &) const
+QString AWPluginFormatterIntegerWide::format(const QVariant &_value, const QString &,
+                                             const AWPluginFormatSettings &) const
 {
     return QString("%1").arg(_value.toDouble(), 5, 'f', 0);
 }

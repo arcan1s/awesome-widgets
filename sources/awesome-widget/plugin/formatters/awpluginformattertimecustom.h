@@ -22,7 +22,8 @@
 #include "awpluginformatter.h"
 
 
-class AWPluginFormatterTimeCustom : public AWPluginFormatter<AWPluginFormatterTimeCustom> {
+class AWPluginFormatterTimeCustom : public AWPluginFormatter<AWPluginFormatterTimeCustom>
+{
 
 public:
     QString format(const QVariant &_value, const QString &, const AWPluginFormatSettings &_settings) const override;

@@ -20,7 +20,8 @@
 #include "awpluginformatter.h"
 
 
-class AWPluginFormatterTimeISO : public AWPluginFormatter<AWPluginFormatterTimeISO> {
+class AWPluginFormatterTimeISO : public AWPluginFormatter<AWPluginFormatterTimeISO>
+{
 
 public:
     QString format(const QVariant &_value, const QString &, const AWPluginFormatSettings &) const override;

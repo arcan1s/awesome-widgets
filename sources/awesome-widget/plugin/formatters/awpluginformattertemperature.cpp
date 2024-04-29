@@ -18,7 +18,8 @@
 #include "awpluginformattertemperature.h"
 
 
-QString AWPluginFormatterTemperature::format(const QVariant &_value, const QString &, const AWPluginFormatSettings &_settings) const
+QString AWPluginFormatterTemperature::format(const QVariant &_value, const QString &,
+                                             const AWPluginFormatSettings &_settings) const
 {
     auto converted = convert(_value.toDouble(), _settings.tempUnits);
     return QString("%1").arg(converted, 5, 'f', 1);

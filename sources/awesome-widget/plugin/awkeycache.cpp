@@ -82,47 +82,7 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys, const QStringL
         }
     }
 
-    // insert depending keys, refer to AWKeys::calculateValues()
-    // hddtotmb*
-    for (auto &key : _allKeys.filter(QRegularExpression("^hddtotmb"))) {
-        if (!used.contains(key))
-            continue;
-        key.remove("hddtotmb");
-        auto index = key.toInt();
-        used << QString("hddfreemb%1").arg(index) << QString("hddmb%1").arg(index);
-    }
-    // hddtotgb*
-    for (auto &key : _allKeys.filter(QRegularExpression("^hddtotgb"))) {
-        if (!used.contains(key))
-            continue;
-        key.remove("hddtotgb");
-        auto index = key.toInt();
-        used << QString("hddfreegb%1").arg(index) << QString("hddgb%1").arg(index);
-    }
-    // mem
-    if (used.contains("mem"))
-        used << "memmb"
-             << "memtotmb";
-    // memtotmb
-    if (used.contains("memtotmb"))
-        used << "memusedmb"
-             << "memfreemb";
-    // memtotgb
-    if (used.contains("memtotgb"))
-        used << "memusedgb"
-             << "memfreegb";
-    // swap
-    if (used.contains("swap"))
-        used << "swapmb"
-             << "swaptotmb";
-    // swaptotmb
-    if (used.contains("swaptotmb"))
-        used << "swapmb"
-             << "swapfreemb";
-    // memtotgb
-    if (used.contains("swaptotgb"))
-        used << "swapgb"
-             << "swapfreegb";
+    // insert keys which depend on others, refer to AWKeys::calculateValues()
     // network keys
     QStringList netKeys(
         {"up", "upkb", "uptot", "uptotkb", "upunits", "down", "downkb", "downtot", "downtotkb", "downunits"});
@@ -146,18 +106,23 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys, const QStringL
 }
 
 
-QHash<QString, QStringList> AWKeyCache::loadKeysFromCache()
+AWPluginMatcherSettings AWKeyCache::loadKeysFromCache()
 {
     auto fileName
         = QString("%1/awesomewidgets.ndx").arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
     qCInfo(LOG_AW) << "Cache file" << fileName;
     QSettings cache(fileName, QSettings::IniFormat);
 
-    QHash<QString, QStringList> devices;
-    for (auto &group : cache.childGroups()) {
+    AWPluginMatcherSettings devices;
+    QHash<QString, QStringList *> groups = {
+        {"disk", &devices.disk},   {"gpu", &devices.gpu},      {"mount", &devices.mount},
+        {"net", &devices.network}, {"temp", &devices.sensors},
+    };
+
+    for (auto [group, list] : groups.asKeyValueRange()) {
         cache.beginGroup(group);
         for (auto &key : cache.allKeys())
-            devices[group].append(cache.value(key).toString());
+            list->append(cache.value(key).toString());
         cache.endGroup();
     }
 

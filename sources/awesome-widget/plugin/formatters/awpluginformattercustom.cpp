@@ -20,7 +20,8 @@
 #include "awformatterhelper.h"
 
 
-QString AWPluginFormatterCustom::format(const QVariant &_value, const QString &_key, const AWPluginFormatSettings &_settings) const
+QString AWPluginFormatterCustom::format(const QVariant &_value, const QString &_key,
+                                        const AWPluginFormatSettings &_settings) const
 {
     if (_settings.customFormatters)
         return _settings.customFormatters->convert(_value, _key);

@@ -10,7 +10,7 @@ include_directories(
         ${Kf6_INCLUDE}
 )
 
-file(GLOB SUBPROJECT_SOURCE *.cpp formatters/*.cpp ${PROJECT_TRDPARTY_DIR}/fontdialog/*.cpp ${CMAKE_SOURCE_DIR}/*.cpp)
+file(GLOB SUBPROJECT_SOURCE *.cpp formatters/*.cpp matchers/*.cpp ${PROJECT_TRDPARTY_DIR}/fontdialog/*.cpp ${CMAKE_SOURCE_DIR}/*.cpp)
 file(GLOB SUBPROJECT_UI *.ui)
 file(GLOB SUBPROJECT_NOTIFY *.notifyrc)
 

@@ -231,24 +231,10 @@ void AWKeys::updateTextData()
 // specified pattern. Usually they are values which depend on several others
 void AWKeys::calculateValues()
 {
-    // hddtot*
-    auto mountDevices = m_keyOperator->devices("mount");
-    for (auto &device : mountDevices) {
-        auto index = mountDevices.indexOf(device);
-        m_values[QString("hddtotmb%1").arg(index)] = m_values[QString("hddfreemb%1").arg(index)].toDouble()
-                                                     + m_values[QString("hddmb%1").arg(index)].toDouble();
-        m_values[QString("hddtotgb%1").arg(index)] = m_values[QString("hddfreegb%1").arg(index)].toDouble()
-                                                     + m_values[QString("hddgb%1").arg(index)].toDouble();
-    }
-
-    // memtot*
-    m_values["memtotmb"] = m_values["memusedmb"].toLongLong() + m_values["memfreemb"].toLongLong();
-    m_values["memtotgb"] = m_values["memusedgb"].toDouble() + m_values["memfreegb"].toDouble();
-    // mem
-    m_values["mem"] = 100.0 * m_values["memmb"].toDouble() / m_values["memtotmb"].toDouble();
+    auto devices = m_keyOperator->devices();
 
     // up, down, upkb, downkb, upunits, downunits
-    auto netIndex = m_keyOperator->devices("net").indexOf(m_values["netdev"].toString());
+    auto netIndex = devices.network.indexOf(m_values["netdev"].toString());
     m_values["down"] = m_values[QString("down%1").arg(netIndex)];
     m_values["downkb"] = m_values[QString("downkb%1").arg(netIndex)];
     m_values["downtot"] = m_values[QString("downtot%1").arg(netIndex)];
@@ -259,12 +245,6 @@ void AWKeys::calculateValues()
     m_values["uptot"] = m_values[QString("uptot%1").arg(netIndex)];
     m_values["uptotkb"] = m_values[QString("uptotkb%1").arg(netIndex)];
     m_values["upunits"] = m_values[QString("upunits%1").arg(netIndex)];
-
-    // swaptot*
-    m_values["swaptotmb"] = m_values["swapmb"].toLongLong() + m_values["swapfreemb"].toLongLong();
-    m_values["swaptotgb"] = m_values["swapgb"].toDouble() + m_values["swapfreegb"].toDouble();
-    // swap
-    m_values["swap"] = 100.0 * m_values["swapmb"].toDouble() / m_values["swaptotmb"].toDouble();
 
     // user defined keys
     for (auto &key : m_keyOperator->userKeys())

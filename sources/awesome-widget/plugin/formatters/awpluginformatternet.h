@@ -20,7 +20,8 @@
 #include "awpluginformatter.h"
 
 
-class AWPluginFormatterNet : public AWPluginFormatter<AWPluginFormatterNet> {
+class AWPluginFormatterNet : public AWPluginFormatter<AWPluginFormatterNet>
+{
 
 public:
     QString format(const QVariant &_value, const QString &, const AWPluginFormatSettings &) const override;

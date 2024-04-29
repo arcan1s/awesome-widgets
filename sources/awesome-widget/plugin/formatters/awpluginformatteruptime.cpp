@@ -18,7 +18,8 @@
 #include "awpluginformatteruptime.h"
 
 
-QString AWPluginFormatterUptime::format(const QVariant &_value, const QString &, const AWPluginFormatSettings &_settings) const
+QString AWPluginFormatterUptime::format(const QVariant &_value, const QString &,
+                                        const AWPluginFormatSettings &_settings) const
 {
     auto value = static_cast<long>(_value.toDouble());
     return format(value, _settings.customUptime);
