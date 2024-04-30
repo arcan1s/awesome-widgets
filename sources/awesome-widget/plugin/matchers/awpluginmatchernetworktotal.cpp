@@ -26,13 +26,11 @@ QHash<QString, AWPluginFormaterInterface *>
 AWPluginMatcherNetworkTotal::keys(const QString &_source, const KSysGuard::Unit,
                                   const AWPluginMatcherSettings &_settings) const
 {
-    auto type = _source.endsWith("Download") ? "down" : "up";
-    auto device = AWPluginMatcher::device(_source);
-    auto index = _settings.network.indexOf(device);
-
+    auto index = AWPluginMatcher::index(_source, _settings.network);
     if (index == -1)
         return {};
 
+    auto type = _source.endsWith("Download") ? "down" : "up";
     return {
         {QString("%1tot%2").arg(type).arg(index), AWPluginFormatterMemoryMB::instance()},
         {QString("%1totkb%2").arg(type).arg(index), AWPluginFormatterMemory::instance()},

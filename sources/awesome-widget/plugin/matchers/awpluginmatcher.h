@@ -53,6 +53,12 @@ public:
 
     [[nodiscard]] static QString device(const QString &_source) { return _source.split('/')[1]; };
 
+    [[nodiscard]] static qsizetype index(const QString &_source, const QStringList &_devices)
+    {
+        auto device = AWPluginMatcher::device(_source);
+        return _devices.indexOf(device);
+    }
+
 protected:
     AWPluginMatcher() = default;
 };

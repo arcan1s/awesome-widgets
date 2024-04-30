@@ -25,12 +25,10 @@
 QHash<QString, AWPluginFormaterInterface *> AWPluginMatcherGPUCore::keys(const QString &_source, const KSysGuard::Unit,
                                                                          const AWPluginMatcherSettings &_settings) const
 {
-    auto device = _source;
-    device.remove("gpu/").remove("/usage");
-
-    auto index = _settings.gpu.indexOf(device);
+    auto index = AWPluginMatcher::index(_source, _settings.gpu);
     if (index == -1)
         return {};
+
     return {{QString("gpu%1").arg(index), AWPluginFormatterFloat::instance()}};
 }
 

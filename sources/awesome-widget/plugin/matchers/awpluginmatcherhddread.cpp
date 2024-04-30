@@ -25,11 +25,10 @@
 QHash<QString, AWPluginFormaterInterface *> AWPluginMatcherHDDRead::keys(const QString &_source, const KSysGuard::Unit,
                                                                          const AWPluginMatcherSettings &_settings) const
 {
-    auto device = AWPluginMatcher::device(_source);
-    auto index = _settings.disk.indexOf(device);
-
+    auto index = AWPluginMatcher::index(_source, _settings.disk);
     if (index == -1)
         return {};
+
     return {{QString("hddr%1").arg(index), AWPluginFormatterMemory::instance()}};
 }
 

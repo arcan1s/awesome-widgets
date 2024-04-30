@@ -28,7 +28,6 @@ QHash<QString, AWPluginFormaterInterface *> AWPluginMatcherSensors::keys(const Q
     // temperature
     auto index = _settings.sensors.indexOf(_source);
     auto key = QString("temp%1").arg(index);
-
     if (index == -1)
         return {};
 
