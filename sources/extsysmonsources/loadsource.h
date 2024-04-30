@@ -29,6 +29,6 @@ class LoadSource : public AbstractExtSysMonSource
 public:
     explicit LoadSource(QObject *_parent);
     ~LoadSource() override = default;
-    QVariant data(const QString &_source) override;
+    [[nodiscard]] QVariant data(const QString &_source) override;
     [[nodiscard]] QHash<QString, KSysGuard::SensorInfo *> sources() const override;
 };

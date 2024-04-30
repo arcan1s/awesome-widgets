@@ -49,15 +49,7 @@ AWKeyOperations::AWKeyOperations(QObject *_parent)
 }
 
 
-QStringList AWKeyOperations::devices(const QString &_type) const
-{
-    qCDebug(LOG_AW) << "Looking for type" << _type;
-
-    return m_devices[_type];
-}
-
-
-QHash<QString, QStringList> AWKeyOperations::devices() const
+AWPluginMatcherSettings AWKeyOperations::devices() const
 {
     return m_devices;
 }
@@ -88,15 +80,15 @@ QStringList AWKeyOperations::dictKeys() const
         allKeys.append(QString("cpu%1").arg(i));
     }
     // temperature
-    for (auto i = 0; i < m_devices["temp"].count(); ++i)
+    for (auto i = 0; i < m_devices.sensors.count(); ++i)
         allKeys.append(QString("temp%1").arg(i));
     // gpu
-    for (auto i = 0; i < m_devices["gpu"].count(); ++i) {
+    for (auto i = 0; i < m_devices.gpu.count(); ++i) {
         allKeys.append(QString("gpu%1").arg(i));
         allKeys.append(QString("gputemp%1").arg(i));
     }
     // hdd
-    for (auto i = 0; i < m_devices["mount"].count(); ++i) {
+    for (auto i = 0; i < m_devices.mount.count(); ++i) {
         allKeys.append(QString("hddmb%1").arg(i));
         allKeys.append(QString("hddgb%1").arg(i));
         allKeys.append(QString("hddfreemb%1").arg(i));
@@ -106,12 +98,12 @@ QStringList AWKeyOperations::dictKeys() const
         allKeys.append(QString("hdd%1").arg(i));
     }
     // hdd speed
-    for (auto i = 0; i < m_devices["disk"].count(); ++i) {
+    for (auto i = 0; i < m_devices.disk.count(); ++i) {
         allKeys.append(QString("hddr%1").arg(i));
         allKeys.append(QString("hddw%1").arg(i));
     }
     // network
-    for (auto i = 0; i < m_devices["net"].count(); ++i) {
+    for (auto i = 0; i < m_devices.network.count(); ++i) {
         allKeys.append(QString("downunits%1").arg(i));
         allKeys.append(QString("upunits%1").arg(i));
         allKeys.append(QString("downtotkb%1").arg(i));
@@ -224,15 +216,15 @@ QString AWKeyOperations::infoByKey(const QString &_key) const
     } else if (_key.contains(hddrwRegExp)) {
         auto index = _key;
         index.remove(hddrwRegExp);
-        output = m_devices["disk"][index.toInt()];
+        output = m_devices.disk[index.toInt()];
     } else if (_key.contains(hddMatchRegExp)) {
         auto index = _key;
         index.remove(hddRegExp);
-        output = m_devices["mount"][index.toInt()];
+        output = m_devices.mount[index.toInt()];
     } else if (_key.contains(netMatchRegExp)) {
         auto index = _key;
         index.remove(netRegExp);
-        output = m_devices["net"][index.toInt()];
+        output = m_devices.network[index.toInt()];
     } else if (_key.startsWith("pkgcount")) {
         auto item = m_extUpgrade->itemByTag(_key, stripped);
         if (item)
@@ -248,7 +240,7 @@ QString AWKeyOperations::infoByKey(const QString &_key) const
     } else if (_key.startsWith("temp")) {
         auto index = _key;
         index.remove("temp");
-        output = m_devices["temp"][index.toInt()];
+        output = m_devices.sensors[index.toInt()];
     } else if (_key.startsWith("response")) {
         auto item = m_extNetRequest->itemByTag(_key, stripped);
         if (item)

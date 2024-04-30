@@ -23,7 +23,7 @@
 class QNetworkAccessManager;
 class QNetworkReply;
 
-class AWBugReporter : public QObject
+class __attribute__((visibility("default"))) AWBugReporter : public QObject
 {
     Q_OBJECT
 

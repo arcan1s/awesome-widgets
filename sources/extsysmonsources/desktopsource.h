@@ -35,7 +35,7 @@ public:
 
     explicit DesktopSource(QObject *_parent);
     ~DesktopSource() override = default;
-    QVariant data(const QString &_source) override;
+    [[nodiscard]] QVariant data(const QString &_source) override;
     [[nodiscard]] QHash<QString, KSysGuard::SensorInfo *> sources() const override;
 
 private:

@@ -23,7 +23,7 @@
 
 class QSettings;
 
-class AWConfigHelper : public QObject
+class __attribute__((visibility("default"))) AWConfigHelper : public QObject
 {
     Q_OBJECT
 

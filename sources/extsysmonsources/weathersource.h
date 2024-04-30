@@ -32,7 +32,7 @@ class WeatherSource : public AbstractExtSysMonSource
 public:
     explicit WeatherSource(QObject *_parent);
     ~WeatherSource() override = default;
-    QVariant data(const QString &_source) override;
+    [[nodiscard]] QVariant data(const QString &_source) override;
     [[nodiscard]] QHash<QString, KSysGuard::SensorInfo *> sources() const override;
 
 private:

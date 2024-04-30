@@ -20,6 +20,7 @@
 #include <QObject>
 
 #include "extitemaggregator.h"
+#include "matchers/awpluginmatchersettings.h"
 
 
 class AWCustomKeysHelper;
@@ -38,8 +39,7 @@ class AWKeyOperations : public QObject
 public:
     explicit AWKeyOperations(QObject *_parent = nullptr);
     ~AWKeyOperations() override = default;
-    [[nodiscard]] QStringList devices(const QString &_type) const;
-    [[nodiscard]] QHash<QString, QStringList> devices() const;
+    [[nodiscard]] AWPluginMatcherSettings devices() const;
     void updateCache();
     // keys
     [[nodiscard]] QStringList dictKeys() const;
@@ -73,6 +73,6 @@ private:
     ExtItemAggregator<ExtUpgrade> *m_extUpgrade = nullptr;
     ExtItemAggregator<ExtWeather> *m_extWeather = nullptr;
     // variables
-    QHash<QString, QStringList> m_devices;
+    AWPluginMatcherSettings m_devices;
     QString m_pattern;
 };

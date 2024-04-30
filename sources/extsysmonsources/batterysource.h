@@ -32,7 +32,7 @@ public:
 
     explicit BatterySource(QObject *_parent, QString _acpiPath);
     ~BatterySource() override = default;
-    QVariant data(const QString &_source) override;
+    [[nodiscard]] QVariant data(const QString &_source) override;
     void run();
     [[nodiscard]] QHash<QString, KSysGuard::SensorInfo *> sources() const override;
 

@@ -17,15 +17,9 @@
 
 #include "awkeysaggregator.h"
 
-#include <KI18n/KLocalizedString>
-
-#include <QDateTime>
-#include <QLocale>
-
 #include "awdataenginemapper.h"
 #include "awdebug.h"
 #include "awformatterhelper.h"
-#include "version.h"
 
 
 AWKeysAggregator::AWKeysAggregator(QObject *_parent)
@@ -33,19 +27,38 @@ AWKeysAggregator::AWKeysAggregator(QObject *_parent)
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
 
-    m_customFormatters = new AWFormatterHelper(this);
-    m_mapper = new AWDataEngineMapper(this, m_customFormatters);
-
-    // sort time keys
-    m_timeKeys = QString(TIME_KEYS).split(',');
-    m_timeKeys.sort();
-    std::reverse(m_timeKeys.begin(), m_timeKeys.end());
+    m_settings.customFormatters = new AWFormatterHelper(this);
+    m_mapper = new AWDataEngineMapper(this, m_settings.customFormatters);
 }
 
 
 void AWKeysAggregator::initFormatters()
 {
-    m_customFormatters->initItems();
+    m_settings.customFormatters->initItems();
+}
+
+
+QString AWKeysAggregator::acOffline() const
+{
+    return m_settings.acOffline;
+}
+
+
+QString AWKeysAggregator::acOnline() const
+{
+    return m_settings.acOnline;
+}
+
+
+QString AWKeysAggregator::customTime() const
+{
+    return m_settings.customTime;
+}
+
+
+QString AWKeysAggregator::customUptime() const
+{
+    return m_settings.customUptime;
 }
 
 
@@ -53,113 +66,7 @@ QString AWKeysAggregator::formatter(const QVariant &_data, const QString &_key, 
 {
     qCDebug(LOG_AW) << "Data" << _data << "for key" << _key;
 
-    QString output;
-    QLocale loc = m_translate ? QLocale::system() : QLocale::c();
-    // case block
-    switch (m_mapper->formatter(_key)) {
-    case FormatterType::Float:
-        output = QString("%1").arg(_data.toDouble(), 5, 'f', 1);
-        break;
-    case FormatterType::FloatTwoSymbols:
-        output = QString("%1").arg(_data.toDouble(), 5, 'f', 2);
-        break;
-    case FormatterType::Integer:
-        output = QString("%1").arg(_data.toDouble(), 4, 'f', 0);
-        break;
-    case FormatterType::IntegerFive:
-        output = QString("%1").arg(_data.toDouble(), 5, 'f', 0);
-        break;
-    case FormatterType::IntegerThree:
-        output = QString("%1").arg(_data.toDouble(), 3, 'f', 0);
-        break;
-    case FormatterType::List:
-        output = _data.toStringList().join(',');
-        break;
-    case FormatterType::ACFormat:
-        output = _data.toBool() ? m_acOnline : m_acOffline;
-        break;
-    case FormatterType::MemGBFormat:
-        output = QString("%1").arg(_data.toDouble() / GBinBytes, 5, 'f', 1);
-        break;
-    case FormatterType::MemMBFormat:
-        output = QString("%1").arg(_data.toDouble() / MBinBytes, 5, 'f', 0);
-        break;
-    case FormatterType::MemKBFormat:
-        output = QString("%1").arg(_data.toDouble() / KBinBytes, 5, 'f', 0);
-        break;
-    case FormatterType::NetSmartFormat:
-        output = [](const double value) {
-            if (value > MBinBytes)
-                return QString("%1").arg(value / MBinBytes, 4, 'f', 1);
-            else
-                return QString("%1").arg(value / KBinBytes, 4, 'f', 0);
-        }(_data.toDouble());
-        break;
-    case FormatterType::NetSmartUnits:
-        if (_data.toDouble() > MBinBytes)
-            output = m_translate ? i18n("MB/s") : "MB/s";
-        else
-            output = m_translate ? i18n("KB/s") : "KB/s";
-        break;
-    case FormatterType::Quotes:
-        // first cast
-        output = QString("%1").arg(_data.toDouble(), 0, 'f');
-        output = output.rightJustified(8, QLatin1Char(' '), true);
-        break;
-    case FormatterType::Temperature:
-        output = QString("%1").arg(temperature(_data.toDouble()), 5, 'f', 1);
-        break;
-    case FormatterType::Time:
-        output = QDateTime::fromSecsSinceEpoch(_data.toLongLong()).toString();
-        break;
-    case FormatterType::TimeCustom:
-        output = m_customTime;
-        [&output, loc, this](const QDateTime &dt) {
-            for (auto &key : m_timeKeys)
-                output.replace(QString("$%1").arg(key), loc.toString(dt, key));
-        }(QDateTime::fromSecsSinceEpoch(_data.toLongLong()));
-        break;
-    case FormatterType::TimeISO:
-        output = QDateTime::fromSecsSinceEpoch(_data.toLongLong()).toString(Qt::ISODate);
-        break;
-    case FormatterType::TimeLong:
-        output = loc.toString(QDateTime::fromSecsSinceEpoch(_data.toLongLong()), QLocale::LongFormat);
-        break;
-    case FormatterType::TimeShort:
-        output = loc.toString(QDateTime::fromSecsSinceEpoch(_data.toLongLong()), QLocale::ShortFormat);
-        break;
-    case FormatterType::Timestamp:
-        output = _data.toString();
-        break;
-    case FormatterType::Uptime:
-    case FormatterType::UptimeCustom:
-        output =
-            [](auto source, auto uptime) {
-                auto seconds = uptime - uptime % 60;
-                auto minutes = seconds / 60 % 60;
-                auto hours = ((seconds / 60) - minutes) / 60 % 24;
-                auto days = (((seconds / 60) - minutes) / 60 - hours) / 24;
-
-                source.replace("$dd", QString("%1").arg(days, 3, 10, QChar('0')));
-                source.replace("$d", QString("%1").arg(days));
-                source.replace("$hh", QString("%1").arg(hours, 2, 10, QChar('0')));
-                source.replace("$h", QString("%1").arg(hours));
-                source.replace("$mm", QString("%1").arg(minutes, 2, 10, QChar('0')));
-                source.replace("$m", QString("%1").arg(minutes));
-
-                return source;
-            }(m_mapper->formatter(_key) == FormatterType::Uptime ? "$ddd$hhh$mmm" : m_customUptime,
-              static_cast<int>(_data.toDouble()));
-        break;
-    case FormatterType::NoFormat:
-        output = _data.toString();
-        break;
-    case FormatterType::Custom:
-        if (m_customFormatters)
-            output = m_customFormatters->convert(_data, _key);
-        break;
-    }
-
+    auto output = m_mapper->formatter(_key)->format(_data, _key, m_settings);
     // replace spaces to non-breakable ones
     replaceSpace &= (!_key.startsWith("custom") && (!_key.startsWith("weather")));
     if (replaceSpace)
@@ -177,11 +84,23 @@ QStringList AWKeysAggregator::keysFromSource(const QString &_source) const
 }
 
 
+QString AWKeysAggregator::tempUnits() const
+{
+    return m_settings.tempUnits;
+}
+
+
+bool AWKeysAggregator::translate() const
+{
+    return m_settings.translate;
+}
+
+
 void AWKeysAggregator::setAcOffline(const QString &_inactive)
 {
     qCDebug(LOG_AW) << "Inactive AC string" << _inactive;
 
-    m_acOffline = _inactive;
+    m_settings.acOffline = _inactive;
 }
 
 
@@ -189,7 +108,7 @@ void AWKeysAggregator::setAcOnline(const QString &_active)
 {
     qCDebug(LOG_AW) << "Active AC string" << _active;
 
-    m_acOnline = _active;
+    m_settings.acOnline = _active;
 }
 
 
@@ -197,7 +116,7 @@ void AWKeysAggregator::setCustomTime(const QString &_customTime)
 {
     qCDebug(LOG_AW) << "Format" << _customTime;
 
-    m_customTime = _customTime;
+    m_settings.customTime = _customTime;
 }
 
 
@@ -205,15 +124,13 @@ void AWKeysAggregator::setCustomUptime(const QString &_customUptime)
 {
     qCDebug(LOG_AW) << "Format" << _customUptime;
 
-    m_customUptime = _customUptime;
+    m_settings.customUptime = _customUptime;
 }
 
 
-void AWKeysAggregator::setDevices(const QHash<QString, QStringList> &_devices)
+void AWKeysAggregator::setDevices(const AWPluginMatcherSettings &_settings)
 {
-    qCDebug(LOG_AW) << "Devices" << _devices;
-
-    m_mapper->setDevices(_devices);
+    m_mapper->setDevices(_settings);
 }
 
 
@@ -221,7 +138,7 @@ void AWKeysAggregator::setTempUnits(const QString &_units)
 {
     qCDebug(LOG_AW) << "Units" << _units;
 
-    m_tempUnits = _units;
+    m_settings.tempUnits = _units;
 }
 
 
@@ -229,7 +146,7 @@ void AWKeysAggregator::setTranslate(const bool _translate)
 {
     qCDebug(LOG_AW) << "Translate" << _translate;
 
-    m_translate = _translate;
+    m_settings.translate = _translate;
 }
 
 
@@ -239,30 +156,4 @@ QStringList AWKeysAggregator::registerSource(const QString &_source, const KSysG
     qCDebug(LOG_AW) << "Source" << _source << "with units" << _units;
 
     return m_mapper->registerSource(_source, _units, _keys);
-}
-
-
-double AWKeysAggregator::temperature(const double temp) const
-{
-    qCDebug(LOG_AW) << "Temperature value" << temp;
-
-    auto converted = temp;
-    if (m_tempUnits == "Celsius") {
-    } else if (m_tempUnits == "Fahrenheit") {
-        converted = temp * 9.0f / 5.0 + 32.0;
-    } else if (m_tempUnits == "Kelvin") {
-        converted = temp + 273.15;
-    } else if (m_tempUnits == "Reaumur") {
-        converted = temp * 0.8;
-    } else if (m_tempUnits == "cm^-1") {
-        converted = (temp + 273.15) * 0.695;
-    } else if (m_tempUnits == "kJ/mol") {
-        converted = (temp + 273.15) * 8.31;
-    } else if (m_tempUnits == "kcal/mol") {
-        converted = (temp + 273.15) * 1.98;
-    } else {
-        qCWarning(LOG_AW) << "Invalid units" << m_tempUnits;
-    }
-
-    return converted;
 }

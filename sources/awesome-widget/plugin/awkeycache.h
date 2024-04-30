@@ -17,9 +17,10 @@
 
 #pragma once
 
-#include <QHash>
 #include <QString>
 #include <QVariant>
+
+#include <matchers/awpluginmatchersettings.h>
 
 
 namespace AWKeyCache
@@ -27,5 +28,5 @@ namespace AWKeyCache
 bool addKeyToCache(const QString &_type, const QString &_key = "");
 QStringList getRequiredKeys(const QStringList &_keys, const QStringList &_bars, const QVariantMap &_tooltip,
                             const QStringList &_userKeys, const QStringList &_allKeys);
-QHash<QString, QStringList> loadKeysFromCache();
+AWPluginMatcherSettings loadKeysFromCache();
 } // namespace AWKeyCache

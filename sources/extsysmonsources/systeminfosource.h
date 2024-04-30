@@ -29,14 +29,15 @@ class SystemInfoSource : public AbstractExtSysMonSource
 public:
     explicit SystemInfoSource(QObject *_parent);
     ~SystemInfoSource() override = default;
-    QVariant data(const QString &_source) override;
+    [[nodiscard]] QVariant data(const QString &_source) override;
     [[nodiscard]] QHash<QString, KSysGuard::SensorInfo *> sources() const override;
 
 private:
     // configuration and values
-    static QVariant fromDBusVariant(const QVariant &_value);
-    static double getCurrentBrightness();
-    static double getCurrentVolume();
-    static QVariant sendDBusRequest(const QString &_destination, const QString &_path, const QString &_interface,
-                                    const QString &_method, const QVariantList &_args = {});
+    [[nodiscard]] static QVariant fromDBusVariant(const QVariant &_value);
+    [[nodiscard]] static double getCurrentBrightness();
+    [[nodiscard]] static double getCurrentVolume();
+    [[nodiscard]] static QVariant sendDBusRequest(const QString &_destination, const QString &_path,
+                                                  const QString &_interface, const QString &_method,
+                                                  const QVariantList &_args = {});
 };

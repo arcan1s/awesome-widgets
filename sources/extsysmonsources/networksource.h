@@ -31,7 +31,7 @@ class NetworkSource : public AbstractExtSysMonSource
 public:
     explicit NetworkSource(QObject *_parent);
     ~NetworkSource() override;
-    QVariant data(const QString &_source) override;
+    [[nodiscard]] QVariant data(const QString &_source) override;
     [[nodiscard]] QHash<QString, KSysGuard::SensorInfo *> sources() const override;
 
 private slots:

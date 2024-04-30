@@ -24,7 +24,7 @@
 class KNotification;
 class QNetworkReply;
 
-class AWUpdateHelper : public QObject
+class __attribute__((visibility("default"))) AWUpdateHelper : public QObject
 {
     Q_OBJECT
 

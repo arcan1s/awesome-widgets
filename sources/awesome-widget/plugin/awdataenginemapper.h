@@ -22,7 +22,8 @@
 #include <QMultiHash>
 #include <QObject>
 
-#include "awkeysaggregator.h"
+#include "formatters/awpluginformatter.h"
+#include "matchers/awpluginmatchersettings.h"
 
 
 class AWFormatterHelper;
@@ -35,16 +36,17 @@ public:
     explicit AWDataEngineMapper(QObject *_parent = nullptr, AWFormatterHelper *_custom = nullptr);
     ~AWDataEngineMapper() override = default;
     // get methods
-    [[nodiscard]] AWKeysAggregator::FormatterType formatter(const QString &_key) const;
+    [[nodiscard]] AWPluginFormaterInterface *formatter(const QString &_key) const;
     [[nodiscard]] QStringList keysFromSource(const QString &_source) const;
     // set methods
     QStringList registerSource(const QString &_source, KSysGuard::Unit _units, const QStringList &_keys);
-    void setDevices(const QHash<QString, QStringList> &_devices);
+    void setDevices(const AWPluginMatcherSettings &_settings);
 
 private:
     AWFormatterHelper *m_customFormatters = nullptr;
+    AWPluginMatcherSettings m_settings;
     // variables
     QHash<QString, QStringList> m_devices;
-    QHash<QString, AWKeysAggregator::FormatterType> m_formatter;
+    QHash<QString, AWPluginFormaterInterface *> m_formatter;
     QMultiHash<QString, QString> m_map;
 };

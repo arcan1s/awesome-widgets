@@ -29,6 +29,6 @@ class TimeSource : public AbstractExtSysMonSource
 public:
     explicit TimeSource(QObject *_parent);
     ~TimeSource() override = default;
-    QVariant data(const QString &_source) override;
+    [[nodiscard]] QVariant data(const QString &_source) override;
     [[nodiscard]] QHash<QString, KSysGuard::SensorInfo *> sources() const override;
 };
