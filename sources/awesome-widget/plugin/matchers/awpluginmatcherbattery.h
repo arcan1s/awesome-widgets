@@ -22,7 +22,6 @@
 
 class AWPluginMatcherBattery : public AWPluginMatcher<AWPluginMatcherBattery>
 {
-
 public:
     [[nodiscard]] QHash<QString, AWPluginFormaterInterface *> keys(const QString &_source, KSysGuard::Unit,
                                                                    const AWPluginMatcherSettings &) const override;

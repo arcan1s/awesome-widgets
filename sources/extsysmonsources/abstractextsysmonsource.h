@@ -32,11 +32,11 @@ public:
 
     explicit AbstractExtSysMonSource(QObject *_parent);
     ~AbstractExtSysMonSource() override = default;
-    virtual QVariant data(const QString &_source) = 0;
+    [[nodiscard]] virtual QVariant data(const QString &_source) = 0;
     [[nodiscard]] virtual QHash<QString, KSysGuard::SensorInfo *> sources() const = 0;
-    static int index(const QString &_source);
+    [[nodiscard]] static int index(const QString &_source);
     // safe value extractor
-    template <class T> static QVariantHash dataByItem(T *_extension, const QString &_source)
+    template <class T> [[nodiscard]] static QVariantHash dataByItem(T *_extension, const QString &_source)
     {
         auto idx = index(_source);
         if (idx == -1)
@@ -45,9 +45,9 @@ public:
         auto item = _extension->itemByTagNumber(idx);
         return item ? item->run() : QVariantHash();
     }
-    static KSysGuard::SensorInfo *makeSensorInfo(const QString &_name, QMetaType::Type _type,
-                                                 KSysGuard::Unit _unit = KSysGuard::UnitNone, double _min = 0,
-                                                 double _max = 0);
+    [[nodiscard]] static KSysGuard::SensorInfo *makeSensorInfo(const QString &_name, QMetaType::Type _type,
+                                                               KSysGuard::Unit _unit = KSysGuard::UnitNone,
+                                                               double _min = 0, double _max = 0);
 
 signals:
     void dataReceived(const QVariantHash &);

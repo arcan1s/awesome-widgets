@@ -40,7 +40,6 @@ public:
 
 template <typename Matcher> class AWPluginMatcher : public AWPluginMatcherInterface
 {
-
 public:
     AWPluginMatcher(AWPluginMatcher &) = delete;
     void operator=(const AWPluginMatcher &) = delete;

@@ -36,13 +36,13 @@ public:
     explicit PlayerSource(QObject *_parent, QString _player, QString _mpdAddress, int _mpdPort, QString _mpris,
                           int _symbols);
     ~PlayerSource() override;
-    QVariant data(const QString &_source) override;
-    static QString getAutoMpris();
+    [[nodiscard]] QVariant data(const QString &_source) override;
+    [[nodiscard]] static QString getAutoMpris();
     void run();
     [[nodiscard]] QHash<QString, KSysGuard::SensorInfo *> sources() const override;
     // additional method to build dynamic tags
-    static QString buildString(const QString &_current, const QString &_value, int _s);
-    static QString stripString(const QString &_value, int _s);
+    [[nodiscard]] static QString buildString(const QString &_current, const QString &_value, int _s);
+    [[nodiscard]] static QString stripString(const QString &_value, int _s);
     // additional test method
     [[nodiscard]] bool isMpdSocketConnected() const;
 
@@ -52,8 +52,8 @@ private slots:
     void mpdSocketWritten(qint64 _bytes);
 
 private:
-    static inline QVariantHash defaultInfo();
-    QVariantHash getPlayerMpdInfo();
+    [[nodiscard]] static inline QVariantHash defaultInfo();
+    [[nodiscard]] QVariantHash getPlayerMpdInfo();
     [[nodiscard]] static QVariantHash getPlayerMprisInfo(const QString &_mpris);
     QTcpSocket m_mpdSocket;
     // configuration and values
@@ -64,6 +64,6 @@ private:
     QMutex m_dbusMutex;
     QString m_player;
     int m_symbols;
-    QStringList m_metadata = QStringList({"album", "artist", "title"});
+    QStringList m_metadata = {"album", "artist", "title"};
     QVariantHash m_values;
 };

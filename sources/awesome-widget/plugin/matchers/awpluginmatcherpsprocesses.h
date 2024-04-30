@@ -22,7 +22,6 @@
 
 class AWPluginMatcherPSProcesses : public AWPluginMatcher<AWPluginMatcherPSProcesses>
 {
-
 public:
     [[nodiscard]] QHash<QString, AWPluginFormaterInterface *> keys(const QString &, KSysGuard::Unit,
                                                                    const AWPluginMatcherSettings &) const override;

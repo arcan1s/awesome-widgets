@@ -22,7 +22,6 @@
 
 class AWPluginFormatterIntegerShort : public AWPluginFormatter<AWPluginFormatterIntegerShort>
 {
-
 public:
     [[nodiscard]] QString format(const QVariant &_value, const QString &,
                                  const AWPluginFormatSettings &) const override;

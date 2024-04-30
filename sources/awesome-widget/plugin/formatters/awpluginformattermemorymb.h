@@ -22,7 +22,6 @@
 
 class AWPluginFormatterMemoryMB : public AWPluginFormatter<AWPluginFormatterMemoryMB>
 {
-
 public:
     [[nodiscard]] QString format(const QVariant &_value, const QString &,
                                  const AWPluginFormatSettings &) const override;

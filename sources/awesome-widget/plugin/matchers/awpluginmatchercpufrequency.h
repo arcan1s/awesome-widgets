@@ -22,7 +22,6 @@
 
 class AWPluginMatcherCPUFrequency : public AWPluginMatcher<AWPluginMatcherCPUFrequency>
 {
-
 public:
     [[nodiscard]] QHash<QString, AWPluginFormaterInterface *> keys(const QString &, KSysGuard::Unit,
                                                                    const AWPluginMatcherSettings &) const override;

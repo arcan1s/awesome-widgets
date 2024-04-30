@@ -24,7 +24,6 @@
 
 class AWPluginFormatterTimeCustom : public AWPluginFormatter<AWPluginFormatterTimeCustom>
 {
-
 public:
     [[nodiscard]] QString format(const QVariant &_value, const QString &,
                                  const AWPluginFormatSettings &_settings) const override;

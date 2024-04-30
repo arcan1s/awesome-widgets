@@ -22,7 +22,6 @@
 
 class AWPluginMatcherPSTotal : public AWPluginMatcher<AWPluginMatcherPSTotal>
 {
-
 public:
     [[nodiscard]] QHash<QString, AWPluginFormaterInterface *> keys(const QString &, KSysGuard::Unit,
                                                                    const AWPluginMatcherSettings &) const override;

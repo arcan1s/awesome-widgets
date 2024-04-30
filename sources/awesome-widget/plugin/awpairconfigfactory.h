@@ -29,6 +29,4 @@ public:
     ~AWPairConfigFactory() override = default;
     Q_INVOKABLE static void showFormatterDialog(const QStringList &_keys);
     Q_INVOKABLE static void showKeysDialog(const QStringList &_keys);
-
-private:
 };

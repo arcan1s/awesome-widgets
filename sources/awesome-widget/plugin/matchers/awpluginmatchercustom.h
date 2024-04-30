@@ -22,7 +22,6 @@
 
 class AWPluginMatcherCustom : public AWPluginMatcher<AWPluginMatcherCustom>
 {
-
 public:
     [[nodiscard]] QHash<QString, AWPluginFormaterInterface *> keys(const QString &_source, KSysGuard::Unit,
                                                                    const AWPluginMatcherSettings &) const override;

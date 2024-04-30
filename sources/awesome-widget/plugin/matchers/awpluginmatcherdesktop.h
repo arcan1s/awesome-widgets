@@ -22,7 +22,6 @@
 
 class AWPluginMatcherDesktop : public AWPluginMatcher<AWPluginMatcherDesktop>
 {
-
 public:
     [[nodiscard]] QHash<QString, AWPluginFormaterInterface *> keys(const QString &, KSysGuard::Unit,
                                                                    const AWPluginMatcherSettings &) const override;

@@ -22,7 +22,6 @@
 
 class AWPluginMatcherVolume : public AWPluginMatcher<AWPluginMatcherVolume>
 {
-
 public:
     [[nodiscard]] QHash<QString, AWPluginFormaterInterface *> keys(const QString &, KSysGuard::Unit,
                                                                    const AWPluginMatcherSettings &) const override;

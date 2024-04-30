@@ -22,7 +22,6 @@
 
 class AWPluginMatcherSensors : public AWPluginMatcher<AWPluginMatcherSensors>
 {
-
 public:
     [[nodiscard]] QHash<QString, AWPluginFormaterInterface *>
     keys(const QString &_source, KSysGuard::Unit _units, const AWPluginMatcherSettings &_settings) const override;

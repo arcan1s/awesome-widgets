@@ -38,7 +38,6 @@ public:
 
 template <typename Formatter> class AWPluginFormatter : public AWPluginFormaterInterface
 {
-
 public:
     static constexpr double KBinBytes = 1024.0;
     static constexpr double MBinBytes = 1024.0 * KBinBytes;

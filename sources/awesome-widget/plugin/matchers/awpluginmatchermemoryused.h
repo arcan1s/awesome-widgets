@@ -22,7 +22,6 @@
 
 class AWPluginMatcherMemoryUsed : public AWPluginMatcher<AWPluginMatcherMemoryUsed>
 {
-
 public:
     [[nodiscard]] QHash<QString, AWPluginFormaterInterface *> keys(const QString &, KSysGuard::Unit,
                                                                    const AWPluginMatcherSettings &) const override;

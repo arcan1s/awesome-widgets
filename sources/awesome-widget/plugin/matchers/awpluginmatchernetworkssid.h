@@ -22,7 +22,6 @@
 
 class AWPluginMatcherNetworkSSID : public AWPluginMatcher<AWPluginMatcherNetworkSSID>
 {
-
 public:
     [[nodiscard]] QHash<QString, AWPluginFormaterInterface *> keys(const QString &, KSysGuard::Unit,
                                                                    const AWPluginMatcherSettings &) const override;

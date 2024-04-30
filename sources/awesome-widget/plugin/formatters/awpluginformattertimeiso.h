@@ -22,7 +22,6 @@
 
 class AWPluginFormatterTimeISO : public AWPluginFormatter<AWPluginFormatterTimeISO>
 {
-
 public:
     [[nodiscard]] QString format(const QVariant &_value, const QString &,
                                  const AWPluginFormatSettings &) const override;

@@ -22,7 +22,6 @@
 
 class AWPluginFormatterAC : public AWPluginFormatter<AWPluginFormatterAC>
 {
-
 public:
     [[nodiscard]] QString format(const QVariant &_value, const QString &,
                                  const AWPluginFormatSettings &_settings) const override;
