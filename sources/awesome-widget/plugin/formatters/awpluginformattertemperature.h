@@ -24,8 +24,9 @@ class AWPluginFormatterTemperature : public AWPluginFormatter<AWPluginFormatterT
 {
 
 public:
-    QString format(const QVariant &_value, const QString &, const AWPluginFormatSettings &_settings) const override;
+    [[nodiscard]] QString format(const QVariant &_value, const QString &,
+                                 const AWPluginFormatSettings &_settings) const override;
 
 private:
-    static double convert(const double &_value, const QString &_units);
+    [[nodiscard]] static double convert(const double &_value, const QString &_units);
 };

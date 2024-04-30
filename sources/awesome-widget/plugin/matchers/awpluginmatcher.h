@@ -45,13 +45,13 @@ public:
     AWPluginMatcher(AWPluginMatcher &) = delete;
     void operator=(const AWPluginMatcher &) = delete;
 
-    static Matcher *instance()
+    [[nodiscard]] static Matcher *instance()
     {
         static auto instance = std::make_unique<Matcher>();
         return instance.get();
     };
 
-    static QString device(const QString &_source) { return _source.split('/')[1]; };
+    [[nodiscard]] static QString device(const QString &_source) { return _source.split('/')[1]; };
 
 protected:
     AWPluginMatcher() = default;

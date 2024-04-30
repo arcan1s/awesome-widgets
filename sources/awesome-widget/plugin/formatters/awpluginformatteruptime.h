@@ -24,8 +24,9 @@ class AWPluginFormatterUptime : public AWPluginFormatter<AWPluginFormatterUptime
 {
 
 public:
-    QString format(const QVariant &_value, const QString &, const AWPluginFormatSettings &_settings) const override;
+    [[nodiscard]] QString format(const QVariant &_value, const QString &,
+                                 const AWPluginFormatSettings &_settings) const override;
 
 private:
-    static QString format(const long &_value, QString _formatString);
+    [[nodiscard]] static QString format(const long &_value, QString _formatString);
 };

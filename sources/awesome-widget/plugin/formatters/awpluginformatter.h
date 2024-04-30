@@ -29,7 +29,8 @@ class AWPluginFormaterInterface
 {
 public:
     virtual ~AWPluginFormaterInterface() = default;
-    virtual QString format(const QVariant &_value, const QString &_key, const AWPluginFormatSettings &_settings) const
+    [[nodiscard]] virtual QString format(const QVariant &_value, const QString &_key,
+                                         const AWPluginFormatSettings &_settings) const
         = 0;
     virtual void load(){};
 };
@@ -46,19 +47,21 @@ public:
     AWPluginFormatter(AWPluginFormatter &) = delete;
     void operator=(const AWPluginFormatter &) = delete;
 
-    static Formatter *instance()
+    [[nodiscard]] static Formatter *instance()
     {
         static auto instance = loadInstance();
         return instance.get();
     };
-    static QLocale locale(const AWPluginFormatSettings &_settings)
+
+    [[nodiscard]] static QLocale locale(const AWPluginFormatSettings &_settings)
     {
         return _settings.translate ? QLocale::system() : QLocale::c();
     };
 
 protected:
     AWPluginFormatter() = default;
-    static std::unique_ptr<Formatter> loadInstance()
+
+    [[nodiscard]] static std::unique_ptr<Formatter> loadInstance()
     {
         auto instance = std::make_unique<Formatter>();
         instance->load();

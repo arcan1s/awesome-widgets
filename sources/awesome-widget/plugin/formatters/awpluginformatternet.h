@@ -24,9 +24,10 @@ class AWPluginFormatterNet : public AWPluginFormatter<AWPluginFormatterNet>
 {
 
 public:
-    QString format(const QVariant &_value, const QString &, const AWPluginFormatSettings &) const override;
+    [[nodiscard]] QString format(const QVariant &_value, const QString &,
+                                 const AWPluginFormatSettings &) const override;
 
 private:
-    static QString formatKB(const double &_value);
-    static QString formatMB(const double &_value);
+    [[nodiscard]] static QString formatKB(const double &_value);
+    [[nodiscard]] static QString formatMB(const double &_value);
 };

@@ -24,5 +24,6 @@ class AWPluginFormatterCustom : public AWPluginFormatter<AWPluginFormatterCustom
 {
 
 public:
-    QString format(const QVariant &_value, const QString &_key, const AWPluginFormatSettings &_settings) const override;
+    [[nodiscard]] QString format(const QVariant &_value, const QString &_key,
+                                 const AWPluginFormatSettings &_settings) const override;
 };

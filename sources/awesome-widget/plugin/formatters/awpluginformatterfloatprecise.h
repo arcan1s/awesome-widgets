@@ -24,5 +24,6 @@ class AWPluginFormatterFloatPrecise : public AWPluginFormatter<AWPluginFormatter
 {
 
 public:
-    QString format(const QVariant &_value, const QString &, const AWPluginFormatSettings &) const override;
+    [[nodiscard]] QString format(const QVariant &_value, const QString &,
+                                 const AWPluginFormatSettings &) const override;
 };

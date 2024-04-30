@@ -26,10 +26,11 @@ class AWPluginFormatterTimeCustom : public AWPluginFormatter<AWPluginFormatterTi
 {
 
 public:
-    QString format(const QVariant &_value, const QString &, const AWPluginFormatSettings &_settings) const override;
+    [[nodiscard]] QString format(const QVariant &_value, const QString &,
+                                 const AWPluginFormatSettings &_settings) const override;
     void load() override;
 
 private:
-    QString format(const QDateTime &_value, QString _formatString, const QLocale &_locale) const;
+    [[nodiscard]] QString format(const QDateTime &_value, QString _formatString, const QLocale &_locale) const;
     QStringList m_timeKeys;
 };
