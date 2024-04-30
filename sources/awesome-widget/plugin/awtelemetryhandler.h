@@ -20,7 +20,7 @@
 #include <QObject>
 
 
-class AWTelemetryHandler : public QObject
+class __attribute__((visibility("default"))) AWTelemetryHandler : public QObject
 {
     Q_OBJECT
 

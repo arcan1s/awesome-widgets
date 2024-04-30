@@ -28,7 +28,7 @@ class VirtualDesktopInfo;
 class WindowTasksModel;
 } // namespace TaskManager
 
-class DPAdds : public QObject
+class __attribute__((visibility("default"))) DPAdds : public QObject
 {
     Q_OBJECT
 

@@ -28,7 +28,7 @@ class AWKeyOperations;
 class AWKeysAggregator;
 class QTimer;
 
-class AWKeys : public QObject
+class __attribute__((visibility("default"))) AWKeys : public QObject
 {
     Q_OBJECT
 

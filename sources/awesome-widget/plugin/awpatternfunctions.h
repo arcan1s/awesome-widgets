@@ -23,7 +23,7 @@
 
 class AWKeysAggregator;
 
-namespace AWPatternFunctions
+namespace __attribute__((visibility("default"))) AWPatternFunctions
 {
 typedef struct {
     QStringList args;
