@@ -1,22 +1,25 @@
-# Copyright (C) 2014
-# This file is distributed under the same license as the PyTextMonitor package.
-#
-# SPDX-FileCopyrightText: 2014, 2015, 2016, 2017, 2020, 2024 Evgeniy Alekseev <esalexeev@gmail.com>
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the awesome-widgets package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Evgeniy Alekseev <darkarcanis@mail.ru>, 2024
+# 
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: awesome-widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
 "POT-Creation-Date: 2024-04-22 14:53+0300\n"
-"PO-Revision-Date: 2024-04-19 20:17+0300\n"
-"Last-Translator: Evgenii Alekseev <esalexeev@gmail.com>\n"
-"Language-Team: Russian <kde-russian@lists.kde.ru>\n"
-"Language: ru\n"
+"PO-Revision-Date: 2024-04-21 13:49+0000\n"
+"Last-Translator: Evgeniy Alekseev <darkarcanis@mail.ru>, 2024\n"
+"Language-Team: Russian (https://app.transifex.com/arcanis/teams/20130/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 24.02.1\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
 #, kde-format
@@ -436,7 +439,7 @@ msgstr "Погода"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/main.qml
 #, kde-format
 msgid "Run monitor"
-msgstr "Запустить монитор"
+msgstr "Запустить системный монитор"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/main.qml
 #, kde-format
@@ -795,7 +798,7 @@ msgstr "Котировки"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 #, kde-format
 msgid "System"
-msgstr "Системные"
+msgstr "Система"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
@@ -837,11 +840,12 @@ msgstr "Предварительный просмотр"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWInfoLabel.qml
 #, kde-format
 msgid ""
-"Detailed information may be found on <a href=\"https://arcanis.me/projects/"
-"awesome-widgets/\">project homepage</a>"
+"Detailed information may be found on <a "
+"href=\"https://arcanis.me/projects/awesome-widgets/\">project homepage</a>"
 msgstr ""
-"Подробная информация может быть найдена на <a href=\"https://arcanis.me/ru/"
-"projects/awesome-widgets/\">домашней странице проекта</a>"
+"Подробная информация может быть найдена на <a "
+"href=\"https://arcanis.me/ru/projects/awesome-widgets/\">домашней странице "
+"проекта</a>"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWTagSelector.qml
 #, kde-format
@@ -932,7 +936,7 @@ msgstr "HDD"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 #, kde-format
 msgid "Network request"
-msgstr "Веб-запрос"
+msgstr "Сетевой запрос"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 #, kde-format
@@ -947,7 +951,7 @@ msgstr "Функции"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 #, kde-format
 msgid "User defined"
-msgstr "Пользовательские ключи"
+msgstr "Пользовательские определения"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 #, kde-format
@@ -1037,9 +1041,8 @@ msgstr "Импорт дополнительных файлов"
 #: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extupgrade.h
 #: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extweather.h
 #: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_graphicalitem.h
-#, fuzzy
 msgid "Configuration"
-msgstr "Экспорт настроек"
+msgstr "Настройки"
 
 #: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awdatetimeformatter.h
 #: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awfloatformatter.h
@@ -1173,7 +1176,7 @@ msgstr "Активен"
 #: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extupgrade.h
 #: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extweather.h
 msgid "Update"
-msgstr ""
+msgstr "Обновление"
 
 #: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extnetworkrequest.h
 #: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extquotes.h
@@ -1205,10 +1208,10 @@ msgid ""
 "Refer to <a href=\"https://stooq.com/\"><span style=\" text-decoration: "
 "underline; color:#0057ae;\">https://stooq.com/</span></a></p></body></html>"
 msgstr ""
-"<html><head/><body><p>Используйте тикеры Stooq, чтобы получить котировки по "
-"инструменту. См. <a href=\"https://stooq.com/\"><span style=\" text-"
-"decoration: underline; color:#0057ae;\">https://stooq.com/</span></a></p></"
-"body></html>"
+"<html><head/><body><p>Используйте Stooq тикер для получения котировок по "
+"финансовому инструменту, используя сайт <a "
+"href=\"https\\://stooq.com/\"><span style=\" text-decoration\\: underline; "
+"color\\:#0057ae;\">https\\://stooq.com/</span></a></p></body></html> "
 
 #: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extquotes.h
 msgid "Ticker"
@@ -1281,12 +1284,11 @@ msgstr "Тип активного наполнения"
 
 #: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_graphicalitem.h
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_graphicalitem.h
-#, fuzzy
 msgid "Inactive filling type"
-msgstr "Тип неактивного наполнения"
+msgstr "Цвет неактивного наполнения"
 
 #: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_graphicalitem.h
 msgid "Direction"
