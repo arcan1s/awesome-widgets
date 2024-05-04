@@ -15,7 +15,9 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-
+#ifndef NDEBUG
+#define NDEBUG
+#endif /* NDEBUG */
 #include <KI18n/KLocalizedString>
 
 #include "awdebug.h"

@@ -21,4 +21,5 @@
 
 #ifndef ui_i18n
 #define ui_i18n(text, parent) i18n(text)
-#endif
+#endif /* ui_i18n */
+

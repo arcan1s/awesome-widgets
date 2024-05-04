@@ -17,6 +17,9 @@
 
 #include "awupdatehelper.h"
 
+#ifndef NDEBUG
+#define NDEBUG
+#endif /* NDEBUG */
 #include <KI18n/KLocalizedString>
 #include <KNotifications/KNotification>
 
