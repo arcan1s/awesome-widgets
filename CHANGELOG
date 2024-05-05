@@ -1,5 +1,10 @@
 Ver.4.0.0:
 * migration to plasma 6
+* dialog windows have been replaced by notifications
++ $gpuN keys have been added
++ new key $ssid
+- $cuptime key has been removed in favour of $uptime
+- $gputemp key has been replaced by $gpuN
 
 Ver.3.5.0:
 + wayland support
