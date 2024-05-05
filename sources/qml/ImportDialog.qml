@@ -38,6 +38,7 @@ Item {
 
     Dialog {
         id: importSelection
+        standardButtons: Dialog.Ok | Dialog.Cancel
 
         Column {
             CheckBox {
