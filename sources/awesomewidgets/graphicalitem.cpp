@@ -436,7 +436,7 @@ int GraphicalItem::showConfiguration(QWidget *_parent, const QVariant &_args)
     auto ui = new Ui::GraphicalItem();
     ui->setupUi(dialog);
 
-    connect(ui->checkBox_custom, &QCheckBox::stateChanged, [ui](const int state) { changeValue(ui, state); });
+    connect(ui->checkBox_custom, &QCheckBox::checkStateChanged, [ui](const int state) { changeValue(ui, state); });
     connect(ui->comboBox_type, &QComboBox::currentIndexChanged, [ui](const int state) { changeCountState(ui, state); });
     connect(ui->toolButton_activeColor, &QToolButton::clicked, [this, ui]() { changeColor(ui); });
     connect(ui->toolButton_inactiveColor, &QToolButton::clicked, [this, ui]() { changeColor(ui); });
@@ -472,7 +472,7 @@ int GraphicalItem::showConfiguration(QWidget *_parent, const QVariant &_args)
 
     // update UI
     emit(ui->comboBox_type->currentIndexChanged(ui->comboBox_type->currentIndex()));
-    emit(ui->checkBox_custom->stateChanged(ui->checkBox_custom->checkState()));
+    emit(ui->checkBox_custom->checkStateChanged(ui->checkBox_custom->checkState()));
 
     int ret = dialog->exec();
     if (ret == 1) {

@@ -130,7 +130,7 @@ PlasmoidItem {
         Plasmoid.userConfiguringChanged(false)
         // connect data
         awKeys.needTextToBeUpdated.connect(needTextUpdate)
-        awKeys.needToolTipToBeUpdated.connect(needToolTipUpdate)
+        //awKeys.needToolTipToBeUpdated.connect(needToolTipUpdate)
         // check updates if required
         if (plasmoid.configuration.checkUpdates) return awActions.checkUpdates(false)
     }
