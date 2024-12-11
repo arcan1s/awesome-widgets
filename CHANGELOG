@@ -1,3 +1,6 @@
+Ver.4.0.1:
+- temporary disable tooltip painting in main widget
+
 Ver.4.0.0:
 * migration to plasma 6
 * dialog windows have been replaced by notifications
