@@ -75,5 +75,5 @@ Links
 * [Scripts and bars](https://arcanis.me/en/2014/12/19/aw-v21-bells-and-whistles/)
 * Plasmoid on [kde-look](http://kde-look.org/content/show.php/Awesome+Widgets?content=157124)
 * DataEngine on [kde-look](http://kde-look.org/content/show.php/Extended+Systemmonitor+DataEngine?content=158773)
-* Archlinux [AUR](https://aur.archlinux.org/packages/plasma5-applet-awesome-widgets/) package
+* Archlinux [AUR](https://aur.archlinux.org/packages/plasma6-applets-awesome-widgets) package
 * [OpenSuse](http://software.opensuse.org/search?q=awesome-widgets) packages, [KF5 OpenSuse](http://software.opensuse.org/package/plasma5-awesome-widgets) package
