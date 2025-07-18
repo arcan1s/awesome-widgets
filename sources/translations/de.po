@@ -25,7 +25,7 @@ msgstr "Version %1 (Datum des Builds %2)"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
 #, kde-format
 msgid "A set of minimalistic plasmoid widgets"
-msgstr "Ein Set an minimalen Plasmoid Widgets"
+msgstr "Ein Set an minimalistischen Plasmoid Widgets"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
 #, kde-format
