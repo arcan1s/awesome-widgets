@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: awesome-widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
 "POT-Creation-Date: 2024-04-22 14:53+0300\n"
-"PO-Revision-Date: 2025-07-18 17:00+0200\n"
+"PO-Revision-Date: 2025-07-18 17:32+0200\n"
 "Last-Translator: Dennis Paschen <daveedmee@linuxposting.xyz>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de_DE\n"
@@ -25,7 +25,7 @@ msgstr "Version %1 (Datum des Builds %2)"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
 #, kde-format
 msgid "A set of minimalistic plasmoid widgets"
-msgstr "Ein Set an minimalistischen Plasmoid Widgets"
+msgstr "Ein Set an minimalen Plasmoid Widgets"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
 #, kde-format
@@ -138,7 +138,7 @@ msgstr "Zeichenfolge übersetzen"
 #: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extscript.h
 #, kde-format
 msgid "Wrap new lines"
-msgstr "Neue Zeilen umbrechen"
+msgstr "In neue Zeilen umbrechen"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 #, kde-format
@@ -158,19 +158,19 @@ msgstr "Suche nach Aktualisierungen bei Programmstart"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 #, kde-format
 msgid "Optimize subscription"
-msgstr "Übermittlung optimieren"
+msgstr "Übermittlungsoptimierungen"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
 #, kde-format
 msgid "Widget height, px"
-msgstr "Höhe des Widgets, px"
+msgstr "Widgethöhe in px"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../desktop-panel/package/contents/ui/advanced.qml
 #, kde-format
 msgid "Widget width, px"
-msgstr "Breite des Widgets, px"
+msgstr "Widgetbreite in px"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 #, kde-format
@@ -215,17 +215,17 @@ msgstr "kcal/mol"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 #, kde-format
 msgid "Temperature units"
-msgstr "Temperatureinheiten"
+msgstr "Temperatureinheit"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 #, kde-format
 msgid "Custom time format"
-msgstr "Benutzerdefiniertes Zeitformat"
+msgstr "Eigenes Zeitformat"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 #, kde-format
 msgid "Custom uptime format"
-msgstr "Benutzerdefiniertes Betriebszeitformat"
+msgstr "Eigenes Betriebszeitformat"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 #, kde-format
@@ -245,7 +245,7 @@ msgstr "Aktionen"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 #, kde-format
 msgid "Drop key cache"
-msgstr "Key Cache löschen"
+msgstr "Schlüsselcache bereinigen"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 #, kde-format
@@ -376,7 +376,7 @@ msgstr "Player"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
 #, kde-format
 msgid "Player data symbols"
-msgstr "Player Dateisymbole"
+msgstr ""
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
@@ -407,7 +407,7 @@ msgstr "Erweiterungen"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
 #, kde-format
 msgid "Custom scripts"
-msgstr "Benutzerdefinierte Skripte"
+msgstr "Eigene Skripte"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
@@ -452,14 +452,14 @@ msgid ""
 "CPU, CPU clock, memory, swap and network labels support graphical tooltip. To "
 "enable them just make needed checkbox checked."
 msgstr ""
-"CPU, CPU-Frequent, Arbeitsspeicher, Swap und Netzwerkbeschriftungen unterstütz"
-"en grafische Tooltips. Um sie zu aktivieren muss nur die benötigte Auswahlkäst"
-"chen aktiviert sein."
+"Prozessor, Taktfrequenz, Arbeitsspeicher, Auslagerungsspeicher und Netzwerkbes"
+"chriftungen unterstützen grafische Tooltips. Um sie zu aktivieren muss nur das"
+" benötigte Auswahlkästchen aktiviert sein."
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 #, kde-format
 msgid "Number of values for tooltips"
-msgstr "Anzahl an Werten für Tooltips"
+msgstr "Maximalwert für Tooltips"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 #, kde-format
@@ -480,17 +480,17 @@ msgstr "Prozessor"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 #, kde-format
 msgid "CPU color"
-msgstr "Farbe des Prozessors"
+msgstr "Prozessorfarbe"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 #, kde-format
 msgid "CPU clock"
-msgstr "Prozessortakt"
+msgstr "Prozessor-Taktfrequenz"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 #, kde-format
 msgid "CPU clock color"
-msgstr "Farbe des Prozessortaktes"
+msgstr "Prozessor-Taktfrequenz-Farbe "
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
@@ -501,17 +501,17 @@ msgstr "Arbeitsspeicher"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 #, kde-format
 msgid "Memory color"
-msgstr "Farbe des Arbeitsspeichers"
+msgstr "Arbeitsspeicher-Farbe"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 #, kde-format
 msgid "Swap"
-msgstr "Swap-Speicher"
+msgstr "Auslagerungsspeicher"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 #, kde-format
 msgid "Swap color"
-msgstr "Farbe des Swap-Speichers"
+msgstr "Auslagerungsspeicher-Farbe"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
@@ -522,12 +522,12 @@ msgstr "Netzwerk"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 #, kde-format
 msgid "Download speed color"
-msgstr "Fabre der Download-Rate"
+msgstr "Farbe der Download-Rate "
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 #, kde-format
 msgid "Upload speed color"
-msgstr "Farbe der Upload-Rate"
+msgstr "Farbe der Upload-Rate "
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
@@ -538,12 +538,12 @@ msgstr "Batterie"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 #, kde-format
 msgid "Battery active color"
-msgstr "Farbe der aktiven Batterie"
+msgstr "Farbe der aktiven Batterie "
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 #, kde-format
 msgid "Battery inactive color"
-msgstr "Farbe der inaktiven Batterie"
+msgstr "Farbe der inaktiven Batterie "
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awabstractpairconfig.cpp
 #, kde-format
@@ -590,12 +590,12 @@ msgstr ""
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awdataaggregator.cpp
 #, kde-format
 msgid "High CPU load"
-msgstr "Hohe Prozessorauslastung"
+msgstr "Prozessor-Höchstauslastung"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awdataaggregator.cpp
 #, kde-format
 msgid "High memory usage"
-msgstr "Hohe Arbeitsspeicherauslastung"
+msgstr "Arbeitsspeicher-Höchstrauslastung"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awdataaggregator.cpp
 #, kde-format
@@ -605,7 +605,7 @@ msgstr "Swapspeichernutzung"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awdataaggregator.cpp
 #, kde-format
 msgid "High GPU load"
-msgstr "Hohe Grafikkartenauslastung"
+msgstr "Grafikkarten-Höchstauslastung"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awdataaggregator.cpp
 #, kde-format
@@ -710,7 +710,7 @@ msgstr "Identität: %1"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
 #, kde-format
 msgid "Select color"
-msgstr "Farbe auswählen"
+msgstr "Farbe auswählen "
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesomewidgets/graphicalitem.cpp
 #, kde-format
@@ -867,7 +867,7 @@ msgstr "Danksagungen"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ColorSelector.qml /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/HtmlEditorColor.qml
 #, kde-format
 msgid "Select a color"
-msgstr "Wähle eine Farbe"
+msgstr "Wähle eine Farbe "
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ExportDialog.qml
 #, kde-format
@@ -977,22 +977,22 @@ msgstr "Extrafett"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 #, kde-format
 msgid "outline"
-msgstr "Kontur"
+msgstr "kontur"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 #, kde-format
 msgid "raised"
-msgstr "Hochgesetzt"
+msgstr "hochgesetzt"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 #, kde-format
 msgid "sunken"
-msgstr "Tiefgestellt"
+msgstr "tiefgestellt"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/HtmlDefaultFunctionsBar.qml
 #, kde-format
 msgid "Bgcolor"
-msgstr "Hintergrundfarbe"
+msgstr "Hintergrundfarbe "
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/ImportDialog.qml
 #, kde-format
@@ -1178,7 +1178,7 @@ msgstr "Zusätzliche Filter"
 
 #: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extscript.h
 msgid "Wrap colors"
-msgstr "Umbruchfarben"
+msgstr "Umbruchfarben "
 
 #: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_extscript.h
 msgid "Wrap spaces"
@@ -1210,7 +1210,7 @@ msgstr "Nutze Bilder"
 
 #: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_graphicalitem.h
 msgid "Use custom formula"
-msgstr "Nutze benutzerdefiniere Formel"
+msgstr "Nutze eigene Formel"
 
 #: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_graphicalitem.h
 msgid "Value"
