@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: awesome-widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
 "POT-Creation-Date: 2024-04-22 14:53+0300\n"
-"PO-Revision-Date: 2025-07-18 17:32+0200\n"
+"PO-Revision-Date: 2025-07-18 17:38+0200\n"
 "Last-Translator: Dennis Paschen <daveedmee@linuxposting.xyz>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de_DE\n"
@@ -60,7 +60,7 @@ msgstr "AUR Pakete"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
 #, kde-format
 msgid "openSUSE packages"
-msgstr "openSuse Pakete"
+msgstr "openSUSE Pakete"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
 #, kde-format
