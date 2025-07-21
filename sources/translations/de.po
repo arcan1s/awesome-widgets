@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: awesome-widgets\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/awesome-widgets/issues\n"
 "POT-Creation-Date: 2024-04-22 14:53+0300\n"
-"PO-Revision-Date: 2025-07-18 17:38+0200\n"
+"PO-Revision-Date: 2025-07-21 12:38+0200\n"
 "Last-Translator: Dennis Paschen <daveedmee@linuxposting.xyz>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de_DE\n"
@@ -25,7 +25,7 @@ msgstr "Version %1 (Datum des Builds %2)"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
 #, kde-format
 msgid "A set of minimalistic plasmoid widgets"
-msgstr "Ein Set an minimalistischen Plasmoid Widgets"
+msgstr "Ein Set an minimalen Plasmoid Widgets"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awdebug.cpp
 #, kde-format
@@ -230,12 +230,12 @@ msgstr "Eigenes Betriebszeitformat"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 #, kde-format
 msgid "AC online tag"
-msgstr ""
+msgstr "mit Netzteil verbunden"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 #, kde-format
 msgid "AC offline tag"
-msgstr ""
+msgstr "nicht mit Netzteil verbunden"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/advanced.qml
 #, kde-format
@@ -376,7 +376,7 @@ msgstr "Player"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
 #, kde-format
 msgid "Player data symbols"
-msgstr ""
+msgstr "maximale Symbolanzahl"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
@@ -423,7 +423,7 @@ msgstr "Paketmanager"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
 #, kde-format
 msgid "Quotes monitor"
-msgstr ""
+msgstr "Aktienmonitor"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/dataengine.qml
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp
@@ -453,8 +453,8 @@ msgid ""
 "enable them just make needed checkbox checked."
 msgstr ""
 "Prozessor, Taktfrequenz, Arbeitsspeicher, Auslagerungsspeicher und Netzwerkbes"
-"chriftungen unterstützen grafische Tooltips. Um sie zu aktivieren muss nur das"
-" benötigte Auswahlkästchen aktiviert sein."
+"chriftungen unterstützen grafische Tooltips. Um diese zu aktivieren, muss das"
+" benötigte Auswahlkästchen ausgewählt sein."
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/package/contents/ui/tooltip.qml
 #, kde-format
@@ -580,37 +580,37 @@ msgstr "Details"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awdataaggregator.cpp
 #, kde-format
 msgid "AC online"
-msgstr ""
+msgstr "mit Netzteil verbunden"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awdataaggregator.cpp
 #, kde-format
 msgid "AC offline"
-msgstr ""
+msgstr "nicht mit Netzteil verbunden"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awdataaggregator.cpp
 #, kde-format
 msgid "High CPU load"
-msgstr "Prozessor-Höchstauslastung"
+msgstr "Hohe Prozessorauslastung"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awdataaggregator.cpp
 #, kde-format
 msgid "High memory usage"
-msgstr "Arbeitsspeicher-Höchstrauslastung"
+msgstr "Hohe Arbeitsspeicherauslastung"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awdataaggregator.cpp
 #, kde-format
 msgid "Swap is used"
-msgstr "Swapspeichernutzung"
+msgstr "Auslagerungsspeicher wird genutzt"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awdataaggregator.cpp
 #, kde-format
 msgid "High GPU load"
-msgstr "Grafikkarten-Höchstauslastung"
+msgstr "Hohe Grafikkartenauslastung"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awdataaggregator.cpp
 #, kde-format
 msgid "Network device has been changed to %1"
-msgstr "Netzwerk zu %1 gewechselt"
+msgstr "Zu Netzwerk %1 gewechselt"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../awesome-widget/plugin/awformatterhelper.cpp
 #, kde-format
@@ -785,7 +785,7 @@ msgstr "Prozesse"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 #, kde-format
 msgid "Quotes"
-msgstr ""
+msgstr "Aktien"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../extsysmon/extsysmonaggregator.cpp /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 #, kde-format
@@ -820,7 +820,7 @@ msgstr "Formatierungen"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWExtensions.qml
 #, kde-format
 msgid "User keys"
-msgstr ""
+msgstr "Eigene Variablen"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/AWExtensions.qml
 #, kde-format
@@ -902,7 +902,7 @@ msgstr "Schriftart auswählen"
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 #, kde-format
 msgid "AC"
-msgstr ""
+msgstr "Netzteil"
 
 #: /home/arcanis/documents/github/awesome-widgets/sources/translations/../qml/General.qml
 #, kde-format
@@ -1102,7 +1102,7 @@ msgstr "Code anfügen"
 
 #: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awscriptformatter.h
 msgid "Has return"
-msgstr ""
+msgstr "Has return"
 
 #: /home/arcanis/documents/github/awesome-widgets/build/awesomewidgets/ui_awscriptformatter.h
 msgid "Code"
