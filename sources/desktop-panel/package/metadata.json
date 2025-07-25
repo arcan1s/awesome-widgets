@@ -19,7 +19,7 @@
         "Id": "org.kde.plasma.desktoppanel",
         "License": "GPLv3",
         "Name": "Desktop Panel",
-        "Version": "4.0.1",
+        "Version": "4.0.2",
         "Website": "https://arcanis.me/projects/awesome-widgets/"
     },
     "X-Plasma-API-Minimum-Version": "6.0"
