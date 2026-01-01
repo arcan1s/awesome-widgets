@@ -5,7 +5,7 @@ find_package(Gettext REQUIRED)
 find_package(Qt6 6.6.0 REQUIRED COMPONENTS Core Concurrent DBus Network Qml Test Widgets)
 add_definitions(
         ${Qt6Core_DEFINITIONS} ${Qt6DBus_DEFINITIONS} ${Qt6Network_DEFINITIONS}
-        ${Qt6Qml_DEFINITIONS} ${Qt6Widgets_DEFINITIONS}
+        ${Qt6Widgets_DEFINITIONS}
 )
 set(Qt_INCLUDE
         ${Qt6Core_INCLUDE_DIRS} ${Qt6Concurrent_INCLUDE_DIRS} ${Qt6DBus_INCLUDE_DIRS} ${Qt6Network_INCLUDE_DIRS}
