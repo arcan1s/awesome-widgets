@@ -1,3 +1,6 @@
+Ver.4.0.3:
+- drop qml definition to avoid compile errors
+
 Ver.4.0.2:
 + German translation (#172, thanks to daveedmee)
 
