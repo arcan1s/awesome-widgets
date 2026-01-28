@@ -99,10 +99,9 @@ void AWDataEngineAggregator::dropSource(const QString &_source)
 {
     qCDebug(LOG_AW) << "Disconnect sensor" << _source;
 
-    if (m_subscribed.contains(_source)) {
-        m_interface->unsubscribe({_source}).waitForFinished();
-        m_subscribed.remove(_source);
-    }
+    m_interface->unsubscribe({_source}).waitForFinished();
+    m_interface->unsubscribe({_source}).waitForFinished();
+    m_subscribed.remove(_source);
 }
 
 
