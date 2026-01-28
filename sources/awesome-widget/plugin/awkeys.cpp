@@ -206,9 +206,8 @@ void AWKeys::reinitKeys(const QStringList &_currentKeys)
         barKeys.append(item->usedKeys());
     }
     // get required keys
-    m_requiredKeys = m_optimize ? AWKeyCache::getRequiredKeys(m_foundKeys, barKeys, m_tooltipParams,
-                                                              m_keyOperator->requiredUserKeys(), _currentKeys)
-                                : QStringList();
+    m_requiredKeys = AWKeyCache::getRequiredKeys(m_foundKeys, barKeys, m_tooltipParams,
+                                                 m_keyOperator->requiredUserKeys(), _currentKeys);
 
     // set key data to m_aggregator
     m_aggregator->setDevices(m_keyOperator->devices());
@@ -317,7 +316,7 @@ void AWKeys::setDataBySource(const QString &_source, const KSysGuard::SensorInfo
     // first list init
     auto tags = m_aggregator->keysFromSource(_source);
     if (tags.isEmpty())
-        tags = m_aggregator->registerSource(_source, _sensor.unit, m_requiredKeys);
+        tags = m_aggregator->registerSource(_source, _sensor.unit, m_requiredKeys, m_optimize);
 
     // update data or drop source if there are no matches and exit
     if (tags.isEmpty()) {

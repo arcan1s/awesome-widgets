@@ -65,7 +65,7 @@ QStringList AWDataEngineMapper::keysFromSource(const QString &_source) const
 // HACK units required to define should the value be calculated as temperature
 // or fan data
 QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSysGuard::Unit _units,
-                                               const QStringList &_keys)
+                                               const QStringList &_keys, const bool _disconnectUnused)
 {
     qCDebug(LOG_AW) << "Source" << _source << "with units" << _units;
 
@@ -91,7 +91,7 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSy
 
     // check if keys were actually requested
     qCInfo(LOG_AW) << "Looking for keys" << keys << "in" << _keys;
-    auto required = _keys.isEmpty()
+    auto required = !_disconnectUnused
                     || std::any_of(keys.cbegin(), keys.cend(), [&_keys](auto &key) { return _keys.contains(key); });
     if (!required)
         return {};

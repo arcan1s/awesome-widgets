@@ -39,7 +39,8 @@ public:
     [[nodiscard]] AWPluginFormaterInterface *formatter(const QString &_key) const;
     [[nodiscard]] QStringList keysFromSource(const QString &_source) const;
     // set methods
-    QStringList registerSource(const QString &_source, KSysGuard::Unit _units, const QStringList &_keys);
+    QStringList registerSource(const QString &_source, KSysGuard::Unit _units, const QStringList &_keys,
+                               const bool _disconnectUnused);
     void setDevices(const AWPluginMatcherSettings &_settings);
 
 private:

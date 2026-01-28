@@ -61,7 +61,8 @@ public:
     void setTranslate(bool _translate);
 
 public slots:
-    QStringList registerSource(const QString &_source, KSysGuard::Unit _units, const QStringList &_keys);
+    QStringList registerSource(const QString &_source, KSysGuard::Unit _units, const QStringList &_keys,
+                               const bool _disconnectUnused);
 
 private:
     AWPluginFormatSettings m_settings;

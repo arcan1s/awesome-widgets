@@ -128,8 +128,8 @@ QVariant SystemInfoSource::sendDBusRequest(const QString &_destination, const QS
 
     auto response = bus.call(request, QDBus::BlockWithGui, REQUEST_TIMEOUT);
 
-    if ((response.type() != QDBusMessage::ReplyMessage) || (response.arguments().isEmpty())) {
-        qCWarning(LOG_ESS) << "Error message" << response.errorMessage();
+    if (response.type() != QDBusMessage::ReplyMessage || response.arguments().isEmpty()) {
+        qCWarning(LOG_ESS) << "Error" << response.errorName() << "with message" << response.errorMessage();
         return {};
     } else {
         return response.arguments().first();

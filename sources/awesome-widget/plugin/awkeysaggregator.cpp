@@ -151,9 +151,9 @@ void AWKeysAggregator::setTranslate(const bool _translate)
 
 
 QStringList AWKeysAggregator::registerSource(const QString &_source, const KSysGuard::Unit _units,
-                                             const QStringList &_keys)
+                                             const QStringList &_keys, const bool _disconnectUnused)
 {
     qCDebug(LOG_AW) << "Source" << _source << "with units" << _units;
 
-    return m_mapper->registerSource(_source, _units, _keys);
+    return m_mapper->registerSource(_source, _units, _keys, _disconnectUnused);
 }
