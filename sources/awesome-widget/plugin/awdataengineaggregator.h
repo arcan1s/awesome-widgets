@@ -23,6 +23,7 @@
 #include <QObject>
 #include <QSet>
 
+#include <memory>
 
 namespace KSysGuard::SystemStats
 {
@@ -34,12 +35,26 @@ class AWDataEngineAggregator : public QObject
     Q_OBJECT
 
 public:
-    explicit AWDataEngineAggregator(QObject *_parent = nullptr);
     ~AWDataEngineAggregator() override;
+
+    AWDataEngineAggregator(AWDataEngineAggregator &) = delete;
+    void operator=(const AWDataEngineAggregator &) = delete;
+
+    [[nodiscard]] static AWDataEngineAggregator *instance(QObject *_client)
+    {
+        static auto instance = loadInstance();
+        instance->registerClient(_client);
+        return instance.get();
+    };
+
     void connectSources();
     void disconnectSources();
+    void dropSourceForClient(QObject *_client, const QString &_source);
+    [[nodiscard]] inline bool isSubscriptionUnused(const QString &_source) const;
     [[nodiscard]] static bool isValidSensor(const KSysGuard::SensorInfo &_sensor);
     void loadSources();
+    void registerClient(QObject *_client);
+    void unregisterClient(QObject *_client);
 
 signals:
     void dataUpdated(const QHash<QString, KSysGuard::SensorInfo> &_sensors, const KSysGuard::SensorDataList &_data);
@@ -52,7 +67,18 @@ public slots:
     void updateData(const KSysGuard::SensorDataList &_data);
     void updateSensors(const QHash<QString, KSysGuard::SensorInfo> &_sensors);
 
+protected:
+    explicit AWDataEngineAggregator(QObject *_parent = nullptr);
+
+    [[nodiscard]] static std::unique_ptr<AWDataEngineAggregator> loadInstance()
+    {
+        auto instance = new AWDataEngineAggregator();
+        return std::unique_ptr<AWDataEngineAggregator>(instance);
+    };
+
 private:
+    QSet<QObject *> m_clients;
+    QHash<QString, QSet<QObject *>> m_droppedBy;
     KSysGuard::SystemStats::DBusInterface *m_interface = nullptr;
     QHash<QString, KSysGuard::SensorInfo> m_sensors;
     QSet<QString> m_subscribed;

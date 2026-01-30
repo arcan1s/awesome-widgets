@@ -95,13 +95,55 @@ void AWDataEngineAggregator::loadSources()
 }
 
 
+void AWDataEngineAggregator::registerClient(QObject *_client)
+{
+    qCDebug(LOG_AW) << "Register client" << _client;
+
+    // register new client
+    m_clients.insert(_client);
+    // (re)connect sources for new client
+    connectSources();
+}
+
+
+void AWDataEngineAggregator::unregisterClient(QObject *_client)
+{
+    qCDebug(LOG_AW) << "Unregister client" << _client;
+
+    m_clients.remove(_client);
+    for (auto [source, clients] : m_droppedBy.asKeyValueRange()) {
+        if (clients.remove(_client)) {
+            if (isSubscriptionUnused(source))
+                dropSource(source);
+        }
+    }
+}
+
+
 void AWDataEngineAggregator::dropSource(const QString &_source)
 {
     qCDebug(LOG_AW) << "Disconnect sensor" << _source;
 
-    m_interface->unsubscribe({_source}).waitForFinished();
-    m_interface->unsubscribe({_source}).waitForFinished();
-    m_subscribed.remove(_source);
+    if (m_subscribed.remove(_source))
+        m_interface->unsubscribe({_source}).waitForFinished();
+}
+
+
+void AWDataEngineAggregator::dropSourceForClient(QObject *_client, const QString &_source)
+{
+    qCDebug(LOG_AW) << "Client" << _client << "dropping source" << _source;
+
+    m_droppedBy[_source].insert(_client);
+
+    // only unsubscribe if ALL clients have dropped this source
+    if (isSubscriptionUnused(_source))
+        dropSource(_source);
+}
+
+
+bool AWDataEngineAggregator::isSubscriptionUnused(const QString &_source) const
+{
+    return m_droppedBy.value(_source).size() >= m_clients.size() && !m_clients.isEmpty();
 }
 
 

@@ -32,7 +32,7 @@ public:
     [[nodiscard]] virtual QString format(const QVariant &_value, const QString &_key,
                                          const AWPluginFormatSettings &_settings) const
         = 0;
-    virtual void load(){};
+    virtual void load() {};
 };
 
 

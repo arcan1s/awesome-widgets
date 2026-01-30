@@ -34,7 +34,7 @@ public:
     [[nodiscard]] QStringList sources() const;
     [[nodiscard]] QStringList refinedSources() const;
     // configuration related
-    void editPairs() override{};
+    void editPairs() override {};
     QStringList leftKeys() override;
     QStringList rightKeys() override;
 };

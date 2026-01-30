@@ -43,7 +43,7 @@ AWKeys::AWKeys(QObject *_parent)
 
     m_aggregator = new AWKeysAggregator(this);
     m_dataAggregator = new AWDataAggregator(this);
-    m_dataEngineAggregator = new AWDataEngineAggregator(this);
+    m_dataEngineAggregator = AWDataEngineAggregator::instance(this);
     m_keyOperator = new AWKeyOperations(this);
 
     m_timer = new QTimer(this);
@@ -59,7 +59,8 @@ AWKeys::AWKeys(QObject *_parent)
     connect(m_dataAggregator, &AWDataAggregator::toolTipPainted,
             [this](const QString &_tooltip) { emit(needToolTipToBeUpdated(_tooltip)); });
 
-    connect(this, &AWKeys::dropSourceFromDataengine, m_dataEngineAggregator, &AWDataEngineAggregator::dropSource);
+    connect(this, &AWKeys::dropSourceFromDataengine, this,
+            [this](const QString &_source) { m_dataEngineAggregator->dropSourceForClient(this, _source); });
     connect(m_dataEngineAggregator, &AWDataEngineAggregator::dataUpdated, this, &AWKeys::dataUpdated);
     // transfer signal from dataengine to update source list
     connect(m_dataEngineAggregator, &AWDataEngineAggregator::deviceAdded, m_keyOperator, &AWKeyOperations::addDevice);
@@ -69,6 +70,8 @@ AWKeys::AWKeys(QObject *_parent)
 AWKeys::~AWKeys()
 {
     qCDebug(LOG_AW) << __PRETTY_FUNCTION__;
+
+    m_dataEngineAggregator->unregisterClient(this);
 
     m_timer->stop();
     // delete dbus session
@@ -294,8 +297,8 @@ QString AWKeys::parsePattern(QString _pattern) const
     // bars
     for (auto &bar : m_foundBars) {
         auto item = m_keyOperator->giByKey(bar);
-        auto image = item->isCustom() ? item->image(
-                         AWPatternFunctions::expandLambdas(item->bar(), m_aggregator, m_values, item->usedKeys()))
+        auto image = item->isCustom() ? item->image(AWPatternFunctions::expandLambdas(item->bar(), m_aggregator,
+                                                                                      m_values, item->usedKeys()))
                                       : item->image(m_values[item->bar()]);
         _pattern.replace(QString("$%1").arg(bar), image);
     }
