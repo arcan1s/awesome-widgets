@@ -15,6 +15,8 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
+#pragma once
+
 #include "awpluginmatcherac.h"
 #include "awpluginmatcherbattery.h"
 #include "awpluginmatcherbrightness.h"
@@ -28,6 +30,10 @@
 #include "awpluginmatcherdesktopnumber.h"
 #include "awpluginmatchergpu.h"
 #include "awpluginmatchergpucore.h"
+#include "awpluginmatchergpumemorytotal.h"
+#include "awpluginmatchergpumemorytotalcore.h"
+#include "awpluginmatchergpumemoryused.h"
+#include "awpluginmatchergpumemoryusedcore.h"
 #include "awpluginmatchergputemperature.h"
 #include "awpluginmatcherhdd.h"
 #include "awpluginmatcherhddfree.h"
@@ -80,6 +86,10 @@ static QList<AWPluginMatcherInterface *> matchers = {
     AWPluginMatcherDesktopNumber::instance(),
     AWPluginMatcherGPU::instance(),
     AWPluginMatcherGPUCore::instance(),
+    AWPluginMatcherGPUMemoryTotal::instance(),
+    AWPluginMatcherGPUMemoryTotalCore::instance(),
+    AWPluginMatcherGPUMemoryUsed::instance(),
+    AWPluginMatcherGPUMemoryUsedCore::instance(),
     AWPluginMatcherGPUTemperature::instance(),
     AWPluginMatcherHDD::instance(),
     AWPluginMatcherHDDFree::instance(),

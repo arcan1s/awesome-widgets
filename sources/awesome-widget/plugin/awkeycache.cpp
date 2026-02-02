@@ -70,12 +70,12 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys, const QStringL
     qCDebug(LOG_AW) << "Looking for required keys in" << _keys << _bars << "using tooltip settings" << _tooltip;
 
     // initial copy
-    QSet<QString> used(_keys.cbegin(), _keys.cend());
+    QSet used(_keys.cbegin(), _keys.cend());
     used.unite(QSet(_bars.cbegin(), _bars.cend()));
     used.unite(QSet(_userKeys.cbegin(), _userKeys.cend()));
     // insert keys from tooltip
     for (auto [key, value] : _tooltip.asKeyValueRange()) {
-        if ((key.endsWith("Tooltip")) && value.toBool()) {
+        if (key.endsWith("Tooltip") && value.toBool()) {
             auto local = key;
             local.remove("Tooltip");
             used << local;
@@ -84,7 +84,7 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys, const QStringL
 
     // insert keys which depend on others, refer to AWKeys::calculateValues()
     // network keys
-    QStringList netKeys(
+    static QStringList netKeys(
         {"up", "upkb", "uptot", "uptotkb", "upunits", "down", "downkb", "downtot", "downtotkb", "downunits"});
     for (auto &key : netKeys) {
         if (!used.contains(key))
@@ -96,11 +96,13 @@ QStringList AWKeyCache::getRequiredKeys(const QStringList &_keys, const QStringL
     // netdev key
     if (std::any_of(netKeys.cbegin(), netKeys.cend(), [&used](auto &key) { return used.contains(key); }))
         used << "netdev";
-
-    // HACK append dummy if there are no other keys. This hack is required
-    // because empty list leads to the same behaviour as skip checking
-    if (used.isEmpty())
-        used << "dummy";
+    // gpu memory keys
+    static auto gpuMemoryCalculatedRegExp = QRegularExpression("^gpu(mem|freemb|freegb)");
+    for (auto key : _keys.filter(gpuMemoryCalculatedRegExp)) {
+        auto index = key.remove(gpuMemoryCalculatedRegExp);
+        used << QString("gpuusedmb%1").arg(index) << QString("gputotmb%1").arg(index)
+             << QString("gpuusedgb%1").arg(index) << QString("gputotgb%1").arg(index);
+    }
 
     return used.values();
 }

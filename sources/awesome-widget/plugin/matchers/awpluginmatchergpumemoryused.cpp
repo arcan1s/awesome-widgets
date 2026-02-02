@@ -15,27 +15,22 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#pragma once
+#include "awpluginmatchergpumemoryused.h"
 
-#include "awpluginformatterac.h"
-#include "awpluginformattercustom.h"
-#include "awpluginformatterdouble.h"
-#include "awpluginformatterfloat.h"
-#include "awpluginformatterfloatprecise.h"
-#include "awpluginformatterinteger.h"
-#include "awpluginformatterintegershort.h"
-#include "awpluginformatterintegerwide.h"
-#include "awpluginformatterlist.h"
-#include "awpluginformattermemory.h"
-#include "awpluginformattermemorygb.h"
-#include "awpluginformattermemorymb.h"
-#include "awpluginformatternet.h"
-#include "awpluginformatternetunits.h"
-#include "awpluginformatternoformat.h"
-#include "awpluginformattertemperature.h"
-#include "awpluginformattertime.h"
-#include "awpluginformattertimecustom.h"
-#include "awpluginformattertimeiso.h"
-#include "awpluginformattertimelong.h"
-#include "awpluginformattertimeshort.h"
-#include "awpluginformatteruptime.h"
+#include "formatters/formatters.h"
+
+
+QHash<QString, AWPluginFormaterInterface *> AWPluginMatcherGPUMemoryUsed::keys(const QString &, const KSysGuard::Unit,
+                                                                               const AWPluginMatcherSettings &) const
+{
+    return {
+        {"gpuusedmb", AWPluginFormatterMemoryMB::instance()},
+        {"gpuusedgb", AWPluginFormatterMemoryGB::instance()},
+    };
+}
+
+
+bool AWPluginMatcherGPUMemoryUsed::matches(const QString &_source) const
+{
+    return _source == "gpu/all/usedVram";
+}
