@@ -172,16 +172,15 @@ void AWDataEngineAggregator::sensorAdded(const QString &_sensor)
     if (!isValidSensor(info))
         return;
 
-    // notify about new device
-    emit(deviceAdded(_sensor));
-
-    // process connection
     m_sensors[_sensor] = info;
     dropSource(_sensor); // force reconnect
     if (!m_subscribed.contains(_sensor)) {
         subscribeSources({_sensor});
         m_subscribed.insert(_sensor);
     }
+
+    // notify about new device
+    emit(deviceAdded(_sensor));
 }
 
 
