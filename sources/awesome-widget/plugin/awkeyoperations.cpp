@@ -85,6 +85,13 @@ QStringList AWKeyOperations::dictKeys() const
     // gpu
     for (auto i = 0; i < m_devices.gpu.count(); ++i) {
         allKeys.append(QString("gpu%1").arg(i));
+        allKeys.append(QString("gpumem%1").arg(i));
+        allKeys.append(QString("gpufreemb%1").arg(i));
+        allKeys.append(QString("gpufreegb%1").arg(i));
+        allKeys.append(QString("gputotmb%1").arg(i));
+        allKeys.append(QString("gputotgb%1").arg(i));
+        allKeys.append(QString("gpuusedmb%1").arg(i));
+        allKeys.append(QString("gpuusedgb%1").arg(i));
         allKeys.append(QString("gputemp%1").arg(i));
     }
     // hdd

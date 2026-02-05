@@ -43,6 +43,10 @@ AWDataEngineMapper::AWDataEngineMapper(QObject *_parent, AWFormatterHelper *_cus
     m_formatter["uptot"] = AWPluginFormatterMemoryMB::instance();
     m_formatter["uptotkb"] = AWPluginFormatterMemory::instance();
     m_formatter["upunits"] = AWPluginFormatterNetUnits::instance();
+    // gpu memory
+    m_formatter["gpumem"] = AWPluginFormatterFloat::instance();
+    m_formatter["gpufreemb"] = AWPluginFormatterMemoryMB::instance();
+    m_formatter["gpufreegb"] = AWPluginFormatterMemoryGB::instance();
 }
 
 
@@ -109,4 +113,12 @@ QStringList AWDataEngineMapper::registerSource(const QString &_source, const KSy
 void AWDataEngineMapper::setDevices(const AWPluginMatcherSettings &_settings)
 {
     m_settings = _settings;
+
+    // update formatters
+    // gpu memory per device
+    for (auto i = 0; i < m_settings.gpu.count(); ++i) {
+        m_formatter[QString("gpumem%1").arg(i)] = AWPluginFormatterFloat::instance();
+        m_formatter[QString("gpufreemb%1").arg(i)] = AWPluginFormatterMemoryMB::instance();
+        m_formatter[QString("gpufreegb%1").arg(i)] = AWPluginFormatterMemoryGB::instance();
+    }
 }

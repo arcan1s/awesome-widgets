@@ -15,27 +15,30 @@
  *   along with awesome-widgets. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#pragma once
+#include "awpluginmatchergpumemorytotalcore.h"
 
-#include "awpluginformatterac.h"
-#include "awpluginformattercustom.h"
-#include "awpluginformatterdouble.h"
-#include "awpluginformatterfloat.h"
-#include "awpluginformatterfloatprecise.h"
-#include "awpluginformatterinteger.h"
-#include "awpluginformatterintegershort.h"
-#include "awpluginformatterintegerwide.h"
-#include "awpluginformatterlist.h"
-#include "awpluginformattermemory.h"
-#include "awpluginformattermemorygb.h"
-#include "awpluginformattermemorymb.h"
-#include "awpluginformatternet.h"
-#include "awpluginformatternetunits.h"
-#include "awpluginformatternoformat.h"
-#include "awpluginformattertemperature.h"
-#include "awpluginformattertime.h"
-#include "awpluginformattertimecustom.h"
-#include "awpluginformattertimeiso.h"
-#include "awpluginformattertimelong.h"
-#include "awpluginformattertimeshort.h"
-#include "awpluginformatteruptime.h"
+#include <QRegularExpression>
+
+#include "formatters/formatters.h"
+
+
+QHash<QString, AWPluginFormaterInterface *>
+AWPluginMatcherGPUMemoryTotalCore::keys(const QString &_source, const KSysGuard::Unit,
+                                        const AWPluginMatcherSettings &_settings) const
+{
+    auto index = AWPluginMatcher::index(_source, _settings.gpu);
+    if (index == -1)
+        return {};
+
+    return {
+        {QString("gputotmb%1").arg(index), AWPluginFormatterMemoryMB::instance()},
+        {QString("gputotgb%1").arg(index), AWPluginFormatterMemoryGB::instance()},
+    };
+}
+
+
+bool AWPluginMatcherGPUMemoryTotalCore::matches(const QString &_source) const
+{
+    static auto regexp = QRegularExpression("^gpu/gpu.*/totalVram$");
+    return _source.contains(regexp);
+}

@@ -17,25 +17,13 @@
 
 #pragma once
 
-#include "awpluginformatterac.h"
-#include "awpluginformattercustom.h"
-#include "awpluginformatterdouble.h"
-#include "awpluginformatterfloat.h"
-#include "awpluginformatterfloatprecise.h"
-#include "awpluginformatterinteger.h"
-#include "awpluginformatterintegershort.h"
-#include "awpluginformatterintegerwide.h"
-#include "awpluginformatterlist.h"
-#include "awpluginformattermemory.h"
-#include "awpluginformattermemorygb.h"
-#include "awpluginformattermemorymb.h"
-#include "awpluginformatternet.h"
-#include "awpluginformatternetunits.h"
-#include "awpluginformatternoformat.h"
-#include "awpluginformattertemperature.h"
-#include "awpluginformattertime.h"
-#include "awpluginformattertimecustom.h"
-#include "awpluginformattertimeiso.h"
-#include "awpluginformattertimelong.h"
-#include "awpluginformattertimeshort.h"
-#include "awpluginformatteruptime.h"
+#include "awpluginmatcher.h"
+
+
+class AWPluginMatcherGPUMemoryUsed : public AWPluginMatcher<AWPluginMatcherGPUMemoryUsed>
+{
+public:
+    [[nodiscard]] QHash<QString, AWPluginFormaterInterface *> keys(const QString &, KSysGuard::Unit,
+                                                                   const AWPluginMatcherSettings &) const override;
+    [[nodiscard]] bool matches(const QString &_source) const override;
+};

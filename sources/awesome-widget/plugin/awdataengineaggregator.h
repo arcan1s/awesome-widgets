@@ -54,6 +54,7 @@ public:
     [[nodiscard]] static bool isValidSensor(const KSysGuard::SensorInfo &_sensor);
     void loadSources();
     void registerClient(QObject *_client);
+    void subscribeSources(const QStringList &_sources);
     void unregisterClient(QObject *_client);
 
 signals:

@@ -63,7 +63,7 @@ void AWDataEngineAggregator::connectSources()
     auto keys = m_sensors.keys();
     auto newKeys = QSet(keys.cbegin(), keys.cend()) - m_subscribed;
 
-    m_interface->subscribe(newKeys.values()).waitForFinished();
+    subscribeSources(newKeys.values());
     m_subscribed.unite(newKeys);
 }
 
@@ -103,6 +103,19 @@ void AWDataEngineAggregator::registerClient(QObject *_client)
     m_clients.insert(_client);
     // (re)connect sources for new client
     connectSources();
+}
+
+
+void AWDataEngineAggregator::subscribeSources(const QStringList &_sources)
+{
+    qCDebug(LOG_AW) << "Subscribe on sources" << _sources;
+
+    // subscribe
+    m_interface->subscribe(_sources).waitForFinished();
+    // get data snapshot
+    auto data = m_interface->sensorData(_sources);
+    data.waitForFinished();
+    updateData(data);
 }
 
 
@@ -162,7 +175,7 @@ void AWDataEngineAggregator::sensorAdded(const QString &_sensor)
     m_sensors[_sensor] = info;
     dropSource(_sensor); // force reconnect
     if (!m_subscribed.contains(_sensor)) {
-        m_interface->subscribe({_sensor}).waitForFinished();
+        subscribeSources({_sensor});
         m_subscribed.insert(_sensor);
     }
 

@@ -248,6 +248,19 @@ void AWKeys::calculateValues()
     m_values["uptotkb"] = m_values[QString("uptotkb%1").arg(netIndex)];
     m_values["upunits"] = m_values[QString("upunits%1").arg(netIndex)];
 
+    // gpu memory keys
+    m_values["gpufreemb"] = m_values["gputotmb"].toLongLong() - m_values["gpuusedmb"].toLongLong();
+    m_values["gpufreegb"] = m_values["gputotgb"].toDouble() - m_values["gpuusedgb"].toDouble();
+    m_values["gpumem"] = 100.0 * m_values["gpuusedmb"].toDouble() / m_values["gputotmb"].toDouble();
+    for (auto i = 0; i < devices.gpu.count(); ++i) {
+        m_values[QString("gpufreemb%1").arg(i)] = m_values[QString("gputotmb%1").arg(i)].toLongLong()
+                                                  - m_values[QString("gpuusedmb%1").arg(i)].toLongLong();
+        m_values[QString("gpufreegb%1").arg(i)]
+            = m_values[QString("gputotgb%1").arg(i)].toDouble() - m_values[QString("gpuusedgb%1").arg(i)].toDouble();
+        m_values[QString("gpumem%1").arg(i)] = 100.0 * m_values[QString("gpuusedmb%1").arg(i)].toDouble()
+                                               / m_values[QString("gputotmb%1").arg(i)].toDouble();
+    }
+
     // user defined keys
     for (auto &key : m_keyOperator->userKeys())
         m_values[key] = m_values[m_keyOperator->userKeySource(key)];
