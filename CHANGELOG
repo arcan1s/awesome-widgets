@@ -1,3 +1,7 @@
+Ver.4.1.0:
++ new keys gpumem*, gpuused*, gputot*, gpufree* for GPU memory (#175)
+* rewrite dataengine processor to work in signleton mode (#174)
+
 Ver.4.0.3:
 - drop qml definition to avoid compile errors
 
